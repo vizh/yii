@@ -1,0 +1,1 @@
+<a href="http://<?=$this->Host?>/news/rocid-cover/<?=$this->CoverId;?>/" title="Обложка rocID"><img src="http://<?=$this->Host?><?=$this->CoverImage;?>" alt="Обложка rocID"></a>
