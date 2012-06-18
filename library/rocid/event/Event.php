@@ -18,6 +18,7 @@ AutoLoader::Import('library.rocid.contact.*');
  * @property string $DateStart
  * @property string $DateEnd
  * @property int $FastRole
+ * @property int $FastProduct
  * @property string $Visible
  * @property int $Order
  *

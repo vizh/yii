@@ -30,15 +30,7 @@
 </div>
 <div class="sidebar sidebarrapple">
 
-  <?if (empty($this->EventUser) && !empty($this->FastRegistrationRole)):?>
-  <a href="<?=RouteRegistry::GetUrl('event', '', 'register', array('idName' => $this->IdName));?>">
-    <img src="/images/become-member.gif" width="242" height="45" alt="" />
-  </a>
-  <?elseif (empty($this->EventUser) && !empty($this->UrlRegistration)):?>
-  <a target="_blank" href="<?=$this->UrlRegistration;?>">
-    <img src="/images/become-member.gif" width="242" height="45" alt="" />
-  </a>
-  <?endif;?>
+
 
 
   <?php echo $this->ShareButtons;?>

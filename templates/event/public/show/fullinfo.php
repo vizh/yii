@@ -32,12 +32,14 @@
 
   <p class="event-tann"><strong><?=$this->Info?></strong></p>
 
+  <?if (!empty($this->UrlRegistration)):?>
   <ul class="event-links">
-    <li><a href="#" class="registration">Регистрация</a></li>
-    <li><a href="#">Программа</a></li>
+    <li><a href="<?=$this->UrlRegistration?>" class="registration">Регистрация</a></li>
+    <!--<li><a href="#">Программа</a></li>
     <li><a href="#">Выставка</a></li>
-    <li><a href="#">Проезд</a></li>
+    <li><a href="#">Проезд</a></li>-->
   </ul>
+  <?endif;?>
 
   <?php echo $this->FullInfo;?>
 

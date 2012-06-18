@@ -1,4 +1,5 @@
 <?php
+AutoLoader::Import('library.rocid.pay.*');
 
 class EventRegister extends GeneralCommand
 {
@@ -12,13 +13,18 @@ class EventRegister extends GeneralCommand
   protected function doExecute($idName = '')
   {
     $event = Event::GetEventByIdName($idName);
-    if (empty($event) || $event->FastRole == null)
+    $product = null;
+    if (empty($event) || ($event->FastRole == null && $event->FastProduct == null))
     {
       $this->Send404AndExit();
     }
 
-    $this->view->Name = $event->Name;
-    $this->view->IdName = $event->IdName;
+    $this->view->Event = $event;
+    if (!empty($event->FastProduct))
+    {
+      $product = Product::GetById($event->FastProduct);
+      $this->view->Product = $product;
+    }
 
     if ($this->LoginUser !== null)
     {

@@ -62,17 +62,9 @@ class EventShow extends GeneralCommand implements ISettingable
     $view->Quote = $this->event->GetInfo();
     $this->view->MetaTags = $view;
 
-    $this->view->UrlRegistration = $this->GetUrlRegistrationHtml();
-    $this->view->FastRegistrationRole = $this->GetFastRegistrationRole();
+
     $this->view->IdName = $this->event->IdName;
-    if ($this->LoginUser !== null)
-    {
-      $this->view->EventUser = $this->event->EventUsers(
-        array(
-          'condition' => 'EventUsers.UserId = :UserId',
-          'params' => array(':UserId' => $this->LoginUser->UserId)
-        ));
-    }
+
 
 
 
@@ -89,14 +81,28 @@ class EventShow extends GeneralCommand implements ISettingable
     echo $this->view;
   }
 
+  /**
+   * @return string|null
+   */
   private function GetUrlRegistrationHtml()
   {
-    return (time() <= strtotime($this->event->DateEnd)) ? $this->event->UrlRegistration : '';
+    return (time() <= strtotime($this->event->DateEnd)) ? $this->event->UrlRegistration : null;
   }
 
+  /**
+   * @return int|null
+   */
   private function GetFastRegistrationRole()
   {
     return (time() <= strtotime($this->event->DateEnd)) ? $this->event->FastRole : null;
+  }
+
+  /**
+   * @return int|null
+   */
+  private function GetFastRegistrationProduct()
+  {
+    return (time() <= strtotime($this->event->DateEnd)) ? $this->event->FastProduct : null;
   }
 
   private function GetDateHtml()
@@ -152,6 +158,27 @@ class EventShow extends GeneralCommand implements ISettingable
     $result->FullInfo = $this->event->GetFullInfo();
     $result->Logo = $this->event->GetLogo();
     $result->Site = $this->event->GetUrl();
+
+    $eventUser = null;
+    if ($this->LoginUser !== null)
+    {
+      $eventUser = $this->event->EventUsers(
+        array(
+          'condition' => 'EventUsers.UserId = :UserId',
+          'params' => array(':UserId' => $this->LoginUser->UserId)
+        ));
+    }
+
+    $result->UrlRegistration = null;
+    if (empty($eventUser) && ($this->GetFastRegistrationRole() != null || $this->GetFastRegistrationProduct() != null))
+    {
+      $result->UrlRegistration = RouteRegistry::GetUrl('event', '', 'register', array('idName' => $this->event->IdName));
+    }
+    elseif (empty($eventUser) && !empty($this->event->UrlRegistration))
+    {
+      $result->UrlRegistration = $this->GetUrlRegistrationHtml();
+    }
+
 
     return $result;
   }
