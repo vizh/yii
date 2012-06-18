@@ -27,10 +27,17 @@
   <p class="event-site">
     <!-- <a href="">Программа фестиваля</a> <br> -->
     <noindex><a rel="nofollow" href="<?=$this->Site?>" target="_blank" style="color: #000;">
-    Посетить сайт</a></noindex>
+      Посетить сайт</a></noindex>
   </p>
 
   <p class="event-tann"><strong><?=$this->Info?></strong></p>
+
+  <ul class="event-links">
+    <li><a href="#" class="registration">Регистрация</a></li>
+    <li><a href="#">Программа</a></li>
+    <li><a href="#">Выставка</a></li>
+    <li><a href="#">Проезд</a></li>
+  </ul>
 
   <?php echo $this->FullInfo;?>
 

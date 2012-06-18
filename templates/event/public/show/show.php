@@ -4,8 +4,11 @@
 
 <div id="large-left">
 
-<?=$this->Date?>
-<?=$this->FullInfo?>
+  <?=$this->Date?>
+
+
+
+  <?=$this->FullInfo?>
 
   <div class="b-share">
     <div class="b-share-tweet">
@@ -17,28 +20,13 @@
     </div>
   </div>
 
-<div class="clear"></div>
+  <div class="clear"></div>
 
   <?php echo $this->Comments; ?>
 
-<!--<div class="make-meeting">
+  <div class="clear"></div>
 
-<div class="b">
-  <a href="">
-    <img src="/images/make_meeting.gif" width="271" height="48" alt="" />
-  </a>
-</div>
-
-<div class="i">
-Вы можете организовывать события,создавать сетку мероприятия из различных событий внутри мероприятия (различные акции, секции, встречи, круглые столы внутри большой конференции).
-</div>
-
-
-</div>-->
-
-<div class="clear"></div>
-
-<!-- end large-left -->
+  <!-- end large-left -->
 </div>
 <div class="sidebar sidebarrapple">
 
@@ -47,23 +35,23 @@
     <img src="/images/become-member.gif" width="242" height="45" alt="" />
   </a>
   <?elseif (empty($this->EventUser) && !empty($this->UrlRegistration)):?>
-<a target="_blank" href="<?=$this->UrlRegistration;?>">
-  <img src="/images/become-member.gif" width="242" height="45" alt="" />
-</a>
+  <a target="_blank" href="<?=$this->UrlRegistration;?>">
+    <img src="/images/become-member.gif" width="242" height="45" alt="" />
+  </a>
   <?endif;?>
 
 
   <?php echo $this->ShareButtons;?>
 
 
-<?php echo $this->Users;?>
-<?if (false && $_SERVER['REMOTE_ADDR'] == '82.142.129.35'):?>
-<?php echo $this->Map;?>
-<?endif;?>
+  <?php echo $this->Users;?>
+  <?if (false && $_SERVER['REMOTE_ADDR'] == '82.142.129.35'):?>
+  <?php echo $this->Map;?>
+  <?endif;?>
 
-<?php //echo $this->ShortInfo;?>
+  <?php //echo $this->ShortInfo;?>
 
-<!--<h2>Материалы</h2>
+  <!--<h2>Материалы</h2>
 
   <div class="rapple-adv">
     <div class="h"></div>
@@ -119,18 +107,18 @@
 
 
   </div>-->
- <?php echo $this->Banner;?>
-    
-<!-- end sidebar -->
+  <?php echo $this->Banner;?>
+
+  <!-- end sidebar -->
 </div>
 
-  <div class="clear"></div>
+<div class="clear"></div>
 
-  <!-- modal content -->
-    <div id='confirm'>
-      <div class='header'><span>Внимание</span></div>
-      <div class='message'>Некоторые данные <strong>не сохранены</strong>. После перехода на другую страницу они могут быть утеряны.</div>
-      <div class='buttons'>
-        <div class='no simplemodal-close'>ОК</div>
-      </div>
-    </div>
+<!-- modal content -->
+<div id='confirm'>
+  <div class='header'><span>Внимание</span></div>
+  <div class='message'>Некоторые данные <strong>не сохранены</strong>. После перехода на другую страницу они могут быть утеряны.</div>
+  <div class='buttons'>
+    <div class='no simplemodal-close'>ОК</div>
+  </div>
+</div>

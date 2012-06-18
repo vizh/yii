@@ -1937,6 +1937,32 @@ a.allevents .hide{
   display: none;
 }
 
+.event-links {
+  border-top: 1px solid #910917;
+  list-style: none;
+  margin: 30px 0 50px;
+  padding: 0;
+}
+
+.event-links li {
+  background: none !important;
+  list-style: none;
+  float: left;
+  margin: 0 10px 0 0;
+  padding: 0 !important;
+}
+
+.event-links li a {
+  background: #EAEAEA;
+  display: block;
+  padding: 10px 15px;
+}
+
+.event-links li a.registration {
+  background: #910917;
+  color: white;
+}
+
 /***************************************** event comments ***********************************/
 div.event-comments{
 	/*padding: 0 0 0 60px;*/
@@ -3153,9 +3179,9 @@ div.event-content table td{
 	
 }
 p.event-tann{
-	border-bottom: 1px solid #eaeaea;
-	padding-bottom: 20px !important;
-	margin-bottom: 10px !important;
+	/*border-bottom: 1px solid #eaeaea;*/
+	padding-bottom: 0 !important;
+	/*margin-bottom: 10px !important;*/
 }
 
 /** overlay **/
