@@ -52,7 +52,7 @@ class EventRegister extends GeneralCommand
           {
             $product->ProductManager()->CreateOrderItem($this->LoginUser, $this->LoginUser);
           }
-          Lib::Redirect('http://pay.beta.rocid/' . $event->EventId . '/');
+          Lib::Redirect('http://pay.rocid.ru/' . $event->EventId . '/');
         }
       }
     }
