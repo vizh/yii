@@ -24,19 +24,18 @@
     <?=$this->Place?> <br />
     <?=$this->Phones?>
   </p>
-  <p class="event-site">
-    <!-- <a href="">Программа фестиваля</a> <br> -->
-    <noindex><a rel="nofollow" href="<?=$this->Site?>" target="_blank" style="color: #000;">
-      Посетить сайт</a></noindex>
-  </p>
 
   <p class="event-tann"><strong><?=$this->Info?></strong></p>
 
-  <?if (!empty($this->UrlRegistration)):?>
+  <?if (!empty($this->UrlRegistration) || !empty($this->Site)):?>
   <ul class="event-links">
+    <?if (!empty($this->UrlRegistration)):?>
     <li><a href="<?=$this->UrlRegistration?>" class="registration">Регистрация</a></li>
-    <!--<li><a href="#">Программа</a></li>
-    <li><a href="#">Выставка</a></li>
+    <?endif;?>
+    <?if (!empty($this->Site)):?>
+    <li><a rel="nofollow" href="<?=$this->Site;?>">Сайт</a></li>
+    <?endif;?>
+    <!--<li><a href="#">Выставка</a></li>
     <li><a href="#">Проезд</a></li>-->
   </ul>
   <?endif;?>

@@ -690,8 +690,8 @@ class Event extends CActiveRecord
   */
   public function GetAddress()
   {
-    
-    $addresses = $this->Addresses;    
+
+    $addresses = $this->Addresses;
     if (isset($addresses[0]))
     {
       return $addresses[0];
@@ -701,7 +701,7 @@ class Event extends CActiveRecord
       return null;
     }
   }
-  
+
   /**
   * @desc Телефоны организаторов мероприятия
   * 

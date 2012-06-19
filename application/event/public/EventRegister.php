@@ -30,18 +30,30 @@ class EventRegister extends GeneralCommand
     {
       if (Yii::app()->getRequest()->getIsPostRequest())
       {
-        $eventUser = EventUser::GetByUserEventId($this->LoginUser->UserId, $event->EventId);
-        if (empty($eventUser))
+        if (!empty($event->FastRole))
         {
-          $eventUser = new EventUser();
-          $eventUser->EventId = $event->EventId;
-          $eventUser->UserId = $this->LoginUser->UserId;
-          $eventUser->RoleId = $event->FastRole;
-          $eventUser->Approve = 0;
-          $eventUser->CreationTime = $eventUser->UpdateTime = time();
-          $eventUser->save();
+          $eventUser = EventUser::GetByUserEventId($this->LoginUser->UserId, $event->EventId);
+          if (empty($eventUser))
+          {
+            $eventUser = new EventUser();
+            $eventUser->EventId = $event->EventId;
+            $eventUser->UserId = $this->LoginUser->UserId;
+            $eventUser->RoleId = $event->FastRole;
+            $eventUser->Approve = 0;
+            $eventUser->CreationTime = $eventUser->UpdateTime = time();
+            $eventUser->save();
+          }
+          $this->view->SetTemplate('success');
         }
-        $this->view->SetTemplate('success');
+        elseif (!empty($product))
+        {
+          $orderItem = OrderItem::GetByAll($product->ProductId, $this->LoginUser->UserId, $this->LoginUser->UserId);
+          if (empty($orderItem))
+          {
+            $product->ProductManager()->CreateOrderItem($this->LoginUser, $this->LoginUser);
+          }
+          Lib::Redirect('http://pay.beta.rocid/' . $event->EventId . '/');
+        }
       }
     }
     else

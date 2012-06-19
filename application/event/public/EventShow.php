@@ -71,7 +71,6 @@ class EventShow extends GeneralCommand implements ISettingable
 
     $this->view->Date = $this->GetDateHtml();
     $this->view->FullInfo = $this->GetFullInfoHtml();
-    //$this->view->ShortInfo = $this->GetShortInfo();
     $this->view->Users = $this->GetUsersHtml();
     $this->view->Map = $this->getMapHtml();
     $this->view->ShareButtons = $this->getShareHtml();
@@ -179,44 +178,6 @@ class EventShow extends GeneralCommand implements ISettingable
       $result->UrlRegistration = $this->GetUrlRegistrationHtml();
     }
 
-
-    return $result;
-  }
-
-  private function GetShortInfo()
-  {
-    $result = new View();
-    $result->SetTemplate('shortinfo');
-
-    $address = $this->event->GetAddress();
-    if (! empty($address))
-    {
-      $result->IsSetAddress = true;
-      $result->City = $address->City->Name;
-      $result->Street = $address->Street;
-      $result->House = preg_split('/-/', trim($address->House), -1);
-    }
-    $result->Place = $this->event->GetPlace();
-    $result->Site = $this->event->GetUrl();
-
-    $phones = $this->event->GetPhones();
-    if (! empty($phones))
-    {
-      $phonesContainer = new ViewContainer();
-      foreach ($phones as $phone)
-      {
-        if ($phone->Type != 'fax')
-        {
-          $view = new View();
-          $view->SetTemplate('phone');
-
-          $view->Phone = $phone->Phone;
-          $phonesContainer->AddView($view);
-        }
-      }
-
-      $result->Phones = $phonesContainer;
-    }
 
     return $result;
   }
