@@ -100,4 +100,14 @@ class EventUser extends CActiveRecord
   {
     return $this->EventRole;
   }
+
+  /**
+   * @param $role EventRoles
+   */
+  public function UpdateRole($role)
+  {
+    $this->RoleId = $role->RoleId;
+    $this->UpdateTime = time();
+    $this->save();
+  }
 }

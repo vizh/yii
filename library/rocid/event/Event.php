@@ -295,6 +295,30 @@ class Event extends CActiveRecord
   }
 
   /**
+   * @param $user User
+   * @param $role EventRoles
+   * @return EventUser|null
+   */
+  public function RegisterUser($user, $role)
+  {
+    $eventUser = EventUser::GetByUserEventId($user->UserId, $this->EventId);
+    if (empty($eventUser))
+    {
+      $eventUser = new EventUser();
+      $eventUser->EventId = $this->EventId;
+      $eventUser->UserId = $user->UserId;
+      $eventUser->RoleId = $role->RoleId;
+      $eventUser->Approve = 0;
+      $eventUser->CreationTime = $eventUser->UpdateTime = time();
+      $eventUser->save();
+
+      return $eventUser;
+    }
+
+    return null;
+  }
+
+  /**
    *
    * @return array
    */
@@ -362,33 +386,6 @@ class Event extends CActiveRecord
     $criteria->offset = rand(0, $usersCount - $count - 1);
 
     return $model->findAll($criteria);
-  }
-
-  public function RegisterUser($userId, $roleId, $approve = 0, $time = 0, $reset = false)
-  {
-    if (empty($time))
-    {
-      $time = time();
-    }
-    $eventUser = EventUser::GetByUserEventId($userId, $this->EventId);
-    if ($reset && ! empty($eventUser))
-    {
-      $eventUser->delete();
-      $eventUser = null;
-    }
-    if (empty($eventUser))
-    {
-      $eventUser = new EventUser();
-      $eventUser->EventId = $this->EventId;
-      $eventUser->UserId = $userId;
-      $eventUser->RoleId = $roleId;
-      $eventUser->Approve = $approve;
-      $eventUser->CreationTime = $eventUser->UpdateTime = $time;
-      $eventUser->save();
-      return $eventUser;
-    }
-
-    return null;
   }
 
   public function GetEventDir($onServerDisc = false)
