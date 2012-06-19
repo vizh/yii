@@ -33,7 +33,7 @@
     <li><a href="<?=$this->UrlRegistration?>" class="registration">Регистрация</a></li>
     <?endif;?>
     <?if (!empty($this->Site)):?>
-    <li><a rel="nofollow" href="<?=$this->Site;?>">Сайт</a></li>
+    <li><a rel="nofollow" target="_blank" href="<?=$this->Site;?>">Сайт</a></li>
     <?endif;?>
     <!--<li><a href="#">Выставка</a></li>
     <li><a href="#">Проезд</a></li>-->
