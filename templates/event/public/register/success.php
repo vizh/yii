@@ -3,7 +3,7 @@
       <h2>Поздравляем!</h2>
       <p>Вы успешно зарегистрировались на мероприятии <strong><?=$this->Name;?></strong>.</p>
 
-      <p><a href="<?=RouteRegistry::GetUrl('event', '', 'show', array('idName' => $this->IdName));?>">Страница мероприятия</a></p>
+      <p><a href="<?=RouteRegistry::GetUrl('event', '', 'show', array('idName' => $this->Event->IdName));?>">Страница мероприятия</a></p>
 
     </div>
 
