@@ -1,21 +1,17 @@
-<script src="http://api-maps.yandex.ru/1.1/index.xml?key=AALEwk0BAAAAEa_5EwIAvRMrqS5OTlCVonGim9-DFyUmyYYAAAAAAAAAAADcDy3TT0owKhCZ7GexLgGYR8E94g==" type="text/javascript"></script>
+<div id="ymaps-map-id_13401960168727002685" style="width: 245px; height: 245px;"></div>
 <script type="text/javascript">
-  $(document).ready(function()
-  {
-  	var map = new YMaps.Map($("#YMapsID"));
-  	var place = $("#YMapsID").attr("addr");
-
-  	map.addOverlay(new YMaps.Geocoder(place, {results: 1, boundedBy: map.getBounds()}));
-  	var geocoder = new YMaps.Geocoder(place);
-  	YMaps.Events.observe(geocoder, geocoder.Events.Load, function () {
-  			if (this.length()) {
-  				map.setZoom(15, {smooth: 1, centering: 1});
-  				map.addOverlay(this.get(0));
-  				map.panTo(this.get(0).getGeoPoint());
-  			}
-  	});
-
-  });
+function fid_13401960168727002685(ymaps) {
+    var map = new ymaps.Map("ymaps-map-id_13401960168727002685", {
+        center: [37.57385599999996, 55.84131359778454],
+        zoom: 9,
+        type: "yandex#map"
+    });
+    map.controls
+        .add("smallZoomControl", {top : 5, left : 5});
+        
+    
+    geoCoder = ymaps.geocode("<?php echo $this->Place;?>"); 
+    geoCoder.get(0);
+};
 </script>
-
-<div id="YMapsID" style="width:242px;height:280px" addr="<?=$this->Place;?>"></div>
+<script type="text/javascript" src="http://api-maps.yandex.ru/2.0/?coordorder=longlat&load=package.full&wizard=constructor&lang=ru-RU&onload=fid_13401960168727002685"></script>

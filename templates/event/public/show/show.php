@@ -29,78 +29,10 @@
   <!-- end large-left -->
 </div>
 <div class="sidebar sidebarrapple">
-
-
-
-
-  <?php echo $this->ShareButtons;?>
-
-
-  <?php echo $this->Users;?>
-  <?if (false && $_SERVER['REMOTE_ADDR'] == '82.142.129.35'):?>
-  <?php echo $this->Map;?>
-  <?endif;?>
-
-  <?php //echo $this->ShortInfo;?>
-
-  <!--<h2>Материалы</h2>
-
-  <div class="rapple-adv">
-    <div class="h"></div>
-    <div class="c">
-      <img src="/images/uuuuuu.gif" width="202" height="133" alt="" />
-
-      <div class="d"><span>21</span> июля</div>
-
-      <h4>Опубликован отчет о проедшем фестивале REDAPPLE2008</h4>
-
-      <p>16 декабря в рамках Третьей
-        конференции i-СМИ пройдет финал конкурса «Слово года»</p>
-
-
-    </div>
-    <div class="b"></div>
-  </div>
-
-
-  <div class="rapple-adv">
-    <div class="h"></div>
-    <div class="c">
-      <img src="/images/uuuuuu.gif" width="202" height="133" alt="" />
-
-      <div class="d"><span>21</span> июля</div>
-
-      <h4>Опубликован отчет о проедшем фестивале REDAPPLE2008</h4>
-
-      <p>16 декабря в рамках Третьей
-        конференции i-СМИ пройдет финал конкурса «Слово года»</p>
-
-
-    </div>
-    <div class="b"></div>
-  </div>-->
-
-
-  <!--<div class="rapple-news">
-    <div class="d"><span>21</span> июля</div>
-    <p><a href="">Доклад директора rocID на фестивале REDAPPLE2008</a></p>
-
-
-  </div>
-  <div class="rapple-news">
-    <div class="d"><span>21</span> июля</div>
-    <p><a href="">Доклад директора rocID на фестивале REDAPPLE2008</a></p>
-
-
-  </div>
-  <div class="rapple-news">
-    <div class="d"><span>21</span> июля</div>
-    <p><a href="">Доклад директора rocID на фестивале REDAPPLE2008</a></p>
-
-
-  </div>-->
-  <?php echo $this->Banner;?>
-
+    <?php echo $this->ShareButtons;?>
+    <?php echo $this->Users;?>
+    <?php echo $this->Map;?>
+    <?php echo $this->Banner;?>
   <!-- end sidebar -->
 </div>
 

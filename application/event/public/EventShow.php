@@ -243,11 +243,12 @@ class EventShow extends GeneralCommand implements ISettingable
   private function getMapHtml()
   {
     $result = '';
-    if (!empty($this->event->Place))
+    if ( !empty($this->event->Place))
     {
-      $result = new View();
-      $result->SetTemplate('map');
-      $result->Place = $this->event->Place;
+        $result = new View();
+        $result->SetTemplate('map');
+        $result->Name  = $this->event->Name;
+        $result->Place = $this->event->Place;
     }
     return $result;
   }
