@@ -111,9 +111,19 @@ class EventUser extends CActiveRecord
   {
     if (!$usePriority || $this->EventRole->Priority <= $role->Priority)
     {
+      $oldRole = $this->EventRole;
+
       $this->RoleId = $role->RoleId;
       $this->UpdateTime = time();
       $this->save();
+
+      /** @var $partnerAccount PartnerAccount */
+      $partnerAccount = PartnerAccount::model()->byEventId($this->EventId)->find();
+      if (!empty($partnerAccount))
+      {
+        $partnerAccount->GetNotifier()->NotifyRoleChange($this->User, $oldRole, $role);
+      }
+
       return true;
     }
 
