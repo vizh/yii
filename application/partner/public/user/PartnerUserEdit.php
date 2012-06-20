@@ -40,22 +40,23 @@ class PartnerUserEdit extends PartnerCommand
       if (!empty($user))
       {
         $eventUser = EventUser::GetByUserEventId($user->UserId, $this->Account->EventId);
+
+        $event = Event::GetById($this->Account->EventId);
         if ($roleId == 0 && !empty($eventUser))
         {
           $eventUser->delete();
         }
         elseif ($roleId != 0)
         {
+          $role = EventRoles::GetById($roleId);
           if (empty($eventUser))
           {
-            $eventUser = new EventUser();
-            $eventUser->EventId = $this->Account->EventId;
-            $eventUser->UserId = $user->UserId;
-            $eventUser->CreationTime = time();
+            $eventUser = $event->RegisterUser($user, $role);
           }
-          $eventUser->RoleId = $roleId;
-          $eventUser->UpdateTime = time();
-          $eventUser->save();
+          else
+          {
+            $eventUser->UpdateRole($role);
+          }
         }
 
         Lib::Redirect(RouteRegistry::GetUrl('partner', 'user', 'index') . '?' . http_build_query(array('filter' => array('RocId' => $user->RocId))));

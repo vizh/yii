@@ -1,5 +1,6 @@
 <?php
 AutoLoader::Import('library.rocid.event.*');
+AutoLoader::Import('partner.source.*');
 
 /**
  * @property int $EventUserId
@@ -103,11 +104,19 @@ class EventUser extends CActiveRecord
 
   /**
    * @param $role EventRoles
+   * @param bool $usePriority
+   * @return bool
    */
-  public function UpdateRole($role)
+  public function UpdateRole($role, $usePriority = false)
   {
-    $this->RoleId = $role->RoleId;
-    $this->UpdateTime = time();
-    $this->save();
+    if (!$usePriority || $this->EventRole->Priority <= $role->Priority)
+    {
+      $this->RoleId = $role->RoleId;
+      $this->UpdateTime = time();
+      $this->save();
+      return true;
+    }
+
+    return false;
   }
 }

@@ -81,15 +81,7 @@ class EventProductManager extends BaseProductManager
     {
       return false;
     }
-    $eventUser = EventUser::GetByUserEventId($user->UserId, $this->product->EventId);
 
-    if (empty($eventUser))
-    {
-      $eventUser = new EventUser();
-      $eventUser->UserId = $user->UserId;
-      $eventUser->EventId = $this->product->EventId;
-      $eventUser->CreationTime = time();
-    }
     $roleId = null;
     foreach ($this->product->Attributes as $attribute)
     {
@@ -98,9 +90,23 @@ class EventProductManager extends BaseProductManager
         $roleId = intval($attribute->Value);
       }
     }
-    $eventUser->RoleId = $roleId;
-    $eventUser->UpdateTime = time();
-    $eventUser->save();
+
+    $role = EventRoles::GetById($roleId);
+    if (empty($role))
+    {
+      return false;
+    }
+
+    $eventUser = EventUser::GetByUserEventId($user->UserId, $this->product->EventId);
+    if (empty($eventUser))
+    {
+      $this->product->Event->RegisterUser($user, $role);
+    }
+    else
+    {
+      $eventUser->UpdateRole($role);
+    }
+
     return true;
   }
 

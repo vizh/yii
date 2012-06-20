@@ -32,19 +32,11 @@ class EventRegister extends ApiCommand
       throw new ApiException(302);
     }
 
-    $eventUser = EventUser::GetByUserEventId($user->UserId, $event->EventId);
-    if (!empty($eventUser))
+    $eventUser = $event->RegisterUser($user, $role);
+    if (empty($eventUser))
     {
       throw new ApiException(303);
     }
-
-    $eventUser = new EventUser();
-    $eventUser->EventId = $event->EventId;
-    $eventUser->UserId = $user->UserId;
-    $eventUser->RoleId = $role->RoleId;
-    $eventUser->Approve = 0;
-    $eventUser->CreationTime = $eventUser->UpdateTime = time();
-    $eventUser->save();
 
     $this->SendJson(array('Success' => true));
   }

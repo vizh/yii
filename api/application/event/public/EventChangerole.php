@@ -42,9 +42,7 @@ class EventChangerole extends ApiCommand
       throw new ApiException(305);
     }
 
-    $eventUser->RoleId = $role->RoleId;
-    $eventUser->UpdateTime = time();
-    $eventUser->save();
+    $eventUser->UpdateRole($role);
 
     $this->SendJson(array('Success' => true));
   }

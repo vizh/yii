@@ -1,5 +1,6 @@
 <?php
 AutoLoader::Import('library.rocid.contact.*');
+AutoLoader::Import('partner.source.*');
 
 /**
  * @property int $EventId
@@ -311,6 +312,13 @@ class Event extends CActiveRecord
       $eventUser->Approve = 0;
       $eventUser->CreationTime = $eventUser->UpdateTime = time();
       $eventUser->save();
+
+      /** @var $partnerAccount PartnerAccount */
+      $partnerAccount = PartnerAccount::model()->byEventId($this->EventId)->find();
+      if (!empty($partnerAccount))
+      {
+        $partnerAccount->GetNotifier()->NotifyNewParticipant($user);
+      }
 
       return $eventUser;
     }

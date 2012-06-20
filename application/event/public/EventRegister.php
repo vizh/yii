@@ -32,16 +32,10 @@ class EventRegister extends GeneralCommand
       {
         if (!empty($event->FastRole))
         {
-          $eventUser = EventUser::GetByUserEventId($this->LoginUser->UserId, $event->EventId);
-          if (empty($eventUser))
+          $role = EventRoles::GetById($event->FastRole);
+          if (!empty($role))
           {
-            $eventUser = new EventUser();
-            $eventUser->EventId = $event->EventId;
-            $eventUser->UserId = $this->LoginUser->UserId;
-            $eventUser->RoleId = $event->FastRole;
-            $eventUser->Approve = 0;
-            $eventUser->CreationTime = $eventUser->UpdateTime = time();
-            $eventUser->save();
+            $event->RegisterUser($this->LoginUser, $role);
           }
           $this->view->SetTemplate('success');
         }

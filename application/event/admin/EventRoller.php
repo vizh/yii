@@ -35,28 +35,21 @@ class EventRoller extends AdminCommand
       return;
     }
 
-    $eventUser = EventUser::GetByUserEventId($user->UserId, $event->EventId);
-    if (empty($eventUser))
+    $eventUser = $event->RegisterUser($user, $role);
+    if (!empty($eventUser))
     {
-      $eventUser = new EventUser();
-      $eventUser->EventId = $event->EventId;
-      $eventUser->UserId = $user->UserId;
-      $eventUser->RoleId = $role->RoleId;
-      $eventUser->CreationTime = $eventUser->UpdateTime = time();
-      $eventUser->save();
       echo 'Создана новая запись в базе. Пользователь ' . $user->LastName . ' ' . $user->FirstName . ' ранее не был зарегистрирован на мероприятие.';
     }
     else
     {
+      $eventUser = EventUser::GetByUserEventId($user->UserId, $event->EventId);
       if ($eventUser->RoleId === $role->RoleId)
       {
         echo 'У пользователя ' . $user->LastName . ' ' . $user->FirstName . ' уже выставлена текущая роль на мероприятии';
       }
       else
       {
-        $eventUser->RoleId = $role->RoleId;
-        $eventUser->UpdateTime = time();
-        $eventUser->save();
+        $eventUser->UpdateRole($role);
         echo 'Роль пользователя ' . $user->LastName . ' ' . $user->FirstName . ' на мероприятии обновлена.';
       }
     }

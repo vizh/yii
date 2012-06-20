@@ -10,6 +10,8 @@
 class EventProgramUseredit extends AjaxAdminCommand
 {
 
+  const ProgramRoleRoundTableId = 5;
+
   /**
    * Основные действия комманды
    * @return void
@@ -71,22 +73,18 @@ class EventProgramUseredit extends AjaxAdminCommand
     $flag = false;
     foreach ($user->EventUsers as $eUser)
     {
+      /** @var $eUser EventUser */
       if ($eUser->EventId == $userLink->EventId)
       {
-        if ($userLink->RoleId == 5)
+        if ($userLink->RoleId == self::ProgramRoleRoundTableId)
         {
-          $eUser->RoleId = 31;
-          $eUser->UpdateTime = time();
-          $eUser->save();
+          $roleRoundTable = EventRoles::GetById(31);
+          $eUser->UpdateRole($roleRoundTable, true);
         }
         else
         {
-          if ($eUser->RoleId == 1 || $eUser->RoleId == 11 || $eUser->RoleId == 24)
-          {
-            $eUser->RoleId = 3;
-            $eUser->UpdateTime = time();
-            $eUser->save();
-          }
+          $roleSpeaker = EventRoles::GetById(3);
+          $eUser->UpdateRole($roleSpeaker, true);
         }
         $flag = true;
         break;
@@ -95,12 +93,17 @@ class EventProgramUseredit extends AjaxAdminCommand
 
     if (! $flag )
     {
-      $eventUser = new EventUser();
-      $eventUser->UserId = $userLink->UserId;
-      $eventUser->EventId = $userLink->EventId;
-      $eventUser->RoleId = $userLink->RoleId != 5 ? 3 : 31; //Докладчик или Участник круглого стола
-      $eventUser->CreationTime = $eventUser->UpdateTime = time();
-      $eventUser->save();
+      $event = Event::GetById($userLink->EventId);
+      if ($userLink->RoleId == self::ProgramRoleRoundTableId)
+      {
+        $roleRoundTable = EventRoles::GetById(31);
+        $event->RegisterUser($user, $roleRoundTable);
+      }
+      else
+      {
+        $roleSpeaker = EventRoles::GetById(3);
+        $event->RegisterUser($user, $roleSpeaker);
+      }
     }
 
 
