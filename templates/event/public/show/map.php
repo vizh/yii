@@ -12,7 +12,7 @@ function fid_13401960168727002685(ymaps) {
             map.geoObjects
                 .add(new ymaps.Placemark(
                     response.geoObjects.get(0).geometry.getCoordinates(), {
-                        balloonContent: "<strong><?php echo $this->Name;?></strong><p><?php echo htmlspecialchars($this->Place);?></p>"
+                        balloonContent: "<strong><?php echo htmlspecialchars($this->Name);?></strong><p><?php echo htmlspecialchars($this->Place);?></p>"
                     }, { preset: "twirl#redDotIcon"}
                 ));
             map.controls.add('smallZoomControl', {top : 5, left : 5});
