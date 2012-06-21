@@ -1,7 +1,7 @@
 <div id="ymaps-map-id_13401960168727002685" style="width: 245px; height: 332px;"></div>
 <script type="text/javascript">
 function fid_13401960168727002685(ymaps) {     
-    var geocoder = ymaps.geocode("<?php echo $this->Place;?>", {result : 1}); 
+    var geocoder = ymaps.geocode("<?php echo addslashes($this->Place);?>", {result : 1}); 
     geocoder.then(
         function (response) {
             var map = new ymaps.Map("ymaps-map-id_13401960168727002685", {
@@ -12,7 +12,7 @@ function fid_13401960168727002685(ymaps) {
             map.geoObjects
                 .add(new ymaps.Placemark(
                     response.geoObjects.get(0).geometry.getCoordinates(), {
-                        balloonContent: "<strong><?php echo $this->Name;?></strong><p><?php echo $this->Place;?></p>"
+                        balloonContent: "<strong><?php echo $this->Name;?></strong><p><?php echo htmlspecialchars($this->Place);?></p>"
                     }, { preset: "twirl#redDotIcon"}
                 ));
             map.controls.add('smallZoomControl', {top : 5, left : 5});
