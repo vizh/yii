@@ -282,7 +282,7 @@ class UserShow extends GeneralCommand
 			$result = new View();
 			$result->SetTemplate('workcontainer');
 
-			$containerVisibleWork = new ViewContainer();
+			$containerVisibleWork   = new ViewContainer();
 			$containerInvisibleWork = new ViewContainer();
 
 			$countView = 0;
@@ -311,7 +311,7 @@ class UserShow extends GeneralCommand
 				
 				$view->Position = $employment->Position;
 
-				$view->StartWorking = $employment->GetFormatedStartWorking();
+				$view->StartWorking  = $employment->GetFormatedStartWorking();
 				$view->FinishWorking = $employment->GetFormatedFinishWorking();
 				
 				if ($countView > 3) {

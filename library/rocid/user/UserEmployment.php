@@ -92,22 +92,23 @@ class UserEmployment extends CActiveRecord
   */
   public function GetFormatedStartWorking()
   {
-		$date = strtotime($this->StartWorking);
-
+        $date = strtotime($this->StartWorking);
+      
   	if (!$date || strpos($this->StartWorking, '9999') !== false || strpos($this->StartWorking, '0000') !== false)
   	{
-  		return 'неизвестно';
+            return 'неизвестно';
   	}
-    if (strpos($this->StartWorking, '-00-00'))
-    {
-      return intval(substr($this->StartWorking, 0, 4));
-    }
-    elseif (strpos($this->StartWorking, '-00'))
-    {
-      $date += 24 * 60 * 60;
-    }
-  	
-    return strftime('%B %Y', $date);
+        
+        if (strpos($this->StartWorking, '-00-00'))
+        {
+            return intval(substr($this->StartWorking, 0, 4));
+        }
+        elseif (strpos($this->StartWorking, '-00'))
+        {
+            $date = strtotime(str_replace('-00', '-01', $this->StartWorking));
+        }
+        
+        return Yii::app()->dateFormatter->format('LLLL yyyy', $date);
   }
 
   /**
@@ -170,26 +171,24 @@ class UserEmployment extends CActiveRecord
   */
   public function GetFormatedFinishWorking()
   {
-    if (strpos($this->FinishWorking, '9999') !== false)
-    {
-      return 'по настоящее время';
-    }
+        if (strpos($this->FinishWorking, '9999') !== false)
+        {
+            return 'по настоящее время';
+        }
   	$date = strtotime($this->FinishWorking);
-
   	if (!$date)
   	{
-  		return 'по настоящее время';
+            return 'по настоящее время';
   	}
-    if (strpos($this->FinishWorking, '-00-00'))
-    {
-      return intval(substr($this->FinishWorking, 0, 4));
-    }
-    elseif (strpos($this->FinishWorking, '-00'))
-    {
-      $date += 24 * 60 * 60;
-    }
-  	
-    return strftime('%B %Y', $date);
+        if (strpos($this->FinishWorking, '-00-00'))
+        {
+            return intval(substr($this->FinishWorking, 0, 4));
+        }
+        elseif (strpos($this->FinishWorking, '-00'))
+        {
+            $date = strtotime(str_replace('-00', '-01', $this->FinishWorking));
+        }
+        return Yii::app()->dateFormatter->format('LLLL yyyy', $date);
   }
 
   /**
