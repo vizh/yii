@@ -5,23 +5,29 @@ class PayPalSystem extends BaseSystem
   const Url = 'https://api-3t.sandbox.paypal.com/nvp';
   const Version = '91.0';
 
+  private $username;
+  private $password;
+  private $signature;
+
 
   /**
    * @return array
    */
   public function RequiredParams()
   {
-    // TODO: Implement RequiredParams() method.
+    return array('Username', 'Password', 'Signature');
   }
 
   protected function initRequiredParams($orderId)
   {
-    // TODO: Implement initRequiredParams() method.
+    $this->username = 'n_1340289183_biz_api1.internetmediaholding.com';
+    $this->password = '1340289210';
+    $this->signature = 'ASotwUFhF77eR9f46CC9ZDcSDh5XAL4B5T88RqduJwvavxHmvkhlZSvG';
   }
 
   protected function getClass()
   {
-    // TODO: Implement getClass() method.
+    return __CLASS__;
   }
 
   /**
@@ -31,6 +37,7 @@ class PayPalSystem extends BaseSystem
   public function Check()
   {
     // TODO: Implement Check() method.
+    return false;
   }
 
   /**
