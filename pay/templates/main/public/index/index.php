@@ -43,8 +43,17 @@ $orders = $this->Orders;
     <?if ($this->EventId != 106 && $this->EventId != 252 && $this->EventId != 236 && $this->EventId != 245 && $this->EventId != 258):?>
     <a href="<?=RouteRegistry::GetUrl('main', '', 'juridical', array('eventId' => $this->EventId));?>">Выставить счет (для юр. лиц)</a>
     <?endif;?>
+
+
+
     <div class="clear"></div>
   </div>
+
+  <p>
+    <a href="<?=RouteRegistry::GetUrl('main', '', 'paypal', array('eventId' => $this->EventId));?>">
+          <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" alt="">
+        </a>
+  </p>
 
 
   <?else:?>
