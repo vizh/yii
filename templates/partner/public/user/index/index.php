@@ -78,7 +78,10 @@
                     Место работы не указано
                 <?php endif;?>
             </td>
-            <td><?php echo $user->EventRole->Name;?></td>
+            <td>
+                <?php echo $user->EventRole->Name;?><br/>
+                <em><?php echo yii::app()->dateFormatter->formatDateTime($user->CreationTime, 'long');?></em>
+            </td>
             <td><a href="<?=RouteRegistry::GetUrl('partner', 'user', 'edit', array('rocId' => $user->User->RocId));?>" class="btn btn-info">Редактировать</a></td>
         </tr>
     <?php endforeach;?>
