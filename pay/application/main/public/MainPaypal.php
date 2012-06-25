@@ -15,7 +15,7 @@ class MainPaypal extends PayCommand
     $paypal->SetSandboxEnable(true);
 
 
-    $url = RouteRegistry::GetUrl('main', '', 'paypal', array('eventId' => $eventId));
+    $url = RouteRegistry::GetUrl('main', 'paypal', 'response', array('eventId' => $eventId));
     $resArray = $paypal->CallShortcutExpressCheckout('1.00', 'USD', 'Sale', $url, $url.'?cancel=1');
     $ack = strtoupper($resArray["ACK"]);
     if($ack=="SUCCESS" || $ack=="SUCCESSWITHWARNING")

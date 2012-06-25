@@ -3,7 +3,7 @@
 
 class PayPal
 {
-  const Version = 74;//64;//91;
+  const Version = 89.0;
 
   protected $username;
   protected $password;
@@ -106,6 +106,33 @@ class PayPal
       $token = urldecode($resArray["TOKEN"]);
       $_SESSION['TOKEN']=$token;
     }
+
+    return $resArray;
+  }
+
+  function ConfirmPayment($token, $payerID, $paymentAmount, $currencyCodeType, $paymentType)
+  {
+    /* Gather the information to make the final call to
+           finalize the PayPal payment.  The variable nvpstr
+           holds the name value pairs
+           */
+
+
+    //Format the other parameters that were stored in the session from the previous calls
+
+    $token = urlencode($token);
+    $currencyCodeType = urlencode($currencyCodeType);
+    $payerID = urlencode($payerID);
+
+    $serverName 		= urlencode($_SERVER['SERVER_NAME']);
+
+    $nvpstr  = '&TOKEN=' . $token . '&PAYERID=' . $payerID . '&PAYMENTREQUEST_0_PAYMENTACTION=' . $paymentType . '&PAYMENTREQUEST_0_AMT=' . $paymentAmount;
+    $nvpstr .= '&PAYMENTREQUEST_0_CURRENCYCODE=' . $currencyCodeType . '&IPADDRESS=' . $serverName;
+
+    /* Make the call to PayPal to finalize payment
+            If an error occured, show the resulting errors
+            */
+    $resArray = $this->hashCall("DoExpressCheckoutPayment", $nvpstr);
 
     return $resArray;
   }
