@@ -1,6 +1,7 @@
 <?php
 AutoLoader::Import('library.rocid.user.*');
 AutoLoader::Import('library.rocid.geo.*');
+AutoLoader::Import('library.rocid.company.*');
 
 class UserCreate extends ApiCommand
 {

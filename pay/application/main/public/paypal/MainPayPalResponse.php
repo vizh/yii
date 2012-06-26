@@ -1,7 +1,7 @@
 <?php
 AutoLoader::Import('library.rocid.pay.paypal.*');
 
-class MainPayPalResponse extends PayCommand
+class MainPaypalResponse extends PayCommand
 {
 
   /**

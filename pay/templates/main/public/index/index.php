@@ -50,9 +50,9 @@ $orders = $this->Orders;
   </div>
 
   <p>
-    <a href="<?=RouteRegistry::GetUrl('main', '', 'paypal', array('eventId' => $this->EventId));?>">
-          <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" alt="">
-        </a>
+    <a href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId, 'type' => 'paypal'));?>">
+      <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" alt="">
+    </a>
   </p>
 
 
