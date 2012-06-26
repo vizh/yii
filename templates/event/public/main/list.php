@@ -1,7 +1,22 @@
-<?php if (!$this->ActualEventsIsEmpty):?>
-    <h2 class="red-angled">Важное</h2>
-    <?php echo $this->ActualEvents;?>
+<?php if (!$this->ActualEventIsEmpty):?>
+	<h2 class="red-angled">Важное</h2>
+	<?php echo $this->ActualEvents;?>
 <?php endif;?>
+
+
+<?if (!$this->NextEventsIsEmpty):?>
+<h2 class="red-angled">В <?=$this->Month;?></h2>
+<?php echo $this->NextEvents;?>
+<?elseif ($this->PrevEventsIsEmpty):?>
+<h2 class="grey-angled">В <?=$this->Month;?></h2>
+<h3 style="margin: 0 0 20px 30px;">
+  <?if ($this->Date[0] < date('Y') || $this->Date[1] < date('m')):?>
+  В этом месяце нет мероприятий, но в следующем много интересного!
+  <?else:?>
+  В этом месяце не было мероприятий.
+  <?endif;?>
+</h3>
+<?endif;?>
 
 <?if (!$this->PrevEventsIsEmpty):?>
 <h2 class="grey-angled">Прошедшие</h2>
@@ -20,19 +35,6 @@
 <?else:?>
 <?php echo $this->PrevEvents;?>
 <?endif?>
-<?if (!$this->NextEventsIsEmpty):?>
-<h2 class="red-angled">В <?=$this->Month;?></h2>
-<?php echo $this->NextEvents;?>
-<?elseif ($this->PrevEventsIsEmpty):?>
-<h2 class="grey-angled">В <?=$this->Month;?></h2>
-<h3 style="margin: 0 0 20px 30px;">
-  <?if ($this->Date[0] < date('Y') || $this->Date[1] < date('m')):?>
-  В этом месяце нет мероприятий, но в следующем много интересного!
-  <?else:?>
-  В этом месяце не было мероприятий.
-  <?endif;?>
-</h3>
-<?endif;?>
 
 <div id="event3-paginator">
   <a href="" id="be3p">Назад</a>

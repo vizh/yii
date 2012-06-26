@@ -5,7 +5,7 @@ class EventMain extends GeneralCommand
 {
   const MinEventCount = 6;
 
-  public static $ActualEvent = array('site12', 'program-internet-magazin-s-nulya12');
+  public static $ActualEvent = array('site12');
 
   protected function preExecute()
   {    
