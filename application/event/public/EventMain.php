@@ -5,7 +5,7 @@ class EventMain extends GeneralCommand
 {
   const MinEventCount = 6;
 
-  public static $ActualEvent = 'site12';
+  public static $ActualEvent = array('site12', 'program-internet-magazin-s-nulya12');
 
   protected function preExecute()
   {    
@@ -89,106 +89,117 @@ class EventMain extends GeneralCommand
 
   private function getListEventsHtml($year = '', $month = '')
   {
-    $view = new View();
-    $view->SetTemplate('list');
+        $view = new View();
+        $view->SetTemplate('list');
 
-    $year = intval($year);
-    $month = intval($month);
+        $year = intval($year);
+        $month = intval($month);
 
-    $date = getdate();
-    if (empty($year))
-    {
-      $year = $date['year'];
-    }
-    if (empty($month))
-    {
-      $month = $date['mon'];
-    }
+        $date = getdate();
+        if (empty($year))
+        {
+            $year = $date['year'];
+        }
+        if (empty($month))
+        {
+            $month = $date['mon'];
+        }
 
-    if ($year == $date['year'] && $month == $date['mon'])
-    {
-      $view->ShowEventsButton = true;
-    }
+        if ($year == $date['year'] && $month == $date['mon'])
+        {
+            $view->ShowEventsButton = true;
+        }
 
-    $start = date('Y-m-', mktime(0, 0, 0, $month, 1, $year)).'00';
-    $end = date('Y-m-d', mktime(0, 0, 0, $month+1, 0, $year));
-    
-    $events = Event::GetEventsByDates($start, $end);
-    $prevEventsContainer = new ViewContainer();
-    $nextEventsContainer = new ViewContainer();
+        $start = date('Y-m-', mktime(0, 0, 0, $month, 1, $year)).'00';
+        $end = date('Y-m-d', mktime(0, 0, 0, $month+1, 0, $year));
 
-    $actualEvent = $this->getActualEvent();
+        $events = Event::GetEventsByDates($start, $end);
+        $prevEventsContainer = new ViewContainer();
+        $nextEventsContainer = new ViewContainer();
 
+        $actualEvents = $this->getActualEvents();
+        $actualEventsId = array();
+        if ( !empty ($actualEvents))
+        {
+            foreach ($actualEvents as $actualEvent)
+            {
+                $actualEventsId[] = $actualEvent->EventId;
+            }
+        }
+            
+        foreach ($events as $event)
+        {
+            if ( !empty ($actualEventsId) 
+                    && in_array($event->EventId, $actualEventsId))
+            {
+                continue;
+            }
 
+            $viewEvent = $this->getEventView($event);
 
-    foreach ($events as $event)
-    {
-      if ($actualEvent != null && $actualEvent->EventId == $event->EventId)
-      {
-        continue;
-      }
-      $viewEvent = $this->getEventView($event);
+            if (date('Y-m-d') > $event->DateEnd)
+            {
+                $prevEventsContainer->AddView($viewEvent);
+            }
+            elseif (date('Y-m-d') < $event->DateStart)
+            {
+                $nextEventsContainer->AddView($viewEvent);
+            }
+        }
 
-      if (date('Y-m-d') > $event->DateEnd)
-      {
-        $prevEventsContainer->AddView($viewEvent);
-      }
-      elseif (date('Y-m-d') < $event->DateStart)
-      {
-        $nextEventsContainer->AddView($viewEvent);
-      }
-    }
+        $view->ActualEvents = '';
+        if ( !empty ($actualEvents))
+        {
+            foreach ($actualEvents as $actualEvent)
+            {
+                $view->ActualEvents .= $this->getEventView($actualEvent);
+            }
+        }
+        else
+        {
+            $view->ActualEventsIsEmpty = true;
+        }
+        
+        $view->PrevEvents = $prevEventsContainer;
+        $view->PrevEventsIsEmpty = $prevEventsContainer->IsEmpty();
 
-//    if ($nextEventsContainer->IsEmpty())
-//    {
-//      $events = Event::GetFutureEvents(3);
-//      foreach ($events as $event)
-//      {
-//        $viewEvent = $this->getEventView($event);
-//        $nextEventsContainer->AddView($viewEvent);
-//      }
-//    }
-    $view->ActualEvent = $actualEvent != null ? $this->getEventView($actualEvent) : '';
-    $view->ActualEventIsEmpty = $actualEvent == null;
+        $view->NextEvents = $nextEventsContainer;
+        $view->NextEventsIsEmpty = $nextEventsContainer->IsEmpty();
 
-    $view->PrevEvents = $prevEventsContainer;
-    $view->PrevEventsIsEmpty = $prevEventsContainer->IsEmpty();
+        $words = Registry::GetWord('calendar');
+        $view->Month = $words['months']['3'][$month];
 
-    $view->NextEvents = $nextEventsContainer;
-    $view->NextEventsIsEmpty = $nextEventsContainer->IsEmpty();
+        $view->Date = array($year, $month);
 
-    $words = Registry::GetWord('calendar');
-    $view->Month = $words['months']['3'][$month];
-
-    $view->Date = array($year, $month);
-    
-    return $view;
+        return $view;
   }
 
   /**
    * @return Event
    */
-  private function getActualEvent()
-  {
-    $event = null;
-    if (! empty(self::$ActualEvent))
+    private function getActualEvents()
     {
-      $event = Event::GetEventByIdName(self::$ActualEvent);
+        $events = null;
+        if ( !empty (self::$ActualEvent))
+        {
+            $criteria = new CDbCriteria();
+            $criteria->addInCondition('IdName', self::$ActualEvent);
+            $criteria->addCondition('DateStart >= :CurDate');
+            $criteria->params[':CurDate'] = date('Y-m-d');
+            $criteria->order = 'DateStart ASC, DateEnd ASC';
+            $events = Event::model()->findAll($criteria);
+        }
+
+        if ( empty ($events))
+        {
+            $events = Event::GetFutureEvents(1);
+            if ( !empty ($events))
+            {
+                $events = array($events[0]);
+            }
+        }
+        return $events;
     }
-    if ($event == null || $event->DateStart <= date('Y-m-d'))
-    {
-      $event = Event::GetFutureEvents(1);
-      if (! empty($event))
-      {
-        $event = $event[0];
-      }
-      else
-      {
-        $event = null;
-      }
-    }
-    return $event;
-  }
 
   /**
    * @param Event $event

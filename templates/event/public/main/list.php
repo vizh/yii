@@ -1,7 +1,7 @@
-<?if (!$this->ActualEventIsEmpty):?>
-<h2 class="red-angled">Важное</h2>
-<?php echo $this->ActualEvent;?>
-<?endif;?>
+<?php if (!$this->ActualEventsIsEmpty):?>
+    <h2 class="red-angled">Важное</h2>
+    <?php echo $this->ActualEvents;?>
+<?php endif;?>
 
 <?if (!$this->PrevEventsIsEmpty):?>
 <h2 class="grey-angled">Прошедшие</h2>
