@@ -32,16 +32,3 @@
   <iframe src="http://www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Frocidru&amp;width=240&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=false&amp;header=false&amp;height=72" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:240px; height:72px;" allowTransparency="true"></iframe>
 </div>
 <?endif;?>
-
-<?if ($this->ShowSmi2):?>
-<div class="right-banner">
-  <div id="smi2adblock_44839"><a href="http://smi2.ru/">Новости СМИ2</a></div>
-  <script type="text/javascript" charset="windows-1251">
-    (function() {
-      var sc = document.createElement('script'); sc.type = 'text/javascript'; sc.async = true;
-      sc.src = 'http://js.smi2.ru/data/js/44839.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sc, s);
-    }());
-  </script>
-</div>
-<?endif;?>

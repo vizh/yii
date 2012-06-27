@@ -1,4 +1,5 @@
 <?php
+Yii::import('ext.ExchangeRates.*');
 
 class PayPalSystem extends BaseSystem
 {
@@ -36,8 +37,9 @@ class PayPalSystem extends BaseSystem
    */
   public function Check()
   {
-    // TODO: Implement Check() method.
-    return false;
+    $token = Registry::GetRequestVar('token', false);
+    $PayerID = Registry::GetRequestVar('PayerID', false);
+    return $token !== false && $PayerID !== false;
   }
 
   /**
@@ -46,7 +48,38 @@ class PayPalSystem extends BaseSystem
    */
   public function FillParams()
   {
-    // TODO: Implement FillParams() method.
+    $orderId = Registry::GetSession()->get('PayPalOrderId');
+    $this->initRequiredParams($orderId);
+
+    $result = $this->ConfirmPayment();
+    $ack = strtoupper($result["ACK"]);
+    if ($ack == "SUCCESS" || $ack == "SUCCESSWITHWARNING")
+    {
+      $this->OrderId = $orderId;
+      $this->Total = Registry::GetSession()->get('PayPalTotalRub');
+    }
+    else
+    {
+      throw new PayException('Произошел отказ в проведении транзакции со стороны PayPal. ' . var_export($result, true));
+    }
+  }
+
+  private function ConfirmPayment()
+  {
+    $params = array(
+      'TOKEN' => Registry::GetRequestVar('token', false),
+      'PAYERID' => Registry::GetRequestVar('PayerID', false),
+      'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
+      'PAYMENTREQUEST_0_AMT' => Registry::GetSession()->get('PayPalTotal'),
+      'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD',
+      'IPADDRESS' => $_SERVER['SERVER_NAME']
+    );
+
+
+    $request = http_build_query($params);
+
+    $resArray = $this->requestCall("DoExpressCheckoutPayment", $request);
+    return $resArray;
   }
 
   /**
@@ -54,18 +87,27 @@ class PayPalSystem extends BaseSystem
    * @param int $eventId
    * @param string $orderId
    * @param int $total
+   * @throws Exception
    * @return array
    */
   public function ProcessPayment($eventId, $orderId, $total)
   {
+    $rates = new ExchangeRatesCBRF();
+    $usd = $rates->GetRate('USD');
+    if ($usd === false)
+    {
+      throw new Exception('Ошибка при получении курса валют, нужно срочно разобраться. PayPal не работает.');
+    }
+
     $this->initRequiredParams($orderId);
-    $total = number_format($total, 2, '.', '');
+    $totalUsd = $total / $usd;
+    $totalUsd = number_format($totalUsd, 2, '.', '');
 
     $params = array(
-      'PAYMENTREQUEST_0_AMT' => $total,
+      'PAYMENTREQUEST_0_AMT' => $totalUsd,
       'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
-      'RETURNURL' => 'http://rocid.ru/return',
-      'CANCELURL' => 'http://rocid.ru/cancel',
+      'RETURNURL' => 'http://pay.rocid.ru/callback/index/',
+      'CANCELURL' => 'http://pay.rocid.ru/' . $eventId . '/',
       'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD',
       'NOSHIPPING' => 1
 
@@ -73,7 +115,7 @@ class PayPalSystem extends BaseSystem
 
     $item = array(
       'L_PAYMENTREQUEST_0_NAME0' => 'Order №' . $orderId,
-      'L_PAYMENTREQUEST_0_AMT0' => $total,
+      'L_PAYMENTREQUEST_0_AMT0' => $totalUsd,
       'L_PAYMENTREQUEST_0_QTY0' => '1'
     );
 
@@ -82,12 +124,14 @@ class PayPalSystem extends BaseSystem
     $ack = strtoupper($result["ACK"]);
     if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING')
     {
+      Registry::GetSession()->add('PayPalTotal', $totalUsd);
+      Registry::GetSession()->add('PayPalTotalRub', $total);
+      Registry::GetSession()->add('PayPalOrderId', $orderId);
       Lib::Redirect($this->GetPayPalUrl($result["TOKEN"]));
     }
     else
     {
-      print_r($result);
-      //TODO написать реализацию для обработки ошибки обращения к PayPal
+      throw new Exception('Произошла ошибка при обращении к PayPal, нужно срочно разобраться.');
     }
   }
 
@@ -106,7 +150,8 @@ class PayPalSystem extends BaseSystem
    */
   public function EndParseSystem()
   {
-    // TODO: Implement EndParseSystem() method.
+    $order = Order::GetById($this->OrderId());
+    Lib::Redirect('http://pay.rocid.ru/' . $order->EventId . '/');
   }
 
 
@@ -141,6 +186,7 @@ class PayPalSystem extends BaseSystem
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $nvpRequest);
+
     return $ch;
   }
 
@@ -150,7 +196,9 @@ class PayPalSystem extends BaseSystem
       . "&VERSION=" . urlencode(self::Version)
       . "&PWD=" . urlencode($this->password)
       . "&USER=" . urlencode($this->username)
-      . "&SIGNATURE=" . urlencode($this->signature) . $request;
+      . "&SIGNATURE=" . urlencode($this->signature)
+      //. '&=' . urlencode('PP-ECWizard')
+      . '&' . $request;
   }
 
   protected function deformatNVP($nvpstr)

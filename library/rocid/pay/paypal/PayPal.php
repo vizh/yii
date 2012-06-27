@@ -63,21 +63,7 @@ class PayPal
 
 
 
-  function ConfirmPayment($token, $payerID, $paymentAmount, $currencyCodeType, $paymentType)
-  {
-    $token = urlencode($token);
-    $currencyCodeType = urlencode($currencyCodeType);
-    $payerID = urlencode($payerID);
 
-    $serverName 		= urlencode($_SERVER['SERVER_NAME']);
-
-    $nvpstr  = '&TOKEN=' . $token . '&PAYERID=' . $payerID . '&PAYMENTREQUEST_0_PAYMENTACTION=' . $paymentType . '&PAYMENTREQUEST_0_AMT=' . $paymentAmount;
-    $nvpstr .= '&PAYMENTREQUEST_0_CURRENCYCODE=' . $currencyCodeType . '&IPADDRESS=' . $serverName;
-
-    $resArray = $this->hashCall("DoExpressCheckoutPayment", $nvpstr);
-
-    return $resArray;
-  }
 
 
 

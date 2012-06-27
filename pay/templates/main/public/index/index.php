@@ -49,11 +49,13 @@ $orders = $this->Orders;
     <div class="clear"></div>
   </div>
 
+    <?if ($_SERVER['REMOTE_ADDR'] == '82.142.129.35'):?>
   <p>
     <a href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId, 'type' => 'paypal'));?>">
       <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" alt="">
     </a>
   </p>
+    <?endif;?>
 
 
   <?else:?>
