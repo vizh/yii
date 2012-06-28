@@ -7,9 +7,10 @@ class MainPay extends PayCommand
   /**
    * Основные действия комманды
    * @param int $eventId
+   * @param string $type
    * @return void
    */
-  protected function doExecute($eventId = 0)
+  protected function doExecute($eventId = 0, $type = '')
   {
     if ($this->LoginUser === null)
     {
@@ -19,7 +20,9 @@ class MainPay extends PayCommand
 
     $data = Order::CreateOrder($this->LoginUser, $eventId);
 
-    if ($_SERVER['REMOTE_ADDR'] == '82.142.129.35' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1')
+
+
+    if ($type != 'paypal')
     {
       $account = PayAccount::GetByEventId($eventId);
       if (!empty($account))
@@ -31,12 +34,11 @@ class MainPay extends PayCommand
       {
         $system = new PayOnlineSystem();
       }
-      $system->ProcessPayment($eventId, $data['OrderId'], $data['Total']);
     }
     else
     {
-      $system = new PayOnlineSystem();
-      $system->ProcessPayment($eventId, $data['OrderId'], $data['Total']);
+      $system = new PayPalSystem();
     }
+    $system->ProcessPayment($eventId, $data['OrderId'], $data['Total']);
   }
 }

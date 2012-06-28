@@ -4,7 +4,7 @@ AutoLoader::Import('library.rocid.pay.systems.*');
 
 class SystemRouter
 {
-  public static $SystemNames = array(/*'ChronoPay',*/ 'PayOnline', 'Robokassa', 'Test');
+  public static $SystemNames = array(/*'ChronoPay',*/ 'PayOnline', 'Robokassa', 'Test', 'PayPal');
   const Suffix = 'System';
 
   /**

@@ -58,6 +58,7 @@ class PayOnlineSystem extends BaseSystem
 
   /**
    * Заполняет общие параметры всех платежных систем, для единой обработки платежей
+   * @throws PayException
    * @return void
    */
   public function FillParams()
