@@ -3,7 +3,7 @@ Yii::import('ext.ExchangeRates.*');
 
 class PayPalSystem extends BaseSystem
 {
-  const Url = 'https://api-3t.sandbox.paypal.com/nvp';
+  const Url = 'https://api-3t.paypal.com/nvp';
   const Version = 89.0;
 
   private $username;
@@ -21,9 +21,9 @@ class PayPalSystem extends BaseSystem
 
   protected function initRequiredParams($orderId)
   {
-    $this->username = 'n_1340289183_biz_api1.internetmediaholding.com';
-    $this->password = '1340289210';
-    $this->signature = 'ASotwUFhF77eR9f46CC9ZDcSDh5XAL4B5T88RqduJwvavxHmvkhlZSvG';
+    $this->username = 'grebennikov_api1.imcom.co.uk';
+    $this->password = 'QKQDST7CGKB4R52D';
+    $this->signature = 'A6zZXZ2LRlaG0Cu4I0Zz2k.vlGrCAfR1Cem2U-ZxIZF-.oidUOheR4ei';
   }
 
   protected function getClass()
@@ -60,7 +60,9 @@ class PayPalSystem extends BaseSystem
     }
     else
     {
-      throw new PayException('Произошел отказ в проведении транзакции со стороны PayPal. ' . var_export($result, true));
+      $order = Order::GetById($orderId);
+      SystemRouter::LogError('Произошел отказ в проведении транзакции со стороны PayPal. ' . var_export($result, true), 0);
+      Lib::Redirect('http://pay.rocid.ru/' . $order->EventId . '/');
     }
   }
 
@@ -102,6 +104,7 @@ class PayPalSystem extends BaseSystem
     $this->initRequiredParams($orderId);
     $totalUsd = $total / $usd;
     $totalUsd = number_format($totalUsd, 2, '.', '');
+    $totalUsd = 0.20;
 
     $params = array(
       'PAYMENTREQUEST_0_AMT' => $totalUsd,
@@ -141,8 +144,8 @@ class PayPalSystem extends BaseSystem
      */
     protected  function GetPayPalUrl($token)
     {
-      return 'https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($token);
-      //return 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' . urlencode($token);
+      //return 'https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($token);
+      return 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' . urlencode($token);
     }
 
   /**
