@@ -228,3 +228,6 @@ RouteRegistry::AddRoute('partner.user.index', array('/partner/user/',
 
 RouteRegistry::AddRoute('partner.coupon.index', array('/partner/coupon/',
 	array('module'=>'partner', 'section' => 'coupon', 'command' => 'index')));
+
+RouteRegistry::AddRoute('partner.orderitem.index', array('/partner/orderitem/',
+	array('module'=>'partner', 'section' => 'orderitem', 'command' => 'index')));
