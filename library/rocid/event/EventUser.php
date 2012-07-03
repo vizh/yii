@@ -46,7 +46,7 @@ class EventUser extends CActiveRecord
       'Event' => array(self::BELONGS_TO, 'Event', 'EventId', 'order' => 'Event.DateStart DESC, Event.DateEnd DESC'),
       'EventRole' => array(self::BELONGS_TO, 'EventRoles', 'RoleId'),
       'User' => array(self::BELONGS_TO, 'User', 'UserId'),
-      'Day' => array(self::BELONGS_TO, 'EventDay', 'EventDayId')
+      'Day' => array(self::BELONGS_TO, 'EventDay', 'DayId')
     );
   }
 
@@ -76,7 +76,7 @@ class EventUser extends CActiveRecord
   public function byDayId($dayId, $useAnd = true)
   {
     $criteria = new CDbCriteria();
-    $criteria->condition = 't.DayId = DayId';
+    $criteria->condition = 't.DayId = :DayId';
     $criteria->params = array(':DayId' => $dayId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
