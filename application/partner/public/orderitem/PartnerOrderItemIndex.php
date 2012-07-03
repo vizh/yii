@@ -4,13 +4,13 @@ AutoLoader::Import('library.rocid.user.*');
 
 class PartnerOrderItemIndex extends PartnerCommand
 {
-    const OrderItemsOnPage = 1;
+    const OrderItemsOnPage = 20;
 
 
     protected function doExecute() 
     {        
         
-        $this->SetTitle('Поиск заказов');
+        $this->SetTitle('Заказы');
         
         $criteria = new CDbCriteria();
         $criteria->with = array(

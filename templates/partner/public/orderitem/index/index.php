@@ -1,3 +1,12 @@
+<ul class="nav nav-pills">
+    <li class="active">
+        <a href="<?=RouteRegistry::GetUrl('partner', 'orderitem', 'index');?>">Заказы</a>
+    </li>
+    <li>
+        <a href="<?=RouteRegistry::GetUrl('partner', 'orderitem', 'add');?>">Добавить заказ</a>
+    </li>
+</ul>
+
 <form method="GET">
     <div class="row">
         <div class="span4">
@@ -50,7 +59,6 @@
                 <th>Плательщик</th>
                 <th>Получатель</th>
                 <th>Оплата</th>
-                <th></th>
             </thead>
             <tbody>
                 <?php foreach ($this->OrderItems as $orderItem):?>
@@ -67,12 +75,12 @@
                     <td>
                         <?php if ($orderItem->Paid == 1):?>
                             <span class="label label-success">Оплачен</span>
+                        <?php elseif ($orderItem->Deleted == 1):?>
+                            <span class="label label-warning">Удален</span>
                         <?php else:?>
                             <span class="label">Не оплачен</span>
                         <?php endif;?>
                     </td>
-                    
-                    <td><?php if ($orderItem->Deleted == 1):?><span class="label label-warning">Удален</span><?php endif;?></td>
                 </tr>
                 <?php endforeach;?>
             </tbody>
