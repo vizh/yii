@@ -24,6 +24,28 @@ abstract class BaseProductManager
     return array();
   }
 
+  public function GetAttributes($orderMap)
+  {
+    $attributes = array();
+    foreach ($this->product->Attributes as $attribute)
+    {
+      if (in_array($attribute->Name, $orderMap))
+      {
+        $attributes[$attribute->Name] = $attribute->Value;
+      }
+    }
+
+    $result = array();
+    foreach ($orderMap as $attributeName)
+    {
+      if (isset($attributes[$attributeName]))
+      {
+        $result[] = $attributes[$attributeName];
+      }
+    }
+    return $result;
+  }
+
   /**
    * Возвращает список необходимых параметров для OrderItem
    * @return string[]
@@ -32,6 +54,8 @@ abstract class BaseProductManager
   {
     return array();
   }
+
+
 
   /**
    * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе

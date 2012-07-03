@@ -58,7 +58,7 @@ class EventRoles extends CActiveRecord
 
     return self::$roles;
   }
-  
+
   /**
   * Геттеры и сеттеры для полей
   */
