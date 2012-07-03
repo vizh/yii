@@ -5,6 +5,7 @@ AutoLoader::Import('partner.source.*');
 /**
  * @property int $EventUserId
  * @property int $EventId
+ * @property int $DayId
  * @property int $UserId
  * @property int $RoleId
  * @property int $Approve
@@ -18,7 +19,12 @@ AutoLoader::Import('partner.source.*');
 class EventUser extends CActiveRecord
 {
   public static $TableName = 'EventUser';
-  
+
+  /**
+   * @static
+   * @param string $className
+   * @return EventUser
+   */
   public static function model($className=__CLASS__)
   {    
     return parent::model($className);
@@ -39,8 +45,49 @@ class EventUser extends CActiveRecord
     return array(
       'Event' => array(self::BELONGS_TO, 'Event', 'EventId', 'order' => 'Event.DateStart DESC, Event.DateEnd DESC'),
       'EventRole' => array(self::BELONGS_TO, 'EventRoles', 'RoleId'),
-      'User' => array(self::BELONGS_TO, 'User', 'UserId')
+      'User' => array(self::BELONGS_TO, 'User', 'UserId'),
+      'Day' => array(self::BELONGS_TO, 'EventDay', 'EventDayId')
     );
+  }
+
+  /**
+   * @param int $userId
+   * @param bool $useAnd
+   * @return EventUser
+   */
+  public function byUserId($userId, $useAnd = true)
+  {
+    $criteria = new CDbCriteria();
+    $criteria->condition = 't.UserId = :UserId';
+    $criteria->params = array(':UserId' => $userId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new CDbCriteria();
+    $criteria->condition = 't.EventId = :EventId';
+    $criteria->params = array(':EventId' => $eventId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function byDayId($dayId, $useAnd = true)
+  {
+    $criteria = new CDbCriteria();
+    $criteria->condition = 't.DayId = DayId';
+    $criteria->params = array(':DayId' => $dayId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function byDayNull($useAnd = true)
+  {
+    $criteria = new CDbCriteria();
+    $criteria->condition = 't.DayId IS NULL';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 
   /**

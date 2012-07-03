@@ -25,6 +25,8 @@ AutoLoader::Import('partner.source.*');
  *
  * @method string GetMiniLogo()
  *
+ *
+ * @property EventDay[] $Days
  * @property EventProgram[] $Program
  */
 class Event extends CActiveRecord
@@ -59,6 +61,7 @@ class Event extends CActiveRecord
   public function relations()
   {
     return array(
+      'Days' => array(self::HAS_MANY, 'EventDay', 'EventId'),
       //User  
       'EventUsers' => array(self::HAS_MANY, 'EventUser', 'EventId', 'with' => array('EventRole')),
       'Users' => array(self::MANY_MANY, 'User', 'EventUser(EventId, UserId)', 'with' => 'Settings', 'condition' => 'Settings.Visible = \'1\''),
@@ -296,34 +299,71 @@ class Event extends CActiveRecord
   }
 
   /**
-   * @param $user User
-   * @param $role EventRoles
+   * @param User $user
+   * @param EventRoles $role
+   * @throws Exception
    * @return EventUser|null
    */
-  public function RegisterUser($user, $role)
+  public function RegisterUser(User $user, EventRoles $role)
   {
-    $eventUser = EventUser::GetByUserEventId($user->UserId, $this->EventId);
+    if (!empty($this->Days))
+    {
+      throw new Exception('Данное мероприятие имеет логическую разбивку. Используйте метод добавления участия в конкретный день.');
+    }
+    $eventUser = EventUser::model()->byEventId($this->EventId)->byUserId($user->UserId)->byDayNull()->find();
     if (empty($eventUser))
     {
-      $eventUser = new EventUser();
-      $eventUser->EventId = $this->EventId;
-      $eventUser->UserId = $user->UserId;
-      $eventUser->RoleId = $role->RoleId;
-      $eventUser->Approve = 0;
-      $eventUser->CreationTime = $eventUser->UpdateTime = time();
-      $eventUser->save();
-
-      /** @var $partnerAccount PartnerAccount */
-      $partnerAccount = PartnerAccount::model()->byEventId($this->EventId)->find();
-      if (!empty($partnerAccount))
-      {
-        $partnerAccount->GetNotifier()->NotifyNewParticipant($user);
-      }
-
+      $eventUser = $this->registerUserUnsafe($user, $role);
+      $this->notifyAboutRegistration($user);
       return $eventUser;
     }
-
     return null;
+  }
+
+  public function RegisterUserOnAllDays(User $user, EventRoles $role)
+  {
+    $result = array();
+    foreach ($this->Days as $day)
+    {
+      $result[$day->DayId] = $this->RegisterUserOnDay($day, $user, $role);
+    }
+    return $result;
+  }
+
+  public function RegisterUserOnDay(EventDay $day, User $user, EventRoles $role)
+  {
+    $eventUser = EventUser::model()->byEventId($this->EventId)->byUserId($user->UserId)->byDayId($day->DayId)->find();
+    if (empty($eventUser))
+    {
+      $eventUser = $this->registerUserUnsafe($user, $role, $day);
+      $this->notifyAboutRegistration($user);
+      return $eventUser;
+    }
+    return null;
+  }
+
+  private function registerUserUnsafe(User $user, EventRoles $role, EventDay $day = null)
+  {
+    $eventUser = new EventUser();
+    $eventUser->EventId = $this->EventId;
+    $eventUser->DayId = ($day != null) ? $day->DayId : null;
+    $eventUser->UserId = $user->UserId;
+    $eventUser->RoleId = $role->RoleId;
+    $eventUser->Approve = 0;
+    $eventUser->CreationTime = $eventUser->UpdateTime = time();
+    $eventUser->save();
+
+    return $eventUser;
+  }
+
+  private function notifyAboutRegistration(User $user)
+  {
+    /** @var $partnerAccount PartnerAccount */
+    $partnerAccount = PartnerAccount::model()->byEventId($this->EventId)->find();
+    if (!empty($partnerAccount))
+    {
+      $partnerAccount->GetNotifier()->NotifyNewParticipant($user);
+    }
   }
 
   /**
