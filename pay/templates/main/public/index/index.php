@@ -40,12 +40,26 @@ $orders = $this->Orders;
 
   <div class="response">
     <a href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId));?>">Оплатить картой или эл. деньгами</a>
+
+    <?if ($_SERVER['REMOTE_ADDR'] == '82.142.129.35'):?>
+    <a href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId, 'type' => 'paypal'));?>">
+      Оплатить через <i
+      style="
+        background: url('/images/paypal.png') no-repeat scroll 0 0 transparent;
+        display: inline-block;
+        width: 60px;
+        height: 25px;
+        vertical-align: text-top;
+        margin: 2px 0 0 3px;
+        "></i>
+    </a>
+    <?endif;?>
+
     <?if ($this->EventId != 106 && $this->EventId != 252 && $this->EventId != 236 && $this->EventId != 245 && $this->EventId != 258):?>
     <a href="<?=RouteRegistry::GetUrl('main', '', 'juridical', array('eventId' => $this->EventId));?>">Выставить счет (для юр. лиц)</a>
     <?endif;?>
     <div class="clear"></div>
   </div>
-
 
   <?else:?>
   <h3>У вас нет товаров для оплаты.</h3>
