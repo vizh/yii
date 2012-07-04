@@ -85,15 +85,31 @@ class PartnerUserIndex extends PartnerCommand
         $count = EventUser::model()->count($criteria);
 
         $this->view->Count = $count;
-
+        $this->view->Event = Event::model()->findByPk($this->Account->EventId);
+        
         $criteria->limit  = self::UsersOnPage;
         $criteria->offset = self::UsersOnPage * ($page-1);
+        $criteria->group  = 't.UserId';
         
-        $this->view->Users = EventUser::model()->findAll($criteria);
+        
+        $users = array();
+        $eventUsers = EventUser::model()->findAll($criteria);
+        foreach ($eventUsers as $eventUser)
+        {
+            $users [$eventUser->UserId] = array(
+                'EventUser' => $eventUser
+            );
+            if ( !empty ($this->view->Event->Days))
+            {
+                $users[$eventUser->UserId]['DayRoles'] = EventUser::model()->byUserId($eventUser->UserId)->byEventId($eventUser->EventId)->findAll('t.DayId IS NOT NULL');
+            }
+        }
+        $this->view->Users = $users;
+        
         $this->view->Roles = Event::model()->findByPk($this->Account->EventId)->GetUsingRoles();
         
         $this->view->Paginator = new Paginator(
-            RouteRegistry::GetUrl('partner', 'user', 'index').'?page=%s', $page, self::UsersOnPage, EventUser::model()->count($criteria), array('filter' => $filter)
+            RouteRegistry::GetUrl('partner', 'user', 'index').'?page=%s', $page, self::UsersOnPage, $count, array('filter' => $filter)
         );
         
         echo $this->view;
