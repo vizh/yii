@@ -85,15 +85,33 @@ class BaseDataBuilder
    */
   public function BuildUserEvent($user)
   {
+    $isSingleDay = empty($this->account->Event);
     foreach ($user->EventUsers as $eUser)
     {
       if ($this->account->EventId != null && $eUser->EventId == $this->account->EventId)
       {
-        $this->user->Status = new stdClass();
-        $this->user->Status->RoleId = $eUser->RoleId;
-        $this->user->Status->RoleName = $eUser->EventRole->Name;
-        $this->user->Status->UpdateTime = $eUser->UpdateTime;
-        //todo: добавить поле UpdateTime, переделать эти поля в timestamp
+        if ($isSingleDay)
+        {
+          $this->user->Status = new stdClass();
+          $this->user->Status->RoleId = $eUser->RoleId;
+          $this->user->Status->RoleName = $eUser->EventRole->Name;
+          $this->user->Status->UpdateTime = $eUser->UpdateTime;
+          //todo: добавить поле UpdateTime, переделать эти поля в timestamp
+        }
+        else
+        {
+          if (!isset($this->user->Status))
+          {
+            $this->user->Status = array();
+          }
+          $status = new stdClass();
+          $status->DayId = $eUser->DayId;
+          $status->RoleId = $eUser->RoleId;
+          $status->RoleName = $eUser->EventRole->Name;
+          $status->UpdateTime = $eUser->UpdateTime;
+          $this->user->Status[] = $status;
+        }
+
       }
       elseif ($this->account->EventId == null)
       {
