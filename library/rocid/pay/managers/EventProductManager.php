@@ -49,9 +49,9 @@ class EventProductManager extends BaseProductManager
     $roles = EventRoles::GetAll();
     $eventRole = null;
     $productRole = null;
-    if (empty($roleId))
+    if ( empty ($roleId))
     {
-      return false;
+        return false;
     }
     foreach ($roles as $role)
     {
@@ -65,7 +65,7 @@ class EventProductManager extends BaseProductManager
         $eventRole = $role;
       }
     }
-
+    
     return !empty($productRole) && (empty($eventRole) || $eventRole->Priority < $productRole->Priority);
   }
 
@@ -108,6 +108,29 @@ class EventProductManager extends BaseProductManager
     }
 
     return true;
+  }
+  
+  public function RollbackProduct($user) 
+  {
+      $orderItem = OrderItem::model()->find(
+        't.Paid = 1 AND t.OwnerId = :OwnerId AND t.ProductId = :ProductId', 
+        array(
+            ':OwnerId' => $user->UserId,
+            ':ProductId' => $this->product->ProductId
+        ));
+      
+      if ( $orderItem != null)
+      {
+          $orderItem->Deleted = 1;
+          $orderItem->save();
+      }
+      else
+      {
+          return false;
+      }
+      
+      //EventUser::GetByUserEventId($user->UserId, $this->product->EventId)->delete();
+      return true;
   }
 
   /**

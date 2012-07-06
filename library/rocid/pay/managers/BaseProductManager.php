@@ -50,8 +50,16 @@ abstract class BaseProductManager
    * @return bool
    */
   abstract public function BuyProduct($user, $params = array());
-
+  
   /**
+   * Отменяет покупку продукта на пользовтеля
+   * @abstract
+   * @param User $user
+   * @return bool 
+   */
+  abstract public function RollbackProduct($user);
+
+    /**
    *
    * @param User $payer
    * @param User $owner

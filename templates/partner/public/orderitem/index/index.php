@@ -50,6 +50,28 @@
     </div>
 </form>
 
+
+<script type="text/javascript">
+    $(function () {
+        $('.table td.activation a').click( function (e) {
+            var msg = 'Вы точно хотите '+ ( $(e.currentTarget).hasClass('btn-success') ? 'активировать' : 'деактивировать') + ' оплату'
+            if ( confirm (msg)) {
+                $.post('/partner/orderitem/', {
+                    'action'      : $(e.currentTarget).hasClass('btn-success') ? 'activate' : 'deactivate',
+                    'orderItemId' : $(e.currentTarget).data('orderitemid')
+                }, function (response) {
+                    if (response.success) {
+                        
+                    }
+                    else {
+                        alert('Произошла ошибка при активации!');
+                    }
+                }, 'json');
+            }
+            return false;
+        });
+    });
+</script>
 <?php if ($this->OrderItems != null):?>
 <div class="row">
     <div class="span12">
@@ -59,6 +81,7 @@
                 <th>Плательщик</th>
                 <th>Получатель</th>
                 <th>Оплата</th>
+                <th>Активация</th>
             </thead>
             <tbody>
                 <?php foreach ($this->OrderItems as $orderItem):?>
@@ -75,10 +98,19 @@
                     <td>
                         <?php if ($orderItem->Paid == 1):?>
                             <span class="label label-success">Оплачен</span>
-                        <?php elseif ($orderItem->Deleted == 1):?>
-                            <span class="label label-warning">Удален</span>
                         <?php else:?>
                             <span class="label">Не оплачен</span>
+                        <?php endif;?>
+                            
+                        <?php if ($orderItem->Deleted == 1):?>
+                            <span class="label label-warning">Удален</span>
+                        <?php endif;?>
+                    </td>
+                    <td class="activation">
+                        <?php if ($orderItem->Paid == 1 && $orderItem->Deleted == 0):?>
+                            <a href="#" class="btn btn-danger btn-mini"  data-orderitemid="<?php echo $orderItem->OrderItemId;?>">Деактивировать</a>
+                        <?php else:?>
+                            <a href="#" class="btn btn-success btn-mini" data-orderitemid="<?php echo $orderItem->OrderItemId;?>">Активировать</a>
                         <?php endif;?>
                     </td>
                 </tr>

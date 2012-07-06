@@ -11,6 +11,28 @@ class PartnerOrderItemIndex extends PartnerCommand
     {        
         
         $this->SetTitle('Заказы');
+                
+        if ( yii::app()->request->getIsAjaxRequest())
+        {
+            $action = Registry::GetRequestVar('action');
+            $orderItemId = (int) Registry::GetRequestVar('orderItemId');
+            
+            if ($orderItemId > 0)
+            {
+                switch ($action)
+                {
+                    case 'activate':
+                        $this->AjaxOrderItemActivate ($orderItemId);
+                        break;
+                    
+                    case 'deactivate':
+                        $this->AjaxOrderItemDeActivate ($orderItemId);
+                        break;
+                }
+            }
+            exit();
+        }
+        
         
         $criteria = new CDbCriteria();
         $criteria->with = array(
@@ -40,6 +62,11 @@ class PartnerOrderItemIndex extends PartnerCommand
                 {
                     switch ($field)
                     {
+                        case 'OrderItemId':
+                            $criteria->addCondition('`t`.`OrderItemId` = :OrderItemId');
+                            $criteria->params[':OrderItemId'] = (int) $value;
+                            break;
+                            
                         case 'ProductId':
                             $criteria->addCondition('`t`.`ProductId` = :ProductId');
                             $criteria->params[':ProductId'] = (int) $value;
@@ -80,5 +107,51 @@ class PartnerOrderItemIndex extends PartnerCommand
         );
         
         echo $this->view;
+    }
+    
+    /**
+     * Активация оплаты по Ajax
+     * @param int $orderItemId 
+     */
+    private function AjaxOrderItemActivate ($orderItemId)
+    {
+        $result = array();
+        $orderItem = OrderItem::GetById( (int) $orderItemId);
+        
+        if ($orderItem != null)
+        {
+            $result['success'] = $orderItem->Product->ProductManager()->BuyProduct($orderItem->Owner);
+            print_r($result);
+            if ($result['success'])
+            {
+                $orderItem->Paid = 1;
+                $orderItem->PaidTime = date('Y-m-d H:i:s');
+                $orderItem->Deleted = 0;
+                $orderItem->save();
+            }
+        }
+        else
+        {
+            $result['success'] = false;
+        }
+        echo json_encode($result);
+    }
+    
+    /**
+     * Деактивация оплаты по Ajax
+     * @param int $orderItemId 
+     */
+    private function AjaxOrderItemDeActivate ($orderItemId)
+    {
+        $orderItem = OrderItem::GetById( (int) $orderItemId);
+        if ($orderItemId != null)
+        {
+            $result['success'] = $orderItem->Product->ProductManager()->RollbackProduct($orderItem->Owner);
+        }
+        else
+        {
+            $result['success'] = false;
+        }
+        echo json_encode($result);
     }
 }
