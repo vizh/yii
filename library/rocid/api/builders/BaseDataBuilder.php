@@ -85,7 +85,7 @@ class BaseDataBuilder
    */
   public function BuildUserEvent($user)
   {
-    $isSingleDay = empty($this->account->Event);
+    $isSingleDay = empty($this->account->Event->Days);
     foreach ($user->EventUsers as $eUser)
     {
       if ($this->account->EventId != null && $eUser->EventId == $this->account->EventId)
