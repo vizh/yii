@@ -121,7 +121,6 @@ class PartnerOrderItemIndex extends PartnerCommand
         if ($orderItem != null)
         {
             $result['success'] = $orderItem->Product->ProductManager()->BuyProduct($orderItem->Owner);
-            print_r($result);
             if ($result['success'])
             {
                 $orderItem->Paid = 1;

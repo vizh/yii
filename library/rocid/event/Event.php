@@ -19,6 +19,7 @@ AutoLoader::Import('partner.source.*');
  * @property string $DateStart
  * @property string $DateEnd
  * @property int $FastRole
+ * @property int $DefaultRoleId
  * @property int $FastProduct
  * @property string $Visible
  * @property int $Order
@@ -68,6 +69,7 @@ class Event extends CActiveRecord
       'Addresses' => array(self::MANY_MANY, 'ContactAddress', 'Link_Event_ContactAddress(EventId, AddressId)',
         'with' => array('City')),
       'Program' => array(self::HAS_MANY, 'EventProgram', 'EventId', 'order' => 'Program.DatetimeStart ASC, Program.DatetimeFinish ASC, Program.Place ASC'),
+      'DefaultRole' =>  array(self::BELONGS_TO, 'EventRoles', 'DefaultRoleId'),
     );
   }
   

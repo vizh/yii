@@ -34,7 +34,7 @@ class EventProductManager extends BaseProductManager
   public function CheckProduct($user, $params = array())
   {
     $eventUser = EventUser::GetByUserEventId($user->UserId, $this->product->EventId);
-    if (empty($eventUser))
+    if ( empty ($eventUser))
     {
       return true;
     }
@@ -65,7 +65,6 @@ class EventProductManager extends BaseProductManager
         $eventRole = $role;
       }
     }
-    
     return !empty($productRole) && (empty($eventRole) || $eventRole->Priority < $productRole->Priority);
   }
 
@@ -121,7 +120,8 @@ class EventProductManager extends BaseProductManager
       
       if ( $orderItem != null)
       {
-          $orderItem->Deleted = 1;
+          $orderItem->Paid = 0;
+          $orderItem->PaidTime = null;
           $orderItem->save();
       }
       else
@@ -129,8 +129,13 @@ class EventProductManager extends BaseProductManager
           return false;
       }
       
-      //EventUser::GetByUserEventId($user->UserId, $this->product->EventId)->delete();
-      return true;
+      $eventUser = EventUser::GetByUserEventId($user->UserId, $this->product->EventId);
+      if ($eventUser != null)
+      {
+          $eventUser->UpdateRole($eventUser->Event->DefaultRole);
+          return true;
+      }
+      return false;
   }
 
   /**

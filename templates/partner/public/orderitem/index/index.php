@@ -61,7 +61,7 @@
                     'orderItemId' : $(e.currentTarget).data('orderitemid')
                 }, function (response) {
                     if (response.success) {
-                        
+                        window.location.reload();
                     }
                     else {
                         alert('Произошла ошибка при активации!');
