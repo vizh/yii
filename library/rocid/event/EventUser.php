@@ -15,6 +15,7 @@ AutoLoader::Import('partner.source.*');
  * @property User $User
  * @property EventRoles $EventRole
  * @property Event $Event
+ * @property EventDay $Day
  */
 class EventUser extends CActiveRecord
 {

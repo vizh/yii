@@ -3,7 +3,7 @@
 /**
  * @property int $DayId
  * @property int $EventId
- * @property string $title
+ * @property string $Title
  * @property int $Order
  *
  * @property Event $Event

@@ -9,11 +9,11 @@ class UtilityCsv extends AdminCommand
    */
   protected function doExecute()
   {
-    return;
+    //return;
     ini_set("memory_limit", "512M");
 
-    $file = fopen('spic.csv', 'w');
-    $eventId = 258;
+    $file = fopen('site12.csv', 'w');
+    $eventId = 246;
 
     $model = EventUser::model()->with(array('User', 'User.Settings', 'User.Employments' => array('on' => 'Employments.Primary = 1'), 'User.Employments.Company', 'User.Emails'));
     //$model = EventProgramUserLink::model()->with(array('User', 'User.Employments' => array('on' => 'Employments.Primary = 1'), 'User.Employments.Company'));
@@ -53,5 +53,7 @@ class UtilityCsv extends AdminCommand
 
     }
     fclose($file);
+
+    echo 'Done!';
   }
 }

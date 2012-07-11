@@ -1575,6 +1575,11 @@ table.user-experience td h4{
 	font-weight: normal;
 	padding: 0 0 5px 0;
 }
+
+table.user-experience span.day-title{
+  color: #0f368c;
+  font-size: 11px;
+}
 /****************** addons *******************/
 table.user-events td{
 	padding-bottom: 16px;
