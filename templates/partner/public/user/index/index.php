@@ -57,18 +57,18 @@
     <tbody>
     <?php foreach ($this->Users as $user):?>
         <tr>
-            <td><h3><a target="_blank" href="/<?=$user->User->RocId;?>/"><?php echo $user->User->RocId;?></a></h3></td>
+            <td><h3><a target="_blank" href="/<?=$user['EventUser']->User->RocId;?>/"><?php echo $user['EventUser']->User->RocId;?></a></h3></td>
             <td>
-                <strong><?php echo $user->User->GetFullName();?></strong>
+                <strong><?php echo $user['EventUser']->User->GetFullName();?></strong>
                 <p>
-                    <em><?php echo $user->User->GetEmail() !== null ? $user->User->GetEmail()->Email : $this->User->Email; ?></em>
+                    <em><?php echo $user['EventUser']->User->GetEmail() !== null ? $user['EventUser']->User->GetEmail()->Email : $user['EventUser']->User->Email; ?></em>
                 </p>
-                <?php if (!empty($user->User->Phones)):?>
-                    <p><em><?php echo urldecode($user->User->Phones[0]->Phone);?></em></p>
+                <?php if (!empty($user['EventUser']->User->Phones)):?>
+                    <p><em><?php echo urldecode($user['EventUser']->User->Phones[0]->Phone);?></em></p>
                 <?php endif;?>
             </td>
             <td width="30%">
-                <?php $employment = $user->User->EmploymentPrimary();?>
+                <?php $employment = $user['EventUser']->User->EmploymentPrimary();?>
                 <?php if ($employment !== null):?>
                     <strong><?php echo $employment->Company->Name;?></strong>
                     <p class="position">
@@ -79,10 +79,19 @@
                 <?php endif;?>
             </td>
             <td>
-                <?php echo $user->EventRole->Name;?><br/>
-                <em><?php echo yii::app()->dateFormatter->formatDateTime($user->CreationTime, 'long');?></em>
+                <?php if ( !empty ($this->Event->Days)):?>
+                    <?php foreach ($user['DayRoles'] as $dayRole):?>
+                        <p>
+                            <strong><?php echo $dayRole->Day->Title;?></strong> - <?php echo $dayRole->EventRole->Name;?><br/>
+                            <em><?php echo yii::app()->dateFormatter->formatDateTime($dayRole->CreationTime, 'long');?></em>
+                        </p>
+                    <?php endforeach;?>
+                <?php else:?>
+                    <?php echo $user['EventUser']->EventRole->Name;?><br/>
+                    <em><?php echo yii::app()->dateFormatter->formatDateTime($user['EventUser']->CreationTime, 'long');?></em>
+                <?php endif;?>
             </td>
-            <td><a href="<?=RouteRegistry::GetUrl('partner', 'user', 'edit', array('rocId' => $user->User->RocId));?>" class="btn btn-info">Редактировать</a></td>
+            <td><a href="<?=RouteRegistry::GetUrl('partner', 'user', 'edit', array('rocId' => $user['EventUser']->User->RocId));?>" class="btn btn-info">Редактировать</a></td>
         </tr>
     <?php endforeach;?>
     </tbody>

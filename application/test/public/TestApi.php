@@ -2,8 +2,8 @@
 
 class TestApi extends GeneralCommand
 {
-  //const GateDomain = 'http://zapi.beta.rocid/';
-  const GateDomain = 'http://api.rocid.ru/';
+  const GateDomain = 'http://api.beta.rocid/';
+  //const GateDomain = 'http://api.rocid.ru/';
 
   /**
    * Основные действия комманды
@@ -14,16 +14,19 @@ class TestApi extends GeneralCommand
 //    $apikey = '12345';
 //    $secretkey = '67890';
 
-    $apikey = 'bHx95u1Q4X';
-    $secretkey = 'mJzb5gcLy9vnEIDmMeVAkItps';
+    $apikey = 'mdqceRsFvK';
+    $secretkey = 'oHgFAhKytMNeWk9vDKP9xPTLV';
 
     $timestamp = time();
 
     $vars = array(
-      'EventId' => 245,
-      'SectionId' => 908
+//      'EventId' => 312,
+//      'SectionId' => 908
+      'RocId' => 35287,
+      'RoleId' => 3,
+      'DayId' => 1
     );
-    $url = 'event/section/reports';
+    $url = 'event/changerole';
     //http://api.rocid.ru/news/list?LastRequest=1333364867&NextPageToken=bmV3OQ%3D%3D&ApiKey=bHx95u1Q4X&Hash=0cc4f73aa8650107&Timestamp=1333969667&MaxResults=10
 
     $hash = substr( md5 ($apikey . $timestamp . $secretkey), 0, 16);

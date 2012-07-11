@@ -97,7 +97,7 @@ abstract class ApiCommand extends AbstractCommand
     $log->Request = serialize($_REQUEST);
     $log->ExecutionTime = Yii::getLogger()->getExecutionTime();
 
-    if ($this->Account->AccountId == 5)
+    if (!empty($this->Account) && $this->Account->AccountId == 5)
     {
       $logs = Yii::getLogger()->getProfilingResults();
       ob_start();

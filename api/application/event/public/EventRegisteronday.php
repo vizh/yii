@@ -2,7 +2,7 @@
 AutoLoader::Import('library.rocid.user.*');
 AutoLoader::Import('library.rocid.event.*');
 
-class EventRegister extends ApiCommand
+class EventRegisteronday extends ApiCommand
 {
 
   /**
@@ -13,11 +13,18 @@ class EventRegister extends ApiCommand
   {
     $rocId = Registry::GetRequestVar('RocId');
     $roleId = Registry::GetRequestVar('RoleId');
+    $dayId = Registry::GetRequestVar('DayId');
 
     $event = Event::GetById($this->Account->EventId);
     if (empty($event))
     {
       throw new ApiException(301);
+    }
+
+    $day = EventDay::model()->findByPk($dayId);
+    if (empty($day))
+    {
+      throw new ApiException(306, array($day));
     }
 
     $user = User::GetByRocid($rocId);
@@ -32,18 +39,12 @@ class EventRegister extends ApiCommand
       throw new ApiException(302);
     }
 
-    try{
-      $eventUser = $event->RegisterUser($user, $role);
-    }
-    catch(Exception $e)
-    {
-      throw new ApiException(100, array($e->getMessage()));
-    }
+
+    $eventUser = $event->RegisterUserOnDay($day, $user, $role);
     if (empty($eventUser))
     {
-      throw new ApiException(303);
+      throw new ApiException(307);
     }
-
     $this->SendJson(array('Success' => true));
   }
 }

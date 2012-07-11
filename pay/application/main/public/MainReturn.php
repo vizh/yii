@@ -31,5 +31,13 @@ class MainReturn extends PayCommand
     {
       Lib::Redirect('http://2012.siteconf.ru/my/');
     }
+    elseif ($eventId == 312)
+    {
+      Lib::Redirect('http://affdays.ru/account/');
+    }
+    elseif ($eventId == 248)
+    {
+      Lib::Redirect('http://2012.russianinternetweek.ru/my/');
+    }
   }
 }

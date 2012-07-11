@@ -1,16 +1,14 @@
 <?php
-AutoLoader::Import('library.rocid.event.*');
 
-class EventProductManager extends BaseProductManager
+class EventOnDayProductManager extends BaseProductManager
 {
-
   /**
    * Возвращает список доступных аттрибутов
    * @return string[]
    */
   public function GetAttributeNames()
   {
-    return array('RoleId');
+    return array('RoleId', 'DayId');
   }
 
   /**
@@ -21,8 +19,8 @@ class EventProductManager extends BaseProductManager
    */
   public function CheckProduct($user, $params = array())
   {
-    list($roleId) = $this->GetAttributes($this->GetAttributeNames());
-    $eventUser = EventUser::GetByUserEventId($user->UserId, $this->product->EventId);
+    list($roleId, $dayId) = $this->GetAttributes($this->GetAttributeNames());
+    $eventUser = EventUser::model()->byEventId($this->product->EventId)->byUserId($user->UserId)->byDayId($dayId)->find();
     if (empty($eventUser))
     {
       return true;
@@ -34,8 +32,6 @@ class EventProductManager extends BaseProductManager
     $productRole = EventRoles::GetById($roleId);
     return !empty($productRole) && (empty($eventUser->EventRole) || $eventUser->EventRole->Priority < $productRole->Priority);
   }
-
-
 
   /**
    * Оформляет покупку продукта на пользователя
@@ -49,16 +45,22 @@ class EventProductManager extends BaseProductManager
     {
       return false;
     }
-    list($roleId) = $this->GetAttributes($this->GetAttributeNames());
+    list($roleId, $dayId) = $this->GetAttributes($this->GetAttributeNames());
     $role = EventRoles::GetById($roleId);
     if (empty($role))
     {
       return false;
     }
-    $eventUser = EventUser::GetByUserEventId($user->UserId, $this->product->EventId);
+    /** @var $eventUser EventUser */
+    $eventUser = EventUser::model()->byEventId($this->product->EventId)->byUserId($user->UserId)->byDayId($dayId)->find();
     if (empty($eventUser))
     {
-      $this->product->Event->RegisterUser($user, $role);
+      $day = EventDay::model()->findByPk($dayId);
+      if (empty($day))
+      {
+        return false;
+      }
+      $this->product->Event->RegisterUserOnDay($day, $user, $role);
     }
     else
     {
