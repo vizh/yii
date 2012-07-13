@@ -234,6 +234,3 @@ RouteRegistry::AddRoute('partner.orderitem.index', array('/partner/orderitem/',
 
 RouteRegistry::AddRoute('partner.orderitem.add', array('/partner/orderitem/add/',
 	array('module'=>'partner', 'section' => 'orderitem', 'command' => 'add')));
-
-RouteRegistry::AddRoute('partner.createorder.index', array('/partner/createorder/',
-	array('module'=>'partner', 'section' => 'createorder', 'command' => 'index')));

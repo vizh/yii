@@ -4,9 +4,12 @@
     <li class="active">
         <a href="<?=RouteRegistry::GetUrl('partner', 'order', 'search');?>">Поиск</a>
     </li>
+    <li>
+        <a href="<?=RouteRegistry::GetUrl('partner', 'order', 'create');?>">Выставить счет</a>
+    </li>
 </ul>
 
-<form method="POST">
+<form method="GET">
     <div class="row">
         <div class="span4">
             <label>Номер счета:</label>
