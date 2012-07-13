@@ -333,7 +333,10 @@ class BaseDataBuilder
 
     foreach ($newsPost->Categories as $category)
     {
-      $categories[] = $category->Title;
+      if ($category->Visible != 0)
+      {
+        $categories[] = $category->Title;
+      }
     }
 
     $this->newsPost->Categories = $categories;
@@ -349,6 +352,17 @@ class BaseDataBuilder
     $this->newsPost->Content = Texts::AutoPTag($newsPost->Content);
 
     return $this->newsPost;
+  }
+
+  public function CreateAllCategories()
+  {
+    $result = array();
+    $categories = NewsCategories::GetAll(true);
+    foreach ($categories as $category)
+    {
+      $result[] = $category->Title;
+    }
+    return $result;
   }
 
   protected $role;
