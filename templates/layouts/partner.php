@@ -33,7 +33,10 @@
           <li <?if ($section == 'order'):?>class="active" <?endif;?>><a href="<?=RouteRegistry::GetUrl('partner', 'order', 'index');?>">Счета</a></li>
           <li <?if ($section == 'user'):?>class="active" <?endif;?>><a href="<?=RouteRegistry::GetUrl('partner', 'user', 'index');?>">Участники</a></li>
           <li <?if ($section == 'coupon'):?>class="active" <?endif;?>><a href="<?=RouteRegistry::GetUrl('partner', 'coupon', 'index');?>">Промо-коды</a></li>
-          <li <?if ($section == 'orderitem'):?>class="active" <?endif;?>><a href="<?=RouteRegistry::GetUrl('partner', 'orderitem', 'index');?>">Заказы</a></li>
+          
+          <?php if ($_SERVER['REMOTE_ADDR'] == '82.142.129.35'):?>
+            <li <?if ($section == 'orderitem'):?>class="active" <?endif;?>><a href="<?=RouteRegistry::GetUrl('partner', 'orderitem', 'index');?>">Заказы</a></li>
+          <?php endif;?>
           <!--<li><a href="#">Link</a></li>-->
         </ul>
         <ul class="nav pull-right">
