@@ -19,6 +19,7 @@ AutoLoader::Import('partner.source.*');
  * @property string $DateStart
  * @property string $DateEnd
  * @property int $FastRole
+ * @property int $DefaultRoleId
  * @property int $FastProduct
  * @property string $Visible
  * @property int $Order
@@ -62,7 +63,7 @@ class Event extends CActiveRecord
   {
     return array(
       'Days' => array(self::HAS_MANY, 'EventDay', 'EventId'),
-      //User  
+      //User
       'EventUsers' => array(self::HAS_MANY, 'EventUser', 'EventId', 'with' => array('EventRole')),
       'Users' => array(self::MANY_MANY, 'User', 'EventUser(EventId, UserId)', 'with' => 'Settings', 'condition' => 'Settings.Visible = \'1\''),
       'CompanyUsers' => array(self::HAS_MANY, 'EventCompany', 'EventId'),
@@ -71,6 +72,7 @@ class Event extends CActiveRecord
       'Addresses' => array(self::MANY_MANY, 'ContactAddress', 'Link_Event_ContactAddress(EventId, AddressId)',
         'with' => array('City')),
       'Program' => array(self::HAS_MANY, 'EventProgram', 'EventId', 'order' => 'Program.DatetimeStart ASC, Program.DatetimeFinish ASC, Program.Place ASC'),
+      'DefaultRole' =>  array(self::BELONGS_TO, 'EventRoles', 'DefaultRoleId'),
     );
   }
   
