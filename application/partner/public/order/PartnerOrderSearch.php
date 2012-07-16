@@ -14,7 +14,7 @@ class PartnerOrderSearch extends PartnerCommand
   {
     $this->SetTitle('Поиск счета');
 
-      if ( Yii::app()->request->getIsPostRequest())
+      if ( isset ($_REQUEST['filter']))
       {
           $criteria = new CDbCriteria();
           $criteria->condition = 'OrderJuridical.OrderId IS NOT NULL AND t.EventId = :EventId';

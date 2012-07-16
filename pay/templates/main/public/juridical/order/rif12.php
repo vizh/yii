@@ -114,7 +114,7 @@ $orderJuridical = $this->OrderJuridical;
     <TR>
       <TD colspan="2">
         Всего на сумму <?=number_format($this->Total, 0, ',', ' ');?> руб. 00 коп.
-        <DIV><span><?=Texts::mb_ucfirst(mb_strtolower(Texts::NumberToText($this->Total, true)));?></span> рублей 00 копеек</DIV><BR><BR>
+        <DIV><span><?=Texts::mb_ucfirst( mb_strtolower( Texts::NumberToText( $this->Total, true)));?></span> рублей 00 копеек</DIV><BR><BR>
 
       </TD>
     </TR>

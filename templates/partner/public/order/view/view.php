@@ -12,6 +12,9 @@ $order = $this->Order;
   <li>
     <a href="<?=RouteRegistry::GetUrl('partner', 'order', 'search');?>">Поиск</a>
   </li>
+  <li>
+    <a href="<?=RouteRegistry::GetUrl('partner', 'order', 'create');?>">Выставить счет</a>
+  </li>
 </ul>
 
 <div class="row">
