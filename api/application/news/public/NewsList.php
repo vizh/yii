@@ -1,7 +1,7 @@
 <?php
 AutoLoader::Import('news.source.*');
 
-class NewsList extends ApiCommand
+class NewsList extends ApiNonAuthCommand
 {
 
   /**

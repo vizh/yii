@@ -22,25 +22,13 @@ abstract class ApiCommand extends AbstractCommand
     //header('Content-type: text/html; charset=utf-8');
 
     $apiKey = Registry::GetRequestVar('ApiKey');
-    $hash = Registry::GetRequestVar('Hash');
-    $timestamp = Registry::GetRequestVar('Timestamp');
-    $ip = $_SERVER['REMOTE_ADDR'];
-
     $this->Account = ApiAccount::GetByApiKey($apiKey);
 
     if ($this->Account == null)
     {
       throw new ApiException(101);
     }
-    if (!$this->Account->CheckHash($hash, $timestamp))
-    {
-      throw new ApiException(102);
-    }
-    if ($this->Account->EventId != null && !$this->Account->CheckIp($ip))
-    {
-      throw new ApiException(103);
-    }
-
+    $this->processCheckAccess();
     if ($this->Account->EventId == null)
     {
       $this->Account->EventId = Registry::GetRequestVar('EventId', null);
@@ -49,6 +37,22 @@ abstract class ApiCommand extends AbstractCommand
     if (!$this->Account->CheckAccess())
     {
       throw new ApiException(104);
+    }
+  }
+
+  protected function processCheckAccess()
+  {
+    $hash = Registry::GetRequestVar('Hash');
+    $timestamp = Registry::GetRequestVar('Timestamp');
+    $ip = $_SERVER['REMOTE_ADDR'];
+
+    if (!$this->Account->CheckHash($hash, $timestamp))
+    {
+      throw new ApiException(102);
+    }
+    if ($this->Account->EventId != null && !$this->Account->CheckIp($ip))
+    {
+      throw new ApiException(103);
     }
   }
 
