@@ -14,6 +14,11 @@ class FrameworkRouter
 
 
   private static $instance = null;
+
+  /**
+   * @static
+   * @return FrameworkRouter
+   */
   public static function Instance()
   {
     if (self::$instance == null)
@@ -35,18 +40,28 @@ class FrameworkRouter
         switch ($key)
         {
           case 'domain':
+            $test = $this->checkDomain($parameter);
             break;
           case 'path':
+            throw new Exception('Not implement yet');
             break;
           case 'all':
+            throw new Exception('Not implement yet');
             break;
+        }
+        if ($test)
+        {
+          return true;
         }
       }
     }
+
+    return false;
   }
 
   private function checkDomain($domain)
   {
-
+    $pattern = '/' . $domain . '/i';
+    return preg_match($pattern, $_SERVER['HTTP_HOST']) === 1;
   }
 }

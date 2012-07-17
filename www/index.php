@@ -1,44 +1,54 @@
 <?php
-define('SCRIPT_BEGIN_TIME', microtime(true));
-
 // отключаем отладку
 define('YII_DEBUG', true);
-
-/** Блок запуска приложения */
-require_once '../library/AutoLoader.php';
-AutoLoader::Init();
-
-$yii=dirname(__FILE__).'/../protected/Yii.php';
-$config=dirname(__FILE__).'/../config/yiiconfig.php';
-
-require_once($yii);
-Yii::createWebApplication($config);
-
-Timer::StartTimer();
-
-AutoLoader::Import('library.view.*');
-AutoLoader::Import('library.widgets.*');
-AutoLoader::Import('library.hooks.*');
-AutoLoader::Import('library.rocid.search.*');
-
+define('YII_TRACE_LEVEL',3);
 
 if (!extension_loaded('pdo') and !dl('pdo.so')) die("NO pdo HERE!");
 if (!extension_loaded('pdo_mysql') and !dl('pdo_mysql.so')) die("NO pdo_mysql HERE!");
-//if (!extension_loaded('memcache') and !dl('memcache.so')) die("NO memcache HERE!");
 
+require_once '../protected/FrameworkRouter.php';
 
-require_once 'bootstrap.php';
-require_once 'lang/default.php';
-$frontController = FrontController::GetInstance();
-
+$yii=dirname(__FILE__).'/../protected/Yii.php';
 try
 {
-  $frontController->Run();
+  if (FrameworkRouter::Instance()->IsOnlyYiiFramework())
+  {
+    $config=dirname(__FILE__).'/../config/main.php';
+
+    require_once($yii);
+    Yii::createWebApplication($config)->run();
+  }
+  else
+  {
+    require_once '../library/AutoLoader.php';
+    AutoLoader::Init();
+    $config=dirname(__FILE__).'/../config/yiiconfig.php';
+    require_once($yii);
+    Yii::createWebApplication($config);
+    AutoLoader::Import('library.view.*');
+    AutoLoader::Import('library.widgets.*');
+    AutoLoader::Import('library.hooks.*');
+    AutoLoader::Import('library.rocid.search.*');
+    require_once 'bootstrap.php';
+    require_once 'lang/default.php';
+    FrontController::GetInstance()->Run();
+  }
 }
-catch(Exception $e)
+catch (Exception $e)
+{
+  processException($e);
+}
+
+
+
+
+/**
+ * @param Exception $e
+ */
+function processException($e)
 {
   Yii::log('Message: ' . $e->getMessage() . "\n\n" . 'Trace string: ' . "\n" .
-           $e->getTraceAsString(), CLogger::LEVEL_ERROR, 'application');
+    $e->getTraceAsString(), CLogger::LEVEL_ERROR, 'application');
 
   $logger = Yii::GetLogger();
   $logs = $logger->getLogs(CLogger::LEVEL_ERROR);//('', 'system.db.CDbCommand');
