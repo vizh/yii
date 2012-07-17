@@ -4,15 +4,12 @@ define('SCRIPT_BEGIN_TIME', microtime(true));
 // отключаем отладку
 define('YII_DEBUG', true);
 
-//устанавливаем основной хост
-define('ROCID_HOST', 'beta.rocid');
-
 /** Блок запуска приложения */
 require_once '../library/AutoLoader.php';
 AutoLoader::Init();
 
-$yii=dirname(__FILE__).'/../library/framework/yii.php';
-$config=dirname(__FILE__).'/config/yiiconfig.php';
+$yii=dirname(__FILE__).'/../protected/Yii.php';
+$config=dirname(__FILE__).'/../config/yiiconfig.php';
 
 require_once($yii);
 Yii::createWebApplication($config);

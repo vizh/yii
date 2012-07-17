@@ -1,0 +1,20 @@
+2012/07/17 13:27:14 [error] [php] Use of undefined constant ROCID_HOST - assumed 'ROCID_HOST' (/Users/Alaris/Documents/Work/rocid/www/bootstrap.php:16)
+Stack trace:
+#0 /Users/Alaris/Documents/Work/rocid/www/bootstrap.php(16): CWebApplication->handleError()
+#1 /Users/Alaris/Documents/Work/rocid/www/index.php(31): require_once()
+REQUEST_URI=/
+2012/07/17 13:27:29 [error] [php] Use of undefined constant ROCID_HOST - assumed 'ROCID_HOST' (/Users/Alaris/Documents/Work/rocid/www/bootstrap.php:16)
+Stack trace:
+#0 /Users/Alaris/Documents/Work/rocid/www/bootstrap.php(16): CWebApplication->handleError()
+#1 /Users/Alaris/Documents/Work/rocid/www/index.php(31): require_once()
+REQUEST_URI=/
+2012/07/17 13:27:46 [error] [php] Use of undefined constant ROCID_HOST - assumed 'ROCID_HOST' (/Users/Alaris/Documents/Work/rocid/www/bootstrap.php:16)
+Stack trace:
+#0 /Users/Alaris/Documents/Work/rocid/www/bootstrap.php(16): CWebApplication->handleError()
+#1 /Users/Alaris/Documents/Work/rocid/www/index.php(30): require_once()
+REQUEST_URI=/
+2012/07/17 13:27:49 [error] [php] Use of undefined constant ROCID_HOST - assumed 'ROCID_HOST' (/Users/Alaris/Documents/Work/rocid/www/bootstrap.php:16)
+Stack trace:
+#0 /Users/Alaris/Documents/Work/rocid/www/bootstrap.php(16): CWebApplication->handleError()
+#1 /Users/Alaris/Documents/Work/rocid/www/index.php(30): require_once()
+REQUEST_URI=/

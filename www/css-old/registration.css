@@ -1,3 +1,0 @@
-.fields         { margin: 10px; width: 100%; }
-.fields .good   { background: url('/templates/images/icons/correct.png') no-repeat; float: left; height: 18px; padding-left: 24px; padding-right: 10px; margin: 6px 0; width: 44%;  }
-.fields .bad    { background: url('/templates/images/icons/error.png') no-repeat; color: #e70d0d; float: left; height: 18px; padding-left: 24px; padding-right: 10px; margin: 6px 0; width: 44%; }
