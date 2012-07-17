@@ -1,7 +1,0 @@
-div.autocompleter-loading { background: url(/templates/images/spinner.gif) #FFFFFF no-repeat center; clear: right; float: left; height: 16px; width: 20px; }
-legend { color: #FFFFFF; }
-ul.autocompleter-choices { background-color: #d4dce1; border: 1px solid #EEEEEE; border-bottom-color: #DDDDDD; border-right-color: #DDDDDD; list-style: none; margin: 0; padding: 0; position: absolute; text-align: left; z-index: 50; }
-ul.autocompleter-choices li { cursor: pointer; font-size: 1em; font-weight: normal; padding: 0.1em 1.5em 0.1em 1em; position: relative; }
-ul.autocompleter-choices li.autocompleter-selected { background-color: #4682b4; color: #FFFFFF; }
-ul.autocompleter-choices li.autocompleter-selected span.autocompleter-queried { color: #9FCFFF; }
-ul.autocompleter-choices span.autocompleter-queried { font-weight: bold; }

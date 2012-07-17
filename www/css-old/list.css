@@ -1,4 +1,0 @@
-#alphabet ul { list-style-type: none; margin: 5px; padding: 0; }
-#alphabet ul li { float: left; font-size: 15px; list-style-type: none; margin-right: 2px; padding: 3px 3px; }
-#alphabet ul li .active { background: #E0E0E0; font-weight: bold; padding: 1px 3px; text-decoration: none; }
-.column { float:left; width: 45%; margin-left: 10px; font-size: 12px; }
