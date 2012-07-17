@@ -11,8 +11,7 @@ return array(
         'application.gii',   // псевдоним пути
       ),
     ),
-
-
+    'partner' => array()
   ),
 
   'components' => array(
