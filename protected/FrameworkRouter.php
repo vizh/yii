@@ -6,6 +6,8 @@ class FrameworkRouter
   private $rules = array(
     'domain' => array('partner'),
 
+    'path' => array('gii'),
+
     /*
     'path' => array('path_mask'),
     'all' => array(array('domain_name', 'path_mask'), ...)
@@ -43,7 +45,7 @@ class FrameworkRouter
             $test = $this->checkDomain($parameter);
             break;
           case 'path':
-            throw new Exception('Not implement yet');
+            $test = $this->checkPath($parameter);
             break;
           case 'all':
             throw new Exception('Not implement yet');
@@ -63,5 +65,11 @@ class FrameworkRouter
   {
     $pattern = '/' . $domain . '/i';
     return preg_match($pattern, $_SERVER['HTTP_HOST']) === 1;
+  }
+
+  private function checkPath($path)
+  {
+    $pattern = '/' . $path . '/i';
+    return preg_match($pattern, $_SERVER['REQUEST_URI']) === 1;
   }
 }
