@@ -37,7 +37,7 @@ return array(
     'partner'=>array(
       // enable cookie-based authentication
       //'allowAutoLogin'=>true,
-      'class'=>'CWebUser',
+      'class'=>'\partner\components\WebUser',
       //'loginUrl'=>array('jobseeker/j_logins'),
       'stateKeyPrefix'=>'partner',
       // 'returnUrl'=>array('jobseeker/jsarea'),

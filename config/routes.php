@@ -14,7 +14,7 @@ return array(
 
 
         'http://zapi.'.ROCID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
-
+        'http://partner.'.ROCID_HOST.'/<controller:\w+>/<action:\w+>' => 'partner/<controller>/<action>',
         '',
       ),
     ),

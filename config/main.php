@@ -1,6 +1,4 @@
 <?php
-define('ROCID_HOST', 'beta.rocid');
-
 return CMap::mergeArray(
   CMap::mergeArray(
     require(dirname(__FILE__).'/yiiconfig.php'),
