@@ -1,32 +1,27 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: nikitin
- * Date: 17.05.12
- * Time: 14:24
- * To change this template use File | Settings | File Templates.
- */
-class Identity extends CUserIdentity
+namespace partner\components;
+
+class Identity extends \CUserIdentity
 {
   private $_id;
 
 
   public function authenticate()
   {
-    /** @var $partner PartnerAccount */
-    $partner = PartnerAccount::model()->find('t.Login = :Login', array(':Login' => $this->username));
+    /** @var $account \partner\models\Account */
+    $account = \partner\models\Account::model()->find('t.Login = :Login', array(':Login' => $this->username));
 
-    if ($partner === null)
+    if ($account === null)
     {
       $this->errorCode = self::ERROR_USERNAME_INVALID;
     }
-    elseif ($partner->GetHash($this->password) !== $partner->Password)
+    elseif ($account->GetHash($this->password) !== $account->Password)
     {
       $this->errorCode=self::ERROR_PASSWORD_INVALID;
     }
     else
     {
-      $this->_id = $partner->AccountId;
+      $this->_id = $account->AccountId;
       $this->errorCode=self::ERROR_NONE;
     }
     return $this->errorCode==self::ERROR_NONE;

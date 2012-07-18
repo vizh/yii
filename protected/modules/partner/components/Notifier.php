@@ -1,12 +1,13 @@
 <?php
-AutoLoader::Import('library.mail.*');
+namespace partner\components;
+\AutoLoader::Import('library.mail.*');
 
 class Notifier
 {
   protected $account = null;
 
   /**
-   * @param $account PartnerAccount
+   * @param $account \partner\models\Account
    */
   public function __construct($account)
   {
@@ -14,7 +15,7 @@ class Notifier
   }
 
   /**
-   * @param $user User
+   * @param $user \User
    */
   public function NotifyNewParticipant($user)
   {

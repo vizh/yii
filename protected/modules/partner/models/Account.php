@@ -7,13 +7,14 @@ namespace partner\models;
  * @property string $Login
  * @property string $Password
  * @property string $NoticeEmail
+ * @property int $Global
  */
-class Account extends CActiveRecord
+class Account extends \CActiveRecord
 {
   /**
    * @static
    * @param string $className
-   * @return PartnerAccount
+   * @return Account
    */
   public static function model($className=__CLASS__)
   {
@@ -33,7 +34,7 @@ class Account extends CActiveRecord
   /**
    * @param int $eventId
    * @param bool $useAnd
-   * @return PartnerAccount
+   * @return Account
    */
   public function byEventId($eventId, $useAnd = true)
   {
@@ -55,17 +56,17 @@ class Account extends CActiveRecord
     return md5($password);
   }
 
-  /** @var PartnerNotifier */
+  /** @var \partner\components\Notifier */
   protected $notifier = null;
 
   /**
-   * @return null|PartnerNotifier
+   * @return null|\partner\components\Notifier
    */
   public function GetNotifier()
   {
     if (empty($this->notifier))
     {
-      $this->notifier = new PartnerNotifier($this);
+      $this->notifier = new \partner\components\Notifier($this);
     }
 
     return $this->notifier;
