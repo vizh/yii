@@ -16,39 +16,40 @@ class EventList extends AdminCommand
    * @param int $page
    * @return void
    */
-  protected function doExecute($page = 1)
+  protected function doExecute($status = 'visible')
   {
     $this->SetTitle('Список мероприятий');
 
-    $page = max(1, intval($page));
-    $events = Event::GetByPage(self::EventsByPage, $page);
-    $count = Event::$GetByPageCountLast;
-    $url = RouteRegistry::GetAdminUrl('event', '', 'list') . '%s/';
-    $this->view->Paginator = new Paginator($url, $page, self::EventsByPage, $count);
+    $page = (int) Registry::GetRequestVar('page', 1);
+    if ($page < 1)
+    {
+      $page = 1;
+    }
+    
+    $criteria = new CDbCriteria();
+    $criteria->limit  = self::EventsByPage;
+    $criteria->offset = self::EventsByPage * ($page - 1);
+    $criteria->order = 't.DateStart DESC, t.DateEnd DESC';
+    
+    $criteria->condition = 't.Visible = :Visible';
+    if ($status == 'visible')
+    {
+      $criteria->params[':Visible'] = 'Y';
+    }
+    else
+    {
+      $criteria->params[':Visible'] = 'N';
+    }
+    
+    $events = Event::model()->findAll($criteria);
     foreach ($events as $event)
     {
       $view = new View();
       $view->SetTemplate('event');
-
-      $view->EventId = $event->EventId;
-      $view->IdName = $event->IdName;
-      $view->Name = $event->Name;
-      $view->Info = $event->Info;
-      $view->Type = $event->Type;
-      $view->DateStart = getdate(strtotime($event->DateStart));
-      $view->DateEnd = getdate(strtotime($event->DateEnd));
-      if ($event->DateStart == $event->DateEnd)
-      {
-        $view->EmptyDay = intval(substr($event->DateStart, 8, 2)) == '00';
-      }
-      $view->Place = $event->Place;
-      $view->Url = $event->Url;
-      $view->UrlRegistration = $event->UrlRegistration;
-      $view->Visible = $event->Visible;
-      $view->Logo = $event->GetMiniLogo();
-
+      $view->Event = $event;
       $this->view->Events .= $view;
     }
+    $this->view->Paginator = new Paginator(RouteRegistry::GetAdminUrl('event', '', 'list', array('status' => $status)) . '?page=%s', $page, self::EventsByPage, Event::model()->count($criteria));
     echo $this->view;
   }
 
