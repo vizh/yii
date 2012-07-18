@@ -87,4 +87,38 @@ class EventOnDayProductManager extends BaseProductManager
   {
     return $this->product;
   }
+
+  /**
+   * Отменяет покупку продукта на пользовтеля
+   * @param User $user
+   * @return bool
+   */
+  public function RollbackProduct($user)
+  {
+    $orderItem = OrderItem::model()->find(
+      't.Paid = 1 AND t.OwnerId = :OwnerId AND t.ProductId = :ProductId',
+      array(
+        ':OwnerId' => $user->UserId,
+        ':ProductId' => $this->product->ProductId
+      ));
+
+    if ( $orderItem != null)
+    {
+      $orderItem->Paid = 0;
+      $orderItem->PaidTime = null;
+      $orderItem->save();
+    }
+    else
+    {
+      return false;
+    }
+
+    $eventUser = EventUser::GetByUserEventId($user->UserId, $this->product->EventId);
+    if ($eventUser != null)
+    {
+      $eventUser->UpdateRole($eventUser->Event->DefaultRole);
+      return true;
+    }
+    return false;
+  }
 }
