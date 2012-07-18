@@ -11,4 +11,9 @@ class Yii extends YiiBase
   {
     return parent::app();
   }
+
+  public static function PublicPath()
+  {
+    return $_SERVER['DOCUMENT_ROOT'];
+  }
 }

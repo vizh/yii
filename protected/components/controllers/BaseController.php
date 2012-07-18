@@ -33,7 +33,10 @@ class BaseController extends \CController
 
   protected function initResources()
   {
+    $cs = \Yii::app()->clientScript;
+    $manager = \Yii::app()->getAssetManager();
 
+    $cs->registerScriptFile($manager->publish(\Yii::PublicPath() . '/js/libs/jquery-1.7.2.min.js', \CClientScript::POS_HEAD));
   }
 
   /**

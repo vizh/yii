@@ -4,7 +4,10 @@ namespace partner\components;
 class WebUser extends \CWebUser 
 {
   private $account = null;
-  
+
+  /**
+   * @return \partner\models\Account
+   */
   public function Account()
   {
     if ($this->account === null && !\Yii::app()->partner->getIsGuest())
