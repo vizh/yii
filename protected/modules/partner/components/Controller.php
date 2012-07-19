@@ -28,12 +28,8 @@ class Controller extends \application\components\controllers\BaseController
 
   public function accessRules()
   {
-    return array(
-      array(
-        'deny',
-        'users' => array('*')
-      ),
-    );
+    $rules = \Yii::getPathOfAlias('partner.rules').'.php';
+    return require($rules);
   }
 
   public function initResources()

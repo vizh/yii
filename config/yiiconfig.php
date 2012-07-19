@@ -55,7 +55,9 @@ return array(
       'stateKeyPrefix'=>'partner',
       // 'returnUrl'=>array('jobseeker/jsarea'),
       'identityCookie' => array('domain' => '.'.ROCID_HOST),
-      'authTimeout' => 8*60*60
+      'authTimeout' => 8*60*60,
+
+      'loginUrl' => '/partner/auth/index'
     ),
 
 

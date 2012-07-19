@@ -29,4 +29,14 @@ class WebUser extends \CWebUser
     }
     return null;
   }
+
+  protected $_access = array();
+
+  public function checkAccess($operation,$params=array(),$allowCaching=true)
+  	{
+  		if($allowCaching && $params===array() && isset($this->_access[$operation]))
+  			return $this->_access[$operation];
+  		else
+  			return $this->_access[$operation]= \Yii::app()->partnerAuthManager->checkAccess($operation,$this->getId(),$params);
+  	}
 }
