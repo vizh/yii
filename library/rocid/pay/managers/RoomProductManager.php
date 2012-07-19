@@ -275,4 +275,14 @@ class RoomProductManager extends BaseProductManager
       ' по ' . date('d.m.Y', strtotime($orderItem->GetParam('DateOut')->Value));
     return $title;
   }
+
+  /**
+   * Отменяет покупку продукта на пользовтеля
+   * @param User $user
+   * @return bool
+   */
+  public function RollbackProduct($user)
+  {
+    return true;
+  }
 }

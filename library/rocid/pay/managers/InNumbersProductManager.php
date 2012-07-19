@@ -90,4 +90,14 @@ class InNumbersProductManager extends BaseProductManager
   {
     return $this->product;
   }
+
+  /**
+   * Отменяет покупку продукта на пользовтеля
+   * @param User $user
+   * @return bool
+   */
+  public function RollbackProduct($user)
+  {
+    return true;
+  }
 }

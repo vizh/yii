@@ -77,4 +77,13 @@ class AnyPriceProductManager extends BaseProductManager
     return $price * $priceParam;
   }
 
+  /**
+   * Отменяет покупку продукта на пользовтеля
+   * @param User $user
+   * @return bool
+   */
+  public function RollbackProduct($user)
+  {
+    return true;
+  }
 }
