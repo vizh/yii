@@ -1,4 +1,4 @@
-<?if (\Yii::app()->partner->Account() != null):
+<?if (\Yii::app()->partner->getAccount() != null):
   $router = RouteRegistry::GetInstance();
   $section = $router->GetSection();
   ?>

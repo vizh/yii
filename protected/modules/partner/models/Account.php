@@ -7,7 +7,7 @@ namespace partner\models;
  * @property string $Login
  * @property string $Password
  * @property string $NoticeEmail
- * @property int $Global
+ * @property string $Role
  */
 class Account extends \CActiveRecord
 {

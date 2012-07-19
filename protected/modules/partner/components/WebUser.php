@@ -8,7 +8,7 @@ class WebUser extends \CWebUser
   /**
    * @return \partner\models\Account
    */
-  public function Account()
+  public function getAccount()
   {
     if ($this->account === null && !\Yii::app()->partner->getIsGuest())
     {
@@ -16,5 +16,17 @@ class WebUser extends \CWebUser
     }
 
     return $this->account;
+  }
+
+  /**
+   * @return null|string
+   */
+  public function getRole()
+  {
+    if ($this->getAccount() !== null)
+    {
+      return $this->getAccount()->Role;
+    }
+    return null;
   }
 }

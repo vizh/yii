@@ -6,7 +6,7 @@ return array(
       'urlFormat'=>'path',
       'showScriptName' => false,
       'urlSuffix'=>'/',
-      //'useStrictParsing' => true,
+      'useStrictParsing' => true,
       'rules' => array(
         /** Настройка путей админки */
         'http://' . ROCID_HOST . '/admin/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/admin/<controller>/<action>',
@@ -14,8 +14,14 @@ return array(
 
 
         'http://zapi.'.ROCID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
+
+        /** Partner Module Rules */
+        'http://partner.'.ROCID_HOST.'/auth/' => 'partner/auth/index',
         'http://partner.'.ROCID_HOST.'/<controller:\w+>/<action:\w+>' => 'partner/<controller>/<action>',
-        '',
+
+
+        /** ALL MODULES */
+        'http://'.ROCID_HOST.'/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
       ),
     ),
   )

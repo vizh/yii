@@ -12,9 +12,27 @@ class Controller extends \application\components\controllers\BaseController
     return array_merge(
       $filters,
       array(
+        'accessControl',
         'checkAccess',
         'checkEventId'
       )
+    );
+  }
+
+  public function filterAccessControl($filterChain)
+  {
+    $filter = new AccessControlFilter();
+    $filter->setRules($this->accessRules());
+    $filter->filter($filterChain);
+  }
+
+  public function accessRules()
+  {
+    return array(
+      array(
+        'deny',
+        'users' => array('*')
+      ),
     );
   }
 
@@ -36,7 +54,7 @@ class Controller extends \application\components\controllers\BaseController
    */
   public function filterCheckAccess($filterChain)
   {
-    if (\Yii::app()->partner->Account() == null
+    if (\Yii::app()->partner->getAccount() == null
       && $this->getId() != 'auth')
     {
       $this->redirect(\Yii::app()->createUrl('/partner/auth/index'));
@@ -49,7 +67,7 @@ class Controller extends \application\components\controllers\BaseController
    */
   public function filterCheckEventId($filterChain)
   {
-    if (\Yii::app()->partner->Account() != null && \Yii::app()->partner->Account()->Global == 1)
+    if (\Yii::app()->partner->getAccount() != null && \Yii::app()->partner->getAccount()->Global == 1)
     {
       //todo: если не установлен закрепленный аккаунт - редирект на страницу установки
     }
