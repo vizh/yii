@@ -154,8 +154,35 @@ class BaseDataBuilder
     $this->event->Image = new stdClass();
     $this->event->Image->Mini = 'http://rocid.ru' . $event->GetMiniLogo();
     $this->event->Image->Normal = 'http://rocid.ru' . $event->GetLogo();
+    $this->event->Image->Promo = 'http://rocid.ru/files/test-promo.png';
 
     return $this->event;
+  }
+
+  /**
+   * @param Event $event
+   * @return stdClass
+   */
+  public function BuildEventMenu($event)
+  {
+    $this->event->Menu = array();
+
+    $menu = new stdClass();
+    $menu->Type = 'program';
+    $menu->Title = 'Программа';
+    $this->event->Menu[] = $menu;
+
+    $menu = new stdClass();
+    $menu->Type = 'link';
+    $menu->Title = 'Программа+';
+    $menu->Link = 'http://rocid.ru/files/test-api.htm';
+    $this->event->Menu[] = $menu;
+
+    $menu = new stdClass();
+    $menu->Type = 'html';
+    $menu->Title = 'Дополнительная информация';
+    $menu->Html = '<p>Это текст с дополнительной информацией о мероприятии. Тут может быть написано что угодно, но не очень много.</p><p>Если объем текста будет значительный - проще его передать как тип меню "link"</p>';
+    $this->event->Menu[] = $menu;
   }
 
   /**

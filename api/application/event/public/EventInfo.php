@@ -6,6 +6,7 @@ class EventInfo extends ApiCommand
 
   /**
    * Основные действия комманды
+   * @throws ApiException
    * @return void
    */
   protected function doExecute()
@@ -17,6 +18,7 @@ class EventInfo extends ApiCommand
     }
 
     $this->Account->DataBuilder()->CreateEvent($event);
+    $this->Account->DataBuilder()->BuildEventMenu($event);
     $result = $this->Account->DataBuilder()->BuildEventFullInfo($event);
     $this->SendJson($result);
   }
