@@ -154,7 +154,6 @@ class BaseDataBuilder
     $this->event->Image = new stdClass();
     $this->event->Image->Mini = 'http://rocid.ru' . $event->GetMiniLogo();
     $this->event->Image->Normal = 'http://rocid.ru' . $event->GetLogo();
-    $this->event->Image->Promo = 'http://rocid.ru/files/test-promo.png';
 
     return $this->event;
   }
