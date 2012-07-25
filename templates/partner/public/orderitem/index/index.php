@@ -81,7 +81,7 @@
                 <th>Плательщик</th>
                 <th>Получатель</th>
                 <th>Оплата</th>
-                <th>Активация</th>
+                <!--<th>Активация</th>-->
             </thead>
             <tbody>
                 <?php foreach ($this->OrderItems as $orderItem):?>
@@ -106,13 +106,13 @@
                             <span class="label label-warning">Удален</span>
                         <?php endif;?>
                     </td>
-                    <td class="activation">
+                   <!-- <td class="activation">
                         <?php if ($orderItem->Paid == 1 && $orderItem->Deleted == 0):?>
                             <a href="#" class="btn btn-danger btn-mini"  data-orderitemid="<?php echo $orderItem->OrderItemId;?>">Деактивировать</a>
                         <?php else:?>
                             <a href="#" class="btn btn-success btn-mini" data-orderitemid="<?php echo $orderItem->OrderItemId;?>">Активировать</a>
                         <?php endif;?>
-                    </td>
+                    </td>-->
                 </tr>
                 <?php endforeach;?>
             </tbody>

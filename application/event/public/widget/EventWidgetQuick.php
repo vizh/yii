@@ -11,26 +11,33 @@ class EventWidgetQuick extends GeneralCommand
    * @param string $code
    * @return void
    */
-  protected function doExecute($userId = 0, $code = '')
+  protected function doExecute($rocId = 0, $code = '')
   {
-    $eventNameId = 'gm2011';//Registry::GetRequestVar('proj');
+    $eventNameId = 'gm2012';//Registry::GetRequestVar('proj');
     //$userId = intval(Registry::GetRequestVar('id'));
     //$code = Registry::GetRequestVar('code');
-    $userId = intval($userId);
+    $rocId = intval($rocId);
 
-    if ($code == EventWidgetGetlink::GetCode($userId))
+
+    if ($code == EventWidgetGetlink::GetCode($rocId))
     {
+      $user = User::GetByRocid($rocId);
       $event = Event::GetEventByIdName($eventNameId);
-      if (! empty($event))
+      $role = EventRoles::GetById(1);
+      if (!empty($event) && !empty($user))
       {
-        $eventUser = $event->RegisterUser($userId, 1);
+        $eventUser = $event->RegisterUser($user, $role);
         if (!empty($eventUser))
         {
-          Lib::Redirect('http://raec.ru/about/meetings/2011/?FIRST');
+          $this->view->Name = $event->Name;
+          //$this->view->HeadMeta(array('http-equiv' => 'refresh', 'content' => '5;http://raec.ru/about/meetings/2012/?FIRST'));
+          $this->view->HeadMeta(array('http-equiv' => 'refresh', 'content' => '5;http://rocid.ru/events/gm2012/'));
+          echo $this->view;
         }
         else
         {
-          Lib::Redirect('http://raec.ru/about/meetings/2011/?EXIST');
+          //Lib::Redirect('http://raec.ru/about/meetings/2012/?EXIST');
+          Lib::Redirect('http://rocid.ru/events/gm2012/');
         }
       }
     }

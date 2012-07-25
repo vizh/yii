@@ -19,6 +19,7 @@ class PartnerOrderItemIndex extends PartnerCommand
                 
         if ( yii::app()->request->getIsAjaxRequest())
         {
+          exit();
             $action = Registry::GetRequestVar('action');
             $orderItemId = (int) Registry::GetRequestVar('orderItemId');
             

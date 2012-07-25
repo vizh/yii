@@ -3,8 +3,8 @@
  * В этом файле задаются не традиционные пути для приложения Default
  */
 
-//GM2011 ---- ПОСЛЕ ИСПОЛЬЗОВАНИЯ УДАЛИТЬ
-RouteRegistry::AddRoute('gm2011', array('/gm2011/:rocid/:code/',
+//GM2012 ---- ПОСЛЕ ИСПОЛЬЗОВАНИЯ УДАЛИТЬ
+RouteRegistry::AddRoute('gm2012', array('/gm2012/:rocid/:code/',
 	array('module'=>'event', 'section'=>'widget', 'command'=>'quick', 'rocid' => '0', 'code' => ''),
 	array('rocid' => '/\d+/')));
 

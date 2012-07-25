@@ -23,7 +23,7 @@ class ResearchVote extends GeneralCommand
 
     /** @var $vote Vote */
     $vote = Vote::model()->findByPk(2);
-    if ($this->LoginUser!= null && in_array($this->LoginUser->RocId, self::$Access) && $vote->VoteManager()->CheckVoter())
+    if ($this->LoginUser!= null /*&& in_array($this->LoginUser->RocId, self::$Access)*/ && $vote->VoteManager()->CheckVoter())
     {
       $stepView = false;
       $flag = true;
