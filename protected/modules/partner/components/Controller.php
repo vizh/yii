@@ -13,17 +13,26 @@ class Controller extends \application\components\controllers\BaseController
       $filters,
       array(
         'accessControl',
-        'checkAccess',
         'checkEventId'
       )
     );
   }
 
+  /** @var AccessControlFilter */
+  private $accessFilter;
+  public function getAccessFilter()
+  {
+    if (empty($this->accessFilter))
+    {
+      $this->accessFilter = new AccessControlFilter();
+      $this->accessFilter->setRules($this->accessRules());
+    }
+    return $this->accessFilter;
+  }
+
   public function filterAccessControl($filterChain)
   {
-    $filter = new AccessControlFilter();
-    $filter->setRules($this->accessRules());
-    $filter->filter($filterChain);
+    $this->getAccessFilter()->filter($filterChain);
   }
 
   public function accessRules()
@@ -48,25 +57,9 @@ class Controller extends \application\components\controllers\BaseController
   /**
    * @param \CFilterChain $filterChain
    */
-  public function filterCheckAccess($filterChain)
-  {
-    if (\Yii::app()->partner->getAccount() == null
-      && $this->getId() != 'auth')
-    {
-      $this->redirect(\Yii::app()->createUrl('/partner/auth/index'));
-    }
-    $filterChain->run();
-  }
-
-  /**
-   * @param \CFilterChain $filterChain
-   */
   public function filterCheckEventId($filterChain)
   {
-    if (\Yii::app()->partner->getAccount() != null && \Yii::app()->partner->getAccount()->Global == 1)
-    {
-      //todo: если не установлен закрепленный аккаунт - редирект на страницу установки
-    }
+    //todo: Проверить на админство, если не установлен закрепленный аккаунт - редирект на страницу установки
     $filterChain->run();
   }
 }

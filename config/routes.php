@@ -16,6 +16,7 @@ return array(
         'http://zapi.'.ROCID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
 
         /** Partner Module Rules */
+        'http://partner.'.ROCID_HOST.'/' => 'partner/main/index',
         'http://partner.'.ROCID_HOST.'/auth/' => 'partner/auth/index',
         'http://partner.'.ROCID_HOST.'/<controller:\w+>/<action:\w+>' => 'partner/<controller>/<action>',
 
