@@ -9,10 +9,10 @@ class PartnerOrderItemIndex extends PartnerCommand
 
     protected function doExecute() 
     {        
-        if ($_SERVER['REMOTE_ADDR'] != '82.142.129.35')
-        {
-          $this->Send404AndExit();
-        }
+//        if ($_SERVER['REMOTE_ADDR'] != '82.142.129.35')
+//        {
+//          $this->Send404AndExit();
+//        }
       
       
         $this->SetTitle('Заказы');
