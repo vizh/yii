@@ -104,7 +104,7 @@ class PayPalSystem extends BaseSystem
     $this->initRequiredParams($orderId);
     $totalUsd = $total / $usd;
     $totalUsd = number_format($totalUsd, 2, '.', '');
-    $totalUsd = 0.20;
+    //$totalUsd = 0.20;
 
     $params = array(
       'PAYMENTREQUEST_0_AMT' => $totalUsd,

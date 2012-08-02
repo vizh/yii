@@ -4,7 +4,7 @@ AutoLoader::Import('vote.source.*');
 class ResearchVoteStatistics extends GeneralCommand
 {
 
-  public static $Access = array(35287, 454, 337, 12959, 49465, 15648, 2889, 16670, 2889);
+  public static $Access = array(35287, 454, 337, 12959, 49465, 15648, 2889, 16670, 2889, 101542, 12953);
 
   const VoteId = 2;
 
