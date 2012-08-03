@@ -62,4 +62,9 @@ class Controller extends \application\components\controllers\BaseController
     //todo: Проверить на админство, если не установлен закрепленный аккаунт - редирект на страницу установки
     $filterChain->run();
   }
+
+  public function getBottomMenu()
+  {
+    return array();
+  }
 }

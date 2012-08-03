@@ -12,4 +12,19 @@ class OrderController extends \partner\components\Controller
     );
   }
 
+  public function getBottomMenu
+
+  ()
+  {
+    return array(
+      array(
+        'Title' => '',
+        'Url' => '',
+        'Access' => '',
+        'Active' => ''
+      ),
+      array(),
+      array()
+    );
+  }
 }

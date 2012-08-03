@@ -10,7 +10,7 @@ return array(
   array(
     'allow',
     'roles' => array('Partner'),
-    'controllers' => array('main'),
+    'controllers' => array('main', 'order'),
   ),
   array(
     'deny',
