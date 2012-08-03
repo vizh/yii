@@ -20,8 +20,13 @@ class ResearchVoteStatistics extends GeneralCommand
       $this->Send404AndExit();
     }
 
+    $criteria = new CDbCriteria();
+    $criteria->condition = 't.VoteId = :VoteId';
+    $criteria->params = array(':VoteId' => self::VoteId);
+    $criteria->order = 't.CreationTime DESC';
+
     /** @var $results VoteResult[] */
-    $results = VoteResult::model()->findAll('t.VoteId = :VoteId', array(':VoteId' => self::VoteId));
+    $results = VoteResult::model()->findAll($criteria);
 
     $userIdList = array();
     $resultIdList = array();
@@ -36,11 +41,30 @@ class ResearchVoteStatistics extends GeneralCommand
       }
     }
 
+
     $criteria = new CDbCriteria();
     $criteria->addInCondition('t.UserId', $userIdList);
     $users = User::model()->findAll($criteria);
 
-    $this->view->Users = $users;
+    $temp = array();
+    foreach ($userIdList as $id)
+    {
+      $temp['userid_'.$id] = null;
+    }
+    foreach ($users as $user)
+    {
+      $temp['userid_'.$user->UserId] = $user;
+    }
+    foreach ($temp as $key => $value)
+    {
+      if ($value == null)
+      {
+        unset($temp[$key]);
+      }
+    }
+
+
+    $this->view->Users = $temp;
 
     echo $this->view;
   }
