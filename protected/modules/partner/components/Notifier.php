@@ -15,7 +15,7 @@ class Notifier
   }
 
   /**
-   * @param $user \User
+   * @param $user \user\models\User
    */
   public function NotifyNewParticipant($user)
   {

@@ -63,8 +63,15 @@ class Controller extends \application\components\controllers\BaseController
     $filterChain->run();
   }
 
+  protected $bottomMenu = array();
+
+  public function initBottomMenu($active)
+  {
+
+  }
+
   public function getBottomMenu()
   {
-    return array();
+    return $this->bottomMenu;
   }
 }

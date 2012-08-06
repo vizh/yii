@@ -7,6 +7,9 @@ class BottomMenu extends \CWidget
 
   public function run()
   {
-    $this->render('bottomMenu');
+    if (!empty($this->menu))
+    {
+      $this->render('bottomMenu');
+    }
   }
 }

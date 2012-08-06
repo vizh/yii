@@ -17,10 +17,11 @@ return array(
   'preload'=>array('log'),
 
   // autoloading model and component classes
-  /*'import'=>array(
-     'application.models.*',
-     'application.components.*',
-   ),*/
+  'import'=>array(
+    'application.components.Utils',
+     /*'application.models.*',
+     'application.components.*',*/
+   ),
 
   /*'defaultController'=>'post',*/
 

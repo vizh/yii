@@ -8,6 +8,8 @@ namespace application\components;
  *
  *
  * @property \partner\components\PhpAuthManager $partnerAuthManager
+ *
+ * @property array $params
  */
 class WebApplication extends \CWebApplication
 {

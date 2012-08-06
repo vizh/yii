@@ -25,7 +25,7 @@ class UserSettings extends CActiveRecord
   {
     return 60 * 60;
   }
-  
+
   /**
   * Возвращает ключ для кеша или null, если пользователь не найден
   * @return string|null
@@ -41,7 +41,7 @@ class UserSettings extends CActiveRecord
       return null;
     }
   }
-  
+
   public static function model($className=__CLASS__)
   {    
     return parent::model($className);
@@ -63,10 +63,10 @@ class UserSettings extends CActiveRecord
       'User' => array(self::BELONGS_TO, 'User', 'UserId'),        
     );
   }
-  
+
   /**
   * Получает массив опций вида $name => $value, обновляет настройки в БД и обнуляет кеш
-  * 
+  *
   * @param array $settings
   */
   public function SetGeneralSettings($settings)
@@ -84,11 +84,11 @@ class UserSettings extends CActiveRecord
     $this->GeneralSettings = serialize($cacheSettings);
     $this->save();
   }
-  
+
   /**
-  * Возвращает пользовательское значение настройки $name или null - если такой настройки у 
+  * Возвращает пользовательское значение настройки $name или null - если такой настройки у
   * пользователя нет
-  * 
+  *
   * @param string $name
   * @return string|null
   */
@@ -97,10 +97,10 @@ class UserSettings extends CActiveRecord
     $cacheSettings = $this->getCacheSettings();
     return isset($cacheSettings[$name]) ? $cacheSettings[$name] : null;
   }
-  
+
   /**
   * Загружает настройки из кеша или из БД, если настройки не были кешированы ранее
-  * 
+  *
   * @return array[string]
   */
   private function getCacheSettings()
@@ -127,7 +127,7 @@ class UserSettings extends CActiveRecord
       }
     }
   }
-  
+
   /**
   * @return User
   */

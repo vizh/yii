@@ -18,7 +18,7 @@
 </div>
 
 <div class="container content-block">
-  <?php $this->widget('\partner\components\widgets\BottomMenu', array('items' => $this->getBottomMenu()));?>
+  <?php $this->widget('\partner\components\widgets\BottomMenu', array('menu' => $this->getBottomMenu()));?>
   <?=$content;?>
 </div>
 </body>
