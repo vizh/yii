@@ -34,8 +34,7 @@ class HeadStyle extends AbstractHead
     foreach ($this->styles as $value)
     {
       $media = isset($value['media']) ? 'media="'.$value['media'].'"' : '';
-      $result .= '<style type="text/css" ' . $media . '>';
-      $result .= $value['style'] . '</style>\n';
+      $result .= '<link rel="stylesheet"  type="text/css" ' . $media . ' href="' . $value['style'] . '"/>';
     }
     return $result;
   }
