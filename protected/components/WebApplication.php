@@ -8,6 +8,7 @@ namespace application\components;
  *
  *
  * @property \partner\components\PhpAuthManager $partnerAuthManager
+ * @property \ruvents\components\PhpAuthManager $ruventsAuthManager
  *
  * @property array $params
  */

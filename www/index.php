@@ -9,17 +9,19 @@ if (!extension_loaded('pdo_mysql') and !dl('pdo_mysql.so')) die("NO pdo_mysql HE
 require_once '../protected/FrameworkRouter.php';
 
 $yii=dirname(__FILE__).'/../protected/Yii.php';
-try
-{
-  if (FrameworkRouter::Instance()->IsOnlyYiiFramework())
-  {
-    $config=dirname(__FILE__).'/../config/main.php';
 
-    require_once($yii);
-    Yii::createWebApplication($config)->run();
-  }
-  else
+if (FrameworkRouter::Instance()->IsOnlyYiiFramework())
+{
+  $config=dirname(__FILE__).'/../config/main.php';
+
+  require_once($yii);
+  Yii::createWebApplication($config)->run();
+}
+else
+{
+  try
   {
+
     require_once '../library/AutoLoader.php';
     AutoLoader::Init();
     $config=dirname(__FILE__).'/../config/yiiconfig.php';
@@ -32,12 +34,14 @@ try
     require_once 'bootstrap.php';
     require_once 'lang/default.php';
     FrontController::GetInstance()->Run();
+
+  }
+  catch (Exception $e)
+  {
+    processException($e);
   }
 }
-catch (Exception $e)
-{
-  processException($e);
-}
+
 
 
 

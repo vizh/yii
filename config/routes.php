@@ -21,6 +21,10 @@ return array(
         'http://partner.'.ROCID_HOST.'/<controller:\w+>/<action:\w+>' => 'partner/<controller>/<action>',
 
 
+        /** Ruvents Module Rules */
+        'http://ruvents.'.ROCID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
+
+
         /** ALL MODULES */
         'http://'.ROCID_HOST.'/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
       ),

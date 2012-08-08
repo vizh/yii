@@ -12,6 +12,11 @@ return array(
     'partnerAuthManager'=>array(
       'class' => '\partner\components\PhpAuthManager',
       'defaultRoles' => array('guest')
+    ),
+
+    'ruventsAuthManager'=>array(
+      'class' => '\ruvents\components\PhpAuthManager',
+      'defaultRoles' => array('guest')
     )
   ),
 
