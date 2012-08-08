@@ -1,9 +1,0 @@
-#insideNavigation { border-bottom: 1px solid #E9E9E9; height: 20px; margin-bottom: 5px; }
-#insideNavigation a { color: #808080; display: block; float: left; margin: 0 0 2px 5px; padding: 4px 8px; text-decoration: none; }
-#insideNavigation a.active { background: #E7E7E7; }
-#insideNavigation a:hover { background: #F0F0F0; }
-
-.listSendTime { color: #A0A0A0; font-family: Tahoma; font-size: 9px; border: 0px solid #ff0000; text-decoration: none; }
-.listSendTime:Hover { text-decoration:underline; }
-
-div.message_list_header { font-size: 10px; font-weight: bold; text-transform: uppercase; background-color: #F0F0F0; padding: 2px; }
