@@ -1,3 +1,14 @@
+<script type="text/javascript">
+  tinyMCE.init({
+    theme   : "advanced",
+    mode    : "textareas",
+    theme_advanced_font_sizes : "20px",
+    theme_advanced_buttons1   : "bold,italic,underline,strikethrough",
+    theme_advanced_buttons2   : "",
+    theme_advanced_buttons3   : ""
+  });
+</script>
+
 <section class="main edit eventedit">
   <h2>Редактировать мероприятие</h2>
   <form id="form_editevent" enctype="multipart/form-data" action="" method="post">
@@ -24,7 +35,7 @@
       <div class="main-block text bordered">
         <h4>Полное описание</h4>
         <div class="textarea-container">
-          <textarea name="data[FullInfo]"><?=$this->FullInfo;?></textarea>
+          <textarea name="data[FullInfo]" id="edit"><?=$this->FullInfo;?></textarea>
         </div>
       </div>
 

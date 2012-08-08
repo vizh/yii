@@ -71,10 +71,10 @@ class EventProgramEdit extends AdminCommand
     $this->view->LinkVideo = $eventProgram->LinkVideo;
     $this->view->LinkShorthand = $eventProgram->LinkShorthand;
     $this->view->LinkAudio = $eventProgram->LinkAudio;
-
+    
     $this->view->EventDateStart = strtotime($eventProgram->Event->DateStart);
     $this->view->EventDateEnd = strtotime($eventProgram->Event->DateEnd);
-    $this->view->Date = date('', strtotime($eventProgram->DatetimeStart));
+    $this->view->Date = date('Y-m-d', strtotime($eventProgram->DatetimeStart));
     $this->view->TimeStart = getdate(strtotime($eventProgram->DatetimeStart));
     $this->view->TimeEnd = getdate(strtotime($eventProgram->DatetimeFinish));
 

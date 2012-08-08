@@ -16,7 +16,10 @@ class EventEdit extends AdminCommand
   protected function doExecute($id = 0)
   {
     $this->view->HeadScript(array('src'=>'/js/geodropdown.js'));
-
+    $this->view->HeadScript(
+      array('src' => '/js/libs/tiny_mce/tiny_mce.js')
+    );
+    
     $this->event = Event::GetById(intval($id));
     if (empty($this->event))
     {
@@ -28,7 +31,7 @@ class EventEdit extends AdminCommand
       $data = Registry::GetRequestVar('data');
 
       $purifier = new CHtmlPurifier();
-      $optoins = array('HTML.AllowedElements' => '', 'HTML.AllowedAttributes' => '');
+      $optoins = array('HTML.AllowedElements' => 'strong,em,span', 'HTML.AllowedAttributes' => 'style', 'AutoFormat.AutoParagraph' => false);
       $purifier->options = $optoins;
 
       $this->event->Name = $purifier->purify($data['Name']);
@@ -53,7 +56,7 @@ class EventEdit extends AdminCommand
       $purifier->options = array('AutoFormat.AutoParagraph' => true);
       $this->event->FullInfo = $purifier->purify($data['FullInfo']);
       $purifier->options = $optoins;
-
+      
       $this->event->Url = $purifier->purify($data['Url']);
       $this->event->UrlRegistration = $purifier->purify($data['UrlRegistration']);
       $this->event->UrlProgram = $purifier->purify($data['UrlProgram']);
