@@ -7,7 +7,8 @@ $(function(){
             $('#span_rocid')
                 .html(ui.item.id).hide();
             $('input#NameOrRocid').attr('value', ui.item.label);
-            return false;
+            
+            return false; 
         }
     });
 });
