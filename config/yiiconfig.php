@@ -40,7 +40,7 @@ return array(
     'partner'=>array(
       // enable cookie-based authentication
       //'allowAutoLogin'=>true,
-      'class'=>'\partner\components\WebUser',
+      'class'=>'CWebUser',
       //'loginUrl'=>array('jobseeker/j_logins'),
       'stateKeyPrefix'=>'partner',
       // 'returnUrl'=>array('jobseeker/jsarea'),
