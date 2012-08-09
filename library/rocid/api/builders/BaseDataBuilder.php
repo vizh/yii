@@ -405,4 +405,31 @@ class BaseDataBuilder
 
     return $this->role;
   }
+  
+  protected $commission;
+  
+  /**
+   * @param Comission $commission 
+   */
+  public function CreateCommision ($commission)
+  {
+    $this->commission = new stdClass();
+    
+    $this->commission->ComissionId = $commission->ComissionId;
+    $this->commission->Title = $commission->Title;
+    $this->commission->Description = $commission->Description;
+    $this->commission->Url = $commission->Url;
+    
+    return $this->commission;
+  }
+  
+  public function BuildUserCommission ($userCommissionRole)
+  {
+    $this->user->Commission = new stdClass();
+    
+    $this->user->Commission->RoleId = $userCommissionRole->RoleId;
+    $this->user->Commission->RoleName = $userCommissionRole->Name;
+    
+    return $this->user;
+  }
 }
