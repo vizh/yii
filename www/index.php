@@ -10,6 +10,9 @@ require_once '../protected/FrameworkRouter.php';
 
 $yii=dirname(__FILE__).'/../protected/Yii.php';
 
+date_default_timezone_set('Europe/Moscow');
+setlocale(LC_TIME, 'ru.UTF-8');
+
 if (FrameworkRouter::Instance()->IsOnlyYiiFramework())
 {
   $config=dirname(__FILE__).'/../config/main.php';

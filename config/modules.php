@@ -11,6 +11,12 @@ return array(
       ),
     ),
     'partner',
-    'ruvents'
+    'ruvents',
+
+    'company',
+    'contact',
+    'event',
+    'geo',
+    'user'
   ),
 );

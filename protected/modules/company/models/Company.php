@@ -1,7 +1,6 @@
 <?php
 namespace company\models;
-/*AutoLoader::Import('library.rocid.contact.*');
-AutoLoader::Import('library.rocid.user.*');*/
+
 
 /**
  * @throws \Exception
@@ -20,21 +19,12 @@ AutoLoader::Import('library.rocid.user.*');*/
  * @property \contact\models\Phone[] $Phones
  * @property \contact\models\Site[] $Sites
  * @property \contact\models\ServiceAccount[] $ServiceAccounts
- * @property UserEmployment[] $Users
- * @property UserEmployment[] $UsersAll
- * @property User[] $Editors
+ * @property \user\models\Employment[] $Employments
+ * @property \user\models\Employment[] $EmploymentsAll
+ * @property \user\models\User[] $Editors
  */
-class Company extends CActiveRecord implements ISettingable
+class Company extends \CActiveRecord
 {
-	/**
-	* Возвращает массив вида:
-	* array('name1'=>array('DefaultValue', 'Description'), 
-	*       'name2'=>array('DefaultValue', 'Description'), ...)
-	*/
-	public function GetSettingList()
-	{
-		return array('CompanyPerPage' => array(20, 'Количество результатов компаний на страницу'));
-	}
 	
 	public static $TableName = 'Company';
 	//Константы для описания полноты загрузки модели
@@ -70,9 +60,9 @@ class Company extends CActiveRecord implements ISettingable
       'ServiceAccounts' => array(self::MANY_MANY, 'ContactServiceAccount', 'Link_Company_ContactServiceAccount(CompanyId, ServiceId)',
                                  'with' => array('ServiceType')),
       //Сотрудники
-      'Users' => array(self::HAS_MANY, 'UserEmployment', 'CompanyId',
+      'Employments' => array(self::HAS_MANY, 'UserEmployment', 'CompanyId',
                        'order' => 'Users.FinishWorking DESC', 'condition' => 'Users.FinishWorking > CURDATE()', 'with' => array('User')),
-      'UsersAll' => array(self::HAS_MANY, 'UserEmployment', 'CompanyId',
+      'EmploymentsAll' => array(self::HAS_MANY, 'UserEmployment', 'CompanyId',
                           'order' => 'UsersAll.FinishWorking DESC', 'with' => array('User')),
       //Редакторы компании
       'Editors' => array(self::MANY_MANY, 'User', 'CompanyEditor(CompanyId, UserId)'),
@@ -111,17 +101,17 @@ class Company extends CActiveRecord implements ISettingable
 				return $company;
 		}
 	}
-	
-	/**
-	* @static
-	* @param int $rocid
-	* @param int $loadingDepth
-	* @return Company
-	*/
+
+  /**
+   * @static
+   * @param $companyId
+   * @param int $loadingDepth
+   * @return Company
+   */
 	public static function GetById($companyId, $loadingDepth = self::LoadOnlyCompany)
 	{    
 		$company = self::GetLoadingDepth($loadingDepth);    
-		$criteria = new CDbCriteria();
+		$criteria = new \CDbCriteria();
 		$criteria->condition = 't.CompanyId = :CompanyId';
 		$criteria->params = array(':CompanyId' => $companyId);
 		return $company->find($criteria);
@@ -136,7 +126,7 @@ class Company extends CActiveRecord implements ISettingable
 	public static function GetCompanyByName($name, $loadingDepth = self::LoadOnlyCompany)
 	{
 		$company = self::GetLoadingDepth($loadingDepth);
-		$criteria = new CDbCriteria();
+		$criteria = new \CDbCriteria();
 		$criteria->condition = 't.Name LIKE :Name';
 		$criteria->params = array(':Name' => $name);
 		return $company->find($criteria);
@@ -152,8 +142,8 @@ class Company extends CActiveRecord implements ISettingable
 	*/
 	public static function GetCompanyList($letter, $location, $currentPage = 1)
 	{
-		$currentPage = max(1, $currentPage);
-		$companyPerPage = SettingManager::GetSetting('CompanyPerPage');
+		$currentPage = max(array(1, $currentPage));
+		$companyPerPage = \Yii::app()->params['CompanyPerPage'];
 		
 		$with = array('Addresses.City');
 		
@@ -161,7 +151,7 @@ class Company extends CActiveRecord implements ISettingable
 		
 		
 
-		$criteria = new CDbCriteria();
+		$criteria = new \CDbCriteria();
 		$criteria->condition = '';
 		$criteria->params = array();
 		if ($location['city'] != 0)
@@ -231,7 +221,7 @@ class Company extends CActiveRecord implements ISettingable
 	{
 		$company = Company::model();
 
-		$criteria = new CDbCriteria();
+		$criteria = new \CDbCriteria();
 		$criteria->condition = 'MATCH (Name) AGAINST (:Name)';
 		$criteria->params = array(':Name' => $searchTerm);
 
@@ -250,12 +240,13 @@ class Company extends CActiveRecord implements ISettingable
 	}
 
 
-	/**
-	 * @static
-	 * @param string $name
-	 * @param int $count
-	 * @return Company[]
-	 */
+  /**
+   * @static
+   * @param string $name
+   * @param int $count
+   * @param int $loadingDepth
+   * @return Company[]
+   */
 	public static function SearchCompaniesByName($name, $count, $loadingDepth = self::LoadOnlyCompany)
 	{
 		$criteria = self::GetSearchCriteria($name);
@@ -269,7 +260,7 @@ class Company extends CActiveRecord implements ISettingable
 	 * @static
 	 * @param string $searchTerm
 	 * @param string $sortBy
-	 * @return CDbCriteria|null
+	 * @return \CDbCriteria|null
 	 */
 	public static function GetSearchCriteria($searchTerm, $sortBy = '')
 	{
@@ -278,11 +269,11 @@ class Company extends CActiveRecord implements ISettingable
 		{
 			return null;
 		}
-		$criteria = new CDbCriteria();
+		$criteria = new \CDbCriteria();
 		
 		$criteria->condition = 't.Name LIKE :SearchTerm';
 		$criteria->order = 't.Name DESC, t.CreationTime DESC';
-		$criteria->params = array(':SearchTerm' => Lib::PrepareSqlStringForLike($searchTerm) . '%');
+		$criteria->params = array(':SearchTerm' => \Utils::PrepareStringForLike($searchTerm) . '%');
 		return $criteria;
 	}
 
@@ -311,10 +302,10 @@ class Company extends CActiveRecord implements ISettingable
 	 */
 	public static function GetBaseDir($onServerDisc = false)
 	{
-		$result = Registry::GetVariable('CompanyLogoDir');
+		$result = \Yii::app()->params['CompanyLogoDir'];
 		if ($onServerDisc)
 		{
-			$result = Registry::GetVariable('PublicPath') . $result;
+			$result = $_SERVER['DOCUMENT_ROOT'] . $result;
 		}
 
 		return $result;
@@ -428,7 +419,7 @@ class Company extends CActiveRecord implements ISettingable
 	}
  
 	/**
-	* @return ContactEmail
+	* @return \contact\models\Email
 	*/
 	public function GetEmail()
 	{
@@ -456,7 +447,7 @@ class Company extends CActiveRecord implements ISettingable
 	/**
 	* @desc Телефоны компании
 	* 
-	* @return ContactPhone[]
+	* @return \contact\models\Phone[]
 	*/
 	public function GetPhones()
 	{
@@ -466,7 +457,7 @@ class Company extends CActiveRecord implements ISettingable
 	
 	/**
 	* @desc Адрес компании
-	* @return ContactAddress
+	* @return \contact\models\Address
 	*/
 	public function GetAddress()
 	{
@@ -492,82 +483,55 @@ class Company extends CActiveRecord implements ISettingable
 		return $this->ServiceAccounts;
 	}
 	
-	/**
-	* @desc Действующие сотрудники компании
-	* 
-	* @return UserEmployment[]
-	*/
-	public function GetUsers()
-	{
-		return $this->Users;
-	}
 
-	/**
-	* @desc Все сотрудники компании (действующие и бывшие)
-	* 
-	* @return UserEmploymentAll[]
-	*/
-	public function GetUsersAll()
-	{
-		return $this->UsersAll;
-	}
-
-	/**
-	* @desc Участие в мероприятиях сотрудников компании
-	* @return array[EventUser]
-	*/
-	public function GetEventUsers()
-	{
-		return $this->EventUsers;
-	}
 
 	/**
 	* Добавляет компании адрес электронной почты
 	* 
-	* @param ContactEmail $email
+	* @param \contact\models\Email $email
 	*/
 	public function AddEmail($email)
 	{
-		$db = Registry::GetDb();
+		$db = \Yii::app()->getDb();
 		$sql = 'INSERT INTO Link_Company_ContactEmail ( CompanyId , EmailId) VALUES (' . $this->CompanyId . ',' . $email->EmailId . ')';
 		$db->createCommand($sql)->execute();
 	}
 
 	/**
-	 * @param ContactSite $site
+	 * @param \contact\models\Site $site
 	 * @return void
 	 */
 	public function AddSite($site)
 	{
-		$db = Registry::GetDb();
+		$db = \Yii::app()->getDb();
 		$sql = 'INSERT INTO Link_Company_ContactSite ( CompanyId , SiteId) VALUES (' . $this->CompanyId . ',' . $site->SiteId . ')';
 		$db->createCommand($sql)->execute();
 	}
 
 	/**
-	 * @param ContactAddress $address
+	 * @param \contact\models\Address $address
 	 * @return void
 	 */
 	public function AddAddress($address)
 	{
-		$db = Registry::GetDb();
+		$db = \Yii::app()->getDb();
 		$sql = 'INSERT INTO Link_Company_ContactAddress ( CompanyId , AddressId) VALUES (' . $this->CompanyId . ',' . $address->AddressId . ')';
 		$db->createCommand($sql)->execute();
 	}
 
 	/**
-	 * @param ContactPhone $phone
+	 * @param \contact\models\Phone $phone
 	 * @return void
 	 */
 	public function AddPhone($phone)
 	{
-		$db = Registry::GetDb();
+		$db = \Yii::app()->getDb();
 		$sql = 'INSERT INTO Link_Company_ContactPhone ( CompanyId , PhoneId) VALUES (' . $this->CompanyId . ',' . $phone->PhoneId . ')';
 		$db->createCommand($sql)->execute();
 	}
 
 	/**
-	 * @param int|ContactSite $site
+	 * @param \contact\models\Site $site
 	 * @return void
 	 */
 	public function DeleteSite($site)
@@ -576,13 +540,13 @@ class Company extends CActiveRecord implements ISettingable
 		{
 			$site = $site->SiteId;
 		}
-		$db = Registry::GetDb();
+		$db = \Yii::app()->getDb();
 		$sql = 'DELETE FROM Link_Company_ContactSite WHERE CompanyId = ' . $this->CompanyId .' AND SiteId = ' . $site;
 		$db->createCommand($sql)->execute();
 	}
 
 	/**
-	 * @param int|ContactPhone $phone
+	 * @param \contact\models\Phone $phone
 	 * @return void
 	 */
 	public function DeletePhone($phone)
@@ -591,13 +555,13 @@ class Company extends CActiveRecord implements ISettingable
 		{
 			$phone = $phone->PhoneId;
 		}
-		$db = Registry::GetDb();
+		$db = \Yii::app()->getDb();
 		$sql = 'DELETE FROM Link_Company_ContactPhone WHERE CompanyId = ' . $this->CompanyId .' AND PhoneId = ' . $phone;
 		$db->createCommand($sql)->execute();
 	}
 
 	/**
-	 * @param int|ContactEmail $email
+	 * @param \contact\models\Email $email
 	 * @return void
 	 */
 	public function DeleteEmail($email)
@@ -606,13 +570,13 @@ class Company extends CActiveRecord implements ISettingable
 		{
 			$email = $email->EmailId;
 		}
-		$db = Registry::GetDb();
+		$db = \Yii::app()->getDb();
 		$sql = 'DELETE FROM Link_Company_ContactEmail WHERE CompanyId = ' . $this->CompanyId .' AND EmailId = ' . $email;
 		$db->createCommand($sql)->execute();
 	}
 
   /**
-   * @param User|int $user
+   * @param \user\models\User $user
    * @return void
    */
   public function AddEditor($user)
@@ -621,7 +585,7 @@ class Company extends CActiveRecord implements ISettingable
     {
       $user = $user->UserId;
     }
-    $editor = new CompanyEditor();
+    $editor = new Editor();
     $editor->UserId = $user;
     $editor->CompanyId = $this->CompanyId;
     $editor->save();
@@ -633,11 +597,11 @@ class Company extends CActiveRecord implements ISettingable
     {
       $user = $user->UserId;
     }
-    CompanyEditor::RemoveByData($this->CompanyId, $user);
+    Editor::RemoveByData($this->CompanyId, $user);
   }
 
   /**
-   * @param User|int $user
+   * @param \user\models\User $user
    * @return bool
    */
   public function IsEditor($user)

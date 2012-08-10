@@ -56,9 +56,7 @@ class EventUsers extends ApiCommand
       'Emails'
     ));
 
-    /**
-     *
-     */
+
     $users = $userModel->findAll($criteria);
 
     $result = array();

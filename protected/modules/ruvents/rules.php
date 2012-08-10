@@ -10,7 +10,8 @@ return array(
   array(
     'allow',
     'roles' => array('Operator'),
-    'controllers' => array('main', 'order'),
+    'controllers' => array('event'),
+    'actions' => array('users')
   ),
   array(
     'deny',

@@ -62,7 +62,7 @@ class Event extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Days' => array(self::HAS_MANY, 'Day', 'EventId'),
+      'Days' => array(self::HAS_MANY, '\event\models\Day', 'EventId'),
       //User
       'Participants' => array(self::HAS_MANY, 'Participant', 'EventId', 'with' => array('Role')),
       'Users' => array(self::MANY_MANY, '\user\models\User', 'EventUser(EventId, UserId)', 'with' => 'Settings', 'condition' => 'Settings.Visible = \'1\''),

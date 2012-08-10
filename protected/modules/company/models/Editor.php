@@ -1,13 +1,12 @@
 <?php
 namespace company\models;
-AutoLoader::Import('library.rocid.user.*');
 
 /**
  * @property int $CompanyEditorId
  * @property int $CompanyId
  * @property int $UserId
  */
-class CompanyEditor extends CActiveRecord
+class Editor extends \CActiveRecord
 {
   public static $TableName = 'CompanyEditor';
 
@@ -33,10 +32,10 @@ class CompanyEditor extends CActiveRecord
 
   public static function RemoveByData($companyId, $userId)
   {
-    $editor = CompanyEditor::model();
-    $criteria = new CDbCriteria();
+    $editor = Editor::model();
+    $criteria = new \CDbCriteria();
     $criteria->condition = 'CompanyId = :CompanyId AND UserId = :UserId';
-    $criteria->params - array(':CompanyId' => $companyId, ':UserId' => $userId);
+    $criteria->params = array(':CompanyId' => $companyId, ':UserId' => $userId);
     $editor->deleteAll($criteria);
   }
 }

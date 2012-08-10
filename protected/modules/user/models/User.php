@@ -67,24 +67,24 @@ class User extends \CActiveRecord
 	{
 		return array(
 		//Contacts
-			'Addresses' => array(self::MANY_MANY, 'ContactAddress', 'Link_User_ContactAddress(UserId, AddressId)',
+			'Addresses' => array(self::MANY_MANY, '\contact\models\Address', 'Link_User_ContactAddress(UserId, AddressId)',
 				'with' => array('City')),
-			'Phones' => array(self::MANY_MANY, 'ContactPhone', 'Link_User_ContactPhone(UserId, PhoneId)'),
-			'ServiceAccounts' => array(self::MANY_MANY, 'ContactServiceAccount', 'Link_User_ContactServiceAccount(UserId, ServiceId)',
+			'Phones' => array(self::MANY_MANY, '\contact\models\Phone', 'Link_User_ContactPhone(UserId, PhoneId)'),
+			'ServiceAccounts' => array(self::MANY_MANY, '\contact\models\ServiceAccount', 'Link_User_ContactServiceAccount(UserId, ServiceId)',
 				'with' => array('ServiceType')),
-			'Sites' => array(self::MANY_MANY, 'ContactSite', 'Link_User_ContactSite(UserId, SiteId)'),
-			'Emails' => array(self::MANY_MANY, 'ContactEmail', 'Link_User_ContactEmail(UserId, EmailId)'),
+			'Sites' => array(self::MANY_MANY, '\contact\models\Site', 'Link_User_ContactSite(UserId, SiteId)'),
+			'Emails' => array(self::MANY_MANY, '\contact\models\Email', 'Link_User_ContactEmail(UserId, EmailId)'),
 		//Event  
-			'EventUsers' => array(self::HAS_MANY, 'EventUser', 'UserId'),//, 'with' => array('Event', 'EventRole')),
+			'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'UserId'),//, 'with' => array('Event', 'EventRole')),
 			'Events' => array(self::MANY_MANY, 'Event', 'EventUser(UserId, EventId)'),
 			'EventSubscriptions' => array(self::HAS_MANY, 'EventSubscription', 'UserId', 'with' => array('Event')),
 			'EventProgramHere' => array(self::HAS_ONE, 'EventProgramHereService', 'UserId',),
       'EventProgramUserLink' =>array(self::HAS_MANY, 'EventProgramUserLink', 'UserId', 'with' => array('EventProgram', 'Role')),
 		//User  
 			'Activities' => array(self::HAS_MANY, 'UserActivity', 'UserId'),
-			'Employments' => array(self::HAS_MANY, 'UserEmployment', 'UserId', 'with' => 'Company' ,
+			'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'UserId', 'with' => 'Company' ,
 				'order' => 'Employments.Primary DESC, Employments.FinishWorking DESC, Employments.StartWorking DESC'),
-			'Settings' => array(self::HAS_ONE, 'UserSettings', 'UserId',),
+			'Settings' => array(self::HAS_ONE, '\user\models\Settings', 'UserId',),
 			'Connects' => array(self::HAS_MANY, 'UserConnect', 'UserId'),
 			//'InterestPersons' => array(self::HAS_MANY, 'UserInterestPerson', 'UserId', 'with' => array('InterestPerson')),   
 			'InterestPersons' => array(self::MANY_MANY, 'User', 'UserInterestPerson(UserId, InterestPersonId)'),
