@@ -8,7 +8,7 @@ class RaecCommissionList extends ApiStaticKeyCommand
     $result = array();
     foreach ($commisions as $commision)
     {
-      $result['Commissions'] = $this->Account->DataBuilder()->CreateCommision($commision);
+      $result['Commissions'][] = $this->Account->DataBuilder()->CreateCommision($commision);
     }
     $this->SendJson($result);
   }
