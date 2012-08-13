@@ -47,7 +47,6 @@
 		<a href="/user/edit/#work" class="edit_info">изменить</a>
 		<?php endif; ?></h2>
 
-
 	<table class="user-experience">
 		<?if (!empty($this->Work)):?>
 			<?=$this->Work;?>
@@ -56,6 +55,13 @@
 		<?endif;?>
 	</table>
 
+  <?php if (!empty($this->Commission)):?>
+  <h2 class="c-cont">Профессиональная деятельность</h2>
+  <table class="user-experience user-commission">
+    <?php echo $this->Commission;?>
+  </table>
+  <?php endif;?>
+  
 	<h2 class="c-cont">Участие в профильных мероприятиях</h2>
 
 	<table class="user-experience user-events"> <!-- Класс user-events идет какбе аддоном к основному -->
@@ -71,7 +77,6 @@
 <table class="user-experience user-events">
 	<?=$this->Activity?>
 </table>-->
-
 
 	<!-- end company-mid -->
 </div>

@@ -1581,12 +1581,9 @@ table.user-experience span.day-title{
   font-size: 11px;
 }
 /****************** addons *******************/
-table.user-events td{
+table.user-events td,
+table.user-commission td {
 	padding-bottom: 16px;
-}
-
-table.user-events td a{
-  font-size: 11px;
 }
 
 /********************************* userbar ******************************************/

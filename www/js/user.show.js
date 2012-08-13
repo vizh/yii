@@ -19,6 +19,31 @@ $(document).ready(function(){
     return false;
   });
 
+
+
+
+  if ($('table.user-commission').length > 0) {
+    // Раскрыть список коммиссий
+    $('a#expand_commission').bind('click', function () {
+      $('tbody[class="commissionList tbl-invisible"]').slideDown('slow');
+      $(this).css('display', 'none');
+      $('a#collapse_commission').css('display', 'block');
+      return false;
+    });
+    
+    //Свернуть список коммисий
+    $('a#collapse_commission').bind('click', function (){
+      $("tbody[class='commissionList tbl-invisible']").slideUp('slow', function() {
+        $('a#collapse_commission').css('display', 'none');
+        $('a#expand_commission').css('display', 'block');
+      });
+      return false;
+    });
+  }
+  
+  
+  
+
 	// Раскрыть список мероприятий
 	$('a#expand_event').bind('click', function (){
 		$("tbody[class='eventList tbl-invisible']").slideDown('slow');//css('display', 'block');

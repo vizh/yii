@@ -45,6 +45,7 @@ class ComissionUser extends CActiveRecord
 //      'Categories' => array(self::MANY_MANY, 'NewsCategories', 'Mod_NewsLinkCategory(NewsPostId, CategoryId)'),
 //      'MainCategory' => array(self::BELONGS_TO, 'NewsCategories', 'NewsCategoryId')
       'User' => array(self::BELONGS_TO, 'User', 'UserId'),
+      'Commission' => array(self::BELONGS_TO, 'Comission', 'ComissionId'),
       'Role' => array(self::BELONGS_TO, 'ComissionRole', 'RoleId')
     );
   }

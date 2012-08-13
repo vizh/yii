@@ -1,6 +1,7 @@
 <?php
 AutoLoader::Import('library.rocid.user.*');
 AutoLoader::Import('library.rocid.activity.*');
+AutoLoader::Import('comission.source.*');
 
 class UserShow extends GeneralCommand
 {
@@ -66,6 +67,7 @@ class UserShow extends GeneralCommand
 
     $this->view->Work = $this->getWorkHtml();
     $this->view->Event = $this->getEventHtml();
+    $this->view->Commission = $this->getCommissionHtml();
     //$this->view->Activity = $this->getActivityHtml();
 
     $this->view->Self = $this->self;
@@ -273,7 +275,45 @@ class UserShow extends GeneralCommand
 
     return '';
   }
-
+  
+  private function getCommissionHtml ()
+  {
+    $criteria = new CDbCriteria();
+    $criteria->condition = 't.UserId = :UserId AND t.ExitTime IS NULL';
+    $criteria->params[':UserId'] = $this->user->UserId;
+    $criteria->with = array('Role', 'Commission');
+    $commissions = ComissionUser::model()->findAll($criteria);
+    if (!empty ($commissions))
+    {
+      $result = new View();
+      $result->SetTemplate('commissioncontainer');
+      
+      $containerVisibleCommission = new ViewContainer();
+      $containerInvisibleCommission = new ViewContainer();
+      
+      $countView = 0;
+      foreach ($commissions as $commission)
+      {
+        $countView++;
+        $view = new View();
+        $view->SetTemplate('commission');
+        $view->Role = $commission->Role;
+        $view->Commission = $commission->Commission;
+        if ($countView < 4)
+        {
+          $containerVisibleCommission->AddView($view);
+        }
+        else 
+        {
+          $containerInvisibleCommission->AddView($view);
+        }
+      }
+      $result->CommissionVisible = $containerVisibleCommission;
+      $result->CommissionInvisible = $containerInvisibleCommission;
+      return $result;
+    }
+  }
+  
   private function getWorkHtml()
   {
     $employments = $this->user->GetEmployments();
