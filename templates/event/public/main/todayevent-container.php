@@ -1,4 +1,4 @@
-<h1>Сегодня</h1>
+<h1>Сейчас</h1>
 
 <div id="today-event">
   <div class="tev-top"></div>
