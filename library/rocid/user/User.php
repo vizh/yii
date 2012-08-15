@@ -545,6 +545,17 @@ class User extends CActiveRecord implements ISettingable
     $mail->MsgHTML($view);
     $mail->Send();
   }
+  
+  /**
+   * Генерирует хеш-значение для быстрой авторизации
+   * @static
+   * @param  $password
+   * @return string
+   */
+  public function GetAuthHash()
+  {
+    return substr(md5($this->Password . $this->RocId), 2, 14);
+  }
 	
 	/**
 	* Генерирует хеш-значение для проверки целостности cookie

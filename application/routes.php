@@ -4,23 +4,27 @@
  */
 
 //GM2012 ---- ПОСЛЕ ИСПОЛЬЗОВАНИЯ УДАЛИТЬ
-RouteRegistry::AddRoute('gm2012', array('/gm2012/:rocid/:code/',
-	array('module'=>'event', 'section'=>'widget', 'command'=>'quick', 'rocid' => '0', 'code' => ''),
+RouteRegistry::AddRoute('gm2012', array('/gm2012/:rocid/:role/:code/',
+	array('module'=>'event', 'section'=>'widget', 'command'=>'quick', 'rocid' => '0', 'role' => '0', 'code' => ''),
+	array('rocid' => '/\d+/', 'role' => '/\d+/')));
+
+
+RouteRegistry::AddRoute('Main', array('/',
+	array('module'=>'main', 'section' => '', 'command' => 'index')));
+	
+RouteRegistry::AddRoute('Main.FastAuth', array('/auth/:rocid/:hash/',
+	array('module'=>'main', 'section' => '', 'command' => 'fastauth', 'rocid' => '0', 'hash' => ''),
 	array('rocid' => '/\d+/')));
 
-
-RouteRegistry::AddRoute('main', array('/',
-	array('module'=>'main', 'section' => '', 'command' => 'index')));
-
-RouteRegistry::AddRoute('user', array('/:rocid/',
+RouteRegistry::AddRoute('User', array('/:rocid/',
 	array('module'=>'user', 'section'=>'', 'command'=>'show', 'rocid' => '0'),
 	array('rocid' => '/\d+/')));
 
-RouteRegistry::AddRoute('user-redirect', array('/person/:rocid/',
+RouteRegistry::AddRoute('User.Redirect', array('/person/:rocid/',
 	array('module'=>'user', 'section'=>'', 'command'=>'redirect', 'rocid' => '0'),
 	array('rocid' => '/\d+/')));
-
-RouteRegistry::AddRoute('company', array('/company/:companyid/',
+	
+RouteRegistry::AddRoute('Company', array('/company/:companyid/',
 	array('module'=>'company', 'section'=>'', 'command'=>'show', 'companyid' => '0'),
 	array('companyid' => '/\d+/')));
 
