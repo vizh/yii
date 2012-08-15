@@ -45,6 +45,12 @@ class WebUser extends \CWebUser
     return $this->operator;
   }
 
+  public function resetOperator()
+  {
+    $this->operator = null;
+    $this->alreadyTryLoad = false;
+  }
+
   /**
    * @return null|string
    */

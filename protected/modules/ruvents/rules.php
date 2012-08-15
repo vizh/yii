@@ -11,8 +11,14 @@ return array(
     'allow',
     'roles' => array('Operator'),
     'controllers' => array('event'),
-    'actions' => array('users')
+    'actions' => array('users', 'register', 'changerole')
   ),
+  array(
+      'allow',
+      'roles' => array('Operator'),
+      'controllers' => array('badge'),
+      'actions' => array('list', 'create')
+    ),
   array(
     'deny',
     'users' => array('*')

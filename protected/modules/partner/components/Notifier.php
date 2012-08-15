@@ -1,6 +1,6 @@
 <?php
 namespace partner\components;
-\AutoLoader::Import('library.mail.*');
+\Yii::import('ext.mailer.PHPMailer');
 
 class Notifier
 {
@@ -19,6 +19,8 @@ class Notifier
    */
   public function NotifyNewParticipant($user)
   {
+    //todo: fix it
+    return;
     if ($this->account->NoticeEmail == null)
     {
       return;
@@ -46,6 +48,8 @@ class Notifier
 
   public function NotifyRoleChange($user, $oldRole, $newRole)
   {
+    //todo: fix it
+    return;
     if ($this->account->NoticeEmail == null)
     {
       return;

@@ -74,5 +74,127 @@ class EventController extends ruvents\components\Controller
     echo '</pre>';
   }
 
+  public function actionRegister()
+  {
+    $request = \Yii::app()->getRequest();
+    $rocId = $request->getParam('RocId', null);
+    $roleId = $request->getParam('RoleId', null);
+    $dayId = $request->getParam('DayId');
+
+    $event = \event\models\Event::GetById($this->Operator()->EventId);
+    if (empty($event))
+    {
+      throw new \ruvents\components\Exception(301);
+    }
+    $user = \user\models\User::GetByRocid($rocId);
+    if (empty($user))
+    {
+      throw new \ruvents\components\Exception(202, array($rocId));
+    }
+
+    $role = \event\models\Role::GetById($roleId);
+    if (empty($role))
+    {
+      throw new \ruvents\components\Exception(302);
+    }
+
+    try{
+      if (empty($event->Days))
+      {
+        $participant = $event->RegisterUser($user, $role);
+      }
+      else
+      {
+        $day = null;
+        foreach ($event->Days as $eDay)
+        {
+          if ($eDay->DayId == $dayId)
+          {
+            $day = $eDay;
+            break;
+          }
+        }
+        if ($day == null)
+        {
+          throw new \ruvents\components\Exception(306, array($dayId));
+        }
+        $participant = $event->RegisterUserOnDay($day, $user, $role);
+      }
+    }
+    catch(Exception $e)
+    {
+      throw new \ruvents\components\Exception(100, array($e->getMessage()));
+    }
+    if (empty($participant))
+    {
+      throw new \ruvents\components\Exception(303);
+    }
+
+    echo json_encode(array('Success' => true));
+  }
+
+  public function actionChangerole()
+  {
+    $request = \Yii::app()->getRequest();
+    $rocId = $request->getParam('RocId', null);
+    $roleId = $request->getParam('RoleId', null);
+    $dayId = $request->getParam('DayId', null);
+
+    $event = \event\models\Event::GetById($this->Operator()->EventId);
+    if (empty($event))
+    {
+      throw new \ruvents\components\Exception(301);
+    }
+
+    $user = \user\models\User::GetByRocid($rocId);
+    if (empty($user))
+    {
+      throw new \ruvents\components\Exception(202, array($rocId));
+    }
+
+    $role = \event\models\Role::GetById($roleId);
+    if (empty($role))
+    {
+      throw new \ruvents\components\Exception(302);
+    }
+
+    $participant = \event\models\Participant::model()->byEventId($event->EventId)->byUserId($user->UserId);
+    if (!empty($event->Days))
+    {
+      $day = null;
+      foreach ($event->Days as $eDay)
+      {
+        if ($eDay->DayId == $dayId)
+        {
+          $day = $eDay;
+          break;
+        }
+      }
+      if ($day == null)
+      {
+        throw new \ruvents\components\Exception(306, array($dayId));
+      }
+
+      $participant->byDayId($day->DayId);
+    }
+    else
+    {
+      $participant->byDayNull();
+    }
+
+    $participant = $participant->find();
+    if (empty($participant))
+    {
+      throw new \ruvents\components\Exception(304);
+    }
+    if ($participant->RoleId == $role->RoleId)
+    {
+      throw new \ruvents\components\Exception(305);
+    }
+
+    $participant->UpdateRole($role);
+
+    echo json_encode(array('Success' => true));
+  }
 
 }

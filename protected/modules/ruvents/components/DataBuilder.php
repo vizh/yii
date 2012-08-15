@@ -9,19 +9,19 @@ class DataBuilder
     $this->eventId = $eventId;
   }
 
-  private $event = null;
+  private $activeEvent = null;
 
   /**
    * @return \event\models\Event
    */
   public function Event()
   {
-    if ($this->event == null)
+    if ($this->activeEvent == null)
     {
-      $this->event = \event\models\Event::model()->findByPk($this->eventId);
+      $this->activeEvent = \event\models\Event::model()->findByPk($this->eventId);
     }
 
-    return $this->event;
+    return $this->activeEvent;
   }
 
   protected $user;
@@ -139,4 +139,58 @@ class DataBuilder
     return $this->company;
   }
 
+  protected $event;
+  /**
+   *
+   */
+  public function CreateEvent()
+  {
+    $this->event = new \stdClass();
+
+    $this->event->EventId = $this->Event()->EventId;
+    $this->event->IdName = $this->Event()->IdName;
+    $this->event->Name = $this->Event()->Name;
+    $this->event->Info = $this->Event()->Info;
+    $this->event->Place = $this->Event()->Place;
+    $this->event->Url = $this->Event()->Url;
+    $this->event->UrlRegistration = $this->Event()->UrlRegistration;
+    $this->event->UrlProgram = $this->Event()->UrlProgram;
+    $this->event->DateStart = $this->Event()->DateStart;
+    $this->event->DateEnd = $this->Event()->DateEnd;
+
+    $this->event->Image = new \stdClass();
+    $this->event->Image->Mini = 'http://rocid.ru' . $this->Event()->GetMiniLogo();
+    $this->event->Image->Normal = 'http://rocid.ru' . $this->Event()->GetLogo();
+
+    $this->event->Days = array();
+    foreach ($this->Event()->Days as $day)
+    {
+      $resultDay = new \stdClass();
+      $resultDay->DayId = $day->DayId;
+      $resultDay->Title = $day->Title;
+      $resultDay->Order = $day->Order;
+
+      $this->event->Days[] = $resultDay;
+    }
+
+    return $this->event;
+  }
+
+  protected $badge;
+
+  /**
+   * @param \ruvents\models\Badge $badge
+   */
+  public function CreateBadge($badge)
+  {
+    $this->badge = new \stdClass();
+
+    $this->badge->RocId = $badge->User->RocId;
+    $this->badge->RoleId = $badge->RoleId;
+    $this->badge->RoleName = $badge->Role->Name;
+    $this->badge->DayId = $badge->DayId;
+    $this->badge->OperatorId = $badge->OperatorId;
+
+    return $this->badge;
+  }
 }

@@ -39,8 +39,11 @@ class AuthController extends ruvents\components\Controller
       $operator->save();
 
       $response = new stdClass();
-      $response->OperatorId = $operator->OperatorId;
-      $response->Hash = $operator->getAuthHash();
+      $response->OperatorId = $_POST['OperatorId'] = $operator->OperatorId;
+      $response->Hash = $_POST['Hash'] = $operator->getAuthHash();
+      \ruvents\components\WebUser::Instance()->resetOperator();
+      $response->Event = $this->DataBuilder()->CreateEvent();
+
       echo json_encode($response);
     }
     else
