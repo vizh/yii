@@ -15,7 +15,8 @@ class EventUsers extends ApiCommand
     $roleId = Registry::GetRequestVar('RoleId', null);
     $maxResults = Registry::GetRequestVar('MaxResults', self::MaxResult);
     $pageToken = Registry::GetRequestVar('PageToken', null);
-
+    $orderBy = Registry::GetRequestVar('OrderBy', 'LastName');
+    
     $maxResults = min($maxResults, self::MaxResult);
 
     if (strlen($query) != 0)
@@ -36,7 +37,6 @@ class EventUsers extends ApiCommand
       $criteria->params[':RoleId'] = $roleId;
     }
 
-
     if ($pageToken === null)
     {
       $criteria->limit = $maxResults;
@@ -47,7 +47,21 @@ class EventUsers extends ApiCommand
       $criteria->limit = $maxResults;
       $criteria->offset = $this->ParsePageToken($pageToken);
     }
+    
+    switch ($orderBy)
+    {
+      case 'FirstName':
+      case 'LastName':
+      case 'RocId':
+        $criteria->order = 't.'.$orderBy.' ASC';
+        break;
 
+      case 'RoleId':
+        $criteria->order = 'EventRole.RoleId ASC';
+        break;
+    }
+    
+    
     $userModel = User::model()->with(array(
       'Settings',
       'Employments.Company' => array('on' => 'Employments.Primary = :Primary', 'params' => array(':Primary' => 1)),
@@ -55,7 +69,6 @@ class EventUsers extends ApiCommand
       'EventUsers.EventRole',
       'Emails'
     ));
-
 
     $users = $userModel->findAll($criteria);
 
