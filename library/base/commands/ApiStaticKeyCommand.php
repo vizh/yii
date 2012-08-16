@@ -7,5 +7,6 @@ abstract class ApiStaticKeyCommand extends ApiNonAuthCommand
   {
     $_POST['ApiKey'] = $this->apiKey;
     parent::preExecute();
+    header('Content-type: text/html; charset=utf-8');
   }
 }

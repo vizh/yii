@@ -6,7 +6,7 @@
  * Time: 12:17
  * To change this template use File | Settings | File Templates.
  */
-class PayUrl extends ApiCommand
+class PayUrl extends ApiStaticKeyCommand
 {
 
   /**
@@ -15,7 +15,10 @@ class PayUrl extends ApiCommand
    */
   protected function doExecute()
   {
-    $result = 'http://pay.rocid.ru/' . $this->Account->EventId . '/';
-    $this->SendJson($result);
+    echo RouteRegistry::GetUrl('pay', 'auth', '');
+    
+    
+    //$result = 'http://pay.rocid.ru/' . $this->Account->EventId . '/';
+    //$this->SendJson($result);
   }
 }
