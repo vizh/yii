@@ -3,25 +3,22 @@ AutoLoader::Import('library.rocid.user.*');
 
 class MainFastauth extends AbstractCommand
 {
-  
   protected function doExecute($rocid = null, $hash = null)
-  {
-    
-    $rocId = intval(Registry::GetRequestVar('rocid'));
-    $user = User::GetByRocid($rocId);
+  { 
+    $user = User::GetByRocid($rocid);
     
     if ($user != null)
     {
-      $hashCheck = $user->GetAuthHash();
-      
-      if ($hash == $hashCheck)
+      if ($hash == $user->GetAuthHash())
       {
-        $identity = new FastAuthIdentity($rocId);
+        $identity = new FastAuthIdentity($rocid);
         $identity->authenticate();
         if ($identity->errorCode == CUserIdentity::ERROR_NONE)
         {
           Yii::app()->user->login($identity, $identity->GetExpire());
-          Lib::Redirect('http://' . ROCID_HOST . '/' . $rocId . '/');
+          Lib::Redirect(
+            RouteRegistry::GetUrl('user', '', 'show', array('rocid' => $user->RocId))
+          );
         }
         else
         {
@@ -33,6 +30,5 @@ class MainFastauth extends AbstractCommand
         $this->Send404AndExit();
       }
     }
-   
   }
 }
