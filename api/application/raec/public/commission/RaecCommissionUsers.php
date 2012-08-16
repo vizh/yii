@@ -18,7 +18,6 @@ class RaecCommissionUsers extends ApiStaticKeyCommand
     foreach ($commissionUsers as $commissionUser)
     {
       $this->Account->DataBuilder()->CreateUser($commissionUser->User);
-      $this->Account->DataBuilder()->BuildUserEmail($commissionUser->User);
       $this->Account->DataBuilder()->BuildUserEmployment($commissionUser->User);
       $result['Users'][] = $this->Account->DataBuilder()->BuildUserCommission($commissionUser->Role);
     }
