@@ -37,6 +37,7 @@ class DataBuilder
     $this->user->LastName = $user->LastName;
     $this->user->FirstName = $user->FirstName;
     $this->user->FatherName = $user->FatherName;
+    $this->user->Birthday = $user->Birthday;
 
     $this->user->Photo = new \stdClass();
     $this->user->Photo->Small = $user->GetMiniPhoto();
