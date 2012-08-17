@@ -5,6 +5,8 @@ class EventWidgetGetlink extends GeneralCommand
   const SecretKey = '131f6492c4a806a9';
   const Code = 'zcoW8EhqXa';
 
+  private $roles = array(6,32,33);
+
   /**
    * Основные действия комманды
    * @return void
@@ -14,11 +16,12 @@ class EventWidgetGetlink extends GeneralCommand
     if ($code == self::Code)
     {
       $rocid = intval(Registry::GetRequestVar('rocid'));
+      $roleId = intval(Registry::GetRequestVar('role'));
       $eventNameId = Registry::GetRequestVar('proj');
       $user = User::GetByRocid($rocid);
-      if (! empty($user) && ! empty($eventNameId))
+      if (! empty($user) && ! empty($eventNameId) && ! empty($roleId) && in_array($roleId, $this->roles))
       {
-        echo 'http://' . ROCID_HOST . '/' . $eventNameId . '/' . $user->RocId . '/' . self::GetCode($user->RocId);
+        echo 'http://' . ROCID_HOST . '/' . $eventNameId . '/' . $user->RocId . '/' . $roleId .'/'. self::GetCode($user->RocId);
       }
       else
       {
