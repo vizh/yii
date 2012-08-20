@@ -94,7 +94,16 @@ class User extends \CActiveRecord
       'Groups' => array(self::MANY_MANY, 'CoreGroup', 'Core_Link_UserGroup(UserId, GroupId)', 'with' => array('Masks')),
 		);
 	}
-
+  
+  public function rules() 
+  {
+    return array(
+      array('FirstName, LastName, Password, Email', 'required'),
+      array('Email', 'unique'),
+      array('Email', 'email')
+    );
+  }
+  
   /**
    * @static
    * @param int $userId
@@ -447,7 +456,33 @@ class User extends \CActiveRecord
 	* @param string $password
 	* @return User
 	*/
-	public static function Register($email, $password)
+  public function Register ()
+  {
+    $this->Password = self::GetPasswordHash($password);
+    $this->RocId = $this->GetMaxRocId()+1;
+    $this->CreationTime = time();
+    $this->UpdateTime = time();
+    $this->LastVisit = time();
+    $this->save();
+    
+    $this->CreateSettings();
+    $this->AddEmail($this->Email, 1);
+    
+    return $this;
+  }
+
+  static function GetMaxRocId ()
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->order  = 't.RocId DESC';
+    $criteria->limit  = 1;
+    $criteria->select = 't.RocId';
+    return self::model()->find($criteria)->RocId;
+  }
+  
+  
+  /**
+  public static function Register($email, $password)
 	{
 		//$countEM = ContactEmail::GetCountEmails($email);
     $userByEmail = User::GetByEmail($email);
@@ -459,7 +494,7 @@ class User extends \CActiveRecord
 			if (isset($row['MaxRocId']))
 			{
 				$rocId = intval($row['MaxRocId']) + 1;
-				$user = new User();
+				$user = new \user\models\User();
 				$user->SetRocId($rocId);
 				$user->SetPassword(self::GetPasswordHash($password));
 				$user->SetCreationTime(time());
@@ -468,20 +503,21 @@ class User extends \CActiveRecord
 				$user->Email = $email;
 				$user->save();
 				
-				$user->CreateSettings();
-				$user->AddEmail($email, 1);
+				//$user->CreateSettings();
+				//$user->AddEmail($email, 1);
 
-        self::SendRegisterEmail($email, $rocId, $password);
+        //self::SendRegisterEmail($email, $rocId, $password); Подправить отправку писем
 
 				return $user;
 			}
 		}
 		
 		return null;
-	}
+	}**/
 
   public static function SendRegisterEmail($email/*, $rocID, $password*/)
   {
+ 
     //todo: fix it
     $view = new \View();
     $view->SetTemplate('regmail', 'core', 'general', '', 'public');

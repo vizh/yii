@@ -11,14 +11,20 @@ return array(
     'allow',
     'roles' => array('Operator'),
     'controllers' => array('event'),
-    'actions' => array('users', 'register', 'changerole')
+    'actions' => array('users', 'register', 'changerole', 'roles')
   ),
   array(
-      'allow',
-      'roles' => array('Operator'),
-      'controllers' => array('badge'),
-      'actions' => array('list', 'create')
-    ),
+    'allow',
+    'roles' => array('Operator'),
+    'controllers' => array('badge'),
+    'actions' => array('list', 'create')
+  ),
+  array(
+    'allow',
+    'roles' => array('Operator'),
+    'controllers' => array('user'),
+    'actions' => array('create')
+  ),
   array(
     'deny',
     'users' => array('*')

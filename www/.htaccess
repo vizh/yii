@@ -16,4 +16,4 @@ RewriteRule ^.*$ - [NC,L]
 #RewriteRule ^.*$ dumper.php [NC,L]
 RewriteRule ^.*$ index.php [NC,L]
 
-#dnwr_host  "m.beta.rocid" "api.beta.rocid" "zapi.beta.rocid" "pay.beta.rocid" "partner.beta.rocid"
+#dnwr_host  "m.beta.rocid" "api.beta.rocid" "zapi.beta.rocid" "pay.beta.rocid" "partner.beta.rocid" "ruvents.beta.rocid"

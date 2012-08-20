@@ -194,4 +194,15 @@ class DataBuilder
 
     return $this->badge;
   }
+  
+  protected $role;
+  
+  public function CreateRole($role)
+  {
+    $this->role = new \stdClass();
+    $this->role->RoleId = $role->RoleId;
+    $this->role->Name = $role->Name;
+    
+    return $this->role;
+  }
 }

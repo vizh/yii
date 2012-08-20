@@ -60,9 +60,9 @@ class User extends \CActiveRecord
 	public function primaryKey()
 	{
 		return 'UserId';
-	}
+  }
 
-	public function relations()
+  public function relations()
 	{
 		return array(
 		//Contacts

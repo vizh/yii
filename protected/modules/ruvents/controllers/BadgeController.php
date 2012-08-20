@@ -8,6 +8,9 @@
  */
 class BadgeController extends ruvents\components\Controller
 {
+  /**
+   *
+   */
   public function actionList()
   {
     $request = \Yii::app()->getRequest();
@@ -60,7 +63,10 @@ class BadgeController extends ruvents\components\Controller
 
     echo json_encode($result);
   }
-
+  
+  /**
+   *
+   */
   public function actionCreate()
   {
     $request = \Yii::app()->getRequest();
