@@ -23,7 +23,7 @@ return array(
     'allow',
     'roles' => array('Operator'),
     'controllers' => array('user'),
-    'actions' => array('create')
+    'actions' => array('create', 'edit')
   ),
   array(
     'deny',

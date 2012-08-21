@@ -12,7 +12,8 @@ class EventController extends ruvents\components\Controller
     $query = $request->getParam('Query', null);
     $pageToken = $request->getParam('PageToken', null);
     $updateTime = $request->getParam('FromUpdateTime', null);
-
+    $returnBadgeCount = (bool) $request->getParam('ReturnBadgeCount', false);
+    
     if (strlen($query) != 0)
     {
       $criteria = \user\models\User::GetSearchCriteria($query);
@@ -43,7 +44,7 @@ class EventController extends ruvents\components\Controller
       'Participants.Role',
       'Emails'
     ));
-
+    
     if ($updateTime === null)
     {
       $criteria->order = 'Participants.EventUserId ASC';
@@ -54,23 +55,39 @@ class EventController extends ruvents\components\Controller
       $criteria->params['UpdateTime'] = $updateTime;
       $criteria->order = 'Participants.UpdateTime ASC';
     }
-
+    
     $users = $userModel->findAll($criteria);
-
+    
+    if ($returnBadgeCount)
+    {
+      $badges = \ruvents\models\Badge::model()->findAll('t.EventId = :EventId', array(':EventId' => $this->Operator()->EventId));
+      $badgesCount = array();
+      foreach ($badges as $badge)
+      {
+        $badgesCount[$badge->UserId]++;
+      }
+    }
+    
     $result = array();
     foreach ($users as $user)
     {
       $this->DataBuilder()->CreateUser($user);
       $this->DataBuilder()->BuildUserEmail($user);
       $this->DataBuilder()->BuildUserEmployment($user);
-      $result['Users'][] = $this->DataBuilder()->BuildUserEvent($user);
+      $buildUser = $this->DataBuilder()->BuildUserEvent($user);  
+      
+      if ($returnBadgeCount)
+      {
+        $buildUser->BadgeCount = isset($badgesCount[$user->UserId]) ? $badgesCount[$user->UserId] : 0;
+      }
+      
+      $result['Users'][] = $buildUser;
     }
 
     if (sizeof($users) == self::MaxResult)
     {
       $result['NextPageToken'] = $this->GetPageToken($criteria->offset + self::MaxResult);
     }
-
     echo json_encode($result);
   }
 
