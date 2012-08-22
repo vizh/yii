@@ -475,7 +475,7 @@ class User extends CActiveRecord implements ISettingable
 				}
 			}
 		}
-		$criteria->condition .= ' AND Settings.Visible = \'1\'';
+		$criteria->condition .= ' AND Settings.Visible = \'1\' AND Settings.Agreement = \'1\'';
     //$criteria->params[':Visible'] = 1;
 		$criteria->order = 't.LastName DESC, t.FirstName DESC, t.FatherName DESC, t.RocId DESC';
 
