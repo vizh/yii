@@ -149,6 +149,7 @@ class UserController extends \ruvents\components\Controller
     }
     
     $result = array();
+    $user->refresh();
     $result['User'] = $this->buildUser($user);
     echo json_encode($result);
   }
@@ -162,7 +163,8 @@ class UserController extends \ruvents\components\Controller
   {
     $this->DataBuilder()->CreateUser($user);
     $this->DataBuilder()->BuildUserEmail($user);
-    return $this->DataBuilder()->BuildUserEmployment($user);
+    $this->DataBuilder()->BuildUserEmployment($user);
+    return $this->DataBuilder()->BuildUserPhone($user);
   }
   
   /**
@@ -173,6 +175,15 @@ class UserController extends \ruvents\components\Controller
    */
   private function addUserEmployment ($user, $companyName, $position)
   {
+    if (!empty($user->Employments))
+    {
+      foreach ($user->Employments as $userEmployment)
+      {
+        $userEmployment->Primary = 0;
+        $userEmployment->save();
+      }
+    }
+    
     $companyInfo = \company\models\Company::ParseName($companyName);
     $company = \company\models\Company::GetCompanyByName($companyInfo['name']);
     if ($company == null)
@@ -203,12 +214,20 @@ class UserController extends \ruvents\components\Controller
    */
   private function addUserPhone ($user, $phone, $type = \contact\models\Phone::TypeMobile)
   {
+    if (!empty($user->Phones))
+    {
+      foreach ($user->Phones as $userPhone)
+      {
+        $userPhone->Primary = 0;
+        $userPhone->Save();
+      }
+    }
+
     $contactPhone = new \contact\models\Phone();
     $contactPhone->Phone = $phone;
     $contactPhone->Primary = 1;
     $contactPhone->Type = \contact\models\Phone::TypeMobile;
-    $contactPhone->save();
-      
+    $contactPhone->save();   
     $user->AddPhone($contactPhone);
   }
 }

@@ -42,7 +42,8 @@ class EventController extends ruvents\components\Controller
       'Employments.Company' => array('on' => 'Employments.Primary = :Primary', 'params' => array(':Primary' => 1)),
       'Participants' => array('together' => true),
       'Participants.Role',
-      'Emails'
+      'Emails',
+      'Phones'
     ));
     
     if ($updateTime === null)
@@ -74,6 +75,7 @@ class EventController extends ruvents\components\Controller
       $this->DataBuilder()->CreateUser($user);
       $this->DataBuilder()->BuildUserEmail($user);
       $this->DataBuilder()->BuildUserEmployment($user);
+      $this->DataBuilder()->BuildUserPhone($user);
       $buildUser = $this->DataBuilder()->BuildUserEvent($user);  
       
       if ($returnBadgeCount)

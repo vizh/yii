@@ -69,11 +69,15 @@ class User extends \CActiveRecord
 		//Contacts
 			'Addresses' => array(self::MANY_MANY, '\contact\models\Address', 'Link_User_ContactAddress(UserId, AddressId)',
 				'with' => array('City')),
-			'Phones' => array(self::MANY_MANY, '\contact\models\Phone', 'Link_User_ContactPhone(UserId, PhoneId)'),
+			'Phones' => array(self::MANY_MANY, '\contact\models\Phone', 'Link_User_ContactPhone(UserId, PhoneId)',
+        'order' => 'Phones.PhoneId DESC'
+      ),
 			'ServiceAccounts' => array(self::MANY_MANY, '\contact\models\ServiceAccount', 'Link_User_ContactServiceAccount(UserId, ServiceId)',
 				'with' => array('ServiceType')),
 			'Sites' => array(self::MANY_MANY, '\contact\models\Site', 'Link_User_ContactSite(UserId, SiteId)'),
-			'Emails' => array(self::MANY_MANY, '\contact\models\Email', 'Link_User_ContactEmail(UserId, EmailId)'),
+			'Emails' => array(self::MANY_MANY, '\contact\models\Email', 'Link_User_ContactEmail(UserId, EmailId)',
+        'order' => 'Emails.Primary DESC'  
+      ),
 		//Event  
 			'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'UserId'),//, 'with' => array('Event', 'EventRole')),
 			'Events' => array(self::MANY_MANY, 'Event', 'EventUser(UserId, EventId)'),
@@ -834,7 +838,7 @@ class User extends \CActiveRecord
 	public function AddPhone($phone)
 	{
 		$db = \Yii::app()->getDb();
-		$sql = 'INSERT INTO Link_User_ContactPhone ( UserId , PhoneId) VALUES (' . $this->UserId . ',' . $phone->PhoneId . ')';
+		$sql = 'INSERT INTO Link_User_ContactPhone ( UserId , PhoneId) VALUES (' . $this->UserId . ',' . $phone->PhoneId . ')';    
 		$db->createCommand($sql)->execute();
 	}
 

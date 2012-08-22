@@ -38,6 +38,7 @@ class DataBuilder
     $this->user->FirstName = $user->FirstName;
     $this->user->FatherName = $user->FatherName;
     $this->user->Birthday = $user->Birthday;
+    $this->user->Sex = $user->Sex;
 
     $this->user->Photo = new \stdClass();
     $this->user->Photo->Small = $user->GetMiniPhoto();
@@ -64,6 +65,34 @@ class DataBuilder
 
     return $this->user;
   }
+  
+  /**
+   *
+   * @param \user\models\User $user
+   * @return \stdClass
+   */
+  public function BuildUserPhone ($user)
+  {
+    if (!empty($user->Phones))
+    {
+      $phone = null;
+      foreach ($user->Phones as $userPhone)
+      {
+        if ($userPhone->Primary == 1)
+        {
+          $phone = $userPhone;
+        }
+      }
+      
+      if ($phone === null)
+      {
+        $phone = $user->Phones[0];
+      }
+      $this->user->Phone = $phone->Phone;
+    }
+    return $this->user;
+  }
+
 
   /**
    * @param \user\models\User $user
@@ -86,7 +115,7 @@ class DataBuilder
 
     return $this->user;
   }
-
+  
   /**
    * @param \user\models\User $user
    * @return \stdClass
