@@ -235,4 +235,26 @@ class DataBuilder
     
     return $this->role;
   }
+  
+  
+  protected $eventSetting;
+  
+  public function CreateEventSetting ($setting)
+  {
+    $this->eventSetting = new \stdClass();
+    $this->eventSetting->Name = $setting->Name;
+    $this->eventSetting->Value = $setting->Value;
+    return $this->eventSetting;
+  }
+  
+  public function CreateEventSettingBadge ($setting) 
+  {
+    $this->eventSetting = new \stdClass();
+    $this->eventSetting->Name = $setting->Name;
+    
+    $viewPath = '/badge/event'.$setting->EventId.'/'.$setting->Value;
+    $this->eventSetting->Value = \Yii::app()->controller->renderPartial($viewPath, null, true);
+    
+    return $this->eventSetting;
+  }
 }

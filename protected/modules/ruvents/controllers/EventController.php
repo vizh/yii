@@ -275,5 +275,24 @@ class EventController extends ruvents\components\Controller
     }
     echo json_encode($result);
   }
-
+  
+  /**
+   * 
+   */
+  public function actionSettings()
+  {
+    $event = \event\models\Event::GetById($this->Operator()->EventId);
+    if (empty($event))
+    {
+      throw new \ruvents\components\Exception(301);
+    }
+    
+    $result = array();
+    $settings = \ruvents\models\EventSetting::model()->byEventId($event->EventId)->findAll();
+    foreach ($settings as $setting)
+    {
+      $result['Settings'][] = $this->DataBuilder()->{$setting->DataBuilder}($setting);
+    }
+    echo json_encode($result);
+  }
 }

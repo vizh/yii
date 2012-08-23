@@ -11,7 +11,7 @@ return array(
     'allow',
     'roles' => array('Operator'),
     'controllers' => array('event'),
-    'actions' => array('users', 'register', 'changerole', 'roles')
+    'actions' => array('users', 'register', 'changerole', 'roles', 'settings')
   ),
   array(
     'allow',
