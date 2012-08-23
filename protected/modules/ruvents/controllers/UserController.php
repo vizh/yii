@@ -60,14 +60,13 @@ class UserController extends \ruvents\components\Controller
       throw new \ruvents\components\Exception(301);
     }
     
-    $user = \user\models\User::GetByRocid($rocId);
+    $criteria = new \CDbCriteria();
+    $criteria->with = array('Participants' => array('together' => true), 'Participants.Role');
+    $criteria->condition = 't.RocId = :RocId AND Participants.EventId = :EventId';
+    $criteria->params[':RocId'] = $rocId;
+    $criteria->params[':EventId'] = $event->EventId;
+    $user = \user\models\User::model()->find($criteria);
     if ($user === null)
-    {
-      throw new \ruvents\components\Exception(202, array($rocId));
-    }
-    
-    $participant = \event\models\Participant::model()->byEventId($event->EventId)->byUserId($user->UserId)->find();
-    if ($participant === null)
     {
       throw new \ruvents\components\Exception(304);
     }
@@ -151,7 +150,8 @@ class UserController extends \ruvents\components\Controller
     
     $result = array();
     $user->refresh();
-    $result['User'] = $this->buildUser($user);
+    $this->buildUser($user);
+    $result['User'] = $this->DataBuilder()->BuildUserEvent($user);
     echo json_encode($result);
   }
   
