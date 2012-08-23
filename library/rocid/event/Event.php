@@ -411,7 +411,6 @@ class Event extends CActiveRecord
     $criteria = new CDbCriteria();
     $criteria->condition = 'Settings.Visible = :Visible AND EventUsers.EventId = :EventId';
     $criteria->params = array(':Visible' => '1', ':EventId' => $this->EventId);
-
     return intval($model->count($criteria));
   }
 
