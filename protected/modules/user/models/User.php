@@ -462,7 +462,7 @@ class User extends \CActiveRecord
 	*/
   public function Register ()
   {
-    $this->Password = self::GetPasswordHash($password);
+    $this->Password = self::GetPasswordHash($this->Password);
     $this->RocId = $this->GetMaxRocId()+1;
     $this->CreationTime = time();
     $this->UpdateTime = time();
