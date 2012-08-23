@@ -38,6 +38,7 @@ class DataBuilder
     $this->user->FirstName = $user->FirstName;
     $this->user->FatherName = $user->FatherName;
     $this->user->Birthday = $user->Birthday;
+    $this->user->UpdateTime = $user->UpdateTime;
     $this->user->Sex = $user->Sex;
 
     $this->user->Photo = new \stdClass();

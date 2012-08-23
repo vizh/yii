@@ -104,6 +104,7 @@ class UserController extends \ruvents\components\Controller
     
     if ($user->validate())
     {
+      $user->UpdateTime = time();
       $user->save();
     }
     else
