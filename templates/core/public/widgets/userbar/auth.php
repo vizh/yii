@@ -11,7 +11,7 @@
 		</li>
 		<li>
 			<ul id="ub-person">
-				<li><a href="/<?=$this->RocId?>/"><?php echo $this->FullName;?></a></li>
+				<li><a href="/<?=$this->RocId?>/"><?php echo $this->LastName;?> <?php echo $this->FirstName;?> <?php echo $this->FartherName;?></a></li>
 				<li class="logout"><a href="/main/logout/" class="exit">Выйти</a></li>
 			</ul>
 		</li>
