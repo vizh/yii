@@ -69,7 +69,7 @@ class FrameworkRouter
 
   private function checkPath($path)
   {
-    $pattern = '/' . $path . '/i';
+    $pattern = '/\/' . $path . '/i';
     return preg_match($pattern, $_SERVER['REQUEST_URI']) === 1;
   }
 }
