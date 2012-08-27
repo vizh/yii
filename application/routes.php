@@ -16,6 +16,9 @@ RouteRegistry::AddRoute('Main.FastAuth', array('/auth/:rocid/:hash/',
 	array('module'=>'main', 'section' => '', 'command' => 'fastauth', 'rocid' => '0', 'hash' => ''),
 	array('rocid' => '/\d+/')));
 
+RouteRegistry::AddRoute('Main.Login', array('/login/',
+	array('module'=>'main', 'section' => '', 'command' => 'login')));
+
 RouteRegistry::AddRoute('User', array('/:rocid/',
 	array('module'=>'user', 'section'=>'', 'command'=>'show', 'rocid' => '0'),
 	array('rocid' => '/\d+/')));

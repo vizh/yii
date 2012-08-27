@@ -400,7 +400,7 @@ input.not_mine {
 
 #PopUpLogin{
   position: absolute;
-  z-index: 1000;
+  z-index: 1100;
   display: none;
 }
 
@@ -3190,7 +3190,7 @@ p.event-tann{
   height: 100%;
   width: 100%;
   position: fixed;
-  z-index: 100;
+  z-index: 1000;
   top: 0;
   left: 0;
 }

@@ -4,7 +4,7 @@
   <title><?php echo  $this->Title; ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="Shortcut Icon" href="/images/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" type="text/css" href="/css/style.css?1.1.15" media="all" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css?1.1.16" media="all" />
   <link rel="stylesheet" type="text/css" href="/css/mystyle.css?1.1.7" media="all" />
   <script type="text/javascript" src="/js/libs/jquery-1.6.4.min.js"></script>
   <script type="text/javascript" src="/js/libs/underscore-min.js"></script>

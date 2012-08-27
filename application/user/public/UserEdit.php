@@ -34,7 +34,9 @@ class UserEdit extends GeneralCommand
 	{
 		if ($this->LoginUser == null)
 		{
-			Lib::Redirect('/');
+			Lib::Redirect(RouteRegistry::GetUrl('main', '', 'login') . '?'.
+        http_build_query(array('backUrl' => '/user/edit/'))
+      );
 		}
 		$this->user = User::GetByRocid($this->LoginUser->RocId, array('Addresses.City.Country', 'Phones', 'ServiceAccounts', 'Sites', 'Employments.Company'));
 		$this->view->MainEdit = $this->getMainEditHtml();
