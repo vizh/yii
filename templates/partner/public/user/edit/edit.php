@@ -33,6 +33,9 @@
                 <strong><?=$employment->Company->Name;?></strong><br>
                 <?=$employment->Position;?>
             </p>
+
+            <?php else:?>
+            <p><strong><em>Место работы не указано</em></strong></p>
             <?php endif;?>
                 
             <p>
