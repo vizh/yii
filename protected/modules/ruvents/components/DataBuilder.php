@@ -221,6 +221,7 @@ class DataBuilder
     $this->badge->RoleName = $badge->Role->Name;
     $this->badge->DayId = $badge->DayId;
     $this->badge->OperatorId = $badge->OperatorId;
+    $this->badge->CreationTime = $badge->CreationTime;
 
     return $this->badge;
   }
