@@ -139,6 +139,8 @@ class EventProductManager extends BaseProductManager
     return false;
   }
 
+
+
   /**
    * @param array $params
    * @param string $filter
@@ -156,5 +158,47 @@ class EventProductManager extends BaseProductManager
   public function GetFilterProduct($params)
   {
     return $this->product;
+  }
+
+  /**
+   *
+   * @param \user\models\User $fromUser
+   * @param \user\models\User $toUser
+   * @return bool
+   */
+  public function RedirectProduct($fromUser, $toUser)
+  {
+    if (!$this->CheckProduct($toUser))
+    {
+      return false;
+    }
+    list($roleId) = $this->GetAttributes($this->GetAttributeNames());
+
+    $participant = \event\models\Participant::GetByUserEventId($fromUser->UserId, $this->product->EventId);
+    if ($participant != null)
+    {
+      if ($participant->RoleId == $roleId)
+      {
+        $participant->delete();
+      }
+    }
+
+    $role = \event\models\Role::GetById($roleId);
+    if (empty($role))
+    {
+      return false;
+    }
+
+    $participant = \event\models\Participant::GetByUserEventId($toUser->UserId, $this->product->EventId);
+    if (empty($participant))
+    {
+      $this->product->Event->RegisterUser($toUser, $role);
+    }
+    else
+    {
+      $participant->UpdateRole($role);
+    }
+
+    return true;
   }
 }

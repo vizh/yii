@@ -84,6 +84,16 @@ abstract class BaseProductManager
    */
   abstract public function RollbackProduct($user);
 
+
+  /**
+   *
+   * @abstract
+   * @param \user\models\User $fromUser
+   * @param \user\models\User $toUser
+   * @return bool
+   */
+  abstract public function RedirectProduct($fromUser, $toUser);
+
     /**
    *
    * @param \user\models\User $payer

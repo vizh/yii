@@ -38,7 +38,7 @@ class OrderJuridical extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Order' => array(self::BELONGS_TO, 'Order', 'OrderId'),
+      'Order' => array(self::BELONGS_TO, '\pay\models\Order', 'OrderId'),
     );
   }
 

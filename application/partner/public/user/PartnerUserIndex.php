@@ -84,7 +84,8 @@ class PartnerUserIndex extends PartnerCommand
         }
         
         $criteria->group = 't.UserId';
-        $count = count(EventUser::model()->findAll($criteria));
+        $count = EventUser::model()->count($criteria);
+        // count(EventUser::model()->findAll($criteria));
 
         $this->view->Count = $count;
         $this->view->Event = Event::model()->findByPk($this->Account->EventId);

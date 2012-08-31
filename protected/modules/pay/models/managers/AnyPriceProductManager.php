@@ -87,4 +87,15 @@ class AnyPriceProductManager extends BaseProductManager
   {
     // TODO: Implement RollbackProduct() method.
   }
+
+  /**
+   *
+   * @param \user\models\User $fromUser
+   * @param \user\models\User $toUser
+   * @return bool
+   */
+  public function RedirectProduct($fromUser, $toUser)
+  {
+    // TODO: Implement RedirectProduct() method.
+  }
 }

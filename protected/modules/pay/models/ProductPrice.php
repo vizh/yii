@@ -32,7 +32,7 @@ class ProductPrice extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Product' => array(self::BELONGS_TO, 'Product', 'ProductId')
+      'Product' => array(self::BELONGS_TO, '\pay\models\Product', 'ProductId')
     );
   }
 }

@@ -38,9 +38,9 @@ class Product extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Event' => array(self::BELONGS_TO, 'Event', 'EventId'),
-      'Attributes' => array(self::HAS_MANY, 'ProductAttribute', 'ProductId'),
-      'Prices' => array(self::HAS_MANY, 'ProductPrice', 'ProductId')
+      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
+      'Attributes' => array(self::HAS_MANY, '\pay\models\ProductAttribute', 'ProductId'),
+      'Prices' => array(self::HAS_MANY, '\pay\models\ProductPrice', 'ProductId')
     );
   }
 
@@ -96,7 +96,7 @@ class Product extends \CActiveRecord
   {
     if (empty($this->productManager))
     {
-      $manager = $this->Manager;
+      $manager = '\pay\models\managers\\' . $this->Manager;
       $this->productManager = new $manager($this);
     }
     return $this->productManager;

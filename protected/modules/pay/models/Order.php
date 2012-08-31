@@ -36,9 +36,9 @@ class Order extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Items' => array(self::MANY_MANY, 'OrderItem', 'Mod_PayOrderItemLink(OrderId, OrderItemId)'),
-      'OrderJuridical' => array(self::HAS_ONE, 'OrderJuridical', 'OrderId'),
-      'Payer' => array(self::BELONGS_TO, 'User', 'PayerId')
+      'Items' => array(self::MANY_MANY, '\pay\models\OrderItem', 'Mod_PayOrderItemLink(OrderId, OrderItemId)'),
+      'OrderJuridical' => array(self::HAS_ONE, '\pay\models\OrderJuridical', 'OrderId'),
+      'Payer' => array(self::BELONGS_TO, '\user\models\User', 'PayerId')
     );
   }
 

@@ -32,9 +32,9 @@ class CouponActivated extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Coupon' => array(self::BELONGS_TO, 'Coupon', 'CouponId'),
-      'User' => array(self::BELONGS_TO, 'User', 'UserId'),
-      'OrderItems' => array(self::MANY_MANY, 'OrderItem', 'Mod_PayCouponActivatedOrderItemLink(CouponActivatedId, OrderItemId)')
+      'Coupon' => array(self::BELONGS_TO, '\pay\models\Coupon', 'CouponId'),
+      'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
+      'OrderItems' => array(self::MANY_MANY, '\pay\models\OrderItem', 'Mod_PayCouponActivatedOrderItemLink(CouponActivatedId, OrderItemId)')
     );
   }
 

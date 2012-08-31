@@ -37,8 +37,8 @@ class Coupon extends \CActiveRecord
   public function relations()
   {
     return array(
-      'CouponActivatedList' => array(self::HAS_MANY, 'CouponActivated', 'CouponId'),
-      'Product' => array(self::BELONGS_TO, 'Product', 'ProductId')
+      'CouponActivatedList' => array(self::HAS_MANY, '\pay\models\CouponActivated', 'CouponId'),
+      'Product' => array(self::BELONGS_TO, '\pay\models\Product', 'ProductId')
     );
   }
 

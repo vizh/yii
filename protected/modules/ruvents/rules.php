@@ -26,6 +26,12 @@ return array(
     'actions' => array('create', 'edit')
   ),
   array(
+    'allow',
+    'roles' => array('Operator'),
+    'controllers' => array('product'),
+    'actions' => array('paiditems', 'changepaid')
+  ),
+  array(
     'deny',
     'users' => array('*')
   ),

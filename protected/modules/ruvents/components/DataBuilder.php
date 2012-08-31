@@ -258,4 +258,47 @@ class DataBuilder
     
     return $this->eventSetting;
   }
+
+  protected $orderItem;
+  /**
+   * @param \pay\models\OrderItem $orderItem
+   */
+  public function CreateOrderItem($orderItem)
+  {
+    $this->orderItem = new \stdClass();
+
+    $this->orderItem->OrderItemId = $orderItem->OrderItemId;
+    $this->orderItem->Product = $this->CreateProduct($orderItem->Product, $orderItem->PaidTime);
+    $this->orderItem->Owner = $this->CreateUser($orderItem->Owner);
+    $this->orderItem->RedirectUser = !empty($orderItem->RedirectUser) ? $this->CreateUser($orderItem->RedirectUser) : null;
+    $this->orderItem->PriceDiscount = $orderItem->PriceDiscount();
+    $this->orderItem->Paid = $orderItem->Paid == 1;
+    $this->orderItem->PaidTime = $orderItem->PaidTime;
+    $this->orderItem->Booked = $orderItem->Booked;
+
+    $couponActivated = $orderItem->GetCouponActivated();
+    $this->orderItem->Discount = !empty($couponActivated) && !empty($couponActivated->Coupon) ? $couponActivated->Coupon->Discount : 0;
+
+    return $this->orderItem;
+  }
+
+
+  protected $product;
+  /**
+   * @param \pay\models\Product $product
+   * @param string $time
+   * @return \stdClass
+   */
+  public function CreateProduct($product, $time = null)
+  {
+    $this->product = new \stdClass();
+
+    $this->product->ProductId = $product->ProductId;
+    $this->product->Manager = $product->Manager;
+    $this->product->Title = $product->Title;
+    $this->product->Price = $product->GetPrice($time);
+
+    return $this->product;
+  }
 }
+

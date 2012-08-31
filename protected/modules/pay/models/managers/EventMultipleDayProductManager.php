@@ -1,7 +1,7 @@
 <?php
 namespace pay\models\managers;
 
-class EventOnDayProductManager extends BaseProductManager
+class EventMultipleDayProductManager extends BaseProductManager
 {
   /**
    * Возвращает список доступных аттрибутов
@@ -9,7 +9,7 @@ class EventOnDayProductManager extends BaseProductManager
    */
   public function GetAttributeNames()
   {
-    return array('RoleId', 'DayId');
+    return array('RoleId');
   }
 
   /**
@@ -20,10 +20,11 @@ class EventOnDayProductManager extends BaseProductManager
    */
   public function CheckProduct($user, $params = array())
   {
-    list($roleId, $dayId) = $this->GetAttributes($this->GetAttributeNames());
-    /** @var $eventUser \event\models\Participant */
-    $eventUser = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($user->UserId)->byDayId($dayId)->find();
-    if (empty($eventUser))
+    list($roleId) = $this->GetAttributes($this->GetAttributeNames());
+
+    /** @var $eventUsers \event\models\Participant[] */
+    $eventUsers = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($user->UserId)->with('EventRole')->findAll();
+    if (empty($eventUsers))
     {
       return true;
     }
@@ -32,7 +33,24 @@ class EventOnDayProductManager extends BaseProductManager
       return false;
     }
     $productRole = \event\models\Role::GetById($roleId);
-    return !empty($productRole) && (empty($eventUser->Role) || $eventUser->Role->Priority < $productRole->Priority);
+    if (empty($productRole))
+    {
+      return false;
+    }
+    $days = $this->product->Event->Days;
+    $flag = sizeof($days) != sizeof($eventUsers);
+    if (!$flag)
+    {
+      foreach ($eventUsers as $eUser)
+      {
+        if (empty($eUser->Role) || $eUser->Role->Priority < $productRole->Priority)
+        {
+          $flag = true;
+          break;
+        }
+      }
+    }
+    return $flag;
   }
 
   /**
@@ -47,27 +65,37 @@ class EventOnDayProductManager extends BaseProductManager
     {
       return false;
     }
-    list($roleId, $dayId) = $this->GetAttributes($this->GetAttributeNames());
+    list($roleId) = $this->GetAttributes($this->GetAttributeNames());
     $role = \event\models\Role::GetById($roleId);
     if (empty($role))
     {
       return false;
     }
-    /** @var $eventUser \event\models\Participant */
-    $eventUser = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($user->UserId)->byDayId($dayId)->find();
-    if (empty($eventUser))
+    /** @var $eventUsers \event\models\Participant[] */
+    $eventUsers = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($user->UserId)->with('EventRole')->findAll();
+
+    $days = $this->product->Event->Days;
+    $daysByKey = array();
+    foreach ($days as $day)
     {
-      $day = \event\models\Day::model()->findByPk($dayId);
-      if (empty($day))
+      $daysByKey[$day->DayId] = $day;
+    }
+
+    foreach ($eventUsers as $eUser)
+    {
+      unset($daysByKey[$eUser->DayId]);
+      if ($eUser->Role->Priority > $role->Priority)
       {
-        return false;
+        continue;
       }
+      $eUser->UpdateRole($role);
+    }
+
+    foreach ($daysByKey as $day)
+    {
       $this->product->Event->RegisterUserOnDay($day, $user, $role);
     }
-    else
-    {
-      $eventUser->UpdateRole($role);
-    }
+
     return true;
   }
 
@@ -97,7 +125,7 @@ class EventOnDayProductManager extends BaseProductManager
    */
   public function RollbackProduct($user)
   {
-    // TODO: Implement RollbackProduct() method.
+    // TODO: Implement RollbackProducWithoutOrderItem() method.
   }
 
   /**

@@ -17,6 +17,7 @@ return array(
     'contact',
     'event',
     'geo',
-    'user'
+    'user',
+    'pay'
   ),
 );
