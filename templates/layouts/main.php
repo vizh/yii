@@ -89,7 +89,7 @@
   </div>
   <div id="copyright">
     <p style="padding-bottom: 3px;">Служба технической поддержки: <a href="mailto:users@rocid.ru">users@rocid.ru</a></p>
-    <p>© 2008&#150;<?=date('Y');?>, ООО &laquo;Интернет Медиа Холдинг&raquo;</p>
+    <p>© 2008&#150;<?=date('Y');?>, ООО &laquo;Интернет Медиа Холдинг&raquo;. 18+</p>
   </div>
   <div id="counters">
     <!--            <a href="#"><img src="/images/li.gif" alt="" /></a>
