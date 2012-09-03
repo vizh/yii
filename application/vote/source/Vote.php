@@ -68,9 +68,12 @@ class Vote extends CActiveRecord
     return $this->voteManager;
   }
 
-  public function ResultCsv($path, $resultIdList)
+  public function ResultCsv($path, $resultIdList, $file = null)
   {
-    $file = fopen($path, 'w');
+    if ($file === null)
+    {
+      $file = fopen($path, 'w');
+    }
 
     /** @var $questions VoteQuestion[] */
     $questions = $this->Questions(array('order' => 'Questions.StepId'));
