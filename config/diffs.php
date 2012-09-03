@@ -8,6 +8,11 @@ return array(
       'class' => '\application\components\auth\WebUser',
     ),
 
+    'partner' => array(
+      'class' => '\partner\components\WebUser',
+      'loginUrl' => array('/partner/auth/index'),
+    ),
+
 
     'partnerAuthManager'=>array(
       'class' => '\partner\components\PhpAuthManager',

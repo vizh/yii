@@ -1,7 +1,7 @@
 <?php
 namespace partner\controllers\order;
 
-class IndexAction extends \CAction
+class IndexAction extends \partner\components\Action
 {
   public function run()
   {
@@ -55,6 +55,12 @@ class IndexAction extends \CAction
     //$this->view->Paginator = new Paginator(RouteRegistry::GetUrl('partner', 'order', 'index') . '?page=%s', $page, self::OrdersOnPage, $count, array('filter' => $filter));
 
 
-    $this->getController()->render('index', array('orders' => $orders, 'count' => $count, 'filter' => $filter));
+    $this->getController()->render('index',
+      array(
+        'orders' => $orders,
+        'count' => $count,
+        'filter' => $filter
+      )
+    );
   }
 }

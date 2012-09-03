@@ -9,7 +9,7 @@ return array(
   ),
   'Partner' => array(
     'type' => CAuthItem::TYPE_ROLE,
-    'description' => 'Administrator',
+    'description' => 'Partner',
     'children' => array(
       'guest',
     ),
