@@ -63,12 +63,18 @@
 
   <div class="span12 indent-bottom3">
     <?php
-    $this->widget('\application\widgets\Paginator', array(
+    $params = array(
       'url' => '/partner/order/index',
       'count' => $count,
       'perPage' => $perPage,
       'page' => $page
-    ));
+    );
+    if ($filter == 'active')
+    {
+      $params['params'] = array('filter' => $filter);
+    }
+
+    $this->widget('\application\widgets\Paginator', $params);
     ?>
   </div>
   <div class="span12 indent-bottom3">

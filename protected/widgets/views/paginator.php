@@ -4,6 +4,6 @@
  </ul>
  <div class="clear"></div>
  <ul class="paginator">
-   <?='';//$this->Pages?>
+   <?=$pages;?>
  </ul>
 <div class="clear"></div>

@@ -5,8 +5,6 @@ class IndexAction extends \partner\components\Action
 {
   public function run()
   {
-
-
     $this->getController()->setPageTitle('Список счетов');
 
     $request = \Yii::app()->getRequest();
