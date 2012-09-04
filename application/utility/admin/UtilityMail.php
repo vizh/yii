@@ -8,7 +8,7 @@ class UtilityMail extends AdminCommand
 {
   const Step = 500;
 
-  public static $MailName = 'papermedia12-2';
+  public static $MailName = 'i-research-4';
   public static $EventIdName = 'spic12';
 
   /**
@@ -77,16 +77,32 @@ class UtilityMail extends AdminCommand
     //$criteria->condition = 't.RocId > :RocId';
     //$criteria->params = array(':RocId' => $rocId);
 		*/
+
+
+    /*** i-research block **/
+
+    /** @var $results VoteResult[] */
+    $results = VoteResult::model()->findAll('t.VoteId = :VoteId', array(':VoteId' => 2));
+    $usersId = array();
+    foreach ($results as $result)
+    {
+      $info = $result->GetVoterInfo();
+      $usersId[] = $info['UserId'];
+    }
+    /*** конец блока  ***/
+
+
 		
     // УЧАСТНИКИ КОНКРЕТНОГО МЕРОПРИЯТИЯ + ВЫБОРКА ПО РОЛЯМ
     $userModel = User::model()->with(array('Emails',
-                                          'Settings' => array('select' => false, 'together' => true),
-                                          'EventUsers' => array('together' => true)));
-    $criteria->condition = 'Settings.Visible = :Visible AND Settings.ProjNews = :ProjNews AND t.RocId > :RocId AND t.UserId NOT IN (SELECT UserId FROM EventUser WHERE EventId IN (193,84,192))';
+      'Settings' => array('select' => false, 'together' => true),
+      'EventUsers' => array('together' => true)));
+//    $criteria->condition = 'Settings.Visible = :Visible AND Settings.ProjNews = :ProjNews AND t.RocId > :RocId AND t.UserId NOT IN (SELECT UserId FROM EventUser WHERE EventId IN (193,84,192))';
 //    $criteria->condition = 'Settings.Visible = :Visible AND Settings.ProjNews = :ProjNews AND t.RocId > :RocId AND EventUsers.EventId = 246 AND EventUsers.RoleId = 24';
-//    $criteria->condition = 'Settings.Visible = :Visible AND Settings.ProjNews = :ProjNews AND t.RocId > :RocId';
+    $criteria->condition = 'Settings.Visible = :Visible AND Settings.ProjNews = :ProjNews AND t.RocId > :RocId';
     $criteria->params = array(':Visible' => '1', ':ProjNews' => '1', ':RocId' => $rocId);
-    $criteria->addInCondition('EventUsers.EventId', array(236));
+    $criteria->addInCondition('EventUsers.EventId', array(245, 217, 171, 176, 139, 200, 236, 153));
+    //$criteria->addNotInCondition('User.UserId', $usersId);
 //    $criteria->addInCondition('EventUsers.RoleId', array(24));
 
     //2
@@ -219,19 +235,19 @@ class UtilityMail extends AdminCommand
    */
   private function getRegLink($user)
   {
-//    $secret = 'gQVcymFs5NkY0jjNOxuRcfkKC'; // rocid.ru
-    $secret = 'vyeavbdanfivabfdeypwgruqe'; // common
+    $secret = 'gQVcymFs5NkY0jjNOxuRcfkKC'; // rocid.ru  (i-research)
+//    $secret = 'vyeavbdanfivabfdeypwgruqe'; // common
 //    $secret = '131f6492c4a806a9'; // gm2012
 
     $timestamp = time();
     $rocid = $user->RocId;
     
-//    $hash = substr(md5($rocid . $secret . $timestamp), 0, 8); // rocid.ru
-    $hash = substr(md5($rocid.$secret), 0, 16);	// all sites
+    $hash = substr(md5($rocid . $secret . $timestamp), 0, 8); // rocid.ru
+//    $hash = substr(md5($rocid.$secret), 0, 16);	// all sites
 
-//   	return 'http://rocid.ru/i-research/approve/vote/' . $rocid . '/' . $timestamp . '/' . $hash . '/';
+   	return 'http://rocid.ru/i-research/approve/vote/' . $rocid . '/' . $timestamp . '/' . $hash . '/';
 //    return 'http://sp-ic.ru/my/?ROCID=' . $rocid . '&KEY=' . $hash;
-    return 'http://siteconf.ru/my/?ROCID=' . $rocid . '&KEY=' . $hash;
+//    return 'http://siteconf.ru/my/?ROCID=' . $rocid . '&KEY=' . $hash;
 //    return 'http://2012.russianinternetweek.ru/my/' . $rocid . '/' . $hash .'/';
 //			return 'http://rocid.ru/gm2012/' . $rocid . '/32/' . $hash;
 
