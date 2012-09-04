@@ -41,7 +41,6 @@ $orders = $this->Orders;
   <div class="response">
     <a href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId));?>">Оплатить картой или эл. деньгами</a>
 
-    <?//if ($_SERVER['REMOTE_ADDR'] == '82.142.129.35'):?>
     <a href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId, 'type' => 'paypal'));?>">
       Оплатить через <i
       style="
@@ -53,12 +52,17 @@ $orders = $this->Orders;
         margin: 2px 0 0 3px;
         "></i>
     </a>
-    <?//endif;?>
 
     <?if ($this->EventId != 106 && $this->EventId != 252 && $this->EventId != 236 && $this->EventId != 245 && $this->EventId != 258):?>
     <a href="<?=RouteRegistry::GetUrl('main', '', 'juridical', array('eventId' => $this->EventId));?>">Выставить счет (для юр. лиц)</a>
     <?endif;?>
     <div class="clear"></div>
+
+    <?if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1')://'82.142.129.35'):?>
+    <a style="width: 400px;" href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId,  'type' => 'uniteller'));?>">Оплатить картой или эл. деньгами через Uniteller</a>
+    <div class="clear"></div>
+    <?endif;?>
+
   </div>
 
   <?else:?>

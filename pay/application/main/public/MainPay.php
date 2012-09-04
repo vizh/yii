@@ -21,24 +21,26 @@ class MainPay extends PayCommand
     $data = Order::CreateOrder($this->LoginUser, $eventId);
 
 
+    switch ($type){
+      case 'paypal':
+        $system = new PayPalSystem();
+        break;
+      case 'uniteller':
+        $system = new UnitellerSystem();
+        break;
+      default:
+        $account = PayAccount::GetByEventId($eventId);
+        if (!empty($account))
+        {
+          $className = $account->System . SystemRouter::Suffix;
+          $system = new $className();
+        }
+        else
+        {
+          $system = new PayOnlineSystem();
+        }
+    }
 
-    if ($type != 'paypal')
-    {
-      $account = PayAccount::GetByEventId($eventId);
-      if (!empty($account))
-      {
-        $className = $account->System . SystemRouter::Suffix;
-        $system = new $className();
-      }
-      else
-      {
-        $system = new PayOnlineSystem();
-      }
-    }
-    else
-    {
-      $system = new PayPalSystem();
-    }
     $system->ProcessPayment($eventId, $data['OrderId'], $data['Total']);
   }
 }
