@@ -64,7 +64,7 @@ class UtilityRoom extends AdminCommand
       $product->EventId = 245;
       $product->Unit = '';
       $product->Count = null;
-      $product->EnableCoupon = 0;
+      $product->EnableCoupon = null;
       $product->save();
 
       foreach ($roomInfo as $key => $value)

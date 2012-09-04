@@ -10,7 +10,7 @@ class UtilitySpeakers extends AdminCommand
    */
   protected function doExecute()
   {
-    $eventId= 236;
+    $eventId= 258;
 
     $criteria = new CDbCriteria();
     $criteria->addCondition('t.EventId = :EventId AND t.RoleId = :RoleId');
