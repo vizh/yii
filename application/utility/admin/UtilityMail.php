@@ -115,8 +115,8 @@ class UtilityMail extends AdminCommand
 //    $rocids = file($_SERVER['DOCUMENT_ROOT'] . '/users.csv');
 //    $criteria->addInCondition('t.RocId', $rocids);
 
-//    echo $userModel->count($criteria);
-//    return;
+    echo $userModel->count($criteria);
+    return;
 
 
     /* Шаблон сообщений */
@@ -209,7 +209,7 @@ class UtilityMail extends AdminCommand
     //$mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2012-06-18/forumspb12/postrelease.doc');
 //    $mail->AddAttachment('spic-attach.docx', 'СПИК_итоги.docx');
 
-    $mail->Send();
+//    $mail->Send();
 //    echo $this->mail;
   }
   
