@@ -8,7 +8,7 @@ class UtilityMail extends AdminCommand
 {
   const Step = 500;
 
-  public static $MailName = 'i-research-4';
+  public static $MailName = 'i-research-5';
   public static $EventIdName = 'spic12';
 
   /**
@@ -80,7 +80,7 @@ class UtilityMail extends AdminCommand
 
 
     /*** i-research block **/
-
+    AutoLoader::Import('vote.source.*');
     /** @var $results VoteResult[] */
     $results = VoteResult::model()->findAll('t.VoteId = :VoteId', array(':VoteId' => 2));
     $usersId = array();
@@ -102,7 +102,7 @@ class UtilityMail extends AdminCommand
     $criteria->condition = 'Settings.Visible = :Visible AND Settings.ProjNews = :ProjNews AND t.RocId > :RocId';
     $criteria->params = array(':Visible' => '1', ':ProjNews' => '1', ':RocId' => $rocId);
     $criteria->addInCondition('EventUsers.EventId', array(245, 217, 171, 176, 139, 200, 236, 153));
-    //$criteria->addNotInCondition('User.UserId', $usersId);
+    $criteria->addNotInCondition('t.UserId', $usersId);
 //    $criteria->addInCondition('EventUsers.RoleId', array(24));
 
     //2
@@ -110,7 +110,7 @@ class UtilityMail extends AdminCommand
 //    $criteria->addNotInCondition('EventUsers.RoleId', array(24));
 
     //3
-    //$criteria->addInCondition('EventUsers.RoleId', array(3, 5, 6, 22, 23, 25));
+    $criteria->addInCondition('EventUsers.RoleId', array(3, 6, 22, 23, 25));
 
     //$iResearch = array(35287, 454, 44330,1756,611,13295,13583,1523,2216,37497,9102,8891,14049,116357,8414,9174,106814,1362,9102,1707,15769,117281,44102,96974,106814,1362,115370,2019,8404,55620,1707,8894,13441,22575,13271,14635,14287,14249,1752,10768,1340,727,100635,1107,31337,13734,34175,96108,10418,33313,101133,31155,29931,54514,33313,15053,29873,51490,8894,15675,10513,29880,102402,29870,107259,13262,2346,515,29961,50891,104712,94610,1395,85396,116979,106849,55266,837,2441,44215,5469,868,663,733,13131,18242,97143,53517,101542,56303,28900,95347,83681,15132,396,30024,);
 
@@ -130,6 +130,7 @@ class UtilityMail extends AdminCommand
 
 //    $rocids = file($_SERVER['DOCUMENT_ROOT'] . '/users.csv');
 //    $criteria->addInCondition('t.RocId', $rocids);
+
 
     echo $userModel->count($criteria);
     return;
@@ -217,15 +218,15 @@ class UtilityMail extends AdminCommand
     }
 //    $mail->AddAddress('i.matvienko@icontext.ru');
     $mail->AddAddress($email);
-    $mail->SetFrom('info@in-numbers.ru', 'Интернет в цифрах', false);
+    $mail->SetFrom('research2012@raec.ru', 'РАЭК-исследование', false);
     $mail->CharSet = 'utf-8';
-    $mail->Subject = '=?UTF-8?B?'. base64_encode('"Бизнес мёртвых деревьев" на МКВЯ 2012') .'?=';
+    $mail->Subject = '=?UTF-8?B?'. base64_encode('Последняя возможность стать экспертом Рунета 2012') .'?=';
     $mail->Body = $this->mail;
 
     //$mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2012-06-18/forumspb12/postrelease.doc');
 //    $mail->AddAttachment('spic-attach.docx', 'СПИК_итоги.docx');
 
-//    $mail->Send();
+    //$mail->Send();
 //    echo $this->mail;
   }
   
