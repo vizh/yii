@@ -29,7 +29,7 @@ class MainReturn extends PayCommand
     }
     elseif ($eventId == 246)
     {
-      Lib::Redirect('http://2012.siteconf.ru/my/');
+      Lib::Redirect('http://2012.siteconf.ru/my/?paid');
     }
     elseif ($eventId == 312)
     {
