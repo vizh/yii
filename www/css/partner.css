@@ -72,25 +72,25 @@ ul.prevnext li.p{
 }
 ul.prevnext li.p a:link, ul.prevnext li.p a:visited, ul.prevnext li.p a:hover, ul.prevnext li.p a:active{
 	padding-left: 15px;
-	background: url(../images/prev_active.gif) 0 5px no-repeat;
+	background: url(/images/prev_active.gif) 0 5px no-repeat;
 	color: #0054a6;
 }
 ul.prevnext li.n a:link, ul.prevnext li.n a:visited, ul.prevnext li.n a:hover, ul.prevnext li.n a:active{
 	padding-right: 15px;
-	background: url(../images/next_active.gif) 100% 5px no-repeat;
+	background: url(/images/next_active.gif) 100% 5px no-repeat;
 	color: #0054a6;
 }
 ul.prevnext li.p a.inactive:link, ul.prevnext li.p a.inactive:visited,
 ul.prevnext li.p a.inactive:hover, ul.prevnext li.p a.inactive:active{
 	padding-left: 15px;
-	background: url(../images/prev_inactive.gif) 0 5px no-repeat;
+	background: url(/images/prev_inactive.gif) 0 5px no-repeat;
 	color: #959595;
 	text-decoration: none;
 }
 ul.prevnext li.n a.inactive:link, ul.prevnext li.n a.inactive:visited,
 ul.prevnext li.n a.inactive:hover, ul.prevnext li.n a.inactive:active{
 	padding-right: 15px;
-	background: url(../images/next_inactive.gif) 100% 5px no-repeat;
+	background: url(/images/next_inactive.gif) 100% 5px no-repeat;
 	color: #959595;
 	text-decoration: none;
 }
@@ -119,5 +119,5 @@ ul.paginator li a.curr:link, ul.paginator li a.curr:visited,
 ul.paginator li a:hover, ul.paginator li a:active{
 	color: #fff;
 	text-decoration: none;
-	background: #aaa url(../images/back_paginator.gif) 0 0 no-repeat;
+	background: #aaa url(/images/back_paginator.gif) 0 0 no-repeat;
 }

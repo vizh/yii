@@ -2,7 +2,7 @@
 
 class OrderController extends \partner\components\Controller
 {
-  const OrdersOnPage = 20;
+  const OrdersOnPage = 2;
 
   public function actions()
   {

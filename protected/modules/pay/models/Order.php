@@ -19,7 +19,6 @@ class Order extends \CActiveRecord
 
   public static function model($className=__CLASS__)
   {
-    echo __CLASS__;
     return parent::model($className);
   }
 

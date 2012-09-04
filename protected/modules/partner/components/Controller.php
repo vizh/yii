@@ -48,10 +48,12 @@ class Controller extends \application\components\controllers\BaseController
     $cs = \Yii::app()->clientScript;
     $manager = \Yii::app()->getAssetManager();
 
-    $cs->registerCssFile($manager->publish(\Yii::PublicPath() . '/css/bootstrap/css/bootstrap.css'));
+    $assetPath = $manager->publish(\Yii::PublicPath() . '/css/bootstrap');
+
+    $cs->registerCssFile($assetPath . '/css/bootstrap.css');
     $cs->registerCssFile($manager->publish(\Yii::PublicPath() . '/css/partner.css'));
 
-    $cs->registerScriptFile($manager->publish(\Yii::PublicPath() . '/css/bootstrap/js/bootstrap.js', \CClientScript::POS_HEAD));
+    $cs->registerScriptFile($assetPath . '/js/bootstrap.js', \CClientScript::POS_HEAD);
   }
 
   /**

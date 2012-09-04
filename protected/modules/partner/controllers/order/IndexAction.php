@@ -5,7 +5,7 @@ class IndexAction extends \partner\components\Action
 {
   public function run()
   {
-    $this->getController()->initBottomMenu('inactive');
+
 
     $this->getController()->setPageTitle('Список счетов');
 
@@ -14,6 +14,7 @@ class IndexAction extends \partner\components\Action
     $page = intval($request->getParam('page', null));
     $page = $page > 1 ? $page : 1;
 
+    $this->getController()->initBottomMenu($filter == 'active' ? 'active':'inactive');
 
 
     $criteria = new \CDbCriteria();
@@ -38,13 +39,7 @@ class IndexAction extends \partner\components\Action
       $criteria->params[':Deleted'] = 0;
     }
 
-    $model = \pay\models\Order::model();
-
-    echo '123';
-
     $count = \pay\models\Order::model()->count($criteria);
-
-    echo '456';
 
     $criteria->limit = \OrderController::OrdersOnPage;
     $criteria->offset = ($page - 1) * \OrderController::OrdersOnPage;
@@ -59,7 +54,9 @@ class IndexAction extends \partner\components\Action
       array(
         'orders' => $orders,
         'count' => $count,
-        'filter' => $filter
+        'filter' => $filter,
+        'page' => $page,
+        'perPage' => \OrderController::OrdersOnPage
       )
     );
   }

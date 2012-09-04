@@ -1,5 +1,5 @@
 <?php
-namespace partner\components\widgets;
+namespace partner\widgets;
 
 class TopMenu extends \CWidget
 {
