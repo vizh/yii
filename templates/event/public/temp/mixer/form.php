@@ -30,7 +30,7 @@ $data = $this->Data;
 
 <div class="cfldset">
 
-  <h3>Fill out the form</h3>
+  <h3 id="form">Fill out the form</h3>
 
   <label>Name of your startup:<span>*</span></label>
   <p><input name="data[name]" type="text" autocomplete="off" value="<?=isset($data['name']) ? CHtml::encode($data['name']) : '';?>"></p>
