@@ -3,7 +3,7 @@ AutoLoader::Import('main.source.*');
 
 class EventTempForm extends GeneralCommand
 {
-  private $access = array(35287, 454);
+  private $access = array(35287, 454, 15648, 337, 12959,  49779);
 
   /**
    * Основные действия комманды
