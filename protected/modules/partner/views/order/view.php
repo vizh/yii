@@ -20,15 +20,15 @@
   </div>
 
   <div class="span12 indent-bottom3">
-    <?if (!empty($this->error)):?>
+    <?if (!empty($this->action->error)):?>
     <div class="alert alert-error">
-      <p><strong>Возникла ошибка!</strong> <?=$this->Error;?></p>
+      <p><strong>Возникла ошибка!</strong> <?=$this->action->error;?></p>
 
       <p>Отправьте данное сообщение на email: <a href="mailto:users@rocid.ru">users@rocid.ru</a></p>
     </div>
-    <?elseif (! empty($this->result)):?>
+    <?elseif (! empty($this->action->result)):?>
     <div class="alert alert-success">
-      <p><strong>Выполнено!</strong> <br> <?=$this->Result;?></p>
+      <p><strong>Выполнено!</strong> <br> <?=$this->action->result;?></p>
     </div>
     <?endif;?>
   </div>

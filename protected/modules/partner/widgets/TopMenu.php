@@ -20,6 +20,12 @@ class TopMenu extends \CWidget
       'Access' => $this->checkAccess('order', 'index'),
       'Active' => $this->isActive('order')
     );
+    $menu[] = array(
+      'Title' => 'Участники',
+      'Url' => \Yii::app()->createUrl('/partner/user/index'),
+      'Access' => $this->checkAccess('user', 'index'),
+      'Active' => $this->isActive('user')
+    );
     /*$menu[] = array('Title' => 'Участники', 'Url' => \Yii::app()->createUrl(''));
     $menu[] = array('Title' => 'Промо-коды', 'Url' => \Yii::app()->createUrl(''));
     $menu[] = array('Title' => 'Заказы', 'Url' => \Yii::app()->createUrl(''));*/

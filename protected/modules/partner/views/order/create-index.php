@@ -1,8 +1,8 @@
-<?php if ( isset ($this->Error)):?>
-    <div class="alert alert-error"><?php echo $this->Error;?></div>
+<?php if ( !empty($this->action->error)):?>
+    <div class="alert alert-error"><?php echo $this->action->error;?></div>
 <?php endif;?>
 
-<form method="POST" class="">
+<form method="post" class="">
   <div class="row">
       <div class="span12 indent-bottom2">
           <h2>Формирование заказа</h2>

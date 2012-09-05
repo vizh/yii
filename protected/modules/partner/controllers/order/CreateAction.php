@@ -4,7 +4,9 @@ namespace partner\controllers\order;
 class CreateAction extends \partner\components\Action
 {
 
+  /** @var \user\models\User */
   public $payer;
+
   public $error;
 
   public function run()
@@ -13,7 +15,7 @@ class CreateAction extends \partner\components\Action
     $this->getController()->initBottomMenu('createbill');
 
     $payerRocId = \Yii::app()->getRequest()->getParam('payerRocId');
-    if (!empty($rocId))
+    if (!empty($payerRocId))
     {
       $this->payer = \user\models\User::GetByRocid($payerRocId);
       $this->stepCreateOrder();
@@ -29,13 +31,13 @@ class CreateAction extends \partner\components\Action
     $request = \Yii::app()->request;
     $createOrder = $request->getParam('CreateOrder');
 
-    if (\Yii::app()->request->getIsPostRequest() && !empty($createOrder))
+    if ($request->getIsPostRequest() && !empty($createOrder))
     {
 
       $payerRocId = (int) $createOrder['Payer']['RocId'];
       if ($payerRocId != 0)
       {
-        $this->getController()->redirect(\Yii::app()->createUrl('/partner/order/create/', array('payerRocId' => $payerRocId)));
+        $this->getController()->redirect(\Yii::app()->createUrl('/partner/order/create', array('payerRocId' => $payerRocId)));
       }
       else
       {
@@ -47,18 +49,14 @@ class CreateAction extends \partner\components\Action
 
   private function stepCreateOrder ()
   {
-    if ( !isset ($this->Payer))
+    if ( !isset ($this->payer))
     {
       $this->stepIndex();
-      $this->view->Error = 'Плательщик не найден';
+      $this->error = 'Плательщик не найден';
       return;
     }
 
-    $view = new View();
-    $view->SetTemplate('stepCreateOrder');
-
-    $view->Payer = $this->Payer;
-    $allOrderItems = OrderItem::GetByEventId($this->Payer->UserId, $this->Account->EventId);
+    $allOrderItems = \pay\models\OrderItem::GetByEventId($this->payer->UserId, \Yii::app()->partner->getAccount()->EventId);
     $orderItems = array();
 
     if ( !empty ($allOrderItems))
@@ -77,36 +75,28 @@ class CreateAction extends \partner\components\Action
       }
     }
 
-    if ( empty ($orderItems))
+    if (empty ($orderItems))
     {
       $this->stepIndex();
-      $this->view->Error = 'На пользователя с rocID: '. $this->Payer->RocId .' нет ни одного заказа';
+      $this->error = 'На пользователя с rocID: '. $this->payer->RocId .' нет ни одного заказа';
       return;
     }
-    else
-    {
-      $view->OrderItems = $orderItems;
-    }
 
-    if ( yii::app()->request->getIsPostRequest()
-      && isset ($_REQUEST['CreateOrder']))
+    $request = \Yii::app()->request;
+    $createOrder = $request->getParam('CreateOrder');
+    if ( $request->getIsPostRequest() && !empty($createOrder))
     {
-      $createOrder = Registry::GetRequestVar('CreateOrder');
       if ( $this->createOrderValidateForm($createOrder))
       {
-        Order::CreateOrder($this->Payer, $this->Account->EventId, $createOrder);
-        Lib::Redirect(
-          RouteRegistry::GetUrl('partner', 'order', 'search') .'?filter[PayerRocId]='. $this->Payer->RocId
-        );
+        \pay\models\Order::CreateOrder($this->payer, \Yii::app()->partner->getAccount()->EventId, $createOrder);
+        $this->getController()->redirect(\Yii::app()->createUrl('/partner/order/search', array('filter[PayerRocId]' => $this->payer->RocId)));
       }
       else
       {
-        $this->view->Error = 'Необходимо заполнить все поля данных юр. лиц.';
+        $this->error = 'Необходимо заполнить все поля данных юр. лиц.';
       }
     }
-
-
-    $this->view->Form = $view;
+    $this->getController()->render('create-order', array('orderItems' => $orderItems));
   }
 
   private function createOrderValidateForm ($data)
