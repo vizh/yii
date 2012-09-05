@@ -5,15 +5,18 @@ class ViewAction extends \partner\components\Action
 {
   public function run()
   {
-    $this->SetTitle('Управление счетом');
+    $this->getController()->setPageTitle('Управление счетом');
 
-        $orderId = intval($orderId);
-        $order = Order::GetById($orderId);
+    $request = \Yii::app()->getRequest();
+    $orderId = $request->getParam('orderId');
 
-        if (empty($order) || empty($order->OrderJuridical) || $order->EventId != $this->Account->EventId)
-        {
-          $this->Send404AndExit();
-        }
+    $order = \pay\models\Order::GetById($orderId);
+
+
+    if (empty($order) || empty($order->OrderJuridical) || $order->EventId != \Yii::app()->partner->getAccount()->EventId)
+    {
+      throw new \CHttpException(404);
+    }
 
         if (Yii::app()->request->getIsPostRequest())
         {
