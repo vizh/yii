@@ -34,8 +34,8 @@ class OrderController extends \partner\components\Controller
       ),
       'createbill' => array(
         'Title' => 'Выставить счет',
-        'Url' => '',
-        'Access' => ''
+        'Url' => \Yii::app()->createUrl('/partner/order/create/'),
+        'Access' => $this->getAccessFilter()->checkAccess('order', 'create')
       ),
     );
 

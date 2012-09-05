@@ -1,6 +1,5 @@
 <?php
 /** @var $order Order */
-$order = $this->Order;
 ?>
 
 <div class="row">
@@ -21,13 +20,13 @@ $order = $this->Order;
   </div>
 
   <div class="span12 indent-bottom3">
-    <?if (!empty($this->Error)):?>
+    <?if (!empty($this->error)):?>
     <div class="alert alert-error">
       <p><strong>Возникла ошибка!</strong> <?=$this->Error;?></p>
 
       <p>Отправьте данное сообщение на email: <a href="mailto:users@rocid.ru">users@rocid.ru</a></p>
     </div>
-    <?elseif (! empty($this->Result)):?>
+    <?elseif (! empty($this->result)):?>
     <div class="alert alert-success">
       <p><strong>Выполнено!</strong> <br> <?=$this->Result;?></p>
     </div>
@@ -112,8 +111,8 @@ $order = $this->Order;
           <button class="btn btn-danger" type="submit" name="SetDeleted" onclick="return confirm('Вы уверены, что хотите удалить счет?');"><i class="icon-remove icon-white"></i> Удалить</button>
           <?endif;?>
 
-          <a href="http://pay.<?=RouteRegistry::GetUrl('main', 'juridical', 'order', array('orderId' => $order->OrderId, 'hash' => $order->OrderJuridical->GetHash()), RouteRegistry::SectionDirPublic, '');?>" class="btn" target="_blank"><i class="icon-print"></i> Счет с печатью</a>
-          <a href="http://pay.<?=RouteRegistry::GetUrl('main', 'juridical', 'order', array('orderId' => $order->OrderId, 'hash' => $order->OrderJuridical->GetHash(), 'clear' => 'clear'), RouteRegistry::SectionDirPublic, '');?>" class="btn" target="_blank"><i class="icon-print"></i> Счет без печати</a>
+          <a href="http://pay.<?=ROCID_HOST . '/main/juridical/order/' . $order->OrderId . '/' . $order->OrderJuridical->GetHash() . '/';?>" class="btn" target="_blank"><i class="icon-print"></i> Счет с печатью</a>
+          <a href="http://pay.<?=ROCID_HOST . '/main/juridical/order/' . $order->OrderId . '/' . $order->OrderJuridical->GetHash() . '/clear/';?>" class="btn" target="_blank"><i class="icon-print"></i> Счет без печати</a>
         </div>
       </fieldset>
     </form>
