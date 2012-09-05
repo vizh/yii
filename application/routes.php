@@ -49,6 +49,9 @@ RouteRegistry::AddRoute('EventsList', array('/events/',
 RouteRegistry::AddRoute('EventUsers', array('/events/users/:idName/',
 	array('module'=>'event', 'section'=>'show', 'command'=>'users', 'idName' => '0')));
 
+RouteRegistry::AddRoute('EventShow.StartUpMixer', array('/events/startupmixer2012/',
+    array('module'=>'event', 'section'=>'temp', 'command'=>'mixer')));
+
 RouteRegistry::AddRoute('EventShow', array('/events/:idName/:date/',
     array('module'=>'event', 'section'=>'', 'command'=>'show', 'idName' => '0', 'date' => ''),
 	array('date' => '/(\d+)-(\d+)-(\d+)/')));
