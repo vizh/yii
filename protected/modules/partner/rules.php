@@ -10,7 +10,13 @@ return array(
   array(
     'allow',
     'roles' => array('Partner'),
-    'controllers' => array('main', 'order', 'user'),
+    'controllers' => array('main', 'order', 'user', 'coupon'),
+  ),
+  array(
+    'allow',
+    'roles' => array('Partner'),
+    'controllers' => array('orderitem'),
+    'actions' => array('index', 'create')
   ),
   array(
     'deny',

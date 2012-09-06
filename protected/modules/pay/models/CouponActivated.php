@@ -9,6 +9,7 @@ namespace pay\models;
  *
  * @property Coupon $Coupon
  * @property OrderItem[] $OrderItems
+ * @property \user\models\User $User
  */
 class CouponActivated extends \CActiveRecord
 {

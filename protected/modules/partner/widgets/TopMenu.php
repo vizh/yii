@@ -26,9 +26,18 @@ class TopMenu extends \CWidget
       'Access' => $this->checkAccess('user', 'index'),
       'Active' => $this->isActive('user')
     );
-    /*$menu[] = array('Title' => 'Участники', 'Url' => \Yii::app()->createUrl(''));
-    $menu[] = array('Title' => 'Промо-коды', 'Url' => \Yii::app()->createUrl(''));
-    $menu[] = array('Title' => 'Заказы', 'Url' => \Yii::app()->createUrl(''));*/
+    $menu[] = array(
+      'Title' => 'Промо-коды',
+      'Url' => \Yii::app()->createUrl('/partner/coupon/index'),
+      'Access' => $this->checkAccess('coupon', 'index'),
+      'Active' => $this->isActive('coupon')
+    );
+    $menu[] = array(
+      'Title' => 'Заказы',
+      'Url' => \Yii::app()->createUrl('/partner/orderitem/index'),
+      'Access' => $this->checkAccess('orderitem', 'index'),
+      'Active' => $this->isActive('orderitem')
+    );
 
     $this->render('topMenu', array('menu' => $menu));
   }

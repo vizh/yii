@@ -112,6 +112,7 @@ class IndexAction extends \partner\components\Action
         'event' => $event,
         'filter' => $filter,
         'count' => $count,
+        'page' => $page
       )
     );
   }

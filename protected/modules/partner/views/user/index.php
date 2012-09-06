@@ -96,4 +96,13 @@
     <div class="alert">По Вашему запросу нет ни одного участника.</div>
 <?php endif;?>
 
-<?php //echo $this->Paginator;?>
+<?php
+$params = array(
+  'url' => '/partner/user/index',
+  'count' => $count,
+  'perPage' => UserController::UsersOnPage,
+  'page' => $page
+);
+
+$this->widget('\application\widgets\Paginator', $params);
+?>
