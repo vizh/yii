@@ -19,6 +19,12 @@ return array(
     'actions' => array('index', 'create')
   ),
   array(
+    'allow',
+    'roles' => array('Partner'),
+    'controllers' => array('auth'),
+    'actions' => array('logout')
+  ),
+  array(
     'deny',
     'users' => array('*')
   ),

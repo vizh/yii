@@ -78,7 +78,7 @@
                 <?php if ( !empty ($event->Days)):?>
                     <?php foreach ($user['DayRoles'] as $dayRole):?>
                         <p>
-                            <strong><?php echo $dayRole->Day->Title;?></strong> - <?php echo $dayRole->EventRole->Name;?><br/>
+                            <strong><?php echo $dayRole->Day->Title;?></strong> - <?php echo $dayRole->Role->Name;?><br/>
                             <em><?php echo Yii::app()->dateFormatter->formatDateTime($dayRole->CreationTime, 'long');?></em>
                         </p>
                     <?php endforeach;?>

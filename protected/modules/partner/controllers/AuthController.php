@@ -31,4 +31,10 @@ class AuthController extends partner\components\Controller
 
     $this->render('index');
   }
+
+  public function actionLogout()
+  {
+    \Yii::app()->partner->logout(false);
+    $this->redirect(\Yii::app()->createUrl('/partner/auth/index'));
+  }
 }
