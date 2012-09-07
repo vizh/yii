@@ -15,6 +15,10 @@ body{
   top: 0;
 }
 
+a:focus{
+ outline: none;
+}
+
 .rocid-logo{
   padding: 20px 0;
 }

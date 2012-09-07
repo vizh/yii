@@ -8,11 +8,11 @@
     <div class="row">
         <div class="span4">
             <label>Плательщик:</label>
-            <input name="filter[Payer]" value="<?php if ( isset ($filter['Payer'])) echo $filter['Payer'];?>" placeholder="ROCID плательщика" />
+            <input type="text" name="filter[Payer]" value="<?php if ( isset ($filter['Payer'])) echo $filter['Payer'];?>" placeholder="ROCID плательщика" />
         </div>
         <div class="span4">
             <label>Получатель:</label>
-            <input name="filter[Owner]" value="<?php if ( isset ($filter['Owner'])) echo $filter['Owner'];?>" placeholder="ROCID получателя" />
+            <input type="text" name="filter[Owner]" value="<?php if ( isset ($filter['Owner'])) echo $filter['Owner'];?>" placeholder="ROCID получателя" />
         </div>
         <div class="span4">
             <label>Товар:</label>

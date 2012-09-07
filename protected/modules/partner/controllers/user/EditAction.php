@@ -17,12 +17,48 @@ class EditAction extends \partner\components\Action
   public function run()
   {
     $this->initResources();
+    $this->getController()->initBottomMenu('edit');
 
     $request = \Yii::app()->request;
     $rocId = $request->getParam('rocId', 0);
     $this->user = \user\models\User::GetByRocid($rocId);
-
     $this->setTitle();
+
+    if (empty($this->user))
+    {
+      if ($request->getIsPostRequest())
+      {
+        $this->error = 'Не удалось найти пользователя. Убедитесь, что все данные указаны правильно.';
+      }
+      $nameOrRocid = $request->getParam('NameOrRocid');
+      $this->getController()->render('edit', array(
+        'rocId' => $rocId,
+        'nameOrRocid' => $nameOrRocid
+      ));
+    }
+    else
+    {
+      if ($request->getQuery('rocId', null) == null)
+      {
+        $this->getController()->redirect(
+          \Yii::app()->createUrl('/partner/user/edit',
+            array('rocId' => $this->user->RocId)
+          )
+        );
+
+        $action = $request->getParam('action');
+
+        switch ($action){
+          case '':
+            break;
+          case '':
+            break;
+          case '':
+            break;
+        }
+      }
+    }
+
 
     $this->event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
     $this->roles = \event\models\Role::GetAll();
