@@ -32,6 +32,12 @@ return array(
     'actions' => array('paiditems', 'changepaid')
   ),
   array(
+    'allow',
+    'roles' => array('Operator'),
+    'controllers' => array('utility'),
+    'actions' => array('ping')
+  ), 
+  array(
     'deny',
     'users' => array('*')
   ),
