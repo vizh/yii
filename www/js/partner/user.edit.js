@@ -40,4 +40,35 @@ $(function(){
       }, 'json');
     }
   );
+
+  $('#user-edit-tabs #couponCodeActivate').bind('click',
+    function(e)
+    {
+      e.preventDefault();
+      var target = $(e.currentTarget);
+      var code = $('input#couponCode').attr('value');
+      var rocId = $('input[name="rocId"]').attr('value');
+
+      $('#couponError span').remove();
+      $('#couponError').append($('<span id="couponError" class="badge badge-warning">Сохранение...</span>'))
+      $.post('/user/edit/coupon', {
+        'code': code,
+        'rocId': rocId
+      }, function(data){
+        var next = $('#couponError span');
+        next.removeClass('badge-warning');
+        if (!data['error'])
+        {
+          next.addClass('badge-success');
+          next.html('Изменения сохранены.');
+          setTimeout(function(){next.remove(); window.location.reload(); }, 1000);
+        }
+        else{
+
+          next.addClass('badge-important');
+          next.html(data['message']);
+        }
+      }, 'json');
+    }
+  );
 });

@@ -52,8 +52,31 @@ class EditAction extends \partner\components\Action
       $this->event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
       $this->roles = \event\models\Role::GetAll();
 
+      $doAction = $request->getParam('do');
+      if ($doAction == 'deleteCoupon')
+      {
+        $couponActivation = $this->prepareCoupon();
+        if (empty($couponActivation->OrderItems))
+        {
+          $couponActivation->delete();
+          $this->getController()->redirect(
+            \Yii::app()->createUrl('/partner/user/edit',
+              array('rocId' => $this->user->RocId)
+            )
+          );
+        }
+      }
+
       $participants = $this->prepareParticipants();
-      $this->getController()->render('edit-tabs', array('participants' => $participants));
+      $couponActivation = $this->prepareCoupon();
+      $orderItems = $this->prepareOrderItems();
+      $this->getController()->render('edit-tabs',
+        array(
+          'participants' => $participants,
+          'couponActivation' => $couponActivation,
+          'orderItems' => $orderItems
+        )
+      );
     }
   }
 
@@ -111,9 +134,22 @@ class EditAction extends \partner\components\Action
     return $result;
   }
 
+  /**
+   * @return \pay\models\CouponActivated
+   */
   private function prepareCoupon()
   {
+    return \pay\models\CouponActivated::model()->byUserId($this->user->UserId)->byEventId($this->event->EventId)->find();
+  }
 
+  /**
+   * @return \pay\models\OrderItem[]
+   */
+  private function prepareOrderItems()
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->order = 't.Deleted ASC';
+    return \pay\models\OrderItem::model()->byOwnerId($this->user->UserId)->byEventId($this->event->EventId)->findAll($criteria);
   }
 
 }

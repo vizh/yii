@@ -15,6 +15,11 @@ class CouponActivated extends \CActiveRecord
 {
   public static $TableName = 'Mod_PayCouponActivated';
 
+  /**
+   * @static
+   * @param string $className
+   * @return CouponActivated
+   */
   public static function model($className=__CLASS__)
   {
     return parent::model($className);
@@ -37,6 +42,35 @@ class CouponActivated extends \CActiveRecord
       'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
       'OrderItems' => array(self::MANY_MANY, '\pay\models\OrderItem', 'Mod_PayCouponActivatedOrderItemLink(CouponActivatedId, OrderItemId)')
     );
+  }
+
+  /**
+   * @param int $userId
+   * @param bool $useAnd
+   * @return CouponActivated
+   */
+  public function byUserId($userId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = 't.UserId = :UserId';
+    $criteria->params = array(':UserId' => $userId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param int $eventId
+   * @param bool $useAnd
+   * @return CouponActivated
+   */
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = 'Coupon.EventId = :EventId';
+    $criteria->params = array(':EventId' => $eventId);
+    $criteria->with = array('Coupon');
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 
   /**
