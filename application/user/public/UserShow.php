@@ -186,6 +186,8 @@ class UserShow extends GeneralCommand
           switch ($contact->ServiceType->Protocol)
           {
             case 'facebook':
+              $contact->Account = trim($contact->Account,'/ ');
+              $contact->Account = substr($contact->Account, strrpos($contact->Account, '/')+1);
               $facebook[] = $contact->Account;
               break;
             case 'skype':
@@ -198,6 +200,8 @@ class UserShow extends GeneralCommand
               $moikrug[] = $contact->Account;
               break;
             case 'twitter':
+              $contact->Account = trim($contact->Account,'/ ');
+              $contact->Account = substr($contact->Account, strrpos($contact->Account, '/')+1);
               $twitter[] = $contact->Account;
               break;
           }
