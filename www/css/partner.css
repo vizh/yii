@@ -59,6 +59,9 @@ a:focus{
   margin-bottom: 30px;
 }
 
+.large{
+  font-size: 120%;
+}
 /************************************* paginators *****************************/
 ul.prevnext{
 	margin: 0;

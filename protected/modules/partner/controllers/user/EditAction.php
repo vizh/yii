@@ -14,6 +14,9 @@ class EditAction extends \partner\components\Action
   /** @var \event\models\Role[] */
   public $roles;
 
+  /** @var \event\models\Day[] */
+  public $days;
+
   public function run()
   {
     $this->initResources();
@@ -45,31 +48,12 @@ class EditAction extends \partner\components\Action
             array('rocId' => $this->user->RocId)
           )
         );
-
-        $action = $request->getParam('action');
-
-        switch ($action){
-          case '':
-            break;
-          case '':
-            break;
-          case '':
-            break;
-        }
       }
-    }
+      $this->event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
+      $this->roles = \event\models\Role::GetAll();
 
-
-    $this->event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
-    $this->roles = \event\models\Role::GetAll();
-
-    if (empty($this->event->Days))
-    {
-      $this->runSingleDayEvent();
-    }
-    else
-    {
-      $this->runMultipleDayEvent();
+      $participants = $this->prepareParticipants();
+      $this->getController()->render('edit-tabs', array('participants' => $participants));
     }
   }
 
@@ -96,107 +80,40 @@ class EditAction extends \partner\components\Action
   }
 
 
-  private function runSingleDayEvent()
+  private function prepareParticipants()
   {
-    $participant = null;
-    if ( !empty ($this->user))
+    $criteria = new \CDbCriteria();
+    $criteria->order = 't.DayId';
+    $participants = \event\models\Participant::model()->byEventId(\Yii::app()->partner->getAccount()->EventId)->byUserId($this->user->UserId)->findAll($criteria);
+
+    $emptyParticipant = new \event\models\Participant();
+    $emptyParticipant->DayId = null;
+    $emptyParticipant->RoleId = 0;
+
+    if (empty($this->event->Days))
     {
-      $participant = \event\models\Participant::GetByUserEventId($this->user->UserId, \Yii::app()->partner->getAccount()->EventId);
+      $result = sizeof($participants) != 0 ? $participants :  array($emptyParticipant);
     }
-
-    $request = \Yii::app()->request;
-    if ($request->getIsPostRequest())
+    else
     {
-      if (!empty ($this->user))
+      $result = array();
+      foreach ($this->event->Days as $day)
       {
-        $roleId = (int) $request->getParam('RoleId');
-
-        if ($roleId == 0 && !empty($participant))
-        {
-          $participant->delete();
-        }
-        elseif ($roleId != 0)
-        {
-          $role = \event\models\Role::GetById($roleId);
-          if ( empty ($participant))
-          {
-            $participant = $this->event->RegisterUser($this->user, $role);
-          }
-          else
-          {
-            $participant->UpdateRole($role);
-          }
-        }
+        $result[$day->DayId] = $emptyParticipant;
+        $this->days[$day->DayId] = $day;
       }
-      else
+      foreach ($participants as $participant)
       {
-        $this->error = 'Не удалось найти пользователя. Убедитесь, что все данные указаны правильно.';
+        $result[$participant->DayId] = $participant;
       }
     }
 
-
-    $this->getController()->render('edit-single-day',
-      array(
-        'participant' => $participant
-      )
-    );
+    return $result;
   }
 
-  private function runMultipleDayEvent()
+  private function prepareCoupon()
   {
-    $request = \Yii::app()->request;
-    if ($request->getIsPostRequest())
-    {
 
-      if ( !empty ($this->user))
-      {
-        $roleIds = $request->getParam('RoleId');
-        if (is_array($roleIds))
-        {
-          foreach ($roleIds as $dayId => $roleId)
-          {
-            $participant = \event\models\Participant::model()
-              ->byEventId( \Yii::app()->partner->getAccount()->EventId)
-              ->byDayId($dayId)
-              ->byUserId($this->user->UserId)->find();
-
-            if ($roleId != 0)
-            {
-              $role = \event\models\Role::GetById($roleId);
-              if ($participant != null)
-              {
-                $participant->UpdateRole($role);
-              }
-              else
-              {
-                $eventDay = \event\models\Day::model()->findByPk($dayId);
-                $this->event->RegisterUserOnDay($eventDay, $this->user, $role);
-              }
-            }
-            else if ($roleId == 0 && $participant != null)
-            {
-              $participant->delete();
-            }
-          }
-        }
-      }
-      else
-      {
-        $this->error = 'Не удалось найти пользователя. Убедитесь, что все данные указаны правильно.';
-      }
-    }
-
-    $participantRolesIdByDay = array();
-    if ( !empty ($this->user))
-    {
-      $participantsOnDay = \event\models\Participant::model()->byEventId(\Yii::app()->partner->getAccount()->EventId)->byUserId($this->user->UserId)->findAll();
-      foreach ($participantsOnDay as $participant)
-      {
-        $participantRolesIdByDay[$participant->DayId] = $participant->RoleId;
-      }
-    }
-
-
-    $this->getController()->render('edit-multiple-day', array('participantRolesIdByDay' => $participantRolesIdByDay));
   }
+
 }

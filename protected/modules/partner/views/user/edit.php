@@ -3,7 +3,15 @@
     <h2>Редактирование участника</h2>
   </div>
 
-  <?php $this->renderPartial('edit-error');?>
+  <div class="span12">
+    <?if (!empty($this->action->error)):?>
+    <div class="alert alert-error">
+      <button data-dismiss="alert" class="close">×</button>
+      <strong>Ошибка!</strong> <?=$this->action->error;?>
+    </div>
+    <?endif;?>
+  </div>
+
 
   <form action="" method="post">
     <div class="span12">

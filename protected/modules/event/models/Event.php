@@ -334,12 +334,12 @@ class Event extends \CActiveRecord
 
   public function RegisterUserOnDay(Day $day, \user\models\User $user, Role $role)
   {
-    $eventUser = Participant::model()->byEventId($this->EventId)->byUserId($user->UserId)->byDayId($day->DayId)->find();
-    if (empty($eventUser))
+    $participant = Participant::model()->byEventId($this->EventId)->byUserId($user->UserId)->byDayId($day->DayId)->find();
+    if (empty($participant))
     {
-      $eventUser = $this->registerUserUnsafe($user, $role, $day);
+      $participant = $this->registerUserUnsafe($user, $role, $day);
       $this->notifyAboutRegistration($user);
-      return $eventUser;
+      return $participant;
     }
     return null;
   }
