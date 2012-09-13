@@ -9,6 +9,12 @@ return array(
   ),
   array(
     'allow',
+    'users' => array('?'),
+    'controllers' => array('utility'),
+    'actions' => array('ping')
+  ),
+  array(
+    'allow',
     'roles' => array('Operator'),
     'controllers' => array('event'),
     'actions' => array('users', 'register', 'changerole', 'roles', 'settings')
@@ -31,12 +37,6 @@ return array(
     'controllers' => array('product'),
     'actions' => array('paiditems', 'changepaid')
   ),
-  array(
-    'allow',
-    'roles' => array('Operator'),
-    'controllers' => array('utility'),
-    'actions' => array('ping')
-  ), 
   array(
     'deny',
     'users' => array('*')
