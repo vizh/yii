@@ -161,6 +161,9 @@ class EventController extends ruvents\components\Controller
    */
   public function actionChangerole()
   {
+    echo json_encode(array('Success' => true));
+    return;
+
     $request = \Yii::app()->getRequest();
     $rocId = $request->getParam('RocId', null);
     $roleId = $request->getParam('RoleId', null);

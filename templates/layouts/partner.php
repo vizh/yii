@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<?if ($this->Account != null):
+<?if ($this->Account != null && false):
   $router = RouteRegistry::GetInstance();
   $section = $router->GetSection();
   ?>
@@ -57,7 +57,10 @@
 
 
 <div class="container content-block">
-  <?=$this->Content;?>
+
+  <h2>Новый адрес партнерского интерфейса: <a href="http://partner.rocid.ru/">http://partner.rocid.ru/</a></h2>
+
+  <?='';//$this->Content;?>
 </div>
 
 
