@@ -74,10 +74,10 @@ class IndexAction extends \partner\components\Action
         }
       }
     }
-
+   
     $criteria->group = 't.UserId';
     $count = \event\models\Participant::model()->count($criteria);
-    // count(EventUser::model()->findAll($criteria));
+    // TODO: Проверить работу Count в мероприятиях с несколькими днями
 
 
     /** @var $event \event\models\Event */
