@@ -18,7 +18,9 @@ return array(
         /** Partner Module Rules */
         'http://partner.'.ROCID_HOST.'/' => 'partner/main/index',
         'http://partner.'.ROCID_HOST.'/auth/' => 'partner/auth/index',
+        'http://partner.'.ROCID_HOST.'/user/edit/<action:\w+>' => 'partner/userEdit/<action>',
         'http://partner.'.ROCID_HOST.'/<controller:\w+>/<action:\w+>' => 'partner/<controller>/<action>',
+
 
 
         /** Ruvents Module Rules */

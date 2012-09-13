@@ -1,0 +1,1 @@
+<li><a href="<?=$url;?>" <?php if ($current): ?>class="curr"<?php endif;?>><?=$value;?></a></li>

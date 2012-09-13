@@ -6,7 +6,7 @@
 if (\Yii::app()->partner->getAccount() != null):
   ?>
 <div class="container navbar-fixed-top-menu">
-  <div class="navbar">
+  <div class="navbar navbar-inverse">
     <div class="navbar-inner">
       <div class="nav-collapse">
         <ul class="nav">

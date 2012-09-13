@@ -48,7 +48,7 @@ class Participant extends \CActiveRecord
       'Event' => array(self::BELONGS_TO, 'Event', 'EventId', 'order' => 'Event.DateStart DESC, Event.DateEnd DESC'),
       'Role' => array(self::BELONGS_TO, '\event\models\Role', 'RoleId'),
       'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-      'Day' => array(self::BELONGS_TO, 'EventDay', 'DayId')
+      'Day' => array(self::BELONGS_TO, '\event\models\Day', 'DayId')
     );
   }
 

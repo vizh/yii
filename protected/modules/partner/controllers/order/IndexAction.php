@@ -1,12 +1,10 @@
 <?php
 namespace partner\controllers\order;
 
-class IndexAction extends \CAction
+class IndexAction extends \partner\components\Action
 {
   public function run()
   {
-    $this->getController()->initBottomMenu('inactive');
-
     $this->getController()->setPageTitle('Список счетов');
 
     $request = \Yii::app()->getRequest();
@@ -14,6 +12,7 @@ class IndexAction extends \CAction
     $page = intval($request->getParam('page', null));
     $page = $page > 1 ? $page : 1;
 
+    $this->getController()->initBottomMenu($filter == 'active' ? 'active':'inactive');
 
 
     $criteria = new \CDbCriteria();
@@ -38,13 +37,7 @@ class IndexAction extends \CAction
       $criteria->params[':Deleted'] = 0;
     }
 
-    $model = \pay\models\Order::model();
-
-    echo '123';
-
     $count = \pay\models\Order::model()->count($criteria);
-
-    echo '456';
 
     $criteria->limit = \OrderController::OrdersOnPage;
     $criteria->offset = ($page - 1) * \OrderController::OrdersOnPage;
@@ -55,6 +48,14 @@ class IndexAction extends \CAction
     //$this->view->Paginator = new Paginator(RouteRegistry::GetUrl('partner', 'order', 'index') . '?page=%s', $page, self::OrdersOnPage, $count, array('filter' => $filter));
 
 
-    $this->getController()->render('index', array('orders' => $orders, 'count' => $count, 'filter' => $filter));
+    $this->getController()->render('index',
+      array(
+        'orders' => $orders,
+        'count' => $count,
+        'filter' => $filter,
+        'page' => $page,
+        'perPage' => \OrderController::OrdersOnPage
+      )
+    );
   }
 }

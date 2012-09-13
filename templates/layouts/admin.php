@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link rel="Shortcut Icon" href="/images/favicon.ico" type="image/x-icon" />
   <meta name='robots' content='noindex,nofollow' />
-  <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/css/bootstrap-setup.css">
   <link rel="stylesheet" type="text/css" href="/css/admin.css" media="all" />
   <link rel="stylesheet" type="text/css" href="/css/css3buttons.css" media="all" />
