@@ -31,7 +31,7 @@ class EventList extends AdminCommand
     $criteria->offset = self::EventsByPage * ($page - 1);
     $criteria->order = 't.DateStart DESC, t.DateEnd DESC';
     
-    $criteria->condition = 't.Visible = :Visible';
+    $criteria->condition = 't.Visible = :Visible AND t.Deleted = 0';
     if ($status == 'visible')
     {
       $criteria->params[':Visible'] = 'Y';
