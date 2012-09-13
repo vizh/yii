@@ -75,9 +75,10 @@
         <table class="table table-striped">
             <thead>
                 <th>Товар</th>
+                <th>Сумма</th>
+                <th>Тип оплаты</th>
                 <th>Плательщик</th>
                 <th>Получатель</th>
-                <th>Оплата</th>
                 <!--<th>Активация</th>-->
             </thead>
             <tbody>
@@ -85,23 +86,25 @@
                 <tr>
                     <td><?php echo $orderItem->Product->Title;?></td>
                     <td>
+                      <?php echo $orderItem->PriceDiscount();?>&nbsp;руб.<br/>
+                      <?php if ($orderItem->Paid == 1):?>
+                          <span class="label label-success">Оплачен</span>
+                      <?php else:?>
+                          <span class="label">Не оплачен</span>
+                      <?php endif;?>
+
+                      <?php if ($orderItem->Deleted == 1):?>
+                          <span class="label label-warning">Удален</span>
+                      <?php endif;?>
+                    </td>
+                    <td></td>
+                    <td>
                         <?php echo $orderItem->Payer->RocId;?>, <strong><?php echo $orderItem->Payer->GetFullName();?></strong>
                         <p><em><?php echo $orderItem->Payer->GetEmail() !== null ? $orderItem->Payer->GetEmail()->Email : $orderItem->Payer->Email; ?></em></p>
                     </td>
                     <td>
                         <?php echo $orderItem->Owner->RocId;?>, <strong><?php echo $orderItem->Owner->GetFullName();?></strong>
                         <p><em><?php echo $orderItem->Owner->GetEmail() !== null ? $orderItem->Owner->GetEmail()->Email : $orderItem->Owner->Email; ?></em></p>
-                    </td>
-                    <td>
-                        <?php if ($orderItem->Paid == 1):?>
-                            <span class="label label-success">Оплачен</span>
-                        <?php else:?>
-                            <span class="label">Не оплачен</span>
-                        <?php endif;?>
-                            
-                        <?php if ($orderItem->Deleted == 1):?>
-                            <span class="label label-warning">Удален</span>
-                        <?php endif;?>
                     </td>
                    <!-- <td class="activation">
                         <?php if ($orderItem->Paid == 1 && $orderItem->Deleted == 0):?>

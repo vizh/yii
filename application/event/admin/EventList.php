@@ -41,6 +41,19 @@ class EventList extends AdminCommand
       $criteria->params[':Visible'] = 'N';
     }
     
+    $search = Registry::GetRequestVar('Search', null);
+    if ($search !== null)
+    {
+      $query = $search['Query'];
+      if (!empty($query))
+      {
+        $criteria->addSearchCondition('t.Name', $query);
+        $criteria->addSearchCondition('t.EventId', $query, true, 'OR');
+        $criteria->addSearchCondition('t.IdName', $query, true, 'OR');
+      }
+    }
+    $this->view->Search = $search;
+    
     $events = Event::model()->findAll($criteria);
     foreach ($events as $event)
     {
