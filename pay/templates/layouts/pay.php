@@ -59,9 +59,13 @@
 <div id="footer">
   <div id="bottom-menu">
     <ul>
-      <li><a href="http://rocid.ru/main/about/">О проекте</a></li>
       <li><a href="http://rocid.ru/main/agreement/">Соглашение</a></li>
+      <li><a href="http://rocid.ru/main/page/delivery/">Доставка товара</a></li>
+      <li><a href="http://rocid.ru/main/page/pay/">Способы оплаты</a></li>
+      <li><a href="http://rocid.ru/main/page/payback/">Возврат</a></li>
+      <li><a href="http://rocid.ru/main/about/">О проекте</a></li>
       <li><a href="http://rocid.ru/main/ad/">Реклама</a></li>
+      <li><a href="http://rocid.ru/main/page/contact/">Контакты</a></li>
     </ul>
   </div>
   <div id="copyright">
