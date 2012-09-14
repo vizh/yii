@@ -156,6 +156,61 @@ class UserController extends \ruvents\components\Controller
   }
   
   /**
+   *
+   * @throws \ruvents\components\Exception 
+   */
+  public function actionSearch ()
+  {
+    $request = Yii::app()->getRequest();
+    $query = $request->getParam('Query', null);
+    if (empty($query))
+    {
+      throw new \ruvents\components\Exception(501);
+    }
+    
+    $criteriaWith = array(
+      'Emails' => array('together' => true), 
+      'Phones', 
+      'Employments', 
+      'Settings' => array('together' => true)
+    );
+    
+    if (filter_var($query, FILTER_VALIDATE_EMAIL))
+    {
+      $user = \user\models\User::GetByEmail($query, $criteriaWith);
+      if ($user === null)
+      {
+        $criteria = new CDbCriteria();
+        $criteria->condition = 'Emails.Email = :Email';
+        $criteria->params[':Email'] = $query;
+        $criteria->with = $criteriaWith;
+        $users = \user\models\User::model()->findAll($criteria);
+      }
+      else
+      {
+        $users[] = $user;
+      }
+    }
+    else 
+    {
+      $criteria = \user\models\User::GetSearchCriteria($query);
+      $criteria->with = $criteriaWith;
+      $users = \user\models\User::model()->findAll($criteria);
+    }
+    
+    $result = new stdClass();
+    if (!empty($users))
+    {
+      foreach ($users as $user)
+      {
+        $result->Result[] = $this->buildUser($user);
+      }
+    }
+    echo json_encode($result);
+  }
+  
+  
+  /**
    * Строит результат пользователя
    * @param \user\models\User $user
    * @return stdClass 

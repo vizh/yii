@@ -29,7 +29,7 @@ return array(
     'allow',
     'roles' => array('Operator'),
     'controllers' => array('user'),
-    'actions' => array('create', 'edit')
+    'actions' => array('create', 'edit', 'search')
   ),
   array(
     'allow',
