@@ -161,9 +161,6 @@ class EventController extends ruvents\components\Controller
    */
   public function actionChangerole()
   {
-    echo json_encode(array('Success' => true));
-    return;
-
     $request = \Yii::app()->getRequest();
     $rocId = $request->getParam('RocId', null);
     $roleId = $request->getParam('RoleId', null);
@@ -218,11 +215,15 @@ class EventController extends ruvents\components\Controller
     }
     if ($participant->RoleId == $role->RoleId)
     {
+      if ($participant->RoleId == 1)
+      {
+        echo json_encode(array('Success' => true));
+      }
       throw new \ruvents\components\Exception(305);
     }
 
     $participant->UpdateRole($role);
-
+    
     echo json_encode(array('Success' => true));
   }
   
