@@ -8,6 +8,7 @@ class CreateAction extends \partner\components\Action
   public function run()
   {
     $this->getController()->setPageTitle('Добавление заказа');
+    $this->getController()->initBottomMenu('create');
 
     $cs = \Yii::app()->clientScript;
     $cs->registerScriptFile(\Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/js/libs/jquery-ui-1.8.16.custom.min.js'), \CClientScript::POS_HEAD);
@@ -44,8 +45,8 @@ class CreateAction extends \partner\components\Action
       if ( empty($this->error))
       {
         $orderItemId = $selectedProduct->ProductManager()->CreateOrderItem($payer, $owner)->OrderItemId;
-        Lib::Redirect(
-          RouteRegistry::GetUrl('partner', 'orderitem', 'index') . '?' . http_build_query( array ('filter' => array('OrderItemId' => $orderItemId)))
+        $this->getController()->redirect(\Yii::app()->createUrl('/partner/orderitem/index',
+          array('filter' => array('OrderItemId' => $orderItemId)))
         );
       }
       else
