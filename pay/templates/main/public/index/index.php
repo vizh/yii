@@ -39,11 +39,12 @@ $orders = $this->Orders;
   </table>
 
   <div class="response">
+
     <a href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId));?>">Оплатить картой или эл. деньгами</a>
 
     <a href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId, 'type' => 'paypal'));?>">
       Оплатить через <i
-      style="
+        style="
         background: url('/images/paypal.png') no-repeat scroll 0 0 transparent;
         display: inline-block;
         width: 60px;
@@ -58,10 +59,19 @@ $orders = $this->Orders;
     <?endif;?>
     <div class="clear"></div>
 
-    <?if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1')://'82.142.129.35'):?>
+    <?if ($this->EventId == 215)://'82.142.129.35'):?>
     <a style="width: 400px;" href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId,  'type' => 'uniteller'));?>">Оплатить картой или эл. деньгами через Uniteller</a>
     <div class="clear"></div>
     <?endif;?>
+
+  </div>
+
+  <style type="text/css">
+    
+  </style>
+
+
+  <div class="pay-systems">
 
   </div>
 
@@ -71,15 +81,15 @@ $orders = $this->Orders;
 
   <div class="hLine"></div>
   <?if (! empty($this->Orders)):?>
-    <h3>Выставленные счета.</h3>
-    <table>
+  <h3>Выставленные счета.</h3>
+  <table>
     <tr>
       <th class="product">Данные счета</th>
       <th class="user"></th>
       <th class="price">Сумма счета</th>
       <th class="delete"></th>
     </tr>
-  <?foreach ($orders as $order):
+    <?foreach ($orders as $order):
     $total = 0;
     $min = '9999-01-01 00:00:00';
     $booked = false;
@@ -103,24 +113,24 @@ $orders = $this->Orders;
     <tr>
       <td class="product">Счет № <?=$order->OrderId;?> от  <?=date('d.m.Y', strtotime($order->CreationTime));?><br>
         <?if ($booked):?>
-        <span class="warning">Внимание! В счет включена услуга с окончанием брони <?=date('d.m.Y', strtotime($min));?> в <?=date('H:i', strtotime($min));?>. Необходимо оплатить до этого срока.</span>
-        <?endif;?>
+          <span class="warning">Внимание! В счет включена услуга с окончанием брони <?=date('d.m.Y', strtotime($min));?> в <?=date('H:i', strtotime($min));?>. Необходимо оплатить до этого срока.</span>
+          <?endif;?>
         <?if ($deleted):?>
           <span class="warning">Внимание! Из счета удалены услуги с истекшим сроком бронирования. Если вы еще не оплатили счет, распечатайте его повторно..</span>
-        <?endif;?>
+          <?endif;?>
       </td>
       <td class="user"><a target="_blank" href="<?=RouteRegistry::GetUrl('main', 'juridical', 'order', array('orderId' => $order->OrderId));?>">Просмотреть счет</a></td>
       <td class="price"><?=number_format($total, 0, '.', ' ');?> <?='руб.';?></td>
       <td class="delete"><a onclick="return confirm('Вы действительно хотите удалить счет № <?=$order->OrderId;?>?');" href="<?=RouteRegistry::GetUrl('main', 'juridical', 'delete', array('orderId' => $order->OrderId));?>">Удалить</a></td>
     </tr>
-  <?endforeach;?>
-      <tr>
+    <?endforeach;?>
+    <tr>
       <td colspan="3"></td>
       <td class="delete"></td>
     </tr>
-    </table>
+  </table>
 
-    <div class="hLine"></div>
+  <div class="hLine"></div>
   <?endif;?>
 
   <?if (!empty($paidItems)):?>
