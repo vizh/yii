@@ -7,6 +7,78 @@ $paidItems = $this->PaidItems;
 $orders = $this->Orders;
 ?>
 
+<style type="text/css">
+  .pay-systems{
+
+  }
+
+  .pay-systems a{
+
+  }
+
+  .pay-systems a i{
+    display: inline-block;
+    vertical-align: text-top;
+  }
+  .pay-systems a.payonline i{
+    background: url('/images/payonline.png') no-repeat scroll 0 0 transparent;
+    width: 96px;
+    height: 20px;
+    margin: 0 0 0 3px;
+  }
+  .pay-systems a.paypal i{
+    background: url('/images/paypal.png') no-repeat scroll 0 0 transparent;
+    width: 60px;
+    height: 25px;
+    margin: 2px 0 0 3px;
+  }
+  .pay-systems a.uniteller i{
+    background: url('/images/uniteller.png') no-repeat scroll 0 0 transparent;
+    width: 85px;
+    height: 25px;
+    margin: -5px 0 0 3px;
+  }
+  .pay-systems a.uniteller2 i{
+    background: url('/images/uniteller2.png') no-repeat scroll 0 0 transparent;
+    width: 132px;
+    height: 25px;
+    margin: -5px 0 0 3px;
+  }
+
+  .pay-system-list{
+    width: 230px;
+    display: inline-block;
+    float: left;
+  }
+  .pay-system-list span{
+    display: block;
+    float: left;
+    width: 52px;
+    height: 35px;
+    margin: 0 4px 4px 0;
+  }
+  .pay-system-list span.visa{
+    background: url('/images/pay-icons/visa.gif') no-repeat scroll 0 0 transparent;
+  }
+  .pay-system-list span.mastercard{
+    background: url('/images/pay-icons/mastercard.gif') no-repeat scroll 0 0 transparent;
+
+  }
+  .pay-system-list span.yandexmoney{
+    background: url('/images/pay-icons/yandexmoney.gif') no-repeat scroll 0 0 transparent;
+
+  }
+  .pay-system-list span.webmoney{
+    background: url('/images/pay-icons/webmoney.gif') no-repeat scroll 0 0 transparent;
+    width: 88px;
+    height: 31px;
+  }
+  .pay-system-list span.qiwi{
+    background: url('/images/pay-icons/terminalsqiwi.gif') no-repeat scroll 0 0 transparent;
+
+  }
+</style>
+
 <div class="content pay">
   <?if (!empty($newItems)):?>
   <table>
@@ -38,40 +110,55 @@ $orders = $this->Orders;
     </tr>
   </table>
 
-  <div class="response">
+  <div class="response pay-systems">
 
-    <a href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId));?>">Оплатить картой или эл. деньгами</a>
+    <?if ($this->EventId == 215):?>
+    <a class="uniteller" href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId,  'type' => 'uniteller'));?>">Оплатить через <i></i></a>
 
-    <a href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId, 'type' => 'paypal'));?>">
-      Оплатить через <i
-        style="
-        background: url('/images/paypal.png') no-repeat scroll 0 0 transparent;
-        display: inline-block;
-        width: 60px;
-        height: 25px;
-        vertical-align: text-top;
-        margin: 2px 0 0 3px;
-        "></i>
-    </a>
+    <div class="pay-system-list">
+      <span class="visa"></span>
+      <span class="mastercard"></span>
+      <span class="yandexmoney"></span>
+      <div class="clear"></div>
+      <span class="webmoney"></span>
+      <span class="qiwi"></span>
+      <div class="clear"></div>
+    </div>
+    <?else:?>
+    <a class="payonline" href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId));?>">Оплатить через <i></i></a>
+
+    <div class="pay-system-list">
+      <span class="visa"></span>
+      <span class="mastercard"></span>
+      <div class="clear"></div>
+      <span class="webmoney"></span>
+      <span class="qiwi"></span>
+      <div class="clear"></div>
+    </div>
+    <?endif;?>
+
+
+    <a class="paypal" href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId, 'type' => 'paypal'));?>">Оплатить через <i></i></a>
+
+    <div class="hLine"></div>
+
+  <?if ($this->EventId == 215):?>
+    <a class="payonline" href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId));?>">Оплатить через <i></i></a>
+
+    <div class="pay-system-list">
+      <span class="visa"></span>
+      <span class="mastercard"></span>
+      <div class="clear"></div>
+      <span class="webmoney"></span>
+      <span class="qiwi"></span>
+      <div class="clear"></div>
+    </div>
+  <?endif;?>
 
     <?if ($this->EventId != 106 && $this->EventId != 252 && $this->EventId != 236 && $this->EventId != 245 && $this->EventId != 258):?>
     <a href="<?=RouteRegistry::GetUrl('main', '', 'juridical', array('eventId' => $this->EventId));?>">Выставить счет (для юр. лиц)</a>
     <?endif;?>
-    <div class="clear"></div>
 
-    <?if ($this->EventId == 215)://'82.142.129.35'):?>
-    <a style="width: 400px;" href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId,  'type' => 'uniteller'));?>">Оплатить картой или эл. деньгами через Uniteller</a>
-    <div class="clear"></div>
-    <?endif;?>
-
-  </div>
-
-  <style type="text/css">
-    
-  </style>
-
-
-  <div class="pay-systems">
 
   </div>
 
