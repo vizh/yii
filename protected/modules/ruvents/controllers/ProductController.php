@@ -33,7 +33,7 @@ class ProductController extends \ruvents\components\Controller
     $result = array();
     foreach ($paidItems as $item)
     {
-      $result = $this->DataBuilder()->CreateOrderItem($item);
+      $result[] = $this->DataBuilder()->CreateOrderItem($item);
     }
     echo json_encode(array('OrderItems' => $result));
   }

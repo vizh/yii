@@ -198,12 +198,12 @@ class UserController extends \ruvents\components\Controller
       $users = \user\models\User::model()->findAll($criteria);
     }
     
-    $result = new stdClass();
+    $result = array('Users' => array());
     if (!empty($users))
     {
       foreach ($users as $user)
       {
-        $result->Result[] = $this->buildUser($user);
+        $result['Users'][] = $this->buildUser($user);
       }
     }
     echo json_encode($result);

@@ -218,6 +218,7 @@ class EventController extends ruvents\components\Controller
       if ($participant->RoleId == 1)
       {
         echo json_encode(array('Success' => true));
+        return;
       }
       throw new \ruvents\components\Exception(305);
     }
