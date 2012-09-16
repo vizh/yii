@@ -35,7 +35,7 @@ class ProductController extends \ruvents\components\Controller
     {
       $result = $this->DataBuilder()->CreateOrderItem($item);
     }
-    echo json_encode($result);
+    echo json_encode(array('OrderItems' => $result));
   }
 
   public function actionChangepaid()

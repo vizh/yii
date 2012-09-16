@@ -291,7 +291,7 @@ class EventController extends ruvents\components\Controller
       throw new \ruvents\components\Exception(301);
     }
     
-    $result = array();
+    $result = array('Settings' => array());
     $settings = \ruvents\models\EventSetting::model()->byEventId($event->EventId)->findAll();
     foreach ($settings as $setting)
     {
