@@ -9,7 +9,7 @@ $orders = $this->Orders;
 
 <style type="text/css">
   .pay-systems{
-
+    margin-top: 20px;
   }
 
   .pay-systems a{
@@ -161,6 +161,8 @@ $orders = $this->Orders;
 
 
   </div>
+
+    <div class="clear"></div>
 
   <?else:?>
   <h3>У вас нет товаров для оплаты.</h3>
