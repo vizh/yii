@@ -1,13 +1,13 @@
-<h1 class="event">Исследовательский проект «Экономика Рунета 2011-2012»</h1>
+<h1 class="event">Исследовательский проект<br />«Экономика Рунета 2011-2012»</h1>
 
 <div id="large-left" class="event-content">
 	<!-- content -->
   <div style="text-align: center;">
     <a title="Высшая Школа Экономики" target="_blank" style="display: block; float:left; padding: 40px 40px 20px 40px;" href="http://www.hse.ru/">
-      <img src="http://rocid.ru/files/partners/hse-inc/logo-220.gif" alt="Высшая Школа Экономики">
+      <img src="http://rocid.ru/files/partners/hse-horizontal-black/logo-220.png" alt="Высшая Школа Экономики">
     </a>
     <a title="РАЭК" target="_blank" style="display: block; float: left; padding: 0 40px 20px 40px;" href="http://raec.ru/">
-      <img src="http://rocid.ru/files/partners/raec/logo-220.gif" alt="РАЭК">
+      <img src="http://rocid.ru/files/partners/raec/logo-180.gif" alt="РАЭК">
     </a>
 
     <div class="clear"></div>
@@ -35,6 +35,8 @@
 		<li>Онлайн опрос экспертов-представителей игроков рынка. Анкета состоит из трех основных частей: информация об эксперте; финансовые данные по компании,  которую представляет эксперт; финансовые оценки рынка в целом.</li>
 		<li>Качественные (глубинные) интервью с экспертами, представляющими различные рынки.</li>
 	</ul>
+	<!--<p><a href="/i-research/vote/"><img src="/images/research/button.png" /></a></p>-->
+	<p><a href="http://in-numbers.ru/i-research/" target="_blank">О ходе и результатах исследования</a></p>
 	<p>Результаты исследования будут представлены в виде самостоятельного продукта и презентованы интернет-игрокам, широкой общественности,  СМИ,  государству.</p>
 
   <p>Если у вас возникнут какие-либо вопросы по исследованию, пожалуйста, обращайтесь: <a href="mailto:research2012@raec.ru">research2012@raec.ru</a></p>
