@@ -187,7 +187,10 @@ class UserShow extends GeneralCommand
           {
             case 'facebook':
               $contact->Account = trim($contact->Account,'/ ');
-              $contact->Account = substr($contact->Account, strrpos($contact->Account, '/')+1);
+              if (($pos = strrpos($contact->Account,'/')) !== false) 
+              {
+                $contact->Account = substr($contact->Account, $pos+1);
+              }
               $facebook[] = $contact->Account;
               break;
             case 'skype':
@@ -201,7 +204,10 @@ class UserShow extends GeneralCommand
               break;
             case 'twitter':
               $contact->Account = trim($contact->Account,'/ ');
-              $contact->Account = substr($contact->Account, strrpos($contact->Account, '/')+1);
+              if (($pos = strrpos($contact->Account,'/')) !== false) 
+              {
+                $contact->Account = substr($contact->Account, $pos+1);
+              }
               $twitter[] = $contact->Account;
               break;
           }
