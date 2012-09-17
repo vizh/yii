@@ -194,7 +194,8 @@ class UserController extends \ruvents\components\Controller
     else 
     {
       $criteria = \user\models\User::GetSearchCriteria($query);
-      $criteria->with = $criteriaWith;
+      $criteria->with  = $criteriaWith;
+      $criteria->limit = 200;
       $users = \user\models\User::model()->findAll($criteria);
     }
     

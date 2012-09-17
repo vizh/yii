@@ -461,7 +461,7 @@ class User extends \CActiveRecord
 		}
 		$criteria->condition .= ' AND Settings.Visible = \'1\'';
     //$criteria->params[':Visible'] = 1;
-		$criteria->order = 't.LastName DESC, t.FirstName DESC, t.FatherName DESC, t.RocId DESC';
+		$criteria->order = 't.LastName DESC, t.FirstName DESC, t.FatherName DESC, t.RocId DESC ';
 
 		return $criteria;
 	}
