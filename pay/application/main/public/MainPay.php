@@ -26,6 +26,10 @@ class MainPay extends PayCommand
         $system = new PayPalSystem();
         break;
       case 'uniteller':
+        if ($eventId != 215)
+        {
+          return;
+        }
         $system = new UnitellerSystem();
         break;
       default:

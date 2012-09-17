@@ -99,7 +99,16 @@ class UnitellerSystem extends BaseSystem
     $params['Signature'] = $signature;
     $params['URL_RETURN'] = RouteRegistry::GetUrl('main', '', 'return', array('eventId' => $eventId));
 
-    Lib::Redirect(self::Url . '?' . http_build_query($params));
+    $view = new View();
+    $view->SetLayout('pay');
+    $view->UseLayout(true);
+    $view->SetTemplate('uniteller', 'core', 'uniteller', '', 'public');
+
+    $view->Url = self::Url . '?' . http_build_query($params);
+
+    echo $view;
+
+    //Lib::Redirect(self::Url . '?' . http_build_query($params));
   }
 
   /**
