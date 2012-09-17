@@ -15,6 +15,12 @@ class TopMenu extends \CWidget
       'Active' => $this->isActive('main')
     );
     $menu[] = array(
+      'Title' => 'Регистрации',
+      'Url' => \Yii::app()->createUrl('/partner/ruvents/index'),
+      'Access' => $this->checkAccess('ruvents', 'index'),
+      'Active' => $this->isActive('ruvents')
+    );
+    $menu[] = array(
       'Title' => 'Счета',
       'Url' => \Yii::app()->createUrl('/partner/order/index'),
       'Access' => $this->checkAccess('order', 'index'),

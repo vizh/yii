@@ -25,6 +25,11 @@ return array(
     'actions' => array('logout')
   ),
   array(
+    'allow',
+    'roles' => array('Admin'),
+    'controllers' => array('ruvents')
+  ),
+  array(
     'deny',
     'users' => array('*')
   ),

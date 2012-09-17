@@ -16,6 +16,8 @@ namespace ruvents\models;
  */
 class Badge extends \CActiveRecord
 {
+  public $CountForCriteria = null;
+  
   /**
    * @static
    * @param string $className
