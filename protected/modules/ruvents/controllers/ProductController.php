@@ -43,7 +43,7 @@ class ProductController extends \ruvents\components\Controller
     $request = \Yii::app()->getRequest();
     $fromRocId = $request->getParam('FromRocId', null);
     $toRocId = $request->getParam('ToRocId', null);
-    $orderItemId = $request->getParam('OrderItemId', null);
+    $orderItemIdList = $request->getParam('$orderItemIdList', array());
 
     $event = \event\models\Event::GetById($this->Operator()->EventId);
     if (empty($event))
@@ -60,19 +60,92 @@ class ProductController extends \ruvents\components\Controller
     {
       throw new \ruvents\components\Exception(202, array($toRocId));
     }
-    $orserItem = \pay\models\OrderItem::GetById($orderItemId);
-    if (empty($orserItem))
+
+    $criteria = new CDbCriteria();
+    $criteria->addInCondition('t.OrderItemId', $orderItemIdList);
+
+    /** @var $orderItems \pay\models\OrderItem[] */
+    $orderItems = \pay\models\OrderItem::model()->findAll($criteria);
+
+    if (empty($orderItems))
     {
-      throw new \ruvents\components\Exception(409);
+      throw new \ruvents\components\Exception(409, array(implode(',', $orderItemIdList)));
     }
-    if ($orserItem->OwnerId != $fromUser->UserId)
+    if ( sizeof($orderItems) < sizeof($orderItemIdList))
     {
-      throw new \ruvents\components\Exception(413);
+      $errorId = array();
+      foreach ($orderItemIdList as $id)
+      {
+        $flag = true;
+        foreach($orderItems as $item)
+        {
+          if ($item->OrderItemId == $id)
+          {
+            $flag = false;
+            break;
+          }
+        }
+        if ($flag)
+        {
+          $errorId[] = $id;
+        }
+      }
+      throw new \ruvents\components\Exception(409, array(implode(',', $errorId)));
+    }
+    $this->checkOwned($orderItems, $fromUser);
+
+    $this->checkProducts($orderItems, $toUser);
+
+    foreach ($orderItems as $item)
+    {
+      $item->setRedirectUser($toUser);
     }
 
-    $success = $orserItem->setRedirectUser($toUser);
+    echo json_encode(array('Success' => true));
+  }
 
-    echo json_encode(array('Success' => $success));
+  /**
+   * @param \pay\models\OrderItem[] $orderItems
+   * @param \user\models\User $user
+   * @throws ruvents\components\Exception
+   * @return void
+   */
+  private function checkOwned($orderItems, $user)
+  {
+    $errorId = array();
+    foreach ($orderItems as $item)
+    {
+      if ($item->OwnerId != $user->UserId)
+      {
+        $errorId[] = $item->OrderItemId;
+      }
+    }
+    if (!empty($errorId))
+    {
+      throw new \ruvents\components\Exception(413, array(implode(',', $errorId)));
+    }
+  }
+
+  /**
+   * @param \pay\models\OrderItem[] $orderItems
+   * @param \user\models\User $user
+   * @throws ruvents\components\Exception
+   * @return void
+   */
+  private function checkProducts($orderItems, $user)
+  {
+    $errorId = array();
+    foreach ($orderItems as $item)
+    {
+      if (!$item->Product->ProductManager()->CheckProduct($user, $item->GetParamValues()))
+      {
+        $errorId[] = $item->OrderItemId;
+      }
+    }
+    if (!empty($errorId))
+    {
+      throw new \ruvents\components\Exception(414, array(implode(',', $errorId)));
+    }
   }
 
 }
