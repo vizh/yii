@@ -225,6 +225,9 @@ RouteRegistry::AddRoute('research.vote.statistics', array('/i-research/vote/stat
 RouteRegistry::AddRoute('research.vote.result', array('/i-research/vote/result/',
 	array('module'=>'research', 'section' => 'vote', 'command' => 'result')));
 
+RouteRegistry::AddRoute('research.page.2012', array('/research2012/',
+  array('module'=>'research', 'section' => 'page', 'command' => '2012')));
+
 
 /******************* PARTNER  ***************************/
 RouteRegistry::AddRoute('partner.index', array('/partner/',
