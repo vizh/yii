@@ -18,7 +18,7 @@ namespace pay\models;
  * @property \user\models\User $Payer
  * @property \user\models\User $Owner
  * @property \user\models\User $RedirectUser
- * @property Order[] $Orders
+ * @property Order $Orders
  * @property OrderItemParam[] $Params
  */
 class OrderItem extends \CActiveRecord
@@ -320,6 +320,23 @@ class OrderItem extends \CActiveRecord
       }
     }
     return isset($this->paramsCache[$name]) ? $this->paramsCache[$name] : null;
+  }
+
+  private $paramValuesCache = null;
+  /**
+   * @return array
+   */
+  public function GetParamValues()
+  {
+    if ($this->paramValuesCache == null)
+    {
+      $this->paramValuesCache = array();
+      foreach ($this->Params as $param)
+      {
+        $this->paramValuesCache[] = $param->Value;
+      }
+    }
+    return $this->paramValuesCache;
   }
 
 
