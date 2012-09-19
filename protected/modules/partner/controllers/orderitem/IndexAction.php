@@ -12,7 +12,8 @@ class IndexAction extends \partner\components\Action
     $criteria->with = array(
       'Product',
       'Payer',
-      'Owner'
+      'Owner',
+      'Orders'
     );
     $criteria->condition = 'Product.EventId = :EventId';
     $criteria->params[':EventId'] = \Yii::app()->partner->getAccount()->EventId;
@@ -72,7 +73,7 @@ class IndexAction extends \partner\components\Action
     {
       $criteria->addCondition('(t.Deleted = 0 OR t.Deleted = 1 AND t.Paid = 1)');
     }
-
+    
 //    if ( isset($filter['Deleted']) && $filter['Deleted'] == 0)
 //    {
 //      $criteria->addCondition('`t`.`Deleted` = 1 AND `t`.`Paid` = 1', 'OR');
@@ -81,12 +82,49 @@ class IndexAction extends \partner\components\Action
     $orderItems = \pay\models\OrderItem::model()->findAll($criteria);
     $products = \pay\models\Product::model()->findAll('t.EventId = :EventId', array(':EventId' => \Yii::app()->partner->getAccount()->EventId));
 
-
+ 
+    // Список платежных систем для orderItem
+    $orderIdList = array();
+    $orderItemsPaySystem = array();
+    foreach ($orderItems as $orderItem)
+    {
+      $orderId = $orderItem->Orders[0]->OrderId;
+      if ($orderId != null)
+      {
+        $orderIdList[$orderItem->OrderItemId] = $orderId;
+      }
+    }
+    
+    $criteria2 = new \CDbCriteria();
+    $criteria2->condition = 't.Type = :Type';
+    $criteria2->params['Type'] = \pay\models\PayLog::TypeSuccess;
+    $criteria2->addInCondition('t.OrderId', $orderIdList);
+    $payLogs = \pay\models\PayLog::model()->findAll($criteria2);
+    foreach ($payLogs as $payLog)
+    {
+      $orderItemId = array_search($payLog->OrderId, $orderIdList);
+      $orderItemsPaySystem[$orderItemId] = $payLog->PaySystem;
+      unset($orderIdList[$orderItemId]);
+    }
+    
+    $criteria2 = new \CDbCriteria;
+    $criteria2->condition = 't.Paid = 1';
+    $criteria2->addInCondition('t.OrderId', $orderIdList);
+    $ordersJuridical = \pay\models\OrderJuridical::model()->findAll($criteria2);
+    foreach ($ordersJuridical as $orderJuridical)
+    {
+      $orderItemId = array_search($orderJuridical->OrderId, $orderIdList);
+      $orderItemsPaySystem[$orderItemId] = 'Juridical';
+      unset($orderIdList[$orderItemId]);
+    }
+    
+    
     $this->getController()->render('index',
       array(
         'filter' => $filter,
         'orderItems' => $orderItems,
         'products' => $products,
+        'orderItemsPaySystem' => $orderItemsPaySystem,
         'count' => \pay\models\OrderItem::model()->count($criteria),
         'page' => $page
       )

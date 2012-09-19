@@ -9,7 +9,7 @@ class CallbackIndex extends AbstractCommand
    * @return void
    */
   protected function doExecute()
-  {
+  {    
     try
     {
       SystemRouter::Instance()->ParseSystemCallback();

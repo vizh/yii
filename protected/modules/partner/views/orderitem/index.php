@@ -49,25 +49,25 @@
 
 
 <script type="text/javascript">
-    $(function () {
-        $('.table td.activation a').click( function (e) {
-            var msg = 'Вы точно хотите '+ ( $(e.currentTarget).hasClass('btn-success') ? 'активировать' : 'деактивировать') + ' оплату'
-            if ( confirm (msg)) {
-                $.post('/partner/orderitem/', {
-                    'action'      : $(e.currentTarget).hasClass('btn-success') ? 'activate' : 'deactivate',
-                    'orderItemId' : $(e.currentTarget).data('orderitemid')
-                }, function (response) {
-                    if (response.success) {
-                        window.location.reload();
-                    }
-                    else {
-                        alert('Произошла ошибка при активации!');
-                    }
-                }, 'json');
-            }
-            return false;
-        });
+  $(function () {
+    $('.table td.activation a').click( function (e) {
+      var msg = 'Вы точно хотите '+ ( $(e.currentTarget).hasClass('btn-success') ? 'активировать' : 'деактивировать') + ' оплату'
+      if ( confirm (msg)) {
+        $.post('/partner/orderitem/', {
+          'action'      : $(e.currentTarget).hasClass('btn-success') ? 'activate' : 'deactivate',
+          'orderItemId' : $(e.currentTarget).data('orderitemid')
+        }, function (response) {
+          if (response.success) {
+              window.location.reload();
+          }
+          else {
+              alert('Произошла ошибка при активации!');
+          }
+        }, 'json');
+      }
+      return false;
     });
+  });
 </script>
 <?php if (!empty($orderItems)):?>
 <div class="row">
@@ -76,7 +76,7 @@
             <thead>
                 <th>Товар</th>
                 <th>Сумма</th>
-                <th>Тип оплаты</th>
+                <th>Тип&nbsp;оплаты</th>
                 <th>Плательщик</th>
                 <th>Получатель</th>
                 <!--<th>Активация</th>-->
@@ -97,7 +97,29 @@
                           <span class="label label-warning">Удален</span>
                       <?php endif;?>
                     </td>
-                    <td></td>
+                    <td>
+                      <?php switch($orderItemsPaySystem[$orderItem->OrderItemId]) {
+                        case 'Juridical':
+                          echo '<span class="text-info">Юр. счет</span>';
+                          break;
+
+                        case 'PayOnlineSystem':
+                          echo '<span class="text-warning">PayOnline</span>';
+                          break;
+
+                        case 'PayPalSystem':
+                          echo '<span class="text-warning">PayPal</span>';
+                          break;
+
+                        case 'UnitellerSystem':
+                          echo '<span class="text-warning">Uniteller</span>';
+                          break;
+
+                        default:
+                          echo '<span class="muted">Не задан</span>';
+                          break;
+                      }?>
+                    </td>
                     <td>
                         <?php echo $orderItem->Payer->RocId;?>, <strong><?php echo $orderItem->Payer->GetFullName();?></strong>
                         <p><em><?php echo $orderItem->Payer->GetEmail() !== null ? $orderItem->Payer->GetEmail()->Email : $orderItem->Payer->Email; ?></em></p>

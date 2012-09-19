@@ -18,7 +18,7 @@ namespace pay\models;
  * @property \user\models\User $Payer
  * @property \user\models\User $Owner
  * @property \user\models\User $RedirectUser
- * @property Order $Orders
+ * @property Order[] $Orders
  * @property OrderItemParam[] $Params
  */
 class OrderItem extends \CActiveRecord

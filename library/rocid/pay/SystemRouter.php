@@ -85,15 +85,18 @@ class SystemRouter
       print_r($_REQUEST);
       $log->Info = ob_get_clean();
     }
+    $log->PaySystem = get_class(self::$instance->system);
     $log->Type = PayLog::TypeError;
     $log->save();
   }
 
   public static function LogSuccess()
   {
+    echo '123';
     $log = new PayLog();
     $log->Message = 'Success payment';
     $log->Info = self::$instance->system->Info();
+    $log->PaySystem = get_class(self::$instance->system);
     $log->OrderId = self::$instance->system->OrderId();
     $log->Total = self::$instance->system->Total();
     $log->Type = PayLog::TypeSuccess;
