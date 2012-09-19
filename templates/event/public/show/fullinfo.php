@@ -42,5 +42,12 @@
 
   <?php echo $this->FullInfo;?>
 
+
+  <?if (!empty($this->UrlRegistration)):?>
+  <div style="text-align: center;" class="response">
+    <a style="width: 300px; display: inline-block;" href="<?=$this->UrlRegistration;?>">Зарегистрироваться</a>
+  </div>
+  <?endif;?>
+
   <!-- end event-content -->
 </div>

@@ -19,11 +19,11 @@ namespace event\models;
  * @property string $DateEnd
  * @property int $FastRole
  * @property int $DefaultRoleId
- * @property int $FastProduct
+ * @property string $FastProduct
  * @property string $Visible
  * @property int $Order
  *
- * @method string GetMiniLogo()
+ *
  *
  *
  * @property Day[] $Days

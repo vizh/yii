@@ -22,8 +22,11 @@ class EventRegister extends GeneralCommand
     $this->view->Event = $event;
     if (!empty($event->FastProduct))
     {
-      $product = Product::GetById($event->FastProduct);
-      $this->view->Product = $product;
+      $list = explode(',', $event->FastProduct);
+      $criteria = new CDbCriteria();
+      $criteria->addInCondition('t.ProductId', $list);
+      $products = Product::model()->findAll($criteria);
+      $this->view->Products = $products;
     }
 
     if ($this->LoginUser !== null)
@@ -39,14 +42,27 @@ class EventRegister extends GeneralCommand
           }
           $this->view->SetTemplate('success');
         }
-        elseif (!empty($product))
+        elseif (!empty($products))
         {
-          $orderItem = OrderItem::GetByAll($product->ProductId, $this->LoginUser->UserId, $this->LoginUser->UserId);
-          if (empty($orderItem))
+          $productId = Registry::GetRequestVar('productId', null);
+          $product = null;
+          foreach ($products as $prod)
           {
-            $product->ProductManager()->CreateOrderItem($this->LoginUser, $this->LoginUser);
+            if ($prod->ProductId == $productId)
+            {
+              $product = $prod;
+              break;
+            }
           }
-          Lib::Redirect('http://pay.rocid.ru/' . $event->EventId . '/');
+          if (!empty($product))
+          {
+            $orderItem = OrderItem::GetByAll($product->ProductId, $this->LoginUser->UserId, $this->LoginUser->UserId);
+            if (empty($orderItem))
+            {
+              $product->ProductManager()->CreateOrderItem($this->LoginUser, $this->LoginUser);
+            }
+            Lib::Redirect('http://pay.rocid.ru/' . $event->EventId . '/');
+          }
         }
       }
     }
