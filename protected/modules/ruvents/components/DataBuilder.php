@@ -40,6 +40,7 @@ class DataBuilder
     $this->user->Birthday = $user->Birthday;
     $this->user->UpdateTime = $user->UpdateTime;
     $this->user->Sex = $user->Sex;
+    $this->user->CreationTime = $user->CreationTime;
 
     $this->user->Photo = new \stdClass();
     $this->user->Photo->Small = $user->GetMiniPhoto();
@@ -133,6 +134,7 @@ class DataBuilder
           $this->user->Status = new \stdClass();
           $this->user->Status->RoleId = $participant->RoleId;
           $this->user->Status->RoleName = $participant->Role->Name;
+          $this->user->Status->CreationTime = $participant->CreationTime;
           $this->user->Status->UpdateTime = $participant->UpdateTime;
           //todo: добавить поле UpdateTime, переделать эти поля в timestamp
         }
@@ -146,6 +148,7 @@ class DataBuilder
           $status->DayId = $participant->DayId;
           $status->RoleId = $participant->RoleId;
           $status->RoleName = $participant->Role->Name;
+          $status->CreationTime = $participant->CreationTime;
           $status->UpdateTime = $participant->UpdateTime;
           $this->user->Status[] = $status;
         }
