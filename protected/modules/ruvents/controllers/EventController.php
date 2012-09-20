@@ -157,7 +157,7 @@ class EventController extends ruvents\components\Controller
     echo json_encode(array('Success' => true));
   }
 
-  public function actionDelete()
+  public function actionUnregister()
   {
     $request = \Yii::app()->getRequest();
     $rocId = $request->getParam('RocId', null);
@@ -203,7 +203,7 @@ class EventController extends ruvents\components\Controller
     {
       throw new \ruvents\components\Exception(304);
     }
-    
+
     $participant->delete();
     echo json_encode(array('Success' => true));
   }
