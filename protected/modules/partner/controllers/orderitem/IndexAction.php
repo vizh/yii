@@ -88,7 +88,7 @@ class IndexAction extends \partner\components\Action
     $orderItemsPaySystem = array();
     foreach ($orderItems as $orderItem)
     {
-      $orderId = $orderItem->Orders[0]->OrderId;
+      $orderId = !empty($orderItem->Orders) ? $orderItem->Orders[0]->OrderId : null;
       if ($orderId != null)
       {
         $orderIdList[$orderItem->OrderItemId] = $orderId;
