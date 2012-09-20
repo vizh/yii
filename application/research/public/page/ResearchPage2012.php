@@ -14,12 +14,13 @@ class ResearchPage2012 extends GeneralCommand
       $userIdList[] = $info['UserId'];
     }
     $criteria = new CDbCriteria();
-    //$criteria->with = array(
-      //'Employments'
-    //);
+    $criteria->with = array(
+      'Employments'
+    );
     $criteria->addInCondition('t.UserId', $userIdList);
     $this->view->Experts = User::model()->findAll($criteria);
    
+    $this->SetTitle('Экономика Рунета 2012');
     echo $this->view;
   }
 }
