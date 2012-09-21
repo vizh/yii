@@ -18,6 +18,8 @@ return array(
     'event',
     'geo',
     'user',
-    'pay'
+    'pay',
+
+    'mytest'
   ),
 );

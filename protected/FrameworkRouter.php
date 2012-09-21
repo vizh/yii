@@ -6,7 +6,8 @@ class FrameworkRouter
   private $rules = array(
     'domain' => array('partner', 'ruvents'),
 
-    'path' => array('gii'),
+    'path' => array('gii', 'mytest'),
+
 
     /*
     'path' => array('path_mask'),

@@ -88,6 +88,27 @@ class OrderItem extends \CActiveRecord
   }
 
   /**
+   * @param int|null $userId
+   * @param bool $useAnd
+   * @return OrderItem
+   */
+  public function byRedirectId($userId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    if ($userId !== null)
+    {
+      $criteria->condition = 't.RedirectId = :RedirectId';
+      $criteria->params = array(':RedirectId' => $userId);
+    }
+    else
+    {
+      $criteria->condition = 't.RedirectId IS NULL';
+    }
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
    * @param int $eventId
    * @param bool $useAnd
    * @return OrderItem

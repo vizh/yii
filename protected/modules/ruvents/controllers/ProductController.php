@@ -24,9 +24,11 @@ class ProductController extends \ruvents\components\Controller
       throw new \ruvents\components\Exception(202, array($rocId));
     }
 
-    /** @var $paidItems \pay\models\OrderItem */
+    /** @var $paidItems \pay\models\OrderItem[] */
     $paidItems = \pay\models\OrderItem::model()
       ->byOwnerId($user->UserId)
+      ->byRedirectId(null)
+      ->byRedirectId($user->UserId, false)
       ->byEventId($event->EventId)
       ->byPaid(1)->with(array('Product', 'Payer', 'Owner', 'RedirectUser'))->findAll();
 
@@ -43,7 +45,8 @@ class ProductController extends \ruvents\components\Controller
     $request = \Yii::app()->getRequest();
     $fromRocId = $request->getParam('FromRocId', null);
     $toRocId = $request->getParam('ToRocId', null);
-    $orderItemIdList = $request->getParam('$orderItemIdList', array());
+    $orderItemIdList = $request->getParam('orderItemIdList', '');
+    $orderItemIdList = explode(',', $orderItemIdList);
 
     $event = \event\models\Event::GetById($this->Operator()->EventId);
     if (empty($event))
@@ -115,7 +118,8 @@ class ProductController extends \ruvents\components\Controller
     $errorId = array();
     foreach ($orderItems as $item)
     {
-      if ($item->OwnerId != $user->UserId)
+      if ((!empty($item->RedirectId) && $item->RedirectId != $user->UserId) ||
+        (empty($item->RedirectId) && $item->OwnerId != $user->UserId))
       {
         $errorId[] = $item->OrderItemId;
       }
