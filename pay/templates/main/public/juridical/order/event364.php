@@ -14,7 +14,7 @@ $orderJuridical = $this->OrderJuridical;
   <TABLE cellSpacing="0" cellPadding="5" width="720" border="0">
     <TBODY>
     <TR>
-      <TD><b>ООО "Вебпрактик"</b><BR>Адрес: 344022, Ростовская обл, Ростов-на-Дону г, Седова ул, дом № 16, кв.19<BR>тел. +7 (495) 950-56-51</TD>
+      <TD><b>ООО "Вебпрактик"</b><BR>Адрес: 344022, Ростовская обл, Ростов-на-Дону г, Седова ул, дом № 16, кв.19<BR></TD>
       <td align="right"><img src="/images/bill/rocid.png" width="129" height="48"></td>
 
     </tr>
@@ -106,33 +106,21 @@ $orderJuridical = $this->OrderJuridical;
 
       </TD>
     </TR>
-    <?if ($this->WithSign):?>
+
     <TR>
 
       <TD colspan="2">
+        <?if ($this->WithSign):?>
         <IMG	style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none"
-              src="/images/bill/signature.jpg"
+              src="/images/bill/event364/bill_withsign.png"
             />
+        <?else:?>
+        <IMG	style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none"
+                      src="/images/bill/event364/bill_nosign.png"
+                    />
+        <?endif;?>
       </TD>
     </TR>
-    <?else:?>
-    <TR>
-      <TD colspan="2">
-        <table>
-          <tr>
-            <td>Руководитель предприятия</td>
-            <td>__________________________</td>
-            <td>(Гребенников С. В.)</td>
-          </tr>
-          <tr>
-            <td>Главный бухгалтер</td>
-            <td>__________________________</td>
-            <td>(Гулина Н. А.)</td>
-          </tr>
-        </table>
-        <br/><br/><br/><br/><br/>
-      </TD>
-    </TR>
-    <?endif;?>
+
     </TBODY>
   </TABLE></DIV></BODY></HTML>
