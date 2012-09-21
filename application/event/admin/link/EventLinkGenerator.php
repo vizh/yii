@@ -1,6 +1,5 @@
 <?php
-
-
+AutoLoader::Import('library.rocid.event.*');
 
 class EventLinkGenerator extends AdminCommand
 {
