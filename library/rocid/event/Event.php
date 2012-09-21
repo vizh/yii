@@ -379,7 +379,7 @@ class Event extends CActiveRecord
   {
     $params = array('EventId' => $this->EventId, 'RocId' => $rocId, 'RoleId' => $roleId);
     $params['secret'] = self::getRegistrationSecret($this->EventId, $rocId, $roleId);
-    return RouteRegistry::GetUrl('event', '', '', array('code' => base64_decode(serialize($params))));
+    return RouteRegistry::GetUrl('event', '', 'registerfast', array('code' => base64_encode(serialize($params))));
   }
 
   public static function ParseRegisterCode($code)
