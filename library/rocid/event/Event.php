@@ -368,6 +368,32 @@ class Event extends CActiveRecord
     }
   }
 
+  private static $secretRegisterCode = 'rMkNLsFb6ejSbqfUpn6PAHvFbCEhy7';
+
+  private static function getRegistrationSecret($eventId, $rocId, $roleId)
+  {
+    return substr(md5($eventId.self::$secretRegisterCode.$rocId,$roleId), 0, 20);
+  }
+
+  public function getRegisterUrl($rocId, $roleId)
+  {
+    $params = array('EventId' => $this->EventId, 'RocId' => $rocId, 'RoleId' => $roleId);
+    $params['secret'] = self::getRegistrationSecret($this->EventId, $rocId, $roleId);
+    return RouteRegistry::GetUrl('event', '', '', array('code' => base64_decode(serialize($params))));
+  }
+
+  public static function ParseRegisterCode($code)
+  {
+    $params = unserialize(base64_decode($code));
+    if ($params['secret'] === self::getRegistrationSecret($params['EventId'], $params['RocId'], $params['RoleId']))
+    {
+      unset($params['secret']);
+      return $params;
+    }
+
+    return null;
+  }
+
   /**
    *
    * @return array
