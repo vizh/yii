@@ -11,6 +11,10 @@
     margin-bottom: 20px;
     font-size: 21px;
   }
+  .event-content .rocid-onesec h3 {
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
   .event-content li a {
     color: #2054bf;
   }
