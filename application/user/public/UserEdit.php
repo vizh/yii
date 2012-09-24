@@ -38,7 +38,7 @@ class UserEdit extends GeneralCommand
         http_build_query(array('backUrl' => '/user/edit/'))
       );
 		}
-		$this->user = User::GetByRocid($this->LoginUser->RocId, array('Addresses.City.Country', 'Phones', 'ServiceAccounts', 'Sites', 'Employments.Company'));
+		$this->user = User::GetByRocid($this->LoginUser->RocId, array('Employments.Company'));
 		$this->view->MainEdit = $this->getMainEditHtml();
 		$this->view->WorkEdit = $this->getWorkEditHtml();
 		$this->view->ContactEdit = $this->getContactEditHtml();
