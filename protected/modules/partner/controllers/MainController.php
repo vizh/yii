@@ -15,6 +15,8 @@ class MainController extends \partner\components\Controller
     $stat->Pay->Individual->OrdersPaid = 0;
     $stat->Pay->Individual->Total = 0;
 
+    $stat->Participants = array();
+
     $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
 
     $orders = $this->getOrders();
@@ -52,6 +54,7 @@ class MainController extends \partner\components\Controller
       {
         $stat->Participants[$day->DayId] = new \stdClass();
         $stat->Participants[$day->DayId]->Title = $day->Title;
+        $stat->Participants[$day->DayId]->Roles = array();
       }
     }
 

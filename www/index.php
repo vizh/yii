@@ -1,7 +1,10 @@
 <?php
 // отключаем отладку
-define('YII_DEBUG', true);
+$debug = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '82.142.129.35';
+define('YII_DEBUG', $debug);
 define('YII_TRACE_LEVEL',3);
+
+
 
 if (!extension_loaded('pdo') and !dl('pdo.so')) die("NO pdo HERE!");
 if (!extension_loaded('pdo_mysql') and !dl('pdo_mysql.so')) die("NO pdo_mysql HERE!");
