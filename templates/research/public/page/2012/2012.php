@@ -1,15 +1,15 @@
 <style>
   h1 {
-    font-size: 23px;
+    font-size: 31px;
   }
   .event-content h2 {
     padding-bottom: 20px;
     padding-top: 40px;
-    font-size: 21px;
+    font-size: 29px;
   }
   .event-content h3 {
     margin-bottom: 20px;
-    font-size: 16px;
+    font-size: 21px;
   }
   .event-content li a {
     color: #2054bf;
