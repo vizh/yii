@@ -21,8 +21,8 @@ class UserController extends \ruvents\components\Controller
       $user->Settings->save();
       
       $company = $request->getParam('Company', null);
-      $position = $request->getParam('Position', null);
-      if ($company != null && $position != null)
+      $position = $request->getParam('Position', '');
+      if ($company != null)
       {
         $this->addUserEmployment($user, $company, $position);
       }
@@ -142,8 +142,8 @@ class UserController extends \ruvents\components\Controller
     }
     
     $company = $request->getParam('Company', null);
-    $position = $request->getParam('Position', null);
-    if ($company != null && $position != null)
+    $position = $request->getParam('Position', '');
+    if ($company != null)
     {
       $this->addUserEmployment($user, $company, $position);
     }
