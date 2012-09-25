@@ -132,7 +132,7 @@ $orders = $this->Orders;
       <span class="mastercard"></span>
       <div class="clear"></div>
       <span class="webmoney"></span>
-      <span class="qiwi"></span>
+      <!--<span class="qiwi"></span>-->
       <div class="clear"></div>
     </div>
     <?endif;?>
@@ -150,7 +150,7 @@ $orders = $this->Orders;
       <span class="mastercard"></span>
       <div class="clear"></div>
       <span class="webmoney"></span>
-      <span class="qiwi"></span>
+      <!--<span class="qiwi"></span>-->
       <div class="clear"></div>
     </div>
   <?endif;?>
