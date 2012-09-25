@@ -5,7 +5,7 @@ AutoLoader::Import('utility.source.*');
 class UtilityUploadSite12 extends AdminCommand
 {
   const Path = '/files/';
-  const FileName = 'event246-list-sveta.csv';
+  const FileName = 'event246-all.csv';
   const EventId = 246;
 
 
@@ -16,15 +16,19 @@ class UtilityUploadSite12 extends AdminCommand
   protected function doExecute()
   {
     $fieldMap = array(
-      'FIO' => 0,
-      'Company' => 1,
+      'Company' => 0,
+      'FIO' => 1,
+      'RocId' => 2,
 
-      'Email' => 2,
+      'Role' => 3,
+      'SubRole' => 4,
 
-      'Phone' => 3,
 
-      'Role' => 4,
-      'SubRole' => 5,
+      'Email' => 5,
+
+      'Phone' => 6,
+
+
     );
 
     $parser = new CsvParser($_SERVER['DOCUMENT_ROOT'] . self::Path . self::FileName);
@@ -40,6 +44,11 @@ class UtilityUploadSite12 extends AdminCommand
 
     foreach ($results as $info)
     {
+      if (!empty($info->RocId))
+      {
+        fputcsv($fp, (array)$info);
+        continue;
+      }
       $user = null;
       if (!empty($info->Email))
       {
