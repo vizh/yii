@@ -5,7 +5,7 @@ AutoLoader::Import('utility.source.*');
 class UtilityUploadSite12 extends AdminCommand
 {
   const Path = '/files/';
-  const FileName = 'event246-all.csv';
+  const FileName = 'event246-additional.csv';
   const EventId = 246;
 
 
@@ -30,6 +30,7 @@ class UtilityUploadSite12 extends AdminCommand
 
 
     );
+
 
     $parser = new CsvParser($_SERVER['DOCUMENT_ROOT'] . self::Path . self::FileName);
     //$parser->UseRuLocale();
