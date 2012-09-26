@@ -28,7 +28,7 @@ $eventUsers = $this->EventUsers;
         $section = $userLink['section'];
         ?>
         <p>
-          <a target="_blank" href="<?=!empty($this->UrlProgramMask) ? str_replace(':SECTION_ID', $section->EventProgramId, $this->UrlProgramMask) : (!empty($this->UrlProgram) ? $this->UrlProgram : '#');?>"><?=strip_tags($section->Title);?></a><br>
+          <a target="_blank" href="<?=!empty($this->Event->UrlProgramMask) ? str_replace(':SECTION_ID', $section->EventProgramId, $this->Event->UrlProgramMask) : (!empty($this->Event->UrlProgram) ? $this->Event->UrlProgram : '#');?>"><?=strip_tags($section->Title);?></a><br>
           <?=$userLink['role'];?>
         </p>
         <?endforeach;?>
