@@ -16,9 +16,16 @@ class MainFastauth extends AbstractCommand
         if ($identity->errorCode == CUserIdentity::ERROR_NONE)
         {
           Yii::app()->user->login($identity, $identity->GetExpire());
-          Lib::Redirect(
-            RouteRegistry::GetUrl('user', '', 'show', array('rocid' => $user->RocId))
-          );
+          if (($url = Registry::GetRequestVar('url')) !== null)
+          {
+            Lib::Redirect($url);
+          }
+          else
+          {
+            Lib::Redirect(
+              RouteRegistry::GetUrl('user', '', 'show', array('rocid' => $user->RocId))
+            );
+          }
         }
         else
         {
