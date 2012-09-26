@@ -6,7 +6,7 @@ class UtilityFillSite12 extends AdminCommand
 {
 
   const Path = '/files/';
-  const FileName = 'new_event246-all-allROCID.csv';
+  const FileName = 'pizdec_2.csv';
   const EventId = 246;
 
 
@@ -17,6 +17,7 @@ class UtilityFillSite12 extends AdminCommand
    */
   protected function doExecute()
   {
+
     return;
 
     $fieldMap = array(
@@ -43,7 +44,7 @@ class UtilityFillSite12 extends AdminCommand
     //$parser->UseRuLocale();
     $parser->SetInEncoding('utf-8');
 
-    $results = $parser->Parse($fieldMap, true);
+    $results = $parser->Parse($fieldMap, false);
 
     $event = Event::GetById(246);
 
@@ -85,6 +86,7 @@ class UtilityFillSite12 extends AdminCommand
         continue;
       }
 
+      $flag = false;
       foreach ($orderItems as $orderItem)
       {
         if ($orderItem->ProductId == $product->ProductId)
@@ -95,17 +97,22 @@ class UtilityFillSite12 extends AdminCommand
             $orderItem->PaidTime = '2012-09-26 05:00:00';
             $orderItem->save();
           }
+          $flag = true;
           continue;
         }
       }
 
-      $orderItem = new OrderItem();
-      $orderItem->ProductId = $product->ProductId;
-      $orderItem->PayerId = $user->UserId;
-      $orderItem->OwnerId = $user->UserId;
-      $orderItem->Paid = 1;
-      $orderItem->PaidTime = '2012-09-26 05:00:00';
-      $orderItem->save();
+      if (!$flag)
+      {
+        $orderItem = new OrderItem();
+        $orderItem->ProductId = $product->ProductId;
+        $orderItem->PayerId = $user->UserId;
+        $orderItem->OwnerId = $user->UserId;
+        $orderItem->Paid = 1;
+        $orderItem->PaidTime = '2012-09-26 05:00:00';
+        $orderItem->save();
+      }
+
     }
   }
 
@@ -137,7 +144,7 @@ class UtilityFillSite12 extends AdminCommand
    */
   private function getProduct($productName)
   {
-    if ($productName == 'Рег взнос')
+    if ($productName == 'регистрационный взнос')
     {
       return $this->products[0];
     }
