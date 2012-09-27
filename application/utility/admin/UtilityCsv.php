@@ -39,6 +39,9 @@ class UtilityCsv extends AdminCommand
 
       $name = iconv('utf-8', 'Windows-1251', $user->LastName . ' ' . $user->FirstName . (!empty($user->FatherName) ? ' ' . $user->FatherName : ''));
 
+      $lastName = iconv('utf-8', 'Windows-1251', $user->LastName);
+      $firstName = iconv('utf-8', 'Windows-1251', $user->FirstName);
+
       $CompanyName = '';
       $Position = '';
 
@@ -66,7 +69,7 @@ class UtilityCsv extends AdminCommand
 
       //$sendMail = iconv('utf-8', 'Windows-1251', $user->Settings->ProjNews == 1 ? 'да' : 'нет');
 
-      fputcsv($file, array($user->RocId, $name, $CompanyName, $Position, $roleName, $products), ';');
+      fputcsv($file, array($user->RocId, $lastName, $firstName, $CompanyName, $Position, $roleName, $products), ';');
 
     }
     fclose($file);

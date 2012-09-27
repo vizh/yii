@@ -8,6 +8,8 @@ class EventController extends ruvents\components\Controller
    */
   public function actionUsers()
   {
+    ini_set("memory_limit", "512M");
+
     $request = \Yii::app()->getRequest();
     $query = $request->getParam('Query', null);
     $pageToken = $request->getParam('PageToken', null);
@@ -26,16 +28,16 @@ class EventController extends ruvents\components\Controller
     $criteria->addCondition('Participants.EventId = :EventId');
     $criteria->params[':EventId'] = $this->Operator()->EventId;
 
-    if ($pageToken === null)
-    {
-      $criteria->limit = self::MaxResult;
-      $criteria->offset = 0;
-    }
-    else
-    {
-      $criteria->limit = self::MaxResult;
-      $criteria->offset = $this->ParsePageToken($pageToken);
-    }
+//    if ($pageToken === null)
+//    {
+//      $criteria->limit = self::MaxResult;
+//      $criteria->offset = 0;
+//    }
+//    else
+//    {
+//      $criteria->limit = self::MaxResult;
+//      $criteria->offset = $this->ParsePageToken($pageToken);
+//    }
 
     $userModel = \user\models\User::model()->with(array(
       'Settings',

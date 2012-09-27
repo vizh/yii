@@ -52,16 +52,32 @@ class EventUsersUpdated extends ApiCommand
     }
 
     $userModel = User::model()->with(array(
+      'EventUsers' => array('together' => true),
+    ));
+
+    $criteria->group = 't.UserId';
+
+    /** @var $users User[] */
+    $users = $userModel->findAll($criteria);
+    $idList = array();
+    foreach ($users as $user)
+    {
+      $idList[] = $user->UserId;
+    }
+
+    $criteria = new CDbCriteria();
+    $criteria->addInCondition('t.UserId', $idList);
+
+
+    $userModel = User::model()->with(array(
       'Settings',
       'Employments.Company' => array('on' => 'Employments.Primary = :Primary', 'params' => array(':Primary' => 1)),
-      'EventUsers' => array('together' => true),
+      'EventUsers',
       'EventUsers.EventRole',
       'Emails'
     ));
 
-    /**
-     *
-     */
+    /** @var $users User[] */
     $users = $userModel->findAll($criteria);
 
     $result = array();

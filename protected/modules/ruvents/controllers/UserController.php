@@ -34,6 +34,7 @@ class UserController extends \ruvents\components\Controller
       }
       
       $result = array();
+      $user = \user\models\User::GetByRocid($user->RocId);
       $result['User'] = $this->buildUser($user);
       echo json_encode($result);
     }

@@ -2,7 +2,7 @@
 
 class TestApi extends GeneralCommand
 {
-  const GateDomain = 'http://api.rocid.ru/';
+  const GateDomain = 'http://api.beta.rocid/';
   //const GateDomain = 'http://api.rocid.ru/';
 
   /**
@@ -22,9 +22,9 @@ class TestApi extends GeneralCommand
     $vars = array(
 //      'EventId' => 312,
 //      'SectionId' => 908
-      'PayerRocId' => 122123
+//      'PayerRocId' => 122123
     );
-    $url = 'pay/list';
+    $url = 'event/users/updated';
     //http://api.rocid.ru/news/list?LastRequest=1333364867&NextPageToken=bmV3OQ%3D%3D&ApiKey=bHx95u1Q4X&Hash=0cc4f73aa8650107&Timestamp=1333969667&MaxResults=10
 
     $hash = substr( md5 ($apikey . $timestamp . $secretkey), 0, 16);
