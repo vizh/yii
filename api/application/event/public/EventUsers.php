@@ -60,12 +60,42 @@ class EventUsers extends ApiCommand
         $criteria->order = 'EventRole.RoleId ASC';
         break;
     }
+
+    $userModel = User::model()->with(array(
+      'EventUsers' => array('together' => true),
+      'Settings',
+    ));
+
+    $criteria->group = 't.UserId';
+
+    /** @var $users User[] */
+    $users = $userModel->findAll($criteria);
+    $idList = array();
+    foreach ($users as $user)
+    {
+      $idList[] = $user->UserId;
+    }
+
+    $criteria = new CDbCriteria();
+    $criteria->addInCondition('t.UserId', $idList);
+
+    switch ($orderBy)
+    {
+      case 'FirstName':
+      case 'LastName':
+      case 'RocId':
+        $criteria->order = 't.'.$orderBy.' ASC';
+        break;
+
+      case 'RoleId':
+        $criteria->order = 'EventRole.RoleId ASC';
+        break;
+    }
     
     
     $userModel = User::model()->with(array(
-      'Settings',
       'Employments.Company' => array('on' => 'Employments.Primary = :Primary', 'params' => array(':Primary' => 1)),
-      'EventUsers' => array('together' => true),
+      'EventUsers' => array('on' => 'EventUsers.EventId = :EventId', 'params' => array(':EventId' => $this->Account->EventId)),
       'EventUsers.EventRole',
       'Emails'
     ));
