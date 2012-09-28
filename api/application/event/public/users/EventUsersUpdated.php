@@ -53,6 +53,7 @@ class EventUsersUpdated extends ApiCommand
 
     $userModel = User::model()->with(array(
       'EventUsers' => array('together' => true),
+      'Settings',
     ));
 
     $criteria->group = 't.UserId';
@@ -70,9 +71,8 @@ class EventUsersUpdated extends ApiCommand
 
 
     $userModel = User::model()->with(array(
-      'Settings',
       'Employments.Company' => array('on' => 'Employments.Primary = :Primary', 'params' => array(':Primary' => 1)),
-      'EventUsers',
+      'EventUsers' => array('on' => 'EventUsers.EventId = :EventId', 'params' => array(':EventId' => $this->Account->EventId)),
       'EventUsers.EventRole',
       'Emails'
     ));
