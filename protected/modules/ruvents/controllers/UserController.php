@@ -139,14 +139,35 @@ class UserController extends \ruvents\components\Controller
     $phone = $request->getParam('Phone', null);
     if ($phone !== null)
     {
-      $this->addUserPhone($user, $phone);
+      $flag = true;
+      if (!empty($user->Phones))
+      {
+        foreach ($user->Phones as $userPhone)
+        {
+          if ($userPhone->Phone == $phone)
+          {
+            $flag = false;
+            break;
+          }
+        }
+      }
+      
+      if ($flag)
+      {
+        $this->addUserPhone($user, $phone);
+      }
     }
     
     $company = $request->getParam('Company', null);
     $position = $request->getParam('Position', '');
+    $primaryEmployment = $user->GetPrimaryEmployment();   
     if ($company != null)
     {
-      $this->addUserEmployment($user, $company, $position);
+      if ($primaryEmployment !== null
+        && ($primaryEmployment->Company->Name != $company || $primaryEmployment->Position != $position))
+      {
+        $this->addUserEmployment($user, $company, $position);
+      }
     }
     
     $result = array();
