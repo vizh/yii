@@ -155,7 +155,7 @@ $orders = $this->Orders;
     </div>
   <?endif;?>
 
-    <?if ($this->EventId != 106 && $this->EventId != 252 && $this->EventId != 236 && $this->EventId != 245 && $this->EventId != 258 && $this->EventId != 363 && $this->EventId != 364 && $this->EventId != 246):?>
+    <?if ($this->EventId != 106 && $this->EventId != 252 && $this->EventId != 236 && $this->EventId != 245 && $this->EventId != 258 && $this->EventId != 246):?>
     <a href="<?=RouteRegistry::GetUrl('main', '', 'juridical', array('eventId' => $this->EventId));?>">Выставить счет (для юр. лиц)</a>
     <?endif;?>
 
