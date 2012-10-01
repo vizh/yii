@@ -6,8 +6,13 @@ class RuventsController extends \partner\components\Controller
     $stat = new stdClass();
     $stat->Operators = new stdClass();
     $stat->Operators->Count = 0;
+    $stat->CountParticipants = 0;
+    
     
     $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
+    
+    // Кол-во всего выданных бейджей
+    $stat->CountBadges = \ruvents\models\Badge::model()->count('t.EventId = :EventId', array(':EventId' => $event->EventId));
     
     // Список ролей на мероприятии
     $criteria = new CDbCriteria();
@@ -40,6 +45,7 @@ class RuventsController extends \partner\components\Controller
         foreach ($badges as $badge)
         {
           $stat->Participants[$dateStart->format('d.m.Y')][$roleId] = $badge->CountForCriteria; 
+          $stat->CountParticipants += $badge->CountForCriteria;
         }
       }
       $dateStart->modify('+1 day');

@@ -32,7 +32,9 @@
         <?php endif;?>
       </div>
       <div class="span6 offset1">
-        Количество регистраторов: <span class="label large"><?php echo count($operators);?></span>
+        <p>Всего участников: <span class="label large"><?php echo $stat->CountParticipants;?></span></p>
+        <p>Всего выдано бейджей: <span class="label large"><?php echo $stat->CountBadges;?></span></p>
+        <p>Количество регистраторов: <span class="label large"><?php echo count($operators);?></span></p>
       </div>
     </div>
   </div>
