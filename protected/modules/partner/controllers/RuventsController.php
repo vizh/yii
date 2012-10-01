@@ -9,24 +9,45 @@ class RuventsController extends \partner\components\Controller
     
     $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
     
+    // Список ролей на мероприятии
+    $criteria = new CDbCriteria();
+    $criteria->condition = 't.Eventid = :EventId';
+    $criteria->params['EventId'] = $event->EventId;
+    $criteria->group = 't.RoleId';
+    $criteria->with = array('Role');
+    $badges = \ruvents\models\Badge::model()->findAll($criteria);
+    foreach ($badges as $badge)
+    {
+      $stat->Roles[$badge->RoleId] = $badge->Role->Name;
+    }
+    
+    
     // Подсчет участников по каждому дню
-    if (!empty($event->Days))
+    $dateStart = new DateTime($event->DateStart);
+    $dateEnd   = new DateTime($event->DateEnd);
+    while ($dateStart <= $dateEnd)
     {
-      foreach ($event->Days as $day) 
+      foreach ($stat->Roles as $roleId => $roleName)
       {
-        $stat->Participants[$day->DayId] = new \stdClass();
-        $stat->Participants[$day->DayId]->DayTitle = $day->Title;
-        $stat->Participants[$day->DayId]->Count = \event\models\Participant::model()->byEventId($event->EventId)->byDayId($day->DayId)->count();
+        $criteria = new CDbCriteria();
+        $criteria->condition = 't.CreationTime >= :MinDateTime AND t.CreationTime <= :MaxDateTime AND t.UserId NOT IN (SELECT t1.UserId FROM '.\ruvents\models\Badge::model()->tableName().' t1 WHERE t1.CreationTime < :MinDateTime AND t1.EventId = :EventId) AND t.EventId = :EventId AND t.RoleId = :RoleId';
+        $criteria->params['MinDateTime'] = $dateStart->format('Y-m-d').' 00:00:00';
+        $criteria->params['MaxDateTime'] = $dateStart->format('Y-m-d').' 23:59:59';
+        $criteria->params['EventId'] = $event->EventId;
+        $criteria->params['RoleId'] = $roleId;
+        $criteria->select = 'Count(Distinct t.UserId) as `CountForCriteria`';
+        $badges = \ruvents\models\Badge::model()->findAll($criteria);
+        foreach ($badges as $badge)
+        {
+          $stat->Participants[$dateStart->format('d.m.Y')][$roleId] = $badge->CountForCriteria; 
+        }
       }
+      $dateStart->modify('+1 day');
     }
-    else
-    {
-      $stat->Participants = new \stdClass();
-      $stat->Participants->Count = \event\models\Participant::model()->byEventId($event->EventId)->count();
-    }
-  
+    
+    
     // Список операторов
-    $operators = \ruvents\models\Operator::model()->findAll('t.EventId = :EventId', array('EventId' => $event->EventId));
+    $operators = \ruvents\models\Operator::model()->findAll('t.EventId = :EventId AND t.Role = \'Operator\'', array('EventId' => $event->EventId));
     $operatorsLogin = array();
     foreach ($operators as $operator)
     {
