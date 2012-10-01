@@ -99,11 +99,11 @@
     <?php foreach ($this->Experts as $expert):?>
       <?php $flag = !$flag;?>
       <div class="rocid-onesec">
-        <div class="face"><img width="53" height="53" alt="" src="<?php echo $expert->GetMiniPhoto();?>"></div>
+        <div class="face"><img width="53" height="53" alt="" src="<?php echo $expert->User->GetMiniPhoto();?>"></div>
         <div class="info">
-          <h3><a href="<?php echo RouteRegistry::GetUrl('user', '', 'show', array('rocid' => $expert->RocId));?>"><?php echo $expert->GetFullName();?></a><sup><?php echo $expert->RocId;?></sup></h3>
-          <?if ($expert->GetPrimaryEmployment() !== null):?>
-            <p><a href="<?php echo RouteRegistry::GetUrl('company', '', 'show', array('companyid' => $expert->GetPrimaryEmployment()->Company->CompanyId))?>"><?php echo $expert->GetPrimaryEmployment()->Company->Name;?></a></p>
+          <h3><a href="<?php echo RouteRegistry::GetUrl('user', '', 'show', array('rocid' => $expert->User->RocId));?>"><?php echo $expert->User->GetFullName();?></a><sup><?php echo $expert->User->RocId;?></sup></h3>
+          <?if ($expert->User->GetPrimaryEmployment() !== null):?>
+            <p><a href="<?php echo RouteRegistry::GetUrl('company', '', 'show', array('companyid' => $expert->User->GetPrimaryEmployment()->Company->CompanyId))?>"><?php echo $expert->User->GetPrimaryEmployment()->Company->Name;?></a></p>
           <?endif;?>
         </div>
       </div>

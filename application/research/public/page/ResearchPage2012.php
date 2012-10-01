@@ -6,19 +6,15 @@ class ResearchPage2012 extends GeneralCommand
 {
   protected function doExecute() 
   {
-    $voteResults = VoteResult::model()->findAll('t.VoteId = :VoteId', array(':VoteId' => ResearchVoteStatistics::VoteId));
-    $userIdList = array();
-    foreach ($voteResults as $result)
-    {
-      $info = $result->GetVoterInfo();
-      $userIdList[] = $info['UserId'];
-    }
     $criteria = new CDbCriteria();
     $criteria->with = array(
-      'Employments'
+      'User',
+      'User.Employments',
+      'User.Settings'
     );
-    $criteria->addInCondition('t.UserId', $userIdList);
-    $this->view->Experts = User::model()->findAll($criteria);
+    $criteria->condition = 't.EventId = :EventId';
+    $criteria->params[':EventId'] = '369';
+    $this->view->Experts = EventUser::model()->findAll($criteria);
    
     $this->SetTitle('Экономика Рунета 2012');
     echo $this->view;
