@@ -39,15 +39,6 @@ class EventController extends ruvents\components\Controller
 //      $criteria->offset = $this->ParsePageToken($pageToken);
 //    }
 
-    $userModel = \user\models\User::model()->with(array(
-      'Settings',
-      'Employments.Company' => array('on' => 'Employments.Primary = :Primary', 'params' => array(':Primary' => 1)),
-      'Participants' => array('together' => true),
-      'Participants.Role',
-      'Emails',
-      'Phones'
-    ));
-
     if ($updateTime === null)
     {
       $criteria->order = 'Participants.EventUserId ASC';
@@ -59,6 +50,34 @@ class EventController extends ruvents\components\Controller
       $criteria->order = 'Participants.UpdateTime ASC';
     }
 
+    $criteria->group = 't.UserId';
+
+    $userModel = User::model()->with(array(
+      'Participants' => array('together' => true),
+      'Settings',
+    ));
+
+    /** @var $users User[] */
+    $users = $userModel->findAll($criteria);
+    $idList = array();
+    foreach ($users as $user)
+    {
+      $idList[] = $user->UserId;
+    }
+
+    $criteria = new CDbCriteria();
+    $criteria->addInCondition('t.UserId', $idList);
+
+
+    $userModel = User::model()->with(array(
+      'Employments.Company' => array('on' => 'Employments.Primary = :Primary', 'params' => array(':Primary' => 1)),
+      'Participants' => array('on' => 'Participants.EventId = :EventId', 'params' => array(':EventId' => $this->Operator()->EventId)),
+      'Participants.Role',
+      'Emails',
+      'Phones'
+    ));
+
+    /** @var $users User[] */
     $users = $userModel->findAll($criteria);
 
     if ($returnBadgeCount)

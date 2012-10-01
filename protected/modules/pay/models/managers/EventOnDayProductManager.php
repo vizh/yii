@@ -97,7 +97,36 @@ class EventOnDayProductManager extends BaseProductManager
    */
   public function RollbackProduct($user)
   {
-    // TODO: Implement RollbackProduct() method.
+    /** @var $orderItem \pay\models\OrderItem */
+    $orderItem = \pay\models\OrderItem::model()->find(
+      't.Paid = 1 AND t.OwnerId = :OwnerId AND t.ProductId = :ProductId',
+      array(
+        ':OwnerId' => $user->UserId,
+        ':ProductId' => $this->product->ProductId
+      ));
+
+    if ( $orderItem != null)
+    {
+      $orderItem->Paid = 0;
+      $orderItem->PaidTime = null;
+      $orderItem->save();
+    }
+    else
+    {
+      return false;
+    }
+
+    list($roleId, $dayId) = $this->GetAttributes($this->GetAttributeNames());
+
+    /** @var $participant \event\models\Participant */
+    $participant = \event\models\Participant::model()->byUserId($user->UserId)->byEventId($this->product->EventId)->byDayId($dayId)->find();
+
+    if ($participant != null)
+    {
+      $participant->UpdateRole($participant->Event->DefaultRole);
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -108,7 +137,46 @@ class EventOnDayProductManager extends BaseProductManager
    */
   public function RedirectProduct($fromUser, $toUser)
   {
-    // TODO: Implement RedirectProduct() method.
-    throw new \ruvents\components\Exception('Not implement yet!');
+    if (!$this->CheckProduct($toUser))
+    {
+      return false;
+    }
+    list($roleId, $dayId) = $this->GetAttributes($this->GetAttributeNames());
+
+    /** @var $participant \event\models\Participant */
+    $participant = \event\models\Participant::model()
+      ->byUserId($fromUser->UserId)
+      ->byEventId($this->product->EventId)
+      ->byDayId($dayId)->find();
+
+    if ($participant != null)
+    {
+      if ($participant->RoleId == $roleId)
+      {
+        $participant->delete();
+      }
+    }
+
+    $role = \event\models\Role::GetById($roleId);
+    if (empty($role))
+    {
+      return false;
+    }
+
+    /** @var $participant \event\models\Participant */
+    $participant = \event\models\Participant::model()
+      ->byUserId($toUser->UserId)
+      ->byEventId($this->product->EventId)
+      ->byDayId($dayId)->find();
+    if (empty($participant))
+    {
+      $this->product->Event->RegisterUser($toUser, $role);
+    }
+    else
+    {
+      $participant->UpdateRole($role);
+    }
+
+    return true;
   }
 }
