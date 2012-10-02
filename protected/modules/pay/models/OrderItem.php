@@ -365,7 +365,7 @@ class OrderItem extends \CActiveRecord
    * @param \user\models\User $toUser
    * @return bool
    */
-  public function setRedirectUser($toUser)
+  public function setRedirectUser(\user\models\User $toUser)
   {
     $fromUser = empty($this->RedirectUser) ? $this->Owner : $this->RedirectUser;
     if ($this->Product->ProductManager()->RedirectProduct($fromUser, $toUser))

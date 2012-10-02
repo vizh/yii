@@ -11,6 +11,7 @@ class IndexAction extends \partner\components\Action
     $criteria = new \CDbCriteria();
     $criteria->with = array(
       'Product',
+      'RedirectUser',
       'Payer',
       'Owner',
       'Orders'
@@ -130,30 +131,4 @@ class IndexAction extends \partner\components\Action
       )
     );
   }
-
-//if ( \Yii::app()->request->getIsAjaxRequest())
-//    {
-//      exit();
-  //todo: Вынести в отдельный метод содержимое if
-//      $action = Registry::GetRequestVar('action');
-//      $orderItemId = (int) Registry::GetRequestVar('orderItemId');
-//
-//      if ($orderItemId > 0)
-//      {
-//        switch ($action)
-//        {
-//          case 'activate':
-//            $this->AjaxOrderItemActivate ($orderItemId);
-//            break;
-//
-//          case 'deactivate':
-//            $this->AjaxOrderItemDeActivate ($orderItemId);
-//            break;
-//        }
-//      }
-//      exit();
-//    }
-
-
-
 }

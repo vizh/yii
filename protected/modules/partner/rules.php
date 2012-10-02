@@ -20,6 +20,12 @@ return array(
   ),
   array(
     'allow',
+    'roles' => array('Admin'),
+    'controllers' => array('orderitem'),
+    'actions' => array('activateajax', 'redirect')
+  ),
+  array(
+    'allow',
     'roles' => array('Partner'),
     'controllers' => array('auth'),
     'actions' => array('logout')

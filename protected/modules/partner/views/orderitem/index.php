@@ -50,13 +50,14 @@
 
 <script type="text/javascript">
   $(function () {
-    $('.table td.activation a').click( function (e) {
+    $('.table a.btn-activation').click( function (e) {
       var msg = 'Вы точно хотите '+ ( $(e.currentTarget).hasClass('btn-success') ? 'активировать' : 'деактивировать') + ' оплату'
       if ( confirm (msg)) {
-        $.post('/partner/orderitem/', {
+        $.post('/orderitem/activateajax/', {
           'action'      : $(e.currentTarget).hasClass('btn-success') ? 'activate' : 'deactivate',
           'orderItemId' : $(e.currentTarget).data('orderitemid')
-        }, function (response) {
+        }, 
+        function (response) {
           if (response.success) {
             window.location.reload();
           }
@@ -133,14 +134,26 @@
         <td>
           <?php echo $orderItem->Owner->RocId;?>, <strong><?php echo $orderItem->Owner->GetFullName();?></strong>
           <p><em><?php echo $orderItem->Owner->GetEmail() !== null ? $orderItem->Owner->GetEmail()->Email : $orderItem->Owner->Email; ?></em></p>
+          
+          <?php if ($orderItem->RedirectUser !== null):?>
+            <p class="text-success"><strong>Перенесено на пользователя</strong></p>
+            <?php echo $orderItem->RedirectUser->RocId;?>, <strong><?php echo $orderItem->RedirectUser->GetFullName();?></strong>
+            <p><em><?php echo $orderItem->RedirectUser->GetEmail() !== null ? $orderItem->RedirectUser->GetEmail()->Email : $orderItem->RedirectUser->Email; ?></em></p>
+          <?php endif;?>
         </td>
-        <!-- <td class="activation">
-                        <?php if ($orderItem->Paid == 1 && $orderItem->Deleted == 0):?>
-                            <a href="#" class="btn btn-danger btn-mini"  data-orderitemid="<?php echo $orderItem->OrderItemId;?>">Деактивировать</a>
-                        <?php else:?>
-                            <a href="#" class="btn btn-success btn-mini" data-orderitemid="<?php echo $orderItem->OrderItemId;?>">Активировать</a>
-                        <?php endif;?>
-                    </td>-->
+        <td>
+          <?php if ($this->getAccessFilter()->checkAccess('orderitem', 'activateajax')):?>
+            <?php if ($orderItem->Paid == 1 && $orderItem->Deleted == 0):?>
+              <a href="#" class="btn btn-danger btn-mini btn-activation indent-bottom1" data-orderitemid="<?php echo $orderItem->OrderItemId;?>">Деактивировать</a>
+            <?php else:?>
+              <a href="#" class="btn btn-success btn-mini btn-activation indent-bottom1" data-orderitemid="<?php echo $orderItem->OrderItemId;?>">Активировать</a>
+            <?php endif;?>
+          <?php endif;?>
+          
+          <?php if ($this->getAccessFilter()->checkAccess('orderitem', 'redirect')):?>
+            <a href="<?php echo $this->createUrl('orderitem/redirect', array('OrderItemId' => $orderItem->OrderItemId));?>" class="btn btn-mini">Перенос</a>    
+          <?php endif;?>
+        </td>
       </tr>
         <?php endforeach;?>
       </tbody>

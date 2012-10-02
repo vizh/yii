@@ -64,15 +64,15 @@ class Event extends \CActiveRecord
     return array(
       'Days' => array(self::HAS_MANY, '\event\models\Day', 'EventId'),
       //User
-      'Participants' => array(self::HAS_MANY, 'Participant', 'EventId', 'with' => array('Role')),
+      'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'EventId', 'with' => array('Role')),
       'Users' => array(self::MANY_MANY, '\user\models\User', 'EventUser(EventId, UserId)', 'with' => 'Settings', 'condition' => 'Settings.Visible = \'1\''),
 
 
       'Phones' => array(self::MANY_MANY, 'ContactPhone', 'Link_Event_ContactPhone(EventId, PhoneId)'),
       'Addresses' => array(self::MANY_MANY, 'ContactAddress', 'Link_Event_ContactAddress(EventId, AddressId)', 'with' => array('City')),
 
-      'Sections' => array(self::HAS_MANY, 'Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
-      'DefaultRole' =>  array(self::BELONGS_TO, 'Role', 'DefaultRoleId'),
+      'Sections' => array(self::HAS_MANY, '\event\models\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
+      'DefaultRole' =>  array(self::BELONGS_TO, '\event\models\Role', 'DefaultRoleId'),
     );
   }
   

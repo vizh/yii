@@ -9,6 +9,8 @@ class OrderitemController extends \partner\components\Controller
     return array(
       'index' => '\partner\controllers\orderitem\IndexAction',
       'create' => '\partner\controllers\orderitem\CreateAction',
+      'redirect' => '\partner\controllers\orderitem\RedirectAction',
+      'activateajax' => '\partner\controllers\orderitem\ActivateAjaxAction'
     );
   }
 
