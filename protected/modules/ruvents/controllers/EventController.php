@@ -52,7 +52,7 @@ class EventController extends ruvents\components\Controller
 
     $criteria->group = 't.UserId';
 
-    $userModel = User::model()->with(array(
+    $userModel = \user\models\User::model()->with(array(
       'Participants' => array('together' => true),
       'Settings',
     ));
@@ -69,7 +69,7 @@ class EventController extends ruvents\components\Controller
     $criteria->addInCondition('t.UserId', $idList);
 
 
-    $userModel = User::model()->with(array(
+    $userModel = \user\models\User::model()->with(array(
       'Employments.Company' => array('on' => 'Employments.Primary = :Primary', 'params' => array(':Primary' => 1)),
       'Participants' => array('on' => 'Participants.EventId = :EventId', 'params' => array(':EventId' => $this->Operator()->EventId)),
       'Participants.Role',
