@@ -104,7 +104,8 @@ class User extends \CActiveRecord
     return array(
       array('FirstName, LastName, Password, Email', 'required'),
       array('Email', 'unique'),
-      array('Email', 'email')
+      array('Email', 'email'),
+      array('FatherName', 'safe')
     );
   }
   

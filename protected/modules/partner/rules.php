@@ -10,7 +10,7 @@ return array(
   array(
     'allow',
     'roles' => array('Partner'),
-    'controllers' => array('main', 'order', 'user', 'coupon', 'userEdit'),
+    'controllers' => array('main', 'order', 'user', 'coupon', 'userEdit', 'utility'),
   ),
   array(
     'allow',
@@ -34,6 +34,12 @@ return array(
     'allow',
     'roles' => array('Admin'),
     'controllers' => array('ruvents')
+  ),
+  array(
+    'allow',
+    'roles' => array('Admin'),
+    'controllers' => array('user'),
+    'actions' => array('register')
   ),
   array(
     'deny',

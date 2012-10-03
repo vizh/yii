@@ -5,6 +5,9 @@ class RedirectAction extends \partner\components\Action
 {
   public function run()
   {
+    $this->getController()->setPageTitle('Перенос заказа');
+    $this->getController()->initBottomMenu('redirect');
+    
     $cs = \Yii::app()->clientScript;
     $cs->registerScriptFile(\Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/js/libs/jquery-ui-1.8.16.custom.min.js'), \CClientScript::POS_HEAD);
     $blitzerPath = \Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/css/blitzer');

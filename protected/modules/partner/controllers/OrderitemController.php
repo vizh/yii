@@ -27,6 +27,11 @@ class OrderitemController extends \partner\components\Controller
         'Url' => \Yii::app()->createUrl('/partner/orderitem/create'),
         'Access' => $this->getAccessFilter()->checkAccess('orderitem', 'create')
       ),
+      'redirect' => array(
+        'Title' => 'Перенести заказ',
+        'Url' => \Yii::app()->createUrl('/partner/orderitem/redirect'),
+        'Access' => $this->getAccessFilter()->checkAccess('orderitem', 'redirect')
+      ),
     );
 
     foreach ($this->bottomMenu as $key => $value)

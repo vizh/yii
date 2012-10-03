@@ -11,6 +11,7 @@ class UserController extends \partner\components\Controller
       'index' => '\partner\controllers\user\IndexAction',
       'edit' => '\partner\controllers\user\EditAction',
       'ajaxget' => '\partner\controllers\user\AjaxGetAction',
+      'register' => '\partner\controllers\user\RegisterAction'
     );
   }
 
@@ -27,6 +28,11 @@ class UserController extends \partner\components\Controller
         'Url' => \Yii::app()->createUrl('/partner/user/edit'),
         'Access' => $this->getAccessFilter()->checkAccess('user', 'edit')
       ),
+      'register' => array(
+        'Title' => 'Регистрация',
+        'Url' => \Yii::app()->createUrl('partner/user/register'),
+        'Access' => $this->getAccessFilter()->checkAccess('user', 'register')
+      )
     );
 
     foreach ($this->bottomMenu as $key => $value)
