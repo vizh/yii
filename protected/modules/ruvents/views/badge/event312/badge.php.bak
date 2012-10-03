@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<style type="text/css" media="all">
+	  @page {
+	     size: landscape;
+	     margin: 1.5mm 2mm 0;
+	  }
+		div.wrapper {
+			font-family: Arial;
+			margin: 15px 0 0 0;
+		}
+		div.wrapper .name {
+			font-size: 37px;
+			font-weight: bold;
+			line-height: 100%;
+		}
+		div.wrapper .company {
+			font-size: 18px;
+			font-weight: normal;
+			margin-top: 10px;
+		}
+	</style>
+</head>
+<body>
+    <div class="wrapper">
+      <div class="name">%FIRSTNAME%<br />%LASTNAME%</div>
+      <div class="company">%COMPANY%</div>
+    </div>
+</body>
+</html>

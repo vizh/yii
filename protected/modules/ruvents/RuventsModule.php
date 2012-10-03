@@ -11,6 +11,10 @@ class RuventsModule extends CWebModule
       //\Yii::app()->errorHandler->errorAction = 'main/error';
       \Yii::app()->attachEventHandler('onException', array($this, 'onException'));
       //$this->attachEventHandler('onException', array($this, 'onException'));
+
+      //генератор ошибок для тестов клиента
+      //$controller->render('sdjkdjhfdjhdfjhfsdsdf');
+
       return true;
     }
     else
@@ -52,6 +56,12 @@ class RuventsModule extends CWebModule
     {
       /** @var $exception \ruvents\components\Exception */
       $exception = $event->exception;
+      $exception->sendResponse();
+      $event->handled = true;
+    }
+    else
+    {
+      $exception = new \ruvents\components\Exception(601, array($event->exception->getMessage()));
       $exception->sendResponse();
       $event->handled = true;
     }

@@ -125,7 +125,37 @@ class EventMultipleDayProductManager extends BaseProductManager
    */
   public function RollbackProduct($user)
   {
-    // TODO: Implement RollbackProducWithoutOrderItem() method.
+    /** @var $orderItem \pay\models\OrderItem */
+    $orderItem = \pay\models\OrderItem::model()->find(
+      't.Paid = 1 AND t.OwnerId = :OwnerId AND t.ProductId = :ProductId',
+      array(
+        ':OwnerId' => $user->UserId,
+        ':ProductId' => $this->product->ProductId
+      ));
+
+    if ( $orderItem != null)
+    {
+      $orderItem->Paid = 0;
+      $orderItem->PaidTime = null;
+      $orderItem->save();
+    }
+    else
+    {
+      return false;
+    }
+
+    /** @var $participants \event\models\Participant[] */
+        $participants = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($user->UserId)->findAll();
+    if (!empty($participants))
+    {
+      foreach ($participants as $participant)
+      {
+        $participant->UpdateRole($this->product->Event->DefaultRole);
+      }
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -136,7 +166,53 @@ class EventMultipleDayProductManager extends BaseProductManager
    */
   public function RedirectProduct($fromUser, $toUser)
   {
-    // TODO: Implement RedirectProduct() method.
-    throw new \ruvents\components\Exception('Not implement yet!');
+    if (!$this->CheckProduct($toUser))
+    {
+      return false;
+    }
+    list($roleId) = $this->GetAttributes($this->GetAttributeNames());
+    $role = \event\models\Role::GetById($roleId);
+    if (empty($role))
+    {
+      return false;
+    }
+
+    /** @var $participants \event\models\Participant[] */
+    $participants = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($fromUser->UserId)->findAll();
+
+    foreach ($participants as $participant)
+    {
+      if ($participant->RoleId == $roleId)
+      {
+        $participant->delete();
+      }
+    }
+
+    /** @var $participants \event\models\Participant[] */
+    $participants = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($toUser->UserId)->with('EventRole')->findAll();
+
+    $days = $this->product->Event->Days;
+    $daysByKey = array();
+    foreach ($days as $day)
+    {
+      $daysByKey[$day->DayId] = $day;
+    }
+
+    foreach ($participants as $participant)
+    {
+      unset($daysByKey[$participant->DayId]);
+      if ($participant->Role->Priority > $role->Priority)
+      {
+        continue;
+      }
+      $participant->UpdateRole($role);
+    }
+
+    foreach ($daysByKey as $day)
+    {
+      $this->product->Event->RegisterUserOnDay($day, $toUser, $role);
+    }
+
+    return true;
   }
 }

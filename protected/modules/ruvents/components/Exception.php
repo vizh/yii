@@ -60,6 +60,9 @@ class Exception extends \CException
       
     /** Поиск **/
     501 => 'Не задан поисковый запрос',
+
+    /** Yii Exception */
+    601 => 'Обработана ошибка Yii: %s',
   );
 
 
