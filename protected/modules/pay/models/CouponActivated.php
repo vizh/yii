@@ -77,7 +77,7 @@ class CouponActivated extends \CActiveRecord
    * @static
    * @param int $userId
    * @param int $eventId
-   * @return CouponActivated
+   * @return CouponActivated[]
    */
   public static function GetByEvent($userId, $eventId)
   {
@@ -86,7 +86,7 @@ class CouponActivated extends \CActiveRecord
     $criteria->params = array(':UserId' => $userId,':EventId' => $eventId);
     $criteria->order = 't.CreationTime DESC';
 
-    return CouponActivated::model()->with('Coupon')->find($criteria);
+    return CouponActivated::model()->with('Coupon')->findAll($criteria);
   }
 
   /**

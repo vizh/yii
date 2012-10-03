@@ -153,7 +153,26 @@ class OrderItem extends \CActiveRecord
     {
       $this->couponTrySet = true;
       $eventId = $this->Product->EventId;
-      $couponActivated = CouponActivated::GetByEvent($this->OwnerId, $eventId);
+      $couponActivatedList = CouponActivated::GetByEvent($this->OwnerId, $eventId);
+
+      /** @var $couponActivated CouponActivated */
+      $couponActivated = null;
+      foreach ($couponActivatedList as $item)
+      {
+        if (!empty($item->Coupon->ProductId))
+        {
+          if ($item->Coupon->ProductId == $this->ProductId)
+          {
+            $couponActivated = $item;
+            break;
+          }
+        }
+        else
+        {
+          $couponActivated = $item;
+        }
+      }
+
 
       $existDiscount = $couponActivated !== null && !empty($couponActivated->Coupon);
       $canApplyDiscount = $existDiscount && $couponActivated->CheckOrderItem($this);
