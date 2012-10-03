@@ -39,17 +39,13 @@ class EventUsersUpdated extends ApiCommand
       $criteria->params[':RoleId'] = $roleId;
     }
 
-
-    if ($pageToken === null)
+    $offset = 0;
+    if ($pageToken !== null)
     {
-      $criteria->limit = $maxResults;
-      $criteria->offset = 0;
+      $offset = $this->ParsePageToken($pageToken);
     }
-    else
-    {
-      $criteria->limit = $maxResults;
-      $criteria->offset = $this->ParsePageToken($pageToken);
-    }
+    $criteria->limit = $maxResults;
+    $criteria->offset = $offset;
 
     $userModel = User::model()->with(array(
       'EventUsers' => array('together' => true),
@@ -91,7 +87,7 @@ class EventUsersUpdated extends ApiCommand
 
     if (sizeof($users) == $maxResults)
     {
-      $result['NextPageToken'] = $this->GetPageToken($criteria->offset + $maxResults);
+      $result['NextPageToken'] = $this->GetPageToken($offset + $maxResults);
     }
 
     $this->SendJson($result);
