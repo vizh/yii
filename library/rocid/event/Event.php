@@ -369,19 +369,11 @@ class Event extends CActiveRecord
   }
 
   private static $secretRegisterCode = 'rMkNLsFb6ejSbqfUpn6PAHvFbCEhy7';
-
-  private static function getRegistrationSecret($eventId, $rocId, $roleId)
+  public function getRegistrationSecret($rocId, $roleId)
   {
-    return substr(md5($eventId.self::$secretRegisterCode.$rocId,$roleId), 0, 20);
+    return substr( md5($this->EventId.self::$secretRegisterCode.$rocId.$roleId), 0, 12);
   }
-
-  public function getRegisterUrl($rocId, $roleId)
-  {
-    $params = array('EventId' => $this->EventId, 'RocId' => $rocId, 'RoleId' => $roleId);
-    $params['secret'] = self::getRegistrationSecret($this->EventId, $rocId, $roleId);
-    return RouteRegistry::GetUrl('event', '', 'registerfast', array('code' => base64_encode(serialize($params))));
-  }
-
+  
   public static function ParseRegisterCode($code)
   {
     $params = unserialize(base64_decode($code));

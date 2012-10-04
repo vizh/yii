@@ -4,20 +4,24 @@ AutoLoader::Import('library.rocid.user.*');
 
 class EventRegisterfast extends GeneralCommand
 {
-  protected function doExecute($code = '') 
+  protected function doExecute($eventIdName = null, $rocId = null, $roleId = null, $code = null) 
   {
-    $params = Event::ParseRegisterCode($code);
-    
-    if (!empty($params))
+    $criteria = new CDbCriteria();
+    $criteria->condition = 't.idName = :idName';
+    $criteria->params = array(
+      'idName' => $eventIdName  
+    );
+    $event = Event::model()->find($criteria);
+    if ($event !== null
+      && $event->getRegistrationSecret($rocId, $roleId) == $code)
     {
-      $user  = User::GetByRocid($params['RocId']);
-      $role  = EventRoles::GetById($params['RoleId']);
-      $event = Event::GetById($params['EventId']);
-      if ($user == null 
-        || $role == null || $event == null)
+      $role  = EventRoles::GetById($roleId);
+      $user  = User::GetByRocid($rocId);
+      if ($role == null || $user == null)
       {
         $this->Send404AndExit();
       }
+      
       $register = $event->RegisterUser($user, $role);
       if ($register == null)
       {
@@ -29,17 +33,23 @@ class EventRegisterfast extends GeneralCommand
         }
       }
       
-      $identity = new FastAuthIdentity($user->RocId);
-      $identity->authenticate();
-      if ($identity->errorCode == CUserIdentity::ERROR_NONE)
+      if (Yii::app()->user->isGuest)
       {
-        Yii::app()->user->login($identity, $identity->GetExpire());
-        $this->view->Event = $event;
-        $this->view->Role = $role;
-        echo $this->view();
-        return;
+        $identity = new FastAuthIdentity($user->RocId);
+        $identity->authenticate();
+        if ($identity->errorCode == CUserIdentity::ERROR_NONE)
+        {
+          Yii::app()->user->login($identity, $identity->GetExpire());
+          Lib::Redirect('');
+        }
       }
+      $this->view->Event = $event;
+      $this->view->Role = $role;
+      echo $this->view;
     }
-    $this->Send404AndExit();
+    else
+    {
+      $this->Send404AndExit();
+    }
   }
 }
