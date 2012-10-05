@@ -12,7 +12,7 @@
   </div>
   <div class="span4">
     <h2 class="indent-bottom1">Физические лица:</h2>
-    <p>Оплатили: <span class="label label-success"><?php echo $stat->Pay->Individual->OrdersPaid;?></span></p>
+    <p>Оплатили: <span class="label label-success"><?php echo $stat->Pay->Individual->Paid;?></span></p>
     <p>На сумму: <span class="label label-warning"><?php echo $stat->Pay->Individual->Total;?> руб.</span></p>
   </div>
 </div>

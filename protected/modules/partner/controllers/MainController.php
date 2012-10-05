@@ -11,7 +11,7 @@ class MainController extends \partner\components\Controller
     $stat->Pay->Juridical->OrdersPaid = 0;
     $stat->Pay->Juridical->Total = 0;
     $stat->Pay->Individual = new \stdClass();
-    $stat->Pay->Individual->Orders = 0;
+    $stat->Pay->Individual->Paid = 0;
     $stat->Pay->Individual->OrdersPaid = 0;
     $stat->Pay->Individual->Total = 0;
 
@@ -19,34 +19,35 @@ class MainController extends \partner\components\Controller
 
     $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
 
-    $orders = $this->getOrders();
+    $orders = $this->getOrdersJuridical();
     foreach ($orders as $order)
     {
-      if ($order->OrderJuridical != null)
+      $stat->Pay->Juridical->Orders++;
+      if ($order->OrderJuridical->Paid == 1)
       {
-        $stat->Pay->Juridical->Orders++;
-        if ($order->OrderJuridical->Paid == 1)
-        {
-          $stat->Pay->Juridical->OrdersPaid++;
-          $stat->Pay->Juridical->Total += $this->getSumPrice($order->Items);
-        }
-      }
-      else
-      {
-        $stat->Pay->Individual->Orders++;
-        foreach ($order->Items as $orderItem)
-        {
-          if ($orderItem->Paid)
-          {
-            $stat->Pay->Individual->OrdersPaid++;
-            $stat->Pay->Individual->Total += $this->getSumPrice($order->Items);
-            break;
-          }
-        }
+        $stat->Pay->Juridical->OrdersPaid++;
+        $stat->Pay->Juridical->Total += $this->getSumPrice($order->Items);
       }
     }
-
-
+    
+ 
+    $orderItems = $this->getPaidOrdersItemsIndividual();
+    $payerRocidList = array();
+    foreach ($orderItems as $orderItem)
+    {
+      if ($orderItem->Paid == 1)
+      {
+        if (!in_array($orderItem->PayerId, $payerRocidList))
+        {
+          $payerRocidList[] = $orderItem->PayerId;
+        }
+        $stat->Pay->Individual->Total += $orderItem->PriceDiscount();
+      }
+    }
+    $stat->Pay->Individual->Paid = sizeof($payerRocidList);
+    unset($payerRocidList);
+    
+    
     $roles = $this->getEventRoles();
     if (!empty($event->Days))
     {
@@ -111,7 +112,10 @@ class MainController extends \partner\components\Controller
     $total = 0;
     foreach ($items as $item)
     {
-      $total += $item->PriceDiscount();
+      if ($item->Paid == 1)
+      {
+        $total += $item->PriceDiscount();
+      }
     }
     return $total;
   }
@@ -127,14 +131,28 @@ class MainController extends \partner\components\Controller
     return \event\models\Participant::model()->findAll($criteria);
   }
 
+  
+  private function getPaidOrdersItemsIndividual ()
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->with = array(
+      'Orders' => array('select' => false, 'together' => true), 
+      'Orders.OrderJuridical' => array('select' => false, 'together' => true),
+      'Product'
+    );
+    $criteria->condition = 'OrderJuridical.OrderId IS NULL AND Product.EventId = :EventId AND t.Paid = 1';
+    $criteria->params['EventId'] = \Yii::app()->partner->getAccount()->EventId;
+    return \pay\models\OrderItem::model()->findAll($criteria);
+  }
+
 
   /**
    * @return \pay\models\Order[]
    */
-  private function getOrders()
+  private function getOrdersJuridical()
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId';
+    $criteria->condition = 't.EventId = :EventId AND OrderJuridical.OrderId IS NOT NULL';
     $criteria->params['EventId'] = \Yii::app()->partner->getAccount()->EventId;
     $criteria->with = array('OrderJuridical', 'Items');
     return \pay\models\Order::model()->findAll($criteria);
