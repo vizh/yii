@@ -36,7 +36,9 @@ class EventRegisterfast extends GeneralCommand
         if ($identity->errorCode == CUserIdentity::ERROR_NONE)
         {
           Yii::app()->user->login($identity, $identity->GetExpire());
-          Lib::Redirect('');
+          Lib::Redirect(
+            RouteRegistry::GetUrl('event', '', 'registerfast', array('eventId' => $eventId, 'rocId' => $rocId, 'roleId' => $roleId, 'code' => $code))
+          );
         }
       }
       $this->view->Event = $event;
