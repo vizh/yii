@@ -53,7 +53,7 @@
     <tbody>
     <?php foreach ($users as $user):?>
         <tr>
-            <td><h3><a target="_blank" href="/<?=$user['Participant']->User->RocId;?>/"><?php echo $user['Participant']->User->RocId;?></a></h3></td>
+            <td><h3><a target="_blank" href="http://rocid.ru/<?=$user['Participant']->User->RocId;?>/"><?php echo $user['Participant']->User->RocId;?></a></h3></td>
             <td>
                 <strong><?php echo $user['Participant']->User->GetFullName();?></strong>
                 <p>
