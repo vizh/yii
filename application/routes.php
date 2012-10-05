@@ -108,7 +108,11 @@ RouteRegistry::AddRoute('test2', array('test',
 
 RouteRegistry::AddRoute('convert', array('convert',
 	array('module'=>'convert', 'section'=>'', 'command'=>'all')
-	));
+));
+
+RouteRegistry::AddRoute('registerfast', array('/reg/:eventId/:rocId/:roleId/:code/',
+	array('module'=>'event', 'section'=>'', 'command'=>'registerfast')
+));
 
 
 /**

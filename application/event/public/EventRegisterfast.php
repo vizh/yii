@@ -4,14 +4,9 @@ AutoLoader::Import('library.rocid.user.*');
 
 class EventRegisterfast extends GeneralCommand
 {
-  protected function doExecute($eventIdName = null, $rocId = null, $roleId = null, $code = null) 
+  protected function doExecute($eventId = null, $rocId = null, $roleId = null, $code = null) 
   {
-    $criteria = new CDbCriteria();
-    $criteria->condition = 't.idName = :idName';
-    $criteria->params = array(
-      'idName' => $eventIdName  
-    );
-    $event = Event::model()->find($criteria);
+    $event = Event::GetById($eventId);
     if ($event !== null
       && $event->getRegistrationSecret($rocId, $roleId) == $code)
     {
@@ -33,7 +28,8 @@ class EventRegisterfast extends GeneralCommand
         }
       }
       
-      if (Yii::app()->user->isGuest)
+      if (Yii::app()->user->isGuest
+        || Yii::app()->user->getId() !== $user->UserId)
       {
         $identity = new FastAuthIdentity($user->RocId);
         $identity->authenticate();

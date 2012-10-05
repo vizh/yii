@@ -32,6 +32,6 @@ class EventLinkGenerator extends AdminCommand
       return;
     }
 
-    echo RouteRegistry::GetUrl('event', '', 'registerfast', array('eventId' => $event->IdName, 'rocId' => $rocId, 'roleId' => $roleId, 'code' => $event->getRegistrationSecret($rocId, $roleId)));
+    echo RouteRegistry::GetUrl('event', '', 'registerfast', array('eventId' => $event->EventId, 'rocId' => $rocId, 'roleId' => $roleId, 'code' => $event->getRegistrationSecret($rocId, $roleId)));
   }
 }
