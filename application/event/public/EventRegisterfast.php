@@ -32,28 +32,29 @@ class EventRegisterfast extends GeneralCommand
           $eventUser->save();
         }
       }
-      
-      // TODO: Только для мероприятия 357, потом удалить
-      if ($eventId == 357)
-      {
-        if (($email = $user->GetEmail()) !== null)
+      else {
+        // TODO: Только для мероприятия 357, потом удалить
+        if ($eventId == 357)
         {
-          $view = new View();
-          
-          $view->SetTemplate('mail-event357');
-          $secret = 'dfgdsl;jHKLJdv;lFlJe34n;ssf1';
-          $view->Name = $user->GetFullName();
-          $view->Link = 'http://invite.rocid.ru/?ROCID=12953&KEY='.substr(md5($rocId.$secret), 0, 16);
-    
-          $mail = new PHPMailer(false);
-          $mail->AddAddress($email->Email);
-          $mail->SetFrom('info@russianinternetweek.ru', 'Премия «Облака 2012»', false);
-          $mail->CharSet = 'utf-8';
-          $mail->Subject = '=?UTF-8?B?'. base64_encode('Премия «Облака 2012»') .'?=';
-          $mail->IsHTML(false);
-          $mail->ContentType = 'text/plain';
-          $mail->Body = $view;
-          $mail->Send();
+          if (($email = $user->GetEmail()) !== null)
+          {
+            $view = new View();
+
+            $view->SetTemplate('mail-event357');
+            $secret = 'dfgdsl;jHKLJdv;lFlJe34n;ssf1';
+            $view->Name = $user->GetFullName();
+            $view->Link = 'http://invite.rocid.ru/?ROCID='.$user->RocId.'&KEY='.substr(md5($rocId.$secret), 0, 16);
+
+            $mail = new PHPMailer(false);
+            $mail->AddAddress($email->Email);
+            $mail->SetFrom('info@russianinternetweek.ru', 'Премия «Облака 2012»', false);
+            $mail->CharSet = 'utf-8';
+            $mail->Subject = '=?UTF-8?B?'. base64_encode('Премия «Облака 2012»') .'?=';
+            $mail->IsHTML(false);
+            $mail->ContentType = 'text/plain';
+            $mail->Body = $view;
+            $mail->Send();
+          }
         }
       }
       
