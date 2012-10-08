@@ -112,7 +112,7 @@ $orders = $this->Orders;
 
   <div class="response pay-systems">
 
-    <?if ($this->EventId == 215):?>
+    <?if ($this->EventId == 215 || $this->EventId == 248):?>
     <a class="uniteller" href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId,  'type' => 'uniteller'));?>">Оплатить через <i></i></a>
 
     <div class="pay-system-list">
@@ -142,7 +142,7 @@ $orders = $this->Orders;
 
     <div class="hLine"></div>
 
-  <?if ($this->EventId == 215):?>
+  <?if ($this->EventId == 215 || $this->EventId == 248):?>
     <a class="payonline" href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId));?>">Оплатить через <i></i></a>
 
     <div class="pay-system-list">

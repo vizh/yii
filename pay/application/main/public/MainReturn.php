@@ -39,11 +39,11 @@ class MainReturn extends PayCommand
     {
       Lib::Redirect('http://2012.russianinternetweek.ru/my/');
     }
-    elseif ($eventId = 263)
+    elseif ($eventId == 363)
     {
       Lib::Redirect('http://forum.apps4all.ru/');
     }
-    elseif ($eventId = 263)
+    elseif ($eventId == 364)
     {
       Lib::Redirect('http://www.trim2012.ru/');
     }

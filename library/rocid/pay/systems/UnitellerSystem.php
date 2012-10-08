@@ -48,7 +48,7 @@ class UnitellerSystem extends BaseSystem
     $orderId = Registry::GetRequestVar('Order_ID');
     $this->initRequiredParams($orderId);
     $status = Registry::GetRequestVar('Status');
-    $hash = strtoupper(md5($orderId + $status + $this->password));
+    $hash = strtoupper(md5($orderId . $status . $this->password));
 
     if ($status != 'paid')
     {
@@ -62,7 +62,7 @@ class UnitellerSystem extends BaseSystem
     }
     else
     {
-      throw new PayException('Ошибка при вычислении хеша!', 211);
+      throw new PayException('Ошибка при вычислении хеша! Hash='.$hash, 211);
     }
   }
 
