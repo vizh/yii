@@ -20,7 +20,7 @@ class EditAction extends \partner\components\Action
   public function run()
   {
     $this->initResources();
-    $this->getController()->initBottomMenu('edit');
+    $this->getController()->initActiveBottomMenu('edit');
 
     $request = \Yii::app()->request;
     $rocId = $request->getParam('rocId', 0);

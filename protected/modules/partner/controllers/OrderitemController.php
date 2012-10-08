@@ -14,7 +14,7 @@ class OrderitemController extends \partner\components\Controller
     );
   }
 
-  public function initBottomMenu($active)
+  public function initBottomMenu()
   {
     $this->bottomMenu = array(
       'index' => array(
@@ -33,10 +33,5 @@ class OrderitemController extends \partner\components\Controller
         'Access' => $this->getAccessFilter()->checkAccess('orderitem', 'redirect')
       ),
     );
-
-    foreach ($this->bottomMenu as $key => $value)
-    {
-      $this->bottomMenu[$key]['Active'] = ($key == $active);
-    }
   }
 }

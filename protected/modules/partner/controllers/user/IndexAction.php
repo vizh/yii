@@ -6,7 +6,7 @@ class IndexAction extends \partner\components\Action
   public function run()
   {
     $this->getController()->setPageTitle('Поиск участников мероприятия');
-    $this->getController()->initBottomMenu('index');
+    $this->getController()->initActiveBottomMenu('index');
 
     $criteria = new \CDbCriteria();
     $criteria->condition = 't.EventId = :EventId AND Settings.Visible = \'1\'';

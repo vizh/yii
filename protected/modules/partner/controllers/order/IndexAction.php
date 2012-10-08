@@ -12,7 +12,7 @@ class IndexAction extends \partner\components\Action
     $page = intval($request->getParam('page', null));
     $page = $page > 1 ? $page : 1;
 
-    $this->getController()->initBottomMenu($filter == 'active' ? 'active':'inactive');
+    $this->getController()->initActiveBottomMenu($filter == 'active' ? 'active':'inactive');
 
 
     $criteria = new \CDbCriteria();

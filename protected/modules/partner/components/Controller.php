@@ -66,10 +66,15 @@ class Controller extends \application\components\controllers\BaseController
   }
 
   protected $bottomMenu = array();
-
-  public function initBottomMenu($active)
+  protected function initBottomMenu() {}
+  
+  public function initActiveBottomMenu($active)
   {
-
+    $this->initBottomMenu();
+    foreach ($this->bottomMenu as $key => $value)
+    {
+      $this->bottomMenu[$key]['Active'] = ($key == $active);
+    }
   }
 
   public function getBottomMenu()

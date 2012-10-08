@@ -8,7 +8,7 @@ class CreateAction extends \partner\components\Action
   public function run()
   {
     $this->getController()->setPageTitle('Добавление заказа');
-    $this->getController()->initBottomMenu('create');
+    $this->getController()->initActiveBottomMenu('create');
 
     $cs = \Yii::app()->clientScript;
     $cs->registerScriptFile(\Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/js/libs/jquery-ui-1.8.16.custom.min.js'), \CClientScript::POS_HEAD);

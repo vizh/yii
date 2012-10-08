@@ -9,7 +9,7 @@ class ActivationAction extends \partner\components\Action
   public function run()
   {
     $this->getController()->setPageTitle('Активация промо-кода');
-    $this->getController()->initBottomMenu('activation');
+    $this->getController()->initActiveBottomMenu('activation');
 
     $cs = \Yii::app()->clientScript;
     $cs->registerScriptFile(\Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/js/libs/jquery-ui-1.8.16.custom.min.js'), \CClientScript::POS_HEAD);

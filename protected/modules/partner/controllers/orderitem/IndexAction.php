@@ -6,7 +6,7 @@ class IndexAction extends \partner\components\Action
   public function run()
   {
     $this->getController()->setPageTitle('Заказы');
-    $this->getController()->initBottomMenu('index');
+    $this->getController()->initActiveBottomMenu('index');
 
     $criteria = new \CDbCriteria();
     $criteria->with = array(

@@ -15,7 +15,7 @@ class UserController extends \partner\components\Controller
     );
   }
 
-  public function initBottomMenu($active)
+  public function initBottomMenu()
   {
     $this->bottomMenu = array(
       'index' => array(
@@ -34,10 +34,5 @@ class UserController extends \partner\components\Controller
         'Access' => $this->getAccessFilter()->checkAccess('user', 'register')
       )
     );
-
-    foreach ($this->bottomMenu as $key => $value)
-    {
-      $this->bottomMenu[$key]['Active'] = ($key == $active);
-    }
   }
 }

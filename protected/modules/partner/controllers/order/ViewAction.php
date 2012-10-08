@@ -17,7 +17,7 @@ class ViewAction extends \partner\components\Action
       throw new \CHttpException(404);
     }
     $this->getController()->setPageTitle('Управление счетом № ' . $orderId);
-    $this->getController()->initBottomMenu($order->OrderJuridical->Paid == 1 ? 'active':'inactive');
+    $this->getController()->initActiveBottomMenu($order->OrderJuridical->Paid == 1 ? 'active':'inactive');
 
     if ($request->getIsPostRequest())
     {

@@ -6,7 +6,7 @@ class IndexAction extends \partner\components\Action
   public function run()
   {
     $this->getController()->setPageTitle('Поиск промо-кодов');
-    $this->getController()->initBottomMenu('index');
+    $this->getController()->initActiveBottomMenu('index');
 
     $cs = \Yii::app()->clientScript;
     $cs->registerScriptFile(\Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/js/partner/coupon.index.js'), \CClientScript::POS_HEAD);

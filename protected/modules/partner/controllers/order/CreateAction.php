@@ -12,7 +12,7 @@ class CreateAction extends \partner\components\Action
   public function run()
   {
     $this->getController()->setPageTitle('Выставление счета');
-    $this->getController()->initBottomMenu('createbill');
+    $this->getController()->initActiveBottomMenu('createbill');
 
     $payerRocId = \Yii::app()->getRequest()->getParam('payerRocId');
     if (!empty($payerRocId))

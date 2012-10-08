@@ -6,7 +6,7 @@ class UsersAction extends \partner\components\Action
   public function run()
   {
     $this->getController()->setPageTitle('Активированные промо-коды');
-    $this->getController()->initBottomMenu('users');
+    $this->getController()->initActiveBottomMenu('users');
 
     $criteria = new \CDbCriteria();
     $criteria->with = array(

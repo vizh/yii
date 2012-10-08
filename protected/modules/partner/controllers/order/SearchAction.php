@@ -6,7 +6,7 @@ class SearchAction extends \partner\components\Action
   public function run()
   {
     $this->getController()->setPageTitle('Поиск счета');
-    $this->getController()->initBottomMenu('search');
+    $this->getController()->initActiveBottomMenu('search');
 
     $request = \Yii::app()->getRequest();
     $filter = $request->getParam('filter', array());

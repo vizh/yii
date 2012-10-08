@@ -4,49 +4,13 @@ class MainController extends \partner\components\Controller
 {
   public function actionIndex()
   {
+    $this->setPageTitle('Партнерский интерфейс');
+    $this->initActiveBottomMenu('index');
+    
     $stat = new \stdClass();
-    $stat->Pay = new \stdClass();
-    $stat->Pay->Juridical = new \stdClass();
-    $stat->Pay->Juridical->Orders = 0;
-    $stat->Pay->Juridical->OrdersPaid = 0;
-    $stat->Pay->Juridical->Total = 0;
-    $stat->Pay->Individual = new \stdClass();
-    $stat->Pay->Individual->Paid = 0;
-    $stat->Pay->Individual->OrdersPaid = 0;
-    $stat->Pay->Individual->Total = 0;
-
     $stat->Participants = array();
     
     $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
-    /**
-    $orders = $this->getOrdersJuridical();
-    foreach ($orders as $order)
-    {
-      $stat->Pay->Juridical->Orders++;
-      if ($order->OrderJuridical->Paid == 1)
-      {
-        $stat->Pay->Juridical->OrdersPaid++;
-        $stat->Pay->Juridical->Total += $this->getSumPrice($order->Items);
-      }
-    }
-    
- 
-    $orderItems = $this->getPaidOrdersItemsIndividual();
-    $payerRocidList = array();
-    foreach ($orderItems as $orderItem)
-    {
-      if ($orderItem->Paid == 1)
-      {
-        if (!in_array($orderItem->PayerId, $payerRocidList))
-        {
-          $payerRocidList[] = $orderItem->PayerId;
-        }
-        $stat->Pay->Individual->Total += $orderItem->PriceDiscount();
-      }
-    }
-    $stat->Pay->Individual->Paid = sizeof($payerRocidList);
-    unset($payerRocidList);
-    */
     
     // Список ролей на мероприятии
     $criteria = new CDbCriteria();
@@ -130,38 +94,40 @@ class MainController extends \partner\components\Controller
     
     $this->render('index',array('stat' => $stat, 'event' => $event));
   }
-
-  /**
-   * @param \pay\models\OrderItem[] $items
-   * @return int
-   */
-  private function getSumPrice($items)
+  
+  public function actionPay()
   {
-    $total = 0;
-    foreach ($items as $item)
+    $this->setPageTitle('Статистика платежей');
+    $this->initActiveBottomMenu('pay');
+    
+    $stat = new \stdClass();
+    $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
+    
+    // Юридические счета
+    $criteria = new \CDbCriteria();
+    $criteria->condition = 't.EventId = :EventId AND OrderJuridical.OrderId IS NOT NULL';
+    $criteria->params['EventId'] = $event->EventId;
+    $criteria->with = array('OrderJuridical', 'Items');
+    $orders = \pay\models\Order::model()->findAll($criteria);
+    foreach ($orders as $order)
     {
-      if ($item->Paid == 1)
+      $stat->Juridical->Orders++;
+      if ($order->OrderJuridical->Paid == 1)
       {
-        $total += $item->PriceDiscount();
+        $stat->Juridical->OrdersPaid++;
+        $total = 0;    
+        foreach ($order->Items as $orderItem)
+        {
+          if ($orderItem->Paid == 1)
+          {
+            $total += $orderItem->PriceDiscount();
+          }
+        }
+        $stat->Juridical->Total = $total; 
       }
     }
-    return $total;
-  }
-
-  private function getEventRoles()
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->select = array('t.RoleId', 't.DayId');
-    $criteria->with = array('Role', 'Day');
-    $criteria->group  = 't.RoleId, t.DayId';
-    $criteria->condition = 't.EventId = :EventId';
-    $criteria->params['EventId'] = \Yii::app()->partner->getAccount()->EventId;
-    return \event\models\Participant::model()->findAll($criteria);
-  }
-
-  
-  private function getPaidOrdersItemsIndividual ()
-  {
+    
+    // Физические счета
     $criteria = new \CDbCriteria();
     $criteria->with = array(
       'Orders' => array('select' => false, 'together' => true), 
@@ -169,20 +135,40 @@ class MainController extends \partner\components\Controller
       'Product'
     );
     $criteria->condition = 'OrderJuridical.OrderId IS NULL AND Product.EventId = :EventId AND t.Paid = 1';
-    $criteria->params['EventId'] = \Yii::app()->partner->getAccount()->EventId;
-    return \pay\models\OrderItem::model()->findAll($criteria);
+    $criteria->params['EventId'] = $event->EventId;
+    $orderItems = \pay\models\OrderItem::model()->findAll($criteria);
+    $payerRocidList = array();
+    foreach ($orderItems as $orderItem)
+    {
+      if ($orderItem->Paid == 1)
+      {
+        if (!in_array($orderItem->PayerId, $payerRocidList))
+        {
+          $payerRocidList[] = $orderItem->PayerId;
+        }
+        $stat->Individual->Total += $orderItem->PriceDiscount();
+      }
+    }
+    $stat->Individual->Paid = sizeof($payerRocidList);
+    unset($payerRocidList);
+    
+    $this->render('pay', array('stat' => $stat, 'event' => $event));
   }
-
-
-  /**
-   * @return \pay\models\Order[]
-   */
-  private function getOrdersJuridical()
+  
+  
+  public function initBottomMenu()
   {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId AND OrderJuridical.OrderId IS NOT NULL';
-    $criteria->params['EventId'] = \Yii::app()->partner->getAccount()->EventId;
-    $criteria->with = array('OrderJuridical', 'Items');
-    return \pay\models\Order::model()->findAll($criteria);
+    $this->bottomMenu = array(
+      'index' => array(
+        'Title' => 'Участники',
+        'Url' => \Yii::app()->createUrl('/main/index'),
+        'Access' => $this->getAccessFilter()->checkAccess('main', 'index')
+      ),
+      'pay' => array(
+        'Title' => 'Фин. статистика',
+        'Url' => \Yii::app()->createUrl('/main/pay'),
+        'Access' => $this->getAccessFilter()->checkAccess('main', 'pay')
+      )
+    );
   }
 }
