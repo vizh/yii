@@ -77,7 +77,7 @@ abstract class BaseSystem
 
     $payResult = $order->PayOrder();
 
-    if ($payResult['Total'] != $this->Total())
+    if ($this->Total() !== null && $payResult['Total'] != $this->Total())
     {
       throw new PayException('Сумма заказа и полученная через платежную систему не совпадают', 202);
     }

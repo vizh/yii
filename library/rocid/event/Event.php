@@ -11,6 +11,7 @@ AutoLoader::Import('partner.source.*');
  * @property string $Info
  * @property string $FullInfo
  * @property string $Place
+ * @property string $FbPlace
  * @property string $Comment
  * @property string $Url
  * @property string $UrlRegistration

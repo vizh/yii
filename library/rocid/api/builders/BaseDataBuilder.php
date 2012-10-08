@@ -145,6 +145,7 @@ class BaseDataBuilder
     $this->event->Name = $event->Name;
     $this->event->Info = $event->Info;
     $this->event->Place = $event->Place;
+    $this->event->FbPlace = $event->FbPlace;
     $this->event->Url = $event->Url;
     $this->event->UrlRegistration = $event->UrlRegistration;
     $this->event->UrlProgram = $event->UrlProgram;

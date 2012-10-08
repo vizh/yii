@@ -58,7 +58,7 @@ class UnitellerSystem extends BaseSystem
     if ($hash === Registry::GetRequestVar('Signature'))
     {
       $this->OrderId = $orderId;
-      $this->Total = Registry::GetSession()->get('UnitellerTotalRub');
+      $this->Total = null;
     }
     else
     {
@@ -99,16 +99,16 @@ class UnitellerSystem extends BaseSystem
     $params['Signature'] = $signature;
     $params['URL_RETURN'] = RouteRegistry::GetUrl('main', '', 'return', array('eventId' => $eventId));
 
-    $view = new View();
-    $view->SetLayout('pay');
-    $view->UseLayout(true);
-    $view->SetTemplate('uniteller', 'core', 'uniteller', '', 'public');
+//    $view = new View();
+//    $view->SetLayout('pay');
+//    $view->UseLayout(true);
+//    $view->SetTemplate('uniteller', 'core', 'uniteller', '', 'public');
+//
+//    $view->Url = self::Url . '?' . http_build_query($params);
 
-    $view->Url = self::Url . '?' . http_build_query($params);
+    //echo $view;
 
-    echo $view;
-
-    //Lib::Redirect(self::Url . '?' . http_build_query($params));
+    Lib::Redirect(self::Url . '?' . http_build_query($params));
   }
 
   /**
