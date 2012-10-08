@@ -21,7 +21,8 @@ AutoLoader::Import('partner.source.*');*/
 class Participant extends \CActiveRecord
 {
   public static $TableName = 'EventUser';
-
+  
+  public $CountForCriteria;
   /**
    * @static
    * @param string $className
