@@ -1,5 +1,5 @@
 <tr>
-  <td class="logo"><img src="<?=$this->Event->GetMiniLogo();?>" width="74" alt="<?=$this->Event->Name;?>" /></td>
+  <td class="logo"><img src="<?=$this->Event->GetMiniLogo();?>" alt="<?=$this->Event->Name;?>" /></td>
   <td>
     <h3><?php echo ! empty($this->Event->Name) ? $this->Event->Name : $this->words['news']['emptytitle'];?></h3>
     <?php echo $this->Event->Info;?>
