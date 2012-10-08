@@ -2,6 +2,9 @@
   h1 {
     font-size: 31px;
   }
+  .event-content p {
+    color: #1D1D1D !important;
+  }
   .event-content h2 {
     padding-bottom: 20px;
     padding-top: 40px;
@@ -24,6 +27,8 @@
 
 <div class="event-content" id="large-left">
   <ul style="margin-bottom: 40px;">
+    <li><a href="#presentation">Презентация исследования 10 октября 2012 года</a></li>
+    <li><a href="#participants">Участники презентации 10.10.2012 (РИА Ноости)</a></li>
     <li><a href="#about">Oб исследовании</a></li>
     <li><a href="#partners">Партнеры</a></li>
     <li><a href="#experts">Эксперты</a></li>
@@ -33,6 +38,53 @@
     <li><a href="#infg-stages">Инфографика: Этапы исследования</a></li>
     <li><a href="#infg-results">Инфографика: Результат исследования</a></li>
   </ul>
+  
+  <p><img src="/images/research/2012/research2012_Big.png" border="0" /></p>
+  
+  <h2 id="presentation">Презентация исследования <br/>10 октября 2012 года</h2>
+  <p>10 октября в 10:00 в Президентском зале Пресс-центра РИА Новости состоится презентация исследования «Экономика Рунета 2011-2012». В ходе мероприятия будет представлен полный отчет о состоянии интернет-экономики России, динамике ее развития, структуре, точках роста и сдерживающих факторах.</p>
+  <p>Методика исследования разработана Российской Ассоциацией электронных коммуникаций (РАЭК) и Национальным исследовательским университетом “Высшая школа экономики” (НИУ ВШЭ), основные векторы исследования согласованы с Ассоциацией коммуникационных агентств России (АКАР) и Boston Consulting Group (BCG).</p>
+  <p><strong>Во время презентации будут объявлены:</strong></p>
+  <ul style="margin-bottom: 20px">
+    <li>Суммарный объем интернет-экономики по 11 исследованным рынкам Рунета и ее вклад в ВВП России</li>
+    <li>Динамика роста экономики Рунета за последние годы и прогноз на конец 2012 года</li>
+    <li>Структура исследованных рынков, конкурентная среда и основные выводы</li>
+    <li>Точки роста интернет-экономики и факторы, сдерживающие ее развитие</li>
+    <li>Рекомендации для участников интернет-рынка, государства и профильных ассоциаций по дальнейшему стимулированию развития интернет-экономики</li> 
+  </ul>
+  
+  <?php if (!empty($this->Participants)):?>
+    <h2 id="participants">Участники презентации 10.10.2012 <br/>(РИА Ноости)</h2>
+    <?php foreach ($this->Participants['Users'] as $roleId => $participants):?>
+      <h3>
+        <?php if ($this->Participants['Roles'][$roleId] == 'Участник'):?>
+          Участники
+        <?php else:?>
+          <?php echo $this->Participants['Roles'][$roleId];?>
+        <?php endif;?>
+      </h3>
+      <?php echo $participants;?>
+      <div class="clear"></div>
+    <?php endforeach;?>
+  <?php endif;?>
+
+  <p><strong>В мероприятии примут участие:</strong></p>
+  <ul style="margin-bottom: 20px">
+    <li>Игорь Щёголев (Помощник Президента Российской Федерации)</li>
+    <li>Ярослав Кузьминов (Ректор НУУ-ВШЭ)</li>
+    <li>Дмитрий Гришин (Генеральный директор и соучредитель <a href="http://mail.ru">Mail.ru</a> Group)</li>
+    <li>Маэль Гавэ (Генеральный директор Холдинга <a href="http://ozon.ru">OZON.ru</a>)</li>
+    <li>Марина Трещова (Генеральный директор Fast Lane Ventures)</li>
+    <li>Рики Дрори (Директор по маркетингу Google в регионах Юго-Восточная Европа, Средний Восток и Африка) - Riki Drori (Marketing Director Google, South East Europe, Middle East and Africa)</li>
+    <li>Сергей Плуготаренко (Директор РАЭК) – модератор</li>
+  </ul>
+
+  <p>Подробнее об исследовании - <a href="http://rocid.ru/research2012/">http://rocid.ru/research2012/</a></p>
+  <p><strong>Внимание!</strong></p>
+  <p>Аккредитация участников презентации и представителей прессы на мероприятие проводится до 8 октября (закрывается в 15.00 МСК).</p>
+  <p>Для этого Вам необходимо прислать Ф.И.О, название СМИ и номер ROCID на <a href="mailto:pr@raec.ru">pr@raec.ru</a> или тел. +7 (495) 950-56-51 Воробьевой Екатерине.</p>
+  <p>Для получения пропуска в здание РИА Новости при себе необходимо иметь паспорт!</p>
+  <p>Сбор участников 10 октября в 9:30.</p> 
   
   <h2 id="about">Oб исследовании</h2>
   <h3>История исследования</h3>
@@ -95,22 +147,7 @@
   </ul>
   <h3>Список экспертов:</h3>  
   <div>
-    <?php $flag = true;?>
-    <?php foreach ($this->Experts as $expert):?>
-      <?php $flag = !$flag;?>
-      <div class="rocid-onesec">
-        <div class="face"><img width="53" height="53" alt="" src="<?php echo $expert->User->GetMiniPhoto();?>"></div>
-        <div class="info">
-          <h3><a href="<?php echo RouteRegistry::GetUrl('user', '', 'show', array('rocid' => $expert->User->RocId));?>"><?php echo $expert->User->GetFullName();?></a><sup><?php echo $expert->User->RocId;?></sup></h3>
-          <?if ($expert->User->GetPrimaryEmployment() !== null):?>
-            <p><a href="<?php echo RouteRegistry::GetUrl('company', '', 'show', array('companyid' => $expert->User->GetPrimaryEmployment()->Company->CompanyId))?>"><?php echo $expert->User->GetPrimaryEmployment()->Company->Name;?></a></p>
-          <?endif;?>
-        </div>
-      </div>
-      <?php if ($flag):?>
-        <div class="clear"></div>
-      <?php endif;?>
-    <?php endforeach;?>
+    <?php echo $this->Experts;?>
   </div>
   
   <h2 id="results">Результаты исследования. Итоговый отчет</h2>
