@@ -42,6 +42,11 @@ return array(
     'actions' => array('register')
   ),
   array(
+    'allow',
+    'roles' => array('Admin'),
+    'controllers' => array('stat')
+  ),
+  array(
     'deny',
     'users' => array('*')
   ),

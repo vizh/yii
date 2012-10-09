@@ -50,7 +50,7 @@ class UnitellerSystem extends BaseSystem
     $status = Registry::GetRequestVar('Status');
     $hash = strtoupper(md5($orderId . $status . $this->password));
 
-    if ($status != 'paid')
+    if ($status != 'paid' && $status != 'authorized')
     {
       throw new PayException('Не корректный статус платежа: ' . $status .'!', 221);
     }

@@ -15,7 +15,7 @@
  * @property Product $Product
  * @property User $Payer
  * @property User $Owner
- * @property Order $Orders
+ * @property Order[] $Orders
  * @property OrderItemParam[] $Params
  */
 class OrderItem extends CActiveRecord
