@@ -5,6 +5,19 @@
   .event-content p {
     color: #1D1D1D !important;
   }
+  div.rocid-onesec {
+    width: 33%;
+    height: 110px;
+  }
+  div.rocid-onesec .face img {
+    border-radius: 5px 5px 5px 5px;
+  }
+  div.rocid-onesec div.info p {
+    font-size: 11px;
+  }
+  div.rocid-onesec div.info h3 {
+    padding: 0;
+  }
   .event-content h2 {
     padding-bottom: 20px;
     padding-top: 40px;
@@ -28,7 +41,7 @@
 <div class="event-content" id="large-left">
   <ul style="margin-bottom: 40px;">
     <li><a href="#presentation">Презентация исследования 10 октября 2012 года</a></li>
-    <li><a href="#participants">Участники презентации 10.10.2012 (РИА Ноости)</a></li>
+    <li><a href="#participants">Участники презентации 10.10.2012 (РИА Новости)</a></li>
     <li><a href="#about">Oб исследовании</a></li>
     <li><a href="#partners">Партнеры</a></li>
     <li><a href="#experts">Эксперты</a></li>
@@ -53,21 +66,6 @@
     <li>Рекомендации для участников интернет-рынка, государства и профильных ассоциаций по дальнейшему стимулированию развития интернет-экономики</li> 
   </ul>
   
-  <?php if (!empty($this->Participants)):?>
-    <h2 id="participants">Участники презентации 10.10.2012 <br/>(РИА Ноости)</h2>
-    <?php foreach ($this->Participants['Users'] as $roleId => $participants):?>
-      <h3>
-        <?php if ($this->Participants['Roles'][$roleId] == 'Участник'):?>
-          Участники
-        <?php else:?>
-          <?php echo $this->Participants['Roles'][$roleId];?>
-        <?php endif;?>
-      </h3>
-      <?php echo $participants;?>
-      <div class="clear"></div>
-    <?php endforeach;?>
-  <?php endif;?>
-
   <p><strong>В мероприятии примут участие:</strong></p>
   <ul style="margin-bottom: 20px">
     <li>Игорь Щёголев (Помощник Президента Российской Федерации)</li>
@@ -85,6 +83,22 @@
   <p>Для этого Вам необходимо прислать Ф.И.О, название СМИ и номер ROCID на <a href="mailto:pr@raec.ru">pr@raec.ru</a> или тел. +7 (495) 950-56-51 Воробьевой Екатерине.</p>
   <p>Для получения пропуска в здание РИА Новости при себе необходимо иметь паспорт!</p>
   <p>Сбор участников 10 октября в 9:30.</p> 
+  
+  
+  <?php if (!empty($this->Participants)):?>
+    <h2 id="participants">Участники презентации 10.10.2012 <br/>(РИА Новости)</h2>
+    <?php foreach ($this->Participants['Users'] as $roleId => $participants):?>
+      <h3>
+        <?php if ($this->Participants['Roles'][$roleId] == 'Участник'):?>
+          Участники
+        <?php else:?>
+          <?php echo $this->Participants['Roles'][$roleId];?>
+        <?php endif;?>
+      </h3>
+      <?php echo $participants;?>
+      <div class="clear"></div>
+    <?php endforeach;?>
+  <?php endif;?>
   
   <h2 id="about">Oб исследовании</h2>
   <h3>История исследования</h3>
@@ -148,6 +162,7 @@
   <h3>Список экспертов:</h3>  
   <div>
     <?php echo $this->Experts;?>
+    <div class="clear"></div>
   </div>
   
   <h2 id="results">Результаты исследования. Итоговый отчет</h2>
