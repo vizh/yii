@@ -7,6 +7,8 @@ class RuventsController extends \partner\components\Controller
     $stat->Operators = new stdClass();
     $stat->Operators->Count = 0;
     $stat->CountParticipants = 0;
+
+    $stat->Roles = array();
     
     
     $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
