@@ -10,7 +10,10 @@
     height: 110px;
   }
   div.rocid-onesec .face img {
-    border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 0 !important;
   }
   div.rocid-onesec div.info p {
     font-size: 11px;
