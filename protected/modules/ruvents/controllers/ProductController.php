@@ -30,7 +30,7 @@ class ProductController extends \ruvents\components\Controller
       ->byRedirectId(null)
       ->byRedirectId($user->UserId, false)
       ->byEventId($event->EventId)
-      ->byPaid(1)->with(array('Product', 'Payer', 'Owner', 'RedirectUser'))->findAll();
+      ->byPaid(1)->with(array('Product', 'Payer', 'Owner', 'RedirectUser', 'Orders', 'Orders.OrderJuridical'))->findAll();
 
     $result = array();
     foreach ($paidItems as $item)

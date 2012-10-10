@@ -280,7 +280,33 @@ class DataBuilder
     $this->orderItem->Booked = $orderItem->Booked;
 
     $couponActivated = $orderItem->GetCouponActivated();
-    $this->orderItem->Discount = !empty($couponActivated) && !empty($couponActivated->Coupon) ? $couponActivated->Coupon->Discount : 0;
+
+    if (!empty($couponActivated) && !empty($couponActivated->Coupon))
+    {
+      $this->orderItem->Discount = $couponActivated->Coupon->Discount;
+      $this->orderItem->PromoCode = $couponActivated->Coupon->Code;
+    }
+    else
+    {
+      $this->orderItem->Discount = 0;
+      $this->orderItem->PromoCode = '';
+    }
+
+    if ($this->orderItem->Discount == 1)
+    {
+      $this->orderItem->PayType = 'promo';
+    }
+    else
+    {
+      $this->orderItem->PayType = 'individual';
+      foreach ($orderItem->Orders as $order)
+      {
+        if (!empty($order->OrderJuridical) && $order->OrderJuridical->Paid == 1)
+        {
+          $this->orderItem->PayType = 'juridical';
+        }
+      }
+    }
 
     return $this->orderItem;
   }
