@@ -104,12 +104,12 @@ class MainController extends \partner\components\Controller
     $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
     
     // Юридические счета
+    $juridicalOrderItemPaidIdList = array();
     $criteria = new \CDbCriteria();
     $criteria->condition = 't.EventId = :EventId AND OrderJuridical.OrderId IS NOT NULL';
     $criteria->params['EventId'] = $event->EventId;
     $criteria->with = array('OrderJuridical', 'Items');
     $orders = \pay\models\Order::model()->findAll($criteria);
-    
     $stat->Juridical->Total = 0;
     foreach ($orders as $order)
     {
@@ -122,6 +122,7 @@ class MainController extends \partner\components\Controller
           if ($orderItem->Paid == 1)
           {
             $stat->Juridical->Total += $orderItem->PriceDiscount();
+            $juridicalOrderItemPaidIdList[] = $orderItem->OrderItemId;
           }
         }
       }
@@ -130,24 +131,20 @@ class MainController extends \partner\components\Controller
     // Физические счета
     $criteria = new \CDbCriteria();
     $criteria->with = array(
-      'Orders' => array('select' => false, 'together' => true), 
-      'Orders.OrderJuridical' => array('select' => false, 'together' => true),
       'Product'
     );
-    $criteria->condition = 'OrderJuridical.OrderId IS NULL AND Product.EventId = :EventId AND t.Paid = 1';
+    $criteria->condition = 'Product.EventId = :EventId AND t.Paid = 1';
     $criteria->params['EventId'] = $event->EventId;
+    $criteria->addNotInCondition('t.OrderItemId', $juridicalOrderItemPaidIdList);
     $orderItems = \pay\models\OrderItem::model()->findAll($criteria);
     $payerRocidList = array();
     foreach ($orderItems as $orderItem)
     {
-      if ($orderItem->Paid == 1)
+      if (!in_array($orderItem->PayerId, $payerRocidList))
       {
-        if (!in_array($orderItem->PayerId, $payerRocidList))
-        {
-          $payerRocidList[] = $orderItem->PayerId;
-        }
-        $stat->Individual->Total += $orderItem->PriceDiscount();
+        $payerRocidList[] = $orderItem->PayerId;
       }
+      $stat->Individual->Total += $orderItem->PriceDiscount();
     }
     $stat->Individual->Paid = sizeof($payerRocidList);
     unset($payerRocidList);
