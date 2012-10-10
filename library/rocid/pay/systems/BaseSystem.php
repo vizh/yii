@@ -82,6 +82,11 @@ abstract class BaseSystem
       throw new PayException('Сумма заказа и полученная через платежную систему не совпадают', 202);
     }
 
+    if ($this->Total() === null)
+    {
+      $this->Total = $payResult['Total'];
+    }
+
     if (!empty($payResult['ErrorItems']))
     {
       $itemList = serialize($payResult['ErrorItems']);
