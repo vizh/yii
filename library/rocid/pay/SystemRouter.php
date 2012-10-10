@@ -92,7 +92,6 @@ class SystemRouter
 
   public static function LogSuccess()
   {
-    echo '123';
     $log = new PayLog();
     $log->Message = 'Success payment';
     $log->Info = self::$instance->system->Info();
