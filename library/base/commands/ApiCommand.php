@@ -45,7 +45,7 @@ abstract class ApiCommand extends AbstractCommand
     $hash = Registry::GetRequestVar('Hash');
     $timestamp = Registry::GetRequestVar('Timestamp');
     $ip = $_SERVER['REMOTE_ADDR'];
-
+    
     if (!$this->Account->CheckHash($hash, $timestamp))
     {
       throw new ApiException(102);

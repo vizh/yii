@@ -2,7 +2,7 @@
 
 class TestApi extends GeneralCommand
 {
-  const GateDomain = 'http://api.beta.rocid/';
+  const GateDomain = 'http://zapi.beta.rocid/';
   //const GateDomain = 'http://api.rocid.ru/';
 
   /**
@@ -13,18 +13,25 @@ class TestApi extends GeneralCommand
   {
 //    $apikey = '12345';
 //    $secretkey = '67890';
-
     $apikey = 'mdqceRsFvK';
     $secretkey = 'oHgFAhKytMNeWk9vDKP9xPTLV';
 
     $timestamp = time();
 
-    $vars = array(
-//      'EventId' => 312,
-//      'SectionId' => 908
-//      'PayerRocId' => 122123
+    $vars = array (
+      'Email' => 'malyshev@orangecode.ru',
+      'Password' => '77918150Smingr',
+      'FirstName' => 'Сергей',
+      'LastName' => 'Малышев',
+      'FatherName' => '',
+      'Company' => 'Orange Code',
+      'Postion' => 'директор',
+      'Country' => '3159',
+      'Region' => '4800',
+      'City' => '4848',
+      'Phone' => '+79185052385',
     );
-    $url = 'event/users/updated';
+    $url = 'user/create';
     //http://api.rocid.ru/news/list?LastRequest=1333364867&NextPageToken=bmV3OQ%3D%3D&ApiKey=bHx95u1Q4X&Hash=0cc4f73aa8650107&Timestamp=1333969667&MaxResults=10
 
     $hash = substr( md5 ($apikey . $timestamp . $secretkey), 0, 16);
