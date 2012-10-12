@@ -172,17 +172,17 @@ class BaseDataBuilder
     $menu->Title = 'Программа';
     $this->event->Menu[] = $menu;
 
-    $menu = new stdClass();
-    $menu->Type = 'link';
-    $menu->Title = 'Программа+';
-    $menu->Link = 'http://rocid.ru/files/test-api.htm';
-    $this->event->Menu[] = $menu;
+//    $menu = new stdClass();
+//    $menu->Type = 'link';
+//    $menu->Title = 'Программа+';
+//    $menu->Link = 'http://rocid.ru/files/test-api.htm';
+//    $this->event->Menu[] = $menu;
 
-    $menu = new stdClass();
-    $menu->Type = 'html';
-    $menu->Title = 'Дополнительная информация';
-    $menu->Html = '<p>Это текст с дополнительной информацией о мероприятии. Тут может быть написано что угодно, но не очень много.</p><p>Если объем текста будет значительный - проще его передать как тип меню "link"</p>';
-    $this->event->Menu[] = $menu;
+//    $menu = new stdClass();
+//    $menu->Type = 'html';
+//    $menu->Title = 'Дополнительная информация';
+//    $menu->Html = '<p>Это текст с дополнительной информацией о мероприятии. Тут может быть написано что угодно, но не очень много.</p><p>Если объем текста будет значительный - проще его передать как тип меню "link"</p>';
+//    $this->event->Menu[] = $menu;
   }
 
   /**
