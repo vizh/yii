@@ -454,7 +454,19 @@ class User extends \CActiveRecord
 		return $criteria;
 	}
 	
-	/**
+  private $newUser = false;
+  private $newUserPassword = null;
+  protected function beforeSave()
+  {
+    if ($this->newUser == true)
+    {
+      $this->sendRegisterEmail();
+      $this->newUserPassword = null;
+    }
+    return parent::beforeSave();
+  }
+
+    /**
 	* put your comment there...
 	* 
 	* @param string $email
@@ -463,6 +475,9 @@ class User extends \CActiveRecord
 	*/
   public function Register ()
   {
+    $this->newUser = true;
+    $this->newUserPassword = $this->Password;
+    
     $this->Password = self::GetPasswordHash($this->Password);
     $this->RocId = $this->GetMaxRocId()+1;
     $this->CreationTime = time();
@@ -471,8 +486,7 @@ class User extends \CActiveRecord
     $this->save();
     
     $this->CreateSettings();
-    $this->AddEmail($this->Email, 1);
-    
+    $this->AddEmail($this->Email, 1);   
     return $this;
   }
 
@@ -484,63 +498,25 @@ class User extends \CActiveRecord
     $criteria->select = 't.RocId';
     return self::model()->find($criteria)->RocId;
   }
-  
-  
-  /**
-  public static function Register($email, $password)
-	{
-		//$countEM = ContactEmail::GetCountEmails($email);
-    $userByEmail = User::GetByEmail($email);
-		if ($userByEmail == null)
-		{
-			$db = \Yii::app()->getDb();
-			$sql = "SELECT MAX(`RocId`) as MaxRocId FROM " . self::$TableName . " WHERE 1";
-			$row = $db->createCommand($sql)->queryRow();
-			if (isset($row['MaxRocId']))
-			{
-				$rocId = intval($row['MaxRocId']) + 1;
-				$user = new \user\models\User();
-				$user->SetRocId($rocId);
-				$user->SetPassword(self::GetPasswordHash($password));
-				$user->SetCreationTime(time());
-				$user->SetLastVisit(time());
-				$user->SetUpdateTime(time());
-				$user->Email = $email;
-				$user->save();
-				
-				//$user->CreateSettings();
-				//$user->AddEmail($email, 1);
 
-        //self::SendRegisterEmail($email, $rocId, $password); Подправить отправку писем
-
-				return $user;
-			}
-		}
-		
-		return null;
-	}**/
-
-  public static function SendRegisterEmail($email/*, $rocID, $password*/)
+  public function sendRegisterEmail()
   {
- 
-    //todo: fix it
-    $view = new \View();
-    $view->SetTemplate('regmail', 'core', 'general', '', 'public');
-    /*$view->Email = $email;
-    $view->RocID = $rocID;
-    $view->Password = $password;
-    $view->Host = $_SERVER['HTTP_HOST'];*/
-
+    $mailData = array(
+      'email' => $this->Email,
+      'rocId' => $this->RocId,
+      'password' => $this->newUserPassword,
+      'fullName' => $this->GetFullName()
+    );
+    $mailBody = \Yii::app()->controller->renderPartial('/../../user/view/mail/register', $mailData, true);
+    
+    require(\Yii::getPathOfAlias('ext.mailer.PHPMailer').'.php');
     $mail = new \PHPMailer(false);
-
-    $mail->AddAddress($email);
+    $mail->AddAddress($this->Email);
     $mail->SetFrom('register@rocid.ru', 'rocID', false);
     $mail->CharSet = 'utf-8';
-    $subject = \Registry::GetWord('mail');
-    $subject = (string)$subject['regsubject'];
-    $mail->Subject = '=?UTF-8?B?'. base64_encode($subject) .'?=';
+    $mail->Subject = '=?UTF-8?B?'. base64_encode('ROCID:// Регистрация') .'?=';
     $mail->AltBody = 'Для просмотра этого сообщения необходимо использовать клиент, поддерживающий HTML';
-    $mail->MsgHTML($view);
+    $mail->MsgHTML($mailBody);
     $mail->Send();
   }
 	
