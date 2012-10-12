@@ -109,21 +109,19 @@ class MainController extends \partner\components\Controller
     $criteria->condition = 't.EventId = :EventId AND OrderJuridical.OrderId IS NOT NULL';
     $criteria->params['EventId'] = $event->EventId;
     $criteria->with = array('OrderJuridical', 'Items');
+    $stat->Juridical->Orders = \pay\models\Order::model()->count($criteria);
+    $criteria->addCondition('OrderJuridical.Paid = 1');
     $orders = \pay\models\Order::model()->findAll($criteria);
     $stat->Juridical->Total = 0;
     foreach ($orders as $order)
     {
-      $stat->Juridical->Orders++;
-      if ($order->OrderJuridical->Paid == 1)
+      $stat->Juridical->OrdersPaid++;
+      foreach ($order->Items as $orderItem)
       {
-        $stat->Juridical->OrdersPaid++;
-        foreach ($order->Items as $orderItem)
+        if ($orderItem->Paid == 1)
         {
-          if ($orderItem->Paid == 1)
-          {
-            $stat->Juridical->Total += $orderItem->PriceDiscount();
-            $juridicalOrderItemPaidIdList[] = $orderItem->OrderItemId;
-          }
+          $stat->Juridical->Total += $orderItem->PriceDiscount();
+          $juridicalOrderItemPaidIdList[] = $orderItem->OrderItemId;
         }
       }
     }
