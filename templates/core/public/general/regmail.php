@@ -1,48 +1,35 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>rocID Регистрация</title>
-  <style type="text/css">
-
-    .tbl .message{
-
-    }
-  </style>
+  <title>ROCID: Регистрация</title>
 </head>
-<body>
-  <div style="text-align:center;margin:0;font-family:tahoma, arial, verdana;padding-top:20px;">
-    <div style="width:602px;padding:50px;margin:0 auto;">
-      <table style="width: 100%;">
-        <tr>
-          <td style="text-align:left;">
-            <a href="http://<?=$this->Host;?>/">
-              <img src="http://<?=$this->Host;?>/images/logo.png" alt="rocID:// - Информационный портал профессионалов Рунета">
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td style="font-size:12px;padding-top:20px;color:#444;text-align:left;">
-            Спасибо за регистрацию в сети rocID.
-            <br>
-            <br>
-            Информация ниже необходима для авторизации в сети.
-            <br>
-            <br>
-            Email: <?=$this->Email;?><br>
-            rocID: <?=$this->RocID;?><br>
-            Пароль: <?=$this->Password;?><br>
-            <br>
-            <br>
-            [Это автоматически сгенерированное письмо, не отвечайте на него.]
-            <br>
-            <br>
-            Спасибо!,<br>
-            <a href="http://<?=$this->Host;?>/"><?=$this->Host;?></a>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
+<body style="margin: 0">
+<p><strong><?php echo $this->FullName;?></strong>,</p>
+<p>Вы успешно стали членом профессионального сообщества в Рунете, зарегистрировавшись на <a href="http://www.rocid.ru/"><strong>ROCID</strong></a>.</p>
+<p><strong>ROCID</strong> - сервис для интернет-пользователей, объединяющий в себе удобную систему регистрации на мероприятия медиа- и интернет-индустрии, а также позволяющий всем участникам системы формировать хронологию своего профессионального роста и отображать компетенции в различных сферах.</p>
+
+<h2>Ваши регистрационные данные</h2>
+<div style="background-color: #F8F8F8; border: 1px solid #E4E4E4; padding: 10px; margin-left: 10px; font-size: 120%; display:inline-block;">
+  <div style="margin-bottom: 5px;"><strong>ROCID</strong>: <?php echo $this->RocID;?></div>
+  <div style="margin-bottom: 5px;"><strong>Пароль</strong>: <?php echo $this->Password;?></div>
+  <div style="margin-bottom: 5px;"><strong>Email</strong>: <?php echo $this->Email;?></div>
+</div>
+
+<h2>Первым делом</h2>
+<a href="http://www.rocid.ru/user/edit/">Заполните свой профиль</a>, это существенно упростит процедуру регистрации на мероприятиях. Если вы планируете быть докладчиком, то мы будем ссылаться на него из программы конференции.
+
+<h2>Быть в курсе</h2>
+<p><strong>ROCID</strong> включает наиболее полный <a href="http://www.rocid.ru/events/">каталог ИТ-мероприятий</a>, а зарегистрированные пользователи нашего сервиса получают возможность упрощенной регистрации на многие из этих мероприятий, оперативно получают информацию о специальных предложениях, акциях и бонусах.</p>
+<p>Пользователям, ежегодно участвующих в мероприятиях,<strong>ROCID</strong> переодически дарит скидки.</p>
+
+<h2>Организуете конференции?</h2>
+<p><strong>ROCID</strong> - сервис для компаний. Если вы организуете конференции, семинары, вебинары, форумы, премии или иные мероприятия медиа- и интернет-направленности, сервис позволяет открыть мероприятие и сообщить об этом целевой аудитории.</p>
+<p>Для привлечения аудитории мы предлагаем как внутренние ресурсы системы, так и задействуем внешние источники (контекстная реклама, работа с пользователями социальных сетей, реклама в средствах массовой информации, рекламно-информационная продукция).</p>
+
+<h2>Поддержка</h2>
+<p style="margin-bottom: 80px;">По всем вопросам работы сервиса вы всегда можете обратиться в нашу службу поддержки пользователей:<br/><a href="mailto:support@rocid.ru">support@rocid.ru</a></p>
+
+С уважением,<br/>
+команда поддержки ROCID
 </body>
 </html>

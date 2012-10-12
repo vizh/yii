@@ -482,7 +482,18 @@ class User extends CActiveRecord implements ISettingable
 		return $criteria;
 	}
 	
-	/**
+  private static $newUser = false;
+  private static $newUserPassword = null;
+  protected function beforeSave() {
+    if (self::$newUser == true)
+    {
+      self::SendRegisterEmail($this->Email, $this->RocId, self::$newUserPassword, $this->GetFullName());
+      self::$newUserPassword = null;
+    }
+    return parent::beforeSave();
+  }
+
+    /**
 	* put your comment there...
 	* 
 	* @param string $email
@@ -512,17 +523,17 @@ class User extends CActiveRecord implements ISettingable
 				
 				$user->CreateSettings();
 				$user->AddEmail($email, 1);
-
-        self::SendRegisterEmail($email, $rocId, $password);
+        
+        self::$newUser = true;
+        self::$newUserPassword = $password;
 
 				return $user;
 			}
-		}
-		
+    }
 		return null;
 	}
 
-  public static function SendRegisterEmail($email, $rocID, $password)
+  public static function SendRegisterEmail($email, $rocID, $password, $fullName = '')
   {
     AutoLoader::Import('library.mail.*');
 
@@ -531,8 +542,9 @@ class User extends CActiveRecord implements ISettingable
     $view->Email = $email;
     $view->RocID = $rocID;
     $view->Password = $password;
+    $view->FullName = $fullName;
     $view->Host = $_SERVER['HTTP_HOST'];
-
+    
     $mail = new PHPMailer(false);
 
     $mail->AddAddress($email);
