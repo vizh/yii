@@ -97,6 +97,8 @@ class MainController extends \partner\components\Controller
   
   public function actionPay()
   {
+    ini_set("memory_limit", "512M");
+
     $this->setPageTitle('Статистика платежей');
     $this->initActiveBottomMenu('pay');
     
@@ -134,6 +136,7 @@ class MainController extends \partner\components\Controller
     $criteria->condition = 'Product.EventId = :EventId AND t.Paid = 1';
     $criteria->params['EventId'] = $event->EventId;
     $criteria->addNotInCondition('t.OrderItemId', $juridicalOrderItemPaidIdList);
+    /** @var $orderItems \pay\models\OrderItem[] */
     $orderItems = \pay\models\OrderItem::model()->findAll($criteria);
     $payerRocidList = array();
     foreach ($orderItems as $orderItem)
