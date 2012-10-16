@@ -3,6 +3,8 @@ class RuventsController extends \partner\components\Controller
 {
   public function actionIndex()
   {
+    ini_set("memory_limit", "512M");
+    
     $stat = new stdClass();
     $stat->Operators = new stdClass();
     $stat->Operators->Count = 0;
@@ -53,7 +55,6 @@ class RuventsController extends \partner\components\Controller
       $dateStart->modify('+1 day');
     }
     
-    
     // Список операторов
     $operators = \ruvents\models\Operator::model()->findAll('t.EventId = :EventId AND t.Role = \'Operator\'', array('EventId' => $event->EventId));
     $operatorsLogin = array();
@@ -102,7 +103,7 @@ class RuventsController extends \partner\components\Controller
       $stat->RePrintBadges[$badge->UserId]->User = $badge->User;
       $stat->RePrintBadges[$badge->UserId]->Count = $badge->CountForCriteria;
     }
-    
+
     $this->render('index', array('event' => $event, 'stat' => $stat, 'operators' => $operatorsLogin));
   }
 }
