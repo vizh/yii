@@ -12,6 +12,8 @@ abstract class PartnerCommand extends AbstractCommand
   {
     parent::preExecute();
 
+    Lib::Redirect('http://partner.rocid.ru/');
+
     header('Content-Type: text/html; charset=utf-8');
 
     $this->view->SetLayout('partner');
