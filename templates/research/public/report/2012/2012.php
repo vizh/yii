@@ -7,7 +7,7 @@
       <td style="width: 40px"></td>
       <td style="padding-top: 50px">
         <p style="font-size: 20px; line-height: 24px">Получить полный текст отчета<br/> «Экономика Рунета 2011-2012»<br/> в формате PDF</p>
-        <p><a href="/files/i-research/report/2012/Runet_Economy_20112012.pdf">«Экономика Рунета 2011-2012» (PDF 1,5 Мб)</a></p>
+        <p><a href="/files/i-research/report/2012/Runet_Economy_20112012.pdf">Скачать (PDF 1,5 Мб)</a></p>
       </td>
     </tr>
   </tbody>
