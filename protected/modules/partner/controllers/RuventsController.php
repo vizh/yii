@@ -1,8 +1,33 @@
 <?php
 class RuventsController extends \partner\components\Controller
 {
+  public function actions()
+  {
+    return array(
+      'operator' => '\partner\controllers\ruvents\OperatorAction'
+    );
+  }
+
+  public function initBottomMenu()
+  {
+    $this->bottomMenu = array(
+      'index' => array(
+        'Title' => 'Статистика',
+        'Url' => \Yii::app()->createUrl('/partner/ruvents/index'),
+        'Access' => $this->getAccessFilter()->checkAccess('ruvents', 'index')
+      ),
+      'operator' => array(
+        'Title' => 'Генерация операторов',
+        'Url' => \Yii::app()->createUrl('/partner/ruvents/operator'),
+        'Access' => $this->getAccessFilter()->checkAccess('ruvents', 'operator')
+      ),
+    );
+  }
+
   public function actionIndex()
   {
+    $this->initActiveBottomMenu('index');
+
     $stat = new stdClass();
     $stat->Operators = new stdClass();
     $stat->Operators->Count = 0;
@@ -105,4 +130,6 @@ class RuventsController extends \partner\components\Controller
     
     $this->render('index', array('event' => $event, 'stat' => $stat, 'operators' => $operatorsLogin));
   }
+
+
 }
