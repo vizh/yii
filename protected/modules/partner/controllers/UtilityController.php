@@ -38,4 +38,3 @@ class UtilityController extends \partner\components\Controller
   }
 }
 
-?>

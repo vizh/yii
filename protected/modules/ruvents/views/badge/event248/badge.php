@@ -5,19 +5,28 @@
 	<style type="text/css" media="all">
 	  @page {
 	     size: landscape;
-	     margin: 1.5mm 2mm 0;
+	     margin: 1mm 2mm 0;
 	  }
 		div.wrapper {
 			font-family: Arial;
-			margin: 15px 0 0 0;
+			margin: 0;
+		}
+		div.wrapper .rocid {
+		  font-size: 10px;
+			margin-top: 5mm;
+			margin-left: 56mm;
+			position: absolute;
+			width: 40mm;
+			-webkit-transform: rotate(-90deg); /* Chrome y Safari */
+			-moz-transform: rotate(-90deg); /* Firefox */
 		}
 		div.wrapper .name {
-			font-size: 37px;
+			font-size: 38px;
 			font-weight: bold;
 			line-height: 100%;
 		}
 		div.wrapper .company {
-			font-size: 18px;
+			font-size: 20px;
 			font-weight: normal;
 			margin-top: 10px;
 		}
@@ -25,6 +34,7 @@
 </head>
 <body>
     <div class="wrapper">
+      <div class="rocid">RUNET—ID / %ROCID%</div>
       <div class="name">%FIRSTNAME%<br />%LASTNAME%</div>
       <div class="company">%COMPANY%</div>
     </div>
