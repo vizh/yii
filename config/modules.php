@@ -19,7 +19,7 @@ return array(
     'geo',
     'user',
     'pay',
-
+    'register',
     'mytest'
   ),
 );
