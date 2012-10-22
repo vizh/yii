@@ -33,7 +33,7 @@ return array(
   array(
     'allow',
     'roles' => array('Admin'),
-    'controllers' => array('ruvents')
+    'controllers' => array('ruvents', 'internal')
   ),
   array(
     'allow',

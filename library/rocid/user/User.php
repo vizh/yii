@@ -500,7 +500,7 @@ class User extends CActiveRecord implements ISettingable
 	* @param string $password
 	* @return User
 	*/
-	public static function Register($email, $password)
+	public static function Register($email, $password, $sendMail = true)
 	{
 		//$countEM = ContactEmail::GetCountEmails($email);
     $userByEmail = User::GetByEmail($email);
@@ -523,9 +523,12 @@ class User extends CActiveRecord implements ISettingable
 				
 				$user->CreateSettings();
 				$user->AddEmail($email, 1);
-        
-        self::$newUser = true;
-        self::$newUserPassword = $password;
+
+        if ($sendMail)
+        {
+          self::$newUser = true;
+          self::$newUserPassword = $password;
+        }
 
 				return $user;
 			}
@@ -1364,7 +1367,7 @@ class User extends CActiveRecord implements ISettingable
   public function GetFullName ()
   {    
       $fullName = $this->LastName .' '. $this->FirstName;
-      if ($this->Settings->HideFatherName == 0) {
+      if (empty($this->Settings) || $this->Settings->HideFatherName == 0) {
           $fullName .= ' '. $this->FatherName;
       }
       return $fullName;
