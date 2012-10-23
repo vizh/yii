@@ -33,6 +33,8 @@ class RuventsController extends \partner\components\Controller
     $stat->Operators->Count = 0;
     $stat->CountParticipants = 0;
 
+    $stat->New = array();
+
     $stat->Roles = array();
     
     
@@ -59,6 +61,7 @@ class RuventsController extends \partner\components\Controller
     $dateEnd   = new DateTime($event->DateEnd);
     while ($dateStart <= $dateEnd)
     {
+      //по бейджам
       foreach ($stat->Roles as $roleId => $roleName)
       {
         $criteria = new CDbCriteria();
@@ -75,10 +78,73 @@ class RuventsController extends \partner\components\Controller
           $stat->CountParticipants += $badge->CountForCriteria;
         }
       }
+
+
+
+      //новых участников в каждый за день
+
+      $criteria = new CDbCriteria();
+      $criteria->addCondition('t.CreationTime >= :MinDateTime');
+      $criteria->addCondition('t.CreationTime <= :MaxDateTime');
+      $criteria->addCondition('t.EventId = :EventId');
+      $criteria->params = array(
+        'MinDateTime' => strtotime($dateStart->format('Y-m-d').' 05:00:00'),
+        'MaxDateTime' => strtotime($dateStart->format('Y-m-d').' 22:00:00'),
+        'EventId' => $event->EventId
+      );
+
+      /** @var $participants \event\models\Participant[] */
+      $participants = \event\models\Participant::model()->findAll($criteria);
+      $userIdList = array();
+
+
+      $stat->New[$dateStart->format('d.m.Y')]['AllParticipants'] = sizeof($participants);
+      $stat->New[$dateStart->format('d.m.Y')]['AllParticipantsByRuvents'] = 0;
+
+      foreach ($participants as $participant)
+      {
+        $badge = \ruvents\models\Badge::model()
+          ->byEventId($event->EventId)
+          ->byUserId($participant->UserId);
+        $badge = $badge->find('ABS(UNIX_TIMESTAMP(t.CreationTime) - :CreationTime) < 1200', array('CreationTime' => $participant->CreationTime));
+        if (!empty($badge))
+        {
+          $stat->New[$dateStart->format('d.m.Y')]['AllParticipantsByRuvents']++;
+          $userIdList[] = $participant->UserId;
+        }
+      }
+      //новых пользователей за день
+      $criteria = new CDbCriteria();
+      $criteria->addCondition('t.CreationTime >= :MinDateTime');
+      $criteria->addCondition('t.CreationTime <= :MaxDateTime');
+      $criteria->params = array(
+        'MinDateTime' => strtotime($dateStart->format('Y-m-d').' 05:00:00'),
+        'MaxDateTime' => strtotime($dateStart->format('Y-m-d').' 22:00:00'),
+      );
+      $criteria->addInCondition('t.UserId', $userIdList);
+
+      /** @var $users \user\models\User[] */
+      $users = \user\models\User::model()->findAll($criteria);
+      $stat->New[$dateStart->format('d.m.Y')]['AllUsers'] = sizeof($users);
+      $stat->New[$dateStart->format('d.m.Y')]['AllUsersByRuvents'] = 0;
+
+      foreach ($users as $user)
+      {
+        $badge = \ruvents\models\Badge::model()
+          ->byEventId($event->EventId)
+          ->byUserId($user->UserId);
+
+        $badge = $badge->find('ABS(UNIX_TIMESTAMP(t.CreationTime) - :CreationTime) < 1200', array('CreationTime' => $user->CreationTime));
+        if (!empty($badge))
+        {
+          $stat->New[$dateStart->format('d.m.Y')]['AllUsersByRuvents']++;
+        }
+      }
+
+
       $dateStart->modify('+1 day');
     }
-    
-    
+
     // Список операторов
     $operators = \ruvents\models\Operator::model()->findAll('t.EventId = :EventId AND t.Role = \'Operator\'', array('EventId' => $event->EventId));
     $operatorsLogin = array();
