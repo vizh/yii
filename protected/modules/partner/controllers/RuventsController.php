@@ -4,7 +4,8 @@ class RuventsController extends \partner\components\Controller
   public function actions()
   {
     return array(
-      'operator' => '\partner\controllers\ruvents\OperatorAction'
+      'operator' => '\partner\controllers\ruvents\OperatorAction',
+      'csvinfo' => '\partner\controllers\ruvents\CsvinfoAction',
     );
   }
 
@@ -20,6 +21,11 @@ class RuventsController extends \partner\components\Controller
         'Title' => 'Генерация операторов',
         'Url' => \Yii::app()->createUrl('/partner/ruvents/operator'),
         'Access' => $this->getAccessFilter()->checkAccess('ruvents', 'operator')
+      ),
+      'csvinfo' => array(
+        'Title' => 'Итоги мероприятия (csv)',
+        'Url' => \Yii::app()->createUrl('/partner/ruvents/csvinfo'),
+        'Access' => $this->getAccessFilter()->checkAccess('ruvents', 'csvinfo')
       ),
     );
   }

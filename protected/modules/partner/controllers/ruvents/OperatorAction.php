@@ -75,7 +75,7 @@ class OperatorAction extends \partner\components\Action
     if (empty($this->dataPath))
     {
       $path = \Yii::getPathOfAlias('partner.data');
-      $this->dataPath = $path . '/' . \Yii::app()->partner->getAccount()->EventId . '/';
+      $this->dataPath = $path . '/' . \Yii::app()->partner->getAccount()->EventId . '/operator/';
       if (!file_exists($this->dataPath))
       {
         mkdir($this->dataPath, 0755, true);

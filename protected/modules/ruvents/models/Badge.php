@@ -17,6 +17,7 @@ namespace ruvents\models;
 class Badge extends \CActiveRecord
 {
   public $CountForCriteria = null;
+  public $DateForCriteria = null;
   
   /**
    * @static
@@ -76,15 +77,22 @@ class Badge extends \CActiveRecord
   }
 
   /**
-   * @param $dayId
+   * @param int|null $dayId
    * @param bool $useAnd
    * @return Badge
    */
   public function byDayId($dayId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.DayId = :DayId';
-    $criteria->params = array(':DayId' => $dayId);
+    if ($dayId !== null)
+    {
+      $criteria->condition = 't.DayId = :DayId';
+      $criteria->params = array(':DayId' => $dayId);
+    }
+    else
+    {
+      $criteria->condition = 't.DayId IS NULL';
+    }
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
