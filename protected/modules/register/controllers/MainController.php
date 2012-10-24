@@ -66,6 +66,12 @@ class MainController extends \register\components\Controller
     );
   }
   
+  public function actionAjaxUserSearch($query)
+  {
+    
+  }
+
+
   public function actionAjaxRegister()
   {
     $request = \Yii::app()->getRequest();
