@@ -125,12 +125,10 @@ class EventShow extends GeneralCommand implements ISettingable
     $result = new View();
     $result->SetTemplate('fullinfo');
     $address = $this->event->GetAddress();
-    if (! empty($address))
+    if (!empty($address) 
+      && !empty($address->CityId))
     {
-      $result->IsSetAddress = true;
-      $result->City = $address->City->Name;
-      $result->Street = $address->Street;
-      $result->House = preg_split('/-/', trim($address->House), -1);
+      $result->Address = $address;
     }
     $result->Place = $this->event->GetPlace();
 
@@ -249,14 +247,10 @@ class EventShow extends GeneralCommand implements ISettingable
       $result->SetTemplate('map');
       $result->Name = $this->event->Name;
       $address = $this->event->GetAddress();
-      if ($address !== null && !empty($address->CityId))
+      if ($address !== null 
+        && !empty($address->CityId))
       {
-        $house = $address->GetHouseParsed();
-        $result->Address  = $address->City->Country->Name.','.$address->City->Name;
-        $result->Address .= (!empty($address->Street) ? ',улица '.$address->Street : '');
-        $result->Address .= (!empty($house[0]) ? ',дом '.$house[0] : '');
-        $result->Address .= (!empty($house[1]) ? ',строение '.$house[1] : '');
-        $result->Address .= (!empty($house[2]) ? ',корпус '.$house[2] : '');
+        $result->Address = $address;
       }
       else
       {

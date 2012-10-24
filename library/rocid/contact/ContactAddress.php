@@ -105,4 +105,15 @@ class ContactAddress extends CActiveRecord
     $this->House = $value[0] . '-' . $value[1] . '-' .$value[2];
   }
   
+  
+  public function __toString() 
+  {
+    $house = $this->GetHouseParsed();
+    $result = $this->City->Country->Name.', г. '.$this->City->Name;
+    $result .= (!empty($this->Street) ? ', ул. '.$this->Street : '');
+    $result .= (!empty($house[0]) ? ', д. '.$house[0] : '');
+    $result .= (!empty($house[1]) ? ', стр. '.$house[1] : '');
+    $result .= (!empty($house[2]) ? ', к. '.$house[2] : '');
+    return $result;
+  }
 }
