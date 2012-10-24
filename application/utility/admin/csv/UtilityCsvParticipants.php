@@ -73,9 +73,12 @@ class UtilityCsvParticipants extends AdminCommand
 
       if ($withContact == 1)
       {
-        foreach ($eUser->User->Phones as $phone)
+        if (!empty($eUser->User->Phones))
         {
-          $csvFields['phones'] .= iconv('utf-8', 'Windows-1251', $phone->Phone) . ' ';
+          foreach ($eUser->User->Phones as $phone)
+          {
+            $csvFields['phones'] .= iconv('utf-8', 'Windows-1251', $phone->Phone) . ' ';
+          }
         }
         $csvFields['email'] = iconv('utf-8', 'Windows-1251', $user->GetEmail() != null ? $user->GetEmail()->Email : $eUser->User->Email);
       }
