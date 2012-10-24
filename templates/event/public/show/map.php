@@ -1,7 +1,7 @@
 <div id="ymaps-map-id_13401960168727002685" style="width: 245px; height: 332px;"></div>
 <script type="text/javascript">
 function fid_13401960168727002685(ymaps) {     
-    var geocoder = ymaps.geocode("<?php echo addslashes($this->Place);?>", {result : 1}); 
+    var geocoder = ymaps.geocode("<?php echo addslashes($this->Address);?>", {result : 1}); 
     geocoder.then(
         function (response) {
             var map = new ymaps.Map("ymaps-map-id_13401960168727002685", {
@@ -21,4 +21,3 @@ function fid_13401960168727002685(ymaps) {
 };
 </script>
 <script type="text/javascript" src="http://api-maps.yandex.ru/2.0/?coordorder=longlat&load=package.full&wizard=constructor&lang=ru-RU&onload=fid_13401960168727002685"></script>
-<!-- Этот блок кода нужно вставить в ту часть страницы, где вы хотите разместить карту (конец) -->

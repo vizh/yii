@@ -786,4 +786,15 @@ class Event extends CActiveRecord
   {
     return $this->Program;
   }
+  
+  /**
+	 * @param ContactAddress $address
+	 * @return void
+	 */
+	public function AddAddress($address)
+	{
+		$db = Registry::GetDb();
+		$sql = 'INSERT INTO Link_Event_ContactAddress ( EventId , AddressId) VALUES (' . $this->EventId . ',' . $address->AddressId . ')';
+		$db->createCommand($sql)->execute();
+	}
 }

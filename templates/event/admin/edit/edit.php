@@ -87,7 +87,7 @@
       </div>
       <div class="pub bordered sidebar">
         <h4>Дата и место проведения</h4>
-
+        
         <div class="pub-date bordered-input sub-element">
           <h5>Начало</h5>
           <input type="text" value="<?=!empty($this->DateStart['day'])?$this->DateStart['day']:'';?>" maxlength="2" size="2" name="data[DateStartDay]" placeholder="ДД" class="span1">
@@ -114,7 +114,7 @@
           <h5>Место проведения</h5>
           <input class="large" type="text" name="data[Place]" value="<?=htmlspecialchars($this->Place);?>">
         </div>
-
+        
         <div class="form-stacked bordered-input sub-element">
           <h3>Точный адрес</h3>
           <fieldset>
@@ -122,24 +122,41 @@
             <div class="clearfix">
               <label for="country">Страна</label>
               <div class="input">
-                <select id="country" name="data[Address][]">
-                  <option>1</option>
+                <select id="country" name="data[Address][CountryId]">
+                  <option valu=""></option>
+                  <?php foreach($this->GeoCountries as $country):?>
+                    <option value="<?php echo $country->CountryId;?>" 
+                      <?php if (isset($this->Address) && isset($this->Address->City) && $this->Address->City->CountryId == $country->CountryId):?>selected<?php endif;?>>
+                        <?php echo $country->Name;?>
+                    </option>
+                  <?php endforeach;?>
                 </select>
               </div>
             </div>
             <div class="clearfix">
               <label for="region">Регион</label>
               <div class="input">
-                <select id="region" name="data[Address][]">
-                  <option>1</option>
+                <select id="region" name="data[Address][RegionId]">
+                  <?php if (!empty($this->GeoRegions)):?>
+                    <?php foreach ($this->GeoRegions as $region):?>
+                      <option value="<?php echo $region->RegionId;?>" 
+                        <?php if (isset($this->Address) && isset($this->Address->City) && $this->Address->City->Region->RegionId == $region->RegionId):?>selected<?php endif;?>>
+                          <?php echo $region->Name;?>
+                      </option>
+                    <?php endforeach;?>
+                  <?php endif;?>
                 </select>
               </div>
             </div>
             <div class="clearfix">
               <label for="city">Город</label>
               <div class="input">
-                <select id="city" name="data[Address][]">
-                  <option>1</option>
+                <select id="city" name="data[Address][CityId]">
+                  <?php if (!empty($this->GeoCities)):?>
+                    <?php foreach ($this->GeoCities as $city):?>
+                      <option value="<?php echo $city->CityId?>" <?php if (isset($this->Address) && $this->Address->CityId == $city->CityId):?>selected<?php endif;?>><?php echo $city->Name;?></option>
+                    <?php endforeach;?>
+                  <?php endif;?>
                 </select>
               </div>
             </div>
@@ -147,39 +164,44 @@
             <div class="clearfix">
               <label for="data_Address_">Почтовый индекс</label>
               <div class="input">
-                <input id="data_Address_" type="text" name="data[Address][]">
+                <input id="data_Address_" type="text" name="data[Address][PostalIndex]" value="<?php if (!empty($this->Address)) echo $this->Address->PostalIndex;?>">
               </div>
             </div>
 
             <div class="clearfix">
               <label for="data_Address_">Улица</label>
               <div class="input">
-                <input id="data_Address_" type="text" name="data[Address][]">
+                <input id="data_Address_" type="text" name="data[Address][Street]" value="<?php if (!empty($this->Address)) echo $this->Address->Street;?>">
               </div>
             </div>
-
+            
+            
+            <?php
+              if (!empty($this->Address)):
+                $addressHouse = $this->Address->GetHouseParsed();
+              endif;
+            ?>
             <div class="clearfix">
               <label for="data_Address_">Дом</label>
               <div class="input">
-                <input id="data_Address_" type="text" name="data[Address][]">
+                <input id="data_Address_" type="text" name="data[Address][House][0]" value="<?php if (!empty($addressHouse[0])) echo $addressHouse[0];?>">
               </div>
             </div>
 
             <div class="clearfix">
               <label for="data_Address_">Строение</label>
               <div class="input">
-                <input id="data_Address_" type="text" name="data[Address][]">
+                <input id="data_Address_" type="text" name="data[Address][House][1]" value="<?php if (!empty($addressHouse[1])) echo $addressHouse[1];?>">
               </div>
             </div>
 
             <div class="clearfix">
               <label for="data_Address_">Корпус</label>
               <div class="input">
-                <input id="data_Address_" type="text" name="data[Address][]">
+                <input id="data_Address_" type="text" name="data[Address][House][2]" value="<?php if (!empty($addressHouse[2])) echo $addressHouse[2];?>">
               </div>
             </div>
           </fieldset>
-          <input class="large" type="text" name="data[Place]" value="<?=htmlspecialchars($this->Place);?>">
         </div>
 
         <div class="cl"></div>

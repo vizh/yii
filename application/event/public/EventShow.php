@@ -245,10 +245,23 @@ class EventShow extends GeneralCommand implements ISettingable
     $result = '';
     if ( !empty($this->event->Place))
     {
-        $result = new View();
-        $result->SetTemplate('map');
-        $result->Name  = $this->event->Name;
-        $result->Place = $this->event->Place;
+      $result = new View();
+      $result->SetTemplate('map');
+      $result->Name = $this->event->Name;
+      $address = $this->event->GetAddress();
+      if ($address !== null && !empty($address->CityId))
+      {
+        $house = $address->GetHouseParsed();
+        $result->Address  = $address->City->Country->Name.','.$address->City->Name;
+        $result->Address .= (!empty($address->Street) ? ',улица '.$address->Street : '');
+        $result->Address .= (!empty($house[0]) ? ',дом '.$house[0] : '');
+        $result->Address .= (!empty($house[1]) ? ',строение '.$house[1] : '');
+        $result->Address .= (!empty($house[2]) ? ',корпус '.$house[2] : '');
+      }
+      else
+      {
+        $result->Address = $this->event->Place;
+      }
     }
     return $result;
   }

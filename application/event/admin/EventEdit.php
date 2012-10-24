@@ -16,6 +16,7 @@ class EventEdit extends AdminCommand
   protected function doExecute($id = 0)
   {
     $this->view->HeadScript(array('src'=>'/js/geodropdown.js'));
+    $this->view->HeadScript(array('src'=>'/js/functions.js'));
     $this->view->HeadScript(
       array('src' => '/js/libs/tiny_mce/tiny_mce.js')
     );
@@ -78,8 +79,27 @@ class EventEdit extends AdminCommand
       $this->event->Type = $data['Type'] != Event::EventTypePartner ? Event::EventTypeOwn : Event::EventTypePartner;
 
       $this->saveLogos($this->event);
-
       $this->event->save();
+      
+      if ($this->event->GetAddress() !== null)
+      {
+        $address = $this->event->GetAddress();
+      }
+      else
+      {
+        $address = new ContactAddress();
+      }
+
+      $address->CityId = $data['Address']['CityId'];
+      $address->PostalIndex = $data['Address']['PostalIndex'];
+      $address->Street = $data['Address']['Street'];
+      $address->SetHouseParsed($data['Address']['House']);
+      $address->save();
+      if ($this->event->GetAddress() == null)
+      {
+        $this->event->AddAddress($address);
+      }
+      Lib::Redirect('');
     }
 
     $this->view->Name = $this->event->Name;
@@ -101,7 +121,15 @@ class EventEdit extends AdminCommand
 
     $this->view->Logo = $this->event->GetLogo();
     $this->view->MiniLogo = $this->event->GetMiniLogo();
-
+    
+    $this->view->Address = $this->event->GetAddress();
+    $this->view->GeoCountries = GeoCountry::model()->findAll();
+    if (!empty($this->view->Address->CityId))
+    {
+      $this->view->GeoRegions = GeoRegion::model()->findAll('t.CountryId = :CountryId', array('CountryId' => $this->view->Address->City->CountryId));
+      $this->view->GeoCities = GeoCity::model()->findAll('t.RegionId = :RegionId', array('RegionId' => $this->view->Address->City->RegionId));
+    }    
+    
     echo $this->view;
   }
 
