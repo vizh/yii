@@ -201,6 +201,20 @@
                 <input id="data_Address_" type="text" name="data[Address][House][2]" value="<?php if (!empty($addressHouse[2])) echo $addressHouse[2];?>">
               </div>
             </div>
+            
+            <div class="clearfix">
+              <label for="data_Address_">Координаты</label>
+              <div class="input">
+                <input id="data_Address_" type="text" name="data[Address][GeoPoint]" value="<?php if (!empty($this->Address)) echo $this->Address->GeoPoint;?>">
+              </div>
+            </div>
+            
+            <div class="clearfix">
+              <label for="data_FbPlaceID">FbPlaceID</label>
+              <div class="input">
+                <input id="data_FbPlaceID" type="text" name="data[FbPlaceID]" value="<?php if (!empty($this->FbPlaceID)) echo $this->FbPlaceID;?>">
+              </div>
+            </div>
           </fieldset>
         </div>
 

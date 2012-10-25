@@ -19,6 +19,7 @@ class EventInfo extends ApiCommand
 
     $this->Account->DataBuilder()->CreateEvent($event);
     $this->Account->DataBuilder()->BuildEventMenu($event);
+    $this->Account->DataBuilder()->BuildEventPlace($event);
     $result = $this->Account->DataBuilder()->BuildEventFullInfo($event);
     $this->SendJson($result);
   }

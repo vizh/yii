@@ -24,6 +24,7 @@ AutoLoader::Import('partner.source.*');
  * @property string $FastProduct
  * @property string $Visible
  * @property int $Order
+ * @property string $FbPlaceID
  *
  *
  *

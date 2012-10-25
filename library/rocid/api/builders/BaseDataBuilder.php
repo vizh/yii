@@ -144,8 +144,7 @@ class BaseDataBuilder
     $this->event->IdName = $event->IdName;
     $this->event->Name = $event->Name;
     $this->event->Info = $event->Info;
-    $this->event->Place = $event->Place;
-    $this->event->FbPlace = $event->FbPlace;
+    $this->event->Place = $event->Place;    
     $this->event->Url = $event->Url;
     $this->event->UrlRegistration = $event->UrlRegistration;
     $this->event->UrlProgram = $event->UrlProgram;
@@ -156,6 +155,18 @@ class BaseDataBuilder
     $this->event->Image->Mini = 'http://rocid.ru' . $event->GetMiniLogo();
     $this->event->Image->Normal = 'http://rocid.ru' . $event->GetLogo();
 
+    return $this->event;
+  }
+  
+  public function BuildEventPlace($event)
+  {
+    $address = $this->event->GetAddress();
+    if ($address !== null
+      && !empty($event->FbPlaceId))
+    {
+      $this->event->FbPlaceId = $event->FbPlaceId;
+      $this->event->GeoPoint = $address->GeoPoint;
+    }
     return $this->event;
   }
 

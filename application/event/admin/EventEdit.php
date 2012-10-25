@@ -77,7 +77,9 @@ class EventEdit extends AdminCommand
       $this->event->Place = $purifier->purify($data['Place']);
       $this->event->Visible = isset($data['Visible']) ? Event::EventVisibleY : Event::EventVisibleN;
       $this->event->Type = $data['Type'] != Event::EventTypePartner ? Event::EventTypeOwn : Event::EventTypePartner;
-
+      
+      $this->event->FbPlaceID = $data['FbPlaceID'];
+      
       $this->saveLogos($this->event);
       $this->event->save();
       
@@ -99,6 +101,27 @@ class EventEdit extends AdminCommand
       {
         $this->event->AddAddress($address);
       }
+      
+      if (!empty($address->CityId)
+        && empty($data['Address']['GeoPoint']))
+      {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, 'http://geocode-maps.yandex.ru/1.x/?format=json&geocode='.urlencode($address));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        $yandexGeoResponse = json_decode(curl_exec($curl));
+        curl_close($curl);
+        
+        if (!empty($yandexGeoResponse->response->GeoObjectCollection->featureMember))
+        {
+          $position = explode(' ', $yandexGeoResponse->response->GeoObjectCollection->featureMember[0]->GeoObject->Point->pos);
+          $address->GeoPoint = $position[1].','.$position[0];
+          $address->save();
+        }
+      }
+      
       Lib::Redirect('');
     }
 
@@ -107,6 +130,7 @@ class EventEdit extends AdminCommand
     $this->view->ShortName = $this->event->ShortName;
     $this->view->Info = $this->event->Info;
     $this->view->FullInfo = $this->event->FullInfo;
+    $this->view->FbPlaceID = $this->event->FbPlaceID;
 
     $this->view->Url = $this->event->Url;
     $this->view->UrlRegistration = $this->event->UrlRegistration;
