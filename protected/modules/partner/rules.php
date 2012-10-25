@@ -9,6 +9,18 @@ return array(
   ),
   array(
     'allow',
+    'roles' => array('Admin'),
+    'controllers' => array('user'),
+    'actions' => array('statistics')
+  ),
+  array(
+    'deny',
+    'roles' => array('Partner'),
+    'controllers' => array('user'),
+    'actions' => array('statistics')
+  ),
+  array(
+    'allow',
     'roles' => array('Partner'),
     'controllers' => array('main', 'order', 'user', 'coupon', 'userEdit', 'utility'),
   ),
