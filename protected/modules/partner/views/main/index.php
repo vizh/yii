@@ -15,15 +15,15 @@
             <?php $totalCol1 = 0; $totalCol2 = 0; $totalCol3 = 0;?>
             <?php foreach ($stat->Participants[$day->DayId] as $roleId => $item):?>
               <?php 
-                $totalCol1 += $item->Count;
-                $totalCol2 += $item->CountToday;
-                $totalCol3 += $item->CountWeek;
+                $totalCol1 += isset($item->Count) ? $item->Count : 0;
+                $totalCol2 += isset($item->CountToday) ? $item->CountToday : 0;
+                $totalCol3 += isset($item->CountWeek) ? $item->CountWeek : 0;
               ?>
               <tr>
                 <td><?php echo $stat->Roles[$roleId];?></td>
                 <td><?php echo $item->Count;?></td>
-                <td><?php echo (int) $item->CountToday;?></td>
-                <td><?php echo (int) $item->CountWeek;?></td>
+                <td><?php echo isset($item->CountToday) ? $item->CountToday : 0;?></td>
+                <td><?php echo isset($item->CountWeek) ? $item->CountWeek : 0;?></td>
               </tr>
             <?php endforeach;?>
             <tr>
@@ -47,15 +47,15 @@
           <?php $totalCol1 = 0; $totalCol2 = 0; $totalCol3 = 0;?>
           <?php foreach ($stat->Participants as $roleId => $item):?>
             <?php 
-              $totalCol1 += $item->Count;
-              $totalCol2 += $item->CountToday;
-              $totalCol3 += $item->CountWeek;
+              $totalCol1 += isset($item->Count) ? $item->Count : 0;
+              $totalCol2 += isset($item->CountToday) ? $item->CountToday : 0;
+              $totalCol3 += isset($item->CountWeek) ? $item->CountWeek : 0;
             ?>
             <tr>
               <td><?php echo $stat->Roles[$roleId];?></td>
               <td><?php echo $item->Count;?></td>
-              <td><?php echo (int) $item->CountToday;?></td>
-              <td><?php echo (int) $item->CountWeek;?></td>
+              <td><?php echo isset($item->CountToday) ? $item->CountToday : 0;?></td>
+              <td><?php echo isset($item->CountWeek) ? $item->CountWeek : 0;?></td>
             </tr>
           <?php endforeach;?>
           <tr>
