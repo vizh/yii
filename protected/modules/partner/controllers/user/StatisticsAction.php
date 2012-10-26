@@ -12,15 +12,12 @@ class StatisticsAction extends \partner\components\Action
   {
     $this->getController()->setPageTitle('Статистика регистраций участников');
     $this->getController()->initActiveBottomMenu('statistics');
-
     $this->fillNewUsers();
 
+    $this->checkDuplicate();
+
+
     $this->getController()->render('statistics');
-  }
-
-  private function generalStatistics()
-  {
-
   }
 
   private function fillNewUsers()
@@ -36,6 +33,26 @@ class StatisticsAction extends \partner\components\Action
     foreach ($this->newParticipants as $participant)
     {
       $this->newUserIdList[] = $participant->UserId;
+    }
+  }
+
+  private function checkDuplicate()
+  {
+    foreach ($this->newParticipants as $participant)
+    {
+      $criteria = new \CDbCriteria();
+      $criteria->addCondition('t.LastName = :LastName');
+      $criteria->addCondition('t.FirstName = :FirstName');
+      $criteria->params = array(
+        'LastName' => $participant->User->LastName,
+        'FirstName' => $participant->User->FirstName
+      );
+
+      $count = \user\models\User::model()->count($criteria);
+      if ($count > 0)
+      {
+        echo $count . ' ' . $participant->User->RocId . '<br>';
+      }
     }
   }
 }
