@@ -2,93 +2,65 @@ $(function() {
   getValues();
   $('#section').css({'padding-bottom': footerHeight + 'px'});
 
-  // Схема проезда
-  $(".map-road").click(function() {
-    $(".map-road").removeClass("current");
-    $(this).addClass("current");
+  /* EVENTS */
+  /* Event page -> Thumbs */
+  $('#event-thumbs .thumb').click(function() {
+    $('#event-thumbs').find('.thumb.current').removeClass('current');
+    $(this).addClass('current');
+    $('#event-photo').attr('src', $(this).attr('src'));
+  });
+  $('#event-thumbs_prev, #event-thumbs_next').live('selectstart', function() {
+    return false;
   });
 
-  // Calc
-  var PriceItem = Backbone.Model.extend({
-    defaults: {
-      quantity: 0
-    },
+  /* Event page -> Tabs */
+  $('#event-tabs').tabs();
 
-    getTotalPrice: function() {
-      return this.get('price') * this.get('quantity');
-    }
+  /* COMPANIES */
+  /* Company -> Account */
+  $('#company-description_toggle').click(function() {
+    $('#company-description').toggleClass('show', 1000);
+    return false;
   });
 
-  var PriceItems = Backbone.Collection.extend({
-    model: PriceItem,
+  /* EVENT REGISTER */
+  var evRegTbl = '#event-register .registration .table';
 
-    getGrandTotal: function() {
-      return this.reduce(function(memo, e) {
-        return memo + e.getTotalPrice();
-      }, 0);
-    }
+  /* Event Toggle */
+  $(evRegTbl + ' .form-element_select').click(function() { return false; });
+  $('#event-register .registration .table thead').click(function() {
+    $(this).siblings('tbody').slideToggle(1);
+    $(this).find('i').toggleClass('icon-chevron-up icon-chevron-down');
   });
 
-  var PriceItemVIew = Backbone.View.extend({
-    tagName: 'tr',
-    events: {
-      'change select' : 'updateQuantity'
-    },
-
-    initialize: function() {
-      this.model.on('change:quantity', this.render.bind(this));
-    },
-
-    updateQuantity: function(e) {
-      var 
-        qty = parseInt($(e.target).find(':selected').val());
-
-        this.model.set('quantity', qty);
-    },
-
-    render: function() {
-      if (this.model.hasChanged('quantity')) {
-        this.$el.find('.totalPrice').find('strong').text(this.model.getTotalPrice().formatMoney());
-      }
-    }
-  });
-
-  var priceItems = (new PriceItems);
-
-  $(".event-registration").find('tr').each(function() {
-    var price = $(this).attr('data-price');
-    if (price) {
-      var model = (new PriceItem);
-      model.set('price', parseInt(price));
-
-      priceItems.add([model]);
-
-      var view = new PriceItemVIew({model: model});
-      view.setElement(this);
-    }
-  });
-
-  priceItems.on('change:quantity', function() {
-    $('#grandTotal').text(priceItems.getGrandTotal().formatMoney());
-  });
+  /* Continued in: event-registration.js */
 
 });
 
 $(window).load(function() {
+  /* Equal height blocks in promo area */
+  userDashboardBlocksEqualHeight();
 
+  /* EVENTS */
+  /* Event page -> Thumbs slider init */
+  $('#event-thumbs .slider').iosSlider({
+    infiniteSlider: true,
+    snapToChildren: true,
+    navPrevSelector: $('#event-thumbs_prev'),
+    navNextSelector: $('#event-thumbs_next'),
+  });
 });
 
 function getValues() {
   footerHeight = $('#footer').outerHeight();
 }
 
-Number.prototype.formatMoney = function(c, d, t){
-  var n = this,
-    c = c == undefined ? 0 : isNaN(c = Math.abs(c)) ? 2 : c,
-    d = d == undefined ? "," : d,
-    t = t == undefined ? " " : t,
-    s = n < 0 ? "-" : "",
-    i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
-    j = (j = i.length) > 3 ? j % 3 : 0;
-  return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-};
+function userDashboardBlocksEqualHeight() {
+  var maxHeight = -1;
+  $('.b-user-dashboard .span5').each(function() {
+    maxHeight = maxHeight > $(this).outerHeight() ? maxHeight : $(this).outerHeight();
+  });
+  $('.b-user-dashboard .span5').each(function() {
+    $(this).outerHeight(maxHeight);
+  });
+}

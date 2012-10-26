@@ -52,9 +52,25 @@ class MainController extends \register\components\Controller
       $orderForm->attributes = \Yii::app()->session['order_form'];
     }
     
-    
-    
-    
+    if ($request->getIsPostRequest())
+    {
+      $orderForm->attributes = $request->getParam(get_class($orderForm));
+      foreach ($orderForm->Owners as $productId => $owners)
+      {
+        foreach ($owners as $rocid => $checked)
+        {
+          if ($checked == 1)
+          {
+            $owner = \user\models\User::GetByRocid($rocId);
+            $product = \pay\models\Product::GetById($productId);
+            if ($owner !== null)
+            {
+              $product->ProductManager()->CreateOrderItem(\Yii::app()->user->getId(), $owner);
+            }
+          }
+        }
+      }
+    }
   
     $this->render('owners', 
       array(
@@ -64,11 +80,6 @@ class MainController extends \register\components\Controller
         'registerForm' => new \register\components\form\RegisterForm()
       )
     );
-  }
-  
-  public function actionAjaxUserSearch($query)
-  {
-    
   }
 
 
