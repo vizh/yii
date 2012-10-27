@@ -1,6 +1,38 @@
 <section id="section" role="main">
     <style>.b-event-promo .side, .b-event-promo .all {display: none;}</style>
-    <!--#include virtual="_event-promo.html" -->
+    <div class="b-event-promo">
+      <div class="container">
+        <div class="row">
+          <div class="side left span4">
+            <img src="<?php $event->GetLogo();?>" width="95" height="53" alt="" class="logo">
+          </div>
+
+          <div class="details span4 offset4">
+            <h2 class="title"><?php echo $event->Name;?></h2>
+            <div class="type">
+              <img src="/images/blank.gif" alt="" class="i-event_small i-event_conference">Конференция
+            </div>
+            <div class="duration">
+              <span class="datetime">
+                <span class="date">
+                  <?php $dateFormatter = \Yii::app()->dateFormatter;?>
+                  <?php if ($event->DateStart == $event->DateEnd):?>
+                    <span class="day"><?php echo $dateFormatter->format('dd', $event->DateEnd);?></span> <span class="month"><?php echo $dateFormatter->format('MMMM', $event->DateEnd);?></span> <span class="year"><?php echo $dateFormatter->format('yyyy', $event->DateEnd);?></span>
+                  <?php else:?>
+                    <?php if ($dateFormatter->format('M', $event->DateStart) == $dateFormatter->format('M', $event->DateEnd)):?>
+                      <span class="day"><?php echo $dateFormatter->format('dd', $event->DateStart);?>-<?php echo $dateFormatter->format('dd', $event->DateEnd);?></span> <span class="month"><?php echo $dateFormatter->format('MMMM', $event->DateEnd);?></span> <span class="year"><?php echo $dateFormatter->format('yyyy', $event->DateEnd);?></span>
+                    <?php else:?>
+                  
+                    <?php endif;?>
+                  <?php endif;?>
+                </span>
+              </span>
+            </div>
+            <div class="location"><?php echo $event->GetAddress();?></div>
+          </div>
+        </div>
+      </div>
+    </div>
     
     <div class="event-register">
       <div class="container">
@@ -67,7 +99,7 @@
                     </label>
                   </td>
                   <td colspan="3" class="last-child">
-                    <input type="text" class="input-medium pull-right t-center form-element_text" placeholder="Промо код">
+                    <?php echo CHtml::activeTextField($orderForm, 'PromoCodes['.$product->ProductId.']['.\Yii::app()->user->getId().']', array('class' => 'input-medium pull-right t-center form-element_text', 'placeholder' => 'Промо код'));?>
                   </td>
                 </tr>
               </tbody>
@@ -79,9 +111,7 @@
           </div>
 
           <div class="actions">
-            <a href="/event-payment.html" class="btn btn-large btn-primary">
-              Перейти к оплате
-              <i class="icon-circle-arrow-right icon-white"></i>
+            <?php echo CHtml::submitButton('Перейти к оплате', array('class' => 'btn btn-large btn-primary'));?>
             </a>
           </div>
         <?php echo CHtml::endForm();?>
@@ -95,12 +125,12 @@
     <tr class="user-row">
       <td>
         <label class="checkbox inline muted">
-          <input type="hidden" value="0" name="<?php echo get_class($orderForm);?>[Owners][<%= productid %>][<%= rocid %>]" />
-          <input name="<?php echo get_class($orderForm);?>[Owners][<%= productid %>][<%= rocid %>]" value="1" type="checkbox" /><%= username %>
+          <input type="hidden" value="0" name="<?php echo CHtml::resolveName($orderForm, $_ = 'Owners[<%=productid%>][<%=rocid%>]');?>" />
+          <input name="<?php echo CHtml::resolveName($orderForm, $_ = 'Owners[<%=productid%>][<%=rocid%>]');?>" value="1" type="checkbox" /><%= username %>
         </label>
         </td>
         <td colspan="3" class="last-child">
-          <input type="text" class="input-medium pull-right t-center form-element_text" placeholder="Промо код">
+          <input type="text" name="<?php echo CHtml::resolveName($orderForm, $_ = 'PromoCodes[<%=productid%>][<%=rocid%>]');?>" class="input-medium pull-right t-center form-element_text" placeholder="Промо код">
         </td>
       </tr>
   </script>

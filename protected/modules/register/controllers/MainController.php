@@ -57,15 +57,33 @@ class MainController extends \register\components\Controller
       $orderForm->attributes = $request->getParam(get_class($orderForm));
       foreach ($orderForm->Owners as $productId => $owners)
       {
-        foreach ($owners as $rocid => $checked)
+        foreach ($owners as $rocId => $checked)
         {
           if ($checked == 1)
           {
             $owner = \user\models\User::GetByRocid($rocId);
+            $payer = \user\models\User::GetById(\Yii::app()->user->getId());
             $product = \pay\models\Product::GetById($productId);
-            if ($owner !== null)
+            if ($owner !== null && $product !== null)
             {
-              $product->ProductManager()->CreateOrderItem(\Yii::app()->user->getId(), $owner);
+              $product->ProductManager()->CreateOrderItem($payer, $owner);
+            }
+          }
+        }
+      }
+      
+      foreach ($orderForm->PromoCodes as $productId => $owners)
+      {
+        foreach ($owners as $rocId => $promoCode)
+        {
+          if (!empty($promoCode))
+          {
+            $coupon = \pay\models\Coupon::GetByCode($promoCode);
+            $owner = \user\models\User::GetByRocid($rocId);
+            $payer = \user\models\User::GetById(\Yii::app()->user->getId());
+            if ($coupon !== null && $owner !== null)
+            {
+              $coupon->Activate($payer, $owner);
             }
           }
         }

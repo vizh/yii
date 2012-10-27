@@ -69,7 +69,7 @@ class Event extends \CActiveRecord
 
 
       'Phones' => array(self::MANY_MANY, 'ContactPhone', 'Link_Event_ContactPhone(EventId, PhoneId)'),
-      'Addresses' => array(self::MANY_MANY, 'ContactAddress', 'Link_Event_ContactAddress(EventId, AddressId)', 'with' => array('City')),
+      'Addresses' => array(self::MANY_MANY, '\contact\models\Address', 'Link_Event_ContactAddress(EventId, AddressId)', 'with' => array('City')),
 
       'Sections' => array(self::HAS_MANY, '\event\models\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
       'DefaultRole' =>  array(self::BELONGS_TO, '\event\models\Role', 'DefaultRoleId'),

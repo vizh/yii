@@ -32,8 +32,8 @@ class City extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Country' => array(self::BELONGS_TO, 'GeoCountry', 'CountryId'),
-      'Region' => array(self::BELONGS_TO, 'GeoRegion', 'RegionId')
+      'Country' => array(self::BELONGS_TO, 'geo\models\Country', 'CountryId'),
+      'Region' => array(self::BELONGS_TO, 'geo\models\Region', 'RegionId')
     );
   }
 

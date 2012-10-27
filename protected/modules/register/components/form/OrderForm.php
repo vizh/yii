@@ -4,11 +4,12 @@ class OrderForm extends \CFormModel
 {
   public $Count;
   public $Owners;
+  public $PromoCodes;
   
   public function rules()
   {
     return array(
-      array('Count, Owners', 'safe')
+      array('Count, Owners, PromoCodes', 'safe')
     );
   }
 }
