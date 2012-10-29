@@ -1,5 +1,5 @@
 <?php
-namespace register\components\form;
+namespace runetid\components\form;
 class RegisterForm extends \CFormModel
 {
   public $FirstName;

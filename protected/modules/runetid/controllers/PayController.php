@@ -1,5 +1,5 @@
 <?php
-class MainController extends \register\components\Controller
+class PayController extends \runetid\components\Controller
 {
   private $event = null;
   private $products = null;
@@ -24,7 +24,7 @@ class MainController extends \register\components\Controller
   public function actionSelect()
   {
     $request = \Yii::app()->getRequest();
-    $orderForm = new \register\components\form\OrderForm();
+    $orderForm = new \runetid\components\form\OrderForm();
     $orderForm->attributes = $request->getParam(get_class($orderForm));
     if ($request->getIsPostRequest()
       && $orderForm->validate())
@@ -46,7 +46,7 @@ class MainController extends \register\components\Controller
   public function actionOwners()
   {
     $request = Yii::app()->getRequest();
-    $orderForm = new \register\components\form\OrderForm();
+    $orderForm = new \runetid\components\form\OrderForm();
     if (isset(\Yii::app()->session['order_form']))
     {
       $orderForm->attributes = \Yii::app()->session['order_form'];
@@ -95,7 +95,7 @@ class MainController extends \register\components\Controller
         'products' => $this->products, 
         'event' => $this->event, 
         'orderForm' => $orderForm,
-        'registerForm' => new \register\components\form\RegisterForm()
+        'registerForm' => new \runetid\components\form\RegisterForm()
       )
     );
   }

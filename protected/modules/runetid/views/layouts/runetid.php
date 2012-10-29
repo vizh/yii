@@ -6,33 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link rel="icon" href="/modules/register<?php echo $this->layout;?>/favicon.ico">
-    <link rel="stylesheet" href="/modules/register<?php echo $this->layout;?>/stylesheets/bootstrap.min.css">
-    <link rel="stylesheet" href="/modules/register<?php echo $this->layout;?>/stylesheets/application.css">
-    <script src="/modules/register<?php echo $this->layout;?>/javascripts/jquery-1.8.2.min.js"></script>
-    <script src="/modules/register<?php echo $this->layout;?>/javascripts/jquery-ui-1.9.0.custom.min.js"></script>
-    <script src="/modules/register<?php echo $this->layout;?>/javascripts/jquery.ui.autocomplete.html.js"></script>
-    <script src="/modules/register<?php echo $this->layout;?>/javascripts/underscore-min.js"></script>
-    <script src="/modules/register<?php echo $this->layout;?>/javascripts/backbone-min.js"></script>
-    <script src="/modules/register<?php echo $this->layout;?>/javascripts/bootstrap.min.js"></script>
-    <script src="/modules/register<?php echo $this->layout;?>/javascripts/jquery.iosslider.min.js"></script>
-    <script src="/modules/register<?php echo $this->layout;?>/javascripts/money-format.js"></script>
-    <script src="/modules/register<?php echo $this->layout;?>/javascripts/application.js"></script>
+    <link rel="icon" href="/modules<?php echo $this->layout;?>/favicon.ico">
+    <link rel="stylesheet" href="/modules<?php echo $this->layout;?>/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/modules<?php echo $this->layout;?>/stylesheets/application.css">
+    <script src="/modules<?php echo $this->layout;?>/javascripts/jquery-1.8.2.min.js"></script>
+    <script src="/modules<?php echo $this->layout;?>/javascripts/jquery-ui-1.9.0.custom.min.js"></script>
+    <script src="/modules<?php echo $this->layout;?>/javascripts/jquery.ui.autocomplete.html.js"></script>
+    <script src="/modules<?php echo $this->layout;?>/javascripts/underscore-min.js"></script>
+    <script src="/modules<?php echo $this->layout;?>/javascripts/backbone-min.js"></script>
+    <script src="/modules<?php echo $this->layout;?>/javascripts/bootstrap.min.js"></script>
+    <script src="/modules<?php echo $this->layout;?>/javascripts/jquery.iosslider.min.js"></script>
+    <script src="/modules<?php echo $this->layout;?>/javascripts/money-format.js"></script>
+    <script src="/modules<?php echo $this->layout;?>/javascripts/application.js"></script>
 
     <!--[if lte IE 9]>
-      <link rel="stylesheet" href="/modules/register<?php echo $this->layout;?>/stylesheets/ie/lte-ie-9.css">
-      <script src="/modules/register<?php echo $this->layout;?>/javascripts/ie/jquery.placeholder.min.js"></script>
+      <link rel="stylesheet" href="/modules<?php echo $this->layout;?>/stylesheets/ie/lte-ie-9.css">
+      <script src="/modules<?php echo $this->layout;?>/javascripts/ie/jquery.placeholder.min.js"></script>
       <script>$(function() {$("input[placeholder], textarea[placeholder]").placeholder();});</script>
     <![endif]-->
     <!--[if lte IE 8]>
-      <link rel="stylesheet" href="/modules/register<?php echo $this->layout;?>/stylesheets/ie/lte-ie-8.css">
-      <script src="/modules/register<?php echo $this->layout;?>/javascripts/ie/html5shiv.js"></script>
+      <link rel="stylesheet" href="/modules<?php echo $this->layout;?>/stylesheets/ie/lte-ie-8.css">
+      <script src="/modules<?php echo $this->layout;?>/javascripts/ie/html5shiv.js"></script>
     <![endif]-->
     <!--[if lte IE 7]>
-      <link rel="stylesheet" href="/modules/register<?php echo $this->layout;?>/stylesheets/ie/lte-ie-7.css">
+      <link rel="stylesheet" href="/modules<?php echo $this->layout;?>/stylesheets/ie/lte-ie-7.css">
     <![endif]-->
-    <script src="/modules/register<?php echo $this->layout;?>/javascripts/event-calculate-price.js"></script>
-    <script src="/modules/register<?php echo $this->layout;?>/javascripts/event-registration.js"></script>
+    <script src="/modules<?php echo $this->layout;?>/javascripts/event-calculate-price.js"></script>
+    <script src="/modules<?php echo $this->layout;?>/javascripts/event-registration.js"></script>
   </head>
   <body id="event-register">
     <noscript>JavaScript disabled</noscript>

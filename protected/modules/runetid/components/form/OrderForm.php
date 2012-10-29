@@ -1,5 +1,5 @@
 <?php
-namespace register\components\form;
+namespace runetid\components\form;
 class OrderForm extends \CFormModel 
 {
   public $Count;

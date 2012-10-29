@@ -12,14 +12,13 @@ return array(
     ),
     'partner',
     'ruvents',
-
+    'runetid',  
     'company',
     'contact',
     'event',
     'geo',
     'user',
     'pay',
-    'register',
     'mytest'
   ),
 );

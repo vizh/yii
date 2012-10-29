@@ -1,8 +1,8 @@
 <?php
-namespace register\components;
+namespace runetid\components;
 class Controller extends \application\components\controllers\PublicController
 {
-  public $layout = '/layouts/techcrunch';
+  public $layout = '/layouts/runetid';
 }
 
 ?>

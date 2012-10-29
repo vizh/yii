@@ -1,5 +1,5 @@
 <?php
-class UtilityController extends \register\components\Controller 
+class UtilityController extends \runetid\components\Controller 
 {
   public function actionAjaxUserSearch($term)
   {
