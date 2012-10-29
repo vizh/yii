@@ -910,6 +910,115 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   width: calc(25% - 20px);
 }
 
+/* Announcement */
+.announcement {
+  background: url('../images/bg-anons.png') repeat;
+  margin-bottom: 100px;
+}
+.announcement .container {
+  height: 300px;
+  padding: 20px 0;
+  position: relative;
+}
+.announcement .lev-tolstoy {
+  bottom: 0;
+  position: absolute;
+  right: -80px;
+}
+.announcement .logo-announcement {margin-bottom: 20px;}
+
+.announcement .details .detail {
+  display: block;
+  list-style: none;
+  position: relative;
+  margin-left: -25px;  
+}
+.announcement .details .detail:before {
+  color: #009b56;
+  content: "/";
+  left: 15px;
+  line-height: 29px;
+  position: absolute;
+  top: 0;
+}
+.announcement .details .detail span {
+  background: #fff;
+  color: #666;
+  display: inline-block;
+  font-size: 16px;
+  line-height: 29px;
+  padding: 0 25px;
+}
+
+.announcement .datetime {
+  color: #fff;
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 54px;
+}
+.announcement .datetime > div {
+  background: #da5638;
+  display: inline-block;
+  padding: 0 15px;
+}
+
+/* Partners */
+.partners {
+  border: 1px solid #e0e0e0;
+  margin-bottom: 100px;
+  padding: 80px 0;
+  text-align: center;
+}
+.partners .title {
+  margin: -100px 0 80px;
+  text-transform: uppercase;
+}
+.partners .title > span {
+  background: #fff;
+  padding: 0 10px;
+}
+.partners .partner {margin: 0 70px;}
+
+/* Contacts */
+.contacts {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.contacts .title {
+  text-transform: uppercase;
+  margin-bottom: 60px;
+}
+.contacts .phone,
+.contacts .email {
+  color: #999;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 0 15px;
+  text-decoration: none;
+}
+
+/* Map */
+.map {margin-bottom: 100px;}
+.map nav {margin-bottom: 10px;}
+.map nav a {
+  border-bottom: 1px dashed #27bb42;
+  color: #27bb42;
+  font-size: 13px;
+  margin: 0 15px;
+  text-decoration: none;
+}
+.map nav a.current,
+.map nav a:hover {
+  border-bottom: 1px solid transparent;
+  color: #333;
+} 
+#map {
+  height: 450px;
+  margin-bottom: 100px;
+  width: 100%;
+  max-width: 100%;
+}
+
 /* Event -> Register */
 .event-register {margin: 50px 0 100px;}
 .event-register > .container {border: 1px solid #e6e6e6;}

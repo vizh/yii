@@ -21,28 +21,6 @@ class PayController extends \runetid\components\Controller
   }
 
 
-  public function actionSelect()
-  {
-    $request = \Yii::app()->getRequest();
-    $orderForm = new \runetid\components\form\OrderForm();
-    $orderForm->attributes = $request->getParam(get_class($orderForm));
-    if ($request->getIsPostRequest()
-      && $orderForm->validate())
-    {
-      \Yii::app()->session['order_form'] = $orderForm->attributes;
-      $this->redirect(
-        $this->createUrl('/register/main/owners', array('eventId' => $this->event->EventId))
-      );
-    }
-    
-    $this->render('select', array(
-      'products'  => $this->products, 
-      'event'     => $this->event, 
-      'orderForm' => $orderForm
-    ));
-  }
-  
-  
   public function actionOwners()
   {
     $request = Yii::app()->getRequest();
@@ -88,8 +66,10 @@ class PayController extends \runetid\components\Controller
           }
         }
       }
+      $this->redirect('http://pay.rocid.ru/');
     }
-  
+    
+    $this->layoutBodyId = 'event-register';
     $this->render('owners', 
       array(
         'products' => $this->products, 

@@ -64,19 +64,13 @@
           <?php foreach ($products as $product):?>
             <table class="table">
               <thead>
-                <tr data-price="<?php echo $product->GetPrice()->Price;?>">
+                <tr data-price="<?php echo $product->GetPrice();?>">
                   <th>
                     <h4 class="title"><?php echo $product->Title;?> <i class="icon-chevron-up"></i></h4>
                   </th>
-                  <th class="col-width t-right"><span class="number"><?php echo $product->GetPrice()->Price;?></span> Р</th>
+                  <th class="col-width t-right"><span class="number"><?php echo $product->GetPrice();?></span> Р</th>
                   <th class="col-width t-right">
-                    <select class="input-mini form-element_select">
-                      <option value="0" selected>0</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                    </select>
+                    <?php echo CHtml::activeDropDownList($orderForm, 'Count['.$product->ProductId.']', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini form-element_select'));?>
                   </th>
                   <th class="col-width t-right last-child"><b class="number mediate-price">0</b> Р</th>
                 </tr>

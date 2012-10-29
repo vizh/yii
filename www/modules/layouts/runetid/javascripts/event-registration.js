@@ -47,7 +47,7 @@ $(function() {
   $(evRegTbl + ' .autocomplete').autocomplete({
     minLength: 1,
     position: {collision: 'flip'},
-    source: '/register/utility/ajaxusersearch/',
+    source: '/runetid/userajax/search/',
     select: function(event, ui) {
       var $closestTr = $(event.target).closest('tr');
       $closestTr.find('.btn-user_register').hide();

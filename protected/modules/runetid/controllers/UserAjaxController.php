@@ -1,7 +1,7 @@
 <?php
-class UtilityController extends \runetid\components\Controller 
+class UserajaxController extends \runetid\components\Controller 
 {
-  public function actionAjaxUserSearch($term)
+  public function actionSearch($term)
   {
     $users = \user\models\User::GetBySearch($term, 5);
     if (!empty($users))
@@ -9,7 +9,7 @@ class UtilityController extends \runetid\components\Controller
       foreach ($users as $user)
       {
         $result[] = array(
-          'label' => $this->renderPartial('ajaxuseritem', array('user' => $user), true),
+          'label' => $this->renderPartial('user', array('user' => $user), true),
           'value' => $user->GetFullName().', RUNET-ID '.$user->RocId,
           'rocid' => $user->RocId
         );
