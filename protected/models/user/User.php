@@ -83,7 +83,7 @@ class User extends \CActiveRecord
 			'Activities' => array(self::HAS_MANY, 'UserActivity', 'UserId'),
 			'Employments' => array(self::HAS_MANY, 'UserEmployment', 'UserId', 'with' => 'Company' ,
 				'order' => 'Employments.Primary DESC, Employments.FinishWorking DESC, Employments.StartWorking DESC'),
-			'Settings' => array(self::HAS_ONE, 'UserSettings', 'UserId',),
+			'Settings' => array(self::HAS_ONE, '\user\models\Settings', 'UserId',),
 			'Connects' => array(self::HAS_MANY, 'UserConnect', 'UserId'),
 			//'InterestPersons' => array(self::HAS_MANY, 'UserInterestPerson', 'UserId', 'with' => array('InterestPerson')),   
 			'InterestPersons' => array(self::MANY_MANY, 'User', 'UserInterestPerson(UserId, InterestPersonId)'),

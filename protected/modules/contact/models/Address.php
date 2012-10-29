@@ -37,7 +37,7 @@ class Address extends \CActiveRecord
   {
     return array(
       'Users' => array(self::MANY_MANY, 'User', 'Link_User_ContactAddress(UserId, AddressId)'),
-      'City' => array(self::BELONGS_TO, '\geo\models\City', 'CityId', 'with' => array('\geo\models\Country', '\geo\models\Region')),
+      'City' => array(self::BELONGS_TO, '\geo\models\City', 'CityId', 'with' => array('Country', 'Region')),
     );
   }
 

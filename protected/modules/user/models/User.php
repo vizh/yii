@@ -1242,4 +1242,44 @@ class User extends \CActiveRecord
       }
       return $fullName;
   }
+  
+  /**
+   * Уставливает место работы пользователю
+   * @param string $companyName
+   * @param string $position
+   * @param array $from
+   * @param array $to 
+   */
+  public function addEmployment($companyName, $position, $from = array(), $to = array())
+  {
+    if (!empty($this->Employments))
+    {
+      foreach ($this->Employments as $employment)
+      {
+        $employment->Primary = 0;
+        $employment->save();
+      }
+    }
+    
+    $companyInfo = \company\models\Company::ParseName($companyName);
+    $company = \company\models\Company::GetCompanyByName($companyInfo['name']);
+    if ($company == null)
+    {
+      $company = new \company\models\Company();
+      $company->Name = $companyInfo['name'];
+      $company->Opf = $companyInfo['opf'];
+      $company->CreationTime = time();
+      $company->UpdateTime = time();
+      $company->save();
+    }
+
+    $employment = new \user\models\Employment();
+    $employment->UserId = $this->UserId;
+    $employment->CompanyId = $company->CompanyId;
+    $employment->SetParsedStartWorking($from);
+    $employment->SetParsedFinishWorking($to);
+    $employment->Position = $position;
+    $employment->Primary = 1;
+    $employment->save();
+  }
 }
