@@ -135,3 +135,7 @@ ul.paginator li a:hover, ul.paginator li a:active{
   padding-bottom: 0;
   margin-bottom: 0;
 }
+
+.page-user-statistics-innertable tbody tr:nth-child(2n+1) td{
+  background-color: transparent;
+}

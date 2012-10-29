@@ -11,7 +11,8 @@ class UserController extends \partner\components\Controller
       'index' => '\partner\controllers\user\IndexAction',
       'edit' => '\partner\controllers\user\EditAction',
       'ajaxget' => '\partner\controllers\user\AjaxGetAction',
-      'register' => '\partner\controllers\user\RegisterAction'
+      'register' => '\partner\controllers\user\RegisterAction',
+      'statistics' => '\partner\controllers\user\StatisticsAction',
     );
   }
 
@@ -32,6 +33,11 @@ class UserController extends \partner\components\Controller
         'Title' => 'Регистрация',
         'Url' => \Yii::app()->createUrl('partner/user/register'),
         'Access' => $this->getAccessFilter()->checkAccess('user', 'register')
+      ),
+      'statistics' => array(
+        'Title' => 'Статистика регистраций',
+        'Url' => \Yii::app()->createUrl('partner/user/statistics'),
+        'Access' => $this->getAccessFilter()->checkAccess('user', 'statistics')
       )
     );
   }

@@ -68,11 +68,11 @@ class MainController extends \partner\components\Controller
       $criteria->params['EventId'] = $event->EventId; 
       $criteria->group = 't.RoleId';
       $criteria->select = 't.RoleId, Count(*) as CountForCriteria';
-      $participants = \event\models\Participant::model()->findAll($criteria);
-      foreach ($participants as $participant)
-      {
-        $stat->Participants[$participant->RoleId]->Count = $participant->CountForCriteria;
-      }
+        $participants = \event\models\Participant::model()->findAll($criteria);
+        foreach ($participants as $participant)
+        {
+          $stat->Participants[$participant->RoleId]->Count = $participant->CountForCriteria;
+        }
       
       //// Прирост за неделю
       $criteria->addCondition('t.CreationTime >= :CreationTime');
@@ -115,6 +115,7 @@ class MainController extends \partner\components\Controller
     $criteria->addCondition('OrderJuridical.Paid = 1');
     $orders = \pay\models\Order::model()->findAll($criteria);
     $stat->Juridical->Total = 0;
+    $stat->Juridical->OrdersPaid = 0;
     foreach ($orders as $order)
     {
       $stat->Juridical->OrdersPaid++;
@@ -139,6 +140,7 @@ class MainController extends \partner\components\Controller
     /** @var $orderItems \pay\models\OrderItem[] */
     $orderItems = \pay\models\OrderItem::model()->findAll($criteria);
     $payerRocidList = array();
+    $stat->Individual->Total = 0;
     foreach ($orderItems as $orderItem)
     {
       if (!in_array($orderItem->PayerId, $payerRocidList))
