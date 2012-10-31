@@ -6,10 +6,13 @@ namespace pay\models;
  * @property string $Message
  * @property int $Code
  * @property string $Info
+ * @property string $PaySystem
  * @property string $Type
  * @property string $OrderId
  * @property int $Total
  * @property string $CreationTime
+ *
+ * @property Order $Order
  */
 class PayLog extends \CActiveRecord
 {
@@ -36,6 +39,7 @@ class PayLog extends \CActiveRecord
   public function relations()
   {
     return array(
+      'Order' => array(self::BELONGS_TO, '\pay\models\Order', 'OrderId'),
     );
   }
 }

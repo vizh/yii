@@ -3,6 +3,13 @@
 class StatController extends \partner\components\Controller
 {
 
+  public function actions()
+  {
+    return array(
+      'physicalpay' => '\partner\controllers\stat\PhysicalpayAction'
+    );
+  }
+
   public function actionPay()
   {
     ini_set("memory_limit", "512M");

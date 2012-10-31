@@ -27,6 +27,13 @@ class EditAction extends \partner\components\Action
     $this->user = \user\models\User::GetByRocid($rocId);
     $this->setTitle();
 
+    if ($rocId == 0 && empty($this->user))
+    {
+      $rocId = intval($request->getParam('NameOrRocid'));
+      $this->user = \user\models\User::GetByRocid($rocId);
+      $this->setTitle();
+    }
+
     if (empty($this->user))
     {
       if ($request->getIsPostRequest())

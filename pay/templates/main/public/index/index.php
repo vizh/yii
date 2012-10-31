@@ -112,7 +112,7 @@ $orders = $this->Orders;
 
   <div class="response pay-systems">
 
-    <?if ($this->EventId == 215 || $this->EventId == 248):?>
+    <?if ($this->EventId == 215 || $this->EventId == 248 || $this->EventId == 391):?>
     <a class="uniteller" href="<?=RouteRegistry::GetUrl('main', '', 'pay', array('eventId' => $this->EventId,  'type' => 'uniteller'));?>">Оплатить через <i></i></a>
 
     <div class="pay-system-list">
@@ -155,7 +155,7 @@ $orders = $this->Orders;
     </div>
   <?endif;?>
 
-    <?if ($this->EventId != 106 && $this->EventId != 252 && $this->EventId != 236 && $this->EventId != 245 && $this->EventId != 258 && $this->EventId != 246 && $this->EventId != 248):?>
+    <?if ($this->EventId != 106 && $this->EventId != 252 && $this->EventId != 236 && $this->EventId != 245 && $this->EventId != 258 && $this->EventId != 246 && $this->EventId != 248 && $this->EventId != 391):?>
     <a href="<?=RouteRegistry::GetUrl('main', '', 'juridical', array('eventId' => $this->EventId));?>">Выставить счет (для юр. лиц)</a>
     <?endif;?>
 
