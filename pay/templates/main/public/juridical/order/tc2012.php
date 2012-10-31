@@ -110,7 +110,7 @@ $orderJuridical = $this->OrderJuridical;
     <TR>
       <TD colspan="2">
         <IMG style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none; width: 720px;"
-             src="/images/bill/tc2012/bill_withsing.png"
+             src="/images/bill/event391/bill_withsign.png"
             />
       </TD>
     </TR>
@@ -118,7 +118,7 @@ $orderJuridical = $this->OrderJuridical;
     <TR>
       <TD colspan="2">
         <IMG style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none width: 720px;"
-             src="/images/bill/tc2012/bill_nosing.png"
+             src="/images/bill/event391/bill_nosign.png"
             />
       </TD>
     </TR>
