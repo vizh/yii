@@ -261,6 +261,19 @@ class CompanyShow extends GeneralCommand
 
 		if (!empty($users))
 		{
+      
+      // Убирает дубликаты и добавляет в работу последнюю добавленную
+      $usersUnq = array();
+      foreach ($users as $user)
+      {
+        if (isset($usersUnq[$user->UserId])
+          && $user->EmploymentId < $usersUnq[$user->UserId]->EmploymentId)
+        {
+          continue;
+        }
+        $usersUnq[$user->UserId] = $user;
+      }
+      
 			$result = new View();
 			$result->SetTemplate('usercontainer');
 
@@ -269,7 +282,7 @@ class CompanyShow extends GeneralCommand
 
 			$flagCurrentUsers = false;
 			$flagOldUsers = false;
-			foreach ($users as $user)
+			foreach ($usersUnq as $user)
 			{
 				$view = new View();
 				$view->SetTemplate('user');
