@@ -1,0 +1,281 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>-ЛИЧНЫЙ КАБИНЕТ- / -RUNET-ID-</title>
+    <!--#include virtual="_head.html" -->
+    <script src='/javascripts/charts.js'></script>
+
+    <script type="text/javascript">
+      $(function() {
+
+        new Chart({
+          itemTemplate: $('#chart-item-template').html(),
+          height: 220,
+          avail: 2 * Math.PI,
+          disp: 1.5 * Math.PI,
+          clockwise: true,
+          border: {
+            size: 15,
+            color: "#e6e6e6"
+          },
+          parts: [
+            {color: "#ffd02e", val: 1, role: "слушателя"},
+            {color: "#6363d2", val: 4, role: "докладчика"},
+            {color: "#7d45a1", val: 7, role: "ведущего"}
+          ]
+        }).createOn('charts-pie');
+
+        new RunetChart({
+          itemTemplate: $('#single-chart-item-template').html(),
+          height: 270,
+          border: {
+            size: 60,
+            color: "#e6e6e6"
+          },
+          parts: [
+            {color: "#88e9a0", val: 1, role: "В области рекламы"},
+            {color: "#5dbccc", val: 2, role: "В вопросах поисковой оптимизации"},
+            {color: "#d362b0", val: 3, role: "По информационной безопасности"},
+            {color: "#e58074", val: 4, role: "В вопросах мобильных технологий и приложений"}
+          ]
+        }).createOn('charts-single');
+
+        new LinearChart({
+          items: [
+            {
+              year: "2012",
+              parts: [
+                {color: "#f6bf00", val: 10, role: "слушателем"},
+                {color: "#6363d2", val: 1, role: "докладчиком"},
+                {color: "#7d45a1", val: 1, role: "ведущим"}
+              ]
+            },
+            {
+              year: "2011",
+              parts: [
+                {color: "#f6bf00", val: 12, role: "слушателем"},
+                {color: "#6363d2", val: 2, role: "докладчиком"},
+                {color: "#7d45a1", val: 2, role: "ведущим"}
+              ]
+            },
+            {
+              year: "2010",
+              parts: [
+                {color: "#f6bf00", val: 11, role: "слушателем"},
+                {color: "#6363d2", val: 3, role: "докладчиком"},
+                {color: "#7d45a1", val: 1, role: "ведущим"}
+              ]
+            },
+            {
+              year: "2009",
+              parts: [
+                {color: "#f6bf00", val: 9, role: "слушателем"},
+                {color: "#6363d2", val: 4, role: "докладчиком"},
+              ]
+            }
+          ]
+        }).createOn('charts-linear');
+
+        $('.charts-linear').find('.item').tooltip();
+
+      });
+    </script>
+
+    <style type="text/css">
+
+      .charts .title {margin-bottom: 40px;}
+
+      /* Chart pie start */
+      #charts-pie {
+        margin-bottom: 60px;
+        text-align: center;
+      }
+      #charts-pie.items .item {
+        display: inline-block;
+        margin: 0 40px;
+        position: relative;
+      }
+      #charts-pie.items .item .info {
+        bottom: 0;
+        left: 0;
+        padding: 65px;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      #charts-pie.items .item .info .val {
+        color: #333;
+        font-size: 68px;
+        font-weight: bold;
+        line-height: 35px;
+        margin-bottom: 20px;
+      }
+      #charts-pie.items .item .info .description {font-size: 16px;}
+      #charts-pie.items .item .info .description b {display: block;}
+      /* Chart pie end */
+
+      /* Chart single start */
+      #charts-single canvas {float: right;}
+      #charts-single .items {
+        float: left;
+        text-align: left;
+      }
+      #charts-single .items .item {
+        border-top: 1px solid #666;
+        position: relative;
+        width: 300px;
+      }
+      #charts-single .items .item .val {
+        color: #333;
+        font-size: 13px;
+        position: absolute;
+        top: -21px;
+      }
+      #charts-single .items .item .val b {font-size: 16px;}
+      #charts-single .items .item .description {
+        color: #999;
+        font-size: 13px;
+      }
+      /* Chart single end */
+
+      /* Chart linear start */
+      .charts-linear_datetime {
+        float: right;
+        padding: 25px 0 10px;
+        width: 184px;
+      }
+      .charts-linear_datetime .datetime {
+        border-top: 1px solid #d9d9d9;
+        color: #999;
+        font-size: 13px;
+        height: 59px;
+        margin-bottom: 10px;
+        text-align: right;
+      }
+      .charts-linear {
+        float: left;
+        padding: 25px 0 10px;
+        width: 276px;
+      }
+      .charts-linear .items_wrap {
+        border-top: 1px solid #d9d9d9;
+      }
+      .charts-linear .items {
+        margin-bottom: 10px;
+        position: relative;
+      }
+      .charts-linear .items .item {
+        float: left;
+        height: 60px;
+        margin-top: -1px;
+        width: 30px;
+      }
+      /* Chart linear end */
+
+    </style>
+
+  </head>
+  <body id="user-account">
+    <noscript>JavaScript disabled</noscript>
+    <!--#include virtual="_header-user.html" -->
+
+    <section id="section" role="main">
+      <h2 class="b-header_large light">
+        <div class="line"></div>
+        <div class="container">
+          <div class="title">
+            <span class="backing runet">Runet</span>
+            <span class="backing text">Профиль пользователя</span>
+          </div>
+        </div>
+      </h2>
+      
+      <div class="user-account">
+        <div class="container">
+          <div class="card">
+            <h5 class="b-header_small medium">
+              <span class="backing">Runet</span>
+              <span class="backing">ID</span>
+            </h5>
+            <div class="row">
+              <div class="span12">
+                123
+              </div>
+            </div>
+          </div>
+        </div>
+          
+        <h4 class="b-header_large light">
+          <div class="line"></div>
+          <div class="container">
+            <div class="title">
+              <span class="backing text">Участие в профильных мероприятиях</span>
+            </div>
+          </div>
+        </h4>
+
+        <div class="statistics">
+          <div class="container">
+            <div class="charts">
+              <!-- Chart pie start --><div id="charts-pie" class="items"></div><!-- Chart pie end -->
+              <h5 class="title t-center">Центр компетенций / Профессиональная активность</h5>
+              <div class="row">
+                <div class="span6 t-right">
+                  <!-- Chart single start --><div id="charts-single" class="clearfix"></div><!-- Chart single end -->
+                </div>
+                <div class="span6">
+                  <!-- Chart linear start --><div id="charts-linear"></div><!-- Chart linear end -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         
+        <h4 class="b-header_large light">
+          <div class="line"></div>
+          <div class="container">
+            <div class="title">
+              <span class="backing text">Примите участие</span>
+            </div>
+          </div>
+        </h4>     
+        <div class="participate">
+          <div class="container">
+            <div class="units row">
+              <div class="unit span3">
+                1
+              </div
+              ><div class="unit span3">
+                2
+              </div
+              ><div class="unit span3">
+                3
+              </div
+              ><div class="unit span3">
+                4
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script type="text/template" id="chart-item-template">
+      <div class="item">
+        <div class="info">
+          <div class="val"><%= value %></div>
+          <div class="description">В качестве <b><%= role%></b></div>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="single-chart-item-template">
+      <div class="item">
+        <span class="val"><b><%= value %></b>%</span>
+        <span class="description"><%= role %></span>
+      </div>
+    </script>
+
+    <!--#include virtual="_footer.html" -->
+  </body>
+</html>

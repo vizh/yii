@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>-МЕРОПРИЯТИЯ- / -RUNET-ID-</title>
+    <!--#include virtual="_head.html" -->
+    <script src='/javascripts/events-calendar_scroll.js'></script>
+    <script src='/javascripts/events-calendar_position.js'></script>
+  </head>
+  <body id="events-calendar">
+    <noscript>JavaScript disabled</noscript>
+    <!--#include virtual="_header.html" -->
+
+    <div id="b-fixed"></div>
+
+    <section id="section" role="main">
+      <h2 class="b-header_large light">
+        <div class="line"></div>
+        <div class="container">
+          <div class="title">
+            <span class="backing runet">Runet</span>
+            <span class="backing text">Мероприятия</span>
+          </div>
+        </div>
+      </h2>
+      
+      <div class="container">
+        <form action="#" class="form-inline form-filter span12">
+          <select name="" id="" class="span3 form-element_select">
+            <option value="">Все города</option>
+            <option value="">Москва</option>
+            <option value="">Санкт-Петербург</option>
+          </select>
+          <select name="" id="" class="span3 form-element_select">
+            <option value="">Все мероприятия</option>
+            <option value="">Конференция</option>
+            <option value="">Семинар тренинг</option>
+            <option value="">Вебинар</option>
+            <option value="">Круглый стол</option>
+            <option value="">Партнерская конференция</option>
+            <option value="">Конкурс премия</option>
+            <option value="">Другие мероприятия</option>
+          </select>
+          <input type="text" placeholder="Поиск" class="span3">
+          <input type="image" class="form-element_image" src="/images/search-type-image-light.png" width="20" height="19">
+          <div class="clearfix pull-right switch-layout">
+            <a href="/events-list.html" class="pull-left">
+              <img src="/images/blank.gif" alt="" class="i-event-layout i-event_list">
+            </a>
+            <a href="javascript:void(null);" class="pull-left current">
+              <img src="/images/blank.gif" alt="" class="i-event-layout i-event_calendar">
+            </a>
+          </div>
+        </form>
+      </div>
+      
+      <div class="events-calendar">
+
+        <div class="container">
+          <div class="row">
+            <div class="events-month-select datetime span2 offset5">
+              <a href="#" class="nav prev">
+                <i class="icon-arrow-left"></i>
+              </a>
+              <div class="date">
+                <h3 class="month">Сентябрь</h3>
+                <p class="year">2012</p>
+              </div>
+              <a href="#" class="nav next">
+                <i class="icon-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div id="events-calendar_content" class="container">
+          
+          <button class="btn btn-primary event-button_add">
+            <div class="plus">+</div>
+            <div class="text">Добавить<br>мероприятие</div>
+          </button>
+          
+          <div class="event" data-startdate="2012/05/01" data-duration="3">
+            <div class="details">
+              <header>
+                <p class="muted"><small>Вебинар 1</small></p>
+                <h5 class="title">
+                  <a href="/event-page.html" class="color-1">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a>
+                </h5>
+                <p class="muted"><small>13-17 июля, Москва</small></p>
+              </header>
+              <article>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+              </article>
+              <footer>
+                <nav>
+                  <a href="/event-page.html"><i class="icon-circle-arrow-right"></i><small>Посетить мероприятие</small></a>
+                  <a href="#"><i class="icon-comment"></i><small>Комментировать</small></a>
+                  <a href="#"><i class="icon-share"></i><small>Поделиться</small></a>
+                </nav>
+              </footer>
+            </div>
+          </div>
+
+          <div class="event highlight" data-startdate="2012/05/01" data-duration="1">
+            <div class="details">
+              <header>
+                <p class="muted"><small>Вебинар 2</small></p>
+                <h5 class="title">
+                  <a href="/event-page.html" class="color-2">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a>
+                </h5>
+                <p class="muted"><small>13-17 июля, Москва</small></p>
+              </header>
+              <article>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+              </article>
+              <footer>
+                <nav>
+                  <a href="/event-page.html"><i class="icon-circle-arrow-right"></i><small>Посетить мероприятие</small></a>
+                  <a href="#"><i class="icon-comment"></i><small>Комментировать</small></a>
+                  <a href="#"><i class="icon-share"></i><small>Поделиться</small></a>
+                </nav>
+              </footer>
+            </div>
+          </div>
+
+          <div class="event" data-startdate="2012/05/03" data-duration="1">
+            <div class="details">
+              <header>
+                <p class="muted"><small>Вебинар 3</small></p>
+                <h5 class="title">
+                  <a href="/event-page.html" class="color-3">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a>
+                </h5>
+                <p class="muted"><small>13-17 июля, Москва</small></p>
+              </header>
+              <article>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+              </article>
+              <footer>
+                <nav>
+                  <a href="/event-page.html"><i class="icon-circle-arrow-right"></i><small>Посетить мероприятие</small></a>
+                  <a href="#"><i class="icon-comment"></i><small>Комментировать</small></a>
+                  <a href="#"><i class="icon-share"></i><small>Поделиться</small></a>
+                </nav>
+              </footer>
+            </div>
+          </div>
+
+          <div class="event" data-startdate="2012/05/03" data-duration="2">
+            <div class="details">
+              <header>
+                <p class="muted"><small>Вебинар 4</small></p>
+                <h5 class="title">
+                  <a href="/event-page.html" class="color-4">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a>
+                </h5>
+                <p class="muted"><small>13-17 июля, Москва</small></p>
+              </header>
+              <article>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+              </article>
+              <footer>
+                <nav>
+                  <a href="/event-page.html"><i class="icon-circle-arrow-right"></i><small>Посетить мероприятие</small></a>
+                  <a href="#"><i class="icon-comment"></i><small>Комментировать</small></a>
+                  <a href="#"><i class="icon-share"></i><small>Поделиться</small></a>
+                </nav>
+              </footer>
+            </div>
+          </div>
+
+          <div class="event" data-startdate="2012/05/04" data-duration="2">
+            <div class="details">
+              <header>
+                <p class="muted"><small>Вебинар 5</small></p>
+                <h5 class="title">
+                  <a href="/event-page.html" class="color-0">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a>
+                </h5>
+                <p class="muted"><small>13-17 июля, Москва</small></p>
+              </header>
+              <article>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+              </article>
+              <footer>
+                <nav>
+                  <a href="/event-page.html"><i class="icon-circle-arrow-right"></i><small>Посетить мероприятие</small></a>
+                  <a href="#"><i class="icon-comment"></i><small>Комментировать</small></a>
+                  <a href="#"><i class="icon-share"></i><small>Поделиться</small></a>
+                </nav>
+              </footer>
+            </div>
+          </div>
+
+          <div class="event highlight" data-startdate="2012/05/04" data-duration="2">
+            <div class="details">
+              <header>
+                <p class="muted"><small>Вебинар 6</small></p>
+                <h5 class="title">
+                  <a href="/event-page.html" class="color-0">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a>
+                </h5>
+                <p class="muted"><small>13-17 июля, Москва</small></p>
+              </header>
+              <article>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+              </article>
+              <footer>
+                <nav>
+                  <a href="/event-page.html"><i class="icon-circle-arrow-right"></i><small>Посетить мероприятие</small></a>
+                  <a href="#"><i class="icon-comment"></i><small>Комментировать</small></a>
+                  <a href="#"><i class="icon-share"></i><small>Поделиться</small></a>
+                </nav>
+              </footer>
+            </div>
+          </div>
+
+          <div class="event" data-startdate="2012/05/04" data-duration="1">
+            <div class="details">
+              <header>
+                <p class="muted"><small>Вебинар 7</small></p>
+                <h5 class="title">
+                  <a href="/event-page.html" class="color-0">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a>
+                </h5>
+                <p class="muted"><small>13-17 июля, Москва</small></p>
+              </header>
+              <article>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+              </article>
+              <footer>
+                <nav>
+                  <a href="/event-page.html"><i class="icon-circle-arrow-right"></i><small>Посетить мероприятие</small></a>
+                  <a href="#"><i class="icon-comment"></i><small>Комментировать</small></a>
+                  <a href="#"><i class="icon-share"></i><small>Поделиться</small></a>
+                </nav>
+              </footer>
+            </div>
+          </div>
+
+          <div class="event" data-startdate="2012/05/04" data-duration="1">
+            <div class="details">
+              <header>
+                <p class="muted"><small>Вебинар 8</small></p>
+                <h5 class="title">
+                  <a href="/event-page.html" class="color-0">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a>
+                </h5>
+                <p class="muted"><small>13-17 июля, Москва</small></p>
+              </header>
+              <article>
+                <p>В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+              </article>
+              <footer>
+                <nav>
+                  <a href="/event-page.html"><i class="icon-circle-arrow-right"></i><small>Посетить мероприятие</small></a>
+                  <a href="#"><i class="icon-comment"></i><small>Комментировать</small></a>
+                  <a href="#"><i class="icon-share"></i><small>Поделиться</small></a>
+                </nav>
+              </footer>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!--#include virtual="_footer.html" -->
+  </body>
+</html>

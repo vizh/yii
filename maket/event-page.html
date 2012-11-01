@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>-МЕРОПРИЯТИЕ- / -МЕРОПРИЯТИЯ- / -RUNET-ID-</title>
+    <!--#include virtual="_head.html" -->
+    <script src="/javascripts/event-calculate-price.js"></script>
+  </head>
+  <body id="event-page">
+    <noscript>JavaScript disabled</noscript>
+    
+    <div id="fb-root"></div>
+    
+    <!--#include virtual="_header.html" -->
+
+    <section id="section" role="main">
+      <!--#include virtual="_event-promo.html" -->
+      
+      <div class="event-page">
+        <div class="container">
+          <div class="row">
+            <aside class="sidebar span3 pull-left">
+              <div id="event-photos" class="photos">
+                <img src="/images/content/event-photo-1.jpg" width="240" height="180" alt="" id="event-photo" class="photo">
+                <div id="event-thumbs" class="thumbs">
+                  <div class="slider">
+                    <div class="slides">
+                      <div class="slide">
+                        <img src="/images/content/event-photo-1.jpg" width="40" height="30" alt="" class="thumb current">
+                      </div>
+                      <div class="slide">
+                        <img src="/images/content/event-photo-2.jpg" width="40" height="30" alt="" class="thumb">
+                      </div>
+                      <div class="slide">
+                        <img src="/images/content/event-photo-3.jpg" width="40" height="30" alt="" class="thumb">
+                      </div>
+                      <div class="slide">
+                        <img src="/images/content/event-photo-4.jpg" width="40" height="30" alt="" class="thumb">
+                      </div>
+                      <div class="slide">
+                        <img src="/images/content/event-photo-5.jpg" width="40" height="30" alt="" class="thumb">
+                      </div>
+                      <div class="slide">
+                        <img src="/images/content/event-photo-6.jpg" width="40" height="30" alt="" class="thumb">
+                      </div>
+                    </div>
+                  </div>
+                  <i id="event-thumbs_prev" class="icon-chevron-left"></i>
+                  <i id="event-thumbs_next" class="icon-chevron-right"></i>
+                </div>
+              </div>
+              
+              <div class="location">
+                <h5 class="title">Место проведения</h5>
+                <img src="/images/content/yandex-map.jpg" alt="" width="240" height="340" class="map">
+              </div>
+
+              <div class="adv">
+                <img src="/images/content/event-adv.jpg" width="240" height="72" alt="">
+              </div>
+              
+              <div class="contacts">
+                <h5 class="title">Контактная информация</h5>
+                <p class="name">Russian Internet Week 2001 Business Event</p>
+                <p class="address">123100, РФ, г. Москва, Пресненская наб., 12, Башня &laquo;Федерация&raquo;, блок Б, 46-й этаж, РАЭК</p>
+                <p class="telephone">
+                  <strong>+7 495 950-56-51</strong>
+                </p>
+                <p class="email">
+                  <a href="mailto:info@russianinternetweek.ru">info@russianinternetweek.ru</a>
+                </p>
+                <p class="url">
+                  <a href="http://2011.russianinternetweek.ru">2011.russianinternetweek.ru</a>
+                </p>
+              </div>
+              
+              <div class="tags">
+                <h5 class="title">Теги мероприятия</h5>
+                <nav class="b-tags">
+                  <a href="#" class="tag">интернет</a>
+                  <a href="#" class="tag">конференция</a>
+                  <a href="#" class="tag">it-компании</a>
+                  <a href="#" class="tag">веб-разработка</a>
+                  <a href="#" class="tag">информационная безопасность</a>
+                  <a href="#" class="tag">правовая политика</a>
+                </nav>
+              </div>
+            </aside>
+
+            <div class="span8 pull-right">
+              <form action="/event-register.html" class="registration">
+                <h5 class="title">Регистрация</h5>
+                <table class="table table-condensed">
+                  <thead>
+                    <tr>
+                      <th>Тип билета</th>
+                      <th class="t-right col-width">Цена</th>
+                      <th class="t-center col-width">Кол-во</th>
+                      <th class="t-right col-width">Сумма</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-price="100">
+                      <td>Посещение выставки</td>
+                      <td class="t-right"><span class="number">100</b> Р</td>
+                      <td class="t-center">
+                        <select class="input-mini form-element_select">
+                          <option value="0" selected>0</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                        </select>
+                      </td>
+                      <td class="t-right"><b class="number mediate-price">0</b> Р</td>
+                    </tr>
+                    <tr data-price="7000">
+                      <td>Участие в профильной программе</td>
+                      <td class="t-right"><span class="number">450&nbsp;000</span> Р</td>
+                      <td class="t-center">
+                        <select class="input-mini form-element_select">
+                          <option value="0" selected>0</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                        </select>
+                      </td>
+                      <td class="t-right"><b class="number mediate-price">0</b> Р</td>
+                    </tr>
+                    <tr>
+                      <td colspan="4" class="t-right total">
+                        <span>Итого:</span> <b id="total-price" class="number">0</b> Р
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="clearfix">
+                  <button class="btn btn-small btn-primary pull-right">Зарегистрироваться</button>
+                </div>
+              </form>
+              
+              <div id="event-tabs" class="tabs">
+                <ul class="nav">
+                  <li><a href="#event-tab_description" class="pseudo-link">Полное описание</a></li>
+                  <li>/</li>
+                  <li><a href="#event-tab_program" class="pseudo-link">Программа мероприятия</a></li>
+                  <li>/</li>
+                  <li><a href="#event-tab_participants" class="pseudo-link">Список участников</a></li>
+                </ul>
+                
+                <div id="event-tab_description" class="tab">
+                  <header>
+                    <h4>&laquo;Неделя российского Интернета&raquo;&nbsp;&mdash; это многопотоковая трехдневная конференция, состоящая из&nbsp;Общей и&nbsp;Профессиональной программы, Выставки, а&nbsp;также непрограммных активностей, презентаций и&nbsp;промо-акций.</h4>
+                  </header>
+                  <article>
+                    <p>В программе конференции представлены практически все основные направления деятельности в Рунете: реклама, социальные медиа, веб-разработки, управление проектами, кадры, информационная безопасность, правовое регулирование и т.д. На RIW-2012 зарегистрировалось более 15 тысяч участников, видеотрансляцию на сайте RIW ежедневно просматривали более 10 тысяч пользователей. В мероприятии принимают участие эксперты и признанные специалисты Рунета, сотрудники российских и зарубежных IT-компаний, государственные деятели, представители профильных министерств и ведомств, журналисты и нтернет-пользователи.</p>
+                  </article>
+                </div>
+                
+                <div id="event-tab_program" class="tab">
+                  <header>
+                    <h4>Morbi tincidunt</h4>
+                  </header>
+                  <article>
+                    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+                  </article>
+                </div>
+                
+                <div id="event-tab_participants" class="tab">
+                  <div class="row participants units">
+                    <div class="span2 participant unit">
+                      <a href="#">
+                        <img src="/images/content/participant-photo-1.jpg" alt="" width="58" height="58" class="photo">
+                        <div class="name">Кортунов Денис</div>
+                      </a>
+                      <div class="company">
+                        <small class="muted">Компания Turbomilk</small>
+                      </div>
+                    </div
+                    ><div class="span2 participant unit">
+                      <a href="#">
+                        <img src="/images/content/participant-photo-2.jpg" alt="" width="58" height="58" class="photo">
+                        <div class="name">Дмитрий Медведев</div>
+                      </a>
+                      <div class="company">
+                        <small class="muted">Правительство Российской Федерации</small>
+                      </div>
+                    </div
+                    ><div class="span2 participant unit">
+                      <a href="#">
+                        <img src="/images/content/participant-photo-3.jpg" alt="" width="58" height="58" class="photo">
+                        <div class="name">Константинопольская Маргарита</div>
+                      </a>
+                      <div class="company">
+                        <small class="muted">Mirax Group</small>
+                      </div>
+                    </div
+                    ><div class="span2 participant unit">
+                      <a href="#">
+                        <img src="/images/content/participant-photo-4.jpg" alt="" width="58" height="58" class="photo">
+                        <div class="name">Джон Ву</div>
+                      </a>
+                      <div class="company">
+                        <small class="muted">Mirax Group</small>
+                      </div>
+                    </div
+                    ><div class="span2 participant unit">
+                      <a href="#">
+                        <img src="/images/content/participant-photo-4.jpg" alt="" width="58" height="58" class="photo">
+                        <div class="name">Константинопольская Маргарита</div>
+                      </a>
+                      <div class="company">
+                        <small class="muted">Правительство Российской Федерации</small>
+                      </div>
+                    </div
+                    ><div class="span2 participant unit">
+                      <a href="#">
+                        <img src="/images/content/participant-photo-1.jpg" alt="" width="58" height="58" class="photo">
+                        <div class="name">Дмитрий Медведев</div>
+                      </a>
+                      <div class="company">
+                        <small class="muted">Шмеле Улей</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="partners">
+                <div class="title">
+                  <span class="backing">Партнеры</span>
+                </div>
+                <div class="logos units">
+                  <div class="logo unit">
+                    <a href="#">
+                      <img src="/images/content/partner-logo-yandex.png" width="100" height="45" alt="">
+                    </a>
+                  </div
+                  ><div class="logo unit">
+                    <a href="#">
+                      <img src="/images/content/partner-logo-google.png" width="100" height="40" alt="">
+                    </a>
+                  </div
+                  ><div class="logo unit">
+                    <a href="#">
+                      <img src="/images/content/partner-logo-yandex.png" width="100" height="45" alt="">
+                    </a>
+                  </div
+                  ><div class="logo unit">
+                    <a href="#">
+                      <img src="/images/content/partner-logo-google.png" width="100" height="40" alt="">
+                    </a>
+                  </div
+                  ><div class="logo unit">
+                    <a href="#">
+                      <img src="/images/content/partner-logo-yandex.png" width="100" height="45" alt="">
+                    </a>
+                  </div
+                  ><div class="logo unit">
+                    <a href="#">
+                      <img src="/images/content/partner-logo-google.png" width="100" height="40" alt="">
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="b-comments">
+                <h4 class="title">Комментарии</h4>
+                
+                <form action="#" class="add">
+                  <div class="clearfix">
+                    <textarea name="" id="" class="span6 pull-left" rows="5"></textarea>
+                    <img src="/images/content/comment-avatar.jpg" width="58" height="58" alt="" class="pull-right img-polaroid">
+                  </div>
+                  <button class="btn btn-small btn-primary">Комментировать</button>
+                </form>
+                
+                <div class="comment clearfix">
+                  <div class="pull-left contents">
+                    <div class="author">Константин Константинопольский</div>
+                    <div class="text">
+                      <p>Россия не&nbsp;увязывает принятие соглашения об&nbsp;облегчении визового режима с&nbsp;США с&nbsp;возможным принятием законодательства по&nbsp;&laquo;списку Магнитского&raquo;, сообщил в&nbsp;пятницу замглавы МИД РФ&nbsp;Сергей Рябков.</p>
+                    </div>
+                    <div class="panel">
+                      <span class="twitter">
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                      </span>
+                      <span class="facebook">
+                        <script>(function(d, s, id) {
+                          var js, fjs = d.getElementsByTagName(s)[0];
+                          if (d.getElementById(id)) return;
+                          js = d.createElement(s); js.id = id;
+                          js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
+                          fjs.parentNode.insertBefore(js, fjs);
+                        }(document, "script", "facebook-jssdk"));</script>
+                        <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial"></div>
+                      </span>
+                      <a href="#" class="reply pseudo-link">Ответить</a>
+                      <span class="posted">2 часа назад</span>
+                    </div>
+                  </div>
+                  <img src="/images/content/comment-avatar.jpg" width="58" height="58" alt="" class="pull-right img-polaroid">
+                </div>
+                
+                <div class="comment clearfix">
+                  <div class="pull-left contents">
+                    <div class="author">Александр Рождественский</div>
+                    <div class="text">
+                      <p>Сообщил в&nbsp;пятницу замглавы МИД РФ&nbsp;Сергей Рябков.</p>
+                    </div>
+                    <div class="panel">
+                      <span class="twitter">
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                      </span>
+                      <span class="facebook">
+                        <script>(function(d, s, id) {
+                          var js, fjs = d.getElementsByTagName(s)[0];
+                          if (d.getElementById(id)) return;
+                          js = d.createElement(s); js.id = id;
+                          js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
+                          fjs.parentNode.insertBefore(js, fjs);
+                        }(document, "script", "facebook-jssdk"));</script>
+                        <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial"></div>
+                      </span>
+                      <a href="#" class="reply pseudo-link">Ответить</a>
+                      <span class="posted">3 дня назад</span>
+                    </div>
+                  </div>
+                  <img src="/images/content/comment-avatar.jpg" width="58" height="58" alt="" class="pull-right img-polaroid">
+                </div>
+                
+                <a href="#" class="all pseudo-link">Все комментарии</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--#include virtual="_footer.html" -->
+  </body>
+</html>

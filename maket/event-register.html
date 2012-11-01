@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>-РЕГИСТРАЦИЯ- / -МЕРОПРИЯТИЕ- / -МЕРОПРИЯТИЯ- / -RUNET-ID-</title>
+    <!--#include virtual="_head.html" -->
+    <script src="/javascripts/event-calculate-price.js"></script>
+    <script src="/javascripts/event-registration.js"></script>
+  </head>
+  <body id="event-register">
+    <noscript>JavaScript disabled</noscript>
+    <!--#include virtual="_header-user.html" -->
+
+    <section id="section" role="main">
+      <style>.b-event-promo .side, .b-event-promo .all {display: none;}</style>
+      <!--#include virtual="_event-promo.html" -->
+      
+      <div class="event-register">
+        <div class="container">
+          
+          <div class="tabs clearfix">
+            <div class="tab current pull-left">
+              <span class="number img-circle">1</span>
+              Регистрация
+            </div>
+            <div class="tab pull-left">
+              <span class="number img-circle">2</span>
+              Оплата
+            </div>
+          </div>
+          
+          <table class="table thead-actual">
+            <thead>
+              <tr>
+                <th>Тип билета</th>
+                <th class="col-width t-right">Цена</th>
+                <th class="col-width t-right">Кол-во</th>
+                <th class="col-width t-right last-child">Сумма</th>
+              </tr>
+            </thead>
+          </table>
+          
+          <form action="#" class="registration">
+            <table class="table">
+              <thead>
+                <tr data-price="100">
+                  <th>
+                    <h4 class="title">Посещение выставки <i class="icon-chevron-up"></i></h4>
+                  </th>
+                  <th class="col-width t-right"><span class="number">100</span> Р</th>
+                  <th class="col-width t-right">
+                    <select class="input-mini form-element_select">
+                      <option value="0" selected>0</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                    </select>
+                  </th>
+                  <th class="col-width t-right last-child"><b class="number mediate-price">0</b> Р</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="user-action-row">
+                  <td>
+                    <input type="text" class="input-xxlarge form-element_text autocomplete" placeholder="Введите ФИО или RUNET-ID">
+                  </td>
+                  <td colspan="3" class="last-child">
+                    <button class="btn pull-right btn-user_register" disabled>Зарегистрировать</button>
+                    <button class="btn pull-right btn-user_add" style="display: none;">Добавить</button>
+                  </td>
+                </tr>
+                <tr class="user-row">
+                  <td>
+                    <label class="checkbox inline muted">
+                      <input type="checkbox">
+                      Я, Соколов Виктор Владимирович, RUNET-ID 1234567890
+                    </label>
+                  </td>
+                  <td colspan="3" class="last-child">
+                    <input type="text" class="input-medium pull-right t-center form-element_text" placeholder="Промо код">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <table class="table">
+              <thead>
+                <tr data-price="395000">
+                  <th>
+                    <h4 class="title">Участие в профильной программе <i class="icon-chevron-down"></i></h4>
+                  </th>
+                  <th class="col-width t-right"><span class="number">395&nbsp;000</span> Р</th>
+                  <th class="col-width t-right">
+                    <select class="input-mini form-element_select">
+                      <option value="0" selected>0</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                    </select>
+                  </th>
+                  <th class="col-width t-right last-child"><b class="number mediate-price">0</b> Р</th>
+                </tr>
+              </thead>
+              <tbody style="display: none;">
+                <tr class="user-action-row">
+                  <td>
+                    <input type="text" class="input-xxlarge form-element_text autocomplete" placeholder="Введите ФИО или RUNET-ID">
+                  </td>
+                  <td colspan="3" class="last-child">
+                    <button class="btn pull-right btn-user_register" disabled>Зарегистрировать</button>
+                    <button class="btn pull-right btn-user_add" style="display: none;">Добавить</button>
+                  </td>
+                </tr>
+                <tr class="user-row">
+                  <td>
+                    <label class="checkbox inline muted">
+                      <input type="checkbox">
+                      Я, Соколов Виктор Владимирович, RUNET-ID 1234567890
+                    </label>
+                  </td>
+                  <td colspan="3" class="last-child">
+                    <input type="text" class="input-medium pull-right t-center form-element_text" placeholder="Промо код">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <div class="total">
+              <span>Итого:</span> <b id="total-price" class="number">0</b> Р
+            </div>
+            
+            <div class="actions">
+              <a href="/event-payment.html" class="btn btn-large btn-primary">
+                Перейти к оплате
+                <i class="icon-circle-arrow-right icon-white"></i>
+              </a>
+            </div>
+          </form>
+          
+        </div>
+      </div>
+    </section>
+
+    <!--#include virtual="_footer.html" -->
+    
+    <script type="text/template" id="event-user-row">
+      <tr class="user-row">
+        <td>
+          <label class="checkbox inline muted">
+            <input type="checkbox"><%= username %>
+          </label>
+          </td>
+          <td colspan="3" class="last-child">
+            <input type="text" class="input-medium pull-right t-center form-element_text" placeholder="Промо код">
+          </td>
+        </tr>
+    </script>
+    
+    <script type="text/template" id="event-user-register">
+      <tr>
+        <td colspan="4" class="last-child">
+          <form action="#" class="user-register">
+            <legend>Регистрация нового участника</legend>
+            
+            <div class="clearfix">
+              <div class="pull-left">
+                <div>
+                  <label>Фамилия</label>
+                  <div class="required">
+                    <input type="text">
+                  </div>
+                </div>
+                <div>
+                  <label>Имя</label>
+                  <div class="required">
+                    <input type="text">
+                  </div>
+                </div>
+                <div>
+                  <label>Отчество</label>
+                  <input type="text">
+                </div>
+                <div>
+                  <label>Эл. почта</label>
+                  <div class="required">
+                    <input type="text">
+                  </div>
+                </div>
+              </div>
+              <div class="pull-right">
+                <div>
+                  <label>Телефон</label>
+                  <input type="text">
+                </div>
+                <div>
+                  <label>Компания</label>
+                  <div class="required">
+                    <input type="text">
+                  </div>
+                </div>
+                <div>
+                  <label>Должность</label>
+                  <input type="text">
+                </div>
+                <div>
+                  <label class="checkbox">
+                    <input type="checkbox"> Добавить в RUNET-ID
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <small class="muted required-notice">
+              <span class="required-asterisk">*</span> &mdash; поля, обязательные для заполнения
+            </small>
+
+            <div class="form-actions">
+              <button id="event-user-register-submit" class="btn btn-primary">Зарегистрировать</button>
+              <button id="event-user-register-cancel" class="btn">Отмена</button>
+            </div>
+          </form>
+        </td>
+      </tr>
+    </script>
+    
+  </body>
+</html>
