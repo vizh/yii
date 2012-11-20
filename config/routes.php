@@ -9,11 +9,7 @@ return array(
       'useStrictParsing' => true,
       'rules' => array(
         /** Настройка путей админки */
-        'http://' . ROCID_HOST . '/admin/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/admin/<controller>/<action>',
-        'http://' . ROCID_HOST . '/admin/<module:\w+>/<controller:\w+>' => '<module>/admin/<controller>',
-
-
-        'http://zapi.'.ROCID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
+        'http://admin.' . ROCID_HOST . '/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/admin/<controller>/<action>',
 
         /** Partner Module Rules */
         'http://partner.'.ROCID_HOST.'/' => 'partner/main/index',

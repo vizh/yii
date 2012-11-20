@@ -10,8 +10,7 @@ return array(
         'application.gii',   // псевдоним пути
       ),
     ),
-    'partner',
-    'ruvents',
+
     'runetid',  
     'company',
     'contact',

@@ -4,49 +4,44 @@ $debug = $_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '8
 define('YII_DEBUG', $debug);
 define('YII_TRACE_LEVEL',3);
 
-
-
-if (!extension_loaded('pdo') and !dl('pdo.so')) die("NO pdo HERE!");
-if (!extension_loaded('pdo_mysql') and !dl('pdo_mysql.so')) die("NO pdo_mysql HERE!");
-
-require_once '../protected/FrameworkRouter.php';
-
 $yii=dirname(__FILE__).'/../protected/Yii.php';
 
 date_default_timezone_set('Europe/Moscow');
 setlocale(LC_TIME, 'ru.UTF-8');
 
-if (FrameworkRouter::Instance()->IsOnlyYiiFramework())
-{
-  $config=dirname(__FILE__).'/../config/main.php';
 
-  require_once($yii);
-  Yii::createWebApplication($config)->run();
-}
-else
-{
-  try
-  {
+$config=dirname(__FILE__).'/../config/main.php';
 
-    require_once '../library/AutoLoader.php';
-    AutoLoader::Init();
-    $config=dirname(__FILE__).'/../config/yiiconfig.php';
-    require_once($yii);
-    Yii::createWebApplication($config);
-    AutoLoader::Import('library.view.*');
-    AutoLoader::Import('library.widgets.*');
-    AutoLoader::Import('library.hooks.*');
-    AutoLoader::Import('library.rocid.search.*');
-    require_once 'bootstrap.php';
-    require_once 'lang/default.php';
-    FrontController::GetInstance()->Run();
+//$data = require $config;
 
-  }
-  catch (Exception $e)
-  {
-    processException($e);
-  }
-}
+//var_dump($data);
+
+require_once($yii);
+Yii::createWebApplication($config)->run();
+
+
+//  try
+//  {
+//
+//    require_once '../library/AutoLoader.php';
+//    AutoLoader::Init();
+//    $config=dirname(__FILE__).'/../config/yiiconfig.php';
+//    require_once($yii);
+//    Yii::createWebApplication($config);
+//    AutoLoader::Import('library.view.*');
+//    AutoLoader::Import('library.widgets.*');
+//    AutoLoader::Import('library.hooks.*');
+//    AutoLoader::Import('library.rocid.search.*');
+//    require_once 'bootstrap.php';
+//    require_once 'lang/default.php';
+//    FrontController::GetInstance()->Run();
+//
+//  }
+//  catch (Exception $e)
+//  {
+//    processException($e);
+//  }
+
 
 
 

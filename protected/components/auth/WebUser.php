@@ -5,7 +5,7 @@ class WebUser extends \CWebUser {
   private $_currentUser = null;
 
   /**
-   * @return \application\models\user\User
+   * @return \user\models\User
    */
   public function CurrentUser()
   {

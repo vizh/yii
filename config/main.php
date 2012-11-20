@@ -5,7 +5,14 @@ return CMap::mergeArray(
       require(dirname(__FILE__).'/yiiconfig.php'),
       require(dirname(__FILE__).'/routes.php')
     ),
-    require(dirname(__FILE__).'/diffs.php')
+    CMap::mergeArray(
+      require(dirname(__FILE__).'/modules.php'),
+      require(dirname(__FILE__).'/params.php')
+    )
   ),
-  require(dirname(__FILE__).'/modules.php')
+
+  CMap::mergeArray(
+    require(dirname(__FILE__).'/partner.php'),
+    require(dirname(__FILE__).'/ruvents.php')
+  )
 );
