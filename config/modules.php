@@ -11,6 +11,7 @@ return array(
       ),
     ),
 
+
     'runetid',  
     'company',
     'contact',
@@ -18,6 +19,9 @@ return array(
     'geo',
     'user',
     'pay',
-    'mytest'
+    'mytest',
+
+
+    'rbac',
   ),
 );

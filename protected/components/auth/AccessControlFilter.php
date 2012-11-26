@@ -8,7 +8,7 @@ class AccessControlFilter extends \CAccessControlFilter
   protected function preFilter($filterChain)
   {
     $this->denyRule = null;
-    if (!$this->checkAccess($filterChain->controller->getId(), $filterChain->action->getId()))
+    if (!$this->checkAccess($filterChain->controller->getModule()->getId(),$filterChain->controller->getId(), $filterChain->action->getId()))
     {
       $this->accessDenied($this->getUser(), $this->resolveErrorMessage($this->denyRule));
       return false;
@@ -16,7 +16,7 @@ class AccessControlFilter extends \CAccessControlFilter
     return true;
   }
 
-  public function checkAccess($controller, $action)
+  public function checkAccess($module, $controller, $action)
   {
     $request = \Yii::app()->getRequest();
     $user = $this->getUser();
@@ -25,7 +25,7 @@ class AccessControlFilter extends \CAccessControlFilter
 
     foreach($this->getRules() as $rule)
     {
-      $allow = $rule->isUserAllowed($user, $controller, $action, $ip, $verb);
+      $allow = $rule->isUserAllowed($user, $module, $controller, $action, $ip, $verb);
 
       if ($allow > 0) // allowed
       {
@@ -56,7 +56,7 @@ class AccessControlFilter extends \CAccessControlFilter
         $r->allow = $rule[0]==='allow';
         foreach(array_slice($rule,1) as $name=>$value)
         {
-          if($name==='expression' || $name==='roles' || $name==='message')
+          if($name==='expression' || $name==='roles' || $name==='message' || $name==='module')
             $r->$name=$value;
           else
             $r->$name=array_map('strtolower',$value);
@@ -67,7 +67,7 @@ class AccessControlFilter extends \CAccessControlFilter
   }
 
   /**
-   * @return \CAccessRule[]
+   * @return AccessRule[]
    */
   public function getRules()
   {

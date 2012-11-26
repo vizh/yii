@@ -10,4 +10,8 @@ foreach ($files as $file)
     require($dir . $file)
   );
 }
+$result[] = array(
+  'deny',
+  'users' => array('*')
+);
 return $result;

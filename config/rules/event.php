@@ -2,12 +2,9 @@
 return array(
   array(
     'allow',
-    'users' => array('?'),
+    'users' => array('*'),
     'controllers' => array('test'),
-    'actions' => array('index')
-  ),
-  array(
-    'deny',
-    'users' => array('*')
+    'actions' => array('index'),
+    'module' => 'event'
   ),
 );

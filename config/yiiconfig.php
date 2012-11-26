@@ -9,7 +9,7 @@ define('ROCID_HOST', 'runetid.local');
 // CWebApplication properties can be configured here.
 return array(
   'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'protected',
-  'name'=>'Rocid',
+  'name'=>'RUNET-ID',
   'sourceLanguage' => 'ru_ru',
   'language' => 'ru',
 
