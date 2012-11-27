@@ -18,33 +18,26 @@ class Pbkdf2
   {
     // format: algorithm:iterations:salt:hash
     $salt = base64_encode(mcrypt_create_iv($this->saltBytes, MCRYPT_DEV_URANDOM));
-    return $this->hashAlgorithm . ":" . $this->iterations . ":" .  $salt . ":" .
-      base64_encode($this->pbkdf2(
-        $this->hashAlgorithm,
-        $password,
-        $salt,
-        $this->iterations,
-        $this->hashBytes,
-        true
-      ));
+    return $this->hashAlgorithm . ":" . $this->iterations . ":" . $salt . ":" .
+      base64_encode($this->pbkdf2($password, $salt, true));
   }
 
-  public static function validatePassword($password, $good_hash)
+  public static function validatePassword($password, $goodHash)
   {
-    $params = explode(":", $good_hash);
+    $params = explode(":", $goodHash);
     if(count($params) < self::$sections)
     {
       return false;
     }
+    $hash = base64_decode($params[self::$pbkdf2Index]);
+
     $pbkdf2 = new Pbkdf2();
     $pbkdf2->hashAlgorithm = $params[self::$algorithmIndex];
     $pbkdf2->iterations = $params[self::$iterationIndex];
-    $pbkdf2->hashBytes = strlen($params[self::$pbkdf2Index]);
+    $pbkdf2->hashBytes = strlen($hash);
 
 
-    return self::slowEquals(
-      $params[self::$pbkdf2Index],
-      $pbkdf2->pbkdf2($password, $params[self::$saltIndex], true));
+    return self::slowEquals($hash, $pbkdf2->pbkdf2($password, $params[self::$saltIndex], true));
   }
 
 

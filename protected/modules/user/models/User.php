@@ -3,19 +3,20 @@ namespace user\models;
 
 /**
  * @throws \Exception
+ *
  * @property int $UserId
- * @property int $RocId
+ * @property int $RunetId
  * @property string $LastName
  * @property string $FirstName
  * @property string $FatherName
- * @property int $Sex
+ * @property string $Gender
  * @property string $Birthday
- * @property string $Password
  * @property string $Email
- * @property int $CreationTime
- * @property int $UpdateTime
- * @property int $LastVisit
- * @property string $Referral
+ * @property string $CreationTime
+ * @property string $UpdateTime
+ * @property string $LastVisit
+ * @property string $Hash
+ * @property string $OldHash
  *
  * @property \contact\models\Address[] $Addresses
  * @property \contact\models\Phone[] $Phones
@@ -37,8 +38,6 @@ namespace user\models;
 class User extends \CActiveRecord
 {
 
-	public static $TableName = 'User';
-	
 	//Защита от перегрузки при поиске
 	const MaxSearchFragments = 500;
 
@@ -55,7 +54,7 @@ class User extends \CActiveRecord
 	
 	public function tableName()
 	{
-		return self::$TableName;
+		return 'User';
 	}
 	
 	public function primaryKey()
@@ -108,50 +107,76 @@ class User extends \CActiveRecord
       array('FatherName', 'safe')
     );
   }
-  
-  /**
-   * @static
-   * @param int $userId
-   * @param array $loadWith
-   * @return User
-   */
-  public static function GetById($userId, $loadWith = array())
-	{
-    $with = array_merge(array('Settings'), $loadWith);
-		$user = User::model()->with($with);
-		return $user->findByPk($userId);
-	}
 
   /**
-   * Загружает пользователя по заданному rocId.
-   *
-   * @param int $rocId
-   * @param array $loadWith [string] $loadWith Массив сущностей, которые должны загружаться одним запросом вместе с User
+   * @param bool $together
    * @return User
    */
-	public static function GetByRocid($rocId, $loadWith = array())
-	{        
-		$user = User::model()->with($loadWith);
-		$criteria = new \CDbCriteria();
-		$criteria->condition = 't.RocId = :RocId';
-		$criteria->params = array(':RocId' => $rocId);
-		return $user->find($criteria);
-	}
-
-  /**
-   * @static
-   * @param string $email
-   * @param array $loadWith
-   * @return User|null
-   */
-  public static function GetByEmail($email, $loadWith = array())
+  public function withSettings($together = false)
   {
-    $user = User::model()->with($loadWith);
-		$criteria = new \CDbCriteria();
-		$criteria->condition = 't.Email = :Email';
-		$criteria->params = array(':Email' => $email);
-		return $user->find($criteria);
+    $criteria = new \CDbCriteria();
+    $criteria->with = array('Settings' => array('together' => $together));
+    $this->getDbCriteria()->mergeWith($criteria);
+    return $this;
   }
+
+
+  /**
+   * @param int $runetId
+   * @param bool $useAnd
+   * @return User
+   */
+  public function byRunetId($runetId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = 't.RunetId = :RunetId';
+    $criteria->params = array(':RunetId' => $runetId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param string $email
+   * @param bool $useAnd
+   * @return User
+   */
+  public function byEmail($email, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = 't.Email = :Email';
+    $criteria->params = array(':Email' => $email);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+
+
+
+  /**
+   *
+   * @return User
+   */
+  public function Register()
+  {
+    $this->newUser = true;
+    $this->newUserPassword = $this->Password;
+
+    $this->Password = self::GetPasswordHash($this->Password);
+    $this->RocId = $this->GetMaxRocId()+1;
+    $this->CreationTime = time();
+    $this->UpdateTime = time();
+    $this->LastVisit = time();
+    $this->save();
+
+    $this->CreateSettings();
+    $this->AddEmail($this->Email, 1);
+    return $this;
+  }
+
+
+  /******  OLD METHODS  ***/
+  /** todo: REWRITE ALL BOTTOM */
+
 
   /**
    * @static
@@ -466,29 +491,7 @@ class User extends \CActiveRecord
     return parent::beforeSave();
   }
 
-    /**
-	* put your comment there...
-	* 
-	* @param string $email
-	* @param string $password
-	* @return User
-	*/
-  public function Register ()
-  {
-    $this->newUser = true;
-    $this->newUserPassword = $this->Password;
-    
-    $this->Password = self::GetPasswordHash($this->Password);
-    $this->RocId = $this->GetMaxRocId()+1;
-    $this->CreationTime = time();
-    $this->UpdateTime = time();
-    $this->LastVisit = time();
-    $this->save();
-    
-    $this->CreateSettings();
-    $this->AddEmail($this->Email, 1);   
-    return $this;
-  }
+
 
   static function GetMaxRocId ()
   {
