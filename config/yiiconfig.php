@@ -39,6 +39,18 @@ return array(
     ),
     // uncomment the following to use a MySQL database
     'db'=>array(
+      'class'=>'CDbConnection',
+      'connectionString' => 'pgsql:host=localhost;port=5432;dbname=runetid',
+      'emulatePrepare' => true,
+      'username' => 'postgres',
+      'password' => '123456',
+      'charset' => 'utf8',
+      'enableProfiling' => true,
+      'enableParamLogging'=>true,
+      'schemaCachingDuration'=>0,
+    ),
+    'dbOld'=>array(
+      'class'=>'CDbConnection',
       'connectionString' => 'mysql:host=localhost;dbname=rocidbeta',
       'emulatePrepare' => true,
       'username' => 'root',
