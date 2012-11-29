@@ -15,8 +15,8 @@ namespace user\models;
  * @property string $CreationTime
  * @property string $UpdateTime
  * @property string $LastVisit
- * @property string $Hash
- * @property string $OldHash
+ * @property string $Password
+ * @property string $OldPassword
  *
  * @property \contact\models\Address[] $Addresses
  * @property \contact\models\Phone[] $Phones
@@ -34,8 +34,11 @@ namespace user\models;
  * @property Connect[] $Connects
  *
  * @property Employment[] Employments
+ *
+ *
+ * @property \CEvent $onRegister
  */
-class User extends \CActiveRecord
+class User extends \application\components\ActiveRecord
 {
 
 	//Защита от перегрузки при поиске
@@ -150,27 +153,26 @@ class User extends \CActiveRecord
   }
 
 
-
-
   /**
    *
    * @return User
    */
   public function Register()
   {
-    $this->newUser = true;
-    $this->newUserPassword = $this->Password;
-
-    $this->Password = self::GetPasswordHash($this->Password);
-    $this->RocId = $this->GetMaxRocId()+1;
-    $this->CreationTime = time();
-    $this->UpdateTime = time();
-    $this->LastVisit = time();
+    $password = $this->Password;
+    $pbkdf2 = new \application\components\utility\Pbkdf2();
+    $this->Password = $pbkdf2->createHash($password);
     $this->save();
 
-    $this->CreateSettings();
-    $this->AddEmail($this->Email, 1);
+    $event = new \CModelEvent($this, array('password' => $password));
+    $this->onRegister($event);
+
     return $this;
+  }
+
+  public function onRegister($event)
+  {
+    $this->raiseEvent('onRegister', $event);
   }
 
 

@@ -4,7 +4,7 @@ return array(
     'allow',
     'users' => array('*'),
     'controllers' => array('test'),
-    'actions' => array('index'),
+    'actions' => array('index', 'view'),
     'module' => 'event'
   ),
 );

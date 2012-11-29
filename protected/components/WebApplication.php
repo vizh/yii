@@ -1,7 +1,6 @@
 <?php
 namespace application\components;
 
-
 /**
  * @property \application\components\auth\WebUser $user
  * @property \partner\components\WebUser $partner
@@ -16,6 +15,6 @@ class WebApplication extends \CWebApplication
 {
   public function onUserRegister($event)
   {
-    $this->raiseEvent('onNewComment', $event);
+    $this->raiseEvent('onUserRegister', $event);
   }
 }

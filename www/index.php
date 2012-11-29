@@ -17,7 +17,8 @@ $config=dirname(__FILE__).'/../config/main.php';
 //var_dump($data);
 
 require_once($yii);
-Yii::createWebApplication($config)->run();
+$app = Yii::createWebApplication($config);
+$app->run();
 
 
 //  try
