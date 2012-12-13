@@ -4,11 +4,6 @@ class DefaultController extends \application\components\controllers\BaseControll
 {
 	public function actionIndex()
 	{
-
-    \Yii::app()->clientScript->registerCssFile(
-      \Yii::app()->assetManager->publish('css', 'AllCss') . '/main.css'
-    );
-
-		$this->render('index');
+    $this->render('index');
 	}
 }

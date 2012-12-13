@@ -1,5 +1,4 @@
 <?php
-
 return array(
   'components' => array(
     'urlManager'=>array(

@@ -3,6 +3,8 @@ namespace application\components\controllers;
 
 class BaseController extends \CController
 {
+  public $layout = '//layouts/public';
+  
   public function filters()
   {
     return array('setHeaders', 'initResources');
@@ -31,14 +33,6 @@ class BaseController extends \CController
     $filterChain->run();
   }
 
-  protected function initResources()
-  {
-    $cs = \Yii::app()->clientScript;
-    $manager = \Yii::app()->getAssetManager();
-
-    $cs->registerScriptFile($manager->publish(\Yii::PublicPath() . '/js/libs/jquery-1.7.2.min.js', \CClientScript::POS_HEAD));
-  }
-
   /**
    * @param string $name
    * @param mixed $defaultValue
@@ -48,4 +42,43 @@ class BaseController extends \CController
   {
     return \Yii::app()->request->getParam($name, $defaultValue);
   }
+  
+  protected function initResources()
+  {
+    $this->registerResources('js');
+    $this->registerResources('css');
+  }
+  
+  private function registerResources($resourcesType)
+  {
+    $resourcesMap = array();
+    $assetsPath = \Yii::getPathOfAlias('application.modules.'.$this->module->name.'.assets.'.$resourcesType).DIRECTORY_SEPARATOR;
+    $modulePath = $assetsPath.'module.'.$resourcesType;
+    if (file_exists($modulePath))
+      $resourcesMap['module'] = $modulePath;
+    
+    $controllerPath = $assetsPath.$this->id.DIRECTORY_SEPARATOR.'controller.'.$resourcesType;
+    if (file_exists($controllerPath))
+      $resourcesMap['controller'] = $controllerPath;
+    
+    $actionPath = $assetsPath.$this->id.DIRECTORY_SEPARATOR.$this->action->id.'.'.$resourcesType;
+    if (file_exists($actionPath))
+      $resourcesMap['action'] = $actionPath;
+    
+    foreach ($resourcesMap as $path)
+    {
+      $path = \Yii::app()->assetManager->publish($path);
+      switch ($resourcesType)
+      {
+        case 'js':
+          \Yii::app()->clientScript->registerScriptFile($path);
+          break;
+        
+        case 'css':
+          \Yii::app()->clientScript->registerCssFile($path);
+          break;
+      }
+    }
+  }
+  
 }

@@ -20,7 +20,7 @@ return array(
     'user',
     'pay',
     'mytest',
-
+    'main',
 
     'rbac',
   ),
