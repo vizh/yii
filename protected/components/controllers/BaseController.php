@@ -1,10 +1,8 @@
 <?php
 namespace application\components\controllers;
 
-class BaseController extends \CController
+abstract class BaseController extends \CController
 {
-  public $layout = '//layouts/public';
-  
   public function filters()
   {
     return array('setHeaders', 'initResources');
@@ -30,6 +28,7 @@ class BaseController extends \CController
   public function filterInitResources($filterChain)
   {
     $this->initResources();
+    $this->registerDefaultResources('js');
     $filterChain->run();
   }
 
@@ -45,28 +44,24 @@ class BaseController extends \CController
   
   protected function initResources()
   {
-    $this->registerResources('js');
-    $this->registerResources('css');
+
   }
   
-  private function registerResources($resourcesType)
+  protected function registerDefaultResources($resourcesType)
   {
     $resourcesMap = array();
-    $assetsPath = \Yii::getPathOfAlias('application.modules.'.$this->module->name.'.assets.'.$resourcesType).DIRECTORY_SEPARATOR;
-    $modulePath = $assetsPath.'module.'.$resourcesType;
-    if (file_exists($modulePath))
-      $resourcesMap['module'] = $modulePath;
-    
-    $controllerPath = $assetsPath.$this->id.DIRECTORY_SEPARATOR.'controller.'.$resourcesType;
-    if (file_exists($controllerPath))
-      $resourcesMap['controller'] = $controllerPath;
-    
-    $actionPath = $assetsPath.$this->id.DIRECTORY_SEPARATOR.$this->action->id.'.'.$resourcesType;
-    if (file_exists($actionPath))
-      $resourcesMap['action'] = $actionPath;
+    $assetsPath = \Yii::getPathOfAlias($this->module->name . '.assets.' . $resourcesType) . DIRECTORY_SEPARATOR;
+    $resourcesMap[] = $assetsPath . 'module.' . $resourcesType;
+    $resourcesMap[] = $assetsPath . $this->getId() . '.' . $resourcesType;
+    $resourcesMap[] = $assetsPath . $this->getId() . DIRECTORY_SEPARATOR . $this->action->getId() . '.' . $resourcesType;
+
     
     foreach ($resourcesMap as $path)
     {
+      if (!file_exists($path))
+      {
+        continue;
+      }
       $path = \Yii::app()->assetManager->publish($path);
       switch ($resourcesType)
       {
@@ -80,5 +75,5 @@ class BaseController extends \CController
       }
     }
   }
-  
+
 }

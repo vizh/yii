@@ -1,9 +1,9 @@
 <?php
 namespace application\components\controllers;
 
-class AdminController extends BaseController
+class PublicMainController extends BaseController
 {
-  public $layout = '//layouts/admin';
+  public $layout = '//layouts/public';
 
   public function filters()
   {

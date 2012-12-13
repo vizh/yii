@@ -112,19 +112,6 @@ class User extends \application\components\ActiveRecord
   }
 
   /**
-   * @param bool $together
-   * @return User
-   */
-  public function withSettings($together = false)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->with = array('Settings' => array('together' => $together));
-    $this->getDbCriteria()->mergeWith($criteria);
-    return $this;
-  }
-
-
-  /**
    * @param int $runetId
    * @param bool $useAnd
    * @return User
@@ -134,6 +121,19 @@ class User extends \application\components\ActiveRecord
     $criteria = new \CDbCriteria();
     $criteria->condition = 't.RunetId = :RunetId';
     $criteria->params = array(':RunetId' => $runetId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param int[] $runetIdList
+   * @param bool $useAnd
+   * @return User
+   */
+  public function byRunetIdList($runetIdList, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->addInCondition('t.RunetId', $runetIdList);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -152,6 +152,150 @@ class User extends \application\components\ActiveRecord
     return $this;
   }
 
+  /**
+   * @param string $startTime
+   * @param string $endTime
+   * @param bool $useAnd
+   * @return User
+   */
+  public function byRegisterTime($startTime = null, $endTime = null, $useAnd = true)
+  {
+    if ($startTime == null && $endTime == null)
+    {
+      return $this;
+    }
+    $criteria = new \CDbCriteria();
+    if ($startTime != null)
+    {
+      $criteria->addCondition('t.CreationTime >= :StartTime');
+      $criteria->params['StartTime'] = $startTime;
+    }
+    if ($endTime != null)
+    {
+      $criteria->addCondition('t.CreationTime <= :EndTime');
+      $criteria->params['EndTime'] = $endTime;
+    }
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param int $eventId
+   * @param bool $useAnd
+   * @return User
+   */
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->with = array('Participants' => array('together' => true));
+    $criteria->addCondition('Participants.EventId = :EventId');
+    $criteria->params['EventId'] = $eventId;
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+
+
+  /**
+   * @param string $searchTerm
+   * @param string $locale
+   * @param bool $useAnd
+   * @return User
+   */
+  public function bySearch($searchTerm, $locale = null, $useAnd = true)
+  {
+    $searchTerm = trim($searchTerm);
+
+    if (empty($searchTerm))
+    {
+      $criteria = new \CDbCriteria();
+      $criteria->addCondition('0=1');
+      $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+      return $this;
+    }
+
+    if (is_numeric($searchTerm) && intval($searchTerm) != 0)
+    {
+      return $this->byRunetId($searchTerm, $useAnd);
+    }
+
+    $parts = preg_split('/[, .]/', $searchTerm, self::MaxSearchFragments, PREG_SPLIT_NO_EMPTY);
+    if (is_numeric($parts[0]) && intval($parts[0]) != 0)
+    {
+      return $this->bySearchNumbers($parts, $useAnd);
+    }
+    else
+    {
+      return $this->bySearchFullName($parts, $locale, $useAnd);
+    }
+  }
+
+  /**
+   * @param array $numbers
+   * @param bool $useAnd
+   * @return User
+   */
+  private function bySearchNumbers($numbers, $useAnd = true)
+  {
+    foreach ($numbers as $key => $value)
+    {
+      $numbers[$key] = intval($value);
+    }
+    return $this->byRunetIdList($numbers, $useAnd);
+  }
+
+  /**
+   * @param string[] $names
+   * @param string $locale
+   * @param bool $useAnd
+   * @throws \application\components\Exception
+   * @return User
+   */
+  private function bySearchFullName($names, $locale = null, $useAnd = true)
+  {
+    if ($locale == \Yii::app()->sourceLanguage)
+    {
+      $criteria = new \CDbCriteria();
+      $size = sizeof($names);
+      if ($size == 1)
+      {
+        $criteria->condition = 't.LastName LIKE :Part0';
+        $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%');
+      }
+      elseif ($size == 2)
+      {
+        $criteria->condition = '(t.LastName LIKE :Part0 AND t.FirstName LIKE :Part1 OR ' .
+          't.LastName LIKE :Part1 AND t.FirstName LIKE :Part0)';
+        $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%',
+          ':Part1' => \Utils::PrepareStringForLike($names[1]) . '%');
+      }
+      else
+      {
+        $criteria->condition = 't.LastName LIKE :Part0 AND t.FirstName LIKE :Part1 AND ' .
+          't.FatherName LIKE :Part2';
+        $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%',
+          ':Part1' => \Utils::PrepareStringForLike($names[1]) . '%',
+          ':Part2' => \Utils::PrepareStringForLike($names[2]) . '%');
+      }
+      $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+      return $this;
+    }
+    else
+    {
+      $fields = array();
+      $keys = array('LastName', 'FirstName', 'FatherName');
+      foreach ($keys as $key => $field)
+      {
+        if (isset($names[$key]))
+        {
+          $fields[$field] = $names[$key];
+        }
+      }
+      //todo: исправить, когда модель юзер будет от перевода
+      throw new \application\components\Exception('Не готов перевод локалей');
+      return $this->byTranslationFields($locale, $fields);
+    }
+  }
 
   /**
    *
@@ -176,354 +320,12 @@ class User extends \application\components\ActiveRecord
   }
 
 
+
+
   /******  OLD METHODS  ***/
   /** todo: REWRITE ALL BOTTOM */
 
 
-  /**
-   * @static
-   * @param  $start
-   * @param null $end
-   * @return User[]
-   */
-  public static function GetByRegisterTime($start, $end = null)
-  {
-    if ($end === null)
-    {
-      $end = time();
-    }
-    $model = User::model();
-
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.CreationTime > :Start AND t.CreationTime < :End';
-    $criteria->params = array(':Start' => $start, ':End' => $end);
-
-    return $model->findAll($criteria);
-  }
-	
-	/**
-	* Загружает пользователей по заданному первому символу фамилии, региону и номеру страницы индексации
-	* 
-	* @param string $letter
-	* @param string $location
-	* @param int $currentPage
-	* @return array[mixed] Возвращает ассоциативный массив, users - пользователи текущей страницы, count - суммарное количество пользователей
-	*/
-	public static function GetUserListByLocation($letter, $location, $currentPage = 1)
-	{
-		$currentPage = max(array(1, $currentPage));
-		$userPerPage = \Yii::app()->params['UserPerPage'];
-		
-		$with = array('Addresses.City');
-		
-		$user = User::model()->with($with)->together();
-
-		$criteria = new \CDbCriteria();
-		$criteria->condition = '';
-		$criteria->params = array();
-		if ($location['city'] != 0)
-		{
-  		$criteria->condition =  'Addresses.CityId = :CityId';
-			$criteria->params = array(':CityId' => $location['city']);
-		}
-		else if ($location['region'] != 0)
-		{
-			$criteria->condition =  'City.RegionId = :RegionId';
-			$criteria->params = array(':RegionId' => $location['region']);
-		}
-		else if ($location['country'] != 0)
-		{
-			$criteria->condition = 'City.CountryId = :CountryId';
-			$criteria->params = array(':CountryId' => $location['country']);      
-		}
-		
-		if ($letter != 'all')
-		{
-			$criteria->condition .= ! empty($criteria->condition) ? ' AND ' : ' ';
-			$criteria->condition .= 't.LastName LIKE :Letter';
-			$criteria->params[':Letter'] = $letter . '%';
-		}
-		$criteria->limit = $userPerPage;    
-		
-		$count = $user->count($criteria);
-		
-		$criteria->offset = ($currentPage - 1) * $userPerPage;
-		$criteria->order = 'LastName, FirstName';
-    /** @var $users User[] */
-		$users = $user->findAll($criteria);
-		
-		$userListId = array();
-		foreach ($users as $u)
-		{
-			$userListId[] = $u->GetUserId();
-		}
-		
-		$result = array();
-		$result['users'] = array();
-		$result['count'] = $count;
-		if (! empty($userListId))
-		{
-			$with = array('Addresses.City.Country', 'Employments.Company');
-			$user = User::model()->with($with)->together();
-			$criteria = new \CDbCriteria();
-			$criteria->condition =  't.UserId IN (' . implode(',', $userListId) . ')';
-			$criteria->order = 'LastName, FirstName';
-			$result['users'] = $user->findAll($criteria);
-		}
-		
-		return $result;
-	}
-
-  /**
-   * Загружает пользователей по заданному первому символу фамилии, региону и номеру страницы индексации
-   *
-   * @param string $nameSeq
-   * @param int $eventId
-   * @param int $currentPage
-   * @throws \Exception
-   * @return array[mixed] Возвращает ассоциативный массив, users - пользователи текущей страницы, count - суммарное количество пользователей
-   */
-	public static function GetUserListByEvent($nameSeq, $eventId, $currentPage = 1)
-	{
-		$currentPage = max(array(1, $currentPage));
-		$userPerPage = \Yii::app()->params['UserPerPage'];
-		
-		$with = array('EventUsers', 'Settings');
-		
-		$user = User::model()->with($with)->together();
-
-		$criteria = new \CDbCriteria();
-
-    $criteria->condition = 'Settings.Visible = \'1\' AND EventUsers.EventId = :EventId';
-		$criteria->params = array(':EventId' => $eventId);    
-		
-		if (! empty($nameSeq))
-		{
-			$criteria->condition .= ! empty($criteria->condition) ? ' AND ' : ' ';
-			
-			$parts = preg_split('/[, .]/', $nameSeq, -1, PREG_SPLIT_NO_EMPTY);
-			
-			$size = sizeof($parts);
-			if ($size > self::MaxSearchFragments)
-			{
-				throw new \Exception('Попытка найти слишком много фрагментов RocId');
-			}
-			if (is_numeric($parts[0]))
-			{
-				for ($i = 0; $i < $size; $i++)
-				{
-					if (! is_numeric($parts[$i]))
-					{
-						unset($parts[$i]);
-					}
-				}
-        $criteria->addInCondition('t.RocId', $parts);
-			}
-			else
-			{
-				if ($size == 1)
-				{
-					$criteria->condition .= 't.LastName LIKE :Part0';
-					$criteria->params[':Part0'] = \Utils::PrepareStringForLike($parts[0]) . '%';
-				} 
-				elseif ($size == 2)
-				{          
-					$criteria->condition .= '(t.LastName LIKE :Part0 AND t.FirstName LIKE :Part1 OR ' .
-						't.LastName LIKE :Part1 AND t.FirstName LIKE :Part0)';
-					$criteria->params[':Part0'] = \Utils::PrepareStringForLike($parts[0]) . '%';
-					$criteria->params[':Part1'] = \Utils::PrepareStringForLike($parts[1]) . '%';
-				}
-				else
-				{
-					$criteria->condition .= 't.LastName LIKE :Part0 AND t.FirstName LIKE :Part1 AND ' .
-						't.FatherName LIKE :Part2';
-					$criteria->params[':Part0'] = \Utils::PrepareStringForLike($parts[0]) . '%';
-					$criteria->params[':Part1'] = \Utils::PrepareStringForLike($parts[1]) . '%';
-					$criteria->params[':Part2'] = \Utils::PrepareStringForLike($parts[2]) . '%';
-				}
-			}      
-		}
-		
-		$count = $user->count($criteria);
-
-    $user = User::model()->with($with)->together();
-    $criteria->limit = $userPerPage;
-		$criteria->offset = ($currentPage - 1) * $userPerPage;
-		$criteria->order = 't.LastName, t.FirstName';
-    /** @var $users User[] */
-		$users = $user->findAll($criteria);
-
-		
-		$userListId = array();
-		foreach ($users as $u)
-		{
-			$userListId[] = $u->GetUserId();
-		}
-		
-		$result = array();
-		$result['users'] = array();
-		$result['count'] = $count;
-		if (! empty($userListId))
-		{
-			$with = array('Addresses.City.Country', 'Employments.Company');
-			$user = User::model()->with($with);
-			$criteria = new \CDbCriteria();
-			$criteria->condition =  't.UserId IN (' . implode(',', $userListId) . ')';
-			$criteria->order = 'LastName, FirstName';
-			$result['users'] = $user->findAll($criteria);
-		}
-		
-		return $result;
-	}
-
-
-	public static $GetBySearchCount = 0;
-	/**
-	 * @static
-	 * @param string $searchTerm
-	 * @param int $count
-	 * @param int $page
-	 * @param bool $calcCount
-	 * @param bool $onlyCount
-	 * @return User[]
-	 */
-	public static function GetBySearch($searchTerm, $count = 20, $page = 1,
-		$calcCount = false, $onlyCount = false)
-	{
-		$user = User::model()->with('Settings');
-
-		$criteria = self::GetSearchCriteria($searchTerm);
-		if ($calcCount || $onlyCount)
-		{
-			self::$GetBySearchCount = $user->count($criteria);
-			if (self::$GetBySearchCount == 0 || $onlyCount)
-			{
-				return array();
-			}
-		}
-		$user = $user->with('Employments.Company', 'Settings');//->together();
-		$criteria->offset = ($page - 1) * $count;
-		$criteria->limit = $count;
-		return $user->findAll($criteria);
-	}
-
-  /**
-   * Создает CDbCriteria для осуществления поиска по заданным параметрам
-   *
-   * @param string $searchTerm
-   * @throws \Exception
-   * @return \CDbCriteria|null
-   */
-	public static function GetSearchCriteria($searchTerm)
-	{
-		$searchTerm = trim($searchTerm);
-		if (empty($searchTerm))
-		{
-			return null;
-		}
-		$criteria = new \CDbCriteria();
-		if (is_numeric($searchTerm))
-		{
-			$rocId = intval($searchTerm);
-			$criteria->condition = 't.RocId = :RocId';
-			$criteria->params = array(':RocId' => $rocId);
-		}
-		else
-		{
-			$parts = preg_split('/[, .]/', $searchTerm, -1, PREG_SPLIT_NO_EMPTY);
-			$size = sizeof($parts);
-			if ($size > self::MaxSearchFragments)
-			{
-				throw new \Exception('Попытка найти слишком много фрагментов RocId');
-			}
-			if (is_numeric($parts[0]))
-			{
-				for ($i = 0; $i < $size; $i++)
-				{
-					if (! is_numeric($parts[$i]))
-					{
-						unset($parts[$i]);
-					}
-					else
-					{
-						$parts[$i] = intval($parts[$i]);
-					}
-				}
-        $criteria->addInCondition('t.RocId', $parts);
-			}
-			else
-			{
-				if ($size == 1)
-				{
-					$criteria->condition = 't.LastName LIKE :Part0';
-					$criteria->params = array(':Part0' => \Utils::PrepareStringForLike($parts[0]) . '%');
-				} 
-				elseif ($size == 2)
-				{          
-					$criteria->condition = '(t.LastName LIKE :Part0 AND t.FirstName LIKE :Part1 OR ' .
-						't.LastName LIKE :Part1 AND t.FirstName LIKE :Part0)';
-					$criteria->params = array(':Part0' => \Utils::PrepareStringForLike($parts[0]) . '%',
-						':Part1' => \Utils::PrepareStringForLike($parts[1]) . '%');
-				}
-				else
-				{
-					$criteria->condition = 't.LastName LIKE :Part0 AND t.FirstName LIKE :Part1 AND ' .
-					  't.FatherName LIKE :Part2';
-					$criteria->params = array(':Part0' => \Utils::PrepareStringForLike($parts[0]) . '%',
-						':Part1' => \Utils::PrepareStringForLike($parts[1]) . '%',
-						':Part2' => \Utils::PrepareStringForLike($parts[2]) . '%');
-				}
-			}
-		}
-		$criteria->condition .= ' AND Settings.Visible = \'1\'';
-		$criteria->order = 't.LastName DESC, t.FirstName DESC, t.FatherName DESC, t.RocId DESC';
-
-		return $criteria;
-	}
-	
-  private $newUser = false;
-  private $newUserPassword = null;
-  protected function beforeSave()
-  {
-    if ($this->newUser == true)
-    {
-      $this->sendRegisterEmail();
-      $this->newUserPassword = null;
-    }
-    return parent::beforeSave();
-  }
-
-
-
-  static function GetMaxRocId ()
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->order  = 't.RocId DESC';
-    $criteria->limit  = 1;
-    $criteria->select = 't.RocId';
-    return self::model()->find($criteria)->RocId;
-  }
-
-  public function sendRegisterEmail()
-  {
-    $mailData = array(
-      'email' => $this->Email,
-      'rocId' => $this->RocId,
-      'password' => $this->newUserPassword,
-      'fullName' => $this->GetFullName()
-    );
-    $mailBody = \Yii::app()->controller->renderPartial('/../../user/view/mail/register', $mailData, true);
-    
-    require(\Yii::getPathOfAlias('ext.mailer.PHPMailer').'.php');
-    $mail = new \PHPMailer(false);
-    $mail->AddAddress($this->Email);
-    $mail->SetFrom('register@rocid.ru', 'rocID', false);
-    $mail->CharSet = 'utf-8';
-    $mail->Subject = '=?UTF-8?B?'. base64_encode('ROCID:// Регистрация') .'?=';
-    $mail->AltBody = 'Для просмотра этого сообщения необходимо использовать клиент, поддерживающий HTML';
-    $mail->MsgHTML($mailBody);
-    $mail->Send();
-  }
 	
 	/**
 	* Генерирует хеш-значение для проверки целостности cookie
