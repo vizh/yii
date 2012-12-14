@@ -13,8 +13,5 @@ namespace application\components;
  */
 class WebApplication extends \CWebApplication
 {
-  public function onUserRegister($event)
-  {
-    $this->raiseEvent('onUserRegister', $event);
-  }
+
 }

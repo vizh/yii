@@ -1,6 +1,6 @@
 <?php
 
-define('ROCID_HOST', 'runetid.local');
+
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
@@ -25,6 +25,7 @@ return array(
 
   // application components
   'components'=>array(
+
     'user'=>array(
       'class' => '\application\components\auth\WebUser',
       // enable cookie-based authentication
@@ -37,7 +38,7 @@ return array(
       'class'=>'CXCache',
       //'class'=>'CDummyCache'
     ),
-    // uncomment the following to use a MySQL database
+
     'db'=>array(
       'class'=>'CDbConnection',
       'connectionString' => 'pgsql:host=localhost;port=5432;dbname=runetid',
@@ -60,6 +61,7 @@ return array(
       'enableParamLogging'=>true,
       'schemaCachingDuration'=>3600,
     ),
+
     'session' => array(
       'class' => 'CDbHttpSession',
       'connectionID' => 'dbOld',
@@ -71,6 +73,11 @@ return array(
         'domain' => '.'.ROCID_HOST
       ),
     ),
+
+    'request'=>array(
+      'enableCookieValidation'=>true,
+    ),
+
     'log'=>array(
       'class'=>'CLogRouter',
       'routes'=>array(

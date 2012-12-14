@@ -4,7 +4,7 @@ namespace user\models;
 /**
  * @throws \Exception
  *
- * @property int $UserId
+ * @property int $Id
  * @property int $RunetId
  * @property string $LastName
  * @property string $FirstName
@@ -301,7 +301,7 @@ class User extends \application\components\ActiveRecord
    *
    * @return User
    */
-  public function Register()
+  public function register()
   {
     $password = $this->Password;
     $pbkdf2 = new \application\components\utility\Pbkdf2();
@@ -319,258 +319,57 @@ class User extends \application\components\ActiveRecord
     $this->raiseEvent('onRegister', $event);
   }
 
-
+  /**
+   * Проверяет пароль пользователя и обновляет хэш - если хэш старого образца
+   * @param string $password
+   * @return bool
+   */
+  public function checkLogin($password)
+  {
+    if (empty($this->Password))
+    {
+      $password2 = iconv('utf-8', 'Windows-1251', $password);
+      $lightHash = md5($password);
+      $lightHash2 = md5($password2);
+      if ($this->OldPassword == $lightHash || $this->OldPassword == $lightHash2)
+      {
+        $pbkdf2 = new \application\components\utility\Pbkdf2();
+        $this->Password = $pbkdf2->createHash($password);
+        $this->OldPassword = null;
+        $this->save();
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    else
+    {
+      return \application\components\utility\Pbkdf2::validatePassword($password, $this->Password);
+    }
+  }
 
 
   /******  OLD METHODS  ***/
   /** todo: REWRITE ALL BOTTOM */
 
-
-	
-	/**
-	* Генерирует хеш-значение для проверки целостности cookie
-	* 
-	* @param string $userId
-	* @return string
-	*/
-	public static function GenerateCookieHash($userId)
-	{
-		return md5($userId . microtime());
-	}
-
+  /** @var Photo */
+  private $photo = null;
   /**
-   * Генерирует хеш-значение для хранения пароля
-   * @static
-   * @param  $password
-   * @return string
+   * @return Photo
    */
-  public static function GetPasswordHash($password)
+  public function getPhoto()
   {
-    return md5($password);
-  }
-	
-	/**
-	* Проверяет, соответствуют ли rocId и password данному пользователю
-	* 
-	* @param string $rocId
-	* @param string $password
-	* @return bool
-	*/
-	public function CheckLogin($rocId, $password)
-	{
-    $password2 = iconv('utf-8', 'Windows-1251', $password);
-
-    if ($this->RocId !== $rocId)
+    if ($this->photo === null)
     {
-      return false;
+      $this->photo = new Photo($this->RunetId);
     }
-
-    if ($this->Password === self::GetPasswordHash($password))
-    {
-      return true;
-    }
-
-    if ($this->Password === self::GetPasswordHash($password2))
-    {
-      $this->Password = self::GetPasswordHash($password);
-      $this->save();
-      return true;
-    }
-
-		return false;
-	}
-
-  /**
-   * @param $hash Хэш пароля
-   * @param $hash2 Хэш пароля в кодировке cp1251
-   * @return bool
-   */
-  public function CheckLoginByHash($hash, $hash2)
-  {
-    if ($this->Password === $hash)
-    {
-      return true;
-    }
-
-    if ($this->Password === $hash2)
-    {
-      $this->Password = $hash;
-      $this->save();
-      return true;
-    }
-
-    return false;
+    return $this->photo;
   }
 
-  /**
-   * @return void
-   */
-  public function CreateSecretKey()
-  {
-    $key = User::GenerateCookieHash($this->UserId);
-    $session = \Yii::app()->getSession();
-    $session->add('rocid_hash', $key);
-    $cookie = new \CHttpCookie('rocid_hash', $key);
-    $cookie->expire = time() + \GeneralIdentity::GetExpire();
-    \Cookie::Set($cookie);
-  }
-
-  public function CheckSecretKey()
-  {
-    $cookieKey = \Cookie::Get('rocid_hash');
-    $sessionKey = \Yii::app()->getSession()->get('rocid_hash');
-    if ( $cookieKey  == $sessionKey)
-    {
-      $cookie = new \CHttpCookie('rocid_hash', $cookieKey);
-      $cookie->expire = time() + \GeneralIdentity::GetExpire();
-      \Cookie::Set($cookie);
-      return true;
-    }
-    return false;
-  }
 	
-	/**
-	* Разлогинивает данного пользователя
-	* 
-	*/
-//	public function Logout()
-//	{
-//		Cookie::ResetCookie('RocId');
-//		Cookie::ResetCookie('Password');
-//		Cookie::ResetCookie('Hash');
-//
-//		$session = Session::GetInstance();
-//		$session->Delete();
-//	}
-	
-	/**
-	* Проверяет, есть ли у данного пользователя админ доступ
-	* 
-	*/
-	public function IsHaveAdminPermissions()
-	{
-		$adminIds = array(337, 454, 12953, 12959, 35287, 15648, 39948, 16670);
-		if (in_array($this->GetRocId(), $adminIds))
-		{
-			return true;
-		}
-		return false;
-	}
 
-  /**
-   * @return bool
-   */
-  public function CheckAccess()
-  {
-    //todo: replace by Yii access controll
-    return false;
-  }
-
-  /**
-   * @param bool $onServerDisc
-   * @return string
-   */
-	public function GetPhotoDir($onServerDisc = false)
-	{
-		$rocId = $this->GetRocId();
-		$folder = $rocId / 10000;
-		$folder = (int)$folder;
-		$result = \Yii::app()->params['UserPhotoDir'] . $folder . '/';
-		if ($onServerDisc)
-		{
-			$result = $_SERVER['DOCUMENT_ROOT'] . $result;
-		}
-		return $result;
-	}
-	
-	/**
-	* Возвращает путь к мини изображению пользователя, для шапки сайта, отображения в компаниях и тп
-	* @return string
-	*/
-	public function GetMiniPhoto()
-	{    
-		$rocId = $this->GetRocId();
-		$folder = $this->GetPhotoDir();
-		$photo = $rocId . '_50.jpg';
-		if (file_exists($_SERVER['DOCUMENT_ROOT'] . $folder . $photo))
-		{
-			return $folder . $photo;
-		}
-		else
-		{
-			return \Yii::app()->params['UserPhotoDir'] . 'nophoto_50.png';
-		}
-	}
-
-	/**
-	* Возвращает путь к мини изображению пользователя, для шапки сайта, отображения в компаниях и тп
-	* @return string
-	*/
-	public function GetMediumPhoto()
-	{
-		$rocId = $this->GetRocId();
-		$folder = $this->GetPhotoDir();
-		$photo = $rocId . '_90.jpg';
-		if (file_exists($_SERVER['DOCUMENT_ROOT'] . $folder . $photo))
-		{
-			return $folder . $photo;
-		}
-		else
-		{
-			return \Yii::app()->params['UserPhotoDir'] . 'nophoto_90.png';
-		}
-	}
-
-	/**
-	* Возвращает путь к изображению пользователя для профиля и тп
-	* @return string
-	*/  
-	public function GetPhoto()
-	{
-		$rocId = $this->GetRocId();
-		$folder = $this->GetPhotoDir();
-		$photo = $rocId . '_200.jpg';
-		if (file_exists($_SERVER['DOCUMENT_ROOT'] . $folder . $photo))
-		{
-			return $folder . $photo;
-		}
-		else
-		{
-			return \Yii::app()->params['UserPhotoDir'] . 'nophoto_200.png';
-		}
-	}
-
-  /**
-   * @param $image
-   * @return void
-   */
-	public function SavePhoto($image)
-	{
-		$tmpName = DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR .
-											 md5('user' . microtime()) . '.jpg';
-		file_put_contents($tmpName, $image);
-
-		$path = $this->GetPhotoDir(true);
-		if (! is_dir($path))
-		{
-			mkdir($path);
-		}
-
-		$img = \application\components\graphics\Image::GetImage($tmpName);
-
-		$namePrefix = $this->RocId;
-		$clearSaveTo = $path . $namePrefix . '_clear.jpg';
-		imagejpeg($img, $clearSaveTo, 100);
-		$newImage = $path . $namePrefix . '.jpg';
-		imagejpeg($img, $newImage, 100);
-		imagedestroy($img);
-		$newImage = $path . $namePrefix . '_200.jpg';
-    \application\components\graphics\Image::ResizeAndSave($clearSaveTo, $newImage, 200, 0, array('x1'=>0, 'y1'=>0));
-		$newImage = $path . $namePrefix . '_90.jpg';
-    \application\components\graphics\Image::ResizeAndSave($clearSaveTo, $newImage, 90, 90, array('x1'=>0, 'y1'=>0));
-		$newImage = $path . $namePrefix . '_50.jpg';
-    \application\components\graphics\Image::ResizeAndSave($clearSaveTo, $newImage, 50, 50, array('x1'=>0, 'y1'=>0));
-	}
 
   /**
    * Добавляет пользователю адрес электронной почты
@@ -765,70 +564,7 @@ class User extends \application\components\ActiveRecord
     return $this->primaryEmployment;
   }
 		
-	/**
-	* Геттеры и сеттеры для полей
-	*/
-	//UserId
-	public function GetUserId()
-	{
-		return $this->UserId;
-	}  
-	//Rocid
-	public function GetRocId()
-	{
-		return $this->RocId;
-	}
-	
-	public function SetRocId($value)
-	{
-		$this->RocId = $value;
-	}
-	//LastName
-	public function GetLastName()
-	{
-		return $this->LastName;
-	}
-	
-	public function SetLastName($value)
-	{
-		$this->LastName = $value;
-	}
-	//FirstName
-	public function GetFirstName()
-	{
-		return $this->FirstName;
-	}
-	
-	public function SetFirstName($value)
-	{
-		$this->FirstName = $value;
-	}
-	//FatherName
-	public function GetFatherName()
-	{
-		return $this->FatherName;
-	}
-	
-	public function SetFatherName($value)
-	{
-		$this->FatherName = $value;
-	}
-	//Sex
-	public function GetSex()
-	{
-		return $this->Sex;
-	}
-	
-	public function SetSex($value)
-	{
-		$this->Sex = $value;
-	}
-	//Birthday
-	public function GetBirthday()
-	{
-		return $this->Birthday;
-	}
-	
+
 	/**
 	* Возвращает ассоциативный массив с полями day, month, year
 	* 
@@ -886,57 +622,7 @@ class User extends \application\components\ActiveRecord
 	{
 		$this->Birthday = $value;
 	}
-	//Password
-	public function GetPassword()
-	{
-		return $this->Password;
-	}
-	
-	public function SetPassword($value)
-	{
-		$this->Password = $value;
-	}
-	//CreationTime
-	public function GetCreationTime()
-	{
-		return $this->CreationTime;
-	}
-	
-	public function SetCreationTime($value)
-	{
-		$this->CreationTime = $value;
-	}
-	//UpdateTime
-	public function GetUpdateTime()
-	{
-		return $this->UpdateTime;
-	}
-	
-	public function SetUpdateTime($value)
-	{
-		$this->UpdateTime = $value;
-	}
-	//LastVisit
-	public function GetLastVisit()
-	{
-		return $this->LastVisit;
-	}
-	
-	public function SetLastVisit($value)
-	{
-		$this->LastVisit = $value;
-	}
-	//Referral
-	public function GetReferral()
-	{
-		return $this->Referral;
-	}
-	
-	public function SetReferral($value)
-	{
-		$this->Referral = $value;
-	}
-	
+
 	/**
 	* @return \contact\models\Address
 	*/
@@ -986,49 +672,7 @@ class User extends \application\components\ActiveRecord
 		}
 	}
 	
-	/**
-	* @return \contact\models\ServiceAccount[]
-	*/
-	public function GetServiceAccounts()
-	{
-		return $this->ServiceAccounts;
-	}
 
-	/**
-	 * @return \contact\models\Phone[]
-	 */
-	public function GetPhones()
-	{
-		return $this->Phones;
-	}
-
-	/**
-	* @return Employment[]
-	*/
-	public function GetEmployments()
-	{
-		return $this->Employments;
-	}
-	
-
-	/**
-	* @return array[Event]
-	*/
-	public function GetEvents()
-	{
-		return $this->Events;
-	}
-	
-	/**
-	* Возвращает массив с элементами EventSubscription, Event 
-	* загружается автоматически с использованием жадной загрузки
-	* 
-	* @return array[EventSubscription]
-	*/
-	public function GetEventSubscriptions()
-	{
-		return $this->EventSubscriptions;
-	}
 	
 
 

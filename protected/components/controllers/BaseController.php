@@ -29,6 +29,7 @@ abstract class BaseController extends \CController
   {
     $this->initResources();
     $this->registerDefaultResources('js');
+    $this->registerDefaultResources('css');
     $filterChain->run();
   }
 

@@ -1,4 +1,6 @@
 <?php
+define('RUNETID_HOST', 'runetid.local');
+
 return CMap::mergeArray(
   CMap::mergeArray(
     CMap::mergeArray(
