@@ -18,6 +18,16 @@ namespace user\models;
  * @property string $Password
  * @property string $OldPassword
  *
+ *
+ *
+ *
+ * @property LinkEmail $LinkEmail
+ *
+ *
+ *
+ *
+ *
+ *
  * @property \contact\models\Address[] $Addresses
  * @property \contact\models\Phone[] $Phones
  * @property \contact\models\Site[] $Sites
@@ -68,6 +78,12 @@ class User extends \application\components\ActiveRecord
 	public function relations()
 	{
 		return array(
+      'LinkEmail' => array(self::HAS_ONE, '\user\models\LinkEmail', 'UserId'),
+
+
+
+
+
 		//Contacts
 			'Addresses' => array(self::MANY_MANY, '\contact\models\Address', 'Link_User_ContactAddress(UserId, AddressId)',
 				'with' => array('City')),
@@ -350,10 +366,6 @@ class User extends \application\components\ActiveRecord
     }
   }
 
-
-  /******  OLD METHODS  ***/
-  /** todo: REWRITE ALL BOTTOM */
-
   /** @var Photo */
   private $photo = null;
   /**
@@ -368,29 +380,49 @@ class User extends \application\components\ActiveRecord
     return $this->photo;
   }
 
-	
-
 
   /**
    * Добавляет пользователю адрес электронной почты
    *
    * @param string $email
-   * @param int $primary
-   * @param int $personal
+   * @param bool $verified
    * @return void
    */
-	public function AddEmail($email, $primary = 0, $personal = 0)
+	public function setContactEmail($email, $verified = false)
 	{
-		$contactEmail = new \contact\models\Email();
-		$contactEmail->Email = $email;
-		$contactEmail->Primary = $primary;
-		$contactEmail->IsPersonal = $personal;
-		$contactEmail->save();
-		
-		$db = \Yii::app()->getDb();
-		$sql = 'INSERT INTO Link_User_ContactEmail ( UserId , EmailId) VALUES (' . $this->UserId . ',' . $contactEmail->EmailId . ')';
-		$db->createCommand($sql)->execute();
+    $contactEmail = $this->getContactEmail();
+    if (empty($contactEmail))
+    {
+      $contactEmail = new \contact\models\Email();
+      $contactEmail->Email = $email;
+      $contactEmail->Verified = $verified;
+      $contactEmail->save();
+
+      $linkEmail = new LinkEmail();
+      $linkEmail->UserId = $this->Id;
+      $linkEmail->EmailId = $contactEmail->Id;
+      $linkEmail->save();
+    }
+		elseif ($contactEmail->Email != $email)
+    {
+      $contactEmail->Email = $email;
+      $contactEmail->Verified = $verified;
+      $contactEmail->save();
+    }
 	}
+
+  /**
+   * @return \contact\models\Email|null
+   */
+  public function getContactEmail()
+  {
+    return !empty($this->LinkEmail) ? $this->LinkEmail->Email : null;
+  }
+
+
+  /******  OLD METHODS  ***/
+  /** todo: REWRITE ALL BOTTOM */
+
 
 	/**
 	 * @param \contact\models\Site $site
