@@ -4,16 +4,16 @@ namespace user\models;
 /**
  * @property int $Id
  * @property int $UserId
- * @property int $EmailId
+ * @property int $ServiceAccountId
  *
  * @property User $User
- * @property \contact\models\Email $Email
+ * @property \contact\models\ServiceAccount $ServiceAccount
  */
-class LinkEmail extends \CActiveRecord
+class LinkServiceAccount extends \CActiveRecord
 {
   /**
    * @param string $className
-   * @return LinkEmail
+   * @return LinkServiceAccount
    */
   public static function model($className=__CLASS__)
   {
@@ -22,7 +22,7 @@ class LinkEmail extends \CActiveRecord
 
   public function tableName()
   {
-    return 'UserLinkEmail';
+    return 'UserLinkServiceAccount';
   }
 
   public function primaryKey()
@@ -34,7 +34,7 @@ class LinkEmail extends \CActiveRecord
   {
     return array(
       'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-      'Email' => array(self::BELONGS_TO, '\contact\models\Email', 'EmailId'),
+      'ServiceAccount' => array(self::BELONGS_TO, '\contact\models\ServiceAccount', 'ServiceAccountId'),
     );
   }
 }

@@ -22,6 +22,11 @@ namespace user\models;
  *
  *
  * @property LinkEmail $LinkEmail
+ * @property LinkAddress $LinkAddress
+ * @property LinkSite $LinkSite
+ *
+ * @property LinkPhone[] $LinkPhones
+ * @property LinkServiceAccount[] $LinkServiceAccounts
  *
  *
  *
@@ -51,73 +56,78 @@ namespace user\models;
 class User extends \application\components\ActiveRecord
 {
 
-	//Защита от перегрузки при поиске
-	const MaxSearchFragments = 500;
+  //Защита от перегрузки при поиске
+  const MaxSearchFragments = 500;
 
   const PasswordLengthMin = 6;
-	
-	/**
-	* @param string $className
-	* @return User
-	*/
-	public static function model($className=__CLASS__)
-	{    
-		return parent::model($className);
-	}
-	
-	public function tableName()
-	{
-		return 'User';
-	}
-	
-	public function primaryKey()
-	{
-		return 'UserId';
-	}
 
-	public function relations()
-	{
-		return array(
+  /**
+   * @param string $className
+   * @return User
+   */
+  public static function model($className=__CLASS__)
+  {
+    return parent::model($className);
+  }
+
+  public function tableName()
+  {
+    return 'User';
+  }
+
+  public function primaryKey()
+  {
+    return 'UserId';
+  }
+
+  public function relations()
+  {
+    return array(
       'LinkEmail' => array(self::HAS_ONE, '\user\models\LinkEmail', 'UserId'),
+      'LinkAddress' => array(self::HAS_ONE, '\user\models\LinkAddress', 'UserId'),
+      'LinkSite' => array(self::HAS_ONE, '\user\models\LinkSite', 'UserId'),
+
+      'LinkPhones' => array(self::HAS_MANY, '\user\models\LinkPhone', 'UserId'),
+      'LinkServiceAccounts' => array(self::HAS_MANY, '\user\models\LinkServiceAccount', 'UserId'),
 
 
 
 
 
-		//Contacts
-			'Addresses' => array(self::MANY_MANY, '\contact\models\Address', 'Link_User_ContactAddress(UserId, AddressId)',
-				'with' => array('City')),
-			'Phones' => array(self::MANY_MANY, '\contact\models\Phone', 'Link_User_ContactPhone(UserId, PhoneId)',
+      //Contacts
+      'Addresses' => array(self::MANY_MANY, '\contact\models\Address', 'Link_User_ContactAddress(UserId, AddressId)',
+        'with' => array('City')),
+      'Phones' => array(self::MANY_MANY, '\contact\models\Phone', 'Link_User_ContactPhone(UserId, PhoneId)',
         'order' => 'Phones.PhoneId DESC'
       ),
-			'ServiceAccounts' => array(self::MANY_MANY, '\contact\models\ServiceAccount', 'Link_User_ContactServiceAccount(UserId, ServiceId)',
-				'with' => array('ServiceType')),
-			'Sites' => array(self::MANY_MANY, '\contact\models\Site', 'Link_User_ContactSite(UserId, SiteId)'),
-			'Emails' => array(self::MANY_MANY, '\contact\models\Email', 'Link_User_ContactEmail(UserId, EmailId)',
-        'order' => 'Emails.Primary DESC'  
+      'ServiceAccounts' => array(self::MANY_MANY, '\contact\models\ServiceAccount', 'Link_User_ContactServiceAccount(UserId, ServiceId)',
+        'with' => array('ServiceType')),
+      'Sites' => array(self::MANY_MANY, '\contact\models\Site', 'Link_User_ContactSite(UserId, SiteId)'),
+      'Emails' => array(self::MANY_MANY, '\contact\models\Email', 'Link_User_ContactEmail(UserId, EmailId)',
+        'order' => 'Emails.Primary DESC'
       ),
-		//Event  
-			'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'UserId'),//, 'with' => array('Event', 'EventRole')),
-			'Events' => array(self::MANY_MANY, 'Event', 'EventUser(UserId, EventId)'),
-			'EventSubscriptions' => array(self::HAS_MANY, 'EventSubscription', 'UserId', 'with' => array('Event')),
-			'EventProgramHere' => array(self::HAS_ONE, 'EventProgramHereService', 'UserId',),
+      //Event
+      'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'UserId'),//, 'with' => array('Event', 'EventRole')),
+      'Events' => array(self::MANY_MANY, 'Event', 'EventUser(UserId, EventId)'),
+      'EventSubscriptions' => array(self::HAS_MANY, 'EventSubscription', 'UserId', 'with' => array('Event')),
+      'EventProgramHere' => array(self::HAS_ONE, 'EventProgramHereService', 'UserId',),
       'EventProgramUserLink' =>array(self::HAS_MANY, 'EventProgramUserLink', 'UserId', 'with' => array('EventProgram', 'Role')),
-		//User  
-			'Activities' => array(self::HAS_MANY, 'UserActivity', 'UserId'),
-			'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'UserId', 'with' => 'Company' ,
-				'order' => 'Employments.Primary DESC, Employments.FinishWorking DESC, Employments.StartWorking DESC'),
-			'Settings' => array(self::HAS_ONE, '\user\models\Settings', 'UserId',),
-			'Connects' => array(self::HAS_MANY, 'UserConnect', 'UserId'),
-			//'InterestPersons' => array(self::HAS_MANY, 'UserInterestPerson', 'UserId', 'with' => array('InterestPerson')),   
-			'InterestPersons' => array(self::MANY_MANY, 'User', 'UserInterestPerson(UserId, InterestPersonId)'),
-			'MobilePassword' => array(self::HAS_ONE, 'UserMobilePassword', 'UserId',),
+      //User
+      'Activities' => array(self::HAS_MANY, 'UserActivity', 'UserId'),
+      'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'UserId', 'with' => 'Company' ,
+        'order' => 'Employments.Primary DESC, Employments.FinishWorking DESC, Employments.StartWorking DESC'),
+      'Settings' => array(self::HAS_ONE, '\user\models\Settings', 'UserId',),
+      'Connects' => array(self::HAS_MANY, 'UserConnect', 'UserId'),
+      //'InterestPersons' => array(self::HAS_MANY, 'UserInterestPerson', 'UserId', 'with' => array('InterestPerson')),
+      'InterestPersons' => array(self::MANY_MANY, 'User', 'UserInterestPerson(UserId, InterestPersonId)'),
+      'MobilePassword' => array(self::HAS_ONE, 'UserMobilePassword', 'UserId',),
 
-    //Access
+      //Access
       'Groups' => array(self::MANY_MANY, 'CoreGroup', 'Core_Link_UserGroup(UserId, GroupId)', 'with' => array('Masks')),
-		);
-	}
-  
-  public function rules() 
+    );
+  }
+
+  public function rules()
   {
     return array(
       array('FirstName, LastName, Password, Email', 'required'),
@@ -386,10 +396,10 @@ class User extends \application\components\ActiveRecord
    *
    * @param string $email
    * @param bool $verified
-   * @return void
+   * @return \contact\models\Email
    */
-	public function setContactEmail($email, $verified = false)
-	{
+  public function setContactEmail($email, $verified = false)
+  {
     $contactEmail = $this->getContactEmail();
     if (empty($contactEmail))
     {
@@ -403,13 +413,15 @@ class User extends \application\components\ActiveRecord
       $linkEmail->EmailId = $contactEmail->Id;
       $linkEmail->save();
     }
-		elseif ($contactEmail->Email != $email)
+    elseif ($contactEmail->Email != $email)
     {
       $contactEmail->Email = $email;
       $contactEmail->Verified = $verified;
       $contactEmail->save();
     }
-	}
+
+    return $contactEmail;
+  }
 
   /**
    * @return \contact\models\Email|null
@@ -419,117 +431,120 @@ class User extends \application\components\ActiveRecord
     return !empty($this->LinkEmail) ? $this->LinkEmail->Email : null;
   }
 
+  /**
+   * @return \contact\models\Address|null
+   */
+  public function getContactAddress()
+  {
+    return !empty($this->LinkAddress) ? $this->LinkAddress->Address : null;
+  }
+
+  /**
+   * Добавляет пользователю адрес электронной почты
+   *
+   * @param string $url
+   * @param bool $secure
+   * @return \contact\models\Site
+   */
+  public function setContactSite($url, $secure = false)
+  {
+    $contactSite = $this->getContactSite();
+    if (empty($contactSite))
+    {
+      $contactSite = new \contact\models\Site();
+      $contactSite->Url = $url;
+      $contactSite->Secure = $secure;
+      $contactSite->save();
+
+      $linkSite = new LinkSite();
+      $linkSite->UserId = $this->Id;
+      $linkSite->SiteId = $contactSite->Id;
+      $linkSite->save();
+    }
+    elseif ($contactSite->Url != $url || $contactSite->Secure != $secure)
+    {
+      $contactSite->Url = $url;
+      $contactSite->Secure = $secure;
+      $contactSite->save();
+    }
+
+    return $contactSite;
+  }
+
+  /**
+   * @return \contact\models\Site|null
+   */
+  public function getContactSite()
+  {
+    return !empty($this->LinkSite) ? $this->LinkSite->Site : null;
+  }
+
+  /**
+   * @param string $type
+   * @return \contact\models\Phone|null
+   */
+  public function getContactPhone($type = \contact\models\PhoneType::Mobile)
+  {
+    foreach ($this->LinkPhones as $linkPhone)
+    {
+      if ($linkPhone->Phone->Type == $type)
+      {
+        return $linkPhone->Phone;
+      }
+    }
+    return null;
+  }
+
+
+  /**
+   * @param string $account
+   * @param \contact\models\ServiceType $type
+   * @return \contact\models\ServiceAccount
+   */
+  public function setContactServiceAccount($account, $type)
+  {
+    $serviceAccount = $this->getContactServiceAccount($type);
+    if (empty($serviceAccount))
+    {
+      $serviceAccount = new \contact\models\ServiceAccount();
+      $serviceAccount->TypeId = $type->Id;
+      $serviceAccount->Account = $account;
+      $serviceAccount->save();
+
+      $linkServiceAccount = new LinkServiceAccount();
+      $linkServiceAccount->UserId = $this->Id;
+      $linkServiceAccount->ServiceAccountId = $serviceAccount->Id;
+      $linkServiceAccount->save();
+    }
+    else
+    {
+      $serviceAccount->Account = $account;
+      $serviceAccount->save();
+    }
+
+    return $serviceAccount;
+  }
+
+  /**
+   * @param \contact\models\ServiceType $type
+   * @return \contact\models\ServiceAccount|null
+   */
+  public function getContactServiceAccount($type)
+  {
+    foreach ($this->LinkServiceAccounts as $linkServiceAccount)
+    {
+      if ($linkServiceAccount->ServiceAccount->TypeId == $type->Id)
+      {
+        return $linkServiceAccount->ServiceAccount;
+      }
+    }
+    return null;
+  }
+
+
 
   /******  OLD METHODS  ***/
   /** todo: REWRITE ALL BOTTOM */
-
-
-	/**
-	 * @param \contact\models\Site $site
-	 * @return void
-	 */
-	public function AddSite($site)
-	{
-		$db = \Yii::app()->getDb();
-		$sql = 'INSERT INTO Link_User_ContactSite ( UserId , SiteId) VALUES (' . $this->UserId . ',' . $site->SiteId . ')';
-		$db->createCommand($sql)->execute();
-	}
-
-	/**
-	 * @param \contact\models\Address $address
-	 * @return void
-	 */
-	public function AddAddress($address)
-	{
-		$db = \Yii::app()->getDb();
-		$sql = 'INSERT INTO Link_User_ContactAddress ( UserId , AddressId) VALUES (' . $this->UserId . ',' . $address->AddressId . ')';
-		$db->createCommand($sql)->execute();
-	}
-
-	/**
-	 * @param \contact\models\Phone $phone
-	 * @return void
-	 */
-	public function AddPhone($phone)
-	{
-		$db = \Yii::app()->getDb();
-		$sql = 'INSERT INTO Link_User_ContactPhone ( UserId , PhoneId) VALUES (' . $this->UserId . ',' . $phone->PhoneId . ')';    
-		$db->createCommand($sql)->execute();
-	}
-
-	/**
-	 * @param \contact\models\ServiceAccount $serviceAccount
-	 * @return void
-	 */
-	public function AddServiceAccount($serviceAccount)
-	{
-		$db = \Yii::app()->getDb();
-		$sql = 'INSERT INTO Link_User_ContactServiceAccount ( UserId , ServiceId) VALUES (' . $this->UserId . ',' . $serviceAccount->ServiceId . ')';
-		$db->createCommand($sql)->execute();
-	}
-
-	/**
-	 * @param int|\contact\models\Site $site
-	 * @return void
-	 */
-	public function DeleteSite($site)
-	{
-		if (is_object($site))
-		{
-			$site = $site->SiteId;
-		}
-		$db = \Yii::app()->getDb();
-		$sql = 'DELETE FROM Link_User_ContactSite WHERE UserId = ' . $this->UserId .' AND SiteId = ' . $site;
-		$db->createCommand($sql)->execute();
-	}
-
-	/**
-	 * @param int|\contact\models\Phone $phone
-	 * @return void
-	 */
-	public function DeletePhone($phone)
-	{
-		if (is_object($phone))
-		{
-			$phone = $phone->PhoneId;
-		}
-		$db = \Yii::app()->getDb();
-		$sql = 'DELETE FROM Link_User_ContactPhone WHERE UserId = ' . $this->UserId .' AND PhoneId = ' . $phone;
-		$db->createCommand($sql)->execute();
-	}
-
-	/**
-	 * @param int|\contact\models\ServiceAccount $serviceAccount
-	 * @return void
-	 */
-	public function DeleteServiceAccount($serviceAccount)
-	{
-		if (is_object($serviceAccount))
-		{
-			$serviceAccount = $serviceAccount->ServiceId;
-		}
-		$db = \Yii::app()->getDb();
-		$sql = 'DELETE FROM Link_User_ContactServiceAccount WHERE UserId = ' . $this->UserId .' AND ServiceId = ' . $serviceAccount;
-		$db->createCommand($sql)->execute();
-	}
-	
-	/**
-	* Создает настройки пользователя, либо возвращает имеющиеся - если они уже существуют
-	* @return Settings
-	*/
-	public function CreateSettings()
-	{
-		$settings = $this->Settings;
-		if ($settings == null)
-		{
-			$settings = new Settings();
-			$settings->UserId = $this->GetUserId();
-			$settings->Visible = 1;
-			$settings->save();
-      $this->Settings = $settings;
-		}
-		return $settings;
-	}
 
   /**
    * Обновляет последнее посещение пользователя
@@ -540,33 +555,33 @@ class User extends \application\components\ActiveRecord
     $db = \Yii::app()->getDb();
     $db->createCommand()->update(self::$TableName, array('LastVisit' => time()), 'UserId = :UserId', array(':UserId' => $this->UserId));
   }
-	
-	/**
-	* Проверяет, зарегистрирован ли пользователь на мероприятии с таким Id
-	* 
-	* @param int $eventId
-	* @return boolean
-	*/
-	public function IsRegisterOnEvent($eventId)
-	{
-		$eventUser = \event\models\Participant::model();
-		$criteria = new \CDbCriteria();
-		$criteria->condition = 't.UserId = :UserId AND t.EventId = :EventId';
-		$criteria->params = array(':UserId' => $this->UserId, ':EventId' => $eventId);
-		$count = $eventUser->count($criteria);
-		return $count > 0;
-	}
-	
-	/**
-	* Возвращает всех интересующих персон данного пользователя
-	* 
-	* @param $withParam
-	* @return array[User]
-	*/
-	public function GetInterestPersonsWith($withParam)
-	{
-		return $this->InterestPersons(array('with' => $withParam));
-	}
+
+  /**
+   * Проверяет, зарегистрирован ли пользователь на мероприятии с таким Id
+   *
+   * @param int $eventId
+   * @return boolean
+   */
+  public function IsRegisterOnEvent($eventId)
+  {
+    $eventUser = \event\models\Participant::model();
+    $criteria = new \CDbCriteria();
+    $criteria->condition = 't.UserId = :UserId AND t.EventId = :EventId';
+    $criteria->params = array(':UserId' => $this->UserId, ':EventId' => $eventId);
+    $count = $eventUser->count($criteria);
+    return $count > 0;
+  }
+
+  /**
+   * Возвращает всех интересующих персон данного пользователя
+   *
+   * @param $withParam
+   * @return array[User]
+   */
+  public function GetInterestPersonsWith($withParam)
+  {
+    return $this->InterestPersons(array('with' => $withParam));
+  }
 
   public function Hide()
   {
@@ -595,117 +610,65 @@ class User extends \application\components\ActiveRecord
     }
     return $this->primaryEmployment;
   }
-		
 
-	/**
-	* Возвращает ассоциативный массив с полями day, month, year
-	* 
-	* @return array
-	*/
-	public function GetParsedBirthday()
-	{
-		$birthday = $this->Birthday;
-		$result = array();
 
-		$result['year'] = intval(substr($birthday, 0, 4));
-		$result['month'] = intval(substr($birthday, 5, 2));
-		$result['day'] = intval(substr($birthday, 8, 2));
+  /**
+   * Возвращает ассоциативный массив с полями day, month, year
+   *
+   * @return array
+   */
+  public function GetParsedBirthday()
+  {
+    $birthday = $this->Birthday;
+    $result = array();
 
-		return $result;
-	}
+    $result['year'] = intval(substr($birthday, 0, 4));
+    $result['month'] = intval(substr($birthday, 5, 2));
+    $result['day'] = intval(substr($birthday, 8, 2));
 
-	/**
-	 * Устанавливает корректную дату рождения из массива day, month, year
-	 * @param array $date
-	 * @return void
-	 */
-	public function SetParsedBirthday($date)
-	{
-		if (empty($date['year']) || intval($date['year']) == 0)
-		{
-			$birthday = '0000';
-		}
-		else
-		{
-			$birthday = $date['year'];
-		}
-		$birthday .= '-';
-		if (empty($date['month']) || intval($date['month']) == 0)
-		{
-			$birthday .= '00';
-		}
-		else
-		{
-			$birthday .= $date['month'];
-		}
-		$birthday .= '-';
-		if (empty($date['day']) || intval($date['day']) == 0)
-		{
-			$birthday .= '00';
-		}
-		else
-		{
-			$birthday .= $date['day'];
-		}
-		$this->Birthday = $birthday;
-	}
-	
-	public function SetBirthday($value)
-	{
-		$this->Birthday = $value;
-	}
+    return $result;
+  }
 
-	/**
-	* @return \contact\models\Address
-	*/
-	public function GetAddress()
-	{
-		
-		$addresses = $this->Addresses;    
-		if (isset($addresses[0]))
-		{
-			return $addresses[0];
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	/**
-	* @return \contact\models\Site
-	*/
-	public function GetSite()
-	{
-		$sites = $this->Sites;
-		if (isset($sites[0]))
-		{
-			return $sites[0];
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
-	/**
-	* @return \contact\models\Email
-	*/
-	public function GetEmail()
-	{
-		$emails = $this->Emails;    
-		if (isset($emails[0]))
-		{
-			return $emails[0];
-		}
-		else
-		{
-			return null;
-		}
-	}
-	
+  /**
+   * Устанавливает корректную дату рождения из массива day, month, year
+   * @param array $date
+   * @return void
+   */
+  public function SetParsedBirthday($date)
+  {
+    if (empty($date['year']) || intval($date['year']) == 0)
+    {
+      $birthday = '0000';
+    }
+    else
+    {
+      $birthday = $date['year'];
+    }
+    $birthday .= '-';
+    if (empty($date['month']) || intval($date['month']) == 0)
+    {
+      $birthday .= '00';
+    }
+    else
+    {
+      $birthday .= $date['month'];
+    }
+    $birthday .= '-';
+    if (empty($date['day']) || intval($date['day']) == 0)
+    {
+      $birthday .= '00';
+    }
+    else
+    {
+      $birthday .= $date['day'];
+    }
+    $this->Birthday = $birthday;
+  }
 
-	
+  public function SetBirthday($value)
+  {
+    $this->Birthday = $value;
+  }
 
 
   /**
@@ -716,22 +679,22 @@ class User extends \application\components\ActiveRecord
   {
     return !empty($this->Employments) ? $this->Employments[0] : null;
   }
-  
+
   public function GetFullName ()
-  {    
-      $fullName = $this->LastName .' '. $this->FirstName;
-      if ($this->Settings->HideFatherName == 0) {
-          $fullName .= ' '. $this->FatherName;
-      }
-      return $fullName;
+  {
+    $fullName = $this->LastName .' '. $this->FirstName;
+    if ($this->Settings->HideFatherName == 0) {
+      $fullName .= ' '. $this->FatherName;
+    }
+    return $fullName;
   }
-  
+
   /**
    * Уставливает место работы пользователю
    * @param string $companyName
    * @param string $position
    * @param array $from
-   * @param array $to 
+   * @param array $to
    */
   public function addEmployment($companyName, $position, $from = array(), $to = array())
   {
@@ -743,7 +706,7 @@ class User extends \application\components\ActiveRecord
         $employment->save();
       }
     }
-    
+
     $companyInfo = \company\models\Company::ParseName($companyName);
     $company = \company\models\Company::GetCompanyByName($companyInfo['name']);
     if ($company == null)

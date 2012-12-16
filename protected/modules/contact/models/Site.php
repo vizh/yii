@@ -2,12 +2,16 @@
 namespace contact\models;
 
 /**
- * @property int $SiteId
+ * @property int $Id
  * @property string $Url
- * @property int $CreationTime
+ * @property bool $Secure
  */
 class Site extends \CActiveRecord
 {
+  /**
+   * @param string $className
+   * @return Site
+   */
   public static function model($className=__CLASS__)
   {    
     return parent::model($className);
@@ -25,20 +29,6 @@ class Site extends \CActiveRecord
   
   public function relations()
   {
-    return array(
-      
-    );
-  }
-
-  public function ChangeUser($oldUserId, $newUserId)
-  {
-    $db = \Yii::app()->getDb();
-    $db->createCommand()->update('Link_User_ContactSite', array('UserId'=>$newUserId), 'UserId=:OldUserId AND SiteId=:SiteId', array(':OldUserId'=>$oldUserId, ':SiteId'=>$this->SiteId));
-  }
-  
-  public function ChangeCompany($oldCompanyId, $newCompanyId)
-  {
-    $db = \Yii::app()->getDb();
-    $db->createCommand()->update('Link_Company_ContactSite', array('CompanyId'=>$newCompanyId), 'CompanyId=:OldCompanyId AND SiteId=:SiteId', array(':OldCompanyId'=>$oldCompanyId, ':SiteId'=>$this->SiteId));
+    return array();
   }
 }

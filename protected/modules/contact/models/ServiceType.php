@@ -2,14 +2,17 @@
 namespace contact\models;
 
 /**
- * @property int $ServiceTypeId
+ * @property int $Id
  * @property string $Title
- * @property string $AccountUrlMask
- * @property string $Protocol
- * @property int $IsMessenger
+ * @property string $Pattern
+ * @property string $UrlMask
  */
 class ServiceType extends \CActiveRecord
 {
+  /**
+   * @param string $className
+   * @return ServiceType
+   */
   public static function model($className=__CLASS__)
   {    
     return parent::model($className);
@@ -22,23 +25,11 @@ class ServiceType extends \CActiveRecord
   
   public function primaryKey()
   {
-    return 'ServiceTypeId';
+    return 'Id';
   }
   
   public function relations()
   {
-    return array(
-      
-    );
-  }
-
-  /**
-   * @static
-   * @return ServiceType[]
-   */
-  public static function GetAll()
-  {
-    $contactType = ServiceType::model();
-    return $contactType->findAll();
+    return array();
   }
 }

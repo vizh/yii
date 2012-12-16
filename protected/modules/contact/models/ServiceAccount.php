@@ -2,13 +2,18 @@
 namespace contact\models;
 
 /**
- * @property int $ServiceId
- * @property int $ServiceTypeId
+ * @property int $Id
+ * @property int $TypeId
  * @property string $Account
- * @property int $Visibility
+ *
+ * @property ServiceType $Type
  */
 class ServiceAccount extends \CActiveRecord
 {
+  /**
+   * @param string $className
+   * @return ServiceAccount
+   */
   public static function model($className=__CLASS__)
   {    
     return parent::model($className);
@@ -21,25 +26,57 @@ class ServiceAccount extends \CActiveRecord
   
   public function primaryKey()
   {
-    return 'ServiceId';
+    return 'Id';
   }
   
   public function relations()
   {
     return array(
-      'ServiceType' => array(self::BELONGS_TO, 'ContactServiceType', 'ServiceTypeId'),
+      'Type' => array(self::BELONGS_TO, '\contact\models\ServiceType', 'TypeId'),
     );
   }
 
-  public function ChangeUser($oldUserId, $newUserId)
+  public function __set($name, $value)
   {
-    $db = \Yii::app()->getDb();
-    $db->createCommand()->update('Link_User_ContactServiceAccount', array('UserId'=>$newUserId), 'UserId=:OldUserId AND ServiceId=:ServiceId', array(':OldUserId'=>$oldUserId, ':ServiceId'=>$this->ServiceId));
+    if ($name === 'Account')
+    {
+      if (!empty($this->Type))
+      {
+        if (preg_match($this->Type->Pattern, $value, $matches) === 1)
+        {
+          if (!empty($matches[1]))
+          {
+            $value = $matches[1];
+          }
+          else
+          {
+            throw new \application\components\Exception('Неверный шаблон для данного типа аккаунта.');
+          }
+        }
+        else
+        {
+          throw new \application\components\Exception('Неверный формат аккаунта.');
+        }
+      }
+      else
+      {
+        throw new \application\components\Exception('Необходимо задать тип аккаунта, до установки значения аккаунта.');
+      }
+    }
+    parent::__set($name, $value);
   }
 
-  public function ChangeCompany($oldCompanyId, $newCompanyId)
+  /** @var string */
+  private $accountUrl = null;
+
+
+  public function getAccountUrl()
   {
-    $db = \Yii::app()->getDb();
-    $db->createCommand()->update('Link_Company_ContactServiceAccount', array('CompanyId'=>$newCompanyId), 'CompanyId=:OldCompanyId AND ServiceId=:ServiceId', array(':OldCompanyId'=>$oldCompanyId, ':ServiceId'=>$this->ServiceId));
+    if ($this->accountUrl === null && $this->Type->UrlMask !== null)
+    {
+      $this->accountUrl = sprintf($this->Type->UrlMask, array($this->Account));
+    }
+    return $this->accountUrl;
   }
+
 }
