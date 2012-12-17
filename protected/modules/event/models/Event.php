@@ -2,25 +2,29 @@
 namespace event\models;
 
 /**
- * @property int $EventId
+ * @property int $Id
  * @property string $IdName
- * @property string $ShortName
- * @property string $Name
- * @property string $Type
+ * @property string $Title
  * @property string $Info
  * @property string $FullInfo
  * @property string $Place
- * @property string $Comment
+ * @property string $Start
+ * @property string $End
+ * @property bool $Visible
+ *
+ *
+ * @property string $Type
+ *
  * @property string $Url
  * @property string $UrlRegistration
  * @property string $UrlProgram
  * @property string $UrlProgramMask
- * @property string $DateStart
- * @property string $DateEnd
+ *
+ *
  * @property int $FastRole
  * @property int $DefaultRoleId
  * @property string $FastProduct
- * @property string $Visible
+ *
  * @property int $Order
  *
  *
@@ -30,20 +34,12 @@ namespace event\models;
  * @property Section[] $Sections
  * @property Role $DefaultRole
  */
-class Event extends \CActiveRecord
+class Event extends \application\models\translation\ActiveRecord
 {
-  public static $TableName = 'Event';
-  //Константы для описания полноты загрузки модели
-  const LoadOnlyEvent = 0;  
-  const LoadEventAndContacts = 1;
-  const LoadFullInfo = 2;
-
-  const EventTypeOwn = 'own';
-  const EventTypePartner = 'partner';
-
-  const EventVisibleY = 'Y';
-  const EventVisibleN = 'N';
-  
+  /**
+   * @param string $className
+   * @return Event
+   */
   public static function model($className=__CLASS__)
   {    
     return parent::model($className);
@@ -51,17 +47,21 @@ class Event extends \CActiveRecord
   
   public function tableName()
   {
-    return self::$TableName;
+    return 'Event';
   }
   
   public function primaryKey()
   {
-    return 'EventId';
+    return 'Id';
   }
   
   public function relations()
   {
     return array(
+
+
+
+
       'Days' => array(self::HAS_MANY, '\event\models\Day', 'EventId'),
       //User
       'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'EventId', 'with' => array('Role')),
@@ -75,230 +75,57 @@ class Event extends \CActiveRecord
       'DefaultRole' =>  array(self::BELONGS_TO, '\event\models\Role', 'DefaultRoleId'),
     );
   }
-  
+
   /**
-  * 
-  * @param int $loadingDepth
-  * @return Event Модель пользователя, для последующего обращения к БД.
-  */
-  protected static function GetLoadingDepth($loadingDepth)
-  {    
-    switch ($loadingDepth)
-    {  
-      case self::LoadFullInfo:
-        $event = Event::model()->with('EventUsers', 'Users')->together();
-        return $event;
-      case self::LoadEventAndContacts:
-        $event = Event::model()->with('Phones', 'Addresses')->together();
-        return $event;
-      case self::LoadOnlyEvent:
-      default:
-        $event = Event::model();
-        return $event;
-    }
-  } 
-  
-  
-  /**
-  * 
-  * @param int $eventId
-  * @param int $loadingDepth
-  * @return Event
-  */
-  public static function GetById($eventId, $loadingDepth = self::LoadOnlyEvent)
-  {    
-    $event = self::GetLoadingDepth($loadingDepth);    
-    return $event->findByPk($eventId);
-  }
-  
-  /**
-  * Возвращает мероприятие, по его текстовому идентификатору
-  * @param string $idName
-  * @param int $loadingDepth
-  * @return Event
-  */
-  public static function GetEventByIdName($idName, $loadingDepth = self::LoadOnlyEvent)
+   * @return string[]
+   */
+  public function getTranslationFields()
   {
-    $event = self::GetLoadingDepth($loadingDepth);
-    $criteria = new \CDbCriteria();
-    $criteria->condition =  't.IdName = :IdName';
-    $criteria->params = array(':IdName' => $idName);    
-    return $event->find($criteria);
+    return array('Title', 'Info', 'FullInfo', 'Place');
   }
-  
-  public static function GetSearchCriteria($searchTerm)
-  {    
+
+  /**
+   * @param string $idName
+   * @param bool $useAnd
+   * @return Event
+   */
+  public function byIdName($idName, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = 't.IdName = :IdName';
+    $criteria->params = array('IdName' => $idName);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function bySearch($searchTerm, $locale = null, $useAnd)
+  {
+    $criteria = new \CDbCriteria();
+
     $searchTerm = trim($searchTerm);
     if (empty($searchTerm))
     {
-      return null;
+      $criteria->addCondition('0=1');
+      $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+      return $this;
     }
-    $criteria = new \CDbCriteria();
-    
-    $criteria->condition = 't.ShortName LIKE :SearchTerm OR t.Name LIKE :SearchTerm';
-    $criteria->order = 't.DateStart DESC, t.Name DESC';
-    $criteria->params = array(':SearchTerm' => '%' . \Utils::PrepareStringForLike($searchTerm) . '%');
-    return $criteria;
-  }
-  
-  /**
-  * Возвращает последние состоявшиеся $num мероприятий
-  * 
-  * @param int $num
-  * @return Event[]
-  */
-  public static function GetLastEvents($num)
-  {
-    $event = self::GetLoadingDepth(self::LoadOnlyEvent);
-    
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 'DateStart < :TimeNow';
-    $criteria->limit = $num;
-    $criteria->order = 'DateStart DESC';
-    $criteria->params = array(':TimeNow' => date('Y-m-d', time()));
-    
-    return $event->findAll($criteria);
-  }
-  
-  /**
-  * Возвращает гредущие $num мероприятий
-  * 
-  * @param int $num
-  * @return Event[]
-  */  
-  public static function GetFutureEvents($num)
-  {
-    $event = self::GetLoadingDepth(self::LoadOnlyEvent);
-    
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.DateStart > :TimeNow AND t.Visible = \'Y\'';
-    $criteria->limit = $num;
-    $criteria->order = 't.DateStart, t.DateEnd';
-    $criteria->params = array(':TimeNow' => date('Y-m-d', time()));
-    
-    return $event->findAll($criteria);
-  }
-  
-  /**
-  * Возвращает гредущие мероприятий, начинающиеся не позднее $limitDate
-  * 
-  * @param int $limitDate
-  * @return array[Event]
-  */ 
-  public static function GetFutureEventsByDate($limitDate)
-  {
-    $event = self::GetLoadingDepth(self::LoadOnlyEvent);
-    
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.DateStart > :TimeNow AND t.DateStart < :LimitDate  AND t.Visible = \'Y\'';
-    $criteria->order = 'DateStart';
-    $criteria->params = array(':TimeNow' => time(), ':LimitDate' => $limitDate);
-    
-    return $event->findAll($criteria);
-  }
-  
-  /**
-  * Возвращает проходящие в данный момент мероприятия и прошедшие мероприятия, 
-  * но закончившиеся не позднее $limitDate
-  * 
-  * @param int $limitDate
-  * @return array[Event]
-  */
-  public static function GetProgressEvents($limitDate)
-  {
-    $event = self::GetLoadingDepth(self::LoadOnlyEvent);
-    
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '(t.DateStart < :TimeNow AND t.DateStart > :LimitDate
-      OR t.DateStart < :TimeNow AND t.DateEnd > :TimeNow
-      OR t.DateEnd > :TimeNow AND t.DateEnd < :LimitDate) AND t.Visible = \'Y\'';
-    $criteria->order = 'DateEnd';
-    $criteria->params = array(':TimeNow' => time(), ':LimitDate' => $limitDate);
-    
-    return $event->findAll($criteria);
-  }
-  
-  /**
-  * @param string $dateStart Y-m-d
-  * @param string $dateEnd Y-m-d
-  * 
-  * @return Event[]
-  */
-  public static function GetEventsByDates($dateStart, $dateEnd)
-  {
-    $event = self::GetLoadingDepth(self::LoadOnlyEvent);
-    
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '(t.DateStart >= :DateStart AND t.DateStart <= :DateEnd
-      OR t.DateEnd >= :DateStart AND t.DateEnd <= :DateEnd
-      OR t.DateStart <= :DateStart AND t.DateEnd >= :DateEnd)  AND t.Visible = \'Y\'';
-    $criteria->order = 'DateStart, DateEnd';
-    $criteria->params = array(':DateStart' => $dateStart, ':DateEnd' => $dateEnd);
-    
-    return $event->findAll($criteria);
+    $criteria->addCondition('t.Title LIKE :SearchTerm');
+    $criteria->params['SearchTerm'] = '%' . \Utils::PrepareStringForLike($searchTerm) . '%';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 
-  /**
-   * @static
-   * @param string $dateStart Y-m-d
-   * @param int $num
-   * @return Event[]
-   */
-  public static function GetFutureEventsFromDate($dateStart, $num)
+
+  public function registerUser(\user\models\User $user, Role $role)
   {
-    $event = self::GetLoadingDepth(self::LoadOnlyEvent);
 
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '(t.DateStart >= :DateStart OR t.DateEnd >= :DateStart) AND t.Visible = \'Y\'';
-    $criteria->order = 'DateStart, DateEnd';
-    $criteria->limit = $num;
-    $criteria->params = array(':DateStart' => $dateStart);
-
-    return $event->findAll($criteria);
   }
 
-  public static $GetByPageCountLast;
-  /**
-   * @static
-   * @param int $count
-   * @param int $page
-   * @return Event[]
-   */
-  public static function GetByPage($count, $page = 1)
-  {
-    $event = self::GetLoadingDepth(self::LoadOnlyEvent);
-    self::$GetByPageCountLast = $event->count();
 
-    $criteria = new \CDbCriteria();
-    $criteria->limit = $count;
-    $criteria->offset = $count * ($page - 1);
-    $criteria->order = 't.DateStart DESC, t.DateEnd DESC';
-    return $event->findAll($criteria);
-  }
+  /******  OLD METHODS  ***/
+  /** todo: REWRITE ALL BOTTOM */
 
-  /**
-   * Возвращает уникальный строковый идентификатор мероприятия
-   * @static
-   * @param string $baseName
-   * @return string
-   */
-  public static function GetUniqueIdName($baseName)
-  {
-    $counter = 0;
-    $name = $baseName;
-    $test = 1;
-    while (! empty($test))
-    {
-      if (! empty($counter))
-      {
-        $name = $baseName . '_' . $counter;
-      }
-      $test = Event::GetEventByIdName($name);
-      $counter++;
-    }
 
-    return $name;
-  }
 
   /**
    * @param \user\models\User $user
@@ -306,7 +133,7 @@ class Event extends \CActiveRecord
    * @throws \Exception
    * @return Participant|null
    */
-  public function RegisterUser(\user\models\User $user, Role $role)
+  public function RegisterUser1(\user\models\User $user, Role $role)
   {
     if (!empty($this->Days))
     {
@@ -726,5 +553,4 @@ class Event extends \CActiveRecord
   {
     return $this->Phones;
   }
-
 }

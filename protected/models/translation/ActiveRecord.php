@@ -1,7 +1,7 @@
 <?php
 namespace application\models\translation;
 
-abstract class ActiveRecord extends \CActiveRecord
+abstract class ActiveRecord extends \application\components\ActiveRecord
 {
   /**
 * @return string[]

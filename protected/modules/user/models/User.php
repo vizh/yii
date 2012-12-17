@@ -53,7 +53,7 @@ namespace user\models;
  *
  * @property \CEvent $onRegister
  */
-class User extends \application\components\ActiveRecord
+class User extends \application\models\translation\ActiveRecord
 {
 
   //Защита от перегрузки при поиске
@@ -139,6 +139,14 @@ class User extends \application\components\ActiveRecord
       array('Email', 'email'),
       array('FatherName', 'safe')
     );
+  }
+
+  /**
+   * @return string[]
+   */
+  public function getTranslationFields()
+  {
+    return array('LastName', 'FirstName', 'FatherName');
   }
 
   /**
@@ -321,8 +329,6 @@ class User extends \application\components\ActiveRecord
           $fields[$field] = $names[$key];
         }
       }
-      //todo: исправить, когда модель юзер будет от перевода
-      throw new \application\components\Exception('Не готов перевод локалей');
       return $this->byTranslationFields($locale, $fields);
     }
   }
