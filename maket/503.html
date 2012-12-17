@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>-503- / -RUNET-ID-</title>
+    <!--#include virtual="_head.html" -->
+    <script>
+      $(function() {
+        sectionVerticalAlign();
+
+        $(window).resize(function() {
+          sectionVerticalAlign();
+        });
+
+        function sectionVerticalAlign() {
+          var errorBodyHeight    = $("body").outerHeight(),
+              errorSectionHeight = $("#section").outerHeight();
+          $("#section").css({"top": (errorBodyHeight - errorSectionHeight) / 2 + "px"});
+        }
+      });
+    </script>
+  </head>
+  <body id="error-page">
+    <!--#include virtual="_noscript.html" -->
+    
+    <section id="section" role="main">
+      <div class="container b-error error-503">
+        <div class="cnt">
+          <p class="tx">Сервис недоступен</p>
+          <a href="#" class="a">Перейдите на главную</a>
+        </div>
+      </div>
+      
+      <hr>
+      
+      <div class="container">
+        <div class="row b-cols">
+          <div class="span3 i">
+            <header class="h">
+              <h4 class="t">Работа</h4>
+            </header>
+            <article class="cnt">
+              <div class="i">
+                <h6 class="t">
+                  <a href="#" class="a">Креативный директор в диджитал-агентство</a>
+                </h6>
+                <small class="muted">Mail.ru</small>
+              </div>
+              <div class="i">
+                <h6 class="t">
+                  <a href="#" class="a">Ректор</a>
+                </h6>
+                <small class="muted">Московский институт онлайн бизнеса</small>
+              </div>
+              <div class="i">
+                <h6 class="t">
+                  <a href="#" class="a">Издатель глянцевого журнала</a>
+                </h6>
+                <small class="muted">Playboy</small>
+              </div>
+            </article>
+          </div>
+          
+          <div class="span3 i">
+            <header class="h">
+              <h4 class="t">Новости</h4>
+            </header>
+            <article class="cnt">
+              <div class="i">
+                <h6 class="t">
+                  <a href="#" class="a">Skype будет прослушиваться правоохранительными органами!</a>
+                </h6>
+              </div>
+              <div class="i">
+                <h6 class="t">
+                  <a href="#" class="a">Представьте себе мир без свободных знаний</a>
+                </h6>
+              </div>
+              <div class="i">
+                <h6 class="t">
+                  <a href="#" class="a">Facebook разработал собственное приложение для онлайн обработки фото</a>
+                </h6>
+              </div>
+            </article>
+          </div>
+          
+          <div class="span6 i">
+            <header class="h">
+              <h4 class="t">Мероприятия</h4>
+            </header>
+            <article class="cnt">
+              <div class="i">
+                <h6 class="t">
+                  <a href="#" class="a">RIW-2012&nbsp;&mdash; V Неделя Российского Интернета, Russian Internet Week</a>
+                </h6>
+                <small class="date">30 июня</small>
+              </div>
+              <div class="i">
+                <h6 class="t">
+                  <a href="#" class="a">Онлайн-конференция &laquo;Практика онлайн-бизнеса&raquo;</a>
+                </h6>
+                <small class="date">15 мая</small>
+              </div>
+              <div class="i">
+                <h6 class="t">
+                  <a href="#" class="a">Платежные системы в России. Современные инструменты развития бизнеса в интернете</a>
+                </h6>
+                <small class="date">3 февраля</small>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+  </body>
+</html>

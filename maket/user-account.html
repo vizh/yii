@@ -3,10 +3,16 @@
   <head>
     <title>-ЛИЧНЫЙ КАБИНЕТ- / -RUNET-ID-</title>
     <!--#include virtual="_head.html" -->
-    <script src='/javascripts/charts.js'></script>
+    <script src="/javascripts/charts.js"></script>
+    <style>
 
+      canvas {
+        /*border: 1px solid red !important;*/
+      }
+
+    </style> 
     <script type="text/javascript">
-      $(function() {
+      $(window).load(function() {
 
         new Chart({
           itemTemplate: $('#chart-item-template').html(),
@@ -22,7 +28,12 @@
             {color: "#ffd02e", val: 1, role: "слушателя"},
             {color: "#6363d2", val: 4, role: "докладчика"},
             {color: "#7d45a1", val: 7, role: "ведущего"}
-          ]
+          ],
+          charts: [
+            'charts-pie-canvas-1',
+            'charts-pie-canvas-2',
+            'charts-pie-canvas-3'
+          ]          
         }).createOn('charts-pie');
 
         new RunetChart({
@@ -70,7 +81,7 @@
               year: "2009",
               parts: [
                 {color: "#f6bf00", val: 9, role: "слушателем"},
-                {color: "#6363d2", val: 4, role: "докладчиком"},
+                {color: "#6363d2", val: 4, role: "докладчиком"}
               ]
             }
           ]
@@ -80,104 +91,10 @@
 
       });
     </script>
-
-    <style type="text/css">
-
-      .charts .title {margin-bottom: 40px;}
-
-      /* Chart pie start */
-      #charts-pie {
-        margin-bottom: 60px;
-        text-align: center;
-      }
-      #charts-pie.items .item {
-        display: inline-block;
-        margin: 0 40px;
-        position: relative;
-      }
-      #charts-pie.items .item .info {
-        bottom: 0;
-        left: 0;
-        padding: 65px;
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
-      #charts-pie.items .item .info .val {
-        color: #333;
-        font-size: 68px;
-        font-weight: bold;
-        line-height: 35px;
-        margin-bottom: 20px;
-      }
-      #charts-pie.items .item .info .description {font-size: 16px;}
-      #charts-pie.items .item .info .description b {display: block;}
-      /* Chart pie end */
-
-      /* Chart single start */
-      #charts-single canvas {float: right;}
-      #charts-single .items {
-        float: left;
-        text-align: left;
-      }
-      #charts-single .items .item {
-        border-top: 1px solid #666;
-        position: relative;
-        width: 300px;
-      }
-      #charts-single .items .item .val {
-        color: #333;
-        font-size: 13px;
-        position: absolute;
-        top: -21px;
-      }
-      #charts-single .items .item .val b {font-size: 16px;}
-      #charts-single .items .item .description {
-        color: #999;
-        font-size: 13px;
-      }
-      /* Chart single end */
-
-      /* Chart linear start */
-      .charts-linear_datetime {
-        float: right;
-        padding: 25px 0 10px;
-        width: 184px;
-      }
-      .charts-linear_datetime .datetime {
-        border-top: 1px solid #d9d9d9;
-        color: #999;
-        font-size: 13px;
-        height: 59px;
-        margin-bottom: 10px;
-        text-align: right;
-      }
-      .charts-linear {
-        float: left;
-        padding: 25px 0 10px;
-        width: 276px;
-      }
-      .charts-linear .items_wrap {
-        border-top: 1px solid #d9d9d9;
-      }
-      .charts-linear .items {
-        margin-bottom: 10px;
-        position: relative;
-      }
-      .charts-linear .items .item {
-        float: left;
-        height: 60px;
-        margin-top: -1px;
-        width: 30px;
-      }
-      /* Chart linear end */
-
-    </style>
-
   </head>
   <body id="user-account">
-    <noscript>JavaScript disabled</noscript>
-    <!--#include virtual="_header-user.html" -->
+    <!--#include virtual="_noscript.html" -->
+    <!--#include virtual="_header-user-account.html" -->
 
     <section id="section" role="main">
       <h2 class="b-header_large light">
@@ -191,69 +108,416 @@
       </h2>
       
       <div class="user-account">
-        <div class="container">
-          <div class="card">
-            <h5 class="b-header_small medium">
-              <span class="backing">Runet</span>
-              <span class="backing">ID</span>
-            </h5>
-            <div class="row">
-              <div class="span12">
-                123
-              </div>
-            </div>
-          </div>
-        </div>
-          
-        <h4 class="b-header_large light">
-          <div class="line"></div>
+        <div class="clearfix">
           <div class="container">
-            <div class="title">
-              <span class="backing text">Участие в профильных мероприятиях</span>
-            </div>
-          </div>
-        </h4>
-
-        <div class="statistics">
-          <div class="container">
-            <div class="charts">
-              <!-- Chart pie start --><div id="charts-pie" class="items"></div><!-- Chart pie end -->
-              <h5 class="title t-center">Центр компетенций / Профессиональная активность</h5>
+            <div class="b-card">
+              <h5 class="b-header_small medium">
+                <span class="backing">Runet</span>
+                <span class="backing">ID</span>
+              </h5>
               <div class="row">
-                <div class="span6 t-right">
-                  <!-- Chart single start --><div id="charts-single" class="clearfix"></div><!-- Chart single end -->
+                <div class="span3">
+                  <img src="/images/content/account-avatar_large.jpg" width="238" height="238" alt="" class="avatar">
                 </div>
-                <div class="span6">
-                  <!-- Chart linear start --><div id="charts-linear"></div><!-- Chart linear end -->
+                <div class="span8">
+                  <div class="row">
+                    <div class="span4 b-details">
+                      <b class="id">354017</b>
+                      <header>
+                        <h4 class="title">
+                          Константин Константинович<br><span class="family-name">Константинопольский</span>
+                        </h4>
+                        <small class="muted">34 года, Москва</small>
+                      </header>
+                      <div class="b-job">
+                        <header>
+                          <h6 class="title company">Microsoft</h6>
+                        </header> 
+                        <article>
+                          <p class="text post">Руководитель отдела разработки</p>
+                        </article>
+                      </div>
+                      <div class="b-interests">
+                        <header>
+                          <h6 class="title">Профессиональные интересы</h6>
+                        </header>
+                        <article>
+                          <p class="text">Аналитика, Веб-разработка / Технологии / API, Геосервисы, Государство и общество, Инвестиции и стартапы</p>
+                        </article>
+                      </div>
+                      <div class="event-rank">Менеджер высшего уровня</div>
+                      <div class="b-raec">
+                        <img src="/images/content/raec-logo_small.jpg" alt="РАЭК" class="logo">
+                        <p class="text">Член РАЭК<br>Сопредседатель комиссии<br>Эксперт комиссии</p>
+                      </div>
+                    </div>
+                    <div class="span4 b-contacts">
+                      <dl class="dl-horizontal">
+                        <dt>Сайт:</dt>
+                        <dd><a href="http://www.raec.ru">www.raec.ru</a></dd>
+                      </dl>
+                      <dl class="dl-horizontal">
+                        <dt>Facebook:</dt>
+                        <dd><a href="#">konstantinopolskiy</a></dd>
+                      </dl>
+                      <dl class="dl-horizontal">
+                        <dt>Skype:</dt>
+                        <dd>konstantinopolskiy</dd>
+                      </dl>
+                      <dl class="dl-horizontal">
+                        <dt>ICQ:</dt>
+                        <dd>123456789</dd>
+                      </dl>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-         
-        <h4 class="b-header_large light">
-          <div class="line"></div>
-          <div class="container">
-            <div class="title">
-              <span class="backing text">Примите участие</span>
+          
+          <div class="b-statistics">  
+            <h4 class="b-header_large light">
+              <div class="line"></div>
+              <div class="container">
+                <div class="title">
+                  <span class="backing text">Участие в профильных мероприятиях</span>
+                </div>
+              </div>
+            </h4>
+            <div class="container">
+              <div class="charts">
+
+                <!-- Charts pie -->
+                <div class="clearfix">
+                  <div class="row">
+                    <div id="charts-pie-1" class="span4 charts-pie items"><canvas id="charts-pie-canvas-1"></canvas></div>
+                    <div id="charts-pie-2" class="span4 charts-pie items"><canvas id="charts-pie-canvas-2"></canvas></div>
+                    <div id="charts-pie-3" class="span4 charts-pie items"><canvas id="charts-pie-canvas-3"></canvas></div>
+                  </div>
+                </div>
+
+                <h5 class="title t-center">Центр компетенций / Профессиональная активность</h5>
+                <div class="row">
+                  <div class="span6 t-right">
+
+                    <!-- Charts single -->
+                    <div id="charts-single"><canvas id="charts-single_canvas" class="clearfix"></canvas></div>
+
+                  </div>
+                  <div class="span6">
+
+                    <!-- Charts linear -->
+                    <div id="charts-linear"></div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="more">
+                <a href="#">Еще тесты</a>
+              </div>
             </div>
           </div>
-        </h4>     
-        <div class="participate">
-          <div class="container">
-            <div class="units row">
-              <div class="unit span3">
-                1
-              </div
-              ><div class="unit span3">
-                2
-              </div
-              ><div class="unit span3">
-                3
-              </div
-              ><div class="unit span3">
-                4
+          
+          <div class="b-participated">
+            <h4 class="b-header_large light">
+              <div class="line"></div>
+              <div class="container">
+                <div class="title">
+                  <span class="backing text">
+                    Участние в мероприятиях за
+                    <form action="#" class="form-inline">
+                      <select>
+                        <option value="2012" selected>2012</option>
+                        <option value="2011">2011</option>
+                        <option value="2010">2010</option>
+                        <option value="2009">2009</option>
+                      </select>
+                    </form>
+                  </span>
+                </div>
               </div>
+            </h4> 
+            <div class="container">
+              <div class="row">
+                <figure class="i span2">
+                  <img src="/images/content/event-logo-account-1.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <p class="tx">Участник профессиональной программы</p>
+                    <p class="tx">Дистанционное участие</p>
+                  </figcaption>
+                </figure
+                ><figure class="i span2">
+                  <img src="/images/content/event-logo-account-2.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <p class="tx">Слушатель</p>
+                  </figcaption>
+                </figure
+                ><figure class="i span2">
+                  <img src="/images/content/event-logo-account-3.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <p class="tx">Слушатель</p>
+                  </figcaption>
+                </figure
+                ><figure class="i span2">
+                  <img src="/images/content/event-logo-account-4.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <div><a href="javascript:void(0);" class="a pseudo-link">Докладчик</a></div>
+                    <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
+                    <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
+                  </figcaption>
+                  <div class="popup">
+                    <div class="cnt">
+                      <div><a href="javascript:void(0);" class="a pseudo-link">Докладчик</a></div>
+                      <p class="tx">Social Media Marketing от А до Я: лояльные клиенты из социальных сетей</p>
+                      <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
+                      <p class="tx">Как за месяц поднять продажи на 20%</p>
+                      <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
+                      <p class="tx">Как за месяц поднять продажи на 20%</p>
+                    </div>
+                  </div>
+                </figure
+                ><figure class="i span2">
+                  <img src="/images/content/event-logo-account-1.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
+                  </figcaption>
+                  <div class="popup">
+                    <div class="cnt">
+                      <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
+                      <p class="tx">Как за месяц поднять продажи на 20%</p>
+                    </div>
+                  </div>
+                </figure
+                ><figure class="i span2">
+                  <img src="/images/content/event-logo-account-2.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <p class="tx">Дистанционное участие</p>
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="row">
+                <figure class="i span2">
+                  <img src="/images/content/event-logo-account-2.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <p class="tx">Участник профессиональной программы</p>
+                  </figcaption>
+                </figure
+                ><figure class="i span2">
+                  <img src="/images/content/event-logo-account-1.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <p class="tx">Слушатель</p>
+                  </figcaption>
+                </figure
+                ><figure class="i span2">
+                  <img src="/images/content/event-logo-account-4.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <p class="tx">Слушатель</p>
+                  </figcaption>
+                </figure
+                ><figure class="i span2">
+                  <img src="/images/content/event-logo-account-3.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <div><a href="javascript:void(0);" class="a pseudo-link">Докладчик</a></div>
+                    <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
+                  </figcaption>
+                  <div class="popup">
+                    <div class="cnt">
+                      <div><a href="javascript:void(0);" class="a pseudo-link">Докладчик</a></div>
+                      <p class="tx">Social Media Marketing от А до Я: лояльные клиенты из социальных сетей</p>
+                      <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
+                      <p class="tx">Как за месяц поднять продажи на 20%</p>
+                    </div>
+                  </div>
+                </figure
+                ><figure class="i span2">
+                  <img src="/images/content/event-logo-account-2.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
+                  </figcaption>
+                  <div class="popup">
+                    <div class="cnt">
+                      <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
+                      <p class="tx">Как за месяц поднять продажи на 20%</p>
+                    </div>
+                  </div>
+                </figure
+                ><figure class="i span2">
+                  <img src="/images/content/event-logo-account-1.jpg" width="138" height="79" alt="" class="img">
+                  <figcaption class="cnt">
+                    <p class="tx">Дистанционное участие</p>
+                  </figcaption>
+                </figure>
+              </div>
+              <div class="all">
+                <a href="#" class="pseudo-link">Все мероприятия</a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="b-participate"> 
+            <h4 class="b-header_large light">
+              <div class="line"></div>
+              <div class="container">
+                <div class="title">
+                  <span class="backing text">Примите участие</span>
+                </div>
+              </div>
+            </h4>    
+            <div id="participate-events" class="container">
+              <div class="slider">
+                <div class="slides">
+                  <div class="slide row">
+                    <div class="i span3">
+                      <header class="h">
+                        <div class="date">
+                          <div class="d">23-25</div>
+                          <div class="m">сентября</div>
+                        </div>
+                        <p class="tx muted">Вебинар, Москва</p>
+                        <h5 class="t"><a href="#" class="event-color_4">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a></h5>
+                      </header>
+                      <article class="cnt">
+                        <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+                      </article>
+                      <footer class="f">
+                        <a href="#" class="a">
+                          <i class="icon-circle-arrow-right"></i>Посетить мероприятие
+                        </a>
+                      </footer>
+                    </div>
+                    <div class="i span3">
+                      <header class="h">
+                        <div class="date">
+                          <div class="d">12</div>
+                          <div class="m">сентября</div>
+                        </div>
+                        <p class="tx muted">Круглый стол</p>
+                        <h5 class="t"><a href="#">Интернет-магазин с нуля: от идеи до стабильных продаж</a></h5>
+                      </header>
+                      <article class="cnt">
+                        <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+                      </article>
+                      <footer class="f">
+                        <a href="#" class="a">
+                          <i class="icon-circle-arrow-right"></i>Посетить мероприятие
+                        </a>
+                      </footer>
+                    </div>
+                    <div class="i span3">
+                      <header class="h">
+                        <div class="date">
+                          <div class="d">3</div>
+                          <div class="m">августа</div>
+                        </div>
+                        <p class="tx muted">Вебинар, Москва</p>
+                        <h5 class="t"><a href="#">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a></h5>
+                      </header>
+                      <article class="cnt">
+                        <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+                      </article>
+                      <footer class="f">
+                        <a href="#" class="a">
+                          <i class="icon-circle-arrow-right"></i>Посетить мероприятие
+                        </a>
+                      </footer>
+                    </div>
+                    <div class="i span3">
+                      <header class="h">
+                        <div class="date">
+                          <div class="d">17-18</div>
+                          <div class="m">мая</div>
+                        </div>
+                        <p class="tx muted">Конференция</p>
+                        <h5 class="t"><a href="#">Конференция «Бизнес Мёртвых Деревьев»</a></h5>
+                      </header>
+                      <article class="cnt">
+                        <p class="tx">Мероприятие длится два дня и предназначено для тех, кому нужен сайт, и тех, кто их разрабатывает.</p>
+                      </article>
+                      <footer class="f">
+                        <a href="#" class="a">
+                          <i class="icon-circle-arrow-right"></i>Посетить мероприятие
+                        </a>
+                      </footer>
+                    </div>
+                  </div>
+                  <div class="slide row">
+                    <div class="i span3">
+                      <header class="h">
+                        <div class="date">
+                          <div class="d">17</div>
+                          <div class="m">февраля</div>
+                        </div>
+                        <p class="tx muted">Вебинар, Москва</p>
+                        <h5 class="t"><a href="#">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a></h5>
+                      </header>
+                      <article class="cnt">
+                        <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+                      </article>
+                      <footer class="f">
+                        <a href="#" class="a">
+                          <i class="icon-circle-arrow-right"></i>Посетить мероприятие
+                        </a>
+                      </footer>
+                    </div>
+                    <div class="i span3">
+                      <header class="h">
+                        <div class="date">
+                          <div class="d">5-12</div>
+                          <div class="m">февраля</div>
+                        </div>
+                        <p class="tx muted">Круглый стол</p>
+                        <h5 class="t"><a href="#" class="event-color_2">Интернет-магазин с нуля: от идеи до стабильных продаж</a></h5>
+                      </header>
+                      <article class="cnt">
+                        <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+                      </article>
+                      <footer class="f">
+                        <a href="#" class="a">
+                          <i class="icon-circle-arrow-right"></i>Посетить мероприятие
+                        </a>
+                      </footer>
+                    </div>
+                    <div class="i span3">
+                      <header class="h">
+                        <div class="date">
+                          <div class="d">29</div>
+                          <div class="m">января</div>
+                        </div>
+                        <p class="tx muted">Вебинар, Москва</p>
+                        <h5 class="t"><a href="#" class="event-color_3">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a></h5>
+                      </header>
+                      <article class="cnt">
+                        <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
+                      </article>
+                      <footer class="f">
+                        <a href="#" class="a">
+                          <i class="icon-circle-arrow-right"></i>Посетить мероприятие
+                        </a>
+                      </footer>
+                    </div>
+                    <div class="i span3">
+                      <header class="h">
+                        <div class="date">
+                          <div class="d">7</div>
+                          <div class="m">января</div>
+                        </div>
+                        <p class="tx muted">Конференция</p>
+                        <h5 class="t"><a href="#" class="event-color_4">Конференция «Бизнес Мёртвых Деревьев»</a></h5>
+                      </header>
+                      <article class="cnt">
+                        <p class="tx">Мероприятие длится два дня и предназначено для тех, кому нужен сайт, и тех, кто их разрабатывает.</p>
+                      </article>
+                      <footer class="f">
+                        <a href="#" class="a">
+                          <i class="icon-circle-arrow-right"></i>Посетить мероприятие
+                        </a>
+                      </footer>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <i id="participate-events_prev" class="icon-chevron-left"></i>
+              <i id="participate-events_next" class="icon-chevron-right"></i>
             </div>
           </div>
         </div>

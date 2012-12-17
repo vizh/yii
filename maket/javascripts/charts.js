@@ -60,10 +60,14 @@ var Chart = function(options) {
       total = _.reduce(options.parts, function(t, part) { return t + part.val; }, 0),
       compiled = _.template(options.itemTemplate);
 
+    var i = 0;
+
     _.each(options.parts, function(part) {
       var
         div = $(compiled({value: part.val, role: part.role})),
-        canvas = document.createElement('canvas'),
+        canvas = document.getElementById(options.charts[i]);
+      if (typeof(G_vmlCanvasManager) != 'undefined') G_vmlCanvasManager.initElement(canvas);
+      var 
         ctx = canvas.getContext("2d"),
         radius = (options.height - options.border.size) / 2,
         origin = radius + options.border.size / 2,
@@ -76,7 +80,13 @@ var Chart = function(options) {
 
       ctx.beginPath();
       ctx.strokeStyle = options.border.color;
-      ctx.arc(origin, origin, radius, disp, (options.clockwise ? 1 : -1) * options.avail + disp, !options.clockwise);
+      
+      if (typeof(G_vmlCanvasManager) != 'undefined') {
+        ctx.arc(origin, origin, radius, disp, disp, !options.clockwise);
+      } else {
+        ctx.arc(origin, origin, radius, disp, (options.clockwise ? 1 : -1) * options.avail + disp, !options.clockwise);
+      }
+
       ctx.stroke();
 
       ctx.beginPath();
@@ -85,9 +95,10 @@ var Chart = function(options) {
       lastPos += delta;
       ctx.stroke();
 
-      div.append(canvas);
+      $('#' + options.charts[i]).parent().append(div);
 
-      div.appendTo('#' + parentID);
+      i++;
+
     });
   }
 
@@ -101,10 +112,11 @@ var RunetChart = function(options) {
     var 
       avail = Math.PI,
       disp =  1.5 * Math.PI,
-      
       lastPos = 0,
       total = _.reduce(options.parts, function(t, part) { return t + part.val; }, 0),
-      canvas = document.createElement('canvas'),
+      canvas = document.getElementById('charts-single_canvas');
+    if (typeof(G_vmlCanvasManager) != 'undefined') G_vmlCanvasManager.initElement(canvas);
+    var
       ctx = canvas.getContext("2d"),
       radius = (options.height - options.border.size) / 2,
       padding = 50,
@@ -153,9 +165,6 @@ var RunetChart = function(options) {
 
     ctx.strokeStyle = "#666";
     ctx.lineWidth = 1;
-    // ctx.beginPath();
-    // ctx.arc(ox, oy, br, disp, disp - avail, true);
-    // ctx.stroke();
 
     drawPart(ctx, this.parts[0]);
     if (this.parts.length > 2) {
@@ -176,7 +185,6 @@ var RunetChart = function(options) {
         p.bx = -Math.round(x) + canvas.width + 0.5;
         p.by = -Math.round(ny) + br + 0.5;
         drawPart(ctx, p);
-//        console.log(x + ", " + ny);
       }
     }
 
@@ -201,7 +209,7 @@ var RunetChart = function(options) {
 
     parent.css({"padding-top": (Math.round(this.parts[0].by) - 1)+ "px"});
 
-    $('#' + parentID).append(canvas).append(parent);
+    $('#' + parentID).append(parent);
   };
 
   function drawPart(ctx, p) {

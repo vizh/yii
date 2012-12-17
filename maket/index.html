@@ -5,28 +5,15 @@
     <!--#include virtual="_head.html" -->
   </head>
   <body id="index-page">
-    <noscript>JavaScript disabled</noscript>
+    <!--#include virtual="_noscript.html" -->
     <!--#include virtual="_header.html" -->
 
     <section id="section" role="main">
-
       <!--#include virtual="_login.html" -->
 
-      <div class="b-promo">
+      <div id="promo" class="b-promo">
         <div class="container">
-          <img src="/images/logo-large.png" width="448" height="41" alt="-RUNET-ID-">
-          <h3 class="title">Любые интернет-события в России и не только</h3>
-          <div class="row">
-            <a href="/index-user.html" class="offset3 span3 btn btn-primary btn-large">
-              <img src="/images/icon-promo-auth.png" width="29" height="32" alt="" class="pull-left">
-              Авторизоваться
-              <small>Зарегистрироваться</small>
-            </a>
-            <a href="/events-list.html" class="span3 btn btn-large">
-              <img src="/images/icon-promo-events.png" width="33" height="32" alt="">
-              Мероприятия
-            </a>
-          </div>
+          <img src="/images/logo-large.png" width="448" height="41" alt="-RUNET-ID-" class="logo">
           <nav class="b-social">
             <div class="line"></div>
             <span class="backing">
@@ -48,6 +35,55 @@
               </a>
             </span>
           </nav>
+          <div class="row">
+            <div id="promo-tabs" class="b-tabs span6">
+              <div>
+                <ul class="nav clearfix">
+                  <li><a href="#promo-tab_users">Пользователям</a></li>
+                  <li><a href="#promo-tab_orgs">Организаторам</a></li>
+                </ul>
+                <div id="promo-tab_users" class="tab tab_users">
+                  <div>
+                    <p><i class="icon-calendar"></i>Главные мероприятия Рунета</p>
+                    <p><i class="icon-briefcase"></i>Актуальные вакансии от компаний Рунета</p>
+                    <p><i class="icon-file"></i>Свежие новости</p>
+                    <p><i class="icon-check"></i>Профессиональные тесты/центр компетенций</p>
+                    <p><i class="icon-globe"></i>Все об интернете в одном месте</p>
+                    <div class="login">
+                      <a href="#">Войти / Зарегистрироваться</a>
+                    </div>
+                  </div>
+                </div>
+                <div id="promo-tab_orgs" class="tab tab_orgs">
+                  <div>
+                    Got contents, bro?
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="promo-slider" class="b-slider span6">
+              <div class="slider">
+                <div class="slides">
+                  <div class="slide">
+                    <div class="content">
+                      <h3>Отрыв башки</h3>
+                      <p>Нужно: &laquo;отрыв башки&raquo;, абсолютная безбашенность при этом четкое соблюдение сроков и&nbsp;понимание клиента. Связь посредством Skype до&nbsp;последнего являлась полностью конфиденциальной и&nbsp;защищённой&nbsp;&mdash; именно поэтому. Посредством Skype до&nbsp;последнего являлась полностью конфиденциальной и&nbsp;защищённой&nbsp;&mdash; именно поэтому. </p>
+                    </div>
+                  </div>
+                  <div class="slide">
+                    <div class="content">
+                      <blockquote>Вы много слышали о seo, контексте и других видах онлайн-рекламы? Или немного, но этого хватило, чтобы всерьез заинтересовать Вас? Или немного, но этого хватило, чтобы всерьез заинтересовать Вас?<small>Сергеев Петр</small></blockquote>
+                    </div>
+                  </div>
+                  <div class="slide">
+                    <a href="#"><img src="/images/content/promo-banner.jpg" alt=""></a>
+                  </div>
+                </div>
+              </div>
+              <i id="promo-slider_prev" class="icon-chevron-left"></i>
+              <i id="promo-slider_next" class="icon-chevron-right"></i>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -67,7 +103,7 @@
           </h2>
           <div class="row">
             <div class="event span4">
-              <img src="/images/blank.gif" alt="" class="i-event_medium i-event_conference">
+              <img src="/images/content/event-logo-1.jpg" width="70" height="70" alt="" class="logo img-circle">
               <div class="datetime">
                 <span class="date">
                   <span class="day">28</span>
@@ -83,9 +119,12 @@
                 <p>&laquo;Неделя российского Интернета&raquo;&nbsp;&mdash; это многопотоковая трехдневная конференция, состоящая из&nbsp;Общей и&nbsp;Профессиональной программы, Выставки</p>
                 <a href="/event-page.html">...</a>
               </article>
+              <footer>
+                <img src="/images/blank.gif" alt="" class="i-event_small i-event_training">
+              </footer>
             </div>
             <div class="event span4">
-              <img src="/images/blank.gif" alt="" class="i-event_medium i-event_training">
+              <img src="/images/content/event-logo-2.jpg" width="70" height="70" alt="" class="logo img-circle">
               <div class="datetime">
                 <span class="date">
                   <span class="day">15</span>
@@ -101,9 +140,12 @@
                 <p>28&nbsp;июня пройдет беспрецедентное для Рунета событие&nbsp;&mdash; ведущие специалисты-практики отрасли соберутся в&nbsp;специально оборудованной телестудии и&nbsp;раскроют ведущие специалисты-практики</p>
                 <a href="/event-page.html">...</a>
               </article>
+              <footer>
+                <img src="/images/blank.gif" alt="" class="i-event_small i-event_webinar">
+              </footer>
             </div>
             <div class="event span4">
-              <img src="/images/blank.gif" alt="" class="i-event_medium i-event_webinar">
+              <img src="/images/content/event-logo-3.jpg" width="70" height="70" alt="" class="logo img-circle">
               <div class="datetime">
                 <span class="date">
                   <span class="day">3</span>
@@ -119,6 +161,9 @@
                 <p>28&nbsp;июня пройдет беспрецедентное для Рунета событие&nbsp;&mdash; ведущие специалисты-практики отрасли соберутся в&nbsp;специально</p>
                 <a href="/event-page.html">...</a>
               </article>
+              <footer>
+                <img src="/images/blank.gif" alt="" class="i-event_small i-event_conference">
+              </footer>
             </div>
           </div>
         </div>

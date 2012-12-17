@@ -28,19 +28,17 @@ $(function() {
 
     initialize: function() {
       var bind = function (func, thisValue) {
-         return function () {
-                 return func.apply(thisValue, arguments);
-              }
-       };
+        return function () {
+          return func.apply(thisValue, arguments);
+        }
+      };
 
       this.model.on('change:quantity', bind(this.render, this));
     },
 
     updateQuantity: function(e) {
-      var 
-        qty = parseInt($(e.target).find(':selected').val());
-
-        this.model.set('quantity', qty);
+      var qty = parseInt($(e.target).find(':selected').val());
+      this.model.set('quantity', qty);
     },
 
     render: function() {
@@ -52,7 +50,7 @@ $(function() {
     
   var priceItems = (new PriceItems);
 
-  $("form.registration").find('tr').each(function() {
+  $('.registration > table').find('tr').each(function() {
     var price = $(this).attr('data-price');
     if (price) {
       var model = (new PriceItem);
@@ -62,6 +60,8 @@ $(function() {
 
       var view = new PriceItemView({model: model});
       view.setElement(this);
+
+      $(this).data('bb-model', model);
     }
   });
 

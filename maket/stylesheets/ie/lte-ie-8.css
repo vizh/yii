@@ -5,6 +5,8 @@
 
 #header .navbar .brand {margin-top: -2px;}
 
+.b-events .event footer .i-event_small {filter: alpha(opacity=10);}
+
 .b-event-promo .logo {margin: -25px 0 0 -50px;}
 .b-event-promo .all {margin-left: -63px;}
 
@@ -26,17 +28,27 @@
 .events-list .event footer a:first-child i {filter: alpha(opacity=100);}
 
 .event-page .sidebar > div {margin-bottom: 40px;}
-.event-page .sidebar > div:last-child {margin-bottom: 0;}
 
 .event-page .photos .thumbs .thumb.current {filter: alpha(opacity=25);}
 
-.event-register .table .last-child {padding-right: 40px;}
+.event-register .table .icon-remove {
+  filter: alpha(opacity=50);
+  margin-left: -25px;
+}
+.event-register .table .input-promo.filled {filter: alpha(opacity=25);}
+.event-register .table .input-promo.filled:hover {filter: alpha(opacity=100);}
+.event-register .table th.last-child,
+.event-register .table td.last-child {padding-right: 40px;}
+.event-register .table tr.user-row.last-child td:first-child {background: url(/images/icon-plus.png) transparent 14px center no-repeat;}
 .event-register .actions .btn.paypal {white-space: nowrap;}
 
-#search .form-element_text {line-height: 30px;}
+.company-account .b-card .follow .btn {margin-left: -140px;}
+
+.charts-pie.items .item {margin: -45px 0 0 -45px;}
 
 #footer .b-social .item {
   width: 16px;
   height: 16px;
   float: left;
 }
+#search-footer .form-element_text {line-height: 30px;}
