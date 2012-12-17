@@ -5,14 +5,19 @@ namespace company\models;
 /**
  * @throws \Exception
  *
- * @property int $CompanyId
+ * @property int $Id
  * @property string $Name
  * @property string $FullName
  * @property string $Info
- * @property string $Opf
- * @property string $OrgName
- * @property int $CreationTime
- * @property int $UpdateTime
+ * @property string $FullInfo
+ * @property string $CreationTime
+ * @property string $UpdateTime
+ *
+ *
+ *
+ *
+ *
+ *
  *
  * @property \contact\models\Email[] $Emails
  * @property \contact\models\Address[] $Addresses
@@ -25,32 +30,33 @@ namespace company\models;
  */
 class Company extends \CActiveRecord
 {
-	
-	public static $TableName = 'Company';
-	//Константы для описания полноты загрузки модели
-	const LoadOnlyCompany = 0;
-	const LoadFullInfo = 1;
-	const LoadMiddleInfo = 2;
-	const LoadContactInfo = 3;
-
-	public static function model($className=__CLASS__)
+  /**
+   * @param string $className
+   * @return Company
+   */
+  public static function model($className=__CLASS__)
 	{    
 		return parent::model($className);
 	}
 	
 	public function tableName()
 	{
-		return self::$TableName;
+		return 'Company';
 	}
 	
 	public function primaryKey()
 	{
-		return 'CompanyId';
+		return 'Id';
 	}
 
   public function relations()
   {
     return array(
+
+
+
+
+
       //Контакты
       'Sites' => array(self::MANY_MANY, 'ContactSite', 'Link_Company_ContactSite(CompanyId, SiteId)'),
       'Emails' => array(self::MANY_MANY, 'ContactEmail', 'Link_Company_ContactEmail(CompanyId, EmailId)'),
@@ -70,52 +76,14 @@ class Company extends \CActiveRecord
 //    'EventUsers' => array(self::HAS_MANY, 'EventUser', 'UserId'),
     );
   }
-	
-	/**
-	* 
-	* @param int $loadingDepth
-	* @return Company Модель пользователя, для последующего обращения к БД.
-	*/
-	protected static function GetLoadingDepth($loadingDepth)
-	{
-		switch ($loadingDepth)
-		{  
-			// Полная загрузка данных по компании (Контактные данные, сотрудники, мероприятия в кот. участвовали сотрудники)
-			case self::LoadFullInfo:
-				$company = Company::model()->with('Emails', 'Phones', 'Addresses.City.Country', 'UsersAll.User.EventUsers.Event');//->together();
-				return $company;
-				
-			// Частичная загрузка данных по компании (контактные данные, сотрудники)
-			case self::LoadMiddleInfo:
-				$company = Company::model()->with('Emails', 'Phones', 'Addresses.City.Country', 'UsersAll');//->together();
-				return $company;
 
-			case self::LoadContactInfo:
-				$company = Company::model()->with('Emails', 'Phones', 'Addresses.City.Country');//->together();
-				return $company;
 
-			case self::LoadOnlyCompany:
 
-			default:
-				$company = Company::model();
-				return $company;
-		}
-	}
 
-  /**
-   * @static
-   * @param $companyId
-   * @param int $loadingDepth
-   * @return Company
-   */
-	public static function GetById($companyId, $loadingDepth = self::LoadOnlyCompany)
-	{    
-		$company = self::GetLoadingDepth($loadingDepth);    
-		$criteria = new \CDbCriteria();
-		$criteria->condition = 't.CompanyId = :CompanyId';
-		$criteria->params = array(':CompanyId' => $companyId);
-		return $company->find($criteria);
-	}
+
+  /******  OLD METHODS  ***/
+  /** todo: REWRITE ALL BOTTOM */
+
 
 	/**
 	 * @static

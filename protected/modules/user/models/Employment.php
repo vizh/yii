@@ -6,10 +6,10 @@ namespace user\models;
  * @property int EmploymentId
  * @property int $UserId
  * @property int $CompanyId
- * @property string $StartWorking
- * @property string $FinishWorking
+ * @property string $Start
+ * @property string $Finish
  * @property string $Position
- * @property int $Primary
+ * @property bool $Primary
  *
  * @property \company\models\Company $Company
  */

@@ -91,6 +91,11 @@ class User extends \application\components\ActiveRecord
       'LinkServiceAccounts' => array(self::HAS_MANY, '\user\models\LinkServiceAccount', 'UserId'),
 
 
+      'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'UserId',
+        'with' => 'Company',
+        'order' => 'Employments.Primary DESC, Employments.FinishWorking DESC, Employments.StartWorking DESC'
+      ),
+
 
 
 
@@ -114,8 +119,7 @@ class User extends \application\components\ActiveRecord
       'EventProgramUserLink' =>array(self::HAS_MANY, 'EventProgramUserLink', 'UserId', 'with' => array('EventProgram', 'Role')),
       //User
       'Activities' => array(self::HAS_MANY, 'UserActivity', 'UserId'),
-      'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'UserId', 'with' => 'Company' ,
-        'order' => 'Employments.Primary DESC, Employments.FinishWorking DESC, Employments.StartWorking DESC'),
+
       'Settings' => array(self::HAS_ONE, '\user\models\Settings', 'UserId',),
       'Connects' => array(self::HAS_MANY, 'UserConnect', 'UserId'),
       //'InterestPersons' => array(self::HAS_MANY, 'UserInterestPerson', 'UserId', 'with' => array('InterestPerson')),
@@ -541,6 +545,15 @@ class User extends \application\components\ActiveRecord
     return null;
   }
 
+  /**
+   * Возвращает основное место работы (либо последнее место работы, если по каким то причинам основное не указано)
+   * @return Employment|null
+   */
+  public function EmploymentPrimary()
+  {
+    return !empty($this->Employments) ? $this->Employments[0] : null;
+  }
+
 
 
   /******  OLD METHODS  ***/
@@ -556,60 +569,12 @@ class User extends \application\components\ActiveRecord
     $db->createCommand()->update(self::$TableName, array('LastVisit' => time()), 'UserId = :UserId', array(':UserId' => $this->UserId));
   }
 
-  /**
-   * Проверяет, зарегистрирован ли пользователь на мероприятии с таким Id
-   *
-   * @param int $eventId
-   * @return boolean
-   */
-  public function IsRegisterOnEvent($eventId)
-  {
-    $eventUser = \event\models\Participant::model();
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.UserId = :UserId AND t.EventId = :EventId';
-    $criteria->params = array(':UserId' => $this->UserId, ':EventId' => $eventId);
-    $count = $eventUser->count($criteria);
-    return $count > 0;
-  }
-
-  /**
-   * Возвращает всех интересующих персон данного пользователя
-   *
-   * @param $withParam
-   * @return array[User]
-   */
-  public function GetInterestPersonsWith($withParam)
-  {
-    return $this->InterestPersons(array('with' => $withParam));
-  }
-
   public function Hide()
   {
     $this->Settings->Visible = 0;
     $this->Settings->save();
   }
 
-
-  private $primaryEmployment;
-  /**
-   * @return Employment|null
-   */
-  public function GetPrimaryEmployment()
-  {
-    if (empty($this->primaryEmployment))
-    {
-      $this->primaryEmployment = null;
-      foreach ($this->Employments as $employment)
-      {
-        if ($employment->Primary == 1)
-        {
-          $this->primaryEmployment = $employment;
-          break;
-        }
-      }
-    }
-    return $this->primaryEmployment;
-  }
 
 
   /**
@@ -671,14 +636,7 @@ class User extends \application\components\ActiveRecord
   }
 
 
-  /**
-   * Возвращает основное место работы (либо последнее место работы, если по каким то причинам основное не указано)
-   * @return Employment|null
-   */
-  public function EmploymentPrimary()
-  {
-    return !empty($this->Employments) ? $this->Employments[0] : null;
-  }
+
 
   public function GetFullName ()
   {
