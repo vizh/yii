@@ -1,7 +1,7 @@
 <?php
 namespace application\components\controllers;
 
-class PublicMainController extends BaseController
+class PublicMainController extends MainController
 {
   public $layout = '//layouts/public';
 
