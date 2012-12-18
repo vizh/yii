@@ -1,0 +1,19 @@
+#AuthName "Restricted Area"
+#AuthType Basic
+#AuthUserFile /home/projects/rocidbeta/www/.htpasswd
+#AuthGroupFile /dev/null
+#require valid-user
+
+RewriteEngine On
+
+RewriteRule ^files/photo/([A-z0-9])*\.jpg?$ /files/photo/404.php [L]
+
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+
+#RewriteRule ^.*$ dumper.php [NC,L]
+RewriteRule ^.*$ index.php [NC,L]
+
+#dnwr_host  "m.beta.rocid" "api.beta.rocid" "zapi.beta.rocid" "pay.beta.rocid" "partner.beta.rocid" "ruvents.beta.rocid"

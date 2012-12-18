@@ -18,6 +18,7 @@
     <script src="/javascripts/bootstrap.min.js"></script>
     <script src="/javascripts/jquery.iosslider.min.js"></script>
     <script src="/javascripts/jquery.placeholder.min.js"></script>
+    <script src="/javascripts/excanvas.compiled.js"></script>
     <script src="/javascripts/money-format.js"></script>
     <script src="/javascripts/application.js"></script>
     <!--[if lte IE 9]>
@@ -26,7 +27,6 @@
     <!--[if lte IE 8]>
       <link rel="stylesheet" href="/stylesheets/ie/lte-ie-8.css">
       <script src="/javascripts/ie/html5shiv.js"></script>
-      <script src="/javascripts/ie/excanvas.compiled.js"></script>
     <![endif]-->
     <!--[if lte IE 7]>
       <link rel="stylesheet" href="/stylesheets/ie/lte-ie-7.css">
@@ -36,41 +36,8 @@
     <noscript>JavaScript disabled</noscript>
     <header id="header" role="banner">
       <div class="navbar navbar-fixed-top navbar-inverse">
-        <div class="navbar-inner">
-          <div class="container">
-            <a class="brand" href="/">
-              <img src="/images/logo-small.png" width="115" height="10" alt="-RUNET-ID-">
-            </a>
-            <ul class="nav">
-              <li class="item"><a href="/events-list.html">Мероприятия</a></li>
-              <li class="item"><a href="http://therunet.com/">Новости</a></li>
-              <li class="item"><a href="/competences-list.html">Компетенции</a></li>
-              <li class="item"><a href="/jobs-list.html">Работа</a></li>
-              <li class="divider-vertical"></li>
-              <li class="login"><a href="#">Войти / Зарегистрироваться</a></li>
-              <li class="divider-vertical"></li>
-            </ul>
-            <ul class="nav pull-right">
-              <li class="lang dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  RU
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a href="#">EN</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <form id="search" action="/search-results.html" role="search">
-          <div class="container">
-            <input type="text" class="form-element_text" placeholder="Поиск по людям, компаниям, новостям">
-            <input type="image" class="form-element_image pull-right" src="/images/search-type-image-dark.png" width="20" height="19">
-          </div>
-        </form>
+        <?php $this->widget('application\widgets\Navbar');?>
+        <?php $this->widget('application\widgets\Searchbar');?>
       </div>
     </header>
 
