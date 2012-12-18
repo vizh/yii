@@ -14,7 +14,7 @@ class Pbkdf2
   private static $saltIndex = 2;
   private static $pbkdf2Index = 3;
 
-  function createHash($password)
+  public function createHash($password)
   {
     // format: algorithm:iterations:salt:hash
     $salt = base64_encode(mcrypt_create_iv($this->saltBytes, MCRYPT_DEV_URANDOM));

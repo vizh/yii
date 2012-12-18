@@ -77,7 +77,7 @@ class User extends \application\models\translation\ActiveRecord
 
   public function primaryKey()
   {
-    return 'UserId';
+    return 'Id';
   }
 
   public function relations()
