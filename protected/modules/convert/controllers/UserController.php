@@ -1,51 +1,42 @@
 <?php
-class UserController extends \application\components\controllers\PublicMainController
+class UserController extends convert\components\controllers\Controller
 {
-  private $limit = 10;
-  
   public function actionIndex()
   {
-    $step = \Yii::app()->request->getParam('step', 0);
-    $offset = $this->limit * $step;
-    
-    $connection = \Yii::app()->dbOld;
-    $command = $connection->createCommand($sql);
-    $command->Text = 'SELECT * FROM `User` ORDER BY UserId LIMIT '.$offset.','.$this->limit;
-    $users = $command->queryAll();
-    if (!empty($users))
+    $users = $this->queryAll('SELECT * FROM `User` ORDER BY UserId');
+    foreach ($users as $user)
     {
-      foreach ($users as $user)
+      $newUser = new \user\models\User();
+      $newUser->Id = $user['Id'];
+      $newUser->LastName = $user['LastName'];
+      $newUser->FirstName = $user['FirstName'];
+      $newUser->FatherName = $user['FatherName'];
+      switch ($user['Sex'])
       {
-        $newUser = new \user\models\User();
-        $newUser->Id = $user['Id'];
-        $newUser->LastName = $user['LastName'];
-        $newUser->FirstName = $user['FirstName'];
-        $newUser->FatherName = $user['FatherName'];
-        switch ($user['Sex'])
-        {
-          case 1:
-            $newUser->Gender = user\models\Gender::Male;
-            break;
-          case 2:
-            $newUser->Gender = user\models\Gender::Female;
-            break;
-          default:
-            $newUser->Gender = user\models\Gender::None;
-            break;
-        }
-        $newUser->Birthday =  $user['Birthday'];
-        $newUser->OldPassword = $user['Password'];
-        $newUser->Email = $user['Email'];
-        $newUser->CreationTime = date('Y-m-d H:i:s', $user['CreationTime']);
-        $newUser->UpdateTime = date('Y-m-d H:i:s', $user['UpdateTime']);
-        $newUser->LastVisit = date('Y-m-d H:i:s', $user['LastVisit']);
-        $newUser->RunetId = $user['RocId'];
-        $newUser->save();
+        case 1:
+          $newUser->Gender = user\models\Gender::Male;
+          break;
+        case 2:
+          $newUser->Gender = user\models\Gender::Female;
+          break;
+        default:
+          $newUser->Gender = user\models\Gender::None;
+          break;
       }
-    }
-    else
-    {
-      echo 'OK!';
+      if ($user['Birthday'] != '0000-00-00')
+      {
+        $newUser->Birthday = date('Y-m-d H:i:s', $user['Birthday']);
+      }
+      $newUser->OldPassword = $user['Password'];
+      $newUser->Email = $user['Email'];
+      $newUser->CreationTime = date('Y-m-d H:i:s', $user['CreationTime']);
+      $newUser->UpdateTime = date('Y-m-d H:i:s', $user['UpdateTime']);
+      if ($user['LastVisit'] != 0)
+      {
+        $newUser->LastVisit = date('Y-m-d H:i:s', $user['LastVisit']);
+      }
+      $newUser->RunetId = $user['RocId'];
+      $newUser->save();
     }
   }
 }

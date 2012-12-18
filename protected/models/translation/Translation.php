@@ -43,7 +43,7 @@ class Translation extends \CActiveRecord
   public function byResourceName($resourceName, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.ResourceName = :ResourceName';
+    $criteria->condition = '"t"."ResourceName" = :ResourceName';
     $criteria->params = array(':ResourceName' => $resourceName);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -57,7 +57,7 @@ class Translation extends \CActiveRecord
   public function byResourceId($resourceId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.ResourceId = :ResourceId';
+    $criteria->condition = '"t"."ResourceId" = :ResourceId';
     $criteria->params = array(':ResourceId' => $resourceId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;

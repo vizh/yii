@@ -131,16 +131,6 @@ class User extends \application\models\translation\ActiveRecord
     );
   }
 
-  public function rules()
-  {
-    return array(
-      array('FirstName, LastName, Password, Email', 'required'),
-      array('Email', 'unique'),
-      array('Email', 'email'),
-      array('FatherName', 'safe')
-    );
-  }
-
   /**
    * @return string[]
    */
