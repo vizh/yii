@@ -7,20 +7,30 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link rel="icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
-    <link rel="stylesheet" href="/stylesheets/application.css">
-    <script src="/javascripts/jquery-1.8.2.min.js"></script>
+
+
+
+
+
     <script src="/javascripts/jquery-ui-1.9.0.custom.min.js"></script>
     <script src="/javascripts/jquery.ui.autocomplete.html.js"></script>
+
+
     <script src="/javascripts/jquery.extensions.js"></script>
+
     <script src="/javascripts/underscore-min.js"></script>
     <script src="/javascripts/backbone-min.js"></script>
+
     <script src="/javascripts/bootstrap.min.js"></script>
+
     <script src="/javascripts/jquery.iosslider.min.js"></script>
     <script src="/javascripts/jquery.placeholder.min.js"></script>
     <script src="/javascripts/excanvas.compiled.js"></script>
     <script src="/javascripts/money-format.js"></script>
     <script src="/javascripts/application.js"></script>
+
+
+
     <!--[if lte IE 9]>
       <link rel="stylesheet" href="/stylesheets/ie/lte-ie-9.css">
     <![endif]-->

@@ -44,7 +44,7 @@ class AccessRule extends \CAccessRule
    * @param string $verb
    * @return int
    */
-  public function isUserAllowed($user, $module, $controller, $action, $ip, $verb)
+  public function isUserAllowed($user, $module, $controller, $action, $ip, $verb = '')
   {
     $allowed = parent::isUserAllowed($user, $controller, $action, $ip, $verb);
     if ($this->isModuleMatched($module))

@@ -13,4 +13,11 @@ class PublicMainController extends MainController
       array()
     );
   }
+
+  protected function initResources()
+  {
+    parent::initResources();
+
+    \Yii::app()->getClientScript()->registerPackage('runetid.application');
+  }
 }

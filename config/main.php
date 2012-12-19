@@ -14,7 +14,10 @@ return CMap::mergeArray(
   ),
 
   CMap::mergeArray(
-    require(dirname(__FILE__).'/partner.php'),
-    require(dirname(__FILE__).'/ruvents.php')
+    CMap::mergeArray(
+      require(dirname(__FILE__).'/partner.php'),
+      require(dirname(__FILE__).'/ruvents.php')
+    ),
+    require(dirname(__FILE__).'/scriptmap.php')
   )
 );
