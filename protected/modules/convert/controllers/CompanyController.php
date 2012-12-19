@@ -1,6 +1,9 @@
 <?php
 class CompanyController extends convert\components\controllers\Controller
 {
+  /** 
+   * Конвертирует Компании 
+   */
   public function actionIndex()
   {
     $companies = $this->queryAll('SELECT * FROM `Company` ORDER BY CompanyId');
@@ -27,5 +30,13 @@ class CompanyController extends convert\components\controllers\Controller
       }
       $newCompany->save();
     }
+  }
+  
+  /**
+   * Конвертирует места работы пользователей 
+   */
+  public function actionEmployment()
+  {
+    
   }
 }
