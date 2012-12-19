@@ -2,19 +2,18 @@
 namespace event\models;
 
 /**
- * @property int $DayId
+ * @property int $Id
  * @property int $EventId
  * @property string $Title
  * @property int $Order
  *
  * @property Event $Event
  */
-class Day extends \CActiveRecord
+class Part extends \CActiveRecord
 {
   /**
-   * @static
    * @param string $className
-   * @return Day
+   * @return Part
    */
   public static function model($className=__CLASS__)
   {
@@ -23,18 +22,18 @@ class Day extends \CActiveRecord
 
   public function tableName()
   {
-    return 'EventDay';
+    return 'EventPart';
   }
 
   public function primaryKey()
   {
-    return 'EventDayId';
+    return 'Id';
   }
 
   public function relations()
   {
     return array(
-      'Event' => array(self::BELONGS_TO, 'Event', 'EventId'),
+      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
     );
   }
 }

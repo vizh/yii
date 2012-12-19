@@ -13,26 +13,9 @@ namespace event\models;
  * @property bool $Visible
  *
  *
- * @property string $Type
- *
- * @property string $Url
- * @property string $UrlRegistration
- * @property string $UrlProgram
- * @property string $UrlProgramMask
- *
- *
- * @property int $FastRole
- * @property int $DefaultRoleId
- * @property string $FastProduct
- *
- * @property int $Order
- *
- *
- *
- *
- * @property Day[] $Days
+ * @property Part[] $Parts
  * @property Section[] $Sections
- * @property Role $DefaultRole
+ * @property LinkAddress $LinkAddress
  */
 class Event extends \application\models\translation\ActiveRecord
 {
@@ -58,21 +41,11 @@ class Event extends \application\models\translation\ActiveRecord
   public function relations()
   {
     return array(
-
-
-
-
-      'Days' => array(self::HAS_MANY, '\event\models\Day', 'EventId'),
-      //User
+      'Parts' => array(self::HAS_MANY, '\event\models\Part', 'EventId'),
       'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'EventId', 'with' => array('Role')),
-      'Users' => array(self::MANY_MANY, '\user\models\User', 'EventUser(EventId, UserId)', 'with' => 'Settings', 'condition' => 'Settings.Visible = \'1\''),
 
-
-      'Phones' => array(self::MANY_MANY, 'ContactPhone', 'Link_Event_ContactPhone(EventId, PhoneId)'),
-      'Addresses' => array(self::MANY_MANY, '\contact\models\Address', 'Link_Event_ContactAddress(EventId, AddressId)', 'with' => array('City')),
-
-      'Sections' => array(self::HAS_MANY, '\event\models\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
-      'DefaultRole' =>  array(self::BELONGS_TO, '\event\models\Role', 'DefaultRoleId'),
+      'LinkAddress' => array(self::HAS_ONE, '\event\models\LinkAddress', 'EventId'),
+      'Sections' => array(self::HAS_MANY, '\event\models\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC')
     );
   }
 
@@ -116,9 +89,84 @@ class Event extends \application\models\translation\ActiveRecord
   }
 
 
-  public function registerUser(\user\models\User $user, Role $role)
+  public function registerUser(\user\models\User $user, Role $role, $usePriority = false)
+  {
+    if (!empty($this->Parts))
+    {
+      throw new \application\components\Exception('Данное мероприятие имеет логическую разбивку. Используйте метод регистрации на конкретную часть мероприятия.');
+    }
+    /** @var $participant Participant */
+    $participant = Participant::model()
+      ->byEventId($this->EventId)
+      ->byUserId($user->UserId)
+      ->byPartId(null)->find();
+    if (empty($participant))
+    {
+      $participant = $this->registerUserUnsafe($user, $role);
+    }
+    else
+    {
+      $this->updateRole($participant, $role, $usePriority);
+    }
+    return $participant;
+  }
+
+  public function registerUserOnPart(Part $part, \user\models\User $user, Role $role, $usePriority = false)
+  {
+    if (empty($this->Parts))
+    {
+      throw new \application\components\Exception('Данное мероприятие не имеет логической разбивки. Используйте метод регистрации на все мероприятие.');
+    }
+    /** @var $participant Participant */
+    $participant = Participant::model()
+      ->byEventId($this->EventId)
+      ->byUserId($user->UserId)
+      ->byPartId($part->Id)->find();
+    if (empty($participant))
+    {
+      $participant = $this->registerUserUnsafe($user, $role, $part);
+    }
+    else
+    {
+      $this->updateRole($participant, $role, $usePriority);
+    }
+    return $participant;
+  }
+
+  private function registerUserUnsafe(\user\models\User $user, Role $role, Part $part = null)
+  {
+    $participant = new Participant();
+    $participant->EventId = $this->EventId;
+    $participant->PartId = ($part != null) ? $part->Id : null;
+    $participant->UserId = $user->UserId;
+    $participant->RoleId = $role->RoleId;
+    $participant->save();
+
+    return $participant;
+  }
+
+  private function updateRole(Participant $participant, Role $role, $usePriority = false)
   {
 
+  }
+
+  public function RegisterUserOnAllDays(\user\models\User $user, Role $role)
+    {
+      $result = array();
+      foreach ($this->Days as $day)
+      {
+        $result[$day->DayId] = $this->RegisterUserOnDay($day, $user, $role);
+      }
+      return $result;
+    }
+
+
+  /**
+   * @return \contact\models\Address|null
+   */
+  public function getContactAddress()
+  {
+    return !empty($this->LinkAddress) ? $this->LinkAddress->Address : null;
   }
 
 
@@ -127,63 +175,8 @@ class Event extends \application\models\translation\ActiveRecord
 
 
 
-  /**
-   * @param \user\models\User $user
-   * @param Role $role
-   * @throws \Exception
-   * @return Participant|null
-   */
-  public function RegisterUser1(\user\models\User $user, Role $role)
-  {
-    if (!empty($this->Days))
-    {
-      throw new \Exception('Данное мероприятие имеет логическую разбивку. Используйте метод добавления участия в конкретный день.');
-    }
-    $eventUser = Participant::model()->byEventId($this->EventId)->byUserId($user->UserId)->byDayNull()->find();
-    if (empty($eventUser))
-    {
-      $eventUser = $this->registerUserUnsafe($user, $role);
-      $this->notifyAboutRegistration($user);
-      return $eventUser;
-    }
-    return null;
-  }
 
-  public function RegisterUserOnAllDays(\user\models\User $user, Role $role)
-  {
-    $result = array();
-    foreach ($this->Days as $day)
-    {
-      $result[$day->DayId] = $this->RegisterUserOnDay($day, $user, $role);
-    }
-    return $result;
-  }
 
-  public function RegisterUserOnDay(Day $day, \user\models\User $user, Role $role)
-  {
-    $participant = Participant::model()->byEventId($this->EventId)->byUserId($user->UserId)->byDayId($day->DayId)->find();
-    if (empty($participant))
-    {
-      $participant = $this->registerUserUnsafe($user, $role, $day);
-      $this->notifyAboutRegistration($user);
-      return $participant;
-    }
-    return null;
-  }
-
-  private function registerUserUnsafe(\user\models\User $user, Role $role, Day $day = null)
-  {
-    $eventUser = new Participant();
-    $eventUser->EventId = $this->EventId;
-    $eventUser->DayId = ($day != null) ? $day->DayId : null;
-    $eventUser->UserId = $user->UserId;
-    $eventUser->RoleId = $role->RoleId;
-    $eventUser->Approve = 0;
-    $eventUser->CreationTime = $eventUser->UpdateTime = time();
-    $eventUser->save();
-
-    return $eventUser;
-  }
 
   private function notifyAboutRegistration(\user\models\User $user)
   {

@@ -1,30 +1,23 @@
 <?php
 namespace event\models;
-/*AutoLoader::Import('library.rocid.event.*');
-AutoLoader::Import('partner.source.*');*/
 
 /**
- * @property int $EventUserId
+ * @property int $Id
  * @property int $EventId
- * @property int $DayId
+ * @property int $PartId
  * @property int $UserId
  * @property int $RoleId
- * @property int $Approve
- * @property int $CreationTime
- * @property int $UpdateTime
+ * @property string $CreationTime
+ * @property string $UpdateTime
  *
  * @property \user\models\User $User
  * @property Role $Role
  * @property Event $Event
- * @property Day $Day
+ * @property Part $Part
  */
 class Participant extends \CActiveRecord
 {
-  public static $TableName = 'EventUser';
-  
-  public $CountForCriteria;
   /**
-   * @static
    * @param string $className
    * @return Participant
    */
@@ -35,21 +28,21 @@ class Participant extends \CActiveRecord
   
   public function tableName()
   {
-    return self::$TableName;
+    return 'EventParticipant';
   }
   
   public function primaryKey()
   {
-    return 'EventUserId';
+    return 'Id';
   }
   
   public function relations()
   {
     return array(
-      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId', 'order' => 'Event.DateStart DESC, Event.DateEnd DESC'),
+      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
       'Role' => array(self::BELONGS_TO, '\event\models\Role', 'RoleId'),
       'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-      'Day' => array(self::BELONGS_TO, '\event\models\Day', 'DayId')
+      'Part' => array(self::BELONGS_TO, '\event\models\Part', 'PartId')
     );
   }
 
@@ -67,6 +60,11 @@ class Participant extends \CActiveRecord
     return $this;
   }
 
+  /**
+   * @param int $eventId
+   * @param bool $useAnd
+   * @return Participant
+   */
   public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
@@ -76,67 +74,26 @@ class Participant extends \CActiveRecord
     return $this;
   }
 
-  public function byDayId($dayId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.DayId = :DayId';
-    $criteria->params = array(':DayId' => $dayId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  public function byDayNull($useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.DayId IS NULL';
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
   /**
-   * @static
-   * @param int $userId
-   * @param int $eventId
+   * @param int|null $partId
+   * @param bool $useAnd
    * @return Participant
    */
-  public static function GetByUserEventId($userId, $eventId)
+  public function byPartId($partId, $useAnd = true)
   {
-    $eventUser = Participant::model();
-
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.UserId = :UserId AND t.EventId = :EventId';
-    $criteria->params = array(':UserId' => $userId, ':EventId' => $eventId);
-    return $eventUser->find($criteria);
+    if ($partId === null)
+    {
+      $criteria->addCondition('t.PartId IS NULL');
+    }
+    else
+    {
+      $criteria->condition = 't.PartId = :PartId';
+      $criteria->params = array('PartId' => $partId);
+    }
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
-
-  /**
-   * Возвращает EventUser сгруппированные по RoleId
-   * @static
-   * @param $eventId
-   * @return Participant[]
-   */
-  public static function GetEventRoles($eventId)
-  {
-    $eventUser = Participant::model()->with('EventRole')->together();
-
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId';
-    $criteria->params = array(':EventId' => $eventId);
-    $criteria->group = 't.RoleId';
-    $criteria->order = 'EventRole.Priority DESC';
-    return $eventUser->findAll($criteria);
-  }
-
-  /**
-   * @static
-   * @return int
-   */
-  public static function AllCount()
-  {
-    return Participant::model()->count();
-  }
-  
-
 
   /**
    * @param $role Role

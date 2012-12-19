@@ -2,7 +2,7 @@
 namespace event\models;
 
 /**
- * @property int $EventProgramId
+ * @property int $Id
  * @property int $EventId
  * @property string $Type
  * @property string $Abbr
@@ -28,11 +28,10 @@ namespace event\models;
  */
 class Section extends \CActiveRecord
 {
-  public static $TableName = 'EventProgram';
-
-  const ProgramTypeFull = 'full';
-  const ProgramTypeShort = 'short';
-  
+  /**
+   * @param string $className
+   * @return Section
+   */
   public static function model($className=__CLASS__)
   {    
     return parent::model($className);
@@ -40,12 +39,12 @@ class Section extends \CActiveRecord
   
   public function tableName()
   {
-    return self::$TableName;
+    return 'EventSection';
   }
   
   public function primaryKey()
   {
-    return 'EventProgramId';
+    return 'Id';
   }
   
   public function relations()
@@ -53,7 +52,6 @@ class Section extends \CActiveRecord
     return array(
       'Event' => array(self::BELONGS_TO, 'Event', 'EventId'),
       'UserLinks' => array(self::HAS_MANY, 'SectionUserLink', 'EventProgramId', 'order' => 'UserLinks.Order ASC'),
-      'UserHereList' => array(self::HAS_MANY, 'SectionHereService', 'EventProgramId'),
     );
   }
   
