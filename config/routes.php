@@ -6,7 +6,7 @@ return array(
       'showScriptName' => false,
       'urlSuffix'=>'/',
       'useStrictParsing' => true,
-      'rules' => array(
+      'rules' => array( 
         /** Настройка путей админки */
         'http://admin.' .  RUNETID_HOST . '/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/admin/<controller>/<action>',
 
@@ -21,7 +21,10 @@ return array(
         /** Ruvents Module Rules */
         'http://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
 
-
+        
+        /** INDEX PAGE */
+        'http://'. RUNETID_HOST.'/' => 'main/default/index',
+        
         /** ALL MODULES */
         'http://'. RUNETID_HOST.'/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
       ),

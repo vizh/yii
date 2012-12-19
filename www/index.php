@@ -7,8 +7,6 @@ define('YII_TRACE_LEVEL',3);
 $yii=dirname(__FILE__).'/../protected/Yii.php';
 
 date_default_timezone_set('Europe/Moscow');
-setlocale(LC_TIME, 'ru.UTF-8');
-
 
 $config=dirname(__FILE__).'/../config/main.php';
 
