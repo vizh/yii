@@ -6,8 +6,10 @@ namespace user\models;
  * @property int EmploymentId
  * @property int $UserId
  * @property int $CompanyId
- * @property string $Start
- * @property string $Finish
+ * @property int $StartYear
+ * @property int $StartMonth
+ * @property int $FinishYear
+ * @property int $FinishMonth
  * @property string $Position
  * @property bool $Primary
  *
