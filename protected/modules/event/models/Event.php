@@ -27,20 +27,20 @@ class Event extends \application\models\translation\ActiveRecord
    * @return Event
    */
   public static function model($className=__CLASS__)
-  {    
+  {
     return parent::model($className);
   }
-  
+
   public function tableName()
   {
     return 'Event';
   }
-  
+
   public function primaryKey()
   {
     return 'Id';
   }
-  
+
   public function relations()
   {
     return array(
@@ -161,14 +161,14 @@ class Event extends \application\models\translation\ActiveRecord
   }
 
   public function registerUserOnAllDays(\user\models\User $user, Role $role)
+  {
+    $result = array();
+    foreach ($this->Days as $day)
     {
-      $result = array();
-      foreach ($this->Days as $day)
-      {
-        $result[$day->DayId] = $this->registerUserOnPart($day, $user, $role);
-      }
-      return $result;
+      $result[$day->DayId] = $this->registerUserOnPart($day, $user, $role);
     }
+    return $result;
+  }
 
 
   /**
@@ -180,17 +180,16 @@ class Event extends \application\models\translation\ActiveRecord
   }
 
 
+  /**
+   * @return Role[]
+   */
   public function getUsingRoles()
   {
     $criteria = new \CDbCriteria();
     $criteria->group = 't.RoleId';
-    $criteria->with  = array(
-      'Role'
-    );
+    $criteria->with = array('Role');
 
-
-
-
+    /** @var $participants Participant[] */
     $participants = Participant::model()->byEventId($this->Id)->findAll($criteria);
     $result = array();
     foreach ($participants as $participant)
@@ -200,122 +199,28 @@ class Event extends \application\models\translation\ActiveRecord
     return $result;
   }
 
-
-  /******  OLD METHODS  ***/
-  /** todo: REWRITE ALL BOTTOM */
-
-  
-  /**
-   * Возвращает количество участников мероприятия
-   * @return int
-   */
-  public function GetUsersCount()
+  public function getParticipantsCount()
   {
-    $model = \user\models\User::model()->with('Settings', 'EventUsers');
     $criteria = new \CDbCriteria();
-    $criteria->condition = 'Settings.Visible = :Visible AND EventUsers.EventId = :EventId';
-    $criteria->params = array(':Visible' => '1', ':EventId' => $this->EventId);
+    $criteria->addCondition('User.Visible = :Visible');
+    $criteria->params['Visible'] = true;
+    $criteria->with = array('User');
+    $criteria->group = 't.UserId';
 
-    return intval($model->count($criteria));
+    return Participant::model()->byEventId($this->Id)->count($criteria);
   }
 
+  /** @var Logo */
+  private $logo = null;
   /**
-   * @param int $count
-   * @param int|null $usersCount
-   * @return \user\models\User[]
+   * @return Logo
    */
-  public function GetRandomUsers($count, $usersCount = null)
+  public function getLogo()
   {
-    if (empty($usersCount))
+    if ($this->logo === null)
     {
-      $usersCount = $this->GetUsersCount();
+      $this->logo = new Logo($this->IdName);
     }
-    
-    $model = \user\models\User::model()->with('Settings', 'EventUsers')->together();
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 'Settings.Visible = :Visible AND EventUsers.EventId = :EventId';
-    $criteria->params = array(':Visible' => '1', ':EventId' => $this->EventId);
-    $criteria->order = 'EventUsers.CreationTime';
-    $criteria->limit = $count;
-    $criteria->offset = rand(0, $usersCount - $count - 1);
-
-    return $model->findAll($criteria);
+    return $this->logo;
   }
-
-  public function GetEventDir($onServerDisc = false)
-  {
-    $result = \Yii::app()->params['EventDir'];
-    if ($onServerDisc)
-    {
-      $result = $_SERVER['DOCUMENT_ROOT'] . $result;
-    }
-
-    return $result;
-  }
-
-  /**
-   * Возвращает путь к мини изображению мероприятия, для списка мероприятий в профиле пользователя
-   * @param bool $onServerDisc
-   * @return string
-   */
-  public function GetMiniLogo($onServerDisc = false)
-  {
-    $name = 'minilogo/event_' . $this->GetIdName() . '.png';
-    if ($onServerDisc)
-    {
-      return $this->GetEventDir($onServerDisc) . $name;
-    }
-    elseif (file_exists($this->GetEventDir(true) . $name))
-    {
-      return $this->GetEventDir($onServerDisc) . $name;
-    }
-    else
-    {
-      return $this->GetLogo($onServerDisc);
-      //return $this->GetEventDir($onServerDisc) . 'none.png';
-    }
-//    $logo = (file_exists(Registry::GetVariable('PublicPath') .
-//        Registry::GetVariable('EventDir') . 'event_' . $idname . '.png')) ?
-//        'event_' . $idname . '.png' : 'none.png';
-//    if ($logo != null)
-//    {
-//      $logo = Registry::GetVariable('EventLogoDir') . $logo;
-//    }
-//
-//    return $logo;
-  }
-
-  /**
-   * @param bool $onServerDisc
-   * @return string
-   */
-  public function GetLogo($onServerDisc = false)
-  {
-    $name = 'logo/event_' . $this->GetIdName() . '.png';
-    if ($onServerDisc)
-    {
-      return $this->GetEventDir($onServerDisc) . $name;
-    }
-    elseif (file_exists($this->GetEventDir(true) . $name))
-    {
-      return $this->GetEventDir($onServerDisc) . $name;
-    }
-    else
-    {
-      return $this->GetEventDir($onServerDisc) . 'none.png';
-    }
-
-//    $idname = $this->GetIdName();
-//    $logo = (file_exists(Registry::GetVariable('PublicPath') .
-//        Registry::GetVariable('EventLogoDir') . 'event_' . $idname . '.png')) ?
-//        'event_' . $idname . '.png' : 'none.png';
-//    if ($logo != null)
-//    {
-//      $logo = Registry::GetVariable('EventLogoDir') . $logo;
-//    }
-//
-//    return $logo;
-  }
-
-
 }
