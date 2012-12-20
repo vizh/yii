@@ -8,8 +8,12 @@ namespace event\models;
  * @property string $Info
  * @property string $FullInfo
  * @property string $Place
- * @property string $Start
- * @property string $End
+ * @property int $StartYear
+ * @property int $StartMonth
+ * @property int $StartDay
+ * @property int $EndYear
+ * @property int $EndMonth
+ * @property int $EndDay
  * @property bool $Visible
  *
  *
@@ -147,15 +151,22 @@ class Event extends \application\models\translation\ActiveRecord
 
   private function updateRole(Participant $participant, Role $role, $usePriority = false)
   {
-
+    if (!$usePriority || $participant->Role->Priority <= $role->Priority)
+    {
+      $participant->RoleId = $role->RoleId;
+      $participant->UpdateTime =  date('Y-m-d H:i:s');
+      $participant->save();
+      return true;
+    }
+    return false;
   }
 
-  public function RegisterUserOnAllDays(\user\models\User $user, Role $role)
+  public function registerUserOnAllDays(\user\models\User $user, Role $role)
     {
       $result = array();
       foreach ($this->Days as $day)
       {
-        $result[$day->DayId] = $this->RegisterUserOnDay($day, $user, $role);
+        $result[$day->DayId] = $this->registerUserOnPart($day, $user, $role);
       }
       return $result;
     }
@@ -174,19 +185,6 @@ class Event extends \application\models\translation\ActiveRecord
   /** todo: REWRITE ALL BOTTOM */
 
 
-
-
-
-
-  private function notifyAboutRegistration(\user\models\User $user)
-  {
-    /** @var $partnerAccount \partner\models\Account */
-    $partnerAccount = \partner\models\Account::model()->byEventId($this->EventId)->find();
-    if (!empty($partnerAccount))
-    {
-      $partnerAccount->GetNotifier()->NotifyNewParticipant($user);
-    }
-  }
 
   /**
    *
@@ -518,32 +516,5 @@ class Event extends \application\models\translation\ActiveRecord
   {
     $this->Order = $value;
   }
-  
-  /**
-  * @desc Адрес мероприятия
-  * @return \contact\models\Address
-  */
-  public function GetAddress()
-  {
 
-    $addresses = $this->Addresses;
-    if (isset($addresses[0]))
-    {
-      return $addresses[0];
-    }
-    else
-    {
-      return null;
-    }
-  }
-
-  /**
-  * @desc Телефоны организаторов мероприятия
-  * 
-  * @return \contact\models\Phone[]
-  */
-  public function GetPhones()
-  {
-    return $this->Phones;
-  }
 }
