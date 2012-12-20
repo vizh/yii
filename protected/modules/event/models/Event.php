@@ -19,6 +19,9 @@ namespace event\models;
  * @property Part[] $Parts
  * @property Section[] $Sections
  * @property LinkAddress $LinkAddress
+ *
+ * @property Widget[] $Widgets
+ * @property Attribute $Attributes
  */
 class Event extends \application\models\translation\ActiveRecord
 {
@@ -48,7 +51,11 @@ class Event extends \application\models\translation\ActiveRecord
       'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'EventId', 'with' => array('Role')),
 
       'LinkAddress' => array(self::HAS_ONE, '\event\models\LinkAddress', 'EventId'),
-      'Sections' => array(self::HAS_MANY, '\event\models\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC')
+      'Sections' => array(self::HAS_MANY, '\event\models\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
+
+
+      'Widgets' => array(self::HAS_MANY, '\event\models\Widget', 'EventId'),
+      'Attributes' => array(self::HAS_MANY, '\event\models\Attribute', 'EventId'),
     );
   }
 
