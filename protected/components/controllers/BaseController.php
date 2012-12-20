@@ -56,7 +56,6 @@ abstract class BaseController extends \CController
     $resourcesMap[] = $assetsPath . $this->getId() . '.' . $resourcesType;
     $resourcesMap[] = $assetsPath . $this->getId() . DIRECTORY_SEPARATOR . $this->action->getId() . '.' . $resourcesType;
 
-    
     foreach ($resourcesMap as $path)
     {
       if (!file_exists($path))

@@ -7,6 +7,8 @@ class Controller extends \application\components\controllers\BaseController
   protected $offset;
   private   $data = array();
   protected $step;
+  protected $stepAll;
+
 
   protected function beforeAction($action) 
   {
@@ -17,23 +19,53 @@ class Controller extends \application\components\controllers\BaseController
   
   protected function afterAction($action)
 	{
-    if (!empty($this->data))
+    if (!\Yii::app()->request->getIsAjaxRequest())
     {
-      echo 'Идет процесс конвертации...';
-      echo '<meta http-equiv="refresh" content="1; url='.$this->createUrl('/'.$this->module->getName().'/'.$this->getId().'/'.$action->getId()).'?step='.($this->step+1).'">';
+      if (!empty($this->data))
+      {
+        echo 'Идет процесс конвертации...';
+        echo '<meta http-equiv="refresh" content="1; url='.$this->getNextStepUrl().'">';
+      }
+      else
+      {
+        echo 'Конвертация выполнена';
+      }
     }
     else
     {
-      echo 'Конвертация выполнена';
+      $result = new \stdClass();
+      if (!empty($this->data))
+      {
+        $result->success = false;
+        $result->stepAll = $this->stepAll;
+        $result->step    = $this->step;
+        $result->nextUrl = $this->getNextStepUrl();
+      }
+      else
+      {
+        $result->success = true;
+      }
+      echo json_encode($result);
     }
     return parent::afterAction($action);
 	}
   
+  private function getNextStepUrl()
+  {
+    return $this->createUrl('/'.$this->module->getName().'/'.$this->getId().'/'.$this->action->getId()).'?step='.($this->step+1);
+  }
+
+
   protected function queryAll($sql)
   {
     $connection = \Yii::app()->dbOld;
     $command = $connection->createCommand();
-    $command->Text = $sql.' LIMIT '.$this->offset.','.$this->limit;
+    
+    $command->Text = str_replace('*', 'Count(*) as `Count`', $sql);
+    $countQuery = $command->queryRow();
+    $this->stepAll = ceil($countQuery['Count'] / $this->limit);
+    
+    $command->Text = $sql.' LIMIT '.$this->offset.','.$this->limit;  
     $this->data = $command->queryAll();
     return $this->data;
   }

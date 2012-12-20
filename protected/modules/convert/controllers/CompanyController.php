@@ -31,12 +31,4 @@ class CompanyController extends convert\components\controllers\Controller
       $newCompany->save();
     }
   }
-  
-  /**
-   * Конвертирует места работы пользователей 
-   */
-  public function actionEmployment()
-  {
-    
-  }
 }
