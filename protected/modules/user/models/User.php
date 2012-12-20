@@ -571,69 +571,6 @@ class User extends \application\models\translation\ActiveRecord
     $this->Settings->save();
   }
 
-
-
-  /**
-   * Возвращает ассоциативный массив с полями day, month, year
-   *
-   * @return array
-   */
-  public function GetParsedBirthday()
-  {
-    $birthday = $this->Birthday;
-    $result = array();
-
-    $result['year'] = intval(substr($birthday, 0, 4));
-    $result['month'] = intval(substr($birthday, 5, 2));
-    $result['day'] = intval(substr($birthday, 8, 2));
-
-    return $result;
-  }
-
-  /**
-   * Устанавливает корректную дату рождения из массива day, month, year
-   * @param array $date
-   * @return void
-   */
-  public function SetParsedBirthday($date)
-  {
-    if (empty($date['year']) || intval($date['year']) == 0)
-    {
-      $birthday = '0000';
-    }
-    else
-    {
-      $birthday = $date['year'];
-    }
-    $birthday .= '-';
-    if (empty($date['month']) || intval($date['month']) == 0)
-    {
-      $birthday .= '00';
-    }
-    else
-    {
-      $birthday .= $date['month'];
-    }
-    $birthday .= '-';
-    if (empty($date['day']) || intval($date['day']) == 0)
-    {
-      $birthday .= '00';
-    }
-    else
-    {
-      $birthday .= $date['day'];
-    }
-    $this->Birthday = $birthday;
-  }
-
-  public function SetBirthday($value)
-  {
-    $this->Birthday = $value;
-  }
-
-
-
-
   public function GetFullName ()
   {
     $fullName = $this->LastName .' '. $this->FirstName;
