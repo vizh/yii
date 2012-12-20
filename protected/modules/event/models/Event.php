@@ -7,7 +7,6 @@ namespace event\models;
  * @property string $Title
  * @property string $Info
  * @property string $FullInfo
- * @property string $Place
  * @property int $StartYear
  * @property int $StartMonth
  * @property int $StartDay
@@ -181,43 +180,30 @@ class Event extends \application\models\translation\ActiveRecord
   }
 
 
+  public function getUsingRoles()
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->group = 't.RoleId';
+    $criteria->with  = array(
+      'Role'
+    );
+
+
+
+
+    $participants = Participant::model()->byEventId($this->Id)->findAll($criteria);
+    $result = array();
+    foreach ($participants as $participant)
+    {
+      $result[] = $participant->Role;
+    }
+    return $result;
+  }
+
+
   /******  OLD METHODS  ***/
   /** todo: REWRITE ALL BOTTOM */
 
-
-
-  /**
-   *
-   * @return array
-   */
-  public function Statistics()
-  {
-    $result = \Yii::app()->getDb()->createCommand()->select('COUNT(e.UserId) CountByRole, e.RoleId')->from('Event e')
-      ->where('e.EventId = :EventId', array(':EventId' => $this->EventId))->group('e.RoleId')->queryAll();
-
-    print_r($result);
-    return array();
-  }
-
-  public function GetUsingRoles ()
-  {
-      $criteria = new \CDbCriteria();
-      $criteria->condition = 't.EventId = :EventId';
-      $criteria->params[':EventId'] = $this->EventId;
-      $criteria->group = 't.RoleId';
-      $criteria->with  = array(
-          'Role'
-      );
-      
-      $result = array();
-      
-      $participants = Participant::model()->findAll($criteria);
-      foreach ($participants as $participant)
-      {
-          $result[] = $participant->Role;
-      }
-      return $result;
-  }
   
   /**
    * Возвращает количество участников мероприятия
@@ -331,190 +317,5 @@ class Event extends \application\models\translation\ActiveRecord
 //    return $logo;
   }
 
-
-  /**
-  * 
-  * @param \CDBCriteria|array $params
-  * @return array[User]
-  */  
-  public function GetUsers($params = array())
-  {
-    if (empty($params))
-    {
-      return $this->Users;
-    }
-    else
-    {
-      return $this->Users($params);
-    }    
-  }
-
-  /**
-  * Геттеры и сеттеры для полей
-  */
-  public function GetEventId()
-  {
-    return $this->EventId;
-  }  
-  
-  //IdName
-  public function GetIdName()
-  {
-    return $this->IdName;
-  }
-  
-  public function SetIdName($value)
-  {
-    $this->IdName = $value;
-  }
-  
-  //ShortName
-  public function GetShortName()
-  {
-    return $this->ShortName;
-  }
-  
-  public function SetShortName($value)
-  {
-    $this->ShortName = $value;
-  }
-  
-  //Name
-  public function GetName()
-  {
-    return stripslashes($this->Name);
-  }
-  
-  public function SetName($value)
-  {
-    $this->Name = $value;
-  }
-  
-  //Type
-  public function GetType()
-  {    
-    return $this->Type;
-  }
-  
-  public function SetType($value)
-  {
-    $this->Type = $value;
-  }
-  
-  //Info
-  public function GetInfo()
-  {
-    return stripslashes($this->Info);
-  }
-  
-  public function SetInfo($value)
-  {
-    $this->Info = $value;
-  }
-  
-  //Info
-  public function GetFullInfo()
-  {
-    return stripslashes($this->FullInfo);
-  }
-  
-  public function SetFullInfo($value)
-  {
-    $this->FullInfo = $value;
-  }
-  
-   //Place
-  public function GetPlace()
-  {
-    return stripslashes($this->Place);
-  }
-  
-  public function SetPlace($value)
-  {
-    $this->Place = $value;
-  }
-  
-   //Comment
-  public function GetComment()
-  {
-    return $this->Comment;
-  }
-  
-  public function SetComment($value)
-  {
-    $this->Comment = $value;
-  }
-
-  //Url
-  public function GetUrl()
-  {
-    return $this->Url;
-  }
-  
-  public function SetUrl($value)
-  {
-    $this->Url = $value;
-  }
-
-  private function parseDate($date)
-  {
-    $result['year'] = intval(substr($date, 0, 4));
-    $result['month'] = intval(substr($date, 5, 2));
-    $result['day'] = intval(substr($date, 8, 2));
-
-    return $result;
-  }
-
-  public function GetParsedDateStart()
-  {
-    return $this->parseDate($this->DateStart);
-  }
-  
-  public function GetDateStart()
-  {
-    return $this->DateStart;
-  }
-  
-  public function SetDateStart($value)
-  {
-    $this->DateStart = $value;
-  }
-
-  public function GetParsedDateEnd()
-  {
-    return $this->parseDate($this->DateEnd);
-  }
-  
-  public function GetDateEnd()
-  {
-    return $this->DateEnd;
-  }
-  
-  public function SetDateEnd($value)
-  {
-    $this->DateEnd = $value;
-  }
-  
-  //Visible
-  public function GetVisible()
-  {
-    return $this->Visible;
-  }
-  
-  public function SetVisible($value)
-  {
-    $this->Visible = $value;
-  }
-  
-   //Order
-  public function GetOrder()
-  {
-    return $this->Order;
-  }
-  
-  public function SetOrder($value)
-  {
-    $this->Order = $value;
-  }
 
 }
