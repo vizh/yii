@@ -97,6 +97,15 @@ class Event extends \application\models\translation\ActiveRecord
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
+  
+  public function byVisible($visible = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Visible" = :Visible';
+    $criteria->params = array('Visible' => $visible);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 
 
   public function registerUser(\user\models\User $user, Role $role, $usePriority = false)
