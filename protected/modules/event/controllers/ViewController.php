@@ -16,9 +16,9 @@ class ViewController extends \application\components\controllers\PublicMainContr
 
     foreach ($event->Widgets as $widget)
     {
-      $widget->getWidget()->process();
+      echo $widget->getWidget()->process();
     }
 
-    $this->render('index');
+    $this->render('index', array('event' => $event));
   }
 }

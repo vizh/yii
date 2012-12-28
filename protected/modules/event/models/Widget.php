@@ -51,7 +51,7 @@ class Widget extends \CActiveRecord
       {
         throw new \application\components\Exception('Не существует виджета мероприятия с именем:' . $this->Name);
       }
-
+      
       $this->widget = \Yii::app()->getController()->createWidget($this->Name, array('event' => $this->Event));
     }
 

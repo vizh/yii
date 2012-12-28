@@ -54,7 +54,7 @@ class Event extends \application\models\translation\ActiveRecord
       'Sections' => array(self::HAS_MANY, '\event\models\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
 
 
-      'Widgets' => array(self::HAS_MANY, '\event\models\Widget', 'EventId'),
+      'Widgets' => array(self::HAS_MANY, '\event\models\Widget', 'EventId', 'order' => '"Widgets"."Order" ASC'),
       'Attributes' => array(self::HAS_MANY, '\event\models\Attribute', 'EventId'),
     );
   }
@@ -75,7 +75,7 @@ class Event extends \application\models\translation\ActiveRecord
   public function byIdName($idName, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.IdName = :IdName';
+    $criteria->condition = '"t"."IdName" = :IdName';
     $criteria->params = array('IdName' => $idName);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;

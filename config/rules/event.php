@@ -3,8 +3,6 @@ return array(
   array(
     'allow',
     'users' => array('*'),
-    'controllers' => array('test'),
-    'actions' => array('index', 'view'),
     'module' => 'event'
   ),
 );
