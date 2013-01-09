@@ -4,6 +4,8 @@ namespace application\components\controllers;
 class PublicMainController extends MainController
 {
   public $layout = '//layouts/public';
+  protected $bodyId = 'index-page';
+
 
   public function filters()
   {

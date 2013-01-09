@@ -3,7 +3,7 @@
   <div class="container">
     <div class="title">
       <span class="backing runet">Runet</span>
-      <span class="backing text">Мероприятия</span>
+      <span class="backing text"><?php echo \Yii::t('app', 'Мероприятия');?></span>
     </div>
   </div>
 </h2>
@@ -25,13 +25,13 @@
       <option value="">Конкурс премия</option>
       <option value="">Другие мероприятия</option>
     </select>
-    <input type="text" placeholder="Поиск" class="span3">
+    <input type="text" placeholder="<?php echo \Yii::t('app', 'Поиск');?>" class="span3">
     <input type="image" class="form-element_image" src="/images/search-type-image-light.png" width="20" height="19">
     <div class="clearfix pull-right switch-layout">
       <a href="javascript:void(null);" class="pull-left current">
         <img src="/images/blank.gif" alt="" class="i-event-layout i-event_list">
       </a>
-      <a href="/events-calendar.html" class="pull-left">
+      <a href="<?php echo $this->createUrl('/event/list/calendar', array('Month' => $month, 'Year' => $year));?>" class="pull-left">
         <img src="/images/blank.gif" alt="" class="i-event-layout i-event_calendar">
       </a>
     </div>
@@ -59,7 +59,7 @@
     <div class="row p-relative">
       <button class="btn btn-info event-button_add">
         <div class="plus">+</div>
-        <div class="text">Добавить<br>мероприятие</div>
+        <div class="text"><?php echo \Yii::t('app', 'Добавить');?><br><?php echo \Yii::t('app', 'мероприятие');?></div>
       </button>
       
       <div class="span8 offset2">
@@ -90,7 +90,7 @@
               </div>
               <header>
                 <h2 class="title">
-                  <a href="/event-page.html"><?php echo $event->Title;?></a>
+                  <a href="<?php echo $this->createUrl('/event/view/index', array('idName' => $event->IdName));?>"><?php echo $event->Title;?></a>
                 </h2>
                 <p class="location">Москва, Крокус Экспо</p>
               </header>
@@ -100,8 +100,8 @@
               <footer>
                 <nav>
                   <a href="<?php echo $this->createUrl('/event/view/index', array('idName' => $event->IdName));?>"><i class="icon-circle-arrow-right"></i><?php echo \Yii::t('app', 'Посетить мероприятие');?></a>
-                  <a href="#"><i class="icon-comment"></i>Комментировать</a>
-                  <a href="#"><i class="icon-share"></i>Поделиться</a>
+                  <a href="#"><i class="icon-comment"></i><?php echo \Yii::t('app', 'Комментировать');?></a>
+                  <a href="#"><i class="icon-share"></i><?php echo \Yii::t('app', 'Поделиться');?></a>
                 </nav>
               </footer>
             </div>
@@ -113,6 +113,6 @@
 </div>
 
 <ul class="pager">
-  <li class="disabled"><a href="#">&larr;&nbsp;Новые</a></li>
-  <li><a href="#">Старые&nbsp;&rarr;</a></li>
+  <li class="disabled"><a href="#">&larr;&nbsp;<?php echo \Yii::t('app', 'Новые');?></a></li>
+  <li><a href="#"><?php echo \Yii::t('app', 'Старые');?>&nbsp;&rarr;</a></li>
 </ul>

@@ -2,6 +2,7 @@
 class ListController extends \application\components\controllers\PublicMainController
 {
   private $events = array();
+  private $filter;
   private $month;
   private $year;
   
@@ -15,11 +16,17 @@ class ListController extends \application\components\controllers\PublicMainContr
     {
       throw new CHttpException(404);
     }
+    
+    $this->filter = new \event\models\forms\EventListFilterForm();
+    
     $criteria = new \CDbCriteria();
     $criteria->condition = '("t"."StartYear" = :Year AND "t"."StartMonth" = :Month) OR ("t"."EndYear" = :Year AND "t"."EndMonth" = :Month)';
     $criteria->params = array(
       'Month' => $this->month,
       'Year' => $this->year,
+    );
+    $criteria->with = array(
+      'LinkAddress'
     );
     $this->events = \event\models\Event::model()->byVisible()->findAll($criteria);
     return parent::beforeAction($action);
@@ -32,7 +39,8 @@ class ListController extends \application\components\controllers\PublicMainContr
       'month' => $this->month,
       'year' => $this->year,
       'nextMonthUrl' => $this->getNextMonthUrl(),
-      'prevMonthUrl' => $this->getPrevMonthUrl()
+      'prevMonthUrl' => $this->getPrevMonthUrl(),
+      'filter' => $this->filter
     );
     parent::render($view, $data, $return);
   }
@@ -85,6 +93,7 @@ class ListController extends \application\components\controllers\PublicMainContr
   
   public function actionCalendar()
   {
+    $this->bodyId = 'events-calendar';
     $this->render('calendar');
   }
 }

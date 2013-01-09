@@ -18,7 +18,7 @@
       <link rel="stylesheet" href="/stylesheets/ie/lte-ie-7.css">
     <![endif]-->
   </head>
-  <body id="index-page">
+  <body id="<?php echo $this->bodyId;?>">
     <noscript>JavaScript disabled</noscript>
     <header id="header" role="banner">
       <div class="navbar navbar-fixed-top navbar-inverse">
@@ -26,7 +26,7 @@
         <?php $this->widget('application\widgets\Searchbar');?>
       </div>
     </header>
-
+   
     <section id="section" role="main">
       <?php echo $content;?>
     </section>

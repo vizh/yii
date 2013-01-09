@@ -47,4 +47,9 @@ class Address extends \CActiveRecord
       'City' => array(self::BELONGS_TO, '\geo\models\City', 'CityId'),
     );
   }
+  
+  public function __toString()
+  {
+    
+  }
 }
