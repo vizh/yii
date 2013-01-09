@@ -4,9 +4,11 @@ class ListController extends \application\components\controllers\PublicMainContr
   private $events = array();
   private $month;
   private $year;
-  public function beforeAction($action) {
-    $this->month = (int) \Yii::app()->request->getParam('Month');
-    $this->year  = (int) \Yii::app()->request->getParam('Year');
+  
+  public function beforeAction($action) 
+  {
+    $this->month = (int) \Yii::app()->request->getParam('Month', date('n'));
+    $this->year  = (int) \Yii::app()->request->getParam('Year', date('Y'));
     if (empty($this->month) || empty($this->year)
       || ($this->month > 12 || $this->month < 1)
       ||!preg_match('/^\d{4}$/', $this->year))
@@ -23,7 +25,19 @@ class ListController extends \application\components\controllers\PublicMainContr
     return parent::beforeAction($action);
   }
   
-  /**
+  public function render($view, $data = array(), $return = false) 
+  {
+    $data += array(
+      'events' => $this->events,
+      'month' => $this->month,
+      'year' => $this->year,
+      'nextMonthUrl' => $this->getNextMonthUrl(),
+      'prevMonthUrl' => $this->getPrevMonthUrl()
+    );
+    parent::render($view, $data, $return);
+  }
+
+    /**
    * Возврщает ссылку на предыдущий месяц
    * @return type 
    */
@@ -64,17 +78,13 @@ class ListController extends \application\components\controllers\PublicMainContr
   
   public function actionIndex()
   {
-    $this->render('index', array(
-      'events' => $this->events,
-      'month' => $this->month,
-      'year' => $this->year,
-      'nextMonthUrl' => $this->getNextMonthUrl(),
-      'prevMonthUrl' => $this->getPrevMonthUrl()
-    ));
+    $this->render('index');
   }
+  
+ 
   
   public function actionCalendar()
   {
-    
+    $this->render('calendar');
   }
 }
