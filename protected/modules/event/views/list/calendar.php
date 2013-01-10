@@ -10,25 +10,11 @@
 </h2>
 
 <div class="container">
-  <?php echo \CHtml::form('', 'GET', array('class' => 'form-inline form-filter span12'));?>
-    <?php echo \CHtml::activeDropDownList($filter, 'City', $filter->getCities());?>
-    <select name="" id="" class="span3 form-element_select">
-      <option value="">Все города</option>
-      <option value="">Москва</option>
-      <option value="">Санкт-Петербург</option>
-    </select>
-    <select name="" id="" class="span3 form-element_select">
-      <option value="">Все мероприятия</option>
-      <option value="">Конференция</option>
-      <option value="">Семинар тренинг</option>
-      <option value="">Вебинар</option>
-      <option value="">Круглый стол</option>
-      <option value="">Партнерская конференция</option>
-      <option value="">Конкурс премия</option>
-      <option value="">Другие мероприятия</option>
-    </select>
-    <input type="text" placeholder="<?php echo \Yii::t('app', 'Поиск');?>" class="span3">
-    <input type="image" class="form-element_image" src="/images/search-type-image-light.png" width="20" height="19">
+  <?php echo \CHtml::form('', 'POST', array('class' => 'form-inline form-filter span12'));?>
+    <?php echo \CHtml::activeDropDownList($filter, 'Type', $filter->getTypeList($month, $year),array('class' => 'span3 form-element_select'));?>
+    <?php echo \CHtml::activeDropDownList($filter, 'City', $filter->getCityList($month, $year),array('class' => 'span3 form-element_select'));?>
+    <?php echo \CHtml::activeTextField($filter, 'Query', array('placeholder' => \Yii::t('app', 'Поиск'), 'class' => 'span3'));?>
+    <?php echo \CHtml::imageButton('/images/search-type-image-light.png', array('width' => '20', 'height' => '19', 'class' => 'form-element_image'));?>
     <div class="clearfix pull-right switch-layout">
       <a href="<?php echo $this->createUrl('/event/list/index', array('Month' => $month, 'Year' => $year));?>" class="pull-left">
         <img src="/images/blank.gif" alt="" class="i-event-layout i-event_list">
@@ -82,7 +68,7 @@
         <div class="event" data-startdate="<?php echo $event->StartYear;?>/<?php echo $event->StartMonth;?>/<?php echo $event->StartDay;?>" data-duration="<?php echo ($dateDuration+1);?>">
           <div class="details">
             <header>
-              <p class="muted"><small>Вебинар 1</small></p>
+              <p class="muted"><small><?php echo $event->Type->Title;?></small></p>
               <h5 class="title">
                 <a href="<?php echo $this->createUrl('/event/view/index', array('idName' => $event->IdName));?>" class="event-color_1"><?php echo $event->Title;?></a>
               </h5>

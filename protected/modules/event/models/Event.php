@@ -19,6 +19,7 @@ namespace event\models;
  * @property Part[] $Parts
  * @property Section[] $Sections
  * @property LinkAddress $LinkAddress
+ * @property Type $Type
  *
  * @property Widget[] $Widgets
  * @property Attribute $Attributes
@@ -49,7 +50,9 @@ class Event extends \application\models\translation\ActiveRecord
     return array(
       'Parts' => array(self::HAS_MANY, '\event\models\Part', 'EventId'),
       'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'EventId', 'with' => array('Role')),
-
+      
+      'Type' => array(self::BELONGS_TO, '\event\models\Type', 'TypeId'),  
+        
       'LinkAddress' => array(self::HAS_ONE, '\event\models\LinkAddress', 'EventId'),
       'Sections' => array(self::HAS_MANY, '\event\models\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
 
@@ -81,7 +84,16 @@ class Event extends \application\models\translation\ActiveRecord
     return $this;
   }
 
-  public function bySearch($searchTerm, $locale = null, $useAnd)
+  public function byType($typeId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."TypeId" = :TypeId';
+    $criteria->params = array('TypeId' => $typeId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  public function bySearch($searchTerm, $locale = null, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
 
@@ -92,7 +104,7 @@ class Event extends \application\models\translation\ActiveRecord
       $this->getDbCriteria()->mergeWith($criteria, $useAnd);
       return $this;
     }
-    $criteria->addCondition('t.Title LIKE :SearchTerm');
+    $criteria->addCondition('"t"."Title" LIKE :SearchTerm');
     $criteria->params['SearchTerm'] = '%' . \Utils::PrepareStringForLike($searchTerm) . '%';
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -103,6 +115,18 @@ class Event extends \application\models\translation\ActiveRecord
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."Visible" = :Visible';
     $criteria->params = array('Visible' => $visible);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  public function byDate($month, $year, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '("t"."StartYear" = :Year AND "t"."StartMonth" = :Month) OR ("t"."EndYear" = :Year AND "t"."EndMonth" = :Month)';
+    $criteria->params = array(
+      'Month' => $month,
+      'Year'  => $year
+    );
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

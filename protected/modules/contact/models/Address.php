@@ -50,6 +50,6 @@ class Address extends \CActiveRecord
   
   public function __toString()
   {
-    
+    return "";
   }
 }

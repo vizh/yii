@@ -17,18 +17,39 @@ class ListController extends \application\components\controllers\PublicMainContr
       throw new CHttpException(404);
     }
     
-    $this->filter = new \event\models\forms\EventListFilterForm();
-    
+    $eventModel = \event\models\Event::model()->byVisible()->byDate($this->month, $this->year);
     $criteria = new \CDbCriteria();
-    $criteria->condition = '("t"."StartYear" = :Year AND "t"."StartMonth" = :Month) OR ("t"."EndYear" = :Year AND "t"."EndMonth" = :Month)';
-    $criteria->params = array(
-      'Month' => $this->month,
-      'Year' => $this->year,
-    );
-    $criteria->with = array(
-      'LinkAddress'
-    );
-    $this->events = \event\models\Event::model()->byVisible()->findAll($criteria);
+    $criteria->with = array('LinkAddress', 'LinkAddress.Address', 'Type');
+    
+    $this->filter = new \event\models\forms\EventListFilterForm();
+    $request = \Yii::app()->getRequest();
+    $this->filter->attributes = $request->getParam(get_class($this->filter));
+    if ($request->getIsPostRequest() && $this->filter->validate())
+    {
+      foreach ($this->filter->attributes as $attr => $value)
+      {
+        if (!empty($value))
+        {
+          switch($attr)
+          {
+            case 'City':
+              $criteria->addCondition('"Address"."CityId" = :CityId');
+              $criteria->params['CityId'] = $value;
+              break;
+
+            case 'Type':
+              $eventModel = $eventModel->byType($value);
+              break;
+
+            case 'Query':
+              $eventModel = $eventModel->bySearch($value);
+              break;
+          }
+        }
+      }
+    }
+    
+    $this->events = $eventModel->findAll($criteria);
     return parent::beforeAction($action);
   }
   
