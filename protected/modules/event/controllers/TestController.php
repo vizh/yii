@@ -4,6 +4,10 @@ class TestController extends \application\components\controllers\MainController
 {
   public function actionIndex()
   {
+    $eventModel = \event\models\Event::model();
+    $eventModel->byVisible();
+    $eventModel->findAll();
+
 //    $password = 'test1234';
 //
 //    $pbkdf2 = new \application\components\utility\Pbkdf2();
@@ -32,15 +36,15 @@ class TestController extends \application\components\controllers\MainController
 
     //\user\models\User::model()->attachEventHandler('onRegister', array($this, 'TestEventRegister'));
 
-    \user\models\User::model()->onRegister = array($this, 'TestEventRegister');
-
-
-    $user = new \user\models\User();
-    $user->LastName = 'Korotov';
-    $user->FirstName = 'Andrey';
-    $user->Password = '12345';
-    $user->Email = 'korotov@test.ru';
-    $user->Register();
+//    \user\models\User::model()->onRegister = array($this, 'TestEventRegister');
+//
+//
+//    $user = new \user\models\User();
+//    $user->LastName = 'Korotov';
+//    $user->FirstName = 'Andrey';
+//    $user->Password = '12345';
+//    $user->Email = 'korotov@test.ru';
+//    $user->Register();
   }
 
   public function actionView()
