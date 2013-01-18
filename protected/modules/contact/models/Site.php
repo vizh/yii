@@ -31,4 +31,9 @@ class Site extends \CActiveRecord
   {
     return array();
   }
+  
+  public function __toString() 
+  {
+    return ($this->Secure == 1 ? 'https://' : 'http://').$this->Url;
+  }
 }

@@ -50,6 +50,23 @@ class Address extends \CActiveRecord
   
   public function __toString()
   {
-    return "";
+    $address = \Yii::t('app', 'г.').' '.\Yii::t('app', $this->City->Name).', '.$this->Street.', '.\Yii::t('app', 'д.').' '.$this->House;
+    if (!empty($this->Building))
+    {
+      $address .= ', '.\Yii::t('app', 'стр.').' '.$this->Building;
+    }
+    if (!empty($this->Wing))
+    {
+      $address .= ', '.\Yii::t('app', 'крыло').' '.$this->Wing;
+    }
+    if (!empty($this->Apartment))
+    {
+      $address .= ', '.\Yii::t('app', 'кв. ').' '.$this->Apartment;
+    }
+    if (!empty($this->Place))
+    {
+      $address .= ', '.$this->Place;
+    }
+    return $address;
   }
 }

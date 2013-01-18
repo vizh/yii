@@ -8,8 +8,8 @@ namespace user\models;
  * @property int $CompanyId
  * @property int $StartYear
  * @property int $StartMonth
- * @property int $FinishYear
- * @property int $FinishMonth
+ * @property int $EndYear
+ * @property int $EndMonth
  * @property string $Position
  * @property bool $Primary
  *
@@ -38,8 +38,7 @@ class Employment extends \CActiveRecord
   {
     return array(
       'Company' => array(self::BELONGS_TO, '\company\models\Company', 'CompanyId'),
-      'User' => array(self::BELONGS_TO, 'User', 'UserId',
-        'order' => 'User.LastName'),
+      'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
     );
   }
 

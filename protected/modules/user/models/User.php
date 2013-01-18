@@ -93,7 +93,7 @@ class User extends \application\models\translation\ActiveRecord
 
       'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'UserId',
         'with' => 'Company',
-        'order' => 'Employments.Primary DESC, Employments.FinishWorking DESC, Employments.StartWorking DESC'
+        'order' => '"Employments"."Primary" DESC, "Employments"."FinishYear" DESC, "Employments"."StartYear" DESC'
       ),
 
 
@@ -545,7 +545,7 @@ class User extends \application\models\translation\ActiveRecord
    * Возвращает основное место работы (либо последнее место работы, если по каким то причинам основное не указано)
    * @return Employment|null
    */
-  public function EmploymentPrimary()
+  public function getEmploymentPrimary()
   {
     return !empty($this->Employments) ? $this->Employments[0] : null;
   }

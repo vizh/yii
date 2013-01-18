@@ -34,4 +34,14 @@ class Phone extends \CActiveRecord
   {
     return array();
   }
+  
+  public function __toString() 
+  {
+    $phone = '+'.$this->CountryCode.' ('.$this->CityCode.') '.$this->Phone;
+    if (!empty($this->Addon))
+    {
+      $phone .= ', '.\Yii::t('app', 'доб.').' '.$this->Addon;
+    }
+    return $phone;
+  }
 }
