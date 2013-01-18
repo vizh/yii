@@ -5,18 +5,13 @@ class ViewController extends \application\components\controllers\PublicMainContr
   {
     $criteria = new \CDbCriteria();
     $criteria->with = array(
-      'LinkEmails', 
       'LinkEmails.Email',
-      'LinkSite', 
-      'LinkSite.Site',
-      'LinkPhones', 
+      'LinkSite.Site', 
       'LinkPhones.Phone',
-      'LinkAddress',
-      'LinkAddress.Address',
       'LinkAddress.Address.City',
       'EmploymentsAll' => array(
         'together' => false, 
-        'order' => '"User"."StartYear" DESC, "User"."StartMonth" DESC',
+        'order' => '"User"."LastName" ASC',
         'with' => array('User')  
       )
     );
@@ -26,21 +21,30 @@ class ViewController extends \application\components\controllers\PublicMainContr
       throw new CHttpException(404);
     }
    
-    
-    $employments = array();
-    $employmentsEx = array();
+    $employmentsTmp = array();
     foreach ($company->EmploymentsAll as $employment)
     {
-      if (!isset($employments[$employment->UserId]) && !isset($employmentsEx[$employment->UserId]))
+      if (!isset($employmentsTmp[$employment->UserId])
+        || ($employmentsTmp[$employment->UserId]->StartYear <= $employment->StartYear 
+          && $employmentsTmp[$employment->UserId]->StartMonth <= $employment->StartMonth))
       {
-        if (empty($employment->EndYear) || $employment->EndYear >= date('Y'))
-        {
-          $employments[$employment->UserId] = $employment; 
-        }
-        else 
-        {
-          $employmentsEx[$employment->UserId] = $employment;
-        }
+        echo $employment->Id.'<br/>';
+        $employmentsTmp[$employment->UserId] = $employment;
+      }
+    }
+    
+  
+    $employments = array();
+    $employmentsEx = array();
+    foreach ($employmentsTmp as $employment)
+    {
+      if (empty($employment->EndYear) || $employment->EndYear >= date('Y'))
+      {
+        $employments[$employment->UserId] = $employment; 
+      }
+      else 
+      {
+        $employmentsEx[$employment->UserId] = $employment;
       }
     }
     
