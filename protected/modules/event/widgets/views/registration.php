@@ -12,7 +12,7 @@
     <tbody>
       <tr data-price="100">
         <td>Посещение выставки</td>
-        <td class="t-right"><span class="number">100</b> Р</td>
+        <td class="t-right"><span class="number">100</span> Р</td>
         <td class="t-center">
           <select class="input-mini form-element_select">
             <option value="0" selected>0</option>

@@ -1,23 +1,32 @@
+<?php
+/**
+ * @var $this \event\widgets\Header
+ */
+$event = $this->event;
+?>
+
 <div class="b-event-promo">
   <div class="container">
     <div class="row">
       <div class="side left span4">
-        <img src="/images/content/event-logo-1.png" width="95" height="53" alt="" class="logo">
+        <img src="<?=$event->getLogo()->getNormal();?>" alt="" class="logo">
       </div>
       
       <div class="details span4 offset4">
-        <h2 class="title">Russian<br>Internet Week<br>Business Event</h2>
+        <h2 class="title"><?=$event->Title;?></h2>
         <div class="type">
-          <img src="/images/blank.gif" alt="" class="i-event_small i-event_conference">Конференция
+          <img src="/images/blank.gif" alt="" class="i-event_small <?=$event->Type->CssClass;?>"><?=$event->Type->Title;?>
         </div>
         <div class="duration">
           <span class="datetime">
             <span class="date">
-              <span class="day">17-19</span> <span class="month">октября</span> <span class="year">2012</span>
+              <?$this->render('header-date');?>
             </span>
           </span>
         </div>
-        <div class="location">Москва, Экспоцентр, Павильон №3</div>
+        <?if ($event->getContactAddress() != null && !empty($event->getContactAddress()->Place)):?>
+        <div class="location"><?=$event->getContactAddress()->Place;?></div>
+        <?endif;?>
       </div>
       
       <div class="side right span4">

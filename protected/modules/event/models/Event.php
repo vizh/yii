@@ -113,8 +113,7 @@ class Event extends \application\models\translation\ActiveRecord
   public function byVisible($visible = true, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."Visible" = :Visible';
-    $criteria->params = array('Visible' => $visible);
+    $criteria->condition = ($visible ? '' : 'NOT ') . '"t"."Visible"';
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -210,7 +209,6 @@ class Event extends \application\models\translation\ActiveRecord
     return $result;
   }
 
-
   /**
    * @return \contact\models\Address|null
    */
@@ -218,7 +216,6 @@ class Event extends \application\models\translation\ActiveRecord
   {
     return !empty($this->LinkAddress) ? $this->LinkAddress->Address : null;
   }
-
 
   /**
    * @return Role[]

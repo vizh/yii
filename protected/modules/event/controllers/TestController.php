@@ -4,9 +4,11 @@ class TestController extends \application\components\controllers\MainController
 {
   public function actionIndex()
   {
-    $eventModel = \event\models\Event::model();
-    $eventModel->byVisible();
-    $eventModel->findAll();
+    //$eventModel = \event\models\Event::model();
+    //$eventModel->byVisible();
+    //$res = $eventModel->findAll();
+
+    //var_dump($res);
 
 //    $password = 'test1234';
 //

@@ -9,7 +9,7 @@ namespace event\models;
  *
  * @property Event $Event
  */
-class Widget extends \CActiveRecord
+class Widget extends \CActiveRecord implements \event\components\IWidget
 {
   /**
    * @param string $className
@@ -57,4 +57,40 @@ class Widget extends \CActiveRecord
 
     return $this->widget;
   }
+
+  /**
+   * @return string
+   */
+  public function getTitle()
+  {
+    return $this->getWidget()->getTitle();
+  }
+
+  /**
+   * @return string
+   */
+  public function getName()
+  {
+    return $this->getWidget()->getName();
+  }
+
+  /**
+   * @return string
+   */
+  public function getPosition()
+  {
+    return $this->getWidget()->getPosition();
+  }
+
+  public function process()
+  {
+    $this->getWidget()->process();
+  }
+
+  public function run()
+  {
+    $this->getWidget()->run();
+  }
+
+
 }

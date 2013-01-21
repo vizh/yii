@@ -5,6 +5,7 @@ namespace event\models;
  * @property int $Id
  * @property string $Code
  * @property string $Title
+ * @property string $CssClass
  * @property int $Priority
  *
  */

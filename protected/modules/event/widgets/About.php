@@ -2,15 +2,25 @@
 namespace event\widgets;
 class About extends \event\components\Widget
 {
-  public $position = \event\components\WidgetPosition::Content;
-  
-  public function widgetName()
-  {
-    return \Yii::t('app', 'Описание, программа, участники мероприятия');
-  }
-  
+
   public function run()
   {
     $this->render('about', array());
+  }
+
+  /**
+   * @return string
+   */
+  public function getTitle()
+  {
+    return \Yii::t('app', 'Полное описание');
+  }
+
+  /**
+   * @return string
+   */
+  public function getPosition()
+  {
+    return \event\components\WidgetPosition::Tabs;
   }
 }
