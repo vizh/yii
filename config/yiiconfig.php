@@ -48,7 +48,7 @@ return array(
       'charset' => 'utf8',
       'enableProfiling' => true,
       'enableParamLogging'=>true,
-      'schemaCachingDuration'=>0,
+      'schemaCachingDuration'=>600,
     ),
     'dbOld'=>array(
       'class'=>'CDbConnection',

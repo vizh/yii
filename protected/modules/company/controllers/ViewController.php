@@ -48,6 +48,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
       }
     }
     
+    $this->bodyId = 'company-account';
     $this->render('index', array(
       'company' => $company, 
       'employments' => $employments,

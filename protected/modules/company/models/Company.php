@@ -57,7 +57,7 @@ class Company extends \CActiveRecord
       'LinkPhones' => array(self::HAS_MANY, '\company\models\LinkPhone', 'CompanyId'),  
         
       //Сотрудники
-      'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'order' => 'User.LastName DESC', 'condition' => 'Users.FinishWorking > CURDATE()', 'with' => array('User')),
+      'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'order' => '"User"."LastName" DESC', 'condition' => '"Employments"."EndYear" IS NULL', 'with' => array('User')),
       'EmploymentsAll' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'with' => array('User')),
     );
   }
