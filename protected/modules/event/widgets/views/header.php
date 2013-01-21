@@ -52,7 +52,7 @@ $event = $this->event;
     </div>
     
     <span class="all">
-      <a href="/events-list.html">Все мероприятия</a>
+      <a href="<?=Yii::app()->createUrl('/event/list/index');?>">Все мероприятия</a>
     </span>
   </div>
 </div>
