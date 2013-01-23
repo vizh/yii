@@ -9,17 +9,13 @@
 </h2>
 
 <div class="container">
-  <form action="#" class="form-inline form-filter span12">
-    <select name="" id="" class="span3 form-element_select">
-      <option value="">Все города</option>
-      <option value="">Москва</option>
-      <option value="">Санкт-Петербург</option>
-    </select>
+  <?=\CHtml::beginForm('','POST',array('class' => 'form-inline form-filter span12'));?>
+    <?=\CHtml::activeDropDownList($filter, 'City', $filter->getCityList());?>
     <div class="pull-right">
-      <input type="text" placeholder="Поиск" class="span8">
-      <input type="image" class="form-element_image" src="/images/search-type-image-light.png" width="20" height="19">
+      <?=\CHtml::activeTextField($filter, 'Query', array('class' => 'span8', 'placeholder' => \Yii::t('app', 'Поиск')));?>
+      <?=\CHtml::imageButton('/images/search-type-image-light.png', array('width' => 20, 'height' => 19, 'class' => 'form-element_image'));?>
     </div>
-  </form>
+  <?=\CHtml::endForm();?>
 </div>
 
 <div class="companies-list">

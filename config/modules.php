@@ -21,6 +21,7 @@ return array(
     'pay',
     'mytest',
     'main',
+    'news',
       
     'convert',
     'rbac',
