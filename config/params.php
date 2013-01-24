@@ -11,7 +11,9 @@ return array(
 
     'UserPerPage' => 20, // Количество результатов пользователей на страницу
     'UserPhotoDir' => '/files/photo/', //
-
+      
+    'NewsPhotoDir' => '/files/news/',
+      
     'MaxImageSize' => 4194304, //Максимально допустимый размер загружаемых изображений
   )
 );

@@ -29,7 +29,21 @@ class News extends \CActiveRecord
     }
     return parent::beforeSave();
   }
-
+  
+  private $photo = null;
+  /**
+   * 
+   * @return \news\models\Photo $photo
+   */
+  public function getPhoto()
+  {
+    if ($this->photo == null)
+    {
+      $this->photo = new \news\models\Photo($this->Id);
+    }
+    return $this->photo;
+  }
+  
   public function byUrl($url, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
