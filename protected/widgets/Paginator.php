@@ -4,12 +4,21 @@ namespace application\widgets;
 class Paginator extends \CWidget
 {
   const Pages = 13;
-
+  
   public $url;
   public $count;
-  public $page;
   public $perPage;
   public $params = array();
+  protected $page = 0;
+  
+  public function init()
+  {
+    $this->page = (int) \Yii::app()->request->getParam('page', 1);
+    if ($this->page <= 0)
+    {
+      $this->page = 1;
+    }
+  }
 
   public function run()
   {
@@ -18,18 +27,21 @@ class Paginator extends \CWidget
     {
       return;
     }
-    $pages = $this->getPages();
-    $this->render('paginator', array('pages' => $pages));
+    $this->render('paginator', array('pages' => $this->getPages()));
   }
 
   private function getPages()
   {
-    $pages = '';
+    $pages = array();
     if ($this->count <= Paginator::Pages)
     {
       for ($i = 1; $i <= $this->count; $i++)
       {
-        $pages .= $this->render('page', array('value' => $i, 'url' => $this->getUrl($i), 'current' => ($i == $this->page)), true);
+        $page = new \stdClass();
+        $page->value = $i;
+        $page->url = $this->getUrl($i);
+        $page->current = ($i == $this->page);
+        $pages[] = $page;
       }
     }
     else
@@ -62,10 +74,13 @@ class Paginator extends \CWidget
         {
           $value = $i;
         }
-        $pages .= $this->render('page', array('value' => $value, 'url' => $this->getUrl($i), 'current' => ($i == $this->page)), true);
+        $page = new \stdClass();
+        $page->value = $value;
+        $page->url = $this->getUrl($i);
+        $page->current = ($i == $this->page);
+        $pages[] = $page;
       }
     }
-
     return $pages;
   }
 

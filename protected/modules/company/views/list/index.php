@@ -63,3 +63,8 @@
     </div>
   </div>
 </div>
+<?php
+  $this->widget('application\widgets\Paginator', array(
+    'url' => '/company/list/index', 'count' => $allCompanyCount, 'perPage' => \Yii::app()->params['CompanyPerPage']
+  ));
+?>

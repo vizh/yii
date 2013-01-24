@@ -8,7 +8,7 @@ return array(
 
     'CompanyPerPage' => 20, // Количество результатов компаний на страницу
     'CompanyLogoDir' => '/files/logo/', //
-
+      
     'UserPerPage' => 20, // Количество результатов пользователей на страницу
     'UserPhotoDir' => '/files/photo/', //
       
