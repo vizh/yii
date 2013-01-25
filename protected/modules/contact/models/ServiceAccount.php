@@ -68,15 +68,18 @@ class ServiceAccount extends \CActiveRecord
 
   /** @var string */
   private $accountUrl = null;
-
-
   public function getAccountUrl()
   {
     if ($this->accountUrl === null && $this->Type->UrlMask !== null)
     {
-      $this->accountUrl = sprintf($this->Type->UrlMask, array($this->Account));
+      $this->accountUrl = sprintf($this->Type->UrlMask, $this->Account);
     }
     return $this->accountUrl;
   }
 
+  
+  public function __toString()
+  {
+    return '<a href="'.$this->getAccountUrl().'">'.$this->Account.'</a>';
+  }
 }

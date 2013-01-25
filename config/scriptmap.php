@@ -29,13 +29,16 @@ return array(
           'js' => array('javascripts/jquery.iosslider.min.js'),
           'depends' => array('runetid.jquery')
         ),
-
         'runetid.application' => array(
           'baseUrl' => '/',
           'js' => array('javascripts/application.js'),
           'css' => array('stylesheets/application.css'),
           'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.backbone', 'runetid.bootstrap', 'runetid.jquery.ioslider')
         ),
+        'runetid.charts' => array(
+          'baseUrl' => '/',
+          'js' => array('javascripts/charts.js')
+        )
       ),
 
       'scriptMap' => array(),

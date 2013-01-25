@@ -93,7 +93,7 @@ class User extends \application\models\translation\ActiveRecord
 
       'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'UserId',
         'with' => 'Company',
-        'order' => '"Employments"."Primary" DESC, "Employments"."FinishYear" DESC, "Employments"."StartYear" DESC'
+        'order' => '"Employments"."Primary" DESC, "Employments"."EndYear" DESC, "Employments"."StartYear" DESC'
       ),
 
 
@@ -147,7 +147,7 @@ class User extends \application\models\translation\ActiveRecord
   public function byRunetId($runetId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.RunetId = :RunetId';
+    $criteria->condition = '"t"."RunetId" = :RunetId';
     $criteria->params = array(':RunetId' => $runetId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -222,7 +222,14 @@ class User extends \application\models\translation\ActiveRecord
     return $this;
   }
 
-
+  /**
+   * 
+   * @return \user\models\User 
+   */
+  public function byVisible()
+  {
+    return $this;
+  }
 
   /**
    * @param string $searchTerm
@@ -571,13 +578,33 @@ class User extends \application\models\translation\ActiveRecord
     $this->Settings->save();
   }
 
-  public function GetFullName ()
+  public function getIsShowFatherName()
   {
-    $fullName = $this->LastName .' '. $this->FirstName;
-    if ($this->Settings->HideFatherName == 0) {
+    return !empty($this->FatherName) && ($this->Settings->HideFatherName == 0);
+  }
+  
+  public function getFullName ()
+  {
+    $fullName = $this->getName();
+    if ($this->getIsShowFatherName()) {
       $fullName .= ' '. $this->FatherName;
     }
     return $fullName;
+  }
+  
+  public function getName()
+  {
+    return $this->LastName .' '. $this->FirstName;
+  }
+  
+  public function getAge()
+  {
+    if ($this->Birthday == null)
+    {
+      return 0;
+    }
+    $birthdayDate = new \DateTime($this->Birthday);
+    return $birthdayDate->diff(new \DateTime())->y;
   }
 
   /**
