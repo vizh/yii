@@ -1,14 +1,34 @@
+<?php
+/**
+ * @var $this \event\widgets\Contacts
+ * @var $phones string[]
+ */
+$address = $this->event->getContactAddress();
+$emailFlag = false;
+$site = $this->event->getContactSite();
+?>
+
 <div class="contacts">
   <h5 class="title">Контактная информация</h5>
-  <p class="name">Russian Internet Week 2001 Business Event</p>
-  <p class="address">123100, РФ, г. Москва, Пресненская наб., 12, Башня &laquo;Федерация&raquo;, блок Б, 46-й этаж, РАЭК</p>
+  <p class="name"><?=$this->event->Title;?></p>
+  <?if ($address !== null):?>
+  <p class="address"><?=$address;?></p>
+  <?endif;?>
+  <?if (!empty($phones)):?>
   <p class="telephone">
-    <strong>+7 495 950-56-51</strong>
+    <strong><?=implode('</strong><br><strong>', $phones);?></strong>
   </p>
+  <?endif;?>
   <p class="email">
-    <a href="mailto:info@russianinternetweek.ru">info@russianinternetweek.ru</a>
+    <?foreach ($this->event->LinkEmails as $linkEmail):?>
+    <a href="mailto:<?=$linkEmail->Email->Email;?>"><?=$linkEmail->Email->Email;?></a>
+    <?=$emailFlag ? '<br>':''?>
+    <?$emailFlag = true;?>
+    <?endforeach;?>
   </p>
   <p class="url">
-    <a href="http://2011.russianinternetweek.ru">2011.russianinternetweek.ru</a>
+    <?if ($site != null):?>
+    <a target="_blank" href="<?=$site;?>"><?=$site->Url;?></a>
+    <?endif;?>
   </p>
 </div>

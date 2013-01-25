@@ -4,16 +4,16 @@ namespace event\models;
 /**
  * @property int $Id
  * @property int $EventId
- * @property int $AddressId
+ * @property int $EmailId
  *
  * @property Event $Event
- * @property \contact\models\Address $Address
+ * @property \contact\models\Email $Email
  */
-class LinkAddress extends \CActiveRecord
+class LinkEmail extends \CActiveRecord
 {
   /**
    * @param string $className
-   * @return LinkAddress
+   * @return LinkEmail
    */
   public static function model($className=__CLASS__)
   {
@@ -22,7 +22,7 @@ class LinkAddress extends \CActiveRecord
 
   public function tableName()
   {
-    return 'EventLinkAddress';
+    return 'EventLinkEmail';
   }
 
   public function primaryKey()
@@ -34,7 +34,7 @@ class LinkAddress extends \CActiveRecord
   {
     return array(
       'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-      'Address' => array(self::BELONGS_TO, '\contact\models\Address', 'AddressId'),
+      'Email' => array(self::BELONGS_TO, '\contact\models\Email', 'EmailId'),
     );
   }
 }

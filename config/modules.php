@@ -25,5 +25,6 @@ return array(
       
     'convert',
     'rbac',
+    'catalog'
   ),
 );

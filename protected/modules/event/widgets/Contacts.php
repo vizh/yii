@@ -5,7 +5,12 @@ class Contacts extends \event\components\Widget
 {
   public function run()
   {
-    $this->render('contacts', array());
+    $phones = array();
+    foreach ($this->event->LinkPhones as $linkPhone)
+    {
+      $phones[] = $linkPhone->Phone->__toString();
+    }
+    $this->render('contacts', array('phones' => $phones));
   }
 
   /**

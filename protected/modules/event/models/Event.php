@@ -19,6 +19,9 @@ namespace event\models;
  * @property Part[] $Parts
  * @property Section[] $Sections
  * @property LinkAddress $LinkAddress
+ * @property LinkPhone[] $LinkPhones
+ * @property LinkEmail[] $LinkEmails
+ * @property LinkSite $LinkSite
  * @property Type $Type
  *
  * @property Widget[] $Widgets
@@ -54,6 +57,9 @@ class Event extends \application\models\translation\ActiveRecord
       'Type' => array(self::BELONGS_TO, '\event\models\Type', 'TypeId'),  
         
       'LinkAddress' => array(self::HAS_ONE, '\event\models\LinkAddress', 'EventId'),
+      'LinkPhones' => array(self::HAS_MANY, '\event\models\LinkPhone', 'EventId'),
+      'LinkEmails' => array(self::HAS_MANY, '\event\models\LinkEmail', 'EventId'),
+      'LinkSite' => array(self::HAS_ONE, '\event\models\LinkSite', 'EventId'),
       'Sections' => array(self::HAS_MANY, '\event\models\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
 
 
@@ -215,6 +221,14 @@ class Event extends \application\models\translation\ActiveRecord
   public function getContactAddress()
   {
     return !empty($this->LinkAddress) ? $this->LinkAddress->Address : null;
+  }
+
+  /**
+   * @return \contact\models\Site|null
+   */
+  public function getContactSite()
+  {
+    return !empty($this->LinkSite) ? $this->LinkSite->Site : null;
   }
 
   /**
