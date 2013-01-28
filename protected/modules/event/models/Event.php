@@ -25,7 +25,7 @@ namespace event\models;
  * @property Type $Type
  *
  * @property Widget[] $Widgets
- * @property Attribute $Attributes
+ * @property Attribute[] $Attributes
  */
 class Event extends \application\models\translation\ActiveRecord
 {
@@ -273,5 +273,43 @@ class Event extends \application\models\translation\ActiveRecord
       $this->logo = new Logo($this->IdName);
     }
     return $this->logo;
+  }
+
+  /**
+   * @param string $name
+   * @return Attribute|Attribute[]|null
+   */
+  public function getAttribute($name)
+  {
+    return isset($this->getAttributesByName()[$name]) ? $this->getAttributesByName()[$name] : null;
+  }
+
+  private $attributesByName = null;
+  /**
+   * @return array
+   */
+  private function getAttributesByName()
+  {
+    if ($this->attributesByName === null)
+    {
+      $this->attributesByName = array();
+      foreach ($this->Attributes as $attribute)
+      {
+        if (!isset($this->attributesByName[$attribute->Name]))
+        {
+          $this->attributesByName[$attribute->Name] = $attribute;
+        }
+        else
+        {
+          if (!is_array($this->attributesByName[$attribute->Name]))
+          {
+            $this->attributesByName[$attribute->Name] = array($this->attributesByName[$attribute->Name]);
+          }
+          $this->attributesByName[$attribute->Name][] = $attribute;
+        }
+      }
+    }
+
+    return $this->attributesByName;
   }
 }

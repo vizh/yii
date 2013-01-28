@@ -11,7 +11,7 @@ return array(
       'class' => '\partner\components\WebUser',
       'stateKeyPrefix'=>'partner',
       'loginUrl' => array('/partner/auth/index'),
-      'identityCookie' => array('domain' => '.'.ROCID_HOST),
+      'identityCookie' => array('domain' => '.'.RUNETID_HOST),
       'authTimeout' => 12*60*60,
     ),
 

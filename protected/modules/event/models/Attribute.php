@@ -6,6 +6,7 @@ namespace event\models;
  * @property int $EventId
  * @property string $Name
  * @property string $Value
+ * @property int $Order
  *
  * @property Event $Event
  */
