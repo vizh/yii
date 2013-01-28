@@ -2,7 +2,7 @@
 
 return array(
   'params' => array(
-    'CookieDomain' => '.'.ROCID_HOST,
+    'CookieDomain' => '.'.RUNETID_HOST,
 
     'EventDir' => '/files/event/', // файловая директория мероприятий
 
