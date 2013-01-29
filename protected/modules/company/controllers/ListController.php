@@ -29,7 +29,8 @@ class ListController extends \application\components\controllers\PublicMainContr
               break;
             
             case 'Query':
-              $criteria->addSearchCondition('"t"."Name"', $value);
+              $criteria->addCondition('to_tsvector("t"."Name") @@ plainto_tsquery(:Query)');
+              $criteria->params['Query'] = $value;
               break;
           }
         }

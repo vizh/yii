@@ -230,6 +230,27 @@ $(window).load(function() {
         </div>
       </h4> 
       <div class="container">
+        <?php 
+          $total = sizeof($participants);
+          $i = 0;?>
+        <?foreach($participants as $participant):?>
+          <?php
+          $i++;
+          if ($i == 1 || ($i%4) == 1) echo '<div class="row">';
+          ?>
+          <figure class="i span2">
+            <img src="<?=$participant->Event->getLogo()->getNormal();?>" width="138" alt="<?=$participant->Event->Title;?>" class="img">
+            <figcaption class="cnt">
+              <?foreach ($participant->Roles as $role):?>
+                <p class="tx"><?=$role->Title;?></p>
+              <?endforeach;?>
+            </figcaption>
+          </figure>
+          <?php
+          if ($i == $total || ($i%4) == 0) echo '</div>';
+          ?>
+        <?endforeach;?>
+        
         <div class="row">
           <figure class="i span2">
             <img src="/images/content/event-logo-account-1.jpg" width="138" height="79" alt="" class="img">
@@ -340,6 +361,7 @@ $(window).load(function() {
             </figcaption>
           </figure>
         </div>
+
         <div class="all">
           <a href="#" class="pseudo-link">Все мероприятия</a>
         </div>
