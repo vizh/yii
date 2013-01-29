@@ -41,10 +41,10 @@ return array(
 
     'db'=>array(
       'class'=>'CDbConnection',
-      'connectionString' => 'pgsql:host=localhost;port=5432;dbname=runetid',
+      'connectionString' => 'pgsql:host=runetid.internetmediaholding.com;port=5432;dbname=runetid',
       'emulatePrepare' => true,
-      'username' => 'postgres',
-      'password' => '123456',
+      'username' => 'runetid',
+      'password' => 'Rofeena1jei8haes',
       'charset' => 'utf8',
       'enableProfiling' => true,
       'enableParamLogging'=>true,
