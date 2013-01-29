@@ -41,8 +41,6 @@ namespace user\models;
  *
  * @property \event\models\Participant[] $Participants
  * @property \event\models\Event[] $Events
- * @property \event\models\Subscription[] $EventSubscriptions
- * @property \event\models\SectionHereService $EventProgramHere Функционал мобильной версии, позволяет пользователю отметиться на секции
  * @property \event\models\SectionUserLink[] $EventProgramUserLink
  *
  * @property Settings $Settings Настройки аккаунта пользователя

@@ -1,4 +1,37 @@
+<?php
+/**
+ * @var $this \event\widgets\Location
+ */
+$address = $this->event->getContactAddress();
+if ($address == null)
+{
+  return;
+}
+?>
+
 <div class="location">
-  <h5 class="title">Место проведения</h5>
-  <img src="/images/content/yandex-map.jpg" alt="" width="240" height="340" class="map">
+  <h5 style="z-index: 100;" class="title">Место проведения</h5>
+  <div id="ymaps-map-id_13401960168727002685" style="width: 218px; height: 340px;"></div>
 </div>
+<script type="text/javascript">
+function fid_13401960168727002685(ymaps) {
+    var geocoder = ymaps.geocode("<?php echo addslashes($address);?>", {result : 1});
+    geocoder.then(
+        function (response) {
+            var map = new ymaps.Map("ymaps-map-id_13401960168727002685", {
+                center : response.geoObjects.get(0).geometry.getCoordinates(),
+                zoom: 14,
+                type: "yandex#map"
+            });
+            map.geoObjects
+                .add(new ymaps.Placemark(
+                    response.geoObjects.get(0).geometry.getCoordinates(), {
+                        balloonContent: "<strong><?php echo htmlspecialchars($this->event->Title);?></strong><p><?php echo htmlspecialchars($address->Place);?></p>"
+                    }, { preset: "twirl#redDotIcon"}
+                ));
+            map.controls.add('smallZoomControl', {top : 45, left : 5});
+        }
+    );
+};
+</script>
+<script type="text/javascript" src="http://api-maps.yandex.ru/2.0/?coordorder=longlat&load=package.full&wizard=constructor&lang=ru-RU&onload=fid_13401960168727002685"></script>

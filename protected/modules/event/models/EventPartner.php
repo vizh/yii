@@ -4,16 +4,15 @@ namespace event\models;
 /**
  * @property int $Id
  * @property int $EventId
- * @property int $AddressId
- *
- * @property Event $Event
- * @property \contact\models\Address $Address
+ * @property int $CatalogCompanyId
+ * @property int $TypeId
+ * @property int $Order
  */
-class LinkAddress extends \CActiveRecord
+class EventPartner extends \CActiveRecord
 {
   /**
    * @param string $className
-   * @return LinkAddress
+   * @return EventPartner
    */
   public static function model($className=__CLASS__)
   {
@@ -22,7 +21,7 @@ class LinkAddress extends \CActiveRecord
 
   public function tableName()
   {
-    return 'EventLinkAddress';
+    return 'EventPartner';
   }
 
   public function primaryKey()
@@ -33,8 +32,7 @@ class LinkAddress extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-      'Address' => array(self::BELONGS_TO, '\contact\models\Address', 'AddressId'),
+
     );
   }
 }

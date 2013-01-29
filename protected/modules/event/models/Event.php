@@ -19,10 +19,13 @@ namespace event\models;
  * @property Part[] $Parts
  * @property Section[] $Sections
  * @property LinkAddress $LinkAddress
+ * @property LinkPhone[] $LinkPhones
+ * @property LinkEmail[] $LinkEmails
+ * @property LinkSite $LinkSite
  * @property Type $Type
  *
  * @property Widget[] $Widgets
- * @property Attribute $Attributes
+ * @property Attribute[] $Attributes
  */
 class Event extends \application\models\translation\ActiveRecord
 {
@@ -54,6 +57,9 @@ class Event extends \application\models\translation\ActiveRecord
       'Type' => array(self::BELONGS_TO, '\event\models\Type', 'TypeId'),  
         
       'LinkAddress' => array(self::HAS_ONE, '\event\models\LinkAddress', 'EventId'),
+      'LinkPhones' => array(self::HAS_MANY, '\event\models\LinkPhone', 'EventId'),
+      'LinkEmails' => array(self::HAS_MANY, '\event\models\LinkEmail', 'EventId'),
+      'LinkSite' => array(self::HAS_ONE, '\event\models\LinkSite', 'EventId'),
       'Sections' => array(self::HAS_MANY, '\event\models\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
 
 
@@ -218,6 +224,14 @@ class Event extends \application\models\translation\ActiveRecord
   }
 
   /**
+   * @return \contact\models\Site|null
+   */
+  public function getContactSite()
+  {
+    return !empty($this->LinkSite) ? $this->LinkSite->Site : null;
+  }
+
+  /**
    * @return Role[]
    */
   public function getUsingRoles()
@@ -259,5 +273,43 @@ class Event extends \application\models\translation\ActiveRecord
       $this->logo = new Logo($this->IdName);
     }
     return $this->logo;
+  }
+
+  /**
+   * @param string $name
+   * @return Attribute|Attribute[]|null
+   */
+  public function getAttribute($name)
+  {
+    return isset($this->getAttributesByName()[$name]) ? $this->getAttributesByName()[$name] : null;
+  }
+
+  private $attributesByName = null;
+  /**
+   * @return array
+   */
+  private function getAttributesByName()
+  {
+    if ($this->attributesByName === null)
+    {
+      $this->attributesByName = array();
+      foreach ($this->Attributes as $attribute)
+      {
+        if (!isset($this->attributesByName[$attribute->Name]))
+        {
+          $this->attributesByName[$attribute->Name] = $attribute;
+        }
+        else
+        {
+          if (!is_array($this->attributesByName[$attribute->Name]))
+          {
+            $this->attributesByName[$attribute->Name] = array($this->attributesByName[$attribute->Name]);
+          }
+          $this->attributesByName[$attribute->Name][] = $attribute;
+        }
+      }
+    }
+
+    return $this->attributesByName;
   }
 }

@@ -1,8 +1,16 @@
 <?php
 namespace event\widgets;
 
+/**
+ * @property string[]|string $PhotoSliderImages
+ */
 class PhotoSlider extends \event\components\Widget
 {
+  public function getAttributeNames()
+  {
+    return array('PhotoSliderImages');
+  }
+
 
   public function init()
   {

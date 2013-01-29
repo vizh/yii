@@ -26,6 +26,18 @@ class Photo
     return $result;
   }
 
+  protected function getByName($serverPath, $name, $noFile)
+  {
+    if ($serverPath || file_exists($this->getPath(true) . $name))
+    {
+      return $this->getPath($serverPath) . $name;
+    }
+    else
+    {
+      return $this->getPath($serverPath) . $noFile;
+    }
+  }
+
   /**
    * Возвращает путь к мини изображению пользователя, для шапки сайта, отображения в компаниях и тп
    * @param bool $serverPath
@@ -33,15 +45,7 @@ class Photo
    */
   public function get50px($serverPath = false)
   {
-    $name = $this->runetId . '_50.jpg';
-    if ($serverPath || file_exists($this->getPath(true) . $name))
-    {
-      return $this->getPath($serverPath) . $name;
-    }
-    else
-    {
-      return $this->getPath($serverPath) . 'nophoto_50.png';
-    }
+    return $this->getByName($serverPath, $this->runetId . '_50.jpg', 'nophoto_50.png');
   }
 
   /**
@@ -51,15 +55,7 @@ class Photo
    */
   public function get90px($serverPath = false)
   {
-    $name = $this->runetId . '_90.jpg';
-    if ($serverPath || file_exists($this->getPath(true) . $name))
-    {
-      return $this->getPath($serverPath) . $name;
-    }
-    else
-    {
-      return $this->getPath($serverPath) . 'nophoto_90.png';
-    }
+    return $this->getByName($serverPath, $this->runetId . '_90.jpg', 'nophoto_90.png');
   }
 
   /**
@@ -69,15 +65,7 @@ class Photo
    */
   public function get200px($serverPath = false)
   {
-    $name = $this->runetId . '_200.jpg';
-    if ($serverPath || file_exists($this->getPath(true) . $name))
-    {
-      return $this->getPath($serverPath) . $name;
-    }
-    else
-    {
-      return $this->getPath($serverPath) . 'nophoto_200.png';
-    }
+    return $this->getByName($serverPath, $this->runetId . '_200.jpg', 'nophoto_200.png');
   }
 
   /**
@@ -87,15 +75,7 @@ class Photo
    */
   public function getOriginal($serverPath = false)
   {
-    $name = $this->runetId . '.jpg';
-    if ($serverPath || file_exists($this->getPath(true) . $name))
-    {
-      return $this->getPath($serverPath) . $name;
-    }
-    else
-    {
-      return $this->getPath($serverPath) . 'nophoto_200.png';
-    }
+    return $this->getByName($serverPath, $this->runetId . '.jpg', 'nophoto_200.png');
   }
 
   /**
@@ -105,15 +85,7 @@ class Photo
    */
   protected function getClear($serverPath = false)
   {
-    $name = $this->runetId . '_clear.jpg';
-    if ($serverPath || file_exists($this->getPath(true) . $name))
-    {
-      return $this->getPath($serverPath) . $name;
-    }
-    else
-    {
-      return $this->getPath($serverPath) . 'nophoto_200.png';
-    }
+    return $this->getByName($serverPath, $this->runetId . '_clear.jpg', 'nophoto_200.png');
   }
 
   /**

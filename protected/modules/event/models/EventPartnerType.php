@@ -5,16 +5,13 @@ namespace event\models;
  * @property int $Id
  * @property int $EventId
  * @property string $Name
- * @property string $Value
  * @property int $Order
- *
- * @property Event $Event
  */
-class Attribute extends \CActiveRecord
+class EventPartnerType extends \CActiveRecord
 {
   /**
    * @param string $className
-   * @return Attribute
+   * @return EventPartnerType
    */
   public static function model($className=__CLASS__)
   {
@@ -23,7 +20,7 @@ class Attribute extends \CActiveRecord
 
   public function tableName()
   {
-    return 'EventAttribute';
+    return 'EventPartnerType';
   }
 
   public function primaryKey()
@@ -33,8 +30,6 @@ class Attribute extends \CActiveRecord
 
   public function relations()
   {
-    return array(
-      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-    );
+    return array();
   }
 }

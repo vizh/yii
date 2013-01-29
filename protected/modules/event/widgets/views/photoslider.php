@@ -1,26 +1,22 @@
+<?php
+/**
+ * @var $this \event\widgets\PhotoSlider
+ */
+$images = is_array($this->PhotoSliderImages) ? $this->PhotoSliderImages : array($this->PhotoSliderImages);
+$flag = true;
+?>
+
 <div id="event-photos" class="photos">
-  <img src="/images/content/event-photo-1.jpg" width="240" height="180" alt="" id="event-photo" class="photo">
+  <img src="<?=$images[0];?>" width="240" height="180" alt="" id="event-photo" class="photo">
   <div id="event-thumbs" class="thumbs">
     <div class="slider">
       <div class="slides">
+        <?foreach ($images as $image):?>)
         <div class="slide">
-          <img src="/images/content/event-photo-1.jpg" width="40" height="30" alt="" class="thumb current">
+          <img src="<?=$image;?>" width="40" height="30" alt="" class="thumb <?=$flag ? 'current' : '';?>">
         </div>
-        <div class="slide">
-          <img src="/images/content/event-photo-2.jpg" width="40" height="30" alt="" class="thumb">
-        </div>
-        <div class="slide">
-          <img src="/images/content/event-photo-3.jpg" width="40" height="30" alt="" class="thumb">
-        </div>
-        <div class="slide">
-          <img src="/images/content/event-photo-4.jpg" width="40" height="30" alt="" class="thumb">
-        </div>
-        <div class="slide">
-          <img src="/images/content/event-photo-5.jpg" width="40" height="30" alt="" class="thumb">
-        </div>
-        <div class="slide">
-          <img src="/images/content/event-photo-6.jpg" width="40" height="30" alt="" class="thumb">
-        </div>
+          <?$flag = false;?>
+        <?endforeach;?>
       </div>
     </div>
     <i id="event-thumbs_prev" class="icon-chevron-left"></i>

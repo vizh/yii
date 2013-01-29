@@ -31,7 +31,7 @@ return array(
       // enable cookie-based authentication
       'allowAutoLogin'=>true,
       //'autoRenewCookie' => true,
-      'identityCookie' => array('domain' => '.'.ROCID_HOST),
+      'identityCookie' => array('domain' => '.'.RUNETID_HOST),
     ),
 
     'cache'=>array(
@@ -70,7 +70,7 @@ return array(
       'timeout' => 180 * 24 * 60 * 60,
       'cookieParams' => array(
         'lifetime' => 180 * 24 * 60 * 60,
-        'domain' => '.'.ROCID_HOST
+        'domain' => '.'.RUNETID_HOST
       ),
     ),
 
