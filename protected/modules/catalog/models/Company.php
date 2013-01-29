@@ -40,7 +40,7 @@ class Company extends \CActiveRecord
    */
   public function getLogoForEvent($serverPath = false)
   {
-    //todo:
-    return '';
+    //todo: реализовать метод, сейчас только заглушка для страницы мероприятий
+    return \Yii::app()->params['CatalogCompanyDir'] . $this->Id . '/100.png';
   }
 }

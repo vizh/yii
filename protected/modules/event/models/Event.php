@@ -26,6 +26,7 @@ namespace event\models;
  *
  * @property Widget[] $Widgets
  * @property Attribute[] $Attributes
+ * @property Partner[] $Partners
  */
 class Event extends \application\models\translation\ActiveRecord
 {
@@ -65,6 +66,8 @@ class Event extends \application\models\translation\ActiveRecord
 
       'Widgets' => array(self::HAS_MANY, '\event\models\Widget', 'EventId', 'order' => '"Widgets"."Order" ASC'),
       'Attributes' => array(self::HAS_MANY, '\event\models\Attribute', 'EventId'),
+
+      'Partners' => array(self::HAS_MANY, '\event\models\Partner', 'EventId'),
     );
   }
 

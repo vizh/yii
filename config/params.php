@@ -15,5 +15,9 @@ return array(
     'NewsPhotoDir' => '/files/news/',
       
     'MaxImageSize' => 4194304, //Максимально допустимый размер загружаемых изображений
+
+
+
+    'CatalogCompanyDir' => '/files/catalog/company/', // файловая директория для хранения каталога логотипов компаний
   )
 );

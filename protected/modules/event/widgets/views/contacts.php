@@ -21,9 +21,9 @@ $site = $this->event->getContactSite();
   <?endif;?>
   <p class="email">
     <?foreach ($this->event->LinkEmails as $linkEmail):?>
-    <a href="mailto:<?=$linkEmail->Email->Email;?>"><?=$linkEmail->Email->Email;?></a>
-    <?=$emailFlag ? '<br>':''?>
-    <?$emailFlag = true;?>
+      <?=$emailFlag ? '<br>':''?>
+      <a href="mailto:<?=$linkEmail->Email->Email;?>"><?=$linkEmail->Email->Email;?></a>
+      <?$emailFlag = true;?>
     <?endforeach;?>
   </p>
   <p class="url">

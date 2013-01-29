@@ -5,7 +5,9 @@ class Partners extends \event\components\Widget
 
   public function run()
   {
-    $this->render('partners', array());
+    $partners = $this->event->Partners(array('with' => array('Company', 'Type')));
+
+    $this->render('partners', array('partners' => $partners));
   }
 
   /**
