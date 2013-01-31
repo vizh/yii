@@ -1,0 +1,136 @@
+body {
+  background: #F8F8F8;
+  font-size: 12px;
+  font-family: Arial,Helvetica,sans-serif;
+  padding: 40px 0 0;
+  margin: 0;
+}
+
+p {
+  padding: 0 0 10px 0;
+  margin: 0;
+}
+
+h3.u-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0 0 10px 0;
+}
+
+.bold {
+  font-weight: bold;
+}
+.size16px {
+  font-size: 16px;
+}
+
+.f-left {float: left;}
+.f-right {float: right;}
+
+.clearfix:after {
+  clear: both;
+}
+.clearfix:after, .clearfix:before {
+  content: "";
+  display: table;
+  line-height: 0;
+}
+
+.container {
+  margin: 0 auto;
+  width: 450px;
+}
+
+.m-top_5  {margin-top: 5px  !important;}
+.m-top_10 {margin-top: 10px !important;}
+.m-top_20 {margin-top: 20px !important;}
+.m-top_30 {margin-top: 30px !important;}
+.m-top_40 {margin-top: 40px !important;}
+.m-bottom_5  {margin-bottom: 5px  !important;}
+.m-bottom_10 {margin-bottom: 10px !important;}
+.m-bottom_20 {margin-bottom: 20px !important;}
+.m-bottom_30 {margin-bottom: 30px !important;}
+.m-bottom_40 {margin-bottom: 40px !important;}
+.m-right_5  {margin-right: 5px  !important;}
+.m-right_10 {margin-right: 10px !important;}
+.m-right_20 {margin-right: 20px !important;}
+.m-right_30 {margin-right: 30px !important;}
+.m-right_40 {margin-right: 40px !important;}
+
+.control-group {
+  margin-bottom: 20px;
+}
+.control-group:after {
+  clear: both;
+}
+.control-group:before, .control-group:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+label.control-label {
+  float: left;
+  width: 100px;
+  line-height: 23px;
+}
+.controls {
+  margin-left: 120px;
+}
+.controls input[type="text"], .controls input[type="password"]{
+  border: 1px solid #D4D4D4;
+  border-radius: 3px 3px 3px 3px;
+  display: block;
+  height: 23px;
+  padding-left: 5px;
+  width: 270px;
+}
+.controls input[type="submit"] {
+  margin-right: 20px;
+}
+.controls.error input {
+  background: #FEF2F2;
+  border: 1px solid #CD262C;
+}
+
+.btn {
+  border-radius: 15px 15px 15px 15px;
+  display: block;
+  padding: 5px 20px;
+  box-shadow: 0 2px 5px #B4B3B4;
+}
+.btn.btn-success {
+  background: url("/images/abtn_gradient.png") repeat scroll 0 0 #E74A48;
+  border: 1px solid #CF413F;
+  color: #FFFFFF;
+  text-shadow: 0 1px 0 #C01518;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.btn.btn-cancel {
+  background: url("/images/btn_gradient.png") repeat scroll 0 0 #E6E6E6;
+  border: 1px solid #E9E9E9;
+  color: #B22525;
+  text-shadow: 0 2px 5px #B4B3B4;
+}
+
+.alert {
+  padding: 10px;
+}
+.alert-error {
+  border: 1px solid #FD6E55;
+  background: #FEDFD7;
+}
+.alert-message {
+  border: 1px solid #D4D4D4;
+  background: #FAFAFA;
+}
+.alert ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  list-style-type: none;
+}
+.alert ul li {
+  line-height: 18px;
+}

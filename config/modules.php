@@ -19,6 +19,7 @@ return array(
     'geo',
     'main',
     'news',
+    'oauth',
     'partner',
     'pay',
     'rbac',
