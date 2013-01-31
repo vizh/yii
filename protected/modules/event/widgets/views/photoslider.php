@@ -11,7 +11,7 @@ $flag = true;
   <div id="event-thumbs" class="thumbs">
     <div class="slider">
       <div class="slides">
-        <?foreach ($images as $image):?>)
+        <?foreach ($images as $image):?>
         <div class="slide">
           <img src="<?=$image;?>" width="40" height="30" alt="" class="thumb <?=$flag ? 'current' : '';?>">
         </div>

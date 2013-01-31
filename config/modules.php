@@ -12,19 +12,23 @@ return array(
     ),
 
 
-    'runetid',  
+    'catalog',
     'company',
     'contact',
     'event',
     'geo',
-    'user',
-    'pay',
-    'mytest',
     'main',
     'news',
-      
-    'convert',
+    'partner',
+    'pay',
     'rbac',
-    'catalog'
+    'ruvents',
+    'tag',
+    'user',
+
+
+    /** Технические модули */
+    'convert',
+    'mytest',
   ),
 );

@@ -1,6 +1,8 @@
 <?php
 namespace event\models;
 
+use tag\models\ITaggable;
+
 /**
  * @property int $Id
  * @property string $IdName
@@ -27,8 +29,12 @@ namespace event\models;
  * @property Widget[] $Widgets
  * @property Attribute[] $Attributes
  * @property Partner[] $Partners
+ *
+ * @property LinkTag[] $LinkTags
  */
-class Event extends \application\models\translation\ActiveRecord
+
+
+class Event extends \application\models\translation\ActiveRecord implements ITaggable
 {
   /**
    * @param string $className
@@ -68,6 +74,8 @@ class Event extends \application\models\translation\ActiveRecord
       'Attributes' => array(self::HAS_MANY, '\event\models\Attribute', 'EventId'),
 
       'Partners' => array(self::HAS_MANY, '\event\models\Partner', 'EventId'),
+
+      'LinkTags' => array(self::HAS_MANY, '\event\models\LinkTag', 'EventId', 'with' => 'Tag')
     );
   }
 
@@ -135,6 +143,22 @@ class Event extends \application\models\translation\ActiveRecord
       'Month' => $month,
       'Year'  => $year
     );
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param int $id
+   * @param bool $useAnd
+   *
+   * @return Event
+   */
+  public function byTagId($id, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"LinkTags"."TagId" = :TagId';
+    $criteria->params = array('TagId' => $id);
+    $criteria->with = array('LinkTags' => array('together' => true));
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -315,4 +339,6 @@ class Event extends \application\models\translation\ActiveRecord
 
     return $this->attributesByName;
   }
+
+
 }

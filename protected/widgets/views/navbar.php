@@ -4,8 +4,8 @@
       <img src="/images/logo-small.png" width="115" height="10" alt="-RUNET-ID-">
     </a>
     <ul class="nav">
-      <li class="item"><a href="/events-list.html">Мероприятия</a></li>
-      <li class="item"><a href="http://therunet.com/">Новости</a></li>
+      <li class="item"><a href="<?=Yii::app()->createUrl('/event/list/index');?>">Мероприятия</a></li>
+      <li class="item"><a target="_blank" href="http://therunet.com/">Новости</a></li>
       <li class="item"><a href="/competences-list.html">Компетенции</a></li>
       <li class="item"><a href="/jobs-list.html">Работа</a></li>
       <li class="divider-vertical"></li>

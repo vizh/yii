@@ -6,6 +6,8 @@ return array(
 
     'EventDir' => '/files/event/', // файловая директория мероприятий
 
+    'EventViewUserPerPage' => 8,
+
     'CompanyPerPage' => 20, // Количество результатов компаний на страницу
     'CompanyLogoDir' => '/files/logo/', //
       

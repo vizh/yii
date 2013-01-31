@@ -32,7 +32,7 @@ return array(
         'runetid.application' => array(
           'baseUrl' => '/',
           'js' => array('javascripts/application.js'),
-          'css' => array('stylesheets/application.css'),
+          'css' => array('stylesheets/application.css', 'stylesheets/app-changes.css'),
           'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.backbone', 'runetid.bootstrap', 'runetid.jquery.ioslider')
         ),
         'runetid.charts' => array(

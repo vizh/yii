@@ -84,7 +84,7 @@
           <span class="backing text">Мероприятия</span>
         </div>
         <span class="backing url">
-          <a href="/events-list.html">Все мероприятия</a>
+          <a href="<?=Yii::app()->createUrl('/event/list/index');?>">Все мероприятия</a>
         </span>
       </div>
     </h2>

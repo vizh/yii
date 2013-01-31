@@ -26,6 +26,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
     {
       if (!isset($participants[$participant->EventId]))
       {
+        $participants[$participant->EventId] = new stdClass();
         $participants[$participant->EventId]->Event = $participant->Event;
       }
       $participants[$participant->EventId]->Roles[] = $participant->Role;

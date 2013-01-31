@@ -214,7 +214,7 @@ class User extends \application\models\translation\ActiveRecord
   {
     $criteria = new \CDbCriteria();
     $criteria->with = array('Participants' => array('together' => true));
-    $criteria->addCondition('Participants.EventId = :EventId');
+    $criteria->addCondition('"Participants"."EventId" = :EventId');
     $criteria->params['EventId'] = $eventId;
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;

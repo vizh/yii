@@ -34,7 +34,7 @@ class Photo
     }
     else
     {
-      return $this->getPath($serverPath) . $noFile;
+      return \Yii::app()->params['UserPhotoDir'] . $noFile;
     }
   }
 
@@ -46,6 +46,17 @@ class Photo
   public function get50px($serverPath = false)
   {
     return $this->getByName($serverPath, $this->runetId . '_50.jpg', 'nophoto_50.png');
+  }
+
+  /**
+   * Возвращает путь к мини изображению пользователя, для страницы мероприятия
+   * @param bool $serverPath
+   *
+   * @return string
+   */
+  public function get58px($serverPath = false)
+  {
+    return $this->getByName($serverPath, $this->runetId . '_58.jpg', 'nophoto_58.png');
   }
 
   /**
