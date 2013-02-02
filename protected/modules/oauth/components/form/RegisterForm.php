@@ -29,7 +29,8 @@ class RegisterForm extends \CFormModel
     return array(
       array('FirstName, LastName, Email', 'required'),
       array('Email', 'email'),
-      array('Email', 'uniqueEmailValidate')
+      array('Email', 'uniqueEmailValidate'),
+      array('FatherName, CompanyId, Company, CityId, City', 'safe')
     );
   }
   
@@ -38,7 +39,7 @@ class RegisterForm extends \CFormModel
     $value = trim($this->$attribute);
     if (!empty($value))
     {
-      if (\user\models\User::GetByEmail($value) == null)
+      if (\user\models\User::model()->byEmail($value)->count() == 0)
       {
         return true;
       }

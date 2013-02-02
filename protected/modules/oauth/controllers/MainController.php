@@ -1,54 +1,48 @@
 <?php
 class MainController extends \oauth\components\Controller 
 {
-
   public function actionDialog() 
   {
-    if (\Yii::app()->user->isGuest)
+    $user = Yii::app()->user->CurrentUser();
+    if ($user === null)
     {
       $this->redirect($this->createUrl('/oauth/main/auth'));
     }
     
-    $redirect = false;
-    $user = \user\models\User::model()->findByPk(Yii::app()->user->getId()); 
-    
-    $permission = \oauth\models\Permission::model()->byUserId(Yii::app()->user->getId())->byEventId($this->Account->EventId)->find();
+    $permission = \oauth\models\Permission::model()->byUserId($user->Id)->byEventId($this->Account->EventId)->find();
     if ($permission !== null)
     {
-      $redirect = true;
+      $this->redirectWithToken();
     }
-    else 
+    elseif (Yii::app()->getRequest()->isPostRequest)
     {
-      $reqDialog = \Yii::app()->request->getParam('Dialog');
-      if ($reqDialog !== null
-        && isset($reqDialog['Success']))
-      {
-        $permission = new \oauth\models\Permission();
-        $permission->UserId  = $user->UserId;
-        $permission->EventId = $this->Account->EventId; 
-        $permission->save();
-        $redirect = true;
-      }
+      $permission = new \oauth\models\Permission();
+      $permission->UserId  = $user->Id;
+      $permission->EventId = $this->Account->EventId;
+      $permission->Verified = true;
+      $permission->save();
+      $this->redirectWithToken();
     }
-    
-    if ($redirect === true)
-    {
-      $accessToken = new \oauth\models\AccessToken();
-      $accessToken->UserId    = $permission->UserId;
-      $accessToken->EventId   = $permission->EventId;
-      $accessToken->DeathTime = date('Y-m-d H:i:s', time()+86400);
-      $accessToken->createToken($this->Account);
-      $accessToken->save();
-      
-      $redirectUrl = Yii::app()->request->getParam('url');
-      $pos = strrpos($redirectUrl, '?');
-      $redirectUrl .= ($pos === false ? '?' : (($pos+1) != strlen($redirectUrl) ? '&' : '')) . http_build_query(array('token' => $accessToken->Token));
-      $this->redirect($redirectUrl);
-    }
+
     $this->render('dialog', array('user' => $user, 'event' => $this->Account->Event));
   }
-  
-  
+
+  private function redirectWithToken()
+  {
+    $user = Yii::app()->user->CurrentUser();
+
+    $accessToken = new \oauth\models\AccessToken();
+    $accessToken->UserId = $user->Id;
+    $accessToken->EventId = $this->Account->EventId;
+    $accessToken->DeathTime = date('Y-m-d H:i:s', time()+86400);
+    $accessToken->createToken($this->Account);
+    $accessToken->save();
+
+    $redirectUrl = Yii::app()->request->getParam('url');
+    $pos = strrpos($redirectUrl, '?');
+    $redirectUrl .= ($pos === false ? '?' : (($pos+1) != strlen($redirectUrl) ? '&' : '')) . http_build_query(array('token' => $accessToken->Token));
+    $this->redirect($redirectUrl);
+  }
   
   public function actionAuth()
   {
@@ -108,7 +102,8 @@ class MainController extends \oauth\components\Controller
     }
     
     $formRegister = new \oauth\components\form\RegisterForm();
-    
+    $socialProxy = null;
+
     if (!empty($this->social))
     {
       $socialProxy = new \oauth\components\social\Proxy($this->social);
@@ -123,28 +118,31 @@ class MainController extends \oauth\components\Controller
 
     $request = \Yii::app()->getRequest();
     $formRegister->attributes = $request->getParam(get_class($formRegister));
-    if ($request->getIsPostRequest()
-      && $formRegister->validate())
+    if ($request->getIsPostRequest() && $formRegister->validate())
     {
       $user = new \user\models\User();
-      $user->attributes = $formRegister->attributes;
+      $user->LastName = $formRegister->LastName;
+      $user->FirstName = $formRegister->FirstName;
+      $user->FatherName = $formRegister->FatherName;
+      $user->Email = $formRegister->Email;
       $user->register();
-      $identity = new \application\components\auth\identity\FastAuth($user->RocId);
+      $identity = new \application\components\auth\identity\FastAuth($user->RunetId);
       $identity->authenticate();
       if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
       {
         \Yii::app()->user->login($identity);
 
-        if (isset($socialProxy)
-          && $socialProxy->isHasAccess())
+        if (isset($socialProxy) && $socialProxy->isHasAccess())
         {
-          $user = \user\models\User::GetById(\Yii::app()->user->getId());
           $socialProxy->addConnect($user);
-          $socialProxy->addContact($user);
         }
         
         \Yii::app()->user->setFlash('message', null);
         $this->redirect($this->createUrl('/oauth/main/dialog'));
+      }
+      else
+      {
+        throw new \application\components\Exception('Не удалось пройти авторизацию после регистрации. Код ошибки: ' . $identity->errorCode);
       }
     }
     

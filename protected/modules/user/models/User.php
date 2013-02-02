@@ -172,7 +172,7 @@ class User extends \application\models\translation\ActiveRecord
   public function byEmail($email, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.Email = :Email';
+    $criteria->condition = '"t"."Email" = :Email';
     $criteria->params = array(':Email' => $email);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -334,10 +334,15 @@ class User extends \application\models\translation\ActiveRecord
    */
   public function register()
   {
+    if (empty($this->Password))
+    {
+      $this->Password = \Utils::GeneratePassword();
+    }
     $password = $this->Password;
     $pbkdf2 = new \application\components\utility\Pbkdf2();
     $this->Password = $pbkdf2->createHash($password);
     $this->save();
+    $this->refresh();
 
     $event = new \CModelEvent($this, array('password' => $password));
     $this->onRegister($event);
@@ -555,6 +560,33 @@ class User extends \application\models\translation\ActiveRecord
     return !empty($this->Employments) ? $this->Employments[0] : null;
   }
 
+  /**
+   * @return string
+   */
+  public function getFullName ()
+  {
+    $fullName = $this->getName();
+    if ($this->getIsShowFatherName()) {
+      $fullName .= ' '. $this->FatherName;
+    }
+    return $fullName;
+  }
+
+  /**
+   * @return bool
+   */
+  public function getIsShowFatherName()
+  {
+    return !empty($this->FatherName) && ($this->Settings->HideFatherName == 0);
+  }
+
+  /**
+   * @return string
+   */
+  public function getName()
+  {
+    return $this->LastName .' '. $this->FirstName;
+  }
 
 
   /******  OLD METHODS  ***/
@@ -574,25 +606,6 @@ class User extends \application\models\translation\ActiveRecord
   {
     $this->Settings->Visible = 0;
     $this->Settings->save();
-  }
-
-  public function getIsShowFatherName()
-  {
-    return !empty($this->FatherName) && ($this->Settings->HideFatherName == 0);
-  }
-  
-  public function getFullName ()
-  {
-    $fullName = $this->getName();
-    if ($this->getIsShowFatherName()) {
-      $fullName .= ' '. $this->FatherName;
-    }
-    return $fullName;
-  }
-  
-  public function getName()
-  {
-    return $this->LastName .' '. $this->FirstName;
   }
   
   public function getAge()

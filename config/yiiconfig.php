@@ -40,7 +40,7 @@ return array(
     ),
 
     'db'=>array(
-      'class'=>'CDbConnection',
+      'class'=>'\application\components\db\PgDbConnection',
       'connectionString' => 'pgsql:host=runetid.internetmediaholding.com;port=5432;dbname=runetid',
       'emulatePrepare' => true,
       'username' => 'runetid',
@@ -82,8 +82,14 @@ return array(
       'class'=>'CLogRouter',
       'routes'=>array(
         array(
-          'class'=>'CFileLogRoute',
-          'levels'=>'error, warning',
+          'class'=>'CProfileLogRoute',
+          'levels'=>'profile',
+          'enabled'=>true,
+        ),
+        array(
+          'class' => 'CWebLogRoute',
+          'categories' => 'application',
+          'levels'=>'error, warning, info',
         ),
       ),
     ),
