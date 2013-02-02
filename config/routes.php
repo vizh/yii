@@ -21,6 +21,9 @@ return array(
         /** Ruvents Module Rules */
         'http://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
 
+        /** OAuth Module */
+        'http://login.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
+
         
         /** INDEX PAGE */
         'http://'. RUNETID_HOST.'/' => 'main/default/index',

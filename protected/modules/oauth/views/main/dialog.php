@@ -1,3 +1,18 @@
+<form>
+  <legend>Здравствуйте, <a href="#">Константин Константинович</a></legend>
+  <p>Сайт РИФ+КИБ 2013 запрашивает доступ к&nbsp;вашему аккаунту для использования данных профиля в&nbsp;целях авторизации:</p>
+  <br>
+  <div class="tx-c">
+    <a href="./authorization.html" class="btn">Отмена</a>
+    &nbsp;
+    <button type="submit" class="btn btn-info"><i class="icon-ok-sign icon-white"></i>&nbsp;Разрешить</button>
+  </div>
+</form>
+
+
+
+
+
 <?php echo CHtml::beginForm();?>
 <div class="clearfix m-bottom_20">
   <div class="f-left m-right_20">

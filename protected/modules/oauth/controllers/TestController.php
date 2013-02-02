@@ -7,15 +7,9 @@ class TestController extends CController
 
   public function actionIndex()
   {
-    Yii::app()->clientScript->registerScriptFile(
-      Yii::app()->assetManager->publish(
-        Yii::getPathOfAlias('oauth.assets').'/runetid.js'
-      )
-    );
 
-
-    $api = '12345';
-    $secret = '67890';
+    $api = 'test';
+    $secret = '1234567890';
     $timestamp = time();
     $hash = substr(md5($api . $timestamp . $secret), 0, 16);
 
@@ -40,7 +34,7 @@ class TestController extends CController
 
       $url = $this->createAbsoluteUrl('/oauth/main/dialog', $params);
 
-      $this->render('index', array('url' => $url, 'rState' => $params['r_state']));
+      $this->renderPartial('index', array('url' => $url, 'rState' => $params['r_state']));
     }
 
 

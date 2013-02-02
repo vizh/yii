@@ -3,15 +3,31 @@ namespace oauth\components\form;
 
 class RegisterForm extends \CFormModel
 {
-  public $FirstName;
   public $LastName;
-  public $Password;
+  public $FirstName;
+  public $FatherName;
   public $Email;
+  public $CompanyId;
+  public $Company;
+  public $CityId;
+  public $City;
+
+  public function attributeLabels()
+  {
+    return array(
+      'LastName' => 'Фамилия',
+      'FirstName' => 'Имя',
+      'FatherName' => 'Отчество',
+      'Email' => 'Электронная почта',
+      'Company' => 'Компания',
+      'City' => 'Город',
+    );
+  }
   
   public function rules()
   {
     return array(
-      array('FirstName, LastName, Email, Password', 'required'),
+      array('FirstName, LastName, Email', 'required'),
       array('Email', 'email'),
       array('Email', 'uniqueEmailValidate')
     );
@@ -46,13 +62,5 @@ class RegisterForm extends \CFormModel
     return parent::beforeValidate();
   }
   
-  public function attributeLabels()
-  {
-    return array(
-      'LastName' => 'Фамилия',
-      'FirstName' => 'Имя',
-      'Email' => 'Email',
-      'Password' => 'Пароль'
-    );
-  }
+
 }

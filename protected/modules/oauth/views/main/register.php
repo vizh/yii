@@ -1,33 +1,37 @@
+<?php
+/**
+ * @var $this MainController
+ * @var $model \oauth\components\form\RegisterForm
+ */
+?>
+
 <?php echo CHtml::beginForm();?>
-  <?php echo CHtml::errorSummary($model, '<div class="alert alert-error m-bottom_20">', '</div>');?>
-  <div class="control-group">
-    <label class="control-label"><?php echo CHtml::activeLabel($model, 'LastName');?>:</label>
-    <div class="controls <?php if($model->hasErrors('LastName')):?>error<?php endif;?>">
-      <?php echo CHtml::activeTextField($model, 'LastName');?>
+  <fieldset>
+    <legend>Регистрация</legend>
+    <p>Вы&nbsp;можете одновременно получить RUNET-ID и&nbsp;зарегистрироваться на&nbsp;мероприятие, заполнив форму:</p>
+    <div class="control-group <?=$model->hasErrors('LastName') ? 'error' : '';?>">
+      <?php echo CHtml::activeTextField($model, 'LastName', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('LastName')));?>
     </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label"><?php echo CHtml::activeLabel($model, 'FirstName');?>:</label>
-    <div class="controls <?php if($model->hasErrors('FirstName')):?>error<?php endif;?>">
-      <?php echo CHtml::activeTextField($model, 'FirstName');?>
+    <div class="control-group <?=$model->hasErrors('FirstName') ? 'error' : '';?>">
+      <?php echo CHtml::activeTextField($model, 'FirstName', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('FirstName')));?>
     </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label"><?php echo CHtml::activeLabel($model, 'Email');?>:</label>
-    <div class="controls <?php if($model->hasErrors('Email')):?>error<?php endif;?>">
-      <?php echo CHtml::activeTextField($model, 'Email');?>
+    <div class="control-group">
+      <?php echo CHtml::activeTextField($model, 'FatherName', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('FatherName')));?>
     </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label"><?php echo CHtml::activeLabel($model, 'Password');?>:</label>
-    <div class="controls <?php if($model->hasErrors('Password')):?>error<?php endif;?>">
-      <?php echo CHtml::activePasswordField($model, 'Password');?>
+    <div class="control-group <?=$model->hasErrors('Email') ? 'error' : '';?>">
+      <?php echo CHtml::activeTextField($model, 'Email', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('Email')));?>
     </div>
-  </div>
-  <div class="control-group">
-    <div class="controls clearfix">
-      <?php echo CHtml::submitButton('Регистрация', array('class' => 'btn btn-success f-left'));?>
-      <?php echo CHtml::button('Отмена', array('class' => 'btn btn-cancel'));?>
+    <div class="control-group">
+      <?php echo CHtml::activeTextField($model, 'Company', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('Company')));?>
     </div>
-  </div>
+    <div class="control-group">
+      <?php echo CHtml::activeTextField($model, 'City', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('City')));?>
+    </div>
+
+    <?php echo CHtml::errorSummary($model, '<div class="alert alert-error m-bottom_20">', '</div>');?>
+
+    <button type="submit" class="btn btn-large btn-block btn-info"><i class="icon-ok-sign icon-white"></i>&nbsp;Зарегистрироваться</button>
+  </fieldset>
 <?php CHtml::endForm();?>
+<hr>
+<p>Если вы&nbsp;уже получали RUNET-ID&nbsp;&mdash; <a href="<?=$this->createUrl('/oauth/main/auth');?>">авторизуйтесь</a>.</p>

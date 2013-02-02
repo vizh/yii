@@ -12,6 +12,7 @@ return array(
     ),
 
 
+    'api',
     'catalog',
     'company',
     'contact',

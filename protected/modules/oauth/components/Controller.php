@@ -1,7 +1,7 @@
 <?php
 namespace oauth\components;
 
-class Controller extends \application\components\controllers\PublicController
+class Controller extends \application\components\controllers\BaseController
 {
   public $layout = '/layouts/oauth';
 
@@ -18,7 +18,8 @@ class Controller extends \application\components\controllers\PublicController
   {
     $request = \Yii::app()->getRequest();
     $this->apiKey = $request->getParam('ApiKey');
-    $account = \api\models\Account::GetByApiKey($this->apiKey);
+    /** @var $account \api\models\Account */
+    $account = \api\models\Account::model()->byKey($this->apiKey)->find();
     $this->url = $request->getParam('url');
     $this->social = $request->getParam('social');
     if (empty($account) || empty($this->url))

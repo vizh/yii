@@ -1,14 +1,6 @@
 <?php
 class MainController extends \oauth\components\Controller 
 {
-  protected function initResources() 
-  {
-    Yii::app()->clientScript->registerCssFile(
-      Yii::app()->assetManager->publish(
-        Yii::getPathOfAlias('oauth.assets').'/oauth.css'
-      )
-    );
-  }
 
   public function actionDialog() 
   {
@@ -128,7 +120,7 @@ class MainController extends \oauth\components\Controller
         $formRegister->Email = $socialProxy->getData()->Email;
       }
     }
-    
+
     $request = \Yii::app()->getRequest();
     $formRegister->attributes = $request->getParam(get_class($formRegister));
     if ($request->getIsPostRequest()
@@ -157,6 +149,11 @@ class MainController extends \oauth\components\Controller
     }
     
     $this->render('register', array('model' => $formRegister));
+  }
+
+  public function actionRecover()
+  {
+
   }
   
   public function actionError()
