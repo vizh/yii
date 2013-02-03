@@ -28,7 +28,6 @@ class TestController extends CController
     }
     else
     {
-
       $params['r_state'] = md5(uniqid(rand(), true));
       $params['url'] = $this->createAbsoluteUrl('/oauth/test/index');
 
@@ -44,12 +43,14 @@ class TestController extends CController
   private function apiRequest($params)
   {
     $curl = curl_init();
-    curl_setopt($curl, CURLOPT_TIMEOUT, 3);
-    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
     $url = $this->createAbsoluteUrl('/api/user/auth', $params);
+
+    echo $url;
 
     curl_setopt($curl, CURLOPT_URL, $url);
 
@@ -57,8 +58,11 @@ class TestController extends CController
     $result = curl_exec($curl);
 
     echo '<pre>';
-    $result = json_decode($result);
-    print_r($result);
+
+    echo  curl_error ($curl);
+    //$result = json_decode($result);
+    //print_r($result);
+    echo $result;
     echo '</pre>';
   }
 }

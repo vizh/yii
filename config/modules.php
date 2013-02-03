@@ -12,7 +12,10 @@ return array(
     ),
 
 
-    'api',
+    /**
+     * Список модулей, используемых основным приложением
+     * Модулт отдельных приложений объявляются в своих файлах (api, partner, ruvents)
+     */
     'catalog',
     'company',
     'contact',
@@ -21,10 +24,8 @@ return array(
     'main',
     'news',
     'oauth',
-    'partner',
     'pay',
     'rbac',
-    'ruvents',
     'tag',
     'user',
 

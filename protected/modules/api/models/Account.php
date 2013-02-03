@@ -82,7 +82,7 @@ class Account extends \CActiveRecord
   public function checkIp($ip)
   {
     //todo: fix it
-    return false;
+    return true;
   }
 
   /**
@@ -127,6 +127,6 @@ class Account extends \CActiveRecord
    */
   private function getHash($timestamp)
   {
-    return substr(md5($this->ApiKey . $timestamp . $this->SecretKey), 0, 16);
+    return substr(md5($this->Key . $timestamp . $this->Secret), 0, 16);
   }
 }

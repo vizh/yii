@@ -7,7 +7,7 @@ namespace oauth\models;
  * @property int $UserId
  * @property int $EventId
  * @property string $CreationTime
- * @property string $DeathTime
+ * @property string $EndingTime
  *
  */
 class AccessToken extends \CActiveRecord
@@ -24,7 +24,7 @@ class AccessToken extends \CActiveRecord
   
   public function tableName()
   {
-    return 'Mod_OAuthAccessToken';
+    return 'OAuthAccessToken';
   }
   
   public function primaryKey()
@@ -40,7 +40,7 @@ class AccessToken extends \CActiveRecord
   public function byToken($token, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.Token = :Token';
+    $criteria->condition = '"t"."Token" = :Token';
     $criteria->params = array(':Token' => $token);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -49,16 +49,21 @@ class AccessToken extends \CActiveRecord
   public function byUserId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.UserId = :UserId';
+    $criteria->condition = '"t"."UserId" = :UserId';
     $criteria->params = array(':UserId' => $userId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
-  
+
+  /**
+   * @param \api\models\Account $account
+   *
+   * @return AccessToken
+   */
   public function createToken($account)
   {
     $solt = substr(md5(microtime()), 0, 16);
-    $token = crypt($account->ApiKey.$account->SecretKey, '$5$rounds=5000$'.$solt); 
+    $token = crypt($account->Key.$account->Secret, '$5$rounds=5000$'.$solt);
     $token = substr($token, strrpos($token, '$')+1);
     $this->Token = $token;
     return $this;

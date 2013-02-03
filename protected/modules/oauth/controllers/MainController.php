@@ -34,7 +34,7 @@ class MainController extends \oauth\components\Controller
     $accessToken = new \oauth\models\AccessToken();
     $accessToken->UserId = $user->Id;
     $accessToken->EventId = $this->Account->EventId;
-    $accessToken->DeathTime = date('Y-m-d H:i:s', time()+86400);
+    $accessToken->EndingTime = date('Y-m-d H:i:s', time()+86400);
     $accessToken->createToken($this->Account);
     $accessToken->save();
 
