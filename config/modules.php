@@ -28,7 +28,7 @@ return array(
     'rbac',
     'tag',
     'user',
-
+    'search',
 
     /** Технические модули */
     'convert',
