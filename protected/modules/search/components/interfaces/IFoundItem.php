@@ -1,9 +1,23 @@
 <?php
-interface IFoundItem 
+namespace search\components;
+class SearchData 
 {
-  public function getTitle();
-  public function getUrl();
-  public function getLogo();
+  public $Title;
+  public $Url;
+  public $Image;
+  
+  public function getTitle()
+  {
+    return $this->Title; 
+  }
+  
+  public function getUrl()
+  {
+    return $this->Url; 
+  }
+  
+  public function getImage()
+  {
+    return $this->Image; 
+  }
 }
-
-?>

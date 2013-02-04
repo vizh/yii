@@ -2,5 +2,6 @@
 namespace search\components\interfaces;
 interface ISearch 
 {
-  public function find($term);
+  public function bySearch($term, $locale = null, $useAnd = true);
+  public function getSearchData();
 }

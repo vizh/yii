@@ -51,7 +51,8 @@ namespace user\models;
  *
  * @property \CEvent $onRegister
  */
-class User extends \application\models\translation\ActiveRecord
+class User extends \application\models\translation\ActiveRecord 
+  implements \search\components\interfaces\ISearch
 {
 
   //Защита от перегрузки при поиске
@@ -261,6 +262,15 @@ class User extends \application\models\translation\ActiveRecord
     {
       return $this->bySearchFullName($parts, $locale, $useAnd);
     }
+  }
+  
+  public function getSearchData() 
+  {
+    $searchData = new \search\components\SearchData();
+    $searchData->Title = $this->Title;
+    $searchData->Url = '123';
+    $searchData->Image = $this->getPhoto();
+    return $searchData;
   }
 
   /**
