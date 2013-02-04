@@ -10,7 +10,7 @@
 return array(
   'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'protected',
   'name'=>'RUNET-ID',
-  'sourceLanguage' => 'ru_ru',
+  'sourceLanguage' => 'ru',
   'language' => 'ru',
 
   // preloading 'log' component
