@@ -64,7 +64,7 @@ return array(
 
     'session' => array(
       'class' => 'CDbHttpSession',
-      'connectionID' => 'dbOld',
+      'connectionID' => 'db',
       'autoCreateSessionTable' => false, //!!!
       'sessionName' => 'sessid',
       'timeout' => 180 * 24 * 60 * 60,
