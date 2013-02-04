@@ -266,11 +266,11 @@ class User extends \application\models\translation\ActiveRecord
   
   public function getSearchData() 
   {
-    $searchData = new \search\components\SearchData();
-    $searchData->Title = $this->Title;
-    $searchData->Url = '123';
-    $searchData->Image = $this->getPhoto();
-    return $searchData;
+    $data = new \search\components\SearchData();
+    $data->Title = $this->Title;
+    $data->Url = '123';
+    $data->Image = $this->getPhoto();
+    return $data;
   }
 
   /**
@@ -296,26 +296,26 @@ class User extends \application\models\translation\ActiveRecord
    */
   private function bySearchFullName($names, $locale = null, $useAnd = true)
   {
-    if ($locale == \Yii::app()->sourceLanguage)
+    if ($locale === null || $locale == \Yii::app()->sourceLanguage)
     {
       $criteria = new \CDbCriteria();
       $size = sizeof($names);
       if ($size == 1)
       {
-        $criteria->condition = 't.LastName LIKE :Part0';
+        $criteria->condition = '"t"."LastName" LIKE :Part0';
         $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%');
       }
       elseif ($size == 2)
       {
-        $criteria->condition = '(t.LastName LIKE :Part0 AND t.FirstName LIKE :Part1 OR ' .
-          't.LastName LIKE :Part1 AND t.FirstName LIKE :Part0)';
+        $criteria->condition = '("t"."LastName" LIKE :Part0 AND "t"."FirstName" LIKE :Part1 OR ' .
+          '"t"."LastName" LIKE :Part1 AND "t"."FirstName" LIKE :Part0)';
         $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%',
           ':Part1' => \Utils::PrepareStringForLike($names[1]) . '%');
       }
       else
       {
-        $criteria->condition = 't.LastName LIKE :Part0 AND t.FirstName LIKE :Part1 AND ' .
-          't.FatherName LIKE :Part2';
+        $criteria->condition = '"t"."LastName" LIKE :Part0 AND "t"."FirstName" LIKE :Part1 AND ' .
+          '"t"."FatherName" LIKE :Part2';
         $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%',
           ':Part1' => \Utils::PrepareStringForLike($names[1]) . '%',
           ':Part2' => \Utils::PrepareStringForLike($names[2]) . '%');

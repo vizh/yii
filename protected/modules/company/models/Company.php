@@ -27,7 +27,7 @@ namespace company\models;
  * @property \user\models\Employment[] $Employments
  * @property \user\models\Employment[] $EmploymentsAll
  */
-class Company extends \CActiveRecord
+class Company extends \CActiveRecord implements \search\components\interfaces\ISearch
 {
   /**
    * @param string $className
@@ -92,4 +92,21 @@ class Company extends \CActiveRecord
 		}
     return $path;
 	}
+  
+  public function bySearch($term, $locale = null, $useAnd = true) 
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->addSearchCondition('"t"."Name"', $term);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function getSearchData() 
+  {
+    $data = new \search\components\SearchData();
+    $data->Title = $this->Name;
+    $data->Url = '123';
+    $data->Image = $this->getLogo();
+    return $data;
+  }
 }
