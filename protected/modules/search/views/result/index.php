@@ -11,7 +11,7 @@
   <div class="container">
     <div class="title">
       <span class="backing runet">Runet</span>
-      <span class="backing text">Результаты поиска</span>
+      <span class="backing text"><?=\Yii::t('app', 'Результаты поиска');?></span>
     </div>
   </div>
 </h2>
@@ -21,11 +21,11 @@
     <div id="search-tabs" class="tabs">
       <?if (empty($results->Results)):?>
         <header class="h">
-          <h4 class="t">По запросу &laquo;<b><?=$term;?></b>&raquo; ничего не найдено!</h4>
+          <h4 class="t"><?=\Yii::t('app', 'По запросу &laquo;<b>{term}</b>&raquo; ничего не найдено!', array('{term}' => $term));?></h4>
         </header>
       <?else:?>
       <header class="h">
-        <h4 class="t">По запросу &laquo;<b><?=$term;?></b>&raquo; найдено:</h4>
+        <h4 class="t"><?=\Yii::t('app', 'По запросу &laquo;<b>{$term}</b>&raquo; найдено:', array('{term}' => $term));?></h4>
       </header>
       
       <ul class="nav">
@@ -100,7 +100,7 @@
                 <tr>
                   <td class="span1">
                     <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $company->Id));?>">
-                      <img src="/images/content/company-logo_small-1.jpg" width="58" height="58" alt="">
+                      <?=\CHtml::image($company->getLogo(), $company->Name, array('width' => 58));?>
                     </a>
                   </td>
                   <td class="span3">
