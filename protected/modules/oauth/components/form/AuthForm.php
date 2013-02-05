@@ -3,18 +3,18 @@ namespace oauth\components\form;
 
 class AuthForm extends \CFormModel
 {
-  public $RocIdOrEmail;
+  public $Login;
   public $Password;
   
   public function rules()
   {
     return array(
-      array('RocIdOrEmail', 'rocIdOrEmailValidate'),
+      array('Login', 'loginValidate'),
       array('Password', 'required')
     );
   }
   
-  public function rocIdOrEmailValidate($attribute, $params)
+  public function loginValidate($attribute, $params)
   {
     if (intval($this->$attribute) > 0)
     {
@@ -24,14 +24,14 @@ class AuthForm extends \CFormModel
     {
       return true;
     }
-    $this->addError($attribute, 'Неверно заполнено поле rocId / Email');
+    $this->addError($attribute, 'Неверно заполнено поле R / Email');
     return false;
   }
   
   public function attributeLabels()
   {
     return array(
-      'RocIdOrEmail' => 'E-mail / rocID',
+      'Login' => '',
       'Password' => 'Пароль'
     );
   }
