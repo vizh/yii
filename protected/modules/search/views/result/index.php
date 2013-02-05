@@ -25,7 +25,7 @@
         </header>
       <?else:?>
       <header class="h">
-        <h4 class="t"><?=\Yii::t('app', 'По запросу &laquo;<b>{$term}</b>&raquo; найдено:', array('{term}' => $term));?></h4>
+        <h4 class="t"><?=\Yii::t('app', 'По запросу &laquo;<b>{term}</b>&raquo; найдено:', array('{term}' => $term));?></h4>
       </header>
       
       <ul class="nav">
