@@ -5,18 +5,20 @@ class Paginator extends \CWidget
 {
   const Pages = 13;
   
-  public $url;
   public $count;
   public $perPage;
   public $params = array();
-  protected $page = 0;
+  public $page = null;
   
   public function init()
   {
-    $this->page = (int) \Yii::app()->request->getParam('page', 1);
-    if ($this->page <= 0)
+    if ($this->page == null)
     {
-      $this->page = 1;
+      $this->page = (int) \Yii::app()->request->getParam('page', 1);
+      if ($this->page <= 0)
+      {
+        $this->page = 1;
+      }
     }
   }
 
@@ -84,8 +86,11 @@ class Paginator extends \CWidget
     return $pages;
   }
 
-  private function getUrl($page)
+  protected function getUrl($page)
   {
-    return \Yii::app()->createUrl($this->url, array_merge(array('page' => $page), $this->params));
+    $route = \Yii::app()->request->getPathInfo();
+    $this->params['page'] = $page;
+    $params = array_merge($_GET, $this->params);
+    return \Yii::app()->createUrl($route, $params);
   }
 }

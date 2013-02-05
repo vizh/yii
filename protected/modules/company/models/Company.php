@@ -100,13 +100,4 @@ class Company extends \CActiveRecord implements \search\components\interfaces\IS
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
-
-  public function getSearchData() 
-  {
-    $data = new \search\components\SearchData();
-    $data->Title = $this->Name;
-    $data->Url = '123';
-    $data->Image = $this->getLogo();
-    return $data;
-  }
 }

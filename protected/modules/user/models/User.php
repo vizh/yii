@@ -263,15 +263,6 @@ class User extends \application\models\translation\ActiveRecord
       return $this->bySearchFullName($parts, $locale, $useAnd);
     }
   }
-  
-  public function getSearchData() 
-  {
-    $data = new \search\components\SearchData();
-    $data->Title = $this->Title;
-    $data->Url = '123';
-    $data->Image = $this->getPhoto();
-    return $data;
-  }
 
   /**
    * @param array $numbers

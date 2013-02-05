@@ -1,7 +1,11 @@
 
 <ul class="pager">
-  <li <?php if ($this->page == 1):?>class="disabled"<?php endif;?>><a href="<?=\Yii::app()->createUrl($this->url, array_merge(array('page' => $this->page > 1 ? $this->page-1 : 1), $this->params));?>">&larr;&nbsp;Следующая</a></li>
-  <li <?php if ($this->page == $this->count):?>class="disabled"<?php endif;?>><a href="<?=\Yii::app()->createUrl($this->url, array_merge(array('page' => $this->page < $this->count ? $this->page+1 : $this->count), $this->params));?>">Предыдущая&nbsp;&rarr;</a></li>
+  <li <?php if ($this->page == 1):?>class="disabled"<?php endif;?>>
+    <a href="<?=$this->getUrl($this->page > 1 ? $this->page-1 : 1);?>">&larr;&nbsp;Предыдущая</a>
+  </li>
+  <li <?php if ($this->page == $this->count):?>class="disabled"<?php endif;?>>
+    <a href="<?=$this->getUrl($this->page < $this->count ? $this->page+1 : $this->count);?>">Следующая&nbsp;&rarr;</a>
+  </li>
 </ul>
 <div class="pagination pagination-centered">
   <ul>

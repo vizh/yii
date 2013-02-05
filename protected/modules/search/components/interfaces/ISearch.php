@@ -10,9 +10,4 @@ interface ISearch
    * @return \CDbCriteria
    */
   public function bySearch($term, $locale = null, $useAnd = true);
-  
-  /**
-   * @return \search\components\SearchData
-   */
-  public function getSearchData();
 }
