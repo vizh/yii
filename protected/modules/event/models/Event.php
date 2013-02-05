@@ -16,6 +16,7 @@ use tag\models\ITaggable;
  * @property int $EndMonth
  * @property int $EndDay
  * @property bool $Visible
+ * @property bool $ShowOnMain
  *
  *
  * @property Part[] $Parts
@@ -60,9 +61,9 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
     return array(
       'Parts' => array(self::HAS_MANY, '\event\models\Part', 'EventId'),
       'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'EventId', 'with' => array('Role')),
-      
-      'Type' => array(self::BELONGS_TO, '\event\models\Type', 'TypeId'),  
-        
+
+      'Type' => array(self::BELONGS_TO, '\event\models\Type', 'TypeId'),
+
       'LinkAddress' => array(self::HAS_ONE, '\event\models\LinkAddress', 'EventId'),
       'LinkPhones' => array(self::HAS_MANY, '\event\models\LinkPhone', 'EventId'),
       'LinkEmails' => array(self::HAS_MANY, '\event\models\LinkEmail', 'EventId'),
@@ -109,7 +110,7 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
-  
+
   public function bySearch($searchTerm, $locale = null, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
@@ -126,7 +127,7 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
-  
+
   public function byVisible($visible = true, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
@@ -134,14 +135,55 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
-  
-  public function byDate($month, $year, $useAnd = true)
+
+  public function byShowOnMain($showOnMain = true, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = '("t"."StartYear" = :Year AND "t"."StartMonth" = :Month) OR ("t"."EndYear" = :Year AND "t"."EndMonth" = :Month)';
+    $criteria->condition = ($showOnMain ? '' : 'NOT ') . '"t"."ShowOnMain"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function byDate($year, $month = null, $useAnd = true)
+  {
+    $criteriaStart = new \CDbCriteria();
+    $criteriaEnd = new \CDbCriteria();
+    $criteriaStart->addCondition('"t"."StartYear" = :Year');
+    $criteriaEnd->addCondition('"t"."EndYear" = :Year');
+    $params = array('Year' => $year);
+    if ($month !== null)
+    {
+      $criteriaStart->addCondition('"t"."StartMonth" = :Month');
+      $criteriaEnd->addCondition('"t"."EndMonth" = :Month');
+      $params['Month'] = $month;
+    }
+    $criteriaStart->mergeWith($criteriaEnd, 'OR');
+    $criteriaStart->params = $params;
+    $this->getDbCriteria()->mergeWith($criteriaStart, $useAnd);
+    return $this;
+  }
+
+  public function byFromDate($year, $month = 1, $day = 1, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EndYear" > :FromYear OR ("t"."EndYear" = :FromYear AND "t"."EndMonth" > :FromMonth) OR ("t"."EndYear" = :FromYear AND "t"."EndMonth" = :FromMonth AND "t"."EndDay" >= :FromDay)';
     $criteria->params = array(
-      'Month' => $month,
-      'Year'  => $year
+      'FromYear' => $year,
+      'FromMonth' => $month,
+      'FromDay' => $day
+    );
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function byToDate($year, $month = 12, $day = 31, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."StartYear" < :ToYear OR ("t"."StartYear" = :ToYear AND "t"."StartMonth" < :ToMonth) OR ("t"."StartYear" = :ToYear AND "t"."StartMonth" = :ToMonth AND "t"."StartDay" <= :ToDay)';
+    $criteria->params = array(
+      'ToYear' => $year,
+      'ToMonth' => $month,
+      'ToDay' => $day
     );
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -172,9 +214,9 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
     }
     /** @var $participant Participant */
     $participant = Participant::model()
-      ->byEventId($this->EventId)
-      ->byUserId($user->UserId)
-      ->byPartId(null)->find();
+        ->byEventId($this->EventId)
+        ->byUserId($user->UserId)
+        ->byPartId(null)->find();
     if (empty($participant))
     {
       $participant = $this->registerUserUnsafe($user, $role);
@@ -194,9 +236,9 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
     }
     /** @var $participant Participant */
     $participant = Participant::model()
-      ->byEventId($this->EventId)
-      ->byUserId($user->UserId)
-      ->byPartId($part->Id)->find();
+        ->byEventId($this->EventId)
+        ->byUserId($user->UserId)
+        ->byPartId($part->Id)->find();
     if (empty($participant))
     {
       $participant = $this->registerUserUnsafe($user, $role, $part);
@@ -339,6 +381,4 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
 
     return $this->attributesByName;
   }
-
-
 }

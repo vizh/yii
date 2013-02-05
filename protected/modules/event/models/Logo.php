@@ -66,6 +66,23 @@ class Logo
     }
   }
 
+  public function getSquare70($serverPath = false)
+  {
+    $name = 'square70/event_'.$this->idName.'.jpg';
+    if ($serverPath)
+    {
+      return $this->getPath($serverPath) . $name;
+    }
+    elseif (file_exists($this->getPath(true) . $name))
+    {
+      return $this->getPath($serverPath) . $name;
+    }
+    else
+    {
+      return $this->getNormal($serverPath);
+    }
+  }
+
   /**
    * @param bool $serverPath
    * @return string

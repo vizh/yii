@@ -29,7 +29,8 @@ class EventListFilterForm extends \CFormModel
     $cityIdList = array();
     $criteria = new \CDbCriteria();
     $criteria->with = array('LinkAddress');
-    $events = \event\models\Event::model()->byDate($month, $year)->byVisible()->findAll($criteria);
+    /** @var $events \event\models\Event[] */
+    $events = \event\models\Event::model()->byDate($year, $month)->byVisible()->findAll($criteria);
     foreach ($events as $event)
     {
       if ($event->getContactAddress() !== null)
@@ -66,7 +67,7 @@ class EventListFilterForm extends \CFormModel
     $criteria = new \CDbCriteria();
     $criteria->with = array('Type');
     $criteria->order = '"Type"."Priority" DESC';
-    $events = \event\models\Event::model()->byDate($month, $year)->byVisible()->findAll($criteria);
+    $events = \event\models\Event::model()->byDate($year, $month)->byVisible()->findAll($criteria);
     foreach ($events as $event)
     {
       if ($event->Type !== null

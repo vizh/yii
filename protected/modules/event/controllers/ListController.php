@@ -17,7 +17,7 @@ class ListController extends \application\components\controllers\PublicMainContr
       throw new CHttpException(404);
     }
     
-    $eventModel = \event\models\Event::model()->byVisible()->byDate($this->month, $this->year);
+    $eventModel = \event\models\Event::model()->byVisible()->byDate($this->year, $this->month);
     $criteria = new \CDbCriteria();
     $criteria->with = array('LinkAddress', 'LinkAddress.Address', 'Type');
     

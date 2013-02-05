@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var $events \event\models\Event[]
+ * @var $this DefaultController
+ */
+?>
+
 <div id="promo" class="b-promo">
   <div class="container">
     <img src="/images/logo-large.png" width="448" height="41" alt="-RUNET-ID-" class="logo">
@@ -89,69 +96,25 @@
       </div>
     </h2>
     <div class="row">
-      <div class="event span4">
-        <img src="/images/content/event-logo-1.jpg" width="70" height="70" alt="" class="logo img-circle">
-        <div class="datetime">
-          <span class="date">
-            <span class="day">28</span>
-            <span class="month">сентября</span>
-          </span>
+
+      <?foreach ($events as $event):?>
+        <div class="event span4">
+          <img src="<?=$event->getLogo()->getSquare70();?>" width="70" height="70" alt="" class="logo img-circle">
+          <?=$this->renderPartial('index/event-dates', array('event' => $event));?>
+          <header>
+            <h4 class="title">
+              <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>"><?=$event->Title;?></a>
+            </h4>
+          </header>
+          <article>
+            <p><?=$event->Info;?></p>
+            <a href="/event-page.html">...</a>
+          </article>
+          <footer>
+            <img src="/images/blank.gif" alt="" class="i-event_small <?=$event->Type->CssClass;?>">
+          </footer>
         </div>
-        <header>
-          <h4 class="title">
-            <a href="/event-page.html">RIW-2012&nbsp;&mdash; V&nbsp;Неделя Российского Интернета, RussianInternetWeek</a>
-          </h4>
-        </header>
-        <article>
-          <p>&laquo;Неделя российского Интернета&raquo;&nbsp;&mdash; это многопотоковая трехдневная конференция, состоящая из&nbsp;Общей и&nbsp;Профессиональной программы, Выставки</p>
-          <a href="/event-page.html">...</a>
-        </article>
-        <footer>
-          <img src="/images/blank.gif" alt="" class="i-event_small i-event_training">
-        </footer>
-      </div>
-      <div class="event span4">
-        <img src="/images/content/event-logo-2.jpg" width="70" height="70" alt="" class="logo img-circle">
-        <div class="datetime">
-          <span class="date">
-            <span class="day">15</span>
-            <span class="month">августа</span>
-          </span>
-        </div>
-        <header>
-          <h4 class="title">
-            <a href="/event-page.html">Онлайн-конференция &laquo;Практика онлайн-бизнеса&raquo;</a>
-          </h4>
-        </header>
-        <article>
-          <p>28&nbsp;июня пройдет беспрецедентное для Рунета событие&nbsp;&mdash; ведущие специалисты-практики отрасли соберутся в&nbsp;специально оборудованной телестудии и&nbsp;раскроют ведущие специалисты-практики</p>
-          <a href="/event-page.html">...</a>
-        </article>
-        <footer>
-          <img src="/images/blank.gif" alt="" class="i-event_small i-event_webinar">
-        </footer>
-      </div>
-      <div class="event span4">
-        <img src="/images/content/event-logo-3.jpg" width="70" height="70" alt="" class="logo img-circle">
-        <div class="datetime">
-          <span class="date">
-            <span class="day">3</span>
-            <span class="month">мая</span>
-          </span>
-        </div>
-        <header>
-          <h4 class="title">
-            <a href="/event-page.html">Платежные системы в&nbsp;России. Современные инструменты развития бизнеса</a>
-          </h4>
-        </header>
-        <article>
-          <p>28&nbsp;июня пройдет беспрецедентное для Рунета событие&nbsp;&mdash; ведущие специалисты-практики отрасли соберутся в&nbsp;специально</p>
-          <a href="/event-page.html">...</a>
-        </article>
-        <footer>
-          <img src="/images/blank.gif" alt="" class="i-event_small i-event_conference">
-        </footer>
-      </div>
+      <?endforeach;?>
     </div>
   </div>
 </div>
