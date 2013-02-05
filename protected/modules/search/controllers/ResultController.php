@@ -4,22 +4,31 @@ class ResultController extends \application\components\controllers\PublicMainCon
   public function actionIndex($term)
   {
     $search = new \search\models\Search();
-    
+    $tab = \Yii::app()->request->getParam('tab', \search\components\SearchResultTabId::User);
     $page  = \Yii::app()->request->getParam('page', 1);
     if ($page < 1)
     {
       $page = 1;
     }
-    $search->setPageSettings($page, \Yii::app()->params['SearchResultPerPage']);
+    $offset = ($page - 1) * \Yii::app()->params['SearchResultPerPage'];
     
+    
+    $userModel = \user\models\User::model();
     $criteria = new \CDbCriteria();
     $criteria->with = array(
       'Employments' => array('together' => false),
       'Settings'
     );
-    $userModel = \user\models\User::model();
+    $criteria->limit = \Yii::app()->params['SearchResultPerPage'];
+    if ($tab == \search\components\SearchResultTabId::User)
+    {
+      $criteria->limit *= $page;
+      $criteria->offset = $offset;
+    }    
     $userModel->getDbCriteria()->mergeWith($criteria);
     
+    
+    $companyModels = \company\models\Company::model();
     $criteria = new \CDbCriteria();
     $criteria->with = array(
       'LinkAddress.Address.City',
@@ -34,12 +43,20 @@ class ResultController extends \application\components\controllers\PublicMainCon
       ),
       'LinkSite.Site'
     );
-    $companyModels = \company\models\Company::model();
+    $criteria->limit = \Yii::app()->params['SearchResultPerPage'];
+    if ($tab == \search\components\SearchResultTabId::Companies)
+    {
+      $criteria->limit *= $page;
+      $criteria->offset = $offset;
+    }
     $companyModels->getDbCriteria()->mergeWith($criteria);
+    
+    
     $search->appendModel($userModel)->appendModel($companyModels);
     $this->render('index', array(
       'results' => $search->findAll($term),
-      'term' => $term
+      'term' => $term,
+      'tab' => $tab
     ));
   }
 }

@@ -1,7 +1,7 @@
 <?if (\Yii::app()->request->getParam('tab') !== null):?>
 <script>
   $(function () {
-    $('a[href="#<?=\Yii::app()->request->getParam('tab');?>"]').trigger('click');
+    $('a[href="#<?=$tab;?>"]').trigger('click');
   });
 </script>
 <?endif;?>
@@ -19,22 +19,27 @@
 <div class="search-results">
   <div class="container">
     <div id="search-tabs" class="tabs">
+      <?if (empty($results->Results)):?>
+        <header class="h">
+          <h4 class="t">По запросу &laquo;<b><?=$term;?></b>&raquo; ничего не найдено!</h4>
+        </header>
+      <?else:?>
       <header class="h">
         <h4 class="t">По запросу &laquo;<b><?=$term;?></b>&raquo; найдено:</h4>
       </header>
-
+      
       <ul class="nav">
-        <li><a href="#search-tab_users" class="pseudo-link">
+        <li><a href="#<?=\search\components\SearchResultTabId::User;?>" class="pseudo-link">
           <?=\Yii::t('app', '{n} пользователь|{n} пользователя|{n} пользователей|{n} пользователя', $results->Counts['user\models\User']);?>
         </a></li>
         <li>/</li>
-        <li><a href="#search-tab_companies" class="pseudo-link">
+        <li><a href="#<?=\search\components\SearchResultTabId::Companies;?>" class="pseudo-link">
           <?=\Yii::t('app', '{n} компания|{n} компании|{n} компаний|{n} компания', $results->Counts['company\models\Company']);?>
         </a></li>
       </ul>
       
       <?if (!empty($results->Results['user\models\User'])):?>
-      <div id="search-tab_users" class="tab users-list">
+      <div id="<?=\search\components\SearchResultTabId::User;?>" class="tab users-list">
         <div class="row">
           <div class="span8 offset2">
             <table class="table">
@@ -57,8 +62,8 @@
                   </td>
                   <td class="span4 user">
                     <a href="<?=$this->createUrl('/user/view/index', array('runetId' => $user->RunetId));?>">
-                      <h4 class="title"><?=$user->LastName;?></h4>
-                      <p class="name"><?=$user->getName();?></p>
+                      <h4 class="title"><?=$user->FirstName;?></h4>
+                      <p class="name"><?=$user->LastName;?> <?if ($user->getIsShowFatherName()):?><?=$user->FatherName;?><?endif;?></p>
                     </a>
                   </td>
                   <td class="span3">
@@ -73,18 +78,20 @@
             </table>
           </div>
         </div>
+        
         <?php $this->widget('\application\widgets\Paginator', array(
-          'count' => $results->Counts['company\models\Company'],
+          'count' => $results->Counts['user\models\User'],
           'perPage' => \Yii::app()->params['SearchResultPerPage'],
+          'page' => ($tab == \search\components\SearchResultTabId::User ? null : 1),  
           'params' => array(
-            'tab'  => 'search-tab_users'
+            'tab'  => \search\components\SearchResultTabId::User
           )
         ));?>
       </div>
       <?endif;?>
 
       <?if (!empty($results->Results['company\models\Company'])):?>
-      <div id="search-tab_companies" class="tab companies-list">
+      <div id="<?=\search\components\SearchResultTabId::Companies;?>" class="tab companies-list">
         <div class="row">
           <div class="span8 offset2">
             <table class="table">
@@ -129,11 +136,13 @@
         <?php $this->widget('\application\widgets\Paginator', array(
           'count' => $results->Counts['company\models\Company'],
           'perPage' => \Yii::app()->params['SearchResultPerPage'],
+          'page' => ($tab == \search\components\SearchResultTabId::Companies ? null : 1),
           'params' => array(
-            'tab'  => 'search-tab_companies'
+            'tab'  => \search\components\SearchResultTabId::Companies
           )
         ));?>
       </div>
+      <?endif;?>
       <?endif;?>
     </div>
   </div>

@@ -96,7 +96,8 @@ class Company extends \CActiveRecord implements \search\components\interfaces\IS
   public function bySearch($term, $locale = null, $useAnd = true) 
   {
     $criteria = new \CDbCriteria();
-    $criteria->addSearchCondition('"t"."Name"', $term);
+    $criteria->condition = 'to_tsvector("t"."Name") @@ plainto_tsquery(:Term)';
+    $criteria->params['Term'] = $term;
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
