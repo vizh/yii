@@ -350,7 +350,8 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
    */
   public function getAttribute($name)
   {
-    return isset($this->getAttributesByName()[$name]) ? $this->getAttributesByName()[$name] : null;
+    $attributes = $this->getAttributesByName();
+    return isset($attributes[$name]) ? $attributes[$name] : null;
   }
 
   private $attributesByName = null;

@@ -102,6 +102,6 @@
 </div>
 
 <ul class="pager">
-  <li class="disabled"><a href="#">&larr;&nbsp;<?php echo \Yii::t('app', 'Новые');?></a></li>
-  <li><a href="#"><?php echo \Yii::t('app', 'Старые');?>&nbsp;&rarr;</a></li>
+  <li><a href="<?=$prevMonthUrl;?>">&larr;&nbsp;<?php echo \Yii::t('app', 'Старые');?></a></li>
+  <li><a href="<?=$nextMonthUrl;?>"><?php echo \Yii::t('app', 'Новые');?>&nbsp;&rarr;</a></li>
 </ul>
