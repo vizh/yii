@@ -21,7 +21,7 @@ class ListController extends \application\components\controllers\PublicMainContr
     $criteria = new \CDbCriteria();
     $criteria->with = array('LinkAddress', 'LinkAddress.Address', 'Type');
     
-    $this->filter = new \event\models\forms\EventListFilterForm();
+    $this->filter = new \event\models\forms\ListFilterForm();
     $request = \Yii::app()->getRequest();
     $this->filter->attributes = $request->getParam(get_class($this->filter));
     if ($request->getIsPostRequest() && $this->filter->validate())

@@ -5,7 +5,7 @@ namespace job\models;
  * @property int $Id
  * @property string $Title
  */
-class Position extends \CActiveRecord
+class CategoryLinkPosition extends \CActiveRecord
 {
   /**
    * @param string $className
@@ -18,11 +18,18 @@ class Position extends \CActiveRecord
 	
 	public function tableName()
 	{
-		return 'JobPosition';
+		return 'JobCategoryLinkPosition';
 	}
 	
 	public function primaryKey()
 	{
 		return 'Id';
 	}
+  
+  public function relations()
+  {
+    return array(
+      'Position'  => array(self::BELONGS_TO, '\job\models\Position', 'PositionId'),
+    );
+  }
 }

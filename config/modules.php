@@ -29,7 +29,7 @@ return array(
     'tag',
     'user',
     'search',
-
+    'job',
     /** Технические модули */
     'convert',
     'mytest',

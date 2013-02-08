@@ -1,7 +1,7 @@
 <?php
 namespace event\models\forms;
 
-class EventListFilterForm extends \CFormModel
+class ListFilterForm extends \CFormModel
 {
   public $City;
   public $Type;

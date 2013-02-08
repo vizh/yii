@@ -1,6 +1,6 @@
 <?php
 namespace company\models\form;
-class CompanyListFilterForm extends \CFormModel
+class ListFilterForm extends \CFormModel
 {
   public $City;
   public $Query;

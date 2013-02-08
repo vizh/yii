@@ -12,6 +12,8 @@ return array(
     'CompanyLogoDir' => '/files/logo/', //
       
     'SearchResultPerPage' => 20, 
+    
+    'JobPerPage' => 12,
       
     'UserPerPage' => 20, // Количество результатов пользователей на страницу
     'UserPhotoDir' => '/files/photo/', //

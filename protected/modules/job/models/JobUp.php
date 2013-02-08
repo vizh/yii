@@ -1,33 +1,18 @@
 <?php
-namespace company\models;
-
+namespace job\models;
 
 /**
- * @throws \Exception
- *
  * @property int $Id
- * @property string $Name
- * @property string $FullName
- * @property string $Info
- * @property string $FullInfo
- * @property string $CreationTime
- * @property string $UpdateTime
- *
- *
- *
- *
- *
- *
- *
- * @property \company\models\LinkEmail[] $LinkEmails
- * @property \company\models\LinkAddress $Address
- * @property \company\models\LinkPhone[] $Phones
- * @property \company\models\LinkSite $Site
-
- * @property \user\models\Employment[] $Employments
- * @property \user\models\Employment[] $EmploymentsAll
+ * @property string $Position
+ * @property string $Text
+ * @property int $SalaryFrom
+ * @property int $SalaryTo
+ * @property int $CompanyId
+ * @property int $PositionId
+ * @property string $CrateTime 
+ * @property bool $Visible
  */
-class Company extends \CActiveRecord implements \search\components\interfaces\ISearch
+class JobUp extends \CActiveRecord
 {
   /**
    * @param string $className
@@ -40,64 +25,26 @@ class Company extends \CActiveRecord implements \search\components\interfaces\IS
 	
 	public function tableName()
 	{
-		return 'Company';
+		return 'JobUp';
 	}
 	
 	public function primaryKey()
 	{
 		return 'Id';
 	}
-
+  
   public function relations()
   {
     return array(
-      'LinkEmails' => array(self::HAS_MANY, '\company\models\LinkEmail', 'CompanyId'),
-      'LinkAddress' => array(self::HAS_ONE, '\company\models\LinkAddress', 'CompanyId'),
-      'LinkSite' => array(self::HAS_ONE, '\company\models\LinkSite', 'CompanyId'),
-      'LinkPhones' => array(self::HAS_MANY, '\company\models\LinkPhone', 'CompanyId'),  
-        
-      //Сотрудники
-      'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'order' => '"User"."LastName" DESC', 'condition' => '"Employments"."EndYear" IS NULL', 'with' => array('User')),
-      'EmploymentsAll' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'with' => array('User')),
+      'Job'  => array(self::BELONGS_TO, '\job\models\Job', 'JobId'),
     );
   }
   
-  
-  
-  public static function getLogoBaseDir($onServerDisc = false)
-	{
-    $result = \Yii::app()->params['CompanyLogoDir'];
-    if ($onServerDisc)
-    {
-      $result .= $_SERVER['DOCUMENT_ROOT'].$result;
-    }
-    return $result;
-	}
-  
-  /**
-	* Возвращает путь к изображению компании
-	* @param bool $onServerDisc
-	* @return string
-	*/
-	public function getLogo($onServerDisc = false)
-	{
-		$path = $this->Id . '_200.jpg';
-		if ($onServerDisc || file_exists(self::getLogoBaseDir(true).$path))
-		{
-			$path = self::getLogoBaseDir($onServerDisc).$path;
-		}
-		else
-		{
-			$path = self::getLogoBaseDir($onServerDisc) . 'no_logo.png';
-		}
-    return $path;
-	}
-  
-  public function bySearch($term, $locale = null, $useAnd = true) 
+  public function byActual($useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 'to_tsvector("t"."Name") @@ plainto_tsquery(:Term)';
-    $criteria->params['Term'] = $term;
+    $criteria->condition = '"t"."StartTime" >= :Date';
+    $criteria->params['Date'] = date('Y-m-d');
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

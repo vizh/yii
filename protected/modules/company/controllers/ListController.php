@@ -12,7 +12,7 @@ class ListController extends \application\components\controllers\PublicMainContr
       'Employments' => array('together' => false)
     );
     
-    $filter = new \company\models\form\CompanyListFilterForm();
+    $filter = new \company\models\form\ListFilterForm();
     $request = \Yii::app()->getRequest();
     $filter->attributes = $request->getParam(get_class($filter));
     if ($request->getIsPostRequest() && $filter->validate())
