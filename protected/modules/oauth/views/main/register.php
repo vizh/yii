@@ -28,7 +28,7 @@
       <?=CHtml::activeTextField($model, 'City', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('City')));?>
     </div>
 
-    <?=CHtml::errorSummary($model, '<div class="alert alert-error m-bottom_20">', '</div>');?>
+    <?=CHtml::errorSummary($model, '<div class="alert alert-error">', '</div>');?>
 
     <button type="submit" class="btn btn-large btn-block btn-info"><i class="icon-ok-sign icon-white"></i>&nbsp;Зарегистрироваться</button>
   </fieldset>

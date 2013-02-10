@@ -3,6 +3,8 @@ namespace oauth\components;
 
 class Controller extends \application\components\controllers\BaseController
 {
+  const SelfId = 1;
+
   public $layout = '/layouts/oauth';
 
   /** @var \api\models\Account */
@@ -18,11 +20,19 @@ class Controller extends \application\components\controllers\BaseController
   {
     $request = \Yii::app()->getRequest();
     $this->apiKey = $request->getParam('ApiKey');
-    /** @var $account \api\models\Account */
-    $account = \api\models\Account::model()->byKey($this->apiKey)->find();
+    if ($this->apiKey !== null)
+    {
+      /** @var $account \api\models\Account */
+      $account = \api\models\Account::model()->byKey($this->apiKey)->find();
+    }
+    else
+    {
+      $account = \api\models\Account::model()->findByPk(self::SelfId);
+    }
+
     $this->url = $request->getParam('url');
     $this->social = $request->getParam('social');
-    if (empty($account) || empty($this->url))
+    if (empty($account) || (empty($this->url) && $account->Id !== self::SelfId))
     {
       throw new \CHttpException(400);
     }
@@ -48,8 +58,11 @@ class Controller extends \application\components\controllers\BaseController
   public function createUrl($route, $params = array(), $ampersand = '&')
   {
     $request = \Yii::app()->getRequest();
+    if (!empty($this->apiKey))
+    {
+      $params['ApiKey'] = $this->apiKey;
+    }
     $params = array_merge(array(
-      'ApiKey' => $this->apiKey,
       'r_state' => $request->getParam('r_state'),
       'url' => $this->url,
       'social' => $this->social,

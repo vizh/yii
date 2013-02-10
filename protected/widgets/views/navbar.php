@@ -9,7 +9,7 @@
       <li class="item"><a href="/competences-list.html">Компетенции</a></li>
       <li class="item"><a href="/jobs-list.html">Работа</a></li>
       <li class="divider-vertical"></li>
-      <li class="login"><a href="#">Войти / Зарегистрироваться</a></li>
+      <li class="login"><a href="#ModalAuth" data-toggle="modal">Войти / Зарегистрироваться</a></li>
       <li class="divider-vertical"></li>
     </ul>
     <ul class="nav pull-right">
@@ -27,3 +27,4 @@
     </ul>
   </div>
 </div>
+

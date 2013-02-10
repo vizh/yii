@@ -58,11 +58,12 @@ class TestController extends CController
     $result = curl_exec($curl);
 
     echo '<pre>';
+    print_r($result);
 
     echo  curl_error ($curl);
-    //$result = json_decode($result);
-    //print_r($result);
-    echo $result;
+    $result = json_decode($result);
+
+    print_r($result);
     echo '</pre>';
   }
 }
