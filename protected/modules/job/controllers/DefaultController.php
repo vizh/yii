@@ -50,16 +50,23 @@ class DefaultController extends \application\components\controllers\PublicMainCo
     }
     $criteria->limit = $page * \Yii::app()->params['JobPerPage'];
     $criteria->offset = ($page - 1) * \Yii::app()->params['JobPerPage'];
-    
+     
     $jobs = \job\models\Job::model()->findAll($criteria);
     
-    
-    echo sizeof($jobs);
+    if ($page == 1 && !empty($jobs))
+    {
+      $criteria->with = array('Job.Category', 'Job.Position', 'Job.Company');
+      $criteria->condition = str_replace('"t".', '"Job".', $criteria->condition);
+      $criteria->addCondition('"t"."StartTime" <= :Date AND "t"."EndTime" >= :Date');
+      $criteria->params['Date'] = date('Y-m-d H:i:s');
+      $jobUp = \job\models\JobUp::model()->find($criteria);
+    }
     
     $this->bodyId = 'jobs-page';
     $this->render('index', array(
       'filter' => $filter,
-      'jobs'   => $jobs
+      'jobs'   => $jobs,
+      'jobUp'  => $jobUp
     ));
   }
 }
