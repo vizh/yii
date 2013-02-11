@@ -3,33 +3,30 @@ namespace application\components\auth\identity;
 
 class Password extends \application\components\auth\identity\Base
 {
-  public function __construct($rocIdOrEmail, $password)
+  public function __construct($login, $password)
   {
-    $this->username = $rocIdOrEmail;
+    $this->username = $login;
     $this->password = $password;
   }
   
   public function authenticate()
   {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.Rocid = :RocIdOrEmail OR t.Email = :RocIdOrEmail';
-    $criteria->params['RocIdOrEmail'] = $this->username;
     /** @var $user \user\models\User */
-    $user = \user\models\User::model()->find($criteria);
-    if ($user == null
-        || $user->Settings->Visible == 0)
+    $user = \user\models\User::model()
+        ->byRunetId(intval($this->username))
+        ->byEmail($this->username, false)->find();
+    if ($user === null)
     {
       $this->errorCode = self::ERROR_USERNAME_INVALID;
     }
-    else if (!$user->CheckLogin($user->RocId, $this->password))
+    else if (!$user->checkLogin($this->password))
     {
       $this->errorCode = self::ERROR_PASSWORD_INVALID;
     }
     else
     {
-      $this->_id = $user->UserId;
+      $this->_id = $user->Id;
       $this->errorCode = self::ERROR_NONE;
-      $user->CreateSecretKey();
     }
     return $this->errorCode == self::ERROR_NONE;
   }

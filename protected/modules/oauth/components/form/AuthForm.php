@@ -5,12 +5,14 @@ class AuthForm extends \CFormModel
 {
   public $Login;
   public $Password;
+  public $RememberMe = null;
   
   public function rules()
   {
     return array(
       array('Login', 'loginValidate'),
-      array('Password', 'required')
+      array('Password', 'required'),
+      array('RememberMe', 'safe')
     );
   }
   
@@ -31,8 +33,9 @@ class AuthForm extends \CFormModel
   public function attributeLabels()
   {
     return array(
-      'Login' => '',
-      'Password' => 'Пароль'
+      'Login' => 'Эл. почта или RUNET-ID',
+      'Password' => 'Пароль',
+      'RememberMe' => 'Запомнить меня'
     );
   }
 }

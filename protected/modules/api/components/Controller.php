@@ -5,6 +5,28 @@ class Controller extends \application\components\controllers\BaseController
 {
   protected $result = null;
 
+
+  /**
+   * @param \CAction $action
+   *
+   * @return bool
+   */
+  protected function beforeAction($action)
+  {
+    $routes = \Yii::app()->log->getRoutes();
+    foreach ($routes as $route)
+    {
+      if ($route instanceof \CProfileLogRoute || $route instanceof \CWebLogRoute)
+      {
+        $route->enabled = false;
+      }
+    }
+    return parent::beforeAction($action);
+  }
+
+  /**
+   * @param \CAction $action
+   */
   public function afterAction($action)
   {
     echo json_encode($this->result);
