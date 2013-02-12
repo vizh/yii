@@ -46,17 +46,7 @@
               <a href="#"><?=\Yii::t('app', 'Ответить на вакансию');?></a>
             </article>
             <footer class="salary">
-              <?if ($job->SalaryFrom == $job->SalaryTo):?>
-                <span>&nbsp;</span>
-                <strong><?=$job->SalaryFrom;?></strong>
-              <?elseif (empty($job->SalaryTo)):?>
-                <span><?=\Yii::t('app', 'от');?></span>
-                <strong><?=$job->SalaryFrom;?></strong>
-              <?else:?>
-                <span>&nbsp;</span>
-                <strong><?=$job->SalaryFrom;?>&nbsp;&ndash;&nbsp;<?=$job->SalaryTo;?></strong>
-              <?endif;?>
-              <span><?=\Yii::t('app', 'Р');?></span>
+              <?=$this->renderPartial('job-salary', array('job' => $job));?>
             </footer>
             <div class="category">
               <a href="<?=$this->createUrl('/job/default/index', array('Filter[CategoryId]' => $job->CategoryId));?>"><?=$job->Category->Title;?></a>
@@ -91,17 +81,7 @@
             <div class="row">
               <div class="span4 offset4">
                 <footer class="salary">
-                  <?if ($jobUp->Job->SalaryFrom == $jobUp->Job->SalaryTo):?>
-                    <span>&nbsp;</span>
-                    <strong><?=$jobUp->Job->SalaryFrom;?></strong>
-                  <?elseif (empty($jobUp->Job->SalaryTo)):?>
-                    <span><?=\Yii::t('app', 'от');?></span>
-                    <strong><?=$jobUp->Job->SalaryFrom;?></strong>
-                  <?else:?>
-                    <span>&nbsp;</span>
-                    <strong><?=$jobUp->Job->SalaryFrom;?>&nbsp;&ndash;&nbsp;<?=$jobUp->Job->SalaryTo;?></strong>
-                  <?endif;?>
-                  <span><?=\Yii::t('app', 'Р');?></span>
+                  <?=$this->renderPartial('job-salary', array('job' => $jobUp->Job));?>
                 </footer>
               </div>
             </div>
@@ -133,17 +113,7 @@
               <a href="#"><?=\Yii::t('app', 'Ответить на вакансию');?></a>
             </article>
             <footer class="salary">
-              <?if ($job->SalaryFrom == $job->SalaryTo):?>
-                <span>&nbsp;</span>
-                <strong><?=$job->SalaryFrom;?></strong>
-              <?elseif (empty($job->SalaryTo)):?>
-                <span><?=\Yii::t('app', 'от');?></span>
-                <strong><?=$job->SalaryFrom;?></strong>
-              <?else:?>
-                <span>&nbsp;</span>
-                <strong><?=$job->SalaryFrom;?>&nbsp;&ndash;&nbsp;<?=$job->SalaryTo;?></strong>
-              <?endif;?>
-              <span>Р</span>
+              <?=$this->renderPartial('job-salary', array('job' => $job));?>
             </footer>
             <div class="category">
               <a href="<?=$this->createUrl('/job/default/index', array('Filter[CategoryId]' => $job->CategoryId));?>"><?=$job->Category->Title;?></a>
