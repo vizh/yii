@@ -25,7 +25,9 @@ class ListFilterForm extends \CFormModel
       ->where('"t"."Visible"')
       ->queryAll();
    
-    $categoryList = array();
+    $categoryList = array(
+      \Yii::t('app', 'Все категории')
+    );
     foreach ($categories as $category)
     {
       $categoryList[$category['Id']] = $category['Title'];
@@ -45,7 +47,9 @@ class ListFilterForm extends \CFormModel
       ))
       ->queryAll();
     
-    $positionList = array();
+    $positionList = array(
+      \Yii::t('app', 'Все специальности')
+    );
     foreach ($positions as $position)
     {
       $positionList[$position['Id']] = $position['Title'];

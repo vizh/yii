@@ -2,8 +2,16 @@
 namespace company\models\form;
 class ListFilterForm extends \CFormModel
 {
-  public $City;
+  public $CityId;
   public $Query;
+  
+  public function rules() 
+  {
+    return array(
+      array('CityId', 'numerical', 'allowEmpty' => true),
+      array('Query', 'safe')
+    );
+  }
   
   public function getCityList() 
   {
@@ -25,13 +33,5 @@ class ListFilterForm extends \CFormModel
       $cityList[$city['Id']] = $city['Name'];
     }
     return $cityList;
-  }
-  
-  public function rules() 
-  {
-    return array(
-      array('Query', 'safe'),
-      array('City', 'numerical')
-    );
   }
 }

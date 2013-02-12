@@ -14,8 +14,8 @@ class ListController extends \application\components\controllers\PublicMainContr
     
     $filter = new \company\models\form\ListFilterForm();
     $request = \Yii::app()->getRequest();
-    $filter->attributes = $request->getParam(get_class($filter));
-    if ($request->getIsPostRequest() && $filter->validate())
+    $filter->attributes = $request->getParam('Filter');
+    if ($request->getParam('Filter') !== null && $filter->validate())
     {
       foreach ($filter->attributes as $attr => $value)
       {
@@ -23,7 +23,7 @@ class ListController extends \application\components\controllers\PublicMainContr
         {
           switch($attr)
           {
-            case 'City':
+            case 'CityId':
               $criteria->addCondition('"Address"."CityId" = :CityId');
               $criteria->params['CityId'] = $value;
               break;
@@ -43,7 +43,7 @@ class ListController extends \application\components\controllers\PublicMainContr
     {
       $page = 1;
     }
-    $criteria->limit  = $page * \Yii::app()->params['CompanyPerPage'];
+    $criteria->limit  = \Yii::app()->params['CompanyPerPage'];
     $criteria->offset = ($page - 1) * \Yii::app()->params['CompanyPerPage'];
     
     

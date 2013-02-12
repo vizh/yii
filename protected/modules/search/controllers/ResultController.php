@@ -22,7 +22,6 @@ class ResultController extends \application\components\controllers\PublicMainCon
     $criteria->limit = \Yii::app()->params['SearchResultPerPage'];
     if ($tab == \search\components\SearchResultTabId::User)
     {
-      $criteria->limit *= $page;
       $criteria->offset = $offset;
     }    
     $userModel->getDbCriteria()->mergeWith($criteria);
@@ -46,7 +45,6 @@ class ResultController extends \application\components\controllers\PublicMainCon
     $criteria->limit = \Yii::app()->params['SearchResultPerPage'];
     if ($tab == \search\components\SearchResultTabId::Companies)
     {
-      $criteria->limit *= $page;
       $criteria->offset = $offset;
     }
     $companyModels->getDbCriteria()->mergeWith($criteria);

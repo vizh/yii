@@ -10,7 +10,7 @@ class DefaultController extends \application\components\controllers\PublicMainCo
     
     $request = \Yii::app()->getRequest();
     $filter = new \job\models\form\ListFilterForm();
-    $filter->attributes = $request->getParam(get_class($filter));
+    $filter->attributes = $request->getParam('Filter');
     if ($filter->validate())
     {
       foreach ($filter->attributes as $attribute => $value)
@@ -43,30 +43,38 @@ class DefaultController extends \application\components\controllers\PublicMainCo
       }
     }
     
-    $page = $request->getParam('page');
+    $page = $request->getParam('page', 1);
     if ($page <= 0)
     {
       $page = 1;
     }
-    $criteria->limit = $page * \Yii::app()->params['JobPerPage'];
+    $allJobCount = \job\models\Job::model()->count($criteria);
+    $criteria->limit = \Yii::app()->params['JobPerPage'];
     $criteria->offset = ($page - 1) * \Yii::app()->params['JobPerPage'];
-     
-    $jobs = \job\models\Job::model()->findAll($criteria);
+    $criteria->order = '"t"."Id" DESC';
     
-    if ($page == 1 && !empty($jobs))
+    $jobUp = null;
+    if ($page == 1)
     {
-      $criteria->with = array('Job.Category', 'Job.Position', 'Job.Company');
-      $criteria->condition = str_replace('"t".', '"Job".', $criteria->condition);
-      $criteria->addCondition('"t"."StartTime" <= :Date AND "t"."EndTime" >= :Date');
-      $criteria->params['Date'] = date('Y-m-d H:i:s');
-      $jobUp = \job\models\JobUp::model()->find($criteria);
+      $criteriaUp = new \CDbCriteria();
+      $criteriaUp->mergeWith($criteria);
+      $criteriaUp->with = array('Job.Category', 'Job.Position', 'Job.Company');
+      $criteriaUp->condition = str_replace('"t".', '"Job".', $criteria->condition);
+      $criteriaUp->addCondition('"t"."StartTime" <= :Date AND ("t"."EndTime" >= :Date OR "t"."EndTime" IS NULL)');
+      $criteriaUp->params['Date'] = date('Y-m-d H:i:s');
+      $jobUp = \job\models\JobUp::model()->find($criteriaUp);
+      if ($jobUp !== null)
+      {
+        $criteria->addCondition('"t"."Id" != '.$jobUp->JobId);
+      }
     }
-    
+    $jobs = \job\models\Job::model()->findAll($criteria);
     $this->bodyId = 'jobs-page';
     $this->render('index', array(
       'filter' => $filter,
       'jobs'   => $jobs,
-      'jobUp'  => $jobUp
+      'jobUp'  => $jobUp,
+      'allJobCount' => $allJobCount
     ));
   }
 }

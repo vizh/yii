@@ -7,8 +7,8 @@ $(function () {
     init : function () {
       var self = this;
       self.filter.find('select.form-filter_category').change(function (e) {
-        self.filter.find('select.form-filter_position').hide()
-        self.filter.find('select.form-filter_position[data-category='+$(e.currentTarget).val()+']').show();
+        self.filter.find('select.form-filter_position').hide().attr('disabled', 'disabled')
+        self.filter.find('select.form-filter_position[data-category='+$(e.currentTarget).val()+']').removeAttr('disabled').show();
       }).trigger('change');
       
       self.filter.find('.form-filter_salary a').click(function (e) {

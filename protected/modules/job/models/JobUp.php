@@ -11,6 +11,7 @@ namespace job\models;
  * @property int $PositionId
  * @property string $CrateTime 
  * @property bool $Visible
+ * @property job\models\Job $job
  */
 class JobUp extends \CActiveRecord
 {

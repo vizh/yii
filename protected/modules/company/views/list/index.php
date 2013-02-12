@@ -9,10 +9,10 @@
 </h2>
 
 <div class="container">
-  <?=\CHtml::beginForm('','POST',array('class' => 'form-inline form-filter span12'));?>
-    <?=\CHtml::activeDropDownList($filter, 'City', $filter->getCityList());?>
+  <?=\CHtml::beginForm($this->createUrl('/company/list/index'),'get',array('class' => 'form-inline form-filter span12'));?>
+    <?=\CHtml::activeDropDownList($filter, 'CityId', $filter->getCityList(), array('name' => 'Filter[CityId]'));?>
     <div class="pull-right">
-      <?=\CHtml::activeTextField($filter, 'Query', array('class' => 'span8', 'placeholder' => \Yii::t('app', 'Поиск')));?>
+      <?=\CHtml::activeTextField($filter, 'Query', array('class' => 'span8', 'placeholder' => \Yii::t('app', 'Поиск'), 'name' => 'Filter[Query]'));?>
       <?=\CHtml::imageButton('/images/search-type-image-light.png', array('width' => 20, 'height' => 19, 'class' => 'form-element_image'));?>
     </div>
   <?=\CHtml::endForm();?>
