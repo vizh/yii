@@ -20,7 +20,7 @@ use tag\models\ITaggable;
  *
  *
  * @property Part[] $Parts
- * @property Section[] $Sections
+ * @property \event\models\section\Section[] $Sections
  * @property LinkAddress $LinkAddress
  * @property LinkPhone[] $LinkPhones
  * @property LinkEmail[] $LinkEmails
@@ -32,9 +32,12 @@ use tag\models\ITaggable;
  * @property Partner[] $Partners
  *
  * @property LinkTag[] $LinkTags
+ *
+ *
+ * Attribute properties
+ *
+ * @property string $UrlSectionMask
  */
-
-
 class Event extends \application\models\translation\ActiveRecord implements ITaggable
 {
   /**
@@ -68,7 +71,7 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
       'LinkPhones' => array(self::HAS_MANY, '\event\models\LinkPhone', 'EventId'),
       'LinkEmails' => array(self::HAS_MANY, '\event\models\LinkEmail', 'EventId'),
       'LinkSite' => array(self::HAS_ONE, '\event\models\LinkSite', 'EventId'),
-      'Sections' => array(self::HAS_MANY, '\event\models\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
+      'Sections' => array(self::HAS_MANY, '\event\models\section\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
 
 
       'Widgets' => array(self::HAS_MANY, '\event\models\Widget', 'EventId', 'order' => '"Widgets"."Order" ASC'),
@@ -87,6 +90,54 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
   {
     return array('Title', 'Info', 'FullInfo', 'Place');
   }
+
+  /**
+   * @return string[]
+   */
+  protected function getInternalAttributeNames()
+  {
+    return array('UrlSectionMask');
+  }
+
+  public function __get($name)
+  {
+    if (in_array($name, $this->getInternalAttributeNames()))
+    {
+      $attribute = $this->getAttribute($name);
+      if (is_array($attribute))
+      {
+        throw new \application\components\Exception('Работа с массивами в компоненте еще не реализована. Обращение к полю ' . $name);
+      }
+      elseif ($attribute === null)
+      {
+        throw new \application\components\Exception('У мероприятия не задан аттрибут ' . $name);
+      }
+      else
+      {
+        return $attribute->Value;
+      }
+    }
+    else
+    {
+      return parent::__get($name);
+    }
+  }
+
+  public function __set($name, $value)
+  {
+    parent::__set($name, $value);
+  }
+
+  public function __isset($name)
+  {
+    if (in_array($name, $this->getInternalAttributeNames()))
+    {
+      $attribute = $this->getAttribute($name);
+      return $attribute !== null;
+    }
+    return parent::__isset($name);
+  }
+
 
   /**
    * @param string $idName
