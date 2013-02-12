@@ -206,107 +206,35 @@
           <span class="backing text">Работа</span>
         </div>
         <span class="backing url">
-          <a href="/jobs-list.html">Все вакансии</a>
+          <a href="<?=$this->createUrl('/job/default/index');?>">Все вакансии</a>
         </span>
       </div>
     </h2>
     <div class="row units">
-      <div class="job unit span3">
-        <div class="details">
-          <span class="label label-warning">5 сентября</span>
-          <a href="#" class="employer">Mail.ru</a>
-          <span class="fade-rtl"></span>
+      <?foreach($jobs as $job):?>
+        <div class="job span3">
+          <div class="details">
+            <span class="label label-warning"><?=\Yii::app()->dateFormatter->format('dd MMMM', $job->CreateTime);?></span>
+            <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $job->CompanyId));?>" class="employer"><?=$job->Company->Name;?></a>
+            <span class="fade-rtl"></span>
+          </div>
+          <header>
+            <h4 class="title">
+              <a href="<?=$this->createUrl('/job/view/index', array('jobId' => $job->Id));?>"><?=$job->Title;?></a>
+            </h4>
+          </header>
+          <article>
+            <p><?=$job->getPreview();?></p>
+            <a href="#"><?=\Yii::t('app', 'Ответить на вакансию');?></a>
+          </article>
+          <footer class="salary">
+            <?=$this->renderPartial('job.views.default.job-salary', array('job' => $job));?>
+          </footer>
+          <div class="category">
+            <a href="<?=$this->createUrl('/job/default/index', array('Filter[CategoryId]' => $job->CategoryId));?>"><?=$job->Category->Title;?></a>
+          </div>
         </div>
-        <header>
-          <h4 class="title">
-            <a href="#">Креативный директор в&nbsp;digital-агентство</a>
-          </h4>
-        </header>
-        <article>
-          <p>Известное digital агентство ищет креативного директора. Нужно: &laquo;отрыв башки&raquo;, абсолютная безбашенность при этом четкое соблюдение сроков и&nbsp;понимание клиента, обязателен большой опыт работы именно digital. Обязательно до&nbsp;этапа собеседования...</p>
-          <a href="#">Ответить на вакансию</a>
-        </article>
-        <footer class="salary">
-          <span>от</span>
-          <strong>200&nbsp;000</strong>
-          <span>Р</span>
-        </footer>
-        <div class="category">
-          <a href="#">Бухгалтерия, экономика</a>
-        </div>
-      </div
-      ><div class="job unit span3">
-        <div class="details">
-          <span class="label label-warning">10 августа</span>
-          <a href="#" class="employer">Российский видеохостинг ООО &laquo;Рутюб&raquo;</a>
-          <span class="fade-rtl"></span>
-        </div>
-        <header>
-          <h4 class="title">
-            <a href="#">Креативный директор в&nbsp;digital-агентство</a>
-          </h4>
-        </header>
-        <article>
-          <p>Известное digital агентство ищет креативного директора. Нужно: &laquo;отрыв башки&raquo;, абсолютная безбашенность при этом четкое соблюдение сроков и&nbsp;понимание клиента, обязателен большой опыт работы именно digital. Обязательно до&nbsp;этапа собеседования...</p>
-          <a href="#">Ответить на вакансию</a>
-        </article>
-        <footer class="salary">
-          <span>от</span>
-          <strong>60&nbsp;000</strong>
-          <span>Р</span>
-        </footer>
-        <div class="category">
-          <a href="#">IT, телекоммуникации</a>
-        </div>
-      </div
-      ><div class="job unit span3">
-        <div class="details">
-          <span class="label label-warning">11 июня</span>
-          <a href="#" class="employer">Playboy</a>
-          <span class="fade-rtl"></span>
-        </div>
-        <header>
-          <h4 class="title">
-            <a href="#">Креативный директор в&nbsp;digital-агентство</a>
-          </h4>
-        </header>
-        <article>
-          <p>Известное digital агентство ищет креативного директора. Нужно: &laquo;отрыв башки&raquo;, абсолютная безбашенность при этом четкое соблюдение сроков и&nbsp;понимание клиента, обязателен большой опыт работы именно digital. Обязательно до&nbsp;этапа собеседования...</p>
-          <a href="#">Ответить на вакансию</a>
-        </article>
-        <footer class="salary">
-          <span>от</span>
-          <strong>150&nbsp;000</strong>
-          <span>Р</span>
-        </footer>
-        <div class="category">
-          <a href="#">Маркетинг, реклама, PR</a>
-        </div>
-      </div
-      ><div class="job unit span3">
-        <div class="details">
-          <span class="label label-warning">28 мая</span>
-          <a href="#" class="employer">Mail.ru</a>
-          <span class="fade-rtl"></span>
-        </div>
-        <header>
-          <h4 class="title">
-            <a href="#">Креативный директор в&nbsp;digital-агентство</a>
-          </h4>
-        </header>
-        <article>
-          <p>Известное digital агентство ищет креативного директора. Нужно: &laquo;отрыв башки&raquo;, абсолютная безбашенность при этом четкое соблюдение сроков и&nbsp;понимание клиента, обязателен большой опыт работы именно digital. Обязательно до&nbsp;этапа собеседования...</p>
-          <a href="#">Ответить на вакансию</a>
-        </article>
-        <footer class="salary">
-          <span>от</span>
-          <strong>95&nbsp;000</strong>
-          <span>Р</span>
-        </footer>
-        <div class="category">
-          <a href="#">СМИ, издательства</a>
-        </div>
-      </div>
+      <?endforeach;?>
     </div>
   </div>
 </div>

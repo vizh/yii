@@ -33,7 +33,7 @@
           <div class="job span3">
             <div class="details">
               <span class="label label-warning"><?=\Yii::app()->dateFormatter->format('dd MMMM', $job->CreateTime);?></span>
-              <a href="#" class="employer"><?=$job->Company->Name;?></a>
+              <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $job->CompanyId));?>" class="employer"><?=$job->Company->Name;?></a>
               <span class="fade-rtl"></span>
             </div>
             <header>
@@ -100,7 +100,7 @@
           <div class="job span3">
             <div class="details">
               <span class="label label-warning"><?=\Yii::app()->dateFormatter->format('dd MMMM', $job->CreateTime);?></span>
-              <a href="#" class="employer"><?=$job->Company->Name;?></a>
+              <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $job->CompanyId));?>" class="employer"><?=$job->Company->Name;?></a>
               <span class="fade-rtl"></span>
             </div>
             <header>

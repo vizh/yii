@@ -22,6 +22,15 @@ class DefaultController extends \application\components\controllers\PublicMainCo
         ->byFromDate($date['year'], $date['mon'], $date['mday'])
         ->findAll($criteria);
 
-    $this->render('index', array('events' => $events));
+    
+    $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."Id" DESC';
+    $criteria->limit = 4;
+    $jobs = \job\models\Job::model()->findAll($criteria);
+    
+    $this->render('index', array(
+      'events' => $events,
+      'jobs' => $jobs
+    ));
 	}
 }

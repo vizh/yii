@@ -52,23 +52,17 @@ class DefaultController extends \application\components\controllers\PublicMainCo
     $criteria->limit = \Yii::app()->params['JobPerPage'];
     $criteria->offset = ($page - 1) * \Yii::app()->params['JobPerPage'];
     $criteria->order = '"t"."Id" DESC';
+    $jobs = \job\models\Job::model()->findAll($criteria);
     
     $jobUp = null;
-    if ($page == 1)
+    if ($page == 1 && !empty($jobs))
     {
-      $criteriaUp = new \CDbCriteria();
-      $criteriaUp->mergeWith($criteria);
-      $criteriaUp->with = array('Job.Category', 'Job.Position', 'Job.Company');
-      $criteriaUp->condition = str_replace('"t".', '"Job".', $criteria->condition);
-      $criteriaUp->addCondition('"t"."StartTime" <= :Date AND ("t"."EndTime" >= :Date OR "t"."EndTime" IS NULL)');
-      $criteriaUp->params['Date'] = date('Y-m-d H:i:s');
-      $jobUp = \job\models\JobUp::model()->find($criteriaUp);
-      if ($jobUp !== null)
-      {
-        $criteria->addCondition('"t"."Id" != '.$jobUp->JobId);
-      }
+      $criteria->with = array('Job.Category', 'Job.Position', 'Job.Company');
+      $criteria->condition = str_replace('"t".', '"Job".', $criteria->condition);
+      $criteria->addCondition('"t"."StartTime" <= :Date AND ("t"."EndTime" >= :Date OR "t"."EndTime" IS NULL)');
+      $criteria->params['Date'] = date('Y-m-d H:i:s');
+      $jobUp = \job\models\JobUp::model()->find($criteria);
     }
-    $jobs = \job\models\Job::model()->findAll($criteria);
     $this->bodyId = 'jobs-page';
     $this->render('index', array(
       'filter' => $filter,
