@@ -12,9 +12,9 @@ $(window).load(function() {
       color: "#e6e6e6"
     },
     parts: [
-      {color: "#ffd02e", val: 1, role: "слушателя"},
-      {color: "#6363d2", val: 4, role: "докладчика"},
-      {color: "#7d45a1", val: 7, role: "ведущего"}
+      {color: "#ffd02e", val: <?=isset($participation->RoleCount->{\event\models\RoleType::Listener}) ? $participation->RoleCount->{\event\models\RoleType::Listener} : 0;?>, role: "слушателя"},
+      {color: "#6363d2", val: <?=isset($participation->RoleCount->{\event\models\RoleType::Speaker}) ? $participation->RoleCount->{\event\models\RoleType::Speaker} : 0;?>, role: "докладчика"},
+      {color: "#7d45a1", val: <?=isset($participation->RoleCount->{\event\models\RoleType::Master}) ? $participation->RoleCount->{\event\models\RoleType::Master} : 0;?>, role: "ведущего"}
     ],
     charts: [
       'charts-pie-canvas-1',
@@ -43,7 +43,7 @@ $(window).load(function() {
       {
         year: "2012",
         parts: [
-          {color: "#f6bf00", val: 10, role: "слушателем"},
+          {color: "#f6bf00", val: 1, role: "слушателем"},
           {color: "#6363d2", val: 1, role: "докладчиком"},
           {color: "#7d45a1", val: 1, role: "ведущим"}
         ]
@@ -210,6 +210,7 @@ $(window).load(function() {
       </div>
     </div>
 
+    <?if(!empty($participation->Participation)):?>
     <div class="b-participated">
       <h4 class="b-header_large light">
         <div class="line"></div>
@@ -219,10 +220,10 @@ $(window).load(function() {
               Участние в мероприятиях за
               <form action="#" class="form-inline">
                 <select>
-                  <option value="2012" selected>2012</option>
-                  <option value="2011">2011</option>
-                  <option value="2010">2010</option>
-                  <option value="2009">2009</option>
+                  <option value="0"><?=\Yii::t('app', 'За все время');?></option>
+                  <?foreach($participation->Years as $year):?>
+                    <option value="<?=$year;?>"><?=$year;?></option>
+                  <?endforeach;?>
                 </select>
               </form>
             </span>
@@ -230,143 +231,40 @@ $(window).load(function() {
         </div>
       </h4> 
       <div class="container">
-        <?php 
-          $total = sizeof($participants);
-          $i = 0;?>
-        <?foreach($participants as $participant):?>
-          <?php
-          $i++;
-          if ($i == 1 || ($i%4) == 1) echo '<div class="row">';
-          ?>
-          <figure class="i span2">
-            <img src="<?=$participant->Event->getLogo()->getNormal();?>" width="138" alt="<?=$participant->Event->Title;?>" class="img">
-            <figcaption class="cnt">
-              <?foreach ($participant->Roles as $role):?>
-                <p class="tx"><?=$role->Title;?></p>
-              <?endforeach;?>
-            </figcaption>
-          </figure>
-          <?php
-          if ($i == $total || ($i%4) == 0) echo '</div>';
-          ?>
-        <?endforeach;?>
-        
         <div class="row">
-          <figure class="i span2">
-            <img src="/images/content/event-logo-account-1.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <p class="tx">Участник профессиональной программы</p>
-              <p class="tx">Дистанционное участие</p>
-            </figcaption>
-          </figure
-          ><figure class="i span2">
-            <img src="/images/content/event-logo-account-2.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <p class="tx">Слушатель</p>
-            </figcaption>
-          </figure
-          ><figure class="i span2">
-            <img src="/images/content/event-logo-account-3.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <p class="tx">Слушатель</p>
-            </figcaption>
-          </figure
-          ><figure class="i span2">
-            <img src="/images/content/event-logo-account-4.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <div><a href="javascript:void(0);" class="a pseudo-link">Докладчик</a></div>
-              <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
-              <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
-            </figcaption>
-            <div class="popup">
-              <div class="cnt">
-                <div><a href="javascript:void(0);" class="a pseudo-link">Докладчик</a></div>
-                <p class="tx">Social Media Marketing от А до Я: лояльные клиенты из социальных сетей</p>
-                <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
-                <p class="tx">Как за месяц поднять продажи на 20%</p>
-                <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
-                <p class="tx">Как за месяц поднять продажи на 20%</p>
+          <?foreach ($participation->Participation as $participant):?>
+            <figure class="i span2" data-year="<?=$participant->Event->StartYear;?>">
+              <a href="<?=$this->createUrl('/event/view/index', array('idName' => $participant->Event->IdName));?>">
+                <?=\CHtml::image($participant->Event->getLogo()->getMini(), $participant->Event->Title, array('style' => 'height:79px', 'class' => 'img'));?>
+              </a>
+              <figcaption class="cnt">
+                <?foreach ($participant->Roles as $role):?>
+                  <?if (!$participant->HasSections):?>
+                    <p class="tx"><?=$role->Role->Title;?></p>
+                  <?else:?>
+                    <div><a href="javascript:void(0);" class="a pseudo-link"><?=$role->Role->Title;?></a></div>
+                  <?endif;?>
+                <?endforeach;?>
+              </figcaption>
+              <?if($participant->HasSections):?>
+              <div class="popup">
+                <div class="cnt">
+                <?foreach ($participant->Roles as $role):?>
+                  <div><a href="javascript:void(0);" class="a pseudo-link"><?=$role->Role->Title;?></a></div>
+                  <p class="tx"><?=$role->Report->Title;?></p>
+                <?endforeach;?>
+                </div>
               </div>
-            </div>
-          </figure
-          ><figure class="i span2">
-            <img src="/images/content/event-logo-account-1.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
-            </figcaption>
-            <div class="popup">
-              <div class="cnt">
-                <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
-                <p class="tx">Как за месяц поднять продажи на 20%</p>
-              </div>
-            </div>
-          </figure
-          ><figure class="i span2">
-            <img src="/images/content/event-logo-account-2.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <p class="tx">Дистанционное участие</p>
-            </figcaption>
-          </figure>
+              <?endif;?>
+            </figure>
+          <?endforeach;?>
         </div>
-        <div class="row">
-          <figure class="i span2">
-            <img src="/images/content/event-logo-account-2.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <p class="tx">Участник профессиональной программы</p>
-            </figcaption>
-          </figure
-          ><figure class="i span2">
-            <img src="/images/content/event-logo-account-1.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <p class="tx">Слушатель</p>
-            </figcaption>
-          </figure
-          ><figure class="i span2">
-            <img src="/images/content/event-logo-account-4.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <p class="tx">Слушатель</p>
-            </figcaption>
-          </figure
-          ><figure class="i span2">
-            <img src="/images/content/event-logo-account-3.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <div><a href="javascript:void(0);" class="a pseudo-link">Докладчик</a></div>
-              <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
-            </figcaption>
-            <div class="popup">
-              <div class="cnt">
-                <div><a href="javascript:void(0);" class="a pseudo-link">Докладчик</a></div>
-                <p class="tx">Social Media Marketing от А до Я: лояльные клиенты из социальных сетей</p>
-                <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
-                <p class="tx">Как за месяц поднять продажи на 20%</p>
-              </div>
-            </div>
-          </figure
-          ><figure class="i span2">
-            <img src="/images/content/event-logo-account-2.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
-            </figcaption>
-            <div class="popup">
-              <div class="cnt">
-                <div><a href="javascript:void(0);" class="a pseudo-link">Ведущий</a></div>
-                <p class="tx">Как за месяц поднять продажи на 20%</p>
-              </div>
-            </div>
-          </figure
-          ><figure class="i span2">
-            <img src="/images/content/event-logo-account-1.jpg" width="138" height="79" alt="" class="img">
-            <figcaption class="cnt">
-              <p class="tx">Дистанционное участие</p>
-            </figcaption>
-          </figure>
-        </div>
-
         <div class="all">
           <a href="#" class="pseudo-link">Все мероприятия</a>
         </div>
       </div>
     </div>
+    <?endif;?>
 
     <div class="b-participate"> 
       <h4 class="b-header_large light">
