@@ -6,8 +6,6 @@ class AuthController extends partner\components\Controller
   public function actionIndex ()
   {
     $this->setPageTitle('Страница авторизации');
-
-
     $request = Yii::app()->request;
     if ($request->getIsPostRequest())
     {
@@ -21,14 +19,13 @@ class AuthController extends partner\components\Controller
       {
         Yii::app()->partner->login($identity);
         $backUrl = $request->getParam('backUrl', null);
-        $this->redirect($backUrl == null ? Yii::app()->createUrl('/partner/main/index') : $backUrl);
+        //$this->redirect($backUrl == null ? Yii::app()->createUrl('/partner/main/index') : $backUrl);
       }
       else
       {
         $this->error = true;
       }
     }
-
     $this->render('index');
   }
 

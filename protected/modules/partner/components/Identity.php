@@ -9,19 +9,19 @@ class Identity extends \CUserIdentity
   public function authenticate()
   {
     /** @var $account \partner\models\Account */
-    $account = \partner\models\Account::model()->find('t.Login = :Login', array(':Login' => $this->username));
-
+    $account = \partner\models\Account::model()->find('"t"."Login" = :Login', array(':Login' => $this->username));
+    
     if ($account === null)
     {
       $this->errorCode = self::ERROR_USERNAME_INVALID;
     }
-    elseif ($account->GetHash($this->password) !== $account->Password)
+    elseif ($account->getHash($this->password) !== $account->Password)
     {
       $this->errorCode=self::ERROR_PASSWORD_INVALID;
     }
     else
     {
-      $this->_id = $account->AccountId;
+      $this->_id = $account->Id;
       $this->errorCode=self::ERROR_NONE;
     }
     return $this->errorCode==self::ERROR_NONE;

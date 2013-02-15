@@ -23,12 +23,12 @@ class Account extends \CActiveRecord
 
   public function tableName()
   {
-    return 'Mod_PartnerAccount';
+    return 'PartnerAccount';
   }
 
   public function primaryKey()
   {
-    return 'AccountId';
+    return 'Id';
   }
 
   /**
@@ -39,11 +39,9 @@ class Account extends \CActiveRecord
   public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId';
-    $criteria->params = array(':EventId' => $eventId);
-
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params = array('EventId' => $eventId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-
     return $this;
   }
 
@@ -51,7 +49,7 @@ class Account extends \CActiveRecord
    * @param string $password
    * @return string
    */
-  public function GetHash($password)
+  public function getHash($password)
   {
     return md5($password);
   }
@@ -62,7 +60,7 @@ class Account extends \CActiveRecord
   /**
    * @return null|\partner\components\Notifier
    */
-  public function GetNotifier()
+  public function getNotifier()
   {
     if (empty($this->notifier))
     {

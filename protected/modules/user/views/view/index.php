@@ -140,10 +140,14 @@ $(window).load(function() {
                   </article>
                 </div>
                 <div class="event-rank">Менеджер высшего уровня</div>
+                <?if (!empty($user->Commissions)):?>
                 <div class="b-raec">
                   <img src="/images/content/raec-logo_small.jpg" alt="РАЭК" class="logo">
-                  <p class="text">Член РАЭК<br>Сопредседатель комиссии<br>Эксперт комиссии</p>
+                  <?foreach ($user->Commissions as $commission):?>
+                  <p class="text"><?=$commission->Role->Title;?>, <?=$commission->Commission;?></p>
+                  <?endforeach;?>
                 </div>
+                <?endif;?>
               </div>
               <div class="span4 b-contacts">
                 <?if ($user->LinkSite !== null):?>

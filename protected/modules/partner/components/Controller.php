@@ -2,7 +2,7 @@
 namespace partner\components;
 
 
-class Controller extends \application\components\controllers\BaseController
+class Controller extends \application\components\controllers\PublicMainController
 {
   public $layout = '/layouts/public';
 
@@ -12,50 +12,10 @@ class Controller extends \application\components\controllers\BaseController
     return array_merge(
       $filters,
       array(
-        'accessControl',
         'checkEventId'
       )
     );
   }
-
-  /** @var AccessControlFilter */
-  private $accessFilter;
-  public function getAccessFilter()
-  {
-    if (empty($this->accessFilter))
-    {
-      $this->accessFilter = new AccessControlFilter();
-      $this->accessFilter->setRules($this->accessRules());
-    }
-    return $this->accessFilter;
-  }
-
-  public function filterAccessControl($filterChain)
-  {
-    $this->getAccessFilter()->filter($filterChain);
-  }
-
-  public function accessRules()
-  {
-    $rules = \Yii::getPathOfAlias('partner.rules').'.php';
-    return require($rules);
-  }
-
-  public function initResources()
-  {
-    parent::initResources();
-
-    $cs = \Yii::app()->clientScript;
-    $manager = \Yii::app()->getAssetManager();
-
-    $assetPath = $manager->publish(\Yii::PublicPath() . '/css/bootstrap');
-
-    $cs->registerCssFile($assetPath . '/css/bootstrap.css');
-    $cs->registerCssFile($manager->publish(\Yii::PublicPath() . '/css/partner.css'));
-
-    $cs->registerScriptFile($assetPath . '/js/bootstrap.js', \CClientScript::POS_HEAD);
-  }
-
   /**
    * @param \CFilterChain $filterChain
    */

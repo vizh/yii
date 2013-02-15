@@ -95,8 +95,7 @@ class User extends \application\models\translation\ActiveRecord
         'order' => '"Employments"."Primary" DESC, "Employments"."EndYear" DESC, "Employments"."StartYear" DESC'
       ),
 
-
-
+      'Commissions' => array(self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => array('Commission', 'Role')),
 
       //Contacts
       'Addresses' => array(self::MANY_MANY, '\contact\models\Address', 'Link_User_ContactAddress(UserId, AddressId)',

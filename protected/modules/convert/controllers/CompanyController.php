@@ -31,4 +31,69 @@ class CompanyController extends convert\components\controllers\Controller
       $newCompany->save();
     }
   }
+  
+  
+   /**
+   * Переносит связи с адресами
+   */
+  public function actionLinkAddress()
+  {
+    $links = $this->queryAll('SELECT * FROM `Link_Company_ContactAddress` ORDER BY `NMID` ASC');
+    foreach ($links as $link)
+    {
+      $newLink = new \company\models\LinkAddress();
+      $newLink->Id = $link['NMID'];
+      $newLink->CompanyId = $link['CompanyId'];
+      $newLink->AddressId = $link['AddressId'];
+      $newLink->save();
+    }
+  }
+  
+  /**
+   * Переносит связи с Email
+   */
+  public function actionLinkEmail()
+  {
+    $links = $this->queryAll('SELECT * FROM `Link_Company_ContactEmail` ORDER BY `NMID` ASC');
+    foreach ($links as $link)
+    {
+      $newLink = new \company\models\LinkEmail();
+      $newLink->Id = $link['NMID'];
+      $newLink->CompanyId = $link['CompanyId'];
+      $newLink->EmailId = $link['EmailId'];
+      $newLink->save();
+    }
+  }
+  
+  /**
+   * Переносит связи с телефонами
+   */
+  public function actionLinkPhone()
+  {
+    $links = $this->queryAll('SELECT * FROM `Link_Company_ContactPhone` ORDER BY `NMID` ASC');
+    foreach ($links as $link)
+    {
+      $newLink = new \company\models\LinkPhone();
+      $newLink->Id = $link['NMID'];
+      $newLink->CompanyId = $link['CompanyId'];
+      $newLink->PhoneId = $link['PhoneId'];
+      $newLink->save();
+    }
+  }
+  
+  /**
+   * Переносит связи с сайтами
+   */
+  public function actionLinkSite()
+  {
+    $links = $this->queryAll('SELECT * FROM `Link_Company_ContactSite` ORDER BY `NMID` ASC');
+    foreach ($links as $link)
+    {
+      $newLink = new \company\models\LinkSite();
+      $newLink->Id = $link['NMID'];
+      $newLink->CompanyId = $link['CompanyId'];
+      $newLink->SiteId = $link['SiteId'];
+      $newLink->save();
+    }
+  }
 }

@@ -81,4 +81,100 @@ class UserController extends convert\components\controllers\Controller
       $newEmployment->save();
     }
   }
+  
+  /**
+   * Переносит связи с адресами
+   */
+  public function actionLinkAddress()
+  {
+    $links = $this->queryAll('SELECT * FROM `Link_User_ContactAddress` ORDER BY `NMID` ASC');
+    foreach ($links as $link)
+    {
+      $newLink = new \user\models\LinkAddress();
+      $newLink->Id = $link['NMID'];
+      $newLink->UserId = $link['UserId'];
+      $newLink->AddressId = $link['AddressId'];
+      $newLink->save();
+    }
+  }
+  
+  /**
+   * Переносит связи с Email
+   */
+  public function actionLinkEmail()
+  {
+    $links = $this->queryAll('SELECT * FROM `Link_User_ContactEmail` ORDER BY `NMID` ASC');
+    foreach ($links as $link)
+    {
+      $newLink = new \user\models\LinkEmail();
+      $newLink->Id = $link['NMID'];
+      $newLink->UserId = $link['UserId'];
+      $newLink->EmailId = $link['EmailId'];
+      $newLink->save();
+    }
+  }
+  
+  /**
+   * Переносит связи с телефонами
+   */
+  public function actionLinkPhone()
+  {
+    $links = $this->queryAll('SELECT * FROM `Link_User_ContactPhone` ORDER BY `NMID` ASC');
+    foreach ($links as $link)
+    {
+      $newLink = new \user\models\LinkPhone();
+      $newLink->Id = $link['NMID'];
+      $newLink->UserId = $link['UserId'];
+      $newLink->PhoneId = $link['PhoneId'];
+      $newLink->save();
+    }
+  }
+  
+  /**
+   * Переносит связи с аккаунтами
+   */
+  public function actionLinkServiceAccount()
+  {
+    $links = $this->queryAll('SELECT * FROM `Link_User_ContactServiceAccount` ORDER BY `NMID` ASC');
+    foreach ($links as $link)
+    {
+      $newLink = new \user\models\LinkServiceAccount();
+      $newLink->Id = $link['NMID'];
+      $newLink->UserId = $link['UserId'];
+      $newLink->ServiceAccountId = $link['ServiceId'];
+      $newLink->save();
+    }
+  }
+  
+  /**
+   * Переносит связи с сайтами
+   */
+  public function actionLinkSite()
+  {
+    $links = $this->queryAll('SELECT * FROM `Link_User_ContactSite` ORDER BY `NMID` ASC');
+    foreach ($links as $link)
+    {
+      $newLink = new \user\models\LinkSite();
+      $newLink->Id = $link['NMID'];
+      $newLink->UserId = $link['UserId'];
+      $newLink->SiteId = $link['SiteId'];
+      $newLink->save();
+    }
+  }
+  
+  /**
+   * Переносит настройки
+   */
+  public function actionSettings()
+  {
+    $settings = $this->queryAll('SELECT * FROM `UserSettings` ORDER BY `SettingId` ASC');
+    foreach ($settings as $setting)
+    {
+      $newSetting = new \user\models\Settings();
+      $newSetting->Id = $setting['SettingId'];
+      $newSetting->UserId = $setting['UserId'];
+      $newSetting->HideFatherName = $setting['HideFatherName'] == 1 ? true : false;
+      $newSetting->save();
+    }
+  }
 }

@@ -33,5 +33,7 @@ return array(
     /** Технические модули */
     'convert',
     'mytest',
+    'commission',
+    'partner'
   ),
 );

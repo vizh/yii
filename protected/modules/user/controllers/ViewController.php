@@ -15,7 +15,10 @@ class ViewController extends \application\components\controllers\PublicMainContr
         'order' => '"Event"."Id" DESC'
       ),
       'Participants.Event',
-      'Participants.Role'
+      'Participants.Role',
+      'Commissions' => array(
+        'together' => false
+      )
     );
     $user = \user\models\User::model()->byRunetId($runetId)->byVisible()->find($criteria);
     if ($user == null)
