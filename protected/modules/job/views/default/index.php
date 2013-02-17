@@ -27,46 +27,19 @@
     </div>
 
     <div class="b-jobs">
-      <div class="container">
-        <div class="row">
-          <?foreach (array_slice($jobs, 0, 4) as $job):?>
-          <div class="job span3">
-            <div class="details">
-              <span class="label label-warning"><?=\Yii::app()->dateFormatter->format('dd MMMM', $job->CreateTime);?></span>
-              <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $job->CompanyId));?>" class="employer"><?=$job->Company->Name;?></a>
-              <span class="fade-rtl"></span>
-            </div>
-            <header>
-              <h4 class="title">
-                <a href="<?=$this->createUrl('/job/view/index', array('jobId' => $job->Id));?>"><?=$job->Title;?></a>
-              </h4>
-            </header>
-            <article>
-              <p><?=$job->getPreview();?></p>
-              <a href="#"><?=\Yii::t('app', 'Ответить на вакансию');?></a>
-            </article>
-            <footer class="salary">
-              <?=$this->renderPartial('job-salary', array('job' => $job));?>
-            </footer>
-            <div class="category">
-              <a href="<?=$this->createUrl('/job/default/index', array('Filter[CategoryId]' => $job->CategoryId));?>"><?=$job->Category->Title;?></a>
-            </div>
-          </div>
-          <?endforeach;?>
-        </div>
-      </div>
-      
+      <?=$this->renderPartial('jobs', array('jobs' => array_slice($jobs, 0, 4)));?>
+
       <?if ($jobUp !== null):?>
       <div class="job_promo">
         <div class="bg"></div>
         <div class="container">
           <div class="job">
             <div class="details">
-              <span class="label label-warning"><?=\Yii::app()->dateFormatter->format('dd MMMM', $jobUp->Job->CreateTime);?></span>
+              <span class="label label-warning"><?=\Yii::app()->dateFormatter->format('dd MMMM', $jobUp->Job->CreationTime);?></span>
               <div class="employer-row">
-                <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $jobUp->Job->CompanyId));?>" class="employer">
-                  <?=\CHtml::image($jobUp->Job->Company->getLogo(), $jobUp->Job->Company->Name, array('width' => 20, 'height' => 30));?>
-                </a>
+                <span class="employer">
+                  <?=$jobUp->Job->Company->Name;?>
+                </span>
               </div>
             </div>
             <header>
@@ -93,35 +66,7 @@
       </div>
       <?endif;?>
 
-      
-      <div class="container">
-        <div class="row">
-          <?foreach (array_slice($jobs, 4, sizeof($jobs)-4) as $job):?>
-          <div class="job span3">
-            <div class="details">
-              <span class="label label-warning"><?=\Yii::app()->dateFormatter->format('dd MMMM', $job->CreateTime);?></span>
-              <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $job->CompanyId));?>" class="employer"><?=$job->Company->Name;?></a>
-              <span class="fade-rtl"></span>
-            </div>
-            <header>
-              <h4 class="title">
-                <a href="<?=$this->createUrl('/job/view/index', array('jobId' => $job->Id));?>"><?=$job->Title;?></a>
-              </h4>
-            </header>
-            <article>
-              <p><?=$job->getPreview();?></p>
-              <a href="#"><?=\Yii::t('app', 'Ответить на вакансию');?></a>
-            </article>
-            <footer class="salary">
-              <?=$this->renderPartial('job-salary', array('job' => $job));?>
-            </footer>
-            <div class="category">
-              <a href="<?=$this->createUrl('/job/default/index', array('Filter[CategoryId]' => $job->CategoryId));?>"><?=$job->Category->Title;?></a>
-            </div>
-          </div>
-          <?endforeach;?>
-        </div>
-      </div>
+      <?=$this->renderPartial('jobs', array('jobs' => array_slice($jobs, 4, sizeof($jobs)-4)));?>
     </div>
 
     <?$this->widget('application\widgets\Paginator', array(

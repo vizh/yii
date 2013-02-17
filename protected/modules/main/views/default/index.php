@@ -214,18 +214,18 @@
       <?foreach($jobs as $job):?>
         <div class="job span3">
           <div class="details">
-            <span class="label label-warning"><?=\Yii::app()->dateFormatter->format('dd MMMM', $job->CreateTime);?></span>
-            <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $job->CompanyId));?>" class="employer"><?=$job->Company->Name;?></a>
+            <span class="label label-warning"><?=\Yii::app()->dateFormatter->format('dd MMMM', $job->CreationTime);?></span>
+            <span class="employer"><?=$job->Company->Name;?></span>
             <span class="fade-rtl"></span>
           </div>
           <header>
             <h4 class="title">
-              <a href="<?=$this->createUrl('/job/view/index', array('jobId' => $job->Id));?>"><?=$job->Title;?></a>
+              <a target="_blank" href="<?=$job->Url;?>"><?=$job->Title;?></a>
             </h4>
           </header>
           <article>
             <p><?=$job->getPreview();?></p>
-            <a href="#"><?=\Yii::t('app', 'Ответить на вакансию');?></a>
+            <a target="_blank" href="<?=$job->Url;?>"><?=\Yii::t('app', 'Ответить на вакансию');?></a>
           </article>
           <footer class="salary">
             <?=$this->renderPartial('job.views.default.job-salary', array('job' => $job));?>

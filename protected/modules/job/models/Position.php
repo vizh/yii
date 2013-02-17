@@ -9,7 +9,7 @@ class Position extends \CActiveRecord
 {
   /**
    * @param string $className
-   * @return Company
+   * @return Position
    */
   public static function model($className=__CLASS__)
 	{    

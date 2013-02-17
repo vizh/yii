@@ -7,7 +7,7 @@
       <li class="item"><a href="<?=Yii::app()->createUrl('/event/list/index');?>">Мероприятия</a></li>
       <li class="item"><a target="_blank" href="http://therunet.com/">Новости</a></li>
       <li class="item"><a href="/competences-list.html">Компетенции</a></li>
-      <li class="item"><a href="/jobs-list.html">Работа</a></li>
+      <li class="item"><a href="<?=Yii::app()->createUrl('/job/default/index');?>">Работа</a></li>
       <li class="divider-vertical"></li>
       <li class="login"><a href="#ModalAuth" data-toggle="modal">Войти / Зарегистрироваться</a></li>
       <li class="divider-vertical"></li>

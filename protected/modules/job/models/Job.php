@@ -3,14 +3,20 @@ namespace job\models;
 
 /**
  * @property int $Id
- * @property string $Position
+ * @property string $Title
  * @property string $Text
+ * @property string $Url
  * @property int $SalaryFrom
  * @property int $SalaryTo
  * @property int $CompanyId
+ * @property int $CategoryId
  * @property int $PositionId
- * @property string $CrateTime 
+ * @property string $CreationTime
  * @property bool $Visible
+ *
+ * @property Company $Company
+ * @property Category $Category
+ * @property Position $Position
  */
 class Job extends \CActiveRecord
 {
@@ -36,7 +42,7 @@ class Job extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Company'  => array(self::BELONGS_TO, '\company\models\Company', 'CompanyId'),
+      'Company'  => array(self::BELONGS_TO, '\job\models\Company', 'CompanyId'),
       'Category' => array(self::BELONGS_TO, '\job\models\Category', 'CategoryId'),
       'Position' => array(self::BELONGS_TO, '\job\models\Position', 'PositionId'),
     );
