@@ -9,7 +9,25 @@
       <li class="item"><a href="/competences-list.html">Компетенции</a></li>
       <li class="item"><a href="<?=Yii::app()->createUrl('/job/default/index');?>">Работа</a></li>
       <li class="divider-vertical"></li>
-      <li class="login"><a href="#ModalAuth" data-toggle="modal">Войти / Зарегистрироваться</a></li>
+      <?if (Yii::app()->user->CurrentUser() === null):?>
+        <li class="login"><a id="NavbarLogin" href="#">Войти / Зарегистрироваться</a></li>
+      <?else:?>
+        <li class="account dropdown">
+          <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+            <img width="18" height="18" class="avatar" alt="" src="<?=Yii::app()->user->CurrentUser()->getPhoto()->get18px();?>">
+            <?=Yii::app()->user->CurrentUser()->getName();?>
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu pull-right">
+            <li>
+              <a href="/user-account.html">Личный кабинет</a>
+            </li>
+            <li>
+              <a href="<?=Yii::app()->createUrl('/user/logout/index');?>">Выйти</a>
+            </li>
+          </ul>
+        </li>
+      <?endif;?>
       <li class="divider-vertical"></li>
     </ul>
     <ul class="nav pull-right">

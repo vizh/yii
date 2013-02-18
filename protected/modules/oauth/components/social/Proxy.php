@@ -12,10 +12,10 @@ class Proxy implements ISocial
   {
     switch ($socialName)
     {
-      case 'facebook':
+      case ISocial::Facebook:
         $this->social = new Facebook();
         break;
-      case 'twitter':
+      case ISocial::Twitter:
         $this->social = new Twitter();
         break;
       default:
@@ -34,13 +34,33 @@ class Proxy implements ISocial
   }
 
   protected $data = null;
+
+  /**
+   * @return Data
+   */
   public function getData()
   {
     if ($this->data == null)
     {
-      $this->data = $this->social->getData();
+      $social = \Yii::app()->getSession()->get('OAuthSocial', array());
+      if (empty($social[$this->getSocialId()]))
+      {
+        $social[$this->getSocialId()] = $this->social->getData();
+        \Yii::app()->getSession()->add('OAuthSocial', $social);
+      }
+      $this->data = $social[$this->getSocialId()];
     }
     return $this->data;
+  }
+
+  public function clearData()
+  {
+    $social = \Yii::app()->getSession()->get('OAuthSocial', array());
+    if (isset($social[$this->getSocialId()]))
+    {
+      unset($social[$this->getSocialId()]);
+      \Yii::app()->getSession()->add('OAuthSocial', $social);
+    }
   }
 
   public function getSocialId()
@@ -50,11 +70,11 @@ class Proxy implements ISocial
 
   /**
    * @param $hash
-   * @return \user\models\Connect|null
+   * @return \oauth\models\Social|null
    */
-  public function getConnect($hash)
+  public function getSocial($hash)
   {
-    return \user\models\Connect::model()->byServiceTypeId($this->getSocialId())->byHash($hash)->find();
+    return \oauth\models\Social::model()->byHash($hash)->bySocialId($this->getSocialId())->find();
   }
   
   /**

@@ -31,7 +31,7 @@ $(function() {
     $(this).addClass('current');
     $('#event-photo').attr('src', $(this).attr('src'));
   });
-  $('#event-thumbs_prev, #event-thumbs_next').live('selectstart', function() {
+  $('#event-thumbs_prev, #event-thumbs_next').on('selectstart', function() {
     return false;
   });
 

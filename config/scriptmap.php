@@ -7,7 +7,7 @@ return array(
       'packages' => array(
         'runetid.jquery' => array(
           'baseUrl' => '/javascripts/',
-          'js' => array('jquery-1.8.2.min.js', 'jquery.extensions.js', 'jquery.placeholder.min.js')
+          'js' => array('jquery-1.9.1.min.js', 'jquery.extensions.js', 'jquery.placeholder.min.js')
         ),
         'runetid.backbone' => array(
           'baseUrl' => '/javascripts/',
@@ -31,7 +31,7 @@ return array(
         ),
         'runetid.application' => array(
           'baseUrl' => '/',
-          'js' => array('javascripts/application.js'),
+          'js' => array('javascripts/application.js', 'javascripts/auth.js'),
           'css' => array('stylesheets/application.css', 'stylesheets/app-changes.css'),
           'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.backbone', 'runetid.bootstrap', 'runetid.jquery.ioslider')
         ),

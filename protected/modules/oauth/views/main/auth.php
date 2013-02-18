@@ -5,6 +5,32 @@
  */
 ?>
 
+<div id="fb-root"></div>
+<script>
+  // Additional JS functions here
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '<?=\oauth\components\social\Facebook::AppId;?>', // App ID
+      channelUrl : '//<?=RUNETID_HOST;?>/files/channel.html', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+
+    // Additional init code here
+
+  };
+
+  // Load the SDK Asynchronously
+  (function(d){
+    var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement('script'); js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    ref.parentNode.insertBefore(js, ref);
+  }(document));
+</script>
+
 <?php echo CHtml::beginForm();?>
   <fieldset>
     <legend>Авторизация</legend>
@@ -30,7 +56,7 @@
 <div class="social">
   <p>Или вы&nbsp;можете авторизоваться при помощи учетных записей социальных сетей:</p>
   <div class="tx-c nowrap">
-    <a href="<?=$this->createUrl('/oauth/social/request', array('social' => 'facebook'));?>" class="btn social_btn"><i class="ico16 ico16_social ico16_social__facebook"></i>&nbsp;Facebook</a>
+    <a href="#" id="fb_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__facebook"></i>&nbsp;Facebook</a>
     <a href="<?=$this->createUrl('/oauth/social/request', array('social' => 'twitter'));?>" class="btn social_btn"><i class="ico16 ico16_social ico16_social__twitter"></i>&nbsp;Twitter</a>
     <a href="<?=$this->createUrl('/oauth/social/request', array('social' => 'vk'));?>" class="btn social_btn"><i class="ico16 ico16_social ico16_social__vkontakte"></i>&nbsp;Вконтакте</a>
   </div>

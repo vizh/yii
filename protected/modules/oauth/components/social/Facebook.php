@@ -3,8 +3,8 @@ namespace oauth\components\social;
 
 class Facebook implements ISocial
 {
-  const AppId = 201234113248910;
-  const Secret = '102257e6ef534fb163c7d1e7e31ffca7';
+  const AppId = 331368426975443;
+  const Secret = '4789502ae8826d7d40771b649b2951ef';
 
 
   /** @var \Facebook */
@@ -18,6 +18,7 @@ class Facebook implements ISocial
       $this->connection = new \Facebook(array(
         'appId' => self::AppId,
         'secret' => self::Secret,
+        'cookie' => true
       ));
     }
 
@@ -58,7 +59,7 @@ class Facebook implements ISocial
 
   public function getSocialId()
   {
-    return 14;
+    return self::Facebook;
   }
 }
 

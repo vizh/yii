@@ -16,6 +16,14 @@ class Controller extends \application\components\controllers\BaseController
   protected $url = null;
   protected $social = null;
 
+  protected function initResources()
+  {
+    parent::initResources();
+
+    \Yii::app()->getClientScript()->registerPackage('runetid.bootstrap');
+  }
+
+
   public function beforeAction($action)
   {
     $request = \Yii::app()->getRequest();

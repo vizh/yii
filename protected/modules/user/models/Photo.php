@@ -39,6 +39,17 @@ class Photo
   }
 
   /**
+   * Возвращает путь к мини изображению пользователя, для навигационного бара
+   * @param bool $serverPath
+   *
+   * @return string
+   */
+  public function get18px($serverPath = false)
+  {
+    return $this->getByName($serverPath, $this->runetId . '_18.jpg', 'nophoto_18.png');
+  }
+
+  /**
    * Возвращает путь к мини изображению пользователя, для шапки сайта, отображения в компаниях и тп
    * @param bool $serverPath
    * @return string

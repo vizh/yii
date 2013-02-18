@@ -113,7 +113,7 @@ class Twitter implements ISocial
 
   public function getSocialId()
   {
-    return 13;
+    return self::Twitter;
   }
 }
 

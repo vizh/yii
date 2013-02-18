@@ -8,17 +8,18 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
   <link rel="icon" href="favicon.ico">
-  <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
-
-
-
-  <script src="/javascripts/bootstrap.min.js"></script>
-  <!--
-  <script src="./js/application.js"></script>-->
 
   <title>Авторизация / RUNET-ID</title>
 </head>
 <body class="page_registration">
+<script type="text/javascript">
+function fillOAuthUrls(oauth)
+{
+  oauth.fbUrl = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Facebook));?>';
+  oauth.vkUrl = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Vkontakte));?>';
+  oauth.twiUrl = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Twitter));?>';
+}
+</script>
 <section id="section" role="main">
   <div class="container">
     <div class="row">

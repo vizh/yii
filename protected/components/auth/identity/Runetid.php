@@ -1,28 +1,28 @@
 <?php
 namespace application\components\auth\identity;
 
-class Runetid extends \application\components\auth\identity\Base
+class RunetId extends \application\components\auth\identity\Base
 {
+  public $runetId;
 
-  public function __construct($rocid)
+  public function __construct($runetId)
   {
-    $this->username = intval($rocid);
+    $this->runetId = $runetId;
   }
 
   public function authenticate()
   {
-    $user = \user\models\User::GetByRocid($this->username);
+    $user = \user\models\User::model()->byRunetId($this->runetId)->find();
 
-    if ($user === null || $user->Settings->Visible == 0)
+    if ($user === null)
     {
       $this->errorCode = self::ERROR_USERNAME_INVALID;
     }
     else
     {
-      $this->_id = $user->UserId;
-      $this->errorCode = self::ERROR_NONE;
-      $user->CreateSecretKey();
+      $this->_id = $user->Id;
+      $this->errorCode=self::ERROR_NONE;
     }
-    return $this->errorCode == self::ERROR_NONE;
+    return $this->errorCode==self::ERROR_NONE;
   }
 }

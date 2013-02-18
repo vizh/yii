@@ -44,7 +44,7 @@
               <p><i class="icon-check"></i>Профессиональные тесты/центр компетенций</p>
               <p><i class="icon-globe"></i>Все об интернете в одном месте</p>
               <div class="login">
-                <a href="#">Войти / Зарегистрироваться</a>
+                <a id="PromoLogin" href="#">Войти / Зарегистрироваться</a>
               </div>
             </div>
           </div>

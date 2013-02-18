@@ -1,16 +1,35 @@
+var modalAuthObj = null;
 $(function(){
-
+  modalAuthObj = new ModalAuth();
 });
 
-var Auth = function()
+var ModalAuth = function()
 {
-  this.url = 'http://login.runetid.local/main/auth/';
-  this.backUrl = location.href;
-};
+  this.modal = $('#ModalAuth');
+  this.src = this.modal.data('src');
+  this.width = this.modal.data('width');
+  this.height = this.modal.data('height');
 
-Auth.prototype.getUrl = function()
+  this.init();
+};
+ModalAuth.prototype.init = function()
 {
-  return this.url + '?&url='+encodeURIComponent(this.backUrl);
+  var self = this;
+
+  self.modal.modal({show: false});
+  self.modal.on('show', function(){
+    var iframe = $('<iframe></iframe>');
+    iframe.attr('src', self.src);
+    iframe.attr('width', self.width);
+    iframe.attr('height', self.height);
+    self.modal.append(iframe);
+  });
+  self.modal.on('hidden', function(){
+    $('iframe', self.modal).remove();
+  });
+
+  $('#NavbarLogin, #PromoLogin').on('click', function(e){
+    e.preventDefault();
+    self.modal.modal('show');
+  });
 };
-
-

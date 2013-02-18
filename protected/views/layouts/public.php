@@ -130,8 +130,6 @@
 </footer>
 
 
-<div id="ModalAuth" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <iframe width="620" height="662" src="<?=Yii::app()->createUrl('/oauth/main/auth');?>" frameborder="0"></iframe>
-</div>
+<div id="ModalAuth" class="modal hide fade" style="width: 620px; outline-style: none;" data-src="<?=Yii::app()->createUrl('/oauth/main/auth');?>" data-width="640" data-height="662" tabindex="-1" role="dialog"></div>
 </body>
 </html>

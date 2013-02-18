@@ -3,6 +3,12 @@ class MainController extends \oauth\components\Controller
 {
   public function actionDialog()
   {
+    if ($this->Account->Id === self::SelfId)
+    {
+      echo 'вывести код, для обновления родительской страницы';
+      return;
+    }
+
     $user = Yii::app()->user->CurrentUser();
     if ($user === null)
     {
@@ -49,7 +55,7 @@ class MainController extends \oauth\components\Controller
   {
     if (!\Yii::app()->user->isGuest)
     {
-      $this->redirectForAuth();
+      $this->redirect($this->createUrl('/oauth/main/dialog'));
     }
     if (!empty($this->social))
     {
@@ -90,23 +96,11 @@ class MainController extends \oauth\components\Controller
     $this->render('auth', array('model' => $authForm));
   }
 
-  private function redirectForAuth()
-  {
-    if ($this->Account->Id !== self::SelfId)
-    {
-      $this->redirect($this->createUrl('/oauth/main/dialog'));
-    }
-    else
-    {
-      echo 'вывести код, для обновления родительской страницы';
-    }
-  }
-
   public function actionRegister()
   {
     if (!Yii::app()->user->isGuest)
     {
-      $this->redirectForAuth();
+      $this->redirect($this->createUrl('/oauth/main/dialog'));
     }
 
     $formRegister = new \oauth\components\form\RegisterForm();
@@ -134,7 +128,7 @@ class MainController extends \oauth\components\Controller
       $user->FatherName = $formRegister->FatherName;
       $user->Email = $formRegister->Email;
       $user->register();
-      $identity = new \application\components\auth\identity\FastAuth($user->RunetId);
+      $identity = new \application\components\auth\identity\RunetId($user->RunetId);
       $identity->authenticate();
       if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
       {

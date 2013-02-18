@@ -7,19 +7,14 @@ class SocialController extends \oauth\components\Controller
   {
     $socialProxy = new \oauth\components\social\Proxy($this->social);
 
-    $test = \Yii::app()->request->getParam('test', null);
-    if (!empty($test))
-    {
-      //print_r($_REQUEST);
-    }
-
     if ($socialProxy->isHasAccess())
     {
+      $socialProxy->clearData();
       $data = $socialProxy->getData();
-      $connect = $socialProxy->getConnect($data->Hash);
-      if (!empty($connect))
+      $social = $socialProxy->getSocial($data->Hash);
+      if (!empty($social))
       {
-        $identity = new \application\components\auth\identity\Rocid($connect->User->RocId);
+        $identity = new \application\components\auth\identity\RunetId($social->User->RunetId);
         $identity->authenticate();
         if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
         {
@@ -29,8 +24,12 @@ class SocialController extends \oauth\components\Controller
         {
           throw new CHttpException(400);
         }
+        $this->redirect($this->createUrl('/oauth/main/dialog'));
       }
-      $this->redirect($this->createUrl('/oauth/main/dialog'));
+      else
+      {
+        $this->redirect($this->createUrl('/oauth/main/register'));
+      }
     }
     else
     {
