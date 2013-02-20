@@ -130,6 +130,14 @@ class Twitter implements ISocial
       }
       </script>';
   }
+
+  /**
+   * @return string
+   */
+  public function getSocialTitle()
+  {
+    return 'Twitter';
+  }
 }
 
 require dirname(__FILE__) . '/twitter/tmhOAuth.php';

@@ -33,3 +33,10 @@ ModalAuth.prototype.init = function()
     self.modal.modal('show');
   });
 };
+ModalAuth.prototype.success = function()
+{
+  var self = this;
+
+  self.modal.modal('hide');
+  window.location.reload();
+};

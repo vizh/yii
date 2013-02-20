@@ -18,5 +18,14 @@ interface ISocial{
    * @return Data
    */
   public function getData();
+
+  /**
+   * @return int
+   */
   public function getSocialId();
+
+  /**
+   * @return string
+   */
+  public function getSocialTitle();
 }

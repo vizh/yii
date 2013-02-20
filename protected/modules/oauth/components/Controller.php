@@ -26,8 +26,10 @@ class Controller extends \application\components\controllers\BaseController
 
   public function beforeAction($action)
   {
+    \Yii::app()->disableOutputLoggers();
+
     $request = \Yii::app()->getRequest();
-    $this->apiKey = $request->getParam('ApiKey');
+    $this->apiKey = $request->getParam('apikey');
     if ($this->apiKey !== null)
     {
       /** @var $account \api\models\Account */
@@ -68,7 +70,7 @@ class Controller extends \application\components\controllers\BaseController
     $request = \Yii::app()->getRequest();
     if (!empty($this->apiKey))
     {
-      $params['ApiKey'] = $this->apiKey;
+      $params['apikey'] = $this->apiKey;
     }
     $params = array_merge(array(
       'r_state' => $request->getParam('r_state'),

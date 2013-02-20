@@ -7,14 +7,13 @@ class TestController extends CController
 
   public function actionIndex()
   {
-
     $api = 'test';
     $secret = '1234567890';
     $timestamp = time();
     $hash = substr(md5($api . $timestamp . $secret), 0, 16);
 
     $params = array(
-      'ApiKey' => $api,
+      'apikey' => $api,
     );
 
     $request = \Yii::app()->getRequest();
@@ -35,9 +34,6 @@ class TestController extends CController
 
       $this->renderPartial('index', array('url' => $url, 'rState' => $params['r_state']));
     }
-
-
-
   }
 
   private function apiRequest($params)

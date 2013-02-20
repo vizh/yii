@@ -107,7 +107,7 @@ class Account extends \CActiveRecord
     }
     foreach ($this->Domains as $domain)
     {
-      $pattern = '/' . $domain->Domain . '/i';
+      $pattern = '/^' . $domain->Domain . '$/i';
       if (preg_match($pattern, $referer) === 1)
       {
         return true;

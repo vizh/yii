@@ -5,7 +5,11 @@ class MainController extends \oauth\components\Controller
   {
     if ($this->Account->Id === self::SelfId)
     {
-      echo 'вывести код, для обновления родительской страницы';
+      echo 'it\'s dialog!!!!';
+      echo '
+      <script>
+        window.top.modalAuthObj.success();
+      </script>';
       return;
     }
 
@@ -58,14 +62,7 @@ class MainController extends \oauth\components\Controller
       $this->redirect($this->createUrl('/oauth/main/dialog'));
     }
 
-    if (!empty($this->social))
-    {
-      $socialProxy = new \oauth\components\social\Proxy($this->social);
-      if ($socialProxy->isHasAccess())
-      {
-        \Yii::app()->user->setFlash('message', 'Чтоб в следующий раз авторизоваться через соц. сеть авторизуйся щас!');
-      }
-    }
+    $socialProxy = !empty($this->social) ? new \oauth\components\social\Proxy($this->social) : null;
 
     $request = \Yii::app()->getRequest();
     $authForm = new \oauth\components\form\AuthForm();
@@ -94,7 +91,7 @@ class MainController extends \oauth\components\Controller
       }
     }
 
-    $this->render('auth', array('model' => $authForm));
+    $this->render('auth', array('model' => $authForm, 'socialProxy' => $socialProxy));
   }
 
   public function actionRegister()

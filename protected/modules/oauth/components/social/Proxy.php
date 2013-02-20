@@ -63,6 +63,14 @@ class Proxy implements ISocial
   {
     return \oauth\models\Social::model()->byHash($hash)->bySocialId($this->getSocialId())->find();
   }
+
+  /**
+   * @param \user\models\User $user
+   */
+  public function addSocial($user)
+  {
+
+  }
   
   /**
    *
@@ -121,5 +129,13 @@ class Proxy implements ISocial
   public function renderScript()
   {
     $this->social->renderScript();
+  }
+
+  /**
+   * @return string
+   */
+  public function getSocialTitle()
+  {
+    return $this->social->getSocialTitle();
   }
 }

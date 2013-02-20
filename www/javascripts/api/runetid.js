@@ -13,7 +13,7 @@ var RunetId = new function() {
       return instance;
     }
 
-    this.url = 'http://login.runetid.local/main/dialog/';
+    this.url = 'http://runetid.local/oauth/main/dialog/';
     this.width = 620;
     this.height = 662;
     this.PopUpWindow = null;
@@ -42,12 +42,11 @@ var RunetId = new function() {
     {
       this.PopUpWindow.close();
     }
-    this.PopUpWindow = window.open(this.getUrl(),
-      'RocId', 'menubar=no,width='+this.width+',height='+this.height+',toolbar=no,left='+left+',top='+top);
+    this.PopUpWindow = window.open(this.getUrl(), 'RocId', 'menubar=no,width='+this.width+',height='+this.height+',toolbar=no,left='+left+',top='+top);
   };
 
   RunetId.prototype.getUrl = function(){
-    return this.url + '?ApiKey=' + encodeURIComponent(this.apiKey) + '&url='+encodeURIComponent(this.backUrl) + '&r_state='+encodeURIComponent(this.rState);
+    return this.url + '?apikey=' + encodeURIComponent(this.apiKey) + '&url='+encodeURIComponent(this.backUrl) + '&r_state='+encodeURIComponent(this.rState);
   };
 
   RunetId.prototype.windowDimensions = function(){

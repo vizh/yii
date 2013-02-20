@@ -15,8 +15,6 @@ class Yii extends YiiBase
     return parent::app();
   }
 
-
-
   /**
    * Creates a Web application instance.
    * @param mixed $config application configuration.

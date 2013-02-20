@@ -2,6 +2,7 @@
 /**
  * @var $this MainController
  * @var $model \oauth\components\form\AuthForm
+ * @var $socialProxy \oauth\components\social\Proxy
  */
 ?>
 
@@ -34,6 +35,7 @@
 <?php echo CHtml::beginForm();?>
   <fieldset>
     <legend>Авторизация</legend>
+
     <p>Вы&nbsp;можете авторизоваться при помощи аккаунта RUNET-ID, если являетесь пользователем сервиса:</p>
     <div class="control-group <?=$model->hasErrors('Login') ? 'error' : '';?>">
       <?=CHtml::activeTextField($model, 'Login', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('Login')));?>
@@ -61,5 +63,12 @@
     <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Vkontakte));?>" id="vk_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__vkontakte"></i>&nbsp;Вконтакте</a>
   </div>
 </div>
+
+<?if ($socialProxy !== null && $socialProxy->isHasAccess()):?>
+<div class="alert alert-success">
+  Не найдена связь с аккаунтом социальной сети <strong><?=$socialProxy->getSocialTitle();?></strong>. Она будет добавлена после авторизации в RUNET-ID.
+</div>
+<?endif;?>
+
 <hr>
 <p>Если у&nbsp;вас нет RUNET-ID, вы&nbsp;можете его <a href="<?=$this->createUrl('/oauth/main/register');?>">зарегистрировать</a>.</p>

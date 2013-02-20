@@ -13,6 +13,16 @@
 </head>
 <body class="page_registration">
 <script type="text/javascript">
+  <?if ($this->Account->Id !== \oauth\components\Controller::SelfId):?>
+  if (window.top !== window.self) {
+    document.write = "";
+    setTimeout(function(){document.body.innerHTML='';},1);
+    window.self.onload=function(evt){
+      document.body.innerHTML='';
+    };
+  }
+  <?endif;?>
+
 function fillOAuthUrls(oauth)
 {
   oauth.fbUrl = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Facebook));?>';

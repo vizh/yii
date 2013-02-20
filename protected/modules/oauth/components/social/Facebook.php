@@ -69,6 +69,14 @@ class Facebook implements ISocial
   {
     //empty for FB
   }
+
+  /**
+   * @return string
+   */
+  public function getSocialTitle()
+  {
+    return 'Facebook';
+  }
 }
 
 require dirname(__FILE__) . '/facebook/facebook.php';

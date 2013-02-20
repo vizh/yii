@@ -22,7 +22,10 @@ return array(
         'http://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
 
         /** OAuth Module */
-        'http://login.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
+        //'http://login.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
+        'http://tttt.ru' => 'oauth/test/index',
+        'http://abc.tttt.ru' => 'oauth/test/index',
+        'http://tttt.ru.abc.ru' => 'oauth/test/index',
 
         
         /** INDEX PAGE */

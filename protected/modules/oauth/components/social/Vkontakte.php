@@ -127,4 +127,12 @@ class Vkontakte implements ISocial
       }
       </script>';
   }
+
+  /**
+   * @return string
+   */
+  public function getSocialTitle()
+  {
+    return 'Вконтакте';
+  }
 }

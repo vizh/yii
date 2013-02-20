@@ -13,14 +13,7 @@ class Controller extends \application\components\controllers\BaseController
    */
   protected function beforeAction($action)
   {
-    $routes = \Yii::app()->log->getRoutes();
-    foreach ($routes as $route)
-    {
-      if ($route instanceof \CProfileLogRoute || $route instanceof \CWebLogRoute)
-      {
-        $route->enabled = false;
-      }
-    }
+    \Yii::app()->disableOutputLoggers();
     return parent::beforeAction($action);
   }
 
