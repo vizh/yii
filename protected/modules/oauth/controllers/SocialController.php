@@ -9,7 +9,6 @@ class SocialController extends \oauth\components\Controller
 
     if ($socialProxy->isHasAccess())
     {
-      $socialProxy->clearData();
       $data = $socialProxy->getData();
       $social = $socialProxy->getSocial($data->Hash);
       if (!empty($social))
@@ -33,6 +32,20 @@ class SocialController extends \oauth\components\Controller
     }
     else
     {
+      $this->redirect($socialProxy->getOAuthUrl());
+    }
+  }
+
+  public function actionConnect()
+  {
+    $socialProxy = new \oauth\components\social\Proxy($this->social);
+    if ($socialProxy->isHasAccess())
+    {
+      $socialProxy->renderScript();
+    }
+    else
+    {
+      //echo $socialProxy->getOAuthUrl();
       $this->redirect($socialProxy->getOAuthUrl());
     }
   }

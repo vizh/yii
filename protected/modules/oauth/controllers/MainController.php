@@ -57,6 +57,7 @@ class MainController extends \oauth\components\Controller
     {
       $this->redirect($this->createUrl('/oauth/main/dialog'));
     }
+
     if (!empty($this->social))
     {
       $socialProxy = new \oauth\components\social\Proxy($this->social);
@@ -111,7 +112,7 @@ class MainController extends \oauth\components\Controller
       $socialProxy = new \oauth\components\social\Proxy($this->social);
       if ($socialProxy->isHasAccess())
       {
-        \Yii::app()->user->setFlash('message', 'Чтоб в следующий раз авторизоваться через соц. сеть авторизуйся щас!');
+        //\Yii::app()->user->setFlash('message', 'Чтоб в следующий раз авторизоваться через соц. сеть авторизуйся щас!');
         $formRegister->LastName = $socialProxy->getData()->LastName;
         $formRegister->FirstName = $socialProxy->getData()->FirstName;
         $formRegister->Email = $socialProxy->getData()->Email;

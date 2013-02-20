@@ -18,6 +18,9 @@ class Proxy implements ISocial
       case ISocial::Twitter:
         $this->social = new Twitter();
         break;
+      case ISocial::Vkontakte:
+        $this->social = new Vkontakte();
+        break;
       default:
         throw new \CHttpException(400, 'Не обнаружена авторизация по OAuth с идентификатором "' . $socialName . '"');
     }
@@ -42,25 +45,9 @@ class Proxy implements ISocial
   {
     if ($this->data == null)
     {
-      $social = \Yii::app()->getSession()->get('OAuthSocial', array());
-      if (empty($social[$this->getSocialId()]))
-      {
-        $social[$this->getSocialId()] = $this->social->getData();
-        \Yii::app()->getSession()->add('OAuthSocial', $social);
-      }
-      $this->data = $social[$this->getSocialId()];
+      $this->data = $this->social->getData();
     }
     return $this->data;
-  }
-
-  public function clearData()
-  {
-    $social = \Yii::app()->getSession()->get('OAuthSocial', array());
-    if (isset($social[$this->getSocialId()]))
-    {
-      unset($social[$this->getSocialId()]);
-      \Yii::app()->getSession()->add('OAuthSocial', $social);
-    }
   }
 
   public function getSocialId()
@@ -126,5 +113,13 @@ class Proxy implements ISocial
     $contact->save();
     $user->AddServiceAccount($contact);
     return;
+  }
+
+  /**
+   * @return void
+   */
+  public function renderScript()
+  {
+    $this->social->renderScript();
   }
 }

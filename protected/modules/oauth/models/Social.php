@@ -78,7 +78,7 @@ class Social extends \CActiveRecord
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."Hash" = :Hash';
-    $criteria->params = array('Hash' => $hash);
+    $criteria->params = array('Hash' => (string)$hash);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

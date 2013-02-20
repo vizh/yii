@@ -3,8 +3,8 @@ namespace oauth\components\social;
 
 class Twitter implements ISocial
 {
-  const Key = 'yCd701HPFJj5YaB9pG3qoQ';
-  const Secret = 'jbIhb3OMKQDp0ccVNPciwHdlyhqG8T6iI5ib83Ulyc';
+  const Key = 'gqDgGfvKzHIM4gNuT7f7eA';
+  const Secret = 'Q9O9qcqgPzgMPqr7CJiCtsZxxbUMDRx1p5abjhjAADk';
 
   /** @var \tmhOAuth */
   protected $connection = null;
@@ -33,7 +33,7 @@ class Twitter implements ISocial
   public function getOAuthUrl()
   {
     $params = array(
-      'oauth_callback' => \tmhUtilities::php_self(false) . '&test=1',
+      'oauth_callback' => \tmhUtilities::php_self(false),
       'x_auth_access_type' => 'read'
     );
 
@@ -52,24 +52,19 @@ class Twitter implements ISocial
 
   public function isHasAccess()
   {
-    $accessToken = \Yii::app()->session->get('access_token', null);
+    $accessToken = \Yii::app()->getSession()->get('access_token', null);
     $verifier = \Yii::app()->request->getParam('oauth_verifier', null);
-    return !empty($accessToken) || !empty($verifier);
-  }
-
-  public function getData()
-  {
-    $accessToken = \Yii::app()->session->get('access_token', null);
-
-    if (empty($accessToken))
+    if (empty($accessToken) && !empty($verifier))
     {
-      $oauth = \Yii::app()->session->get('oauth');
+      $oauth = \Yii::app()->getSession()->get('oauth');
       $this->getConnection()->config['user_token'] = $oauth['oauth_token'];
       $this->getConnection()->config['user_secret'] = $oauth['oauth_token_secret'];
 
-      $code = $this->getConnection()->request('POST', $this->getConnection()->url('oauth/access_token', ''), array(
-        'oauth_verifier' => \Yii::app()->request->getParam('oauth_verifier', null)
-      ));
+      $code = $this->getConnection()->request(
+        'POST',
+        $this->getConnection()->url('oauth/access_token', ''),
+        array('oauth_verifier' => \Yii::app()->request->getParam('oauth_verifier', null))
+      );
 
       if ($code == 200)
       {
@@ -82,6 +77,12 @@ class Twitter implements ISocial
         throw new \CHttpException(400, 'Сервис авторизации Twitter не отвечает');
       }
     }
+    return !empty($accessToken) || !empty($verifier);
+  }
+
+  public function getData()
+  {
+    $accessToken = \Yii::app()->getSession()->get('access_token', null);
 
     $this->resetConnection();
     $this->getConnection()->config['user_token'] = $accessToken['oauth_token'];
@@ -114,6 +115,20 @@ class Twitter implements ISocial
   public function getSocialId()
   {
     return self::Twitter;
+  }
+
+  /**
+   * @return void
+   */
+  public function renderScript()
+  {
+    echo '<script>
+      if(window.opener != null && !window.opener.closed)
+      {
+        window.opener.oauthModuleObj.twiProcess();
+        window.close();
+      }
+      </script>';
   }
 }
 

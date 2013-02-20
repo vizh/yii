@@ -14,7 +14,7 @@ return array(
   'language' => 'ru',
 
   // preloading 'log' component
-  'preload'=>array('log'),
+  'preload'=>array('log', 'session'),
 
   // autoloading model and component classes
   'import'=>array(
@@ -63,7 +63,7 @@ return array(
     ),
 
     'session' => array(
-      'class' => 'CDbHttpSession',
+      'class' => '\application\components\web\PgDbHttpSession',
       'connectionID' => 'db',
       'autoCreateSessionTable' => false, //!!!
       'sessionName' => 'sessid',

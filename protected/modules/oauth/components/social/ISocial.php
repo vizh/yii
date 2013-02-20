@@ -10,6 +10,11 @@ interface ISocial{
   public function isHasAccess();
 
   /**
+   * @return void
+   */
+  public function renderScript();
+
+  /**
    * @return Data
    */
   public function getData();

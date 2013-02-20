@@ -61,6 +61,14 @@ class Facebook implements ISocial
   {
     return self::Facebook;
   }
+
+  /**
+   * @return void
+   */
+  public function renderScript()
+  {
+    //empty for FB
+  }
 }
 
 require dirname(__FILE__) . '/facebook/facebook.php';
