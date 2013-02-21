@@ -65,9 +65,9 @@
 </div>
 
 <?if ($socialProxy !== null && $socialProxy->isHasAccess()):?>
-<div class="alert alert-success">
-  Не найдена связь с аккаунтом социальной сети <strong><?=$socialProxy->getSocialTitle();?></strong>. Она будет добавлена после авторизации в RUNET-ID.
-</div>
+  <div class="alert alert-warning">
+    Не найдена связь с аккаунтом социальной сети <strong><?=$socialProxy->getSocialTitle();?></strong>. Она будет добавлена после авторизации или <a href="<?=$this->createUrl('/oauth/main/register');?>">регистрации</a> в RUNET-ID.
+  </div>
 <?endif;?>
 
 <hr>

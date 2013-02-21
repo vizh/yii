@@ -34,7 +34,7 @@ class Social extends \CActiveRecord
   public function relations()
   {
     return array(
-      'User' => array(self::BELONGS_TO, 'User', 'UserId'),
+      'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
     );
   }
 

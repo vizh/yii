@@ -38,7 +38,7 @@ class ServiceAccount extends \CActiveRecord
 
   public function __set($name, $value)
   {
-    if ($name === 'Account')
+    /*if ($name === 'Account')
     {
       if (!empty($this->Type))
       {
@@ -62,7 +62,8 @@ class ServiceAccount extends \CActiveRecord
       {
         throw new \application\components\Exception('Необходимо задать тип аккаунта, до установки значения аккаунта.');
       }
-    }
+    }*/
+    //todo: Проверить работоспособность и вернуть код
     parent::__set($name, $value);
   }
 

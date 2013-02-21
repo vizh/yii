@@ -26,7 +26,7 @@ class AuthForm extends \CFormModel
     {
       return true;
     }
-    $this->addError($attribute, 'Неверно заполнено поле R / Email');
+    $this->addError($attribute, 'Неверно заполнено поле "' . $this->getAttributeLabel($attribute) . '"');
     return false;
   }
   
@@ -39,5 +39,3 @@ class AuthForm extends \CFormModel
     );
   }
 }
-
-?>

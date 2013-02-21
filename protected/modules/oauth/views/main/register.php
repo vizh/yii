@@ -8,6 +8,13 @@
 <?=CHtml::beginForm();?>
   <fieldset>
     <legend>Регистрация</legend>
+
+    <?if ($socialProxy !== null && $socialProxy->isHasAccess()):?>
+      <div class="alert alert-warning">
+        Не найдена связь с аккаунтом социальной сети <strong><?=$socialProxy->getSocialTitle();?></strong>. Она будет добавлена после регистрации или <a href="<?=$this->createUrl('/oauth/main/auth');?>">авторизации</a> в RUNET-ID.
+      </div>
+    <?endif;?>
+
     <p>Вы&nbsp;можете одновременно получить RUNET-ID и&nbsp;зарегистрироваться на&nbsp;мероприятие, заполнив форму:</p>
     <div class="control-group <?=$model->hasErrors('LastName') ? 'error' : '';?>">
       <?=CHtml::activeTextField($model, 'LastName', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('LastName')));?>

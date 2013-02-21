@@ -588,6 +588,55 @@ class User extends \application\models\translation\ActiveRecord
     return $this->LastName .' '. $this->FirstName;
   }
 
+  /**
+   * @return int
+   */
+  public function getAge()
+  {
+    if ($this->Birthday == null)
+    {
+      return 0;
+    }
+    $birthdayDate = new \DateTime($this->Birthday);
+    return $birthdayDate->diff(new \DateTime())->y;
+  }
+
+  /**
+   * Уставливает место работы пользователю
+   * @param $companyFullName
+   * @param string $position
+   *
+   * @return \user\models\Employment|null
+   */
+  public function setEmployment($companyFullName, $position = '')
+  {
+    $companyModel = \company\models\Company::model();
+    $companyName = $companyModel->parseFullName($companyFullName);
+    if (mb_strlen($companyName) === 0)
+    {
+      return null;
+    }
+
+    /** @var $company \company\models\Company */
+    $company = $companyModel->bySearch($companyName)->find();
+    if ($company == null)
+    {
+      $company = new \company\models\Company();
+      $company->Name = $companyName;
+      $company->FullName = $companyFullName;
+      $company->save();
+    }
+
+    $employment = new \user\models\Employment();
+    $employment->UserId = $this->Id;
+    $employment->CompanyId = $company->Id;
+    $employment->Position = $position;
+    $employment->Primary = true;
+    $employment->save();
+
+    return $employment;
+  }
+
 
   /******  OLD METHODS  ***/
   /** todo: REWRITE ALL BOTTOM */
@@ -608,53 +657,7 @@ class User extends \application\models\translation\ActiveRecord
     $this->Settings->save();
   }
   
-  public function getAge()
-  {
-    if ($this->Birthday == null)
-    {
-      return 0;
-    }
-    $birthdayDate = new \DateTime($this->Birthday);
-    return $birthdayDate->diff(new \DateTime())->y;
-  }
 
-  /**
-   * Уставливает место работы пользователю
-   * @param string $companyName
-   * @param string $position
-   * @param array $from
-   * @param array $to
-   */
-  public function addEmployment($companyName, $position, $from = array(), $to = array())
-  {
-    if (!empty($this->Employments))
-    {
-      foreach ($this->Employments as $employment)
-      {
-        $employment->Primary = 0;
-        $employment->save();
-      }
-    }
 
-    $companyInfo = \company\models\Company::ParseName($companyName);
-    $company = \company\models\Company::GetCompanyByName($companyInfo['name']);
-    if ($company == null)
-    {
-      $company = new \company\models\Company();
-      $company->Name = $companyInfo['name'];
-      $company->Opf = $companyInfo['opf'];
-      $company->CreationTime = time();
-      $company->UpdateTime = time();
-      $company->save();
-    }
 
-    $employment = new \user\models\Employment();
-    $employment->UserId = $this->UserId;
-    $employment->CompanyId = $company->CompanyId;
-    $employment->SetParsedStartWorking($from);
-    $employment->SetParsedFinishWorking($to);
-    $employment->Position = $position;
-    $employment->Primary = 1;
-    $employment->save();
-  }
 }

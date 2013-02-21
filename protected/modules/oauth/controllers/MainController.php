@@ -73,21 +73,24 @@ class MainController extends \oauth\components\Controller
       $identity->authenticate();
       if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
       {
-        \Yii::app()->user->login($identity, $identity->GetExpire());
+        if ($authForm->RememberMe == 1)
+        {
+          \Yii::app()->user->login($identity, $identity->GetExpire());
+        }
+        else
+        {
+          \Yii::app()->user->login($identity);
+        }
 
         if (isset($socialProxy) && $socialProxy->isHasAccess())
         {
-          $user = \Yii::app()->user->CurrentUser();
-          $socialProxy->addConnect($user);
-          $socialProxy->addContact($user);
+          $socialProxy->saveSocialData(\Yii::app()->user->CurrentUser());
         }
-
-        \Yii::app()->user->setFlash('message', null);
         $this->redirect($this->createUrl('/oauth/main/dialog'));
       }
       else
       {
-        $authForm->addError('RocIdOrEmail', 'Пользваотеля с таким Email / rocID не существует.');
+        $authForm->addError('Login', 'Пользователя с такими Эл. почтой или RUNET-ID и паролем не существует.');
       }
     }
 
@@ -104,16 +107,12 @@ class MainController extends \oauth\components\Controller
     $formRegister = new \oauth\components\form\RegisterForm();
     $socialProxy = null;
 
-    if (!empty($this->social))
+    $socialProxy = !empty($this->social) ? new \oauth\components\social\Proxy($this->social) : null;
+    if ($socialProxy !== null && $socialProxy->isHasAccess())
     {
-      $socialProxy = new \oauth\components\social\Proxy($this->social);
-      if ($socialProxy->isHasAccess())
-      {
-        //\Yii::app()->user->setFlash('message', 'Чтоб в следующий раз авторизоваться через соц. сеть авторизуйся щас!');
-        $formRegister->LastName = $socialProxy->getData()->LastName;
-        $formRegister->FirstName = $socialProxy->getData()->FirstName;
-        $formRegister->Email = $socialProxy->getData()->Email;
-      }
+      $formRegister->LastName = $socialProxy->getData()->LastName;
+      $formRegister->FirstName = $socialProxy->getData()->FirstName;
+      $formRegister->Email = $socialProxy->getData()->Email;
     }
 
     $request = \Yii::app()->getRequest();
@@ -126,19 +125,21 @@ class MainController extends \oauth\components\Controller
       $user->FatherName = $formRegister->FatherName;
       $user->Email = $formRegister->Email;
       $user->register();
+
+      if (!empty($formRegister->Company))
+      {
+        $user->setEmployment($formRegister->Company);
+      }
       $identity = new \application\components\auth\identity\RunetId($user->RunetId);
       $identity->authenticate();
       if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
       {
         \Yii::app()->user->login($identity);
-
-        if (isset($socialProxy) && $socialProxy->isHasAccess())
+        if ($socialProxy !== null && $socialProxy->isHasAccess())
         {
-          $socialProxy->addConnect($user);
-          $socialProxy->addContact($user);
+          $socialProxy->saveSocialData($user);
         }
 
-        \Yii::app()->user->setFlash('message', null);
         $this->redirect($this->createUrl('/oauth/main/dialog'));
       }
       else
@@ -147,7 +148,7 @@ class MainController extends \oauth\components\Controller
       }
     }
 
-    $this->render('register', array('model' => $formRegister));
+    $this->render('register', array('model' => $formRegister, 'socialProxy' => $socialProxy));
   }
 
   public function actionRecover()

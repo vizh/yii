@@ -14,15 +14,10 @@ namespace company\models;
  * @property string $UpdateTime
  *
  *
- *
- *
- *
- *
- *
  * @property \company\models\LinkEmail[] $LinkEmails
- * @property \company\models\LinkAddress $Address
- * @property \company\models\LinkPhone[] $Phones
- * @property \company\models\LinkSite $Site
+ * @property \company\models\LinkAddress $LinkAddress
+ * @property \company\models\LinkPhone[] $LinkPhones
+ * @property \company\models\LinkSite $LinkSite
 
  * @property \user\models\Employment[] $Employments
  * @property \user\models\Employment[] $EmploymentsAll
@@ -61,8 +56,15 @@ class Company extends \CActiveRecord implements \search\components\interfaces\IS
       'EmploymentsAll' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'with' => array('User')),
     );
   }
-  
-  
+
+  public function bySearch($term, $locale = null, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = 'to_tsvector("t"."Name") @@ plainto_tsquery(:Term)';
+    $criteria->params['Term'] = $term;
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
   
   public static function getLogoBaseDir($onServerDisc = false)
 	{
@@ -92,13 +94,17 @@ class Company extends \CActiveRecord implements \search\components\interfaces\IS
 		}
     return $path;
 	}
-  
-  public function bySearch($term, $locale = null, $useAnd = true) 
+
+  /**
+   * @param string $fullName
+   * @return string
+   */
+  public function parseFullName($fullName)
   {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 'to_tsvector("t"."Name") @@ plainto_tsquery(:Term)';
-    $criteria->params['Term'] = $term;
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
+    preg_match("/^([\'\"]*(ООО|ОАО|АО|ЗАО|ФГУП|ПКЦ|НОУ|НПФ|РОО|КБ|ИКЦ)?\s*,?\s+)?([\'\"]*)?([А-яЁёA-z0-9 \.\,\&\-\+\%\$\#\№\!\@\~\(\)]+)\3?([\'\"]*)?$/iu", $fullName, $matches);
+
+    $name = (isset($matches[4])) ? $matches[4] : '';
+    return $name;
   }
+
 }

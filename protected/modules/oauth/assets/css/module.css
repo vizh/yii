@@ -26,7 +26,7 @@ legend {
   margin-bottom: 0;
 }
 
-.alert.alert-success{
+.alert.alert-success, .alert.alert-warning{
   margin-top: 15px;
 }
 

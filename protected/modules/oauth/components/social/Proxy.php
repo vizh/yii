@@ -67,60 +67,55 @@ class Proxy implements ISocial
   /**
    * @param \user\models\User $user
    */
-  public function addSocial($user)
+  public function saveSocialData($user)
   {
+    $this->saveSocial($user);
+    $this->saveServiceAccount($user);
+  }
 
-  }
-  
   /**
-   *
-   * @param \user\models\User $user 
-   * @return \user\models\Connect
+   * @param \user\models\User $user
    */
-  public function addConnect(\user\models\User $user)
-  { 
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.UserId = :UserId AND t.ServiceTypeId = :ServiceTypeId';
-    $criteria->params['UserId'] = $user->UserId;
-    $criteria->params['ServiceTypeId'] = $this->getSocialId();
-    $connect = \user\models\Connect::model()->find($criteria);
-    if ($connect == null)
-    {
-      $connect = new \user\models\Connect();
-      $connect->UserId = $user->UserId;
-      $connect->ServiceTypeId = $this->getSocialId();
-    }
-    $connect->Hash = $this->getData()->Hash;
-    $connect->save();
-    return $connect;
-  }
-  
-  /**
-   *
-   * @param \user\models\User $user 
-   */
-  public function addContact(\user\models\User $user)
+  protected function saveSocial(\user\models\User $user)
   {
-    if (!empty($user->ServiceAccounts))
+    $social = \oauth\models\Social::model()
+        ->byUserId($user->Id)
+        ->bySocialId($this->getSocialId())->find();
+    if ($social === null)
     {
-      foreach ($user->ServiceAccounts as $account)
+      $social = new \oauth\models\Social();
+      $social->UserId = $user->Id;
+      $social->SocialId = $this->getSocialId();
+    }
+    $social->Hash = (string)$this->getData()->Hash;
+    $social->save();
+  }
+  
+  /**
+   * @param \user\models\User $user
+   */
+  protected function saveServiceAccount(\user\models\User $user)
+  {
+    foreach ($user->LinkServiceAccounts as $link)
+    {
+      if ($link->ServiceAccount->TypeId == $this->getSocialId())
       {
-        if ($account->ServiceTypeId == $this->getSocialId())
-        {
-          $account->Account = $this->getData()->UserName;
-          $account->save();
-          return;
-        }
+        $link->ServiceAccount->Account = $this->getData()->UserName;
+        $link->ServiceAccount->save();
+        return;
       }
     }
-    
-    $contact = new \contact\models\ServiceAccount();
-    $contact->ServiceTypeId = $this->getSocialId();
-    $contact->Account = $this->getData()->UserName;
-    $contact->Visibility = 1;
-    $contact->save();
-    $user->AddServiceAccount($contact);
-    return;
+
+
+    $account = new \contact\models\ServiceAccount();
+    $account->TypeId = $this->getSocialId();
+    $account->Account = $this->getData()->UserName;
+    $account->save();
+
+    $link = new \user\models\LinkServiceAccount();
+    $link->ServiceAccountId = $account->Id;
+    $link->UserId = $user->Id;
+    $link->save();
   }
 
   /**
