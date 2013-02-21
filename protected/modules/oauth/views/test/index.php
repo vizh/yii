@@ -31,8 +31,8 @@
 <script type="text/javascript">
   window.rIDAsyncInit = function() {
     rID.init({
-      apiKey: 'test',
-      rState: '<?=$rState;?>'
+      apiKey: 'API_KEY',
+      rState: 'RANDOM_STATE'
     });
     // Additional initialization code here
   };
@@ -42,7 +42,7 @@
     var js, id = 'runetid-jssdk', ref = d.getElementsByTagName('script')[0];
     if (d.getElementById(id)) {return;}
     js = d.createElement('script'); js.id = id; js.async = true;
-    js.src = "//runetid.local/javascripts/api/runetid.js";
+    js.src = "//runetid.internetmediaholding.com/javascripts/api/runetid.js";
     ref.parentNode.insertBefore(js, ref);
   }(document));
 </script>
