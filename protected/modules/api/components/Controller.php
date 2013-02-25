@@ -5,6 +5,46 @@ class Controller extends \application\components\controllers\BaseController
 {
   protected $result = null;
 
+  public function actions()
+  {
+    return $this->getVersioningActions();
+  }
+
+  /**
+   * @return array
+   */
+  protected function getVersioningActions()
+  {
+    //$version = \Yii::app()->getRequest()->getParam('v', null);
+    //$timestamp = strtotime($version);
+
+    $path = \Yii::getPathOfAlias('api.controllers.'.$this->getId());
+    $result = array();
+
+    $files = scandir($path);
+    $pattern = '/((\w*?)Action(\d*?)).php$/i';
+    foreach ($files as $file)
+    {
+      if (preg_match($pattern, $file, $matches) === 1)
+      {
+        //$matches[3] - дата новой версии action
+        //todo: даполнить метод версионностью
+        $key = strtolower($matches[2]);
+        $result[$key] = '\\api\\controllers\\'.$this->getId().'\\'.$matches[1];
+      }
+    }
+
+    return $result;
+  }
+
+  /**
+   * @param mixed $result
+   */
+  public function setResult($result)
+  {
+    $this->result = $result;
+  }
+
 
   /**
    * @param \CAction $action
@@ -77,7 +117,7 @@ class Controller extends \application\components\controllers\BaseController
 
   private $suffixLength = 4;
 
-  protected function GetPageToken($offset)
+  public function getPageToken($offset)
   {
     $prefix = substr(base64_encode($this->getId() . $this->getAction()->getId()), 0, $this->suffixLength);
     return $prefix . base64_encode($offset);
@@ -88,7 +128,7 @@ class Controller extends \application\components\controllers\BaseController
    * @throws Exception
    * @return array
    */
-  protected function ParsePageToken($token)
+  public function parsePageToken($token)
   {
     if (strlen($token) < $this->suffixLength+1)
     {

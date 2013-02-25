@@ -61,15 +61,9 @@ class WebUser extends \CWebUser
    */
   public function getRole()
   {
-    $temp = array(
-      'OwnDataBuilder' => 'Own',
-      'PartnerDataBuilder' => 'Partner',
-      'MobileAppDataBuilder' => 'Mobile',
-    );
     if ($this->getAccount() !== null)
     {
-      $builder = $this->getAccount()->DataBuilder;
-      return isset($temp[$builder]) ? $temp[$builder] : null;
+      return $this->getAccount()->Role;
     }
     return null;
   }

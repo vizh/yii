@@ -6,10 +6,11 @@ namespace api\models;
  * @property string $Secret
  * @property int $EventId
  * @property string $IpCheck
- * @property string $DataBuilder
+ * @property string $Role
  *
  * @property \event\models\Event $Event
  * @property Domain[] $Domains
+ * @property Ip[] $Ips
  */
 class Account extends \CActiveRecord
 {
@@ -38,6 +39,7 @@ class Account extends \CActiveRecord
     return array(
       'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
       'Domains' => array(self::HAS_MANY, '\api\models\Domain', 'AccountId'),
+      'Ips' => array(self::HAS_MANY, '\api\models\Ip', 'AccountId')
     );
   }
 
@@ -59,24 +61,34 @@ class Account extends \CActiveRecord
   protected $_dataBuilder = null;
 
   /**
-   * @return \api\components\builders\BaseDataBuilder
+   * @return \api\components\builders\Builder
    */
   public function DataBuilder()
   {
-    if (empty($this->_dataBuilder))
+    if ($this->_dataBuilder === null)
     {
-      if ($this->DataBuilder == null)
+      $version = \Yii::app()->getRequest()->getParam('v', null);
+      $timestamp = strtotime($version);
+      if ($timestamp === false)
       {
-        $this->_dataBuilder = new \api\components\builders\BaseDataBuilder($this);
+        $this->_dataBuilder = new \api\components\builders\Builder($this);
       }
       else
       {
-        $class = '\api\components\builders\\' . $this->DataBuilder;
-        $this->_dataBuilder = new $class($this);
+        $this->_dataBuilder = $this->getVersioningBuilder($timestamp);
       }
     }
 
     return $this->_dataBuilder;
+  }
+
+  /**
+   * @param int $timestamp
+   * @return \api\components\builders\Builder
+   */
+  protected function getVersioningBuilder($timestamp)
+  {
+    return new \api\components\builders\Builder($this);
   }
 
   public function checkIp($ip)

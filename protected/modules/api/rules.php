@@ -3,7 +3,7 @@
 return array(
   array(
     'allow',
-    'roles' => array('Mobile'),
+    'roles' => array('base'),
     'controllers' => array('user'),
     'actions' => array('auth')
   ),

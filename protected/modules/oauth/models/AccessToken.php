@@ -5,7 +5,7 @@ namespace oauth\models;
  * @property int $Id
  * @property string $Token
  * @property int $UserId
- * @property int $EventId
+ * @property int $AccountId
  * @property string $CreationTime
  * @property string $EndingTime
  *

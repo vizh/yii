@@ -13,11 +13,12 @@ class TestController extends CController
     $hash = substr(md5($api . $timestamp . $secret), 0, 16);
 
     $params = array(
-      'apikey' => $api,
+      'ApiKey' => $api,
     );
 
     $request = \Yii::app()->getRequest();
     $token = $request->getParam('token', null);
+    $token = 'NllZD1Eo6ZBD.KHuHHLMZJW37ei8zcPhpTeEchULhf5';
     if ($token !== null)
     {
       $params['Hash'] = $hash;
@@ -39,8 +40,8 @@ class TestController extends CController
   private function apiRequest($params)
   {
     $curl = curl_init();
-    curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 60);
+    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
     curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 

@@ -5,7 +5,6 @@ class MainController extends \oauth\components\Controller
   {
     if ($this->Account->Id === self::SelfId)
     {
-      echo 'it\'s dialog!!!!';
       echo '
       <script>
         window.top.modalAuthObj.success();
@@ -19,7 +18,7 @@ class MainController extends \oauth\components\Controller
       $this->redirect($this->createUrl('/oauth/main/auth'));
     }
 
-    $permission = \oauth\models\Permission::model()->byUserId($user->Id)->byEventId($this->Account->EventId)->find();
+    $permission = \oauth\models\Permission::model()->byUserId($user->Id)->byAccountId($this->Account->Id)->find();
     if ($permission !== null)
     {
       $this->redirectWithToken();
@@ -28,7 +27,7 @@ class MainController extends \oauth\components\Controller
     {
       $permission = new \oauth\models\Permission();
       $permission->UserId  = $user->Id;
-      $permission->EventId = $this->Account->EventId;
+      $permission->AccountId = $this->Account->Id;
       $permission->Verified = true;
       $permission->save();
       $this->redirectWithToken();
@@ -44,7 +43,7 @@ class MainController extends \oauth\components\Controller
 
     $accessToken = new \oauth\models\AccessToken();
     $accessToken->UserId = $user->Id;
-    $accessToken->EventId = $this->Account->EventId;
+    $accessToken->AccountId = $this->Account->Id;
     $accessToken->EndingTime = date('Y-m-d H:i:s', time()+86400);
     $accessToken->createToken($this->Account);
     $accessToken->save();

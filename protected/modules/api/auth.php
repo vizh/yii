@@ -7,29 +7,41 @@ return array(
     'bizRule' => null,
     'data' => null
   ),
-  'Mobile' => array(
+
+  'base' => array(
     'type' => CAuthItem::TYPE_ROLE,
-    'description' => 'Авторизация в качестве мобильного приложения',
+    'description' => 'Базовый набор прав доступа',
     'children' => array(
       'guest',
     ),
     'bizRule' => null,
     'data' => null
   ),
-  'Partner' => array(
+
+  'mobile' => array(
     'type' => CAuthItem::TYPE_ROLE,
-    'description' => 'Авторизация с партнерским доступом к api',
+    'description' => 'Авторизация в качестве мобильного приложения',
     'children' => array(
-      'Mobile',
+      'base',
     ),
     'bizRule' => null,
     'data' => null
   ),
-  'Own' => array(
+  'partner' => array(
+    'type' => CAuthItem::TYPE_ROLE,
+    'description' => 'Авторизация с партнерским доступом к api',
+    'children' => array(
+      'base',
+    ),
+    'bizRule' => null,
+    'data' => null
+  ),
+
+  'own' => array(
       'type' => CAuthItem::TYPE_ROLE,
       'description' => 'Авторизация с максимальным доступом к api',
       'children' => array(
-        'Partner',
+        'partner',
       ),
       'bizRule' => null,
       'data' => null

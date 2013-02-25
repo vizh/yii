@@ -4,7 +4,7 @@ namespace oauth\models;
 /**
  * @property int $Id
  * @property int $UserId
- * @property int $EventId
+ * @property int $AccountId
  * @property string $CreationTime
  * @property bool $Verified
  * @property bool $Deleted
@@ -53,15 +53,15 @@ class Permission extends \CActiveRecord
   }
 
   /**
-   * @param int $eventId
+   * @param int $accountId
    * @param bool $useAnd
    * @return Permission
    */
-  public function byEventId($eventId, $useAnd = true)
+  public function byAccountId($accountId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."EventId" = :EventId';
-    $criteria->params = array(':EventId' => $eventId);
+    $criteria->condition = '"t"."AccountId" = :AccountId';
+    $criteria->params = array(':AccountId' => $accountId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
