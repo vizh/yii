@@ -1,8 +1,6 @@
 <?php
 namespace event\models;
 
-use tag\models\ITaggable;
-
 /**
  * @property int $Id
  * @property string $IdName
@@ -31,14 +29,14 @@ use tag\models\ITaggable;
  * @property Attribute[] $Attributes
  * @property Partner[] $Partners
  *
- * @property LinkTag[] $LinkTags
+ * @property LinkProfessionalInterest[] $LinkProfessionalInterests
  *
  *
  * Attribute properties
  *
  * @property string $UrlSectionMask
  */
-class Event extends \application\models\translation\ActiveRecord implements ITaggable
+class Event extends \application\models\translation\ActiveRecord
 {
   /**
    * @param string $className
@@ -79,7 +77,7 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
 
       'Partners' => array(self::HAS_MANY, '\event\models\Partner', 'EventId'),
 
-      'LinkTags' => array(self::HAS_MANY, '\event\models\LinkTag', 'EventId', 'with' => 'Tag')
+      'LinkProfessionalInterests' => array(self::HAS_MANY, '\event\models\LinkProfessionalInterest', 'EventId', 'with' => 'ProfessionalInterest')
     );
   }
 
@@ -240,21 +238,16 @@ class Event extends \application\models\translation\ActiveRecord implements ITag
     return $this;
   }
 
-  /**
-   * @param int $id
-   * @param bool $useAnd
-   *
-   * @return Event
-   */
-  public function byTagId($id, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"LinkTags"."TagId" = :TagId';
-    $criteria->params = array('TagId' => $id);
-    $criteria->with = array('LinkTags' => array('together' => true));
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+
+//  public function byTagId($id, $useAnd = true)
+//  {
+//    $criteria = new \CDbCriteria();
+//    $criteria->condition = '"LinkTags"."TagId" = :TagId';
+//    $criteria->params = array('TagId' => $id);
+//    $criteria->with = array('LinkTags' => array('together' => true));
+//    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+//    return $this;
+//  }
 
 
   public function registerUser(\user\models\User $user, Role $role, $usePriority = false)

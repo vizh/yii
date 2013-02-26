@@ -5,7 +5,7 @@ return array(
     'allow',
     'roles' => array('base'),
     'controllers' => array('user'),
-    'actions' => array('auth')
+    'actions' => array('auth', 'search', 'create')
   ),
   array(
     'deny',

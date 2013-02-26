@@ -20,9 +20,33 @@ class ApiModule extends CWebModule
 		{
 			// this method is called before any module controller action is performed
 			// you may place customized code here
+
+      \Yii::app()->attachEventHandler('onException', array($this, 'onException'));
+
 			return true;
 		}
 		else
 			return false;
 	}
+
+
+  /**
+   * @param CExceptionEvent $event
+   */
+  public function onException($event)
+  {
+    if ($event->exception instanceof \api\components\Exception)
+    {
+      /** @var $exception \api\components\Exception */
+      $exception = $event->exception;
+      $exception->sendResponse();
+      $event->handled = true;
+    }
+    else
+    {
+      //$exception = new \api\components\Exception(100, array($event->exception->getMessage()));
+    }
+    //$exception->sendResponse();
+    //$event->handled = true;
+  }
 }

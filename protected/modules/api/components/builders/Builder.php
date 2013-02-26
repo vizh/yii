@@ -73,8 +73,10 @@ class Builder
       $this->user->Work = new \stdClass();
       $this->user->Work->Position = $employment->Position;
       $this->user->Work->Company = $this->createCompany($employment->Company);
-      $this->user->Work->Start = $employment->StartWorking;
-      $this->user->Work->Finish = $employment->FinishWorking;
+      $this->user->Work->StartYear = $employment->StartYear;
+      $this->user->Work->StartMonth = $employment->StartMonth;
+      $this->user->Work->EndYear = $employment->EndYear;
+      $this->user->Work->EndMonth = $employment->EndMonth;
     }
 
     return $this->user;

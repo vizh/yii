@@ -35,20 +35,21 @@ class SearchAction extends \api\components\Action
     );
     if ($this->Account->EventId != null)
     {
-      $with['EventUsers'] = array('on' => '"EventUsers"."EventId" = :EventId', 'params' => array(':EventId' => $this->Account->EventId));
+      $with['Participants'] = array('on' => '"Participants"."EventId" = :EventId', 'params' => array(':EventId' => $this->Account->EventId));
     }
     else
     {
-      $with[] = 'EventUsers';
+      $with[] = 'Participants';
     }
-    $with[] = 'EventUsers.EventRole';
-    $with[] = 'EventUsers.Event';
+    $with[] = 'Participants.Role';
+    $with[] = 'Participants.Event';
     $model = \user\models\User::model()->bySearch($query)->with($with);
 
     /** @var $users \user\models\User[] */
     $users = $model->findAll($criteria);
 
     $result = array();
+    $result['Users'] = array();
     foreach ($users as $user)
     {
       $this->getAccount()->DataBuilder()->CreateUser($user);
