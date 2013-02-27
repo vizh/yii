@@ -9,7 +9,7 @@ if (empty($this->event->LinkProfessionalInterests))
 }
 ?>
 <div class="tags">
-  <h5 class="title">Теги мероприятия</h5>
+  <h5 class="title">Профессиональные интересы</h5>
   <nav class="b-tags">
     <?foreach ($this->event->LinkProfessionalInterests as $linkInterest):?>
       <a href="#" class="tag"><?=$linkInterest->ProfessionalInterest->Title;?></a>

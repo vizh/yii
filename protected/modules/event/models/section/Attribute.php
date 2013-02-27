@@ -3,35 +3,37 @@ namespace event\models\section;
 
 /**
  * @property int $Id
- * @property string $Title
- * @property string $Thesis
- * @property string $Url
+ * @property int $SectionId
+ * @property string $Name
+ * @property string $Value
+ *
+ * @property Section $Section
  */
-class Report extends \CActiveRecord
+class Attribute extends \CActiveRecord
 {
   /**
    * @param string $className
-   *
-   * @return Report
+   * @return Attribute
    */
   public static function model($className=__CLASS__)
-  {    
+  {
     return parent::model($className);
   }
-  
+
   public function tableName()
   {
-    return 'EventSectionReport';
+    return 'EventSectionAttribute';
   }
-  
+
   public function primaryKey()
   {
     return 'Id';
   }
-  
+
   public function relations()
   {
-    return array();
+    return array(
+      'Section' => array(self::BELONGS_TO, '\event\models\section\Section', 'SectionId'),
+    );
   }
-
 }

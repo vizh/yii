@@ -3,32 +3,32 @@ namespace event\models\section;
 
 /**
  * @property int $Id
+ * @property int $EventId
  * @property string $Title
- * @property string $Thesis
- * @property string $Url
+ * @property int $Order
  */
-class Report extends \CActiveRecord
+class Hall extends \CActiveRecord
 {
   /**
    * @param string $className
    *
-   * @return Report
+   * @return Hall
    */
   public static function model($className=__CLASS__)
-  {    
+  {
     return parent::model($className);
   }
-  
+
   public function tableName()
   {
-    return 'EventSectionReport';
+    return 'EventSectionHall';
   }
-  
+
   public function primaryKey()
   {
     return 'Id';
   }
-  
+
   public function relations()
   {
     return array();

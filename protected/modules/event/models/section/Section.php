@@ -5,9 +5,20 @@ namespace event\models\section;
  * @property int $Id
  * @property int $EventId
  * @property string $Title
+ * @property string $Info
+ * @property string $StartTime
+ * @property string $EndTime
+ * @property string $UpdateTime
+ * @property int $TypeId
+ * @property string $Code
  *
- * @property LinkUser[] $LinkUsers
+ *
  * @property \event\models\Event $Event
+ * @property Attribute[] $Attributes
+ * @property LinkUser[] $LinkUsers
+ * @property LinkHall[] $LinkHalls
+ * @property LinkTheme $LinkTheme
+ * @property Type $Type
  */
 class Section extends \CActiveRecord
 {
@@ -34,7 +45,11 @@ class Section extends \CActiveRecord
   {
     return array(
       'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
+      'Attributes' => array(self::HAS_MANY, '\event\models\section\Attribute', 'SectionId'),
       'LinkUsers' => array(self::HAS_MANY, '\event\models\section\LinkUser', 'SectionId', 'order' => 'LinkUsers.Order ASC'),
+      'LinkHalls' => array(self::HAS_MANY, '\event\models\section\LinkHall', 'SectionId'),
+      'LinkTheme' => array(self::HAS_ONE, '\event\models\section\LinkTheme', 'SectionId'),
+      'Type' => array(self::BELONGS_TO, '\event\models\section\Type', 'TypeId')
     );
   }
 }
