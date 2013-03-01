@@ -34,6 +34,11 @@ return array(
       'identityCookie' => array('domain' => '.'.RUNETID_HOST),
     ),
 
+    'authManager' => array(
+      'class' => '\application\components\auth\PhpAuthManager',
+      'defaultRoles' => array('guest')
+    ),
+
     'cache'=>array(
       'class'=>'CXCache',
       //'class'=>'CDummyCache'

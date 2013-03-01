@@ -35,6 +35,12 @@ return array(
           'css' => array('stylesheets/application.css', 'stylesheets/app-changes.css'),
           'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.backbone', 'runetid.bootstrap', 'runetid.jquery.ioslider')
         ),
+        'runetid.admin' => array(
+          'baseUrl' => '/',
+          'js' => array(),
+          'css' => array('stylesheets/admin.css'),
+          'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.bootstrap')
+        ),
         'runetid.charts' => array(
           'baseUrl' => '/',
           'js' => array('javascripts/charts.js')

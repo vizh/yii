@@ -1,5 +1,39 @@
-Layout admin start
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title><?=CHtml::encode($this->pageTitle);?></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+</head>
 
-	<?php echo $content; ?>
+<body>
 
-Layout admin end
+<?$this->widget('application\widgets\admin\Navbar');?>
+
+<?$this->widget('application\widgets\admin\Sidebar');?>
+
+
+
+
+<div class="content">
+
+  <div class="header">
+    <h1 class="page-title"><?=$this->pageTitle;?></h1>
+  </div>
+
+  <div class="container-fluid">
+    <?php echo $content; ?>
+  </div>
+</div>
+
+
+
+
+</body>
+</html>
+
+
+
+

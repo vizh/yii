@@ -7,4 +7,13 @@ return array(
     'actions' => array('index'),
     'module' => 'main'
   ),
+
+
+  /** Admin Rules */
+  array(
+    'allow',
+    'roles' => array('admin'),
+    'module' => 'main',
+    'controllers' => array('admin/default')
+  ),
 );
