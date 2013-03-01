@@ -3,7 +3,6 @@ body {
   margin: 0;
   padding: 0;
 }
-
 h1 {
   color: #EEEEEE;
   margin-top: 0;
@@ -104,14 +103,14 @@ footer {
 footer hr {
   margin: 2em -2em;
 }
-.btn-toolbar.quick-toolbar {
+/*.btn-toolbar.quick-toolbar {
   float: right;
 }
 .btn-toolbar.quick-toolbar .btn {
   display: inline-block;
   height: 60px;
   width: 60px;
-}
+}*/
 .stats p.stat {
   margin: 1em 0 0 1em;
 }
@@ -264,37 +263,6 @@ a.block-heading:hover, .block-heading a:hover {
 }
 .sidebar-nav .nav-list.collapse {
   border-bottom: 0 none;
-}
-.btn {
-  border-radius: 0 0 0 0;
-}
-.btn-primary {
-  background-color: #113355;
-  background-image: -moz-linear-gradient(center top , #446688, #113355);
-}
-.btn-primary:hover {
-  background-color: #113355;
-}
-.btn-danger {
-  background-color: #553333;
-  background-image: -moz-linear-gradient(center top , #886666, #553333);
-}
-.btn-danger:hover {
-  background-color: #553333;
-}
-.btn-success {
-  background-color: #556665;
-  background-image: -moz-linear-gradient(center top , #88AA88, #556665);
-}
-.btn-success:hover {
-  background-color: #556665;
-}
-.btn-warning {
-  background-color: #AAAA55;
-  background-image: -moz-linear-gradient(center top , #DDDD77, #AAAA55);
-}
-.btn-warning:hover {
-  background-color: #AAAA55;
 }
 .well {
   background-clip: padding-box;

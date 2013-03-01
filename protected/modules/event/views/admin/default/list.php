@@ -1,86 +1,49 @@
+<?php
+/**
+ * @var $this DefaultController
+ * @var $events \event\models\Event[]
+ */
+?>
 <div class="row-fluid">
 
   <div class="btn-toolbar">
-    <button class="btn btn-primary"><i class="icon-plus"></i> New User</button>
+    <button class="btn btn-primary"><i class="icon-plus icon-white"></i> New User</button>
     <button class="btn">Import</button>
     <button class="btn">Export</button>
     <div class="btn-group">
     </div>
   </div>
   <div class="well">
-    <table class="table">
-      <thead>
-      <tr>
-        <th>#</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Username</th>
-        <th style="width: 26px;"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>1</td>
-        <td>Mark</td>
-        <td>Tompson</td>
-        <td>the_mark7</td>
-        <td>
-          <a href="user.html"><i class="icon-pencil"></i></a>
-          <a data-toggle="modal" role="button" href="#myModal"><i class="icon-remove"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Ashley</td>
-        <td>Jacobs</td>
-        <td>ash11927</td>
-        <td>
-          <a href="user.html"><i class="icon-pencil"></i></a>
-          <a data-toggle="modal" role="button" href="#myModal"><i class="icon-remove"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Audrey</td>
-        <td>Ann</td>
-        <td>audann84</td>
-        <td>
-          <a href="user.html"><i class="icon-pencil"></i></a>
-          <a data-toggle="modal" role="button" href="#myModal"><i class="icon-remove"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>John</td>
-        <td>Robinson</td>
-        <td>jr5527</td>
-        <td>
-          <a href="user.html"><i class="icon-pencil"></i></a>
-          <a data-toggle="modal" role="button" href="#myModal"><i class="icon-remove"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>Aaron</td>
-        <td>Butler</td>
-        <td>aaron_butler</td>
-        <td>
-          <a href="user.html"><i class="icon-pencil"></i></a>
-          <a data-toggle="modal" role="button" href="#myModal"><i class="icon-remove"></i></a>
-        </td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td>Chris</td>
-        <td>Albert</td>
-        <td>cab79</td>
-        <td>
-          <a href="user.html"><i class="icon-pencil"></i></a>
-          <a data-toggle="modal" role="button" href="#myModal"><i class="icon-remove"></i></a>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+
+    <?if (!empty($events)):?>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Код</th>
+          <th>Лого</th>
+          <th>Название</th>
+          <th>Даты проведения</th>
+          <th style="width: 26px;"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?foreach ($events as $event):?>
+          <tr>
+            <td><?=$event->IdName;?></td>
+            <td><img src="<?=$event->getLogo()->getSquare70();?>" alt=""></td>
+            <td><?=$event->Title;?></td>
+            <td>
+              <?$this->renderPartial('dates', array('event' => $event));?>
+            </td>
+            <td>
+              <a href="user.html"><i class="icon-pencil"></i></a>
+              <a data-toggle="modal" role="button" href="#myModal"><i class="icon-remove"></i></a>
+            </td>
+          </tr>
+        <?endforeach;?>
+        </tbody>
+      </table>
+    <?endif;?>
   </div>
   <div class="pagination">
     <ul>
@@ -106,13 +69,5 @@
       <button data-dismiss="modal" class="btn btn-danger">Delete</button>
     </div>
   </div>
-
-
-
-  <footer>
-    <hr>
-    <p class="pull-right">Design by <a target="_blank" href="http://www.portnine.com">Portnine</a></p>
-    <p>&copy; 2012 <a target="_blank" href="http://www.portnine.com">Portnine</a></p>
-  </footer>
 
 </div>

@@ -15,6 +15,8 @@ namespace event\models;
  * @property int $EndDay
  * @property bool $Visible
  * @property bool $ShowOnMain
+ * @property bool $External Для мероприятий, добавленных пользователями через форму на сайте - true, иначе - false
+ * @property bool $Approved Имеет значение только для мероприятий, добавленных через сайт, для добавленных через админку - всега true
  *
  *
  * @property Part[] $Parts
