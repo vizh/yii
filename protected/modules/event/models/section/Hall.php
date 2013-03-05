@@ -33,5 +33,4 @@ class Hall extends \CActiveRecord
   {
     return array();
   }
-
 }

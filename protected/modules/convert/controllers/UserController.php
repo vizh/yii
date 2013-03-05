@@ -85,7 +85,7 @@ class UserController extends convert\components\controllers\Controller
   /**
    * Переносит связи с адресами
    */
-  public function actionLinkAddress()
+  public function actionLinkaddress()
   {
     $links = $this->queryAll('SELECT * FROM `Link_User_ContactAddress` ORDER BY `NMID` ASC');
     foreach ($links as $link)
@@ -101,7 +101,7 @@ class UserController extends convert\components\controllers\Controller
   /**
    * Переносит связи с Email
    */
-  public function actionLinkEmail()
+  public function actionLinkemail()
   {
     $links = $this->queryAll('SELECT * FROM `Link_User_ContactEmail` ORDER BY `NMID` ASC');
     foreach ($links as $link)
@@ -117,7 +117,7 @@ class UserController extends convert\components\controllers\Controller
   /**
    * Переносит связи с телефонами
    */
-  public function actionLinkPhone()
+  public function actionLinkphone()
   {
     $links = $this->queryAll('SELECT * FROM `Link_User_ContactPhone` ORDER BY `NMID` ASC');
     foreach ($links as $link)
@@ -133,7 +133,7 @@ class UserController extends convert\components\controllers\Controller
   /**
    * Переносит связи с аккаунтами
    */
-  public function actionLinkServiceAccount()
+  public function actionLinkserviceaccount()
   {
     $links = $this->queryAll('SELECT * FROM `Link_User_ContactServiceAccount` ORDER BY `NMID` ASC');
     foreach ($links as $link)
@@ -149,7 +149,7 @@ class UserController extends convert\components\controllers\Controller
   /**
    * Переносит связи с сайтами
    */
-  public function actionLinkSite()
+  public function actionLinksite()
   {
     $links = $this->queryAll('SELECT * FROM `Link_User_ContactSite` ORDER BY `NMID` ASC');
     foreach ($links as $link)
@@ -170,10 +170,23 @@ class UserController extends convert\components\controllers\Controller
     $settings = $this->queryAll('SELECT * FROM `UserSettings` ORDER BY `SettingId` ASC');
     foreach ($settings as $setting)
     {
-      $newSetting = new \user\models\Settings();
-      $newSetting->Id = $setting['SettingId'];
-      $newSetting->UserId = $setting['UserId'];
+      $newSetting = \user\models\Settings::model()->byUserId($setting['UserId'])->find();
+      if ($newSetting == null)
+      {
+        $newSetting = new \user\models\Settings();
+        $newSetting->Id = $setting['SettingId'];
+        $newSetting->UserId = $setting['UserId'];
+      }
+      
       $newSetting->HideFatherName = $setting['HideFatherName'] == 1 ? true : false;
+      $newSetting->Agreement = $setting['Agreement'];
+      $newSetting->Visible = $setting['Visible'];
+      $newSetting->IndexProfile = $setting['IndexProfile'];
+      $newSetting->HideBirthdayYear = $setting['HideBirthdayYear'];
+      if ($setting['ProjNews'] == 0)
+      {
+        $newSetting->UnsubscribeAll = true;
+      }
       $newSetting->save();
     }
   }

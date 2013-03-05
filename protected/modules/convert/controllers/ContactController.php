@@ -78,7 +78,7 @@ class ContactController extends convert\components\controllers\Controller
     }
   }
   
-  public function actionServiceAccountType()
+  public function actionServiceaccounttype()
   {
     $types = $this->queryAll('SELECT * FROM `ContactServiceType` ORDER BY `ServiceTypeId` ASC');
     foreach ($types as $type)
@@ -95,7 +95,7 @@ class ContactController extends convert\components\controllers\Controller
  /**
   * Перенос Сервисных аккаунтов
   */
-  public function actionServiceAccount()
+  public function actionServiceaccount()
   {
     $accounts = $this->queryAll('SELECT * FROM `ContactServiceAccount` ORDER BY `ServiceId` ASC');
     foreach ($accounts as $account)
@@ -124,6 +124,47 @@ class ContactController extends convert\components\controllers\Controller
       $newSite->Url = str_replace(array('http://', 'https://', 'www.'), '', $site['Url']);
       $newSite->Secure = $site['Secure'] == 1 ? true : false;
       $newSite->save();
+    }
+  }
+  
+  public function actionPhone()
+  {
+    $phones = $this->queryAll('SELECT * FROM `ContactPhone` ORDER BY `ContactPhone`.`PhoneId` ASC');
+    foreach ($phones as $phone)
+    {
+      $newPhone = new \contact\models\Phone();
+      $phoneParts = array();
+      if (preg_match('/^(\+\d)?(\(\d+\))?[ ]?(\d+)$/i', $phone['Phone'], $phoneParts))
+      {    
+        $newPhone->Phone = $phoneParts[3];
+        if (!empty($phoneParts[1]))
+        {
+          $newPhone->CountryCode = str_replace('+', '', $phoneParts[1]);
+        }
+        if (!empty($phoneParts[2]))
+        {
+          $newPhone->CityCode = str_replace(array(')', '('), '', $phoneParts[2]);
+        }
+      }
+      else
+      {
+        $newPhone->Phone = $phone['Phone'];
+        $newPhone->Verify = false;
+      }
+      
+      switch ($phone['Type'])
+      {
+        case 'personal':
+        case 'mobile':
+        case 'home':
+          $newPhone->Type = \contact\models\PhoneType::Mobile;
+          break;
+        
+        default:
+          $newPhone->Type = \contact\models\PhoneType::Work;
+          break;
+      }
+      $newPhone->save();
     }
   }
 }

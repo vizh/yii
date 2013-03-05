@@ -100,7 +100,7 @@ class EventController extends \convert\components\controllers\Controller
   /**
    * Переносит связь с адресами
    */
-  public function actionLinkAddress()
+  public function actionLinkaddress()
   {
     $links = $this->queryAll('SELECT * FROM `Link_Event_ContactAddress` ORDER BY `NMID` ASC');
     foreach ($links as $link)

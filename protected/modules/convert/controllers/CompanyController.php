@@ -36,7 +36,7 @@ class CompanyController extends convert\components\controllers\Controller
    /**
    * Переносит связи с адресами
    */
-  public function actionLinkAddress()
+  public function actionLinkaddress()
   {
     $links = $this->queryAll('SELECT * FROM `Link_Company_ContactAddress` ORDER BY `NMID` ASC');
     foreach ($links as $link)
@@ -52,7 +52,7 @@ class CompanyController extends convert\components\controllers\Controller
   /**
    * Переносит связи с Email
    */
-  public function actionLinkEmail()
+  public function actionLinkemail()
   {
     $links = $this->queryAll('SELECT * FROM `Link_Company_ContactEmail` ORDER BY `NMID` ASC');
     foreach ($links as $link)
@@ -68,7 +68,7 @@ class CompanyController extends convert\components\controllers\Controller
   /**
    * Переносит связи с телефонами
    */
-  public function actionLinkPhone()
+  public function actionLinkphone()
   {
     $links = $this->queryAll('SELECT * FROM `Link_Company_ContactPhone` ORDER BY `NMID` ASC');
     foreach ($links as $link)
@@ -84,7 +84,7 @@ class CompanyController extends convert\components\controllers\Controller
   /**
    * Переносит связи с сайтами
    */
-  public function actionLinkSite()
+  public function actionLinksite()
   {
     $links = $this->queryAll('SELECT * FROM `Link_Company_ContactSite` ORDER BY `NMID` ASC');
     foreach ($links as $link)

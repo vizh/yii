@@ -42,6 +42,16 @@ class Settings extends \CActiveRecord
     );
   }
 
+  public function byUserId($userId, $userAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."UserId" = :UserId';
+    $criteria->params = array('UserId' => $userId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  
   public function ApplyAgree()
   {
     $this->Agreement = 1;

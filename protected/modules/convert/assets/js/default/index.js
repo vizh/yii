@@ -2,11 +2,47 @@ $(function () {
   var CConvertPage = function () {
     this.container = $('.container.b-convert');
     this.url = {
+      'Geo - регионы' : '/convert/geo/region',
+      'Geo - страны' : '/convert/geo/country',
+      'Geo - города' : '/convert/geo/city',
+      'Контакты - адреса' : '/convert/contact/address',
+      'Контакты - email' : '/convert/contact/email',
+      'Контакты - аккаунты - типы' : '/convert/contact/serviceaccounttype',
+      'Контакты - аккаунты' : '/convert/contact/serviceaccount',
+      'Контакты - сайты' : '/convert/contact/site',
+      'Контакты - телефоны' : '/convert/contact/phone',
+      'Api - аккаунты' : '/convert/api/account',
+      'Партнерка - аккаунты' : '/convert/partner/account',
+      'Переводы' : '/convert/translation/index',
+      'Комиссии' : '/convert/commission/index',
+      'Комиссии - пользователи' : '/convert/commission/user',
+      'Комиссии - роли' : '/convert/commission/role',
+      'Комиссии - проекты' : '/convert/commission/project',
+      'Комиссии - проекты - пользователи' : '/convert/commission/projectuser',
       'Компании' : '/convert/company/index',
+      'Компании - адреса' : '/convert/company/linkaddress',
+      'Компании - email' : '/convert/company/linkemail',
+      'Компании - телефоны' : '/convert/company/linkphone',
+      'Компании - сайты' : '/convert/company/linksite',
       'Пользователи' : '/convert/user/index',
       'Пользователи - работа' : '/convert/user/employment',
+      'Пользователи - адреса' : '/convert/user/linkaddress',
+      'Пользователи - email' : '/convert/user/linkemail',
+      'Пользователи - телефоны' : '/convert/user/linkphone',
+      'Пользователи - аккаунты' : '/convert/user/linkserviceaccount',
+      'Пользователи - сайты' : '/convert/user/linksite',
+      'Пользователи - настройки' : '/convert/user/settings',
       'Мероприятия' : '/convert/event/index',
-      'Мероприятия - участники' : '/convert/event/participants'
+      'Мероприятия - участники' : '/convert/event/participants',
+      'Мероприятия - адреса' : '/convert/event/linkaddress',
+      'Мероприятия - дни' : '/convert/event/days',
+      'Мероприятия - роли' : '/convert/event/roles',
+      'Мероприятия - сайты' : '/convert/event/sites',
+      'Секции' : '/convert/section/index',
+      'Секции - холы' : '/convert/section/hall',
+      'Секции - доклады' : '/convert/section/report',
+      'Секции - роли' : '/convert/section/role',
+      'Секции - пользователи' : '/convert/section/linkuser'
     }
     this.init();
   }
