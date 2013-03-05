@@ -70,7 +70,6 @@
     </div>
 
     <?$this->widget('application\widgets\Paginator', array(
-      'count' => $allJobCount,
-      'perPage' => \Yii::app()->params['JobPerPage']
+      'paginator' => $paginator
     ));?>
   </section>

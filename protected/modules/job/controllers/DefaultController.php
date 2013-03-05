@@ -42,20 +42,18 @@ class DefaultController extends \application\components\controllers\PublicMainCo
         }
       }
     }
-    
-    $page = $request->getParam('page', 1);
-    if ($page <= 0)
-    {
-      $page = 1;
-    }
+
+
     $allJobCount = \job\models\Job::model()->count($criteria);
-    $criteria->limit = \Yii::app()->params['JobPerPage'];
-    $criteria->offset = ($page - 1) * \Yii::app()->params['JobPerPage'];
+
+    $paginator = new \application\components\utility\Paginator($allJobCount);
+    $paginator->perPage = \Yii::app()->params['JobPerPage'];
+    $criteria->mergeWith($paginator->getCriteria());
     $criteria->order = '"t"."Id" DESC';
     $jobs = \job\models\Job::model()->findAll($criteria);
     
     $jobUp = null;
-    if ($page == 1 && !empty($jobs))
+    if ($paginator->page == 1 && !empty($jobs))
     {
       $criteria->with = array('Job.Category', 'Job.Position', 'Job.Company');
       $criteria->condition = str_replace('"t".', '"Job".', $criteria->condition);
@@ -68,7 +66,7 @@ class DefaultController extends \application\components\controllers\PublicMainCo
       'filter' => $filter,
       'jobs'   => $jobs,
       'jobUp'  => $jobUp,
-      'allJobCount' => $allJobCount
+      'paginator' => $paginator
     ));
   }
 }
