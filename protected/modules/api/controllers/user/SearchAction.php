@@ -43,7 +43,17 @@ class SearchAction extends \api\components\Action
     }
     $with[] = 'Participants.Role';
     $with[] = 'Participants.Event';
-    $model = \user\models\User::model()->bySearch($query)->with($with);
+
+    $model = \user\models\User::model();
+    if (filter_var($query, FILTER_VALIDATE_EMAIL))
+    {
+      $model->byEmail($query);
+    }
+    else
+    {
+      $model->bySearch($query);
+    }
+    $model->with($with);
 
     /** @var $users \user\models\User[] */
     $users = $model->findAll($criteria);
