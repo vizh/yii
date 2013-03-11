@@ -428,4 +428,16 @@ class Event extends \application\models\translation\ActiveRecord
 
     return $this->attributesByName;
   }
+  
+  public function getFormattedStartDate($pattern = 'dd MMMM yyyy')
+  {
+    $date = $this->StartDay.'.'.$this->StartMonth.'.'.$this->StartYear;
+    return \Yii::app()->dateFormatter->format($pattern, $date);
+  }
+  
+  public function getFormattedEndDate($pattern = 'dd MMMM yyyy')
+  {
+    $date = $this->EndDay.'.'.$this->EndMonth.'.'.$this->EndYear;
+    return \Yii::app()->dateFormatter->format($pattern, $date);
+  }
 }

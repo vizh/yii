@@ -49,11 +49,6 @@ abstract class Widget extends \CWidget implements IWidget
   /**
    * @return string
    */
-  abstract public function getTitle();
-
-  /**
-   * @return string
-   */
   public function getName()
   {
     return ltrim(get_class($this), '\\');
@@ -64,10 +59,11 @@ abstract class Widget extends \CWidget implements IWidget
     return str_replace('\\', '_', $this->getName());
   }
 
-  /**
-   * @return string
-   */
-  abstract public function getPosition();
+  public function getAdminPanel()
+  {
+    return NULL;
+  }
+
 
   /**
    * @return void

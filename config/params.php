@@ -5,21 +5,6 @@ return array(
     'CookieDomain' => '.'.RUNETID_HOST,
 
     'EventDir' => '/files/event/', // файловая директория мероприятий
-    
-    'EventWidgets' => array(
-      'event\widgets\About',
-      'event\widgets\Adv',
-      'event\widgets\Comments',
-      'event\widgets\Contacts',
-      'event\widgets\Header',
-      'event\widgets\Location',
-      'event\widgets\Partners',
-      'event\widgets\PhotoSlider',
-      'event\widgets\ProfessionalInterests',
-      'event\widgets\Program',
-      'event\widgets\Registration',
-      'event\widgets\Users'
-    ),
       
     'EventViewUserPerPage' => 8,
 
@@ -41,8 +26,8 @@ return array(
 
     'ApiMaxResults' => 200, //Максимальное количество результатов поиска в api
 
-
-
+    'AdminEventPerPage' => 50,
+    
     'CatalogCompanyDir' => '/files/catalog/company/', // файловая директория для хранения каталога логотипов компаний
   )
 );

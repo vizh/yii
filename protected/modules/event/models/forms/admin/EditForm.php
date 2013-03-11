@@ -20,6 +20,18 @@ class EditForm extends \CFormModel
   public $EndMonth;
   public $EndDay;
   
+  public $Widgets;
+  
+  public $ProfInterest;
+
+
+  public function rules()
+  {
+    return array(
+      array('Title, IdName, Info, FullInfo, Visible, TypeId, ShowOnMain, Approved, StartYear, StartMonth, StartDay, EndYear, EndMonth, EndDay, Widgets, ProfInterest', 'safe')
+    );
+  }
+  
   public function attributeLabels()
   {
     return array(
@@ -29,7 +41,9 @@ class EditForm extends \CFormModel
       'Date' => \Yii::t('app', 'Дата проведения'),
       'Type' => \Yii::t('app', 'Тип'),
       'Visible' => \Yii::t('app', 'Публиковать'),
-      'ShowOnMain' => \Yii::t('app', 'Публиковать на главной')
+      'ShowOnMain' => \Yii::t('app', 'Публиковать на главной'),
+      'Widgets' => \Yii::t('app', 'Виджеты'),
+      'ProfInterest' => \Yii::t('app', 'Профессиональные интересы')
     );
   }
 }

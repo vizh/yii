@@ -37,4 +37,34 @@ class LinkProfessionalInterest extends \CActiveRecord
       'ProfessionalInterest' => array(self::BELONGS_TO, '\application\models\ProfessionalInterest', 'ProfessionalInterestId'),
     );
   }
+  
+  /**
+   * 
+   * @param int $interestId
+   * @param bool $useAnd
+   * @return \event\models\LinkProfessionalInterest
+   */
+  public function byInteresId($interestId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."ProfessionalInterestId" = :ProfessionalInterestId';
+    $criteria->params = array('ProfessionalInterestId' => $interestId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  /**
+   * 
+   * @param int $eventId
+   * @param bool $useAnd
+   * @return \event\models\Widget
+   */
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params = array('EventId' => $eventId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

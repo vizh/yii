@@ -10,7 +10,7 @@ class UserController extends convert\components\controllers\Controller
     foreach ($users as $user)
     {
       $newUser = new \user\models\User();
-      $newUser->Id = $user['Id'];
+      $newUser->Id = $user['UserId'];
       $newUser->LastName = $user['LastName'];
       $newUser->FirstName = $user['FirstName'];
       $newUser->FatherName = $user['FatherName'];

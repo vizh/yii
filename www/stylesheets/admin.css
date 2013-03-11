@@ -446,3 +446,6 @@ footer hr {
 body.http-error {
   font-size: 0.5em;
 }
+.event-widgets div.clearfix {
+  margin-bottom: 10px;
+}

@@ -92,5 +92,33 @@ class Widget extends \CActiveRecord implements \event\components\IWidget
     $this->getWidget()->run();
   }
 
-
+  /**
+   * 
+   * @param string $name
+   * @param bool $useAnd
+   * @return \event\models\Widget
+   */
+  public function byName($name, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Name" = :Name';
+    $criteria->params = array('Name' => $name);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  /**
+   * 
+   * @param int $name
+   * @param bool $useAnd
+   * @return \event\models\Widget
+   */
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params = array('EventId' => $eventId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }
