@@ -26,7 +26,7 @@ class Builder
    * @param \user\models\User $user
    * @return \stdClass
    */
-  public function createUser($user)
+  public function createUser(\user\models\User $user)
   {
     $this->user = new \stdClass();
 
@@ -47,7 +47,7 @@ class Builder
    * @param \user\models\User $user
    * @return \stdClass
    */
-  public function buildUserEmail($user)
+  public function buildUserEmail(\user\models\User $user)
   {
     if ($user->getContactEmail() !== null)
     {
@@ -86,7 +86,7 @@ class Builder
    * @param \user\models\User $user
    * @return \stdClass
    */
-  public function buildUserEvent($user)
+  public function buildUserEvent(\user\models\User $user)
   {
     //todo: Продумать работу выдачи данных по мероприятию
     return $this->user;
@@ -97,13 +97,30 @@ class Builder
    * @param \company\models\Company $company
    * @return \stdClass
    */
-  public function createCompany($company)
+  public function createCompany(\company\models\Company $company)
   {
     $this->company = new \stdClass();
     $this->company->CompanyId = $company->Id;
     $this->company->Name = $company->Name;
 
     return $this->company;
+  }
+
+
+  protected $role;
+  /**
+   * @param \event\models\Role $role
+   * @return \stdClass
+   */
+  public function createRole(\event\models\Role $role)
+  {
+    $this->role = new \stdClass();
+
+    $this->role->RoleId = $role->Id;
+    $this->role->Name = $role->Title;
+    $this->role->Priority = $role->Priority;
+
+    return $this->role;
   }
 
 }

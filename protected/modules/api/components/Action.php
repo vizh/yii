@@ -19,4 +19,20 @@ class Action extends \CAction
   {
     return $this->getController()->Account();
   }
+
+  /**
+   * @return builders\Builder
+   */
+  public function getDataBuilder()
+  {
+    return $this->getAccount()->DataBuilder();
+  }
+
+  /**
+   * @param mixed $result
+   */
+  public function setResult($result)
+  {
+    $this->getController()->setResult($result);
+  }
 }

@@ -23,11 +23,11 @@ return array(
 
         /** OAuth Module */
         //'http://login.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
-        'http://tttt.ru' => 'oauth/test/index',
-        'http://abc.tttt.ru' => 'oauth/test/index',
-        'http://tttt.ru.abc.ru' => 'oauth/test/index',
 
-        
+        /** API Module Rules */
+        '/api/event/role/list' => 'api/event/roles',
+
+
         /** INDEX PAGE */
         'http://'. RUNETID_HOST.'/' => 'main/default/index',
         
