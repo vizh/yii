@@ -15,7 +15,7 @@ class AuthAction extends \api\components\Action
     {
       throw new \api\components\Exception(222);
     }
-    if ($accessToken->AccountId != $this->Account()->Id)
+    if ($accessToken->AccountId != $this->getAccount()->Id)
     {
       throw new \api\components\Exception(222);
     }
