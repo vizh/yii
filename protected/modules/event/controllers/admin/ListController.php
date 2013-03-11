@@ -5,17 +5,19 @@ class ListController extends \application\components\controllers\AdminMainContro
   {
     $criteria = new \CDbCriteria();
     $criteria->order = '"t"."Id" DESC';
-    
+
     $searchQuery = \Yii::app()->request->getParam('Query', null);
     if (!empty($searchQuery))
     {
-      if (is_int($searchQuery))
+      if (is_numeric($searchQuery))
       {
-       // $criteria->addCondition('"t"."Id" = :Query');
+       $criteria->addCondition('"t"."Id" = :Query');
+       $criteria->params['Query'] = $searchQuery;
       }
       else 
       {
-       // $criteria->addCondition();
+       $criteria->addSearchCondition('"t"."IdName"', $searchQuery);
+       $criteria->addSearchCondition('"t"."Title"', $searchQuery, true, 'OR');
       }
     }
    

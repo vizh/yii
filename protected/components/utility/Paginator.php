@@ -117,7 +117,7 @@ class Paginator
    */
   public function getUrl($page)
   {
-    $route = \Yii::app()->request->getPathInfo();
+    $route = '/'.\Yii::app()->getController()->getModule()->getId().'/'.\Yii::app()->getController()->getId().'/'.\Yii::app()->getController()->getAction()->getId();
     $this->params['page'] = $page;
     $params = array_merge($_GET, $this->params);
     return \Yii::app()->createUrl($route, $params);
