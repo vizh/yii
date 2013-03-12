@@ -226,6 +226,13 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 }
 
 /* Form elements */
+.form-filter .checkbox {
+  position: relative;
+  top: 5px;
+  left: 1px;
+  color: #fff;
+  font-size: 13px;
+}
 .form-filter .form-element_select {margin-right: 30px;}
 .form-filter .form-element_image {margin-left: 15px;}
 
@@ -363,9 +370,9 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 /* HEADER */
 #header {padding-top: 80px;}
 #header .navbar {
-  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .5);
-     -moz-box-shadow: 0 0 5px rgba(0, 0, 0, .5);
-          box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, .5);
+     -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, .5);
+          box-shadow: 0 1px 5px rgba(0, 0, 0, .5);
 }
 #header .navbar .brand {margin-top: -1px;}
 #header .navbar .nav {margin-right: 0;}
@@ -394,15 +401,49 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 /* SEARCH */
 #search {
-  margin-bottom: 0;
+  margin-bottom: -1px;
   padding: 5px 0;
   background: #e6e6e6;
+  z-index: 999;
 }
 #search .form-element_text {
   margin-bottom: 0;
   width: 894px;
 }
 #search .form-element_image {margin-top: 5px;}
+
+/* Autocomplete */
+.ui-autocomplete_live-search {
+  position: absolute;
+  width: 0;
+  background: #fff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .5);
+  list-style-type: none;
+}
+.ui-autocomplete_live-search .ui-menu-item a {
+  display: block;
+  padding: 6px 8px;
+  color: #333;
+  text-decoration: none;
+  font-size: 13px;
+}
+.ui-autocomplete_live-search .ui-menu-item:not(:last-child) a {border-bottom: 1px solid #e6e6e6;}
+.ui-autocomplete_live-search .ui-menu-item a.ui-state-focus {
+  background: #eee;
+  cursor: pointer;
+}
+
+.ui-autocomplete_live-search .ui-autocomplete-category {
+  padding: 6px 8px;
+  background: #d9edf7;
+  font-size: 14px;
+  font-weight: 700;
+}
+.ui-autocomplete_live-search .results-all {
+  padding: 6px 8px;
+  background: #eee;
+  font-size: 13px;
+}
 
 /* Footer */
 #search-footer .form-element_text {
@@ -437,16 +478,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   margin-right: 10px;
   font-size: 13px;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 /* INDEX PAGE */
@@ -484,6 +515,9 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 /* Promo -> Tabs */
 .b-promo .b-tabs > div {
   border: 1px solid #92cdeb;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 /* Promo -> Tabs -> Nav */
@@ -513,7 +547,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 /* Promo -> Tabs -> Tab */
 .b-promo .b-tabs .tab > div {
-  /* ! */ height: 180px;
+  height: 178px;
   padding: 15px 30px;
 }
 .b-promo .b-tabs .tab_users i {margin-right: 5px;}
@@ -531,9 +565,12 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .b-promo .b-slider {position: relative;}
 .b-promo .b-slider .slide {width: 100%;}
 .b-promo .b-slider .slide > div {
-  /* ! */ height: 230px;
-  padding: 10px 15px;
+  height: 250px;
+  padding: 15px 20px;
   border: 1px solid #eee;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 /* Promo -> Slider -> Nav */
@@ -632,10 +669,11 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .events-list {margin: 50px 0 80px;}
 .events-list .event {position: relative;}
 .events-list .event:not(:last-child) {margin-bottom: 80px;}
+.events-list .event.past {opacity: .33;}
 
 .events-list .event .type {
   position: absolute;
-  top: -5px;
+  top: 40px;
   left: -180px;
   text-align: center;
 }
@@ -662,6 +700,18 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   height: 1px;
   background: #dedede;
 }
+
+.events-list .event.today .label-today {
+  position: absolute;
+  top: 0;
+  left: -125px;
+  z-index: 1001;
+  padding: 0 5px;
+  background: #fff;
+  font-size: 13px;
+}
+.events-list .event.today .datetime .line {left: -165px;}
+
 .events-list .event .datetime .backing {
   position: relative;
   z-index: 2;
@@ -1058,7 +1108,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   font-size: 11px;
 }
 
-.event-register .table .user-row:last-child td:first-child {background: url(/images/icon-plus.png) transparent 14px center no-repeat;}
+.event-register .table .user-row:last-child > td:first-child {background: url(/images/icon-plus.png) transparent 14px center no-repeat;}
 .event-register .table .title {
   margin: 0;
   font-weight: normal;
@@ -1124,16 +1174,14 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .event-register .actions .btn.juridical span {color: #ccc;}
 
 /* Event -> Register -> Autocomplete */
-#event-register .ui-helper-hidden-accessible {display: none;}
-
-#event-register .ui-autocomplete {
+.ui-autocomplete_event-register {
   position: absolute;
   width: 0;
   background: #fff;
   box-shadow: 0 1px 5px rgba(0, 0, 0, .5);
   list-style-type: none;
 }
-#event-register .ui-autocomplete .ui-menu-item a {
+.ui-autocomplete_event-register .ui-menu-item a {
   position: relative;
   display: block;
   padding: 6px 8px;
@@ -1142,16 +1190,16 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   text-decoration: none;
   font-size: 13px;
 }
-#event-register .ui-autocomplete .ui-menu-item:not(:last-child) a {border-bottom: 1px solid #e6e6e6;}
-#event-register .ui-autocomplete .ui-menu-item a.ui-state-focus {
+.ui-autocomplete_event-register .ui-menu-item:not(:last-child) a {border-bottom: 1px solid #e6e6e6;}
+.ui-autocomplete_event-register .ui-menu-item a.ui-state-focus {
   background: #eee;
   cursor: pointer;
 }
-#event-register .ui-autocomplete .ui-menu-item a p {
+.ui-autocomplete_event-register .ui-menu-item a p {
   margin-right: 70px;
   margin-bottom: 0;
 }
-#event-register .ui-autocomplete .ui-menu-item a img {
+.ui-autocomplete_event-register .ui-menu-item a img {
   position: absolute;
   top: 6px;
   right: 8px;
@@ -1621,44 +1669,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   font-weight: bold;
 }
 
-/* User -> Account -> Nav */
-#user-account #header {padding-top: 120px;}
-
-#user-account .user-account-nav {background: #d6d6d6;}
-#user-account .user-account-nav .nav {
-  float: none;
-  height: 40px;
-  text-align: justify;
-  text-align-last: justify;
-  text-justify: newspaper;
-  line-height: 0;
-}
-#user-account .user-account-nav .nav:after {
-  display: inline-block;
-  visibility: hidden;
-  overflow: hidden;
-  width: 100%;
-  height: 0;
-  content: "";
-}
-#user-account .user-account-nav .nav li {
-  display: inline-block;
-  float: none;
-  vertical-align: top;
-  text-align: left;
-  font-size: 13px;
-}
-#user-account .user-account-nav .nav li a {
-  padding-right: 0;
-  padding-left: 0;
-  color: #333;
-          text-shadow: none;
-  -webkit-text-shadow: none;
-     -moz-text-shadow: none;
-}
-#user-account .user-account-nav .nav li a:hover,
-#user-account .user-account-nav .nav li a:hover span {color: #999;}
-
 /* User -> Account -> Card */
 .user-account .b-card {
   position: relative;
@@ -2066,6 +2076,13 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 /* CONTENT STYLES */
 .content {margin-bottom: -40px;}
 
+.content h1:first-child,
+.content h2:first-child,
+.content h3:first-child,
+.content h4:first-child,
+.content h5:first-child,
+.content h6:first-child {margin-top: 0;}
+
 .content blockquote {
   margin-bottom: 40px;
   font-weight: bold;
@@ -2118,4 +2135,5 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 
 /* JQUERY UI */
-.ui-tabs-hide {display: none !important;}
+.ui-tabs-hide,
+.ui-helper-hidden-accessible {display: none !important;}

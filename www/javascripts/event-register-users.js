@@ -254,6 +254,9 @@ $(function() {
         {label: "<p>Медведев Дмитрий Анатольевич, <span class='muted'>RUNET-ID 0987654321</span></p><p class='muted'>40 лет, Москва, Президент Российской Федерации</p><img src='/images/content/employee_ex-photo-2.jpg' alt=''>", value: "Медведев Дмитрий Анатольевич, RUNET-ID 0987654321"},
         {label: "<p>Соколова Виктория Владимировна, <span class='muted'>RUNET-ID 2143658709</span></p><p class='muted'>Агентство Coalla, дизайнер</p><img src='/images/content/employee_ex-photo-3.jpg' alt=''>", value: "Соколова Виктория Владимировна, RUNET-ID 2143658709"}
       ],
+      create: function(event, ui) {
+        $(this).autocomplete("widget").addClass("ui-autocomplete_event-register");
+      },
       select: function(event, ui) {
         var $clsUsrRow = $(event.target).closest('.user-row'),
             $fndInpUsr = $clsUsrRow.find('.input-user'),
@@ -265,6 +268,12 @@ $(function() {
         $fndBtnReg.hide();
 
         $('.input-promo').placeholder();
+
+        /* Getting tr:last-child for IE < 9 */
+        if ($.browser.msie && parseInt($.browser.version) < 9) {
+          $(t).find('.user-row').removeClass('last-child');
+          $(t).find('.user-row:last-child').addClass('last-child');
+        }
       },
       close: function(event, ui) {
         var $clsUsrRow = $(event.target).closest('.user-row'),

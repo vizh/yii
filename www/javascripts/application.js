@@ -1,3 +1,20 @@
+/* LIVE SEARCH CATEGORIES */
+$.widget("custom.catcomplete", $.ui.autocomplete, {
+  _renderMenu: function(ul, items) {
+    var that = this,
+        currentCategory = "";
+    $.each(items, function(index, item) {
+      if (item.category != currentCategory) {
+        ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+        currentCategory = item.category;
+      }
+      that._renderItemData(ul, item);
+    });
+  }
+});
+
+
+/* DOM READY */
 $(function() {
   getValues();
   $('#section').css({'padding-bottom': footerHeight + 'px'});
@@ -8,15 +25,15 @@ $(function() {
 
 
   /* LOGIN */
-  //  $('#header, #promo').find('.login').toggle(
-  //    function() {
-  //      $('.b-login').slideDown();
-  //      $(this).addClass('active');
-  //    }, function() {
-  //      $('.b-login').slideUp();
-  //      $(this).removeClass('active');
-  //    }
-  //  );
+  $('#header, #promo').find('.login').toggle(
+    function() {
+      $('.b-login').slideDown();
+      $(this).addClass('active');
+    }, function() {
+      $('.b-login').slideUp();
+      $(this).removeClass('active');
+    }
+  );
 
 
   /* INDEX PAGE */
@@ -43,6 +60,29 @@ $(function() {
     $(this).siblings('tbody').slideToggle(1);
     $(this).find('i').toggleClass('icon-chevron-up icon-chevron-down');
   });
+
+
+  /* LIVE SEARCH */
+  $("#live-search").catcomplete({
+    delay: 500,
+    minLength: 1,
+    dataType: "json",
+    source: "/search/ajax/index",
+    position: {collision: 'flip'},
+    create: function(event, ui) {
+      $(this).catcomplete("widget").addClass("ui-autocomplete_live-search");
+    },
+    open: function(event, ui) {
+      $(".ui-autocomplete_live-search").append("<li class='results-all'><a href='/search-results.html'>Все результаты</a></li>");
+    }
+  }).data("catcomplete")._renderItem = function(ul, item) {
+    if (item.category == "Пользователи") {
+      return $("<li>").append('<a href="' + item.url + '">' + item.value + ', <span class="muted">' + item.runetid + '</span></a>').appendTo(ul);
+    } else if (item.category == "Компании") {
+      
+      return $("<li>").append('<a href="' + item.url + '">' + item.value + (item.locality !== undefined ? ', <span class="muted">' + item.locality + '</span>' : '')+'</a>').appendTo(ul);
+    }
+  };
 
 
   /* SEARCH PAGE */
@@ -105,6 +145,12 @@ $(window).load(function() {
     navPrevSelector: $('#participate-events_prev'),
     navNextSelector: $('#participate-events_next')
   });  
+});
+
+
+/* WINDOW RESIZE */
+$(window).resize(function() {
+  $(".ui-autocomplete-input").autocomplete("close");
 });
 
 

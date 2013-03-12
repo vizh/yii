@@ -14,6 +14,6 @@ return array(
     'allow',
     'roles' => array('admin'),
     'module' => 'event',
-    'controllers' => array('admin/default', 'admin/edit', 'admin/list')
+    'controllers' => array('admin/default', 'admin/edit', 'admin/list', 'admin/section')
   ),
 );

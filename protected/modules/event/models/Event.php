@@ -71,9 +71,9 @@ class Event extends \application\models\translation\ActiveRecord
       'LinkPhones' => array(self::HAS_MANY, '\event\models\LinkPhone', 'EventId'),
       'LinkEmails' => array(self::HAS_MANY, '\event\models\LinkEmail', 'EventId'),
       'LinkSite' => array(self::HAS_ONE, '\event\models\LinkSite', 'EventId'),
-      'Sections' => array(self::HAS_MANY, '\event\models\section\Section', 'EventId', 'order' => 'Sections.DatetimeStart ASC, Sections.DatetimeFinish ASC, Sections.Place ASC'),
-
-
+      'Sections' => array(self::HAS_MANY, '\event\models\section\Section', 'EventId', 'order' => '"Sections"."StartTime" ASC, "Sections"."EndTime" ASC'),
+      'Halls' => array(self::HAS_MANY, '\event\models\section\Hall', 'EventId', 'order' => '"Halls"."Order" ASC'),
+        
       'Widgets' => array(self::HAS_MANY, '\event\models\Widget', 'EventId', 'order' => '"Widgets"."Order" ASC'),
       'Attributes' => array(self::HAS_MANY, '\event\models\Attribute', 'EventId'),
 

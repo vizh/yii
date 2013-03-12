@@ -19,7 +19,11 @@
 <div class="search-results">
   <div class="container">
     <div id="search-tabs" class="tabs">
-      <?if (empty($results->Results)):?>
+      <?if (empty($term)):?>
+        <header class="h">
+          <h4 class="t"><?=\Yii::t('app', 'Вы не указали поисковый запрос!');?></h4>
+        </header>
+      <?elseif (empty($results->Results)):?>
         <header class="h">
           <h4 class="t"><?=\Yii::t('app', 'По запросу &laquo;<b>{term}</b>&raquo; ничего не найдено!', array('{term}' => $term));?></h4>
         </header>
@@ -80,12 +84,7 @@
         </div>
         
         <?php $this->widget('\application\widgets\Paginator', array(
-          'count' => $results->Counts['user\models\User'],
-          'perPage' => \Yii::app()->params['SearchResultPerPage'],
-          'page' => ($tab == \search\components\SearchResultTabId::User ? null : 1),  
-          'params' => array(
-            'tab'  => \search\components\SearchResultTabId::User
-          )
+          'paginator' => $paginators->User
         ));?>
       </div>
       <?endif;?>
@@ -134,12 +133,7 @@
         </div>
         
         <?php $this->widget('\application\widgets\Paginator', array(
-          'count' => $results->Counts['company\models\Company'],
-          'perPage' => \Yii::app()->params['SearchResultPerPage'],
-          'page' => ($tab == \search\components\SearchResultTabId::Companies ? null : 1),
-          'params' => array(
-            'tab'  => \search\components\SearchResultTabId::Companies
-          )
+          'paginator' => $paginators->Company
         ));?>
       </div>
       <?endif;?>

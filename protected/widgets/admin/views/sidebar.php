@@ -21,7 +21,7 @@
 
   <a data-toggle="collapse" class="nav-header" href="#menu-events"><i class="icon-calendar icon-white"></i>Мероприятия<span class="label label-info">+3</span></a>
   <ul class="nav nav-list collapse" id="menu-events">
-    <li><a href="<?=Yii::app()->createUrl('/event/admin/default/list');?>">Список мероприятий</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index');?>">Список мероприятий</a></li>
     <li><a href="sign-up.html">Скрытые</a></li>
     <li><a href="reset-password.html">На одобрение<span class="label label-info pull-right">+3</span></a></li>
     <li><a href="">Отклоненные</a></li>

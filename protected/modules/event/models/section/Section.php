@@ -47,7 +47,7 @@ class Section extends \CActiveRecord
       'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
       'Attributes' => array(self::HAS_MANY, '\event\models\section\Attribute', 'SectionId'),
       'LinkUsers' => array(self::HAS_MANY, '\event\models\section\LinkUser', 'SectionId', 'order' => 'LinkUsers.Order ASC'),
-      'LinkHalls' => array(self::HAS_MANY, '\event\models\section\LinkHall', 'SectionId'),
+      'LinkHalls' => array(self::HAS_MANY, '\event\models\section\LinkHall', 'SectionId', 'with' => array('Hall'), 'order' => '"Hall"."Order" ASC'),
       'LinkTheme' => array(self::HAS_ONE, '\event\models\section\LinkTheme', 'SectionId'),
       'Type' => array(self::BELONGS_TO, '\event\models\section\Type', 'TypeId')
     );

@@ -12,8 +12,9 @@
 
 .events-month-select .nav {filter: alpha(opacity=25);}
 
-.events-list .event {margin-bottom: 80px;}
-.events-list .event:last-child {margin-bottom: 0;}
+.events-list .event {margin-top: 80px;}
+.events-list .event:first-child {margin-top: 0;}
+.events-list .event.past {filter: alpha(opacity=33);}
 .events-list .event .type .i-event_medium {filter: alpha(opacity=25);}
 
 .events-list .event footer a {
@@ -39,7 +40,8 @@
 .event-register .table .input-promo.filled:hover {filter: alpha(opacity=100);}
 .event-register .table th.last-child,
 .event-register .table td.last-child {padding-right: 40px;}
-.event-register .table tr.user-row.last-child td:first-child {background: url(/images/icon-plus.png) transparent 14px center no-repeat;}
+.event-register .table tr.user-row.last-child > td:first-child {background: url(/images/icon-plus.png) transparent 14px center no-repeat;}
+
 .event-register .actions .btn.paypal {white-space: nowrap;}
 
 .company-account .b-card .follow .btn {margin-left: -140px;}
