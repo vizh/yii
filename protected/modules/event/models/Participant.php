@@ -54,7 +54,7 @@ class Participant extends \CActiveRecord
   public function byUserId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.UserId = :UserId';
+    $criteria->condition = '"t"."UserId" = :UserId';
     $criteria->params = array(':UserId' => $userId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -68,7 +68,7 @@ class Participant extends \CActiveRecord
   public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId';
+    $criteria->condition = '"t"."EventId" = :EventId';
     $criteria->params = array(':EventId' => $eventId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -84,11 +84,11 @@ class Participant extends \CActiveRecord
     $criteria = new \CDbCriteria();
     if ($partId === null)
     {
-      $criteria->addCondition('t.PartId IS NULL');
+      $criteria->addCondition('"t"."PartId" IS NULL');
     }
     else
     {
-      $criteria->condition = 't.PartId = :PartId';
+      $criteria->condition = '"t"."PartId" = :PartId';
       $criteria->params = array('PartId' => $partId);
     }
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);

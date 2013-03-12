@@ -2,14 +2,13 @@
 namespace pay\models;
 
 /**
- * @property int $LinkId
- * @property int $CouponActivatedId
+ * @property int $Id
  * @property int $OrderItemId
+ * @property string $Name
+ * @property string $Value
  */
-class CouponActivatedOrderItemLink extends \CActiveRecord
+class OrderItemAttribute extends \CActiveRecord
 {
-  public static $TableName = 'Mod_PayCouponActivatedOrderItemLink';
-
   public static function model($className=__CLASS__)
   {
     return parent::model($className);
@@ -17,16 +16,16 @@ class CouponActivatedOrderItemLink extends \CActiveRecord
 
   public function tableName()
   {
-    return self::$TableName;
+    return 'PayOrderItemAttribute';
   }
 
   public function primaryKey()
   {
-    return 'LinkId';
+    return 'Id';
   }
 
   public function relations()
   {
-    return array( );
+    return array();
   }
 }

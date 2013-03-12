@@ -10,7 +10,7 @@ namespace pay\models;
  * @property string $SystemParams
  * @property string $JuridicalParams
  */
-class PayAccount extends \CActiveRecord
+class Account extends \CActiveRecord
 {
   public static $TableName = 'Mod_PayAccount';
 

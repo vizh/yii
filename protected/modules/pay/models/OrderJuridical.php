@@ -2,7 +2,7 @@
 namespace pay\models;
 
 /**
- * @property int $OrderJuridicalId
+ * @property int $Id
  * @property int $OrderId
  * @property string $Name
  * @property string $Address
@@ -11,14 +11,11 @@ namespace pay\models;
  * @property string $Phone
  * @property string $Fax
  * @property string $PostAddress
- * @property int $Paid
- * @property int $Deleted
  *
  * @property Order $Order
  */
 class OrderJuridical extends \CActiveRecord
 {
-  public static $TableName = 'Mod_PayOrderJuridical';
 
   public static function model($className=__CLASS__)
   {
@@ -27,12 +24,12 @@ class OrderJuridical extends \CActiveRecord
 
   public function tableName()
   {
-    return self::$TableName;
+    return 'PayOrderJuridical';
   }
 
   public function primaryKey()
   {
-    return 'OrderJuridicalId';
+    return 'Id';
   }
 
   public function relations()
@@ -41,6 +38,8 @@ class OrderJuridical extends \CActiveRecord
       'Order' => array(self::BELONGS_TO, '\pay\models\Order', 'OrderId'),
     );
   }
+
+  /** todo: old methods */
 
   private static $SecretKey = '7deSAJ42VhzHRgYkNmxz';
   public function GetHash()

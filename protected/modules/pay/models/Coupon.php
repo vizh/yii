@@ -2,7 +2,7 @@
 namespace pay\models;
 
 /**
- * @property int $CouponId
+ * @property int $Id
  * @property int $EventId
  * @property int $ProductId
  * @property string $Code
@@ -12,13 +12,17 @@ namespace pay\models;
  * @property string $CreationTime
  * @property string $EndTime
  *
- * @property CouponActivated[] $CouponActivatedList
+ * @property CouponActivation[] $Activations
  * @property Product $Product
  */
 class Coupon extends \CActiveRecord
 {
-  public static $TableName = 'Mod_PayCoupon';
 
+  /**
+   * @param string $className
+   *
+   * @return Coupon
+   */
   public static function model($className=__CLASS__)
   {
     return parent::model($className);
@@ -26,21 +30,24 @@ class Coupon extends \CActiveRecord
 
   public function tableName()
   {
-    return self::$TableName;
+    return 'PayCoupon';
   }
 
   public function primaryKey()
   {
-    return 'CouponId';
+    return 'Id';
   }
 
   public function relations()
   {
     return array(
-      'CouponActivatedList' => array(self::HAS_MANY, '\pay\models\CouponActivated', 'CouponId'),
+      'Activations' => array(self::HAS_MANY, '\pay\models\CouponActivation', 'CouponId'),
       'Product' => array(self::BELONGS_TO, '\pay\models\Product', 'ProductId')
     );
   }
+
+
+  /** todo: old methods */
 
   /**
    * @static

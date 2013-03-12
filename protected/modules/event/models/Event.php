@@ -260,8 +260,8 @@ class Event extends \application\models\translation\ActiveRecord
     }
     /** @var $participant Participant */
     $participant = Participant::model()
-        ->byEventId($this->EventId)
-        ->byUserId($user->UserId)
+        ->byEventId($this->Id)
+        ->byUserId($user->Id)
         ->byPartId(null)->find();
     if (empty($participant))
     {
@@ -282,8 +282,8 @@ class Event extends \application\models\translation\ActiveRecord
     }
     /** @var $participant Participant */
     $participant = Participant::model()
-        ->byEventId($this->EventId)
-        ->byUserId($user->UserId)
+        ->byEventId($this->Id)
+        ->byUserId($user->Id)
         ->byPartId($part->Id)->find();
     if (empty($participant))
     {
@@ -299,10 +299,10 @@ class Event extends \application\models\translation\ActiveRecord
   private function registerUserUnsafe(\user\models\User $user, Role $role, Part $part = null)
   {
     $participant = new Participant();
-    $participant->EventId = $this->EventId;
+    $participant->EventId = $this->Id;
     $participant->PartId = ($part != null) ? $part->Id : null;
-    $participant->UserId = $user->UserId;
-    $participant->RoleId = $role->RoleId;
+    $participant->UserId = $user->Id;
+    $participant->RoleId = $role->Id;
     $participant->save();
 
     return $participant;

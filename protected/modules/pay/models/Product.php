@@ -3,8 +3,8 @@ namespace pay\models;
 
 
 /**
- * @property int $ProductId
- * @property string $Manager
+ * @property int $Id
+ * @property string $ManagerName
  * @property string $Title
  * @property string $Description
  * @property int $EventId
@@ -18,8 +18,6 @@ namespace pay\models;
  */
 class Product extends \CActiveRecord
 {
-  public static $TableName = 'Mod_PayProduct';
-
   public static function model($className=__CLASS__)
   {
     return parent::model($className);
@@ -27,12 +25,12 @@ class Product extends \CActiveRecord
 
   public function tableName()
   {
-    return self::$TableName;
+    return 'PayProduct';
   }
 
   public function primaryKey()
   {
-    return 'ProductId';
+    return 'Id';
   }
 
   public function relations()
@@ -44,108 +42,75 @@ class Product extends \CActiveRecord
     );
   }
 
-  public function AddAttribute($name, $value)
+  /**
+   * @var \pay\components\managers\BaseProductManager
+   */
+  private $manager = null;
+  /**
+   * @return \pay\components\managers\BaseProductManager
+   */
+  public function getManager()
   {
-    $attribute = new ProductAttribute();
-    $attribute->ProductId = $this->ProductId;
-    $attribute->Name = $name;
-    $attribute->Value = $value;
-    $attribute->save();
-
-    return $attribute;
+    if ($this->manager === null)
+    {
+      $manager = '\pay\components\managers\\' . $this->ManagerName;
+      $this->manager = new $manager($this);
+    }
+    return $this->manager;
   }
 
-  private $attributesCache = null;
+  /** @var ProductAttribute[] */
+  protected $productAttributes = null;
+
+
   /**
-   * @param $name
-   * @return ProductAttribute|null
+   * @return ProductAttribute[]
    */
-  public function GetAttribute($name)
+  public function getProductAttributes()
   {
-    if ($this->attributesCache == null)
+    if ($this->productAttributes === null)
     {
-      $this->attributesCache = array();
+      $this->productAttributes = array();
       foreach ($this->Attributes as $attribute)
       {
-        $this->attributesCache[$attribute->Name] = $attribute;
+        $this->productAttributes[$attribute->Name] = $attribute;
       }
     }
-    return isset($this->attributesCache[$name]) ? $this->attributesCache[$name] : null;
-  }
 
-  public function AddPrice($price, $startTime, $endTime = null)
-  {
-    $productPrice = new ProductPrice();
-    $productPrice->ProductId = $this->ProductId;
-    $productPrice->Price = $price;
-    $productPrice->StartTime = $startTime;
-    $productPrice->EndTime = $endTime;
-    $productPrice->save();
-
-    return $productPrice;
+    return $this->productAttributes;
   }
 
   /**
-   * @var \pay\models\managers\BaseProductManager
-   */
-  private $productManager;
-  /**
-   * @return \pay\models\managers\BaseProductManager
-   */
-  public function ProductManager()
-  {
-    if (empty($this->productManager))
-    {
-      $manager = '\pay\models\managers\\' . $this->Manager;
-      $this->productManager = new $manager($this);
-    }
-    return $this->productManager;
-  }
-
-  /**
-   * @static
-   * @param int $id
+   * @param int $eventId
+   * @param bool $useAnd
+   *
    * @return Product
    */
-  public static function GetById($id)
-  {
-    return Product::model()->with('Attributes')->findByPk($id);
-  }
-
-  /**
-   * @static
-   * @param int $eventId
-   * @return Product[]
-   */
-  public static function GetByEventId($eventId)
+  public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId';
-    $criteria->params = array(':EventId' => $eventId);
-
-    return Product::model()->findAll($criteria);
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params = array('EventId' => $eventId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 
   /**
-   * @static
    * @param string $managerName
-   * @param int $eventId
-   * @return Product|null
+   * @param bool $useAnd
+   *
+   * @return Product
    */
-  public static function GetByManager($managerName, $eventId)
+  public function byManagerName($managerName, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.Manager = :Manager AND t.EventId = :EventId';
-    $criteria->params = array(':Manager' => $managerName, ':EventId' => $eventId);
-
-    return Product::model()->find($criteria);
+    $criteria->condition = '"t"."Manager" = :Manager';
+    $criteria->params = array('Manager' => $managerName);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 
-  /**
-   * @param string|null $time
-   * @return int|null
-   */
-  public function GetPrice($time = null)
+  public function getPrice($time = null)
   {
     $time = $time === null ? date('Y-m-d H:i:s', time()) : $time;
     foreach ($this->Prices as $price)
@@ -155,6 +120,8 @@ class Product extends \CActiveRecord
         return $price->Price;
       }
     }
-    return null;
+
+    throw new \pay\components\Exception('Не удалось определить цену продукта!');
   }
+
 }

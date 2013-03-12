@@ -7,7 +7,7 @@ namespace pay\models;
  * @property int $EventId
  * @property string $CreationTime
  *
- * @property OrderItem[] $Items
+ * @property OrderLinkOrderItem[] $ItemLinks
  * @property OrderJuridical $OrderJuridical
  * @property \user\models\User $Payer
  */
@@ -35,7 +35,7 @@ class Order extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Items' => array(self::MANY_MANY, '\pay\models\OrderItem', 'Mod_PayOrderItemLink(OrderId, OrderItemId)'),
+      'ItemLinks' => array(self::HAS_MANY, '\pay\models\OrderLinkOrderItem', 'OrderId'),
       'OrderJuridical' => array(self::HAS_ONE, '\pay\models\OrderJuridical', 'OrderId'),
       'Payer' => array(self::BELONGS_TO, '\user\models\User', 'PayerId')
     );

@@ -1,5 +1,5 @@
 <?php
-namespace pay\models;
+namespace pay\components;
 
 class SystemRouter
 {

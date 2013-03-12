@@ -30,6 +30,7 @@ class Builder
   {
     $this->user = new \stdClass();
 
+    $this->user->RocId = $user->RunetId; //todo: deprecated
     $this->user->RunetId = $user->RunetId;
     $this->user->LastName = $user->LastName;
     $this->user->FirstName = $user->FirstName;
@@ -88,7 +89,50 @@ class Builder
    */
   public function buildUserEvent(\user\models\User $user)
   {
-    //todo: Продумать работу выдачи данных по мероприятию
+    $isOnePart = empty($this->account->Event->Parts);
+    foreach ($user->Participants as $participant)
+    {
+      if ($this->account->EventId != null && $participant->EventId == $this->account->EventId)
+      {
+        if ($isOnePart)
+        {
+          $this->user->Status = new \stdClass();
+          $this->user->Status->RoleId = $participant->RoleId;
+          $this->user->Status->RoleName = $participant->Role->Title;
+          $this->user->Status->RoleTitle = $participant->Role->Title;
+          $this->user->Status->UpdateTime = $participant->UpdateTime;
+        }
+        else
+        {
+          if (!isset($this->user->Status))
+          {
+            $this->user->Status = array();
+          }
+          $status = new \stdClass();
+          $status->PartId = $participant->PartId;
+          $status->RoleId = $participant->RoleId;
+          $status->RoleName = $participant->Role->Title;
+          $status->RoleTitle = $participant->Role->Title;
+          $status->UpdateTime = $participant->UpdateTime;
+          $this->user->Status[] = $status;
+        }
+      }
+      elseif ($this->account->EventId == null)
+      {
+        if (!$participant->Event->Visible)
+        {
+          continue;
+        }
+        $status = new \stdClass();
+        $status->RoleId = $participant->RoleId;
+        $status->RoleName = $participant->Role->Title;
+        $status->RoleTitle = $participant->Role->Title;
+        $status->UpdateTime = $participant->UpdateTime;
+        $status->Event = $this->CreateEvent($participant->Event);
+        $this->user->Status[] = $status;
+      }
+    }
+
     return $this->user;
   }
 
@@ -123,4 +167,60 @@ class Builder
     return $this->role;
   }
 
+  protected $event;
+  /**
+   * @param \event\models\Event $event
+   * @return \stdClass
+   */
+  public function createEvent($event)
+  {
+    $this->event = new \stdClass();
+
+    $this->event->EventId = $event->Id;
+    $this->event->IdName = $event->IdName;
+    $this->event->Name = html_entity_decode($event->Title); //todo: deprecated
+    $this->event->Title = html_entity_decode($event->Title);
+    $this->event->Info = $event->Info;
+    if ($event->getContactAddress() !== null)
+    {
+      $this->event->Place = $event->getContactAddress()->__toString();
+    }
+    $this->event->Url = $event->Url;
+    $this->event->UrlRegistration = $event->UrlRegistration;
+    $this->event->UrlProgram = $event->UrlProgram;
+    $this->event->DateStart = $event->DateStart;
+    $this->event->DateEnd = $event->DateEnd;
+/*
+    $this->event->Image = new \stdClass();
+
+    $webRoot = \Yii::getPathOfAlias('webroot');
+    $miniLogo = $event->GetMiniLogo();
+    $logo = $event->GetLogo();
+    $this->event->Image->Mini = 'http://rocid.ru' . $miniLogo;
+    $this->event->Image->MiniSize = $this->getImageSize($webRoot . $miniLogo);
+    $this->event->Image->Normal = 'http://rocid.ru' . $logo;
+    $this->event->Image->NormalSize = $this->getImageSize($webRoot . $logo);
+*/
+    return $this->event;
+  }
+
+  private function getImageSize($path)
+  {
+    $size = null;
+    if (file_exists($path))
+    {
+      $key = md5($path);
+      $size = \Yii::app()->getCache()->get($key);
+      if ($size === false)
+      {
+        $size = new \stdClass();
+        $image = imagecreatefrompng($path);
+        $size->Width = imagesx($image);
+        $size->Height = imagesy($image);
+        imagedestroy($image);
+        \Yii::app()->getCache()->add($key, $size, 3600 + mt_rand(10, 500));
+      }
+    }
+    return $size;
+  }
 }

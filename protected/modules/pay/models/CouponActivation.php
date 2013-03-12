@@ -2,7 +2,7 @@
 namespace pay\models;
 
 /**
- * @property int $CouponActivatedId
+ * @property int $Id
  * @property int $CouponId
  * @property int $UserId
  * @property string $CreationTime
@@ -11,14 +11,13 @@ namespace pay\models;
  * @property OrderItem[] $OrderItems
  * @property \user\models\User $User
  */
-class CouponActivated extends \CActiveRecord
+class CouponActivation extends \CActiveRecord
 {
-  public static $TableName = 'Mod_PayCouponActivated';
 
   /**
    * @static
    * @param string $className
-   * @return CouponActivated
+   * @return CouponActivation
    */
   public static function model($className=__CLASS__)
   {
@@ -27,12 +26,12 @@ class CouponActivated extends \CActiveRecord
 
   public function tableName()
   {
-    return self::$TableName;
+    return 'PayCouponActivated';
   }
 
   public function primaryKey()
   {
-    return 'CouponActivatedId';
+    return 'Id';
   }
 
   public function relations()
@@ -43,6 +42,9 @@ class CouponActivated extends \CActiveRecord
       'OrderItems' => array(self::MANY_MANY, '\pay\models\OrderItem', 'Mod_PayCouponActivatedOrderItemLink(CouponActivatedId, OrderItemId)')
     );
   }
+
+
+  /** todo: old methods */
 
   /**
    * @param int $userId

@@ -2,29 +2,27 @@
 namespace pay\models;
 
 /**
- * @property int $OrderItemId
+ * @property int $Id
  * @property int $ProductId
  * @property int $PayerId
  * @property int $OwnerId
- * @property int $RedirectId
- * @property int $CouponActivatedId
+ * @property int $ChangedOwnerId
  * @property string $Booked
- * @property int $Paid
+ * @property bool $Paid
  * @property string $PaidTime
  * @property string $CreationTime
- * @property int $Deleted
+ * @property bool $Deleted
+ * @property string $DeletionTime
  *
  * @property Product $Product
  * @property \user\models\User $Payer
  * @property \user\models\User $Owner
- * @property \user\models\User $RedirectUser
- * @property Order[] $Orders
- * @property OrderItemParam[] $Params
+ * @property \user\models\User $ChangedOwner
+ * @property Order[] $OrderLinks
+ * @property OrderItemAttribute[] $Attributes
  */
 class OrderItem extends \CActiveRecord
 {
-  public static $TableName = 'Mod_PayOrderItem';
-
   /**
    * @static
    * @param string $className
@@ -37,12 +35,12 @@ class OrderItem extends \CActiveRecord
 
   public function tableName()
   {
-    return self::$TableName;
+    return 'PayOrderItem';
   }
 
   public function primaryKey()
   {
-    return 'OrderItemId';
+    return 'Id';
   }
 
   public function relations()
@@ -51,12 +49,15 @@ class OrderItem extends \CActiveRecord
       'Product' => array(self::BELONGS_TO, '\pay\models\Product', 'ProductId'),
       'Payer' => array(self::BELONGS_TO, '\user\models\User', 'PayerId'),
       'Owner' => array(self::BELONGS_TO, '\user\models\User', 'OwnerId'),
-      'RedirectUser' => array(self::BELONGS_TO, '\user\models\User', 'RedirectId'),
-      'Orders' => array(self::MANY_MANY, '\pay\models\Order', 'Mod_PayOrderItemLink(OrderItemId, OrderId)'),
+      'ChangedOwner' => array(self::BELONGS_TO, '\user\models\User', 'ChangedOwnerId'),
+      'OrderLinks' => array(self::MANY_MANY, '\pay\models\Order', 'PayOrderLinkOrderItem(OrderItemId, OrderId)'),
 
-      'Params' => array(self::HAS_MANY, '\pay\models\OrderItemParam', 'OrderItemId'),
+      'Attributes' => array(self::HAS_MANY, '\pay\models\OrderItemAttribute', 'OrderItemId'),
     );
   }
+
+
+  /** todo: old methods */
 
 
   /**

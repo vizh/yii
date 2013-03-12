@@ -2,14 +2,13 @@
 namespace pay\models;
 
 /**
- * @property int $ProductAttributeId
+ * @property int $Id
  * @property int $ProductId
  * @property string $Name
  * @property string $Value
  */
 class ProductAttribute extends \CActiveRecord
 {
-  public static $TableName = 'Mod_PayProductAttribute';
 
   public static function model($className=__CLASS__)
   {
@@ -18,12 +17,12 @@ class ProductAttribute extends \CActiveRecord
 
   public function tableName()
   {
-    return self::$TableName;
+    return 'PayProductAttribute';
   }
 
   public function primaryKey()
   {
-    return 'ProductAttributeId';
+    return 'Id';
   }
 
   public function relations()

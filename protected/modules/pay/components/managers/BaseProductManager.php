@@ -1,5 +1,5 @@
 <?php
-namespace pay\models\managers;
+namespace pay\components\managers;
 
 abstract class BaseProductManager
 {
@@ -16,14 +16,80 @@ abstract class BaseProductManager
     $this->product = $product;
   }
 
+
+  public function __get($name)
+  {
+    if (!$this->product->getIsNewRecord() && in_array($name, $this->getProductAttributeNames()))
+    {
+      $attributes = $this->product->getProductAttributes();
+      return isset($attributes[$name]) ? $attributes[$name]->Value : null;
+    }
+    else
+    {
+      return null;
+    }
+  }
+
+  public function __set($name, $value)
+  {
+    if ($this->product->getIsNewRecord())
+    {
+      throw new \pay\components\Exception('Продукт еще не сохранен.');
+    }
+    if (in_array($name, $this->getProductAttributeNames()))
+    {
+      $attributes = $this->product->getProductAttributes();
+      if (!isset($attributes[$name]))
+      {
+        $attribute = new \pay\models\ProductAttribute();
+        $attribute->ProductId = $this->product->Id;
+        $attribute->Name = $name;
+        $this->productAttributes[$name] = $attribute;
+      }
+      else
+      {
+        $attribute = $attributes[$name];
+      }
+      $attribute->Value = $value;
+      $attribute->save();
+    }
+    else
+    {
+      throw new \pay\components\Exception('Данный продукт не содержит аттрибута с именем ' . $name);
+    }
+  }
+
+  public function __isset($name)
+  {
+    if (!$this->product->getIsNewRecord() && in_array($name, $this->getProductAttributeNames()))
+    {
+      $attributes = $this->product->getProductAttributes();
+      return isset($attributes[$name]);
+    }
+    else
+    {
+      return false;
+    }
+  }
+
   /**
-   * Возвращает список доступных аттрибутов
+   * Возвращает список необходимых аттрибутов для Product
    * @return string[]
    */
-  public function GetAttributeNames()
+  public function getProductAttributeNames()
   {
     return array();
   }
+
+  /**
+   * Возвращает список необходимых аттрибутов для OrderItem
+   * @return string[]
+   */
+  public function getOrderItemAttributeNames()
+  {
+    return array();
+  }
+
 
   public function GetAttributes($orderMap)
   {
@@ -47,14 +113,7 @@ abstract class BaseProductManager
     return $result;
   }
 
-  /**
-   * Возвращает список необходимых параметров для OrderItem
-   * @return string[]
-   */
-  public function GetOrderParamNames()
-  {
-    return array();
-  }
+
 
 
 

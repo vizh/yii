@@ -2,7 +2,7 @@
 namespace pay\models;
 
 /**
- * @property int $ProductPriceId
+ * @property int $Id
  * @property int $ProductId
  * @property int $Price
  * @property string $StartTime
@@ -12,7 +12,6 @@ namespace pay\models;
  */
 class ProductPrice extends \CActiveRecord
 {
-  public static $TableName = 'Mod_PayProductPrice';
 
   public static function model($className=__CLASS__)
   {
@@ -21,12 +20,12 @@ class ProductPrice extends \CActiveRecord
 
   public function tableName()
   {
-    return self::$TableName;
+    return 'PayProductPrice';
   }
 
   public function primaryKey()
   {
-    return 'ProductPriceId';
+    return 'Id';
   }
 
   public function relations()
