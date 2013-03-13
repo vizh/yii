@@ -124,7 +124,7 @@ abstract class BaseProductManager
    * @param array $params
    * @return bool
    */
-  abstract public function CheckProduct($user, $params = array());
+  abstract public function checkProduct($user, $params = array());
 
   /**
    * Оформляет покупку продукта на пользователя
@@ -133,7 +133,7 @@ abstract class BaseProductManager
    * @param array $params
    * @return bool
    */
-  abstract public function BuyProduct($user, $params = array());
+  abstract public function buyProduct($user, $params = array());
   
   /**
    * Отменяет покупку продукта на пользовтеля
@@ -141,7 +141,7 @@ abstract class BaseProductManager
    * @param \user\models\User $user
    * @return bool 
    */
-  abstract public function RollbackProduct($user);
+  abstract public function rollbackProduct($user);
 
 
   /**

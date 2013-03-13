@@ -7,7 +7,8 @@ namespace pay\models;
  * @property int $ProductId
  * @property string $Code
  * @property float $Discount
- * @property int $Multiple
+ * @property bool $Multiple
+ * @property int $MultipleCount
  * @property string $Recipient
  * @property string $CreationTime
  * @property string $EndTime
@@ -46,135 +47,187 @@ class Coupon extends \CActiveRecord
     );
   }
 
+  public function __get($name)
+  {
+    if ($name === 'Discount')
+    {
+      return (float)parent::__get($name);
+    }
+    return parent::__get($name);
+  }
 
-  /** todo: old methods */
 
   /**
-   * @static
    * @param string $code
+   * @param bool $useAnd
+   *
    * @return Coupon
    */
-  public static function GetByCode($code)
+  public function byCode($code, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.Code = :Code';
-    $criteria->params = array(':Code' => $code);
-
-    return Coupon::model()->with('CouponActivatedList')->find($criteria);
+    $criteria->condition = '"t"."Code" = :Code';
+    $criteria->params = array('Code' => $code);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 
   /**
-   * @static
    * @param int $userId
-   * @param int $eventId
+   * @param bool $useAnd
+   *
    * @return Coupon
    */
-  public static function GetByUser($userId, $eventId)
+  public function byUserId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->with = array('CouponActivatedList' => array('together' => true));
-    $criteria->condition = 't.EventId = :EventId AND CouponActivatedList.UserId = :UserId';
-    $criteria->params = array(':EventId' => $eventId, ':UserId' => $userId);
-    $criteria->order = 'CouponActivatedList.CreationTime DESC';
-
-    return Coupon::model()->find($criteria);
+    $criteria->condition = '"Activations"."UserId" = :UserId';
+    $criteria->params = array('UserId' => $userId);
+    $criteria->with = array('Activations' => array('together' => true));
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 
   /**
+   * @param int $eventId
+   * @param bool $useAnd
+   *
+   * @return Coupon
+   */
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params = array('EventId' => $eventId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function getIsRightCountActivations()
+  {
+    if ($this->Multiple)
+    {
+      return $this->MultipleCount === null || $this->MultipleCount < sizeof($this->Activations);
+    }
+    else
+    {
+      return sizeof($this->Activations) == 0;
+    }
+  }
+
+  public function getIsNotExpired()
+  {
+    $time = date('Y-m-d H:i:s');
+    return $this->EndTime === null || $this->EndTime > $time;
+  }
+
+
+  /**
    * @static
+   *
    * @param \user\models\User $payer
    * @param \user\models\User $owner
-   * @throws PayException
+   *
+   * @throws \pay\components\Exception
    * @return void
    */
-  public function Activate($payer, $owner)
+  public function activate($payer, $owner)
   {
-    if (!empty($this->CouponActivatedList) && $this->Multiple == 0 || (sizeof($this->CouponActivatedList) >= $this->Multiple && $this->Multiple != 0))
+    if (!$this->getIsNotExpired())
     {
-      throw new PayException('Превышено максимальное количество активаций промо кода.', 301);
+      throw new \pay\components\Exception('Срок действия вашего промо кода истек.', 305);
+    }
+    if (!$this->getIsRightCountActivations())
+    {
+      throw new \pay\components\Exception('Превышено максимальное количество активаций промо кода.', 301);
     }
 
-    $time = date('Y-m-d H:i:s');
-
-    //todo: Создать адекватный вывод ошибки
-    if ($this->EndTime != null && $this->EndTime < $time)
+    if (abs($this->Discount - 1.00) < 0.00001)
     {
-      throw new PayException('Срок действия вашего промо кода истек.', 305);
-    }
-
-    $oldCoupon = Coupon::GetByUser($owner->UserId, $this->EventId);
-    if (!empty($oldCoupon) && empty($oldCoupon->CouponActivatedList[0]->OrderItems))
-    {
-      if ($oldCoupon->Discount >= $this->Discount)
-      {
-        throw new PayException('У пользователя уже активирован промо код с бОльшей скидкой.', 302);
-      }
-      else
-      {
-        $oldCoupon->CouponActivatedList[0]->delete();
-      }
-    }
-
-
-
-    //Активируем купон
-    $couponActivated = new CouponActivated();
-    $couponActivated->CouponId = $this->CouponId;
-    $couponActivated->UserId = $owner->UserId;
-    $couponActivated->CreationTime = $time;
-    $couponActivated->save();
-
-    //OrderItem::AddCouponActivated($couponActivated->CouponActivatedId, $owner->UserId, $coupon->Product->ProductId);
-
-    if (intval($this->Discount) == 1)
-    {
-      // 2. Проверить, может ли пользователь купить товар, на который купон активируется
-      //    if (!$coupon->Product->ProductManager()->CheckProduct($owner))
-      //    {
-      //      $this->SendJson(true, 207, '');
-      //    }
       if (empty($this->Product))
       {
-        $couponActivated->delete();
-        throw new PayException('Для промо кода со скидкой 100% не указан товар, на который распространяется скидка.', 303);
+        throw new \pay\components\Exception('Для промо кода со скидкой 100% не указан товар, на который распространяется скидка.', 303);
       }
 
-      $flag = $this->Product->ProductManager()->BuyProduct($owner);
-      if (!$flag)
-      {
-        $couponActivated->delete();
-        throw new PayException('Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар.', 304);
-      }
-
-      $item = OrderItem::GetByAll($this->ProductId, $payer->UserId, $owner->UserId);
-      if (!empty($item))
-      {
-        $item->PaidTime = $time;
-        $item->Paid = 1;
-        $item->save();
-      }
-      else
+      $item = OrderItem::model()
+          ->byProductId($this->ProductId)
+          ->byPayerId($payer->Id)->byOwnerId($owner->Id)
+          ->byDeleted(false)->find();
+      if ($item === null)
       {
         $item = new OrderItem();
         $item->ProductId = $this->ProductId;
-        $item->PayerId = $payer->UserId;
-        $item->OwnerId = $owner->UserId;
-        $item->PaidTime = $time;
-        $item->Paid = 1;
-        $item->save();
+        $item->PayerId = $payer->Id;
+        $item->OwnerId = $owner->Id;
       }
-      $link = new CouponActivatedOrderItemLink();
-      $link->CouponActivatedId = $couponActivated->CouponActivatedId;
-      $link->OrderItemId = $item->OrderItemId;
-      $link->save();
+      if ($item->activate())
+      {
+        $activation = $this->createActivation($owner);
+
+        $link = new CouponActivationLinkOrderItem();
+        $link->CouponActivationId= $activation->Id;
+        $link->OrderItemId = $item->Id;
+        $link->save();
+      }
+      else
+      {
+        throw new \pay\components\Exception('Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар.', 304);
+      }
+    }
+    else
+    {
+      $this->processOldActivations($owner);
+      $this->createActivation($owner);
     }
   }
+
+  /**
+   * @param \user\models\User $owner
+   *
+   * @throws \pay\components\Exception
+   */
+  protected function processOldActivations($owner)
+  {
+    /** @var $activation CouponActivation */
+    $activation = CouponActivation::model()
+        ->byUserId($owner->Id)
+        ->byEventId($this->EventId)
+        ->byEmptyLinkOrderItem()->find();
+
+    if ($activation !== null)
+    {
+      if ($activation->Coupon->Discount >= $this->Discount)
+      {
+        throw new \pay\components\Exception('У пользователя уже активирован промо код с бОльшей скидкой.', 302);
+      }
+      else
+      {
+        $activation->delete();
+      }
+    }
+  }
+
+  /**
+   * @param \user\models\User $user
+   *
+   * @return CouponActivation
+   */
+  public function createActivation($user)
+  {
+    $activation = new CouponActivation();
+    $activation->CouponId = $this->Id;
+    $activation->UserId = $user->Id;
+    $activation->save();
+
+    return $activation;
+  }
+
 
   const CodeLength = 12;
   /**
    * @return string
    */
-  public function GenerateCode()
+  public function generateCode()
   {
     $salt = (string) $this->EventId;
     $salt = substr($salt, max(0, strlen($salt) - 3));
