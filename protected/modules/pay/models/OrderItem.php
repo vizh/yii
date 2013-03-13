@@ -58,6 +58,72 @@ class OrderItem extends \CActiveRecord
     );
   }
 
+  public function getItemAttribute($name)
+  {
+    if ($this->getIsNewRecord())
+    {
+      throw new \pay\components\Exception('Заказ еще не сохранен.');
+    }
+    if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames()))
+    {
+      $attributes = $this->getOrderItemAttributes();
+      return isset($attributes[$name]) ? $attributes[$name]->Value : null;
+    }
+    else
+    {
+      throw new \pay\components\Exception('Данный заказ не содержит аттрибута с именем ' . $name);
+    }
+  }
+
+  public function setItemAttribute($name, $value)
+  {
+    if ($this->getIsNewRecord())
+    {
+      throw new \pay\components\Exception('Заказ еще не сохранен.');
+    }
+    if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames()))
+    {
+      $attributes = $this->getOrderItemAttributes();
+      if (!isset($attributes[$name]))
+      {
+        $attribute = new \pay\models\OrderItemAttribute();
+        $attribute->OrderItemId = $this->Id;
+        $attribute->Name = $name;
+        $this->productAttributes[$name] = $attribute;
+      }
+      else
+      {
+        $attribute = $attributes[$name];
+      }
+      $attribute->Value = $value;
+      $attribute->save();
+    }
+    else
+    {
+      throw new \pay\components\Exception('Данный заказ не содержит аттрибута с именем ' . $name);
+    }
+  }
+
+  /** @var OrderItemAttribute[] */
+  protected $orderItemAttributes = null;
+
+  /**
+   * @return ProductAttribute[]
+   */
+  public function getOrderItemAttributes()
+  {
+    if ($this->orderItemAttributes === null)
+    {
+      $this->orderItemAttributes = array();
+      foreach ($this->Attributes as $attribute)
+      {
+        $this->orderItemAttributes[$attribute->Name] = $attribute;
+      }
+    }
+
+    return $this->orderItemAttributes;
+  }
+
   /**
    * @param int $productId
    * @param bool $useAnd
@@ -178,53 +244,29 @@ class OrderItem extends \CActiveRecord
     if ($this->couponActivation === null && !$this->couponTrySet)
     {
       $this->couponTrySet = true;
-      if ($this->CouponActivationLink === null)
+      if (!$this->Paid)
       {
-
-      }
-      else
-      {
-        $this->couponActivation = $this->CouponActivationLink->CouponActivation;
-      }
-
-
-
-      $eventId = $this->Product->EventId;
-      $couponActivationList = CouponActivated::GetByEvent($this->OwnerId, $eventId);
-
-      /** @var $couponActivated CouponActivated */
-      $couponActivated = null;
-      foreach ($couponActivatedList as $item)
-      {
-        if (!empty($item->Coupon->ProductId))
+        /** @var $activation CouponActivation */
+        $activation = CouponActivation::model()
+            ->byUserId($this->OwnerId)
+            ->byEventId($this->Product->EventId)
+            ->byEmptyLinkOrderItem()->find();
+        if ($activation !== null)
         {
-          if ($item->Coupon->ProductId == $this->ProductId)
+          $rightProduct = $activation->Coupon->ProductId === null || $activation->Coupon->ProductId == $this->ProductId;
+          $rightTime = $this->PaidTime === null || $this->PaidTime >= $activation->CreationTime;
+          if ($rightProduct && $rightTime)
           {
-            $couponActivated = $item;
-            break;
+            $this->couponActivation = $activation;
           }
         }
-        else
-        {
-          $couponActivated = $item;
-        }
-      }
-
-
-      $existDiscount = $couponActivated !== null && !empty($couponActivated->Coupon);
-      $canApplyDiscount = $existDiscount && $couponActivated->CheckOrderItem($this);
-      $rightTime = $existDiscount && ($this->PaidTime === null || $this->PaidTime >= $couponActivated->CreationTime);
-
-      if ($canApplyDiscount && $rightTime && $this->Product->EnableCoupon == 1)
-      {
-        $this->couponActivated = $couponActivated;
       }
       else
       {
-        $this->couponActivated = null;
+        $this->couponActivation = $this->CouponActivationLink !== null ? $this->CouponActivationLink->CouponActivation : null;
       }
     }
-    return $this->couponActivated;
+    return $this->couponActivation;
   }
 
   /**
@@ -257,9 +299,43 @@ class OrderItem extends \CActiveRecord
     return true;
   }
 
+  public function deactivate()
+  {
+
+  }
+
   public function changeOwner()
   {
     
+  }
+
+  /**
+   * @return int
+   */
+  public function Price()
+  {
+    return $this->Product->getManager()->getPrice($this);
+  }
+
+  /**
+   * Итоговое значение цены товара, с учетом скидки, если она есть
+   * @throws \pay\components\Exception
+   * @return int|null
+   */
+  public function PriceDiscount()
+  {
+    $activation = $this->getCouponActivation();
+    $price = $this->Price();
+    if ($price === null)
+    {
+      throw new \pay\components\Exception('Не удалось определить цену продукта!');
+    }
+
+    if ($activation !== null)
+    {
+      $price = $price * (1 - $activation->Coupon->Discount);
+    }
+    return (int)$price;
   }
 
 
@@ -363,79 +439,9 @@ class OrderItem extends \CActiveRecord
       array(':Booked' => date('Y-m-d H:i:s'), ':Paid' => 1, ':Deleted' => 1));
   }
 
-  /**
-   * @return int
-   */
-  public function Price()
-  {
-    return $this->Product->ProductManager()->GetPrice($this);
-  }
 
-  /**
-   * Итоговое значение цены товара, с учетом скидки, если она есть
-   * @return float|null
-   */
-  public function PriceDiscount()
-  {
-    $couponActivated = $this->GetCouponActivated();
-    $price = $this->Price();
-    if ($price === null)
-    {
-      return null;
-    }
 
-    if ($couponActivated !== null)
-    {
-      return $price * (1 - $couponActivated->Coupon->Discount);
-    }
-    return $price;
-  }
 
-  public function AddParam($name, $value)
-  {
-    $param = new OrderItemParam();
-    $param->OrderItemId = $this->OrderItemId;
-    $param->Name = $name;
-    $param->Value = $value;
-    $param->save();
-
-    return $param;
-  }
-
-  private $paramsCache = null;
-    /**
-     * @param $name
-     * @return ProductAttribute|null
-     */
-  public function GetParam($name)
-  {
-    if ($this->paramsCache == null)
-    {
-      $this->paramsCache = array();
-      foreach ($this->Params as $param)
-      {
-        $this->paramsCache[$param->Name] = $param;
-      }
-    }
-    return isset($this->paramsCache[$name]) ? $this->paramsCache[$name] : null;
-  }
-
-  private $paramValuesCache = null;
-  /**
-   * @return array
-   */
-  public function GetParamValues()
-  {
-    if ($this->paramValuesCache == null)
-    {
-      $this->paramValuesCache = array();
-      foreach ($this->Params as $param)
-      {
-        $this->paramValuesCache[] = $param->Value;
-      }
-    }
-    return $this->paramValuesCache;
-  }
 
 
   /**

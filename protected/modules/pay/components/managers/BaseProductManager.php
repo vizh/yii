@@ -151,7 +151,7 @@ abstract class BaseProductManager
    * @param \user\models\User $toUser
    * @return bool
    */
-  abstract public function RedirectProduct($fromUser, $toUser);
+  abstract public function redirectProduct($fromUser, $toUser);
 
     /**
    *
@@ -162,7 +162,7 @@ abstract class BaseProductManager
    * @return \pay\models\OrderItem
    * @throws \pay\models\PayException
    */
-  public function CreateOrderItem($payer, $owner, $bookTime = null, $params = array())
+  public function createOrderItem($payer, $owner, $bookTime = null, $params = array())
   {
     $orderParams = $this->GetOrderParamNames();
     foreach ($orderParams as $key)
@@ -195,20 +195,20 @@ abstract class BaseProductManager
    * @param string $filter
    * @return array
    */
-  abstract public function Filter($params, $filter);
+  abstract public function filter($params, $filter);
 
   /**
    * @abstract
    * @param array $params
    * @return \pay\models\Product
    */
-  abstract public function GetFilterProduct($params);
+  abstract public function getFilterProduct($params);
 
   /**
    * @param \pay\models\OrderItem $orderItem
    * @return int
    */
-  public function GetPrice($orderItem)
+  public function getPrice($orderItem)
   {
     return $this->product->GetPrice($orderItem->PaidTime);
   }
@@ -217,7 +217,7 @@ abstract class BaseProductManager
    * @param \pay\models\OrderItem $orderItem
    * @return string
    */
-  public function GetTitle($orderItem)
+  public function getTitle($orderItem)
   {
     return $this->product->Title;
   }

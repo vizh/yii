@@ -5,7 +5,14 @@ namespace pay\models;
  * @property int $OrderId
  * @property int $PayerId
  * @property int $EventId
+ * @property bool $Paid
+ * @property string $PaidTime
+ * @property int $Total
+ * @property bool $Juridical
  * @property string $CreationTime
+ * @property bool $Deleted
+ * @property string $DeletionTime
+ *
  *
  * @property OrderLinkOrderItem[] $ItemLinks
  * @property OrderJuridical $OrderJuridical
@@ -42,26 +49,59 @@ class Order extends \CActiveRecord
   }
 
   /**
-   * @static
-   * @param int $id
-   * @return Order
+   * @return array Возвращает Total - сумма проведенного платежа и ErrorItems - позиции по которым возникли ошибки двойной оплаты
    */
-  public static function GetById($id)
+  public function activate()
   {
-    return Order::model()->with('Items', 'Items.Product')->findByPk($id);
+    $total = 0;
+    $errorItems = array();
+    $activations = array();
+
+    foreach ($this->ItemLinks as $link)
+    {
+      $priceDiscount = $link->OrderItem->PriceDiscount();
+      $activation = $link->OrderItem->getCouponActivation();
+      if ($link->OrderItem->activate())
+      {
+        if ($activation !== null)
+        {
+          $activations[$activation->Id][] = $link->OrderItem->Id;
+        }
+      }
+      else
+      {
+        $errorItems[] = $link->OrderItem->Id;
+      }
+      $total += $priceDiscount;
+    }
+
+    foreach ($activations as $activationId => $items)
+    {
+      foreach ($items as $itemId)
+      {
+        $link = new CouponActivationLinkOrderItem();
+        $link->CouponActivationId = $activationId;
+        $link->OrderItemId = $itemId;
+        $link->save();
+      }
+    }
+
+    $this->Paid = true;
+    $this->PaidTime = date('Y-m-d H:i:s');
+    if ($this->Juridical)
+    {
+      $this->Total = $total;
+    }
+    $this->save();
+
+    return array('Total' => $total, 'ErrorItems' => $errorItems);
   }
 
 
-  /**
-   * @static
-   * @param int $rocId
-   * @return string
-   */
-  public static function GenerateOrderId($rocId)
-  {
-    $time = time();
-    return $rocId . '-' . $time;
-  }
+
+  /** todo: old methods */
+
+
 
   public static function SetPaidByOrderId($orderId)
   {
@@ -181,68 +221,6 @@ class Order extends \CActiveRecord
     $criteria->params = array(':PayerId' => $payerId, ':EventId' => $eventId);
 
     return $model->findAll($criteria);
-  }
-
-  /**
-   * @return array Возвращает Total - сумма проведенного платежа и ErrorItems - позиции по которым возникли ошибки двойной оплаты
-   */
-  public function PayOrder()
-  {
-    $total = 0;
-    $errorItems = array();
-    $usedCoupons = array();
-    foreach ($this->Items as $item)
-    {
-      if ($item->Deleted != 0)
-      {
-        continue;
-      }
-      $manager = $item->Product->ProductManager();
-      if ($item->Paid == 0)
-      {
-        $priceDiscount = $item->PriceDiscount();
-        if ($priceDiscount != $item->Price())
-        {
-          $couponActivated = $item->GetCouponActivated();
-          if (!isset($usedCoupons[$couponActivated->CouponActivatedId]))
-          {
-            $usedCoupons[$couponActivated->CouponActivatedId] = array();
-          }
-          $usedCoupons[$couponActivated->CouponActivatedId][] = $item->OrderItemId;
-        }
-        $total += $priceDiscount;
-
-        if (!empty($item->Owner))
-        {
-          if (!$manager->BuyProduct($item->Owner))
-          {
-            $errorItems[] = $item->OrderItemId;
-          }
-        }
-      }
-    }
-
-    foreach ($usedCoupons as $couponActivatedId => $items)
-    {
-      foreach ($items as $itemId)
-      {
-        $link = new CouponActivatedOrderItemLink();
-        $link->CouponActivatedId = $couponActivatedId;
-        $link->OrderItemId = $itemId;
-        $link->save();
-      }
-    }
-
-    Order::SetPaidByOrderId($this->OrderId);
-
-    if (! empty($this->OrderJuridical))
-    {
-      $this->OrderJuridical->Paid = 1;
-      $this->OrderJuridical->Deleted = 1;
-      $this->OrderJuridical->save();
-    }
-
-    return array('Total' => $total, 'ErrorItems' => $errorItems);
   }
 
   public function Price()

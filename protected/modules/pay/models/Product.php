@@ -62,7 +62,6 @@ class Product extends \CActiveRecord
   /** @var ProductAttribute[] */
   protected $productAttributes = null;
 
-
   /**
    * @return ProductAttribute[]
    */
