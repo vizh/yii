@@ -89,6 +89,16 @@ class Photo
   {
     return $this->getByName($serverPath, $this->runetId . '_200.jpg', 'nophoto_200.png');
   }
+  
+  /**
+   * Возвращает путь к изображению пользователя для профиля и тп
+   * @param bool $serverPath
+   * @return string
+   */
+  public function get238px($serverPath = false)
+  {
+    return $this->getByName($serverPath, $this->runetId . '_228.jpg', 'nophoto_238.png');
+  }
 
   /**
    * Возвращает путь к исходному изображению пользователя
@@ -133,6 +143,8 @@ class Photo
     $newImage = $this->getOriginal(true);
     imagejpeg($img, $newImage, 100);
     imagedestroy($img);
+    $newImage = $this->get238px(true);
+    \application\components\graphics\Image::ResizeAndSave($clearSaveTo, $newImage, 238, 0, array('x1'=>0, 'y1'=>0));
     $newImage = $this->get200px(true);
     \application\components\graphics\Image::ResizeAndSave($clearSaveTo, $newImage, 200, 0, array('x1'=>0, 'y1'=>0));
     $newImage = $this->get90px(true);

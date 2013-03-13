@@ -93,8 +93,8 @@
           </nav>
         </div>
       </div>
-      <form id="search-footer" class="span4" action="#" role="search">
-        <input type="text" class="form-element_text" placeholder="Поиск по людям, компаниям, новостям">
+      <form id="search-footer" class="span4" action="<?php echo $this->createUrl('/search/result/index');?>" role="search">
+        <input type="text" class="form-element_text" name="term" placeholder="Поиск по людям, компаниям, новостям">
         <input type="image" class="form-element_image pull-right" src="/images/search-type-image-dark.png" width="20" height="19">
       </form>
     </div>

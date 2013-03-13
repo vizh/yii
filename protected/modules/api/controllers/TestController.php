@@ -14,9 +14,8 @@ class TestController extends CController
       'Timestamp' => $timestamp
     );
 
-    $params['Query'] = 'Никитин';
-
-    $this->apiRequest('/api/user/search', $params);
+    $params['ProductId'] = 1;
+    $this->apiRequest('/api/pay/product', $params);
   }
 
   private function apiRequest($url, $params)

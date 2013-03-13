@@ -27,6 +27,8 @@ return array(
         /** API Module Rules */
         '/api/event/role/list' => 'api/event/roles',
 
+        /** EVENT ICAL SHARE */
+        '/event/share/ical/<idName>/' => 'event/share/ical',
 
         /** INDEX PAGE */
         'http://'. RUNETID_HOST.'/' => 'main/default/index',

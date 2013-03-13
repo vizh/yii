@@ -37,9 +37,9 @@ class Builder
     $this->user->FatherName = $user->FatherName;
 
     $this->user->Photo = new \stdClass();
-    $this->user->Photo->Small = $user->getPhoto()->get50px();
-    $this->user->Photo->Medium = $user->getPhoto()->get90px();
-    $this->user->Photo->Large = $user->getPhoto()->get200px();
+    $this->user->Photo->Small  = rtrim(\Yii::app()->getController()->createAbsoluteUrl($user->getPhoto()->get50px()), '/');
+    $this->user->Photo->Medium = rtrim(\Yii::app()->getController()->createAbsoluteUrl($user->getPhoto()->get90px()), '/');;
+    $this->user->Photo->Large  = rtrim(\Yii::app()->getController()->createAbsoluteUrl($user->getPhoto()->get200px()), '/');
 
     return $this->user;
   }
@@ -203,7 +203,31 @@ class Builder
 */
     return $this->event;
   }
+  
+  
+  protected $product;
+  /**
+  * @param Product $product
+  * @param string $time
+  * @return stdClass
+  */
+  public function createProduct($product, $time = null)
+  {
+    $this->product = new stdClass();
+    $this->product->ProductId = $product->ProductId;
+    $this->product->Manager = $product->Manager;
+    $this->product->Title = $product->Title;
+    $this->product->Price = $product->getPrice($time);
+    $this->product->Attributes = array();
+    foreach ($product->Attributes as $attribute)
+    {
+      $this->product->Attributes[$attribute->Name] = $attribute->Value;
+    }
+    return $this->product;
+  }
 
+
+  
   private function getImageSize($path)
   {
     $size = null;

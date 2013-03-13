@@ -32,8 +32,8 @@ $event = $this->event;
       <div class="side right span4">
         <div class="actions">
           <div class="calendar img-circle">
-            <a href="#" class="pseudo-link">
-              <i class="icon-calendar"></i><br>Добавить в&nbsp;календарь
+            <a href="<?='webcal://'.RUNETID_HOST.\Yii::app()->getController()->createUrl('/event/share/ical', array('idName' => $event->IdName));?>" class="pseudo-link">
+              <i class="icon-calendar"></i><br><?=\Yii::t('app', 'Добавить в&nbsp;календарь');?>
             </a>
           </div>
           <nav class="social">

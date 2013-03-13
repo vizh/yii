@@ -100,7 +100,7 @@ $(window).load(function() {
         </h5>
         <div class="row">
           <div class="span3">
-            <img src="/images/content/account-avatar_large.jpg" width="238" height="238" alt="" class="avatar">
+            <?=\CHtml::image($user->getPhoto()->get238px(), $user->getFullName(), array('class' => 'avatar'));?>
           </div>
           <div class="span8">
             <div class="row">
