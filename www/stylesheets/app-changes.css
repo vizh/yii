@@ -1,4 +1,28 @@
 /**
 Обновить соответствующие стили в application.css по окончании разработки
 **/
+.b-event-promo .social .b-share__handle {
+  margin: 0 3px !important;
+}
+.b-event-promo .social .b-share-icon {
+  background: url('/images/icon-social-small.png') no-repeat !important; 
+}
 
+.b-event-promo .social .b-share-icon_vkontakte {
+  background-position: -80px 0 !important;
+}
+.b-event-promo .social .b-share-icon_facebook {
+  background-position: -16px 0 !important;
+}
+.b-event-promo .social .b-share-icon_twitter {
+  background-position: -48px 0 !important;
+}
+.b-event-promo .social .b-share-icon_facebook:hover {
+  background-position: 0 0 !important;
+}
+.b-event-promo .social .b-share-icon_vkontakte:hover {
+  background-position: -64px 0 !important;
+}
+.b-event-promo .social .b-share-icon_twitter:hover {
+  background-position: -32px 0 !important;
+}

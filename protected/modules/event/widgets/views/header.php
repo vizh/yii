@@ -37,15 +37,8 @@ $event = $this->event;
             </a>
           </div>
           <nav class="social">
-            <a href="#" class="item">
-              <img src="/images/blank.gif" alt="" class="i-social_small i-social_facebook dark">
-            </a>
-            <a href="#" class="item">
-              <img src="/images/blank.gif" alt="" class="i-social_small i-social_twitter dark">
-            </a>
-            <a href="#" class="item">
-              <img src="/images/blank.gif" alt="" class="i-social_small i-social_vkontakte dark">
-            </a>
+            <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+            <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="none" data-yashareQuickServices="vkontakte,facebook,twitter"></div> 
           </nav>
         </div>
       </div>

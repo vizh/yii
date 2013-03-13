@@ -5,7 +5,6 @@
  */
 $renderTabs = true;
 ?>
-
 <?foreach ($event->Widgets as $widget):?>
   <?if ($widget->getPosition() == \event\components\WidgetPosition::Header):?>
     <?$widget->run();?>

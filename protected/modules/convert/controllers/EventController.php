@@ -49,6 +49,7 @@ class EventController extends \convert\components\controllers\Controller
         $eventWidget = new \event\models\Widget();
         $eventWidget->EventId = $newEvent->Id;
         $eventWidget->Name = $widget;
+        $eventWidget->save();
       }
     }
   }
