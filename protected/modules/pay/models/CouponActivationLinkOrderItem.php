@@ -5,6 +5,9 @@ namespace pay\models;
  * @property int $LinkId
  * @property int $CouponActivationId
  * @property int $OrderItemId
+ *
+ * @property CouponActivation $CouponActivation
+ * @property OrderItem $OrderItem
  */
 class CouponActivationLinkOrderItem extends \CActiveRecord
 {

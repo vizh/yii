@@ -19,6 +19,7 @@ namespace pay\models;
  * @property \user\models\User $Owner
  * @property \user\models\User $ChangedOwner
  * @property Order[] $OrderLinks
+ * @property CouponActivationLinkOrderItem $CouponActivationLink
  * @property OrderItemAttribute[] $Attributes
  */
 class OrderItem extends \CActiveRecord
@@ -51,14 +52,26 @@ class OrderItem extends \CActiveRecord
       'Owner' => array(self::BELONGS_TO, '\user\models\User', 'OwnerId'),
       'ChangedOwner' => array(self::BELONGS_TO, '\user\models\User', 'ChangedOwnerId'),
       'OrderLinks' => array(self::MANY_MANY, '\pay\models\Order', 'PayOrderLinkOrderItem(OrderItemId, OrderId)'),
+      'CouponActivationLink' => array(self::HAS_ONE, '\pay\models\CouponActivationLinkOrderItem', 'OrderItemId'),
 
       'Attributes' => array(self::HAS_MANY, '\pay\models\OrderItemAttribute', 'OrderItemId'),
     );
   }
 
-
-  /** todo: old methods */
-
+  /**
+   * @param int $productId
+   * @param bool $useAnd
+   *
+   * @return OrderItem
+   */
+  public function byProductId($productId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."ProductId" = :ProductId';
+    $criteria->params = array('ProductId' => $productId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 
   /**
    * @param int $userId
@@ -68,8 +81,8 @@ class OrderItem extends \CActiveRecord
   public function byPayerId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.PayerId = :PayerId';
-    $criteria->params = array(':PayerId' => $userId);
+    $criteria->condition = '"t"."PayerId" = :PayerId';
+    $criteria->params = array('PayerId' => $userId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -82,8 +95,8 @@ class OrderItem extends \CActiveRecord
   public function byOwnerId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.OwnerId = :OwnerId';
-    $criteria->params = array(':OwnerId' => $userId);
+    $criteria->condition = '"t"."OwnerId" = :OwnerId';
+    $criteria->params = array('OwnerId' => $userId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -93,17 +106,17 @@ class OrderItem extends \CActiveRecord
    * @param bool $useAnd
    * @return OrderItem
    */
-  public function byRedirectId($userId, $useAnd = true)
+  public function byChangedOwnerId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
     if ($userId !== null)
     {
-      $criteria->condition = 't.RedirectId = :RedirectId';
-      $criteria->params = array(':RedirectId' => $userId);
+      $criteria->condition = '"t"."ChangedOwnerId" = :ChangedOwner';
+      $criteria->params = array('ChangedOwnerId' => $userId);
     }
     else
     {
-      $criteria->condition = 't.RedirectId IS NULL';
+      $criteria->condition = '"t"."ChangedOwnerId" IS NULL';
     }
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -117,44 +130,67 @@ class OrderItem extends \CActiveRecord
   public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 'Product.EventId = :EventId';
-    $criteria->params = array(':EventId' => $eventId);
+    $criteria->condition = '"Product"."EventId" = :EventId';
+    $criteria->params = array('EventId' => $eventId);
     $criteria->with = array('Product');
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
 
   /**
-   * @param int $paid
+   * @param bool $paid
    * @param bool $useAnd
    * @return OrderItem
    */
   public function byPaid($paid, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.Paid = :Paid';
-    $criteria->params = array(':Paid' => $paid);
+    $criteria->condition = ($paid ? '' : 'NOT ') . '"t"."Paid"';
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
 
+  /**
+   * @param bool $deleted
+   * @param bool $useAnd
+   *
+   * @return OrderItem
+   */
+  public function byDeleted($deleted, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($deleted ? '' : 'NOT ') . '"t"."Deleted"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 
   /**
-   * @var CouponActivated
+   * @var CouponActivation
    */
-  private $couponActivated = null;
+  private $couponActivation = null;
   /** @var bool */
   private $couponTrySet = false;
   /**
-   * @return CouponActivated
+   * @return CouponActivation
    */
-  public function GetCouponActivated()
+  public function getCouponActivation()
   {
-    if ($this->couponActivated === null && !$this->couponTrySet)
+    if ($this->couponActivation === null && !$this->couponTrySet)
     {
       $this->couponTrySet = true;
+      if ($this->CouponActivationLink === null)
+      {
+
+      }
+      else
+      {
+        $this->couponActivation = $this->CouponActivationLink->CouponActivation;
+      }
+
+
+
       $eventId = $this->Product->EventId;
-      $couponActivatedList = CouponActivated::GetByEvent($this->OwnerId, $eventId);
+      $couponActivationList = CouponActivated::GetByEvent($this->OwnerId, $eventId);
 
       /** @var $couponActivated CouponActivated */
       $couponActivated = null;
@@ -192,24 +228,45 @@ class OrderItem extends \CActiveRecord
   }
 
   /**
-   * Обдумать необходимость этого метода
-   * @param CouponActivated $couponActivated
+   * @return bool
    */
-//  public function SetCouponActivated($couponActivated)
-//  {
-//    $this->couponActivated = $couponActivated;
-//  }
-
-  /**
-   * @static
-   * @param int $orderItemId
-   * @return OrderItem
-   */
-  public static function GetById($orderItemId)
+  public function activate()
   {
-    $model = OrderItem::model()->with(array('Product', 'Product.Attributes', 'Owner'));
-    return $model->findByPk($orderItemId);
+    if ($this->Booked !== null && $this->Booked < date('Y-m-d H:i:s'))
+    {
+      $this->Deleted = true;
+      $this->DeletionTime = date('Y-m-d H:i:s');
+      $this->save();
+      return false;
+    }
+    $owner = $this->ChangedOwner !== null ? $this->ChangedOwner : $this->Owner;
+    if (!$this->Product->getManager()->checkProduct($owner))
+    {
+      $this->Deleted = true;
+      $this->DeletionTime = date('Y-m-d H:i:s');
+      $this->save();
+      return false;
+    }
+    $this->Product->getManager()->buyProduct($owner);
+    $this->Paid = true;
+    if ($this->PaidTime === null)
+    {
+      $this->PaidTime = date('Y-m-d H:i:s');
+    }
+    $this->save();
+    return true;
   }
+
+  public function changeOwner()
+  {
+    
+  }
+
+
+
+
+  /** todo: old methods */
+
 
   /**
    * @static
