@@ -8,11 +8,11 @@ class ItemsAction extends \api\components\Action
     $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
     if ($owner == null)
     {
-      throw new ApiException(202, array($ownerRunetId));
+      throw new \api\components\Exception(202, array($ownerRunetId));
     }
     else if ($this->getAccount()->Event == null)
     {
-      throw new ApiException(301);
+      throw new \api\components\Exception(301);
     }
     
     $result = new \stdClass();

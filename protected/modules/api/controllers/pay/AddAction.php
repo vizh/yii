@@ -14,30 +14,30 @@ class AddAction extends \api\components\Action
     $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
     if ($product == null)
     {
-      throw new ApiException(401, array($productId));
+      throw new \api\components\Exception(401, array($productId));
     }
     else if ($payer == null) 
     {
-      throw new ApiException(202, array($payerRunetId));
+      throw new \api\components\Exception(202, array($payerRunetId));
     }
     else if ($owner == null)
     {
-      throw new ApiException(202, array($ownerRunetId));
+      throw new \api\components\Exception(202, array($ownerRunetId));
     }
     else if ($this->getAccount()->Event == null)
     {
-      throw new ApiException(301);
+      throw new \api\components\Exception(301);
     }
     else if (!$product->getManager()->checkProduct($owner))
     {
-      throw new ApiException(403);
+      throw new \api\components\Exception(403);
     }
     
     $orderItem = \pay\models\OrderItem::model()
       ->byPayerId($payer->Id)->byOwnerId($owner->Id)->byProductId($product->Id)->find();
     if ($orderItem !== null && $orderItem->Paid == 0)
     {
-      throw new ApiException(405);
+      throw new \api\components\Exception(405);
     }
     
     $orderItem = $product->getManager()->createOrderItem($payer, $owner);
