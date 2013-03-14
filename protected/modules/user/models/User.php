@@ -282,20 +282,20 @@ class User extends \application\models\translation\ActiveRecord
       $size = sizeof($names);
       if ($size == 1)
       {
-        $criteria->condition = '"t"."LastName" LIKE :Part0';
+        $criteria->condition = '"t"."LastName" ILIKE :Part0';
         $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%');
       }
       elseif ($size == 2)
       {
-        $criteria->condition = '("t"."LastName" LIKE :Part0 AND "t"."FirstName" LIKE :Part1 OR ' .
-          '"t"."LastName" LIKE :Part1 AND "t"."FirstName" LIKE :Part0)';
+        $criteria->condition = '("t"."LastName" ILIKE :Part0 AND "t"."FirstName" LIKE :Part1 OR ' .
+          '"t"."LastName" ILIKE :Part1 AND "t"."FirstName" ILIKE :Part0)';
         $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%',
           ':Part1' => \Utils::PrepareStringForLike($names[1]) . '%');
       }
       else
       {
-        $criteria->condition = '"t"."LastName" LIKE :Part0 AND "t"."FirstName" LIKE :Part1 AND ' .
-          '"t"."FatherName" LIKE :Part2';
+        $criteria->condition = '"t"."LastName" ILIKE :Part0 AND "t"."FirstName" ILIKE :Part1 AND ' .
+          '"t"."FatherName" ILIKE :Part2';
         $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%',
           ':Part1' => \Utils::PrepareStringForLike($names[1]) . '%',
           ':Part2' => \Utils::PrepareStringForLike($names[2]) . '%');
