@@ -26,7 +26,7 @@ class CouponActivation extends \CActiveRecord
 
   public function tableName()
   {
-    return 'PayCouponActivated';
+    return 'PayCouponActivation';
   }
 
   public function primaryKey()
