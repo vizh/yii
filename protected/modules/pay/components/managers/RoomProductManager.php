@@ -1,6 +1,24 @@
 <?php
 namespace pay\components\managers;
 
+/**
+ * @property string $TechnicalNumber
+ * @property string $Hotel
+ * @property string $Housing
+ * @property string $Category
+ * @property string $Number
+ * @property string $EuroRenovation
+ * @property string $RoomCount
+ * @property string $PlaceTotal
+ * @property string $PlaceBasic
+ * @property string $PlaceMore
+ * @property string $DescriptionBasic
+ * @property string $DescriptionMore
+ * @property string $Price
+ *
+ * @property string $Visible
+ *
+ */
 class RoomProductManager extends BaseProductManager
 {
 
@@ -8,18 +26,32 @@ class RoomProductManager extends BaseProductManager
    * Возвращает список доступных аттрибутов
    * @return string[]
    */
-  public function GetAttributeNames()
+  public function getProductAttributeNames()
   {
-
-    return array('Visible', 'Hotel', 'TechnicalNumber', 'Housing', 'Category', 'Number', 'EuroRenovation', 'RoomCount',
-      'SleepCount', 'BedCount', 'RoomDescription', 'AdditionalDescription', 'Price');
+    return array(
+      'TechnicalNumber',
+      'Hotel',
+      'Housing',
+      'Category',
+      'Number',
+      'EuroRenovation',
+      'RoomCount',
+      'PlaceTotal',
+      'PlaceBasic',
+      'PlaceMore',
+      'DescriptionBasic',
+      'DescriptionMore',
+      'Price',
+      //-------
+      'Visible'
+    );
   }
 
   /**
    * Возвращает список необходимых параметров для OrderItem
    * @return string[]
    */
-  public function GetOrderParamNames()
+  public function getOrderItemAttributeNames()
   {
     return array('DateIn', 'DateOut');
   }
@@ -30,25 +62,30 @@ class RoomProductManager extends BaseProductManager
    * @param array $params
    * @return bool
    */
-  public function CheckProduct($user, $params = array())
+  public function checkProduct($user, $params = array())
   {
-    $eventUser = \event\models\Participant::GetByUserEventId($user->UserId, $this->product->EventId);
-    $checkRole = \event\models\Role::GetById(1);
-    if (!empty($eventUser) && $eventUser->Role->Priority >= $checkRole->Priority)
+    /** @var $participant \event\models\Participant */
+    $participant = \event\models\Participant::model()
+        ->byUserId($user->UserId)->byEventId($this->product->EventId)->find();
+    /** @var $checkRole \event\models\Role */
+    $checkRole = \event\models\Role::model()->findByPk(1);
+    if (!empty($participant) && $participant->Role->Priority >= $checkRole->Priority)
     {
       return true;
     }
 
-    //$orderItems = OrderItem::GetByEventId($user->UserId, $this->product->EventId);
-    $orderItems = \pay\models\OrderItem::GetAllByEventId($this->product->EventId, $user->UserId, $user->UserId);
+    /** @var $orderItems \pay\models\OrderItem[] */
+    $orderItems = \pay\models\OrderItem::model()->byEventId($this->product->EventId)
+        ->byPayerId($user->UserId)->byOwnerId($user->UserId)
+        ->byDeleted(false)->findAll();
+
     foreach ($orderItems as $item)
     {
-      if ($item->PayerId == $user->UserId && $item->OwnerId == $user->UserId && $item->Product->Manager == 'EventProductManager')
+      if ($item->Product->ManagerName == 'EventProductManager')
       {
         return true;
       }
     }
-
     return false;
   }
 
@@ -56,11 +93,11 @@ class RoomProductManager extends BaseProductManager
    * Оформляет покупку продукта на пользователя
    * @param \user\models\User $user
    * @param array $params
+   *
    * @return bool
    */
-  public function BuyProduct($user, $params = array())
+  protected function internalBuyProduct($user, $params = array())
   {
-    // TODO: Implement BuyProduct() method.
     return true;
   }
 
@@ -171,7 +208,7 @@ class RoomProductManager extends BaseProductManager
    * @param array $filter
    * @return array
    */
-  public function Filter($params, $filter)
+  public function filter($params, $filter)
   {
     $productIdList = $this->getProductIdList($params);
     if (empty($productIdList))
@@ -234,7 +271,7 @@ class RoomProductManager extends BaseProductManager
    * @param array $params
    * @return \pay\models\Product
    */
-  public function GetFilterProduct($params)
+  public function getFilterProduct($params)
   {
     $productIdList = $this->getProductIdList($params);
     if (empty($productIdList))
@@ -253,11 +290,11 @@ class RoomProductManager extends BaseProductManager
    * @param \pay\models\OrderItem $orderItem
    * @return int
    */
-  public function GetPrice($orderItem)
+  public function getPrice($orderItem)
   {
-    $price = parent::GetPrice($orderItem);
-    $dateIn = $orderItem->GetParam('DateIn')->Value;
-    $dateOut = $orderItem->GetParam('DateOut')->Value;
+    $price = parent::getPrice($orderItem);
+    $dateIn = $orderItem->getItemAttribute('DateIn');
+    $dateOut = $orderItem->getItemAttribute('DateOut');
     $delta = (strtotime($dateOut) - strtotime($dateIn)) / (24 * 60 * 60);
     $delta = max($delta, 1);
     return $price * $delta;
@@ -267,12 +304,12 @@ class RoomProductManager extends BaseProductManager
    * @param \pay\models\OrderItem $orderItem
    * @return string
    */
-  public function GetTitle($orderItem)
+  public function getTitle($orderItem)
   {
     $title = parent::GetTitle($orderItem);
-    $title .= ': пансионат ' . $this->product->GetAttribute('Hotel')->Value . ', строение «' . $this->product->GetAttribute('Housing')->Value .
-      '», категория «' . $this->product->GetAttribute('Category')->Value . '», с ' . date('d.m.Y', strtotime($orderItem->GetParam('DateIn')->Value)) .
-      ' по ' . date('d.m.Y', strtotime($orderItem->GetParam('DateOut')->Value));
+    $title .= ': пансионат ' . $this->Hotel . ', строение «' . $this->Housing .
+      '», категория «' . $this->Category . '», с ' . date('d.m.Y', strtotime($orderItem->getItemAttribute('DateIn'))) .
+      ' по ' . date('d.m.Y', strtotime($orderItem->getItemAttribute('DateOut')));
     return $title;
   }
 
@@ -281,7 +318,7 @@ class RoomProductManager extends BaseProductManager
    * @param \user\models\User $user
    * @return bool
    */
-  public function RollbackProduct($user)
+  public function rollbackProduct($user)
   {
     // TODO: Implement RollbackProduct() method.
   }
@@ -292,8 +329,10 @@ class RoomProductManager extends BaseProductManager
    * @param \user\models\User $toUser
    * @return bool
    */
-  public function RedirectProduct($fromUser, $toUser)
+  public function redirectProduct($fromUser, $toUser)
   {
     // TODO: Implement RedirectProduct() method.
   }
+
+
 }

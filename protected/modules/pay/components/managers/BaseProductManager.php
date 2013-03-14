@@ -44,7 +44,7 @@ abstract class BaseProductManager
         $attribute = new \pay\models\ProductAttribute();
         $attribute->ProductId = $this->product->Id;
         $attribute->Name = $name;
-        $this->productAttributes[$name] = $attribute;
+        $this->product->setProductAttribute($attribute);
       }
       else
       {

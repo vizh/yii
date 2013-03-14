@@ -22,8 +22,11 @@ class Order extends \CActiveRecord
 {
   const BookDayCount = 5;
 
-  public static $TableName = 'Mod_PayOrder';
-
+  /**
+   * @param string $className
+   *
+   * @return Order
+   */
   public static function model($className=__CLASS__)
   {
     return parent::model($className);
@@ -31,7 +34,7 @@ class Order extends \CActiveRecord
 
   public function tableName()
   {
-    return self::$TableName;
+    return 'PayOrder';
   }
 
   public function primaryKey()
@@ -46,6 +49,77 @@ class Order extends \CActiveRecord
       'OrderJuridical' => array(self::HAS_ONE, '\pay\models\OrderJuridical', 'OrderId'),
       'Payer' => array(self::BELONGS_TO, '\user\models\User', 'PayerId')
     );
+  }
+
+  /**
+   * @param int $payerId
+   * @param bool $useAnd
+   *
+   * @return Order
+   */
+  public function byPayerId($payerId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."PayerId" = :PayerId';
+    $criteria->params = array('PayerId' => $payerId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param int $eventId
+   * @param bool $useAnd
+   *
+   * @return Order
+   */
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params = array('EventId' => $eventId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param bool $juridical
+   * @param bool $useAnd
+   *
+   * @return Order
+   */
+  public function byJuridical($juridical, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($juridical ? '' : 'NOT ') . '"t"."Juridical"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param bool $paid
+   * @param bool $useAnd
+   * @return OrderItem
+   */
+  public function byPaid($paid, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($paid ? '' : 'NOT ') . '"t"."Paid"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param bool $deleted
+   * @param bool $useAnd
+   *
+   * @return OrderItem
+   */
+  public function byDeleted($deleted, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($deleted ? '' : 'NOT ') . '"t"."Deleted"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 
   /**
@@ -107,12 +181,7 @@ class Order extends \CActiveRecord
    */
   public function fill($juridical = false, $juridicalData = array())
   {
-    /** @var $items OrderItem[] */
-    $items = OrderItem::model()
-        ->byPayerId($this->PayerId)
-        ->byEventId($this->EventId)
-        ->byNotInOrders($this->PayerId, $this->EventId)
-        ->byDeleted(false)->findAll();
+    $items = OrderItem::getFreeItems($this->PayerId, $this->EventId);
 
     $total = 0;
     if ($juridical)

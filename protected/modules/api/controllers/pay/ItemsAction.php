@@ -16,8 +16,9 @@ class ItemsAction extends \api\components\Action
     }
     
     $result = new \stdClass();
-    $orderItems = \pay\models\OrderItem::model()
-      ->byOwnerId($owner->Id)->byEventId($this->getAccount()->EventId)->findAll();
+    $orderItems = \pay\models\OrderItem::model()->byEventId($this->getAccount()->EventId)
+        ->byOwnerId($owner->Id)->byBooked(true)
+        ->byDeleted(false)->findAll();
     $result->Items = array();
     foreach ($orderItems as $orderItem)
     {

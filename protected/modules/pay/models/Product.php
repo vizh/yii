@@ -19,6 +19,11 @@ namespace pay\models;
  */
 class Product extends \CActiveRecord
 {
+  /**
+   * @param string $className
+   *
+   * @return Product
+   */
   public static function model($className=__CLASS__)
   {
     return parent::model($className);
@@ -78,6 +83,14 @@ class Product extends \CActiveRecord
     }
 
     return $this->productAttributes;
+  }
+
+  /**
+   * @param ProductAttribute $attribute
+   */
+  public function setProductAttribute($attribute)
+  {
+    $this->productAttributes[$attribute->Name] = $attribute;
   }
 
   /**

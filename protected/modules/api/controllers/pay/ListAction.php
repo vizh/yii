@@ -1,4 +1,6 @@
 <?php
+namespace api\controllers\pay;
+
 class ListAction extends \api\components\Action
 {
   public function run()
@@ -9,42 +11,43 @@ class ListAction extends \api\components\Action
     {
       throw new \api\components\Exception(202, array($payerRunetId));
     }
-    else if ($event == null)
+    else if ($this->getAccount()->Event === null)
     {
       throw new \api\components\Exception(301);
     }
     
     $result = new \stdClass();
-    $orderItems = \pay\models\OrderItem::model()
-      ->byPayerId($payer->Id)->byEventId($event->Id)->findAll();
-    
+
+    $orderItems = \pay\models\OrderItem::getFreeItems($payer->Id, $this->getAccount()->EventId);
     $result->Items = array();
     foreach ($orderItems as $orderItem)
     {
       $result->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($orderItem);
     }
-    
-    $orders = \pay\models\Order::model();
-    
-    //TODO: ДОДЕЛАЙ!!!!!!! ТО ЧТО СНИЗУ!!!!!!!!!!!!
-  
 
-    $orders = Order::GetOrdersWithJuridical($payer->UserId, $event->EventId);
+    /** @var $orders \pay\models\Order[] */
+    $orders = \pay\models\Order::model()
+        ->byPayerId($payer->Id)
+        ->byEventId($this->getAccount()->EventId)
+        ->byJuridical(true)
+        ->byDeleted(true)->with(array('ItemLinks.OrderItem', 'ItemLinks.OrderItem.Product'))
+        ->findAll();
+
     $result->Orders = array();
     foreach ($orders as $order)
     {
-      $orderObj = new stdClass();
-      $orderObj->OrderId = $order->OrderId;
+      $orderObj = new \stdClass();
+      $orderObj->OrderId = $order->Id;
       $orderObj->CreationTime = $order->CreationTime;
-      $orderObj->Paid = $order->OrderJuridical->Paid == 1;
+      $orderObj->Paid = $order->Paid;
       $orderObj->Items = array();
-      foreach ($order->Items as $item)
+      foreach ($order->ItemLinks as $link)
       {
-        $orderObj->Items[] = $this->Account->DataBuilder()->CreateOrderItem($item);
+        $orderObj->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($link->OrderItem);
       }
       $result->Orders[] = $orderObj;
     }
 
-    $this->SendJson($result);
+    $this->getController()->setResult($result);
   }
 }

@@ -1,5 +1,6 @@
 <?php
 namespace api\controllers\pay;
+
 class DeleteAction extends \api\components\Action
 {
   public function run()
@@ -27,7 +28,7 @@ class DeleteAction extends \api\components\Action
     {
       throw new \api\components\Exception(301);
     }
-    else if ($orderItem->Product->EventId != $event->Id)
+    else if ($orderItem->Product->EventId != $this->getAccount()->EventId)
     {
       throw new \api\components\Exception(402);
     }

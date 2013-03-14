@@ -207,15 +207,15 @@ class Builder
   
   protected $product;
   /**
-  * @param Product $product
+  * @param \pay\models\Product $product
   * @param string $time
-  * @return stdClass
+  * @return \stdClass
   */
   public function createProduct($product, $time = null)
   {
     $this->product = new \stdClass();
     $this->product->Id = $product->Id; 
-    $this->product->ProductId = $product->Id; /** DEPLICATED **/
+    $this->product->ProductId = $product->Id; /** todo: deprecated **/
     $this->product->Manager = $product->ManagerName;
     $this->product->Title = $product->Title;
     $this->product->Price = $product->getPrice($time);
@@ -230,14 +230,14 @@ class Builder
   
   protected $orderItem;
   /**
-  * @param OrderItem $orderItem
-  * @return stdClass
+  * @param \pay\models\OrderItem $orderItem
+  * @return \stdClass
   */
   public function createOrderItem($orderItem)
   {
-    $this->orderItem = new stdClass();
+    $this->orderItem = new \stdClass();
     
-    $this->orderItem->OrderItemId = $orderItem->Id; /** DEPLICATED **/
+    $this->orderItem->OrderItemId = $orderItem->Id; /** todo: deprecated **/
     $this->orderItem->Id = $orderItem->Id;
     $this->orderItem->Product = $this->CreateProduct($orderItem->Product, $orderItem->PaidTime);
     $this->createUser($orderItem->Payer);
@@ -249,13 +249,12 @@ class Builder
     $this->orderItem->PaidTime = $orderItem->PaidTime;
     $this->orderItem->Booked = $orderItem->Booked;
 
-    $this->orderItem->Params = array(); /** DEPLICATED **/
     $this->orderItem->Attributes = array();
     foreach ($orderItem->Attributes as $attribute)
     {
-      $this->orderItem->Params[$attribute->Name] = $attribute->Value; /** DEPLICATED **/
-       $this->orderItem->Attributes[$attribute->Name] = $attribute->Value;
+      $this->orderItem->Attributes[$attribute->Name] = $attribute->Value;
     }
+    $this->orderItem->Params = $this->orderItem->Attributes; /** todo: deprecated */
 
     $couponActivation = $orderItem->getCouponActivation();
     $this->orderItem->Discount = !empty($couponActivation) && !empty($couponActivation->Coupon) ? $couponActivation->Coupon->Discount : 0;

@@ -51,7 +51,7 @@ class OrderItem extends \CActiveRecord
       'Payer' => array(self::BELONGS_TO, '\user\models\User', 'PayerId'),
       'Owner' => array(self::BELONGS_TO, '\user\models\User', 'OwnerId'),
       'ChangedOwner' => array(self::BELONGS_TO, '\user\models\User', 'ChangedOwnerId'),
-      'OrderLinks' => array(self::MANY_MANY, '\pay\models\Order', 'PayOrderLinkOrderItem(OrderItemId, OrderId)'),
+      'OrderLinks' => array(self::MANY_MANY, '\pay\models\OrderLinkOrderItem', 'PayOrderLinkOrderItem(OrderItemId, OrderId)'),
       'CouponActivationLink' => array(self::HAS_ONE, '\pay\models\CouponActivationLinkOrderItem', 'OrderItemId'),
 
       'Attributes' => array(self::HAS_MANY, '\pay\models\OrderItemAttribute', 'OrderItemId'),
@@ -242,7 +242,7 @@ class OrderItem extends \CActiveRecord
     $criteria = new \CDbCriteria();
     if ($booked)
     {
-      $criteria->condition = '"t"."Booked" NULL OR "t"."Booked" > :Booked';
+      $criteria->condition = '"t"."Booked" IS NULL OR "t"."Booked" > :Booked';
     }
     else
     {
@@ -255,13 +255,15 @@ class OrderItem extends \CActiveRecord
 
   /**
    * Добавляет ограничение на выборку не оплаченных не удаленных OrderItem, не включенных ни в какие не удаленные юр. счета
+   *
    * @param int $payerId
    * @param int $eventId
+   * @param bool $not
    * @param bool $useAnd
    *
    * @return OrderItem
    */
-  public function byNotInOrders($payerId, $eventId, $useAnd = true)
+  public function byInOrders($payerId, $eventId, $not = true, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
     $criteria->distinct = true;
@@ -270,13 +272,16 @@ class OrderItem extends \CActiveRecord
     );
     $criteria->addCondition('"Order"."Juridical"')
         ->addCondition('NOT "Order"."Deleted"')
-        ->addCondition('"Order"."Juridical" = :EventId');
+        ->addCondition('"Order"."EventId" = :EventId');
     $criteria->params = array('EventId' => $eventId);
     $criteria->select = array('"t"."Id"');
 
+    $model = new OrderItem();
     /** @var $items OrderItem[] */
-    $items = OrderItem::model()->byPayerId($payerId)
-        ->byPaid(false)->byDeleted(false)->findAll($criteria);
+    $items = $model->byPayerId($payerId)
+        ->byPaid(false)
+        ->byDeleted(false)
+        ->findAll($criteria);
     $ids = array();
     foreach ($items as $item)
     {
@@ -284,7 +289,14 @@ class OrderItem extends \CActiveRecord
     }
 
     $criteria = new \CDbCriteria();
-    $criteria->addNotInCondition('"t"."Id"', $ids);
+    if ($not)
+    {
+      $criteria->addNotInCondition('"t"."Id"', $ids);
+    }
+    else
+    {
+      $criteria->addInCondition('"t"."Id"', $ids);
+    }
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -413,8 +425,26 @@ class OrderItem extends \CActiveRecord
 
   public function delete()
   {
-    //todo: Реализовать переопределение метода delete с учетом логики удаления OrderItem
-    return parent::delete();
+    if ($this->Paid || $this->Deleted)
+    {
+      return false;
+    }
+
+    /** @var $links OrderLinkOrderItem[] */
+    $links = $this->OrderLinks(array('with' => array('Order')));
+    foreach ($links as $link)
+    {
+      if ($link->Order->Juridical && !$link->Order->Deleted)
+      {
+        return false;
+      }
+    }
+
+    $this->Deleted = true;
+    $this->DeletionTime = date('Y-m-d H:i:s');
+    $this->save();
+
+    return true;
   }
 
   /**
@@ -432,6 +462,24 @@ class OrderItem extends \CActiveRecord
       array(':Booked' => date('Y-m-d H:i:s'))
     );
     return $count;
+  }
+
+  /**
+   * @param int $payerId
+   * @param int $eventId
+   *
+   * @return OrderItem[]
+   */
+  public static function getFreeItems($payerId, $eventId)
+  {
+    $model = OrderItem::model()
+        ->byBooked(true)->byPaid(true, false)
+        ->byPayerId($payerId)
+        ->byEventId($eventId)
+        ->byInOrders($payerId, $eventId)
+        ->byDeleted(false);
+
+    return $model->findAll();
   }
 
 

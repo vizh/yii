@@ -53,7 +53,10 @@ class Controller extends \application\components\controllers\BaseController
    */
   protected function beforeAction($action)
   {
-    \Yii::app()->disableOutputLoggers();
+    if ($_SERVER['REMOTE_ADDR'] != '127.0.0.1')
+    {
+      \Yii::app()->disableOutputLoggers();
+    }
     return parent::beforeAction($action);
   }
 

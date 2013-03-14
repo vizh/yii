@@ -1,5 +1,6 @@
 <?php
 namespace api\controllers\pay;
+
 class ProductAction extends \api\components\Action
 {
   public function run()

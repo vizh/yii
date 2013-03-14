@@ -1,24 +1,9 @@
 <?php
 namespace pay\components\managers;
 
-/**
- * Created by JetBrains PhpStorm.
- * User: nikitin
- * Date: 19.01.12
- * Time: 16:42
- * To change this template use File | Settings | File Templates.
- */
+
 class FoodProductManager extends BaseProductManager
 {
-
-  /**
-   * Возвращает список доступных аттрибутов
-   * @return string[]
-   */
-  public function GetAttributeNames()
-  {
-    return array();
-  }
 
   /**
    * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
@@ -26,7 +11,7 @@ class FoodProductManager extends BaseProductManager
    * @param array $params
    * @return bool
    */
-  public function CheckProduct($user, $params = array())
+  public function checkProduct($user, $params = array())
   {
     // TODO: Implement CheckProduct() method.
     return true;
@@ -36,12 +21,12 @@ class FoodProductManager extends BaseProductManager
    * Оформляет покупку продукта на пользователя
    * @param \user\models\User $user
    * @param array $params
+   *
    * @return bool
    */
-  public function BuyProduct($user, $params = array())
+  protected function internalBuyProduct($user, $params = array())
   {
-    // TODO: Implement BuyProduct() method.
-    return true;
+    // TODO: Implement internalBuyProduct() method.
   }
 
   /**
@@ -49,7 +34,7 @@ class FoodProductManager extends BaseProductManager
    * @param string $filter
    * @return array
    */
-  public function Filter($params, $filter)
+  public function filter($params, $filter)
   {
     return array();
   }
@@ -58,7 +43,7 @@ class FoodProductManager extends BaseProductManager
    * @param array $params
    * @return \pay\models\Product
    */
-  public function GetFilterProduct($params)
+  public function getFilterProduct($params)
   {
     return $this->product;
   }
@@ -68,7 +53,7 @@ class FoodProductManager extends BaseProductManager
    * @param \user\models\User $user
    * @return bool
    */
-  public function RollbackProduct($user)
+  public function rollbackProduct($user)
   {
     // TODO: Implement RollbackProduct() method.
   }
@@ -79,8 +64,10 @@ class FoodProductManager extends BaseProductManager
    * @param \user\models\User $toUser
    * @return bool
    */
-  public function RedirectProduct($fromUser, $toUser)
+  public function redirectProduct($fromUser, $toUser)
   {
     // TODO: Implement RedirectProduct() method.
   }
+
+
 }

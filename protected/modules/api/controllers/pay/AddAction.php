@@ -1,5 +1,6 @@
 <?php
 namespace api\controllers\pay;
+
 class AddAction extends \api\components\Action
 {
   public function run()
@@ -9,6 +10,7 @@ class AddAction extends \api\components\Action
     $payerRunetId = $request->getParam('PayerRunetId');
     $ownerRunetId = $request->getParam('OwnerRunetId');
 
+    /** @var $product \pay\models\Product */
     $product = \pay\models\Product::model()->byEventId($this->getAccount()->EventId)->findByPk($productId);
     $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
     $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
@@ -33,9 +35,10 @@ class AddAction extends \api\components\Action
       throw new \api\components\Exception(403);
     }
     
-    $orderItem = \pay\models\OrderItem::model()
-      ->byPayerId($payer->Id)->byOwnerId($owner->Id)->byProductId($product->Id)->find();
-    if ($orderItem !== null && $orderItem->Paid == 0)
+    $orderItem = \pay\models\OrderItem::model()->byProductId($product->Id)
+        ->byPayerId($payer->Id)->byOwnerId($owner->Id)
+        ->byDeleted(false)->find();
+    if ($orderItem !== null && !$orderItem->Paid)
     {
       throw new \api\components\Exception(405);
     }
