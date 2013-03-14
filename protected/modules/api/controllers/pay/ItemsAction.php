@@ -4,7 +4,7 @@ class ItemsAction extends \api\components\Action
 {
   public function run()
   {
-    $ownerRunetId = \Yii::app()->request->getParam('OwnerRocId');
+    $ownerRunetId = \Yii::app()->request->getParam('OwnerRunetId');
     $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
     if ($owner == null)
     {

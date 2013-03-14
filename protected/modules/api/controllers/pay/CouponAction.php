@@ -20,7 +20,7 @@ class CouponAction extends \api\components\Action
     {
       throw new \api\components\Exception(202, array($ownerRunetId));
     }
-    else if ($payer)
+    else if ($payer == null)
     {
       throw new \api\components\Exception(202, array($payerRunetId));
     }
