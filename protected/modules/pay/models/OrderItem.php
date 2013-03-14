@@ -231,6 +231,60 @@ class OrderItem extends \CActiveRecord
   }
 
   /**
+   * @param int $payerId
+   * @param int $eventId
+   * @param bool $useAnd
+   *
+   * @return OrderItem
+   */
+  public function byNotInOrders($payerId, $eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->distinct = true;
+    $criteria->with = array(
+      'OrderLinks.Order'
+    );
+
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '';
+    $criteria->params = array();
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @static
+   * @param int $payerId
+   * @param int $eventId
+   * @return OrderItem[]
+   */
+  public static function GetByEventId($payerId, $eventId)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->distinct = true;
+    $criteria->with = array('Orders' => array('select' => false), 'Orders.OrderJuridical' => array('select' => false));
+    $criteria->condition = 't.PayerId = :PayerId AND t.Paid = 0 AND OrderJuridical.Deleted = 0';
+    $criteria->params = array(':PayerId' => $payerId);
+    $criteria->select = array('t.OrderItemId');
+
+    $itemRecords = OrderItem::model()->findAll($criteria);
+    $items = array();
+    foreach ($itemRecords as $item)
+    {
+      $items[] = $item->OrderItemId;
+    }
+
+    $criteria = new \CDbCriteria();
+    $criteria->with = array('Product', 'Product.Attributes', 'Owner');
+    $criteria->condition = 'Product.EventId = :EventId AND (t.Booked IS NULL OR t.Booked > :Booked OR t.Paid = :Paid) AND t.Deleted = :Deleted AND t.PayerId = :PayerId';
+    $criteria->params = array(':PayerId' => $payerId, ':EventId' => $eventId, ':Booked' => date('Y-m-d H:i:s'),
+      ':Paid' => 1, ':Deleted' => 0);
+    $criteria->addNotInCondition('t.OrderItemId', $items);
+
+    return OrderItem::model()->findAll($criteria);
+  }
+
+  /**
    * @var CouponActivation
    */
   private $couponActivation = null;
@@ -312,7 +366,7 @@ class OrderItem extends \CActiveRecord
   /**
    * @return int
    */
-  public function Price()
+  public function getPrice()
   {
     return $this->Product->getManager()->getPrice($this);
   }
@@ -322,10 +376,10 @@ class OrderItem extends \CActiveRecord
    * @throws \pay\components\Exception
    * @return int|null
    */
-  public function PriceDiscount()
+  public function getPriceDiscount()
   {
     $activation = $this->getCouponActivation();
-    $price = $this->Price();
+    $price = $this->getPrice();
     if ($price === null)
     {
       throw new \pay\components\Exception('Не удалось определить цену продукта!');
@@ -344,37 +398,7 @@ class OrderItem extends \CActiveRecord
   /** todo: old methods */
 
 
-  /**
-   * @static
-   * @param int $payerId
-   * @param int $eventId
-   * @return OrderItem[]
-   */
-  public static function GetByEventId($payerId, $eventId)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->distinct = true;
-    $criteria->with = array('Orders' => array('select' => false), 'Orders.OrderJuridical' => array('select' => false));
-    $criteria->condition = 't.PayerId = :PayerId AND t.Paid = 0 AND OrderJuridical.Deleted = 0';
-    $criteria->params = array(':PayerId' => $payerId);
-    $criteria->select = array('t.OrderItemId');
 
-    $itemRecords = OrderItem::model()->findAll($criteria);
-    $items = array();
-    foreach ($itemRecords as $item)
-    {
-      $items[] = $item->OrderItemId;
-    }
-
-    $criteria = new \CDbCriteria();
-    $criteria->with = array('Product', 'Product.Attributes', 'Owner');
-    $criteria->condition = 'Product.EventId = :EventId AND (t.Booked IS NULL OR t.Booked > :Booked OR t.Paid = :Paid) AND t.Deleted = :Deleted AND t.PayerId = :PayerId';
-    $criteria->params = array(':PayerId' => $payerId, ':EventId' => $eventId, ':Booked' => date('Y-m-d H:i:s'),
-    ':Paid' => 1, ':Deleted' => 0);
-    $criteria->addNotInCondition('t.OrderItemId', $items);
-
-    return OrderItem::model()->findAll($criteria);
-  }
 
   /**
    * @static
