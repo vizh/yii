@@ -62,10 +62,10 @@ class SearchAction extends \api\components\Action
     $result['Users'] = array();
     foreach ($users as $user)
     {
-      $this->getAccount()->DataBuilder()->CreateUser($user);
-      $this->getAccount()->DataBuilder()->BuildUserEmail($user);
-      $this->getAccount()->DataBuilder()->BuildUserEmployment($user);
-      $result['Users'][] = $this->getAccount()->DataBuilder()->BuildUserEvent($user);
+      $this->getAccount()->getDataBuilder()->CreateUser($user);
+      $this->getAccount()->getDataBuilder()->BuildUserEmail($user);
+      $this->getAccount()->getDataBuilder()->BuildUserEmployment($user);
+      $result['Users'][] = $this->getAccount()->getDataBuilder()->BuildUserEvent($user);
     }
 
     if (sizeof($users) === $maxResults)

@@ -4,18 +4,12 @@ class ProductAction extends \api\components\Action
 {
   public function run()
   {
-    $productId = \Yii::app()->request->getParam('ProductId', null);
-    $product = \pay\models\Product::model()
-      ->byEventId($this->getAccount()->EventId)
-      ->findByPk($productId);
-    
-    if ($product == null)
+    $products = \pay\models\Product::model()->byEventId($this->getAccount()->EventId)->findAll();
+    $result = array();
+    foreach ($products as $product)
     {
-      throw new \api\components\Exception(401, array($runetId));
+      $result[] = $this->getAccount()->getDataBuilder()->createProduct($product);
     }
-    
-    $this->getController()->setResult(
-      $this->getAccount()->DataBuilder()->createProduct($product)
-    );
+    $this->getController()->setResult($result);
   }
 }

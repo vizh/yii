@@ -213,9 +213,10 @@ class Builder
   */
   public function createProduct($product, $time = null)
   {
-    $this->product = new stdClass();
-    $this->product->ProductId = $product->ProductId;
-    $this->product->Manager = $product->Manager;
+    $this->product = new \stdClass();
+    $this->product->Id = $product->Id; 
+    $this->product->ProductId = $product->Id; /** DEPLICATED **/
+    $this->product->Manager = $product->ManagerName;
     $this->product->Title = $product->Title;
     $this->product->Price = $product->getPrice($time);
     $this->product->Attributes = array();
@@ -226,7 +227,43 @@ class Builder
     return $this->product;
   }
 
+  
+  protected $orderItem;
+  /**
+  * @param OrderItem $orderItem
+  * @return stdClass
+  */
+  public function createOrderItem($orderItem)
+  {
+    $this->orderItem = new stdClass();
+    
+    $this->orderItem->OrderItemId = $orderItem->Id; /** DEPLICATED **/
+    $this->orderItem->Id = $orderItem->Id;
+    $this->orderItem->Product = $this->CreateProduct($orderItem->Product, $orderItem->PaidTime);
+    $this->createUser($orderItem->Payer);
+    $this->orderItem->Payer = $this->buildUserEmployment($orderItem->Payer);
+    $this->createUser($orderItem->Owner);
+    $this->orderItem->Owner = $this->buildUserEmployment($orderItem->Owner);
+    $this->orderItem->PriceDiscount = $orderItem->getPriceDiscount();
+    $this->orderItem->Paid = $orderItem->Paid == 1;
+    $this->orderItem->PaidTime = $orderItem->PaidTime;
+    $this->orderItem->Booked = $orderItem->Booked;
 
+    $this->orderItem->Params = array(); /** DEPLICATED **/
+    $this->orderItem->Attributes = array();
+    foreach ($orderItem->Attributes as $attribute)
+    {
+      $this->orderItem->Params[$attribute->Name] = $attribute->Value; /** DEPLICATED **/
+       $this->orderItem->Attributes[$attribute->Name] = $attribute->Value;
+    }
+
+    $couponActivation = $orderItem->getCouponActivation();
+    $this->orderItem->Discount = !empty($couponActivation) && !empty($couponActivation->Coupon) ? $couponActivation->Coupon->Discount : 0;
+    $this->orderItem->CouponCode = !empty($couponActivation) && !empty($couponActivation->Coupon) ? $couponActivation->Coupon->Code : null;
+    return $this->orderItem;
+  }
+  
+  
   
   private function getImageSize($path)
   {

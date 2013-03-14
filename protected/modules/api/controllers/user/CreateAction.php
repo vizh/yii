@@ -40,10 +40,10 @@ class CreateAction extends \api\components\Action
     $this->setCity($user);
     $this->setPhone($user);
 
-    $this->getAccount()->DataBuilder()->createUser($user);
-    $this->getAccount()->DataBuilder()->buildUserEmail($user);
-    $this->getAccount()->DataBuilder()->buildUserEmployment($user);
-    $this->getController()->setResult($this->getAccount()->DataBuilder()->buildUserEvent($user));
+    $this->getAccount()->getDataBuilder()->createUser($user);
+    $this->getAccount()->getDataBuilder()->buildUserEmail($user);
+    $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
+    $this->getController()->setResult($this->getAccount()->getDataBuilder()->buildUserEvent($user));
   }
 
   /**

@@ -14,10 +14,21 @@ return array(
     'actions' => array('register')
   ),
   array(
+    'deny',
+    'roles' => array('mobile'),
+    'controllers' => array('pay')
+  ),
+  array(
     'allow',
     'roles' => array('base'),
     'controllers' => array('event'),
     'actions' => array('roles', 'register')
+  ),
+  array(
+    'allow',
+    'roles' => array('base'),
+    'controllers' => array('pay'),
+    'actions' => array('product')
   ),
   array(
     'deny',

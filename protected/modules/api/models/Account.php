@@ -63,7 +63,7 @@ class Account extends \CActiveRecord
   /**
    * @return \api\components\builders\Builder
    */
-  public function DataBuilder()
+  public function getDataBuilder()
   {
     if ($this->_dataBuilder === null)
     {
