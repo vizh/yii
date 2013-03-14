@@ -27,8 +27,7 @@ return array(
   array(
     'allow',
     'roles' => array('base'),
-    'controllers' => array('pay'),
-    'actions' => array('product')
+    'controllers' => array('pay')
   ),
   array(
     'deny',

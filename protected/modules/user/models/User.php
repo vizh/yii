@@ -287,7 +287,7 @@ class User extends \application\models\translation\ActiveRecord
       }
       elseif ($size == 2)
       {
-        $criteria->condition = '("t"."LastName" ILIKE :Part0 AND "t"."FirstName" LIKE :Part1 OR ' .
+        $criteria->condition = '("t"."LastName" ILIKE :Part0 AND "t"."FirstName" ILIKE :Part1 OR ' .
           '"t"."LastName" ILIKE :Part1 AND "t"."FirstName" ILIKE :Part0)';
         $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%',
           ':Part1' => \Utils::PrepareStringForLike($names[1]) . '%');

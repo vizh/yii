@@ -1,4 +1,5 @@
 <?php
+namespace api\controllers\pay;
 class AddAction extends \api\components\Action
 {
   public function run()

@@ -25,7 +25,7 @@ class Action extends \CAction
    */
   public function getDataBuilder()
   {
-    return $this->getAccount()->DataBuilder();
+    return $this->getAccount()->getDataBuilder();
   }
 
   /**
