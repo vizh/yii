@@ -18,7 +18,7 @@ namespace pay\models;
  * @property \user\models\User $Payer
  * @property \user\models\User $Owner
  * @property \user\models\User $ChangedOwner
- * @property Order[] $OrderLinks
+ * @property OrderLinkOrderItem[] $OrderLinks
  * @property CouponActivationLinkOrderItem $CouponActivationLink
  * @property OrderItemAttribute[] $Attributes
  */
@@ -231,6 +231,30 @@ class OrderItem extends \CActiveRecord
   }
 
   /**
+   * Усли параметр $booked=true - добавляет условие, что срок заказа не истек
+   * @param $booked
+   * @param bool $useAnd
+   *
+   * @return OrderItem
+   */
+  public function byBooked($booked = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    if ($booked)
+    {
+      $criteria->condition = '"t"."Booked" NULL OR "t"."Booked" > :Booked';
+    }
+    else
+    {
+      $criteria->condition = '"t"."Booked" IS NOT NULL AND "t"."Booked" < :Booked';
+    }
+    $criteria->params = array('Booked' => date('Y-m-d H:i:s'));
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * Добавляет ограничение на выборку не оплаченных не удаленных OrderItem, не включенных ни в какие не удаленные юр. счета
    * @param int $payerId
    * @param int $eventId
    * @param bool $useAnd
@@ -242,46 +266,27 @@ class OrderItem extends \CActiveRecord
     $criteria = new \CDbCriteria();
     $criteria->distinct = true;
     $criteria->with = array(
-      'OrderLinks.Order'
+      'OrderLinks.Order' => array('select' => false, 'together' => true),
     );
+    $criteria->addCondition('"Order"."Juridical"')
+        ->addCondition('NOT "Order"."Deleted"')
+        ->addCondition('"Order"."Juridical" = :EventId');
+    $criteria->params = array('EventId' => $eventId);
+    $criteria->select = array('"t"."Id"');
 
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '';
-    $criteria->params = array();
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @static
-   * @param int $payerId
-   * @param int $eventId
-   * @return OrderItem[]
-   */
-  public static function GetByEventId($payerId, $eventId)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->distinct = true;
-    $criteria->with = array('Orders' => array('select' => false), 'Orders.OrderJuridical' => array('select' => false));
-    $criteria->condition = 't.PayerId = :PayerId AND t.Paid = 0 AND OrderJuridical.Deleted = 0';
-    $criteria->params = array(':PayerId' => $payerId);
-    $criteria->select = array('t.OrderItemId');
-
-    $itemRecords = OrderItem::model()->findAll($criteria);
-    $items = array();
-    foreach ($itemRecords as $item)
+    /** @var $items OrderItem[] */
+    $items = OrderItem::model()->byPayerId($payerId)
+        ->byPaid(false)->byDeleted(false)->findAll($criteria);
+    $ids = array();
+    foreach ($items as $item)
     {
-      $items[] = $item->OrderItemId;
+      $ids[] = $item->Id;
     }
 
     $criteria = new \CDbCriteria();
-    $criteria->with = array('Product', 'Product.Attributes', 'Owner');
-    $criteria->condition = 'Product.EventId = :EventId AND (t.Booked IS NULL OR t.Booked > :Booked OR t.Paid = :Paid) AND t.Deleted = :Deleted AND t.PayerId = :PayerId';
-    $criteria->params = array(':PayerId' => $payerId, ':EventId' => $eventId, ':Booked' => date('Y-m-d H:i:s'),
-      ':Paid' => 1, ':Deleted' => 0);
-    $criteria->addNotInCondition('t.OrderItemId', $items);
-
-    return OrderItem::model()->findAll($criteria);
+    $criteria->addNotInCondition('"t"."Id"', $ids);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 
   /**
@@ -358,10 +363,24 @@ class OrderItem extends \CActiveRecord
 
   }
 
-  public function changeOwner()
+  /**
+   * @param \user\models\User $newOwner
+   *
+   * @return bool
+   */
+  public function changeOwner(\user\models\User $newOwner)
   {
-    
+    $fromOwner = empty($this->ChangedOwner) ? $this->Owner : $this->ChangedOwner;
+    if ($this->Product->getManager()->redirectProduct($fromOwner, $newOwner))
+    {
+      $this->ChangedOwnerId = $newOwner->Id;
+      $this->save();
+      return true;
+    }
+
+    return false;
   }
+
 
   /**
    * @return int
@@ -392,96 +411,47 @@ class OrderItem extends \CActiveRecord
     return (int)$price;
   }
 
-
-
-
-  /** todo: old methods */
-
-
-
-
-  /**
-   * @static
-   * @param int $ownerId
-   * @param int $eventId
-   * @return OrderItem[]
-   */
-  public static function GetByOwnerAndEventId($ownerId, $eventId)
+  public function delete()
   {
-    $criteria = new \CDbCriteria();
-    $criteria->with = array('Product', 'Product.Attributes', 'Owner');
-    $criteria->condition = 'Product.EventId = :EventId AND (t.Booked IS NULL OR t.Booked > :Booked OR t.Paid = :Paid) AND t.Deleted = :Deleted AND t.OwnerId = :OwnerId';
-    $criteria->params = array(':OwnerId' => $ownerId, ':EventId' => $eventId, ':Booked' => date('Y-m-d H:i:s'),
-      ':Paid' => 1, ':Deleted' => 0);
-
-    return OrderItem::model()->findAll($criteria);
-  }
-
-  public static function GetAllByEventId($eventId, $payerId, $ownerId = null)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->with = array('Product', 'Product.Attributes', 'Owner');
-    $criteria->condition = 'Product.EventId = :EventId AND (t.Booked IS NULL OR t.Booked > :Booked OR t.Paid = :Paid) AND t.Deleted = :Deleted AND t.PayerId = :PayerId';
-    $criteria->params = array(':PayerId' => $payerId, ':EventId' => $eventId, ':Booked' => date('Y-m-d H:i:s'),
-      ':Paid' => 1, ':Deleted' => 0);
-
-    if (!empty($ownerId))
-    {
-      $criteria->addCondition('t.OwnerId = :OwnerId');
-      $criteria->params[':OwnerId'] = $ownerId;
-    }
-
-    return OrderItem::model()->findAll($criteria);
+    //todo: Реализовать переопределение метода delete с учетом логики удаления OrderItem
+    return parent::delete();
   }
 
   /**
-   * @static
-   * @param int $productId
-   * @param int $payerId
-   * @param int $ownerId
-   * @return OrderItem|null
-   */
-  public static function GetByAll($productId, $payerId, $ownerId)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.ProductId = :ProductId AND t.PayerId = :PayerId AND t.OwnerId = :OwnerId AND t.Deleted = :Deleted';
-    $criteria->params = array(':ProductId'=> $productId, ':PayerId' => $payerId, ':OwnerId' => $ownerId, ':Deleted' => 0);
-    $criteria->order = 't.OrderItemId DESC';
-
-    return OrderItem::model()->find($criteria);
-  }
-
-  /**
-   * @static
+   *
    * @return int
    */
-  public static function ClearBooked()
+  public function clearBooked()
   {
     $db = \Yii::app()->getDb();
-    return $db->createCommand()->update('Mod_PayOrderItem', array('Deleted' => 1),
-      'Booked IS NOT NULL AND Booked < :Booked AND Paid != :Paid AND Deleted != :Deleted',
-      array(':Booked' => date('Y-m-d H:i:s'), ':Paid' => 1, ':Deleted' => 1));
+    $command = $db->createCommand();
+    $count = $command->update(
+      $this->tableName(),
+      array('Deleted' => true),
+      'Booked IS NOT NULL AND Booked < :Booked AND NOT Paid AND NOT Deleted',
+      array(':Booked' => date('Y-m-d H:i:s'))
+    );
+    return $count;
   }
 
 
 
+//  public static function GetAllByEventId($eventId, $payerId, $ownerId = null)
+//  {
+//    $criteria = new \CDbCriteria();
+//    $criteria->with = array('Product', 'Product.Attributes', 'Owner');
+//    $criteria->condition = 'Product.EventId = :EventId AND (t.Booked IS NULL OR t.Booked > :Booked OR t.Paid = :Paid) AND t.Deleted = :Deleted AND t.PayerId = :PayerId';
+//    $criteria->params = array(':PayerId' => $payerId, ':EventId' => $eventId, ':Booked' => date('Y-m-d H:i:s'),
+//      ':Paid' => 1, ':Deleted' => 0);
+//
+//    if (!empty($ownerId))
+//    {
+//      $criteria->addCondition('t.OwnerId = :OwnerId');
+//      $criteria->params[':OwnerId'] = $ownerId;
+//    }
+//
+//    return OrderItem::model()->findAll($criteria);
+//  }
 
 
-
-  /**
-   * @param \user\models\User $toUser
-   * @return bool
-   */
-  public function setRedirectUser(\user\models\User $toUser)
-  {
-    $fromUser = empty($this->RedirectUser) ? $this->Owner : $this->RedirectUser;
-    if ($this->Product->ProductManager()->RedirectProduct($fromUser, $toUser))
-    {
-      $this->RedirectId = $toUser->UserId;
-      $this->save();
-      return true;
-    }
-
-    return false;
-  }
 }

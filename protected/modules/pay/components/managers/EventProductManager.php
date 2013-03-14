@@ -1,25 +1,15 @@
 <?php
 namespace pay\components\managers;
 
+/**
+ * @property int $RoleId
+ */
 class EventProductManager extends BaseProductManager
 {
-
-  private static $roles;
-  private static function GetRoles()
-  {
-    if (empty(self::$roles))
-    {
-      self::$roles = \event\models\Role::GetAll();
-    }
-
-    return self::$roles;
-  }
-
   /**
-   * Возвращает список доступных аттрибутов
-   * @return string[]
+   * @return array
    */
-  public function GetAttributeNames()
+  public function getProductAttributeNames()
   {
     return array('RoleId');
   }
@@ -31,85 +21,49 @@ class EventProductManager extends BaseProductManager
    * @param array $params
    * @return bool
    */
-  public function CheckProduct($user, $params = array())
+  public function checkProduct($user, $params = array())
   {
-    $eventUser = \event\models\Participant::GetByUserEventId($user->UserId, $this->product->EventId);
-    if (empty($eventUser))
+    /** @var $participant \event\models\Participant */
+    $participant = \event\models\Participant::model()
+        ->byUserId($user->Id)
+        ->byEventId($this->product->EventId)->with('Role')->find();
+    if ($participant === null)
     {
       return true;
     }
-    $roleId = null;
-    foreach ($this->product->Attributes as $attribute)
-    {
-      if ($attribute->Name == 'RoleId')
-      {
-        $roleId = intval($attribute->Value);
-      }
-    }
-    $roles = \event\models\Role::GetAll();
-    $eventRole = null;
-    $productRole = null;
-    if (empty($roleId))
-    {
-      return false;
-    }
-    foreach ($roles as $role)
-    {
-      if ($role->RoleId == $roleId)
-      {
-        $productRole = $role;
-      }
-
-      if ($role->RoleId == $eventUser->RoleId)
-      {
-        $eventRole = $role;
-      }
-    }
-    return !empty($productRole) && (empty($eventRole) || $eventRole->Priority < $productRole->Priority);
-  }
-
-  /**
-   * Оформляет покупку продукта на пользователя
-   * @param \user\models\User $user
-   * @param array $params
-   * @return bool
-   */
-  public function BuyProduct($user, $params = array())
-  {
-    if (!$this->CheckProduct($user))
-    {
-      return false;
-    }
-
-    $roleId = null;
-    foreach ($this->product->Attributes as $attribute)
-    {
-      if ($attribute->Name == 'RoleId')
-      {
-        $roleId = intval($attribute->Value);
-      }
-    }
-
-    $role = \event\models\Role::GetById($roleId);
+    $role = \event\models\Role::model()->findByPk($this->RoleId);
     if (empty($role))
     {
       return false;
     }
 
-    $eventUser = \event\models\Participant::GetByUserEventId($user->UserId, $this->product->EventId);
-    if (empty($eventUser))
+    return $participant->Role->Priority < $role->Priority;
+  }
+
+  /**
+   * @param \user\models\User $user
+   * @param array $params
+   *
+   * @return bool
+   */
+  public function internalBuyProduct($user, $params = array())
+  {
+    /** @var $role \event\models\Role */
+    $role = \event\models\Role::model()->findByPk($this->RoleId);
+    /** @var $event \event\models\Event */
+    $event = \event\models\Event::model()->findByPk($this->product->EventId);
+    if (empty($event))
     {
-      $this->product->Event->RegisterUser($user, $role);
+      return false;
     }
-    else
-    {
-      $eventUser->UpdateRole($role);
-    }
+    $event->registerUser($user, $role);
 
     return true;
   }
 
-  public function RollbackProduct($user)
+  /** todo: old methods */
+
+  public function rollbackProduct($user)
   {
     /** @var $orderItem \pay\models\OrderItem */
     $orderItem = \pay\models\OrderItem::model()->find(
@@ -146,7 +100,7 @@ class EventProductManager extends BaseProductManager
    * @param string $filter
    * @return array
    */
-  public function Filter($params, $filter)
+  public function filter($params, $filter)
   {
     return array();
   }
@@ -155,7 +109,7 @@ class EventProductManager extends BaseProductManager
    * @param array $params
    * @return \pay\models\Product
    */
-  public function GetFilterProduct($params)
+  public function getFilterProduct($params)
   {
     return $this->product;
   }
@@ -166,7 +120,7 @@ class EventProductManager extends BaseProductManager
    * @param \user\models\User $toUser
    * @return bool
    */
-  public function RedirectProduct($fromUser, $toUser)
+  public function redirectProduct($fromUser, $toUser)
   {
     if (!$this->CheckProduct($toUser))
     {

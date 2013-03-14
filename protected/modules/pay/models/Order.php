@@ -59,7 +59,7 @@ class Order extends \CActiveRecord
 
     foreach ($this->ItemLinks as $link)
     {
-      $priceDiscount = $link->OrderItem->PriceDiscount();
+      $priceDiscount = $link->OrderItem->getPriceDiscount();
       $activation = $link->OrderItem->getCouponActivation();
       if ($link->OrderItem->activate())
       {
@@ -99,7 +99,7 @@ class Order extends \CActiveRecord
 
 
   /**
-   * Возвращает массив с полями OrderId и Total (сумма заказа)
+   * Заполняет счет элементами заказа. Возвращает значение Total (сумма заказа)
    * @property bool $juridical
    * @property array $juridicalData
    *
@@ -107,20 +107,18 @@ class Order extends \CActiveRecord
    */
   public function fill($juridical = false, $juridicalData = array())
   {
-    $items = OrderItem::model()->
-    $orderItems = OrderItem::GetByEventId($user->UserId, $eventId);
+    /** @var $items OrderItem[] */
+    $items = OrderItem::model()
+        ->byPayerId($this->PayerId)
+        ->byEventId($this->EventId)
+        ->byNotInOrders($this->PayerId, $this->EventId)
+        ->byDeleted(false)->findAll();
+
     $total = 0;
-
-    $order = new Order();
-    $order->PayerId = $user->UserId;
-    $order->EventId = $eventId;
-    $order->CreationTime = date('Y-m-d H:i:s');
-    $order->save();
-
-    if (!empty($juridicalData))
+    if ($juridical)
     {
       $orderJuridical= new OrderJuridical();
-      $orderJuridical->OrderId = $order->OrderId;
+      $orderJuridical->OrderId = $this->Id;
       $orderJuridical->Name = $juridicalData['Name'];
       $orderJuridical->Address = $juridicalData['Address'];
       $orderJuridical->INN = $juridicalData['INN'];
@@ -131,19 +129,25 @@ class Order extends \CActiveRecord
       $orderJuridical->save();
     }
 
-    foreach ($orderItems as $item)
+    foreach ($items as $item)
     {
-      if ($item->Paid == 0)
+      if (!$item->Paid)
       {
-        $total += $item->PriceDiscount();
-        $order->AddOrderItem($item);
-        if (!empty($juridicalData))
+        $total += $item->getPriceDiscount();
+        $orderLink = new OrderLinkOrderItem();
+        $orderLink->OrderId = $this->Id;
+        $orderLink->OrderItemId = $this->Id;
+        $orderLink->save();
+        /**
+         * todo: костыль для РИФ+КИБ проживания, продумать адекватное выставление сроков бронирования
+         */
+        if ($juridical)
         {
           if ($item->Booked != null)
           {
-            $item->Booked = self::GetBookEnd($item->CreationTime);
+            $item->Booked = $this->getBookEnd($item->CreationTime);
           }
-          $item->PaidTime = $order->CreationTime;
+          $item->PaidTime = $this->CreationTime;
           $item->save();
         }
       }
@@ -152,28 +156,12 @@ class Order extends \CActiveRecord
     return $total;
   }
 
-
-
-  /** todo: old methods */
-
-  /**
-   * @param OrderItem $orderItem
-   * @return void
-   */
-  public function AddOrderItem($orderItem)
-  {
-    \Yii::app()->db->createCommand()->
-        insert('Mod_PayOrderItemLink', array('OrderId' => $this->OrderId, 'OrderItemId' => $orderItem->OrderItemId));
-  }
-
-
-
   /**
    * @static
    * @param string $start
    * @return string format Y-m-d H:i:s
    */
-  private static function GetBookEnd($start)
+  private function getBookEnd($start)
   {
     $timestamp = strtotime($start);
 
@@ -192,29 +180,12 @@ class Order extends \CActiveRecord
     return date('Y-m-d 22:59:59', $timestamp);
   }
 
-  /**
-   * @static
-   * @param int $payerId
-   * @param int $eventId
-   * @return Order[]
-   */
-  public static function GetOrdersWithJuridical($payerId, $eventId)
-  {
-    $model = Order::model()->with('OrderJuridical', 'Items', 'Items.Product');
-
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.PayerId = :PayerId AND t.EventId = :EventId AND OrderJuridical.Deleted = 0';
-    $criteria->params = array(':PayerId' => $payerId, ':EventId' => $eventId);
-
-    return $model->findAll($criteria);
-  }
-
-  public function Price()
+  public function getPrice()
   {
     $price = 0;
-    foreach ($this->Items as $item)
+    foreach ($this->ItemLinks as $link)
     {
-      $price += $item->PriceDiscount();
+      $price += $link->OrderItem->getPriceDiscount();
     }
     return $price;
   }

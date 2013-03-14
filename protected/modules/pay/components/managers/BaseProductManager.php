@@ -90,33 +90,6 @@ abstract class BaseProductManager
     return array();
   }
 
-
-  public function GetAttributes($orderMap)
-  {
-    $attributes = array();
-    foreach ($this->product->Attributes as $attribute)
-    {
-      if (in_array($attribute->Name, $orderMap))
-      {
-        $attributes[$attribute->Name] = $attribute->Value;
-      }
-    }
-
-    $result = array();
-    foreach ($orderMap as $attributeName)
-    {
-      if (isset($attributes[$attributeName]))
-      {
-        $result[] = $attributes[$attributeName];
-      }
-    }
-    return $result;
-  }
-
-
-
-
-
   /**
    * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
    * @abstract
@@ -127,13 +100,29 @@ abstract class BaseProductManager
   abstract public function checkProduct($user, $params = array());
 
   /**
+   * Проверяет возможность покупки и оформляет покупку продукта на пользователя
+   * @param \user\models\User $user
+   * @param array $params
+   *
+   * @return bool
+   */
+  final public function buyProduct($user, $params = array())
+  {
+    if (!$this->checkProduct($user, $params))
+    {
+      return false;
+    }
+    return $this->internalBuyProduct($user, $params);
+  }
+
+  /**
    * Оформляет покупку продукта на пользователя
    * @abstract
    * @param \user\models\User $user
    * @param array $params
    * @return bool
    */
-  abstract public function buyProduct($user, $params = array());
+  abstract protected function internalBuyProduct($user, $params = array());
   
   /**
    * Отменяет покупку продукта на пользовтеля
@@ -153,37 +142,35 @@ abstract class BaseProductManager
    */
   abstract public function redirectProduct($fromUser, $toUser);
 
-    /**
-   *
+  /**
    * @param \user\models\User $payer
    * @param \user\models\User $owner
-   * @param int $bookTime
-   * @param array
+   * @param string|null $bookTime
+   * @param array $attributes
+   *
    * @return \pay\models\OrderItem
-   * @throws \pay\models\PayException
+   * @throws \pay\components\Exception
    */
-  public function createOrderItem($payer, $owner, $bookTime = null, $params = array())
+  public function createOrderItem(\user\models\User $payer, \user\models\User $owner, $bookTime = null, $attributes = array())
   {
-    $orderParams = $this->GetOrderParamNames();
-    foreach ($orderParams as $key)
+    foreach ($this->getOrderItemAttributeNames() as $key)
     {
       if (!isset($params[$key]))
       {
-        throw new \pay\models\PayException('Не задан обязательный параметр ' . $key . ' при добавлении заказа.');
+        throw new \pay\components\Exception('Не задан обязательный параметр ' . $key . ' при добавлении заказа.');
       }
     }
 
     $orderItem = new \pay\models\OrderItem();
-    $orderItem->ProductId = $this->product->ProductId;
-    $orderItem->PayerId = $payer->UserId;
-    $orderItem->OwnerId = $owner->UserId;
-    $orderItem->Booked = empty($bookTime) ? null : date('Y-m-d H:i:s', time() + intval($bookTime));
-    $orderItem->CreationTime = date('Y-m-d H:i:s');
+    $orderItem->ProductId = $this->product->Id;
+    $orderItem->PayerId = $payer->Id;
+    $orderItem->OwnerId = $owner->Id;
+    $orderItem->Booked = $bookTime === null ? null : date('Y-m-d H:i:s', time() + intval($bookTime));
     $orderItem->save();
 
-    foreach ($orderParams as $key)
+    foreach ($this->getOrderItemAttributeNames() as $key)
     {
-      $orderItem->AddParam($key, $params[$key]);
+      $orderItem->setItemAttribute($key, $attributes[$key]);
     }
 
     return $orderItem;
