@@ -1,5 +1,5 @@
 <?php
-namespace pay\models\managers;
+namespace pay\components\managers;
 
 /**
  * Created by JetBrains PhpStorm.

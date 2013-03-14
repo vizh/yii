@@ -1,5 +1,5 @@
 <?php
-namespace pay\models\managers;
+namespace pay\components\managers;
 
 class EventOnDayProductManager extends BaseProductManager
 {

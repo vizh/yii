@@ -98,46 +98,16 @@ class Order extends \CActiveRecord
   }
 
 
-
-  /** todo: old methods */
-
-
-
-  public static function SetPaidByOrderId($orderId)
-  {
-    $time = date('Y-m-d H:i:s');
-    $order = self::GetById($orderId);
-    foreach ($order->Items as $item)
-    {
-      $item->Paid = 1;
-      if ($item->PaidTime == null)
-      {
-        $item->PaidTime = $time;
-      }
-      $item->save();
-    }
-  }
-
-  /**
-   * @param OrderItem $orderItem
-   * @return void
-   */
-  public function AddOrderItem($orderItem)
-  {
-    \Yii::app()->db->createCommand()->
-        insert('Mod_PayOrderItemLink', array('OrderId' => $this->OrderId, 'OrderItemId' => $orderItem->OrderItemId));
-  }
-
   /**
    * Возвращает массив с полями OrderId и Total (сумма заказа)
-   * @static
-   * @param \user\models\User $user
-   * @param int $eventId
-   * @param array $juridicalData
-   * @return array
+   * @property bool $juridical
+   * @property array $juridicalData
+   *
+   * @return int
    */
-  public static function CreateOrder($user, $eventId, $juridicalData = array())
+  public function fill($juridical = false, $juridicalData = array())
   {
+    $items = OrderItem::model()->
     $orderItems = OrderItem::GetByEventId($user->UserId, $eventId);
     $total = 0;
 
@@ -179,8 +149,24 @@ class Order extends \CActiveRecord
       }
     }
 
-    return array('OrderId' => $order->OrderId, 'Total' => $total);
+    return $total;
   }
+
+
+
+  /** todo: old methods */
+
+  /**
+   * @param OrderItem $orderItem
+   * @return void
+   */
+  public function AddOrderItem($orderItem)
+  {
+    \Yii::app()->db->createCommand()->
+        insert('Mod_PayOrderItemLink', array('OrderId' => $this->OrderId, 'OrderItemId' => $orderItem->OrderItemId));
+  }
+
+
 
   /**
    * @static

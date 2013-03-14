@@ -11,6 +11,7 @@ namespace pay\models;
  * @property string $Unit
  * @property int $Count
  * @property int $EnableCoupon
+ * @property bool $Public
  *
  * @property \event\models\Event $Event
  * @property ProductAttribute[] $Attributes
