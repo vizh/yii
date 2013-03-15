@@ -26,3 +26,37 @@
 .b-event-promo .social .b-share-icon_twitter:hover {
   background-position: -32px 0 !important;
 }
+
+#event-register .ui-autocomplete {
+  position: absolute;
+  width: 0;
+  background: #fff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .5);
+  list-style-type: none;
+}
+#event-register .ui-autocomplete .ui-menu-item a {
+  position: relative;
+  min-height: 60px;
+  padding: 6px 8px;
+  display: block;
+  color: #333;
+  font-size: 13px;
+  text-decoration: none;
+}
+#event-register .ui-autocomplete .ui-menu-item:not(:last-child) a {
+  border-bottom: 1px solid #e6e6e6;
+}
+#event-register .ui-autocomplete .ui-menu-item a.ui-state-focus {
+  background: #eee;
+  cursor: pointer;
+}
+#event-register .ui-autocomplete .ui-menu-item a p {
+  margin-right: 70px;
+  margin-bottom: 0;
+}
+#event-register .ui-autocomplete .ui-menu-item a img {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  border: 1px solid #e6e6e6;
+}
