@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var $products \pay\models\Product[]
+ * @var $orderForm \pay\models\forms\OrderForm
+ */
+?>
+
 <section id="section" role="main">
   <div class="event-register">
     <div class="container">
@@ -88,11 +95,11 @@
 </script>
 
 <script type="text/template" id="event-user-row-hiddenitem">
-  <input type="hidden" value="1" name="<?php// echo CHtml::resolveName($orderForm, $_ = 'Owners[<%=productid%>][<%=rocid%>]');?>"/>
+  <input type="hidden" value="1" name="<?php echo CHtml::resolveName($orderForm, $_ = 'Owners[<%=productid%>][<%=rocid%>]');?>"/>
 </script>
 
 <script type="text/template" id="event-user-row-promoname">
-  <?php// echo CHtml::resolveName($orderForm, $_ = 'PromoCodes[<%=productid%>][<%=rocid%>]');?>
+  <?php echo CHtml::resolveName($orderForm, $_ = 'PromoCodes[<%=productid%>][<%=rocid%>]');?>
 </script>
 
 <script type="text/template" id="event-user-row-onselect">
@@ -104,7 +111,7 @@
     </td>
     <td colspan="3" class="last-child">
       <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=\Yii::t('tc2012', 'Зарегистрировать');?></button>
-      <input type="text" name="<?php// echo CHtml::resolveName($orderForm, $_ = 'PromoCodes[<%=productid%>][<%=rocid%>]');?>" class="input-medium pull-right t-center form-element_text input-promo" placeholder="<?=\Yii::t('app', 'Промо код');?>" style="display: none;">
+      <input type="text" name="<?php echo CHtml::resolveName($orderForm, $_ = 'PromoCodes[<%=productid%>][<%=rocid%>]');?>" class="input-medium pull-right t-center form-element_text input-promo" placeholder="<?=\Yii::t('app', 'Промо код');?>" style="display: none;">
     </td>
   </tr>
 </script>
@@ -113,14 +120,14 @@
   <tr class="user-row">
     <td>
       <div class="p-relative">
-        <input type="hidden" value="1" name="<?php// echo CHtml::resolveName($orderForm, $_ = 'Owners[<%=productid%>][<%=rocid%>]');?>"/>
+        <input type="hidden" value="1" name="<?php echo CHtml::resolveName($orderForm, $_ = 'Owners[<%=productid%>][<%=rocid%>]');?>"/>
         <input type="text" class="input-xxlarge form-element_text input-user" placeholder="<?=\Yii::t('app', 'Введите ФИО или RUNET-ID');?>" value="<%=name%>, RUNET-ID <%=runetid%>" disabled>
         <i class="icon-remove"></i>
       </div>
     </td>
     <td colspan="3" class="last-child">
       <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=\Yii::t('app', 'Зарегистрировать');?></button>
-      <input type="text" class="input-medium pull-right t-center form-element_text input-promo" placeholder="<?=\Yii::t('app', 'Промо код');?>" name="<?php// echo CHtml::resolveName($orderForm, $_ = 'PromoCodes[<%=productid%>][<%=rocid%>]');?>" value="<%=code%>">
+      <input type="text" class="input-medium pull-right t-center form-element_text input-promo" placeholder="<?=\Yii::t('app', 'Промо код');?>" name="<?php echo CHtml::resolveName($orderForm, $_ = 'PromoCodes[<%=productid%>][<%=rocid%>]');?>" value="<%=code%>">
     </td>
   </tr>
 </script>

@@ -5,6 +5,9 @@ class AjaxController extends \application\components\controllers\PublicMainContr
   {
     $results = array();
     $criteria = new \CDbCriteria();
+    $criteria->limit = 10;
+    $criteria->with = array('Employments.Company');
+    /** @var $users \user\models\User[] */
     $users = \user\models\User::model()->bySearch($term)->findAll($criteria);
     foreach ($users as $user)
     {
@@ -17,8 +20,12 @@ class AjaxController extends \application\components\controllers\PublicMainContr
       $result->Photo->Small = $user->getPhoto()->get50px();
       $result->Photo->Medium = $user->getPhoto()->get90px();
       $result->Photo->Large = $user->getPhoto()->get200px();
-      $result->value = '12312';
-      $result->label = 'NTCN';
+      $result->value = $user->RunetId;
+      if ($user->getEmploymentPrimary() !== null)
+      {
+        $result->Company = $user->getEmploymentPrimary()->Company->Name;
+        $result->Position = trim($user->getEmploymentPrimary()->Position);
+      }
       $results[] = $result;
     }
     echo json_encode($results);

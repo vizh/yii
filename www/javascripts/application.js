@@ -25,15 +25,15 @@ $(function() {
 
 
   /* LOGIN */
-  $('#header, #promo').find('.login').toggle(
-    function() {
-      $('.b-login').slideDown();
-      $(this).addClass('active');
-    }, function() {
-      $('.b-login').slideUp();
-      $(this).removeClass('active');
-    }
-  );
+//  $('#header, #promo').find('.login').toggle(
+//    function() {
+//      $('.b-login').slideDown();
+//      $(this).addClass('active');
+//    }, function() {
+//      $('.b-login').slideUp();
+//      $(this).removeClass('active');
+//    }
+//  );
 
 
   /* INDEX PAGE */

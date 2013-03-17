@@ -21,9 +21,12 @@ class PhpAuthManager extends \CPhpAuthManager
       $group = \application\models\admin\Group::model()
           ->byUserId(\Yii::app()->user->CurrentUser()->Id)
           ->with('Roles')->find();
-      foreach ($group->Roles as $role)
+      if ($group !== null)
       {
-        $this->assign($role->Code, \Yii::app()->user->getId());
+        foreach ($group->Roles as $role)
+        {
+          $this->assign($role->Code, \Yii::app()->user->getId());
+        }
       }
     }
   }

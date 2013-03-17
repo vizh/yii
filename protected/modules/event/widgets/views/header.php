@@ -11,7 +11,7 @@ $event = $this->event;
       <div class="side left span4">
         <img src="<?=$event->getLogo()->getNormal();?>" alt="" class="logo">
       </div>
-      
+
       <div class="details span4 offset4">
         <h2 class="title"><?=$event->Title;?></h2>
         <div class="type">
@@ -25,10 +25,11 @@ $event = $this->event;
           </span>
         </div>
         <?if ($event->getContactAddress() != null && !empty($event->getContactAddress()->Place)):?>
-        <div class="location"><?=$event->getContactAddress()->Place;?></div>
+          <div class="location"><?=$event->getContactAddress()->Place;?></div>
         <?endif;?>
       </div>
-      
+
+      <?if ($this->eventPage):?>
       <div class="side right span4">
         <div class="actions">
           <div class="calendar img-circle">
@@ -38,14 +39,17 @@ $event = $this->event;
           </div>
           <nav class="social">
             <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
-            <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="none" data-yashareQuickServices="vkontakte,facebook,twitter"></div> 
+            <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="none" data-yashareQuickServices="vkontakte,facebook,twitter"></div>
           </nav>
         </div>
       </div>
+      <?endif;?>
     </div>
-    
+
+    <?if ($this->eventPage):?>
     <span class="all">
       <a href="<?=Yii::app()->createUrl('/event/list/index');?>">Все мероприятия</a>
     </span>
+    <?endif;?>
   </div>
 </div>

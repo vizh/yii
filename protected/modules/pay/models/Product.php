@@ -114,11 +114,10 @@ class Product extends \CActiveRecord
    * @param bool $useAnd
    * @return \pay\models\Product
    */
-  public function byPublic($public = true, $useAnd = true)
+  public function byPublic($public, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."Public" = :Public';
-    $criteria->params = array('Public' => $public);
+    $criteria->condition = ($public ? '' : 'NOT ') . '"t"."Public"';
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

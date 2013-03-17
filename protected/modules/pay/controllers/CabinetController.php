@@ -1,8 +1,12 @@
 <?php
+
 class CabinetController extends \application\components\controllers\PublicMainController
 {
   public function actionRegister($eventIdName)
   {
+    \Yii::app()->getClientScript()->registerPackage('runetid.pay-orderitems');
+    $this->bodyId = 'event-register';
+
     $event = \event\models\Event::model()->byIdName($eventIdName)->find();
     if ($event == null)
     {
@@ -12,8 +16,14 @@ class CabinetController extends \application\components\controllers\PublicMainCo
     $products = \pay\models\Product::model()
       ->byEventId($event->Id)->byPublic(true)->findAll();
     
-    $order = new \pay\models\forms\OrderForm();
-    $this->bodyId = 'event-register';
-    $this->render('register', array('products' => $products, 'order' => $order));
+    $orderForm = new \pay\models\forms\OrderForm();
+
+    $this->render('register2', array(
+        'event' => $event,
+        'products' => $products,
+        'orderForm' => $orderForm,
+        'registerForm' => new \pay\models\forms\RegisterForm(),
+      )
+    );
   }
 }

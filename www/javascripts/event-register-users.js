@@ -1,16 +1,15 @@
 $(function() {
   var t = '#event-register form > table',
-      q = ['3', '2', '1', '0'], /* User quantity per event from previous page */
-      idleTimer;
+    idleTimer; /* User quantity per event from previous page */
 
 
   /* Calculate price on page load */
-  $(t).find('tr').each(function(index) {
+  $(t).find('tr').each(function() {
     var $c       = $(this),
-        model    = $c.data('bb-model'),
-        usrCur = $c.find('select').val(),
-        usrMax = q[index],
-        qtyTxt = $c.find('.quantity');
+      model    = $c.data('bb-model'),
+      usrMax = $c.data('user-max'),
+      usrCur = $c.data('user-current'),
+      qtyTxt = $c.find('.quantity');
     model.set('quantity', usrCur);
     if (usrMax == 0) {
       qtyTxt.text(usrMax);
@@ -18,28 +17,49 @@ $(function() {
       qtyTxt.text(usrCur + ' из ' + usrMax);
     }
   });
-  
+
 
   /* Adding user rows on DOM ready */
-  $(t + ' select').each(function(index) {
+  $(t + ' thead tr').each(function() {
     var $c           = $(this),
-        $clsTable    = $c.closest('table'),
-        $fndThead    = $clsTable.find('thead'),
-        $fndTbody    = $clsTable.find('tbody'),
-        usrCur       = $c.val(),
-        usrMax       = q[index],
-        usrRowTpl    = _.template($('#event-user-row').html()),
-        usrRowTplCur = _.template($('#event-user-row-cur').html()),
-        usrRowTplAdd = _.template($('#event-user-row-add').html());
+      $clsTable    = $c.closest('table'),
+    //$fndThead    = $clsTable.find('thead'),
+      $fndTbody    = $clsTable.find('tbody'),
+      usrMax       = $c.data('user-max'),
+      usrRowTpl    = _.template($('#event-user-row').html()),
+      usrRowTplWithData = _.template($('#event-user-row-withdata').html()),
+      usrRowTplAdd = _.template($('#event-user-row-add').html()),
+      productid = $c.data('product-id');
 
-    if (usrCur > 0) {
-      $fndTbody.prepend(usrRowTplCur());
-      for (var i = 1; i < usrMax; i++) {
-        $fndTbody.append(usrRowTpl());
+    if (typeof(products[productid]) != 'undefined')
+    {
+      for (var index in products[productid])
+      {
+        var user = products[productid][index];
+        $fndTbody.append(usrRowTplWithData({
+          productid: productid,
+          runetid: user.runetid,
+          name: user.name,
+          code: user.code
+        }));
+      }
+    }
+    else
+    {
+      if (usrMax > 0) {
+        $fndTbody.prepend(usrRowTplWithData({
+          productid: productid,
+          runetid: currentUser.runetid,
+          name: currentUser.name,
+          code: currentUser.code
+        }));
+
+        for (var i = 1; i < usrMax; i++) {
+          $fndTbody.append(usrRowTpl());
+        }
       }
     }
     $fndTbody.append(usrRowTplAdd());
-
     if (usrMax < 2) {
       $fndTbody.find('.user-row:last-child').css({'opacity': '1'});
       $fndTbody.find('.user-row:last-child .input-user').removeAttr('disabled');
@@ -51,10 +71,11 @@ $(function() {
   /* Init placeholder for IE < 10 */
   $('.input-user, .input-promo').placeholder();
 
+
   /* Getting tr:last-child for IE < 9 */
-  if ($.browser.msie && parseInt($.browser.version) < 9) {
+  //if ($.browser.msie && parseInt($.browser.version) < 9) {
     $(t).find('.user-row:last-child').addClass('last-child');
-  }
+  //}
 
 
   /* Init input user autocomplete after dinamically adding user rows to DOM */
@@ -62,20 +83,20 @@ $(function() {
 
 
   /* Adding/removing new user row */
-  $(t + ' tbody .input-user').live('blur', function() {
+  $(t + ' tbody .input-user').on('blur', function() {
     var $c            = $(this),
-        $clsTable     = $c.closest('table'),
-        $clsTbody     = $c.closest('tbody'),
-        $clsTr        = $c.closest('tr'),
-        $fndThead     = $clsTable.find('thead'),
-        $fndTbody     = $clsTable.find('tbody'),
-        $fndUsrRow    = $fndTbody.find('.user-row'),
-        $fndUsrRowLst = $fndTbody.find('.user-row:last-child'),
-        $fndInpUsr    = $fndTbody.find('.input-user'),
-        $fndBtnReg    = $fndTbody.find('.btn-register'),
-        trgInpEmpty   = 0,
-        trgInpFilled  = 0,
-        usrRowTpl     = _.template($('#event-user-row').html());
+      $clsTable     = $c.closest('table'),
+      $clsTbody     = $c.closest('tbody'),
+      $clsTr        = $c.closest('tr'),
+      $fndThead     = $clsTable.find('thead'),
+      $fndTbody     = $clsTable.find('tbody'),
+    //$fndUsrRow    = $fndTbody.find('.user-row'),
+      $fndUsrRowLst = $fndTbody.find('.user-row:last-child'),
+      $fndInpUsr    = $fndTbody.find('.input-user'),
+    //$fndBtnReg    = $fndTbody.find('.btn-register'),
+      trgInpEmpty   = 0,
+      trgInpFilled  = 0,
+      usrRowTpl     = _.template($('#event-user-row').html());
 
     /* Counting quantity of empty/filled input values */
     $fndInpUsr.each(function() {
@@ -94,7 +115,7 @@ $(function() {
     }
     if (trgInpEmpty == 2 && trgInpFilled == 1 || trgInpEmpty == 2 && trgInpFilled == 0 || trgInpEmpty == 1 && trgInpFilled > 0) {
       $fndUsrRowLst.css({'opacity': '1'});
-      $fndUsrRowLst.find('.input-user').removeAttr('disabled');  
+      $fndUsrRowLst.find('.input-user').removeAttr('disabled');
     }
     if (trgInpEmpty !== 1 && $c.val() == '' /* -> for IE */ || $(this).val() == 'Введите ФИО или RUNET-ID') {
       $clsTr.remove();
@@ -103,8 +124,8 @@ $(function() {
     /* Calculate user quantity and price on input value change */
     $fndThead.find('tr').each(function() {
       var $c     = $(this),
-          model  = $c.data('bb-model'),
-          usrMax = $clsTbody.find('tr').length;
+        model  = $c.data('bb-model'),
+        usrMax = $clsTbody.find('tr').length;
 
       $c.find('select > option').attr('value', trgInpFilled).text(trgInpFilled);
       if(trgInpEmpty < 3 && trgInpFilled < 1) {
@@ -112,7 +133,7 @@ $(function() {
       } else {
         $c.find('.quantity').text(trgInpFilled + ' из ' + (usrMax - 1));
       }
-      
+
       model.set('quantity', trgInpFilled);
     });
 
@@ -121,12 +142,12 @@ $(function() {
 
 
   /* Button disabling/enabling. Input show/hide */
-  $(t + ' .input-user').live('input keyup', function() {
+  $(t + ' .input-user').on('input keyup', function() {
     var $c         = $(this),
-        $clsTr     = $c.closest('tr'),
-        $clsTd     = $c.closest('td'),
-        $fndIcnRem = $clsTr.find('.icon-remove'),
-        $fndBtnReg = $clsTr.find('.btn-register');
+      $clsTr     = $c.closest('tr'),
+      $clsTd     = $c.closest('td'),
+      $fndIcnRem = $clsTr.find('.icon-remove'),
+      $fndBtnReg = $clsTr.find('.btn-register');
 
     $fndIcnRem.remove();
 
@@ -139,14 +160,14 @@ $(function() {
 
 
   /* Empty filled input value */
-  $(t + ' .icon-remove').live('click', function() {
+  $(t + ' .icon-remove').on('click', function() {
     var $c         = $(this),
-        $clsTr     = $c.closest('tr'),
-        $fndInpUsr = $clsTr.find('.input-user'),
-        $fndInpPrm = $clsTr.find('.input-promo'),
-        $fndInpWrp = $clsTr.find('.promo-validate'),
-        $fndInpHlp = $clsTr.find('.help-inline'),
-        $fndBtnReg = $clsTr.find('.btn-register');
+      $clsTr     = $c.closest('tr'),
+      $fndInpUsr = $clsTr.find('.input-user'),
+      $fndInpPrm = $clsTr.find('.input-promo'),
+      $fndInpWrp = $clsTr.find('.promo-validate'),
+      $fndInpHlp = $clsTr.find('.help-inline'),
+      $fndBtnReg = $clsTr.find('.btn-register');
 
     $c.remove();
 
@@ -154,31 +175,53 @@ $(function() {
       $fndInpHlp.remove();
       $fndInpPrm.unwrap($fndInpWrp);
     }
-    
-    $fndInpPrm.hide().removeClass('filled');
+
+    $fndInpUsr.prev().remove();
+    $fndInpPrm.hide().removeClass('filled').removeAttr('name');
     $fndBtnReg.hide();
     $fndInpUsr.val('').removeAttr('disabled').focus();
   });
 
 
   /* Promo code validation behavior emulation */
-  $(t + ' .input-promo').live('focus', function() {
+  $(t + ' .input-promo').on('focus', function() {
     $(this).removeClass('filled');
-  }).live('blur', function() {
-    var $c         = $(this),
+  }).on('blur', function() {
+      var $c         = $(this),
         $clsInpWrp = $c.closest('.promo-validate');
 
-    if ($c.val() !== '') {
-      $c.wrap('<div class="promo-validate control-group success" />');
-      $('<span class="help-inline">Скидка 50%</span>').insertBefore($c);
-      idleTimer = setTimeout(function() {
-        idleActions($c, $clsInpWrp);
-      }, 3000);
-    }
-  });
-  
+      if ($c.val() !== '') {
+        var name = $c.attr('name');
+        var postData = {};
+        postData[name] = $c.val();
+        $.post('/runetid2/userajax/checkcode/', postData, function(data){
+          if (typeof(data) != 'undefined')
+          {
+            if (data.Error)
+            {
+              $c.wrap('<div class="promo-validate control-group error" />');
+              $('<div class="alert alert-error">'+data.Message+'</div>').insertBefore($c);
+            }
+            else
+            {
+              $c.wrap('<div class="promo-validate control-group success" />');
+              $('<div class="help-inline">'+data.Message+'</span>').insertBefore($c);
+            }
+
+            idleTimer = setTimeout(function() {
+              idleActions($c, $clsInpWrp);
+            }, 3000);
+          }
+        }, 'json');
+      }
+    });
+
   function idleActions($c, $clsInpWrp, idleTimer) {
     $c.siblings('.help-inline').fadeOut(500, function () {
+      $(this).remove();
+      $c.unwrap($clsInpWrp);
+    });
+    $c.siblings('.alert').fadeOut(500, function () {
       $(this).remove();
       $c.unwrap($clsInpWrp);
     });
@@ -190,42 +233,83 @@ $(function() {
   /* Open register new user form */
   var usrRegTpl = _.template($('#event-user-register').html());
 
-  $(t + ' .btn-register').live('click', function() {
+  $(t + ' .btn-register').on('click', function() {
     var $c         = $(this),
-        $clsUsrRow = $c.closest('.user-row'),
-        $fndInpPrm = $clsUsrRow.find('.input-promo');
-        
+      $clsUsrRow = $c.closest('.user-row'),
+      $fndInpPrm = $clsUsrRow.find('.input-promo');
+
     $clsUsrRow.hide();
     $fndInpPrm.removeAttr('value');
     $(usrRegTpl()).insertAfter($clsUsrRow);
-    
+
     return false;
   });
 
 
   /* Close register new user form */
-  $('#event-user-register-submit, #event-user-register-cancel').live('click', function() {
+  $('#event-user-register-submit, #event-user-register-cancel').on('click', function() {
     var $c = $(this),
-        $thsId     = $c.attr('id'),
-        $clsTr     = $c.closest('tr'),
-        $clsTrPrv  = $clsTr.prev('tr'),
-        $clsTrNxt  = $clsTr.next('tr'),
-        $fndInpUsr = $clsTrPrv.find('.input-user'),
-        $fndInpPrm = $clsTrPrv.find('.input-promo'),
-        $fndBtnReg = $clsTrPrv.find('.btn-register'),
-        $fndIcnRem = $clsTrPrv.find('.icon-remove');
+      $thsId     = $c.attr('id'),
+      $clsTr     = $c.closest('tr'),
+      $clsTrPrv  = $clsTr.prev('tr'),
+      $clsTrNxt  = $clsTr.next('tr'),
+      $fndInpUsr = $clsTrPrv.find('.input-user'),
+      $fndInpPrm = $clsTrPrv.find('.input-promo'),
+      $fndBtnReg = $clsTrPrv.find('.btn-register'),
+      $fndIcnRem = $clsTrPrv.find('.icon-remove');
+
+    var usrRowTpl = _.template($('#event-user-row-hiddenitem').html());
+    var usrPrmTpl = _.template($('#event-user-row-promoname').html());
+
+    if ($thsId == 'event-user-register-submit')
+    {
+      var $form = $clsTr.find('form');
+      $.post('/runetid2/userajax/register/', $form.serializeArray(), function(data){
+        if (typeof(data) != 'undefined')
+        {
+          if (data.Success)
+          {
+            var productid = $clsTrPrv.parents('table').find('thead tr').data('product-id');
+            var runetid = data.RunetId;
+            $fndInpUsr.before(usrRowTpl({productid: productid, runetid: runetid}));
+            $fndInpPrm.removeAttr('value').attr('name', usrPrmTpl({productid: productid, runetid: runetid}));
+            $fndInpUsr.attr('value', data.FullName);
+
+
+            $clsTr.remove();
+            $clsTrPrv.show();
+            $fndBtnReg.hide();
+
+            $fndInpUsr.attr('disabled', 'disabled');
+            $fndInpPrm.removeClass('filled').show();
+            $clsTrNxt.find('.input-user').focus();
+
+            $('.input-promo').placeholder();
+          }
+          else
+          {
+            var alert = $clsTr.find('.alert');
+            if (alert.length == 0)
+            {
+              alert = $('<div class="alert alert-error"></div>');
+              $clsTr.find('header').after(alert);
+              //<div class="alert alert-error">Вы допустили ошибки при заполнении формы.<br>Проверьте введенные данные.</div>
+            }
+            alert.html('');
+            for (index in data.ErrorMsg)
+            {
+              alert.append($('<p>'+data.ErrorMsg[index]+'</p>'));
+            }
+          }
+        }
+      }, 'json');
+      return false;
+    }
 
     $clsTr.remove();
     $clsTrPrv.show();
     $fndBtnReg.hide();
 
-    if ($thsId == 'event-user-register-submit') {
-      $fndInpUsr.attr('disabled', 'disabled');
-      $fndInpPrm.removeClass('filled').show();
-      $clsTrNxt.find('.input-user').focus();
-
-      $('.input-promo').placeholder();
-    }
     if ($thsId == 'event-user-register-cancel') {
       $fndInpUsr.removeAttr('value').focus();
       $fndInpPrm.hide();
@@ -239,6 +323,7 @@ $(function() {
   /* Input user autocomplete */
   function inputUserAutocomplete(current) {
     var c;
+    var userAutocompleteTpl = _.template($('#user-autocomlete-tpl').html());
 
     if (current) {
       c = current.find('.input-user');
@@ -247,38 +332,31 @@ $(function() {
     }
 
     return c.autocomplete({
-      minLength: 1,
+      minLength: 2,
       position: {collision: 'flip'},
-      source: [
-        {label: "<p>Константинопольский Константин Константинович, <span class='muted'>RUNET-ID 1234567890</span></p><p class='muted'>24 года, Санкт-Петербург, Представительство Microsoft Россия, руководитель отдела разработки мобильных приложений под платформу Windows 8</p><img src='/images/content/employee_ex-photo-1.jpg' alt=''>", value: "Константинопольский Константин Константинович, RUNET-ID 1234567890"},
-        {label: "<p>Медведев Дмитрий Анатольевич, <span class='muted'>RUNET-ID 0987654321</span></p><p class='muted'>40 лет, Москва, Президент Российской Федерации</p><img src='/images/content/employee_ex-photo-2.jpg' alt=''>", value: "Медведев Дмитрий Анатольевич, RUNET-ID 0987654321"},
-        {label: "<p>Соколова Виктория Владимировна, <span class='muted'>RUNET-ID 2143658709</span></p><p class='muted'>Агентство Coalla, дизайнер</p><img src='/images/content/employee_ex-photo-3.jpg' alt=''>", value: "Соколова Виктория Владимировна, RUNET-ID 2143658709"}
-      ],
-      create: function(event, ui) {
-        $(this).autocomplete("widget").addClass("ui-autocomplete_event-register");
-      },
+      source: '/user/ajax/search/',
       select: function(event, ui) {
         var $clsUsrRow = $(event.target).closest('.user-row'),
-            $fndInpUsr = $clsUsrRow.find('.input-user'),
-            $fndInpPrm = $clsUsrRow.find('.input-promo'),
-            $fndBtnReg = $clsUsrRow.find('.btn-register');
-        
+          $fndInpUsr = $clsUsrRow.find('.input-user'),
+          $fndInpPrm = $clsUsrRow.find('.input-promo'),
+          $fndBtnReg = $clsUsrRow.find('.btn-register');
+
+        var usrRowTpl = _.template($('#event-user-row-hiddenitem').html());
+        var usrPrmTpl = _.template($('#event-user-row-promoname').html());
+        var productid = $clsUsrRow.parents('table').find('thead tr').data('product-id');
+        var runetid = ui.item.runetid;
+        $fndInpUsr.before(usrRowTpl({productid: productid, runetid: runetid}));
+
         $fndInpUsr.blur().attr('disabled', 'disabled');
-        $fndInpPrm.removeAttr('value').removeClass('filled').show();
+        $fndInpPrm.removeAttr('value').removeClass('filled').attr('name', usrPrmTpl({productid: productid, runetid: runetid})).show();
         $fndBtnReg.hide();
 
         $('.input-promo').placeholder();
-
-        /* Getting tr:last-child for IE < 9 */
-        if ($.browser.msie && parseInt($.browser.version) < 9) {
-          $(t).find('.user-row').removeClass('last-child');
-          $(t).find('.user-row:last-child').addClass('last-child');
-        }
       },
       close: function(event, ui) {
         var $clsUsrRow = $(event.target).closest('.user-row'),
-            $fndInpUsr = $clsUsrRow.find('.input-user'),
-            $fndBtnReg = $clsUsrRow.find('.btn-register');
+          $fndInpUsr = $clsUsrRow.find('.input-user'),
+          $fndBtnReg = $clsUsrRow.find('.btn-register');
 
         if ($fndInpUsr.val() !== '') {
           $fndBtnReg.show();
@@ -286,12 +364,20 @@ $(function() {
       },
       response: function(event, ui) {
         var $clsUsrRow = $(event.target).closest('.user-row'),
-            $fndBtnReg = $clsUsrRow.find('.btn-register');
+          $fndBtnReg = $clsUsrRow.find('.btn-register');
 
         if (ui.content.length === 0) {
           $fndBtnReg.show();
         } else {
           $fndBtnReg.hide();
+        }
+
+        for (var i=0; i<ui.content.length; i++)
+        {
+          ui.content[i].label = userAutocompleteTpl({
+            item: ui.content[i]
+          });
+          ui.content[i].value = ui.content[i].FullName + ', RUNET-ID ' + ui.content[i].RunetId;
         }
       },
       html: true
@@ -299,3 +385,9 @@ $(function() {
   }
 
 });
+
+function decodeEntities(input) {
+  var y = document.createElement('textarea');
+  y.innerHTML = input;
+  return y.value;
+}

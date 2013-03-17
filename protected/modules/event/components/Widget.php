@@ -46,6 +46,9 @@ abstract class Widget extends \CWidget implements IWidget
    */
   public $event;
 
+  /** @var bool */
+  public $eventPage = true;
+
   /**
    * @return string
    */
