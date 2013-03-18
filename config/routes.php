@@ -26,6 +26,8 @@ return array(
 
         /** API Module Rules */
         '/api/event/role/list' => 'api/event/roles',
+        'api/pay/filter/list' => 'api/pay/filterlist',
+        'api/pay/filter/book' => 'api/pay/filterbook',
 
         /** EVENT ICAL SHARE */
         '/event/share/ical/<idName>/' => 'event/share/ical',

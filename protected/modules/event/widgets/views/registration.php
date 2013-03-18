@@ -8,7 +8,7 @@ if (empty($products))
   return;
 }
 ?>
-<form method="post" action="<?=\Yii::app()->createUrl('/event/view/index', array('idName' => $this->event->IdName));?>" class="registration">
+<form method="post" action="<?=\Yii::app()->createUrl('/pay/cabinet/register', array('eventIdName' => $this->event->IdName));?>" class="registration">
   <h5 class="title">Регистрация</h5>
   <table class="table table-condensed">
     <thead>
@@ -25,7 +25,7 @@ if (empty($products))
         <td><?=$product->Title;?></td>
         <td class="t-right"><span class="number"><?=$product->getPrice();?></span> Р</td>
         <td class="t-center">
-          <select name="product[<?=$product->Id;?>]" class="input-mini form-element_select">
+          <select name="count[<?=$product->Id;?>]" class="input-mini form-element_select">
             <option value="0" selected>0</option>
             <option value="1">1</option>
             <option value="2">2</option>

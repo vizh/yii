@@ -107,43 +107,41 @@ class RoomProductManager extends BaseProductManager
    */
   protected function getProductIdList($params)
   {
-    $productParams = array();
-    $orderParams = array();
+    $productAttributes = array();
+    $orderAttributes = array();
     foreach ($params as $key => $value)
     {
-      if (in_array($key, $this->GetAttributeNames()))
+      if (in_array($key, $this->getProductAttributeNames()))
       {
-        $productParams[$key] = $value;
+        $productAttributes[$key] = $value;
       }
-      elseif (in_array($key, $this->GetOrderParamNames()))
+      elseif (in_array($key, $this->getOrderItemAttributeNames()))
       {
-        $orderParams[$key] = $value;
+        $orderAttributes[$key] = $value;
       }
     }
 
     $bookSql = '1=1';
-    if (!empty($orderParams) && sizeof($orderParams) == 2)
+    if (!empty($orderAttributes) && sizeof($orderAttributes) == 2)
     {
-      $sql = "SELECT oi.ProductId FROM Mod_PayOrderItem as oi
-                INNER JOIN Mod_PayProduct as p ON oi.ProductId = p.ProductId
-                LEFT JOIN Mod_PayOrderItemParam as oip ON oip.OrderItemId = oi.OrderItemId
-                WHERE p.EventId = :EventId AND p.Manager = :Manager AND (oi.Paid = :Paid OR oi.Deleted = :Deleted) AND
-                (oip.Name = :Name1 AND (oip.Value < :Value1 OR oip.Value < :Value2)
-                  OR oip.Name = :Name2 AND (oip.Value > :Value1 OR oip.Value > :Value2))
-                GROUP BY oi.OrderItemId
-                HAVING count(oip.OrderItemParamId) = :CountParams";
+      $sql = 'SELECT "oi"."ProductId" FROM "PayOrderItem" as oi
+                INNER JOIN "PayProduct" as "p" ON "oi"."ProductId" = "p"."Id"
+                LEFT JOIN "PayOrderItemAttribute" as "oia" ON "oia"."OrderItemId" = "oi"."Id"
+                WHERE "p"."EventId" = :EventId AND "p"."ManagerName" = :ManagerName AND ("oi"."Paid" OR NOT "oi"."Deleted") AND
+                ("oia"."Name" = :Name1 AND ("oia"."Value" < :Value1 OR "oia"."Value" < :Value2)
+                  OR "oia"."Name" = :Name2 AND ("oia"."Value" > :Value1 OR "oia"."Value" > :Value2))
+                GROUP BY "oi"."Id"
+                HAVING count("oia"."Id") = :CountParams';
 
       $command = \Yii::app()->getDb()->createCommand($sql);
 
       $command->bindValue(':EventId', $this->product->EventId);
-      $command->bindValue(':Manager', $this->product->Manager);
-      $command->bindValue(':Paid', 1);
-      $command->bindValue(':Deleted', 0);
+      $command->bindValue(':ManagerName', $this->product->ManagerName);
       $command->bindValue(':Name1', 'DateIn');
-      $command->bindValue(':Value1', $orderParams['DateIn']);
+      $command->bindValue(':Value1', $orderAttributes['DateIn']);
       $command->bindValue(':Name2', 'DateOut');
-      $command->bindValue(':Value2', $orderParams['DateOut']);
-      $command->bindValue(':CountParams', sizeof($orderParams));
+      $command->bindValue(':Value2', $orderAttributes['DateOut']);
+      $command->bindValue(':CountParams', sizeof($orderAttributes));
 
       $result = $command->queryAll();
 
@@ -156,7 +154,7 @@ class RoomProductManager extends BaseProductManager
       if (!empty($productIdList))
       {
         $productIdList = implode(',', $productIdList);
-        $bookSql .= " AND p.ProductId NOT IN ($productIdList)";
+        $bookSql .= ' AND "p"."Id" NOT IN ($productIdList)';
       }
     }
 
@@ -164,13 +162,13 @@ class RoomProductManager extends BaseProductManager
     $sql = '';
     $params = array();
 
-    if (!empty($productParams))
+    if (!empty($productAttributes))
     {
       $sql = 'AND (0=1';
       $i = 0;
-      foreach ($productParams as $key => $value)
+      foreach ($productAttributes as $key => $value)
       {
-        $sql .= " OR pa.Name = :mkey{$i} AND pa.Value = :mvalue{$i}";
+        $sql .= sprintf(' OR "pa"."Name" = :mkey%1$d AND "pa"."Value" = :mvalue%1$d', $i);
         $params[':mkey'.$i] = $key;
         $params[':mvalue'.$i] = $value;
         $i++;
@@ -179,17 +177,17 @@ class RoomProductManager extends BaseProductManager
     }
 
     $params[':EventId'] = $this->product->EventId;
-    $params[':Manager'] = $this->product->Manager;
+    $params[':ManagerName'] = $this->product->ManagerName;
 
     $command = \Yii::app()->getDb()->createCommand();
-    $command->select('p.ProductId')->from('Mod_PayProduct p');
-    $command->leftJoin('Mod_PayProductAttribute pa', 'p.ProductId = pa.ProductId');
-    $command->where("p.EventId = :EventId AND p.Manager = :Manager {$sql} AND ({$bookSql})", $params);
-    $command->group('p.ProductId');
+    $command->select('p.Id')->from('PayProduct p');
+    $command->leftJoin('PayProductAttribute pa', '"p"."Id" = "pa"."ProductId"');
+    $command->where(sprintf('"p"."EventId" = :EventId AND "p"."ManagerName" = :ManagerName %s AND (%s)', $sql, $bookSql), $params);
+    $command->group('p.Id');
 
-    if (!empty($productParams))
+    if (!empty($productAttributes))
     {
-      $command->having('count(pa.ProductAttributeId) = :CountAttributes', array(':CountAttributes' => sizeof($productParams)));
+      $command->having('count("pa"."Id") = :CountAttributes', array(':CountAttributes' => sizeof($productAttributes)));
     }
 
     $result = $command->queryAll();
@@ -197,7 +195,7 @@ class RoomProductManager extends BaseProductManager
     $productIdList = array();
     foreach ($result as $value)
     {
-      $productIdList[] = $value['ProductId'];
+      $productIdList[] = $value['Id'];
     }
 
     return $productIdList;
@@ -220,14 +218,14 @@ class RoomProductManager extends BaseProductManager
     if (sizeof($filter) == 1)
     {
       $productIdList = implode(',', $productIdList);
-      $productSql = "p.ProductId IN ($productIdList)";
+      $productSql = sprintf('"p"."Id" IN (%s)', $productIdList);
       $filter = $filter[0];
 
-      $sql = "SELECT count(p.ProductId) as Count, pa.Value, min(pp.Price) as MinPrice FROM Mod_PayProduct as p
-              LEFT JOIN Mod_PayProductAttribute as pa ON (p.ProductId = pa.ProductId)
-              LEFT JOIN Mod_PayProductPrice as pp ON (p.ProductId = pp.ProductId)
-              WHERE {$productSql} AND pa.Name = :Filter
-              GROUP BY pa.Value";
+      $sql = 'SELECT count("p"."Id") as "Count", "pa"."Value", min("pp"."Price") as "MinPrice" FROM "PayProduct" as "p"
+              LEFT JOIN "PayProductAttribute" as "pa" ON ("p"."Id" = "pa"."ProductId")
+              LEFT JOIN "PayProductPrice" as "pp" ON ("p"."Id" = "pp"."ProductId")
+              WHERE '.$productSql.' AND "pa"."Name" = :Filter
+              GROUP BY "pa"."Value"';
 
       $command = \Yii::app()->getDb()->createCommand($sql);
 
@@ -237,10 +235,10 @@ class RoomProductManager extends BaseProductManager
     }
     else
     {
-      $filterSql = 'Attributes.Name IN (\'' . implode('\',\'', $filter) . '\')';
+      $filterSql = '"Attributes"."Name" IN (\'' . implode('\',\'', $filter) . '\')';
       $model = \pay\models\Product::model()->with(array('Attributes' => array('on' => $filterSql), 'Prices'));
       $criteria = new \CDbCriteria();
-      $criteria->addInCondition('t.ProductId', $productIdList);
+      $criteria->addInCondition('"t"."Id"', $productIdList);
 
 
       /** @var $products \pay\models\Product[] */
@@ -250,7 +248,7 @@ class RoomProductManager extends BaseProductManager
         $value = array();
         foreach ($filter as $key)
         {
-          $value[$key] = $product->GetAttribute($key)->Value;
+          $value[$key] = $this->$key;;
         }
 
         $hash = md5(serialize($value));
@@ -259,7 +257,7 @@ class RoomProductManager extends BaseProductManager
           $result[$hash] = array('Count' => 0, 'Value' => $value, 'MinPrice' => 10000000);
         }
         $result[$hash]['Count'] += 1;
-        $result[$hash]['MinPrice'] = min($result[$hash]['MinPrice'], $product->GetPrice());
+        $result[$hash]['MinPrice'] = min($result[$hash]['MinPrice'], $product->getPrice());
       }
       $result = array_values($result);
     }
@@ -280,7 +278,7 @@ class RoomProductManager extends BaseProductManager
     }
     $model = \pay\models\Product::model()->with(array('Attributes', 'Prices'));
     $criteria = new \CDbCriteria();
-    $criteria->addInCondition('t.ProductId', $productIdList);
+    $criteria->addInCondition('t.Id', $productIdList);
     $criteria->limit = 1;
 
     return $model->find($criteria);

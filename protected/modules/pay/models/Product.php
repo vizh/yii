@@ -131,8 +131,8 @@ class Product extends \CActiveRecord
   public function byManagerName($managerName, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."Manager" = :Manager';
-    $criteria->params = array('Manager' => $managerName);
+    $criteria->condition = '"t"."ManagerName" = :ManagerName';
+    $criteria->params = array('ManagerName' => $managerName);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

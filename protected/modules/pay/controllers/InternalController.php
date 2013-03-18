@@ -37,19 +37,19 @@ class InternalController extends \application\components\controllers\PublicMainC
       $product->Unit = 'усл.';
       $product->EnableCoupon = false;
       $product->Public = false;
-      //$product->save();
+      $product->save();
 
       $price = new \pay\models\ProductPrice();
       $price->ProductId = $product->Id;
       $price->Price = $result->Price;
       $price->StartTime = '2013-03-14 09:00:00';
-      //$price->save();
+      $price->save();
 
       foreach ($fieldMap as $key => $value)
       {
-        //$product->getManager()->$key = $result->$key;
+        $product->getManager()->$key = trim($result->$key);
       }
-      //$product->getManager()->Visible = 1;
+      $product->getManager()->Visible = 1;
     }
 
 //    echo '<pre>';
