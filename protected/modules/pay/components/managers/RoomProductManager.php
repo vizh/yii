@@ -66,7 +66,7 @@ class RoomProductManager extends BaseProductManager
   {
     /** @var $participant \event\models\Participant */
     $participant = \event\models\Participant::model()
-        ->byUserId($user->UserId)->byEventId($this->product->EventId)->find();
+        ->byUserId($user->Id)->byEventId($this->product->EventId)->find();
     /** @var $checkRole \event\models\Role */
     $checkRole = \event\models\Role::model()->findByPk(1);
     if (!empty($participant) && $participant->Role->Priority >= $checkRole->Priority)
@@ -76,7 +76,7 @@ class RoomProductManager extends BaseProductManager
 
     /** @var $orderItems \pay\models\OrderItem[] */
     $orderItems = \pay\models\OrderItem::model()->byEventId($this->product->EventId)
-        ->byPayerId($user->UserId)->byOwnerId($user->UserId)
+        ->byPayerId($user->Id)->byOwnerId($user->Id)
         ->byDeleted(false)->findAll();
 
     foreach ($orderItems as $item)
@@ -154,7 +154,7 @@ class RoomProductManager extends BaseProductManager
       if (!empty($productIdList))
       {
         $productIdList = implode(',', $productIdList);
-        $bookSql .= ' AND "p"."Id" NOT IN ($productIdList)';
+        $bookSql .= sprintf(' AND "p"."Id" NOT IN (%s)', $productIdList);
       }
     }
 
@@ -248,7 +248,7 @@ class RoomProductManager extends BaseProductManager
         $value = array();
         foreach ($filter as $key)
         {
-          $value[$key] = $this->$key;;
+          $value[$key] = $product->getManager()->$key;
         }
 
         $hash = md5(serialize($value));
@@ -278,7 +278,7 @@ class RoomProductManager extends BaseProductManager
     }
     $model = \pay\models\Product::model()->with(array('Attributes', 'Prices'));
     $criteria = new \CDbCriteria();
-    $criteria->addInCondition('t.Id', $productIdList);
+    $criteria->addInCondition('"t"."Id"', $productIdList);
     $criteria->limit = 1;
 
     return $model->find($criteria);

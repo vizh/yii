@@ -7,7 +7,7 @@ return array(
       'packages' => array(
         'runetid.jquery' => array(
           'baseUrl' => '/javascripts/',
-          'js' => array('jquery-1.9.1.min.js', 'jquery.extensions.js', 'jquery.placeholder.min.js')
+          'js' => array('jquery-1.9.1.min.js', 'jquery.extensions.js', 'jquery.placeholder.min.js', 'jquery.cookie.js')
         ),
         'runetid.backbone' => array(
           'baseUrl' => '/javascripts/',

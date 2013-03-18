@@ -26,4 +26,11 @@ class Controller extends \application\components\controllers\PublicMainControlle
     return $this->event;
   }
 
+  public function createUrl($route, $params = array(), $ampersand = '&')
+  {
+    $params['eventIdName'] = $this->getEvent()->IdName;
+    return parent::createUrl($route, $params, $ampersand);
+  }
+
+
 }

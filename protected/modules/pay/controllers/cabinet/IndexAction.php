@@ -12,59 +12,45 @@ class IndexAction extends \pay\components\Action
       );
     }
 
-    /** @var $event \event\models\Event */
-    $event = \event\models\Event::model()->byIdName($eventIdName)->find();
-    if ($event == null)
-    {
-      throw new \CHttpException(404);
-    }
-
-    $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->CurrentUser()->Id, $event->Id);
-    $order = array();
+    $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->CurrentUser()->Id, $this->getController()->getEvent()->Id);
+    $unpaidItems = array();
     $paidItems = array();
     $recentPaidItems = array();
-    if (!empty($orderItems))
-    {
-      foreach ($orderItems as $orderItem)
-      {
-        if ($orderItem->Paid == 0)
-        {
-          if (!$orderItem->Product->ProductManager()->CheckProduct($orderItem->Owner, $orderItem->getParamsArray()))
-          {
-            $orderItem->Deleted = 1;
-            $orderItem->save();
-            continue;
-          }
-          if (!isset($order[$orderItem->ProductId]))
-          {
-            $order[$orderItem->ProductId]->Product = \pay\models\Product::GetById($orderItem->ProductId);
-          }
+    //$products = array();
 
-          $coupon = \pay\models\Coupon::GetByUser($orderItem->Owner->UserId, $this->event->EventId);
-          $item = new \stdClass();
-          $item->OrderItem = $orderItem;
-          $item->Coupon = $coupon;
-          $order[$orderItem->ProductId]->Items[] = $item;
+    foreach ($orderItems as $orderItem)
+    {
+      if (!$orderItem->Paid)
+      {
+        if ($orderItem->Product->getManager()->checkProduct($orderItem->Owner))
+        {
+          $unpaidItems[$orderItem->Product->Id][] = $orderItem;
+          //$products[$orderItem->Product->Id] = $orderItem->Product;
         }
         else
         {
-          if ($orderItem->PaidTime > date('Y-m-d H:i:s', time() - 10*60*60))
-          {
-            $recentPaidItems[] = $orderItem;
-          }
-          else
-          {
-            $paidItems[] = $orderItem;
-          }
+          $orderItem->delete();
+        }
+      }
+      else
+      {
+        if ($orderItem->PaidTime > date('Y-m-d H:i:s', time() - 10*60*60))
+        {
+          $recentPaidItems[] = $orderItem;
+        }
+        else
+        {
+          $paidItems[] = $orderItem;
         }
       }
     }
+
     $this->getController()->render('index', array(
-      'order' => $order,
-      'event' => $event,
-      'juridicalOrders' => array(),//\pay\models\Order::GetOrdersWithJuridical(\Yii::app()->user->getId(), $this->event->EventId),
+      //'products' => $products,
+      'unpaidItems' => $unpaidItems,
       'paidItems' => $paidItems,
-      'recentPaidItems' => $recentPaidItems
+      'recentPaidItems' => $recentPaidItems,
+      'juridicalOrders' => array(),//\pay\models\Order::GetOrdersWithJuridical(\Yii::app()->user->getId(), $this->event->EventId),
     ));
   }
 }

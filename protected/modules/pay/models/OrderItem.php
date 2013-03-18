@@ -89,7 +89,7 @@ class OrderItem extends \CActiveRecord
         $attribute = new \pay\models\OrderItemAttribute();
         $attribute->OrderItemId = $this->Id;
         $attribute->Name = $name;
-        $this->productAttributes[$name] = $attribute;
+        $this->orderItemAttributes[$name] = $attribute;
       }
       else
       {
