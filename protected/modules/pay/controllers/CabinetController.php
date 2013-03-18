@@ -1,13 +1,13 @@
 <?php
 
-class CabinetController extends \application\components\controllers\PublicMainController
+class CabinetController extends \pay\components\Controller
 {
 
   public function actions()
   {
     return array(
       'register' => 'pay\controllers\cabinet\RegisterAction',
-      'pay' => 'pay\controllers\cabinet\PayAction',
+      'index' => 'pay\controllers\cabinet\IndexAction',
     );
   }
 }
