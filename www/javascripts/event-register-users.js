@@ -1,3 +1,14 @@
+
+
+var CPayRegister = function()
+{
+  
+};
+
+
+
+
+
 $(function() {
   var t = '#event-register form > table',
     idleTimer; /* User quantity per event from previous page */
@@ -71,16 +82,8 @@ $(function() {
   /* Init placeholder for IE < 10 */
   $('.input-user, .input-promo').placeholder();
 
-
-  /* Getting tr:last-child for IE < 9 */
-  //if ($.browser.msie && parseInt($.browser.version) < 9) {
-    $(t).find('.user-row:last-child').addClass('last-child');
-  //}
-
-
   /* Init input user autocomplete after dinamically adding user rows to DOM */
   inputUserAutocomplete();
-
 
   /* Adding/removing new user row */
   $(t + ' tbody .input-user').on('blur', function() {
@@ -344,7 +347,7 @@ $(function() {
         var usrRowTpl = _.template($('#event-user-row-hiddenitem').html());
         var usrPrmTpl = _.template($('#event-user-row-promoname').html());
         var productid = $clsUsrRow.parents('table').find('thead tr').data('product-id');
-        var runetid = ui.item.runetid;
+        var runetid = ui.item.RunetId;
         $fndInpUsr.before(usrRowTpl({productid: productid, runetid: runetid}));
 
         $fndInpUsr.blur().attr('disabled', 'disabled');
