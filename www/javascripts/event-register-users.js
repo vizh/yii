@@ -8,13 +8,49 @@ var CPayRegister = function()
     row : _.template($('#row-tpl[type="text/template"]').html()),
     rowWithData : _.template($('#row-withdata-tpl[type="text/template"]').html()),
     rowDataFields : _.template($('#row-data-tpl[type="text/template"]').html()),
+    rowRegister : _.template($('#row-register-tpl[type="text/template"]').html()),
     userAutocomlete : _.template($('#user-autocomlete-tpl[type="text/template"]').html())
   };
   this.init();
+  this.initRegisterButton();
 };
 CPayRegister.prototype = {
   init: function () {
-    this.createEmptyRow(1)
+    var self = this;
+    this.form.find('table[data-product-id]').each(function () {
+      self.createEmptyRow($(this).data('product-id'));
+    });
+    this.calculate();
+  },
+  
+  initRegisterButton : function () {
+    var self = this;
+    self.form.find('button.btn-register').on('click', function (e) {
+      var row = $(e.currentTarget).parents('.user-row');
+      var registerRowTemplate = self.templates.rowRegister();
+      $(e.currentTarget).hide();
+      row.after(registerRowTemplate);
+      
+      var registerForm = row.next('tr').find('form');
+      registerForm.find('.form-actions .btn-submit').click(function () {
+        var alertError = registerForm.find('.alert-error');
+        alertError.html('').hide();
+        $.post('/user/ajax/register', registerForm.serialize(), function (response) {
+          if (response.success) {
+            
+          }
+          else {
+            alertError.show().html('');
+            $.each(response.errors, function (field, messsage) {
+              alertError.append(messsage+'<br/>');
+            });
+          }
+        }, 
+        'json');
+        return false;
+      });
+      return false;
+    });
   },
   
   /**
@@ -41,6 +77,8 @@ CPayRegister.prototype = {
         });
         row.find('.last-child').html(rowDataFieldsTemplate);
         $(this).attr('disabled', 'disabled').blur().after('<i class="icon-remove"></i>');
+        self.calculate();
+        self.itemsIterator++;
       },
       response : function (event, ui) {
         $.each(ui.content, function (i) {
@@ -54,13 +92,46 @@ CPayRegister.prototype = {
       html : true
     });
   },
+  
+  /**
+   * 
+   */
+  createFillRow: function (productId, item, promoCode) {
+    var self = this;
+    var rowTemplate = this.templates.rowWithData({
+      i : self.itemsIterator++,
+      productId : productId,
+      item : item,
+      promoCode : promoCode
+    });
 
+    var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
+    table.append(rowTemplate);
+    self.itemsIterator++;
+  },
   
   /**
    * 
    */
   removeRow : function () {
     
+  },
+          
+  calculate : function () {
+    var self  = this,
+        sum   = 0,
+        total = 0,
+        size  = 0;
+        
+    self.form.find('table[data-product-id]').each(function () {
+      size = $(this).find('tbody input:disabled').size();
+      sum = size * $(this).data('price');
+      total += sum;
+      $(this).data('row-current', size);
+      $(this).find('thead .quantity').text(size);
+      $(this).find('thead .mediate-price').text(sum);
+    });
+    self.form.find('#total-price').text(total);
   }
 }
 

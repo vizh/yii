@@ -11,23 +11,57 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     $users = \user\models\User::model()->bySearch($term)->findAll($criteria);
     foreach ($users as $user)
     {
-      $result = new \stdClass();
-      $result->RunetId = $user->RunetId;
-      $result->LastName = $user->LastName;
-      $result->FirstName = $user->FirstName;
-      $result->FullName = $user->getFullName();
-      $result->Photo = new \stdClass();
-      $result->Photo->Small = $user->getPhoto()->get50px();
-      $result->Photo->Medium = $user->getPhoto()->get90px();
-      $result->Photo->Large = $user->getPhoto()->get200px();
-      $result->value = $user->RunetId;
-      if ($user->getEmploymentPrimary() !== null)
-      {
-        $result->Company = $user->getEmploymentPrimary()->Company->Name;
-        $result->Position = trim($user->getEmploymentPrimary()->Position);
-      }
-      $results[] = $result;
+      $results[] = $this->getUserData($user);
     }
     echo json_encode($results);
+  }
+  
+  public function actionRegister()
+  {
+    $result = new \stdClass();
+    $form = new \user\models\forms\RegisterForm();
+    
+    $form->attributes = \Yii::app()->request->getParam(get_class($form));
+    
+    print_r($_REQUEST);
+    
+    if ($form->validate())
+    {
+      $user = new \user\models\User();
+      $user->LastName = $form->LastName;
+      $user->FirstName = $form->FirstName;
+      $user->FatherName = $form->FatherName;
+      $user->Email = $form->Email;
+      $user->register();
+      $user->setEmployment($form->Company, $form->Position);
+      $result->success = true;
+      $result->user = $this->getUserData($user);      
+    }
+    else
+    {
+      $result->success = false;
+      $result->errors  = $form->getErrors(); 
+    }
+    echo json_encode($result);
+  }
+  
+  
+  private function getUserData($user)
+  {
+    $data = new \stdClass();
+    $data->RunetId = $user->RunetId;
+    $data->LastName = $user->LastName;
+    $data->FirstName = $user->FirstName;
+    $data->FullName = $user->getFullName();
+    $data->Photo = new \stdClass();
+    $data->Photo->Small = $user->getPhoto()->get50px();
+    $data->Photo->Medium = $user->getPhoto()->get90px();
+    $data->Photo->Large = $user->getPhoto()->get200px();
+    if ($user->getEmploymentPrimary() !== null)
+    {
+      $data->Company = $user->getEmploymentPrimary()->Company->Name;
+      $data->Position = trim($user->getEmploymentPrimary()->Position);
+    }
+    return $data;
   }
 }

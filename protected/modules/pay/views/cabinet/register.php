@@ -25,7 +25,7 @@
       </table>
       
       <?foreach ($products as $product):?>
-        <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-user-max="1" data-user-current="1">
+        <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="1" data-row-current="">
           <thead>
             <tr>
               <th>
@@ -69,6 +69,7 @@
     </td>
   </tr>
 </script>
+
 <script type="text/template" id="row-withdata-tpl">
   <tr class="user-row">
     <td>
@@ -78,15 +79,18 @@
       </div>
     </td>
     <td colspan="3" class="last-child">
+      <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
+      <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][RunetId]');?>" value="<%=item.RunetId%>" />
+      <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="" class="input-medium pull-right t-center form-element_text input-promo" placeholder="Промо код"/>
     </td>
   </tr>
 </script>
+
 <script type="text/template" id="row-data-tpl">   
   <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
   <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][RunetId]');?>" value="<%=runetId%>" />
   <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="" class="input-medium pull-right t-center form-element_text input-promo" placeholder="Промо код"/>
 </script>
-
 
 <script type="text/template" id="user-autocomlete-tpl">
   <p><%=item.FullName%>, <span class='muted'>RUNET-ID <%=item.RunetId%></span></p>
@@ -96,6 +100,70 @@
   <img src='<%=item.Photo.Small%>' alt='<%=item.FullName%>'>
 </script>
 
+
+ <script type="text/template" id="row-register-tpl">
+  <tr>
+    <td colspan="4" class="last-child">
+      <?=CHtml::beginForm('', 'POST', array('class' => 'user-register'));?>
+      <header><h4 class="title"><?=\Yii::t('pay', 'Регистрация нового участника');?></h4></header>
+      <div class="alert alert-error" style="display: none;"></div>
+      <div class="clearfix">
+        <div class="pull-left">
+          <div class="control-group">
+            <label><?=\Yii::t('pay', 'Фамилия');?></label>
+            <div class="required">
+              <?=CHtml::activeTextField($registerForm, 'LastName');?>
+            </div>
+          </div>
+          <div class="control-group">
+            <label><?=\Yii::t('pay', 'Имя');?></label>
+            <div class="required">
+              <?php echo CHtml::activeTextField($registerForm, 'FirstName');?>
+            </div>
+          </div>
+          <div class="control-group">
+            <label><?=\Yii::t('pay', 'Отчество');?></label>
+            <div class="controls">
+              <?php echo CHtml::activeTextField($registerForm, 'SecondName');?>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>Email</label>
+            <div class="controls required">
+              <?=CHtml::activeTextField($registerForm, 'Email');?>
+            </div>
+          </div>
+        </div>
+        <div class="pull-right">
+          <div class="control-group">
+            <label><?=\Yii::t('pay', 'Телефон');?></label>
+            <?=CHtml::activeTextField($registerForm, 'Phone');?>
+          </div>
+          <div class="control-group">
+            <label><?=\Yii::t('pay', 'Компания');?></label>
+            <div class="required">
+              <?=CHtml::activeTextField($registerForm, 'Company');?>
+            </div>
+          </div>
+          <div class="control-group">
+            <label><?=\Yii::t('pay', 'Должность');?></label>
+            <?=CHtml::activeTextField($registerForm, 'Position');?>
+          </div>
+        </div>
+      </div>
+
+      <small class="muted required-notice">
+        <span class="required-asterisk">*</span> &mdash; <?=\Yii::t('pay', 'поля обязательны для заполнения');?>
+      </small>
+
+      <div class="form-actions">
+        <button class="btn btn-inverse btn-submit"><?=\Yii::t('pay', 'Зарегистрировать');?></button>
+        <button class="btn btn-cancel"><?=\Yii::t('pay', 'Отмена');?></button>
+      </div>
+      <?CHtml::endForm();?>
+    </td>
+  </tr>
+</script>
 
 <?php return;?>
 <?php //
