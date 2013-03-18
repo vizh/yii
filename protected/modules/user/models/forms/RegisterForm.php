@@ -15,6 +15,7 @@ class RegisterForm extends \CFormModel
     return array(
       array('LastName,FirstName,Email,Company', 'required'),
       array('Email', 'email'),
+      array('Email', 'unique', 'className' => '\user\models\User', 'attributeName' => 'Email', 'caseSensitive' => false),
       array('FatherName, Phone, Position', 'safe')
     );
   }

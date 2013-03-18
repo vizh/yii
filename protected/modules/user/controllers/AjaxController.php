@@ -22,9 +22,6 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     $form = new \user\models\forms\RegisterForm();
     
     $form->attributes = \Yii::app()->request->getParam(get_class($form));
-    
-    print_r($_REQUEST);
-    
     if ($form->validate())
     {
       $user = new \user\models\User();

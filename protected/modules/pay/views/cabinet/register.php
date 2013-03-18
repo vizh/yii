@@ -124,7 +124,7 @@
           <div class="control-group">
             <label><?=\Yii::t('pay', 'Отчество');?></label>
             <div class="controls">
-              <?php echo CHtml::activeTextField($registerForm, 'SecondName');?>
+              <?php echo CHtml::activeTextField($registerForm, 'FatherName');?>
             </div>
           </div>
           <div class="control-group">

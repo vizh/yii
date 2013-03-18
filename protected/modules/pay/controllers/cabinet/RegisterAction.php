@@ -23,7 +23,7 @@ class RegisterAction extends \CAction
         'event' => $event,
         'products' => $products,
         'orderForm' => $orderForm,
-        'registerForm' => new \pay\models\forms\RegisterForm(),
+        'registerForm' => new \user\models\forms\RegisterForm(),
       )
     );
   }

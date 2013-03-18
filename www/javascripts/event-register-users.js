@@ -23,13 +23,18 @@ CPayRegister.prototype = {
     this.calculate();
   },
   
+  /**
+   * 
+   */
   initRegisterButton : function () {
     var self = this;
     self.form.find('button.btn-register').on('click', function (e) {
       var row = $(e.currentTarget).parents('.user-row');
+      var table = row.parents('table[data-product-id]');
       var registerRowTemplate = self.templates.rowRegister();
       $(e.currentTarget).hide();
       row.after(registerRowTemplate);
+      row.hide();
       
       var registerForm = row.next('tr').find('form');
       registerForm.find('.form-actions .btn-submit').click(function () {
@@ -37,7 +42,9 @@ CPayRegister.prototype = {
         alertError.html('').hide();
         $.post('/user/ajax/register', registerForm.serialize(), function (response) {
           if (response.success) {
-            
+            self.createFillRow(table.data('product-id'), response.user);
+            registerForm.parents('tr').remove();
+            row.remove();
           }
           else {
             alertError.show().html('');
@@ -49,7 +56,23 @@ CPayRegister.prototype = {
         'json');
         return false;
       });
+      
+      registerForm.find('.form-actions .btn-cancel').click(function () {
+        registerForm.parents('tr').remove();
+        row.show();
+      });
       return false;
+    });
+  },
+  
+  /**
+   * 
+   */
+  initCouponField : function (row) {
+    row.find('.input-promo').change(function () {
+      $.post('/pay/ajax/couponactivate', function (response) {
+        
+      });
     });
   },
   
@@ -78,6 +101,7 @@ CPayRegister.prototype = {
         row.find('.last-child').html(rowDataFieldsTemplate);
         $(this).attr('disabled', 'disabled').blur().after('<i class="icon-remove"></i>');
         self.calculate();
+        self.initCouponField(row);
         self.itemsIterator++;
       },
       response : function (event, ui) {
@@ -108,13 +132,7 @@ CPayRegister.prototype = {
     var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
     table.append(rowTemplate);
     self.itemsIterator++;
-  },
-  
-  /**
-   * 
-   */
-  removeRow : function () {
-    
+    self.calculate();
   },
           
   calculate : function () {
