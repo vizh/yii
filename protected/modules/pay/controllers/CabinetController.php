@@ -18,7 +18,7 @@ class CabinetController extends \application\components\controllers\PublicMainCo
     
     $orderForm = new \pay\models\forms\OrderForm();
 
-    $this->render('register2', array(
+    $this->render('register', array(
         'event' => $event,
         'products' => $products,
         'orderForm' => $orderForm,

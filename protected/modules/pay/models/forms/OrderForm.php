@@ -3,18 +3,12 @@ namespace pay\models\forms;
 
 class OrderForm extends \CFormModel
 {
-  public $Count;
-  public $Owners;
-  public $PromoCodes;
+  public $Items = array();
 
   public function rules()
   {
     return array(
-      array('Count, Owners, PromoCodes', 'safe')
+      array('Items', 'safe')
     );
   }
-
-
-
-  public $Items = array();
 }
