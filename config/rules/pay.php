@@ -4,7 +4,7 @@ return array(
     'allow',
     'users' => array('*'),
     'module' => 'pay',
-    'controllers' => array('internal', 'cabinet', 'ajax')
+    'controllers' => array('internal', 'cabinet', 'juridical')
   ),
 
 

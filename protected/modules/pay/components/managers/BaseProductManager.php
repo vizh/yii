@@ -153,6 +153,19 @@ abstract class BaseProductManager
    */
   public function createOrderItem(\user\models\User $payer, \user\models\User $owner, $bookTime = null, $attributes = array())
   {
+    if (!$this->checkProduct($owner))
+    {
+      throw new \pay\components\Exception('Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар.');
+    }
+
+    $orderItem = \pay\models\OrderItem::model()->byProductId($this->product->Id)
+        ->byPayerId($payer->Id)->byOwnerId($owner->Id)
+        ->byDeleted(false)->find();
+    if ($orderItem !== null && !$orderItem->Paid)
+    {
+      throw new \pay\components\Exception('Вы уже заказали этот товар');
+    }
+
     foreach ($this->getOrderItemAttributeNames() as $key)
     {
       if (!isset($attributes[$key]))

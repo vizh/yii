@@ -2,18 +2,18 @@
 namespace pay\models;
 
 /**
- * @property int $AccountId
+ * @property int $Id
  * @property int $EventId
- * @property string $Login
- * @property string $Password
- * @property string $System
- * @property string $SystemParams
- * @property string $JuridicalParams
+ * @property bool $Own
+ * @property string $OrderTemplateName
  */
 class Account extends \CActiveRecord
 {
-  public static $TableName = 'Mod_PayAccount';
-
+  /**
+   * @param string $className
+   *
+   * @return Account
+   */
   public static function model($className=__CLASS__)
   {
     return parent::model($className);
@@ -21,54 +21,26 @@ class Account extends \CActiveRecord
 
   public function tableName()
   {
-    return self::$TableName;
+    return 'PayAccount';
   }
 
   public function primaryKey()
   {
-    return 'AccountId';
+    return 'Id';
   }
 
   /**
-   * @static
-   * @param $eventId
-   * @return PayAccount
+   * @param int $eventId
+   * @param bool $useAnd
+   *
+   * @return Account
    */
-  public static function GetByEventId($eventId)
+  public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = 't.EventId = :EventId';
-    $criteria->params = array(':EventId' => $eventId);
-    return PayAccount::model()->find($criteria);
+    $criteria->params = array('EventId' => $eventId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
-
-  /**
-   * @param array $params
-   */
-  public function SetSystemParams($params)
-  {
-    $this->SystemParams = base64_encode(serialize($params));
-  }
-  /**
-   * @return array
-   */
-  public function GetSystemParams()
-  {
-    return unserialize(base64_decode($this->SystemParams));
-  }
-
-  /**
-   * @param array $params
-   */
-//  public function SetJuridicalParams($params)
-//  {
-//    $this->JuridicalParams = base64_encode(serialize($params));
-//  }
-  /**
-   * @return array
-   */
-//  public function GetJuridicalParams()
-//  {
-//    return unserialize(base64_decode($this->JuridicalParams));
-//  }
 }
