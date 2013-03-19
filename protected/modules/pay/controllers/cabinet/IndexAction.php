@@ -3,13 +3,16 @@ namespace pay\controllers\cabinet;
 
 class IndexAction extends \pay\components\Action
 {
+
+
   public function run($eventIdName)
   {
+    $this->checkAccount();
+
     $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->getCurrentUser()->Id, $this->getController()->getEvent()->Id);
     $unpaidItems = array();
     $paidItems = array();
     $recentPaidItems = array();
-    //$products = array();
 
     foreach ($orderItems as $orderItem)
     {
@@ -18,7 +21,6 @@ class IndexAction extends \pay\components\Action
         if ($orderItem->Product->getManager()->checkProduct($orderItem->Owner))
         {
           $unpaidItems[$orderItem->Product->Id][] = $orderItem;
-          //$products[$orderItem->Product->Id] = $orderItem->Product;
         }
         else
         {
@@ -38,46 +40,24 @@ class IndexAction extends \pay\components\Action
       }
     }
 
+    $orders = \pay\models\Order::model()
+        ->byPayerId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->getEvent()->Id)
+        ->byJuridical(true)->byDeleted(false)->findAll();
+
     $this->getController()->render('index', array(
-      //'products' => $products,
       'unpaidItems' => $unpaidItems,
       'paidItems' => $paidItems,
       'recentPaidItems' => $recentPaidItems,
-      'juridicalOrders' => array(),//\pay\models\Order::GetOrdersWithJuridical(\Yii::app()->user->getId(), $this->event->EventId),
+      'orders' => $orders,
     ));
   }
-}
 
-
-/*
- *
-
-    $request = \Yii::app()->getRequest();
-    if ($request->getParam('action') !== null)
+  private function checkAccount()
+  {
+    $account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
+    if ($account === null)
     {
-      switch ($request->getParam('action'))
-      {
-        case 'deleteOrderItem':
-          $orderItem = \pay\models\OrderItem::model()->findByPk($request->getParam('orderItemId'));
-          if ($orderItem->PayerId == \Yii::app()->user->getId()
-              && $orderItem->Paid == 0)
-          {
-            $orderItem->Deleted = 1;
-            $orderItem->save();
-          }
-          break;
-
-        case 'deleteOrderJuridical':
-          $order = \pay\models\Order::GetById($request->getParam('orderId'));
-          if ($order->PayerId == \Yii::app()->user->getId()
-              && $order->OrderJuridical !== null)
-          {
-            $order->OrderJuridical->DeleteOrder();
-          }
-      }
-
-      $this->redirect(
-        $this->createUrl('/runetid2/pay/orderitems', array('eventId' => $this->event->EventId))
-      );
+      throw new \pay\components\Exception('Для работы платежного кабинета необходимо создать платежный аккаунт мероприятия.');
     }
- */
+  }
+}

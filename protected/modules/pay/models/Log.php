@@ -2,25 +2,26 @@
 namespace pay\models;
 
 /**
- * @property int $PayLogId
+ * @property int $Id
  * @property string $Message
  * @property int $Code
  * @property string $Info
  * @property string $PaySystem
- * @property string $Type
+ * @property bool $Error
  * @property string $OrderId
  * @property int $Total
  * @property string $CreationTime
  *
  * @property Order $Order
  */
-class PayLog extends \CActiveRecord
+class Log extends \CActiveRecord
 {
-  const TypeSuccess = 'success';
-  const TypeError = 'error';
 
-  public static $TableName = 'Mod_PayLog';
-
+  /**
+   * @param string $className
+   *
+   * @return Log
+   */
   public static function model($className=__CLASS__)
   {
     return parent::model($className);
@@ -28,12 +29,12 @@ class PayLog extends \CActiveRecord
 
   public function tableName()
   {
-    return self::$TableName;
+    return 'PayLog';
   }
 
   public function primaryKey()
   {
-    return 'PayLogId';
+    return 'Id';
   }
 
   public function relations()

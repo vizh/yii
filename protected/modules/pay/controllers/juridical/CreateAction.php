@@ -3,7 +3,7 @@ namespace pay\controllers\juridical;
 
 class CreateAction extends \pay\components\Action
 {
-  public function run()
+  public function run($eventIdName)
   {
     $order = new \pay\models\Order();
     $unpaidItems = $order->getUnpaidItems(\Yii::app()->user->getCurrentUser(), $this->getEvent());

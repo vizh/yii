@@ -1,8 +1,8 @@
 <?php
-namespace pay\models\systems;
+namespace pay\components\systems;
 \Yii::import('ext.ExchangeRates.*');
 
-class PayPalSystem extends BaseSystem
+class PayPal extends Base
 {
   const Url = 'https://api-3t.paypal.com/nvp';
   const Version = 89.0;
@@ -15,7 +15,7 @@ class PayPalSystem extends BaseSystem
   /**
    * @return array
    */
-  public function RequiredParams()
+  public function getRequiredParams()
   {
     return array('Username', 'Password', 'Signature');
   }
@@ -36,7 +36,7 @@ class PayPalSystem extends BaseSystem
    * Проверяет, может ли данный объект обработать callback платежной системы
    * @return bool
    */
-  public function Check()
+  public function check()
   {
     $request = \Yii::app()->getRequest();
     $token = $request->getParam('token', false);
@@ -48,27 +48,29 @@ class PayPalSystem extends BaseSystem
    * Заполняет общие параметры всех платежных систем, для единой обработки платежей
    * @return void
    */
-  public function FillParams()
+  public function fillParams()
   {
     $orderId = \Yii::app()->getSession()->get('PayPalOrderId');
     $this->initRequiredParams($orderId);
 
-    $result = $this->ConfirmPayment();
+    $result = $this->confirmPayment();
     $ack = strtoupper($result["ACK"]);
     if ($ack == "SUCCESS" || $ack == "SUCCESSWITHWARNING")
     {
-      $this->OrderId = $orderId;
-      $this->Total = \Yii::app()->getSession()->get('PayPalTotalRub');
+      $this->orderId = $orderId;
+      $this->total = \Yii::app()->getSession()->get('PayPalTotalRub');
     }
     else
     {
-      $order = \pay\models\Order::GetById($orderId);
-      \pay\models\SystemRouter::LogError('Произошел отказ в проведении транзакции со стороны PayPal. ' . var_export($result, true), 0);
-      Lib::Redirect('http://pay.rocid.ru/' . $order->EventId . '/');
+      /** @var $order \pay\models\Order */
+      $order = \pay\models\Order::model()->findByPk($orderId);
+      \pay\components\SystemRouter::logError('Произошел отказ в проведении транзакции со стороны PayPal. ' . var_export($result, true), 0);
+      $url = \Yii::app()->createAbsoluteUrl('/pay/cabinet/index', array('eventIdName' => $order->Event->IdName));
+      \Yii::app()->getController()->redirect($url);
     }
   }
 
-  private function ConfirmPayment()
+  private function confirmPayment()
   {
     $request = \Yii::app()->getRequest();
     $params = array(
@@ -97,7 +99,7 @@ class PayPalSystem extends BaseSystem
    * @param int $total
    * @return array
    */
-  public function ProcessPayment($eventId, $orderId, $total)
+  public function processPayment($eventId, $orderId, $total)
   {
     $rates = new \ExchangeRatesCBRF();
     $usd = $rates->GetRate('USD');
@@ -105,6 +107,9 @@ class PayPalSystem extends BaseSystem
     {
       throw new \Exception('Ошибка при получении курса валют, нужно срочно разобраться. PayPal не работает.');
     }
+
+    $usd = str_replace(',', '.', $usd);
+    $usd = floatval($usd);
 
     $this->initRequiredParams($orderId);
     $totalUsd = $total / $usd;
@@ -135,7 +140,7 @@ class PayPalSystem extends BaseSystem
       \Yii::app()->getSession()->add('PayPalTotal', $totalUsd);
       \Yii::app()->getSession()->add('PayPalTotalRub', $total);
       \Yii::app()->getSession()->add('PayPalOrderId', $orderId);
-      Lib::Redirect($this->GetPayPalUrl($result["TOKEN"]));
+      \Yii::app()->getController()->redirect($this->getPayPalUrl($result["TOKEN"]));
     }
     else
     {
@@ -147,7 +152,7 @@ class PayPalSystem extends BaseSystem
      * @param $token
      * @return string
      */
-    protected  function GetPayPalUrl($token)
+    protected  function getPayPalUrl($token)
     {
       //return 'https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($token);
       return 'https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=' . urlencode($token);
@@ -156,10 +161,12 @@ class PayPalSystem extends BaseSystem
   /**
    * @return void
    */
-  public function EndParseSystem()
+  public function endParseSystem()
   {
-    $order = \pay\models\Order::GetById($this->OrderId());
-    Lib::Redirect('http://pay.rocid.ru/' . $order->EventId . '/');
+    /** @var $order \pay\models\Order */
+    $order = \pay\models\Order::model()->findByPk($this->getOrderId());
+    $url = \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', array('eventIdName' => $order->Event->IdName));
+    \Yii::app()->getController()->redirect($url);
   }
 
 

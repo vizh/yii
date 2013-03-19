@@ -3,8 +3,8 @@ namespace pay\components;
 
 class SystemRouter
 {
-  public static $SystemNames = array(/*'ChronoPay',*/ 'PayOnline', 'Robokassa', 'Test', 'PayPal');
-  const Suffix = 'System';
+  public static $SystemNames = array(/*'ChronoPay',*/ 'PayOnline', 'Robokassa', 'Test', 'PayPal', 'Uniteller');
+  const Prefix = 'pay\components\systems\\';
 
   /**
    * @var SystemRouter
@@ -23,42 +23,43 @@ class SystemRouter
   }
 
   /**
-   * @var \pay\models\systems\BaseSystem
+   * @var \pay\components\systems\Base
    */
-  private $system;
+  private $system = null;
 
   private function init()
   {
     foreach (self::$SystemNames as $name)
     {
-      $className = $name . self::Suffix;
+      $className = self::Prefix . $name;
       if (!class_exists($className))
       {
-        throw new PayException('Not exist class: ' . $className, 101);
+        throw new Exception('Not exist class: ' . $className, 101);
       }
-      $this->system = new $className();
-      if ($this->system->Check())
+      /** @var $system \pay\components\systems\Base */
+      $system = new $className();
+      if ($system->check())
       {
+        $this->system = $system;
         return;
       }
-      $this->system = null;
     }
-    throw new PayException('Not find payment system for request', 102);
+    throw new Exception('Not find payment system for request', 102);
   }
 
-  public function ParseSystemCallback()
+  public function parseSystemCallback()
   {
     try
     {
-      $this->system->FillParams();
-      $this->system->ParseSystem();
-      self::LogSuccess();
+      $this->system->fillParams();
+      $this->system->parseSystem();
+      self::logSuccess();
     }
-    catch (PayException $e)
+    catch (Exception $e)
     {
-      self::LogError($e->getMessage(), $e->getCode());
+      self::logError($e->getMessage(), $e->getCode());
     }
-    $this->system->EndParseSystem();
+    $this->system->endParseSystem();
   }
 
   /**
@@ -69,14 +70,14 @@ class SystemRouter
    */
   public static function LogError($message, $code)
   {
-    $log = new PayLog();
+    $log = new \pay\models\Log();
     $log->Message = $message;
     $log->Code = $code;
     if (! empty(self::$instance->system))
     {
       $log->Info = self::$instance->system->Info();
-      $log->OrderId = self::$instance->system->OrderId();
-      $log->Total = self::$instance->system->Total();
+      $log->OrderId = self::$instance->system->getOrderId();
+      $log->Total = self::$instance->system->getTotal();
     }
     else
     {
@@ -84,18 +85,20 @@ class SystemRouter
       print_r($_REQUEST);
       $log->Info = ob_get_clean();
     }
-    $log->Type = PayLog::TypeError;
+    $log->PaySystem = get_class(self::$instance->system);
+    $log->Error = true;
     $log->save();
   }
 
   public static function LogSuccess()
   {
-    $log = new PayLog();
+    $log = new \pay\models\Log();
     $log->Message = 'Success payment';
     $log->Info = self::$instance->system->Info();
-    $log->OrderId = self::$instance->system->OrderId();
-    $log->Total = self::$instance->system->Total();
-    $log->Type = PayLog::TypeSuccess;
+    $log->PaySystem = get_class(self::$instance->system);
+    $log->OrderId = self::$instance->system->getOrderId();
+    $log->Total = self::$instance->system->getTotal();
+    $log->Error = false;
     $log->save();
   }
 }

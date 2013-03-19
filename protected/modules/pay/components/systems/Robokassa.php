@@ -1,7 +1,7 @@
 <?php
-namespace pay\models\systems;
+namespace pay\components\systems;
 
-class RobokassaSystem extends BaseSystem
+class RobokassaSystem extends Base
 {
   private static $encoding = 'utf-8';
   const Url = 'http://test.robokassa.ru/Index.aspx';

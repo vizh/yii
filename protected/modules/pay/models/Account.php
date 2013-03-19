@@ -6,6 +6,10 @@ namespace pay\models;
  * @property int $EventId
  * @property bool $Own
  * @property string $OrderTemplateName
+ * @property string $ReturnUrl
+ * @property string $Offer
+ *
+ * @property \event\models\Event $Event
  */
 class Account extends \CActiveRecord
 {
@@ -29,6 +33,13 @@ class Account extends \CActiveRecord
     return 'Id';
   }
 
+  public function relations()
+  {
+    return array(
+      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId')
+    );
+  }
+
   /**
    * @param int $eventId
    * @param bool $useAnd
@@ -38,7 +49,7 @@ class Account extends \CActiveRecord
   public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId';
+    $criteria->condition = '"t"."EventId" = :EventId';
     $criteria->params = array('EventId' => $eventId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;

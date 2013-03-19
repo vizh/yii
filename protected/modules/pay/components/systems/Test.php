@@ -1,5 +1,5 @@
 <?php
-namespace pay\models\systems;
+namespace pay\components\systems;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -8,7 +8,7 @@ namespace pay\models\systems;
  * Time: 19:43
  * To change this template use File | Settings | File Templates.
  */
-class TestSystem extends BaseSystem
+class TestSystem extends Base
 {
 
   /**

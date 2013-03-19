@@ -7,6 +7,8 @@ class JuridicalController extends \pay\components\Controller
   {
     return array(
       'create' => 'pay\controllers\juridical\CreateAction',
+      'delete' => 'pay\controllers\juridical\DeleteAction',
+      'order' => 'pay\controllers\juridical\OrderAction',
     );
   }
 }

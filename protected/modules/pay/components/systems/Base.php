@@ -1,25 +1,25 @@
 <?php
-namespace pay\models\systems;
+namespace pay\components\systems;
 
-abstract class BaseSystem
+abstract class Base
 {
   /**
    * @abstract
    * @return array
    */
-  abstract public function RequiredParams();
+  abstract public function getRequiredParams();
   abstract protected function initRequiredParams($orderId);
 
-  protected $OrderId;
-  public function OrderId()
+  protected $orderId;
+  public function getOrderId()
   {
-    return $this->OrderId;
+    return $this->orderId;
   }
 
-  protected $Total;
-  public function Total()
+  protected $total;
+  public function getTotal()
   {
-    return $this->Total;
+    return $this->total;
   }
 
   abstract protected function getClass();
@@ -29,14 +29,14 @@ abstract class BaseSystem
    * @abstract
    * @return bool
    */
-  abstract public function Check();
+  abstract public function check();
 
   /**
    * Заполняет общие параметры всех платежных систем, для единой обработки платежей
    * @abstract
    * @return void
    */
-  abstract public function FillParams();
+  abstract public function fillParams();
 
   /**
    * Выполняет отправку пользователя на оплату в соответствующую платежную систему
@@ -46,13 +46,13 @@ abstract class BaseSystem
    * @param int $total
    * @return void
    */
-  abstract public function ProcessPayment($eventId, $orderId, $total);
+  abstract public function processPayment($eventId, $orderId, $total);
 
   /**
    * Возвращает строку для логирования callback'а платежной системы
    * @return string
    */
-  public function Info()
+  public function info()
   {
     $result = $_REQUEST;
     $result['System'] = $this->getClass();
@@ -64,29 +64,30 @@ abstract class BaseSystem
 
   /**
    * Производит запись в БД после получения Callback, заполняет лог
-   * @throws \pay\models\PayException
+   * @throws \pay\components\Exception
    * @return void
    */
-  public final function ParseSystem()
+  public final function parseSystem()
   {
-    $order = \pay\models\Order::GetById($this->OrderId());
+    /** @var $order \pay\models\Order */
+    $order = \pay\models\Order::model()->findByPk($this->getOrderId());
 
     if (empty($order))
     {
-      throw new \pay\models\PayException('Оплачен неизвестный заказ номер ' . $this->OrderId(), 201);
+      throw new \pay\components\Exception('Оплачен неизвестный заказ номер ' . $this->getOrderId(), 201);
     }
 
-    $payResult = $order->PayOrder();
+    $payResult = $order->activate();
 
-    if ($payResult['Total'] != $this->Total())
+    if ($payResult['Total'] != $this->getTotal())
     {
-      throw new \pay\models\PayException('Сумма заказа и полученная через платежную систему не совпадают', 202);
+      throw new \pay\components\Exception('Сумма заказа и полученная через платежную систему не совпадают', 202);
     }
 
     if (!empty($payResult['ErrorItems']))
     {
       $itemList = serialize($payResult['ErrorItems']);
-      throw new \pay\models\PayException('Один или несколько товаров имеют более ценный эквивалент среди уже приобретенных пользователем. Список id:' . $itemList, 203);
+      throw new \pay\components\Exception('Один или несколько товаров имеют более ценный эквивалент среди уже приобретенных пользователем. Список id:' . $itemList, 203);
     }
   }
 
@@ -94,7 +95,6 @@ abstract class BaseSystem
    * @abstract
    * @return void
    */
-  abstract public function EndParseSystem();
-
+  abstract public function endParseSystem();
 
 }

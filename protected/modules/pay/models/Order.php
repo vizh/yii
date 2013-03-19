@@ -17,6 +17,7 @@ namespace pay\models;
  * @property OrderLinkOrderItem[] $ItemLinks
  * @property OrderJuridical $OrderJuridical
  * @property \user\models\User $Payer
+ * @property \event\models\Event $Event
  */
 class Order extends \CActiveRecord
 {
@@ -47,7 +48,8 @@ class Order extends \CActiveRecord
     return array(
       'ItemLinks' => array(self::HAS_MANY, '\pay\models\OrderLinkOrderItem', 'OrderId'),
       'OrderJuridical' => array(self::HAS_ONE, '\pay\models\OrderJuridical', 'OrderId'),
-      'Payer' => array(self::BELONGS_TO, '\user\models\User', 'PayerId')
+      'Payer' => array(self::BELONGS_TO, '\user\models\User', 'PayerId'),
+      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId')
     );
   }
 
@@ -295,4 +297,40 @@ class Order extends \CActiveRecord
     }
     return $price;
   }
+
+  public function delete()
+  {
+    if ($this->Paid || $this->Deleted || !$this->Juridical)
+    {
+      return false;
+    }
+
+    foreach ($this->ItemLinks as $link)
+    {
+      if ($link->OrderItem->Booked != null)
+      {
+        $link->OrderItem->Booked = date('Y-m-d H:i:s', time() + 3 * 60 * 60);
+      }
+      $link->OrderItem->PaidTime = null;
+      $link->OrderItem->save();
+    }
+
+    $this->Deleted = true;
+    $this->DeletionTime = date('Y-m-d H:i:s');
+    $this->save();
+
+    return true;
+  }
+
+  private static $SecretKey = '7deSAJ42VhzHRgYkNmxz';
+  public function getHash()
+  {
+    return substr(md5($this->Id.self::$SecretKey), 0, 16);
+  }
+
+  public function checkHash($hash)
+  {
+    return $hash == $this->getHash();
+  }
+
 }
