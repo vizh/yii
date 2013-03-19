@@ -1,6 +1,22 @@
+<?if (!empty($orderForm->Items)):?>
+  <script type="text/javascript">
+    $(function () {
+      <?foreach ($orderForm->Items as $item):?>
+        <?php $owner = \user\models\User::model()->byRunetId($item['RunetId'])->find();?> 
+        payRegister.createFillRow(<?=$item['ProductId'];?>, {
+          'RunetId'  : '<?=$owner->RunetId;?>',
+          'FullName' : '<?=$owner->getFullName();?>'
+        }, '<?=$item['PromoCode'];?>');
+      <?endforeach;?>
+    });
+  </script>
+<?endif;?>
+
 <section id="section" role="main">
   <?=\CHtml::beginForm('', 'POST', array('class' => 'registration', 'id' => 'registration_form', 'data-event-id-name' => $event->IdName));?>
+  
   <div class="event-register">
+    <?=\CHtml::errorSummary($orderForm, '<div class="container"><div class="alert alert-error">', '</div></div>');?>
     <div class="container">
       <div class="tabs clearfix">
         <div class="tab current pull-left">
@@ -80,7 +96,7 @@
     <td colspan="3" class="last-child">
       <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
       <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][RunetId]');?>" value="<%=item.RunetId%>" />
-      <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="" class="input-medium pull-right t-center form-element_text input-promo" placeholder="Промо код"/>
+      <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="<%=promoCode%>" class="input-medium pull-right t-center form-element_text input-promo" placeholder="Промо код"/>
       <div class="alert hide"></div>
     </td>
   </tr>

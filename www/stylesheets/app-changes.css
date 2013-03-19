@@ -67,3 +67,12 @@
 }
 
 .event-register .table .user-row:last-child > td:first-child {background: none !important;}
+.event-register .errorSummary .container {
+  border: 0 !important;
+}
+.event-register .errorSummary .container ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  list-style-type: none;
+}
