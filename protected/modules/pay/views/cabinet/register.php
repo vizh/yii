@@ -1,5 +1,5 @@
 <section id="section" role="main">
-  <?=\CHtml::beginForm('', 'POST', array('class' => 'registration', 'id' => 'registration_form'));?>
+  <?=\CHtml::beginForm('', 'POST', array('class' => 'registration', 'id' => 'registration_form', 'data-event-id-name' => $event->IdName));?>
   <div class="event-register">
     <div class="container">
       <div class="tabs clearfix">
@@ -25,7 +25,7 @@
       </table>
       
       <?foreach ($products as $product):?>
-        <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="1" data-row-current="">
+        <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="<?=$countRows[$product->Id];?>" data-row-current="">
           <thead>
             <tr>
               <th>
@@ -65,7 +65,6 @@
     </td>
     <td colspan="3" class="last-child">
       <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=Yii::t('app', 'Зарегистрировать');?></button>
-      <input type="text" class="input-medium pull-right t-center form-element_text input-promo" placeholder="Промо код" style="display: none;">
     </td>
   </tr>
 </script>
@@ -82,6 +81,7 @@
       <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
       <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][RunetId]');?>" value="<%=item.RunetId%>" />
       <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="" class="input-medium pull-right t-center form-element_text input-promo" placeholder="Промо код"/>
+      <div class="alert hide"></div>
     </td>
   </tr>
 </script>
@@ -90,6 +90,7 @@
   <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
   <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][RunetId]');?>" value="<%=runetId%>" />
   <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="" class="input-medium pull-right t-center form-element_text input-promo" placeholder="Промо код"/>
+  <div class="alert hide"></div>
 </script>
 
 <script type="text/template" id="user-autocomlete-tpl">

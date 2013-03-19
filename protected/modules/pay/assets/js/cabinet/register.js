@@ -4,6 +4,7 @@ var CPayRegister = function()
 {
   this.itemsIterator = 0;
   this.form = $('#registration_form');
+  this.eventIdName = this.form.data('event-id-name');
   this.templates = {
     row : _.template($('#row-tpl[type="text/template"]').html()),
     rowWithData : _.template($('#row-withdata-tpl[type="text/template"]').html()),
@@ -12,13 +13,14 @@ var CPayRegister = function()
     userAutocomlete : _.template($('#user-autocomlete-tpl[type="text/template"]').html())
   };
   this.init();
-  this.initRegisterButton();
 };
 CPayRegister.prototype = {
   init: function () {
     var self = this;
     this.form.find('table[data-product-id]').each(function () {
-      self.createEmptyRow($(this).data('product-id'));
+      for (var i = 0; i < $(this).data('row-max'); i++) {
+        self.createEmptyRow($(this).data('product-id'));
+      }
     });
     this.calculate();
   },
@@ -26,11 +28,11 @@ CPayRegister.prototype = {
   /**
    * 
    */
-  initRegisterButton : function () {
-    var self = this;
-    self.form.find('button.btn-register').on('click', function (e) {
-      var row = $(e.currentTarget).parents('.user-row');
-      var table = row.parents('table[data-product-id]');
+  initRegisterButton : function (row) {
+    var self = this,
+        table = row.parents('table[data-product-id]');
+
+    row.find('button.btn-register').on('click', function (e) {
       var registerRowTemplate = self.templates.rowRegister();
       $(e.currentTarget).hide();
       row.after(registerRowTemplate);
@@ -38,8 +40,8 @@ CPayRegister.prototype = {
       
       var registerForm = row.next('tr').find('form');
       registerForm.find('.form-actions .btn-submit').click(function () {
-        var alertError = registerForm.find('.alert-error');
-        alertError.html('').hide();
+        var alertContainer = registerForm.find('.alert-error');
+        alertContainer.html('').hide();
         $.post('/user/ajax/register', registerForm.serialize(), function (response) {
           if (response.success) {
             self.createFillRow(table.data('product-id'), response.user);
@@ -47,9 +49,9 @@ CPayRegister.prototype = {
             row.remove();
           }
           else {
-            alertError.show().html('');
+            alertContainer.show().html('');
             $.each(response.errors, function (field, messsage) {
-              alertError.append(messsage+'<br/>');
+              alertContainer.append(messsage+'<br/>');
             });
           }
         }, 
@@ -69,10 +71,37 @@ CPayRegister.prototype = {
    * 
    */
   initCouponField : function (row) {
-    row.find('.input-promo').change(function () {
-      $.post('/pay/ajax/couponactivate', function (response) {
-        
+    var self = this;
+    row.find('.input-promo').change(function (e) {
+      $.getJSON('/pay/ajax/couponactivate', {
+        code : $(e.currentTarget).val(),
+        ownerRunetId : row.find('input[name*="RunetId"]').val(),
+        productId : row.parents('table[data-product-id]').data('product-id'),
+        eventIdName : self.eventIdName
+      }, function (response) {
+        var alertContainer = row.find('.alert');
+        alertContainer.attr('class', 'alert').html('');
+        if (response.success) {
+          alertContainer.addClass('alert-success').text(response.message);
+        }
+        else {
+          alertContainer.addClass('alert-error').text(response.error);
+        }
+        setTimeout(function () {
+          alertContainer.addClass('hide');
+        }, 2000);
       });
+    });
+  },
+  
+  /**
+   * 
+   */
+  initRemoveIcon : function (row) {
+    var self = this;
+    row.find('i.icon-remove').click(function () {
+      row.remove();
+      self.itemsIterator--;
     });
   },
   
@@ -102,6 +131,7 @@ CPayRegister.prototype = {
         $(this).attr('disabled', 'disabled').blur().after('<i class="icon-remove"></i>');
         self.calculate();
         self.initCouponField(row);
+        self.initRemoveIcon(row);
         self.itemsIterator++;
       },
       response : function (event, ui) {
@@ -115,6 +145,7 @@ CPayRegister.prototype = {
       },
       html : true
     });
+    self.initRegisterButton(row);
   },
   
   /**
@@ -148,6 +179,10 @@ CPayRegister.prototype = {
       $(this).data('row-current', size);
       $(this).find('thead .quantity').text(size);
       $(this).find('thead .mediate-price').text(sum);
+      if (size == $(this).data('row-max')) {
+        self.createEmptyRow($(this).data('product-id'));
+        $(this).data('row-max', size+1);
+      }
     });
     self.form.find('#total-price').text(total);
   }

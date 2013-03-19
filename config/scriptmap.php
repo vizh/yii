@@ -44,17 +44,7 @@ return array(
         'runetid.charts' => array(
           'baseUrl' => '/',
           'js' => array('javascripts/charts.js')
-        ),
-        'runetid.event-calculate-price' => array(
-          'baseUrl' => '/',
-          'js' => array('javascripts/money-format.js', 'javascripts/event-calculate-price.js'),
-          'depends' => array('runetid.application')
-        ),
-        'runetid.pay-orderitems' => array(
-          'baseUrl' => '/',
-          'js' => array('javascripts/event-register-users.js'),
-          'depends' => array('runetid.event-calculate-price')
-        ),
+        )
       ),
 
       'scriptMap' => array(),

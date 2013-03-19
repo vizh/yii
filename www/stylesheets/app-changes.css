@@ -60,3 +60,10 @@
   right: 8px;
   border: 1px solid #e6e6e6;
 }
+#event-register .user-row .alert {
+  position: absolute;
+  width: 221px;
+  margin-top: 35px;
+}
+
+.event-register .table .user-row:last-child > td:first-child {background: none !important;}
