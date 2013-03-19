@@ -19,7 +19,7 @@ class PhpAuthManager extends \CPhpAuthManager
     {
       /** @var $group \application\models\admin\Group */
       $group = \application\models\admin\Group::model()
-          ->byUserId(\Yii::app()->user->CurrentUser()->Id)
+          ->byUserId(\Yii::app()->user->getCurrentUser()->Id)
           ->with('Roles')->find();
       if ($group !== null)
       {

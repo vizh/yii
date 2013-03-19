@@ -5,7 +5,7 @@ class IndexAction extends \pay\components\Action
 {
   public function run($eventIdName)
   {
-    $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->CurrentUser()->Id, $this->getController()->getEvent()->Id);
+    $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->getCurrentUser()->Id, $this->getController()->getEvent()->Id);
     $unpaidItems = array();
     $paidItems = array();
     $recentPaidItems = array();

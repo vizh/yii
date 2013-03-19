@@ -89,7 +89,7 @@
                   <td>
                     <label class="checkbox inline muted">
                       <?php echo CHtml::activeCheckBox($orderForm, 'Owners['.$product->ProductId.']['.\Yii::app()->user->getId().']');?>
-                      Я, <?php echo \Yii::app()->user->CurrentUser()->GetFullName();?>
+                      Я, <?php echo \Yii::app()->user->getCurrentUser()->GetFullName();?>
                     </label>
                   </td>
                   <td colspan="3" class="last-child">

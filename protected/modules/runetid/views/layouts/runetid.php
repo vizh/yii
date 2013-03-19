@@ -54,8 +54,8 @@
                */?>
               <li class="account dropdown pull-right">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src=" <?php echo \Yii::app()->user->CurrentUser()->GetMiniPhoto();?>" width="18" height="18" alt="" class="avatar">
-                  <?php echo \Yii::app()->user->CurrentUser()->GetFullName();?>
+                  <img src=" <?php echo \Yii::app()->user->getCurrentUser()->GetMiniPhoto();?>" width="18" height="18" alt="" class="avatar">
+                  <?php echo \Yii::app()->user->getCurrentUser()->GetFullName();?>
                   <b class="caret"></b>
                 </a>
                 <?/**
