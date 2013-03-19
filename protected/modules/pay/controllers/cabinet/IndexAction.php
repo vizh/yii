@@ -5,13 +5,6 @@ class IndexAction extends \pay\components\Action
 {
   public function run($eventIdName)
   {
-    if (\Yii::app()->user->isGuest)
-    {
-      $this->getController()->redirect(
-        $this->getController()->createUrl('/event/view/index', array('idName' => $eventIdName))
-      );
-    }
-
     $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->CurrentUser()->Id, $this->getController()->getEvent()->Id);
     $unpaidItems = array();
     $paidItems = array();

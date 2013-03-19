@@ -1,6 +1,5 @@
 <?php
 /**
- * @var $products \pay\models\Product[]
  * @var $unpaidItems \pay\models\OrderItem[]
  * @var $paidItems \pay\models\OrderItem[]
  * @var $recentPaidItems \pay\models\OrderItem[]
@@ -28,7 +27,7 @@
       </div>
     </div>
 
-    <?$this->renderPartial('index/unpaidItems', array(/*'products' => $products, */'unpaidItems' => $unpaidItems, 'hasRecentPaidItems' => (sizeof($recentPaidItems) > 0)));?>
+    <?$this->renderPartial('index/unpaidItems', array('unpaidItems' => $unpaidItems, 'hasRecentPaidItems' => (sizeof($recentPaidItems) > 0)));?>
 
 
 

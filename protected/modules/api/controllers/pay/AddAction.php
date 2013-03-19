@@ -30,18 +30,6 @@ class AddAction extends \api\components\Action
     {
       throw new \api\components\Exception(301);
     }
-    else if (!$product->getManager()->checkProduct($owner))
-    {
-      throw new \api\components\Exception(403);
-    }
-    
-    $orderItem = \pay\models\OrderItem::model()->byProductId($product->Id)
-        ->byPayerId($payer->Id)->byOwnerId($owner->Id)
-        ->byDeleted(false)->find();
-    if ($orderItem !== null && !$orderItem->Paid)
-    {
-      throw new \api\components\Exception(405);
-    }
     
     $orderItem = $product->getManager()->createOrderItem($payer, $owner);
     $result = $this->getAccount()->getDataBuilder()->createOrderItem($orderItem);

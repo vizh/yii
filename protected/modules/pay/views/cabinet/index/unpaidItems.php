@@ -71,7 +71,7 @@ $total = 0;
       <?=\Yii::t('pay', 'Назад');?>
     </a>
     <a href="<?=$this->createUrl('/pay/cabinet/pay');?>" class="btn btn-large btn-primary"><?=\Yii::t('pay', 'Оплатить картой или эл. деньгами');?></a>
-    <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'paypal'));?>" class="btn btn-large btn-primary paypal"><?=\Yii::t('pay', 'Оплатить через');?> <img src="/modules<?php echo $this->layout;?>/images/logo-paypal.png" alt=""></a>
+    <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'paypal'));?>" class="btn btn-large btn-primary paypal"><?=\Yii::t('pay', 'Оплатить через');?> <img src="/img/pay/logo-paypal.png" alt=""></a>
     <a href="<?php echo $this->createUrl('/pay/juridical/create/');?>" class="btn btn-large"><?=\Yii::t('pay', 'Выставить счет');?> <span class="muted"><?=\Yii::t('pay', '(для юр. лиц)');?></span></a>
   </div>
 
