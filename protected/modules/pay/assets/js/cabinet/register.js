@@ -185,15 +185,20 @@ CPayRegister.prototype = {
     self.form.find('table[data-product-id]').each(function () {
       all = $(this).find('tbody .user-row').size();
       current = $(this).find('tbody input:disabled').size();
+      sum = current*$(this).data('price');
+      total += sum;
+      $(this).find('thead th .quantity').text(current);
+      $(this).find('thead th .mediate-price').text(sum);
       if (all == current) {
         self.createEmptyRow($(this).data('product-id'));
         current++;
       } 
       $(this).data('row-current', current);
     });
+    self.form.find('#total-price').text(total);
   }
 }
 
 $(function () {
-  payRegister = new CPayRegister();
+  var payRegister = new CPayRegister();
 });

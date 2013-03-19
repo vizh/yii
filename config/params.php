@@ -29,5 +29,7 @@ return array(
     'AdminEventPerPage' => 50,
     
     'CatalogCompanyDir' => '/files/catalog/company/', // файловая директория для хранения каталога логотипов компаний
+      
+    'EmailEventCalendar' => 'calendar@internetmediaholding.com'
   )
 );

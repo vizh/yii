@@ -85,7 +85,7 @@
 .event-register .errorSummary .container {
   border: 0 !important;
 }
-.event-register .errorSummary .container ul {
+.errorSummary ul {
   margin: 0;
   padding: 0;
   list-style: none;

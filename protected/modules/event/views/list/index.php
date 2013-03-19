@@ -44,10 +44,10 @@
     </div>
 
     <div class="row p-relative">
-      <button class="btn btn-info event-button_add">
+      <a class="btn btn-info event-button_add" href="<?=$this->createUrl('/event/create/index');?>">
         <div class="plus">+</div>
         <div class="text"><?php echo \Yii::t('app', 'Добавить');?><br><?php echo \Yii::t('app', 'мероприятие');?></div>
-      </button>
+      </a>
       
       <div class="span8 offset2">
         <?php if (!empty($events)):?>

@@ -1,4 +1,5 @@
 <?php
+namespace ext\translator;
 class Translite
 {
   protected function getAvailableLocales()

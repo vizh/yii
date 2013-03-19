@@ -1,4 +1,5 @@
 <?php
+namespace ext\mailer;
 /*~ PHPMailer.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
@@ -2318,7 +2319,7 @@ class PHPMailer {
   }
 }
 
-class phpmailerException extends Exception {
+class phpmailerException extends \Exception {
   public function errorMessage() {
     $errorMsg = '<strong>' . $this->getMessage() . "</strong><br />\n";
     return $errorMsg;

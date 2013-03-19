@@ -440,4 +440,29 @@ class Event extends \application\models\translation\ActiveRecord
     $date = $this->EndDay.'.'.$this->EndMonth.'.'.$this->EndYear;
     return \Yii::app()->dateFormatter->format($pattern, $date);
   }
+  
+  public function setContactSite($url, $secure = false)
+  {
+    $contactSite = $this->getContactSite();
+    if (empty($contactSite))
+    {
+      $contactSite = new \contact\models\Site();
+      $contactSite->Url = $url;
+      $contactSite->Secure = $secure;
+      $contactSite->save();
+
+      $linkSite = new LinkSite();
+      $linkSite->EventId = $this->Id;
+      $linkSite->SiteId = $contactSite->Id;
+      $linkSite->save();
+    }
+    elseif ($contactSite->Url != $url || $contactSite->Secure != $secure)
+    {
+      $contactSite->Url = $url;
+      $contactSite->Secure = $secure;
+      $contactSite->save();
+    }
+
+    return $contactSite;
+  }
 }
