@@ -31,7 +31,6 @@ class RegisterAction extends \CAction
     $orderForm->attributes = $request->getParam(get_class($orderForm));
     if ($request->getIsPostRequest())
     {
-      $orderForm->addError('Items', 'ОШИБОН!');
       foreach ($orderForm->Items as $k => $item)
       {
         $product = \pay\models\Product::model()->findByPk($item['ProductId']);
@@ -70,7 +69,9 @@ class RegisterAction extends \CAction
       }
       if (!$orderForm->hasErrors())
       {
-        //echo 'Редирект';
+        $this->getController()->redirect(
+          $this->getController()->createUrl('/pay/cabinet/index', array('eventIdName' => $event->Id))
+        );
       }
     }
         

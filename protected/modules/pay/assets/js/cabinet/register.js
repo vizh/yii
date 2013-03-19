@@ -107,7 +107,7 @@ CPayRegister.prototype = {
   initRemoveIcon : function (row) {
     var self = this;
     row.find('i.icon-remove').click(function () {
-      row.remove();
+      row.empty().remove();
       self.itemsIterator--;
       self.calculate();
     });
@@ -170,6 +170,8 @@ CPayRegister.prototype = {
 
     var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
     table.append(rowTemplate);
+    var row = table.find('tr:last-child');
+    self.initRemoveIcon(row);
     self.itemsIterator++;
   },
           
@@ -177,23 +179,17 @@ CPayRegister.prototype = {
     var self     = this,
         sum      = 0,
         total    = 0,
-        fillSize = 0,
-        allSize  = 0;
+        all      = 0,
+        current  = 0;
         
     self.form.find('table[data-product-id]').each(function () {
-      fillSize = $(this).find('tbody input:disabled').size();
-      sum = fillSize * $(this).data('price');
-      total += sum;
-     
-      $(this).find('thead .quantity').text(fillSize);
-      $(this).find('thead .mediate-price').text(sum);
-      if (fillSize >= $(this).data('row-max')) {
+      all = $(this).find('tbody .user-row').size();
+      current = $(this).find('tbody input:disabled').size();
+      if (all == current) {
         self.createEmptyRow($(this).data('product-id'));
-        $(this).data('row-max', $(this).data('row-max')+1);
-      }
-      allSize  = $(this).find('tbody .user-row').size();
-      $(this).data('row-current', allSize);
-      self.form.find('#total-price').text(total);
+        current++;
+      } 
+      $(this).data('row-current', current);
     });
   }
 }
