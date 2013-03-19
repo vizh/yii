@@ -174,16 +174,49 @@ class Order extends \CActiveRecord
 
   /**
    * Заполняет счет элементами заказа. Возвращает значение Total (сумма заказа)
-   * @property bool $juridical
-   * @property array $juridicalData
    *
+   * @param \user\models\User $user
+   * @param \event\models\Event $event
+   * @param bool $juridical
+   * @param array $juridicalData
+   *
+   * @throws \pay\components\Exception
    * @return int
    */
-  public function fill($juridical = false, $juridicalData = array())
+  public function create($user, $event, $juridical = false, $juridicalData = array())
   {
-    $items = OrderItem::getFreeItems($this->PayerId, $this->EventId);
+    $unpaidItems = $this->getUnpaidItems($user, $event);
+    if (empty($unpaidItems))
+    {
+      throw new \pay\components\Exception('У вас нет не оплаченных товаров, для выставления счета.');
+    }
+
+    $this->PayerId = $user->Id;
+    $this->EventId = $event->Id;
+    $this->Juridical = $juridical;
+    $this->save();
+
 
     $total = 0;
+    foreach ($unpaidItems as $item)
+    {
+      $total += $item->getPriceDiscount();
+      $orderLink = new OrderLinkOrderItem();
+      $orderLink->OrderId = $this->Id;
+      $orderLink->OrderItemId = $this->Id;
+      $orderLink->save();
+
+      if ($juridical) //todo: костыль для РИФ+КИБ проживания, продумать адекватное выставление сроков бронирования
+      {
+        if ($item->Booked != null)
+        {
+          $item->Booked = $this->getBookEnd($item->CreationTime);
+        }
+        $item->PaidTime = $this->CreationTime;
+        $item->save();
+      }
+    }
+
     if ($juridical)
     {
       $orderJuridical= new OrderJuridical();
@@ -198,31 +231,35 @@ class Order extends \CActiveRecord
       $orderJuridical->save();
     }
 
+    return $total;
+  }
+
+  /**
+   * @param \user\models\User $user
+   * @param \event\models\Event $event
+   *
+   * @return \pay\models\OrderItem[]
+   */
+  public function getUnpaidItems($user, $event)
+  {
+    $items = OrderItem::getFreeItems($user->Id, $event->Id);
+    /** @var $unpaidItems OrderItem[] */
+    $unpaidItems = array();
     foreach ($items as $item)
     {
       if (!$item->Paid)
       {
-        $total += $item->getPriceDiscount();
-        $orderLink = new OrderLinkOrderItem();
-        $orderLink->OrderId = $this->Id;
-        $orderLink->OrderItemId = $this->Id;
-        $orderLink->save();
-        /**
-         * todo: костыль для РИФ+КИБ проживания, продумать адекватное выставление сроков бронирования
-         */
-        if ($juridical)
+        if ($item->Product->getManager()->checkProduct($item->Owner))
         {
-          if ($item->Booked != null)
-          {
-            $item->Booked = $this->getBookEnd($item->CreationTime);
-          }
-          $item->PaidTime = $this->CreationTime;
-          $item->save();
+          $unpaidItems[] = $item;
+        }
+        else
+        {
+          $item->delete();
         }
       }
     }
-
-    return $total;
+    return $unpaidItems;
   }
 
   /**

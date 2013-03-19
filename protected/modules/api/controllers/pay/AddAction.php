@@ -18,17 +18,21 @@ class AddAction extends \api\components\Action
     {
       throw new \api\components\Exception(401, array($productId));
     }
-    else if ($payer == null) 
+    elseif ($payer == null)
     {
       throw new \api\components\Exception(202, array($payerRunetId));
     }
-    else if ($owner == null)
+    elseif ($owner == null)
     {
       throw new \api\components\Exception(202, array($ownerRunetId));
     }
-    else if ($this->getAccount()->Event == null)
+    elseif ($this->getAccount()->Event == null)
     {
       throw new \api\components\Exception(301);
+    }
+    elseif ($this->getAccount()->EventId != $product->EventId)
+    {
+      throw new \api\components\Exception(402);
     }
     
     $orderItem = $product->getManager()->createOrderItem($payer, $owner);
