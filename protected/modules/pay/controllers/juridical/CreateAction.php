@@ -7,7 +7,8 @@ class CreateAction extends \pay\components\Action
   {
     $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->CurrentUser()->Id, $this->getController()->getEvent()->Id);
 
-    $unpaidItems = array();
+    $order = new \pay\models\Order();
+    $unpaidItems = $order->getUnpaidItems($);
     foreach ($orderItems as $item)
     {
       if (!$item->Paid)
@@ -28,7 +29,11 @@ class CreateAction extends \pay\components\Action
     {
       $request = \Yii::app()->getRequest();
       $form->attributes = $request->getParam(get_class($form));
-      if ($request->getIsPostRequest() && )
+      if ($request->getIsPostRequest() && $request->getParam(get_class($form)) !== null && $form->validate())
+      {
+
+        $order->cre
+      }
     }
 
 
