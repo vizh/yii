@@ -10,12 +10,34 @@ class TestController extends CController
 {
   public function actionIndex()
   {
-    $coupons = \pay\models\Coupon::model()->findAll();
-    foreach ($coupons as $coupon)
+    $manager = 'RoomProductManager';
+    $params = array(
+      'DateIn' => '2013-04-16',
+      'DateOut' => '2013-04-19',
+      'Hotel' => 'НАЗАРЬЕВО',
+      'Housing' => '2 корпус',
+      'Category' => 'джуниор суит стандартный',
+      'PlaceTotal' => '3'
+    );
+    $filter = array(
+      'Price'
+    );
+
+    /** @var $product \pay\models\Product */
+    $product = \pay\models\Product::model()
+        ->byManagerName($manager)
+        ->byEventId(422)->find();
+
+    if ($product === null)
     {
-      echo '<pre>';
-      print_r($coupon);
-      echo '</pre>';
+      throw new \api\components\Exception(420);
     }
+
+    $filterResult = $product->getManager()->filter($params, $filter);
+    var_dump($filterResult);
+
+    //$product = $product->getManager()->getFilterProduct($params);
+
+    //var_dump($product);
   }
 }

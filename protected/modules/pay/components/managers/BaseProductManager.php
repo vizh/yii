@@ -155,7 +155,7 @@ abstract class BaseProductManager
   {
     foreach ($this->getOrderItemAttributeNames() as $key)
     {
-      if (!isset($params[$key]))
+      if (!isset($attributes[$key]))
       {
         throw new \pay\components\Exception('Не задан обязательный параметр ' . $key . ' при добавлении заказа.');
       }
