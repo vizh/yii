@@ -1,16 +1,19 @@
-<?if (!empty($orderForm->Items)):?>
-  <script type="text/javascript">
-    $(function () {
-      <?foreach ($orderForm->Items as $item):?>
-        <?php $owner = \user\models\User::model()->byRunetId($item['RunetId'])->find();?> 
-        payRegister.createFillRow(<?=$item['ProductId'];?>, {
-          'RunetId'  : '<?=$owner->RunetId;?>',
-          'FullName' : '<?=$owner->getFullName();?>'
-        }, '<?=$item['PromoCode'];?>');
-      <?endforeach;?>
-    });
-  </script>
-<?endif;?>
+<script type="text/javascript">
+  payItems = [];
+  <?if (!empty($orderForm->Items)):?>
+    <?foreach ($orderForm->Items as $item):?>
+      <?php $owner = \user\models\User::model()->byRunetId($item['RunetId'])->find();?> 
+      var payItem = [];
+      payItem.productId = '<?=$item['ProductId'];?>';
+      payItem.user = {
+        RunetId : '<?=$owner->RunetId;?>',
+        FullName : '<?=$owner->getFullName();?>'
+      };
+      payItem.promoCode = '<?=$item['PromoCode'];?>';
+      payItems.push(payItem);
+    <?endforeach;?>
+  <?endif;?>
+</script>
 
 <section id="section" role="main">
   <?=\CHtml::beginForm('', 'POST', array('class' => 'registration', 'id' => 'registration_form', 'data-event-id-name' => $event->IdName));?>

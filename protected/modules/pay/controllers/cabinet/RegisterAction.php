@@ -53,7 +53,7 @@ class RegisterAction extends \CAction
           {
             try
             {
-              $coupon->activate(\Yii::app()->user->CurrentUser(), $owner);
+              $coupon->activate(\Yii::app()->user->getCurrentUser(), $owner);
             }
             catch (\pay\components\Exception $e) {}
           }
@@ -61,7 +61,7 @@ class RegisterAction extends \CAction
         
         try
         {
-          $product->getManager()->createOrderItem(\Yii::app()->user->CurrentUser(), $owner);
+          $product->getManager()->createOrderItem(\Yii::app()->user->getCurrentUser(), $owner);
         }
         catch(\pay\components\Exception $e)
         {

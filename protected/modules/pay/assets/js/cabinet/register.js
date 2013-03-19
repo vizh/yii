@@ -17,12 +17,18 @@ var CPayRegister = function()
 CPayRegister.prototype = {
   init: function () {
     var self = this;
-    this.form.find('table[data-product-id]').each(function () {
-      for (var i = 0; i < $(this).data('row-max'); i++) {
+    if (payItems !== undefined) {
+      $.each(payItems, function (i, payItem) {
+        self.createFillRow(payItem.productId, payItem.user, payItem.promoCode)
+      });
+    }
+    this.calculate();
+    
+    self.form.find('table[data-product-id]').each(function () {
+      for (var i = $(this).data('row-current'); i < $(this).data('row-max'); i++) {
         self.createEmptyRow($(this).data('product-id'));
       }
     });
-    this.calculate();
   },
   
   /**
@@ -44,9 +50,10 @@ CPayRegister.prototype = {
         alertContainer.html('').hide();
         $.post('/user/ajax/register', registerForm.serialize(), function (response) {
           if (response.success) {
-            self.createFillRow(table.data('product-id'), response.user);
             registerForm.parents('tr').remove();
+            self.createFillRow(table.data('product-id'), response.user);
             row.remove();
+            self.calculate();
           }
           else {
             alertContainer.show().html('');
@@ -102,6 +109,7 @@ CPayRegister.prototype = {
     row.find('i.icon-remove').click(function () {
       row.remove();
       self.itemsIterator--;
+      self.calculate();
     });
   },
   
@@ -163,28 +171,30 @@ CPayRegister.prototype = {
     var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
     table.append(rowTemplate);
     self.itemsIterator++;
-    self.calculate();
   },
           
   calculate : function () {
-    var self  = this,
-        sum   = 0,
-        total = 0,
-        size  = 0;
+    var self     = this,
+        sum      = 0,
+        total    = 0,
+        fillSize = 0,
+        allSize  = 0;
         
     self.form.find('table[data-product-id]').each(function () {
-      size = $(this).find('tbody input:disabled').size();
-      sum = size * $(this).data('price');
+      fillSize = $(this).find('tbody input:disabled').size();
+      sum = fillSize * $(this).data('price');
       total += sum;
-      $(this).data('row-current', size);
-      $(this).find('thead .quantity').text(size);
+     
+      $(this).find('thead .quantity').text(fillSize);
       $(this).find('thead .mediate-price').text(sum);
-      if (size == $(this).data('row-max')) {
+      if (fillSize >= $(this).data('row-max')) {
         self.createEmptyRow($(this).data('product-id'));
-        $(this).data('row-max', size+1);
+        $(this).data('row-max', $(this).data('row-max')+1);
       }
+      allSize  = $(this).find('tbody .user-row').size();
+      $(this).data('row-current', allSize);
+      self.form.find('#total-price').text(total);
     });
-    self.form.find('#total-price').text(total);
   }
 }
 
