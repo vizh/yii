@@ -1,74 +1,94 @@
 <?php
-
+/**
+ * @var $form \pay\models\forms\Juridical
+ * @var $unpaidItems \pay\models\OrderItem[]
+ * @var $this JuridicalController
+ */
 ?>
 
 <section id="section" role="main">
-  <style>.b-event-promo .side, .b-event-promo .all {display: none;}</style>
+  <div class="container m-top_40">
+    <div class="row">
+      <div class="offset2 span8">
 
+        <h3><?=Yii::t('pay', 'Выставление счета');?></h3>
 
-  <div class="event-register">
-    <div class="container">
+        <h5><?=Yii::t('pay', 'Заполните данные юридического лица');?></h5>
 
-      <div class="tabs clearfix">
-        <div class="tab pull-left">
-          <span class="number img-circle">1</span>
-          <?=\Yii::t('pay', 'Регистрация');?>
+        <?=CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
+
+        <?=CHtml::beginForm('', 'POST', array('class' => 'form-horizontal m-top_40'));?>
+
+        <div class="control-group">
+          <?=CHtml::activeLabel($form, 'Name', array('class' => 'control-label'));?>
+          <div class="controls">
+            <?=CHtml::activeTextField($form, 'Name', array('class' => 'span4'));?>
+          </div>
         </div>
-        <div class="tab current pull-left">
-          <span class="number img-circle">2</span>
-          <?=\Yii::t('pay', 'Оплата');?>
+        <div class="control-group">
+          <?=CHtml::activeLabel($form, 'Address', array('class' => 'control-label'));?>
+          <div class="controls">
+            <?=CHtml::activeTextArea($form, 'Address', array('class' => 'span4'));?>
+          </div>
         </div>
-      </div>
+        <div class="control-group">
+          <?=CHtml::activeLabel($form, 'INN', array('class' => 'control-label'));?>
+          <div class="controls">
+            <?=CHtml::activeTextField($form, 'INN', array('class' => 'span4'));?>
+          </div>
+        </div>
+        <div class="control-group">
+          <?=CHtml::activeLabel($form, 'KPP', array('class' => 'control-label'));?>
+          <div class="controls">
+            <?=CHtml::activeTextField($form, 'KPP', array('class' => 'span4'));?>
+          </div>
+        </div>
+        <div class="control-group">
+          <?=CHtml::activeLabel($form, 'Phone', array('class' => 'control-label'));?>
+          <div class="controls">
+            <?=CHtml::activeTextField($form, 'Phone', array('class' => 'span4'));?>
+          </div>
+        </div>
+        <div class="control-group">
+          <?=CHtml::activeLabel($form, 'Fax', array('class' => 'control-label'));?>
+          <div class="controls">
+            <?=CHtml::activeTextField($form, 'Fax', array('class' => 'span4'));?>
+          </div>
+        </div>
+        <div class="control-group">
+          <?=CHtml::activeLabel($form, 'PostAddress', array('class' => 'control-label'));?>
+          <div class="controls">
+            <?=CHtml::activeTextArea($form, 'PostAddress', array('class' => 'span4'));?>
+          </div>
+        </div>
 
-      <div class="row">
-        <div class="span8 offset2">
-          <?php echo CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
-          <?php echo CHtml::beginForm('', 'POST', array('class' => ''));?>
-          <div class="control-group">
-            <?php echo CHtml::activeLabel($form, 'Name', array('class' => 'control-label'));?>
-            <div class="controls">
-              <?php echo CHtml::activeTextField($form, 'Name', array('class' => 'input-xxlarge'));?>
+        <div class="control-group">
+          <div class="controls">
+            <div class="row">
+              <div class="span2">
+                <a class="btn" href="<?=$this->createUrl('/pay/cabinet/index');?>">
+                  <i class="icon-circle-arrow-left"></i>
+                  <?=\Yii::t('pay', 'Назад');?>
+                </a>
+              </div>
+              <div class="span3">
+                <a id="order_submit" class="btn btn-info" href=""><?=\Yii::t('pay', 'Выставить счет')?></a>
+              </div>
             </div>
           </div>
-          <div class="control-group">
-            <?php echo CHtml::activeLabel($form, 'Address', array('class' => 'control-label'));?>
-            <div class="controls">
-              <?php echo CHtml::activeTextArea($form, 'Address', array('class' => 'input-xxlarge'));?>
-            </div>
-          </div>
-          <div class="control-group">
-            <?php echo CHtml::activeLabel($form, 'INN', array('class' => 'control-label'));?>
-            <div class="controls">
-              <?php echo CHtml::activeTextField($form, 'INN', array('class' => 'input-xxlarge'));?>
-            </div>
-          </div>
-          <div class="control-group">
-            <?php echo CHtml::activeLabel($form, 'KPP', array('class' => 'control-label'));?>
-            <div class="controls">
-              <?php echo CHtml::activeTextField($form, 'KPP', array('class' => 'input-xxlarge'));?>
-            </div>
-          </div>
-          <div class="control-group">
-            <?php echo CHtml::activeLabel($form, 'Phone', array('class' => 'control-label'));?>
-            <div class="controls">
-              <?php echo CHtml::activeTextField($form, 'Phone', array('class' => 'input-xxlarge'));?>
-            </div>
-          </div>
-          <div class="control-group">
-            <?php echo CHtml::activeLabel($form, 'Fax', array('class' => 'control-label'));?>
-            <div class="controls">
-              <?php echo CHtml::activeTextField($form, 'Fax', array('class' => 'input-xxlarge'));?>
-            </div>
-          </div>
-          <div class="control-group">
-            <?php echo CHtml::activeLabel($form, 'PostAddress', array('class' => 'control-label'));?>
-            <div class="controls">
-              <?php echo CHtml::activeTextArea($form, 'PostAddress', array('class' => 'input-xxlarge'));?>
-            </div>
-          </div>
-          <?php echo CHtml::submitButton(\Yii::t('mblt2013', 'Выставить счет'), array('class' => 'btn'));?>
-          <?php echo CHtml::endForm();?>
         </div>
+
+
+        <?php echo CHtml::endForm();?>
+
+
+
+
+
+
       </div>
     </div>
+  </div>
+
+
 </section>

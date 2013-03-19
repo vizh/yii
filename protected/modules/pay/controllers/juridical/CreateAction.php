@@ -5,24 +5,8 @@ class CreateAction extends \pay\components\Action
 {
   public function run()
   {
-    $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->getCurrentUser()->Id, $this->getController()->getEvent()->Id);
-
     $order = new \pay\models\Order();
-    $unpaidItems = $order->getUnpaidItems($);
-    foreach ($orderItems as $item)
-    {
-      if (!$item->Paid)
-      {
-        if ($item->Product->getManager()->checkProduct($item->Owner))
-        {
-          $unpaidItems[] = $item;
-        }
-        else
-        {
-          $item->delete();
-        }
-      }
-    }
+    $unpaidItems = $order->getUnpaidItems(\Yii::app()->user->getCurrentUser(), $this->getEvent());
 
     $form = new \pay\models\forms\Juridical();
     if (sizeof($unpaidItems) > 0)
@@ -31,29 +15,10 @@ class CreateAction extends \pay\components\Action
       $form->attributes = $request->getParam(get_class($form));
       if ($request->getIsPostRequest() && $request->getParam(get_class($form)) !== null && $form->validate())
       {
-
-        $order->cre
+        $order->create(\Yii::app()->user->getCurrentUser(), $this->getEvent(), true, $form->attributes);
+        $this->getController()->redirect(\Yii::app()->createUrl('/pay/juridical/order', array('orderId' => $order->Id)));
       }
     }
-
-
-
-
-
-
-
-    if ($request->getIsPostRequest()
-        && $request->getParam(get_class($orderJuridicalForm)) !== null
-        && $orderJuridicalForm->validate())
-    {
-      $order = \pay\models\Order::CreateOrder(\Yii::app()->user->getCurrentUser(), $this->event->EventId, $orderJuridicalForm->attributes);
-      $this->redirect('http://pay.rocid.ru/main/juridical/order/'.$order['OrderId'].'/');
-    }
-
-    $this->render('juridical', array(
-      'event' => $this->event,
-      'form' => $orderJuridicalForm
-    ));
 
     $this->getController()->render('create', array(
       'form' => $form,
