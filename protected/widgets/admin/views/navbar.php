@@ -2,7 +2,7 @@
 /**
  * @var $this \application\widgets\admin\Navbar
  */
-if (Yii::app()->user->CurrentUser() === null)
+if (Yii::app()->user->getCurrentUser() === null)
 {
   return;
 }
@@ -12,7 +12,7 @@ if (Yii::app()->user->CurrentUser() === null)
     <ul class="nav pull-right">
       <li class="dropdown" id="fat-menu">
         <a data-toggle="dropdown" class="dropdown-toggle" role="button" href="#">
-          <i class="icon-user icon-white"></i> <?=Yii::app()->user->CurrentUser()->getName();?>
+          <i class="icon-user icon-white"></i> <?=Yii::app()->user->getCurrentUser()->getName();?>
           <i class="icon-chevron-down icon-white"></i>
         </a>
         <ul class="dropdown-menu">

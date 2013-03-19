@@ -264,8 +264,8 @@ $hasNotPaidOrders = false;
           <?endif;?>
 
           var currentUser = {};
-          currentUser.runetid = <?=\Yii::app()->user->CurrentUser()->RunetId;?>;
-          currentUser.name = <?=json_encode(\Yii::app()->user->CurrentUser()->getFullName());?>;
+          currentUser.runetid = <?=\Yii::app()->user->getCurrentUser()->RunetId;?>;
+          currentUser.name = <?=json_encode(\Yii::app()->user->getCurrentUser()->getFullName());?>;
         </script>
 
         <div class="total">

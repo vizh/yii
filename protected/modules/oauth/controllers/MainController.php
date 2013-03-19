@@ -12,7 +12,7 @@ class MainController extends \oauth\components\Controller
       return;
     }
 
-    $user = Yii::app()->user->CurrentUser();
+    $user = Yii::app()->user->getCurrentUser();
     if ($user === null)
     {
       $this->redirect($this->createUrl('/oauth/main/auth'));
@@ -38,7 +38,7 @@ class MainController extends \oauth\components\Controller
 
   private function redirectWithToken()
   {
-    $user = Yii::app()->user->CurrentUser();
+    $user = Yii::app()->user->getCurrentUser();
     $request = Yii::app()->getRequest();
 
     $accessToken = new \oauth\models\AccessToken();
@@ -83,7 +83,7 @@ class MainController extends \oauth\components\Controller
 
         if (isset($socialProxy) && $socialProxy->isHasAccess())
         {
-          $socialProxy->saveSocialData(\Yii::app()->user->CurrentUser());
+          $socialProxy->saveSocialData(\Yii::app()->user->getCurrentUser());
         }
         $this->redirect($this->createUrl('/oauth/main/dialog'));
       }

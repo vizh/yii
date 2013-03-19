@@ -24,7 +24,7 @@ class CouponActivateAction extends \pay\components\Action
     {
       try 
       {
-        $coupon->activate(\Yii::app()->user->CurrentUser(), $owner);
+        $coupon->activate(\Yii::app()->user->getCurrentUser(), $owner);
       }
       catch(\pay\components\Exception $e)
       {

@@ -7,7 +7,7 @@ class WebUser extends \CWebUser {
   /**
    * @return \user\models\User
    */
-  public function CurrentUser()
+  public function getCurrentUser()
   {
     if (!$this->isGuest && $this->_currentUser === null)
     {

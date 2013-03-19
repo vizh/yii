@@ -9,13 +9,13 @@
       <li class="item"><a href="/competences-list.html">Компетенции</a></li>
       <li class="item"><a href="<?=Yii::app()->createUrl('/job/default/index');?>">Работа</a></li>
       <li class="divider-vertical"></li>
-      <?if (Yii::app()->user->CurrentUser() === null):?>
+      <?if (Yii::app()->user->getCurrentUser() === null):?>
         <li class="login"><a id="NavbarLogin" href="#">Войти / Зарегистрироваться</a></li>
       <?else:?>
         <li class="account dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-            <img width="18" height="18" class="avatar" alt="" src="<?=Yii::app()->user->CurrentUser()->getPhoto()->get18px();?>">
-            <?=Yii::app()->user->CurrentUser()->getName();?>
+            <img width="18" height="18" class="avatar" alt="" src="<?=Yii::app()->user->getCurrentUser()->getPhoto()->get18px();?>">
+            <?=Yii::app()->user->getCurrentUser()->getName();?>
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu pull-right">
