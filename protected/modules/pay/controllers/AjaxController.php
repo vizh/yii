@@ -1,37 +1,36 @@
 <?php
 class AjaxController extends \application\components\controllers\PublicMainController
 {
-  public function actionCouponactivate($code, $eventIdName, $productId, $ownerId)
+  public function actionCouponActivate($code, $eventIdName, $ownerRunetId, $productId)
   {
     $event = \event\models\Event::model()->byIdName($eventIdName)->find();
-    if ($event == null)
+    $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
+    if ($event == null || $owner == null)
     {
-      throw new \CHttpException(404);
+      throw new CHttpException(404);
     }
     
-    $coupon = \pay\models\Coupon::model()->byCode($code)->byEventId($event->Id)->find();
     $result = new \stdClass();
-    $result->success = false;
-    
-    if ($coupon == null)
+    $coupon = \pay\models\Coupon::model()->byCode($code)->byEventId($event->Id)->find();
+    if ($code == null
+      || ($coupon->ProductId !== null && $coupon->ProductId != $productId))
     {
-      $result->error = \Yii::t('app', 'Введен не верный код купона');
+      $result->error = \Yii::t('app', 'Указан неверный код купона');
+      $result->success = false;
     }
-    else if (!$coupon->Multiple && !empty($coupon->Activations))
+    else
     {
-      if ($coupon->Activations[0]->UserId == $user->Id)
+      try 
       {
-        $result->error = \Yii::t('app', 'Вы уже активировали этот код купона');
+        $coupon->activate(\Yii::app()->user->CurrentUser(), $owner);
       }
-      else
+      catch(\pay\components\Exception $e)
       {
-        $result->error = \Yii::t('app', 'Введен не верный код купона');
+        $result->error = $e->getMessage();
+        $result->success = false;
       }
+      $result->success = true;
     }
-    else if ($coupon->EndTime !== null && $coupon->EndTime <= date('Y-m-d H:i:s'))
-    {
-      $result->error = \Yii::t('app', 'Срок действия купона истек');
-    }
-    else if ($coupon->ProductId !== null)
+    echo json_encode($result);
   }
 }
