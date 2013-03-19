@@ -51,7 +51,7 @@ class OrderItem extends \CActiveRecord
       'Payer' => array(self::BELONGS_TO, '\user\models\User', 'PayerId'),
       'Owner' => array(self::BELONGS_TO, '\user\models\User', 'OwnerId'),
       'ChangedOwner' => array(self::BELONGS_TO, '\user\models\User', 'ChangedOwnerId'),
-      'OrderLinks' => array(self::MANY_MANY, '\pay\models\OrderLinkOrderItem', 'PayOrderLinkOrderItem(OrderItemId, OrderId)'),
+      'OrderLinks' => array(self::HAS_MANY, '\pay\models\OrderLinkOrderItem', 'OrderItemId'),
       'CouponActivationLink' => array(self::HAS_ONE, '\pay\models\CouponActivationLinkOrderItem', 'OrderItemId'),
 
       'Attributes' => array(self::HAS_MANY, '\pay\models\OrderItemAttribute', 'OrderItemId'),
@@ -288,9 +288,7 @@ class OrderItem extends \CActiveRecord
       $ids[] = $item->Id;
     }
 
-    var_dump($ids);
 
-    exit;
     $criteria = new \CDbCriteria();
     if ($not)
     {

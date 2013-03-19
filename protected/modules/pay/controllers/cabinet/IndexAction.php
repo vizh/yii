@@ -9,7 +9,6 @@ class IndexAction extends \pay\components\Action
     $unpaidItems = array();
     $paidItems = array();
     $recentPaidItems = array();
-    //$products = array();
 
     foreach ($orderItems as $orderItem)
     {
@@ -18,7 +17,6 @@ class IndexAction extends \pay\components\Action
         if ($orderItem->Product->getManager()->checkProduct($orderItem->Owner))
         {
           $unpaidItems[$orderItem->Product->Id][] = $orderItem;
-          //$products[$orderItem->Product->Id] = $orderItem->Product;
         }
         else
         {
@@ -38,12 +36,16 @@ class IndexAction extends \pay\components\Action
       }
     }
 
+    $orders = \pay\models\Order::model()
+        ->byPayerId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->getEvent()->Id)
+        ->byJuridical(true)->byDeleted(false)->findAll();
+
     $this->getController()->render('index', array(
       //'products' => $products,
       'unpaidItems' => $unpaidItems,
       'paidItems' => $paidItems,
       'recentPaidItems' => $recentPaidItems,
-      'juridicalOrders' => array(),//\pay\models\Order::GetOrdersWithJuridical(\Yii::app()->user->getId(), $this->event->EventId),
+      'orders' => $orders,//\pay\models\Order::GetOrdersWithJuridical(\Yii::app()->user->getId(), $this->event->EventId),
     ));
   }
 }

@@ -3,14 +3,11 @@
  * @var $unpaidItems \pay\models\OrderItem[]
  * @var $paidItems \pay\models\OrderItem[]
  * @var $recentPaidItems \pay\models\OrderItem[]
+ * @var $orders \pay\models\Order[]
  *
  * @var $this \pay\components\Controller
  */
 ?>
-
-
-<style>.b-event-promo .side, .b-event-promo .all {display: none;}</style>
-
 
 
 <div class="event-register" data-event-idname="<?=$this->getEvent()->IdName;?>">
@@ -29,29 +26,8 @@
 
     <?$this->renderPartial('index/unpaidItems', array('unpaidItems' => $unpaidItems, 'hasRecentPaidItems' => (sizeof($recentPaidItems) > 0)));?>
 
-
-
-
-
-    <?php if (!empty($juridicalOrders)):?>
-      <table class="table">
-        <thead>
-        <tr>
-          <th colspan="3"><h4 class="title"><?=\Yii::t('mblt2013', 'Выставленные счета');?></h4></th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($juridicalOrders as $order):?>
-          <tr>
-            <td style="padding-left: 10px; width: 15px;">
-              <a href="<?php echo $this->createUrl('/runetid2/pay/orderitems', array('action' => 'deleteOrderJuridical', 'orderId' => $order->OrderId, 'eventId' => $event->Id));?>"><i class="icon-trash"></i></a>
-            </td>
-            <td><?=\Yii::t('mblt2013', 'Счет');?> № <?=$order->OrderId;?> <?=\Yii::t('mblt2013', 'от');?> <?php echo \Yii::app()->dateFormatter->format('d MMMM yyyy', $order->CreationTime);?></td>
-            <td><a target="_blank" href="http://pay.rocid.ru/main/juridical/order/<?php echo $order->OrderId;?>"><?=\Yii::t('mblt2013', 'Просмотреть счет');?></a></td>
-          </tr>
-        <?php endforeach;?>
-        </tbody>
-      </table>
+    <?php if (sizeof($orders) > 0):?>
+      <?$this->renderPartial('index/orders', array('orders' => $orders));?>
     <?php endif;?>
   </div>
 
