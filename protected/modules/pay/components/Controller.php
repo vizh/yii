@@ -32,5 +32,4 @@ class Controller extends \application\components\controllers\PublicMainControlle
     return parent::createUrl($route, $params, $ampersand);
   }
 
-
 }

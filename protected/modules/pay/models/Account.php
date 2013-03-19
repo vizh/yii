@@ -6,6 +6,7 @@ namespace pay\models;
  * @property int $EventId
  * @property bool $Own
  * @property string $OrderTemplateName
+ * @property string $ReturnUrl
  */
 class Account extends \CActiveRecord
 {
@@ -38,7 +39,7 @@ class Account extends \CActiveRecord
   public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId';
+    $criteria->condition = '"t"."EventId" = :EventId';
     $criteria->params = array('EventId' => $eventId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;

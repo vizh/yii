@@ -8,7 +8,8 @@ class DeleteAction extends \api\components\Action
     $request = \Yii::app()->getRequest();
     $orderItemId = $request->getParam('OrderItemId');
     $payerRunetId = $request->getParam('PayerRunetId');
-    
+
+    /** @var $orderItem \pay\models\OrderItem */
     $orderItem = \pay\models\OrderItem::model()->findByPk($orderItemId);
     $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
     
@@ -32,7 +33,7 @@ class DeleteAction extends \api\components\Action
     {
       throw new \api\components\Exception(402);
     }
-    else if ($orderItem->Paid == 1)
+    else if ($orderItem->Paid)
     {
       throw new \api\components\Exception(411);
     }

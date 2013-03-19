@@ -3,8 +3,12 @@ namespace pay\controllers\cabinet;
 
 class IndexAction extends \pay\components\Action
 {
+
+
   public function run($eventIdName)
   {
+    $this->checkAccount();
+
     $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->getCurrentUser()->Id, $this->getController()->getEvent()->Id);
     $unpaidItems = array();
     $paidItems = array();
@@ -41,45 +45,19 @@ class IndexAction extends \pay\components\Action
         ->byJuridical(true)->byDeleted(false)->findAll();
 
     $this->getController()->render('index', array(
-      //'products' => $products,
       'unpaidItems' => $unpaidItems,
       'paidItems' => $paidItems,
       'recentPaidItems' => $recentPaidItems,
-      'orders' => $orders,//\pay\models\Order::GetOrdersWithJuridical(\Yii::app()->user->getId(), $this->event->EventId),
+      'orders' => $orders,
     ));
   }
-}
 
-
-/*
- *
-
-    $request = \Yii::app()->getRequest();
-    if ($request->getParam('action') !== null)
+  private function checkAccount()
+  {
+    $account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
+    if ($account === null)
     {
-      switch ($request->getParam('action'))
-      {
-        case 'deleteOrderItem':
-          $orderItem = \pay\models\OrderItem::model()->findByPk($request->getParam('orderItemId'));
-          if ($orderItem->PayerId == \Yii::app()->user->getId()
-              && $orderItem->Paid == 0)
-          {
-            $orderItem->Deleted = 1;
-            $orderItem->save();
-          }
-          break;
-
-        case 'deleteOrderJuridical':
-          $order = \pay\models\Order::GetById($request->getParam('orderId'));
-          if ($order->PayerId == \Yii::app()->user->getId()
-              && $order->OrderJuridical !== null)
-          {
-            $order->OrderJuridical->DeleteOrder();
-          }
-      }
-
-      $this->redirect(
-        $this->createUrl('/runetid2/pay/orderitems', array('eventId' => $this->event->EventId))
-      );
+      throw new \pay\components\Exception('Для работы платежного кабинета необходимо создать платежный аккаунт мероприятия.');
     }
- */
+  }
+}

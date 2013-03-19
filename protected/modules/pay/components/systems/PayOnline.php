@@ -1,11 +1,9 @@
 <?php
-namespace pay\models\systems;
+namespace pay\components\systems;
 
-class PayOnlineSystem extends BaseSystem
+class PayOnline extends Base
 {
   const Url = 'https://secure.payonlinesystem.com/ru/payment/select/';
-  //const PrivateSecurityKey = '8cce489d-57d6-41ea-bf3f-c9b6c35db540';
-  //const MerchantId = 2452;
   const Currency = 'RUB';
 
   private $merchantId;
@@ -14,31 +12,15 @@ class PayOnlineSystem extends BaseSystem
   /**
    * @return array
    */
-  public function RequiredParams()
+  public function getRequiredParams()
   {
     return array('MerchantId', 'PrivateSecurityKey');
   }
 
   protected function initRequiredParams($orderId)
   {
-    $params = null;
-    $order = \pay\models\Order::GetById($orderId);
-    if (!empty($order))
-    {
-      $account = \pay\models\PayAccount::GetByEventId($order->EventId);
-      $params = !empty($account) ? $account->GetSystemParams() : null;
-    }
-
-    if (!empty($params))
-    {
-      $this->merchantId = $params['MerchantId'];
-      $this->privateSecurityKey = $params['PrivateSecurityKey'];
-    }
-    else
-    {
-      $this->merchantId = 2452;
-      $this->privateSecurityKey = '8cce489d-57d6-41ea-bf3f-c9b6c35db540';
-    }
+    $this->merchantId = 2452;
+    $this->privateSecurityKey = '8cce489d-57d6-41ea-bf3f-c9b6c35db540';
   }
 
   protected function getClass()
@@ -50,7 +32,7 @@ class PayOnlineSystem extends BaseSystem
    * Проверяет, может ли данный объект обработать callback платежной системы
    * @return bool
    */
-  public function Check()
+  public function check()
   {
     $request = \Yii::app()->getRequest();
     $amount = $request->getParam('Amount', false);
@@ -60,7 +42,7 @@ class PayOnlineSystem extends BaseSystem
 
   /**
    * Заполняет общие параметры всех платежных систем, для единой обработки платежей
-   * @throws \pay\models\PayException
+   * @throws \pay\components\Exception
    * @return void
    */
   public function FillParams()
@@ -81,12 +63,12 @@ class PayOnlineSystem extends BaseSystem
     $hash = md5($query);
     if ($hash === $request->getParam('SecurityKey'))
     {
-      $this->OrderId = $orderId;
-      $this->Total = intval($request->getParam('Amount'));
+      $this->orderId = $orderId;
+      $this->total = intval($request->getParam('Amount'));
     }
     else
     {
-      throw new \pay\models\PayException('Ошибка при вычислении хеша!', 211);
+      throw new \pay\components\Exception('Ошибка при вычислении хеша!', 211);
     }
   }
 
@@ -97,7 +79,7 @@ class PayOnlineSystem extends BaseSystem
    * @param int $total
    * @return void
    */
-  public function ProcessPayment($eventId, $orderId, $total)
+  public function processPayment($eventId, $orderId, $total)
   {
     $this->initRequiredParams($orderId);
     $total = number_format($total, 2, '.', '');
@@ -113,9 +95,9 @@ class PayOnlineSystem extends BaseSystem
     unset($params['PrivateSecurityKey']);
 
     $params['SecurityKey'] = $hash;
-    $params['ReturnUrl'] = RouteRegistry::GetUrl('main', '', 'return', array('eventId' => $eventId));
+    $params['ReturnUrl'] = \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', array('eventIdName' => \event\models\Event::model()->findByPk($eventId)->IdName));
 
-    Lib::Redirect(self::Url . '?' . http_build_query($params));
+    \Yii::app()->getController()->redirect(self::Url . '?' . http_build_query($params));
   }
 
   /**

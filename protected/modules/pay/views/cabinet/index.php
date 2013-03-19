@@ -7,6 +7,8 @@
  *
  * @var $this \pay\components\Controller
  */
+
+$paidItems = array_merge($recentPaidItems, $paidItems);
 ?>
 
 
@@ -31,34 +33,8 @@
     <?php endif;?>
   </div>
 
-  <div class="container" style="margin-top: 30px;">
-    <?if (!empty($recentPaidItems) || !empty($paidItems)):
-      $paidItems = array_merge($recentPaidItems, $paidItems);
-      ?>
-      <table class="table">
-        <thead>
-        <tr>
-          <th colspan="4"><h4 class="title"><?=\Yii::t('mblt2013', 'Оплаченные товары');?></h4></th>
-        </tr>
-        </thead>
-        <tbody>
+  <?if (sizeof($paidItems) > 0):?>
+    <?$this->renderPartial('index/paidItems', array('paidItems' => $paidItems));?>
+  <?endif;?>
 
-        <?php foreach ($paidItems as $item):?>
-          <tr>
-            <td>
-              <?=$item->Owner->GetFullName();?>
-              <?php if($item->ProductId == 731):
-                $secondOwner = user\models\User::model()->findByPk($item->GetParam('SecondUserId')->Value);
-                echo ' + '.$secondOwner->GetFullName();
-              endif;?>
-            </td>
-            <td><?=\Yii::t('mblt2013', $item->Product->Title);?></td>
-            <td><?=\Yii::app()->getLocale()->getDateFormatter()->format('d MMMM yyyy г., H:mm', $item->PaidTime)?></td>
-            <td><?=$item->PriceDiscount() == 0 ? \Yii::t('mblt2013', 'Бесплатно') : $item->PriceDiscount() . ' '.\Yii::t('mblt2013', 'руб').'.';?> </td>
-          </tr>
-        <?php endforeach;?>
-        </tbody>
-      </table>
-    <?endif;?>
-  </div>
 </div>
