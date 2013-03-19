@@ -288,6 +288,9 @@ class OrderItem extends \CActiveRecord
       $ids[] = $item->Id;
     }
 
+    var_dump($ids);
+
+    exit;
     $criteria = new \CDbCriteria();
     if ($not)
     {

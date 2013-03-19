@@ -2,7 +2,7 @@
 namespace pay\models;
 
 /**
- * @property int $OrderId
+ * @property int $Id
  * @property int $PayerId
  * @property int $EventId
  * @property bool $Paid
@@ -39,7 +39,7 @@ class Order extends \CActiveRecord
 
   public function primaryKey()
   {
-    return 'OrderId';
+    return 'Id';
   }
 
   public function relations()
@@ -203,7 +203,7 @@ class Order extends \CActiveRecord
       $total += $item->getPriceDiscount();
       $orderLink = new OrderLinkOrderItem();
       $orderLink->OrderId = $this->Id;
-      $orderLink->OrderItemId = $this->Id;
+      $orderLink->OrderItemId = $item->Id;
       $orderLink->save();
 
       if ($juridical) //todo: костыль для РИФ+КИБ проживания, продумать адекватное выставление сроков бронирования
