@@ -305,6 +305,16 @@ class Order extends \CActiveRecord
       return false;
     }
 
+    foreach ($this->ItemLinks as $link)
+    {
+      if ($link->OrderItem->Booked != null)
+      {
+        $link->OrderItem->Booked = date('Y-m-d H:i:s', time() + 3 * 60 * 60);
+      }
+      $link->OrderItem->PaidTime = null;
+      $link->OrderItem->save();
+    }
+
     $this->Deleted = true;
     $this->DeletionTime = date('Y-m-d H:i:s');
     $this->save();
@@ -312,5 +322,15 @@ class Order extends \CActiveRecord
     return true;
   }
 
+  private static $SecretKey = '7deSAJ42VhzHRgYkNmxz';
+  public function getHash()
+  {
+    return substr(md5($this->Id.self::$SecretKey), 0, 16);
+  }
+
+  public function checkHash($hash)
+  {
+    return $hash == $this->getHash();
+  }
 
 }

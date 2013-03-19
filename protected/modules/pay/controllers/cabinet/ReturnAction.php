@@ -7,6 +7,13 @@ class ReturnAction extends \pay\components\Action
   {
     /** @var $account \pay\models\Account */
     $account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
-    $this->getController()->redirect($account->ReturnUrl);
+    if ($account->ReturnUrl !== null)
+    {
+      $this->getController()->redirect($account->ReturnUrl);
+    }
+    else
+    {
+      $this->getController()->redirect(\Yii::app()->createUrl('/event/view/index', array('idName' => $eventIdName)));
+    }
   }
 }

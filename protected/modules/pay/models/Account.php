@@ -7,6 +7,9 @@ namespace pay\models;
  * @property bool $Own
  * @property string $OrderTemplateName
  * @property string $ReturnUrl
+ * @property string $Offer
+ *
+ * @property \event\models\Event $Event
  */
 class Account extends \CActiveRecord
 {
@@ -28,6 +31,13 @@ class Account extends \CActiveRecord
   public function primaryKey()
   {
     return 'Id';
+  }
+
+  public function relations()
+  {
+    return array(
+      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId')
+    );
   }
 
   /**
