@@ -4,6 +4,7 @@ namespace job\models;
 /**
  * @property int $Id
  * @property string $Name
+ * @property string $LogoUrl
  */
 class Company extends \CActiveRecord
 {
