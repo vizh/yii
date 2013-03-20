@@ -80,7 +80,7 @@
               </small></p>
             </header>
             <article>
-              <?=\application\components\utility\Texts::сropText($event->Info, 200);?>
+              <?=\application\components\utility\Texts::cropText($event->Info, 200);?>
             </article>
             <footer>
               <nav>

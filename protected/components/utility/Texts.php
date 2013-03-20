@@ -48,7 +48,7 @@ class Texts
     return substr($base, 0, $length);
   }
 
-  public static function сropText($content, $maxLength)
+  public static function cropText($content, $maxLength)
   {
     if (mb_strlen($content, 'utf8') > $maxLength)
     {

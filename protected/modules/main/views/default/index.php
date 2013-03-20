@@ -169,7 +169,7 @@
             </h4>
           </header>
           <article>
-            <p><?=$job->getPreview();?></p>
+            <p><?=\application\components\utility\Texts::cropText($job->Text, \Yii::app()->params['JobPreviewLength']);?></p>
             <a target="_blank" href="<?=$job->Url;?>"><?=\Yii::t('app', 'Ответить на вакансию');?></a>
           </article>
           <footer class="salary">

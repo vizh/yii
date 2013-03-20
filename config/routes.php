@@ -25,15 +25,18 @@ return array(
         //'http://login.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
 
         /** API Module Rules */
-        '/api/event/role/list' => 'api/event/roles',
+        'api/event/role/list' => 'api/event/roles',
         'api/pay/filter/list' => 'api/pay/filterlist',
         'api/pay/filter/book' => 'api/pay/filterbook',
 
         /** EVENT ICAL SHARE */
         '/event/share/ical/<idName>/' => 'event/share/ical',
 
-        /** INDEX PAGE */
+        /** Main Rules */
         'http://'. RUNETID_HOST.'/' => 'main/default/index',
+        'http://'. RUNETID_HOST.'/<runetId:\d+>/' => 'user/view/index',
+        'http://'. RUNETID_HOST.'/events/' => 'event/list/index',
+        'http://'. RUNETID_HOST.'/calendar/' => 'event/list/calendar',
         
         /** ALL MODULES */
         'http://'. RUNETID_HOST.'/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',

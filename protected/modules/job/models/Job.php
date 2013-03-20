@@ -55,14 +55,5 @@ class Job extends \CActiveRecord
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
-  
-  public function getPreview()
-  {
-    $text = strip_tags($this->Text);
-    if (mb_strlen($text, 'utf-8') > \Yii::app()->params['JobPreviewLength'])
-    {
-      $text = mb_substr($text, 0, \Yii::app()->params['JobPreviewLength'], 'utf-8').'...';
-    }
-    return $text;
-  }
+
 }
