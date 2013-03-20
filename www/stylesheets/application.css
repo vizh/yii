@@ -550,12 +550,15 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   height: 178px;
   padding: 15px 30px;
 }
-.b-promo .b-tabs .tab_users i {margin-right: 5px;}
-.b-promo .b-tabs .tab_users p {
+.b-promo .b-tabs .tab_users i,
+.b-promo .b-tabs .tab_orgs i {margin-right: 5px;}
+.b-promo .b-tabs .tab_users p,
+.b-promo .b-tabs .tab_orgs p {
   font-size: 13px;
   font-weight: bold;
 }
-.b-promo .b-tabs .tab_users .login {
+.b-promo .b-tabs .tab_users .login,
+.b-promo .b-tabs .tab_orgs .login {
   padding: 5px 0;
   font-size: 13px;
   text-align: center;

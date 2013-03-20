@@ -21,18 +21,29 @@
           <div id="promo-tab_users" class="tab tab_users">
             <div>
               <p><i class="icon-calendar"></i>Главные мероприятия Рунета</p>
-              <p><i class="icon-briefcase"></i>Актуальные вакансии от компаний Рунета</p>
+              <p><i class="icon-briefcase"></i>Актуальные вакансии интернет-отрасли</p>
               <p><i class="icon-file"></i>Свежие новости</p>
               <p><i class="icon-check"></i>Профессиональные тесты/центр компетенций</p>
-              <p><i class="icon-globe"></i>Все об интернете в одном месте</p>
+              <p><i class="icon-globe"></i>Скидки на партнерские мероприятия</p>
               <div class="login">
-                <a id="PromoLogin" href="#">Войти / Зарегистрироваться</a>
+                <?if (Yii::app()->user->getCurrentUser() === null):?>
+                  <a id="PromoLogin" href="#">Войти / Зарегистрироваться</a>
+                <?else:?>
+                   <?=Yii::app()->user->getCurrentUser()->FirstName;?>, мы рады что вы с нами!
+                <?endif;?>
               </div>
             </div>
           </div>
           <div id="promo-tab_orgs" class="tab tab_orgs">
             <div>
-              Got contents, bro?
+              <p><i class="icon-globe"></i>Подробный профиль компании</p>
+              <p><i class="icon-calendar"></i>Размещение событий в календаре мероприятий</p>
+              <p><i class="icon-briefcase"></i>Продажа билетов на мероприятия</p>
+              <p><i class="icon-check"></i>Регистрация на мероприятие «в один клик»</p>
+              <p><i class="icon-file"></i>Эффективные инструменты рекламных кампаний</p>
+              <div class="login">
+                <a href="<?=Yii::app()->createUrl('/event/list/index');?>">Мероприятия</a>, которые уже сотрудничают с нами
+              </div>
             </div>
           </div>
         </div>
