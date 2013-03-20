@@ -164,10 +164,7 @@ class Order extends \CActiveRecord
 
     $this->Paid = true;
     $this->PaidTime = date('Y-m-d H:i:s');
-    if ($this->Juridical)
-    {
-      $this->Total = $total;
-    }
+    $this->Total = $total;
     $this->save();
 
     return array('Total' => $total, 'ErrorItems' => $errorItems);

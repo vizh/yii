@@ -40,4 +40,15 @@ class TestController extends CController
 
     //var_dump($product);
   }
+
+  public function actionOrder()
+  {
+    $orderId = 10531;
+    /** @var $order \pay\models\Order */
+    $order = \pay\models\Order::model()->findByPk($orderId);
+
+    $result = $order->activate();
+
+    var_dump($result);
+  }
 }

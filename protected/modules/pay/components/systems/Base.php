@@ -79,9 +79,20 @@ abstract class Base
 
     $payResult = $order->activate();
 
-    if ($payResult['Total'] != $this->getTotal())
+    if ($this->getTotal() !== null)
+    {
+      $order->Total = $this->getTotal();
+      $order->save();
+    }
+
+    if ($this->getTotal() !== null && $payResult['Total'] != $this->getTotal())
     {
       throw new \pay\components\Exception('Сумма заказа и полученная через платежную систему не совпадают', 202);
+    }
+
+    if ($this->getTotal() === null)
+    {
+      $this->total = $payResult['Total'];
     }
 
     if (!empty($payResult['ErrorItems']))
