@@ -46,7 +46,7 @@ return array(
 
     'db'=>array(
       'class'=>'\application\components\db\PgDbConnection',
-      'connectionString' => 'pgsql:host=runetid.internetmediaholding.com;port=5432;dbname=runetid',
+      'connectionString' => 'pgsql:host=10.10.5.7;port=5432;dbname=runetid',
       'emulatePrepare' => true,
       'username' => 'runetid',
       'password' => 'Rofeena1jei8haes',
@@ -55,9 +55,9 @@ return array(
       'enableParamLogging'=>true,
       'schemaCachingDuration'=>600,
     ),
-    'dbOld'=>array(
+    /*'dbOld'=>array(
       'class'=>'CDbConnection',
-      'connectionString' => 'mysql:host=localhost;dbname=rocid2',
+      'connectionString' => 'mysql:host=localhost;dbname=rocid',
       'emulatePrepare' => true,
       'username' => 'root',
       'password' => '123456',
@@ -65,7 +65,7 @@ return array(
       'enableProfiling' => true,
       'enableParamLogging'=>true,
       'schemaCachingDuration'=>3600,
-    ),
+    ),*/
 
     'session' => array(
       'class' => '\application\components\web\PgDbHttpSession',
