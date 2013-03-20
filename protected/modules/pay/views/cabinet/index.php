@@ -4,6 +4,7 @@
  * @var $paidItems \pay\models\OrderItem[]
  * @var $recentPaidItems \pay\models\OrderItem[]
  * @var $orders \pay\models\Order[]
+ * @var $account \pay\models\Account
  *
  * @var $this \pay\components\Controller
  */
@@ -26,7 +27,7 @@ $paidItems = array_merge($recentPaidItems, $paidItems);
       </div>
     </div>
 
-    <?$this->renderPartial('index/unpaidItems', array('unpaidItems' => $unpaidItems, 'hasRecentPaidItems' => (sizeof($recentPaidItems) > 0)));?>
+    <?$this->renderPartial('index/unpaidItems', array('unpaidItems' => $unpaidItems, 'hasRecentPaidItems' => (sizeof($recentPaidItems) > 0), 'account' => $account));?>
 
     <?php if (sizeof($orders) > 0):?>
       <?$this->renderPartial('index/orders', array('orders' => $orders));?>

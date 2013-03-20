@@ -3,6 +3,7 @@
  * @var $unpaidItems array
  * @var $hasRecentPaidItems bool
  * @var $this CabinetController
+ * @var $account \pay\models\Account
  */
 
 $total = 0;
@@ -66,7 +67,7 @@ $total = 0;
     </label>
   </div>
   <div class="actions clearfix">
-    <a href="<?=$this->createUrl('/pay/cabinet/register');?>" class="btn btn-large">
+    <a href="<?=$account->ReturnUrl===null ? $this->createUrl('/pay/cabinet/register') : $account->ReturnUrl;?>" class="btn btn-large">
       <i class="icon-circle-arrow-left"></i>
       <?=\Yii::t('pay', 'Назад');?>
     </a>
