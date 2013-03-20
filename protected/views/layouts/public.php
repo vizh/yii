@@ -107,22 +107,12 @@
   <div class="container">
     <div class="clearfix">
       <div class="clearfix pull-left">
-        <nav class="b-social pull-left">
-          <a href="#" class="item">
-            <img src="/images/blank.gif" alt="" class="i-social_small i-social_facebook dark">
-          </a>
-          <a href="#" class="item">
-            <img src="/images/blank.gif" alt="" class="i-social_small i-social_twitter dark">
-          </a>
-          <a href="#" class="item">
-            <img src="/images/blank.gif" alt="" class="i-social_small i-social_vkontakte dark">
-          </a>
-        </nav>
         <div class="copyright pull-left">
-          &copy;&nbsp;2008-2012, ООО &laquo;Интернет Медиа Холдинг&raquo;
+          &copy;&nbsp;2008-<?=date('Y')?>, ООО &laquo;Интернет Медиа Холдинг&raquo;
         </div>
       </div>
       <div class="development pull-right">
+        Разработка и поддержка: <a href="http://internetmediaholding.com" title="Internet Media Holding" target="_blank">Internet Media Holding</a><br />
         Разработка: <a href="http://coalla.ru/" title="Агентство Coalla" target="_blank">Coalla</a>
       </div>
     </div>
