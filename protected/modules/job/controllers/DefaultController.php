@@ -9,6 +9,7 @@ class DefaultController extends \application\components\controllers\PublicMainCo
     $criteria->with = array(
       'Category', 'Position', 'Company'
     );
+    $criteria->order = '"t"."CreationTime"';
     
     $request = \Yii::app()->getRequest();
     $filter = new \job\models\form\ListFilterForm();
@@ -32,7 +33,7 @@ class DefaultController extends \application\components\controllers\PublicMainCo
               break;
             
             case 'SalaryFrom':
-              $criteria->addCondition('"t"."SalaryFrom" >= :SalaryFrom');
+              $criteria->addCondition('"t"."SalaryFrom" >= :SalaryFrom OR ("t"."SalaryFrom" IS NULL AND "t"."SalaryTo" >= :SalaryFrom)');
               $criteria->params['SalaryFrom'] = $value;
               break;
             
