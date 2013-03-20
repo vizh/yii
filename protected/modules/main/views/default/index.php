@@ -115,7 +115,7 @@
 
 <?php $this->widget('\application\widgets\News', array('limit' => 3));?>
 
-<div class="b-competences">
+<div class="b-competences" id="competences">
   <div class="container">
     <h2 class="b-header_large medium">
       <div class="line"></div>
@@ -124,67 +124,18 @@
           <span class="backing runet">Runet</span>
           <span class="backing text">Компетенции</span>
         </div>
-        <span class="backing url">
-          <a href="/competences-list.html">Тесты</a>
-        </span>
       </div>
     </h2>
-    <div class="row units">
-      <div class="competence unit span6">
-        <header class="clearfix">
-          <img src="/images/icon-competence-large.png" alt="" class="i-competence_large pull-left">
-          <h4 class="title">Тест для SMM-специалистов</h4>
-        </header>
+    <div class="row">
+      <div class="span6">
         <article>
-          <p>Умные люди давно поняли: общение в&nbsp;социальных сетях&nbsp;&mdash; это не&nbsp;только интересно, но&nbsp;и&nbsp;полезно. А&nbsp;мудрые поняли, что полезно оно может быть не&nbsp;только для них, но&nbsp;и&nbsp;для их&nbsp;компаний, бизнеса или проекта. Поняли и&nbsp;решили заниматься этим профессионально.</p>
+          <p>Центр компетенций&nbsp;&mdash; это проект RUNET-ID в&nbsp;сфере профессиональной ориентации пользвоателей&nbsp;Рунета. В&nbsp;скором времени будут доступны более 30 тестов по&nbsp;разным направлениям в&nbsp;области интернет-технологий.</p>
         </article>
-        <footer>
-          <a href="#">
-            <i class="icon-edit"></i>Пройти тест
-          </a>
-        </footer>
-      </div
-      ><div class="competence unit span6">
-        <header class="clearfix">
-          <img src="/images/icon-competence-large.png" alt="" class="i-competence_large pull-left">
-          <h4 class="title">Игровой продюсер</h4>
-        </header>
+      </div>
+      <div class="span6">
         <article>
-          <p>Вы много слышали о seo, контексте и других видах онлайн-рекламы? Или немного, но этого хватило, чтобы всерьез заинтересовать Вас? Вы хотите заниматься продвижением в Интернете, но не знаете с чего начать? Вы хотите заниматься.</p>
+          <p>По&nbsp;итогам прохождения тестирования Вам будет присвоен балл и&nbsp;выданы рекомендации по&nbsp;повышению профессиональной деятельности (от&nbsp;литературы, курсов и&nbsp;учебных&nbsp;заведений).</p>
         </article>
-        <footer>
-          <a href="#">
-            <i class="icon-edit"></i>Пройти тест
-          </a>
-        </footer>
-      </div
-      ><div class="competence unit span6">
-        <header class="clearfix">
-          <img src="/images/icon-competence-large.png" alt="" class="i-competence_large pull-left">
-          <h4 class="title">Тест на высшего пользователя по онлайн-рекламе</h4>
-        </header>
-        <article>
-          <p>Чем старше становимся мы, тем интереснее становятся наши игрушки. Мальчики начинают коллекционировать уже настоящие машины, девочки – мальчиков, а большая мечта едва ли не каждого геймера – стать игровым продюсером. Пройдите этот тест, разработанный агентством интернет-рекрутинга PRUFFI.</p>
-        </article>
-        <footer>
-          <a href="#">
-            <i class="icon-edit"></i>Пройти тест
-          </a>
-        </footer>
-      </div
-      ><div class="competence unit span6">
-        <header class="clearfix">
-          <img src="/images/icon-competence-large.png" alt="" class="i-competence_large pull-left">
-          <h4 class="title">Тест для PR-специалистов</h4>
-        </header>
-        <article>
-          <p>PR в Рунете – больше, чем PR! И если Вас заинтересовал этот тест, Вы наверняка понимаете это как никто другой. Однако не спешите массово спамить своим резюме HR-отделы всех известных и интересных Вам компаний. Для начала пройдите этот тест, составленный специально.</p>
-        </article>
-        <footer>
-          <a href="#">
-            <i class="icon-edit"></i>Пройти тест
-          </a>
-        </footer>
       </div>
     </div>
   </div>

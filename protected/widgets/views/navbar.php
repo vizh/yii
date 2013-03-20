@@ -6,7 +6,7 @@
     <ul class="nav">
       <li class="item"><a href="<?=Yii::app()->createUrl('/event/list/index');?>">Мероприятия</a></li>
       <li class="item"><a target="_blank" href="http://therunet.com/">Новости</a></li>
-      <li class="item"><a href="/competences-list.html">Компетенции</a></li>
+      <li class="item"><a href="/#competences">Компетенции</a></li>
       <li class="item"><a href="<?=Yii::app()->createUrl('/job/default/index');?>">Работа</a></li>
       <li class="divider-vertical"></li>
       <?if (Yii::app()->user->getCurrentUser() === null):?>
