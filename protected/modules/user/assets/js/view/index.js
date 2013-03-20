@@ -12,7 +12,7 @@ $(function () {
       figures.hide();
       figures.filter('[data-year="'+year+'"]').show();
     }
-  }).find('option:last').attr('selected', 'selected');
+  }).find('option:eq(1)').attr('selected', 'selected');
   participatedYearSelector.trigger('change');
   
   $('.b-participated .all a').click(function () {

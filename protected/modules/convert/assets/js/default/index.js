@@ -2,6 +2,7 @@ $(function () {
   var CConvertPage = function () {
     this.container = $('.container.b-convert');
     this.url = {
+      'Начало' : '/convert/sequence/start',
       'Geo - регионы' : '/convert/geo/region',
       'Geo - страны' : '/convert/geo/country',
       'Geo - города' : '/convert/geo/city',
@@ -54,7 +55,8 @@ $(function () {
       'Оплаты - связь заказов с счетами' : '/convert/pay/oloi',
       'Оплаты - продукты' : '/convert/pay/product',
       'Оплаты - параметры продуктов' : '/convert/pay/productattr',
-      'Оплаты - цены продуктов' : '/convert/pay/productprice'
+      'Оплаты - цены продуктов' : '/convert/pay/productprice',
+      'Конец' : '/convert/sequence/end',
     }
     this.init();
   }

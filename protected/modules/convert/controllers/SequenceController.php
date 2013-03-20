@@ -26,6 +26,14 @@ class SequenceController extends CController
       $result = $command->query();
     }
   }
+  
+  public function afterAction($action)
+  {
+    $result = new \stdClass();
+    $result->success = true;
+    echo json_encode($result);
+    return parent::afterAction($action);
+  }
 
   private function getSequences()
   {

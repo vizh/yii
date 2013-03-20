@@ -29,7 +29,7 @@ class RegisterAction extends \CAction
 
     $orderForm = new \pay\models\forms\OrderForm();
     $orderForm->attributes = $request->getParam(get_class($orderForm));
-    if ($request->getIsPostRequest())
+    if ($request->getParam('count') == null && $request->getIsPostRequest())
     {
       foreach ($orderForm->Items as $k => $item)
       {

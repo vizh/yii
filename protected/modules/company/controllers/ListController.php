@@ -40,22 +40,16 @@ class ListController extends \application\components\controllers\PublicMainContr
     }
     
     $allCompanyCount = \company\models\Company::model()->count($criteria);
-    $page  = \Yii::app()->request->getParam('page', 1);
-    if ($page < 1)
-    {
-      $page = 1;
-    }
-    $criteria->limit  = \Yii::app()->params['CompanyPerPage'];
-    $criteria->offset = ($page - 1) * \Yii::app()->params['CompanyPerPage'];
-    
-    
+    $paginator = new \application\components\utility\Paginator($allCompanyCount);
+    $paginator->perPage = \Yii::app()->params['CompanyPerPage'];
+    $criteria->mergeWith($paginator->getCriteria());
     $companies = \company\models\Company::model()->findAll($criteria);
     $this->bodyId = 'companies-list';
     $this->setPageTitle(\Yii::t('app', 'Компании'));
     $this->render('index', array(
       'companies' => $companies,
       'filter' => $filter,
-      'allCompanyCount' => $allCompanyCount,
+      'paginator' => $paginator,
     ));
   }
 }

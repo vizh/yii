@@ -65,7 +65,6 @@
 </div>
 <?php
   $this->widget('application\widgets\Paginator', array(
-    'count' => $allCompanyCount, 
-    'perPage' => \Yii::app()->params['CompanyPerPage']
+    'paginator' => $paginator
   ));
 ?>

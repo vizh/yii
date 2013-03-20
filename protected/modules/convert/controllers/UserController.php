@@ -91,7 +91,6 @@ class UserController extends convert\components\controllers\Controller
     foreach ($links as $link)
     {
       $newLink = new \user\models\LinkAddress();
-      $newLink->Id = $link['NMID'];
       $newLink->UserId = $link['UserId'];
       $newLink->AddressId = $link['AddressId'];
       $newLink->save();
@@ -107,7 +106,6 @@ class UserController extends convert\components\controllers\Controller
     foreach ($links as $link)
     {
       $newLink = new \user\models\LinkEmail();
-      $newLink->Id = $link['NMID'];
       $newLink->UserId = $link['UserId'];
       $newLink->EmailId = $link['EmailId'];
       $newLink->save();
@@ -123,7 +121,6 @@ class UserController extends convert\components\controllers\Controller
     foreach ($links as $link)
     {
       $newLink = new \user\models\LinkPhone();
-      $newLink->Id = $link['NMID'];
       $newLink->UserId = $link['UserId'];
       $newLink->PhoneId = $link['PhoneId'];
       $newLink->save();
@@ -139,7 +136,6 @@ class UserController extends convert\components\controllers\Controller
     foreach ($links as $link)
     {
       $newLink = new \user\models\LinkServiceAccount();
-      $newLink->Id = $link['NMID'];
       $newLink->UserId = $link['UserId'];
       $newLink->ServiceAccountId = $link['ServiceId'];
       $newLink->save();
@@ -155,7 +151,6 @@ class UserController extends convert\components\controllers\Controller
     foreach ($links as $link)
     {
       $newLink = new \user\models\LinkSite();
-      $newLink->Id = $link['NMID'];
       $newLink->UserId = $link['UserId'];
       $newLink->SiteId = $link['SiteId'];
       $newLink->save();
