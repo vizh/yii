@@ -91,3 +91,12 @@
   list-style: none;
   list-style-type: none;
 }
+
+.job header h4{
+  height: 60px;
+  overflow: hidden;
+}
+.job article p{
+  height: 140px;
+  overflow: hidden;
+}

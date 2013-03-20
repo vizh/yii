@@ -116,6 +116,6 @@
   </div>
 </footer>
 
-<div id="ModalAuth" class="modal hide fade" style="width: 620px; outline-style: none;" data-src="<?=Yii::app()->createUrl('/oauth/main/auth');?>" data-width="640" data-height="662" tabindex="-1" role="dialog"></div>
+<div id="ModalAuth" class="modal hide fade" style="width: 620px; outline-style: none; overflow: hidden;" data-src="<?=Yii::app()->createUrl('/oauth/main/auth');?>" data-width="640" data-height="662" tabindex="-1" role="dialog"></div>
 </body>
 </html>

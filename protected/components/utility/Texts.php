@@ -52,18 +52,24 @@ class Texts
   {
     if (mb_strlen($content, 'utf8') > $maxLength)
     {
-      $parts = preg_split('/([\.!?])/is', $content, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+      $parts = preg_split('/([\.!?;])/is', $content, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
       $content = '';
       foreach($parts as $part)
       {
         if (mb_strlen($content . $part, 'utf8') > $maxLength && mb_strlen($part) != 1)
         {
-          return $content;
+          if (mb_strlen($content, 'utf8') > 0)
+          {
+            return $content;
+          }
+          else
+          {
+            return mb_substr($content.$part, 0, $maxLength, 'utf8');
+          }
         }
         $content .= $part;
       }
     }
-
     return $content;
   }
 
