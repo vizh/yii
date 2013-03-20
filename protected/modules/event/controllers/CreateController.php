@@ -5,6 +5,11 @@ class CreateController extends \application\components\controllers\PublicMainCon
   {
     $request = \Yii::app()->getRequest();
     $form = new \event\models\forms\Create();
+    if (\Yii::app()->user->isGuest)
+    {
+      $form->addError('ContactName', '<a href="#" id="PromoLogin">Авторизуйтесь</a> в RUNET-ID для добавления мероприятия');
+    }
+    
     $form->attributes = $request->getParam(get_class($form));
     if ($request->getIsPostRequest() && $form->validate())
     {
@@ -75,9 +80,7 @@ class CreateController extends \application\components\controllers\PublicMainCon
       $mail->CharSet = 'utf-8';
       $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'Получено новое мероприятие')) .'?=';
       $mail->IsHTML(false);
-      $mail->MsgHTML(
-        $this->renderPartial('email', array('form' => $form), true)
-      );
+      $mail->Body = $this->renderPartial('email', array('form' => $form), true);
       $mail->Send();
       
       \Yii::app()->user->setFlash('success', \Yii::t('app', '<h4 class="m-bottom_5">Поздравляем!</h4>Мероприятие отправлено. В ближайшее время c Вами свяжутся.'));

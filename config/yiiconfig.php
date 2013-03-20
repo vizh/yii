@@ -57,10 +57,10 @@ return array(
     ),
     'dbOld'=>array(
       'class'=>'CDbConnection',
-      'connectionString' => 'mysql:host=localhost;dbname=rocidbeta',
+      'connectionString' => 'mysql:host=rocid.ru;dbname=rocid',
       'emulatePrepare' => true,
-      'username' => 'root',
-      'password' => '123456',
+      'username' => 'rocid',
+      'password' => 'Coozeiph8toh1dik',
       'charset' => 'utf8',
       'enableProfiling' => true,
       'enableParamLogging'=>true,

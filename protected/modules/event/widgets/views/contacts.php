@@ -26,9 +26,9 @@ $site = $this->event->getContactSite();
       <?$emailFlag = true;?>
     <?endforeach;?>
   </p>
+  <?if ($site != null):?>
   <p class="url">
-    <?if ($site != null):?>
-    <a target="_blank" href="<?=$site;?>"><?=$site->Url;?></a>
-    <?endif;?>
+    <a target="_blank" href="<?=$site;?>"><?=trim($site->Url,' /');?></a>
   </p>
+  <?endif;?>
 </div>

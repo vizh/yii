@@ -30,7 +30,6 @@ class ViewController extends \application\components\controllers\PublicMainContr
         || ($employmentsTmp[$employment->UserId]->StartYear <= $employment->StartYear 
           && $employmentsTmp[$employment->UserId]->StartMonth <= $employment->StartMonth))
       {
-        echo $employment->Id.'<br/>';
         $employmentsTmp[$employment->UserId] = $employment;
       }
     }
