@@ -16,12 +16,24 @@ class Registration extends \event\components\Widget
 
   public function run()
   {
-    \Yii::app()->getClientScript()->registerPackage('runetid.event-calculate-price');
+    /** @var $account \pay\models\Account */
+    $account = \pay\models\Account::model()->byEventId($this->event->Id)->find();
+    if ($account === null)
+    {
+      return;
+    }
 
-    $products = \pay\models\Product::model()->byEventId($this->event->Id)
-        ->byPublic(true)->findAll();
-
-    $this->render('registration', array('products' => $products));
+    if ($account->ReturnUrl === null)
+    {
+      \Yii::app()->getClientScript()->registerPackage('runetid.event-calculate-price');
+      $products = \pay\models\Product::model()->byEventId($this->event->Id)
+          ->byPublic(true)->findAll();
+      $this->render('registration', array('products' => $products));
+    }
+    else
+    {
+      $this->render('registration-external', array('account' => $account));
+    }
   }
 
   /**
