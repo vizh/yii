@@ -7,7 +7,7 @@ class IndexAction extends \pay\components\Action
 
   public function run($eventIdName)
   {
-    $this->checkAccount();
+    $account = $this->getAccount();
 
     $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->getCurrentUser()->Id, $this->getController()->getEvent()->Id);
     $unpaidItems = array();
@@ -49,15 +49,17 @@ class IndexAction extends \pay\components\Action
       'paidItems' => $paidItems,
       'recentPaidItems' => $recentPaidItems,
       'orders' => $orders,
+      'account' => $account
     ));
   }
 
-  private function checkAccount()
+  private function getAccount()
   {
     $account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
     if ($account === null)
     {
       throw new \pay\components\Exception('Для работы платежного кабинета необходимо создать платежный аккаунт мероприятия.');
     }
+    return $account;
   }
 }
