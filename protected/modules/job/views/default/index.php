@@ -38,6 +38,9 @@
               <span class="label label-warning"><?=\Yii::app()->dateFormatter->format('dd MMMM', $jobUp->Job->CreationTime);?></span>
               <div class="employer-row">
                 <span class="employer">
+                  <?if ($jobUp->Job->Company->LogoUrl !== null):?>
+                    <img class="logo" src="<?=$jobUp->Job->Company->LogoUrl;?>" alt="<?=$jobUp->Job->Company->Name;?>">
+                  <?endif;?>
                   <?=$jobUp->Job->Company->Name;?>
                 </span>
               </div>

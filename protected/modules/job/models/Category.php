@@ -28,8 +28,6 @@ class Category extends \CActiveRecord
   
   public function relations()
   {
-    return array(
-      'LinkPosition'  => array(self::HAS_MANY, '\job\models\CategoryLinkPosition', 'CategoryId'),
-    );
+    return array();
   }
 }
