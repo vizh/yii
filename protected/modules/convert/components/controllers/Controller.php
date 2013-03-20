@@ -3,7 +3,7 @@ namespace convert\components\controllers;
 
 class Controller extends \application\components\controllers\BaseController 
 {
-  protected $limit = 1000;
+  protected $limit = 500;
   protected $offset;
   private   $data = array();
   protected $step;
