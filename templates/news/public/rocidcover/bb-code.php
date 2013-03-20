@@ -1,1 +1,0 @@
-[url="http://<?=$this->Host?>/news/rocid-cover/<?=$this->CoverId;?>/"][img]http://<?=$this->Host?><?=$this->CoverImage;?>[/img][/url]

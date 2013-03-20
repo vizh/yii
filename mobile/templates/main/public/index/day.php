@@ -1,2 +1,0 @@
-<?=$this->Date;?>
-<?=$this->Events;?>
