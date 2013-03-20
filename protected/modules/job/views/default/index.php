@@ -51,7 +51,7 @@
               </h2>
             </header>
             <article>
-              <p><?=$jobUp->Job->Text, \Yii::app()->params['JobPreviewLength'];?></p>
+              <p><?=$jobUp->Job->Text;?></p>
               <a href="#"><?=\Yii::t('app', 'Ответить на вакансию');?></a>
             </article>
             <div class="row">
