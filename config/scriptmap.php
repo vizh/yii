@@ -11,7 +11,7 @@ return array(
         ),
         'runetid.backbone' => array(
           'baseUrl' => '/javascripts/',
-          'js' => array('underscore-min.js', 'backbone-min.js')
+          'js' => array('underscore-min-1.4.4.js', 'backbone-min-0.9.10.js')
         ),
         'runetid.bootstrap' => array(
           'baseUrl' => '/',

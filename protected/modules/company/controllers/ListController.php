@@ -3,6 +3,8 @@ class ListController extends \application\components\controllers\PublicMainContr
 {
   public function actionIndex()
   {
+    $this->setPageTitle('Компании / RUNET-ID');
+
     $criteria = new \CDbCriteria();
     $criteria->with = array(
       'LinkEmails.Email',

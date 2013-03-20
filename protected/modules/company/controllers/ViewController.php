@@ -20,6 +20,8 @@ class ViewController extends \application\components\controllers\PublicMainContr
     {
       throw new CHttpException(404);
     }
+
+    $this->setPageTitle($company->Name . '/ RUNET-ID');
    
     $employmentsTmp = array();
     foreach ($company->EmploymentsAll as $employment)

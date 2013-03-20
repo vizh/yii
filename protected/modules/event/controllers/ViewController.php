@@ -14,6 +14,8 @@ class ViewController extends \application\components\controllers\PublicMainContr
       throw new CHttpException(404);
     }
 
+    $this->setPageTitle($event->Title . '  / RUNET-ID');
+
     foreach ($event->Widgets as $widget)
     {
       $widget->process();

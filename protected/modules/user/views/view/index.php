@@ -23,7 +23,7 @@ $(window).load(function() {
     ]          
   }).createOn('charts-pie');
 
-  new RunetChart({
+  /*new RunetChart({
     itemTemplate: $('#single-chart-item-template').html(),
     height: 270,
     border: {
@@ -36,9 +36,9 @@ $(window).load(function() {
       {color: "#d362b0", val: 3, role: "По информационной безопасности"},
       {color: "#e58074", val: 4, role: "В вопросах мобильных технологий и приложений"}
     ]
-  }).createOn('charts-single');
+  }).createOn('charts-single');*/
 
-  new LinearChart({
+  /*new LinearChart({
     items: [
       {
         year: "2012",
@@ -72,7 +72,7 @@ $(window).load(function() {
         ]
       }
     ]
-  }).createOn('charts-linear');
+  }).createOn('charts-linear');*/
 
   $('.charts-linear').find('.item').tooltip();
 
@@ -192,25 +192,22 @@ $(window).load(function() {
             </div>
           </div>
 
+
+          <!--
           <h5 class="title t-center">Центр компетенций / Профессиональная активность</h5>
           <div class="row">
             <div class="span6 t-right">
-
-              <!-- Charts single -->
               <div id="charts-single"><canvas id="charts-single_canvas" class="clearfix"></canvas></div>
-
             </div>
             <div class="span6">
-
-              <!-- Charts linear -->
               <div id="charts-linear"></div>
-
             </div>
           </div>
         </div>
         <div class="more">
           <a href="#">Еще тесты</a>
         </div>
+        -->
       </div>
     </div>
 
