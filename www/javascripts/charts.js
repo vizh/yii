@@ -64,7 +64,7 @@ var Chart = function(options) {
 
     _.each(options.parts, function(part) {
       var
-        div = $(compiled({value: part.val, role: part.role})),
+        div = $('<div/>').html(compiled({value: part.val, role: part.role})).children(),
         canvas = document.getElementById(options.charts[i]);
       if (typeof(G_vmlCanvasManager) != 'undefined') G_vmlCanvasManager.initElement(canvas);
       var 

@@ -20,11 +20,13 @@ class ViewController extends \application\components\controllers\PublicMainContr
         'together' => false
       )
     );
+    /** @var $user \user\models\User */
     $user = \user\models\User::model()->byRunetId($runetId)->byVisible()->find($criteria);
     if ($user == null)
     {
       throw new \CHttpException(404);
     }
+    $this->setPageTitle($user->getFullName() . ' / RUNET-ID');
     
     $criteria = new \CDbCriteria();
     $criteria->with = array('Section', 'Report');
@@ -89,7 +91,6 @@ class ViewController extends \application\components\controllers\PublicMainContr
     
     \Yii::app()->clientScript->registerPackage('runetid.charts');
     $this->bodyId = 'user-account';
-    $this->setPageTitle($user->getFullName());
     $this->render('index', array(
       'user' => $user, 
       'participation' => $participation,

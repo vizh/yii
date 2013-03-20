@@ -19,12 +19,9 @@
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu pull-right">
-            <li>
-              <a href="/user-account.html">Личный кабинет</a>
-            </li>
-            <li>
-              <a href="<?=Yii::app()->createUrl('/user/logout/index');?>">Выйти</a>
-            </li>
+            <li><a href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => Yii::app()->user->getCurrentUser()->RunetId));?>">Мой профиль</a></li>
+            <li><a href="/user-account.html">Личный кабинет</a></li>
+            <li><a href="<?=Yii::app()->createUrl('/user/logout/index');?>">Выйти</a></li>
           </ul>
         </li>
       <?endif;?>

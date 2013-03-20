@@ -3,6 +3,8 @@ class DefaultController extends \application\components\controllers\PublicMainCo
 {
   public function actionIndex()
   {
+    $this->setPageTitle('Работа / RUNET-ID');
+
     $criteria = new \CDbCriteria();
     $criteria->with = array(
       'Category', 'Position', 'Company'

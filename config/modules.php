@@ -17,6 +17,7 @@ return array(
      * Модулт отдельных приложений объявляются в своих файлах (api, partner, ruvents)
      */
     'catalog',
+    'commission',
     'company',
     'contact',
     'event',
@@ -34,8 +35,6 @@ return array(
       
     /** Технические модули */
     'convert',
-    'mytest',
-    'commission',
-    'partner'
+    'mytest'
   ),
 );

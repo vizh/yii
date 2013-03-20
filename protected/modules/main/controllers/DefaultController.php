@@ -3,15 +3,10 @@ class DefaultController extends \application\components\controllers\PublicMainCo
 {
 	public function actionIndex()
 	{
-//    echo '---';
-//    print_r(\Yii::app()->getClientScript()->corePackages);
-//    print_r(\Yii::app()->getClientScript()->scripts);
-
-    //\Yii::app()->getClientScript()->registerPackage('jquery');
+    $this->setPageTitle('RUNET-ID');
 
     \Yii::app()->getClientScript()->registerPackage('highcharts');
 
-    //\Yii::app()->getClientScript()->registerScriptFile('jquery');
 
     $date = getdate();
     $criteria = new CDbCriteria();

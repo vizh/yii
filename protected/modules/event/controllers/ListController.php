@@ -8,6 +8,8 @@ class ListController extends \application\components\controllers\PublicMainContr
   
   public function beforeAction($action) 
   {
+    $this->setPageTitle('Календарь мероприятий / RUNET-ID');
+
     $this->month = (int) \Yii::app()->request->getParam('Month', date('n'));
     $this->year  = (int) \Yii::app()->request->getParam('Year', date('Y'));
     if (empty($this->month) || empty($this->year)

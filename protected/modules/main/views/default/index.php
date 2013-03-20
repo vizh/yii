@@ -9,25 +9,7 @@
   <div class="container">
     <img src="/images/logo-large.png" width="448" height="41" alt="-RUNET-ID-" class="logo">
     <nav class="b-social">
-      <div class="line"></div>
-      <span class="backing">
-        <a href="#" class="item">
-          <img src="/images/blank.gif" alt="" class="i-social_small i-social_facebook">
-          Facebook
-        </a>
-      </span>
-      <span class="backing">
-        <a href="#" class="item">
-          <img src="/images/blank.gif" alt="" class="i-social_small i-social_twitter">
-          Twitter
-        </a>
-      </span>
-      <span class="backing">
-        <a href="#" class="item">
-          <img src="/images/blank.gif" alt="" class="i-social_small i-social_vkontakte">
-          Вконтакте
-        </a>
-      </span>
+
     </nav>
     <div class="row">
       <div id="promo-tabs" class="b-tabs span6">
@@ -39,18 +21,29 @@
           <div id="promo-tab_users" class="tab tab_users">
             <div>
               <p><i class="icon-calendar"></i>Главные мероприятия Рунета</p>
-              <p><i class="icon-briefcase"></i>Актуальные вакансии от компаний Рунета</p>
+              <p><i class="icon-briefcase"></i>Актуальные вакансии интернет-отрасли</p>
               <p><i class="icon-file"></i>Свежие новости</p>
               <p><i class="icon-check"></i>Профессиональные тесты/центр компетенций</p>
-              <p><i class="icon-globe"></i>Все об интернете в одном месте</p>
+              <p><i class="icon-globe"></i>Скидки на партнерские мероприятия</p>
               <div class="login">
-                <a id="PromoLogin" href="#">Войти / Зарегистрироваться</a>
+                <?if (Yii::app()->user->getCurrentUser() === null):?>
+                  <a id="PromoLogin" href="#">Войти / Зарегистрироваться</a>
+                <?else:?>
+                   <?=Yii::app()->user->getCurrentUser()->FirstName;?>, мы рады что вы с нами!
+                <?endif;?>
               </div>
             </div>
           </div>
           <div id="promo-tab_orgs" class="tab tab_orgs">
             <div>
-              Got contents, bro?
+              <p><i class="icon-globe"></i>Подробный профиль компании</p>
+              <p><i class="icon-calendar"></i>Размещение событий в календаре мероприятий</p>
+              <p><i class="icon-briefcase"></i>Продажа билетов на мероприятия</p>
+              <p><i class="icon-check"></i>Регистрация на мероприятие «в один клик»</p>
+              <p><i class="icon-file"></i>Эффективные инструменты рекламных кампаний</p>
+              <div class="login">
+                <a href="<?=Yii::app()->createUrl('/event/list/index');?>">Мероприятия</a>, которые уже сотрудничают с нами
+              </div>
             </div>
           </div>
         </div>
@@ -59,18 +52,19 @@
         <div class="slider">
           <div class="slides">
             <div class="slide">
+              <a href="http://rif.ru/" target="_blank"><img src="/images/content/promo-banners/2013-04-rif13.jpg" alt="РИФ+КИБ 2013"></a>
+            </div>
+            <div class="slide">
               <div class="content">
-                <h3>Отрыв башки</h3>
-                <p>Нужно: &laquo;отрыв башки&raquo;, абсолютная безбашенность при этом четкое соблюдение сроков и&nbsp;понимание клиента. Связь посредством Skype до&nbsp;последнего являлась полностью конфиденциальной и&nbsp;защищённой&nbsp;&mdash; именно поэтому. Посредством Skype до&nbsp;последнего являлась полностью конфиденциальной и&nbsp;защищённой&nbsp;&mdash; именно поэтому. </p>
+                <h3>Для интернет-пользователей</h3>
+                <p>Он объединяет в себе удобную систему регистрации на мероприятия медиа- и интернет-индустрии, а также позволяет всем участникам системы записывать в историю профессиональный опыт и отображать компетенции в различных сферах. Сервис будет удобен специалистам для реализации своих идей и проектов.</p>
               </div>
             </div>
             <div class="slide">
               <div class="content">
-                <blockquote>Вы много слышали о seo, контексте и других видах онлайн-рекламы? Или немного, но этого хватило, чтобы всерьез заинтересовать Вас? Или немного, но этого хватило, чтобы всерьез заинтересовать Вас?<small>Сергеев Петр</small></blockquote>
+                <h3>Сервис для компаний</h3>
+                <p>Если вы организуете конференции, семинары, вебинары, форумы, премии или иные мероприятия медиа- и интернет-направленности, сервис позволяет открыть мероприятие и сообщить об этом целевой аудитории. Для привлечения аудитории мы предлагаем как внутренние ресурсы системы, так и задействуем внешние источники (контекстная реклама, работа с пользователями социальных сетей, реклама в СМИ, рекламно-информационная продукция).</p>
               </div>
-            </div>
-            <div class="slide">
-              <a href="#"><img src="/images/content/promo-banner.jpg" alt=""></a>
             </div>
           </div>
         </div>
