@@ -13,7 +13,7 @@ return array(
       
     'SearchResultPerPage' => 20, 
     
-    'JobPerPage' => 1,
+    'JobPerPage' => 16,
     'JobPreviewLength' => 200,
       
     'UserPerPage' => 20, // Количество результатов пользователей на страницу
