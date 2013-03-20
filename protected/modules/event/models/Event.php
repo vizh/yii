@@ -312,7 +312,7 @@ class Event extends \application\models\translation\ActiveRecord
   {
     if (!$usePriority || $participant->Role->Priority <= $role->Priority)
     {
-      $participant->RoleId = $role->RoleId;
+      $participant->RoleId = $role->Id;
       $participant->UpdateTime =  date('Y-m-d H:i:s');
       $participant->save();
       return true;
