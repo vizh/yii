@@ -61,7 +61,7 @@ class Controller extends \application\components\controllers\BaseController
     $connection = \Yii::app()->dbOld;
     $command = $connection->createCommand();
     
-    $command->Text = str_replace('*', 'Count(*) as `Count`', $sql);
+    $command->Text = preg_replace('/SELECT (.*) FROM/i', 'SELECT Count(*) as `Count` FROM', $sql);
     $countQuery = $command->queryRow();
     $this->stepAll = ceil($countQuery['Count'] / $this->limit);
     

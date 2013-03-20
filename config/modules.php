@@ -30,6 +30,8 @@ return array(
     'user',
     'search',
     'job',
+    'page',  
+      
     /** Технические модули */
     'convert',
     'mytest',
