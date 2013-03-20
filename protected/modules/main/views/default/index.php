@@ -9,25 +9,7 @@
   <div class="container">
     <img src="/images/logo-large.png" width="448" height="41" alt="-RUNET-ID-" class="logo">
     <nav class="b-social">
-      <div class="line"></div>
-      <span class="backing">
-        <a href="#" class="item">
-          <img src="/images/blank.gif" alt="" class="i-social_small i-social_facebook">
-          Facebook
-        </a>
-      </span>
-      <span class="backing">
-        <a href="#" class="item">
-          <img src="/images/blank.gif" alt="" class="i-social_small i-social_twitter">
-          Twitter
-        </a>
-      </span>
-      <span class="backing">
-        <a href="#" class="item">
-          <img src="/images/blank.gif" alt="" class="i-social_small i-social_vkontakte">
-          Вконтакте
-        </a>
-      </span>
+
     </nav>
     <div class="row">
       <div id="promo-tabs" class="b-tabs span6">
