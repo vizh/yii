@@ -69,6 +69,8 @@ class CreateController extends \application\components\controllers\PublicMainCon
       
       $mail = new \ext\mailer\PHPMailer(false);
       $mail->AddAddress(\Yii::app()->params['EmailEventCalendar']);
+      $mail->AddAddress('andrey.korotov@yandex.ru');
+      $mail->AddAddress('nikitin@internetmediaholding.com');
       $mail->SetFrom('event@'.RUNETID_HOST, 'RUNET-ID', false);
       $mail->CharSet = 'utf-8';
       $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'Получено новое мероприятие')) .'?=';
