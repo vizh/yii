@@ -54,20 +54,20 @@ class Texts
     {
       $parts = preg_split('/([\.!?;])/is', $content, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
       $content = '';
-      if (sizeof($parts) === 1)
+      foreach($parts as $part)
       {
-        return mb_substr($content, 0, $maxLength, 'utf8');
-      }
-      else
-      {
-        foreach($parts as $part)
+        if (mb_strlen($content . $part, 'utf8') > $maxLength && mb_strlen($part) != 1)
         {
-          if (mb_strlen($content . $part, 'utf8') > $maxLength && mb_strlen($part) != 1)
+          if (mb_strlen($content, 'utf8') > 0)
           {
             return $content;
           }
-          $content .= $part;
+          else
+          {
+            return mb_substr($content.$part, 0, $maxLength, 'utf8');
+          }
         }
+        $content .= $part;
       }
     }
     return $content;
