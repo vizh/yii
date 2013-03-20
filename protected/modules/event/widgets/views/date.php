@@ -1,8 +1,4 @@
 <?php
-/**
- * @var $this \event\widgets\Header
- */
-$event = $this->event;
 if (empty($event->StartYear) || empty($event->EndYear) || empty($event->StartMonth) || empty($event->EndMonth))
 {
   return;
@@ -29,13 +25,9 @@ if (empty($event->StartYear) || empty($event->EndYear) || empty($event->StartMon
     <span class="month"><?=Yii::app()->getLocale()->getMonthName($event->StartMonth, 'wide', true);?></span>
     <span class="month">-</span>
     <span class="month"><?=Yii::app()->getLocale()->getMonthName($event->EndMonth, 'wide', true);?></span>
-    <?endif;?>
-
-    <span class="year"><?=$event->EndYear;?></span>
   <?endif;?>
-
-
-
+  <span class="year"><?=$event->EndYear;?></span>
+<?endif;?>
 
 <?else:?>
   <?if (!empty($event->StartDay)):?>

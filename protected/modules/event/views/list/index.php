@@ -60,13 +60,7 @@
               <div class="datetime">
                 <div class="line"></div>
                 <span class="date backing">
-                  <span class="day"><?php echo $event->StartDay;?></span>
-                  <span class="month"><?php echo \Yii::app()->locale->getMonthName($event->StartMonth);?></span>
-                  <?php if ($event->StartDay != $event->EndDay || $event->StartMonth != $event->EndMonth):?>
-                    &ndash;
-                    <span class="day"><?php echo $event->EndDay;?></span>
-                    <span class="month"><?php echo \Yii::app()->locale->getMonthName($event->EndMonth);?></span>
-                  <?php endif;?>
+                  <?$this->widget('\event\widgets\Date', array('event' => $event));?>
                 </span>
                 <span class="day-of-the-week backing pull-right">
                   <?php echo \Yii::app()->dateFormatter->format('EEEE', mktime(0,0,0,$event->StartMonth,$event->StartDay,$event->StartYear));?>

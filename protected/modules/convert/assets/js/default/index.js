@@ -42,7 +42,19 @@ $(function () {
       'Секции - холы' : '/convert/section/hall',
       'Секции - доклады' : '/convert/section/report',
       'Секции - роли' : '/convert/section/role',
-      'Секции - пользователи' : '/convert/section/linkuser'
+      'Секции - пользователи' : '/convert/section/linkuser',
+      'Оплаты - аккаунты' : '/convert/pay/account',
+      'Оплаты - купоны' : '/convert/pay/coupon',
+      'Оплаты - активации купонов' : '/convert/pay/couponactivation',
+      'Оплаты - активации купонов в связки с заказами' : '/convert/pay/caloi',
+      'Оплаты - счета' : '/convert/pay/order',
+      'Оплаты - заказы' : '/convert/pay/orderitem',
+      'Оплаты - параметры заказов' : '/convert/pay/orderitemattr',
+      'Оплаты - юр. счета' : '/convert/pay/juridical',
+      'Оплаты - связь заказов с счетами' : '/convert/pay/oloi',
+      'Оплаты - продукты' : '/convert/pay/product',
+      'Оплаты - параметры продуктов' : '/convert/pay/productattr',
+      'Оплаты - цены продуктов' : '/convert/pay/productprice'
     }
     this.init();
   }

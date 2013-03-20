@@ -50,7 +50,7 @@
     <a class="btn btn-info event-button_add" href="<?=$this->createUrl('/event/create/index');?>">
       <div class="plus">+</div>
       <div class="text"><?php echo \Yii::t('app', 'Добавить');?><br><?php echo \Yii::t('app', 'мероприятие');?></div>
-    </button>
+    </a>
 
     <?php if (!empty($events)):?>
       <?php foreach ($events as $event):?>
@@ -72,10 +72,15 @@
               <h5 class="title">
                 <a href="<?php echo $this->createUrl('/event/view/index', array('idName' => $event->IdName));?>" class="event-color_1"><?php echo $event->Title;?></a>
               </h5>
-              <p class="muted"><small><?php echo ($event->StartMonth == $event->EndMonth ? $event->StartDay.'-'.$event->EndDay.' '.\Yii::app()->locale->getMonthName($event->StartMonth) : $event->StartDay.' '.\Yii::app()->locale->getMonthName($event->StartMonth).' - '.$event->EndDay.' '.\Yii::app()->locale->getMonthName($event->EndMonth)).($event->getContactAddress() !== null ? ', '.$event->getContactAddress() : '');?></small></p>
+              <p class="muted"><small>
+                <?$this->widget('\event\widgets\Date', array('event' => $event));?>
+                <?if ($event->getContactAddress() !== null):?>
+                  <?=$event->getContactAddress();?>
+                <?endif;?>
+              </small></p>
             </header>
             <article>
-              <?php echo $event->Info;?>
+              <?=\application\components\utility\Texts::сropText($event->Info, 200);?>
             </article>
             <footer>
               <nav>

@@ -20,7 +20,7 @@ $event = $this->event;
         <div class="duration">
           <span class="datetime">
             <span class="date">
-              <?$this->render('header-date');?>
+              <?$this->widget('\event\widgets\Date', array('event' => $event));?>
             </span>
           </span>
         </div>
