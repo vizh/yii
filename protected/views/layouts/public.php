@@ -69,31 +69,28 @@
       <div class="span8">
         <div class="row">
           <nav class="nav" role="navigation">
-                <span class="span2 item">
-                  <a href="/events-list.html">Мероприятия</a>
-                </span>
-                <span class="span2 item">
-                  <a href="#">Исследования</a>
-                </span>
-                <span class="span2 item">
-                  <a href="/about-page.html">О проекте</a>
-                </span>
-                <span class="span2 item">
-                  <a href="#">Реклама</a>
-                </span>
-                <span class="span2 item">
-                  <a href="/jobs-list.html">Работа</a>
-                </span>
-                <span class="span2 item">
-                  <a href="#">Медиа</a>
-                </span>
-                <span class="span2 item">
-                  <a href="#">Соглашение</a>
-                </span>
+            <span class="span2 item">
+              <a href="<?=$this->createUrl('/page/info/about');?>">О проекте</a>
+            </span>
+            <span class="span2 item">
+              <a href="<?=$this->createUrl('/page/info/adv');?>">Реклама</a>
+            </span>
+            <span class="span2 item">
+              <a href="<?=$this->createUrl('/page/info/agreement');?>">Соглашение</a>
+            </span>
+            <span class="span2 item">
+              <a href="<?=$this->createUrl('/page/info/pay');?>">Оплата</a>
+            </span>
+            <span class="span2 item">
+              <a href="<?=$this->createUrl('/event/list/index');?>">Мероприятия</a>
+            </span>
+            <span class="span2 item">
+              <a href="<?=$this->createUrl('/company/list/index');?>">Компании</a>
+            </span>
           </nav>
         </div>
       </div>
-      <form id="search-footer" class="span4" action="<?php echo $this->createUrl('/search/result/index');?>" role="search">
+      <form id="search-footer" class="span4" action="<?=$this->createUrl('/search/result/index');?>" role="search">
         <input type="text" class="form-element_text" name="term" placeholder="Поиск по людям, компаниям, новостям">
         <input type="image" class="form-element_image pull-right" src="/images/search-type-image-dark.png" width="20" height="19">
       </form>
@@ -113,12 +110,11 @@
       </div>
       <div class="development pull-right">
         Разработка и поддержка: <a href="http://internetmediaholding.com" title="Internet Media Holding" target="_blank">Internet Media Holding</a><br />
-        Разработка: <a href="http://coalla.ru/" title="Агентство Coalla" target="_blank">Coalla</a>
+        Дизайн: <a href="http://coalla.ru/" title="Агентство Coalla" target="_blank">Coalla</a>
       </div>
     </div>
   </div>
 </footer>
-
 
 <div id="ModalAuth" class="modal hide fade" style="width: 620px; outline-style: none;" data-src="<?=Yii::app()->createUrl('/oauth/main/auth');?>" data-width="640" data-height="662" tabindex="-1" role="dialog"></div>
 </body>
