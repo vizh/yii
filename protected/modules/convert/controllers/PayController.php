@@ -205,6 +205,11 @@ class PayController extends convert\components\controllers\Controller
       {
         $newProduct->Unit = $product['Unit'];
       }
+      else 
+      {
+        $newProduct->Unit = 'Шт.';
+      }
+      
       if (!empty($product['Count']))
       {
         $newProduct->Count = $product['Count'];

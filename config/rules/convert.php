@@ -1,7 +1,7 @@
 <?php
 return array(
   array(
-    'allow',
+    'deny',
     'users' => array('*'),
     'module' => 'convert'
   ),

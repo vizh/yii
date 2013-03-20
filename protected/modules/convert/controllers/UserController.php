@@ -26,7 +26,7 @@ class UserController extends convert\components\controllers\Controller
           $newUser->Gender = user\models\Gender::None;
           break;
       }
-      if ($user['Birthday'] != '0000-00-00')
+      if ($user['Birthday'] != '0000-00-00' || $user['Birthday'] != '0000-01-00')
       {
         $newUser->Birthday = date('Y-m-d H:i:s', $user['Birthday']);
       }
@@ -169,7 +169,6 @@ class UserController extends convert\components\controllers\Controller
       if ($newSetting == null)
       {
         $newSetting = new \user\models\Settings();
-        $newSetting->Id = $setting['SettingId'];
         $newSetting->UserId = $setting['UserId'];
       }
       
