@@ -86,7 +86,7 @@ return array(
     'log'=>array(
       'class'=>'CLogRouter',
       'routes'=>array(
-        array(
+        /*array(
           'class'=>'CProfileLogRoute',
           'levels'=>'profile',
           'enabled'=>true,
@@ -95,7 +95,7 @@ return array(
           'class' => 'CWebLogRoute',
           'categories' => 'application',
           'levels'=>'error, warning, info',
-        ),
+        ),*/
       ),
     ),
   ),

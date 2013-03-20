@@ -22,6 +22,7 @@ ModalAuth.prototype.init = function()
     iframe.attr('src', self.src);
     iframe.attr('width', self.width);
     iframe.attr('height', self.height);
+    iframe.attr('scrolling', 'no');
     self.modal.append(iframe);
   });
   self.modal.on('hidden', function(){
