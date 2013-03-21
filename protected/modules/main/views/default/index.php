@@ -93,7 +93,7 @@
 
       <?foreach ($events as $event):?>
         <div class="event span4">
-          <img src="<?=$event->getLogo()->getSquare70();?>" width="70" height="70" alt="" class="logo">
+          <div class="event-logo"><img src="<?=$event->getLogo()->getSquare70();?>" width="70" height="70" alt="" class="logo"></div>
           <?=$this->renderPartial('index/event-dates', array('event' => $event));?>
           <header>
             <h4 class="title">
