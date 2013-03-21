@@ -32,9 +32,11 @@ return array(
     'search',
     'job',
     'page',  
+    
       
     /** Технические модули */
     'convert',
-    'mytest'
+    'mytest',
+    'mail'
   ),
 );
