@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="keywords" content="">
+  <meta name="google-site-verification" content="j6z-Xgf-Q_q6jFA-UANgpdjIdqPN7J43TiepOX-58EM" />
   <link rel="icon" href="/favicon.ico">
   <!--[if lte IE 9]>
   <link rel="stylesheet" href="/stylesheets/ie/lte-ie-9.css">
