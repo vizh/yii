@@ -1,0 +1,145 @@
+body{
+  padding-top: 40px;
+}
+
+.clear{
+  clear: both;
+}
+
+.navbar-fixed-top-menu{
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  margin-bottom: 0;
+  top: 0;
+}
+
+a:focus{
+  outline: none;
+}
+
+.rocid-logo{
+  padding: 20px 0;
+}
+
+.rocid-logo > h1 > span{
+  color: #BF2033;
+}
+
+.rocid-logo > h1 > span.rocid-logo-suffix{
+  color: #ccc;
+}
+
+.login-box{
+  margin-top: 150px;
+}
+
+.content-block{
+  min-height: 900px;
+}
+
+.indent-top1{
+  margin-top: 10px;
+}
+.indent-top2{
+  margin-top: 20px;
+}
+.indent-top3{
+  margin-top: 30px;
+}
+
+.indent-bottom1{
+  margin-bottom: 10px !important;
+}
+.indent-bottom2{
+  margin-bottom: 20px !important;
+}
+.indent-bottom3{
+  margin-bottom: 30px !important;
+}
+.indent-bottom4{
+  margin-bottom: 40px !important;
+}
+
+.small {
+  font-size: 70%;
+}
+
+.large{
+  font-size: 120%;
+}
+/************************************* paginators *****************************/
+ul.prevnext{
+  margin: 0;
+  padding: 30px 0 0 0;
+  list-style: none;
+  float: left;
+}
+ul.prevnext li{
+  float: left;
+  font-size: 14px;
+  font-style: italic;
+}
+ul.prevnext li.p{
+  padding-right: 25px;
+}
+ul.prevnext li.p a:link, ul.prevnext li.p a:visited, ul.prevnext li.p a:hover, ul.prevnext li.p a:active{
+  padding-left: 15px;
+  background: url(/images/prev_active.gif) 0 5px no-repeat;
+  color: #0054a6;
+}
+ul.prevnext li.n a:link, ul.prevnext li.n a:visited, ul.prevnext li.n a:hover, ul.prevnext li.n a:active{
+  padding-right: 15px;
+  background: url(/images/next_active.gif) 100% 5px no-repeat;
+  color: #0054a6;
+}
+ul.prevnext li.p a.inactive:link, ul.prevnext li.p a.inactive:visited,
+ul.prevnext li.p a.inactive:hover, ul.prevnext li.p a.inactive:active{
+  padding-left: 15px;
+  background: url(/images/prev_inactive.gif) 0 5px no-repeat;
+  color: #959595;
+  text-decoration: none;
+}
+ul.prevnext li.n a.inactive:link, ul.prevnext li.n a.inactive:visited,
+ul.prevnext li.n a.inactive:hover, ul.prevnext li.n a.inactive:active{
+  padding-right: 15px;
+  background: url(/images/next_inactive.gif) 100% 5px no-repeat;
+  color: #959595;
+  text-decoration: none;
+}
+ul.paginator{
+  float: left;
+  margin: 0;
+  padding: 14px 0 10px 0;
+  list-style: none;
+}
+ul.paginator li{
+  float: left;
+  font-size: 16px;
+  font-style: italic;
+  padding: 0 10px 0 0;
+}
+ul.paginator li a:link, ul.paginator li a:visited,
+ul.paginator li a:hover, ul.paginator li a:active{
+  display: block;
+  width: 24px;
+  text-align: center;
+  background: none;
+  padding: 0 0 1px 0;
+  color: #0054a6;
+}
+ul.paginator li a.curr:link, ul.paginator li a.curr:visited,
+ul.paginator li a:hover, ul.paginator li a:active{
+  color: #fff;
+  text-decoration: none;
+  background: #aaa url(/images/back_paginator.gif) 0 0 no-repeat;
+}
+.alert ul {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.page-user-statistics-innertable tbody tr:nth-child(2n+1) td{
+  background-color: transparent;
+}

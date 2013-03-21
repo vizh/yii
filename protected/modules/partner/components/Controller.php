@@ -2,7 +2,7 @@
 namespace partner\components;
 
 
-class Controller extends \application\components\controllers\PublicMainController
+class Controller extends \application\components\controllers\BaseController
 {
   public $layout = '/layouts/public';
 
@@ -12,10 +12,41 @@ class Controller extends \application\components\controllers\PublicMainControlle
     return array_merge(
       $filters,
       array(
+        'accessControl',
         'checkEventId'
       )
     );
   }
+
+  /** @var AccessControlFilter */
+  private $accessFilter;
+  public function getAccessFilter()
+  {
+    if (empty($this->accessFilter))
+    {
+      $this->accessFilter = new AccessControlFilter();
+      $this->accessFilter->setRules($this->accessRules());
+    }
+    return $this->accessFilter;
+  }
+
+  public function filterAccessControl($filterChain)
+  {
+    $this->getAccessFilter()->filter($filterChain);
+  }
+
+  public function accessRules()
+  {
+    $rules = \Yii::getPathOfAlias('partner.rules').'.php';
+    return require($rules);
+  }
+
+  public function initResources()
+  {
+    parent::initResources();
+    \Yii::app()->getClientScript()->registerPackage('runetid.partner');
+  }
+
   /**
    * @param \CFilterChain $filterChain
    */
@@ -27,7 +58,7 @@ class Controller extends \application\components\controllers\PublicMainControlle
 
   protected $bottomMenu = array();
   protected function initBottomMenu() {}
-  
+
   public function initActiveBottomMenu($active)
   {
     $this->initBottomMenu();
