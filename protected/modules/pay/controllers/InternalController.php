@@ -4,8 +4,26 @@
 class InternalController extends \application\components\controllers\PublicMainController
 {
 
+  public function actionClear()
+  {
+    return;
+    /** @var $products \pay\models\Product[] */
+    $products = \pay\models\Product::model()->byEventId(422)->byManagerName('RoomProductManager')->findAll();
+
+    foreach ($products as $product)
+    {
+      foreach ($product->Attributes as $attr)
+      {
+        //$attr->delete();
+      }
+      //$product->delete();
+    }
+    echo 'OK';
+  }
+
   public function actionImportrooms()
   {
+    return;
     $fieldMap = array(
       'TechnicalNumber' => 0,
       'Hotel' => 1,
@@ -26,8 +44,11 @@ class InternalController extends \application\components\controllers\PublicMainC
     $parser->SetInEncoding('utf-8');
     $results = $parser->Parse($fieldMap, true);
 
-    var_dump($results);
-    return;
+    //echo '<pre>';
+    //print_r($results);
+    //echo '</pre>';
+
+    //return;
     foreach ($results as $result)
     {
       $product = new \pay\models\Product();
@@ -52,9 +73,9 @@ class InternalController extends \application\components\controllers\PublicMainC
       $product->getManager()->Visible = $result->Hotel != 'ПОЛЯНЫ' ? 1 : 0;
     }
 
-//    echo '<pre>';
-//    print_r($results);
-//    echo '</pre>';
+    echo '<pre>';
+    print_r($results);
+    echo '</pre>';
   }
 
   public function actionCreatefood()

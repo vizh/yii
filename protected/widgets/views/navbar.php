@@ -1,6 +1,6 @@
 <div class="navbar-inner">
   <div class="container">
-    <a class="brand" href="/">
+    <a class="brand" href="<?=Yii::app()->createUrl('/main/default/index');?>">
       <img src="/images/logo-small.png" width="115" height="10" alt="-RUNET-ID-">
     </a>
     <ul class="nav">
