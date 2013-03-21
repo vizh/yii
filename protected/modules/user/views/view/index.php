@@ -143,8 +143,7 @@ $(window).load(function() {
                   </article>
                 </div>
                  */?>
-                
-                <div class="event-rank">Менеджер высшего уровня</div>
+
                 <?if (!empty($user->Commissions)):?>
                 <div class="b-raec">
                   <img src="/images/content/raec-logo_small.jpg" alt="РАЭК" class="logo">
@@ -161,14 +160,14 @@ $(window).load(function() {
                   <dd><a href="<?=$user->LinkSite->Site;?>"><?=$user->LinkSite->Site->Url;?></a></dd>
                 </dl>
                 <?endif;?>
-                <?if (!empty($user->LinkServiceAccounts)):?>
-                  <?foreach ($user->LinkServiceAccounts as $linkServiceAcc):?>
-                  <dl class="dl-horizontal">
-                    <dt><?=$linkServiceAcc->ServiceAccount->Type->Title;?>:</dt>
-                    <dd><?=$linkServiceAcc->ServiceAccount;?></dd>
-                  </dl>
-                  <?endforeach;?>
-                <?endif;?>
+                <?foreach ($user->LinkServiceAccounts as $linkServiceAcc):?>
+                  <?if ($linkServiceAcc->ServiceAccount !== null):?>
+                    <dl class="dl-horizontal">
+                      <dt><?=$linkServiceAcc->ServiceAccount->Type->Title;?>:</dt>
+                      <dd><?=$linkServiceAcc->ServiceAccount;?></dd>
+                    </dl>
+                  <?endif;?>
+                <?endforeach;?>
               </div>
             </div>
           </div>

@@ -67,7 +67,7 @@ class Photo
    */
   public function get58px($serverPath = false)
   {
-    return $this->getByName($serverPath, $this->runetId . '_58.jpg', 'nophoto_58.png');
+    return $this->getByName($serverPath, $this->runetId . '_90.jpg', 'nophoto_58.png');
   }
 
   /**
@@ -97,7 +97,7 @@ class Photo
    */
   public function get238px($serverPath = false)
   {
-    return $this->getByName($serverPath, $this->runetId . '_228.jpg', 'nophoto_238.png');
+    return $this->getByName($serverPath, $this->runetId . '_200.jpg', 'nophoto_238.png');
   }
 
   /**
