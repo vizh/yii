@@ -13,7 +13,7 @@ var RunetId = new function() {
       return instance;
     }
 
-    this.url = 'http://runetid.internetmediaholding.com/oauth/main/dialog/';
+    this.url = 'http://runet-id.com/oauth/main/dialog/';
     this.width = 620;
     this.height = 662;
     this.PopUpWindow = null;

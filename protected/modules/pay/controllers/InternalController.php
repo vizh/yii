@@ -6,7 +6,6 @@ class InternalController extends \application\components\controllers\PublicMainC
 
   public function actionImportrooms()
   {
-    return;
     $fieldMap = array(
       'TechnicalNumber' => 0,
       'Hotel' => 1,
@@ -27,6 +26,8 @@ class InternalController extends \application\components\controllers\PublicMainC
     $parser->SetInEncoding('utf-8');
     $results = $parser->Parse($fieldMap, true);
 
+    var_dump($results);
+    return;
     foreach ($results as $result)
     {
       $product = new \pay\models\Product();
