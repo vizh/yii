@@ -6,7 +6,15 @@ return array(
       'showScriptName' => false,
       'urlSuffix'=>'/',
       'useStrictParsing' => true,
-      'rules' => array( 
+      'rules' => array(
+
+        /** Mblt 2013 */
+        'http://mblt2013.'.RUNETID_HOST.'/' => array('event/view/index/', 'defaultParams' => array('idName' => 'mblt2013')),
+
+
+
+
+
         /** Настройка путей админки */
         'http://admin.' .  RUNETID_HOST . '/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/admin/<controller>/<action>',
 
@@ -38,6 +46,8 @@ return array(
         'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/<hash>/<clean>/' => 'pay/juridical/order',
         'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/<hash>/' => 'pay/juridical/order',
         'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/' => 'pay/juridical/order',
+
+        'http://pay.'.RUNETID_HOST.'/callback/index/' => 'pay/callback/index',
 
         /** EVENT ICAL SHARE */
         'http://'. RUNETID_HOST.'/event/share/ical/<idName>/' => 'event/share/ical',
