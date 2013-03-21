@@ -7,7 +7,6 @@ class InternalController extends \application\components\controllers\PublicMainC
   public function actionImportrooms()
   {
     return;
-
     $fieldMap = array(
       'TechnicalNumber' => 0,
       'Hotel' => 1,
@@ -49,7 +48,7 @@ class InternalController extends \application\components\controllers\PublicMainC
       {
         $product->getManager()->$key = trim($result->$key);
       }
-      $product->getManager()->Visible = 1;
+      $product->getManager()->Visible = $result->Hotel != 'ПОЛЯНЫ' ? 1 : 0;
     }
 
 //    echo '<pre>';
@@ -90,13 +89,13 @@ class InternalController extends \application\components\controllers\PublicMainC
       $product->Unit = 'шт.';
       $product->EnableCoupon = false;
       $product->Public = false;
-      //$product->save();
+      $product->save();
 
       $productPrice = new \pay\models\ProductPrice();
       $productPrice->ProductId = $product->Id;
       $productPrice->Price = $price;
       $productPrice->StartTime = '2013-03-14 09:00:00';
-      //$productPrice->save();
+      $productPrice->save();
     }
   }
 }

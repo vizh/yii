@@ -46,10 +46,10 @@ return array(
 
     'db'=>array(
       'class'=>'\application\components\db\PgDbConnection',
-      'connectionString' => 'pgsql:host=10.10.5.7;port=5432;dbname=runetid',
+      'connectionString' => 'pgsql:host=localhost;port=5432;dbname=therunetid',
       'emulatePrepare' => true,
       'username' => 'runetid',
-      'password' => 'Rofeena1jei8haes',
+      'password' => 'test1234',
       'charset' => 'utf8',
       'enableProfiling' => true,
       'enableParamLogging'=>true,
@@ -96,6 +96,10 @@ return array(
           'categories' => 'application',
           'levels'=>'error, warning, info',
         ),*/
+        array(
+          'class'=>'CFileLogRoute',
+          'levels'=>'error, warning',
+        ),
       ),
     ),
   ),

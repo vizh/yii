@@ -10,6 +10,7 @@
  */
 
 $paidItems = array_merge($recentPaidItems, $paidItems);
+
 ?>
 
 

@@ -25,12 +25,22 @@ return array(
         //'http://login.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
 
         /** API Module Rules */
-        'api/event/role/list' => 'api/event/roles',
-        'api/pay/filter/list' => 'api/pay/filterlist',
-        'api/pay/filter/book' => 'api/pay/filterbook',
+        'http://api.'.RUNETID_HOST.'/event/role/list' => 'api/event/roles',
+        'http://api.'.RUNETID_HOST.'/pay/filter/list' => 'api/pay/filterlist',
+        'http://api.'.RUNETID_HOST.'/pay/filter/book' => 'api/pay/filterbook',
+
+        'http://api.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
+
+        /** PAY Module Rules */
+        'http://pay.'. RUNETID_HOST.'/<eventIdName>/' => 'pay/cabinet/index',
+        'http://pay.'. RUNETID_HOST.'/register/<eventIdName>/' => 'pay/cabinet/register',
+
+        'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/<hash>/<clean>/' => 'pay/juridical/order',
+        'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/<hash>/' => 'pay/juridical/order',
+        'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/' => 'pay/juridical/order',
 
         /** EVENT ICAL SHARE */
-        '/event/share/ical/<idName>/' => 'event/share/ical',
+        'http://'. RUNETID_HOST.'/event/share/ical/<idName>/' => 'event/share/ical',
 
         /** Main Rules */
         'http://'. RUNETID_HOST.'/' => 'main/default/index',
