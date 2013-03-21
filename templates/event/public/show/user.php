@@ -1,1 +1,0 @@
-<li><a href="/<?=$this->RocId?>"><img src="<?=$this->Photo?>" width="28" height="28" alt="" /></a><a href="/<?=$this->RocId?>"><?=$this->FirstName?> <?=$this->FatherName?> <?=$this->LastName?> </a></li>

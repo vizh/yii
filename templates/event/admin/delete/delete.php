@@ -1,1 +1,0 @@
-<div class="alert alert-error m-top_20"><?php echo $this->Message;?> Вернуться к <a href="<?php echo RouteRegistry::GetUrl('admin', 'event', 'list');?>">списку мероприятий</a></div>

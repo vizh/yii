@@ -1,1 +1,0 @@
-<?php echo $this->Name;?> <?php echo $this->Url;?> <br/>
