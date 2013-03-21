@@ -131,6 +131,9 @@ $(window).load(function() {
                   <?endif;?>
                 </div>
                 <?endif;?>
+                
+                
+                <?/*
                 <div class="b-interests">
                   <header>
                     <h6 class="title">Профессиональные интересы</h6>
@@ -139,6 +142,8 @@ $(window).load(function() {
                     <p class="text">Аналитика, Веб-разработка / Технологии / API, Геосервисы, Государство и общество, Инвестиции и стартапы</p>
                   </article>
                 </div>
+                 */?>
+                
                 <div class="event-rank">Менеджер высшего уровня</div>
                 <?if (!empty($user->Commissions)):?>
                 <div class="b-raec">
@@ -267,6 +272,7 @@ $(window).load(function() {
     </div>
     <?endif;?>
 
+    <?/*
     <div class="b-participate"> 
       <h4 class="b-header_large light">
         <div class="line"></div>
@@ -433,6 +439,7 @@ $(window).load(function() {
         <i id="participate-events_next" class="icon-chevron-right"></i>
       </div>
     </div>
+    */?>
   </div>
 </div>
 

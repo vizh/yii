@@ -57,7 +57,7 @@
             <div class="row">
               <div class="span4 offset4">
                 <footer class="salary">
-                  <?=$this->renderPartial('job-salary', array('job' => $jobUp->Job));?>
+                  <?=$this->renderPartial('job-salary', array('job' => $jobUp->Job, 'allowInterval' => true));?>
                 </footer>
               </div>
             </div>
