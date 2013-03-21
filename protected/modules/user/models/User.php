@@ -342,6 +342,17 @@ class User extends \application\models\translation\ActiveRecord
 
   public function onRegister($event)
   {
+    $mail = new \ext\mailer\PHPMailer(false);
+    $mail->AddAddress($this->Email);
+    $mail->SetFrom('register@'.RUNETID_HOST, '', false);
+    $mail->CharSet = 'utf-8';
+    $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'RUNET-ID: Регистрация')) .'?=';
+    $mail->IsHTML(true);
+    $mail->MsgHTML(
+      \Yii::app()->controller->renderPartial('/../../user/views/mail/register', array('user' => $this, 'passoword' => $event->params['password']), true)
+    );
+    $mail->Send();
+    
     $this->raiseEvent('onRegister', $event);
   }
 

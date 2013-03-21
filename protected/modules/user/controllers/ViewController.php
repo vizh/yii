@@ -2,7 +2,7 @@
 class ViewController extends \application\components\controllers\PublicMainController
 {
   public function actionIndex($runetId)
-  {
+  {    
     $criteria = new \CDbCriteria();
     $criteria->with = array(
       'Settings',
