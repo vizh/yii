@@ -29,7 +29,7 @@ class RegisterAction extends \api\components\Action
     }
 
     try{
-      $eventUser = $event->registerUser($user, $role);
+      $eventUser = $event->registerUser($user, $role, true);
     }
     catch(\Exception $e)
     {

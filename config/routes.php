@@ -49,6 +49,8 @@ return array(
 
         'http://pay.'.RUNETID_HOST.'/callback/index/' => 'pay/callback/index',
 
+        'http://pay.'. RUNETID_HOST.'/auth/<eventIdName>/<runetId:\d+>/<hash>/' => 'pay/cabinet/auth',
+
         /** EVENT ICAL SHARE */
         'http://'. RUNETID_HOST.'/event/share/ical/<idName>/' => 'event/share/ical',
 

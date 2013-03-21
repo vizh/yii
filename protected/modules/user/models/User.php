@@ -627,6 +627,24 @@ class User extends \application\models\translation\ActiveRecord
     return $employment;
   }
 
+  /**
+   * @return string
+   */
+  public function getHash()
+  {
+    return substr(md5($this->Id.'L2qLLQWpZWYcKbjharsx'.$this->RunetId), 0, 16);
+  }
+
+  /**
+   * @param string $hash
+   *
+   * @return bool
+   */
+  public function checkHash($hash)
+  {
+    return $hash == $this->getHash();
+  }
+
 
   /******  OLD METHODS  ***/
   /** todo: REWRITE ALL BOTTOM */
