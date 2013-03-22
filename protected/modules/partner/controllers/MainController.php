@@ -15,10 +15,9 @@ class MainController extends \partner\components\Controller
     // Список ролей на мероприятии
     $criteria = new CDbCriteria();
     $criteria->distinct = true;
-    //$criteria->group = '"t"."RoleId"';
     $criteria->condition = '"t"."EventId" = :EventId';
     $criteria->params['EventId'] = \Yii::app()->partner->getAccount()->EventId;
-    $criteria->with = array('Role');
+    $criteria->with = array('Role' => array('together' => false));
     $criteria->select = '"t"."RoleId"';
     /** @var $roles \event\models\Participant[] */
     $roles = \event\models\Participant::model()->findAll($criteria);
@@ -29,8 +28,9 @@ class MainController extends \partner\components\Controller
 
 
     // Подсчет участников
-    $todayTimestamp  = mktime(0, 0, 0, date('n'), date('j'), date('Y'));
-    $mondayTimeStamp = $todayTimestamp - ((date('N')-1) * 86400);
+    $todayTime  = mktime(0, 0, 0, date('n'), date('j'), date('Y'));
+    $mondayTime = date('Y-m-d H:i:s', $todayTime - ((date('N')-1) * 86400));
+    $todayTime  = date('Y-m-d H:i:s', $todayTime);
     if (!empty($event->Days))
     {
       //// Мероприятие на несколько дней
@@ -47,7 +47,7 @@ class MainController extends \partner\components\Controller
 
       //// Прирост за неделю
       $criteria->addCondition('t.CreationTime >= :CreationTime');
-      $criteria->params['CreationTime'] = $mondayTimeStamp;
+      $criteria->params['CreationTime'] = $mondayTime;
       $participants = \event\models\Participant::model()->findAll($criteria);
       foreach ($participants as $participant)
       {
@@ -55,7 +55,7 @@ class MainController extends \partner\components\Controller
       }
 
       //// Прирост за сегодня
-      $criteria->params['CreationTime'] = $todayTimestamp;
+      $criteria->params['CreationTime'] = $todayTime;
       $participants = \event\models\Participant::model()->findAll($criteria);
       foreach ($participants as $participant)
       {
@@ -74,17 +74,14 @@ class MainController extends \partner\components\Controller
       $participants = \event\models\Participant::model()->findAll($criteria);
 
       $logs = Yii::getLogger()->getProfilingResults();
-      echo '<pre>';
-      print_r($logs);
-      echo '</pre>';
       foreach ($participants as $participant)
       {
         $stat->Participants[$participant->RoleId]->Count = $participant->CountForCriteria;
       }
 
       //// Прирост за неделю
-      $criteria->addCondition('t.CreationTime >= :CreationTime');
-      $criteria->params['CreationTime'] = $mondayTimeStamp;
+      $criteria->addCondition('"t"."CreationTime" >= :CreationTime');
+      $criteria->params['CreationTime'] = $mondayTime;
       $participants = \event\models\Participant::model()->findAll($criteria);
       foreach ($participants as $participant)
       {
@@ -92,7 +89,7 @@ class MainController extends \partner\components\Controller
       }
 
       //// Прирост за сегодня
-      $criteria->params['CreationTime'] = $todayTimestamp;
+      $criteria->params['CreationTime'] = $todayTime;
       $participants = \event\models\Participant::model()->findAll($criteria);
       foreach ($participants as $participant)
       {

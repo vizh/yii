@@ -97,7 +97,7 @@ class Photo
    */
   public function get238px($serverPath = false)
   {
-    return $this->getByName($serverPath, $this->runetId . '_200.jpg', 'nophoto_238.png');
+    return $this->getByName($serverPath, $this->runetId . '_200.jpg', 'nophoto_200.png');
   }
 
   /**
