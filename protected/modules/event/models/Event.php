@@ -320,7 +320,13 @@ class Event extends \application\models\translation\ActiveRecord
     return false;
   }
 
-  public function registerUserOnAllDays(\user\models\User $user, Role $role)
+  /**
+   * @param \user\models\User $user
+   * @param Role $role
+   *
+   * @return Participant[]
+   */
+  public function registerUserOnAllParts(\user\models\User $user, Role $role)
   {
     $result = array();
     foreach ($this->Days as $day)

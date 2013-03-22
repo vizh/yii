@@ -1,16 +1,26 @@
 <?php
 namespace pay\components\managers;
 
-class EventOnDayProductManager extends BaseProductManager
+/**
+ * @property int $RoleId
+ * @property int $PartId
+ */
+class EventOnPart extends BaseProductManager
 {
   /**
    * Возвращает список доступных аттрибутов
    * @return string[]
    */
-  public function GetAttributeNames()
+  public function getProductAttributeNames()
   {
-    return array('RoleId', 'DayId');
+    return array('RoleId', 'PartId');
   }
+
+  /** @var \event\models\Role */
+  protected $role = null;
+
+  /** @var \event\models\Part */
+  protected $part = null;
 
   /**
    * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
@@ -18,21 +28,27 @@ class EventOnDayProductManager extends BaseProductManager
    * @param array $params
    * @return bool
    */
-  public function CheckProduct($user, $params = array())
+  public function checkProduct($user, $params = array())
   {
-    list($roleId, $dayId) = $this->GetAttributes($this->GetAttributeNames());
+    /** @var $part \event\models\Part */
+    $this->part = \event\models\Part::model()->findByPk($this->PartId);
+    if ($this->part === null || $this->part->EventId != $this->product->EventId)
+    {
+      throw new \pay\components\Exception('Не корректно задан PartId для товара категории EventOnPart');
+    }
     /** @var $eventUser \event\models\Participant */
-    $eventUser = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($user->UserId)->byDayId($dayId)->find();
-    if (empty($eventUser))
+    $participant = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($user->Id)->byPartId($this->PartId)->find();
+    if (empty($participant))
     {
       return true;
     }
-    if (empty($roleId))
+
+    $this->role = \event\models\Role::model()->findByPk($this->RoleId);
+    if ($this->role === null)
     {
-      return false;
+      throw new \pay\components\Exception('Не корректно установлена роль на мероприятии для товара категории EventOnPart');
     }
-    $productRole = \event\models\Role::GetById($roleId);
-    return !empty($productRole) && (empty($eventUser->Role) || $eventUser->Role->Priority < $productRole->Priority);
+    return $participant->Role->Priority < $this->role->Priority;
   }
 
   /**
@@ -41,33 +57,10 @@ class EventOnDayProductManager extends BaseProductManager
    * @param array $params
    * @return bool
    */
-  public function BuyProduct($user, $params = array())
+  public function internalBuyProduct($user, $params = array())
   {
-    if (!$this->CheckProduct($user))
-    {
-      return false;
-    }
-    list($roleId, $dayId) = $this->GetAttributes($this->GetAttributeNames());
-    $role = \event\models\Role::GetById($roleId);
-    if (empty($role))
-    {
-      return false;
-    }
-    /** @var $eventUser \event\models\Participant */
-    $eventUser = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($user->UserId)->byDayId($dayId)->find();
-    if (empty($eventUser))
-    {
-      $day = \event\models\Day::model()->findByPk($dayId);
-      if (empty($day))
-      {
-        return false;
-      }
-      $this->product->Event->RegisterUserOnDay($day, $user, $role);
-    }
-    else
-    {
-      $eventUser->UpdateRole($role);
-    }
+    $this->product->Event->registerUserOnPart($this->part, $user, $this->role);
+
     return true;
   }
 
@@ -76,7 +69,7 @@ class EventOnDayProductManager extends BaseProductManager
    * @param string $filter
    * @return array
    */
-  public function Filter($params, $filter)
+  public function filter($params, $filter)
   {
     return array();
   }
@@ -85,7 +78,7 @@ class EventOnDayProductManager extends BaseProductManager
    * @param array $params
    * @return \pay\models\Product
    */
-  public function GetFilterProduct($params)
+  public function getFilterProduct($params)
   {
     return $this->product;
   }
@@ -95,8 +88,9 @@ class EventOnDayProductManager extends BaseProductManager
    * @param \user\models\User $user
    * @return bool
    */
-  public function RollbackProduct($user)
+  public function rollbackProduct($user)
   {
+    throw new \pay\components\Exception('Не реализовано');
     /** @var $orderItem \pay\models\OrderItem */
     $orderItem = \pay\models\OrderItem::model()->find(
       't.Paid = 1 AND t.OwnerId = :OwnerId AND t.ProductId = :ProductId',
@@ -135,8 +129,9 @@ class EventOnDayProductManager extends BaseProductManager
    * @param \user\models\User $toUser
    * @return bool
    */
-  public function RedirectProduct($fromUser, $toUser)
+  public function redirectProduct($fromUser, $toUser)
   {
+    throw new \pay\components\Exception('Не реализовано');
     if (!$this->CheckProduct($toUser))
     {
       return false;
