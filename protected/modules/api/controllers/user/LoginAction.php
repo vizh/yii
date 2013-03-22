@@ -12,9 +12,9 @@ class LoginAction extends \api\components\Action
       $runetId = intval($request->getParam('RocId', null));
     }
     $email = $request->getParam('Email', null);
-    $password = $request->getParam('Password');
-    $password2 = $request->getParam('PasswordCp1251');
-    $passwordPbkdf = $request->getParam('PasswordPbkdf');
+    //$password = $request->getParam('Password');
+    //$password2 = $request->getParam('PasswordCp1251');
+    $password = base64_decode($request->getParam('Password'));
 
     /** @var $user \user\models\User */
     $user = null;
@@ -39,12 +39,7 @@ class LoginAction extends \api\components\Action
       throw new \api\components\Exception(110);
     }
 
-    if ($user->OldPassword !== null && $user->OldPassword !== $password && $user->OldPassword !== $password2)
-    {
-      throw new \api\components\Exception(201);
-    }
-
-    if ($user->OldPassword === null && $user->Password !== $passwordPbkdf)
+    if (!$user->checkLogin($password))
     {
       throw new \api\components\Exception(201);
     }
