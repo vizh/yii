@@ -83,8 +83,10 @@
               <footer>
                 <nav>
                   <a href="<?php echo $this->createUrl('/event/view/index', array('idName' => $event->IdName));?>"><i class="icon-circle-arrow-right"></i><?php echo \Yii::t('app', 'Посетить мероприятие');?></a>
+                  <!--
                   <a href="#"><i class="icon-comment"></i><?php echo \Yii::t('app', 'Комментировать');?></a>
                   <a href="#"><i class="icon-share"></i><?php echo \Yii::t('app', 'Поделиться');?></a>
+                  -->
                 </nav>
               </footer>
             </div>
