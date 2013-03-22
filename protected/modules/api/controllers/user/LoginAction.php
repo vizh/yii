@@ -21,19 +21,22 @@ class LoginAction extends \api\components\Action
     if (!empty($runetId))
     {
       $user = \user\models\User::model()->byRunetId($runetId)->find();
+      if ($user === null)
+      {
+        throw new \api\components\Exception(202, array($runetId));
+      }
     }
     elseif (! empty($email))
     {
-      $user = \user\models\User::model()->byEmail($email);
+      $user = \user\models\User::model()->byEmail($email)->find();
+      if ($user === null)
+      {
+        throw new \api\components\Exception(210, array($email));
+      }
     }
     else
     {
       throw new \api\components\Exception(110);
-    }
-
-    if ($user === null)
-    {
-      throw new \api\components\Exception(201);
     }
 
     if ($user->OldPassword !== null && $user->OldPassword !== $password && $user->OldPassword !== $password2)

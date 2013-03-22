@@ -3,8 +3,8 @@ namespace oauth\components\social;
 
 class Twitter implements ISocial
 {
-  const Key = 'gqDgGfvKzHIM4gNuT7f7eA';
-  const Secret = 'Q9O9qcqgPzgMPqr7CJiCtsZxxbUMDRx1p5abjhjAADk';
+  const Key = 'cuyeLG3CNMocA3iL1UmnjQ';
+  const Secret = 'PuWPUjxuL5jNKA2t7JNSkiWHYOq6J5L87xZSk2owV8';
 
   /** @var \tmhOAuth */
   protected $connection = null;

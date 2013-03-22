@@ -3,8 +3,8 @@ namespace oauth\components\social;
 
 class Vkontakte implements ISocial
 {
-  const AppId = '3440645';
-  const Secret = 'i1jAuObSVjiwgYRysVm3';
+  const AppId = '3510181';
+  const Secret = 'dfMfN5tBWurKM35eKLAa';
 
   public function getOAuthUrl()
   {

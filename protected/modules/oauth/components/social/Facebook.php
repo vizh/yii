@@ -3,8 +3,8 @@ namespace oauth\components\social;
 
 class Facebook implements ISocial
 {
-  const AppId = 331368426975443;
-  const Secret = '4789502ae8826d7d40771b649b2951ef';
+  const AppId = 201234113248910;
+  const Secret = '102257e6ef534fb163c7d1e7e31ffca7';
 
 
   /** @var \Facebook */
