@@ -1,23 +1,17 @@
 <?php
 namespace pay\controllers\cabinet;
 
-class RegisterAction extends \CAction
+class RegisterAction extends \pay\components\Action
 {
   public function run($eventIdName)
   {
     $this->getController()->bodyId = 'event-register';
 
-    $event = \event\models\Event::model()->byIdName($eventIdName)->find();
-    if ($event == null)
-    {
-      throw new \CHttpException(404);
-    }
-
-
+    $this->getController()->setPageTitle('Регистрация  / ' . $this->getEvent()->Title . ' / RUNET-ID');
     
     $request = \Yii::app()->getRequest();
     
-    $products = \pay\models\Product::model()->byEventId($event->Id)->byPublic(true)->findAll();
+    $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findAll();
     
     $countRows = $request->getParam('count');
     foreach ($products as $product)
@@ -72,13 +66,13 @@ class RegisterAction extends \CAction
       if (!$orderForm->hasErrors())
       {
         $this->getController()->redirect(
-          $this->getController()->createUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName))
+          $this->getController()->createUrl('/pay/cabinet/index', array('eventIdName' => $this->getEvent()->IdName))
         );
       }
     }
         
     $this->getController()->render('register', array(
-        'event' => $event,
+        'event' => $this->getEvent(),
         'products' => $products,
         'orderForm' => $orderForm,
         'countRows' => $countRows,

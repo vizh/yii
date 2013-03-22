@@ -4,6 +4,8 @@ namespace commission\models;
  * @property int $Id
  * @property int $ProjectId
  * @property int $UserId
+ *
+ * @property \user\models\User $User
  */
 class ProjectUser extends \CActiveRecord
 {

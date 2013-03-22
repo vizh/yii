@@ -5,6 +5,8 @@ class CreateAction extends \pay\components\Action
 {
   public function run($eventIdName)
   {
+    $this->getController()->setPageTitle('Выставление счета  / ' .$this->getEvent()->Title . ' / RUNET-ID');
+
     $order = new \pay\models\Order();
     $unpaidItems = $order->getUnpaidItems(\Yii::app()->user->getCurrentUser(), $this->getEvent());
 

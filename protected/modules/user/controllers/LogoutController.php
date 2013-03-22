@@ -8,6 +8,6 @@ class LogoutController extends \application\components\controllers\PublicMainCon
     {
       Yii::app()->user->logout();
     }
-    $this->redirect('/main/default/index');
+    $this->redirect(Yii::app()->createUrl('/main/default/index'));
   }
 }

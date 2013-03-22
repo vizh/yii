@@ -283,4 +283,69 @@ class Builder
     }
     return $size;
   }
+
+
+
+
+
+  protected $commission;
+
+  /**
+   * @param \commission\models\Commission $commission
+   * @return \stdClass
+   */
+  public function createCommision ($commission)
+  {
+    $this->commission = new \stdClass();
+
+    $this->commission->CommissionId = $commission->Id;
+    $this->commission->Title = $commission->Title;
+    $this->commission->Description = $commission->Description;
+    $this->commission->Url = $commission->Url;
+
+    return $this->commission;
+  }
+
+  /**
+   * @param \commission\models\Role $role
+   *
+   * @return \stdClass
+   */
+  public function buildUserCommission($role)
+  {
+    $this->user->Commission = new \stdClass();
+
+    $this->user->Commission->RoleId = $role->Id;
+    $this->user->Commission->RoleName = $role->Title; //todo: deprecated
+    $this->user->Commission->RoleTitle = $role->Title;
+
+    return $this->user;
+  }
+
+  /**
+   * @param \commission\models\Commission $comission
+   *
+   * @return \stdClass
+   */
+  public function buildComissionProjects($comission)
+  {
+    $this->commission->Projects = array();
+    foreach ($comission->Projects as $pr)
+    {
+      if ($pr->Visible)
+      {
+        $project = new \stdClass();
+        $project->Title = $pr->Title;
+        $project->Description = $pr->Description;
+        $project->Users = array();
+        foreach ($pr->Users as $prUser)
+        {
+          $project->Users[] = $prUser->User->RunetId;
+        }
+        $this->commission->Projects[] = $project;
+      }
+    }
+
+    return $this->commission;
+  }
 }

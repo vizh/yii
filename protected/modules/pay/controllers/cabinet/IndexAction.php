@@ -7,6 +7,8 @@ class IndexAction extends \pay\components\Action
 
   public function run($eventIdName)
   {
+    $this->getController()->setPageTitle('Оплата  / ' .$this->getEvent()->Title . ' / RUNET-ID');
+
     $account = $this->getAccount();
 
     $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->getCurrentUser()->Id, $this->getController()->getEvent()->Id);

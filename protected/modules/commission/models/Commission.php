@@ -7,6 +7,9 @@ namespace commission\models;
  * @property string $Url
  * @property string $CreationTime
  * @property bool $Deleted
+ *
+ * @property User[] $Users
+ * @property Project[] $Projects
  */
 class Commission extends \CActiveRecord
 {
@@ -24,6 +27,14 @@ class Commission extends \CActiveRecord
 	{
 		return 'Id';
 	}
+
+  public function relations()
+  {
+    return array(
+      'Users' => array(self::HAS_MANY, 'commission\models\User', 'ComissionId'),
+      'Projects' => array(self::HAS_MANY, 'commission\models\Project', 'ComissionId'),
+    );
+  }
   
   public function __toString() 
   {

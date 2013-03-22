@@ -7,6 +7,9 @@ namespace commission\models;
  * @property int $RoleId
  * @property string $JoinTime
  * @property string $ExitTime
+ *
+ * @property \user\models\User $User
+ * @property Role $Role
  */
 class User extends \CActiveRecord
 {
@@ -33,12 +36,33 @@ class User extends \CActiveRecord
       'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId')
     );
   }
-  
+
+  /**
+   * @param int $userId
+   * @param bool $useAnd
+   *
+   * @return User
+   */
   public function byUserId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."UserId" = :UserId';
     $criteria->params['UserId'] = $userId;
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param int $comissionId
+   * @param bool $useAnd
+   *
+   * @return User
+   */
+  public function byComissionId($comissionId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."ComissionId" = :ComissionId';
+    $criteria->params = array('ComissionId' => $comissionId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

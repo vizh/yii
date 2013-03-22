@@ -53,6 +53,10 @@ return array(
         'http://api.'.RUNETID_HOST.'/pay/filter/list' => 'api/pay/filterlist',
         'http://api.'.RUNETID_HOST.'/pay/filter/book' => 'api/pay/filterbook',
 
+        'http://api.'.RUNETID_HOST.'/raec/commission/list' => 'api/raec/commissionlist',
+        'http://api.'.RUNETID_HOST.'/raec/commission/users' => 'api/raec/commissionusers',
+
+
         'http://api.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
 
         /** PAY Module Rules */

@@ -6,6 +6,8 @@ namespace commission\models;
  * @property string $Title
  * @property string $Description
  * @property bool $Visible
+ *
+ * @property ProjectUser[] $Users
  */
 class Project extends \CActiveRecord
 {
