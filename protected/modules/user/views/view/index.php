@@ -239,9 +239,6 @@ $(window).load(function() {
         <div class="row">
           <?foreach ($participation->Participation as $participant):?>
             <figure class="i span2" data-year="<?=$participant->Event->StartYear;?>">
-              <a href="<?=$this->createUrl('/event/view/index', array('idName' => $participant->Event->IdName));?>">
-                <?=\CHtml::image($participant->Event->getLogo()->getMini(), $participant->Event->Title, array('style' => 'height:79px', 'class' => 'img'));?>
-              </a>
               <figcaption class="cnt">
                 <?foreach ($participant->Roles as $role):?>
                   <?if (!$participant->HasSections):?>
@@ -251,6 +248,9 @@ $(window).load(function() {
                   <?endif;?>
                 <?endforeach;?>
               </figcaption>
+              <a href="<?=$this->createUrl('/event/view/index', array('idName' => $participant->Event->IdName));?>">
+                <?=\CHtml::image($participant->Event->getLogo()->getMini(), $participant->Event->Title, array('class' => 'img'));?>
+              </a>
               <?if($participant->HasSections):?>
               <div class="popup">
                 <div class="cnt">

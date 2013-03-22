@@ -30,7 +30,7 @@ class ListAction extends \api\components\Action
         ->byPayerId($payer->Id)
         ->byEventId($this->getAccount()->EventId)
         ->byJuridical(true)
-        ->byDeleted(true)->with(array('ItemLinks.OrderItem', 'ItemLinks.OrderItem.Product'))
+        ->byDeleted(false)->with(array('ItemLinks.OrderItem', 'ItemLinks.OrderItem.Product'))
         ->findAll();
 
     $result->Orders = array();

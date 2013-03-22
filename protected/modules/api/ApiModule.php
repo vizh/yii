@@ -39,14 +39,14 @@ class ApiModule extends CWebModule
     {
       /** @var $exception \api\components\Exception */
       $exception = $event->exception;
-      $exception->sendResponse();
-      $event->handled = true;
+      //$exception->sendResponse();
+      //$event->handled = true;
     }
     else
     {
-      //$exception = new \api\components\Exception(100, array($event->exception->getMessage()));
+      $exception = new \api\components\Exception(100, array($event->exception->getMessage()));
     }
-    //$exception->sendResponse();
-    //$event->handled = true;
+    $exception->sendResponse();
+    $event->handled = true;
   }
 }

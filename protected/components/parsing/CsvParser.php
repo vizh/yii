@@ -63,9 +63,6 @@ class CsvParser
 
     while(($data = fgetcsv($this->file, 0, $this->delimeter)) !== false)
     {
-      echo '<pre>';
-      print_r($data);
-      echo '</pre>';
       $result[] = $this->parseRow($data, $fieldMap);
     }
 

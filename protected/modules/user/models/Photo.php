@@ -46,7 +46,7 @@ class Photo
    */
   public function get18px($serverPath = false)
   {
-    return $this->getByName($serverPath, $this->runetId . '_18.jpg', 'nophoto_18.png');
+    return $this->getByName($serverPath, $this->runetId . '_50.jpg', 'nophoto_50.png');
   }
 
   /**

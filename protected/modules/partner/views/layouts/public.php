@@ -13,12 +13,12 @@
 
 <div class="container">
   <div class="rocid-logo">
-    <h1>ROC<span>ID</span>:// <span class="rocid-logo-suffix">Партнерский интерфейс</span></h1>
+    <h1>-RUNET-ID-<span class="rocid-logo-suffix"> / Партнерский интерфейс</span></h1>
   </div>
 </div>
 
 <div class="container content-block">
-  <?php $this->widget('\partner\widgets\BottomMenu', array('menu' => $this->getBottomMenu()));?>
+  <?$this->widget('\partner\widgets\BottomMenu', array('menu' => $this->getBottomMenu()));?>
   <?=$content;?>
 </div>
 </body>

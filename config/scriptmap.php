@@ -44,6 +44,12 @@ return array(
         'runetid.charts' => array(
           'baseUrl' => '/',
           'js' => array('javascripts/charts.js')
+        ),
+        'runetid.partner' => array(
+          'baseUrl' => '/',
+          'js' => array(),
+          'css' => array('stylesheets/partner.css'),
+          'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.bootstrap')
         )
       ),
 

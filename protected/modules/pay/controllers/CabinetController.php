@@ -11,7 +11,8 @@ class CabinetController extends \pay\components\Controller
       'deleteitem' => 'pay\controllers\cabinet\DeleteItemAction',
       'pay' => 'pay\controllers\cabinet\PayAction',
       'return' => 'pay\controllers\cabinet\ReturnAction',
-      'offer' => 'pay\controllers\cabinet\OfferAction'
+      'offer' => 'pay\controllers\cabinet\OfferAction',
+      'auth' => 'pay\controllers\cabinet\AuthAction'
     );
   }
 }

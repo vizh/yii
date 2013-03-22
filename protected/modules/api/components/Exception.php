@@ -14,7 +14,7 @@ class Exception extends \CException
 
   private $codes = array(
     /** Yii Exception */
-    100 => 'Обработана ошибка Yii: %s',
+    100 => /*'Обработана ошибка Yii: */'%s',
 
     /* Общие ошибки  */
     101 => 'Не найден уникальный API ключ, обратитесь в службу поддержки rocID',
