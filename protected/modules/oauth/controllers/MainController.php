@@ -152,9 +152,40 @@ class MainController extends \oauth\components\Controller
 
   public function actionRecover()
   {
-    $this->render('recover');
-  }
+    $request = \Yii::app()->getRequest();
+    $form = new user\models\forms\Recovery();
+    $form->attributes = $request->getParam(get_class($form));
+    if ($request->getIsPostRequest() && $form->validate())
+    {
+      $user = user\models\User::model()->byEmail($form->Email)->find();
+      if ($user !== null)
+      {
+        $password = \Utils::GeneratePassword();
+        $pbkdf2 = new \application\components\utility\Pbkdf2();
+        $user->Password = $pbkdf2->createHash($password);
+        $user->save();
+        
+        $mail = new \ext\mailer\PHPMailer(false);
+        $mail->AddAddress($user->Email);
+        $mail->SetFrom('users@'.RUNETID_HOST, \Yii::t('app', 'RUNET-ID: Восстановление пароля'), false);
+        $mail->CharSet = 'utf-8';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'RUNET-ID: Восстановление пароля')) .'?=';
+        $mail->IsHTML(true);
+        $mail->MsgHTML(
+          \Yii::app()->controller->renderPartial('user.views.mail.recover', array('user' => $user, 'password' => $password), true)
+        );
+        $mail->Send();
 
+        \Yii::app()->user->setFlash('success', \Yii::t('app', 'Новый пароль был отправлен на указанный адрес электронной почты'));
+      }
+      else 
+      {
+        $form->addError('Email', \Yii::t('app', 'Ошибка! Не найден пользователь с указанным адресом электронной почты.'));
+      }
+    }
+    $this->render('recover', array('form' => $form));
+  }
+ 
   public function actionError()
   {
     $error = \Yii::app()->errorHandler->error;
