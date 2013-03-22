@@ -12,6 +12,8 @@ class RegisterAction extends \CAction
     {
       throw new \CHttpException(404);
     }
+
+
     
     $request = \Yii::app()->getRequest();
     

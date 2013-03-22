@@ -13,6 +13,10 @@
 .m-top_30 {margin-top: 30px !important;}
 .m-top_40 {margin-top: 40px !important;}
 
+a:focus{
+  outline: none;
+}
+
 /**
 Обновить соответствующие стили в application.css по окончании разработки
 **/

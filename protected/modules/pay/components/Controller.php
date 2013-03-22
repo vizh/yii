@@ -32,4 +32,15 @@ class Controller extends \application\components\controllers\PublicMainControlle
     return parent::createUrl($route, $params, $ampersand);
   }
 
+  protected function beforeAction($action)
+  {
+    if (\Yii::app()->user->getCurrentUser() === null)
+    {
+      $this->render('pay.views.system.unregister');
+      return false;
+    }
+    return parent::beforeAction($action);
+  }
+
+
 }
