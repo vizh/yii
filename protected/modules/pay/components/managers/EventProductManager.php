@@ -50,13 +50,7 @@ class EventProductManager extends BaseProductManager
   {
     /** @var $role \event\models\Role */
     $role = \event\models\Role::model()->findByPk($this->RoleId);
-    /** @var $event \event\models\Event */
-    $event = \event\models\Event::model()->findByPk($this->product->EventId);
-    if (empty($event))
-    {
-      return false;
-    }
-    $event->registerUser($user, $role);
+    $this->product->Event->registerUser($user, $role);
 
     return true;
   }
