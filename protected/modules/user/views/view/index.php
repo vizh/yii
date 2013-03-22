@@ -222,7 +222,7 @@ $(window).load(function() {
         <div class="container">
           <div class="title">
             <span class="backing text">
-              Участние в мероприятиях за
+              Участие в мероприятиях за
               <form action="#" class="form-inline">
                 <select>
                   <option value="0"><?=\Yii::t('app', 'За все время');?></option>

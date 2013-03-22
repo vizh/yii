@@ -17,6 +17,9 @@ namespace event\models;
  */
 class Participant extends \CActiveRecord
 {
+  /** @var int */
+  public $CountForCriteria;
+
   /**
    * @param string $className
    * @return Participant

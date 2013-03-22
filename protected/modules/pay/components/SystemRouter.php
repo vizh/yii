@@ -3,7 +3,7 @@ namespace pay\components;
 
 class SystemRouter
 {
-  public static $SystemNames = array(/*'ChronoPay',*/ 'PayOnline', 'Robokassa', 'Test', 'PayPal', 'Uniteller');
+  public static $SystemNames = array(/*'ChronoPay',*/ 'PayOnline', /*'Robokassa', 'Test',*/ 'PayPal', 'Uniteller');
   const Prefix = 'pay\components\systems\\';
 
   /**
