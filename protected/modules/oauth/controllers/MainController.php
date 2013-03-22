@@ -160,23 +160,42 @@ class MainController extends \oauth\components\Controller
       $user = user\models\User::model()->byEmail($form->Email)->find();
       if ($user !== null)
       {
-        $password = \Utils::GeneratePassword();
-        $pbkdf2 = new \application\components\utility\Pbkdf2();
-        $user->Password = $pbkdf2->createHash($password);
-        $user->save();
-        
         $mail = new \ext\mailer\PHPMailer(false);
         $mail->AddAddress($user->Email);
-        $mail->SetFrom('users@'.RUNETID_HOST, \Yii::t('app', 'RUNET-ID: Восстановление пароля'), false);
+        $mail->SetFrom('users@'.RUNETID_HOST, \Yii::t('app', 'RUNET-ID'), false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'RUNET-ID: Восстановление пароля')) .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'Восстановление пароля')) .'?=';
         $mail->IsHTML(true);
-        $mail->MsgHTML(
-          \Yii::app()->controller->renderPartial('user.views.mail.recover', array('user' => $user, 'password' => $password), true)
-        );
-        $mail->Send();
-
-        \Yii::app()->user->setFlash('success', \Yii::t('app', 'Новый пароль был отправлен на указанный адрес электронной почты'));
+        
+        $form->ShowCode = true;
+        
+        if (empty($form->Code))
+        {
+          $mail->MsgHTML(
+            \Yii::app()->controller->renderPartial('user.views.mail.recover', array('user' => $user, 'type' => 'withCode'), true)
+          );
+          $mail->Send();
+          \Yii::app()->user->setFlash('success', \Yii::t('app', 'На указанный адрес электронной почты было отправлено письмо с кодом, введите его для смены пароля.'));
+        }
+        else
+        {
+          if ($user->checkRecoveryHash($form->Code))
+          {
+            $password = $user->changePassword();
+            $mail->MsgHTML(
+              \Yii::app()->controller->renderPartial('user.views.mail.recover', array('user' => $user, 'type' => 'withPassword', 'password' => $password), true)
+            );
+            $mail->Send();
+            $identity = new \application\components\auth\identity\RunetId($user->RunetId);
+            $identity->authenticate();
+            \Yii::app()->user->login($identity);
+            $this->redirect($this->createUrl('/oauth/main/dialog'));
+          }
+          else 
+          {
+            $form->addError('Code', \Yii::t('app', 'Указан не верный код для смены пароля.'));
+          }
+        }
       }
       else 
       {

@@ -590,6 +590,23 @@ class User extends \application\models\translation\ActiveRecord
   }
 
   /**
+   * Изменяет пароль пользователю
+   * @param string $password
+   * @return string
+   */
+  public function changePassword($password = null)
+  {
+    if ($password == null)
+    {
+      $password = \Utils::GeneratePassword();
+    }
+    $pbkdf2 = new \application\components\utility\Pbkdf2();
+    $this->Password = $pbkdf2->createHash($password);
+    $this->save();
+    return $password;
+  }
+  
+  /**
    * @return int
    */
   public function getAge()
@@ -645,6 +662,28 @@ class User extends \application\models\translation\ActiveRecord
   {
     return substr(md5($this->Id.'L2qLLQWpZWYcKbjharsx'.$this->RunetId), 0, 16);
   }
+  
+  public function getRecoveryHash($date = null)
+  {
+    if ($date == null)
+    {
+      $date = date('Y-m-d');
+    }
+    return substr(md5($date.'L2qLLQWpZWYcKbjharsx'.$this->RunetId), 0, 6);
+  }
+
+  public function checkRecoveryHash($hash)
+  {
+    $date1 = date('Y-m-d');
+    $date2 = date('Y-m-d', time() - (24*60*60));
+    if ($hash == $this->getRecoveryHash($date1)
+      || $hash == $this->getRecoveryHash($date2))
+    {
+      return true;
+    }
+    return false;
+  }
+
 
   /**
    * @param string $hash

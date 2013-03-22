@@ -9,7 +9,7 @@ class AuthController extends \application\components\controllers\PublicMainContr
       throw new CHttpException(404);
     }
     
-    $identity = new \application\components\auth\identity\Password($user->Id);
+    $identity = new \application\components\auth\identity\RunetId($user->RunetId);
     $identity->authenticate();
     if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
     {
@@ -17,6 +17,10 @@ class AuthController extends \application\components\controllers\PublicMainContr
       if (!empty($redirectUrl))
       {
         if (strpos($redirectUrl, '/') !== false)
+        {
+          $this->redirect($redirectUrl);
+        }
+        else 
         {
           
         }

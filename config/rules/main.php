@@ -3,7 +3,7 @@ return array(
   array(
     'allow',
     'users' => array('*'),
-    'controllers' => array('default'),
+    'controllers' => array('default', 'recovery'),
     'actions' => array('index'),
     'module' => 'main'
   ),

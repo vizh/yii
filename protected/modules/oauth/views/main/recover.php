@@ -5,6 +5,13 @@
     <div class="control-group">
       <?=\CHtml::activeTextField($form, 'Email', array('placeholder' => \Yii::t('app', 'Электронная почта'), 'class' => 'span4'));?>
     </div>
+    
+    <?if ($form->ShowCode):?>
+    <div class="control-group">
+      <?=\CHtml::activeTextField($form, 'Code', array('placeholder' => \Yii::t('app', 'Код'), 'class' => 'span4'));?>
+    </div>
+    <?endif;?>
+    
     <?=\CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
     
     <?if (\Yii::app()->user->hasFlash('success')):?>
