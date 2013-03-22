@@ -4,7 +4,7 @@ return array(
     'allow',
     'users' => array('*'),
     'module' => 'event',
-    'controllers' => array('list', 'view', 'share', 'create')
+    'controllers' => array('list', 'view', 'share', 'create', 'exclusive/demo2013')
   ),
 
 

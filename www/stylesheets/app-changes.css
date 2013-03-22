@@ -78,7 +78,8 @@
 #event-register .user-row .alert {
   position: absolute;
   width: 221px;
-  margin-top: 35px;
+  margin-top: 5px;
+  font-size: 12px !important;
 }
 
 .event-register .table .user-row:last-child > td:first-child {background: none !important;}
@@ -99,4 +100,7 @@
 .job article p{
   height: 140px;
   overflow: hidden;
+}
+.event-register .table .input-promo > input{
+  width: 100px;
 }

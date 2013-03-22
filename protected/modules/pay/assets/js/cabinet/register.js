@@ -78,26 +78,41 @@ CPayRegister.prototype = {
    * 
    */
   initCouponField : function (row) {
-    var self = this;
-    row.find('.input-promo').change(function (e) {
-      $.getJSON('/pay/ajax/couponactivate', {
-        code : $(e.currentTarget).val(),
-        ownerRunetId : row.find('input[name*="RunetId"]').val(),
-        productId : row.parents('table[data-product-id]').data('product-id'),
-        eventIdName : self.eventIdName
-      }, function (response) {
-        var alertContainer = row.find('.alert');
-        alertContainer.attr('class', 'alert').html('');
-        if (response.success) {
-          alertContainer.addClass('alert-success').text(response.message);
-        }
-        else {
-          alertContainer.addClass('alert-error').text(response.error);
-        }
-        setTimeout(function () {
-          alertContainer.addClass('hide');
-        }, 2000);
-      });
+    var self = this,
+        promoInput = row.find('.input-promo>input'),
+        promoSubmit = row.find('.input-promo>.btn'),
+        promoAlert = row.find('.input-promo>.alert');
+    
+    promoInput.keyup(function(e) {
+      if ($(e.currentTarget).val().length > 0) {
+        promoSubmit.addClass('btn-success').removeClass('disabled');
+      }
+      else {
+        promoSubmit.removeClass('btn-success').addClass('disabled');
+      }
+    });
+    
+    promoSubmit.click(function(e) {
+      if (!$(e.currentTarget).hasClass('disabled')) {
+        $.getJSON('/pay/ajax/couponactivate', {
+          code : promoInput.val(),
+          ownerRunetId : row.find('input[name*="RunetId"]').val(),
+          productId : row.parents('table[data-product-id]').data('product-id'),
+          eventIdName : self.eventIdName
+        }, function (response) {
+          promoAlert.attr('class', 'alert').html('');
+          if (response.success) {
+            promoAlert.addClass('alert-success').text(response.message);
+            promoSubmit.addClass('disabled');
+          }
+          else {
+            promoAlert.addClass('alert-error').text(response.error);
+          }
+          setTimeout(function () {
+            promoAlert.addClass('hide');
+          }, 2000);
+        });
+      }
     });
   },
   
@@ -167,11 +182,12 @@ CPayRegister.prototype = {
       item : item,
       promoCode : promoCode
     });
-
+   
     var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
     table.append(rowTemplate);
     var row = table.find('tr:last-child');
     self.initRemoveIcon(row);
+    self.initCouponField(row);
     self.itemsIterator++;
   },
           

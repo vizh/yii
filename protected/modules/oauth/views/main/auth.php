@@ -45,7 +45,7 @@
     </div>
     <label class="checkbox clearfix muted">
       <?=CHtml::activeCheckBox($model, 'RememberMe', array('uncheckValue' => null));?><?=$model->getAttributeLabel('RememberMe');?>
-      <a href="./recover-password.html" class="pull-right">Восстановить пароль</a>
+      <a href="<?=$this->createUrl('/oauth/main/recover');?>" class="pull-right">Восстановить пароль</a>
     </label>
 
     <?php echo CHtml::errorSummary($model, '<div class="alert alert-error">', '</div>');?>

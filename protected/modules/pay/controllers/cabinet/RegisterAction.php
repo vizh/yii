@@ -70,7 +70,7 @@ class RegisterAction extends \CAction
       if (!$orderForm->hasErrors())
       {
         $this->getController()->redirect(
-          $this->getController()->createUrl('/pay/cabinet/index', array('eventIdName' => $event->Id))
+          $this->getController()->createUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName))
         );
       }
     }
