@@ -3,6 +3,11 @@
 return array(
   array(
     'allow',
+    'users' => array('?'),
+    'controllers' => array('raec')
+  ),
+  array(
+    'allow',
     'roles' => array('base'),
     'controllers' => array('user'),
     'actions' => array('auth', 'search', 'create', 'get', 'login')

@@ -37,9 +37,9 @@ class Builder
     $this->user->FatherName = $user->FatherName;
 
     $this->user->Photo = new \stdClass();
-    $this->user->Photo->Small  = rtrim(\Yii::app()->getController()->createAbsoluteUrl($user->getPhoto()->get50px()), '/');
-    $this->user->Photo->Medium = rtrim(\Yii::app()->getController()->createAbsoluteUrl($user->getPhoto()->get90px()), '/');;
-    $this->user->Photo->Large  = rtrim(\Yii::app()->getController()->createAbsoluteUrl($user->getPhoto()->get200px()), '/');
+    $this->user->Photo->Small  = 'http://' . RUNETID_HOST . $user->getPhoto()->get50px();;
+    $this->user->Photo->Medium = 'http://' . RUNETID_HOST . $user->getPhoto()->get90px();
+    $this->user->Photo->Large  = 'http://' . RUNETID_HOST . $user->getPhoto()->get200px();
 
     return $this->user;
   }

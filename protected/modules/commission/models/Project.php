@@ -7,7 +7,7 @@ namespace commission\models;
  * @property string $Description
  * @property bool $Visible
  *
- * @property ProjectUser[] $Users
+ * @property ProjectUser[] $ProjectUsers
  */
 class Project extends \CActiveRecord
 {
@@ -29,7 +29,7 @@ class Project extends \CActiveRecord
   public function relations() 
   {
     return array(
-      'Users' => array(self::HAS_MANY, '\commission\models\ProjectUser', 'CommissionId'),  
+      'Users' => array(self::HAS_MANY, '\commission\models\ProjectUser', 'ProjectId'),
     );
   }
 }

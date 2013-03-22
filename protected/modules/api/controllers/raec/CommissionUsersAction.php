@@ -13,12 +13,14 @@ class CommissionUsersAction extends \api\components\Action
       throw new \api\components\Exception(601, array($commissionId));
     }
 
+    $builder = new \api\components\builders\Builder(null); //todo: быстрое решение, исправить
+
     $result = array();
     foreach ($commission->Users as $user)
     {
-      $this->getAccount()->getDataBuilder()->createUser($user->User);
-      $this->getAccount()->getDataBuilder()->buildUserEmployment($user->User);
-      $result['Users'][] = $this->getAccount()->getDataBuilder()->buildUserCommission($user->Role);
+      $builder->createUser($user->User);
+      $builder->buildUserEmployment($user->User);
+      $result['Users'][] = $builder->buildUserCommission($user->Role);
     }
 
     $this->setResult($result);

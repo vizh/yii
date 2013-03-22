@@ -31,8 +31,8 @@ class Commission extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Users' => array(self::HAS_MANY, 'commission\models\User', 'ComissionId'),
-      'Projects' => array(self::HAS_MANY, 'commission\models\Project', 'ComissionId'),
+      'Users' => array(self::HAS_MANY, 'commission\models\User', 'CommissionId'),
+      'Projects' => array(self::HAS_MANY, 'commission\models\Project', 'CommissionId'),
     );
   }
   

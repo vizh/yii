@@ -8,19 +8,21 @@ class CommissionListAction extends \api\components\Action
     $commissionIdList = \Yii::app()->getRequest()->getParam('CommissionIdList');
 
     $criteria = new \CDbCriteria();
-    $criteria->addCondition('NOT t.Deleted');
+    $criteria->addCondition('NOT "t"."Deleted"');
     if (!empty($commissionIdList))
     {
-      $criteria->addInCondition('t.ComissionId', $commissionIdList);
+      $criteria->addInCondition('"t"."Id"', $commissionIdList);
     }
     /** @var $commisions \commission\models\Commission[] */
     $commisions = \commission\models\Commission::model()->findAll($criteria);
 
+    $builder = new \api\components\builders\Builder(null); //todo: быстрое решение, исправить
+
     $result = array();
     foreach ($commisions as $commision)
     {
-      $this->getAccount()->getDataBuilder()->createCommision($commision);
-      $result['Commissions'][] = $this->getAccount()->getDataBuilder()->buildComissionProjects($commision);
+      $builder->createCommision($commision);
+      $result['Commissions'][] = $builder->buildComissionProjects($commision);
     }
 
     $this->setResult($result);
