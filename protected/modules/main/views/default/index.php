@@ -93,7 +93,11 @@
 
       <?foreach ($events as $event):?>
         <div class="event span4">
-          <div class="event-logo"><img src="<?=$event->getLogo()->getSquare70();?>" width="70" height="70" alt="" class="logo"></div>
+          <div class="logo-box">
+            <div class="white">
+              <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>"><img src="<?=$event->getLogo()->getSquare70();?>" width="70" height="70" alt="" class="logo"></a>
+            </div>
+          </div>
           <?=$this->renderPartial('index/event-dates', array('event' => $event));?>
           <header>
             <h4 class="title">
