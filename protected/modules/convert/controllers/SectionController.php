@@ -26,6 +26,45 @@ class SectionController extends convert\components\controllers\Controller
       $newSection->save();
     }
   }
+
+  public function actionAttributes()
+  {
+    /** @var $connection CDbConnection */
+    $connection = \Yii::app()->dbOld;
+    $command = $connection->createCommand('SELECT * FROM `EventProgram` ORDER BY `EventProgram`.`EventProgramId` ASC');
+
+    $sections = $command->queryAll();
+    $names = array(
+      'Abbr',
+      'Comment',
+      'Audience',
+      'Rubricator',
+      'LinkPhoto',
+      'LinkVideo',
+      'LinkShorthand',
+      'LinkAudio',
+      'Partners',
+      'Fill',
+      'Access'
+    );
+
+    foreach ($sections as $section)
+    {
+      foreach ($names as $name)
+      {
+        $value = trim($section[$name]);
+        if (!empty($value))
+        {
+          $attr = new \event\models\section\Attribute();
+          $attr->SectionId = $section['EventProgramId'];
+          $attr->Name = $name;
+          $attr->Value = $value;
+          $attr->save();
+        }
+      }
+    }
+    echo 'done!';
+  }
   
   public function actionHall()
   {

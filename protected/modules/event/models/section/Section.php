@@ -52,4 +52,13 @@ class Section extends \CActiveRecord
       'Type' => array(self::BELONGS_TO, '\event\models\section\Type', 'TypeId')
     );
   }
+
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params = array('EventId' => $eventId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

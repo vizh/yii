@@ -348,4 +348,74 @@ class Builder
 
     return $this->commission;
   }
+
+
+  protected $section;
+  /**
+   * @param \event\models\section\Section $section
+   * @return \stdClass
+   */
+  public function createSection($section)
+  {
+    $this->section = new \stdClass();
+
+    $this->section->SectionId = $section->Id;
+    $this->section->Title = $section->Title;
+    $this->section->Description = $section->Info; //todo: deprecated
+    $this->section->Info = $section->Info;
+    $this->section->Start = $section->StartTime;
+    $this->section->Finish = $section->EndTime; //todo: deprecated
+    $this->section->End = $section->EndTime;
+    $this->section->UpdateTime = $section->UpdateTime;
+    $this->section->Type = $section->TypeId == 4 ? 'short' : 'full'; //todo: deprecated
+
+    if (sizeof($section->LinkHalls) > 0)
+    {
+      $this->section->Place = $section->LinkHalls[0]->Hall->Title; //todo: deprecated
+    }
+    $this->section->Places = array();
+    foreach ($section->LinkHalls as $linkHall)
+    {
+      $this->section->Places[] = $linkHall->Hall->Title;
+    }
+
+    $this->section->Attributes = array();
+    foreach ($section->Attributes as $attribute)
+    {
+      $this->section->{$attribute->Name} = $attribute->Value; //todo: deprecated
+      $this->section->Attributes[$attribute->Name] = $attribute->Value;
+    }
+
+    return $this->section;
+  }
+
+  protected $report;
+  /**
+   * @param \event\models\section\LinkUser $link
+   * @return \stdClass
+   */
+  public function createReport($link)
+  {
+    $this->report = new \stdClass();
+
+    $this->createUser($link->User);
+    $this->report->User = $this->buildUserEmployment($link->User);
+
+    $this->report->SectionRoleId = $link->Role->Id;
+    $this->report->SectionRoleName = $link->Role->Title;//todo: deprecated
+    $this->report->SectionRoleTitle = $link->Role->Title;
+    $this->report->Order = $link->Order;
+    if (! empty($link->Report))
+    {
+      $this->report->Header = $link->Report->Title;//todo: deprecated
+      $this->report->Title = $link->Report->Title;
+      $this->report->Thesis = $link->Report->Thesis;
+      $this->report->LinkPresentation = $link->Report->Url;//todo: deprecated
+      $this->report->Url = $link->Report->Url;
+    }
+
+    return $this->report;
+  }
+
+
 }
