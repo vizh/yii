@@ -346,13 +346,13 @@ class OrderItem extends \CActiveRecord
    */
   public function activate()
   {
-    if ($this->Booked !== null && $this->Booked < date('Y-m-d H:i:s'))
-    {
-      $this->Deleted = true;
-      $this->DeletionTime = date('Y-m-d H:i:s');
-      $this->save();
-      return false;
-    }
+//    if ($this->Booked !== null && $this->Booked < date('Y-m-d H:i:s'))
+//    {
+//      $this->Deleted = true;
+//      $this->DeletionTime = date('Y-m-d H:i:s');
+//      $this->save();
+//      return false;
+//    }
     $owner = $this->ChangedOwner !== null ? $this->ChangedOwner : $this->Owner;
     if (!$this->Product->getManager()->checkProduct($owner))
     {
