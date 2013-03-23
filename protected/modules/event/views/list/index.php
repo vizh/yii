@@ -52,7 +52,11 @@
       <div class="span8 offset2">
         <?php if (!empty($events)):?>
           <?php foreach ($events as $event):?>
+            <?if (mktime(0,0,0,$event->StartMonth,$event->StartDay,$event->StartYear) < time()):?>
+            <div class="event past">
+            <?else:?>
             <div class="event">
+            <?endif;?>
               <div class="type span2">
                 <img src="/images/blank.gif" alt="" class="i-event_medium <?=$event->Type->CssClass;?>">
                 <p><?=$event->Type->Title;?></p>

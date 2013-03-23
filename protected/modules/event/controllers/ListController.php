@@ -21,6 +21,7 @@ class ListController extends \application\components\controllers\PublicMainContr
     
     $eventModel = \event\models\Event::model()->byVisible()->byDate($this->year, $this->month);
     $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."StartDay" ASC';
     $criteria->with = array('LinkAddress', 'LinkAddress.Address', 'Type');
     
     $this->filter = new \event\models\forms\ListFilterForm();
@@ -50,6 +51,7 @@ class ListController extends \application\components\controllers\PublicMainContr
         }
       }
     }
+
     
     $this->events = $eventModel->findAll($criteria);
     return parent::beforeAction($action);
