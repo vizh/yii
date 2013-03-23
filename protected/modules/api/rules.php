@@ -13,6 +13,11 @@ return array(
     'actions' => array('auth', 'search', 'create', 'get', 'login')
   ),
   array(
+    'allow',
+    'roles' => array('base'),
+    'controllers' => array('section')
+  ),
+  array(
     'deny',
     'roles' => array('mobile'),
     'controllers' => array('event'),

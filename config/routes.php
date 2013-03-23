@@ -49,12 +49,15 @@ return array(
         '/oauth/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
 
         /** API Module Rules */
+        'http://api.'.RUNETID_HOST.'/event/section/<action>' => 'api/section/<action>',
         'http://api.'.RUNETID_HOST.'/event/role/list' => 'api/event/roles',
         'http://api.'.RUNETID_HOST.'/pay/filter/list' => 'api/pay/filterlist',
         'http://api.'.RUNETID_HOST.'/pay/filter/book' => 'api/pay/filterbook',
 
         'http://api.'.RUNETID_HOST.'/raec/commission/list' => 'api/raec/commissionlist',
         'http://api.'.RUNETID_HOST.'/raec/commission/users' => 'api/raec/commissionusers',
+
+
 
 
         'http://api.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',

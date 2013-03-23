@@ -17,7 +17,7 @@ class ReportsAction extends \api\components\Action
       array(
         'LinkUsers',
         'LinkUsers.User',
-        'LinkUsers.User.Employments.Company' => array('on' => 'Employments.Primary'),
+        'LinkUsers.User.Employments.Company' => array('on' => '"Employments"."Primary"'),
         'LinkUsers.Role',
         'LinkUsers.Report',
       )

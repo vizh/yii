@@ -5,8 +5,13 @@ class GetAction extends \api\components\Action
 {
   public function run()
   {
-    $runetId = intval(\Yii::app()->getRequest()->getParam('RunetId', null));
+    $runetId = \Yii::app()->getRequest()->getParam('RunetId', null);
+    if ($runetId === null)
+    {
+      $runetId = \Yii::app()->getRequest()->getParam('RocId', null);
+    }
 
+    /** @var $user \user\models\User */
     $user = \user\models\User::model()->byRunetId($runetId)->find();
     if ($user !== null)
     {
