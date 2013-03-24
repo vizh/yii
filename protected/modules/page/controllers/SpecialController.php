@@ -3,7 +3,14 @@ class SpecialController extends \application\components\controllers\PublicMainCo
 {
   public function actionChildsafety2013()
   {
+    $this->setPageTitle('Международная конференция по обеспечению  детской безопасности и цифровой грамотности в Интернете / RUNET-ID');
     $this->bodyId = 'about-page';
     $this->render('childsafety2013');
+  }
+  public function actionReseach2012()
+  {
+    $this->setPageTitle('Исследование «Экономика Рунета 2011-2012» / RUNET-ID');
+    $this->bodyId = 'about-page';
+    $this->render('reseach2012');
   }
 }
