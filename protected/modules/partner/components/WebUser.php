@@ -18,6 +18,22 @@ class WebUser extends \CWebUser
     return $this->account;
   }
 
+
+  protected $event = null;
+
+  /**
+   * @return \event\models\Event
+   */
+  public function getEvent()
+  {
+    if ($this->event === null)
+    {
+      $this->event = $this->getAccount() !== null ? \event\models\Event::model()->findByPk($this->getAccount()->EventId) : null;
+    }
+
+    return $this->event;
+  }
+
   /**
    * @return null|string
    */
