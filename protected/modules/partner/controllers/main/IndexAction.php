@@ -3,7 +3,6 @@ namespace partner\controllers\main;
 
 class IndexAction extends \partner\components\Action
 {
-  private
 
   public function run()
   {
@@ -15,87 +14,111 @@ class IndexAction extends \partner\components\Action
     $roles = \event\models\Role::model()
         ->byEventId(\Yii::app()->partner->getAccount()->EventId)->findAll();
 
-
-
-
-
-    // Подсчет участников
-    $todayTime  = mktime(0, 0, 0, date('n'), date('j'), date('Y'));
-    $mondayTime = date('Y-m-d H:i:s', $todayTime - ((date('N')-1) * 86400));
-    $todayTime  = date('Y-m-d H:i:s', $todayTime);
-    if (!empty($event->Days))
+    $statistics = null;
+    if (sizeof(\Yii::app()->partner->getEvent()->Parts) === 0)
     {
-
+      $statistics = $this->getSingleStatistics();
     }
     else
     {
-
+      $statistics = $this->getManyPartsStatistics();
     }
 
-    $this->render('index',array('stat' => $stat, 'event' => $event));
+    $this->getController()->render('index', array(
+      'roles' => $roles,
+      'statistics' => $statistics,
+      'event' => \Yii::app()->partner->getEvent())
+    );
   }
 
-  protected function getOnePartStatistics()
+  protected function getSingleStatistics()
   {
-    //// Мероприятие на 1 день
-    $criteria = new CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId';
-    $criteria->params['EventId'] = $event->EventId;
-    $criteria->group = 't.RoleId';
-    $criteria->select = 't.RoleId, Count(*) as CountForCriteria';
+    $event = \Yii::app()->partner->getEvent();
+    $statistics = array();
+
+    $criteria = new \CDbCriteria();
+    $criteria->select = '"t"."RoleId", Count(*) as "CountForCriteria"';
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params['EventId'] = $event->Id;
+    $criteria->group = '"t"."RoleId"';
+
+
     $participants = \event\models\Participant::model()->findAll($criteria);
+    $statistics['Total'] = 0;
     foreach ($participants as $participant)
     {
-      $stat->Participants[$participant->RoleId]->Count = $participant->CountForCriteria;
+      $statistics['Count'][$participant->RoleId] = $participant->CountForCriteria;
+      $statistics['Total'] += $participant->CountForCriteria;
     }
 
-    //// Прирост за неделю
-    $criteria->addCondition('t.CreationTime >= :CreationTime');
-    $criteria->params['CreationTime'] = $mondayTimeStamp;
+    $criteria->addCondition('"t"."CreationTime" >= :CreationTime');
+    $criteria->params['CreationTime'] = date('Y-m-d H:i:s', time() - 24*60*60);
     $participants = \event\models\Participant::model()->findAll($criteria);
+    $statistics['TotalToday'] = 0;
     foreach ($participants as $participant)
     {
-      $stat->Participants[$participant->RoleId]->CountWeek = $participant->CountForCriteria;
+      $statistics['CountToday'][$participant->RoleId] = $participant->CountForCriteria;
+      $statistics['TotalToday'] += $participant->CountForCriteria;
     }
 
-    //// Прирост за сегодня
-    $criteria->params['CreationTime'] = $todayTimestamp;
+    $criteria->params['CreationTime'] = date('Y-m-d H:i:s', time() - 7*24*60*60);;
     $participants = \event\models\Participant::model()->findAll($criteria);
+    $statistics['TotalWeek'] = 0;
     foreach ($participants as $participant)
     {
-      $stat->Participants[$participant->RoleId]->CountToday = $participant->CountForCriteria;
+      $statistics['CountWeek'][$participant->RoleId] = $participant->CountForCriteria;
+      $statistics['TotalWeek'] += $participant->CountForCriteria;
     }
+
+    return $statistics;
   }
 
   protected function getManyPartsStatistics()
   {
-    //// Мероприятие на несколько дней
-    $criteria = new CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId';
-    $criteria->params['EventId'] = $event->EventId;
-    $criteria->group = 't.DayId, t.RoleId';
-    $criteria->select = 't.DayId, t.RoleId, Count(*) as CountForCriteria';
+    $event = \Yii::app()->partner->getEvent();
+    $statistics = array();
+
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params['EventId'] = $event->Id;
+    $criteria->group = '"t"."PartId", "t"."RoleId"';
+    $criteria->select = '"t"."PartId", "t"."RoleId", Count(*) as "CountForCriteria"';
     $participants = \event\models\Participant::model()->findAll($criteria);
     foreach ($participants as $participant)
     {
-      $stat->Participants[$participant->DayId][$participant->RoleId]->Count = $participant->CountForCriteria;
+      $statistics[$participant->PartId]['Count'][$participant->RoleId] = $participant->CountForCriteria;
+      if (!isset($statistics[$participant->PartId]['Total']))
+      {
+        $statistics[$participant->PartId]['Total'] = 0;
+      }
+      $statistics[$participant->PartId]['Total'] += $participant->CountForCriteria;
     }
 
-    //// Прирост за неделю
-    $criteria->addCondition('t.CreationTime >= :CreationTime');
-    $criteria->params['CreationTime'] = $mondayTimeStamp;
+    $criteria->addCondition('"t"."CreationTime" >= :CreationTime');
+    $criteria->params['CreationTime'] = date('Y-m-d H:i:s', time() - 24*60*60);
     $participants = \event\models\Participant::model()->findAll($criteria);
     foreach ($participants as $participant)
     {
-      $stat->Participants[$participant->DayId][$participant->RoleId]->Count = $participant->CountForCriteria;
+      $statistics[$participant->PartId]['CountToday'][$participant->RoleId] = $participant->CountForCriteria;
+      if (!isset($statistics[$participant->PartId]['TotalToday']))
+      {
+        $statistics[$participant->PartId]['TotalToday'] = 0;
+      }
+      $statistics[$participant->PartId]['TotalToday'] += $participant->CountForCriteria;
     }
 
-    //// Прирост за сегодня
-    $criteria->params['CreationTime'] = $todayTimestamp;
+    $criteria->params['CreationTime'] = date('Y-m-d H:i:s', time() - 7*24*60*60);;
     $participants = \event\models\Participant::model()->findAll($criteria);
     foreach ($participants as $participant)
     {
-      $stat->Participants[$participant->DayId][$participant->RoleId]->Count = $participant->CountForCriteria;
+      $statistics[$participant->PartId]['CountWeek'][$participant->RoleId] = $participant->CountForCriteria;
+      if (!isset($statistics[$participant->PartId]['TotalWeek']))
+      {
+        $statistics[$participant->PartId]['TotalWeek'] = 0;
+      }
+      $statistics[$participant->PartId]['TotalWeek'] += $participant->CountForCriteria;
     }
+
+    return $statistics;
   }
 }

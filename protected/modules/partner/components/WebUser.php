@@ -22,6 +22,7 @@ class WebUser extends \CWebUser
   protected $event = null;
 
   /**
+   * @throws \application\components\Exception
    * @return \event\models\Event
    */
   public function getEvent()
@@ -29,6 +30,10 @@ class WebUser extends \CWebUser
     if ($this->event === null)
     {
       $this->event = $this->getAccount() !== null ? \event\models\Event::model()->findByPk($this->getAccount()->EventId) : null;
+      if ($this->event === null)
+      {
+        throw new \application\components\Exception('Не найдено мероприятие для данного пользователя партнерского интерфейса');
+      }
     }
 
     return $this->event;

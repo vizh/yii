@@ -39,7 +39,7 @@ class Role extends \CActiveRecord
   public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 'Participants.EventId = :EventId';
+    $criteria->condition = '"Participants"."EventId" = :EventId';
     $criteria->params = array('EventId' => $eventId);
     $criteria->with = array('Participants' => array('together' => true, 'select' => false));
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);

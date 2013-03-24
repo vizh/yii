@@ -35,6 +35,11 @@ return array(
           'css' => array('stylesheets/application.css', 'stylesheets/app-changes.css'),
           'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.backbone', 'runetid.bootstrap', 'runetid.jquery.ioslider')
         ),
+        'runetid.event-calculate-price' => array(
+          'baseUrl' => '/',
+          'js' => array('javascripts/money-format.js', 'javascripts/event-calculate-price.js'),
+          'depends' => array('runetid.application')
+        ),
         'runetid.admin' => array(
           'baseUrl' => '/',
           'js' => array(),
