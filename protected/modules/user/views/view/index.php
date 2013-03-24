@@ -23,57 +23,6 @@ $(window).load(function() {
     ]          
   }).createOn('charts-pie');
 
-  /*new RunetChart({
-    itemTemplate: $('#single-chart-item-template').html(),
-    height: 270,
-    border: {
-      size: 60,
-      color: "#e6e6e6"
-    },
-    parts: [
-      {color: "#88e9a0", val: 1, role: "В области рекламы"},
-      {color: "#5dbccc", val: 2, role: "В вопросах поисковой оптимизации"},
-      {color: "#d362b0", val: 3, role: "По информационной безопасности"},
-      {color: "#e58074", val: 4, role: "В вопросах мобильных технологий и приложений"}
-    ]
-  }).createOn('charts-single');*/
-
-  /*new LinearChart({
-    items: [
-      {
-        year: "2012",
-        parts: [
-          {color: "#f6bf00", val: 1, role: "слушателем"},
-          {color: "#6363d2", val: 1, role: "докладчиком"},
-          {color: "#7d45a1", val: 1, role: "ведущим"}
-        ]
-      },
-      {
-        year: "2011",
-        parts: [
-          {color: "#f6bf00", val: 12, role: "слушателем"},
-          {color: "#6363d2", val: 2, role: "докладчиком"},
-          {color: "#7d45a1", val: 2, role: "ведущим"}
-        ]
-      },
-      {
-        year: "2010",
-        parts: [
-          {color: "#f6bf00", val: 11, role: "слушателем"},
-          {color: "#6363d2", val: 3, role: "докладчиком"},
-          {color: "#7d45a1", val: 1, role: "ведущим"}
-        ]
-      },
-      {
-        year: "2009",
-        parts: [
-          {color: "#f6bf00", val: 9, role: "слушателем"},
-          {color: "#6363d2", val: 4, role: "докладчиком"}
-        ]
-      }
-    ]
-  }).createOn('charts-linear');*/
-
   $('.charts-linear').find('.item').tooltip();
 
 });
@@ -131,18 +80,6 @@ $(window).load(function() {
                   <?endif;?>
                 </div>
                 <?endif;?>
-                
-                
-                <?/*
-                <div class="b-interests">
-                  <header>
-                    <h6 class="title">Профессиональные интересы</h6>
-                  </header>
-                  <article>
-                    <p class="text">Аналитика, Веб-разработка / Технологии / API, Геосервисы, Государство и общество, Инвестиции и стартапы</p>
-                  </article>
-                </div>
-                 */?>
 
                 <?if (!empty($user->Commissions)):?>
                 <div class="b-raec">
@@ -186,7 +123,6 @@ $(window).load(function() {
       </h4>
       <div class="container">
         <div class="charts">
-
           <!-- Charts pie -->
           <div class="clearfix">
             <div class="row">
@@ -195,23 +131,6 @@ $(window).load(function() {
               <div id="charts-pie-3" class="span4 charts-pie items"><canvas id="charts-pie-canvas-3"></canvas></div>
             </div>
           </div>
-
-
-          <!--
-          <h5 class="title t-center">Центр компетенций / Профессиональная активность</h5>
-          <div class="row">
-            <div class="span6 t-right">
-              <div id="charts-single"><canvas id="charts-single_canvas" class="clearfix"></canvas></div>
-            </div>
-            <div class="span6">
-              <div id="charts-linear"></div>
-            </div>
-          </div>
-        </div>
-        <div class="more">
-          <a href="#">Еще тесты</a>
-        </div>
-        -->
       </div>
     </div>
 
@@ -236,21 +155,22 @@ $(window).load(function() {
         </div>
       </h4> 
       <div class="container">
+        <?$rowCount = 1;?>
         <div class="row">
-          <?foreach ($participation->Participation as $participant):?>
+        <?foreach ($participation->Participation as $participant):?>
             <figure class="i span2" data-year="<?=$participant->Event->StartYear;?>">
+              <a href="<?=$this->createUrl('/event/view/index', array('idName' => $participant->Event->IdName));?>" class="event-link">
+                <?=\CHtml::image($participant->Event->getLogo()->getMini(), $participant->Event->Title, array('class' => 'img'));?>
+              </a>
               <figcaption class="cnt">
                 <?foreach ($participant->Roles as $role):?>
-                  <?if (!$participant->HasSections):?>
+                  <?if (!$participant->HasSections || empty($role->Report->Title)):?>
                     <p class="tx"><?=$role->Role->Title;?></p>
                   <?else:?>
                     <div><a href="javascript:void(0);" class="a pseudo-link"><?=$role->Role->Title;?></a></div>
                   <?endif;?>
                 <?endforeach;?>
               </figcaption>
-              <a href="<?=$this->createUrl('/event/view/index', array('idName' => $participant->Event->IdName));?>">
-                <?=\CHtml::image($participant->Event->getLogo()->getMini(), $participant->Event->Title, array('class' => 'img'));?>
-              </a>
               <?if($participant->HasSections):?>
               <div class="popup">
                 <div class="cnt">
@@ -262,7 +182,11 @@ $(window).load(function() {
               </div>
               <?endif;?>
             </figure>
-          <?endforeach;?>
+          <?if (($rowCount % 6) == 0):?>
+          </div><div class="row">
+          <?endif;?>
+          <?$rowCount++;?>
+        <?endforeach;?>
         </div>
         <div class="all">
           <a href="#" class="pseudo-link">Все мероприятия</a>
@@ -270,175 +194,6 @@ $(window).load(function() {
       </div>
     </div>
     <?endif;?>
-
-    <?/*
-    <div class="b-participate"> 
-      <h4 class="b-header_large light">
-        <div class="line"></div>
-        <div class="container">
-          <div class="title">
-            <span class="backing text">Примите участие</span>
-          </div>
-        </div>
-      </h4>    
-      <div id="participate-events" class="container">
-        <div class="slider">
-          <div class="slides">
-            <div class="slide row">
-              <div class="i span3">
-                <header class="h">
-                  <div class="date">
-                    <div class="d">23-25</div>
-                    <div class="m">сентября</div>
-                  </div>
-                  <p class="tx muted">Вебинар, Москва</p>
-                  <h5 class="t"><a href="#" class="event-color_4">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a></h5>
-                </header>
-                <article class="cnt">
-                  <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
-                </article>
-                <footer class="f">
-                  <a href="#" class="a">
-                    <i class="icon-circle-arrow-right"></i>Посетить мероприятие
-                  </a>
-                </footer>
-              </div>
-              <div class="i span3">
-                <header class="h">
-                  <div class="date">
-                    <div class="d">12</div>
-                    <div class="m">сентября</div>
-                  </div>
-                  <p class="tx muted">Круглый стол</p>
-                  <h5 class="t"><a href="#">Интернет-магазин с нуля: от идеи до стабильных продаж</a></h5>
-                </header>
-                <article class="cnt">
-                  <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
-                </article>
-                <footer class="f">
-                  <a href="#" class="a">
-                    <i class="icon-circle-arrow-right"></i>Посетить мероприятие
-                  </a>
-                </footer>
-              </div>
-              <div class="i span3">
-                <header class="h">
-                  <div class="date">
-                    <div class="d">3</div>
-                    <div class="m">августа</div>
-                  </div>
-                  <p class="tx muted">Вебинар, Москва</p>
-                  <h5 class="t"><a href="#">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a></h5>
-                </header>
-                <article class="cnt">
-                  <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
-                </article>
-                <footer class="f">
-                  <a href="#" class="a">
-                    <i class="icon-circle-arrow-right"></i>Посетить мероприятие
-                  </a>
-                </footer>
-              </div>
-              <div class="i span3">
-                <header class="h">
-                  <div class="date">
-                    <div class="d">17-18</div>
-                    <div class="m">мая</div>
-                  </div>
-                  <p class="tx muted">Конференция</p>
-                  <h5 class="t"><a href="#">Конференция «Бизнес Мёртвых Деревьев»</a></h5>
-                </header>
-                <article class="cnt">
-                  <p class="tx">Мероприятие длится два дня и предназначено для тех, кому нужен сайт, и тех, кто их разрабатывает.</p>
-                </article>
-                <footer class="f">
-                  <a href="#" class="a">
-                    <i class="icon-circle-arrow-right"></i>Посетить мероприятие
-                  </a>
-                </footer>
-              </div>
-            </div>
-            <div class="slide row">
-              <div class="i span3">
-                <header class="h">
-                  <div class="date">
-                    <div class="d">17</div>
-                    <div class="m">февраля</div>
-                  </div>
-                  <p class="tx muted">Вебинар, Москва</p>
-                  <h5 class="t"><a href="#">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a></h5>
-                </header>
-                <article class="cnt">
-                  <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
-                </article>
-                <footer class="f">
-                  <a href="#" class="a">
-                    <i class="icon-circle-arrow-right"></i>Посетить мероприятие
-                  </a>
-                </footer>
-              </div>
-              <div class="i span3">
-                <header class="h">
-                  <div class="date">
-                    <div class="d">5-12</div>
-                    <div class="m">февраля</div>
-                  </div>
-                  <p class="tx muted">Круглый стол</p>
-                  <h5 class="t"><a href="#" class="event-color_2">Интернет-магазин с нуля: от идеи до стабильных продаж</a></h5>
-                </header>
-                <article class="cnt">
-                  <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
-                </article>
-                <footer class="f">
-                  <a href="#" class="a">
-                    <i class="icon-circle-arrow-right"></i>Посетить мероприятие
-                  </a>
-                </footer>
-              </div>
-              <div class="i span3">
-                <header class="h">
-                  <div class="date">
-                    <div class="d">29</div>
-                    <div class="m">января</div>
-                  </div>
-                  <p class="tx muted">Вебинар, Москва</p>
-                  <h5 class="t"><a href="#" class="event-color_3">Как получать больше результатов, тратя меньше времени и денег в контекстной рекламе</a></h5>
-                </header>
-                <article class="cnt">
-                  <p class="tx">В ходе мероприятия будут подробно рассматриваться все основные вопросы по работе с контекстной рекламой.</p>
-                </article>
-                <footer class="f">
-                  <a href="#" class="a">
-                    <i class="icon-circle-arrow-right"></i>Посетить мероприятие
-                  </a>
-                </footer>
-              </div>
-              <div class="i span3">
-                <header class="h">
-                  <div class="date">
-                    <div class="d">7</div>
-                    <div class="m">января</div>
-                  </div>
-                  <p class="tx muted">Конференция</p>
-                  <h5 class="t"><a href="#" class="event-color_4">Конференция «Бизнес Мёртвых Деревьев»</a></h5>
-                </header>
-                <article class="cnt">
-                  <p class="tx">Мероприятие длится два дня и предназначено для тех, кому нужен сайт, и тех, кто их разрабатывает.</p>
-                </article>
-                <footer class="f">
-                  <a href="#" class="a">
-                    <i class="icon-circle-arrow-right"></i>Посетить мероприятие
-                  </a>
-                </footer>
-              </div>
-            </div>
-          </div>
-        </div>
-        <i id="participate-events_prev" class="icon-chevron-left"></i>
-        <i id="participate-events_next" class="icon-chevron-right"></i>
-      </div>
-    </div>
-    */?>
   </div>
 </div>
 

@@ -1811,9 +1811,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 }
 
 .user-account .b-participated .i {
-  border: 1px solid #f2f2f2;
-  height: 140px;
-  max-height: 140px;
   position: relative;
   margin-top: 0;
   margin-right: 0;
@@ -1839,16 +1836,19 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   background: #f2f2f2;
   font-size: 11px;
   line-height: 13px;
-  position: absolute;
-  margin-top: 85px;
-  width: 120px;
 }
-.user-account .b-participated .i a {
+.user-account .b-participated .a {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.user-account .b-participated .event-link {
+  border: 1px solid #f2f2f2;
   display: table-cell;
-  height: 85px;
+  height: 80px;
   text-align: center;
   vertical-align: middle;
-  width: 140px;
+  width: 138px;
 }
 
 .user-account .b-participated .all {text-align: center;}
