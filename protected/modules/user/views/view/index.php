@@ -110,11 +110,11 @@ $(window).load(function() {
                   <h4 class="title">
                     <?=$user->getName();?><?if ($user->getIsShowFatherName()):?><br><span class="family-name"><?=$user->FatherName;?></span><?endif;?>
                   </h4>
-                  <?php $age = $user->getAge();?>
-                  <?if ($age > 0 || $user->LinkAddress !== null):?>
+                  <?php $age = $user->getBirthDate();?>
+                  <?if ($age !== null || $user->LinkAddress !== null):?>
                     <small class="muted">
-                      <?if ($age > 0):?><?=\Yii::t('app', '{n} год|{n} года|{n} лет|{n} года', $age);?><?endif;?>
-                      <?if ($user->LinkAddress->Address->City !== null):?>, <?=$user->LinkAddress->Address->City->Name;?><?endif;?>
+                      <?if ($age !== null):?>День рождения <?=$age;?>, <?endif;?>
+                      <?if ($user->LinkAddress->Address->City !== null):?><?=$user->LinkAddress->Address->City->Name;?><?endif;?>
                     </small>
                   <?endif;?>
                 </header>

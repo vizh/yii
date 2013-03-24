@@ -607,16 +607,18 @@ class User extends \application\models\translation\ActiveRecord
   }
   
   /**
-   * @return int
+   * @return string
    */
-  public function getAge()
+  public function getBirthDate()
   {
     if ($this->Birthday == null)
     {
       return 0;
     }
-    $birthdayDate = new \DateTime($this->Birthday);
-    return $birthdayDate->diff(new \DateTime())->y;
+    $birthDate = new \DateTime($this->Birthday);
+    $birthDateDay = $birthDate->format('j');
+    $birthDateMonth = \Yii::app()->locale->getMonthName($birthDate->format('n'));
+    return sprintf('%d %s', $birthDateDay, $birthDateMonth);
   }
 
   /**
