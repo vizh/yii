@@ -7,10 +7,10 @@ class SpecialController extends \application\components\controllers\PublicMainCo
     $this->bodyId = 'about-page';
     $this->render('childsafety2013');
   }
-  public function actionReseach2012()
+  public function actionResearch2012()
   {
     $this->setPageTitle('Исследование «Экономика Рунета 2011-2012» / RUNET-ID');
     $this->bodyId = 'about-page';
-    $this->render('reseach2012');
+    $this->render('research2012');
   }
 }
