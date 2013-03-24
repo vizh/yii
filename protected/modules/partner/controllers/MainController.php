@@ -6,56 +6,54 @@ class MainController extends \partner\components\Controller
   {
     $this->setPageTitle('Партнерский интерфейс');
     $this->initActiveBottomMenu('index');
-
+    
     $stat = new \stdClass();
     $stat->Participants = array();
-
-    $event = \event\models\Event::model()->findByPk(\Yii::app()->partner->getAccount()->EventId);
-
+    
+    $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
+    
     // Список ролей на мероприятии
     $criteria = new CDbCriteria();
-    $criteria->distinct = true;
-    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->group = 't.RoleId';
+    $criteria->condition = 't.EventId = :EventId';
     $criteria->params['EventId'] = \Yii::app()->partner->getAccount()->EventId;
-    $criteria->with = array('Role' => array('together' => false));
-    $criteria->select = '"t"."RoleId"';
-    /** @var $roles \event\models\Participant[] */
+    $criteria->with = array('Role');
+    $criteria->select = 't.RoleId';
     $roles = \event\models\Participant::model()->findAll($criteria);
     foreach ($roles as $role)
     {
-      $stat->Roles[$role->RoleId] = $role->Role->Title;
+      $stat->Roles[$role->RoleId] = $role->Role->Name;
     }
-
+    
 
     // Подсчет участников
-    $todayTime  = mktime(0, 0, 0, date('n'), date('j'), date('Y'));
-    $mondayTime = date('Y-m-d H:i:s', $todayTime - ((date('N')-1) * 86400));
-    $todayTime  = date('Y-m-d H:i:s', $todayTime);
+    $todayTimestamp  = mktime(0, 0, 0, date('n'), date('j'), date('Y'));
+    $mondayTimeStamp = $todayTimestamp - ((date('N')-1) * 86400);
     if (!empty($event->Days))
     {
       //// Мероприятие на несколько дней
       $criteria = new CDbCriteria();
-      $criteria->condition = '"t"."EventId" = :EventId';
+      $criteria->condition = 't.EventId = :EventId';
       $criteria->params['EventId'] = $event->EventId;
-      $criteria->group = '"t"."DayId", "t"."RoleId"';
-      $criteria->select = '"t"."DayId", "t"."RoleId", Count(*) as CountForCriteria';
+      $criteria->group = 't.DayId, t.RoleId';
+      $criteria->select = 't.DayId, t.RoleId, Count(*) as CountForCriteria';
       $participants = \event\models\Participant::model()->findAll($criteria);
       foreach ($participants as $participant)
       {
         $stat->Participants[$participant->DayId][$participant->RoleId]->Count = $participant->CountForCriteria;
       }
-
+      
       //// Прирост за неделю
       $criteria->addCondition('t.CreationTime >= :CreationTime');
-      $criteria->params['CreationTime'] = $mondayTime;
+      $criteria->params['CreationTime'] = $mondayTimeStamp;
       $participants = \event\models\Participant::model()->findAll($criteria);
       foreach ($participants as $participant)
       {
         $stat->Participants[$participant->DayId][$participant->RoleId]->Count = $participant->CountForCriteria;
       }
-
+      
       //// Прирост за сегодня
-      $criteria->params['CreationTime'] = $todayTime;
+      $criteria->params['CreationTime'] = $todayTimestamp;
       $participants = \event\models\Participant::model()->findAll($criteria);
       foreach ($participants as $participant)
       {
@@ -66,50 +64,47 @@ class MainController extends \partner\components\Controller
     {
       //// Мероприятие на 1 день
       $criteria = new CDbCriteria();
-      $criteria->condition = '"t"."EventId" = :EventId';
-      $criteria->params['EventId'] = $event->Id;
-      $criteria->group = '"t"."RoleId"';
-      //$criteria->distinct = true;
-      $criteria->select = '"t"."RoleId", count("t"."RoleId") as CountForCriteria';
-      $participants = \event\models\Participant::model()->findAll($criteria);
-
-      $logs = Yii::getLogger()->getProfilingResults();
-      foreach ($participants as $participant)
-      {
-        $stat->Participants[$participant->RoleId]->Count = $participant->CountForCriteria;
-      }
-
+      $criteria->condition = 't.EventId = :EventId';
+      $criteria->params['EventId'] = $event->EventId; 
+      $criteria->group = 't.RoleId';
+      $criteria->select = 't.RoleId, Count(*) as CountForCriteria';
+        $participants = \event\models\Participant::model()->findAll($criteria);
+        foreach ($participants as $participant)
+        {
+          $stat->Participants[$participant->RoleId]->Count = $participant->CountForCriteria;
+        }
+      
       //// Прирост за неделю
-      $criteria->addCondition('"t"."CreationTime" >= :CreationTime');
-      $criteria->params['CreationTime'] = $mondayTime;
+      $criteria->addCondition('t.CreationTime >= :CreationTime');
+      $criteria->params['CreationTime'] = $mondayTimeStamp;
       $participants = \event\models\Participant::model()->findAll($criteria);
       foreach ($participants as $participant)
       {
         $stat->Participants[$participant->RoleId]->CountWeek = $participant->CountForCriteria;
       }
-
+      
       //// Прирост за сегодня
-      $criteria->params['CreationTime'] = $todayTime;
+      $criteria->params['CreationTime'] = $todayTimestamp;
       $participants = \event\models\Participant::model()->findAll($criteria);
       foreach ($participants as $participant)
       {
         $stat->Participants[$participant->RoleId]->CountToday = $participant->CountForCriteria;
       }
     }
-
+    
     $this->render('index',array('stat' => $stat, 'event' => $event));
   }
-
+  
   public function actionPay()
   {
     ini_set("memory_limit", "512M");
 
     $this->setPageTitle('Статистика платежей');
     $this->initActiveBottomMenu('pay');
-
+    
     $stat = new \stdClass();
     $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
-
+    
     // Юридические счета
     $juridicalOrderItemPaidIdList = array();
     $criteria = new \CDbCriteria();
@@ -133,7 +128,7 @@ class MainController extends \partner\components\Controller
         }
       }
     }
-
+    
     // Физические счета
     $criteria = new \CDbCriteria();
     $criteria->with = array(
@@ -156,23 +151,23 @@ class MainController extends \partner\components\Controller
     }
     $stat->Individual->Paid = sizeof($payerRocidList);
     unset($payerRocidList);
-
+    
     $this->render('pay', array('stat' => $stat, 'event' => $event));
   }
-
-
+  
+  
   public function initBottomMenu()
   {
     $this->bottomMenu = array(
       'index' => array(
         'Title' => 'Участники',
         'Url' => \Yii::app()->createUrl('/main/index'),
-        'Access' => $this->getAccessFilter()->checkAccess('partner', 'main', 'index')
+        'Access' => $this->getAccessFilter()->checkAccess('main', 'index')
       ),
       'pay' => array(
         'Title' => 'Фин. статистика',
         'Url' => \Yii::app()->createUrl('/main/pay'),
-        'Access' => $this->getAccessFilter()->checkAccess('partner', 'main', 'pay')
+        'Access' => $this->getAccessFilter()->checkAccess('main', 'pay')
       )
     );
   }

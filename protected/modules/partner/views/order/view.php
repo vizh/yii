@@ -53,7 +53,7 @@
 
     <p></p>
 
-    <p><strong>rocID:</strong> <a target="_blank" href="/<?=$order->Payer->RocId;?>/"><?=$order->Payer->RocId;?></a></p>
+    <p><strong>rocID:</strong> <a target="_blank" href="<?php echo $this->createUrl('/partner/user/edit', array('rocId' => $order->Payer->RocId));?>"><?=$order->Payer->RocId;?></a></p>
 
     <p><strong>ФИО:</strong> <?=$order->Payer->GetFullName();?></p>
 
@@ -65,6 +65,17 @@
     <p><strong>Телефон:</strong> <?=!empty($order->Payer->Phones) ? urldecode($order->Payer->Phones[0]->Phone) : 'не указан';?></p>
   </div>
 
+  <?php foreach ($order->Items as $item):?>
+    <?php if ($item->RedirectUser !== null):?>
+      <div class="span12">
+        <div class="alert alert">
+          <h4>Внимание!</h4>
+          В заказе произошли изменения: статус "<?php echo$item->Product->ProductManager()->GetTitle($item);?>" был перенесен с пользователя <a href="<?php echo $this->createUrl('/partner/user/edit', array('rocId' => $item->Owner->RocId));?>"><?php echo $item->Owner->GetFullName();?></a> на пользователя <a href="<?php echo $this->createUrl('/partner/user/edit', array('rocId' => $item->RedirectUser->RocId));?>"><?php echo $item->RedirectUser->GetFullName();?></a>.
+        </div>
+      </div>
+    <?php endif;?>  
+  <?php endforeach;?>
+  
   <div class="span12 indent-bottom3">
     <h3>Состав счета</h3>
 
@@ -83,7 +94,13 @@
       <tr>
         <td><?=$item->Product->ProductManager()->GetTitle($item);?></td>
         <td><?=$item->Payer->GetFullName();?> (<?=$item->Payer->RocId;?>)</td>
-        <td><?=$item->Owner->GetFullName();?> (<?=$item->Owner->RocId;?>)</td>
+        <td>
+          <p><?=$item->Owner->GetFullName();?> (<?=$item->Owner->RocId;?>)</p>
+          <?php if ($item->RedirectUser !== null):?>
+            <p class="text-success m-top_10"><strong>Перенесено на пользователя</strong></p>
+            <p><?php echo $item->RedirectUser->GetFullName();?> (<?php echo $item->RedirectUser->RocId;?>)</p>
+          <?php endif;?>
+        </td>
         <td><?=$item->PriceDiscount();;?> руб.</td>
       </tr>
       <?endforeach;?>

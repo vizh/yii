@@ -31,6 +31,18 @@ class Role extends \CActiveRecord
   
   public function relations()
   {
-    return array();
+    return array(
+      'Participants' => array(self::HAS_MANY, 'event\models\Participant', 'RoleId')
+    );
+  }
+
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = 'Participants.EventId = :EventId';
+    $criteria->params = array('EventId' => $eventId);
+    $criteria->with = array('Participants' => array('together' => true, 'select' => false));
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 }

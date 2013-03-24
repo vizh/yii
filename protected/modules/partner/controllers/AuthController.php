@@ -6,6 +6,8 @@ class AuthController extends partner\components\Controller
   public function actionIndex ()
   {
     $this->setPageTitle('Страница авторизации');
+
+
     $request = Yii::app()->request;
     if ($request->getIsPostRequest())
     {
@@ -26,6 +28,7 @@ class AuthController extends partner\components\Controller
         $this->error = true;
       }
     }
+
     $this->render('index');
   }
 

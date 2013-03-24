@@ -18,7 +18,8 @@ class IndexAction extends \partner\components\Action
     );
     $criteria->with = array(
       'CouponActivatedList' => array('together' => true),
-      'Product'
+      'Product',
+      'CouponActivatedList.User'
     );
 
     $request = \Yii::app()->request;

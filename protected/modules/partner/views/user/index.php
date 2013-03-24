@@ -5,35 +5,49 @@
  */
 ?>
 <form method="get">
-    <div class="row">
-        <div class="span4">
-            <label>Роль:</label>
-            <select name="filter[RoleId]">
-                <option value="">Все роли</option>
-                <?php foreach ($roles as $role):?>
-                    <option value="<?php echo $role->RoleId;?>"
-                        <?php if ( isset ($filter['RoleId']) && $filter['RoleId'] == $role->RoleId):?>selected="selected"<?php endif;?>>
-                            <?php echo $role->Name;?>
-                    </option>
-                <?php endforeach;?>
-            </select>
-        </div>
-        
-        <div class="span4">
-            <label>ФИО:</label>
-            <input type="text" name="filter[Name]" value="<?php if ( isset ($filter['Name'])) { echo $filter['Name']; } ?>" />
-        </div>
-        
-        <div class="span4">
-            <label>ROCID:</label>
-            <input type="text" name="filter[RocId]" value="<?php if ( isset ($filter['RocId'])) { echo $filter['RocId']; } ?>" />
-        </div>
+  <div class="row">
+    <div class="span4">
+      <label>Поиск:</label>
+      <input type="text" name="Filter[Query]" placeholder="ФИО, ROCID или Email" value="<?php if (!empty($filter['Query'])):?><?php echo $filter['Query'];?><?php endif;?>"/>
     </div>
-    <div class="row">
-        <div class="span12">
-            <input type="submit" value="Искать" name="" class="btn" /> 
-        </div>
+    <div class="span4">
+      <label>Статус:</label>
+      <select name="Filter[RoleId]">
+        <option value="">Все зарегистрированные</option>
+        <?php foreach ($roles as $role):?>
+          <option value="<?php echo $role->RoleId;?>"
+            <?php if (isset($filter['RoleId']) && $filter['RoleId'] == $role->RoleId):?>selected="selected"<?php endif;?>>
+              <?php echo $role->Name;?>
+          </option>
+        <?php endforeach;?>
+      </select>
     </div>
+    <div class="span4">
+      <?php 
+      $filterSortValues = array(
+        'DateRegister_DESC' => 'по дате регистрации &DownArrow;',
+        'DateRegister_ASC' => 'по дате регистрации &UpArrow;',
+        'LastName_DESC' => 'по ФИО участника &DownArrow;',
+        'LastName_ASC' => 'по ФИО участника &UpArrow;',
+        'RocId_DESC' => 'по ROCID &DownArrow;',
+        'RocId_ASC' => 'по ROCID &UpArrow;',
+        'Role_DESC' => 'по статусу участия &DownArrow;',
+        'Role_ASC' => 'по статусу участия &UpArrow;'
+      );
+      ?>
+      <label>Сортировка:</label>
+      <select name="Filter[Sort]">
+        <?php foreach ($filterSortValues as $value => $text):?>
+          <option value="<?php echo $value;?>" <?php if (isset($filter['Sort']) && $filter['Sort'] == $value):?>selected="selected"<?php endif;?>><?php echo $text;?></option>
+        <?php endforeach;?>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span12">
+      <input type="submit" value="Искать" name="" class="btn" /> 
+    </div>
+  </div>
 </form>
 
 <h3>Всего по запросу <?=\Yii::t('', '{n} участник|{n} участника|{n} участников|{n} участника', $count);?></h3>
@@ -46,7 +60,7 @@
             <th>ROCID</th>
             <th>Ф.И.О.</th>
             <th>Работа</th>
-            <th>Роль</th>
+            <th>Статус</th>
             <th>Управление</th>
         </tr>
     </thead>
@@ -103,6 +117,10 @@ $params = array(
   'perPage' => UserController::UsersOnPage,
   'page' => $page
 );
+if (!empty($filter))
+{
+  $params['params'] = array('Filter' => $filter);
+}
 
 $this->widget('\application\widgets\Paginator', $params);
 ?>

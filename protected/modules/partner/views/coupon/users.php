@@ -41,7 +41,7 @@
     <tbody>
         <?php foreach ($activations as $activation):?>
             <tr>
-                <td><?php echo $activation->User->RocId;?></td>
+                <td><a href="<?php echo $this->createUrl('/partner/user/edit', array('rocId' => $activation->User->RocId));?>"><?php echo $activation->User->RocId;?></a></td>
                 <td><?php echo $activation->User->GetFullName();?></td>
                 <td><?php echo $activation->Coupon->Code;?></td>
                 <td><?php echo $activation->Coupon->Discount * 100;?> %</td>

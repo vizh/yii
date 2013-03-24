@@ -43,7 +43,7 @@
 </form>
 
 <?php if (!empty($coupons)):?>
-<form action="/partner/coupon/give/" method="GET">
+<form action="<?=Yii::app()->createUrl('/partner/coupon/give');?> " method="GET">
 <table class="table table-striped">
     <thead>
     <tr>
@@ -59,10 +59,8 @@
     <?php foreach ($coupons as $coupon):?>
     <tr>
         <td><input type="checkbox" name="Coupons[]" value="<?php echo $coupon->Code;?>" /></td>
-        <td><h3><?php echo $coupon->Code;?></h3></td>
-        <td>
-            <h3><?php echo ($coupon->Discount * 100);?> %</h3>
-        </td>
+        <td><strong><?php echo $coupon->Code;?></strong></td>
+        <td><strong><?php echo ($coupon->Discount * 100);?> %</strong></td>
         <td>
             <?php if ($coupon->ProductId !== null):?>
                 <span title="<?php echo $coupon->Product->Title;?>">
@@ -88,7 +86,8 @@
         <td>
             <?php if ($coupon->Multiple == 0 
                     && $coupon->CouponActivatedList != null):?>
-                <span class="label label-success">Активирован</span>
+                <span class="label label-success">Активирован</span> 
+                <br/><a href="<?php echo $this->createUrl('/partner/user/edit', array('rocId' => $coupon->CouponActivatedList[0]->User->RocId));?>" class="small"><strong><?php echo $coupon->CouponActivatedList[0]->User->GetFullName();?>, <?php echo $coupon->CouponActivatedList[0]->User->RocId;?></strong></a>
             <?php elseif ($coupon->Multiple > 0
                     && sizeof ($coupon->CouponActivatedList) > 0):?>
                 <span class="label label-success">

@@ -6,8 +6,7 @@ class CreateAction extends \partner\components\Action
 
   /** @var \user\models\User */
   public $payer;
-
-  public $error;
+  public $error = '';
 
   public function run()
   {
@@ -29,30 +28,27 @@ class CreateAction extends \partner\components\Action
   private function stepIndex ()
   {
     $request = \Yii::app()->request;
-    $createOrder = $request->getParam('CreateOrder');
-
-    if ($request->getIsPostRequest() && !empty($createOrder))
+    $form = new \partner\components\form\OrderCreateIndexForm();
+ 
+    if (!empty($this->error))
     {
-
-      $payerRocId = (int) $createOrder['Payer']['RocId'];
-      if ($payerRocId != 0)
-      {
-        $this->getController()->redirect(\Yii::app()->createUrl('/partner/order/create', array('payerRocId' => $payerRocId)));
-      }
-      else
-      {
-        $this->error = 'Не указан плательщик';
-      }
+      $form->addError('PayerRocId', $this->error);
     }
-    $this->getController()->render('create-index');
+    
+    $form->attributes = $request->getParam(get_class($form));
+    if ($request->getIsPostRequest() && $form->validate())
+    {
+      $this->getController()->redirect(\Yii::app()->createUrl('/partner/order/create', array('payerRocId' => $form->PayerRocId)));
+    }
+    $this->getController()->render('create-index', array('form' => $form));
   }
 
   private function stepCreateOrder ()
   {
-    if ( !isset ($this->payer))
+    if (!isset($this->payer))
     {
-      $this->stepIndex();
       $this->error = 'Плательщик не найден';
+      $this->stepIndex();
       return;
     }
 
@@ -63,7 +59,7 @@ class CreateAction extends \partner\components\Action
     {
       foreach ($allOrderItems as $orderItem)
       {
-        if ( $orderItem->Product->ProductManager()->CheckProduct( $orderItem->Owner))
+        if ( $orderItem->Product->ProductManager()->CheckProduct( $orderItem->Owner, $orderItem->getParamsArray()))
         {
           $orderItems[] = $orderItem;
         }
@@ -77,8 +73,8 @@ class CreateAction extends \partner\components\Action
 
     if (empty ($orderItems))
     {
-      $this->stepIndex();
       $this->error = 'На пользователя с rocID: '. $this->payer->RocId .' нет ни одного заказа';
+      $this->stepIndex();
       return;
     }
 

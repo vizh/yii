@@ -11,7 +11,7 @@ class IndexAction extends \partner\components\Action
     $criteria = new \CDbCriteria();
     $criteria->condition = 't.EventId = :EventId AND Settings.Visible = \'1\'';
     $criteria->params = array(
-      ':EventId' => \Yii::app()->partner->getAccount()->EventId
+      'EventId' => \Yii::app()->partner->getAccount()->EventId
     );
     $criteria->with = array(
       'User',
@@ -22,7 +22,8 @@ class IndexAction extends \partner\components\Action
       'User.Emails',
       'User.Phones'
     );
-
+    $criteria->order = 't.CreationTime DESC';
+    
     $request = \Yii::app()->request;
 
     $page = (int) $request->getParam('page', 0);
@@ -32,47 +33,69 @@ class IndexAction extends \partner\components\Action
     }
 
 
-    $filter = $request->getParam('filter', array());
-    if (!empty ($filter))
+    $filter = $request->getParam('Filter', array());
+    if (!empty($filter))
     {
-      foreach ($filter as $field => $value)
+      if (!empty($filter['Query']) || !empty($filter['RoleId']))
       {
-        if ( !empty ($value))
+        $criteria2 = new \CDbCriteria();
+        if (!empty($filter['Query']))
         {
-          switch ($field)
+          if (strpos($filter['Query'], '@'))
           {
-            case 'RoleId':
-              $criteria->addCondition('t.RoleId = :RoleId');
-              $criteria->params[':RoleId'] = $value;
-              break;
-
-            case 'RocId':
-              $criteria->addCondition('User.RocId = :RocId');
-              $criteria->params[':RocId'] = $value;
-              break;
-
-            case 'Name':
-              $nameParts = preg_split('/[, .]/', $value, -1, PREG_SPLIT_NO_EMPTY);
-              if ( sizeof ($nameParts) == 1)
-              {
-                $criteria->addCondition(
-                  'User.FirstName LIKE :NamePart0 OR User.LastName LIKE :NamePart0'
-                );
-                $criteria->params[':NamePart0'] = '%'. $nameParts[0] .'%';
-              }
-              else
-              {
-                $criteria->addCondition('
-                              (User.FirstName LIKE :NamePart0 AND User.LastName LIKE :NamePart1) OR (User.FirstName LIKE :NamePart1 AND User.LastName LIKE :NamePart0)
-                          ');
-                $criteria->params[':NamePart0'] = '%'. $nameParts[0] .'%';
-                $criteria->params[':NamePart1'] = '%'. $nameParts[1] .'%';
-              }
-
-              break;
+            $criteria2->condition = 't.Email = :Email OR Emails.Email = :Email';
+            $criteria2->params['Email'] = $filter['Query'];
+            $criteria2->with = array('Emails');
+          }
+          else
+          {
+            $criteria2 = \user\models\User::GetSearchCriteria($filter['Query']);
+            $criteria2->with = array('Settings');
           }
         }
+        
+        if (!empty($filter['RoleId']))
+        {
+          $criteria2->addCondition('Participants.RoleId = :RoleId');
+          $criteria2->params['RoleId'] = $filter['RoleId'];
+        }
+        
+        $criteria2->with[] = 'Participants';
+        $criteria2->addCondition('Participants.EventId = :EventId');
+        $criteria2->params['EventId'] = $criteria->params['EventId'];
+        $users = \user\models\User::model()->findAll($criteria2);
+        $userIdList = array();
+        if (!empty($users))
+        {
+          foreach ($users as $user)
+          {
+            $userIdList[] = $user->UserId;
+          }
+        }
+        $criteria->addInCondition('t.UserId', $userIdList); 
       }
+      
+      $sort = explode('_', $filter['Sort']);
+      switch($sort[0])
+      { 
+        case 'LastName':
+          $criteria->order = 'User.LastName';
+          break;
+        
+        case 'RocId':
+          $criteria->order = 'User.RocId';
+          break;
+        
+        case 'Role':
+          $criteria->order = 'Role.Priority';
+          break;
+        
+        case 'DateRegister':
+        default:
+          $criteria->order = 't.CreationTime';
+          break;
+      }
+      $criteria->order .= $sort[1] == 'ASC' ? ' ASC' : ' DESC';
     }
    
     $criteria->group = 't.UserId';
@@ -85,7 +108,6 @@ class IndexAction extends \partner\components\Action
 
     $criteria->limit  = \UserController::UsersOnPage;
     $criteria->offset = \UserController::UsersOnPage * ($page-1);
-
 
     $users = array();
     /** @var $participants \event\models\Participant[] */
@@ -112,7 +134,8 @@ class IndexAction extends \partner\components\Action
         'event' => $event,
         'filter' => $filter,
         'count' => $count,
-        'page' => $page
+        'page' => $page,
+        'filter' => $filter
       )
     );
   }

@@ -18,24 +18,24 @@ class OrderController extends \partner\components\Controller
   {
     $this->bottomMenu = array(
       'inactive' => array(
-        'Title' => 'Неактивированные счета',
+        'Title' => 'Неоплаченные счета',
         'Url' => \Yii::app()->createUrl('/partner/order/index'),
         'Access' => $this->getAccessFilter()->checkAccess('order', 'index')
       ),
       'active' => array(
-        'Title' => 'Активированные счета',
+        'Title' => 'Оплаченные счета',
         'Url' => \Yii::app()->createUrl('/partner/order/index').'?filter=active',
         'Access' => $this->getAccessFilter()->checkAccess('order', 'index')
-      ),
-      'search' => array(
-        'Title' => 'Поиск',
-        'Url' => \Yii::app()->createUrl('/partner/order/search'),
-        'Access' => $this->getAccessFilter()->checkAccess('order', 'search')
       ),
       'createbill' => array(
         'Title' => 'Выставить счет',
         'Url' => \Yii::app()->createUrl('/partner/order/create/'),
         'Access' => $this->getAccessFilter()->checkAccess('order', 'create')
+      ),
+      'search' => array(
+        'Title' => 'Поиск счета',
+        'Url' => \Yii::app()->createUrl('/partner/order/search'),
+        'Access' => $this->getAccessFilter()->checkAccess('order', 'search')
       ),
     );
   }

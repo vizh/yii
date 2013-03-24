@@ -38,7 +38,7 @@ class ActivateAjaxAction extends \partner\components\Action
     $orderItem = \pay\models\OrderItem::GetById($orderItemId);
     if ($orderItem !== null)
     {
-      $result = $orderItem->Product->ProductManager()->BuyProduct($orderItem->Owner);
+      $result = $orderItem->Product->ProductManager()->BuyProduct($orderItem->Owner, $orderItem->getParamsArray());
       if ($result)
       {
         $orderItem->Paid = 1;

@@ -18,7 +18,7 @@ class ViewAction extends \partner\components\Action
     }
     $this->getController()->setPageTitle('Управление счетом № ' . $orderId);
     $this->getController()->initActiveBottomMenu($order->OrderJuridical->Paid == 1 ? 'active':'inactive');
-
+    
     if ($request->getIsPostRequest())
     {
       $paid = $request->getParam('SetPaid', false);

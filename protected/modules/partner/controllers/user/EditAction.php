@@ -48,6 +48,9 @@ class EditAction extends \partner\components\Action
     }
     else
     {
+      $editFormModel = new \partner\components\form\UserPersonalEditForm();
+      $editFormModel->attributes = $request->getParam(get_class($editFormModel));
+
       if ($request->getQuery('rocId', null) == null)
       {
         $this->getController()->redirect(
@@ -73,6 +76,58 @@ class EditAction extends \partner\components\Action
           );
         }
       }
+      elseif ($doAction == 'editUser')
+      {
+        $this->editUser($editFormModel);;
+      }
+      elseif ($doAction == 'changeOption')
+      {
+        $this->changeOption();
+      }
+
+      if (\Yii::app()->partner->getAccount()->EventId == 391)
+      {
+        $locales = \Yii::app()->params['locales'];
+        $employment = $this->user->GetPrimaryEmployment();
+        foreach ($locales as $locale)
+        {
+          $this->user->setLocale($locale);
+          foreach ($this->user->getTranslationFields() as $field)
+          {
+            $editFormModel->{$field}[$locale] = $this->user->$field;
+          }
+
+          if (!empty($employment))
+          {
+            $employment->Company->setLocale($locale);
+            $editFormModel->CompanyName[$locale] = $employment->Company->Name;
+            $editFormModel->CompanyId = $employment->Company->CompanyId;
+            $employment->Company->resetLocale();
+          }
+        }
+        $this->user->resetLocale();
+
+        $option1 = \pay\models\Product::GetById(729);
+        $optionOrderItem1 = \pay\models\OrderItem::model()
+          ->byPayerId($this->user->UserId)
+          ->byOwnerId($this->user->UserId)
+          ->byProductId($option1->ProductId)->find();
+
+        $option2 = \pay\models\Product::GetById(730);
+        $optionOrderItem2 = \pay\models\OrderItem::model()
+          ->byPayerId($this->user->UserId)
+          ->byOwnerId($this->user->UserId)
+          ->byProductId($option2->ProductId)->find();
+      }
+      else
+      {
+        $locales = array();
+        $option1 = null;
+        $optionOrderItem1 = null;
+        $option2 = null;
+        $optionOrderItem2 = null;
+      }
+
 
       $participants = $this->prepareParticipants();
       $couponActivation = $this->prepareCoupon();
@@ -81,10 +136,102 @@ class EditAction extends \partner\components\Action
         array(
           'participants' => $participants,
           'couponActivation' => $couponActivation,
-          'orderItems' => $orderItems
+          'orderItems' => $orderItems,
+          'editFormModel' => $editFormModel,
+          'locales' => $locales,
+          'option1' => $option1,
+          'optionOrderItem1' => $optionOrderItem1,
+          'option2' => $option2,
+          'optionOrderItem2' => $optionOrderItem2
         )
       );
     }
+  }
+
+  /**
+   * @param \partner\components\form\UserPersonalEditForm $editForm
+   */
+  private function editUser($editForm)
+  {
+    $locales = \Yii::app()->params['locales'];
+    $request = \Yii::app()->getRequest();
+    $editForm->attributes = $request->getParam(get_class($editForm));
+
+    $employment = $this->user->GetPrimaryEmployment();
+    foreach ($locales as $locale)
+    {
+      $this->user->setLocale($locale);
+      foreach ($this->user->getTranslationFields() as $field)
+      {
+        $this->user->$field = $editForm->{$field}[$locale];
+      }
+
+      if (!empty($employment) && $employment->Company->CompanyId == $editForm->CompanyId)
+      {
+        $employment->Company->setLocale($locale);
+        $employment->Company->Name = $editForm->CompanyName[$locale];
+      }
+    }
+    $this->user->resetLocale();
+    $this->user->UpdateTime = time();
+    $this->user->save(false);
+    if (!empty($employment) && $employment->Company->CompanyId == $editForm->CompanyId)
+    {
+      $employment->Company->resetLocale();
+      $employment->Company->save();
+    }
+
+  }
+
+  private function changeOption()
+  {
+    $products = array(729, 730);
+    $productId = \Yii::app()->getRequest()->getParam('productId');
+    if (in_array($productId, $products))
+    {
+      $option = \pay\models\Product::GetById($productId);
+      /** @var $optionOrderItem \pay\models\OrderItem */
+      $optionOrderItem = \pay\models\OrderItem::model()
+        ->byPayerId($this->user->UserId)
+        ->byOwnerId($this->user->UserId)
+        ->byProductId($option->ProductId)->find();
+
+      $status = \Yii::app()->getRequest()->getParam('status');
+      if ($status == 1)
+      {
+        if (empty($optionOrderItem))
+        {
+          $optionOrderItem = new \pay\models\OrderItem();
+          $optionOrderItem->PayerId = $this->user->UserId;
+          $optionOrderItem->OwnerId = $this->user->UserId;
+          $optionOrderItem->ProductId = $option->ProductId;
+          $optionOrderItem->CreationTime = date('Y-m-d H:i:s');
+        }
+        $optionOrderItem->Paid = 1;
+        $optionOrderItem->PaidTime = date('Y-m-d H:i:s');
+        $optionOrderItem->Deleted = 0;
+        $optionOrderItem->save();
+      }
+      else
+      {
+        if (!empty($optionOrderItem))
+        {
+          $optionOrderItem->PaidTime = null;
+          $optionOrderItem->Paid = 0;
+          $optionOrderItem->Deleted = 1;
+          $optionOrderItem->save();
+        }
+      }
+
+      echo json_encode(array('success' => true));
+    }
+    else
+    {
+      echo json_encode(array('success' => false));
+    }
+
+
+    \Yii::app()->end();
   }
 
   private function initResources()

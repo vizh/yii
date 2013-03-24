@@ -50,7 +50,7 @@ class TopMenu extends \CWidget
 
   protected function checkAccess($controller, $action)
   {
-    return $this->getController()->getAccessFilter()->checkAccess('partner', $controller, $action);
+    return $this->getController()->getAccessFilter()->checkAccess($controller, $action);
   }
 
   protected function isActive($controller)

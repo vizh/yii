@@ -14,23 +14,22 @@ class Safor13importAction extends \partner\components\Action
 
   public function run()
   {
-    return;
-//    $fieldMap = array(
-//      'N' => 0,
-//      'LastName' => 1,
-//      'FirstName' => 2,
-//      'Company' => 3,
-//      'Phone' => 4,
-//      'Email' => 5
-//    );
-//
-//    $fileName = 'saforfull2.csv';
-//
-//    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . self::Path . $fileName);
-//    $parser->SetInEncoding('utf-8');
-//    $results = $parser->Parse($fieldMap, true);
-//    $page = \Yii::app()->request->getParam('page', 0);
-//    $results = array_slice($results, ($page * self::Limit), self::Limit);
+    $fieldMap = array(
+      'N' => 0,
+      'LastName' => 1,
+      'FirstName' => 2,
+      'Company' => 3,
+      'Phone' => 4,
+      'Email' => 5
+    );
+
+    $fileName = 'saforfull.csv';
+
+    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . self::Path . $fileName);
+    $parser->SetInEncoding('utf-8');
+    $results = $parser->Parse($fieldMap, true);
+    $page = \Yii::app()->request->getParam('page', 0);
+    $results = array_slice($results, ($page * self::Limit), self::Limit);
     foreach ($results as $row)
     {
       $user = $this->getUser($row);
@@ -98,7 +97,7 @@ class Safor13importAction extends \partner\components\Action
     {
       $user = new \user\models\User();
       
-      $firstName = explode(' ', trim($row->FirstName));
+      $firstName = explode(' ', $row->FirstName);
       if (sizeof($firstName) > 2)
       {
         $firstName[1] = $firstName[1].' '.$firstName[2];

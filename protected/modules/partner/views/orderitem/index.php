@@ -8,13 +8,12 @@
   <div class="row">
     <div class="span4">
       <label>Плательщик:</label>
-      <input type="text" name="filter[Payer]" value="<?php if ( isset ($filter['Payer'])) echo $filter['Payer'];?>" placeholder="ROCID плательщика" />
-    </div>
-    <div class="span4">
+      <input type="text" name="filter[Payer]" placeholder="ФИО, ROCID или Email" value="<?php if (isset($filter['Payer'])):?><?php echo $filter['Payer'];?><?php endif;?>"/>
+      
       <label>Получатель:</label>
-      <input type="text" name="filter[Owner]" value="<?php if ( isset ($filter['Owner'])) echo $filter['Owner'];?>" placeholder="ROCID получателя" />
+      <input type="text" name="filter[Owner]" placeholder="ФИО, ROCID или Email" value="<?php if (isset($filter['Owner'])):?><?php echo $filter['Owner'];?><?php endif;?>"/>
     </div>
-    <div class="span4">
+    <div class="span4 offset4">
       <label>Товар:</label>
       <select name="filter[ProductId]">
         <option value="">Все</option>
@@ -22,18 +21,13 @@
         <option value="<?php echo $product->ProductId;?>" <?php if ( isset($filter['ProductId']) && $filter['ProductId'] == $product->ProductId):?>selected="selected"<?php endif;?>><?php echo $product->Title;?></option>
         <?php endforeach;?>
       </select>
-    </div>
-  </div>
-  <div class="row">
-    <div class="span4">
+      
       <select name="filter[Paid]">
         <option value="">Оплаченные и нет</option>
         <option value="1" <?php if ( isset ($filter['Paid']) && $filter['Paid'] == 1):?>selected="selected"<?php endif;?>>Только оплаченные</option>
         <option value="0" <?php if ( isset ($filter['Paid']) && $filter['Paid'] == 0):?>selected="selected"<?php endif;?>>Только не оплаченные</option>
       </select>
-    </div>
-    <div class="span4">&nbsp;</div>
-    <div class="span4">
+      
       <select name="filter[Deleted]">
         <option value="">Не удаленные</option>
         <option value="1" <?php if ( isset ($filter['Deleted']) && $filter['Deleted'] == 1):?>selected="selected"<?php endif;?>>Только удаленные</option>
@@ -75,6 +69,7 @@
   <div class="span12">
     <table class="table table-striped">
       <thead>
+      <th>Дата</th>
       <th>Товар</th>
       <th>Сумма</th>
       <th>Тип&nbsp;оплаты</th>
@@ -85,6 +80,7 @@
       <tbody>
         <?php foreach ($orderItems as $orderItem):?>
       <tr>
+        <td><small><?=$orderItem->CreationTime?></small></td>
         <td><?php echo $orderItem->Product->Title;?></td>
         <td>
           <?php echo $orderItem->PriceDiscount();?>&nbsp;руб.<br/>
@@ -150,7 +146,8 @@
             <?php endif;?>
           <?php endif;?>
           
-          <?php if ($this->getAccessFilter()->checkAccess('orderitem', 'redirect')):?>
+          <?php if ($this->getAccessFilter()->checkAccess('orderitem', 'redirect')
+            && $orderItem->Paid == 1):?>
             <a href="<?php echo $this->createUrl('orderitem/redirect', array('OrderItemId' => $orderItem->OrderItemId));?>" class="btn btn-mini">Перенос</a>    
           <?php endif;?>
         </td>

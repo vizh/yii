@@ -51,8 +51,28 @@ class IndexAction extends \partner\components\Action
 
             case 'Payer':
             case 'Owner':
-              $criteria->addCondition('`'. $field .'`.`RocId` = :'.$field);
-              $criteria->params[':'.$field] = (int) $value;
+              $criteria2 = new \CDbCriteria();
+              if (strpos($value, '@'))
+              {
+                $criteria2->condition = 't.Email = :Email OR Emails.Email = :Email';
+                $criteria2->params['Email'] = $value;
+                $criteria2->with = array('Emails');
+              }
+              else
+              {
+                $criteria2 = \user\models\User::GetSearchCriteria($value);
+                $criteria2->with = array('Settings');
+              }
+              $users = \user\models\User::model()->findAll($criteria2);
+              $userIdList = array();
+              if (!empty($users))
+              {
+                foreach ($users as $user)
+                {
+                  $userIdList[] = $user->UserId;
+                }
+              }
+              $criteria->addInCondition($field.'.UserId', $userIdList);
               break;
 
             case 'Deleted':

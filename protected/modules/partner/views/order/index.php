@@ -9,7 +9,7 @@
 ?>
 <div class="row">
   <div class="span12 indent-bottom3">
-    <h2><?=$filter == 'active' ? 'Активированные счета' :'Неактивированные счета'?></h2>
+    <h2><?=$filter == 'active' ? 'Оплаченные счета' :'Неоплаченные счета'?></h2>
   </div>
   <div class="span12">
     <?if ($count > 0):?>
