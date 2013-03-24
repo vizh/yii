@@ -60,9 +60,9 @@ $(window).load(function() {
                     <?=$user->getName();?><?if ($user->getIsShowFatherName()):?><br><span class="family-name"><?=$user->FatherName;?></span><?endif;?>
                   </h4>
                   <?php $age = $user->getBirthDate();?>
-                  <?if ($age !== null || $user->LinkAddress !== null):?>
+                  <?if ($age > 0 || $user->LinkAddress !== null):?>
                     <small class="muted">
-                      <?if ($age !== null):?>День рождения <?=$age;?>, <?endif;?>
+                      <?if ($age > 0):?>День рождения <?=$age;?>, <?endif;?>
                       <?if ($user->LinkAddress->Address->City !== null):?><?=$user->LinkAddress->Address->City->Name;?><?endif;?>
                     </small>
                   <?endif;?>
