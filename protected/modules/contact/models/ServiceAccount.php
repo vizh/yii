@@ -73,14 +73,26 @@ class ServiceAccount extends \CActiveRecord
   {
     if ($this->accountUrl === null && $this->Type->UrlMask !== null)
     {
-      $this->accountUrl = sprintf($this->Type->UrlMask, $this->Account);
+      if ($this->Type->Id == 14 && is_numeric($this->Account))
+      {
+        $this->accountUrl = sprintf("http://facebook.com/profile.php?id=%d", $this->Account);
+      }
+      else
+      {
+        $this->accountUrl = sprintf($this->Type->UrlMask, $this->Account);
+      }
     }
     return $this->accountUrl;
+  }
+  
+  public function getLinkTarget()
+  {
+    return (substr($this->getAccountUrl(), 0, strlen('http://')) == 'http://') ? 'target="_blank"' : '';
   }
 
   
   public function __toString()
   {
-    return '<a href="'.$this->getAccountUrl().'">'.$this->Account.'</a>';
+    return '<a href="'.$this->getAccountUrl().'" '.$this->getLinkTarget().'>'.$this->Account.'</a>';
   }
 }

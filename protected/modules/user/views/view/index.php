@@ -157,7 +157,7 @@ $(window).load(function() {
                 <?if ($user->LinkSite !== null):?>
                 <dl class="dl-horizontal">
                   <dt><?=\Yii::t('app', 'Сайт:');?></dt>
-                  <dd><a href="<?=$user->LinkSite->Site;?>"><?=$user->LinkSite->Site->Url;?></a></dd>
+                  <dd><a href="<?=$user->LinkSite->Site;?>" target="_blank"><?=parse_url($user->LinkSite->Site, PHP_URL_HOST);?></a></dd>
                 </dl>
                 <?endif;?>
                 <?foreach ($user->LinkServiceAccounts as $linkServiceAcc):?>
