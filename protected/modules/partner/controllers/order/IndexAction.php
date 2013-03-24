@@ -5,57 +5,66 @@ class IndexAction extends \partner\components\Action
 {
   public function run()
   {
-    $this->getController()->setPageTitle('Список счетов');
+    $this->getController()->setPageTitle('Поиск счетов');
+    $this->getController()->initActiveBottomMenu('index');
 
-    $request = \Yii::app()->getRequest();
-    $filter = $request->getParam('filter', null);
-    $page = intval($request->getParam('page', null));
-    $page = $page > 1 ? $page : 1;
+    $event = \Yii::app()->partner->getEvent();
 
-    $this->getController()->initActiveBottomMenu($filter == 'active' ? 'active':'inactive');
+    $form = new \partner\models\forms\OrderSearch();
+    $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
+    $criteria = $this->getCriteria($form);
+    $count = \pay\models\Order::model()
+        ->byEventId($event->Id)->byJuridical(true)->count($criteria);
 
 
-    $criteria = new \CDbCriteria();
-    $criteria->with = array(
-      'OrderJuridical' => array('together' => true),
-      'Payer',
-      'Payer.Emails',
-      'Payer.Phones'
-    );
-    $criteria->condition = 'OrderJuridical.OrderId IS NOT NULL AND t.EventId = :EventId';
-    $criteria->params = array(':EventId' => \Yii::app()->partner->getAccount()->EventId);
+    $paginator = new \application\components\utility\Paginator($count);
+    $paginator->perPage = \Yii::app()->params['PartnerOrderPerPage'];
+    $criteria->mergeWith($paginator->getCriteria());
+    $criteria->order = '"t"."CreationTime" DESC';
 
-    if ($filter == 'active')
-    {
-      $criteria->addCondition('OrderJuridical.Paid = :Paid');
-      $criteria->params[':Paid'] = 1;
-    }
-    else
-    {
-      $criteria->addCondition('OrderJuridical.Paid = :Paid AND OrderJuridical.Deleted = :Deleted');
-      $criteria->params[':Paid'] = 0;
-      $criteria->params[':Deleted'] = 0;
-    }
-
-    $count = \pay\models\Order::model()->count($criteria);
-
-    $criteria->limit = \OrderController::OrdersOnPage;
-    $criteria->offset = ($page - 1) * \OrderController::OrdersOnPage;
-    $criteria->order = 't.CreationTime DESC';
-
-    $orders = \pay\models\Order::model()->with(array('Items' => array('together' => false)))->findAll($criteria);
-
-    //$this->view->Paginator = new Paginator(RouteRegistry::GetUrl('partner', 'order', 'index') . '?page=%s', $page, self::OrdersOnPage, $count, array('filter' => $filter));
-
+    $orders = \pay\models\Order::model()
+        ->byEventId($event->Id)->byJuridical(true)
+        ->findAll($criteria);
 
     $this->getController()->render('index',
       array(
+        'form' => $form,
         'orders' => $orders,
-        'count' => $count,
-        'filter' => $filter,
-        'page' => $page,
-        'perPage' => \OrderController::OrdersOnPage
+        'paginator' => $paginator
       )
     );
+  }
+
+  /**
+   * @param \partner\models\forms\OrderSearch $form
+   *
+   * @return \CDbCriteria
+   */
+  protected function getCriteria($form)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->with = array(
+      'OrderJuridical',
+      'Payer',
+      'Payer.LinkPhones.Phone' => array('together' => false),
+      'ItemLinks.OrderItem' => array('together' => false)
+    );
+
+    if ((int)$form->Order !== 0)
+    {
+      $criteria->addCondition('"t"."Id" = :OrderId');
+      $criteria->params['OrderId'] =(int)$form->Order;
+    }
+
+    if ($form->Paid !== '')
+    {
+      $criteria->addCondition(($form->Paid = 0 ? 'NOT ' : '') . '"t"."Paid"');
+    }
+    if ($form->Deleted !== '')
+    {
+      $criteria->addCondition(($form->Deleted = 0 ? 'NOT ' : '') . '"t"."Deleted"');
+    }
+
+    return $criteria;
   }
 }

@@ -30,6 +30,14 @@ return array(
     
     'CatalogCompanyDir' => '/files/catalog/company/', // файловая директория для хранения каталога логотипов компаний
       
-    'EmailEventCalendar' => 'calendar@internetmediaholding.com'
+    'EmailEventCalendar' => 'calendar@internetmediaholding.com',
+
+
+
+
+
+
+    /** Partner Params */
+    'PartnerOrderPerPage' => 20,
   )
 );
