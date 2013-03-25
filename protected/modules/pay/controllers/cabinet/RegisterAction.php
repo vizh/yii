@@ -60,7 +60,10 @@ class RegisterAction extends \pay\components\Action
         }
         catch(\pay\components\Exception $e)
         {
-          $orderForm->addError('Items', $e->getMessage());
+          if ($e->getCode() !== 701)
+          {
+            $orderForm->addError('Items', $e->getMessage());
+          }
         }
       }
       if (!$orderForm->hasErrors())
