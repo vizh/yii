@@ -1,6 +1,8 @@
 var oauthModuleObj = null;
 $(function(){
   oauthModuleObj = new OAuthModule();
+
+  $('input, textarea').placeholder();
 });
 
 var OAuthModule = function()
