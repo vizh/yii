@@ -5,7 +5,13 @@ class ListAction extends \api\components\Action
 {
   public function run()
   {
-    $payerRunetId = \Yii::app()->request->getParam('PayerRunetId');
+    $request = \Yii::app()->getRequest();
+    $payerRunetId = $request->getParam('PayerRunetId', null);
+    if ($payerRunetId === null)
+    {
+      $payerRunetId = $request->getParam('PayerRocId', null);
+    }
+
     $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
     if ($payer == null)
     {
@@ -18,6 +24,8 @@ class ListAction extends \api\components\Action
     
     $result = new \stdClass();
 
+    $order = new \pay\models\Order();
+    $order->getUnpaidItems($payer, $this->getAccount()->Event);
     $orderItems = \pay\models\OrderItem::getFreeItems($payer->Id, $this->getAccount()->EventId);
     $result->Items = array();
     foreach ($orderItems as $orderItem)

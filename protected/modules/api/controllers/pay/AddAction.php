@@ -7,8 +7,16 @@ class AddAction extends \api\components\Action
   {
     $request = \Yii::app()->getRequest();
     $productId = $request->getParam('ProductId');
-    $payerRunetId = $request->getParam('PayerRunetId');
-    $ownerRunetId = $request->getParam('OwnerRunetId');
+    $payerRunetId = $request->getParam('PayerRunetId', null);
+    if ($payerRunetId === null)
+    {
+      $payerRunetId = $request->getParam('PayerRocId', null);
+    }
+    $ownerRunetId = $request->getParam('OwnerRunetId', null);
+    if ($ownerRunetId === null)
+    {
+      $ownerRunetId = $request->getParam('OwnerRoctId', null);
+    }
 
     /** @var $product \pay\models\Product */
     $product = \pay\models\Product::model()->byEventId($this->getAccount()->EventId)->findByPk($productId);

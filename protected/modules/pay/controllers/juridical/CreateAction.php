@@ -18,7 +18,7 @@ class CreateAction extends \pay\components\Action
       if ($request->getIsPostRequest() && $request->getParam(get_class($form)) !== null && $form->validate())
       {
         $order->create(\Yii::app()->user->getCurrentUser(), $this->getEvent(), true, $form->attributes);
-        $this->getController()->redirect(\Yii::app()->createUrl('/pay/juridical/order', array('orderId' => $order->Id, 'hash' => $order->getHash())));
+        $this->getController()->redirect(\Yii::app()->createUrl('/pay/order/index', array('orderId' => $order->Id, 'hash' => $order->getHash())));
       }
     }
 

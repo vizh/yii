@@ -7,8 +7,16 @@ class CouponAction extends \api\components\Action
   {
     $request = \Yii::app()->getRequest();
     $couponCode = $request->getParam('CouponCode');
-    $payerRunetId = $request->getParam('PayerRunetId');
-    $ownerRunetId = $request->getParam('OwnerRunetId');
+    $payerRunetId = $request->getParam('PayerRunetId', null);
+    if ($payerRunetId === null)
+    {
+      $payerRunetId = $request->getParam('PayerRocId', null);
+    }
+    $ownerRunetId = $request->getParam('OwnerRunetId', null);
+    if ($ownerRunetId === null)
+    {
+      $ownerRunetId = $request->getParam('OwnerRoctId', null);
+    }
     
     $coupon = \pay\models\Coupon::model()->byCode($couponCode)->find();
     $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();

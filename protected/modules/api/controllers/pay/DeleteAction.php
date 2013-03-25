@@ -7,7 +7,11 @@ class DeleteAction extends \api\components\Action
   {
     $request = \Yii::app()->getRequest();
     $orderItemId = $request->getParam('OrderItemId');
-    $payerRunetId = $request->getParam('PayerRunetId');
+    $payerRunetId = $request->getParam('PayerRunetId', null);
+    if ($payerRunetId === null)
+    {
+      $payerRunetId = $request->getParam('PayerRocId', null);
+    }
 
     /** @var $orderItem \pay\models\OrderItem */
     $orderItem = \pay\models\OrderItem::model()->findByPk($orderItemId);

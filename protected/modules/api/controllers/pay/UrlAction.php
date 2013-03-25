@@ -5,7 +5,13 @@ class UrlAction extends \api\components\Action
 {
   public function run()
   {
-    $payerRunetId = \Yii::app()->request->getParam('PayerRunetId');
+    $request = \Yii::app()->getRequest();
+    $payerRunetId = $request->getParam('PayerRunetId', null);
+    if ($payerRunetId === null)
+    {
+      $payerRunetId = $request->getParam('PayerRocId', null);
+    }
+
     /** @var $payer \user\models\User */
     $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
     if ($payer == null)
