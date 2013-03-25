@@ -85,7 +85,7 @@
       <div class="row">
         <?foreach ($employments as $employment):?>
         <div class="employee unit span2">
-          <a href="<?=$this->createUrl('/user/view/index', array('RunetId' => $employment->User->RunetId));?>">
+          <a href="<?=$this->createUrl('/user/view/index', array('runetId' => $employment->User->RunetId));?>">
             <?=\CHtml::image($employment->User->Photo->get200px(), $employment->User->getFullName(), array('width' => 138, 'height' => 138));?>
             <p class="name"><?=$employment->User->getFullName();?></p>
           </a>

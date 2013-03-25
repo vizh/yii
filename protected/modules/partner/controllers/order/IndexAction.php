@@ -58,11 +58,11 @@ class IndexAction extends \partner\components\Action
 
     if ($form->Paid !== '')
     {
-      $criteria->addCondition(($form->Paid = 0 ? 'NOT ' : '') . '"t"."Paid"');
+      $criteria->addCondition(($form->Paid == 0 ? 'NOT ' : '') . '"t"."Paid"');
     }
     if ($form->Deleted !== '')
     {
-      $criteria->addCondition(($form->Deleted = 0 ? 'NOT ' : '') . '"t"."Deleted"');
+      $criteria->addCondition(($form->Deleted == 0 ? 'NOT ' : '') . '"t"."Deleted"');
     }
 
     return $criteria;

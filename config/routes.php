@@ -66,9 +66,11 @@ return array(
         'http://pay.'. RUNETID_HOST.'/<eventIdName>/' => 'pay/cabinet/index',
         'http://pay.'. RUNETID_HOST.'/register/<eventIdName>/' => 'pay/cabinet/register',
 
-        'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/<hash>/<clean>/' => 'pay/juridical/order',
-        'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/<hash>/' => 'pay/juridical/order',
-        'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/' => 'pay/juridical/order',
+        'http://pay.'. RUNETID_HOST.'/create/<eventIdName>/' => 'pay/juridical/create',
+
+        'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/<hash>/<clear>/' => 'pay/order/index',
+        'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/<hash>/' => 'pay/order/index',
+        'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/' => 'pay/order/index',
 
         'http://pay.'.RUNETID_HOST.'/callback/index/' => 'pay/callback/index',
 

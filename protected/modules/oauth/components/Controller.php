@@ -44,6 +44,7 @@ class Controller extends \application\components\controllers\BaseController
     $this->social = $request->getParam('social');
     if (empty($account) || (empty($this->url) && $account->Id !== self::SelfId))
     {
+      \Yii::log('Ошибка получения аккаунта или отсутствует урл возврата', \CLogger::LEVEL_ERROR);
       throw new \CHttpException(400);
     }
 
@@ -56,6 +57,7 @@ class Controller extends \application\components\controllers\BaseController
     }
     if (!$account->checkReferer($this->referer, $this->refererHash))
     {
+      \Yii::log('Ошибка проверки реферера', \CLogger::LEVEL_ERROR);
       throw new \CHttpException(400);
     }
     else

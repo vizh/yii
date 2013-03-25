@@ -217,4 +217,6 @@ CPayRegister.prototype = {
 
 $(function () {
   var payRegister = new CPayRegister();
+
+  $('input, textarea').placeholder();
 });
