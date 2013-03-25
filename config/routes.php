@@ -90,7 +90,8 @@ return array(
         'http://'. RUNETID_HOST.'/events/calendar/' => 'event/list/calendar',
 
         'http://'. RUNETID_HOST.'/event/<idName>/' => 'event/view/index',
-
+        
+        'http://'. RUNETID_HOST.'/user/edit/' => 'user/edit/index',
 
         'http://'. RUNETID_HOST.'/job/' => 'job/default/index',
 
