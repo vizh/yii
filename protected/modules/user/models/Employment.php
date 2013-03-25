@@ -227,4 +227,13 @@ class Employment extends \CActiveRecord
     }
     $this->FinishWorking = $result;
   }
+  
+  public function byUserId($userId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."UserId" = :UserId';
+    $criteria->params = array(':UserId' => $userId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

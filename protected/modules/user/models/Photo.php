@@ -121,14 +121,13 @@ class Photo
   }
 
   /**
-   * @param $image
+   * @param \CUploadedFile $image
    * @return void
    */
   public function SavePhoto($image)
   {
     $tmpName = DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR .
       md5('user' . microtime()) . '.jpg';
-    file_put_contents($tmpName, $image);
 
     $path = $this->getPath(true);
     if (! is_dir($path))
@@ -136,8 +135,7 @@ class Photo
       mkdir($path);
     }
 
-    $img = \application\components\graphics\Image::GetImage($tmpName);
-
+    $img = \application\components\graphics\Image::GetImage($image->getTempName());
     $clearSaveTo = $this->getClear(true);
     imagejpeg($img, $clearSaveTo, 100);
     $newImage = $this->getOriginal(true);

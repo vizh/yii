@@ -1,5 +1,4 @@
 <?=$this->renderPartial('parts/title');?>
-
 <div class="user-account-settings">
   <div class="clearfix">
     <div class="container">
@@ -8,14 +7,12 @@
           <?=$this->renderPartial('parts/nav', array('current' => $this->getAction()->getId()));?>
         </div>
         <div class="span9">
-          <form action="#" class="b-form">
+          <?=\CHtml::form('', 'POST', array('class' => 'b-form'));?>
             <div class="form-header">
-              <h4>Карьера</h4>
+              <h4><?=\Yii::t('app', 'Карьера');?></h4>
             </div>
 
-            <div class="form-alert">
-              <div class="alert alert-success">Настройки профиля успешно сохранены</div>
-            </div>
+            <?=$this->renderPartial('parts/form-alert', array('form' => $form));?>
 
             <div class="user-career-items"></div>
 
@@ -24,9 +21,9 @@
             </div>
 
             <div class="form-footer">
-              <input type="submit" value="Сохранить" class="btn btn-info">
+              <?=\CHtml::submitButton(\Yii::t('app','Сохранить'), array('class' => 'btn btn-info'));?>
             </div>
-          </form>
+          <?=\CHtml::endForm();?>
         </div>
       </div>
     </div>
@@ -37,6 +34,7 @@
   var employments = [];
   <?foreach ($user->Employments as $employment):?>
     employments.push({
+      'Id'         : '<?=$employment->Id;?>',
       'Company'    : '<?=$employment->Company->Name;?>',
       'Position'   : '<?=$employment->Position;?>',
       'StartMonth' : '<?=$employment->StartMonth;?>',
@@ -79,7 +77,7 @@
     </div>
     <div class="form-row">
       <label class="checkbox">
-        <input type="checkbox" name="job-checked" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Primary]');?>"> <?=$form->getAttributeLabel('Primary');?>
+        <input type="checkbox" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Primary]');?>" value="1"> <?=$form->getAttributeLabel('Primary');?>
       </label>
     </div>
     <div class="form-row form-row-remove">
@@ -120,12 +118,13 @@
     </div>
     <div class="form-row">
       <label class="checkbox">
-        <input type="checkbox" name="job-checked" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Primary]');?>" <%if(Primary == true){%>checked<%}%>> <?=$form->getAttributeLabel('Primary');?>
+        <input type="checkbox" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Primary]');?>" <%if(Primary == true){%>checked<%}%> value="1"> <?=$form->getAttributeLabel('Primary');?>
       </label>
     </div>
     <div class="form-row form-row-remove">
       <a href="#" class="pseudo-link iconed-link" data-action="remove"><i class="icon-minus-sign"></i> <span><?=\Yii::t('app', 'Удалить');?></span></a>
     </div>
+    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Id]');?>" value="<%=Id%>" />
     <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Deleted]');?>" value="" />
   </div>
 </script>
