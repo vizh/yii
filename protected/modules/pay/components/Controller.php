@@ -20,8 +20,7 @@ class Controller extends \application\components\controllers\PublicMainControlle
       $this->event = \event\models\Event::model()->byIdName($eventIdName)->find();
       if ($this->event === null)
       {
-        throw new \application\components\Exception('Не найдено мероприятие');
-        //throw new \CHttpException(404);
+        throw new \CHttpException(404);
       }
     }
     return $this->event;
@@ -35,7 +34,8 @@ class Controller extends \application\components\controllers\PublicMainControlle
 
   protected function beforeAction($action)
   {
-    if (\Yii::app()->user->getCurrentUser() === null)
+    if (\Yii::app()->user->getCurrentUser() === null &&
+        ($this->getId() !== 'cabinet' || $this->getAction()->getId() != 'auth'))
     {
       $this->render('pay.views.system.unregister');
       return false;
