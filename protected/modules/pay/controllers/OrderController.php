@@ -1,9 +1,9 @@
 <?php
-namespace pay\controllers\juridical;
 
-class OrderAction extends \pay\components\Action
+
+class OrderController extends \application\components\controllers\MainController
 {
-  public function run($orderId, $hash = null, $clear = null)
+  public function actionIndex($orderId, $hash = null, $clear = null)
   {
     /** @var $order \pay\models\Order */
     $order = \pay\models\Order::model()->findByPk($orderId);
@@ -17,7 +17,6 @@ class OrderAction extends \pay\components\Action
     {
       throw new \CHttpException(404);
     }
-
 
     $billData = array();
     $total = 0;
@@ -43,7 +42,7 @@ class OrderAction extends \pay\components\Action
     $account = \pay\models\Account::model()->byEventId($order->EventId)->find();
     $viewName = $account->OrderTemplateName !== null ? $account->OrderTemplateName : 'bill';
 
-    $this->getController()->renderPartial('bills/'.$viewName, array(
+    $this->renderPartial('bills/'.$viewName, array(
       'order' => $order,
       'billData' => $billData,
       'total' => $total,

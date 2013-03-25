@@ -17,7 +17,7 @@
         <a href="<?=$this->createUrl('/pay/juridical/delete', array('orderId' => $order->Id));?>"><i class="icon-trash"></i></a>
       </td>
       <td><?=\Yii::t('pay', 'Счет');?> № <?=$order->Id;?> <?=\Yii::t('pay', 'от');?> <?=\Yii::app()->dateFormatter->format('d MMMM yyyy', $order->CreationTime);?></td>
-      <td><a target="_blank" href="<?=\Yii::app()->createUrl('/pay/juridical/order', array('orderId' => $order->Id));?>"><?=\Yii::t('pay', 'Просмотреть счет');?></a></td>
+      <td><a target="_blank" href="<?=\Yii::app()->createUrl('/pay/juridical/order', array('orderId' => $order->Id, 'hash' => $order->getHash()));?>"><?=\Yii::t('pay', 'Просмотреть счет');?></a></td>
     </tr>
   <?php endforeach;?>
   </tbody>

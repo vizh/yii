@@ -20,7 +20,8 @@ class Controller extends \application\components\controllers\PublicMainControlle
       $this->event = \event\models\Event::model()->byIdName($eventIdName)->find();
       if ($this->event === null)
       {
-        throw new \CHttpException(404);
+        throw new \application\components\Exception('Не найдено мероприятие');
+        //throw new \CHttpException(404);
       }
     }
     return $this->event;
