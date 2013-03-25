@@ -36,6 +36,7 @@ return array(
       
     /** Технические модули */
     'convert',
-    'mytest'
+    'mytest',
+    'mail'
   ),
 );
