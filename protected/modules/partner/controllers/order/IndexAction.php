@@ -44,9 +44,6 @@ class IndexAction extends \partner\components\Action
   {
     $criteria = new \CDbCriteria();
     $criteria->with = array(
-      'OrderJuridical',
-      'Payer',
-      'Payer.LinkPhones.Phone' => array('together' => false),
       'ItemLinks.OrderItem' => array('together' => false)
     );
 
@@ -56,14 +53,45 @@ class IndexAction extends \partner\components\Action
       $criteria->params['OrderId'] =(int)$form->Order;
     }
 
-    if ($form->Paid !== '')
+    if ($form->Paid !== '' && $form->Paid !== null)
     {
       $criteria->addCondition(($form->Paid == 0 ? 'NOT ' : '') . '"t"."Paid"');
     }
-    if ($form->Deleted !== '')
+    if ($form->Deleted !== '' && $form->Deleted !== null)
     {
       $criteria->addCondition(($form->Deleted == 0 ? 'NOT ' : '') . '"t"."Deleted"');
     }
+
+    if ($form->INN != '' || $form->Company != '')
+    {
+      $criteria->with['OrderJuridical'] = array('together' => true);
+      if ($form->Company != '')
+      {
+        $criteria->addCondition('"OrderJuridical"."Name" = :Company');
+        $criteria->params['Company'] = $form->Company;
+      }
+      if ($form->INN != '')
+      {
+        $criteria->addCondition('"OrderJuridical"."INN" = :INN');
+        $criteria->params['INN'] = $form->INN;
+      }
+    }
+    else
+    {
+      $criteria->with[] = 'OrderJuridical';
+    }
+
+    if ((int)$form->Payer !== 0)
+    {
+      $criteria->with['Payer'] = array('together' => true);
+      $criteria->addCondition('"Payer"."RunetId" = :RunetId');
+      $criteria->params['RunetId'] = $form->Payer;
+    }
+    else
+    {
+      $criteria->with[] = 'Payer';
+    }
+    $criteria->with['Payer.LinkPhones.Phone'] = array('together' => false);
 
     return $criteria;
   }

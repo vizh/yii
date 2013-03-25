@@ -6,25 +6,33 @@ class ViewAction extends \partner\components\Action
   public $error = false;
   public $result = false;
 
-  public function run()
+  public function run($orderId)
   {
+    /** @var $order \pay\models\Order */
+    $order = \pay\models\Order::model()->findByPk($orderId);
+    if ($order === null)
+    {
+      throw new \CHttpException(404, 'Не найден счет с номером: ' . $orderId);
+    }
+    if (!$order->Juridical)
+    {
+      throw new \CHttpException(404, 'Счет с номером ' . $orderId . ' не является юридическим');
+    }
+    if ($order->EventId != \Yii::app()->partner->getEvent()->Id)
+    {
+      throw new \CHttpException(404, 'Счет с номером ' . $orderId . ' относится к другому мероприятию');
+    }
+
+    $this->getController()->setPageTitle('Управление счетом № ' . $orderId);
+    $this->getController()->initActiveBottomMenu('index');
 
     $request = \Yii::app()->getRequest();
-    $orderId = $request->getParam('orderId');
-    $order = \pay\models\Order::GetById($orderId);
-    if (empty($order) || empty($order->OrderJuridical) || $order->EventId != \Yii::app()->partner->getAccount()->EventId)
-    {
-      throw new \CHttpException(404);
-    }
-    $this->getController()->setPageTitle('Управление счетом № ' . $orderId);
-    $this->getController()->initActiveBottomMenu($order->OrderJuridical->Paid == 1 ? 'active':'inactive');
-    
     if ($request->getIsPostRequest())
     {
       $paid = $request->getParam('SetPaid', false);
       if ($paid !== false)
       {
-        $payResult = $order->PayOrder();
+        $payResult = $order->activate();
 
         if (! empty($payResult['ErrorItems']))
         {
@@ -37,8 +45,7 @@ class ViewAction extends \partner\components\Action
       }
       else
       {
-        $order->OrderJuridical->Deleted = 1;
-        $order->OrderJuridical->save();
+        $order->delete();
       }
     }
 

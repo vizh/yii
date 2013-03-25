@@ -13,7 +13,7 @@ class OrderSearch extends \CFormModel
   public function rules()
   {
     return array(
-      array('Order, CompanyName, INN, Payer, Paid, Deleted', 'safe')
+      array('Order, Company, INN, Payer, Paid, Deleted', 'safe')
     );
   }
 
