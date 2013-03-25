@@ -163,7 +163,7 @@ abstract class BaseProductManager
         ->byDeleted(false)->find();
     if ($orderItem !== null && !$orderItem->Paid)
     {
-      throw new \pay\components\Exception('Вы уже заказали этот товар');
+      throw new \pay\components\Exception('Вы уже заказали этот товар', 701);
     }
 
     foreach ($this->getOrderItemAttributeNames() as $key)
