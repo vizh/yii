@@ -15,7 +15,7 @@ class AddAction extends \api\components\Action
     $ownerRunetId = $request->getParam('OwnerRunetId', null);
     if ($ownerRunetId === null)
     {
-      $ownerRunetId = $request->getParam('OwnerRoctId', null);
+      $ownerRunetId = $request->getParam('OwnerRocId', null);
     }
 
     /** @var $product \pay\models\Product */
