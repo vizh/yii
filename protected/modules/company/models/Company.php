@@ -71,7 +71,7 @@ class Company extends \CActiveRecord implements \search\components\interfaces\IS
     $result = \Yii::app()->params['CompanyLogoDir'];
     if ($onServerDisc)
     {
-      $result .= $_SERVER['DOCUMENT_ROOT'].$result;
+      $result = $_SERVER['DOCUMENT_ROOT'].$result;
     }
     return $result;
 	}
