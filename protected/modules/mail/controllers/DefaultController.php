@@ -6,45 +6,38 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'failoverconf13';
-
-    exit();
-    
+    $template = 'techforum13';
     $isHTML = false;
-    $logPath =  \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
+
+//    exit();
+
+    $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
     $j = 0;
-    
+
     $criteria = new \CDbCriteria();
-    
-    $criteria->with = array('User.Settings');
-//    $criteria->condition = '"User"."RunetId" = 12953';
-
-    $criteria->addInCondition('"t"."RoleId"', array(1,24));
-    $criteria->addInCondition('"t"."EventId"', array(195,246));
-
+    $criteria->with = array(
+      'Participants' => array('together' => true, 'select' => false),
+      'Settings' => array('select' => false),
+      'LinkEmail.Email'
+    );
+    $criteria->distinct = true;
     $criteria->addCondition('"Settings"."UnsubscribeAll" = false');
 
-    $criteria->limit = 100;
-    $criteria->order = '"User"."RunetId"';
+    $criteria->addInCondition('"Participants"."EventId"', array(195,246));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+
+
+    echo \user\models\User::model()->count($criteria);
+    exit();
+
+
+    $criteria->limit = 500;
+    $criteria->order = '"t"."RunetId"';
     $criteria->offset = $step * $criteria->limit;
-//    $participants = \event\models\Participant::model()->byEventId(422)->findAll($criteria);
-    $participants = \event\models\Participant::model()->findAll($criteria);
-    if (!empty($participants))
+    $users = \user\models\User::model()->findAll($criteria);
+    if (!empty($users))
     {
-      $userIdList = array();
-      foreach ($participants as $participant)
-      {
-        $userIdList[] = $participant->UserId;
-      }
-      $criteria = new \CDbCriteria();
-      $criteria->addInCondition('"t"."Id"', $userIdList);
-      $criteria->with = array('LinkEmail.Email');
-      $users = \user\models\User::model()->findAll($criteria);
-
-//      print \user\models\User::model()->count($criteria);
-//      exit();
-
       foreach ($users as $user)
       {
         // ПИСЬМО
@@ -80,7 +73,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->AddAddress($email);
         $mail->SetFrom('calendar@runet-id.com', 'RUNET-ID:// Календарь', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('FailOver Conference. Как защитить сайт от «падений»') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Форум технологий Mail.ru Group. Успей зарегистрироваться') .'?=';
         $mail->Body = $body;
 //        $mail->Send();
 
