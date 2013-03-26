@@ -27,6 +27,7 @@ return array(
   'components'=>array(
 
     'user'=>array(
+      'loginUrl' => array('/oauth/main/auth'),
       'class' => '\application\components\auth\WebUser',
       // enable cookie-based authentication
       'allowAutoLogin'=>true,
