@@ -1,6 +1,12 @@
 <?php
 return array(
   array(
+    'deny',
+    'users' => array('?'),
+    'module' => 'event',
+    'controllers' => array('exclusive/demo2013')
+  ),
+  array(
     'allow',
     'users' => array('*'),
     'module' => 'event',
