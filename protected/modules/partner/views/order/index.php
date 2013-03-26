@@ -53,11 +53,11 @@
         <thead>
         <tr>
           <th>Cчет</th>
-          <th>Краткие данные</th>
-          <th>Выставил</th>
+          <th class="span4">Краткие данные</th>
+          <th class="span3">Выставил</th>
           <th>Дата</th>
           <th>Сумма</th>
-          <th>Управление</th>
+          <th class="span2">Управление</th>
         </tr>
         </thead>
 
@@ -65,7 +65,7 @@
         <?foreach ($orders as $order):?>
           <tr>
             <td><h3><?=$order->Id;?></h3></td>
-            <td width="35%">
+            <td>
               <strong><?=$order->OrderJuridical->Name;?></strong><br>
               ИНН/КПП:&nbsp;<?=$order->OrderJuridical->INN;?>&nbsp;/&nbsp;<?=$order->OrderJuridical->KPP;?>
             </td>
@@ -80,15 +80,21 @@
               <?endforeach;?>
             </td>
             <td><?=Yii::app()->locale->getDateFormatter()->format('d MMMM y', strtotime($order->CreationTime));?><br>
-              <?php if ($order->Paid):?>
+              <?if ($order->Paid):?>
                 <span class="label label-success">ОПЛАЧЕН</span>
-              <?php else:?>
+              <?else:?>
                 <span class="label label-important">НЕ ОПЛАЧЕН</span>
-              <?php endif;?>
+              <?endif;?>
             </td>
             <td><?=$order->getPrice();?> руб.</td>
             <td>
-              <a class="btn btn-info" href="<?=\Yii::app()->createUrl('/partner/order/view', array('orderId' => $order->Id));?>"><i class="icon-list icon-white"></i> Просмотр</a>
+              <form action="<?=\Yii::app()->createUrl('/partner/order/view', array('orderId' => $order->Id));?>" method="post">
+              <a class="btn btn-info" href="<?=\Yii::app()->createUrl('/partner/order/view', array('orderId' => $order->Id));?>"><i class="icon-list icon-white"></i></a>
+
+              <?if (!$order->Paid):?>
+                <button class="btn btn-success" type="submit" onclick="return confirm('Вы уверены, что хотите отметить данный счет оплаченным?');" name="SetPaid"><i class="icon-ok icon-white"></i></button>
+              <?endif;?>
+              </form>
             </td>
           </tr>
         <?endforeach;?>
