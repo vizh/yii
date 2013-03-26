@@ -66,8 +66,8 @@
                   </td>
                   <td class="span4 user">
                     <a href="<?=$this->createUrl('/user/view/index', array('runetId' => $user->RunetId));?>">
-                      <h4 class="title"><?=$user->FirstName;?></h4>
-                      <p class="name"><?=$user->LastName;?> <?if ($user->getIsShowFatherName()):?><?=$user->FatherName;?><?endif;?></p>
+                      <h4 class="title"><?=$user->LastName;?></h4>
+                      <p class="name"><?=$user->getShortName();?></p>
                     </a>
                   </td>
                   <td class="span3">
