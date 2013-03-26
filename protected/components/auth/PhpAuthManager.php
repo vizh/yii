@@ -3,9 +3,8 @@ namespace application\components\auth;
 
 class PhpAuthManager extends \CPhpAuthManager
 {
-  public function init(){
-    \Yii::app()->user->loginUrl = null;
-
+  public function init()
+  {
     // Иерархию ролей расположим в файле auth.php в директории config приложения
     if($this->authFile === null)
     {

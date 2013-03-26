@@ -1,5 +1,5 @@
 <?php
-class AuthController extends \application\components\controllers\PublicMainController
+class FastauthController extends \application\components\controllers\PublicMainController
 {
   public function actionIndex($runetId, $hash, $redirectUrl = '')
   {
@@ -28,6 +28,12 @@ class AuthController extends \application\components\controllers\PublicMainContr
             $this->redirect($shortUrl->Url);
           }
         }
+      }
+      else
+      {
+        $this->redirect(
+          $this->createUrl('/main/default/index')
+        );
       }
     }
   }

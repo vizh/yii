@@ -33,7 +33,7 @@ return array(
     'EmailEventCalendar' => 'calendar@internetmediaholding.com',
 
 
-
+    'UserPasswordMinLenght' => 6,
 
 
 

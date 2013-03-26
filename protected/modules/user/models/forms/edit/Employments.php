@@ -1,12 +1,13 @@
 <?php
 namespace user\models\forms\edit;
-class Employments extends \CFormModel
+class Employments extends \user\models\forms\edit\Base
 {
   public $Employments = array();
   
   public function rules()
   {
     return array(
+      array('Employments', 'filter', 'filter' => array($this, 'filterArrayPurify')),
       array('Employments', 'safe')
     );
   }
@@ -15,7 +16,7 @@ class Employments extends \CFormModel
   {
     return array(
       'Company' => \Yii::t('app', 'Компания'),
-      'Position' => \Yii::t('app', 'Position'),
+      'Position' => \Yii::t('app', 'Должность'),
       'Date' => \Yii::t('app', 'Период работы'),
       'Primary' => \Yii::t('app', 'Основное место работы')
     );
