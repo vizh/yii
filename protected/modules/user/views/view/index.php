@@ -57,7 +57,7 @@ $(window).load(function() {
                 <b class="id"><?=$user->RunetId;?></b>
                 <header>
                   <h4 class="title">
-                    <?=$user->getName();?><?if ($user->getIsShowFatherName()):?><br><span class="family-name"><?=$user->FatherName;?></span><?endif;?>
+                    <?=$user->getShortName();?><br><span class="family-name"><?=$user->LastName;?></span>
                   </h4>
                   <?php $age = $user->getBirthDate();?>
                   <?if ($age > 0 || $user->LinkAddress !== null):?>

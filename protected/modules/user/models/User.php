@@ -588,6 +588,20 @@ class User extends \application\models\translation\ActiveRecord
   {
     return $this->LastName .' '. $this->FirstName;
   }
+  
+  /**
+   * 
+   * @return string
+   */
+  public function getShortName()
+  {
+    $name = $this->FirstName;
+    if ($this->getIsShowFatherName())
+    {
+      $name .= ' '.$this->FatherName;
+    }
+    return $name;
+  }
 
   /**
    * Изменяет пароль пользователю
