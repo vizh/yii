@@ -22,7 +22,11 @@ class AuthController extends \application\components\controllers\PublicMainContr
         }
         else 
         {
-          
+          $shortUrl = \main\models\ShortUrl::model()->byHash($redirectUrl)->find();
+          if ($shortUrl !== null)
+          {
+            $this->redirect($shortUrl->Url);
+          }
         }
       }
     }

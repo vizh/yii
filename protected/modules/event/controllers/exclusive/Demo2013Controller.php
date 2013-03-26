@@ -16,8 +16,10 @@ class Demo2013Controller extends \application\components\controllers\PublicMainC
     $request = \Yii::app()->getRequest();
     $event = \event\models\Event::model()->byIdName($eventIdName)->find();
     $product = \pay\models\Product::model()->byEventId($event->Id)->findByPk($productId);
-    if ($product == null)
+    if ($product == null
+      || $this->getProductHash($product, $request->getParam('T')) !== $request->getParam('Hash'))
     {
+      echo $this->getProductHash($product, $request->getParam('T'));
       throw new CHttpException(404);
     }
     $products = array($product);
@@ -84,8 +86,32 @@ class Demo2013Controller extends \application\components\controllers\PublicMainC
       'event' => $event
     ));
   }
+  
+  
+  public function actionExibitionLinks($eventIdName)
+  {
+    if (\Yii::app()->request->getParam('key') !== '2qDWLBUAxH')
+    {
+      throw new CHttpException(404);
+    }
+    
+    $event = event\models\Event::model()->byIdName($eventIdName)->find();
+    $products = pay\models\Product::model()->byEventId($event->Id)->byPublic(false)->findAll();
+    $this->render('exibition-links', array(
+      'event' => $event,
+      'products' => $products
+    ));
+  }
 
-
+  public function getProductHash($product, $timestamp = null)
+  {
+    if ($timestamp == null)
+    {
+      $timestamp = time();
+    }
+    return substr(md5($timestamp.$product->Id),25,30);
+  }
+  
 //  public function actions()
 //  {
 //    return array(
