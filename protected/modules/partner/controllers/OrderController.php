@@ -16,7 +16,7 @@ class OrderController extends \partner\components\Controller
     $this->bottomMenu = array(
       'index' => array(
         'Title' => 'Поиск счетов',
-        'Url' => \Yii::app()->createUrl('/partner/order/search'),
+        'Url' => \Yii::app()->createUrl('/partner/order/index'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'order', 'search')
       ),
       /*'inactive' => array(
