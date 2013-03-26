@@ -51,4 +51,27 @@ class TestController extends CController
 
     var_dump($result);
   }
+
+  public function actionTotal()
+  {
+    return;
+    $criteria = new CDbCriteria();
+    $criteria->addCondition('"t"."Total" IS NOT NULL');
+
+    /** @var $orders \pay\models\Order[] */
+    $orders = \pay\models\Order::model()->findAll($criteria);
+
+    $count = 0;
+    $delta = 0;
+    foreach ($orders as $order)
+    {
+      if ($order->getPrice() > $order->Total)
+      {
+        echo $order->Id . ($order->Juridical ? ' (юридический)' : ' (физический)') . ' ' . $order->Payer->getFullName() . ' ' . $order->Payer->Email . ' Доплатить:' . ($order->getPrice() - $order->Total) . '<br>';
+        $count++;
+        $delta += $order->getPrice() - $order->Total;
+      }
+    }
+
+  }
 }

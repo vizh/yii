@@ -48,7 +48,7 @@ class Controller extends \application\components\controllers\BaseController
       throw new \CHttpException(400);
     }
 
-    if ($account->Id !== self::SelfId && (empty($this->ur) || !$account->checkUrl($this->url)))
+    if ($account->Id !== self::SelfId && (empty($this->url) || !$account->checkUrl($this->url)))
     {
       throw new \CHttpException(400);
     }

@@ -211,11 +211,25 @@ class User extends \application\models\translation\ActiveRecord
   }
 
   /**
-   * 
-   * @return \user\models\User 
+   *
+   * @param bool $visible
+   * @param bool $useAnd
+   *
+   * @return \user\models\User
    */
-  public function byVisible()
+  public function byVisible($visible = true, $useAnd = true)
   {
+    $criteria = new \CDbCriteria();
+    $criteria->with = array('Settings' => array('together' => true));
+    if ($visible)
+    {
+      $criteria->addCondition('"Settings"."Visible"');
+    }
+    else
+    {
+      $criteria->addCondition('NOT "Settings"."Visible"');
+    }
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
 
