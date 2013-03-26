@@ -349,7 +349,7 @@ class User extends \application\models\translation\ActiveRecord
     $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'RUNET-ID: Регистрация')) .'?=';
     $mail->IsHTML(true);
     $mail->MsgHTML(
-      \Yii::app()->controller->renderPartial('/../../user/views/mail/register', array('user' => $this, 'password' => $event->params['password']), true)
+      \Yii::app()->controller->renderPartial('user.views.mail.register', array('user' => $this, 'password' => $event->params['password']), true)
     );
     $mail->Send();
     
