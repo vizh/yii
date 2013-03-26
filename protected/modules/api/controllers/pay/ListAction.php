@@ -48,7 +48,7 @@ class ListAction extends \api\components\Action
       $orderObj->OrderId = $order->Id;
       $orderObj->CreationTime = $order->CreationTime;
       $orderObj->Paid = $order->Paid;
-      $orderObj->Url = \Yii::app()->createAbsoluteUrl('/pay/juridical/order', array(
+      $orderObj->Url = \Yii::app()->createAbsoluteUrl('/pay/order/index', array(
         'orderId' => $order->Id,
         'hash' => $order->getHash()
       ));

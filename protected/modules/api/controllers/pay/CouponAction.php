@@ -17,7 +17,8 @@ class CouponAction extends \api\components\Action
     {
       $ownerRunetId = $request->getParam('OwnerRocId', null);
     }
-    
+
+    /** @var $coupon \pay\models\Coupon */
     $coupon = \pay\models\Coupon::model()->byCode($couponCode)->find();
     $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
     $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();

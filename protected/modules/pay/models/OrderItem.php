@@ -313,6 +313,10 @@ class OrderItem extends \CActiveRecord
    */
   public function getCouponActivation()
   {
+    if (!$this->Product->EnableCoupon)
+    {
+      return null;
+    }
     if ($this->couponActivation === null && !$this->couponTrySet)
     {
       $this->couponTrySet = true;

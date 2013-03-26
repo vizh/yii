@@ -42,44 +42,33 @@ class Controller extends \application\components\controllers\BaseController
 
     $this->url = $request->getParam('url');
     $this->social = $request->getParam('social');
-    if (empty($account) || (empty($this->url) && $account->Id !== self::SelfId))
+
+    if ($account === null)
     {
-      \Yii::log('Ошибка получения аккаунта или отсутствует урл возврата', \CLogger::LEVEL_ERROR);
       throw new \CHttpException(400);
     }
 
-    $this->referer = $request->getParam('referer', null);
-    $this->refererHash = $request->getParam('hash', null);
-    if (empty($this->referer))
+    if ($account->Id !== self::SelfId && (empty($this->ur) || !$account->checkUrl($this->url)))
     {
-      $this->referer = parse_url($_SERVER['HTTP_REFERER'], PHP_URL_HOST);
-      $this->refererHash = $account->getRefererHash($this->referer);
-    }
-    if (!$account->checkReferer($this->referer, $this->refererHash))
-    {
-      \Yii::log('Ошибка проверки реферера', \CLogger::LEVEL_ERROR);
       throw new \CHttpException(400);
     }
     else
     {
       $this->Account = $account;
     }
+
     return true;
   }
 
   public function createUrl($route, $params = array(), $ampersand = '&')
   {
-    $request = \Yii::app()->getRequest();
     if (!empty($this->apiKey))
     {
       $params['apikey'] = $this->apiKey;
     }
     $params = array_merge(array(
-      'r_state' => $request->getParam('r_state'),
       'url' => $this->url,
       'social' => $this->social,
-      'referer' => $this->referer,
-      'hash' => $this->refererHash
     ), $params);
     return parent::createUrl($route, $params, $ampersand);
   }

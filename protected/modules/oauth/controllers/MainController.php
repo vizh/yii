@@ -5,11 +5,18 @@ class MainController extends \oauth\components\Controller
   {
     if ($this->Account->Id === self::SelfId)
     {
-      echo '
-      <script>
-        window.top.modalAuthObj.success();
-      </script>';
-      return;
+      if ($this->url === '' || $this->url === null)
+      {
+        echo '
+        <script>
+          window.top.modalAuthObj.success();
+        </script>';
+        return;
+      }
+      else
+      {
+        $this->redirect($this->url);
+      }
     }
 
     $user = Yii::app()->user->getCurrentUser();
@@ -39,7 +46,6 @@ class MainController extends \oauth\components\Controller
   private function redirectWithToken()
   {
     $user = Yii::app()->user->getCurrentUser();
-    $request = Yii::app()->getRequest();
 
     $accessToken = new \oauth\models\AccessToken();
     $accessToken->UserId = $user->Id;
@@ -48,9 +54,9 @@ class MainController extends \oauth\components\Controller
     $accessToken->createToken($this->Account);
     $accessToken->save();
 
-    $redirectUrl = Yii::app()->request->getParam('url');
+    $redirectUrl = $this->url;
     $pos = strrpos($redirectUrl, '?');
-    $redirectUrl .= ($pos === false ? '?' : (($pos+1) != strlen($redirectUrl) ? '&' : '')) . http_build_query(array('token' => $accessToken->Token, 'r_state' => $request->getParam('r_state')));
+    $redirectUrl .= ($pos === false ? '?' : (($pos+1) != strlen($redirectUrl) ? '&' : '')) . http_build_query(array('token' => $accessToken->Token));
     $this->redirect($redirectUrl);
   }
 

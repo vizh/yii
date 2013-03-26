@@ -128,6 +128,25 @@ class Account extends \CActiveRecord
     return false;
   }
 
+  /**
+   * @param string $url
+   *
+   * @return bool
+   */
+  public function checkUrl($url)
+  {
+    $host = parse_url($url, PHP_URL_HOST);
+    foreach ($this->Domains as $domain)
+    {
+      $pattern = '/^' . $domain->Domain . '$/i';
+      if (preg_match($pattern, $host) === 1)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public function getRefererHash($referer)
   {
     return substr(md5($this->Key . $referer . $this->Secret . 'nPOg9ODiyos4HJIYS9FGGJ7qw'), 0, 16);
