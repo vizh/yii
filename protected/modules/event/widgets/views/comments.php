@@ -7,5 +7,5 @@
     js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1&appId=201234113248910";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));</script>
-  <div class="fb-comments" data-href="http://runetid.internetmediaholding.com/" data-width="580" data-num-posts="20"></div>
+  <div class="fb-comments" data-href="http://<?=\Yii::app()->request->getServerName() . \Yii::app()->request->url?>" data-width="580" data-num-posts="20"></div>
 </div>
