@@ -83,15 +83,13 @@
     <div class="b-employees units">
       <h4 class="title"><?=\Yii::t('app', 'Сотрудники компании');?></h4>
       <div class="row">
-        <?foreach ($employments as $employment):?>
-        <div class="employee unit span2">
+        <?foreach ($employments as $employment):?><div class="employee unit span2">
           <a href="<?=$this->createUrl('/user/view/index', array('runetId' => $employment->User->RunetId));?>" class="imgcrop-140">
             <?=\CHtml::image($employment->User->Photo->get200px(), $employment->User->getFullName(), array('width' => 138, 'height' => 138));?>
           </a>
           <p class="name"><a href="<?=$this->createUrl('/user/view/index', array('runetId' => $employment->User->RunetId));?>"><?=$employment->User->getFullName();?></a></p>
           <p class="post"><?=$employment->Position;?></p>
-        </div>
-        <?endforeach;?>
+        </div><?endforeach;?>
     </div>
     <?endif;?>
 
@@ -99,8 +97,7 @@
     <div class="b-employees_ex units">
       <h5 class="title"><?=\Yii::t('app', 'Работали раньше');?></h5>
       <div class="row">
-        <?foreach ($employmentsEx as $employment):?>
-        <div class="employee_ex unit span2">
+        <?foreach ($employmentsEx as $employment):?><div class="employee_ex unit span2">
           <a href="<?=$this->createUrl('/user/view/index', array('runetId' => $employment->User->RunetId));?>">
             <?=\CHtml::image($employment->User->Photo->get90px(), $employment->User->getFullName(), array('width' => 58, 'height' => 58, 'class' => 'photo'));?>
             <p class="name"><?=$employment->User->getFullName();?></p>
@@ -108,8 +105,7 @@
           <p class="company">
             <?=$employment->Position;?>
           </p>
-        </div>
-        <?endforeach;?>
+        </div><?endforeach;?>
       </div>
     </div>
     <?endif;?>
