@@ -80,7 +80,7 @@
           <li>Рекомендации для участников интернет-рынка, государства и профильных ассоциаций по дальнейшему стимулированию развития интернет-экономики</li> 
         </ul>
         
-        <hr style="background: none; border: none; border-top: 1px solid #c2c2c2;" />
+        <hr id="participants" style="background: none; border: none; border-top: 1px solid #c2c2c2;" />
         
         <p><strong>Участники презантации итогов Исследования 10.10.2012:</strong></p>
         <div class="runetid-profile">
@@ -134,7 +134,7 @@
         </div>
         <div style="clear: left"></div>
                 
-        <hr style="background: none; border: none; border-top: 1px solid #c2c2c2;" />
+        <hr id="results" style="background: none; border: none; border-top: 1px solid #c2c2c2;" />
         
         <h2>Отчет "Экономика Рунета 2011-2012"</h2>
         <div class="event-content" id="large-left">
@@ -166,9 +166,9 @@
           </tr>
         </table>
         
-        <hr style="background: none; border: none; border-top: 1px solid #c2c2c2;" />
+        <hr id="about" style="background: none; border: none; border-top: 1px solid #c2c2c2;" />
         
-        <h2 id="about">Oб исследовании</h2>
+        <h2>Oб исследовании</h2>
         <h4>История исследования</h4>
         <p>Проект исследования "Экономика Рунета" был инициирован в ходе апрельского <a href="http://2012.russianinternetforum.ru">РИФ+КИБ 2012</a> по инициативе Аналитического отдела <strong><a href="http://www.raec.ru">РАЭК</a></strong> и ряда интернет-компаний.</p> 
         <p>Традиционно - вот уже 16 лет - главная весенняя конференция Рунета открывается пленарным докладом, раскрывающим главные показатели развития отрасли. В 2012 году было решено пойти дальше - инициировав отдельное (ежегодное) исследование Экономики Рунета. </p>
@@ -208,11 +208,15 @@
           <li>Качественные (глубинные) интервью с экспертами, представляющими различные рынки.</li>
         </ul>
         
-        <h2 id="partners">Партнеры</h2>
+        <hr id="partners" style="background: none; border: none; border-top: 1px solid #c2c2c2;" />
+        
+        <h2>Партнеры</h2>
         <p>Инициаторы исследования: <strong><a href="http://www.raec.ru">РАЭК</a></strong> (Российская Ассоциация электронных коммуникаций) и <strong><a href="http://www.hse.ru">ВШЭ</a></strong> (Национальный исследовательский университет - Высшая школа экономики).</p>
         <p>Партнерами исследования выступают: <strong><a href="http://www.bcg.ru">BCG</a></strong> (Boston Consulting Group), <a href="http://www.google.ru/intl/ru/about/company/">Google</a>, <a href="http://corp.mail.ru">Mail.ru Group</a>, <a href="http://www.ozon.ru/context/detail/id/5085342/">OZON.ru</a>, <a href="http://www.fastlaneventures.ru/?page_id=1515">Fast Lane Ventures</a>.</p>
         
-        <h2 id="experts">Эксперты</h2>
+        <hr id="experts" style="background: none; border: none; border-top: 1px solid #c2c2c2;" />
+        
+        <h2>Эксперты</h2>
         <p>Экспертами исследования являются признанные отраслевые специалисты по 11 направлениям, совпадающим с изучаемыми рынками.</p>
         <p>Работа с экспертами велась как в ходе личных контактов исследователей, так и через систему <a href="http://www.runet-id.com">ROCID</a> - в рамках сформированных для исследования динамических экспертных групп. </p>
         <p>За период апрель-на сентябрь 2012 проведены следующие работы с экспертами:</p>

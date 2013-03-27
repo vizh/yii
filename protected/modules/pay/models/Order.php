@@ -330,4 +330,17 @@ class Order extends \CActiveRecord
     return $hash == $this->getHash();
   }
 
+  public function getUrl($clear = false)
+  {
+    $params = array(
+      'orderId' => $this->Id,
+      'hash' => $this->getHash()
+    );
+    if ($clear)
+    {
+      $params['clear'] = 'clear';
+    }
+    return \Yii::app()->createAbsoluteUrl('/pay/order/index', $params);
+  }
+
 }

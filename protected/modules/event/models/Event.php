@@ -305,7 +305,23 @@ class Event extends \application\models\translation\ActiveRecord
     $participant->RoleId = $role->Id;
     $participant->save();
 
+    $event = new \CModelEvent($this, array('role' => $role, 'user' => $user));
+    $this->onRegister($event);
+
     return $participant;
+  }
+
+  /**
+   * @param \CModelEvent $event
+   */
+  protected function onRegister($event)
+  {
+    /** @var $sender Event */
+    $sender = $event->sender;
+    $class = \Yii::getExistClass('event.components.handlers.register', $sender->IdName, 'Base');
+    /** @var $handler \event\components\handlers\register\Base */
+    $handler = new $class($event);
+    $handler->onRegister($event);
   }
 
   private function updateRole(Participant $participant, Role $role, $usePriority = false)
