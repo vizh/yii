@@ -34,4 +34,18 @@ class Yii extends YiiBase
   {
     return $_SERVER['DOCUMENT_ROOT'];
   }
+
+  public static function getExistClass($namespace, $name, $default)
+  {
+    $name = ucfirst($name);
+    if (class_exists($namespace.$name))
+    {
+      return $namespace.$name;
+    }
+    else
+    {
+      return $namespace.$default;
+    }
+  }
+
 }
