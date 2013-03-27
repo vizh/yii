@@ -72,7 +72,7 @@ class RifordersController extends \application\components\controllers\AdminMainC
         $mail->CharSet = 'utf-8';
         $mail->Subject = '=?UTF-8?B?'. base64_encode('Истекает срок брони номера на РИФ+КИБ 2013') .'?=';
         $mail->Body = $body;
-        $mail->Send();
+//        $mail->Send();
 
         fwrite($fp, $order->Payer->RunetId.'-'.$email."\n");
       }
