@@ -1,11 +1,12 @@
 <?=$user->getShortName();?>, добрый день!
 
-%ТАКОГО-ТО ЧИСЛА/ВРЕМЕНИ% вами был забронирован номер в %ПАНСИОНАТ% на срок %ОТ И ДО% апреля 2013.
+<?=\Yii::app()->dateFormatter->format('dd MMMM yyyy HH:mm', $order->CreationTime);?> вами был забронирован номер в <?=$order->ItemLinks[0]->OrderItem->Product->getManager()->Hotel;?> на срок с <?=\Yii::app()->dateFormatter->format('dd', $order->ItemLinks[0]->OrderItem->getItemAttribute('DateIn'));?> по <?=\Yii::app()->dateFormatter->format('dd MMMM yyyy', $order->ItemLinks[0]->OrderItem->getItemAttribute('DateOut'));?>.
 
-Бронь номера привязана к счету %НОМЕР СЧЕТА%:
-%ССЫЛКА НА СЧЕТ%
+Бронь номера привязана к счету <?=$order->Id;?>:
+<?=$order->getUrl();?>
 
-Срок брони истекает %СРОК ИСТЕЧЕНИЯ%. На момент отправки этого уведомления мы не получили оплаты по данному счету.
+
+Срок брони истекает <?=\Yii::app()->dateFormatter->format('dd MMMM yyyy HH:mm', $order->ItemLinks[0]->OrderItem->Booked);?>. На момент отправки этого уведомления мы не получили оплаты по данному счету.
 
 В случае, если номер не будет оплачен до момента истечения брони, он автоматически будет выставлен в открытую продажу.
 

@@ -15,31 +15,6 @@ class RifordersController extends \application\components\controllers\AdminMainC
     $fp = fopen($logPath.$template.'.log',"a+");
     $j = 0;
 
-/*
-    $criteria = new \CDbCriteria();
-    $criteria->with = array(
-      'Participants' => array('together' => true, 'select' => false),
-      'Settings' => array('select' => false),
-      'LinkEmail.Email'
-    );
-    $criteria->distinct = true;
-    $criteria->addCondition('"Settings"."UnsubscribeAll" = false');
-
-    $criteria->addInCondition('"Participants"."EventId"', array(195,246));
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
-
-//    echo \user\models\User::model()->count($criteria);
-
-
-    echo count($orders);
-    exit();
-
-    $criteria->limit = 500;
-    $criteria->order = '"t"."RunetId"';
-    $criteria->offset = $step * $criteria->limit;
-//    exit();
-*/
-
     $criteria = new \CDbCriteria();
 
     $criteria->with = array(
@@ -52,7 +27,7 @@ class RifordersController extends \application\components\controllers\AdminMainC
     $criteria->addCondition('"OrderItem"."Booked" IS NOT NULL');
     $criteria->addCondition('"OrderItem"."Booked" < :Booked');
 
-    $criteria->addCondition('"t"."PayerId" = 12099');
+//    $criteria->addCondition('"t"."PayerId" = 12099');
 
     $criteria->params = array(
       ':EventId' => 422,
@@ -61,15 +36,15 @@ class RifordersController extends \application\components\controllers\AdminMainC
 
     $orders = \pay\models\Order::model()->findAll($criteria);
 
-//    print count($orders);
-//    exit();
+    print count($orders);
+    exit();
 
     if (!empty($orders))
     {
       foreach ($orders as $order)
       {
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $order->Payer, 'regLink' => $this->getRegLink($order->Payer)), true);
+        $body = $this->renderPartial($template, array('user' => $order->Payer, 'order' => $order, 'regLink' => $this->getRegLink($order->Payer)), true);
         $mail = new \ext\mailer\PHPMailer(false);
         $mail->Mailer = 'mail';
         $mail->ParamOdq = true;
