@@ -88,7 +88,7 @@ class Event extends \application\models\translation\ActiveRecord
    */
   public function getTranslationFields()
   {
-    return array('Title', 'Info', 'FullInfo', 'Place');
+    return array('Title', 'Info', 'FullInfo');
   }
 
   /**

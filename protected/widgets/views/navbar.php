@@ -29,14 +29,18 @@
     </ul>
     <ul class="nav pull-right">
       <li class="lang dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          RU
+        <a href="<?=Yii::app()->createUrl('/'.Yii::app()->getController()->route, array_merge($_GET, array('lang' => Yii::app()->getLanguage())));?>" class="dropdown-toggle" data-toggle="dropdown">
+          <?=mb_strtoupper(Yii::app()->getLanguage());?>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li>
-            <a href="#">EN</a>
-          </li>
+          <?foreach (Yii::app()->params['Languages'] as $lang):?>
+            <?if ($lang != Yii::app()->getLanguage()):?>
+              <li>
+                <a href="<?=Yii::app()->createUrl('/'.Yii::app()->getController()->route, array_merge($_GET, array('lang' => $lang)));?>"><?=mb_strtoupper($lang);?></a>
+              </li>
+            <?endif;?>
+          <?endforeach;?>
         </ul>
       </li>
     </ul>
