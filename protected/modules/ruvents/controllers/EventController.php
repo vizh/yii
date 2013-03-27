@@ -3,6 +3,7 @@
 
 class EventController extends ruvents\components\Controller
 {
+
   /**
    *
    */
@@ -25,19 +26,18 @@ class EventController extends ruvents\components\Controller
       $criteria = new CDbCriteria();
     }
 
+    $criteria->select = 't.UserId';
+
     $criteria->addCondition('Participants.EventId = :EventId');
     $criteria->params[':EventId'] = $this->Operator()->EventId;
 
-//    if ($pageToken === null)
-//    {
-//      $criteria->limit = self::MaxResult;
-//      $criteria->offset = 0;
-//    }
-//    else
-//    {
-//      $criteria->limit = self::MaxResult;
-//      $criteria->offset = $this->ParsePageToken($pageToken);
-//    }
+    $offset = 0;
+    if ($pageToken !== null)
+    {
+      $offset = $this->ParsePageToken($pageToken);
+    }
+    $criteria->limit = self::MaxResult;
+    $criteria->offset = $offset;
 
     if ($updateTime === null)
     {
@@ -46,15 +46,15 @@ class EventController extends ruvents\components\Controller
     else
     {
       $criteria->addCondition('Participants.UpdateTime > :UpdateTime');
-      $criteria->params['UpdateTime'] = $updateTime;
+      $criteria->params['UpdateTime'] = strtotime($updateTime);
       $criteria->order = 'Participants.UpdateTime ASC';
     }
 
     $criteria->group = 't.UserId';
 
     $userModel = \user\models\User::model()->with(array(
-      'Participants' => array('together' => true),
-      'Settings',
+      'Participants' => array('together' => true, 'select' => false),
+      'Settings' => array('together' => true, 'select' => false),
     ));
 
     /** @var $users User[] */
@@ -67,7 +67,6 @@ class EventController extends ruvents\components\Controller
 
     $criteria = new CDbCriteria();
     $criteria->addInCondition('t.UserId', $idList);
-
 
     $userModel = \user\models\User::model()->with(array(
       'Employments.Company' => array('on' => 'Employments.Primary = :Primary', 'params' => array(':Primary' => 1)),
@@ -109,9 +108,29 @@ class EventController extends ruvents\components\Controller
 
     if (sizeof($users) == self::MaxResult)
     {
-      $result['NextPageToken'] = $this->GetPageToken($criteria->offset + self::MaxResult);
+      $result['NextPageToken'] = $this->GetPageToken($offset + self::MaxResult);
     }
+
     echo json_encode($result);
+  }
+
+
+  private function saveLogs()
+  {
+    $logger = Yii::GetLogger();
+    ob_start();
+    $logs = $logger->getProfilingResults();
+    print_r($logs);
+    $log = ob_get_clean();
+
+    $executionTime = $logger->getExecutionTime();
+
+    $file = fopen('ruventslog.log', 'a+');
+
+    fwrite($file, $executionTime . "\n");
+    fwrite($file, $log . "\n\n\n");
+
+    fclose($file);
   }
 
   /**
@@ -123,7 +142,7 @@ class EventController extends ruvents\components\Controller
     $request = \Yii::app()->getRequest();
     $rocId = $request->getParam('RocId', null);
     $roleId = $request->getParam('RoleId', null);
-    $dayId = $request->getParam('DayId');
+    $dayId = \ruvents\components\DataBuilder::RadDayId();
 
     $event = \event\models\Event::GetById($this->Operator()->EventId);
     if (empty($event))
@@ -142,6 +161,7 @@ class EventController extends ruvents\components\Controller
       throw new \ruvents\components\Exception(302);
     }
 
+    $day = null;
     try
     {
       if (empty($event->Days))
@@ -150,7 +170,6 @@ class EventController extends ruvents\components\Controller
       }
       else
       {
-        $day = null;
         foreach ($event->Days as $eDay)
         {
           if ($eDay->DayId == $dayId)
@@ -175,6 +194,14 @@ class EventController extends ruvents\components\Controller
       throw new \ruvents\components\Exception(303);
     }
 
+    $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Role', 0, $participant->RoleId));
+    if ($day !== null)
+    {
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Day', $day->DayId, $day->DayId));
+    }
+    $this->detailLog->UserId = $user->UserId;
+    $this->detailLog->save();
+
     echo json_encode(array('Success' => true));
   }
 
@@ -182,7 +209,7 @@ class EventController extends ruvents\components\Controller
   {
     $request = \Yii::app()->getRequest();
     $rocId = $request->getParam('RocId', null);
-    $dayId = $request->getParam('DayId');
+    $dayId = \ruvents\components\DataBuilder::RadDayId();
 
     $event = \event\models\Event::GetById($this->Operator()->EventId);
     if (empty($event))
@@ -196,9 +223,9 @@ class EventController extends ruvents\components\Controller
     }
 
     $participant = \event\models\Participant::model()->byEventId($event->EventId)->byUserId($user->UserId);
+    $day = null;
     if (!empty($event->Days))
     {
-      $day = null;
       foreach ($event->Days as $eDay)
       {
         if ($eDay->DayId == $dayId)
@@ -225,6 +252,14 @@ class EventController extends ruvents\components\Controller
       throw new \ruvents\components\Exception(304);
     }
 
+    $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Role', $participant->RoleId, 0));
+    if ($day !== null)
+    {
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Day', $day->DayId, $day->DayId));
+    }
+    $this->detailLog->UserId = $user->UserId;
+    $this->detailLog->save();
+
     $participant->delete();
     echo json_encode(array('Success' => true));
   }
@@ -237,7 +272,7 @@ class EventController extends ruvents\components\Controller
     $request = \Yii::app()->getRequest();
     $rocId = $request->getParam('RocId', null);
     $roleId = $request->getParam('RoleId', null);
-    $dayId = $request->getParam('DayId', null);
+    $dayId = \ruvents\components\DataBuilder::RadDayId();
 
     $event = \event\models\Event::GetById($this->Operator()->EventId);
     if (empty($event))
@@ -258,9 +293,9 @@ class EventController extends ruvents\components\Controller
     }
 
     $participant = \event\models\Participant::model()->byEventId($event->EventId)->byUserId($user->UserId);
+    $day = null;
     if (!empty($event->Days))
     {
-      $day = null;
       foreach ($event->Days as $eDay)
       {
         if ($eDay->DayId == $dayId)
@@ -281,6 +316,7 @@ class EventController extends ruvents\components\Controller
       $participant->byDayNull();
     }
 
+    /** @var $participant \event\models\Participant */
     $participant = $participant->find();
     if (empty($participant))
     {
@@ -296,6 +332,14 @@ class EventController extends ruvents\components\Controller
       throw new \ruvents\components\Exception(305);
     }
 
+    $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Role', $participant->RoleId, $role->RoleId));
+    if ($day !== null)
+    {
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Day', $day->DayId, $day->DayId));
+    }
+    $this->detailLog->UserId = $user->UserId;
+    $this->detailLog->save();
+
     $participant->UpdateRole($role);
 
     echo json_encode(array('Success' => true));
@@ -307,7 +351,7 @@ class EventController extends ruvents\components\Controller
   public function actionRoles ()
   {
     $request = \Yii::app()->getRequest();
-    $dayId = $request->getParam('DayId', null);
+    $dayId = \ruvents\components\DataBuilder::RadDayId();
 
     $event = \event\models\Event::GetById($this->Operator()->EventId);
     if (empty($event))

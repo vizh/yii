@@ -69,7 +69,7 @@ class Operator extends \CActiveRecord
 
   public function isLoginExpire()
   {
-    return $this->LastLoginTime < date('Y-m-d H:i:s', time() - 4*3600);
+    return $this->LastLoginTime < date('Y-m-d H:i:s', time() - 24*3600);
   }
 
   public static function GeneratePasswordHash($password)

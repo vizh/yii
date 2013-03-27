@@ -3,7 +3,7 @@ namespace ruvents\components;
 
 class Controller extends \application\components\controllers\BaseController
 {
-  const MaxResult = 500;
+  const MaxResult = 1000;
 
   public function filters()
   {
@@ -14,6 +14,24 @@ class Controller extends \application\components\controllers\BaseController
         'accessControl'
       )
     );
+  }
+
+  /** @var \ruvents\models\DetailLog */
+  protected $detailLog;
+
+  protected function beforeAction($action)
+  {
+    if (parent::beforeAction($action))
+    {
+      \Yii::app()->language = 'ru';
+      $this->detailLog = new \ruvents\models\DetailLog();
+      $this->detailLog->OperatorId = $this->Operator()->OperatorId;
+      $this->detailLog->EventId = $this->Operator()->EventId;
+      $this->detailLog->Controller = $this->getId();
+      $this->detailLog->Action = $action->getId();
+      return true;
+    }
+    return false;
   }
 
   protected function setHeaders()

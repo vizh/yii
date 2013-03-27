@@ -15,7 +15,7 @@ class BadgeController extends ruvents\components\Controller
   {
     $request = \Yii::app()->getRequest();
     $rocId = $request->getParam('RocId', null);
-    $dayId = $request->getParam('DayId');
+    $dayId = \ruvents\components\DataBuilder::RadDayId();
 
     $event = \event\models\Event::GetById($this->Operator()->EventId);
     if (empty($event))
@@ -71,7 +71,7 @@ class BadgeController extends ruvents\components\Controller
   {
     $request = \Yii::app()->getRequest();
     $rocId = $request->getParam('RocId', null);
-    $dayId = $request->getParam('DayId');
+    $dayId = \ruvents\components\DataBuilder::RadDayId();
 
     $event = \event\models\Event::GetById($this->Operator()->EventId);
     if (empty($event))
@@ -114,11 +114,14 @@ class BadgeController extends ruvents\components\Controller
       $participant->byDayNull();
     }
 
+    /** @var $participant \event\models\Participant */
     $participant = $participant->find();
     if (empty($participant))
     {
       throw new \ruvents\components\Exception(304);
     }
+    $participant->UpdateTime = time();
+    $participant->save();
 
     $badge->RoleId = $participant->RoleId;
     $badge->CreationTime = date('Y-m-d H:i:s');

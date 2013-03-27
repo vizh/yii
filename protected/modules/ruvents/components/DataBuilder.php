@@ -9,6 +9,17 @@ class DataBuilder
     $this->eventId = $eventId;
   }
 
+  private static $dayId = null;
+  public static function RadDayId()
+  {
+    if (empty(self::$dayId))
+    {
+      $day = date('Y-m-d');
+      self::$dayId = $day <= '2012-10-04' ? 1 : 2;
+    }
+    return null;//self::$dayId;
+  }
+
   private $activeEvent = null;
 
   /**
@@ -47,6 +58,8 @@ class DataBuilder
     $this->user->Photo->Medium = $user->GetMediumPhoto();
     $this->user->Photo->Large = $user->GetPhoto();
 
+    $this->user->Locales = $this->getLocales($user);
+
     return $this->user;
   }
 
@@ -67,7 +80,7 @@ class DataBuilder
 
     return $this->user;
   }
-  
+
   /**
    *
    * @param \user\models\User $user
@@ -85,7 +98,7 @@ class DataBuilder
           $phone = $userPhone;
         }
       }
-      
+
       if ($phone === null)
       {
         $phone = $user->Phones[0];
@@ -117,41 +130,39 @@ class DataBuilder
 
     return $this->user;
   }
-  
+
   /**
    * @param \user\models\User $user
    * @return \stdClass
    */
   public function BuildUserEvent($user)
   {
-    $isSingleDay = empty($this->Event()->Days);
+    //$isSingleDay = empty($this->Event()->Days);
+    $isSingleDay = true;
     foreach ($user->Participants as $participant)
     {
       if ($participant->EventId == $this->eventId)
       {
-        if ($isSingleDay)
+        if ($participant->DayId == self::RadDayId())
         {
           $this->user->Status = new \stdClass();
           $this->user->Status->RoleId = $participant->RoleId;
           $this->user->Status->RoleName = $participant->Role->Name;
           $this->user->Status->CreationTime = $participant->CreationTime;
           $this->user->Status->UpdateTime = $participant->UpdateTime;
-          //todo: добавить поле UpdateTime, переделать эти поля в timestamp
         }
-        else
+
+        if (!isset($this->user->Statuses))
         {
-          if (!isset($this->user->Status))
-          {
-            $this->user->Status = array();
-          }
-          $status = new \stdClass();
-          $status->DayId = $participant->DayId;
-          $status->RoleId = $participant->RoleId;
-          $status->RoleName = $participant->Role->Name;
-          $status->CreationTime = $participant->CreationTime;
-          $status->UpdateTime = $participant->UpdateTime;
-          $this->user->Status[] = $status;
+          $this->user->Statuses = array();
         }
+        $status = new \stdClass();
+        $status->DayId = $participant->DayId;
+        $status->RoleId = $participant->RoleId;
+        $status->RoleName = $participant->Role->Name;
+        $status->CreationTime = $participant->CreationTime;
+        $status->UpdateTime = $participant->UpdateTime;
+        $this->user->Statuses[] = $status;
       }
     }
 
@@ -169,7 +180,7 @@ class DataBuilder
 
     $this->company->CompanyId = $company->CompanyId;
     $this->company->Name = $company->Name;
-
+    $this->company->Locales = $this->getLocales($company);
     return $this->company;
   }
 
@@ -228,21 +239,21 @@ class DataBuilder
 
     return $this->badge;
   }
-  
+
   protected $role;
-  
+
   public function CreateRole($role)
   {
     $this->role = new \stdClass();
     $this->role->RoleId = $role->RoleId;
     $this->role->Name = $role->Name;
-    
+
     return $this->role;
   }
-  
-  
+
+
   protected $eventSetting;
-  
+
   public function CreateEventSetting ($setting)
   {
     $this->eventSetting = new \stdClass();
@@ -250,15 +261,15 @@ class DataBuilder
     $this->eventSetting->Value = $setting->Value;
     return $this->eventSetting;
   }
-  
-  public function CreateEventSettingBadge ($setting) 
+
+  public function CreateEventSettingBadge ($setting)
   {
     $this->eventSetting = new \stdClass();
     $this->eventSetting->Name = $setting->Name;
-    
+
     $viewPath = '/badge/event'.$setting->EventId.'/'.$setting->Value;
     $this->eventSetting->Value = \Yii::app()->controller->renderPartial($viewPath, null, true);
-    
+
     return $this->eventSetting;
   }
 
@@ -328,6 +339,43 @@ class DataBuilder
     $this->product->Price = $product->GetPrice($time);
 
     return $this->product;
+  }
+
+  protected $detailLog;
+
+  /**
+   * @param \ruvents\models\DetailLog $detailLog
+   * @return \stdClass
+   */
+  public function CreateDetailLog($detailLog)
+  {
+    $this->detailLog = new \stdClass();
+    $this->detailLog->OperatorId = $detailLog->OperatorId;
+    $this->detailLog->Changes = $detailLog->getChangeMessages();
+    $this->detailLog->Time = $detailLog->CreationTime;
+
+    return $this->detailLog;
+  }
+
+  /**
+   * @param \application\models\translation\ActiveRecord $model
+   * @return \stdClass
+   */
+  protected function getLocales($model)
+  {
+    $locales = new \stdClass();
+    foreach (\Yii::app()->params['locales'] as $locale)
+    {
+      $model->setLocale($locale);
+      $localeStd = new \stdClass();
+      foreach ($model->getTranslationFields() as $key)
+      {
+        $localeStd->{$key} = $model->{$key};
+      }
+      $locales->{$locale} = $localeStd;
+    }
+    $model->resetLocale();
+    return $locales;
   }
 }
 
