@@ -114,8 +114,6 @@ a:focus{
   margin-bottom: 5px;
 }
 
-
-<<<<<<< HEAD
 .user-account .b-participated .i {
   position: relative;
   margin-top: 0;
@@ -157,12 +155,11 @@ a:focus{
   vertical-align: middle;
   width: 138px;
 }
-=======
+
+
 /**
 Кроп изображений
 **/
->>>>>>> IssueID #462: CSS-кроп фотографий сотрудников
-
 .imgcrop-140 {
   display: block;
   height: 140px;
