@@ -25,7 +25,7 @@ class DetailLog extends \CActiveRecord
 
   public function tableName()
   {
-    return 'Mod_RuventsDetailLog';
+    return 'RuventsDetailLog';
   }
 
   public function primaryKey()
@@ -41,7 +41,7 @@ class DetailLog extends \CActiveRecord
   public function byUserId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.UserId = :UserId';
+    $criteria->condition = '"t"."UserId" = :UserId';
     $criteria->params = array(':UserId' => $userId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -55,7 +55,7 @@ class DetailLog extends \CActiveRecord
   public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId';
+    $criteria->condition = '"t"."EventId" = :EventId';
     $criteria->params = array(':EventId' => $eventId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;

@@ -8,6 +8,7 @@ class RegisterAction extends \api\components\Action
     $request = \Yii::app()->getRequest();
     $runetId = $request->getParam('RunetId');
     $roleId = $request->getParam('RoleId');
+    $usePriority = $request->getParam('UsePriority', true);
 
     /** @var $event \event\models\Event */
     $event = \event\models\Event::model()->findByPk($this->getAccount()->EventId);
@@ -29,7 +30,7 @@ class RegisterAction extends \api\components\Action
     }
 
     try{
-      $eventUser = $event->registerUser($user, $role, true);
+      $eventUser = $event->registerUser($user, $role, $usePriority);
     }
     catch(\Exception $e)
     {

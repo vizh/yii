@@ -2,7 +2,7 @@
 namespace ruvents\models;
 
 /**
- * @property int $OperatorId
+ * @property int $Id
  * @property int $EventId
  * @property string $Login
  * @property string $Password
@@ -26,12 +26,12 @@ class Operator extends \CActiveRecord
 
   public function tableName()
   {
-    return 'Mod_RuventsOperator';
+    return 'RuventsOperator';
   }
 
   public function primaryKey()
   {
-    return 'OperatorId';
+    return 'Id';
   }
 
   /**
@@ -42,7 +42,7 @@ class Operator extends \CActiveRecord
   public function byLogin($login, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.Login = :Login';
+    $criteria->condition = '"t"."Login" = :Login';
     $criteria->params = array(':Login' => $login);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -56,7 +56,7 @@ class Operator extends \CActiveRecord
   public function byPassword($password, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.Password = :Password';
+    $criteria->condition = '"t"."Password" = :Password';
     $criteria->params = array(':Password' => $password);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -72,7 +72,7 @@ class Operator extends \CActiveRecord
     return $this->LastLoginTime < date('Y-m-d H:i:s', time() - 24*3600);
   }
 
-  public static function GeneratePasswordHash($password)
+  public static function generatePasswordHash($password)
   {
     return md5($password);
   }

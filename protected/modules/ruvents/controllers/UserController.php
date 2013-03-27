@@ -10,51 +10,39 @@ class UserController extends \ruvents\components\Controller
   {
     $request = \Yii::app()->getRequest();
 
-    $userModel = new \user\models\User();
-    $userModel->LastName = $request->getParam('LastName');
-    $userModel->FirstName = $request->getParam('FirstName');
-    $userModel->FatherName = $request->getParam('FatherName');
-    $userModel->Email = $request->getParam('Email');
-    $userModel->Password = $request->getParam('Password');
+    $form = new \user\models\forms\RegisterForm();
+    $form->LastName = $request->getParam('LastName');
+    $form->FirstName = $request->getParam('FirstName');
+    $form->FatherName = $request->getParam('FatherName');
+    $form->Email = $request->getParam('Email');
+    $form->Company = $request->getParam('Company');
+    $form->Position = $request->getParam('Position');
+    $form->Phone = $request->getParam('Phone');
 
-    $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('LastName', '', $userModel->LastName));
-    $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('FirstName', '', $userModel->FirstName));
-    $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('FatherName', '', $userModel->FatherName));
-    $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Email', '', $userModel->Email));
-
-    if ($userModel->validate())
+    if ($form->validate())
     {
-      $user = $userModel->Register();     
-      $user->Settings->Agreement = 1;
-      $user->Settings->save();
-      
-      $company = $request->getParam('Company', null);
-      $position = $request->getParam('Position', '');
-      if ($company != null)
-      {
-        $this->addUserEmployment($user, $company, $position);
-        $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Company', '', $company));
-        $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Position', '', $position));
-      }
-      
-      $phone = $request->getParam('Phone', null);
-      if ($phone != null)
-      {
-        $this->addUserPhone($user, $phone);
-        $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Phone', '', $phone));
-      }
+      $user = $form->register();
 
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('LastName', '', $form->LastName));
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('FirstName', '', $form->FirstName));
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('FatherName', '', $form->FatherName));
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Email', '', $form->Email));
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Company', '', $form->Company));
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Position', '', $form->Position));
+      if (!empty($form->Phone))
+      {
+        $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Phone', '', $form->Phone));
+      }
       $this->detailLog->UserId = $user->UserId;
       $this->detailLog->save();
 
       $result = array();
-      $user = \user\models\User::GetByRocid($user->RocId);
       $result['User'] = $this->buildUser($user);
       echo json_encode($result);
     }
-    else 
+    else
     {
-      foreach ($userModel->getErrors() as $message)
+      foreach ($form->getErrors() as $message)
       {
         throw new \ruvents\components\Exception(207, $message);
       }
@@ -67,9 +55,9 @@ class UserController extends \ruvents\components\Controller
   public function actionEdit ()
   {
     $request = Yii::app()->getRequest();
-    $rocId = $request->getParam('RocId', null);
+    $rocId = $request->getParam('RunetId', null);
     
-    $event = \event\models\Event::GetById($this->Operator()->EventId);
+    $event = \event\models\Event::GetById($this->getOperator()->EventId);
     if ($event === null)
     {
       throw new \ruvents\components\Exception(301);

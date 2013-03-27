@@ -24,11 +24,14 @@ class Controller extends \application\components\controllers\BaseController
     if (parent::beforeAction($action))
     {
       \Yii::app()->language = 'ru';
-      $this->detailLog = new \ruvents\models\DetailLog();
-      $this->detailLog->OperatorId = $this->Operator()->OperatorId;
-      $this->detailLog->EventId = $this->Operator()->EventId;
-      $this->detailLog->Controller = $this->getId();
-      $this->detailLog->Action = $action->getId();
+      if ($this->getOperator() !== null)
+      {
+        $this->detailLog = new \ruvents\models\DetailLog();
+        $this->detailLog->OperatorId = $this->getOperator()->Id;
+        $this->detailLog->EventId = $this->getOperator()->EventId;
+        $this->detailLog->Controller = $this->getId();
+        $this->detailLog->Action = $action->getId();
+      }
       return true;
     }
     return false;
@@ -66,7 +69,7 @@ class Controller extends \application\components\controllers\BaseController
   /**
    * @return \ruvents\models\Operator
    */
-  public function Operator()
+  public function getOperator()
   {
     return \ruvents\components\WebUser::Instance()->getOperator();
   }
@@ -76,11 +79,11 @@ class Controller extends \application\components\controllers\BaseController
   /**
    * @return DataBuilder
    */
-  public function DataBuilder()
+  public function getDataBuilder()
   {
     if ($this->dataBuilder == null)
     {
-      $this->dataBuilder = new DataBuilder($this->Operator()->EventId);
+      $this->dataBuilder = new DataBuilder($this->getOperator()->EventId);
     }
 
     return $this->dataBuilder;
@@ -88,7 +91,7 @@ class Controller extends \application\components\controllers\BaseController
 
   private $suffixLength = 4;
 
-  protected function GetPageToken($offset)
+  protected function getPageToken($offset)
   {
     $prefix = substr(base64_encode($this->getId() . $this->getAction()->getId()), 0, $this->suffixLength);
     return $prefix . base64_encode($offset);
@@ -99,7 +102,7 @@ class Controller extends \application\components\controllers\BaseController
    * @throws Exception
    * @return array
    */
-  protected function ParsePageToken($token)
+  protected function parsePageToken($token)
   {
     if (strlen($token) < $this->suffixLength+1)
     {

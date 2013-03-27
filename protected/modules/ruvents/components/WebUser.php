@@ -80,6 +80,6 @@ class WebUser extends \CWebUser
 
   public function getId()
   {
-    return $this->getOperator()->OperatorId;
+    return $this->getOperator()->Id;
   }
 }
