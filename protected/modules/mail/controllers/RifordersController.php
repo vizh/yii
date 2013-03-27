@@ -1,5 +1,5 @@
 <?php
-class DefaultController extends \application\components\controllers\AdminMainController
+class RifordersController extends \application\components\controllers\AdminMainController
 {
   public function actionSend($step = 0)
   {
@@ -15,6 +15,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $fp = fopen($logPath.$template.'.log',"a+");
     $j = 0;
 
+/*
     $criteria = new \CDbCriteria();
     $criteria->with = array(
       'Participants' => array('together' => true, 'select' => false),
@@ -27,34 +28,63 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addInCondition('"Participants"."EventId"', array(195,246));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-    echo \user\models\User::model()->count($criteria);
+//    echo \user\models\User::model()->count($criteria);
+
+
+    echo count($orders);
     exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId"';
     $criteria->offset = $step * $criteria->limit;
-    $users = \user\models\User::model()->findAll($criteria);
-    if (!empty($users))
+//    exit();
+*/
+
+    $criteria = new \CDbCriteria();
+
+    $criteria->with = array(
+      'ItemLinks.OrderItem' => array('together' => true),
+    );
+    $criteria->addCondition('NOT "t"."Paid"');
+    $criteria->addCondition('NOT "t"."Deleted"');
+    $criteria->addCondition('"t"."EventId" = :EventId');
+    $criteria->addCondition('"t"."Juridical"');
+    $criteria->addCondition('"OrderItem"."Booked" IS NOT NULL');
+    $criteria->addCondition('"OrderItem"."Booked" < :Booked');
+
+    $criteria->addCondition('"t"."PayerId" = 12099');
+
+    $criteria->params = array(
+      ':EventId' => 422,
+      ':Booked' => '2013-03-29 00:00:00'
+    );
+
+    $orders = \pay\models\Order::model()->findAll($criteria);
+
+//    print count($orders);
+//    exit();
+
+    if (!empty($orders))
     {
-      foreach ($users as $user)
+      foreach ($orders as $order)
       {
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $order->Payer, 'regLink' => $this->getRegLink($order->Payer)), true);
         $mail = new \ext\mailer\PHPMailer(false);
         $mail->Mailer = 'mail';
         $mail->ParamOdq = true;
         $mail->ContentType = ($isHTML) ? 'text/html' : 'text/plain';
         $mail->IsHTML($isHTML);
-        
-        if ($user->getContactEmail() !== null)
+
+        if ($order->Payer->getContactEmail() !== null)
         {
-          $email = $user->getContactEmail()->Email;
+          $email = $order->Payer->getContactEmail()->Email;
         }
-        else 
+        else
         {
-          $email = $user->Email;
+          $email = $order->Payer->Email;
         }
-        
+
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
@@ -62,26 +92,18 @@ class DefaultController extends \application\components\controllers\AdminMainCon
           continue;
         }
 
-        /*
-        if (preg_match("/@ashmanov.com/i", $email))
-        {
-          print 'is @Ashmanov<br />';
-          continue;
-        }
-        */
-
         $mail->AddAddress($email);
         $mail->SetFrom('users@rif.ru', 'Служба поддержки участников РИФ+КИБ 2013', false);
         $mail->CharSet = 'utf-8';
         $mail->Subject = '=?UTF-8?B?'. base64_encode('Истекает срок брони номера на РИФ+КИБ 2013') .'?=';
         $mail->Body = $body;
-//        $mail->Send();
+        $mail->Send();
 
-        fwrite($fp, $user->RunetId.'-'.$email."\n");
+        fwrite($fp, $order->Payer->RunetId.'-'.$email."\n");
       }
-      fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
+      fwrite($fp, "\n\n\n" . sizeof($orders) . "\n\n\n");
       fclose($fp);
-      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
+//      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/riforders/send', array('step' => $step+1)).'"></head><body></body></html>';
     }
     else
     {
@@ -96,7 +118,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $timestamp = time();
     $runetid = $user->RunetId;
 
-    $hash = substr(md5($runetid . $secret . $timestamp), 0, 8); 
+    $hash = substr(md5($runetid . $secret . $timestamp), 0, 8);
     return 'http://2013.russianinternetforum.ru/'.$runetid.'/'.$hash;
   }
 
