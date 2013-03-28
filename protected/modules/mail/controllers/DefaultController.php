@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rif13-2';
+    $template = 'rif13-3';
     $isHTML = false;
 
 //    exit();
@@ -25,7 +25,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('"Settings"."UnsubscribeAll" = false');
 
     $criteria->addInCondition('"Participants"."EventId"', array(422));
-//    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -73,8 +73,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->AddAddress($email);
         $mail->SetFrom('users@rif.ru', 'РИФ+КИБ 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Прием заявок в Программу 2.0 и UpStart Conf') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Первый выпуск газеты «РИФ+КИБ 2013»') .'?=';
         $mail->Body = $body;
+
+        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
+
 //        $mail->Send();
 
         fwrite($fp, $user->RunetId.'-'.$email."\n");
