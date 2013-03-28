@@ -82,6 +82,8 @@ CPayRegister.prototype = {
         promoInput = row.find('.input-promo>input'),
         promoSubmit = row.find('.input-promo>.btn'),
         promoAlert = row.find('.input-promo>.alert');
+
+    promoInput.placeholder();
     
     promoInput.keyup(function(e) {
       if ($(e.currentTarget).val().length > 0) {
@@ -213,7 +215,7 @@ CPayRegister.prototype = {
     });
     self.form.find('#total-price').text(total);
   }
-}
+};
 
 $(function () {
   var payRegister = new CPayRegister();

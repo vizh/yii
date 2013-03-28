@@ -1,46 +1,48 @@
 <?php
 class UserController extends \ruvents\components\Controller
 {
+
+
   /**
    *
    */
   public function actionCreate ()
   {
     $request = \Yii::app()->getRequest();
-    
-    $userModel = new \user\models\User();
-    $userModel->LastName = $request->getParam('LastName');
-    $userModel->FirstName = $request->getParam('FirstName');
-    $userModel->FatherName = $request->getParam('FatherName');
-    $userModel->Email = $request->getParam('Email');
-    $userModel->Password = $request->getParam('Password');
-    if ($userModel->validate())
+
+    $form = new \user\models\forms\RegisterForm();
+    $form->LastName = $request->getParam('LastName');
+    $form->FirstName = $request->getParam('FirstName');
+    $form->FatherName = $request->getParam('FatherName');
+    $form->Email = $request->getParam('Email');
+    $form->Company = $request->getParam('Company');
+    $form->Position = $request->getParam('Position');
+    $form->Phone = $request->getParam('Phone');
+
+    if ($form->validate())
     {
-      $user = $userModel->Register();     
-      $user->Settings->Agreement = 1;
-      $user->Settings->save();
-      
-      $company = $request->getParam('Company', null);
-      $position = $request->getParam('Position', '');
-      if ($company != null)
+      $user = $form->register();
+
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('LastName', '', $form->LastName));
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('FirstName', '', $form->FirstName));
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('FatherName', '', $form->FatherName));
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Email', '', $form->Email));
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Company', '', $form->Company));
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Position', '', $form->Position));
+      if (!empty($form->Phone))
       {
-        $this->addUserEmployment($user, $company, $position);
+        $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Phone', '', $form->Phone));
       }
-      
-      $phone = $request->getParam('Phone', null);
-      if ($phone != null)
-      {
-        $this->addUserPhone($user, $phone);
-      }
-      
+      $this->detailLog->UserId = $user->UserId;
+      $this->detailLog->save();
+
       $result = array();
-      $user = \user\models\User::GetByRocid($user->RocId);
       $result['User'] = $this->buildUser($user);
       echo json_encode($result);
     }
-    else 
+    else
     {
-      foreach ($userModel->getErrors() as $message)
+      foreach ($form->getErrors() as $message)
       {
         throw new \ruvents\components\Exception(207, $message);
       }
@@ -53,9 +55,9 @@ class UserController extends \ruvents\components\Controller
   public function actionEdit ()
   {
     $request = Yii::app()->getRequest();
-    $rocId = $request->getParam('RocId', null);
+    $rocId = $request->getParam('RunetId', null);
     
-    $event = \event\models\Event::GetById($this->Operator()->EventId);
+    $event = \event\models\Event::GetById($this->getOperator()->EventId);
     if ($event === null)
     {
       throw new \ruvents\components\Exception(301);
@@ -66,6 +68,7 @@ class UserController extends \ruvents\components\Controller
     $criteria->condition = 't.RocId = :RocId AND Participants.EventId = :EventId';
     $criteria->params[':RocId'] = $rocId;
     $criteria->params[':EventId'] = $event->EventId;
+    /** @var $user \user\models\User */
     $user = \user\models\User::model()->find($criteria);
     if ($user === null)
     {
@@ -75,30 +78,35 @@ class UserController extends \ruvents\components\Controller
     $firstName = $request->getParam('FirstName', null);
     if ($firstName !== null) 
     {
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('FirstName', $user->FirstName, $firstName));
       $user->FirstName = $firstName;
     }
     
     $lastName = $request->getParam('LastName', null);
     if ($lastName !== null)
     {
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('LastName', $user->LastName, $lastName));
       $user->LastName = $lastName;
     }
     
     $fatherName = $request->getParam('FatherName', null);
     if ($fatherName !== null)
     {
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('FatherName', $user->FatherName, $fatherName));
       $user->FatherName = $fatherName;
     }
     
     $sex = $request->getParam('Sex', null);
     if ($sex !== null)
     {
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Sex', $user->Sex, $sex));
       $user->Sex = $sex;
     }
     
     $birthday = $request->getParam('Birthday', null);
     if ($birthday !== null)
     {
+      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Birthday', $user->Birthday, $birthday));
       $user->Birthday = $birthday;
     }
     
@@ -127,11 +135,13 @@ class UserController extends \ruvents\components\Controller
       $userEmail = $user->GetEmail();
       if (!empty($userEmail))
       {
+        $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Email', $userEmail->Email, $email));
         $userEmail->Email = $email;
         $userEmail->save();
       }
       else 
       {
+        $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Email', '', $email));
         $user->AddEmail($email, 1);
       }
     }
@@ -154,6 +164,7 @@ class UserController extends \ruvents\components\Controller
       
       if ($flag)
       {
+        $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Phone', '', $phone));
         $this->addUserPhone($user, $phone);
       }
     }
@@ -163,15 +174,30 @@ class UserController extends \ruvents\components\Controller
     $primaryEmployment = $user->GetPrimaryEmployment();   
     if ($company != null)
     {
-      if ($primaryEmployment !== null
-        && ($primaryEmployment->Company->Name != $company || $primaryEmployment->Position != $position))
+
+      $changesInCompany = $primaryEmployment !== null && ($primaryEmployment->Company->Name != $company || $primaryEmployment->Position != $position);
+
+      if ($primaryEmployment === null || $changesInCompany)
       {
+        if ($primaryEmployment !== null)
+        {
+          $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Company', $primaryEmployment->Company->Name, $company));
+          $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Position', $primaryEmployment->Position, $position));
+        }
+        else
+        {
+          $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Company', '', $company));
+          $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Position', '', $position));
+        }
         $this->addUserEmployment($user, $company, $position);
       }
     }
-    
+
+    $this->detailLog->UserId = $user->UserId;
+    $this->detailLog->save();
+
     $result = array();
-    $user->refresh();
+    $user = \user\models\User::GetByRocid($user->RocId);
     $this->buildUser($user);
     $result['User'] = $this->DataBuilder()->BuildUserEvent($user);
     echo json_encode($result);
@@ -185,6 +211,7 @@ class UserController extends \ruvents\components\Controller
   {
     $request = Yii::app()->getRequest();
     $query = $request->getParam('Query', null);
+    $locale = $request->getParam('Locale', \Yii::app()->language);
     if (empty($query))
     {
       throw new \ruvents\components\Exception(501);
@@ -215,10 +242,11 @@ class UserController extends \ruvents\components\Controller
     }
     else 
     {
-      $criteria = \user\models\User::GetSearchCriteria($query);
+      $userModel = \user\models\User::model()->bySearch($query, $locale);
+      $criteria = new CDbCriteria();
       $criteria->with  = $criteriaWith;
       $criteria->limit = 200;
-      $users = \user\models\User::model()->findAll($criteria);
+      $users = $userModel->findAll($criteria);
     }
     
     $result = array('Users' => array());
@@ -248,7 +276,7 @@ class UserController extends \ruvents\components\Controller
   
   /**
    * Связывает пользователя с местом работы
-   * @param \application\models\user\User $user
+   * @param \user\models\User $user
    * @param string $companyName
    * @param string $position 
    */
@@ -287,7 +315,7 @@ class UserController extends \ruvents\components\Controller
   
   /**
    * Добавляет телефон пользователю
-   * @param \application\models\user\User $user
+   * @param \user\models\User $user
    * @param string $phone
    * @param string $type 
    */

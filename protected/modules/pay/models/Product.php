@@ -17,7 +17,7 @@ namespace pay\models;
  * @property ProductAttribute[] $Attributes
  * @property ProductPrice[] $Prices
  */
-class Product extends \CActiveRecord
+class Product extends \application\models\translation\ActiveRecord
 {
   /**
    * @param string $className
@@ -151,4 +151,11 @@ class Product extends \CActiveRecord
     throw new \pay\components\Exception('Не удалось определить цену продукта!');
   }
 
+  /**
+   * @return string[]
+   */
+  public function getTranslationFields()
+  {
+    return array('Title');
+  }
 }

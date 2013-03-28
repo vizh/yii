@@ -9,14 +9,14 @@ if (empty($products))
 }
 ?>
 <form method="post" action="<?=\Yii::app()->createUrl('/pay/cabinet/register', array('eventIdName' => $this->event->IdName));?>" class="registration">
-  <h5 class="title">Регистрация</h5>
+  <h5 class="title"><?=Yii::t('pay', 'Регистрация');?></h5>
   <table class="table table-condensed">
     <thead>
       <tr>
-        <th>Тип билета</th>
-        <th class="t-right col-width">Цена</th>
-        <th class="t-center col-width">Кол-во</th>
-        <th class="t-right col-width">Сумма</th>
+        <th><?=Yii::t('pay', 'Тип билета');?></th>
+        <th class="t-right col-width"><?=Yii::t('pay', 'Цена');?></th>
+        <th class="t-center col-width"><?=Yii::t('pay', 'Кол-во');?></th>
+        <th class="t-right col-width"><?=Yii::t('pay', 'Сумма');?></th>
       </tr>
     </thead>
     <tbody>
@@ -43,12 +43,12 @@ if (empty($products))
     <?endforeach;?>
       <tr>
         <td colspan="4" class="t-right total">
-          <span>Итого:</span> <b id="total-price" class="number">0</b> Р
+          <span><?=Yii::t('pay', 'Итого');?>:</span> <b id="total-price" class="number">0</b> Р
         </td>
       </tr>
     </tbody>
   </table>
   <div class="clearfix">
-    <button type="submit" class="btn btn-small btn-info pull-right">Зарегистрироваться</button>
+    <button type="submit" class="btn btn-small btn-info pull-right"><?=Yii::t('pay', 'Зарегистрироваться');?></button>
   </div>
 </form>

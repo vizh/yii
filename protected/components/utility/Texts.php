@@ -174,4 +174,14 @@ class Texts
     return mb_strtoupper($firstChar, $encoding) . $then;
   }
 
+  public function filterPurify($value)
+  {
+    $purifier = new \CHtmlPurifier();
+    $purifier->options = array(
+      'HTML.AllowedElements'   => array(),
+      'HTML.AllowedAttributes' => array(),
+    );
+    return $purifier->purify($value);
+  }
+
 }

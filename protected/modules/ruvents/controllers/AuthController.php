@@ -25,8 +25,7 @@ class AuthController extends ruvents\components\Controller
     $hasAccess = false;
     foreach ($masters as $master)
     {
-      if ($master->Role == \ruvents\models\Operator::RoleAdmin
-        && $master->EventId == $operator->EventId)
+      if ($master->Role == \ruvents\models\Operator::RoleAdmin && $master->EventId == $operator->EventId)
       {
         $hasAccess = true;
         break;
@@ -39,10 +38,10 @@ class AuthController extends ruvents\components\Controller
       $operator->save();
 
       $response = new stdClass();
-      $response->OperatorId = $_POST['OperatorId'] = $operator->OperatorId;
+      $response->OperatorId = $_POST['OperatorId'] = $operator->Id;
       $response->Hash = $_POST['Hash'] = $operator->getAuthHash();
       \ruvents\components\WebUser::Instance()->resetOperator();
-      $response->Event = $this->DataBuilder()->CreateEvent();
+      $response->Event = $this->getDataBuilder()->createEvent();
 
       echo json_encode($response);
     }

@@ -14,7 +14,7 @@ class DataBuilder
   /**
    * @return \event\models\Event
    */
-  public function Event()
+  public function getEvent()
   {
     if ($this->activeEvent == null)
     {
@@ -29,7 +29,7 @@ class DataBuilder
    * @param \user\models\User $user
    * @return \stdClass
    */
-  public function CreateUser($user)
+  public function createUser($user)
   {
     $this->user = new \stdClass();
 
@@ -47,6 +47,8 @@ class DataBuilder
     $this->user->Photo->Medium = $user->GetMediumPhoto();
     $this->user->Photo->Large = $user->GetPhoto();
 
+    $this->user->Locales = $this->getLocales($user);
+
     return $this->user;
   }
 
@@ -54,7 +56,7 @@ class DataBuilder
    * @param \user\models\User $user
    * @return \stdClass
    */
-  public function BuildUserEmail($user)
+  public function buildUserEmail($user)
   {
     if (!empty($user->Emails))
     {
@@ -67,13 +69,13 @@ class DataBuilder
 
     return $this->user;
   }
-  
+
   /**
    *
    * @param \user\models\User $user
    * @return \stdClass
    */
-  public function BuildUserPhone ($user)
+  public function buildUserPhone ($user)
   {
     if (!empty($user->Phones))
     {
@@ -85,7 +87,7 @@ class DataBuilder
           $phone = $userPhone;
         }
       }
-      
+
       if ($phone === null)
       {
         $phone = $user->Phones[0];
@@ -100,7 +102,7 @@ class DataBuilder
    * @param \user\models\User $user
    * @return \stdClass
    */
-  public function BuildUserEmployment($user)
+  public function buildUserEmployment($user)
   {
     foreach ($user->Employments as $employment)
     {
@@ -117,41 +119,39 @@ class DataBuilder
 
     return $this->user;
   }
-  
+
   /**
    * @param \user\models\User $user
    * @return \stdClass
    */
-  public function BuildUserEvent($user)
+  public function buildUserEvent($user)
   {
-    $isSingleDay = empty($this->Event()->Days);
+    //$isSingleDay = empty($this->Event()->Days);
+    $isSingleDay = true;
     foreach ($user->Participants as $participant)
     {
       if ($participant->EventId == $this->eventId)
       {
-        if ($isSingleDay)
+        if ($participant->DayId == self::RadDayId())
         {
           $this->user->Status = new \stdClass();
           $this->user->Status->RoleId = $participant->RoleId;
           $this->user->Status->RoleName = $participant->Role->Name;
           $this->user->Status->CreationTime = $participant->CreationTime;
           $this->user->Status->UpdateTime = $participant->UpdateTime;
-          //todo: добавить поле UpdateTime, переделать эти поля в timestamp
         }
-        else
+
+        if (!isset($this->user->Statuses))
         {
-          if (!isset($this->user->Status))
-          {
-            $this->user->Status = array();
-          }
-          $status = new \stdClass();
-          $status->DayId = $participant->DayId;
-          $status->RoleId = $participant->RoleId;
-          $status->RoleName = $participant->Role->Name;
-          $status->CreationTime = $participant->CreationTime;
-          $status->UpdateTime = $participant->UpdateTime;
-          $this->user->Status[] = $status;
+          $this->user->Statuses = array();
         }
+        $status = new \stdClass();
+        $status->DayId = $participant->DayId;
+        $status->RoleId = $participant->RoleId;
+        $status->RoleName = $participant->Role->Name;
+        $status->CreationTime = $participant->CreationTime;
+        $status->UpdateTime = $participant->UpdateTime;
+        $this->user->Statuses[] = $status;
       }
     }
 
@@ -163,13 +163,13 @@ class DataBuilder
    * @param \company\models\Company $company
    * @return \stdClass
    */
-  public function CreateCompany($company)
+  public function createCompany($company)
   {
     $this->company = new \stdClass();
 
     $this->company->CompanyId = $company->CompanyId;
     $this->company->Name = $company->Name;
-
+    $this->company->Locales = $this->getLocales($company);
     return $this->company;
   }
 
@@ -177,34 +177,31 @@ class DataBuilder
   /**
    *
    */
-  public function CreateEvent()
+  public function createEvent()
   {
     $this->event = new \stdClass();
 
-    $this->event->EventId = $this->Event()->EventId;
-    $this->event->IdName = $this->Event()->IdName;
-    $this->event->Name = $this->Event()->Name;
-    $this->event->Info = $this->Event()->Info;
-    $this->event->Place = $this->Event()->Place;
-    $this->event->Url = $this->Event()->Url;
-    $this->event->UrlRegistration = $this->Event()->UrlRegistration;
-    $this->event->UrlProgram = $this->Event()->UrlProgram;
-    $this->event->DateStart = $this->Event()->DateStart;
-    $this->event->DateEnd = $this->Event()->DateEnd;
+    $this->event->EventId = $this->getEvent()->Id;
+    $this->event->IdName = $this->getEvent()->IdName;
+    $this->event->Title = $this->getEvent()->Title;
+    //$this->event->Info = $this->getEvent()->Info;
+
+    /*$this->event->DateStart = $this->getEvent()->DateStart;
+    $this->event->DateEnd = $this->getEvent()->DateEnd;
 
     $this->event->Image = new \stdClass();
     $this->event->Image->Mini = 'http://rocid.ru' . $this->Event()->GetMiniLogo();
-    $this->event->Image->Normal = 'http://rocid.ru' . $this->Event()->GetLogo();
+    $this->event->Image->Normal = 'http://rocid.ru' . $this->Event()->GetLogo();*/
 
-    $this->event->Days = array();
-    foreach ($this->Event()->Days as $day)
+    $this->event->Parts = array();
+    foreach ($this->getEvent()->Parts as $part)
     {
-      $resultDay = new \stdClass();
-      $resultDay->DayId = $day->DayId;
-      $resultDay->Title = $day->Title;
-      $resultDay->Order = $day->Order;
+      $resultPart = new \stdClass();
+      $resultPart->DayId = $part->Id;
+      $resultPart->Title = $part->Title;
+      $resultPart->Order = $part->Order;
 
-      $this->event->Days[] = $resultDay;
+      $this->event->Parts[] = $resultPart;
     }
 
     return $this->event;
@@ -215,7 +212,7 @@ class DataBuilder
   /**
    * @param \ruvents\models\Badge $badge
    */
-  public function CreateBadge($badge)
+  public function createBadge($badge)
   {
     $this->badge = new \stdClass();
 
@@ -228,37 +225,37 @@ class DataBuilder
 
     return $this->badge;
   }
-  
+
   protected $role;
-  
-  public function CreateRole($role)
+
+  public function createRole($role)
   {
     $this->role = new \stdClass();
     $this->role->RoleId = $role->RoleId;
     $this->role->Name = $role->Name;
-    
+
     return $this->role;
   }
-  
-  
+
+
   protected $eventSetting;
-  
-  public function CreateEventSetting ($setting)
+
+  public function createEventSetting ($setting)
   {
     $this->eventSetting = new \stdClass();
     $this->eventSetting->Name = $setting->Name;
     $this->eventSetting->Value = $setting->Value;
     return $this->eventSetting;
   }
-  
-  public function CreateEventSettingBadge ($setting) 
+
+  public function createEventSettingBadge ($setting)
   {
     $this->eventSetting = new \stdClass();
     $this->eventSetting->Name = $setting->Name;
-    
+
     $viewPath = '/badge/event'.$setting->EventId.'/'.$setting->Value;
     $this->eventSetting->Value = \Yii::app()->controller->renderPartial($viewPath, null, true);
-    
+
     return $this->eventSetting;
   }
 
@@ -266,7 +263,7 @@ class DataBuilder
   /**
    * @param \pay\models\OrderItem $orderItem
    */
-  public function CreateOrderItem($orderItem)
+  public function createOrderItem($orderItem)
   {
     $this->orderItem = new \stdClass();
 
@@ -318,7 +315,7 @@ class DataBuilder
    * @param string $time
    * @return \stdClass
    */
-  public function CreateProduct($product, $time = null)
+  public function createProduct($product, $time = null)
   {
     $this->product = new \stdClass();
 
@@ -328,6 +325,43 @@ class DataBuilder
     $this->product->Price = $product->GetPrice($time);
 
     return $this->product;
+  }
+
+  protected $detailLog;
+
+  /**
+   * @param \ruvents\models\DetailLog $detailLog
+   * @return \stdClass
+   */
+  public function createDetailLog($detailLog)
+  {
+    $this->detailLog = new \stdClass();
+    $this->detailLog->OperatorId = $detailLog->OperatorId;
+    $this->detailLog->Changes = $detailLog->getChangeMessages();
+    $this->detailLog->Time = $detailLog->CreationTime;
+
+    return $this->detailLog;
+  }
+
+  /**
+   * @param \application\models\translation\ActiveRecord $model
+   * @return \stdClass
+   */
+  protected function getLocales($model)
+  {
+    $locales = new \stdClass();
+    foreach (\Yii::app()->params['locales'] as $locale)
+    {
+      $model->setLocale($locale);
+      $localeStd = new \stdClass();
+      foreach ($model->getTranslationFields() as $key)
+      {
+        $localeStd->{$key} = $model->{$key};
+      }
+      $locales->{$locale} = $localeStd;
+    }
+    $model->resetLocale();
+    return $locales;
   }
 }
 

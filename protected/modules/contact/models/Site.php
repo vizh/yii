@@ -6,7 +6,7 @@ namespace contact\models;
  * @property string $Url
  * @property bool $Secure
  */
-class Site extends \CActiveRecord
+class Site extends \application\models\translation\ActiveRecord
 {
   /**
    * @param string $className
@@ -24,7 +24,7 @@ class Site extends \CActiveRecord
   
   public function primaryKey()
   {
-    return 'SiteId';
+    return 'Id';
   }
   
   public function relations()
@@ -35,5 +35,13 @@ class Site extends \CActiveRecord
   public function __toString() 
   {
     return ($this->Secure == 1 ? 'https://' : 'http://').trim($this->Url,' /');
+  }
+
+  /**
+   * @return string[]
+   */
+  public function getTranslationFields()
+  {
+    return array('Url');
   }
 }
