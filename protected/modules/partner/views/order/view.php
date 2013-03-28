@@ -78,6 +78,7 @@
     <table class="table table-striped">
       <thead>
       <tr>
+        <th>Номер</th>
         <th>Наименование</th>
         <th>ФИО плательщика</th>
         <th>ФИО получателя</th>
@@ -88,6 +89,7 @@
       <?foreach ($order->ItemLinks as $link):
       ?>
       <tr>
+        <td><?=$link->OrderItem->Id;?></td>
         <td><?=$link->OrderItem->Product->getManager()->getTitle($link->OrderItem);?></td>
         <td><?=$link->OrderItem->Payer->getFullName();?> (<?=$link->OrderItem->Payer->RunetId;?>)</td>
         <td>
