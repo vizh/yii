@@ -24,8 +24,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->distinct = true;
     $criteria->addCondition('"Settings"."UnsubscribeAll" = false');
 
-    $criteria->addInCondition('"Participants"."EventId"', array(195,246));
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"Participants"."EventId"', array(422));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -71,9 +71,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('users@rif.ru', 'Служба поддержки участников РИФ+КИБ 2013', false);
+        $mail->SetFrom('users@rif.ru', 'РИФ+КИБ 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Истекает срок брони номера на РИФ+КИБ 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Прием заявок в Программу 2.0 и UpStart Conf') .'?=';
         $mail->Body = $body;
 //        $mail->Send();
 
