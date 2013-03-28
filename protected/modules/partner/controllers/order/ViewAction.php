@@ -14,10 +14,6 @@ class ViewAction extends \partner\components\Action
     {
       throw new \CHttpException(404, 'Не найден счет с номером: ' . $orderId);
     }
-    if (!$order->Juridical)
-    {
-      throw new \CHttpException(404, 'Счет с номером ' . $orderId . ' не является юридическим');
-    }
     if ($order->EventId != \Yii::app()->partner->getEvent()->Id)
     {
       throw new \CHttpException(404, 'Счет с номером ' . $orderId . ' относится к другому мероприятию');
@@ -27,7 +23,7 @@ class ViewAction extends \partner\components\Action
     $this->getController()->initActiveBottomMenu('index');
 
     $request = \Yii::app()->getRequest();
-    if ($request->getIsPostRequest())
+    if ($order->Juridical && $request->getIsPostRequest())
     {
       $paid = $request->getParam('SetPaid', false);
       if ($paid !== false)

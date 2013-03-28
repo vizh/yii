@@ -14,7 +14,7 @@ class IndexAction extends \partner\components\Action
     $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
     $criteria = $this->getCriteria($form);
     $count = \pay\models\Order::model()
-        ->byEventId($event->Id)->byJuridical(true)->count($criteria);
+        ->byEventId($event->Id)->count($criteria);
 
 
     $paginator = new \application\components\utility\Paginator($count);
@@ -23,8 +23,7 @@ class IndexAction extends \partner\components\Action
     $criteria->order = '"t"."CreationTime" DESC';
 
     $orders = \pay\models\Order::model()
-        ->byEventId($event->Id)->byJuridical(true)
-        ->findAll($criteria);
+        ->byEventId($event->Id)->findAll($criteria);
 
     $this->getController()->render('index',
       array(

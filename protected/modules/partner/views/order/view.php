@@ -33,7 +33,7 @@
     <?endif;?>
   </div>
 
-
+  <?if ($order->Juridical):?>
   <div class="span6 indent-bottom3">
     <h3>Данные заказчика</h3>
 
@@ -45,6 +45,7 @@
 
     <p><strong>Телефон:</strong> <?=$order->OrderJuridical->Phone;?></p>
   </div>
+  <?endif;?>
 
   <div class="span6 indent-bottom3">
     <h3>Данные пользователя</h3>
@@ -90,7 +91,14 @@
       ?>
       <tr>
         <td><?=$link->OrderItem->Id;?></td>
-        <td><?=$link->OrderItem->Product->getManager()->getTitle($link->OrderItem);?></td>
+        <td>
+          <?=$link->OrderItem->Product->getManager()->getTitle($link->OrderItem);?>
+          <?if ($link->OrderItem->Paid):?>
+            <span class="label label-success">ОПЛАЧЕН</span>
+          <?else:?>
+            <span class="label label-warning">НЕ ОПЛАЧЕН</span>
+          <?endif;?>
+        </td>
         <td><?=$link->OrderItem->Payer->getFullName();?> (<?=$link->OrderItem->Payer->RunetId;?>)</td>
         <td>
           <p><?=$link->OrderItem->Owner->getFullName();?> (<?=$link->OrderItem->Owner->RunetId;?>)</p>
@@ -106,10 +114,11 @@
     </table>
   </div>
 
+
   <div class="span12 indent-bottom3">
     <h3>Сумма счета: <?=$order->getPrice();?> руб.</h3>
   </div>
-
+  <?if ($order->Juridical):?>
   <div class="span12">
     <form action="" method="post">
       <fieldset>
@@ -132,4 +141,5 @@
       </fieldset>
     </form>
   </div>
+  <?endif;?>
 </div>
