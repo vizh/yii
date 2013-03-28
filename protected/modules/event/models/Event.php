@@ -271,9 +271,7 @@ class Event extends \application\models\translation\ActiveRecord
     {
       $this->updateRole($participant, $role, $usePriority);
     }
-    
-    $event = new \CModelEvent($this, array('role' => $role, 'user' => $user));
-    $this->onRegister($event);
+
     return $participant;
   }
 
@@ -307,8 +305,27 @@ class Event extends \application\models\translation\ActiveRecord
     $participant->UserId = $user->Id;
     $participant->RoleId = $role->Id;
     $participant->save();
+
+    $event = new \CModelEvent($this, array('role' => $role, 'user' => $user));
+    $this->onRegister($event);
     
     return $participant;
+  }
+
+  private function updateRole(Participant $participant, Role $role, $usePriority = false)
+  {
+    if (!$usePriority || $participant->Role->Priority <= $role->Priority)
+    {
+      $participant->RoleId = $role->Id;
+      $participant->UpdateTime =  date('Y-m-d H:i:s');
+      $participant->save();
+
+      $event = new \CModelEvent($this, array('role' => $role, 'user' => $participant->User));
+      $this->onRegister($event);
+
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -322,18 +339,6 @@ class Event extends \application\models\translation\ActiveRecord
     /** @var $handler \event\components\handlers\register\Base */
     $handler = new $class($event);
     $handler->onRegister($event);
-  }
-
-  private function updateRole(Participant $participant, Role $role, $usePriority = false)
-  {
-    if (!$usePriority || $participant->Role->Priority <= $role->Priority)
-    {
-      $participant->RoleId = $role->Id;
-      $participant->UpdateTime =  date('Y-m-d H:i:s');
-      $participant->save();
-      return true;
-    }
-    return false;
   }
 
   /**
