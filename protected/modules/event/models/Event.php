@@ -318,7 +318,7 @@ class Event extends \application\models\translation\ActiveRecord
   {
     /** @var $sender Event */
     $sender = $event->sender;
-    $class = \Yii::getExistClass('\event\components\handlers\register', $sender->IdName, 'Base');
+    $class = \Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
     /** @var $handler \event\components\handlers\register\Base */
     $handler = new $class($event);
     $handler->onRegister($event);
