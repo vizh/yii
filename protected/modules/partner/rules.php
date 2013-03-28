@@ -69,6 +69,12 @@ return array(
     'controllers' => array('stat')
   ),
   array(
+    'allow',
+    'roles' => array('Admin'),
+    'module' => 'partner',
+    'controllers' => array('program')
+  ),
+  array(
     'deny',
     'users' => array('*')
   ),
