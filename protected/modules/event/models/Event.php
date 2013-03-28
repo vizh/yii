@@ -451,16 +451,26 @@ class Event extends \application\models\translation\ActiveRecord
     return $this->attributesByName;
   }
   
-  public function getFormattedStartDate($pattern = 'dd MMMM yyyy')
+  public function getTimeStampStartDate()
   {
     $date = $this->StartDay.'.'.$this->StartMonth.'.'.$this->StartYear;
-    return \Yii::app()->dateFormatter->format($pattern, $date);
+    return strtotime($date);
+  }
+  
+  public function getTimeStampEndDate()
+  {
+    $date = $this->EndDay.'.'.$this->EndMonth.'.'.$this->EndYear;
+    return strtotime($date);
+  }
+  
+  public function getFormattedStartDate($pattern = 'dd MMMM yyyy')
+  {
+    return \Yii::app()->dateFormatter->format($pattern, $this->getTimeStampStartDate());
   }
   
   public function getFormattedEndDate($pattern = 'dd MMMM yyyy')
   {
-    $date = $this->EndDay.'.'.$this->EndMonth.'.'.$this->EndYear;
-    return \Yii::app()->dateFormatter->format($pattern, $date);
+    return \Yii::app()->dateFormatter->format($pattern, $this->getTimeStampEndDate());
   }
   
   public function setContactSite($url, $secure = false)
