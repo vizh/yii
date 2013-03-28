@@ -61,4 +61,42 @@ class Section extends \CActiveRecord
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
+  
+  /**
+   * 
+   * @param \event\models\section\Hall $hall
+   * @return \event\models\section\Section
+   */
+  public function setHall($hall)
+  {
+    $linkHall = new \event\models\section\LinkHall();
+    $linkHall->HallId = $hall->Id;
+    $linkHall->SectionId = $this->Id;
+    $linkHall->save();
+  }
+  
+  /**
+   * 
+   * @param string $name
+   * @param string $value
+   */
+  public function setSectionAttribute($name, $value)
+  {
+    $attribute = null;
+    foreach ($this->Attributes as $attr)
+    {
+      if ($attr->Name == $name)
+      {
+        $attribute = $attr;
+      }
+    }
+    if ($attribute == null)
+    {
+      $attribute = new \event\models\section\Attribute();
+      $attribute->Name = $name;
+      $attribute->SectionId = $this->Id;
+    }
+    $attribute->Value = $value;
+    $attribute->save();
+  }
 }

@@ -44,6 +44,12 @@ class TopMenu extends \CWidget
       'Access' => $this->checkAccess('orderitem', 'index'),
       'Active' => $this->isActive('orderitem')
     );
+    $menu[] = array(
+      'Title' => 'Программа',
+      'Url' => \Yii::app()->createUrl('/partner/program/index'),
+      'Access' => $this->checkAccess('program', 'index'),
+      'Active' => $this->isActive('program')
+    );
 
     $this->render('topMenu', array('menu' => $menu));
   }

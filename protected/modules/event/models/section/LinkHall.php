@@ -39,4 +39,22 @@ class LinkHall extends \CActiveRecord
     );
   }
 
+  
+  public function byHallId($hallId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."HallId" = :HallId';
+    $criteria->params = array('HallId' => $hallId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  public function bySectionId($sectionId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."SectionId" = :SectionId';
+    $criteria->params = array('SectionId' => $sectionId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

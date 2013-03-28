@@ -33,4 +33,13 @@ class Hall extends \CActiveRecord
   {
     return array();
   }
+  
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params = array('EventId' => $eventId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }
