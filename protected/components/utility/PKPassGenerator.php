@@ -124,4 +124,24 @@ class PKPassGenerator
     $pkPass->setJSON(json_encode($data));
     return $pkPass->create($output);
   }
+  
+  /**
+   * 
+   * @return string 
+   */
+  public function runAndSave()
+  {
+    $file  = $this->run(false);
+    $path  = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
+    $path .= 'pkpass'.DIRECTORY_SEPARATOR.$this->user->RunetId.'_'.$this->event->IdName.'_'.$this->role->Id.'.pkpass';
+    if (file_exists($path))
+    {
+      return $path;
+    }
+    else 
+    {
+      file_put_contents($path, $file);
+      return $path;
+    }
+  }
 }

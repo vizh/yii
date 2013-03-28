@@ -17,16 +17,25 @@ class Base extends \mail\components\Mail
    */
   public function getBody()
   {
-    // TODO: Implement getBody() method.
+    return null;
   }
 
 
+  protected $event;
+  protected $user;
+  protected $role;
   /**
    * @param \CEvent $event
    */
   public function onRegister($event)
   {
-    $mailer = new \mail\components\Mailer();
-    $mailer->send($this, '');
+    $this->event = $event->sender;
+    $this->user  = $event->params['user'];
+    $this->role  = $event->params['role'];
+    if ($this->getBody() !== null)
+    {
+      $mailer = new \mail\components\Mailer();
+      $mailer->send($this, $this->user->Email);
+    }
   }
 }

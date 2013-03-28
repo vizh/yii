@@ -348,8 +348,8 @@ class PKPass {
 		$paths = $this->paths();
 		
 		// Package file in Zip (as .pkpass)
-		$zip = new ZipArchive();
-		if(!$zip->open($paths['pkpass'], ZIPARCHIVE::CREATE)) {
+		$zip = new \ZipArchive();
+		if(!$zip->open($paths['pkpass'], \ZIPARCHIVE::CREATE)) {
 			$this->sError = 'Could not open '.basename($paths['pkpass']).' with ZipArchive extension.';
 			return false;
 		}
