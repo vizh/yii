@@ -14,6 +14,7 @@ class Juridical extends \CFormModel
   public function rules()
   {
     return array(
+      array('Name, Address, INN, KPP, Phone, Fax, PostAddress', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
       array('Name, Address, INN, KPP, Phone, Fax', 'required'),
       array('PostAddress', 'safe')
     );

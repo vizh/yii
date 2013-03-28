@@ -63,7 +63,7 @@ $total = 0;
 
   <div style="width: 500px; margin: 0 auto; margin-bottom: 40px;">
     <label class="checkbox">
-      <input type="checkbox" name="agreeOffer" value="1"/><?=\Yii::t('pay', 'Я согласен с условиями <a href="{url}">договора-оферты</a> и готов перейти к оплате', array('{url}' => $this->createUrl('/pay/cabinet/offer')));?>
+      <input type="checkbox" name="agreeOffer" value="1"/><?=\Yii::t('pay', 'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате', array('{url}' => $this->createUrl('/pay/cabinet/offer')));?>
     </label>
   </div>
   <div class="actions clearfix">
