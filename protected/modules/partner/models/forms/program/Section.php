@@ -83,6 +83,7 @@ class Section extends \CFormModel
         $list[$attribute->Name] = $attribute->Value;
       }
     }
+    
     return $list;
   }
   
