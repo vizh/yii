@@ -84,6 +84,10 @@ return array(
       'enableCookieValidation'=>true,
     ),
 
+    'errorHandler'=>array(
+      'errorAction'=>'/main/error/index',
+    ),
+
     'log'=>array(
       'class'=>'CLogRouter',
       'routes'=>array(

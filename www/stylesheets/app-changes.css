@@ -24,7 +24,7 @@ a:focus{
   margin: 0 3px !important;
 }
 .b-event-promo .social .b-share-icon {
-  background: url('/images/icon-social-small.png') no-repeat !important; 
+  background: url('/images/icon-social-small.png') no-repeat !important;
 }
 
 .b-event-promo .social .b-share-icon_vkontakte {
@@ -168,6 +168,9 @@ a:focus{
   width: 140px;
 }
 
-  .imgcrop-140 img {
-    position: absolute;
-  }
+.imgcrop-140 img {
+  position: absolute;
+}
+
+/*** ошибки  */
+#error-page .error-500 {background: url(/images/page-500.png) 0 0 no-repeat;}

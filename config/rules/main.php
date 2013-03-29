@@ -7,6 +7,12 @@ return array(
     'actions' => array('index'),
     'module' => 'main'
   ),
+  array(
+    'allow',
+    'users' => array('*'),
+    'controllers' => array('error'),
+    'module' => 'main'
+  ),
 
 
   /** Admin Rules */
