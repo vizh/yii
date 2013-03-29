@@ -9,7 +9,7 @@ $site = $this->event->getContactSite();
 ?>
 
 <div class="contacts">
-  <h5 class="title">Контактная информация</h5>
+  <h5 class="title"><?=\Yii::t('app', 'Контактная информация')?></h5>
   <p class="name"><?=$this->event->Title;?></p>
   <?if ($address !== null):?>
   <p class="address"><?=$address;?></p>

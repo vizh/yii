@@ -12,7 +12,7 @@ if (empty($partners))
 
 <div class="partners">
   <div class="title">
-    <span class="backing">Партнеры</span>
+    <span class="backing"><?=\Yii::t('app', 'Партнеры мероприятия')?></span>
   </div>
   <div class="logos units"><?
     foreach ($partners as $partner):
