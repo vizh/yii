@@ -22,7 +22,7 @@ class Region extends \CActiveRecord
   
   public function primaryKey()
   {
-    return 'RegionId';
+    return 'Id';
   }
 
   /**

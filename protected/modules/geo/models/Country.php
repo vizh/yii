@@ -19,7 +19,7 @@ class Country extends \CActiveRecord
   
   public function primaryKey()
   {
-    return 'CountryId';
+    return 'Id';
   }
   
   public function relations()

@@ -10,7 +10,7 @@ namespace geo\models;
  * @property Country $Country
  * @property Region $Region
  */
-class City extends \CActiveRecord
+class City extends \application\models\translation\ActiveRecord
 {
   public static function model($className=__CLASS__)
   {    
@@ -26,7 +26,7 @@ class City extends \CActiveRecord
   
   public function primaryKey()
   {
-    return 'CityId';
+    return 'Id';
   }
   
   public function relations()
@@ -86,4 +86,11 @@ class City extends \CActiveRecord
     return $this->Name;
   }
 
+  /**
+   * @return string[]
+   */
+  public function getTranslationFields()
+  {
+    return array('Name');
+  }
 }

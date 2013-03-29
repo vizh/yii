@@ -18,7 +18,7 @@ namespace contact\models;
  * @property \geo\models\Region $Region
  * @property \geo\models\City $City
  */
-class Address extends \CActiveRecord
+class Address extends \application\models\translation\ActiveRecord
 {
   /**
    * @param string $className
@@ -50,7 +50,7 @@ class Address extends \CActiveRecord
   
   public function __toString()
   {
-    $address = \Yii::t('app', 'г.').' '.\Yii::t('app', $this->City->Name).', '.$this->Street.', '.\Yii::t('app', 'д.').' '.$this->House;
+    $address = \Yii::t('app', 'г.').' '. $this->City->Name .', '.$this->Street.', '.\Yii::t('app', 'д.').' '.$this->House;
     if (!empty($this->Building))
     {
       $address .= ', '.\Yii::t('app', 'стр.').' '.$this->Building;
@@ -68,5 +68,13 @@ class Address extends \CActiveRecord
       $address .= ', '.$this->Place;
     }
     return $address;
+  }
+
+  /**
+   * @return string[]
+   */
+  public function getTranslationFields()
+  {
+    return array('Street', 'House', 'Place');
   }
 }

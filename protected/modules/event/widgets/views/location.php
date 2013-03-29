@@ -7,6 +7,7 @@ if ($address == null)
 {
   return;
 }
+$address->setLocale('ru');
 ?>
 
 <div class="location">
@@ -15,7 +16,7 @@ if ($address == null)
 </div>
 <script type="text/javascript">
 function fid_13401960168727002685(ymaps) {
-    var geocoder = ymaps.geocode("<?php echo addslashes($address);?>", {result : 1});
+    var geocoder = ymaps.geocode("<?=addslashes($address);?>", {result : 1});
     geocoder.then(
         function (response) {
             var map = new ymaps.Map("ymaps-map-id_13401960168727002685", {
@@ -26,7 +27,7 @@ function fid_13401960168727002685(ymaps) {
             map.geoObjects
                 .add(new ymaps.Placemark(
                     response.geoObjects.get(0).geometry.getCoordinates(), {
-                        balloonContent: "<strong><?php echo htmlspecialchars($this->event->Title);?></strong><p><?php echo htmlspecialchars($address->Place);?></p>"
+                        balloonContent: "<strong><?=htmlspecialchars($this->event->Title);?></strong><p><?=htmlspecialchars($address->Place);?></p>"
                     }, { preset: "twirl#redDotIcon"}
                 ));
             map.controls.add('smallZoomControl', {top : 45, left : 5});
@@ -35,3 +36,6 @@ function fid_13401960168727002685(ymaps) {
 };
 </script>
 <script type="text/javascript" src="http://api-maps.yandex.ru/2.0/?coordorder=longlat&load=package.full&wizard=constructor&lang=ru-RU&onload=fid_13401960168727002685"></script>
+
+<?
+$address->resetLocale();
