@@ -26,7 +26,7 @@ return array(
     'allow',
     'roles' => array('Partner'),
     'module' => 'partner',
-    'controllers' => array('main', 'order', 'user', 'coupon', 'userEdit', 'utility'),
+    'controllers' => array('main', 'order', 'user', 'coupon', 'userEdit', 'utility', 'special'),
   ),
   array(
     'allow',

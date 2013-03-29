@@ -10,6 +10,7 @@ class CreateAction extends \api\components\Action
     $lastName = $request->getParam('LastName', null);
     $firstName = $request->getParam('FirstName', null);
     $fathertName = $request->getParam('FatherName', null);
+    $password = $request->getParam('Password', null); //todo: deprecated
 
     if (empty($email) || empty($lastName) || empty($firstName))
     {
@@ -30,6 +31,10 @@ class CreateAction extends \api\components\Action
     $user->FirstName = $firstName;
     $user->FatherName = $fathertName;
     $user->Email = $email;
+    if ($password !== null)
+    {
+      $user->Password = $password;
+    }
     $user->register();
 
     //todo: Добавить автоматическое подтверждение соглашения после регистрации

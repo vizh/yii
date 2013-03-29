@@ -6,6 +6,8 @@ namespace pay\models;
  * @property int $ProductId
  * @property string $Name
  * @property string $Value
+ *
+ * @property Product $Product
  */
 class ProductAttribute extends \CActiveRecord
 {

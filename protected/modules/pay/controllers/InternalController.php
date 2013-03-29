@@ -34,7 +34,7 @@ class InternalController extends \application\components\controllers\PublicMainC
     'PlaceMore' => 9,
     'DescriptionBasic' => 10,
     'DescriptionMore' => 11,
-    'Price' => 13,
+    'Price' => 12,
   );
 
   public $fieldMapPines = array(
@@ -59,15 +59,15 @@ class InternalController extends \application\components\controllers\PublicMainC
     echo 'empty';
     return;
 
-    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/pine-rooms.csv');
+    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/ld-rooms.csv');
     $parser->SetInEncoding('utf-8');
-    //$results = $parser->Parse($this->fieldMapPines, true);
+    //$results = $parser->Parse($this->fieldMap, true);
 
 //    echo '<pre>';
 //    print_r($results);
 //    echo '</pre>';
 
-    ;
+    return;
     foreach ($results as $result)
     {
       $product = new \pay\models\Product();
@@ -85,16 +85,18 @@ class InternalController extends \application\components\controllers\PublicMainC
       $price->StartTime = '2013-03-14 09:00:00';
       $price->save();
 
-      foreach ($this->fieldMapPines as $key => $value)
+      foreach ($this->fieldMap as $key => $value)
       {
-        if ($key == 'EuroRenovation')
-        {
-          $result->$key = $result->$key == 1 ? 'да' : 'нет';
-        }
+//        if ($key == 'EuroRenovation')
+//        {
+//          $result->$key = $result->$key == 1 ? 'да' : 'нет';
+//        }
         $product->getManager()->$key = trim($result->$key);
       }
+      $product->getManager()->Visible = 0;
     }
 
+    echo 'done';
     echo '<pre>';
     print_r($results);
     echo '</pre>';
