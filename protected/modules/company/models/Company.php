@@ -22,7 +22,7 @@ namespace company\models;
  * @property \user\models\Employment[] $Employments
  * @property \user\models\Employment[] $EmploymentsAll
  */
-class Company extends \CActiveRecord implements \search\components\interfaces\ISearch
+class Company extends \application\models\translation\ActiveRecord implements \search\components\interfaces\ISearch
 {
   /**
    * @param string $className
@@ -107,4 +107,11 @@ class Company extends \CActiveRecord implements \search\components\interfaces\IS
     return $name;
   }
 
+  /**
+   * @return string[]
+   */
+  public function getTranslationFields()
+  {
+    return array('Name');
+  }
 }

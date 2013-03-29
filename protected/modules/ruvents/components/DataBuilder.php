@@ -33,19 +33,19 @@ class DataBuilder
   {
     $this->user = new \stdClass();
 
-    $this->user->RocId = $user->RocId;
+    $this->user->RunetId = $user->RunetId;
     $this->user->LastName = $user->LastName;
     $this->user->FirstName = $user->FirstName;
     $this->user->FatherName = $user->FatherName;
     $this->user->Birthday = $user->Birthday;
     $this->user->UpdateTime = $user->UpdateTime;
-    $this->user->Sex = $user->Sex;
+    $this->user->Gender = $user->Gender;
     $this->user->CreationTime = $user->CreationTime;
 
     $this->user->Photo = new \stdClass();
-    $this->user->Photo->Small = $user->GetMiniPhoto();
-    $this->user->Photo->Medium = $user->GetMediumPhoto();
-    $this->user->Photo->Large = $user->GetPhoto();
+    $this->user->Photo->Small = $user->getPhoto()->get50px();
+    $this->user->Photo->Medium = $user->getPhoto()->get90px();
+    $this->user->Photo->Large = $user->getPhoto()->get200px();
 
     $this->user->Locales = $this->getLocales($user);
 
@@ -111,8 +111,10 @@ class DataBuilder
         $this->user->Work = new \stdClass();
         $this->user->Work->Position = $employment->Position;
         $this->user->Work->Company = $this->CreateCompany($employment->Company);
-        $this->user->Work->Start = $employment->StartWorking;
-        $this->user->Work->Finish = $employment->FinishWorking;
+        $this->user->Work->StartYear = $employment->StartYear;
+        $this->user->Work->StartMonth = $employment->StartMonth;
+        $this->user->Work->EndYear = $employment->EndYear;
+        $this->user->Work->EndMonth = $employment->EndMonth;
         return $this->user;
       }
     }
@@ -167,7 +169,7 @@ class DataBuilder
   {
     $this->company = new \stdClass();
 
-    $this->company->CompanyId = $company->CompanyId;
+    $this->company->CompanyId = $company->Id;
     $this->company->Name = $company->Name;
     $this->company->Locales = $this->getLocales($company);
     return $this->company;
@@ -350,15 +352,15 @@ class DataBuilder
   protected function getLocales($model)
   {
     $locales = new \stdClass();
-    foreach (\Yii::app()->params['locales'] as $locale)
+    foreach (\Yii::app()->params['Languages'] as $lang)
     {
-      $model->setLocale($locale);
+      $model->setLocale($lang);
       $localeStd = new \stdClass();
       foreach ($model->getTranslationFields() as $key)
       {
         $localeStd->{$key} = $model->{$key};
       }
-      $locales->{$locale} = $localeStd;
+      $locales->{$lang} = $localeStd;
     }
     $model->resetLocale();
     return $locales;

@@ -50,15 +50,13 @@ class RuventsModule extends CWebModule
     {
       /** @var $exception \ruvents\components\Exception */
       $exception = $event->exception;
-      $exception->sendResponse();
-      $event->handled = true;
     }
     else
     {
       $exception = new \ruvents\components\Exception(601, array($event->exception->getMessage()));
-      $exception->sendResponse();
-      $event->handled = true;
     }
+    $exception->sendResponse();
+    $event->handled = true;
   }
 }
 

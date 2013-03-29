@@ -11,9 +11,6 @@ class AuthController extends ruvents\components\Controller
     $password = $request->getParam('Password', null);
     $masterPassword = $request->getParam('MasterPassword', null);
 
-
-
-
     /** @var $operator \ruvents\models\Operator */
     $operator = \ruvents\models\Operator::model()->byLogin($login)->find();
     if ($operator == null || \ruvents\models\Operator::GeneratePasswordHash($password) !== $operator->Password)

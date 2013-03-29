@@ -19,6 +19,14 @@ class Controller extends \application\components\controllers\BaseController
   /** @var \ruvents\models\DetailLog */
   protected $detailLog;
 
+  /**
+   * @return \ruvents\models\DetailLog
+   */
+  public function getDetailLog()
+  {
+    return $this->detailLog;
+  }
+
   protected function beforeAction($action)
   {
     if (parent::beforeAction($action))
