@@ -136,7 +136,7 @@ class User extends \application\models\translation\ActiveRecord
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."RunetId" = :RunetId';
-    $criteria->params = array(':RunetId' => $runetId);
+    $criteria->params = array(':RunetId' => (int)$runetId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

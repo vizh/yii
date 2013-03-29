@@ -4,10 +4,16 @@ class SpecialController extends \partner\components\Controller
 {
   public function actions()
   {
+    if (Yii::app()->partner->getIsGuest())
+    {
+      $this->redirect(Yii::app()->createUrl('/partner/auth/index'));
+    }
     if (Yii::app()->partner->getEvent()->IdName == 'rif13')
     {
       return array(
-        'rooms' => 'partner\controllers\special\rif13\RoomsAction'
+        'rooms' => 'partner\controllers\special\rif13\RoomsAction',
+        'book' => 'partner\controllers\special\rif13\BookAction',
+        'food' => 'partner\controllers\special\rif13\FoodAction',
       );
     }
     else
