@@ -46,10 +46,10 @@ class AjaxController extends \application\components\controllers\PublicMainContr
   private function getUserData($user)
   {
     $data = new \stdClass();
-    $data->RunetId = $user->RunetId;
+    $data->RunetId = $data->value = $user->RunetId;
     $data->LastName = $user->LastName;
     $data->FirstName = $user->FirstName;
-    $data->FullName = $user->getFullName();
+    $data->FullName = $data->label = $user->getFullName();
     $data->Photo = new \stdClass();
     $data->Photo->Small = $user->getPhoto()->get50px();
     $data->Photo->Medium = $user->getPhoto()->get90px();

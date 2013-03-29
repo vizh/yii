@@ -8,13 +8,14 @@ AutoCompleteInput.prototype = {
   init: function () {
     var self = this;
     self.textField.autocomplete({
-      source: "/user/ajaxget/",
+      source: "/user/ajax/search/",
       minLength: 1,
       select: function(event, ui){
-        self.addOn.html('ROCID: '+ui.item.id);
-        self.hiddenField.val(ui.item.id);
+        self.addOn.html('RUNETID: '+ui.item.RunetId);
+        self.hiddenField.val(ui.item.RunetId);
       }
     });
+    $('.ui-autocomplete').addClass('dropdown-menu');
     
     self.textField.keyup(function (e) {
       if ($(e.currentTarget).val() == '') {

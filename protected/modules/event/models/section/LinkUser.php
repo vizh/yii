@@ -41,4 +41,13 @@ class LinkUser extends \CActiveRecord
       'Role' => array(self::BELONGS_TO, '\event\models\section\Role', 'RoleId'),
     );
   }
+  
+  public function bySectionId($sectionId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."SectionId" = :SectionId';
+    $criteria->params = array('SectionId' => $sectionId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

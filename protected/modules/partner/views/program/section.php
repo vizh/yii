@@ -35,7 +35,7 @@
     <div class="control-group">
       <?=\CHtml::activeLabel($form, 'Hall', array('class' => 'control-label'));?>
       <div class="controls">
-        <?=\CHtml::activeDropDownList($form, 'Hall', $form->getHallList($event), array('multiple' => true));?>
+        <?=\CHtml::activeDropDownList($form, 'Hall', \CHtml::listData($event->Halls, 'Id', 'Title'), array('multiple' => true));?>
         <?=\CHtml::activeTextField($form, 'HallNew', array('class' => 'm-top_10'));?>
       </div>
     </div>
@@ -71,4 +71,10 @@
     </div>
   <?=\CHtml::endForm();?>
 </div>
+  
+  <div class="span1 offset1">
+    <?if (!$section->getIsNewRecord()):?>
+      <a href="<?=$this->createUrl('/partner/program/participants', array('sectionId' => $section->Id));?>" class="btn"><?=\Yii::t('app', 'Участники');?></a>
+    <?endif;?>
+  </div>
 </div>

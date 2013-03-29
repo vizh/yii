@@ -2,7 +2,7 @@
 namespace partner\widgets;
 class UserAutocompleteInput extends \CWidget
 {
-  public $form  = null;
+  public $form = null;
   public $field; 
   public $value;
   public $htmlOptions = array();
@@ -24,18 +24,14 @@ class UserAutocompleteInput extends \CWidget
   public function run() 
   {
     $cs = \Yii::app()->clientScript;
-    $cs->registerScriptFile(
-      \Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/js/libs/jquery-ui-1.8.16.custom.min.js'), \CClientScript::POS_HEAD
-    );
-    $blitzerPath = \Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/css/blitzer');
-    $cs->registerCssFile($blitzerPath . '/jquery-ui-1.8.16.custom.css');
+    \Yii::app()->clientScript->registerPackage('runetid.jquery.ui');
     $cs->registerScriptFile(
       \Yii::app()->getAssetManager()->publish(\Yii::getPathOfAlias('partner.widgets.assets.js').'/userautocompleteinput.js'), \CClientScript::POS_HEAD
     );
     
     if (!empty($this->value))
     {
-      $user = \user\models\User::GetByRocid($this->value);
+      $user = \user\models\User::model()->byRunetId($this->value)->find();
     }
     
     $htmlOptions = '';

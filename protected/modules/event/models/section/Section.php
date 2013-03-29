@@ -62,6 +62,16 @@ class Section extends \CActiveRecord
     return $this;
   }
   
+  public function byDate($date, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."StartTime" >= :DateStart AND "t"."EndTime" <= :DateEnd';
+    $criteria->params['DateStart'] = $date.' 00:00:00';
+    $criteria->params['DateEnd'] = $date.' 23:59:59';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
   /**
    * 
    * @param \event\models\section\Hall $hall

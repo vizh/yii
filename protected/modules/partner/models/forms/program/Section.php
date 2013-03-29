@@ -59,22 +59,6 @@ class Section extends \CFormModel
   /**
    * 
    * @param \event\models\Event $event
-   * @return string[]
-   */
-  public function getHallList($event)
-  {
-    $list = array();
-    $halls = \event\models\section\Hall::model()->byEventId($event->Id)->findAll();
-    foreach ($halls as $hall)
-    {
-      $list[$hall->Id] = $hall->Title; 
-    }
-    return $list;
-  }
-  
-  /**
-   * 
-   * @param \event\models\Event $event
    * return string[]
    */
   public function getAttributeList($event, $section)

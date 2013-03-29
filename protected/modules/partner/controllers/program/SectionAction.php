@@ -54,17 +54,16 @@ class SectionAction extends \partner\components\Action
         // Сохранение залов
         if (!empty($form->Hall))
         {
-          foreach ($form->getHallList($event) as $hallId => $hallTitle)
+          foreach ($event->Halls as $hall)
           {
             $linkHall = \event\models\section\LinkHall::model()
-              ->byHallId($hallId)->bySectionId($section->Id)->find();
+              ->byHallId($hall->Id)->bySectionId($section->Id)->find();
 
-            if (in_array($hallId, $form->Hall) && $linkHall == null)
+            if (in_array($hall->Id, $form->Hall) && $linkHall == null)
             {
-              $hall = \event\models\section\Hall::model()->byEventId($event->Id)->findByPk($hallId);
               $section->setHall($hall);
             }
-            else if (!in_array($hallId, $form->Hall) && $linkHall !== null) 
+            else if (!in_array($hall->Id, $form->Hall) && $linkHall !== null) 
             {
               $linkHall->delete();
             }
