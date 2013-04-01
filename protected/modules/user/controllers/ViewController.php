@@ -88,6 +88,10 @@ class ViewController extends \application\components\controllers\PublicMainContr
       $participation->RoleCount->{$roletype}++;
     }
     
+    if (!$user->Settings->IndexProfile)
+    {
+      \Yii::app()->clientScript->registerMetaTag('noindex,noarchive','robots');
+    }
     
     \Yii::app()->clientScript->registerPackage('runetid.charts');
     $this->bodyId = 'user-account';
