@@ -452,6 +452,20 @@ class OrderItem extends \CActiveRecord
     return true;
   }
 
+  public function deleteHard()
+  {
+    if ($this->Paid || $this->Deleted)
+    {
+      return false;
+    }
+
+    $this->Deleted = true;
+    $this->DeletionTime = date('Y-m-d H:i:s');
+    $this->save();
+
+    return true;
+  }
+
   /**
    *
    * @return int
