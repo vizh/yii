@@ -64,26 +64,18 @@ class Section extends \CFormModel
   public function getAttributeList($event, $section)
   {
     $list = array();
-    $criteria = new \CDbCriteria();
-    $criteria->with = array(
-      'Section'
-    );
-    $criteria->condition = '"Section"."EventId" = :EventId';
-    $criteria->params['EventId'] = $event->Id;
-    $attributes = \event\models\section\Attribute::model()->findAll($criteria);
-    foreach ($attributes as $attribute)
-    {
-      $list[$attribute->Name] = '';
-    }
+    $attributes = \Yii::app()->db->createCommand()
+      ->from(\event\models\section\Attribute::model()->tableName().' Attribute')
+      ->selectDistinct('Attribute.Name')
+      ->join(\event\models\section\Section::model()->tableName()." as Section", '"Section"."Id" = "Attribute"."SectionId"')
+      ->where('"Section"."EventId" = :EventId', array('EventId' => $event->Id))
+      ->queryColumn();
     
-    if (!empty($section->Attributes))
+    $list = array_fill_keys($attributes,'');
+    foreach ($section->Attributes as $attribute)
     {
-      foreach ($section->Attributes as $attribute);
-      {
-        $list[$attribute->Name] = $attribute->Value;
-      }
+      $list[$attribute->Name] = $attribute->Value;
     }
-    
     return $list;
   }
   
