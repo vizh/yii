@@ -30,9 +30,9 @@ class RegisterAction extends \pay\components\Action
       foreach ($orderForm->Items as $k => $item)
       {
         $product = \pay\models\Product::model()->findByPk($item['ProductId']);
-        if ($product == null)
+        if ($product === null)
         {
-          $orderForm->addError('Items', \Yii::t('app', 'Продукт не найден.'));
+          throw new \CHttpException(404);
         }
         
         $owner = \user\models\User::model()->byRunetId($item['RunetId'])->find();

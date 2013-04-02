@@ -11,12 +11,12 @@ class UtilityController extends ruvents\components\Controller
   public function actionChanges()
   {
     $request = \Yii::app()->getRequest();
-    $rocId = $request->getParam('RocId', null);
+    $runetId = $request->getParam('RunetId', null);
 
-    $user = \user\models\User::GetByRocid($rocId);
-    if (empty($user))
+    $user = \user\models\User::model()->byRunetId($runetId);
+    if ($user === null)
     {
-      throw new \ruvents\components\Exception(202, array($rocId));
+      throw new \ruvents\components\Exception(202, array($runetId));
     }
 
     $logModel = \ruvents\models\DetailLog::model()
