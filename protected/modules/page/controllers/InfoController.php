@@ -16,6 +16,11 @@ class InfoController extends \application\components\controllers\PublicMainContr
     $this->bodyId = 'about-page';
     $this->render('agreement');
   }
+  public function actionContacts()
+  {
+    $this->bodyId = 'about-page';
+    $this->render('contacts');
+  }
   public function actionDelivery()
   {
     $this->bodyId = 'about-page';

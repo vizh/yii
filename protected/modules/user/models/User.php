@@ -149,7 +149,7 @@ class User extends \application\models\translation\ActiveRecord
   public function byRunetIdList($runetIdList, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->addInCondition('t.RunetId', $runetIdList);
+    $criteria->addInCondition('"t"."RunetId"', $runetIdList);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

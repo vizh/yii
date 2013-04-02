@@ -44,7 +44,7 @@ class Product extends \application\models\translation\ActiveRecord
     return array(
       'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
       'Attributes' => array(self::HAS_MANY, '\pay\models\ProductAttribute', 'ProductId'),
-      'Prices' => array(self::HAS_MANY, '\pay\models\ProductPrice', 'ProductId')
+      'Prices' => array(self::HAS_MANY, '\pay\models\ProductPrice', 'ProductId', 'order' => '"Prices"."StartTime" ASC')
     );
   }
 

@@ -88,6 +88,9 @@
             <span class="span2 item">
               <a href="<?=$this->createUrl('/company/list/index');?>">Компании</a>
             </span>
+            <span class="span2 item">
+              <a href="<?=$this->createUrl('/page/info/contacts');?>">Контакты</a>
+            </span>
           </nav>
         </div>
       </div>

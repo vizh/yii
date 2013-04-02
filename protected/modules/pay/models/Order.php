@@ -225,7 +225,6 @@ class Order extends \CActiveRecord
       $orderJuridical->INN = $juridicalData['INN'];
       $orderJuridical->KPP = $juridicalData['KPP'];
       $orderJuridical->Phone = $juridicalData['Phone'];
-      $orderJuridical->Fax = $juridicalData['Fax'];
       $orderJuridical->PostAddress = $juridicalData['PostAddress'];
       $orderJuridical->save();
     }

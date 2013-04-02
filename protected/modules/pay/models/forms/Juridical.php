@@ -8,14 +8,13 @@ class Juridical extends \CFormModel
   public $INN;
   public $KPP;
   public $Phone;
-  public $Fax;
   public $PostAddress;
 
   public function rules()
   {
     return array(
-      array('Name, Address, INN, KPP, Phone, Fax, PostAddress', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
-      array('Name, Address, INN, KPP, Phone, Fax', 'required'),
+      array('Name, Address, INN, KPP, Phone, PostAddress', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
+      array('Name, Address, INN, KPP, Phone', 'required'),
       array('PostAddress', 'safe')
     );
   }
@@ -38,7 +37,6 @@ class Juridical extends \CFormModel
       'INN' => \Yii::t('pay', 'ИНН'),
       'KPP' => \Yii::t('pay', 'КПП'),
       'Phone' => \Yii::t('pay', 'Телефон'),
-      'Fax' => \Yii::t('pay', 'Факс'),
       'PostAddress' => \Yii::t('pay', 'Почтовый адрес (с индексом)'),
     );
   }
