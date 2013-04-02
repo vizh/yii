@@ -52,12 +52,6 @@
           </div>
         </div>
         <div class="control-group">
-          <?=CHtml::activeLabel($form, 'Fax', array('class' => 'control-label'));?>
-          <div class="controls">
-            <?=CHtml::activeTextField($form, 'Fax', array('class' => 'span4'));?>
-          </div>
-        </div>
-        <div class="control-group">
           <?=CHtml::activeLabel($form, 'PostAddress', array('class' => 'control-label'));?>
           <div class="controls">
             <?=CHtml::activeTextArea($form, 'PostAddress', array('class' => 'span4'));?>
