@@ -20,14 +20,14 @@ class UtilityController extends ruvents\components\Controller
     }
 
     $logModel = \ruvents\models\DetailLog::model()
-      ->byEventId($this->Operator()->EventId)->byUserId($user->UserId);
-    $logModel->getDbCriteria()->order = 't.CreationTime ASC';
+      ->byEventId($this->getOperator()->EventId)->byUserId($user->Id);
+    $logModel->getDbCriteria()->order = '"t"."CreationTime" ASC';
     $logs = $logModel->findAll();
 
     $result = array();
     foreach ($logs as $log)
     {
-      $result[] = $this->DataBuilder()->CreateDetailLog($log);
+      $result[] = $this->getDataBuilder()->createDetailLog($log);
     }
 
     echo json_encode(array('Changes' => $result));

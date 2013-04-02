@@ -20,36 +20,29 @@ namespace user\models;
  *
  *
  *
- *
+ * Внешние связи
  * @property LinkEmail $LinkEmail
  * @property LinkAddress $LinkAddress
  * @property LinkSite $LinkSite
- *
  * @property LinkPhone[] $LinkPhones
  * @property LinkServiceAccount[] $LinkServiceAccounts
  *
+ * @property Employment[] $Employments
  *
- *
- *
- *
- *
- * @property \contact\models\Address[] $Addresses
- * @property \contact\models\Phone[] $Phones
- * @property \contact\models\Site[] $Sites
- * @property \contact\models\ServiceAccount[] $ServiceAccounts
- * @property \contact\models\Email[] $Emails
+ * @property \commission\models\Commission[] $Commissions
  *
  * @property \event\models\Participant[] $Participants
- * @property \event\models\Event[] $Events
- * @property \event\models\SectionUserLink[] $EventProgramUserLink
- *
+
  * @property Settings $Settings Настройки аккаунта пользователя
- * @property Connect[] $Connects
- *
- * @property Employment[] Employments
- *
  *
  * @property \CEvent $onRegister
+ *
+ *
+ * Вспомогательные описания методов методы
+ * @method \user\models\User find()
+ * @method \user\models\User findByPk()
+ * @method \user\models\User[] findAll()
+ *
  */
 class User extends \application\models\translation\ActiveRecord 
   implements \search\components\interfaces\ISearch
@@ -85,7 +78,6 @@ class User extends \application\models\translation\ActiveRecord
       'LinkEmail' => array(self::HAS_ONE, '\user\models\LinkEmail', 'UserId'),
       'LinkAddress' => array(self::HAS_ONE, '\user\models\LinkAddress', 'UserId'),
       'LinkSite' => array(self::HAS_ONE, '\user\models\LinkSite', 'UserId'),
-
       'LinkPhones' => array(self::HAS_MANY, '\user\models\LinkPhone', 'UserId'),
       'LinkServiceAccounts' => array(self::HAS_MANY, '\user\models\LinkServiceAccount', 'UserId'),
       'LinkProfessionalInterests' => array(self::HAS_MANY, '\user\models\LinkProfessionalInterest', 'UserId'),
@@ -98,24 +90,10 @@ class User extends \application\models\translation\ActiveRecord
 
       'Commissions' => array(self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => array('Commission', 'Role')),
 
-
-      //Event
-      'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'UserId'),//, 'with' => array('Event', 'EventRole')),
-      'Events' => array(self::MANY_MANY, 'Event', 'EventUser(UserId, EventId)'),
-      'EventSubscriptions' => array(self::HAS_MANY, 'EventSubscription', 'UserId', 'with' => array('Event')),
-      'EventProgramHere' => array(self::HAS_ONE, 'EventProgramHereService', 'UserId',),
-      'EventProgramUserLink' =>array(self::HAS_MANY, 'EventProgramUserLink', 'UserId', 'with' => array('EventProgram', 'Role')),
-      //User
-      'Activities' => array(self::HAS_MANY, 'UserActivity', 'UserId'),
+      'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'UserId'),
 
       'Settings' => array(self::HAS_ONE, '\user\models\Settings', 'UserId',),
-      'Connects' => array(self::HAS_MANY, 'UserConnect', 'UserId'),
-      //'InterestPersons' => array(self::HAS_MANY, 'UserInterestPerson', 'UserId', 'with' => array('InterestPerson')),
-      'InterestPersons' => array(self::MANY_MANY, 'User', 'UserInterestPerson(UserId, InterestPersonId)'),
-      'MobilePassword' => array(self::HAS_ONE, 'UserMobilePassword', 'UserId',),
 
-      //Access
-      'Groups' => array(self::MANY_MANY, 'CoreGroup', 'Core_Link_UserGroup(UserId, GroupId)', 'with' => array('Masks')),
     );
   }
 
@@ -725,27 +703,9 @@ class User extends \application\models\translation\ActiveRecord
     return $hash == $this->getHash();
   }
 
-
-  /******  OLD METHODS  ***/
-  /** todo: REWRITE ALL BOTTOM */
-
-  /**
-   * Обновляет последнее посещение пользователя
-   * @return void
-   */
-  public function UpdateLastVisit()
+  public function updateLastVisit()
   {
-    $db = \Yii::app()->getDb();
-    $db->createCommand()->update(self::$TableName, array('LastVisit' => time()), 'UserId = :UserId', array(':UserId' => $this->UserId));
+    $this->LastVisit = date('Y-m-d H:i:s');
+    $this->save();
   }
-
-  public function Hide()
-  {
-    $this->Settings->Visible = 0;
-    $this->Settings->save();
-  }
-  
-
-
-
 }

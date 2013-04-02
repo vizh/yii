@@ -26,4 +26,20 @@ class Action extends \CAction
   {
     return $this->getController()->getDetailLog();
   }
+
+  /**
+   * @return \ruvents\models\Operator
+   */
+  public function getOperator()
+  {
+    return $this->getController()->getOperator();
+  }
+
+  /**
+   * @return \event\models\Event
+   */
+  public function getEvent()
+  {
+    return $this->getController()->getEvent();
+  }
 }

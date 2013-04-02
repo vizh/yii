@@ -41,5 +41,10 @@ return array(
 
     /** Partner Params */
     'PartnerOrderPerPage' => 20,
+
+
+    /** Ruvents Params */
+
+    'RuventsMaxResults' => 500,
   )
 );

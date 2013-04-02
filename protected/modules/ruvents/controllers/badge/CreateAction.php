@@ -5,54 +5,39 @@ class CreateAction extends \ruvents\components\Action
 {
   public function run()
   {
-    //todo:
-
-    throw new \application\components\Exception('Not implement yet');
-
-
     $request = \Yii::app()->getRequest();
-    $rocId = $request->getParam('RocId', null);
-    $dayId = \ruvents\components\DataBuilder::RadDayId();
+    $runetId = $request->getParam('RunetId', null);
+    $partId = $request->getParam('PartId', null);
 
-    $event = \event\models\Event::GetById($this->Operator()->EventId);
-    if (empty($event))
+
+    $event = $this->getEvent();
+    $user = \user\models\User::model()->byRunetId($runetId)->find();
+    if ($user === null)
     {
-      throw new \ruvents\components\Exception(301);
-    }
-    $user = \user\models\User::GetByRocid($rocId);
-    if (empty($user))
-    {
-      throw new \ruvents\components\Exception(202, array($rocId));
+      throw new \ruvents\components\Exception(202, array($runetId));
     }
 
     $badge = new \ruvents\models\Badge();
-    $badge->OperatorId = $this->Operator()->OperatorId;
-    $badge->EventId = $event->EventId;
-    $badge->UserId = $user->UserId;
+    $badge->OperatorId = $this->getOperator()->Id;
+    $badge->EventId = $event->Id;
+    $badge->UserId = $user->Id;
 
-    $participant = \event\models\Participant::model()->byEventId($event->EventId)->byUserId($user->UserId);
-    if (!empty($event->Days))
+    $participant = \event\models\Participant::model()->byEventId($event->Id)->byUserId($user->Id);
+    if (sizeof($event->Parts) > 0)
     {
-      $day = null;
-      foreach ($event->Days as $eDay)
+      /** @var $part \event\models\Part */
+      $part = \event\models\Part::model()->findByPk($partId);
+      if ($part === null || $part->EventId != $event->Id)
       {
-        if ($eDay->DayId == $dayId)
-        {
-          $day = $eDay;
-          break;
-        }
-      }
-      if ($day == null)
-      {
-        throw new \ruvents\components\Exception(306, array($dayId));
+        throw new \ruvents\components\Exception(306, array($partId));
       }
 
-      $badge->DayId = $day->DayId;
-      $participant->byDayId($day->DayId);
+      $badge->PartId = $part->Id;
+      $participant->byPartId($part->Id);
     }
     else
     {
-      $participant->byDayNull();
+      $participant->byPartId(null);
     }
 
     /** @var $participant \event\models\Participant */
@@ -61,11 +46,10 @@ class CreateAction extends \ruvents\components\Action
     {
       throw new \ruvents\components\Exception(304);
     }
-    $participant->UpdateTime = time();
+    $participant->UpdateTime = date('Y-m-d H:i:s');
     $participant->save();
 
     $badge->RoleId = $participant->RoleId;
-    $badge->CreationTime = date('Y-m-d H:i:s');
     $badge->save();
 
     echo json_encode(array('Success' => true));

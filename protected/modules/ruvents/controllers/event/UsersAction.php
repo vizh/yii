@@ -5,10 +5,6 @@ class UsersAction extends \ruvents\components\Action
 {
   public function run()
   {
-    //todo:
-
-    throw new \application\components\Exception('Not implement yet');
-
     ini_set("memory_limit", "512M");
 
     $request = \Yii::app()->getRequest();
@@ -17,74 +13,73 @@ class UsersAction extends \ruvents\components\Action
     $updateTime = $request->getParam('FromUpdateTime', null);
     $returnBadgeCount = (bool) $request->getParam('ReturnBadgeCount', false);
 
-    if (strlen($query) != 0)
+    $model = \user\models\User::model();
+    if (mb_strlen($query, 'utf8') != 0)
     {
-      $criteria = \user\models\User::GetSearchCriteria($query);
-    }
-    else
-    {
-      $criteria = new CDbCriteria();
+      $model->bySearch($query);
     }
 
-    $criteria->select = 't.UserId';
+    $criteria = new \CDbCriteria();
+    $criteria->select = '"t"."Id"';
 
-    $criteria->addCondition('Participants.EventId = :EventId');
-    $criteria->params[':EventId'] = $this->Operator()->EventId;
+    $criteria->addCondition('"Participants"."EventId" = :EventId');
+    $criteria->params['EventId'] = $this->getEvent()->Id;
 
     $offset = 0;
     if ($pageToken !== null)
     {
-      $offset = $this->ParsePageToken($pageToken);
+      $offset = $this->getController()->parsePageToken($pageToken);
     }
-    $criteria->limit = self::MaxResult;
+    $criteria->limit = \Yii::app()->params['RuventsMaxResults'];
     $criteria->offset = $offset;
 
     if ($updateTime === null)
     {
-      $criteria->order = 'Participants.EventUserId ASC';
+      $criteria->order = '"t"."Id" ASC';
     }
     else
     {
-      $criteria->addCondition('Participants.UpdateTime > :UpdateTime');
-      $criteria->params['UpdateTime'] = strtotime($updateTime);
-      $criteria->order = 'Participants.UpdateTime ASC';
+      $criteria->addCondition('"Participants"."UpdateTime" > :UpdateTime');
+      $criteria->params['UpdateTime'] = $updateTime;
+      $criteria->order = '"t"."Id" ASC';
     }
 
-    $criteria->group = 't.UserId';
+    $criteria->group = '"t"."Id"';
+    //$criteria->distinct = true;
 
-    $userModel = \user\models\User::model()->with(array(
+    $criteria->with = array(
       'Participants' => array('together' => true, 'select' => false),
       'Settings' => array('together' => true, 'select' => false),
-    ));
+    );
 
-    /** @var $users User[] */
-    $users = $userModel->findAll($criteria);
+    $users = $model->findAll($criteria);
     $idList = array();
     foreach ($users as $user)
     {
-      $idList[] = $user->UserId;
+      $idList[] = $user->Id;
     }
 
-    $criteria = new CDbCriteria();
-    $criteria->addInCondition('t.UserId', $idList);
-
-    $userModel = \user\models\User::model()->with(array(
-      'Employments.Company' => array('on' => 'Employments.Primary = :Primary', 'params' => array(':Primary' => 1)),
-      'Participants' => array('on' => 'Participants.EventId = :EventId', 'params' => array(':EventId' => $this->Operator()->EventId)),
+    $criteria = new \CDbCriteria();
+    $criteria->addInCondition('"t"."Id"', $idList);
+    $criteria->with = array(
+      'Employments.Company' => array('on' => 'Employments.Primary'),
+      'Participants' => array('on' => '"Participants"."EventId" = :EventId', 'params' => array(':EventId' => $this->getEvent()->Id)),
       'Participants.Role',
-      'Emails',
-      'Phones'
-    ));
+      'LinkPhones.Phone'
+    );
 
-    /** @var $users User[] */
-    $users = $userModel->findAll($criteria);
-
+    $users = \user\models\User::model()->findAll($criteria);
     if ($returnBadgeCount)
     {
-      $badges = \ruvents\models\Badge::model()->findAll('t.EventId = :EventId', array(':EventId' => $this->Operator()->EventId));
+      /** @var $badges \ruvents\models\Badge[] */
+      $badges = \ruvents\models\Badge::model()->byEventId($this->getEvent()->Id)->findAll();
       $badgesCount = array();
       foreach ($badges as $badge)
       {
+        if (!isset($badgesCount[$badge->UserId]))
+        {
+          $badgesCount[$badge->UserId] = 0;
+        }
         $badgesCount[$badge->UserId]++;
       }
     }
@@ -92,23 +87,22 @@ class UsersAction extends \ruvents\components\Action
     $result = array();
     foreach ($users as $user)
     {
-      $this->DataBuilder()->CreateUser($user);
-      $this->DataBuilder()->BuildUserEmail($user);
-      $this->DataBuilder()->BuildUserEmployment($user);
-      $this->DataBuilder()->BuildUserPhone($user);
-      $buildUser = $this->DataBuilder()->BuildUserEvent($user);
+      $this->getDataBuilder()->createUser($user);
+      $this->getDataBuilder()->buildUserEmployment($user);
+      $this->getDataBuilder()->buildUserPhone($user);
+      $buildUser = $this->getDataBuilder()->buildUserEvent($user);
 
       if ($returnBadgeCount)
       {
-        $buildUser->BadgeCount = isset($badgesCount[$user->UserId]) ? $badgesCount[$user->UserId] : 0;
+        $buildUser->BadgeCount = isset($badgesCount[$user->Id]) ? $badgesCount[$user->Id] : 0;
       }
 
       $result['Users'][] = $buildUser;
     }
 
-    if (sizeof($users) == self::MaxResult)
+    if (sizeof($users) == \Yii::app()->params['RuventsMaxResults'])
     {
-      $result['NextPageToken'] = $this->GetPageToken($offset + self::MaxResult);
+      $result['NextPageToken'] = $this->getController()->getPageToken($offset + \Yii::app()->params['RuventsMaxResults']);
     }
 
     echo json_encode($result);

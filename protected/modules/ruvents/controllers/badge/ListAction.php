@@ -5,56 +5,39 @@ class ListAction extends \ruvents\components\Action
 {
   public function run()
   {
-    //todo:
-
-    throw new \application\components\Exception('Not implement yet');
-
     $request = \Yii::app()->getRequest();
-    $rocId = $request->getParam('RocId', null);
-    $dayId = \ruvents\components\DataBuilder::RadDayId();
+    $runetId = $request->getParam('RunetId', null);
+    $partId = $request->getParam('PartId', null);
 
-    $event = \event\models\Event::GetById($this->Operator()->EventId);
-    if (empty($event))
+    $event = $this->getEvent();
+    $user = \user\models\User::model()->byRunetId($runetId)->find();
+    if ($user === null)
     {
-      throw new \ruvents\components\Exception(301);
-    }
-    $user = \user\models\User::GetByRocid($rocId);
-    if (empty($user))
-    {
-      throw new \ruvents\components\Exception(202, array($rocId));
+      throw new \ruvents\components\Exception(202, array($runetId));
     }
 
-    $badge = \ruvents\models\Badge::model()->byEventId($event->EventId)->byUserId($user->UserId);
-    if (!empty($event->Days))
+    $badge = \ruvents\models\Badge::model()->byEventId($event->Id)->byUserId($user->Id);
+    if (sizeof($event->Parts) > 0)
     {
-      $day = null;
-      foreach ($event->Days as $eDay)
+      /** @var $part \event\models\Part */
+      $part = \event\models\Part::model()->findByPk($partId);
+      if ($part === null || $part->EventId != $event->Id)
       {
-        if ($eDay->DayId == $dayId)
-        {
-          $day = $eDay;
-          break;
-        }
-      }
-      if ($day == null)
-      {
-        throw new \ruvents\components\Exception(306, array($dayId));
+        throw new \ruvents\components\Exception(306, array($partId));
       }
 
-
-      $badge->byDayId($day->DayId);
+      $badge->byPartId($part->Id);
     }
     else
     {
-      $badge->byDayNull();
+      $badge->byPartId(null);
     }
-
     $badges = $badge->with(array('Role', 'User'))->findAll();
 
     $result = array();
     foreach ($badges as $badge)
     {
-      $result[] = $this->DataBuilder()->CreateBadge($badge);
+      $result[] = $this->getDataBuilder()->createBadge($badge);
     }
 
     echo json_encode($result);

@@ -82,6 +82,25 @@ class Controller extends \application\components\controllers\BaseController
     return \ruvents\components\WebUser::Instance()->getOperator();
   }
 
+  protected $event = null;
+
+  /**
+   * @return \event\models\Event
+   * @throws Exception
+   */
+  public function getEvent()
+  {
+    if ($this->event === null)
+    {
+      $this->event = \event\models\Event::model()->findByPk($this->getOperator()->EventId);
+      if ($this->event === null)
+      {
+        throw new \ruvents\components\Exception(301);
+      }
+    }
+    return $this->event;
+  }
+
   protected $dataBuilder = null;
 
   /**
@@ -99,7 +118,7 @@ class Controller extends \application\components\controllers\BaseController
 
   private $suffixLength = 4;
 
-  protected function getPageToken($offset)
+  public function getPageToken($offset)
   {
     $prefix = substr(base64_encode($this->getId() . $this->getAction()->getId()), 0, $this->suffixLength);
     return $prefix . base64_encode($offset);
@@ -110,7 +129,7 @@ class Controller extends \application\components\controllers\BaseController
    * @throws Exception
    * @return array
    */
-  protected function parsePageToken($token)
+  public function parsePageToken($token)
   {
     if (strlen($token) < $this->suffixLength+1)
     {
