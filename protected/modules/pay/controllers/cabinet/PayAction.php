@@ -17,6 +17,10 @@ class PayAction extends \pay\components\Action
     {
       $system = new \pay\components\systems\PayPal();
     }
+    elseif ($this->getEvent()->Id == 422 && $type == 'uniteller')
+    {
+      $system = new \pay\components\systems\Uniteller();
+    }
     else
     {
       if ($account->Own)
