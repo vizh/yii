@@ -5,7 +5,8 @@ class ResultController extends \application\components\controllers\PublicMainCon
   {
     $search = new \search\models\Search();
     $tab = \Yii::app()->request->getParam('tab', \search\components\SearchResultTabId::User);
-    $term = trim($term);
+    $textUtility = new \application\components\utility\Texts();
+    $term = $textUtility->filterPurify(trim($term));
     
     $paginators = new \stdClass();
       

@@ -28,7 +28,6 @@
           <td>
             <div class="btn-group">
               <a href="<?=$this->createUrl('/event/admin/edit/index', array('eventId' => $event->Id));?>" class="btn"><i class="icon-edit"></i> <?=\Yii::t('app', 'Редактировать');?></a>
-              <a href="<?=$this->createUrl('/event/admin/program/index', array('eventId' => $event->Id));?>" class="btn"><i class="icon-list"></i> <?=\Yii::t('app', 'Программа');?></a>
             </div>
           </td>
         </tr>

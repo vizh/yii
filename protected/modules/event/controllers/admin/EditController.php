@@ -93,6 +93,11 @@ class EditController extends \application\components\controllers\AdminMainContro
     {
       $widgets->Used[$widget->Name] = $widget;
     }
-    $this->render('index', array('form' => $form, 'event' => $event, 'widgets' => $widgets));
+    \Yii::app()->clientScript->registerPackage('runetid.ckeditor');
+    $this->render('index', array(
+      'form'    => $form, 
+      'event'   => $event, 
+      'widgets' => $widgets)
+    );
   }
 }

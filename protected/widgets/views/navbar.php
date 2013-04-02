@@ -21,6 +21,7 @@
           <ul class="dropdown-menu pull-right">
             <li><a href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => Yii::app()->user->getCurrentUser()->RunetId));?>">Мой профиль</a></li>
             <li><a href="<?=Yii::app()->createUrl('/user/edit/index');?>">Редактирование профиля</a></li>
+            <li><a href="<?=Yii::app()->createUrl('/user/setting/password');?>">Настройки профиля</a></li>
             <li><a href="<?=Yii::app()->createUrl('/user/logout/index');?>">Выйти</a></li>
           </ul>
         </li>

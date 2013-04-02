@@ -28,6 +28,7 @@ class EditForm extends \CFormModel
   public function rules()
   {
     return array(
+      array('Info', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
       array('Title, IdName, Info, FullInfo, Visible, TypeId, ShowOnMain, Approved, StartYear, StartMonth, StartDay, EndYear, EndMonth, EndDay, Widgets, ProfInterest', 'safe')
     );
   }

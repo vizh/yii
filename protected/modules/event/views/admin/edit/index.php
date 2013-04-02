@@ -20,7 +20,7 @@
       <div class="control-group">
         <?=\CHtml::activeLabel($form, 'Info', array('class' => 'control-label'));?>
         <div class="controls controls-row">
-          <?=\CHtml::activeTextArea($form, 'Info', array('class' => 'span6'));?>
+          <?=\CHtml::activeTextArea($form, 'Info', array('class' => 'input-block-level'));?>
         </div>
       </div>
       <div class="control-group">

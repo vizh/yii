@@ -6,7 +6,8 @@ class EditController extends \application\components\controllers\PublicMainContr
     return array(
       'index' => 'user\controllers\edit\IndexAction',
       'photo' => 'user\controllers\edit\PhotoAction',
-      'employment' => 'user\controllers\edit\EmploymentAction'
+      'employment' => 'user\controllers\edit\EmploymentAction',
+      'contacts' => '\user\controllers\edit\ContactsAction'
     );
   }
 }

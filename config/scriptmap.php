@@ -55,7 +55,12 @@ return array(
           'js' => array(),
           'css' => array('stylesheets/partner.css'),
           'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.bootstrap')
-        )
+        ),
+        'runetid.ckeditor' => array(
+          'baseUrl' => '/javascripts/ckeditor',
+          'js' => array('ckeditor.js'),
+          'css' => array()
+        ),
       ),
 
       'scriptMap' => array(),

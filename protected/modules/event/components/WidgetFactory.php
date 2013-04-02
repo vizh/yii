@@ -17,7 +17,10 @@ class WidgetFactory
       {
         $file = substr($file, 0, $pos);
         $widget = \Yii::app()->getController()->createWidget('\event\widgets\\'.$file, array('event' => $event));
-        $widgets[] = $widget;
+        if ($widget instanceof \event\components\IWidget)
+        {
+          $widgets[] = $widget;
+        }
       }
     }
     return $widgets;

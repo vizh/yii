@@ -19,12 +19,12 @@
     <li><a href="">Статистика</a></li>
   </ul>
 
-  <a data-toggle="collapse" class="nav-header" href="#menu-events"><i class="icon-calendar icon-white"></i>Мероприятия<span class="label label-info">+3</span></a>
+  <a data-toggle="collapse" class="nav-header" href="#menu-events"><i class="icon-calendar icon-white"></i><?=\Yii::t('app', 'Мероприятия');?> <?if($counts->Event != 0):?><span class="label label-info">+<?=$counts->Event?></span><?endif;?></a>
   <ul class="nav nav-list collapse" id="menu-events">
-    <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index');?>">Список мероприятий</a></li>
-    <li><a href="sign-up.html">Скрытые</a></li>
-    <li><a href="reset-password.html">На одобрение<span class="label label-info pull-right">+3</span></a></li>
-    <li><a href="">Отклоненные</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index');?>"><?=\Yii::t('app', 'Список мероприятий');?></a></li>
+    <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index', array('Approved' => \event\models\Approved::Yes));?>"><?=\Yii::t('app','Принятые');?></a></li>
+    <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index', array('Approved' => \event\models\Approved::None));?>"><?=\Yii::t('app','На одобрение');?> <?if($counts->Event != 0):?><span class="label label-info pull-right">+<?=$counts->Event?></span><?endif;?></a></li>
+    <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index', array('Approved' => \event\models\Approved::No));?>"><?=\Yii::t('app','Отклоненные');?></a></li>
   </ul>
 
   <a data-toggle="collapse" class="nav-header collapsed" href="#menu-companies"><i class="icon-briefcase icon-white"></i>Компании</i></a>
