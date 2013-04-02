@@ -21,7 +21,7 @@ use application\components\utility\Texts;
   <TABLE cellSpacing="0" cellPadding="5" width="720" border="0">
     <TBODY>
     <TR>
-      <TD><b>ЗАО «Коммерсантъ.Издательский Дом»</b><BR>Адрес: Российская Федерация, 127055, Москва, Тихвинский пер., д.11, стр.2<BR>тел. 7 (495) 988-33-56</TD>
+      <TD><b>ЗАО «Коммерсантъ.Издательский Дом»</b><BR>Адрес: Российская Федерация, 127055, Москва, Тихвинский пер., д.11, стр.2<BR>тел. 7 (499) 943-91-82</TD>
       <td align="right"><img src="/images/bill/rocid.png" width="129" height="48"></td>
 
     </tr>
