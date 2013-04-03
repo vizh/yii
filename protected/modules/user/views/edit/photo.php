@@ -1,5 +1,14 @@
 <?=$this->renderPartial('parts/title');?>
-
+<?if (\Yii::app()->user->hasFlash('success')):?>
+<script type="text/javascript">
+  $(function () {
+    $('.b-avatar-upload img').each(function () {
+      var image = new Image();
+      image.src = $(this).attr('src');
+    });
+  });
+</script>
+<?endif;?>
 <div class="user-account-settings">
   <div class="clearfix">
     <div class="container">

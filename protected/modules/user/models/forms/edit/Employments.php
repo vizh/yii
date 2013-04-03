@@ -34,9 +34,8 @@ class Employments extends \user\models\forms\edit\Base
   
   public function getYearOptions()
   {
-    $html = '';
-    $maxYear = date('Y');
-    for($y = 1980; $y <= $maxYear; $y++)
+    $html = '<option value=""></option>';
+    for($y = date('Y'); $y >= 1980; $y--)
     {
       $html .= '<option value="'.$y.'"'.($y == $maxYear ? 'selected' : '').'>'.$y.'</option>';
     }

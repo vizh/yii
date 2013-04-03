@@ -666,7 +666,7 @@ class User extends \application\models\translation\ActiveRecord
     }
 
     /** @var $company \company\models\Company */
-    $company = $companyModel->bySearch($companyName)->find();
+    $company = $companyModel->byName($companyName)->find();
     if ($company == null)
     {
       $company = new \company\models\Company();
