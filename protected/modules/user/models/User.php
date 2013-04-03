@@ -336,9 +336,9 @@ class User extends \application\models\translation\ActiveRecord
   {
     $mail = new \ext\mailer\PHPMailer(false);
     $mail->AddAddress($this->Email);
-    $mail->SetFrom('register@'.RUNETID_HOST, \Yii::t('app', 'RUNET-ID: Регистрация'), false);
+    $mail->SetFrom('reg@'.RUNETID_HOST, \Yii::t('app', 'RUNET-ID'), false);
     $mail->CharSet = 'utf-8';
-    $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'RUNET-ID: Регистрация')) .'?=';
+    $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'Регистрация на сайте www.runet-id.com')) .'?=';
     $mail->IsHTML(true);
     $mail->MsgHTML(
       \Yii::app()->controller->renderPartial('user.views.mail.register', array('user' => $this, 'password' => $event->params['password']), true)
