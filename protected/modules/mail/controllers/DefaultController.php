@@ -6,32 +6,48 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rif13-4';
+    $template = 'rif13-5';
     $isHTML = false;
-
-//    exit();
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
     $j = 0;
 
     $criteria = new \CDbCriteria();
+
+    // ГеоВыборка
+    $criteria->with = array(
+        'LinkAddress' => array('together' => true, 'select' => false),
+        'LinkAddress.Address' => array('together' => true, 'select' => false),
+        'LinkAddress.Address.City' => array('together' => true, 'select' => false),
+
+        'Participants' => array('together' => true, 'select' => false),
+        'Settings' => array('select' => false),
+        'LinkEmail.Email',
+    );
+    $criteria->addCondition('"Participants"."EventId" IN (128,218,339) OR "City"."Id" IN (3538,3354,4210,4238,5242,4650,5005)');
+
+
+    // Обычная выборка пользователей [по мероприятиям]
+    /*
     $criteria->with = array(
       'Participants' => array('together' => true, 'select' => false),
       'Settings' => array('select' => false),
       'LinkEmail.Email'
     );
+    $criteria->addInCondition('"Participants"."EventId"', array(128,218,339));
+    */
+
     $criteria->distinct = true;
     $criteria->addCondition('"Settings"."UnsubscribeAll" = false');
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(422));
-//    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
 
     echo \user\models\User::model()->count($criteria);
     exit();
 
     $criteria->limit = 500;
-    $criteria->order = '"t"."RunetId"';
+    $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
     if (!empty($users))
