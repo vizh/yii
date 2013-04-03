@@ -97,6 +97,8 @@ return array(
 
         'http://'. RUNETID_HOST.'/job/' => 'job/default/index',
 
+        'http://'. RUNETID_HOST.'/search/' => 'search/result/index',
+
 
         
         'http://<domain:\w+>.'. RUNETID_HOST .'/user/ajax/<action:\w+>' => 'user/ajax/<action>',  

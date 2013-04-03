@@ -13,12 +13,12 @@ class AuthController extends ruvents\components\Controller
 
     /** @var $operator \ruvents\models\Operator */
     $operator = \ruvents\models\Operator::model()->byLogin($login)->find();
-    if ($operator == null || \ruvents\models\Operator::GeneratePasswordHash($password) !== $operator->Password)
+    if ($operator == null || \ruvents\models\Operator::generatePasswordHash($password) !== $operator->Password)
     {
       throw new \ruvents\components\Exception(101);
     }
 
-    $masterPassword = \ruvents\models\Operator::GeneratePasswordHash($masterPassword);
+    $masterPassword = \ruvents\models\Operator::generatePasswordHash($masterPassword);
     /** @var $masters \ruvents\models\Operator[] */
     $masters = \ruvents\models\Operator::model()->byPassword($masterPassword)->findAll();
 
