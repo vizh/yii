@@ -45,6 +45,6 @@ return array(
 
     /** Ruvents Params */
 
-    'RuventsMaxResults' => 20,
+    'RuventsMaxResults' => 500,
   )
 );
