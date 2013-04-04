@@ -5,11 +5,7 @@ class SearchAction extends \ruvents\components\Action
 {
   public function run()
   {
-    //todo:
-
-    throw new \application\components\Exception('Not implement yet');
-
-    $request = Yii::app()->getRequest();
+    $request = \Yii::app()->getRequest();
     $query = $request->getParam('Query', null);
     $locale = $request->getParam('Locale', \Yii::app()->language);
     if (empty($query))
@@ -17,25 +13,11 @@ class SearchAction extends \ruvents\components\Action
       throw new \ruvents\components\Exception(501);
     }
 
-    $criteriaWith = array(
-      'Emails' => array('together' => true),
-      'Phones',
-      'Employments',
-      'Settings' => array('together' => true)
-    );
-
+    $users = array();
     if (filter_var($query, FILTER_VALIDATE_EMAIL))
     {
-      $user = \user\models\User::GetByEmail($query, $criteriaWith);
-      if ($user === null)
-      {
-        $criteria = new CDbCriteria();
-        $criteria->condition = 'Emails.Email = :Email';
-        $criteria->params[':Email'] = $query;
-        $criteria->with = $criteriaWith;
-        $users = \user\models\User::model()->findAll($criteria);
-      }
-      else
+      $user = \user\models\User::model()->byEmail($query)->find();
+      if ($user !== null)
       {
         $users[] = $user;
       }
@@ -43,20 +25,25 @@ class SearchAction extends \ruvents\components\Action
     else
     {
       $userModel = \user\models\User::model()->bySearch($query, $locale);
-      $criteria = new CDbCriteria();
-      $criteria->with  = $criteriaWith;
+      $criteria = new \CDbCriteria();
+      $criteria->with = array(
+        'LinkPhones.Phone',
+        'Employments',
+        'Participants'
+      );
       $criteria->limit = 200;
       $users = $userModel->findAll($criteria);
     }
 
     $result = array('Users' => array());
-    if (!empty($users))
+    foreach ($users as $user)
     {
-      foreach ($users as $user)
-      {
-        $result['Users'][] = $this->buildUser($user);
-      }
+      $this->getDataBuilder()->createUser($user);
+      $this->getDataBuilder()->buildUserPhone($user);
+      $this->getDataBuilder()->buildUserEmployment($user);
+      $result['Users'][] = $this->getDataBuilder()->buildUserEvent($user);
     }
+
     echo json_encode($result);
   }
 }

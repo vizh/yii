@@ -42,6 +42,8 @@ class DataBuilder
     $this->user->Gender = $user->Gender;
     $this->user->CreationTime = $user->CreationTime;
 
+    $this->user->Email = $user->Email;
+
     $this->user->Photo = new \stdClass();
     $this->user->Photo->Small = $user->getPhoto()->get50px();
     $this->user->Photo->Medium = $user->getPhoto()->get90px();
@@ -53,46 +55,19 @@ class DataBuilder
   }
 
   /**
-   * @param \user\models\User $user
-   * @return \stdClass
-   */
-  public function buildUserEmail($user)
-  {
-    if (!empty($user->Emails))
-    {
-      $this->user->Email = $user->Emails[0]->Email;
-    }
-    else
-    {
-      $this->user->Email = $user->Email;
-    }
-
-    return $this->user;
-  }
-
-  /**
    *
    * @param \user\models\User $user
    * @return \stdClass
    */
   public function buildUserPhone ($user)
   {
-    if (!empty($user->Phones))
+    $this->user->Phones = array();
+    if (sizeof($user->LinkPhones) > 0)
     {
-      $phone = null;
-      foreach ($user->Phones as $userPhone)
+      foreach ($user->LinkPhones as $link)
       {
-        if ($userPhone->Primary == 1)
-        {
-          $phone = $userPhone;
-        }
+        $this->user->Phones[] = $link->Phone->__toString();
       }
-
-      if ($phone === null)
-      {
-        $phone = $user->Phones[0];
-      }
-      $this->user->Phone = $phone->Phone;
     }
     return $this->user;
   }
@@ -128,29 +103,15 @@ class DataBuilder
    */
   public function buildUserEvent($user)
   {
-    //$isSingleDay = empty($this->Event()->Days);
-    $isSingleDay = true;
+    $this->user->Statuses = array();
     foreach ($user->Participants as $participant)
     {
       if ($participant->EventId == $this->eventId)
       {
-        if ($participant->DayId == self::RadDayId())
-        {
-          $this->user->Status = new \stdClass();
-          $this->user->Status->RoleId = $participant->RoleId;
-          $this->user->Status->RoleName = $participant->Role->Name;
-          $this->user->Status->CreationTime = $participant->CreationTime;
-          $this->user->Status->UpdateTime = $participant->UpdateTime;
-        }
-
-        if (!isset($this->user->Statuses))
-        {
-          $this->user->Statuses = array();
-        }
         $status = new \stdClass();
-        $status->DayId = $participant->DayId;
+        $status->PartId = $participant->PartId;
         $status->RoleId = $participant->RoleId;
-        $status->RoleName = $participant->Role->Name;
+        $status->RoleName = $participant->Role->Title;
         $status->CreationTime = $participant->CreationTime;
         $status->UpdateTime = $participant->UpdateTime;
         $this->user->Statuses[] = $status;
@@ -213,15 +174,16 @@ class DataBuilder
 
   /**
    * @param \ruvents\models\Badge $badge
+   * @return \stdClass
    */
   public function createBadge($badge)
   {
     $this->badge = new \stdClass();
 
-    $this->badge->RocId = $badge->User->RocId;
+    $this->badge->RunetId = $badge->User->RunetId;
     $this->badge->RoleId = $badge->RoleId;
-    $this->badge->RoleName = $badge->Role->Name;
-    $this->badge->DayId = $badge->DayId;
+    $this->badge->RoleName = $badge->Role->Title;
+    $this->badge->PartId = $badge->PartId;
     $this->badge->OperatorId = $badge->OperatorId;
     $this->badge->CreationTime = $badge->CreationTime;
 
@@ -230,11 +192,16 @@ class DataBuilder
 
   protected $role;
 
+  /**
+   * @param \event\models\Role $role
+   *
+   * @return \stdClass
+   */
   public function createRole($role)
   {
     $this->role = new \stdClass();
-    $this->role->RoleId = $role->RoleId;
-    $this->role->Name = $role->Name;
+    $this->role->RoleId = $role->Id;
+    $this->role->Name = $role->Title;
 
     return $this->role;
   }
@@ -247,17 +214,6 @@ class DataBuilder
     $this->eventSetting = new \stdClass();
     $this->eventSetting->Name = $setting->Name;
     $this->eventSetting->Value = $setting->Value;
-    return $this->eventSetting;
-  }
-
-  public function createEventSettingBadge ($setting)
-  {
-    $this->eventSetting = new \stdClass();
-    $this->eventSetting->Name = $setting->Name;
-
-    $viewPath = '/badge/event'.$setting->EventId.'/'.$setting->Value;
-    $this->eventSetting->Value = \Yii::app()->controller->renderPartial($viewPath, null, true);
-
     return $this->eventSetting;
   }
 

@@ -20,7 +20,7 @@ return array(
     'roles' => array('Operator'),
     'module' => 'ruvents',
     'controllers' => array('event'),
-    'actions' => array('users', 'register', 'unregister', 'changerole', 'roles', 'settings')
+    'actions' => array('users', 'register', 'unregister', 'roles', 'badge')
   ),
   array(
     'allow',

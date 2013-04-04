@@ -27,9 +27,9 @@
             <?=$this->renderPartial('parts/form-alert', array('form' => $form));?>
 
             <div class="form-row b-avatar-upload">
-              <?=\CHtml::image($user->getPhoto()->get238px(), $user->getFullName(), array('class' => 'avatar-upload-240'));?>
-              <?=\CHtml::image($user->getPhoto()->get90px(), $user->getFullName(), array('class' => 'avatar-upload-140'));?>
-              <?=\CHtml::image($user->getPhoto()->get18px(), $user->getFullName(), array('class' => 'avatar-upload-60'));?>
+              <?=\CHtml::image($user->getPhoto()->get238px() . '?' . time(), $user->getFullName(), array('class' => 'avatar-upload-240'));?>
+              <?=\CHtml::image($user->getPhoto()->get90px() . '?' . time(), $user->getFullName(), array('class' => 'avatar-upload-140'));?>
+              <?=\CHtml::image($user->getPhoto()->get18px() . '?' . time(), $user->getFullName(), array('class' => 'avatar-upload-60'));?>
             </div>
 
             <div class="form-row">

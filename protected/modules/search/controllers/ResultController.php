@@ -13,8 +13,7 @@ class ResultController extends \application\components\controllers\PublicMainCon
     $userModel = \user\models\User::model();
     $criteria = new \CDbCriteria();
     $criteria->with = array(
-      'Employments' => array('together' => false),
-      'Settings'
+      'Employments' => array('together' => false)
     );
     $userModel->getDbCriteria()->mergeWith($criteria);
     $paginators->User = new \application\components\utility\Paginator($userModel->bySearch($term)->count(), array(

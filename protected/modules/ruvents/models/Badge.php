@@ -2,17 +2,17 @@
 namespace ruvents\models;
 
 /**
- * @property int $BadgeId
+ * @property int $Id
  * @property int $OperatorId
  * @property int $EventId
- * @property int $DayId
+ * @property int $PartId
  * @property int $UserId
  * @property int $RoleId
  * @property string $CreationTime
  *
  * @property \event\models\Role $Role
  * @property \user\models\User $User
- * @property \event\models\Day $Day
+ * @property \event\models\Part $Part
  */
 class Badge extends \CActiveRecord
 {
@@ -31,12 +31,12 @@ class Badge extends \CActiveRecord
 
   public function tableName()
   {
-    return 'Mod_RuventsBadge';
+    return 'RuventsBadge';
   }
 
   public function primaryKey()
   {
-    return 'BadgeId';
+    return 'Id';
   }
 
   public function relations()
@@ -44,7 +44,7 @@ class Badge extends \CActiveRecord
     return array(
       'Role' => array(self::BELONGS_TO, '\event\models\Role', 'RoleId'),
       'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-      'Day' => array(self::BELONGS_TO, '\event\models\Day', 'DayId')
+      'Part' => array(self::BELONGS_TO, '\event\models\Part', 'PartId')
     );
   }
 
@@ -56,7 +56,7 @@ class Badge extends \CActiveRecord
   public function byUserId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.UserId = :UserId';
+    $criteria->condition = '"t"."UserId" = :UserId';
     $criteria->params = array(':UserId' => $userId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -70,42 +70,32 @@ class Badge extends \CActiveRecord
   public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId';
+    $criteria->condition = '"t"."EventId" = :EventId';
     $criteria->params = array(':EventId' => $eventId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
 
   /**
-   * @param int|null $dayId
+   * @param int|null $partId
    * @param bool $useAnd
+   *
    * @return Badge
    */
-  public function byDayId($dayId, $useAnd = true)
+  public function byPartId($partId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    if ($dayId !== null)
+    if ($partId !== null)
     {
-      $criteria->condition = 't.DayId = :DayId';
-      $criteria->params = array(':DayId' => $dayId);
+      $criteria->condition = '"t"."PartId" = :PartId';
+      $criteria->params = array(':PartId' => $partId);
     }
     else
     {
-      $criteria->condition = 't.DayId IS NULL';
+      $criteria->condition = '"t"."PartId" IS NULL';
     }
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
 
-  /**
-   * @param bool $useAnd
-   * @return Badge
-   */
-  public function byDayNull($useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.DayId IS NULL';
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
 }

@@ -6,32 +6,48 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rif13-3';
+    $template = 'rif13-5';
     $isHTML = false;
-
-//    exit();
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
     $j = 0;
 
     $criteria = new \CDbCriteria();
+
+    // ГеоВыборка
+    $criteria->with = array(
+        'LinkAddress' => array('together' => true, 'select' => false),
+        'LinkAddress.Address' => array('together' => true, 'select' => false),
+        'LinkAddress.Address.City' => array('together' => true, 'select' => false),
+
+        'Participants' => array('together' => true, 'select' => false),
+        'Settings' => array('select' => false),
+        'LinkEmail.Email',
+    );
+    $criteria->addCondition('"Participants"."EventId" IN (128,218,339) OR "City"."Id" IN (3538,3354,4210,4238,5242,4650,5005)');
+
+
+    // Обычная выборка пользователей [по мероприятиям]
+    /*
     $criteria->with = array(
       'Participants' => array('together' => true, 'select' => false),
       'Settings' => array('select' => false),
       'LinkEmail.Email'
     );
+    $criteria->addInCondition('"Participants"."EventId"', array(128,218,339));
+    */
+
     $criteria->distinct = true;
     $criteria->addCondition('"Settings"."UnsubscribeAll" = false');
 
-    $criteria->addInCondition('"Participants"."EventId"', array(422));
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
 
     echo \user\models\User::model()->count($criteria);
     exit();
 
     $criteria->limit = 500;
-    $criteria->order = '"t"."RunetId"';
+    $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
     if (!empty($users))
@@ -71,12 +87,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('users@rif.ru', 'РИФ+КИБ 2013', false);
+        $mail->SetFrom('info@runet-id.com', 'RUNET-ID:// Календарь', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Первый выпуск газеты «РИФ+КИБ 2013»') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('РИФ-Воронеж 2013: весенний it-прорыв!') .'?=';
         $mail->Body = $body;
 
-        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
+//        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
 
 //        $mail->Send();
 
@@ -94,13 +110,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
   private function getRegLink($user)
   {
-    $secret = 'vyeavbdanfivabfdeypwgruqe'; // common
+    $runetId = $user->RunetId;
+    $secret = 'vyeavbdanfivabfdeypwgruqe';
 
-    $timestamp = time();
-    $runetid = $user->RunetId;
+   	$hash = substr(md5($runetId.$secret), 0, 16);
 
-    $hash = substr(md5($runetid . $secret . $timestamp), 0, 8); 
-    return 'http://2013.russianinternetforum.ru/'.$runetid.'/'.$hash;
+    return 'http://2013.russianinternetforum.ru/my/'.$runetId.'/'.$hash .'/';
   }
 
 }

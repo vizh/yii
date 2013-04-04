@@ -5,62 +5,46 @@ class UnregisterAction extends \ruvents\components\Action
 {
   public function run()
   {
-    //todo:
-
-    throw new \application\components\Exception('Not implement yet');
-
     $request = \Yii::app()->getRequest();
-    $rocId = $request->getParam('RocId', null);
-    $dayId = \ruvents\components\DataBuilder::RadDayId();
+    $runetId = $request->getParam('RunetId', null);
+    $partId = $request->getParam('PartId', null);
 
-    $event = \event\models\Event::GetById($this->Operator()->EventId);
-    if (empty($event))
+    $event = $this->getEvent();
+    $user = \user\models\User::model()->byRunetId($runetId)->find();
+    if ($user === null)
     {
-      throw new \ruvents\components\Exception(301);
-    }
-    $user = \user\models\User::GetByRocid($rocId);
-    if (empty($user))
-    {
-      throw new \ruvents\components\Exception(202, array($rocId));
+      throw new \ruvents\components\Exception(202, array($runetId));
     }
 
-    $participant = \event\models\Participant::model()->byEventId($event->EventId)->byUserId($user->UserId);
-    $day = null;
-    if (!empty($event->Days))
+    $participant = \event\models\Participant::model()->byEventId($event->Id)->byUserId($user->Id);
+    $part = null;
+    if (sizeof($event->Parts) > 0)
     {
-      foreach ($event->Days as $eDay)
+      $part = \event\models\Part::model()->findByPk($partId);
+      if ($part === null)
       {
-        if ($eDay->DayId == $dayId)
-        {
-          $day = $eDay;
-          break;
-        }
+        throw new \ruvents\components\Exception(306, array($partId));
       }
-      if ($day == null)
-      {
-        throw new \ruvents\components\Exception(306, array($dayId));
-      }
-
-      $participant->byDayId($day->DayId);
+      $participant->byPartId($part->Id);
     }
     else
     {
-      $participant->byDayNull();
+      $participant->byPartId(null);
     }
 
     $participant = $participant->find();
-    if (empty($participant))
+    if ($participant === null)
     {
       throw new \ruvents\components\Exception(304);
     }
 
-    $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Role', $participant->RoleId, 0));
-    if ($day !== null)
+    $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Role', $participant->RoleId, 0));
+    if ($part !== null)
     {
-      $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Day', $day->DayId, $day->DayId));
+      $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Day', $part->Id, $part->Id));
     }
-    $this->detailLog->UserId = $user->UserId;
-    $this->detailLog->save();
+    $this->getDetailLog()->UserId = $user->Id;
+    $this->getDetailLog()->save();
 
     $participant->delete();
     echo json_encode(array('Success' => true));
