@@ -64,7 +64,7 @@ $(function() {
 
   /* LIVE SEARCH */
   $("#live-search").catcomplete({
-    delay: 500,
+    delay: 300,
     minLength: 1,
     dataType: "json",
     source: "/search/ajax/index",
