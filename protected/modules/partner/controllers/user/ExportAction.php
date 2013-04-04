@@ -31,10 +31,13 @@ class ExportAction extends \partner\components\Action
       }
 
       $this->csvCharset = \Yii::app()->request->getParam('charset', $this->csvCharset);
+
       header('Content-type: text/csv; charset='.$this->csvCharset);
       header('Content-Disposition: attachment; filename=participans.csv');
+
+      $fp = fopen('php://output', '');
       $row = array(
-        'ROCID',
+        'RUNET-ID',
         'Фамилия',
         'Имя',
         'Отчество',
@@ -47,9 +50,7 @@ class ExportAction extends \partner\components\Action
         'Дата регистрации на мероприятие',
         'Дата оплаты участия'
       );
-      //todo: Переделать используя $fp = fopen('php://output', 'w'); и fputcsv
-      echo implode($this->csvDelimiter, $this->rowHandler($row))."\r\n";
-
+      fputcsv($fp, $row, $this->csvDelimiter);
 
       $criteria = new \CDbCriteria();
       $criteria->with = array(
@@ -58,32 +59,33 @@ class ExportAction extends \partner\components\Action
         'User.Settings',
         'User.Employments.Company',
         'Role',
-        'User.Emails',
-        'User.Phones'
+        'User.LinkPhones.Phone'
       );
-      $criteria->order = 't.CreationTime DESC';
-      $participants = \event\models\Participant::model()->byEventId(\Yii::app()->partner->getAccount()->EventId)->findAll($criteria);
+      $criteria->order = '"t"."CreationTime" DESC';
+      /** @var $participants \event\models\Participant[] */
+      $participants = \event\models\Participant::model()
+          ->byEventId(\Yii::app()->partner->getAccount()->EventId)->findAll($criteria);
       foreach ($participants as $participant)
       {
         $row = array(
-          'RocId' => $participant->User->RocId,
+          'RUNET-ID' => $participant->User->RunetId,
           'LastName' => $participant->User->LastName,
           'FirstName' => $participant->User->FirstName,
           'FatherName' => $participant->User->FatherName,
           'Company' => '',
           'Position' => '',
-          'Email' => $participant->User->GetEmail() !== null ? $participant->User->GetEmail()->Email : '',
-          'Phone' => !empty($participant->User->Phones) ? $participant->User->Phones[0]->Phone : '',
-          'Role' => $participant->Role->Name,
+          'Email' => $participant->User->Email,
+          'Phone' => !empty($participant->User->LinkPhones) ? (string)$participant->User->LinkPhones[0]->Phone : '',
+          'Role' => $participant->Role->Title,
           'Price' => '',
           'DateRegister' => \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', $participant->CreationTime),
           'DatePay' => '',
         );
 
-        if ($participant->User->GetPrimaryEmployment() !== null)
+        if ($participant->User->getEmploymentPrimary() !== null)
         {
-          $row['Company'] = $participant->User->GetPrimaryEmployment()->Company->Name;
-          $row['Position'] = $participant->User->GetPrimaryEmployment()->Position;
+          $row['Company'] = $participant->User->getEmploymentPrimary()->Company->Name;
+          $row['Position'] = $participant->User->getEmploymentPrimary()->Position;
         }
 
         $criteria = new \CDbCriteria();
@@ -91,19 +93,21 @@ class ExportAction extends \partner\components\Action
           'Product', 
           'Product.Attributes' => array('select' => false, 'alias' => 'ProductAttributes')
         );
-        $criteria->condition = 't.OwnerId = :OwnerId AND Product.EventId = :EventId AND t.Paid = 1 AND ProductAttributes.Name = \'RoleId\'';
+        $criteria->condition = '"t"."OwnerId" = :OwnerId AND "Product"."EventId" = :EventId AND "t"."Paid" AND "ProductAttributes"."Name" = :Name';
         $criteria->params['EventId'] = \Yii::app()->partner->getAccount()->EventId;
         $criteria->params['OwnerId'] = $participant->UserId;
+        $criteria->params['Name'] = 'RoleId';
+        /** @var $orderItem \pay\models\OrderItem */
         $orderItem = \pay\models\OrderItem::model()->find($criteria);
         if ($orderItem !== null)
         {
-          $row['Price'] = $orderItem->PriceDiscount() !== null ? $orderItem->PriceDiscount() : 0;
+          $row['Price'] = $orderItem->getPriceDiscount() !== null ? $orderItem->getPriceDiscount() : 0;
           $row['DatePay'] = \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', strtotime($orderItem->PaidTime));
         }
-        
-        //todo: Переделать используя $fp = fopen('php://output', 'w'); и fputcsv
-        echo implode($this->csvDelimiter, $this->rowHandler($row))."\r\n";
+
+        fputcsv($fp, $this->rowHandler($row), $this->csvDelimiter);
       }
+
       exit();
     }
     
