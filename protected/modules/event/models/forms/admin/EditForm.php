@@ -44,7 +44,8 @@ class EditForm extends \CFormModel
       'Visible' => \Yii::t('app', 'Публиковать'),
       'ShowOnMain' => \Yii::t('app', 'Публиковать на главной'),
       'Widgets' => \Yii::t('app', 'Виджеты'),
-      'ProfInterest' => \Yii::t('app', 'Профессиональные интересы')
+      'ProfInterest' => \Yii::t('app', 'Профессиональные интересы'),
+      'Approved' => \Yii::t('app', 'Статус')
     );
   }
 }

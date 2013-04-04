@@ -1,5 +1,6 @@
 <?php
 namespace application\widgets;
+
 class Searchbar extends \CWidget
 {
   public function run()
@@ -7,5 +8,3 @@ class Searchbar extends \CWidget
     $this->render('searchbar');
   }
 }
-
-?>

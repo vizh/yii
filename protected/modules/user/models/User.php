@@ -219,6 +219,8 @@ class User extends \application\models\translation\ActiveRecord
    */
   public function bySearch($searchTerm, $locale = null, $useAnd = true)
   {
+    $this->byVisible(true);
+
     $searchTerm = trim($searchTerm);
 
     if (empty($searchTerm))
@@ -644,7 +646,7 @@ class User extends \application\models\translation\ActiveRecord
     }
 
     /** @var $company \company\models\Company */
-    $company = $companyModel->bySearch($companyName)->find();
+    $company = $companyModel->byName($companyName)->find();
     if ($company == null)
     {
       $company = new \company\models\Company();

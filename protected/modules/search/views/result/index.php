@@ -72,8 +72,10 @@
                   </td>
                   <td class="span3">
                     <p class="job muted">
-                      <?php $employment = $user->getEmploymentPrimary();?>
+                      <?$employment = $user->getEmploymentPrimary();?>
+                      <?if ($employment !== null):?>
                       <b><?=$employment->Company->Name;?></b><br><?=$employment->Position;?>
+                      <?endif;?>
                     </p>
                   </td>
                 </tr>

@@ -35,11 +35,11 @@ class EmploymentAction extends \CAction
             $employment = $user->setEmployment($item['Company']);
           }
           $employment->Position = $item['Position'];
-          $employment->StartMonth = $item['StartMonth'];
-          $employment->StartYear = $item['StartYear'];
-          $employment->EndMonth = isset($item['EndMonth']) ? $item['EndMonth'] : null;
-          $employment->EndYear = isset($item['EndYear']) ? $item['EndYear'] : null;
-          $employment->Primary = (isset($item['Primary']) && $item['Primary'] == 1) ? true : false;
+          $employment->StartMonth = !empty($item['StartMonth']) ? $item['StartMonth'] : null;
+          $employment->StartYear = !empty($item['StartYear']) ? $item['StartYear'] : null;
+          $employment->EndMonth = !empty($item['EndMonth']) ? $item['EndMonth'] : null;
+          $employment->EndYear = !empty($item['EndYear']) ? $item['EndYear'] : null;
+          $employment->Primary = isset($item['Primary']) && $item['Primary'] == 1 ? true : false;
           $employment->save();
         }
       }

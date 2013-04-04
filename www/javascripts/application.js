@@ -73,7 +73,11 @@ $(function() {
       $(this).catcomplete("widget").addClass("ui-autocomplete_live-search");
     },
     open: function(event, ui) {
-      $(".ui-autocomplete_live-search").append("<li class='results-all'><a href='/search-results.html'>Все результаты</a></li>");
+      $(".ui-autocomplete_live-search").append("<li class='results-all'><a href=''>Все результаты</a></li>");
+      $('.results-all > a').on('click', function(e){
+        e.preventDefault();
+        $('form#search').submit();
+      });
     }
   }).data("catcomplete")._renderItem = function(ul, item) {
     if (item.category == "Пользователи") {

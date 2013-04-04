@@ -8,18 +8,100 @@ class Contacts extends \CFormModel
   public $Phones = array();
   public $Accounts = array();
   
+  public function rules()
+  {
+    return array(
+      array('Phones', 'filter', 'filter' => array($this, 'filterPhones')),
+      array('Accounts', 'filter', 'filter' => array($this, 'filterAccounts'))
+    );
+  }
+ 
+  public function attributeLabels()
+  {
+    return array(
+      'Site' => \Yii::t('app', 'Сайт'),
+      'Phones' => \Yii::t('app', 'Телефоны'),
+      'Accounts' => \Yii::t('app', 'Аккаунты в соц. сетях')
+    );
+  }
+
+  public function filterPhones($phones)
+  {
+    $valid = true;
+    foreach ($phones as $phone)
+    {
+      if (!$phone->validate())
+      {
+        $valid = false;
+      }
+    }
+    if (!$valid)
+    {
+      $this->addError('Phones', \Yii::t('app', 'Ошибка в заполнении поля {attribute}.', array('{attribute}' => $this->getAttributeLabel('Phones'))));
+    }
+    return $phones;
+  }
   
-  public function getPhoneTypeOptions()
+  
+  public function filterAccounts($accounts)
+  {
+    $valid = true;
+    foreach ($accounts as $account)
+    {
+      if (!$account->validate())
+      {
+        $valid = false;
+      }
+    }
+    if (!$valid)
+    {
+      $this->addError('Accounts', \Yii::t('app', 'Ошибка в заполнении поля {attribute}.', array('{attribute}' => $this->getAttributeLabel('Accounts'))));
+    }
+    return $accounts;
+  }
+
+  
+
+  public function setAttributes($values, $safeOnly = true)
+  {
+    if (isset($values['Phones']))
+    {
+      foreach ($values['Phones'] as $value)
+      {
+        $form = new \contact\models\forms\Phone();
+        $form->attributes = $value;
+        $this->Phones[] = $form;
+      }
+      unset($values['Phones']);
+    }
+    
+    if (isset($values['Accounts']))
+    {
+      foreach ($values['Accounts'] as $value)
+      {
+        $form = new \contact\models\forms\ServiceAccount();
+        $form->attributes = $value;
+        $this->Accounts[] = $form;
+      }
+      unset($values['Accounts']);
+    }
+    parent::setAttributes($values, $safeOnly);
+  }
+
+  public function getPhoneTypeData()
   {
     $types = array(
      \contact\models\PhoneType::Mobile => \Yii::t('app', 'Мобильный'),
      \contact\models\PhoneType::Work => \Yii::t('app', 'Рабочий')
     );
-    $result = '';
-    foreach ($types as $type => $title)
-    {
-      $result .= '<option value="'. $type.'">'.$title.'</option>';
-    }
-    return $result;
+    return $types;
+  }
+  
+  public function getAccountTypeData()
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."Title" ASC';
+    $types = \contact\models\ServiceType::model()->findAll($criteria);
+    return \CHtml::listData($types, 'Id', 'Title');
   }
 }

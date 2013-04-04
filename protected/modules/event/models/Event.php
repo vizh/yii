@@ -296,7 +296,7 @@ class Event extends \application\models\translation\ActiveRecord
     }
     return $participant;
   }
-
+  
   private function registerUserUnsafe(\user\models\User $user, Role $role, Part $part = null)
   {
     $participant = new Participant();
@@ -312,6 +312,39 @@ class Event extends \application\models\translation\ActiveRecord
     return $participant;
   }
 
+  public function unregisterUser (\user\models\User $user)
+  {
+    $participant = Participant::model()
+      ->byEventId($this->Id)->byUserId($user->Id)->find();
+    if ($participant !== null)
+    {
+      $participant->delete();
+    }
+  }
+  
+  public function unregisterUserOnAllParts(\user\models\User $user)
+  {
+    foreach ($this->Parts as $part)
+    {
+      $this->unregisterUserOnPart($part, $user);
+    }
+  }
+  
+  public function unregisterUserOnPart(Part $part, \user\models\User $user)
+  {
+    if (empty($this->Parts))
+    {
+      throw new \application\components\Exception('Данное мероприятие не имеет логической разбивки. Используйте метод удаления участия на все мероприятие.');
+    }
+    /** @var $participant Participant */
+    $participant = Participant::model()
+      ->byEventId($this->Id)->byUserId($user->Id)->byPartId($part->Id)->find();
+    if ($participant !== null)
+    {
+      $participant->delete();
+    }
+  }
+  
   private function updateRole(Participant $participant, Role $role, $usePriority = false)
   {
     if (!$usePriority || $participant->Role->Priority <= $role->Priority)

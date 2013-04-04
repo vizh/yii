@@ -49,6 +49,14 @@ class ParticipantsAction extends \partner\components\Action
         if ($form->Delete == 1)
         {
           $linkUser->delete();
+          if (!empty($event->Parts))
+          {
+            $event->unregisterUserOnAllParts($user);
+          }
+          else
+          {
+            $event->unregisterUser($user);
+          }
         }
         else
         {
@@ -69,6 +77,14 @@ class ParticipantsAction extends \partner\components\Action
             $linkUser->ReportId = $report->Id;
           }
           $linkUser->save();
+          if (!empty($event->Parts))
+          {
+            $event->registerUserOnAllParts($user, \event\models\Role::model()->findByPk(3));
+          }
+          else 
+          {
+            $event->registerUser($user, \event\models\Role::model()->findByPk(3));
+          }
         }
         \Yii::app()->user->setFlash('success', \Yii::t('app', 'Информация об участниках секции успешно сохранена!'));
         $this->getController()->refresh();
