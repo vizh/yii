@@ -2,8 +2,6 @@
 
 class OrderitemController extends \partner\components\Controller
 {
-  const OrderItemsOnPage = 20;
-
   public function actions()
   {
     return array(
@@ -20,17 +18,17 @@ class OrderitemController extends \partner\components\Controller
       'index' => array(
         'Title' => 'Заказы',
         'Url' => \Yii::app()->createUrl('/partner/orderitem/index'),
-        'Access' => $this->getAccessFilter()->checkAccess('orderitem', 'index')
+        'Access' => $this->getAccessFilter()->checkAccess('partner', 'orderitem', 'index')
       ),
       'create' => array(
         'Title' => 'Добавить заказ',
         'Url' => \Yii::app()->createUrl('/partner/orderitem/create'),
-        'Access' => $this->getAccessFilter()->checkAccess('orderitem', 'create')
+        'Access' => $this->getAccessFilter()->checkAccess('partner', 'orderitem', 'create')
       ),
       'redirect' => array(
         'Title' => 'Перенести заказ',
         'Url' => \Yii::app()->createUrl('/partner/orderitem/redirect'),
-        'Access' => $this->getAccessFilter()->checkAccess('orderitem', 'redirect')
+        'Access' => $this->getAccessFilter()->checkAccess('partner', 'orderitem', 'redirect')
       ),
     );
   }

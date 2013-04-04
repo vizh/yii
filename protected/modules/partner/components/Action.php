@@ -11,4 +11,12 @@ class Action extends \CAction
   {
     return parent::getController();
   }
+
+  /**
+   * @return \event\models\Event
+   */
+  public function getEvent()
+  {
+    return \Yii::app()->partner->getEvent();
+  }
 }

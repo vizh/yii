@@ -43,4 +43,19 @@ class Log extends \CActiveRecord
       'Order' => array(self::BELONGS_TO, '\pay\models\Order', 'OrderId'),
     );
   }
+
+  /**
+   * @param $orderId
+   * @param bool $useAnd
+   *
+   * @return Log
+   */
+  public function byOrderId($orderId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."OrderId" = :OrderId';
+    $criteria->params = array('OrderId' => $orderId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

@@ -1,46 +1,57 @@
 <?php
 /**
+ * @var $form \partner\models\forms\OrderItemSearch
  * @var $products \pay\models\Product[]
  * @var $orderItems \pay\models\OrderItem[]
+ * @var $paySystemStat array
+ * @var $paginator \application\components\utility\Paginator
  */
 ?>
-<form method="GET">
-  <div class="row">
-    <div class="span4">
-      <label>Плательщик:</label>
-      <input type="text" name="filter[Payer]" placeholder="ФИО, ROCID или Email" value="<?php if (isset($filter['Payer'])):?><?php echo $filter['Payer'];?><?php endif;?>"/>
-      
-      <label>Получатель:</label>
-      <input type="text" name="filter[Owner]" placeholder="ФИО, ROCID или Email" value="<?php if (isset($filter['Owner'])):?><?php echo $filter['Owner'];?><?php endif;?>"/>
+<div class="row">
+  <div class="span12">
+    <?=CHtml::beginForm();?>
+    <div class="row">
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'OrderItem');?>
+        <?=CHtml::activeTextField($form, 'OrderItem');?>
+      </div>
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Order');?>
+        <?=CHtml::activeTextField($form, 'Order');?>
+      </div>
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Product');?>
+        <?=CHtml::activeTextField($form, 'Product');?>
+      </div>
     </div>
-    <div class="span4 offset4">
-      <label>Товар:</label>
-      <select name="filter[ProductId]">
-        <option value="">Все</option>
-        <?php foreach ($products as $product):?>
-        <option value="<?php echo $product->ProductId;?>" <?php if ( isset($filter['ProductId']) && $filter['ProductId'] == $product->ProductId):?>selected="selected"<?php endif;?>><?php echo $product->Title;?></option>
-        <?php endforeach;?>
-      </select>
-      
-      <select name="filter[Paid]">
-        <option value="">Оплаченные и нет</option>
-        <option value="1" <?php if ( isset ($filter['Paid']) && $filter['Paid'] == 1):?>selected="selected"<?php endif;?>>Только оплаченные</option>
-        <option value="0" <?php if ( isset ($filter['Paid']) && $filter['Paid'] == 0):?>selected="selected"<?php endif;?>>Только не оплаченные</option>
-      </select>
-      
-      <select name="filter[Deleted]">
-        <option value="">Не удаленные</option>
-        <option value="1" <?php if ( isset ($filter['Deleted']) && $filter['Deleted'] == 1):?>selected="selected"<?php endif;?>>Только удаленные</option>
-      </select>
-    </div>
-  </div>
-  <div class="row">
-    <div class="span12">
-      <input type="submit" name="" value="Искать" class="btn" />
-    </div>
-  </div>
-</form>
 
+    <div class="row">
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Payer');?>
+        <?=CHtml::activeTextField($form, 'Payer', array('placeholder' => 'RUNET-ID'));?>
+      </div>
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Owner');?>
+        <?=CHtml::activeTextField($form, 'Owner', array('placeholder' => 'RUNET-ID'));?>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Paid');?>
+        <?=CHtml::activeDropDownList($form, 'Paid', $form->getListValues());?>
+      </div>
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Deleted');?>
+        <?=CHtml::activeDropDownList($form, 'Deleted', $form->getListValues());?>
+      </div>
+      <div class="span4">
+        <button class="btn btn-large" type="submit"><i class="icon-search"></i> Искать</button>
+      </div>
+    </div>
+    <?=CHtml::endForm();?>
+  </div>
+</div>
 
 <script type="text/javascript">
   $(function () {
@@ -64,11 +75,12 @@
     });
   });
 </script>
-<?php if (!empty($orderItems)):?>
+<?if (!empty($orderItems)):?>
 <div class="row">
   <div class="span12">
     <table class="table table-striped">
       <thead>
+      <tr>
       <th>Дата</th>
       <th>Товар</th>
       <th>Сумма</th>
@@ -76,102 +88,74 @@
       <th>Плательщик</th>
       <th>Получатель</th>
       <!--<th>Активация</th>-->
+      </tr>
       </thead>
       <tbody>
-        <?php foreach ($orderItems as $orderItem):?>
+        <?foreach ($orderItems as $orderItem):?>
       <tr>
         <td><small><?=$orderItem->CreationTime?></small></td>
-        <td><?php echo $orderItem->Product->Title;?></td>
+        <td><?=$orderItem->Product->Title;?></td>
         <td>
-          <?php echo $orderItem->PriceDiscount();?>&nbsp;руб.<br/>
-          <?php if ($orderItem->Paid == 1):?>
+          <?=$orderItem->getPriceDiscount();?>&nbsp;руб.<br/>
+          <?if ($orderItem->Paid):?>
           <span class="label label-success">Оплачен</span>
-          <?php else:?>
+          <?else:?>
           <span class="label">Не оплачен</span>
-          <?php endif;?>
+          <?endif;?>
 
-          <?php if ($orderItem->Deleted == 1):?>
+          <?if ($orderItem->Deleted):?>
           <span class="label label-warning">Удален</span>
-          <?php endif;?>
+          <?endif;?>
         </td>
         <td>
-          <?php
-
-          if (isset($orderItemsPaySystem[$orderItem->OrderItemId]))
-          {
-            switch($orderItemsPaySystem[$orderItem->OrderItemId]) {
-              case 'Juridical':
-                echo '<span class="text-info">Юр. счет</span>';
-                break;
-
-              case 'PayOnlineSystem':
-                echo '<span class="text-warning">PayOnline</span>';
-                break;
-
-              case 'PayPalSystem':
-                echo '<span class="text-warning">PayPal</span>';
-                break;
-
-              case 'UnitellerSystem':
-                echo '<span class="text-warning">Uniteller</span>';
-                break;
-
-              default:
-                echo '<span class="muted">Не задан</span>';
-                break;
-            }
-          }
-          ?>
+          <?if (!empty($paySystemStat[$orderItem->Id])):?>
+              <?if ($paySystemStat[$orderItem->Id] == 'Juridical'):?>
+              <span class="text-info">Юр. счет</span>
+              <?elseif (strpos($paySystemStat[$orderItem->Id], 'pay\components\systems\\') !== false):?>
+              <span class="text-warning"><?=str_replace('pay\components\systems\\', '', $paySystemStat[$orderItem->Id]);?></span>
+              <?else:?>
+              <span class="muted">Не задан</span>
+              <?endif;?>
+          <?else:?>
+            <span class="muted">Не задан</span>
+          <?endif;?>
         </td>
         <td>
-          <?php echo $orderItem->Payer->RocId;?>, <strong><?php echo $orderItem->Payer->GetFullName();?></strong>
-          <p><em><?php echo $orderItem->Payer->GetEmail() !== null ? $orderItem->Payer->GetEmail()->Email : $orderItem->Payer->Email; ?></em></p>
+          <?=$orderItem->Payer->RunetId;?>, <strong><?=$orderItem->Payer->getFullName();?></strong>
+          <p><em><?=$orderItem->Payer->Email;?></em></p>
         </td>
         <td>
-          <?php echo $orderItem->Owner->RocId;?>, <strong><?php echo $orderItem->Owner->GetFullName();?></strong>
-          <p><em><?php echo $orderItem->Owner->GetEmail() !== null ? $orderItem->Owner->GetEmail()->Email : $orderItem->Owner->Email; ?></em></p>
+          <?=$orderItem->Owner->RunetId;?>, <strong><?=$orderItem->Owner->getFullName();?></strong>
+          <p><em><?=$orderItem->Owner->Email;?></em></p>
           
-          <?php if ($orderItem->RedirectUser !== null):?>
+          <?if ($orderItem->ChangedOwner !== null):?>
             <p class="text-success"><strong>Перенесено на пользователя</strong></p>
-            <?php echo $orderItem->RedirectUser->RocId;?>, <strong><?php echo $orderItem->RedirectUser->GetFullName();?></strong>
-            <p><em><?php echo $orderItem->RedirectUser->GetEmail() !== null ? $orderItem->RedirectUser->GetEmail()->Email : $orderItem->RedirectUser->Email; ?></em></p>
-          <?php endif;?>
+            <?=$orderItem->ChangedOwner->RunetId;?>, <strong><?=$orderItem->ChangedOwner->getFullName();?></strong>
+            <p><em><?=$orderItem->ChangedOwner->Email; ?></em></p>
+          <?endif;?>
         </td>
         <td>
-          <?php if ($this->getAccessFilter()->checkAccess('orderitem', 'activateajax')):?>
-            <?php if ($orderItem->Paid == 1 && $orderItem->Deleted == 0):?>
-              <a href="#" class="btn btn-danger btn-mini btn-activation indent-bottom1" data-orderitemid="<?php echo $orderItem->OrderItemId;?>">Деактивировать</a>
-            <?php else:?>
-              <a href="#" class="btn btn-success btn-mini btn-activation indent-bottom1" data-orderitemid="<?php echo $orderItem->OrderItemId;?>">Активировать</a>
-            <?php endif;?>
-          <?php endif;?>
+          <?if ($this->getAccessFilter()->checkAccess('partner', 'orderitem', 'activateajax')):?>
+            <?if ($orderItem->Paid && !$orderItem->Deleted):?>
+              <a href="#" class="btn btn-danger btn-mini btn-activation indent-bottom1" data-orderitemid="<?=$orderItem->Id;?>">Деактивировать</a>
+            <?else:?>
+              <a href="#" class="btn btn-success btn-mini btn-activation indent-bottom1" data-orderitemid="<?=$orderItem->Id;?>">Активировать</a>
+            <?endif;?>
+          <?endif;?>
           
-          <?php if ($this->getAccessFilter()->checkAccess('orderitem', 'redirect')
-            && $orderItem->Paid == 1):?>
-            <a href="<?php echo $this->createUrl('orderitem/redirect', array('OrderItemId' => $orderItem->OrderItemId));?>" class="btn btn-mini">Перенос</a>    
-          <?php endif;?>
+          <?if ($this->getAccessFilter()->checkAccess('partner', 'orderitem', 'redirect')
+            && $orderItem->Paid):?>
+            <a href="<?=$this->createUrl('orderitem/redirect', array('OrderItemId' => $orderItem->Id));?>" class="btn btn-mini">Перенос</a>
+          <?endif;?>
         </td>
       </tr>
-        <?php endforeach;?>
+        <?endforeach;?>
       </tbody>
     </table>
   </div>
 </div>
-<?php else:?>
+<?else:?>
 <div class="alert">По Вашему запросу заказов не найдено.</div>
-<?php endif;?>
+<?endif;?>
 
-<?php
-$params = array(
-  'url' => '/partner/orderitem/index',
-  'count' => $count,
-  'perPage' => \OrderitemController::OrderItemsOnPage,
-  'page' => $page
-);
-if (!empty($filter))
-{
-  $params['params'] = array('filter' => $filter);
-}
-
-$this->widget('\application\widgets\Paginator', $params);
-?>
+<?$this->widget('\application\widgets\Paginator', array('paginator' => $paginator));?>
