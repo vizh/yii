@@ -7,21 +7,12 @@ class InNumbersProductManager extends BaseProductManager
   const PrivateKey = '586f5ab0e13a03127a0dfa3af3';
 
   /**
-   * Возвращает список доступных аттрибутов
-   * @return string[]
-   */
-  public function GetAttributeNames()
-  {
-    return array();
-  }
-
-  /**
    * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
    * @param \user\models\User $user
    * @param array $params
    * @return bool
    */
-  public function CheckProduct($user, $params = array())
+  public function checkProduct($user, $params = array())
   {
     // TODO: Implement CheckProduct() method.
     return true;
@@ -33,10 +24,11 @@ class InNumbersProductManager extends BaseProductManager
    * @param array $params
    * @return bool
    */
-  public function BuyProduct($user, $params = array())
+  public function internalBuyProduct($user, $params = array())
   {
     $params = array();
-    $params['rocid'] = $user->RocId;
+    $params['rocid'] = $user->RunetId;
+    $params['RunetId'] = $user->RunetId;
     $params['key'] = self::PrivateKey;
 
     $ch = curl_init();
@@ -50,26 +42,9 @@ class InNumbersProductManager extends BaseProductManager
 
     if ($result != 'OK')
     {
-      $this->sendErrorMail($user);
+      return false;
     }
     return true;
-  }
-
-  /**
-   * @param \user\models\User $user
-   */
-  private function sendErrorMail($user)
-  {
-    $mail = new \PHPMailer(false);
-
-    $mail->IsHTML(false);
-    $mail->AddAddress('nikitin@internetmediaholding.com');
-    $mail->AddAddress('korotov@internetmediaholding.com');
-    $mail->SetFrom('error@rocid.ru', 'rocID Error', false);
-    $mail->CharSet = 'utf-8';
-    $mail->Subject = '=?UTF-8?B?'. base64_encode('Ошибка активации платежа in-numbers') .'?=';
-    $mail->Body = 'Ошибка при активации оплаты журнала для пользователя с rocID: ' . $user->RocId . ' ' . $user->LastName . ' ' . $user->FirstName;
-    $mail->Send();
   }
 
   /**
@@ -77,7 +52,7 @@ class InNumbersProductManager extends BaseProductManager
    * @param string $filter
    * @return array
    */
-  public function Filter($params, $filter)
+  public function filter($params, $filter)
   {
     return array();
   }
@@ -86,7 +61,7 @@ class InNumbersProductManager extends BaseProductManager
    * @param array $params
    * @return \pay\models\Product
    */
-  public function GetFilterProduct($params)
+  public function getFilterProduct($params)
   {
     return $this->product;
   }
@@ -96,7 +71,7 @@ class InNumbersProductManager extends BaseProductManager
    * @param \user\models\User $user
    * @return bool
    */
-  public function RollbackProduct($user)
+  public function rollbackProduct($user)
   {
     // TODO: Implement RollbackProduct() method.
   }
@@ -107,7 +82,7 @@ class InNumbersProductManager extends BaseProductManager
    * @param \user\models\User $toUser
    * @return bool
    */
-  public function RedirectProduct($fromUser, $toUser)
+  public function redirectProduct($fromUser, $toUser)
   {
     // TODO: Implement RedirectProduct() method.
   }

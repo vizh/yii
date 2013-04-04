@@ -34,7 +34,7 @@ class InternalController extends \application\components\controllers\PublicMainC
     'PlaceMore' => 9,
     'DescriptionBasic' => 10,
     'DescriptionMore' => 11,
-    'Price' => 12,
+    'Price' => 13,
   );
 
   public $fieldMapPines = array(
@@ -59,13 +59,13 @@ class InternalController extends \application\components\controllers\PublicMainC
     echo 'empty';
     return;
 
-    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/ld-rooms.csv');
+    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/rooms-3.csv');
     $parser->SetInEncoding('utf-8');
     //$results = $parser->Parse($this->fieldMap, true);
 
-//    echo '<pre>';
-//    print_r($results);
-//    echo '</pre>';
+    echo '<pre>';
+    print_r($results);
+    echo '</pre>';
 
     return;
     foreach ($results as $result)
@@ -93,7 +93,7 @@ class InternalController extends \application\components\controllers\PublicMainC
 //        }
         $product->getManager()->$key = trim($result->$key);
       }
-      $product->getManager()->Visible = 0;
+      $product->getManager()->Visible = 1;
     }
 
     echo 'done';
