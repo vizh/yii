@@ -24,7 +24,7 @@
           <td><?=$event->IdName;?></td>
           <td><?=\CHtml::image($event->getLogo()->getMini());?></td>
           <td><a href="<?=$this->createUrl('/event/admin/edit/index', array('eventId' => $event->Id));?>"><?=$event->Title;?></a></td>
-          <td><?=$event->getFormattedStartDate();?> &ndash; <?=$event->getFormattedEndDate();?></td>
+          <td><?$this->widget('event\widgets\Date', array('event' => $event));?></td>
           <td>
             <div class="btn-group">
               <a href="<?=$this->createUrl('/event/admin/edit/index', array('eventId' => $event->Id));?>" class="btn"><i class="icon-edit"></i> <?=\Yii::t('app', 'Редактировать');?></a>

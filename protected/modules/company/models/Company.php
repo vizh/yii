@@ -57,6 +57,15 @@ class Company extends \application\models\translation\ActiveRecord implements \s
     );
   }
 
+  public function byName($name, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Name" = :Name';
+    $criteria->params['Name'] = $name;
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
   public function bySearch($term, $locale = null, $useAnd = true)
   {
     $criteria = new \CDbCriteria();

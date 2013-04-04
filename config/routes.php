@@ -33,8 +33,10 @@ return array(
 
 
         /** Настройка путей админки */
+        'http://' .  RUNETID_HOST . '/admin/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/admin/<controller>/<action>',
         'http://admin.' .  RUNETID_HOST . '/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/admin/<controller>/<action>',
-
+          
+          
         /** Partner Module Rules */
         'http://partner.'. RUNETID_HOST.'/' => 'partner/main/index',
         'http://partner.'. RUNETID_HOST.'/auth/' => 'partner/auth/index',
