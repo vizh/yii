@@ -16,10 +16,18 @@ class RifordersController extends \application\components\controllers\AdminMainC
     $j = 0;
 
     $criteria = new \CDbCriteria();
-
     $criteria->with = array(
       'ItemLinks.OrderItem' => array('together' => true),
+      'Event' => array('together' => true),
+      'Participants' => array('together' => true),
+//      'Payer' => array('together' => true),
+
+//      'Participants' => array('together' => true),
+//      'Settings' => array('select' => false),
     );
+
+    // Пользователи с истекающими счетами
+    /*
     $criteria->addCondition('NOT "t"."Paid"');
     $criteria->addCondition('NOT "t"."Deleted"');
     $criteria->addCondition('"t"."EventId" = :EventId');
@@ -27,11 +35,24 @@ class RifordersController extends \application\components\controllers\AdminMainC
     $criteria->addCondition('"OrderItem"."Booked" IS NOT NULL');
     $criteria->addCondition('"OrderItem"."Booked" < :Booked');
 
+    $criteria->params = array(
+      ':EventId' => 422,
+      ':Booked' => '2013-03-29 00:00:00'
+    );
+    */
+
+    // Что-то с питанием
+    $criteria->addCondition('"t"."EventId" = :EventId');
+    $criteria->addCondition('"OrderItem"."ProductId" NOT IN (895,896,897,898,899,900,901,902,903,904,905,906,907,908,909)');
+//    $criteria->addCondition('"Event.Participants"."RoleId" IN (1, 2, 5, 11, 24)');
+
+    $criteria->distinct = true;
+//    $criteria->addCondition('"Settings"."UnsubscribeAll" = false');
+
 //    $criteria->addCondition('"t"."PayerId" = 12099');
 
     $criteria->params = array(
       ':EventId' => 422,
-      ':Booked' => '2013-03-29 00:00:00'
     );
 
     $orders = \pay\models\Order::model()->findAll($criteria);
@@ -68,9 +89,9 @@ class RifordersController extends \application\components\controllers\AdminMainC
         }
 
         $mail->AddAddress($email);
-        $mail->SetFrom('users@rif.ru', 'Служба поддержки участников РИФ+КИБ 2013', false);
+        $mail->SetFrom('users@rif.ru', 'Оргкомитет РИФ+КИБ 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Истекает срок брони номера на РИФ+КИБ 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Дополнительные услуги на РИФоКИБе') .'?=';
         $mail->Body = $body;
 //        $mail->Send();
 
@@ -78,7 +99,7 @@ class RifordersController extends \application\components\controllers\AdminMainC
       }
       fwrite($fp, "\n\n\n" . sizeof($orders) . "\n\n\n");
       fclose($fp);
-//      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/riforders/send', array('step' => $step+1)).'"></head><body></body></html>';
+      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/riforders/send', array('step' => $step+1)).'"></head><body></body></html>';
     }
     else
     {
@@ -94,7 +115,7 @@ class RifordersController extends \application\components\controllers\AdminMainC
     $runetid = $user->RunetId;
 
     $hash = substr(md5($runetid . $secret . $timestamp), 0, 8);
-    return 'http://2013.russianinternetforum.ru/'.$runetid.'/'.$hash;
+    return 'http://2013.russianinternetforum.ru/'.$runetid.'/'.$hash.'/?redirect=/my/payment1.php';
   }
 
 }
