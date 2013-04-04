@@ -35,8 +35,8 @@
   <?foreach ($user->Employments as $employment):?>
     employments.push({
       'Id'         : '<?=$employment->Id;?>',
-      'Company'    : '<?=$employment->Company->Name;?>',
-      'Position'   : '<?=$employment->Position;?>',
+      'Company'    : '<?=addslashes($employment->Company->Name);?>',
+      'Position'   : '<?=addslashes($employment->Position);?>',
       'StartMonth' : '<?=$employment->StartMonth;?>',
       'StartYear'  : '<?=$employment->StartYear;?>',
       'EndMonth'   : '<?=$employment->EndMonth;?>',
