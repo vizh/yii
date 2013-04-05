@@ -41,7 +41,7 @@ return array(
     'roles' => array('Operator'),
     'module' => 'ruvents',
     'controllers' => array('product'),
-    'actions' => array('paiditems', 'changepaid')
+    'actions' => array('paiditems', 'changepaid', 'paiditemslist')
   ),
   array(
     'allow',

@@ -5,7 +5,7 @@ class ProductAction extends \api\components\Action
 {
   public function run()
   {
-    $products = \pay\models\Product::model()->byEventId($this->getAccount()->EventId)->findAll();
+    $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->findAll();
     $result = array();
     foreach ($products as $product)
     {

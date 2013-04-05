@@ -20,7 +20,7 @@ class UrlAction extends \api\components\Action
     }
 
     $result = new \stdClass();
-    $result->Url = \Yii::app()->createAbsoluteUrl('/pay/cabinet/auth', array('eventIdName' => $this->getAccount()->Event->IdName, 'runetId' => $payer->RunetId, 'hash' => $payer->getHash()));
+    $result->Url = \Yii::app()->createAbsoluteUrl('/pay/cabinet/auth', array('eventIdName' => $this->getEvent()->IdName, 'runetId' => $payer->RunetId, 'hash' => $payer->getHash()));
     $this->setResult($result);
   }
 }

@@ -1,19 +1,12 @@
 <?php
 namespace ruvents\controllers\product;
 
-class PaiditemsAction extends \ruvents\components\Action
+
+class PaiditemsListAction extends \ruvents\components\Action
 {
   public function run()
   {
-    $request = \Yii::app()->getRequest();
-    $runetId = $request->getParam('RunetId', null);
-
-    $event = $this->getEvent();
-    $user = \user\models\User::model()->byRunetId($runetId);
-    if ($user === null)
-    {
-      throw new \ruvents\components\Exception(202, array($runetId));
-    }
+    ini_set("memory_limit", "512M");
 
     $criteria = new \CDbCriteria();
     $criteria->with = array(
@@ -26,9 +19,8 @@ class PaiditemsAction extends \ruvents\components\Action
 
     /** @var $paidItems \pay\models\OrderItem[] */
     $paidItems = \pay\models\OrderItem::model()
-        ->byChangedOwnerId(null)->byChangedOwnerId($user->Id, false)
-        ->byOwnerId($user->Id)
-        ->byEventId($event->Id)->byPaid(true)->findAll($criteria);
+        ->byEventId($this->getEvent()->Id)->byPaid(true)
+        ->findAll($criteria);
 
     $result = array();
     foreach ($paidItems as $item)

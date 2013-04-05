@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rif13-5';
+    $template = 'rif13-6';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -16,6 +16,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria = new \CDbCriteria();
 
     // ГеоВыборка
+    /*
     $criteria->with = array(
         'LinkAddress' => array('together' => true, 'select' => false),
         'LinkAddress.Address' => array('together' => true, 'select' => false),
@@ -26,22 +27,20 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         'LinkEmail.Email',
     );
     $criteria->addCondition('"Participants"."EventId" IN (128,218,339) OR "City"."Id" IN (3538,3354,4210,4238,5242,4650,5005)');
-
+    */
 
     // Обычная выборка пользователей [по мероприятиям]
-    /*
     $criteria->with = array(
       'Participants' => array('together' => true, 'select' => false),
       'Settings' => array('select' => false),
       'LinkEmail.Email'
     );
-    $criteria->addInCondition('"Participants"."EventId"', array(128,218,339));
-    */
+    $criteria->addInCondition('"Participants"."EventId"', array(422));
 
     $criteria->distinct = true;
     $criteria->addCondition('"Settings"."UnsubscribeAll" = false');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
+    $criteria->addInCondition('"t"."RunetId"', array(12953,454));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -87,9 +86,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('info@runet-id.com', 'RUNET-ID:// Календарь', false);
+        $mail->SetFrom('users@rif.ru', 'Оргкомитет РИФ+КИБ 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('РИФ-Воронеж 2013: весенний it-прорыв!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Дополнительные услуги на РИФоКИБе') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
@@ -115,7 +114,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
    	$hash = substr(md5($runetId.$secret), 0, 16);
 
-    return 'http://2013.russianinternetforum.ru/my/'.$runetId.'/'.$hash .'/';
+    return 'http://2013.russianinternetforum.ru/my/'.$runetId.'/'.$hash .'/?redirect=/my/payment1.php';
   }
 
 }

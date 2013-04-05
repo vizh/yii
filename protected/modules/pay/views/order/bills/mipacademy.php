@@ -116,26 +116,17 @@ use application\components\utility\Texts;
     <?if ($withSign):?>
       <TR>
         <TD colspan="2">
-          <b style="color: red; font-size: 20px;">Нужен вариант счета с печатями и подписями + данные руководителя/бухгалтера</b>
-          <!--<IMG style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none; width: 720px;"
-               src="/img/pay/bill/digital-october/bill_withsign.png"
-              />-->
+          <IMG style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none; width: 600px;"
+               src="/img/pay/bill/mipacademy/sign.jpg"
+              />
         </TD>
       </TR>
     <?else:?>
       <tr>
-        <td colspan="2" style="border-top: 4px solid #000000;"></td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <table style="width: 100%; font-family: Arial; padding-top: 10px;">
-            <tr>
-              <td width="10%">Руководитель</td>
-              <td width="40%" style="padding-right: 10px; border-bottom: 2px solid #000000; font-size: 80%; font-weight: bold; text-align: right;">???</td>
-              <td width="10%" style="padding-left: 20px;">Бухгалтер</td>
-              <td width="40%" style="padding-right: 10px; border-bottom: 2px solid #000000; font-size: 80%; font-weight: bold; text-align: right;">???</td>
-            </tr>
-          </table>
+        <td colspan="2" style="border-top: 4px solid #000000;">
+          <IMG style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none; width: 600px;"
+               src="/img/pay/bill/mipacademy/nosign.jpg"
+              />
         </td>
       </tr>
     <?endif;?>

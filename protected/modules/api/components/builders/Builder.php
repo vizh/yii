@@ -89,7 +89,7 @@ class Builder
    */
   public function buildUserEvent(\user\models\User $user)
   {
-    $isOnePart = empty($this->account->Event->Parts);
+    $isOnePart = empty($this->account->getEvent()->Parts);
     foreach ($user->Participants as $participant)
     {
       if ($this->account->EventId != null && $participant->EventId == $this->account->EventId)
@@ -190,21 +190,95 @@ class Builder
     $this->event->UrlProgram = $event->UrlProgram;
     $this->event->DateStart = $event->DateStart;
     $this->event->DateEnd = $event->DateEnd;
-/*
+
     $this->event->Image = new \stdClass();
 
     $webRoot = \Yii::getPathOfAlias('webroot');
-    $miniLogo = $event->GetMiniLogo();
-    $logo = $event->GetLogo();
-    $this->event->Image->Mini = 'http://rocid.ru' . $miniLogo;
-    $this->event->Image->MiniSize = $this->getImageSize($webRoot . $miniLogo);
-    $this->event->Image->Normal = 'http://rocid.ru' . $logo;
-    $this->event->Image->NormalSize = $this->getImageSize($webRoot . $logo);
-*/
+    $logo = $event->getLogo();
+    $this->event->Image->Mini = 'http://'. RUNETID_HOST . $logo->getMini();
+    $this->event->Image->MiniSize = $this->getImageSize($webRoot . $logo->getMini());
+    $this->event->Image->Normal = 'http://'. RUNETID_HOST . $logo->getNormal();
+    $this->event->Image->NormalSize = $this->getImageSize($webRoot . $logo->getNormal());
+
     return $this->event;
   }
-  
-  
+
+  private function getImageSize($path)
+  {
+    $size = null;
+    if (file_exists($path))
+    {
+      $key = md5($path);
+      $size = \Yii::app()->getCache()->get($key);
+      if ($size === false)
+      {
+        $size = new \stdClass();
+        $image = imagecreatefrompng($path);
+        $size->Width = imagesx($image);
+        $size->Height = imagesy($image);
+        imagedestroy($image);
+        \Yii::app()->getCache()->add($key, $size, 3600 + mt_rand(10, 500));
+      }
+    }
+    return $size;
+  }
+
+  /**
+   * @param \event\models\Event $event
+   * @return \stdClass
+   */
+  public function buildEventPlace($event)
+  {
+    $address = $event->getContactAddress();
+    if ($address !== null)
+    {
+      $this->event->GeoPoint = $address->GeoPoint;
+      $this->event->Address = $address->__toString();
+    }
+    if (!empty($event->FbPlaceId))
+    {
+      $this->event->FbPlaceId = $event->FbPlaceId;
+    }
+    return $this->event;
+  }
+
+  /**
+   * @param \event\models\Event $event
+   * @return \stdClass
+   */
+  public function buildEventMenu($event)
+  {
+    $this->event->Menu = array();
+
+    $menu = new \stdClass();
+    $menu->Type = 'program';
+    $menu->Title = 'Программа';
+    $this->event->Menu[] = $menu;
+
+// $menu = new stdClass();
+// $menu->Type = 'link';
+// $menu->Title = 'Программа+';
+// $menu->Link = 'http://rocid.ru/files/test-api.htm';
+// $this->event->Menu[] = $menu;
+
+// $menu = new stdClass();
+// $menu->Type = 'html';
+// $menu->Title = 'Дополнительная информация';
+// $menu->Html = '<p>Это текст с дополнительной информацией о мероприятии. Тут может быть написано что угодно, но не очень много.</p><p>Если объем текста будет значительный - проще его передать как тип меню "link"</p>';
+// $this->event->Menu[] = $menu;
+  }
+
+  /**
+   * @param \event\models\Event $event
+   * @return \stdClass
+   */
+  public function BuildEventFullInfo($event)
+  {
+    $this->event->FullInfo = $event->FullInfo;
+    return $this->event;
+  }
+
+
   protected $product;
   /**
   * @param \pay\models\Product $product
@@ -264,25 +338,7 @@ class Builder
   
   
   
-  private function getImageSize($path)
-  {
-    $size = null;
-    if (file_exists($path))
-    {
-      $key = md5($path);
-      $size = \Yii::app()->getCache()->get($key);
-      if ($size === false)
-      {
-        $size = new \stdClass();
-        $image = imagecreatefrompng($path);
-        $size->Width = imagesx($image);
-        $size->Height = imagesy($image);
-        imagedestroy($image);
-        \Yii::app()->getCache()->add($key, $size, 3600 + mt_rand(10, 500));
-      }
-    }
-    return $size;
-  }
+
 
 
 

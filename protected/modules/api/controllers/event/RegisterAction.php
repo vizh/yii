@@ -10,13 +10,6 @@ class RegisterAction extends \api\components\Action
     $roleId = $request->getParam('RoleId');
     $usePriority = $request->getParam('UsePriority', true);
 
-    /** @var $event \event\models\Event */
-    $event = \event\models\Event::model()->findByPk($this->getAccount()->EventId);
-    if (empty($event))
-    {
-      throw new \api\components\Exception(301);
-    }
-
     $user = \user\models\User::model()->byRunetId($runetId)->find();
     if (empty($user))
     {
@@ -30,7 +23,7 @@ class RegisterAction extends \api\components\Action
     }
 
     try{
-      $eventUser = $event->registerUser($user, $role, $usePriority);
+      $eventUser = $this->getEvent()->registerUser($user, $role, $usePriority);
     }
     catch(\Exception $e)
     {

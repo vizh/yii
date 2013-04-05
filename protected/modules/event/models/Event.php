@@ -34,9 +34,12 @@ namespace event\models;
  * @property LinkProfessionalInterest[] $LinkProfessionalInterests
  *
  *
+ * @method \event\models\section\Section[] Sections()
+ *
  * Attribute properties
  *
  * @property string $UrlSectionMask
+ * @property string $FbPlaceId
  */
 class Event extends \application\models\translation\ActiveRecord
 {
@@ -96,7 +99,7 @@ class Event extends \application\models\translation\ActiveRecord
    */
   protected function getInternalAttributeNames()
   {
-    return array('UrlSectionMask');
+    return array('UrlSectionMask', 'FbPlaceId');
   }
 
   public function __get($name)

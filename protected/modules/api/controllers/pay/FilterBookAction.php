@@ -15,7 +15,7 @@ class FilterBookAction extends \api\components\Action
     /** @var $product \pay\models\Product */
     $product = \pay\models\Product::model()
         ->byManagerName($manager)
-        ->byEventId($this->getAccount()->EventId)->find();
+        ->byEventId($this->getEvent()->Id)->find();
 
     if ($product !== null)
     {
@@ -39,11 +39,7 @@ class FilterBookAction extends \api\components\Action
     {
       throw new \api\components\Exception(202, array($ownerRunetId));
     }
-    if ($this->getAccount()->Event === null)
-    {
-      throw new \api\components\Exception(301);
-    }
-    if ($product->EventId != $this->getAccount()->EventId)
+    if ($product->EventId != $this->getEvent()->Id)
     {
       throw new \api\components\Exception(402);
     }

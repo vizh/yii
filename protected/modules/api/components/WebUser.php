@@ -38,10 +38,14 @@ class WebUser extends \CWebUser
       /** @var $account \api\models\Account */
       $account = \api\models\Account::model()->byKey($apiKey)->find();
 
-      if ($account !== null && $account->CheckHash($hash, $timestamp) &&
-        ($account->EventId == null || $account->CheckIp($ip)))
+      if ($account !== null && $account->checkHash($hash, $timestamp) &&
+        ($account->EventId == null || $account->checkIp($ip)))
       {
         $this->account = $account;
+        if ($this->account->EventId === null)
+        {
+          $this->account->EventId = \Yii::app()->getRequest()->getParam('EventId', null);
+        }
       }
 
       $this->alreadyTryLoad = true;

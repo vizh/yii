@@ -29,11 +29,7 @@ class DeleteAction extends \api\components\Action
     {
       throw new \api\components\Exception(410);
     }
-    else if ($this->getAccount()->Event == null)
-    {
-      throw new \api\components\Exception(301);
-    }
-    else if ($orderItem->Product->EventId != $this->getAccount()->EventId)
+    else if ($orderItem->Product->EventId != $this->getEvent()->Id)
     {
       throw new \api\components\Exception(402);
     }

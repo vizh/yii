@@ -220,26 +220,27 @@ class DataBuilder
   protected $orderItem;
   /**
    * @param \pay\models\OrderItem $orderItem
+   * @return \stdClass
    */
   public function createOrderItem($orderItem)
   {
     $this->orderItem = new \stdClass();
 
-    $this->orderItem->OrderItemId = $orderItem->OrderItemId;
-    $this->orderItem->Product = $this->CreateProduct($orderItem->Product, $orderItem->PaidTime);
-    $this->orderItem->Owner = $this->CreateUser($orderItem->Owner);
-    $this->orderItem->RedirectUser = !empty($orderItem->RedirectUser) ? $this->CreateUser($orderItem->RedirectUser) : null;
-    $this->orderItem->PriceDiscount = $orderItem->PriceDiscount();
-    $this->orderItem->Paid = $orderItem->Paid == 1;
+    $this->orderItem->OrderItemId = $orderItem->Id;
+    $this->orderItem->Product = $this->createProduct($orderItem->Product, $orderItem->PaidTime);
+    $this->orderItem->Owner = $this->createUser($orderItem->Owner);
+    $this->orderItem->ChangedOwner = !empty($orderItem->ChangedOwner) ? $this->createUser($orderItem->ChangedOwner) : null;
+    $this->orderItem->PriceDiscount = $orderItem->getPriceDiscount();
+    $this->orderItem->Paid = $orderItem->Paid;
     $this->orderItem->PaidTime = $orderItem->PaidTime;
     $this->orderItem->Booked = $orderItem->Booked;
 
-    $couponActivated = $orderItem->GetCouponActivated();
+    $couponActivation = $orderItem->getCouponActivation();
 
-    if (!empty($couponActivated) && !empty($couponActivated->Coupon))
+    if ($couponActivation !== null)
     {
-      $this->orderItem->Discount = $couponActivated->Coupon->Discount;
-      $this->orderItem->PromoCode = $couponActivated->Coupon->Code;
+      $this->orderItem->Discount = $couponActivation->Coupon->Discount;
+      $this->orderItem->PromoCode = $couponActivation->Coupon->Code;
     }
     else
     {
@@ -254,9 +255,9 @@ class DataBuilder
     else
     {
       $this->orderItem->PayType = 'individual';
-      foreach ($orderItem->Orders as $order)
+      foreach ($orderItem->OrderLinks as $link)
       {
-        if (!empty($order->OrderJuridical) && $order->OrderJuridical->Paid == 1)
+        if ($link->Order->Juridical && $link->Order->Paid)
         {
           $this->orderItem->PayType = 'juridical';
         }
@@ -277,10 +278,10 @@ class DataBuilder
   {
     $this->product = new \stdClass();
 
-    $this->product->ProductId = $product->ProductId;
-    $this->product->Manager = $product->Manager;
+    $this->product->ProductId = $product->Id;
+    $this->product->Manager = $product->ManagerName;
     $this->product->Title = $product->Title;
-    $this->product->Price = $product->GetPrice($time);
+    $this->product->Price = $product->getPrice($time);
 
     return $this->product;
   }
