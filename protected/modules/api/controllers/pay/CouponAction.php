@@ -34,11 +34,7 @@ class CouponAction extends \api\components\Action
     {
       throw new \api\components\Exception(202, array($payerRunetId));
     }
-    else if ($this->getAccount()->Event == null)
-    {
-      throw new \api\components\Exception(301);
-    }
-    else if ($coupon->EventId != $this->getAccount()->EventId)
+    else if ($coupon->EventId != $this->getEvent()->Id)
     {
       throw new \api\components\Exception(407);
     }

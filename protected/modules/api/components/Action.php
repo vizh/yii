@@ -29,6 +29,14 @@ class Action extends \CAction
   }
 
   /**
+   * @return \event\models\Event
+   */
+  public function getEvent()
+  {
+    return $this->getAccount()->getEvent();
+  }
+
+  /**
    * @param mixed $result
    */
   public function setResult($result)

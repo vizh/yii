@@ -13,6 +13,7 @@ namespace contact\models;
  * @property string $Wing
  * @property string $Apartment
  * @property string $Place
+ * @property string $GeoPoint
  *
  * @property \geo\models\Country $Country
  * @property \geo\models\Region $Region

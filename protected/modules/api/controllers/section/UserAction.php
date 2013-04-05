@@ -17,10 +17,6 @@ class UserAction extends \api\components\Action
     {
       throw new \api\components\Exception(202, array($runetId));
     }
-    if ($this->getAccount()->Event === null)
-    {
-      throw new \api\components\Exception(301);
-    }
 
     $result = array();
 
@@ -30,7 +26,7 @@ class UserAction extends \api\components\Action
 
     /** @var $sections \event\models\section\Section[] */
     $sections = \event\models\section\Section::model()
-        ->byEventId($this->getAccount()->EventId)
+        ->byEventId($this->getEvent()->Id)
         ->with(array('LinkUsers' => array('together' => true)))->findAll($criteria);
 
     foreach ($sections as $section)

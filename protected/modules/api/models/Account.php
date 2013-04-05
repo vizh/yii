@@ -37,7 +37,6 @@ class Account extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
       'Domains' => array(self::HAS_MANY, '\api\models\Domain', 'AccountId'),
       'Ips' => array(self::HAS_MANY, '\api\models\Ip', 'AccountId')
     );
@@ -82,6 +81,26 @@ class Account extends \CActiveRecord
     return $this->_dataBuilder;
   }
 
+  /** @var \event\models\Event */
+  private $event;
+
+  /**
+   * @return \event\models\Event
+   * @throws \api\components\Exception
+   */
+  public function getEvent()
+  {
+    if ($this->event === null)
+    {
+      $this->event = \event\models\Event::model()->findByPk($this->EventId);
+      if ($this->event === null)
+      {
+        throw new \api\components\Exception(301);
+      }
+    }
+    return $this->event;
+  }
+
   /**
    * @param int $timestamp
    * @return \api\components\builders\Builder
@@ -102,7 +121,7 @@ class Account extends \CActiveRecord
    * @param int $timestamp
    * @return bool
    */
-  public function CheckHash($hash, $timestamp)
+  public function checkHash($hash, $timestamp)
   {
     if ($hash === $this->getHash($timestamp))
     {

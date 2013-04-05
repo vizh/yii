@@ -1,6 +1,28 @@
 <?php
 
 return array(
+
+  /***  DENY BLOCK  ***/
+  array(
+    'deny',
+    'roles' => array('mobile'),
+    'controllers' => array('event'),
+    'actions' => array('register')
+  ),
+  array(
+    'deny',
+    'roles' => array('mobile'),
+    'controllers' => array('user'),
+    'actions' => array('create')
+  ),
+  array(
+    'deny',
+    'roles' => array('mobile'),
+    'controllers' => array('pay')
+  ),
+  /*** END DENY BLOCK ***/
+
+
   array(
     'allow',
     'users' => array('?'),
@@ -18,27 +40,19 @@ return array(
     'controllers' => array('section')
   ),
   array(
-    'deny',
-    'roles' => array('mobile'),
-    'controllers' => array('event'),
-    'actions' => array('register')
-  ),
-  array(
-    'deny',
-    'roles' => array('mobile'),
-    'controllers' => array('pay')
-  ),
-  array(
     'allow',
     'roles' => array('base'),
     'controllers' => array('event'),
-    'actions' => array('roles', 'register')
+    'actions' => array('roles', 'register', 'list')
   ),
   array(
     'allow',
     'roles' => array('base'),
     'controllers' => array('pay')
   ),
+
+
+  /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/
   array(
     'deny',
     'users' => array('*')

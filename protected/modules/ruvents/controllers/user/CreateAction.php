@@ -16,6 +16,20 @@ class CreateAction extends \ruvents\components\Action
     $form->Position = $request->getParam('Position');
     $form->Phone = $request->getParam('Phone');
 
+    foreach ($form->validatorList as $validator)
+    {
+      if ($validator instanceof \CRequiredValidator)
+      {
+        foreach ($validator->attributes as $key => $value)
+        {
+          if ($value === 'Company')
+          {
+            unset($validator->attributes[$key]);
+          }
+        }
+      }
+    }
+
     if ($form->validate())
     {
       $user = $form->register();
@@ -35,7 +49,6 @@ class CreateAction extends \ruvents\components\Action
 
       $result = array();
       $this->getDataBuilder()->createUser($user);
-      $this->getDataBuilder()->buildUserEmail($user);
       $this->getDataBuilder()->buildUserEmployment($user);
       $result['User'] =  $this->getDataBuilder()->buildUserPhone($user);
 

@@ -19,7 +19,7 @@ class AddAction extends \api\components\Action
     }
 
     /** @var $product \pay\models\Product */
-    $product = \pay\models\Product::model()->byEventId($this->getAccount()->EventId)->findByPk($productId);
+    $product = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->findByPk($productId);
     $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
     $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
     if ($product == null)
@@ -34,11 +34,7 @@ class AddAction extends \api\components\Action
     {
       throw new \api\components\Exception(202, array($ownerRunetId));
     }
-    elseif ($this->getAccount()->Event == null)
-    {
-      throw new \api\components\Exception(301);
-    }
-    elseif ($this->getAccount()->EventId != $product->EventId)
+    elseif ($this->getEvent()->Id != $product->EventId)
     {
       throw new \api\components\Exception(402);
     }

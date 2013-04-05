@@ -13,7 +13,7 @@ class FilterListAction extends \api\components\Action
     /** @var $product \pay\models\Product */
     $product = \pay\models\Product::model()
         ->byManagerName($manager)
-        ->byEventId($this->getAccount()->EventId)->find();
+        ->byEventId($this->getEvent()->Id)->find();
 
     if ($product === null)
     {

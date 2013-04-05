@@ -17,16 +17,12 @@ class ListAction extends \api\components\Action
     {
       throw new \api\components\Exception(202, array($payerRunetId));
     }
-    else if ($this->getAccount()->Event === null)
-    {
-      throw new \api\components\Exception(301);
-    }
     
     $result = new \stdClass();
 
     $order = new \pay\models\Order();
-    $order->getUnpaidItems($payer, $this->getAccount()->Event);
-    $orderItems = \pay\models\OrderItem::getFreeItems($payer->Id, $this->getAccount()->EventId);
+    $order->getUnpaidItems($payer, $this->getEvent());
+    $orderItems = \pay\models\OrderItem::getFreeItems($payer->Id, $this->getEvent()->Id);
     $result->Items = array();
     foreach ($orderItems as $orderItem)
     {
@@ -36,7 +32,7 @@ class ListAction extends \api\components\Action
     /** @var $orders \pay\models\Order[] */
     $orders = \pay\models\Order::model()
         ->byPayerId($payer->Id)
-        ->byEventId($this->getAccount()->EventId)
+        ->byEventId($this->getEvent()->Id)
         ->byJuridical(true)
         ->byDeleted(false)->with(array('ItemLinks.OrderItem', 'ItemLinks.OrderItem.Product'))
         ->findAll();

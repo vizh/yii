@@ -50,7 +50,10 @@ class RegisterForm extends \CFormModel
    */
   private function setEmployment($user)
   {
-    $user->setEmployment($this->Company, $this->Position);
+    if (!empty($this->Company))
+    {
+      $user->setEmployment($this->Company, $this->Position);
+    }
   }
 
   /**
