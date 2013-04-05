@@ -40,6 +40,15 @@ CUserEditContacts.prototype = {
   
   initDeleteBtn : function (item) {
     item.find('[data-action="remove"]').click(function (e) {
+      if (item.find('input[name*="Id"]').size() > 0) {
+        item.find('input[name*="Delete"]').val(1);
+        item.hide();
+      } 
+      else {
+        item.remove();
+      }
+    });
+    item.find('[data-action="remove"]').click(function (e) {
       item.find('input[name*="Delete"]').val(1);
       item.hide();
       return false;
@@ -62,6 +71,14 @@ CUserEditContacts.prototype = {
     self.phoneItems.find('.form-row-add').before(template);
     var item = self.phoneItems.find('.form-row:not(.form-row-add):last');
     self.initDeleteBtn(item);
+    if (typeof data.Errors != "undefined") {
+      var errorUl = $('<ul>');
+      $.each(data.Errors, function (field, error) {
+        item.find('[name*='+field+']').addClass('error')
+        errorUl.append('<li>'+error+'</li>');
+      });
+      item.find('.alert-error').append(errorUl);
+    }
     self.iteterators.phone++;
   },
           
@@ -81,6 +98,14 @@ CUserEditContacts.prototype = {
     self.accountItems.find('.form-row-add').before(template);
     var item = self.accountItems.find('.form-row:not(.form-row-add):last');
     self.initDeleteBtn(item);
+    if (typeof data.Errors != "undefined") {
+      var errorUl = $('<ul>');
+      $.each(data.Errors, function (field, error) {
+        item.find('[name*='+field+']').addClass('error')
+        errorUl.append('<li>'+error+'</li>');
+      });
+      item.find('.alert-error').append(errorUl);
+    }
     self.iteterators.account++;
   },
 }

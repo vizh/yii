@@ -7,19 +7,48 @@ class Employments extends \user\models\forms\edit\Base
   public function rules()
   {
     return array(
-      array('Employments', 'filter', 'filter' => array($this, 'filterArrayPurify')),
-      array('Employments', 'safe')
+      array('Employments', 'filter', 'filter' => array($this, 'filterEmployments'))
     );
   }
   
   public function attributeLabels()
   {
-    return array(
-      'Company' => \Yii::t('app', 'Компания'),
-      'Position' => \Yii::t('app', 'Должность'),
-      'Date' => \Yii::t('app', 'Период работы'),
-      'Primary' => \Yii::t('app', 'Основное место работы')
-    );
+    $formEmployment = new \user\models\forms\Employment();
+    $labels = $formEmployment->attributeLabels();
+    $labels['Date'] = \Yii::t('app', 'Период работы');
+    return $labels;
+  }
+  
+  public function setAttributes($values, $safeOnly = true)
+  {
+    if (isset($values['Employments']))
+    {
+      foreach ($values['Employments'] as $value)
+      {
+        $form = new \user\models\forms\Employment();
+        $form->attributes = $value;
+        $this->Employments[] = $form;
+      }
+      unset($values['Employments']);
+    }
+    parent::setAttributes($values, $safeOnly);
+  }
+  
+  public function filterEmployments($employments)
+  {
+    $valid = true;
+    foreach ($employments as $employment)
+    {
+      if (!$employment->validate())
+      {
+        $valid = false;
+      }
+    }
+    if (!$valid)
+    {
+      $this->addError('Employments', \Yii::t('app', 'Ошибка в заполнении Карьеры.'));
+    }
+    return $employments;
   }
   
   public function getMonthOptions()

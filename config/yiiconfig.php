@@ -56,17 +56,17 @@ return array(
       'enableParamLogging'=>true,
       'schemaCachingDuration'=>600,
     ),
-    /*'dbOld'=>array(
+    'dbOld'=>array(
       'class'=>'CDbConnection',
-      'connectionString' => 'mysql:host=localhost;dbname=rocid',
+      'connectionString' => 'mysql:host=109.234.156.202;dbname=rocid',
       'emulatePrepare' => true,
-      'username' => '',
-      'password' => '',
+      'username' => 'rocid',
+      'password' => 'Coozeiph8toh1dik',
       'charset' => 'utf8',
       'enableProfiling' => true,
       'enableParamLogging'=>true,
       'schemaCachingDuration'=>3600,
-    ),*/
+    ),
 
     'session' => array(
       'class' => '\application\components\web\PgDbHttpSession',

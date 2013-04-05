@@ -638,30 +638,12 @@ class User extends \application\models\translation\ActiveRecord
    */
   public function setEmployment($companyFullName, $position = '')
   {
-    $companyModel = \company\models\Company::model();
-    $companyName = $companyModel->parseFullName($companyFullName);
-    if (mb_strlen($companyName) === 0)
-    {
-      return null;
-    }
-
-    /** @var $company \company\models\Company */
-    $company = $companyModel->byName($companyName)->find();
-    if ($company == null)
-    {
-      $company = new \company\models\Company();
-      $company->Name = $companyName;
-      $company->FullName = $companyFullName;
-      $company->save();
-    }
-
     $employment = new \user\models\Employment();
+    $employment->chageCompany($companyFullName);
     $employment->UserId = $this->Id;
-    $employment->CompanyId = $company->Id;
     $employment->Position = $position;
     $employment->Primary = true;
     $employment->save();
-
     return $employment;
   }
 

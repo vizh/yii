@@ -314,6 +314,10 @@ class Event extends \application\models\translation\ActiveRecord
 
   public function unregisterUser (\user\models\User $user)
   {
+    if (!empty($this->Parts))
+    {
+      throw new \application\components\Exception('Данное мероприятие имеет логическую разбивку. Используйте метод удаления участия на конкретную часть мероприятия.');
+    }
     $participant = Participant::model()
       ->byEventId($this->Id)->byUserId($user->Id)->find();
     if ($participant !== null)

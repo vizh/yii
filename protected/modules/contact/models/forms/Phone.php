@@ -7,7 +7,7 @@ class Phone extends \CFormModel
   public $CityCode;
   public $Phone;
   public $Type;
-  public $Id;
+  public $Id = null;
   public $Delete = 0;
 
 
@@ -16,7 +16,8 @@ class Phone extends \CFormModel
     return array(
       array('CountryCode, CityCode, Phone, Type', 'filter', 'filter' => array('application\components\utility\Texts', 'filterPurify')),
       array('CountryCode, CityCode, Phone, Type', 'required'),
-      array('Id, Delete', 'numerical', 'allowEmpty' => true)
+      array('Id, Delete', 'numerical', 'allowEmpty' => true),
+      array('CountryCode, CityCode, Phone', 'numerical'),
     );
   }
   

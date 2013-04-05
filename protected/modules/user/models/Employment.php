@@ -228,6 +228,26 @@ class Employment extends \CActiveRecord
     $this->FinishWorking = $result;
   }
   
+  public function chageCompany($companyFullName)
+  {
+    $companyModel = \company\models\Company::model();
+    $companyName = $companyModel->parseFullName($companyFullName);
+    if (mb_strlen($companyName) === 0)
+    {
+      throw new \application\components\Exception(\Yii::t('app', 'Название компании не может быть пустым'));
+    }
+ 
+    $company = $companyModel->byFullName($companyFullName)->byName($companyFullName, false)->find();
+    if ($company == null)
+    {
+      $company = new \company\models\Company();
+      $company->Name = $companyName;
+      $company->FullName = $companyFullName;
+      $company->save();
+    }
+    $this->CompanyId = $company->Id;
+  }
+
   public function byUserId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();

@@ -12,6 +12,7 @@ class Controller extends \application\components\controllers\BaseController
 
   protected function beforeAction($action) 
   {
+    return false;
     $this->step   = \Yii::app()->request->getParam('step', 0);
     $this->offset = $this->limit * $this->step;
     return parent::beforeAction($action);

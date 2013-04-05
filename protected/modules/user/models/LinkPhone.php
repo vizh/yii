@@ -37,4 +37,22 @@ class LinkPhone extends \CActiveRecord
       'Phone' => array(self::BELONGS_TO, '\contact\models\Phone', 'PhoneId'),
     );
   }
+  
+  public function byUserId($userId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."UserId" = :UserId';
+    $criteria->params = array(':UserId' => $userId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  public function byPhoneId($phoneId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."PhoneId" = :PhoneId';
+    $criteria->params = array(':PhoneId' => $phoneId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

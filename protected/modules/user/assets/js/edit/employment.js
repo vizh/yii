@@ -21,13 +21,34 @@ CUserEditEmployment.prototype = {
       self.createEmptyItem();
       return false;
     });
+    
+    $('.ui-autocomplete:not(.ui-autocomplete_live-search)').addClass('dropdown-menu typeahead');
   },
           
   initItem : function (item) {
     var self = this;
+    
+    item.find('input[name*="Company"]').autocomplete({
+      source : function (request, response) {
+        $.getJSON('/company/ajax/search', {term : request.term},function( data ) {
+          response( $.map( data, function( item ) {
+            return {
+              label: item.Name,
+              value: item.Name
+            }
+          }));
+        });
+      }
+    });
+    
     item.find('.form-row-remove').click(function () {
-      item.find('input[name*="Deleted"]').val(1);
-      item.hide();
+      if (item.find('input[name*="Id"]').size() == 1) {
+        item.find('input[name*="Delete"]').val(1);
+        item.hide();
+      }
+      else {
+        item.remove();
+      }
       self.iterator--;
     });
     
@@ -41,6 +62,10 @@ CUserEditEmployment.prototype = {
         item.find('.form-row-date select[name*="EndYear"]').removeAttr('disabled');
       }
     }).trigger('change');
+    
+    item.find('input[name*="Primary"]').change(function (e) {
+      self.form.find('input[name*="Primary"]').not($(e.currentTarget)).removeAttr('checked');
+    });
   },
           
   createFillItem : function (data) {
@@ -54,6 +79,14 @@ CUserEditEmployment.prototype = {
       $(this).find('option[value="'+$(this).data('selected')+'"]').attr('selected', 'selected');
       $(this).trigger('change');
     });
+    if (typeof data.Errors != "undefined") {
+      var errorUl = $('<ul>');
+      $.each(data.Errors, function (field, error) {
+        item.find('[name*='+field+']').addClass('error')
+        errorUl.append('<li>'+error+'</li>');
+      });
+      item.find('.alert-error').append(errorUl);
+    }
     self.iterator++;
   },       
   

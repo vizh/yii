@@ -11,6 +11,10 @@ class Contacts extends \CFormModel
   public function rules()
   {
     return array(
+      array('Email', 'email'),
+      array('Email', 'unique', 'className' => '\user\models\User', 'attributeName' => 'Email', 'caseSensitive' => false, 'criteria' => array('condition' => '"t"."Id" != :UserId', 'params' => array('UserId' => \Yii::app()->user->getId()))),
+      array('Email', 'required'),
+      array('Site', 'url', 'allowEmpty' => true),
       array('Phones', 'filter', 'filter' => array($this, 'filterPhones')),
       array('Accounts', 'filter', 'filter' => array($this, 'filterAccounts'))
     );
@@ -21,7 +25,7 @@ class Contacts extends \CFormModel
     return array(
       'Site' => \Yii::t('app', 'Сайт'),
       'Phones' => \Yii::t('app', 'Телефоны'),
-      'Accounts' => \Yii::t('app', 'Аккаунты в соц. сетях')
+      'Accounts' => \Yii::t('app', 'Аккаунты в социальных сетях')
     );
   }
 
@@ -45,17 +49,21 @@ class Contacts extends \CFormModel
   
   public function filterAccounts($accounts)
   {
-    $valid = true;
+    $accountTypeList = array();
     foreach ($accounts as $account)
     {
+      if (in_array($account->TypeId, $accountTypeList))
+      {
+        $this->addError('Account', \Yii::t('app', 'Ошибка в заполнении поля {attribute}. Для одной соц. сети может быть указан только один аккаунт.', array('{attribute}' => $this->getAttributeLabel('Accounts'))));
+        break;
+      }
+      $accountTypeList[] = $account->TypeId;
+      
       if (!$account->validate())
       {
-        $valid = false;
+        $this->addError('Accounts', \Yii::t('app', 'Ошибка в заполнении поля {attribute}.', array('{attribute}' => $this->getAttributeLabel('Accounts'))));
+        break;
       }
-    }
-    if (!$valid)
-    {
-      $this->addError('Accounts', \Yii::t('app', 'Ошибка в заполнении поля {attribute}.', array('{attribute}' => $this->getAttributeLabel('Accounts'))));
     }
     return $accounts;
   }

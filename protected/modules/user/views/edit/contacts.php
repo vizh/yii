@@ -2,25 +2,32 @@
 <script type="text/javascript">
   var phones = [];
   <?foreach ($form->Phones as $phone):?>
-    phones.push({
+    var phone = {
       'Id' : '<?=$phone->Id;?>',
       'CountryCode' : '<?=$phone->CountryCode;?>',
       'CityCode' : '<?=$phone->CityCode;?>',
       'Phone' : '<?=$phone->Phone;?>',
       'Type' : '<?=$phone->Type;?>',
-      'HasErrors' : '<?=$phone->hasErrors();?>',
       'Delete' : '<?=$phone->Delete;?>'
-    });
+    };
+    <?if ($phone->hasErrors()):?>
+      phone.Errors = <?=json_encode($phone->getErrors());?>;
+    <?endif;?>
+    phones.push(phone);
   <?endforeach;?>
   
   var accounts = [];
   <?foreach ($form->Accounts as $account):?>
-    accounts.push({
+    var account = {
+      'Id' : '<?=$account->Id;?>',
       'TypeId' : '<?=$account->TypeId;?>',
-      'Account' : '<?=$account->Account;?>',
-      'HasErrors' : '<?=$account->hasErrors();?>',
+      'Account' : '<?=\CHtml::encode($account->Account);?>',
       'Delete' : '<?=$account->Delete;?>'
-    });
+    };
+    <?if ($account->hasErrors()):?>
+      account.Errors = <?=json_encode($account->getErrors());?>;
+    <?endif;?>
+    accounts.push(account);
   <?endforeach;?>
 </script>
 
@@ -88,7 +95,10 @@
 </script>
 
 <script type="text/template" id="phone-item-withdata-tpl">
-  <div class="form-row <%if(HasErrors == true){%>error<%}%> <%if(Delete == 1){%>hide<%}%>">
+  <div class="form-row <%if(Delete == 1){%>hide<%}%>">
+    <%if(typeof Errors != "undefined"){%>
+      <div class="alert alert-error errorSummary"></div>
+    <%}%>
     <span>+</span> <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][CountryCode]');?>" class="input-mini" value="<%=CountryCode%>" />
     <span>(</span> <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][CityCode]');?>" class="input-small" value="<%=CityCode%>" /> <span>)</span>
     <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Phone]');?>" class="input-medium" value="<%=Phone%>" />
@@ -98,7 +108,9 @@
       <?endforeach;?>
     </select>
     <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
-    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Id]');?>" value="<%=Id%>"/>
+    <%if(Id != ''){%>
+      <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Id]');?>" value="<%=Id%>"/>
+    <%}%>
     <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Delete]');?>" <%if(Delete == 1){%>value="1"<%}%>/>
   </div>
 </script>
@@ -117,7 +129,10 @@
 </script>
 
 <script type="text/template" id="account-item-withdata-tpl">
-  <div class="form-row <%if(HasErrors == true){%>error<%}%> <%if(Delete == 1){%>hide<%}%>">
+  <div class="form-row <%if(Delete == 1){%>hide<%}%>">
+    <%if(typeof Errors != "undefined"){%>
+      <div class="alert alert-error errorSummary"></div>
+    <%}%>
     <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Accounts[<%=i%>][Account]');?>" value="<%=Account%>"/>
     <select name="<?=\CHtml::resolveName($form, $_ = 'Accounts[<%=i%>][TypeId]');?>" class="input-medium">
       <?foreach($form->getAccountTypeData() as $typeId => $title):?>
@@ -125,6 +140,9 @@
       <?endforeach;?>
     </select>
     <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
+    <%if(Id != ''){%>
+      <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Accounts[<%=i%>][Id]');?>" value="<%=Id%>"/>
+    <%}%>
     <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Accounts[<%=i%>][Delete]');?>" <%if(Delete == 1){%>value="1"<%}%>/>
   </div>
 </script>

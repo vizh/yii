@@ -6,6 +6,7 @@ class ServiceAccount extends \CFormModel
   public $TypeId;
   public $Account;
   public $Delete = 0;
+  public $Id = null;
   
   public function rules()
   {
@@ -13,7 +14,7 @@ class ServiceAccount extends \CFormModel
       array('Account', 'filter', 'filter' => array('application\components\utility\Texts', 'filterPurify')),
       array('Account', 'required'),
       array('TypeId', 'exist', 'className' => '\contact\models\ServiceType', 'attributeName' => 'Id'),
-      array('Delete', 'numerical', 'allowEmpty' => true)
+      array('Id,Delete', 'numerical', 'allowEmpty' => true)
     );
   }
   

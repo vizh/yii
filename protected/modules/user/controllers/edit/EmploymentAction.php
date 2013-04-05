@@ -8,47 +8,80 @@ class EmploymentAction extends \CAction
     $request = \Yii::app()->getRequest();
     $form = new \user\models\forms\edit\Employments();
     $form->attributes = $request->getParam(get_class($form));
-    if ($request->getIsPostRequest() && $form->validate())
+    if ($request->getIsPostRequest())
     {
-      foreach ($form->Employments as $item)
+      if ($form->validate())
       {
-        if (!empty($item['Id']))
+        $success = true;
+        foreach ($form->Employments as $formEmployment)
         {
-          $employment = \user\models\Employment::model()->byUserId($user->Id)->findByPk($item['Id']);
-        }
-        else
-        {
-          $employment = $user->setEmployment($item['Company'], $item['Position']);
+          try
+          {
+            if (!empty($formEmployment->Id))
+            {
+              $employment = \user\models\Employment::model()->byUserId($user->Id)->findByPk($formEmployment->Id);
+              if ($employment == null)
+                throw new \CHttpException(500);
+              if ($formEmployment->Company !== $employment->Company->Name)
+              {
+                $employment->chageCompany($formEmployment->Company);
+              }
+            }
+            else
+            {
+              $employment = $user->setEmployment($formEmployment->Company, $formEmployment->Position);
+            }
+
+            if ($formEmployment->Delete == 1)
+            {
+              $employment->delete();
+            }
+            else
+            {
+              $employment->Position = $formEmployment->Position;
+              $employment->StartMonth = !empty($formEmployment->StartMonth) ? $formEmployment->StartMonth : null;
+              $employment->EndMonth = !empty($formEmployment->EndMonth) ? $formEmployment->EndMonth : null;
+              $employment->StartYear = !empty($formEmployment->StartYear) ? $formEmployment->StartYear : null;
+              $employment->EndYear = !empty($formEmployment->EndYear) ? $formEmployment->EndYear : null;
+              $employment->Primary = $formEmployment->Primary == 1 ? true : false;
+              $employment->save();
+            }
+          }
+          catch (\application\components\Exception $e)
+          {
+            $formEmployment->addError('Company', \Yii::t('app', 'Вы ввели некорректное название компании'));
+            $success = false;
+          }
         }
         
-        if ($employment !== null)
+        if ($success)
         {
-          if ($item['Deleted'] == 1) 
-          {
-            $employment->delete();
-            continue;
-          }
-          if (!empty($item['Company']) 
-            && $employment->Company->Name !== $item['Company'])
-          {
-            $employment->delete();
-            $employment = $user->setEmployment($item['Company']);
-          }
-          $employment->Position = $item['Position'];
-          $employment->StartMonth = !empty($item['StartMonth']) ? $item['StartMonth'] : null;
-          $employment->StartYear = !empty($item['StartYear']) ? $item['StartYear'] : null;
-          $employment->EndMonth = !empty($item['EndMonth']) ? $item['EndMonth'] : null;
-          $employment->EndYear = !empty($item['EndYear']) ? $item['EndYear'] : null;
-          $employment->Primary = isset($item['Primary']) && $item['Primary'] == 1 ? true : false;
-          $employment->save();
+          \Yii::app()->user->setFlash('success', \Yii::t('app', 'Карьера успешно сохранена!'));
+          $this->getController()->refresh();
         }
       }
-      \Yii::app()->user->setFlash('success', \Yii::t('app', 'Карьера успешно сохранена!'));
-      $this->getController()->refresh();
+    }
+    else
+    {
+      foreach ($user->Employments as $employment)
+      {
+        $formEmployment = new \user\models\forms\Employment();
+        $formEmployment->attributes = array(
+          'Id' => $employment->Id,
+          'Company' => (!empty($employment->Company->FullName) ? $employment->Company->FullName : $employment->Company->Name),
+          'Position' => $employment->Position,
+          'StartMonth' => $employment->StartMonth,
+          'StartYear' => $employment->StartYear,
+          'EndMonth' => $employment->EndMonth,
+          'EndYear' => $employment->EndYear,
+          'Primary' => $employment->Primary ? 1 : 0
+        );
+        $form->Employments[] = $formEmployment;
+      }
     }
     
     $this->getController()->bodyId = 'user-account';
     $this->getController()->setPageTitle(\Yii::t('app','Редактирование профиля'));
-    $this->getController()->render('employment', array('user' => $user, 'form' => $form));
+    $this->getController()->render('employment', array('form' => $form));
   }
 }

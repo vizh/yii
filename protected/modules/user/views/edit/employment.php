@@ -32,17 +32,22 @@
 
 <script type="text/javascript">
   var employments = [];
-  <?foreach ($user->Employments as $employment):?>
-    employments.push({
+  <?foreach ($form->Employments as $employment):?>
+    var employment = {
       'Id'         : '<?=$employment->Id;?>',
-      'Company'    : '<?=addslashes($employment->Company->Name);?>',
-      'Position'   : '<?=addslashes($employment->Position);?>',
+      'Company'    : '<?=\CHtml::encode($employment->Company);?>',
+      'Position'   : '<?=\CHtml::encode($employment->Position);?>',
       'StartMonth' : '<?=$employment->StartMonth;?>',
       'StartYear'  : '<?=$employment->StartYear;?>',
       'EndMonth'   : '<?=$employment->EndMonth;?>',
       'EndYear'    : '<?=$employment->EndYear;?>',
-      'Primary'    : '<?=$employment->Primary;?>'
-    });
+      'Primary'    : '<?=$employment->Primary;?>',
+      'Delete'     : '<?=$employment->Delete;?>'
+    };
+    <?if ($employment->hasErrors()):?>
+      employment.Errors = <?=json_encode($employment->getErrors());?>;
+    <?endif;?>
+    employments.push(employment);
   <?endforeach;?>
 </script>
 
@@ -76,19 +81,22 @@
       </label>
     </div>
     <div class="form-row">
-      <label class="checkbox">
-        <input type="checkbox" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Primary]');?>" value="1"> <?=$form->getAttributeLabel('Primary');?>
+      <label class="radio">
+        <input type="radio" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Primary]');?>" value="1"> <?=$form->getAttributeLabel('Primary');?>
       </label>
     </div>
     <div class="form-row form-row-remove">
       <a href="#" class="pseudo-link iconed-link" data-action="remove"><i class="icon-minus-sign"></i> <span><?=\Yii::t('app', 'Удалить');?></span></a>
     </div>
-    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Deleted]');?>" value="" />
+    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Delete]');?>" value="" />
   </div>
 </script>
 
 <script type="text/template" id="career-item-withdata-tpl">
-  <div class="user-career-item">
+  <div class="user-career-item <%if(Delete == 1){%>hide<%}%>">
+    <%if(typeof Errors != "undefined"){%>
+      <div class="alert alert-error errorSummary"></div>
+    <%}%>
     <div class="form-row">
       <?=\CHtml::activeLabel($form, 'Company');?>
       <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Company]');?>" value="<%=Company%>" class="span5"/>
@@ -117,14 +125,16 @@
       </label>
     </div>
     <div class="form-row">
-      <label class="checkbox">
-        <input type="checkbox" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Primary]');?>" <%if(Primary == true){%>checked<%}%> value="1"> <?=$form->getAttributeLabel('Primary');?>
+      <label class="radio">
+        <input type="radio" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Primary]');?>" <%if(Primary == true){%>checked<%}%> value="1"> <?=$form->getAttributeLabel('Primary');?>
       </label>
     </div>
     <div class="form-row form-row-remove">
       <a href="#" class="pseudo-link iconed-link" data-action="remove"><i class="icon-minus-sign"></i> <span><?=\Yii::t('app', 'Удалить');?></span></a>
     </div>
-    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Id]');?>" value="<%=Id%>" />
-    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Deleted]');?>" value="" />
+    <%if(Id != ''){%>
+      <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Id]');?>" value="<%=Id%>" />
+    <%}%>
+    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Delete]');?>" value="" />
   </div>
 </script>
