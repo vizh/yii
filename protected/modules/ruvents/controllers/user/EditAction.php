@@ -109,6 +109,7 @@ class EditAction extends \ruvents\components\Action
 
   private function updatePhone(\user\models\User $user)
   {
+    return;
     $request = \Yii::app()->getRequest();
     $phone = $request->getParam('Phone', null);
 

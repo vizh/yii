@@ -1,5 +1,6 @@
 <?php
 namespace api\controllers\pay;
+
 class ItemsAction extends \api\components\Action
 {
   public function run()
@@ -12,9 +13,10 @@ class ItemsAction extends \api\components\Action
     }
     
     $result = new \stdClass();
-    $orderItems = \pay\models\OrderItem::model()->byEventId($this->getEvent()->Id)
-        ->byOwnerId($owner->Id)->byBooked(true)
-        ->byDeleted(false)->findAll();
+    $orderItems = \pay\models\OrderItem::model()
+        ->byOwnerId($owner->Id)->byChangedOwnerId($owner->Id, false)
+        ->byEventId($this->getEvent()->Id)->byPaid(true)
+        ->findAll();
     $result->Items = array();
     foreach ($orderItems as $orderItem)
     {

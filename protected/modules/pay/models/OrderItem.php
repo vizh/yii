@@ -177,7 +177,7 @@ class OrderItem extends \CActiveRecord
     $criteria = new \CDbCriteria();
     if ($userId !== null)
     {
-      $criteria->condition = '"t"."ChangedOwnerId" = :ChangedOwner';
+      $criteria->condition = '"t"."ChangedOwnerId" = :ChangedOwnerId';
       $criteria->params = array('ChangedOwnerId' => $userId);
     }
     else

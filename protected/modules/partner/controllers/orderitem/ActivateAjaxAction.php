@@ -5,6 +5,7 @@ class ActivateAjaxAction extends \partner\components\Action
 {
   public function run()
   {
+    return;
     if (\Yii::app()->request->getIsAjaxRequest())
     {
       $result = new \stdClass();
