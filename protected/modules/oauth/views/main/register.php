@@ -7,7 +7,7 @@
 
 <?=CHtml::beginForm();?>
   <fieldset>
-    <legend>Регистрация</legend>
+    <legend><?=Yii::t('app', 'Регистрация');?></legend>
 
     <?if ($socialProxy !== null && $socialProxy->isHasAccess()):?>
       <div class="alert alert-warning">
@@ -15,7 +15,7 @@
       </div>
     <?endif;?>
 
-    <p>Вы&nbsp;можете одновременно получить RUNET-ID и&nbsp;зарегистрироваться на&nbsp;мероприятие, заполнив форму:</p>
+    <p><?=Yii::t('app', 'Вы&nbsp;можете одновременно получить RUNET-ID и&nbsp;зарегистрироваться на&nbsp;мероприятие, заполнив форму:');?></p>
     <div class="control-group <?=$model->hasErrors('LastName') ? 'error' : '';?>">
       <?=CHtml::activeTextField($model, 'LastName', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('LastName')));?>
     </div>
@@ -37,8 +37,8 @@
 
     <?=CHtml::errorSummary($model, '<div class="alert alert-error">', '</div>');?>
 
-    <button type="submit" class="btn btn-large btn-block btn-info"><i class="icon-ok-sign icon-white"></i>&nbsp;Зарегистрироваться</button>
+    <button type="submit" class="btn btn-large btn-block btn-info"><i class="icon-ok-sign icon-white"></i>&nbsp;<?=Yii::t('app', 'Зарегистрироваться');?></button>
   </fieldset>
 <?=CHtml::endForm();?>
 <hr>
-<p>Если вы&nbsp;уже получали RUNET-ID&nbsp;&mdash; <a href="<?=$this->createUrl('/oauth/main/auth');?>">авторизуйтесь</a>.</p>
+<p><?=\Yii::t('app', 'Если вы&nbsp;уже получали RUNET-ID&nbsp;&mdash; <a href="{url}">авторизуйтесь</a>.', array('{url}' => $this->createUrl('/oauth/main/auth')));?></p>

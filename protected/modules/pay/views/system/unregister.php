@@ -3,9 +3,9 @@
     <div class="span8 offset2">
       <div class="errorSummary">
         <div class="alert alert-error">
-          <h4 class="m-bottom_10">Вы не авторизованы в системе RUNET-ID.</h4>
+          <h4 class="m-bottom_10"><?=Yii::t('app', 'Вы не авторизованы в системе RUNET-ID.');?></h4>
           <p>
-            Для полного доступа к платежному кабинету <a id="PromoLogin" href="">авторизуйтесь или зарегистрируйтесь.</a>
+            <?=\Yii::t('app', 'Для полного доступа к платежному кабинету <a id="PromoLogin" href="">авторизуйтесь или зарегистрируйтесь.</a>');?>
           </p>
         </div>
       </div>

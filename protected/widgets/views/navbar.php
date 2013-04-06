@@ -4,13 +4,13 @@
       <img src="/images/logo-small.png" width="115" height="10" alt="-RUNET-ID-">
     </a>
     <ul class="nav">
-      <li class="item"><a href="<?=Yii::app()->createUrl('/event/list/index');?>">Мероприятия</a></li>
-      <li class="item"><a target="_blank" href="http://therunet.com/">Новости</a></li>
-      <li class="item"><a href="/#competences">Компетенции</a></li>
-      <li class="item"><a href="<?=Yii::app()->createUrl('/job/default/index');?>">Работа</a></li>
+      <li class="item"><a href="<?=Yii::app()->createUrl('/event/list/index');?>"><?=Yii::t('app', 'Мероприятия');?></a></li>
+      <li class="item"><a target="_blank" href="http://therunet.com/"><?=Yii::t('app', 'Новости');?></a></li>
+      <li class="item"><a href="/#competences"><?=Yii::t('app', 'Компетенции');?></a></li>
+      <li class="item"><a href="<?=Yii::app()->createUrl('/job/default/index');?>"><?=Yii::t('app', 'Работа');?></a></li>
       <li class="divider-vertical"></li>
       <?if (Yii::app()->user->getCurrentUser() === null):?>
-        <li class="login"><a id="NavbarLogin" href="#">Войти / Зарегистрироваться</a></li>
+        <li class="login"><a id="NavbarLogin" href="#"><?=Yii::t('app', 'Войти');?> / <?=Yii::t('app', 'Зарегистрироваться');?></a></li>
       <?else:?>
         <li class="account dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -19,10 +19,10 @@
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu pull-right">
-            <li><a href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => Yii::app()->user->getCurrentUser()->RunetId));?>">Мой профиль</a></li>
-            <li><a href="<?=Yii::app()->createUrl('/user/edit/index');?>">Редактирование профиля</a></li>
-            <li><a href="<?=Yii::app()->createUrl('/user/setting/password');?>">Настройки профиля</a></li>
-            <li><a href="<?=Yii::app()->createUrl('/user/logout/index');?>">Выйти</a></li>
+            <li><a href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => Yii::app()->user->getCurrentUser()->RunetId));?>"><?=Yii::t('app', 'Мой профиль');?></a></li>
+            <li><a href="<?=Yii::app()->createUrl('/user/edit/index');?>"><?=Yii::t('app', 'Редактирование профиля');?></a></li>
+            <li><a href="<?=Yii::app()->createUrl('/user/setting/password');?>"><?=Yii::t('app', 'Настройки профиля');?></a></li>
+            <li><a href="<?=Yii::app()->createUrl('/user/logout/index');?>"><?=Yii::t('app', 'Выйти');?></a></li>
           </ul>
         </li>
       <?endif;?>

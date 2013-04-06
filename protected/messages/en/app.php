@@ -48,6 +48,8 @@ return array(
   'Должность' => 'Position',
   'Отчество' => 'Father Name',
   'Телефон' => 'Phone',
+  'Электронная почта' => 'Email',
+  'Город' => 'City',
 
   'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате' => 'I agree with <a target="_blank" href="{url}">the terms and conditions of the offer agreement</a> and ready to proceed to payment.',
   'Оплатить картой или эл. деньгами' => 'Pay with card or electronic money',
@@ -64,6 +66,46 @@ return array(
   'ИНН' => 'Personal tax reference number',
   'КПП' => 'Code of reason for tax registration',
   'Почтовый адрес (с индексом)' => 'Postal address (including postal code)',
+
+  'Мероприятия' => 'Events',
+  'Новости' => 'theRunet',
+  'Компетенции' => 'Competence',
+  'Работа' => 'Jobs',
+
+  'Мой профиль' => 'My Profile',
+  'Редактирование профиля' => 'Edit Profile',
+  'Настройки профиля' => 'Account Settings',
+  'Выйти' => 'Log Out',
+
+
+
+
+  'Авторизация' => 'Authorization',
+  'Вы&nbsp;можете авторизоваться при помощи аккаунта RUNET-ID, если являетесь пользователем сервиса:' => 'Log in to RUNET-ID:',
+  'Восстановить пароль' => 'Forgot your password?',
+  'Или вы&nbsp;можете авторизоваться при помощи учетных записей социальных сетей:' => 'Log in to use your social account with RUNET-ID.',
+  'Войти' => 'Log in',
+  'Вконтакте' => 'VK',
+  'Если у&nbsp;вас нет RUNET-ID, вы&nbsp;можете его <a href="{url}">зарегистрировать</a>.' => 'New to RUNET-ID? <a href="{url}">Sign up</a>',
+  'Эл. почта или RUNET-ID' => 'Email or RUNET-ID',
+  'Пароль' => 'Password',
+  'Запомнить меня' => 'Remember me',
+  'Вы&nbsp;можете одновременно получить RUNET-ID и&nbsp;зарегистрироваться на&nbsp;мероприятие, заполнив форму:' => 'Sign up to RUNET-ID',
+  'Если вы&nbsp;уже получали RUNET-ID&nbsp;&mdash; <a href="{url}">авторизуйтесь</a>.' => 'Already have RUNET-ID account? <a href="{url}">Log in</a>.',
+
+
+  'Восстановление пароля' => 'Password retrieval',
+  'Вы можете получить ваш текущий пароль по электронной почте на адрес, указанный при регистрации RUNET-ID:' => 'Please enter email that you used to log in to RUNET-ID:',
+  'Восстановить' => 'Recover',
+
+
+  'Вы не авторизованы в системе RUNET-ID.' => 'You are not logged in the RUNET-ID',
+  'Для полного доступа к платежному кабинету <a id="PromoLogin" href="">авторизуйтесь или зарегистрируйтесь.</a>' => 'Only logged in users can see payment account. <a id="PromoLogin" href="">Log in or register.</a>',
+  '' => '',
+  '' => '',
+  '' => '',
+  '' => '',
+  '' => '',
   '' => '',
 
 

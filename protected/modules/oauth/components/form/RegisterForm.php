@@ -15,12 +15,12 @@ class RegisterForm extends \CFormModel
   public function attributeLabels()
   {
     return array(
-      'LastName' => 'Фамилия',
-      'FirstName' => 'Имя',
-      'FatherName' => 'Отчество',
-      'Email' => 'Электронная почта',
-      'Company' => 'Компания',
-      'City' => 'Город',
+      'LastName' => \Yii::t('app', 'Фамилия'),
+      'FirstName' => \Yii::t('app', 'Имя'),
+      'FatherName' => \Yii::t('app', 'Отчество'),
+      'Email' => \Yii::t('app', 'Электронная почта'),
+      'Company' => \Yii::t('app', 'Компания'),
+      'City' => \Yii::t('app', 'Город'),
     );
   }
   
