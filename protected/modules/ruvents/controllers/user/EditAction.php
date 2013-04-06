@@ -27,6 +27,7 @@ class EditAction extends \ruvents\components\Action
     $this->updateEmail($user);
     $this->updatePhone($user);
     $this->updateEmployment($user);
+    $this->updateRole($user);
 
     $this->getDetailLog()->UserId = $user->Id;
     $this->getDetailLog()->save();
@@ -170,6 +171,36 @@ class EditAction extends \ruvents\components\Action
         $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Position', '', $position));
         $user->setEmployment($company, $position);
       }
+    }
+  }
+
+  private function updateRole(\user\models\User $user)
+  {
+    $roleId = (int)\Yii::app()->getRequest()->getParam('RoleId');
+    /** @var $role \event\models\Role */
+    $role = \event\models\Role::model()->findByPk($roleId);
+    if ($role !== null)
+    {
+      if (sizeof($this->getEvent()->Parts) > 0)
+      {
+        $partId = (int)\Yii::app()->getRequest()->getParam('PartId');
+        /** @var $part \event\models\Part */
+        $part = \event\models\Part::model()->findByPk($partId);
+        if ($part === null || $part->EventId !== $this->getEvent()->Id)
+        {
+          throw new \ruvents\components\Exception(306);
+        }
+        $this->getEvent()->registerUserOnPart($part, $user, $role);
+        if ($part !== null)
+        {
+          $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Part', $part->Id, $part->Id));
+        }
+      }
+      else
+      {
+        $this->getEvent()->registerUser($user, $role);
+      }
+      $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Role', 0, $role->Id));
     }
   }
 }
