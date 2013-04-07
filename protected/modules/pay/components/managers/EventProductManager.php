@@ -51,8 +51,30 @@ class EventProductManager extends BaseProductManager
     /** @var $role \event\models\Role */
     $role = \event\models\Role::model()->findByPk($this->RoleId);
     $this->product->Event->registerUser($user, $role);
-
     return true;
+  }
+
+  /**
+   *
+   * @param \user\models\User $fromUser
+   * @param \user\models\User $toUser
+   * @param array $params
+   *
+   * @return bool
+   */
+  public function internalChangeOwner($fromUser, $toUser, $params = array())
+  {
+    $participant = \event\models\Participant::model()
+        ->byUserId($fromUser->Id)->byEventId($this->product->EventId)->find();
+    if ($participant !== null)
+    {
+      if ($participant->RoleId == $this->RoleId)
+      {
+        $participant->delete();
+      }
+    }
+
+    return $this->internalBuyProduct($toUser);
   }
 
   /** todo: old methods */
@@ -108,45 +130,5 @@ class EventProductManager extends BaseProductManager
     return $this->product;
   }
 
-  /**
-   *
-   * @param \user\models\User $fromUser
-   * @param \user\models\User $toUser
-   * @return bool
-   */
-  public function redirectProduct($fromUser, $toUser)
-  {
-    if (!$this->CheckProduct($toUser))
-    {
-      return false;
-    }
-    list($roleId) = $this->GetAttributes($this->GetAttributeNames());
 
-    $participant = \event\models\Participant::GetByUserEventId($fromUser->UserId, $this->product->EventId);
-    if ($participant != null)
-    {
-      if ($participant->RoleId == $roleId)
-      {
-        $participant->delete();
-      }
-    }
-
-    $role = \event\models\Role::GetById($roleId);
-    if (empty($role))
-    {
-      return false;
-    }
-
-    $participant = \event\models\Participant::GetByUserEventId($toUser->UserId, $this->product->EventId);
-    if (empty($participant))
-    {
-      $this->product->Event->RegisterUser($toUser, $role);
-    }
-    else
-    {
-      $participant->UpdateRole($role);
-    }
-
-    return true;
-  }
 }

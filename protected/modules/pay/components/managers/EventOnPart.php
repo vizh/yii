@@ -127,9 +127,12 @@ class EventOnPart extends BaseProductManager
    *
    * @param \user\models\User $fromUser
    * @param \user\models\User $toUser
+   * @param array $params
+   *
+   * @throws \pay\components\Exception
    * @return bool
    */
-  public function redirectProduct($fromUser, $toUser)
+  public function internalChangeOwner($fromUser, $toUser, $params = array())
   {
     throw new \pay\components\Exception('Не реализовано');
     if (!$this->CheckProduct($toUser))

@@ -26,8 +26,7 @@ class PaiditemsAction extends \ruvents\components\Action
 
     /** @var $paidItems \pay\models\OrderItem[] */
     $paidItems = \pay\models\OrderItem::model()
-        ->byChangedOwnerId(null)->byChangedOwnerId($user->Id, false)
-        ->byOwnerId($user->Id)
+        ->byOwnerId($user->Id)->byChangedOwnerId($user->Id, false)
         ->byEventId($event->Id)->byPaid(true)->findAll($criteria);
 
     $result = array();

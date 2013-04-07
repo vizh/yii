@@ -110,41 +110,11 @@ class EditAction extends \ruvents\components\Action
 
   private function updatePhone(\user\models\User $user)
   {
-    return;
-    $request = \Yii::app()->getRequest();
-    $phone = $request->getParam('Phone', null);
-
-    if ($phone !== null)
-    {
-      //todo: Реализовать обновление/добавление телефона
-
-      throw new \application\components\Exception('Обновление телефона еще не реализовано');
-    }
-    return;
-
-    $request = \Yii::app()->getRequest();
-    $phone = $request->getParam('Phone', null);
-    if ($phone !== null)
-    {
-      $flag = true;
-      if (!empty($user->Phones))
-      {
-        foreach ($user->Phones as $userPhone)
-        {
-          if ($userPhone->Phone == $phone)
-          {
-            $flag = false;
-            break;
-          }
-        }
-      }
-
-      if ($flag)
-      {
-        $this->detailLog->addChangeMessage(new \ruvents\models\ChangeMessage('Phone', '', $phone));
-        $this->addUserPhone($user, $phone);
-      }
-    }
+//    $phone = \Yii::app()->getRequest()->getParam('Phone', null);
+//    if (!empty($phone))
+//    {
+//      $user->setContactPhone($phone);
+//    }
   }
 
   private function updateEmployment(\user\models\User $user)

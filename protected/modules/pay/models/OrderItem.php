@@ -392,7 +392,7 @@ class OrderItem extends \CActiveRecord
   public function changeOwner(\user\models\User $newOwner)
   {
     $fromOwner = empty($this->ChangedOwner) ? $this->Owner : $this->ChangedOwner;
-    if ($this->Product->getManager()->redirectProduct($fromOwner, $newOwner))
+    if ($this->Product->getManager()->changeOwner($fromOwner, $newOwner))
     {
       $this->ChangedOwnerId = $newOwner->Id;
       $this->save();
@@ -430,6 +430,37 @@ class OrderItem extends \CActiveRecord
       $price = $price * (1 - $activation->Coupon->Discount);
     }
     return (int)$price;
+  }
+
+  /**
+   * @return string
+   */
+  public function getPaidSystem()
+  {
+    if (!$this->Paid)
+    {
+      return null;
+    }
+    foreach ($this->OrderLinks as $link)
+    {
+      if ($link->Order->Paid)
+      {
+        if (!$link->Order->Juridical)
+        {
+          /** @var $log \pay\models\Log */
+          $log = \pay\models\Log::model()->byOrderId($link->Order->Id)->find();
+          if ($log !== null)
+          {
+            return $log->PaySystem;
+          }
+        }
+        else
+        {
+          return 'Juridical';
+        }
+      }
+    }
+    return null;
   }
 
   public function delete()
@@ -504,25 +535,5 @@ class OrderItem extends \CActiveRecord
 
     return $model->findAll();
   }
-
-
-
-//  public static function GetAllByEventId($eventId, $payerId, $ownerId = null)
-//  {
-//    $criteria = new \CDbCriteria();
-//    $criteria->with = array('Product', 'Product.Attributes', 'Owner');
-//    $criteria->condition = 'Product.EventId = :EventId AND (t.Booked IS NULL OR t.Booked > :Booked OR t.Paid = :Paid) AND t.Deleted = :Deleted AND t.PayerId = :PayerId';
-//    $criteria->params = array(':PayerId' => $payerId, ':EventId' => $eventId, ':Booked' => date('Y-m-d H:i:s'),
-//      ':Paid' => 1, ':Deleted' => 0);
-//
-//    if (!empty($ownerId))
-//    {
-//      $criteria->addCondition('t.OwnerId = :OwnerId');
-//      $criteria->params[':OwnerId'] = $ownerId;
-//    }
-//
-//    return OrderItem::model()->findAll($criteria);
-//  }
-
 
 }

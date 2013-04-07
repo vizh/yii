@@ -11,6 +11,10 @@ class ChangepaidAction extends \ruvents\components\Action
     $toRunetId = $request->getParam('ToRunetId', null);
     $orderItemIdList = $request->getParam('orderItemIdList', '');
     $orderItemIdList = explode(',', $orderItemIdList);
+    if (sizeof($orderItemIdList) == 0)
+    {
+      throw new \ruvents\components\Exception(408);
+    }
 
     $event = $this->getEvent();
     $fromUser = \user\models\User::model()->byRunetId($fromRunetId)->find();

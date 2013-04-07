@@ -33,14 +33,14 @@ return array(
     'roles' => array('Partner'),
     'module' => 'partner',
     'controllers' => array('orderitem'),
-    'actions' => array('index', 'create')
+    'actions' => array('index', 'create', 'redirect')
   ),
   array(
     'allow',
     'roles' => array('Admin'),
     'module' => 'partner',
     'controllers' => array('orderitem'),
-    'actions' => array('activateajax', 'redirect')
+    'actions' => array('activateajax')
   ),
   array(
     'allow',
