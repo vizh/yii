@@ -11,7 +11,7 @@
 ?>
   <div class="row">
     <div class="span12">
-      <?=CHtml::beginForm();?>
+      <?=CHtml::beginForm(Yii::app()->createUrl('/partner/orderitem/index/'), 'get');?>
       <div class="row">
         <div class="span4">
           <?=CHtml::activeLabel($form, 'OrderItem');?>
@@ -21,9 +21,13 @@
           <?=CHtml::activeLabel($form, 'Order');?>
           <?=CHtml::activeTextField($form, 'Order');?>
         </div>
-        <div class="span4">
+        <!--<div class="span4">
           <?=CHtml::activeLabel($form, 'Product');?>
           <?=CHtml::activeTextField($form, 'Product');?>
+        </div>-->
+        <div class="span4">
+          <?=CHtml::activeLabel($form, 'Paid');?>
+          <?=CHtml::activeDropDownList($form, 'Paid', $form->getListValues());?>
         </div>
       </div>
 
@@ -36,17 +40,13 @@
           <?=CHtml::activeLabel($form, 'Owner');?>
           <?=CHtml::activeTextField($form, 'Owner', array('placeholder' => 'RUNET-ID'));?>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="span4">
-          <?=CHtml::activeLabel($form, 'Paid');?>
-          <?=CHtml::activeDropDownList($form, 'Paid', $form->getListValues());?>
-        </div>
         <div class="span4">
           <?=CHtml::activeLabel($form, 'Deleted');?>
           <?=CHtml::activeDropDownList($form, 'Deleted', $form->getListValues());?>
         </div>
+      </div>
+
+      <div class="row indent-top2">
         <div class="span4">
           <button class="btn btn-large" type="submit"><i class="icon-search"></i> Искать</button>
         </div>

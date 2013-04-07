@@ -27,65 +27,50 @@ class OrderItemSearch extends \CFormModel
   {
     $criteria = new \CDbCriteria();
 
-    return $criteria;
-
-    if ( !empty ($filter))
+    if ((int)$this->OrderItem !== 0)
     {
-      foreach ($filter as $field => $value)
-      {
-        if ($value !== '')
-        {
-          switch ($field)
-          {
-            case 'OrderItemId':
-              $criteria->addCondition('t.OrderItemId = :OrderItemId');
-              $criteria->params[':OrderItemId'] = (int) $value;
-              break;
+      $criteria->addCondition('"t"."Id" = :OrderItemId');
+      $criteria->params['OrderItemId'] =(int)$this->OrderItem;
+    }
 
-            case 'ProductId':
-              $criteria->addCondition('t.ProductId = :ProductId');
-              $criteria->params[':ProductId'] = (int) $value;
-              break;
+    if ((int)$this->Order !== 0)
+    {
+      $criteria->addCondition('"OrderLinks"."OrderId" = :OrderId');
+      $criteria->params['OrderId'] =(int)$this->Order;
+      $criteria->with['OrderLinks'] = array('together' => true);
+    }
 
-            case 'Payer':
-            case 'Owner':
-              $criteria2 = new \CDbCriteria();
-              if (strpos($value, '@'))
-              {
-                $criteria2->condition = 't.Email = :Email OR Emails.Email = :Email';
-                $criteria2->params['Email'] = $value;
-                $criteria2->with = array('Emails');
-              }
-              else
-              {
-                $criteria2 = \user\models\User::GetSearchCriteria($value);
-                $criteria2->with = array('Settings');
-              }
-              $users = \user\models\User::model()->findAll($criteria2);
-              $userIdList = array();
-              if (!empty($users))
-              {
-                foreach ($users as $user)
-                {
-                  $userIdList[] = $user->UserId;
-                }
-              }
-              $criteria->addInCondition($field.'.UserId', $userIdList);
-              break;
+    if ((int)$this->Payer !== 0)
+    {
+      $criteria->with['Payer'] = array('together' => true);
+      $criteria->addCondition('"Payer"."RunetId" = :PayerRunetId');
+      $criteria->params['PayerRunetId'] = (int)$this->Payer;
+    }
+    else
+    {
+      $criteria->with[] = 'Payer';
+    }
 
-            case 'Deleted':
-            case 'Paid':
-              $criteria->addCondition('`t`.`'.$field.'` = :'. $field);
-              $criteria->params[':'.$field] = (int) $value;
-              break;
+    if ((int)$this->Owner !== 0)
+    {
+      $criteria->with['Owner'] = array('together' => true);
+      $criteria->with['ChangedOwner'] = array('together' => true);
+      $criteria->addCondition('"Owner"."RunetId" = :OwnerRunetId OR "ChangedOwner"."RunetId" = :OwnerRunetId');
+      $criteria->params['OwnerRunetId'] = (int)$this->Owner;
+    }
+    else
+    {
+      $criteria->with[] = 'Owner';
+      $criteria->with[] = 'ChangedOwner';
+    }
 
-          }
-        }
-        else
-        {
-          unset ($filter[$field]);
-        }
-      }
+    if ($this->Paid !== '' && $this->Paid !== null)
+    {
+      $criteria->addCondition(($this->Paid == 0 ? 'NOT ' : '') . '"t"."Paid"');
+    }
+    if ($this->Deleted !== '' && $this->Deleted !== null)
+    {
+      $criteria->addCondition(($this->Deleted == 0 ? 'NOT ' : '') . '"t"."Deleted"');
     }
 
     return $criteria;

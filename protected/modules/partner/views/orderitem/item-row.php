@@ -49,6 +49,8 @@
     <?endif;?>
   </td>
   <td>
+    <?if ($orderItem->Paid):?>
       <a href="<?=Yii::app()->createUrl('/partner/orderitem/redirect', array('orderItemId' => $orderItem->Id));?>" class="btn btn-mini">Перенос</a>
+    <?endif;?>
   </td>
 </tr>
