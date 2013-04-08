@@ -61,7 +61,7 @@ class Techmailru13importAction extends \partner\components\ImportAction
    */
   function getIsDebug()
   {
-    return true;
+    return false;
   }
 
   protected function getRoleId($row)
