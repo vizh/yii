@@ -314,9 +314,11 @@ class User extends \application\models\translation\ActiveRecord
 
   /**
    *
+   * @param bool $notify
+   *
    * @return User
    */
-  public function register()
+  public function register($notify = true)
   {
     if (empty($this->Password))
     {
@@ -328,8 +330,11 @@ class User extends \application\models\translation\ActiveRecord
     $this->save();
     $this->refresh();
 
-    $event = new \CModelEvent($this, array('password' => $password));
-    $this->onRegister($event);
+    if ($notify)
+    {
+      $event = new \CModelEvent($this, array('password' => $password));
+      $this->onRegister($event);
+    }
 
     return $this;
   }
@@ -514,8 +519,7 @@ class User extends \application\models\translation\ActiveRecord
       $phone = new \contact\models\Phone();
       $phone->Type = $type;
     }
-    //todo: необходим нормальный парсинг телефонов
-    $phone->Phone = $number;
+    $phone->parsePhone($number);
     $phone->save();
 
     return $phone;

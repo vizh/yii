@@ -34,6 +34,15 @@ class Phone extends \CActiveRecord
   {
     return array();
   }
+
+  /**
+   * @param string $phone
+   */
+  public function parsePhone($phone)
+  {
+    //todo: Сделать нормальный парсер телефона
+    $this->Phone = $phone;
+  }
   
   public function __toString() 
   {
