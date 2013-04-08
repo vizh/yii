@@ -101,10 +101,10 @@ return array(
 
   'Вы не авторизованы в системе RUNET-ID.' => 'You are not logged in the RUNET-ID',
   'Для полного доступа к платежному кабинету <a id="PromoLogin" href="">авторизуйтесь или зарегистрируйтесь.</a>' => 'Only logged in users can see payment account. <a id="PromoLogin" href="">Log in or register.</a>',
-  '' => '',
-  '' => '',
-  '' => '',
-  '' => '',
+  'Поиск по людям, компаниям, новостям' => 'Search by people, companies, news',
+  'Ссылки для экпонентов' => 'Links for exhibitions',
+  'Страница не найдена' => 'Page not found!',
+  'Перейдите на главную' => 'Back to main',
   '' => '',
   '' => '',
 

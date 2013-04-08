@@ -3,8 +3,8 @@
   <div class="row">
     <div class="span9">
     <?foreach ($products as $product):?>
-      <div style="margin-bottom: 30px;">
-        <h4><?=\Yii::t('demo2013', $product->Title);?>, <?=$product->GetPrice();?> <?=\Yii::t('app', 'руб');?>.</h4>
+      <div class="m-bottom_30" <?if ($product->Id !== 738):?>style="-moz-opacity: 0.2; -khtml-opacity: 0.2; opacity: 0.2;"<?endif;?>>
+        <h4><?=\Yii::t('demo2013', $product->Title);?>, <?=$product->GetPrice();?> <?=\Yii::t('app', 'руб.');?></h4>
         <?php
           $timestamp = time();
           $urlparams = array(
@@ -15,7 +15,12 @@
           );
           $url = $this->createAbsoluteUrl('/event/exclusive/demo2013/alley/', $urlparams);
         ?>
-        <a href="<?=$url;?>"><?=$url;?></a>
+        RU: <a href="<?=$url;?>"><?=$url;?></a><br/>
+        <?php
+          $urlparams['lang'] = 'en';
+          $url = $this->createAbsoluteUrl('/event/exclusive/demo2013/alley/', $urlparams);
+        ?>
+        EN: <a href="<?=$url;?>"><?=$url;?></a>
      </div>
     <?endforeach;?>
     </div>
