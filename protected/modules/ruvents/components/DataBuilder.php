@@ -42,7 +42,7 @@ class DataBuilder
     $this->user->Gender = $user->Gender;
     $this->user->CreationTime = $user->CreationTime;
 
-    $this->user->Email = $user->Email;
+    $this->user->Email = trim($user->Email);
 
     $this->user->Photo = new \stdClass();
     $this->user->Photo->Small = $user->getPhoto()->get50px();
