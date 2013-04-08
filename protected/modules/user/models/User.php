@@ -75,6 +75,7 @@ class User extends \application\models\translation\ActiveRecord
   public function relations()
   {
     return array(
+      'LinkEmail' => array(self::HAS_ONE, '\user\models\LinkEmail', 'UserId'),
       'LinkAddress' => array(self::HAS_ONE, '\user\models\LinkAddress', 'UserId'),
       'LinkSite' => array(self::HAS_ONE, '\user\models\LinkSite', 'UserId'),
       'LinkPhones' => array(self::HAS_MANY, '\user\models\LinkPhone', 'UserId'),
