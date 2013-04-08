@@ -11,7 +11,8 @@ class InternalController extends \partner\components\Controller
       'tc12option' => '\partner\controllers\internal\Tc12optionAction',
       'safor13import' => '\partner\controllers\internal\Safor13importAction',
       'eaapa2013import' => '\partner\controllers\internal\Eaapa2013importAction',
-      'icomf13addproduct' => '\partner\controllers\internal\Icomf13addproductAction'
+      'icomf13addproduct' => '\partner\controllers\internal\Icomf13addproductAction',
+      'techmailru13import' => '\partner\controllers\internal\Techmailru13importAction',
     );
   }
 }
