@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rif13-6';
-    $isHTML = false;
+    $template = 'demo13-1';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -31,19 +31,21 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
-      'Participants' => array('together' => true, 'select' => false),
+      'Participants' => array('together' => true),
+      'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false),
       'LinkEmail.Email'
     );
-    $criteria->addInCondition('"Participants"."EventId"', array(422));
+    $criteria->addInCondition('"Participants"."EventId"', array(236,414));
 
     $criteria->distinct = true;
-    $criteria->addCondition('"Settings"."UnsubscribeAll" = false');
+    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+    $criteria->addCondition('"Settings"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953,454));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -54,7 +56,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       foreach ($users as $user)
       {
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
         $mail = new \ext\mailer\PHPMailer(false);
         $mail->Mailer = 'mail';
         $mail->ParamOdq = true;
@@ -86,14 +88,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('users@rif.ru', 'Оргкомитет РИФ+КИБ 2013', false);
+        $mail->SetFrom('info@runet-id.com', '–RUNET-ID–', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Дополнительные услуги на РИФоКИБе') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Ближайшие мероприятия Digital October') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
 
-//        $mail->Send();
+        $mail->Send();
 
         fwrite($fp, $user->RunetId.'-'.$email."\n");
       }

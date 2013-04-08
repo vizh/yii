@@ -48,6 +48,7 @@ class RifordersController extends \application\components\controllers\AdminMainC
 
     $criteria->distinct = true;
 //    $criteria->addCondition('"Settings"."UnsubscribeAll" = false');
+//    $criteria->addCondition('"Settings"."Visible" = true');
 
 //    $criteria->addCondition('"t"."PayerId" = 12099');
 
