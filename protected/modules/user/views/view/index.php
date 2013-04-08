@@ -157,7 +157,7 @@ $(window).load(function() {
       <div class="container">
         <?$rowCount = 1;?>
         <div class="row">
-        <?foreach ($participation->Participation as $participant):?>
+        <?foreach ($participation->Participation as $eventId => $participant):?>
             <figure class="i span2" data-year="<?=$participant->Event->StartYear;?>">
               <a href="<?=$this->createUrl('/event/view/index', array('idName' => $participant->Event->IdName));?>" class="event-link">
                 <?=\CHtml::image($participant->Event->getLogo()->getMini(), $participant->Event->Title, array('class' => 'img'));?>
@@ -176,7 +176,7 @@ $(window).load(function() {
                 <div class="cnt">
                 <?foreach ($participant->Roles as $role):?>
                   <div><a href="javascript:void(0);" class="a pseudo-link"><?=$role->Role->Title;?></a></div>
-                  <?if ($role->Report !== null):?>
+                  <?if (!empty($role->Report)):?>
                   <p class="tx"><?=$role->Report->Title;?></p>
                   <?endif;?>
                 <?endforeach;?>
