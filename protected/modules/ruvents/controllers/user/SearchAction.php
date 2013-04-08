@@ -16,7 +16,7 @@ class SearchAction extends \ruvents\components\Action
     $users = array();
     if (filter_var($query, FILTER_VALIDATE_EMAIL))
     {
-      $user = \user\models\User::model()->byEmail($query)->find();
+      $user = \user\models\User::model()->byEmail($query)->byVisible(true)->find();
       if ($user !== null)
       {
         $users[] = $user;

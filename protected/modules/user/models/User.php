@@ -500,6 +500,27 @@ class User extends \application\models\translation\ActiveRecord
     return null;
   }
 
+  /**
+   * @param string $number
+   * @param string $type
+   *
+   * @return \contact\models\Phone|null
+   */
+  public function setContactPhone($number, $type = \contact\models\PhoneType::Mobile)
+  {
+    $phone = $this->getContactPhone($type);
+    if ($phone === null)
+    {
+      $phone = new \contact\models\Phone();
+      $phone->Type = $type;
+    }
+    //todo: необходим нормальный парсинг телефонов
+    $phone->Phone = $number;
+    $phone->save();
+
+    return $phone;
+  }
+
 
   /**
    * @param string $account

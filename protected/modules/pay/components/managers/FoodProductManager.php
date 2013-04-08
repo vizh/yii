@@ -55,18 +55,20 @@ class FoodProductManager extends BaseProductManager
    */
   public function rollbackProduct($user)
   {
-    // TODO: Implement RollbackProduct() method.
+
   }
 
   /**
    *
    * @param \user\models\User $fromUser
    * @param \user\models\User $toUser
+   * @param array $params
+   *
    * @return bool
    */
-  public function redirectProduct($fromUser, $toUser)
+  public function internalChangeOwner($fromUser, $toUser, $params = array())
   {
-    // TODO: Implement RedirectProduct() method.
+
   }
 
 

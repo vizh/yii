@@ -176,7 +176,9 @@ $(window).load(function() {
                 <div class="cnt">
                 <?foreach ($participant->Roles as $role):?>
                   <div><a href="javascript:void(0);" class="a pseudo-link"><?=$role->Role->Title;?></a></div>
+                  <?if ($role->Report !== null):?>
                   <p class="tx"><?=$role->Report->Title;?></p>
+                  <?endif;?>
                 <?endforeach;?>
                 </div>
               </div>

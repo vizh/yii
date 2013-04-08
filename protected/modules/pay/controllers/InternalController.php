@@ -59,9 +59,10 @@ class InternalController extends \application\components\controllers\PublicMainC
     echo 'empty';
     return;
 
-    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/rooms-3.csv');
+    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/rooms-4.csv');
     $parser->SetInEncoding('utf-8');
-    //$results = $parser->Parse($this->fieldMap, true);
+    $parser->SetDelimeter(';');
+    $results = $parser->Parse($this->fieldMap, true);
 
     echo '<pre>';
     print_r($results);
@@ -93,7 +94,7 @@ class InternalController extends \application\components\controllers\PublicMainC
 //        }
         $product->getManager()->$key = trim($result->$key);
       }
-      $product->getManager()->Visible = 1;
+      $product->getManager()->Visible = 0;
     }
 
     echo 'done';

@@ -33,8 +33,8 @@ class OperatorAction extends \partner\components\Action
       return;
     }
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.Login LIKE :Login';
-    $criteria->params = array(':Login' => \Utils::PrepareStringForLike($prefix) . '%');
+    $criteria->condition = '"t"."Login" LIKE :Login';
+    $criteria->params = array('Login' => \Utils::PrepareStringForLike($prefix) . '%');
     /** @var $operators \ruvents\models\Operator[] */
     $operators = \ruvents\models\Operator::model()->findAll($criteria);
 
@@ -50,9 +50,9 @@ class OperatorAction extends \partner\components\Action
       $login = $prefix . ($max+$i);
       $password = $this->generatePassword(10);
       $operator = new \ruvents\models\Operator();
-      $operator->EventId = \Yii::app()->partner->getAccount()->EventId;
+      $operator->EventId = $this->getEvent()->Id;
       $operator->Login = $login;
-      $operator->Password = \ruvents\models\Operator::GeneratePasswordHash($password);
+      $operator->Password = \ruvents\models\Operator::generatePasswordHash($password);
       $operator->Role = $role;
       $operator->save();
       fputcsv($this->getFile(), array($login, $password));

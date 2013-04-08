@@ -40,7 +40,7 @@ class MainController extends \oauth\components\Controller
       $this->redirectWithToken();
     }
 
-    $this->render('dialog', array('user' => $user, 'event' => $this->Account->Event));
+    $this->render('dialog', array('user' => $user, 'event' => $this->Account->getEvent()));
   }
 
   private function redirectWithToken()

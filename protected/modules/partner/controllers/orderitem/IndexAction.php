@@ -33,9 +33,9 @@ class IndexAction extends \partner\components\Action
     ));
 
     $orderItems = \pay\models\OrderItem::model()->byEventId($event->Id)->findAll($criteria);
-    $products = \pay\models\Product::model()->byEventId($event->Id)->findAll();
+    //$products = \pay\models\Product::model()->byEventId($event->Id)->findAll();
 
-    $paySystemStat = $this->getPaySystemStat($orderItems);
+    //$paySystemStat = $this->getPaySystemStat($orderItems);
 
     
     
@@ -43,8 +43,8 @@ class IndexAction extends \partner\components\Action
       array(
         'form' => $form,
         'orderItems' => $orderItems,
-        'products' => $products,
-        'paySystemStat' => $paySystemStat,
+        //'products' => $products,
+        //'paySystemStat' => $paySystemStat,
         'paginator' => $paginator
       )
     );

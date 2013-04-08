@@ -35,7 +35,7 @@
       <table class="table thead-actual">
         <thead>
         <tr>
-          <th><?=\Yii::t('app', 'Тип товара');?></th>
+          <th><?=\Yii::t('app', 'Тип билета');?></th>
           <th class="col-width t-right"><?=\Yii::t('app', 'Цена');?></th>
           <th class="col-width t-center"><?=\Yii::t('app', 'Кол-во');?></th>
           <th class="col-width t-right last-child"><?=\Yii::t('app', 'Сумма');?></th>
@@ -48,11 +48,11 @@
           <thead>
             <tr>
               <th>
-                <h4 class="title"><?=\Yii::t('pay', $product->Title);?> <i class="icon-chevron-up"></i></h4>
+                <h4 class="title"><?=$product->Title;?> <i class="icon-chevron-up"></i></h4>
               </th>
-              <th class="col-width t-right"><span class="number"><?=$product->getPrice();?></span> Р</th>
+              <th class="col-width t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></th>
               <th class="col-width t-center"><span class="number quantity"></span></th>
-              <th class="col-width t-right last-child"><b class="number mediate-price">0</b> Р</th>
+              <th class="col-width t-right last-child"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.');?></th>
             </tr>
           </thead>
           <tbody>
@@ -61,12 +61,12 @@
       <?endforeach;?>
 
       <div class="total">
-        <span>Итого:</span> <b id="total-price" class="number">0</b> Р
+        <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
       </div>
 
       <div class="actions">
         <a href="#" onclick="$('#registration_form').trigger('submit'); return false;" class="btn btn-large btn-info">
-          <?=\Yii::t('pay', 'Перейти к оплате');?>
+          <?=\Yii::t('app', 'Перейти к оплате');?>
           <i class="icon-circle-arrow-right icon-white"></i>
         </a>
       </div>
@@ -100,7 +100,7 @@
       <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
       <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][RunetId]');?>" value="<%=item.RunetId%>" />
       <div class="input-append pull-right input-promo">
-        <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="<%=promoCode%>" class="t-center form-element_text" placeholder="Промо код"/>
+        <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="<%=promoCode%>" class="t-center form-element_text" placeholder="<?=Yii::t('app', 'Промо код');?>"/>
         <button class="btn disabled" type="button"><i class="icon-check"></i></button>
         <div class="alert hide"></div>
       </div>
@@ -112,7 +112,7 @@
   <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
   <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][RunetId]');?>" value="<%=runetId%>" />
   <div class="input-append pull-right input-promo">
-    <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="" class="t-center form-element_text" placeholder="Промо код"/>
+    <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="" class="t-center form-element_text" placeholder="<?=Yii::t('app', 'Промо код');?>"/>
     <button class="btn disabled" type="button"><i class="icon-check"></i></button>
     <div class="alert hide"></div>
   </div>
@@ -131,24 +131,24 @@
   <tr>
     <td colspan="4" class="last-child">
       <?=CHtml::beginForm('', 'POST', array('class' => 'user-register'));?>
-      <header><h4 class="title"><?=\Yii::t('pay', 'Регистрация нового участника');?></h4></header>
+      <header><h4 class="title"><?=\Yii::t('app', 'Регистрация нового участника');?></h4></header>
       <div class="alert alert-error" style="display: none;"></div>
       <div class="clearfix">
         <div class="pull-left">
           <div class="control-group">
-            <label><?=\Yii::t('pay', 'Фамилия');?></label>
+            <label><?=\Yii::t('app', 'Фамилия');?></label>
             <div class="required">
               <?=CHtml::activeTextField($registerForm, 'LastName');?>
             </div>
           </div>
           <div class="control-group">
-            <label><?=\Yii::t('pay', 'Имя');?></label>
+            <label><?=\Yii::t('app', 'Имя');?></label>
             <div class="required">
               <?php echo CHtml::activeTextField($registerForm, 'FirstName');?>
             </div>
           </div>
           <div class="control-group">
-            <label><?=\Yii::t('pay', 'Отчество');?></label>
+            <label><?=\Yii::t('app', 'Отчество');?></label>
             <div class="controls">
               <?php echo CHtml::activeTextField($registerForm, 'FatherName');?>
             </div>
@@ -162,29 +162,29 @@
         </div>
         <div class="pull-right">
           <div class="control-group">
-            <label><?=\Yii::t('pay', 'Телефон');?></label>
+            <label><?=\Yii::t('app', 'Телефон');?></label>
             <?=CHtml::activeTextField($registerForm, 'Phone');?>
           </div>
           <div class="control-group">
-            <label><?=\Yii::t('pay', 'Компания');?></label>
+            <label><?=\Yii::t('app', 'Компания');?></label>
             <div class="required">
               <?=CHtml::activeTextField($registerForm, 'Company');?>
             </div>
           </div>
           <div class="control-group">
-            <label><?=\Yii::t('pay', 'Должность');?></label>
+            <label><?=\Yii::t('app', 'Должность');?></label>
             <?=CHtml::activeTextField($registerForm, 'Position');?>
           </div>
         </div>
       </div>
 
       <small class="muted required-notice">
-        <span class="required-asterisk">*</span> &mdash; <?=\Yii::t('pay', 'поля обязательны для заполнения');?>
+        <span class="required-asterisk">*</span> &mdash; <?=\Yii::t('app', 'поля обязательны для заполнения');?>
       </small>
 
       <div class="form-actions">
-        <button class="btn btn-inverse btn-submit"><?=\Yii::t('pay', 'Зарегистрировать');?></button>
-        <button class="btn btn-cancel"><?=\Yii::t('pay', 'Отмена');?></button>
+        <button class="btn btn-inverse btn-submit"><?=\Yii::t('app', 'Зарегистрировать');?></button>
+        <button class="btn btn-cancel"><?=\Yii::t('app', 'Отмена');?></button>
       </div>
       <?CHtml::endForm();?>
     </td>
@@ -220,11 +220,11 @@ $hasNotPaidOrders = false;
         <div class="tabs clearfix">
           <div class="tab current pull-left">
             <span class="number img-circle">1</span>
-            <?=\Yii::t('pay', 'Регистрация');?>
+            <?=\Yii::t('app', 'Регистрация');?>
           </div>
           <div class="tab pull-left">
             <span class="number img-circle">2</span>
-            <?=\Yii::t('pay', 'Оплата');?>
+            <?=\Yii::t('app', 'Оплата');?>
           </div>
         </div>
 
@@ -233,10 +233,10 @@ $hasNotPaidOrders = false;
         <table class="table thead-actual">
           <thead>
           <tr>
-            <th><?=\Yii::t('pay', 'Тип товара');?></th>
-            <th class="col-width t-right"><?=\Yii::t('pay', 'Цена');?></th>
-            <th class="col-width t-center"><?=\Yii::t('pay', 'Кол-во');?></th>
-            <th class="col-width t-right last-child"><?=\Yii::t('pay', 'Сумма');?></th>
+            <th><?=\Yii::t('app', 'Тип билета');?></th>
+            <th class="col-width t-right"><?=\Yii::t('app', 'Цена');?></th>
+            <th class="col-width t-center"><?=\Yii::t('app', 'Кол-во');?></th>
+            <th class="col-width t-right last-child"><?=\Yii::t('app', 'Сумма');?></th>
           </tr>
           </thead>
         </table>
@@ -253,14 +253,14 @@ $hasNotPaidOrders = false;
             <thead>
             <tr data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-user-max="<?=isset($orderForm->Count[$product->Id]) ? $orderForm->Count[$product->Id] : 0;?>" data-user-current="<?=!empty($orderForm->Count[$product->Id]) ? $orderForm->Count[$product->Id] : 0;?>">
               <th>
-                <h4 class="title"><?=\Yii::t('pay', $product->Title);?> <i class="icon-chevron-up"></i></h4>
+                <h4 class="title"><?=$product->Title;?> <i class="icon-chevron-up"></i></h4>
               </th>
-              <th class="col-width t-right"><span class="number"><?=$product->getPrice();?></span> Р</th>
+              <th class="col-width t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></th>
               <th class="col-width t-center">
                 <?=CHtml::activeHiddenField($orderForm, 'Count['.$product->Id.']', array('class' => 'quantity-user-max'));?>
                 <span class="number quantity"></span>
               </th>
-              <th class="col-width t-right last-child"><b class="number mediate-price">0</b> Р</th>
+              <th class="col-width t-right last-child"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.');?></th>
             </tr>
             </thead>
             <tbody>
@@ -294,18 +294,18 @@ $hasNotPaidOrders = false;
         </script>
 
         <div class="total">
-          <span>Итого:</span> <b id="total-price" class="number">0</b> Р
+          <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> Р
         </div>
 
         <?php if ($hasNotPaidOrders):?>
           <div class="alert alert-info" style="margin: 0 20px 20px;">
-            <?php echo \Yii::t('pay', 'У вас уже имеются неоплаченные заказы, для их просмотра, не заполняя форму, нажмите «Перейти к оплате».');?>
+            <?php echo \Yii::t('app', 'У вас уже имеются неоплаченные заказы, для их просмотра, не заполняя форму, нажмите «Перейти к оплате».');?>
           </div>
         <?php endif;?>
 
         <div class="actions">
           <a href="#" onclick="$('#registration_form').trigger('submit'); return false;" class="btn btn-large btn-info">
-            <?=\Yii::t('pay', 'Перейти к оплате');?>
+            <?=\Yii::t('app', 'Перейти к оплате');?>
             <i class="icon-circle-arrow-right icon-white"></i>
           </a>
         </div>
@@ -327,7 +327,7 @@ $hasNotPaidOrders = false;
       </td>
       <td colspan="3" class="last-child">
         <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=Yii::t('app', 'Зарегистрировать');?></button>
-        <input type="text" class="input-medium pull-right t-center form-element_text input-promo" placeholder="Промо код" style="display: none;">
+        <input type="text" class="input-medium pull-right t-center form-element_text input-promo" placeholder="<?=Yii::t('app', 'Промо код');?>" style="display: none;">
       </td>
     </tr>
   </script>
@@ -343,12 +343,12 @@ $hasNotPaidOrders = false;
       <td>
         <div class="p-relative">
 
-          <input type="text" class="input-xxlarge form-element_text input-user" placeholder="<?=Yii::t('pay', 'Введите ФИО или RUNET-ID');?>">
+          <input type="text" class="input-xxlarge form-element_text input-user" placeholder="<?=Yii::t('app', 'Введите ФИО или RUNET-ID');?>">
         </div>
       </td>
       <td colspan="3" class="last-child">
-        <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?php echo Yii::t('tc2012', 'Зарегистрировать');?></button>
-        <input type="text" name="<?=CHtml::resolveName($orderForm, $_ = 'PromoCodes[<%=productid%>][<%=runetid%>]');?>" class="input-medium pull-right t-center form-element_text input-promo" placeholder="Промо код" style="display: none;">
+        <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?php echo Yii::t('app', 'Зарегистрировать');?></button>
+        <input type="text" name="<?=CHtml::resolveName($orderForm, $_ = 'PromoCodes[<%=productid%>][<%=runetid%>]');?>" class="input-medium pull-right t-center form-element_text input-promo" placeholder="<?=Yii::t('app', 'Промо код');?>" style="display: none;">
       </td>
     </tr>
   </script>
@@ -363,8 +363,8 @@ $hasNotPaidOrders = false;
         </div>
       </td>
       <td colspan="3" class="last-child">
-        <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=Yii::t('pay', 'Зарегистрировать');?></button>
-        <input type="text" class="input-medium pull-right t-center form-element_text input-promo" placeholder="Промо код" name="<?php echo CHtml::resolveName($orderForm, $_ = 'PromoCodes[<%=productid%>][<%=runetid%>]');?>" value="<%=code%>">
+        <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=Yii::t('app', 'Зарегистрировать');?></button>
+        <input type="text" class="input-medium pull-right t-center form-element_text input-promo" placeholder="<?=Yii::t('app', 'Промо код');?>" name="<?php echo CHtml::resolveName($orderForm, $_ = 'PromoCodes[<%=productid%>][<%=runetid%>]');?>" value="<%=code%>">
       </td>
     </tr>
   </script>
@@ -373,12 +373,12 @@ $hasNotPaidOrders = false;
     <tr class="user-row" style="opacity: .25;">
       <td>
         <div class="p-relative">
-          <input type="text" class="input-xxlarge form-element_text input-user" placeholder="<?=Yii::t('pay', 'Введите ФИО или RUNET-ID');?>" disabled>
+          <input type="text" class="input-xxlarge form-element_text input-user" placeholder="<?=Yii::t('app', 'Введите ФИО или RUNET-ID');?>" disabled>
         </div>
       </td>
       <td colspan="3" class="last-child">
-        <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=Yii::t('pay', 'Зарегистрировать');?></button>
-        <input type="text" class="input-medium pull-right t-center form-element_text input-promo" placeholder="<?=\Yii::t('pay','Промо код');?>" style="display: none;">
+        <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=Yii::t('app', 'Зарегистрировать');?></button>
+        <input type="text" class="input-medium pull-right t-center form-element_text input-promo" placeholder="<?=\Yii::t('app','Промо код');?>" style="display: none;">
       </td>
     </tr>
   </script>
@@ -387,26 +387,26 @@ $hasNotPaidOrders = false;
     <tr>
       <td colspan="4" class="last-child">
         <?=CHtml::beginForm('', 'POST', array('class' => 'user-register'));?>
-        <header><h4 class="title"><?=\Yii::t('pay', 'Регистрация нового участника');?></h4></header>
+        <header><h4 class="title"><?=\Yii::t('app', 'Регистрация нового участника');?></h4></header>
 
 
 
         <div class="clearfix">
           <div class="pull-left">
             <div class="control-group">
-              <label><?=\Yii::t('pay', 'Фамилия');?></label>
+              <label><?=\Yii::t('app', 'Фамилия');?></label>
               <div class="required">
                 <?=CHtml::activeTextField($registerForm, 'LastName');?>
               </div>
             </div>
             <div class="control-group">
-              <label><?=\Yii::t('pay', 'Имя');?></label>
+              <label><?=\Yii::t('app', 'Имя');?></label>
               <div class="required">
                 <?php echo CHtml::activeTextField($registerForm, 'FirstName');?>
               </div>
             </div>
             <div class="control-group">
-              <label><?=\Yii::t('pay', 'Отчество');?></label>
+              <label><?=\Yii::t('app', 'Отчество');?></label>
               <div class="controls">
                 <?php echo CHtml::activeTextField($registerForm, 'SecondName');?>
               </div>
@@ -420,29 +420,29 @@ $hasNotPaidOrders = false;
           </div>
           <div class="pull-right">
             <div class="control-group">
-              <label><?=\Yii::t('pay', 'Телефон');?></label>
+              <label><?=\Yii::t('app', 'Телефон');?></label>
               <?=CHtml::activeTextField($registerForm, 'Phone');?>
             </div>
             <div class="control-group">
-              <label><?=\Yii::t('pay', 'Компания');?></label>
+              <label><?=\Yii::t('app', 'Компания');?></label>
               <div class="required">
                 <?=CHtml::activeTextField($registerForm, 'Company');?>
               </div>
             </div>
             <div class="control-group">
-              <label><?=\Yii::t('pay', 'Должность');?></label>
+              <label><?=\Yii::t('app', 'Должность');?></label>
               <?=CHtml::activeTextField($registerForm, 'Position');?>
             </div>
           </div>
         </div>
 
         <small class="muted required-notice">
-          <span class="required-asterisk">*</span> &mdash; <?=\Yii::t('pay', 'поля обязательны для заполнения');?>
+          <span class="required-asterisk">*</span> &mdash; <?=\Yii::t('app', 'поля обязательны для заполнения');?>
         </small>
 
         <div class="form-actions">
-          <button id="event-user-register-submit" class="btn btn-inverse"><?=\Yii::t('pay', 'Зарегистрировать');?></button>
-          <button id="event-user-register-cancel" class="btn"><?=\Yii::t('pay', 'Отмена');?></button>
+          <button id="event-user-register-submit" class="btn btn-inverse"><?=\Yii::t('app', 'Зарегистрировать');?></button>
+          <button id="event-user-register-cancel" class="btn"><?=\Yii::t('app', 'Отмена');?></button>
         </div>
         <?CHtml::endForm();?>
       </td>

@@ -3,24 +3,14 @@ namespace pay\components\managers;
 
 class AnyPriceProductManager extends BaseProductManager
 {
-
   /**
-     * Возвращает список доступных аттрибутов
-     * @return string[]
-     */
-    public function GetAttributeNames()
-    {
-      return array();
-    }
-
-  /**
-     * Возвращает список необходимых параметров для OrderItem
-     * @return string[]
-     */
-    public function GetOrderParamNames()
-    {
-      return array('Price');
-    }
+   * Возвращает список необходимых аттрибутов для OrderItem
+   * @return string[]
+   */
+  public function getOrderItemAttributeNames()
+  {
+    return array('Price');
+  }
 
   /**
    * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
@@ -28,9 +18,8 @@ class AnyPriceProductManager extends BaseProductManager
    * @param array $params
    * @return bool
    */
-  public function CheckProduct($user, $params = array())
+  public function checkProduct($user, $params = array())
   {
-    // TODO: Implement CheckProduct() method.
     return true;
   }
 
@@ -40,9 +29,8 @@ class AnyPriceProductManager extends BaseProductManager
    * @param array $params
    * @return bool
    */
-  public function BuyProduct($user, $params = array())
+  public function internalBuyProduct($user, $params = array())
   {
-    // TODO: Implement BuyProduct() method.
     return true;
   }
 
@@ -51,9 +39,8 @@ class AnyPriceProductManager extends BaseProductManager
    * @param string $filter
    * @return array
    */
-  public function Filter($params, $filter)
+  public function filter($params, $filter)
   {
-    // TODO: Implement Filter() method.
     return array();
   }
 
@@ -61,9 +48,8 @@ class AnyPriceProductManager extends BaseProductManager
    * @param array $params
    * @return \pay\models\Product
    */
-  public function GetFilterProduct($params)
+  public function getFilterProduct($params)
   {
-    // TODO: Implement GetFilterProduct() method.
     return $this->product;
   }
 
@@ -71,11 +57,10 @@ class AnyPriceProductManager extends BaseProductManager
    * @param \pay\models\OrderItem $orderItem
    * @return int
    */
-  public function GetPrice($orderItem)
+  public function getPrice($orderItem)
   {
-    $price = parent::GetPrice($orderItem);
-    $priceParam = $orderItem->GetParam('Price')->Value;
-    return $price * $priceParam;
+    $price = (int)$orderItem->getItemAttribute('Price');
+    return parent::getPrice($orderItem) * $price;
   }
 
   /**
@@ -83,19 +68,21 @@ class AnyPriceProductManager extends BaseProductManager
    * @param \user\models\User $user
    * @return bool
    */
-  public function RollbackProduct($user)
+  public function rollbackProduct($user)
   {
-    // TODO: Implement RollbackProduct() method.
+
   }
 
   /**
    *
    * @param \user\models\User $fromUser
    * @param \user\models\User $toUser
+   * @param array $params
+   *
    * @return bool
    */
-  public function RedirectProduct($fromUser, $toUser)
+  public function internalChangeOwner($fromUser, $toUser, $params = array())
   {
-    // TODO: Implement RedirectProduct() method.
+
   }
 }

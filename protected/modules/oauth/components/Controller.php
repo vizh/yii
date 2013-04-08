@@ -28,6 +28,12 @@ class Controller extends \application\components\controllers\BaseController
   {
     \Yii::app()->disableOutputLoggers();
 
+    $langCookie = isset(\Yii::app()->getRequest()->cookies['lang']) ? \Yii::app()->getRequest()->cookies['lang']->value : null;
+    if ($langCookie !== null && in_array($langCookie, \Yii::app()->params['Languages']))
+    {
+      \Yii::app()->setLanguage($langCookie);
+    }
+
     $request = \Yii::app()->getRequest();
     $this->apiKey = $request->getParam('apikey');
     if ($this->apiKey !== null)
@@ -45,12 +51,12 @@ class Controller extends \application\components\controllers\BaseController
 
     if ($account === null)
     {
-      throw new \CHttpException(400);
+      throw new \CHttpException(400, 'Не найден аккаунт внешнего агента');
     }
 
     if ($account->Id !== self::SelfId && (empty($this->url) || !$account->checkUrl($this->url)))
     {
-      throw new \CHttpException(400);
+      throw new \CHttpException(400, 'Не корректно задан путь возврата' . $this->url);
     }
     else
     {

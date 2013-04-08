@@ -14,6 +14,10 @@ namespace event\models;
  * @property Role $Role
  * @property Event $Event
  * @property Part $Part
+ *
+ * @method \event\models\Participant find()
+ * @method \event\models\Participant[] findAll()
+ * @method \event\models\Participant findByPk()
  */
 class Participant extends \CActiveRecord
 {

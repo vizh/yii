@@ -49,7 +49,7 @@ class RegisterAction extends \ruvents\components\Action
     $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Role', 0, $role->Id));
     if ($part !== null)
     {
-      $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Day', $part->Id, $part->Id));
+      $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Part', $part->Id, $part->Id));
     }
     $this->getDetailLog()->UserId = $user->Id;
     $this->getDetailLog()->save();

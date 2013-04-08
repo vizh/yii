@@ -14,10 +14,10 @@ $total = 0;
   <table class="table thead-actual">
     <thead>
     <tr>
-      <th><?=\Yii::t('pay', 'Тип билета');?></th>
-      <th class="col-width t-right"><?=\Yii::t('pay', 'Цена');?></th>
-      <th class="col-width t-right"><?=\Yii::t('pay', 'Кол-во');?></th>
-      <th class="col-width t-right last-child"><?=\Yii::t('pay', 'Сумма');?></th>
+      <th><?=\Yii::t('app', 'Тип билета');?></th>
+      <th class="col-width t-right"><?=\Yii::t('app', 'Цена');?></th>
+      <th class="col-width t-right"><?=\Yii::t('app', 'Кол-во');?></th>
+      <th class="col-width t-right last-child"><?=\Yii::t('app', 'Сумма');?></th>
     </tr>
     </thead>
   </table>
@@ -30,10 +30,10 @@ $total = 0;
     <table class="table">
       <thead>
       <tr>
-        <th colspan="2"><h4 class="title"><?=\Yii::t('pay', $product->Title);?> <i class="icon-chevron-up"></i></h4></th>
-        <th class="col-width t-right"><span class="number"><?=$product->getPrice();?></span> Р</th>
+        <th colspan="2"><h4 class="title"><?=$product->Title;?> <i class="icon-chevron-up"></i></h4></th>
+        <th class="col-width t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></th>
         <th class="col-width t-right"><b class="number"><?=sizeof($items);?></b></th>
-        <th class="col-width t-right last-child"><b class="number"><?=$product->getPrice()*sizeof($items);?></b> Р</th>
+        <th class="col-width t-right last-child"><b class="number"><?=$product->getPrice()*sizeof($items);?></b> <?=Yii::t('app', 'руб.');?></th>
       </tr>
       </thead>
       <tbody>
@@ -48,7 +48,7 @@ $total = 0;
           </td>
           <td colspan="3" class="t-right muted last-child">
             <?if ($item->getPriceDiscount() < $item->getPrice()):?>
-              <?=\Yii::t('pay', 'Промо-код');?> <?=$item->getCouponActivation()->Coupon->Code;?>: <b class="number">-<?=$item->getPrice() - $item->getPriceDiscount();?></b> Р
+              <?=\Yii::t('app', 'Промо-код');?> <?=$item->getCouponActivation()->Coupon->Code;?>: <b class="number">-<?=$item->getPrice() - $item->getPriceDiscount();?></b> <?=Yii::t('app', 'руб.');?>
             <?endif;?>
           </td>
         </tr>
@@ -58,34 +58,34 @@ $total = 0;
   <?endforeach;?>
 
   <div class="total">
-    <span><?=\Yii::t('pay', 'Итого');?>:</span> <b class="number"><?=\Yii::app()->numberFormatter->format('#,##0.00', $total);?></b> Р
+    <span><?=\Yii::t('app', 'Итого');?>:</span> <b class="number"><?=\Yii::app()->numberFormatter->format('#,##0.00', $total);?></b> <?=Yii::t('app', 'руб.');?>
   </div>
 
   <div style="width: 500px; margin: 0 auto; margin-bottom: 40px;">
     <label class="checkbox">
-      <input type="checkbox" name="agreeOffer" value="1"/><?=\Yii::t('pay', 'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате', array('{url}' => $this->createUrl('/pay/cabinet/offer')));?>
+      <input type="checkbox" name="agreeOffer" value="1"/><?=\Yii::t('app', 'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате', array('{url}' => $this->createUrl('/pay/cabinet/offer')));?>
     </label>
   </div>
   <div class="actions clearfix">
     <a href="<?=$account->ReturnUrl===null ? $this->createUrl('/pay/cabinet/register') : $account->ReturnUrl;?>" class="btn btn-large">
       <i class="icon-circle-arrow-left"></i>
-      <?=\Yii::t('pay', 'Назад');?>
+      <?=\Yii::t('app', 'Назад');?>
     </a>
     <?if ($account->EventId == 422):?>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'uniteller'));?>" class="btn btn-large btn-primary"><?=\Yii::t('pay', 'Оплатить через');?> <img src="/img/pay/uniteller.png" alt=""></a>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay');?>" class="btn btn-large btn-primary"><?=\Yii::t('pay', 'Оплатить через');?> <img src="/img/pay/payonline.png" alt=""></a>
+      <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'uniteller'));?>" class="btn btn-large btn-primary"><?=\Yii::t('app', 'Оплатить через');?> <img src="/img/pay/uniteller.png" alt=""></a>
+      <a href="<?=$this->createUrl('/pay/cabinet/pay');?>" class="btn btn-large btn-primary"><?=\Yii::t('app', 'Оплатить через');?> <img src="/img/pay/payonline.png" alt=""></a>
     <?else:?>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay');?>" class="btn btn-large btn-primary"><?=\Yii::t('pay', 'Оплатить картой или эл. деньгами');?></a>
+      <a href="<?=$this->createUrl('/pay/cabinet/pay');?>" class="btn btn-large btn-primary"><?=\Yii::t('app', 'Оплатить картой или эл. деньгами');?></a>
     <?endif;?>
-    <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'paypal'));?>" class="btn btn-large btn-primary paypal"><?=\Yii::t('pay', 'Оплатить через');?> <img src="/img/pay/logo-paypal.png" alt=""></a>
+    <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'paypal'));?>" class="btn btn-large btn-primary paypal"><?=\Yii::t('app', 'Оплатить через');?> <img src="/img/pay/logo-paypal.png" alt=""></a>
     <?if ($account->EventId != 422):?>
-      <a href="<?php echo $this->createUrl('/pay/juridical/create/');?>" class="btn btn-large"><?=\Yii::t('pay', 'Выставить счет');?> <span class="muted"><?=\Yii::t('pay', '(для юр. лиц)');?></span></a>
+      <a href="<?php echo $this->createUrl('/pay/juridical/create/');?>" class="btn btn-large"><?=\Yii::t('app', 'Выставить счет');?> <span class="muted"><?=\Yii::t('app', '(для юр. лиц)');?></span></a>
     <?endif;?>
   </div>
 
   <?if ($account->EventId == 422):?>
   <div class="actions clearfix">
-    <a href="<?php echo $this->createUrl('/pay/juridical/create/');?>" class="btn btn-large"><?=\Yii::t('pay', 'Выставить счет');?> <span class="muted"><?=\Yii::t('pay', '(для юр. лиц)');?></span></a>
+    <a href="<?php echo $this->createUrl('/pay/juridical/create/');?>" class="btn btn-large"><?=\Yii::t('app', 'Выставить счет');?> <span class="muted"><?=\Yii::t('app', '(для юр. лиц)');?></span></a>
   </div>
   <?endif;?>
 
@@ -97,15 +97,15 @@ $total = 0;
     }
   </style>
   <?if (!$hasRecentPaidItems):?>
-    <div class="alert alert-error"><?=\Yii::t('pay', 'У вас нет товаров для оплаты.');?></div>
+    <div class="alert alert-error"><?=\Yii::t('app', 'У вас нет товаров для оплаты.');?></div>
   <?else:?>
-    <div class="alert alert-success"><?=\Yii::t('pay', 'Вы недавно оплатили участие или активировали промо-код. Список оплаченых товаров можно посмотреть ниже.');?></div>
+    <div class="alert alert-success"><?=\Yii::t('app', 'Вы недавно оплатили участие или активировали промо-код. Список оплаченых товаров можно посмотреть ниже.');?></div>
   <?endif;?>
 
   <div class="actions">
     <a href="<?=$account->ReturnUrl===null ? $this->createUrl('/pay/cabinet/register') : $account->ReturnUrl;?>" class="btn btn-large">
       <i class="icon-circle-arrow-left"></i>
-      <?=\Yii::t('pay', 'Назад');?>
+      <?=\Yii::t('app', 'Назад');?>
     </a>
   </div>
 

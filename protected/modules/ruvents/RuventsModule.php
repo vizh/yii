@@ -19,17 +19,17 @@ class RuventsModule extends CWebModule
 
   public function afterControllerAction($controller, $action)
   {
-    if ($_SERVER['REMOTE_ADDR'] == '82.142.129.35')
-    {
-      $log = Yii::getLogger()->getProfilingResults();
-
-      echo '<pre>';
-
-      echo 'ExecutionTime:' . Yii::getLogger()->executionTime . "\r\n";
-
-      print_r($log);
-      echo '<pre>';
-    }
+//    if ($_SERVER['REMOTE_ADDR'] == '82.142.129.35')
+//    {
+//      $log = Yii::getLogger()->getProfilingResults();
+//
+//      echo '<pre>';
+//
+//      echo 'ExecutionTime:' . Yii::getLogger()->executionTime . "\r\n";
+//
+//      print_r($log);
+//      echo '<pre>';
+//    }
   }
 
   public function createLog(CController $controller, CAction $action)

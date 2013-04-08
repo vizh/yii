@@ -13,9 +13,9 @@
 
         <?if (sizeof($unpaidItems)>0):?>
 
-        <h3><?=Yii::t('pay', 'Выставление счета');?></h3>
+        <h3><?=Yii::t('app', 'Выставление счета');?></h3>
 
-        <h5><?=Yii::t('pay', 'Заполните данные юридического лица');?></h5>
+        <h5><?=Yii::t('app', 'Заполните данные юридического лица');?></h5>
 
         <?=CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
 
@@ -64,11 +64,11 @@
               <div class="span2">
                 <a class="btn" href="<?=$this->createUrl('/pay/cabinet/index');?>">
                   <i class="icon-circle-arrow-left"></i>
-                  <?=\Yii::t('pay', 'Назад');?>
+                  <?=\Yii::t('app', 'Назад');?>
                 </a>
               </div>
               <div class="span3">
-                <a id="order_submit" class="btn btn-info" href=""><?=\Yii::t('pay', 'Выставить счет')?></a>
+                <a id="order_submit" class="btn btn-info" href=""><?=\Yii::t('app', 'Выставить счет')?></a>
               </div>
             </div>
           </div>
@@ -78,7 +78,7 @@
 
         <?else:?>
           <div class="alert alert-error">
-            <p><?=Yii::t('pay', 'У вас нет не оплаченных товаров, для выставления счета.');?></p>
+            <p><?=Yii::t('app', 'У вас нет не оплаченных товаров, для выставления счета.');?></p>
           </div>
 
           <div class="control-group">
@@ -87,7 +87,7 @@
                 <div class="span2">
                   <a class="btn" href="<?=$this->createUrl('/pay/cabinet/index');?>">
                     <i class="icon-circle-arrow-left"></i>
-                    <?=\Yii::t('pay', 'Назад');?>
+                    <?=\Yii::t('app', 'Назад');?>
                   </a>
                 </div>
               </div>

@@ -132,15 +132,32 @@ abstract class BaseProductManager
    */
   abstract public function rollbackProduct($user);
 
-
   /**
-   *
-   * @abstract
    * @param \user\models\User $fromUser
    * @param \user\models\User $toUser
+   * @param array $params
+   *
    * @return bool
    */
-  abstract public function redirectProduct($fromUser, $toUser);
+  final public function changeOwner(\user\models\User $fromUser, \user\models\User $toUser, $params = array())
+  {
+    if (!$this->checkProduct($toUser, $params))
+    {
+      return false;
+    }
+    return $this->internalChangeOwner($fromUser, $toUser, $params);
+  }
+
+  /**
+   * @abstract
+   *
+   * @param \user\models\User $fromUser
+   * @param \user\models\User $toUser
+   * @param array $params
+   *
+   * @return bool
+   */
+  abstract public function internalChangeOwner($fromUser, $toUser, $params = array());
 
   /**
    * @param \user\models\User $payer

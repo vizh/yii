@@ -15,17 +15,17 @@ class RuventsController extends \partner\components\Controller
       'index' => array(
         'Title' => 'Статистика',
         'Url' => \Yii::app()->createUrl('/partner/ruvents/index'),
-        'Access' => $this->getAccessFilter()->checkAccess('ruvents', 'index')
+        'Access' => $this->getAccessFilter()->checkAccess('partner', 'ruvents', 'index')
       ),
       'operator' => array(
         'Title' => 'Генерация операторов',
         'Url' => \Yii::app()->createUrl('/partner/ruvents/operator'),
-        'Access' => $this->getAccessFilter()->checkAccess('ruvents', 'operator')
+        'Access' => $this->getAccessFilter()->checkAccess('partner', 'ruvents', 'operator')
       ),
       'csvinfo' => array(
         'Title' => 'Итоги мероприятия (csv)',
         'Url' => \Yii::app()->createUrl('/partner/ruvents/csvinfo'),
-        'Access' => $this->getAccessFilter()->checkAccess('ruvents', 'csvinfo')
+        'Access' => $this->getAccessFilter()->checkAccess('partner', 'ruvents', 'csvinfo')
       ),
     );
   }
@@ -44,18 +44,16 @@ class RuventsController extends \partner\components\Controller
     $stat->Roles = array();
     
     
-    $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
+    $event = Yii::app()->partner->getEvent();
     
     // Кол-во всего выданных бейджей
-    $stat->CountBadges = \ruvents\models\Badge::model()->count('t.EventId = :EventId', array(':EventId' => $event->EventId));
+    $stat->CountBadges = \ruvents\models\Badge::model()->byEventId($event->Id)->count();
     
     // Список ролей на мероприятии
     $criteria = new CDbCriteria();
-    $criteria->condition = 't.Eventid = :EventId';
-    $criteria->params['EventId'] = $event->EventId;
-    $criteria->group = 't.RoleId';
+    $criteria->group = '"t"."RoleId"';
     $criteria->with = array('Role');
-    $badges = \ruvents\models\Badge::model()->findAll($criteria);
+    $badges = \ruvents\models\Badge::model()->byEventId($event->Id)->findAll($criteria);
     foreach ($badges as $badge)
     {
       $stat->Roles[$badge->RoleId] = $badge->Role->Name;

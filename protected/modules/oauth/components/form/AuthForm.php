@@ -33,9 +33,9 @@ class AuthForm extends \CFormModel
   public function attributeLabels()
   {
     return array(
-      'Login' => 'Эл. почта или RUNET-ID',
-      'Password' => 'Пароль',
-      'RememberMe' => 'Запомнить меня'
+      'Login' => \Yii::t('app', 'Эл. почта или RUNET-ID'),
+      'Password' => \Yii::t('app', 'Пароль'),
+      'RememberMe' => \Yii::t('app', 'Запомнить меня')
     );
   }
 }

@@ -25,19 +25,19 @@ class Juridical extends \CFormModel
     {
       $values['PostAddress'] = isset($values['Address']) ? $values['Address'] : '';
     }
-    return parent::setAttributes($values, $safeOnly);
+    parent::setAttributes($values, $safeOnly);
   }
 
 
   public function attributeLabels()
   {
     return array(
-      'Name' => \Yii::t('pay', 'Название компании'),
-      'Address' => \Yii::t('pay', 'Юридический адрес (с индексом)'),
-      'INN' => \Yii::t('pay', 'ИНН'),
-      'KPP' => \Yii::t('pay', 'КПП'),
-      'Phone' => \Yii::t('pay', 'Телефон'),
-      'PostAddress' => \Yii::t('pay', 'Почтовый адрес (с индексом)'),
+      'Name' => \Yii::t('app', 'Название компании'),
+      'Address' => \Yii::t('app', 'Юридический адрес (с индексом)'),
+      'INN' => \Yii::t('app', 'ИНН'),
+      'KPP' => \Yii::t('app', 'КПП'),
+      'Phone' => \Yii::t('app', 'Телефон'),
+      'PostAddress' => \Yii::t('app', 'Почтовый адрес (с индексом)'),
     );
   }
 }

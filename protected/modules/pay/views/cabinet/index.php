@@ -20,11 +20,11 @@ $paidItems = array_merge($recentPaidItems, $paidItems);
     <div class="tabs clearfix">
       <div class="tab pull-left">
         <span class="number img-circle">1</span>
-        <?=\Yii::t('pay', 'Регистрация');?>
+        <?=\Yii::t('app', 'Регистрация');?>
       </div>
       <div class="tab current pull-left">
         <span class="number img-circle">2</span>
-        <?=\Yii::t('pay', 'Оплата');?>
+        <?=\Yii::t('app', 'Оплата');?>
       </div>
     </div>
 

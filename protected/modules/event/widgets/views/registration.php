@@ -9,14 +9,14 @@ if (empty($products))
 }
 ?>
 <form method="post" action="<?=\Yii::app()->createUrl('/pay/cabinet/register', array('eventIdName' => $this->event->IdName));?>" class="registration">
-  <h5 class="title"><?=Yii::t('pay', 'Регистрация');?></h5>
+  <h5 class="title"><?=Yii::t('app', 'Регистрация');?></h5>
   <table class="table table-condensed">
     <thead>
     <tr>
-      <th><?=Yii::t('pay', 'Тип билета');?></th>
-      <th class="t-right col-width"><?=Yii::t('pay', 'Цена');?></th>
-      <th class="t-center col-width"><?=Yii::t('pay', 'Кол-во');?></th>
-      <th class="t-right col-width"><?=Yii::t('pay', 'Сумма');?></th>
+      <th><?=Yii::t('app', 'Тип билета');?></th>
+      <th class="t-right col-width"><?=Yii::t('app', 'Цена');?></th>
+      <th class="t-center col-width"><?=Yii::t('app', 'Кол-во');?></th>
+      <th class="t-right col-width"><?=Yii::t('app', 'Сумма');?></th>
     </tr>
     </thead>
     <tbody>
@@ -34,12 +34,12 @@ if (empty($products))
         <tr data-price="<?=$price->Price;?>">
           <td class="<?=$mutedClass?>">
             <?if ($price->EndTime !== null):?>
-              При регистрации до <?=\Yii::app()->dateFormatter->format('d MMMM', $price->EndTime);?>
+              <?=\Yii::t('app', 'При регистрации до');?> <?=\Yii::app()->dateFormatter->format('d MMMM', $price->EndTime);?>
             <?else:?>
-              При регистрации с <?=\Yii::app()->dateFormatter->format('d MMMM', $price->StartTime);?> и на входе
+              <?=\Yii::t('app', 'При регистрации с');?> <?=\Yii::app()->dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'и на входе');?>
             <?endif;?>
           </td>
-          <td class="t-right <?=$mutedClass?>"><span class="number"><?=$price->Price;?></span> Р</td>
+          <td class="t-right <?=$mutedClass?>"><span class="number"><?=$price->Price;?></span> <?=Yii::t('app', 'руб.');?></td>
           <td class="t-center <?=$mutedClass?>">
             <select <?if($isMuted):?>disabled="disabled"<?endif;?> name="count[<?=$product->Id;?>]" class="input-mini form-element_select">
               <option value="0" selected>0</option>
@@ -54,18 +54,18 @@ if (empty($products))
               <option value="9">9</option>
             </select>
           </td>
-          <td class="t-right <?=$mutedClass?>"><b class="number mediate-price">0</b> Р</td>
+          <td class="t-right <?=$mutedClass?>"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.');?></td>
         </tr>
       <?endforeach;?>
     <?endforeach;?>
     <tr>
       <td colspan="4" class="t-right total">
-        <span><?=Yii::t('pay', 'Итого');?>:</span> <b id="total-price" class="number">0</b> Р
+        <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
       </td>
     </tr>
     </tbody>
   </table>
   <div class="clearfix">
-    <button type="submit" class="btn btn-small btn-info pull-right"><?=Yii::t('pay', 'Зарегистрироваться');?></button>
+    <button type="submit" class="btn btn-small btn-info pull-right"><?=Yii::t('app', 'Зарегистрироваться');?></button>
   </div>
 </form>

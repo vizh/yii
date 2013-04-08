@@ -8,7 +8,7 @@
   <table class="table">
     <thead>
     <tr>
-      <th colspan="4"><h4 class="title"><?=\Yii::t('pay', 'Оплаченные товары');?></h4></th>
+      <th colspan="4"><h4 class="title"><?=\Yii::t('app', 'Оплаченные товары');?></h4></th>
     </tr>
     </thead>
     <tbody>
@@ -18,9 +18,9 @@
         <td>
           <?=$item->Owner->getFullName();?>
         </td>
-        <td><?=\Yii::t('pay', $item->Product->Title);?></td>
+        <td><?=\Yii::t('app', $item->Product->Title);?></td>
         <td><?=\Yii::app()->getLocale()->getDateFormatter()->format('d MMMM yyyy г., H:mm', $item->PaidTime)?></td>
-        <td><?=$item->getPriceDiscount() == 0 ? \Yii::t('pay', 'Бесплатно') : $item->getPriceDiscount() . ' '.\Yii::t('pay', 'руб').'.';?> </td>
+        <td><?=$item->getPriceDiscount() == 0 ? \Yii::t('app', 'Бесплатно') : $item->getPriceDiscount() . ' '.\Yii::t('app', 'руб').'.';?> </td>
       </tr>
     <?php endforeach;?>
     </tbody>
