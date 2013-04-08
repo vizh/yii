@@ -700,6 +700,15 @@ class User extends \application\models\translation\ActiveRecord
     }
     return false;
   }
+  
+  public function getFastauthUrl($redirectUrl = '')
+  {
+    return \Yii::app()->createAbsoluteUrl('/main/fastauth/index', array(
+      'runetId' => $this->RunetId,
+      'hash' => $this->getHash(),
+      'redirectUrl' => $redirectUrl
+    ));
+  }
 
 
   /**
