@@ -39,11 +39,8 @@
   </div>
   <div class="span6">
     <label>Получатель:</label>
-    <input type="text" value="<??> <?php if (!empty($redirectUser)) echo $redirectUser->GetFullName();?>" name="Query" data-valuefield="RunetId" />
+    <input type="text" value="" placeholder="RUNET-ID" name="Query" data-valuefield="RunetId" />
     <input type="hidden" value="<?php if (!empty($redirectUser)) echo $redirectUser->RocId;?>" name="RunetId"/>
-    <p class="help-block">
-      <strong>Заметка:</strong> Просто начните набирать фамилию и имя или rocID пользователя. Здесь автоматически будут отображаться результаты поиска. 
-    </p>
   </div>
 </div>
 <div class="row">
