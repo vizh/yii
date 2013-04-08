@@ -98,7 +98,12 @@
               <?if (!$order->Paid && $order->Juridical):?>
                 <button class="btn btn-success" type="submit" onclick="return confirm('Вы уверены, что хотите отметить данный счет оплаченным?');" name="SetPaid"><i class="icon-ok icon-white"></i></button>
               <?endif;?>
+
+                <?if ($order->Juridical):?>
+                <a class="btn" target="_blank" href="<?=$order->getUrl(true);?>"><i class="icon-print"></i></a>
+                <?endif;?>
               </form>
+              
             </td>
           </tr>
         <?endforeach;?>

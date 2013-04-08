@@ -83,7 +83,7 @@ class CsvParser
     {
       if ($value !== null)
       {
-        $result->$key = isset($data[$value]) ? $this->encode($data[$value]) : null;
+        $result->$key = isset($data[$value]) ? trim($this->encode($data[$value])) : null;
       }
       else
       {

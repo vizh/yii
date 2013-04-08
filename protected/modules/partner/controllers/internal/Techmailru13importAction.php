@@ -20,15 +20,15 @@ class Techmailru13importAction extends \partner\components\ImportAction
   {
     return array(
 
-      'FirstName' => 0,
+      'FirstName' => 2,
       'LastName' => 1,
       'FatherName' => null,
-      'Email' => 2,
-      'Phone' => 3,
-      'Company' => 4,
-      'Position' => 5,
+      'Email' => 3,
+      'Phone' => 4,
+      'Company' => null,
+      'Position' => null,
 
-      'Status' => 7,
+      'Status' => 5,
     );
   }
 
@@ -45,7 +45,7 @@ class Techmailru13importAction extends \partner\components\ImportAction
    */
   function getFileName()
   {
-    return 'import1.csv';
+    return 'import2.csv';
   }
 
   /**
@@ -53,7 +53,7 @@ class Techmailru13importAction extends \partner\components\ImportAction
    */
   function getIsEnable()
   {
-    return true;
+    return false;
   }
 
   /**
@@ -61,7 +61,7 @@ class Techmailru13importAction extends \partner\components\ImportAction
    */
   function getIsDebug()
   {
-    return false;
+    return true;
   }
 
   protected function getRoleId($row)
@@ -80,6 +80,9 @@ class Techmailru13importAction extends \partner\components\ImportAction
         break;
       case 'организатор':
         return 6;
+        break;
+      case 'сми':
+        return 2;
         break;
       default:
         return 0;
