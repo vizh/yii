@@ -68,15 +68,17 @@ class ContactsAction extends \CAction
               $linkServiceAccount->delete();
               continue;
             }
+            else
+            {
+              $serviceAccount->Account = $formAccount->Account;
+              $serviceAccount->TypeId  = $serviceType->Id;
+              $serviceAccount->save();
+            }
           }
           else
           {
             $serviceAccount = $user->setContactServiceAccount($formAccount->Account, $serviceType);
           }
-          
-          $serviceAccount->Account = $formAccount->Account;
-          $serviceAccount->TypeId  = $serviceType->Id;
-          $serviceAccount->save();
         }
        
         \Yii::app()->user->setFlash('success', \Yii::t('app', 'Контакты успешно сохранены!'));
@@ -105,13 +107,16 @@ class ContactsAction extends \CAction
       
       foreach ($user->LinkServiceAccounts as $linkAccount)
       {
-        $account = new \contact\models\forms\ServiceAccount();
-        $account->attributes = array(
-          'Id' => $linkAccount->ServiceAccount->Id,
-          'TypeId' => $linkAccount->ServiceAccount->TypeId,
-          'Account' => $linkAccount->ServiceAccount->Account
-        );
-        $form->Accounts[] = $account;
+        if ($linkAccount->ServiceAccount !== null)
+        {
+          $account = new \contact\models\forms\ServiceAccount();
+          $account->attributes = array(
+            'Id' => $linkAccount->ServiceAccount->Id,
+            'TypeId' => $linkAccount->ServiceAccount->TypeId,
+            'Account' => $linkAccount->ServiceAccount->Account
+          );
+          $form->Accounts[] = $account;
+        }
       }
     }
     

@@ -133,6 +133,7 @@ class ContactController extends convert\components\controllers\Controller
     foreach ($phones as $phone)
     {
       $newPhone = new \contact\models\Phone();
+      $newPhone->Id = $phone['PhoneId'];
       $phoneParts = array();
       if (preg_match('/^(\+\d)?(\(\d+\))?[ ]?(\d+)$/i', $phone['Phone'], $phoneParts))
       {    

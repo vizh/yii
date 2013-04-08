@@ -2,7 +2,8 @@
 $menu = array(
   'index' => \Yii::t('app', 'Основная информация'),
   'photo' => \Yii::t('app', 'Фотография профиля'),
-  'employment' => \Yii::t('app', 'Карьера')
+  'employment' => \Yii::t('app', 'Карьера'),
+  'contacts' => \Yii::t('app', 'Контакты')
 );
 ;?>
 

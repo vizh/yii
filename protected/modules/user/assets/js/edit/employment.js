@@ -21,8 +21,6 @@ CUserEditEmployment.prototype = {
       self.createEmptyItem();
       return false;
     });
-    
-    $('.ui-autocomplete:not(.ui-autocomplete_live-search)').addClass('dropdown-menu typeahead');
   },
           
   initItem : function (item) {
@@ -66,6 +64,7 @@ CUserEditEmployment.prototype = {
     item.find('input[name*="Primary"]').change(function (e) {
       self.form.find('input[name*="Primary"]').not($(e.currentTarget)).removeAttr('checked');
     });
+    $('.ui-autocomplete').not('.ui-autocomplete_live-search').addClass('dropdown-menu');
   },
           
   createFillItem : function (data) {
