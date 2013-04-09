@@ -227,9 +227,22 @@ class Order extends \CActiveRecord
       $orderJuridical->Phone = $juridicalData['Phone'];
       $orderJuridical->PostAddress = $juridicalData['PostAddress'];
       $orderJuridical->save();
+      
+      $eventHandler = new \CModelEvent($this, array('payer' => $user, 'event' => $event, 'total' => $total));
+      $this->onCreateOrderJuridical($eventHandler);
     }
-
+    
     return $total;
+  }
+  
+  public function onCreateOrderJuridical($eventHandler)
+  {
+    /** @var $sender Event */
+    $sender = $eventHandler->sender;
+    $class = \Yii::getExistClass('\pay\components\handlers\orderjuridical\create', ucfirst($eventHandler->params['event']->IdName), 'Base');
+    /** @var $handler \event\components\handlers\register\Base */
+    $handler = new $class($eventHandler);
+    $handler->onCreateOrderJuridical($eventHandler);
   }
 
   /**
