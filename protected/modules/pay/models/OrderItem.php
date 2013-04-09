@@ -350,17 +350,12 @@ class OrderItem extends \CActiveRecord
   }
 
   /**
+   * @param Order $order
+   *
    * @return bool
    */
-  public function activate()
+  public function activate($order = null)
   {
-//    if ($this->Booked !== null && $this->Booked < date('Y-m-d H:i:s'))
-//    {
-//      $this->Deleted = true;
-//      $this->DeletionTime = date('Y-m-d H:i:s');
-//      $this->save();
-//      return false;
-//    }
     $owner = $this->ChangedOwner !== null ? $this->ChangedOwner : $this->Owner;
     if (!$this->Product->getManager()->checkProduct($owner))
     {
@@ -371,10 +366,7 @@ class OrderItem extends \CActiveRecord
     }
     $this->Product->getManager()->buyProduct($owner);
     $this->Paid = true;
-    if ($this->PaidTime === null)
-    {
-      $this->PaidTime = date('Y-m-d H:i:s');
-    }
+    $this->PaidTime = ($order!== null && $order->Juridical) ? $order->CreationTime : date('Y-m-d H:i:s');
     $this->save();
     return true;
   }

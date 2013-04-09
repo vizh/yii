@@ -3,6 +3,18 @@
 return array(
   array(
     'allow',
+    'roles' => array('Admin'),
+    'module' => 'partner',
+    'controllers' => array('user', 'coupon'),
+  ),
+  array(
+    'deny',
+    'roles' => array('Partner'),
+    'module' => 'partner',
+    'controllers' => array('user', 'coupon'),
+  ),
+  array(
+    'allow',
     'users' => array('?'),
     'module' => 'partner',
     'controllers' => array('auth'),

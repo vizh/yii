@@ -135,9 +135,8 @@ class Order extends \CActiveRecord
 
     foreach ($this->ItemLinks as $link)
     {
-      $priceDiscount = $link->OrderItem->getPriceDiscount();
       $activation = $link->OrderItem->getCouponActivation();
-      if ($link->OrderItem->activate())
+      if ($link->OrderItem->activate($this))
       {
         if ($activation !== null)
         {
@@ -146,9 +145,14 @@ class Order extends \CActiveRecord
       }
       else
       {
+        if ($this->Juridical && $link->OrderItem->PaidTime != $this->CreationTime)
+        {
+          $link->OrderItem->PaidTime = $this->CreationTime;
+          $link->OrderItem->save();
+        }
         $errorItems[] = $link->OrderItem->Id;
       }
-      $total += $priceDiscount;
+      $total += $link->OrderItem->getPriceDiscount();
     }
 
     foreach ($activations as $activationId => $items)

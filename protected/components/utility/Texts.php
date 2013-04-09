@@ -181,7 +181,7 @@ class Texts
       'HTML.AllowedElements'   => array(),
       'HTML.AllowedAttributes' => array(),
     );
-    return $purifier->purify($value);
+    return trim($purifier->purify($value));
   }
 
 }
