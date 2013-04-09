@@ -10,6 +10,10 @@ class Phdays2013 extends Base
   
   public function getSubject()
   {
+    if (\Yii::app()->getLanguage() == 'en')
+    {
+      return 'Successful registration на Positive Hack Days 2013';
+    }
     return 'Успешная регистрация на Positive Hack Days 2013';
   }
   
