@@ -21,14 +21,14 @@ class Phdays2013 extends Base
       return null;
     }
 
-    
     if (\Yii::app()->getLanguage() == 'en')
     {
-      
+      $view = 'event.views.mail.register.phdays13.en';
     }
     else
     {
-      return \Yii::app()->getController()->renderPartial('event.views.mail.register.phdays13.ru', array('user' => $this->user), true);
+      $view = 'event.views.mail.register.phdays13.ru';
     }
+    return \Yii::app()->getController()->renderPartial($view, array('user' => $this->user), true);
   }
 }
