@@ -50,14 +50,7 @@ class Builder
    */
   public function buildUserEmail(\user\models\User $user)
   {
-    if ($user->getContactEmail() !== null)
-    {
-      $this->user->Email = $user->getContactEmail()->Email;
-    }
-    else
-    {
-      $this->user->Email = $user->Email;
-    }
+    $this->user->Email = $user->Email;
 
     return $this->user;
   }
@@ -89,7 +82,7 @@ class Builder
    */
   public function buildUserEvent(\user\models\User $user)
   {
-    $isOnePart = empty($this->account->getEvent()->Parts);
+    $isOnePart = $this->account->EventId != null && empty($this->account->getEvent()->Parts);
     foreach ($user->Participants as $participant)
     {
       if ($this->account->EventId != null && $participant->EventId == $this->account->EventId)
@@ -185,11 +178,16 @@ class Builder
     {
       $this->event->Place = $event->getContactAddress()->__toString();
     }
-    $this->event->Url = $event->Url;
-    $this->event->UrlRegistration = $event->UrlRegistration;
-    $this->event->UrlProgram = $event->UrlProgram;
-    $this->event->DateStart = $event->DateStart;
-    $this->event->DateEnd = $event->DateEnd;
+    $this->event->Url = $event->getContactSite() !== null ? (string)$event->getContactSite() : '';
+    $this->event->UrlRegistration = '';//$event->UrlRegistration;
+    $this->event->UrlProgram = '';// $event->UrlProgram;
+    $this->event->StartYear = $event->StartYear;
+    $this->event->StartMonth = $event->StartMonth;
+    $this->event->StartDay = $event->StartDay;
+    $this->event->EndYear = $event->EndYear;
+    $this->event->EndMonth = $event->EndMonth;
+    $this->event->EndDay = $event->EndDay;
+
 
     $this->event->Image = new \stdClass();
 

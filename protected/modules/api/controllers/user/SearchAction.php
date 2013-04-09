@@ -17,6 +17,7 @@ class SearchAction extends \api\components\Action
     }
 
     $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."LastName", "t"."FirstName", "t"."RunetId"';
     if ($pageToken === null)
     {
       $criteria->limit = $maxResults;
