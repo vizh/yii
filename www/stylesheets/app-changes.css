@@ -158,6 +158,30 @@ a:focus{
 
 
 /**
+Кнопки
+**/
+.actions .uniteller {
+  background-image: url(/img/pay/uniteller.png);
+  background-repeat: no-repeat;
+  background-position: 140px 5px;
+  padding-right: 100px;
+}
+  .actions .btn-primary.uniteller {
+    background-image: url(/img/pay/uniteller_white.png);
+  }
+  
+.actions .payonline {
+  background-image: url(/img/pay/payonline.png);
+  background-repeat: no-repeat;
+  background-position: 140px 8px;
+  padding-right: 110px;
+}
+  .actions .btn-primary.payonline {
+    background-image: url(/img/pay/payonline_white.png);
+  }
+
+
+/**
 Кроп изображений
 **/
 .imgcrop-140 {
