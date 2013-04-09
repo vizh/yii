@@ -72,8 +72,8 @@ $total = 0;
       <?=\Yii::t('app', 'Назад');?>
     </a>
     <?if ($account->EventId == 422):?>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'uniteller'));?>" class="btn btn-large btn-primary"><?=\Yii::t('app', 'Оплатить через');?> <img src="/img/pay/uniteller.png" alt=""></a>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay');?>" class="btn btn-large btn-primary"><?=\Yii::t('app', 'Оплатить через');?> <img src="/img/pay/payonline.png" alt=""></a>
+      <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'uniteller'));?>" class="btn btn-large btn-primary uniteller"><?=\Yii::t('app', 'Оплатить через');?></a>
+      <a href="<?=$this->createUrl('/pay/cabinet/pay');?>" class="btn btn-large btn-primary payonline"><?=\Yii::t('app', 'Оплатить через');?></a>
     <?else:?>
       <a href="<?=$this->createUrl('/pay/cabinet/pay');?>" class="btn btn-large btn-primary"><?=\Yii::t('app', 'Оплатить картой или эл. деньгами');?></a>
     <?endif;?>
