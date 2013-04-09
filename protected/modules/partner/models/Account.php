@@ -2,10 +2,11 @@
 namespace partner\models;
 
 /**
- * @property int $AccountId
+ * @property int $Id
  * @property int $EventId
  * @property string $Login
  * @property string $Password
+ * @property string $PasswordStrong
  * @property string $NoticeEmail
  * @property string $Role
  */
@@ -46,12 +47,32 @@ class Account extends \CActiveRecord
   }
 
   /**
+   * Проверяет пароль партнера и обновляет хэш на безопасный
    * @param string $password
-   * @return string
+   * @return bool
    */
-  public function getHash($password)
+  public function checkLogin($password)
   {
-    return md5($password);
+    if ($this->PasswordStrong === null)
+    {
+      $lightHash = md5($password);
+      if ($this->Password == $lightHash)
+      {
+        $pbkdf2 = new \application\components\utility\Pbkdf2();
+        $this->PasswordStrong = $pbkdf2->createHash($password);
+        $this->Password = null;
+        $this->save();
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    else
+    {
+      return \application\components\utility\Pbkdf2::validatePassword($password, $this->PasswordStrong);
+    }
   }
 
   /** @var \partner\components\Notifier */
@@ -68,5 +89,10 @@ class Account extends \CActiveRecord
     }
 
     return $this->notifier;
+  }
+
+  public function isAdmin()
+  {
+    return $this->Role == 'Admin';
   }
 }

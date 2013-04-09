@@ -7,7 +7,7 @@ class ListAction extends \api\components\Action
   {
     $year = (int)\Yii::app()->getRequest()->getParam('Year', date('Y'));
 
-    $events = \event\models\Event::model()->byDate($year)->findAll();
+    $events = \event\models\Event::model()->byDate($year)->byVisible(true)->findAll();
 
     $result = array();
     foreach ($events as $event)

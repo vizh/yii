@@ -331,6 +331,6 @@ class RoomProductManager extends BaseProductManager
    */
   public function internalChangeOwner($fromUser, $toUser, $params = array())
   {
-
+    return true;
   }
 }
