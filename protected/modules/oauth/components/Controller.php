@@ -27,7 +27,21 @@ class Controller extends \application\components\controllers\BaseController
   public function beforeAction($action)
   {
     \Yii::app()->disableOutputLoggers();
-
+    
+    
+    $url = \Yii::app()->request->getParam('url');
+    if ($url !== null)
+    {
+      $urlParams = array();
+      parse_str(parse_url($url, PHP_URL_QUERY), $urlParams);
+      if (isset($urlParams['lang']) 
+        && in_array($urlParams['lang'], \Yii::app()->params['Languages']))
+      {
+        \Yii::app()->setLanguage($urlParams['lang']);
+      }
+    }
+    
+    
     $langCookie = isset(\Yii::app()->getRequest()->cookies['lang']) ? \Yii::app()->getRequest()->cookies['lang']->value : null;
     if ($langCookie !== null && in_array($langCookie, \Yii::app()->params['Languages']))
     {
