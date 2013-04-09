@@ -84,7 +84,7 @@ class UsersAction extends \ruvents\components\Action
       }
     }
 
-    $result = array();
+    $result = array('Users' => array());
     foreach ($users as $user)
     {
       $this->getDataBuilder()->createUser($user);

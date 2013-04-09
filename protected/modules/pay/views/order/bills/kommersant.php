@@ -116,10 +116,9 @@ use application\components\utility\Texts;
     <?if ($withSign):?>
       <TR>
         <TD colspan="2">
-          <b style="color: red; font-size: 20px;">Нужен вариант счета с печатями и подписями</b>
-          <!--<IMG style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none; width: 720px;"
-               src="/img/pay/bill/digital-october/bill_withsign.png"
-              />-->
+          <IMG style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none; width: 600px;"
+               src="/img/pay/bill/kommersant/sign.jpg"
+              />
         </TD>
       </TR>
     <?else:?>
@@ -128,14 +127,9 @@ use application\components\utility\Texts;
       </tr>
       <tr>
         <td colspan="2">
-          <table style="width: 100%; font-family: Arial; padding-top: 10px;">
-            <tr>
-              <td width="10%">Генеральный директор</td>
-              <td width="40%" style="padding-right: 10px; border-bottom: 2px solid #000000; font-size: 80%; font-weight: bold; text-align: right;">Филенков Павел Юрьевич</td>
-              <td width="10%" style="padding-left: 20px;">Главный бухгалтер</td>
-              <td width="40%" style="padding-right: 10px; border-bottom: 2px solid #000000; font-size: 80%; font-weight: bold; text-align: right;">Голикова Светлана Анатольевна</td>
-            </tr>
-          </table>
+          <IMG style="BORDER-BOTTOM: medium none; BORDER-LEFT: medium none; BORDER-TOP: medium none; BORDER-RIGHT: medium none; width: 600px;"
+               src="/img/pay/bill/kommersant/nosign.jpg"
+              />
         </td>
       </tr>
     <?endif;?>
