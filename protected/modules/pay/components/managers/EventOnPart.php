@@ -36,6 +36,12 @@ class EventOnPart extends BaseProductManager
     {
       throw new \pay\components\Exception('Не корректно задан PartId для товара категории EventOnPart');
     }
+    $this->role = \event\models\Role::model()->findByPk($this->RoleId);
+    if ($this->role === null)
+    {
+      throw new \pay\components\Exception('Не корректно установлена роль на мероприятии для товара категории EventOnPart');
+    }
+
     /** @var $eventUser \event\models\Participant */
     $participant = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($user->Id)->byPartId($this->PartId)->find();
     if (empty($participant))
@@ -43,11 +49,6 @@ class EventOnPart extends BaseProductManager
       return true;
     }
 
-    $this->role = \event\models\Role::model()->findByPk($this->RoleId);
-    if ($this->role === null)
-    {
-      throw new \pay\components\Exception('Не корректно установлена роль на мероприятии для товара категории EventOnPart');
-    }
     return $participant->Role->Priority < $this->role->Priority;
   }
 

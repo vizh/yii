@@ -95,7 +95,7 @@
               <form action="<?=\Yii::app()->createUrl('/partner/order/view', array('orderId' => $order->Id));?>" method="post">
               <a class="btn btn-info" href="<?=\Yii::app()->createUrl('/partner/order/view', array('orderId' => $order->Id));?>"><i class="icon-list icon-white"></i></a>
 
-              <?if (!$order->Paid && $order->Juridical):?>
+              <?if (!$order->Paid && ($order->Juridical || Yii::app()->partner->getAccount()->isAdmin())):?>
                 <button class="btn btn-success" type="submit" onclick="return confirm('Вы уверены, что хотите отметить данный счет оплаченным?');" name="SetPaid"><i class="icon-ok icon-white"></i></button>
               <?endif;?>
 

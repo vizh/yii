@@ -31,6 +31,12 @@ class EventAllParts extends BaseProductManager
       throw new \pay\components\Exception('Данное мероприятие не имеет логической разбивки. Используйте продукт регистрации на всё мероприятие.');
     }
 
+    $this->role = \event\models\Role::model()->findByPk($this->RoleId);
+    if ($this->role === null)
+    {
+      throw new \pay\components\Exception('Не корректно установлена роль на мероприятии для товара категории EventOnPart');
+    }
+
     /** @var $participants \event\models\Participant[] */
     $participants = \event\models\Participant::model()
         ->byEventId($this->product->EventId)->byUserId($user->Id)->with('Role')->findAll();
@@ -39,11 +45,6 @@ class EventAllParts extends BaseProductManager
       return true;
     }
 
-    $this->role = \event\models\Role::model()->findByPk($this->RoleId);
-    if ($this->role === null)
-    {
-      throw new \pay\components\Exception('Не корректно установлена роль на мероприятии для товара категории EventOnPart');
-    }
     foreach ($participants as $participant)
     {
       if ($participant->Role->Priority > $this->role->Priority)

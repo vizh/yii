@@ -15,7 +15,7 @@ class Identity extends \CUserIdentity
     {
       $this->errorCode = self::ERROR_USERNAME_INVALID;
     }
-    elseif ($account->getHash($this->password) !== $account->Password)
+    elseif (!$account->checkLogin($this->password))
     {
       $this->errorCode=self::ERROR_PASSWORD_INVALID;
     }
