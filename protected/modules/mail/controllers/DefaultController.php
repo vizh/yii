@@ -30,8 +30,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
-      'Participants' => array('together' => true),
-      'Participants.Role' => array('together' => true),
+//      'Participants' => array('together' => true),
+//      'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
 //    $criteria->addInCondition('"Participants"."EventId"', array(422));
@@ -40,12 +40,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"Settings"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
-    $criteria->limit = 500;
+    $criteria->limit = 300;
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
@@ -87,7 +87,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
 
-        $mail->Send();
+//        $mail->Send();
 
         fwrite($fp, $user->RunetId.'-'.$email."\n");
       }
