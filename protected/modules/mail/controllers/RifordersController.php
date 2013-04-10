@@ -73,14 +73,7 @@ class RifordersController extends \application\components\controllers\AdminMainC
         $mail->ContentType = ($isHTML) ? 'text/html' : 'text/plain';
         $mail->IsHTML($isHTML);
 
-        if ($order->Payer->getContactEmail() !== null)
-        {
-          $email = $order->Payer->getContactEmail()->Email;
-        }
-        else
-        {
-          $email = $order->Payer->Email;
-        }
+        $email = $order->Payer->Email;
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 

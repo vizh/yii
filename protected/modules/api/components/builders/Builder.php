@@ -417,7 +417,7 @@ class Builder
     $this->section = new \stdClass();
 
     $this->section->SectionId = $section->Id;
-    $this->section->Title = $section->Title;
+    $this->section->Title = $this->filterSectionTitle($section->Title);
     $this->section->Description = $section->Info; //todo: deprecated
     $this->section->Info = $section->Info;
     $this->section->Start = $section->StartTime;
@@ -444,6 +444,15 @@ class Builder
     }
 
     return $this->section;
+  }
+
+  protected function filterSectionTitle($title)
+  {
+    if ($this->account->Role == 'mobile')
+    {
+      return (new \application\components\utility\Texts())->filterPurify($title);
+    }
+    return $title;
   }
 
   protected $report;

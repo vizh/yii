@@ -11,8 +11,7 @@
 					<tr><td height="15"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="15"></div></td></tr>
 					<tr>
 						<td align="center">
-   						<img src="http://runet-id.com/images/mailing/common/rocid_logo.png" border=0 align="middle">
-					    <span style="font-family:Arial, Helvetica, sans-serif; font-size:28px; color:#020202; vertical-align:top; line-height:43px; margin-left: 15px;"><a href="http://runet-id.com/<?=$user->RunetId;?>/"><?=$user->getShortName();?></a></span>
+   						<img src="http://runet-id.com/images/mailing/common/runetid-logo.png" border=0 align="middle">
 					  </td>
 					</tr>
 
@@ -29,8 +28,7 @@
 	        					<table width="100%" align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
 	          					<tr>
 	            					<td>
-	            						<span style="font-family:Arial, Helvetica, sans-serif; font-size:25px; color:#020202; line-height:28px;">23 апреля 2013<br><b>Бизнес-форум КоммерсантЪ «Телеком 2013: Точки роста</b></span><br>
-	            						<span style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#020202; line-height:15px;"><a href="http://runet-id.com/event/telekom13/">runet-id.com/event/telekom13/</a></span>
+	            						<span style="font-family:Arial, Helvetica, sans-serif; font-size:25px; color:#020202; line-height:28px;">23 апреля 2013<br><b>Бизнес-форум КоммерсантЪ «Телеком 2013: Точки роста</b></span>
 												</td>
 						          </tr>
 				              <tr><td height="15"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="15"></div></td></tr>
@@ -160,7 +158,6 @@
 	          					<tr>
 	            					<td>
 	            						<span style="font-family:Arial, Helvetica, sans-serif; font-size:25px; color:#020202; line-height:28px;">12-13 мая 2013<br><b>MIPAcademy Moscow DO</b></span><br>
-	            						<span style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#020202; line-height:15px;"><a href="http://runet-id.com/event/mipacademy13/">runet-id.com/event/mipacademy13/</a></span>
 												</td>
 						          </tr>
 				              <tr><td height="15"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="15"></div></td></tr>
@@ -243,7 +240,6 @@
 	          					<tr>
 	            					<td>
 	            						<span style="font-family:Arial, Helvetica, sans-serif; font-size:25px; color:#020202; line-height:28px;">15 мая 2013<br><b>#MBLT13 - «Мобильные тренды и вызовы: меняя образ мира»</b></span><br>
-	            						<span style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#020202; line-height:15px;"><a href="http://mblt2013.runet-id.com/">mblt2013.runet-id.com</a></span>
 												</td>
 						          </tr>
 				              <tr><td height="15"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="15"></div></td></tr>
@@ -344,7 +340,6 @@
 	          					<tr>
 	            					<td>
 	            						<span style="font-family:Arial, Helvetica, sans-serif; font-size:25px; color:#020202; line-height:28px;">3-4 июня 2013<br><b>Demo europe 2013</b></span><br>
-	            						<span style="font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#020202; line-height:15px;"><a href="http://demo2013.runet-id.com/">demo2013.runet-id.com</a></span>
 												</td>
 						          </tr>
 				              <tr><td height="15"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="15"></div></td></tr>
@@ -401,7 +396,7 @@
 					    	<tr>
 					    		<td width="165"></td>
 						      <td style="line-height:15px;">
-										<span style="font-family:Arial, Helvetica, sans-serif; font-size:22px; color:#020202; line-height:28px;"><a href="http://runet-id.com/events/">Полный список</a> мероприятий, рекомендованных RUNET-ID</span>
+										<span style="font-family:Arial, Helvetica, sans-serif; font-size:22px; color:#020202; line-height:28px;"><a href="http://runet-id.com/events/">Список мероприятий</a>, рекомендованных RUNET-ID</span>
 						      </td>
 					    	</tr>
 					    </table>
