@@ -98,6 +98,7 @@ class Uniteller extends Base
 
 
     $params['Signature'] = $signature;
+    $params['Language'] = \Yii::app()->getLanguage() == 'en' ? 'en' : 'ru';
     $params['URL_RETURN'] = \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', array('eventIdName' => \event\models\Event::model()->findByPk($eventId)->IdName));
 
     \Yii::app()->getController()->redirect(self::Url . '?' . http_build_query($params));
