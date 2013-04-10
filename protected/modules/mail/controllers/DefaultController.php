@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'demo13-1';
-    $isHTML = true;
+    $template = 'rif13-8';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -24,7 +24,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         'Participants' => array('together' => true, 'select' => false),
         'Settings' => array('select' => false),
-        'LinkEmail.Email',
     );
     $criteria->addCondition('"Participants"."EventId" IN (128,218,339) OR "City"."Id" IN (3538,3354,4210,4238,5242,4650,5005)');
     */
@@ -33,16 +32,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role' => array('together' => true),
-      'Settings' => array('select' => false),
-      'LinkEmail.Email'
+      'Settings' => array('select' => false)
     );
-    $criteria->addInCondition('"Participants"."EventId"', array(236,414));
+//    $criteria->addInCondition('"Participants"."EventId"', array(422));
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"Settings"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
 
 //    echo \user\models\User::model()->count($criteria);
 //    exit();
@@ -56,22 +54,16 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       foreach ($users as $user)
       {
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
         $mail = new \ext\mailer\PHPMailer(false);
         $mail->Mailer = 'mail';
         $mail->ParamOdq = true;
         $mail->ContentType = ($isHTML) ? 'text/html' : 'text/plain';
         $mail->IsHTML($isHTML);
         
-        if ($user->getContactEmail() !== null)
-        {
-          $email = $user->getContactEmail()->Email;
-        }
-        else 
-        {
-          $email = $user->Email;
-        }
-        
+        $email = $user->Email;
+
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
@@ -88,9 +80,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('info@runet-id.com', '–RUNET-ID–', false);
+        $mail->SetFrom('users@rif.ru', 'РИФ+КИБ 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Ближайшие мероприятия Digital October') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('1 неделя до РИФ+КИБ: сформирована Программа Форума') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
@@ -116,7 +108,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
    	$hash = substr(md5($runetId.$secret), 0, 16);
 
-    return 'http://2013.russianinternetforum.ru/my/'.$runetId.'/'.$hash .'/?redirect=/my/payment1.php';
+    return 'http://2013.russianinternetforum.ru/my/'.$runetId.'/'.$hash .'/';
+//    return 'http://2013.russianinternetforum.ru/my/'.$runetId.'/'.$hash .'/?redirect=/my/payment1.php';
   }
 
 }
