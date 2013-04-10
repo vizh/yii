@@ -105,9 +105,11 @@ return array(
   'Ссылки для экпонентов' => 'Links for exhibitions',
   'Страница не найдена' => 'Page not found!',
   'Перейдите на главную' => 'Back to main',
-  '' => '',
-  '' => '',
-
+  
+  
+  'Указан неверный код купона' => 'Wrong coupon number',
+  'Купон на скидку {discount}% успешно активирован!' => 'Coupon for {discount}% discount successfully activated!',
+  
 
 
 
