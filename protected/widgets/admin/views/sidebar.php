@@ -14,7 +14,7 @@
     <li><a href="index.html">Список пользователей</a></li>
     <li><a href="users.html">Объединение</a></li>
     <li><a href="user.html">Видимость</a></li>
-    <li><a href="media.html">Быстрая авторизация</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/user/admin/auth/index');?>">Быстрая авторизация</a></li>
     <li><a href="calendar.html">Контакты</a></li>
     <li><a href="">Статистика</a></li>
   </ul>
