@@ -314,8 +314,11 @@ class Builder
     $this->orderItem->Product = $this->CreateProduct($orderItem->Product, $orderItem->PaidTime);
     $this->createUser($orderItem->Payer);
     $this->orderItem->Payer = $this->buildUserEmployment($orderItem->Payer);
-    $this->createUser($orderItem->Owner);
-    $this->orderItem->Owner = $this->buildUserEmployment($orderItem->Owner);
+
+    $owner = $orderItem->ChangedOwner !== null ? $orderItem->ChangedOwner : $orderItem->Owner;
+    $this->createUser($owner);
+    $this->orderItem->Owner = $this->buildUserEmployment($owner);
+
     $this->orderItem->PriceDiscount = $orderItem->getPriceDiscount();
     $this->orderItem->Paid = $orderItem->Paid == 1;
     $this->orderItem->PaidTime = $orderItem->PaidTime;
