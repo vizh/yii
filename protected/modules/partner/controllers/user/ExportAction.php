@@ -48,7 +48,8 @@ class ExportAction extends \partner\components\Action
         'Статус на мероприятии',
         'Cумма оплаты',
         'Дата регистрации на мероприятие',
-        'Дата оплаты участия'
+        'Дата оплаты участия',
+        'Дата выдачи бейджа'
       );
       fputcsv($fp, $row, $this->csvDelimiter);
 
@@ -80,6 +81,7 @@ class ExportAction extends \partner\components\Action
           'Price' => '',
           'DateRegister' => \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', $participant->CreationTime),
           'DatePay' => '',
+          'DateBadge' => ''
         );
 
         if ($participant->User->getEmploymentPrimary() !== null)
@@ -103,6 +105,15 @@ class ExportAction extends \partner\components\Action
         {
           $row['Price'] = $orderItem->getPriceDiscount() !== null ? $orderItem->getPriceDiscount() : 0;
           $row['DatePay'] = \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', strtotime($orderItem->PaidTime));
+        }
+
+        /** @var $badge \ruvents\models\Badge */
+        $badge = \ruvents\models\Badge::model()
+            ->byEventId($this->getEvent()->Id)
+            ->byUserId($participant->UserId)->find();
+        if ($badge !== null)
+        {
+          $row['DateBadge'] = $badge->CreationTime;
         }
 
         fputcsv($fp, $this->rowHandler($row), $this->csvDelimiter);

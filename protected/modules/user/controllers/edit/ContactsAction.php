@@ -19,6 +19,7 @@ class ContactsAction extends \CAction
           $site = parse_url($form->Site);
           $user->setContactSite($site['host'], ($site['scheme'] == 'https'));
         }
+        $user->save();
         
         // Сохранение номеров телефонов
         foreach ($form->Phones as $formPhone)

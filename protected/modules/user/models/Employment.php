@@ -231,7 +231,7 @@ class Employment extends \CActiveRecord
   public function chageCompany($companyFullName)
   {
     $companyModel = \company\models\Company::model();
-    $companyName = $companyModel->parseFullName($companyFullName);
+    $companyName = $companyFullName;//$companyModel->parseFullName($companyFullName);
     if (mb_strlen($companyName) === 0)
     {
       throw new \application\components\Exception(\Yii::t('app', 'Название компании не может быть пустым'));

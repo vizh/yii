@@ -8,7 +8,7 @@ class RedirectAction extends \partner\components\Action
     $this->getController()->setPageTitle('Перенос заказа');
     $this->getController()->initActiveBottomMenu('redirect');
 
-    $orderItem = \pay\models\OrderItem::model()->findByPk($orderItemId);
+    $orderItem = \pay\models\OrderItem::model()->findByPk((int)$orderItemId);
     $changedOwner = null;
     
     $request = \Yii::app()->getRequest();

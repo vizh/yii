@@ -40,11 +40,6 @@
             <div class="form-info"><?=\Yii::t('app', 'Выберите фотографию размером до 2 мегабайт в формате *.jpg, *.gif или *.png.');?></div>
 
             <div class="form-help"><?=\Yii::t('app', 'Используйте только свои фотографии, другие изображения будут удаляться.');?></div>
-
-            <div class="form-footer">
-              <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), array('class' => 'btn btn-info'));?>
-            </div>
-
           <?=\CHtml::endForm();?>
 
         </div>

@@ -513,14 +513,24 @@ class User extends \application\models\translation\ActiveRecord
    */
   public function setContactPhone($number, $type = \contact\models\PhoneType::Mobile)
   {
+    $isNew = false;
     $phone = $this->getContactPhone($type);
     if ($phone === null)
     {
       $phone = new \contact\models\Phone();
       $phone->Type = $type;
+      $isNew = true;
     }
     $phone->parsePhone($number);
     $phone->save();
+
+    if ($isNew)
+    {
+      $linkPhone = new LinkPhone();
+      $linkPhone->UserId = $this->Id;
+      $linkPhone->PhoneId = $phone->Id;
+      $linkPhone->save();
+    }
 
     return $phone;
   }
@@ -699,6 +709,15 @@ class User extends \application\models\translation\ActiveRecord
       return true;
     }
     return false;
+  }
+  
+  public function getFastauthUrl($redirectUrl = '')
+  {
+    return \Yii::app()->createAbsoluteUrl('/main/fastauth/index', array(
+      'runetId' => $this->RunetId,
+      'hash' => $this->getHash(),
+      'redirectUrl' => $redirectUrl
+    ));
   }
 
 

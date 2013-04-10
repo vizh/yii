@@ -29,11 +29,11 @@ class OrderController extends \partner\components\Controller
         'Url' => \Yii::app()->createUrl('/partner/order/index').'?filter=active',
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'order', 'index')
       ),*/
-      'createbill' => array(
+      /*'createbill' => array(
         'Title' => 'Выставить счет',
         'Url' => \Yii::app()->createUrl('/partner/order/create/'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'order', 'create')
-      ),
+      ),*/
     );
   }
 }

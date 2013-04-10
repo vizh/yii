@@ -29,8 +29,9 @@ class ViewController extends \application\components\controllers\PublicMainContr
     $this->setPageTitle($user->getFullName() . ' / RUNET-ID');
     
     $criteria = new \CDbCriteria();
-    $criteria->with = array('Section', 'Report');
+    $criteria->with = array('Section', 'Report', 'Role');
     $criteria->condition = '"t"."UserId" = :UserId';
+    $criteria->order = '"Role"."Priority" DESC';
     $criteria->params = array(
       'UserId'  => $user->Id,
     );
@@ -48,29 +49,31 @@ class ViewController extends \application\components\controllers\PublicMainContr
     foreach ($user->Participants as $participant)
     {
       $eventId = $participant->EventId;
-      if (!isset($participation->Participation[$eventId]))
+      
+      if (isset($participation->Participation[$eventId]))
+        continue;
+      
+      $participation->Participation[$eventId] = new \stdClass();
+      $participation->Participation[$eventId]->Event = $participant->Event;
+      $participation->Participation[$eventId]->Roles = array();
+      $participation->Participation[$eventId]->HasSections = false;
+      if (!in_array($participant->Event->StartYear, $participation->Years))
       {
-        $participation->Participation[$eventId] = new \stdClass();
-        $participation->Participation[$eventId]->Event = $participant->Event;
-        $participation->Participation[$eventId]->Roles = array();
-        $participation->Participation[$eventId]->HasSections = false;
-        if (!in_array($participant->Event->StartYear, $participation->Years))
-        {
-          $participation->Years[] = $participant->Event->StartYear;
-        }
+        $participation->Years[] = $participant->Event->StartYear;
       }
       
-      $role = new \stdClass();
       if (!isset($sections[$eventId]))
       {
+        $role = new \stdClass();
         $role->Role = $participant->Role;
         $participation->Participation[$eventId]->Roles[] = $role;
       }
-      else if (!$participation->Participation[$eventId]->HasSections)
+      else
       {
         $participation->Participation[$eventId]->HasSections = true;
         foreach ($sections[$eventId] as $section)
         {
+          $role = new \stdClass();
           $role->Role = $section->Role;
           $role->Report = $section->Report;
           $participation->Participation[$eventId]->Roles[] = $role;

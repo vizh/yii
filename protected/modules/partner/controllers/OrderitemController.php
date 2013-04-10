@@ -20,11 +20,11 @@ class OrderitemController extends \partner\components\Controller
         'Url' => \Yii::app()->createUrl('/partner/orderitem/index'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'orderitem', 'index')
       ),
-      'create' => array(
+      /*'create' => array(
         'Title' => 'Добавить заказ',
         'Url' => \Yii::app()->createUrl('/partner/orderitem/create'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'orderitem', 'create')
-      ),
+      ),*/
       'redirect' => array(
         'Title' => 'Перенести заказ',
         'Url' => \Yii::app()->createUrl('/partner/orderitem/redirect'),

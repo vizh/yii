@@ -13,6 +13,7 @@ class OrderSearch extends \CFormModel
   public function rules()
   {
     return array(
+      array('Order, Company, INN, Payer, Paid, Deleted', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
       array('Order, Company, INN, Payer, Paid, Deleted', 'safe')
     );
   }

@@ -43,7 +43,7 @@ return array(
     'allow',
     'roles' => array('base'),
     'controllers' => array('event'),
-    'actions' => array('roles', 'register', 'list')
+    'actions' => array('roles', 'register', 'list', 'info')
   ),
   array(
     'allow',

@@ -135,9 +135,8 @@ class Order extends \CActiveRecord
 
     foreach ($this->ItemLinks as $link)
     {
-      $priceDiscount = $link->OrderItem->getPriceDiscount();
       $activation = $link->OrderItem->getCouponActivation();
-      if ($link->OrderItem->activate())
+      if ($link->OrderItem->activate($this))
       {
         if ($activation !== null)
         {
@@ -146,9 +145,14 @@ class Order extends \CActiveRecord
       }
       else
       {
+        if ($this->Juridical && $link->OrderItem->PaidTime != $this->CreationTime)
+        {
+          $link->OrderItem->PaidTime = $this->CreationTime;
+          $link->OrderItem->save();
+        }
         $errorItems[] = $link->OrderItem->Id;
       }
-      $total += $priceDiscount;
+      $total += $link->OrderItem->getPriceDiscount();
     }
 
     foreach ($activations as $activationId => $items)
@@ -227,9 +231,22 @@ class Order extends \CActiveRecord
       $orderJuridical->Phone = $juridicalData['Phone'];
       $orderJuridical->PostAddress = $juridicalData['PostAddress'];
       $orderJuridical->save();
+      
+      $eventHandler = new \CModelEvent($this, array('payer' => $user, 'event' => $event, 'total' => $total));
+      $this->onCreateOrderJuridical($eventHandler);
     }
-
+    
     return $total;
+  }
+  
+  public function onCreateOrderJuridical($eventHandler)
+  {
+    /** @var $sender Event */
+    $sender = $eventHandler->sender;
+    $class = \Yii::getExistClass('\pay\components\handlers\orderjuridical\create', ucfirst($eventHandler->params['event']->IdName), 'Base');
+    /** @var $handler \event\components\handlers\register\Base */
+    $handler = new $class($eventHandler);
+    $handler->onCreateOrderJuridical($eventHandler);
   }
 
   /**

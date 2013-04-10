@@ -8,7 +8,7 @@ class ClearbookAction extends \partner\components\Action
     $criteria = new \CDbCriteria();
     $criteria->addCondition('"t"."Booked" IS NOT NULL');
     $criteria->addCondition('"t"."Booked" < :Booked');
-    $criteria->params['Booked'] = '2013-03-29 00:00:00';
+    $criteria->params['Booked'] = '2013-04-06 00:00:00';
     $criteria->order = '"Product"."Id" ASC';
 
     /** @var $orderItems \pay\models\OrderItem[] */
@@ -19,8 +19,8 @@ class ClearbookAction extends \partner\components\Action
 
     foreach ($orderItems as $item)
     {
-      //echo $item->ProductId . '<br>';
-      $item->deleteHard();
+      echo $item->ProductId . '<br>';
+      //$item->deleteHard();
     }
 
     echo 'done: ' . sizeof($orderItems);

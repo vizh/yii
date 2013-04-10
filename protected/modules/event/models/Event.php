@@ -390,9 +390,9 @@ class Event extends \application\models\translation\ActiveRecord
   public function registerUserOnAllParts(\user\models\User $user, Role $role)
   {
     $result = array();
-    foreach ($this->Days as $day)
+    foreach ($this->Parts as $part)
     {
-      $result[$day->DayId] = $this->registerUserOnPart($day, $user, $role);
+      $result[$part->Id] = $this->registerUserOnPart($part, $user, $role);
     }
     return $result;
   }

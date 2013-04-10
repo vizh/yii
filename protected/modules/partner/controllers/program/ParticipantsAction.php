@@ -49,13 +49,16 @@ class ParticipantsAction extends \partner\components\Action
         if ($form->Delete == 1)
         {
           $linkUser->delete();
-          if (!empty($event->Parts))
+          if (\event\models\section\LinkUser::model()->byEventId($event->Id)->byUserId($user->Id)->exists() == false)
           {
-            $event->unregisterUserOnAllParts($user);
-          }
-          else
-          {
-            $event->unregisterUser($user);
+            if (!empty($event->Parts))
+            {
+              $event->unregisterUserOnAllParts($user);
+            }
+            else
+            {
+              $event->unregisterUser($user);
+            }
           }
         }
         else

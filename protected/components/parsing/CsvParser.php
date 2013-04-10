@@ -16,7 +16,7 @@ class CsvParser
   {
     if (! file_exists($path))
     {
-      throw new \Exception('Wrong file path! File not exist.');
+      throw new \Exception('Wrong file path! File not exist. Path:' . $path);
     }
     $this->path = $path;
   }
@@ -83,7 +83,11 @@ class CsvParser
     {
       if ($value !== null)
       {
-        $result->$key = isset($data[$value]) ? $this->encode($data[$value]) : null;
+        $result->$key = isset($data[$value]) ? trim($this->encode($data[$value])) : null;
+      }
+      else
+      {
+        $result->$key = '';
       }
     }
     return $result;
