@@ -50,4 +50,23 @@ class LinkUser extends \CActiveRecord
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
+  
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->with = array('Section');
+    $criteria->condition = '"Section"."EventId" = :EventId';
+    $criteria->params = array('EventId' => $eventId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  public function byUserId($userId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."UserId" = :UserId';
+    $criteria->params = array('UserId' => $userId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }
