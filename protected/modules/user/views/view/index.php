@@ -157,17 +157,17 @@ $(window).load(function() {
       <div class="container">
         <?$rowCount = 1;?>
         <div class="row">
-        <?foreach ($participation->Participation as $eventId => $participant):?>
+        <?foreach ($participation->Participation as $participant):?>
             <figure class="i span2" data-year="<?=$participant->Event->StartYear;?>">
               <a href="<?=$this->createUrl('/event/view/index', array('idName' => $participant->Event->IdName));?>" class="event-link">
                 <?=\CHtml::image($participant->Event->getLogo()->getMini(), $participant->Event->Title, array('class' => 'img'));?>
               </a>
               <figcaption class="cnt">
                 <?foreach ($participant->Roles as $role):?>
-                  <?if (!$participant->HasSections || empty($role->Report->Title)):?>
-                    <p class="tx"><?=$role->Role->Title;?></p>
+                  <?if (!$participant->HasSections):?>
+                    <p class="tx"><?=$role->Title;?></p>
                   <?else:?>
-                    <div><a href="javascript:void(0);" class="a pseudo-link"><?=$role->Role->Title;?></a></div>
+                    <div><a href="javascript:void(0);" class="a"><?=$role->Title;?></a></div>
                   <?endif;?>
                 <?endforeach;?>
               </figcaption>
@@ -175,10 +175,14 @@ $(window).load(function() {
               <div class="popup">
                 <div class="cnt">
                 <?foreach ($participant->Roles as $role):?>
-                  <div><a href="javascript:void(0);" class="a pseudo-link"><?=$role->Role->Title;?></a></div>
-                  <?if (!empty($role->Report)):?>
-                  <p class="tx"><?=$role->Report->Title;?></p>
-                  <?endif;?>
+                  <div><a href="javascript:void(0);" class="a"><?=$role->Title;?></a></div>
+                  <?foreach ($role->Sections as $section):?>
+                    <?if ($section->getUrl() !== null):?>
+                      <p class="tx"><a href="<?=$section->getUrl();?>" target="blank" alt="<?=$section->Title;?>"><?=$section->Title;?></a></p>
+                    <?else:?>
+                      <p class="tx"><?=$section->Title;?></p>
+                    <?endif;?>
+                  <?endforeach;?>
                 <?endforeach;?>
                 </div>
               </div>

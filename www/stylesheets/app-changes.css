@@ -202,3 +202,12 @@ a:focus{
 input.error {
   border-color: #B94A48 !important;
 }
+.user-account .b-participated .cnt .tx a {
+  text-decoration: underline;
+}
+.user-account .b-participated .cnt a.a:hover{
+  text-decoration: none;
+}
+.user-account .b-participated .popup .cnt a.a {
+  margin-top: 1px;
+}

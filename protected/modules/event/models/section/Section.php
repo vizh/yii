@@ -109,4 +109,15 @@ class Section extends \CActiveRecord
     $attribute->Value = $value;
     $attribute->save();
   }
+  
+  private $url = null;
+  public function getUrl()
+  {
+    if ($this->url == null
+      && isset($this->Event->UrlSectionMask))
+    {
+      $this->url = str_replace(':SECTION_ID', $this->Id, $this->Event->UrlSectionMask);
+    }
+    return $this->url;
+  }
 }

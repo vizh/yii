@@ -11,11 +11,10 @@ class ViewController extends \application\components\controllers\PublicMainContr
       'LinkServiceAccounts.ServiceAccount.Type',
       'Employments.Company',
       'Participants' => array(
-        'together' => false,
-        'order' => '"Event"."Id" DESC'
+        'together' => false,  
+        'with' => array('Event', 'Role'),
+        'order' => '"Event"."StartYear" DESC, "Event"."Id"'
       ),
-      'Participants.Event',
-      'Participants.Role',
       'Commissions' => array(
         'together' => false
       )
@@ -35,10 +34,10 @@ class ViewController extends \application\components\controllers\PublicMainContr
     $criteria->params = array(
       'UserId'  => $user->Id,
     );
-    $sections  = array();
+    $linkSections  = array();
     foreach (\event\models\section\LinkUser::model()->findAll($criteria) as $link)
     {
-      $sections[$link->Section->EventId][] = $link;
+      $linkSections[$link->Section->EventId][] = $link;
     }
     
     $participation = new \stdClass();
@@ -62,21 +61,28 @@ class ViewController extends \application\components\controllers\PublicMainContr
         $participation->Years[] = $participant->Event->StartYear;
       }
       
-      if (!isset($sections[$eventId]))
+      if (!isset($linkSections[$eventId]))
       {
         $role = new \stdClass();
-        $role->Role = $participant->Role;
+        $role->Id    = $participant->Role->Id;
+        $role->Title = $participant->Role->Title;
+        $role->Type  = $participant->Role->Type;
         $participation->Participation[$eventId]->Roles[] = $role;
       }
       else
       {
         $participation->Participation[$eventId]->HasSections = true;
-        foreach ($sections[$eventId] as $section)
+        foreach ($linkSections[$eventId] as $linkSection)
         {
           $role = new \stdClass();
-          $role->Role = $section->Role;
-          $role->Report = $section->Report;
-          $participation->Participation[$eventId]->Roles[] = $role;
+          $role->Id    = $linkSection->Role->Id;
+          $role->Title = $linkSection->Role->Title;
+          $role->Type  = $linkSection->Role->Type;
+          if (!isset($participation->Participation[$eventId]->Roles[$role->Id]))
+          {
+            $participation->Participation[$eventId]->Roles[$role->Id] = $role;
+          }
+          $participation->Participation[$eventId]->Roles[$role->Id]->Sections[] = $linkSection->Section;
         }
       }
     }
@@ -86,7 +92,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
       $roletype = \event\models\RoleType::None;
       foreach ($participant->Roles as $role)
       {
-        $roletype = \event\models\RoleType::compare($roletype, $role->Role->Type);
+        $roletype = \event\models\RoleType::compare($roletype, $role->Type);
       }
       $participation->RoleCount->{$roletype}++;
     }
