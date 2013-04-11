@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rif13-9';
+    $template = 'rif13-10';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -35,13 +35,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
     $criteria->addInCondition('"Participants"."EventId"', array(422));
-    $criteria->addInCondition('"Participants"."RoleId"', array(24));
+    $criteria->addNotInCondition('"Participants"."RoleId"', array(24));
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"Settings"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -83,7 +83,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->AddAddress($email);
         $mail->SetFrom('users@rif.ru', 'РИФ+КИБ 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('12 апреля - последний день приема безналичных платежей') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Финансовая информация: 12 апреля - последний день приема безналичных платежей') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
