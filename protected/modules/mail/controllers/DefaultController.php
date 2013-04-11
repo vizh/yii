@@ -41,7 +41,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"Settings"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
 
     echo \user\models\User::model()->count($criteria);
     exit();
