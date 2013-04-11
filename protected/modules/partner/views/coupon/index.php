@@ -1,53 +1,16 @@
 <?php
 /**
  * @var $coupons \pay\models\Coupon[]
+ * @var $paginator \application\components\utility\Paginator
  */
 ?>
-<form method="get">
-    <div class="row">
-        <div class="span3">
-            <label>Диапазон скидки:</label>
-            <input type="text" name="filter[Discount][From]" value="<?php if ( isset ($filter['Discount'])) echo $filter['Discount']['From'];?>" class="span1"/><p class="help-inline">&ndash;</p> <input type="text" name="filter[Discount][To]" value="<?php if ( isset ($filter['Discount'])) echo $filter['Discount']['To'];?>" class="span1"/> <p class="help-inline">%</p>
-        </div>
-        
-        <div class="span3">
-            <label>Код:</label>
-            <input type="text" name="filter[Code]" value="<?php if ( isset ($filter['Code'])) echo $filter['Code'];?>" class="span2" />
-        </div>
-        
-        <div class="span3">
-            <label>Выдан:</label>
-            <select name="filter[Recipitient]" class="span2">
-                <option value="">Все</option>
-                <option value="1" <?php if ( isset ($filter['Recipitient']) && $filter['Recipitient'] == 1):?>selected="selected"<?endif;?>>
-                    Выдан
-                </option>
-                <option value="0" <?php if ( isset ($filter['Recipitient']) && $filter['Recipitient'] == 0):?>selected="selected"<?endif;?>>
-                    Не выдан
-                </option>
-            </select>
-        </div>
-        
-        <div class="span3">
-            <label>Активация:</label>
-            <select name="filter[Activated]" class="span2">
-                <option value="">Все</option>
-                <option value="1" <?php if ( isset ($filter['Activated']) && $filter['Activated'] == 1):?>selected="selected"<?endif;?>>Активирован</option>
-                <option value="0" <?php if ( isset ($filter['Activated']) && $filter['Activated'] == 0):?>selected="selected"<?endif;?>>Не активирован</option>
-            </select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="span12"><input type="submit" value="Искать" name="" class="btn" /></div>
-    </div>
-</form>
 
-<?php if (!empty($coupons)):?>
+<?if (!empty($coupons)):?>
 <form action="<?=Yii::app()->createUrl('/partner/coupon/give');?> " method="GET">
 <table class="table table-striped">
     <thead>
     <tr>
-        <th><input type="checkbox" name="" value="" /></th>
+        <!--<th><input type="checkbox" name="" value="" /></th>-->
         <th>Промо-код</th>
         <th>Скидка</th>
         <th>Продукт</th>
@@ -58,40 +21,35 @@
     <tbody>
     <?php foreach ($coupons as $coupon):?>
     <tr>
-        <td><input type="checkbox" name="Coupons[]" value="<?php echo $coupon->Code;?>" /></td>
-        <td><strong><?php echo $coupon->Code;?></strong></td>
-        <td><strong><?php echo ($coupon->Discount * 100);?> %</strong></td>
+        <!--<td><input type="checkbox" name="Coupons[]" value="<?=$coupon->Code;?>" /></td>-->
+        <td><strong><?=$coupon->Code;?></strong></td>
+        <td><strong><?=($coupon->Discount * 100);?> %</strong></td>
         <td>
-            <?php if ($coupon->ProductId !== null):?>
-                <span title="<?php echo $coupon->Product->Title;?>">
-                <?php 
-                    echo mb_strlen ($coupon->Product->Title, 'utf-8') > 20 
-                            ? mb_substr ($coupon->Product->Title, 0, 20, 'utf-8').'...' : $coupon->Product->Title;
-                ?>
+            <?if ($coupon->ProductId !== null):?>
+                <span title="<?=$coupon->Product->Title;?>">
+                <?=\application\components\utility\Texts::cropText($coupon->Product->Title, 20);?>
                 </span>
-            <?php else:?>
+            <?else:?>
                 &ndash;
-            <?php endif;?>
+            <?endif;?>
         </td>
         <td>
-            <?php if ($coupon->Recipient == null):?>
+            <?if ($coupon->Recipient == null):?>
                 <span class="label">Не выдан</span>
-            <?php else:?>
+            <?else:?>
                 <span class="label label-info">Выдан</span>
           <p>
             <em><?=$coupon->Recipient;?></em>
           </p>
-            <?php endif;?>
+            <?endif;?>
         </td>
         <td>
-            <?php if ($coupon->Multiple == 0 
-                    && $coupon->CouponActivatedList != null):?>
+            <?if (!$coupon->Multiple && sizeof($coupon->Activations) > 0):?>
                 <span class="label label-success">Активирован</span> 
-                <br/><a href="<?php echo $this->createUrl('/partner/user/edit', array('rocId' => $coupon->CouponActivatedList[0]->User->RocId));?>" class="small"><strong><?php echo $coupon->CouponActivatedList[0]->User->GetFullName();?>, <?php echo $coupon->CouponActivatedList[0]->User->RocId;?></strong></a>
-            <?php elseif ($coupon->Multiple > 0
-                    && sizeof ($coupon->CouponActivatedList) > 0):?>
+                <br/><a target="_blank" href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => $coupon->Activations[0]->User->RunetId));?>" class="small"><strong><?=$coupon->Activations[0]->User->getFullName();?>, <?=$coupon->Activations[0]->User->RunetId;?></strong></a>
+            <?elseif ($coupon->Multiple && sizeof($coupon->Activations) > 0):?>
                 <span class="label label-success">
-                    Активирован <?php echo sizeof ($coupon->CouponActivatedList);?> из <?php echo $coupon->Multiple;?>
+                    Активирован <?=sizeof($coupon->Activations);?> из <?=$coupon->MultipleCount;?>
                 </span>
             <?php else:?>
                 <span class="label">Не активирован</span>
@@ -100,28 +58,17 @@
     </tr>
     <?php endforeach;?>
     </tbody>
-    <tfoot>
-        <td></td>
-        <td><input type="submit" value="Выдать промо-коды" style="display: none;" class="btn btn-mini btn-success"/></a></td>
-        <td colspan="4"></td>
-    </tfoot>
+   <!-- <tfoot>
+    <tr>
+      <td></td>
+      <td><input type="submit" value="Выдать промо-коды" style="display: none;" class="btn btn-mini btn-success"/></a></td>
+      <td colspan="4"></td>
+    </tr>
+    </tfoot>-->
 </table>
 </form>
 <?php else:?>
     <div class="alert">По Вашему запросу нет ни одного участника.</div>
 <?php endif;?>
 
-<?php
-$params = array(
-  'url' => '/partner/coupon/index',
-  'count' => $count,
-  'perPage' => CouponController::CouponOnPage,
-  'page' => $page
-);
-if (!empty($filter))
-{
-  $params['params'] = array('filter' => $filter);
-}
-
-$this->widget('\application\widgets\Paginator', $params);
-?>
+<?$this->widget('\application\widgets\Paginator', array('paginator' => $paginator));?>

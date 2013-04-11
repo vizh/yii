@@ -5,13 +5,13 @@ return array(
     'allow',
     'roles' => array('Admin'),
     'module' => 'partner',
-    'controllers' => array('user', 'coupon'),
+    'controllers' => array('user'),
   ),
   array(
     'deny',
     'roles' => array('Partner'),
     'module' => 'partner',
-    'controllers' => array('user', 'coupon'),
+    'controllers' => array('user'),
   ),
   array(
     'allow',
