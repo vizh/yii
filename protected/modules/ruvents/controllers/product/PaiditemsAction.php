@@ -9,7 +9,7 @@ class PaiditemsAction extends \ruvents\components\Action
     $runetId = $request->getParam('RunetId', null);
 
     $event = $this->getEvent();
-    $user = \user\models\User::model()->byRunetId($runetId);
+    $user = \user\models\User::model()->byRunetId($runetId)->find();
     if ($user === null)
     {
       throw new \ruvents\components\Exception(202, array($runetId));
@@ -34,6 +34,9 @@ class PaiditemsAction extends \ruvents\components\Action
     {
       $result[] = $this->getDataBuilder()->createOrderItem($item);
     }
+
+
+
     echo json_encode(array('OrderItems' => $result));
   }
 }

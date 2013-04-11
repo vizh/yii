@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rif13-8';
+    $template = 'rif13-10';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -30,11 +30,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
-//      'Participants' => array('together' => true),
-//      'Participants.Role' => array('together' => true),
+      'Participants' => array('together' => true),
+      'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
-//    $criteria->addInCondition('"Participants"."EventId"', array(422));
+    $criteria->addInCondition('"Participants"."EventId"', array(422));
+    $criteria->addNotInCondition('"Participants"."RoleId"', array(24));
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
@@ -54,8 +55,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       foreach ($users as $user)
       {
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
         $mail = new \ext\mailer\PHPMailer(false);
         $mail->Mailer = 'mail';
         $mail->ParamOdq = true;
@@ -82,7 +83,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->AddAddress($email);
         $mail->SetFrom('users@rif.ru', 'РИФ+КИБ 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('1 неделя до РИФ+КИБ: сформирована Программа Форума') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Финансовая информация: 12 апреля - последний день приема безналичных платежей') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');

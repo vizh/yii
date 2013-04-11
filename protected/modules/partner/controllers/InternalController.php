@@ -13,6 +13,7 @@ class InternalController extends \partner\components\Controller
       'eaapa2013import' => '\partner\controllers\internal\Eaapa2013importAction',
       'icomf13addproduct' => '\partner\controllers\internal\Icomf13addproductAction',
       'techmailru13import' => '\partner\controllers\internal\Techmailru13importAction',
+      'snce13import' => '\partner\controllers\internal\import\Snce13Action',
     );
   }
 }

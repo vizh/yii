@@ -29,7 +29,7 @@ class CouponController extends \partner\components\Controller
         'Url' => \Yii::app()->createUrl('/partner/coupon/index'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'coupon', 'index')
       ),
-      'users' => array(
+      /*'users' => array(
         'Title' => 'Активированные промо-коды',
         'Url' => \Yii::app()->createUrl('/partner/coupon/users'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'coupon', 'users')
@@ -38,7 +38,7 @@ class CouponController extends \partner\components\Controller
         'Title' => 'Активация промо-кода',
         'Url' => \Yii::app()->createUrl('/partner/coupon/activation'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'coupon', 'activation')
-      ),
+      ),*/
       'generate' => array(
         'Title' => 'Генерация промо-кодов',
         'Url' => \Yii::app()->createUrl('/partner/coupon/generate'),
