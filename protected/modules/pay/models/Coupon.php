@@ -107,7 +107,7 @@ class Coupon extends \CActiveRecord
   {
     if ($this->Multiple)
     {
-      return $this->MultipleCount === null || $this->MultipleCount < sizeof($this->Activations);
+      return $this->MultipleCount === null || $this->MultipleCount > sizeof($this->Activations);
     }
     else
     {
@@ -135,18 +135,18 @@ class Coupon extends \CActiveRecord
   {
     if (!$this->getIsNotExpired())
     {
-      throw new \pay\components\Exception('Срок действия вашего промо кода истек.', 305);
+      throw new \pay\components\Exception(\Yii::t('app','Срок действия вашего промо кода истек'), 305);
     }
     if (!$this->getIsRightCountActivations())
     {
-      throw new \pay\components\Exception('Превышено максимальное количество активаций промо кода.', 301);
+      throw new \pay\components\Exception(\Yii::t('app','Превышено максимальное количество активаций промо кода'), 301);
     }
 
     if (abs($this->Discount - 1.00) < 0.00001)
     {
       if (empty($this->Product))
       {
-        throw new \pay\components\Exception('Для промо кода со скидкой 100% не указан товар, на который распространяется скидка.', 303);
+        throw new \pay\components\Exception(\Yii::t('app','Для промо кода со скидкой 100% не указан товар, на который распространяется скидка'), 303);
       }
 
       $item = OrderItem::model()
@@ -171,7 +171,7 @@ class Coupon extends \CActiveRecord
       }
       else
       {
-        throw new \pay\components\Exception('Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар.', 304);
+        throw new \pay\components\Exception(\Yii::t('app','Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар'), 304);
       }
     }
     else
@@ -198,7 +198,7 @@ class Coupon extends \CActiveRecord
     {
       if ($activation->Coupon->Discount >= $this->Discount)
       {
-        throw new \pay\components\Exception('У пользователя уже активирован промо код с бОльшей скидкой.', 302);
+        throw new \pay\components\Exception(\Yii::t('app','У пользователя уже активирован промо код с бОльшей скидкой'), 302);
       }
       else
       {

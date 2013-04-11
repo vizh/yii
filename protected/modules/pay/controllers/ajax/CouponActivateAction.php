@@ -13,6 +13,7 @@ class CouponActivateAction extends \pay\components\Action
     }
     
     $result = new \stdClass();
+    $result->success = true;
     /** @var $coupon \pay\models\Coupon */
     $coupon = \pay\models\Coupon::model()->byCode($code)->byEventId($event->Id)->find();
     if ($coupon == null
@@ -32,8 +33,11 @@ class CouponActivateAction extends \pay\components\Action
         $result->error = $e->getMessage();
         $result->success = false;
       }
-      $result->success = true;
-      $result->message = \Yii::t('app', 'Купон на скидку {discount}% успешно активирован!', array('{discount}' => $coupon->Discount*100));
+      
+      if ($result->success)
+      {
+        $result->message = \Yii::t('app', 'Купон на скидку {discount}% успешно активирован!', array('{discount}' => $coupon->Discount*100));
+      }
     }
     echo json_encode($result);
   }

@@ -17,7 +17,8 @@ return array(
 
   'г.' => ' ',
   'д.' => ' ',
-
+    
+  'от' => 'from',
 
 
   'Регистрация' => 'Registration',
@@ -109,8 +110,14 @@ return array(
   
   'Указан неверный код купона' => 'Wrong coupon number',
   'Купон на скидку {discount}% успешно активирован!' => 'Coupon for {discount}% discount successfully activated!',
-  
-
-
+  'Выставленные счета' => 'My bills',
+  'Счет' => 'Bill',
+  'Просмотреть счет' => 'View bill',
+  'У вас нет товаров для оплаты.' => 'You dont have premission for pay.',
+  'Срок действия вашего промо кода истек' => 'Your coupon code is expired',
+  'Превышено максимальное количество активаций промо кода' => 'You have reached maximum number of  activation attempts for this coupon',
+  'Для промо кода со скидкой 100% не указан товар, на который распространяется скидка' => 'The product for 100% discount is not specified',
+  'Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар' => 'This product is not available for selected user',
+  'У пользователя уже активирован промо код с бОльшей скидкой' => 'User already activated coupon for bigger discount'
 
 );
