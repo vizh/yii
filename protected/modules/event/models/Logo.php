@@ -78,7 +78,7 @@ class Logo
     $image->resize(150,0);
     $image->save($path150);
     $path70 = $this->get70px(true);
-    $image->crop(70,70);
+    $image->resize(0,70)->crop(70,70);
     $image->save($path70);
   }
   

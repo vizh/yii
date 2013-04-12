@@ -49,7 +49,8 @@ class Address extends \application\models\translation\ActiveRecord
     );
   }
   
-  public function __toString()
+  
+  public function getShort()
   {
     $address = \Yii::t('app', 'г.').' '. $this->City->Name .', '.$this->Street.', '.\Yii::t('app', 'д.').' '.$this->House;
     if (!empty($this->Building))
@@ -64,6 +65,12 @@ class Address extends \application\models\translation\ActiveRecord
     {
       $address .= ', '.\Yii::t('app', 'кв. ').' '.$this->Apartment;
     }
+    return $address;
+  }
+  
+  public function __toString()
+  {
+    $address = $this->getShort();
     if (!empty($this->Place))
     {
       $address .= ', '.$this->Place;

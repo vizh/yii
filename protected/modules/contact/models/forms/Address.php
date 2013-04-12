@@ -16,11 +16,10 @@ class Address extends \CFormModel
   {
     return array(
       array('Street,House,Building,Wing,Place', 'filter', 'filter' => array('application\components\utility\Texts', 'filterPurify')),
-      array('Street, House', 'required'),
-      array('Building,Wing,Place', 'safe'), 
-      array('CountryId', 'exist', 'className' => '\geo\models\Country', 'attributeName' => 'Id'),
-      array('CityId', 'exist', 'className' => '\geo\models\City', 'attributeName' => 'Id'),
-      array('RegionId', 'exist', 'className' => '\geo\models\Region', 'attributeName' => 'Id'),
+      array('Street,House,Building,Wing,Place', 'safe'), 
+      array('CountryId', 'exist', 'className' => '\geo\models\Country', 'attributeName' => 'Id', 'allowEmpty' => true),
+      array('CityId', 'exist', 'className' => '\geo\models\City', 'attributeName' => 'Id', 'allowEmpty' => true),
+      array('RegionId', 'exist', 'className' => '\geo\models\Region', 'attributeName' => 'Id', 'allowEmpty' => true),
     );
   }
   

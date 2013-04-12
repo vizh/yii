@@ -19,6 +19,7 @@ return array(
   // autoloading model and component classes
   'import'=>array(
     'application.components.Utils',
+    'application.helpers.*'
    ),
 
 
@@ -67,7 +68,12 @@ return array(
       'enableParamLogging'=>true,
       'schemaCachingDuration'=>3600,
     ),
-
+      
+    'image'=>array(
+      'class'=>'application.extensions.image.CImageComponent',
+      'driver'=>'GD',
+    ),
+      
     'session' => array(
       'class' => '\application\components\web\PgDbHttpSession',
       'connectionID' => 'db',

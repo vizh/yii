@@ -16,7 +16,7 @@ $address->setLocale('ru');
 </div>
 <script type="text/javascript">
 function fid_13401960168727002685(ymaps) {
-    var geocoder = ymaps.geocode("<?=addslashes($address);?>", {result : 1});
+    var geocoder = ymaps.geocode("<?=addslashes($address->getShort());?>", {result : 1});
     geocoder.then(
         function (response) {
             var map = new ymaps.Map("ymaps-map-id_13401960168727002685", {

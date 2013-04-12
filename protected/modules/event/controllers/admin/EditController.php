@@ -47,7 +47,7 @@ class EditController extends \application\components\controllers\AdminMainContro
           {
             if ($attribute == 'IdName')
             {
-              //$event->getLogo()->rebase($form->$attribute);
+              $event->getLogo()->rebase($form->$attribute);
             }
             $event->$attribute = $form->$attribute;
           }
@@ -81,7 +81,7 @@ class EditController extends \application\components\controllers\AdminMainContro
         // Сохранение логотипа
         if ($form->Logo !== null)
         {
-          $event->getLogo()->save($form->Logo);
+          $event->getLogo()->save($form->Logo->getTempName());
         }
         
         // Сохранение виджетов

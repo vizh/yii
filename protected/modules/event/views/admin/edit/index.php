@@ -64,7 +64,7 @@
         <div class="controls">
           <?=\CHtml::activeFileField($form, 'Logo');?>
         </div>
-        <?/*<div class="controls"><?=\CHtml::image($event->getLogo()->get50px());?></div>*/?>
+        <div class="controls"><?=\CHtml::image($event->getLogo()->get50px());?></div>
       </div>
       
       <div class="control-group">
