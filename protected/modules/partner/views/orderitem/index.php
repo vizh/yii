@@ -47,8 +47,11 @@
       </div>
 
       <div class="row indent-top2">
-        <div class="span4">
+        <div class="span2">
           <button class="btn btn-large" type="submit"><i class="icon-search"></i> Искать</button>
+        </div>
+        <div class="span3">
+          <button class="btn btn-large" type="submit" name="reset" value="reset">Сбросить</button>
         </div>
       </div>
       <?=CHtml::endForm();?>

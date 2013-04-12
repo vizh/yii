@@ -9,9 +9,14 @@ class IndexAction extends \partner\components\Action
     $this->getController()->initActiveBottomMenu('index');
 
     $event = $this->getEvent();
-
     $form = new \partner\models\forms\OrderItemSearch();
-    $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
+
+    $reset = \Yii::app()->getRequest()->getParam('reset');
+    if ($reset !== 'reset')
+    {
+      $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
+    }
+
     $criteria = $form->getCriteria();
     $count = \pay\models\OrderItem::model()
         ->byEventId($event->Id)->count($criteria);
