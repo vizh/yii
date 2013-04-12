@@ -542,4 +542,20 @@ class Event extends \application\models\translation\ActiveRecord
 
     return $contactSite;
   }
+  
+  /**
+   * 
+   * @param \address\models\Address $address
+   */
+  public function setContactAddress($address)
+  {
+    $linkAddress = $this->LinkAddress;
+    if ($linkAddress == null)
+    {
+      $linkAddress = new \event\models\LinkAddress();
+      $linkAddress->EventId = $this->Id;
+    }
+    $linkAddress->AddressId = $address->Id;
+    $linkAddress->save();
+  }
 }

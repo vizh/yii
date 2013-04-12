@@ -159,8 +159,13 @@ $(window).load(function() {
         <div class="row">
         <?foreach ($participation->Participation as $participant):?>
             <figure class="i span2" data-year="<?=$participant->Event->StartYear;?>">
-              <a href="<?=$this->createUrl('/event/view/index', array('idName' => $participant->Event->IdName));?>" class="event-link">
-                <?=\CHtml::image($participant->Event->getLogo()->getMini(), $participant->Event->Title, array('class' => 'img'));?>
+              <?php $logoExists = file_exists($participant->Event->getLogo()->getOriginal(true));?>
+              <a href="<?=$this->createUrl('/event/view/index', array('idName' => $participant->Event->IdName));?>" class="event-link <?if(!$logoExists):?>text<?endif;?>" title="<?=$participant->Event->Title;?>">
+                <?if ($logoExists):?>
+                  <?=\CHtml::image($participant->Event->getLogo()->getOriginal(), $participant->Event->Title, array('class' => 'img'));?>
+                <?else:?>
+                <span><?=  \application\components\utility\Texts::cropText($participant->Event->Title, 40);?></span>
+                <?endif;?>
               </a>
               <figcaption class="cnt">
                 <?foreach ($participant->Roles as $role):?>

@@ -64,7 +64,7 @@ class Texts
           }
           else
           {
-            return mb_substr($content.$part, 0, $maxLength, 'utf8');
+            return mb_substr($content.$part, 0, $maxLength, 'utf8').'...';
           }
         }
         $content .= $part;

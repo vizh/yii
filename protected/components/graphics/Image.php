@@ -44,7 +44,7 @@ class Image
    * @param array $area x1,y1 - левый верхний угол; x2, y2 - правый нижний угол
    * @return void
    */
-  public static function ResizeAndSave($imageName, $newImageName, $width, $height, $area = array())
+  public static function ResizeAndSave($imageName, $newImageName, $width, $height, $area = array(), $saveType = IMAGETYPE_JPEG)
   {
     $image = self::GetImage($imageName);
     if ($image == null || !$image)
@@ -99,11 +99,24 @@ class Image
 //    {
 //      print_r(array('w' => $w, 'h'=> $h));
 //    }
-
+ 
     $newImage = imagecreatetruecolor($width, $height);
+    if ($saveType == IMAGETYPE_PNG)
+    {
+      imagealphablending($newImage, true);
+      imagesavealpha($newImage, true);  
+    }
+    
     imagecopyresampled($newImage, $image, 0, 0, $area['x1'], $area['y1'],
                        $width, $height, $w, $h);//$area['width'], $area['height']);
-    imagejpeg($newImage, $newImageName, 90);
+    if ($saveType == IMAGETYPE_PNG)
+    {
+      imagepng($newImage, $newImageName);
+    }
+    else 
+    {
+      imagejpeg($newImage, $newImageName, 90);
+    }
     imagedestroy($image);
     imagedestroy($newImage);
   }

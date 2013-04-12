@@ -58,7 +58,7 @@ class Address extends \application\models\translation\ActiveRecord
     }
     if (!empty($this->Wing))
     {
-      $address .= ', '.\Yii::t('app', 'крыло').' '.$this->Wing;
+      $address .= ', '.\Yii::t('app', 'корпус').' '.$this->Wing;
     }
     if (!empty($this->Apartment))
     {

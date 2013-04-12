@@ -13,7 +13,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
       'Participants' => array(
         'together' => false,  
         'with' => array('Event', 'Role'),
-        'order' => '"Event"."StartYear" DESC, "Event"."Id"'
+        'order' => '"Event"."EndYear" DESC, "Event"."EndMonth" DESC'
       ),
       'Commissions' => array(
         'together' => false

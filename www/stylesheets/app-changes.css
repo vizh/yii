@@ -211,3 +211,8 @@ input.error {
 .user-account .b-participated .popup .cnt a.a {
   margin-top: 1px;
 }
+.user-account .b-participated a.event-link.text {
+  color: #999 !important;
+  padding: 0 5px;
+  font-size: 12px;
+} 
