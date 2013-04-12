@@ -8,7 +8,7 @@ class ClearbookAction extends \partner\components\Action
     $criteria = new \CDbCriteria();
     $criteria->addCondition('"t"."Booked" IS NOT NULL');
     $criteria->addCondition('"t"."Booked" < :Booked');
-    $criteria->params['Booked'] = '2013-04-06 00:00:00';
+    $criteria->params['Booked'] = '2013-04-11 00:00:00';
     $criteria->order = '"Product"."Id" ASC';
 
     /** @var $orderItems \pay\models\OrderItem[] */
@@ -19,7 +19,7 @@ class ClearbookAction extends \partner\components\Action
 
     foreach ($orderItems as $item)
     {
-      echo $item->ProductId . '<br>';
+      echo $item->ProductId . ' Въезд: ' . $item->getItemAttribute('DateIn') . ' Выезд: ' . $item->getItemAttribute('DateOut')  . '<br>';
       //$item->deleteHard();
     }
 

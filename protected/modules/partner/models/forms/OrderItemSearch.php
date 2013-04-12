@@ -16,7 +16,6 @@ class OrderItemSearch extends \CFormModel
   public function rules()
   {
     return array(
-      array('OrderItem, Order, Product, Payer, Owner, Paid, Deleted', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
       array('OrderItem, Order, Product, Payer, Owner, Paid, Deleted', 'safe')
     );
   }
