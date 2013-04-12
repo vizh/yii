@@ -15,6 +15,7 @@ class SpecialController extends \partner\components\Controller
         'book' => 'partner\controllers\special\rif13\BookAction',
         'food' => 'partner\controllers\special\rif13\FoodAction',
         'clearbook' => 'partner\controllers\special\rif13\ClearbookAction',
+        'bookinfo' => 'partner\controllers\special\rif13\BookinfoAction',
       );
     }
     else

@@ -48,7 +48,7 @@
           <?=$manager->Housing;?>, <?=$manager->Category;?><br>
           Всего мест: <?=$manager->PlaceTotal;?> (основных - <?=$manager->PlaceBasic;?>, доп. - <?=$manager->PlaceMore;?>)<br>
           <em><?=$manager->DescriptionBasic;?>, <?=$manager->DescriptionMore;?></em><br>
-          <p class="text-error"><strong>Цена за сутки: <?=$manager->Price;?></strong></p>
+          <!--<p class="text-error"><strong>Цена за сутки: <?//$manager->Price;?></strong></p>-->
           <?if ($manager->Visible == 0):?>
             <span class="label label-inverse">Номер скрыт</span>
           <?endif;?>
@@ -98,6 +98,3 @@
     </table>
   </div>
 </div>
-
-
-

@@ -16,6 +16,11 @@ namespace pay\models;
  * @property \event\models\Event $Event
  * @property ProductAttribute[] $Attributes
  * @property ProductPrice[] $Prices
+ *
+ *
+ * @method \pay\models\Product find()
+ * @method \pay\models\Product findByPk()
+ * @method \pay\models\Product[] findAll()
  */
 class Product extends \application\models\translation\ActiveRecord
 {
