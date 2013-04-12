@@ -2,8 +2,51 @@
 /**
  * @var $coupons \pay\models\Coupon[]
  * @var $paginator \application\components\utility\Paginator
+ * @var $form \partner\models\forms\CouponSearch
+ * @var $products array
  */
 ?>
+
+<div class="row">
+  <div class="span12">
+    <?=CHtml::beginForm(Yii::app()->createUrl('/partner/coupon/index/'), 'get');?>
+    <div class="row">
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Code');?>
+        <?=CHtml::activeTextField($form, 'Code');?>
+      </div>
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Owner');?>
+        <?=CHtml::activeTextField($form, 'Owner', array('placeholder' => 'RUNET-ID'));?>
+      </div>
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Discount');?>
+        <?=CHtml::activeTextField($form, 'Discount');?>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Activated');?>
+        <?=CHtml::activeDropDownList($form, 'Activated', $form->getListValues());?>
+      </div>
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Product');?>
+        <?=CHtml::activeDropDownList($form, 'Product', $products);?>
+      </div>
+    </div>
+
+    <div class="row indent-top2">
+      <div class="span4">
+        <button class="btn btn-large" type="submit"><i class="icon-search"></i> Искать</button>
+      </div>
+      <div class="span4">
+        <h4>Всего найдено: <?=$paginator->getCount();?></h4>
+      </div>
+    </div>
+    <?=CHtml::endForm();?>
+  </div>
+</div>
 
 <?if (!empty($coupons)):?>
 <form action="<?=Yii::app()->createUrl('/partner/coupon/give');?> " method="GET">
