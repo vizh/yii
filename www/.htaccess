@@ -16,4 +16,4 @@ RewriteRule ^.*$ - [NC,L]
 #RewriteRule ^.*$ dumper.php [NC,L]
 RewriteRule ^.*$ index.php [NC,L]
 
-#dnwr_host  "m.runetid.local" "api.runetid.local" "zapi.runetid.local" "pay.runetid.local" "partner.runetid.local" "ruvents.runetid.local" "admin.runetid.local"
+#dnwr_host  "m.runetid.local" "api.runetid.local" "zapi.runetid.local" "pay.runetid.local" "partner.runetid.local" "ruvents.runetid.local" "admin.runetid.local" "demo2013.runetid.local"

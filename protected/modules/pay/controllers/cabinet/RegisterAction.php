@@ -73,6 +73,20 @@ class RegisterAction extends \pay\components\Action
         );
       }
     }
+    else
+    {
+      if (\pay\models\OrderItem::model()->byOwnerId(\Yii::app()->user->getId())->byEventId($this->getEvent()->Id)->byDeleted(false)
+        ->exists() == false)
+      {
+        foreach ($products as $product)
+        {
+          $orderForm->Items[] = array(
+            'ProductId' => $product->Id,
+            'RunetId' => \Yii::app()->user->getCurrentUser()->RunetId
+          );
+        }
+      }
+    }
         
     $this->getController()->render('register', array(
         'event' => $this->getEvent(),
