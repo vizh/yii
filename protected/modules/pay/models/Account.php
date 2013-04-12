@@ -8,6 +8,7 @@ namespace pay\models;
  * @property string $OrderTemplateName
  * @property string $ReturnUrl
  * @property string $Offer
+ * @property string $OrderLastTime
  *
  * @property \event\models\Event $Event
  */

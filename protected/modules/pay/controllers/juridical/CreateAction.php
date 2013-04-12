@@ -7,6 +7,11 @@ class CreateAction extends \pay\components\Action
   {
     $this->getController()->setPageTitle('Выставление счета  / ' .$this->getEvent()->Title . ' / RUNET-ID');
 
+    if ($this->getAccount()->OrderLastTime !== null && $this->getAccount()->OrderLastTime < date('Y-m-d H:i:s'))
+    {
+      throw new \CHttpException(404);
+    }
+
     $order = new \pay\models\Order();
     $unpaidItems = $order->getUnpaidItems(\Yii::app()->user->getCurrentUser(), $this->getEvent());
 
@@ -26,5 +31,19 @@ class CreateAction extends \pay\components\Action
       'form' => $form,
       'unpaidItems' => $unpaidItems
     ));
+  }
+
+  /**
+   * @return \pay\models\Account
+   * @throws \pay\components\Exception
+   */
+  private function getAccount()
+  {
+    $account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
+    if ($account === null)
+    {
+      throw new \pay\components\Exception('Для работы платежного кабинета необходимо создать платежный аккаунт мероприятия.');
+    }
+    return $account;
   }
 }
