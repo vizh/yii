@@ -6,6 +6,12 @@ class BookinfoAction extends \partner\components\Action
 {
   public function run()
   {
+    $simple = \Yii::app()->getRequest()->getParam('simple');
+    if ($simple !== null)
+    {
+      $this->runetIdList();
+    }
+
     $products = \pay\models\Product::model()
         ->byEventId($this->getEvent()->Id)->byManagerName('RoomProductManager')->findAll();
     $idList = array();
@@ -25,5 +31,32 @@ class BookinfoAction extends \partner\components\Action
         ->byPaid(false)->byDeleted(false)->findAll($criteria);
 
     $this->getController()->render('rif13/bookinfo', array('orderItems' => $orderItems));
+  }
+
+  private function runetIdList()
+  {
+    $products = \pay\models\Product::model()
+        ->byEventId($this->getEvent()->Id)->byManagerName('RoomProductManager')->findAll();
+    $idList = array();
+
+    foreach ($products as $product)
+    {
+      $idList[] = $product->Id;
+    }
+    $criteria = new \CDbCriteria();
+    $criteria->addInCondition('"t"."ProductId"', $idList);
+
+    $orderItems = \pay\models\OrderItem::model()
+        ->byPaid(true)->findAll($criteria);
+
+    $runetIdList = array();
+    foreach ($orderItems as $item)
+    {
+      $runetIdList[] = $item->ChangedOwnerId !== null ? $item->ChangedOwner->RunetId : $item->Owner->RunetId;
+    }
+
+    echo 'count:' . sizeof($runetIdList) . '<br><br>';
+    echo implode(',', $runetIdList);
+    \Yii::app()->end();
   }
 }
