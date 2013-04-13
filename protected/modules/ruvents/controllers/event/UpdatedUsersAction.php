@@ -8,6 +8,8 @@ class UpdatedUsersAction extends \ruvents\components\Action
   {
     ini_set("memory_limit", "512M");
 
+    $byPage = 200;
+
     $request = \Yii::app()->getRequest();
     $fromUpdateTime = $request->getParam('FromUpdateTime', null);
     if ($fromUpdateTime === null)
@@ -15,6 +17,8 @@ class UpdatedUsersAction extends \ruvents\components\Action
       throw new \ruvents\components\Exception(321);
     }
     $fromUpdateTime = date('Y-m-d H:i:s', strtotime($fromUpdateTime));
+
+    $pageToken = $request->getParam('PageToken', null);
 
     $criteria = new \CDbCriteria();
     $criteria->with = array(
@@ -26,7 +30,15 @@ class UpdatedUsersAction extends \ruvents\components\Action
     $criteria->params['UpdateTime'] = $fromUpdateTime;
     $criteria->order = '"t"."UpdateTime" ASC';
     $criteria->group = '"t"."Id"';
-    $criteria->limit = 200;
+    //$criteria->limit = 200;
+
+    $offset = 0;
+    if ($pageToken !== null)
+    {
+      $offset = $this->getController()->parsePageToken($pageToken);
+    }
+    $criteria->limit = $byPage;
+    $criteria->offset = $offset;
 
     $users = \user\models\User::model()->findAll($criteria);
     $idList = array();
@@ -52,7 +64,6 @@ class UpdatedUsersAction extends \ruvents\components\Action
 
     $result = array();
     $result['Users'] = array();
-    $lastUpdateTime = null;
     foreach ($users as $user)
     {
       $this->getDataBuilder()->createUser($user);
@@ -70,9 +81,12 @@ class UpdatedUsersAction extends \ruvents\components\Action
       }
       $resultUser->BadgeCount = isset($badgesCount[$user->Id]) ? $badgesCount[$user->Id] : 0;
       $result['Users'][] = $resultUser;
-      $lastUpdateTime = $user->UpdateTime;
     }
-    $result['LastUpdateTime'] = $lastUpdateTime;
+
+    if (sizeof($users) == $byPage)
+    {
+      $result['NextPageToken'] = $this->getController()->getPageToken($offset + $byPage);
+    }
 
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
   }
