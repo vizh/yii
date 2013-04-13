@@ -12,6 +12,7 @@ class EventController extends ruvents\components\Controller
       'unregister' => 'ruvents\controllers\event\UnregisterAction',
       'roles' => 'ruvents\controllers\event\RolesAction',
       'badge' => 'ruvents\controllers\event\BadgeAction',
+      'updatedusers' => 'ruvents\controllers\event\UpdatedUsersAction',
     );
   }
 }

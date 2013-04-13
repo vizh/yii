@@ -64,9 +64,10 @@ class DataBuilder
     $this->user->Phones = array();
     if (sizeof($user->LinkPhones) > 0)
     {
+      $this->user->Phones = array();
       foreach ($user->LinkPhones as $link)
       {
-        $this->user->Phones[] = $link->Phone->__toString();
+        $this->user->Phones[] = (string)$link->Phone;
       }
     }
     return $this->user;
@@ -228,8 +229,6 @@ class DataBuilder
 
     $this->orderItem->OrderItemId = $orderItem->Id;
     $this->orderItem->Product = $this->createProduct($orderItem->Product, $orderItem->PaidTime);
-    $this->orderItem->Owner = $this->createUser($orderItem->Owner);
-    $this->orderItem->ChangedOwner = !empty($orderItem->ChangedOwner) ? $this->createUser($orderItem->ChangedOwner) : null;
     $this->orderItem->PriceDiscount = $orderItem->getPriceDiscount();
     $this->orderItem->Paid = $orderItem->Paid;
     $this->orderItem->PaidTime = $orderItem->PaidTime;
@@ -267,6 +266,17 @@ class DataBuilder
     return $this->orderItem;
   }
 
+  /**
+   * @param \pay\models\OrderItem $orderItem
+   * @return \stdClass
+   */
+  public function buildOrderItemOwners($orderItem)
+  {
+    $this->orderItem->Owner = $this->createUser($orderItem->Owner);
+    $this->orderItem->ChangedOwner = !empty($orderItem->ChangedOwner) ? $this->createUser($orderItem->ChangedOwner) : null;
+
+    return $this->orderItem;
+  }
 
   protected $product;
   /**

@@ -26,9 +26,9 @@ class AuthAction extends \api\components\Action
       throw new \api\components\Exception(223);
     }
 
-    $this->getAccount()->getDataBuilder()->CreateUser($user);
-    $this->getAccount()->getDataBuilder()->BuildUserEmail($user);
-    $this->getAccount()->getDataBuilder()->BuildUserEmployment($user);
-    $this->getController()->setResult($this->getAccount()->getDataBuilder()->BuildUserEvent($user));
+    $this->getAccount()->getDataBuilder()->createUser($user);
+    $this->getAccount()->getDataBuilder()->buildUserContacts($user);
+    $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
+    $this->getController()->setResult($this->getAccount()->getDataBuilder()->buildUserEvent($user));
   }
 }

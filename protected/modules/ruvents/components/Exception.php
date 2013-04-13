@@ -45,6 +45,8 @@ class Exception extends \CException
     308 => 'Для мероприятия не заданы отдельные части. Указан избыточный праметр.',
     309 => 'Для мероприятия заданы отдельные части. Необходимо указать id части.',
 
+    321 => 'Не передан обязательный параметр FromUpdateTime.',
+
 
 
     /**  Заказы **/
@@ -85,6 +87,6 @@ class Exception extends \CException
     $error = new \stdClass();
     $error->Code = $this->getCode();
     $error->Message = $this->getMessage();
-    echo json_encode(array('Error' => $error));
+    echo json_encode(array('Error' => $error), JSON_UNESCAPED_UNICODE);
   }
 }

@@ -740,4 +740,15 @@ class User extends \application\models\translation\ActiveRecord
     $this->LastVisit = date('Y-m-d H:i:s');
     $this->save();
   }
+
+  protected function beforeSave()
+  {
+    if (!$this->getIsNewRecord())
+    {
+      $this->UpdateTime = date('Y-m-d H:i:s');
+    }
+    return parent::beforeSave();
+  }
+
+
 }

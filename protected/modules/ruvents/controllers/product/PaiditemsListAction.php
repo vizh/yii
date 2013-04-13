@@ -25,7 +25,8 @@ class PaiditemsListAction extends \ruvents\components\Action
     $result = array();
     foreach ($paidItems as $item)
     {
-      $result[] = $this->getDataBuilder()->createOrderItem($item);
+      $this->getDataBuilder()->createOrderItem($item);
+      $result[] = $this->getDataBuilder()->buildOrderItemOwners($item);
     }
     echo json_encode(array('OrderItems' => $result));
   }
