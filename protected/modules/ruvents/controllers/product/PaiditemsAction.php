@@ -7,6 +7,7 @@ class PaiditemsAction extends \ruvents\components\Action
   {
     $request = \Yii::app()->getRequest();
     $runetId = $request->getParam('RunetId', null);
+    $needCustomFormat = $request->getParam('CustomFormat', false) == '1';
 
     $event = $this->getEvent();
     $user = \user\models\User::model()->byRunetId($runetId)->find();
@@ -32,10 +33,26 @@ class PaiditemsAction extends \ruvents\components\Action
     $result = array();
     foreach ($paidItems as $item)
     {
-      $result[] = $this->getDataBuilder()->createOrderItem($item);
+      $order = $this->getDataBuilder()->createOrderItem($item);
+
+      if ($needCustomFormat)
+      {
+        $customOrder = (object) array(
+          'OrderItemId' => $item->Id,
+          'ProductId' => $order->Product->ProductId,
+          'ProductTitle' => $order->Product->Title,
+          'Price' => $order->Product->Price
+        );
+
+        if ($order->PromoCode) $customOrder->PromoCode = $order->PromoCode;
+        if ($order->PayType) $customOrder->PayType = $order->PayType;
+        if ($order->Product->Manager) $customOrder->ProductManager = $order->Product->Manager;
+
+        $order = $customOrder;
+      }
+
+      $result[] = $order;
     }
-
-
 
     echo json_encode(array('OrderItems' => $result));
   }
