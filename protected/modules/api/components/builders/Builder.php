@@ -48,10 +48,14 @@ class Builder
    * @param \user\models\User $user
    * @return \stdClass
    */
-  public function buildUserEmail(\user\models\User $user)
+  public function buildUserContacts(\user\models\User $user)
   {
     $this->user->Email = $user->Email;
-
+    $this->user->Phones = array();
+    foreach ($user->LinkPhones as $link)
+    {
+      $this->user->Phones[] = (string) $link->Phone;
+    }
     return $this->user;
   }
 

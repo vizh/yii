@@ -46,4 +46,13 @@ return array(
       'bizRule' => null,
       'data' => null
     ),
+
+
+
+  'sberbank' => array(
+    'type' => CAuthItem::TYPE_ROLE,
+    'description' => 'Авторизация для сбербанка',
+    'bizRule' => null,
+    'data' => null
+  ),
 );

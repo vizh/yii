@@ -65,7 +65,7 @@ class Controller extends \application\components\controllers\BaseController
    */
   public function afterAction($action)
   {
-    echo json_encode($this->result);
+    echo json_encode($this->result, JSON_UNESCAPED_UNICODE);
   }
 
   const MaxResult = 200;

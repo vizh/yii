@@ -87,6 +87,10 @@ class Exception extends \CException
 
     /* Ошибка работы с модулем Commission */
     601 => 'Не найдена комиссия с id: %s',
+
+
+    /** Спецпроекты */
+    2001 => 'Пользователь с RUNET-ID %s не является участником РИФ+КИБ 2013',
   );
 
   /**
@@ -105,6 +109,6 @@ class Exception extends \CException
     $error = new \stdClass();
     $error->Code = $this->getCode();
     $error->Message = $this->getMessage();
-    echo json_encode(array('Error' => $error));
+    echo json_encode(array('Error' => $error), JSON_UNESCAPED_UNICODE);
   }
 }

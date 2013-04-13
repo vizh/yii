@@ -14,8 +14,8 @@ class TestController extends CController
       'Timestamp' => $timestamp
     );
 
-    $params['ProductId'] = 1;
-    $this->apiRequest('/api/pay/product', $params);
+    $params['RunetId'] = 35287;
+    $this->apiRequest('/api/user/get', $params);
   }
 
   private function apiRequest($url, $params)

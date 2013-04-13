@@ -52,6 +52,14 @@ return array(
   ),
 
 
+  /*** Спецпроект для сбербанка  ***/
+  array(
+    'allow',
+    'roles' => array('sberbank'),
+    'controllers' => array('user'),
+    'actions' => array('get')
+  ),
+
   /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/
   array(
     'deny',
