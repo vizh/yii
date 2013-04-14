@@ -3,9 +3,10 @@ class UtilityController extends ruvents\components\Controller
 {
   public function actionPing()
   {
-    $result = new stdClass();
-    $result->Success = true;
-    echo json_encode($result);
+    echo json_encode(array(
+      'Success' => true,
+      'DateSignal' => date('Y-m-d H:i:s')
+    ));
   }
 
   public function actionChanges()
