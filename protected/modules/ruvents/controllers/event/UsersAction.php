@@ -11,7 +11,6 @@ class UsersAction extends \ruvents\components\Action
     $query = $request->getParam('Query', null);
     $pageToken = $request->getParam('PageToken', null);
     $updateTime = $request->getParam('FromUpdateTime', null);
-    $returnBadgeCount = (bool) $request->getParam('ReturnBadgeCount', false);
 
     $model = \user\models\User::model();
     if (mb_strlen($query, 'utf8') != 0)
@@ -69,19 +68,16 @@ class UsersAction extends \ruvents\components\Action
     );
 
     $users = \user\models\User::model()->findAll($criteria);
-    if ($returnBadgeCount)
+    /** @var $badges \ruvents\models\Badge[] */
+    $badges = \ruvents\models\Badge::model()->byEventId($this->getEvent()->Id)->findAll();
+    $badgesCount = array();
+    foreach ($badges as $badge)
     {
-      /** @var $badges \ruvents\models\Badge[] */
-      $badges = \ruvents\models\Badge::model()->byEventId($this->getEvent()->Id)->findAll();
-      $badgesCount = array();
-      foreach ($badges as $badge)
+      if (!isset($badgesCount[$badge->UserId]))
       {
-        if (!isset($badgesCount[$badge->UserId]))
-        {
-          $badgesCount[$badge->UserId] = 0;
-        }
-        $badgesCount[$badge->UserId]++;
+        $badgesCount[$badge->UserId] = 0;
       }
+      $badgesCount[$badge->UserId]++;
     }
 
     $result = array('Users' => array());
@@ -91,11 +87,7 @@ class UsersAction extends \ruvents\components\Action
       $this->getDataBuilder()->buildUserEmployment($user);
       $this->getDataBuilder()->buildUserPhone($user);
       $buildUser = $this->getDataBuilder()->buildUserEvent($user);
-
-      if ($returnBadgeCount)
-      {
-        $buildUser->BadgeCount = isset($badgesCount[$user->Id]) ? $badgesCount[$user->Id] : 0;
-      }
+      $buildUser->BadgeCount = isset($badgesCount[$user->Id]) ? $badgesCount[$user->Id] : 0;
 
       $result['Users'][] = $buildUser;
     }
