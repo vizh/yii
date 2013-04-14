@@ -41,6 +41,7 @@ class DataBuilder
     $this->user->UpdateTime = $user->UpdateTime;
     $this->user->Gender = $user->Gender;
     $this->user->CreationTime = $user->CreationTime;
+    $this->user->UpdateTime = $user->UpdateTime;
 
     $this->user->Email = trim($user->Email);
 
