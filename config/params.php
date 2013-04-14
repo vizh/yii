@@ -27,6 +27,7 @@ return array(
 
 
     'ApiMaxResults' => 200, //Максимальное количество результатов поиска в api
+    'ApiMaxTop' => 100,
 
     'AdminEventPerPage' => 50,
     

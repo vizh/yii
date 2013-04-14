@@ -14,6 +14,7 @@ namespace user\models;
  * @property bool $Primary
  *
  * @property \company\models\Company $Company
+ * @property User $User
  */
 class Employment extends \CActiveRecord
 {

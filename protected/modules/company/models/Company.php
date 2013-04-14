@@ -21,6 +21,11 @@ namespace company\models;
 
  * @property \user\models\Employment[] $Employments
  * @property \user\models\Employment[] $EmploymentsAll
+ *
+ *
+ * @method \company\models\Company find()
+ * @method \company\models\Company findByPk()
+ * @method \company\models\Company[] findAll()
  */
 class Company extends \application\models\translation\ActiveRecord implements \search\components\interfaces\ISearch
 {

@@ -2,11 +2,10 @@
 namespace user\models;
 
 /**
- * @property int $SettingId
+ * @property int $Id
  * @property int $UserId
  * @property int $Verify
  * @property int $Agreement
- * @property int $Visible
  * @property int $IndexProfile
  * @property string $WhoView
  * @property int $ProjNews Новости системы rocID
@@ -32,7 +31,7 @@ class Settings extends \CActiveRecord
   
   public function primaryKey()
   {
-    return 'SettingId';
+    return 'Id';
   }
   
   public function relations()
@@ -40,26 +39,5 @@ class Settings extends \CActiveRecord
     return array(
       'User' => array(self::BELONGS_TO, 'User', 'UserId'),        
     );
-  }
-
-  public function byUserId($userId, $userAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
-    $criteria->params = array('UserId' => $userId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-  
-  
-  public function ApplyAgree()
-  {
-    $this->Agreement = 1;
-    $this->ProjNews = 1;
-    $this->EventNews = 1;
-    $this->NoticePhoto = 1;
-    $this->NoticeMsg = 1;
-    $this->NoticeProfile = 1;
-    $this->save();
   }
 }

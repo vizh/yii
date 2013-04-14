@@ -4,8 +4,8 @@ class TestController extends CController
 {
   public function actionIndex()
   {
-    $api = 'test';
-    $secret = '1234567890';
+    $api = 'ny2bp534c3';
+    $secret = '62z9526EcX4r35t79m368T44R';
     $timestamp = time();
 
     $params = array(
@@ -14,8 +14,8 @@ class TestController extends CController
       'Timestamp' => $timestamp
     );
 
-    $params['RunetId'] = 35287;
-    $this->apiRequest('/api/user/get', $params);
+    $params['CompanyId'] = 449;
+    $this->apiRequest('/api/company/get', $params);
   }
 
   private function apiRequest($url, $params)

@@ -17,6 +17,7 @@ namespace user\models;
  * @property string $LastVisit
  * @property string $Password
  * @property string $OldPassword
+ * @property bool $Visible
  *
  *
  *
@@ -198,14 +199,13 @@ class User extends \application\models\translation\ActiveRecord
   public function byVisible($visible = true, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->with = array('Settings' => array('together' => true));
     if ($visible)
     {
-      $criteria->addCondition('"Settings"."Visible"');
+      $criteria->addCondition('"t"."Visible"');
     }
     else
     {
-      $criteria->addCondition('NOT "Settings"."Visible"');
+      $criteria->addCondition('NOT "t"."Visible"');
     }
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;

@@ -63,7 +63,7 @@ $(window).load(function() {
                   <?if ($age > 0 || $user->LinkAddress !== null):?>
                     <small class="muted">
                       <?if ($age > 0):?>День рождения <?=$age;?>, <?endif;?>
-                      <?if ($user->LinkAddress->Address->City !== null):?><?=$user->LinkAddress->Address->City->Name;?><?endif;?>
+                      <?if ($user->getContactAddress() !== null && $user->getContactAddress()->City !== null):?><?=$user->getContactAddress()->City->Name;?><?endif;?>
                     </small>
                   <?endif;?>
                 </header>

@@ -43,4 +43,12 @@ class Action extends \CAction
   {
     $this->getController()->setResult($result);
   }
+
+  /**
+   * @return int
+   */
+  protected function getMaxResults()
+  {
+    return \Yii::app()->params['ApiMaxResults'];
+  }
 }

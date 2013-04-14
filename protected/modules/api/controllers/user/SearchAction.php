@@ -63,10 +63,10 @@ class SearchAction extends \api\components\Action
     $result['Users'] = array();
     foreach ($users as $user)
     {
-      $this->getAccount()->getDataBuilder()->CreateUser($user);
-      $this->getAccount()->getDataBuilder()->BuildUserEmail($user);
-      $this->getAccount()->getDataBuilder()->BuildUserEmployment($user);
-      $result['Users'][] = $this->getAccount()->getDataBuilder()->BuildUserEvent($user);
+      $this->getAccount()->getDataBuilder()->createUser($user);
+      $this->getAccount()->getDataBuilder()->buildUserContacts($user);
+      $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
+      $result['Users'][] = $this->getAccount()->getDataBuilder()->buildUserEvent($user);
     }
 
     if (sizeof($users) === $maxResults)
@@ -77,11 +77,5 @@ class SearchAction extends \api\components\Action
     $this->getController()->setResult($result);
   }
 
-  /**
-   * @return int
-   */
-  protected function getMaxResults()
-  {
-    return \Yii::app()->params['ApiMaxResults'];
-  }
+
 }

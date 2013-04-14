@@ -147,7 +147,6 @@ class Builder
     return $this->company;
   }
 
-
   protected $role;
   /**
    * @param \event\models\Role $role

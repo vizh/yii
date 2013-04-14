@@ -11,7 +11,6 @@ class GetAction extends \api\components\Action
       $runetId = \Yii::app()->getRequest()->getParam('RocId', null);
     }
 
-    /** @var $user \user\models\User */
     $user = \user\models\User::model()->byRunetId($runetId)->find();
     if ($user !== null)
     {
