@@ -41,8 +41,12 @@ CUserEditEmployment.prototype = {
     
     item.find('.form-row-remove').click(function () {
       if (item.find('input[name*="Id"]').size() == 1) {
-        item.find('input[name*="Delete"]').val(1);
-        item.hide();
+        if (confirm("Вы точно желаете удалить место работы?")) {
+          item.find('input[name*="Delete"]').val(1);
+          item.hide();
+        }
+        else
+          return false;
       }
       else {
         item.remove();
@@ -75,8 +79,7 @@ CUserEditEmployment.prototype = {
     var item = self.items.find('div.user-career-item:last-child');
     self.initItem(item);
     item.find('select').each(function () {
-      $(this).find('option[value="'+$(this).data('selected')+'"]').attr('selected', 'selected');
-      $(this).trigger('change');
+      $(this).val($(this).data('selected')).trigger('change');
     });
     if (typeof data.Errors != "undefined") {
       var errorUl = $('<ul>');
