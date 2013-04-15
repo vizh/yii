@@ -27,6 +27,11 @@ class ListController extends \application\components\controllers\AdminMainContro
       $criteria->addCondition('"t"."External" = true AND "t"."Approved" = :Approved');
       $criteria->params['Approved'] = $approved;
     }
+    else
+    {
+      $criteria->addCondition('"t"."Visible"');
+    }
+    
     $eventCountAll = \event\models\Event::model()->count($criteria);
     $paginator = new \application\components\utility\Paginator($eventCountAll);
     $paginator->perPage = \Yii::app()->params['AdminEventPerPage'];
