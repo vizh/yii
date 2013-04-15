@@ -22,6 +22,6 @@ class BookchangesAction extends \partner\components\Action
 
     $orderItems = \pay\models\OrderItem::model()->byPaid(true)->findAll($criteria);
 
-    $this->getController()->render('rif13/bookinfo', array('orderItems' => $orderItems));
+    $this->getController()->render('rif13/bookchanges', array('orderItems' => $orderItems));
   }
 }
