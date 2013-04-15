@@ -39,10 +39,10 @@
                   <tr>
                     <td width="20"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="20" height="1"></div></td>
                     <td style="line-height:15px; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#020202">
-                      <p>23 и 24 мая лучшие в мире специалисты по защите информации соберутся в Москве на международном форуме по практической безопасности PHDays III.</p>
-                      <p>Попасть на форум можно будет несколькими способами: проявить себя в различных конкурсах, в том числе в конкурсе молодых ученых Young School, или стать докладчиком, зарегистрировавшись через Call for Papers.</p>
+                      <p>23 и 24 мая лучшие в мире специалисты по защите информации соберутся в Москве на международном форуме по практической безопасности <a href="http://phdays.ru/">PHDays III</a>.</p>
+                      <p>Попасть на форум можно будет несколькими способами: проявить себя в различных конкурсах, в том числе в конкурсе молодых ученых <a href="http://phdays.ru/program/ys/">Young School</a>, или стать докладчиком, зарегистрировавшись через <a href="http://phdays.ru/program/call_for_papers/">Call for Papers</a>.</p>
                       <p>По многочисленным просьбам добавился демократичный способ попасть на форум — вход по билетам. До 30 апреля стоимость билета составит 9 600 руб. за два дня и 7 100 руб. за один день. После 1 мая цена вырастет до 13 700 руб. за два дня и 9 600 руб. за один.</p>
-                      <p>Любой желающий сможет организовать собственный интерактивный PHDays у себя в городе.  Подробности — в требованиях PHDays Everywhere. Наконец, абсолютно всем интернет-пользователям будет доступна прямая трансляции событий форума на официальном сайте мероприятия.</p>
+                      <p>Любой желающий сможет организовать собственный интерактивный PHDays у себя в городе.  Подробности — в требованиях <a href="http://phdays.ru/registration/everywhere/">PHDays Everywhere</a>. Наконец, абсолютно всем интернет-пользователям будет доступна прямая трансляции событий форума на официальном сайте мероприятия.</p>
                       <p>Подробности: <a href="http://phdays.ru/prinyat_uchastie/">http://phdays.ru/prinyat_uchastie/</a></p>
                     </td>
                     <td width="20"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="20" height="1"></div></td>
@@ -61,11 +61,11 @@
           <table>
             <tr>
               <td style="background: #C71C31; text-align: center; width: 150px; height: 40px; padding: 10px 0;">
-                <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->getFastauthUrl('/event/telekom13/');?>">Регистрация</a></span>
+                <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->getFastauthUrl('/event/phdays13/');?>">Регистрация</a></span>
               </td>
               <td style="width: 15px;"></td>
               <td style="background: #3F8944; text-align: center; width: 190px; height: 40px; padding: 10px 0;">
-                <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="http://www.kommersant.ru/conf/">Официальный сайт</a></span>
+                <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="http://phdays.ru/">Официальный сайт</a></span>
               </td>
             </tr>
           </table>
