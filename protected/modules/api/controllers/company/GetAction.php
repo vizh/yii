@@ -27,6 +27,7 @@ class GetAction extends \api\components\Action
       $criteria->addCondition('"Participants"."EventId" = :EventId');
       $criteria->params['EventId'] = $this->getEvent()->Id;
       $criteria->params['CompanyId'] = $company->Id;
+      $criteria->order = '"t"."LastName", "t"."FirstName"';
 
       $users = \user\models\User::model()->byVisible(true)->findAll($criteria);
       $result->Employments = array();
