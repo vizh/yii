@@ -29,7 +29,7 @@ abstract class MailerController extends \application\components\controllers\Admi
 
   protected function addLogMessage($message)
   {
-    fwrite($this->file, $message."\r\n");
+    fwrite($this->getLogResource(), $message."\r\n");
   }
 
   protected function afterAction($action)

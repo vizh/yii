@@ -23,7 +23,7 @@
   <td>
     <table width="750" align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" border="0">
       <tr>
-        <td width="165" align="center" style="vertical-align: top;"><img src="http://runet-id.com/images/mailing/runetid13-1/conf_logo_web.jpg" width="150"></td>
+        <td width="165" align="center" style="vertical-align: top;"><img src="http://runet-id.com/files/event/phdays2013/mail.png" width="150"></td>
         <td valign="top">
           <table width="100%" align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
             <tr>
@@ -61,7 +61,7 @@
           <table>
             <tr>
               <td style="background: #C71C31; text-align: center; width: 150px; height: 40px; padding: 10px 0;">
-                <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->getFastauthUrl('/event/phdays13/');?>">Регистрация</a></span>
+                <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->getFastauthUrl('http://phdays2013.runet-id.com/');?>">Регистрация</a></span>
               </td>
               <td style="width: 15px;"></td>
               <td style="background: #3F8944; text-align: center; width: 190px; height: 40px; padding: 10px 0;">

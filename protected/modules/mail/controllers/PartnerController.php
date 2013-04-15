@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'phdays';
+    return 'phdays1';
   }
 
   /**
@@ -16,12 +16,13 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getStepCount()
   {
-    return 300;
+    return 100;
   }
 
   public function actionSend($step = 0)
   {
-    $step = intval($step);
+    return;
+    $step = \Yii::app()->request->getParam('step', 0);
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
@@ -29,14 +30,34 @@ class PartnerController extends \mail\components\MailerController
     $builder->addEvent(246);
     $builder->addEvent(195);
     $builder->addEvent(120);
-
+    //$builder->addEvent(411);
+    //$builder->addEvent(246);
+    
     $criteria = $builder->getCriteria();
+    $criteria->limit  = $this->getStepCount();
+    $criteria->offset = $this->getStepCount() * $step;
 
-    $count = \user\models\User::model()->byVisible(true)->count($builder->getCriteria());
-    echo $count;
+    $count = \user\models\User::model()->byVisible(true)->count($criteria);
+    echo 'Получателей:'. $count.'<br/>';
 
+    $users = \user\models\User::model()->byVisible(true)->findAll($criteria);
+    $mailer = new \mail\components\Mailer();
+    foreach ($users as $user)
+    {
+      $mail = new \mail\components\mail\PhDays13();
+      $mail->user = $user;
+      $mailer->send($mail, $user->Email);
+      $this->addLogMessage($user->RunetId.' '.$user->Email);
+    }
+    if (!empty($users))
+    {
+      echo '<meta http-equiv="refresh" content="3; url='.$this->createUrl('/mail/partner/send', array('step' => ($step+1))).'">';
+    }
+    else
+    {
+      echo 'Рассылка ушла';
+    }
     Yii::app()->end();
-
   }
 
 
