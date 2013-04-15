@@ -48,6 +48,11 @@ class PaiditemsAction extends \ruvents\components\Action
         if ($order->PayType) $customOrder->PayType = $order->PayType;
         if ($order->Product->Manager) $customOrder->ProductManager = $order->Product->Manager;
 
+        if ($item->Product->ManagerName == 'RoomProductManager')
+        {
+          $customOrder->Lives = $item->Product->getManager()->Hotel;
+        }
+
         $order = $customOrder;
       }
 
