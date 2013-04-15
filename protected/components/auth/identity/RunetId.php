@@ -12,7 +12,7 @@ class RunetId extends \application\components\auth\identity\Base
 
   public function authenticate()
   {
-    $user = \user\models\User::model()->byRunetId($this->runetId)->find();
+    $user = \user\models\User::model()->byRunetId($this->runetId)->byVisible(true)->find();
 
     if ($user === null)
     {
