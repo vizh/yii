@@ -8,7 +8,7 @@ class ClearbookAction extends \partner\components\Action
     $criteria = new \CDbCriteria();
     $criteria->addCondition('"t"."Booked" IS NOT NULL');
     $criteria->addCondition('"t"."Booked" < :Booked');
-    $criteria->params['Booked'] = '2013-04-11 00:00:00';
+    $criteria->params['Booked'] = '2013-04-15 00:00:00';
     $criteria->order = '"Product"."Id" ASC';
 
     /** @var $orderItems \pay\models\OrderItem[] */
