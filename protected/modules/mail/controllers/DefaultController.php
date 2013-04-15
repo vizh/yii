@@ -6,10 +6,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rif13-13';
+    $template = 'rif13-14';
     $isHTML = false;
 
-    $arPromo = file($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-04-15/promo_1000_rif.csv');
+//    $arPromo = file($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-04-15/promo_1000_rif.csv');
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -37,7 +37,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
     $criteria->addInCondition('"Participants"."EventId"', array(422));
-    $criteria->addInCondition('"Participants"."RoleId"', array(3));
+//    $criteria->addInCondition('"Participants"."RoleId"', array(3));
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
@@ -54,12 +54,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = \user\models\User::model()->findAll($criteria);
     if (!empty($users))
     {
-      $counter = 0;
+//      $counter = 0;
       foreach ($users as $user)
       {
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo[$counter]), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo[$counter]), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
         $mail = new \ext\mailer\PHPMailer(false);
         $mail->Mailer = 'mail';
         $mail->ParamOdq = true;
@@ -86,15 +86,16 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->AddAddress($email);
         $mail->SetFrom('users@rif.ru', 'РИФ+КИБ 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Важная информация для Докладчиков РИФ+КИБ') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Программа UpStart на РИФ+КИБ') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
 
 //        $mail->Send();
 
-        fwrite($fp, $user->RunetId.' - '.$email.' - '.$arPromo[$counter]."\n");
-        $counter++;
+        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+//        fwrite($fp, $user->RunetId.' - '.$email.' - '.$arPromo[$counter]."\n");
+//        $counter++;
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
