@@ -79,20 +79,6 @@
 <tr><td height="1"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/line.gif" width="100%" height="1"></div></td></tr>
 <tr><td width="1" height="20"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="20"></div></td></tr>
 
-<tr>
-  <td>
-    <table width="750" align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" border="0">
-      <tr><td height="20" colspan="3"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="20"></div></td></tr>
-      <tr>
-        <td width="165"></td>
-        <td style="line-height:15px;">
-          <span style="font-family:Arial, Helvetica, sans-serif; font-size:22px; color:#020202; line-height:28px;"><a href="http://runet-id.com/events/">Список мероприятий</a>, рекомендованных RUNET-ID</span>
-        </td>
-      </tr>
-    </table>
-  </td>
-</tr>
-
 <tr><td width="1" height="15"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="15"></div></td></tr>
 <tr><td height="1"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/line.gif" width="100%" height="1"></div></td></tr>
 <tr><td width="1" height="15"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="15"></div></td></tr>
