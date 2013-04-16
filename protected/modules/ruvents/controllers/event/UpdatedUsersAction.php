@@ -12,6 +12,7 @@ class UpdatedUsersAction extends \ruvents\components\Action
 
     $request = \Yii::app()->getRequest();
     $fromUpdateTime = $request->getParam('FromUpdateTime', null);
+    $needCustomFormat = $request->getParam('CustomFormat', false) == '1';
     if ($fromUpdateTime === null)
     {
       throw new \ruvents\components\Exception(321);
@@ -76,7 +77,26 @@ class UpdatedUsersAction extends \ruvents\components\Action
         $resultUser->PaidItems = array();
         foreach ($orderItems[$user->Id] as $item)
         {
-          $resultUser->PaidItems[] = $this->getDataBuilder()->createOrderItem($item);
+          $order = $this->getDataBuilder()->createOrderItem($item);
+
+          if ($needCustomFormat)
+          {
+            $customOrder = (object) array(
+              'OrderItemId' => $item->Id,
+              'ProductId' => $order->Product->ProductId,
+              'ProductTitle' => $order->Product->Title,
+              'Price' => $order->Product->Price
+            );
+
+            if ($order->PromoCode) $customOrder->PromoCode = $order->PromoCode;
+            if ($order->PayType) $customOrder->PayType = $order->PayType;
+            if ($order->Product->Manager) $customOrder->ProductManager = $order->Product->Manager;
+            if ($item->Product->ManagerName == 'RoomProductManager') $customOrder->Lives = $item->Product->getManager()->Hotel;
+
+            $order = $customOrder;
+          }
+
+          $resultUser->PaidItems[] = $order;
         }
       }
       $resultUser->BadgeCount = isset($badgesCount[$user->Id]) ? $badgesCount[$user->Id] : 0;
