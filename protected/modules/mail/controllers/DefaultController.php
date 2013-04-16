@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rif13-14';
+    $template = 'rif13-16';
     $isHTML = false;
 
 //    $arPromo = file($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-04-15/promo_1000_rif.csv');
@@ -37,7 +37,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
     $criteria->addInCondition('"Participants"."EventId"', array(422));
-//    $criteria->addInCondition('"Participants"."RoleId"', array(3));
+    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
@@ -86,7 +86,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->AddAddress($email);
         $mail->SetFrom('users@rif.ru', 'РИФ+КИБ 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Программа UpStart на РИФ+КИБ') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('РИФ+КИБ стартует завтра - в среду 17 апреля') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
