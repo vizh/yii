@@ -28,29 +28,35 @@ class AlleyAction extends \CAction
     $orderForm->attributes = $request->getParam(get_class($orderForm));
     if ($request->getIsPostRequest() && $orderForm->validate())
     {
-      if (sizeof($orderForm->Items) !== 1)
+      if (!empty($orderForm->Items))
       {
-        $orderForm->addError('Items', \Yii::t('app', 'Вы пытаетесь приобрести специальную услугу. Убедитесь, что в числе получателей только одна персона.'));
-      }
-      else
-      {
-        $owner = \user\models\User::model()->byRunetId($orderForm->Items[0]['RunetId'])->find();
-        if ($owner == null)
+        if (sizeof($orderForm->Items) !== 1)
         {
-          $orderForm->addError('Items', \Yii::t('app', 'Вы не указали получателя товара'));
+          $orderForm->addError('Items', \Yii::t('app', 'Вы пытаетесь приобрести специальную услугу. Убедитесь, что в числе получателей только одна персона.'));
         }
-      }
+        else
+        {
+          $owner = \user\models\User::model()->byRunetId($orderForm->Items[0]['RunetId'])->find();
+          if ($owner == null)
+          {
+            $orderForm->addError('Items', \Yii::t('app', 'Вы не указали получателя товара'));
+          }
+        }
+      
 
-      if (!$orderForm->hasErrors())
-      {
-    
-        try
-        {
-          $product->getManager()->createOrderItem(\Yii::app()->user->getCurrentUser(), $owner);
-        }
-        catch(\pay\components\Exception $e)
-        {
-          $orderForm->addError('Items', $e->getMessage());
+        if (!$orderForm->hasErrors())
+        {        
+          try
+          {
+            $product->getManager()->createOrderItem(\Yii::app()->user->getCurrentUser(), $owner);
+          }
+          catch(\pay\components\Exception $e)
+          {
+            if ($e->getCode() !== 701)
+            {
+              $orderForm->addError('Items', $e->getMessage());
+            }
+          }
         }
       }
       
