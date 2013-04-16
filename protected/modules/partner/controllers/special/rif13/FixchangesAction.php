@@ -32,6 +32,6 @@ class FixchangesAction extends \partner\components\Action
       }
     }
 
-    
+
   }
 }

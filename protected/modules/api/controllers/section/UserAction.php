@@ -12,7 +12,7 @@ class UserAction extends \api\components\Action
       $runetId = $request->getParam('RocId', null);
     }
     /** @var $user \user\models\User */
-    $user = \user\models\User::model()->findByPk($runetId);
+    $user = \user\models\User::model()->byRunetId($runetId)->find();
     if ($user === null)
     {
       throw new \api\components\Exception(202, array($runetId));
