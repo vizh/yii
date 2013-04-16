@@ -22,7 +22,7 @@ class PartnerController extends \mail\components\MailerController
   public function actionSend($step = 0)
   {
     return;
-    $test = false;
+    $test = true;
     $step = \Yii::app()->request->getParam('step', 0);
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
@@ -40,7 +40,7 @@ class PartnerController extends \mail\components\MailerController
     else
     {
       $criteria = new \CDbCriteria();
-      $criteria->addInCondition('"t"."RunetId"', array(321, 454, 122262));
+      $criteria->addInCondition('"t"."RunetId"', array(321));
     }
     $criteria->limit  = $this->getStepCount();
     $criteria->offset = $this->getStepCount() * $step;
@@ -52,7 +52,7 @@ class PartnerController extends \mail\components\MailerController
     $mailer = new \mail\components\Mailer();
     foreach ($users as $user)
     {
-      $mail = new \mail\components\mail\RITpp13();
+      $mail = new \mail\components\mail\RGIF13();
       $mail->user = $user;
       $mailer->send($mail, $user->Email);
       if (!$test)
