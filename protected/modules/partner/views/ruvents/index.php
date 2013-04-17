@@ -1,5 +1,9 @@
 <?php
-$dateEnd   = new DateTime($event->DateEnd);
+/**
+ * @var $event \event\models\Event
+ */
+
+$dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay);
 ?>
 <div class="row indent-bottom3">
   <div class="span12">
@@ -48,10 +52,10 @@ $dateEnd   = new DateTime($event->DateEnd);
       <thead>
       <tr>
         <th>Регистратор</th>
-        <?php for ($dateI = new DateTime($event->DateStart); $dateI <= $dateEnd; $dateI->modify('+1 day')):?>
+        <?php for ($dateI = new DateTime($event->StartYear.'-'.$event->StartMonth.'-'.$event->StartDay); $dateI <= $dateEnd; $dateI->modify('+1 day')):?>
         <th><?php echo $dateI->format('d.m.Y');?></th>
         <?php endfor;?>
-        <?php if ($event->DateStart != $event->DateEnd):?>
+        <?php if ($event->StartYear != $event->EndYear && $event->StartMonth != $event->EndMonth && $event->StartDay != $event->EndDay):?>
         <th>Всего</th>
         <?php endif;?>
       </tr>
@@ -61,7 +65,7 @@ $dateEnd   = new DateTime($event->DateEnd);
         <?php $total = 0;?>
       <tr>
         <td><?php echo $opLogin;?></td>
-        <?php for ($dateI = new DateTime($event->DateStart); $dateI <= $dateEnd; $dateI->modify('+1 day')):?>
+        <?php for ($dateI = new DateTime($event->StartYear.'-'.$event->StartMonth.'-'.$event->StartDay); $dateI <= $dateEnd; $dateI->modify('+1 day')):?>
         <td>
           <?php if (isset($stat->PrintBadges[$dateI->format('d.m.Y')][$opId])):?>
           <?php echo $stat->PrintBadges[$dateI->format('d.m.Y')][$opId]->Count;?>
@@ -73,7 +77,7 @@ $dateEnd   = new DateTime($event->DateEnd);
           <?php endif;?>
         </td>
         <?php endfor;?>
-        <?php if ($event->DateStart != $event->DateEnd):?>
+        <?php if ($event->StartYear != $event->EndYear && $event->StartMonth != $event->EndMonth && $event->StartDay != $event->EndDay):?>
         <td><?php echo $total;?></td>
         <?php endif;?>
       </tr>
@@ -192,14 +196,16 @@ $dateEnd   = new DateTime($event->DateEnd);
     <h2 class="indent-bottom2">Повторные печати бейджей</h2>
     <table class="table table-striped">
       <thead>
-      <th>RocId</th>
-      <th>ФИО</th>
-      <th>Печатей</th>
+      <tr>
+        <th>RUNET-ID</th>
+        <th>ФИО</th>
+        <th>Печатей</th>
+      </tr>
       </thead>
       <tbody>
         <?php foreach ($stat->RePrintBadges as $item):?>
       <tr>
-        <td><?php echo $item->User->RocId;?></td>
+        <td><?php echo $item->User->RunetId;?></td>
         <td><?php echo $item->User->LastName;?> <?php echo $item->User->FirstName;?></td>
         <td><?php echo $item->Count;?></td>
       </tr>
