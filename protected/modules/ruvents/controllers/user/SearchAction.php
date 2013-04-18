@@ -7,6 +7,7 @@ class SearchAction extends \ruvents\components\Action
   {
     $request = \Yii::app()->getRequest();
     $query = $request->getParam('Query', null);
+    $limit = $request->getParam('Limit', 200);
     $locale = $request->getParam('Locale', \Yii::app()->language);
     if (empty($query))
     {
@@ -31,7 +32,7 @@ class SearchAction extends \ruvents\components\Action
         'Employments',
         'Participants'
       );
-      $criteria->limit = 200;
+      $criteria->limit = $limit;
       $users = $userModel->findAll($criteria);
     }
 
