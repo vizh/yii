@@ -1,7 +1,8 @@
 <?php
 $menu = array(
   'password' => \Yii::t('app', 'Смена пароля'),
-  'indexing' => \Yii::t('app', 'Индексация в поисковых системах')
+  'indexing' => \Yii::t('app', 'Индексация в поисковых системах'),
+  'subscription' => \Yii::t('app', 'Управление подпиской')
 );
 ;?>
 
