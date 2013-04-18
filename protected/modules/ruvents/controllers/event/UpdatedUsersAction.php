@@ -19,9 +19,6 @@ class UpdatedUsersAction extends \ruvents\components\Action
     }
     $fromUpdateTime = date('Y-m-d H:i:s', strtotime($fromUpdateTime));
 
-    \Yii::log('RuventsUpdated. Operator: ' . $this->getOperator()->Id, \CLogger::LEVEL_ERROR);
-    \Yii::log('RuventsUpdated. FromTime: ' . $fromUpdateTime, \CLogger::LEVEL_ERROR);
-
     $pageToken = $request->getParam('PageToken', null);
 
     $criteria = new \CDbCriteria();
@@ -43,8 +40,6 @@ class UpdatedUsersAction extends \ruvents\components\Action
     }
     $criteria->limit = $byPage;
     $criteria->offset = $offset;
-
-    \Yii::log('RuventsUpdated. Offset: ' . $offset, \CLogger::LEVEL_ERROR);
 
     $users = \user\models\User::model()->findAll($criteria);
     $idList = array();
