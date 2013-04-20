@@ -48,7 +48,7 @@ class OperatorAction extends \partner\components\Action
     for ($i = 0; $i < $count; $i++)
     {
       $login = $prefix . ($max+$i);
-      $password = $this->generatePassword(10);
+      $password = $this->generatePassword(5);
       $operator = new \ruvents\models\Operator();
       $operator->EventId = $this->getEvent()->Id;
       $operator->Login = $login;
@@ -89,7 +89,7 @@ class OperatorAction extends \partner\components\Action
     $password = '';
     for ($i = 0; $i < $length; $i++)
     {
-      $password .= mt_rand(0, 9);
+      $password .= mt_rand(1, 9);
     }
     return $password;
   }
