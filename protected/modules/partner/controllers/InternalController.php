@@ -14,6 +14,7 @@ class InternalController extends \partner\components\Controller
       'icomf13addproduct' => '\partner\controllers\internal\Icomf13addproductAction',
       'techmailru13import' => '\partner\controllers\internal\Techmailru13importAction',
       'snce13import' => '\partner\controllers\internal\import\Snce13Action',
+      'ritconf13import' => '\partner\controllers\internal\import\Ritconf13Action',
     );
   }
 }

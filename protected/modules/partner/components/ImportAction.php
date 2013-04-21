@@ -153,8 +153,8 @@ abstract class ImportAction extends Action
       $user->Email = $row->Email;
       $user->register($this->getIsNotify());
 
-      $user->Settings->Visible = false;
-      $user->Settings->save();
+      $user->Visible = false;
+      $user->save();
 
       $this->newRunetId[] = $user->RunetId;
     }
