@@ -39,7 +39,8 @@ class ViewController extends \application\components\controllers\PublicMainContr
     $employmentsEx = array();
     foreach ($employmentsTmp as $employment)
     {
-      if (empty($employment->EndYear) || $employment->EndYear >= date('Y'))
+      if ((empty($employment->EndYear) || $employment->EndYear >= date('Y')) 
+        && (empty($employment->EndMonth) || $employment->EndMonth >= date('m')))
       {
         $employments[$employment->UserId] = $employment; 
       }
