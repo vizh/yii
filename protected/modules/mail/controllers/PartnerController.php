@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'RITpp13';
+    return 'RIF13';
   }
 
   /**
@@ -22,7 +22,7 @@ class PartnerController extends \mail\components\MailerController
   public function actionSend($step = 0)
   {
     return;
-    $test = true;
+    $test = false;
     $step = \Yii::app()->request->getParam('step', 0);
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
@@ -30,17 +30,16 @@ class PartnerController extends \mail\components\MailerController
     if (!$test)
     {
       $builder = new \mail\components\Builder();
-      $builder->addEvent(246);
-      $builder->addEvent(195);
-      $builder->addEvent(120);
+      $builder->addEvent(422);
       $criteria = $builder->getCriteria();
-      $criteria->addCondition('"t"."Email" LIKE :Email', 'OR');
-      $criteria->params['Email'] = '%@ontico.ru';
+      $criteria->with['Settings'] = array('select' => false);
+      $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+      $criteria->addNotInCondition('"Participants"."RoleId"', array(24, 34));
     }
     else
     {
       $criteria = new \CDbCriteria();
-      $criteria->addInCondition('"t"."RunetId"', array(321));
+      $criteria->addInCondition('"t"."RunetId"', array(321,454));
     }
     $criteria->limit  = $this->getStepCount();
     $criteria->offset = $this->getStepCount() * $step;
@@ -52,7 +51,7 @@ class PartnerController extends \mail\components\MailerController
     $mailer = new \mail\components\Mailer();
     foreach ($users as $user)
     {
-      $mail = new \mail\components\mail\RGIF13();
+      $mail = new \mail\components\mail\RIF13();
       $mail->user = $user;
       $mailer->send($mail, $user->Email);
       if (!$test)
@@ -70,7 +69,4 @@ class PartnerController extends \mail\components\MailerController
     }
     Yii::app()->end();
   }
-
-
-
 }
