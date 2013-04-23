@@ -8,10 +8,9 @@ class UpdatedUsersAction extends \ruvents\components\Action
   {
     ini_set("memory_limit", "512M");
 
-    $byPage = 200;
-
     $request = \Yii::app()->getRequest();
     $fromUpdateTime = $request->getParam('FromUpdateTime', null);
+    $byPage = $request->getParam('Limit', 200);
     $needCustomFormat = $request->getParam('CustomFormat', false) == '1';
     if ($fromUpdateTime === null)
     {
@@ -31,7 +30,6 @@ class UpdatedUsersAction extends \ruvents\components\Action
     $criteria->params['UpdateTime'] = $fromUpdateTime;
     $criteria->order = '"t"."UpdateTime" ASC';
     $criteria->group = '"t"."Id"';
-    //$criteria->limit = 200;
 
     $offset = 0;
     if ($pageToken !== null)
