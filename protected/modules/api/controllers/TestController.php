@@ -4,8 +4,8 @@ class TestController extends CController
 {
   public function actionIndex()
   {
-    $api = 'ny2bp534c3';
-    $secret = '62z9526EcX4r35t79m368T44R';
+    $api = 'test';
+    $secret = '1234567890';
     $timestamp = time();
 
     $params = array(
@@ -14,8 +14,9 @@ class TestController extends CController
       'Timestamp' => $timestamp
     );
 
+    $params['PageToken'] = 'ZXZlMjAw';
     //$params['CompanyId'] = 449;
-    $this->apiRequest('/api/event/statistics', $params);
+    $this->apiRequest('/api/event/users', $params);
   }
 
   private function apiRequest($url, $params)

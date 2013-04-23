@@ -55,4 +55,10 @@ return array(
     'bizRule' => null,
     'data' => null
   ),
+  'mblt' => array(
+    'type' => CAuthItem::TYPE_ROLE,
+    'description' => 'Авторизация для MBLT',
+    'bizRule' => null,
+    'data' => null
+  ),
 );

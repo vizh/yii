@@ -65,6 +65,15 @@ return array(
     'actions' => array('get')
   ),
 
+
+  /*** MBLT ***/
+  array(
+    'allow',
+    'roles' => array('mblt'),
+    'controllers' => array('event'),
+    'actions' => array('users')
+  ),
+
   /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/
   array(
     'deny',
