@@ -15,6 +15,7 @@ class Telekom13 extends Base
   
   public function getBody()
   {
+    return null;
     return \Yii::app()->getController()->renderPartial('event.views.mail.register.telekom13', array('user' => $this->user), true);
   }
 }

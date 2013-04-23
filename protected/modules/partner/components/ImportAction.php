@@ -9,32 +9,32 @@ abstract class ImportAction extends Action
   /**
    * @return int
    */
-  abstract function getEventId();
+  abstract public function getEventId();
 
   /**
    * @return array
    */
-  abstract function getFieldMap();
+  abstract public function getFieldMap();
 
   /**
    * @return bool
    */
-  abstract function getIsNotify();
+  abstract public function getIsNotify();
 
   /**
    * @return string
    */
-  abstract function getFileName();
+  abstract public function getFileName();
 
   /**
    * @return bool
    */
-  abstract function getIsEnable();
+  abstract public function getIsEnable();
 
   /**
    * @return bool
    */
-  abstract function getIsDebug();
+  abstract public function getIsDebug();
 
   protected $newRunetId = array();
   protected $oldRunetId = array();
