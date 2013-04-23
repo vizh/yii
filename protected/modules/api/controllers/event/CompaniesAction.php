@@ -17,7 +17,7 @@ class CompaniesAction extends \api\components\Action
       '"UserEmployment"."UserId" = "User"."Id"'
     );
     $command->andWhere(
-      '"EventParticipant"."EventId" = :EventId AND "UserEmployment"."EndYear" IS NULL AND "User"."Visible"',
+      '"EventParticipant"."EventId" = :EventId AND "UserEmployment"."Primary" AND "User"."Visible"',
       array('EventId' => $this->getEvent()->Id)
     );
     $command->group('CompanyId');
