@@ -8,134 +8,65 @@ class IndexAction extends \partner\components\Action
     $this->getController()->setPageTitle('Поиск участников мероприятия');
     $this->getController()->initActiveBottomMenu('index');
 
+    $form = new \partner\models\forms\ParticipantSearch();
+    $reset = \Yii::app()->getRequest()->getParam('reset');
+    if ($reset !== 'reset')
+    {
+      $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
+    }
+
     $criteria = new \CDbCriteria();
-    $criteria->condition = 't.EventId = :EventId AND Settings.Visible = \'1\'';
-    $criteria->params = array(
-      'EventId' => \Yii::app()->partner->getAccount()->EventId
-    );
+    $criteria->addCondition('"Participants"."EventId" = :EventId');
+    $criteria->params['EventId'] = $this->getEvent()->Id;
     $criteria->with = array(
-      'User',
-      'User.Employments',
-      'User.Settings',
-      'User.Employments.Company',
-      'Role',
-      'User.Emails',
-      'User.Phones'
+      'Participants' => array(
+        'together' => true,
+        'select' => false,
+      ),
     );
-    $criteria->order = 't.CreationTime DESC';
-    
-    $request = \Yii::app()->request;
+    $criteria->group = '"t"."Id"';
+    $criteria->mergeWith($form->getCriteria());
 
-    $page = (int) $request->getParam('page', 0);
-    if ($page <= 0)
+    $count = \user\models\User::model()->count($criteria);
+    $paginator = new \application\components\utility\Paginator($count);
+    $paginator->perPage = \Yii::app()->params['PartnerUserPerPage'];
+    $criteria->mergeWith($paginator->getCriteria());
+
+    //$criteria->order = '"max"("Participants"."CreationTime") DESC';
+    $users = \user\models\User::model()->findAll($criteria);
+    $userIdList = array();
+    $usersSort = array();
+    foreach ($users as $user)
     {
-      $page = 1;
+      $userIdList[] = $user->Id;
+      $usersSort[$user->Id] = null;
     }
 
-
-    $filter = $request->getParam('Filter', array());
-    if (!empty($filter))
+    $criteria = new \CDbCriteria();
+    $criteria->addInCondition('"t"."Id"', $userIdList);
+    $criteria->with = array(
+      'Participants' => array(
+        'on' => '"Participants"."EventId" = :EventId',
+        'params' => array('EventId' => $this->getEvent()->Id),
+        'together' => true
+      ),
+    );
+    $users = \user\models\User::model()->findAll($criteria);
+    foreach ($users as $user)
     {
-      if (!empty($filter['Query']) || !empty($filter['RoleId']))
-      {
-        $criteria2 = new \CDbCriteria();
-        if (!empty($filter['Query']))
-        {
-          if (strpos($filter['Query'], '@'))
-          {
-            $criteria2->condition = 't.Email = :Email OR Emails.Email = :Email';
-            $criteria2->params['Email'] = $filter['Query'];
-            $criteria2->with = array('Emails');
-          }
-          else
-          {
-            $criteria2 = \user\models\User::GetSearchCriteria($filter['Query']);
-            $criteria2->with = array('Settings');
-          }
-        }
-        
-        if (!empty($filter['RoleId']))
-        {
-          $criteria2->addCondition('Participants.RoleId = :RoleId');
-          $criteria2->params['RoleId'] = $filter['RoleId'];
-        }
-        
-        $criteria2->with[] = 'Participants';
-        $criteria2->addCondition('Participants.EventId = :EventId');
-        $criteria2->params['EventId'] = $criteria->params['EventId'];
-        $users = \user\models\User::model()->findAll($criteria2);
-        $userIdList = array();
-        if (!empty($users))
-        {
-          foreach ($users as $user)
-          {
-            $userIdList[] = $user->UserId;
-          }
-        }
-        $criteria->addInCondition('t.UserId', $userIdList); 
-      }
-      
-      $sort = explode('_', $filter['Sort']);
-      switch($sort[0])
-      { 
-        case 'LastName':
-          $criteria->order = 'User.LastName';
-          break;
-        
-        case 'RocId':
-          $criteria->order = 'User.RocId';
-          break;
-        
-        case 'Role':
-          $criteria->order = 'Role.Priority';
-          break;
-        
-        case 'DateRegister':
-        default:
-          $criteria->order = 't.CreationTime';
-          break;
-      }
-      $criteria->order .= $sort[1] == 'ASC' ? ' ASC' : ' DESC';
-    }
-   
-    $criteria->group = 't.UserId';
-    $count = \event\models\Participant::model()->count($criteria);
-    // TODO: Проверить работу Count в мероприятиях с несколькими днями
-
-
-    /** @var $event \event\models\Event */
-    $event = \event\models\Event::model()->findByPk(\Yii::app()->partner->getAccount()->EventId);
-
-    $criteria->limit  = \UserController::UsersOnPage;
-    $criteria->offset = \UserController::UsersOnPage * ($page-1);
-
-    $users = array();
-    /** @var $participants \event\models\Participant[] */
-    $participants = \event\models\Participant::model()->findAll($criteria);
-    foreach ($participants as $participant)
-    {
-      $users [$participant->UserId] = array(
-        'Participant' => $participant
-      );
-      if ( !empty ($event->Days))
-      {
-        $users[$participant->UserId]['DayRoles'] = \event\models\Participant::model()->byUserId($participant->UserId)->byEventId($participant->EventId)->findAll('t.DayId IS NOT NULL');
-      }
+      $usersSort[$user->Id] = $user;
     }
 
-    $roles = \event\models\Event::model()->findByPk(\Yii::app()->partner->getAccount()->EventId)->GetUsingRoles();
-
-
+    /** @var $roles \event\models\Role[] */
+    $roles = \event\models\Role::model()
+        ->byEventId(\Yii::app()->partner->getAccount()->EventId)->findAll();
 
     $this->getController()->render('index',
       array(
-        'users' => $users,
+        'users' => $usersSort,
         'roles' => $roles,
-        'event' => $event,
-        'filter' => $filter,
-        'count' => $count,
-        'page' => $page,
-        'filter' => $filter
+        'paginator' => $paginator,
+        'form' => $form
       )
     );
   }

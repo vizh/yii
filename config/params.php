@@ -44,6 +44,7 @@ return array(
     'PartnerOrderPerPage' => 20,
     'PartnerOrderItemPerPage' => 20,
     'PartnerCouponPerPage' => 20,
+    'PartnerUserPerPage' => 20,
 
 
     /** Ruvents Params */

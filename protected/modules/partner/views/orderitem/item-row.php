@@ -16,7 +16,7 @@
       $manager = $orderItem->Product->getManager();
       ?>
       <strong>Пансионат: <?=$manager->Hotel;?></strong><br>
-      <strong>Номер: <?=$manager->Number;?></strong> <span class="muted">(Id: <?=$item->Product->Id;?>)</span><br>
+      <strong>Номер: <?=$manager->Number;?></strong> <span class="muted">(Id: <?=$orderItem->Product->Id;?>)</span><br>
       <?=$manager->Housing;?>, <?=$manager->Category;?><br>
       Всего мест: <?=$manager->PlaceTotal;?> (основных - <?=$manager->PlaceBasic;?>, доп. - <?=$manager->PlaceMore;?>)<br>
       <em><?=$manager->DescriptionBasic;?>, <?=$manager->DescriptionMore;?></em>

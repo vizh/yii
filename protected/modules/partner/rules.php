@@ -8,12 +8,6 @@ return array(
     'controllers' => array('user'),
   ),
   array(
-    'deny',
-    'roles' => array('Partner'),
-    'module' => 'partner',
-    'controllers' => array('user'),
-  ),
-  array(
     'allow',
     'users' => array('?'),
     'module' => 'partner',
@@ -38,8 +32,23 @@ return array(
     'allow',
     'roles' => array('Partner'),
     'module' => 'partner',
-    'controllers' => array('main', 'order', 'user', 'coupon', 'userEdit', 'utility', 'special'),
+    'controllers' => array('main', 'order', 'coupon', 'userEdit', 'utility', 'special'),
   ),
+  array(
+    'allow',
+    'roles' => array('Partner'),
+    'module' => 'partner',
+    'controllers' => array('user'),
+    'actions' => array('index')
+  ),
+
+  array(
+    'allow',
+    'roles' => array('Admin'),
+    'module' => 'partner',
+    'controllers' => array('user')
+  ),
+
   array(
     'allow',
     'roles' => array('Partner'),

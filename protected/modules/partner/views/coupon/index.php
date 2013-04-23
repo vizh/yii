@@ -57,7 +57,7 @@
         <th>Промо-код</th>
         <th>Скидка</th>
         <th>Продукт</th>
-        <th>Выдан</th>
+        <!--<th>Выдан</th>-->
         <th>Активация</th>
     </tr>
     </thead>
@@ -76,7 +76,7 @@
                 &ndash;
             <?endif;?>
         </td>
-        <td>
+        <!--<td>
             <?if ($coupon->Recipient == null):?>
                 <span class="label">Не выдан</span>
             <?else:?>
@@ -85,7 +85,7 @@
             <em><?=$coupon->Recipient;?></em>
           </p>
             <?endif;?>
-        </td>
+        </td>-->
         <td>
             <?if (!$coupon->Multiple && sizeof($coupon->Activations) > 0):?>
                 <span class="label label-success">Активирован</span> 

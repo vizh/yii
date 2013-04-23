@@ -1,126 +1,107 @@
 <?php
 /**
  * @var $roles \event\models\Role[]
- * @var $users array
+ * @var $users \user\models\User[]
+ * @var $paginator \application\components\utility\Paginator
+ * @var $form \partner\models\forms\ParticipantSearch
  */
+
+$roleList = array(
+  '' => 'Все зарегистрированные'
+);
+foreach ($roles as $role)
+{
+  $roleList[$role->Id] = $role->Title;
+}
 ?>
-<form method="get">
-  <div class="row">
-    <div class="span4">
-      <label>Поиск:</label>
-      <input type="text" name="Filter[Query]" placeholder="ФИО, ROCID или Email" value="<?php if (!empty($filter['Query'])):?><?php echo $filter['Query'];?><?php endif;?>"/>
-    </div>
-    <div class="span4">
-      <label>Статус:</label>
-      <select name="Filter[RoleId]">
-        <option value="">Все зарегистрированные</option>
-        <?php foreach ($roles as $role):?>
-          <option value="<?php echo $role->RoleId;?>"
-            <?php if (isset($filter['RoleId']) && $filter['RoleId'] == $role->RoleId):?>selected="selected"<?php endif;?>>
-              <?php echo $role->Name;?>
-          </option>
-        <?php endforeach;?>
-      </select>
-    </div>
-    <div class="span4">
-      <?php 
-      $filterSortValues = array(
-        'DateRegister_DESC' => 'по дате регистрации &DownArrow;',
-        'DateRegister_ASC' => 'по дате регистрации &UpArrow;',
-        'LastName_DESC' => 'по ФИО участника &DownArrow;',
-        'LastName_ASC' => 'по ФИО участника &UpArrow;',
-        'RocId_DESC' => 'по ROCID &DownArrow;',
-        'RocId_ASC' => 'по ROCID &UpArrow;',
-        'Role_DESC' => 'по статусу участия &DownArrow;',
-        'Role_ASC' => 'по статусу участия &UpArrow;'
-      );
-      ?>
-      <label>Сортировка:</label>
-      <select name="Filter[Sort]">
-        <?php foreach ($filterSortValues as $value => $text):?>
-          <option value="<?php echo $value;?>" <?php if (isset($filter['Sort']) && $filter['Sort'] == $value):?>selected="selected"<?php endif;?>><?php echo $text;?></option>
-        <?php endforeach;?>
-      </select>
-    </div>
-  </div>
+
   <div class="row">
     <div class="span12">
-      <input type="submit" value="Искать" name="" class="btn" /> 
+      <?=CHtml::beginForm(Yii::app()->createUrl('/partner/user/index/'), 'get');?>
+      <div class="row">
+        <div class="span4">
+          <?=CHtml::activeLabel($form, 'User');?>
+          <?=CHtml::activeTextField($form, 'User', array('placeholder' => 'ФИО, RUNET-ID или E-mail'));?>
+        </div>
+        <div class="span4">
+          <?=CHtml::activeLabel($form, 'Role');?>
+          <?=CHtml::activeDropDownList($form, 'Role', $roleList);?>
+        </div>
+        <div class="span4">
+          <?=CHtml::activeLabel($form, 'Sort');?>
+          <?=CHtml::activeDropDownList($form, 'Sort', $form->getSortValues(), array('encode' => false));?>
+        </div>
+      </div>
+
+      <div class="row indent-top2">
+        <div class="span2">
+          <button class="btn btn-large" type="submit"><i class="icon-search"></i> Искать</button>
+        </div>
+        <div class="span3">
+          <button class="btn btn-large" type="submit" name="reset" value="reset">Сбросить</button>
+        </div>
+      </div>
+      <?=CHtml::endForm();?>
     </div>
   </div>
-</form>
 
-<h3>Всего по запросу <?=\Yii::t('', '{n} участник|{n} участника|{n} участников|{n} участника', $count);?></h3>
+  <h3>Всего по запросу <?=\Yii::t('', '{n} участник|{n} участника|{n} участников|{n} участника', $paginator->getCount());?></h3>
 
 
-<?php if($users != null):?>
-<table class="table table-striped">
+<?if (sizeof($users) > 0):?>
+  <table class="table table-striped">
     <thead>
-        <tr>
-            <th>ROCID</th>
-            <th>Ф.И.О.</th>
-            <th>Работа</th>
-            <th>Статус</th>
-            <th>Управление</th>
-        </tr>
+    <tr>
+      <th>RUNET-ID</th>
+      <th>Ф.И.О.</th>
+      <th>Работа</th>
+      <th>Статус</th>
+      <!--<th>Управление</th>-->
+    </tr>
     </thead>
     <tbody>
-    <?php foreach ($users as $user):?>
-        <tr>
-            <td><h3><a target="_blank" href="http://rocid.ru/<?=$user['Participant']->User->RocId;?>/"><?php echo $user['Participant']->User->RocId;?></a></h3></td>
-            <td>
-                <strong><?php echo $user['Participant']->User->GetFullName();?></strong>
+    <?foreach ($users as $user):?>
+      <tr>
+        <td><h3><a target="_blank" href="<?=$user->getProfileUrl();?>"><?=$user->RunetId;?></a></h3></td>
+        <td>
+          <strong><?=$user->getFullName();?></strong>
+          <p>
+            <em><?=$user->Email;?></em>
+          </p>
+          <?if (sizeof($user->LinkPhones)):?>
+            <p><em><?=$user->LinkPhones[0]->Phone;?></em></p>
+          <?php endif;?>
+        </td>
+        <td width="30%">
+          <?if ($user->getEmploymentPrimary() !== null):?>
+              <strong><?=$user->getEmploymentPrimary()->Company->Name;?></strong>
+            <p class="position"><?=$user->getEmploymentPrimary()->Position;?></p>
+          <?else:?>
+            Место работы не указано
+          <?endif;?>
+        </td>
+        <td>
+          <?if (sizeof($user->Participants) == 1):?>
+            <?=$user->Participants[0]->Role->Title;?><br/>
+            <em><?=Yii::app()->dateFormatter->formatDateTime($user->Participants[0]->CreationTime, 'long');?></em>
+          <?else:?>
+              <?foreach ($user->Participants as $participant):?>
+                <?if (!empty($participant->Part)):?>
                 <p>
-                    <em><?php echo $user['Participant']->User->GetEmail() !== null ? $user['Participant']->User->GetEmail()->Email : $user['Participant']->User->Email; ?></em>
+                  <strong><?=$participant->Part->Title;?></strong> - <?=$participant->Role->Title;?><br/>
+                  <em><?php echo Yii::app()->dateFormatter->formatDateTime($participant->CreationTime, 'long');?></em>
                 </p>
-                <?php if (!empty($user['Participant']->User->Phones)):?>
-                    <p><em><?php echo urldecode($user['Participant']->User->Phones[0]->Phone);?></em></p>
-                <?php endif;?>
-            </td>
-            <td width="30%">
-                <?php $employment = $user['Participant']->User->EmploymentPrimary();?>
-                <?php if ($employment !== null):?>
-                    <strong><?php echo $employment->Company->Name;?></strong>
-                    <p class="position">
-                        <?php echo $employment->Position;?>
-                    </p>
-                <?php else:?>
-                    Место работы не указано
-                <?php endif;?>
-            </td>
-            <td>
-                <?php if ( !empty ($event->Days)):?>
-                    <?php foreach ($user['DayRoles'] as $dayRole):?>
-                        <p>
-                            <strong><?php echo $dayRole->Day->Title;?></strong> - <?php echo $dayRole->Role->Name;?><br/>
-                            <em><?php echo Yii::app()->dateFormatter->formatDateTime($dayRole->CreationTime, 'long');?></em>
-                        </p>
-                    <?php endforeach;?>
-                <?php else:?>
-                    <?php echo $user['Participant']->Role->Name;?><br/>
-                    <em><?php echo Yii::app()->dateFormatter->formatDateTime($user['Participant']->CreationTime, 'long');?></em>
-                <?php endif;?>
-            </td>
-            <td><a href="<?=Yii::app()->createUrl('/partner/user/edit', array('rocId' => $user['Participant']->User->RocId));?>" class="btn btn-info">Редактировать</a></td>
-        </tr>
+                <?endif;?>
+              <?endforeach;?>
+          <?endif;?>
+        </td>
+        <!--<td><a href="<?=Yii::app()->createUrl('/partner/user/edit', array('runetId' => $user->RunetId));?>" class="btn btn-info">Редактировать</a></td>-->
+      </tr>
     <?php endforeach;?>
     </tbody>
-</table>
+  </table>
 <?php else:?>
-    <div class="alert">По Вашему запросу нет ни одного участника.</div>
+  <div class="alert">По Вашему запросу нет ни одного участника.</div>
 <?php endif;?>
 
-<?php
-$params = array(
-  'url' => '/partner/user/index',
-  'count' => $count,
-  'perPage' => UserController::UsersOnPage,
-  'page' => $page
-);
-if (!empty($filter))
-{
-  $params['params'] = array('Filter' => $filter);
-}
-
-$this->widget('\application\widgets\Paginator', $params);
-?>
+<?$this->widget('\application\widgets\Paginator', array('paginator' => $paginator));?>

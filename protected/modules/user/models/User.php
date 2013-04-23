@@ -215,11 +215,16 @@ class User extends \application\models\translation\ActiveRecord
    * @param string $searchTerm
    * @param string $locale
    * @param bool $useAnd
+   * @param bool $useVisible
+   *
    * @return User
    */
-  public function bySearch($searchTerm, $locale = null, $useAnd = true)
+  public function bySearch($searchTerm, $locale = null, $useAnd = true, $useVisible = true)
   {
-    $this->byVisible(true);
+    if ($useVisible)
+    {
+      $this->byVisible(true);
+    }
 
     $searchTerm = trim($searchTerm);
 
@@ -724,6 +729,13 @@ class User extends \application\models\translation\ActiveRecord
     return \Yii::app()->createAbsoluteUrl('/main/fastauth/index', $params);
   }
 
+  /**
+   * @return string
+   */
+  public function getProfileUrl()
+  {
+    return \Yii::app()->createUrl('/user/view/index', array('runetId' => $this->RunetId));
+  }
 
   /**
    * @param string $hash
