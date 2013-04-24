@@ -7,7 +7,7 @@
       payItem.productId = '<?=$item['ProductId'];?>';
       payItem.user = {
         RunetId : '<?=$owner->RunetId;?>',
-        FullName : '<?=$owner->getFullName();?>'
+        FullName : '<?=addslashes($owner->getFullName());?>'
       };
       payItem.promoCode = '<?=$item['PromoCode'];?>';
       payItems.push(payItem);
