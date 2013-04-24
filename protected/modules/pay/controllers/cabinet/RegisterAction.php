@@ -14,15 +14,7 @@ class RegisterAction extends \pay\components\Action
     $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findAll();
     
     $countRows = $request->getParam('count');
-    foreach ($products as $product)
-    {
-      if (!isset($countRows[$product->Id]) || intval($countRows[$product->Id]) <= 0)
-      {
-        $countRows[$product->Id] = 1;
-      }
-    }
     
-
     $orderForm = new \pay\models\forms\OrderForm();
     $orderForm->attributes = $request->getParam(get_class($orderForm));
     if ($request->getParam('count') == null && $request->getIsPostRequest())
@@ -75,15 +67,27 @@ class RegisterAction extends \pay\components\Action
     }
     else
     {
-      if (\pay\models\OrderItem::model()->byOwnerId(\Yii::app()->user->getId())->byEventId($this->getEvent()->Id)->byDeleted(false)
-        ->exists() == false)
+      if (!empty($countRows))
       {
-        foreach ($products as $product)
+        $countRows = array_filter($countRows, function($value) {
+          return $value != 0;
+        });
+
+        if (sizeof($countRows) == 1
+          && \pay\models\OrderItem::model()->byOwnerId(\Yii::app()->user->getId())->byEventId($this->getEvent()->Id)->byDeleted(false)->exists() == false)
         {
           $orderForm->Items[] = array(
-            'ProductId' => $product->Id,
+            'ProductId' => key($countRows),
             'RunetId' => \Yii::app()->user->getCurrentUser()->RunetId
           );
+        }
+
+        foreach ($products as $product)
+        {
+          if (!isset($countRows[$product->Id]))
+          {
+            $countRows[$product->Id] = 1;
+          }
         }
       }
     }
