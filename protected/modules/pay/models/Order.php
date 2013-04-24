@@ -170,12 +170,26 @@ class Order extends \CActiveRecord
     $this->PaidTime = date('Y-m-d H:i:s');
     $this->Total = $total;
     $this->save();
-
+    
+    $eventHandler = new \CModelEvent($this, array('total' => $total));
+    $this->onActivate($eventHandler);
+    
     return array('Total' => $total, 'ErrorItems' => $errorItems);
   }
+  
+  
+  
+  public function onActivate($eventHandler)
+  {
+    /** @var $sender Event */
+    $sender = $eventHandler->sender;
+    $class = \Yii::getExistClass('\pay\components\handlers\order\activate', ucfirst($eventHandler->sender->Event->IdName), 'Base');
+    /** @var $handler \event\components\handlers\register\Base */
+    $handler = new $class($eventHandler);
+    $handler->onActivate($eventHandler);
+  }
 
-
-  /**
+    /**
    * Заполняет счет элементами заказа. Возвращает значение Total (сумма заказа)
    *
    * @param \user\models\User $user

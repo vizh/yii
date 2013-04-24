@@ -762,5 +762,10 @@ class User extends \application\models\translation\ActiveRecord
     return parent::beforeSave();
   }
 
+  
+  public function getUrl()
+  {
+    return \Yii::app()->createAbsoluteUrl('/user/view/index', array('runetId' => $this->RunetId));
+  }
 
 }
