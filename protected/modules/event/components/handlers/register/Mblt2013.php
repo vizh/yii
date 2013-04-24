@@ -10,7 +10,7 @@ class Mblt2013 extends Base
   
   public function getSubject()
   {
-    return 'Вы были успешно зарегистрированы MIPAcademy Moscow DO / You have been successfully registered for the MIPAcademy Moscow DO';
+    return 'Вы были успешно зарегистрированы #MBLT13 / You have been successfully registered for the #MBLT13';
   }
   
   public function getBody()

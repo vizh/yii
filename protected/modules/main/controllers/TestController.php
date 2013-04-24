@@ -3,9 +3,13 @@ class TestController extends \CController
 {
   public function actionIndex()
   {
-    $user  = \Yii::app()->user->getCurrentUser();
+    $runetIdList = array(321,122262,454);
     $role  = \event\models\Role::model()->findByPk(1);
     $event = \event\models\Event::model()->findByPk(431);
-    $event->registerUser($user, $role);
+    foreach ($runetIdList as $runetId)
+    {
+      $user = \user\models\User::model()->byRunetId($runetId)->find();
+      $event->registerUser($user, $role);
+    }
   }
 }
