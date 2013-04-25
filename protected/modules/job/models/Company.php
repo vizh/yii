@@ -26,4 +26,13 @@ class Company extends \CActiveRecord
   {
     return 'Id';
   }
+  
+  public function byName($name, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Name" = :Name';
+    $criteria->params['Name'] = $name;
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

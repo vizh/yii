@@ -56,4 +56,35 @@ class Job extends \CActiveRecord
     return $this;
   }
 
+  /**
+   * 
+   * @param string $companyName
+   */
+  public function setCompany($companyName)
+  {
+    $company = \job\models\Company::model()->byName($companyName)->find();
+    if ($company == null)
+    {
+      $company = new \job\models\Company();
+      $company->Name = $companyName;
+      $company->save();
+    }
+    $this->CompanyId = $company->Id;
+  }
+  
+  /**
+   * 
+   * @param string $position
+   */
+  public function setPosition($positionTitle)
+  {
+    $position = \job\models\Position::model()->byTitle($positionTitle)->find();
+    if ($position == null)
+    {
+      $position = new \job\models\Position();
+      $position->Title = $positionTitle;
+      $position->save();
+    }
+    $this->PositionId = $position->Id;
+  }
 }

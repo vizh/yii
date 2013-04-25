@@ -478,3 +478,5 @@ body.http-error {
 .m-top_20 {margin-top: 20px !important;}
 .m-top_30 {margin-top: 30px !important;}
 .m-top_40 {margin-top: 40px !important;}
+
+.ui-helper-hidden-accessible {display: none;}

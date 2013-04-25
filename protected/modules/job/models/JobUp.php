@@ -41,6 +41,15 @@ class JobUp extends \CActiveRecord
     );
   }
   
+  public function byJobId($jobId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."JobId" = :JobId';
+    $criteria->params['JobId'] = $jobId;
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
   public function byActual($useAnd = true)
   {
     $criteria = new \CDbCriteria();

@@ -25,4 +25,13 @@ class Position extends \CActiveRecord
 	{
 		return 'Id';
 	}
+  
+  public function byTitle($title, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Title" = :Title';
+    $criteria->params['Title'] = $title;
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }
