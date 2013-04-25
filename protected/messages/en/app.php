@@ -119,8 +119,8 @@ return array(
   'Для промо кода со скидкой 100% не указан товар, на который распространяется скидка' => 'The product for 100% discount is not specified',
   'Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар' => 'This product is not available for selected user',
   'У пользователя уже активирован промо код с бОльшей скидкой' => 'User already activated coupon for bigger discount',
-
-
+  'Пожалуйста, добавьте информацию об участниках для продолжения' => 'Please, add the information about the participants, for continue',
+  
 
   'offer-demo.pdf' => 'offer-demo-en.pdf'
 

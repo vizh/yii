@@ -60,9 +60,17 @@ class RegisterAction extends \pay\components\Action
       }
       if (!$orderForm->hasErrors())
       {
-        $this->getController()->redirect(
-          $this->getController()->createUrl('/pay/cabinet/index', array('eventIdName' => $this->getEvent()->IdName))
-        );
+        if (\pay\models\OrderItem::model()->byPayerId(\Yii::app()->user->getId())->byEventId($this->getEvent()->Id)->byDeleted(false)
+          ->exists() == false)
+        {
+          $orderForm->addError('Items', \Yii::t('app', 'Пожалуйста, добавьте информацию об участниках для продолжения'));
+        }
+        else
+        {
+          $this->getController()->redirect(
+            $this->getController()->createUrl('/pay/cabinet/index', array('eventIdName' => $this->getEvent()->IdName))
+          );
+        }
       }
     }
     else
