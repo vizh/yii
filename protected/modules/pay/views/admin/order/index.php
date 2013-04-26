@@ -52,7 +52,7 @@
       <table class="table table-striped">
         <thead>
         <tr>
-          <th>Cчет</th>
+          <th>Номер счета/заказа</th>
           <th class="span4">Краткие данные</th>
           <th class="span3">Выставил</th>
           <th>Дата</th>

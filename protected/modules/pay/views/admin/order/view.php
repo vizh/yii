@@ -4,7 +4,7 @@
 
 <div class="row">
   <div class="span12 indent-bottom3">
-    <h2>Счет №<?=$order->Id;?></h2>
+    <h2>Счет (заказ) №<?=$order->Id;?></h2>
 
     <p>
       <?if ($order->Paid):?>
@@ -74,7 +74,7 @@
   <?php endforeach;?>
   
   <div class="span12 indent-bottom3">
-    <h3>Состав счета</h3>
+    <h3>Состав счета (заказа)</h3>
 
     <table class="table table-striped">
       <thead>

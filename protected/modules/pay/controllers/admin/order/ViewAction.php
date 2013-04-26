@@ -16,7 +16,7 @@ class ViewAction extends \CAction
       throw new \CHttpException(404, 'Не найден счет с номером: ' . $orderId);
     }
 
-    $this->getController()->setPageTitle('Управление счетом № ' . $orderId);
+    $this->getController()->setPageTitle('Управление счетом (заказом) № ' . $orderId);
 
     $request = \Yii::app()->getRequest();
     if ($order->Juridical && $request->getIsPostRequest())
