@@ -7,7 +7,8 @@ class EditController extends \application\components\controllers\PublicMainContr
       'index' => 'user\controllers\edit\IndexAction',
       'photo' => 'user\controllers\edit\PhotoAction',
       'employment' => 'user\controllers\edit\EmploymentAction',
-      'contacts' => '\user\controllers\edit\ContactsAction'
+      'contacts' => '\user\controllers\edit\ContactsAction',
+      'profinterests' => '\user\controllers\edit\ProfessionalInterestsAction'
     );
   }
 }

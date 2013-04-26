@@ -31,4 +31,11 @@ class ProfessionalInterest extends \CActiveRecord
   {
     return array();
   }
+  
+  public function getOrderedList()
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."Title" ASC';
+    return $this->findAll($criteria);
+  }
 }
