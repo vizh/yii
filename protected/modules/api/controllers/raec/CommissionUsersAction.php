@@ -16,7 +16,7 @@ class CommissionUsersAction extends \api\components\Action
     $builder = new \api\components\builders\Builder(null); //todo: быстрое решение, исправить
 
     $result = array();
-    foreach ($commission->Users as $user)
+    foreach ($commission->UsersActive as $user)
     {
       $builder->createUser($user->User);
       $builder->buildUserEmployment($user->User);

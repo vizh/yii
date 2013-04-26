@@ -32,6 +32,7 @@ class Commission extends \CActiveRecord
   {
     return array(
       'Users' => array(self::HAS_MANY, 'commission\models\User', 'CommissionId'),
+      'UsersActive' => array(self::HAS_MANY, 'commission\models\User', 'CommissionId', 'on' => '"UsersActive"."ExitTime" IS NULL OR "UsersActive"."ExitTime" > NOW()'),
       'Projects' => array(self::HAS_MANY, 'commission\models\Project', 'CommissionId'),
     );
   }

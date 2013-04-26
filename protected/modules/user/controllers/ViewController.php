@@ -15,7 +15,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
         'with' => array('Event', 'Role'),
         'order' => '"Event"."EndYear" DESC, "Event"."EndMonth" DESC'
       ),
-      'Commissions' => array(
+      'CommissionsActive' => array(
         'together' => false
       )
     );

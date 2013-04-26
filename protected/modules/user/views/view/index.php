@@ -81,10 +81,10 @@ $(window).load(function() {
                 </div>
                 <?endif;?>
 
-                <?if (!empty($user->Commissions)):?>
+                <?if (!empty($user->CommissionsActive)):?>
                 <div class="b-raec">
                   <img src="/images/content/raec-logo_small.jpg" alt="РАЭК" class="logo">
-                  <?foreach ($user->Commissions as $commission):?>
+                  <?foreach ($user->CommissionsActive as $commission):?>
                   <p class="text"><?=$commission->Role->Title;?>, <?=$commission->Commission;?></p>
                   <?endforeach;?>
                 </div>

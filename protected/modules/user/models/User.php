@@ -90,7 +90,8 @@ class User extends \application\models\translation\ActiveRecord
       ),
 
       'Commissions' => array(self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => array('Commission', 'Role')),
-
+      'CommissionsActive' => array(self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => array('Commission', 'Role'), 'on' => '"CommissionsActive"."ExitTime" IS NULL OR "CommissionsActive"."ExitTime" > NOW()'),  
+        
       'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'UserId'),
 
       'Settings' => array(self::HAS_ONE, '\user\models\Settings', 'UserId',),
