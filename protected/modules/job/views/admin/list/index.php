@@ -1,5 +1,7 @@
 <div class="row-fluid">
-  <div class="btn-toolbar"></div>
+  <div class="btn-toolbar">
+    <a href="<?=$this->createUrl('/job/admin/edit/index');?>" class="btn"><?=\Yii::t('app', 'Добавить вакансию');?></a>
+  </div>
   <div class="well">
     <table class="table">
       <thead>
