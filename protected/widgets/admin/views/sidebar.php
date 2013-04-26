@@ -35,6 +35,10 @@
   
   <a href="<?=Yii::app()->createUrl('/job/admin/list/index');?>" class="nav-header collapsed" href="#menu-companies"><i class="icon-briefcase icon-white"></i>Вакансии</i></a>
 
+
+
+  <a href="<?=Yii::app()->createUrl('/pay/admin/order/index');?>" class="nav-header collapsed" href="#menu-pay"><i class="icon-briefcase icon-white"></i>Платежная система</i></a>
+
   <!--<a class="nav-header" href="help.html"><i class="icon-question-sign"></i>Help</a>
   <a class="nav-header" href="faq.html"><i class="icon-comment"></i>Faq</a>-->
 </div>
