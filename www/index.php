@@ -14,3 +14,8 @@ $config=dirname(__FILE__).'/../config/main.php';
 require_once($yii);
 $app = Yii::createWebApplication($config);
 $app->run();
+
+$logs = \Yii::getLogger()->getProfilingResults();
+echo '<pre>';
+print_r($logs);
+echo '</pre>';

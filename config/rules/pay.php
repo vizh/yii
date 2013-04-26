@@ -10,10 +10,10 @@ return array(
 
 
   /** Admin Rules */
-//  array(
-//    'allow',
-//    'roles' => array('admin'),
-//    'module' => 'pay',
-//    'controllers' => array('internal')
-//  ),
+  array(
+    'allow',
+    'roles' => array('booker'),
+    'module' => 'pay',
+    'controllers' => array('admin/order')
+  ),
 );

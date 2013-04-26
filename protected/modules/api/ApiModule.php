@@ -39,8 +39,6 @@ class ApiModule extends CWebModule
     {
       /** @var $exception \api\components\Exception */
       $exception = $event->exception;
-      //$exception->sendResponse();
-      //$event->handled = true;
     }
     else
     {

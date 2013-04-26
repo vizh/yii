@@ -16,15 +16,18 @@ class PhpAuthManager extends \CPhpAuthManager
     // Для гостей у нас и так роль по умолчанию guest.
     if(!\Yii::app()->user->getIsGuest())
     {
-      /** @var $group \application\models\admin\Group */
-      $group = \application\models\admin\Group::model()
+      /** @var $groups \application\models\admin\Group[] */
+      $groups = \application\models\admin\Group::model()
           ->byUserId(\Yii::app()->user->getCurrentUser()->Id)
-          ->with('Roles')->find();
-      if ($group !== null)
+          ->with('Roles')->findAll();
+      if (sizeof($groups) !== null)
       {
-        foreach ($group->Roles as $role)
+        foreach ($groups as $group)
         {
-          $this->assign($role->Code, \Yii::app()->user->getId());
+          foreach ($group->Roles as $role)
+          {
+            $this->assign($role->Code, \Yii::app()->user->getId());
+          }
         }
       }
     }
