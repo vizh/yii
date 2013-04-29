@@ -104,8 +104,8 @@ class Controller extends \application\components\controllers\BaseController
 
   protected function setHeaders()
   {
-    //header('Content-type: text/json; charset=utf-8');
-    header('Content-type: text/html; charset=utf-8');
+    header('Content-type: text/json; charset=utf-8');
+    //header('Content-type: text/html; charset=utf-8');
   }
 
   /** @var AccessControlFilter */

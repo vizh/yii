@@ -123,7 +123,8 @@ class Account extends \CActiveRecord
    */
   public function checkHash($hash, $timestamp)
   {
-    if ($hash === $this->getHash($timestamp))
+    $checkHash = $this->getHash($timestamp);
+    if ($hash === $checkHash || strstr($hash, $checkHash) !== false)
     {
       return true;
     }

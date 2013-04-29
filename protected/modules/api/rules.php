@@ -71,7 +71,13 @@ return array(
     'allow',
     'roles' => array('mblt'),
     'controllers' => array('event'),
-    'actions' => array('users')
+    'actions' => array('users', 'companies')
+  ),
+  array(
+    'allow',
+    'roles' => array('mblt'),
+    'controllers' => array('company'),
+    'actions' => array('get')
   ),
 
   /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/

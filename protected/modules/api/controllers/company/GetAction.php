@@ -22,7 +22,7 @@ class GetAction extends \api\components\Action
         'Employments' => array('together' => true, 'select' => false),
         'Participants' => array('together' => true)
       );
-      $criteria->addCondition('"Employments"."EndYear" IS NULL');
+      $criteria->addCondition('"Employments"."EndYear" IS NULL AND "Employments"."Primary"');
       $criteria->addCondition('"Employments"."CompanyId" = :CompanyId');
       $criteria->addCondition('"Participants"."EventId" = :EventId');
       $criteria->params['EventId'] = $this->getEvent()->Id;

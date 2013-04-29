@@ -25,13 +25,11 @@ class UsersAction extends \api\components\Action
 
     $criteria->with = array(
       'Employments.Company' => array('on' => '"Employments"."Primary"', 'together' => false),
-      'Participants' => array(
-        'on' => '"Participants"."EventId" = :EventId',
-        'params' => array('EventId' => $this->getEvent()->Id),
-        'together' => true
-      )
+      'Participants' => array('together' => true)
     );
 
+    $criteria->addCondition('"Participants"."EventId" = :EventId');
+    $criteria->params['EventId'] = $this->getEvent()->Id;
 
     $users = \user\models\User::model()->findAll($criteria);
 
