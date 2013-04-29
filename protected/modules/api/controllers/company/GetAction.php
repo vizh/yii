@@ -19,7 +19,7 @@ class GetAction extends \api\components\Action
     {
       $criteria = new \CDbCriteria();
       $criteria->with = array(
-        'Employments' => array('together' => true, 'select' => false),
+        'Employments' => array('together' => true),
         'Participants' => array('together' => true)
       );
       $criteria->addCondition('"Employments"."EndYear" IS NULL AND "Employments"."Primary"');
@@ -35,6 +35,7 @@ class GetAction extends \api\components\Action
       {
         $this->getDataBuilder()->createUser($user);
         $this->getDataBuilder()->buildUserContacts($user);
+        $this->getDataBuilder()->buildUserEmployment($user);
         $result->Employments[] = $this->getDataBuilder()->buildUserEvent($user);
       }
     }
