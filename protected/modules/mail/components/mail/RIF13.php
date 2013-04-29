@@ -3,7 +3,9 @@ namespace mail\components\mail;
 
 class RIF13 extends \mail\components\Mail
 {
-  public $user = null;
+  public $user  = null;
+  public $event = null;
+  public $role  = null;
   
   public function getFrom()
   {
@@ -23,6 +25,14 @@ class RIF13 extends \mail\components\Mail
   public function getBody()
   {
     return \Yii::app()->getController()->renderPartial('mail.views.partner.rif13-2', array('user' => $this->user, 'personalLink' => $this->getPersonalLink()), true);
+  }
+  
+  public function getAttachments()
+  {
+    $pkPass = new \application\components\utility\PKPassGenerator($this->event, $this->user, $this->role);
+    return array(
+      'ticket.pkpass' => $pkPass->runAndSave()
+    );
   }
   
   private function getPersonalLink()

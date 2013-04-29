@@ -23,6 +23,19 @@ class Employment extends \CFormModel
     );
   }
   
+  protected function beforeValidate()
+  {
+    if (!empty($this->StartMonth) && empty($this->StartYear))
+    {
+      $this->addError('StartYear', \Yii::t('app', 'Необходимо заполнить поле Год начала работы'));
+    }
+    if (!empty($this->EndMonth) && empty($this->EndYear))
+    {
+      $this->addError('EndYear', \Yii::t('app', 'Необходимо заполнить поле Год окончания работы'));
+    }
+    return true;
+  }
+  
   public function attributeLabels()
   {
     return array(

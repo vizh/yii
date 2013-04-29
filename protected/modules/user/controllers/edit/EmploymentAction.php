@@ -43,7 +43,7 @@ class EmploymentAction extends \CAction
               $employment->EndMonth = !empty($formEmployment->EndMonth) ? $formEmployment->EndMonth : null;
               $employment->StartYear = !empty($formEmployment->StartYear) ? $formEmployment->StartYear : null;
               $employment->EndYear = !empty($formEmployment->EndYear) ? $formEmployment->EndYear : null;
-              $employment->Primary = $formEmployment->Primary == 1 ? true : false;
+              $employment->Primary = $formEmployment->Primary == 1 && empty($formEmployment->EndYear) ? true : false;
               $employment->save();
             }
           }

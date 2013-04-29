@@ -53,19 +53,34 @@ CUserEditEmployment.prototype = {
       }
       self.iterator--;
     });
+   
+    item.find('select[name*="EndMonth"], select[name*="EndYear"]').change(function (e) {
+      if ($(e.currentTarget).val() !== "") {
+        item.removeClass('primary');
+        item.find('.form-row').css('opacity', '0.5');
+        item.find('input[name*="Primary"]').removeAttr('checked').parent('label').hide();
+      }
+      else if (item.find('select[name*="EndMonth"]').val() == '' 
+        && item.find('select[name*="EndYear"]').val() == '') {
+          item.find('.form-row').css('opacity', '1');
+          item.find('input[name*="Primary"]').parent('label').show();
+        }
+    });
     
     item.find('.form-row-date input[type="checkbox"]').change(function (e) {
       if ($(e.currentTarget).is(':checked')) {
-        item.find('.form-row-date select[name*="EndMonth"]').attr('disabled', 'disabled');
-        item.find('.form-row-date select[name*="EndYear"]').attr('disabled', 'disabled');
+        item.find('select[name*="EndMonth"]').attr('disabled', 'disabled').val('').trigger('change');
+        item.find('select[name*="EndYear"]').attr('disabled', 'disabled').val('').trigger('change');
       }
       else {
-        item.find('.form-row-date select[name*="EndMonth"]').removeAttr('disabled');
-        item.find('.form-row-date select[name*="EndYear"]').removeAttr('disabled');
+        item.find('select[name*="EndMonth"]').removeAttr('disabled');
+        item.find('select[name*="EndYear"]').removeAttr('disabled');
       }
     }).trigger('change');
     
     item.find('input[name*="Primary"]').change(function (e) {
+      self.form.find('.user-career-item.primary').removeClass('primary');
+      item.addClass('primary');
       self.form.find('input[name*="Primary"]').not($(e.currentTarget)).removeAttr('checked');
     });
     $('.ui-autocomplete').not('.ui-autocomplete_live-search').addClass('dropdown-menu');

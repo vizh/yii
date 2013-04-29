@@ -216,3 +216,13 @@ input.error {
   padding: 0 5px;
   font-size: 12px;
 } 
+
+.user-career-item {
+  padding: 10px;
+}
+.user-career-item .form-row > .form-inline > label{
+  margin-left: 10px;
+}
+.user-career-item.primary {
+  background-color: #EFFFE8;
+}
