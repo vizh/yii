@@ -55,7 +55,7 @@ CUserEditEmployment.prototype = {
     });
    
     item.find('select[name*="EndMonth"], select[name*="EndYear"]').change(function (e) {
-      if ($(e.currentTarget).val() !== "") {
+      if (item.find('select[name*="EndYear"]').val() !== "") {
         item.removeClass('primary');
         item.find('.form-row').css('opacity', '0.5');
         item.find('input[name*="Primary"]').removeAttr('checked').parent('label').hide();
