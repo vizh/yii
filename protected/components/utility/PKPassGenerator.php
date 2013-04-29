@@ -7,7 +7,7 @@ class PKPassGenerator
     'formatVersion' => 1,
     'organizationName' => 'RUNET—ID',
     'passTypeIdentifier' => 'pass.runetid.event.ticket',
-    'serialNumber' => '123456789',
+    'serialNumber' => '1082246565149683542',
     'teamIdentifier' => 'X9WVYYD744'
   );
   private $associatedAppKeys = array();
@@ -113,7 +113,7 @@ class PKPassGenerator
     $pkPass->setCertificate(
       \Yii::getPathOfAlias('ext.pkpass').'/certificates/pass-certificate.p12'
     );
-    $pkPass->setCertificatePassword('RUNET-RUNET-RUNET');
+    $pkPass->setCertificatePassword('RUNET');
     $pkPass->setWWDRcertPath(
       \Yii::getPathOfAlias('ext.pkpass').'/certificates/AppleWWDRCA.pem'
     );
@@ -131,7 +131,6 @@ class PKPassGenerator
    */
   public function runAndSave()
   {
-    $file  = $this->run(false);
     $path  = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $path .= 'pkpass'.DIRECTORY_SEPARATOR.$this->user->RunetId.'_'.$this->event->IdName.'_'.$this->role->Id.'.pkpass';
     if (file_exists($path))
@@ -140,7 +139,7 @@ class PKPassGenerator
     }
     else 
     {
-      file_put_contents($path, $file);
+      file_put_contents($path, $this->run(false));
       return $path;
     }
   }
