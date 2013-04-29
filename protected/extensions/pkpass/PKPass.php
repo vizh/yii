@@ -18,6 +18,11 @@ class PKPass {
 	 * Variable: string
 	 */
 	protected $certPath;
+
+	/*
+	 * Name of the downloaded file.
+	 */
+	protected $name;
 	
 	/*
 	 * Holds the files to include in the .pkpass
@@ -102,7 +107,7 @@ class PKPass {
 			return true;
 		}
 		
-		$this->sError = 'Certificate file did not exist.';
+		$this->sError = 'Certificate file does not exist.';
 		return false;
 	}
 	
@@ -165,18 +170,11 @@ class PKPass {
 	 */
 	public function addFile($path, $name = NULL){
 		if(file_exists($path)){
-			if ($name === NULL)
-			{
-				$this->files[$path] = $path;
-				return true;
-			}
-			else
-			{
-				$this->files[$name] = $path;
-				return true;
-			}
+			$name = ($name === NULL) ? basename($path) : $name;
+            $this->files[$name] = $path;
+            return true;
 		}
-		$this->sError = 'File did not exist.';
+		$this->sError = 'File does not exist.';
 		return false;
 	}
 	
@@ -187,7 +185,7 @@ class PKPass {
 	 */
 	public function create($output = false) {
 		$paths = $this->paths();
-    
+	
 		//Creates and saves the json manifest
 		if(!($manifest = $this->createManifest())){
 			$this->clean();
@@ -211,13 +209,14 @@ class PKPass {
 			$this->clean();
 			return false;
 		}
-    
+
 		// Output pass
 		if($output == true) {
+			$fileName = ($this->getName()) ? $this->getName() : basename($paths['pkpass']);
 			header('Pragma: no-cache');
 			header('Content-type: application/vnd.apple.pkpass');
 			header('Content-length: '.filesize($paths['pkpass']));
-			header('Content-Disposition: attachment; filename="'.basename($paths['pkpass']).'"');
+			header('Content-Disposition: attachment; filename="'.$fileName.'"');
 			echo file_get_contents($paths['pkpass']);
 			
 			$this->clean();
@@ -225,9 +224,19 @@ class PKPass {
 			$file = file_get_contents($paths['pkpass']);
 			
 			$this->clean();
-      
+			
 			return $file;
 		}
+	}
+
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	public function setName($name)
+	{
+		$this->name = $name;
 	}
 	
 	public function checkError(&$error) {
@@ -259,19 +268,17 @@ class PKPass {
 	protected function createManifest() {
 		// Creates SHA hashes for all files in package
 		$this->SHAs['pass.json'] = sha1($this->JSON);
-		$hasicon = false;    
+		$hasicon = false;
 		foreach($this->files as $name => $path) {
-			if(strtolower(basename($name)) == 'icon.png'){
+			if(strtolower($name) == 'icon.png'){
 				$hasicon = true;
 			}
-			$this->SHAs[basename($name)] = sha1(file_get_contents($path));
+			$this->SHAs[$name] = sha1(file_get_contents($path));
 			
 		}
 		
 		if(!$hasicon){
-      print_r($this->files);
-      
-			$this->sError = 'Error while creating pass.pkpass. Check your Zip extension.';
+			$this->sError = 'Missing required icon.png file.';
 			$this->clean();
 			return false;
 		}
@@ -309,7 +316,7 @@ class PKPass {
 		$paths = $this->paths();
 		
 		file_put_contents($paths['manifest'], $manifest);
-    
+		
 		$pkcs12 = file_get_contents($this->certPath);
 		$certs = array();
 		if(openssl_pkcs12_read($pkcs12, $certs, $this->certPass) == true) {
@@ -348,8 +355,8 @@ class PKPass {
 		$paths = $this->paths();
 		
 		// Package file in Zip (as .pkpass)
-		$zip = new \ZipArchive();
-		if(!$zip->open($paths['pkpass'], \ZIPARCHIVE::CREATE)) {
+		$zip = new ZipArchive();
+		if(!$zip->open($paths['pkpass'], ZipArchive::CREATE)) {
 			$this->sError = 'Could not open '.basename($paths['pkpass']).' with ZipArchive extension.';
 			return false;
 		}
@@ -358,7 +365,7 @@ class PKPass {
 		$zip->addFromString('manifest.json',$manifest);
 		$zip->addFromString('pass.json',$this->JSON);
 		foreach($this->files as $name => $path){
-			$zip->addFile($path, basename($name));
+			$zip->addFile($path, $name);
 		}
 		$zip->close();
 		
