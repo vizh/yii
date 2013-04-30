@@ -5,11 +5,11 @@
  * @var $paginator \application\components\utility\Paginator
  */
 ?>
-<div class="row">
+<div class="row-fluid">
 
   <div class="span12">
     <?=CHtml::beginForm();?>
-    <div class="row">
+    <div class="row-fluid">
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Order');?>
         <?=CHtml::activeTextField($form, 'Order');?>
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row-fluid">
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Company');?>
         <?=CHtml::activeTextField($form, 'Company');?>
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row-fluid">
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Payer');?>
         <?=CHtml::activeTextField($form, 'Payer', array('placeholder' => 'RUNET-ID'));?>
@@ -47,6 +47,9 @@
     <?=CHtml::endForm();?>
   </div>
 
+</div>
+
+<div class="row-fluid">
   <div class="span12">
     <?if ($paginator->getCount() > 0):?>
       <table class="table table-striped">
@@ -67,10 +70,10 @@
             <td><h3><?=$order->Id;?></h3></td>
             <td>
               <?if ($order->Juridical):?>
-              <strong><?=$order->OrderJuridical->Name;?></strong><br>
-              ИНН/КПП:&nbsp;<?=$order->OrderJuridical->INN;?>&nbsp;/&nbsp;<?=$order->OrderJuridical->KPP;?>
+                <strong><?=$order->OrderJuridical->Name;?></strong><br>
+                ИНН/КПП:&nbsp;<?=$order->OrderJuridical->INN;?>&nbsp;/&nbsp;<?=$order->OrderJuridical->KPP;?>
               <?else:?>
-                  <p class="text-warning"><strong>Через платежную систему</strong></p>
+                <p class="text-warning"><strong>Через платежную систему</strong></p>
               <?endif;?>
             </td>
             <td>
@@ -80,7 +83,7 @@
               </p>
               <?foreach ($order->Payer->LinkPhones as $link):?>
                 <?if ($link->Phone == null) { continue; }?>
-                  <p><em><?=urldecode($link->Phone);?></em></p>
+                <p><em><?=urldecode($link->Phone);?></em></p>
               <?endforeach;?>
             </td>
             <td><?=Yii::app()->locale->getDateFormatter()->format('d MMMM y', strtotime($order->CreationTime));?><br>
@@ -93,17 +96,17 @@
             <td><?=$order->getPrice();?> руб.</td>
             <td>
               <form action="<?=\Yii::app()->createUrl('/pay/admin/order/view', array('orderId' => $order->Id));?>" method="post">
-              <a class="btn btn-info" href="<?=\Yii::app()->createUrl('/pay/admin/order/view', array('orderId' => $order->Id));?>"><i class="icon-list icon-white"></i></a>
+                <a class="btn btn-info" href="<?=\Yii::app()->createUrl('/pay/admin/order/view', array('orderId' => $order->Id));?>"><i class="icon-list icon-white"></i></a>
 
-              <?if (!$order->Paid && $order->Juridical):?>
-                <button class="btn btn-success" type="submit" onclick="return confirm('Вы уверены, что хотите отметить данный счет оплаченным?');" name="SetPaid"><i class="icon-ok icon-white"></i></button>
-              <?endif;?>
+                <?if (!$order->Paid && $order->Juridical):?>
+                  <button class="btn btn-success" type="submit" onclick="return confirm('Вы уверены, что хотите отметить данный счет оплаченным?');" name="SetPaid"><i class="icon-ok icon-white"></i></button>
+                <?endif;?>
 
                 <?if ($order->Juridical):?>
-                <a class="btn" target="_blank" href="<?=$order->getUrl(true);?>"><i class="icon-print"></i></a>
+                  <a class="btn" target="_blank" href="<?=$order->getUrl(true);?>"><i class="icon-print"></i></a>
                 <?endif;?>
               </form>
-              
+
             </td>
           </tr>
         <?endforeach;?>
@@ -120,6 +123,8 @@
       </div>
     <?endif;?>
   </div>
+</div>
 
+<div class="row-fluid">
   <div class="span12 indent-bottom3"></div>
 </div>

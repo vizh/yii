@@ -19,6 +19,12 @@ return array(
           'css' => array('stylesheets/bootstrap.min.css'),
           'depends' => array('runetid.jquery')
         ),
+        'runetid.bootstrap.admin' => array(
+          'baseUrl' => '/',
+          'js' => array('javascripts/bootstrap.admin.min.js'),
+          'css' => array('stylesheets/bootstrap.admin.min.css'),
+          'depends' => array('runetid.jquery')
+        ),
         'runetid.jquery.ui' => array(
           'baseUrl' => '/',
           'js' => array('javascripts/jquery-ui-1.9.0.custom.min.js', 'javascripts/jquery.ui.autocomplete.html.js'),
@@ -44,7 +50,7 @@ return array(
           'baseUrl' => '/',
           'js' => array(),
           'css' => array('stylesheets/admin.css'),
-          'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.bootstrap')
+          'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.bootstrap.admin')
         ),
         'runetid.charts' => array(
           'baseUrl' => '/',

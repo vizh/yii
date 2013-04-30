@@ -70,7 +70,7 @@
               <strong><?=$order->OrderJuridical->Name;?></strong><br>
               ИНН/КПП:&nbsp;<?=$order->OrderJuridical->INN;?>&nbsp;/&nbsp;<?=$order->OrderJuridical->KPP;?>
               <?else:?>
-                  -
+                <p class="text-warning"><strong>Через платежную систему.</strong></p>
               <?endif;?>
             </td>
             <td>
