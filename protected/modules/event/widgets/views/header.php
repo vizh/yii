@@ -36,7 +36,7 @@ $happy = $event->Id === 423 && $happy == 'on';
       <div class="side right span4">
         <div class="actions">
           <div class="calendar img-circle">
-            <a href="<?='webcal://'.RUNETID_HOST.\Yii::app()->getController()->createUrl('/event/share/ical', array('idName' => $event->IdName));?>" class="pseudo-link">
+            <a href="<?=  str_replace('http://', 'webcal://', \Yii::app()->getController()->createAbsoluteUrl('/event/share/ical', array('idName' => $event->IdName)));?>" class="pseudo-link">
               <i class="icon-calendar"></i><br><?=\Yii::t('app', 'Добавить в&nbsp;календарь');?>
             </a>
           </div>
