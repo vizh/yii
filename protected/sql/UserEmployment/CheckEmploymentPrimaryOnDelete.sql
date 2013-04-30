@@ -1,3 +1,4 @@
+/*todo: not ready yet*/
 CREATE OR REPLACE FUNCTION "public"."CheckEmploymentPrimary"()
   RETURNS trigger AS
   $$
