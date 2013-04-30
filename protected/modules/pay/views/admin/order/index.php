@@ -12,33 +12,33 @@
     <div class="row-fluid">
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Order');?>
-        <?=CHtml::activeTextField($form, 'Order');?>
+        <?=CHtml::activeTextField($form, 'Order', array('class' => 'span8'));?>
       </div>
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Paid');?>
-        <?=CHtml::activeDropDownList($form, 'Paid', $form->getListValues());?>
+        <?=CHtml::activeDropDownList($form, 'Paid', $form->getListValues(), array('class' => 'span8'));?>
       </div>
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Deleted');?>
-        <?=CHtml::activeDropDownList($form, 'Deleted', $form->getListValues());?>
+        <?=CHtml::activeDropDownList($form, 'Deleted', $form->getListValues(), array('class' => 'span8'));?>
       </div>
     </div>
 
     <div class="row-fluid">
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Company');?>
-        <?=CHtml::activeTextField($form, 'Company');?>
+        <?=CHtml::activeTextField($form, 'Company', array('class' => 'span8'));?>
       </div>
       <div class="span4">
         <?=CHtml::activeLabel($form, 'INN');?>
-        <?=CHtml::activeTextField($form, 'INN');?>
+        <?=CHtml::activeTextField($form, 'INN', array('class' => 'span8'));?>
       </div>
     </div>
 
     <div class="row-fluid">
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Payer');?>
-        <?=CHtml::activeTextField($form, 'Payer', array('placeholder' => 'RUNET-ID'));?>
+        <?=CHtml::activeTextField($form, 'Payer', array('placeholder' => 'RUNET-ID', 'class' => 'span8'));?>
       </div>
       <div class="offset4 span4">
         <button class="btn btn-large" type="submit"><i class="icon-search"></i> Искать</button>
@@ -52,31 +52,31 @@
 <div class="row-fluid">
   <div class="span12">
     <?if ($paginator->getCount() > 0):?>
-      <table class="table table-striped">
+      <table class="table table-striped relative-no-table">
         <thead>
         <tr>
           <th>Номер счета/заказа</th>
-          <th class="span4">Краткие данные</th>
-          <th class="span3">Выставил</th>
+          <th>Краткие данные</th>
+          <th>Выставил</th>
           <th>Дата</th>
           <th>Сумма</th>
-          <th class="span2">Управление</th>
+          <th>Управление</th>
         </tr>
         </thead>
 
         <tbody>
         <?foreach ($orders as $order):?>
           <tr>
-            <td><h3><?=$order->Id;?></h3></td>
-            <td>
+            <td data-title="Номер счета/заказа"><h3><?=$order->Id;?></h3></td>
+            <td data-title="Краткие данные">
               <?if ($order->Juridical):?>
                 <strong><?=$order->OrderJuridical->Name;?></strong><br>
-                ИНН/КПП:&nbsp;<?=$order->OrderJuridical->INN;?>&nbsp;/&nbsp;<?=$order->OrderJuridical->KPP;?>
+                ИНН/КПП:&nbsp;<?=$order->OrderJuridical->INN;?> / <?=$order->OrderJuridical->KPP;?>
               <?else:?>
                 <p class="text-warning"><strong>Через платежную систему</strong></p>
               <?endif;?>
             </td>
-            <td>
+            <td data-title="Выставил">
               <?php echo $order->Payer->RunetId;?>, <strong><?php echo $order->Payer->getFullName();?></strong>
               <p>
                 <em><?=$order->Payer->Email;?></em>
@@ -86,15 +86,15 @@
                 <p><em><?=urldecode($link->Phone);?></em></p>
               <?endforeach;?>
             </td>
-            <td><?=Yii::app()->locale->getDateFormatter()->format('d MMMM y', strtotime($order->CreationTime));?><br>
+            <td data-title="Дата"><?=Yii::app()->locale->getDateFormatter()->format('d MMMM y', strtotime($order->CreationTime));?><br>
               <?if ($order->Paid):?>
                 <span class="label label-success">ОПЛАЧЕН</span>
               <?else:?>
                 <span class="label label-important">НЕ ОПЛАЧЕН</span>
               <?endif;?>
             </td>
-            <td><?=$order->getPrice();?> руб.</td>
-            <td>
+            <td data-title="Сумма"><?=$order->getPrice();?> руб.</td>
+            <td data-title="Управление">
               <form action="<?=\Yii::app()->createUrl('/pay/admin/order/view', array('orderId' => $order->Id));?>" method="post">
                 <a class="btn btn-info" href="<?=\Yii::app()->createUrl('/pay/admin/order/view', array('orderId' => $order->Id));?>"><i class="icon-list icon-white"></i></a>
 

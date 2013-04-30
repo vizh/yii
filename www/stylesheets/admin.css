@@ -64,7 +64,6 @@ hr {
   margin-left: 240px;
   margin-top: 6px;
   min-height: 800px;
-  min-width: 400px;
   position: relative;
 }
 .header {
@@ -480,3 +479,76 @@ body.http-error {
 .m-top_40 {margin-top: 40px !important;}
 
 .ui-helper-hidden-accessible {display: none;}
+
+
+@media (max-width: 767px) {
+  .sidebar-nav{
+    margin-top: 6px;
+    width: 48px;
+  }
+  .sidebar-nav > a{
+    text-align: center;
+  }
+
+  .content{
+    margin-left: 60px;
+  }
+  form{
+    padding: 20px;
+  }
+
+  a.brand{
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+
+  /* Force table to not be like tables anymore */
+  table.relative-no-table,
+  table.relative-no-table thead,
+  table.relative-no-table tbody,
+  table.relative-no-table th,
+  table.relative-no-table td,
+  table.relative-no-table tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  table.relative-no-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  table.relative-no-table tr { border: 1px solid #ccc; }
+
+  table.relative-no-table td {
+    /* Behave like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 30%;
+    white-space: normal;
+    text-align:left;
+    padding-top: 25px;
+  }
+
+  table.relative-no-table td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 30%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align:left;
+    font-weight: bold;
+  }
+
+  /*
+  Label the data
+  */
+  table.relative-no-table td:before { content: attr(data-title); }
+}
