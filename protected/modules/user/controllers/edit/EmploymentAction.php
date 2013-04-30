@@ -56,6 +56,9 @@ class EmploymentAction extends \CAction
         
         if ($success)
         {
+          \Yii::app()->getDb()->createCommand('SELECT "UpdateEmploymentPrimary"(:UserId)')->execute(array(
+            'UserId' => $user->Id
+          ));
           \Yii::app()->user->setFlash('success', \Yii::t('app', 'Карьера успешно сохранена!'));
           $this->getController()->refresh();
         }
