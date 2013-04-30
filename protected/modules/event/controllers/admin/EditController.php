@@ -19,6 +19,8 @@ class EditController extends \application\components\controllers\AdminMainContro
           $form->$attribute = $value;
         }
       } 
+      $form->StartDate = $event->getFormattedStartDate(\event\models\forms\admin\EditForm::DATE_FORMAT);
+      $form->EndDate = $event->getFormattedEndDate(\event\models\forms\admin\EditForm::DATE_FORMAT);
       $form->ProfInterest = \CHtml::listData($event->LinkProfessionalInterests, 'Id', 'ProfessionalInterestId');
       if ($event->LinkSite !== null)
       {
@@ -41,17 +43,24 @@ class EditController extends \application\components\controllers\AdminMainContro
       if ($form->validate())
       {        
         // Сохранение мероприятия
-        foreach ($event->attributes as $attribute => $value)
+        $event->Title = $form->Title;
+        $event->Info = $form->Info;
+        $event->FullInfo = $form->FullInfo;
+        $event->Visible = $form->Visible;
+        $event->TypeId = $form->TypeId;
+        $event->ShowOnMain = $form->ShowOnMain;
+        $event->Approved = $form->Approved;
+        if ($event->IdName !== $form->IdName)
         {
-          if (property_exists($form, $attribute))
-          {
-            if ($attribute == 'IdName')
-            {
-              $event->getLogo()->rebase($form->$attribute);
-            }
-            $event->$attribute = $form->$attribute;
-          }
-        } 
+          $event->IdName = $form->IdName;
+          $event->getLogo()->rebase($form->IdName);
+        }
+        $event->StartDay = date('d', $form->StartDateTS);
+        $event->StartMonth = date('m', $form->StartDateTS);;
+        $event->StartYear = date('Y', $form->StartDateTS);;
+        $event->EndDay = date('d', $form->EndDateTS);
+        $event->EndMonth = date('m', $form->EndDateTS);;
+        $event->EndYear = date('Y', $form->EndDateTS);;
         $event->save();
         
         // Сохранение адреса

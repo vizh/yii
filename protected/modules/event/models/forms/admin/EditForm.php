@@ -3,6 +3,8 @@ namespace event\models\forms\admin;
 
 class EditForm extends \CFormModel
 {
+  const DATE_FORMAT = 'dd.MM.yyyy';
+  
   public $Title;
   public $IdName;
   public $Info;
@@ -12,17 +14,14 @@ class EditForm extends \CFormModel
   public $ShowOnMain;
   public $Approved = 0;
   
-  public $StartYear;
-  public $StartMonth;
-  public $StartDay;
+  public $StartDate;
+  public $EndDate;
+  public $StartDateTS;
+  public $EndDateTS;
   
   public $Logo;
 
   public $SiteUrl;
-  
-  public $EndYear;
-  public $EndMonth;
-  public $EndDay;
   
   public $Widgets;
   
@@ -33,7 +32,9 @@ class EditForm extends \CFormModel
   public function rules()
   {
     return array(
-      array('Title, IdName, Info, StartYear, StartMonth, StartDay, EndYear, EndMonth, EndDay', 'required'),
+      array('Title, IdName, Info, StartDate, EndDate', 'required'),
+      array('StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'),
+      array('EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'),
       array('Info', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
       array('Title, IdName, Info, FullInfo, Visible, TypeId, ShowOnMain, Approved, Widgets, ProfInterest', 'safe'),
       array('Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),

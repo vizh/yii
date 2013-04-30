@@ -11,13 +11,13 @@ class ListController extends \application\components\controllers\AdminMainContro
     {
       if (is_numeric($searchQuery))
       {
-       $criteria->addCondition('"t"."Id" = :Query');
-       $criteria->params['Query'] = $searchQuery;
+        $criteria->addCondition('"t"."Id" = :Query');
+        $criteria->params['Query'] = $searchQuery;
       }
       else 
       {
-       $criteria->addSearchCondition('"t"."IdName"', $searchQuery);
-       $criteria->addSearchCondition('"t"."Title"', $searchQuery, true, 'OR');
+        $criteria->addCondition('"t"."IdName" ILIKE :Query OR "t"."Title" ILIKE :Query');
+        $criteria->params['Query'] = '%'.$searchQuery.'%';
       }
     }
     

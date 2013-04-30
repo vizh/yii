@@ -30,6 +30,12 @@ return array(
           'js' => array('javascripts/jquery-ui-1.9.0.custom.min.js', 'javascripts/jquery.ui.autocomplete.html.js'),
           'depends' => array('runetid.jquery')
         ),
+        'runetid.admin.jquery.ui' => array(
+          'baseUrl' => '/javascripts/',
+          'js' => array('jquery-ui-1.10.2.custom.min.js', 'jquery.ui/jquery-ui-datepicker-ru.js'),
+          'css' => array('jquery.ui/themes/smoothness/jquery-ui-1.10.2.custom.min.css'),
+          'depends' => array('runetid.jquery')
+        ),
         'runetid.jquery.ioslider' => array(
           'baseUrl' => '/',
           'js' => array('javascripts/jquery.iosslider.min.js'),
@@ -50,7 +56,7 @@ return array(
           'baseUrl' => '/',
           'js' => array(),
           'css' => array('stylesheets/admin.css'),
-          'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.bootstrap.admin')
+          'depends' => array('runetid.jquery', 'runetid.admin.jquery.ui', 'runetid.bootstrap.admin')
         ),
         'runetid.charts' => array(
           'baseUrl' => '/',
