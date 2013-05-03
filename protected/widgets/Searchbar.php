@@ -5,6 +5,11 @@ class Searchbar extends \CWidget
 {
   public function run()
   {
-    $this->render('searchbar');
+    $value = \Yii::app()->getRequest()->getQuery('term');
+    $this->render('searchbar',
+      array(
+        'value' => $value
+      )
+    );
   }
 }
