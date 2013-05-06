@@ -24,7 +24,7 @@
       <div class="control-group">
         <label for="name" class="control-label"><strong>RUNET-ID</strong></label>
         <div class="controls">
-          <input type="text" id="name" name="name" class="input-xxlarge" placeholder="Введите ФИО" value="<?=isset($nameOrRocid) ? $nameOrRocid : '';?>">
+          <input type="text" id="name" name="name" class="input-xxlarge" placeholder="Введите RUNET-ID" value="<?=isset($nameOrRocid) ? $nameOrRocid : '';?>">
           <p class="help-inline"><input type="hidden" name="runetId" id="runetId" value="<?=isset($rocId) ? $rocId : '';?>"><span id="span_rocid" style="display: none;" class="label label-success"></span></p>
           <!--<p class="help-block">
             <strong>Заметка:</strong> Просто начните набирать фамилию и имя или rocID пользователя. Здесь автоматически будут отображаться результаты поиска.

@@ -47,7 +47,9 @@ class EditAction extends \partner\components\Action
         );
       }
 
-      $this->roles = \event\models\Role::model()->findAll();
+      $criteria = new \CDbCriteria();
+      $criteria->order = '"t"."Id"';
+      $this->roles = \event\models\Role::model()->findAll($criteria);
 
       $doAction = $request->getParam('do');
       if (!empty($doAction))
