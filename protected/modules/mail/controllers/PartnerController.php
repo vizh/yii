@@ -21,7 +21,6 @@ class PartnerController extends \mail\components\MailerController
 
   public function actionSend($step = 0)
   {
-    return;
     $test = true;
     $step = \Yii::app()->request->getParam('step', 0);
     set_time_limit(84600);
@@ -29,17 +28,30 @@ class PartnerController extends \mail\components\MailerController
 
     if (!$test)
     {
+      // Для рекламной
       $criteria = new \CDbCriteria();
       $criteria->with = array(
-        'Settings',
-        'Participants' => array('together' => true, 'select' => false)
+        'Settings'
       );
-      $criteria->addCondition('"Participants"."EventId" = 422 AND "Participants"."RoleId" = 24');
       $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+      
+      
+      // Для электронного приглашения
+//      $criteria = new \CDbCriteria();
+//      $criteria->with = array(
+//        'Settings',
+//        'Participants' => array('together' => true, 'select' => false)
+//      );
+//      $criteria->addCondition('"Participants"."EventId" = 423');
+//      $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     }
     else
     {
       $criteria = new \CDbCriteria();
+      $criteria->with = array(
+        'Participants' => array('together' => true, 'select' => false)
+      );
+      $criteria->addCondition('"Participants"."EventId" = 423');
       $criteria->addInCondition('"t"."RunetId"', array(321,454));
     }
     $criteria->limit  = $this->getStepCount();
@@ -47,12 +59,13 @@ class PartnerController extends \mail\components\MailerController
 
     $count = \user\models\User::model()->byVisible(true)->count($criteria);
     echo 'Получателей:'. $count.'<br/>';
+    exit();
     
     $users = \user\models\User::model()->byVisible(true)->findAll($criteria);
     $mailer = new \mail\components\Mailer();
     foreach ($users as $user)
     {
-      $mail = new \mail\components\mail\RIF13();
+      $mail = new \mail\components\mail\SPIC13();
       $mail->user = $user;
       $mailer->send($mail, $user->Email);
       if (!$test)

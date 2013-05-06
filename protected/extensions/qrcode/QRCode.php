@@ -1,4 +1,5 @@
 <?php
+namespace ext\qrcode;
 /**
 *
 * QRcode image PHP script version 0.50i (C)2000-2009,Y.Swetake
