@@ -212,7 +212,7 @@ class Order extends \CActiveRecord
     $this->EventId = $event->Id;
     $this->Juridical = $juridical;
     $this->save();
-
+    $this->refresh();
 
     $total = 0;
     foreach ($unpaidItems as $item)
