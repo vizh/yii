@@ -11,14 +11,14 @@ class OperatorAction extends \partner\components\Action
     $this->getController()->setPageTitle('Генерация аккаунтов операторов');
     $this->getController()->initActiveBottomMenu('operator');
 
-    $form = new \partner\components\form\OperatorGenerateForm();
+    $form = new \partner\models\forms\OperatorGenerate();
     $request = \Yii::app()->request;
     $form->attributes = $request->getParam(get_class($form));
     if ($request->getIsPostRequest() && $form->validate())
     {
       $this->addOperators($form->Prefix . '_' . self::OperatorSubname, $form->CountOperators, \ruvents\models\Operator::RoleOperator);
       $this->addOperators($form->Prefix . '_' . self::AdminSubname, $form->CountAdmins, \ruvents\models\Operator::RoleAdmin);
-      $form = new \partner\components\form\OperatorGenerateForm();
+      $form = new \partner\models\forms\OperatorGenerate();
     }
 
     $files = $this->getFileList();

@@ -2,7 +2,7 @@
 /**
  * @var $coupons \pay\models\Coupon[]
  * @var $paginator \application\components\utility\Paginator
- * @var $form \partner\models\forms\CouponSearch
+ * @var $form \partner\models\forms\coupon\Search
  * @var $products array
  */
 ?>

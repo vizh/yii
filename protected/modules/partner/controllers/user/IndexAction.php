@@ -8,7 +8,7 @@ class IndexAction extends \partner\components\Action
     $this->getController()->setPageTitle('Поиск участников мероприятия');
     $this->getController()->initActiveBottomMenu('index');
 
-    $form = new \partner\models\forms\ParticipantSearch();
+    $form = new \partner\models\forms\user\ParticipantSearch();
     $reset = \Yii::app()->getRequest()->getParam('reset');
     if ($reset !== 'reset')
     {

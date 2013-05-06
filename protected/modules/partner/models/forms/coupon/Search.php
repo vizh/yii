@@ -1,8 +1,8 @@
 <?php
-namespace partner\models\forms;
+namespace partner\models\forms\coupon;
 
 
-class CouponSearch extends \CFormModel
+class Search extends \CFormModel
 {
   public $Code;
   public $Owner;

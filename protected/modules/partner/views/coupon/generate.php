@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $products \pay\models\Product[]
- * @var $form \partner\models\forms\CouponGenerate
+ * @var $form \partner\models\forms\coupon\Generate
  * @var $result string
  */
 $productDropDown = array();
