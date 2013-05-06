@@ -15,7 +15,7 @@ class IndexAction extends \partner\components\Action
 //      'Product',
 //    );
 
-    $form = new \partner\models\forms\CouponSearch();
+    $form = new \partner\models\forms\coupon\Search();
     $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
     $criteria = $form->getCriteria();
 

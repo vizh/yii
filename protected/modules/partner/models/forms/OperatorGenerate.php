@@ -1,7 +1,7 @@
 <?php
-namespace partner\components\form;
+namespace partner\models\forms;
 
-class OperatorGenerateForm extends \CFormModel
+class OperatorGenerate extends \CFormModel
 {
   public $Prefix;
   public $CountOperators;

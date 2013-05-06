@@ -1,5 +1,5 @@
 <?php
-namespace partner\models\forms;
+namespace partner\models\forms\user;
 
 
 class ParticipantSearch extends \CFormModel

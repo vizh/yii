@@ -3,7 +3,7 @@
  * @var $roles \event\models\Role[]
  * @var $users \user\models\User[]
  * @var $paginator \application\components\utility\Paginator
- * @var $form \partner\models\forms\ParticipantSearch
+ * @var $form \partner\models\forms\user\ParticipantSearch
  */
 
 $roleList = array(
@@ -56,7 +56,7 @@ foreach ($roles as $role)
       <th>Ф.И.О.</th>
       <th>Работа</th>
       <th>Статус</th>
-      <!--<th>Управление</th>-->
+      <th>Управление</th>
     </tr>
     </thead>
     <tbody>
@@ -95,7 +95,7 @@ foreach ($roles as $role)
               <?endforeach;?>
           <?endif;?>
         </td>
-        <!--<td><a href="<?=Yii::app()->createUrl('/partner/user/edit', array('runetId' => $user->RunetId));?>" class="btn btn-info">Редактировать</a></td>-->
+        <td><a href="<?=Yii::app()->createUrl('/partner/user/edit', array('runetId' => $user->RunetId));?>" class="btn btn-info">Редактировать</a></td>
       </tr>
     <?php endforeach;?>
     </tbody>

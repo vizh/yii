@@ -1,7 +1,7 @@
 <?php
-namespace partner\models\forms;
+namespace partner\models\forms\coupon;
 
-class CouponGenerate extends \CFormModel
+class Generate extends \CFormModel
 {
   public $count;
   public $discount;

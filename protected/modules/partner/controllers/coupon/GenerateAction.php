@@ -10,7 +10,7 @@ class GenerateAction extends \partner\components\Action
 
     $request = \Yii::app()->getRequest();
 
-    $form = new \partner\models\forms\CouponGenerate();
+    $form = new \partner\models\forms\coupon\Generate();
     $form->event = \Yii::app()->partner->getEvent();
     $form->attributes = $request->getParam(get_class($form));
 
@@ -18,7 +18,7 @@ class GenerateAction extends \partner\components\Action
     if ($request->getIsPostRequest() && $form->validate())
     {
       $result = $this->generate($form);
-      $form = new \partner\models\forms\CouponGenerate();
+      $form = new \partner\models\forms\coupon\Generate();
       $form->event = \Yii::app()->partner->getEvent();
     }
 
@@ -35,7 +35,7 @@ class GenerateAction extends \partner\components\Action
   }
 
   /**
-   * @param \partner\models\forms\CouponGenerate $form
+   * @param \partner\models\forms\coupon\Generate $form
    * @return string
    */
   private function generate($form)
