@@ -9,7 +9,12 @@ class Base extends \mail\components\Mail
    */
   public function getFrom()
   {
-    // TODO: Implement getFrom() method.
+    return 'users@runet-id.com';
+  }
+  
+  public function getFromName()
+  {
+    return '—RUNET—ID—';
   }
 
   /**

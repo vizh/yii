@@ -7,7 +7,6 @@ class PKPassGenerator
     'formatVersion' => 1,
     'organizationName' => 'RUNET—ID',
     'passTypeIdentifier' => 'pass.runetid.event.ticket',
-    'serialNumber' => '1082246565149683542',
     'teamIdentifier' => 'X9WVYYD744'
   );
   private $associatedAppKeys = array();
@@ -47,7 +46,8 @@ class PKPassGenerator
   
   public function run($output = false)
   { 
-    $this->visualAppearanceKeys['barcode']['message'] = '~ROCID#'.$this->user->RunetId;
+    $this->standardKeys['serialNumber'] = $this->event->Id.$this->user->RunetId;
+    $this->visualAppearanceKeys['barcode']['message'] = '~RUNETID#'.$this->user->RunetId;
     $this->styleKeys = array(
       'eventTicket' => array(
         'headerFields' => array(

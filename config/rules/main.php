@@ -3,7 +3,7 @@ return array(
   array(
     'allow',
     'users' => array('*'),
-    'controllers' => array('default', 'recovery', 'fastauth'),
+    'controllers' => array('default', 'recovery', 'fastauth', 'test'),
     'actions' => array('index'),
     'module' => 'main'
   ),
