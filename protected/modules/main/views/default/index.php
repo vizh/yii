@@ -52,7 +52,7 @@
         <div class="slider">
           <div class="slides">
             <div class="slide">
-              <a href="http://rif.ru/" target="_blank"><img src="/images/content/promo-banners/2013-04-rif13.jpg" alt="РИФ+КИБ 2013"></a>
+              <a href="http://2013.sp-ic.ru/" target="_blank"><img src="/images/content/promo-banners/2013-05-spic13.jpg" alt="СПИК 2013"></a>
             </div>
             <div class="slide">
               <div class="content">
