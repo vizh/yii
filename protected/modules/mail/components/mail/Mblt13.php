@@ -7,7 +7,7 @@ class Mblt13 extends \mail\components\Mail
   
   public function isHtml()
   {
-    return true;
+    return false;
   }
   
   public function getFrom()
@@ -22,11 +22,11 @@ class Mblt13 extends \mail\components\Mail
   
   public function getSubject()
   {
-    return 'Мобильная конференция #MBLT13 уже через неделю!';
+    return '#MBLT13 - неоплаченный заказ!';
   }
   
   public function getBody()
   {
-    return \Yii::app()->getController()->renderPartial('mail.views.partner.mblt13-2', array('user' => $this->user), true);
+    return \Yii::app()->getController()->renderPartial('mail.views.partner.mblt13-3', array('user' => $this->user), true);
   }
 }

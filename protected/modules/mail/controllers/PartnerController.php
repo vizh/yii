@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'SPIC-08.05.2013_role3';
+    return 'MBLT-08.05.2013_3';
   }
 
   /**
@@ -21,22 +21,23 @@ class PartnerController extends \mail\components\MailerController
 
   public function actionSend($step = 0)
   {
-    $test = false;
+    $test = true;
     $step = \Yii::app()->request->getParam('step', 0);
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
     if (!$test)
     {
-      // Для рекламной
+      $orderItems = \pay\models\OrderItem::model()->byEventId(431)
+          ->byDeleted(false)->byPaid(false)->findAll();
+      $idList = array();
+      foreach ($orderItems as $item)
+      {
+        $idList[] = $item->PayerId;
+      }
+
       $criteria = new \CDbCriteria();
-      $criteria->with = array(
-        'Settings'
-      );
-      $builder = new \mail\components\Builder();
-      $builder->addEvent(423, array());
-      $criteria->mergeWith($builder->getCriteria());
-      $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+      $criteria->addInCondition('"t"."Id"', $idList);
     }
     else
     {
@@ -44,7 +45,7 @@ class PartnerController extends \mail\components\MailerController
       $criteria->with = array(
         'Participants' => array('together' => true, 'select' => false)
       );
-      $criteria->addInCondition('"t"."RunetId"', array(321,454));
+      $criteria->addInCondition('"t"."RunetId"', array(35287,454));
     }
     $criteria->limit  = $this->getStepCount();
     $criteria->offset = $this->getStepCount() * $step;
@@ -57,7 +58,7 @@ class PartnerController extends \mail\components\MailerController
     $mailer = new \mail\components\Mailer();
     foreach ($users as $user)
     {
-      $mail = new \mail\components\mail\SPIC13();
+      $mail = new \mail\components\mail\Mblt13();
       $mail->user = $user;
       $mailer->send($mail, $user->Email, false);
       if (!$test)
