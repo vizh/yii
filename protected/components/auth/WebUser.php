@@ -21,15 +21,15 @@ class WebUser extends \CWebUser {
     return $this->_currentUser;
   }
   
-  private $_keyPrefix = null;
-  public function getStateKeyPrefix()
-  {
-    if($this->_keyPrefix!==null)
-      return $this->_keyPrefix;
-    else
-    {
-      $this->_keyPrefix=md5('Yii.CWebUser.'.\Yii::app()->getId());
-      return $this->_keyPrefix;
-    }
-  }
+//  private $_keyPrefix = null;
+//  public function getStateKeyPrefix()
+//  {
+//    if($this->_keyPrefix!==null)
+//      return $this->_keyPrefix;
+//    else
+//    {
+//      $this->_keyPrefix=md5('Yii.CWebUser.'.\Yii::app()->getId());
+//      return $this->_keyPrefix;
+//    }
+//  }
 }

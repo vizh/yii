@@ -11,7 +11,7 @@ class IndexAction extends \pay\components\Action
 
     $account = $this->getAccount();
 
-    $orderItems = \pay\models\OrderItem::getFreeItems(\Yii::app()->user->getCurrentUser()->Id, $this->getController()->getEvent()->Id);
+    $orderItems = \pay\models\OrderItem::getFreeItems($this->getUser()->Id, $this->getController()->getEvent()->Id);
     $unpaidItems = array();
     $paidItems = array();
     $recentPaidItems = array();
@@ -43,7 +43,7 @@ class IndexAction extends \pay\components\Action
     }
 
     $orders = \pay\models\Order::model()
-        ->byPayerId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->getEvent()->Id)
+        ->byPayerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)
         ->byJuridical(true)->byDeleted(false)->findAll();
 
     $this->getController()->render('index', array(

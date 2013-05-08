@@ -13,7 +13,15 @@ class FastauthController extends \application\components\controllers\PublicMainC
     $identity->authenticate();
     if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
     {
-      \Yii::app()->user->login($identity);
+      if (!$user->Temporary)
+      {
+        \Yii::app()->user->login($identity);
+      }
+      else
+      {
+        \Yii::app()->payUser->login($identity);
+      }
+
       if (!empty($redirectUrl))
       {
         if (strpos($redirectUrl, '/') !== false)
