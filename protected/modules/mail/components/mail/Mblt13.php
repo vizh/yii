@@ -22,12 +22,11 @@ class Mblt13 extends \mail\components\Mail
   
   public function getSubject()
   {
-    return 'Электронный билет на #MBLT13';
+    return 'Мобильная конференция #MBLT13 уже через неделю!';
   }
   
   public function getBody()
   {
-    $role = $this->user->Participants[0]->Role;
-    return \Yii::app()->getController()->renderPartial('mail.views.partner.mblt13-1', array('user' => $this->user, 'role' => $role), true);
+    return \Yii::app()->getController()->renderPartial('mail.views.partner.mblt13-2', array('user' => $this->user), true);
   }
 }

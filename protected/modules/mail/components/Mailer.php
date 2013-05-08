@@ -28,7 +28,6 @@ class Mailer
       $mailer->AddAttachment($attachment, $name);
     }
     
-
     $mailer->Send();
     
     if ($useLog)
