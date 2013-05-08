@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'SPIC13';
+    return 'MBLT13-08.05.2013_1';
   }
 
   /**
@@ -49,25 +49,24 @@ class PartnerController extends \mail\components\MailerController
     {
       $criteria = new \CDbCriteria();
       $criteria->with = array(
-        'Participants' => array('together' => true, 'select' => false)
+        'Participants' => array('together' => true)
       );
-      $criteria->addCondition('"Participants"."EventId" = 423');
-      $criteria->addInCondition('"t"."RunetId"', array(321,454));
+      $criteria->addCondition('"Participants"."EventId" = 431');
+      $criteria->addInCondition('"t"."RunetId"', array(321));
     }
     $criteria->limit  = $this->getStepCount();
     $criteria->offset = $this->getStepCount() * $step;
 
     $count = \user\models\User::model()->byVisible(true)->count($criteria);
     echo 'Получателей:'. $count.'<br/>';
-    exit();
     
     $users = \user\models\User::model()->byVisible(true)->findAll($criteria);
     $mailer = new \mail\components\Mailer();
     foreach ($users as $user)
     {
-      $mail = new \mail\components\mail\SPIC13();
+      $mail = new \mail\components\mail\Mblt13();
       $mail->user = $user;
-      $mailer->send($mail, $user->Email);
+      $mailer->send($mail, $user->Email, false);
       if (!$test)
       {
         $this->addLogMessage($user->RunetId.' '.$user->Email);

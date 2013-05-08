@@ -1,320 +1,94 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<html style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<body bgcolor="#FFFFFF" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
-  <style type="text/css">
-    /* ------------------------------------- 
-        GLOBAL 
-    ------------------------------------- */
-    * {
-        margin:0;
-        padding:0;
-    }
-    * { font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; }
-
-    img {
-        max-width: 100%;
-    }
-    .collapse {
-        margin:0;
-        padding:0;
-    }
-    body {
-        -webkit-font-smoothing:antialiased;
-        -webkit-text-size-adjust:none;
-        width: 100%!important;
-        height: 100%;
-    }
-
-
-    /* ------------------------------------- 
-        ELEMENTS 
-    ------------------------------------- */
-    a { color: #2BA6CB;}
-
-    .btn {
-        text-decoration:none;
-        color: #FFF;
-        background-color: #DB4A39;
-        padding:10px 16px;
-        font-size:16px;
-        font-weight:bold;
-        margin-right:10px;
-        text-align:center;
-        cursor:pointer;
-        display: inline-block;
-    }
-
-    p.callout {
-        padding:15px;
-        background-color:#ECF8FF;
-        margin-bottom: 15px;
-    }
-    .callout a {
-        font-weight:bold;
-        color: #2BA6CB;
-    }
-
-    table.social {
-        /* 	padding:15px; */
-        background-color: #ebebeb;
-
-    }
-    .social .soc-btn {
-        padding: 3px 7px;
-        font-size:12px;
-        margin-bottom:10px;
-        text-decoration:none;
-        color: #FFF;font-weight:bold;
-        display:block;
-        text-align:center;
-    }
-    a.fb { background-color: #3B5998!important; }
-    a.tw { background-color: #1daced!important; }
-    a.gp { background-color: #DB4A39!important; }
-    a.ms { background-color: #000!important; }
-
-    .sidebar .soc-btn {
-        display:block;
-        width:100%;
-    }
-
-    /* ------------------------------------- 
-        HEADER 
-    ------------------------------------- */
-    table.head-wrap { width: 100%;}
-
-    .header.container table td.logo { padding: 15px; }
-    .header.container table td.label { padding: 15px; padding-left:0px;}
-
-
-    /* ------------------------------------- 
-        BODY 
-    ------------------------------------- */
-    table.body-wrap { width: 100%;}
-
-
-    /* ------------------------------------- 
-        FOOTER 
-    ------------------------------------- */
-    table.footer-wrap { width: 100%;	clear:both!important;
-    }
-    .footer-wrap .container td.content  p { border-top: 1px solid rgb(215,215,215); padding-top:15px;}
-    .footer-wrap .container td.content p {
-        font-size:10px;
-        font-weight: bold;
-
-    }
-
-
-    /* ------------------------------------- 
-        TYPOGRAPHY 
-    ------------------------------------- */
-    h1,h2,h3,h4,h5,h6 {
-        font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; line-height: 1.1; margin-bottom:15px; color:#000;
-    }
-    h1 small, h2 small, h3 small, h4 small, h5 small, h6 small { font-size: 60%; color: #6f6f6f; line-height: 0; text-transform: none; }
-
-    h1 { font-weight:200; font-size: 44px;}
-    h2 { font-weight:200; font-size: 37px;}
-    h3 { font-weight:500; font-size: 27px;}
-    h4 { font-weight:500; font-size: 23px;}
-    h5 { font-weight:900; font-size: 17px;}
-    h6 { font-weight:900; font-size: 14px; text-transform: uppercase; color:#444;}
-
-    .collapse { margin:0!important;}
-
-    p, ul {
-        margin-bottom: 10px;
-        font-weight: normal;
-        font-size:14px;
-        line-height:1.6;
-    }
-    p.lead { font-size:17px; }
-    p.last { margin-bottom:0px;}
-
-    ul li {
-        margin-left:5px;
-        list-style-position: inside;
-    }
-
-    /* ------------------------------------- 
-        SIDEBAR 
-    ------------------------------------- */
-    ul.sidebar {
-        background:#ebebeb;
-        display:block;
-        list-style-type: none;
-    }
-    ul.sidebar li { display: block; margin:0;}
-    ul.sidebar li a {
-        text-decoration:none;
-        color: #666;
-        padding:10px 16px;
-        /* 	font-weight:bold; */
-        margin-right:10px;
-        /* 	text-align:center; */
-        cursor:pointer;
-        border-bottom: 1px solid #777777;
-        border-top: 1px solid #FFFFFF;
-        display:block;
-        margin:0;
-    }
-    ul.sidebar li a.last { border-bottom-width:0px;}
-    ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.sidebar li a h5,ul.sidebar li a h6,ul.sidebar li a p { margin-bottom:0!important;}
-
-
-
-    /* --------------------------------------------------- 
-        RESPONSIVENESS
-        Nuke it from orbit. It's the only way to be sure. 
-    ------------------------------------------------------ */
-
-    /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
-    .container {
-        display:block!important;
-        max-width:600px!important;
-        margin:0 auto!important; /* makes it centered */
-        clear:both!important;
-    }
-
-    /* This should also be a block element, so that it will fill 100% of the .container */
-    .content {
-        padding:15px;
-        max-width:600px;
-        margin:0 auto;
-        display:block;
-    }
-
-    /* Let's make sure tables in the content area are 100% wide */
-    .content table { width: 100%; }
-
-
-    /* Odds and ends */
-    .column {
-        width: 300px;
-        float:left;
-    }
-    .column tr td { padding: 15px; }
-    .column-wrap {
-        padding:0!important;
-        margin:0 auto;
-        max-width:600px!important;
-    }
-    .column table { width:100%;}
-    .social .column {
-        width: 280px;
-        min-width: 279px;
-        float:left;
-    }
-
-    /* Be sure to place a .clear element after each set of columns, just to be safe */
-    .clear { display: block; clear: both; }
-
-
-    /* ------------------------------------------- 
-        PHONE
-        For clients that support media queries.
-        Nothing fancy. 
-    -------------------------------------------- */
-    @media only screen and (max-width: 600px) {
-
-        a[class="btn"] { display:block!important; margin-bottom:10px!important; background-image:none!important; margin-right:0!important;}
-
-        div[class="column"] { width: auto!important; float:none!important;}
-
-        table.social div[class="column"] {
-            width:auto!important;
-        }
-
-    }
-    </style>
+<body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0; -webkit-text-size-adjust: none; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0; height: 100%; -webkit-font-smoothing: antialiased; width: 100% !important;" leftmargin="0" bgcolor="#FFFFFF">
+  
     <!-- HEADER -->
-    <table class="head-wrap" bgcolor="#999999">
-        <tr>
-            <td></td>
-            <td class="header container">
+    <table class="head-wrap" style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0; width: 100%;" bgcolor="#999999">
+        <tr style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+            <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;"></td>
+            <td class="header container" style="max-width: 600px !important; clear: both !important; margin: 0 auto; padding: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; display: block !important;">
 
-                <div class="content">
-                <table bgcolor="#999999">
-                    <tr>
-                        <td><img src="http://runet-id.com/images/mail/spic13/3/spic2013-logo.png" /></td>
-                        <td align="right"><h6 class="collapse">20-21 мая 2013 года</h6></td>
+                <div class="content" style="max-width: 600px; margin: 0 auto; padding: 15px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; display: block;">
+                <table style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0; width: 100%;" bgcolor="#999999">
+                    <tr style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                        <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;"><img src="http://runet-id.com/images/mail/spic13/3/spic2013-logo.png" style="max-width: 100%; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;" /></td>
+                        <td align="right" style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;"><h6 class="collapse" style="font-size: 14px; font-weight: 900; text-transform: uppercase; line-height: 1.1; font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; margin: 0; color: #444; padding: 0;">20-21 мая 2013 года</h6></td>
                     </tr>
                 </table>
                 </div>
 
             </td>
-            <td></td>
+            <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;"></td>
         </tr>
     </table>
 
     <!--- BODY --->
-    <table class="body-wrap">
-        <tr>
-            <td></td>
-            <td class="container" bgcolor="#FFFFFF">
+    <table class="body-wrap" style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0; width: 100%;">
+        <tr style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+            <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;"></td>
+            <td class="container" style="max-width: 600px !important; clear: both !important; margin: 0 auto; padding: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; display: block !important;" bgcolor="#FFFFFF">
 
                 <!-- content -->
-                <div class="content">
-                    <table>
-                        <tr>
-                            <td>
-                                <h1>СПИК—2013</h1>
-                                <p class="lead">20–21 мая в Санкт-Петербурге состоится крупнейшее отраслевое мероприятие Северо-Западного региона, в котором примут участие представители ведущих ИТ-компаний, СМИ и эксперты отрасли.</p>
-                                <p><img src="http://runet-id.com/images/mail/spic13/3/spic2013.jpg" /></p>
-                                <p class="callout">
-                                    Посещение выставки интернет-компаний, на которой свои продукты и решения представят ведущие отраслевые игроки — <b>бесплатно</b>. Участие в конференционной программе <b>платное</b>, подбробная информация о стоимости и типах участия в <a href="<?=$personalLink;?>">личном кабинете</a>.
+                <div class="content" style="max-width: 600px; margin: 0 auto; padding: 15px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; display: block;">
+                    <table style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0; width: 100%;">
+                        <tr style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                            <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                                <h1 style="font-size: 44px; font-weight: 200; line-height: 1.1; font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; margin: 0 0 15px; color: #000; padding: 0;">СПИК—2013</h1>
+                                <p class="lead" style="font-size: 17px; font-weight: normal; line-height: 1.6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0 0 10px; padding: 0;">20–21 мая в Санкт-Петербурге состоится крупнейшее отраслевое мероприятие Северо-Западного региона, в котором примут участие представители ведущих ИТ-компаний, СМИ и эксперты отрасли.</p>
+                                <p style="font-size: 14px; font-weight: normal; line-height: 1.6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0 0 10px; padding: 0;"><img src="http://runet-id.com/images/mail/spic13/3/spic2013.jpg" style="max-width: 100%; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;" /></p>
+                                <p class="callout" style="font-weight: normal; font-size: 14px; margin: 0 0 15px; background-color: #ECF8FF; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; line-height: 1.6; padding: 15px;">
+                                    Посещение выставки интернет-компаний, на которой свои продукты и решения представят ведущие отраслевые игроки — <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">бесплатно</b>. Участие в конференционной программе <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">платное</b>, подбробная информация о стоимости и типах участия в <a href="<?=$personalLink;?>" style="font-weight: bold; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; color: #2BA6CB; padding: 0;">личном кабинете</a>.
                                 </p>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <p><b>Основные программные темы:</b></p>
-                                <ul>
-                                    <li>Мобильные технологии в&nbsp;современном&nbsp;мире;</li>
-                                    <li>Интегрированные и&nbsp;маркетинговые коммуникации&nbsp;в&nbsp;Сети</li>
-                                    <li>Социальные медиа и&nbsp;digital&nbsp;marketing</li>
-                                    <li>Оптимизация: поисковая, social media&nbsp;и т.д.</li>
-                                    <li>Бизнес-технологии;</li>
-                                    <li>Электронная&nbsp;коммерция.</li>
+                        <tr style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                            <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                                <p style="font-size: 14px; font-weight: normal; line-height: 1.6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0 0 10px; padding: 0;"><b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Основные программные темы:</b></p>
+                                <ul style="font-size: 14px; font-weight: normal; line-height: 1.6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0 0 10px; padding: 0;">
+                                    <li style="list-style-position: inside; margin: 0 0 0 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Мобильные технологии в&nbsp;современном&nbsp;мире;</li>
+                                    <li style="list-style-position: inside; margin: 0 0 0 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Интегрированные и&nbsp;маркетинговые коммуникации&nbsp;в&nbsp;Сети</li>
+                                    <li style="list-style-position: inside; margin: 0 0 0 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Социальные медиа и&nbsp;digital&nbsp;marketing</li>
+                                    <li style="list-style-position: inside; margin: 0 0 0 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Оптимизация: поисковая, social media&nbsp;и т.д.</li>
+                                    <li style="list-style-position: inside; margin: 0 0 0 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Бизнес-технологии;</li>
+                                    <li style="list-style-position: inside; margin: 0 0 0 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Электронная&nbsp;коммерция.</li>
                                 </ul>
-                                <p>В программе примут участие представители российских компаний, таких как <b>Mail.ru Group</b>, <b>Яндекс</b>, <b>Лаборатория Касперского</b>, <b>1C-Битрикс</b>, <b>Юмисофт</b>, <b>РАЭК</b>, <b>TRINET</b>, <b>Википедия</b>, <b>ИНГРИЯ</b>, <b>Агентство Продающих Текстов</b>, <b>UsabilityLab</b> а также <b>Минкомсвязь РФ</b>.</p>
-                                <p>СПИК в этом году обещает быть еще масштабнее и еще интереснее: участники обсудят все стороны ведения бизнеса в Рунете, развитие социальных медиа, проблемы информационной безопасности, последние изменения в структуре отечественных интернет-СМИ, правовое регулирование Рунета, создание и продвижение стартапов и многое другое.</p>
-                                <p><a class="btn">Зарегистрироваться на конференцию &raquo;</a></p>
-                                <p><small><i>Участники RUNET-ID имеют возможность зарегистрироваться по упрощенной процедуре.</i></small></p>
+                                <p style="font-size: 14px; font-weight: normal; line-height: 1.6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0 0 10px; padding: 0;">В программе примут участие представители российских компаний, таких как <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Mail.ru Group</b>, <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Яндекс</b>, <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Лаборатория Касперского</b>, <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">1C-Битрикс</b>, <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Юмисофт</b>, <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">РАЭК</b>, <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">TRINET</b>, <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Википедия</b>, <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">ИНГРИЯ</b>, <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Агентство Продающих Текстов</b>, <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">UsabilityLab</b>, а также <b style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Минкомсвязь РФ</b>.</p>
+                                <p style="font-size: 14px; font-weight: normal; line-height: 1.6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0 0 10px; padding: 0;">СПИК в этом году обещает быть еще масштабнее и интереснее: участники обсудят все стороны ведения бизнеса в Рунете, развитие социальных медиа, проблемы информационной безопасности, последние изменения в структуре отечественных интернет-СМИ, правовое регулирование Рунета, создание и продвижение стартапов и многое другое.</p>
+                                <p style="font-size: 14px; font-weight: normal; line-height: 1.6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0 0 10px; padding: 0;"><a class="btn" href="<?=$personalLink;?>" style="font-size: 16px; font-weight: bold; cursor: pointer; margin: 0 10px 0 0; background-color: #DB4A39; padding: 10px 16px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; text-decoration: none; color: #FFF; display: inline-block; text-align: center;">Зарегистрироваться на конференцию &raquo;</a></p>
+                                <p style="font-size: 14px; font-weight: normal; line-height: 1.6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0 0 10px; padding: 0;"><small style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;"><i style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Участники RUNET-ID имеют возможность зарегистрироваться по упрощенной процедуре.</i></small></p>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <table class="social" width="100%">
-                                    <tr>
-                                        <td>
+                        <tr style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                            <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                                <table class="social" bgcolor="#ebebeb" style="margin: 0; background-color: #ebebeb; padding: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%;" width="100%">
+                                    <tr style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                                        <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
                                             <!--- column 1 -->
-                                            <table align="left" class="column">
-                                                <tr>
-                                                    <td>
-                                                        <h5>Место проведения:</h5>
-                                                        <p>Санкт-Петербург, ул. Кораблестроителей, д. 14, гостиница "Прибалтийская Park Inn"</p>
+                                            <table class="column" align="left" style="min-width: 279px; margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0; width: 280px; float: left;">
+                                                <tr style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                                                    <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 15px;">
+                                                        <h5 style="font-size: 17px; font-weight: 900; line-height: 1.1; font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; margin: 0 0 15px; color: #000; padding: 0;">Место проведения:</h5>
+                                                        <p style="font-size: 14px; font-weight: normal; line-height: 1.6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0 0 10px; padding: 0;">Санкт-Петербург, ул. Кораблестроителей, д. 14, гостиница "Прибалтийская Park Inn"</p>
                                                     </td>
                                                 </tr>
                                             </table><!-- /column 1 -->
                                             <!--- column 2 -->
-                                            <table align="left" class="column">
-                                                <tr>
-                                                    <td>
-                                                        <h5>Контакты:</h5>
-                                                        <p>Телефон: <strong>+7 (495) 950-5651</strong><br/>
-                                                            Почта: <strong><a href="mailto:reg@sp-ic.ru">reg@sp-ic.ru</a></strong><br/>
-                                                            Сайт: <strong><a href="http://2013.sp-ic.ru">2013.sp-ic.ru</a></strong>
+                                            <table class="column" align="left" style="min-width: 279px; margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0; width: 280px; float: left;">
+                                                <tr style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                                                    <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 15px;">
+                                                        <h5 style="font-size: 17px; font-weight: 900; line-height: 1.1; font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; margin: 0 0 15px; color: #000; padding: 0;">Контакты:</h5>
+                                                        <p style="font-size: 14px; font-weight: normal; line-height: 1.6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0 0 10px; padding: 0;">Телефон: <strong style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">+7 (495) 950-5651</strong><br style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;" />
+                                                            Почта: <strong style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;"><a href="mailto:reg@sp-ic.ru" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #2BA6CB; margin: 0; padding: 0;">reg@sp-ic.ru</a></strong><br style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;" />
+                                                            Сайт: <strong style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;"><a href="http://2013.sp-ic.ru" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #2BA6CB; margin: 0; padding: 0;">2013.sp-ic.ru</a></strong>
                                                         </p>
                                                     </td>
                                                 </tr>
                                             </table><!-- /column 2 -->
-                                            <span class="clear"></span>
+                                            <span class="clear" style="clear: both; margin: 0; padding: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; display: block;"></span>
                                         </td>
                                     </tr>
                                 </table>
@@ -324,25 +98,25 @@
                 </div>
 
             </td>
-            <td></td>
+            <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;"></td>
         </tr>
     </table>
 
     <!-- FOOTER -->
-    <table class="footer-wrap">
-        <tr>
-            <td></td>
-            <td class="container">
+    <table class="footer-wrap" style="clear: both !important; margin: 0; padding: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%;">
+        <tr style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+            <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;"></td>
+            <td class="container" style="max-width: 600px !important; clear: both !important; margin: 0 auto; padding: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; display: block !important;">
 
                     <!-- content -->
-                    <div class="content">
-                        <table>
-                            <tr>
-                                <td align="center">
-                                    <p>
-                                        <a href="http://2013.sp-ic.ru">СПИК-2013</a> |
-                                        <a href="http://runet-id.com">RUNET-ID</a> |
-                                        <a href="http://runet-id.com/user/setting/subscription/"><unsubscribe>Отписаться</unsubscribe></a>
+                    <div class="content" style="max-width: 600px; margin: 0 auto; padding: 15px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; display: block;">
+                        <table style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0; width: 100%;">
+                            <tr style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                                <td align="center" style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">
+                                    <p style="font-size: 14px; font-weight: normal; line-height: 1.6; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0 0 10px; padding: 0;">
+                                        <a href="http://2013.sp-ic.ru" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #2BA6CB; margin: 0; padding: 0;">СПИК-2013</a> |
+                                        <a href="http://runet-id.com" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #2BA6CB; margin: 0; padding: 0;">RUNET-ID</a> |
+                                        <a href="http://runet-id.com/user/setting/subscription/" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #2BA6CB; margin: 0; padding: 0;"><unsubscribe style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;">Отписаться</unsubscribe></a>
                                     </p>
                                 </td>
                             </tr>
@@ -350,9 +124,14 @@
                     </div><!-- /content -->
 
             </td>
-            <td></td>
+            <td style="margin: 0; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; padding: 0;"></td>
         </tr>
     </table>
 
+
+<style type="text/css">
+img { max-width: 100% !important; }
+body { -webkit-font-smoothing: antialiased !important; -webkit-text-size-adjust: none !important; width: 100% !important; height: 100% !important; }
+</style>
 </body>
 </html>

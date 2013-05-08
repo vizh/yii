@@ -23,20 +23,20 @@ class SPIC13 extends \mail\components\Mail
   public function getSubject()
   {
     // Для рекламной
-    //return 'Приглашение на СПИК 2013!';
+    return 'Приглашение на СПИК 2013!';
     
     // Для электронного приглашения
-    return 'Электронное приглашение на СПИК 2013!';
+    //return 'Электронное приглашение на СПИК 2013!';
   }
   
   public function getBody()
   {
-    // Для рекламной
-    //return \Yii::app()->getController()->renderPartial('mail.views.partner.spic13-3', array('user' => $this->user, 'personalLink' => $this->getPersonalLink()), true);
+    //Для рекламной
+    return \Yii::app()->getController()->renderPartial('mail.views.partner.spic13-3', array('user' => $this->user, 'personalLink' => $this->getPersonalLink()), true);
     
     // Для электронного приглашения
-    $role = $this->user->Participants[0]->Role;
-    return \Yii::app()->getController()->renderPartial('mail.views.partner.spic13-2', array('user' => $this->user, 'role' => $role, 'qrcodeLink' => $this->getQrCodeLink()), true);
+    //$role = $this->user->Participants[0]->Role;
+    //return \Yii::app()->getController()->renderPartial('mail.views.partner.spic13-2', array('user' => $this->user, 'role' => $role, 'qrcodeLink' => $this->getQrCodeLink()), true);
   }
   
   private function getQrCodeLink()
