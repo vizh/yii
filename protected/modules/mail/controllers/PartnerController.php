@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'SPIC13';
+    return 'SPIC-08.05.2013_role3';
   }
 
   /**
@@ -21,7 +21,7 @@ class PartnerController extends \mail\components\MailerController
 
   public function actionSend($step = 0)
   {
-    $test = true;
+    $test = false;
     $step = \Yii::app()->request->getParam('step', 0);
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
@@ -33,17 +33,10 @@ class PartnerController extends \mail\components\MailerController
       $criteria->with = array(
         'Settings'
       );
+      $builder = new \mail\components\Builder();
+      $builder->addEvent(423, array());
+      $criteria->mergeWith($builder->getCriteria());
       $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
-      
-      
-      // Для электронного приглашения
-//      $criteria = new \CDbCriteria();
-//      $criteria->with = array(
-//        'Settings',
-//        'Participants' => array('together' => true, 'select' => false)
-//      );
-//      $criteria->addCondition('"Participants"."EventId" = 423');
-//      $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     }
     else
     {
@@ -51,7 +44,6 @@ class PartnerController extends \mail\components\MailerController
       $criteria->with = array(
         'Participants' => array('together' => true, 'select' => false)
       );
-      $criteria->addCondition('"Participants"."EventId" = 423');
       $criteria->addInCondition('"t"."RunetId"', array(321,454));
     }
     $criteria->limit  = $this->getStepCount();
@@ -67,7 +59,7 @@ class PartnerController extends \mail\components\MailerController
     {
       $mail = new \mail\components\mail\SPIC13();
       $mail->user = $user;
-      $mailer->send($mail, $user->Email);
+      $mailer->send($mail, $user->Email, false);
       if (!$test)
       {
         $this->addLogMessage($user->RunetId.' '.$user->Email);
