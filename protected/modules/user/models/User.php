@@ -18,6 +18,7 @@ namespace user\models;
  * @property string $Password
  * @property string $OldPassword
  * @property bool $Visible
+ * @property bool $Temporary
  *
  *
  *
@@ -353,8 +354,9 @@ class User extends \application\models\translation\ActiveRecord
     $mail->CharSet = 'utf-8';
     $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'Регистрация на сайте www.runet-id.com')) .'?=';
     $mail->IsHTML(true);
+    $template = !$this->Temporary ? 'user.views.mail.register' : 'user.views.mail.register-temporary';
     $mail->MsgHTML(
-      \Yii::app()->controller->renderPartial('user.views.mail.register', array('user' => $this, 'password' => $event->params['password']), true)
+      \Yii::app()->controller->renderPartial($template, array('user' => $this, 'password' => $event->params['password']), true)
     );
     $mail->Send();
     

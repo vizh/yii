@@ -9,6 +9,22 @@ class Controller extends \application\components\controllers\PublicMainControlle
   protected $event = null;
 
   /**
+   * @return \user\models\User
+   */
+  public function getUser()
+  {
+    if (\Yii::app()->user->getCurrentUser() !== null)
+    {
+      return \Yii::app()->user->getCurrentUser();
+    }
+    elseif (\Yii::app()->payUser->getCurrentUser() !== null)
+    {
+      return \Yii::app()->payUser->getCurrentUser();
+    }
+    return null;
+  }
+
+  /**
    * @return \event\models\Event
    * @throws \CHttpException
    */
@@ -34,14 +50,49 @@ class Controller extends \application\components\controllers\PublicMainControlle
 
   protected function beforeAction($action)
   {
-    if (\Yii::app()->user->getCurrentUser() === null &&
-        ($this->getId() !== 'cabinet' || $this->getAction()->getId() != 'auth'))
+    $isFastAuth = $this->getId() == 'cabinet' && $this->getAction()->getId() == 'auth';
+    if ($this->getUser() === null && !$isFastAuth)
     {
-      $this->render('pay.views.system.unregister');
+      $error = $this->createPayUser();
+      $this->render('pay.views.system.unregister', array('error' => $error));
       return false;
     }
     return parent::beforeAction($action);
   }
 
+  protected function createPayUser()
+  {
+    $email = \Yii::app()->getRequest()->getParam('email');
+    if ($email !== null)
+    {
+      if (filter_var($email, FILTER_VALIDATE_EMAIL) !== false)
+      {
+        \Yii::app()->params['TemporaryUserRedirect'] = \Yii::app()->createAbsoluteUrl('/pay/cabinet/index', array('eventIdName' => $this->getEvent()->IdName));
+        $user = new \user\models\User();
+        $user->LastName = '';
+        $user->FirstName = '';
+        $user->Email = $email;
+        $user->Visible = false;
+        $user->Temporary = true;
+        $user->register();
 
+        $identity = new \application\components\auth\identity\RunetId($user->RunetId);
+        $identity->authenticate();
+        if ($identity->errorCode == \application\components\auth\identity\Base::ERROR_NONE)
+        {
+          \Yii::app()->payUser->login($identity);
+          $this->refresh();
+        }
+        else
+        {
+          throw new \CHttpException(404);
+        }
+      }
+      else
+      {
+        return \Yii::t('app', 'Введен не корректный Email');
+      }
+    }
+    return false;
+  }
 }

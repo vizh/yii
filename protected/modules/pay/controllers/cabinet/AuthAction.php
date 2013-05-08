@@ -19,7 +19,14 @@ class AuthAction extends \pay\components\Action
       $identity->authenticate();
       if ($identity->errorCode == \application\components\auth\identity\Base::ERROR_NONE)
       {
-        \Yii::app()->user->login($identity, $identity->GetExpire());
+        if (!$user->Temporary)
+        {
+          \Yii::app()->user->login($identity, $identity->GetExpire());
+        }
+        else
+        {
+          \Yii::app()->payUser->login($identity);
+        }
       }
       else
       {
