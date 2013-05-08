@@ -118,6 +118,8 @@ class PKPassGenerator
       \Yii::getPathOfAlias('ext.pkpass').'/certificates/AppleWWDRCA.pem'
     );
 
+    $pkPass->addFile(\Yii::getPathOfAlias('webroot.images.pkpass').'/background.png');
+    $pkPass->addFile(\Yii::getPathOfAlias('webroot.images.pkpass').'/background@2x.png');
     $pkPass->addFile(\Yii::getPathOfAlias('webroot.images.pkpass').'/logo.png');
     $pkPass->addFile(\Yii::getPathOfAlias('webroot.images.pkpass').'/icon.png');
     $pkPass->addFile(\Yii::getPathOfAlias('webroot.images.pkpass').'/icon@2x.png');
