@@ -149,7 +149,7 @@ class DataBuilder
     $this->event->EventId = $this->getEvent()->Id;
     $this->event->IdName = $this->getEvent()->IdName;
     $this->event->Title = $this->getEvent()->Title;
-    //$this->event->Info = $this->getEvent()->Info;
+    $this->event->Info = $this->getEvent()->Info;
 
     /*$this->event->DateStart = $this->getEvent()->DateStart;
     $this->event->DateEnd = $this->getEvent()->DateEnd;
