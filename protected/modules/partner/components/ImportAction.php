@@ -141,7 +141,7 @@ abstract class ImportAction extends Action
     }
     else
     {
-      $row->Email = 'nomail'.$this->getEventId().'+'.substr(md5(microtime(true).mt_rand(0, 10000)), 0, 8).'@runet-id.com';
+      $row->Email = 'nomail'.$this->getEventId().'+'.substr(md5($row->FirstName . $row->LastName . $row->Company), 0, 8).'@runet-id.com';
     }
 
     if ($user === null)
@@ -237,6 +237,7 @@ abstract class ImportAction extends Action
       return;
     }
 
+    $event->skipOnRegister = true;
     $event->RegisterUser($user, $role);
   }
 }

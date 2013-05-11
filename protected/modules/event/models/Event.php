@@ -368,11 +368,18 @@ class Event extends \application\models\translation\ActiveRecord
     return false;
   }
 
+  public $skipOnRegister = false;
+
   /**
    * @param \CModelEvent $event
    */
   public function onRegister($event)
   {
+    if ($this->skipOnRegister)
+    {
+      return;
+    }
+
     /** @var $sender Event */
     $sender = $event->sender;
     $class = \Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
