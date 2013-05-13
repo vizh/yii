@@ -3,13 +3,10 @@
  * @var $this \event\widgets\Header
  */
 $event = $this->event;
-
-$happy = Yii::app()->getRequest()->getParam('happy', false);
-$happy = $event->Id === 423 && $happy == 'on';
 ?>
 
-<div class="b-event-promo" <?=$happy?'style="background: url(\'/img/happy.gif\') repeat scroll 0 0 transparent;"':'';?>>
-  <div class="container" <?=$happy?'style="background: none;"':'';?>>
+<div class="b-event-promo">
+  <div class="container">
     <div class="row">
       <div class="side left span4">
         <img src="<?=$event->getLogo()->getNormal();?>" alt="" class="logo">
