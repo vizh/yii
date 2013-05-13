@@ -7,7 +7,7 @@ class Mblt13 extends \mail\components\Mail
   
   public function isHtml()
   {
-    return true;
+    return false;
   }
   
   public function getFrom()
@@ -22,12 +22,11 @@ class Mblt13 extends \mail\components\Mail
   
   public function getSubject()
   {
-    return 'Электронный билет на #MBLT13';
+    return '#MBLT13 - неоплаченный заказ!';
   }
   
   public function getBody()
   {
-    $role = $this->user->Participants[0]->Role;
-    return \Yii::app()->getController()->renderPartial('mail.views.partner.mblt13-1', array('user' => $this->user, 'role' => $role), true);
+    return \Yii::app()->getController()->renderPartial('mail.views.partner.mblt13-3', array('user' => $this->user), true);
   }
 }
