@@ -3,6 +3,7 @@ namespace application\components;
 
 /**
  * @property \application\components\auth\WebUser $user
+ * @property \application\components\auth\WebUser $payUser
  * @property \partner\components\WebUser $partner
  *
  *

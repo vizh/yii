@@ -40,7 +40,7 @@ class RegisterAction extends \pay\components\Action
           {
             try
             {
-              $coupon->activate(\Yii::app()->user->getCurrentUser(), $owner);
+              $coupon->activate($this->getUser(), $owner);
             }
             catch (\pay\components\Exception $e) {}
           }
@@ -48,7 +48,7 @@ class RegisterAction extends \pay\components\Action
         
         try
         {
-          $product->getManager()->createOrderItem(\Yii::app()->user->getCurrentUser(), $owner);
+          $product->getManager()->createOrderItem($this->getUser(), $owner);
         }
         catch(\pay\components\Exception $e)
         {
@@ -60,7 +60,7 @@ class RegisterAction extends \pay\components\Action
       }
       if (!$orderForm->hasErrors())
       {
-        if (\pay\models\OrderItem::model()->byPayerId(\Yii::app()->user->getId())->byEventId($this->getEvent()->Id)->byDeleted(false)
+        if (\pay\models\OrderItem::model()->byPayerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)
           ->exists() == false)
         {
           $orderForm->addError('Items', \Yii::t('app', 'Пожалуйста, добавьте информацию об участниках для продолжения'));
@@ -82,11 +82,11 @@ class RegisterAction extends \pay\components\Action
         });
 
         if (sizeof($countRows) == 1
-          && \pay\models\OrderItem::model()->byOwnerId(\Yii::app()->user->getId())->byEventId($this->getEvent()->Id)->byDeleted(false)->exists() == false)
+          && \pay\models\OrderItem::model()->byOwnerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->exists() == false)
         {
           $orderForm->Items[] = array(
             'ProductId' => key($countRows),
-            'RunetId' => \Yii::app()->user->getCurrentUser()->RunetId
+            'RunetId' => $this->getUser()->RunetId
           );
         }
 

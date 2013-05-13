@@ -18,4 +18,12 @@ class Action extends \CAction
   {
     return $this->getController()->getEvent();
   }
+
+  /**
+   * @return \user\models\User
+   */
+  public function getUser()
+  {
+    return $this->getController()->getUser();
+  }
 }

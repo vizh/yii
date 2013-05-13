@@ -29,6 +29,18 @@
     </div>
 
     <div class="control-group">
+      <label class="control-label">Язык выгрузки</label>
+      <div class="controls">
+        <label class="radio">
+          <input type="radio" value="ru" name="language" checked="checked"> Руский
+        </label>
+        <label class="radio">
+          <input type="radio" value="en" name="language"> Английский
+        </label>
+      </div>
+    </div>
+
+    <div class="control-group">
       <div class="controls"><input type="submit" value="Получить список" class="btn"/></div>
     </div>
   </form>

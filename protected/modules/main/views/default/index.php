@@ -54,6 +54,9 @@
             <div class="slide">
               <a href="http://2013.sp-ic.ru/" target="_blank"><img src="/images/content/promo-banners/2013-05-spic13.jpg" alt="СПИК 2013"></a>
             </div>
+              <div class="slide">
+                  <a href="http://mblt.ru/" target="_blank"><img src="/images/content/promo-banners/2013-05-mblt13.png" alt="MBLT 2013"></a>
+              </div>
             <div class="slide">
               <div class="content">
                 <h3>Для интернет-пользователей</h3>
