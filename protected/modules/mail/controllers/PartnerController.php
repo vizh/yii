@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'MBLT-13.05.2013';
+    return 'MBLT-08.05.2013_3';
   }
 
   /**
@@ -21,38 +21,31 @@ class PartnerController extends \mail\components\MailerController
 
   public function actionSend($step = 0)
   {
-    return;
-    $test = false;
+    $test = true;
     $step = \Yii::app()->request->getParam('step', 0);
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
     
     if (!$test)
     {
-      $criteria = new \CDbCriteria();
-      $criteria->with = array(
-        'LinkAddress.Address' => array('together' => true)
-      );
-      $builder = new \mail\components\Builder();
-      $builder->addEvent(115);
-      $builder->addEvent(176);
-      $builder->addEvent(258);
-      $builder->addEvent(423);
-      $criteria->mergeWith($builder->getCriteria());
-      $criteria->addInCondition('"Address"."RegionId"', array(3892,3994,3251,3503,4481,4925,4503,4773,3761), 'OR');
-      
-      $eventParticipants = \event\models\Participant::model()->byEventId(423)->findAll();
-      $excludedUserIdList = array();
-      foreach ($eventParticipants as $eventParticipant)
+      $orderItems = \pay\models\OrderItem::model()->byEventId(431)
+          ->byDeleted(false)->byPaid(false)->findAll();
+      $idList = array();
+      foreach ($orderItems as $item)
       {
-        $excludedUserIdList[] = $eventParticipant->UserId;
+        $idList[] = $item->PayerId;
       }
-      $criteria->addNotInCondition('"t"."Id"', $excludedUserIdList);
+
+      $criteria = new \CDbCriteria();
+      $criteria->addInCondition('"t"."Id"', $idList);
     }
     else
     {
       $criteria = new \CDbCriteria();
-      $criteria->addInCondition('"t"."RunetId"', array(321,454));
+      $criteria->with = array(
+        'Participants' => array('together' => true, 'select' => false)
+      );
+      $criteria->addInCondition('"t"."RunetId"', array(35287,454));
     }
     $criteria->limit  = $this->getStepCount();
     $criteria->offset = $this->getStepCount() * $step;
@@ -64,7 +57,7 @@ class PartnerController extends \mail\components\MailerController
     $mailer = new \mail\components\Mailer();
     foreach ($users as $user)
     {
-      $mail = new \mail\components\mail\SPIC13();
+      $mail = new \mail\components\mail\Mblt13();
       $mail->user = $user;
       $mailer->send($mail, $user->Email, false);
       if (!$test)
