@@ -4,6 +4,7 @@ class ExportAction extends \partner\components\Action
 {
   private $csvDelimiter = ';';
   private $csvCharset = 'utf8';
+  private $language = 'ru';
 
 
   
@@ -32,8 +33,12 @@ class ExportAction extends \partner\components\Action
       \Yii::app()->language = 'en';
     }
 
-    $this->csvCharset = \Yii::app()->request->getParam('charset', $this->csvCharset);
-    $roles = \Yii::app()->request->getParam('roles');
+    $request = \Yii::app()->getRequest();
+    $this->csvCharset = $request->getParam('charset', $this->csvCharset);
+    $this->language = $request->getParam('language', $this->language);
+    $roles = $request->getParam('roles');
+
+    \Yii::app()->setLanguage($this->language);
 
     header('Content-type: text/csv; charset='.$this->csvCharset);
     header('Content-Disposition: attachment; filename=participans.csv');

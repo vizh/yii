@@ -131,6 +131,17 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
       {
         return $this->_translations[$locale][$field]->Value;
       }
+      else
+      {
+        $value = parent::__get($field);
+        if (!empty($value))
+        {
+          $translite = new \ext\translator\Translite();
+          $value = $translite->translit($value, \Yii::app()->sourceLanguage, $locale);
+          $this->setTranslationValue($field, $value);
+          return $value;
+        }
+      }
     }
 
     return parent::__get($field);
