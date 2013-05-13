@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'SPIC-08.05.2013_role3';
+    return 'MBLT-13.05.2013';
   }
 
   /**
@@ -21,29 +21,37 @@ class PartnerController extends \mail\components\MailerController
 
   public function actionSend($step = 0)
   {
+    return;
     $test = false;
     $step = \Yii::app()->request->getParam('step', 0);
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
-
+    
     if (!$test)
     {
-      // Для рекламной
       $criteria = new \CDbCriteria();
       $criteria->with = array(
-        'Settings'
+        'LinkAddress.Address' => array('together' => true)
       );
       $builder = new \mail\components\Builder();
-      $builder->addEvent(423, array());
+      $builder->addEvent(115);
+      $builder->addEvent(176);
+      $builder->addEvent(258);
+      $builder->addEvent(423);
       $criteria->mergeWith($builder->getCriteria());
-      $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+      $criteria->addInCondition('"Address"."RegionId"', array(3892,3994,3251,3503,4481,4925,4503,4773,3761), 'OR');
+      
+      $eventParticipants = \event\models\Participant::model()->byEventId(423)->findAll();
+      $excludedUserIdList = array();
+      foreach ($eventParticipants as $eventParticipant)
+      {
+        $excludedUserIdList[] = $eventParticipant->UserId;
+      }
+      $criteria->addNotInCondition('"t"."Id"', $excludedUserIdList);
     }
     else
     {
       $criteria = new \CDbCriteria();
-      $criteria->with = array(
-        'Participants' => array('together' => true, 'select' => false)
-      );
       $criteria->addInCondition('"t"."RunetId"', array(321,454));
     }
     $criteria->limit  = $this->getStepCount();
@@ -51,7 +59,6 @@ class PartnerController extends \mail\components\MailerController
 
     $count = \user\models\User::model()->byVisible(true)->count($criteria);
     echo 'Получателей:'. $count.'<br/>';
-    exit();
     
     $users = \user\models\User::model()->byVisible(true)->findAll($criteria);
     $mailer = new \mail\components\Mailer();

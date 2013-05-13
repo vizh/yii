@@ -7,7 +7,7 @@ class SPIC13 extends \mail\components\Mail
   
   public function getFrom()
   {
-    return 'info@sp-ic.ru';
+    return 'users@sp-ic.ru';
   }
   
   public function getFromName()
@@ -17,12 +17,12 @@ class SPIC13 extends \mail\components\Mail
   
   public function getSubject()
   {
-    return 'Услуги проживания и питания на СПИК-2013';
+    return 'СПИК 2013: осталась 1 неделя, спешите зарегистрироваться до 15 мая (среда)';
   }
   
   public function getBody()
   {
-    return \Yii::app()->getController()->renderPartial('mail.views.partner.spic13-4', array('user' => $this->user), true);
+    return \Yii::app()->getController()->renderPartial('mail.views.partner.spic13-5', array('user' => $this->user, 'personalLink' => $this->getPersonalLink()), true);
   }
 
   private function getPersonalLink()
