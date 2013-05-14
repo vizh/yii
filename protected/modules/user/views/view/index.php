@@ -160,10 +160,12 @@ $(window).load(function() {
             <span class="backing text">
               Участие в мероприятиях за
               <form action="#" class="form-inline">
-                <select>
+                <select name="participationYears" id="participationYears">
                   <option value="0"><?=\Yii::t('app', 'За все время');?></option>
                   <?foreach($participation->Years as $year):?>
+                    <?if ($year > 0):?>
                     <option value="<?=$year;?>"><?=$year;?></option>
+                    <?endif;?>
                   <?endforeach;?>
                 </select>
               </form>
