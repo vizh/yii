@@ -9,7 +9,7 @@
       <td>
         <table style="width: 100%;" cellpadding="0" cellspacing="0">
           <tr>
-            <td align="center" style="padding-top: 40px; padding-bottom: 50px;"><img src="http://runet-id.com/images/mail/mblt13/ticket/logo.jpg" style="float: left;"/></td>
+            <td align="center" style="padding-top: 10px; padding-bottom: 30px;"><img src="http://runet-id.com/images/mail/mblt13/ticket/logo.jpg" style="float: left;"/></td>
           </tr>
           <tr>
             <td style="padding-top: 20px; padding-left: 30px; padding-right: 30px; background-color: #ffffff">
@@ -50,7 +50,7 @@
                       <tr>
                         <td width="50%" style="background-color: #ececec; padding: 5px;">
                           <strong>Время работы регистрации</strong><br/>
-                          <span style="font-size: 80%;">15 мая с 09:00-18:00</span>
+                          <span style="font-size: 80%;">15 мая с 09:30-18:00</span>
                         </td>
                         <td width="50%" align="right">
                           <a href="http://mblt.ru/ru/timetable" style="display: block; background-image: url('http://runet-id.com/images/mail/mblt13/ticket/program-link_bg.gif'); background-repeat: no-repeat; color: #ffffff; text-transform: uppercase; padding: 6px 0; width: 237px; text-align: center;">программа конференции</a>
@@ -71,7 +71,7 @@
                 </tr>
                 <tr>
                   <td style="padding-top: 10px;">
-                    <strong>Digital October, Главный зал</strong><br/>
+                    <strong>Digital October</strong><br/>
                     119072, Москва, Берсеневская набережная, 6, стр. 3, тел.: +7 (495) 988 33 56
                   </td>
                 </tr>
@@ -79,7 +79,7 @@
                   <td style="padding-top: 10px;"><img src="http://runet-id.com/images/mail/mblt13/ticket/map.jpg" border="0"/></td>
                 </tr>
                 <tr>
-                  <td style="padding-top: 20px;">
+                  <td style="padding-top: 20px; padding-bottom: 40px;">
                     <h4 style="padding-bottom: 10px; margin: 0;">От метро «Кропоткинская»:</h4>
                     Выйдя из метро к храму Христа Спасителя, обогните храм и идите к реке. Вам нужно перейти Москву-реку по пешеходному Патриаршему мосту и спуститься по ближайшей лестнице на Берсеневскую набережную. По набережной идите в сторону стрелки острова, к памятнику Петру I и комплексу зданий «Красного октября». По левую руку вы увидете поворот в Берсеневский переулок.<br/>
                     Сразу после переулка сверните на лево в арку с металлическими воротами.<br/>
@@ -88,7 +88,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td style="background-image: url('http://runet-id.com/images/mail/spic13/ticket/runet-id_logo.gif'); height: 10px; background-repeat: no-repeat; background-position: center center; padding-top: 80px;"></td>
+                  <td style="background-image: url('http://runet-id.com/images/mail/spic13/ticket/runet-id_logo.gif'); height: 14px; background-repeat: no-repeat; padding-bottom: 80px;"></td>
                 </tr>
               </table>
             </td>
