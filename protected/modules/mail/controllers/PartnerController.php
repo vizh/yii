@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'MBLT-14.05.2013';
+    return 'RIF-14.05.2013';
   }
 
   /**
@@ -23,6 +23,7 @@ class PartnerController extends \mail\components\MailerController
   {
     return;
     $test = true;
+
     $step = \Yii::app()->request->getParam('step', 0);
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
@@ -36,11 +37,7 @@ class PartnerController extends \mail\components\MailerController
     else
     {
       $criteria = new \CDbCriteria();
-      $criteria->with = array(
-        'Participants' => array('together' => true)
-      );
-      $criteria->addCondition('"Participants"."EventId" = 431');
-      $criteria->addInCondition('"t"."RunetId"', array(321));
+      $criteria->addInCondition('"t"."RunetId"', array(12953));
     }
     $criteria->limit  = $this->getStepCount();
     $criteria->offset = $this->getStepCount() * $step;

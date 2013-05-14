@@ -6,10 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rif13-16';
+    $template = 'rif13-17';
     $isHTML = false;
-
-//    $arPromo = file($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-04-15/promo_1000_rif.csv');
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -30,6 +28,32 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('"Participants"."EventId" IN (128,218,339) OR "City"."Id" IN (3538,3354,4210,4238,5242,4650,5005)');
     */
 
+    // Чтение из файла
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-05-14/users.csv');
+
+    foreach($arUsers as $eml)
+    {
+      $emails[$eml] = trim($eml);
+    }
+
+    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+
+    $criteria->with = array(
+      'Settings' => array('select' => false)
+    );
+
+    $criteria->addInCondition('"t"."Email"', $emails);
+
+    $criteria->distinct = true;
+    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+    $criteria->addCondition('"t"."Visible"');
+
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
+
+    $users = \user\models\User::model()->findAll($criteria);
+
+    /*
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
       'Participants' => array('together' => true),
@@ -52,14 +76,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
+    */
     if (!empty($users))
     {
-//      $counter = 0;
       foreach ($users as $user)
       {
         // ПИСЬМО
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo[$counter]), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
+        $body = $this->renderPartial($template, array('user' => $user), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
+
         $mail = new \ext\mailer\PHPMailer(false);
         $mail->Mailer = 'mail';
         $mail->ParamOdq = true;
@@ -84,9 +109,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('users@rif.ru', 'РИФ+КИБ 2013', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('РИФ+КИБ стартует завтра - в среду 17 апреля') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Первая ежегодная стартап-конференция Startuo Village в России!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
@@ -94,12 +119,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->Send();
 
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
-//        fwrite($fp, $user->RunetId.' - '.$email.' - '.$arPromo[$counter]."\n");
-//        $counter++;
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
-      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
+//      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
     }
     else
     {
