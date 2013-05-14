@@ -90,6 +90,8 @@ return array(
         'http://'. RUNETID_HOST.'/user/edit/' => 'user/edit/index',
         'http://'. RUNETID_HOST.'/user/setting/' => 'user/setting/password',
 
+        'http://'. RUNETID_HOST.'/company/<companyId:\d+>/' => 'company/view/index',
+
         'http://'. RUNETID_HOST.'/job/' => 'job/default/index',
 
         'http://'. RUNETID_HOST.'/search/' => 'search/result/index',
