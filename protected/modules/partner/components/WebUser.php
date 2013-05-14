@@ -3,6 +3,7 @@ namespace partner\components;
 
 class WebUser extends \CWebUser
 {
+  /** @var \partner\models\Account */
   private $account = null;
 
   /**
@@ -29,7 +30,26 @@ class WebUser extends \CWebUser
   {
     if ($this->event === null)
     {
-      $this->event = $this->getAccount() !== null ? \event\models\Event::model()->findByPk($this->getAccount()->EventId) : null;
+      if ($this->getAccount() !== null)
+      {
+        if (!$this->getAccount()->getIsExtended())
+        {
+          $this->event = \event\models\Event::model()->findByPk($this->getAccount()->EventId);
+        }
+        else
+        {
+          $eventId = \Yii::app()->getSession()->get('EventId');
+          if ($eventId !== null)
+          {
+            $this->event = \event\models\Event::model()->findByPk($eventId);
+          }
+          else
+          {
+            return null;
+          }
+        }
+      }
+
       if ($this->event === null)
       {
         throw new \application\components\Exception('Не найдено мероприятие для данного пользователя партнерского интерфейса');
@@ -38,6 +58,8 @@ class WebUser extends \CWebUser
 
     return $this->event;
   }
+
+
 
   /**
    * @return null|string

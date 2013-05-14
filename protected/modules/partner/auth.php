@@ -16,6 +16,16 @@ return array(
     'bizRule' => null,
     'data' => null
   ),
+  'PartnerExtended' => array(
+    'type' => CAuthItem::TYPE_ROLE,
+    'description' => 'PartnerExtended - account for multi-event access',
+    'children' => array(
+      'Partner',
+    ),
+    'bizRule' => null,
+    'data' => null
+  ),
+
 
   'Admin' => array(
       'type' => CAuthItem::TYPE_ROLE,
@@ -26,4 +36,14 @@ return array(
       'bizRule' => null,
       'data' => null
     ),
+
+  'AdminExtended' => array(
+    'type' => CAuthItem::TYPE_ROLE,
+    'description' => 'AdministratorExtended - account for multi-event access',
+    'children' => array(
+      'Admin',
+    ),
+    'bizRule' => null,
+    'data' => null
+  ),
 );
