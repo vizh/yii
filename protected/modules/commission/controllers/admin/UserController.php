@@ -17,9 +17,10 @@ class UserController extends \application\components\controllers\AdminMainContro
     }
     else
     {
-      foreach($commission->Users as $user)
+      foreach ($commission->Users as $user)
       {
         $formUser = new \commission\models\forms\User();
+        $formUser->Id       = $user->Id;
         $formUser->RunetId  = $user->User->RunetId;
         $formUser->RoleId   = $user->RoleId;
         $formUser->JoinDate = \Yii::app()->dateFormatter->format(\commission\models\forms\User::DATE_FORMAT, $user->JoinTime);
@@ -28,6 +29,7 @@ class UserController extends \application\components\controllers\AdminMainContro
       }
     }
     
+    \Yii::app()->clientScript->registerPackage('runetid.backbone');
     $this->render('index', array('form' => $form));
   }
 }

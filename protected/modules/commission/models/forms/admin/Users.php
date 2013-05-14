@@ -42,4 +42,11 @@ class Users extends \CFormModel
     }
     return $users;
   }
+  
+  public function attributeLabels()
+  {
+    $formUser = new \commission\models\forms\User();
+    $labels = $formUser->attributeLabels();
+    return $labels;
+  }
 }
