@@ -12,8 +12,7 @@ class Controller extends \application\components\controllers\BaseController
     return array_merge(
       $filters,
       array(
-        'accessControl',
-        'checkEventId'
+        'accessControl'
       )
     );
   }
@@ -49,13 +48,68 @@ class Controller extends \application\components\controllers\BaseController
     \Yii::app()->getClientScript()->registerPackage('runetid.partner');
   }
 
-  /**
-   * @param \CFilterChain $filterChain
-   */
-  public function filterCheckEventId($filterChain)
+  protected function beforeAction($action)
   {
-    //todo: Проверить на админство, если не установлен закрепленный аккаунт - редирект на страницу установки
-    $filterChain->run();
+    if (\Yii::app()->partner->getAccount() !==null && \Yii::app()->partner->getAccount()->getIsExtended())
+    {
+      if (\Yii::app()->user->getIsGuest())
+      {
+        $this->render('partner.views.system.need-user-auth');
+        return false;
+      }
+      elseif (\Yii::app()->partner->getEvent() === null)
+      {
+        $success = $this->parseExtendedAccountRequest();
+        if ($success)
+        {
+          $this->refresh();
+        }
+        else
+        {
+          $this->render('partner.views.system.select-event', array(
+            'dataEvents' => $this->getExtendedAccountEventData()
+          ));
+          return false;
+        }
+      }
+    }
+
+    return parent::beforeAction($action);
+  }
+
+  private function parseExtendedAccountRequest()
+  {
+    $request = \Yii::app()->getRequest();
+    if ($request->getIsPostRequest())
+    {
+      $eventId = $request->getParam('eventId');
+      if ($eventId !== null)
+      {
+        /** @var \event\models\Event $event */
+        $event = \event\models\Event::model()->findByPk($eventId);
+        if ($event !== null)
+        {
+          \Yii::app()->getSession()->add('EventId', $event->Id);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private function getExtendedAccountEventData()
+  {
+    /** @var \event\models\Event[] $events */
+    $events = \event\models\Event::model()->byVisible(true)->findAll();
+    $dataEvents = array();
+    foreach ($events as $event)
+    {
+      $item = new \stdClass();
+      $item->value = $event->Id . ', ' . $event->IdName . ', ' . \application\components\utility\Texts::cropText($event->Title, 200);
+      $item->id = $event->Id;
+      $dataEvents[] = $item;
+    }
+    return $dataEvents;
   }
 
   protected $bottomMenu = array();

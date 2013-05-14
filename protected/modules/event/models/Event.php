@@ -40,6 +40,8 @@ namespace event\models;
  *
  * @property string $UrlSectionMask
  * @property string $FbPlaceId
+ *
+ *
  */
 class Event extends \application\models\translation\ActiveRecord
 {

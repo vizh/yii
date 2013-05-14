@@ -91,8 +91,17 @@ class Account extends \CActiveRecord
     return $this->notifier;
   }
 
-  public function isAdmin()
+  public function getIsAdmin()
   {
-    return $this->Role == 'Admin';
+    return strstr(\Yii::app()->partner->getAccount()->Role, 'Admin') !== false;
+  }
+
+  /**
+   * Возвращает true, если инстанс - расширенный аккаунт для работы с любым мероприятием
+   * @return bool
+   */
+  public function getIsExtended()
+  {
+    return strstr(\Yii::app()->partner->getAccount()->Role, 'Extended') !== false;
   }
 }

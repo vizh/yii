@@ -66,7 +66,7 @@ return array(
           'baseUrl' => '/',
           'js' => array(),
           'css' => array('stylesheets/partner.css'),
-          'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.bootstrap')
+          'depends' => array('runetid.jquery', 'runetid.admin.jquery.ui', 'runetid.bootstrap')
         ),
         'runetid.ckeditor' => array(
           'baseUrl' => '/javascripts/ckeditor',
