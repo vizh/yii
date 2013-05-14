@@ -38,10 +38,11 @@ class WebUser extends \CWebUser
         }
         else
         {
-          $eventId = \Yii::app()->getSession()->get('EventId');
+          $eventId = \Yii::app()->getSession()->get('PartnerAccountEventId');
           if ($eventId !== null)
           {
             $this->event = \event\models\Event::model()->findByPk($eventId);
+            $this->getAccount()->EventId = $eventId;
           }
           else
           {

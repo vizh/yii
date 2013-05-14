@@ -32,9 +32,17 @@ class AuthController extends partner\components\Controller
     $this->render('index');
   }
 
-  public function actionLogout()
+  public function actionLogout($extended = null)
   {
-    \Yii::app()->partner->logout(false);
-    $this->redirect(\Yii::app()->createUrl('/partner/auth/index'));
+    if ($extended == 'reset' && \Yii::app()->partner->getAccount()->getIsExtended())
+    {
+      \Yii::app()->getSession()->remove('PartnerAccountEventId');
+    }
+    else
+    {
+      \Yii::app()->partner->logout(false);
+    }
+
+    $this->redirect(\Yii::app()->createUrl('/partner/main/index'));
   }
 }

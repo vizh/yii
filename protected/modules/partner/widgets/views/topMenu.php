@@ -2,8 +2,8 @@
 /**
  * @var $menu array
  */
-
-if (\Yii::app()->partner->getAccount() != null):
+$partner = \Yii::app()->partner;
+if ($partner->getAccount() !== null):
   ?>
 <div class="container navbar-fixed-top-menu">
   <div class="navbar navbar-inverse">
@@ -17,6 +17,9 @@ if (\Yii::app()->partner->getAccount() != null):
         </ul>
         <ul class="nav pull-right">
           <li><a href="<?=\Yii::app()->createUrl('/partner/auth/logout');?>">Выход</a></li>
+          <?if ($partner->getAccount()->getIsExtended() && $partner->getEvent() !== null):?>
+            <li><a href="<?=\Yii::app()->createUrl('/partner/auth/logout', array('extended' => 'reset'));?>">Выход из <?=\Yii::app()->partner->getEvent()->IdName;?></a></li>
+          <?endif;?>
         </ul>
       </div>
     </div>

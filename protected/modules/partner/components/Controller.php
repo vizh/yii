@@ -50,7 +50,7 @@ class Controller extends \application\components\controllers\BaseController
 
   protected function beforeAction($action)
   {
-    if (\Yii::app()->partner->getAccount() !==null && \Yii::app()->partner->getAccount()->getIsExtended())
+    if (\Yii::app()->partner->getAccount() !==null && \Yii::app()->partner->getAccount()->getIsExtended() && $this->getId() !== 'auth')
     {
       if (\Yii::app()->user->getIsGuest())
       {
@@ -89,7 +89,7 @@ class Controller extends \application\components\controllers\BaseController
         $event = \event\models\Event::model()->findByPk($eventId);
         if ($event !== null)
         {
-          \Yii::app()->getSession()->add('EventId', $event->Id);
+          \Yii::app()->getSession()->add('PartnerAccountEventId', $event->Id);
           return true;
         }
       }
