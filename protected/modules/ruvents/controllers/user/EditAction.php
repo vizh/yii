@@ -64,7 +64,6 @@ class EditAction extends \ruvents\components\Action
       }
     }
 
-    $form->Birthday = \Yii::app()->dateFormatter->format('dd.MM.yyyy', $form->Birthday);
     if ($form->validate())
     {
       $user->FirstName = $form->FirstName;
@@ -81,9 +80,6 @@ class EditAction extends \ruvents\components\Action
         throw new \ruvents\components\Exception(207, $message);
       }
     }
-
-
-
   }
 
   private function updateEmail(\user\models\User $user)
