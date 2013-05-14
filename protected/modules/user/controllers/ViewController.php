@@ -17,6 +17,9 @@ class ViewController extends \application\components\controllers\PublicMainContr
       ),
       'CommissionsActive' => array(
         'together' => false
+      ),
+      'LinkProfessionalInterests' => array(
+        'together' => false
       )
     );
     /** @var $user \user\models\User */
@@ -34,6 +37,14 @@ class ViewController extends \application\components\controllers\PublicMainContr
     $criteria->params = array(
       'UserId'  => $user->Id,
     );
+
+    $professionalInterests = array();
+    if (!empty($user->LinkProfessionalInterests)) {
+      foreach ($user->LinkProfessionalInterests as $interest) {
+        $professionalInterests[] = $interest->ProfessionalInterest->Title;
+      }
+    }
+
     $linkSections  = array();
     foreach (\event\models\section\LinkUser::model()->findAll($criteria) as $link)
     {
@@ -107,6 +118,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
     $this->render('index', array(
       'user' => $user, 
       'participation' => $participation,
+      'professionalInterests' => $professionalInterests
     ));
   }
 }

@@ -72,9 +72,9 @@ $(window).load(function() {
                 <div class="b-job">
                   <header>
                     <h6 class="title company">
-                        <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $primaryEmployment->Company->Id));?>">
-                            <?=$primaryEmployment->Company->Name;?>
-                        </a>
+                      <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $primaryEmployment->Company->Id));?>">
+                        <?=$primaryEmployment->Company->Name;?>
+                      </a>
                     </h6>
                   </header> 
                   <?if (!empty($primaryEmployment->Position)):?>
@@ -83,6 +83,19 @@ $(window).load(function() {
                   </article>
                   <?endif;?>
                 </div>
+                <?endif;?>
+
+                <?if ($_SERVER['REMOTE_ADDR'] == '82.142.129.35'):?>
+                <?if (!empty($professionalInterests)):?>
+                <div class="b-interests">
+                  <header>
+                    <h6 class="title">Профессиональные интересы</h6>
+                  </header>
+                  <article>
+                    <p class="text"><?=implode(', ', $professionalInterests);?></p>
+                  </article>
+                </div>
+                <?endif;?>
                 <?endif;?>
 
                 <?if (!empty($user->CommissionsActive)):?>
