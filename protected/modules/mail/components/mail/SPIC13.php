@@ -17,12 +17,17 @@ class SPIC13 extends \mail\components\Mail
   
   public function getSubject()
   {
-    return 'СПИК 2013: осталась 1 неделя, спешите зарегистрироваться до 15 мая (среда)';
+    return 'Напоминание об оплате счета на СПИК-2013';
   }
   
   public function getBody()
   {
-    return \Yii::app()->getController()->renderPartial('mail.views.partner.spic13-5', array('user' => $this->user, 'personalLink' => $this->getPersonalLink()), true);
+    $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."Id" DESC';
+    $order = \pay\models\Order::model()->byEventId(423)
+      ->byPayerId($this->user->Id)->byJuridical(true)->byPaid(false)->byDeleted(false)->find($criteria);
+    
+    return \Yii::app()->getController()->renderPartial('mail.views.partner.spic13-6', array('user' => $this->user, 'personalLink' => $this->getPersonalLink(), 'order' => $order), true);
   }
 
   private function getPersonalLink()

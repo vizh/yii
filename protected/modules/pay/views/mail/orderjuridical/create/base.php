@@ -9,4 +9,4 @@
 
 ---
 Финансовая служба -RUNET—ID-
-fin@runet-id
+fin@runet-id.com

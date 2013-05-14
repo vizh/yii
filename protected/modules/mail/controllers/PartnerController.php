@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'RIF-14.05.2013';
+    return 'SPIC13-14.05.2013';
   }
 
   /**
@@ -30,14 +30,22 @@ class PartnerController extends \mail\components\MailerController
     
     if (!$test)
     {
+      $userIdList = array();
+      $orders = \pay\models\Order::model()->byEventId(423)->byJuridical(true)->byPaid(false)->byDeleted(false)->findAll();
+      foreach ($orders as $order)
+      {
+        $userIdList[] = $order->PayerId;
+      }
+      
       $builder = new \mail\components\Builder();
-      $builder->addEvent(431);
+      $builder->addEvent(423, array(24));
       $criteria = $builder->getCriteria();
+      $criteria->addInCondition('"t"."Id"', $userIdList);
     }
     else
     {
       $criteria = new \CDbCriteria();
-      $criteria->addInCondition('"t"."RunetId"', array(12953));
+      $criteria->addInCondition('"t"."RunetId"', array(321));
     }
     $criteria->limit  = $this->getStepCount();
     $criteria->offset = $this->getStepCount() * $step;
@@ -49,7 +57,7 @@ class PartnerController extends \mail\components\MailerController
     $mailer = new \mail\components\Mailer();
     foreach ($users as $user)
     {
-      $mail = new \mail\components\mail\Mblt13();
+      $mail = new \mail\components\mail\SPIC13();
       $mail->user = $user;
       $mailer->send($mail, $user->Email, false);
       if (!$test)
