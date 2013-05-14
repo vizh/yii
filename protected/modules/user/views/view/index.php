@@ -71,7 +71,11 @@ $(window).load(function() {
                 <?if ($primaryEmployment !== null):?>
                 <div class="b-job">
                   <header>
-                    <h6 class="title company"><?=$primaryEmployment->Company->Name;?></h6>
+                    <h6 class="title company">
+                        <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $primaryEmployment->Company->Id));?>">
+                            <?=$primaryEmployment->Company->Name;?>
+                        </a>
+                    </h6>
                   </header> 
                   <?if (!empty($primaryEmployment->Position)):?>
                   <article>
