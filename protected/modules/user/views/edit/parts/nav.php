@@ -1,10 +1,10 @@
 <?php
 $menu = array(
   'index' => \Yii::t('app', 'Основная информация'),
+  'employment' => \Yii::t('app', 'Места работы'),
+  'profinterests' => \Yii::t('app', 'Профессиональные интересы'),
+  'contacts' => \Yii::t('app', 'Контактная информация'),
   'photo' => \Yii::t('app', 'Фотография профиля'),
-  'employment' => \Yii::t('app', 'Карьера'),
-  'contacts' => \Yii::t('app', 'Контакты'),
-  'profinterests' => \Yii::t('app', 'Профессиональные интересы')
 );
 ;?>
 

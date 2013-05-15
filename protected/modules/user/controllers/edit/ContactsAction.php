@@ -82,7 +82,7 @@ class ContactsAction extends \CAction
           }
         }
        
-        \Yii::app()->user->setFlash('success', \Yii::t('app', 'Контакты успешно сохранены!'));
+        \Yii::app()->user->setFlash('success', \Yii::t('app', 'Ваша контактная информация успешно сохранена!'));
         $this->getController()->refresh();
       }
     }
@@ -122,7 +122,7 @@ class ContactsAction extends \CAction
     }
     
     $this->getController()->bodyId = 'user-account';
-    $this->getController()->setPageTitle(\Yii::t('app','Редактирование контактов'));
+    $this->getController()->setPageTitle(\Yii::t('app','Редактирование профиля'));
     $this->getController()->render('contacts', array('form' => $form, 'user' => $user));
   }
 }

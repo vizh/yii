@@ -9,7 +9,7 @@
         <div class="span9">
           <?=\CHtml::form('', 'POST', array('class' => 'b-form'));?>
             <div class="form-header">
-              <h4><?=\Yii::t('app', 'Карьера');?></h4>
+              <h4><?=\Yii::t('app', 'Места работы');?></h4>
             </div>
 
             <?=$this->renderPartial('parts/form-alert', array('form' => $form));?>
