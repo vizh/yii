@@ -103,8 +103,9 @@ return array(
         'http://<domain:\w+>.'. RUNETID_HOST .'/contact/ajax/<action:\w+>' => 'contact/ajax/<action>',     
           
         /** Настройка путей админки */
+        'http://admin.' .  RUNETID_HOST . '/' => 'main/admin/default/index',
         'http://admin.' .  RUNETID_HOST . '/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/admin/<controller>/<action>',
-        'http://' .  RUNETID_HOST . '/admin/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/admin/<controller>/<action>',    
+
           
         /** ALL MODULES */
         'http://'. RUNETID_HOST.'/fastauth/<runetId:\d+>/<hash>/' => 'main/fastauth/index',  
