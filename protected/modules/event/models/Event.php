@@ -356,7 +356,7 @@ class Event extends \application\models\translation\ActiveRecord
   
   private function updateRole(Participant $participant, Role $role, $usePriority = false)
   {
-    if (($participant->RoleId != $role->Id) && !$usePriority || $participant->Role->Priority <= $role->Priority)
+    if ($participant->RoleId != $role->Id && (!$usePriority || $participant->Role->Priority <= $role->Priority))
     {
       $participant->RoleId = $role->Id;
       $participant->UpdateTime =  date('Y-m-d H:i:s');
