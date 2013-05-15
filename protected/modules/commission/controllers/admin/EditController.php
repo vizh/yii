@@ -33,7 +33,14 @@ class EditController extends \application\components\controllers\AdminMainContro
         $this->createUrl('/commission/admin/edit/index', array('commissionId' => $commission->Id))
       );
     }
-    $this->setPageTitle(\Yii::t('app', 'Редактирование комиссии РАЭК'));
+    if ($commissionId == null)
+    {
+      $this->setPageTitle(\Yii::t('app', 'Новая комиссия РАЭК'));
+    }
+    else
+    {
+      $this->setPageTitle($commission->Title);
+    }
     $this->render('index', array('form' => $form));
   }
 }

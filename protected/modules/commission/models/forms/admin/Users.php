@@ -49,4 +49,15 @@ class Users extends \CFormModel
     $labels = $formUser->attributeLabels();
     return $labels;
   }
+  
+  private $roleList = null;
+  public function getRoleList()
+  {
+    if ($this->roleList == null)
+    {
+      $formUser = new \commission\models\forms\User();
+      $this->roleList = $formUser->getRoleList();
+    }
+    return $this->roleList;
+  }
 }

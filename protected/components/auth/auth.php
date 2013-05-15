@@ -17,6 +17,16 @@ return array(
     'bizRule' => null,
     'data' => null
   ),
+    
+  'raec' => array(
+    'type' => CAuthItem::TYPE_ROLE,
+    'description' => 'РАЭК доступ',
+    'children' => array(
+      'guest',
+    ),
+    'bizRule' => null,
+    'data' => null
+  ),
 
   'booker' => array(
     'type' => CAuthItem::TYPE_ROLE,

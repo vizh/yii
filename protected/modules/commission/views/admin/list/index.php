@@ -19,7 +19,7 @@
               <td><?=sizeof($commission->UsersActive);?> чел.</td>
               <td class="text-right">
                 <a href="<?=$this->createUrl('/commission/admin/edit/index', array('commissionId' => $commission->Id));?>" class="btn"><i class="icon-edit"></i> <?=\Yii::t('app', 'Редактировать');?></a>
-                <a href="" class="btn"><i class="icon-user"></i> <?=\Yii::t('app', 'Участники');?></a>
+                <a href="<?=$this->createUrl('/commission/admin/user/index', array('commissionId' => $commission->Id));?>" class="btn"><i class="icon-user"></i> <?=\Yii::t('app', 'Участники');?></a>
               </td>
             </tr>
           <?endforeach;?>
