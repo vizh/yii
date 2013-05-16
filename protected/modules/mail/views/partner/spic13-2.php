@@ -36,7 +36,7 @@
                           <span style="margin-top: 15px; display: block; width: 120px; text-align: center; padding-top: 5px; padding-bottom: 5px; background-color: #0085c9; color: #ffffff; text-transform: uppercase;"><?=$role->Title;?></span>
                         </td>
                         <td valign="top" style="background: #f6f6f6; padding: 10px; text-align: center;" align="right">
-                          <img src="<?=$qrcodeLink;?>" />
+                          <img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user);?>" />
                         </td>
                       </tr>
                     </table>
@@ -50,7 +50,7 @@
                     <h4 style="padding-bottom: 10px; margin: 0;">Памятка участника:</h4>
                     <ul style="margin: 0; padding-left: 25px;">
                       <li>Распечатать путевой лист</li>
-                      <li>Зарегистрироваться на конференции (холл первого этажа слева от входа)</li>
+                      <li>Зарегистрироваться на конференции (второй этаж)</li>
                       <li>Оплатить дополнительные услуги (участие в конференции, питание)</li>
                       <li>Посетить выставку СПИК</li>
                       <li>Посетить конференцию СПИК</li>
@@ -92,7 +92,7 @@
                   <td style="padding-top: 10px;"><img src="http://runet-id.com/images/mail/spic13/ticket/map.jpg" border="0"/></td>
                 </tr>
                 <tr>
-                  <td style="padding-top: 20px;">
+                  <td style="padding-top: 20px; padding-bottom: 40px;">
                     <h4 style="padding-bottom: 10px; margin: 0;">Проезд на площадку:</h4>
                     <strong>На общественном транспорте</strong> &mdash; проезд до станции метро «Приморская», далее: либо на маршрутное такси №162, №248 (отправляется с улицы «Наличная», до остановки «Аквапарк гостиницы Прибалтийская») либо автобус №42 (до остановки «гостиница Прибалтийская»)
                     <br/><br/>
@@ -101,7 +101,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td style="background-image: url('http://runet-id.com/images/mail/spic13/ticket/runet-id_logo.gif'); height: 10px; background-repeat: no-repeat; background-position: center center; padding-top: 80px;"></td>
+                  <td style="background-image: url('http://runet-id.com/images/mail/spic13/ticket/runet-id_logo.gif'); height: 14px; background-repeat: no-repeat; padding-bottom: 80px;"></td>
                 </tr>
               </table>
             </td>

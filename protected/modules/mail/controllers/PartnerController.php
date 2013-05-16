@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'SPIC13-14.05.2013';
+    return 'SPIC13-16.05.2013';
   }
 
   /**
@@ -30,21 +30,15 @@ class PartnerController extends \mail\components\MailerController
     
     if (!$test)
     {
-      $userIdList = array();
-      $orders = \pay\models\Order::model()->byEventId(423)->byJuridical(true)->byPaid(false)->byDeleted(false)->findAll();
-      foreach ($orders as $order)
-      {
-        $userIdList[] = $order->PayerId;
-      }
-      
       $builder = new \mail\components\Builder();
-      $builder->addEvent(423, array(24));
+      $builder->addEvent(423);
       $criteria = $builder->getCriteria();
-      $criteria->addInCondition('"t"."Id"', $userIdList);
     }
     else
     {
-      $criteria = new \CDbCriteria();
+      $builder = new \mail\components\Builder();
+      $builder->addEvent(423);
+      $criteria = $builder->getCriteria();
       $criteria->addInCondition('"t"."RunetId"', array(321));
     }
     $criteria->limit  = $this->getStepCount();
@@ -53,12 +47,14 @@ class PartnerController extends \mail\components\MailerController
     $count = \user\models\User::model()->byVisible(true)->count($criteria);
     echo 'Получателей:'. $count.'<br/>';
     
+    
     $users = \user\models\User::model()->byVisible(true)->findAll($criteria);
     $mailer = new \mail\components\Mailer();
     foreach ($users as $user)
     {
       $mail = new \mail\components\mail\SPIC13();
       $mail->user = $user;
+      $mail->getBody();
       $mailer->send($mail, $user->Email, false);
       if (!$test)
       {
