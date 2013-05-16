@@ -10,9 +10,6 @@ class Users extends \event\components\Widget
   public function run()
   {
     $model = User::model()->byEventId($this->event->Id)->byVisible();
-    $count = $model->count();
-
-    $model = User::model()->byEventId($this->event->Id)->byVisible();
     $criteria = new \CDbCriteria();
     $criteria->order = '"Participants"."UpdateTime" DESC';
     $criteria->limit = $this->getCountUserPerPage();
@@ -22,7 +19,7 @@ class Users extends \event\components\Widget
     $users = $model->findAll($criteria);
 
 
-    $this->render('users', array('users' => $users, 'count' => $count));
+    $this->render('users', array('users' => $users, 'count' => $this->getCount()));
   }
 
   /**
@@ -41,11 +38,31 @@ class Users extends \event\components\Widget
     return \event\components\WidgetPosition::Tabs;
   }
 
+  public function getIsActive()
+  {
+    return $this->getCount() > 0;
+  }
+
+
   /**
    * @return int
    */
   public function getCountUserPerPage()
   {
     return \Yii::app()->params['EventViewUserPerPage'];
+  }
+  /** @var  int */
+  private $count = null;
+  /**
+   * @return int
+   */
+  protected function getCount()
+  {
+    if ($this->count === null)
+    {
+      $model = User::model()->byEventId($this->event->Id)->byVisible();
+      $this->count = $model->count();
+    }
+    return $this->count;
   }
 }

@@ -93,6 +93,14 @@ class Widget extends \CActiveRecord implements \event\components\IWidget
   }
 
   /**
+   * @return bool
+   */
+  public function getIsActive()
+  {
+    return $this->getWidget()->getIsActive();
+  }
+
+  /**
    * 
    * @param string $name
    * @param bool $useAnd

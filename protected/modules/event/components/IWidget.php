@@ -27,4 +27,9 @@ interface IWidget{
    * @return void
    */
   public function run();
+
+  /**
+   * @return bool
+   */
+  public function getIsActive();
 }

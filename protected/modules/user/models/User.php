@@ -144,7 +144,7 @@ class User extends \application\models\translation\ActiveRecord
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."Email" = :Email';
-    $criteria->params = array(':Email' => $email);
+    $criteria->params = array(':Email' => strtolower($email));
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

@@ -21,9 +21,18 @@ class RegisterForm extends \CFormModel
       array('LastName, FirstName, FatherName, Email, Phone, Company, Position', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
       array('LastName,FirstName,Email,Company', 'required'),
       array('Email', 'email'),
-      array('Email', 'unique', 'className' => '\user\models\User', 'attributeName' => 'Email', 'caseSensitive' => false),
+      array('Email', 'uniqueUser'),
       array('FatherName, Phone, Position, CompanyId, City, CityId', 'safe')
     );
+  }
+
+  public function uniqueUser($attribute, $params)
+  {
+    $model = \user\models\User::model()->byEmail($this->Email)->byVisible(true);
+    if ($model->exists())
+    {
+      $this->addError('Email', \Yii::t('app', 'Пользователь с таким email уже существует'));
+    }
   }
 
   /**
@@ -35,7 +44,7 @@ class RegisterForm extends \CFormModel
     $user->LastName = $this->LastName;
     $user->FirstName = $this->FirstName;
     $user->FatherName = $this->FatherName;
-    $user->Email = $this->Email;
+    $user->Email = strtolower($this->Email);
     $user->register();
 
     $this->setEmployment($user);

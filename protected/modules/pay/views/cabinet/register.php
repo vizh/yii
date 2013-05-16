@@ -97,10 +97,10 @@
       </div>
     </td>
     <td colspan="3" class="last-child">
-      <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
-      <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][RunetId]');?>" value="<%=item.RunetId%>" />
+      <input type="hidden" name="<?=\CHtml::activeName($orderForm, 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
+      <input type="hidden" name="<?=\CHtml::activeName($orderForm, 'Items[<%=i%>][RunetId]');?>" value="<%=item.RunetId%>" />
       <div class="input-append pull-right input-promo">
-        <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="<%=promoCode%>" class="t-center form-element_text" placeholder="<?=Yii::t('app', 'Промо код');?>"/>
+        <input type="text" name="<?=\CHtml::activeName($orderForm, 'Items[<%=i%>][PromoCode]');?>" value="<%=promoCode%>" class="t-center form-element_text" placeholder="<?=Yii::t('app', 'Промо код');?>"/>
         <button class="btn disabled" type="button"><i class="icon-check"></i></button>
         <div class="alert hide"></div>
       </div>
@@ -109,10 +109,10 @@
 </script>
 
 <script type="text/template" id="row-data-tpl">   
-  <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
-  <input type="hidden" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][RunetId]');?>" value="<%=runetId%>" />
+  <input type="hidden" name="<?=\CHtml::activeName($orderForm, 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
+  <input type="hidden" name="<?=\CHtml::activeName($orderForm, 'Items[<%=i%>][RunetId]');?>" value="<%=runetId%>" />
   <div class="input-append pull-right input-promo">
-    <input type="text" name="<?=\CHtml::resolveName($orderForm, $_ = 'Items[<%=i%>][PromoCode]');?>" value="" class="t-center form-element_text" placeholder="<?=Yii::t('app', 'Промо код');?>"/>
+    <input type="text" name="<?=\CHtml::activeName($orderForm, 'Items[<%=i%>][PromoCode]');?>" value="" class="t-center form-element_text" placeholder="<?=Yii::t('app', 'Промо код');?>"/>
     <button class="btn disabled" type="button"><i class="icon-check"></i></button>
     <div class="alert hide"></div>
   </div>

@@ -12,7 +12,7 @@ class Contacts extends \CFormModel
   {
     return array(
       array('Email', 'email'),
-      array('Email', 'unique', 'className' => '\user\models\User', 'attributeName' => 'Email', 'caseSensitive' => false, 'criteria' => array('condition' => '"t"."Id" != :UserId', 'params' => array('UserId' => \Yii::app()->user->getId()))),
+      array('Email', 'unique', 'className' => '\user\models\User', 'attributeName' => 'Email', 'caseSensitive' => false, 'criteria' => array('condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => array('UserId' => \Yii::app()->user->getId()))),
       array('Email', 'required'),
       array('Site', 'url', 'allowEmpty' => true),
       array('Phones', 'filter', 'filter' => array($this, 'filterPhones')),

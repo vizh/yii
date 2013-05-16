@@ -74,5 +74,13 @@ abstract class Widget extends \CWidget implements IWidget
   public function process()
   {
 
-  }   
+  }
+
+  /**
+   * @return bool
+   */
+  public function getIsActive()
+  {
+    return true;
+  }
 }

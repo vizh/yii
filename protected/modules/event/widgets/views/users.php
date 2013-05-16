@@ -23,4 +23,9 @@
       </div><?
     endforeach;
     ?></div>
+  <div class="row m-top_40">
+    <div class="span8">
+      <p class="text-center"><a href="<?=Yii::app()->createUrl('/event/view/users', array('idName' => $this->event->IdName));?>">Всего зарегистрированно <?=Yii::t('app', '{n} участник|{n} участника|{n} участников|{n} участника', $count);?></a></p>
+    </div>
+  </div>
 </div>
