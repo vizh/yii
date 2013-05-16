@@ -3,9 +3,9 @@ class UtilityController extends ruvents\components\Controller
 {
   public function actionPing()
   {
-    echo json_encode(array(
+    $this->renderJson([
       'DateSignal' => date('Y-m-d H:i:s')
-    ));
+    ]);
   }
 
   public function actionChanges()

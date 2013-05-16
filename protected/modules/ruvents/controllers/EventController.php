@@ -8,6 +8,7 @@ class EventController extends ruvents\components\Controller
   {
     return array(
       'users' => 'ruvents\controllers\event\UsersAction',
+      'info' => 'ruvents\controllers\event\InfoAction',
       'register' => 'ruvents\controllers\event\RegisterAction',
       'unregister' => 'ruvents\controllers\event\UnregisterAction',
       'roles' => 'ruvents\controllers\event\RolesAction',

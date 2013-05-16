@@ -208,17 +208,6 @@ class DataBuilder
     return $this->role;
   }
 
-
-  protected $eventSetting;
-
-  public function createEventSetting ($setting)
-  {
-    $this->eventSetting = new \stdClass();
-    $this->eventSetting->Name = $setting->Name;
-    $this->eventSetting->Value = $setting->Value;
-    return $this->eventSetting;
-  }
-
   protected $orderItem;
   /**
    * @param \pay\models\OrderItem $orderItem

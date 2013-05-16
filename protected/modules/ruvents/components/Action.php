@@ -42,4 +42,9 @@ class Action extends \CAction
   {
     return $this->getController()->getEvent();
   }
+
+  public function renderJson($data)
+  {
+    $this->getController()->renderJson($data);
+  }
 }

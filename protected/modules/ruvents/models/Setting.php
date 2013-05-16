@@ -6,6 +6,7 @@ namespace ruvents\models;
  * @property int $EventId
  * @property string $Name
  * @property string $Value
+ * @method \ruvents\models\Setting find()
  */
 class Setting extends \CActiveRecord
 {

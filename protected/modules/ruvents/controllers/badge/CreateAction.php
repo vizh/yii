@@ -40,7 +40,6 @@ class CreateAction extends \ruvents\components\Action
       $participant->byPartId(null);
     }
 
-    /** @var $participant \event\models\Participant */
     $participant = $participant->find();
     if (empty($participant))
     {
@@ -52,6 +51,8 @@ class CreateAction extends \ruvents\components\Action
     $badge->RoleId = $participant->RoleId;
     $badge->save();
 
-    echo json_encode(array('Success' => true));
+    $this->renderJson([
+      'Success' => true
+    ]);
   }
 }

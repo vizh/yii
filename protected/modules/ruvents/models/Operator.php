@@ -8,6 +8,8 @@ namespace ruvents\models;
  * @property string $Password
  * @property string $Role
  * @property string $LastLoginTime
+ * @method \ruvents\models\Operator find()
+ * @method \ruvents\models\Operator findByAttributes()
  */
 class Operator extends \CActiveRecord
 {
@@ -32,34 +34,6 @@ class Operator extends \CActiveRecord
   public function primaryKey()
   {
     return 'Id';
-  }
-
-  /**
-   * @param $login
-   * @param bool $useAnd
-   * @return Operator
-   */
-  public function byLogin($login, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."Login" = :Login';
-    $criteria->params = array(':Login' => $login);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param string $password
-   * @param bool $useAnd
-   * @return Operator
-   */
-  public function byPassword($password, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."Password" = :Password';
-    $criteria->params = array(':Password' => $password);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
   }
 
   public function getAuthHash()
