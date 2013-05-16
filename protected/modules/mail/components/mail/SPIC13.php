@@ -15,19 +15,20 @@ class SPIC13 extends \mail\components\Mail
     return 'СПИК-2013';
   }
   
+  public function isHtml()
+  {
+    return true;
+  }
+  
   public function getSubject()
   {
-    return 'Напоминание об оплате счета на СПИК-2013';
+    return 'Электронное приглашение на СПИК-2013';
   }
   
   public function getBody()
   {
-    $criteria = new \CDbCriteria();
-    $criteria->order = '"t"."Id" DESC';
-    $order = \pay\models\Order::model()->byEventId(423)
-      ->byPayerId($this->user->Id)->byJuridical(true)->byPaid(false)->byDeleted(false)->find($criteria);
-    
-    return \Yii::app()->getController()->renderPartial('mail.views.partner.spic13-6', array('user' => $this->user, 'personalLink' => $this->getPersonalLink(), 'order' => $order), true);
+    $role = $this->user->Participants[0]->Role;
+    return \Yii::app()->getController()->renderPartial('mail.views.partner.spic13-2', array('user' => $this->user, 'role' => $role), true);
   }
 
   private function getPersonalLink()
