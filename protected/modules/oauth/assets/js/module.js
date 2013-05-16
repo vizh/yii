@@ -35,6 +35,20 @@ OAuthModule.prototype.init = function()
     e.preventDefault();
     self.twiLogin($(e.currentTarget).attr('href'));
   });
+
+  $('#btn_cancel').on('click', function(e){
+    e.preventDefault();
+    var warning = $('#cancel_warning');
+    if (warning.data('warning') == 1)
+    {
+      window.close();
+    }
+    else
+    {
+      $('form p').css('display', 'none');
+      warning.css('display', 'inline-block').data('warning', 1);
+    }
+  });
 };
 
 OAuthModule.prototype.fbLogin = function()
