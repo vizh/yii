@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'spic13-2';
+    $template = 'spic13-3';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -16,6 +16,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria = new \CDbCriteria();
 
     // ГеоВыборка
+    /*
     $criteria->with = array(
         'LinkAddress' => array('together' => true, 'select' => false),
         'LinkAddress.Address' => array('together' => true, 'select' => false),
@@ -26,24 +27,17 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         'Settings' => array('select' => false),
     );
     $criteria->addCondition(' ("Participants"."EventId" IN (258) OR "Region"."Id" IN (4925,4503,4773,3761,4481,3503,3251)) AND "Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 423)');
+    */
 
     // Чтение из файла
     /*
     $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-05-14/users.csv');
-
-    foreach($arUsers as $eml)
-    {
-      $emails[$eml] = trim($eml);
-    }
-
-    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
-
+    foreach($arUsers as $eml) $emails[$eml] = trim($eml);
+//    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
     $criteria->with = array(
       'Settings' => array('select' => false)
     );
-
     $criteria->addInCondition('"t"."Email"', $emails);
-
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
@@ -55,24 +49,22 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Обычная выборка пользователей [по мероприятиям]
-    /*
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
     $criteria->addInCondition('"Participants"."EventId"', array(423));
-    $criteria->addInCondition('"Participants"."RoleId"', array(24));
-    */
+    $criteria->addInCondition('"Participants"."RoleId"', array(3));
 
     $criteria->distinct = true;
-    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+//    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953,454));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -83,9 +75,22 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       foreach ($users as $user)
       {
+        $arPromo = array();
+        for($i = 0; $i < 3; $i++)
+        {
+          $coupon = new \pay\models\Coupon();
+          $coupon->EventId = 423;
+          $coupon->Discount = 1;
+          $coupon->ProductId = 733;
+          $coupon->Code = $coupon->generateCode();
+          $coupon->save();
+
+          $arPromo[] = $coupon->Code;
+        }
+
         // ПИСЬМО
 //        $body = $this->renderPartial($template, array('user' => $user), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'waybillLink' => $this->getWaybillLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
         $mail = new \ext\mailer\PHPMailer(false);
@@ -115,12 +120,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@sp-ic.ru', 'СПИК-2013', false);
 //        $mail->SetFrom('users@sp-ic.ru', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Программа СПИК полностью готова!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Докладчикам СПИК 2013') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
 
-        $mail->Send();
+//        $mail->Send();
 
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
@@ -143,17 +148,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/';
 //    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/my/waybill.php';
-  }
-
-  private function getWaybillLink($user)
-  {
-    $runetId = $user->RunetId;
-    $secret = 'xggMpIQINvHqR0QlZgZa';
-
-   	$hash = substr(md5($runetId.$secret), 0, 16);
-
-//    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/';
-    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/my/waybill.php';
   }
 
 }
