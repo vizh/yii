@@ -6,8 +6,8 @@ namespace event\models;
  * @property int $EventId
  * @property string $Title
  * @property int $Order
- *
  * @property Event $Event
+ * @method \event\models\Part findByPk()
  */
 class Part extends \CActiveRecord
 {

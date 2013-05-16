@@ -1,53 +1,36 @@
 <?php
 
+use ruvents\components\Exception;
+use ruvents\models\Operator;
 
 class AuthController extends ruvents\components\Controller
 {
-
-  public function actionLogin()
+  public function actionLogin($Login, $Password, $MasterPassword)
   {
-    $request = \Yii::app()->getRequest();
-    $login = $request->getParam('Login', null);
-    $password = $request->getParam('Password', null);
-    $masterPassword = $request->getParam('MasterPassword', null);
+    $operator = Operator::model()->findByAttributes([
+      'Login' => $Login,
+      'Password' => Operator::generatePasswordHash($Password)
+    ]);
 
-    /** @var $operator \ruvents\models\Operator */
-    $operator = \ruvents\models\Operator::model()->byLogin($login)->find();
-    if ($operator == null || \ruvents\models\Operator::generatePasswordHash($password) !== $operator->Password)
-    {
-      throw new \ruvents\components\Exception(101);
-    }
+    if (!$operator)
+      throw new Exception(101);
 
-    $masterPassword = \ruvents\models\Operator::generatePasswordHash($masterPassword);
-    /** @var $masters \ruvents\models\Operator[] */
-    $masters = \ruvents\models\Operator::model()->byPassword($masterPassword)->findAll();
+    $master = Operator::model()->findByAttributes([
+      'Password' => Operator::generatePasswordHash($MasterPassword),
+      'EventId' => $operator->EventId,
+      'Role' => Operator::RoleAdmin
+    ]);
 
-    $hasAccess = false;
-    foreach ($masters as $master)
-    {
-      if ($master->Role == \ruvents\models\Operator::RoleAdmin && $master->EventId == $operator->EventId)
-      {
-        $hasAccess = true;
-        break;
-      }
-    }
+    if (!$master)
+      throw new Exception(102);
 
-    if ($hasAccess)
-    {
-      $operator->LastLoginTime = date('Y-m-d H:i:s');
-      $operator->save();
+    $operator->LastLoginTime = date('Y-m-d H:i:s');
+    $operator->save();
 
-      $response = new stdClass();
-      $response->OperatorId = $_POST['OperatorId'] = $operator->Id;
-      $response->Hash = $_POST['Hash'] = $operator->getAuthHash();
-      \ruvents\components\WebUser::Instance()->resetOperator();
-      $response->Event = $this->getDataBuilder()->createEvent();
-
-      echo json_encode($response);
-    }
-    else
-    {
-      throw new \ruvents\components\Exception(102);
-    }
+    $this->renderJson([
+      'OperatorId' => $operator->Id,
+      'Hash' => $operator->getAuthHash(),
+      'EventId' => $operator->EventId
+    ]);
   }
 }

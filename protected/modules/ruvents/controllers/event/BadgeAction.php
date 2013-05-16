@@ -6,7 +6,6 @@ class BadgeAction extends \ruvents\components\Action
   public function run()
   {
     $event = $this->getEvent();
-    /** @var $setting \ruvents\models\Setting */
     $setting = \ruvents\models\Setting::model()->byEventId($event->Id)->byName('badge')->find();
 
     $viewPath = '/badge/default';

@@ -1,19 +1,20 @@
 <?php
 namespace ruvents\components;
 
-class Controller extends \application\components\controllers\BaseController
+class Controller extends \CController
 {
-  const MaxResult = 1000;
+  /**
+   * Маппинг не только GET параметров свойствам экшенов, но и POST
+   * @return array
+   */
+  public function getActionParams()
+  {
+    return array_merge($_GET, $_POST);
+  }
 
   public function filters()
   {
-    $filters = parent::filters();
-    return array_merge(
-      $filters,
-      array(
-        'accessControl'
-      )
-    );
+    return ['accessControl'];
   }
 
   /** @var \ruvents\models\DetailLog */
@@ -43,12 +44,6 @@ class Controller extends \application\components\controllers\BaseController
       return true;
     }
     return false;
-  }
-
-  protected function setHeaders()
-  {
-    //header('Content-type: text/json; charset=utf-8');
-    header('Content-type: text/html; charset=utf-8');
   }
 
   /** @var AccessControlFilter */
@@ -143,5 +138,23 @@ class Controller extends \application\components\controllers\BaseController
       throw new Exception(111);
     }
     return $result;
+  }
+
+  /**
+   * Кодирует данные в JSON формат.
+   * Данные преобразуются в JSON формат, вставляются в layout текущего констроллера и отображаются.
+   * @param $data данные, которые будут преобразованы в JSON
+   */
+  public function renderJson($data)
+  {
+    // Рендер JSON
+    $json = json_encode($data, JSON_UNESCAPED_UNICODE);
+
+    // Оставим за разработчиком право обернуть возвращаемый JSON глобальным JSON объектом
+    if (($layoutFile = $this->getLayoutFile($this->layout)) !== false)
+      $json = $this->renderFile($layoutFile, array('content' => $json),true);
+
+    header('Content-type: application/json; charset=utf-8');
+    echo $json;
   }
 }
