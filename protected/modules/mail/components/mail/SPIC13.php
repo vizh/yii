@@ -17,7 +17,7 @@ class SPIC13 extends \mail\components\Mail
   
   public function getSubject()
   {
-    return 'Напоминание об оплате счета на СПИК-2013';
+    return 'Программа СПИК полностью готова!';
   }
   
   public function getBody()
