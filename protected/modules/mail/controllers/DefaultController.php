@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'spic13-3';
+    $template = 'spic13-4';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -55,16 +55,16 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
     $criteria->addInCondition('"Participants"."EventId"', array(423));
-    $criteria->addInCondition('"Participants"."RoleId"', array(3));
+    $criteria->addInCondition('"Participants"."RoleId"', array(2));
 
     $criteria->distinct = true;
 //    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -75,22 +75,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       foreach ($users as $user)
       {
+        /*
         $arPromo = array();
-        for($i = 0; $i < 3; $i++)
-        {
-          $coupon = new \pay\models\Coupon();
-          $coupon->EventId = 423;
-          $coupon->Discount = 1;
-          $coupon->ProductId = 733;
-          $coupon->Code = $coupon->generateCode();
-          $coupon->save();
-
-          $arPromo[] = $coupon->Code;
-        }
+        for($i = 0; $i < 3; $i++) $arPromo[] = $this->getPromo();
+        */
 
         // ПИСЬМО
 //        $body = $this->renderPartial($template, array('user' => $user), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
         $mail = new \ext\mailer\PHPMailer(false);
@@ -120,12 +113,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@sp-ic.ru', 'СПИК-2013', false);
 //        $mail->SetFrom('users@sp-ic.ru', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Докладчикам СПИК 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Памятка прессы на СПИК 2013 (статус СМИ)') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
 
-//        $mail->Send();
+        $mail->Send();
 
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
@@ -146,8 +139,19 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
    	$hash = substr(md5($runetId.$secret), 0, 16);
 
-    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/';
-//    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/my/waybill.php';
+//    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/';
+    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/my/waybill.php';
+  }
+
+  private function getPromo()
+  {
+    $coupon = new \pay\models\Coupon();
+    $coupon->EventId = 423;
+    $coupon->Discount = 1;
+    $coupon->ProductId = 733;
+    $coupon->Code = $coupon->generateCode();
+    $coupon->save();
+    return $coupon->Code;
   }
 
 }
