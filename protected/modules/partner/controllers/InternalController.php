@@ -18,6 +18,7 @@ class InternalController extends \partner\components\Controller
       'telekom13import' => '\partner\controllers\internal\import\Telekom13Action',
       'rifvrn13import' => '\partner\controllers\internal\Rifvrn13importAction',
       'mipacademy13import' => '\partner\controllers\internal\import\Mipacademy13Action',
+      'phdays13import' => '\partner\controllers\internal\import\Phdays13Action',
     );
   }
 }

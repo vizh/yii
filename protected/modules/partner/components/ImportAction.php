@@ -19,6 +19,11 @@ abstract class ImportAction extends Action
   /**
    * @return bool
    */
+  abstract public function getIsUserVisible();
+
+  /**
+   * @return bool
+   */
   abstract public function getIsNotify();
 
   /**
@@ -30,6 +35,7 @@ abstract class ImportAction extends Action
    * @return bool
    */
   abstract public function getIsEnable();
+
 
   /**
    * @return bool
@@ -131,18 +137,17 @@ abstract class ImportAction extends Action
   private function getUser($row)
   {
     $user = null;
-    if (!empty($row->Email))
-    {
-      $user = \user\models\User::model()->byEmail($row->Email)->find();
-      if ($user !== null)
-      {
-        $this->oldRunetId[] = $user->RunetId;
-      }
-    }
-    else
+
+    if (empty($row->Email))
     {
       $row->Email = 'nomail'.$this->getEventId().'+'.substr(md5($row->FirstName . $row->LastName . $row->Company), 0, 8).'@runet-id.com';
     }
+    $user = \user\models\User::model()->byEmail($row->Email)->find();
+    if ($user !== null)
+    {
+      $this->oldRunetId[] = $user->RunetId;
+    }
+
 
     if ($user === null)
     {
@@ -150,10 +155,10 @@ abstract class ImportAction extends Action
       $user->FirstName = $row->FirstName;
       $user->LastName = $row->LastName;
       $user->FatherName = $row->FatherName;
-      $user->Email = $row->Email;
+      $user->Email = strtolower($row->Email);
       $user->register($this->getIsNotify());
 
-      $user->Visible = false;
+      $user->Visible = $this->getIsUserVisible();
       $user->save();
 
       $this->newRunetId[] = $user->RunetId;
@@ -238,6 +243,13 @@ abstract class ImportAction extends Action
     }
 
     $event->skipOnRegister = true;
-    $event->RegisterUser($user, $role);
+    if (sizeof($event->Parts) == 0)
+    {
+      $event->RegisterUser($user, $role);
+    }
+    else
+    {
+      $event->registerUserOnAllParts($user, $role);
+    }
   }
 }
