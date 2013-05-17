@@ -456,6 +456,22 @@ class User extends \application\models\translation\ActiveRecord
   {
     return !empty($this->LinkAddress) ? $this->LinkAddress->Address : null;
   }
+  
+  /**
+   * 
+   * @param \address\models\Address $address
+   */
+  public function setContactAddress($address)
+  {
+    $linkAddress = $this->LinkAddress;
+    if ($linkAddress == null)
+    {
+      $linkAddress = new \user\models\LinkAddress();
+      $linkAddress->UserId = $this->Id;
+    }
+    $linkAddress->AddressId = $address->Id;
+    $linkAddress->save();
+  }
 
   /**
    * Добавляет пользователю адрес электронной почты

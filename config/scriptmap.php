@@ -26,8 +26,8 @@ return array(
           'depends' => array('runetid.jquery')
         ),
         'runetid.jquery.ui' => array(
-          'baseUrl' => '/',
-          'js' => array('javascripts/jquery-ui-1.9.0.custom.min.js', 'javascripts/jquery.ui.autocomplete.html.js'),
+          'baseUrl' => '/javascripts/',
+          'js' => array('jquery-ui-1.9.0.custom.min.js', 'jquery.ui.autocomplete.html.js'),
           'depends' => array('runetid.jquery')
         ),
         'runetid.admin.jquery.ui' => array(
