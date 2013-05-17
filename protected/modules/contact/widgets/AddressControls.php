@@ -3,6 +3,9 @@ namespace contact\widgets;
 class AddressControls extends \CWidget
 {
   public $form;
+  public $address = true;
+  public $place = true;
+  
   public function init()
   {
     \Yii::app()->clientScript->registerScriptFile(
@@ -12,6 +15,10 @@ class AddressControls extends \CWidget
 
   public function run()
   {
-    $this->render('addresscontrols', array('form' => $this->form));
+    $this->render('addresscontrols', array(
+      'form' => $this->form,
+      'address' => $this->address,
+      'place' => $this->place
+    ));
   }
 }

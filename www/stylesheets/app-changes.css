@@ -230,3 +230,11 @@ input.error {
 .user-career-item.primary {
   background-color: #EFFFE8;
 }
+
+li.ui-menu-item > a.ui-state-focus {
+  background: #0081C2;
+  background-image: linear-gradient(to bottom, #0088CC, #0077B3);
+  background-repeat: repeat-x;
+  color: #FFFFFF;
+  text-decoration: none;
+}

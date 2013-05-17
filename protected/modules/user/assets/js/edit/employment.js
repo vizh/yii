@@ -83,7 +83,6 @@ CUserEditEmployment.prototype = {
       item.addClass('primary');
       self.form.find('input[name*="Primary"]').not($(e.currentTarget)).removeAttr('checked');
     });
-    $('.ui-autocomplete').not('.ui-autocomplete_live-search').addClass('dropdown-menu');
   },
           
   createFillItem : function (data) {

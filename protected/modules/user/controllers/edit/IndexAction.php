@@ -18,6 +18,21 @@ class IndexAction extends \CAction
         $user->Gender     = $form->Gender;
         $user->Birthday   = \Yii::app()->dateFormatter->format('yyyy-MM-dd', $form->Birthday);
         $user->save();
+        
+        $address = $user->getContactAddress();
+        if (!$form->Address->getIsEmpty() || $address !== null)
+        {
+          if ($address == null)
+          {
+            $address = new \contact\models\Address();
+          }
+          $address->RegionId = $form->Address->RegionId;
+          $address->CountryId = $form->Address->CountryId;
+          $address->CityId = $form->Address->CityId;
+          $address->save();
+          $user->setContactAddress($address);
+        }
+        
         \Yii::app()->user->setFlash('success', \Yii::t('app', 'Основная информация профиля успешно сохранена!'));
         $this->getController()->refresh();
       }
@@ -29,6 +44,10 @@ class IndexAction extends \CAction
       $form->FatherName = $user->FatherName;
       $form->Gender     = $user->Gender;
       $form->Birthday   = \Yii::app()->dateFormatter->format('dd.MM.yyyy', $user->Birthday);
+      if ($user->getContactAddress() !== null)
+      {
+        $form->Address->attributes = $user->getContactAddress()->attributes;
+      }
     }
     
     $this->getController()->bodyId = 'user-account';

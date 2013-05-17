@@ -24,6 +24,13 @@ class Region extends \CActiveRecord
   {
     return 'Id';
   }
+  
+  public function relations()
+  {
+    return array(
+      'Country' => array(self::BELONGS_TO, 'geo\models\Country', 'CountryId'),
+    );
+  }
 
   /**
    * @static

@@ -13,6 +13,14 @@ $.widget("custom.catcomplete", $.ui.autocomplete, {
   }
 });
 
+$.widget("ui.autocomplete", $.ui.autocomplete, {
+  options : {
+    create: function(event, ui) {
+      $(this).autocomplete("widget").addClass("dropdown-menu");
+    }
+  }
+});
+
 
 /* DOM READY */
 $(function() {

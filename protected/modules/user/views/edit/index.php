@@ -38,6 +38,12 @@
             </div>
             
             <div class="form-row">
+              <?=\CHtml::activeLabel($form, 'Address');?>
+              <?$this->widget('\contact\widgets\AddressControls', array('form' => $form->Address, 'address' => false, 'place' => false));?>
+            </div>
+          
+          
+            <div class="form-row">
               <?foreach ($form->getGenderList() as $value => $title):?>
               <label class="radio inline">
                 <?=\CHtml::activeRadioButton($form, 'Gender', array('value' => $value,'uncheckValue' => null));?> <?=$title;?>
