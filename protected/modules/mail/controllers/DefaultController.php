@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'spic13-4';
+    $template = 'spic13-5';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -55,16 +55,16 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
     $criteria->addInCondition('"Participants"."EventId"', array(423));
-    $criteria->addInCondition('"Participants"."RoleId"', array(2));
+    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
     $criteria->distinct = true;
-//    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -113,12 +113,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@sp-ic.ru', 'СПИК-2013', false);
 //        $mail->SetFrom('users@sp-ic.ru', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Памятка прессы на СПИК 2013 (статус СМИ)') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Памятка участника СПИК 2013') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-03-28/newspaper-1.pdf');
 
-        $mail->Send();
+//        $mail->Send();
 
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
