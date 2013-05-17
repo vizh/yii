@@ -20,9 +20,11 @@
     <?foreach ($news as $newsItem):?>
     <div class="row clearfix">
       <div class="offset1 span10 news">
+        <? if(!strpos($newsImage = $newsItem->getPhoto()->get140px(), 'nophoto')): ?>
         <a href="<?=$newsItem->Url;?>" target="_blank">
-          <img src="<?=$newsItem->getPhoto()->get140px();?>" alt="<?=$newsItem->Title;?>" class="pull-left">
+          <img src="<?=$newsImage;?>" alt="<?=$newsItem->Title;?>" class="pull-left">
         </a>
+        <? endif; ?>
         <div class="details">
           <header>
             <h4 class="title">

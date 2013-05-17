@@ -44,48 +44,13 @@
               <img src="/modules<?php echo $this->layout;?>/images/logo-small.png" width="115" height="10" alt="-RUNET-ID-">
             </a>
             <ul class="nav">
-              <?/**
-              <li class="item"><a href="/events-list.html">Мероприятия</a></li>
-              <li class="item"><a href="http://therunet.com/">Новости</a></li>
-              <li class="item"><a href="/competences-list.html">Компетенции</a></li>
-              <li class="item"><a href="/jobs-list.html">Работа</a></li>
-              <li class="divider-vertical"></li>
-               * 
-               */?>
               <li class="account dropdown pull-right">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src=" <?php echo \Yii::app()->user->getCurrentUser()->GetMiniPhoto();?>" width="18" height="18" alt="" class="avatar">
                   <?php echo \Yii::app()->user->getCurrentUser()->GetFullName();?>
                   <b class="caret"></b>
                 </a>
-                <?/**
-                <ul class="dropdown-menu pull-right">
-                  <li>
-                    <a href="http://rocid.ru/321/">Личный кабинет</a>
-                  </li>
-                  <?/**
-                  <li>
-                    <a href="/index.html">Выйти</a>
-                  </li>
-                </ul>
-                 * 
-                 */?>
               </li>
-              <?/**
-              <li class="divider-vertical"></li>
-              <li class="lang dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  RU
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu pull-right">
-                  <li>
-                    <a href="#">EN</a>
-                  </li>
-                </ul>
-              </li>
-               * 
-               */?>
             </ul>
           </div>
         </div>
