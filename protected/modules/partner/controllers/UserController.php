@@ -13,7 +13,8 @@ class UserController extends \partner\components\Controller
       'ajaxget' => '\partner\controllers\user\AjaxGetAction',
       'register' => '\partner\controllers\user\RegisterAction',
       'statistics' => '\partner\controllers\user\StatisticsAction',
-      'export' => '\partner\controllers\user\ExportAction'
+      'export' => '\partner\controllers\user\ExportAction',
+      'import' => '\partner\controllers\user\ImportAction'
     );
   }
 
