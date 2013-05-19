@@ -19,45 +19,34 @@ class UpdatedUsersAction extends \ruvents\components\Action
     $fromUpdateTime = date('Y-m-d H:i:s', strtotime($fromUpdateTime));
 
     $pageToken = $request->getParam('PageToken', null);
-
-    $criteria = new \CDbCriteria();
-    $criteria->with = array(
-      'Participants' => array('together' => true, 'select' => false)
-    );
-    $criteria->addCondition('"Participants"."EventId" = :EventId');
-    $criteria->params['EventId'] = $this->getEvent()->Id;
-    $criteria->addCondition('"t"."UpdateTime" > :UpdateTime');
-    $criteria->params['UpdateTime'] = $fromUpdateTime;
-    $criteria->order = '"t"."UpdateTime" ASC';
-    $criteria->group = '"t"."Id"';
-
     $offset = 0;
     if ($pageToken !== null)
     {
       $offset = $this->getController()->parsePageToken($pageToken);
-    }
-    $criteria->limit = $byPage;
-    $criteria->offset = $offset;
-
-    $users = \user\models\User::model()->findAll($criteria);
-    $idList = array();
-    foreach ($users as $user)
-    {
-      $idList[] = $user->Id;
     }
 
     $criteria = new \CDbCriteria();
     $criteria->with = array(
       'Participants' => array('on' => '"Participants"."EventId" = :EventId', 'params' => array(
         'EventId' => $this->getEvent()->Id
-      )),
+      ), 'together' => false),
       'Employments' => array('together' => false),
       'Employments.Company' => array('together' => false),
-      'LinkPhones.Phone'
+      'LinkPhones.Phone' => array('together' => false)
     );
-    $criteria->order = '"t"."UpdateTime" ASC';
-    $criteria->addInCondition('"t"."Id"', $idList);
+    $criteria->order = '"t"."Id" ASC';
+    $criteria->addCondition('"t"."UpdateTime" > :UpdateTime');
+    $criteria->params['UpdateTime'] = $fromUpdateTime;
+    $criteria->addCondition('"t"."Id" IN (SELECT "EventParticipant"."UserId" FROM "EventParticipant" WHERE "EventParticipant"."EventId" = '.$this->getEvent()->Id.')');
+
+    $criteria->limit = $byPage;
+    $criteria->offset = $offset;
     $users = \user\models\User::model()->findAll($criteria);
+    $idList = array();
+    foreach ($users as $user)
+    {
+      $idList[] = $user->Id;
+    }
     $orderItems = $this->getOrderItems($idList);
     $badgesCount = $this->getBadgesCount($idList);
 
