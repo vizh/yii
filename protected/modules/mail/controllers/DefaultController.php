@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'phdays13-1';
+    $template = 'spic13-6';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -54,8 +54,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
-    $criteria->addInCondition('"Participants"."EventId"', array(497));
-//    $criteria->addInCondition('"Participants"."RoleId"', array(1));
+    $criteria->addInCondition('"Participants"."EventId"', array(423));
+    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
@@ -82,7 +82,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         // ПИСЬМО
 //        $body = $this->renderPartial($template, array('user' => $user), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'waybillLink' => $this->getWaybillLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -110,14 +110,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-//        $mail->SetFrom('users@sp-ic.ru', 'СПИК-2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('users@sp-ic.ru', 'СПИК-2013', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Вы зарегистрированы на Форум PHDays III') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Видеопросмотр СПИК 2013!') .'?=';
         $mail->Body = $body;
 
-        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
-        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
+//        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
+//        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
 
 //        $mail->Send();
 
@@ -134,6 +134,17 @@ class DefaultController extends \application\components\controllers\AdminMainCon
   }
 
   private function getRegLink($user)
+  {
+    $runetId = $user->RunetId;
+    $secret = 'xggMpIQINvHqR0QlZgZa';
+
+   	$hash = substr(md5($runetId.$secret), 0, 16);
+
+    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/';
+//    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/my/waybill.php';
+  }
+
+  private function getWaybillLink($user)
   {
     $runetId = $user->RunetId;
     $secret = 'xggMpIQINvHqR0QlZgZa';
