@@ -19,8 +19,8 @@ class Phdays13Action extends \partner\components\ImportAction
   public function getFieldMap()
   {
     return array(
-      'FirstName' => 0,
-      'LastName' => 1,
+      'FirstName' => 1,
+      'LastName' => 0,
       'FatherName' => 2,
       'Email' => 5,
       'Phone' => 6,
@@ -52,7 +52,7 @@ class Phdays13Action extends \partner\components\ImportAction
    */
   public function getFileName()
   {
-    return 'import1.csv';
+    return 'import4.csv';
   }
 
   /**

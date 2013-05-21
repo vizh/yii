@@ -77,6 +77,11 @@ abstract class Base
       throw new \pay\components\Exception('Оплачен неизвестный заказ номер ' . $this->getOrderId(), 201);
     }
 
+    if ($order->Paid)
+    {
+      throw new \pay\components\Exception('Заказ номер ' . $order->Id . 'уже оплачен', 204);
+    }
+
     $payResult = $order->activate();
 
     if ($this->getTotal() !== null)
