@@ -45,7 +45,7 @@ class Builder
     if (sizeof($this->events) > 0 || sizeof($this->eventsWithRoles) > 0)
     {
       $eventCriteria->with = array(
-        'Participants' => array('together' => true, 'select' => false)
+        'Participants' => array('together' => true)
       );
     }
     if (sizeof($this->events) > 0)

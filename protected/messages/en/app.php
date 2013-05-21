@@ -122,7 +122,8 @@ return array(
   'Пожалуйста, добавьте информацию об участниках для продолжения' => 'Please, add the information about the participants, for continue',
   
 
-  'offer-demo.pdf' => 'offer-demo-en.pdf'
+  'offer-demo.pdf' => 'offer-demo-en.pdf',
 
-
+  'Участник' => 'Participant',
+  'СМИ' => 'PRESS'
 );

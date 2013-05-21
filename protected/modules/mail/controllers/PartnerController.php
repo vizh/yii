@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'SPIC13-16.05.2013';
+    return 'PhDays13-21.05.2013';
   }
 
   /**
@@ -22,7 +22,7 @@ class PartnerController extends \mail\components\MailerController
   public function actionSend($step = 0)
   {
     return;
-    $test = true;
+    $test = false;
 
     $step = \Yii::app()->request->getParam('step', 0);
     set_time_limit(84600);
@@ -31,13 +31,14 @@ class PartnerController extends \mail\components\MailerController
     if (!$test)
     {
       $builder = new \mail\components\Builder();
-      $builder->addEvent(423);
+      $builder->addEvent(497);
       $criteria = $builder->getCriteria();
+      $criteria->addInCondition('"t"."RunetId"', $runetIdList);
     }
     else
     {
       $builder = new \mail\components\Builder();
-      $builder->addEvent(423);
+      $builder->addEvent(497);
       $criteria = $builder->getCriteria();
       $criteria->addInCondition('"t"."RunetId"', array(321));
     }
@@ -47,13 +48,13 @@ class PartnerController extends \mail\components\MailerController
     $count = \user\models\User::model()->byVisible(true)->count($criteria);
     echo 'Получателей:'. $count.'<br/>';
     
-    
     $users = \user\models\User::model()->byVisible(true)->findAll($criteria);
     $mailer = new \mail\components\Mailer();
     foreach ($users as $user)
     {
-      $mail = new \mail\components\mail\SPIC13();
+      $mail = new \mail\components\mail\PhDays13();
       $mail->user = $user;
+      $mail->role = $user->Participants[0]->Role;
       $mail->getBody();
       $mailer->send($mail, $user->Email, false);
       if (!$test)
