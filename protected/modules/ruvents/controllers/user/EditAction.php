@@ -69,6 +69,7 @@ class EditAction extends \ruvents\components\Action
       }
     }
 
+    $form->Birthday = \Yii::app()->dateFormatter->format('dd.MM.yyyy', $form->Birthday);
     if ($form->validate())
     {
       $user->FirstName = $form->FirstName;
@@ -91,6 +92,11 @@ class EditAction extends \ruvents\components\Action
   {
     $request = \Yii::app()->getRequest();
     $email = $request->getParam('Email', null);
+    $email = strtolower($email);
+    if ($user->Email == $email)
+    {
+      return;
+    }
     if ($email !== null)
     {
       $emailValidator = new \CEmailValidator();
@@ -98,7 +104,7 @@ class EditAction extends \ruvents\components\Action
       {
         throw new \ruvents\components\Exception(205);
       }
-      $checkUser = \user\models\User::model()->byEmail($email)->find();
+      $checkUser = \user\models\User::model()->byEmail($email)->byVisible(true)->find();
       if ($checkUser !== null && $checkUser->Id != $user->Id)
       {
         throw new \ruvents\components\Exception(206);
