@@ -22,9 +22,9 @@ namespace pay\models;
  * @property CouponActivationLinkOrderItem $CouponActivationLink
  * @property OrderItemAttribute[] $Attributes
  *
- * @method \pay\models\OrderItem findByPk()
- * @method \pay\models\OrderItem find()
- * @method \pay\models\OrderItem[] findAll()
+ * @method \pay\models\Order findByPk()
+ * @method \pay\models\Order find()
+ * @method \pay\models\Order[] findAll()
  */
 class OrderItem extends \CActiveRecord
 {
