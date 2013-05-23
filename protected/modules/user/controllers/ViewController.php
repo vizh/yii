@@ -20,7 +20,8 @@ class ViewController extends \application\components\controllers\PublicMainContr
       ),
       'LinkProfessionalInterests' => array(
         'together' => false
-      )
+      ),
+      'LinkProfessionalInterests.ProfessionalInterest'
     );
     /** @var $user \user\models\User */
     $user = \user\models\User::model()->byRunetId($runetId)->byVisible()->find($criteria);
@@ -118,8 +119,47 @@ class ViewController extends \application\components\controllers\PublicMainContr
     $this->render('index', array(
       'user' => $user, 
       'participation' => $participation,
-      'professionalInterests' => $professionalInterests
+      'professionalInterests' => $professionalInterests,
+      'recommendedEvents' => $this->getRecommendedEvents($user)
     ));
+  }
+  
+  
+  private function getRecommendedEvents($user)
+  {
+    $events = array();
+    if (!empty($user->LinkProfessionalInterests))
+    {
+      $professionalInterestListId = array();
+      foreach ($user->LinkProfessionalInterests as $linkProfessionalInterest)
+      {
+        $professionalInterestListId[] = $linkProfessionalInterest->ProfessionalInterestId;
+      }
+      $criteria = new \CDbCriteria();
+      $criteria->with  = array('LinkProfessionalInterests' => array('together' => true));
+      $criteria->limit = \Yii::app()->params['UserViewMaxRecommendedEvents'];
+      $criteria->addInCondition('"LinkProfessionalInterests"."ProfessionalInterestId"', $professionalInterestListId);
+      $events += \event\models\Event::model()
+        ->byFromDate(date('Y'), date('n'), date('j'))->byVisible()->orderByDate()->findAll($criteria);
+    }
+    
+    if (sizeof($events) < \Yii::app()->params['UserViewMaxRecommendedEvents'])
+    {
+      $criteria = new \CDbCriteria();
+      $criteria->limit = \Yii::app()->params['UserViewMaxRecommendedEvents'] - sizeof($events);
+      if (!empty($events))
+      { 
+        $excludedEventIdList = array(); 
+        foreach ($events as $event)
+        {
+          $excludedEventIdList[] = $event->Id;
+        }
+        $criteria->addNotInCondition('"t"."Id"', $excludedEventIdList);
+      }
+      $events += \event\models\Event::model()->byFromDate(date('Y'), date('n'), date('j'))
+        ->byVisible()->orderByDate()->findAll($criteria);
+    }
+    return $events;
   }
 }
 
