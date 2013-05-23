@@ -52,6 +52,11 @@ class EditAction extends \ruvents\components\Action
     $form = new \user\models\forms\edit\Main();
     foreach ($form->getAttributes() as $name => $value)
     {
+      //todo: переписать
+      if ($name === 'Address')
+      {
+        continue;
+      }
       $newValue = $request->getParam($name, null);
       if ($newValue !== null)
       {
