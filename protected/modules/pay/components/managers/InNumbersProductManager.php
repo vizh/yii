@@ -18,18 +18,24 @@ class InNumbersProductManager extends BaseProductManager
     return true;
   }
 
+
   /**
-   * Оформляет покупку продукта на пользователя
    * @param \user\models\User $user
+   * @param \pay\models\OrderItem $orderItem
    * @param array $params
+   *
    * @return bool
    */
-  public function internalBuyProduct($user, $params = array())
+  public function internalBuyProduct($user, $orderItem = null, $params = array())
   {
+
     $params = array();
-    $params['rocid'] = $user->RunetId;
+    $params['OrderItemId'] = $orderItem->Id;
     $params['RunetId'] = $user->RunetId;
-    $params['key'] = self::PrivateKey;
+    $params['Key'] = self::PrivateKey;
+    $query = urldecode(http_build_query($params));
+    $params['Hash'] = md5($query);
+    unset($params['Key']);
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, self::CallbackUrl . '?' . http_build_query($params));

@@ -62,7 +62,7 @@ class EventAllParts extends BaseProductManager
    * @param array $params
    * @return bool
    */
-  public function internalBuyProduct($user, $params = array())
+  public function internalBuyProduct($user, $orderItem = null, $params = array())
   {
     $this->product->Event->registerUserOnAllParts($user, $this->role);
 

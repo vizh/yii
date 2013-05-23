@@ -364,7 +364,7 @@ class OrderItem extends \CActiveRecord
       $this->save();
       return false;
     }
-    $this->Product->getManager()->buyProduct($owner);
+    $this->Product->getManager()->buyProduct($owner, $this);
     $this->Paid = true;
     $this->PaidTime = ($order!== null && $order->Juridical) ? $order->CreationTime : date('Y-m-d H:i:s');
     $this->save();

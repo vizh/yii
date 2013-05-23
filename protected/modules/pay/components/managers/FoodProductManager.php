@@ -24,7 +24,7 @@ class FoodProductManager extends BaseProductManager
    *
    * @return bool
    */
-  protected function internalBuyProduct($user, $params = array())
+  protected function internalBuyProduct($user, $orderItem = null, $params = array())
   {
     // TODO: Implement internalBuyProduct() method.
   }

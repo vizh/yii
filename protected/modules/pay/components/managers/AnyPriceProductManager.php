@@ -29,7 +29,7 @@ class AnyPriceProductManager extends BaseProductManager
    * @param array $params
    * @return bool
    */
-  public function internalBuyProduct($user, $params = array())
+  public function internalBuyProduct($user, $orderItem = null, $params = array())
   {
     return true;
   }

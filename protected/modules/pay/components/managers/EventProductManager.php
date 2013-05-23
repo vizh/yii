@@ -46,7 +46,7 @@ class EventProductManager extends BaseProductManager
    *
    * @return bool
    */
-  public function internalBuyProduct($user, $params = array())
+  public function internalBuyProduct($user, $orderItem = null, $params = array())
   {
     /** @var $role \event\models\Role */
     $role = \event\models\Role::model()->findByPk($this->RoleId);

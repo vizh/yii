@@ -102,11 +102,12 @@ abstract class BaseProductManager
   /**
    * Проверяет возможность покупки и оформляет покупку продукта на пользователя
    * @param \user\models\User $user
+   * @param \pay\models\OrderItem $orderItem
    * @param array $params
    *
    * @return bool
    */
-  final public function buyProduct($user, $params = array())
+  final public function buyProduct($user, $orderItem = null, $params = array())
   {
     if (!$this->checkProduct($user, $params))
     {
@@ -118,11 +119,14 @@ abstract class BaseProductManager
   /**
    * Оформляет покупку продукта на пользователя
    * @abstract
+   *
    * @param \user\models\User $user
+   * @param \pay\models\OrderItem $orderItem
    * @param array $params
+   *
    * @return bool
    */
-  abstract protected function internalBuyProduct($user, $params = array());
+  abstract protected function internalBuyProduct($user, $orderItem = null, $params = array());
   
   /**
    * Отменяет покупку продукта на пользовтеля
