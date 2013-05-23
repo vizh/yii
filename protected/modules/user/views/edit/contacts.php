@@ -46,6 +46,11 @@
 
             <?=$this->renderPartial('parts/form-alert', array('form' => $form));?>
               <div class="form-row">
+                <?=\CHtml::activeLabel($form, 'Address');?>
+                <?$this->widget('\contact\widgets\AddressControls', array('form' => $form->Address, 'address' => false, 'place' => false));?>
+              </div>
+          
+              <div class="form-row">
                 <?=\CHtml::activeLabel($form, 'Email');?>
                 <?=\CHtml::activeTextField($form, 'Email', array('class' => 'span5'));?>
               </div>

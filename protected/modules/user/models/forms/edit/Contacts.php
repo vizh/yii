@@ -7,6 +7,26 @@ class Contacts extends \CFormModel
   public $Site;
   public $Phones = array();
   public $Accounts = array();
+  public $Address;
+
+  public function __construct($scenario = '')
+  {
+    $this->Address = new \contact\models\forms\Address();
+    return parent::__construct($scenario);
+  }
+  
+  public function validate($attributes = null, $clearErrors = true)
+  {
+    $this->Address->attributes = \Yii::app()->request->getParam(get_class($this->Address));
+    if (!$this->Address->validate())
+    {
+      foreach ($this->Address->getErrors() as $messages)
+      {
+        $this->addError('Address', $messages[0]);
+      }
+    }
+    return parent::validate($attributes, false);
+  }
   
   public function rules()
   {
@@ -25,7 +45,8 @@ class Contacts extends \CFormModel
     return array(
       'Site' => \Yii::t('app', 'Сайт'),
       'Phones' => \Yii::t('app', 'Телефоны'),
-      'Accounts' => \Yii::t('app', 'Аккаунты в социальных сетях')
+      'Accounts' => \Yii::t('app', 'Аккаунты в социальных сетях'),
+      'Address' => \Yii::t('app', 'Город')
     );
   }
 
