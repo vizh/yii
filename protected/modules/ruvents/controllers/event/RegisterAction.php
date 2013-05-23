@@ -29,12 +29,13 @@ class RegisterAction extends \ruvents\components\Action
     {
       if (sizeof($event->Parts) > 0)
       {
-        $part = \event\models\Part::model()->findByPk($partId);
-        if ($part === null)
-        {
-          throw new \ruvents\components\Exception(306, array($partId));
-        }
-        $event->registerUserOnPart($part, $user, $role);
+//        $part = \event\models\Part::model()->findByPk($partId);
+//        if ($part === null)
+//        {
+//          throw new \ruvents\components\Exception(306, array($partId));
+//        }
+//        $event->registerUserOnPart($part, $user, $role);
+        $event->registerUserOnAllParts($user, $role);
       }
       else
       {

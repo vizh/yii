@@ -50,6 +50,9 @@ class PayAction extends \partner\components\Action
       $totalPhysical += $item->getPriceDiscount();
     }
 
+
+
+
     $this->getController()->render('pay', array(
       'allOrdersCount' => $allOrdersCount,
       'paidOrdersCount' => $paidOrdersCount,

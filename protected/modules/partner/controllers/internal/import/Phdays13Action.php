@@ -52,7 +52,7 @@ class Phdays13Action extends \partner\components\ImportAction
    */
   public function getFileName()
   {
-    return 'import4.csv';
+    return 'import5.csv';
   }
 
   /**
@@ -79,6 +79,9 @@ class Phdays13Action extends \partner\components\ImportAction
       case 'participant':
         return 1;
         break;
+      case 'press':
+        return 2;
+        break;
       case 'speaker':
         return 3;
         break;
@@ -87,6 +90,9 @@ class Phdays13Action extends \partner\components\ImportAction
         break;
       case 'организаторы':
         return 6;
+        break;
+      case 'ctf':
+        return 1;
         break;
       default:
         return 0;
