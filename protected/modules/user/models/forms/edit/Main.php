@@ -1,5 +1,11 @@
 <?php
 namespace user\models\forms\edit;
+
+/**
+ * Содержит основные поля пользователя из модели User
+ *
+ * @package user\models\forms\edit
+ */
 class Main extends \user\models\forms\edit\Base
 {
   public $LastName;

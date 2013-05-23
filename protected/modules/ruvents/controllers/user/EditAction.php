@@ -160,18 +160,20 @@ class EditAction extends \ruvents\components\Action
     {
       if (sizeof($this->getEvent()->Parts) > 0)
       {
-        $partId = (int)\Yii::app()->getRequest()->getParam('PartId');
-        /** @var $part \event\models\Part */
-        $part = \event\models\Part::model()->findByPk($partId);
-        if ($part === null || $part->EventId !== $this->getEvent()->Id)
-        {
-          throw new \ruvents\components\Exception(306);
-        }
-        $this->getEvent()->registerUserOnPart($part, $user, $role);
-        if ($part !== null)
-        {
-          $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Part', $part->Id, $part->Id));
-        }
+        //todo: phDays
+        $this->getEvent()->registerUserOnAllParts($user, $role);
+//        $partId = (int)\Yii::app()->getRequest()->getParam('PartId');
+//        /** @var $part \event\models\Part */
+//        $part = \event\models\Part::model()->findByPk($partId);
+//        if ($part === null || $part->EventId !== $this->getEvent()->Id)
+//        {
+//          throw new \ruvents\components\Exception(306);
+//        }
+//        $this->getEvent()->registerUserOnPart($part, $user, $role);
+//        if ($part !== null)
+//        {
+//          $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Part', $part->Id, $part->Id));
+//        }
       }
       else
       {

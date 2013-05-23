@@ -7,7 +7,10 @@ class CreateAction extends \ruvents\components\Action
   {
     $request = \Yii::app()->getRequest();
     $runetId = $request->getParam('RunetId', null);
-    $partId = $request->getParam('PartId', null);
+    //$partId = $request->getParam('PartId', null);
+
+    //todo: для PHDays
+    $partId = $request->getParam('PartId', 7);
 
 
     $event = $this->getEvent();
