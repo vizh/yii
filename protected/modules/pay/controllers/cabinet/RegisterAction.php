@@ -75,7 +75,7 @@ class RegisterAction extends \pay\components\Action
     }
     else
     {
-      if (!empty($countRows))
+      if (!empty($countRows) && !$this->getUser()->Temporary)
       {
         $countRows = array_filter($countRows, function($value) {
           return $value != 0;
