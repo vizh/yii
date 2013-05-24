@@ -18,6 +18,10 @@ namespace pay\models;
  * @property OrderJuridical $OrderJuridical
  * @property \user\models\User $Payer
  * @property \event\models\Event $Event
+ *
+ * @method \pay\models\Order findByPk()
+ * @method \pay\models\Order find()
+ * @method \pay\models\Order[] findAll()
  */
 class Order extends \CActiveRecord
 {

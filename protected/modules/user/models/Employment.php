@@ -3,7 +3,7 @@ namespace user\models;
 
 
 /**
- * @property int EmploymentId
+ * @property int $Id
  * @property int $UserId
  * @property int $CompanyId
  * @property int $StartYear

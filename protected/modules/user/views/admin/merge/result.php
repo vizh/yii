@@ -1,8 +1,15 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: Alaris
- * Date: 5/22/13
- * Time: 11:02 AM
- * To change this template use File | Settings | File Templates.
+ * @var $user \user\models\User
  */
+?>
+
+<div class="row-fluid">
+  <div class="span8 offset2">
+    <div class="alert alert-success">
+      <h3>Пользователи успешно объеденены</h3>
+
+      <p>Посмотреть профиль: <a class="large" target="_blank" href="<?=$user->getUrl();?>"><?=$user->RunetId;?></a></p>
+    </div>
+  </div>
+</div>

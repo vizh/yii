@@ -17,6 +17,11 @@ namespace event\models\section;
  */
 class LinkUser extends \CActiveRecord
 {
+  /**
+   * @param string $className
+   *
+   * @return LinkUser
+   */
   public static function model($className=__CLASS__)
   {    
     return parent::model($className);
