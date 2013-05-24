@@ -10,7 +10,7 @@ return array(
       
     'EventViewUserPerPage' => 16,
       
-    'UserViewMaxRecommendedEvents' => 24,
+    'UserViewMaxRecommendedEvents' => 4,
 
     'CompanyPerPage' => 20, // Количество результатов компаний на страницу
     'CompanyLogoDir' => '/files/logo/', //

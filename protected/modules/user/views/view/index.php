@@ -237,37 +237,27 @@ $(window).load(function() {
     </div>
   </h4>    
   <div id="participate-events" class="container">
-    <div class="slider">
-      <div class="slides">
-        <?$rowCount = 0;?>
-        <?while($rowCount < sizeof($recommendedEvents)):?>
-          <div class="slide row">
-          <?foreach (array_slice($recommendedEvents, $rowCount, 4) as $event):?>
-            <div class="i span3">
-              <header class="h">
-                <div class="date">
-                  <?$this->widget('\event\widgets\Date', array('event' => $event));?>
-                </div>
-                <p class="tx muted"><?=$event->Type->Title;?></p>
-                <h5 class="t"><a href="<?=$event->getUrl();?>"><?=$event->Title;?></a></h5>
-              </header>
-              <article class="cnt">
-                <p class="tx"><?=$event->Info;?></p>
-              </article>
-              <footer class="f">
-                <a href="<?=$event->getUrl();?>" class="a">
-                  <i class="icon-circle-arrow-right"></i><?=\Yii::t('app', 'Посетить мероприятие');?>
-                </a>
-              </footer>
+    <div class="row">
+      <?foreach ($recommendedEvents as $event):?>
+        <div class="i span3">
+          <header class="h">
+            <div class="date">
+              <?$this->widget('\event\widgets\Date', array('event' => $event));?>
             </div>
-          <?endforeach;?>
-          </div>
-          <?$rowCount+=4;?>
-        <?endwhile;?>
-      </div>
+            <p class="tx muted"><?=$event->Type->Title;?></p>
+            <h5 class="t"><a href="<?=$event->getUrl();?>"><?=$event->Title;?></a></h5>
+          </header>
+          <article class="cnt">
+            <p class="tx"><?=\application\components\utility\Texts::cropText($event->Info,200);?></p>
+          </article>
+          <footer class="f">
+            <a href="<?=$event->getUrl();?>" class="a">
+              <i class="icon-circle-arrow-right"></i><?=\Yii::t('app', 'Посетить мероприятие');?>
+            </a>
+          </footer>
+        </div>
+      <?endforeach;?>
     </div>
-    <i id="participate-events_prev" class="icon-chevron-left"></i>
-    <i id="participate-events_next" class="icon-chevron-right"></i>
   </div>
 </div>
 

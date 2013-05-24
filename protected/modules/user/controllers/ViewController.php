@@ -127,7 +127,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
   
   private function getRecommendedEvents($user)
   {
-    $events = array();
+    $result = array();
     if (!empty($user->LinkProfessionalInterests))
     {
       $professionalInterestListId = array();
@@ -139,8 +139,10 @@ class ViewController extends \application\components\controllers\PublicMainContr
       $criteria->with  = array('LinkProfessionalInterests' => array('together' => true));
       $criteria->limit = \Yii::app()->params['UserViewMaxRecommendedEvents'];
       $criteria->addInCondition('"LinkProfessionalInterests"."ProfessionalInterestId"', $professionalInterestListId);
-      $events += \event\models\Event::model()
+      $events = \event\models\Event::model()
         ->byFromDate(date('Y'), date('n'), date('j'))->byVisible()->orderByDate()->findAll($criteria);
+      
+      $result = array_merge($result, $events);
     }
     
     if (sizeof($events) < \Yii::app()->params['UserViewMaxRecommendedEvents'])
@@ -156,10 +158,12 @@ class ViewController extends \application\components\controllers\PublicMainContr
         }
         $criteria->addNotInCondition('"t"."Id"', $excludedEventIdList);
       }
-      $events += \event\models\Event::model()->byFromDate(date('Y'), date('n'), date('j'))
-        ->byVisible()->orderByDate()->findAll($criteria);
+      $events = \event\models\Event::model()
+        ->byFromDate(date('Y'), date('n'), date('j'))->byVisible()->orderByDate()->findAll($criteria);
+      
+      $result = array_merge($result, $events);
     }
-    return $events;
+    return $result;
   }
 }
 
