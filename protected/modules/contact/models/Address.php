@@ -52,7 +52,15 @@ class Address extends \application\models\translation\ActiveRecord
   
   public function getShort()
   {
-    $address = \Yii::t('app', 'г.').' '. $this->City->Name .', '.$this->Street.', '.\Yii::t('app', 'д.').' '.$this->House;
+    $address = \Yii::t('app', 'г.').' '. $this->City->Name;
+    if (!empty($this->Street))
+    {
+      $address .= ', '.$this->Street;
+    }
+    if (!empty($this->House))
+    {
+      $address .= ', '.\Yii::t('app', 'д.').' '.$this->House;
+    }
     if (!empty($this->Building))
     {
       $address .= ', '.\Yii::t('app', 'стр.').' '.$this->Building;
