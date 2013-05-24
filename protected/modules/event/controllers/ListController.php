@@ -113,12 +113,5 @@ class ListController extends \application\components\controllers\PublicMainContr
   {
     $this->render('index');
   }
-  
- 
-  
-  public function actionCalendar()
-  {
-    $this->bodyId = 'events-calendar';
-    $this->render('calendar');
-  }
+
 }

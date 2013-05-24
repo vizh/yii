@@ -82,9 +82,6 @@ return array(
         'http://'. RUNETID_HOST.'/events/<Year:\d{4}>/<Month:\d{1,2}>' => 'event/list/index',
         'http://'. RUNETID_HOST.'/events/' => 'event/list/index',
 
-        'http://'. RUNETID_HOST.'/events/calendar/<Year:\d{4}>/<Month:\d{1,2}>' => 'event/list/calendar',
-        'http://'. RUNETID_HOST.'/events/calendar/' => 'event/list/calendar',
-
         'http://'. RUNETID_HOST.'/event/<idName>/' => 'event/view/index',
         'http://'. RUNETID_HOST.'/event/<idName>/users/' => 'event/view/users',
         

@@ -12,16 +12,8 @@
   <?php echo \CHtml::form('', 'POST', array('class' => 'form-inline form-filter span12'));?>
     <?php echo \CHtml::activeDropDownList($filter, 'Type', $filter->getTypeList($month, $year),array('class' => 'span3 form-element_select'));?>
     <?php echo \CHtml::activeDropDownList($filter, 'City', $filter->getCityList($month, $year),array('class' => 'span3 form-element_select'));?>
-    <?php echo \CHtml::activeTextField($filter, 'Query', array('placeholder' => \Yii::t('app', 'Поиск'), 'class' => 'span3'));?>
+    <?php echo \CHtml::activeTextField($filter, 'Query', array('placeholder' => \Yii::t('app', 'Поиск мероприятия'), 'class' => 'span5'));?>
     <?php echo \CHtml::imageButton('/images/search-type-image-light.png', array('width' => '20', 'height' => '19', 'class' => 'form-element_image'));?>
-    <div class="clearfix pull-right switch-layout">
-      <a href="javascript:void(null);" class="pull-left current">
-        <img src="/images/blank.gif" alt="" class="i-event-layout i-event_list">
-      </a>
-      <a href="<?php echo $this->createUrl('/event/list/calendar', array('Month' => $month, 'Year' => $year));?>" class="pull-left">
-        <img src="/images/blank.gif" alt="" class="i-event-layout i-event_calendar">
-      </a>
-    </div>
   <?php echo \CHtml::endForm();?>
 </div>
 

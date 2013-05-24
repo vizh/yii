@@ -261,14 +261,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 }
 .form-filter .dropdown .dropdown-menu {min-width: 100px;}
 
-/* Switch layout */
-.form-filter .switch-layout {margin-top: 6px;}
-.form-filter .switch-layout a {
-  margin: 0 15px;
-  text-decoration: none;
-}
-.form-filter .switch-layout a.current {cursor: default;}
-
 
 /* COMMENTS */
 .b-comments {
@@ -766,51 +758,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   left: 0;
   width: 0;
   height: 0;
-}
-#events-calendar_content {position: relative;}
-
-.events-calendar {margin: 50px 0 100px;}
-.events-calendar .event {
-  position: absolute;
-  width: 185px;
-  border: 2px solid #e6e6e6;
-}
-.events-calendar .event:hover {
-  z-index: 999;
-  border: 2px solid #1a1a1a;
-}
-.events-calendar .event.datetime {
-  position: absolute;
-  border: 2px solid transparent;
-}
-.events-calendar .event.datetime .date {
-  padding: 10px 20px 5px 0;
-  width: 60px;
-  color: #f89406;
-  text-align: right;
-  font-weight: bold;
-  font-size: 30px;
-}
-.events-calendar .event.highlight {background: #f7f7f7;}
-
-.events-calendar .event .details {
-  padding: 10px;
-  width: 165px;
-}
-.events-calendar .event .details footer nav a:not(:first-child) {
-  display: inline-block;
-  color: #999;
-}
-.events-calendar .event .details footer nav a i {margin-right: 5px;}
-.events-calendar .event .details footer nav a:not(:first-child) i {opacity: .25;}
-
-.events-calendar .event .scroll {
-  top: 100px;
-  z-index: 1000;
-}
-.events-calendar .event .p-absolute {
-  top: auto;
-  bottom: 0;
 }
 
 /* Event -> Promo */
