@@ -29,16 +29,18 @@ class InNumbersProductManager extends BaseProductManager
   public function internalBuyProduct($user, $orderItem = null, $params = array())
   {
 
-    $params = array();
-    $params['OrderItemId'] = $orderItem->Id;
-    $params['RunetId'] = $user->RunetId;
-    $params['Key'] = self::PrivateKey;
-    $query = urldecode(http_build_query($params));
-    $params['Hash'] = md5($query);
-    unset($params['Key']);
+    $external = array();
+    $external['OrderItemId'] = $orderItem->Id;
+    $external['RunetId'] = $user->RunetId;
+    $external['Key'] = self::PrivateKey;
+    $query = urldecode(http_build_query($external));
+    $external['Hash'] = md5($query);
+    unset($external['Key']);
+
+    \Yii::log(http_build_query($external), \CLogger::LEVEL_ERROR);
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, self::CallbackUrl . '?' . http_build_query($params));
+    curl_setopt($ch, CURLOPT_URL, self::CallbackUrl . '?' . http_build_query($external));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
     curl_setopt($ch, CURLOPT_TIMEOUT, 10);

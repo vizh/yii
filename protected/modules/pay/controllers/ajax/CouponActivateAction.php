@@ -17,7 +17,7 @@ class CouponActivateAction extends \pay\components\Action
     /** @var $coupon \pay\models\Coupon */
     $coupon = \pay\models\Coupon::model()->byCode($code)->byEventId($event->Id)->find();
     if ($coupon == null
-      || ($coupon->ProductId !== null && $coupon->ProductId != $productId))
+      || ($coupon->ProductId !== null && $coupon->ProductId != $productId && $coupon->Discount != 1))
     {
       $result->error = \Yii::t('app', 'Указан неверный код купона');
       $result->success = false;
