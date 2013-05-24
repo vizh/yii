@@ -86,7 +86,7 @@ class MainController extends \oauth\components\Controller
         {
           \Yii::app()->user->login($identity);
         }
-
+        \user\models\Log::create(\Yii::app()->user->getCurrentUser());
         if (isset($socialProxy) && $socialProxy->isHasAccess())
         {
           $socialProxy->saveSocialData(\Yii::app()->user->getCurrentUser());
@@ -144,7 +144,7 @@ class MainController extends \oauth\components\Controller
         {
           $socialProxy->saveSocialData($user);
         }
-
+        \user\models\Log::create($user);
         $this->redirect($this->createUrl('/oauth/main/dialog'));
       }
       else
