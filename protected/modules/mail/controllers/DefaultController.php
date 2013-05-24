@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'spic13-7';
-    $isHTML = false;
+    $template = 'demo13-html-2';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -54,8 +54,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
-    $criteria->addInCondition('"Participants"."EventId"', array(423));
-    $criteria->addNotInCondition('"Participants"."RoleId"', array(24));
+    $criteria->addInCondition('"Participants"."EventId"', array(391));
+//    $criteria->addNotInCondition('"Participants"."RoleId"', array(24));
 /*
     $criteria->addCondition('"t"."CreationTime" > :CreationTime');
     $criteria->params['CreationTime'] = '2013-05-21 00:00:00';
@@ -66,10 +66,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 18120, 454));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -115,16 +115,16 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('users@sp-ic.ru', 'СПИК-2013', false);
-//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('users@sp-ic.ru', 'СПИК-2013', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('ИТОГИ СПИК 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('DEMO, главный мировой смотр стартапов, пройдет в Москве') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
 
-//        $mail->Send();
+        $mail->Send();
 
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
