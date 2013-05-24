@@ -63,6 +63,9 @@ class MergeController extends \application\components\controllers\AdminMainContr
     $this->mergeFinancial();
     $this->mergeProfessional();
     $this->mergeCommissions();
+
+    $this->userSecond->Visible = false;
+    $this->userSecond->save();
   }
 
   private function mergeCommissions()
@@ -292,8 +295,6 @@ class MergeController extends \application\components\controllers\AdminMainContr
     $this->user->Email = $this->userSecond->Email;
     $this->userSecond->Email = $email;
     $this->user->save();
-
-    $this->userSecond->Visible = false;
     $this->userSecond->save();
   }
 
