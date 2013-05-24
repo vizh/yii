@@ -256,3 +256,24 @@ li.ui-menu-item > a.ui-state-focus {
   color: #FFFFFF;
   text-decoration: none;
 }
+
+.ico16 {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  vertical-align: text-top;
+}
+.ico16_social {
+  background-image: url('/img/ico_social.png');
+  background-repeat: no-repeat;
+}
+.ico16_social__facebook {
+  background-position: 0 0;
+}
+.ico16_social__twitter {
+  background-position: -16px 0;
+}
+.ico16_social__vkontakte {
+  background-position: -32px 0;
+}

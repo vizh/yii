@@ -30,6 +30,7 @@ class PartnerController extends \mail\components\MailerController
     
     if (!$test)
     {
+      $runetIdList = array(156865);
       $builder = new \mail\components\Builder();
       $builder->addEvent(497);
       $criteria = $builder->getCriteria();

@@ -226,6 +226,50 @@ $(window).load(function() {
     <?endif;?>
   </div>
 </div>
+  
+<div class="b-participate"> 
+  <h4 class="b-header_large light">
+    <div class="line"></div>
+    <div class="container">
+      <div class="title">
+        <span class="backing text">Примите участие</span>
+      </div>
+    </div>
+  </h4>    
+  <div id="participate-events" class="container">
+    <div class="slider">
+      <div class="slides">
+        <?$rowCount = 0;?>
+        <?while($rowCount < sizeof($recommendedEvents)):?>
+          <div class="slide row">
+          <?foreach (array_slice($recommendedEvents, $rowCount, 4) as $event):?>
+            <div class="i span3">
+              <header class="h">
+                <div class="date">
+                  <?$this->widget('\event\widgets\Date', array('event' => $event));?>
+                </div>
+                <p class="tx muted"><?=$event->Type->Title;?></p>
+                <h5 class="t"><a href="<?=$event->getUrl();?>"><?=$event->Title;?></a></h5>
+              </header>
+              <article class="cnt">
+                <p class="tx"><?=$event->Info;?></p>
+              </article>
+              <footer class="f">
+                <a href="<?=$event->getUrl();?>" class="a">
+                  <i class="icon-circle-arrow-right"></i><?=\Yii::t('app', 'Посетить мероприятие');?>
+                </a>
+              </footer>
+            </div>
+          <?endforeach;?>
+          </div>
+          <?$rowCount+=4;?>
+        <?endwhile;?>
+      </div>
+    </div>
+    <i id="participate-events_prev" class="icon-chevron-left"></i>
+    <i id="participate-events_next" class="icon-chevron-right"></i>
+  </div>
+</div>
 
 <script type="text/template" id="chart-item-template">
   <div class="item">

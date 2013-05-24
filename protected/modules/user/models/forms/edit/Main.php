@@ -14,8 +14,6 @@ class Main extends \user\models\forms\edit\Base
   public $Birthday;
   public $Gender = \user\models\Gender::None;
   
-  public $Address;
-  
   public function rules()
   {
     return array(
@@ -32,29 +30,8 @@ class Main extends \user\models\forms\edit\Base
       'LastName' => \Yii::t('app', 'Фамилия').' <span class="required">*</span>',
       'FatherName' => \Yii::t('app', 'Отчество'),
       'FirstName' => \Yii::t('app', 'Имя'). ' <span class="required">*</span>',
-      'Birthday' => \Yii::t('app', 'Дата рождения'),
-      'Address' => \Yii::t('app', 'Город')
+      'Birthday' => \Yii::t('app', 'Дата рождения')
     );
-  }
-  
-  public function __construct($scenario = '')
-  {
-    $this->Address = new \contact\models\forms\Address();
-    return parent::__construct($scenario);
-  }
-
-
-  public function validate($attributes = null, $clearErrors = true)
-  {
-    $this->Address->attributes = \Yii::app()->request->getParam(get_class($this->Address));
-    if (!$this->Address->validate())
-    {
-      foreach ($this->Address->getErrors() as $messages)
-      {
-        $this->addError('Address', $messages[0]);
-      }
-    }
-    return parent::validate($attributes, false);
   }
   
   public function getGenderList()

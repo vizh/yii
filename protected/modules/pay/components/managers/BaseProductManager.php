@@ -113,7 +113,7 @@ abstract class BaseProductManager
     {
       return false;
     }
-    return $this->internalBuyProduct($user, $params);
+    return $this->internalBuyProduct($user, $orderItem, $params);
   }
 
   /**
@@ -181,8 +181,8 @@ abstract class BaseProductManager
 
     $orderItem = \pay\models\OrderItem::model()->byProductId($this->product->Id)
         ->byPayerId($payer->Id)->byOwnerId($owner->Id)
-        ->byDeleted(false)->find();
-    if ($orderItem !== null && !$orderItem->Paid)
+        ->byDeleted(false)->byPaid(false)->find();
+    if ($orderItem !== null)
     {
       throw new \pay\components\Exception('Вы уже заказали этот товар', 701);
     }

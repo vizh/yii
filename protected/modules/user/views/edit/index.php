@@ -37,11 +37,6 @@
               <?=\CHtml::activeTextField($form, 'Birthday', array('class' => 'span3', 'placeholder' => \Yii::t('app', 'Пример: 01.01.1980')));?>
             </div>
             
-            <div class="form-row">
-              <?=\CHtml::activeLabel($form, 'Address');?>
-              <?$this->widget('\contact\widgets\AddressControls', array('form' => $form->Address, 'address' => false, 'place' => false));?>
-            </div>
-          
           
             <div class="form-row">
               <?foreach ($form->getGenderList() as $value => $title):?>

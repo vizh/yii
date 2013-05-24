@@ -6,7 +6,8 @@ class SettingController extends \application\components\controllers\PublicMainCo
     return array(
       'password' => '\user\controllers\setting\PasswordAction',
       'indexing' => '\user\controllers\setting\IndexingAction',
-      'subscription' => '\user\controllers\setting\SubscriptionAction'
+      'subscription' => '\user\controllers\setting\SubscriptionAction',
+      'connect' => '\user\controllers\setting\ConnectAction'
     );
   }
 }

@@ -21,6 +21,21 @@ class ContactsAction extends \CAction
         }
         $user->save();
         
+        // Сохранение адреса
+        $address = $user->getContactAddress();
+        if (!$form->Address->getIsEmpty() || $address !== null)
+        {
+          if ($address == null)
+          {
+            $address = new \contact\models\Address();
+          }
+          $address->RegionId = $form->Address->RegionId;
+          $address->CountryId = $form->Address->CountryId;
+          $address->CityId = $form->Address->CityId;
+          $address->save();
+          $user->setContactAddress($address);
+        }
+        
         // Сохранение номеров телефонов
         foreach ($form->Phones as $formPhone)
         {
@@ -118,6 +133,11 @@ class ContactsAction extends \CAction
           );
           $form->Accounts[] = $account;
         }
+      }
+      
+      if ($user->getContactAddress() !== null)
+      {
+        $form->Address->attributes = $user->getContactAddress()->attributes;
       }
     }
     

@@ -567,4 +567,23 @@ class Event extends \application\models\translation\ActiveRecord
     $linkAddress->AddressId = $address->Id;
     $linkAddress->save();
   }
+  
+  /**
+   * 
+   * @param string $direct
+   * @return \event\models\Event[]
+   */
+  public function orderByDate($direct = 'ASC')
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."StartYear" '.$direct.', "t"."StartMonth" '.$direct.', "t"."StartDay" '.$direct.', "t"."EndYear" '.$direct.', "t"."EndMonth" '.$direct.', "t"."EndDay" '.$direct;
+    $this->getDbCriteria()->mergeWith($criteria);
+    return $this;
+  }
+  
+  
+  public function getUrl()
+  {
+    return \Yii::app()->createAbsoluteUrl('/event/view/index', array('idName' => $this->IdName));
+  }
 }

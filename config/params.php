@@ -9,6 +9,8 @@ return array(
     'EventDir' => '/files/event/', // файловая директория мероприятий
       
     'EventViewUserPerPage' => 16,
+      
+    'UserViewMaxRecommendedEvents' => 24,
 
     'CompanyPerPage' => 20, // Количество результатов компаний на страницу
     'CompanyLogoDir' => '/files/logo/', //

@@ -100,7 +100,7 @@ class Order extends \CActiveRecord
   /**
    * @param bool $paid
    * @param bool $useAnd
-   * @return OrderItem
+   * @return Order
    */
   public function byPaid($paid, $useAnd = true)
   {
@@ -114,7 +114,7 @@ class Order extends \CActiveRecord
    * @param bool $deleted
    * @param bool $useAnd
    *
-   * @return OrderItem
+   * @return Order
    */
   public function byDeleted($deleted, $useAnd = true)
   {
