@@ -8,8 +8,8 @@
 <?=\CHtml::beginForm('', 'POST', array('class' => 'form-horizontal'));?>
 
   <input type="hidden" name="confirm" value="confirm">
-  <input id="RunetIdMain" type="text" class="span4"  name="RunetIdMain" value="<?=$user->RunetId;?>">
-  <input id="RunetIdSecond" type="text" class="span4"  name="RunetIdSecond" value="<?=$userSecond->RunetId;?>">
+  <input type="hidden" class="span4"  name="RunetIdMain" value="<?=$user->RunetId;?>">
+  <input type="hidden" class="span4"  name="RunetIdSecond" value="<?=$userSecond->RunetId;?>">
 
 
   <div class="btn-toolbar">

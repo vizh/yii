@@ -242,8 +242,11 @@ class MergeController extends \application\components\controllers\AdminMainContr
       $address->delete();
     }
 
-    $this->userSecond->LinkAddress->UserId = $this->user->Id;
-    $this->userSecond->LinkAddress->save();
+    if ($this->userSecond->LinkAddress !== null)
+    {
+      $this->userSecond->LinkAddress->UserId = $this->user->Id;
+      $this->userSecond->LinkAddress->save();
+    }
   }
 
   private function mergeEmployment()
