@@ -108,11 +108,13 @@
   <div class="container">
     <div class="clearfix">
       <div class="clearfix pull-left">
-        <div class="copyright pull-left">
-          &copy;&nbsp;2008-<?=date('Y')?>, ООО &laquo;Интернет Медиа Холдинг&raquo;
+        <div class="development pull-left">
+          Оплата за участие в мероприятиях<br/>осуществляется при поддержке <a href="http://payonline.ru" target="_blank">PayOnline</a> и <a href="http://uniteller.ru" target="_blank">Uniteller</a><br /><br />
+          <img src="/img/pay/icon-visa.png" alt="VISA"/> <img src="/img/pay/icon-mastercard.png" alt="Master Card"/>
         </div>
       </div>
       <div class="development pull-right">
+        &copy;&nbsp;2008-<?=date('Y')?>, ООО &laquo;Интернет Медиа Холдинг&raquo;<br />
         Разработка и поддержка: <a href="http://internetmediaholding.com" title="Internet Media Holding" target="_blank">Internet Media Holding</a><br />
         Дизайн: <a href="http://coalla.ru/" title="Агентство Coalla" target="_blank">Coalla</a>
       </div>
