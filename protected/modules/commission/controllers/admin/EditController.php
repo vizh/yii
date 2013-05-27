@@ -41,6 +41,8 @@ class EditController extends \application\components\controllers\AdminMainContro
     {
       $this->setPageTitle($commission->Title);
     }
+    
+    \Yii::app()->getClientScript()->registerPackage('runetid.ckeditor');
     $this->render('index', array('form' => $form));
   }
 }
