@@ -145,14 +145,14 @@ class ViewController extends \application\components\controllers\PublicMainContr
       $result = array_merge($result, $events);
     }
     
-    if (sizeof($events) < \Yii::app()->params['UserViewMaxRecommendedEvents'])
+    if (sizeof($result) < \Yii::app()->params['UserViewMaxRecommendedEvents'])
     {
       $criteria = new \CDbCriteria();
-      $criteria->limit = \Yii::app()->params['UserViewMaxRecommendedEvents'] - sizeof($events);
-      if (!empty($events))
+      $criteria->limit = \Yii::app()->params['UserViewMaxRecommendedEvents'] - sizeof($result);
+      if (!empty($result))
       { 
         $excludedEventIdList = array(); 
-        foreach ($events as $event)
+        foreach ($result as $event)
         {
           $excludedEventIdList[] = $event->Id;
         }
