@@ -40,7 +40,7 @@
         <?php if (!empty($events)):?>
           <?php foreach ($events as $event):?>
             <?$today = (date('d.m.Y') >= $event->getFormattedStartDate('dd.MM.yyyy') && date('d.m.Y') <= $event->getFormattedEndDate('dd.MM.yyyy'));?>
-            <div class="event <?if($event->getTimeStampEndDate() < time()):?>past<?endif;?> <?if($today):?>today<?endif;?>">
+            <div class="event <?if($event->getFormattedEndDate('dd.MM.yyyy') < date('d.m.Y')):?>past<?endif;?> <?if($today):?>today<?endif;?>">
               <?if ($today):?>
                 <div class="label-today"><span class="label label-success"><?=\Yii::t('app', 'Сегодня');?></span></div>
               <?endif;?>
