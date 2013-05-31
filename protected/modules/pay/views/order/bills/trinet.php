@@ -21,7 +21,7 @@ use application\components\utility\Texts;
 <table cellSpacing="0" cellPadding="5" width="720" border="0">
 <tbody>
 <tr>
-  <td><b>Индивидуальный предприниматель Довжиков Алексей Андреевич</b><BR>Адрес: 194223, Санкт-Петербург, Пр. Тореза, д. 40 к. 2, кв. 58<BR>тел. +7 (965) 001-74-96</td>
+  <td><b>Индивидуальный предприниматель Довжиков Алексей Андреевич</b><BR>Адрес: 194223, Санкт-Петербург, Пр. Тореза, д. 40 к. 2, кв. 58<br/>Тел.: +7(812) 648-12-70</td>
 </tr>
 <tr>
   <td colspan="2">
@@ -83,9 +83,9 @@ use application\components\utility\Texts;
           <td style="BORDER-BOTTOM: 1px solid; BORDER-RIGHT: 1px solid"><?=$data['Title'];?></td>
           <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: center; BORDER-RIGHT: 1px solid"><?=$data['Unit'];?></td>
           <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: center; BORDER-RIGHT: 1px solid"><?=$data['Count'];?></td>
-          <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: center; BORDER-RIGHT: 1px solid" nowrap="nowrap"><?=number_format(round($data['DiscountPrice'] / 1.18, 2, PHP_ROUND_HALF_UP), 2, ',', ' ');?></td>
+          <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: center; BORDER-RIGHT: 1px solid" nowrap="nowrap"><?=number_format(round($data['DiscountPrice'], 2, PHP_ROUND_HALF_UP), 2, ',', ' ');?></td>
 
-          <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: right" nowrap="nowrap"><?=number_format(round($data['DiscountPrice'] * $data['Count'] / 1.18, 2, PHP_ROUND_HALF_UP), 2, ',', ' ');?></td>
+          <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: right" nowrap="nowrap"><?=number_format(round($data['DiscountPrice'] * $data['Count'], 2, PHP_ROUND_HALF_UP), 2, ',', ' ');?></td>
         </tr>
         <?
         $i++;
