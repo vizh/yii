@@ -26,21 +26,19 @@ class Users extends \event\components\Widget
       $criteria->mergeWith($mainCriteria);
       $criteria->with['Participants']['select'] = false;  
       $criteria->select = '"t"."Id", "t"."RunetId"';
- 
+      $userIdList = array();
+      foreach ($userModel->findAll($criteria) as $user)
+      {
+        $userIdList[$user->Id] = $user->RunetId; 
+      }
+      
       $this->paginator = new \application\components\utility\Paginator($userModel->count($criteria));
       $this->paginator->perPage = \Yii::app()->params['EventViewUserPerPage'];
       if (!$this->showCounter)
       {
         $this->paginator->perPage *= 2;
       }
-      
-      $userIdList = array_slice(
-        \CHtml::listData($userModel->findAll($criteria), 'Id', 'RunetId'), 
-        ($this->paginator->page - 1) * $this->paginator->perPage, 
-        $this->paginator->perPage
-      );
-      
-      $mainCriteria->addInCondition('"t"."RunetId"', $userIdList);
+      $mainCriteria->addInCondition('"t"."RunetId"', array_slice($userIdList, $this->paginator->getOffset(), $this->paginator->perPage));
       $mainCriteria->with = array_merge($mainCriteria->with, array(
         'Settings', 'Employments', 'Participants.Role'
       ));
