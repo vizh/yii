@@ -35,27 +35,23 @@ class TranslateAction extends \partner\components\Action
           $user->FirstName  = $forms->$locale->FirstName;
           $user->LastName   = $forms->$locale->LastName;
           $user->FatherName = $forms->$locale->FatherName;
+          $user->save();
           if ($employment !== null)
           {
             $employment->Company->setLocale($locale);
             $employment->Company->Name = $forms->$locale->Company;
+            $employment->Company->save();
           }
         }
         else
         {
           $valid = false;
         }
-        
-        if ($valid)
-        {
-          $user->save();
-          if ($employment !== null)
-          {
-            $employment->Company->save();
-          }
-          \Yii::app()->user->setFlash('success', \Yii::t('app', 'Персональные данные пользователя успешно сохранены'));
-          $this->getController()->refresh();
-        }
+      }
+      if ($valid)
+      {
+        \Yii::app()->user->setFlash('success', \Yii::t('app', 'Персональные данные пользователя успешно сохранены'));
+        $this->getController()->refresh();
       }
     }
     else
