@@ -36,34 +36,26 @@ class ViewController extends \application\components\controllers\PublicMainContr
     {
       throw new CHttpException(404);
     }
+
+    $criteria = new \CDbCriteria();
+    if (!empty($term))
+    {
+      $criteria->mergeWith(
+        \user\models\User::model()->bySearch($term)->getDbCriteria()
+      );
+    }
+    
+    $users = $this->widget('\event\widgets\Users', array(
+      'event' => $event, 
+      'showCounter' => false, 
+      'showPagination' => true,
+      'criteria' => $criteria
+    ), true);
+    
     $this->setPageTitle($event->Title . '  / RUNET-ID');
-
-    $userModel = \user\models\User::model();
-    $userModel->byEventId($event->Id);
-    if (!empty($term))
-    {
-      $userModel->bySearch($term);
-    }
-    $paginator = new \application\components\utility\Paginator($userModel->count());
-    $paginator->perPage = \Yii::app()->params['EventViewUserPerPage'] * 2;
-
-
-    $userModel = \user\models\User::model();
-    $userModel->byEventId($event->Id);
-    if (!empty($term))
-    {
-      $userModel->bySearch($term);
-    }
-    $criteria = $paginator->getCriteria();
-    $criteria->with = array(
-      'Employments' => array('together' => false)
-    );
-    $users = $userModel->findAll($criteria);
-
     $this->render('users', array(
-      'event' => $event,
-      'users' => $users,
-      'paginator' => $paginator
+      'event'     => $event,
+      'users'     => $users
     ));
   }
 }

@@ -17,7 +17,7 @@
     <div class="row">
       <aside class="sidebar span3 pull-left">
         <div class="contacts">
-          <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>">На страницу мероприятия</a>
+          <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>"><?=\Yii::t('app', 'На страницу мероприятия');?></a>
         </div>
 
         <?foreach ($event->Widgets as $widget):?>
@@ -30,29 +30,11 @@
       <div class="span8 pull-right">
         <div class="m-bottom_30">
         <form method="get" action="<?=Yii::app()->createUrl('/event/view/users', array('idName' => $event->IdName));?>" class="form-inline form-filter">
-          <input type="text" id="Filter_Query" name="term" placeholder="Поиск" class="span7">
-          <input width="20" type="image" height="19" value="submit" name="" src="/images/search-type-image-light.png" class="form-element_image">
+          <input type="text" id="Filter_Query" name="term" placeholder="<?=\Yii::t('app', 'Поиск среди участников мероприятия');?>" class="span7" value="<?=\Yii::app()->request->getParam('term', '');?>">
+          <input width="20" type="image" height="19" value="submit" name="" src="/images/search-type-image-dark.png" class="form-element_image">
         </form>
         </div>
-
-
-        <div class="row participants units"><?
-          foreach ($users as $user):
-          ?><div class="span2 participant unit">
-          <a href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => $user->RunetId));?>">
-            <img src="<?=$user->getPhoto()->get58px();?>" alt="" width="58" height="58" class="photo">
-            <div class="name"><?=$user->getName();?></div>
-          </a>
-          <?if ($user->getEmploymentPrimary() != null):?>
-            <div class="company">
-              <small class="muted"><?=$user->getEmploymentPrimary()->Company->Name;?></small>
-            </div>
-          <?endif;?>
-          </div><?
-          endforeach;
-          ?></div>
-
-        <?$this->widget('\application\widgets\Paginator', array('paginator' => $paginator));?>
+        <?=$users;?>
       </div>
     </div>
   </div>
