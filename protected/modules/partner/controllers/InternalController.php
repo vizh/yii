@@ -20,6 +20,7 @@ class InternalController extends \partner\components\Controller
       'mipacademy13import' => '\partner\controllers\internal\import\Mipacademy13Action',
       'phdays13import' => '\partner\controllers\internal\import\Phdays13Action',
       'phdaysoption' => '\partner\controllers\internal\PhdaysoptionAction',
+      'demo13import' => '\partner\controllers\internal\import\Demo13Action'
     );
   }
 }
