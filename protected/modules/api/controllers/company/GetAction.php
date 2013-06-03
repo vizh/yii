@@ -34,7 +34,7 @@ class GetAction extends \api\components\Action
       foreach ($users as $user)
       {
         $this->getDataBuilder()->createUser($user);
-        $this->getDataBuilder()->buildUserContacts($user);
+        //$this->getDataBuilder()->buildUserContacts($user);
         $this->getDataBuilder()->buildUserEmployment($user);
         $result->Employments[] = $this->getDataBuilder()->buildUserEvent($user);
       }

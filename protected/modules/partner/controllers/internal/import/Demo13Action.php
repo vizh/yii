@@ -19,15 +19,15 @@ class Demo13Action extends \partner\components\ImportAction
   public function getFieldMap()
   {
     return array(
-      'FirstName' => 0,
-      'LastName' => 1,
+      'FirstName' => 1,
+      'LastName' => 2,
       'FatherName' => null,
-      'Email' => 3,
+      'Email' => 4,
       'Phone' => null,
-      'Company' => 2,
+      'Company' => 3,
       'Position' => null,
 
-      'Status' => null,
+      'Status' => 5,
     );
   }
 
@@ -52,7 +52,7 @@ class Demo13Action extends \partner\components\ImportAction
    */
   public function getFileName()
   {
-    return 'import1.csv';
+    return 'import2.csv';
   }
 
   /**
@@ -60,7 +60,7 @@ class Demo13Action extends \partner\components\ImportAction
    */
   public function getIsEnable()
   {
-    return false;
+    return true;
   }
 
   /**
@@ -68,11 +68,32 @@ class Demo13Action extends \partner\components\ImportAction
    */
   public function getIsDebug()
   {
-    return true;
+    return false;
   }
 
   protected function getRoleId($row)
   {
-    return 2;
+    $row->Status = mb_strtolower(trim($row->Status), 'utf8');
+    switch ($row->Status)
+    {
+      case 'partner':
+        return 5;
+        break;
+      case 'demonstrator':
+        return 12;
+        break;
+      case 'speaker':
+        return 3;
+        break;
+      case 'organizer':
+        return 6;
+        break;
+      case 'press':
+        return 2;
+        break;
+      default:
+        return 0;
+    }
   }
+
 }
