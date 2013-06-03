@@ -11,7 +11,9 @@ class RegisterAction extends \pay\components\Action
     
     $request = \Yii::app()->getRequest();
     
-    $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findAll();
+    $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."Id" ASC';
+    $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findAll($criteria);
     
     $countRows = $request->getParam('count');
     

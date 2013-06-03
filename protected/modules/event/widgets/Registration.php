@@ -26,8 +26,10 @@ class Registration extends \event\components\Widget
     if ($account->ReturnUrl === null)
     {
       \Yii::app()->getClientScript()->registerPackage('runetid.event-calculate-price');
+      $criteria = new \CDbCriteria();
+      $criteria->order = '"t"."Id" ASC';
       $products = \pay\models\Product::model()->byEventId($this->event->Id)
-          ->byPublic(true)->findAll();
+          ->byPublic(true)->findAll($criteria);
       $this->render('registration', array('products' => $products));
     }
     else
