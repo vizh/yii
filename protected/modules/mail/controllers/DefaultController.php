@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'demo13-html-2';
+    $template = 'convconf13-html-1';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -54,7 +54,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
-    $criteria->addInCondition('"Participants"."EventId"', array(391));
+    $criteria->addInCondition('"Participants"."EventId"', array(258, 423));
 //    $criteria->addNotInCondition('"Participants"."RoleId"', array(24));
 /*
     $criteria->addCondition('"t"."CreationTime" > :CreationTime');
@@ -118,13 +118,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('users@sp-ic.ru', 'СПИК-2013', false);
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('DEMO, главный мировой смотр стартапов, пройдет в Москве') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашаем на специализированную конференцию по веб аналитике в Санкт-Петербурге') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
 
-        $mail->Send();
+//        $mail->Send();
 
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
