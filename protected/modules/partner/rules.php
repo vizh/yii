@@ -39,7 +39,7 @@ return array(
     'roles' => array('Partner'),
     'module' => 'partner',
     'controllers' => array('user'),
-    'actions' => array('index', 'edit')
+    'actions' => array('index', 'edit', 'translate')
   ),
 
   array(

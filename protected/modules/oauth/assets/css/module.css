@@ -1,3 +1,9 @@
+@media only screen and (max-device-height: 850px){
+  form fieldset p, form div.social p {
+    display: none;
+  }
+}
+
 /* BOOTSTRAP
 ---------------------------------------------------------------------------------------------------- */
 label.checkbox {margin-bottom: 10px;}

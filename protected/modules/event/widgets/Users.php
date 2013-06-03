@@ -1,25 +1,61 @@
 <?php
 namespace event\widgets;
 
-use event\models\Participant;
-use user\models\User;
-
 class Users extends \event\components\Widget
 {
+  public $criteria = null;
+  public $showCounter = true;
+  public $showPagination = false;
+  
+  private $users = null;
+  private $paginator = null;
+  private function getUsers()
+  {
+    if ($this->users == null)
+    {
+      $userModel = \user\models\User::model()->byEventId($this->event->Id)->byVisible();
+      $mainCriteria = new \CDbCriteria($userModel->getDbCriteria());
+      $mainCriteria->order = $this->showCounter ? '"Participants"."CreationTime" DESC' : '"t"."LastName" ASC';
+ 
+      if ($this->criteria !== null)
+      {
+        $mainCriteria->mergeWith($this->criteria);
+      }
 
+      $criteria = new \CDbCriteria();
+      $criteria->mergeWith($mainCriteria);
+      $criteria->with['Participants']['select'] = false;  
+      $criteria->select = '"t"."Id", "t"."RunetId"';
+      $userIdList = array();
+      foreach ($userModel->findAll($criteria) as $user)
+      {
+        $userIdList[$user->Id] = $user->RunetId; 
+      }
+      
+      $this->paginator = new \application\components\utility\Paginator($userModel->count($criteria));
+      $this->paginator->perPage = \Yii::app()->params['EventViewUserPerPage'];
+      if (!$this->showCounter)
+      {
+        $this->paginator->perPage *= 2;
+      }
+      $mainCriteria->addInCondition('"t"."RunetId"', array_slice($userIdList, $this->paginator->getOffset(), $this->paginator->perPage));
+      $mainCriteria->with = array_merge($mainCriteria->with, array(
+        'Settings', 'Employments', 'Participants.Role'
+      ));
+      $this->users = $userModel->findAll($mainCriteria);
+    }
+    return $this->users;
+  }
+  
+  private function getPaginator()
+  {
+    return $this->paginator;
+  }
+  
+  
   public function run()
   {
-    $model = User::model()->byEventId($this->event->Id)->byVisible();
-    $criteria = new \CDbCriteria();
-    $criteria->order = '"Participants"."UpdateTime" DESC';
-    $criteria->limit = $this->getCountUserPerPage();
-    $criteria->offset = 0;
-    $criteria->with = array('Employments');
-
-    $users = $model->findAll($criteria);
-
-
-    $this->render('users', array('users' => $users, 'count' => $this->getCount()));
+    $this->render('users', array('users' => $this->getUsers(), 'paginator' => $this->getPaginator()));
   }
 
   /**
@@ -38,31 +74,12 @@ class Users extends \event\components\Widget
     return \event\components\WidgetPosition::Tabs;
   }
 
+  /**
+   * 
+   * @return bool
+   */
   public function getIsActive()
   {
-    return $this->getCount() > 0;
-  }
-
-
-  /**
-   * @return int
-   */
-  public function getCountUserPerPage()
-  {
-    return \Yii::app()->params['EventViewUserPerPage'];
-  }
-  /** @var  int */
-  private $count = null;
-  /**
-   * @return int
-   */
-  protected function getCount()
-  {
-    if ($this->count === null)
-    {
-      $model = User::model()->byEventId($this->event->Id)->byVisible();
-      $this->count = $model->count();
-    }
-    return $this->count;
+    return sizeof($this->getUsers()) > 0;
   }
 }

@@ -10,7 +10,7 @@ class Paginator
 
   public $page;
   public $perPage = 20;
-  public $pages = 13;
+  public $pages   = 13;
 
   /**
    * @param int $count
@@ -42,13 +42,23 @@ class Paginator
   }
 
   /**
+   * 
+   * @return int
+   */
+  public function getOffset()
+  {
+    return ($this->page - 1) * $this->perPage;
+  }
+
+
+  /**
    * @return \CDbCriteria
    */
   public function getCriteria()
   {
     $criteria = new \CDbCriteria();
-    $criteria->limit = $this->perPage;
-    $criteria->offset = ($this->page - 1) * $this->perPage;
+    $criteria->limit  = $this->perPage;
+    $criteria->offset = $this->getOffset();
     return $criteria;
   }
 

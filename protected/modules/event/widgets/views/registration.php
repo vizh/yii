@@ -66,6 +66,7 @@ if (empty($products))
     </tbody>
   </table>
   <div class="clearfix">
-    <button type="submit" class="btn btn-small btn-info pull-right"><?=Yii::t('app', 'Зарегистрироваться');?></button>
+    <img src="/img/pay/pay-methods.png" class="pull-left" alt="Поддерживаемые способы оплаты"/>
+    <button type="submit" class="btn btn-info pull-right"><?=Yii::t('app', 'Зарегистрироваться');?></button>
   </div>
 </form>

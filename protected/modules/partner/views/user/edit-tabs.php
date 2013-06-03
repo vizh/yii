@@ -7,7 +7,7 @@
  */
 ?>
 <div class="row">
-<div class="span12 indent-bottom3">
+<div class="span12 m-bottom_30">
   <h2>Редактирование участника</h2>
 </div>
 
@@ -22,21 +22,37 @@
 
 <div class="span12 indent-bottom2">
   <input type="hidden" name="runetId" value="<?=$user->RunetId;?>">
-  <h3 class="indent-bottom1"><?=$user->getFullName();?> <sup  style="font-weight: normal;" class="muted"><?=$user->RunetId;?></sup></h3>
-  <?$employment = $user->getEmploymentPrimary();
-  if (!empty($employment)):?>
-  <p>
-    <strong><?=$employment->Company->Name;?></strong><br>
-    <?=$employment->Position;?>
-  </p>
-
-  <?php else:?>
-  <p><strong><em>Место работы не указано</em></strong></p>
-  <?php endif;?>
+  <h3><?=\Yii::t('app', 'Персональные данные');?></h3> 
+  <div class="row">
+    <div class="span1">
+      <img src="<?=$user->getPhoto()->get58px();?>" title="" class="pull-left" />
+    </div>
+    <div class="span10">
+      <strong>
+        <?php
+          echo $user->getFullName();
+          $user->setLocale('en');
+          echo ' ('.$user->getFullName().')';
+        ?>
+      </strong>
+      <?$employment = $user->getEmploymentPrimary();?><sup><?=$user->RunetId;?></sup>
+      <?if ($employment !== null):?>
+        <br/><span class="small">
+          <?php
+            echo $employment->Company->Name;
+            $employment->Company->setLocale('en');
+            echo ' ('.$employment->Company->Name.')';
+          ?>
+        </span>
+      <?endif;?>
+      <div class="m-top_10"><a href="<?=$this->createUrl('/partner/user/translate', array('runetId' => $user->RunetId));?>" class="btn btn-mini"><?=\Yii::t('app', 'Редактировать');?></a></div>
+    </div>
+  </div>
 </div>
 
 
 <div class="span12 indent-top2">
+  <h3><?=\Yii::t('app', 'Роль на мероприятии');?></h3>
   <?if (sizeof($event->Parts) === 0):?>
       <?$roleId = isset($participants[0]) ? $participants[0]->RoleId : null;?>
       <div class="row">

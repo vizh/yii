@@ -10,6 +10,7 @@ class UserController extends \partner\components\Controller
     return array(
       'index' => '\partner\controllers\user\IndexAction',
       'edit' => '\partner\controllers\user\EditAction',
+      'translate' => '\partner\controllers\user\TranslateAction',
       'ajaxget' => '\partner\controllers\user\AjaxGetAction',
       'register' => '\partner\controllers\user\RegisterAction',
       'statistics' => '\partner\controllers\user\StatisticsAction',

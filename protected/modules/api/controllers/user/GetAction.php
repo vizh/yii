@@ -25,10 +25,15 @@ class GetAction extends \api\components\Action
       }
 
       $this->getDataBuilder()->createUser($user);
-      $this->getDataBuilder()->buildUserContacts($user);
       $this->getDataBuilder()->buildUserEmployment($user);
-
-      $this->setResult($this->getDataBuilder()->buildUserEvent($user));
+      $userData = $this->getDataBuilder()->buildUserEvent($user);
+      $permissionModel = \oauth\models\Permission::model()
+          ->byUserId($user->Id)->byAccountId($this->getAccount()->Id)->byDeleted(false);
+      if (isset($userData->Status) || $permissionModel->exists())
+      {
+        $userData = $this->getDataBuilder()->buildUserContacts($user);
+      }
+      $this->setResult($userData);
     }
     else
     {
