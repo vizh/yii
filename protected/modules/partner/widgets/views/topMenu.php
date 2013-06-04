@@ -18,7 +18,7 @@ if ($partner->getAccount() !== null):
         <ul class="nav pull-right">
           <li><a href="<?=\Yii::app()->createUrl('/partner/auth/logout');?>">Выход</a></li>
           <?if ($partner->getAccount()->getIsExtended() && $partner->getEvent() !== null):?>
-            <li><a href="<?=\Yii::app()->createUrl('/partner/auth/logout', array('extended' => 'reset'));?>">Выход из <?=\Yii::app()->partner->getEvent()->IdName;?></a></li>
+            <li><a href="<?=\Yii::app()->createUrl('/partner/auth/logout', array('extended' => 'reset'));?>">Выход (<?=\Yii::app()->partner->getEvent()->IdName;?>)</a></li>
           <?endif;?>
         </ul>
       </div>

@@ -1,12 +1,11 @@
 <?php
 namespace partner\controllers\user;
+
 class ExportAction extends \partner\components\Action 
 {
   private $csvDelimiter = ';';
   private $csvCharset = 'utf8';
   private $language = 'ru';
-
-
   
   public function run()
   {
@@ -62,44 +61,59 @@ class ExportAction extends \partner\components\Action
     fputcsv($fp, $this->rowHandler($row), $this->csvDelimiter);
 
     $criteria = new \CDbCriteria();
+    $criteria->with = array(
+      'Participants' => array('on' => '"Participants"."EventId" = :EventId', 'params' => array(
+        'EventId' => $this->getEvent()->Id
+      ), 'together' => false),
+      'Employments' => array('together' => false),
+      'Employments.Company' => array('together' => false),
+      'LinkPhones.Phone' => array('together' => false)
+    );
+    $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
+
+    $command = \Yii::app()->getDb()->createCommand();
+    $command->select('EventParticipant.UserId')->from('EventParticipant');
+    $command->where('"EventParticipant"."EventId" = '.$this->getEvent()->Id);
     if ($roles !== null)
     {
-      $criteria->addInCondition('"t"."RoleId"', $roles);
+      $command->andWhere(array('in', 'EventParticipant.RoleId', $roles));
     }
-    $criteria->with = array(
-      'User',
-      'User.Employments',
-      'User.Settings',
-      'User.Employments.Company',
-      'Role',
-      'User.LinkPhones.Phone'
-    );
-    $criteria->order = '"t"."CreationTime" DESC';
-    /** @var $participants \event\models\Participant[] */
-    $participants = \event\models\Participant::model()
-        ->byEventId($this->getEvent()->Id)->findAll($criteria);
-    foreach ($participants as $participant)
+    $criteria->addCondition('"t"."Id" IN ('.$command->getText().')');
+
+    $users = \user\models\User::model()->findAll($criteria);
+
+    foreach ($users as $user)
     {
+      /** @var \event\models\Participant $participant */
+      $participant = null;
+      foreach ($user->Participants as $curP)
+      {
+        if ($participant == null || $participant->Role->Priority < $curP->Role->Priority)
+        {
+          $participant = $curP;
+        }
+      }
+
       $row = array(
-        'RUNET-ID' => $participant->User->RunetId,
-        'LastName' => $participant->User->LastName,
-        'FirstName' => $participant->User->FirstName,
-        'FatherName' => $participant->User->FatherName,
+        'RUNET-ID' => $user->RunetId,
+        'LastName' => $user->LastName,
+        'FirstName' => $user->FirstName,
+        'FatherName' => $user->FatherName,
         'Company' => '',
         'Position' => '',
-        'Email' => $participant->User->Email,
-        'Phone' => !empty($participant->User->LinkPhones) ? (string)$participant->User->LinkPhones[0]->Phone : '',
-        'Role' => $participant->Role->Title,
+        'Email' => $user->Email,
+        'Phone' => !empty($user->LinkPhones) ? (string)$user->LinkPhones[0]->Phone : '',
+        'Role' => $participant != null ? $participant->Role->Title : '-',
         'Price' => '',
         'DateRegister' => \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', $participant->CreationTime),
         'DatePay' => '',
         'DateBadge' => ''
       );
 
-      if ($participant->User->getEmploymentPrimary() !== null)
+      if ($user->getEmploymentPrimary() !== null)
       {
-        $row['Company'] = $participant->User->getEmploymentPrimary()->Company->Name;
-        $row['Position'] = $participant->User->getEmploymentPrimary()->Position;
+        $row['Company'] = $user->getEmploymentPrimary()->Company->Name;
+        $row['Position'] = $user->getEmploymentPrimary()->Position;
       }
 
       $criteria = new \CDbCriteria();
@@ -109,7 +123,7 @@ class ExportAction extends \partner\components\Action
       );
       $criteria->condition = '"t"."OwnerId" = :OwnerId AND "Product"."EventId" = :EventId AND "t"."Paid" AND "ProductAttributes"."Name" = :Name';
       $criteria->params['EventId'] = \Yii::app()->partner->getAccount()->EventId;
-      $criteria->params['OwnerId'] = $participant->UserId;
+      $criteria->params['OwnerId'] = $user->Id;
       $criteria->params['Name'] = 'RoleId';
       /** @var $orderItem \pay\models\OrderItem */
       $orderItem = \pay\models\OrderItem::model()->find($criteria);
@@ -122,7 +136,7 @@ class ExportAction extends \partner\components\Action
       /** @var $badge \ruvents\models\Badge */
       $badge = \ruvents\models\Badge::model()
           ->byEventId($this->getEvent()->Id)
-          ->byUserId($participant->UserId)->find();
+          ->byUserId($user->Id)->find();
       if ($badge !== null)
       {
         $row['DateBadge'] = $badge->CreationTime;
