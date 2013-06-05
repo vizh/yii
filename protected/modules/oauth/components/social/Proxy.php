@@ -8,7 +8,7 @@ class Proxy implements ISocial
    */
   protected $social;
 
-  public function __construct($socialName)
+  public function __construct($socialName, $redirectUrl = null)
   {
     switch ($socialName)
     {
@@ -19,16 +19,16 @@ class Proxy implements ISocial
         $this->social = new Twitter();
         break;
       case ISocial::Vkontakte:
-        $this->social = new Vkontakte();
+        $this->social = new Vkontakte($redirectUrl);
         break;
       default:
         throw new \CHttpException(400, 'Не обнаружена авторизация по OAuth с идентификатором "' . $socialName . '"');
     }
   }
 
-  public function getOAuthUrl($redirectUrl = null)
+  public function getOAuthUrl()
   {
-    return $this->social->getOAuthUrl($redirectUrl);
+    return $this->social->getOAuthUrl();
   }
 
   public function isHasAccess()

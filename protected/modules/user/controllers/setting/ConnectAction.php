@@ -15,7 +15,8 @@ class ConnectAction extends \CAction
       switch ($action)
       {
         case 'connect':
-          $socialProxy = new \oauth\components\social\Proxy($social);
+          $redirectUrl = $this->getController()->createAbsoluteUrl('/user/setting/connect/', array('action' => $action, 'social' => $social));
+          $socialProxy = new \oauth\components\social\Proxy($social, $redirectUrl);
           if ($socialProxy->isHasAccess())
           {
             $socialProxy->renderScript();
@@ -23,11 +24,7 @@ class ConnectAction extends \CAction
           }
           else
           {
-            $this->getController()->redirect(
-              $socialProxy->getOAuthUrl(
-                $this->getController()->createAbsoluteUrl('/user/setting/connect/', array('action' => $action, 'social' => $social))
-              )
-            );
+            $this->getController()->redirect($socialProxy->getOAuthUrl());
           }
           break;
 

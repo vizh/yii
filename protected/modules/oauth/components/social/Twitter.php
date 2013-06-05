@@ -30,7 +30,7 @@ class Twitter implements ISocial
   }
 
 
-  public function getOAuthUrl($redirectUrl = null)
+  public function getOAuthUrl()
   {
     $params = array(
       'oauth_callback' => \tmhUtilities::php_self(false),

@@ -5,15 +5,21 @@ class Vkontakte implements ISocial
 {
   const AppId = '3510181';
   const Secret = 'dfMfN5tBWurKM35eKLAa';
+  
+  protected $redirectUrl;
+  public function __construct($redirectUrl = null)
+  {
+    $this->redirectUrl = $redirectUrl;
+  }
 
-  public function getOAuthUrl($redirectUrl = null)
+  public function getOAuthUrl()
   {
     $params = array(
       'client_id' => self::AppId,
       'display' => 'touch',
       'scope' => 'offline,email'
     );
-    $params['redirect_uri'] = $redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect') : $redirectUrl;
+    $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect') : $this->redirectUrl;    
     return 'https://oauth.vk.com/authorize?' . http_build_query($params);
   }
 
@@ -71,10 +77,9 @@ class Vkontakte implements ISocial
     $params = array(
       'client_id' => self::AppId,
       'client_secret' => self::Secret,
-      'code' => $code,
-      'redirect_uri' => \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect')
+      'code' => $code
     );
-
+    $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect') : $this->redirectUrl;
     return $this->makeRequest('https://oauth.vk.com/access_token?'.http_build_query($params));
   }
 
