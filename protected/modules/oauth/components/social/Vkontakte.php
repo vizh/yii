@@ -6,15 +6,14 @@ class Vkontakte implements ISocial
   const AppId = '3510181';
   const Secret = 'dfMfN5tBWurKM35eKLAa';
 
-  public function getOAuthUrl()
+  public function getOAuthUrl($redirectUrl = null)
   {
     $params = array(
       'client_id' => self::AppId,
-      'redirect_uri' => \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect'),
       'display' => 'touch',
       'scope' => 'offline,email'
     );
-
+    $params['redirect_uri'] = $redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect') : $redirectUrl;
     return 'https://oauth.vk.com/authorize?' . http_build_query($params);
   }
 

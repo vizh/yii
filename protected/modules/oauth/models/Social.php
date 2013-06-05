@@ -35,6 +35,7 @@ class Social extends \CActiveRecord
   {
     return array(
       'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
+      'Social' => array(self::BELONGS_TO, '\contact\models\ServiceType', 'SocialId'),
     );
   }
 

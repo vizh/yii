@@ -25,7 +25,7 @@ class Facebook implements ISocial
     return $this->connection;
   }
 
-  public function getOAuthUrl()
+  public function getOAuthUrl($redirectUrl = null)
   {
     return $this->getConnection()->getLoginUrl(array('scope' => 'email'));
   }

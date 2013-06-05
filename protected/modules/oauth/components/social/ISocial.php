@@ -6,7 +6,7 @@ interface ISocial{
   const Twitter = '13';
   const Vkontakte = '15';
 
-  public function getOAuthUrl();
+  public function getOAuthUrl($redirectUrl = null);
   public function isHasAccess();
 
   /**

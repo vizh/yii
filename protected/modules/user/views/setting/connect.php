@@ -1,4 +1,13 @@
 <?=$this->renderPartial('parts/title');?>
+
+<script type="text/javascript">
+  function fillOAuthUrls(oauth) {
+    oauth.fbUrl  = '<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Facebook, 'action' => 'connect'));?>';
+    oauth.vkUrl  = '<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Vkontakte,'action' => 'connect'));?>';
+    oauth.twiUrl = '<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Twitter,  'action' => 'connect'));?>';
+  }
+</script>
+
 <div class="user-account-settings">
   <div class="clearfix">
     <div class="container">
@@ -7,46 +16,64 @@
           <?=$this->renderPartial('parts/nav', array('current' => $this->getAction()->getId()));?>
         </div>
         <div class="span9">
-          <?=\CHtml::beginForm('', 'POST', array('class' => 'b-form'));?>
-            <?foreach ($connects as $socialId => $isConnect):?>
-              <div class="row m-bottom_20">
-                <?if ($socialId == \oauth\components\social\ISocial::Facebook):?>
-                  <div class="span3">
-                    <a href="http://facebook.com" class="btn btn-link" target="_blank"><i class="ico16 ico16_social ico16_social__facebook"></i>&nbsp;Facebook</a>
-                  </div>
-                  <div class="span2">
-                    <?if (!$isConnect):?>
-                      <a href="#" id="fb_login" class="btn btn-success"><?=\Yii::t('app', 'Привязать');?></a>
-                    <?else:?>
-                      
-                    <?endif;?>
-                  </div>
-                <?elseif ($socialId == \oauth\components\social\ISocial::Vkontakte):?>
-                  <div class="span3">
-                    <a href="http://vk.com" class="btn btn-link" target="_blank"><i class="ico16 ico16_social ico16_social__vkontakte"></i>&nbsp;Вконтакте</a>
-                  </div>
-                  <div class="span2">
-                    <?if (!$isConnect):?>
-                      <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Vkontakte));?>" id="vk_login" class="btn btn-success"><?=\Yii::t('app', 'Привязать');?></a>
-                    <?else:?>
-                      
-                    <?endif;?>
-                  </div>
-                <?elseif ($socialId == \oauth\components\social\ISocial::Twitter):?>
-                  <div class="span3">
-                    <a href="http://twitter.com" class="btn btn-link" target="_blank"><i class="ico16 ico16_social ico16_social__twitter"></i>&nbsp;Twitter</a>
-                  </div>
-                  <div class="span2">
-                    <?if (!$isConnect):?>
-                      <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Twitter));?>" id="twi_login" class="btn btn-success"><?=\Yii::t('app', 'Привязать');?></a>
-                    <?else:?>
-                      
-                    <?endif;?>
-                  </div>
-                <?endif;?>
-              </div>
+          <div class="b-form">
+            <div class="form-header">
+              <h4><?=\Yii::t('app', 'Привязка к социальным сетям');?></h4>
+            </div>
+            <div class="m-bottom_20">
+            <?foreach ($connects as $connect):?>
+              <?if ($connect !== null):?>
+                <div class="m-bottom_10">
+                  <?if ($connect->Social->Id == \oauth\components\social\ISocial::Facebook):?>
+                    <i class="ico16 ico16_social ico16_social__facebook"></i>
+                  <?elseif ($connect->Social->Id == \oauth\components\social\ISocial::Twitter):?>
+                    <i class="ico16 ico16_social ico16_social__twitter"></i>
+                  <?elseif ($connect->Social->Id == \oauth\components\social\ISocial::Vkontakte):?>
+                    <i class="ico16 ico16_social ico16_social__vkontakte"></i>
+                  <?endif;?>
+                  <a class="text-error" href="<?=$this->createUrl('/user/setting/connect', array('social' => $connect->Social->Id, 'action' => 'disconnect'));?>"><?=\Yii::t('app', 'Отключить');?></a>
+                </div>
+              <?endif;?>
             <?endforeach;?>
-          <?=\CHtml::endForm();?>
+            </div>
+            
+            <p><?=\Yii::t('app', 'Привязка учетной записи на RUNET&mdash;ID к аккаунту в социальных сетях даст возможность входить на сайт с помощью одного клика.');?></p>
+            <?foreach ($connects as $socialId => $connect):?>
+              <?if ($socialId == \oauth\components\social\ISocial::Facebook):?>
+                <?if ($connect === null):?>
+                  <div id="fb-root"></div>
+                  <script type="text/javascript">
+                    window.fbAsyncInit = function() {
+                      FB.init({
+                        appId      : '<?=\oauth\components\social\Facebook::AppId;?>', // App ID
+                        channelUrl : '//<?=RUNETID_HOST;?>/files/channel.html', // Channel File
+                        status     : true, // check login status
+                        cookie     : true, // enable cookies to allow the server to access the session
+                        xfbml      : true  // parse XFBML
+                      });
+                    };
+                    // Load the SDK Asynchronously
+                    (function(d){
+                      var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+                      if (d.getElementById(id)) {return;}
+                      js = d.createElement('script'); js.id = id; js.async = true;
+                      js.src = "//connect.facebook.net/en_US/all.js";
+                      ref.parentNode.insertBefore(js, ref);
+                    }(document));
+                  </script>
+                  <a class="btn" href="#" id="fb_login"><i class="ico16 ico16_social ico16_social__facebook"></i> Facebook</a>
+                <?endif;?>
+              <?elseif ($socialId == \oauth\components\social\ISocial::Twitter):?>
+                <?if ($connect === null):?>
+                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Twitter,  'action' => 'connect'));?>" id="twi_login"><i class="ico16 ico16_social ico16_social__twitter"></i> Twitter</a>
+                <?endif;?>
+              <?elseif ($socialId == \oauth\components\social\ISocial::Vkontakte):?>
+                <?if ($connect === null):?>
+                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Vkontakte,  'action' => 'connect'));?>" id="vk_login"><i class="ico16 ico16_social ico16_social__vkontakte"></i> Вконтакте</a>
+                <?endif;?>
+              <?endif;?>
+            <?endforeach;?>
+          </div>
         </div>
       </div>
     </div>

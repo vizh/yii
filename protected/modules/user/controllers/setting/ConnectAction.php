@@ -6,17 +6,64 @@ class ConnectAction extends \CAction
   public function run()
   {
     $user = \Yii::app()->user->getCurrentUser(); 
+    
+    $request = \Yii::app()->getRequest();
+    $action = $request->getParam('action');
+    if ($action !== null)
+    {
+      $social  = $request->getParam('social');
+      switch ($action)
+      {
+        case 'connect':
+          $socialProxy = new \oauth\components\social\Proxy($social);
+          if ($socialProxy->isHasAccess())
+          {
+            $socialProxy->renderScript();
+            $socialProxy->saveSocialData($user);
+          }
+          else
+          {
+            $this->getController()->redirect(
+              $socialProxy->getOAuthUrl(
+                $this->getController()->createAbsoluteUrl('/user/setting/connect/', array('action' => $action, 'social' => $social))
+              )
+            );
+          }
+          break;
+
+        case 'disconnect':
+          $oauthSocialConnect = \oauth\models\Social::model()
+            ->byUserId($user->Id)->bySocialId($social)->find();
+          if ($oauthSocialConnect !== null)
+          {
+            $oauthSocialConnect->delete();
+          }
+          $this->getController()->redirect(
+            $this->getController()->createUrl('/user/setting/connect/')
+          );
+          break;
+      }
+    }
+    
     $connects = array(
-      \oauth\components\social\ISocial::Facebook  => false,
-      \oauth\components\social\ISocial::Vkontakte => false,
-      \oauth\components\social\ISocial::Twitter   => false
+      \oauth\components\social\ISocial::Facebook  => null,
+      \oauth\components\social\ISocial::Vkontakte => null,
+      \oauth\components\social\ISocial::Twitter   => null
     );
     
     $oauthSocialConnects = \oauth\models\Social::model()->byUserId($user->Id)->findAll();
     foreach ($oauthSocialConnects as $oauthSocialConnect)
     {
-      $connects[$oauthSocialConnect->SocialId] = true;
+      $connects[$oauthSocialConnect->SocialId] = $oauthSocialConnect;
     }
+    
+    \Yii::app()->getClientScript()->registerScriptFile(
+      \Yii::app()->getAssetManager()->publish(
+        \Yii::getPathOfAlias('oauth.assets.js').DIRECTORY_SEPARATOR.'module.js'
+      )
+    );
+    $this->getController()->bodyId = 'user-account';
+    $this->getController()->setPageTitle(\Yii::t('app', 'Привязка к социальным сетям'));
     $this->getController()->render('connect', array('connects' => $connects));
   }
 }

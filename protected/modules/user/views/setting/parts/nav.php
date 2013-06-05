@@ -2,7 +2,8 @@
 $menu = array(
   'password' => \Yii::t('app', 'Смена пароля'),
   'indexing' => \Yii::t('app', 'Индексация в поисковых системах'),
-  'subscription' => \Yii::t('app', 'Управление подпиской')
+  'subscription' => \Yii::t('app', 'Управление подпиской'),
+  'connect' => \Yii::t('app', 'Привязка к социальным сетям')
 );
 ;?>
 

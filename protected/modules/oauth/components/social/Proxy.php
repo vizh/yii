@@ -26,9 +26,9 @@ class Proxy implements ISocial
     }
   }
 
-  public function getOAuthUrl()
+  public function getOAuthUrl($redirectUrl = null)
   {
-    return $this->social->getOAuthUrl();
+    return $this->social->getOAuthUrl($redirectUrl);
   }
 
   public function isHasAccess()
