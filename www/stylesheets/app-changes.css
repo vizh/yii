@@ -101,11 +101,14 @@ a:focus{
   right: 8px;
   border: 1px solid #e6e6e6;
 }
-#event-register .user-row .alert {
+#event-register .user-row .last-child .alert {
   position: absolute;
   width: 221px;
   margin-top: 5px;
   font-size: 12px !important;
+}
+#event-register .user-row .alert {
+  margin-bottom: 0;
 }
 
 .event-register .table .user-row:last-child > td:first-child {background: none !important;}
