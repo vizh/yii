@@ -461,7 +461,7 @@ class Event extends \application\models\translation\ActiveRecord
   {
     if ($this->logo === null)
     {
-      $this->logo = new Logo($this->IdName);
+      $this->logo = new Logo($this);
     }
     return $this->logo;
   }

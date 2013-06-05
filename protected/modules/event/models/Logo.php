@@ -3,11 +3,11 @@ namespace event\models;
 
 class Logo
 {
-  private $idName;
+  private $event;
 
-  public function __construct($idName)
+  public function __construct($event)
   {
-    $this->idName = $idName;
+    $this->event = $event;
   }
 
   /**
@@ -35,12 +35,18 @@ class Logo
    */
   protected function getPath($serverPath = false)
   {
-    $result = \Yii::app()->params['EventDir'].$this->idName.'/';
+    $result = \Yii::app()->params['EventDir'].$this->event->IdName.'/';
     if ($serverPath)
     {
       $result = \Yii::getPathOfAlias('webroot') . $result;
     }
     return $result;
+  }
+  
+  
+  protected function getNone($size)
+  {
+    return 'none/type_'.$this->event->TypeId.'/'.$size.'.png';
   }
   
   /**
@@ -52,7 +58,7 @@ class Logo
     $path = $this->getPath(true);
     if (is_dir($path))
     {
-      $this->idName = $newIdName;
+      $this->event->IdName = $newIdName;
       rename($path, $this->getPath(true));
     }
   }
@@ -84,27 +90,27 @@ class Logo
   
   public function getOriginal($serverPath = false)
   {
-    return $this->getByName($serverPath, 'original.png', 'none.png');
+    return $this->getByName($serverPath, 'original.png', $this->getNone(50));
   }
   
   public function get120px($serverPath = false)
   {
-    return $this->getByName($serverPath, '120.png', 'none_120.png');
+    return $this->getByName($serverPath, '120.png', $this->getNone(120));
   }
   
   public function get150px($serverPath = false)
   {
-    return $this->getByName($serverPath, '150.png', 'none_150.png');
+    return $this->getByName($serverPath, '150.png', $this->getNone(150));
   }
   
   public function get50px($serverPath = false)
   {
-    return $this->getByName($serverPath, '50.png', 'none_50.png');
+    return $this->getByName($serverPath, '50.png', $this->getNone(50));
   }
   
   public function get70px($serverPath = false)
   {
-    return $this->getByName($serverPath, '70.png', 'none_70.png');
+    return $this->getByName($serverPath, '70.png', $this->getNone(70));
   }
 
 
