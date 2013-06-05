@@ -18,7 +18,7 @@ class Uniteller extends Base
 
   protected function initRequiredParams($orderId)
   {
-    $this->shopId = '00000524';
+    $this->shopId = '00001681';
     $this->password = 'Ip4Ft2bcCCGezOni6S9aihhAZ2I0MPlUJgw9G1SNflmZMkJ7UIIQVheXtZG29cGUsSSxko9stQWHXdqK';
   }
 
