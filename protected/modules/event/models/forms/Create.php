@@ -25,6 +25,7 @@ class Create extends \CFormModel
   {
     return array(
       array('ContactName, ContactPhone, ContactEmail, Title, Place, StartDate, EndDate, Info', 'required'),
+      array('ContactEmail', 'filter', 'filter' => 'trim'),
       array('Url, Info, FullInfo, Options, OneDayDate', 'safe'),
       array('ContactEmail', 'email'),
       array('StartDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'StartTimestamp'),

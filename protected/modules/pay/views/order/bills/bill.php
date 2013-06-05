@@ -22,7 +22,7 @@ use application\components\utility\Texts;
 <tbody>
 <tr>
   <td><b>ООО «Интернет Медиа Холдинг»</b><BR>Адрес: 123100, г. Москва, наб. Пресненская., д. 12, этаж 46<BR>тел. +7 (495) 950-56-51</td>
-  <td align="right"><img src="/img/pay/bill/rocid.png" width="129" height="48"></td>
+  <td align="right"><img src="/images/logo-mid.png" width="219" height="20"></td>
 
 </tr>
 <tr>
