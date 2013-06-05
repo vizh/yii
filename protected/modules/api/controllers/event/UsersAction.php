@@ -10,6 +10,13 @@ class UsersAction extends \api\components\Action
     $maxResults = $request->getParam('MaxResults', $this->getMaxResults());
     $maxResults = min($maxResults, $this->getMaxResults());
     $pageToken = $request->getParam('PageToken', null);
+    $roles = $request->getParam('RoleId');
+
+    $command = \Yii::app()->getDb()->createCommand()
+        ->select('EventParticipant.UserId')->from('EventParticipant')
+        ->where('"EventParticipant"."EventId" = '.$this->getEvent()->Id);
+    if (!empty($roles))
+      $command->andWhere(array('in', 'EventParticipant.RoleId', $roles));
 
     $criteria = new \CDbCriteria();
     if ($pageToken === null)
@@ -24,12 +31,17 @@ class UsersAction extends \api\components\Action
     }
 
     $criteria->with = array(
+      'Participants' => array('on' => '"Participants"."EventId" = :EventId', 'params' => array(
+        'EventId' => $this->getEvent()->Id
+      ), 'together' => false),
       'Employments.Company' => array('on' => '"Employments"."Primary"', 'together' => false),
-      'Participants' => array('together' => true)
+      'LinkPhones.Phone' => array('together' => false)
     );
+    $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
 
-    $criteria->addCondition('"Participants"."EventId" = :EventId');
-    $criteria->params['EventId'] = $this->getEvent()->Id;
+
+
+    $criteria->addCondition('"t"."Id" IN ('.$command->getText().')');
 
     $users = \user\models\User::model()->findAll($criteria);
 
