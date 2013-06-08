@@ -12,7 +12,8 @@ class ViewController extends \application\components\controllers\PublicMainContr
       'EmploymentsAll' => array(
         'together' => false, 
         'order' => '"User"."LastName" ASC',
-        'with' => array('User')  
+        'with' => array('User'),
+        'condition' => '"User"."Visible"'
       )
     );
     $company = company\models\Company::model()->findByPk($companyId, $criteria);
