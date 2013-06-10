@@ -1,7 +1,7 @@
 <?php
 namespace event\models\forms\admin;
 
-class EditForm extends \CFormModel
+class Edit extends \CFormModel
 {
   const DATE_FORMAT = 'dd.MM.yyyy';
   
@@ -13,6 +13,8 @@ class EditForm extends \CFormModel
   public $TypeId;
   public $ShowOnMain;
   public $Approved = 0;
+  public $Free;
+  public $Top;
   
   public $StartDate;
   public $EndDate;
@@ -33,6 +35,7 @@ class EditForm extends \CFormModel
   {
     return array(
       array('Title, IdName, Info, StartDate, EndDate', 'required'),
+      array('Free, Top', 'numerical', 'allowEmpty' => true),
       array('StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'),
       array('EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'),
       array('Info', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
@@ -57,7 +60,9 @@ class EditForm extends \CFormModel
       'Approved' => \Yii::t('app', 'Статус'),
       'Logo' => \Yii::t('app', 'Лого'),
       'SiteUrl' => \Yii::t('app', 'URl сайта'),
-      'Address' => \Yii::t('app', 'Адрес')
+      'Address' => \Yii::t('app', 'Адрес'),
+      'Free' => \Yii::t('app', 'Бесплатное мероприятие'),
+      'Top' => \Yii::t('app', 'Выделить в блок')
     );
   }
   

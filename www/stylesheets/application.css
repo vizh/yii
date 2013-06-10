@@ -228,7 +228,10 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   margin-bottom: 0;
   margin-left: -20px;
   padding: 20px;
-  background: #E3E3E3;
+  background: #1a1a1a;
+}
+.form-filter.light {
+  background: #E3E3E3
 }
 
 /* Form elements */
@@ -631,9 +634,13 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   font-weight: normal;
   line-height: 30px;
 }
-.events-month-select .year {
-  color: #a6a6a6;
+.events-month-select .dropdown.year {
   font-size: 13px;
+}
+.events-month-select .dropdown.year .dropdown-menu {
+  width: 100px;
+  min-width: 0;
+  margin-left: 20px;
 }
 .events-month-select .nav {
   position: absolute;
@@ -866,6 +873,51 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   margin-left: -70px;
   text-align: center;
 }
+
+/* Events -> Box */
+#events-box .pager {margin-bottom: 100px;}
+
+.events-box {margin: 50px 0 20px;}
+.events-box .event {margin-bottom: 60px;}
+.events-box .event.add {
+  border: 1px dashed #08c;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  cursor: pointer;
+  height: 300px;
+  padding: 80px 30px 30px 30px;
+  text-align: center;
+}
+.events-box .event.add:hover {text-decoration: none;}
+
+.events-box .event.past {opacity: .33;}
+.events-box .event_promo {
+  background: #e6e6e6;
+  margin-bottom: 60px;
+  padding-top: 60px;
+  text-align: center;
+}
+
+.events-box .event header {margin-bottom: 5px;}
+.events-box .event header > h2 {margin: -10px 0 5px;}
+.events-box .event header > h3 {
+  margin: 5px 0;
+  line-height: 24px;
+}
+
+.events-box .event header .type {color: #ccc;}
+.events-box .event header .logo {margin-bottom: 20px;}
+.events-box .event header .title a {color: #333;}
+.events-box .event header .date {color: #ff9600;}
+
+.events-box .event article {font-size: 13px;}
+.events-box .event footer .btn {
+  margin-bottom: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.events-box .event footer .btn-large {margin: 5px 0 10px;}
 
 /* Event -> Page */
 .event-page {margin: 50px 0 100px;}

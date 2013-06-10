@@ -3,7 +3,7 @@ class EditController extends \application\components\controllers\AdminMainContro
 {
   public function actionIndex($eventId = null)
   {
-    $form = new \event\models\forms\admin\EditForm();
+    $form = new \event\models\forms\admin\Edit();
     if ($eventId !== null)
     {
       $event = \event\models\Event::model()->findByPk($eventId);
@@ -12,21 +12,23 @@ class EditController extends \application\components\controllers\AdminMainContro
         throw new CHttpException(404);
       }
       
-      foreach ($event->attributes as $attribute => $value)
+      $attributes = $event->getAttributes();
+      foreach ($event->getInternalAttributes() as $attribute)
+      {
+        $attributes[$attribute->Name] = $attribute->Value;
+      }
+      foreach ($attributes as $attribute => $value)
       {
         if (property_exists($form, $attribute))
-        {
           $form->$attribute = $value;
-        }
-      } 
-      $form->StartDate = $event->getFormattedStartDate(\event\models\forms\admin\EditForm::DATE_FORMAT);
-      $form->EndDate = $event->getFormattedEndDate(\event\models\forms\admin\EditForm::DATE_FORMAT);
+      }
+      $form->StartDate = $event->getFormattedStartDate(\event\models\forms\admin\Edit::DATE_FORMAT);
+      $form->EndDate = $event->getFormattedEndDate(\event\models\forms\admin\Edit::DATE_FORMAT);
       $form->ProfInterest = \CHtml::listData($event->LinkProfessionalInterests, 'Id', 'ProfessionalInterestId');
       if ($event->LinkSite !== null)
       {
         $form->SiteUrl = (string) $event->LinkSite->Site;
-      }
-      
+      } 
       $form->Address->attributes = $event->getContactAddress()->attributes;
     }
     else 
@@ -49,6 +51,8 @@ class EditController extends \application\components\controllers\AdminMainContro
         $event->Visible = $form->Visible;
         $event->TypeId = $form->TypeId;
         $event->ShowOnMain = $form->ShowOnMain;
+        $event->Top = $form->Top;
+        $event->Free = $form->Free;
         $event->Approved = $form->Approved;
         if ($event->IdName !== $form->IdName)
         {

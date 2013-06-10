@@ -101,7 +101,7 @@ class Event extends \application\models\translation\ActiveRecord
    */
   protected function getInternalAttributeNames()
   {
-    return array('UrlSectionMask', 'FbPlaceId');
+    return array('UrlSectionMask', 'FbPlaceId', 'Free', 'Top');
   }
 
   public function __get($name)
@@ -130,7 +130,23 @@ class Event extends \application\models\translation\ActiveRecord
 
   public function __set($name, $value)
   {
-    parent::__set($name, $value);
+    if (in_array($name, $this->getInternalAttributeNames()))
+    {
+      $attribute = $this->getAttribute($name);
+      if ($attribute == null)
+      {
+        $attribute = new Attribute();
+        $attribute->Name = $name;
+        $attribute->EventId = $this->Id;
+        $this->internalAttributesByName[$name] = $attribute;
+      }
+      $attribute->Value = $value;
+      $attribute->save();
+    }
+    else
+    {
+      parent::__set($name, $value);
+    }
   }
 
   public function __isset($name)
@@ -472,37 +488,37 @@ class Event extends \application\models\translation\ActiveRecord
    */
   public function getAttribute($name)
   {
-    $attributes = $this->getAttributesByName();
+    $attributes = $this->getInternalAttributes();
     return isset($attributes[$name]) ? $attributes[$name] : null;
   }
 
-  private $attributesByName = null;
+  private $internalAttributesByName = null;
   /**
    * @return array
    */
-  private function getAttributesByName()
+  public function getInternalAttributes()
   {
-    if ($this->attributesByName === null)
+    if ($this->internalAttributesByName === null)
     {
-      $this->attributesByName = array();
+      $this->internalAttributesByName = array();
       foreach ($this->Attributes as $attribute)
       {
-        if (!isset($this->attributesByName[$attribute->Name]))
+        if (!isset($this->internalAttributesByName[$attribute->Name]))
         {
-          $this->attributesByName[$attribute->Name] = $attribute;
+          $this->internalAttributesByName[$attribute->Name] = $attribute;
         }
         else
         {
-          if (!is_array($this->attributesByName[$attribute->Name]))
+          if (!is_array($this->internalAttributesByName[$attribute->Name]))
           {
-            $this->attributesByName[$attribute->Name] = array($this->attributesByName[$attribute->Name]);
+            $this->internalAttributesByName[$attribute->Name] = array($this->internalAttributesByName[$attribute->Name]);
           }
-          $this->attributesByName[$attribute->Name][] = $attribute;
+          $this->internalAttributesByName[$attribute->Name][] = $attribute;
         }
       }
     }
 
-    return $this->attributesByName;
+    return $this->internalAttributesByName;
   }
   
   public function getTimeStampStartDate()

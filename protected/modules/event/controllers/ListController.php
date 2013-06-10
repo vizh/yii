@@ -1,39 +1,29 @@
 <?php
 class ListController extends \application\components\controllers\PublicMainController
-{
-  private $events = array();
-  private $filter;
-  private $month;
-  private $year;
-  
-  public function beforeAction($action) 
+{ 
+  public function actionIndex()
   {
-    $this->setPageTitle('Календарь мероприятий / RUNET-ID');
-
-    $this->month = (int) \Yii::app()->request->getParam('Month', date('n'));
-    $this->year  = (int) \Yii::app()->request->getParam('Year', date('Y'));
-    if (empty($this->month) || empty($this->year)
-      || ($this->month > 12 || $this->month < 1)
-      ||!preg_match('/^\d{4}$/', $this->year))
+    $month = \Yii::app()->request->getParam('Month', date('n'));
+    $year  = \Yii::app()->request->getParam('Year', date('Y'));
+    if (empty($month) || empty($year) || ($month > 12 || $month < 1)
+      ||!preg_match('/^\d{4}$/', $year))
     {
       throw new CHttpException(404);
     }
     
-    $eventModel = \event\models\Event::model()->byVisible()->byDate($this->year, $this->month);
+    $eventModel = \event\models\Event::model()->byDate($year, $month)->byVisible(true)->orderByDate('ASC');
     $criteria = new \CDbCriteria();
-    $criteria->order = '"t"."StartDay" ASC';
     $criteria->with = array('LinkAddress', 'LinkAddress.Address', 'Type');
     
-    $this->filter = new \event\models\forms\ListFilterForm();
-    $request = \Yii::app()->getRequest();
-    $this->filter->attributes = $request->getParam(get_class($this->filter));
-    if ($request->getIsPostRequest() && $this->filter->validate())
+    $filter = new \event\models\forms\ListFilterForm();
+    $filter->attributes = \Yii::app()->getRequest()->getParam(get_class($filter));
+    if (\Yii::app()->getRequest()->getIsPostRequest() && $filter->validate())
     {
-      foreach ($this->filter->attributes as $attr => $value)
+      foreach ($filter->getAttributes() as $attribute => $value)
       {
         if (!empty($value))
         {
-          switch($attr)
+          switch($attribute)
           {
             case 'City':
               $criteria->addCondition('"Address"."CityId" = :CityId');
@@ -51,40 +41,82 @@ class ListController extends \application\components\controllers\PublicMainContr
         }
       }
     }
-
     
-    $this->events = $eventModel->findAll($criteria);
-    return parent::beforeAction($action);
+    $allEvents = $eventModel->findAll($criteria);
+    $actEvents = $oldEvents = $eventIdList = $topEvents = array();
+    
+    foreach ($allEvents as $event)
+    { 
+      if ($event->getFormattedEndDate('yyyy-MM-dd') >= date('Y-m-d'))
+      {
+        if (isset($event->Top) && $event->Top == 1)
+        {
+          $topEvents[] = $event;
+        }
+        else
+        {
+          $actEvents[] = $event;
+        }
+      }
+      else
+      {
+        $oldEvents[] = $event;
+      }
+      $eventIdList[] = $event->Id;
+    }
+    $events = array_merge($actEvents, $oldEvents);
+    
+    $criteria = new \CDbCriteria();
+    $eventWithPayAccounts = array();
+    $criteria->addInCondition('"t"."EventId"', $eventIdList);
+    $payAccounts = \pay\models\Account::model()->findAll($criteria);
+    foreach ($payAccounts as $account)
+    {
+      $eventWithPayAccounts[] = $account->EventId;
+    }
+    
+    $eventWithCurrentUser = array();
+    if (!\Yii::app()->getUser()->getIsGuest())
+    {
+      $criteria->addCondition('"t"."UserId" = :UserId');
+      $criteria->params['UserId'] = \Yii::app()->getUser()->getId();
+      $participants = \event\models\Participant::model()->findAll($criteria);
+      foreach ($participants as $participant)
+      {
+        $eventWithCurrentUser[] = $participant->EventId;
+      }
+    }
+    
+    $this->setPageTitle(\Yii::t('app', 'Календарь мероприятий / RUNET-ID'));
+    $this->render('index', array(
+      'events' => $events, 
+      'filter' => $filter,
+      'topEvents' => $topEvents,
+      'eventWithPayAccounts' => $eventWithPayAccounts,
+      'eventWithCurrentUser' => $eventWithCurrentUser,
+      'month'   => $month,
+      'year'    => $year,
+      'nextUrl' => $this->getNextMonthUrl($month, $year),
+      'prevUrl' => $this->getPrevMonthUrl($month, $year)
+    ));
   }
   
-  public function render($view, $data = array(), $return = false) 
-  {
-    $data += array(
-      'events' => $this->events,
-      'month' => $this->month,
-      'year' => $this->year,
-      'nextMonthUrl' => $this->getNextMonthUrl(),
-      'prevMonthUrl' => $this->getPrevMonthUrl(),
-      'filter' => $this->filter
-    );
-    parent::render($view, $data, $return);
-  }
-
-    /**
+  
+  /**
    * Возврщает ссылку на предыдущий месяц
    * @return type 
    */
-  private function getPrevMonthUrl()
+  private function getPrevMonthUrl($currentMonth, $currentYear)
   {
-    if ($this->month == 1)
+    if ($currentMonth == 1)
     {
       $prevMonth = 12;
-      $prevYear  = $this->year - 1;
+      $prevYear  = $currentYear - 1;
     }
     else
     {
-      $prevMonth = $this->month-1;
-      $prevYear  = $this->year;
+      $prevMonth = $currentMonth - 1;
+      $prevYear  = $currentYear;
     }
     return $this->createUrl('/event/list/'.$this->action->getId(), array('Month' => $prevMonth, 'Year' => $prevYear));
   }
@@ -93,25 +125,18 @@ class ListController extends \application\components\controllers\PublicMainContr
    * Возврщает ссылку на следующий месяц
    * @return type 
    */
-  private function getNextMonthUrl()
+  private function getNextMonthUrl($currentMonth, $currentYear)
   {
-    if ($this->month == 12)
+    if ($currentMonth == 12)
     {
       $nextMonth = 1;
-      $nextYear  = $this->year + 1;
+      $nextYear  = $currentYear + 1;
     }
     else
     {
-      $nextMonth = $this->month+1;
-      $nextYear  = $this->year;
+      $nextMonth = $currentMonth + 1;
+      $nextYear  = $currentYear;
     }
     return $this->createUrl('/event/list/'.$this->action->getId(), array('Month' => $nextMonth, 'Year' => $nextYear));
   }
-  
-  
-  public function actionIndex()
-  {
-    $this->render('index');
-  }
-
 }

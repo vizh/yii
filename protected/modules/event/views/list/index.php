@@ -17,84 +17,117 @@
   <?php echo \CHtml::endForm();?>
 </div>
 
-
-<div class="events-list">
+<div class="events-box">
   <div class="container">
     <div class="row">
       <div class="events-month-select datetime span2 offset5">
-        <a href="<?php echo $prevMonthUrl;?>" class="nav prev">
+        <a href="<?=$prevUrl;?>" class="nav prev">
           <i class="icon-arrow-left"></i>
         </a>
         <div class="date">
-          <h3 class="month"><?php echo \Yii::app()->locale->getMonthName($month,'wide',true);?></h3>
-          <p class="year"><?php echo $year;?></p>
+          <h3 class="month"><?=\Yii::app()->getLocale()->getMonthName($month,'wide',true);?></h3>
+          <div class="dropdown year">
+            <a class="dropdown-toggle pseudo-link" data-toggle="dropdown" href="#"><?=$year;?></a>
+            <ul class="dropdown-menu" role="menu">
+              <?for($y = date('Y')+1; $y >= 2007; $y--):?>
+                <li><a href="<?=$this->createUrl('/event/list/index', array('Month' => $month,'Year' => $y));?>"><?=$y;?></a></li>
+              <?endfor;?>
+            </ul>
+          </div>
         </div>
-        <a href="<?php echo $nextMonthUrl;?>" class="nav next">
+        <a href="<?=$nextUrl;?>" class="nav next">
           <i class="icon-arrow-right"></i>
         </a>
       </div>
     </div>
-
-    <div class="row p-relative">
-      <div class="span8 offset2">
-        <?php if (!empty($events)):?>
-          <?php foreach ($events as $event):?>
-            <?$today = (date('d.m.Y') >= $event->getFormattedStartDate('dd.MM.yyyy') && date('d.m.Y') <= $event->getFormattedEndDate('dd.MM.yyyy'));?>
-            <div class="event <?if($event->getFormattedEndDate('dd.MM.yyyy') < date('d.m.Y')):?>past<?endif;?> <?if($today):?>today<?endif;?>">
-              <?if ($today):?>
-                <div class="label-today"><span class="label label-success"><?=\Yii::t('app', 'Сегодня');?></span></div>
-              <?endif;?>
-              <div class="type span2">
-                <img src="/images/blank.gif" alt="" class="i-event_medium <?=$event->Type->CssClass;?>">
-                <p><?=$event->Type->Title;?></p>
-              </div>
-              <div class="datetime">
-                <div class="line"></div>
-                <span class="date backing">
-                  <?$this->widget('\event\widgets\Date', array('event' => $event));?>
-                </span>
-                <span class="day-of-the-week backing pull-right">
-                  <?=$event->getFormattedStartDate('EEEE');?>
-                  <?php if ($event->StartDay != $event->EndDay || $event->StartMonth != $event->EndMonth):?>
-                    &ndash; <?=$event->getFormattedEndDate('EEEE');?>
-                  <?php endif;?>
-                </span>
-              </div>
+  </div>
+  
+  <?if (!empty($events)):?>
+    <?$unitsOnRow = 3;?>
+    <?$i = 0;?>
+    <?while(true):?>
+      <?$sliceEvents = array_slice($events, $i*$unitsOnRow, $unitsOnRow);?>
+      <?if (empty($sliceEvents)) break;?>
+      <div class="container">
+        <div class="row units events">
+          <?foreach ($sliceEvents as $event):?><div class="unit span4 event <?if ($event->getFormattedEndDate('yyyy-MM-dd') < date('Y-m-d')):?>past<?endif;?>">
               <header>
-                <h2 class="title">
-                  <a href="<?php echo $this->createUrl('/event/view/index', array('idName' => $event->IdName));?>"><?php echo $event->Title;?></a>
-                </h2>
-                <?php if ($event->LinkAddress !== null):?>
-                  <p class="location"><?php echo $event->LinkAddress->Address;?></p>
-                <?php endif;?>
+                <p class="type"><small><?=$event->Type->Title;?></small></p>
+                <h3 class="date"><?$this->widget('\event\widgets\Date', array('event' => $event));?></h3>
+                <h3 class="title"><a href="<?=$event->getUrl();?>"><?=$event->Title;?></a></h3>
+                <?if ($event->getContactAddress() !== null):?>
+                  <small class="muted"><?=$event->getContactAddress();?></small>
+                <?endif;?>
               </header>
               <article>
-                <p><?php echo $event->Info;?></p>
+                <p><?=\application\components\utility\Texts::cropText($event->Info, \Yii::app()->params['EventPreviewLength']);?></p>
               </article>
               <footer>
-                <nav>
-                  <a href="<?php echo $this->createUrl('/event/view/index', array('idName' => $event->IdName));?>"><i class="icon-circle-arrow-right"></i><?php echo \Yii::t('app', 'Посетить мероприятие');?></a>
-                  <!--
-                  <a href="#"><i class="icon-comment"></i><?php echo \Yii::t('app', 'Комментировать');?></a>
-                  <a href="#"><i class="icon-share"></i><?php echo \Yii::t('app', 'Поделиться');?></a>
-                  -->
-                </nav>
+                <?if (in_array($event->Id, $eventWithCurrentUser)):?>
+                  <a href="<?=$event->getUrl();?>" class="btn disabled"><?=\Yii::t('app', 'Вы уже зарегистрированы');?></a>
+                <?elseif (isset($event->Free) && $event->Free == 1):?>
+                  <a href="<?=$event->getUrl();?>" class="btn btn-large btn-info"><?=\Yii::t('app', 'Регистрация бесплатна');?></a>
+                <?endif;?>  
+                <?if (in_array($event->Id, $eventWithPayAccounts)):?>
+                  <p class="muted"><small><?=\Yii::t('app', 'Регистрация через RUNET-ID');?></small></p>
+                <?endif;?>
               </footer>
-            </div>
-          <?php endforeach;?>
-        <?php endif;?>
-        <div id="event-button_action">
-          <a href="<?=$this->createUrl('/event/create/index');?>" class="btn btn-info event-button_add">
-            <div class="plus">+</div>
-            <div class="text"><?php echo \Yii::t('app', 'Добавить');?><br><?php echo \Yii::t('app', 'мероприятие');?></div>
-          </a>
+            </div><?endforeach;?><?if (!isset($events[($i+1)*$unitsOnRow])):?><a class="unit span4 event add" href="<?=$this->createUrl('/event/create/index');?>">
+                <h4><?=\Yii::t('app', 'Добавить');?><br/><?=\Yii::t('app', 'мероприятие');?></h4>
+                <p class="muted"><small><?=\Yii::t('app', 'Вы&nbsp;можете предложить свое мероприятие для размещения в&nbsp;календаре');?></small></p>
+              </a>
+            <?endif;?>
         </div>
       </div>
+
+      <?if (isset($topEvents[$i])):?>
+        <?$event = $topEvents[$i];?>
+        <div class="event_promo">
+          <div class="container">
+            <div class="row units events">
+              <div class="unit span12 event">
+                <header>
+                  <img src="<?=$event->getLogo()->get50px();?>" alt="" class="logo">
+                  <p class="muted"><small><?=$event->Type->Title;?></small></p>
+                  <h2 class="date"><?$this->widget('\event\widgets\Date', array('event' => $event));?></h2>
+                  <h2 class="title"><a href="<?=$event->getUrl();?>"><?=$event->Title;?></a></h2>
+                  <?if ($event->getContactAddress() !== null):?>
+                    <small class="muted"><?=$event->getContactAddress();?></small>
+                  <?endif;?>
+                </header>
+                <article>
+                  <p><?=\application\components\utility\Texts::cropText($event->Info, \Yii::app()->params['EventPreviewLength']);?></p>
+                </article>
+                <footer>
+                  <?if (in_array($event->Id, $eventWithCurrentUser)):?>
+                    <a href="<?=$event->getUrl();?>" class="btn disabled"><?=\Yii::t('app', 'Вы уже зарегистрированы');?></a>
+                  <?elseif (isset($event->Free) && $event->Free == 1):?>
+                    <a href="<?=$event->getUrl();?>" class="btn btn-large btn-info"><?=\Yii::t('app', 'Регистрация бесплатна');?></a>
+                  <?endif;?>  
+                  <?if (in_array($event->Id, $eventWithPayAccounts)):?>
+                    <p class="muted"><small><?=\Yii::t('app', 'Регистрация через RUNET-ID');?></small></p>
+                  <?endif;?>
+                </footer>
+              </div>
+            </div>
+          </div>
+        </div>
+      <?endif;?>
+      <?$i++;?>
+    <?endwhile;?>
+  <?else:?>
+    <div class="container">
+      <div class="row units events">
+        <a class="unit span4 event add" href="<?=$this->createUrl('/event/create/index');?>">
+          <h4><?=\Yii::t('app', 'Добавить');?><br/><?=\Yii::t('app', 'мероприятие');?></h4>
+          <p class="muted"><small><?=\Yii::t('app', 'Вы&nbsp;можете предложить свое мероприятие для размещения в&nbsp;календаре');?></small></p>
+        </a>
+      </div>
     </div>
-  </div>
-    
+  <?endif;?>
+
   <ul class="pager">
-    <li><a href="<?=$prevMonthUrl;?>">&larr;&nbsp;<?php echo \Yii::t('app', 'Старые');?></a></li>
-    <li><a href="<?=$nextMonthUrl;?>"><?php echo \Yii::t('app', 'Новые');?>&nbsp;&rarr;</a></li>
+    <li><a href="<?=$prevUrl;?>">&larr;&nbsp;Старые</a></li>
+    <li><a href="<?=$nextUrl;?>">Новые&nbsp;&rarr;</a></li>
   </ul>
-</div>
+</section>
