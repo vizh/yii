@@ -626,7 +626,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 /* Month select */
 .events-month-select {
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   text-align: center;
 }
 .events-month-select .month {
@@ -636,6 +636,10 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 }
 .events-month-select .dropdown.year {
   font-size: 13px;
+}
+.events-month-select .dropdown.year > a {
+  color: #000;
+  border-color: #000;
 }
 .events-month-select .dropdown.year .dropdown-menu {
   width: 100px;
@@ -877,7 +881,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 /* Events -> Box */
 #events-box .pager {margin-bottom: 100px;}
 
-.events-box {margin: 50px 0 20px;}
+.events-box {margin: 10px 0 20px;}
 .events-box .event {margin-bottom: 60px;}
 .events-box .event.add {
   border: 1px dashed #08c;
@@ -895,8 +899,11 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .events-box .event_promo {
   background: #e6e6e6;
   margin-bottom: 60px;
-  padding-top: 60px;
+  padding-top: 30px;
   text-align: center;
+}
+.events-box .event_promo .event {
+  margin-bottom: 30px;
 }
 
 .events-box .event header {margin-bottom: 5px;}
@@ -904,12 +911,14 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .events-box .event header > h3 {
   margin: 5px 0;
   line-height: 24px;
+  font-size: 20px;
+  font-weight: 500;
 }
 
-.events-box .event header .type {color: #ccc;}
+.events-box .event header .type {color: #ccc; margin-bottom: 0;}
 .events-box .event header .logo {margin-bottom: 20px;}
 .events-box .event header .title a {color: #333;}
-.events-box .event header .date {color: #ff9600;}
+.events-box .event header .date {color: #ff9600; font-weight: 400px;}
 
 .events-box .event article {font-size: 13px;}
 .events-box .event footer .btn {

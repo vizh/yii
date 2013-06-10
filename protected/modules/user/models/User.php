@@ -100,6 +100,15 @@ class User extends \application\models\translation\ActiveRecord
     );
   }
 
+  public function __set($name, $value)
+  {
+    if ($name == 'Email')
+    {
+      $value = mb_strtolower($value);
+    }
+    parent::__set($name, $value);
+  }
+  
   /**
    * @return string[]
    */
@@ -144,7 +153,7 @@ class User extends \application\models\translation\ActiveRecord
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."Email" = :Email';
-    $criteria->params = array(':Email' => strtolower($email));
+    $criteria->params = array(':Email' => mb_strtolower($email));
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

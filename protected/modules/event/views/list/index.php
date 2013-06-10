@@ -87,7 +87,7 @@
             <div class="row units events">
               <div class="unit span12 event">
                 <header>
-                  <img src="<?=$event->getLogo()->get50px();?>" alt="" class="logo">
+                  <img src="<?=$event->getLogo()->get120px();?>" alt="" class="logo">
                   <p class="muted"><small><?=$event->Type->Title;?></small></p>
                   <h2 class="date"><?$this->widget('\event\widgets\Date', array('event' => $event));?></h2>
                   <h2 class="title"><a href="<?=$event->getUrl();?>"><?=$event->Title;?></a></h2>
