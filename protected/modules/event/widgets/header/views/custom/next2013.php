@@ -9,7 +9,7 @@ $event = $this->event;
     <div class="container">
         <div class="row">
             <div class="side left span4">
-                <div class="logo img-circle">
+                <div class="logo img-square">
                     <img src="<?=$event->getLogo()->get120px();?>" alt="">
                 </div>
             </div>
