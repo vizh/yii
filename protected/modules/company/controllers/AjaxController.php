@@ -30,8 +30,8 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     foreach ($companies as $company)
     {
       $item = new \stdClass();
-      $item->Id = $company['Id'];
-      $item->Name = (!empty($company['FullName']) ? $company['FullName'] : $company['Name']);
+      $item->Id = $item->value = $company['Id'];
+      $item->Name = $item->label = (!empty($company['FullName']) ? $company['FullName'] : $company['Name']);
       $result[] = $item;
     }
     echo json_encode($result);

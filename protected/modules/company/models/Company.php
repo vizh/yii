@@ -55,6 +55,7 @@ class Company extends \application\models\translation\ActiveRecord implements \s
       'LinkAddress' => array(self::HAS_ONE, '\company\models\LinkAddress', 'CompanyId'),
       'LinkSite' => array(self::HAS_ONE, '\company\models\LinkSite', 'CompanyId'),
       'LinkPhones' => array(self::HAS_MANY, '\company\models\LinkPhone', 'CompanyId'),  
+      'LinkModerators' => array(self::HAS_MANY, '\company\models\LinkModerator', 'CompanyId'),
         
       //Сотрудники
       'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'order' => '"User"."LastName" DESC', 'condition' => '"Employments"."EndYear" IS NULL', 'with' => array('User')),
@@ -89,34 +90,21 @@ class Company extends \application\models\translation\ActiveRecord implements \s
     return $this;
   }
   
-  public static function getLogoBaseDir($onServerDisc = false)
-	{
-    $result = \Yii::app()->params['CompanyLogoDir'];
-    if ($onServerDisc)
-    {
-      $result = $_SERVER['DOCUMENT_ROOT'].$result;
-    }
-    return $result;
-	}
+  
+  /** @var Logo */
+  private $logo = null;
   
   /**
-	* Возвращает путь к изображению компании
-	* @param bool $onServerDisc
-	* @return string
-	*/
-	public function getLogo($onServerDisc = false)
-	{
-		$path = $this->Id . '_200.jpg';
-		if ($onServerDisc || file_exists(self::getLogoBaseDir(true).$path))
-		{
-			$path = self::getLogoBaseDir($onServerDisc).$path;
-		}
-		else
-		{
-			$path = self::getLogoBaseDir($onServerDisc) . 'no_logo.png';
-		}
-    return $path;
-	}
+   * @return Logo
+   */
+  public function getLogo()
+  {
+    if ($this->logo === null)
+    {
+      $this->logo = new Logo($this);
+    }
+    return $this->logo;
+  }
 
   /**
    * @param string $fullName
@@ -136,5 +124,68 @@ class Company extends \application\models\translation\ActiveRecord implements \s
   public function getTranslationFields()
   {
     return array('Name');
+  }
+  
+  /**
+   * 
+   * @return \contact\models\Address
+   */
+  public function getContactAddress()
+  {
+    return !empty($this->LinkAddress) ? $this->LinkAddress->Address : null;
+  }
+  
+  /**
+   * 
+   * @param \contact\models\Address $address
+   */
+  public function setContactAddress($address)
+  {
+    $linkAddress = $this->LinkAddress;
+    if ($linkAddress == null)
+    {
+      $linkAddress = new \company\models\LinkAddress();
+      $linkAddress->CompanyId = $this->Id;
+    }
+    $linkAddress->AddressId = $address->Id;
+    $linkAddress->save();
+  }
+  
+  /**
+   * Добавляет адресс сайта
+   * @param string $url
+   * @param bool $secure
+   * @return \contact\models\Site
+   */
+  public function setContactSite($url, $secure = false)
+  {
+    $contactSite = $this->getContactSite();
+    if (empty($contactSite))
+    {
+      $contactSite = new \contact\models\Site();
+      $contactSite->Url = $url;
+      $contactSite->Secure = $secure;
+      $contactSite->save();
+
+      $linkSite = new LinkSite();
+      $linkSite->CompanyId = $this->Id;
+      $linkSite->SiteId = $contactSite->Id;
+      $linkSite->save();
+    }
+    elseif ($contactSite->Url != $url || $contactSite->Secure != $secure)
+    {
+      $contactSite->Url = $url;
+      $contactSite->Secure = $secure;
+      $contactSite->save();
+    }
+    return $contactSite;
+  }
+  
+  /**
+   * @return \contact\models\Site|null
+   */
+  public function getContactSite()
+  {
+    return !empty($this->LinkSite) ? $this->LinkSite->Site : null;
   }
 }

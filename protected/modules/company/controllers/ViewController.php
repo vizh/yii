@@ -51,11 +51,19 @@ class ViewController extends \application\components\controllers\PublicMainContr
       }
     }
     
+    $showEdit = false;
+    if (!\Yii::app()->getUser()->getIsGuest())
+    {
+      $showEdit = \company\models\LinkModerator::model()->byUserId(\Yii::app()->getUser()->getId())->byCompanyId($company->Id)->exists();
+    }
+    
+    
     $this->bodyId = 'company-account';
     $this->render('index', array(
       'company' => $company, 
       'employments' => $employments,
-      'employmentsEx' => $employmentsEx
+      'employmentsEx' => $employmentsEx,
+      'showEdit' => $showEdit
     ));
   }
 }

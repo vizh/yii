@@ -4,16 +4,15 @@ namespace company\models;
 /**
  * @property int $Id
  * @property int $UserId
- * @property int $EmailId
+ * @property int $CompanyId
  *
- * @property Company $User
- * @property \contact\models\Email $Email
+ * @property \user\models\User $User
  */
-class LinkEmail extends \CActiveRecord
+class LinkModerator extends \CActiveRecord
 {
   /**
    * @param string $className
-   * @return LinkEmail
+   * @return LinkModerator
    */
   public static function model($className=__CLASS__)
   {
@@ -22,7 +21,7 @@ class LinkEmail extends \CActiveRecord
 
   public function tableName()
   {
-    return 'CompanyLinkEmail';
+    return 'CompanyLinkModerator';
   }
 
   public function primaryKey()
@@ -33,8 +32,7 @@ class LinkEmail extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Company' => array(self::BELONGS_TO, '\company\models\Company', 'CompanyId'),
-      'Email' => array(self::BELONGS_TO, '\contact\models\Email', 'EmailId'),
+      'User' => array(self::BELONGS_TO, '\User\models\User', 'UserId')
     );
   }
   
@@ -47,11 +45,11 @@ class LinkEmail extends \CActiveRecord
     return $this;
   }
   
-  public function byEmailId($emailId, $useAnd = true)
+  public function byUserId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."EmailId" = :EmailId';
-    $criteria->params = array(':EmailId' => $emailId);
+    $criteria->condition = '"t"."UserId" = :UserId';
+    $criteria->params = array(':UserId' => $userId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

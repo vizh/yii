@@ -14,7 +14,7 @@ return array(
       
       
     'CompanyPerPage' => 20, // Количество результатов компаний на страницу
-    'CompanyLogoDir' => '/files/logo/', //
+    'CompanyDir' => '/files/company/',
       
     'SearchResultPerPage' => 20, 
     

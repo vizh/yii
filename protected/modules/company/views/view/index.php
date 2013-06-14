@@ -16,9 +16,16 @@
         <span class="backing">Runet</span>
         <span class="backing">ID</span>
       </h5>
+      
+      <?if ($showEdit):?>
+      <h5 class="b-header_small" style="margin-left: 790px;">
+        <a href="<?=$this->createUrl('/company/edit/index', array('companyId' => $company->Id));?>" class="backing"><?=\Yii::t('app','Редактировать');?></a>
+      </h5>
+      <?endif;?>
+      
       <div class="row">
         <div class="span3">
-          <?=\CHtml::image($company->getLogo(), $company->Name, array('width' => 200, 'height' => 120));?>
+          <?=\CHtml::image($company->getLogo()->get200px(), $company->Name);?>
         </div>
         <div class="span8">
           <div class="row">

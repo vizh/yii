@@ -483,7 +483,7 @@ class User extends \application\models\translation\ActiveRecord
   }
 
   /**
-   * Добавляет пользователю адрес электронной почты
+   * Добавляет пользователю адресс сайта
    *
    * @param string $url
    * @param bool $secure
