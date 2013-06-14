@@ -52,37 +52,41 @@ class Address extends \application\models\translation\ActiveRecord
   
   public function getShort()
   {
-    $address = \Yii::t('app', 'г.').' '. $this->City->Name;
+    $address = [];
+
+    if (!empty($this->City->Name))
+      $address[] = \Yii::t('app', 'г.').' '. $this->City->Name;
+
     if (!empty($this->Street))
-    {
-      $address .= ', '.$this->Street;
-    }
+      $address[] = $this->Street;
+
     if (!empty($this->House))
-    {
-      $address .= ', '.\Yii::t('app', 'д.').' '.$this->House;
-    }
+      $address[] .= \Yii::t('app', 'д.').' '.$this->House;
+
     if (!empty($this->Building))
-    {
-      $address .= ', '.\Yii::t('app', 'стр.').' '.$this->Building;
-    }
+      $address[] .= \Yii::t('app', 'стр.').' '.$this->Building;
+
     if (!empty($this->Wing))
-    {
-      $address .= ', '.\Yii::t('app', 'корпус').' '.$this->Wing;
-    }
+      $address[] .= \Yii::t('app', 'корпус').' '.$this->Wing;
+
     if (!empty($this->Apartment))
-    {
-      $address .= ', '.\Yii::t('app', 'кв. ').' '.$this->Apartment;
-    }
-    return $address;
+      $address[] .= \Yii::t('app', 'кв. ').' '.$this->Apartment;
+
+    return implode(', ', $address);
   }
   
   public function __toString()
   {
     $address = $this->getShort();
+
     if (!empty($this->Place))
     {
-      $address .= ', '.$this->Place;
+      if (!empty($address))
+        $address .= ', ';
+
+      $address .= $this->Place;
     }
+
     return $address;
   }
 
