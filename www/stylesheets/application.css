@@ -1746,8 +1746,8 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .user-account-nav a.current {color: #000; text-decoration: none;}
 
 /* User -> Account -> Settings */
-.user-account-settings .b-form {margin-left: 20px; position: relative;}
-.user-account-settings .b-form :before {
+.user-account-settings .b-form, .company-edit .b-form {margin-left: 20px; position: relative;}
+.user-account-settings .b-form :before, .company-edit .b-form:before {
   background: #e6e6e6;
   bottom: 0;
   content: '';
