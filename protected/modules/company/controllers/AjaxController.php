@@ -10,14 +10,22 @@ class AjaxController extends \application\components\controllers\PublicMainContr
 {
   public function actionSearch($term)
   {
-    $companies = \Yii::app()->db->createCommand()
+    $companyCmd = \Yii::app()->db->createCommand()
       ->from(\company\models\Company::model()->tableName().' Company')
       ->select('"Company"."Id", "Company"."Name", "Company"."FullName", Count("Employment".*) as Count')
       ->leftJoin(\user\models\Employment::model()->tableName().' Employment', '"Company"."Id" = "Employment"."CompanyId"')
-      ->where('to_tsvector("Company"."Name") @@ plainto_tsquery(:Query) OR to_tsvector("Company"."FullName") @@ plainto_tsquery(:Query)', array('Query' => $term))
-      ->limit(10)
-      ->group('Company.Id')
-      ->queryAll();
+      ->group('Company.Id');
+    
+    if (is_numeric($term))
+    {
+      $companyCmd->where('"Company"."Id" = :Id', array('Id' => $term));
+    }
+    else
+    {
+      $companyCmd->where('to_tsvector("Company"."Name") @@ plainto_tsquery(:Query) OR to_tsvector("Company"."FullName") @@ plainto_tsquery(:Query)', array('Query' => $term))
+        ->limit(10);
+    }
+    $companies = $companyCmd->queryAll();
     
     usort($companies, function($company1, $company2) {
       if ($company1['count'] == $company2['count']) {
