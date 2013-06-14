@@ -4,8 +4,8 @@ var CCompanyEdit = function () {
     phone : 0,
     email : 0
   }
-  this.phoneItems = this.form.find('.phone-items .controls');
-  this.emailItems = this.form.find('.email-items .controls');
+  this.phoneItems = this.form.find('.phone-items');
+  this.emailItems = this.form.find('.email-items');
   this.templates = {
     'phoneItem' : _.template($('#phone-item-tpl').html()),
     'phoneItemWithData' : _.template($('#phone-item-withdata-tpl').html()),
@@ -34,12 +34,12 @@ CCompanyEdit.prototype = {
       });
     }
     
-    self.phoneItems.filter('.controls-add').click(function () {
+    self.phoneItems.find('.controls-add').click(function () {
       self.createPhoneEmptyItem();
       return false;
     });
     
-    self.emailItems.filter('.controls-add').click(function () {
+    self.emailItems.find('.controls-add').click(function () {
       self.createEmailEmptyItem();
       return false;
     });
@@ -48,8 +48,8 @@ CCompanyEdit.prototype = {
   createPhoneEmptyItem : function () {
     var self = this;
     var template = self.templates.phoneItem({i : self.iteterators.phone});
-    self.phoneItems.filter(':last').before(template);
-    var item = self.phoneItems.filter(':last').prev();
+    self.phoneItems.find('.controls-add').before(template);
+    var item = self.phoneItems.find('.controls:last');
     self.initDeleteBtn(item);
     self.iteterators.phone++;
   },
@@ -58,8 +58,8 @@ CCompanyEdit.prototype = {
     var self = this;
     data.i = self.iteterators.phone;
     var template = self.templates.phoneItemWithData(data);
-    self.phoneItems.filter(':last').before(template);
-    var item = self.phoneItems.filter(':last').prev();
+    self.phoneItems.find('.controls-add').before(template);
+    var item = self.phoneItems.find('.controls:last');
     self.initDeleteBtn(item);
     if (typeof data.Errors != "undefined") {
       var errorUl = $('<ul>');
@@ -75,8 +75,8 @@ CCompanyEdit.prototype = {
   createEmailEmptyItem : function () {
     var self = this;
     var template = self.templates.emailItem({i : self.iteterators.email});
-    self.emailItems.filter(':last').before(template);
-    var item = self.emailItems.filter(':last').prev();
+    self.emailItems.find('.controls-add').before(template);
+    var item = self.emailItems.find('.controls:last');
     self.initDeleteBtn(item);
     self.iteterators.email++;
   },
@@ -85,8 +85,8 @@ CCompanyEdit.prototype = {
     var self = this;
     data.i = self.iteterators.email;
     var template = self.templates.emailItemWithData(data);
-    self.emailItems.filter(':last').before(template);
-    var item = self.emailItems.filter(':last').prev();
+    self.emailItems.find('.controls-add').before(template);
+    var item = self.emailItems.find('.controls:last');
     self.initDeleteBtn(item);
     if (typeof data.Errors != "undefined") {
       var errorUl = $('<ul>');
