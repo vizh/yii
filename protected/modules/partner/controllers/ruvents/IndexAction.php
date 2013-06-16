@@ -124,7 +124,11 @@ class IndexAction extends \partner\components\Action
     }
 
     // Список операторов
-    $operators = \ruvents\models\Operator::model()->findAll('"t"."EventId" = :EventId AND "t"."Role" = :Role', array('EventId' => $event->Id, 'Role' => 'Operator'));
+    $operators = \ruvents\models\Operator::model()->findAllByAttributes([
+      'EventId' => $event->Id,
+      'Role' => 'Operator'
+    ]);
+
     $operatorsLogin = array();
     foreach ($operators as $operator)
     {
@@ -149,9 +153,21 @@ class IndexAction extends \partner\components\Action
       $badges = \ruvents\models\Badge::model()->findAll($criteria);
       foreach ($badges as $badge)
       {
-        $stat->PrintBadges[$dateStart->format('d.m.Y')][$badge->OperatorId] = new \stdClass();
-        $stat->PrintBadges[$dateStart->format('d.m.Y')][$badge->OperatorId]->OperatorLogin = $operatorsLogin[$badge->OperatorId];
-        $stat->PrintBadges[$dateStart->format('d.m.Y')][$badge->OperatorId]->Count = $badge->CountForCriteria;
+        // Бывает, что бейдж напечатан администратором или оператором, который уже не принадлежит мероприятию или был удалён.
+        // Не будем выбрасывать (не показывать) данные по ним. Но и не будем делать выборку всех операторов по всем мероприятиям сразу.
+        // Действуем по-необходимости.
+        if (!isset($operatorsLogin[$badge->OperatorId]))
+        {
+          $operator = \ruvents\models\Operator::model()->findByPk($badge->OperatorId); if (!$operator) // Похоже, что оператор был удалён из базы. Не теряем его из статистики.
+            $operator = (object)['Login' => "Удалённый оператор #{$badge->OperatorId}"];
+
+          $operatorsLogin[$badge->OperatorId] = $operator->Login; // кешируем некорректного оператора, дабы не проделывать всё это каждый раз
+        }
+
+        $stat->PrintBadges[$dateStart->format('d.m.Y')][$badge->OperatorId] = (object)[
+          'OperatorLogin' => $operatorsLogin[$badge->OperatorId],
+          'Count' => $badge->CountForCriteria
+        ];
       }
       $dateStart->modify('+1 day');
     }
