@@ -21,7 +21,8 @@ return array(
     'search',
     'job',
     'page',  
-    
+
+    'competence',
       
     /** Технические модули */
     'convert',

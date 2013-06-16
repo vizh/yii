@@ -28,6 +28,12 @@ return array(
         'http://phdays2013.'.RUNETID_HOST.'/register/' => array('pay/cabinet/register/', 'defaultParams' => array('eventIdName' => 'phdays2013')),
         'http://phdays2013.'.RUNETID_HOST.'/pay/' => array('pay/cabinet/index/', 'defaultParams' => array('eventIdName' => 'phdays2013')),
         'http://phdays2013.'.RUNETID_HOST.'/create/' => array('pay/juridical/create/', 'defaultParams' => array('eventIdName' => 'phdays2013')),
+
+        /** Mail.ru Test 2013 */
+        'http://'.RUNETID_HOST.'/proftest2/' => ['competence/main/index/', 'defaultParams' => ['id' => 1]],
+        'http://'.RUNETID_HOST.'/proftest2/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 1]],
+        'http://'.RUNETID_HOST.'/proftest2/end' => ['competence/main/end/', 'defaultParams' => ['id' => 1]],
+        'http://'.RUNETID_HOST.'/proftest2/done' => ['competence/main/done/', 'defaultParams' => ['id' => 1]],
           
           
         /** Partner Module Rules */
