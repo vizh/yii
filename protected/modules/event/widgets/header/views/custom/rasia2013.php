@@ -30,7 +30,7 @@ $event = $this->event;
         <div class="side right span2">
           <div class="actions" style="background: none;">
             <div class="calendar img-circle">
-              <a href="<?=  str_replace('http://', 'webcal://', \Yii::app()->getController()->createAbsoluteUrl('/event/share/ical', array('idName' => $event->IdName)));?>" class="pseudo-link">
+              <a href="<?=\Yii::app()->createUrl('/event/view/share', ['targetService' => 'iCal', 'idName' => $event->IdName])?>" class="pseudo-link">
                 <i class="icon-calendar"></i><br><?=\Yii::t('app', 'Добавить в&nbsp;календарь');?>
               </a>
             </div>

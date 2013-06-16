@@ -72,9 +72,6 @@ return array(
 
         'http://pay.'. RUNETID_HOST.'/auth/<eventIdName>/<runetId:\d+>/<hash>/' => 'pay/cabinet/auth',
 
-        /** EVENT ICAL SHARE */
-        'http://'. RUNETID_HOST.'/event/share/ical/<idName>/' => 'event/share/ical',
-
         /** Main Rules */
         'http://'. RUNETID_HOST.'/' => 'main/default/index',
         'http://'. RUNETID_HOST.'/<runetId:\d+>/' => 'user/view/index',
@@ -84,6 +81,7 @@ return array(
 
         'http://'. RUNETID_HOST.'/event/<idName>/' => 'event/view/index',
         'http://'. RUNETID_HOST.'/event/<idName>/users/' => 'event/view/users',
+        'http://'. RUNETID_HOST.'/event/<idName>/shareTo:<targetService>' => 'event/view/share',
         
         'http://'. RUNETID_HOST.'/user/edit/' => 'user/edit/index',
         'http://'. RUNETID_HOST.'/user/setting/' => 'user/setting/password',
