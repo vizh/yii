@@ -10,7 +10,7 @@ class A4 extends \competence\models\Question
   {
     if ($this->options === null)
     {
-      $this->options = \competence\models\Question::Rotate('A2_opt', [
+      $this->options = $this->rotate('A2_opt', [
         39 => '<strong>Волож</strong> (<em>Яндекс</em>)',
         40 => '<strong>Гришин</strong> (<em>Mail.Ru&nbsp;Group</em>)',
         41 => '<strong>Дуров</strong> (<em>ВКонтакте</em>)',
@@ -21,7 +21,9 @@ class A4 extends \competence\models\Question
         46 => '<strong>Касперский</strong> (<em>Касперский</em>)',
         47 => '<strong>Белоусов</strong> (<em>Parallels</em>)',
         48 => '<strong>Долгов</strong> (<em>ex-Google&nbsp;Russia</em>)',
-        400 => '<strong>Широков</strong> (<em>Одноклассники</em>)'
+        400 => '<strong>Широков</strong> (<em>Одноклассники</em>)',
+        401 => '<strong>Артамонова</strong> (<em>Mail.ru Group</em>)',
+        390 => '<strong>Сегалович</strong> (<em>Яндекс</em>)'
       ]);
     }
     return $this->options;

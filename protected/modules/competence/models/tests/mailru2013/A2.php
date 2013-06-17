@@ -20,7 +20,9 @@ class A2 extends \competence\models\Question
         46 => 'Касперский (<em>Касперский</em>)',
         47 => 'Белоусов (<em>Parallels</em>)',
         48 => 'Долгов (<em>ex-Google&nbsp;Russia</em>)',
-        400 => 'Широков (<em>Одноклассники</em>)'
+        400 => 'Широков (<em>Одноклассники</em>)',
+        401 => 'Артамонова (<em>Mail.ru Group</em>)',
+        390 => 'Сегалович (<em>Яндекс</em>)'
       ]);
     }
     return $this->options;

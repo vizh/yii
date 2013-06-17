@@ -10,7 +10,7 @@ class A10_1 extends \competence\models\Question
   {
     if ($this->values === null)
     {
-      $this->values = \competence\models\Question::Rotate('A10_1_val', [
+      $this->values = $this->rotate('A10_1_val', [
         10 => 'Полностью открытая, "прозрачная" компания',
         11 => 'Компания имеет хороший потенциал и перспективы развития',
         12 => 'Компания создает и развивает современные интернет-технологии',

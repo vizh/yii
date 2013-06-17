@@ -16,7 +16,7 @@ $baseData1_1 = $fullData[get_class($base1_1)];
 <?php $this->widget('competence\components\ErrorsWidget', ['question' => $question]);?>
 
 <ul class="unstyled">
-  <?foreach ((new \competence\models\tests\mailru2013\E2($question->getTest()))->getOptions() as $key => $value):
+  <?foreach ($base->getOptions() as $key => $value):
     if (!in_array($key, $baseData1_1['value']))
     {
       continue;

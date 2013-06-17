@@ -10,7 +10,7 @@ class A10 extends \competence\models\Question
   {
     if ($this->options === null)
     {
-      $this->options = \competence\models\Question::Rotate('A10_opt', [
+      $this->options = $this->rotate('A10_opt', [
         83 => 'Mail.Ru',
         84 => 'Яндекс',
         85 => 'Google',
@@ -24,24 +24,12 @@ class A10 extends \competence\models\Question
     return $this->options;
   }
 
-//  public static $Values = array(
-//    1 => 'Я часто пользуюсь продуктами / услугами этой компании',
-//    2 => 'Эта компания занимает прочную позицию на рынке',
-//    3 => 'Я слежу за всеми новостями, касающимися этой компании',
-//    4 => 'Мне понятны основные принципы политики и стратегия этой компании',
-//    5 => 'Это динамично развивающаяся компания',
-//    6 => 'Лидер инноваций в своей сфере',
-//    7 => 'В этой компании работают самые крупные специалисты данной сферы',
-//    8 => 'Я хотел бы работать в этой компании',
-//    9 => 'Компания прислушивается к своим пользователям',
-//  );
-
   private $values = null;
   public function getValues()
   {
     if ($this->values === null)
     {
-      $this->values = \competence\models\Question::Rotate('A10_val', [
+      $this->values = $this->rotate('A10_val', [
         1 => 'Я часто пользуюсь продуктами / услугами этой компании',
         2 => 'Эта компания занимает прочную позицию на рынке',
         3 => 'Я слежу за всеми новостями, касающимися этой компании',

@@ -142,44 +142,6 @@ abstract class Question extends \CFormModel
     $this->setFullData($data);
   }
 
-  /*public static function GetPercent($className)
-  {
-    $percents = array(
-      'competence\models\questions\s\S1' => null,
-      'competence\models\questions\s\S2' => null,
-      'competence\models\questions\e\E1' => 9,
-      'competence\models\questions\e\E1_1' => 12,
-      'competence\models\questions\e\E2' => 15,
-      'competence\models\questions\e\E3' => 18,
-      'competence\models\questions\e\E4' => 21,
-      'competence\models\questions\e\E5' => 25,
-      'competence\models\questions\a\A1' => 30,
-      'competence\models\questions\a\A2' => 32,
-      'competence\models\questions\a\A3' => 35,
-      'competence\models\questions\a\A4' => 38,
-      'competence\models\questions\a\A5' => 40,
-      'competence\models\questions\a\A6' => 43,
-      'competence\models\questions\a\A6_1' => 46,
-      'competence\models\questions\a\A7' => 50,
-      'competence\models\questions\a\A8' => 53,
-      'competence\models\questions\a\A9' => 56,
-      'competence\models\questions\a\A10' => 60,
-      'competence\models\questions\a\A10_1' => 65,
-      'competence\models\questions\s\S5' => 70,
-      'competence\models\questions\s\S6' => 73,
-      'competence\models\questions\s\S7' => 75,
-      'competence\models\questions\s\S3' => 79,
-      'competence\models\questions\s\S3_1' => 79,
-      'competence\models\questions\c\C1' => 82,
-      'competence\models\questions\c\C2' => 85,
-      'competence\models\questions\c\C3' => 89,
-      'competence\models\questions\c\C4' => 92,
-      'competence\models\questions\c\C5' => 95,
-      'competence\models\questions\c\C6' => 97,
-    );
-    return array_key_exists($className, $percents) ? $percents[$className] : '???';
-  }*/
-
   protected function rotate($key, $values)
   {
     $key = 'competence-rotate-' . $this->test->Code . $key;

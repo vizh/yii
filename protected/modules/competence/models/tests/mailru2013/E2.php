@@ -5,12 +5,12 @@ class E2 extends \competence\models\Question
 {
   public $value = array();
 
-  private $options = null;
+  /*private $options = null;
   public function getOptions()
   {
     if ($this->options === null)
     {
-      $this->options = \competence\models\Question::Rotate('E1_opt', [
+      $this->options = $this->rotate('E1_opt', [
         1 => 'Печатные СМИ<br>(<em>специализированные</em>: <strong>Хакер</strong>, <strong>Компьютерра</strong>, <strong>Byte</strong> и т.п.)',
         2 => 'Печатные СМИ<br>(<em>общественно-политические</em>: <strong>Ведомости</strong>, <strong>Newsweek</strong>, <strong>Forbes</strong> и т.п.)',
         3 => 'Печатные СМИ<br>(<em>глянцевые журналы</em>: <strong>Men\'s Health</strong>, <strong>Geo</strong>, <strong>Популярная механика</strong> и т.п.)',
@@ -25,9 +25,7 @@ class E2 extends \competence\models\Question
       $this->options[99] = 'Ничего из перечисленного';
     }
     return $this->options;
-  }
-
-
+  }*/
 
   public $values = [
     '' => 'Укажите регулярность использования',

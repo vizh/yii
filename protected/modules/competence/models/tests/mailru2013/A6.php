@@ -10,7 +10,7 @@ class A6 extends \competence\models\Question
   {
     if ($this->options === null)
     {
-      $this->options = \competence\models\Question::Rotate('A6_opt', [
+      $this->options = $this->rotate('A6_opt', [
         1 => 'Яндекс',
         2 => 'Mail.Ru Group',
         3 => 'Google Russia',

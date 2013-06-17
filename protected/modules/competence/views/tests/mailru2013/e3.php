@@ -11,7 +11,7 @@ $base1_1 = new \competence\models\tests\mailru2013\E1_1($question->getTest());
 $baseData1_1 = $fullData[get_class($base1_1)];
 
 $manager = \Yii::app()->getAssetManager();
-\Yii::app()->getClientScript()->registerScriptFile($manager->publish(\Yii::getPathOfAlias('competence.assets') . '/js/e/e3.js'), \CClientScript::POS_END);
+\Yii::app()->getClientScript()->registerScriptFile($manager->publish(\Yii::getPathOfAlias('competence.assets') . '/js/mailru2013/e3.js'), \CClientScript::POS_END);
 ?>
 
 <h3>Какого рода информацию <strong>об интернет-отрасли</strong> Вы получаете из данных источников?</h3>
@@ -19,7 +19,7 @@ $manager = \Yii::app()->getAssetManager();
 <?php $this->widget('competence\components\ErrorsWidget', array('question' => $question));?>
 
 <ul class="unstyled">
-  <?foreach ((new \competence\models\tests\mailru2013\E2($question->getTest()))->getOptions() as $key => $value):
+  <?foreach ($base->getOptions() as $key => $value):
     if (!in_array($key, $baseData1_1['value']))
     {
       continue;

@@ -10,7 +10,7 @@ class A5 extends \competence\models\Question
     5 => 'Радио',
     6 => 'Телевидение',
     7 => 'Социальные сети (<strong>Facebook</strong>, <strong>Одноклассники</strong>, <strong>ВКонтакте</strong> и т.п.)',
-    8 => 'Социальные СМИ (<strong>Хабрахабр</strong>, <strong>Roem.ru</strong>)',
+    8 => 'Социальные СМИ (<strong>Хабрахабр</strong>, <strong>Roem.ru</strong>, <strong>Цукерберг позвонит</strong>)',
     10 => 'Другое'
   ];
 
