@@ -35,7 +35,7 @@
       <?if ($unpaidOwnerCount > 0):?>
         <div class="alert alert-block">
           <h4 class="m-bottom_10"><?=\Yii::t('app', 'У вас есть неоплаченный заказ');?></h4>
-          <p><?=\Yii::t('app', 'В вашей корзине имеется неоплаченный заказ');?> <b><?=\Yii::t('app', 'на {n} человека|на {n} человек', $unpaidOwnerCount);?></b><?if ($unpaidJuridicalOrderCount > 0):?> <?=\Yii::t('app', 'и');?> <b><?=\Yii::t('app', '{n} неоплаченный счет|{n} неоплаченных счета', $unpaidJuridicalOrderCount);?></b><?endif;?>. <?=\Yii::t('app', 'Для его просмотра и оплаты нажмите «Перейти к оплате» внизу страницы или');?> <a href="<?=$this->createUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName));?>"><?=\Yii::t('app', 'сюда');?></a>.
+          <p><?=\Yii::t('app', 'В вашей корзине имеется неоплаченный заказ');?> <b><?=\Yii::t('app', 'на {n} человека|на {n} человека|на {n} человек|на {n} человек', $unpaidOwnerCount);?></b><?if ($unpaidJuridicalOrderCount > 0):?> <?=\Yii::t('app', 'и');?> <b><?=\Yii::t('app', '{n} неоплаченный счет|{n} неоплаченных счета|{n} неоплаченных счетов|{n} неоплаченных счетов', $unpaidJuridicalOrderCount);?></b><?endif;?>. <?=\Yii::t('app', 'Для его просмотра и оплаты нажмите «Перейти к оплате» внизу страницы или');?> <a href="<?=$this->createUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName));?>"><?=\Yii::t('app', 'сюда');?></a>.
         </div>
       <?endif;?>
       
