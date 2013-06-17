@@ -115,6 +115,10 @@ a:focus{
 .event-register .errorSummary .container {
   border: 0 !important;
 }
+.event-register .alert.alert-block {
+  margin-left: 40px;
+  margin-right: 40px;
+}
 .errorSummary ul {
   margin: 0;
   padding: 0;

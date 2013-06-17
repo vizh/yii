@@ -16,7 +16,7 @@ class RegisterAction extends \pay\components\Action
     $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findAll($criteria);
     
     $countRows = $request->getParam('count');
-    
+     
     $orderForm = new \pay\models\forms\OrderForm();
     $orderForm->attributes = $request->getParam(get_class($orderForm));
     if ($request->getParam('count') == null && $request->getIsPostRequest())
@@ -108,7 +108,37 @@ class RegisterAction extends \pay\components\Action
         'orderForm' => $orderForm,
         'countRows' => $countRows,
         'registerForm' => new \user\models\forms\RegisterForm(),
+        'unpaidOwnerCount' => $this->getUnpaidOwnerCount(),
+        'unpaidJuridicalOrderCount' => $this->getUnpaidJuridicalOrderCount()
       )
     );
+  }
+  
+  /**
+   * Возвращает кол-во человек, на которые у текущего пользователя уже выставлены заказы
+   * @return int
+   */
+  private function getUnpaidOwnerCount()
+  {
+    $count = 0;
+    
+    $unpaidOrderItems = \pay\models\OrderItem::model()
+      ->byPayerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->byPaid(false)->findAll();
+    if (!empty($unpaidOrderItems))
+    {
+      $ownerIdList = [];
+      foreach ($unpaidOrderItems as $orderItem)
+      {
+        $ownerIdList[] = $orderItem->OwnerId;
+      }
+      $count = sizeof(array_unique($ownerIdList));
+    }
+    return $count;
+  }
+  
+  private function getUnpaidJuridicalOrderCount()
+  {
+    return \pay\models\Order::model()
+      ->byPayerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->byPaid(false)->byJuridical(true)->count();
   }
 }
