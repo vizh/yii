@@ -65,4 +65,9 @@ class S3_1 extends \competence\models\Question
       return new S6($this->test);
     }
   }
+
+  public function getNumber()
+  {
+    return 23;
+  }
 }

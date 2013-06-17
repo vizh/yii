@@ -67,4 +67,9 @@ class E5 extends \competence\models\Question
   {
     return new E4($this->test);
   }
+
+  public function getNumber()
+  {
+    return 8;
+  }
 }

@@ -101,4 +101,9 @@ class E1 extends \competence\models\Question
   {
     return null;
   }
+
+  public function getNumber()
+  {
+    return 3;
+  }
 }

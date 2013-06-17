@@ -30,4 +30,9 @@ class C2 extends \competence\models\Question
   {
     return new C1($this->test);
   }
+
+  public function getNumber()
+  {
+    return 25;
+  }
 }

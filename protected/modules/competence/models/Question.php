@@ -161,4 +161,25 @@ abstract class Question extends \CFormModel
     return $result;
   }
 
+  public function getNumber()
+  {
+    return null;
+  }
+
+  public function getPercent()
+  {
+    if ($this->getNumber() != null)
+    {
+      $path = \Yii::getPathOfAlias('competence.models.tests.'.$this->test->Code);
+      $questionFiles = scandir($path);
+      $count = 0;
+      foreach ($questionFiles as $file)
+      {
+        $count += stripos($file, '.php') !== false ? 1 : 0;
+      }
+      return floor($this->getNumber() * 100 / $count);
+    }
+    return null;
+  }
+
 }

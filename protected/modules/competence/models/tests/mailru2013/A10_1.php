@@ -60,4 +60,9 @@ class A10_1 extends \competence\models\Question
   {
     return new A10($this->test);
   }
+
+  public function getNumber()
+  {
+    return 19;
+  }
 }

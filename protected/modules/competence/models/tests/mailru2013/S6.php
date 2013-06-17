@@ -48,4 +48,9 @@ class S6 extends \competence\models\Question
   {
     return new S5($this->test);
   }
+
+  public function getNumber()
+  {
+    return 21;
+  }
 }

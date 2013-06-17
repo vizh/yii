@@ -28,4 +28,9 @@ class C1 extends \competence\models\Question
     $first = new First($this->test);
     return $first->getS3();
   }
+
+  public function getNumber()
+  {
+    return 24;
+  }
 }

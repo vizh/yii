@@ -7,10 +7,10 @@
   <div class="container m-top_40">
     <h3 class="text-center competence-title"><?=$this->test->Title;?></h3>
   </div>
-<?if (!empty($this->question) && false):?>
+<?if (!empty($this->question)):?>
   <div class="container">
     <?
-    $percent = \competence\models\Question::GetPercent(get_class($this->question));
+    $percent = $this->question->getPercent();
     ?>
     <?if ($percent !== null):?>
       <p style="text-align: center;">Опрос пройден на <strong><?=$percent;?>%</strong></p>

@@ -67,4 +67,9 @@ class C6 extends \competence\models\Question
   {
     return new C5($this->test);
   }
+
+  public function getNumber()
+  {
+    return 29;
+  }
 }

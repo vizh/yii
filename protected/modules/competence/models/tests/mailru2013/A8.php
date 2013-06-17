@@ -51,4 +51,9 @@ class A8 extends \competence\models\Question
     }
     return new A6($this->test);
   }
+
+  public function getNumber()
+  {
+    return 16;
+  }
 }

@@ -48,4 +48,9 @@ class E4 extends \competence\models\Question
   {
     return new E3($this->test);
   }
+
+  public function getNumber()
+  {
+    return 7;
+  }
 }

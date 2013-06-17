@@ -82,4 +82,9 @@ class E3 extends \competence\models\Question
   {
     return new E2($this->test);
   }
+
+  public function getNumber()
+  {
+    return 6;
+  }
 }

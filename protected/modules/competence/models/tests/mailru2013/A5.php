@@ -53,4 +53,9 @@ class A5 extends \competence\models\Question
   {
     return new A4($this->test);
   }
+
+  public function getNumber()
+  {
+    return 12;
+  }
 }
