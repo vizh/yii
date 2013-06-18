@@ -50,6 +50,18 @@ $form->clearErrors('Submit');
     </table>
 
     <div class="control-group">
+      <label class="checkbox"><?=CHtml::activeCheckBox($form, 'Notify');?> Уведомлять пользователей о регистрации в RUNET-ID</label>
+    </div>
+
+    <div class="control-group">
+      <label class="checkbox"><?=CHtml::activeCheckBox($form, 'NotifyEvent');?> Уведомлять пользователей о регистрации в RUNET-ID</label>
+    </div>
+
+    <div class="control-group">
+      <label class="checkbox"><?=CHtml::activeCheckBox($form, 'Visible');?> Скрывать новых пользователей</label>
+    </div>
+
+    <div class="control-group">
       <div class="controls">
         <input type="submit" value="Продолжить" class="btn"/>
         <?=CHtml::activeHiddenField($form, 'Submit', array('value' => 1));?>

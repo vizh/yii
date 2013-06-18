@@ -15,14 +15,19 @@ class ImportPrepare extends \CFormModel
   public $field_8;
   public $field_9;
 
+  public $Notify = false;
+  public $NotifyEvent = false;
+  public $Visible = false;
+
+
   public $Submit;
 
   public function rules()
   {
-    return array(
-      array('Submit', 'required'),
-      array('field_0, field_1, field_2, field_3, field_4, field_5, field_6, field_7, field_8, field_9', 'safe')
-    );
+    return [
+      ['Submit', 'required'],
+      ['field_0, field_1, field_2, field_3, field_4, field_5, field_6, field_7, field_8, field_9, Notify, Hide', 'safe']
+    ];
   }
 
   private $fieldNames = [
@@ -80,7 +85,7 @@ class ImportPrepare extends \CFormModel
   {
     foreach ($this->fields as $key => $value)
     {
-      if (in_array($value, $actives) && empty($this->$key))
+      if (in_array($value, $actives) && (empty($this->$key) || !isset($this->fieldNames[$this->$key])))
       {
         $this->addError($key, 'Не выбрано соответствие всех столбцов и полей с данными');
         return false;

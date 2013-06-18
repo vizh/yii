@@ -7,8 +7,15 @@ namespace partner\models;
  *
  * @property int $Id
  * @property int $EventId
- * @property string $Settings
+ * @property string $Fields
+ * @property string $Roles
+ * @property bool $Notify
+ * @property bool $NotifyEvent
+ * @property bool $Visible
  * @property string $CreationTime
+ *
+ * @property ImportUser[] $Users
+ * @property \event\models\Event $Event
  *
  * @method \partner\models\Import findByPk()
  */
@@ -34,5 +41,12 @@ class Import extends \CActiveRecord
     return 'Id';
   }
 
+  public function relations()
+  {
+    return [
+      'Users' => [self::HAS_MANY, 'partner\models\ImportUser', 'ImportId'],
+      'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId']
+    ];
+  }
 
 }
