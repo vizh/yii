@@ -8,7 +8,7 @@ class PartnerController extends \mail\components\MailerController
    */
   protected function getTemplateName()
   {
-    return 'PhDays13-21.05.2013';
+    return 'rAsia-18.06.2013';
   }
 
   /**
@@ -21,8 +21,8 @@ class PartnerController extends \mail\components\MailerController
 
   public function actionSend($step = 0)
   {
-    return;
-    $test = false;
+    exit();
+    $test = true;
 
     $step = \Yii::app()->request->getParam('step', 0);
     set_time_limit(84600);
@@ -30,18 +30,15 @@ class PartnerController extends \mail\components\MailerController
     
     if (!$test)
     {
-      $runetIdList = array(156865);
       $builder = new \mail\components\Builder();
-      $builder->addEvent(497);
+      $builder->addEvent(391);
+      $builder->addEvent(452);
       $criteria = $builder->getCriteria();
-      $criteria->addInCondition('"t"."RunetId"', $runetIdList);
     }
     else
     {
-      $builder = new \mail\components\Builder();
-      $builder->addEvent(497);
-      $criteria = $builder->getCriteria();
-      $criteria->addInCondition('"t"."RunetId"', array(321));
+      $criteria = new \CDbCriteria();
+      $criteria->addInCondition('"t"."RunetId"', array(321, 454, 122262));
     }
     $criteria->limit  = $this->getStepCount();
     $criteria->offset = $this->getStepCount() * $step;
@@ -53,7 +50,7 @@ class PartnerController extends \mail\components\MailerController
     $mailer = new \mail\components\Mailer();
     foreach ($users as $user)
     {
-      $mail = new \mail\components\mail\PhDays13();
+      $mail = new \mail\components\mail\Rasia2013();
       $mail->user = $user;
       $mail->role = $user->Participants[0]->Role;
       $mail->getBody();
