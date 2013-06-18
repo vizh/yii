@@ -45,7 +45,7 @@ use application\components\utility\Texts;
       <TR>
         <TD style="BORDER-RIGHT: 1px solid" colSpan=2>Банк получателя<BR>Московский филиал ОАО АКБ «РОСБАНК» г. Москва</TD>
         <TD style="BORDER-RIGHT: 1px solid">БИК<BR>Сч. №</TD>
-        <TD>044552272<BR>30101810200000000272</TD>
+        <TD>044583272<BR>30101810000000000272</TD>
 
       </TR>
       </TBODY>
