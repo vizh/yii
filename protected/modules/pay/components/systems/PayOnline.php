@@ -19,8 +19,8 @@ class PayOnline extends Base
 
   protected function initRequiredParams($orderId)
   {
-    $this->merchantId = 2452;
-    $this->privateSecurityKey = '8cce489d-57d6-41ea-bf3f-c9b6c35db540';
+    $this->merchantId = 52855;
+    $this->privateSecurityKey = 'f7726060-0172-4995-a042-5f18fde2581d';
   }
 
   protected function getClass()
