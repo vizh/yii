@@ -82,13 +82,15 @@ class ViewController extends \application\components\controllers\PublicMainContr
       break;
 
       case 'Google':
-        $this->redirect('http://www.google.com/calendar/event?'.http_build_query([
+        $googleRedirectURI = 'http://www.google.com/calendar/event?'.http_build_query([
           'action' => 'TEMPLATE',
           'text' => $event->Title,
           'dates' => $dateStart.'/'.$dateEnd,
           'location' => $event->LinkAddress->Address->__toString(),
-          'details' => $event->Info
-        ]));
+          'details' => ''
+        ]);
+
+        $this->redirect($googleRedirectURI.CText::truncate($event->Info, 750 - strlen($googleRedirectURI), '...', true));
       break;
 
       default:
