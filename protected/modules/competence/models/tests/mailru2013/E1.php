@@ -9,7 +9,7 @@ class E1 extends \competence\models\Question
   {
     if ($this->options === null)
     {
-      $this->options = $this->rotate('E1_opt', [
+      $this->options = [
         1 => 'Печатные СМИ (<em>специализированные</em>: <strong>Хакер</strong>, <strong>Компьютерра</strong>, <strong>Byte</strong> и т.п.)',
         2 => 'Печатные СМИ (<em>общественно-политические</em>: <strong>Ведомости</strong>, <strong>Newsweek</strong>, <strong>Forbes</strong> и т.п.)',
         3 => 'Печатные СМИ (<em>глянцевые журналы</em>: <strong>Men\'s Health</strong>, <strong>Geo</strong>, <strong>Популярная механика</strong> и т.п.)',
@@ -21,8 +21,8 @@ class E1 extends \competence\models\Question
         9 => 'Roem.ru',
         10 => 'Цукерберг позвонит',
         11 => 'Другие специализированные социальные СМИ'
-      ]);
-      $this->options[12] = 'Другое (добавьте свой вариант СМИ)';
+      ];
+      $this->options[12] = 'Другое (свой вариант СМИ)';
       $this->options[99] = 'Ничего из перечисленного';
     }
     return $this->options;

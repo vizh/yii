@@ -15,7 +15,7 @@ class A6 extends \competence\models\Question
         2 => 'Mail.Ru Group',
         3 => 'Google Russia',
         4 => 'ВКонтакте',
-        5 => 'Rambler Media Group',
+        5 => 'Рамблер-Афиша-SUP',
         6 => 'Google Global',
         7 => 'Facebook',
         8 => 'Microsoft',
