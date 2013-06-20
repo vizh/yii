@@ -73,6 +73,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
     {
       case 'iCal':
         header('Content-Type: text/Calendar');
+        header('Content-Disposition: attachment; filename="'.$event->IdName.'.ics"');
         $this->renderPartial('ical', [
           'event' => $event,
           'dateStart' => $dateStart,
