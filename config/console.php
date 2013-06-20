@@ -20,8 +20,11 @@ return array(
   // application components
   'components'=>array(
     'db' => $mainAppConfig['components']['db'],
-    'urlManager' => $mainAppConfig['components']['urlManager']
+    'urlManager' => $mainAppConfig['components']['urlManager'],
+    'image' => $mainAppConfig['components']['image']
   ),
     
+    
+  'params' => $mainAppConfig['params'], 
   'modules' => $mainAppConfig['modules']
 );

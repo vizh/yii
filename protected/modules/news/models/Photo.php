@@ -2,10 +2,10 @@
 namespace news\models;
 class Photo 
 {
-  private $newsId;
-  public function __construct($newsId)
+  private $news;
+  public function __construct($news)
   {
-    $this->newsId = $newsId;
+    $this->news = $news;
   }
   
   /**
@@ -14,8 +14,7 @@ class Photo
    */
   protected function getPath($serverPath = false)
   {
-    $folder = (int) ($this->newsId / 10000);
-    $path = \Yii::app()->params['NewsPhotoDir'] . $folder . '/';
+    $path = \Yii::app()->params['NewsPhotoDir'] . $this->news->Id . '/';
     if ($serverPath)
     {
       $path = \Yii::getPathOfAlias('webroot') . $path;
@@ -42,7 +41,7 @@ class Photo
    */
   public function get140px($serverPath = false)
   {
-    return $this->getByName($serverPath, ($this->newsId.'_140.jpg'), 'nophoto_140.png');
+    return $this->getByName($serverPath, ($this->news->Id.'140.jpg'), 'nophoto_140.png');
   }
   
   /**
@@ -52,7 +51,7 @@ class Photo
    */
   public function getOriginal($serverPath = false)
   {
-    return $this->getByName($serverPath, ($this->newsId.'.jpg'), 'nophoto_200.png');
+    return $this->getByName($serverPath, ($this->news->Id.'.jpg'), 'nophoto_200.png');
   }
   
   /**
@@ -62,21 +61,18 @@ class Photo
    */
   public function savePhoto($image)
   {
-    $tmpName = DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR .
-      md5('news' . microtime()) . '.jpg';
-    file_put_contents($tmpName, $image);
-
     $path = $this->getPath(true);
     if (!is_dir($path))
     {
       mkdir($path);
     }
 
-    $img = \application\components\graphics\Image::GetImage($tmpName);
-    $origImage = $this->getOriginal(true);
-    imagejpeg($img, $origImage, 100);
-    imagedestroy($img);
-    $newImage = $this->get140px(true);
-    \application\components\graphics\Image::ResizeAndSave($origImage, $newImage, 140, 0, array('x1'=>0, 'y1'=>0));
+    $image = \Yii::app()->image->load($image);
+    $pathOriginal = $this->getOriginal(true);
+    $image->save($pathOriginal);
+    
+    $path140 = $this->get140px(true);
+    $image->resize(140,0);
+    $image->save($path140);
   }
 }
