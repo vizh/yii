@@ -54,10 +54,14 @@ class PartnerController extends \mail\components\MailerController
       $mail->user = $user;
       $mail->role = $user->Participants[0]->Role;
       $mail->getBody();
-      $mailer->send($mail, $user->Email, false);
       if (!$test)
       {
+        $mailer->send($mail, $user->Email, date('Ymd'));
         $this->addLogMessage($user->RunetId.' '.$user->Email);
+      }
+      else
+      {
+        $mailer->send($mail, $user->Email, null, true);
       }
     }
     if (!empty($users))

@@ -3,10 +3,23 @@ namespace mail\components;
 
 class Mailer
 {
-  public function send(Mail $mail, $to, $useLog = true)
+  public function send(Mail $mail, $to, $hashSolt = null, $repeat = false)
   {
-    $mailer = new \ext\mailer\PHPMailer(false);
-
+    $mailer = new \ext\mailer\PHPMailer(true);
+    
+    $hash = md5(get_class($mail).$to.$mail->getSubject());
+    if ($hashSolt !== null)
+    {
+      $hash .= $hashSolt;
+    }
+    
+    if (!$repeat)
+    {
+      $log = \mail\models\Log::model()->byHash($hash)->find();
+      if ($log !== null)
+        return;
+    }
+    
     $mailer->AddAddress($to);
     $mailer->SetFrom($mail->getFrom(), $mail->getFromName());
     $mailer->CharSet = 'utf-8';
@@ -28,14 +41,21 @@ class Mailer
       $mailer->AddAttachment($attachment, $name);
     }
     
-    $mailer->Send();
     
-    if ($useLog)
+    $log = new \mail\models\Log();
+    $log->From = $mail->getFrom();
+    $log->To = $to;
+    $log->Subject = $mail->getSubject();
+    $log->Hash = $hash;
+    
+    try 
     {
-      $logMsg = "time   : ".date('d.m.Y H:i:s')."\r\nfrom   : ".$mail->getFrom()."\r\nto     : ".$to."\r\nsubject: ".$mail->getSubject()."\r\n---\r\n";
-      $logPath = \Yii::getPathOfAlias('mail.data');
-      $logFile = fopen($logPath.DIRECTORY_SEPARATOR.'system.log',"a+");
-      fwrite($logFile, $logMsg);
+      $mailer->Send();
     }
+    catch (\Exception $e)
+    {
+      $log->Error = $e->getMessage();
+    }
+    $log->save();
   }
 }

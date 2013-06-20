@@ -41,7 +41,7 @@ class Base extends \mail\components\Mail
     if ($this->getBody() !== null)
     {
       $mailer = new \mail\components\Mailer();
-      $mailer->send($this, $this->payer->Email);
+      $mailer->send($this, $this->payer->Email, null, true);
     }
   }
 }

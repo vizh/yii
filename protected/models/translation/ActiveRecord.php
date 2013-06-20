@@ -151,10 +151,10 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
   private $_changedTranslations = array();
 
   private function setTranslationValue($field, $value)
-  {
+  {    
     if ($this->_locale !== null && $this->_locale !== \Yii::app()->sourceLanguage)
     {
-      $this->initTranslations();
+      $this->initTranslations();      
       if (!isset($this->_translations[$this->_locale][$field]))
       {
         $translation = new Translation();
