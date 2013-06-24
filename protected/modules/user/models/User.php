@@ -87,7 +87,7 @@ class User extends \application\models\translation\ActiveRecord
 
       'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'UserId',
         'with' => 'Company',
-        'order' => '"Employments"."Primary" DESC, "Employments"."EndYear" DESC, "Employments"."StartYear" DESC'
+        'order' => '"Employments"."Primary" DESC, "Employments"."EndYear" DESC, "Employments"."EndMonth" DESC, "Employments"."StartYear" DESC, "Employments"."StartMonth" DESC'
       ),
 
       'Commissions' => array(self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => array('Commission', 'Role')),

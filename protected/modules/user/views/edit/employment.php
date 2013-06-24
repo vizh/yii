@@ -56,30 +56,30 @@
     <div class="form-row">
       <?=\CHtml::activeLabel($form, 'Company');?>
       <div class="form-inline">
-        <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Company]');?>" value="" class="span5"/>
+        <input type="text" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][Company]');?>" value="" class="span5"/>
         <label class="radio">
-          <input type="radio" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Primary]');?>" value="1"> <?=$form->getAttributeLabel('Primary');?>
+          <input type="radio" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][Primary]');?>" value="1"> <?=$form->getAttributeLabel('Primary');?>
         </label>
       </div>
     </div>
     <div class="form-row">
       <?=\CHtml::activeLabel($form, 'Position');?>
-      <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Position]');?>" value="" class="span5"/>
+      <input type="text" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][Position]');?>" value="" class="span5"/>
     </div>
     <div class="form-row form-row-date">
       <label><?=\CHtml::activeLabel($form, 'Date');?></label>
       <div class="form-inline">
-        <select class="custom-select" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][StartMonth]');?>">
+        <select class="custom-select" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][StartMonth]');?>">
           <?=$form->getMonthOptions();?>
         </select>
-        <select class="custom-select" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][StartYear]');?>">
+        <select class="custom-select" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][StartYear]');?>">
           <?=$form->getYearOptions();?>
         </select>
         <span class="mdash">&mdash;</span>
-        <select class="custom-select" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][EndMonth]');?>">
+        <select class="custom-select" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][EndMonth]');?>">
           <?=$form->getMonthOptions();?>       
         </select>
-        <select class="custom-select" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][EndYear]');?>">
+        <select class="custom-select" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][EndYear]');?>">
           <?=$form->getYearOptions();?>
         </select>
         <label class="checkbox">
@@ -89,13 +89,13 @@
     </div>
     <div class="form-row">
       <label class="radio">
-        <input type="radio" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Primary]');?>" value="1"> <?=$form->getAttributeLabel('Primary');?>
+        <input type="radio" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][Primary]');?>" value="1"> <?=$form->getAttributeLabel('Primary');?>
       </label>
     </div>
     <div class="form-row form-row-remove">
       <a href="#" class="pseudo-link iconed-link" data-action="remove"><i class="icon-minus-sign"></i> <span><?=\Yii::t('app', 'Удалить');?></span></a>
     </div>
-    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Delete]');?>" value="" />
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][Delete]');?>" value="" />
   </div>
 </script>
 
@@ -107,30 +107,30 @@
     <div class="form-row">
       <?=\CHtml::activeLabel($form, 'Company');?>
       <div class="form-inline">
-        <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Company]');?>" value="<%=Company%>" class="span5"/>
+        <input type="text" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][Company]');?>" value="<%=Company%>" class="span5"/>
         <label class="radio">
-          <input type="radio" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Primary]');?>" <%if(Primary == true){%>checked<%}%> value="1"> <?=$form->getAttributeLabel('Primary');?>
+          <input type="radio" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][Primary]');?>" <%if(Primary == true){%>checked<%}%> value="1"> <?=$form->getAttributeLabel('Primary');?>
         </label>
       </div>
     </div>
     <div class="form-row">
       <?=\CHtml::activeLabel($form, 'Position');?>
-      <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Position]');?>" value="<%=Position%>" class="span5"/>
+      <input type="text" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][Position]');?>" value="<%=Position%>" class="span5"/>
     </div>
     <div class="form-row form-row-date">
       <label><?=\CHtml::activeLabel($form, 'Date');?></label>
       <div class="form-inline">
-        <select class="custom-select" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][StartMonth]');?>" data-selected="<%=StartMonth%>">
+        <select class="custom-select" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][StartMonth]');?>" data-selected="<%=StartMonth%>">
           <?=$form->getMonthOptions();?>
         </select>
-        <select class="custom-select" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][StartYear]');?>" data-selected="<%=StartYear%>">
+        <select class="custom-select" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][StartYear]');?>" data-selected="<%=StartYear%>">
           <?=$form->getYearOptions();?>
         </select>
         <span class="mdash">&mdash;</span>
-        <select class="custom-select" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][EndMonth]');?>" data-selected="<%=EndMonth%>">
+        <select class="custom-select" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][EndMonth]');?>" data-selected="<%=EndMonth%>">
           <?=$form->getMonthOptions();?>       
         </select>
-        <select class="custom-select" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][EndYear]');?>" data-selected="<%=EndYear%>">
+        <select class="custom-select" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][EndYear]');?>" data-selected="<%=EndYear%>">
           <?=$form->getYearOptions();?>
         </select>
         <label class="checkbox">
@@ -142,8 +142,8 @@
       <a href="#" class="pseudo-link iconed-link" data-action="remove"><i class="icon-minus-sign"></i> <span><?=\Yii::t('app', 'Удалить');?></span></a>
     </div>
     <%if(Id != ''){%>
-      <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Id]');?>" value="<%=Id%>" />
+      <input type="hidden" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][Id]');?>" value="<%=Id%>" />
     <%}%>
-    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Employments[<%=i%>][Delete]');?>" value="" />
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][Delete]');?>" value="" />
   </div>
 </script>

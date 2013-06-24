@@ -104,6 +104,9 @@ $(function() {
   /* Event results -> Tabs */
   $('#search-tabs').tabs();
 
+  /* USER ACCOUNT */
+  /* User account -> Tabs */
+  $('#user-account-tabs').tabs();
 
   /* COMPANIES */
   /* Company -> Account */
