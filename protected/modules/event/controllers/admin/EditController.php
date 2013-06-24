@@ -137,7 +137,7 @@ class EditController extends \application\components\controllers\AdminMainContro
           else if (!in_array($profInterest->Id, $form->ProfInterest)
             && $linkProfInterest !== null)
           {
-            $linkProfInterest->remove();
+            $linkProfInterest->delete();
           }
         }
         
