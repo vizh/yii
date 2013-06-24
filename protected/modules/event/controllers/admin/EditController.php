@@ -124,7 +124,7 @@ class EditController extends \application\components\controllers\AdminMainContro
         foreach (\application\models\ProfessionalInterest::model()->findAll() as $profInterest)
         {
           $linkProfInterest = \event\models\LinkProfessionalInterest::model()
-            ->byEventId($eventId)->byInteresId($profInteres->Id)->find();
+            ->byEventId($eventId)->byInteresId($profInterest->Id)->find();
 
           if (in_array($profInterest->Id, $form->ProfInterest) 
             && $linkProfInterest == null)
