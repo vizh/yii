@@ -53,18 +53,18 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <!--<th><input type="checkbox" name="" value="" /></th>-->
+        <th><input type="checkbox" name="" value="" /></th>
         <th>Промо-код</th>
         <th>Скидка</th>
         <th>Продукт</th>
-        <!--<th>Выдан</th>-->
+        <th>Выдан</th>
         <th>Активация</th>
     </tr>
     </thead>
     <tbody>
     <?php foreach ($coupons as $coupon):?>
     <tr>
-        <!--<td><input type="checkbox" name="Coupons[]" value="<?=$coupon->Code;?>" /></td>-->
+        <td><input type="checkbox" name="Coupons[]" value="<?=$coupon->Code;?>" /></td>
         <td><strong><?=$coupon->Code;?></strong></td>
         <td><strong><?=($coupon->Discount * 100);?> %</strong></td>
         <td>
@@ -76,16 +76,16 @@
                 &ndash;
             <?endif;?>
         </td>
-        <!--<td>
+        <td>
             <?if ($coupon->Recipient == null):?>
-                <span class="label">Не выдан</span>
+                <span class="label"><?=\Yii::t('app', 'Не выдан');?></span>
             <?else:?>
-                <span class="label label-info">Выдан</span>
-          <p>
-            <em><?=$coupon->Recipient;?></em>
-          </p>
+                <span class="label label-info"><?=\Yii::t('app', 'Выдан');?></span>
+                <p>
+                  <em><?=$coupon->Recipient;?></em>
+                </p>
             <?endif;?>
-        </td>-->
+        </td>
         <td>
             <?if (!$coupon->Multiple && sizeof($coupon->Activations) > 0):?>
                 <span class="label label-success">Активирован</span> 
@@ -101,13 +101,13 @@
     </tr>
     <?php endforeach;?>
     </tbody>
-   <!-- <tfoot>
-    <tr>
-      <td></td>
-      <td><input type="submit" value="Выдать промо-коды" style="display: none;" class="btn btn-mini btn-success"/></a></td>
-      <td colspan="4"></td>
-    </tr>
-    </tfoot>-->
+    <tfoot>
+      <tr>
+        <td></td>
+        <td><input type="submit" value="Выдать промо-коды" style="display: none;" class="btn btn-mini btn-success"/></a></td>
+        <td colspan="4"></td>
+      </tr>
+    </tfoot>
 </table>
 </form>
 <?php else:?>

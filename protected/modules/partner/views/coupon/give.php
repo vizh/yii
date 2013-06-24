@@ -4,57 +4,58 @@
  */
 ?>
 <div class="row">
-  <div class="span12 indent-bottom3">
-    <h2>Выдача промо-кодов</h2>
+  <div class="span12 m-bottom_30">
+    <h2><?=\Yii::t('app', 'Выдача промо-кодов');?></h2>
   </div>
 </div>
-
-<?if ($error === false):?>
-  <form method="POST">
-    <?if ($success !== false):?>
-      <div class="alert alert-success"><?=$success;?></div>
+<?=\CHtml::beginForm('', 'POST');?>
+<div class="row">
+  <div class="span12">
+    <?=\CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
+    <?if (\Yii::app()->getUser()->hasFlash('success')):?>
+      <div class="alert alert-success"><?=\Yii::app()->getUser()->getFlash('success');?></div>
     <?endif;?>
-    <div class="row">
-      <div class="span12">
-        <label>Укажите кому будет выдан промо-код:</label>
-        <textarea class="span6" name="Give[Recipient]"></textarea>
+    
+    <div class="control-group">
+      <?=\CHtml::activeLabel($form, 'Recipient', array('class' => 'control-label'));?>
+      <div class="controls">
+        <?=\CHtml::activeTextField($form, 'Recipient', array('class' => 'input-block-level'));?>
       </div>
     </div>
-    <div class="row">
-      <div class="span12">
-        <input type="submit" value="Выдать" class="btn"/>
+    <div class="control-group">
+      <div class="controls">
+        <?=\CHtml::submitButton(\Yii::t('app', 'Выдать'), array('class' => 'btn'));?>
       </div>
     </div>
-  </form>
+  </div>
+</div>
+<?=\CHtml::endForm();?>
 
-  <div class="row">
-    <div class="span5">
-      <table class="table table-striped">
-        <thead>
-        <th>Купон</th>
-        <th>Скидка</th>
-        <th>Статус</th>
-        </thead>
-        <tbody>
-        <?php foreach ($coupons as $coupon):?>
-          <tr>
-            <td><?php echo  $coupon->Code;?></td>
-            <td><?php echo ($coupon->Discount * 100);?>%</td>
-            <td>
-              <?php if ( empty ($coupon->Recipient)):?>
-                <span class="label label-success">Свободен</span>
-              <?php else:?>
-                <span class="label label-important" title="<?php echo $coupon->Recipient;?>">Выдан</span>
-              <?php endif;?>
-            </td>
-          </tr>
-        <?php endforeach;?>
-        </tbody>
-      </table>
-    </div>
+
+
+<div class="row">
+  <div class="span5">
+    <table class="table table-striped">
+      <thead>
+      <th><?=\Yii::t('app','Купон');?></th>
+      <th><?=\Yii::t('app','Скидка');?></th>
+      <th><?=\Yii::t('app','Статус');?></th>
+      </thead>
+      <tbody>
+      <?foreach ($coupons as $coupon):?>
+        <tr>
+          <td><?php echo  $coupon->Code;?></td>
+          <td><?php echo ($coupon->Discount * 100);?>%</td>
+          <td>
+            <?php if (empty($coupon->Recipient)):?>
+              <span class="label label-success"><?=\Yii::t('app','Свободен');?></span>
+            <?php else:?>
+              <span class="label label-important" title="<?php echo $coupon->Recipient;?>"><?=\Yii::t('app','Выдан');?></span>
+            <?php endif;?>
+          </td>
+        </tr>
+      <?php endforeach;?>
+      </tbody>
+    </table>
   </div>
-<?php else:?>
-  <div class="alert alert-error">
-    <strong>Ошибка!</strong> <?=$error;?>
-  </div>
-<?php endif; ?>
+</div>
