@@ -62,12 +62,12 @@ $(window).load(function() {
                   <?php $age = $user->getBirthDate();?>
                   <?if ($age > 0 || $user->LinkAddress !== null):?>
                     <small class="muted">
-                      <?if ($age > 0):?>День рождения <?=$age;?>, <?endif;?>
+                      <?if ($age > 0):?><?=\Yii::t('app', 'День рождения');?> <?=$age;?>,<?endif;?>
                       <?if ($user->getContactAddress() !== null && $user->getContactAddress()->City !== null):?><?=$user->getContactAddress()->City->Name;?><?endif;?>
                     </small>
                   <?endif;?>
                 </header>
-                <?php $primaryEmployment = $user->getEmploymentPrimary();?>
+                <? $primaryEmployment = $user->getEmploymentPrimary();?>
                 <?if ($primaryEmployment !== null):?>
                 <div class="b-job">
                   <header>
@@ -89,7 +89,7 @@ $(window).load(function() {
                 <?if (!empty($professionalInterests)):?>
                 <div class="b-interests">
                   <header>
-                    <h6 class="title">Профессиональные интересы</h6>
+                    <h6 class="title"><?=\Yii::t('app', 'Профессиональные интересы');?></h6>
                   </header>
                   <article>
                     <p class="text"><?=implode(', ', $professionalInterests);?></p>
@@ -107,21 +107,59 @@ $(window).load(function() {
                 </div>
                 <?endif;?>
               </div>
-              <div class="span4 b-contacts">
-                <?if ($user->LinkSite !== null):?>
-                <dl class="dl-horizontal">
-                  <dt><?=\Yii::t('app', 'Сайт:');?></dt>
-                  <dd><a href="<?=$user->LinkSite->Site;?>" target="_blank"><?=parse_url($user->LinkSite->Site, PHP_URL_HOST);?></a></dd>
-                </dl>
-                <?endif;?>
-                <?foreach ($user->LinkServiceAccounts as $linkServiceAcc):?>
-                  <?if ($linkServiceAcc->ServiceAccount !== null):?>
+
+
+              <div id="user-account-tabs" class="span4 tabs">
+                <ul class="nav">
+                  <?if (!empty($notPrimaryEmployments)):?><li><a href="#user-account-tab_career" class="pseudo-link">Карьера</a></li><?endif;?>
+                  <li><a href="#user-account-tab_contacts" class="pseudo-link">Контакты</a></li>
+                </ul>
+
+                <?if (!empty($notPrimaryEmployments)):?>
+                <div id="user-account-tab_career" class="tab b-career">
+                  <?foreach ($notPrimaryEmployments as $employments):?>
                     <dl class="dl-horizontal">
-                      <dt><?=$linkServiceAcc->ServiceAccount->Type->Title;?>:</dt>
-                      <dd><?=$linkServiceAcc->ServiceAccount;?></dd>
+                      <?$startYear = $employments[sizeof($employments)-1]->StartYear;?>
+                      <dt><?=$startYear;?></dt>
+                      <dd>
+                        <h6 class="b-career_company"><a href="<?=$employments[0]->Company->getUrl();?>"><?=$employments[0]->Company->Name;?></a></h6>
+                        <?foreach ($employments as $employment):?>
+                          <?if (!empty($employment->Position)):?>
+                            <p class="b-career_post"><?=$employment->Position;?></p>
+                            <?if (!empty($employment->EndYear) && ($interval = $employment->getWorkingInterval()) !== null):?>
+                              <p class="b-career_length muted"><small>
+                                <?if ($interval->Years > 0):?>
+                                  <?=\Yii::t('app', '{n} год |{n} года |{n} лет |{n} года ', $interval->Years);?>
+                                <?endif;?>
+                                <?if ($interval->Months > 0):?>
+                                  <?=\Yii::t('app', '{n} месяц|{n} месяца|{n} месяцев|{n} месяца', $interval->Months);?>
+                                <?endif;?>
+                              </small></p>
+                            <?endif;?>
+                          <?endif;?>
+                        <?endforeach;?>
+                      </dd>
                     </dl>
+                  <?endforeach;?>
+                </div>
+                <?endif;?>
+
+                <div id="user-account-tab_contacts" class="tab b-contacts">
+                  <?if ($user->LinkSite !== null):?>
+                  <dl class="dl-horizontal">
+                    <dt><?=\Yii::t('app', 'Сайт:');?></dt>
+                    <dd><a href="<?=$user->LinkSite->Site;?>" target="_blank"><?=parse_url($user->LinkSite->Site, PHP_URL_HOST);?></a></dd>
+                  </dl>
                   <?endif;?>
-                <?endforeach;?>
+                  <?foreach ($user->LinkServiceAccounts as $linkServiceAcc):?>
+                    <?if ($linkServiceAcc->ServiceAccount !== null):?>
+                      <dl class="dl-horizontal">
+                        <dt><?=$linkServiceAcc->ServiceAccount->Type->Title;?>:</dt>
+                        <dd><?=$linkServiceAcc->ServiceAccount;?></dd>
+                      </dl>
+                    <?endif;?>
+                  <?endforeach;?>
+                </div>
               </div>
             </div>
           </div>
@@ -134,7 +172,7 @@ $(window).load(function() {
         <div class="line"></div>
         <div class="container">
           <div class="title">
-            <span class="backing text">Участие в профильных мероприятиях</span>
+            <span class="backing text"><?=\Yii::t('app','Участие в профильных мероприятиях');?></span>
           </div>
         </div>
       </h4>
@@ -158,7 +196,7 @@ $(window).load(function() {
         <div class="container">
           <div class="title">
             <span class="backing text">
-              Участие в мероприятиях за
+              <?=\Yii::t('app', 'Участие в мероприятиях за');?>
               <form action="#" class="form-inline">
                 <select name="participationYears" id="participationYears">
                   <option value="0"><?=\Yii::t('app', 'За все время');?></option>
@@ -174,9 +212,8 @@ $(window).load(function() {
         </div>
       </h4> 
       <div class="container">
-        <?$rowCount = 1;?>
         <div class="row">
-        <?foreach ($participation->Participation as $participant):?>
+          <?foreach ($participation->Participation as $participant):?>
             <figure class="i span2" data-year="<?=$participant->Event->StartYear;?>">
               <?php $logoExists = file_exists($participant->Event->getLogo()->getOriginal(true));?>
               <a href="<?=$this->createUrl('/event/view/index', array('idName' => $participant->Event->IdName));?>" class="event-link <?if(!$logoExists):?>text<?endif;?>" title="<?=$participant->Event->Title;?>">
@@ -212,14 +249,10 @@ $(window).load(function() {
               </div>
               <?endif;?>
             </figure>
-          <?if (($rowCount % 6) == 0):?>
-          </div><div class="row">
-          <?endif;?>
-          <?$rowCount++;?>
-        <?endforeach;?>
+          <?endforeach;?>
         </div>
         <div class="all">
-          <a href="#" class="pseudo-link">Все мероприятия</a>
+          <a href="#" class="pseudo-link"><?=\Yii::t('app', 'Все мероприятия');?></a>
         </div>
       </div>
     </div>
@@ -232,7 +265,7 @@ $(window).load(function() {
     <div class="line"></div>
     <div class="container">
       <div class="title">
-        <span class="backing text">Примите участие</span>
+        <span class="backing text"><?=\Yii::t('app', 'Примите участие');?></span>
       </div>
     </div>
   </h4>    
@@ -265,7 +298,7 @@ $(window).load(function() {
   <div class="item">
     <div class="info">
       <div class="val"><%= value %></div>
-      <div class="description">В качестве <b><%= role%></b></div>
+      <div class="description"><?=\Yii::t('app', 'В качестве');?> <b><%= role%></b></div>
     </div>
   </div>
 </script>

@@ -41,7 +41,7 @@ class Photo
    */
   public function get140px($serverPath = false)
   {
-    return $this->getByName($serverPath, ($this->news->Id.'140.jpg'), 'nophoto_140.png');
+    return $this->getByName($serverPath, '140.png', 'nophoto_140.png');
   }
   
   /**
@@ -51,7 +51,7 @@ class Photo
    */
   public function getOriginal($serverPath = false)
   {
-    return $this->getByName($serverPath, ($this->news->Id.'.jpg'), 'nophoto_200.png');
+    return $this->getByName($serverPath, 'original.png', 'nophoto_200.png');
   }
   
   /**

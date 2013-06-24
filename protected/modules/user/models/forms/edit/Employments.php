@@ -66,7 +66,7 @@ class Employments extends \user\models\forms\edit\Base
     $html = '<option value=""></option>';
     for($y = date('Y'); $y >= 1980; $y--)
     {
-      $html .= '<option value="'.$y.'"'.($y == $maxYear ? 'selected' : '').'>'.$y.'</option>';
+      $html .= '<option value="'.$y.'">'.$y.'</option>';
     }
     return $html;
   }

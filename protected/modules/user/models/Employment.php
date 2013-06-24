@@ -248,12 +248,55 @@ class Employment extends \CActiveRecord
     }
     $this->CompanyId = $company->Id;
   }
+  
+  /**
+   * 
+   * @return null|\stdClass
+   */
+  public function getWorkingInterval()
+  {
+    if (empty($this->StartYear))
+      return null;
+    
+    $result = new \stdClass();
+    $result->Years  = 0;
+    $result->Months = 0;
+    
+    $dateStart = $this->StartYear.'-'.(!empty($this->StartMonth) ? $this->StartMonth : '1').'-1';
+    
+    if (!empty($this->EndYear))
+    {
+      $dateEnd = $this->EndYear.'-'.(!empty($this->EndMonth) ? $this->EndMonth : '1').'-1';
+    }
+    else
+    {
+      $dateEnd = date('Y-n-j');
+    }
+      
+    $dtStart = new \DateTime($dateStart);
+    $dtEnd = new \DateTime($dateEnd);
+    if (!empty($this->StartMonth) || !empty($this->EndMonth))
+      $dtEnd->modify('+1 month');
+    
+    $diff = $dtStart->diff($dtEnd);
+    $result->Years  = $diff->format('%y');
+    $result->Months = $diff->format('%m');
+    return $result;
+  }
 
   public function byUserId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."UserId" = :UserId';
     $criteria->params = array(':UserId' => $userId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  public function byPrimary($primary, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = (!$primary ? 'NOT ' : '').'"t"."Primary"';
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

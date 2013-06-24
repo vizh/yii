@@ -120,11 +120,16 @@ class ViewController extends \application\components\controllers\PublicMainContr
       'user' => $user, 
       'participation' => $participation,
       'professionalInterests' => $professionalInterests,
-      'recommendedEvents' => $this->getRecommendedEvents($user)
+      'recommendedEvents' => $this->getRecommendedEvents($user),
+      'notPrimaryEmployments' => $this->getNotPrimaryEmployments($user)
     ));
   }
   
-  
+  /**
+   * 
+   * @param  \user\models\User $user
+   * @return \event\models\Event[]
+   */
   private function getRecommendedEvents($user)
   {
     $result = array();
@@ -165,6 +170,27 @@ class ViewController extends \application\components\controllers\PublicMainContr
     }
     return $result;
   }
+  
+  /**
+   * 
+   */
+  private function getNotPrimaryEmployments($user)
+  {     
+    $result = [];
+    $i = 0;
+    $lastCompanyName = null;
+    foreach ($user->Employments as $employment)
+    {
+      if (!$employment->Primary)
+      {
+        if ($employment->Company->Name !== $lastCompanyName)
+        {
+          $i++;
+        }
+        $result[$i][] = $employment;
+        $lastCompanyName = $employment->Company->Name;
+      }
+    }
+    return $result;
+  }
 }
-
-?>

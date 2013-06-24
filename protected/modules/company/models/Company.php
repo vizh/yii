@@ -188,4 +188,10 @@ class Company extends \application\models\translation\ActiveRecord implements \s
   {
     return !empty($this->LinkSite) ? $this->LinkSite->Site : null;
   }
+  
+  
+  public function getUrl()
+  {
+    return \Yii::app()->getController()->createAbsoluteUrl('/company/view/index', array('companyId' => $this->Id));
+  }
 }

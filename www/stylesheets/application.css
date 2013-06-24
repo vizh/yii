@@ -1825,22 +1825,49 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .user-account .b-card .b-details .b-raec .logo {margin-bottom: 5px;}
 .user-account .b-card .b-details .b-raec .text {color: #ef3c31;}
 
-.user-account .b-card .b-contacts {
+.user-account .b-card .tabs {margin-bottom: 45px;}
+.user-account .b-card .tabs .tab {
   overflow: hidden;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
-  margin-top: 50px;
   border-left: 1px solid #eee;
 }
-.user-account .b-card .b-contacts dl {
-  margin-left: -60px;
+
+.user-account .b-card .tabs .nav {
+  list-style: none;
   font-size: 13px;
 }
-.user-account .b-card .b-contacts dl:not(:last-child) {
+.user-account .b-card .tabs .nav li {
+  display: inline-block;
+  color: #999;
+  vertical-align: top;
+}
+.user-account .b-card .tabs .nav li:not(:last-child) {margin-right: 40px;}
+.user-account .b-card .tabs .nav li a {background: transparent;}
+.user-account .b-card .tabs .nav li.ui-state-active a {
+  border-bottom-color: transparent !important;
+  color: #999;
+}
+
+.user-account .b-card .dl-horizontal {
+  font-size: 13px;
+  margin-left: 20px;
+}
+.user-account .b-card .dl-horizontal:not(:last-child) {
   margin-top: 0;
   margin-bottom: 10px;
 }
+
+.user-account .b-card .dl-horizontal dt {text-align: left;}
+.user-account .b-card .dl-horizontal > dd > h6,
+.user-account .b-card .dl-horizontal > dd > p {margin: 0;}
+
+.user-account .b-card .b-career .dl-horizontal dt {width: 60px;}
+.user-account .b-card .b-contacts .dl-horizontal dt {width: 80px;}
+.user-account .b-card .b-career .dl-horizontal dd {margin-left: 60px;}
+.user-account .b-card .b-contacts .dl-horizontal dd {margin-left: 100px;}
+
 
 /* User -> Account -> Statistics */
 .user-account .b-statistics {margin-bottom: 60px;}
@@ -1934,6 +1961,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .user-account .b-participated .img {
   border: 1px solid #f2f2f2;
   vertical-align: top;
+  max-height: 80px;
 }
 .user-account .b-participated .cnt {
   padding: 9px 10px 1px;
