@@ -116,7 +116,8 @@ class ContactsAction extends \CAction
           'Id' => $linkPhone->PhoneId,
           'CityCode' => $linkPhone->Phone->CityCode,
           'CountryCode' => $linkPhone->Phone->CountryCode,
-          'Phone' => $linkPhone->Phone->Phone
+          'Phone' => $linkPhone->Phone->Phone,
+          'Type'  => $linkPhone->Phone->Type
         );
         $form->Phones[] = $phone;
       }
