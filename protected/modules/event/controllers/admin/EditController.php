@@ -54,11 +54,6 @@ class EditController extends \application\components\controllers\AdminMainContro
         $event->Top = $form->Top;
         $event->Free = $form->Free;
         $event->Approved = $form->Approved;
-        if ($event->IdName !== $form->IdName)
-        {
-          $event->IdName = $form->IdName;
-          $event->getLogo()->rebase($form->IdName);
-        }
         $event->StartDay = date('d', $form->StartDateTS);
         $event->StartMonth = date('m', $form->StartDateTS);;
         $event->StartYear = date('Y', $form->StartDateTS);;

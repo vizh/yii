@@ -3,6 +3,11 @@ body {
   margin: 0;
   padding: 0;
 }
+input[type="file"] {
+	line-height: 0;
+	font-size: 12px;
+	margin-top: 7px;
+}
 h1 {
   color: #EEEEEE;
   margin-top: 0;

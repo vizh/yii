@@ -8,32 +8,35 @@ class Create extends \CFormModel
   
   public $Title;
   public $Place;
-  
+
+ public $LogoSource;
+
   public $StartDate;
   public $EndDate;
   public $OneDayDate;
   public $StartTimestamp;
   public $EndTimestamp;
-  
+
   public $Url;
   public $Info;
   public $FullInfo;
-  
+
   public $Options = array();
-  
+
   public function rules()
   {
     return array(
       array('ContactName, ContactPhone, ContactEmail, Title, Place, StartDate, EndDate, Info', 'required'),
       array('ContactEmail', 'filter', 'filter' => 'trim'),
-      array('Url, Info, FullInfo, Options, OneDayDate', 'safe'),
+      array('Url, Info, FullInfo, Options, OneDayDate, LogoSource', 'safe'),
+      array('LogoSource', 'file', 'allowEmpty' => false),
       array('ContactEmail', 'email'),
       array('StartDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'StartTimestamp'),
       array('EndDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'EndTimestamp'),
     );
   }
-  
-  
+
+
   public function attributeLabels()
   {
     return array(
@@ -45,6 +48,7 @@ class Create extends \CFormModel
       'Date' => \Yii::t('app', 'Дата проведения'),
       'Url' => \Yii::t('app', 'Сайт мероприятия'),
       'Info' => \Yii::t('app', 'Краткое описание'),
+      'LogoSource' => \Yii::t('app', 'Логотип'),
       'FullInfo' => \Yii::t('app', 'Подробное описание'),
       'Options' => \Yii::t('app', 'Выберите необходимые вашему мероприятию опции'),
       'StartDate' => \Yii::t('app', 'Дата начала'),

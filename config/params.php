@@ -6,7 +6,7 @@ return array(
 
     'Languages' => array('ru', 'en'),
 
-    'EventDir' => '/files/event/', // файловая директория мероприятий
+    'EventDir' => '/files/event/%s/', // директория файлов мероприятий
     'EventPreviewLength' => 200,
     'EventViewUserPerPage' => 16,
       

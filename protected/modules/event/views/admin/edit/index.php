@@ -1,3 +1,8 @@
+<?php
+
+/** @var $event \event\models\Event */
+
+?>
 <?=\CHtml::form('','POST',array('class' => 'form-horizontal', 'enctype' => 'multipart/form-data'));?>
 <div class="btn-toolbar">
   <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), array('class' => 'btn btn-success'));?>
@@ -68,6 +73,20 @@
       <div class="control-group">
         <?=\CHtml::activeLabel($form, 'Logo', array('class' => 'control-label'));?>
         <div class="controls">
+          <?php
+
+            if ($event->LogoSource)
+            {
+              $LogoSource = $event->getPath($event->LogoSource);
+
+              printf('<a target="_blank" href="%s">Исходник.%s&nbsp;(%s)</a>',
+                $LogoSource,
+                pathinfo($LogoSource, PATHINFO_EXTENSION),
+                CText::humanFileSize(\Yii::getPathOfAlias('webroot').$LogoSource, '%01.0f%s', ':)')
+              );
+            }
+
+          ?>
           <?=\CHtml::activeFileField($form, 'Logo');?>
         </div>
         <div class="controls"><?=\CHtml::image($event->getLogo()->get50px());?></div>

@@ -228,7 +228,7 @@ a:focus{
 /*** ошибки  */
 #error-page .error-500 {background: url(/images/page-500.png) 0 0 no-repeat;}
 
-input.error {
+input.error, textarea.error {
   border-color: #B94A48 !important;
 }
 .user-account .b-participated .cnt .tx a {
@@ -285,5 +285,16 @@ li.ui-menu-item > a.ui-state-focus {
   background-position: -32px 0;
 }
 .ico16_social__google {
-  background-position: -48px 0;
+	background-position: -48px 0;
+}
+
+.help-block {
+	font: italic 12px Arial !important;
+	color: #888;
+}
+
+input[type="file"] {
+	line-height: 0;
+	font-size: 12px;
+	margin-top: 7px;
 }
