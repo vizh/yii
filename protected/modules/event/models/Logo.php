@@ -3,11 +3,11 @@ namespace event\models;
 
 class Logo
 {
-  private $idName;
+  private $event;
 
-  public function __construct($idName)
+  public function __construct($event)
   {
-    $this->idName = $idName;
+    $this->event = $event;
   }
 
   /**
@@ -35,12 +35,18 @@ class Logo
    */
   protected function getPath($serverPath = false)
   {
-    $result = \Yii::app()->params['EventDir'].$this->idName.'/';
+    $result = \Yii::app()->params['EventDir'].$this->event->IdName.'/';
     if ($serverPath)
     {
       $result = \Yii::getPathOfAlias('webroot') . $result;
     }
     return $result;
+  }
+  
+  
+  protected function getNone($size)
+  {
+    return 'none/type_'.$this->event->TypeId.'/'.$size.'.png';
   }
   
   /**
@@ -52,7 +58,7 @@ class Logo
     $path = $this->getPath(true);
     if (is_dir($path))
     {
-      $this->idName = $newIdName;
+      $this->event->IdName = $newIdName;
       rename($path, $this->getPath(true));
     }
   }

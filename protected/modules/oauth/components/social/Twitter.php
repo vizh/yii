@@ -138,6 +138,11 @@ class Twitter implements ISocial
   {
     return 'Twitter';
   }
+  
+  public function clearAccess()
+  {
+    ;
+  }
 }
 
 require dirname(__FILE__) . '/twitter/tmhOAuth.php';

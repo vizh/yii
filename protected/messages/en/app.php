@@ -17,6 +17,8 @@ return array(
 
   'г.' => ' ',
   'д.' => ' ',
+  
+  'и'  => 'and', 
     
   'от' => 'from',
 
@@ -57,8 +59,14 @@ return array(
   'Оплатить через' => 'Pay via',
   'Выставить счет' => 'Issue an invoice',
   '(для юр. лиц)' => '(for juridical entities)',
-
-
+  
+  'У вас есть неоплаченный заказ' => 'You have a pending order',
+  'В вашей корзине имеется неоплаченный заказ' => 'Нou have unpaid order',
+  'на {n} человека|на {n} человека|на {n} человек|на {n} человек' => 'for {n} person in your cart|for {n} persons in your cart',
+  '{n} неоплаченный счет|{n} неоплаченных счета|{n} неоплаченных счетов|{n} неоплаченных счетов' => '{n} unpaid bill|{n} unpaid bill',
+  'Для его просмотра и оплаты нажмите «Перейти к оплате» внизу страницы или' => 'To review and pay for your orders please click on "go to payment" button on the bottom of page or',
+  'сюда' => 'here',
+    
 
   'Выставление счета' => 'Invoice Issuance',
   'Заполните данные юридического лица' => 'Enter legal entity’s data',

@@ -39,7 +39,7 @@ class News extends \CActiveRecord
   {
     if ($this->photo == null)
     {
-      $this->photo = new \news\models\Photo($this->Id);
+      $this->photo = new \news\models\Photo($this);
     }
     return $this->photo;
   }

@@ -54,6 +54,7 @@ legend {
 .ico16_social__facebook  {background-position: 0 0;}
 .ico16_social__twitter   {background-position: -16px 0;}
 .ico16_social__vkontakte {background-position: -32px 0;}
+.ico16_social__google    {background-position: -48px 0;}
 
 /* BLOCK
 ---------------------------------------------------------------------------------------------------- */
@@ -81,4 +82,4 @@ legend {
 /* SOCIAL
 ---------------------------------------------------------------------------------------------------- */
 .social {}
-  .social_btn {font-size: 12px;}
+  .social_btn {font-size: 12px; margin-bottom: 5px;}

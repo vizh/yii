@@ -46,6 +46,11 @@ class UserController extends \partner\components\Controller
         'Title' => 'Экспорт участников в CSV',
         'Url' => \Yii::app()->createUrl('partner/user/export'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'user', 'export')
+      ),
+      'import' => array(
+        'Title' => 'Импорт участников из CSV',
+        'Url' => \Yii::app()->createUrl('partner/user/import'),
+        'Access' => $this->getAccessFilter()->checkAccess('partner', 'user', 'import')
       )
     );
   }

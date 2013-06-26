@@ -1,5 +1,5 @@
 <div class="widget-address-controls">
-  <div class="controls m-top_5">
+  <div class="controls">
     <?=\CHtml::activeTextField($form, 'CityLabel', array('placeholder' => $form->getAttributeLabel('CityLabel')));?>
   </div>
 

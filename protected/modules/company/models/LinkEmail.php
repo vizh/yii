@@ -37,4 +37,22 @@ class LinkEmail extends \CActiveRecord
       'Email' => array(self::BELONGS_TO, '\contact\models\Email', 'EmailId'),
     );
   }
+  
+  public function byCompanyId($companyId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."CompanyId" = :CompanyId';
+    $criteria->params = array(':CompanyId' => $companyId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  public function byEmailId($emailId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EmailId" = :EmailId';
+    $criteria->params = array(':EmailId' => $emailId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

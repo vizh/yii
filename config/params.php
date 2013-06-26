@@ -7,13 +7,14 @@ return array(
     'Languages' => array('ru', 'en'),
 
     'EventDir' => '/files/event/', // файловая директория мероприятий
-      
+    'EventPreviewLength' => 200,
     'EventViewUserPerPage' => 16,
       
     'UserViewMaxRecommendedEvents' => 4,
-
+      
+      
     'CompanyPerPage' => 20, // Количество результатов компаний на страницу
-    'CompanyLogoDir' => '/files/logo/', //
+    'CompanyDir' => '/files/company/',
       
     'SearchResultPerPage' => 20, 
     

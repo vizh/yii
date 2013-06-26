@@ -88,6 +88,15 @@ abstract class ImportAction extends Action
     {
       $this->showMessage('---- debug info ----', $results);
 
+      foreach ($results as $row)
+      {
+        $roleId = $this->getRoleId($row);
+        if (empty($roleId))
+        {
+          $this->showMessage('------------- error role ----------', $row);
+        }
+      }
+
       $row = new \stdClass();
       $row->FirstName = 'Виталий';
       $row->LastName = 'Никитин';
@@ -152,8 +161,8 @@ abstract class ImportAction extends Action
     if ($user === null)
     {
       $user = new \user\models\User();
-      $user->FirstName = $row->FirstName;
-      $user->LastName = $row->LastName;
+      $user->FirstName = !empty($row->FirstName) ? $row->FirstName : '-';
+      $user->LastName = !empty($row->LastName) ? $row->LastName : '-';
       $user->FatherName = $row->FatherName;
       $user->Email = strtolower($row->Email);
       $user->register($this->getIsNotify());

@@ -5,8 +5,7 @@ class SocialController extends \oauth\components\Controller
 {
   public function actionRequest()
   {
-    $socialProxy = new \oauth\components\social\Proxy($this->social);
-
+    $socialProxy = new \oauth\components\social\Proxy($this->social);   
     if ($socialProxy->isHasAccess())
     {
       $data = $socialProxy->getData();

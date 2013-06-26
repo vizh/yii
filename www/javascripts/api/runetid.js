@@ -26,7 +26,7 @@ var RunetId = new function() {
   // Публичные методы
   RunetId.prototype.init = function(options){
     this.apiKey = options.apiKey;
-    this.rState = options.rState;
+    //this.rState = options.rState;
 
     if (typeof(options.backUrl) != 'undefined')
     {
@@ -46,7 +46,7 @@ var RunetId = new function() {
   };
 
   RunetId.prototype.getUrl = function(){
-    return this.url + '?apikey=' + encodeURIComponent(this.apiKey) + '&url='+encodeURIComponent(this.backUrl) + '&r_state='+encodeURIComponent(this.rState);
+    return this.url + '?apikey=' + encodeURIComponent(this.apiKey) + '&url='+encodeURIComponent(this.backUrl);
   };
 
   RunetId.prototype.windowDimensions = function(){

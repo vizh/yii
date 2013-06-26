@@ -87,7 +87,7 @@ class User extends \application\models\translation\ActiveRecord
 
       'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'UserId',
         'with' => 'Company',
-        'order' => '"Employments"."Primary" DESC, "Employments"."EndYear" DESC, "Employments"."StartYear" DESC'
+        'order' => '"Employments"."Primary" DESC, "Employments"."EndYear" DESC, "Employments"."EndMonth" DESC, "Employments"."StartYear" DESC, "Employments"."StartMonth" DESC'
       ),
 
       'Commissions' => array(self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => array('Commission', 'Role')),
@@ -100,6 +100,15 @@ class User extends \application\models\translation\ActiveRecord
     );
   }
 
+  public function __set($name, $value)
+  {
+    if ($name == 'Email')
+    {
+      $value = mb_strtolower($value);
+    }
+    parent::__set($name, $value);
+  }
+  
   /**
    * @return string[]
    */
@@ -144,7 +153,7 @@ class User extends \application\models\translation\ActiveRecord
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."Email" = :Email';
-    $criteria->params = array(':Email' => strtolower($email));
+    $criteria->params = array(':Email' => mb_strtolower($email));
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -474,7 +483,7 @@ class User extends \application\models\translation\ActiveRecord
   }
 
   /**
-   * Добавляет пользователю адрес электронной почты
+   * Добавляет пользователю адресс сайта
    *
    * @param string $url
    * @param bool $secure

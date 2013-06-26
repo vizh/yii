@@ -29,7 +29,7 @@
 
       <div class="span8 pull-right">
         <div class="m-bottom_30">
-        <form method="get" action="<?=Yii::app()->createUrl('/event/view/users', array('idName' => $event->IdName));?>" class="form-inline form-filter">
+        <form method="get" action="<?=Yii::app()->createUrl('/event/view/users', array('idName' => $event->IdName));?>" class="form-inline form-filter light">
           <input type="text" id="Filter_Query" name="term" placeholder="<?=\Yii::t('app', 'Поиск среди участников мероприятия');?>" class="span7" value="<?=\Yii::app()->request->getParam('term', '');?>">
           <input width="20" type="image" height="19" value="submit" name="" src="/images/search-type-image-dark.png" class="form-element_image">
         </form>

@@ -44,6 +44,9 @@
 
 .event-register .actions .btn.paypal {white-space: nowrap;}
 
+.user-account .b-card .tabs .nav li {margin-left: 40px;}
+.user-account .b-card .tabs .nav li:first-child {margin-left: 0;}
+
 .company-account .b-card .follow .btn {margin-left: -140px;}
 
 .charts-pie.items .item {margin: -45px 0 0 -45px;}

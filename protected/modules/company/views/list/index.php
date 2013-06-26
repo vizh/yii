@@ -28,7 +28,7 @@
             <tr>
               <td class="span1">
                 <a href="<?php echo $this->createUrl('/company/view/index', array('companyId' => $company->Id));?>">
-                  <?=\CHtml::image($company->getLogo(), $company->Name, array('width' => 58));?>
+                  <?=\CHtml::image($company->getLogo()->get58px(), $company->Name);?>
                 </a>
               </td>
               <td class="span3">

@@ -12,7 +12,7 @@ if (empty($this->event->LinkProfessionalInterests))
   <h5 class="title">Профессиональные интересы</h5>
   <nav class="b-tags">
     <?foreach ($this->event->LinkProfessionalInterests as $linkInterest):?>
-      <a href="#" class="tag"><?=$linkInterest->ProfessionalInterest->Title;?></a>
+      <span class="tag"><?=$linkInterest->ProfessionalInterest->Title;?></span>
     <?endforeach;?>
   </nav>
 </div>

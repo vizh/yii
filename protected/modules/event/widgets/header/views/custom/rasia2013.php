@@ -27,12 +27,14 @@ $event = $this->event;
       </div>
 
       <?if ($this->eventPage):?>
-        <div class="side right span4">
-          <div class="actions">
+        <div class="side right span2">
+          <div class="actions" style="background: none;">
             <div class="calendar img-circle">
-              <a href="<?=  str_replace('http://', 'webcal://', \Yii::app()->getController()->createAbsoluteUrl('/event/share/ical', array('idName' => $event->IdName)));?>" class="pseudo-link">
-                <i class="icon-calendar"></i><br><?=\Yii::t('app', 'Добавить в&nbsp;календарь');?>
-              </a>
+              <div class="calendar">
+                <span><i class="icon-calendar"></i><br/>В календарь</span><br/>
+                <a href="<?=\Yii::app()->createUrl('/event/view/share', ['targetService' => 'Google', 'idName' => $event->IdName])?>" class="pseudo-link">Google Calendar</a>
+                <a href="<?=\Yii::app()->createUrl('/event/view/share', ['targetService' => 'iCal', 'idName' => $event->IdName])?>" class="pseudo-link">iCalendar (.ics)</a>
+              </div>
             </div>
             <nav class="social">
               <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>

@@ -13,7 +13,7 @@ abstract class Mail
    */
   public function getFromName()
   {
-    return '';
+    return 'RUNET-ID';
   }
 
   /**
@@ -43,5 +43,11 @@ abstract class Mail
   public function getAttachments()
   {
     return array();
+  }
+  
+  protected final function renderBody($view, $params)
+  {
+    $controller = new \CController('default', null);
+    return $controller->renderPartial($view, $params, true);
   }
 }

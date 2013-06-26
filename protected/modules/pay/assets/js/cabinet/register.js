@@ -79,9 +79,9 @@ CPayRegister.prototype = {
    */
   initCouponField : function (row) {
     var self = this,
-        promoInput = row.find('.input-promo>input'),
+        promoInput  = row.find('.input-promo>input'),
         promoSubmit = row.find('.input-promo>.btn'),
-        promoAlert = row.find('.input-promo>.alert');
+        promoAlert  = row.find('.input-promo>.alert');
 
     promoInput.placeholder();
     
@@ -102,17 +102,31 @@ CPayRegister.prototype = {
           productId : row.parents('table[data-product-id]').data('product-id'),
           eventIdName : self.eventIdName
         }, function (response) {
+          var runAlertTimer = true;
           promoAlert.attr('class', 'alert').html('');
           if (response.success) {
-            promoAlert.addClass('alert-success').text(response.message);
-            promoSubmit.addClass('disabled');
+            if (response.coupon.Discount == 1) {
+              var row = $(e.currentTarget).parents('.user-row');
+              row.find('td').empty();
+              row.html(
+                '<td colspan="4"><div class="alert alert-success">'+response.message+'</div></td>'
+              );
+              self.itemsIterator--;
+              self.calculate();
+              runAlertTimer = false;
+            }
+            else {
+              promoAlert.addClass('alert-success').text(response.message);
+              promoSubmit.addClass('disabled');
+            }
           }
           else {
             promoAlert.addClass('alert-error').text(response.error);
           }
-          setTimeout(function () {
-            promoAlert.addClass('hide');
-          }, 2000);
+          
+          if (runAlertTimer) {
+            setTimeout(function () { promoAlert.addClass('hide'); }, 2000);
+          }
         });
       }
     });

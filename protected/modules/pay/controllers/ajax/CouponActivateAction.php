@@ -37,6 +37,9 @@ class CouponActivateAction extends \pay\components\Action
       if ($result->success)
       {
         $result->message = \Yii::t('app', 'Купон на скидку {discount}% успешно активирован!', array('{discount}' => $coupon->Discount*100));
+        $result->coupon = new \stdClass();
+        $result->coupon->Code = $code->Code;
+        $result->coupon->Discount = $coupon->Discount;
       }
     }
     echo json_encode($result);

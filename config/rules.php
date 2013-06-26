@@ -1,17 +1,14 @@
 <?php
-$dir = dirname(__FILE__) . '/rules/';
-$files = scandir($dir);
-$result = array();
+$files = array_diff(scandir('../config/rules/'), ['.', '..', '.DS_Store']);
+$result = [];
+
 foreach ($files as $file)
-{
-  if ($file != '.' && $file != '..' && $file != '.DS_Store')
-  $result = CMap::mergeArray(
-    $result,
-    require($dir . $file)
-  );
-}
-$result[] = array(
-  'deny',
-  'users' => array('*')
+  $result[] = require "../config/rules/$file";
+
+// Запрещено всё, что не разрешено.
+$result[] = ['deny', 'users' => ['*']];
+
+return call_user_func_array(
+  ['CMap', 'mergeArray'],
+  $result
 );
-return $result;

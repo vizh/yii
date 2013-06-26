@@ -4,18 +4,19 @@
  */
 $event = $this->event;
 ?>
-
-<div class="b-event-promo">
+<div class="b-event-promo <?=$event->Type->Code;?>">
   <div class="container">
     <div class="row">
-      <div class="side left span4">
-        <img src="<?=$event->getLogo()->getNormal();?>" alt="" class="logo">
+      <div class="side left span2">
+        <div class="logo img-circle">
+          <img src="<?=$event->getLogo()->getNormal();?>" alt="<?=$event->Title;?>" />
+        </div>
       </div>
 
-      <div class="details span4 offset4">
+      <div class="details span8 offset2">
         <h2 class="title"><?=$event->Title;?></h2>
         <div class="type">
-          <img src="/images/blank.gif" alt="" class="i-event_small <?=$event->Type->CssClass;?>"><?=$event->Type->Title;?>
+          <?=$event->Type->Title;?>
         </div>
         <div class="duration">
           <span class="datetime">
@@ -25,17 +26,20 @@ $event = $this->event;
           </span>
         </div>
         <?if ($event->getContactAddress() != null && !empty($event->getContactAddress()->Place)):?>
-          <div class="location"><?=$event->getContactAddress()->Place;?></div>
+          <div class="location">
+            <?=$event->getContactAddress()->Place;?></div>
         <?endif;?>
       </div>
 
       <?if ($this->eventPage):?>
-      <div class="side right span4">
-        <div class="actions">
-          <div class="calendar img-circle">
-            <a href="<?=  str_replace('http://', 'webcal://', \Yii::app()->getController()->createAbsoluteUrl('/event/share/ical', array('idName' => $event->IdName)));?>" class="pseudo-link">
-              <i class="icon-calendar"></i><br><?=\Yii::t('app', 'Добавить в&nbsp;календарь');?>
-            </a>
+      <div class="side right span2">
+        <div class="actions img-circle">
+          <div class="calendar">
+            <div class="calendar">
+              <span><i class="icon-calendar"></i><br/>В календарь</span><br/>
+              <a href="<?=\Yii::app()->createUrl('/event/view/share', ['targetService' => 'Google', 'idName' => $event->IdName])?>" class="pseudo-link">Google Calendar</a>
+              <a href="<?=\Yii::app()->createUrl('/event/view/share', ['targetService' => 'iCal', 'idName' => $event->IdName])?>" class="pseudo-link">iCalendar (.ics)</a>
+            </div>
           </div>
           <nav class="social">
             <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>

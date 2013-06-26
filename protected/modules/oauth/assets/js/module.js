@@ -7,10 +7,11 @@ $(function(){
 
 var OAuthModule = function()
 {
-  this.fbUrl = '';
-  this.vkUrl = '';
+  this.fbUrl  = '';
+  this.vkUrl  = '';
   this.twiUrl = '';
-
+  this.gUrl   = '';
+ 
   this.popUpWindow = null;
 
   fillOAuthUrls(this);
@@ -32,6 +33,11 @@ OAuthModule.prototype.init = function()
   });
 
   $('#vk_login').on('click', function(e){
+    e.preventDefault();
+    self.twiLogin($(e.currentTarget).attr('href'));
+  });
+  
+  $('#g_login').on('click', function (e) {
     e.preventDefault();
     self.twiLogin($(e.currentTarget).attr('href'));
   });
@@ -103,9 +109,15 @@ OAuthModule.prototype.vkLogin = function(url)
   var top = ($(window).height() - height) / 2;
   self.PopUpWindow = window.open(url, 'Twitter', 'menubar=no,width='+width+',height='+height+',toolbar=no,left='+left+',top='+top);
 };
+
 OAuthModule.prototype.vkProcess = function()
 {
   var self = this;
-
   window.location.href = self.vkUrl;
 };
+
+OAuthModule.prototype.gProcess = function ()
+{
+  var self = this;
+  window.location.href = self.gUrl;
+}

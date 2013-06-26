@@ -15,7 +15,8 @@ class Phone extends \CFormModel
   {
     return array(
       array('CountryCode, CityCode, Phone, Type', 'filter', 'filter' => array('application\components\utility\Texts', 'filterPurify')),
-      array('CountryCode, CityCode, Phone, Type', 'required'),
+      array('CountryCode, CityCode, Phone', 'required'),
+      array('Type', 'safe'),
       array('Id, Delete', 'numerical', 'allowEmpty' => true),
       array('CountryCode, CityCode, Phone', 'numerical'),
     );

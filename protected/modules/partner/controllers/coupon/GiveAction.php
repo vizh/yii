@@ -6,41 +6,28 @@ class GiveAction extends \partner\components\Action
   public function run()
   {
     $request = \Yii::app()->getRequest();
-    $couponsId = $request->getParam('Coupons', array());
-    $coupons = array();
-    $success = false;
-    $error = false;
-    if ( !empty ($couponsId))
+    $criteria = new \CDbCriteria();
+    $criteria->addInCondition('"t"."Code"', $request->getParam('Coupons'));
+    $coupons = \pay\models\Coupon::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
+    if (empty($coupons))
+      throw new \CHttpException(404);
+
+    $form = new \partner\models\forms\coupon\Give();
+    $form->attributes = $request->getParam(get_class($form));
+    if ($request->getIsPostRequest() && $form->validate())
     {
-      $criteria = new \CDbCriteria();
-      $criteria->condition = 't.EventId = :EventId';
-      $criteria->params = array(
-        ':EventId' => \Yii::app()->partner->getAccount()->EventId
-      );
-      $criteria->addInCondition('t.Code', $couponsId);
-
-      /** @var $coupons \pay\models\Coupon[] */
-      $coupons = \pay\models\Coupon::model()->findAll($criteria);
-
-      if ( isset($_REQUEST['Give']) && $request->getIsPostRequest())
+      foreach ($coupons as $coupon)
       {
-        foreach ($coupons as $coupon)
-        {
-          $coupon->Recipient = date('d.m.Y') .': '. $_REQUEST['Give']['Recipient'] .'; '. $coupon->Recipient;
-          $coupon->save();
-        }
-        $success = 'Промо-коды выданы!';
+        $coupon->Recipient = \Yii::app()->getDateFormatter()->format('dd MMMM yyyy', time()).': '.$form->Recipient.'; '.$coupon->Recipient;
+        $coupon->save();
       }
+      \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Промо-коды выданы!'));
+      $this->getController()->refresh();
     }
-    else
-    {
-      $error = 'Не выбраны промо-коды для выдачи.';
-    }
-
+    
     $this->getController()->render('give', array(
       'coupons' => $coupons,
-      'success' => $success,
-      'error' => $error
+      'form' => $form
     ));
   }
 }

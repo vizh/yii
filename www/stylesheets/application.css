@@ -1,6 +1,6 @@
 @import '/stylesheets/iosslider.css' all;
 
-html {height: 100%;}
+html {height: 100%; min-width: 940px;}
 body {
   position: relative;
   /* min-width: 940px; */
@@ -146,10 +146,10 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   white-space: nowrap;
   font-size: 13px;
 }
-.b-tags .tag:hover {
+/*.b-tags .tag:hover {
   background: transparent;
   color: #000;
-}
+}*/
 
 
 /* HEADERS */
@@ -228,7 +228,10 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   margin-bottom: 0;
   margin-left: -20px;
   padding: 20px;
-  background: #E3E3E3;
+  background: #1a1a1a;
+}
+.form-filter.light {
+  background: #E3E3E3
 }
 
 /* Form elements */
@@ -623,7 +626,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 /* Month select */
 .events-month-select {
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   text-align: center;
 }
 .events-month-select .month {
@@ -631,9 +634,17 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   font-weight: normal;
   line-height: 30px;
 }
-.events-month-select .year {
-  color: #a6a6a6;
+.events-month-select .dropdown.year {
   font-size: 13px;
+}
+.events-month-select .dropdown.year > a {
+  color: #000;
+  border-color: #000;
+}
+.events-month-select .dropdown.year .dropdown-menu {
+  width: 100px;
+  min-width: 0;
+  margin-left: 20px;
 }
 .events-month-select .nav {
   position: absolute;
@@ -765,68 +776,88 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   background: #f7f7f7;
   text-align: center;
 }
+.b-event-promo.conference { background-image: url('/images/event-header-patterns/conference.png'); }
+.b-event-promo.other { background-image: url('/images/event-header-patterns/other.png'); }
+.b-event-promo.partner { background-image: url('/images/event-header-patterns/partner.png'); }
+.b-event-promo.prize { background-image: url('/images/event-header-patterns/prize.png'); }
+.b-event-promo.roundtable { background-image: url('/images/event-header-patterns/roundtable.png'); }
+.b-event-promo.training { background-image: url('/images/event-header-patterns/training.png'); }
+.b-event-promo.webinar { background-image: url('/images/event-header-patterns/webinar.png'); }
+
 .b-event-promo > .container {
   position: relative;
   padding: 50px 0 65px;
-  background: url(/images/content/event-promo-1.png) transparent center no-repeat;
 }
 
 .b-event-promo .side {
   position: absolute;
   top: 0;
   bottom: 0;
+  margin-top: 55px;
 }
 .b-event-promo .side.left {left: 0;}
 .b-event-promo .side.right {right: 0;}
 
+
 .b-event-promo .details .title {
   text-transform: uppercase;
-  line-height: 36px;
+  line-height: 30px;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
+.b-event-promo .details .title span {
+  padding: 2px 10px;
+}
+
+.b-event-promo .details .title span,
+.b-event-promo .details .type,
+.b-event-promo .details .duration .datetime,
+.b-event-promo .details .location,
+.b-event-promo .actions,
+.b-event-promo .logo,
+.b-event-promo .all {
+  background-color: #fff;
+}
+
 .b-event-promo .details .type {
-  margin-bottom: 15px;
   color: #999;
   font-size: 13px;
+  margin: 0 auto 30px;
+  width: 150px;
 }
 .b-event-promo .details .type .i-event_small {margin-top: -3px;}
 .b-event-promo .details .duration {
-  margin-bottom: 5px;
   color: #ff9500;
   text-transform: uppercase;
   font-size: 16px;
+  margin: 0 auto;
 }
+.b-event-promo .details .duration .datetime {
+  padding: 10px 10px 2px 10px;
+}
+
 .b-event-promo .details .duration .day {
   font-weight: bold;
   font-size: 26px;
 }
-.b-event-promo .details .location {font-size: 16px;}
+.b-event-promo .details .location {font-size: 16px; padding: 0 10px; display: inline-block;}
 
 .b-event-promo .logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-     -moz-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-       -o-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  overflow: hidden;
 }
-.b-event-promo .actions {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -68px 0 0 -55px;
+
+.b-event-promo .logo, .b-event-promo .actions {
+  width: 140px;
+  height: 140px;
+  display: table-cell;
+  vertical-align: middle;
 }
+
+.b-event-promo .actions {}
 .b-event-promo .actions .calendar {
-  margin-bottom: 10px;
-  width: 110px;
-  height: 110px;
-  background: #fff;
+  width: 100px;
+  margin: 0 auto 10px;
   font-size: 13px;
-}
-.b-event-promo .actions .calendar .pseudo-link {
-  position: relative;
-  top: 20px;
 }
 .b-event-promo .actions .social .item {
   margin: 0 3px;
@@ -834,19 +865,68 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 }
 
 .b-event-promo .all {
-  position: absolute;
-  bottom: -14px;
-  left: 50%;
-  padding: 3px 12px;
-  border: 1px solid #e6e6e6;
   background: #fff;
+  border: 1px solid #e6e6e6;
+  display: block;
+  padding: 3px 0;
+  position: absolute;
+  left: 50%;
   font-size: 12px;
-  -webkit-transform: translate(-50%, 0);
-     -moz-transform: translate(-50%, 0);
-      -ms-transform: translate(-50%, 0);
-       -o-transform: translate(-50%, 0);
-          transform: translate(-50%, 0);
+  bottom: -14px;
+  width: 140px;
+  margin-left: -70px;
+  text-align: center;
 }
+
+/* Events -> Box */
+#events-box .pager {margin-bottom: 100px;}
+
+.events-box {margin: 10px 0 20px;}
+.events-box .event {margin-bottom: 60px;}
+.events-box .event.add {
+  border: 1px dashed #08c;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  cursor: pointer;
+  height: 300px;
+  padding: 80px 30px 30px 30px;
+  text-align: center;
+}
+.events-box .event.add:hover {text-decoration: none;}
+
+.events-box .event.past {opacity: .33;}
+.events-box .event_promo {
+  background: #e6e6e6;
+  margin-bottom: 60px;
+  padding-top: 30px;
+  text-align: center;
+}
+.events-box .event_promo .event {
+  margin-bottom: 30px;
+}
+
+.events-box .event header {margin-bottom: 5px;}
+.events-box .event header > h2 {margin: -10px 0 5px;}
+.events-box .event header > h3 {
+  margin: 5px 0;
+  line-height: 24px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.events-box .event header .type {color: #ccc; margin-bottom: 0;}
+.events-box .event header .logo {margin-bottom: 20px;}
+.events-box .event header .title a {color: #333;}
+.events-box .event header .date {color: #ff9600; font-weight: 400px;}
+
+.events-box .event article {font-size: 13px;}
+.events-box .event footer .btn {
+  margin-bottom: 5px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.events-box .event footer .btn-large {margin: 5px 0 10px;}
 
 /* Event -> Page */
 .event-page {margin: 50px 0 100px;}
@@ -1666,8 +1746,8 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .user-account-nav a.current {color: #000; text-decoration: none;}
 
 /* User -> Account -> Settings */
-.user-account-settings .b-form {margin-left: 20px; position: relative;}
-.user-account-settings .b-form :before {
+.user-account-settings .b-form, .company-edit .b-form {margin-left: 20px; position: relative;}
+.user-account-settings .b-form :before, .company-edit .b-form:before {
   background: #e6e6e6;
   bottom: 0;
   content: '';
@@ -1745,22 +1825,49 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .user-account .b-card .b-details .b-raec .logo {margin-bottom: 5px;}
 .user-account .b-card .b-details .b-raec .text {color: #ef3c31;}
 
-.user-account .b-card .b-contacts {
+.user-account .b-card .tabs {margin-bottom: 45px;}
+.user-account .b-card .tabs .tab {
   overflow: hidden;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
-  margin-top: 50px;
   border-left: 1px solid #eee;
 }
-.user-account .b-card .b-contacts dl {
-  margin-left: -60px;
+
+.user-account .b-card .tabs .nav {
+  list-style: none;
   font-size: 13px;
 }
-.user-account .b-card .b-contacts dl:not(:last-child) {
+.user-account .b-card .tabs .nav li {
+  display: inline-block;
+  color: #999;
+  vertical-align: top;
+}
+.user-account .b-card .tabs .nav li:not(:last-child) {margin-right: 40px;}
+.user-account .b-card .tabs .nav li a {background: transparent;}
+.user-account .b-card .tabs .nav li.ui-state-active a {
+  border-bottom-color: transparent !important;
+  color: #999;
+}
+
+.user-account .b-card .dl-horizontal {
+  font-size: 13px;
+  margin-left: 20px;
+}
+.user-account .b-card .dl-horizontal:not(:last-child) {
   margin-top: 0;
   margin-bottom: 10px;
 }
+
+.user-account .b-card .dl-horizontal dt {text-align: left;}
+.user-account .b-card .dl-horizontal > dd > h6,
+.user-account .b-card .dl-horizontal > dd > p {margin: 0;}
+
+.user-account .b-card .b-career .dl-horizontal dt {width: 60px;}
+.user-account .b-card .b-contacts .dl-horizontal dt {width: 80px;}
+.user-account .b-card .b-career .dl-horizontal dd {margin-left: 60px;}
+.user-account .b-card .b-contacts .dl-horizontal dd {margin-left: 100px;}
+
 
 /* User -> Account -> Statistics */
 .user-account .b-statistics {margin-bottom: 60px;}
@@ -1854,6 +1961,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .user-account .b-participated .img {
   border: 1px solid #f2f2f2;
   vertical-align: top;
+  max-height: 80px;
 }
 .user-account .b-participated .cnt {
   padding: 9px 10px 1px;

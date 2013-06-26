@@ -92,6 +92,18 @@
           <?=\CHtml::activeCheckBox($form, 'ShowOnMain');?>
         </div>
       </div>
+      <div class="control-group">
+        <?=\CHtml::activeLabel($form, 'Top', array('class' => 'control-label'));?>
+        <div class="controls">
+          <?=\CHtml::activeCheckBox($form, 'Top');?>
+        </div>
+      </div>
+      <div class="control-group">
+        <?=\CHtml::activeLabel($form, 'Free', array('class' => 'control-label'));?>
+        <div class="controls">
+          <?=\CHtml::activeCheckBox($form, 'Free');?>
+        </div>
+      </div>
       <?if ($event->External == true):?>
       <p class="text-warning"><?=\Yii::t('app', 'Внешнее мероприятие');?></p>
       <div class="control-group">
