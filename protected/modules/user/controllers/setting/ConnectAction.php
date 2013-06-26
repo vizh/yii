@@ -5,6 +5,8 @@ class ConnectAction extends \CAction
 {
   public function run()
   {
+    //\YIi::app()->getSession()->remove('google_access_token');
+    
     $user = \Yii::app()->user->getCurrentUser(); 
     
     $request = \Yii::app()->getRequest();
@@ -45,7 +47,8 @@ class ConnectAction extends \CAction
     $connects = array(
       \oauth\components\social\ISocial::Facebook  => null,
       \oauth\components\social\ISocial::Vkontakte => null,
-      \oauth\components\social\ISocial::Twitter   => null
+      \oauth\components\social\ISocial::Twitter   => null,
+      \oauth\components\social\ISocial::Google    => null
     );
     
     $oauthSocialConnects = \oauth\models\Social::model()->byUserId($user->Id)->findAll();

@@ -5,6 +5,7 @@ interface ISocial{
   const Facebook = '14';
   const Twitter = '13';
   const Vkontakte = '15';
+  const Google = '16';
   
   public function getOAuthUrl();
   public function isHasAccess();
@@ -28,4 +29,9 @@ interface ISocial{
    * @return string
    */
   public function getSocialTitle();
+  
+  /**
+   * @return void
+   */
+  public function clearAccess();
 }

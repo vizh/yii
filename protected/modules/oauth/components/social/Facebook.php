@@ -77,6 +77,11 @@ class Facebook implements ISocial
   {
     return 'Facebook';
   }
+  
+  public function clearAccess()
+  {
+    ;
+  }
 }
 
 require dirname(__FILE__) . '/facebook/facebook.php';

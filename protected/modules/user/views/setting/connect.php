@@ -2,9 +2,10 @@
 
 <script type="text/javascript">
   function fillOAuthUrls(oauth) {
-    oauth.fbUrl  = '<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Facebook, 'action' => 'connect'));?>';
-    oauth.vkUrl  = '<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Vkontakte,'action' => 'connect'));?>';
-    oauth.twiUrl = '<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Twitter,  'action' => 'connect'));?>';
+    oauth.fbUrl  = '<?=$this->createUrl('/user/setting/connect');?>';
+    oauth.vkUrl  = '<?=$this->createUrl('/user/setting/connect');?>';
+    oauth.twiUrl = '<?=$this->createUrl('/user/setting/connect');?>';
+    oauth.gUrl   = '<?=$this->createUrl('/user/setting/connect');?>';
   }
 </script>
 
@@ -30,6 +31,8 @@
                     <i class="ico16 ico16_social ico16_social__twitter"></i>
                   <?elseif ($connect->Social->Id == \oauth\components\social\ISocial::Vkontakte):?>
                     <i class="ico16 ico16_social ico16_social__vkontakte"></i>
+                  <?elseif ($connect->Social->Id == \oauth\components\social\ISocial::Google):?>
+                    <i class="ico16 ico16_social ico16_social__google"></i>
                   <?endif;?>
                   <a class="text-error" href="<?=$this->createUrl('/user/setting/connect', array('social' => $connect->Social->Id, 'action' => 'disconnect'));?>"><?=\Yii::t('app', 'Отключить');?></a>
                 </div>
@@ -70,6 +73,10 @@
               <?elseif ($socialId == \oauth\components\social\ISocial::Vkontakte):?>
                 <?if ($connect === null):?>
                   <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Vkontakte,  'action' => 'connect'));?>" id="vk_login"><i class="ico16 ico16_social ico16_social__vkontakte"></i> Вконтакте</a>
+                <?endif;?>
+              <?elseif ($socialId == \oauth\components\social\ISocial::Google):?>
+                <?if ($connect === null):?>
+                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Google,  'action' => 'connect'));?>" id="g_login"><i class="ico16 ico16_social ico16_social__google"></i> Google</a>
                 <?endif;?>
               <?endif;?>
             <?endforeach;?>

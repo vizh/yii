@@ -63,13 +63,17 @@ class Vkontakte implements ISocial
     {
       throw new \CHttpException(400, 'Сервис авторизации Vkontakte не отвечает');
     }
-
     return json_decode($result);
   }
 
   protected function getAccessToken()
   {
     return \Yii::app()->getSession()->get('vk_access_token', null);
+  }
+  
+  public function clearAccess()
+  {
+    \Yii::app()->getSession()->remove('vk_access_token');
   }
 
   protected function requestAccessToken($code)
