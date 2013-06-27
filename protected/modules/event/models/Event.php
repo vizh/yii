@@ -403,12 +403,15 @@ class Event extends \application\models\translation\ActiveRecord
       return;
     }
 
-    /** @var $sender Event */
+    $mailer = new \mail\components\mailers\PhpMailer();
     $sender = $event->sender;
     $class = \Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
-    /** @var $handler \event\components\handlers\register\Base */
-    $handler = new $class($event);
-    $handler->onRegister($event);
+    $mail = new $class($mailer, $event);
+    $mail->send();
+    
+    $class = \Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
+    $mail = new $class($mailer, $event);
+    $mail->send();
   }
 
   /**

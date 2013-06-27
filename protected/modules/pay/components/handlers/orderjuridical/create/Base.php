@@ -3,6 +3,19 @@ namespace pay\components\handlers\orderjuridical\create;
 
 class Base extends \mail\components\Mail
 {
+  protected $order;
+  protected $payer;
+  protected $event;
+  protected $total;
+  public function __construct(\mail\components\Mailer $mailer, \CEvent $event)
+  {
+    parent::__construct($mailer);
+    $this->order = $event->sender;
+    $this->payer = $event->params['payer'];
+    $this->event = $event->params['event'];
+    $this->total = $event->params['total'];
+  }
+  
   public function getFrom()
   {
     return 'fin@runet-id.com';
@@ -28,20 +41,8 @@ class Base extends \mail\components\Mail
     ), true);
   }
   
-  protected $order;
-  protected $payer;
-  protected $event;
-  protected $total;
-  public function onCreateOrderJuridical($eventHandler)
+  public function getTo()
   {
-    $this->order = $eventHandler->sender;
-    $this->payer = $eventHandler->params['payer'];
-    $this->event = $eventHandler->params['event'];
-    $this->total = $eventHandler->params['total'];
-    if ($this->getBody() !== null)
-    {
-      $mailer = new \mail\components\Mailer();
-      $mailer->send($this, $this->payer->Email, null, true);
-    }
+    return $this->payer->Email;
   }
 }

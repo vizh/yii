@@ -4,8 +4,9 @@ namespace pay\components\handlers\orderjuridical;
 class NotPaidNotify extends \mail\components\Mail
 {
   protected $order;
-  public function __construct($order)
+  public function __construct($mailer, $order)
   {
+    parent::__construct($mailer);
     $this->order = $order;
   }
   
@@ -24,6 +25,20 @@ class NotPaidNotify extends \mail\components\Mail
     return 'users@runet-id.com';
   }
   
+  protected function getHashSolt()
+  {
+    return $this->order->Id;
+  }
+  
+  protected function getRepeat()
+  {
+    return false;
+  }
+
+  public function getTo()
+  {
+    return $this->order->Payer->Email;
+  }
   
   public function getSubject()
   {
