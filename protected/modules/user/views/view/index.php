@@ -111,13 +111,13 @@ $(window).load(function() {
 
               <div id="user-account-tabs" class="span4 tabs">
                 <ul class="nav">
-                  <?if (!empty($notPrimaryEmployments)):?><li><a href="#user-account-tab_career" class="pseudo-link">Карьера</a></li><?endif;?>
-                  <li><a href="#user-account-tab_contacts" class="pseudo-link">Контакты</a></li>
+                  <?if (!empty($employmentHistory)):?><li><a href="#user-account-tab_career" class="pseudo-link"><?=\Yii::t('app', 'Карьера');?></a></li><?endif;?>
+                  <li><a href="#user-account-tab_contacts" class="pseudo-link"><?=\Yii::t('app', 'Контакты');?></a></li>
                 </ul>
 
-                <?if (!empty($notPrimaryEmployments)):?>
+                <?if (!empty($employmentHistory)):?>
                 <div id="user-account-tab_career" class="tab b-career">
-                  <?foreach ($notPrimaryEmployments as $employments):?>
+                  <?foreach ($employmentHistory as $employments):?>
                     <dl class="dl-horizontal">
                       <?$startYear = $employments[sizeof($employments)-1]->StartYear;?>
                       <dt><?=$startYear;?></dt>
@@ -126,7 +126,7 @@ $(window).load(function() {
                         <?foreach ($employments as $employment):?>
                           <?if (!empty($employment->Position)):?>
                             <p class="b-career_post"><?=$employment->Position;?></p>
-                            <?if (!empty($employment->EndYear) && ($interval = $employment->getWorkingInterval()) !== null):?>
+                            <?if (($interval = $employment->getWorkingInterval()) !== null):?>
                               <p class="b-career_length muted"><small>
                                 <?if ($interval->Years > 0):?>
                                   <?=\Yii::t('app', '{n} год |{n} года |{n} лет |{n} года ', $interval->Years);?>

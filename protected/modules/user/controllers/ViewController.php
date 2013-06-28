@@ -121,7 +121,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
       'participation' => $participation,
       'professionalInterests' => $professionalInterests,
       'recommendedEvents' => $this->getRecommendedEvents($user),
-      'notPrimaryEmployments' => $this->getNotPrimaryEmployments($user)
+      'employmentHistory' => $this->getEmploymentHistory($user)
     ));
   }
   
@@ -174,22 +174,19 @@ class ViewController extends \application\components\controllers\PublicMainContr
   /**
    * 
    */
-  private function getNotPrimaryEmployments($user)
+  private function getEmploymentHistory($user)
   {     
     $result = [];
     $i = 0;
     $lastCompanyName = null;
     foreach ($user->Employments as $employment)
     {
-      if (!$employment->Primary)
+      if ($employment->Company->Name !== $lastCompanyName)
       {
-        if ($employment->Company->Name !== $lastCompanyName)
-        {
-          $i++;
-        }
-        $result[$i][] = $employment;
-        $lastCompanyName = $employment->Company->Name;
+        $i++;
       }
+      $result[$i][] = $employment;
+      $lastCompanyName = $employment->Company->Name;
     }
     return $result;
   }
