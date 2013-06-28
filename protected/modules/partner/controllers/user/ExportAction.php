@@ -54,6 +54,7 @@ class ExportAction extends \partner\components\Action
       'Телефон',
       'Статус на мероприятии',
       'Cумма оплаты',
+      'Тип оплаты',
       'Дата регистрации на мероприятие',
       'Дата оплаты участия',
       'Дата выдачи бейджа'
@@ -105,6 +106,7 @@ class ExportAction extends \partner\components\Action
         'Phone' => !empty($user->LinkPhones) ? (string)$user->LinkPhones[0]->Phone : '',
         'Role' => $participant != null ? $participant->Role->Title : '-',
         'Price' => '',
+        'PaidType' => '',
         'DateRegister' => \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', $participant->CreationTime),
         'DatePay' => '',
         'DateBadge' => ''
@@ -131,6 +133,14 @@ class ExportAction extends \partner\components\Action
       {
         $row['Price'] = $orderItem->getPriceDiscount() !== null ? $orderItem->getPriceDiscount() : 0;
         $row['DatePay'] = \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', strtotime($orderItem->PaidTime));
+        foreach ($orderItem->OrderLinks as $link)
+        {
+          if ($link->Order->Paid)
+          {
+            $row['PaidType'] = $link->Order->Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо'); 
+            break;
+          }
+        }
       }
 
       /** @var $badge \ruvents\models\Badge */
