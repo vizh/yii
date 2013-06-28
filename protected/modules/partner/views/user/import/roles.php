@@ -14,9 +14,9 @@
 
     <h3>Выберите соответствие столбцов и полей данных</h3>
 
-    <?if (!empty($error)):?>
+    <?if ($error):?>
       <div class="alert alert-error">
-        <p><?=$error;?></p>
+        <p>Необходимо заполнить все роли!</p>
       </div>
     <?endif;?>
 
@@ -32,7 +32,7 @@
           <tr>
             <td><?=$name;?></td>
             <td>
-              <select name="values[<?=$name;?>]">
+              <select name="values[<?=!empty($name) ? $name : 0;?>]">
                 <option value="0">не задана</option>
                 <?foreach ($roles as $role):?>
                   <option value="<?=$role->Id;?>" <?=isset($values[$name]) && $values[$name] == $role->Id ? 'selected="selected"' : '';?>><?=$role->Title;?></option>

@@ -49,4 +49,18 @@ class Import extends \CActiveRecord
     ];
   }
 
+  /**
+   * @return string
+   */
+  public function getFileName()
+  {
+    $path = \Yii::getPathOfAlias('partner.data.'. $this->EventId .'.import');
+    if (!file_exists($path))
+    {
+      mkdir($path, 0755, true);
+    }
+
+    return $path . DIRECTORY_SEPARATOR . $this->Id;
+  }
+
 }

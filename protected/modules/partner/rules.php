@@ -46,7 +46,7 @@ return array(
     'allow',
     'roles' => array('Admin'),
     'module' => 'partner',
-    'controllers' => array('user')
+    'controllers' => array('user', 'user/import')
   ),
 
   array(
