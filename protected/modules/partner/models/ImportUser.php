@@ -52,23 +52,63 @@ class ImportUser extends \CActiveRecord
   }
 
   /**
+   * @param int $importId
+   * @param bool $useAnd
+   *
+   * @return ImportUser
+   */
+  public function byImportId($importId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."ImportId" = :ImportId';
+    $criteria->params = array('ImportId' => $importId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param bool $imported
+   * @param bool $useAnd
+   *
+   * @return ImportUser
+   */
+  public function byImported($imported, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($imported ? '' : 'NOT ') . '"t"."Imported"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param bool $error
+   * @param bool $useAnd
+   *
+   * @return ImportUser
+   */
+  public function byError($error, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($error ? '' : 'NOT ') . '"t"."Error"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
    * @param Import $import
    * @param array $roles
+   *
+   * @throws \partner\components\ImportException
    */
   public function parse($import, $roles)
   {
-    $this->Imported = true;
-    $roleId = isset($roles[$this->Role]) ? $roles[$this->Role] : 0;
+    $roleName = $this->Role !== null ? $this->Role : 0;
+    $roleId = isset($roles[$roleName]) ? $roles[$roleName] : 0;
 
     /** @var $role \event\models\Role */
     $role = \event\models\Role::model()->findByPk($roleId);
     if (empty($role))
-    {
-      $this->Error = true;
-      $this->ErrorMessage = 'Не найдена роль.';
-      $this->save();
-      return;
-    }
+      throw new \partner\components\ImportException('Не найдена роль.');
 
     $user = $this->getUser($import);
 
@@ -82,6 +122,7 @@ class ImportUser extends \CActiveRecord
       $import->Event->registerUserOnAllParts($user, $role);
     }
 
+    $this->Imported = true;
     $this->save();
   }
 
@@ -89,12 +130,11 @@ class ImportUser extends \CActiveRecord
    *
    * @param Import $import
    *
+   * @throws \partner\components\ImportException
    * @return \user\models\User
    */
   private function getUser($import)
   {
-    $user = null;
-
     if (empty($this->Email) || ImportUser::model()->exists([
           'condition' => '"ImportId" = :ImportId AND "Imported" AND "Email" = :Email AND "Id" != :Id',
           'params' => ['ImportId' => $import->Id, 'Email' => $this->Email, 'Id' => $this->Id]
@@ -106,9 +146,12 @@ class ImportUser extends \CActiveRecord
 
     if ($user === null)
     {
+      if (empty($this->FirstName) || empty($this->LastName))
+        throw new \partner\components\ImportException('Не заданы имя или фамилия участника.');
+
       $user = new \user\models\User();
-      $user->FirstName = !empty($this->FirstName) ? $this->FirstName : '-';
-      $user->LastName = !empty($this->LastName) ? $this->LastName : '-';
+      $user->FirstName = $this->FirstName;
+      $user->LastName = $this->LastName;
       $user->FatherName = $this->FatherName;
       $user->Email = strtolower($this->Email);
       $user->register($import->Notify);

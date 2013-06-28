@@ -15,7 +15,12 @@ class UserController extends \partner\components\Controller
       'register' => '\partner\controllers\user\RegisterAction',
       'statistics' => '\partner\controllers\user\StatisticsAction',
       'export' => '\partner\controllers\user\ExportAction',
-      'import' => '\partner\controllers\user\ImportAction'
+
+      'import' => '\partner\controllers\user\import\IndexAction',
+      'importmap' => '\partner\controllers\user\import\MapAction',
+      'importroles' => '\partner\controllers\user\import\RolesAction',
+      'importprocess' => '\partner\controllers\user\import\ProcessAction',
+      'importerrors' => '\partner\controllers\user\import\ErrorsAction',
     );
   }
 

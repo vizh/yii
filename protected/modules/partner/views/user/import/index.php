@@ -29,6 +29,7 @@
             <th>Дата</th>
             <th>Всего</th>
             <th>Импортировано</th>
+            <th>Ошибок</th>
             <th>&nbsp;</th>
           </tr>
           </thead>
@@ -37,8 +38,21 @@
             <tr>
               <td><?=$import->CreationTime;?></td>
               <td><?=sizeof($import->Users);?></td>
-              <td><?=sizeof($import->Users(['condition' => '"Users"."Imported"']));?></td>
-              <td><a class="btn btn-mini" href="<?=Yii::app()->createUrl('/partner/user/import', ['importId' => $import->Id]);?>">Редактировать</a></td>
+              <?$countImported = sizeof($import->Users(['condition' => '"Users"."Imported"']));?>
+              <td><?=$countImported;?></td>
+              <?$countErrorUsers = sizeof($import->Users(['condition' => '"Users"."Error"']));?>
+              <td><?=$countErrorUsers;?></td>
+              <td>
+                <?if ($countImported > 0 && $countImported == sizeof($import->Users)):?>
+                  <span class="label label-success">Импорт завершен</span>
+                <?elseif ($countErrorUsers > 0):?>
+                  <a class="btn btn-mini" href="<?=Yii::app()->createUrl('/partner/user/importerrors', ['id' => $import->Id]);?>">Исправить ошибки</a>
+                  <?elseif ($import->Fields == null):?>
+                  <a class="btn btn-mini" href="<?=Yii::app()->createUrl('/partner/user/importmap', ['id' => $import->Id]);?>">Задать поля</a>
+                <?elseif ($import->Roles == null):?>
+                  <a class="btn btn-mini" href="<?=Yii::app()->createUrl('/partner/user/importroles', ['id' => $import->Id]);?>">Задать роли</a>
+                <?endif;?>
+              </td>
             </tr>
           <?endforeach;?>
           </tbody>
