@@ -10,8 +10,6 @@ class IndexAction extends \partner\components\Action
 
     if (\Yii::app()->getRequest()->getIsPostRequest())
     {
-
-
       $file = \CUploadedFile::getInstanceByName('import_file');
       if ($file != null)
       {
