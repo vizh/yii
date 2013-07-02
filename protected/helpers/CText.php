@@ -27,6 +27,10 @@ class CText
 
   public static function humanFileSize($file, $retstring = '%01.2f&nbsp;%s', $system = 'si', $max = null)
   {
+    if (!file_exists($file))
+    {
+      return '0';
+    }
     $size = filesize($file);
 
     // Pick units
