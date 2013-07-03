@@ -45,6 +45,7 @@ class EditController extends \application\components\controllers\AdminMainContro
       if ($form->validate())
       {        
         // Сохранение мероприятия
+        $event->IdName = $form->IdName;
         $event->Title = $form->Title;
         $event->Info = $form->Info;
         $event->FullInfo = $form->FullInfo;
