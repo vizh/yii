@@ -15,7 +15,8 @@ class UserController extends \partner\components\Controller
       'register' => '\partner\controllers\user\RegisterAction',
       'statistics' => '\partner\controllers\user\StatisticsAction',
       'export' => '\partner\controllers\user\ExportAction',
-
+      'invite' => '\partner\controllers\user\InviteAction',
+        
       'import' => '\partner\controllers\user\import\IndexAction',
       'importmap' => '\partner\controllers\user\import\MapAction',
       'importroles' => '\partner\controllers\user\import\RolesAction',
@@ -56,7 +57,12 @@ class UserController extends \partner\components\Controller
         'Title' => 'Импорт участников из CSV',
         'Url' => \Yii::app()->createUrl('partner/user/import'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'user', 'import')
-      )
+      ),
+      'invite' => array(
+        'Title' => 'Приглашения',
+        'Url' => \Yii::app()->createUrl('/partner/user/invite'),
+        'Access' => $this->getAccessFilter()->checkAccess('partner', 'user', 'invite')
+      ),
     );
   }
 }

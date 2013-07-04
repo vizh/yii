@@ -88,6 +88,7 @@ return array(
         'http://'. RUNETID_HOST.'/event/<idName>/' => 'event/view/index',
         'http://'. RUNETID_HOST.'/event/<idName>/users/' => 'event/view/users',
         'http://'. RUNETID_HOST.'/event/<idName>/shareTo:<targetService>' => 'event/view/share',
+        'http://'. RUNETID_HOST.'/event/<idName>/invite/<code>/' => 'event/invite/index',
         
         'http://'. RUNETID_HOST.'/user/edit/' => 'user/edit/index',
         'http://'. RUNETID_HOST.'/user/setting/' => 'user/setting/password',

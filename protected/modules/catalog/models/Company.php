@@ -9,7 +9,7 @@ namespace catalog\models;
  * @property string $UpdateTime
  */
 class Company extends \CActiveRecord
-{
+{  
   /**
    * @param string $className
    * @return Company
@@ -33,14 +33,32 @@ class Company extends \CActiveRecord
   {
     return array();
   }
-
-  /**
-   * @param bool $serverPath
-   * @return string
-   */
-  public function getLogoForEvent($serverPath = false)
+  
+  public function getLogos()
   {
-    //todo: реализовать метод, сейчас только заглушка для страницы мероприятий
-    return \Yii::app()->params['CatalogCompanyDir'] . $this->Id . '/100.png';
+    $logos = [];
+    $contents = scandir($this->getDir(true), SCANDIR_SORT_ASCENDING);
+    foreach ($contents as $content)
+    {
+      if (is_dir($this->getPath($content, true)))
+      {
+        $logos[] = new CompanyLogo($content, $this); 
+      }
+    }
+    return $logos;
+  }
+    
+  public function getPath($fileName = '', $absolute = false)
+  {
+    return $this->getDir($absolute).$fileName;
+  }
+
+  protected $fileDir;
+  public function getDir($absolute = false)
+  {
+    if (!$this->fileDir) 
+      $this->fileDir = sprintf(\Yii::app()->params['CatalogCompanyDir'], $this->Id);
+    
+    return ($absolute ? \Yii::getPathOfAlias('webroot') : '').$this->fileDir;
   }
 }

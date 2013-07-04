@@ -183,5 +183,26 @@ class Texts
     );
     return trim($purifier->purify($value));
   }
-
+  
+  public function getUniqString($salt, $length = 12)
+  {
+    $salt = substr($salt, max(0, strlen($salt) - 3));
+    $salt = strlen($salt) == 3 ? $salt : '0'.$salt;
+    $chars  = 'abcdefghijkmnpqrstuvwxyz1234567890';
+    $result = '';
+    while (strlen($result) < $length)
+    {
+      if ((strlen($result)) % 4 != 0)
+      {
+        $invert  = mt_rand(1,5);
+        $result .= ($invert == 1) ? strtoupper($chars[mt_rand(0, strlen($chars)-1)]) : $chars[mt_rand(0, strlen($chars)-1)];
+      }
+      else
+      {
+        $key = intval((strlen($result)) / 4);
+        $result .= $salt[$key];
+      }
+    }
+    return $result;
+  }
 }

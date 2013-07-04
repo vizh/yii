@@ -42,6 +42,8 @@ return array(
 
     'UserPasswordMinLenght' => 6,
 
+      
+    'CatalogCompanyDir' => '/files/catalog/company/%s/',
 
 
     /** Partner Params */
@@ -49,6 +51,7 @@ return array(
     'PartnerOrderItemPerPage' => 20,
     'PartnerCouponPerPage' => 20,
     'PartnerUserPerPage' => 20,
+    'PartnerInviteRequestPerPage' => 20,
 
 
     /** Ruvents Params */
