@@ -4,14 +4,15 @@ class CreateController extends \application\components\controllers\PublicMainCon
   public function actionIndex()
   {
     $request = \Yii::app()->getRequest();
-    $form = new \event\models\forms\Create();
-    if (\Yii::app()->user->isGuest)
+    $form = new \event\models\forms\Create(); 
+    $form->attributes = $request->getParam(get_class($form));
+    
+    if (\Yii::app()->getUser()->getIsGuest())
     {
-      $form->addError('ContactName', '<a href="#" id="PromoLogin">Авторизуйтесь</a> в RUNET-ID для добавления мероприятия');
+      $form->addError('ContactName', '<a href="#" id="PromoLogin">Авторизуйтесь или зарегистрируйтесь</a> в системе RUNET-ID для добавления мероприятия');
     }
     
-    $form->attributes = $request->getParam(get_class($form));
-    if ($request->getIsPostRequest() && $form->validate())
+    if ($request->getIsPostRequest() && $form->validate(null,false))
     {
       $event = new \event\models\Event();
       $event->Title = $form->Title;
