@@ -34,6 +34,8 @@ $(function() {
   /* PLACEHOLDER */
   $('input[placeholder], textarea[placeholder]').placeholder();
 
+  $('#live-search').trigger('focus');
+
 
   /* LOGIN */
 //  $('#header, #promo').find('.login').toggle(
