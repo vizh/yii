@@ -34,6 +34,7 @@ return array(
     'ApiMaxTop' => 100,
 
     'AdminEventPerPage' => 50,
+    'AdminCatalogCompanyPerPage' => 20,
     
     'CatalogCompanyDir' => '/files/catalog/company/', // файловая директория для хранения каталога логотипов компаний
       
