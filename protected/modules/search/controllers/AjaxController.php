@@ -11,7 +11,7 @@ class AjaxController extends \application\components\controllers\PublicMainContr
       'Settings'
     );
     $criteria->limit = 5;
-    $userModel = \user\models\User::model();
+    $userModel = \user\models\User::model()->byVisible(true);
     $userModel->getDbCriteria()->mergeWith($criteria);
     $search->appendModel($userModel);
     
@@ -34,6 +34,14 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     $companyModel = \company\models\Company::model();
     $companyModel->getDbCriteria()->mergeWith($criteria);
     $search->appendModel($companyModel);
+    
+    
+    $criteria = new \CDbCriteria();
+    $criteria->limit = 5;
+    $eventModel = \event\models\Event::model()->orderByDate('DESC')->byVisible(true);
+    $eventModel->getDbCriteria()->mergeWith($criteria);
+    $search->appendModel($eventModel);
+    
     
     $response = array();
 
@@ -62,6 +70,12 @@ class AjaxController extends \application\components\controllers\PublicMainContr
                 $item->locality = $record->LinkAddress->Address->City->Name;
               }
               $item->category = \Yii::t('app', 'Компании');
+              break;
+              
+            case get_class($eventModel):
+              $item->url = $record->getUrl();
+              $item->value = $record->Title;
+              $item->category = \Yii::t('app', 'Мероприятия');
               break;
           }
           $response[] = $item;

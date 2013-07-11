@@ -45,7 +45,7 @@ namespace event\models;
  *
  *
  */
-class Event extends \application\models\translation\ActiveRecord
+class Event extends \application\models\translation\ActiveRecord implements \search\components\interfaces\ISearch
 {
   protected $fileDir; // кеш, содержащий путь к файлам мероприятия. использовать только через getPath()
   protected $baseDir; // кеш, содержащий абсолютный путь к wwwroot
@@ -199,7 +199,7 @@ class Event extends \application\models\translation\ActiveRecord
       $this->getDbCriteria()->mergeWith($criteria, $useAnd);
       return $this;
     }
-    $criteria->addCondition('"t"."Title" LIKE :SearchTerm');
+    $criteria->addCondition('"t"."Title" ILIKE :SearchTerm OR "t"."IdName" ILIKE :SearchTerm');
     $criteria->params['SearchTerm'] = '%' . \Utils::PrepareStringForLike($searchTerm) . '%';
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;

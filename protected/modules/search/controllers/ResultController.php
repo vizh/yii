@@ -1,33 +1,34 @@
 <?php
 class ResultController extends \application\components\controllers\PublicMainController
 {
+  private $term;
+  private $paginators;
+  private $currentTab;
+  
   public function actionIndex($term = '')
   {
+    $this->paginators = new \stdClass();
+    $this->term = $term;
+    
     $search = new \search\models\Search();
-    $tab = \Yii::app()->request->getParam('tab', \search\components\SearchResultTabId::User);
+    $this->currentTab = \Yii::app()->request->getParam('tab', \search\components\SearchResultTabId::User);
     $textUtility = new \application\components\utility\Texts();
-    $term = $textUtility->filterPurify(trim($term));
+    $this->term = $textUtility->filterPurify(trim($this->term));
+   
     
-    $paginators = new \stdClass();
-      
-    $userModel = \user\models\User::model();
     $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
     $criteria->with = array(
-      'Employments' => array('together' => false)
+      'Employments' => array('together' => false),
+      'Settings'
     );
-    $userModel->getDbCriteria()->mergeWith($criteria);
-    $paginators->User = new \application\components\utility\Paginator($userModel->bySearch($term)->count(), array(
-      'tab' => \search\components\SearchResultTabId::User
-    ));
-    if ($tab !== \search\components\SearchResultTabId::User)
-    {
-      $paginators->User->page = 1;
-    }
-    $userModel->getDbCriteria()->mergeWith($paginators->User->getCriteria());
-    
-    
-    $companyModels = \company\models\Company::model();
+    $criteria->mergeWith(\user\models\User::model()->byVisible(true)->getDbCriteria());
+    $search->appendModel(
+      $this->getModelForSearch(\user\models\User::model(), $criteria, \search\components\SearchResultTabId::User)
+    );
+
     $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."Name" ASC';
     $criteria->with = array(
       'LinkAddress.Address.City',
       'Employments' => array('together' => false),
@@ -41,22 +42,41 @@ class ResultController extends \application\components\controllers\PublicMainCon
       ),
       'LinkSite.Site'
     );
-    $companyModels->getDbCriteria()->mergeWith($criteria);
-    $paginators->Company = new \application\components\utility\Paginator($companyModels->bySearch($term)->count(), array(
-      'tab' => \search\components\SearchResultTabId::Companies
-    ));
-    if ($tab !== \search\components\SearchResultTabId::Companies)
-    {
-      $paginators->Company->page = 1;
-    }
-    $companyModels->getDbCriteria()->mergeWith($paginators->Company->getCriteria());
+    $search->appendModel(
+      $this->getModelForSearch(\company\models\Company::model(), $criteria, \search\components\SearchResultTabId::Companies)
+    );
     
+    $criteria = new \CDbCriteria();
+    $criteria->mergeWith(\event\models\Event::model()->byVisible(true)->orderByDate('DESC')->getDbCriteria());
+    $search->appendModel(
+      $this->getModelForSearch(\event\models\Event::model(), $criteria, \search\components\SearchResultTabId::Events)
+    );
     
-    $search->appendModel($userModel)->appendModel($companyModels);
     $this->render('index', array(
       'results' => $search->findAll($term),
-      'term' => $term,
-      'paginators' => $paginators
+      'term' => $this->term,
+      'paginators' => $this->paginators
     ));
+  }
+  
+  /**
+   * 
+   * @param \CActiveRecord $model
+   * @param \CDbCriteria $criteria
+   * @param string $tabId
+   * @return \CActiveRecord
+   */
+  private function getModelForSearch($model, $criteria, $tabId)
+  {
+    $this->paginators->{get_class($model)} = new \application\components\utility\Paginator($model->bySearch($this->term)->count(), array(
+      'tab' => $tabId
+    ));
+    if ($this->currentTab !== $tabId)
+    {
+      $this->paginators->{get_class($model)}->page = 1;
+    }
+    $criteria->mergeWith($this->paginators->{get_class($model)}->getCriteria());
+    $model->getDbCriteria()->mergeWith($criteria);
+    return $model;
   }
 }
