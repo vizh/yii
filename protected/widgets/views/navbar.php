@@ -15,13 +15,13 @@
         <li class="account dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
             <img width="18" height="18" class="avatar" alt="" src="<?=Yii::app()->user->getCurrentUser()->getPhoto()->get18px();?>">
-            <?=Yii::app()->user->getCurrentUser()->getName();?>
+            Личный кабинет
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu pull-right">
             <li><a href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => Yii::app()->user->getCurrentUser()->RunetId));?>"><?=Yii::t('app', 'Мой профиль');?></a></li>
-            <li><a href="<?=Yii::app()->createUrl('/user/edit/index');?>"><?=Yii::t('app', 'Редактирование профиля');?></a></li>
-            <li><a href="<?=Yii::app()->createUrl('/user/setting/password');?>"><?=Yii::t('app', 'Настройки профиля');?></a></li>
+            <li><a href="<?=Yii::app()->createUrl('/user/edit/index');?>"><?=Yii::t('app', 'Редактирование данных');?></a></li>
+            <li><a href="<?=Yii::app()->createUrl('/user/setting/password');?>"><?=Yii::t('app', 'Настройки');?></a></li>
             <li><a href="<?=Yii::app()->createUrl('/user/logout/index');?>"><?=Yii::t('app', 'Выйти');?></a></li>
           </ul>
         </li>

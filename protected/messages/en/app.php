@@ -82,8 +82,8 @@ return array(
   'Работа' => 'Jobs',
 
   'Мой профиль' => 'My Profile',
-  'Редактирование профиля' => 'Edit Profile',
-  'Настройки профиля' => 'Account Settings',
+  'Редактирование данных' => 'Edit Profile',
+  'Настройки' => 'Account Settings',
   'Выйти' => 'Log Out',
 
 
