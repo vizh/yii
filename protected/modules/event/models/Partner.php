@@ -38,7 +38,7 @@ class Partner extends \CActiveRecord
   {
     return array(
       'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-      'Company' => array(self::BELONGS_TO, '\catalog\models\Company', 'CompanyId'),
+      'Company' => array(self::BELONGS_TO, '\catalog\models\company\Company', 'CompanyId'),
       'Type' => array(self::BELONGS_TO, '\event\models\PartnerType', 'TypeId')
     );
   }
