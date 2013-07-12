@@ -12,6 +12,7 @@ namespace pay\models;
  * @property int $Count
  * @property int $EnableCoupon
  * @property bool $Public
+ * @property int $Priority
  *
  * @property \event\models\Event $Event
  * @property ProductAttribute[] $Attributes

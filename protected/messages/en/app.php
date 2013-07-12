@@ -36,8 +36,10 @@ return array(
   'и на входе' => 'and upon entrance',
 
   'руб.' => 'rub.',
+  'бесплатно' => 'free',
   'Оплата' => 'Payment',
   'Перейти к оплате' => 'Pay',
+  'Продолжить' => 'Continue',
   'Зарегистрировать' => 'Register',
   'Регистрация нового участника' => 'Register new participant',
   'поля обязательны для заполнения' => 'required fields',

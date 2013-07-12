@@ -12,7 +12,7 @@ class RegisterAction extends \pay\components\Action
     $request = \Yii::app()->getRequest();
     
     $criteria = new \CDbCriteria();
-    $criteria->order = '"t"."Id" ASC';
+    $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
     $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findAll($criteria);
     
     $countRows = $request->getParam('count');
@@ -62,8 +62,7 @@ class RegisterAction extends \pay\components\Action
       }
       if (!$orderForm->hasErrors())
       {
-        if (\pay\models\OrderItem::model()->byPayerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)
-          ->exists() == false)
+        if (\pay\models\OrderItem::model()->byPayerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->exists() == false)
         {
           $orderForm->addError('Items', \Yii::t('app', 'Пожалуйста, добавьте информацию об участниках для продолжения'));
         }
