@@ -12,6 +12,14 @@ abstract class Widget extends \CWidget implements IWidget
     return array();
   }
 
+  public function init()
+  {
+    if ($this->getIsHasDefaultResources())
+    {
+      $this->registerDefaultResources();
+    }
+  }
+  
   public function __get($name)
   {
     if (in_array($name, $this->getAttributeNames()))
@@ -75,6 +83,27 @@ abstract class Widget extends \CWidget implements IWidget
   {
 
   }
+
+  public function getIsHasDefaultResources()
+  {
+    return false;
+  }
+  
+  protected function registerDefaultResources()
+  {
+    $class = get_class($this);
+    $class = mb_strtolower(mb_substr($class, strrpos($class, '\\')+1, mb_strlen($class)));
+    $assetsPath = \Yii::getPathOfAlias('event.widgets.assets').DIRECTORY_SEPARATOR;
+    $path = $assetsPath.'js'.DIRECTORY_SEPARATOR.$class.'.js';
+    
+    if (file_exists($path))
+      \Yii::app()->clientScript->registerScriptFile(\Yii::app()->assetManager->publish($path));
+    
+    $path = $assetsPath.'css'.DIRECTORY_SEPARATOR.$class.'.css';
+    if (file_exists($path))
+      \Yii::app()->clientScript->registerCssFile(\Yii::app()->assetManager->publish($path));
+  }
+
 
   /**
    * @return bool

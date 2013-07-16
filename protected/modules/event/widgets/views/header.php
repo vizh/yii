@@ -4,7 +4,7 @@
  */
 $event = $this->event;
 ?>
-<div class="b-event-promo <?=$event->Type->Code;?>">
+<div class="b-event-promo <?=$event->Type->Code;?> <?=$event->IdName;?>">
   <div class="container">
     <div class="row">
       <div class="side left span2">

@@ -1,24 +1,3 @@
-<script>
-  $(function () {
-    $('form.form-inline input[name*="FullName"]').autocomplete({
-      source : '/user/ajax/search',
-      select : function (event, ui) {
-        $(this).parent('form').find('input[name*="RunetId"]').val(ui.item.RunetId);
-      },
-      minLength: 2,
-      response : function (event, ui) {
-        $.each(ui.content, function (i) {
-          ui.content[i].label = ui.content[i].FullName + (typeof ui.content[i].Company != 'undefined' ? ', <span class="muted">'+ui.content[i].Company+'</span>' : '');
-          ui.content[i].value = ui.content[i].FullName;
-        });
-      },
-      html : true
-    }).keypress(function (e) {
-      $(this).parent('form').find('input[name*="RunetId"]').val('');
-    });
-  });
-</script>
-
 <div class="registration">
   <h5 class="title"><?=Yii::t('app', 'Регистрация по приглашениям');?></h5>
   <p>Регистрация на конференцию осуществляется по приглашениям от организаторов мероприятия. Если у вас есть приглашение (промо-код), введите его для прохождения регистрации.</p>

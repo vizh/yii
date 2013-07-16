@@ -9,6 +9,7 @@ class Invite extends \event\components\Widget
   {
     $this->formActivation = new \event\models\forms\InviteActivation($this->event);
     $this->formRequest = new \event\models\forms\InviteRequest();
+    parent::init();
   }
   
   public function process()
@@ -72,6 +73,11 @@ class Invite extends \event\components\Widget
     }
   }
 
+  public function getIsHasDefaultResources()
+  {
+    return true;
+  }
+  
   public function run()
   {
     $this->render('invite', ['formActivation' => $this->formActivation, 'formRequest' => $this->formRequest]);
