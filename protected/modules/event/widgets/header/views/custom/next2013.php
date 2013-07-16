@@ -25,8 +25,10 @@ $event = $this->event;
                     </span>
                   </span>
                 </div>
-                <?if ($event->getContactAddress() != null && !empty($event->getContactAddress()->Place)):?>
-                    <div class="location"><?=$event->getContactAddress()->Place;?></div>
+                <?if ($event->getContactAddress() != null):?>
+                  <div class="location">
+                    <?=\Yii::t('app', 'г.');?> <?=$event->getContactAddress()->City->Name;?><?if (!empty($event->getContactAddress()->Place)) echo ', '.$event->getContactAddress()->Place;?>
+                  </div>
                 <?endif;?>
             </div>
         </div>
