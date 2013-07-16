@@ -43,6 +43,11 @@ class Employment extends \CActiveRecord
     );
   }
 
+  public function __toString()
+  {
+    return $this->Company->Name.(!empty($this->Position) ? ', '.$this->Position : '');
+  }
+  
   /**
    * @static
    * @param int $userId

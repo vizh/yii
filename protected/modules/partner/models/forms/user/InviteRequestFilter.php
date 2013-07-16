@@ -3,22 +3,22 @@ namespace partner\models\forms\user;
 
 class InviteRequestFilter extends \CFormModel
 {
-  public $User;
-  public $Data;
+  public $Sender;
+  public $Owner;
   public $Approved;
   
   public function rules()
   {
     return array(
-      array('User,Data,Approved', 'safe')  
+      array('Sender,Owner,Approved', 'safe')  
     );
   }
   
   public function attributeLabels()
   {
     return array(
-      'User'     => \Yii::t('app', 'ФИО или RUNET-ID пользователя'),
-      'Data'     => \Yii::t('app', 'По указанным данным'),
+      'Sender'     => \Yii::t('app', 'ФИО или RUNET-ID отправителя'),
+      'Owner'     => \Yii::t('app', 'ФИО или RUNET-ID получателя'),
       'Approved' => \Yii::t('app', 'Статус')
     );
   }
@@ -30,21 +30,27 @@ class InviteRequestFilter extends \CFormModel
   public function getCriteria()
   {
     $criteria = new \CDbCriteria();
-    if (!empty($this->User))
+    
+    if (!empty($this->Sender))
     {
       $userIdList = [];
-      $users = \user\models\User::model()->bySearch($this->User)->findAll();
+      $users = \user\models\User::model()->bySearch($this->Sender)->findAll();
       foreach ($users as $user)
       {
         $userIdList[] = $user->Id;
       }
-      $criteria->addInCondition('"t"."UserId"', $userIdList);
+      $criteria->addInCondition('"t"."SenderUserId"', $userIdList);
     }
     
-    if (!empty($this->Data))
+    if (!empty($this->Owner))
     {
-      $criteria->addCondition('"t"."Phone" ILIKE :Data OR "t"."Company" ILIKE :Data OR "t"."Position" ILIKE :Data OR "t"."Info" ILIKE :Data');
-      $criteria->params[':Data'] = '%'.$this->Data.'%';
+      $userIdList = [];
+      $users = \user\models\User::model()->bySearch($this->Owner)->findAll();
+      foreach ($users as $user)
+      {
+        $userIdList[] = $user->Id;
+      }
+      $criteria->addInCondition('"t"."OwnerUserId"', $userIdList);
     }
     
     if ($this->Approved != '')

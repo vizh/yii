@@ -61,7 +61,8 @@ class UserController extends \partner\components\Controller
       'invite' => array(
         'Title' => 'Приглашения',
         'Url' => \Yii::app()->createUrl('/partner/user/invite'),
-        'Access' => $this->getAccessFilter()->checkAccess('partner', 'user', 'invite')
+        'Access' => $this->getAccessFilter()->checkAccess('partner', 'user', 'invite') 
+            && \event\models\Widget::model()->byEventId(\Yii::app()->partner->getEvent()->Id)->byName('event\widgets\Invite')->exists()
       ),
     );
   }

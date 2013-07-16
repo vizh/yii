@@ -3,15 +3,12 @@ namespace event\models;
 
 /**
  * @property int $Id
- * @property int $EventId
- * @property int $UserId
- * @property string $Phone
- * @property string $Company
- * @property string $Position
- * @property string $Info
+ * @property int $OwnerUserId
  * @property string $CreationTime
+ * @property int $EventId
  * @property int $Approved
  * @property int $ApprovedTime
+ * @property int $SenderUserId
  *
  * @property \user\models\User $User
  */
@@ -39,7 +36,9 @@ class InviteRequest extends \CActiveRecord
   public function relations()
   {
     return array(
-      'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId')  
+      'Sender' => array(self::BELONGS_TO, '\user\models\User', 'SenderUserId'),
+      'Owner'  => array(self::BELONGS_TO, '\user\models\User', 'OwnerUserId'),
+      'Event'  => array(self::BELONGS_TO, '\event\models\Event', 'EventId')
     );
   }
   
@@ -64,12 +63,36 @@ class InviteRequest extends \CActiveRecord
    * @param bool $useAnd
    * @return \event\models\InviteRequest
    */
-  public function byUserId($userId, $useAnd = true)
+  public function byOwnerUserId($userId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
+    $criteria->condition = '"t"."OwnerUserId" = :UserId';
     $criteria->params = array('UserId' => $userId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
+  }
+  
+  /**
+   * 
+   * @param \event\models\Approved $status
+   * @param \event\models\Role $role
+   * @throws Exception
+   */
+  public function changeStatus($status, \event\models\Role $role = null)
+  {
+    if ($status == \event\models\Approved::Yes && $role == null)
+      throw new Exception("Не передан обязательный параметр Role");
+    
+    $this->Approved = $status;
+    $this->ApprovedTime = date('Y-m-d H:i:s');
+    $this->save();
+    
+    if ($status == \event\models\Approved::Yes)
+    {
+      if (empty($this->Event->Parts))
+        $this->Event->registerUser($this->Owner, $role);
+      else
+        $this->Event->registerUserOnAllParts($this->Owner, $role);
+    }
   }
 }

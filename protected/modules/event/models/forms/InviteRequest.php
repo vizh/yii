@@ -3,25 +3,32 @@ namespace event\models\forms;
 
 class InviteRequest extends \CFormModel
 {
-  public $Phone;
-  public $Company;
-  public $Position;
-  public $Info;
+  public $RunetId;
+  public $FullName;
   
   public function attributeLabels()
   {
     return [
-      'Phone' => \Yii::t('app', 'Ваш телефон'),
-      'Company' => \Yii::t('app', 'Ваше место работы'),
-      'Position' => \Yii::t('app', 'Ваша должность'),
-      'Info' => \Yii::t('app', 'C чем связан ваш интерес к конференции')
+      'RunetId' => \Yii::t('app', 'RUNET-ID получателя приглашения'),
+      'FullName' => \YIi::t('app', 'Получатель приглашения')
     ];
   }
   
   public function rules()
   {
-    return array(
-      array('Phone,Company,Position,Info', 'required')
-    );
+    return [
+      ['FullName', 'required'],
+      ['RunetId', 'filter', 'filter' => [$this, 'filterUser']],
+    ];
+  }
+  
+  public function filterUser($value)
+  {
+    $user = \user\models\User::model()->byVisible(true)->byRunetId($value)->find();
+    if ($user == null)
+    {
+      $this->addError('FullName', \Yii::t('app', 'Не найден получатель приглашения.'));
+    }
+    return $value;
   }
 }

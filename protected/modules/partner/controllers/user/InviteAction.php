@@ -24,45 +24,36 @@ class InviteAction extends \partner\components\Action
       }
     }
 
+    $filter = new \partner\models\forms\user\InviteRequestFilter();
+    $filter->attributes = $request->getParam(get_class($filter));
+    
+    $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."CreationTime" DESC';
+    $criteria->with  = ['Owner', 'Sender'];
+    if ($filter->validate())
+    {
+      $criteria->mergeWith($filter->getCriteria());
+    }
+    $paginator = new \application\components\utility\Paginator(\event\models\InviteRequest::model()->byEventId($this->getEvent()->Id)->count($criteria));
+    $paginator->perPage = \Yii::app()->params['PartnerInviteRequestPerPage'];
+    $criteria->mergeWith($paginator->getCriteria());
+    $inviteRequests = \event\models\InviteRequest::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
+    
     $criteria = new \CDbCriteria();
     $criteria->order = '"t"."Title" ASC';
-    $viewParams = ['roles' => \event\models\Role::model()->findAll($criteria)];
-
-    $showInviteRequests = \event\models\Widget::model()
-      ->byEventId($this->getEvent()->Id)->byName('event\widgets\InviteRequest')->exists();
-    if ($showInviteRequests)
-    {
-      $filter = new \partner\models\forms\user\InviteRequestFilter();
-      $filter->attributes = $request->getParam(get_class($filter));
-      
-      $criteria = new \CDbCriteria();
-      $criteria->order = '"t"."CreationTime" DESC';
-      $criteria->with  = ['User'];
-      
-      if ($filter->validate())
-      {
-        $criteria->mergeWith($filter->getCriteria());
-      }
-      
-      $paginator = new \application\components\utility\Paginator(\event\models\InviteRequest::model()->byEventId($this->getEvent()->Id)->count($criteria));
-      $paginator->perPage = \Yii::app()->params['PartnerInviteRequestPerPage'];
-      $criteria->mergeWith($paginator->getCriteria());
-      
-      $viewParams['inviteRequests'] = \event\models\InviteRequest::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
-      $viewParams['filter'] = $filter;
-      $viewParams['paginator'] = $paginator;
-    }
-    $viewParams['showInviteRequests'] = $showInviteRequests;
+    $roles = \event\models\Role::model()->findAll($criteria);
     
     $this->getController()->setPageTitle('Приглашения');
     $this->getController()->initActiveBottomMenu('invite');
-    $this->getController()->render('invite', $viewParams);
+    $this->getController()->render('invite', 
+      ['inviteRequests' => $inviteRequests, 'filter' => $filter, 'paginator' => $paginator, 'roles' => $roles]
+    );
   }
   
   
   private function processGenerate()
   {
-    $code = new \event\models\InviteCode();
+    $code = new \event\models\Invite();
     $code->EventId = $this->getEvent()->Id;
     $code->RoleId = \Yii::app()->getRequest()->getParam('RoleId');
     
@@ -72,7 +63,7 @@ class InviteAction extends \partner\components\Action
     
     $result = new \stdClass();
     $result->success = true;
-    $result->invite  = $this->getController()->createAbsoluteUrl('/event/invite/index', array('code' => $code->Code, 'idName' => $this->getEvent()->IdName));
+    $result->invite  = $code->Code;
     echo json_encode($result);
     \Yii::app()->end();
   }
@@ -86,19 +77,11 @@ class InviteAction extends \partner\components\Action
     if ($inviteRequest == null)
       throw new \CHttpException(404);
     
-    $inviteRequest->Approved = $approved;
-    $inviteRequest->ApprovedTime = date('d-m-Y H:i:s');
-    $inviteRequest->save();
-    
+    $role = null;
     if ($approved == \event\models\Approved::Yes)
-    {
       $role = \event\models\Role::model()->findByPk($request->getParam('RoleId'));
-      if (empty($this->getEvent()->Parts))
-        $this->getEvent()->registerUser($inviteRequest->User, $role);
-      else
-        $this->getEvent()->registerUserOnAllParts($inviteRequest->User, $role);
-    }
     
+    $inviteRequest->changeStatus($approved, $role); 
     $this->getController()->refresh();
   }
 }

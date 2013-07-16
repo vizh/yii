@@ -24,7 +24,7 @@ class CreateController extends \application\components\controllers\PublicMainCon
       $event->External = true;
       
       $translit = new \ext\translator\Translite();
-      $event->IdName = $translit->translit($event->Title);
+      $event->IdName = preg_replace("|[^a-z]|i", "", $translit->translit($event->Title));
       
       $startDate = getdate($form->StartTimestamp);
       $event->StartYear = $startDate['year'];
@@ -41,7 +41,7 @@ class CreateController extends \application\components\controllers\PublicMainCon
       if ($event->save())
       {
         $LogoSource_path = $event->getPath($event->LogoSource, true);
-
+        
         if (!file_exists(dirname($LogoSource_path)))
           mkdir(dirname($LogoSource_path));
 

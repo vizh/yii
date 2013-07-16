@@ -12,7 +12,7 @@ namespace event\models;
  *
  * @property \user\models\User $User
  */
-class InviteCode extends \CActiveRecord
+class Invite extends \CActiveRecord
 {
   /**
    * @param string $className
@@ -25,7 +25,7 @@ class InviteCode extends \CActiveRecord
 
   public function tableName()
   {
-    return 'EventInviteCode';
+    return 'EventInvite';
   }
 
   public function primaryKey()
@@ -36,8 +36,9 @@ class InviteCode extends \CActiveRecord
   public function relations()
   {
     return array(
-      'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-      'Role' => array(self::BELONGS_TO, '\event\models\Role', 'RoleId')
+      'User'  => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
+      'Role'  => array(self::BELONGS_TO, '\event\models\Role', 'RoleId'),
+      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId')
     );
   }
   
@@ -69,5 +70,24 @@ class InviteCode extends \CActiveRecord
     $criteria->params = array('Code' => $code);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
+  }
+  
+  /**
+   * 
+   * @param \user\models\User $user
+   */
+  public function activate(\user\models\User $user)
+  {
+    if ($this->UserId !== null)
+      throw new \Exception(\Yii::t('app', 'Приглашение уже активировано'));
+    
+    $this->UserId = $user->Id;
+    $this->ActivationTime = date('Y-m-d H:i:s');
+    $this->save();
+    
+    if (empty($this->Event->Parts))
+      $this->Event->registerUser($this->User, $this->Role);
+    else
+      $this->Event->registerUserOnAllParts($this->User, $this->Role);
   }
 }
