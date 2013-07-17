@@ -1,10 +1,8 @@
-<?if (($tab = \Yii::app()->request->getParam('tab')) !== null):?>
 <script>
   $(function () {
-    $('a[href="#<?=$tab;?>"]').trigger('click');
+    $('a[href="#<?=$activeTabId;?>"]').trigger('click');
   });
 </script>
-<?endif;?>
 
 <h2 class="b-header_large light">
   <div class="line"></div>
@@ -37,7 +35,7 @@
           <?=\Yii::t('app', '{n} пользователь|{n} пользователя|{n} пользователей|{n} пользователя', $results->Counts['user\models\User']);?>
         </a></li>
         <li>/</li>
-        <li><a href="#<?=\search\components\SearchResultTabId::Companies;?>" class="pseudo-link">
+        <li><a href="#<?=\search\components\SearchResultTabId::Companies;?>" class="pseudo-link active">
           <?=\Yii::t('app', '{n} компания|{n} компании|{n} компаний|{n} компания', $results->Counts['company\models\Company']);?>
         </a></li>
         <li>/</li>

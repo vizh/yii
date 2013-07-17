@@ -4,6 +4,7 @@ class ResultController extends \application\components\controllers\PublicMainCon
   private $term;
   private $paginators;
   private $currentTab;
+  private $results;
   
   public function actionIndex($term = '')
   {
@@ -52,8 +53,12 @@ class ResultController extends \application\components\controllers\PublicMainCon
       $this->getModelForSearch(\event\models\Event::model(), $criteria, \search\components\SearchResultTabId::Events)
     );
     
+    $this->results = $search->findAll($term);
+    
+    $this->setPageTitle(\Yii::t('app', 'Результаты поиска'));
     $this->render('index', array(
-      'results' => $search->findAll($term),
+      'results' => $this->results,
+      'activeTabId' => $this->getActiveTabId(),
       'term' => $this->term,
       'paginators' => $this->paginators
     ));
@@ -78,5 +83,33 @@ class ResultController extends \application\components\controllers\PublicMainCon
     $criteria->mergeWith($this->paginators->{get_class($model)}->getCriteria());
     $model->getDbCriteria()->mergeWith($criteria);
     return $model;
+  }
+  
+  private function getActiveTabId()
+  {
+    $tabId = \Yii::app()->request->getParam('tab');
+    if ($tabId !== null)
+      return $tabId;
+    
+    $max = -1;
+    $maxModel = null;
+    foreach ($this->results->Counts as $model => $count)
+    {
+      if ($count > $max)
+      {
+        $max = $count;
+        $maxModel = $model;
+      }
+    }
+    
+    switch ($maxModel)
+    {
+      case 'user\models\User':
+        return \search\components\SearchResultTabId::User;
+      case 'company\models\Company':
+        return \search\components\SearchResultTabId::Companies;
+      case 'event\models\Event':
+        return \search\components\SearchResultTabId::Events;
+    }
   }
 }
