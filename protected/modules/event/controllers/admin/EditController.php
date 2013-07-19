@@ -156,4 +156,20 @@ class EditController extends \application\components\controllers\AdminMainContro
       'widgets' => $widgets)
     );
   }
+  
+  public function actionWidget($widget, $eventId)
+  {
+    $event = \event\models\Event::model()->findByPk($eventId);
+    $widget = $this->createWidget($widget, ['event' => $event]);
+    if (\Yii::app()->getRequest()->getIsPostRequest())
+    {
+      if ($widget->getAdminPanel()->process())
+        $this->refresh();
+    }
+    
+    $this->setPageTitle(\Yii::t('app', 'Настройка виджета &laquo;{widget}&raquo; для мероприятия &laquo;{event}&raquo;',
+      ['{widget}' => $widget->getTitle(), '{event}' => $event->Title]
+    ));
+    $this->render('widget', ['widget' => $widget]);
+  }
 }

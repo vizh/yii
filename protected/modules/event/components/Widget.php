@@ -3,7 +3,7 @@ namespace event\components;
 use application\components\Exception;
 
 abstract class Widget extends \CWidget implements IWidget
-{
+{ 
   /**
    * @return string[]
    */
@@ -54,6 +54,15 @@ abstract class Widget extends \CWidget implements IWidget
    */
   public $event;
 
+  /**
+   * 
+   * @return \event\models\Event
+   */
+  public function getEvent()
+  {
+    return $this->event;
+  }
+  
   /** @var bool */
   public $eventPage = true;
 
@@ -70,11 +79,24 @@ abstract class Widget extends \CWidget implements IWidget
     return str_replace('\\', '_', $this->getName());
   }
 
+  private $adminPanel = null;
   public function getAdminPanel()
   {
-    return NULL;
+    if ($this->adminPanel == null)
+    {
+      $class = get_class($this);
+      $class = substr($class, mb_strrpos($class, '\\')+1,mb_strlen($class));
+      $class = '\event\widgets\panels\\'.$class;
+      if (class_exists($class))
+      {
+        $this->adminPanel = new $class($this);
+      }
+    }
+    return $this->adminPanel;
   }
-
+ 
+  
+  
 
   /**
    * @return void
