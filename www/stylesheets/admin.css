@@ -484,7 +484,9 @@ body.http-error {
 .m-top_40 {margin-top: 40px !important;}
 
 .ui-helper-hidden-accessible {display: none;}
-
+.thumbnail .caption form {
+  margin-bottom: 0;
+}
 
 @media (max-width: 767px) {
   .sidebar-nav{

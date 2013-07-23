@@ -86,9 +86,9 @@ abstract class Widget extends \CWidget implements IWidget
     {
       $class = get_class($this);
       $class = substr($class, mb_strrpos($class, '\\')+1,mb_strlen($class));
-      $class = '\event\widgets\panels\\'.$class;
-      if (class_exists($class))
+      if (file_exists(\Yii::getPathOfAlias('event.widgets.panels').DIRECTORY_SEPARATOR.$class.'.php'))
       {
+        $class = '\event\widgets\panels\\'.$class;
         $this->adminPanel = new $class($this);
       }
     }

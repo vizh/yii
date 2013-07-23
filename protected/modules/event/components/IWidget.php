@@ -37,4 +37,9 @@ interface IWidget{
    * @return bool
    */
   public function getIsActive();
+  
+  /**
+   * @return IWidgetAdminPanel
+   */
+  public function getAdminPanel();
 }

@@ -2,29 +2,13 @@
 namespace event\widgets\panels;
 class PhotoSlider extends \event\components\WidgetAdminPanel
 { 
-  private $photos = [];
-  
-  public function __construct($widget)
-  {
-    parent::__construct($widget);
-    $path = $this->getEvent()->getPath('photos', true);
-    if (file_exists($path))
-    {
-      foreach (new \DirectoryIterator($path) as $item)
-      {
-        if ($item->isDir() && !$item->isDot())
-          $this->photos[] = new \event\models\Photo($item->getBasename(), $this->getEvent());
-      } 
-    }
-  }
-
-
   private function getNextPhotoId()
   {
     $id = 1;
-    if (!empty($this->photos))
+    $photos = $this->widget->getPhotos();
+    if (!empty($photos))
     {
-      $photo = $this->photos[sizeof($this->photos)-1];
+      $photo = $photos[sizeof($photos)];
       $id = $photo->getId() + 1;
     }
     return $id;
@@ -34,20 +18,57 @@ class PhotoSlider extends \event\components\WidgetAdminPanel
   public function __toString()
   {
     $form = new \event\models\forms\Photo();
-    return $this->render(['photos' => $this->photos, 'form' => $form]);
+    return $this->render(['photos' => $this->widget->getPhotos(), 'form' => $form]);
   }
   
   public function process()
   {
+    $request = \Yii::app()->getRequest();
+    if ($request->getIsAjaxRequest() && ($action = $request->getParam('Action')) !== null)
+    {
+      if ($action == 'AjaxDelete')
+        $this->processPhotoDelete();
+      else if ($action == 'AjaxSort')
+        $this->processPhotoSort();
+      \Yii::app()->end();
+    }
+    
+    
     $form = new \event\models\forms\Photo();
     $form->Image = \CUploadedFile::getInstance($form, 'Image');
     if ($form->validate())
     {
       $photo = new \event\models\Photo($this->getNextPhotoId(), $this->getEvent());
       $photo->save($form->Image->getTempName());
+      $this->setSuccess(\Yii::t('app', 'Фотография успешно добавлена'));
       return true;
     }
     $this->addError($form);
     return false;
+  }
+  
+  private function processPhotoDelete()
+  {
+    $photoId = \Yii::app()->getRequest()->getParam('PhotoId');
+    foreach ($this->widget->getPhotos() as $photo)
+    {
+      if ($photo->getId() == $photoId)
+        $photo->delete();
+    }
+  }
+  
+  private function processPhotoSort()
+  {
+    $positions = \Yii::app()->getRequest()->getParam('Positions');
+    $basePath = $this->widget->getPhotosPath();
+    foreach ($positions as $photoId => $position)
+      rename($basePath.DIRECTORY_SEPARATOR.$photoId, $basePath.DIRECTORY_SEPARATOR.'_'.$position);
+    
+    $dirContent = scandir($basePath);
+    foreach ($dirContent as $item)
+    {
+      if (is_dir($basePath.DIRECTORY_SEPARATOR.$item) && !strstr($item, '.'))
+        rename($basePath.DIRECTORY_SEPARATOR.$item, $basePath.DIRECTORY_SEPARATOR.str_replace('_', '', $item));
+    }
   }
 }

@@ -3,7 +3,6 @@ namespace event\components;
 
 interface IWidgetAdminPanel
 {
-  public function __construct($widget);
   public function getEvent();
 
   public function addError($message);
@@ -16,10 +15,19 @@ interface IWidgetAdminPanel
    */
   public function errorSummary($header = '', $footer = '');
   
+  public function setSuccess($message);
+  /**
+   * @return string
+   */
+  public function getSuccess();
+  
+  /**
+   * @return bool
+   */
+  public function hasSuccess();
+  
   /**
    * @return bool
    */
   public function process();
-  
-  public function __toString();
 }

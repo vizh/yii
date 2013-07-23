@@ -2,12 +2,14 @@
 namespace event\components;
 abstract class WidgetAdminPanel implements IWidgetAdminPanel
 {
-  private $widget;
+  protected $widget;
   public function __construct($widget)
   {
     $this->widget = $widget;
   }
   
+  abstract function __toString();
+
   public function getEvent()
   {
     return $this->widget->getEvent();
@@ -57,5 +59,21 @@ abstract class WidgetAdminPanel implements IWidgetAdminPanel
     
     $result .= '</ul></div>'.$footer;
     return $result;
+  }
+  
+  const FLASH_SUCCESS_KEY = 'wap.success';
+  public function setSuccess($message)
+  {
+    \Yii::app()->getUser()->setFlash(self::FLASH_SUCCESS_KEY, $message);
+  }
+  
+  public function getSuccess()
+  {
+    return \Yii::app()->getUser()->getFlash(self::FLASH_SUCCESS_KEY);
+  }
+  
+  public function hasSuccess()
+  {
+    return \Yii::app()->getUser()->hasFlash(self::FLASH_SUCCESS_KEY);
   }
 }

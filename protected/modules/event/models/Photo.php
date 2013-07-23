@@ -59,7 +59,7 @@ class Photo
   {
     $path = $this->getBasePath(true);
     if (!is_dir($path))
-      mkdir($path);
+      mkdir($path, 0777, true);
     
     $image = \Yii::app()->image->load($imagePath);
     $image->quality(100);
@@ -82,5 +82,16 @@ class Photo
     $path40 = $this->get40px(true);
     $image->resize(40,0);
     $image->save($path40);
+  }
+  
+  public function delete()
+  {
+    $path = $this->getBasePath(true);
+    foreach (new \FilesystemIterator($path) as $item)
+    {
+      if ($item->isFile())
+        unlink($item->getPathname());
+    }
+    rmdir($path);
   }
 }
