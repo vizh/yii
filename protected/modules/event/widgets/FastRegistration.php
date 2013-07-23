@@ -6,8 +6,7 @@ class FastRegistration extends \event\components\Widget
   public function getAttributeNames()
   {
     return array(
-      'DefaultRoleId',
-      'FastRegisterAdditionalDescription'
+      'DefaultRoleId'
     );
   }
   
@@ -30,13 +29,11 @@ class FastRegistration extends \event\components\Widget
       $isParticipant = \event\models\Participant::model()->byUserId(\Yii::app()->user->getId())->byEventId($this->event->Id)->exists();
     }
     
-    $params = ['isParticipant' => $isParticipant, 'event' => $this->event];
-    try {
-      $params['additionalDescription'] = $this->FastRegisterAdditionalDescription;
-    }
-    catch (\Exception $e) {};
-    $params['role'] = \event\models\Role::model()->findByPk($this->DefaultRoleId);
-    $this->render('registration-fast', $params);
+    $this->render('registration-fast', [
+      'isParticipant' => $isParticipant,
+      'event' => $this->event,
+      'role' => \event\models\Role::model()->findByPk($this->DefaultRoleId)
+    ]);
   }
   
   public function getPosition()
