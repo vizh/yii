@@ -3,11 +3,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 {
   public function actionSend($step = 0)
   {
-
-    if ($step == 40) $step+1;
-    if ($step == 70) $step+1;
-
-
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
