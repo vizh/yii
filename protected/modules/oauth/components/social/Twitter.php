@@ -88,7 +88,7 @@ class Twitter implements ISocial
     $this->getConnection()->config['user_token'] = $accessToken['oauth_token'];
     $this->getConnection()->config['user_secret'] = $accessToken['oauth_token_secret'];
 
-    $code = $this->getConnection()->request('GET', $this->getConnection()->url('1/account/verify_credentials'));
+    $code = $this->getConnection()->request('GET', $this->getConnection()->url('1.1/account/verify_credentials.json'));
 
     if ($code == 200)
     {

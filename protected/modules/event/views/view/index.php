@@ -16,7 +16,7 @@ foreach($event->Widgets as $widget)
     <div class="row">
       <aside class="sidebar span3 pull-left">
         <?foreach ($event->Widgets as $widget):?>
-          <?if ($widget->getPosition() == \event\components\WidgetPosition::Sidebar):?>
+          <?if ($widget->getPosition() == \event\components\WidgetPosition::Sidebar && $widget->getIsActive()):?>
             <?$widget->run()?>
           <?endif?>
         <?endforeach?>

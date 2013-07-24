@@ -1,3 +1,18 @@
+<style type="text/css">
+  .form-horizontal .control-label {
+    width: 160px;
+  }
+
+  .form-horizontal .control-label.required {
+    width: 171px;
+  }
+
+  .form-horizontal .control-label span.required {
+    color: brown;
+    font-size: 20px;
+  }
+</style>
+
 <h2 class="b-header_large light">
   <div class="line"></div>
   <div class="container">
@@ -24,25 +39,25 @@
       
       <?=\CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
       
-      <?=\CHtml::form('', 'POST',array('class' => 'form-horizontal'));?>
+      <?=\CHtml::form('', 'POST', ['class' => 'form-horizontal', 'enctype' => 'multipart/form-data']);?>
       <h4 class="m-bottom_20 m-top_40"><?=\Yii::t('app', 'Контактное лицо');?></h4>
 
       <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'ContactName', array('class' => 'control-label'));?>
+        <?=\CHtml::activeLabel($form, 'ContactName', array('class' => 'control-label', 'required' => true));?>
         <div class="controls">
           <?=\CHtml::activeTextField($form, 'ContactName');?>
         </div>
       </div>
 
       <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'ContactPhone', array('class' => 'control-label'));?>
+        <?=\CHtml::activeLabel($form, 'ContactPhone', array('class' => 'control-label', 'required' => true));?>
         <div class="controls">
           <?=\CHtml::activeTextField($form, 'ContactPhone');?>
         </div>
       </div>
 
       <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'ContactEmail', array('class' => 'control-label'));?>
+        <?=\CHtml::activeLabel($form, 'ContactEmail', array('class' => 'control-label', 'required' => true));?>
         <div class="controls">
           <?=\CHtml::activeTextField($form, 'ContactEmail');?>
         </div>
@@ -51,23 +66,23 @@
       <h4 class="m-bottom_20 m-top_40"><?=\Yii::t('app', 'Мероприятие');?></h4>
 
       <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'Title', array('class' => 'control-label'));?>
+        <?=\CHtml::activeLabel($form, 'Title', array('class' => 'control-label', 'required' => true));?>
         <div class="controls">
           <?=\CHtml::activeTextField($form, 'Title');?>
         </div>
       </div>
 
       <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'Place', array('class' => 'control-label'));?>
+        <?=\CHtml::activeLabel($form, 'Place', array('class' => 'control-label', 'required' => true));?>
         <div class="controls">
           <?=\CHtml::activeTextField($form, 'Place');?>
         </div>
       </div>
 
       <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'Date', array('class' => 'control-label'));?>
+        <?=\CHtml::activeLabel($form, 'Date', array('class' => 'control-label', 'required' => true));?>
         <div class="controls">
-          <?=\CHtml::activeTextField($form, 'StartDate', array('class' => 'input-medium', 'placeholder' => \Yii::t('app', 'дд.мм.гггг')));?> &ndash; <?=\CHtml::activeTextField($form, 'EndDate', array('class' => 'input-medium', 'placeholder' => \Yii::t('app', 'дд.мм.гггг')));?> 
+          <?=\CHtml::activeTextField($form, 'StartDate', array('class' => 'input-medium', 'placeholder' => \Yii::t('app', 'дд.мм.гггг')));?> &ndash; <?=\CHtml::activeTextField($form, 'EndDate', array('class' => 'input-medium', 'placeholder' => \Yii::t('app', 'дд.мм.гггг')));?>
           <label class="checkbox m-top_5"><?=\CHtml::activeCheckBox($form, 'OneDayDate');?> <?=$form->getAttributeLabel('OneDayDate');?></label>
         </div>
       </div>
@@ -80,7 +95,15 @@
       </div>
 
       <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'Info', array('class' => 'control-label'));?>
+        <?=\CHtml::activeLabel($form, 'LogoSource', array('class' => 'control-label', 'required' => true))?>
+        <div class="controls">
+          <?=\CHtml::activeFileField($form, 'LogoSource')?>
+          <p class="help-block"><?=\Yii::t('app', 'В качестве логотипа загружать векторные изображения (EPS, AI)<br>или PNG24 с прозрачным фоном и шириной не менее 400px.')?></p>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <?=\CHtml::activeLabel($form, 'Info', array('class' => 'control-label', 'required' => true));?>
         <div class="controls">
           <?=\CHtml::activeTextArea($form, 'Info', array('class' => 'input-xxlarge'));?>
         </div>

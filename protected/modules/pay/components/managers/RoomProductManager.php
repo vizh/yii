@@ -92,6 +92,7 @@ class RoomProductManager extends BaseProductManager
   /**
    * Оформляет покупку продукта на пользователя
    * @param \user\models\User $user
+   * @param \pay\models\OrderItem $orderItem
    * @param array $params
    *
    * @return bool

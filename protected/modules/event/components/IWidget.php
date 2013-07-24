@@ -4,6 +4,11 @@ namespace event\components;
 interface IWidget{
 
   /**
+   * @return \event\models\Event
+   */
+  public function getEvent();
+
+  /**
    * @return string
    */
   public function getTitle();
@@ -32,4 +37,9 @@ interface IWidget{
    * @return bool
    */
   public function getIsActive();
+  
+  /**
+   * @return IWidgetAdminPanel
+   */
+  public function getAdminPanel();
 }

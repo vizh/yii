@@ -34,6 +34,8 @@ $(function() {
   /* PLACEHOLDER */
   $('input[placeholder], textarea[placeholder]').placeholder();
 
+  $('#live-search').trigger('focus');
+
 
   /* LOGIN */
 //  $('#header, #promo').find('.login').toggle(
@@ -54,10 +56,10 @@ $(function() {
 
   /* EVENTS */
   /* Event page -> Thumbs */
-  $('#event-thumbs .thumb').click(function() {
-    $('#event-thumbs').find('.thumb.current').removeClass('current');
-    $(this).addClass('current');
-    $('#event-photo').attr('src', $(this).attr('src'));
+  $('#event-thumbs .thumb').click('click',function() {
+    //$('#event-thumbs').find('.thumb.current').removeClass('current');
+    //$(this).addClass('current');
+    $('#event-photo').attr('src', $(this).data('240px'));
   });
   $('#event-thumbs_prev, #event-thumbs_next').on('selectstart', function() {
     return false;
@@ -94,8 +96,9 @@ $(function() {
     if (item.category == "Пользователи") {
       return $("<li>").append('<a href="' + item.url + '">' + item.value + ', <span class="muted">' + item.runetid + '</span></a>').appendTo(ul);
     } else if (item.category == "Компании") {
-      
       return $("<li>").append('<a href="' + item.url + '">' + item.value + (item.locality !== undefined ? ', <span class="muted">' + item.locality + '</span>' : '')+'</a>').appendTo(ul);
+    } else {
+      return $("<li>").append('<a href="' + item.url + '">' + item.value).appendTo(ul);
     }
   };
 
@@ -150,9 +153,15 @@ $(window).load(function() {
   $('#event-thumbs .slider').iosSlider({
     infiniteSlider: true,
     snapToChildren: true,
+    autoSlide : true,
+    autoSlideTimer : 5000,
+    onSlideChange : function (args) {
+      args.currentSlideObject.trigger('click');
+    },
     navPrevSelector: $('#event-thumbs_prev'),
     navNextSelector: $('#event-thumbs_next')
   });
+  $('#event-thumbs .thumb:eq(0)').trigger('click');
 
 
   /* USER ACCOUNT */

@@ -41,9 +41,14 @@
   <a href="<?=Yii::app()->createUrl('/job/admin/list/index');?>" class="nav-header collapsed" href="#menu-companies"><i class="icon-briefcase icon-white"></i><span class="hidden-phone">Вакансии</span></a>
 
   <a href="<?=Yii::app()->createUrl('/commission/admin/list/index');?>" class="nav-header collapsed" href="#menu-pay"><i class="icon-th icon-white"></i><span class="hidden-phone">Комиссии РАЭК</span></a>
+
+  <a data-toggle="collapse" class="nav-header" href="#menu-catalog"><i class="icon-th-list icon-white"></i> <?=\Yii::t('app', 'Каталог');?></a>
+  <ul class="nav nav-list collapse" id="menu-catalog">
+    <li><a href="<?=Yii::app()->createUrl('/catalog/admin/company/index');?>"><?=\Yii::t('app', 'Компании');?></a></li>
+  </ul>
   
   <a href="<?=Yii::app()->createUrl('/pay/admin/order/index');?>" class="nav-header collapsed" href="#menu-pay"><i class="icon-shopping-cart icon-white"></i><span class="hidden-phone">Платежная система</span></a>
-
+  
   <!--<a class="nav-header" href="help.html"><i class="icon-question-sign"></i>Help</a>
   <a class="nav-header" href="faq.html"><i class="icon-comment"></i>Faq</a>-->
 </div>

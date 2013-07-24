@@ -73,7 +73,7 @@
 
       <div class="actions">
         <a href="#" onclick="$('#registration_form').trigger('submit'); return false;" class="btn btn-large btn-info">
-          <?=\Yii::t('app', 'Перейти к оплате');?>
+          <?=\Yii::t('app', 'Продолжить');?>
           <i class="icon-circle-arrow-right icon-white"></i>
         </a>
       </div>

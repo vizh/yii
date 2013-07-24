@@ -1,13 +1,14 @@
 <?php
 namespace mail\components;
 
-class Mailer
+abstract class Mailer
 {
-  public function send(Mail $mail, $to, $hashSolt = null, $repeat = false)
-  {
-    $mailer = new \ext\mailer\PHPMailer(true);
-    
-    $hash = md5(get_class($mail).$to.$mail->getSubject());
+
+  protected abstract function internalSend(Mail $mail);  
+ 
+  public function send(Mail $mail, $hashSolt = null, $repeat = false)
+  { 
+    $hash = md5(get_class($mail).$mail->getTo().$mail->getSubject());
     if ($hashSolt !== null)
     {
       $hash .= $hashSolt;
@@ -20,37 +21,15 @@ class Mailer
         return;
     }
     
-    $mailer->AddAddress($to);
-    $mailer->SetFrom($mail->getFrom(), $mail->getFromName());
-    $mailer->CharSet = 'utf-8';
-    $mailer->Subject = '=?UTF-8?B?'. base64_encode($mail->getSubject()) .'?=';
-    $mailer->Mailer = 'mail';
-    
-    $mailer->IsHTML($mail->isHtml());
-    if ($mail->isHtml())
-    {
-      $mailer->MsgHTML($mail->getBody());
-    }
-    else
-    {
-      $mailer->Body = $mail->getBody();
-    }
-
-    foreach ($mail->getAttachments() as $name => $attachment)
-    {
-      $mailer->AddAttachment($attachment, $name);
-    }
-    
-    
     $log = new \mail\models\Log();
     $log->From = $mail->getFrom();
-    $log->To = $to;
+    $log->To   = $mail->getTo();
     $log->Subject = $mail->getSubject();
     $log->Hash = $hash;
     
     try 
     {
-      $mailer->Send();
+      $this->internalSend($mail);
     }
     catch (\Exception $e)
     {

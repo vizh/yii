@@ -35,12 +35,12 @@ class MainController extends \application\components\controllers\PublicMainContr
       return false;
     }
 
-    $result = \competence\models\Result::model()
-        ->byTestId($this->test->Id)->byUserId(\Yii::app()->user->getCurrentUser()->Id)->find();
-    if ($result != null && $action->getId() != 'end' && $action->getId() != 'done')
-    {
-      $this->redirect(\Yii::app()->createUrl('/competence/main/done', ['id' => $this->test->Id]));
-    }
+//    $result = \competence\models\Result::model()
+//        ->byTestId($this->test->Id)->byUserId(\Yii::app()->user->getCurrentUser()->Id)->find();
+//    if ($result != null && $action->getId() != 'end' && $action->getId() != 'done')
+//    {
+//      $this->redirect(\Yii::app()->createUrl('/competence/main/done', ['id' => $this->test->Id]));
+//    }
     return parent::beforeAction($action);
   }
 

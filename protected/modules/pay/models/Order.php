@@ -175,22 +175,22 @@ class Order extends \CActiveRecord
     $this->Total = $total;
     $this->save();
     
-    $eventHandler = new \CModelEvent($this, array('total' => $total));
-    $this->onActivate($eventHandler);
+    $event = new \CModelEvent($this, array('total' => $total));
+    $this->onActivate($event);
     
     return array('Total' => $total, 'ErrorItems' => $errorItems);
   }
   
   
   
-  public function onActivate($eventHandler)
+  public function onActivate($event)
   {
     /** @var $sender Event */
-    $sender = $eventHandler->sender;
-    $class = \Yii::getExistClass('\pay\components\handlers\order\activate', ucfirst($eventHandler->sender->Event->IdName), 'Base');
+    $sender = $event->sender;
+    $class = \Yii::getExistClass('\pay\components\handlers\order\activate', ucfirst($sender->Event->IdName), 'Base');
     /** @var $handler \event\components\handlers\register\Base */
-    $handler = new $class($eventHandler);
-    $handler->onActivate($eventHandler);
+    $mail = new $class(new \mail\components\mailers\PhpMailer(), $event);
+    $mail->send();
   }
 
     /**
@@ -250,21 +250,20 @@ class Order extends \CActiveRecord
       $orderJuridical->PostAddress = $juridicalData['PostAddress'];
       $orderJuridical->save();
       
-      $eventHandler = new \CModelEvent($this, array('payer' => $user, 'event' => $event, 'total' => $total));
-      $this->onCreateOrderJuridical($eventHandler);
+      $event = new \CModelEvent($this, array('payer' => $user, 'event' => $event, 'total' => $total));
+      $this->onCreateOrderJuridical($event);
     }
     
     return $total;
   }
   
-  public function onCreateOrderJuridical($eventHandler)
+  public function onCreateOrderJuridical($event)
   {
     /** @var $sender Event */
-    $sender = $eventHandler->sender;
-    $class = \Yii::getExistClass('\pay\components\handlers\orderjuridical\create', ucfirst($eventHandler->params['event']->IdName), 'Base');
+    $class = \Yii::getExistClass('\pay\components\handlers\orderjuridical\create', ucfirst($event->params['event']->IdName), 'Base');
     /** @var $handler \event\components\handlers\register\Base */
-    $handler = new $class($eventHandler);
-    $handler->onCreateOrderJuridical($eventHandler);
+    $mail = new $class(new \mail\components\mailers\PhpMailer(), $event);
+    $mail->send();
   }
 
   /**

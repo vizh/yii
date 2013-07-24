@@ -87,11 +87,6 @@
         </label>
       </div>
     </div>
-    <div class="form-row">
-      <label class="radio">
-        <input type="radio" name="<?=\CHtml::activeName($form, 'Employments[<%=i%>][Primary]');?>" value="1"> <?=$form->getAttributeLabel('Primary');?>
-      </label>
-    </div>
     <div class="form-row form-row-remove">
       <a href="#" class="pseudo-link iconed-link" data-action="remove"><i class="icon-minus-sign"></i> <span><?=\Yii::t('app', 'Удалить');?></span></a>
     </div>

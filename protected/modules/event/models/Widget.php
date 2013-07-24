@@ -2,19 +2,19 @@
 namespace event\models;
 
 /**
- * @property int $Id
- * @property int $EventId
- * @property string $Name
- * @property int $Order
- *
- * @property Event $Event
- */
+* @property int $Id
+* @property int $EventId
+* @property string $Name
+* @property int $Order
+*
+* @property Event $Event
+*/
 class Widget extends \CActiveRecord implements \event\components\IWidget
 {
   /**
-   * @param string $className
-   * @return Widget
-   */
+* @param string $className
+* @return Widget
+*/
   public static function model($className=__CLASS__)
   {
     return parent::model($className);
@@ -40,9 +40,9 @@ class Widget extends \CActiveRecord implements \event\components\IWidget
   private $widget = null;
 
   /**
-   * @return \event\components\Widget
-   * @throws \application\components\Exception
-   */
+* @return \event\components\Widget
+* @throws \application\components\Exception
+*/
   public function getWidget()
   {
     if ($this->widget === null)
@@ -59,24 +59,34 @@ class Widget extends \CActiveRecord implements \event\components\IWidget
   }
 
   /**
-   * @return string
-   */
+* @return string
+*/
   public function getTitle()
   {
     return $this->getWidget()->getTitle();
   }
 
   /**
-   * @return string
-   */
+* @return string
+*/
   public function getName()
   {
     return $this->getWidget()->getName();
   }
+  
+  public function getEvent()
+  {
+    return $this->Event;
+  }
+  
+  public function getAdminPanel()
+  {
+    return null;
+  }
 
   /**
-   * @return string
-   */
+* @return string
+*/
   public function getPosition()
   {
     return $this->getWidget()->getPosition();
@@ -93,19 +103,19 @@ class Widget extends \CActiveRecord implements \event\components\IWidget
   }
 
   /**
-   * @return bool
-   */
+* @return bool
+*/
   public function getIsActive()
   {
     return $this->getWidget()->getIsActive();
   }
 
   /**
-   * 
-   * @param string $name
-   * @param bool $useAnd
-   * @return \event\models\Widget
-   */
+*
+* @param string $name
+* @param bool $useAnd
+* @return \event\models\Widget
+*/
   public function byName($name, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
@@ -116,11 +126,11 @@ class Widget extends \CActiveRecord implements \event\components\IWidget
   }
   
   /**
-   * 
-   * @param int $name
-   * @param bool $useAnd
-   * @return \event\models\Widget
-   */
+*
+* @param int $name
+* @param bool $useAnd
+* @return \event\models\Widget
+*/
   public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();

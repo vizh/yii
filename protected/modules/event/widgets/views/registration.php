@@ -21,10 +21,12 @@ if (empty($products))
     </thead>
     <tbody>
     <?foreach ($products as $product):?>
-      <tr>
-        <td style="padding-top: 25px;"><strong><?=$product->Title;?></strong></td>
-        <td colspan="3"></td>
-      </tr>
+      <?if (sizeof($product->Prices) > 1):?>
+        <tr>
+          <td style="padding-top: 25px;"><strong><?=$product->Title;?></strong></td>
+          <td colspan="3"></td>
+        </tr>
+      <?endif;?>
       <?foreach ($product->Prices as $price):?>
         <?
         $curTime = date('Y-m-d H:i:s');
@@ -32,14 +34,29 @@ if (empty($products))
         $mutedClass = $isMuted ? 'muted' : '';
         ?>
         <tr data-price="<?=$price->Price;?>">
-          <td class="<?=$mutedClass?>">
-            <?if ($price->EndTime !== null):?>
-              <?=\Yii::t('app', 'При регистрации до');?> <?=\Yii::app()->dateFormatter->format('d MMMM', $price->EndTime);?>
+
+          <?if (sizeof($product->Prices) > 1):?>
+            <td class="<?=$mutedClass?>">
+
+              <?if ($price->EndTime !== null):?>
+                <?=\Yii::t('app', 'При регистрации до');?> <?=\Yii::app()->dateFormatter->format('d MMMM', $price->EndTime);?>
+              <?else:?>
+                <?=\Yii::t('app', 'При регистрации с');?> <?=\Yii::app()->dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'и на входе');?>
+              <?endif;?>
+            </td>
+          <?else:?>
+            <td style="padding-top: 20px; padding-bottom: 20px;" class="<?=$mutedClass?>">
+              <strong style="margin-bottom: 15px;"><?=$product->Title;?></strong>
+            </td>
+          <?endif;?>
+
+          <td class="t-right <?=$mutedClass?>">
+            <?if ($price->Price != 0):?>
+            <span class="number"><?=$price->Price;?></span> <?=Yii::t('app', 'руб.');?>
             <?else:?>
-              <?=\Yii::t('app', 'При регистрации с');?> <?=\Yii::app()->dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'и на входе');?>
+              <?=Yii::t('app', 'бесплатно');?>
             <?endif;?>
           </td>
-          <td class="t-right <?=$mutedClass?>"><span class="number"><?=$price->Price;?></span> <?=Yii::t('app', 'руб.');?></td>
           <td class="t-center <?=$mutedClass?>">
             <select <?if($isMuted):?>disabled="disabled"<?endif;?> name="count[<?=$product->Id;?>]" class="input-mini form-element_select">
               <option value="0" selected>0</option>

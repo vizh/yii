@@ -1,10 +1,8 @@
-<?if (\Yii::app()->request->getParam('tab') !== null):?>
 <script>
   $(function () {
-    $('a[href="#<?=$tab;?>"]').trigger('click');
+    $('a[href="#<?=$activeTabId;?>"]').trigger('click');
   });
 </script>
-<?endif;?>
 
 <h2 class="b-header_large light">
   <div class="line"></div>
@@ -37,18 +35,23 @@
           <?=\Yii::t('app', '{n} пользователь|{n} пользователя|{n} пользователей|{n} пользователя', $results->Counts['user\models\User']);?>
         </a></li>
         <li>/</li>
-        <li><a href="#<?=\search\components\SearchResultTabId::Companies;?>" class="pseudo-link">
+        <li><a href="#<?=\search\components\SearchResultTabId::Companies;?>" class="pseudo-link active">
           <?=\Yii::t('app', '{n} компания|{n} компании|{n} компаний|{n} компания', $results->Counts['company\models\Company']);?>
+        </a></li>
+        <li>/</li>
+        <li><a href="#<?=\search\components\SearchResultTabId::Events;?>" class="pseudo-link">
+          <?=\Yii::t('app', '{n} мероприятие|{n} мероприятия|{n} меропритий|{n} мероприятие', $results->Counts['event\models\Event']);?>
         </a></li>
       </ul>
       
-      <?if (!empty($results->Results['user\models\User'])):?>
+      <?$model = 'user\models\User';?>
+      <?if (!empty($results->Results[$model])):?>
       <div id="<?=\search\components\SearchResultTabId::User;?>" class="tab users-list">
         <div class="row">
           <div class="span8 offset2">
             <table class="table">
               <tbody>
-                <?foreach ($results->Results['user\models\User'] as $user):?>
+                <?foreach ($results->Results[$model] as $user):?>
                 <tr class="user-h">
                   <td colspan="3">
                     <div>
@@ -86,18 +89,19 @@
         </div>
         
         <?php $this->widget('\application\widgets\Paginator', array(
-          'paginator' => $paginators->User
+          'paginator' => $paginators->$model
         ));?>
       </div>
       <?endif;?>
 
-      <?if (!empty($results->Results['company\models\Company'])):?>
+      <?$model = 'company\models\Company';?>
+      <?if (!empty($results->Results[$model])):?>
       <div id="<?=\search\components\SearchResultTabId::Companies;?>" class="tab companies-list">
         <div class="row">
           <div class="span8 offset2">
             <table class="table">
               <tbody>
-                <?foreach ($results->Results['company\models\Company'] as $company):?>
+                <?foreach ($results->Results[$model] as $company):?>
                 <tr>
                   <td class="span1">
                     <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $company->Id));?>">
@@ -135,10 +139,47 @@
         </div>
         
         <?php $this->widget('\application\widgets\Paginator', array(
-          'paginator' => $paginators->Company
+          'paginator' => $paginators->$model
         ));?>
       </div>
       <?endif;?>
+      
+      <?$model = 'event\models\Event';?>
+      <?if (!empty($results->Results[$model])):?>
+      <div id="<?=\search\components\SearchResultTabId::Events;?>" class="tab event-list">
+        <div class="row">
+          <div class="span8 offset2">
+            <table class="table">
+              <tbody>
+                <?foreach ($results->Results[$model] as $event):?>
+                <tr>
+                  <td class="span1">
+                    <a href="<?=$event->getUrl();?>">
+                      <?=\CHtml::image($event->getLogo()->getOriginal(), $event->Title);?>
+                    </a>
+                  </td>
+                  <td>
+                    <h4 class="title">
+                      <a href="<?=$event->getUrl();?>"><?=$event->Title;?></a>
+                    </h4>
+                    <?if (!empty($event->Info)):?>
+                      <p><?=$event->Info;?></p>
+                    <?endif;?>
+                  </td>
+                </tr>
+                <?endforeach;?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <?php $this->widget('\application\widgets\Paginator', array(
+          'paginator' => $paginators->$model
+        ));?>
+      </div>
+      <?endif;?>
+      
+      
       <?endif;?>
     </div>
   </div>

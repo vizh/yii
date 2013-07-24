@@ -2,7 +2,7 @@
 namespace event\widgets;
 
 class FastRegistration extends \event\components\Widget
-{
+{ 
   public function getAttributeNames()
   {
     return array(
@@ -20,7 +20,7 @@ class FastRegistration extends \event\components\Widget
       \Yii::app()->getController()->refresh();
     }
   }
-  
+
   public function run()
   {
     $isParticipant = false;
@@ -28,7 +28,12 @@ class FastRegistration extends \event\components\Widget
     {
       $isParticipant = \event\models\Participant::model()->byUserId(\Yii::app()->user->getId())->byEventId($this->event->Id)->exists();
     }
-    $this->render('registration-fast', array('isParticipant' => $isParticipant));
+    
+    $this->render('registration-fast', [
+      'isParticipant' => $isParticipant,
+      'event' => $this->event,
+      'role' => \event\models\Role::model()->findByPk($this->DefaultRoleId)
+    ]);
   }
   
   public function getPosition()

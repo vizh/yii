@@ -3,6 +3,19 @@ namespace pay\components\handlers\order\activate;
 
 class Base extends \mail\components\Mail
 {
+  protected $order;
+  protected $payer;
+  protected $event;
+  protected $total;
+  public function __construct(\mail\components\Mailer $mailer, \CEvent $event)
+  {
+    parent::__construct($mailer);
+    $this->order = $event->sender;
+    $this->payer = $event->sender->Payer;
+    $this->event = $event->sender->Event;
+    $this->total = $event->params['total'];
+  }
+  
   public function isHtml()
   {
     return true;
@@ -51,20 +64,18 @@ class Base extends \mail\components\Mail
     ), true);
   }
   
-  protected $order;
-  protected $payer;
-  protected $event;
-  protected $total;
-  public function onActivate($eventHandler)
+  protected function getHashSolt()
   {
-    $this->order = $eventHandler->sender;
-    $this->payer = $eventHandler->sender->Payer;
-    $this->event = $eventHandler->sender->Event;
-    $this->total = $eventHandler->params['total'];
-    if ($this->getBody() !== null)
-    {
-      $mailer = new \mail\components\Mailer();
-      $mailer->send($this, $this->payer->Email, $this->order->Id);
-    }
+    return $this->order->Id;
+  }
+  
+  protected function getRepeat()
+  {
+    return false;
+  }
+  
+  public function getTo()
+  {
+    return $this->payer->Email;
   }
 }

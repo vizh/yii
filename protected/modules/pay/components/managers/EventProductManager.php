@@ -14,7 +14,6 @@ class EventProductManager extends BaseProductManager
     return array('RoleId');
   }
 
-
   /**
    * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
    * @param \user\models\User $user
@@ -23,7 +22,6 @@ class EventProductManager extends BaseProductManager
    */
   public function checkProduct($user, $params = array())
   {
-    /** @var $participant \event\models\Participant */
     $participant = \event\models\Participant::model()
         ->byUserId($user->Id)
         ->byEventId($this->product->EventId)->with('Role')->find();
@@ -32,7 +30,7 @@ class EventProductManager extends BaseProductManager
       return true;
     }
     $role = \event\models\Role::model()->findByPk($this->RoleId);
-    if (empty($role))
+    if ($role === null)
     {
       return false;
     }
@@ -42,6 +40,7 @@ class EventProductManager extends BaseProductManager
 
   /**
    * @param \user\models\User $user
+   * @param \pay\models\OrderItem $orderItem
    * @param array $params
    *
    * @return bool
@@ -77,17 +76,16 @@ class EventProductManager extends BaseProductManager
     return $this->internalBuyProduct($toUser);
   }
 
-  /** todo: old methods */
 
+  /**
+   * @param \user\models\User $user
+   *
+   * @return bool
+   */
   public function rollbackProduct($user)
   {
-    /** @var $orderItem \pay\models\OrderItem */
-    $orderItem = \pay\models\OrderItem::model()->find(
-      't.Paid = 1 AND t.OwnerId = :OwnerId AND t.ProductId = :ProductId',
-      array(
-        ':OwnerId' => $user->UserId,
-        ':ProductId' => $this->product->ProductId
-      ));
+    $orderItem = \pay\models\OrderItem::model()
+        ->byOwnerId($user->Id)->byProductId($this->product->Id)->byPaid(true)->find();
 
     if ( $orderItem != null)
     {
@@ -100,16 +98,15 @@ class EventProductManager extends BaseProductManager
       return false;
     }
 
-    $eventUser = \event\models\Participant::GetByUserEventId($user->UserId, $this->product->EventId);
-    if ($eventUser != null)
+    $participant = \event\models\Participant::model()
+        ->byEventId($this->product->EventId)->byUserId($user->Id)->find();
+    if ($participant != null)
     {
-      $eventUser->UpdateRole($eventUser->Event->DefaultRole);
+      $participant->UpdateRole($participant->Event->DefaultRole);
       return true;
     }
     return false;
   }
-
-
 
   /**
    * @param array $params
@@ -129,6 +126,5 @@ class EventProductManager extends BaseProductManager
   {
     return $this->product;
   }
-
 
 }

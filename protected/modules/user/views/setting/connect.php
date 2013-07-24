@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
   function fillOAuthUrls(oauth) {
-    oauth.fbUrl  = '<?=$this->createUrl('/user/setting/connect');?>';
+    oauth.fbUrl  = '<?=$this->createUrl('/user/setting/connect', array('action' => 'connect', 'social' => \oauth\components\social\ISocial::Facebook));?>';
     oauth.vkUrl  = '<?=$this->createUrl('/user/setting/connect');?>';
     oauth.twiUrl = '<?=$this->createUrl('/user/setting/connect');?>';
     oauth.gUrl   = '<?=$this->createUrl('/user/setting/connect');?>';

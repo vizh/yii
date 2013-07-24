@@ -1,6 +1,11 @@
 <?php
 namespace event\models;
 
+/**
+ * Class Logo
+ * @package event\models
+ * @property \event\models\Event $event
+ */
 class Logo
 {
   private $event;
@@ -8,6 +13,16 @@ class Logo
   public function __construct($event)
   {
     $this->event = $event;
+  }
+
+  private function getEventPath($fileName = '', $absolute = false)
+  {
+    return $this->event->getPath($fileName, $absolute);
+  }
+
+  private function getEventDir($absolute = false)
+  {
+    return $this->event->getDir($absolute);
   }
 
   /**
@@ -19,58 +34,22 @@ class Logo
    */
   protected function getByName($serverPath, $name, $noFile)
   {
-    if ($serverPath || file_exists($this->getPath(true) . $name))
-    {
-      return $this->getPath($serverPath) . $name;
-    }
-    else
-    {
-      return \Yii::app()->params['EventDir'] . $noFile;
-    }
+    if ($serverPath || file_exists($this->getEventPath($name, true)))
+      return $this->getEventPath($name, $serverPath);
+
+    return $this->getEventPath("../$noFile");
   }
-  
-  /**
-   * @param bool $serverPath
-   * @return string
-   */
-  protected function getPath($serverPath = false)
-  {
-    $result = \Yii::app()->params['EventDir'].$this->event->IdName.'/';
-    if ($serverPath)
-    {
-      $result = \Yii::getPathOfAlias('webroot') . $result;
-    }
-    return $result;
-  }
-  
   
   protected function getNone($size)
   {
     return 'none/type_'.$this->event->TypeId.'/'.$size.'.png';
   }
   
-  /**
-   * Переименовывает папку с фотографиями
-   * @param string $newIdName
-   */
-  public function rebase($newIdName)
-  {
-    $path = $this->getPath(true);
-    if (is_dir($path))
-    {
-      $this->event->IdName = $newIdName;
-      rename($path, $this->getPath(true));
-    }
-  }
-  
   public function save($imagePath)
   {
-    $path = $this->getPath(true);
-    if (!is_dir($path))
-    {
+    $path = $this->getEventDir(true); if (!is_dir($path))
       mkdir($path);
-    }
- 
+
     $image = \Yii::app()->image->load($imagePath);
     $pathOriginal = $this->getOriginal(true);
     $image->save($pathOriginal);
@@ -136,7 +115,7 @@ class Logo
 
   /**
    * DEPLICATED
-   * @param string $serverPath
+   * @param bool|string $serverPath
    * @return string
    */
   public function getSquare70($serverPath = false)

@@ -1,3 +1,8 @@
+<?php
+
+/** @var $event \event\models\Event */
+
+?>
 <?=\CHtml::form('','POST',array('class' => 'form-horizontal', 'enctype' => 'multipart/form-data'));?>
 <div class="btn-toolbar">
   <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), array('class' => 'btn btn-success'));?>
@@ -68,6 +73,20 @@
       <div class="control-group">
         <?=\CHtml::activeLabel($form, 'Logo', array('class' => 'control-label'));?>
         <div class="controls">
+          <?php
+
+            if ($event->LogoSource)
+            {
+              $LogoSource = $event->getPath($event->LogoSource);
+
+              printf('<a target="_blank" href="%s">Исходник.%s&nbsp;(%s)</a>',
+                $LogoSource,
+                pathinfo($LogoSource, PATHINFO_EXTENSION),
+                CText::humanFileSize(\Yii::getPathOfAlias('webroot').$LogoSource, '%01.0f%s', ':)')
+              );
+            }
+
+          ?>
           <?=\CHtml::activeFileField($form, 'Logo');?>
         </div>
         <div class="controls"><?=\CHtml::image($event->getLogo()->get50px());?></div>
@@ -134,22 +153,23 @@
     <div class="span3">
       <h4><?=\Yii::t('app', 'Левая колонка');;?></h4>
       <?foreach ($widgetsAll[\event\components\WidgetPosition::Sidebar] as $widget):?>
-         <div class="m-bottom_10 row-fluid">
-          <div class="span8">
-            <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Widgets['.get_class($widget).'][Activated]', array('checked' => isset($widgets->Used[get_class($widget)]) ? true : false));?> <?=$widget->getTitle();?></label>
-          </div>
-          <div class="span4">
-            <?php
-              if (isset($widgets->Used[get_class($widget)])):
-                $form->Widgets[get_class($widget)]['Order'] = $widgets->Used[get_class($widget)]->Order;
-              endif
-            ;?>
-            <?if ($widget->getAdminPanel() !== NULL):?>
-            <a href="" class="btn"><i class="icon-edit"></i></a>
-            <?endif;?>
-            <?=\CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini'));?>
-          </div>
-        </div>
+        <?$class = get_class($widget);?>
+        <div class="m-bottom_10 row-fluid">
+         <div class="span8">
+           <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Widgets['.$class.'][Activated]', array('checked' => isset($widgets->Used[get_class($widget)]) ? true : false));?> <?=$widget->getTitle();?></label>
+         </div>
+         <div class="span4">
+           <?php
+             if (isset($widgets->Used[$class])):
+               $form->Widgets[$class]['Order'] = $widgets->Used[$class]->Order;
+             endif
+           ;?>
+           <?if ($widget->getAdminPanel() !== NULL && isset($widgets->Used[$class])):?>
+             <a href="<?=$this->createUrl('/event/admin/edit/widget', array('widget' => $class, 'eventId' => $event->Id));?>" class="btn"><i class="icon-edit"></i></a>
+           <?endif;?>
+           <?=\CHtml::activeDropDownList($form, 'Widgets['.$class.'][Order]', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini'));?>
+         </div>
+       </div>
       <?endforeach;?>
     </div>
     
@@ -166,8 +186,8 @@
                 $form->Widgets[get_class($widget)]['Order'] = $widgets->Used[get_class($widget)]->Order;
               endif
             ;?>
-            <?if ($widget->getAdminPanel() !== NULL):?>
-            <a href="" class="btn"><i class="icon-edit"></i></a>
+            <?if ($widget->getAdminPanel() !== NULL && isset($widgets->Used[get_class($widget)])):?>
+              <a href="" class="btn"><i class="icon-edit"></i></a>
             <?endif;?>
             <?=\CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini'));?>
           </div>
@@ -186,8 +206,8 @@
                 $form->Widgets[get_class($widget)]['Order'] = $widgets->Used[get_class($widget)]->Order;
               endif
             ;?>
-            <?if ($widget->getAdminPanel() !== NULL):?>
-            <a href="" class="btn"><i class="icon-edit"></i></a>
+            <?if ($widget->getAdminPanel() !== NULL && isset($widgets->Used[get_class($widget)])):?>
+              <a href="" class="btn"><i class="icon-edit"></i></a>
             <?endif;?>
             <?=\CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini'));?>
           </div>
@@ -208,8 +228,8 @@
                 $form->Widgets[get_class($widget)]['Order'] = $widgets->Used[get_class($widget)]->Order;
               endif
             ;?>
-            <?if ($widget->getAdminPanel() !== NULL):?>
-            <a href="" class="btn"><i class="icon-edit"></i></a>
+            <?if ($widget->getAdminPanel() !== NULL && isset($widgets->Used[get_class($widget)])):?>
+              <a href="" class="btn"><i class="icon-edit"></i></a>
             <?endif;?>
             <?=\CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini'));?>
           </div>

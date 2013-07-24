@@ -7,6 +7,7 @@ namespace event\models;
  * @property string $Title
  * @property string $Info
  * @property string $FullInfo
+ * @property string $LogoSource
  * @property int $StartYear
  * @property int $StartMonth
  * @property int $StartDay
@@ -35,6 +36,7 @@ namespace event\models;
  *
  *
  * @method \event\models\section\Section[] Sections()
+ * @method \event\models\Event findByPk()
  *
  * Attribute properties
  *
@@ -43,8 +45,11 @@ namespace event\models;
  *
  *
  */
-class Event extends \application\models\translation\ActiveRecord
+class Event extends \application\models\translation\ActiveRecord implements \search\components\interfaces\ISearch
 {
+  protected $fileDir; // кеш, содержащий путь к файлам мероприятия. использовать только через getPath()
+  protected $baseDir; // кеш, содержащий абсолютный путь к wwwroot
+
   /**
    * @param string $className
    * @return Event
@@ -194,7 +199,7 @@ class Event extends \application\models\translation\ActiveRecord
       $this->getDbCriteria()->mergeWith($criteria, $useAnd);
       return $this;
     }
-    $criteria->addCondition('"t"."Title" LIKE :SearchTerm');
+    $criteria->addCondition('"t"."Title" ILIKE :SearchTerm OR "t"."IdName" ILIKE :SearchTerm');
     $criteria->params['SearchTerm'] = '%' . \Utils::PrepareStringForLike($searchTerm) . '%';
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
@@ -398,12 +403,15 @@ class Event extends \application\models\translation\ActiveRecord
       return;
     }
 
-    /** @var $sender Event */
+    $mailer = new \mail\components\mailers\PhpMailer();
     $sender = $event->sender;
     $class = \Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
-    /** @var $handler \event\components\handlers\register\Base */
-    $handler = new $class($event);
-    $handler->onRegister($event);
+    $mail = new $class($mailer, $event);
+    $mail->send();
+    
+    $class = \Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
+    $mail = new $class($mailer, $event);
+    $mail->send();
   }
 
   /**
@@ -480,6 +488,31 @@ class Event extends \application\models\translation\ActiveRecord
       $this->logo = new Logo($this);
     }
     return $this->logo;
+  }
+
+  /**
+   * Возвращает путь к указанному файлу в папке файлов мероприятия.
+   * @param string|\CUploadedFile $fileName Вернуть путь к файлу, а не просто путь к директории.
+   * @param bool $absolute Вернуть абсолютный путь.
+   * @return string
+   */
+  public function getPath($fileName = '', $absolute = false)
+  {
+    return $this->getDir($absolute).$fileName;
+  }
+
+  public function getDir($absolute = false, $customId = false)
+  {
+    if (!$this->fileDir) $this->fileDir = sprintf(\Yii::app()->params['EventDir'], $this->IdName);
+    if (!$this->baseDir) $this->baseDir = \Yii::getPathOfAlias('webroot');
+
+    $fileDir = $this->fileDir; if ($customId)
+      $fileDir = sprintf(\Yii::app()->params['EventDir'], $customId);
+
+    return implode([
+      $absolute ? $this->baseDir : '',
+      $fileDir
+    ]);
   }
 
   /**
@@ -596,8 +629,24 @@ class Event extends \application\models\translation\ActiveRecord
     $this->getDbCriteria()->mergeWith($criteria);
     return $this;
   }
-  
-  
+
+  /**
+   * Переопределение данной функции необходимо что бы производить автоматическую миграцию папки с файлами
+   * мероприятия при смене IdName в проекте глобально и, при этом, не заморачиваться с beforeSave, afterSave
+   * и передачей параметров между ними.
+   */
+  public function save($runValidation = true, $attributes = null)
+  {
+    if (!$this->getIsNewRecord() && ($currentData = self::findByPk($this->Id)) && $currentData->IdName != $this->IdName)
+      $needDirectoryMigration = $currentData->IdName;
+
+    if (($result = parent::save($runValidation, $attributes)))
+      if (isset($needDirectoryMigration) && file_exists($this->getDir(true, $needDirectoryMigration)))
+        rename($this->getDir(true, $needDirectoryMigration), $this->getDir(true));
+
+    return $result;
+  }
+
   public function getUrl()
   {
     return \Yii::app()->createAbsoluteUrl('/event/view/index', array('idName' => $this->IdName));

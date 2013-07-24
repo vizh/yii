@@ -45,5 +45,4 @@ if (empty($event->StartYear) || empty($event->EndYear) || empty($event->StartMon
   <span class="month"><?=Yii::app()->getLocale()->getMonthName($event->EndMonth, 'wide', true);?></span>
   <?endif;?>
   <span class="year"><?=$event->EndYear;?></span>
-
 <?endif;?>

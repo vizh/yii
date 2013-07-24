@@ -27,7 +27,7 @@ class Registration extends \event\components\Widget
     {
       \Yii::app()->getClientScript()->registerPackage('runetid.event-calculate-price');
       $criteria = new \CDbCriteria();
-      $criteria->order = '"t"."Id" ASC';
+      $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
       $products = \pay\models\Product::model()->byEventId($this->event->Id)
           ->byPublic(true)->findAll($criteria);
       $this->render('registration', array('products' => $products));

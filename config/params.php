@@ -6,7 +6,7 @@ return array(
 
     'Languages' => array('ru', 'en'),
 
-    'EventDir' => '/files/event/', // файловая директория мероприятий
+    'EventDir' => '/files/event/%s/', // директория файлов мероприятий
     'EventPreviewLength' => 200,
     'EventViewUserPerPage' => 16,
       
@@ -34,6 +34,7 @@ return array(
     'ApiMaxTop' => 100,
 
     'AdminEventPerPage' => 50,
+    'AdminCatalogCompanyPerPage' => 20,
     
     'CatalogCompanyDir' => '/files/catalog/company/', // файловая директория для хранения каталога логотипов компаний
       
@@ -42,6 +43,8 @@ return array(
 
     'UserPasswordMinLenght' => 6,
 
+      
+    'CatalogCompanyDir' => '/files/catalog/company/%s/',
 
 
     /** Partner Params */
@@ -49,6 +52,7 @@ return array(
     'PartnerOrderItemPerPage' => 20,
     'PartnerCouponPerPage' => 20,
     'PartnerUserPerPage' => 20,
+    'PartnerInviteRequestPerPage' => 20,
 
 
     /** Ruvents Params */

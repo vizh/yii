@@ -22,7 +22,15 @@ class IndexAction extends \pay\components\Action
       {
         if ($orderItem->Product->getManager()->checkProduct($orderItem->Owner))
         {
-          $unpaidItems[$orderItem->Product->Id][] = $orderItem;
+          if ($orderItem->getPrice() != 0)
+          {
+            $unpaidItems[$orderItem->Product->Id][] = $orderItem;
+          }
+          else
+          {
+            $orderItem->activate();
+            $recentPaidItems[] = $orderItem;
+          }
         }
         else
         {
@@ -38,6 +46,18 @@ class IndexAction extends \pay\components\Action
         else
         {
           $paidItems[] = $orderItem;
+        }
+      }
+    }
+
+    foreach ($unpaidItems as $items)
+    {
+      /** @var \pay\models\OrderItem[] $items */
+      foreach ($items as $orderItem)
+      {
+        if ($orderItem->getPrice() == 0)
+        {
+          $orderItem->activate();
         }
       }
     }

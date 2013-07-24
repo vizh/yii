@@ -161,7 +161,7 @@ abstract class BaseProductManager
    *
    * @return bool
    */
-  abstract public function internalChangeOwner($fromUser, $toUser, $params = array());
+  abstract protected function internalChangeOwner($fromUser, $toUser, $params = array());
 
   /**
    * @param \user\models\User $payer

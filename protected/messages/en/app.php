@@ -36,8 +36,10 @@ return array(
   'и на входе' => 'and upon entrance',
 
   'руб.' => 'rub.',
+  'бесплатно' => 'free',
   'Оплата' => 'Payment',
   'Перейти к оплате' => 'Pay',
+  'Продолжить' => 'Continue',
   'Зарегистрировать' => 'Register',
   'Регистрация нового участника' => 'Register new participant',
   'поля обязательны для заполнения' => 'required fields',
@@ -82,8 +84,8 @@ return array(
   'Работа' => 'Jobs',
 
   'Мой профиль' => 'My Profile',
-  'Редактирование профиля' => 'Edit Profile',
-  'Настройки профиля' => 'Account Settings',
+  'Редактирование данных' => 'Edit Profile',
+  'Настройки' => 'Account Settings',
   'Выйти' => 'Log Out',
 
 

@@ -11,6 +11,6 @@ class Date extends \CWidget
     {
       $data = strip_tags($data);
     }
-    echo $data;
+    echo trim($data);
   }
 }

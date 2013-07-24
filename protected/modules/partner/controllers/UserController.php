@@ -15,7 +15,13 @@ class UserController extends \partner\components\Controller
       'register' => '\partner\controllers\user\RegisterAction',
       'statistics' => '\partner\controllers\user\StatisticsAction',
       'export' => '\partner\controllers\user\ExportAction',
-      'import' => '\partner\controllers\user\ImportAction'
+      'invite' => '\partner\controllers\user\InviteAction',
+        
+      'import' => '\partner\controllers\user\import\IndexAction',
+      'importmap' => '\partner\controllers\user\import\MapAction',
+      'importroles' => '\partner\controllers\user\import\RolesAction',
+      'importprocess' => '\partner\controllers\user\import\ProcessAction',
+      'importerrors' => '\partner\controllers\user\import\ErrorsAction',
     );
   }
 
@@ -51,7 +57,13 @@ class UserController extends \partner\components\Controller
         'Title' => 'Импорт участников из CSV',
         'Url' => \Yii::app()->createUrl('partner/user/import'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'user', 'import')
-      )
+      ),
+      'invite' => array(
+        'Title' => 'Приглашения',
+        'Url' => \Yii::app()->createUrl('/partner/user/invite'),
+        'Access' => $this->getAccessFilter()->checkAccess('partner', 'user', 'invite') 
+            && \event\models\Widget::model()->byEventId(\Yii::app()->partner->getEvent()->Id)->byName('event\widgets\Invite')->exists()
+      ),
     );
   }
 }

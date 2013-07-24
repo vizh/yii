@@ -39,14 +39,14 @@ return array(
     'roles' => array('Partner'),
     'module' => 'partner',
     'controllers' => array('user'),
-    'actions' => array('index', 'edit', 'translate')
+    'actions' => array('index', 'edit', 'translate', 'invite')
   ),
 
   array(
     'allow',
     'roles' => array('Admin'),
     'module' => 'partner',
-    'controllers' => array('user')
+    'controllers' => array('user', 'user/import')
   ),
 
   array(

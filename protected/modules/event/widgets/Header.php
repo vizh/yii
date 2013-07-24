@@ -3,12 +3,9 @@ namespace event\widgets;
 
 class Header extends \event\components\Widget
 {
-  public function init()
+  public function getIsHasDefaultResources()
   {
-    $jsPath = \Yii::app()->getAssetManager()->publish(
-      \Yii::getPathOfAlias('event.widgets.assets.js').DIRECTORY_SEPARATOR.'header.js'
-    );
-    \Yii::app()->getClientScript()->registerScriptFile($jsPath);
+    return true;
   }
   
   public function run()
