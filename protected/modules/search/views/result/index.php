@@ -40,7 +40,7 @@
         </a></li>
         <li>/</li>
         <li><a href="#<?=\search\components\SearchResultTabId::Events;?>" class="pseudo-link">
-          <?=\Yii::t('app', '{n} мероприятие|{n} мероприятия|{n} меропритий|{n} мероприятие', $results->Counts['event\models\Event']);?>
+          <?=\Yii::t('app', '{n} мероприятие|{n} мероприятия|{n} мероприятий|{n} мероприятие', $results->Counts['event\models\Event']);?>
         </a></li>
       </ul>
       
