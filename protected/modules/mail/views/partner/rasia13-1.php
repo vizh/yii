@@ -53,6 +53,10 @@
         margin: 0 auto;
       }
 
+      ul {
+        margin-left: 25px;
+      }
+
       .register-btn:hover {opacity: .9;}
       .register-btn:active {opacity: .8;}
     </style>

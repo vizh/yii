@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'spic13-8';
-    $isHTML = false;
+    $template = 'riw13-html-1';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -50,11 +50,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
-      'Participants' => array('together' => true),
-      'Participants.Role' => array('together' => true),
+//      'Participants' => array('together' => true),
+//      'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
-    $criteria->addInCondition('"Participants"."EventId"', array(423));
+//    $criteria->addInCondition('"Participants"."EventId"', array(258, 423));
 //    $criteria->addNotInCondition('"Participants"."RoleId"', array(24));
 /*
     $criteria->addCondition('"t"."CreationTime" > :CreationTime');
@@ -66,7 +66,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959, 454));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -86,8 +87,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-//        $body = $this->renderPartial($template, array('user' => $user), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -115,10 +116,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('users@sp-ic.ru', 'СПИК-2013', false);
+        $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Результаты опроса участников СПИК 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('RIW—2013: определены даты и место проведения') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
@@ -130,7 +131,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
+
       echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
+//      echo $this->createUrl('/mail/default/send', array('step' => $step+1));
     }
     else
     {
