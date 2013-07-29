@@ -50,6 +50,7 @@ class MainController extends \application\components\controllers\PublicMainContr
     if (\Yii::app()->request->getIsPostRequest())
     {
       $this->test->getFirstQuestion()->clearFullData();
+      $this->test->getFirstQuestion()->clearRotation();
       $this->redirect($this->createUrl('/competence/main/process', array('id'=>$id)));
     }
     $this->render('index');

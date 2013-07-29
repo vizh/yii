@@ -7,7 +7,7 @@ $fullData = $question->getFullData();
 $base = new \competence\models\tests\mailru2013\A6($question->getTest());
 $baseData = $fullData[get_class($base)];
 
-$base_e1 = new \competence\models\tests\mailru2013\E1($question->getTest());
+$base_e1 = new \competence\models\tests\mailru2013\E1_1($question->getTest());
 $baseData_e1 = $fullData[get_class($base_e1)];
 
 ?>

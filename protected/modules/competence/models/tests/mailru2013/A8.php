@@ -44,7 +44,7 @@ class A8 extends \competence\models\Question
   public function getPrev()
   {
     $fullData = $this->getFullData();
-    $prev = new A7($this->test);
+    $prev = new A6_1($this->test);
     if (isset($fullData[get_class($prev)]))
     {
       return $prev;

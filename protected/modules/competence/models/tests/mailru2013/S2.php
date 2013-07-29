@@ -18,7 +18,7 @@ class S2 extends \competence\models\Question
    */
   public function getNext()
   {
-    return new E1($this->test);
+    return new E1_1($this->test);
   }
 
   /**

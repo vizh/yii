@@ -32,7 +32,7 @@ class A6_1 extends \competence\models\Question
    */
   public function getNext()
   {
-    return new A7($this->test);
+    return new A8($this->test);
   }
 
   /**

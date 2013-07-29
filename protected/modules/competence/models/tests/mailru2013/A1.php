@@ -22,7 +22,8 @@ class A1 extends \competence\models\Question
         48 => '48.png',
         400 => '400.png',
         401 => '401.png',
-        390 => '390.png'
+        390 => '390.png',
+        402 => '402.png'
       ]);
       $this->options[49] = 'unknow.png';
     }
@@ -57,17 +58,12 @@ class A1 extends \competence\models\Question
   public function getPrev()
   {
     $fullData = $this->getFullData();
-    $prev = new E5($this->test);
+    $prev = new E2($this->test);
     if (isset($fullData[get_class($prev)]))
     {
       return $prev;
     }
-    $prev = new E1_1($this->test);
-    if (isset($fullData[get_class($prev)]))
-    {
-      return $prev;
-    }
-    return new E1($this->test);
+    return new E1_1($this->test);
   }
 
   public function getNumber()

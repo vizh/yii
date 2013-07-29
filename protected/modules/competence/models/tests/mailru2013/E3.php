@@ -30,7 +30,7 @@ class E3 extends \competence\models\Question
     $base1_1 = new E1_1($this->test);
     $baseData1_1 = $fullData[get_class($base1_1)];
 
-    foreach ((new E1($this->test))->getOptions() as $key => $value)
+    foreach ((new E1_1($this->test))->getOptions() as $key => $value)
     {
       if (!in_array($key, $baseData1_1['value']))
       {

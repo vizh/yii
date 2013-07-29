@@ -46,6 +46,11 @@ class A6 extends \competence\models\Question
     }
     else
     {
+
+      $unset = [
+        get_class(new A6_1($this->test)),
+      ];
+      $this->clearFullDataPart($unset);
       return new A8($this->test);
     }
   }

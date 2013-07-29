@@ -3,13 +3,58 @@ namespace competence\models\tests\mailru2013;
 
 class E1_1 extends \competence\models\Question
 {
-  public $value = array();
+  private $options = null;
+  public function getOptions()
+  {
+    if ($this->options === null)
+    {
+      $this->options = [
+        1 => 'Печатные СМИ (<em>специализированные</em>: <strong>Хакер</strong>, <strong>Компьютерра</strong>, <strong>Byte</strong> и т.п.)',
+        2 => 'Печатные СМИ (<em>общественно-политические</em>: <strong>Ведомости</strong>, <strong>Newsweek</strong>, <strong>Forbes</strong> и т.п.)',
+        3 => 'Печатные СМИ (<em>глянцевые журналы</em>: <strong>Men\'s Health</strong>, <strong>Geo</strong>, <strong>Популярная механика</strong> и т.п.)',
+        4 => 'Онлайн СМИ (<em>интернет-издания или интернет-СМИ</em>: <strong>Газета.Ru</strong>, <strong>Lenta.ru</strong>, <strong>Slon.ru</strong>, и т.п.)',
+        5 => 'Радио',
+        6 => 'Телевидение',
+        7 => 'Социальные сети (<strong>Facebook</strong>, <strong>Одноклассники</strong>, <strong>ВКонтакте</strong> и т.п.)',
+        8 => 'Хабрахабр',
+        9 => 'Roem.ru',
+        10 => 'Цукерберг позвонит',
+        11 => 'Другие специализированные социальные СМИ'
+      ];
+      $this->options[12] = 'Другое (свой вариант СМИ)';
+      $this->options[99] = 'Ничего из перечисленного';
+    }
+    return $this->options;
+  }
+
+  public $value = [];
+
+  public $other;
 
   public function rules()
   {
     return [
-      ['value', 'required', 'message' => 'Выберите хотя бы один ответ из списка']
+      ['value', 'required', 'message' => 'Выберите хотя бы один ответ из списка'],
+      ['value', 'otherSelectionValidator']
     ];
+  }
+
+  public function otherSelectionValidator($attribute, $params)
+  {
+    if (in_array(12, $this->value) && strlen(trim($this->other)) == 0)
+    {
+      $this->addError('Other', 'При выборе варианта "Другое" необходимо вписать свой вариант СМИ');
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * @return array
+   */
+  protected function getQuestionData()
+  {
+    return ['value' => $this->value, 'other' => $this->other];
   }
 
   /**
@@ -52,7 +97,7 @@ class E1_1 extends \competence\models\Question
    */
   public function getPrev()
   {
-    return new E1($this->test);
+    return null;
   }
 
   public function getNumber()

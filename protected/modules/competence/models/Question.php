@@ -144,21 +144,27 @@ abstract class Question extends \CFormModel
 
   protected function rotate($key, $values)
   {
-    $key = 'competence-rotate-' . $this->test->Code . $key;
-    $rotation = \Yii::app()->getSession()->get($key);
-    if ($rotation === null)
+    $rotationKey = 'competence-rotate-' . $this->test->Code;
+    $rotation = \Yii::app()->getSession()->get($rotationKey, []);
+    if (!isset($rotation[$key]))
     {
-      $rotation = array_keys($values);
-      shuffle($rotation);
-      \Yii::app()->getSession()->add($key, $rotation);
+      $rotationValues = array_keys($values);
+      shuffle($rotationValues);
+      $rotation[$key] = $rotationValues;
+      \Yii::app()->getSession()->add($rotationKey, $rotation);
     }
 
     $result = array();
-    foreach ($rotation as $rKey)
+    foreach ($rotation[$key] as $rKey)
     {
       $result[$rKey] = $values[$rKey];
     }
     return $result;
+  }
+
+  public function clearRotation()
+  {
+    \Yii::app()->getSession()->remove('competence-rotate-'.$this->test->Code);
   }
 
   public function getNumber()
