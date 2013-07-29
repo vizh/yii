@@ -22,6 +22,7 @@
   <a data-toggle="collapse" class="nav-header" href="#menu-companies"><i class="icon-folder-close icon-white"></i><span class="hidden-phone"><?=\Yii::t('app', 'Компании');?></span></a>
   <ul class="nav nav-list collapse" id="menu-companies">
     <li><a href="<?=Yii::app()->createUrl('/company/admin/moderator/index');?>"><?=\Yii::t('app', 'Список модераторов');?></a></li>
+    <li><a href="<?=Yii::app()->createUrl('/company/admin/merge/index');?>"><?=\Yii::t('app', 'Объединение');?></a></li>
   </ul>
   
   <a data-toggle="collapse" class="nav-header" href="#menu-events"><i class="icon-calendar icon-white"></i><span class="hidden-phone"><?=\Yii::t('app', 'Мероприятия');?> <?if($counts->Event != 0):?><span class="label label-info">+<?=$counts->Event?></span><?endif;?></span></a>

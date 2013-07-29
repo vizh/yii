@@ -6,24 +6,24 @@
         <?if (isset($error)):?>
             <div class="alert alert-error">
               <?if ($error == 'main'):?>
-                  <p>Не найден пользователь с основным RUNET-ID.</p>
+                  <p>Не найдена основная компания.</p>
               <?else:?>
-                  <p>Не найден пользователь с дублем RUNET-ID</p>
+                  <p>Не найдена ни одна дублирующая компания из списка</p>
               <?endif;?>
             </div>
         <?endif;?>
 
         <div class="control-group">
-          <label for="RunetIdMain" class="control-label">Основной RUNET&ndash;ID</label>
+          <label for="CompanyIdMain" class="control-label">ID основной компании</label>
           <div class="controls">
-            <input id="RunetIdMain" type="text" class="span4" name="RunetIdMain" value="<?=isset($runetId) ? $runetId : '';?>">
+            <input id="CompanyIdMain" type="text" class="span4" name="CompanyIdMain" value="<?=isset($companyId) ? $companyId : '';?>">
           </div>
         </div>
 
         <div class="control-group">
-          <label for="RunetIdSecond" class="control-label">Дубль RUNET&ndash;ID</label>
+          <label for="CompanyIdSecond" class="control-label">ID компаний-дублей</label>
           <div class="controls">
-            <input id="RunetIdSecond" type="text" class="span4"  name="RunetIdSecond" value="<?=isset($runetIdSecond) ? $runetIdSecond : '';?>">
+            <input id="CompanyIdSecond" type="text" class="span4"  name="CompanyIdSecond" value="<?=isset($companyIdSecond) ? $companyIdSecond : '';?>">
           </div>
         </div>
       </div>
