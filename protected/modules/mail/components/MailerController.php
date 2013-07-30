@@ -5,9 +5,9 @@ namespace mail\components;
 abstract class MailerController extends \application\components\controllers\AdminMainController
 {
   /**
-   * @return string
+   * @return Mailer
    */
-  abstract protected function getTemplateName();
+  abstract protected function getMailer();
 
   /**
    * @return int
