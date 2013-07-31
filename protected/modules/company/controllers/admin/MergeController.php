@@ -12,7 +12,6 @@ class MergeController extends \application\components\controllers\AdminMainContr
   {
     $this->setPageTitle('Объединение компаний');
 
-
     $request = Yii::app()->getRequest();
     if ($request->getIsPostRequest())
     {
@@ -39,17 +38,138 @@ class MergeController extends \application\components\controllers\AdminMainContr
       $confirm = $request->getParam('confirm', false);
       if (!$confirm)
       {
-        $this->render('check', array('user' => $this->user, 'userSecond' => $this->userSecond));
+        $this->render('check', [
+          'company' => $this->company,
+          'companies' => $this->companies,
+          'companyId' => $companyId,
+          'companyIdSecond' => $companyIdSecond
+        ]);
       }
       else
       {
-        $this->merge();
-        $this->render('result', array('user' => $this->user));
+        foreach ($this->companies as $company)
+        {
+          $this->merge($this->company, $company);
+        }
+        $this->render('done', array('company' => $this->company));
       }
     }
     else
     {
       $this->render('init');
+    }
+  }
+
+  private function merge(\company\models\Company $to, \company\models\Company $from)
+  {
+    foreach ($from->EmploymentsAll as $employment)
+    {
+      $employment->CompanyId = $to->Id;
+      $employment->save();
+    }
+    $this->mergeEmails($to, $from);
+    $this->mergeAddress($to, $from);
+    $this->mergePhones($to, $from);
+    $this->mergeSite($to, $from);
+
+    foreach ($from->LinkModerators as $link)
+    {
+      $link->delete();
+    }
+
+    /** @var $catalogItems \catalog\models\company\Company[] */
+    $catalogItems = \catalog\models\company\Company::model()->byCompanyId($from->Id)->findAll();
+    foreach ($catalogItems as $item)
+    {
+      $item->CompanyId = $to->Id;
+      $item->save();
+    }
+
+    $from->delete();
+    $to->refresh();
+  }
+
+  private function mergeEmails(\company\models\Company $to, \company\models\Company $from)
+  {
+    $emails = [];
+    foreach ($to->LinkEmails as $link)
+    {
+      $emails[] = trim(mb_strtolower($link->Email->Email, 'utf8'));
+    }
+    foreach ($from->LinkEmails as $link)
+    {
+      $email = trim(mb_strtolower($link->Email->Email, 'utf8'));
+      if (!in_array($email, $emails))
+      {
+        $link->CompanyId = $to->Id;
+        $link->save();
+      }
+      else
+      {
+        $oldEmail = $link->Email;
+        $link->delete();
+        $oldEmail->delete();
+      }
+    }
+  }
+
+  private function mergePhones(\company\models\Company $to, \company\models\Company $from)
+  {
+    $phones = [];
+    foreach ($to->LinkPhones as $link)
+    {
+      $phones[] = $link->Phone->__toString();
+    }
+    foreach ($from->LinkPhones as $link)
+    {
+      $phone = $link->Phone->__toString();
+      if (!in_array($phone, $phones))
+      {
+        $link->CompanyId = $to->Id;
+        $link->save();
+      }
+      else
+      {
+        $oldPhone = $link->Phone;
+        $link->delete();
+        $oldPhone->delete();
+      }
+    }
+  }
+
+  private function mergeAddress(\company\models\Company $to, \company\models\Company $from)
+  {
+    if (!empty($from->LinkAddress))
+    {
+      if (empty($to->LinkAddress))
+      {
+        $from->LinkAddress->CompanyId = $to->Id;
+        $from->LinkAddress->save();
+      }
+      else
+      {
+        $oldAddress = $from->LinkAddress->Address;
+        $from->LinkAddress->delete();
+        $oldAddress->delete();
+      }
+    }
+  }
+
+  private function mergeSite(\company\models\Company $to, \company\models\Company $from)
+  {
+    if (!empty($from->LinkSite))
+    {
+      if (empty($to->LinkSite))
+      {
+        $from->LinkSite->CompanyId = $to->Id;
+        $from->LinkSite->save();
+      }
+      else
+      {
+        $oldSite = $from->LinkSite->Site;
+        $from->LinkSite->delete();
+        $oldSite->delete();
+      }
     }
   }
 }

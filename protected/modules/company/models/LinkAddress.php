@@ -3,11 +3,11 @@ namespace company\models;
 
 /**
  * @property int $Id
- * @property int $UserId
+ * @property int $CompanyId
  * @property int $SiteId
  *
- * @property Company $User
- * @property \contact\models\Address $Site
+ * @property Company $Company
+ * @property \contact\models\Address $Address
  */
 class LinkAddress extends \CActiveRecord
 {

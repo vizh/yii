@@ -18,7 +18,8 @@ namespace company\models;
  * @property \company\models\LinkAddress $LinkAddress
  * @property \company\models\LinkPhone[] $LinkPhones
  * @property \company\models\LinkSite $LinkSite
-
+ * @property \company\models\LinkModerator[] $LinkModerators
+ *
  * @property \user\models\Employment[] $Employments
  * @property \user\models\Employment[] $EmploymentsAll
  *

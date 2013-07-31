@@ -34,6 +34,21 @@ class Company extends \CActiveRecord
   {
     return array();
   }
+
+  /**
+   * @param int $companyId
+   * @param bool $useAnd
+   *
+   * @return Company
+   */
+  public function byCompanyId($companyId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."CompanyId" = :CompanyId';
+    $criteria->params = ['CompanyId' => $companyId];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
   
   private $logos = null;
   public function getLogos()

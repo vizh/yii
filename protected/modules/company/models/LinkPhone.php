@@ -6,7 +6,7 @@ namespace company\models;
  * @property int $CompanyId
  * @property int $PhoneId
  *
- * @property Company $User
+ * @property Company $Company
  * @property \contact\models\Phone $Phone
  */
 class LinkPhone extends \CActiveRecord

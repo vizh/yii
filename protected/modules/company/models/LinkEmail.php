@@ -3,10 +3,10 @@ namespace company\models;
 
 /**
  * @property int $Id
- * @property int $UserId
+ * @property int $CompanyId
  * @property int $EmailId
  *
- * @property Company $User
+ * @property Company $Company
  * @property \contact\models\Email $Email
  */
 class LinkEmail extends \CActiveRecord

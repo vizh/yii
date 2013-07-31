@@ -3,10 +3,10 @@ namespace company\models;
 
 /**
  * @property int $Id
- * @property int $UserId
+ * @property int $CompanyId
  * @property int $SiteId
  *
- * @property Company $User
+ * @property Company $Company
  * @property \contact\models\Site $Site
  */
 class LinkSite extends \CActiveRecord
