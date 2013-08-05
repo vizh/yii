@@ -1,26 +1,24 @@
 var RunetId = new function() {
   var instance;
 
-
   // Конструктор
   function RunetId(){
     if (!instance)
     {
       instance = this;
-    }
-    else
-    {
-      return instance;
+
+      this.url = 'http://runet-id.com/oauth/main/dialog/';
+      this.recoverUrl = 'http://runet-id.com/oauth/main/recover/';
+      this.width = 620;
+      this.height = 662;
+      this.PopUpWindow = null;
+
+      this.apiKey = '';
+      this.rState = '';
+      this.backUrl = location.href;
     }
 
-    this.url = 'http://runet-id.com/oauth/main/dialog/';
-    this.width = 620;
-    this.height = 662;
-    this.PopUpWindow = null;
-
-    this.apiKey = '';
-    this.rState = '';
-    this.backUrl = location.href;
+    return instance;
   }
 
   // Публичные методы
@@ -35,18 +33,41 @@ var RunetId = new function() {
   };
 
   RunetId.prototype.login = function(){
-    var windowDimensions = this.windowDimensions();
-    var left = (windowDimensions.width - this.width) / 2;
-    var top = (windowDimensions.height - this.height) / 2;
-    if (this.PopUpWindow != null)
+    var self = this;
+
+    var windowDimensions = self.windowDimensions();
+    var left = (windowDimensions.width - self.width) / 2;
+    var top = (windowDimensions.height - self.height) / 2;
+    if (self.PopUpWindow != null)
     {
-      this.PopUpWindow.close();
+      self.PopUpWindow.close();
     }
-    this.PopUpWindow = window.open(this.getUrl(), 'RocId', 'menubar=no,width='+this.width+',height='+this.height+',toolbar=no,left='+left+',top='+top);
+    self.PopUpWindow = window.open(self.getUrl(), 'RUNET-ID', 'menubar=no,width='+self.width+',height='+self.height+',toolbar=no,left='+left+',top='+top);
   };
 
   RunetId.prototype.getUrl = function(){
-    return this.url + '?apikey=' + encodeURIComponent(this.apiKey) + '&url='+encodeURIComponent(this.backUrl);
+    var self = this;
+
+    return self.url + '?apikey=' + encodeURIComponent(self.apiKey) + '&url='+encodeURIComponent(self.backUrl);
+  };
+
+  RunetId.prototype.recover = function(){
+    var self = this;
+
+    var windowDimensions = self.windowDimensions();
+    var left = (windowDimensions.width - self.width) / 2;
+    var top = (windowDimensions.height - self.height) / 2;
+    if (self.PopUpWindow != null)
+    {
+      self.PopUpWindow.close();
+    }
+    self.PopUpWindow = window.open(self.getRecoverUrl(), 'RUNET-ID', 'menubar=no,width='+self.width+',height='+self.height+',toolbar=no,left='+left+',top='+top);
+  };
+
+  RunetId.prototype.getRecoverUrl = function(){
+    var self = this;
+
+    return self.recoverUrl + '?apikey=' + encodeURIComponent(self.apiKey) + '&url='+encodeURIComponent(self.backUrl);
   };
 
   RunetId.prototype.windowDimensions = function(){

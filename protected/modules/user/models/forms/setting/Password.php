@@ -18,7 +18,7 @@ class Password extends \CFormModel
   public function attributeLabels()
   {
     return array(
-      'OldPassword'  => \Yii::t('app', 'Cтарый пароль'). '<span class="required">*</span>',
+      'OldPassword'  => \Yii::t('app', 'Текущий пароль'). '<span class="required">*</span>',
       'NewPassword1' => \Yii::t('app', 'Новый пароль'). ' <span class="required">*</span>',
       'NewPassword2' => \Yii::t('app', 'Новый пароль, ещё разок'). ' <span class="required">*</span>'
     );
