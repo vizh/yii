@@ -166,21 +166,13 @@ class MainController extends \oauth\components\Controller
       $user = user\models\User::model()->byEmail($form->Email)->find();
       if ($user !== null)
       {
-        $mail = new \ext\mailer\PHPMailer(false);
-        $mail->AddAddress($user->Email);
-        $mail->SetFrom('users@'.RUNETID_HOST, \Yii::t('app', 'RUNET-ID'), false);
-        $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'Восстановление пароля')) .'?=';
-        $mail->IsHTML(true);
-        
+        $mailer = new \mail\components\mailers\PhpMailer();
+        //$mailer = new \mail\components\mailers\AmazonMailer();
         $form->ShowCode = true;
-        
         if (empty($form->Code))
         {
-          $mail->MsgHTML(
-            \Yii::app()->controller->renderPartial('user.views.mail.recover', array('user' => $user, 'type' => 'withCode'), true)
-          );
-          $mail->Send();
+          $mail = new \user\components\handlers\RecoverCode($mailer, $user);
+          $mail->send();
           \Yii::app()->user->setFlash('success', \Yii::t('app', 'На указанный адрес электронной почты было отправлено письмо с кодом, введите его для смены пароля.'));
         }
         else
@@ -188,10 +180,8 @@ class MainController extends \oauth\components\Controller
           if ($user->checkRecoveryHash($form->Code))
           {
             $password = $user->changePassword();
-            $mail->MsgHTML(
-              \Yii::app()->controller->renderPartial('user.views.mail.recover', array('user' => $user, 'type' => 'withPassword', 'password' => $password), true)
-            );
-            $mail->Send();
+            $mail = new \user\components\handlers\RecoverPassword($mailer, $user, $password);
+            $mail->send();
             $identity = new \application\components\auth\identity\RunetId($user->RunetId);
             $identity->authenticate();
             \Yii::app()->user->login($identity);
