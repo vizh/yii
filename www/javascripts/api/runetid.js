@@ -42,7 +42,7 @@ var RunetId = new function() {
     {
       self.PopUpWindow.close();
     }
-    self.PopUpWindow = window.open(self.getUrl(), 'RUNET-ID', 'menubar=no,width='+self.width+',height='+self.height+',toolbar=no,left='+left+',top='+top);
+    self.PopUpWindow = window.open(self.getUrl(), 'RUNETID', 'menubar=no,width='+self.width+',height='+self.height+',toolbar=no,left='+left+',top='+top);
   };
 
   RunetId.prototype.getUrl = function(){
@@ -61,7 +61,7 @@ var RunetId = new function() {
     {
       self.PopUpWindow.close();
     }
-    self.PopUpWindow = window.open(self.getRecoverUrl(), 'RUNET-ID', 'menubar=no,width='+self.width+',height='+self.height+',toolbar=no,left='+left+',top='+top);
+    self.PopUpWindow = window.open(self.getRecoverUrl(), 'RUNETID', 'menubar=no,width='+self.width+',height='+self.height+',toolbar=no,left='+left+',top='+top);
   };
 
   RunetId.prototype.getRecoverUrl = function(){

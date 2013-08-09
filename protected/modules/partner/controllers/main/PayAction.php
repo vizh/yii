@@ -10,18 +10,59 @@ class PayAction extends \partner\components\Action
     $this->getController()->setPageTitle('Статистика платежей');
     $this->getController()->initActiveBottomMenu('pay');
 
-    $event = \Yii::app()->partner->getEvent();
+    $oldStatistics = $this->getOldStatistics();
 
-    $allOrdersCount = \pay\models\Order::model()
-        ->byEventId($event->Id)->byJuridical(true)->count();
+    $statistics = new PayStatistics();
+
+    $statistics->countJuridicalOrders = \pay\models\Order::model()
+        ->byEventId($this->getEvent()->Id)->byJuridical(true)->count();
+
+
+    $command = \Yii::app()->getDb()->createCommand()
+        ->select('count("p"."Id") as "countPaid", sum("p"."Total") as "totalPaid"')
+        ->from('PayOrder p')
+        ->where('"p"."EventId" = :EventId AND "p"."Paid" AND "p"."Juridical"');
+    $command->bindValue('EventId', $this->getEvent()->Id);
+    $result = $command->queryRow();
+
+    $statistics->countPaidJuridicalOrders = $result['countPaid'];
+    $statistics->totalJuridical = $result['totalPaid'];
+
+    $command = \Yii::app()->getDb()->createCommand()
+        ->select('count("p"."Id") as "countPaid", sum("p"."Total") as "totalPaid"')
+        ->from('PayOrder p')
+        ->where('"p"."EventId" = :EventId AND "p"."Paid" AND NOT "p"."Juridical"');
+    $command->bindValue('EventId', $this->getEvent()->Id);
+    $result = $command->queryRow();
+
+    $statistics->countPaidPhysicalOrders = $result['countPaid'];
+    $statistics->totalPhysical = $result['totalPaid'];
+
+    $this->getController()->render('pay', [
+      'statistics' => $statistics,
+      'oldStatistics' => $oldStatistics
+    ]);
+  }
+
+  private function getOldStatistics()
+  {
+    $statistics = new PayStatistics();
+
+    $statistics->countJuridicalOrders = \pay\models\Order::model()
+        ->byEventId($this->getEvent()->Id)->byJuridical(true)->count();
+
+    if (\Yii::app()->partner->getAccount()->Role != 'AdminExtended' || $statistics->countJuridicalOrders > 100)
+    {
+      return null;
+    }
 
     /** @var $orders \pay\models\Order[] */
     $orders = \pay\models\Order::model()
-        ->byEventId($event->Id)->byJuridical(true)->byPaid(true)
+        ->byEventId($this->getEvent()->Id)->byJuridical(true)->byPaid(true)
         ->with(array('ItemLinks.OrderItem' => array('together' => false)))
         ->findAll();
-    $paidOrdersCount = sizeof($orders);
-    $totalJuridical = 0;
+    $statistics->countPaidJuridicalOrders = sizeof($orders);
+    $statistics->totalJuridical = 0;
     $paidItemIdList = array();
     foreach ($orders as $order)
     {
@@ -29,7 +70,7 @@ class PayAction extends \partner\components\Action
       {
         if ($link->OrderItem->Paid)
         {
-          $totalJuridical += $link->OrderItem->getPriceDiscount();
+          $statistics->totalJuridical += $link->OrderItem->getPriceDiscount();
           $paidItemIdList[] = $link->OrderItem->Id;
         }
       }
@@ -40,26 +81,27 @@ class PayAction extends \partner\components\Action
 
     /** @var $orderItems \pay\models\OrderItem[] */
     $orderItems = \pay\models\OrderItem::model()
-        ->byEventId($event->Id)->byPaid(true)
+        ->byEventId($this->getEvent()->Id)->byPaid(true)
         ->with(array('Product'))
         ->findAll($criteria);
-    $paidPhysicalItemsCount = sizeof($orderItems);
-    $totalPhysical = 0;
+
+    $statistics->totalPhysical = 0;
     foreach ($orderItems as $item)
     {
-      $totalPhysical += $item->getPriceDiscount();
+      $statistics->totalPhysical += $item->getPriceDiscount();
     }
 
-
-
-
-    $this->getController()->render('pay', array(
-      'allOrdersCount' => $allOrdersCount,
-      'paidOrdersCount' => $paidOrdersCount,
-      'totalJuridical' => $totalJuridical,
-      'paidPhysicalItemsCount' => $paidPhysicalItemsCount,
-      'totalPhysical' => $totalPhysical,
-    ));
+    return $statistics;
   }
 
+}
+
+
+class PayStatistics
+{
+  public $countJuridicalOrders;
+  public $countPaidJuridicalOrders;
+  public $totalJuridical;
+  public $countPaidPhysicalOrders;
+  public $totalPhysical;
 }

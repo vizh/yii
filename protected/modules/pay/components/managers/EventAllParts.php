@@ -20,8 +20,11 @@ class EventAllParts extends BaseProductManager
 
   /**
    * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
+   *
    * @param \user\models\User $user
    * @param array $params
+   *
+   * @throws \pay\components\Exception
    * @return bool
    */
   public function checkProduct($user, $params = array())
@@ -40,14 +43,10 @@ class EventAllParts extends BaseProductManager
     /** @var $participants \event\models\Participant[] */
     $participants = \event\models\Participant::model()
         ->byEventId($this->product->EventId)->byUserId($user->Id)->with('Role')->findAll();
-    if (empty($eventUsers))
-    {
-      return true;
-    }
 
     foreach ($participants as $participant)
     {
-      if ($participant->Role->Priority > $this->role->Priority)
+      if ($participant->Role->Priority >= $this->role->Priority)
       {
         return false;
       }

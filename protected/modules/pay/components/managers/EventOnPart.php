@@ -24,8 +24,11 @@ class EventOnPart extends BaseProductManager
 
   /**
    * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
+   *
    * @param \user\models\User $user
    * @param array $params
+   *
+   * @throws \pay\components\Exception
    * @return bool
    */
   public function checkProduct($user, $params = array())

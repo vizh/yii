@@ -11,14 +11,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
   public function actionPayinfo()
   {
-    $eventId = 452;
+    $eventId = 425;
 
     $criteria = new CDbCriteria();
     $criteria->order = '"t"."Id"';
 
     /** @var \pay\models\Order[] $orders */
     $orders = \pay\models\Order::model()->byEventId($eventId)
-        ->byPaid(true)->byJuridical(true)->findAll($criteria);
+        ->byPaid(true)->byJuridical(false)->findAll($criteria);
 
     $total = 0;
     foreach ($orders as $order)
@@ -39,5 +39,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     echo '<br><br><br><br>' . $total;
   }
+
 
 }
