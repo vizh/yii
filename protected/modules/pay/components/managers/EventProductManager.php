@@ -45,7 +45,7 @@ class EventProductManager extends BaseProductManager
    *
    * @return bool
    */
-  public function internalBuyProduct($user, $orderItem = null, $params = array())
+  protected function internalBuyProduct($user, $orderItem = null, $params = array())
   {
     /** @var $role \event\models\Role */
     $role = \event\models\Role::model()->findByPk($this->RoleId);
@@ -61,7 +61,7 @@ class EventProductManager extends BaseProductManager
    *
    * @return bool
    */
-  public function internalChangeOwner($fromUser, $toUser, $params = array())
+  protected function internalChangeOwner($fromUser, $toUser, $params = array())
   {
     $participant = \event\models\Participant::model()
         ->byUserId($fromUser->Id)->byEventId($this->product->EventId)->find();

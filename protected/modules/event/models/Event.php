@@ -417,15 +417,16 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
   /**
    * @param \user\models\User $user
    * @param Role $role
+   * @param bool $usePriority
    *
    * @return Participant[]
    */
-  public function registerUserOnAllParts(\user\models\User $user, Role $role)
+  public function registerUserOnAllParts(\user\models\User $user, Role $role, $usePriority = false)
   {
     $result = array();
     foreach ($this->Parts as $part)
     {
-      $result[$part->Id] = $this->registerUserOnPart($part, $user, $role);
+      $result[$part->Id] = $this->registerUserOnPart($part, $user, $role, $usePriority);
     }
     return $result;
   }

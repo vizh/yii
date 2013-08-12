@@ -40,5 +40,4 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     echo '<br><br><br><br>' . $total;
   }
 
-
 }

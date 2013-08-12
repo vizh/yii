@@ -23,13 +23,20 @@ class RegisterAction extends \api\components\Action
     }
 
     try{
-      $eventUser = $this->getEvent()->registerUser($user, $role, $usePriority);
+      if (empty($this->getEvent()->Parts))
+      {
+        $participant = $this->getEvent()->registerUser($user, $role, $usePriority);
+      }
+      else
+      {
+        $participant = $this->getEvent()->registerUserOnAllParts($user, $role);
+      }
     }
     catch(\Exception $e)
     {
       throw new \api\components\Exception(100, array($e->getMessage()));
     }
-    if (empty($eventUser))
+    if (empty($participant))
     {
       throw new \api\components\Exception(303);
     }
