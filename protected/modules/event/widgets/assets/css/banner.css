@@ -1,0 +1,10 @@
+.b-event-promo > .container { padding: 0 !important; }
+
+/** GM2013 **/
+.b-event-promo.gm2013 {
+  background: #000;
+}
+.b-event-promo.gm2013 > .container{
+  background: #000 url('/img/event/gm2013/header-bg.jpg') no-repeat center center;
+  height: 261px;
+}
