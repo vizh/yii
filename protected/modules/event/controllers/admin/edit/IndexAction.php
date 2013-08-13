@@ -86,7 +86,8 @@ class IndexAction extends \CAction
         if (!empty($form->SiteUrl))
         {
           $parseUrl = parse_url($form->SiteUrl);
-          $event->setContactSite($parseUrl['host'], ($parseUrl['scheme'] == 'https' ? true : false));
+          $url = $parseUrl['host'].(!empty($parseUrl['path']) ? $parseUrl['path'] : '');
+          $event->setContactSite($url, ($parseUrl['scheme'] == 'https' ? true : false));
         }
         
         // Сохранение логотипа

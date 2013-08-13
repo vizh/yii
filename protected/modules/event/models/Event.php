@@ -586,7 +586,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
       $contactSite->Url = $url;
       $contactSite->Secure = $secure;
       $contactSite->save();
-
+      
       $linkSite = new LinkSite();
       $linkSite->EventId = $this->Id;
       $linkSite->SiteId = $contactSite->Id;
