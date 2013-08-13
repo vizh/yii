@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-1';
-    $isHTML = false;
+    $template = 'ibcrussia13-html-1';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -67,6 +67,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('"t"."Visible"');
 
 //    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 122573, 12959));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959, 454));
 
 //    echo \user\models\User::model()->count($criteria);
@@ -87,8 +88,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-//        $body = $this->renderPartial($template, array('user' => $user), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -125,7 +126,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
 
-//        $mail->Send();
+        $mail->Send();
 
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
