@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-html-1';
+    $template = 'ibcrussia13-html-1';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -67,10 +67,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('"t"."Visible"');
 
 //    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 122573, 12959));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959, 454));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -97,7 +98,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->ParamOdq = true;
         $mail->ContentType = ($isHTML) ? 'text/html' : 'text/plain';
         $mail->IsHTML($isHTML);
-        
+
         $email = $user->Email;
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
@@ -119,13 +120,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('RIW—2013: определены даты и место проведения') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Регистрация на RIW—2013 - до 15 августа по выгодной цене') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
 
-//        $mail->Send();
+        $mail->Send();
 
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
@@ -148,8 +149,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
    	$hash = substr(md5($runetId.$secret), 0, 16);
 
-//    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/';
-    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/vote/';
+    return 'http://2013.russianinternetweek.ru/my/'.$runetId.'/'.$hash.'/';
+//    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/vote/';
   }
 
   private function getWaybillLink($user)

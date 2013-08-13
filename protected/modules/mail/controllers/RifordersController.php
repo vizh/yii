@@ -6,7 +6,7 @@ class RifordersController extends \application\components\controllers\AdminMainC
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rif13-2';
+    $template = 'rif13-4';
     $isHTML = false;
 
 //    exit();
@@ -19,42 +19,36 @@ class RifordersController extends \application\components\controllers\AdminMainC
     $criteria->with = array(
       'ItemLinks.OrderItem' => array('together' => true),
       'Event' => array('together' => true),
-      'Participants' => array('together' => true),
+//      'Participants' => array('together' => true),
 //      'Payer' => array('together' => true),
 
-//      'Participants' => array('together' => true),
 //      'Settings' => array('select' => false),
     );
-
+    
     // Пользователи с истекающими счетами
-    /*
-    $criteria->addCondition('NOT "t"."Paid"');
-    $criteria->addCondition('NOT "t"."Deleted"');
+    $criteria->addCondition('"t"."Paid"');
+//    $criteria->addCondition('NOT "t"."Deleted"');
     $criteria->addCondition('"t"."EventId" = :EventId');
     $criteria->addCondition('"t"."Juridical"');
-    $criteria->addCondition('"OrderItem"."Booked" IS NOT NULL');
-    $criteria->addCondition('"OrderItem"."Booked" < :Booked');
+//    $criteria->addCondition('"OrderItem"."Booked" IS NOT NULL');
+//    $criteria->addCondition('"OrderItem"."Booked" < :Booked');
 
     $criteria->params = array(
       ':EventId' => 422,
-      ':Booked' => '2013-03-29 00:00:00'
+//      ':Booked' => '2013-03-29 00:00:00'
     );
-    */
 
     // Что-то с питанием
     $criteria->addCondition('"t"."EventId" = :EventId');
-    $criteria->addCondition('"OrderItem"."ProductId" NOT IN (895,896,897,898,899,900,901,902,903,904,905,906,907,908,909)');
+//    $criteria->addCondition('"OrderItem"."ProductId" NOT IN (895,896,897,898,899,900,901,902,903,904,905,906,907,908,909)');
+//    $criteria->addCondition('"OrderItem"."ProductId" IN (895,896)');
 //    $criteria->addCondition('"Event.Participants"."RoleId" IN (1, 2, 5, 11, 24)');
 
     $criteria->distinct = true;
-//    $criteria->addCondition('"Settings"."UnsubscribeAll" = false');
-//    $criteria->addCondition('"Settings"."Visible" = true');
+//    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+//    $criteria->addCondition('"User"."Visible"');
 
-//    $criteria->addCondition('"t"."PayerId" = 12099');
-
-    $criteria->params = array(
-      ':EventId' => 422,
-    );
+//    $criteria->addCondition('"User"."RunetId" = 12953');
 
     $orders = \pay\models\Order::model()->findAll($criteria);
 
