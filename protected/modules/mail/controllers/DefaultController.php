@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'ibcrussia13-html-1';
-    $isHTML = true;
+    $template = 'riw13-2';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -50,12 +50,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
-//      'Participants' => array('together' => true),
+      'Participants' => array('together' => true),
 //      'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
-//    $criteria->addInCondition('"Participants"."EventId"', array(258, 423));
-//    $criteria->addNotInCondition('"Participants"."RoleId"', array(24));
+    $criteria->addInCondition('"Participants"."EventId"', array(425));
+    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 /*
     $criteria->addCondition('"t"."CreationTime" > :CreationTime');
     $criteria->params['CreationTime'] = '2013-05-21 00:00:00';
@@ -66,12 +66,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 122573, 12959));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953, 122573, 12959));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959, 454));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -88,8 +88,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+//        $body = $this->renderPartial($template, array('user' => $user), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -120,7 +120,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Регистрация на RIW—2013 - до 15 августа по выгодной цене') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Сегодня последний день льготной цены') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
