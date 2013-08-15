@@ -5,7 +5,8 @@ class EditController extends \application\components\controllers\AdminMainContro
   {
     return [
       'index' => '\event\controllers\admin\edit\IndexAction',
-      'widget' => '\event\controllers\admin\edit\WidgetAction'
+      'widget' => '\event\controllers\admin\edit\WidgetAction',
+      'product' => '\event\controllers\admin\edit\ProductAction'
     ];
   }
 }

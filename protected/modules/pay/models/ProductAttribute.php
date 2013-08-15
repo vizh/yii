@@ -33,4 +33,34 @@ class ProductAttribute extends \CActiveRecord
       'Product' => array(self::BELONGS_TO, '\pay\models\Product', 'ProductId')
     );
   }
+  
+  /**
+   * 
+   * @param int $productId
+   * @param bo0l $useAnd
+   * @return \pay\models\ProductAttribute
+   */
+  public function byProductId($productId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."ProductId" = :ProductId';
+    $criteria->params = array('ProductId' => $productId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  /**
+   * 
+   * @param string $name
+   * @param bool $useAnd
+   * @return \pay\models\ProductAttribute
+   */
+  public function byName($name, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Name" = :Name';
+    $criteria->params = array('Name' => $name);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }
