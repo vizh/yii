@@ -82,6 +82,21 @@ class Participant extends \CActiveRecord
   }
 
   /**
+   * @param int $roleId
+   * @param bool $useAnd
+   *
+   * @return Participant
+   */
+  public function byRoleId($roleId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."RoleId" = :RoleId';
+    $criteria->params = [':RoleId' => $roleId];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
    * @param int|null $partId
    * @param bool $useAnd
    * @return Participant
