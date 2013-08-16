@@ -36,6 +36,12 @@ class CreateAction extends \api\components\Action
       $user->Password = $password;
     }
     $user->register();
+    
+    $oauthPermission = new \oauth\models\Permission();
+    $oauthPermission->UserId  = $user->Id;
+    $oauthPermission->AccountId = $this->getAccount()->Id;
+    $oauthPermission->Verified = true;
+    $oauthPermission->save();
 
     //todo: Добавить автоматическое подтверждение соглашения после регистрации
 //    $user->Settings->Agreement = 1;
