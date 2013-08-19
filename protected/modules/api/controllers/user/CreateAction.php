@@ -98,16 +98,7 @@ class CreateAction extends \api\components\Action
 
     if (! empty($phone))
     {
-      $cPhone = new \contact\models\Phone();
-      //todo: реализовать парсинг телефонов
-//      $cPhone->Phone = $phone;
-//      $cPhone->Primary = 1;
-//      $cPhone->Type = $type;
-//      $cPhone->save();
-//      $user->AddPhone($cPhone);
+      $user->setContactPhone($phone);
     }
-
-
-
   }
 }
