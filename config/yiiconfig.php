@@ -80,8 +80,9 @@ return array(
       'autoCreateSessionTable' => false, //!!!
       'sessionName' => 'sessid',
       'timeout' => 180 * 24 * 60 * 60,
+      'gCProbability' => 1,
       'cookieParams' => array(
-        'lifetime' => 180 * 24 * 60 * 60,
+        'lifetime' => 0,
         'domain' => '.'.RUNETID_HOST
       ),
     ),
