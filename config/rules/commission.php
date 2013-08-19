@@ -7,6 +7,6 @@ return array(
     'allow',
     'roles' => array('raec', 'admin'),
     'module' => 'commission',
-    'controllers' => array('admin/edit', 'admin/list', 'admin/user')
+    'controllers' => array('admin/edit', 'admin/list', 'admin/user', 'admin/export')
   ),
 );
