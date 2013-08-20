@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-2';
-    $isHTML = false;
+    $template = 'rad13-html-1';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -54,8 +54,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //      'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
-    $criteria->addInCondition('"Participants"."EventId"', array(425));
-    $criteria->addInCondition('"Participants"."RoleId"', array(1));
+    $criteria->addInCondition('"Participants"."EventId"', array(195,246,312));
+//    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 /*
     $criteria->addCondition('"t"."CreationTime" > :CreationTime');
     $criteria->params['CreationTime'] = '2013-05-21 00:00:00';
@@ -66,7 +66,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 122573, 12959));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959, 454));
 
@@ -117,16 +117,16 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
-//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Сегодня последний день льготной цены') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Russian Affiliate Days 2013 – открыта регистрация участников') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
 
-        $mail->Send();
+//        $mail->Send();
 
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
