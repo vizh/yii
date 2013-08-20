@@ -54,7 +54,7 @@ class MainController extends \oauth\components\Controller
     $accessToken->createToken($this->Account);
     $accessToken->save();
 
-    $redirectUrl = $this->url;
+    $redirectUrl = trim($this->url, '#');
     $pos = strrpos($redirectUrl, '?');
     $redirectUrl .= ($pos === false ? '?' : (($pos+1) != strlen($redirectUrl) ? '&' : '')) . http_build_query(array('token' => $accessToken->Token));
     $this->redirect($redirectUrl);
