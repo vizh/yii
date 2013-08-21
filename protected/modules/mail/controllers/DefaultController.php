@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rad13-html-1';
+    $template = 'ibcrussia13-html-1';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -54,7 +54,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //      'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
-    $criteria->addInCondition('"Participants"."EventId"', array(195,246,312));
+    $criteria->addInCondition('"Participants"."EventId"', array(120,195,246,9,43,95,153,236,414));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 /*
     $criteria->addCondition('"t"."CreationTime" > :CreationTime');
@@ -66,9 +66,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953,454));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 122573, 12959));
-//    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959, 454));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -120,7 +120,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Russian Affiliate Days 2013 – открыта регистрация участников') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Открыта регистрация на IBC Russia 2013') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
@@ -149,7 +149,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
    	$hash = substr(md5($runetId.$secret), 0, 16);
 
-    return 'http://2013.russianinternetweek.ru/my/'.$runetId.'/'.$hash.'/';
+    return 'http://ibcrussia.com/my/'.$runetId.'/'.$hash.'/';
+//    return 'http://2013.russianinternetweek.ru/my/'.$runetId.'/'.$hash.'/';
 //    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/vote/';
   }
 

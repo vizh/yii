@@ -122,7 +122,7 @@
                 <td></td>
                 <td>
                   <h3>IBC Russia – главное отраслевое событие года для рынков интернет-маркетинга и веб-разработки, объединившее в себе многолетний опыт успешных проектов «Сайт» и Optimization.</h3>
-                  <h3 style="margin-bottom: 20px;"><a href="http://ibcrussia.com">www.ibcrussia.com</a></h3>
+                  <h3 style="margin-bottom: 20px;"><a href="http://ibcrussia.com/?utm_source=runetid">www.ibcrussia.com</a></h3>
                   <h3 style="margin: 10px 0;">КОНФЕРЕНЦИЯ</h3>
                   <p style="margin-bottom:  5px;">IBC Russia 2013 является ответом на заинтересованность бизнеса в единой экспертной площадке. Задача нового формата — помочь менеджменту российских компаний объединить различные инструменты и методологии интернет-маркетинга в целостную стратегию работы с аудиторией Интернета.</p>
                   <p style="margin-bottom:  5px;">Конференция IBC Russia пройдёт в четыре потока:</p>
@@ -149,7 +149,7 @@
                   <p style="margin-bottom: 10px;">
                     <strong>Место проведения</strong>:<br>г. Москва, Центр Международной Торговли,<br/><a href="http://maps.yandex.ru/-/CVbMi4-J">Краснопресненская наб., 12</a>
                   </p>
-                  <p style="margin-bottom: 10px;"><a href="http://ibcrussia.com" target="_blank">www.ibcrussia.com</a></p>
+                  <p style="margin-bottom: 10px;"><a href="http://ibcrussia.com/?utm_source=runetid" target="_blank">www.ibcrussia.com</a></p>
                 </td>
                 <td></td>
               </tr>
@@ -167,7 +167,7 @@
                 </td>
                 <td style="background: #e2f4fc;"></td>
                 <td style="background: #e2f4fc; vertical-align: middle;">
-                  <a href="http://ibcrussia.com/registration/?utm_source=runetid" target="_blank" class="register-btn" style="display: inline-block; width: 139px; height: 41px; background: url(http://runet-id.com/images/mail/event-main-template/register-btn.png) transparent 0 0 no-repeat; color: #fff; font-size: 13px; line-height: 41px; text-align: center; text-decoration: none;">Регистрация</a>
+                  <a href="<?=$regLink;?>?utm_source=runetid" target="_blank" class="register-btn" style="display: inline-block; width: 139px; height: 41px; background: url(http://runet-id.com/images/mail/event-main-template/register-btn.png) transparent 0 0 no-repeat; color: #fff; font-size: 13px; line-height: 41px; text-align: center; text-decoration: none;">Регистрация</a>
                 </td>
                 <td></td>
               </tr>
