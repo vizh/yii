@@ -10,6 +10,7 @@ namespace commission\models;
  *
  * @property User[] $Users
  * @property Project[] $Projects
+ * @property User[] $UsersActive
  */
 class Commission extends \CActiveRecord
 {

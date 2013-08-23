@@ -99,7 +99,11 @@ class MainController extends \oauth\components\Controller
       }
     }
 
-    $this->render('auth', array('model' => $authForm, 'socialProxy' => $socialProxy));
+    $this->render('auth', [
+      'model' => $authForm,
+      'socialProxy' => $socialProxy,
+      'fast' => $this->fast
+    ]);
   }
 
   public function actionRegister()
