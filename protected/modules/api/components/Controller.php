@@ -69,7 +69,7 @@ class Controller extends \application\components\controllers\BaseController
     $executionTime = \Yii::getLogger()->getExecutionTime();
 
     $log = new \api\models\Log();
-    $log->AccountId = $this->Account() !== null ? $this->Account()->Id : null;
+    $log->AccountId = $this->getAccount() !== null ? $this->getAccount()->Id : null;
     $log->Route = $this->getId() . '.' . $this->getAction()->getId();
     $log->Params = json_encode($_REQUEST, JSON_UNESCAPED_UNICODE);
     $log->FullTime = $executionTime;
@@ -134,7 +134,7 @@ class Controller extends \application\components\controllers\BaseController
   /**
    * @return \api\models\Account
    */
-  public function Account()
+  public function getAccount()
   {
     return \api\components\WebUser::Instance()->getAccount();
   }

@@ -1,5 +1,7 @@
 <?php
 /** @var $order \pay\models\Order */
+
+$collection = \pay\components\OrderItemCollection::createByOrder($order);
 ?>
 
 <div class="row">
@@ -62,12 +64,12 @@
     <p><strong>Телефон:</strong> <?=!empty($order->Payer->Phones) ? urldecode($order->Payer->Phones[0]->Phone) : 'не указан';?></p>
   </div>
 
-  <?php foreach ($order->ItemLinks as $link):?>
-    <?php if ($link->OrderItem->ChangedOwner !== null):?>
+  <?php foreach ($collection as $item):?>
+    <?php if ($item->getOrderItem()->ChangedOwner !== null):?>
       <div class="span12">
         <div class="alert alert">
           <h4>Внимание!</h4>
-          В заказе произошли изменения: статус "<?=$link->OrderItem->Product->getManager()->getTitle($link->OrderItem);?>" был перенесен с пользователя <a href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $link->OrderItem->Owner->RunetId));?>"><?=$link->OrderItem->Owner->getFullName();?></a> на пользователя <a href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $link->OrderItem->ChangedOwner->RunetId));?>"><?=$link->OrderItem->ChangedOwner->getFullName();?></a>.
+          В заказе произошли изменения: статус "<?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem());?>" был перенесен с пользователя <a href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $item->getOrderItem()->Owner->RunetId));?>"><?=$item->getOrderItem()->Owner->getFullName();?></a> на пользователя <a href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $item->getOrderItem()->ChangedOwner->RunetId));?>"><?=$item->getOrderItem()->ChangedOwner->getFullName();?></a>.
         </div>
       </div>
     <?php endif;?>
@@ -87,27 +89,27 @@
       </tr>
       </thead>
       <tbody>
-      <?foreach ($order->ItemLinks as $link):
+      <?foreach ($collection as $item):
       ?>
       <tr>
-        <td><?=$link->OrderItem->Id;?></td>
+        <td><?=$item->getOrderItem()->Id;?></td>
         <td>
-          <?=$link->OrderItem->Product->getManager()->getTitle($link->OrderItem);?>
-          <?if ($link->OrderItem->Paid):?>
+          <?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem());?>
+          <?if ($item->getOrderItem()->Paid):?>
             <span class="label label-success">ОПЛАЧЕН</span>
           <?else:?>
             <span class="label label-warning">НЕ ОПЛАЧЕН</span>
           <?endif;?>
         </td>
-        <td><?=$link->OrderItem->Payer->getFullName();?> (<?=$link->OrderItem->Payer->RunetId;?>)</td>
+        <td><?=$item->getOrderItem()->Payer->getFullName();?> (<?=$item->getOrderItem()->Payer->RunetId;?>)</td>
         <td>
-          <p><?=$link->OrderItem->Owner->getFullName();?> (<?=$link->OrderItem->Owner->RunetId;?>)</p>
-          <?if ($link->OrderItem->ChangedOwner !== null):?>
+          <p><?=$item->getOrderItem()->Owner->getFullName();?> (<?=$item->getOrderItem()->Owner->RunetId;?>)</p>
+          <?if ($item->getOrderItem()->ChangedOwner !== null):?>
             <p class="text-success m-top_10"><strong>Перенесено на пользователя</strong></p>
-            <p><?=$link->OrderItem->ChangedOwner->getFullName();?> (<?=$link->OrderItem->ChangedOwner->RunetId;?>)</p>
+            <p><?=$item->getOrderItem()->ChangedOwner->getFullName();?> (<?=$item->getOrderItem()->ChangedOwner->RunetId;?>)</p>
           <?php endif;?>
         </td>
-        <td><?=$link->OrderItem->getPriceDiscount();?> руб.</td>
+        <td><?=$item->getPriceDiscount();?> руб.</td>
       </tr>
       <?endforeach;?>
       </tbody>

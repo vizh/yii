@@ -45,6 +45,7 @@ return array(
   'поля обязательны для заполнения' => 'required fields',
   'Отмена' => 'Cancel',
   'Промо код' => 'Promo code',
+  'Групповая скидка' => 'Group discount',
   'Назад' => 'Back',
 
   'Фамилия' => 'Last Name',

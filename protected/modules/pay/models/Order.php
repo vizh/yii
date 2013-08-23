@@ -133,30 +133,31 @@ class Order extends \CActiveRecord
    */
   public function activate()
   {
+    $collection = \pay\components\OrderItemCollection::createByOrder($this);
     $total = 0;
     $errorItems = array();
     $activations = array();
 
-    foreach ($this->ItemLinks as $link)
+    foreach ($collection as $item)
     {
-      $activation = $link->OrderItem->getCouponActivation();
-      if ($link->OrderItem->activate($this))
+      $activation = $item->getOrderItem()->getCouponActivation();
+      if ($item->getOrderItem()->activate($this))
       {
         if ($activation !== null)
         {
-          $activations[$activation->Id][] = $link->OrderItem->Id;
+          $activations[$activation->Id][] = $item->getOrderItem()->Id;
         }
       }
       else
       {
-        if ($this->Juridical && $link->OrderItem->PaidTime != $this->CreationTime)
+        if ($this->Juridical && $item->getOrderItem()->PaidTime != $this->CreationTime)
         {
-          $link->OrderItem->PaidTime = $this->CreationTime;
-          $link->OrderItem->save();
+          $item->getOrderItem()->PaidTime = $this->CreationTime;
+          $item->getOrderItem()->save();
         }
-        $errorItems[] = $link->OrderItem->Id;
+        $errorItems[] = $item->getOrderItem()->Id;
       }
-      $total += $link->OrderItem->getPriceDiscount();
+      $total += $item->getPriceDiscount();
     }
 
     foreach ($activations as $activationId => $items)
@@ -206,8 +207,9 @@ class Order extends \CActiveRecord
    */
   public function create($user, $event, $juridical = false, $juridicalData = array())
   {
-    $unpaidItems = $this->getUnpaidItems($user, $event);
-    if (empty($unpaidItems))
+    $finder = \pay\components\collection\Finder::create($event->Id, $user->Id);
+    $collection = $finder->getUnpaidFreeCollection();
+    if ($collection->count() == 0)
     {
       throw new \pay\components\Exception('У вас нет не оплаченных товаров, для выставления счета.');
     }
@@ -219,22 +221,22 @@ class Order extends \CActiveRecord
     $this->refresh();
 
     $total = 0;
-    foreach ($unpaidItems as $item)
+    foreach ($collection as $item)
     {
       $total += $item->getPriceDiscount();
       $orderLink = new OrderLinkOrderItem();
       $orderLink->OrderId = $this->Id;
-      $orderLink->OrderItemId = $item->Id;
+      $orderLink->OrderItemId = $item->getOrderItem()->Id;
       $orderLink->save();
 
       if ($juridical) //todo: костыль для РИФ+КИБ проживания, продумать адекватное выставление сроков бронирования
       {
-        if ($item->Booked != null)
+        if ($item->getOrderItem()->Booked != null)
         {
-          $item->Booked = $this->getBookEnd($item->CreationTime);
+          $item->getOrderItem()->Booked = $this->getBookEnd($item->getOrderItem()->CreationTime);
         }
-        $item->PaidTime = $this->CreationTime;
-        $item->save();
+        $item->getOrderItem()->PaidTime = $this->CreationTime;
+        $item->getOrderItem()->save();
       }
     }
 
@@ -253,7 +255,7 @@ class Order extends \CActiveRecord
       $event = new \CModelEvent($this, array('payer' => $user, 'event' => $event, 'total' => $total));
       $this->onCreateOrderJuridical($event);
     }
-    
+
     return $total;
   }
   
@@ -320,10 +322,11 @@ class Order extends \CActiveRecord
 
   public function getPrice()
   {
+    $collection = \pay\components\OrderItemCollection::createByOrder($this);
     $price = 0;
-    foreach ($this->ItemLinks as $link)
+    foreach ($collection as $item)
     {
-      $price += $link->OrderItem->getPriceDiscount();
+      $price += $item->getPriceDiscount();
     }
     return $price;
   }

@@ -24,11 +24,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     foreach ($orders as $order)
     {
       $price2 = 0;
-      foreach ($order->ItemLinks as $link)
+      $collection = \pay\components\OrderItemCollection::createByOrder($order);
+      foreach ($collection as $item)
       {
-        if ($link->OrderItem->Paid)
+        if ($item->getOrderItem()->Paid)
         {
-          $price2 += $link->OrderItem->getPriceDiscount();
+          $price2 += $item->getPriceDiscount();
         }
       }
 

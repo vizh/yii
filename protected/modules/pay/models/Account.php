@@ -9,6 +9,9 @@ namespace pay\models;
  * @property string $ReturnUrl
  * @property string $Offer
  * @property string $OrderLastTime
+ * @property bool $OrderEnable
+ * @property bool $Uniteller
+ * @property bool $PayOnline
  *
  * @property \event\models\Event $Event
  */

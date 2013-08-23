@@ -17,10 +17,11 @@ class ItemsAction extends \api\components\Action
         ->byOwnerId($owner->Id)->byChangedOwnerId($owner->Id, false)
         ->byEventId($this->getEvent()->Id)->byPaid(true)
         ->findAll();
+    $collection = \pay\components\OrderItemCollection::createByOrderItems($orderItems);
     $result->Items = array();
-    foreach ($orderItems as $orderItem)
+    foreach ($collection as $item)
     {
-      $result->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($orderItem);
+      $result->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($item);
     }
     $this->getController()->setResult($result);
   }

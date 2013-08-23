@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $this CabinetController
- * @var $orders \pay\models\Order[]
+ * @var $finder \pay\components\collection\Finder
  */
 ?>
 <table class="table">
@@ -11,26 +11,28 @@
   </tr>
   </thead>
   <tbody>
-  <?php foreach ($orders as $order):?>
+  <?foreach ($finder->getUnpaidOrderCollections() as $collection):?>
+      <?if ($collection->getOrder() == null) continue;?>
+
     <tr>
       <td style="padding-left: 10px; width: 15px;">
-        <?if (!$order->Paid):?>
-        <a href="<?=$this->createUrl('/pay/juridical/delete', array('orderId' => $order->Id));?>"><i class="icon-trash"></i></a>
+        <?if (!$collection->getOrder()->Paid):?>
+        <a href="<?=$this->createUrl('/pay/juridical/delete', array('orderId' => $collection->getOrder()->Id));?>"><i class="icon-trash"></i></a>
         <?endif;?>
       </td>
-      <td><?=\Yii::t('app', 'Счет');?> № <?=$order->Id;?> <?=\Yii::t('app', 'от');?> <?=\Yii::app()->dateFormatter->format('d MMMM yyyy', $order->CreationTime);?>
+      <td><?=\Yii::t('app', 'Счет');?> № <?=$collection->getOrder()->Id;?> <?=\Yii::t('app', 'от');?> <?=\Yii::app()->dateFormatter->format('d MMMM yyyy', $collection->getOrder()->CreationTime);?>
 
 
       </td>
 
       <td>
-        <?if ($order->Paid):?>
+        <?if ($collection->getOrder()->Paid):?>
           <span class="label label-success"><?=Yii::t('app', 'Оплачен');?></span>
         <?endif;?>
       </td>
 
-      <td><a target="_blank" href="<?=\Yii::app()->createUrl('/pay/order/index', array('orderId' => $order->Id, 'hash' => $order->getHash()));?>"><?=\Yii::t('app', 'Просмотреть счет');?></a></td>
+      <td><a target="_blank" href="<?=$collection->getOrder()->getUrl();?>"><?=\Yii::t('app', 'Просмотреть счет');?></a></td>
     </tr>
-  <?php endforeach;?>
+  <?endforeach;?>
   </tbody>
 </table>
