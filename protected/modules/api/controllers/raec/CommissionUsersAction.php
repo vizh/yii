@@ -6,17 +6,21 @@ class CommissionUsersAction extends \api\components\Action
   public function run()
   {
     $commissionId = \Yii::app()->getRequest()->getParam('CommissionId');
-    /** @var $commission \commission\models\Commission */
-    $commission = \commission\models\Commission::model()->findByPk($commissionId);
-    if ($commission === null)
+
+    if (!is_array($commissionId))
     {
-      throw new \api\components\Exception(601, array($commissionId));
+      $commissionId = [intval($commissionId)];
     }
+    $criteria = new \CDbCriteria();
+    $criteria->addInCondition('"t"."CommissionId"', $commissionId);
+    $criteria->addCondition('"t"."ExitTime" IS NULL OR "t"."ExitTime" > NOW()');
+    /** @var \commission\models\User $users */
+    $users = \commission\models\User::model()->findAll($criteria);
 
     $builder = new \api\components\builders\Builder(null); //todo: быстрое решение, исправить
 
     $result = array();
-    foreach ($commission->UsersActive as $user)
+    foreach ($users as $user)
     {
       $builder->createUser($user->User);
       $builder->buildUserEmployment($user->User);
