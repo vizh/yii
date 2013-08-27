@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'ibcrussia13-html-1';
+    $template = 'cloudaward13-html-1';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -14,6 +14,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $j = 0;
 
     $criteria = new \CDbCriteria();
+
 
     // ГеоВыборка
     /*
@@ -29,11 +30,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition(' ("Participants"."EventId" IN (258) OR "Region"."Id" IN (4925,4503,4773,3761,4481,3503,3251)) AND "Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 423)');
     */
 
+
     // Чтение из файла
     /*
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-05-14/users.csv');
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-09-26/emails.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
-//    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+
+    $users = $emails;
+
     $criteria->with = array(
       'Settings' => array('select' => false)
     );
@@ -42,11 +47,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $users = \user\models\User::model()->findAll($criteria);
     */
+
 
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
@@ -54,7 +60,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //      'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
-    $criteria->addInCondition('"Participants"."EventId"', array(120,195,246,9,43,95,153,236,414));
+
+//    $criteria->addInCondition('"Participants"."EventId"', array(120,195,246,9,43,95,153,236,414));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 /*
     $criteria->addCondition('"t"."CreationTime" > :CreationTime');
@@ -62,11 +69,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('"t"."Email" NOT LIKE :Email');
     $criteria->params['Email'] = '%nomail497+%';
 */
+
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953,454));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 454, 122262));
+
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 122573, 12959));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959));
 
@@ -88,8 +97,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-//        $body = $this->renderPartial($template, array('user' => $user), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+
+        $body = $this->renderPartial($template, array('user' => $user), true);
+
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -100,6 +111,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->IsHTML($isHTML);
 
         $email = $user->Email;
+//        $email = $user;
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
@@ -117,10 +129,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Открыта регистрация на IBC Russia 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Облака 2013. Стартовал прием заявок!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
@@ -128,6 +140,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //        $mail->Send();
 
+//        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
