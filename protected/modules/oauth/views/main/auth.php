@@ -3,6 +3,7 @@
  * @var $this MainController
  * @var $model \oauth\components\form\AuthForm
  * @var $socialProxy \oauth\components\social\Proxy
+ * @var $fast string|null
  */
 ?>
 
@@ -19,6 +20,9 @@
     });
 
     // Additional init code here
+    <?if ($fast !== null):?>
+    $('#fb_login').trigger('click');
+    <?endif;?>
 
   };
 
@@ -30,6 +34,7 @@
     js.src = "//connect.facebook.net/en_US/all.js";
     ref.parentNode.insertBefore(js, ref);
   }(document));
+
 </script>
 
 <?php echo CHtml::beginForm();?>

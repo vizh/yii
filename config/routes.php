@@ -34,6 +34,12 @@ return array(
         'http://'.RUNETID_HOST.'/proftest2/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 1]],
         'http://'.RUNETID_HOST.'/proftest2/end' => ['competence/main/end/', 'defaultParams' => ['id' => 1]],
         'http://'.RUNETID_HOST.'/proftest2/done' => ['competence/main/done/', 'defaultParams' => ['id' => 1]],
+
+        /** iResearch 2013 */
+        'http://'.RUNETID_HOST.'/iresearch2013/' => ['competence/main/index/', 'defaultParams' => ['id' => 2]],
+        'http://'.RUNETID_HOST.'/iresearch2013/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 2]],
+        'http://'.RUNETID_HOST.'/iresearch2013/end' => ['competence/main/end/', 'defaultParams' => ['id' => 2]],
+        'http://'.RUNETID_HOST.'/iresearch2013/done' => ['competence/main/done/', 'defaultParams' => ['id' => 2]],
           
           
         /** Partner Module Rules */

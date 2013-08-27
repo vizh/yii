@@ -304,13 +304,17 @@ class Builder
 
   
   protected $orderItem;
+
   /**
-  * @param \pay\models\OrderItem $orderItem
-  * @return \stdClass
-  */
-  public function createOrderItem($orderItem)
+   * @param \pay\components\OrderItemCollectable $item
+   *
+   * @return \stdClass
+   */
+  public function createOrderItem(\pay\components\OrderItemCollectable $item)
   {
     $this->orderItem = new \stdClass();
+
+    $orderItem = $item->getOrderItem();
     
     $this->orderItem->OrderItemId = $orderItem->Id; /** todo: deprecated **/
     $this->orderItem->Id = $orderItem->Id;
@@ -322,7 +326,7 @@ class Builder
     $this->createUser($owner);
     $this->orderItem->Owner = $this->buildUserEmployment($owner);
 
-    $this->orderItem->PriceDiscount = $orderItem->getPriceDiscount();
+    $this->orderItem->PriceDiscount = $item->getPriceDiscount();
     $this->orderItem->Paid = $orderItem->Paid == 1;
     $this->orderItem->PaidTime = $orderItem->PaidTime;
     $this->orderItem->Booked = $orderItem->Booked;
@@ -334,9 +338,11 @@ class Builder
     }
     $this->orderItem->Params = $this->orderItem->Attributes; /** todo: deprecated */
 
+
+    $this->orderItem->Discount = $item->getDiscount();
     $couponActivation = $orderItem->getCouponActivation();
-    $this->orderItem->Discount = !empty($couponActivation) && !empty($couponActivation->Coupon) ? $couponActivation->Coupon->Discount : 0;
     $this->orderItem->CouponCode = !empty($couponActivation) && !empty($couponActivation->Coupon) ? $couponActivation->Coupon->Code : null;
+    $this->orderItem->GroupDiscount = $item->getIsGroupDiscount();
     return $this->orderItem;
   }
   

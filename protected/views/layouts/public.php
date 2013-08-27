@@ -122,6 +122,18 @@
   </div>
 </footer>
 
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-43416013-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
 <div id="ModalAuth" class="modal hide fade" style="width: 620px; outline-style: none; overflow: hidden;" data-src="<?=Yii::app()->createUrl('/oauth/main/auth');?>" data-width="640" data-height="662" tabindex="-1" role="dialog"></div>
 </body>
 </html>

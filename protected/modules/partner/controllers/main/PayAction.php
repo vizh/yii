@@ -47,7 +47,6 @@ class PayAction extends \partner\components\Action
   private function getOldStatistics()
   {
     $statistics = new PayStatistics();
-
     $statistics->countJuridicalOrders = \pay\models\Order::model()
         ->byEventId($this->getEvent()->Id)->byJuridical(true)->count();
 
@@ -58,37 +57,36 @@ class PayAction extends \partner\components\Action
 
     /** @var $orders \pay\models\Order[] */
     $orders = \pay\models\Order::model()
-        ->byEventId($this->getEvent()->Id)->byJuridical(true)->byPaid(true)
+        ->byEventId($this->getEvent()->Id)->byPaid(true)
         ->with(array('ItemLinks.OrderItem' => array('together' => false)))
         ->findAll();
-    $statistics->countPaidJuridicalOrders = sizeof($orders);
-    $statistics->totalJuridical = 0;
-    $paidItemIdList = array();
+
     foreach ($orders as $order)
     {
-      foreach ($order->ItemLinks as $link)
+      $collection = \pay\components\OrderItemCollection::createByOrder($order);
+      if ($order->Juridical)
       {
-        if ($link->OrderItem->Paid)
+        $statistics->countPaidJuridicalOrders++;
+      }
+      else
+      {
+        $statistics->countPaidPhysicalOrders++;
+      }
+
+      foreach ($collection as $item)
+      {
+        if ($item->getOrderItem()->Paid)
         {
-          $statistics->totalJuridical += $link->OrderItem->getPriceDiscount();
-          $paidItemIdList[] = $link->OrderItem->Id;
+          if ($order->Juridical)
+          {
+            $statistics->totalJuridical += $item->getPriceDiscount();
+          }
+          else
+          {
+            $statistics->totalPhysical += $item->getPriceDiscount();
+          }
         }
       }
-    }
-
-    $criteria = new \CDbCriteria();
-    $criteria->addNotInCondition('"t"."Id"', $paidItemIdList);
-
-    /** @var $orderItems \pay\models\OrderItem[] */
-    $orderItems = \pay\models\OrderItem::model()
-        ->byEventId($this->getEvent()->Id)->byPaid(true)
-        ->with(array('Product'))
-        ->findAll($criteria);
-
-    $statistics->totalPhysical = 0;
-    foreach ($orderItems as $item)
-    {
-      $statistics->totalPhysical += $item->getPriceDiscount();
     }
 
     return $statistics;
@@ -104,4 +102,13 @@ class PayStatistics
   public $totalJuridical;
   public $countPaidPhysicalOrders;
   public $totalPhysical;
+
+  public function __construct()
+  {
+    $this->countJuridicalOrders = 0;
+    $this->countPaidJuridicalOrders = 0;
+    $this->countPaidPhysicalOrders = 0;
+    $this->totalJuridical = 0;
+    $this->totalPhysical = 0;
+  }
 }

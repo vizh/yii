@@ -15,6 +15,7 @@ class Controller extends \application\components\controllers\BaseController
   protected $refererHash = null;
   protected $url = null;
   protected $social = null;
+  protected $fast = null;
 
   protected function initResources()
   {
@@ -62,6 +63,7 @@ class Controller extends \application\components\controllers\BaseController
 
     $this->url = $request->getParam('url');
     $this->social = $request->getParam('social');
+    $this->fast = $request->getParam('fast');
 
     if ($account === null)
     {
@@ -80,16 +82,20 @@ class Controller extends \application\components\controllers\BaseController
     return true;
   }
 
-  public function createUrl($route, $params = array(), $ampersand = '&')
+  public function createUrl($route, $params = [], $ampersand = '&')
   {
     if (!empty($this->apiKey))
     {
       $params['apikey'] = $this->apiKey;
     }
-    $params = array_merge(array(
+    $params = array_merge([
       'url' => $this->url,
       'social' => $this->social,
-    ), $params);
+    ], $params);
+    if ($this->fast !== null)
+    {
+      $params['fast'] = $this->fast;
+    }
     return parent::createUrl($route, $params, $ampersand);
   }
 }

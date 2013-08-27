@@ -32,7 +32,7 @@ var RunetId = new function() {
     }
   };
 
-  RunetId.prototype.login = function(){
+  RunetId.prototype.login = function(fast){
     var self = this;
 
     var windowDimensions = self.windowDimensions();
@@ -42,13 +42,17 @@ var RunetId = new function() {
     {
       self.PopUpWindow.close();
     }
-    self.PopUpWindow = window.open(self.getUrl(), 'RUNETID', 'menubar=no,width='+self.width+',height='+self.height+',toolbar=no,left='+left+',top='+top);
+    self.PopUpWindow = window.open(self.getUrl(fast), 'RUNETID', 'menubar=no,width='+self.width+',height='+self.height+',toolbar=no,left='+left+',top='+top);
   };
 
-  RunetId.prototype.getUrl = function(){
+  RunetId.prototype.getUrl = function(fast){
     var self = this;
-
-    return self.url + '?apikey=' + encodeURIComponent(self.apiKey) + '&url='+encodeURIComponent(self.backUrl);
+    var url = self.url + '?apikey=' + encodeURIComponent(self.apiKey) + '&url='+encodeURIComponent(self.backUrl);
+    if (typeof fast != "undefined")
+    {
+      url += '&fast='+encodeURIComponent(fast);
+    }
+    return url;
   };
 
   RunetId.prototype.recover = function(){

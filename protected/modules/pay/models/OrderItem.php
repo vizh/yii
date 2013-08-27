@@ -371,6 +371,12 @@ class OrderItem extends \CActiveRecord
     return true;
   }
 
+  public function check()
+  {
+    $owner = $this->ChangedOwnerId == null ? $this->Owner : $this->ChangedOwner;
+    return $this->Product->getManager()->checkProduct($owner);
+  }
+
   public function deactivate()
   {
 

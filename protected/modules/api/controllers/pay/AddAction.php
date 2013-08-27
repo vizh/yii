@@ -40,7 +40,13 @@ class AddAction extends \api\components\Action
     }
     
     $orderItem = $product->getManager()->createOrderItem($payer, $owner);
-    $result = $this->getAccount()->getDataBuilder()->createOrderItem($orderItem);
+    $collection = \pay\components\OrderItemCollection::createByOrderItems([$orderItem]);
+    $result = null;
+    foreach ($collection as $item)
+    {
+      $result = $this->getAccount()->getDataBuilder()->createOrderItem($item);
+      break;
+    }
     $this->getController()->setResult($result);
   }
 }

@@ -66,6 +66,8 @@ class MainController extends \oauth\components\Controller
     {
       $this->redirect($this->createUrl('/oauth/main/dialog'));
     }
+    $fast = $this->fast;
+    $this->fast = null;
 
     $socialProxy = !empty($this->social) ? new \oauth\components\social\Proxy($this->social) : null;
 
@@ -99,7 +101,11 @@ class MainController extends \oauth\components\Controller
       }
     }
 
-    $this->render('auth', array('model' => $authForm, 'socialProxy' => $socialProxy));
+    $this->render('auth', [
+      'model' => $authForm,
+      'socialProxy' => $socialProxy,
+      'fast' => $fast
+    ]);
   }
 
   public function actionRegister()

@@ -17,7 +17,7 @@ class Action extends \CAction
    */
   public function getAccount()
   {
-    return $this->getController()->Account();
+    return $this->getController()->getAccount();
   }
 
   /**

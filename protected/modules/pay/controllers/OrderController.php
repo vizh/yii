@@ -20,21 +20,22 @@ class OrderController extends \application\components\controllers\MainController
 
     $billData = array();
     $total = 0;
-    foreach ($order->ItemLinks as $link)
+    $collection = \pay\components\OrderItemCollection::createByOrder($order);
+    foreach ($collection as $item)
     {
-      $item = $link->OrderItem;
+      $orderItem = $item->getOrderItem();
       $price = $item->getPriceDiscount($order->CreationTime);
-      if (! isset($billData[$item->Product->Id.$price]))
+      if (! isset($billData[$orderItem->ProductId.$price]))
       {
-        $billData[$item->Product->Id.$price] = array(
-          'Title' => $item->Product->getManager()->GetTitle($item),
-          'Unit' => $item->Product->Unit,
+        $billData[$orderItem->ProductId.$price] = array(
+          'Title' => $orderItem->Product->getManager()->GetTitle($orderItem),
+          'Unit' => $orderItem->Product->Unit,
           'Count' => 0,
           'DiscountPrice' => $price,
-          'ProductId' => $item->Product->Id
+          'ProductId' => $orderItem->ProductId
         );
       }
-      $billData[$item->Product->Id.$price]['Count'] += 1;
+      $billData[$orderItem->ProductId.$price]['Count'] += 1;
       $total += $price;
     }
 

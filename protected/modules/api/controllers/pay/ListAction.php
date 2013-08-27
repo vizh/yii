@@ -20,38 +20,35 @@ class ListAction extends \api\components\Action
     
     $result = new \stdClass();
 
-    $order = new \pay\models\Order();
-    $order->getUnpaidItems($payer, $this->getEvent());
-    $orderItems = \pay\models\OrderItem::getFreeItems($payer->Id, $this->getEvent()->Id);
+    $finder = \pay\components\collection\Finder::create($this->getEvent()->Id, $payer->Id);
+    $collections = array_merge([$finder->getUnpaidFreeCollection()], $finder->getPaidOrderCollections(), $finder->getPaidFreeCollections());
+
     $result->Items = array();
-    foreach ($orderItems as $orderItem)
+    foreach ($collections as $collection)
     {
-      $result->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($orderItem);
+      foreach ($collection as $item)
+      {
+        $result->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($item);
+      }
     }
 
-    /** @var $orders \pay\models\Order[] */
-    $orders = \pay\models\Order::model()
-        ->byPayerId($payer->Id)
-        ->byEventId($this->getEvent()->Id)
-        ->byJuridical(true)
-        ->byDeleted(false)->with(array('ItemLinks.OrderItem', 'ItemLinks.OrderItem.Product'))
-        ->findAll();
+    /** @var $collections \pay\components\OrderItemCollection[] */
+    $collections = array_merge($finder->getUnpaidOrderCollections(), $finder->getPaidOrderCollections());
 
     $result->Orders = array();
-    foreach ($orders as $order)
+    foreach ($collections as $collection)
     {
+      if ($collection->getOrder() == null)
+        continue;
       $orderObj = new \stdClass();
-      $orderObj->OrderId = $order->Id;
-      $orderObj->CreationTime = $order->CreationTime;
-      $orderObj->Paid = $order->Paid;
-      $orderObj->Url = \Yii::app()->createAbsoluteUrl('/pay/order/index', array(
-        'orderId' => $order->Id,
-        'hash' => $order->getHash()
-      ));
+      $orderObj->OrderId = $collection->getOrder()->Id;
+      $orderObj->CreationTime = $collection->getOrder()->CreationTime;
+      $orderObj->Paid = $collection->getOrder()->Paid;
+      $orderObj->Url = $collection->getOrder()->getUrl();
       $orderObj->Items = array();
-      foreach ($order->ItemLinks as $link)
+      foreach ($collection as $item)
       {
-        $orderObj->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($link->OrderItem);
+        $orderObj->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($item);
       }
       $result->Orders[] = $orderObj;
     }

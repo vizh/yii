@@ -24,11 +24,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     foreach ($orders as $order)
     {
       $price2 = 0;
-      foreach ($order->ItemLinks as $link)
+      $collection = \pay\components\OrderItemCollection::createByOrder($order);
+      foreach ($collection as $item)
       {
-        if ($link->OrderItem->Paid)
+        if ($item->getOrderItem()->Paid)
         {
-          $price2 += $link->OrderItem->getPriceDiscount();
+          $price2 += $item->getPriceDiscount();
         }
       }
 
@@ -38,6 +39,42 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     }
 
     echo '<br><br><br><br>' . $total;
+  }
+
+  public function actionExport()
+  {
+    return;
+    $participants = \event\models\Participant::model()->byEventId(647)->findAll();
+    $userIdList = [];
+    foreach ($participants as $participant)
+    {
+      $userIdList[] = $participant->UserId;
+    }
+
+    $criteria = new \CDbCriteria();
+    $criteria->addCondition('"t"."ExitTime" IS NULL OR "t"."ExitTime" > NOW()');
+    /** @var \commission\models\User[] $comissionUsers */
+    $comissionUsers = \commission\models\User::model()->findAll($criteria);
+
+    /** @var \user\models\User[] $users */
+    $users = [];
+    foreach ($comissionUsers as $comissionUser)
+    {
+      if (!in_array($comissionUser->UserId, $userIdList) && !isset($users[$comissionUser->UserId]))
+      {
+        $users[$comissionUser->UserId] = $comissionUser->User;
+      }
+    }
+
+    $event = \event\models\Event::model()->findByPk(647);
+    $event->skipOnRegister = true;
+    $role = \event\models\Role::model()->findByPk(33);
+
+    foreach ($users as $user)
+    {
+      $event->registerUser($user, $role);
+    }
+    echo count($users);
   }
 
 }

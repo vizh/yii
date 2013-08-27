@@ -17,13 +17,13 @@ class PayAction extends \pay\components\Action
     {
       $system = new \pay\components\systems\PayPal();
     }
-    elseif ($this->getEvent()->Id == 422 && $type == 'uniteller')
+    elseif ($account->Uniteller && $type == 'uniteller')
     {
       $system = new \pay\components\systems\Uniteller();
     }
     else
     {
-      if ($account->Own)
+      if ($account->PayOnline)
       {
         $system = new \pay\components\systems\PayOnline();
       }

@@ -1,16 +1,12 @@
 <?php
 /**
  * @var $unpaidItems \pay\models\OrderItem[]
- * @var $paidItems \pay\models\OrderItem[]
- * @var $recentPaidItems \pay\models\OrderItem[]
- * @var $orders \pay\models\Order[]
+ * @var $finder \pay\components\collection\Finder
  * @var $account \pay\models\Account
+ * @var $hasRecentPaidItems bool
  *
  * @var $this \pay\components\Controller
  */
-
-$paidItems = array_merge($recentPaidItems, $paidItems);
-
 ?>
 
 
@@ -28,15 +24,17 @@ $paidItems = array_merge($recentPaidItems, $paidItems);
       </div>
     </div>
 
-    <?$this->renderPartial('index/unpaidItems', array('unpaidItems' => $unpaidItems, 'hasRecentPaidItems' => (sizeof($recentPaidItems) > 0), 'account' => $account));?>
+    <?$this->renderPartial('index/unpaidItems', array('unpaidItems' => $unpaidItems, 'hasRecentPaidItems' => $hasRecentPaidItems, 'account' => $account));?>
 
-    <?php if (sizeof($orders) > 0):?>
-      <?$this->renderPartial('index/orders', array('orders' => $orders));?>
-    <?php endif;?>
+    <?if (sizeof($finder->getUnpaidOrderCollections()) > 0):?>
+      <?$this->renderPartial('index/orders', array('finder' => $finder));?>
+    <?endif;?>
   </div>
 
-  <?if (sizeof($paidItems) > 0):?>
-    <?$this->renderPartial('index/paidItems', array('paidItems' => $paidItems));?>
+  <?if (sizeof($finder->getPaidOrderCollections()) > 0 || sizeof($finder->getPaidFreeCollections()) > 0):?>
+    <?$this->renderPartial('index/paidItems', [
+      'paidCollections' => array_merge($finder->getPaidOrderCollections(), $finder->getPaidFreeCollections())
+    ]);?>
   <?endif;?>
 
 </div>

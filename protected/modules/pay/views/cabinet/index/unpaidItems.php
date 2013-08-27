@@ -7,8 +7,6 @@
  */
 
 $total = 0;
-
-$hideJuridical = $account->OrderLastTime !== null && $account->OrderLastTime < date('Y-m-d H:i:s');
 ?>
 
 <?if (sizeof($unpaidItems) > 0):?>
@@ -24,10 +22,10 @@ $hideJuridical = $account->OrderLastTime !== null && $account->OrderLastTime < d
     </thead>
   </table>
 
-  <?foreach ($unpaidItems as $key => $items):?>
+  <?foreach ($unpaidItems as $items):?>
     <?
-    /** @var $items \pay\models\OrderItem[] */
-    $product = $items[0]->Product;
+    /** @var $items \pay\components\OrderItemCollectable[] */
+    $product = $items[0]->getOrderItem()->Product;
     ?>
     <table class="table">
       <thead>
@@ -43,14 +41,19 @@ $hideJuridical = $account->OrderLastTime !== null && $account->OrderLastTime < d
         <?$total += $item->getPriceDiscount();?>
         <tr>
           <td style="padding-left: 10px; width: 15px;">
-            <a href="<?=$this->createUrl('/pay/cabinet/deleteitem', array('orderItemId' => $item->Id));?>"><i class="icon-trash"></i></a>
+            <a href="<?=$this->createUrl('/pay/cabinet/deleteitem', array('orderItemId' => $item->getOrderItem()->Id));?>"><i class="icon-trash"></i></a>
           </td>
           <td>
-            <?=$item->Owner->getFullName();?>
+            <?=$item->getOrderItem()->Owner->getFullName();?>
           </td>
           <td colspan="3" class="t-right muted last-child">
-            <?if ($item->getPriceDiscount() < $item->getPrice()):?>
-              <?=\Yii::t('app', 'Промо-код');?> <?=$item->getCouponActivation()->Coupon->Code;?>: <b class="number">-<?=$item->getPrice() - $item->getPriceDiscount();?></b> <?=Yii::t('app', 'руб.');?>
+            <?if ($item->getPriceDiscount() < $item->getOrderItem()->getPrice()):?>
+              <?if (!$item->getIsGroupDiscount()):?>
+                <?=\Yii::t('app', 'Промо код');?> <?=$item->getOrderItem()->getCouponActivation()->Coupon->Code;?>:
+              <?else:?>
+                  <?=\Yii::t('app', 'Групповая скидка');?>:
+              <?endif;?>
+              <b class="number">-<?=$item->getOrderItem()->getPrice() - $item->getPriceDiscount();?></b> <?=Yii::t('app', 'руб.');?>
             <?endif;?>
           </td>
         </tr>
@@ -68,37 +71,8 @@ $hideJuridical = $account->OrderLastTime !== null && $account->OrderLastTime < d
       <input type="checkbox" name="agreeOffer" value="1"/><?=\Yii::t('app', 'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате', array('{url}' => $this->createUrl('/pay/cabinet/offer')));?>
     </label>
   </div>
-  <div class="actions clearfix">
-    <a href="<?=$account->ReturnUrl===null ? $this->createUrl('/pay/cabinet/register') : $account->ReturnUrl;?>" class="btn btn-large">
-      <i class="icon-circle-arrow-left"></i>
-      <?=\Yii::t('app', 'Назад');?>
-    </a>
-    <?if ($account->EventId == 422):?>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'uniteller'));?>" class="btn btn-large btn-primary uniteller"><?=\Yii::t('app', 'Оплатить через');?></a>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay');?>" class="btn btn-large btn-primary payonline"><?=\Yii::t('app', 'Оплатить через');?></a>
-    <?else:?>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay');?>" class="btn btn-large btn-primary"><?=\Yii::t('app', 'Оплатить картой или эл. деньгами');?></a>
-    <?endif;?>
-    <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'paypal'));?>" class="btn btn-large btn-primary paypal"><?=\Yii::t('app', 'Оплатить через');?> <img src="/img/pay/logo-paypal.png" alt=""></a>
-    <?if ($account->EventId != 422 && !$hideJuridical):?>
-      <a href="<?php echo $this->createUrl('/pay/juridical/create/');?>" class="btn btn-large"><?=\Yii::t('app', 'Выставить счет');?> <span class="muted"><?=\Yii::t('app', '(для юр. лиц)');?></span></a>
-    <?endif;?>
-  </div>
 
-  <?if ($account->EventId == 422 || $hideJuridical):?>
-    <div class="actions clearfix">
-      <?if (!$hideJuridical):?>
-        <a href="<?php echo $this->createUrl('/pay/juridical/create/');?>" class="btn btn-large"><?=\Yii::t('app', 'Выставить счет');?> <span class="muted"><?=\Yii::t('app', '(для юр. лиц)');?></span></a>
-      <?else:?>
-        <a class="btn btn-large" style="display: none;" href=""></a>
-        <div class="row">
-          <div class="offset2 span8">
-            <p class="text-error">Окончен период выставления счетов юридическими лицами. Оплата возможна только банковскими картами и электронными деньгами.</p>
-          </div>
-        </div>
-      <?endif;?>
-    </div>
-  <?endif;?>
+  <?$this->renderPartial('index/payments', array('account' => $account));?>
 
 <?else:?>
 
