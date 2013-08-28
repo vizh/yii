@@ -134,7 +134,7 @@ use application\components\utility\Texts;
     <TD colspan="2">
       <table>
         <tr>
-          <td>Генеральный директор</td>
+          <td>Руководитель предприятия</td>
           <td>__________________________</td>
           <td>(Аникина М.П.)</td>
         </tr>
@@ -144,9 +144,9 @@ use application\components\utility\Texts;
           <td></td>
         </tr>
         <tr>
-          <td>Финансовый директор</td>
+          <td>Главный бухгалтер</td>
           <td>__________________________</td>
-          <td>(Банделюк Р.В.)</td>
+          <td>(Морозова Е.В.)</td>
         </tr>
       </table>
       <br/><br/><br/><br/><br/>
