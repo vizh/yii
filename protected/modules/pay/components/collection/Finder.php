@@ -65,23 +65,22 @@ class Finder
       $orderItems = \pay\models\OrderItem::model()
           ->byEventId($this->eventId)->byPayerId($this->payerId)
           ->byPaid(false)->byBooked(true)->byDeleted(false)->findAll($criteria);
-      for ($i=0; $i < sizeof($orderItems); $i++)
+
+      foreach ($orderItems as $key => $orderItem)
       {
-        if (!$orderItems[$i]->check())
+        if (!$orderItem->check())
         {
-          $orderItems[$i]->delete();
-          unset($orderItems[$i]);
-          $i--;
+          $orderItem->delete();
+          unset($orderItems[$key]);
         }
-        elseif ($orderItems[$i]->getPrice() == 0)
+        elseif ($orderItem->getPrice() == 0)
         {
-          $orderItems[$i]->activate();
+          $orderItem->activate();
           if ($this->paidFreeCollections !== null)
           {
-            $this->paidFreeCollections[] = OrderItemCollection::createByOrderItems([$orderItems[$i]]);
+            $this->paidFreeCollections[] = OrderItemCollection::createByOrderItems([$orderItem]);
           }
-          unset($orderItems[$i]);
-          $i--;
+          unset($orderItems[$key]);
         }
       }
       $this->unpaidFreeCollection = OrderItemCollection::createByOrderItems($orderItems);

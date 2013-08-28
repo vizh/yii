@@ -6,17 +6,18 @@ class CreateAction extends \partner\components\Action
 
   /** @var \user\models\User */
   public $payer;
-  public $error = '';
+
+  protected $payerRunetId;
 
   public function run()
   {
     $this->getController()->setPageTitle('Выставление счета');
     $this->getController()->initActiveBottomMenu('createbill');
 
-    $payerRocId = \Yii::app()->getRequest()->getParam('payerRocId');
-    if (!empty($payerRocId))
+    $this->payerRunetId = \Yii::app()->getRequest()->getParam('payerRunetId');
+    if (!empty($this->payerRunetId))
     {
-      $this->payer = \user\models\User::GetByRocid($payerRocId);
+      $this->payer = \user\models\User::model()->byRunetId($this->payerRunetId)->find();
       $this->stepCreateOrder();
     }
     else
@@ -25,74 +26,44 @@ class CreateAction extends \partner\components\Action
     }
   }
 
-  private function stepIndex ()
+  private function stepIndex($error = null)
   {
-    $request = \Yii::app()->request;
-    $form = new \partner\components\form\OrderCreateIndexForm();
- 
-    if (!empty($this->error))
-    {
-      $form->addError('PayerRocId', $this->error);
-    }
-    
-    $form->attributes = $request->getParam(get_class($form));
-    if ($request->getIsPostRequest() && $form->validate())
-    {
-      $this->getController()->redirect(\Yii::app()->createUrl('/partner/order/create', array('payerRocId' => $form->PayerRocId)));
-    }
-    $this->getController()->render('create-index', array('form' => $form));
+    $this->getController()->render('create-index', [
+      'payerRunetId' => $this->payerRunetId,
+      'error' => $error
+    ]);
   }
 
   private function stepCreateOrder ()
   {
     if (!isset($this->payer))
     {
-      $this->error = 'Плательщик не найден';
-      $this->stepIndex();
+      $this->stepIndex('Плательщик не найден');
       return;
     }
 
-    $allOrderItems = \pay\models\OrderItem::GetByEventId($this->payer->UserId, \Yii::app()->partner->getAccount()->EventId);
-    $orderItems = array();
-
-    if ( !empty ($allOrderItems))
+    $finder = \pay\components\collection\Finder::create($this->getEvent()->Id, $this->payer->Id);
+    $collection = $finder->getUnpaidFreeCollection();
+    if (count($collection) == 0)
     {
-      foreach ($allOrderItems as $orderItem)
-      {
-        if ( $orderItem->Product->ProductManager()->CheckProduct( $orderItem->Owner, $orderItem->getParamsArray()))
-        {
-          $orderItems[] = $orderItem;
-        }
-        else
-        {
-          $orderItem->Deleted = 1;
-          $orderItem->save();
-        }
-      }
-    }
-
-    if (empty ($orderItems))
-    {
-      $this->error = 'На пользователя с rocID: '. $this->payer->RocId .' нет ни одного заказа';
-      $this->stepIndex();
+      $this->stepIndex('На пользователя с RUNET-ID: '. $this->payer->RunetId .' нет ни одного заказа');
       return;
     }
 
-    $request = \Yii::app()->request;
-    $createOrder = $request->getParam('CreateOrder');
-    if ( $request->getIsPostRequest() && !empty($createOrder))
+    $request = \Yii::app()->getRequest();
+    $form = new \pay\models\forms\Juridical();
+    $form->attributes = $request->getParam(get_class($form));
+    if ($request->getIsPostRequest() && $form->validate())
     {
-      if ( $this->createOrderValidateForm($createOrder))
-      {
-        \pay\models\Order::CreateOrder($this->payer, \Yii::app()->partner->getAccount()->EventId, $createOrder);
-        $this->getController()->redirect(\Yii::app()->createUrl('/partner/order/search', array('filter[PayerRocId]' => $this->payer->RocId)));
-      }
-      else
-      {
-        $this->error = 'Необходимо заполнить все поля данных юр. лиц.';
-      }
+      $order = new \pay\models\Order();
+      $order->create($this->payer, $this->getEvent(), true, $form->attributes);
+      $this->getController()->redirect(\Yii::app()->createUrl('/partner/order/view', ['orderId' => $order->Id]));
     }
-    $this->getController()->render('create-order', array('orderItems' => $orderItems));
+
+    $this->getController()->render('create-order', [
+      'collection' => $collection,
+      'form' => $form
+    ]);
   }
 
   private function createOrderValidateForm ($data)

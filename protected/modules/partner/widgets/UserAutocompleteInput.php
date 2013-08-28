@@ -28,7 +28,8 @@ class UserAutocompleteInput extends \CWidget
     $cs->registerScriptFile(
       \Yii::app()->getAssetManager()->publish(\Yii::getPathOfAlias('partner.widgets.assets.js').'/userautocompleteinput.js'), \CClientScript::POS_HEAD
     );
-    
+
+    $user = null;
     if (!empty($this->value))
     {
       $user = \user\models\User::model()->byRunetId($this->value)->find();
