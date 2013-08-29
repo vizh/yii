@@ -65,9 +65,4 @@ class CreateAction extends \partner\components\Action
       'form' => $form
     ]);
   }
-
-  private function createOrderValidateForm ($data)
-  {
-    return !empty($data['Name']) && !empty($data['Address']) && !empty($data['INN']) && !empty($data['KPP']) && !empty($data['Phone']) && !empty($data['PostAddress']);
-  }
 }
