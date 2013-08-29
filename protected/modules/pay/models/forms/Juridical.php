@@ -12,11 +12,11 @@ class Juridical extends \CFormModel
 
   public function rules()
   {
-    return array(
-      array('Name, Address, INN, KPP, Phone, PostAddress', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
-      array('Name, Address, INN, KPP, Phone', 'required'),
-      array('PostAddress', 'safe')
-    );
+    return [
+      ['Name, Address, INN, KPP, Phone, PostAddress', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
+      ['Name, Address, INN, KPP, Phone', 'required'],
+      ['PostAddress', 'safe']
+    ];
   }
 
   public function setAttributes($values, $safeOnly = true)

@@ -14,22 +14,22 @@ class OrderitemController extends \partner\components\Controller
 
   public function initBottomMenu()
   {
-    $this->bottomMenu = array(
-      'index' => array(
+    $this->bottomMenu = [
+      'index' => [
         'Title' => 'Заказы',
         'Url' => \Yii::app()->createUrl('/partner/orderitem/index'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'orderitem', 'index')
-      ),
-      /*'create' => array(
+      ],
+      'create' => [
         'Title' => 'Добавить заказ',
         'Url' => \Yii::app()->createUrl('/partner/orderitem/create'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'orderitem', 'create')
-      ),*/
-      'redirect' => array(
+      ],
+      'redirect' => [
         'Title' => 'Перенести заказ',
         'Url' => \Yii::app()->createUrl('/partner/orderitem/redirect'),
         'Access' => $this->getAccessFilter()->checkAccess('partner', 'orderitem', 'redirect')
-      ),
-    );
+      ],
+    ];
   }
 }

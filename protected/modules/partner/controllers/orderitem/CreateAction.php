@@ -10,54 +10,32 @@ class CreateAction extends \partner\components\Action
     $this->getController()->setPageTitle('Добавление заказа');
     $this->getController()->initActiveBottomMenu('create');
 
-    $cs = \Yii::app()->clientScript;
-    $cs->registerScriptFile(\Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/js/libs/jquery-ui-1.8.16.custom.min.js'), \CClientScript::POS_HEAD);
 
-        $blitzerPath = \Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/css/blitzer');
-        $cs->registerCssFile($blitzerPath . '/jquery-ui-1.8.16.custom.css');
+    $request = \Yii::app()->getRequest();
 
-    $products = \pay\models\Product::model()->findAll('t.EventId = :EventId', array(':EventId' => \Yii::app()->partner->getAccount()->EventId));
+    $form = new \partner\models\forms\orderitem\Create($this->getEvent());
+    $form->attributes = $request->getParam(get_class($form));
 
-    $request = \Yii::app()->request;
-    $orderItem = $request->getParam('OrderItem', array());
-
-    $params = array('products' => $products);
-
-    if ($request->getIsPostRequest() && !empty($orderItem))
+    if ($request->getIsPostRequest() && $form->validate())
     {
-      $selectedProduct = \pay\models\Product::GetById($orderItem['ProductId']);
-      $payer   = \user\models\User::GetByRocid($orderItem['PayerRocId']);
-      $owner   = \user\models\User::GetByRocid($orderItem['OwnerRocId']);
+      $payer = \user\models\User::model()->byRunetId($form->PayerRunetId)->find();
+      $owner = \user\models\User::model()->byRunetId($form->OwnerRunetId)->find();
 
-      if ( empty ($selectedProduct))
-      {
-        $this->error = 'Не найден продукт';
-      }
-      else if ( empty ($payer))
-      {
-        $this->error = 'Не найден плательщик';
-      }
-      else if ( empty ($owner))
-      {
-        $this->error = 'Не найден получатель';
-      }
-
-      if ( empty($this->error))
-      {
-        $orderItemId = $selectedProduct->ProductManager()->CreateOrderItem($payer, $owner)->OrderItemId;
-        $this->getController()->redirect(\Yii::app()->createUrl('/partner/orderitem/index',
-          array('filter' => array('OrderItemId' => $orderItemId)))
+      try{
+        $orderItemId = $form->getProduct()->getManager()->createOrderItem($payer, $owner)->Id;
+        $searchForm = new \partner\models\forms\OrderItemSearch();
+        $this->getController()->redirect(
+          \Yii::app()->createUrl('/partner/orderitem/index', [
+            \CHtml::activeName($searchForm, 'OrderItem') => $orderItemId
+          ])
         );
       }
-      else
+      catch (\pay\components\Exception $e)
       {
-        $params['selectedProduct'] = $selectedProduct;
-        $params['payer'] = $payer;
-        $params['owner'] = $owner;
+        $form->addError('OrderItem', $e->getMessage());
       }
     }
 
-
-    $this->getController()->render('create', $params);
+    $this->getController()->render('create', ['form' => $form]);
   }
 }
