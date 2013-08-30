@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'cloudaward13-html-1';
+    $template = 'ifresh13-html-1';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -80,8 +80,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 122573, 12959));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -130,10 +130,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
-//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Облака 2013. Стартовал прием заявок!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция iFresh: Свежие идеи интернет-маркетинга') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');
