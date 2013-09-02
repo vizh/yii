@@ -36,19 +36,6 @@ $(function() {
 
   $('#live-search').trigger('focus');
 
-
-  /* LOGIN */
-//  $('#header, #promo').find('.login').toggle(
-//    function() {
-//      $('.b-login').slideDown();
-//      $(this).addClass('active');
-//    }, function() {
-//      $('.b-login').slideUp();
-//      $(this).removeClass('active');
-//    }
-//  );
-
-
   /* INDEX PAGE */
   /* Index page -> Promo tabs */
   $('#promo-tabs').tabs();
@@ -57,8 +44,6 @@ $(function() {
   /* EVENTS */
   /* Event page -> Thumbs */
   $('#event-thumbs .thumb').click('click',function() {
-    //$('#event-thumbs').find('.thumb.current').removeClass('current');
-    //$(this).addClass('current');
     $('#event-photo').attr('src', $(this).data('240px'));
   });
   $('#event-thumbs_prev, #event-thumbs_next').on('selectstart', function() {

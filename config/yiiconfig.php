@@ -14,7 +14,7 @@ return array(
   'language' => 'ru',
 
   // preloading 'log' component
-  'preload'=>array('log', 'session'),
+  'preload'=>array('log', 'session', 'debug'),
 
   // autoloading model and component classes
   'import'=>array(
@@ -114,6 +114,12 @@ return array(
         ),
       ),
     ),
+
+    'debug' => array(
+      'class' => 'ext.yii2-debug.Yii2Debug',
+      'allowedIPs' => ['10.10.4.1']
+    ),
+
   ),
 
 );

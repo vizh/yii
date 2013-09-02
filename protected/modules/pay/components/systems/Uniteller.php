@@ -8,6 +8,11 @@ class Uniteller extends Base
   private $shopId;
   private $password;
 
+  function __construct($shopId = null)
+  {
+    $this->shopId = $shopId;
+  }
+
   /**
    * @return array
    */
@@ -18,7 +23,10 @@ class Uniteller extends Base
 
   protected function initRequiredParams($orderId)
   {
-    $this->shopId = '00001681';
+    if ($this->shopId == null)
+    {
+      $this->shopId = '00001681';
+    }
     $this->password = 'Ip4Ft2bcCCGezOni6S9aihhAZ2I0MPlUJgw9G1SNflmZMkJ7UIIQVheXtZG29cGUsSSxko9stQWHXdqK';
   }
 

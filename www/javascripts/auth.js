@@ -24,6 +24,9 @@ ModalAuth.prototype.init = function()
     iframe.attr('height', self.height);
     iframe.attr('scrolling', 'no');
     iframe.attr('frameborder', 0);
+    iframe.on('load', function(event){
+      self.iFrameResize(event);
+    });
     self.modal.append(iframe);
   });
   self.modal.on('hidden', function(){
@@ -42,3 +45,10 @@ ModalAuth.prototype.success = function()
   self.modal.modal('hide');
   window.location.reload();
 };
+ModalAuth.prototype.iFrameResize = function(event)
+{
+  var target = event.currentTarget;
+  $(target).attr('height', target.contentWindow.document.body.offsetHeight);
+};
+
+
