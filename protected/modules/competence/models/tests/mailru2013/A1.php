@@ -22,7 +22,6 @@ class A1 extends \competence\models\Question
         48 => '48.png',
         400 => '400.png',
         401 => '401.png',
-        390 => '390.png',
         402 => '402.png'
       ]);
       $this->options[49] = 'unknow.png';

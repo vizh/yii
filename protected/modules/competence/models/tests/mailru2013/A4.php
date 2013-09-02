@@ -23,7 +23,6 @@ class A4 extends \competence\models\Question
         48 => '<strong>Долгов</strong> (<em>ex-Google&nbsp;Russia</em>)',
         400 => '<strong>Широков</strong> (<em>Одноклассники</em>)',
         401 => '<strong>Артамонова</strong> (<em>Mail.ru Group</em>)',
-        390 => '<strong>Сегалович</strong> (<em>Яндекс</em>)',
         402 => '<strong>Захаров</strong> (<em>Рамблер-Афиша-SUP</em>)'
       ]);
     }
