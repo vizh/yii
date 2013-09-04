@@ -44,7 +44,7 @@ return array(
         'runetid.application' => array(
           'baseUrl' => '/',
           'js' => array('javascripts/application.js', 'javascripts/auth.js'),
-          'css' => array('stylesheets/application.css', 'stylesheets/app-changes.css'),
+          'css' => array('stylesheets/application.css'),
           'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.backbone', 'runetid.bootstrap', 'runetid.jquery.ioslider')
         ),
         'runetid.event-calculate-price' => array(

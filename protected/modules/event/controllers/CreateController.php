@@ -25,6 +25,7 @@ class CreateController extends \application\components\controllers\PublicMainCon
       
       $translit = new \ext\translator\Translite();
       $event->IdName = preg_replace("|[^a-z]|i", "", $translit->translit($event->Title));
+      $event->IdName = mb_substr($event->IdName, 0, 128);
       
       $startDate = getdate($form->StartTimestamp);
       $event->StartYear = $startDate['year'];

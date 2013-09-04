@@ -19,7 +19,14 @@ class PayAction extends \pay\components\Action
     }
     elseif ($account->Uniteller && $type == 'uniteller')
     {
-      $system = new \pay\components\systems\Uniteller();
+      if ($account->Own)
+      {
+        $system = new \pay\components\systems\Uniteller('00000524');
+      }
+      else
+      {
+        $system = new \pay\components\systems\Uniteller();
+      }
     }
     else
     {
