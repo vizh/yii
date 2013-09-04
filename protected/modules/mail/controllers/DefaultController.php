@@ -33,11 +33,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Чтение из файла
     /*
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-09-26/emails.csv');
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-09-03/emails.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
-    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
-
+//    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
     $users = $emails;
+
+//    print count($users); exit();
+    */
+    /*
+    // C ПОИСКОМ ПО БД
 
     $criteria->with = array(
       'Settings' => array('select' => false)
@@ -53,7 +57,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = \user\models\User::model()->findAll($criteria);
     */
 
-
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
       'Participants' => array('together' => true),
@@ -61,6 +64,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
+//    $criteria->addInCondition('"Participants"."EventId"', array(193,319,730));
 //    $criteria->addInCondition('"Participants"."EventId"', array(258,423));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 /*
@@ -80,8 +84,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 122573, 12959));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -98,7 +102,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-
         $body = $this->renderPartial($template, array('user' => $user), true);
 
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
@@ -133,7 +136,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Осенние мероприятия') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Дайджест осенне-зимних мероприятий') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_rus.doc');

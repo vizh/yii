@@ -50,7 +50,7 @@
 
       table {
         width: 740px;
-        margin: 0 auto;
+        margin: 0 2px;
       }
 
       ul {
@@ -109,7 +109,7 @@
                 </td>
                 <td width="40"></td>
                 <td width="180">
-                  <img src="http://runet-id.com/files/event/pravodownload2013/150.png" width="150" alt="">
+                  <img src="http://runet-id.com/images/mail/runet-1/pdownload150.png" width="150" alt="">
                 </td>
                 <td width="50"></td>
               </tr>
@@ -121,8 +121,7 @@
               <tr>
                 <td></td>
                 <td>
-                  <h3 style="margin-bottom: 10px;">Научно-практическая конференция &laquo;Защита интеллектуальной собственности в Интернете: юридические, технологические, процедурные, организационные аспекты&raquo;</h3>
-                  <p style="margin-bottom: 10px;">Специалисты обсудят такие темы, как «Альтернативные концепции и модели регулирования», «Опыт исполнения антипиратского закона», «Анализ международного опыта, кейсы», а также «Обязательства России в области защиты интеллектуальной собственности в связи с вступлением во Всемирную торговую и Организацию экономического сотрудничества и развития».</p>
+                  <p style="margin-bottom: 10px;">Научно-практическая конференция "Защита интеллектуальной собственности в Интернете: юридические, технологические, процедурные, организационные аспекты". Главная тема конференции – первые месяцы после вступления «антипиратского» закона в действие.</p>
                 </td>
                 <td></td>
                 <td valign="top">
@@ -173,7 +172,7 @@
                 </td>
                 <td width="40"></td>
                 <td width="180">
-                  <img src="http://runet-id.com/files/event/next2013/150.png" width="150" alt="">
+                  <img src="http://runet-id.com/images/mail/runet-1/next150.png" width="150" alt="">
                 </td>
                 <td width="50"></td>
               </tr>
@@ -185,8 +184,7 @@
               <tr>
                 <td></td>
                 <td>
-                  <h3 style="margin-bottom: 10px;">Конференция посвящена обсуждению наиболее актуальных проблем взаимодействия детей с онлайн-средой, изучению и исследованию несовершеннолетних в Сети, созданию современных детских интернет-ресурсов и сервисов и их монетизации</h3>
-                  <p style="margin-bottom: 10px;">Конференция пройдёт для создателей и сотрудников детских интернет-проектов, работников системы образования и профильных ведомств, аналитиков и журналистов, рекламистов и маркетологов.</p>
+                  <p style="margin-bottom: 10px;">Конференция посвящена обсуждению наиболее актуальных проблем взаимодействия детей с интернет-пространством. Создание современных детских интернет-ресурсов.</p>
                 </td>
                 <td></td>
                 <td valign="top">
@@ -232,11 +230,11 @@
               <tr>
                 <td width="50"></td>
                 <td width="420">
-                  <h1>Неделя Российского Интернета 2013, RIW-2013</h1>
+                  <h1>Неделя Российского Интернета 2013, RIW 2013</h1>
                 </td>
                 <td width="40"></td>
                 <td width="180">
-                  <img src="http://runet-id.com/files/event/riw13/150.png" width="150" alt="">
+                  <img src="http://runet-id.com/images/mail/runet-1/riw150.png" width="150" alt="">
                 </td>
                 <td width="50"></td>
               </tr>
@@ -248,16 +246,15 @@
               <tr>
                 <td></td>
                 <td>
-                  <h3 style="margin-bottom: 10px;">VI Неделя Российского Интернета (Russian Internet Week, RIW-2013) – это многопотоковая трехдневная конференция, состоящая из Общей и Профессиональной программы, Выставки, а также внепрограммных активностей, презентаций и промо-акций</h3>
-                  <p style="margin-bottom: 10px;">В программе конференции представлены практически все основные направления деятельности в Рунете: реклама, социальные медиа, веб-разработки, управление проектами, кадры, информационная безопасность, правовое регулирование и т.д. В мероприятии принимают участие эксперты и признанные специалисты Рунета, сотрудники российских и зарубежных IT-компаний, государственные деятели, представители профильных министерств и ведомств, журналисты и рядовые интернет-пользователи.</p>
+                  <p style="margin-bottom: 10px;">Главное ежегодное интернет-событие отрасли. Многопотоковая трехдневная конференция, более 50 секций  и более 300 докладчиков, выставка «Интернет-2013» от компаний-лидеров Рунета и Программа+.</p>
                 </td>
                 <td></td>
                 <td valign="top">
                   <h3 style="margin-bottom: 10px;"><b>17-19 октября</b></h3>
                   <p style="margin-bottom: 10px;">
-                    <strong>Место проведения</strong>:<br>г. Москва,<br />Краснопресненская наб., д. 14,<br />"Экспоцентр"
+                    <strong>Место проведения</strong>:<br>г. Москва,<br />Краснопресненская наб.,<br />д. 14, "Экспоцентр"
                   </p>
-                  <p style="margin-bottom: 10px;"><a href="<?='http://2013.russianinternetweek.ru/my/' . $user->RunetId . '/' . substr(md5($user->RunetId . 'xggMpIQINvHqR0QlZgZa'), 0, 16) . '/' ;?>" target="_blank">www.russianinternetweek.ru</a></p>
+                  <p style="margin-bottom: 10px;"><a href="http://2013.russianinternetweek.ru/" target="_blank">www.russianinternetweek.ru</a></p>
                 </td>
                 <td></td>
               </tr>
@@ -270,12 +267,138 @@
                 <td></td>
                 <td style="background: #e2f4fc;">
                   <div style="padding: 20px 0 20px 20px;">
-                    <h4>Участие в конференции Russian Internet Week, RIW-2013 с 17 по 19 октября</h4>
+                    <h4>Участие в конференции Russian Internet Week, RIW 2013 с 17 по 19 октября</h4>
                   </div>
                 </td>
                 <td style="background: #e2f4fc;"></td>
                 <td style="background: #e2f4fc; vertical-align: middle;">
                   <a href="<?='http://2013.russianinternetweek.ru/my/' . $user->RunetId . '/' . substr(md5($user->RunetId . 'xggMpIQINvHqR0QlZgZa'), 0, 16) . '/' ;?>" target="_blank" class="register-btn" style="display: inline-block; width: 139px; height: 41px; background: url(http://runet-id.com/images/mail/event-main-template/register-btn.png) transparent 0 0 no-repeat; color: #fff; font-size: 13px; line-height: 41px; text-align: center; text-decoration: none;">Регистрация</a>
+                </td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td colspan="5" height="40" style="border-bottom: 1px solid #dddddd;"></td>
+              </tr>
+
+
+
+              <!-- New Event -->
+
+              <tr>
+                <td colspan="5" height="30"></td>
+              </tr>
+
+              <!-- Columns width -->
+              <tr>
+                <td width="50"></td>
+                <td width="420">
+                  <h1>Премия<br />«Облака 2013»</h1>
+                </td>
+                <td width="40"></td>
+                <td width="180">
+                  <img src="http://runet-id.com/images/mail/runet-1/cloud150.png" width="150" alt="">
+                </td>
+                <td width="50"></td>
+              </tr>
+
+              <tr>
+                <td colspan="5" height="25"></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td>
+                  <p style="margin-bottom: 10px;">Ежегодная премия в области SAAS решений, демонстрация отечественных наработок и достижений в сфере «облачных технологий». Конкурс для талантливых и амбициозных  IT-команд российского интернет-рынка.</p>
+                </td>
+                <td></td>
+                <td valign="top">
+                  <h3 style="margin-bottom: 10px;"><b>18 октября</b></h3>
+                  <p style="margin-bottom: 10px;">
+                    <strong>Место проведения</strong>:<br>г. Москва
+                  </p>
+                  <p style="margin-bottom: 10px;"><a href="http://2013.cloudaward.ru" target="_blank">www.2013.cloudaward.ru</a></p>
+                </td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td colspan="5" height="25"></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td style="background: #e2f4fc;">
+                  <div style="padding: 20px 0 20px 20px;">
+                    <h4>Участие в премии «Облака 2013» 18 октября</h4>
+                  </div>
+                </td>
+                <td style="background: #e2f4fc;"></td>
+                <td style="background: #e2f4fc; vertical-align: middle;">
+                  <a href="http://2013.cloudaward.ru/#nominate" target="_blank" class="register-btn" style="display: inline-block; width: 139px; height: 41px; background: url(http://runet-id.com/images/mail/event-main-template/register-btn.png) transparent 0 0 no-repeat; color: #fff; font-size: 13px; line-height: 41px; text-align: center; text-decoration: none;">Номинировать</a>
+                </td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td colspan="5" height="40" style="border-bottom: 1px solid #dddddd;"></td>
+              </tr>
+
+
+              <!-- New Event -->
+
+
+              <tr>
+                <td colspan="5" height="30"></td>
+              </tr>
+
+              <!-- Columns width -->
+              <tr>
+                <td width="50"></td>
+                <td width="420">
+                  <h1>IBC Russia 2013</h1>
+                </td>
+                <td width="40"></td>
+                <td width="180">
+                  <img src="http://runet-id.com/images/mail/runet-1/ibc150.png" width="150" alt="">
+                </td>
+                <td width="50"></td>
+              </tr>
+
+              <tr>
+                <td colspan="5" height="25"></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td>
+                  <p style="margin-bottom: 10px;">Крупнейшая отраслевая конференция для бизнеса об интернет-маркетинге и веб-разработке. Расширенный диалог между различными игроками рынка  интернет-рекламы, направленный на получение максимальной практической информации для успешного старта в интернет-маркетинге.</p>
+                </td>
+                <td></td>
+                <td valign="top">
+                  <h3 style="margin-bottom: 10px;"><b>5-6 декабря</b></h3>
+                  <p style="margin-bottom: 10px;">
+                    <strong>Место проведения</strong>:<br>г. Москва<br />Краснопресненская наб.,<br />д. 12
+                  </p>
+                  <p style="margin-bottom: 10px;"><a href="http://ibcrussia.com/" target="_blank">www.ibcrussia.com</a></p>
+                </td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td colspan="5" height="25"></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td style="background: #e2f4fc;">
+                  <div style="padding: 20px 0 20px 20px;">
+                    <h4>Участие в конференции IBC Russia 2013 5-6 декабря</h4>
+                  </div>
+                </td>
+                <td style="background: #e2f4fc;"></td>
+                <td style="background: #e2f4fc; vertical-align: middle;">
+                  <a href="<?='http://ibcrussia.com/my/' . $user->RunetId . '/' . substr(md5($user->RunetId . 'xggMpIQINvHqR0QlZgZa'), 0, 16) . '/' ;?>" target="_blank" class="register-btn" style="display: inline-block; width: 139px; height: 41px; background: url(http://runet-id.com/images/mail/event-main-template/register-btn.png) transparent 0 0 no-repeat; color: #fff; font-size: 13px; line-height: 41px; text-align: center; text-decoration: none;">Регистрация</a>
                 </td>
                 <td></td>
               </tr>
@@ -294,7 +417,7 @@
         </td>
       </tr>
     </table>
-    <p style="width: 740px; margin: 0 auto; color: #909090;">Вы получили это письмо, так как являетесь <a href="<?=$user->getUrl();?>" target="_blank" style="color: #909090;">пользователем runet-id.ru</a> и подписаны на новостную рассылку. Вы можете <a href="http://runet-id.com/user/setting/subscription/" target="_blank" style="color: #909090;">изменить настройки уведомлений</a>.</p>
+    <p style="width: 740px; margin: 0 5px; color: #909090;">Вы получили это письмо, так как являетесь <a href="<?=$user->getUrl();?>" target="_blank" style="color: #909090;">пользователем runet-id.ru</a> и подписаны на новостную рассылку. Вы можете <a href="http://runet-id.com/user/setting/subscription/" target="_blank" style="color: #909090;">изменить настройки уведомлений</a>.</p>
 
   </body>
 </html>
