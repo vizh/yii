@@ -12,6 +12,13 @@
     font-size: 20px;
   }
 </style>
+<script type="text/javascript">
+$(function () {
+  $('input[id*="Create_Options_6"]').change(function () {
+    $('input[id*="Create_PlannedParticipants"]').toggleClass('hide');
+  });
+});
+</script>
 
 <h2 class="b-header_large light">
   <div class="line"></div>
@@ -123,6 +130,9 @@
           <label class="checkbox">
             <?=\CHtml::activeCheckBox($form, 'Options['.$key.']', array('checked' => in_array($key, $form->Options) ? true : null, 'uncheckValue' => null, 'value' => $key));?> <?=$option;?>
           </label>
+          <?if ($key == 6):?>
+            <?=\CHtml::activeTextField($form, 'PlannedParticipants', ['placeholder' => \Yii::t('app', 'Введите планируемое кол-во участников'), 'class' => 'span4 '.(in_array(6, $form->Options)?'':'hide')]);?>
+          <?endif;?>
           <?endforeach;?>
         </div>
       </div>
