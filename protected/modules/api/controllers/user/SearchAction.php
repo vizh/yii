@@ -48,7 +48,7 @@ class SearchAction extends \api\components\Action
     $model = \user\models\User::model();
     if (filter_var($query, FILTER_VALIDATE_EMAIL))
     {
-      $model->byEmail($query);
+      $model->byEmail($query)->byVisible();
     }
     else
     {
