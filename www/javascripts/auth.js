@@ -18,6 +18,9 @@ ModalAuth.prototype.init = function()
 
   self.modal.modal({show: false});
   self.modal.on('show', function(){
+    var top = $(window).scrollTop() + $(window).height() / 10;
+    self.modal.css('top', parseInt(top)+'px');
+
     var iframe = $('<iframe></iframe>');
     iframe.attr('src', self.src);
     iframe.attr('width', self.width);
