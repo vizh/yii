@@ -29,7 +29,7 @@ class Riw13 extends \mail\components\Mail
 
   public function getSubject()
   {
-    return 'Старт приема заявок на конкурс проектов “Аллея инноваций”';
+    return 'RIW 2013: приглашаем к участию!';
   }
 
   /**
@@ -45,7 +45,14 @@ class Riw13 extends \mail\components\Mail
    */
   public function getBody()
   {
-    return $this->renderBody('mail.views.partner.riw13-1', ['user' => $this->user]);
+    return $this->renderBody('mail.views.partner.riw13-5', ['user' => $this->user, 'registrationLink' => $this->getRegistrationLink()]);
+  }
+
+  public function getRegistrationLink()
+  {
+    $secret = 'xggMpIQINvHqR0QlZgZa';
+    $hash = substr(md5($this->user->RunetId.$secret), 0, 16);
+    return 'http://2013.russianinternetweek.ru/my/'.$this->user->RunetId.'/'.$hash.'/';
   }
 
 }
