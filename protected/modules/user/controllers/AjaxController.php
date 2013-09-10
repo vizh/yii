@@ -36,8 +36,17 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     }
     else
     {
-      $result->success = false;
-      $result->errors  = $form->getErrors(); 
+      $user = \user\models\User::model()->byEmail($form->Email)->byVisible(true)->find();
+      if ($user != null && $user->LastName == $form->LastName)
+      {
+        $result->success = true;
+        $result->user = $this->getUserData($user);
+      }
+      else
+      {
+        $result->success = false;
+        $result->errors  = $form->getErrors();
+      }
     }
     echo json_encode($result);
   }
