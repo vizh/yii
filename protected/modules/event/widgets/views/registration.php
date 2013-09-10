@@ -37,12 +37,17 @@ if (empty($products))
 
           <?if (sizeof($product->Prices) > 1):?>
             <td class="<?=$mutedClass?>">
-
-              <?if ($price->EndTime !== null):?>
-                <?=\Yii::t('app', 'При регистрации до');?> <?=\Yii::app()->dateFormatter->format('d MMMM', $price->EndTime);?>
-              <?else:?>
-                <?=\Yii::t('app', 'При регистрации с');?> <?=\Yii::app()->dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'и на входе');?>
-              <?endif;?>
+              <?
+                $title = $price->Title;
+                if (empty($title))
+                {
+                  if ($price->EndTime !== null)
+                    $title = \Yii::t('app', 'При регистрации до').' '.\Yii::app()->dateFormatter->format('d MMMM', $price->EndTime);
+                  else
+                    $title = \Yii::t('app', 'При регистрации с').' '.\Yii::app()->dateFormatter->format('d MMMM', $price->StartTime).' '.\Yii::t('app', 'и на входе');
+                }
+              ?>
+              <?=$title;?>
             </td>
           <?else:?>
             <td style="padding-top: 20px; padding-bottom: 20px;" class="<?=$mutedClass?>">

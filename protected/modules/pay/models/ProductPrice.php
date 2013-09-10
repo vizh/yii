@@ -10,9 +10,8 @@ namespace pay\models;
  *
  *
  */
-class ProductPrice extends \CActiveRecord
+class ProductPrice extends \application\models\translation\ActiveRecord
 {
-
   public static function model($className=__CLASS__)
   {
     return parent::model($className);
@@ -33,5 +32,10 @@ class ProductPrice extends \CActiveRecord
     return array(
       'Product' => array(self::BELONGS_TO, '\pay\models\Product', 'ProductId')
     );
+  }
+
+  public function getTranslationFields()
+  {
+    return ['Title'];
   }
 }

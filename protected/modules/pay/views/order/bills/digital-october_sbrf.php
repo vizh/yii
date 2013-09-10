@@ -41,11 +41,11 @@ use application\components\utility\Texts;
             <TD style="BORDER-BOTTOM: 1px solid; BORDER-RIGHT: 1px solid"	colSpan=2>Получатель<BR>ООО «Цифровой Октябрь»</TD>
             <TD	style="BORDER-BOTTOM: 1px solid; BORDER-RIGHT: 1px solid"><BR>Сч.&nbsp;№</TD>
 
-            <TD style="BORDER-BOTTOM: 1px solid"><BR>40702810600000008430</TD></TR>
+            <TD style="BORDER-BOTTOM: 1px solid"><BR>40702810138110017454</TD></TR>
           <TR>
-            <TD style="BORDER-RIGHT: 1px solid" colSpan=2>Банк получателя<BR>ОАО КБ «МАСТ-Банк» г.Москва</TD>
+            <TD style="BORDER-RIGHT: 1px solid" colSpan=2>Банк получателя<BR>ОАО «Сбербанк России» (Московский банк Сбербанка России)</TD>
             <TD style="BORDER-RIGHT: 1px solid">БИК<BR>Сч.&nbsp;№</TD>
-            <TD>044579797<BR>30101810300000000797 в Отделении 4 Московского ГТУ Банка России</TD>
+            <TD>044525225<BR>30101810400000000225 в ОПЕРУ Московского ГТУ Банка России</TD>
 
           </TR>
           </TBODY>
