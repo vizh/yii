@@ -9,7 +9,7 @@ class Create extends \CFormModel
   public $Title;
   public $Place;
 
- public $LogoSource;
+  public $LogoSource;
 
   public $StartDate;
   public $EndDate;
@@ -22,6 +22,8 @@ class Create extends \CFormModel
   public $FullInfo;
 
   public $Options = array();
+  
+  public $PlannedParticipants;
 
   public function rules()
   {
@@ -33,6 +35,7 @@ class Create extends \CFormModel
       array('ContactEmail', 'email'),
       array('StartDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'StartTimestamp'),
       array('EndDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'EndTimestamp'),
+      array('PlannedParticipants', 'filter', 'filter' => [$this, 'filterPlannedParticipants'])
     );
   }
 
@@ -53,7 +56,8 @@ class Create extends \CFormModel
       'Options' => \Yii::t('app', 'Выберите необходимые вашему мероприятию опции'),
       'StartDate' => \Yii::t('app', 'Дата начала'),
       'EndDate' => \Yii::t('app', 'Дата окончания'),
-      'OneDayDate' => \Yii::t('app', 'один день')
+      'OneDayDate' => \Yii::t('app', 'один день'),
+      'PlannedParticipants' => \Yii::t('app', 'Планируемое кол-во участников')
     );
   }
   
@@ -63,7 +67,8 @@ class Create extends \CFormModel
       1 => \Yii::t('app', 'размещение информации в календаре'),
       2 => \Yii::t('app', 'регистрация участников'),
       3 => \Yii::t('app', 'прием оплаты'),
-      5 => \Yii::t('app', 'реклама и маркетинг')
+      5 => \Yii::t('app', 'реклама и маркетинг'),
+      6 => \Yii::t('app', 'Оффлайн регистрация')
     );
   }
   
@@ -71,5 +76,14 @@ class Create extends \CFormModel
   {
     $optionsData = $this->getOptionsData();
     return $optionsData[$id];
+  }
+  
+  function filterPlannedParticipants($value)
+  {
+    if (in_array(6, $this->Options) && empty($this->PlannedParticipants))
+    {
+      $this->addError('PlannedParticipants', \Yii::t('app', 'Необходимо заполнить поле Планируемое кол-во участников'));
+    }
+    return $value;
   }
 }

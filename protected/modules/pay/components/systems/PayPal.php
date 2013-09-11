@@ -116,11 +116,15 @@ class PayPal extends Base
     $totalUsd = number_format($totalUsd, 2, '.', '');
     //$totalUsd = 0.20;
 
+    $event = \event\models\Event::model()->findByPk($eventId);
+    if ($event == null)
+      throw new \pay\components\Exception('Не найдено мероприятие с идентификатором: ' . $eventId);
+
     $params = array(
       'PAYMENTREQUEST_0_AMT' => $totalUsd,
       'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
-      'RETURNURL' => 'http://pay.rocid.ru/callback/index/',
-      'CANCELURL' => 'http://pay.rocid.ru/' . $eventId . '/',
+      'RETURNURL' => \Yii::app()->createAbsoluteUrl('/pay/callback/index'),
+      'CANCELURL' => \Yii::app()->createAbsoluteUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName)),
       'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD',
       'NOSHIPPING' => 1
 
