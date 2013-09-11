@@ -5,7 +5,7 @@ class Next2013 extends Base
 {
   public function getSubject()
   {
-    return 'Ваша регистрация на конференцию Generaetion NEXT 2013 одобрена оргкомитетом. ';
+    return 'Ваша регистрация на конференцию Generation NEXT 2013 одобрена оргкомитетом. ';
   }
   
   public function getBody()

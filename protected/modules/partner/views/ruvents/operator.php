@@ -44,9 +44,9 @@
     <div class="span12">
       <h3>Ранее генерированные файлы:</h3>
       <?if (!empty($files)):?>
-      <ul>
+      <ul class="unstyled">
       <?foreach ($files as $file):?>
-        <li><?=$file;?></li>
+        <li><?=$file;?> <a target="_blank" href="<?=Yii::app()->createUrl('/partner/ruvents/operator', ['file' => $file]);?>">Скачать</a></li>
       <?endforeach;?>
       </ul>
       <?endif;?>
