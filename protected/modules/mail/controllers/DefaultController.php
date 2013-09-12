@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rad13-html-2';
+    $template = 'riw13-html-2';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -64,7 +64,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(195,246,688));
+//    $criteria->addInCondition('"Participants"."EventId"', array(195,246,688));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 /*
     $criteria->addCondition('"t"."CreationTime" > :CreationTime');
@@ -133,10 +133,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('info@in-numbers.ru', 'Интернет в Цифрах', false);
-//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW—2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашаем на Russian Affiliate Days 2013 – все о маркетинге с оплатой за результат') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('RIW 2013: приглашаем к участию!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-09-05/mibf_guest.jpg');
