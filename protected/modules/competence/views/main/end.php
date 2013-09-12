@@ -1,6 +1,7 @@
 <?
 /**
  * @var $done bool
+ * @var $test \competence\models\Test
  */
 ?>
 
