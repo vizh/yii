@@ -10,9 +10,21 @@ class OperatorAction extends \partner\components\Action
   {
     $this->getController()->setPageTitle('Генерация аккаунтов операторов');
     $this->getController()->initActiveBottomMenu('operator');
+    $request = \Yii::app()->getRequest();
+    $file = $request->getParam('file');
+    if ($file != null)
+    {
+      if (strpos($file, 'operators') !== 0 || substr($file, strlen($file)-4, 4) !== '.csv')
+      {
+        $this->getController()->redirect(\Yii::app()->createUrl('/partner/ruvents/operator/'));
+      }
+      header('Content-type: text/csv; charset=utf8');
+      header('Content-Disposition: attachment; filename="'.$file.'"');
+      readfile($this->getDataPath() . $file);
+      exit;
+    }
 
     $form = new \partner\models\forms\OperatorGenerate();
-    $request = \Yii::app()->request;
     $form->attributes = $request->getParam(get_class($form));
     if ($request->getIsPostRequest() && $form->validate())
     {
