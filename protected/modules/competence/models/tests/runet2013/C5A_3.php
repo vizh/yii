@@ -1,15 +1,15 @@
 <?php
 namespace competence\models\tests\runet2013;
 
-class C6_4 extends C6_base
+class C5A_3 extends C5A_base
 {
   public function getMarketId()
   {
-    return 4;
+    return 3;
   }
 
   public function getMarketTitle()
   {
-    return 'Видеореклама';
+    return 'Медийная реклама';
   }  
 }

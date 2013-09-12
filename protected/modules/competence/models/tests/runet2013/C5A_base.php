@@ -1,17 +1,17 @@
 <?php
 namespace competence\models\tests\runet2013;
 
-abstract class C5_base extends \competence\models\Question
+abstract class C5A_base extends \competence\models\Question
 {
   public function getPrev()
   {
-    $nextClass = '\competence\models\tests\runet2013\C4_'.$this->getMarketId();
+    $nextClass = '\competence\models\tests\runet2013\C5_'.$this->getMarketId();
     return new $nextClass($this->test);
   }
   
   public function getNext()
   {
-    $nextClass = '\competence\models\tests\runet2013\C5A_'.$this->getMarketId();
+    $nextClass = '\competence\models\tests\runet2013\C7_'.$this->getMarketId();
     return new $nextClass($this->test);
   }
   
@@ -27,7 +27,7 @@ abstract class C5_base extends \competence\models\Question
   
   protected function getDefinedViewPath()
   {
-    return 'competence.views.tests.runet2013.c5';
+    return 'competence.views.tests.runet2013.c5a';
   }
   
   public function rules()
@@ -40,7 +40,7 @@ abstract class C5_base extends \competence\models\Question
   public function attributeLabels()
   {
     return [
-      'value' => 'Количество штатных единиц'  
+      'value' => 'Количество человек'  
     ];
   }
 }

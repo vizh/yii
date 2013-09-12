@@ -9,8 +9,9 @@
 <div class="form-inline">
   <label class="checkbox">
     <?=CHtml::activeCheckBox($question, 'value[]', ['value' => $key, 'uncheckValue' => null, 'checked' => in_array($key, $question->value)]);?>
-    <?=$option;?>
+    <?=$option[0];?>
   </label>
+  <p class="muted"><?=$option[1];?></p>
 </div>
 <?endforeach;?>
 

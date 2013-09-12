@@ -5,7 +5,7 @@ abstract class C7_base extends \competence\models\Question
 {
   public function getPrev()
   {
-    $nextClass = '\competence\models\tests\runet2013\C6_'.$this->getMarketId();
+    $nextClass = '\competence\models\tests\runet2013\C5A_'.$this->getMarketId();
     return new $nextClass($this->test);
   }
   

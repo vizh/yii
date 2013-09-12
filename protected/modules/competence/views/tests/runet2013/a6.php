@@ -28,7 +28,7 @@
     </div>
   </div>
   <div class="control-group">
-    <label class="control-label">Рабочий почтовый адрес</label>
+    <label class="control-label">Рабочий адрес электронной почты</label>
     <div class="controls">
       <?=CHtml::activeTextField($question, 'work_email');?>
     </div>
