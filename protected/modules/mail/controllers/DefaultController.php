@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-html-2';
-    $isHTML = true;
+    $template = 'download13-1';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -27,7 +27,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         'Participants' => array('together' => true, 'select' => false),
         'Settings' => array('select' => false),
     );
-    $criteria->addCondition(' ("Participants"."EventId" IN (258) OR "Region"."Id" IN (4925,4503,4773,3761,4481,3503,3251)) AND "Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 423)');
+//    $criteria->addCondition(' ("Participants"."EventId" IN (258) OR "Region"."Id" IN (4925,4503,4773,3761,4481,3503,3251)) AND "Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 423)');
+    $criteria->addCondition('"Region"."Id" NOT IN (4312)');
     */
 
 
@@ -64,8 +65,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(195,246,688));
-//    $criteria->addInCondition('"Participants"."RoleId"', array(1));
+    $criteria->addInCondition('"Participants"."EventId"', array(673));
+    $criteria->addInCondition('"Participants"."RoleId"', array(3));
 /*
     $criteria->addCondition('"t"."CreationTime" > :CreationTime');
     $criteria->params['CreationTime'] = '2013-05-21 00:00:00';
@@ -77,11 +78,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
-//    $criteria->addInCondition('"t"."RunetId"', array(12953, 454, 122262));
-
-//    $criteria->addInCondition('"t"."RunetId"', array(12953, 122573, 12959));
-//    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953, 18120));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -133,10 +130,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('info@in-numbers.ru', 'Интернет в Цифрах', false);
-        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
-//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('RIW 2013: приглашаем к участию!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Докладчикам Конференции Право на DownLoad') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-09-05/mibf_guest.jpg');

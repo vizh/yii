@@ -17,6 +17,18 @@ class MainController extends \application\components\controllers\PublicMainContr
     ];
   }
 
+  /**
+   * @return \competence\models\Test
+   */
+  public function getTest()
+  {
+    if ($this->test == null)
+    {
+      $this->test = \competence\models\Test::model()->findByPk($this->actionParams['id']);
+    }
+    return $this->test;
+  }
+
   protected function beforeAction($action)
   {
     $cs = \Yii::app()->clientScript;
@@ -25,8 +37,7 @@ class MainController extends \application\components\controllers\PublicMainContr
     $cs->registerCssFile($manager->publish($path . '/css/competence.css'));
     \Yii::app()->getClientScript()->registerScriptFile($manager->publish($path . '/js/unchecker.js'), \CClientScript::POS_END);
 
-    $this->test = \competence\models\Test::model()->findByPk($this->actionParams['id']);
-    if ($this->test == null)
+    if ($this->getTest() == null || !$this->getTest()->Enable)
       throw new \CHttpException(404);
 
     if (\Yii::app()->user->getCurrentUser() == null)
@@ -35,22 +46,30 @@ class MainController extends \application\components\controllers\PublicMainContr
       return false;
     }
 
-//    $result = \competence\models\Result::model()
-//        ->byTestId($this->test->Id)->byUserId(\Yii::app()->user->getCurrentUser()->Id)->find();
-//    if ($result != null && $action->getId() != 'end' && $action->getId() != 'done')
-//    {
-//      $this->redirect(\Yii::app()->createUrl('/competence/main/done', ['id' => $this->test->Id]));
-//    }
+    if (!$this->getTest()->Test)
+    {
+      $result = \competence\models\Result::model()
+          ->byTestId($this->getTest()->Id)->byUserId(\Yii::app()->user->getCurrentUser()->Id)->find();
+      if ($result != null && $action->getId() != 'end' && $action->getId() != 'done')
+      {
+        $this->redirect(\Yii::app()->createUrl('/competence/main/done', ['id' => $this->getTest()->Id]));
+      }
+    }
+
     return parent::beforeAction($action);
   }
 
 
   public function actionIndex($id)
   {
+    $this->setPageTitle(strip_tags($this->getTest()->Title));
     if (\Yii::app()->request->getIsPostRequest())
     {
-      $this->test->getFirstQuestion()->clearFullData();
-      $this->test->getFirstQuestion()->clearRotation();
+      if ($this->getTest()->Test)
+      {
+        $this->test->getFirstQuestion()->clearFullData();
+        $this->test->getFirstQuestion()->clearRotation();
+      }
       $this->redirect($this->createUrl('/competence/main/process', array('id'=>$id)));
     }
     $this->render('index');
@@ -58,12 +77,17 @@ class MainController extends \application\components\controllers\PublicMainContr
 
   public function actionEnd($id)
   {
-    $this->render('end', array('done' => false));
+    $this->setPageTitle(strip_tags($this->getTest()->Title));
+
+    if ($this->getTest()->Id)
+
+    $this->render($this->getTest()->getEndView(), ['done' => false, 'test' => $this->getTest()]);
   }
 
   public function actionDone($id)
   {
-    $this->render('end', array('done' => true));
+    $this->setPageTitle(strip_tags($this->getTest()->Title));
+    $this->render('end', ['done' => true]);
   }
 
 }

@@ -29,12 +29,13 @@ class PartnerController extends \mail\components\MailerController
 
   public function actionSend($step = 0)
   {
-    exit;
+//    exit;
 
     $test = true;
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
-    
+
+    /** ВХОЖДЕНИЕ ДЛЯ БОЕВОЙ РАССЫЛКИ */
     if (!$test)
     {
       //$builder = new \mail\components\Builder();
@@ -43,17 +44,16 @@ class PartnerController extends \mail\components\MailerController
       //$criteria = $builder->getCriteria();
       $criteria = new CDbCriteria();
     }
+    /** ВХОЖДЕНИЕ ДЛЯ ТЕСТИРОВАНИЯ */
     else
     {
       $criteria = new \CDbCriteria();
-      $criteria->addInCondition('"t"."RunetId"', [35287, 454, 321]);
+      $criteria->addInCondition('"t"."RunetId"', [12953]);
     }
     $criteria->limit  = $this->getStepCount();
     $criteria->offset = $this->getStepCount() * $step;
 
 
-
-//
 //    $count = \user\models\User::model()->byVisible(true)->count($criteria);
 //    echo 'Получателей:'. $count.'<br/>';
 //    exit;
@@ -62,7 +62,7 @@ class PartnerController extends \mail\components\MailerController
 
     foreach ($users as $user)
     {
-      $mail = new \mail\components\mail\Riw13($this->getMailer(), $user);
+      $mail = new \mail\components\mail\Download13($this->getMailer(), $user);
       $mail->send();
     }
 
