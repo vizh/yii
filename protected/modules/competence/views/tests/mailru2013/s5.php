@@ -14,11 +14,11 @@
   <?foreach ($question->values as $key => $value):?>
   <li>
     <label class="radio">
-      <?=CHtml::activeRadioButton($question, 'value', array('value' => $key, 'uncheckValue' => null, 'data-other' => $key==98 ? 'radio' : '', 'data-other-group' => 'group'));?>
+      <?=CHtml::activeRadioButton($question, 'value', ['value' => $key, 'uncheckValue' => null, 'data-group' => 's5', 'data-target' => $key == 98 ? '[name*="other"]' : null]);?>
       <?=$value;?>
     </label>
     <?if ($key == 98):?>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($question, 'other', array('class' => 'span4', 'data-other' => 'input', 'data-other-group' => 'group', 'disabled' => $question->value != 98));?>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($question, 'other', ['class' => 'span4', 'data-other' => 'input', 'data-group' => 's5']);?>
     <?endif;?>
   </li>
   <?endforeach;?>
