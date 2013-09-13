@@ -11,10 +11,8 @@ class ProcessAction extends \CAction
 {
   public function run($id)
   {
+    $this->getController()->setPageTitle(strip_tags($this->getController()->getTest()->Title));
     $this->getController()->layout = "interview";
-
-    /** @var \competence\models\Test $test */
-
 
     $request = \Yii::app()->getRequest();
     $question = $this->getQuestion();
@@ -56,7 +54,7 @@ class ProcessAction extends \CAction
     $questionName = $request->getParam('question');
     if (!empty($questionName) && class_exists($questionName))
     {
-      return new $questionName($this->getController()->test);
+      return new $questionName($this->getController()->getTest());
     }
     else
     {
@@ -66,7 +64,7 @@ class ProcessAction extends \CAction
 
   private function finalizeInterview()
   {
-    $test = $this->getController()->test;
+    $test = $this->getController()->getTest();
     $test->saveResult();
     $this->getController()->redirect(\Yii::app()->createUrl('/competence/main/end', ['id' => $test->Id]));
   }

@@ -8,6 +8,8 @@ namespace competence\models;
  * @property int $Id
  * @property string $Code
  * @property string $Title
+ * @property bool $Enable
+ * @property bool $Test
  */
 class Test extends \CActiveRecord
 {
@@ -42,6 +44,16 @@ class Test extends \CActiveRecord
   {
     $className = "\\competence\\models\\tests\\" . $this->Code . "\\First";
     return new $className($this);
+  }
+
+  public function getEndView()
+  {
+    $path = 'competence.views.tests.'.$this->Code;
+    if (file_exists(\Yii::getPathOfAlias($path).DIRECTORY_SEPARATOR.'end.php'))
+    {
+      return $path . '.end';
+    }
+    return 'end';
   }
 
   public function saveResult()
