@@ -1,8 +1,6 @@
 <?php
 namespace event\models;
 
-use string;
-
 /**
  * @property int $Id
  * @property string $Code
