@@ -1,13 +1,15 @@
 <?php
 namespace event\models;
 
+use string;
+
 /**
  * @property int $Id
  * @property string $Code
  * @property string $Title
  * @property int $Priority
  */
-class Role extends \CActiveRecord
+class Role extends \application\models\translation\ActiveRecord
 {
 
   /**
@@ -44,5 +46,13 @@ class Role extends \CActiveRecord
     $criteria->with = array('Participants' => array('together' => true, 'select' => false));
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
+  }
+
+  /**
+   * @return string[]
+   */
+  public function getTranslationFields()
+  {
+    return ['Title'];
   }
 }
