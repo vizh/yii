@@ -12,4 +12,9 @@ class C8_11 extends C8_1
   {
     return 'Электронные платежи';
   }  
+  
+  protected function getDefinedViewPath()
+  {
+    return 'competence.views.tests.runet2013.c8_11';
+  }
 }

@@ -46,7 +46,7 @@ class C8_1 extends C8_base
         
         if ($sum != 100)
         {
-          $this->addError('value', 'Сумма долей рынка в группе должна равняться 100%');
+          $this->addError('value', 'Cумма долей рынка в группе должна равняться 100%');
           break;
         }
       }

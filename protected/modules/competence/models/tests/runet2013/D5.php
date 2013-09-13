@@ -36,7 +36,7 @@ class D5 extends D_base
   {
     if ($this->negative_value + $this->positive_value !== 100)
     {
-      $this->addError('positive_value', \Yii::t('app', 'Сумма вероятности реализации позитивного и негативного прогноза должна равняться 100%.'));
+      $this->addError('positive_value', \Yii::t('app', 'Cумма вероятности реализации позитивного и негативного прогноза должна равняться 100%.'));
     }
     return parent::beforeValidate();
   }

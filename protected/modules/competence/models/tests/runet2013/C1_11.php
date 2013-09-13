@@ -1,7 +1,7 @@
 <?php
 namespace competence\models\tests\runet2013;
 
-class С1_11 extends С1_base
+class C1_11 extends C1_base
 {
   public function getMarketId()
   {

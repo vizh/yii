@@ -11,8 +11,14 @@ abstract class C5A_base extends \competence\models\Question
   
   public function getNext()
   {
-    $nextClass = '\competence\models\tests\runet2013\C7_'.$this->getMarketId();
-    return new $nextClass($this->test);
+    $c8Name = '\competence\models\tests\runet2013\C8_'.$this->getMarketId();
+    $c8 = new $c8Name($this->test);
+    $options = $c8->getOptions();
+    if (empty($options))
+    {
+      return $c8->getNext();
+    }
+    return $c8;
   }
   
   /**
