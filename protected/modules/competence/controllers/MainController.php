@@ -72,7 +72,7 @@ class MainController extends \application\components\controllers\PublicMainContr
       }
       $this->redirect($this->createUrl('/competence/main/process', array('id'=>$id)));
     }
-    $this->render('index');
+    $this->render('index', ['test' => $this->getTest()]);
   }
 
   public function actionEnd($id)

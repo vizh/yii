@@ -10,6 +10,8 @@ namespace competence\models;
  * @property string $Title
  * @property bool $Enable
  * @property bool $Test
+ * @property string $Info
+ * @property string $StartButtonText
  */
 class Test extends \CActiveRecord
 {
