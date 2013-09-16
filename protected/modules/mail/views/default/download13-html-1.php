@@ -50,7 +50,7 @@
                       <tr>
                         <td width="50%" style="background-color: #ececec; padding: 5px;">
                           <strong>Время работы регистрации</strong><br/>
-                          <span style="font-size: 80%;">17 сентября с 10:00-16:00</span>
+                          <span style="font-size: 80%;">17 сентября с 09:00-16:00</span>
                         </td>
                         <td width="50%" align="right">
                           <a href="http://runet-id.com/event/pravodownload2013/" style="display: block; background-image: url('http://runet-id.com/images/mail/download13/program-link_bg.png'); background-repeat: no-repeat; color: #ffffff; text-transform: uppercase; padding: 6px 0; width: 237px; height: 19px; text-align: center;">ПРОГРАММА КОНФЕРЕНЦИИ</a>
