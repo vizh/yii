@@ -14,7 +14,18 @@ class D1 extends D_base
     $marketId = max($b2Answer);
     $b4Class = '\competence\models\tests\runet2013\B4_'.$marketId;
     $b4Answer = $this->getFullData()[get_class(new $b4Class($this->test))]['value'];
-    $nextClass = '\competence\models\tests\runet2013\\'.($b4Answer == B4_base::MARKETANDCOMPANY_VALUE ? 'C10_' : 'C8_').$marketId;
-    return new $nextClass($this->test);
+    if ($b4Answer == B4_base::MARKETANDCOMPANY_VALUE)
+    {
+      $prevClass = 'C10';
+    }
+    else
+    {
+      $c8Name = '\competence\models\tests\runet2013\C8_'.$marketId;
+      $c8 = new $c8Name($this->test);
+      $options = $c8->getOptions();
+      $prevClass = 'C'.(!empty($options) ? '8' : '5A');
+    }
+    $prevClass = '\competence\models\tests\runet2013\\'.$prevClass.'_'.$marketId;
+    return new $prevClass($this->test);
   }  
 }
