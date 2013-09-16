@@ -10,6 +10,6 @@ class C5_13 extends C5_base
 
   public function getMarketTitle()
   {
-    return 'Туризм';
+    return 'Онлайн-туризм';
   }  
 }

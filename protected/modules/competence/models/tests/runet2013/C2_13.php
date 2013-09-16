@@ -10,6 +10,6 @@ class C2_13 extends C2_base
 
   public function getMarketTitle()
   {
-    return 'Туризм';
+    return 'Онлайн-туризм';
   }  
 }

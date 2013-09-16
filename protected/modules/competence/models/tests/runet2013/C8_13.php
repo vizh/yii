@@ -10,6 +10,6 @@ class C8_13 extends C8_base
 
   public function getMarketTitle()
   {
-    return 'Туризм';
+    return 'Онлайн-туризм';
   }  
 }

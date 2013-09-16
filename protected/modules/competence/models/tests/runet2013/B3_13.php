@@ -10,6 +10,6 @@ class B3_13 extends B3_base
 
   public function getMarketTitle()
   {
-    return 'Туризм';
+    return 'Онлайн-туризм';
   }  
 }

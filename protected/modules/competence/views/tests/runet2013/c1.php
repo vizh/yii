@@ -8,5 +8,5 @@
 <?php $this->widget('competence\components\ErrorsWidget', array('question' => $question));?>
 
 <div class="form-inline">
-  <?=\CHtml::activeTextField($question, 'value', ['class' => 'input-xlarge']);?> рублей
+  <?=\CHtml::activeTextField($question, 'value', ['class' => 'input-xlarge']);?> млн. рублей
 </div>

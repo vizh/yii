@@ -10,6 +10,6 @@ class B4_13 extends B4_base
 
   public function getMarketTitle()
   {
-    return 'Туризм';
+    return 'Онлайн-туризм';
   }  
 }

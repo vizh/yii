@@ -10,6 +10,6 @@ class C1_13 extends C1_base
 
   public function getMarketTitle()
   {
-    return 'Туризм';
+    return 'Онлайн-туризм';
   }  
 }
