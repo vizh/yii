@@ -15,7 +15,7 @@
     <tr>
       <td style="width: 80%;"><?=$factor;?></td>
       <td>
-        <?=\CHtml::activeDropDownList($question, 'value['.$factor.']', [-5,-4,-3,-2,-1,0,1,2,3,4,5], ['class' => 'input-mini']);?>
+        <?=\CHtml::activeDropDownList($question, 'value['.$factor.']', [-5 =>-5,-4=>-4,-3=>-3,-2=>-2,-1=>-1,0=>0,1=>1,2=>2,3=>3,4=>4,5=>5], ['class' => 'input-mini']);?>
       </td>
     </tr>
     <?endforeach;?>

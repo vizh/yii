@@ -4,7 +4,11 @@
  * @var $test \competence\models\Test
  */
 
-$fullData = $test->getFirstQuestion()->getFullData();
+/** @var \competence\models\Result $result */
+$result = \competence\models\Result::model()
+    ->byTestId($test->Id)->byUserId(Yii::app()->user->getCurrentUser()->Id)->find();
+$fullData = $result !== null ? $result->getResultByData() : null;
+
 $name = get_class(new \competence\models\tests\mailru2013\C6($test));
 ?>
 

@@ -69,4 +69,9 @@ class Result extends \CActiveRecord
   {
     $this->Data = base64_encode(serialize($result));
   }
+
+  public function getResultByData()
+  {
+    return unserialize(base64_decode($this->Data));
+  }
 }

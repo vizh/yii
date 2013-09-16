@@ -46,7 +46,7 @@ class MainController extends \application\components\controllers\PublicMainContr
       return false;
     }
 
-    if (!$this->getTest()->Test)
+    if (!$this->getTest()->Test && !$this->getTest()->Multiple)
     {
       $result = \competence\models\Result::model()
           ->byTestId($this->getTest()->Id)->byUserId(\Yii::app()->user->getCurrentUser()->Id)->find();
