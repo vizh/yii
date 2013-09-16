@@ -91,7 +91,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
           'details' => ''
         ]);
 
-        $this->redirect($googleRedirectURI.CText::truncate($event->Info, 750 - strlen($googleRedirectURI), '...', true));
+        $this->redirect($googleRedirectURI.urlencode(CText::truncate($event->Info, 750 - strlen($googleRedirectURI), '...', true)));
       break;
 
       default:
