@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'research13-1';
-    $isHTML = false;
+    $template = 'download13-html-1';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -65,23 +65,25 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(369));
+    $criteria->addInCondition('"Participants"."EventId"', array(673));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(3));
+
 /*
-    $criteria->addCondition('"t"."CreationTime" > :CreationTime');
-    $criteria->params['CreationTime'] = '2013-05-21 00:00:00';
+    $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
+    $criteria->params['CreationTime'] = '2013-09-13 18:00:00';
+
     $criteria->addCondition('"t"."Email" NOT LIKE :Email');
     $criteria->params['Email'] = '%nomail497+%';
 */
 
     $criteria->distinct = true;
-//    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 35287));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -98,11 +100,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user), true);
+//        $body = $this->renderPartial($template, array('user' => $user), true);
 
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
         $mail = new \ext\mailer\PHPMailer(false);
         $mail->Mailer = 'mail';
@@ -129,12 +131,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('research@raec.ru', 'Экономика Рунета', false);
+//        $mail->SetFrom('research@raec.ru', 'Экономика Рунета', false);
 //        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
-//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция Право на DownLoad: путевой лист') .'?=';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Участие в исследовании “Экономика Рунета 2013”') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция Право на DownLoad: путевой лист') .'?=';
+//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Участие в исследовании “Экономика Рунета 2013”') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
