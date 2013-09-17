@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'download13-html-1';
+    $template = 'ifresh13-html-2';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -65,7 +65,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(673));
+    $criteria->addInCondition('"Participants"."EventId"', array(578));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(3));
 
 /*
@@ -80,20 +80,26 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
 
+    /* Для PK PASS для Яблочников */
+//    $event = \event\models\Event::model()->findByPk(578);
+
     if (!empty($users))
     {
       foreach ($users as $user)
       {
+        /* PK PASS для Яблочников */
+//        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $user->Participants[0]->Role);
+
         /*
         $arPromo = array();
         for($i = 0; $i < 3; $i++) $arPromo[] = $this->getPromo();
@@ -135,11 +141,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция Право на DownLoad: путевой лист') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция iFResh 2013: путевой лист') .'?=';
 //        $mail->Subject = '=?UTF-8?B?'. base64_encode('Участие в исследовании “Экономика Рунета 2013”') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
+
+        /* PK PASS для Яблочников */
+//        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
 //        $mail->Send();
 
