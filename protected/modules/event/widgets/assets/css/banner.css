@@ -8,3 +8,12 @@
   background: #000 url('/img/event/gm2013/header-bg.jpg') no-repeat center center;
   height: 261px;
 }
+
+/** User Experience Russia 2013 **/
+.b-event-promo.userexp2013 {
+  background: #fff;
+}
+.b-event-promo.userexp2013 > .container{
+  background: #fff url('/img/event/userexp2013/header-bg.jpg') no-repeat center center;
+  height: 200px;
+}
