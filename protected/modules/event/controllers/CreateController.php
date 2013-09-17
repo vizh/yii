@@ -43,6 +43,7 @@ class CreateController extends \application\components\controllers\PublicMainCon
       {
         $LogoSource_path = $event->getPath($event->LogoSource, true);
         
+        
         if (!file_exists(dirname($LogoSource_path)))
           mkdir(dirname($LogoSource_path));
 
@@ -63,11 +64,12 @@ class CreateController extends \application\components\controllers\PublicMainCon
 
         $attribute = new \event\models\Attribute();
         $attribute->Name = 'ContactPerson';
-        $attributeValue = array(
-          'Name'  => $form->ContactName,
-          'Email' => $form->ContactEmail,
-          'Phone' => $form->ContactPhone,
-        );
+        $attributeValue = [
+          'Name'    => $form->ContactName,
+          'Email'   => $form->ContactEmail,
+          'Phone'   => $form->ContactPhone,
+          'RunetId' => \Yii::app()->getUser()->getCurrentUser()->RunetId
+        ];
         $attribute->Value = serialize($attributeValue);
         $attribute->EventId = $event->Id;
         $attribute->save();
