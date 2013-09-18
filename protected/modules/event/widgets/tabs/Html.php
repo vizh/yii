@@ -10,7 +10,7 @@ class Html extends \event\components\Widget
 
   public function run()
   {
-    echo $this->TabContent;
+    $this->render('html', ['TabContent' => $this->TabContent]);
   }
 
   /**

@@ -1,7 +1,7 @@
 <?php
 namespace event\widgets\tabs;
 
-class Html extends \event\components\Widget
+class Html3 extends \event\components\Widget
 {
   public function getAttributeNames()
   {
@@ -10,7 +10,7 @@ class Html extends \event\components\Widget
 
   public function run()
   {
-    echo $this->TabContent3;
+    $this->render('html', ['TabContent' => $this->TabContent3]);
   }
 
   /**
