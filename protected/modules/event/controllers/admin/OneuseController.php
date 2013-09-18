@@ -48,4 +48,19 @@ class OneuseController extends \application\components\controllers\AdminMainCont
     echo 'Оставлено: ' . $counterExist . ' Удалено: ' . $counterDelete;
 
   }
+
+  public function actionCreators()
+  {
+    /** @var \event\models\Event[] $events */
+    $events = \event\models\Event::model()->findAll('"t"."External"');
+    foreach ($events as $event)
+    {
+      if (isset($event->ContactPerson))
+      {
+        echo $event->ContactPerson;
+      }
+    }
+
+    echo count($events);
+  }
 }
