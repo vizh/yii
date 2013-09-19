@@ -2437,9 +2437,9 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 }
 #event-register .user-row .last-child .alert {
   position: absolute;
-  width: 221px;
   margin-top: 5px;
   font-size: 12px !important;
+  padding-right: 14px;
 }
 #event-register .user-row .alert {
   margin-bottom: 0;

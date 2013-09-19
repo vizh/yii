@@ -198,7 +198,7 @@ class Coupon extends \CActiveRecord
     {
       if ($activation->Coupon->Discount >= $this->Discount)
       {
-        throw new \pay\components\Exception(\Yii::t('app','У пользователя уже активирован промо код с бОльшей скидкой'), 302);
+        throw new \pay\components\Exception(\Yii::t('app','У пользователя уже активирован промо код с большей скидкой'), 302);
       }
       else
       {
