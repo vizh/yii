@@ -85,8 +85,8 @@ class IndexAction extends \CAction
         // Сохранение сайта
         if (!empty($form->SiteUrl))
         {
-          $parseUrl = parse_url($form->SiteUrl);
-          $url = $parseUrl['host'].(!empty($parseUrl['path']) ? $parseUrl['path'] : '');
+          $parseUrl = parse_url($form->SiteUrl); 
+          $url = $parseUrl['host'].(!empty($parseUrl['path']) ? rtrim($parseUrl['path'], '/').'/' : '').(!empty($parseUrl['query']) ? '?'.$parseUrl['query'] : '');
           $event->setContactSite($url, ($parseUrl['scheme'] == 'https' ? true : false));
         }
         
