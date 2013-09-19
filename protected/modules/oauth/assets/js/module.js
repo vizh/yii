@@ -11,6 +11,7 @@ var OAuthModule = function()
   this.vkUrl  = '';
   this.twiUrl = '';
   this.gUrl   = '';
+  this.viadeoUrl = '';
  
   this.popUpWindow = null;
 
@@ -40,6 +41,11 @@ OAuthModule.prototype.init = function()
   $('#g_login').on('click', function (e) {
     e.preventDefault();
     self.twiLogin($(e.currentTarget).attr('href'));
+  });
+
+  $('#viadeo_login').on('click', function(e){
+    e.preventDefault();
+    self.viadeoLogin();
   });
 
   $('#btn_cancel').on('click', function(e){
@@ -110,6 +116,23 @@ OAuthModule.prototype.vkLogin = function(url)
   self.PopUpWindow = window.open(url, 'Twitter', 'menubar=no,width='+width+',height='+height+',toolbar=no,left='+left+',top='+top);
 };
 
+OAuthModule.prototype.viadeoLogin = function()
+{
+  var self = this;
+
+  VD.getLoginStatus(function(r) {
+    if (!r.session) {
+      VD.login(function(r) {
+        if(r.session){
+          window.location.href = self.viadeoUrl;
+        }
+      });
+    } else {
+      window.location.href = self.viadeoUrl;
+    }
+  });
+};
+
 OAuthModule.prototype.vkProcess = function()
 {
   var self = this;
@@ -122,4 +145,23 @@ OAuthModule.prototype.gProcess = function ()
   window.location.href = self.gUrl;
 }
 
-
+function loadScript(src, callback)
+{
+  var s,
+    r,
+    t;
+  r = false;
+  s = document.createElement('script');
+  s.type = 'text/javascript';
+  s.src = src;
+  s.onload = s.onreadystatechange = function() {
+    //console.log( this.readyState ); //uncomment this line to see which ready states are called.
+    if ( !r && (!this.readyState || this.readyState == 'complete') )
+    {
+      r = true;
+      callback();
+    }
+  };
+  t = document.getElementsByTagName('script')[0];
+  t.parentNode.insertBefore(s, t);
+}

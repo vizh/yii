@@ -24,6 +24,9 @@ class Proxy implements ISocial
       case ISocial::Google:
         $this->social = new Google($redirectUrl);
         break;
+      case ISocial::Viadeo:
+        $this->social = new Viadeo();
+        break;
       default:
         throw new \CHttpException(400, 'Не обнаружена авторизация по OAuth с идентификатором "' . $socialName . '"');
     }

@@ -1,13 +1,22 @@
 <?php
 namespace oauth\components\social;
 
-interface ISocial{
+interface ISocial
+{
   const Facebook = '14';
   const Twitter = '13';
   const Vkontakte = '15';
   const Google = '16';
-  
+  const Viadeo = '19';
+
+  /**
+   * @return string
+   */
   public function getOAuthUrl();
+
+  /**
+   * @return bool
+   */
   public function isHasAccess();
 
   /**

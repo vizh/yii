@@ -35,6 +35,13 @@
     ref.parentNode.insertBefore(js, ref);
   }(document));
 
+  (loadScript('http://cdn.viadeo.com/javascript/sdk.js', function(){
+    VD.init({
+      apiKey: '<?=\oauth\components\social\Viadeo::AppId;?>',
+      status: true,
+      cookie: true
+    });
+  }));
 </script>
 
 <?php echo CHtml::beginForm();?>
@@ -67,6 +74,7 @@
     <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Twitter));?>" id="twi_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__twitter"></i>&nbsp;Twitter</a>
     <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Vkontakte));?>" id="vk_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__vkontakte"></i>&nbsp;<?=Yii::t('app', 'Вконтакте');?></a><br/>
     <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Google));?>" id="g_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__google"></i>&nbsp;Google</a>
+    <!--<a href="#" id="viadeo_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__google"></i>&nbsp;Viadeo</a>-->
   </div>
 </div>
 

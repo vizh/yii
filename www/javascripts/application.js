@@ -170,3 +170,4 @@ $(window).resize(function() {
 function getValues() {
   footerHeight = $('#footer').outerHeight();
 }
+
