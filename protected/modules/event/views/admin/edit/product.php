@@ -1,4 +1,6 @@
-<div class="btn-toolbar"></div>
+<div class="btn-toolbar">
+  <a href="<?=$this->createUrl('/event/admin/edit/index', ['eventId' => $event->Id]);?>" class="btn">&larr; <?=\Yii::t('app','Вернуться к редактору мероприятия');?></a>
+</div>
 <div class="well">
   <?if (\Yii::app()->getUser()->hasFlash('success')):?>
     <div class="alert alert-success"><?=\Yii::app()->getUser()->getFlash('success');?></div>
@@ -27,7 +29,7 @@
               $prices[] = $price->getAttributes();
             }
             ?>
-            <?=\CHtml::form('','POST',['class' => 'form-horizontal', 'data-prices' => json_encode($prices), 'data-price-iterator' => 0]);?>
+            <form method="POST" class="form-horizontal" data-prices='<?=json_encode($prices);?>' data-price-iterator ="0">
             <?=\CHtml::errorSummary($formProduct, '<div class="alert alert-error">', '</div>');?>
             <div class="control-group">
               <?=\CHtml::activeLabel($formProduct, 'Title', ['class' => 'control-label']);?>
@@ -125,14 +127,14 @@
         </div>
         <div class="control-group">
           <div class="controls">
-            <button type="submit" value="" class="btn btn-info"><?=\Yii::t('app', 'Добавить новый новар');?></button>
+            <button type="submit" value="" class="btn btn-info"><?=\Yii::t('app', 'Добавить новый товар');?></button>
           </div>
         </div>
       <?=\CHtml::endForm();?>
     </div>
   </div>
   
-  <div id="tpl__price-control-group" style="display: none;">
+  <script type="text/template" id="tpl__price-control-group">   
     <div class="controls">
       <input type="text" value="<%=Price%>" class="input-mini" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][Price]');?>" />
       <input type="text" value="<%=StartDate%>" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][StartDate]');?>" /> &mdash;
@@ -142,5 +144,5 @@
       <input type="hidden" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][Id]');?>" value="<%=Id%>" />
       <input type="hidden" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][Delete]');?>" value="" />
     </div>
-  </div>
+  </script>
 </div>

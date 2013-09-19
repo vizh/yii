@@ -43,6 +43,7 @@ class ProductAction extends \CAction
     \Yii::app()->getClientScript()->registerPackage('runetid.backbone');
     $this->getController()->setPageTitle(\Yii::t('app', 'Настройка товаров для мероприятия &laquo;{event}&raquo;', ['{event}' => $this->event->Title]));
     $this->getController()->render('product', [
+      'event' => $this->event,
       'formProducts' => $this->formProducts,
       'formNewProduct' => $this->formNewProduct
     ]);
