@@ -40,10 +40,10 @@ class CreateController extends \application\components\controllers\PublicMainCon
       $event->LogoSource = CUploadedFile::getInstance($form, 'LogoSource');
 
       if ($event->save())
-      {
+      {        
         $LogoSource_path = $event->getPath($event->LogoSource, true);
         
-        
+
         if (!file_exists(dirname($LogoSource_path)))
           mkdir(dirname($LogoSource_path));
 
@@ -85,16 +85,15 @@ class CreateController extends \application\components\controllers\PublicMainCon
         $attribute->EventId = $event->Id;
         $attribute->save();
 
-        $mail = new \ext\mailer\PHPMailer(false);
-        $mail->AddAddress(\Yii::app()->params['EmailEventCalendar']);
-        $mail->AddAddress('andrey.korotov@yandex.ru');
-        $mail->AddAddress('nikitin@internetmediaholding.com');
-        $mail->SetFrom('event@'.RUNETID_HOST, 'RUNET-ID', false);
-        $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'Получено новое мероприятие')) .'?=';
-        $mail->IsHTML(false);
-        $mail->Body = $this->renderPartial('email', array('form' => $form), true);
-        $mail->Send();
+        
+        $mailer = new \mail\components\mailers\PhpMailer();
+        $mail = new \event\components\handlers\Create($mailer, $form);
+        $mail->send();
+        if (in_array(6, $form->Options))
+        {
+          $mail = new \event\components\handlers\Ruvents($mailer, $form);
+          $mail->send();
+        }
 
         \Yii::app()->user->setFlash('success', \Yii::t('app', '<h4 class="m-bottom_5">Поздравляем!</h4>Мероприятие отправлено. В ближайшее время c Вами свяжутся.'));
         $this->refresh();
