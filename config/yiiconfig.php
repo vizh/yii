@@ -111,6 +111,16 @@ return array(
         array(
           'class'=>'CFileLogRoute',
           'levels'=>'error, warning',
+          'except' => 'exception.CHttpException.404'
+        ),
+        array(
+          'class'=>'CEmailLogRoute',
+          'levels'=>'error',
+          'except' => 'exception.CHttpException.404',
+          'emails' => 'dev@internetmediaholding.com',
+          'subject' => 'RUNET-ID Exception',
+          'sentFrom' => 'yii@runet-id.com',
+          'utf8' => true
         ),
       ),
     ),
