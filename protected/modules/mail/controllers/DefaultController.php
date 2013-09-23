@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'ifresh13-html-2';
+    $template = 'rad13-html-3';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -34,13 +34,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Чтение из файла
     /*
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-09-03/emails.csv');
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-09-23/exclude_runetid_research.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
 //    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
     $users = $emails;
-
-//    print count($users); exit();
     */
+//    print count($users); exit();
+
     /*
     // C ПОИСКОМ ПО БД
 
@@ -65,16 +65,19 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(578));
+    $criteria->addInCondition('"Participants"."EventId"', array(650));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(3));
+//    $criteria->addNotInCondition('"Participants"."EventId"', array(715));
 
-/*
-    $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
-    $criteria->params['CreationTime'] = '2013-09-13 18:00:00';
+//    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "CompetenceResult" WHERE "TestId" = 2)');
 
-    $criteria->addCondition('"t"."Email" NOT LIKE :Email');
-    $criteria->params['Email'] = '%nomail497+%';
-*/
+    /*
+        $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
+        $criteria->params['CreationTime'] = '2013-09-13 18:00:00';
+
+        $criteria->addCondition('"t"."Email" NOT LIKE :Email');
+        $criteria->params['Email'] = '%nomail497+%';
+    */
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
@@ -141,8 +144,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция iFResh 2013: путевой лист') .'?=';
-//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Участие в исследовании “Экономика Рунета 2013”') .'?=';
+//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция iFResh 2013: путевой лист') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('ПЕРЕНОС ДАТЫ конференции RAD 2013 (состоится 20 ноября 2013 года)') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
