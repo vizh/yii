@@ -1,0 +1,60 @@
+<?php
+namespace api\models\forms\admin;
+class Account extends \CFormModel
+{
+  public $Id;
+  public $EventId;
+  public $EventTitle;
+  public $Ips = [];
+  public $Domains = [];
+  public $Key;
+  public $Secret;
+  public $Delete;
+  
+  public function rules()
+  {
+    return [
+      ['EventTitle', 'required'],
+      ['EventId', 'exist', 'attributeName' => 'Id', 'className' => '\event\models\Event'],
+      ['Ips', 'filter', 'filter' => [$this, 'filterIps']],
+      ['Domains', 'filter', 'filter' => [$this, 'filterDomains']],
+      ['Key, Secret', 'safe']
+    ];
+  }
+  
+  public function attributeLabels()
+  {
+    return [
+      'EventTitle' => \Yii::t('app', 'Название мероприятия'),
+      'EventId'    => \Yii::t('app', 'Id меропрития'),
+      'Ips'        => \Yii::t('app', 'IP адреса'),
+      'Domains'    => \Yii::t('app', 'Домены')
+    ];
+  }
+  
+  public function filterDomains($value)
+  {
+    foreach ($value as $val)
+    {
+      if (empty($val))
+      {
+        $this->addError('Domains', \Yii::t('app', 'Некорректно заполнен домен.'));
+        break;
+      }
+    }
+    return $value;
+  }
+  
+  public function filterIps($value)
+  {
+    foreach ($value as $val)
+    {
+      if (empty($val))
+      {
+        $this->addError('Ips', \Yii::t('app', 'Некорректно заполнен IP адрес.'));
+        break;
+      }
+    }
+    return $value;
+  }
+}

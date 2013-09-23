@@ -28,4 +28,22 @@ class Domain extends \CActiveRecord
   {
     return array();
   }
+  
+  public function byAccountId($accountId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."AccountId" = :AccountId';
+    $criteria->params = array('AccountId' => $accountId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  public function byDomain($domain, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Domain" = :Domain';
+    $criteria->params = array('Domain' => $domain);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

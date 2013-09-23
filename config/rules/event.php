@@ -10,7 +10,7 @@ return array(
     'allow',
     'users' => array('*'),
     'module' => 'event',
-    'controllers' => array('list', 'view', 'share', 'create', 'exclusive/demo2013', 'invite')
+    'controllers' => array('list', 'view', 'share', 'create', 'exclusive/demo2013', 'invite','ajax')
   ),
 
 

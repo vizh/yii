@@ -1,3 +1,4 @@
+a:focus,button:focus,.btn:focus{outline: none;}
 body {
   background: url("../img/admin/black-linen.png") repeat scroll 0 0 #222222;
   margin: 0;
@@ -22,6 +23,7 @@ hr {
   border-bottom: 1px solid #FFFFFF;
   border-top: 1px solid #DDDDDD;
 }
+.word-break_keep-all {word-break: keep-all;}
 .navbar {
   box-shadow: 0 0 3px #000000;
   margin: 0;
