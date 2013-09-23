@@ -47,6 +47,19 @@ class Texts
     $length = min(strlen($base), $length);
     return substr($base, 0, $length);
   }
+  
+  public static function GenerateString($length, $onlyLowCase = false)
+  {
+    $chars = 'abdefhiknrstyz23456789';
+    if (!$onlyLowCase)
+      $chars .= 'ABDEFGHKNQRSTYZ';
+    $numChars = strlen($chars);
+    $string = '';
+    for ($i = 0; $i < $length; $i++) {
+      $string .= substr($chars, mt_rand(1, $numChars) - 1, 1);
+    }
+    return $string;
+  }
 
   public static function cropText($content, $maxLength)
   {

@@ -11,7 +11,7 @@ $event = $this->event;
       <div class="span12">
         <img src="/img/event/kombusiness2013/banner_940_300.jpg" alt="<?=CHtml::encode($event->Title);?>" >
 
-        <nav class="social" style="position: relative; top: -290px; left: -110px;">
+        <nav class="social" style="position: relative; top: -305px; left: -110px;">
           <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
           <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="none" data-yashareQuickServices="vkontakte,facebook,twitter"></div>
         </nav>

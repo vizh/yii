@@ -28,4 +28,22 @@ class Ip extends \CActiveRecord
   {
     return array();
   }
+  
+  public function byAccountId($accountId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."AccountId" = :AccountId';
+    $criteria->params = array('AccountId' => $accountId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  public function byIp($ip, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Ip" = :Ip';
+    $criteria->params = array('Ip' => $ip);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

@@ -52,6 +52,11 @@
     <li><a href="<?=Yii::app()->createUrl('/catalog/admin/company/index');?>"><?=\Yii::t('app', 'Компании');?></a></li>
   </ul>
   
+  <a data-toggle="collapse" class="nav-header" href="#menu-api"><i class="icon-tint icon-white"></i><span class="hidden-phone">API</span></a>
+  <ul class="nav nav-list collapse" id="menu-api">
+    <li><a href="<?=Yii::app()->createUrl('/api/admin/account/index');?>">Аккаунты</a></li>
+  </ul>
+  
   <a href="<?=Yii::app()->createUrl('/pay/admin/order/index');?>" class="nav-header collapsed" href="#menu-pay"><i class="icon-shopping-cart icon-white"></i><span class="hidden-phone">Платежная система</span></a>
   
   <!--<a class="nav-header" href="help.html"><i class="icon-question-sign"></i>Help</a>
