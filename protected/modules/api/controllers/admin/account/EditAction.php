@@ -62,8 +62,8 @@ class EditAction extends \CAction
       if ($this->account->getIsNewRecord())
       {
         $this->account->EventId = $this->form->EventId;
-        $this->account->Key = \application\components\utility\Texts::GenerateString(10);
-        $this->account->Secret = \application\components\utility\Texts::GenerateString(25, true);
+        $this->account->Key = \application\components\utility\Texts::GenerateString(10, true);
+        $this->account->Secret = \application\components\utility\Texts::GenerateString(25);
       }
       $this->account->save();
 

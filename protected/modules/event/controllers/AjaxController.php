@@ -24,6 +24,7 @@ class AjaxController extends \application\components\controllers\PublicMainContr
       $item = new \stdClass();
       $item->Id = $item->value = $event->Id;
       $item->Title = $item->label = $event->Title;
+      $item->IdName = $event->IdName;
       $results[] = $item;
     }
     echo json_encode($results);

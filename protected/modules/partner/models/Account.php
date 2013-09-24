@@ -9,6 +9,8 @@ namespace partner\models;
  * @property string $PasswordStrong
  * @property string $NoticeEmail
  * @property string $Role
+ *
+ * @property \event\models\Event $Event
  */
 class Account extends \CActiveRecord
 {
@@ -30,6 +32,13 @@ class Account extends \CActiveRecord
   public function primaryKey()
   {
     return 'Id';
+  }
+
+  public function relations()
+  {
+    return [
+      'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId']
+    ];
   }
 
   /**
