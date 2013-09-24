@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rad13-html-3';
+    $template = 'riw13-html-3';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -65,9 +65,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(650));
+    $criteria->addInCondition('"Participants"."EventId"', array(425));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(3));
-//    $criteria->addNotInCondition('"Participants"."EventId"', array(715));
 
 //    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "CompetenceResult" WHERE "TestId" = 2)');
 
@@ -85,8 +84,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -153,7 +152,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-//        $mail->Send();
+        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
