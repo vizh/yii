@@ -2,6 +2,7 @@
 /**
  * @var $this \event\widgets\Registration
  * @var $products \pay\models\Product[]
+ * @var $account \pay\models\Account
  */
 if (empty($products))
 {
@@ -89,6 +90,9 @@ if (empty($products))
   </table>
   <div class="clearfix">
     <img src="/img/pay/pay-methods.png" class="pull-left" alt="Поддерживаемые способы оплаты"/>
+    <?if ($account->PayOnline):?>
+    <a style="margin-top: -2px; display: inline-block;" href="http://money.yandex.ru" target="_blank"><img src="http://money.yandex.ru/img/yamoney_logo88x31.gif " alt="Я принимаю Яндекс.Деньги" title="Я принимаю Яндекс.Деньги" border="0" /></a>
+    <?endif;?>
     <button type="submit" class="btn btn-info pull-right"><?=Yii::t('app', 'Зарегистрироваться');?></button>
   </div>
 </form>

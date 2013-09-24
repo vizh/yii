@@ -12,7 +12,7 @@ $(function () {
     }
   );
 
-  var payButtons = $('.actions a:not(:first):not(:last)', container);
+  var payButtons = $('.actions a:not(:first):not(.juridical)', container);
   var offerCheckbox = $('input[name="agreeOffer"]', container);
   offerCheckbox.change(function (e) {
     if ($(e.currentTarget).prop('checked')) {
@@ -30,7 +30,7 @@ $(function () {
   }
   offerCheckbox.trigger('change');
 
-  payButtons.click(function () {
+  payButtons.on('click', function () {
     return offerCheckbox.prop('checked');
   });
 });

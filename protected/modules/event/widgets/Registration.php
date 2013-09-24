@@ -9,7 +9,7 @@ class Registration extends \event\components\Widget
     $product = $request->getParam('product', array());
     if ($request->getIsPostRequest() && sizeof($product) !== 0)
     {
-      $this->getController()->redirect(\Yii::app()->createUrl('/pay/cabinet/register', array('eventIdName' => $this->event->IdName)));
+      $this->getController()->redirect(\Yii::app()->createUrl('/pay/cabinet/register', ['eventIdName' => $this->event->IdName]));
     }
   }
 
@@ -30,11 +30,11 @@ class Registration extends \event\components\Widget
       $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
       $products = \pay\models\Product::model()->byEventId($this->event->Id)
           ->byPublic(true)->findAll($criteria);
-      $this->render('registration', array('products' => $products));
+      $this->render('registration', ['products' => $products, 'account' => $account]);
     }
     else
     {
-      $this->render('registration-external', array('account' => $account));
+      $this->render('registration-external', ['account' => $account]);
     }
   }
 

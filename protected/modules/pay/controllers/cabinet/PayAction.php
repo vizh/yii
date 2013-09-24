@@ -28,6 +28,11 @@ class PayAction extends \pay\components\Action
         $system = new \pay\components\systems\Uniteller();
       }
     }
+    elseif ($type == 'yandexmoney' && $account->PayOnline)
+    {
+      $system = new \pay\components\systems\PayOnline();
+      $system->toYandexMoney = true;
+    }
     else
     {
       if ($account->PayOnline)

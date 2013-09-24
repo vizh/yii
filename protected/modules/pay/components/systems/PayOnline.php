@@ -9,6 +9,9 @@ class PayOnline extends Base
   private $merchantId;
   private $privateSecurityKey;
 
+  public $toYandexMoney = false;
+
+
   /**
    * @return array
    */
@@ -97,7 +100,8 @@ class PayOnline extends Base
     $params['SecurityKey'] = $hash;
     $params['ReturnUrl'] = \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', array('eventIdName' => \event\models\Event::model()->findByPk($eventId)->IdName));
 
-    \Yii::app()->getController()->redirect(self::Url . '?' . http_build_query($params));
+    $url = self::Url . ($this->toYandexMoney ? 'yandexmoney/' : '');
+    \Yii::app()->getController()->redirect($url . '?' . http_build_query($params));
   }
 
   /**

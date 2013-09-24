@@ -46,5 +46,9 @@ class ApiModule extends CWebModule
     }
     $exception->sendResponse();
     $event->handled = true;
+
+    /** @var \api\components\Controller $controller */
+    $controller = Yii::app()->getController();
+    $controller->createLog();
   }
 }
