@@ -8,6 +8,29 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $this->render('index');
   }
 
+  public function actionCompetence()
+  {
+    $criteria = new CDbCriteria();
+    $criteria->addCondition('"t"."TestId" = :TestId');
+    $criteria->params = ['TestId' => 1];
+    /** @var \competence\models\Result[] $results */
+    $results = \competence\models\Result::model()->findAll($criteria);
+
+    $users = [];
+    foreach ($results as $result)
+    {
+      $data = $result->getResultByData();
+      $question = new \competence\models\tests\mailru2013\C6(null);
+      if (array_key_exists(get_class($question), $data))
+      {
+        $users[] = $result->UserId;
+      }
+    }
+
+
+    //echo implode(', ', $users);
+  }
+
 
   public function actionPayinfo()
   {

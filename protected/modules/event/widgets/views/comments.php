@@ -1,4 +1,8 @@
+<h4>Комментарии пользователей</h4>
+
 <div class="b-comments">
+
+
   <div id="fb-root"></div>
   <script>(function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
