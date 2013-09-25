@@ -52,9 +52,10 @@
     <li><a href="<?=Yii::app()->createUrl('/catalog/admin/company/index');?>"><?=\Yii::t('app', 'Компании');?></a></li>
   </ul>
 
-  <a data-toggle="collapse" class="nav-header" href="#menu-partner"><i class="icon-certificate icon-white"></i><span class="hidden-phone">Партнерка</span></a>
+  <a data-toggle="collapse" class="nav-header" href="#menu-partner"><i class="icon-certificate icon-white"></i><span class="hidden-phone">Управление партнерами</span></a>
   <ul class="nav nav-list collapse" id="menu-partner">
-    <li><a href="<?=Yii::app()->createUrl('/partner/admin/account/index');?>">Аккаунты</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/partner/admin/account/index');?>">Партнерские Аккаунты</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/pay/admin/account/index');?>">Платежные Аккаунты</a></li>
   </ul>
   
   <a data-toggle="collapse" class="nav-header" href="#menu-api"><i class="icon-tint icon-white"></i><span class="hidden-phone">API</span></a>
