@@ -35,6 +35,7 @@ return array(
 
     'AdminEventPerPage' => 50,
     'AdminCatalogCompanyPerPage' => 20,
+    'AdminPayAccountPerPage' => 50,
     
     'CatalogCompanyDir' => '/files/catalog/company/', // файловая директория для хранения каталога логотипов компаний
       

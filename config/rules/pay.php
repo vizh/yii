@@ -8,8 +8,14 @@ return array(
   ),
 
 
-
   /** Admin Rules */
+  array(
+    'allow',
+    'roles' => array('admin'),
+    'module' => 'pay',
+    'controllers' => array('admin/account')
+  ),  
+    
   array(
     'allow',
     'roles' => array('booker'),
