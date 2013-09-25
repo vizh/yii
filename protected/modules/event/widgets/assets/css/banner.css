@@ -26,12 +26,3 @@
   background: #fff url('/img/event/fallsession2013/header-bg.png') no-repeat center center;
   height: 200px;
 }
-
-/* Marketing Party 2013 */
-.b-event-promo.marketingparty2013 {
-  background: #000;
-}
-.b-event-promo.marketingparty2013 > .container{
-  background: #000 url('/img/event/marketingparty2013/header-bg.jpg') no-repeat center center;
-  height: 221px;
-}
