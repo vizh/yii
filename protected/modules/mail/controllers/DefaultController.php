@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-html-3';
-    $isHTML = true;
+    $template = 'riw13-3';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -65,7 +65,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(425));
+//    $criteria->addInCondition('"Participants"."EventId"', array(425));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(3));
 
 //    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "CompetenceResult" WHERE "TestId" = 2)');
@@ -84,8 +84,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -110,9 +110,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         // ПИСЬМО
 //        $body = $this->renderPartial($template, array('user' => $user), true);
 
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $arPromo), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
         $mail = new \ext\mailer\PHPMailer(false);
         $mail->Mailer = 'mail';
@@ -140,11 +140,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('research@raec.ru', 'Экономика Рунета', false);
-//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
 //        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция iFResh 2013: путевой лист') .'?=';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('ПЕРЕНОС ДАТЫ конференции RAD 2013 (состоится 20 ноября 2013 года)') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Акценты RIW 2013: успейте зарегистрироваться до 1 октября!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
@@ -152,7 +152,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-        $mail->Send();
+//        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
@@ -176,8 +176,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
    	$hash = substr(md5($runetId.$secret), 0, 16);
 
-    return 'http://ibcrussia.com/my/'.$runetId.'/'.$hash.'/';
-//    return 'http://2013.russianinternetweek.ru/my/'.$runetId.'/'.$hash.'/';
+//    return 'http://ibcrussia.com/my/'.$runetId.'/'.$hash.'/';
+    return 'http://2013.russianinternetweek.ru/my/'.$runetId.'/'.$hash.'/';
 //    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/vote/';
   }
 
