@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'cloudaward13-html-2';
-    $isHTML = true;
+    $template = 'riw13-4';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -33,10 +33,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 
     // Чтение из файла
+    /*
     $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-09-25/cloudaward.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
 //    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
     $users = $emails;
+    */
 
 //    print count($users); exit();
 
@@ -58,16 +60,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Обычная выборка пользователей [по мероприятиям]
-    /*
     $criteria->with = array(
       'Participants' => array('together' => true),
 //      'Participants.Role' => array('together' => true),
       'Settings' => array('select' => false)
     );
-    */
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(425));
-//    $criteria->addInCondition('"Participants"."RoleId"', array(3));
+    $criteria->addInCondition('"Participants"."EventId"', array(425));
+    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
 //    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "CompetenceResult" WHERE "TestId" = 1)');
 
@@ -78,21 +78,21 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $criteria->addCondition('"t"."Email" NOT LIKE :Email');
         $criteria->params['Email'] = '%nomail497+%';
     */
-/*
+
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
-*/
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
-/*
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
+
+    echo \user\models\User::model()->count($criteria);
+    exit();
+
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
-*/
+
     /* Для PK PASS для Яблочников */
 //    $event = \event\models\Event::model()->findByPk(578);
 
@@ -109,9 +109,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user), true);
+//        $body = $this->renderPartial($template, array('user' => $user), true);
 
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -121,8 +121,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->ContentType = ($isHTML) ? 'text/html' : 'text/plain';
         $mail->IsHTML($isHTML);
 
-//        $email = $user->Email;
-        $email = $user;
+        $email = $user->Email;
+//        $email = $user;
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
@@ -145,7 +145,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
 //        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция iFResh 2013: путевой лист') .'?=';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Премия "Облака 2013" – продолжается прием заявок!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('1 октября - повышения цены за участие в конференции RIW 2013') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
@@ -153,16 +153,16 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-        $mail->Send();
+//        $mail->Send();
 
-        fwrite($fp, $email . "\n");
-//        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+//        fwrite($fp, $email . "\n");
+        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
 
-//      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
-      echo $this->createUrl('/mail/default/send', array('step' => $step+1));
+      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
+//      echo $this->createUrl('/mail/default/send', array('step' => $step+1));
     }
     else
     {
