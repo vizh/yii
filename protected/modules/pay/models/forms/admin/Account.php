@@ -31,12 +31,13 @@ class Account extends \CFormModel
   public function rules()
   {
     return [
-      ['EventId,EventTitle,Own,OrderEnable,Uniteller,PayOnline', 'required'],
+      ['EventId,EventTitle,Own,OrderEnable', 'required'],
       ['OrderTemplateName, Offer', 'type', 'type' => 'string', 'allowEmpty' => true],
       ['ReturnUrl', 'url', 'allowEmpty' => true],
       ['OrderLastTime', 'date', 'format' => 'dd.MM.yyyy', 'allowEmpty' => true],
       ['OfferFile', 'file', 'types' => 'pdf,doc,docx', 'allowEmpty' => true],
-      ['EventId', 'filter', 'filter' => [$this, 'filterEventId']]
+      ['EventId', 'filter', 'filter' => [$this, 'filterEventId']],
+      ['Uniteller,PayOnline', 'numerical', 'max' => 1, 'min' => 1, 'allowEmpty' => true]
     ];
   }
   
@@ -50,7 +51,7 @@ class Account extends \CFormModel
     return [
       'EventId' => \Yii::t('app', 'ID мероприятия'),
       'EventTitle' => \Yii::t('app', 'Название мероприятия'),
-      'Own' => \Yii::t('app', 'Свое?'),
+      'Own' => \Yii::t('app', 'Собственное мероприятие'),
       'OrderTemplateName' => \Yii::t('app', 'Шаблон для счетов'),
       'ReturnUrl' => \Yii::t('app', 'URL после оплаты'),
       'Offer' => \Yii::t('app', 'Оферта'),
@@ -58,7 +59,8 @@ class Account extends \CFormModel
       'OrderLastTime' => \Yii::t('app', 'Последняя дата выставления счета'),
       'OrderEnable' => \Yii::t('app', 'Разрешить выставлять счета'),
       'Uniteller' => \Yii::t('app', 'Использовать платежную систему Uniteller'),
-      'PayOnline' => \Yii::t('app', 'Использовать платежную систему PayOnline')
+      'PayOnline' => \Yii::t('app', 'Использовать платежную систему PayOnline'),
+      'PaySystem' => \Yii::t('app', 'Платежная система')
     ];
   }
   

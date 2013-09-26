@@ -15,14 +15,19 @@
 <div class="well">
   <table class="table">
     <thead>
-      <th><?=\Yii::t('app', 'Мероприятие');?></th>
+      <tr>
+        <th><?=\Yii::t('app', 'Мероприятие');?></th>
+        <th style="width: 26px;"></th>
+      </tr>
     </thead>
     <tbody>
     <?foreach ($accounts as $account):?>
     <tr>
-      <td><?=$account->Event->Title;?></td>
+      <td><strong><?=$account->Event->Id;?></strong>, <?=$account->Event->Title;?></td>
       <td>
-        <a href="<?=$this->createUrl('/pay/admin/account/edit', ['accountId' => $account->Id]);?>" class="btn btn-mini"><i class="icon-edit"></i> <?=\Yii::t('app', 'Редактировать');?></a>
+        <div class="btn-group">
+          <a href="<?=$this->createUrl('/pay/admin/account/edit', ['accountId' => $account->Id]);?>" class="btn"><i class="icon-edit"></i> <?=\Yii::t('app', 'Редактировать');?></a>
+        </div>
       </td>
     </tr>
     <?endforeach;?>

@@ -18,7 +18,7 @@
 <div class="control-group">
   <?=\CHtml::activeLabel($form, 'EventTitle', ['class' => 'control-label']);?>
   <div class="controls">
-    <?=\CHtml::activeTextField($form, 'EventTitle', ['readonly' => !$form->getAccount()->getIsNewRecord()]);?>
+    <?=\CHtml::activeTextField($form, 'EventTitle', ['readonly' => !$form->getAccount()->getIsNewRecord(), 'class' => 'input-xxlarge']);?>
   </div>
 </div>
 <div class="control-group">
@@ -36,7 +36,7 @@
 <div class="control-group">
   <?=\CHtml::activeLabel($form, 'ReturnUrl', ['class' => 'control-label']);?>
   <div class="controls">
-    <?=\CHtml::activeTextField($form, 'ReturnUrl');?>
+    <?=\CHtml::activeTextField($form, 'ReturnUrl', ['class' => 'input-xxlarge']);?>
   </div>
 </div>
 <div class="control-group">
@@ -49,27 +49,28 @@
   </div>
 </div>
 <div class="control-group">
-  <?=\CHtml::activeLabel($form, 'OrderLastTime', ['class' => 'control-label']);?>
-  <div class="controls">
-    <?=\CHtml::activeTextField($form, 'OrderLastTime');?>
-  </div>
-</div>
-<div class="control-group">
   <?=\CHtml::activeLabel($form, 'OrderEnable', ['class' => 'control-label']);?>
   <div class="controls">
     <?=\CHtml::activeCheckBox($form, 'OrderEnable');?>
   </div>
 </div>
 <div class="control-group">
-  <?=\CHtml::activeLabel($form, 'Uniteller', ['class' => 'control-label']);?>
+  <?=\CHtml::activeLabel($form, 'OrderLastTime', ['class' => 'control-label']);?>
   <div class="controls">
-    <?=\CHtml::activeCheckBox($form, 'Uniteller');?>
+    <?=\CHtml::activeTextField($form, 'OrderLastTime');?>
   </div>
 </div>
-  <div class="control-group">
-  <?=\CHtml::activeLabel($form, 'PayOnline', ['class' => 'control-label']);?>
+<div class="control-group">
+  <?=\CHtml::activeLabel($form, 'PaySystem', ['class' => 'control-label']);?>
   <div class="controls">
-    <?=\CHtml::activeCheckBox($form, 'PayOnline');?>
+    <label class="checkbox inline">
+      <?=\CHtml::activeCheckBox($form, 'Uniteller', ['uncheckValue' => null]);?>
+      Uniteller
+    </label>
+    <label class="checkbox inline">
+      <?=\CHtml::activeCheckBox($form, 'PayOnline', ['uncheckValue' => null]);?>
+      PayOnline
+    </label>
   </div>
 </div>
 </div>
