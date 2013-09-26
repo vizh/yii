@@ -48,6 +48,38 @@ abstract class Widget extends \CWidget implements IWidget
       return parent::__get($name);
     }
   }
+  
+  public function __set($name, $value)
+  {
+    if (in_array($name, $this->getAttributeNames()))
+    {
+      $attribute = $this->getEvent()->getAttribute($name);
+      if ($attribute == null)
+      {
+        $attribute = new \event\models\Attribute();
+        $attribute->Name = $name;
+        $attribute->EventId = $this->getEvent()->Id;
+        $this->getEvent()->addAttribute($name, $attribute);
+      }
+      $attribute->Value = $value;
+      $attribute->save();
+    }
+    else
+    {
+      parent::__set($name, $value);
+    }
+  }
+  
+  
+  public function __isset($name)
+  {
+    if (in_array($name, $this->getAttributeNames()))
+    {
+      $attribute = $this->getEvent()->getAttribute($name);
+      return $attribute !== null;
+    }
+    return parent::__isset($name);
+  }
 
   /**
    * @var \event\models\Event
@@ -85,8 +117,8 @@ abstract class Widget extends \CWidget implements IWidget
     if ($this->adminPanel == null)
     {
       $class = get_class($this);
-      $class = substr($class, mb_strrpos($class, '\\')+1,mb_strlen($class));
-      if (file_exists(\Yii::getPathOfAlias('event.widgets.panels').DIRECTORY_SEPARATOR.$class.'.php'))
+      $class = substr($class, mb_strrpos($class, 'widgets\\')+8,mb_strlen($class));
+      if (file_exists(\Yii::getPathOfAlias('event.widgets.panels').DIRECTORY_SEPARATOR.str_replace('\\', '/', $class).'.php'))
       {
         $class = '\event\widgets\panels\\'.$class;
         $this->adminPanel = new $class($this);

@@ -516,6 +516,13 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
     ]);
   }
 
+  public function addAttribute($name, $value)
+  {
+    $this->getInternalAttributes();
+    $this->internalAttributesByName[$name] = $value;
+  }
+
+
   /**
    * @param string $name
    * @return Attribute|Attribute[]|null

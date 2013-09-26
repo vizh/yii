@@ -4,15 +4,10 @@
  */
 $event = $this->event;
 ?>
-<div class="b-event-promo <?=$event->IdName;?>">
-  <div class="container">
+<div class="b-event-promo <?=$event->IdName;?>" style="background: #<?=$this->HeaderBannerBackgroundColor;?>">
+  <div class="container" style="background: url('<?=$this->HeaderBannerImagePath;?>') no-repeat center center; padding: 0; height: <?=$this->HeaderBannerHeight;?>px">
     <div class="row">
-      <div class="span12">
-        <nav class="social" style="position: relative; display: none;">
-          <script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
-          <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="none" data-yashareQuickServices="vkontakte,facebook,twitter"></div>
-        </nav>
-      </div>
+      <div class="span12"></div>
     </div>
     <?if ($this->eventPage):?>
       <span class="all">

@@ -15,10 +15,10 @@ class PhotoSlider extends \event\components\WidgetAdminPanel
   }
 
 
-  public function __toString()
+  public function render()
   {
     $form = new \event\models\forms\Photo();
-    return $this->render(['photos' => $this->widget->getPhotos(), 'form' => $form]);
+    return $this->renderView(['photos' => $this->widget->getPhotos(), 'form' => $form]);
   }
   
   public function process()
@@ -43,7 +43,7 @@ class PhotoSlider extends \event\components\WidgetAdminPanel
       $this->setSuccess(\Yii::t('app', 'Фотография успешно добавлена'));
       return true;
     }
-    $this->addError($form);
+    $this->addError($form->getErrors());
     return false;
   }
   

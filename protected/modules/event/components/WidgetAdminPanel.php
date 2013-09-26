@@ -8,8 +8,17 @@ abstract class WidgetAdminPanel implements IWidgetAdminPanel
     $this->widget = $widget;
   }
   
-  abstract function __toString();
+  abstract function render();
 
+  /**
+   * 
+   * @return \event\components\IWidget
+   */
+  public function getWidget()
+  {
+    return $this->widget;
+  }
+  
   public function getEvent()
   {
     return $this->widget->getEvent();
@@ -18,9 +27,9 @@ abstract class WidgetAdminPanel implements IWidgetAdminPanel
   private $errors = [];
   public function addError($message)
   {
-    if ($message instanceof \CFormModel)
+    if (is_array($message))
     {
-      foreach ($message->getErrors() as $errors)
+      foreach ($message as $errors)
       {
         foreach ($errors as $message)
         {
@@ -34,12 +43,13 @@ abstract class WidgetAdminPanel implements IWidgetAdminPanel
     }
   }
   
-  protected function render($params = [])
+  protected function renderView($params = [])
   {
     $class = get_class($this);
-    $class = substr($class, mb_strrpos($class, '\\')+1, mb_strlen($class));
-    $view  = 'event.widgets.panels.views.'.mb_strtolower($class);
-    $params = array_merge($params, ['widget' => $this]);
+    $class = substr($class, mb_strrpos($class, 'panels\\')+7, mb_strlen($class));
+    $class = str_replace('\\', '.', mb_strtolower($class));
+    $view  = 'event.widgets.panels.views.'.$class;
+    $params = array_merge($params, ['widget' => $this->getWidget()]);
     return \Yii::app()->getController()->renderPartial($view, $params, true);
   }
   
