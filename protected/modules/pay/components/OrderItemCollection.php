@@ -71,14 +71,23 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
 
   public function getDiscount()
   {
-    if ($this->eventId != 688)
-    {
-      return 0;
-    }
     if ($this->discount === null)
     {
-      $coupon = new \pay\components\collection\CountCoupon();
-      $this->discount = $coupon->getDiscount($this);
+      if ($this->eventId == 688)
+      {
+        $coupon = new \pay\components\collection\CountCoupon();
+        $this->discount = $coupon->getDiscount($this);
+      }
+      else
+      {
+        /** @var \pay\models\CollectionCoupon[] $coupons */
+        $coupons = \pay\models\CollectionCoupon::model()->byEventId($this->eventId)->findAll();
+        $this->discount = 0;
+        foreach ($coupons as $coupon)
+        {
+          $this->discount = max($this->discount, $coupon->getTypeManager()->getDiscount($this));
+        }
+      }
     }
     return $this->discount;
   }
