@@ -7,6 +7,7 @@ class AuthController extends \application\components\controllers\AdminMainContro
     if ($request->getIsPostRequest())
     {
       $runetId = $request->getParam('RunetId');
+      $redirectUrl = $request->getParam('RedirectUrl');
       $user = \user\models\User::model()->byRunetId($runetId)->find();
       if ($user == null)
       {
@@ -14,7 +15,7 @@ class AuthController extends \application\components\controllers\AdminMainContro
       }
       else
       {
-        \Yii::app()->user->setFlash('success', \Yii::t('app', 'Ссылка на быструю авторизацию: <strong>{link}</strong><br/><a href="{link}">Авторизоваться</a>', array('{link}' =>  $user->getFastauthUrl())));
+        \Yii::app()->user->setFlash('success', \Yii::t('app', 'Ссылка на быструю авторизацию: <strong>{link}</strong><br/><a href="{link}">Авторизоваться</a>', array('{link}' =>  $user->getFastauthUrl($redirectUrl))));
       }
     }
     $this->render('index');

@@ -8,6 +8,76 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $this->render('index');
   }
 
+  public function actionCompetence()
+  {
+    $criteria = new CDbCriteria();
+    $criteria->addCondition('"t"."TestId" = :TestId');
+    $criteria->params = ['TestId' => 1];
+    /** @var \competence\models\Result[] $results */
+    $results = \competence\models\Result::model()->findAll($criteria);
+
+    $users = [];
+    foreach ($results as $result)
+    {
+      $data = $result->getResultByData();
+      $question = new \competence\models\tests\mailru2013\C6(null);
+      if (array_key_exists(get_class($question), $data))
+      {
+        $users[] = $result->UserId;
+      }
+    }
+
+
+    //echo implode(', ', $users);
+  }
+
+  public function actionCompetence2()
+  {
+    $questionClasses = ['B3_1', 'B3_2', 'B3_3', 'B3_4', 'B3_5', 'B3_6', 'B3_7', 'B3_8', 'B3_9', 'B3_10', 'B3_11', 'B3_12', 'B3_13', 'B3_14', 'B3_15', 'B3_16'];
+
+    $criteria = new CDbCriteria();
+    $criteria->addCondition('"t"."TestId" = :TestId');
+    $criteria->params = ['TestId' => 2];
+    /** @var \competence\models\Result[] $results */
+    $results = \competence\models\Result::model()->findAll($criteria);
+
+    $usersId = [];
+    foreach ($questionClasses as $class)
+    {
+      $usersId[$class] = [];
+    }
+
+    foreach ($results as $result)
+    {
+      $data = $result->getResultByData();
+      foreach ($questionClasses as $class)
+      {
+        $full = '\competence\models\tests\runet2013\\'.$class;
+        $question = new $full(null);
+        if (array_key_exists(get_class($question), $data))
+        {
+          $usersId[$class][] = $result->UserId;
+        }
+      }
+    }
+
+    foreach ($usersId as $key => $values)
+    {
+      echo '<strong>'. $key . '</strong>: ' . count(array_unique($values)) . '<br>';
+      $criteria = new CDbCriteria();
+      $criteria->addInCondition('"t"."Id"', $values);
+      $users = \user\models\User::model()->findAll($criteria);
+      foreach ($users as $user)
+      {
+        echo $user->RunetId . ' ' . $user->getFullName() . '<br>';
+      }
+      echo '<br><br>';
+    }
+
+
+    //echo implode(', ', $users);
+  }
+
 
   public function actionPayinfo()
   {

@@ -16,6 +16,12 @@
           <?=\CHtml::textField('RunetId', '');?>
         </div>
       </div>
+      <div class="control-group">
+        <label class="control-label">Ссылка для редиректа (не обязательный параметр)</label>
+        <div class="controls">
+          <?=\CHtml::textField('RedirectUrl', '');?>
+        </div>
+      </div>
     </div>
   </div>
 </div>

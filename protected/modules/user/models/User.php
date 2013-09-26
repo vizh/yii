@@ -41,9 +41,9 @@ namespace user\models;
  *
  *
  * Вспомогательные описания методов методы
- * @method \user\models\User find()
- * @method \user\models\User findByPk()
- * @method \user\models\User[] findAll()
+ * @method \user\models\User find($condition='',$params=array())
+ * @method \user\models\User findByPk($pk,$condition='',$params=array())
+ * @method \user\models\User[] findAll($condition='',$params=array())
  *
  */
 class User extends \application\models\translation\ActiveRecord 

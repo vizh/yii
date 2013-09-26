@@ -22,4 +22,11 @@ return array(
     'module' => 'main',
     'controllers' => array('admin/default')
   ),
+  array(
+    'allow',
+    'users' => array(15648, 39948),
+    'module' => 'main',
+    'controllers' => array('admin/default'),
+    'actions' => array('competence2'),
+  )
 );

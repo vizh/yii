@@ -26,6 +26,7 @@ class Password extends \application\components\auth\identity\Base
     else
     {
       $this->_id = $user->Id;
+      $this->username = $user->RunetId;
       $this->errorCode = self::ERROR_NONE;
     }
     return $this->errorCode == self::ERROR_NONE;
