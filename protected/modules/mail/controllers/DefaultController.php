@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-html-3';
-    $isHTML = true;
+    $template = 'runetid-5';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -130,13 +130,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
           continue;
         }
 
-        /*
-        if (preg_match("/@ashmanov.com/i", $email))
+/*
+        if (preg_match("/@ontico.ru/i", $email))
         {
-          print 'is @Ashmanov<br />';
+          print 'is @ontico.ru<br />';
           continue;
         }
-        */
+*/
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('research@raec.ru', 'Экономика Рунета', false);
@@ -144,7 +144,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
 //        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция iFResh 2013: путевой лист') .'?=';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('ИТОГИ конференции Право на DownLoad') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на Whale Rider') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
