@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'runetid-5';
-    $isHTML = false;
+    $template = 'ibcrussia13-html-2';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -109,8 +109,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+//        $body = $this->renderPartial($template, array('user' => $user), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -130,13 +130,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
           continue;
         }
 
-/*
-        if (preg_match("/@ontico.ru/i", $email))
+        /*
+        if (preg_match("/@ashmanov.com/i", $email))
         {
-          print 'is @ontico.ru<br />';
+          print 'is @ashmanov.com<br />';
           continue;
         }
-*/
+        */
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('research@raec.ru', 'Экономика Рунета', false);
@@ -144,7 +144,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
 //        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция iFResh 2013: путевой лист') .'?=';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на Whale Rider') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на Internet Business Conference Russia 2013') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
@@ -176,8 +176,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
    	$hash = substr(md5($runetId.$secret), 0, 16);
 
-//    return 'http://ibcrussia.com/my/'.$runetId.'/'.$hash.'/';
-    return 'http://2013.russianinternetweek.ru/my/'.$runetId.'/'.$hash.'/';
+    return 'http://ibcrussia.com/my/'.$runetId.'/'.$hash.'/';
+//    return 'http://2013.russianinternetweek.ru/my/'.$runetId.'/'.$hash.'/';
 //    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/vote/';
   }
 
