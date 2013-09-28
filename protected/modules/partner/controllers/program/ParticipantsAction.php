@@ -13,6 +13,7 @@ class ParticipantsAction extends \partner\components\Action
         'order' => '"LinkUsers"."Order" DESC, "LinkUsers"."Id" ASC'
       )
     );
+    /** @var \event\models\section\Section $section */
     $section = \event\models\section\Section::model()->byEventId($event->Id)->findByPk($sectionId, $criteria);
     if ($section == null) 
     {
@@ -38,32 +39,52 @@ class ParticipantsAction extends \partner\components\Action
         $linkUser = new \event\models\section\LinkUser();
         $linkUser->SectionId = $section->Id;
       }
-      $user = \user\models\User::model()->byRunetId($form->RunetId)->find();
-      if ($user == null)
-      {
-        $form->addError('', \Yii::t('app', 'Не найден пользователь с RUNET&ndash;ID:{RunetId}', array('RunetId' => $form->RunetId)));
-      }
+
+      $form->buildModels();
       
       if (!$form->hasErrors())
       {
         if ($form->Delete == 1)
         {
           $linkUser->delete();
-          if (\event\models\section\LinkUser::model()->byEventId($event->Id)->byUserId($user->Id)->exists() == false)
+          if ($form->user !== null && \event\models\section\LinkUser::model()->byEventId($event->Id)->byUserId($form->user->Id)->exists() == false)
           {
             if (!empty($event->Parts))
             {
-              $event->unregisterUserOnAllParts($user);
+              $event->unregisterUserOnAllParts($form->user);
             }
             else
             {
-              $event->unregisterUser($user);
+              $event->unregisterUser($form->user);
             }
           }
         }
         else
         {
-          $linkUser->UserId = $user->Id;
+          $linkUser->UserId = null;
+          $linkUser->CompanyId = null;
+          $linkUser->CustomText = null;
+
+          if ($form->user !== null)
+          {
+            $linkUser->UserId = $form->user->Id;
+            if (!empty($event->Parts))
+            {
+              $event->registerUserOnAllParts($form->user, \event\models\Role::model()->findByPk(3));
+            }
+            else
+            {
+              $event->registerUser($form->user, \event\models\Role::model()->findByPk(3));
+            }
+          }
+          elseif ($form->company !== null)
+          {
+            $linkUser->CompanyId = $form->CompanyId;
+          }
+          else
+          {
+            $linkUser->CustomText = $form->CustomText;
+          }
           $linkUser->RoleId = $form->RoleId;
           $linkUser->Order  = $form->Order;
           if (!empty($form->ReportTitle) || !empty($form->ReportThesis) || !empty($form->ReportUrl))
@@ -80,14 +101,6 @@ class ParticipantsAction extends \partner\components\Action
             $linkUser->ReportId = $report->Id;
           }
           $linkUser->save();
-          if (!empty($event->Parts))
-          {
-            $event->registerUserOnAllParts($user, \event\models\Role::model()->findByPk(3));
-          }
-          else 
-          {
-            $event->registerUser($user, \event\models\Role::model()->findByPk(3));
-          }
         }
         \Yii::app()->user->setFlash('success', \Yii::t('app', 'Информация об участниках секции успешно сохранена!'));
         $this->getController()->refresh();

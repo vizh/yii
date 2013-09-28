@@ -1,7 +1,6 @@
 <?php
 namespace event\models\section;
 
-
 /**
  * @property int $Id
  * @property int $SectionId
@@ -9,11 +8,14 @@ namespace event\models\section;
  * @property int $RoleId
  * @property int $ReportId
  * @property int $Order
+ * @property int $CompanyId
+ * @property string $CustomText
  *
  * @property Section $Section
  * @property \user\models\User $User
  * @property Role $Role
  * @property Report $Report
+ * @property \company\models\Company $Company
  */
 class LinkUser extends \CActiveRecord
 {
@@ -42,6 +44,7 @@ class LinkUser extends \CActiveRecord
     return array(
       'Section' => array(self::BELONGS_TO, '\event\models\section\Section', 'SectionId'),
       'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
+      'Company' => array(self::BELONGS_TO, '\company\models\Company', 'CompanyId'),
       'Report' => array(self::BELONGS_TO, '\event\models\section\Report', 'ReportId'),
       'Role' => array(self::BELONGS_TO, '\event\models\section\Role', 'RoleId'),
     );

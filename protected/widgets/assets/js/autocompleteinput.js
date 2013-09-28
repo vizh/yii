@@ -1,22 +1,22 @@
-var UserAutoCompleteInput = function (element) {
+var AutoCompleteInput = function (element) {
   this.textField = $(element);
   this.hiddenField = this.textField.nextAll('input[type="hidden"]');
   this.addOn = this.textField.next('.add-on');
   this.init();
 }
-UserAutoCompleteInput.prototype = {
+AutoCompleteInput.prototype = {
   init: function () {
     var self = this;
     self.textField.autocomplete({
-      source: "/user/ajax/search/",
+      source: self.textField.data('source'),
       minLength: 1,
       select: function(event, ui){
-        self.addOn.html('RUNETID: '+ui.item.RunetId);
-        self.hiddenField.val(ui.item.RunetId);
+        self.addOn.html(self.textField.data('add-on') + ' '+ui.item.value);
+        self.hiddenField.val(ui.item.value);
       }
     });
     $('.ui-autocomplete').addClass('dropdown-menu');
-    
+
     self.textField.keyup(function (e) {
       if ($(e.currentTarget).val() == '') {
         self.addOn.html('&ndash;');
@@ -28,9 +28,7 @@ UserAutoCompleteInput.prototype = {
 
 
 $(function () {
-  $('input[data-userautocompleteinput="1"]').each(function(index, element){
-    new UserAutoCompleteInput(element);
+  $('input[data-autocompleteinput="1"]').each(function(index, element){
+    new AutoCompleteInput(element);
   });
 });
-
-

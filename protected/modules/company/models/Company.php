@@ -28,7 +28,7 @@ namespace company\models;
  * @method \company\models\Company findByPk()
  * @method \company\models\Company[] findAll()
  */
-class Company extends \application\models\translation\ActiveRecord implements \search\components\interfaces\ISearch
+class Company extends \application\models\translation\ActiveRecord implements \search\components\interfaces\ISearch, \application\widgets\IAutocompleteItem
 {
   /**
    * @param string $className
@@ -194,5 +194,27 @@ class Company extends \application\models\translation\ActiveRecord implements \s
   public function getUrl()
   {
     return \Yii::app()->getController()->createAbsoluteUrl('/company/view/index', array('companyId' => $this->Id));
+  }
+
+  /**
+   * @param mixed $value
+   *
+   * @return \CActiveRecord
+   */
+  public function byAutocompleteValue($value)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Id" = :Id';
+    $criteria->params = ['Id' => $value];
+    $this->getDbCriteria()->mergeWith($criteria);
+    return $this;
+  }
+
+  /**
+   * @return string
+   */
+  public function getAutocompleteData()
+  {
+    return $this->FullName;
   }
 }
