@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-6';
-    $isHTML = false;
+    $template = 'cloudaward13-html-2';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -34,9 +34,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Чтение из файла
     /*
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-09-25/cloudaward.csv');
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-09-30/emails.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
-//    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
     $users = $emails;
     */
 
@@ -66,8 +66,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(425));
-    $criteria->addInCondition('"Participants"."RoleId"', array(1));
+//    $criteria->addInCondition('"Participants"."EventId"', array(425));
+//    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
 //    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "CompetenceResult" WHERE "TestId" = 1)');
 
@@ -109,8 +109,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-//        $body = $this->renderPartial($template, array('user' => $user), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -143,8 +143,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция iFResh 2013: путевой лист') .'?=';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('30 сентября – последний день оплаты по льготной цене') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Премия "Облака 2013" – продолжается прием заявок!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
