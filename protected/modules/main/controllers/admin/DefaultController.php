@@ -147,4 +147,37 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     echo count($users);
   }
 
+  public function actionProducts()
+  {
+    echo 0;
+    return;
+    $runetIds = [166562, 166563, 166564, 166565, 166567, 166568, 166569, 166570, 166572, 166573, 166575, 166577, 166578, 166579, 166580, 166581, 166582, 166583, 166584, 166585, 97432, 166586, 166587, 166588, 166589, 166590, 166592, 166593, 166594, 166595, 166596, 166597, 166598, 166599, 166600, 166601, 166602, 166603, 166604];
+
+    $productIds = [1309, 1387, 1391, 1392];
+
+    $criteria = new CDbCriteria();
+    $criteria->addInCondition('"t"."RunetId"', $runetIds);
+    $users = \user\models\User::model()->findAll($criteria);
+
+    $criteria = new CDbCriteria();
+    $criteria->addInCondition('"t"."Id"', $productIds);
+    $products = \pay\models\Product::model()->findAll($criteria);
+
+    $payer = \user\models\User::model()->byRunetId(167351)->find();
+
+    foreach ($users as $user)
+    {
+      foreach ($products as $product)
+      {
+        $orderItem = \pay\models\OrderItem::model()
+            ->byPayerId($payer->Id)->byOwnerId($user->Id)
+            ->byProductId($product->Id)->byDeleted(false);
+        if (!$orderItem->exists())
+        {
+          $product->getManager()->createOrderItem($payer, $user);
+        }
+      }
+    }
+  }
+
 }

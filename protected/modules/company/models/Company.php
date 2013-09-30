@@ -215,6 +215,6 @@ class Company extends \application\models\translation\ActiveRecord implements \s
    */
   public function getAutocompleteData()
   {
-    return $this->FullName;
+    return !empty($this->FullName) ? $this->FullName : $this->Name;
   }
 }

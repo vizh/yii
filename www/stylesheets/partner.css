@@ -69,72 +69,7 @@ a:focus{
 .large{
   font-size: 120%;
 }
-/************************************* paginators *****************************/
-ul.prevnext{
-  margin: 0;
-  padding: 30px 0 0 0;
-  list-style: none;
-  float: left;
-}
-ul.prevnext li{
-  float: left;
-  font-size: 14px;
-  font-style: italic;
-}
-ul.prevnext li.p{
-  padding-right: 25px;
-}
-ul.prevnext li.p a:link, ul.prevnext li.p a:visited, ul.prevnext li.p a:hover, ul.prevnext li.p a:active{
-  padding-left: 15px;
-  background: url(/images/prev_active.gif) 0 5px no-repeat;
-  color: #0054a6;
-}
-ul.prevnext li.n a:link, ul.prevnext li.n a:visited, ul.prevnext li.n a:hover, ul.prevnext li.n a:active{
-  padding-right: 15px;
-  background: url(/images/next_active.gif) 100% 5px no-repeat;
-  color: #0054a6;
-}
-ul.prevnext li.p a.inactive:link, ul.prevnext li.p a.inactive:visited,
-ul.prevnext li.p a.inactive:hover, ul.prevnext li.p a.inactive:active{
-  padding-left: 15px;
-  background: url(/images/prev_inactive.gif) 0 5px no-repeat;
-  color: #959595;
-  text-decoration: none;
-}
-ul.prevnext li.n a.inactive:link, ul.prevnext li.n a.inactive:visited,
-ul.prevnext li.n a.inactive:hover, ul.prevnext li.n a.inactive:active{
-  padding-right: 15px;
-  background: url(/images/next_inactive.gif) 100% 5px no-repeat;
-  color: #959595;
-  text-decoration: none;
-}
-ul.paginator{
-  float: left;
-  margin: 0;
-  padding: 14px 0 10px 0;
-  list-style: none;
-}
-ul.paginator li{
-  float: left;
-  font-size: 16px;
-  font-style: italic;
-  padding: 0 10px 0 0;
-}
-ul.paginator li a:link, ul.paginator li a:visited,
-ul.paginator li a:hover, ul.paginator li a:active{
-  display: block;
-  width: 24px;
-  text-align: center;
-  background: none;
-  padding: 0 0 1px 0;
-  color: #0054a6;
-}
-ul.paginator li a.curr:link, ul.paginator li a.curr:visited,
-ul.paginator li a:hover, ul.paginator li a:active{
-  color: #fff;
-  text-decoration: none;
-  background: #aaa url(/images/back_paginator.gif) 0 0 no-repeat;
-}
+
 .alert ul {
   padding-bottom: 0;
   margin-bottom: 0;
@@ -155,3 +90,10 @@ ul.paginator li a:hover, ul.paginator li a:active{
 .m-top_20 {margin-top: 20px !important;}
 .m-top_30 {margin-top: 30px !important;}
 .m-top_40 {margin-top: 40px !important;}
+
+.section-participant > div{
+  padding-top: 20px;
+}
+.section-participant:nth-child(odd) > div{
+  background: #f5f5f5;
+}

@@ -35,7 +35,7 @@
 <?if (!empty($section->LinkUsers)):?>
   <h4 class="m-bottom_40"><?=\Yii::t('app', 'Список участников');?></h4>
   <?foreach ($section->LinkUsers as $link):?>
-    <div class="row m-bottom_40">
+    <div class="row m-bottom_40 section-participant">
       <div class="span12">
         <?$form = new \partner\models\forms\program\Participant($link);?>
         <?=\CHtml::form('', 'POST', array('class' => 'form-horizontal'));?>
@@ -54,7 +54,7 @@
             <?=\CHtml::activeTextField($form, 'ReportTitle');?>
           </div>
           <div class="controls">
-            <?=\CHtml::activeTextArea($form, 'ReportThesis', array('class' => 'm-top_10 input-block-level'));?>
+            <?=\CHtml::activeTextArea($form, 'ReportThesis', array('class' => 'm-top_10 span9'));?>
           </div>
           <div class="controls">
             <?=\CHtml::activeTextField($form, 'ReportUrl', array('class' => 'm-top_10', 'placeholder' => \Yii::t('app', 'Ссылка на доклад')));?>
