@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-5';
+    $template = 'riw13-6';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -66,8 +66,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(673));
-//    $criteria->addInCondition('"Participants"."RoleId"', array(1));
+    $criteria->addInCondition('"Participants"."EventId"', array(425));
+    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
 //    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "CompetenceResult" WHERE "TestId" = 1)');
 
@@ -144,7 +144,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
 //        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция iFResh 2013: путевой лист') .'?=';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Неделя Российского Интернета (RIW 2013) – уже скоро!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('30 сентября – последний день оплаты по льготной цене') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
