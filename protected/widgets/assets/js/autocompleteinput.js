@@ -13,6 +13,8 @@ AutoCompleteInput.prototype = {
       select: function(event, ui){
         self.addOn.html(self.textField.data('add-on') + ' '+ui.item.value);
         self.hiddenField.val(ui.item.value);
+        $(this).val(ui.item.label);
+        return false;
       }
     });
     $('.ui-autocomplete').addClass('dropdown-menu');
