@@ -1,10 +1,6 @@
 <?php
 namespace application\widgets;
 
-use CException;
-use CWidget;
-use Yii;
-
 class AutocompleteInput extends \CWidget
 {
   public $form = null;
