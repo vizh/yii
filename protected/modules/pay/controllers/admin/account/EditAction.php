@@ -31,7 +31,25 @@ class EditAction extends \CAction
           $account->EventId = $form->EventId;
         }
         $account->Own = $form->Own == 1 ? true : false;
-        $account->OrderTemplateName = !empty($form->OrderTemplateName) ? $form->OrderTemplateName : null;
+        if (!empty($form->OrderTemplateName))
+        {
+          if (is_numeric($form->OrderTemplateName))
+          {
+            $account->OrderTemplateName = null;
+            $account->OrderTemplateId   = $form->OrderTemplateName;
+          }
+          else
+          {
+            $account->OrderTemplateName = $form->OrderTemplateName;
+            $account->OrderTemplateId   = null;
+          }
+        }
+        else
+        {
+          $account->OrderTemplateName = null;
+           $account->OrderTemplateId  = null;
+        }
+        
         $account->ReturnUrl = !empty($form->ReturnUrl) ? $form->ReturnUrl : null;
         if ($form->OfferFile !== null)
         {
@@ -61,6 +79,9 @@ class EditAction extends \CAction
           {
             case 'OrderLastTime':
               $form->OrderLastTime = \Yii::app()->getDateFormatter()->format('dd.MM.yyyy', $account->OrderLastTime);
+              break;
+            case 'OrderTemplateName':
+              $form->OrderTemplateName = $account->OrderTemplateId == null ? $account->OrderTemplateName : $account->OrderTemplateId;
               break;
             default:
               $form->$attr = $value;

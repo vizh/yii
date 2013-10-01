@@ -12,6 +12,7 @@ namespace pay\models;
  * @property bool $OrderEnable
  * @property bool $Uniteller
  * @property bool $PayOnline
+ * @property int  $OrderTemplateId
  *
  * @property \event\models\Event $Event
  */
@@ -40,7 +41,8 @@ class Account extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId')
+      'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+      'OrderTemplate' => [self::BELONGS_TO, '\pay\models\OrderJuridicalTemplate', 'OrderTemplateId']
     );
   }
 

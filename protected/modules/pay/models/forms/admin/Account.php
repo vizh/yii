@@ -81,7 +81,14 @@ class Account extends \CFormModel
   
   public function getOrderTemplateNameData()
   {
-    return $this->getData(\Yii::getPathOfAlias('pay.views.order.bills'));
+    $data = $this->getData(\Yii::getPathOfAlias('pay.views.order.bills'));
+    $templates = \pay\models\OrderJuridicalTemplate::model()->findAll(['order' => '"t"."Title" ASC']);
+    foreach ($templates as $template)
+    {
+      $data[$template->Id] = $template->Title;
+    }
+    unset($data['template']);
+    return $data;
   }
   
   public function getOfferPath()

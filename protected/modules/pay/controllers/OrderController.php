@@ -41,14 +41,31 @@ class OrderController extends \application\components\controllers\MainController
 
     /** @var $account \pay\models\Account */
     $account = \pay\models\Account::model()->byEventId($order->EventId)->find();
-    $viewName = $account->OrderTemplateName !== null ? $account->OrderTemplateName : 'bill';
-
-    $this->renderPartial('bills/'.$viewName, array(
+    
+    $viewData = [
       'order' => $order,
       'billData' => $billData,
       'total' => $total,
       'nds' => $total - round($total / 1.18, 2, PHP_ROUND_HALF_DOWN),
       'withSign' => $clear===null
-    ));
+    ];
+    
+    if ($account->OrderTemplateName == null)
+    {
+      if ($account->OrderTemplateId !== null)
+      {
+        $viewData['template'] = $account->OrderTemplate;
+        $viewName = 'template';
+      }
+      else
+      {
+        $viewName = 'bill';
+      }
+    }
+    else
+    {
+      $viewName = $account->OrderTemplateName;
+    }
+    $this->renderPartial('bills/'.$viewName, $viewData);
   }
 }
