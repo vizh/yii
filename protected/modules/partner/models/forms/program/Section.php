@@ -34,8 +34,18 @@ class Section extends \CFormModel
       array('Title, Date, TimeStart, TimeEnd, Type', 'required'),
       array('Date', 'date', 'format' => 'yyyy-MM-dd'),
       array('TimeStart, TimeEnd', 'date', 'format' => 'HH:mm'),
-      array('Hall, HallNew, Attribute, AttributeNew, Info', 'safe')
+      array('Hall, HallNew, Attribute, Info', 'safe'),
+      array('AttributeNew', 'filter', 'filter' => [$this, 'filterAttributeNew'])
     );
+  }
+  
+  public function filterAttributeNew($value)
+  {
+    if (!preg_match('/^\w[\w\d_]*$/i', $value['Name']))
+    {
+      $this->addError('AttributeNew', \Yii::t('app', 'Неверное имя атрибута. Разрешается использование только латинских букв, цифр и "_".'));
+    }
+    return $value;
   }
   
   /**
