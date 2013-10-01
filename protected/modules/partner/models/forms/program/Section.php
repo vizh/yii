@@ -41,7 +41,7 @@ class Section extends \CFormModel
   
   public function filterAttributeNew($value)
   {
-    if (!preg_match('/^\w[\w\d_]*$/i', $value['Name']))
+    if (!empty($value['Name']) && !preg_match('/^\w[\w\d_]*$/i', $value['Name']))
     {
       $this->addError('AttributeNew', \Yii::t('app', 'Неверное имя атрибута. Разрешается использование только латинских букв, цифр и "_".'));
     }
