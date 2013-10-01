@@ -1,8 +1,9 @@
 <?php
 /**
- * @var $this \event\widgets\Registration
- * @var $products \pay\models\Product[]
- * @var $account \pay\models\Account
+ * @var \event\widgets\Registration $this
+ * @var \pay\models\Product[] $products
+ * @var \pay\models\Account $account
+ * @var \event\models\Participant $participant
  */
 if (empty($products))
 {
@@ -10,7 +11,23 @@ if (empty($products))
 }
 ?>
 <form method="post" action="<?=\Yii::app()->createUrl('/pay/cabinet/register', array('eventIdName' => $this->event->IdName));?>" class="registration">
-  <h5 class="title"><?=Yii::t('app', 'Регистрация');?></h5>
+
+  <?if ($participant !== null && $participant->RoleId != 24):?>
+    <p class="text-success" style="font-size: 16px; line-height: 20px; margin: 15px 0 30px;">
+      <strong><?=Yii::app()->user->getCurrentUser()->getFullName();?></strong>,<br>
+      Вы зарегистрированы на «<?=$this->event->Title;?>».<br>
+      Ваш статус: <strong><?=$participant->Role->Title;?></strong>
+      <?if (isset($this->RegistrationAfterInfo)):?>
+      <br><br><span class="muted" style="font-size: 14px; line-height: 16px;"><?=$this->RegistrationAfterInfo;?></span>
+      <?endif;?>
+    </p>
+
+    <h5 class="title"><?=Yii::t('app', 'Регистрация других участников');?></h5>
+  <?else:?>
+    <h5 class="title"><?=Yii::t('app', 'Регистрация');?></h5>
+  <?endif;?>
+
+
   <table class="table table-condensed">
     <thead>
     <tr>
@@ -31,6 +48,10 @@ if (empty($products))
       <?foreach ($product->Prices as $price):?>
         <?
         $curTime = date('Y-m-d H:i:s');
+        if ($price->EndTime != null && $price->EndTime < $curTime)
+        {
+          continue;
+        }
         $isMuted = $curTime < $price->StartTime || ($price->EndTime != null && $curTime > $price->EndTime);
         $mutedClass = $isMuted ? 'muted' : '';
         ?>
