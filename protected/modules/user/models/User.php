@@ -47,7 +47,7 @@ namespace user\models;
  *
  */
 class User extends \application\models\translation\ActiveRecord 
-  implements \search\components\interfaces\ISearch
+  implements \search\components\interfaces\ISearch, \application\widgets\IAutocompleteItem
 {
 
   //Защита от перегрузки при поиске
@@ -796,4 +796,21 @@ class User extends \application\models\translation\ActiveRecord
     return \Yii::app()->createAbsoluteUrl('/user/view/index', array('runetId' => $this->RunetId));
   }
 
+  /**
+   * @param mixed $value
+   *
+   * @return \CActiveRecord
+   */
+  public function byAutocompleteValue($value)
+  {
+    return $this->byRunetId($value);
+  }
+
+  /**
+   * @return string
+   */
+  public function getAutocompleteData()
+  {
+    return $this->getFullName();
+  }
 }

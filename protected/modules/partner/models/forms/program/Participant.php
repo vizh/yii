@@ -1,10 +1,12 @@
 <?php
 namespace partner\models\forms\program;
 
+use CModelEvent;
+
 class Participant extends \CFormModel
 {
   public $Id;
-  public $RunetId;
+
   public $RoleId;
   public $ReportTitle;
   public $ReportThesis;
@@ -12,13 +14,52 @@ class Participant extends \CFormModel
   public $Delete;
   public $Order;
 
+  public $RunetId;
+  public $CompanyId;
+  public $CustomText;
+
+  /**
+   * @param \event\models\section\LinkUser $linkUser
+   * @param string $scenario
+   */
+  public function __construct($linkUser = null, $scenario = '')
+  {
+    parent::__construct($scenario);
+
+    if ($linkUser !== null)
+    {
+      $this->Id = $linkUser->Id;
+      $this->RunetId = $linkUser->UserId !== null ? $linkUser->User->RunetId : null;
+      $this->CompanyId = $linkUser->CompanyId;
+      $this->CustomText = $linkUser->CustomText;
+      $this->RoleId = $linkUser->RoleId;
+      $this->Order = $linkUser->Order;
+      if ($linkUser->Report !== null)
+      {
+        $this->ReportTitle = $linkUser->Report->Title;
+        $this->ReportThesis = $linkUser->Report->Thesis;
+        $this->ReportUrl = $linkUser->Report->Url;
+      }
+    }
+  }
+
+  protected function beforeValidate()
+  {
+    $this->CustomText = trim($this->CustomText);
+    if (empty($this->RunetId) && empty($this->CompanyId) && empty($this->CustomText))
+    {
+      $this->addError('', 'Должно быть заполнено хотя бы одно из полей: RUNET-ID, ID компании или Произвольный текст');
+    }
+    return parent::beforeValidate();
+  }
+
 
   public function rules()
   {
     return array(
       array('Id, Order', 'numerical', 'allowEmpty' => true),
-      array('RoleId, RunetId', 'required'),
-      array('ReportTitle, ReportThesis, Delete', 'safe'),
+      array('RoleId', 'required'),
+      array('RunetId, CompanyId, CustomText, ReportTitle, ReportThesis, Delete', 'safe'),
       array('ReportUrl', 'url', 'allowEmpty' => true)
     );
   }
@@ -26,7 +67,9 @@ class Participant extends \CFormModel
   public function attributeLabels()
   {
     return array(
-      'RunetId' => \Yii::t('app', 'RUNET&ndash;ID'),
+      'RunetId' => \Yii::t('app', 'RUNET-ID'),
+      'CompanyId' => \Yii::t('app', 'ID компании'),
+      'CustomText' => \Yii::t('app', 'Произвольный текст'),
       'RoleId' => \Yii::t('app', 'ID роли'),
       'ReportTitle' => \Yii::t('app', 'Заголовок доклада'),
       'ReportThesis' => \Yii::t('app', 'Тезисы доклада'),
@@ -36,5 +79,34 @@ class Participant extends \CFormModel
       'Role' => \Yii::t('app', 'Роль'),
       'Report' => \Yii::t('app', 'Доклад')
     );
+  }
+
+  /** @var \user\models\User */
+  public $user = null;
+
+  /** @var \company\models\Company */
+  public $company = null;
+
+  public function buildModels()
+  {
+    if (!empty($this->RunetId))
+    {
+      $this->user = \user\models\User::model()->byRunetId($this->RunetId)->find();
+      if ($this->user === null)
+      {
+        $this->addError('', \Yii::t('app', 'Не найден пользователь с RUNET-ID: {RunetId}', array('RunetId' => $this->RunetId)));
+      }
+      return;
+    }
+
+    if (!empty($this->CompanyId))
+    {
+      $this->company = \company\models\Company::model()->findByPk($this->CompanyId);
+      if ($this->company === null)
+      {
+        $this->addError('', \Yii::t('app', 'Не найдена компания с ID: {CompanyId}', array('CompanyId' => $this->CompanyId)));
+      }
+      return;
+    }
   }
 }

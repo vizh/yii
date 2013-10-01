@@ -473,8 +473,19 @@ class Builder
   {
     $this->report = new \stdClass();
 
-    $this->createUser($link->User);
-    $this->report->User = $this->buildUserEmployment($link->User);
+    if (!empty($link->User))
+    {
+      $this->createUser($link->User);
+      $this->report->User = $this->buildUserEmployment($link->User);
+    }
+    elseif (!empty($link->Company))
+    {
+      $this->report->Company = $this->createCompany($link->Company);
+    }
+    else
+    {
+      $this->report->CustomText = $link->CustomText;
+    }
 
     $this->report->SectionRoleId = $link->Role->Id;
     $this->report->SectionRoleName = $link->Role->Title;//todo: deprecated
