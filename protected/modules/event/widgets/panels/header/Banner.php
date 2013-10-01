@@ -28,7 +28,12 @@ class Banner extends \event\components\WidgetAdminPanel
       $this->getWidget()->HeaderBannerHeight = $this->form->Height;
       if ($this->form->Image !== null)
       {
-        $path  = '/img/event/'.$this->getEvent()->IdName.'/header-bg.'.$this->form->Image->getExtensionName();
+        $path = '/img/event/'.$this->getEvent()->IdName;
+        if (!file_exists(\Yii::getPathOfAlias('webroot').$path))
+        {
+          mkdir(\Yii::getPathOfAlias('webroot').$path);
+        }
+        $path .= '/header-bg.'.$this->form->Image->getExtensionName();
         $this->form->Image->saveAs(\Yii::getPathOfAlias('webroot').$path);
         $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot').$path);
         $image->quality(100);
