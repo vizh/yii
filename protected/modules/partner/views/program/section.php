@@ -53,7 +53,7 @@
       <?=\CHtml::activeLabel($form, 'AttributeNew', array('class' => 'control-label'));?>
       <div class="controls">
         <?=\CHtml::activeTextField($form, 'AttributeNew[Name]', array('class' => 'input-medium', 'placeholder' => \Yii::t('app','Название')));?>
-        <?=\CHtml::activeTextField($form, 'AttributeNew[Value]', array('class' => 'input-medium', 'placeholder' => \Yii::t('app','Описание')));?>
+        <?=\CHtml::activeTextField($form, 'AttributeNew[Value]', array('class' => 'input-medium', 'placeholder' => \Yii::t('app','Значение')));?>
       </div>
     </div>
   

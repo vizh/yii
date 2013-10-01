@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var \user\models\User $payer
+ * @var \pay\models\OrderItem[] $items
+ * @var int $total
+ */
+?>
 <p>Здравствуйте, <?=$payer->getFullName();?>.</p>
 
 <p>Финансовая служба подтверждает получение оплаты по счету №<?=$order->Id;?> на сумму <?=$total;?> руб. за следующие услуги:<br/>
@@ -6,8 +13,9 @@
 <?endforeach;?>
 </p>
 
-<p>Ваш профиль:<br/>
-<a href="<?=$payer->getUrl();?>"><?=$payer->getUrl();?></a></p>
+<?if (!$payer->Temporary):?>
+  <p>Ваш профиль:<br/><a href="<?=$payer->getUrl();?>"><?=$payer->getUrl();?></a></p>
+<?endif;?>
 
 <p>---<br/>
 <em>Сервис регистраций RUNET-ID<br/>

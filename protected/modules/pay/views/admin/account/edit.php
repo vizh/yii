@@ -1,7 +1,6 @@
 <?
 /**
  * @var \pay\models\forms\admin\Acccount $form
- * @var \pay\models\Account $account
  */
 ?>
 <?=\CHtml::form('','POST',['class' => 'form-horizontal', 'enctype' => 'multipart/form-data']);?>
@@ -31,6 +30,12 @@
   <?=\CHtml::activeLabel($form, 'OrderTemplateName', ['class' => 'control-label']);?>
   <div class="controls">
     <?=\CHtml::activeDropDownList($form, 'OrderTemplateName', $form->getOrderTemplateNameData());?>
+    <?if (!$form->getAccount()->getIsNewRecord() && $form->getAccount()->OrderTemplateId !== null):?>
+      <a href="<?=$this->createUrl('/pay/admin/account/ordertemplate', ['templateId' => $form->getAccount()->OrderTemplateId, 'backUrl' => \Yii::app()->getRequest()->requestUri]);?>" class="btn"><?=\Yii::t('app', 'Изменить');?></a>
+    <?endif;?>
+    <div class="help-block m-top_5">
+      <a href="<?=$this->createUrl('/pay/admin/account/ordertemplate',['backUrl' => \Yii::app()->getRequest()->requestUri]);?>" class="btn btn-mini"><?=\Yii::t('app','Создать новый шаблон');?></a>
+    </div>
   </div>
 </div>
 <div class="control-group">
