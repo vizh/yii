@@ -43,6 +43,12 @@
       <?=\CHtml::endForm();?>
     </div>
   <?else:?>
-    <p class="text-error"><?=\Yii::t('app', 'Для запроса или активации приглашения, пожалуйста, <a href="" id="PromoLogin">авторизуйтесь или зарегистрируйтесь</a> в системе RUNET-ID.');?></p>
+    <p class="text-error">
+      <?if (!isset($this->WidgetInviteHideCodeInput) || $this->WidgetInviteHideCodeInput == 0):?>
+        <?=\Yii::t('app', 'Для запроса или активации приглашения, пожалуйста, <a href="#" id="PromoLogin">авторизуйтесь или зарегистрируйтесь</a> в системе RUNET-ID.');?>
+      <?else:?>
+        <?=\Yii::t('app', 'Для запроса приглашения, пожалуйста, <a href="#" id="PromoLogin">авторизуйтесь или зарегистрируйтесь</a> в системе RUNET-ID.');?>
+      <?endif;?>
+    </p>
   <?endif;?>
 </div>

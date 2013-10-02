@@ -94,5 +94,21 @@ class InviteRequest extends \CActiveRecord
       else
         $this->Event->registerUserOnAllParts($this->Owner, $role);
     }
+    elseif ($status == \event\models\Approved::No)
+    {
+      $event = new \CModelEvent($this, array('event' => $this->Event, 'user' => $this->Owner));
+      $this->onDisapprove($event);
+    }
+  }
+  
+  /**
+   * @param \CModelEvent $event
+   */
+  public function onDisapprove($event)
+  {
+    $mailer = new \mail\components\mailers\PhpMailer();
+    $class = \Yii::getExistClass('\event\components\handlers\invite\disapprove', ucfirst($event->params['event']->IdName), 'Base');
+    $mail = new $class($mailer, $event);
+    $mail->send();
   }
 }
