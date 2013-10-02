@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'marketing13-html-1';
-    $isHTML = true;
+    $template = 'research13-4';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -69,7 +69,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addInCondition('"Participants"."EventId"', array(425));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
-//    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "CompetenceResult" WHERE "TestId" = 1)');
+    $criteria->addCondition('
+      ("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (369))) OR
+
+      ("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (245,422,248,425,236,414,427,391) AND "RoleId" IN (3))) OR
+      ("Participants"."UserId" IN (SELECT "UserId" FROM "CommissionUser" WHERE "ExitTime" IS NULL)) OR
+      ("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (249) AND "RoleId" IN (27,28))) OR
+      ("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE ("EventId" IN (422) AND "RoleId" IN (1)) OR ("EventId" IN (248, 425) AND "RoleId" IN (11)) ) )
+    ');
 
     /*
         $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
@@ -82,6 +89,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
+
+    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "CompetenceResult" WHERE "TestId" = 2)');
 
     $criteria->addInCondition('"t"."RunetId"', array(12953));
 
@@ -109,8 +118,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-//        $body = $this->renderPartial($template, array('user' => $user), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -139,11 +148,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-//        $mail->SetFrom('research@raec.ru', 'Экономика Рунета', false);
+        $mail->SetFrom('research@raec.ru', 'Дмитрий Чистов', false);
 //        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Закрытая вечеринка для рекламодателей. Увидимся?') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Завершается исследование “Экономика Рунета 2012-2013”') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');

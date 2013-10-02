@@ -39,25 +39,20 @@ if (empty($products))
     </thead>
     <tbody>
     <?foreach ($products as $product):?>
-      <?if (sizeof($product->Prices) > 1):?>
+      <?if (sizeof($product->PricesActive) > 1):?>
         <tr>
           <td style="padding-top: 25px;"><strong><?=$product->Title;?></strong></td>
           <td colspan="3"></td>
         </tr>
       <?endif;?>
-      <?foreach ($product->Prices as $price):?>
+      <?foreach ($product->PricesActive as $price):?>
         <?
         $curTime = date('Y-m-d H:i:s');
-        if ($price->EndTime != null && $price->EndTime < $curTime)
-        {
-          continue;
-        }
-        $isMuted = $curTime < $price->StartTime || ($price->EndTime != null && $curTime > $price->EndTime);
+        $isMuted = $curTime < $price->StartTime;
         $mutedClass = $isMuted ? 'muted' : '';
         ?>
         <tr data-price="<?=$price->Price;?>">
-
-          <?if (sizeof($product->Prices) > 1):?>
+          <?if (sizeof($product->PricesActive) > 1):?>
             <td class="<?=$mutedClass?>">
               <?
                 $title = $price->Title;
@@ -114,6 +109,12 @@ if (empty($products))
     <?if ($account->PayOnline):?>
     <a style="margin-top: -2px; display: inline-block;" href="http://money.yandex.ru" target="_blank"><img src="http://money.yandex.ru/img/yamoney_logo88x31.gif " alt="Я принимаю Яндекс.Деньги" title="Я принимаю Яндекс.Деньги" border="0" /></a>
     <?endif;?>
-    <button type="submit" class="btn btn-info pull-right"><?=Yii::t('app', 'Зарегистрироваться');?></button>
+    <button type="submit" class="btn btn-info pull-right">
+      <?if ($participant !== null && $participant->RoleId != 24):?>
+        <?=Yii::t('app', 'Оплатить (за себя или коллег)');?>
+      <?else:?>
+        <?=Yii::t('app', 'Зарегистрироваться');?>
+      <?endif;?>
+    </button>
   </div>
 </form>

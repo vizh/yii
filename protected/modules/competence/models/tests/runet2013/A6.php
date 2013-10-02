@@ -34,9 +34,9 @@ class A6 extends \competence\models\Question
   public function rules()
   {
     return [
-      ['mobile_phone', 'required', 'message' => 'Укажите ваш номер мобильного телефона'],
-      ['main_email', 'required', 'message' => 'Укажите ваш адрес основной электронной почты'],
-      ['main_email,work_email,additional_email', 'email']
+//      ['mobile_phone', 'required', 'message' => 'Укажите ваш номер мобильного телефона'],
+//      ['main_email', 'required', 'message' => 'Укажите ваш адрес основной электронной почты'],
+//      ['main_email,work_email,additional_email', 'email']
     ];
   }
   
