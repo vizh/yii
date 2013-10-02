@@ -1,8 +1,20 @@
 <?php
 namespace event\widgets;
 
+/**
+ * Class Registration
+ * @package event\widgets
+ *
+ * @property string $RegistrationAfterInfo
+ */
 class Registration extends \event\components\Widget
 {
+  public function getAttributeNames()
+  {
+    return ['RegistrationAfterInfo'];
+  }
+
+
   public function process()
   {
     $request = \Yii::app()->getRequest();
@@ -30,7 +42,19 @@ class Registration extends \event\components\Widget
       $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
       $products = \pay\models\Product::model()->byEventId($this->event->Id)
           ->byPublic(true)->findAll($criteria);
-      $this->render('registration', ['products' => $products, 'account' => $account]);
+
+      $participant = null;
+      if (count($this->event->Parts) == 0 && !\Yii::app()->user->getIsGuest())
+      {
+        $participant = \event\models\Participant::model()
+            ->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->event->Id)->find();
+      }
+
+      $this->render('registration', [
+        'products' => $products,
+        'account' => $account,
+        'participant' => $participant
+      ]);
     }
     else
     {
