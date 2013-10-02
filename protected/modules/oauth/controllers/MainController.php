@@ -169,7 +169,7 @@ class MainController extends \oauth\components\Controller
     $form->attributes = $request->getParam(get_class($form));
     if ($request->getIsPostRequest() && $form->validate())
     {
-      $user = user\models\User::model()->byEmail($form->Email)->find();
+      $user = user\models\User::model()->byEmail($form->Email)->byVisible(true)->find();
       if ($user !== null)
       {
         $mailer = new \mail\components\mailers\PhpMailer();
