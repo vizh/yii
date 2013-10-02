@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-8';
-    $isHTML = false;
+    $template = 'ux13-html-1';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -81,7 +81,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 425)');
+//    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 425)');
 
     /*
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE
@@ -99,10 +99,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     ');
     */
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 122262));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -141,7 +141,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-        if ($j == 1) continue;
+//        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
