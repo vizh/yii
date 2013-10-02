@@ -7,6 +7,7 @@ namespace pay\models;
  * @property int $Price
  * @property string $StartTime
  * @property string $EndTime
+ * @property string $Title
  *
  *
  */
