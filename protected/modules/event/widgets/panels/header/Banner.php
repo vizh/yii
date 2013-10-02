@@ -34,12 +34,15 @@ class Banner extends \event\components\WidgetAdminPanel
           mkdir(\Yii::getPathOfAlias('webroot').$path);
         }
         $path .= '/header-bg.'.$this->form->Image->getExtensionName();
-        $this->form->Image->saveAs(\Yii::getPathOfAlias('webroot').$path);
-        $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot').$path);
+        $absolutePath = \Yii::getPathOfAlias('webroot').$path;
+        
+        $this->form->Image->saveAs($absolutePath);
+        $image = \Yii::app()->image->load($absolutePath);
         $image->quality(100);
         $image->resize(940,300);
         $image->save();
         $this->getWidget()->HeaderBannerImagePath = $path;
+        $image = \Yii::app()->image->load($absolutePath);
         $this->getWidget()->HeaderBannerHeight = $image->height;
       }
       $this->setSuccess(\Yii::t('app', 'Настройки виджета успешно сохранены'));
