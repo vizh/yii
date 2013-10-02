@@ -142,16 +142,16 @@
               <tr>
                 <td></td>
                 <td>
-                  <h3 style="margin-bottom: 15px;">Первая в истории рекламной индустрии закрытая вечеринка для маркетинг директоров.</h3>
+                  <h3 style="margin-bottom: 15px;">Первая в истории рекламной индустрии закрытая вечеринка для маркетинг директоров:</h3>
                   <ul style="margin-bottom: 15px;">
                     <li>Исключительный состав участников. Ведущие маркетологи страны</li>
                     <li>Обмен опытом с маркетинг директорами из разных индустрий</li>
                     <li>Мастер-класс от самого молодого российского миллиардера и президента ГК «Связной» — Максима Ноготкова</li>
                   </ul>
-                  <p style="margin-bottom: 15px;">Увидимся? Регистрация</p>
-
                   <h3 style="margin-bottom: 15px;">УСЛОВИЯ УЧАСТИЯ</h3>
                   <p style="margin-bottom: 15px;">Посещение вечеринки - бесплатное для всех зарегистрированных участников.</p>
+                  <p style="margin-bottom: 15px;">По всем вопросам можно обращаться по телефону:<br/>+7(916) 709-69-71</p>
+                  <p style="margin-bottom: 15px;">E-mail: <a href="mailto:index@rta-moscow.com">index@rta-moscow.com</a></p>
                 </td>
                 <td></td>
                 <td valign="top">
@@ -159,7 +159,6 @@
                   <p style="margin-bottom: 10px;">
                     <strong>Место проведения</strong>:<br>г. Москва<br/>Кудринская пл, д.1,<br/>Simon Says
                   </p>
-                  <p style="margin-bottom: 10px;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/marketingparty2013/');?>" target="_blank">www.runet-id.com</a></p>
                 </td>
                 <td></td>
               </tr>
