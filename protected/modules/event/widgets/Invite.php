@@ -2,6 +2,11 @@
 namespace event\widgets;
 class Invite extends \event\components\Widget
 {
+  public function getAttributeNames()
+  {
+    return ['WidgetInviteTitle', 'WidgetInviteDescription', 'WidgetInviteHideCodeInput'];
+  }
+  
   protected $formRequest;
   protected $formActivation;
   

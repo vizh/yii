@@ -17,6 +17,7 @@ namespace pay\models;
  * @property \event\models\Event $Event
  * @property ProductAttribute[] $Attributes
  * @property ProductPrice[] $Prices
+ * @property ProductPrice[] $PricesActive
  *
  *
  * @method \pay\models\Product find()
@@ -50,7 +51,8 @@ class Product extends \application\models\translation\ActiveRecord
     return array(
       'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
       'Attributes' => array(self::HAS_MANY, '\pay\models\ProductAttribute', 'ProductId'),
-      'Prices' => array(self::HAS_MANY, '\pay\models\ProductPrice', 'ProductId', 'order' => '"Prices"."StartTime" ASC')
+      'Prices' => array(self::HAS_MANY, '\pay\models\ProductPrice', 'ProductId', 'order' => '"Prices"."StartTime" ASC'),
+      'PricesActive' => [self::HAS_MANY, '\pay\models\ProductPrice', 'ProductId', 'order' => '"PricesActive"."StartTime" ASC', 'condition' => '"PricesActive"."EndTime" IS NULL OR "PricesActive"."EndTime" >  now()']
     );
   }
 
@@ -162,6 +164,6 @@ class Product extends \application\models\translation\ActiveRecord
    */
   public function getTranslationFields()
   {
-    return array('Title');
+    return ['Title'];
   }
 }
