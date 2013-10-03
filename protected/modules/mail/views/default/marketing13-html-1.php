@@ -130,7 +130,7 @@
                 </td>
                 <td style="background: #e2f4fc;"></td>
                 <td style="background: #e2f4fc; vertical-align: middle;">
-                  <a href="<?=$user->getFastauthUrl('http://runet-id.com/event/marketingparty2013/');?>" target="_blank" class="register-btn" style="display: inline-block; width: 139px; height: 41px; background: url(http://runet-id.com/images/mail/event-main-template/register-btn.png) transparent 0 0 no-repeat; color: #fff; font-size: 13px; line-height: 41px; text-align: center; text-decoration: none;">Регистрация</a>
+                  <a href="http://2013.russianinternetweek.ru/marketing/" target="_blank" class="register-btn" style="display: inline-block; width: 139px; height: 41px; background: url(http://runet-id.com/images/mail/event-main-template/register-btn.png) transparent 0 0 no-repeat; color: #fff; font-size: 13px; line-height: 41px; text-align: center; text-decoration: none;">Регистрация</a>
                 </td>
                 <td></td>
               </tr>
