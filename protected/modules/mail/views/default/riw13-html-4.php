@@ -287,7 +287,6 @@
 
                       <p style="border-bottom: 1px solid #555555;"></p>
 
-
                       <h3 style="margin-top: 30px">БИЗНЕС-ЗОНА RIW 2013</h3>
 
                       <table width="670">

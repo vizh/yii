@@ -101,8 +101,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959, 454));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
