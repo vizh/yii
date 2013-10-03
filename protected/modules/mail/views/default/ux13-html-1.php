@@ -41,7 +41,7 @@
 
 	    					<tr>
                   <td>
-                    <p>Приглашаем Вас на <a href="<?=$user->getFastauthUrl('http://runet-id.com/event/userexp2013/');?>">User eXperience 2013</a>, седьмую ежегодную конференцию по юзабилити, которая пройдет 7-8 ноября в Москве.</p>
+                    <p>Приглашаем Вас на <a href="http://runet-id.com/event/userexp2013/">User eXperience 2013</a>, седьмую ежегодную конференцию по юзабилити, которая пройдет 7-8 ноября в Москве.</p>
                     <p>В центре внимания - две самые актуальные тенденции 2013 года: <b>мобилизация</b>, как следствие повсеместного проникновения мобильных устройств в нашу жизнь, и <b>социализация</b>, как результат опутывания нас виртуальными связями.</p>
                     <p><b>Как с учетом этих трендов развиваться разным бизнесам? </b></p>
                     <p>Конференция рассчитана не только на профессионалов в области IT, но и на руководителей и владельцев компаний, онлайн-проектов, желающих, чтобы их продукт был современным и конкурентноспособным на рынке, а клиенты и пользователи - довольными и лояльными.</p>
@@ -75,7 +75,7 @@
                     <table>
                       <tr>
                         <td style="background: #FA600F; text-align: center; width: 170px; height: 40px; padding: 10px 0;">
-                          <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->getFastauthUrl('http://runet-id.com/event/userexp2013/');?>">Регистрация</a></span>
+                          <span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="http://runet-id.com/event/userexp2013/">Регистрация</a></span>
                         </td>
                         <td style="padding-left: 15px; font-size: 18px; line-height: 22px;">Участие в международной конференции «User Experience Russia 2013»</td>
                       </tr>

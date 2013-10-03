@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'marketing13-html-1';
+    $template = 'riw13-html-4';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -99,10 +99,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     ');
 */
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959, 454));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -125,8 +125,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+//        $body = $this->renderPartial($template, array('user' => $user), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -158,13 +158,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('research@raec.ru', 'Дмитрий Чистов', false);
-//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Закрытая вечеринка для рекламодателей. Увидимся?') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Успейте зарегистрироваться на главную осеннюю выставку и конференцию Рунета!') .'?=';
         $mail->Body = $body;
 
-        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
+//        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
 
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
@@ -177,8 +177,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
 
-      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
-//      echo $this->createUrl('/mail/default/send', array('step' => $step+1));
+//      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
+      echo $this->createUrl('/mail/default/send', array('step' => $step+1));
     }
     else
     {
