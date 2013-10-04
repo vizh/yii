@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-html-4';
+    $template = 'ux13-html-1';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -66,7 +66,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(425));
+    $criteria->addInCondition('"Participants"."EventId"', array(43, 9, 95, 58, 120, 195, 246, 424));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
     /*
@@ -81,7 +81,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 425)');
+//    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 425)');
 
 /*
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE
@@ -125,8 +125,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-//        $body = $this->renderPartial($template, array('user' => $user), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -158,10 +158,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('research@raec.ru', 'Дмитрий Чистов', false);
-        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
-//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Успейте зарегистрироваться на главную осеннюю выставку и конференцию Рунета!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на конференцию User eXperience 2013') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
