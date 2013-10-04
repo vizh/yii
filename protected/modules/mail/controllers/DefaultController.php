@@ -81,7 +81,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 425)');
+    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 425)');
 
 /*
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE
@@ -99,7 +99,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     ');
 */
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959, 454));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -141,7 +141,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-//        if ($j == 1) continue;
+        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -177,8 +177,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
 
-//      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
-      echo $this->createUrl('/mail/default/send', array('step' => $step+1));
+      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
+//      echo $this->createUrl('/mail/default/send', array('step' => $step+1));
     }
     else
     {
