@@ -13,6 +13,8 @@ namespace competence\models;
  * @property string $Info
  * @property string $StartButtonText
  * @property bool $Multiple
+ * @property string $EndTime
+ * @property string $AfterEndText
  */
 class Test extends \CActiveRecord
 {

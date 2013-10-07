@@ -7,4 +7,12 @@ return array(
     'module' => 'competence'
   ),
 
+  /** Admin Rules */
+  array(
+    'allow',
+    'roles' => array('admin', 'raec', 'booker'),
+    'module' => 'competence',
+    'controllers' => array('admin/export')
+  ),
+
 );
