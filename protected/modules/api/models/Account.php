@@ -178,6 +178,13 @@ class Account extends \CActiveRecord
    */
   private function getHash($timestamp)
   {
-    return substr(md5($this->Key . $timestamp . $this->Secret), 0, 16);
+    if ($timestamp === null)
+    {
+      return md5($this->Key . $this->Secret);
+    }
+    else
+    {
+      return substr(md5($this->Key . $timestamp . $this->Secret), 0, 16);
+    }
   }
 }
