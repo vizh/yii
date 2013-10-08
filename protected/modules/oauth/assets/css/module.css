@@ -83,3 +83,11 @@ legend {
 ---------------------------------------------------------------------------------------------------- */
 .social {}
   .social_btn {font-size: 12px; margin-bottom: 5px;}
+
+
+
+.page_registration .agreement{
+  font-size: 11px;
+  line-height: 13px;
+  margin-bottom: 15px;
+}
