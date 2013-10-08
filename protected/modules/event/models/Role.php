@@ -6,6 +6,7 @@ namespace event\models;
  * @property string $Code
  * @property string $Title
  * @property int $Priority
+ * @property string $Type
  */
 class Role extends \application\models\translation\ActiveRecord
 {

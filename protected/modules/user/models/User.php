@@ -28,15 +28,13 @@ namespace user\models;
  * @property LinkSite $LinkSite
  * @property LinkPhone[] $LinkPhones
  * @property LinkServiceAccount[] $LinkServiceAccounts
- *
+ * @property LinkProfessionalInterest[] $LinkProfessionalInterests
  * @property Employment[] $Employments
- *
  * @property \commission\models\Commission[] $Commissions
- *
  * @property \event\models\Participant[] $Participants
-
  * @property Settings $Settings Настройки аккаунта пользователя
  *
+ * События
  * @property \CEvent $onRegister
  *
  *
@@ -468,7 +466,7 @@ class User extends \application\models\translation\ActiveRecord
   
   /**
    * 
-   * @param \address\models\Address $address
+   * @param \contact\models\Address $address
    */
   public function setContactAddress($address)
   {
