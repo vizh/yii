@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-11';
+    $template = 'riw13-12';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -66,8 +66,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(10,171,245,422,49,107,248,152,243,411,673,236,414,153));
-    $criteria->addInCondition('"Participants"."RoleId"', array(2));
+//    $criteria->addInCondition('"Participants"."EventId"', array(10,171,245,422,49,107,248,152,243,411,673,236,414,153));
+//    $criteria->addInCondition('"Participants"."RoleId"', array(2));
 
     /*
         $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
@@ -81,7 +81,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (10,171,245,422,49,107,248,152,243,411,673,236,414,153))');
+    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (425))');
 
 /*
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE
@@ -99,10 +99,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     ');
 */
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953, 337, 12959, 454));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -126,8 +126,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+//        $body = $this->renderPartial($template, array('user' => $user), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -142,7 +142,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-//        if ($j == 1) continue;
+        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -158,11 +158,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('pr@raec.ru', 'Пресс-служба РАЭК', false);
-//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
+        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Пресс-конференции РАЭК в октябре') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('RIW-Выставка: бесплатное посещение для зарегистрированных участников') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
@@ -170,7 +169,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-        $mail->Send();
+//        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
