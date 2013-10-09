@@ -51,13 +51,19 @@ return array(
 
   'sberbank' => array(
     'type' => CAuthItem::TYPE_ROLE,
-    'description' => 'Авторизация для сбербанка',
+    'description' => 'Роль для сбербанка',
     'bizRule' => null,
     'data' => null
   ),
   'mblt' => array(
     'type' => CAuthItem::TYPE_ROLE,
-    'description' => 'Авторизация для MBLT',
+    'description' => 'Роль для MBLT',
+    'bizRule' => null,
+    'data' => null
+  ),
+  'microsoft' => array(
+    'type' => CAuthItem::TYPE_ROLE,
+    'description' => 'Роль для проектов с MicroSoft',
     'bizRule' => null,
     'data' => null
   ),

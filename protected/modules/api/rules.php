@@ -80,6 +80,13 @@ return array(
     'actions' => array('get')
   ),
 
+   /** MicroSoft **/
+  array(
+    'allow',
+    'roles' => array('microsoft'),
+    'controllers' => array('ms')
+  ),
+
   /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/
   array(
     'deny',

@@ -29,8 +29,13 @@ class Controller extends \application\components\controllers\BaseController
       {
         //$matches[3] - дата новой версии action
         //todo: даполнить метод версионностью
-        $key = strtolower($matches[2]);
+        $key = lcfirst($matches[2]);
         $result[$key] = '\\api\\controllers\\'.$this->getId().'\\'.$matches[1];
+        if ($key != strtolower($key))
+        {
+          $key = strtolower($key);
+          $result[$key] = '\\api\\controllers\\'.$this->getId().'\\'.$matches[1];
+        }
       }
     }
 

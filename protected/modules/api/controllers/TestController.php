@@ -4,19 +4,20 @@ class TestController extends CController
 {
   public function actionIndex()
   {
-    $api = 'test';
-    $secret = '12345';
-    $timestamp = time();
+    $api = 'zrnzd5rs8i';
+    $secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
 
     $params = array(
       'ApiKey' => $api,
-      'Hash' => substr(md5($api . $timestamp . $secret), 0, 16),
-      'Timestamp' => $timestamp
+      'Hash' => md5($api . $secret)
     );
 
-    //$params['PageToken'] = 'ZXZlMjAw';
-    //$params['RunetId'] = 35287;
-    $this->apiRequest('/api/event/users', $params);
+    //$params['Email'] = 'alaris.nik@gmail.com';
+    //$params['LastName'] = 'Никитин';
+    //$params['FirstName'] = 'Виталий';
+    $params['ExternalId'] = 121;
+    $params['RoleId'] = 5;
+    $this->apiRequest('/api/ms/updateRegistration', $params);
   }
 
   private function apiRequest($url, $params)
