@@ -117,7 +117,7 @@ return array(
           'class'=>'CEmailLogRoute',
           'levels'=>'error',
           'except' => 'exception.CHttpException.404',
-          'emails' => 'dev@internetmediaholding.com',
+          'emails' => 'error@runet-id.com',
           'subject' => 'RUNET-ID Exception',
           'sentFrom' => 'yii@runet-id.com',
           'utf8' => true

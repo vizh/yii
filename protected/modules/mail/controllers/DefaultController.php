@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'research13-4';
+    $template = 'riw13-11';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -34,17 +34,17 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Чтение из файла
     /*
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-09-30/emails.csv');
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-08/ds.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
-    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+//    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+//    $emails['ilya.chertilov@gmail.com'] = 'ilya.chertilov@gmail.com';
     $users = $emails;
-    */
 
-//    print count($users); exit();
+    print count($users); exit();
+    */
 
     /*
     // C ПОИСКОМ ПО БД
-
     $criteria->with = array(
       'Settings' => array('select' => false)
     );
@@ -66,17 +66,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(425));
-//    $criteria->addInCondition('"Participants"."RoleId"', array(1));
-
-    $criteria->addCondition('
-      ("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (369))) OR
-
-      ("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (245,422,248,425,236,414,427,391) AND "RoleId" IN (3))) OR
-      ("Participants"."UserId" IN (SELECT "UserId" FROM "CommissionUser" WHERE "ExitTime" IS NULL)) OR
-      ("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (249) AND "RoleId" IN (27,28))) OR
-      ("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE ("EventId" IN (422) AND "RoleId" IN (1)) OR ("EventId" IN (248, 425) AND "RoleId" IN (11)) ) )
-    ');
+    $criteria->addInCondition('"Participants"."EventId"', array(10,171,245,422,49,107,248,152,243,411,673,236,414,153));
+    $criteria->addInCondition('"Participants"."RoleId"', array(2));
 
     /*
         $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
@@ -90,12 +81,28 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "CompetenceResult" WHERE "TestId" = 2)');
+//    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (10,171,245,422,49,107,248,152,243,411,673,236,414,153))');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+/*
+    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE
+      "Position" LIKE \'%директор по маркетингу%\' OR
+      "Position" LIKE \'%brand manager%\' OR
+      "Position" LIKE \'%бренд менеджер%\' OR
+      "Position" LIKE \'%маркетинг менеджер%\' OR
+      "Position" LIKE \'%marketing manager%\' OR
+      "Position" LIKE \'%заместитель директора по маркетингу%\' OR
+      "Position" LIKE \'%CMO%\' OR
+      "Position" LIKE \'%digital директор%\' OR
+      "Position" LIKE \'%digital manager%\' OR
+      "Position" LIKE \'%Chief Marketing Officer%\'
+      GROUP BY "UserId")
+    ');
+*/
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -109,6 +116,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       foreach ($users as $user)
       {
+
         /* PK PASS для Яблочников */
 //        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $user->Participants[0]->Role);
 
@@ -134,6 +142,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
+//        if ($j == 1) continue;
+
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
           continue;
@@ -148,19 +158,19 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('research@raec.ru', 'Дмитрий Чистов', false);
+        $mail->SetFrom('pr@raec.ru', 'Пресс-служба РАЭК', false);
 //        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Завершается исследование “Экономика Рунета 2012-2013”') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Пресс-конференции РАЭК в октябре') .'?=';
         $mail->Body = $body;
 
-//        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-05-17/PHDays_eng.doc');
+//        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
 
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-//        $mail->Send();
+        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");

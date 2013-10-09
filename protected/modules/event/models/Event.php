@@ -406,6 +406,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
     $mailer = new \mail\components\mailers\PhpMailer();
     $sender = $event->sender;
     $class = \Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
+    /** @var \mail\components\Mail $mail */
     $mail = new $class($mailer, $event);
     $mail->send();
     
@@ -611,7 +612,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
   
   /**
    * 
-   * @param \address\models\Address $address
+   * @param \contact\models\Address $address
    */
   public function setContactAddress($address)
   {
@@ -624,11 +625,11 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
     $linkAddress->AddressId = $address->Id;
     $linkAddress->save();
   }
-  
+
   /**
-   * 
+   *
    * @param string $direct
-   * @return \event\models\Event[]
+   * @return $this
    */
   public function orderByDate($direct = 'ASC')
   {

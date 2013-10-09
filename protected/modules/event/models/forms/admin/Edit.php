@@ -33,21 +33,20 @@ class Edit extends \CFormModel
 
   public function rules()
   {
-    return array(
-      array('Title, IdName, Info, StartDate, EndDate', 'required'),
-      array('Free, Top', 'numerical', 'allowEmpty' => true),
-      array('StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'),
-      array('EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'),
-      array('Info', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
-      array('Title, IdName, Info, FullInfo, Visible, TypeId, ShowOnMain, Approved, Widgets, ProfInterest', 'safe'),
-      array('Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),
-      array('SiteUrl', 'url', 'allowEmpty' => true)
-    );
+    return [
+      ['Title, IdName, Info, StartDate, EndDate', 'required'],
+      ['Free, Top', 'numerical', 'allowEmpty' => true],
+      ['StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'],
+      ['EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'],
+      ['Info', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')],
+      ['Title, IdName, Info, FullInfo, Visible, TypeId, ShowOnMain, Approved, Widgets, ProfInterest, SiteUrl', 'safe'],
+      ['Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true],
+    ];
   }
   
   public function attributeLabels()
   {
-    return array(
+    return [
       'Title' => \Yii::t('app', 'Название'),
       'Info' => \Yii::t('app', 'Краткая информация'),
       'FullInfo' => \Yii::t('app', 'Информация'),
@@ -63,7 +62,7 @@ class Edit extends \CFormModel
       'Address' => \Yii::t('app', 'Адрес'),
       'Free' => \Yii::t('app', 'Бесплатное мероприятие'),
       'Top' => \Yii::t('app', 'Выделить в блок')
-    );
+    ];
   }
   
   public function __construct($scenario = '')

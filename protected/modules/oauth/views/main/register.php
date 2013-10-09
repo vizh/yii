@@ -37,6 +37,9 @@
 
     <?=CHtml::errorSummary($model, '<div class="alert alert-error">', '</div>');?>
 
+    <p class="muted agreement">Нажимая кнопку «<?=Yii::t('app', 'Зарегистрироваться');?>», я принимаю условия <a target="_blank"
+            href="<?=Yii::app()->createUrl('/page/info/agreement');?>">Пользовательского соглашения</a> и даю своё согласие RUNET-ID на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных»</p>
+
     <button type="submit" class="btn btn-large btn-block btn-info"><i class="icon-ok-sign icon-white"></i>&nbsp;<?=Yii::t('app', 'Зарегистрироваться');?></button>
   </fieldset>
 <?=CHtml::endForm();?>
