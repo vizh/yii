@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-13';
-    $isHTML = false;
+    $template = 'riw13-html-5';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -66,8 +66,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(425));
-    $criteria->addInCondition('"Participants"."RoleId"', array(1));
+//    $criteria->addInCondition('"Participants"."EventId"', array(425));
+//    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
     /*
         $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
@@ -99,10 +99,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     ');
 */
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 454, 337, 12959, 18120));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -161,7 +161,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Информация для тех, кто планирует принять участие в Проф. программе RIW 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Успейте зарегистрироваться на главную осеннюю выставку и конференцию Рунета!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
