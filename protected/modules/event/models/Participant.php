@@ -144,4 +144,20 @@ class Participant extends \CActiveRecord
 
     return false;
   }
+  
+  
+  private $hashSalt = 'aHQR/agr(pSEt/t.EFS.BT/!';
+  public function getHash()
+  {
+    return substr(md5($this->EventId.$this->hashSalt.$this->UserId), 2, 25);
+  }
+  
+  public function getTicketUrl()
+  {
+    return \Yii::app()->getController()->createAbsoluteUrl('/event/ticket/index', [
+      'eventIdName' => $this->Event->IdName,
+      'runetId' => $this->User->RunetId,
+      'hash' => $this->getHash()
+    ]);
+  }
 }
