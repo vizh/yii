@@ -32,18 +32,4 @@ class CreateAction extends \pay\components\Action
       'unpaidItems' => $unpaidItems
     ));
   }
-
-  /**
-   * @return \pay\models\Account
-   * @throws \pay\components\Exception
-   */
-  private function getAccount()
-  {
-    $account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
-    if ($account === null)
-    {
-      throw new \pay\components\Exception('Для работы платежного кабинета необходимо создать платежный аккаунт мероприятия.');
-    }
-    return $account;
-  }
 }

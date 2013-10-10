@@ -15,6 +15,7 @@ namespace user\models;
  * @property int $NoticeProfile
  * @property int $HideFatherName
  * @property int $HideBirthdayYear
+ * @property bool $UnsubscribeAll
  *
  */
 class Settings extends \CActiveRecord

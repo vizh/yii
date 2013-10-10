@@ -5,6 +5,8 @@ var CPayRegister = function()
   this.itemsIterator = 0;
   this.form = $('#registration_form');
   this.eventIdName = this.form.data('event-id-name');
+  this.eventId = this.form.data('event-id');
+  this.sandBoxUser = this.form.data('sandbox-user');
   this.templates = {
     row : _.template($('#row-tpl[type="text/template"]').html()),
     rowWithData : _.template($('#row-withdata-tpl[type="text/template"]').html()),
@@ -154,12 +156,13 @@ CPayRegister.prototype = {
     var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
     table.append(rowTemplate);
     var row = table.find('tr:last-child');
+    var source = '/user/ajax/search/' + (self.sandBoxUser ? '?eventId=' + self.eventId : '');
     row.find('input.input-user').autocomplete({
       minLength: 2,
       position: {
         collision: 'flip'
       },
-      source: '/user/ajax/search/',
+      source: source,
       select: function(event, ui) {
         var rowDataFieldsTemplate = self.templates.rowDataFields({
           i : self.itemsIterator,

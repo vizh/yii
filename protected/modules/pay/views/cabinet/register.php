@@ -1,3 +1,11 @@
+<?php
+/**
+ * @var \event\models\Event $event
+ * @var \pay\models\forms\OrderForm $orderForm
+ * @var \pay\models\Account $account
+ */
+?>
+
 <script type="text/javascript">
   payItems = [];
   <?if (!empty($orderForm->Items)):?>
@@ -16,7 +24,13 @@
 </script>
 
 <section id="section" role="main">
-  <?=\CHtml::beginForm('', 'POST', array('class' => 'registration', 'id' => 'registration_form', 'data-event-id-name' => $event->IdName));?>
+  <?=\CHtml::beginForm('', 'POST', [
+    'class' => 'registration',
+    'id' => 'registration_form',
+    'data-event-id-name' => $event->IdName,
+    'data-event-id' => $event->Id,
+    'data-sandbox-user' => $account->SandBoxUser
+  ]);?>
   
   <div class="event-register">
     <?=\CHtml::errorSummary($orderForm, '<div class="container"><div class="alert alert-error">', '</div></div>');?>

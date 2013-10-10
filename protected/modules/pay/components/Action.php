@@ -26,4 +26,20 @@ class Action extends \CAction
   {
     return $this->getController()->getUser();
   }
+
+  protected $account = null;
+
+  /**
+   * @return \pay\models\Account
+   * @throws Exception
+   */
+  public function getAccount()
+  {
+    $this->account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
+    if ($this->account === null)
+    {
+      throw new \pay\components\Exception('Для работы платежного кабинета необходимо создать платежный аккаунт мероприятия.');
+    }
+    return $this->account;
+  }
 }
