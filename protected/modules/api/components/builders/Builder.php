@@ -107,6 +107,7 @@ class Builder
           }
           $status = new \stdClass();
           $status->PartId = $participant->PartId;
+          $status->PartTitle = $participant->Part->Title;
           $status->RoleId = $participant->RoleId;
           $status->RoleName = $participant->Role->Title;
           $status->RoleTitle = $participant->Role->Title;

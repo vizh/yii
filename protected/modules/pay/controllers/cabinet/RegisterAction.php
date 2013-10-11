@@ -101,15 +101,16 @@ class RegisterAction extends \pay\components\Action
       }
     }
         
-    $this->getController()->render('register', array(
+    $this->getController()->render('register', [
         'event' => $this->getEvent(),
         'products' => $products,
         'orderForm' => $orderForm,
         'countRows' => $countRows,
         'registerForm' => new \user\models\forms\RegisterForm(),
         'unpaidOwnerCount' => $this->getUnpaidOwnerCount(),
-        'unpaidJuridicalOrderCount' => $this->getUnpaidJuridicalOrderCount()
-      )
+        'unpaidJuridicalOrderCount' => $this->getUnpaidJuridicalOrderCount(),
+        'account' => $this->getAccount()
+      ]
     );
   }
   

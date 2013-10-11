@@ -111,9 +111,11 @@ return array(
         'http://'. RUNETID_HOST.'/job/' => 'job/default/index',
 
         'http://'. RUNETID_HOST.'/search/' => 'search/result/index',
+        'http://'. RUNETID_HOST.'/contacts/' => 'page/info/contacts',
 
 
-        
+
+
         'http://<domain:\w+>.'. RUNETID_HOST .'/user/ajax/<action:\w+>' => 'user/ajax/<action>',  
         'http://<domain:\w+>.'. RUNETID_HOST .'/pay/ajax/<action:\w+>' => 'pay/ajax/<action>',   
         'http://<domain:\w+>.'. RUNETID_HOST .'/event/ajax/<action:\w+>' => 'event/ajax/<action>', 

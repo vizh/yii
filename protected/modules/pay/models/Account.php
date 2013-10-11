@@ -13,6 +13,7 @@ namespace pay\models;
  * @property bool $Uniteller
  * @property bool $PayOnline
  * @property int  $OrderTemplateId
+ * @property bool $SandBoxUser
  *
  * @property \event\models\Event $Event
  */

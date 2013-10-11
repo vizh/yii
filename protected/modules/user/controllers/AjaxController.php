@@ -1,14 +1,23 @@
 <?php
 class AjaxController extends \application\components\controllers\PublicMainController
 {
-  public function actionSearch($term)
+  public function actionSearch($term, $eventId = null)
   {
     $results = array();
     $criteria = new \CDbCriteria();
     $criteria->limit = 10;
-    $criteria->with = array('Employments.Company');
+    $criteria->with = ['Employments.Company'];
+    $model = \user\models\User::model();
+    if ($eventId !== null)
+    {
+      $model->bySearch($term, null, true, false)->byEventId($eventId);
+    }
+    else
+    {
+      $model->bySearch($term);
+    }
     /** @var $users \user\models\User[] */
-    $users = \user\models\User::model()->bySearch($term)->findAll($criteria);
+    $users = $model->findAll($criteria);
     foreach ($users as $user)
     {
       $results[] = $this->getUserData($user);
