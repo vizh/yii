@@ -99,10 +99,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     ');
 */
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 454, 337, 12959, 18120));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -142,7 +142,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-//        if ($j == 1) continue;
+        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -161,7 +161,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Успейте зарегистрироваться на главную осеннюю выставку и конференцию Рунета!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Welcome to RIW 2013 // Добро пожаловать на Неделю Российского Интернета') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
