@@ -66,7 +66,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(425));
+    $criteria->addInCondition('"Participants"."EventId"', array(425));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
     /*
@@ -116,6 +116,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       foreach ($users as $user)
       {
+
+        print $user->Participants[0]->getTicketUrl();
+        exit();
 
         /* PK PASS для Яблочников */
 //        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $user->Participants[0]->Role);
