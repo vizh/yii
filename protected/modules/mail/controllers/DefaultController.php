@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-html-5';
-    $isHTML = true;
+    $template = 'premiaruneta13-1';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -33,15 +33,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 
     // Чтение из файла
-    /*
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-08/ds.csv');
+/*
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-11/all_narod_participants.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
 //    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
-//    $emails['ilya.chertilov@gmail.com'] = 'ilya.chertilov@gmail.com';
+//    $emails['borzov@internetmediaholding.com'] = 'borzov@internetmediaholding.com';
     $users = $emails;
+*/
+//    print count($users); exit();
 
-    print count($users); exit();
-    */
 
     /*
     // C ПОИСКОМ ПО БД
@@ -99,10 +99,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     ');
 */
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 454, 337, 12959, 18120));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 500;
     $criteria->order = '"t"."RunetId" ASC';
@@ -126,8 +126,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-//        $body = $this->renderPartial($template, array('user' => $user), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -158,10 +158,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
+//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
+        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Успейте зарегистрироваться на главную осеннюю выставку и конференцию Рунета!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Прием заявок на участие в голосовании 2013 года') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
