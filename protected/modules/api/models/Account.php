@@ -52,7 +52,16 @@ class Account extends \CActiveRecord
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."Key" = :Key';
-    $criteria->params = array(':Key' => $key);
+    $criteria->params = [':Key' => $key];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params = ['EventId' => $eventId];
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

@@ -29,7 +29,7 @@
     'id' => 'registration_form',
     'data-event-id-name' => $event->IdName,
     'data-event-id' => $event->Id,
-    'data-sandbox-user' => $account->SandBoxUser
+    'data-sandbox-user' => $account->SandBoxUser,
   ]);?>
   
   <div class="event-register">
@@ -104,7 +104,9 @@
       </div>
     </td>
     <td colspan="3" class="last-child">
+      <?if (!$account->SandBoxUser):?>
       <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=Yii::t('app', 'Зарегистрировать');?></button>
+      <?endif;?>
     </td>
   </tr>
 </script>

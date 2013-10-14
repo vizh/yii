@@ -14,11 +14,20 @@ class TicketController extends application\components\controllers\PublicMainCont
     $participant = \event\models\Participant::model()->byUserId($user->Id)->byEventId($event->Id)->find();
     if ($participant == null || $participant->getHash() !== $hash)
       throw new \CHttpException(404);
+
+    $orderItems = \pay\models\OrderItem::model()
+        ->byOwnerId($user->Id)->byChangedOwnerId(null)->byChangedOwnerId($user->Id, false)
+        ->byEventId($event->Id)->byPaid(true)->findAll();
     
     $path = \Yii::getPathOfAlias('event.views.ticket.'.$event->IdName).'.php';
     $view = file_exists($path) ? $event->IdName : 'index';
     $this->setPageTitle(\Yii::t('app', 'Ваш билет на мероприятие «{event}»', ['{event}' => $event->Title]));
     \Yii::app()->getClientScript()->reset();
-    $this->render($view, ['event' => $event, 'role' => $participant->Role, 'user' => $user]);
+    $this->render($view, [
+      'event' => $event,
+      'role' => $participant->Role,
+      'user' => $user,
+      'orderItems' => $orderItems
+    ]);
   }
 }

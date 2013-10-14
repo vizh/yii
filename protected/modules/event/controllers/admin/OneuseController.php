@@ -51,16 +51,55 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
   public function actionCreators()
   {
+    return;
     /** @var \event\models\Event[] $events */
     $events = \event\models\Event::model()->findAll('"t"."External"');
+
+    $emails = [];
+    $runetIds = [];
     foreach ($events as $event)
     {
       if (isset($event->ContactPerson))
       {
-        echo $event->ContactPerson;
+        $contact = unserialize($event->ContactPerson);
+        if (isset($contact['Email']))
+        {
+          $emails[] = $contact['Email'];
+        }
+        if (isset($contact['RunetId']))
+        {
+          $runetIds[] = $contact['RunetId'];
+        }
       }
     }
 
-    echo count($events);
+    $criteria = new CDbCriteria();
+    $criteria->addInCondition('"t"."RunetId"', $runetIds);
+    $criteria->addInCondition('"t"."Email"', $emails, 'OR');
+    $criteria->addCondition('"t"."Email" != \'alaris.nik@gmail.com\'');
+    $criteria->with = [
+      'Participants' => ['together' => true, 'on' => '"Participants"."EventId" = 425']
+    ];
+    $criteria->order = '"t"."RunetId"';
+    $users = \user\models\User::model()->findAll($criteria);
+
+    echo '<table>';
+    foreach ($users as $user)
+    {
+      $data = [];
+      $data[] = $user->RunetId;
+      $data[] = $user->getFullName();
+      $data[] = $user->Email;
+      if (!empty($user->Participants))
+      {
+        $data[] = $user->Participants[0]->Role->Title;
+      }
+      else
+      {
+        $data[] = 'не участвует';
+      }
+      echo '<tr><td>' . implode('</td><td>', $data) . '</td></tr>';
+    }
+    echo '</table>';
   }
 }

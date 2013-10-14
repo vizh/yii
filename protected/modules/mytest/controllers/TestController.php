@@ -74,4 +74,38 @@ class TestController extends CController
     }
 
   }
+
+  public function actionCall()
+  {
+    $data = new \stdClass();
+    $data->ApiKey = 'zrnzd5rs8i';
+    $data->ExternalId = 'e005fddf-5093-44f7-9527-a5e68e8953f8';
+    $data->RoleId = 1;
+    $data->Hash = md5($data->ApiKey.$data->ExternalId.$data->RoleId.'YzyrQiHRGDZhsh7ENiRi6YdE5');
+    $params = ['PayData' => json_encode($data)];
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, 'http://runet-id.com/mytest/test/back');
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 3);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params));
+    $result = curl_exec($curl);
+
+    echo $result;
+
+    $errno = curl_errno($curl);
+    $errmessage = curl_error($curl);
+
+    echo $errno, $errmessage;
+  }
+
+  public function actionBack()
+  {
+    echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
+  }
 }

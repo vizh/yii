@@ -16,7 +16,8 @@ if (empty($products))
     <p class="text-success" style="font-size: 16px; line-height: 20px; margin: 15px 0 30px;">
       <strong><?=Yii::app()->user->getCurrentUser()->getFullName();?></strong>,<br>
       Вы зарегистрированы на «<?=$this->event->Title;?>».<br>
-      Ваш статус: <strong><?=$participant->Role->Title;?></strong>
+      Ваш статус: <strong><?=$participant->Role->Title;?></strong><br>
+      Ваш путевой лист: <a target="_blank" href="<?=$participant->getTicketUrl();?>">скачать</a>
       <?if (isset($this->RegistrationAfterInfo)):?>
       <br><br><span class="muted" style="font-size: 14px; line-height: 16px;"><?=$this->RegistrationAfterInfo;?></span>
       <?endif;?>

@@ -14,7 +14,7 @@ class CreateUserAction extends \api\components\Action
     $position = $request->getParam('Position');
 
     $externalUser = \api\models\ExternalUser::model()
-        ->byExternalId($externalId)->byPartner(\MsController::Partner)->find();
+        ->byExternalId($externalId)->byPartner($this->getAccount()->Role)->find();
     if ($externalUser !== null)
       throw new \api\components\Exception(3002, array($externalId));
     if (empty($externalId))
@@ -40,7 +40,7 @@ class CreateUserAction extends \api\components\Action
     $user->Settings->save();
 
     $externalUser = new \api\models\ExternalUser();
-    $externalUser->Partner = \MsController::Partner;
+    $externalUser->Partner = $this->getAccount()->Role;
     $externalUser->UserId = $user->Id;
     $externalUser->ExternalId = $externalId;
     $externalUser->save();

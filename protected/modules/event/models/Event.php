@@ -36,14 +36,16 @@ namespace event\models;
  *
  *
  * @method \event\models\section\Section[] Sections()
- * @method \event\models\Event findByPk()
  *
  * Attribute properties
  *
  * @property string $UrlSectionMask
  * @property string $FbPlaceId
  *
- *
+ * Вспомогательные описания методов методы
+ * @method \event\models\Event find($condition='',$params=array())
+ * @method \event\models\Event findByPk($pk,$condition='',$params=array())
+ * @method \event\models\Event[] findAll($condition='',$params=array())
  */
 class Event extends \application\models\translation\ActiveRecord implements \search\components\interfaces\ISearch
 {
@@ -106,7 +108,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
    */
   protected function getInternalAttributeNames()
   {
-    return array('UrlSectionMask', 'FbPlaceId', 'Free', 'Top');
+    return array('UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson');
   }
 
   public function __get($name)

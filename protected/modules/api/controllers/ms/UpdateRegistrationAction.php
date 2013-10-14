@@ -10,7 +10,7 @@ class UpdateRegistrationAction extends \api\components\Action
     $roleId = $request->getParam('RoleId');
 
     $externalUser = \api\models\ExternalUser::model()
-        ->byExternalId($externalId)->byPartner(\MsController::Partner)->find();
+        ->byExternalId($externalId)->byPartner($this->getAccount()->Role)->find();
     if ($externalUser === null)
       throw new \api\components\Exception(3003, array($externalId));
 
