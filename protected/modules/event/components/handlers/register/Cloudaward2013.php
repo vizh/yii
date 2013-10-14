@@ -3,13 +3,23 @@ namespace event\components\handlers\register;
 
 class Cloudaward2013 extends Base
 {
+  public function isHtml()
+  {
+    return true;
+  }
+  
   public function getSubject()
   {
-    return 'Регистрация на торжественную церемонию вручения ежегодной премии SAAS-решений «Облака 2013»';
+    return 'Облака 2013 – Пригласительный билет!';
   }
   
   public function getBody()
   {
-     return \Yii::app()->getController()->renderPartial('event.views.mail.register.cloudaward13', array('user' => $this->user), true);
+    $participant = \event\models\Participant::model()->byUserId($this->user->Id)->byEventId($this->event->Id)->find();
+    if ($participant !== null)
+    {
+      return \Yii::app()->getController()->renderPartial('event.views.mail.register.cloudaward13', array('user' => $this->user, 'participant' => $participant), true);
+    }
+    return null;
   }
 }
