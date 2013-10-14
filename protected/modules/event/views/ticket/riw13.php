@@ -5,6 +5,16 @@
  * @var \user\models\User $user
  * @var \pay\models\OrderItem[] $orderItems
  */
+$mask = ['1387' => 17, '1391' => 18, '1392' => 19];
+$lunchDays = [];
+foreach ($orderItems as $item)
+{
+  if (isset($mask[$item->ProductId]))
+  {
+    $lunchDays[] = $mask[$item->ProductId];
+  }
+}
+sort($lunchDays, SORT_NUMERIC);
 ?>
 
 <style type="text/css">
@@ -129,12 +139,10 @@
                         <td valign="top" style="padding-right: 20px; width: 205px; font-size: 12px;">
                           <div class="role"><?=$role->Title;?></div>
 
-                          <?if (count($orderItems) > 0):?>
+                          <?if (count($lunchDays) > 0):?>
                             <div class="extra_pay">БИЗНЕС-ЛАНЧ*</div>
-                            <?foreach($orderItems as $item):?>
-                              <?if ($day = array_search($item->ProductId, array(17 => 1387,18 => 1391,19 => 1392))):?>
+                            <?foreach($lunchDays as $day):?>
                                 <div class="extra_pay" style="float: left; margin-right: 5px; width: auto; padding: 2px 5px;"><?=$day?></div>
-                              <?endif;?>
                             <?endforeach;?>
                             <div style="clear: both;"></div>
                             <small>*при утрате карточка на бизнес-ланч не востанавливается</small>
