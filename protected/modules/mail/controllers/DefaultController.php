@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'premiaruneta13-1';
+    $template = 'riw13-14';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -66,7 +66,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(425));
+//    $criteria->addInCondition('"Participants"."EventId"', array(425));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
     /*
@@ -81,7 +81,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (425))');
+    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (425))');
 
 /*
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE
@@ -117,8 +117,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       foreach ($users as $user)
       {
 
-        print $user->Participants[0]->getTicketUrl();
-        exit();
+//        print $user->Participants[0]->getTicketUrl();
+//        exit();
 
         /* PK PASS для Яблочников */
 //        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $user->Participants[0]->Role);
@@ -129,8 +129,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+//        $body = $this->renderPartial($template, array('user' => $user), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -145,7 +145,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-//        if ($j == 1) continue;
+        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -161,11 +161,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
-        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
+        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013 – Неделя Российского Интернета', false);
+//        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Прием заявок на участие в голосовании 2013 года') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Последний шанс зарегистрироваться на Неделю Российского Интернета') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
