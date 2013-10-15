@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-16';
+    $template = 'riw13-17';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -69,7 +69,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 
     $criteria->addInCondition('"Participants"."EventId"', array(425));
-    $criteria->addInCondition('"Participants"."RoleId"', array(1));
+//    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
     /*
         $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
@@ -80,7 +80,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     $criteria->distinct = true;
-//    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
 //    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (425))');
@@ -112,7 +112,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = \user\models\User::model()->findAll($criteria);
 
     /* Для PK PASS для Яблочников */
-//    $event = \event\models\Event::model()->findByPk(578);
+//    $event = \event\models\Event::model()->findByPk(425);
 
     if (!empty($users))
     {
@@ -122,7 +122,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        print $user->Participants[0]->getTicketUrl();
 //        exit();
 
-        /* PK PASS для Яблочников */
+//        /* PK PASS для Яблочников */
 //        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $user->Participants[0]->Role);
 
 
@@ -131,9 +131,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 
         // ПИСЬМО
-//        $body = $this->renderPartial($template, array('user' => $user), true);
+        $body = $this->renderPartial($template, array('user' => $user), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -148,7 +148,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-        if ($j == 1) continue;
+//        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -177,7 +177,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-//        $mail->Send();
+        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
