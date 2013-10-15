@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-17';
-    $isHTML = false;
+    $template = 'cloudaward13-html-4';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -34,13 +34,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Чтение из файла
 /*
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-14/emails.csv');
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-15/cloudaward13.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
 //    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
 //    $emails['borzov@internetmediaholding.com'] = 'borzov@internetmediaholding.com';
     $users = $emails;
 
-    print count($users); exit();
+//    print count($users); exit();
 */
 
     /*
@@ -68,7 +68,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     );
 
 
-    $criteria->addInCondition('"Participants"."EventId"', array(425));
+//    $criteria->addInCondition('"Participants"."EventId"', array(425));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
     /*
@@ -78,11 +78,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $criteria->addCondition('"t"."Email" NOT LIKE :Email');
         $criteria->params['Email'] = '%nomail497+%';
     */
-
+/*
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
-
+*/
 //    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (425))');
 
 /*
@@ -166,10 +166,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->AddAddress($email);
 //        $mail->SetFrom('info@therunet.com', 'Оргкомитет конкурса "Аллея Инноваций"', false);
 //        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
+        $mail->SetFrom('users@russianinternetweek.ru', 'Премия Облака 2013', false);
 //        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
-        $mail->SetFrom('users@runet-id.com', 'RIW 2013', false);
+//        $mail->SetFrom('users@runet-id.com', '-RUNET-ID-', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Программа и Выставка RIW 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Облака 2013 - приглашение на церемонию награждения') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
@@ -177,7 +178,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-        $mail->Send();
+//        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
