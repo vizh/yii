@@ -98,7 +98,7 @@
 </style>
 
 <body>
-  <table style="width: 660px;  color: #4e4e4e; font-family: tahoma; font-size: 14px; background-color: #F6F6F6; background-repeat: no-repeat; background-position: center -70px; padding-left: 20px; padding-right: 20px; padding-bottom: 20px; border: 20px solid #000;" cellpadding="0" cellspacing="0">
+  <table style="width: 660px;  color: #4e4e4e; font-family: tahoma; font-size: 14px; background-color: #F6F6F6; background-repeat: no-repeat; background-position: center -70px; padding-bottom: 20px; border: 20px solid #000;" cellpadding="0" cellspacing="0">
     <tr>
       <td>
         <table style="width: 100%;" cellpadding="0" cellspacing="0">
