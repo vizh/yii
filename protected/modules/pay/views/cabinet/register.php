@@ -4,6 +4,8 @@
  * @var \pay\models\forms\OrderForm $orderForm
  * @var \pay\models\Account $account
  */
+
+$runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
 ?>
 
 <script type="text/javascript">
@@ -100,7 +102,7 @@
   <tr class="user-row">
     <td>
       <div class="p-relative">
-        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="<?=Yii::t('app', 'Введите ФИО или RUNET-ID');?>">
+        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="<?=Yii::t('app', 'Введите ФИО или '.$runetIdTitle);?>">
       </div>
     </td>
     <td colspan="3" class="last-child">
@@ -115,7 +117,7 @@
   <tr class="user-row">
     <td>
       <div class="p-relative">
-        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="Введите ФИО или RUNET-ID" value="<%=item.FullName%>, RUNET-ID <%=item.RunetId%>" disabled>
+        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="Введите ФИО или <?=runetIdTitle;?>" value="<%=item.FullName%>, <?=runetIdTitle;?> <%=item.RunetId%>" disabled>
         <i class="icon-remove"></i>
       </div>
     </td>
@@ -142,7 +144,7 @@
 </script>
 
 <script type="text/template" id="user-autocomlete-tpl">
-  <p><%=item.FullName%>, <span class='muted'>RUNET-ID <%=item.RunetId%></span></p>
+  <p><%=item.FullName%>, <span class='muted'><?=$runetIdTitle;?> <%=item.RunetId%></span></p>
   <% if (typeof(item.Company) != "undefined") { %>
     <p class='muted'><%=item.Company%><% if (item.Position.length != 0) { %>, <%=item.Position%> <% } %></p>
   <% } %>

@@ -181,7 +181,8 @@ CPayRegister.prototype = {
           ui.content[i].label = self.templates.userAutocomlete({
             item: ui.content[i]
           });
-          ui.content[i].value = ui.content[i].FullName + ', RUNET-ID ' + ui.content[i].RunetId;
+          var runetIdTitle = self.sandBoxUser ? 'ID ' : 'RUNET-ID ';
+          ui.content[i].value = ui.content[i].FullName + ', '+ runetIdTitle + ui.content[i].RunetId;
         });
         row.find('button.btn-register').show();
       },

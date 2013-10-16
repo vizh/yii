@@ -18,6 +18,7 @@ class UpdateRegistrationAction extends \api\components\Action
     if (empty($role))
       throw new \api\components\Exception(3005);
 
+    $this->getEvent()->skipOnRegister = true;
     try
     {
       if (empty($this->getEvent()->Parts))
