@@ -77,5 +77,4 @@ class PartnerController extends \mail\components\MailerController
     Yii::app()->end();
   }
 
-
 }

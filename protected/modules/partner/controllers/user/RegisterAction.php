@@ -7,82 +7,73 @@ class RegisterAction extends \partner\components\Action
   {
     $this->getController()->setPageTitle('Регистрация нового пользователя');
     $this->getController()->initActiveBottomMenu('register');
-    
-    $cs = \Yii::app()->clientScript;
-    $cs->registerScriptFile(\Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/js/libs/jquery-ui-1.8.16.custom.min.js'), \CClientScript::POS_HEAD);
-    $blitzerPath = \Yii::app()->getAssetManager()->publish(\Yii::PublicPath() . '/css/blitzer');
-    $cs->registerCssFile($blitzerPath . '/jquery-ui-1.8.16.custom.css');
-    
-    
+
+    $cs = \Yii::app()->getClientScript();
+    $cs->registerPackage('runetid.jquery.ui');
+
     $request = \Yii::app()->getRequest();
-    $registerForm = new \partner\components\form\UserRegisterForm();
-    $registerForm->attributes = $request->getParam(get_class($registerForm));
-    if ($request->getIsPostRequest()
-      && $registerForm->validate())
+    $form = new \partner\models\forms\user\Register();
+    $form->attributes = $request->getParam(get_class($form));
+    $user = null;
+    if ($request->getIsPostRequest() && $form->validate())
     {
+      $hidden = !empty($form->Hidden);
+      $notify = !$hidden;
+
       $user = new \user\models\User();
-      $user->attributes = $registerForm->attributes;
-      $user->Register();
-      $user->Settings->Agreement = 1;
-      $user->Settings->save();
-      
-      if (!empty($registerForm->Company))
+      $user->LastName = $form->LastName;
+      $user->FirstName = $form->FirstName;
+      $user->FatherName = $form->FatherName;
+      if (empty($form->Email))
       {
-        $this->addEmployment($user, $registerForm->Company, $registerForm->Position);
+        $form->Email = $this->getRandomEmail();
+        $notify = false;
+      }
+      $user->Email = $form->Email;
+      $user->register($notify);
+      if ($hidden)
+      {
+        $user->Visible = false;
+        $user->save();
       }
       
-      if (!empty($registerForm->Phone))
+      if (!empty($form->Company))
       {
-        $phone = new \contact\models\Phone();
-        $phone->Phone = $registerForm->Phone;
-        $phone->Primary = 1;
-        $phone->Type = \contact\models\Phone::TypeMobile;
-        $phone->save();
-        $user->AddPhone($phone);
+        $user->setEmployment($form->Company, $form->Position);
+
       }
       
-      if (!empty($registerForm->City))
+      if (!empty($form->Phone))
       {
-        $city = \geo\models\City::model()->find('t.Name = :Name', array('Name' => $registerForm->City));
+        $user->setContactPhone($form->Phone);
+      }
+      
+      if (!empty($form->City))
+      {
+        $city = \geo\models\City::model()->find('"t"."Name" = :Name', ['Name' => $form->City]);
         if ($city != null)
         {
           $address = new \contact\models\Address();
-          $address->CityId = $city->CityId;
+          $address->CityId = $city->Id;
+          $address->CountryId = $city->CountryId;
+          $address->RegionId = $city->RegionId;
           $address->save();
-          $user->AddAddress($address);
+          $user->setContactAddress($address);
         }
       }
-      $this->getController()->redirect(
-        $this->getController()->createUrl('user/edit', array('rocId' => $user->RocId))
-      );
-    }
-    $this->getController()->render('register', array('model' => $registerForm));
-  }
-  
-  
-  
-  
-  private function addEmployment ($user, $companyName, $position = '')
-  {
-    $companyInfo = \company\models\Company::ParseName($companyName);
-    $company = \company\models\Company::GetCompanyByName($companyInfo['name']);
-    if ($company == null)
-    {
-      $company = new \company\models\Company();
-      $company->Name = $companyInfo['name'];
-      $company->Opf = $companyInfo['opf'];
-      $company->CreationTime = time();
-      $company->UpdateTime = time();
-      $company->save();
-    }
 
-    $employment = new \user\models\Employment();
-    $employment->UserId = $user->UserId;
-    $employment->CompanyId = $company->CompanyId;
-    $employment->SetParsedStartWorking(array('year' => '9999'));
-    $employment->SetParsedFinishWorking(array('year' => '9999'));
-    $employment->Position = $position;
-    $employment->Primary = 1;
-    $employment->save();
+      if (!empty($form->Role))
+      {
+        $this->getEvent()->skipOnRegister = !$notify;
+        $this->getEvent()->registerUser($user, \event\models\Role::model()->findByPk($form->Role));
+      }
+      $form = new \partner\models\forms\user\Register();
+    }
+    $this->getController()->render('register', ['form' => $form, 'user' => $user]);
+  }
+
+  public function getRandomEmail()
+  {
+    return 'nomail'.$this->getEvent()->Id.'+'.substr(md5(microtime()), 0, 8).'@runet-id.com';
   }
 }
