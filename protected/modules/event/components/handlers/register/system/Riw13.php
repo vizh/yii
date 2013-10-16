@@ -7,4 +7,9 @@ class Riw13 extends Base
   {
     return 'users@russianinternetweek.ru';
   }
+
+  public function getBody()
+  {
+    return null;
+  }
 }

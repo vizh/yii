@@ -93,6 +93,7 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
   public function actionCreators2()
   {
+    echo 'closed';
     return;
     $positions = [
       '%Основатель%', '%Co-founder%', '%Президент%', '%Директор%',
@@ -101,23 +102,36 @@ class OneuseController extends \application\components\controllers\AdminMainCont
     ];
     $positions = '\''.implode('\', \'',  $positions ).'\'';
 
+    $exclude = ['%тех%', '%арт%'];
+    $exclude = '\''.implode('\', \'',  $exclude ).'\'';
+
     $criteria = new CDbCriteria();
     $criteria->addCondition('"Employments"."Position" ~~* ANY(array['.$positions.'])');
     $criteria->addCondition('"Employments"."Primary"');
-    $criteria->addCondition('"Employments"."Position" !~~* ANY(array[\'технический директор\'])');
+    $criteria->addCondition('"Employments"."Position" !~~* ALL(array['.$exclude.'])');
     $criteria->with = ['Employments' => ['together' => true]];
 
 
     $users = \user\models\User::model()->byEventId(425)->findAll($criteria);
 
-    //echo sizeof($users);
+    echo sizeof($users);
 
-    echo '<table>';
+    $product = \pay\models\Product::model()->findByPk(1421);
+
     foreach ($users as $user)
     {
-      $this->printUserInfo($user);
+      //$item = $product->getManager()->createOrderItem($user, $user);
+      //$item->Paid = true;
+      //$item->PaidTime = date('Y-m-d H:i:s');
+      //$item->save();
     }
-    echo '</table>';
+
+//    echo '<table>';
+//    foreach ($users as $user)
+//    {
+//      $this->printUserInfo($user);
+//    }
+//    echo '</table>';
   }
 
   /**
@@ -131,12 +145,12 @@ class OneuseController extends \application\components\controllers\AdminMainCont
     $data[] = $user->Email;
     if ($user->getEmploymentPrimary() != null)
     {
-      $data[] = $user->getEmploymentPrimary()->Company->Name;
+      //$data[] = $user->getEmploymentPrimary()->Company->Name;
       $data[] = $user->getEmploymentPrimary()->Position;
     }
     else
     {
-      $data[] = '';
+      //$data[] = '';
       $data[] = '';
     }
     if (!empty($user->Participants))
