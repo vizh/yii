@@ -5,16 +5,6 @@
  * @var \user\models\User $user
  * @var \pay\models\OrderItem[] $orderItems
  */
-$mask = ['1387' => 17, '1391' => 18, '1392' => 19];
-$lunchDays = [];
-foreach ($orderItems as $item)
-{
-  if (isset($mask[$item->ProductId]))
-  {
-    $lunchDays[] = $mask[$item->ProductId];
-  }
-}
-sort($lunchDays, SORT_NUMERIC);
 ?>
 
 <style type="text/css">
