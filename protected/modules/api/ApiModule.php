@@ -49,6 +49,9 @@ class ApiModule extends CWebModule
 
     /** @var \api\components\Controller $controller */
     $controller = Yii::app()->getController();
-    $controller->createLog();
+    $log = $controller->createLog();
+    $log->ErrorCode = $exception->getCode();
+    $log->ErrorMessage = $exception->getMessage();
+    $log->save();
   }
 }

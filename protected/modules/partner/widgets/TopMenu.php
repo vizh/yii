@@ -21,12 +21,6 @@ class TopMenu extends \CWidget
       'Active' => $this->isActive('ruvents')
     );
     $menu[] = array(
-      'Title' => 'Счета',
-      'Url' => \Yii::app()->createUrl('/partner/order/index'),
-      'Access' => $this->checkAccess('order', 'index'),
-      'Active' => $this->isActive('order')
-    );
-    $menu[] = array(
       'Title' => 'Участники',
       'Url' => \Yii::app()->createUrl('/partner/user/index'),
       'Access' => $this->checkAccess('user', 'index'),
@@ -37,6 +31,12 @@ class TopMenu extends \CWidget
       'Url' => \Yii::app()->createUrl('/partner/coupon/index'),
       'Access' => $this->checkAccess('coupon', 'index'),
       'Active' => $this->isActive('coupon')
+    );
+    $menu[] = array(
+      'Title' => 'Счета',
+      'Url' => \Yii::app()->createUrl('/partner/order/index'),
+      'Access' => $this->checkAccess('order', 'index'),
+      'Active' => $this->isActive('order')
     );
     $menu[] = array(
       'Title' => 'Заказы',

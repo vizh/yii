@@ -53,43 +53,10 @@
   ul {
     margin-left: 20px;
   }
-
-  .role {
-    margin-top: 15px;
-    margin-bottom: 10px;
-    display: block;
-    /*width: 140px;*/
-    text-align: center;
-    padding: 2px 0;
-    background-color: #4f4f4f;
-    color: #ffffff;
-    text-transform: uppercase;
-  }
-  .extra_pay {
-    margin-top: 5px;
-    display: block;
-    /*width: 140px;*/
-    text-align: center;
-    padding: 2px 0;
-    background-color: #4481A4;
-    color: #ffffff;
-  }
-  a.program-btn {
-    background: transparent url("http://runet-id.com/images/mail/riw13/program_bg.png") no-repeat;
-    color: #FFFFFF;
-    display: block;
-    font-size: 12px;
-    height: 26px;
-    line-height: 24px;
-    margin-top: 12px;
-    text-align: center;
-    text-transform: uppercase;
-    width: 192px;
-  }
 </style>
 
 <body>
-  <table style="width: 660px;  color: #4e4e4e; font-family: tahoma; font-size: 14px; background-color: #F6F6F6; background-repeat: no-repeat; background-position: center -70px; padding-left: 20px; padding-right: 20px; padding-bottom: 20px; border: 20px solid #000;" cellpadding="0" cellspacing="0">
+  <table style="width: 660px;  color: #4e4e4e; font-family: tahoma; font-size: 14px; background-color: #F6F6F6; background-repeat: no-repeat; background-position: center -70px; border: 20px solid #000;" cellpadding="0" cellspacing="0">
     <tr>
       <td>
         <table style="width: 100%;" cellpadding="0" cellspacing="0">
@@ -114,10 +81,10 @@
                     <table style="width: 100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td valign="top" style="width: 270px; padding-right: 20px;">
-                          <div style="color: #000; font-size: 30px; font-weight: bold; line-height: 35px;"><?=$user['name'];?></div>
+                          <div style="color: #000; font-size: 30px; font-weight: bold; line-height: 35px;"><?=$user[0];?> <?=$user[1];?></div>
                         </td>
                         <td valign="top" style="padding-right: 20px; width: 205px; font-size: 12px;">
-                          <div class="role">Участник</div>
+                          <div style="background-color: #4F4F4F; color: #FFFFFF; display: block; padding: 10px 0; text-align: center; text-transform: uppercase; line-height: 10px;">Участник</div>
                         </td>
                       </tr>
                     </table>
@@ -132,7 +99,7 @@
                           <span style="font-size: 80%;">17 октября 09:00-17:00 / 18 октября 10:00-17:00 / 19 октября 10:00-17:00</span>
                         </td>
                         <td align="right">
-                          <a href="http://runet-id.com/event/marketingparty2013/" target="_blank" class="program-btn">ПРОГРАММА</a>
+                          <a href="http://runet-id.com/event/marketingparty2013/" target="_blank" style="background: transparent url('http://runet-id.com/images/mail/riw13/program_bg.png') no-repeat; color: #FFFFFF; display: block; font-size: 12px; height: 26px; line-height: 24px; margin-top: 12px; text-align: center; text-transform: uppercase; width: 192px">ПРОГРАММА</a>
                         </td>
                       </tr>
                     </table>

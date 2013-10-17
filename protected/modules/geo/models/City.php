@@ -2,16 +2,26 @@
 namespace geo\models;
 
 /**
- * @property int $CityId
+ * @property int $Id
  * @property int $CountryId
  * @property int $RegionId
  * @property int $Name
  *
  * @property Country $Country
  * @property Region $Region
+ *
+ * Вспомогательные описания методов методы
+ * @method \geo\models\City find($condition='',$params=array())
+ * @method \geo\models\City findByPk($pk,$condition='',$params=array())
+ * @method \geo\models\City[] findAll($condition='',$params=array())
  */
 class City extends \application\models\translation\ActiveRecord
 {
+  /**
+   * @param string $className
+   *
+   * @return City
+   */
   public static function model($className=__CLASS__)
   {    
     return parent::model($className);

@@ -74,6 +74,10 @@ class Controller extends \application\components\controllers\BaseController
     $this->createLog();
   }
 
+
+  /**
+   * @return \api\models\Log
+   */
   public function createLog()
   {
     $executionTime = \Yii::getLogger()->getExecutionTime();
@@ -83,12 +87,6 @@ class Controller extends \application\components\controllers\BaseController
     $log->Route = $this->getId() . '.' . $this->getAction()->getId();
     $log->Params = json_encode($_REQUEST, JSON_UNESCAPED_UNICODE);
     $log->FullTime = $executionTime;
-    //$dbTime = 0;
-//    $profilingResults = \Yii::getLogger()->getProfilingResults();
-//    foreach ($profilingResults as $result)
-//    {
-//      $dbTime += $result[2];
-//    }
     $log->DbTime = null;
     $log->save();
 
@@ -97,6 +95,8 @@ class Controller extends \application\components\controllers\BaseController
       $profilingResults = \Yii::getLogger()->getProfilingResults();
       \Yii::log($executionTime . '   ' . var_export($profilingResults, true), \CLogger::LEVEL_WARNING);
     }
+
+    return $log;
   }
 
   const MaxResult = 200;

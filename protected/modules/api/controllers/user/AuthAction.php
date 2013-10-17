@@ -13,17 +13,18 @@ class AuthAction extends \api\components\Action
 
     if (empty($accessToken))
     {
+      \Yii::log('Token: ' . $token, \CLogger::LEVEL_ERROR);
       throw new \api\components\Exception(222);
     }
     if ($accessToken->AccountId != $this->getAccount()->Id)
     {
-      throw new \api\components\Exception(222);
+      throw new \api\components\Exception(223);
     }
     /** @var $user \user\models\User */
     $user = \user\models\User::model()->findByPk($accessToken->UserId);
     if (empty($user))
     {
-      throw new \api\components\Exception(223);
+      throw new \api\components\Exception(224);
     }
 
     $this->getAccount()->getDataBuilder()->createUser($user);

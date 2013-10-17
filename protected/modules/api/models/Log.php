@@ -9,6 +9,8 @@ namespace api\models;
  * @property float $DbTime
  * @property float $FullTime
  * @property string $CreationTime
+ * @property int $ErrorCode
+ * @property string $ErrorMessage
  */
 class Log extends \CActiveRecord
 {

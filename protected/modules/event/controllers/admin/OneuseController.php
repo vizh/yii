@@ -86,20 +86,81 @@ class OneuseController extends \application\components\controllers\AdminMainCont
     echo '<table>';
     foreach ($users as $user)
     {
-      $data = [];
-      $data[] = $user->RunetId;
-      $data[] = $user->getFullName();
-      $data[] = $user->Email;
-      if (!empty($user->Participants))
-      {
-        $data[] = $user->Participants[0]->Role->Title;
-      }
-      else
-      {
-        $data[] = 'не участвует';
-      }
-      echo '<tr><td>' . implode('</td><td>', $data) . '</td></tr>';
+      $this->printUserInfo($user);
     }
     echo '</table>';
+  }
+
+  public function actionCreators2()
+  {
+    echo 'closed';
+    return;
+    $positions = [
+      '%Основатель%', '%Co-founder%', '%Президент%', '%Директор%',
+      '%Руководитель%', '%PR%', 'Менеджер проектов', '%Маркетинг%',
+      '%Marketing%', '%Event%', '%Эвент%'
+    ];
+    $positions = '\''.implode('\', \'',  $positions ).'\'';
+
+    $exclude = ['%тех%', '%арт%'];
+    $exclude = '\''.implode('\', \'',  $exclude ).'\'';
+
+    $criteria = new CDbCriteria();
+    $criteria->addCondition('"Employments"."Position" ~~* ANY(array['.$positions.'])');
+    $criteria->addCondition('"Employments"."Primary"');
+    $criteria->addCondition('"Employments"."Position" !~~* ALL(array['.$exclude.'])');
+    $criteria->with = ['Employments' => ['together' => true]];
+
+
+    $users = \user\models\User::model()->byEventId(425)->findAll($criteria);
+
+    echo sizeof($users);
+
+    $product = \pay\models\Product::model()->findByPk(1421);
+
+    foreach ($users as $user)
+    {
+      //$item = $product->getManager()->createOrderItem($user, $user);
+      //$item->Paid = true;
+      //$item->PaidTime = date('Y-m-d H:i:s');
+      //$item->save();
+    }
+
+//    echo '<table>';
+//    foreach ($users as $user)
+//    {
+//      $this->printUserInfo($user);
+//    }
+//    echo '</table>';
+  }
+
+  /**
+   * @param \user\models\User $user
+   */
+  private function printUserInfo($user)
+  {
+    $data = [];
+    $data[] = $user->RunetId;
+    $data[] = $user->getFullName();
+    $data[] = $user->Email;
+    if ($user->getEmploymentPrimary() != null)
+    {
+      //$data[] = $user->getEmploymentPrimary()->Company->Name;
+      $data[] = $user->getEmploymentPrimary()->Position;
+    }
+    else
+    {
+      //$data[] = '';
+      $data[] = '';
+    }
+    if (!empty($user->Participants))
+    {
+      $data[] = $user->Participants[0]->Role->Title;
+    }
+    else
+    {
+      $data[] = 'не участвует';
+    }
+    echo '<tr><td>' . implode('</td><td>', $data) . '</td></tr>';
   }
 }
