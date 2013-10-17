@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'marketing13-html-2';
-    $isHTML = true;
+    $template = 'riw13-24';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -43,17 +43,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    print count($users); exit();
 */
 
-//    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-17/marketing.csv');
-    $arUsers = array(
-      'Татьяна;Ружич;t.ruzhich@rta-moscow.com',
-      'Ерошенко;Виталий;v.eroshenko@gmail.com',
-      'Sergey;Grebennikov;grebennikov@raec.ru',
-      'Екатерина;ВОРОБЬЕВА;vorobieva@raec.ru',
-    );
-    $users = $arUsers;
-//    print count($users); exit();
-
-
     /*
     // C ПОИСКОМ ПО БД
     $criteria->with = array(
@@ -71,16 +60,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Обычная выборка пользователей [по мероприятиям]
-    /*
     $criteria->with = array(
-      'Participants' => array('together' => true),
-      'Participants.Role',
+//      'Participants' => array('together' => true),
+//      'Participants.Role',
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(763));
+//    $criteria->addInCondition('"Participants"."EventId"', array(425));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(1));
-*/
+
     /*
         $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
         $criteria->params['CreationTime'] = '2013-09-13 18:00:00';
@@ -88,12 +76,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $criteria->addCondition('"t"."Email" NOT LIKE :Email');
         $criteria->params['Email'] = '%nomail497+%';
     */
-/*
+
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
-*/
-//    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (425))');
+
+    $criteria->addCondition('"t"."Id" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (425))');
 
 /*
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE
@@ -111,16 +99,16 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     ');
 */
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953, 12959, 112087));
-/*
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 400;
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
-*/
+
     /* Для PK PASS для Яблочников */
 //    $event = \event\models\Event::model()->findByPk(763);
 
@@ -128,7 +116,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       foreach ($users as $user)
       {
-
 //        print $user->Participants[0]->getTicketUrl();
 //        exit();
 
@@ -138,13 +125,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $arPromo = array();
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
 
-        $usr = explode(';', $user);
-
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $usr), true);
 //        $body = $this->renderPartial($template, array('user' => $user), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -154,13 +138,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->ContentType = ($isHTML) ? 'text/html' : 'text/plain';
         $mail->IsHTML($isHTML);
 
-//        $email = $user->Email;
+        $email = $user->Email;
 //        $email = $user;
-        $email = trim($usr[2]);
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-//        if ($j == 1) continue;
+        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -180,9 +163,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
 //        $mail->SetFrom('users@russianinternetweek.ru', 'Премия Облака 2013', false);
 //        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('users@runet-id.com', 'RIW 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Ваш Путевой лист на закрытую вечеринку для маркетинг директоров') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Онлайн-трансляция RIW 2013') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
@@ -192,14 +175,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //        $mail->Send();
 
-        fwrite($fp, $email . "\n");
-//        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+//        fwrite($fp, $email . "\n");
+        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
 
-//      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
-      echo $this->createUrl('/mail/default/send', array('step' => $step+1));
+      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
+//      echo $this->createUrl('/mail/default/send', array('step' => $step+1));
     }
     else
     {
