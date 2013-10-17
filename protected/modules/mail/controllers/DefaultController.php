@@ -43,15 +43,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    print count($users); exit();
 */
 
-//    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-17/marketing.csv');
-    $arUsers = array(
-      'Татьяна;Ружич;t.ruzhich@rta-moscow.com',
-      'Ерошенко;Виталий;v.eroshenko@gmail.com',
-      'Sergey;Grebennikov;grebennikov@raec.ru',
-      'Екатерина;ВОРОБЬЕВА;vorobieva@raec.ru',
-    );
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-17/marketing_all.csv');
+//    $arUsers = array(
+//      'Татьяна;Ружич;t.ruzhich@rta-moscow.com',
+//      'Ерошенко;Виталий;v.eroshenko@gmail.com',
+//      'Sergey;Grebennikov;grebennikov@raec.ru',
+//      'Екатерина;ВОРОБЬЕВА;vorobieva@raec.ru',
+//    );
     $users = $arUsers;
-//    print count($users); exit();
+    print count($users); exit();
 
 
     /*
@@ -71,7 +71,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Обычная выборка пользователей [по мероприятиям]
-    /*
+/*
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
@@ -112,10 +112,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 */
 
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 12959, 112087));
-/*
-    echo \user\models\User::model()->count($criteria);
-    exit();
 
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
+/*
     $criteria->limit = 400;
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
@@ -128,7 +128,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       foreach ($users as $user)
       {
-
 //        print $user->Participants[0]->getTicketUrl();
 //        exit();
 
@@ -182,7 +181,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Ваш Путевой лист на закрытую вечеринку для маркетинг директоров') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Закрытая вечеринка для маркетинг директоров. Уже завтра!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');

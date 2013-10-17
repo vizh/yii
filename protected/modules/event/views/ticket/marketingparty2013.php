@@ -98,7 +98,11 @@
 </style>
 
 <body>
+<<<<<<< HEAD
+  <table style="width: 660px;  color: #4e4e4e; font-family: tahoma; font-size: 14px; background-color: #F6F6F6; background-repeat: no-repeat; background-position: center -70px; border: 20px solid #000;" cellpadding="0" cellspacing="0">
+=======
   <table style="width: 660px;  color: #4e4e4e; font-family: tahoma; font-size: 14px; background-color: #F6F6F6; background-repeat: no-repeat; background-position: center -70px; padding-bottom: 20px; border: 20px solid #000;" cellpadding="0" cellspacing="0">
+>>>>>>> 138f9232128521b14a3464644226d70d1faf50c3
     <tr>
       <td>
         <table style="width: 100%;" cellpadding="0" cellspacing="0">
@@ -143,9 +147,8 @@
                   <td style="padding-top: 30px;">
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td width="65%" style="background-color: #ececec; padding: 5px;">
-                          <strong>Время работы стойки регистрации</strong><br/>
-                          <span style="font-size: 80%;">17 октября 09:00-17:00 / 18 октября 10:00-17:00 / 19 октября 10:00-17:00</span>
+                        <td width="250" style="background-color: #ececec; text-align: center; line-height: 35px;">
+                          <strong>Начало мероприятия в 20.00</strong><br/>
                         </td>
                         <td align="right">
                           <a href="http://runet-id.com/event/marketingparty2013/" target="_blank" class="program-btn">ПРОГРАММА</a>
@@ -171,7 +174,7 @@
                 </tr>
                 <tr>
                   <td style="padding-top: 10px;">
-                    <p>г. Москва, Кудринская площадь, д. 1, Simon Says</p>
+                    <p>г. Москва, Кудринская площадь, д. 1, Simon Says, <a href="http://simonbar.ru/" target="_blank">simonbar.ru</a></p>
                     <p>По всем вопросам: +7 (916) 709-69-71, index@rta-moscow.com</p>
                   </td>
                 </tr>

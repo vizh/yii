@@ -51,7 +51,8 @@
   }
 
   ul {
-    margin-left: 20px;
+    margin: 0px !important;
+    padding-left: 10px !important;
   }
 </style>
 
@@ -78,31 +79,105 @@
                 </tr>
                 <tr>
                   <td>
-                    <table style="width: 100%" cellpadding="0" cellspacing="0">
+                    <table style="width: 100%; padding: 10px 0;" cellpadding="0" cellspacing="0">
                       <tr>
                         <td valign="top" style="width: 270px; padding-right: 20px;">
                           <div style="color: #000; font-size: 30px; font-weight: bold; line-height: 35px;"><?=$user[0];?> <?=$user[1];?></div>
                         </td>
                         <td valign="top" style="padding-right: 20px; width: 205px; font-size: 12px;">
-                          <div style="background-color: #4F4F4F; color: #FFFFFF; display: block; padding: 10px 0; text-align: center; text-transform: uppercase; line-height: 10px;">Участник</div>
+                          <div style="background-color: #4F4F4F; color: #FFFFFF; display: block; margin-top: 3px; padding: 8px 0; text-align: center; text-transform: uppercase; line-height: 10px;">Участник</div>
                         </td>
                       </tr>
                     </table>
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding-top: 30px;">
+                  <td>
+                    <!--
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                       <tr>
-                        <td width="65%" style="background-color: #ececec; padding: 5px;">
-                          <strong>Время работы стойки регистрации</strong><br/>
-                          <span style="font-size: 80%;">17 октября 09:00-17:00 / 18 октября 10:00-17:00 / 19 октября 10:00-17:00</span>
+                        <td width="250" style="background-color: #ececec; text-align: center; line-height: 35px;">
+                          <strong>Начало мероприятия в 20.00</strong><br/>
                         </td>
                         <td align="right">
                           <a href="http://runet-id.com/event/marketingparty2013/" target="_blank" style="background: transparent url('http://runet-id.com/images/mail/riw13/program_bg.png') no-repeat; color: #FFFFFF; display: block; font-size: 12px; height: 26px; line-height: 24px; margin-top: 12px; text-align: center; text-transform: uppercase; width: 192px">ПРОГРАММА</a>
                         </td>
                       </tr>
                     </table>
+                    -->
+
+                    <p>18 октября в 20.00 впервые в истории рекламной индустрии состоится закрытая вечеринка для маркетинг директоров!</p>
+                    <p>В мероприятии примут участие лучшие из лучших:</p>
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td width="33%">
+                          <ul style="margin: 0px; padding-left: 10px;">
+                            <li>Unilever</li>
+                            <li>Kraft Foods</li>
+                            <li>Sony</li>
+                            <li>Procter & Gamble</li>
+                            <li>LOreal</li>
+                            <li>Danone</li>
+                            <li>Reckitt</li>
+                            <li>Benckiser</li>
+                            <li>Nokia</li>
+                            <li>Билайн</li>
+                            <li>Тинькофф Кредитные Системы</li>
+                            <li>Сбербанк России</li>
+                            <li>Nestle</li>
+                            <li>МТС</li>
+                            <li>СТС</li>
+                            <li>Phillips</li>
+                            <li>LG</li>
+                          </ul>
+                        </td>
+                        <td width="33%">
+                          <ul style="margin: 0px; padding-left: 10px;">
+                            <li>Gorenje</li>
+                            <li>Colgate-Palmolive</li>
+                            <li>Johnson & Johnson</li>
+                            <li>Бинбанк</li>
+                            <li>Ferrero</li>
+                            <li>Lego</li>
+                            <li>JamilCo Group</li>
+                            <li>Intouch</li>
+                            <li>Skoda</li>
+                            <li>Saint Gobain</li>
+                            <li>Merz Pharma</li>
+                            <li>Bork</li>
+                            <li>Связной Банк</li>
+                            <li>BMW</li>
+                            <li>Volvo</li>
+                            <li>Nike</li>
+                            <li>Microsoft</li>
+                          </ul>
+                        </td>
+                        <td width="33%">
+                          <ul style="margin: 0px; padding-left: 10px;">
+                            <li>Lacoste</li>
+                            <li>Frey Wille</li>
+                            <li>Кредит Европа банк</li>
+                            <li>Red Bull</li>
+                            <li>Промсвязьбанк</li>
+                            <li>Альфа-Форекс</li>
+                            <li>Росгосстрах</li>
+                            <li>Chrysler</li>
+                            <li>Ahmad Tea</li>
+                            <li>Riston Tea</li>
+                            <li>Сочи-2014</li>
+                            <li>Energizer</li>
+                            <li>Лето Банк</li>
+                            <li>Централ Партнершип</li>
+                            <li>BNS Group</li>
+                            <li>eBay</li>
+                            <li>ЮниКредит Банк</li>
+                            <li>и многие другие</li>
+                          </ul>
+                        </td>
+                      </tr>
+                    </table>
+                    <p>Программа вечеринки доступна <a href="http://runet-id.com/event/marketingparty2013">на сайте</a></p>
+                    <p>До встречи <b>18 октября в 20.00</b> на первом нетворкинге для рекламодателей в России!</p>
                   </td>
                 </tr>
                 <tr>
@@ -122,7 +197,7 @@
                 </tr>
                 <tr>
                   <td style="padding-top: 10px;">
-                    <p>г. Москва, Кудринская площадь, д. 1, Simon Says</p>
+                    <p>г. Москва, Кудринская площадь, д. 1, Simon Says, <a href="http://simonbar.ru/" target="_blank">simonbar.ru</a></p>
                     <p>По всем вопросам: +7 (916) 709-69-71, index@rta-moscow.com</p>
                   </td>
                 </tr>
