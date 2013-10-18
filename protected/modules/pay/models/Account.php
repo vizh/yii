@@ -14,6 +14,7 @@ namespace pay\models;
  * @property bool $PayOnline
  * @property int  $OrderTemplateId
  * @property bool $SandBoxUser
+ * @property string $SandBoxUserRegisterUrl
  *
  * @property \event\models\Event $Event
  */

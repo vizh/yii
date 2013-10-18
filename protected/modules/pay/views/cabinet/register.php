@@ -87,6 +87,15 @@ $runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
         <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
       </div>
 
+      <?if (!empty($account->SandBoxUserRegisterUrl)):?>
+        <div class="alert alert-block alert-muted">
+          <p>
+            <strong>Если вы еще не зарегистрировались на мероприятие или хотите зарегистрировать своих коллег, пройдите по ссылке
+              <a target="_blank" href="<?=$account->SandBoxUserRegisterUrl;?>">зарегистрироваться</a>.</strong>
+          </p>
+        </div>
+      <?endif;?>
+
       <div class="actions">
         <a href="#" onclick="$('#registration_form').trigger('submit'); return false;" class="btn btn-large btn-info">
           <?=\Yii::t('app', 'Продолжить');?>
@@ -117,7 +126,7 @@ $runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
   <tr class="user-row">
     <td>
       <div class="p-relative">
-        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="Введите ФИО или <?=runetIdTitle;?>" value="<%=item.FullName%>, <?=runetIdTitle;?> <%=item.RunetId%>" disabled>
+        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="Введите ФИО или <?=$runetIdTitle;?>" value="<%=item.FullName%>, <?=$runetIdTitle;?> <%=item.RunetId%>" disabled>
         <i class="icon-remove"></i>
       </div>
     </td>

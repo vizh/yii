@@ -54,7 +54,7 @@ class Controller extends \application\components\controllers\PublicMainControlle
     if ($this->getUser() === null && !$isFastAuth)
     {
       $error = $this->createPayUser();
-      $this->render('pay.views.system.unregister', array('error' => $error));
+      $this->render('pay.views.system.unregister', ['error' => $error, 'account' => $this->getAccount()]);
       return false;
     }
     return parent::beforeAction($action);
@@ -94,5 +94,21 @@ class Controller extends \application\components\controllers\PublicMainControlle
       }
     }
     return false;
+  }
+
+  protected $account = null;
+
+  /**
+   * @return \pay\models\Account
+   * @throws Exception
+   */
+  public function getAccount()
+  {
+    $this->account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
+    if ($this->account === null)
+    {
+      throw new \pay\components\Exception('Для работы платежного кабинета необходимо создать платежный аккаунт мероприятия.');
+    }
+    return $this->account;
   }
 }

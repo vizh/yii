@@ -43,6 +43,12 @@ a:focus{
 .text-right{text-align:right;}
 .text-center{text-align:center;}
 
+.alert-muted {
+  background-color: #f7f7f7;
+  border-color: #dddddd;
+  color: #999999;
+}
+
 
 /* LINKS */
 /* Default pseudo */

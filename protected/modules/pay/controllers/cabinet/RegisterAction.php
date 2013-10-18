@@ -14,12 +14,15 @@ class RegisterAction extends \pay\components\Action
     $criteria = new \CDbCriteria();
     $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
     $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findAll($criteria);
-    
     $countRows = $request->getParam('count');
+    if (!$request->getIsPostRequest() && count($products) == 1)
+    {
+      $countRows[$products[0]->Id] = 1;
+    }
      
     $orderForm = new \pay\models\forms\OrderForm();
     $orderForm->attributes = $request->getParam(get_class($orderForm));
-    if ($request->getParam('count') == null && $request->getIsPostRequest())
+    if ($countRows == null && $request->getIsPostRequest())
     {
       foreach ($orderForm->Items as $k => $item)
       {
@@ -76,27 +79,41 @@ class RegisterAction extends \pay\components\Action
     }
     else
     {
-      if (!empty($countRows) && !$this->getUser()->Temporary)
+      if (!$this->getAccount()->SandBoxUser)
       {
-        $countRows = array_filter($countRows, function($value) {
-          return $value != 0;
-        });
+        if (!empty($countRows) && !$this->getUser()->Temporary)
+        {
+          $countRows = array_filter($countRows, function($value) {
+            return $value != 0;
+          });
 
-        if (sizeof($countRows) == 1
-          && \pay\models\OrderItem::model()->byOwnerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->exists() == false)
+          $isOrderItemExist = \pay\models\OrderItem::model()->byOwnerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->exists();
+          if (sizeof($countRows) == 1 && !$isOrderItemExist)
+          {
+            $orderForm->Items[] = array(
+              'ProductId' => key($countRows),
+              'RunetId' => $this->getUser()->RunetId
+            );
+          }
+
+          foreach ($products as $product)
+          {
+            if (!isset($countRows[$product->Id]))
+            {
+              $countRows[$product->Id] = 1;
+            }
+          }
+        }
+      }
+      else
+      {
+        if (\event\models\Participant::model()->byEventId($this->getEvent()->Id)->byUserId($this->getUser()->Id)->exists() &&
+            count($products) == 1 && $products[0]->getManager()->checkProduct($this->getUser()))
         {
           $orderForm->Items[] = array(
-            'ProductId' => key($countRows),
+            'ProductId' => $products[0]->Id,
             'RunetId' => $this->getUser()->RunetId
           );
-        }
-
-        foreach ($products as $product)
-        {
-          if (!isset($countRows[$product->Id]))
-          {
-            $countRows[$product->Id] = 1;
-          }
         }
       }
     }
