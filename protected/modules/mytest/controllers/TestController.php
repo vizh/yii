@@ -57,22 +57,26 @@ class TestController extends CController
     return;
     $criteria = new CDbCriteria();
     $criteria->addCondition('"t"."Total" IS NOT NULL');
+    $criteria->addCondition('"t"."PaidTime" <= :PaidTime');
+    $criteria->params = ['PaidTime' => '2013-10-11 14:10:38'];
+    $criteria->order = '"t"."Id" DESC';
 
     /** @var $orders \pay\models\Order[] */
-    $orders = \pay\models\Order::model()->findAll($criteria);
+    $orders = \pay\models\Order::model()->byEventId(688)->byPaid(true)->findAll($criteria);
 
     $count = 0;
     $delta = 0;
+    $sum1 = 0;
+    $sum2 = 0;
     foreach ($orders as $order)
     {
-      if ($order->getPrice() > $order->Total)
-      {
-        echo $order->Id . ($order->Juridical ? ' (юридический)' : ' (физический)') . ' ' . $order->Payer->getFullName() . ' ' . $order->Payer->Email . ' Доплатить:' . ($order->getPrice() - $order->Total) . '<br>';
-        $count++;
-        $delta += $order->getPrice() - $order->Total;
-      }
+      $price = $order->getPrice();
+      echo $order->Id . ': ' . $order->Total . ' ' . $price . ' ' . ($order->Total - $price) . '<br>';
+      $sum1 += $order->Total;
+      $sum2 += $price;
     }
 
+    echo $sum1 . ' ' . $sum2;
   }
 
   public function actionCall()
