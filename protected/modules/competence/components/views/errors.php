@@ -2,7 +2,7 @@
 /**
  * @var $this \competence\components\ErrorsWidget
  */
-$errors = $this->question->getErrors();
+$errors = $this->form->getErrors();
 ?>
 
 <?if (!empty($errors)):?>

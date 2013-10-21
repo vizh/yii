@@ -15,51 +15,63 @@ class ProcessAction extends \CAction
     $this->getController()->layout = "interview";
 
     $request = \Yii::app()->getRequest();
-    $question = $this->getQuestion();
-    $question->setAttributes($request->getParam(get_class($question)), false);
-    if ($request->getIsPostRequest() && $question->parse())
+    $question = null;
+    $currentQuestion = $this->getQuestion();
+    $currentQuestion->Test = $this->getController()->getTest();
+    $form = $currentQuestion->getForm();
+    $form->setAttributes($request->getParam(get_class($form)), false);
+    if ($request->getIsPostRequest() && $form->process())
     {
       $prev = $request->getParam('prev');
       if (empty($prev))
       {
-        $question = $question->getNext();
+        $question = $form->getNext();
       }
       else
       {
-        $prevQuestion = $question->getPrev();
-        $question = !empty($prevQuestion) ? $prevQuestion : $question;
+        $prevQuestion = $form->getPrev();
+        $question = !empty($prevQuestion) ? $prevQuestion : $currentQuestion;
       }
-      if (empty($question))
+
+      if ($question == null)
       {
         $this->finalizeInterview();
       }
+      $question->Test = $this->getController()->getTest();
 
-      $fullData = $question->getFullData();
-      if (isset($fullData[get_class($question)]))
+      $result = $question->Test->getResult()->getQuestionResult($question);
+      if (!empty($result))
       {
-        $question->setAttributes($fullData[get_class($question)], false);
+        $question->getForm()->setAttributes($result, false);
       }
     }
 
-    $this->getController()->question = $question;
-    $this->getController()->render($question->getViewPath(), ["question" => $question]);
+    $this->getController()->question = $question == null ? $currentQuestion : $question;
+
+    $form = $this->getController()->question->getForm();
+    $this->getController()->render($form->getViewPath(), ['form' => $form]);
   }
 
   /**
+   * @throws \application\components\Exception
    * @return \competence\models\Question
    */
   private function getQuestion()
   {
     $request = \Yii::app()->getRequest();
-    $questionName = $request->getParam('question');
-    if (!empty($questionName) && class_exists($questionName))
+    $id = $request->getParam('question');
+    $question = \competence\models\Question::model()->findByPk($id);
+    $test = $this->getController()->getTest();
+    if ($question == null)
     {
-      return new $questionName($this->getController()->getTest());
+      return $test->getFirstQuestion();
+    }
+    elseif ($question->TestId == $test->Id)
+    {
+      return $question;
     }
     else
-    {
-      return $this->getController()->test->getFirstQuestion();
-    }
+      throw new \application\components\Exception('Вопрос с id: ' . $id . ' не найден в тесте ' . $test->Id);
   }
 
   private function finalizeInterview()

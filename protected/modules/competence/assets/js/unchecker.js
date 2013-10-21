@@ -31,13 +31,14 @@ $(function(){
 
 
   $('input[type="radio"][data-group]').change(function (e) {
-    var taget = $(e.currentTarget);
-    var group = taget.data('group');
+    var target = $(e.currentTarget);
+    var group = target.data('group');
     $('input[type="text"][data-group="'+group+'"]').attr('disabled', 'disabled');
-    if (typeof taget.data('target') != "undefined") {
-      $(taget.data('target')).removeAttr('disabled');
+    if (typeof target.data('target') != "undefined") {
+      $(target.data('target')).removeAttr('disabled');
     }
   });
+
   $('input[type="text"][data-group]').attr('disabled', 'disabled');
   $('input[type="radio"][data-group]:checked').trigger('change');
 });

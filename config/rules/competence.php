@@ -9,8 +9,8 @@ return array(
   /** Admin Rules */
   array(
     'allow',
-    'roles' => array('admin', 'raec', 'booker'),
+    'roles' => array('admin'),
     'module' => 'competence',
-    'controllers' => array('admin/export', 'admin/export2')
+    'controllers' => array('admin/export', 'admin/export2', 'admin/main')
   ),
 );

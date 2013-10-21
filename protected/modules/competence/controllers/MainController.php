@@ -48,13 +48,15 @@ class MainController extends \application\components\controllers\PublicMainContr
 
     if (!$this->getTest()->Test && !$this->getTest()->Multiple)
     {
-      $result = \competence\models\Result::model()
-          ->byTestId($this->getTest()->Id)->byUserId(\Yii::app()->user->getCurrentUser()->Id)->find();
+      $result = \competence\models\Result::model()->byTestId($this->getTest()->Id)
+          ->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byFinished()->find();
       if ($result != null && $action->getId() != 'end' && $action->getId() != 'done')
       {
         $this->redirect(\Yii::app()->createUrl('/competence/main/done', ['id' => $this->getTest()->Id]));
       }
     }
+
+    $this->getTest()->setUser(\Yii::app()->user->getCurrentUser());
 
     return parent::beforeAction($action);
   }
@@ -67,10 +69,10 @@ class MainController extends \application\components\controllers\PublicMainContr
     {
       if ($this->getTest()->Test)
       {
-        $this->test->getFirstQuestion()->clearFullData();
-        $this->test->getFirstQuestion()->clearRotation();
+        $this->test->getFirstQuestion()->getForm()->clearResult();
+        $this->test->getFirstQuestion()->getForm()->clearRotation();
       }
-      $this->redirect($this->createUrl('/competence/main/process', array('id'=>$id)));
+      $this->redirect($this->createUrl('/competence/main/process', ['id' => $id]));
     }
     $this->render('index', ['test' => $this->getTest()]);
   }
