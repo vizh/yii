@@ -1,191 +1,160 @@
 <?php
 namespace competence\models;
 
-abstract class Question extends \CFormModel
+/**
+ * Class Question
+ * @package competence\models
+ *
+ * @property int $Id
+ * @property int $TestId
+ * @property string $TypeId
+ * @property string $Data
+ * @property int $PrevQuestionId
+ * @property int $NextQuestionId
+ * @property string $Code
+ * @property string $Title
+ * @property string $SubTitle
+ * @property bool $First
+ * @property bool $Last
+ * @property int $Sort
+ *
+ * @property QuestionType $Type
+ * @property Question $Prev
+ * @property Question $Next
+ *
+ * @property Test $Test
+ *
+ *
+ * @method \competence\models\Question find($condition='',$params=array())
+ * @method \competence\models\Question findByPk($pk,$condition='',$params=array())
+ * @method \competence\models\Question[] findAll($condition='',$params=array())
+ */
+class Question extends \CActiveRecord
 {
-  /** @var Test */
+  /**
+   * @param string $className
+   * @return Question
+   */
+  public static function model($className=__CLASS__)
+  {
+    return parent::model($className);
+  }
+
+  public function tableName()
+  {
+    return 'CompetenceQuestion';
+  }
+
+  public function primaryKey()
+  {
+    return 'Id';
+  }
+
+  public function relations()
+  {
+    return [
+      'Type' => [self::BELONGS_TO, '\competence\models\QuestionType', 'TypeId'],
+      'Prev' => [self::BELONGS_TO, '\competence\models\Question', 'PrevQuestionId'],
+      'Next' => [self::BELONGS_TO, '\competence\models\Question', 'NextQuestionId']
+    ];
+  }
+
+  public function byFirst($first = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = (!$first ? 'NOT ' : '') . '"t"."First"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function byTestId($testId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."TestId" = :TestId';
+    $criteria->params = ['TestId' => $testId];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  private $form = null;
+
+  /**
+   * @return \competence\models\form\Base
+   */
+  public function getForm()
+  {
+    if ($this->form === null)
+    {
+      $className = "\\competence\\models\\test\\" . $this->Test->Code . "\\" . $this->Code;
+      $this->form = new $className($this);
+    }
+    return $this->form;
+  }
+
+  protected $formData = null;
+
+  /**
+   * @return array|null
+   */
+  public function getFormData()
+  {
+    if ($this->formData === null)
+    {
+      $this->formData = $this->Data !== null ? unserialize(base64_decode($this->Data)) : [];
+    }
+    return $this->formData;
+  }
+
+  /**
+   * @param array $data
+   */
+  public function setFormData($data)
+  {
+    $this->formData = $data;
+    $this->Data = base64_encode(serialize($data));
+  }
+
   protected $test;
 
-  public function __construct($test, $scenario = '')
+  public function setTest(Test $test)
   {
-    parent::__construct($scenario);
+    if ($test->Id != $this->TestId)
+      throw new \application\components\Exception('Тест не соответствует данному вопросу');
     $this->test = $test;
   }
 
   /**
+   * @throws \application\components\Exception
    * @return Test
    */
   public function getTest()
   {
+    if ($this->test === null)
+      throw new \application\components\Exception('Для вопроса не определен тест');
     return $this->test;
   }
 
-  public $value;
-
-  /**
-   * @var int - время начала ответа на текущий вопрос
-   */
-  public $_t;
-
-  public function init()
+  protected function getFormPath()
   {
-    $this->_t = time();
+    return \Yii::getPathOfAlias('competence.models.test.'.$this->Test->Code.'.'.$this->Code).'.php';
   }
 
-  /**
-   * @return string|null
-   */
-  protected function getDefinedViewPath()
+  protected function beforeSave()
   {
-    return null;
-  }
-
-  private function getGeneratedViewPath()
-  {
-    $className = get_class($this);
-    $className = substr($className, strrpos($className, '\\')+1);
-    return "competence.views.tests.".$this->test->Code.".".strtolower($className);
-  }
-
-  /**
-   * @return string
-   */
-  public final function getViewPath()
-  {
-    $definedPath = $this->getDefinedViewPath();
-    return $definedPath !== null ? $definedPath : $this->getGeneratedViewPath();
-  }
-
-  /**
-   * @return bool
-   */
-  public function parse()
-  {
-    if ($this->validate())
+    if ($this->getIsNewRecord())
     {
-      $questionData = $this->getQuestionData();
-      $key = get_class($this);
-
-      $deltaTime = time() - $this->_t;
-      $deltaTime = $deltaTime > 0 ? $deltaTime : 3600;
-
-      $fullData = $this->getFullData();
-      if (isset($fullData[$key]))
-      {
-        $oldDeltaTime = $fullData[$key]['DeltaTime'];
-        $deltaTime += $oldDeltaTime;
-      }
-      $questionData['DeltaTime'] = $deltaTime;
-      $fullData[$key] = $questionData;
-      $this->setFullData($fullData);
-
-      return true;
+      $dataFile = \Yii::app()->getController()->renderPartial('competence.views.form.template', ['question' => $this, 'test' => $this->Test], true);
+      file_put_contents($this->getFormPath(), $dataFile);
     }
-    return false;
+    return parent::beforeSave();
   }
 
-  /**
-   * @return array
-   */
-  protected function getQuestionData()
+  public function attributeLabels()
   {
-    return ['value' => $this->value];
-  }
-
-  /**
-   * @return string
-   */
-  public function getQuestionTitle()
-  {
-    return '';
-  }
-
-  /**
-   * @return \competence\models\Question
-   */
-  public abstract function getNext();
-
-  /**
-   * @return \competence\models\Question
-   */
-  public abstract function getPrev();
-
-
-  public function getFullData()
-  {
-    return \Yii::app()->getSession()->get('competence-'.$this->test->Code);
-  }
-
-  public function setFullData($data)
-  {
-    \Yii::app()->getSession()->add('competence-'.$this->test->Code, $data);
-  }
-
-  public function clearFullData()
-  {
-    \Yii::app()->getSession()->remove('competence-'.$this->test->Code);
-  }
-
-  /**
-   * @param string[] $keys
-   */
-  public function clearFullDataPart($keys)
-  {
-    $data = $this->getFullData();
-    foreach ($keys as $key)
-    {
-      if (isset($data[$key]))
-      {
-        unset($data[$key]);
-      }
-    }
-    $this->setFullData($data);
-  }
-
-  protected function rotate($key, $values)
-  {
-    $rotationKey = 'competence-rotate-' . $this->test->Code;
-    $rotation = \Yii::app()->getSession()->get($rotationKey, []);
-    if (!isset($rotation[$key]))
-    {
-      $rotationValues = array_keys($values);
-      shuffle($rotationValues);
-      $rotation[$key] = $rotationValues;
-      \Yii::app()->getSession()->add($rotationKey, $rotation);
-    }
-
-    $result = array();
-    foreach ($rotation[$key] as $rKey)
-    {
-      $result[$rKey] = $values[$rKey];
-    }
-    return $result;
-  }
-
-  public function clearRotation()
-  {
-    \Yii::app()->getSession()->remove('competence-rotate-'.$this->test->Code);
-  }
-
-  public function getNumber()
-  {
-    return null;
-  }
-
-  public function getPercent()
-  {
-    if ($this->getNumber() != null)
-    {
-      $path = \Yii::getPathOfAlias('competence.models.tests.'.$this->test->Code);
-      $questionFiles = scandir($path);
-      $count = 0;
-      foreach ($questionFiles as $file)
-      {
-        $count += stripos($file, '.php') !== false ? 1 : 0;
-      }
-      return floor($this->getNumber() * 100 / $count);
-    }
-    return null;
+    return [
+      'Title' => \Yii::t('app', 'Текст вопроса'),
+      'SubTitle' => \Yii::t('app', 'Комментарий к вопросу'),
+    ];
   }
 
 }

@@ -15,6 +15,11 @@ namespace competence\models;
  * @property bool $Multiple
  * @property string $EndTime
  * @property string $AfterEndText
+ *
+ *
+ * @method \competence\models\Test find($condition='',$params=array())
+ * @method \competence\models\Test findByPk($pk,$condition='',$params=array())
+ * @method \competence\models\Test[] findAll($condition='',$params=array())
  */
 class Test extends \CActiveRecord
 {
@@ -39,16 +44,57 @@ class Test extends \CActiveRecord
 
   public function relations()
   {
-    return array();
+    return [];
   }
 
+  /** @var \user\models\User */
+  protected $user = null;
+
+  /**
+   * @param \user\models\User $user
+   */
+  public function setUser(\user\models\User $user)
+  {
+    $this->user = $user;
+  }
+
+  protected $result = null;
+
+  /**
+   * @return Result|null
+   * @throws \application\components\Exception
+   */
+  public function getResult()
+  {
+    if ($this->result === null)
+    {
+      if ($this->user === null)
+        throw new \application\components\Exception('Для доступа к результату, необходимо сначала задать пользователя.');
+      $this->result = Result::model()->byTestId($this->Id)->byUserId($this->user->Id)->byFinished(false)->find();
+      if ($this->result === null)
+      {
+        $this->result = new Result();
+        $this->result->TestId = $this->Id;
+        $this->result->UserId = $this->user->Id;
+        $this->result->setDataByResult([]);
+        $this->result->save();
+      }
+    }
+    return $this->result;
+  }
+
+  protected $firstQuestion = null;
   /**
    * @return Question
    */
   public function getFirstQuestion()
   {
-    $className = "\\competence\\models\\tests\\" . $this->Code . "\\First";
-    return new $className($this);
+    if ($this->firstQuestion === null)
+    {
+      $this->firstQuestion = \competence\models\Question::model()->byFirst()->byTestId($this->Id)->find();
+      $this->firstQuestion->Test = $this;
+    }
+    return $this->firstQuestion;
   }
 
   public function getEndView()

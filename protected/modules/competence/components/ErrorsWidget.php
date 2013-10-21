@@ -3,9 +3,8 @@ namespace competence\components;
 
 class ErrorsWidget extends \CWidget
 {
-
-  /** @var \competence\models\Question */
-  public $question;
+  /** @var \competence\models\form\Base */
+  public $form;
 
   public function run()
   {

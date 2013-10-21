@@ -10,6 +10,9 @@ namespace competence\models;
  * @property int $UserId
  * @property string $Data
  * @property string $CreationTime
+ * @property string $UpdateTime
+ * @property bool $Finished
+ *
  */
 class Result extends \CActiveRecord
 {
@@ -65,13 +68,51 @@ class Result extends \CActiveRecord
     return $this;
   }
 
+  public function byFinished($finished = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = (!$finished ? 'NOT ' : '') . '"t"."Finished"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
   public function setDataByResult($result)
   {
+    $this->result = $result;
     $this->Data = base64_encode(serialize($result));
   }
 
+  protected $result = null;
+  /**
+   * @return array
+   */
   public function getResultByData()
   {
-    return unserialize(base64_decode($this->Data));
+    if ($this->result === null)
+    {
+      $this->result = unserialize(base64_decode($this->Data));
+    }
+    return $this->result;
+  }
+
+  /**
+   * @param Question $question
+   *
+   * @return array
+   */
+  public function getQuestionResult(Question $question)
+  {
+    return isset($this->getResultByData()[$question->Code]) ? $this->getResultByData()[$question->Code] : [];
+  }
+
+  /**
+   * @param Question $question
+   * @param array $data
+   */
+  public function setQuestionResult(Question $question, $data)
+  {
+    $result = $this->getResultByData();
+    $result[$question->Code] = $data;
+    $this->setDataByResult($result);
   }
 }

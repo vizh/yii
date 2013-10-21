@@ -10,7 +10,7 @@
 <?if (!empty($this->question)):?>
   <div class="container">
     <?
-    $percent = $this->question->getPercent();
+    $percent = null;
     ?>
     <?if ($percent !== null):?>
       <p style="text-align: center;">Опрос пройден на <strong><?=$percent;?>%</strong></p>
