@@ -18,7 +18,7 @@
         <td><?=$test->Id;?></td>
         <td><?=$test->Code;?></td>
         <td><?=$test->Title;?></td>
-        <td><a href="<?=$this->createUrl('/competence/admin/main/edit', ['testId' => $test->Id]);?>" class="btn"><i class="icon-edit"></i>&nbsp;<?=\Yii::t('app', 'Редактировать');?></a></td>
+        <td><a href="<?=$this->createUrl('/competence/admin/main/edit', ['id' => $test->Id]);?>" class="btn"><i class="icon-edit"></i>&nbsp;<?=\Yii::t('app', 'Редактировать');?></a></td>
       </tr>
     <?endforeach;?>
   </table>
