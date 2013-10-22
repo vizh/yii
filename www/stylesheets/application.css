@@ -49,6 +49,10 @@ a:focus{
   color: #999999;
 }
 
+.alert-block p + p{
+  margin-top: 15px;
+}
+
 
 /* LINKS */
 /* Default pseudo */

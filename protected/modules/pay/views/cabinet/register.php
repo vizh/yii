@@ -3,25 +3,27 @@
  * @var \event\models\Event $event
  * @var \pay\models\forms\OrderForm $orderForm
  * @var \pay\models\Account $account
+ * @var \pay\models\Product[] $products
  */
 
-$runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
+$runetIdTitle = $account->SandBoxUser ? '' : ' или RUNET-ID';
+$runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
 ?>
 
 <script type="text/javascript">
   payItems = [];
   <?if (!empty($orderForm->Items)):?>
-    <?foreach ($orderForm->Items as $item):?>
-      <?php $owner = \user\models\User::model()->byRunetId($item['RunetId'])->find();?> 
-      var payItem = [];
-      payItem.productId = '<?=$item['ProductId'];?>';
-      payItem.user = {
-        RunetId : '<?=$owner->RunetId;?>',
-        FullName : '<?=\CHtml::encode($owner->getFullName());?>'
-      };
-      payItem.promoCode = '<?=!empty($item['PromoCode']) ? $item['PromoCode'] : '';?>';
-      payItems.push(payItem);
-    <?endforeach;?>
+  <?foreach ($orderForm->Items as $item):?>
+  <?php $owner = \user\models\User::model()->byRunetId($item['RunetId'])->find();?>
+  var payItem = [];
+  payItem.productId = '<?=$item['ProductId'];?>';
+  payItem.user = {
+    RunetId : '<?=$owner->RunetId;?>',
+    FullName : '<?=\CHtml::encode($owner->getFullName());?>'
+  };
+  payItem.promoCode = '<?=!empty($item['PromoCode']) ? $item['PromoCode'] : '';?>';
+  payItems.push(payItem);
+  <?endforeach;?>
   <?endif;?>
 </script>
 
@@ -33,7 +35,7 @@ $runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
     'data-event-id' => $event->Id,
     'data-sandbox-user' => $account->SandBoxUser,
   ]);?>
-  
+
   <div class="event-register">
     <?=\CHtml::errorSummary($orderForm, '<div class="container"><div class="alert alert-error">', '</div></div>');?>
     <div class="container">
@@ -47,14 +49,40 @@ $runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
           <?=\Yii::t('app', 'Оплата');?>
         </div>
       </div>
-      
-      <?if ($unpaidOwnerCount > 0):?>
-        <div class="alert alert-block">
-          <h4 class="m-bottom_10"><?=\Yii::t('app', 'У вас есть неоплаченный заказ');?></h4>
-          <p><?=\Yii::t('app', 'В вашей корзине имеется неоплаченный заказ');?> <b><?=\Yii::t('app', 'на {n} человека|на {n} человека|на {n} человек|на {n} человек', $unpaidOwnerCount);?></b><?if ($unpaidJuridicalOrderCount > 0):?> <?=\Yii::t('app', 'и');?> <b><?=\Yii::t('app', '{n} неоплаченный счет|{n} неоплаченных счета|{n} неоплаченных счетов|{n} неоплаченных счетов', $unpaidJuridicalOrderCount);?></b><?endif;?>. <?=\Yii::t('app', 'Для его просмотра и оплаты нажмите «Перейти к оплате» внизу страницы или');?> <a href="<?=$this->createUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName));?>"><?=\Yii::t('app', 'сюда');?></a>.
-        </div>
-      <?endif;?>
-      
+
+
+      <div class="alert alert-block alert-muted">
+        <?$user = Yii::app()->user->getCurrentUser();?>
+        <p>
+          <?if (!empty($user->LastName) && !empty($user->FirstName)):?>
+            <?=$user->getShortName();?>,
+          <?else:?>
+            Уважаемый пользователь,
+          <?endif;?>
+          на данном шаге Вы можете сформировать или отредактировать свой заказ.</p>
+
+        <?if (count($products) > 1):?>
+        <p>Оплата может быть произведена как за одного, так и за несколько пользователей: все услуги для <?=$event->Title;?> разделены на группы, внутри каждой из которых вы можете указать получателей.</p>
+        <?else:?>
+          <p>Оплата на <?=$event->Title;?> может быть произведена как за одного, так и за несколько пользователей. Просто укажите своих коллег и друзей в качестве получателей услуги.</p>
+        <?endif;?>
+
+        <?if (!empty($account->SandBoxUserRegisterUrl)):?>
+          <p>
+            <strong>Если вы еще не зарегистрировались на мероприятие или хотите зарегистрировать своих коллег, пройдите по ссылке
+              <a target="_blank" href="<?=$account->SandBoxUserRegisterUrl;?>">зарегистрироваться</a>.</strong>
+          </p>
+        <?endif;?>
+
+        <?if (!$account->SandBoxUser):?>
+          <p>Для добавления участника достаточным будет ввести его ФИО или RUNET-ID, система автоматически проверит наличие пользователя среди участников ИТ-мероприятия и если будут найдены совпадения - предложит добавить существующий профиль. В противном случае нужно будет заполнить необходимую контактную информацию для участника.</p>
+
+          <?if ($unpaidOwnerCount > 0 || $unpaidJuridicalOrderCount > 0):?>
+            <p><strong>Важно:</strong> у Вас уже есть сформированные, но <a href="<?=$this->createUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName));?>">неоплаченные заказы</a>.</p>
+          <?endif;?>
+        <?endif;?>
+      </div>
+
       <table class="table thead-actual">
         <thead>
         <tr>
@@ -65,18 +93,18 @@ $runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
         </tr>
         </thead>
       </table>
-      
+
       <?foreach ($products as $product):?>
         <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="<?=$countRows[$product->Id];?>" data-row-current="0">
           <thead>
-            <tr>
-              <th>
-                <h4 class="title"><?=$product->Title;?> <i class="icon-chevron-up"></i></h4>
-              </th>
-              <th class="col-width t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></th>
-              <th class="col-width t-center"><span class="number quantity"></span></th>
-              <th class="col-width t-right last-child"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.');?></th>
-            </tr>
+          <tr>
+            <th>
+              <h4 class="title"><?=$product->Title;?> <i class="icon-chevron-up"></i></h4>
+            </th>
+            <th class="col-width t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></th>
+            <th class="col-width t-center"><span class="number quantity"></span></th>
+            <th class="col-width t-right last-child"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.');?></th>
+          </tr>
           </thead>
           <tbody>
           </tbody>
@@ -86,15 +114,6 @@ $runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
       <div class="total">
         <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
       </div>
-
-      <?if (!empty($account->SandBoxUserRegisterUrl)):?>
-        <div class="alert alert-block alert-muted">
-          <p>
-            <strong>Если вы еще не зарегистрировались на мероприятие или хотите зарегистрировать своих коллег, пройдите по ссылке
-              <a target="_blank" href="<?=$account->SandBoxUserRegisterUrl;?>">зарегистрироваться</a>.</strong>
-          </p>
-        </div>
-      <?endif;?>
 
       <div class="actions">
         <a href="#" onclick="$('#registration_form').trigger('submit'); return false;" class="btn btn-large btn-info">
@@ -111,12 +130,12 @@ $runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
   <tr class="user-row">
     <td>
       <div class="p-relative">
-        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="<?=Yii::t('app', 'Введите ФИО или '.$runetIdTitle);?>">
+        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="<?=Yii::t('app', 'Введите ФИО'.$runetIdTitle);?>">
       </div>
     </td>
     <td colspan="3" class="last-child">
       <?if (!$account->SandBoxUser):?>
-      <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=Yii::t('app', 'Зарегистрировать');?></button>
+        <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=Yii::t('app', 'Зарегистрировать');?></button>
       <?endif;?>
     </td>
   </tr>
@@ -126,7 +145,7 @@ $runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
   <tr class="user-row">
     <td>
       <div class="p-relative">
-        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="Введите ФИО или <?=$runetIdTitle;?>" value="<%=item.FullName%>, <?=$runetIdTitle;?> <%=item.RunetId%>" disabled>
+        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="Введите ФИО<?=$runetIdTitle;?>" value="<%=item.FullName%>, <?=$runetIdTitle2;?> <%=item.RunetId%>" disabled>
         <i class="icon-remove"></i>
       </div>
     </td>
@@ -142,7 +161,7 @@ $runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
   </tr>
 </script>
 
-<script type="text/template" id="row-data-tpl">   
+<script type="text/template" id="row-data-tpl">
   <input type="hidden" name="<?=\CHtml::activeName($orderForm, 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
   <input type="hidden" name="<?=\CHtml::activeName($orderForm, 'Items[<%=i%>][RunetId]');?>" value="<%=runetId%>" />
   <div class="input-append pull-right input-promo">
@@ -153,7 +172,7 @@ $runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
 </script>
 
 <script type="text/template" id="user-autocomlete-tpl">
-  <p><%=item.FullName%>, <span class='muted'><?=$runetIdTitle;?> <%=item.RunetId%></span></p>
+  <p><%=item.FullName%>, <span class='muted'><?=$runetIdTitle2;?> <%=item.RunetId%></span></p>
   <% if (typeof(item.Company) != "undefined") { %>
     <p class='muted'><%=item.Company%><% if (item.Position.length != 0) { %>, <%=item.Position%> <% } %></p>
   <% } %>
@@ -161,7 +180,7 @@ $runetIdTitle = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
 </script>
 
 
- <script type="text/template" id="row-register-tpl">
+<script type="text/template" id="row-register-tpl">
   <tr>
     <td colspan="4" class="last-child">
       <?=CHtml::beginForm('', 'POST', array('class' => 'user-register'));?>

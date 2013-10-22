@@ -74,7 +74,11 @@ class Controller extends \application\components\controllers\PublicMainControlle
         $user->Email = $email;
         $user->Visible = false;
         $user->Temporary = true;
-        $user->register();
+        $user->register(!$this->getAccount()->SandBoxUser);
+        if ($this->getAccount()->SandBoxUser)
+        {
+          $this->sendSandboxMail($user);
+        }
 
         $identity = new \application\components\auth\identity\RunetId($user->RunetId);
         $identity->authenticate();
@@ -94,6 +98,13 @@ class Controller extends \application\components\controllers\PublicMainControlle
       }
     }
     return false;
+  }
+
+  protected function sendSandboxMail(\user\models\User $user)
+  {
+    $mailer = new \mail\components\mailers\PhpMailer();
+    $mail = new \pay\components\handlers\sandbox\Base($mailer, $user, $this->getEvent());
+    $mail->send();
   }
 
   protected $account = null;

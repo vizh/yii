@@ -46,7 +46,7 @@ $event = $this->event;
     <div class="row">
       <div class="span12">
         <div class="alm14-title"></div>
-        <a target="_blank" href=""><div class="alm14-topPicture-register">зарегистрироваться</div></a>
+        <a target="_blank" href="http://events.techdays.ru/ALM-Summit/2014-02/registration"><div class="alm14-topPicture-register">зарегистрироваться</div></a>
         <div class="alm14-raft"></div>
       </div>
 
