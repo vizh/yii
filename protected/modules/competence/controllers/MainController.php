@@ -40,7 +40,7 @@ class MainController extends \application\components\controllers\PublicMainContr
     if ($this->getTest() == null || !$this->getTest()->Enable)
       throw new \CHttpException(404);
 
-    if (\Yii::app()->user->getCurrentUser() == null)
+    if ($this->getUserKey() == null && \Yii::app()->user->getCurrentUser() == null)
     {
       $this->render('competence.views.system.unregister');
       return false;
@@ -48,8 +48,16 @@ class MainController extends \application\components\controllers\PublicMainContr
 
     if (!$this->getTest()->Test && !$this->getTest()->Multiple)
     {
-      $result = \competence\models\Result::model()->byTestId($this->getTest()->Id)
-          ->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byFinished()->find();
+      $model = \competence\models\Result::model()->byTestId($this->getTest()->Id)->byFinished();
+      if ($this->userKey !== null)
+      {
+        $model->byUserId(\Yii::app()->user->getCurrentUser()->Id);
+      }
+      else
+      {
+        $model->byUserKey($this->getUserKey());
+      }
+      $result = $model->find();
       if ($result != null && $action->getId() != 'end' && $action->getId() != 'done')
       {
         $this->redirect(\Yii::app()->createUrl('/competence/main/done', ['id' => $this->getTest()->Id]));
@@ -57,9 +65,77 @@ class MainController extends \application\components\controllers\PublicMainContr
     }
 
     $this->getTest()->setUser(\Yii::app()->user->getCurrentUser());
+    $this->getTest()->setUserKey($this->getUserKey());
     return parent::beforeAction($action);
   }
 
+  private $userKey = null;
+
+  protected function getUserKey()
+  {
+    if ($this->getTest()->FastAuth)
+    {
+      if ($this->userKey == null)
+      {
+        $userKey = $this->getUserKeyValue();
+        $userHash = $this->getUserHashValue();
+        if ($this->checkUserKeyHash($userKey, $userHash))
+        {
+          $this->userKey = $userKey;
+          $request = Yii::app()->getRequest();
+          if (!isset($request->cookies[$this->getUserKeyCookieName()]) || $request->cookies[$this->getUserKeyCookieName()]->value != $userKey)
+          {
+            Yii::app()->request->cookies[$this->getUserKeyCookieName()] = new CHttpCookie($this->getUserKeyCookieName(), $userKey);
+            Yii::app()->request->cookies[$this->getUserHashCookieName()] = new CHttpCookie($this->getUserHashCookieName(), $userHash);
+          }
+        }
+      }
+      return $this->userKey;
+    }
+    return null;
+  }
+
+  private function getUserKeyCookieName()
+  {
+    return 'CompetenceUserKey'.$this->getTest()->Id;
+  }
+
+  private function getUserHashCookieName()
+  {
+    return 'CompetenceUserHash'.$this->getTest()->Id;
+  }
+
+  private function getUserKeyValue()
+  {
+    $request = Yii::app()->getRequest();
+    $userKey = $request->getParam('userKey');
+    if (empty($userKey))
+    {
+      $userKey = isset($request->cookies[$this->getUserKeyCookieName()]) ? $request->cookies[$this->getUserKeyCookieName()]->value : substr(md5(microtime()), 0, 10);
+    }
+    return $userKey;
+  }
+
+  private function getUserHashValue()
+  {
+    $request = Yii::app()->getRequest();
+    $userHash = $request->getParam('userHash');
+    if (empty($userHash))
+    {
+      $userHash = isset($request->cookies[$this->getUserHashCookieName()]) ? $request->cookies[$this->getUserHashCookieName()]->value : null;
+    }
+    return $userHash;
+  }
+
+  private function checkUserKeyHash($key, $hash = null)
+  {
+    if ($this->getTest()->FastAuthSecret !== null)
+    {
+      return $hash == md5($key.$this->getTest()->FastAuthSecret);
+    }
+    else
+      return true;
+  }
 
   public function actionIndex($id)
   {

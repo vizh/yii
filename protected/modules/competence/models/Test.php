@@ -15,6 +15,8 @@ namespace competence\models;
  * @property bool $Multiple
  * @property string $EndTime
  * @property string $AfterEndText
+ * @property bool $FastAuth
+ * @property string $FastAuthSecret
  *
  *
  * @method \competence\models\Test find($condition='',$params=array())
@@ -53,9 +55,20 @@ class Test extends \CActiveRecord
   /**
    * @param \user\models\User $user
    */
-  public function setUser(\user\models\User $user)
+  public function setUser($user)
   {
     $this->user = $user;
+  }
+
+  /** @var string  */
+  protected  $userKey = null;
+
+  /**
+   * @param string $userKey
+   */
+  public function setUserKey($userKey)
+  {
+    $this->userKey = $userKey;
   }
 
   protected $result = null;
@@ -68,14 +81,24 @@ class Test extends \CActiveRecord
   {
     if ($this->result === null)
     {
-      if ($this->user === null)
-        throw new \application\components\Exception('Для доступа к результату, необходимо сначала задать пользователя.');
-      $this->result = Result::model()->byTestId($this->Id)->byUserId($this->user->Id)->byFinished(false)->find();
+      if ($this->user === null && $this->userKey === null)
+        throw new \application\components\Exception('Для доступа к результату, необходимо сначала задать пользователя или ключ пользователя.');
+      $model = Result::model()->byTestId($this->Id)->byFinished(false);
+      if ($this->userKey !== null)
+      {
+        $model->byUserKey($this->userKey);
+      }
+      else
+      {
+        $model->byUserId($this->user->Id);
+      }
+      $this->result = $model->find();
       if ($this->result === null)
       {
         $this->result = new Result();
         $this->result->TestId = $this->Id;
-        $this->result->UserId = $this->user->Id;
+        $this->result->UserId = $this->user!==null ? $this->user->Id : null;
+        $this->result->UserKey = $this->userKey;
         $this->result->setDataByResult([]);
         $this->result->save();
       }

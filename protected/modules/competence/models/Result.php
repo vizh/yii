@@ -1,8 +1,6 @@
 <?php
 namespace competence\models;
 
-use CModelEvent;
-
 /**
  * Class Result
  * @package competence\models
@@ -14,6 +12,7 @@ use CModelEvent;
  * @property string $CreationTime
  * @property string $UpdateTime
  * @property bool $Finished
+ * @property string $UserKey
  *
  */
 class Result extends \CActiveRecord
@@ -66,6 +65,20 @@ class Result extends \CActiveRecord
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."UserId" = :UserId';
     $criteria->params = array('UserId' => $userId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param string $userKey
+   * @param bool $useAnd
+   * @return Result
+   */
+  public function byUserKey($userKey, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."UserKey" = :UserKey';
+    $criteria->params = array('UserKey' => $userKey);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
