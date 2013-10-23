@@ -1,32 +1,20 @@
 $(function(){
-  $('input[data-unchecker="1"]').bind('change', function(event){
+  $('input[type="checkbox"][data-unchecker]').bind('change', function(event){
     var target = $(event.currentTarget);
-    var negative = target.data('unchecker-negative');
-    var group = target.data('unchecker-group');
+    var unchecker = target.data('unchecker');
 
-    if (negative == 1)
+    if (target.prop('checked'))
     {
-      $('input[data-unchecker-group="'+group+'"][data-unchecker-negative="0"]').prop('checked', false);
-    }
-    else
-    {
-      $('input[data-unchecker-group="'+group+'"][data-unchecker-negative="1"]').prop('checked', false);
+      var checkboxes = $('input[type="checkbox"][data-unchecker!='+unchecker+']');
+      checkboxes.prop('checked', false);
+      checkboxes.trigger('change');
     }
   });
 
-  $('input[data-other="checkbox"]').bind('change', function(event){
-    var target = $(event.currentTarget);
-    var group = target.data('other-group');
-
-    var input = $('input[data-other="input"][data-other-group="'+group+'"]');
-    if (target.prop('checked'))
-    {
-      input.prop('disabled', false);
-    }
-    else
-    {
-      input.prop('disabled', true);
-    }
+  $('input[type="checkbox"][data-target]').change(function (e) {
+    var target = $(e.currentTarget);
+    var dataTarget = target.data('target');
+    $(dataTarget).prop('disabled', !target.prop('checked'));
   });
 
 
@@ -41,4 +29,6 @@ $(function(){
 
   $('input[type="text"][data-group]').attr('disabled', 'disabled');
   $('input[type="radio"][data-group]:checked').trigger('change');
+  $('input[type="checkbox"][data-target]:checked').trigger('change');
+  $('input[type="checkbox"][data-unchecker]:checked').trigger('change');
 });

@@ -1,6 +1,8 @@
 <?php
 namespace competence\models;
 
+use CModelEvent;
+
 /**
  * Class Result
  * @package competence\models
@@ -115,4 +117,12 @@ class Result extends \CActiveRecord
     $result[$question->Code] = $data;
     $this->setDataByResult($result);
   }
+
+  protected function beforeSave()
+  {
+    $this->UpdateTime = date('Y-m-d H:i:s');
+    return parent::beforeSave();
+  }
+
+
 }

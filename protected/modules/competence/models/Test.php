@@ -109,13 +109,8 @@ class Test extends \CActiveRecord
 
   public function saveResult()
   {
-    $fullData = $this->getFirstQuestion()->getFullData();
-    $this->getFirstQuestion()->clearFullData();
-
-    $result = new Result();
-    $result->TestId = $this->Id;
-    $result->UserId = \Yii::app()->user->getCurrentUser()->Id;
-    $result->setDataByResult($fullData);
+    $result = $this->getResult();
+    $result->Finished = true;
     $result->save();
   }
 }

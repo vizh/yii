@@ -101,7 +101,7 @@ abstract class Base extends \CFormModel
   {
     $className = get_class($this);
     $className = substr($className, strrpos($className, '\\')+1);
-    return "competence.views.tests.".$this->question->Test->Code.".".strtolower($className);
+    return "competence.views.test.".$this->question->Test->Code.".".strtolower($className);
   }
 
   /**

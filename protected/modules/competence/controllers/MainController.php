@@ -57,7 +57,6 @@ class MainController extends \application\components\controllers\PublicMainContr
     }
 
     $this->getTest()->setUser(\Yii::app()->user->getCurrentUser());
-
     return parent::beforeAction($action);
   }
 

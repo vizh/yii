@@ -24,15 +24,16 @@ class Multiple extends \competence\models\form\Base
     ];
   }
 
+  public $value = [];
+
   public function checkOtherValidator($attribute, $params)
   {
     foreach ($this->Values as $value)
     {
-      if ($value->key != $this->value)
+      if (!in_array($value->key, $this->value) || !$value->isOther)
         continue;
-      if (!$value->isOther)
-        break;
       $this->other = trim($this->other);
+
       if (empty($this->other))
       {
         $this->addError('', 'Необходимо заполнить текстовое поле "другое"');

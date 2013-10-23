@@ -22,7 +22,7 @@ class NewQuestion extends \CFormModel
     $criteriaCode->params = ['TestId' => $this->test->Id];
     return [
       ['Code', 'required'],
-      ['Code', 'match', 'pattern'=>'/^[A-Za-z][A-Za-z0-9]*$/', 'message' => 'В поле код можно ипользовать только латиницу и цифры. Первым символом должна быть буква.'],
+      ['Code', 'match', 'pattern'=>'/^[A-Za-z][A-Za-z0-9_]*$/', 'message' => 'В поле код можно ипользовать только латиницу и цифры. Первым символом должна быть буква.'],
       ['Code', 'unique', 'attributeName' => 'Code', 'className' => '\competence\models\Question', 'criteria' => $criteriaCode],
       ['Type', 'exist', 'attributeName' => 'Id', 'className' => '\competence\models\QuestionType'],
     ];

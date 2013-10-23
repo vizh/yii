@@ -91,7 +91,7 @@ return array(
   ),
   array(
     'allow',
-    'roles' => array('Admin'),
+    'roles' => array('Partner'),
     'module' => 'partner',
     'controllers' => array('program')
   ),
