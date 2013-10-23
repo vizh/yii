@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'ibcrussia13-1';
-    $isHTML = false;
+    $template = 'ux13-html-3';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -33,15 +33,19 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 
     // Чтение из файла
-/*
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-16/alley.csv');
+
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-23/uslab_base.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
 //    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+//    $emails['ilya.chertilov@gmail.com'] = 'ilya.chertilov@gmail.com';
 //    $emails['borzov@internetmediaholding.com'] = 'borzov@internetmediaholding.com';
-    $users = $emails;
 
-//    print count($users); exit();
-*/
+    $limit = 300;
+    $offset = $step * $limit;
+    $users = array_slice($emails, $offset, $limit, true);
+
+    print count($users); exit();
+
 
 
     /*
@@ -61,7 +65,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Обычная выборка пользователей [по мероприятиям]
-
+/*
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
@@ -71,7 +75,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addInCondition('"Participants"."EventId"', array(58,120,195,246,424,43,9,95,153,414,236));
     $criteria->addInCondition('"Participants"."EventId"', array(688));
     $criteria->addInCondition('"Participants"."RoleId"', array(24));
-
+*/
     /*
         $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
         $criteria->params['CreationTime'] = '2013-09-13 18:00:00';
@@ -79,7 +83,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $criteria->addCondition('"t"."Email" NOT LIKE :Email');
         $criteria->params['Email'] = '%nomail497+%';
     */
-
+/*
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
@@ -95,7 +99,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
-
+*/
     /* Для PK PASS для Яблочников */
 //    $event = \event\models\Event::model()->findByPk(763);
 
@@ -125,8 +129,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->ContentType = ($isHTML) ? 'text/html' : 'text/plain';
         $mail->IsHTML($isHTML);
 
-        $email = $user->Email;
-//        $email = $user;
+//        $email = $user->Email;
+        $email = $user;
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
@@ -146,13 +150,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
+        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
 //        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
 //        $mail->SetFrom('users@russianinternetweek.ru', 'Премия Облака 2013', false);
 //        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Не пропустите главную зимнюю конференцию об интернет-маркетинге и веб-технологиях!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на конференцию User eXperience 2013') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
@@ -162,8 +166,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //        $mail->Send();
 
-//        fwrite($fp, $email . "\n");
-        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+        fwrite($fp, $email . "\n");
+//        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
