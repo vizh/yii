@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-28';
+    $template = 'ibcrussia13-1';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -68,8 +68,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(425));
-    $criteria->addNotInCondition('"Participants"."RoleId"', array(57));
+//    $criteria->addInCondition('"Participants"."EventId"', array(58,120,195,246,424,43,9,95,153,414,236));
+    $criteria->addInCondition('"Participants"."EventId"', array(688));
+    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 
     /*
         $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
@@ -112,9 +113,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
 
         // ПИСЬМО
-//        $body = $this->renderPartial($template, array('user' => $user), true);
+        $body = $this->renderPartial($template, array('user' => $user), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -129,7 +130,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-        if ($j == 1) continue;
+//        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -145,13 +146,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-//        $mail->SetFrom('info@therunet.com', 'Редакция theRunet', false);
-        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
+        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
+//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
 //        $mail->SetFrom('users@russianinternetweek.ru', 'Премия Облака 2013', false);
 //        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Итоговый опрос участников') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Не пропустите главную зимнюю конференцию об интернет-маркетинге и веб-технологиях!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
