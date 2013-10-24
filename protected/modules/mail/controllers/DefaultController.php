@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'ux13-html-3';
-    $isHTML = true;
+    $template = 'marketing13-2';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -34,17 +34,19 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Чтение из файла
 
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-23/uslab_base.csv');
-    foreach($arUsers as $eml) $emails[$eml] = trim($eml);
-//    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
-//    $emails['ilya.chertilov@gmail.com'] = 'ilya.chertilov@gmail.com';
+//    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-24/emails.csv');
+//    foreach($arUsers as $eml) $emails[$eml] = trim($eml);
+    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+//    $emails['t.ruzhich@rta-moscow.com'] = 't.ruzhich@rta-moscow.com';
+//    $emails['grebennikov.sergey@gmail.com'] = 'grebennikov.sergey@gmail.com';
 //    $emails['borzov@internetmediaholding.com'] = 'borzov@internetmediaholding.com';
+//    $emails['plugotarenko@raec.ru'] = 'plugotarenko@raec.ru';
 
     $limit = 300;
     $offset = $step * $limit;
     $users = array_slice($emails, $offset, $limit, true);
 
-    print count($users); exit();
+//    print count($users); exit();
 
 
 
@@ -150,13 +152,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
+//        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
 //        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
 //        $mail->SetFrom('users@russianinternetweek.ru', 'Премия Облака 2013', false);
 //        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
-//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на конференцию User eXperience 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Итоги закрытой вечеринки для маркетинг директоров') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
