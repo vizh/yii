@@ -46,6 +46,13 @@ return array(
         'http://'.RUNETID_HOST.'/iresearch2013/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 2]],
         'http://'.RUNETID_HOST.'/iresearch2013/end' => ['competence/main/end/', 'defaultParams' => ['id' => 2]],
         'http://'.RUNETID_HOST.'/iresearch2013/done' => ['competence/main/done/', 'defaultParams' => ['id' => 2]],
+
+
+        /** Student Test 2013 */
+        'http://'.RUNETID_HOST.'/student/' => ['competence/main/index/', 'defaultParams' => ['id' => 3]],
+        'http://'.RUNETID_HOST.'/student/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 3]],
+        'http://'.RUNETID_HOST.'/student/end' => ['competence/main/end/', 'defaultParams' => ['id' => 3]],
+        'http://'.RUNETID_HOST.'/student/done' => ['competence/main/done/', 'defaultParams' => ['id' => 3]],
           
           
         /** Partner Module Rules */

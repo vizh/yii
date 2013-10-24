@@ -51,11 +51,11 @@ class MainController extends \application\components\controllers\PublicMainContr
       $model = \competence\models\Result::model()->byTestId($this->getTest()->Id)->byFinished();
       if ($this->userKey !== null)
       {
-        $model->byUserId(\Yii::app()->user->getCurrentUser()->Id);
+        $model->byUserKey($this->getUserKey());
       }
       else
       {
-        $model->byUserKey($this->getUserKey());
+        $model->byUserId(\Yii::app()->user->getCurrentUser()->Id);
       }
       $result = $model->find();
       if ($result != null && $action->getId() != 'end' && $action->getId() != 'done')
@@ -85,8 +85,9 @@ class MainController extends \application\components\controllers\PublicMainContr
           $request = Yii::app()->getRequest();
           if (!isset($request->cookies[$this->getUserKeyCookieName()]) || $request->cookies[$this->getUserKeyCookieName()]->value != $userKey)
           {
-            Yii::app()->request->cookies[$this->getUserKeyCookieName()] = new CHttpCookie($this->getUserKeyCookieName(), $userKey);
-            Yii::app()->request->cookies[$this->getUserHashCookieName()] = new CHttpCookie($this->getUserHashCookieName(), $userHash);
+            $expire = time()+60*60*24*30;
+            Yii::app()->request->cookies[$this->getUserKeyCookieName()] = new CHttpCookie($this->getUserKeyCookieName(), $userKey, ['expire' => $expire]);
+            Yii::app()->request->cookies[$this->getUserHashCookieName()] = new CHttpCookie($this->getUserHashCookieName(), $userHash, ['expire' => $expire]);
           }
         }
       }
