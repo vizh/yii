@@ -34,9 +34,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Чтение из файла
 
-//    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-24/emails.csv');
-//    foreach($arUsers as $eml) $emails[$eml] = trim($eml);
-    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-24/marketing_all.csv');
+    foreach($arUsers as $eml) $emails[$eml] = trim($eml);
+//    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
 //    $emails['t.ruzhich@rta-moscow.com'] = 't.ruzhich@rta-moscow.com';
 //    $emails['grebennikov.sergey@gmail.com'] = 'grebennikov.sergey@gmail.com';
 //    $emails['borzov@internetmediaholding.com'] = 'borzov@internetmediaholding.com';
@@ -46,7 +46,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $offset = $step * $limit;
     $users = array_slice($emails, $offset, $limit, true);
 
-//    print count($users); exit();
+    print count($users); exit();
 
 
 
