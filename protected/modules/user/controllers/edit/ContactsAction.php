@@ -19,6 +19,11 @@ class ContactsAction extends \CAction
           $site = parse_url($form->Site);
           $user->setContactSite($site['host'], ($site['scheme'] == 'https'));
         }
+        else
+        {
+          $user->setContactSite(null);
+        }
+        
         $user->save();
         
         // Сохранение адреса

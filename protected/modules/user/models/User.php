@@ -490,6 +490,16 @@ class User extends \application\models\translation\ActiveRecord
   public function setContactSite($url, $secure = false)
   {
     $contactSite = $this->getContactSite();
+    if (empty($url))
+    {
+      if ($this->LinkSite !== null)
+      {
+        $this->LinkSite->delete();
+        $contactSite->delete();
+      }
+      return null;
+    }
+ 
     if (empty($contactSite))
     {
       $contactSite = new \contact\models\Site();
