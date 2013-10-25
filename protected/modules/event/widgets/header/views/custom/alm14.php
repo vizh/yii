@@ -18,7 +18,7 @@ $event = $this->event;
     transition: background-color 0.5s ease 0s, color 0.5s ease 0s;
     position: absolute;
     left: 0;
-    bottom: 30px;
+    bottom: 70px;
   }
   .alm14-topPicture-register:hover{
     background-color: #3f1044;
@@ -27,7 +27,7 @@ $event = $this->event;
     background: url('/img/event/alm14/title.png') no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 202px;
     position: absolute;
-    left: -10px;
+    left: -5px;
     top: 50px;
     width: 537px;
   }
