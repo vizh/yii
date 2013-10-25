@@ -53,10 +53,7 @@ class ListController extends \application\components\controllers\PublicMainContr
         {
           $topEvents[] = $event;
         }
-        else
-        {
-          $actEvents[] = $event;
-        }
+        $actEvents[] = $event;
       }
       else
       {
