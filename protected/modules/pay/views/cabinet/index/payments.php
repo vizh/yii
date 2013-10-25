@@ -4,43 +4,41 @@
  */
 
 $hideJuridical = $account->OrderLastTime !== null && $account->OrderLastTime < date('Y-m-d H:i:s') || !$account->OrderEnable;
+$hideReceipt = $account->ReceiptLastTime !== null && $account->ReceiptLastTime < date('Y-m-d H:i:s') || !$account->ReceiptEnable;
+
+$paysystems = ['uniteller', 'payonline', 'yandexmoney', 'paypal'];
+
+$buttons = ['back'];
+if ($account->Uniteller)
+  $buttons[] = 'uniteller';
+if ($account->PayOnline)
+{
+  $buttons[] = 'payonline';
+  $buttons[] = 'yandexmoney';
+}
+$buttons[] = 'paypal';
+if (!$hideReceipt)
+{
+  $buttons[] = 'receipt';
+}
+if (!$hideJuridical)
+{
+  $buttons[] = 'juridical';
+}
+$i = 0;
 ?>
 
+<?while ($i < count($buttons)):?>
   <div class="actions clearfix">
-    <a href="<?=$account->ReturnUrl===null ? $this->createUrl('/pay/cabinet/register') : $account->ReturnUrl;?>" class="btn btn-large">
-      <i class="icon-circle-arrow-left"></i>
-      <?=\Yii::t('app', 'Назад');?>
-    </a>
-
-    <?if ($account->Uniteller):?>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay', ['type' => 'uniteller']);?>" class="btn btn-large btn-primary uniteller"><?=\Yii::t('app', 'Оплатить через');?></a>
-    <?endif;?>
-
-    <?if ($account->PayOnline):?>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay');?>" class="btn btn-large btn-primary payonline"><?=\Yii::t('app', 'Оплатить через');?></a>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay', ['type' => 'yandexmoney']);?>" class="btn btn-large btn-primary yandexmoney"><?=\Yii::t('app', 'Оплатить через');?></a>
-    <?endif;?>
-
-    <?if (!$account->Uniteller || !$account->PayOnline):?>
-      <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'paypal'));?>" class="btn btn-large btn-primary paypal"><?=\Yii::t('app', 'Оплатить через');?> <img src="/img/pay/logo-paypal.png" alt=""></a>
-    <?endif;?>
-
-    <?if (!$account->PayOnline && !$hideJuridical):?>
-      <a href="<?php echo $this->createUrl('/pay/juridical/create/');?>" class="btn btn-large juridical"><?=\Yii::t('app', 'Выставить счет');?> <span class="muted"><?=\Yii::t('app', '(для юр. лиц)');?></span></a>
-    <?endif;?>
+    <?for ($j=0; $j<4 && $i < count($buttons); $j++, $i++):?>
+      <?if (in_array($buttons[$i], $paysystems)):?>
+          <?$this->renderPartial('index/buttons/paysystem', ['account' => $account, 'system' => $buttons[$i]]);?>
+      <?else:?>
+        <?$this->renderPartial('index/buttons/'.$buttons[$i], ['account' => $account]);?>
+      <?endif;?>
+    <?endfor;?>
   </div>
-
-<?if ($account->PayOnline):?>
-<div class="actions clearfix text-right">
-  <?if ($account->PayOnline && $account->Uniteller):?>
-    <a href="<?=$this->createUrl('/pay/cabinet/pay', array('type' => 'paypal'));?>" class="btn btn-large btn-primary paypal"><?=\Yii::t('app', 'Оплатить через');?> <img src="/img/pay/logo-paypal.png" alt=""></a>
-  <?endif;?>
-
-  <?if (!$hideJuridical):?>
-    <a href="<?php echo $this->createUrl('/pay/juridical/create/');?>" class="btn btn-large juridical"><?=\Yii::t('app', 'Выставить счет');?> <span class="muted"><?=\Yii::t('app', '(для юр. лиц)');?></span></a>
-  <?endif;?>
-</div>
-<?endif;?>
+<?endwhile;?>
 
 <?if ($hideJuridical && $account->OrderEnable):?>
   <div class="actions clearfix">
@@ -51,4 +49,3 @@ $hideJuridical = $account->OrderLastTime !== null && $account->OrderLastTime < d
     </div>
   </div>
 <?endif;?>
-

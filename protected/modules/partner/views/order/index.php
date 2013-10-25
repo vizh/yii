@@ -66,9 +66,11 @@
           <tr>
             <td><h3><?=$order->Id;?></h3></td>
             <td>
-              <?if ($order->Juridical):?>
+              <?if ($order->Juridical && !$order->Receipt):?>
               <strong><?=$order->OrderJuridical->Name;?></strong><br>
               ИНН/КПП:&nbsp;<?=$order->OrderJuridical->INN;?>&nbsp;/&nbsp;<?=$order->OrderJuridical->KPP;?>
+              <?elseif ($order->Receipt):?>
+                <p class="text-warning"><strong>Квитанция.</strong></p>
               <?else:?>
                 <p class="text-warning"><strong>Через платежную систему.</strong></p>
               <?endif;?>

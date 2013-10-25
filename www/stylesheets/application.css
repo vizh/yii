@@ -2563,6 +2563,16 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   background-image: url(/img/pay/yandexmoney_white.png);
 }
 
+.actions .paypal {
+  background-image: url(/img/pay/logo-paypal.png);
+  background-repeat: no-repeat;
+  background-position: 140px 12px;
+  padding-right: 71px;
+}
+.actions .btn-primary.paypal {
+  background-image: url(/img/pay/logo-paypal_white.png);
+}
+
 
 /**
 Кроп изображений

@@ -15,8 +15,15 @@ namespace pay\models;
  * @property int  $OrderTemplateId
  * @property bool $SandBoxUser
  * @property string $SandBoxUserRegisterUrl
+ * @property string $ReceiptName
+ * @property int $ReceiptId
+ * @property string $ReceiptLastTime
+ * @property bool $ReceiptEnable
  *
  * @property \event\models\Event $Event
+ * @property OrderJuridicalTemplate $OrderTemplate
+ * @property OrderJuridicalTemplate $ReceiptTemplate
+ *
  */
 class Account extends \CActiveRecord
 {
@@ -44,7 +51,8 @@ class Account extends \CActiveRecord
   {
     return array(
       'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
-      'OrderTemplate' => [self::BELONGS_TO, '\pay\models\OrderJuridicalTemplate', 'OrderTemplateId']
+      'OrderTemplate' => [self::BELONGS_TO, '\pay\models\OrderJuridicalTemplate', 'OrderTemplateId'],
+      'ReceiptTemplate' => [self::BELONGS_TO, '\pay\models\OrderJuridicalTemplate', 'ReceiptId'],
     );
   }
 

@@ -3,6 +3,7 @@ namespace pay\components\handlers\orderjuridical\create;
 
 class Base extends \mail\components\Mail
 {
+  /** @var \pay\models\Order */
   protected $order;
   protected $payer;
   protected $event;
@@ -28,7 +29,14 @@ class Base extends \mail\components\Mail
   
   public function getSubject()
   {
-    return 'Выставлен счет на оплату '.$this->event->Title;
+    if (!$this->order->Receipt)
+    {
+      return 'Выставлен счет на оплату '.$this->event->Title;
+    }
+    else
+    {
+      return 'Выставлена квитанция на оплату '.$this->event->Title;
+    }
   }
   
   public function getBody()

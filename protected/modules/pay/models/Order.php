@@ -12,6 +12,7 @@ namespace pay\models;
  * @property string $CreationTime
  * @property bool $Deleted
  * @property string $DeletionTime
+ * @property bool $Receipt
  *
  *
  * @property OrderLinkOrderItem[] $ItemLinks
@@ -205,7 +206,7 @@ class Order extends \CActiveRecord
    * @throws \pay\components\Exception
    * @return int
    */
-  public function create($user, $event, $juridical = false, $juridicalData = array())
+  public function create($user, $event, $juridical = false, $juridicalData = array(), $receipt = false)
   {
     $finder = \pay\components\collection\Finder::create($event->Id, $user->Id);
     $collection = $finder->getUnpaidFreeCollection();
@@ -216,7 +217,8 @@ class Order extends \CActiveRecord
 
     $this->PayerId = $user->Id;
     $this->EventId = $event->Id;
-    $this->Juridical = $juridical;
+    $this->Juridical = $juridical || $receipt;
+    $this->Receipt = $receipt;
     $this->save();
     $this->refresh();
 
@@ -240,19 +242,22 @@ class Order extends \CActiveRecord
       }
     }
 
-    if ($juridical)
+    if ($juridical || $receipt)
     {
       $orderJuridical= new OrderJuridical();
       $orderJuridical->OrderId = $this->Id;
-      $orderJuridical->Name = $juridicalData['Name'];
-      $orderJuridical->Address = $juridicalData['Address'];
-      $orderJuridical->INN = $juridicalData['INN'];
-      $orderJuridical->KPP = $juridicalData['KPP'];
-      $orderJuridical->Phone = $juridicalData['Phone'];
-      $orderJuridical->PostAddress = $juridicalData['PostAddress'];
+      if (!$receipt)
+      {
+        $orderJuridical->Name = $juridicalData['Name'];
+        $orderJuridical->Address = $juridicalData['Address'];
+        $orderJuridical->INN = $juridicalData['INN'];
+        $orderJuridical->KPP = $juridicalData['KPP'];
+        $orderJuridical->Phone = $juridicalData['Phone'];
+        $orderJuridical->PostAddress = $juridicalData['PostAddress'];
+      }
       $orderJuridical->save();
       
-      $event = new \CModelEvent($this, array('payer' => $user, 'event' => $event, 'total' => $total));
+      $event = new \CModelEvent($this, ['payer' => $user, 'event' => $event, 'total' => $total]);
       $this->onCreateOrderJuridical($event);
     }
 

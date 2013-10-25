@@ -47,7 +47,7 @@ class OrderJuridicalTemplate extends \CActiveRecord
     $this->SignFirstImageMargin  = explode(',', trim($this->SignFirstImageMargin,')('));  
     $this->SignSecondImageMargin = explode(',', trim($this->SignSecondImageMargin,')('));  
     $this->StampImageMargin      = explode(',', trim($this->StampImageMargin,')('));
-    return parent::afterFind();
+    parent::afterFind();
   }
   
   protected function afterSave()
@@ -56,7 +56,7 @@ class OrderJuridicalTemplate extends \CActiveRecord
     {
       mkdir(\Yii::getPathOfAlias('webroot.img.pay.bill.template').DIRECTORY_SEPARATOR.$this->Id.DIRECTORY_SEPARATOR);
     }
-    return parent::afterSave();
+    parent::afterSave();
   }
 
 

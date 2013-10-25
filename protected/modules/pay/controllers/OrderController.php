@@ -1,6 +1,5 @@
 <?php
 
-
 class OrderController extends \application\components\controllers\MainController
 {
   public function actionIndex($orderId, $hash = null, $clear = null)
@@ -49,23 +48,33 @@ class OrderController extends \application\components\controllers\MainController
       'nds' => $total - round($total / 1.18, 2, PHP_ROUND_HALF_DOWN),
       'withSign' => $clear===null
     ];
-    
-    if ($account->OrderTemplateName == null)
+
+    if (!$order->Receipt)
     {
-      if ($account->OrderTemplateId !== null)
+      if ($account->OrderTemplateName == null)
       {
-        $viewData['template'] = $account->OrderTemplate;
-        $viewName = 'template';
+        if ($account->OrderTemplateId !== null)
+        {
+          $viewData['template'] = $account->OrderTemplate;
+          $viewName = 'template';
+        }
+        else
+        {
+          $viewName = 'bill';
+        }
       }
       else
       {
-        $viewName = 'bill';
+        $viewName = $account->OrderTemplateName;
       }
+      $viewName = 'bills/'.$viewName;
     }
     else
     {
-      $viewName = $account->OrderTemplateName;
+      $viewData['template'] = $account->ReceiptTemplate;
+      $viewName = 'receipt/template';
     }
-    $this->renderPartial('bills/'.$viewName, $viewData);
+
+    $this->renderPartial($viewName, $viewData);
   }
 }

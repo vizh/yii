@@ -7,7 +7,7 @@
 <table class="table">
   <thead>
   <tr>
-    <th colspan="4"><h4 class="title"><?=\Yii::t('app', 'Выставленные счета');?></h4></th>
+    <th colspan="4"><h4 class="title"><?=\Yii::t('app', 'Выставленные счета и квитанции');?></h4></th>
   </tr>
   </thead>
   <tbody>
@@ -20,7 +20,7 @@
         <a href="<?=$this->createUrl('/pay/juridical/delete', array('orderId' => $collection->getOrder()->Id));?>"><i class="icon-trash"></i></a>
         <?endif;?>
       </td>
-      <td><?=\Yii::t('app', 'Счет');?> № <?=$collection->getOrder()->Id;?> <?=\Yii::t('app', 'от');?> <?=\Yii::app()->dateFormatter->format('d MMMM yyyy', $collection->getOrder()->CreationTime);?>
+      <td><?=\Yii::t('app', $collection->getOrder()->Receipt ? 'Квитанция' : 'Счет');?> № <?=$collection->getOrder()->Id;?> <?=\Yii::t('app', 'от');?> <?=\Yii::app()->dateFormatter->format('d MMMM yyyy', $collection->getOrder()->CreationTime);?>
 
 
       </td>
@@ -31,7 +31,7 @@
         <?endif;?>
       </td>
 
-      <td><a target="_blank" href="<?=$collection->getOrder()->getUrl();?>"><?=\Yii::t('app', 'Просмотреть счет');?></a></td>
+      <td><a target="_blank" href="<?=$collection->getOrder()->getUrl();?>"><?=\Yii::t('app', 'Просмотреть '.($collection->getOrder()->Receipt ? 'квитанцию' : 'счет'));?></a></td>
     </tr>
   <?endforeach;?>
   </tbody>
