@@ -8,13 +8,6 @@ class IndexAction extends \partner\components\Action
     $this->getController()->setPageTitle('Поиск промо-кодов');
     $this->getController()->initActiveBottomMenu('index');
 
-//    $criteria = new \CDbCriteria();
-//    $criteria->with = array(
-//      'Activations' => array('together' => true),
-//      'Activations.User',
-//      'Product',
-//    );
-
     $form = new \partner\models\forms\coupon\Search();
     $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
     $criteria = $form->getCriteria();

@@ -1,11 +1,5 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Alaris
- * Date: 9/6/12
- * Time: 12:12 PM
- * To change this template use File | Settings | File Templates.
- */
+
 class CouponController extends \partner\components\Controller
 {
   const CouponOnPage = 20;

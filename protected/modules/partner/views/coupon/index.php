@@ -90,8 +90,8 @@
             <?if (!$coupon->Multiple && sizeof($coupon->Activations) > 0):?>
                 <span class="label label-success">Активирован</span> 
                 <br/><a target="_blank" href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => $coupon->Activations[0]->User->RunetId));?>" class="small"><strong><?=$coupon->Activations[0]->User->getFullName();?>, <?=$coupon->Activations[0]->User->RunetId;?></strong></a>
-            <?elseif ($coupon->Multiple && sizeof($coupon->Activations) > 0):?>
-                <span class="label label-success">
+            <?elseif ($coupon->Multiple):?>
+                <span class="label <?=count($coupon->Activations) > 0 ? 'label-success' : '';?>">
                     Активирован <?=sizeof($coupon->Activations);?> из <?=$coupon->MultipleCount;?>
                 </span>
             <?php else:?>
