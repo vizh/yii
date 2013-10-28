@@ -1,11 +1,9 @@
-<?
+<?php
 /*
  * @var user\models\User $user
  * @var event\models\Participant $participant
  */
 ?>
-
-
 Здравствуйте, <?=$user->getShortName();?>!<br/><br/>
 
 Благодарим Вас, за регистрацию на торжественную церемонию вручения ежегодной премии SAAS-решений «Облака 2013».<br/><br/>
