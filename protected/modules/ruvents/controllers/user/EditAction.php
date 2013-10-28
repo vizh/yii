@@ -58,7 +58,7 @@ class EditAction extends \ruvents\components\Action
         continue;
       }
       $newValue = $request->getParam($name, null);
-      if ($newValue !== null)
+      if ($newValue !== null && $user->$name != $newValue)
       {
         $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage($name, $user->$name, $newValue));
         $form->$name = $newValue;

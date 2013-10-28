@@ -296,7 +296,8 @@ class DataBuilder
   {
     $this->detailLog = new \stdClass();
     $this->detailLog->OperatorId = $detailLog->OperatorId;
-    $this->detailLog->Changes = $detailLog->getChangeMessages();
+	$this->detailLog->OperatorLogin = \ruvents\models\Operator::model()->findByAttributes(['Id' => $detailLog->OperatorId])->Login;
+    $this->detailLog->Changes = json_encode($detailLog->getChangeMessages());
     $this->detailLog->Time = $detailLog->CreationTime;
 
     return $this->detailLog;

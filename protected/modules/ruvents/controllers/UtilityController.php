@@ -15,7 +15,9 @@ class UtilityController extends ruvents\components\Controller
 
     $user = \user\models\User::model()->byRunetId($runetId)->find();
     if ($user === null)
+    {
       throw new \ruvents\components\Exception(202, array($runetId));
+    }
 
     $logModel = \ruvents\models\DetailLog::model()
       ->byEventId($this->getOperator()->EventId)->byUserId($user->Id);
