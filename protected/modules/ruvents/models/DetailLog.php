@@ -10,6 +10,8 @@ namespace ruvents\models;
  * @property string $Action
  * @property string $Changes
  * @property string $CreationTime
+ *
+ * @property Operator $Operator
  */
 class DetailLog extends \CActiveRecord
 {
@@ -32,6 +34,14 @@ class DetailLog extends \CActiveRecord
   {
     return 'Id';
   }
+
+  public function relations()
+  {
+    return [
+      'Operator' => [self::BELONGS_TO, '\ruvents\models\Operator', 'OperatorId'],
+    ];
+  }
+
 
   /**
    * @param int $userId
