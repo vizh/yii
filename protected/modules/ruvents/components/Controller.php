@@ -152,7 +152,7 @@ class Controller extends \CController
 
     // Оставим за разработчиком право обернуть возвращаемый JSON глобальным JSON объектом
     if (($layoutFile = $this->getLayoutFile($this->layout)) !== false)
-      $json = $this->renderFile($layoutFile, array('content' => $json),true);
+      $json = $this->renderFile($layoutFile, array('content' => $json), true);
 
     header('Content-type: application/json; charset=utf-8');
     echo $json;
