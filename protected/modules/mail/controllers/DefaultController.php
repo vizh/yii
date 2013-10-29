@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'marketing13-2';
-    $isHTML = false;
+    $template = 'runetid-html-3';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -33,7 +33,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 
     // Чтение из файла
-
+/*
     $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-24/marketing_all.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
 //    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
@@ -47,7 +47,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = array_slice($emails, $offset, $limit, true);
 
     print count($users); exit();
-
+*/
 
 
     /*
@@ -67,30 +67,40 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Обычная выборка пользователей [по мероприятиям]
-/*
+
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(58,120,195,246,424,43,9,95,153,414,236));
-    $criteria->addInCondition('"Participants"."EventId"', array(688));
-    $criteria->addInCondition('"Participants"."RoleId"', array(24));
-*/
-    /*
-        $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
-        $criteria->params['CreationTime'] = '2013-09-13 18:00:00';
+//    $criteria->addInCondition('"Participants"."EventId"', array(425));
+//    $criteria->addInCondition('"Participants"."RoleId"', array(11));
 
-        $criteria->addCondition('"t"."Email" NOT LIKE :Email');
-        $criteria->params['Email'] = '%nomail497+%';
-    */
+    $criteria->addCondition('
+      "t"."Id" IN (
+        SELECT "UserId" FROM "EventParticipant"
+        WHERE
+          ("EventId" = 425 AND "RoleId" IN (11)) OR
+          ("EventId" = 248 AND "RoleId" IN (11)) OR
+
+          ("EventId" = 422 AND "RoleId" IN (1)) OR
+          ("EventId" = 245 AND "RoleId" IN (1)) OR
+          ("EventId" = 171 AND "RoleId" IN (1))
+      )
+    ');
+
 /*
+    $criteria->addNotInCondition('"Participants"."RoleId"', array(3));
+    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE "CompanyId" IN (23,8624,7677,10384,1167,35594,35594,3392,39028,13565) AND ("StartYear" > 2008 OR "StartYear" IS NULL) )');
+
+    $criteria->addCondition('"t"."Id" IN (SELECT "UserId" FROM "UserEmployment" WHERE "Position" ILIKE \'%студент%\' AND "StartYear" > 2008 AND ("EndYear" IS NULL OR "EndYear" >= 2011) )', 'OR');
+*/
+
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (425))');
 
     $criteria->addInCondition('"t"."RunetId"', array(12953));
 
@@ -101,7 +111,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
-*/
+
     /* Для PK PASS для Яблочников */
 //    $event = \event\models\Event::model()->findByPk(763);
 
@@ -131,12 +141,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->ContentType = ($isHTML) ? 'text/html' : 'text/plain';
         $mail->IsHTML($isHTML);
 
-//        $email = $user->Email;
-        $email = $user;
+        $email = $user->Email;
+//        $email = $user;
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-//        if ($j == 1) continue;
+        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -153,12 +163,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
-//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
-//        $mail->SetFrom('users@russianinternetweek.ru', 'Премия Облака 2013', false);
 //        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Итоги закрытой вечеринки для маркетинг директоров') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Дайджест ноябрьских мероприятий') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
@@ -168,8 +176,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //        $mail->Send();
 
-        fwrite($fp, $email . "\n");
-//        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+//        fwrite($fp, $email . "\n");
+        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
