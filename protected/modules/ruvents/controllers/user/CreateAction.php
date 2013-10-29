@@ -15,6 +15,7 @@ class CreateAction extends \ruvents\components\Action
     $form->Company = $request->getParam('Company');
     $form->Position = $request->getParam('Position');
     $form->Phone = $request->getParam('Phone');
+    $form->Visible = $request->getParam('Visible');
 
     foreach ($form->validatorList as $validator)
     {
@@ -28,6 +29,11 @@ class CreateAction extends \ruvents\components\Action
           }
         }
       }
+    }
+
+    if (!$form->Visible && empty($form->Email))
+    {
+      $form->Email = 'nomail'.$this->getEvent()->Id.'+'.substr(md5($form->FirstName . $form->LastName . $form->Company), 0, 8).'@runet-id.com';
     }
 
     if ($form->validate())

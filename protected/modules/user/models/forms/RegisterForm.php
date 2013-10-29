@@ -13,6 +13,7 @@ class RegisterForm extends \CFormModel
   public $Position = '';
   public $City;
   public $CityId;
+  public $Visible = true;
 
   
   public function rules()
@@ -29,7 +30,7 @@ class RegisterForm extends \CFormModel
   public function uniqueUser($attribute, $params)
   {
     $model = \user\models\User::model()->byEmail($this->Email)->byVisible(true);
-    if ($model->exists())
+    if ($this->Visible && $model->exists())
     {
       $this->addError('Email', \Yii::t('app', 'Пользователь с таким email уже существует'));
     }
@@ -45,7 +46,14 @@ class RegisterForm extends \CFormModel
     $user->FirstName = $this->FirstName;
     $user->FatherName = $this->FatherName;
     $user->Email = strtolower($this->Email);
-    $user->register();
+    $user->Visible = $this->Visible;
+    $user->register($this->Visible);
+
+    if (!$this->Visible)
+    {
+      $user->Settings->UnsubscribeAll = true;
+      $user->Settings->save();
+    }
 
     $this->setEmployment($user);
     $this->setCity($user);
