@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var \pay\components\Controller $this
  * @var \event\models\Event $event
  * @var \pay\models\forms\OrderForm $orderForm
  * @var \pay\models\Account $account
@@ -52,9 +53,9 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
 
 
       <div class="alert alert-block alert-muted">
-        <?$user = Yii::app()->user->getCurrentUser();?>
+        <?$user = $this->getUser();?>
         <p>
-          <?if (!empty($user->LastName) && !empty($user->FirstName)):?>
+          <?if (!empty($user->FirstName)):?>
             <?=$user->getShortName();?>,
           <?else:?>
             Уважаемый пользователь,

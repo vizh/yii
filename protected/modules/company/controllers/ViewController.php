@@ -4,34 +4,34 @@ class ViewController extends \application\components\controllers\PublicMainContr
   public function actionIndex($companyId)
   {
     $criteria = new \CDbCriteria();
-    $criteria->with = array(
+    $criteria->with = [
       'LinkEmails.Email',
       'LinkSite.Site', 
       'LinkPhones.Phone',
       'LinkAddress.Address.City',
-      'EmploymentsAll' => array(
+      'EmploymentsAll' => [
         'together' => false, 
         'order' => '"User"."LastName" ASC',
-        'with' => array('User'),
+        'with' => ['User'],
         'condition' => '"User"."Visible"'
-      )
-    );
+      ]
+    ];
     $company = company\models\Company::model()->findByPk($companyId, $criteria);
     if ($company == null)
-    {
       throw new CHttpException(404);
-    }
 
     $this->setPageTitle($company->Name . '/ RUNET-ID');
    
     $employmentsTmp = array();
     foreach ($company->EmploymentsAll as $employment)
     {
-      if (!isset($employmentsTmp[$employment->UserId])
-        || ($employmentsTmp[$employment->UserId]->StartYear <= $employment->StartYear 
-          && $employmentsTmp[$employment->UserId]->StartMonth <= $employment->StartMonth))
+      $userId= $employment->UserId;
+      if (!isset($employmentsTmp[$userId])
+        || $employmentsTmp[$userId]->StartYear <= $employment->StartYear
+        || ($employmentsTmp[$userId]->StartYear == $employment->StartYear
+              && $employmentsTmp[$userId]->StartMonth <= $employment->StartMonth))
       {
-        $employmentsTmp[$employment->UserId] = $employment;
+        $employmentsTmp[$userId] = $employment;
       }
     }
     

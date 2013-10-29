@@ -19,6 +19,10 @@ class FastauthController extends \application\components\controllers\PublicMainC
       }
       else
       {
+        if (!\Yii::app()->user->isGuest)
+        {
+          \Yii::app()->user->logout();
+        }
         \Yii::app()->payUser->login($identity);
       }
 
