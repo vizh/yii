@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'premiaruneta13-2';
-    $isHTML = false;
+    $template = 'runetid-html-4';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -34,9 +34,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Чтение из файла
 /*
-//    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-30/participants_uxr.csv');
-//    foreach($arUsers as $eml) $emails[$eml] = trim($eml);
-    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-31/participants_uxr_old.csv');
+    foreach($arUsers as $eml) $emails[$eml] = trim($eml);
+//    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
 //    $emails['ilya.chertilov@gmail.com'] = 'ilya.chertilov@gmail.com';
 //    $emails['t.ruzhich@rta-moscow.com'] = 't.ruzhich@rta-moscow.com';
 //    $emails['grebennikov.sergey@gmail.com'] = 'grebennikov.sergey@gmail.com';
@@ -47,7 +47,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $offset = $step * $limit;
     $users = array_slice($emails, $offset, $limit, true);
 
-//    print count($emails); exit();
+    print count($emails); exit();
 */
 
 
@@ -68,13 +68,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Обычная выборка пользователей [по мероприятиям]
+
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(425));
+    $criteria->addInCondition('"Participants"."EventId"', array(258,423));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(11));
 
 /*
@@ -89,10 +90,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('"t"."Visible"');
 
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 300;
     $criteria->order = '"t"."RunetId" ASC';
@@ -133,7 +134,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-        if ($j == 1) continue;
+//        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -150,10 +151,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
-        $mail->SetFrom('info@premiaruneta.ru', 'Премия Рунета 2013', false);
-//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Последний день номинирования на Премию Рунета – 7 ноября 2013 года') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Дайджест ноябрьских тренингов TRINET') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
@@ -161,7 +162,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-        $mail->Send();
+//        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");

@@ -6,11 +6,15 @@ class RegisterAction extends \pay\components\Action
   public function run($eventIdName)
   {
     $this->getController()->bodyId = 'event-register';
-
     $this->getController()->setPageTitle('Регистрация  / ' . $this->getEvent()->Title . ' / RUNET-ID');
+
+    \partner\models\PartnerCallback::start($this->getEvent());
+    if ($this->getUser() != null)
+    {
+      \partner\models\PartnerCallback::registration($this->getEvent(), $this->getUser());
+    }
     
     $request = \Yii::app()->getRequest();
-    
     $criteria = new \CDbCriteria();
     $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
     $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findAll($criteria);

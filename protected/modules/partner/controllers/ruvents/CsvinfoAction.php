@@ -12,13 +12,12 @@ class CsvinfoAction extends \partner\components\Action
     $this->getController()->setPageTitle('Генерация итоговых данных мероприятия');
     $this->getController()->initActiveBottomMenu('csvinfo');
 
-    $event = \event\models\Event::GetById(\Yii::app()->partner->getAccount()->EventId);
-    if (!empty($event->Days))
+    if (!empty($this->getEvent()->Days))
     {
       throw new \Exception('Не реализован для мероприятий с несколькими логическими днями!');
     }
 
-    $request = \Yii::app()->request;
+    $request = \Yii::app()->getRequest();
     $generate = $request->getParam('generate');
     if (!empty($generate))
     {
@@ -49,11 +48,25 @@ class CsvinfoAction extends \partner\components\Action
   private function generateFile($page)
   {
     $criteria = new \CDbCriteria();
-    $criteria->order = 't.CreationTime ASC';
+    $criteria->with = [
+      'Role',
+      'User',
+      'User.Participants' => [
+        'on' => '"Participants"."EventId" = :EventId',
+        'params' => ['EventId' => $this->getEvent()->Id]
+      ]
+    ];
+    $criteria->order = '"t"."CreationTime" ASC';
 
     /** @var $badges \ruvents\models\Badge[] */
-    $badges = \ruvents\models\Badge::model()->byEventId(\Yii::app()->partner->getAccount()->EventId)->findAll($criteria);
+    $badges = \ruvents\models\Badge::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
 
+    foreach ($badges as $badge)
+    {
+      $this->addLine($badge);
+    }
+
+    $badges[0]->User
 
     $result = array();
     foreach ($badges as $badge)
@@ -81,19 +94,23 @@ class CsvinfoAction extends \partner\components\Action
     fclose($this->getFile());
   }
 
-  private function addLine($info)
+  private function addLine(\ruvents\models\Badge $badge)
   {
-    /** @var $badge \ruvents\models\Badge */
-    $badge = $info->Badge;
-
-    $position = $company = '';
-    if ($badge->User->EmploymentPrimary() != null)
+    $row = [];
+    $row[] = $badge->User->RunetId;
+    $row[] = $badge->User->getFullName();
+    if ($badge->User->getEmploymentPrimary() != null)
     {
-      $position = $badge->User->EmploymentPrimary()->Position;
-      $company = $badge->User->EmploymentPrimary()->Company->Name;
+      $row[] = $badge->User->getEmploymentPrimary()->Position;
+      $row[] = $badge->User->getEmploymentPrimary()->Company->Name;
     }
+    else
+    {
+      $row[] = '';
+      $row[] = '';
+    }
+    $row[] = $badge->Role->Title;
 
-    $role = $badge->Role->Name;
 
     $status = '';
 

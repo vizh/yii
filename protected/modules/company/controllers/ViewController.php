@@ -34,7 +34,6 @@ class ViewController extends \application\components\controllers\PublicMainContr
         $employmentsTmp[$userId] = $employment;
       }
     }
-    
   
     $employments = array();
     $employmentsEx = array();
