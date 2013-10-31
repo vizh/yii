@@ -47,6 +47,25 @@ class CsvinfoAction extends \partner\components\Action
 
   private function generateFile($page)
   {
+    $command = \Yii::app()->getDb()->createCommand();
+    $result = $command->select('max("CreationTime") as "CreationTimeMax", min("CreationTime") "CreationTimeMin"')->from('RuventsBadge')->where('"EventId" = :EventId', ['EventId' => $this->getEvent()->Id])->queryRow();
+
+    $dates = [];
+    $current = date('Y-m-d', strtotime($result['CreationTimeMin']));
+    $end = date('Y-m-d', strtotime($result['CreationTimeMax']));
+
+    while ($current <= $end)
+    {
+      $this->buildByDate($current);
+      $current = date('Y-m-d', strtotime($current) + 24*60*60);
+    }
+    fclose($this->getFile());
+  }
+
+  private function buildByDate($date)
+  {
+    $start = $date . ' 00:00:00';
+    $end = $date . ' 23:59:59';
     $criteria = new \CDbCriteria();
     $criteria->with = [
       'Role',
@@ -56,45 +75,31 @@ class CsvinfoAction extends \partner\components\Action
         'params' => ['EventId' => $this->getEvent()->Id]
       ]
     ];
+    $criteria->addCondition('"t"."CreationTime" BETWEEN :StartTime AND :EndTime');
+    $criteria->params = ['StartTime' => $start, 'EndTime' => $end];
     $criteria->order = '"t"."CreationTime" ASC';
 
-    /** @var $badges \ruvents\models\Badge[] */
+    /** @var \ruvents\models\Badge[] $badges*/
     $badges = \ruvents\models\Badge::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
 
+    /** @var BadgeInfo[] $badgesInfo */
+    $badgesInfo = [];
     foreach ($badges as $badge)
     {
-      $this->addLine($badge);
-    }
-
-    $badges[0]->User
-
-    $result = array();
-    foreach ($badges as $badge)
-    {
-      if (!isset($result[$badge->UserId]))
+      if (!isset($badgesInfo[$badge->UserId]))
       {
-        $info = new \stdClass();
-        $info->Badge = $badge;
-        $info->Count = 1;
-        $result[$badge->UserId] = $info;
-        continue;
+        $badgesInfo[$badge->UserId] = new BadgeInfo($badge);
       }
-
-      if (strtotime($badge->CreationTime) - strtotime($result[$badge->UserId]->Badge->CreationTime) > 300)
-      {
-        $result[$badge->UserId]->Count++;
-      }
+      $badgesInfo[$badge->UserId]->count++;
     }
 
-    foreach ($result as $info)
+    foreach ($badgesInfo as $info)
     {
-      $this->addLine($info);
+      $this->addLine($info->badge, $info->count);
     }
-
-    fclose($this->getFile());
   }
 
-  private function addLine(\ruvents\models\Badge $badge)
+  private function addLine(\ruvents\models\Badge $badge, $count)
   {
     $row = [];
     $row[] = $badge->User->RunetId;
@@ -109,13 +114,21 @@ class CsvinfoAction extends \partner\components\Action
       $row[] = '';
       $row[] = '';
     }
+    $row[] = $badge->User->Email;
+    if (isset($badge->User->LinkPhones[0]))
+    {
+      $row[] = $badge->User->LinkPhones[0]->Phone->__toString();
+    }
+    else
+    {
+      $row[] = '';
+    }
     $row[] = $badge->Role->Title;
-
-
-    $status = '';
-
-
-    fputcsv($this->getFile(), array($badge->User->GetFullName(), $company, $position, $role, $status, $badge->CreationTime, $info->Count), ';');
+    $participants = $badge->User->Participants;
+    $row[] = isset($participants[0]) ? $participants[0]->CreationTime : '';
+    $row[] = $badge->CreationTime;
+    $row[] = $count;
+    fputcsv($this->getFile(), $row, ';');
   }
 
   private $filename = null;
@@ -174,5 +187,17 @@ class CsvinfoAction extends \partner\components\Action
 
     // done!
     return $results;
+  }
+}
+
+class BadgeInfo
+{
+  public $badge;
+  public $count;
+
+  public function __construct(\ruvents\models\Badge $badge)
+  {
+    $this->badge = $badge;
+    $this->count = 0;
   }
 }

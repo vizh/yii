@@ -1,6 +1,9 @@
 <?php
 /**
  * @var \pay\models\Order $order
+ * @var \user\models\User $payer
+ * @var \event\models\Event $event
+ * @var int $total
  */
 ?>
 Здравствуйте, <?=$payer->getFullName();?>.

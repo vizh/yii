@@ -41,12 +41,17 @@ class Base extends \mail\components\Mail
   
   public function getBody()
   {
-    return \Yii::app()->getController()->renderPartial('pay.views.mail.orderjuridical.create.base', array(
+    return \Yii::app()->getController()->renderPartial($this->getViewPath(), array(
       'order' => $this->order,
       'payer' => $this->payer,
       'event' => $this->event,
       'total' => $this->total
     ), true);
+  }
+
+  protected function getViewPath()
+  {
+    return 'pay.views.mail.orderjuridical.create.base';
   }
   
   public function getTo()

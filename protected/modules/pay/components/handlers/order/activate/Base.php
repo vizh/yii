@@ -3,9 +3,13 @@ namespace pay\components\handlers\order\activate;
 
 class Base extends \mail\components\Mail
 {
+  /** @var \pay\models\Order */
   protected $order;
+  /** @var  \user\models\User */
   protected $payer;
+  /** @var  \event\models\Event */
   protected $event;
+  /** @var  int */
   protected $total;
   public function __construct(\mail\components\Mailer $mailer, \CEvent $event)
   {
@@ -35,14 +39,21 @@ class Base extends \mail\components\Mail
   {
     if ($this->order->Juridical)
     {
-      return 'Успешная оплата счета на '.$this->event->Title;
+      if (!$this->order->Receipt)
+      {
+        return 'Успешная оплата счета на '.$this->event->Title;
+      }
+      else
+      {
+        return 'Успешная оплата квитанции на '.$this->event->Title;
+      }
     }
     return 'Успешная оплата на '.$this->event->Title;
   }
   
   public function getBody()
   {
-    $view = $this->order->Juridical ? 'pay.views.mail.order.activate.juridical.base' : 'pay.views.mail.order.activate.base';
+    $view = $this->order->Juridical ? $this->getJuridicalViewPath() : $this->getPhysicalViewPath();
     $orderItems = array();
     foreach ($this->order->ItemLinks as $link)
     {
@@ -62,6 +73,16 @@ class Base extends \mail\components\Mail
       'total' => $this->total,
       'items' => $orderItems
     ), true);
+  }
+
+  protected function getJuridicalViewPath()
+  {
+    return 'pay.views.mail.order.activate.juridical.base';
+  }
+
+  protected function getPhysicalViewPath()
+  {
+    return 'pay.views.mail.order.activate.base';
   }
   
   protected function getHashSolt()
