@@ -7,8 +7,13 @@ class IndexAction extends \pay\components\Action
   {
     $this->getController()->setPageTitle('Оплата  / ' .$this->getEvent()->Title . ' / RUNET-ID');
 
-    $finder = \pay\components\collection\Finder::create($this->getEvent()->Id, $this->getUser()->Id);
+    \partner\models\PartnerCallback::start($this->getEvent());
+    if ($this->getUser() != null)
+    {
+      \partner\models\PartnerCallback::registration($this->getEvent(), $this->getUser());
+    }
 
+    $finder = \pay\components\collection\Finder::create($this->getEvent()->Id, $this->getUser()->Id);
     $unpaidItems = [];
     foreach ($finder->getUnpaidFreeCollection() as $item)
     {

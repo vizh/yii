@@ -3,8 +3,11 @@ namespace event\components\handlers\register;
 
 class Base extends \mail\components\Mail
 {
+  /** @var \event\models\Event  */
   protected $event;
+  /** @var  \user\models\User */
   protected $user;
+  /** @var  \event\models\Role */
   protected $role;
   
   /**

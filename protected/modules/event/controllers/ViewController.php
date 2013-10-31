@@ -14,6 +14,12 @@ class ViewController extends \application\components\controllers\PublicMainContr
       throw new CHttpException(404);
     }
 
+    \partner\models\PartnerCallback::start($event);
+    if (Yii::app()->user->getCurrentUser() != null)
+    {
+      \partner\models\PartnerCallback::registration($event, Yii::app()->user->getCurrentUser());
+    }
+
     $this->setPageTitle($event->Title . '  / RUNET-ID');
 
     foreach ($event->Widgets as $widget)

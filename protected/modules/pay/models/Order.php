@@ -134,6 +134,8 @@ class Order extends \CActiveRecord
    */
   public function activate()
   {
+    \partner\models\PartnerCallback::pay($this->Event, $this->Payer, strtotime($this->CreationTime));
+
     $collection = \pay\components\OrderItemCollection::createByOrder($this);
     $total = 0;
     $errorItems = array();
@@ -214,6 +216,8 @@ class Order extends \CActiveRecord
     {
       throw new \pay\components\Exception('У вас нет не оплаченных товаров, для выставления счета.');
     }
+
+    \partner\models\PartnerCallback::tryPay($event, $user);
 
     $this->PayerId = $user->Id;
     $this->EventId = $event->Id;
