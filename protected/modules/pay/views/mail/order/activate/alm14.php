@@ -11,7 +11,7 @@
   Уважаемый пользователь.
 <?endif;?>
 
-<p>В рамках <?=$event->Title;?> Вами была успешно произведена оплата на сумму <?=$total;?> руб. следующих услуг:<br/>
+<p>В рамках конференции ALM Summit Вами была успешно произведена оплата на сумму <?=$total;?> руб. следующих услуг:<br/>
   <?foreach($items as $orderItem):?>
     &ndash; "<?=$orderItem->Product->Title;?>" на <?=$orderItem->Owner->getFullName();?><br/>
   <?endforeach;?>
