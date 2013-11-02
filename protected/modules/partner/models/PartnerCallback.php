@@ -11,6 +11,7 @@ namespace partner\models;
  * @property string $RegisterCallback
  * @property string $TryPayCallback
  * @property string $PayCallback
+ * @property string $OrderItemCallback
  *
  * @method \partner\models\PartnerCallback find($condition='',$params=array())
  * @method \partner\models\PartnerCallback findByPk($pk,$condition='',$params=array())
@@ -169,6 +170,28 @@ class PartnerCallback extends \CActiveRecord
    * @param \user\models\User $user
    * @param int $time
    */
+  public static function addOrderItem(\event\models\Event $event, \user\models\User $user, $time = null)
+  {
+    if ($time == null)
+      $time = time();
+
+    $callback = self::getCallback($event);
+    if ($callback != null)
+    {
+      $callbackUser = CallbackUser::model()->byPartnerCallbackId($callback->Id)->byUserId($user->Id)
+          ->byCreationTimeFrom(date('Y-m-d H:i:s', $time - 24*60*60))->find();
+      if ($callbackUser != null)
+      {
+        $callback->sendAddOrderItem($callbackUser->Key);
+      }
+    }
+  }
+
+  /**
+   * @param \event\models\Event $event
+   * @param \user\models\User $user
+   * @param int $time
+   */
   public static function pay(\event\models\Event $event, \user\models\User $user, $time = null)
   {
     if ($time == null)
@@ -199,6 +222,14 @@ class PartnerCallback extends \CActiveRecord
     if ($this->TryPayCallback != null)
     {
       $this->sendRequest(sprintf($this->TryPayCallback, $key), $key);
+    }
+  }
+
+  private function sendAddOrderItem($key)
+  {
+    if ($this->OrderItemCallback != null)
+    {
+      $this->sendRequest(sprintf($this->OrderItemCallback, $key), $key);
     }
   }
 

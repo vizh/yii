@@ -75,6 +75,7 @@ class RegisterAction extends \pay\components\Action
         }
         else
         {
+          \partner\models\PartnerCallback::addOrderItem($this->getEvent(), $this->getUser());
           $this->getController()->redirect(
             $this->getController()->createUrl('/pay/cabinet/index', array('eventIdName' => $this->getEvent()->IdName))
           );
