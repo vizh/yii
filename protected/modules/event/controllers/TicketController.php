@@ -32,7 +32,7 @@ class TicketController extends application\components\controllers\PublicMainCont
       $participants = $model->findAll();
       if (count($participants) == 0 || $participants[0]->getHash() !== $hash)
         throw new \CHttpException(404);
-      $params['participants '] = $participants;
+      $params['participants'] = $participants;
     }
     $this->renderTicket($params);
   }
