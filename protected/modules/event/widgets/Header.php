@@ -2,7 +2,7 @@
 namespace event\widgets;
 
 class Header extends \event\components\Widget
-{  
+{
   public function getIsHasDefaultResources()
   {
     return true;

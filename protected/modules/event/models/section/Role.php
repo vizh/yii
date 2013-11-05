@@ -4,8 +4,6 @@ namespace event\models\section;
 /**
  * @property int $Id
  * @property string $Title
- * @property string $Type
- * @property int $Priority
  */
 class Role extends \CActiveRecord
 {

@@ -1,17 +1,13 @@
 <?php
 namespace event\models;
 
+use string;
+
 /**
  * @property int $Id
  * @property string $Code
  * @property string $Title
  * @property int $Priority
- * @property string $Type
- *
- * Вспомогательные описания методов методы
- * @method \event\models\Role find($condition='',$params=array())
- * @method \event\models\Role findByPk($pk,$condition='',$params=array())
- * @method \event\models\Role[] findAll($condition='',$params=array())
  */
 class Role extends \application\models\translation\ActiveRecord
 {

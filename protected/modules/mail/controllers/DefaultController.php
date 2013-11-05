@@ -75,7 +75,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(258,423));
+    $criteria->addInCondition('"Participants"."EventId"', array(652));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(11));
 
 /*
@@ -92,8 +92,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 300;
     $criteria->order = '"t"."RunetId" ASC';
@@ -107,8 +107,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       foreach ($users as $user)
       {
-//        print $user->Participants[0]->getTicketUrl();
-//        exit();
+        print $user->Participants[0]->getTicketUrl();
+        exit();
 
 //        /* PK PASS для Яблочников */
 //        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $user->Participants[0]->Role);
