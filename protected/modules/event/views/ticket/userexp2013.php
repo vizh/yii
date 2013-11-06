@@ -7,8 +7,6 @@
  */
 ?>
 
-<pre><?var_dump($participants);?></pre>
-
 <style type="text/css">
   /* Reset */
   html, body, div, span, h1, h2, h3, h4, h5, h6, p, img, b, i, ol, ul, li, table, caption, tbody, tfoot, thead, tr, th, td {
@@ -129,7 +127,11 @@
                           <div style="font-size: 12px; margin-top: 5px;"><?=$user->getEmploymentPrimary();?></div>
                         </td>
                         <td valign="top" style="padding-right: 20px; width: 205px; font-size: 12px;">
-                          <div class="role"><?=$role->Title;?></div>
+                          <?foreach($participants as $participation):?>
+                            <?if ($participation->RoleId != 24):?>
+                              <div class="role"><?=$participation->Role->Title;?>:<br/><?=$participation->Part->Title;?></div>
+                            <?endif;?>
+                          <?endforeach;?>
                         </td>
                         <td valign="top" style="background: #f6f6f6; padding: 10px; text-align: center;" align="right">
                           <img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,120);?>" />
@@ -147,7 +149,7 @@
                       <tr>
                         <td width="45%" style="background-color: #ececec; padding: 5px;">
                           <strong>Время работы стойки регистрации</strong><br/>
-                          <span style="font-size: 80%;">07-08 ноября с 09:00 до 17:00</span>
+                          <span style="font-size: 80%;">7 нобяря с 09-00 до 17-00<br/>8 нобяря с 10-30 до 17-00<br/>9 ноября с 09-00 до 13-00</span>
                         </td>
                         <td align="right">
                           <a href="http://2013.userexperience.ru/#href16" target="_blank" class="program-btn">ПРОГРАММА КОНФЕРЕНЦИИ</a>
@@ -174,32 +176,38 @@
 
 
 
-                <tr>
-                  <td style="padding-top: 10px;">
-                    <p><b>Основная программа, 7-8 ноября 2013 года, Медиа-центр Mail.Ru Group</b></p>
-                    <p>г. Москва, Ленинградский проспект д.39, строение 79, БЦ «SkyLight»</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 10px; text-align: center;"><img style="border: 1px solid;" src="http://runet-id.com/images/mail/ux13/map1.gif" border="0"/></td>
-                </tr>
+                <?foreach($participants as $participation):?>
+                  <?if ($participation->RoleId != 24 && $participation->PartId == 18):?>
+                    <tr>
+                      <td style="padding-top: 10px;">
+                        <p><b>Основная программа, 7-8 ноября 2013 года, Медиа-центр Mail.Ru Group</b></p>
+                        <p>г. Москва, Ленинградский проспект д.39, строение 79, БЦ «SkyLight»</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-top: 10px; text-align: center;"><img style="border: 1px solid;" src="http://runet-id.com/images/mail/ux13/map1.gif" border="0"/></td>
+                    </tr>
+                  <?endif;?>
 
-                <tr>
-                  <td style="padding-top: 10px;">
-                    <p><b>Мастер-класс, 9 ноября 2013 года 1С:Лекторий</b></p>
-                    <p>г. Москва, ул. Селезнёвская, д.34</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 10px; text-align: center;"><img style="border: 1px solid;" src="http://runet-id.com/images/mail/ux13/map2.gif" border="0"/></td>
-                </tr>
+                  <?if ($participation->RoleId != 24 && $participation->PartId == 19):?>
+                    <tr>
+                      <td style="padding-top: 10px;">
+                        <p><b>Мастер-класс, 9 ноября 2013 года, 1С:Лекторий</b></p>
+                        <p>г. Москва, ул. Селезнёвская, д.34</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-top: 10px; text-align: center;"><img style="border: 1px solid;" src="http://runet-id.com/images/mail/ux13/map2.gif" border="0"/></td>
+                    </tr>
+                  <?endif;?>
+                <?endforeach;?>
 
 
 
 
                 <tr>
                   <td style="text-align: center; padding: 20px 0px 0; font-size: 11px;">
-                    <p>Подробная информация: <a href="http://2013.userexperience.ru/" target="_blank">www.2013.userexperience.ru</a> | Ваш Личный кабинет: <a href="http://2013.userexperience.ru/my/" target="_blank">www.2013.userexperience.ru//my/</a> | Служба поддержки: <a href="mailto:ux2013@userexperience.ru">ux2013@userexperience.ru</a></p>
+                    <p>Подробная информация: <a href="http://2013.userexperience.ru/" target="_blank">www.2013.userexperience.ru</a> | Служба поддержки: <a href="mailto:ux2013@userexperience.ru">ux2013@userexperience.ru</a></p>
                   </td>
                 </tr>
                 <tr>
