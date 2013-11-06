@@ -257,6 +257,10 @@ class PartnerCallback extends \CActiveRecord
       $errmsg = curl_error($curl);
       \Yii::log('Не корректный вызов PartnerCallback ID:'.$this->Id . 'Ключ: '. $key .'  Ошибка номер: ' . $errno . ' - ' . $errmsg, \CLogger::LEVEL_ERROR);
     }
+    else
+    {
+      \Yii::log('Запрос отправлен успешно. URL: '.$url, \CLogger::LEVEL_ERROR);
+    }
   }
 
 }

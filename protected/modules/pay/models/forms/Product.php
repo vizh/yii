@@ -4,6 +4,7 @@ namespace pay\models\forms;
 class Product extends \CFormModel
 {
   private $product;
+  private $event;
   
   public $Id;
   public $Title;
@@ -16,9 +17,10 @@ class Product extends \CFormModel
   public $Prices = [];
   public $Delete;
 
-  public function __construct(\pay\models\Product $product = null, $scenario = '')
+  public function __construct(\event\models\Event $event, \pay\models\Product $product = null, $scenario = '')
   {
     parent::__construct($scenario);
+    $this->event = $event;
     if ($product !== null)
     {
       foreach ($product->getAttributes() as $attr => $value)
@@ -122,7 +124,7 @@ class Product extends \CFormModel
   public function getManagerData()
   {
     $managers = [];
-    if (!empty($this->product->Event->Parts))
+    if (!empty($this->event->Parts))
     {
       $managers = [
         'EventOnPart' => \Yii::t('app', 'Часть мероприятия'),
@@ -134,6 +136,7 @@ class Product extends \CFormModel
     {
       $managers = [
         'EventProductManager' => \Yii::t('app', 'Мероприятие'),
+        'EventMicrosoft' =>  \Yii::t('app', 'Тип товара для мероприятий Microsoft'),
       ];
     }
     $managers['FoodProductManager'] = \Yii::t('app', 'Питание');

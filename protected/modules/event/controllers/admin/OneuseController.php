@@ -134,6 +134,49 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 //    echo '</table>';
   }
 
+  public function actionUexproducts()
+  {
+    $eventId = 652;
+    $orderItems = \pay\models\OrderItem::model()->byEventId($eventId)->byPaid(true)->findAll();
+
+    $usersId = [158851, 158877, 159011, 159012, 159013, 159353];
+    foreach ($orderItems as $item)
+    {
+      if ($item->getPriceDiscount() > 0 && $item->ProductId != 1414)
+      {
+        $usersId[] = $item->ChangedOwnerId == null ? $item->OwnerId : $item->ChangedOwnerId;
+      }
+    }
+    $usersId = array_unique($usersId);
+
+    $product = \pay\models\Product::model()->findByPk(1435);
+
+//    var_dump($usersId);
+//
+//    echo count($orderItems);
+//
+//    exit;
+
+    $addedCount = 0;
+
+    foreach ($usersId as $id)
+    {
+      $model = \pay\models\OrderItem::model()->byOwnerId($id)->byProductId($product->Id)->byPaid(true);
+      $user = \user\models\User::model()->findByPk($id);
+      if (!$model->exists() && $user !== null)
+      {
+        $orderItem = $product->getManager()->createOrderItem($user, $user);
+        $orderItem->Paid = true;
+        $orderItem->PaidTime = date('Y-m-d H:i:s');
+        $orderItem->save();
+        $addedCount++;
+      }
+    }
+
+   echo $addedCount;
+
+  }
+
   /**
    * @param \user\models\User $user
    */

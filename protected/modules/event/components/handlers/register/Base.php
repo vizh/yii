@@ -9,6 +9,8 @@ class Base extends \mail\components\Mail
   protected $user;
   /** @var  \event\models\Role */
   protected $role;
+  /** @var  \event\models\Participant */
+  protected $participant;
   
   /**
    * 
@@ -21,6 +23,7 @@ class Base extends \mail\components\Mail
     $this->event = $event->sender;
     $this->user  = $event->params['user'];
     $this->role  = $event->params['role'];
+    $this->participant  = $event->params['participant'];
   }
   
   public function getTo()

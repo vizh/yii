@@ -10,7 +10,12 @@ class Userexp2013 extends Base
   
   public function getBody()
   {
-    return $this->renderBody('event.views.mail.register.userexp2013', ['user' => $this->user, 'role' => $this->role, 'event' => $this->event]);
+    return $this->renderBody('event.views.mail.register.userexp2013', [
+      'user' => $this->user,
+      'role' => $this->role,
+      'event' => $this->event,
+      'participant' => $this->participant
+    ]);
   }
 
   public function getAttachments()

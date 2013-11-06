@@ -15,7 +15,7 @@ class ProductAction extends \CAction
       
     foreach (\pay\models\Product::model()->byEventId($this->event->Id)->findAll() as $product)
     {
-      $formProduct = new \pay\models\forms\Product($product);
+      $formProduct = new \pay\models\forms\Product($this->event, $product);
       foreach ($product->Prices as $price)
       {
         $formPrice = new \pay\models\forms\ProductPrice();
@@ -37,7 +37,7 @@ class ProductAction extends \CAction
     
     if ($this->formNewProduct == null)
     {
-      $this->formNewProduct = new \pay\models\forms\Product();
+      $this->formNewProduct = new \pay\models\forms\Product($this->event);
     }
     
     \Yii::app()->getClientScript()->registerPackage('runetid.backbone');
@@ -54,7 +54,7 @@ class ProductAction extends \CAction
    */
   private function processPostRequest()
   {
-    $form = new \pay\models\forms\Product();
+    $form = new \pay\models\forms\Product($this->event);
     $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
     $form->clearPrices();
     if ($form->validate())

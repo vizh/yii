@@ -334,7 +334,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
     $participant->RoleId = $role->Id;
     $participant->save();
 
-    $event = new \CModelEvent($this, array('role' => $role, 'user' => $user));
+    $event = new \CModelEvent($this, ['role' => $role, 'user' => $user, 'participant' => $participant]);
     $this->onRegister($event);
     
     return $participant;
@@ -385,7 +385,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
       $participant->UpdateTime =  date('Y-m-d H:i:s');
       $participant->save();
 
-      $event = new \CModelEvent($this, array('role' => $role, 'user' => $participant->User));
+      $event = new \CModelEvent($this, ['role' => $role, 'user' => $participant->User, 'participant' => $participant]);
       $this->onRegister($event);
 
       return true;
@@ -400,6 +400,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
    */
   public function onRegister($event)
   {
+
     if ($this->skipOnRegister)
     {
       return;
