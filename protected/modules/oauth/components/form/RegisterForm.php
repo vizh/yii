@@ -39,7 +39,7 @@ class RegisterForm extends \CFormModel
     $value = trim($this->$attribute);
     if (!empty($value))
     {
-      if (\user\models\User::model()->byEmail($value)->count() == 0)
+      if (!\user\models\User::model()->byEmail($value)->byVisible(true)->exists())
       {
         return true;
       }
