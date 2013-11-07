@@ -10,7 +10,7 @@ class CreateAction extends \ruvents\components\Action
     //$partId = $request->getParam('PartId', null);
 
     //todo: для PHDays
-    $partId = $request->getParam('PartId', 7);
+    $partId = $request->getParam('PartId', 18);
 
 
     $event = $this->getEvent();
@@ -48,7 +48,7 @@ class CreateAction extends \ruvents\components\Action
     {
       throw new \ruvents\components\Exception(304);
     }
-    $participant->UpdateTime = date('Y-m-d H:i:s');
+    $participant->UpdateTime = date('Y-m-d H:i:s'); 
     $participant->save();
 
     $badge->RoleId = $participant->RoleId;

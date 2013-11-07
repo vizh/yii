@@ -33,6 +33,8 @@
     <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index', array('Approved' => \event\models\Approved::No));?>"><?=\Yii::t('app','Отклоненные');?></a></li>
   </ul>
 
+  <a href="<?=Yii::app()->createUrl('/mail/admin/filter/index');?>" class="nav-header collapsed" href="#menu-mail"><i class="icon-envelope icon-white"></i><span class="hidden-phone">Рассылки</span></a>
+
   <!--<a data-toggle="collapse" class="nav-header collapsed" href="#menu-companies"><i class="icon-briefcase icon-white"></i>Компании</i></a>
   <ul class="nav nav-list collapse" id="menu-companies">
     <li><a href="403.html">Список компаний</a></li>

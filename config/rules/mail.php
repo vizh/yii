@@ -1,8 +1,16 @@
 <?php
 return array(
-  array(
+  [
     'allow',
-    'users' => array('*'),
+    'users' => ['*'],
     'module' => 'mail'
-  ),
+  ],
+
+  /** Admin Rules */
+  [
+    'allow',
+    'roles' => ['admin'],
+    'module' => 'mail',
+    'controllers' => ['admin/filter']
+  ],
 );

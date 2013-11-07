@@ -192,7 +192,7 @@ class PartnerCallback extends \CActiveRecord
    * @param \user\models\User $user
    * @param int $time
    */
-  public static function pay(\event\models\Event $event, \user\models\User $user, $time = null)
+  public static function pay(\event\models\Event $event, \pay\models\Order $order, $time = null)
   {
     if ($time == null)
       $time = time();
@@ -200,11 +200,11 @@ class PartnerCallback extends \CActiveRecord
     $callback = self::getCallback($event);
     if ($callback != null)
     {
-      $callbackUser = CallbackUser::model()->byPartnerCallbackId($callback->Id)->byUserId($user->Id)
+      $callbackUser = CallbackUser::model()->byPartnerCallbackId($callback->Id)->byUserId($order->Payer->Id)
           ->byCreationTimeFrom(date('Y-m-d H:i:s', $time - 24*60*60))->find();
       if ($callbackUser != null)
       {
-        $callback->sendPay($callbackUser->Key);
+        $callback->sendPay($callbackUser->Key, $order->Total);
       }
     }
   }
@@ -233,11 +233,11 @@ class PartnerCallback extends \CActiveRecord
     }
   }
 
-  private function sendPay($key)
+  private function sendPay($key, $total)
   {
     if ($this->PayCallback != null)
     {
-      $this->sendRequest(sprintf($this->PayCallback, $key), $key);
+      $this->sendRequest(sprintf($this->PayCallback, $key, $total), $key);
     }
   }
 

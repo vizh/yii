@@ -134,7 +134,7 @@ class Order extends \CActiveRecord
    */
   public function activate()
   {
-    \partner\models\PartnerCallback::pay($this->Event, $this->Payer, strtotime($this->CreationTime));
+
 
     $collection = \pay\components\OrderItemCollection::createByOrder($this);
     $total = 0;
@@ -178,6 +178,8 @@ class Order extends \CActiveRecord
     $this->PaidTime = date('Y-m-d H:i:s');
     $this->Total = $total;
     $this->save();
+
+    \partner\models\PartnerCallback::pay($this->Event, $this, strtotime($this->CreationTime));
     
     $event = new \CModelEvent($this, array('total' => $total));
     $this->onActivate($event);
