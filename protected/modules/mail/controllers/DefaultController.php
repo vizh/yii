@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'runetid-6';
+    $template = 'rdgames13-1';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -33,8 +33,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 
     // Чтение из файла
-/*
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-31/participants_uxr_old.csv');
+
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-11-07/rdgames.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
 //    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
 //    $emails['ilya.chertilov@gmail.com'] = 'ilya.chertilov@gmail.com';
@@ -48,7 +48,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = array_slice($emails, $offset, $limit, true);
 
     print count($emails); exit();
-*/
 
 
     /*
@@ -68,7 +67,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Обычная выборка пользователей [по мероприятиям]
-
+/*
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
@@ -77,14 +76,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $criteria->addInCondition('"Participants"."EventId"', array(58,120,195,246));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
-
+*/
 /*
     $criteria->addNotInCondition('"Participants"."RoleId"', array(3));
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE "CompanyId" IN (23,8624,7677,10384,1167,35594,35594,3392,39028,13565) AND ("StartYear" > 2008 OR "StartYear" IS NULL) )');
 
     $criteria->addCondition('"t"."Id" IN (SELECT "UserId" FROM "UserEmployment" WHERE "Position" ILIKE \'%студент%\' AND "StartYear" > 2008 AND ("EndYear" IS NULL OR "EndYear" >= 2011) )', 'OR');
 */
-
+/*
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
@@ -99,7 +98,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
-
+*/
     /* Для PK PASS для Яблочников */
 //    $event = \event\models\Event::model()->findByPk(652);
 
@@ -129,12 +128,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->ContentType = ($isHTML) ? 'text/html' : 'text/plain';
         $mail->IsHTML($isHTML);
 
-        $email = $user->Email;
-//        $email = $user;
+//        $email = $user->Email;
+        $email = $user;
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-        if ($j == 1) continue;
+//        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -152,10 +151,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->AddAddress($email);
 //        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
 //        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
-//        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Что сдерживает рост бизнеса? Актуальный опыт 10 интернет-магазинов') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Остается всего неделя на подачу работ на Первых всероссийских Digital-Играх!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
@@ -165,8 +164,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //        $mail->Send();
 
-//        fwrite($fp, $email . "\n");
-        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+        fwrite($fp, $email . "\n");
+//        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
