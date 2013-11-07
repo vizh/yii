@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rdgames13-html-1';
-    $isHTML = true;
+    $template = 'runetid-6';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -75,7 +75,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(425));
+    $criteria->addInCondition('"Participants"."EventId"', array(58,120,195,246));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 
 /*
@@ -90,7 +90,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('"t"."Visible"');
 
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 454));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -152,10 +152,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->AddAddress($email);
 //        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
 //        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
-        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
-//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Стартовали первые все российские Digital-Игры – для студий, агентств и фрилансеров!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Что сдерживает рост бизнеса? Актуальный опыт 10 интернет-магазинов') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
