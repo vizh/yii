@@ -1,7 +1,7 @@
 <?php
-namespace pay\components\handlers\orderjuridical;
+namespace pay\components\handlers\orderjuridical\notify\notpaid;
 
-class NotPaidNotify extends \mail\components\Mail
+class Base extends \mail\components\Mail
 {
   protected $order;
   public function __construct($mailer, $order)
@@ -17,7 +17,7 @@ class NotPaidNotify extends \mail\components\Mail
  
   public function getBody()
   {
-    return $this->renderBody('pay.views.mail.orderjuridical.notpaidnotify', array('order' => $this->order));
+    return $this->renderBody('pay.views.mail.orderjuridical.notify.notpaid.base', array('order' => $this->order));
   }
 
   public function getFrom()

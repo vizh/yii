@@ -1,4 +1,10 @@
-<p><?=$order->Payer->getShortName();?>, здравствуйте!</p>
+<p>
+<?if (!empty($order->Payer->LastName)):?>
+Здравствуйте, <?=$order->Payer->getShortName();?>.
+<?else:?>
+Уважаемый пользователь.
+<?endif;?>
+</p>
 
 <p><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $order->CreationTime);?> вами был выставлен счет №<?=$order->Id;?> для оплаты следующих услуг:<br/>
 <?foreach($order->ItemLinks as $link):?>
