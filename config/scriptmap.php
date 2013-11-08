@@ -41,11 +41,15 @@ return array(
           'js' => array('javascripts/jquery.iosslider.min.js'),
           'depends' => array('runetid.jquery')
         ),
+        'runetid.auth' => array(
+          'baseUrl' => '/', 
+          'js' => array('javascripts/auth.js'),
+        ),
         'runetid.application' => array(
           'baseUrl' => '/',
-          'js' => array('javascripts/application.js', 'javascripts/auth.js'),
+          'js' => array('javascripts/application.js'),
           'css' => array('stylesheets/application.css'),
-          'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.backbone', 'runetid.bootstrap', 'runetid.jquery.ioslider')
+          'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.backbone', 'runetid.bootstrap', 'runetid.jquery.ioslider', 'runetid.auth')
         ),
         'runetid.event-calculate-price' => array(
           'baseUrl' => '/',

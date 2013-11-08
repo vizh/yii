@@ -50,10 +50,11 @@ class Controller extends \application\components\controllers\BaseController
 
   protected function beforeAction($action)
   {
-    if (\Yii::app()->partner->getAccount() !==null && \Yii::app()->partner->getAccount()->getIsExtended() && $this->getId() !== 'auth')
+    if (\Yii::app()->partner->getAccount() !==null && $this->getId() !== 'auth')
     {
       if (\Yii::app()->user->getIsGuest())
       {
+        \Yii::app()->getClientScript()->registerPackage('runetid.auth');
         $this->render('partner.views.system.need-user-auth');
         return false;
       }

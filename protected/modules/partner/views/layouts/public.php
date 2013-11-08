@@ -21,5 +21,7 @@
   <?php $this->widget('\partner\widgets\BottomMenu', array('menu' => $this->getBottomMenu()));?>
   <?=$content;?>
 </div>
+  
+<?$this->widget('\application\widgets\ModalAuth');?>
 </body>
 </html>
