@@ -280,7 +280,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
 //  }
 
 
-  public function registerUser(\user\models\User $user, Role $role, $usePriority = false)
+  public function registerUser(\user\models\User $user, Role $role, $usePriority = false, $message = null)
   {
     if (!empty($this->Parts))
     {
@@ -293,17 +293,17 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
         ->byPartId(null)->find();
     if (empty($participant))
     {
-      $participant = $this->registerUserUnsafe($user, $role);
+      $participant = $this->registerUserUnsafe($user, $role, null, $message);
     }
     else
     {
-      $this->updateRole($participant, $role, $usePriority);
+      $this->updateRole($participant, $role, $usePriority, $message);
     }
 
     return $participant;
   }
 
-  public function registerUserOnPart(Part $part, \user\models\User $user, Role $role, $usePriority = false)
+  public function registerUserOnPart(Part $part, \user\models\User $user, Role $role, $usePriority = false, $message = null)
   {
     if (empty($this->Parts))
     {
@@ -316,16 +316,16 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
         ->byPartId($part->Id)->find();
     if (empty($participant))
     {
-      $participant = $this->registerUserUnsafe($user, $role, $part);
+      $participant = $this->registerUserUnsafe($user, $role, $part, $message);
     }
     else
     {
-      $this->updateRole($participant, $role, $usePriority);
+      $this->updateRole($participant, $role, $usePriority, $message);
     }
     return $participant;
   }
   
-  private function registerUserUnsafe(\user\models\User $user, Role $role, Part $part = null)
+  private function registerUserUnsafe(\user\models\User $user, Role $role, Part $part = null, $message = null)
   {
     $participant = new Participant();
     $participant->EventId = $this->Id;
@@ -334,13 +334,13 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
     $participant->RoleId = $role->Id;
     $participant->save();
 
-    $event = new \CModelEvent($this, ['role' => $role, 'user' => $user, 'participant' => $participant]);
+    $event = new \CModelEvent($this, ['role' => $role, 'user' => $user, 'participant' => $participant, 'message' => $message]);
     $this->onRegister($event);
     
     return $participant;
   }
 
-  public function unregisterUser (\user\models\User $user)
+  public function unregisterUser (\user\models\User $user, $message = null)
   {
     if (!empty($this->Parts))
     {
@@ -350,19 +350,20 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
       ->byEventId($this->Id)->byUserId($user->Id)->find();
     if ($participant !== null)
     {
+      $this->saveRegisterLog($user, null, null, $message);
       $participant->delete();
     }
   }
   
-  public function unregisterUserOnAllParts(\user\models\User $user)
+  public function unregisterUserOnAllParts(\user\models\User $user, $message = null)
   {
     foreach ($this->Parts as $part)
     {
-      $this->unregisterUserOnPart($part, $user);
+      $this->unregisterUserOnPart($part, $user, $message);
     }
   }
   
-  public function unregisterUserOnPart(Part $part, \user\models\User $user)
+  public function unregisterUserOnPart(Part $part, \user\models\User $user, $message = null)
   {
     if (empty($this->Parts))
     {
@@ -373,11 +374,12 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
       ->byEventId($this->Id)->byUserId($user->Id)->byPartId($part->Id)->find();
     if ($participant !== null)
     {
+      $this->saveRegisterLog($user, null, $part, $message);
       $participant->delete();
     }
   }
   
-  private function updateRole(Participant $participant, Role $role, $usePriority = false)
+  private function updateRole(Participant $participant, Role $role, $usePriority = false, $message = null)
   {
     if ($participant->RoleId != $role->Id && (!$usePriority || $participant->Role->Priority <= $role->Priority))
     {
@@ -385,9 +387,9 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
       $participant->UpdateTime =  date('Y-m-d H:i:s');
       $participant->save();
 
-      $event = new \CModelEvent($this, ['role' => $role, 'user' => $participant->User, 'participant' => $participant]);
+      $event = new \CModelEvent($this, ['role' => $role, 'user' => $participant->User, 'participant' => $participant, 'message' => $message]);
       $this->onRegister($event);
-
+      
       return true;
     }
     return false;
@@ -416,6 +418,30 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
     $class = \Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
     $mail = new $class($mailer, $event);
     $mail->send();
+    
+    $this->saveRegisterLog($event->params['user'], $event->params['role'], $event->params['participant']->Part, $event->params['message']);
+  }
+  
+  /**
+   * 
+   * @param Role $role
+   * @param \user\models\User $user
+   * @param Part $part
+   * @param string $message
+   */
+  private function saveRegisterLog($user, $role = null, $part = null, $message = null)
+  {
+    $log = new \event\models\ParticipantLog();
+    $log->EventId = $this->Id;
+    $log->RoleId  = $role !== null ? $role->Id : null;
+    $log->UserId  = $user->Id;
+    $log->PartId  = $part !== null ? $part->Id : null;
+    $log->Message = !empty($message) ? $message : null;
+    if (!\Yii::app()->getUser()->getIsGuest())
+    {
+      $log->EditorId = \Yii::app()->getUser()->getId();
+    }
+    $log->save();
   }
 
   /**

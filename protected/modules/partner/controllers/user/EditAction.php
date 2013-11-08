@@ -113,8 +113,9 @@ class EditAction extends \partner\components\Action
       $result = array();
       $request = \Yii::app()->getRequest();
 
-      $roleId = $request->getParam('roleId');
-      $partId = $request->getParam('partId');
+      $roleId  = $request->getParam('roleId');
+      $partId  = $request->getParam('partId');
+      $message = $request->getParam('message');
 
       /** @var $role \event\models\Role */
       $role = \event\models\Role::model()->findByPk($roleId);
@@ -122,14 +123,14 @@ class EditAction extends \partner\components\Action
       {
         if (sizeof($this->getEvent()->Parts) == 0)
         {
-          $this->getEvent()->registerUser($this->user, $role);
+          $this->getEvent()->registerUser($this->user, $role, false, $message);
         }
         else
         {
           $part = \event\models\Part::model()->findByPk($partId);
           if ($part !== null)
           {
-            $this->getEvent()->registerUserOnPart($part, $this->user, $role);
+            $this->getEvent()->registerUserOnPart($part, $this->user, $role, false, $message);
           }
           else
           {
@@ -143,14 +144,14 @@ class EditAction extends \partner\components\Action
         {
           if (sizeof($this->getEvent()->Parts) == 0)
           {
-            $this->getEvent()->unregisterUser($this->user);
+            $this->getEvent()->unregisterUser($this->user, $message);
           }
           else
           {
             $part = \event\models\Part::model()->findByPk($partId);
             if ($part !== null)
             {
-              $this->getEvent()->unregisterUserOnPart($part, $this->user);
+              $this->getEvent()->unregisterUserOnPart($part, $this->user, $message);
             }
             else
             {
