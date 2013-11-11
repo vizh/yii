@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rad13-1';
+    $template = 'premiaruneta13-3';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -73,22 +73,22 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(688));
-//    $criteria->addInCondition('"Participants"."RoleId"', array(24));
+//    $criteria->addInCondition('"Participants"."EventId"', array(58,120,195,246));
+//    $criteria->addInCondition('"Participants"."RoleId"', array(3));
 
 /*
     $criteria->addNotInCondition('"Participants"."RoleId"', array(3));
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE "CompanyId" IN (23,8624,7677,10384,1167,35594,35594,3392,39028,13565) AND ("StartYear" > 2008 OR "StartYear" IS NULL) )');
 */
 
-//    $criteria->addCondition('"t"."Id" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" NOT IN (24) AND "EventId" = 688)');
+//    $criteria->addCondition('"t"."Id" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" IN (28,27))', 'OR');
 
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(167543,170689,180563,54836,112979,168993,83730,142298,180856));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -148,12 +148,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-//        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
-//        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
+//        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
+        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Russian Affiliate Days-2013 - Подтверждение участия!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение войти в Экспертный КЛУБ Премии Рунета 2013 и проголосовать за номинантов') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
