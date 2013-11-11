@@ -120,4 +120,19 @@ class CallbackUser extends \CActiveRecord
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
+
+  /**
+   * @param string $creationTime
+   * @param bool $useAnd
+   *
+   * @return $this
+   */
+  public function byCreationTimeTo($creationTime, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."CreationTime" < :CreationTimeTo';
+    $criteria->params = ['CreationTimeTo' => $creationTime];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }
