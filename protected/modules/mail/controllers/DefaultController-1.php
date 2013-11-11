@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'riw13-24';
+    $template = 'premiaruneta13-3';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -34,13 +34,20 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Чтение из файла
 /*
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-10-16/alley.csv');
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-11-07/rdgames.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
 //    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+//    $emails['ilya.chertilov@gmail.com'] = 'ilya.chertilov@gmail.com';
+//    $emails['t.ruzhich@rta-moscow.com'] = 't.ruzhich@rta-moscow.com';
+//    $emails['grebennikov.sergey@gmail.com'] = 'grebennikov.sergey@gmail.com';
 //    $emails['borzov@internetmediaholding.com'] = 'borzov@internetmediaholding.com';
-    $users = $emails;
+//    $emails['plugotarenko@raec.ru'] = 'plugotarenko@raec.ru';
 
-//    print count($users); exit();
+    $limit = 300;
+    $offset = $step * $limit;
+    $users = array_slice($emails, $offset, $limit, true);
+
+    print count($emails); exit();
 */
 
     /*
@@ -61,56 +68,38 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
-//      'Participants' => array('together' => true),
-//      'Participants.Role',
+      'Participants' => array('together' => true),
+      'Participants.Role',
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(425));
-//    $criteria->addInCondition('"Participants"."RoleId"', array(1));
+//    $criteria->addInCondition('"Participants"."EventId"', array(58,120,195,246));
+    $criteria->addInCondition('"Participants"."RoleId"', array(3));
 
-    /*
-        $criteria->addCondition('"Participants"."CreationTime" > :CreationTime');
-        $criteria->params['CreationTime'] = '2013-09-13 18:00:00';
+/*
+    $criteria->addNotInCondition('"Participants"."RoleId"', array(3));
+    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE "CompanyId" IN (23,8624,7677,10384,1167,35594,35594,3392,39028,13565) AND ("StartYear" > 2008 OR "StartYear" IS NULL) )');
+*/
 
-        $criteria->addCondition('"t"."Email" NOT LIKE :Email');
-        $criteria->params['Email'] = '%nomail497+%';
-    */
+    $criteria->addCondition('"t"."Id" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" IN (28,27))', 'OR');
+
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addCondition('"t"."Id" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (425))');
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-/*
-    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE
-      "Position" LIKE \'%директор по маркетингу%\' OR
-      "Position" LIKE \'%brand manager%\' OR
-      "Position" LIKE \'%бренд менеджер%\' OR
-      "Position" LIKE \'%маркетинг менеджер%\' OR
-      "Position" LIKE \'%marketing manager%\' OR
-      "Position" LIKE \'%заместитель директора по маркетингу%\' OR
-      "Position" LIKE \'%CMO%\' OR
-      "Position" LIKE \'%digital директор%\' OR
-      "Position" LIKE \'%digital manager%\' OR
-      "Position" LIKE \'%Chief Marketing Officer%\'
-      GROUP BY "UserId")
-    ');
-*/
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
-
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
-
-    $criteria->limit = 400;
+    $criteria->limit = 300;
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
 
     /* Для PK PASS для Яблочников */
-//    $event = \event\models\Event::model()->findByPk(763);
+//    $event = \event\models\Event::model()->findByPk(652);
 
     if (!empty($users))
     {
@@ -126,9 +115,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
 
         // ПИСЬМО
-//        $body = $this->renderPartial($template, array('user' => $user), true);
+        $body = $this->renderPartial($template, array('user' => $user), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
-        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
 
@@ -159,13 +148,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-//        $mail->SetFrom('info@therunet.com', 'Редакция theRunet', false);
-//        $mail->SetFrom('users@russianinternetweek.ru', 'RIW 2013', false);
-//        $mail->SetFrom('users@russianinternetweek.ru', 'Премия Облака 2013', false);
-//        $mail->SetFrom('narod@premiaruneta.ru', 'Народное голосование Премии Рунета', false);
-        $mail->SetFrom('users@runet-id.com', 'RIW 2013', false);
+//        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
+        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
+//        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Онлайн-трансляция RIW 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение войти в Экспертный КЛУБ Премии Рунета 2013 и проголосовать за номинантов') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
@@ -198,7 +186,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
    	$hash = substr(md5($runetId.$secret), 0, 16);
 
 //    return 'http://ibcrussia.com/my/'.$runetId.'/'.$hash.'/';
-    return 'http://2013.russianinternetweek.ru/my/'.$runetId.'/'.$hash.'/';
+    return 'http://2013.russianinternetweek.ru/my/'.$runetId.'/'.$hash.'/?redirect=/vote/';
 //    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/vote/';
   }
 
