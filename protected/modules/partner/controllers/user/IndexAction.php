@@ -8,25 +8,14 @@ class IndexAction extends \partner\components\Action
     $this->getController()->setPageTitle('Поиск участников мероприятия');
     $this->getController()->initActiveBottomMenu('index');
 
-    $form = new \partner\models\forms\user\ParticipantSearch();
+    $form = new \partner\models\forms\user\ParticipantSearch($this->getEvent());
     $reset = \Yii::app()->getRequest()->getParam('reset');
     if ($reset !== 'reset')
     {
       $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
     }
 
-    $criteria = new \CDbCriteria();
-    $criteria->addCondition('"Participants"."EventId" = :EventId');
-    $criteria->params['EventId'] = $this->getEvent()->Id;
-    $criteria->with = array(
-      'Participants' => array(
-        'together' => true,
-        'select' => false,
-      ),
-    );
-    $criteria->group = '"t"."Id"';
-    $criteria->mergeWith($form->getCriteria());
-
+    $criteria = $form->getCriteria();
     $count = \user\models\User::model()->count($criteria);
     $paginator = new \application\components\utility\Paginator($count);
     $paginator->perPage = \Yii::app()->params['PartnerUserPerPage'];

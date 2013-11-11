@@ -32,6 +32,11 @@ foreach ($roles as $role)
           <?=CHtml::activeDropDownList($form, 'Sort', $form->getSortValues(), array('encode' => false));?>
         </div>
       </div>
+      <div class="row m-top_10">
+        <div class="span4">
+          <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Ruvents', ['uncheckValue' => null]);?> <?=$form->getAttributeLabel('Ruvents');?></label>
+        </div>
+      </div>
 
       <div class="row indent-top2">
         <div class="span2">
