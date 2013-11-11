@@ -4,14 +4,23 @@ namespace partner\models\forms\user;
 
 class ParticipantSearch extends \CFormModel
 {
+  private $event;
+  
   public $User;
   public $Role;
   public $Sort;
+  public $Ruvents;
 
+  public function __construct(\event\models\Event $event, $scenario = '')
+  {
+    parent::__construct($scenario);
+    $this->event = $event;
+  }
+  
   public function rules()
   {
     return array(
-      array('User, Role, Sort', 'safe')
+      array('User, Role, Sort, Ruvents', 'safe')
     );
   }
 
@@ -22,6 +31,16 @@ class ParticipantSearch extends \CFormModel
   {
     $criteria = new \CDbCriteria();
 
+    $criteria->addCondition('"Participants"."EventId" = :EventId');
+    $criteria->params['EventId'] = $this->event->Id;
+    $criteria->with = array(
+      'Participants' => array(
+        'together' => true,
+        'select' => false,
+      ),
+    );
+    $criteria->group = '"t"."Id"';    
+    
     if ($this->User != '')
     {
       $this->User = trim($this->User);
@@ -40,6 +59,17 @@ class ParticipantSearch extends \CFormModel
     {
       $criteria->addCondition('"Participants"."RoleId" = :RoleId');
       $criteria->params['RoleId'] = (int)$this->Role;
+    }
+    
+    if (!empty($this->Ruvents))
+    {
+      $userIdList = \Yii::app()->getDb()->createCommand()
+        ->select('UserId')
+        ->from(\ruvents\models\Badge::model()->tableName())
+        ->where('"EventId" = :EventId')
+        ->queryColumn(['EventId' => $this->event->Id]);
+      
+      $criteria->addInCondition('"t"."Id"', $userIdList);
     }
 
     $criteria->mergeWith($this->getSortCriteria());
@@ -79,6 +109,7 @@ class ParticipantSearch extends \CFormModel
       'User' => 'Поисковая строка',
       'Role' => 'Статус',
       'Sort' => 'Сортировка',
+      'Ruvents' => 'Прошли регистрацию'
     );
   }
 

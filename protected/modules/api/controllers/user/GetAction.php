@@ -29,7 +29,7 @@ class GetAction extends \api\components\Action
       $userData = $this->getDataBuilder()->buildUserEvent($user);
       $permissionModel = \oauth\models\Permission::model()
           ->byUserId($user->Id)->byAccountId($this->getAccount()->Id)->byDeleted(false);
-      if (isset($userData->Status) || $permissionModel->exists())
+      if (isset($userData->Status) || $permissionModel->exists() || $this->getAccount()->Role == 'own')
       {
         $userData = $this->getDataBuilder()->buildUserContacts($user);
       }

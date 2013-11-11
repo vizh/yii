@@ -189,7 +189,7 @@ class PartnerCallback extends \CActiveRecord
 
   /**
    * @param \event\models\Event $event
-   * @param \user\models\User $user
+   * @param \pay\models\Order $order
    * @param int $time
    */
   public static function pay(\event\models\Event $event, \pay\models\Order $order, $time = null)
@@ -201,7 +201,8 @@ class PartnerCallback extends \CActiveRecord
     if ($callback != null)
     {
       $callbackUser = CallbackUser::model()->byPartnerCallbackId($callback->Id)->byUserId($order->Payer->Id)
-          ->byCreationTimeFrom(date('Y-m-d H:i:s', $time - 24*60*60))->find();
+          ->byCreationTimeFrom(date('Y-m-d H:i:s', $time - 24*60*60))
+          ->byCreationTimeTo(date('Y-m-d H:i:s',$time))->find();
       if ($callbackUser != null)
       {
         $callback->sendPay($callbackUser->Key, $order->Total);
