@@ -142,7 +142,7 @@ class ImportUser extends \CActiveRecord
     {
       $this->Email = 'nomail'.$import->EventId.'+'.substr(md5($this->FirstName . $this->LastName . $this->Company), 0, 8).'@runet-id.com';
     }
-    $user = \user\models\User::model()->byEmail($this->Email)->find();
+    $user = \user\models\User::model()->byEmail($this->Email)->byVisible()->find();
 
     if ($user === null)
     {
