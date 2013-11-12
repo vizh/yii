@@ -402,7 +402,6 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
    */
   public function onRegister($event)
   {
-
     if ($this->skipOnRegister)
     {
       return;

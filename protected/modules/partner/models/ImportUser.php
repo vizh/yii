@@ -112,7 +112,7 @@ class ImportUser extends \CActiveRecord
 
     $user = $this->getUser($import);
 
-    $import->Event->skipOnRegister = $import->NotifyEvent;
+    $import->Event->skipOnRegister = !$import->NotifyEvent;
     if (sizeof($import->Event->Parts) == 0)
     {
       $import->Event->RegisterUser($user, $role);
@@ -135,13 +135,43 @@ class ImportUser extends \CActiveRecord
    */
   private function getUser($import)
   {
-    if (empty($this->Email) || ImportUser::model()->exists([
-          'condition' => '"ImportId" = :ImportId AND "Imported" AND "Email" = :Email AND "Id" != :Id',
-          'params' => ['ImportId' => $import->Id, 'Email' => $this->Email, 'Id' => $this->Id]
-        ]))
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"ImportId" = :ImportId AND "Imported" AND "Email" = :Email AND "Id" != :Id';
+    $criteria->params = [
+      'ImportId' => $import->Id, 
+      'Email' => $this->Email, 
+      'Id' => $this->Id
+    ];
+  
+    if (empty($this->Email) || ImportUser::model()->exists($criteria))
     {
       $this->Email = 'nomail'.$import->EventId.'+'.substr(md5($this->FirstName . $this->LastName . $this->Company), 0, 8).'@runet-id.com';
     }
+    
+    if ($import->Visible)
+    {
+      $criteria = new \CDbCriteria();
+      $criteria->with = [
+        'Employments'
+      ];
+      $criteria->addCondition('
+        ("Employments"."EndYear" IS NULL AND "Employments"."EndMonth" IS NULL) 
+        AND "Company"."Name" ILIKE :Company AND "t"."FirstName" ILIKE :FirstName AND "t"."LastName" ILIKE :LastName'
+      );
+      $criteria->params['Company']   = $this->Company;
+      $criteria->params['FirstName'] = $this->FirstName;
+      $criteria->params['LastName']  = $this->LastName;
+      $user = \user\models\User::model()->find($criteria);
+      if ($user !== null)
+      {
+        if (!empty($this->Phone))
+        {
+          $user->setContactPhone($this->Phone);
+        }
+        return $user;
+      }
+    }    
+    
     $user = \user\models\User::model()->byEmail($this->Email)->byVisible()->find();
 
     if ($user === null)
@@ -176,7 +206,6 @@ class ImportUser extends \CActiveRecord
     {
       $user->setContactPhone($this->Phone);
     }
-
     return $user;
   }
 
