@@ -9,6 +9,18 @@ foreach($event->Widgets as $widget)
   if($widget->getPosition() == \event\components\WidgetPosition::Header)
     $widget->run();
 
+$fullWidth = false;
+foreach($event->Widgets as $widget)
+{
+  if($widget->getPosition() == \event\components\WidgetPosition::FullWidth)
+  {
+    $widget->run();
+    $fullWidth = true;
+  }
+}
+if ($fullWidth)
+  return;
+
 ?>
 
 <div class="event-page">

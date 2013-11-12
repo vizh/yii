@@ -1,13 +1,15 @@
 <?php
 namespace event\models;
 
-use string;
-
 /**
  * @property int $Id
  * @property string $Code
  * @property string $Title
  * @property int $Priority
+ *
+ * @method \event\models\Role find($condition='',$params=array())
+ * @method \event\models\Role findByPk($pk,$condition='',$params=array())
+ * @method \event\models\Role[] findAll($condition='',$params=array())
  */
 class Role extends \application\models\translation\ActiveRecord
 {
@@ -38,12 +40,18 @@ class Role extends \application\models\translation\ActiveRecord
     );
   }
 
+  /**
+   * @param int $eventId
+   * @param bool $useAnd
+   *
+   * @return $this
+   */
   public function byEventId($eventId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = '"Participants"."EventId" = :EventId';
-    $criteria->params = array('EventId' => $eventId);
-    $criteria->with = array('Participants' => array('together' => true, 'select' => false));
+    $criteria->params = ['EventId' => $eventId];
+    $criteria->with = ['Participants' => ['together' => true, 'select' => false]];
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

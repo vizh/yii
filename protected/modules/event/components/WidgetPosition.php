@@ -7,4 +7,5 @@ interface WidgetPosition
   const Content = 'content';
   const Tabs = 'tabs';
   const Header  = 'header';
+  const FullWidth = 'fullwidth';
 }
