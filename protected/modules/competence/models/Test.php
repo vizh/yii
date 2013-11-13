@@ -124,10 +124,15 @@ class Test extends \CActiveRecord
   {
     if ($this->FastAuthSecret !== null)
     {
-      return $hash == md5($key.$this->FastAuthSecret);
+      return $hash == $this->getKeyHash($key);
     }
     else
       return true;
+  }
+
+  public function getKeyHash($key)
+  {
+    return md5($key.$this->FastAuthSecret);
   }
 
 

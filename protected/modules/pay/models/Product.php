@@ -52,7 +52,8 @@ class Product extends \application\models\translation\ActiveRecord
       'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
       'Attributes' => array(self::HAS_MANY, '\pay\models\ProductAttribute', 'ProductId'),
       'Prices' => array(self::HAS_MANY, '\pay\models\ProductPrice', 'ProductId', 'order' => '"Prices"."StartTime" ASC'),
-      'PricesActive' => [self::HAS_MANY, '\pay\models\ProductPrice', 'ProductId', 'order' => '"PricesActive"."StartTime" ASC', 'condition' => '"PricesActive"."EndTime" IS NULL OR "PricesActive"."EndTime" >  now()']
+      'PricesActive' => [self::HAS_MANY, '\pay\models\ProductPrice', 'ProductId', 'order' => '"PricesActive"."StartTime" ASC', 'condition' => '"PricesActive"."EndTime" IS NULL OR "PricesActive"."EndTime" >  now()'],
+      'UserAccess' => [self::HAS_MANY, '\pay\models\ProductUserAccess', 'ProductId']
     );
   }
 
@@ -126,6 +127,22 @@ class Product extends \application\models\translation\ActiveRecord
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = ($public ? '' : 'NOT ') . '"t"."Public"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param int $userId
+   * @param bool $useAnd
+   *
+   * @return $this
+   */
+  public function byUserAccess($userId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->with = ['UserAccess' => ['together' => true, 'select' => false]];
+    $criteria->condition = '"UserAccess"."UserId" = :UserId';
+    $criteria->params = ['UserId' => $userId];
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

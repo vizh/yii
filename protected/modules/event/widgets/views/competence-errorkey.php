@@ -6,7 +6,7 @@
 <div class="alert alert-error">
   <p class="text-error">
     <?if (!isset($this->WidgetCompetenceErrorKeyMessage)):?>
-      <?=\Yii::t('app', 'Для запроса или активации приглашения, пожалуйста, <a href="#" id="PromoLogin">авторизуйтесь или зарегистрируйтесь</a> в системе RUNET-ID.');?>
+      Не корректная ссылка. Свяжитесь с организаторами мероприятия.
     <?else:?>
       <?=$this->WidgetCompetenceErrorKeyMessage;?>
     <?endif;?>

@@ -118,8 +118,28 @@ class Competence extends \event\components\Widget
       if (!$hasErrors)
       {
         $this->getTest()->saveResult();
-        $role = \event\models\Role::model()->findByPk(35);
-        $this->event->registerUser(\Yii::app()->user->getCurrentUser(), $role);
+
+        //todo: только для TC2013
+        $productId = null;
+        $userKey = $this->getTest()->getUserKey();
+        if (strpos($userKey, 'wp') === 0)
+        {
+          $productId = 1428;
+        }
+        elseif (strpos($userKey, 'np') === 0)
+        {
+          $productId = 1429;
+        }
+        $model = \pay\models\ProductUserAccess::model()->byUserId(\Yii::app()->user->getCurrentUser()->Id);
+        if ($productId != null && !$model->byProductId([$productId])->exists())
+        {
+          $productAccess = new \pay\models\ProductUserAccess();
+          $productAccess->ProductId = $productId;
+          $productAccess->UserId = \Yii::app()->user->getCurrentUser()->Id;
+          $productAccess->save();
+        }
+        //todo: конец блока
+
         $this->getController()->redirect(\Yii::app()->createUrl('/event/view/index', ['idName' => $this->event->IdName]));
       }
     }
