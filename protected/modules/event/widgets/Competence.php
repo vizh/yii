@@ -41,7 +41,8 @@ class Competence extends \event\components\Widget
   {
     if ($this->position == null)
     {
-      if ($this->getTest() == null || $this->getTest()->getUserKey() == null || \Yii::app()->user->isGuest)
+      $userKey = \Yii::app()->getRequest()->getParam('userKey');
+      if ($this->getTest() == null || $userKey == null || $this->getTest()->getUserKey() == null || \Yii::app()->user->isGuest)
       {
         $this->position = \event\components\WidgetPosition::Content;
       }
@@ -58,7 +59,6 @@ class Competence extends \event\components\Widget
         {
           $this->position = \event\components\WidgetPosition::FullWidth;
         }
-
       }
     }
     return $this->position;
@@ -118,8 +118,28 @@ class Competence extends \event\components\Widget
       if (!$hasErrors)
       {
         $this->getTest()->saveResult();
-        $role = \event\models\Role::model()->findByPk(35);
-        $this->event->registerUser(\Yii::app()->user->getCurrentUser(), $role);
+
+        //todo: только для TC2013
+        $productId = null;
+        $userKey = $this->getTest()->getUserKey();
+        if (strpos($userKey, 'wp') === 0)
+        {
+          $productId = 1440;
+        }
+        elseif (strpos($userKey, 'np') === 0)
+        {
+          $productId = 1441;
+        }
+        $model = \pay\models\ProductUserAccess::model()->byUserId(\Yii::app()->user->getCurrentUser()->Id);
+        if ($productId != null && !$model->byProductId([$productId])->exists())
+        {
+          $productAccess = new \pay\models\ProductUserAccess();
+          $productAccess->ProductId = $productId;
+          $productAccess->UserId = \Yii::app()->user->getCurrentUser()->Id;
+          $productAccess->save();
+        }
+        //todo: конец блока
+
         $this->getController()->redirect(\Yii::app()->createUrl('/event/view/index', ['idName' => $this->event->IdName]));
       }
     }

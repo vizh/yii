@@ -10,7 +10,7 @@ class SpecialController extends \partner\components\Controller
     }
     if (Yii::app()->partner->getEvent()->IdName == 'rif13')
     {
-      return array(
+      return [
         'rooms' => 'partner\controllers\special\rif13\RoomsAction',
         'book' => 'partner\controllers\special\rif13\BookAction',
         'food' => 'partner\controllers\special\rif13\FoodAction',
@@ -18,11 +18,17 @@ class SpecialController extends \partner\components\Controller
         'bookinfo' => 'partner\controllers\special\rif13\BookinfoAction',
         'bookchanges' => 'partner\controllers\special\rif13\BookchangesAction',
         'fixchanges' => 'partner\controllers\special\rif13\FixchangesAction',
-      );
+      ];
+    }
+    elseif (Yii::app()->partner->getEvent()->IdName == 'tc2013')
+    {
+      return [
+        'startup' => 'partner\controllers\special\tc13\StartupAction'
+      ];
     }
     else
     {
-      return array();
+      return [];
     }
   }
 

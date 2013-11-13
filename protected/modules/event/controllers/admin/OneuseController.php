@@ -136,45 +136,55 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
   public function actionUexproducts()
   {
+    return;
     $eventId = 652;
-    $orderItems = \pay\models\OrderItem::model()->byEventId($eventId)->byPaid(true)->findAll();
 
-    $usersId = [158851, 158877, 159011, 159012, 159013, 159353];
-    foreach ($orderItems as $item)
+    $criteria = new CDbCriteria();
+    $criteria->addCondition('"t"."Controller" = :c1 AND "t"."Action" = :a1');
+    $criteria->addCondition('"t"."Controller" = :c2 AND "t"."Action" = :a2', 'OR');
+    $criteria->addCondition('"t"."EventId" = :EventId');
+    $criteria->params = ['c1' => 'event', 'a1' => 'register', 'c2' => 'user', 'a2' => 'create', 'EventId' => $eventId];
+
+    $model = \ruvents\models\DetailLog::model();
+
+    /** @var \ruvents\models\DetailLog[] $logs */
+    $logs = $model->findAll($criteria);
+
+    $usersId = [];
+
+    foreach ($logs as $log)
     {
-      if ($item->getPriceDiscount() > 0 && $item->ProductId != 1414)
+      $messages = $log->getChangeMessages();
+
+      foreach ($messages as $message)
       {
-        $usersId[] = $item->ChangedOwnerId == null ? $item->OwnerId : $item->ChangedOwnerId;
+        if ($message->key == 'Role' && $message->to == 1)
+        {
+          $usersId[] = $log->UserId;
+        }
       }
-    }
-    $usersId = array_unique($usersId);
 
-    $product = \pay\models\Product::model()->findByPk(1435);
-
-//    var_dump($usersId);
-//
-//    echo count($orderItems);
-//
-//    exit;
-
-    $addedCount = 0;
-
-    foreach ($usersId as $id)
-    {
-      $model = \pay\models\OrderItem::model()->byOwnerId($id)->byProductId($product->Id)->byPaid(true);
-      $user = \user\models\User::model()->findByPk($id);
-      if (!$model->exists() && $user !== null)
-      {
-        $orderItem = $product->getManager()->createOrderItem($user, $user);
-        $orderItem->Paid = true;
-        $orderItem->PaidTime = date('Y-m-d H:i:s');
-        $orderItem->save();
-        $addedCount++;
-      }
     }
 
-   echo $addedCount;
+    $participants = \event\models\Participant::model()
+        ->byEventId($eventId)->byRoleId(1)->byPartId(19)
+        ->findAll([
+          'with' => ['User' => ['together' => true]],
+          'order' => '"User"."LastName"'
+        ]);
+    $count = 0;
+    echo '<table>';
+    foreach ($participants as $participant)
+    {
+      if (!in_array($participant->UserId, $usersId))
+      {
+        $this->printUserInfo($participant->User);
+        $count++;
+      }
+    }
+    echo '</table>';
 
+    echo $count;
   }
 
   /**
@@ -185,25 +195,25 @@ class OneuseController extends \application\components\controllers\AdminMainCont
     $data = [];
     $data[] = $user->RunetId;
     $data[] = $user->getFullName();
-    $data[] = $user->Email;
+    //$data[] = $user->Email;
     if ($user->getEmploymentPrimary() != null)
     {
-      //$data[] = $user->getEmploymentPrimary()->Company->Name;
+      $data[] = $user->getEmploymentPrimary()->Company->Name;
       $data[] = $user->getEmploymentPrimary()->Position;
     }
     else
     {
-      //$data[] = '';
+      $data[] = '';
       $data[] = '';
     }
-    if (!empty($user->Participants))
-    {
-      $data[] = $user->Participants[0]->Role->Title;
-    }
-    else
-    {
-      $data[] = 'не участвует';
-    }
+//    if (!empty($user->Participants))
+//    {
+//      $data[] = $user->Participants[0]->Role->Title;
+//    }
+//    else
+//    {
+//      $data[] = 'не участвует';
+//    }
     echo '<tr><td>' . implode('</td><td>', $data) . '</td></tr>';
   }
 }

@@ -7,11 +7,9 @@ class AuthController extends partner\components\Controller
   {
     $this->setPageTitle('Страница авторизации');
 
-
     $request = Yii::app()->request;
     if ($request->getIsPostRequest())
     {
-
       $login = $request->getParam('login');
       $password = $request->getParam('password');
 
@@ -27,6 +25,12 @@ class AuthController extends partner\components\Controller
       {
         $this->error = true;
       }
+    }
+
+    if (!Yii::app()->partner->isGuest)
+    {
+      Yii::app()->partner->logout();
+      $this->refresh();
     }
 
     $this->render('index');

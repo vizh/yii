@@ -17,7 +17,15 @@ class RegisterAction extends \pay\components\Action
     $request = \Yii::app()->getRequest();
     $criteria = new \CDbCriteria();
     $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
-    $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findAll($criteria);
+
+    $model = \pay\models\Product::model()->byPublic(true);
+    if (!\Yii::app()->user->isGuest)
+    {
+      $model->byUserAccess(\Yii::app()->user->getCurrentUser()->Id, 'OR');
+    }
+    $products = $model->byEventId($this->event->Id)->findAll($criteria);
+
+
     $countRows = $request->getParam('count');
     if (!$request->getIsPostRequest() && count($products) == 1)
     {
@@ -163,7 +171,8 @@ class RegisterAction extends \pay\components\Action
   
   private function getUnpaidJuridicalOrderCount()
   {
-    return \pay\models\Order::model()
-      ->byPayerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->byPaid(false)->byJuridical(true)->count();
+    return 0;
+//    return \pay\models\Order::model()
+//      ->byPayerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->byPaid(false)->byBankTransfer(true)->count();
   }
 }

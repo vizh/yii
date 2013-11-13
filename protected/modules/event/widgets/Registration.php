@@ -40,8 +40,12 @@ class Registration extends \event\components\Widget
       \Yii::app()->getClientScript()->registerPackage('runetid.event-calculate-price');
       $criteria = new \CDbCriteria();
       $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
-      $products = \pay\models\Product::model()->byEventId($this->event->Id)
-          ->byPublic(true)->findAll($criteria);
+      $model = \pay\models\Product::model()->byPublic(true);
+      if (!\Yii::app()->user->isGuest)
+      {
+        $model->byUserAccess(\Yii::app()->user->getCurrentUser()->Id, 'OR');
+      }
+      $products = $model->byEventId($this->event->Id)->findAll($criteria);
 
       $participant = null;
       if (count($this->event->Parts) == 0 && !\Yii::app()->user->getIsGuest())
