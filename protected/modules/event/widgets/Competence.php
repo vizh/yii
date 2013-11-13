@@ -124,11 +124,11 @@ class Competence extends \event\components\Widget
         $userKey = $this->getTest()->getUserKey();
         if (strpos($userKey, 'wp') === 0)
         {
-          $productId = 1428;
+          $productId = 1440;
         }
         elseif (strpos($userKey, 'np') === 0)
         {
-          $productId = 1429;
+          $productId = 1441;
         }
         $model = \pay\models\ProductUserAccess::model()->byUserId(\Yii::app()->user->getCurrentUser()->Id);
         if ($productId != null && !$model->byProductId([$productId])->exists())

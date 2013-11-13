@@ -6,7 +6,7 @@ class StartupAction extends \partner\components\Action
   public function run()
   {
     $criteria = new \CDbCriteria();
-    $criteria->addInCondition('"t"."Id"', [1428, 1429]);
+    $criteria->addInCondition('"t"."Id"', [1440, 1441]);
     $products = \pay\models\Product::model()->findAll($criteria);
 
     $result = null;
@@ -16,14 +16,17 @@ class StartupAction extends \partner\components\Action
     {
       $test = \competence\models\Test::model()->findByPk(4);
       $product = $request->getParam('product');
-      $prefix = $product == 1428 ? 'wp' : 'np';
-      $userKey = $prefix . \application\components\utility\Texts::GenerateString(6, true);
-      $hash = $test->getKeyHash($userKey);
-      $result = \Yii::app()->createUrl('/event/view/index', [
-        'userKey' => $userKey,
-        'userHash' => $hash,
-        'idName' => $this->getEvent()->IdName
-      ]);
+      if (!empty($product))
+      {
+        $prefix = $product == 1440 ? 'wp' : 'np';
+        $userKey = $prefix . \application\components\utility\Texts::GenerateString(6, true);
+        $hash = $test->getKeyHash($userKey);
+        $result = \Yii::app()->createUrl('/event/view/index', [
+          'userKey' => $userKey,
+          'userHash' => $hash,
+          'idName' => $this->getEvent()->IdName
+        ]);
+      }
     }
 
     $this->getController()->render('tc13/startup', ['products' => $products, 'result' => $result]);
