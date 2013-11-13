@@ -7,7 +7,7 @@ class UsersAction extends \api\components\Action
   public function run()
   {
     $request = \Yii::app()->getRequest();
-    $maxResults = $request->getParam('MaxResults', $this->getMaxResults());
+    $maxResults = (int)$request->getParam('MaxResults', $this->getMaxResults());
     $maxResults = min($maxResults, $this->getMaxResults());
     $pageToken = $request->getParam('PageToken', null);
     $roles = $request->getParam('RoleId');
@@ -45,8 +45,8 @@ class UsersAction extends \api\components\Action
 
     $users = \user\models\User::model()->findAll($criteria);
 
-    $result = array();
-    $result['Users'] = array();
+    $result = [];
+    $result['Users'] = [];
     foreach ($users as $user)
     {
       $this->getAccount()->getDataBuilder()->createUser($user);
@@ -55,7 +55,7 @@ class UsersAction extends \api\components\Action
       $result['Users'][] = $this->getAccount()->getDataBuilder()->buildUserEvent($user);
     }
 
-    if (sizeof($users) === $maxResults)
+    if (count($users) === $maxResults)
     {
       $result['NextPageToken'] = $this->getController()->getPageToken($criteria->offset + $maxResults);
     }

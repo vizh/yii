@@ -41,7 +41,8 @@ class Competence extends \event\components\Widget
   {
     if ($this->position == null)
     {
-      if ($this->getTest() == null || $this->getTest()->getUserKey() == null || \Yii::app()->user->isGuest)
+      $userKey = \Yii::app()->getRequest()->getParam('userKey');
+      if ($this->getTest() == null || $userKey == null || $this->getTest()->getUserKey() == null || \Yii::app()->user->isGuest)
       {
         $this->position = \event\components\WidgetPosition::Content;
       }
@@ -58,7 +59,6 @@ class Competence extends \event\components\Widget
         {
           $this->position = \event\components\WidgetPosition::FullWidth;
         }
-
       }
     }
     return $this->position;

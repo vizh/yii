@@ -9,7 +9,7 @@ return array(
   ),
   array(
     'allow',
-    'users' => array('?'),
+    'users' => array('?', '*'),
     'module' => 'partner',
     'controllers' => array('auth'),
     'actions' => array('index')
