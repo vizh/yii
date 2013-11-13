@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'rad13-html-4';
+    $template = 'ibcrussia13-html-3';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -73,7 +73,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(688));
+//    $criteria->addInCondition('"Participants"."EventId"', array(423));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(3));
 
 /*
@@ -81,28 +81,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE "CompanyId" IN (23,8624,7677,10384,1167,35594,35594,3392,39028,13565) AND ("StartYear" > 2008 OR "StartYear" IS NULL) )');
 */
 
-    $criteria->addCondition('"t"."Id" IN (
-      SELECT
-        "UserId" FROM "EventParticipant"
-      WHERE
-        ("EventId" = 425 AND "RoleId" = 11 OR
-        "EventId" = 248 AND "RoleId" = 11 OR
-        "EventId" = 422 AND "RoleId" = 1 OR
-        "EventId" = 245 AND "RoleId" = 1) AND
-        "UserId" > 50000
-      GROUP BY "UserId"
-      ORDER BY "UserId"
-      LIMIT 8000
-    )');
-
 //    $criteria->addCondition('"t"."Id" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" NOT IN (24) AND "EventId" = 688)');
 
+    $criteria->addCondition('"t"."Id" IN (SELECT "Id" FROM "User" WHERE "Id" > 10000 LIMIT 80000)');
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -168,7 +155,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
 //        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Russian Affiliate Days 2013 – все тренды развития партнерского маркетинга в России!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашаем на IBC RUSSIA 2013') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
