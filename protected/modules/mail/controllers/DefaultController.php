@@ -81,7 +81,19 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE "CompanyId" IN (23,8624,7677,10384,1167,35594,35594,3392,39028,13565) AND ("StartYear" > 2008 OR "StartYear" IS NULL) )');
 */
 
-//    $criteria->addCondition('"t"."Id" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" IN (28,27))', 'OR');
+    $criteria->addCondition('"t"."Id" IN (
+      SELECT
+        "UserId" FROM "EventParticipant"
+      WHERE
+        ("EventId" = 425 AND "RoleId" = 11 OR
+        "EventId" = 248 AND "RoleId" = 11 OR
+        "EventId" = 422 AND "RoleId" = 1 OR
+        "EventId" = 245 AND "RoleId" = 1) AND
+        "UserId" > 50000
+      GROUP BY "UserId"
+      ORDER BY "UserId"
+      LIMIT 8000
+    )');
 
 //    $criteria->addCondition('"t"."Id" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" NOT IN (24) AND "EventId" = 688)');
 
@@ -90,10 +102,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 122262));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 300;
     $criteria->order = '"t"."RunetId" ASC';
@@ -164,7 +176,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-        $mail->Send();
+//        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
