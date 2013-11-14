@@ -121,7 +121,7 @@
               <tr>
                 <td></td>
                 <td>
-                  <h3>Приглашаем Вас принять участие в новой отраслевой конференции Internet Business Conference Russia 2013 (Интернет для бизнеса, IBC Russia). Новое мероприятие объединит в себе опыт многолетних успешных проектов «Сайт» и Optimization.</h3>
+                  <h3>Приглашаем Вас принять участие в новой отраслевой конференции Internet Business Conference Russia 2013 (Интернет для бизнеса, IBC Russia). Мероприятие объединит в себе опыт многолетних успешных проектов «Сайт» и Optimization.</h3>
                   <h3 style="margin-bottom: 20px;"><a href="http://ibcrussia.com/?utm_source=runetid">www.ibcrussia.com</a></h3>
                   <p style="margin-bottom:  5px;">Задача IBC Russia 2013 — помочь бизнесу объединить различные инструменты и методологии интернет-маркетинга в целостную стратегию работы с аудиторией в Интернете.</p>
                   <h3 style="margin: 10px 0;">КОНФЕРЕНЦИЯ</h3>

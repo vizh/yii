@@ -17,7 +17,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 
     // ГеоВыборка
-    /*
+
     $criteria->with = array(
         'LinkAddress' => array('together' => true, 'select' => false),
         'LinkAddress.Address' => array('together' => true, 'select' => false),
@@ -28,8 +28,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         'Settings' => array('select' => false),
     );
 //    $criteria->addCondition(' ("Participants"."EventId" IN (258) OR "Region"."Id" IN (4925,4503,4773,3761,4481,3503,3251)) AND "Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 423)');
-    $criteria->addCondition('"Region"."Id" NOT IN (4312)');
-    */
+    $criteria->addCondition('"Region"."Id" IN (4312)');
+
 
 
     // Чтение из файла
@@ -65,14 +65,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $users = \user\models\User::model()->findAll($criteria);
     */
-
+/*
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
       'Settings' => array('select' => false)
     );
-
+*/
 //    $criteria->addInCondition('"Participants"."EventId"', array(423));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(3));
 
@@ -83,13 +83,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //    $criteria->addCondition('"t"."Id" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" NOT IN (24) AND "EventId" = 688)');
 
-    $criteria->addCondition('"t"."Id" IN (SELECT "Id" FROM "User" WHERE "Id" > 10000 LIMIT 80000)');
+//    $criteria->addCondition('"t"."Id" IN (SELECT "Id" FROM "User" WHERE "Id" > 10000 LIMIT 100000)');
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -133,7 +133,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-//        if ($j == 1) continue;
+        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
