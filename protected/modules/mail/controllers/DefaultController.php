@@ -86,10 +86,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 300;
     $criteria->order = '"t"."RunetId" ASC';
@@ -160,7 +160,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-        $mail->Send();
+//        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
