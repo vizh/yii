@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'ibcrussia13-html-3';
-    $isHTML = true;
+    $template = 'ux13-2';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -17,7 +17,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 
     // ГеоВыборка
-
+/*
     $criteria->with = array(
         'LinkAddress' => array('together' => true, 'select' => false),
         'LinkAddress.Address' => array('together' => true, 'select' => false),
@@ -29,8 +29,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     );
 //    $criteria->addCondition(' ("Participants"."EventId" IN (258) OR "Region"."Id" IN (4925,4503,4773,3761,4481,3503,3251)) AND "Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 423)');
     $criteria->addCondition('"Region"."Id" IN (4312)');
-
-
+*/
 
     // Чтение из файла
 /*
@@ -65,34 +64,32 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $users = \user\models\User::model()->findAll($criteria);
     */
-/*
+
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
       'Settings' => array('select' => false)
     );
-*/
-//    $criteria->addInCondition('"Participants"."EventId"', array(423));
-//    $criteria->addInCondition('"Participants"."RoleId"', array(3));
+
+    $criteria->addInCondition('"Participants"."EventId"', array(652));
+//    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
 /*
     $criteria->addNotInCondition('"Participants"."RoleId"', array(3));
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE "CompanyId" IN (23,8624,7677,10384,1167,35594,35594,3392,39028,13565) AND ("StartYear" > 2008 OR "StartYear" IS NULL) )');
 */
 
-//    $criteria->addCondition('"t"."Id" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" NOT IN (24) AND "EventId" = 688)');
-
-//    $criteria->addCondition('"t"."Id" IN (SELECT "Id" FROM "User" WHERE "Id" > 10000 LIMIT 100000)');
+//    $criteria->addCondition('"t"."Id" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" = 3 AND "EventId" IN (425,422,800,801,773,681,765,757,578,758,754,730,673,600,411,458))');
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 300;
     $criteria->order = '"t"."RunetId" ASC';
@@ -149,13 +146,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-//        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
+        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
 //        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
 //        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашаем на IBC RUSSIA 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('User eXperience 2013: итоговый опрос') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
@@ -163,7 +160,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-//        $mail->Send();
+        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
