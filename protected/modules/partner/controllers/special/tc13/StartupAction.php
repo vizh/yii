@@ -3,10 +3,17 @@ namespace partner\controllers\special\tc13;
 
 class StartupAction extends \partner\components\Action
 {
+  private $prefixes = [
+    1440 => 'wp',
+    1441 => 'np',
+    1442 => 'bs'
+  ];
+
   public function run()
   {
     $criteria = new \CDbCriteria();
-    $criteria->addInCondition('"t"."Id"', [1440, 1441]);
+    $criteria->addInCondition('"t"."Id"', [1440, 1441, 1442]);
+    $criteria->order = '"t"."Id"';
     $products = \pay\models\Product::model()->findAll($criteria);
 
     $result = null;
@@ -18,7 +25,7 @@ class StartupAction extends \partner\components\Action
       $product = $request->getParam('product');
       if (!empty($product))
       {
-        $prefix = $product == 1440 ? 'wp' : 'np';
+        $prefix = isset($this->prefixes[$product]) ? $this->prefixes[$product] :  'np';
         $userKey = $prefix . \application\components\utility\Texts::GenerateString(6, true);
         $hash = $test->getKeyHash($userKey);
         $result = \Yii::app()->createUrl('/event/view/index', [

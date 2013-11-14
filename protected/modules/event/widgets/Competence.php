@@ -130,6 +130,10 @@ class Competence extends \event\components\Widget
         {
           $productId = 1441;
         }
+        elseif (strpos($userKey, 'bs') === 0)
+        {
+          $productId = 1442;
+        }
         $model = \pay\models\ProductUserAccess::model()->byUserId(\Yii::app()->user->getCurrentUser()->Id);
         if ($productId != null && !$model->byProductId([$productId])->exists())
         {
