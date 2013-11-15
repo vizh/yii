@@ -5,14 +5,17 @@ class Banner extends \CFormModel
 {
   public $Image;
   public $BackgroundColor;
+  public $BackgroundImage;
+  public $Styles;
   public $Height;
   
   public function rules()
   {
     return [
       ['BackgroundColor', 'required'],
-      ['Image', 'file', 'types' => 'jpg,jpeg,png', 'allowEmpty' => true],
-      ['Height', 'numerical', 'max' => 300, 'min' => 100, 'allowEmpty' => true]
+      ['Image, BackgroundImage', 'file', 'types' => 'jpg,jpeg,png', 'allowEmpty' => true],
+      ['Height', 'numerical', 'max' => \Yii::app()->params['EventWidgetBannerMaxHeight'], 'min' => 100, 'allowEmpty' => true],
+      ['Styles', 'safe']
     ];
   }
   
@@ -20,8 +23,10 @@ class Banner extends \CFormModel
   {
     return [
       'BackgroundColor' => \Yii::t('app', 'Цвет фона'),
-      'Image' => \Yii::t('app', 'Фоновое изображение'),
-      'Height' => \Yii::t('app', 'Высота (в пикселях)')
+      'BackgroundImage' => \Yii::t('app', 'Фоновое изображение'),
+      'Image' => \Yii::t('app', 'Основное изображение'),
+      'Height' => \Yii::t('app', 'Высота (в пикселях)'),
+      'Styles' => \Yii::t('app', 'Стили')
     ];
   }
 }
