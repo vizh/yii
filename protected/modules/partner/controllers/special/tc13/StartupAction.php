@@ -23,19 +23,34 @@ class StartupAction extends \partner\components\Action
     {
       $test = \competence\models\Test::model()->findByPk(4);
       $product = $request->getParam('product');
+      $count = (int) $request->getParam('count', 1);
       if (!empty($product))
       {
-        $prefix = isset($this->prefixes[$product]) ? $this->prefixes[$product] :  'np';
-        $userKey = $prefix . \application\components\utility\Texts::GenerateString(6, true);
-        $hash = $test->getKeyHash($userKey);
-        $result = \Yii::app()->createUrl('/event/view/index', [
-          'userKey' => $userKey,
-          'userHash' => $hash,
-          'idName' => $this->getEvent()->IdName
-        ]);
+        for ($i=0; $i<$count; $i++)
+        {
+          $result .= $this->getResult($test, $product) . '<br>';
+        }
       }
     }
 
     $this->getController()->render('tc13/startup', ['products' => $products, 'result' => $result]);
+  }
+
+  /**
+   * @param \competence\models\Test $test
+   * @param int $product
+   *
+   * @return string
+   */
+  private function getResult($test, $product)
+  {
+    $prefix = isset($this->prefixes[$product]) ? $this->prefixes[$product] :  'np';
+    $userKey = $prefix . \application\components\utility\Texts::GenerateString(6, true);
+    $hash = $test->getKeyHash($userKey);
+    return \Yii::app()->createUrl('/event/view/index', [
+      'userKey' => $userKey,
+      'userHash' => $hash,
+      'idName' => $this->getEvent()->IdName
+    ]);
   }
 }
