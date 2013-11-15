@@ -5,7 +5,7 @@ class Banner extends \event\widgets\Header
 {
   public function getAttributeNames()
   {
-    return ['HeaderBannerImagePath', 'HeaderBannerBackgroundColor', 'HeaderBannerHeight'];
+    return ['HeaderBannerImagePath', 'HeaderBannerBackgroundColor', 'HeaderBannerHeight', 'HeaderBannerBackgroundImagePath', 'HeaderBannerStyles'];
   }
   
   public function run()

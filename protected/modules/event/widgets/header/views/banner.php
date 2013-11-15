@@ -4,7 +4,12 @@
  */
 $event = $this->event;
 ?>
-<div class="b-event-promo <?=$event->IdName;?>" style="background: #<?=$this->HeaderBannerBackgroundColor;?>">
+<?if (isset($this->HeaderBannerStyles)):?>
+<style type="text/css">
+  <?=$this->HeaderBannerStyles;?>
+</style>
+<?endif;?>
+<div class="b-event-promo <?=$event->IdName;?>" style="background: <?if (isset($this->HeaderBannerBackgroundImagePath)):?>url('<?=$this->HeaderBannerBackgroundImagePath;?>') repeat-x<?endif;?> #<?=$this->HeaderBannerBackgroundColor;?>">
   <div class="container" style="background: url('<?=$this->HeaderBannerImagePath;?>') no-repeat center center; padding: 0; height: <?=$this->HeaderBannerHeight;?>px">
     <div class="row">
       <div class="span12"></div>
