@@ -1,6 +1,4 @@
 <?php
-
-
 class ViewController extends \application\components\controllers\PublicMainController
 {
   public function actionIndex($idName)
@@ -21,6 +19,10 @@ class ViewController extends \application\components\controllers\PublicMainContr
     }
 
     $this->setPageTitle($event->Title . '  / RUNET-ID');
+    if (!$event->Visible)
+    {
+      \Yii::app()->getClientScript()->registerMetaTag('noindex,noarchive','robots');
+    }
 
     foreach ($event->Widgets as $widget)
     {
