@@ -5,6 +5,10 @@ class MainController extends \oauth\components\Controller
   {
     if ($this->Account->Id === self::SelfId)
     {
+      if (!Yii::app()->user->isGuest)
+      {
+        Yii::app()->user->setIsRecentlyLogin();
+      }
       if ($this->url === '' || $this->url === null)
       {
         echo '
