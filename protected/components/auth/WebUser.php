@@ -20,6 +20,16 @@ class WebUser extends \CWebUser {
 
     return $this->_currentUser;
   }
+
+  public function setIsRecentlyLogin()
+  {
+    $this->setFlash('RecentlyLogin', true);
+  }
+
+  public function getIsRecentlyLogin()
+  {
+    return $this->getFlash('RecentlyLogin', false);
+  }
   
 //  private $_keyPrefix = null;
 //  public function getStateKeyPrefix()
