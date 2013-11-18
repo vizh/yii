@@ -6,7 +6,6 @@ class TopMenu extends \CWidget
 
   public function run()
   {
-
     $menu = array();
     $menu[] = array(
       'Title' => 'Главная',
@@ -50,6 +49,13 @@ class TopMenu extends \CWidget
       'Access' => $this->checkAccess('program', 'index'),
       'Active' => $this->isActive('program')
     );
+    $menu[] = array(
+      'Title' => 'Компетенции',
+      'Url' => \Yii::app()->createUrl('/partner/competence/index'),
+      'Access' => \competence\models\Test::model()->byEventId(\Yii::app()->partner->getAccount()->EventId)->exists(),
+      'Active' => $this->isActive('competence')
+    );
+    
 
     $this->render('topMenu', array('menu' => $menu));
   }

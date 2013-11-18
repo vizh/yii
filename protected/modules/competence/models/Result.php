@@ -38,7 +38,9 @@ class Result extends \CActiveRecord
 
   public function relations()
   {
-    return array();
+    return [
+      'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
+    ];
   }
 
   /**

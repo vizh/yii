@@ -96,6 +96,12 @@ return array(
     'controllers' => array('program')
   ),
   array(
+    'allow',
+    'roles' => array('Partner'),
+    'module' => 'partner',
+    'controllers' => array('competence')
+  ),
+  array(
     'deny',
     'users' => array('*')
   ),

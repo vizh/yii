@@ -55,6 +55,7 @@ return array(
     'PartnerCouponPerPage' => 20,
     'PartnerUserPerPage' => 20,
     'PartnerInviteRequestPerPage' => 20,
+    'PartnerCompetenceResultPerPage' => 20,
 
 
     /** Ruvents Params */
