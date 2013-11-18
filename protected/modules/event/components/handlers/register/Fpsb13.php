@@ -1,15 +1,15 @@
 <?php
 namespace event\components\handlers\register;
 
-class Rbp13 extends Base
+class Fpsb13 extends Base
 { 
   public function getSubject()
   {
-    return 'Благодарим Вас, за регистрацию в RUSSIAN BUSINESS PARTY - Вечеринка в стиле Bond Party';
+    return 'Путевой лист III Инновационный форум Промсвязьбанка';
   }
   
   public function getBody()
   {
-    return $this->renderBody('event.views.mail.register.rbp13', ['user' => $this->user, 'role' => $this->role]);
+    return $this->renderBody('event.views.mail.register.fpsb13', ['user' => $this->user, 'participant' => $this->participant]);
   }
 }
