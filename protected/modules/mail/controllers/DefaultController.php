@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'ux13-2';
+    $template = 'premiaruneta13-6';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -72,7 +72,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(652));
+//    $criteria->addInCondition('"Participants"."EventId"', array(652));
 //    $criteria->addInCondition('"Participants"."RoleId"', array(1));
 
 /*
@@ -83,10 +83,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addCondition('"t"."Id" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" = 3 AND "EventId" IN (425,422,800,801,773,681,765,757,578,758,754,730,673,600,411,458))');
 
     $criteria->distinct = true;
-    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+//    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
     $criteria->addInCondition('"t"."RunetId"', array(12953));
+//    $criteria->addInCondition('"t"."RunetId"', array(172115,172001,1387,30095,13523,30194,2404,163138,86771,51557,113686,1752,83363,82630,55483,8891,1995,107083,14380,30589,54702,1683,41784,30649,54366,1898,10834,96070,29334,108674,118078,12132,108757,39025,49753,144261,12158,48719,18624,51757,13339,55488,39989,29188,13012,154117,84138,127791,55070,44057,42647,31159,609,36734,22535,17741,144911,106920,2346,114098,41688,97977,21337,49718,85620,12953,18521,16360,1521,148755,10383,14585,14104,50864,106936,10000,31913,16182,355,84805,169276,81600,31996,14275,11275,41241,13423,28816,10316,19190,48592,321,14783,14164,110582,85925,49796,1440,32368,93534,115570,1480,37034,36512,119382,169313,56083,14072,97684,38055,14502,17941,114621,14360,32697,13866,32705,19348,85070,2535,29607,107701,144337,37024,18864,171186,32967,20554,9426,143687,12563,118040,33128,13876,45065,147701,89400,13131,35287,18155,166001,84501,906,84577,158947,181486,84203,868,14493,13997,45455,15088,150054,39120,391,43260,136653,85807,29157,14237,10752,575,611,22662,14368,21815,88146,34026,16724,40445,54535,1023,13985,10985,152535,14605,34316,11068,55378,12782,15787,148407,9304,34502,173774,20812,148379,169015,866,768,55060,88267,143184,96300,143492,29984,88277,18470,18511,34950,1507,77779,82259,10700,17071,1196,21175,17162,86757,143323,2506,372,12945));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -130,7 +131,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-        if ($j == 1) continue;
+//        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -146,13 +147,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
-//        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
+//        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
+        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
 //        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('User eXperience 2013: итоговый опрос') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Не забудьте проголосовать за номинантов') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
