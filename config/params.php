@@ -9,6 +9,7 @@ return array(
     'EventDir' => '/files/event/%s/', // директория файлов мероприятий
     'EventPreviewLength' => 200,
     'EventViewUserPerPage' => 16,
+    'EventWidgetBannerMaxHeight' => 400,
       
     'UserViewMaxRecommendedEvents' => 4,
       

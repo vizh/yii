@@ -38,6 +38,11 @@ foreach ($products as $product)
     </div>
 
     <div class="control-group">
+      <?=CHtml::label('Количество:', 'count');?>
+      <?=CHtml::textField('count', '', ['placeholder' => 1]);?>
+    </div>
+
+    <div class="control-group">
       <button class="btn btn-success btn-large" type="submit"><i class="icon-ok icon-white"></i> Генерировать</button>
     </div>
 

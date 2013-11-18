@@ -6,6 +6,17 @@
   </div>
 </div>
 <div class="control-group">
+  <?=\CHtml::activeLabel($form, 'BackgroundImage', ['class' => 'control-label']);?>
+  <div class="controls">
+    <?=\CHtml::activeFileField($form, 'BackgroundImage');?>
+    <?if (isset($widget->HeaderBannerBackgroundImagePath)):?>
+    <div class="m-top_5">
+      <?=\CHtml::image($widget->HeaderBannerBackgroundImagePath,'', ['width' => 500]);?>
+    </div>
+    <?endif;?>
+  </div>
+</div>
+<div class="control-group">
   <?=\CHtml::activeLabel($form, 'Image', ['class' => 'control-label']);?>
   <div class="controls">
     <?=\CHtml::activeFileField($form, 'Image');?>
@@ -20,6 +31,12 @@
   <?=\CHtml::activeLabel($form, 'Height', ['class' => 'control-label']);?>
   <div class="controls">
     <?=\CHtml::activeTextField($form, 'Height');?>
+  </div>
+</div>
+<div class="control-group">
+  <?=\CHtml::activeLabel($form, 'Styles', ['class' => 'control-label']);?>
+  <div class="controls">
+    <?=\CHtml::activeTextArea($form, 'Styles', ['class' => 'input-block-level']);?>
   </div>
 </div>
 <div class="control-group">

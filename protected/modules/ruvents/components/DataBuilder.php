@@ -111,11 +111,8 @@ class DataBuilder
       if ($participant->EventId == $this->eventId)
       {
         $status = new \stdClass();
-        $status->PartId = $participant->PartId == 7 ? 23 : ($participant->PartId == 8 ? 24 : $participant->PartId);
+        $status->PartId = $participant->PartId;
         $status->RoleId = $participant->RoleId;
-        $status->RoleName = $participant->Role->Title;
-        $status->CreationTime = $participant->CreationTime;
-        $status->UpdateTime = $participant->UpdateTime;
         $this->user->Statuses[] = $status;
       }
     }
