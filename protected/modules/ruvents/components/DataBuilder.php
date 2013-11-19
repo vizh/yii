@@ -155,11 +155,11 @@ class DataBuilder
     $this->event->Image->Mini = 'http://rocid.ru' . $this->Event()->GetMiniLogo();
     $this->event->Image->Normal = 'http://rocid.ru' . $this->Event()->GetLogo();*/
 
-    $this->event->Parts = array();
+    $this->event->Parts = [];
     foreach ($this->getEvent()->Parts as $part)
     {
       $resultPart = new \stdClass();
-      $resultPart->DayId = $part->Id;
+      $resultPart->PartId = $part->Id;
       $resultPart->Title = $part->Title;
       $resultPart->Order = $part->Order;
 

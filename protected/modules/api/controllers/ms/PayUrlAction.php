@@ -11,7 +11,7 @@ class PayUrlAction extends \api\components\Action
     $externalUser = \api\models\ExternalUser::model()
         ->byExternalId($externalId)->byPartner($this->getAccount()->Role)->find();
     if ($externalUser === null)
-      throw new \api\components\Exception(3003, array($externalId));
+      throw new \api\components\Exception(3003, [$externalId]);
 
 
     $url = $externalUser->User->getFastauthUrl(\Yii::app()->createUrl('/pay/cabinet/register', ['eventIdName' => $this->getEvent()->IdName]));
