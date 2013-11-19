@@ -17,7 +17,10 @@ namespace competence\models;
  * @property string $AfterEndText
  * @property bool $FastAuth
  * @property string $FastAuthSecret
- *
+ * @property int $EventId
+ * 
+ * @property \event\models\Event $Event
+ * @property Result[] $ResultsAll
  *
  * @method \competence\models\Test find($condition='',$params=array())
  * @method \competence\models\Test findByPk($pk,$condition='',$params=array())
@@ -46,7 +49,10 @@ class Test extends \CActiveRecord
 
   public function relations()
   {
-    return [];
+    return [
+      'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+      'ResultsAll' => [self::HAS_MANY, '\competence\models\Result', 'TestId']
+    ];
   }
 
   /** @var \user\models\User */
@@ -202,6 +208,32 @@ class Test extends \CActiveRecord
     $result->save();
   }
 
-
-
+  /**
+   * 
+   * @param int $eventId
+   * @param bool $useAnd
+   * @return \competence\models\Test
+   */
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params['EventId'] = $eventId;
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+  
+  /**
+   * 
+   * @param bool $enable
+   * @param boll $useAnd
+   * @return \competence\models\Test
+   */
+  public function byEnable($enable = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = (!$enable ? 'NOT' : '').' "t"."Enable"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

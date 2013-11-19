@@ -1,19 +1,23 @@
 <?php
 namespace event\widgets;
 
+/**
+ * Class FastRegistration
+ * @package event\widgets
+ *
+ * @property int $DefaultRoleId
+ */
 class FastRegistration extends \event\components\Widget
 { 
   public function getAttributeNames()
   {
-    return array(
-      'DefaultRoleId'
-    );
+    return ['DefaultRoleId'];
   }
   
   public function process()
   {
     $request = \Yii::app()->getRequest();
-    if ($request->getIsPostRequest() && !\Yii::app()->user->isGuest)
+    if (!\Yii::app()->user->isGuest && ($request->getIsPostRequest() || \Yii::app()->user->getIsRecentlyLogin()))
     {
       $role = \event\models\Role::model()->findByPk($this->DefaultRoleId);
       $this->event->registerUser(\Yii::app()->user->getCurrentUser(), $role);

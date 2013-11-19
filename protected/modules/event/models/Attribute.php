@@ -10,8 +10,8 @@ namespace event\models;
  *
  * @property Event $Event
  */
-class Attribute extends \CActiveRecord
-{
+class Attribute extends \application\models\translation\ActiveRecord
+{  
   /**
    * @param string $className
    * @return Attribute
@@ -36,5 +36,14 @@ class Attribute extends \CActiveRecord
     return array(
       'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
     );
+  }
+  
+   /**
+   * 
+   * @return string[]
+   */
+  public function getTranslationFields()
+  {
+    return ['Value'];
   }
 }
