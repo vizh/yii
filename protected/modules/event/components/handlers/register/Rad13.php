@@ -10,6 +10,9 @@ class Rad13 extends Base
   
   public function getBody()
   {
+    if ($this->role->Id == 24)
+      return null;
+
     return $this->renderBody('event.views.mail.register.rad13', [
       'user' => $this->user,
       'role' => $this->role,
