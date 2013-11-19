@@ -3,13 +3,16 @@ namespace api\components;
 
 class Exception extends \CException
 {
+  const PAY_EXCEPTION_PREFIX = 40000;
+
   /**
    * @param int $code
    * @param array $params
+   * @param \Exception $previous
    */
-  public function __construct($code, $params = array())
+  public function __construct($code, $params = [], \Exception $previous = null)
   {
-    parent::__construct($this->getErrorMessage($code, $params), $code);
+    parent::__construct($this->getErrorMessage($code, $params), $code, $previous);
   }
 
   private $codes = array(
@@ -77,6 +80,8 @@ class Exception extends \CException
 
     408 => 'Ошибка в модуле Pay. Code: %s Message: %s',
 
+    self::PAY_EXCEPTION_PREFIX => 'Технический код для аггрегации ошибок из модуля Pay',
+
     409 => 'Не найден элемент заказа с таким идентификатором',
     410 => 'Ошибка при удалении. Попытка удалить заказ, принадлежащий другому пользователю',
     411 => 'Данный элемент заказ уже оплачен. Вы не можете удалить уже оплаченые товары',
@@ -117,8 +122,17 @@ class Exception extends \CException
   public function sendResponse()
   {
     $error = new \stdClass();
-    $error->Code = $this->getCode();
-    $error->Message = $this->getMessage();
-    echo json_encode(array('Error' => $error), JSON_UNESCAPED_UNICODE);
+    $previous = $this->getPrevious();
+    if (is_a($previous, 'pay\components\Exception'))
+    {
+      $error->Code = self::PAY_EXCEPTION_PREFIX + $previous->getCode();
+      $error->Message = $previous->getMessage();
+    }
+    else
+    {
+      $error->Code = $this->getCode();
+      $error->Message = $this->getMessage();
+    }
+    echo json_encode(['Error' => $error], JSON_UNESCAPED_UNICODE);
   }
 }

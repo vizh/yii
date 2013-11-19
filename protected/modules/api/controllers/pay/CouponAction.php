@@ -7,36 +7,43 @@ class CouponAction extends \api\components\Action
   {
     $request = \Yii::app()->getRequest();
     $couponCode = $request->getParam('CouponCode');
-    $payerRunetId = $request->getParam('PayerRunetId', null);
+    $payerRunetId = $request->getParam('PayerRunetId');
     if ($payerRunetId === null)
     {
-      $payerRunetId = $request->getParam('PayerRocId', null);
+      $payerRunetId = $request->getParam('PayerRocId');
     }
-    $ownerRunetId = $request->getParam('OwnerRunetId', null);
+    $ownerRunetId = $request->getParam('OwnerRunetId');
     if ($ownerRunetId === null)
     {
-      $ownerRunetId = $request->getParam('OwnerRocId', null);
+      $ownerRunetId = $request->getParam('OwnerRocId');
     }
+    $externalId = $request->getParam('ExternalId');
 
     /** @var $coupon \pay\models\Coupon */
     $coupon = \pay\models\Coupon::model()->byCode($couponCode)->find();
-    $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
-    $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
     if ($coupon == null)
-    {
       throw new \api\components\Exception(406);
-    }
-    else if ($owner == null)
-    {
-      throw new \api\components\Exception(202, array($ownerRunetId));
-    }
-    else if ($payer == null)
-    {
-      throw new \api\components\Exception(202, array($payerRunetId));
-    }
-    else if ($coupon->EventId != $this->getEvent()->Id)
-    {
+    elseif ($coupon->EventId != $this->getEvent()->Id)
       throw new \api\components\Exception(407);
+
+    $payer = null;
+    $owner = null;
+    if (!empty($externalId))
+    {
+      $externalUser = \api\models\ExternalUser::model()
+          ->byExternalId($externalId)->byPartner($this->getAccount()->Role)->find();
+      if ($externalUser === null)
+        throw new \api\components\Exception(3003, [$externalId]);
+      $payer = $owner = $externalUser;
+    }
+    else
+    {
+      $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
+      $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
+      if ($owner == null)
+        throw new \api\components\Exception(202, [$ownerRunetId]);
+      if ($payer == null)
+        throw new \api\components\Exception(202, [$payerRunetId]);
     }
 
     try
@@ -45,7 +52,7 @@ class CouponAction extends \api\components\Action
     }
     catch (\pay\components\Exception $e)
     {
-      throw new \api\components\Exception(408, array($e->getCode(), $e->getMessage()));
+      throw new \api\components\Exception(408, [$e->getCode(), $e->getMessage()], $e);
     }
     
     $result = new \stdClass();
