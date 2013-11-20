@@ -95,7 +95,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
           'action' => 'TEMPLATE',
           'text' => $event->Title,
           'dates' => $dateStart.'/'.$dateEnd,
-          'location' => $event->LinkAddress->Address->__toString(),
+          'location' => !empty($event->LinkAddress) ? $event->LinkAddress->Address->__toString() : '',
           'details' => ''
         ]);
 
