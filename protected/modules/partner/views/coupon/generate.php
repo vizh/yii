@@ -84,6 +84,11 @@ foreach ($products as $product)
         <?=CHtml::activeDropDownList($form, 'productId', $productDropDown);?>
       </div>
 
+      <div class="control-group <?=$form->hasErrors('endTime') ? 'error' : '';?>">
+        <?=CHtml::activeLabel($form, 'endTime');?>
+        <?=CHtml::activeTextField($form, 'endTime', ['id' => 'endTime']);?>
+      </div>
+
       <div class="control-group">
         <button class="btn btn-success btn-large" type="submit"><i class="icon-ok icon-white"></i> Генерировать</button>
       </div>

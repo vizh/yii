@@ -7,6 +7,7 @@ class Generate extends \CFormModel
   public $count;
   public $discount;
   public $productId;
+  public $endTime;
 
   public $suffix;
 
@@ -22,6 +23,7 @@ class Generate extends \CFormModel
       ['type, productId, suffix', 'safe'],
       ['discount', 'numerical', 'min' => 1, 'max' => 100, 'integerOnly' => true, 'allowEmpty' => false],
       ['count', 'numerical', 'min' => 1, 'integerOnly' => true, 'allowEmpty' => false],
+      ['endTime', 'date', 'allowEmpty' => true, 'format' => 'dd.MM.yyyy'],
 
       /** Валидация для сценария many */
       ['suffix', 'match', 'pattern' => '/^[A-Za-z0-9_]+$/', 'allowEmpty' => false, 'on' => 'many', 'message' => 'Поле "Промо-код" должно содержать латиницу и цифры'],
@@ -66,6 +68,7 @@ class Generate extends \CFormModel
   public function generate()
   {
     $result = [];
+    $endTime = !empty($this->endTime) ? date('Y-m-d', strtotime($this->endTime)) . ' 23:59:59' : null;
     if ($this->type == 'many')
     {
       $coupon = new \pay\models\Coupon();
@@ -75,6 +78,7 @@ class Generate extends \CFormModel
       $coupon->Code = $this->getFullCode();
       $coupon->Multiple = true;
       $coupon->MultipleCount = $this->count;
+      $coupon->EndTime = $endTime;
       $coupon->save();
 
       $result[] = $coupon;
@@ -88,6 +92,7 @@ class Generate extends \CFormModel
         $coupon->Discount = (float) $this->discount / 100;
         $coupon->ProductId = $this->product !== null ? $this->product->Id : null;
         $coupon->Code = $coupon->generateCode();
+        $coupon->EndTime = $endTime;
         $coupon->save();
 
         $result[] = $coupon;
@@ -104,7 +109,8 @@ class Generate extends \CFormModel
       'suffix' => 'Промо-код',
       'count' => $this->getCountTitle(),
       'discount' => 'Размер скидки (%)',
-      'productId' => 'Тип продукта'
+      'productId' => 'Тип продукта',
+      'endTime' => 'Срок действия до'
     ];
   }
 

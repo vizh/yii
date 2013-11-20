@@ -6,4 +6,6 @@ $(function(){
   });
 
   $('.coupon-type input[type="radio"]:checked').trigger('change');
+
+  $('#endTime').datepicker();
 });
