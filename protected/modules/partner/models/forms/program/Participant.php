@@ -1,8 +1,6 @@
 <?php
 namespace partner\models\forms\program;
 
-use CModelEvent;
-
 class Participant extends \CFormModel
 {
   public $Id;
@@ -11,6 +9,7 @@ class Participant extends \CFormModel
   public $ReportTitle;
   public $ReportThesis;
   public $ReportUrl;
+  public $ReportFullInfo;
   public $Delete;
   public $Order;
 
@@ -39,6 +38,7 @@ class Participant extends \CFormModel
         $this->ReportTitle = $linkUser->Report->Title;
         $this->ReportThesis = $linkUser->Report->Thesis;
         $this->ReportUrl = $linkUser->Report->Url;
+        $this->ReportFullInfo = $linkUser->Report->FullInfo;
       }
     }
   }
@@ -56,29 +56,30 @@ class Participant extends \CFormModel
 
   public function rules()
   {
-    return array(
-      array('Id, Order', 'numerical', 'allowEmpty' => true),
-      array('RoleId', 'required'),
-      array('RunetId, CompanyId, CustomText, ReportTitle, ReportThesis, Delete', 'safe'),
-      array('ReportUrl', 'url', 'allowEmpty' => true)
-    );
+    return [
+      ['Id, Order', 'numerical', 'allowEmpty' => true],
+      ['RoleId', 'required'],
+      ['RunetId, CompanyId, CustomText, ReportTitle, ReportThesis, ReportFullInfo, Delete', 'safe'],
+      ['ReportUrl', 'url', 'allowEmpty' => true]
+    ];
   }
   
   public function attributeLabels()
   {
-    return array(
+    return [
       'RunetId' => \Yii::t('app', 'RUNET-ID'),
       'CompanyId' => \Yii::t('app', 'ID компании'),
       'CustomText' => \Yii::t('app', 'Произвольный текст'),
       'RoleId' => \Yii::t('app', 'ID роли'),
-      'ReportTitle' => \Yii::t('app', 'Заголовок доклада'),
+      'ReportTitle' => \Yii::t('app', 'Название доклада'),
       'ReportThesis' => \Yii::t('app', 'Тезисы доклада'),
+      'ReportFullInfo' => \Yii::t('app', 'Текст доклада'),
       'ReportUrl' => \Yii::t('app', 'Url доклада'),
       'Delete' => \Yii::t('app', 'Удалить'),
       'Order' => \Yii::t('app', 'Сортировка'),
       'Role' => \Yii::t('app', 'Роль'),
       'Report' => \Yii::t('app', 'Доклад')
-    );
+    ];
   }
 
   /** @var \user\models\User */
@@ -108,5 +109,10 @@ class Participant extends \CFormModel
       }
       return;
     }
+  }
+
+  public function getIsEmptyReportData()
+  {
+    return empty($this->ReportTitle) && empty($this->ReportThesis) && empty($this->ReportUrl) && empty($this->ReportFullInfo);
   }
 }

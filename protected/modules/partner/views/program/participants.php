@@ -48,17 +48,35 @@
             <?=\CHtml::activeDropDownList($form, 'RoleId', \CHtml::listData(\event\models\section\Role::model()->findAll(), 'Id', 'Title'));?>
           </div>
         </div>
+
         <div class="control-group">
-          <?=\CHtml::activeLabel($form, 'Report', array('class' => 'control-label'));?>
+          <?=\CHtml::activeLabel($form, 'ReportTitle', ['class' => 'control-label']);?>
           <div class="controls">
             <?=\CHtml::activeTextField($form, 'ReportTitle');?>
           </div>
+        </div>
+
+        <div class="control-group">
+          <?=\CHtml::activeLabel($form, 'ReportThesis', ['class' => 'control-label']);?>
           <div class="controls">
-            <?=\CHtml::activeTextArea($form, 'ReportThesis', array('class' => 'm-top_10 span9'));?>
+            <?=\CHtml::activeTextArea($form, 'ReportThesis', ['class' => 'span9']);?>
           </div>
+        </div>
+
+        <div class="control-group">
+          <?=\CHtml::activeLabel($form, 'ReportUrl', ['class' => 'control-label']);?>
           <div class="controls">
-            <?=\CHtml::activeTextField($form, 'ReportUrl', array('class' => 'm-top_10', 'placeholder' => \Yii::t('app', 'Ссылка на доклад')));?>
+            <?=\CHtml::activeTextField($form, 'ReportUrl', ['class' => 'span9']);?>
           </div>
+        </div>
+
+        <div class="control-group">
+          <?=\CHtml::activeLabel($form, 'ReportFullInfo', ['class' => 'control-label']);?>
+          <div class="controls">
+            <?=\CHtml::activeTextArea($form, 'ReportFullInfo',  ['class' => 'span9']);?>
+          </div>
+        </div>
+        <div class="control-group">
           <?if ($link->Report !== null && !empty($link->Report->Url)):?>
             <div class="controls m-top_10">
               <a href="<?=$link->Report->Url;?>"><?=\Yii::t('app', 'Скачать презентацию');?></a>

@@ -498,6 +498,7 @@ class Builder
       $this->report->Header = $link->Report->Title;//todo: deprecated
       $this->report->Title = $link->Report->Title;
       $this->report->Thesis = $link->Report->Thesis;
+      $this->report->FullInfo = $link->Report->FullInfo;
       $this->report->LinkPresentation = $link->Report->Url;//todo: deprecated
       $this->report->Url = $link->Report->Url;
     }

@@ -87,7 +87,7 @@ class ParticipantsAction extends \partner\components\Action
           }
           $linkUser->RoleId = $form->RoleId;
           $linkUser->Order  = $form->Order;
-          if (!empty($form->ReportTitle) || !empty($form->ReportThesis) || !empty($form->ReportUrl))
+          if (!$form->getIsEmptyReportData())
           {
             $report = $linkUser->Report;
             if ($report == null)
@@ -97,6 +97,7 @@ class ParticipantsAction extends \partner\components\Action
             $report->Url = $form->ReportUrl;
             $report->Thesis = $form->ReportThesis;
             $report->Title = $form->ReportTitle;
+            $report->FullInfo = $form->ReportFullInfo;
             $report->save();
             $linkUser->ReportId = $report->Id;
           }

@@ -5,9 +5,12 @@ class ListAction extends \api\components\Action
 {
   public function run()
   {
-    $sections = $this->getEvent()->Sections(array('with' => array('LinkHalls.Hall', 'Attributes')));
+    $sections = $this->getEvent()->Sections([
+      'with' => ['LinkHalls.Hall', 'Attributes'],
+      'order' => '"Sections"."Id"'
+    ]);
 
-    $result = array();
+    $result = [];
     foreach ($sections as $section)
     {
       $result[] = $this->getAccount()->getDataBuilder()->createSection($section);

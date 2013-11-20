@@ -6,6 +6,7 @@ namespace event\models\section;
  * @property string $Title
  * @property string $Thesis
  * @property string $Url
+ * @property string $FullInfo
  */
 class Report extends \CActiveRecord
 {
@@ -31,7 +32,7 @@ class Report extends \CActiveRecord
   
   public function relations()
   {
-    return array();
+    return [];
   }
 
 }
