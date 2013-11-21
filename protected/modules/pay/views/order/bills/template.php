@@ -140,7 +140,7 @@ use application\components\utility\Texts;
         </div>
         <?endif;?>
         
-        <table style="width: 100%; border:0;" cellspacing="0" cellpadding="3">
+        <table style="width: 720px; position: absolute; border:0;" cellspacing="0" cellpadding="3">
           <tr>
             <td style="width: 1px; overflow: visible;white-space:nowrap;"><?=$template->SignFirstTitle;?></td>
             <td style="border-bottom: 1px solid #000;"></td>
