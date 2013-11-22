@@ -123,8 +123,6 @@ class Coupon extends \CActiveRecord
 
 
   /**
-   * @static
-   *
    * @param \user\models\User $payer
    * @param \user\models\User $owner
    *
@@ -133,14 +131,7 @@ class Coupon extends \CActiveRecord
    */
   public function activate($payer, $owner)
   {
-    if (!$this->getIsNotExpired())
-    {
-      throw new \pay\components\Exception(\Yii::t('app','Срок действия вашего промо кода истек'), 305);
-    }
-    if (!$this->getIsRightCountActivations())
-    {
-      throw new \pay\components\Exception(\Yii::t('app','Превышено максимальное количество активаций промо кода'), 301);
-    }
+    $this->check();
 
     if (abs($this->Discount - 1.00) < 0.00001)
     {
@@ -182,6 +173,21 @@ class Coupon extends \CActiveRecord
   }
 
   /**
+   * @throws \pay\components\Exception
+   */
+  public function check()
+  {
+    if (!$this->getIsNotExpired())
+    {
+      throw new \pay\components\Exception(\Yii::t('app','Срок действия вашего промо кода истек'), 305);
+    }
+    if (!$this->getIsRightCountActivations())
+    {
+      throw new \pay\components\Exception(\Yii::t('app','Превышено максимальное количество активаций промо кода'), 301);
+    }
+  }
+
+  /**
    * @param \user\models\User $owner
    *
    * @throws \pay\components\Exception
@@ -196,7 +202,8 @@ class Coupon extends \CActiveRecord
 
     if ($activation !== null)
     {
-      if ($activation->Coupon->Discount >= $this->Discount)
+      $isSameProduct = $activation->Coupon->ProductId == null || $activation->Coupon->ProductId == $this->ProductId;
+      if ($activation->Coupon->Discount >= $this->Discount && $isSameProduct)
       {
         throw new \pay\components\Exception(\Yii::t('app','У пользователя уже активирован промо код с большей скидкой'), 302);
       }
