@@ -12,19 +12,40 @@ class CreateUserAction extends \api\components\Action
     $firstName = $request->getParam('FirstName');
     $company = $request->getParam('Company');
     $position = $request->getParam('Position');
+    $couponCode = $request->getParam('CouponCode');
 
     $externalUser = \api\models\ExternalUser::model()
         ->byExternalId($externalId)->byPartner($this->getAccount()->Role)->find();
     if ($externalUser !== null)
-      throw new \api\components\Exception(3002, array($externalId));
+      throw new \api\components\Exception(3002, [$externalId]);
     if (empty($externalId))
-      throw new \api\components\Exception(3004, array('ExternalId'));
+      throw new \api\components\Exception(3004, ['ExternalId']);
     if (empty($email))
-      throw new \api\components\Exception(3004, array('Email'));
+      throw new \api\components\Exception(3004, ['Email']);
     if (empty($lastName))
-      throw new \api\components\Exception(3004, array('LastName'));
+      throw new \api\components\Exception(3004, ['LastName']);
     if (empty($firstName))
-      throw new \api\components\Exception(3004, array('FirstName'));
+      throw new \api\components\Exception(3004, ['FirstName']);
+
+    $coupon = null;
+    if ($couponCode != null)
+    {
+      /** @var $coupon \pay\models\Coupon */
+      $coupon = \pay\models\Coupon::model()->byCode($couponCode)->find();
+      if ($coupon == null)
+        throw new \api\components\Exception(3006);
+      elseif ($coupon->EventId != $this->getEvent()->Id)
+        throw new \api\components\Exception(3006);
+
+      try
+      {
+        $coupon->check();
+      }
+      catch (\pay\components\Exception $e)
+      {
+        throw new \api\components\Exception(408, [$e->getCode(), $e->getMessage()], $e);
+      }
+    }
 
     $user = new \user\models\User();
     $user->FirstName = $firstName;
@@ -59,6 +80,11 @@ class CreateUserAction extends \api\components\Action
     $role = \event\models\Role::model()->findByPk(24);
     $this->getEvent()->skipOnRegister = true;
     $this->getEvent()->registerUser($user, $role);
+
+    if ($coupon != null)
+    {
+      $coupon->activate($user, $user);
+    }
 
     $url = $user->getFastauthUrl(\Yii::app()->createUrl('/pay/cabinet/register', ['eventIdName' => $this->getEvent()->IdName]));
     $this->setResult(['PayUrl' => $url]);

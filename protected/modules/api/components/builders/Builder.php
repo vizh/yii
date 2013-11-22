@@ -475,6 +475,7 @@ class Builder
   {
     $this->report = new \stdClass();
 
+    $this->report->Id = $link->Id;
     if (!empty($link->User))
     {
       $this->createUser($link->User);
