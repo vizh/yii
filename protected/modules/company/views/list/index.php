@@ -36,7 +36,7 @@
                   <a href="<?php echo $this->createUrl('/company/view/index', array('companyId' => $company->Id));?>"><?php echo $company->Name;?></a>
                 </h4>
                 
-                <?if ($company->LinkAddress !== null):?>
+                <?if ($company->LinkAddress !== null && $company->LinkAddress->Address->City !== null):?>
                 <p class="location"><?=$company->LinkAddress->Address->City->Name;?></p>
                 <?endif;?>
                 <p class="employees"><?=\Yii::t('app', '<b>{n}</b> сотрудник|<b>{n}</b> сотрудника|<b>{n}</b> сотрудников|<b>{n}</b> сотрудника', sizeof($company->Employments));?></p>

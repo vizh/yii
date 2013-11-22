@@ -5,18 +5,18 @@ class ResultController extends \application\components\controllers\PublicMainCon
   private $paginators;
   private $currentTab;
   private $results;
-  
+
   public function actionIndex($term = '')
   {
     $this->paginators = new \stdClass();
     $this->term = $term;
-    
+
     $search = new \search\models\Search();
     $this->currentTab = \Yii::app()->request->getParam('tab', \search\components\SearchResultTabId::User);
     $textUtility = new \application\components\utility\Texts();
     $this->term = $textUtility->filterPurify(trim($this->term));
-   
-    
+
+
     $criteria = new \CDbCriteria();
     $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
     $criteria->with = array(
@@ -46,15 +46,15 @@ class ResultController extends \application\components\controllers\PublicMainCon
     $search->appendModel(
       $this->getModelForSearch(\company\models\Company::model(), $criteria, \search\components\SearchResultTabId::Companies)
     );
-    
+
     $criteria = new \CDbCriteria();
     $criteria->mergeWith(\event\models\Event::model()->byVisible(true)->orderByDate('DESC')->getDbCriteria());
     $search->appendModel(
       $this->getModelForSearch(\event\models\Event::model(), $criteria, \search\components\SearchResultTabId::Events)
     );
-    
+
     $this->results = $search->findAll($term);
-    
+
     $this->setPageTitle(\Yii::t('app', 'Результаты поиска'));
     $this->render('index', array(
       'results' => $this->results,
@@ -63,9 +63,9 @@ class ResultController extends \application\components\controllers\PublicMainCon
       'paginators' => $this->paginators
     ));
   }
-  
+
   /**
-   * 
+   *
    * @param \CActiveRecord $model
    * @param \CDbCriteria $criteria
    * @param string $tabId
@@ -84,13 +84,13 @@ class ResultController extends \application\components\controllers\PublicMainCon
     $model->getDbCriteria()->mergeWith($criteria);
     return $model;
   }
-  
+
   private function getActiveTabId()
   {
     $tabId = \Yii::app()->request->getParam('tab');
     if ($tabId !== null)
       return $tabId;
-    
+
     $max = -1;
     $maxModel = null;
     foreach ($this->results->Counts as $model => $count)
@@ -101,7 +101,7 @@ class ResultController extends \application\components\controllers\PublicMainCon
         $maxModel = $model;
       }
     }
-    
+
     switch ($maxModel)
     {
       case 'user\models\User':

@@ -6,7 +6,7 @@
     <ul class="nav">
       <li class="item"><a href="<?=Yii::app()->createUrl('/event/list/index');?>"><?=Yii::t('app', 'Мероприятия');?></a></li>
       <li class="item"><a target="_blank" href="http://therunet.com/"><?=Yii::t('app', 'Новости');?></a></li>
-      <li class="item"><a href="/#competences"><?=Yii::t('app', 'Компетенции');?></a></li>
+      <li class="item"><a href="<?=Yii::app()->createUrl('/company/list/index');?>"><?=Yii::t('app', 'Компании');?></a></li>
       <li class="item"><a href="<?=Yii::app()->createUrl('/job/default/index');?>"><?=Yii::t('app', 'Работа');?></a></li>
       <li class="divider-vertical"></li>
       <?if (Yii::app()->user->getCurrentUser() === null):?>
