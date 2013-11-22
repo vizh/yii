@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'ibcrussia13-html-4';
-    $isHTML = true;
+    $template = 'cvs13-1';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -72,8 +72,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(688));
-    $criteria->addInCondition('"Participants"."RoleId"', array(24));
+    // TechCrunch
+//    $criteria->addInCondition('"Participants"."EventId"', array(738));
+
+//    CVS
+    $criteria->addInCondition('"Participants"."EventId"', array(797));
+
+//    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
 /*
@@ -81,13 +86,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE "CompanyId" IN (23,8624,7677,10384,1167,35594,35594,3392,39028,13565) AND ("StartYear" > 2008 OR "StartYear" IS NULL) )');
 */
 
-    $criteria->addCondition('"t"."Id" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" IN (1) AND "EventId" = 688)');
+//    $criteria->addCondition('"t"."Id" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" IN (1) AND "EventId" = 688)');
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953,454));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -98,7 +103,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = \user\models\User::model()->findAll($criteria);
 
     /* Для PK PASS для Яблочников */
-//    $event = \event\models\Event::model()->findByPk(827);
+    $event = \event\models\Event::model()->findByPk(797);
 
     if (!empty($users))
     {
@@ -108,7 +113,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        exit();
 
 //        /* PK PASS для Яблочников */
-//        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $user->Participants[0]->Role);
+        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $user->Participants[0]->Role);
 
 //        $arPromo = array();
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
@@ -150,16 +155,17 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
 //        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
-//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Напоминание о регистрации на мероприятии') .'?=';
+//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Tech Crunch Moscow - Электронный билет') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('I МОСКОВСКИЙ КОРПОРАТИВНЫЙ ВЕНЧУРНЫЙ САММИТ - Электронный билет') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
 
         /* PK PASS для Яблочников */
-//        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
+        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
 //        $mail->Send();
 
