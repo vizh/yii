@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'cvs13-1';
+    $template = 'tc2013-1';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -73,10 +73,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     );
 
     // TechCrunch
-//    $criteria->addInCondition('"Participants"."EventId"', array(738));
-
-//    CVS
-    $criteria->addInCondition('"Participants"."EventId"', array(797));
+    $criteria->addInCondition('"Participants"."EventId"', array(738));
 
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
@@ -103,7 +100,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = \user\models\User::model()->findAll($criteria);
 
     /* Для PK PASS для Яблочников */
-    $event = \event\models\Event::model()->findByPk(797);
+    $event = \event\models\Event::model()->findByPk(738);
 
     if (!empty($users))
     {
@@ -158,8 +155,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
 //        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
         $mail->CharSet = 'utf-8';
-//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Tech Crunch Moscow - Электронный билет') .'?=';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('I МОСКОВСКИЙ КОРПОРАТИВНЫЙ ВЕНЧУРНЫЙ САММИТ - Электронный билет') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Tech Crunch Moscow - Электронный билет') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
