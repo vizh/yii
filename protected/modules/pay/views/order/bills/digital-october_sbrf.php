@@ -21,7 +21,7 @@ use application\components\utility\Texts;
   <TABLE cellSpacing="0" cellPadding="5" width="720" border="0">
     <TBODY>
     <TR>
-      <TD><b>ООО «Цифровой Октябрь»</b><BR>Адрес: Российская Федерация, 119072, Москва, Берсеневская набережная, дом 6, строение 3<BR>тел. 7 (495) 988-33-56</TD>
+      <TD><b>ООО «Цифровой Октябрь»</b><BR>Адрес: Российская Федерация, 119072, Москва, Берсеневская набережная, дом 6, строение 3<BR>тел. 7 (499) 963-31-10</TD>
       <td align="right"><img src="/images/bill/rocid.png" width="129" height="48"></td>
 
     </tr>
