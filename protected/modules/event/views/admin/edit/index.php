@@ -87,7 +87,7 @@
             }
 
           ?>
-          <?=\CHtml::activeFileField($form, 'Logo');?>
+          <?=\CHtml::fileField(\CHtml::activeName($form, 'Logo'));?>
         </div>
         <div class="controls"><?=\CHtml::image($event->getLogo()->get50px());?></div>
       </div>
@@ -136,7 +136,8 @@
         </div>
       </div>
       <?endif;?>
-      
+
+      <?if (!$event->getIsNewRecord()):?>
       <div class="control-group">
         <div class="controls">
           <a href="<?=$this->createUrl('/event/admin/edit/product', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-shopping-cart"></i> <?=\Yii::t('app', 'Товары');?></a>
@@ -147,6 +148,7 @@
           <a href="<?=$this->createUrl('/event/admin/mail/register', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-pencil"></i> <?=\Yii::t('app', 'Рег. письмо');?></a>
         </div>
       </div>
+      <?endif;?>
     </div>
   </div>
   

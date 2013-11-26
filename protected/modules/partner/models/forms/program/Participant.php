@@ -59,11 +59,22 @@ class Participant extends \CFormModel
     return [
       ['Id, Order', 'numerical', 'allowEmpty' => true],
       ['RoleId', 'required'],
-      ['RunetId, CompanyId, CustomText, ReportTitle, ReportThesis, ReportFullInfo, Delete', 'safe'],
-      ['ReportUrl', 'url', 'allowEmpty' => true]
+      ['RunetId, CompanyId, CustomText, ReportTitle, ReportThesis, Delete, ReportFullInfo', 'safe'],
+      ['ReportUrl', 'url', 'allowEmpty' => true],
+      ['ReportFullInfo', 'filter', 'filter' => [$this, 'filterReportFullInfo']]
     ];
   }
-  
+
+  public function filterReportFullInfo($value)
+  {
+    $purifier = new \CHtmlPurifier();
+    $purifier->options = [
+      'HTML.AllowedElements'   => ['p', 'span', 'ol', 'li', 'strong', 'a', 'em', 's', 'ul', 'br'],
+      'HTML.AllowedAttributes' => ['style', 'href', 'target'],
+    ];
+    return $purifier->purify($value);
+  }
+
   public function attributeLabels()
   {
     return [

@@ -27,7 +27,7 @@ class Edit extends \CFormModel
   
   public $Widgets;
   
-  public $ProfInterest;
+  public $ProfInterest = [];
   
   public $Address;
 
@@ -40,7 +40,7 @@ class Edit extends \CFormModel
       ['EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'],
       ['Info', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')],
       ['Title, IdName, Info, FullInfo, Visible, TypeId, ShowOnMain, Approved, Widgets, ProfInterest, SiteUrl', 'safe'],
-      ['Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true],
+      ['Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true]
     ];
   }
   
@@ -61,7 +61,9 @@ class Edit extends \CFormModel
       'SiteUrl' => \Yii::t('app', 'URl сайта'),
       'Address' => \Yii::t('app', 'Адрес'),
       'Free' => \Yii::t('app', 'Бесплатное мероприятие'),
-      'Top' => \Yii::t('app', 'Выделить в блок')
+      'Top' => \Yii::t('app', 'Выделить в блок'),
+      'StartDate' => \Yii::t('app', 'Дата начала'),
+      'EndDate' => \Yii::t('app', 'Дата окончания')
     ];
   }
   

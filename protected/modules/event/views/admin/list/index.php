@@ -1,9 +1,11 @@
 <div class="row-fluid">
-  <div class="btn-toolbar">
-    <?=\CHtml::form($this->createUrl('/event/admin/list/index'), 'GET', array('class' => 'form-inline'));?>
+  <div class="btn-toolbar clearfix">
+    <?=\CHtml::form($this->createUrl('/event/admin/list/index'), 'GET', array('class' => 'form-inline pull-left'));?>
       <?=\CHtml::textField('Query', \Yii::app()->request->getParam('Query', ''), array('placeholder' => \Yii::t('app', 'ID или навзание мероприятия'), 'style' => 'margin-right:5px'));?>
       <?=\CHtml::submitButton(\Yii::t('app', 'Искать'), array('class' => 'btn'));?>
     <?=\CHtml::endForm();?>
+
+    <a href="<?=$this->createUrl('/event/admin/edit/index');?>" class="btn btn-success pull-right"><?=\Yii::t('app', 'Добавить мероприятие');?></a>
   </div>
   <div class="well">
     <table class="table">
