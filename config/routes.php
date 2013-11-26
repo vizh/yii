@@ -8,12 +8,17 @@ return array(
       'useStrictParsing' => true,
       'rules' => array(
 
+        /** PHDays2014 */
+        'http://phdays2014.'.RUNETID_HOST.'/' => array('event/view/index/', 'defaultParams' => array('idName' => 'phdays2014')),
+        'http://phdays2014.'.RUNETID_HOST.'/register/' => array('pay/cabinet/register/', 'defaultParams' => array('eventIdName' => 'phdays2014')),
+        'http://phdays2014.'.RUNETID_HOST.'/pay/' => array('pay/cabinet/index/', 'defaultParams' => array('eventIdName' => 'phdays2014')),
+        'http://phdays2014.'.RUNETID_HOST.'/create/' => array('pay/juridical/create/', 'defaultParams' => array('eventIdName' => 'phdays2014')),
+
         /** Mblt 2013 */
         'http://mblt2013.'.RUNETID_HOST.'/' => array('event/view/index/', 'defaultParams' => array('idName' => 'mblt2013')),
         'http://mblt2013.'.RUNETID_HOST.'/register/' => array('pay/cabinet/register/', 'defaultParams' => array('eventIdName' => 'mblt2013')),
         'http://mblt2013.'.RUNETID_HOST.'/pay/' => array('pay/cabinet/index/', 'defaultParams' => array('eventIdName' => 'mblt2013')),
         'http://mblt2013.'.RUNETID_HOST.'/create/' => array('pay/juridical/create/', 'defaultParams' => array('eventIdName' => 'mblt2013')),
-
 
         /** Demo 2013 */
         'http://demo2013.'.RUNETID_HOST.'/' => array('event/view/index/', 'defaultParams' => array('idName' => 'demo2013')),
