@@ -1,177 +1,175 @@
-<style type="text/css">
-  /* Reset */
-  html, body, div, span, h1, h2, h3, h4, h5, h6, p, img, b, i, ol, ul, li, table, caption, tbody, tfoot, thead, tr, th, td {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    font-size: 100%;
-    vertical-align: baseline;
-    background: transparent;
-  }
-  /*body {line-height: 1;}*/
-  a {
-    margin: 0;
-    padding: 0;
-    font-size: 100%;
-    vertical-align: baseline;
-    background: transparent;
-  }
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-  }
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Mailing event</title>
+    <style>
+      /* Reset */
+      html, body, div, span, h1, h2, h3, h4, h5, h6, p, img, b, i, ol, ul, li, table, caption, tbody, tfoot, thead, tr, th, td {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        font-size: 100%;
+        vertical-align: baseline;
+        background: transparent;
+      }
+      body {line-height: 1;}
+      a {
+        margin: 0;
+        padding: 0;
+        font-size: 100%;
+        vertical-align: baseline;
+        background: transparent;
+      }
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+      
+      /* Styles */
+      body {
+        padding: 50px 0;
+        font-size: 13px;
+        font-family: Helvetica, Arial, sans-serif;
+      }
 
-  /* Styles */
-  body {
-    margin: 0;
-    padding: 0;
-    font-size: 13px;
-    font-family: Helvetica, Arial, sans-serif;
-  }
+      a {color: #00a8ca;}
+      a:hover {text-decoration: none;}
+      
+      h1 {font-size: 50px;}
+      h2 {font-size: 35px;}
+      h3 {
+        font-size: 19px;
+        line-height: 1.25;
+      }
+      h2, h3 {font-weight: normal;}
 
-  a {color: #00a8ca;}
-  a:hover {text-decoration: none;}
+      p, li {line-height: 1.5;}
 
-  h1 {font-size: 50px;}
-  h2 {font-size: 35px;}
-  h3 {
-    font-size: 19px;
-    line-height: 1.25;
-  }
-  h2, h3 {font-weight: normal;}
+      img, td {vertical-align: top;}
 
-  p, li {line-height: 1.5;}
+      table {
+        width: 740px;
+        margin: 0 auto;
+      }
 
-  img, td {vertical-align: top;}
+      ul,ol {
+        margin-left: 20px;
+      }
+      li {
+        margin: 5px 0;
+      }
 
-  table {
-    width: 740px;
-    margin: 0 auto;
-  }
+      .register-btn:hover {opacity: .9;}
+      .register-btn:active {opacity: .8;}
+    </style>
+  </head>
+  <body>
 
-  ul {
-    margin-left: 20px;
-  }
+    
+    <table border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td>&nbsp;</td>
+        <td style="font-size: 25px; font-weight: bold; line-height: 25px; text-align: center; width: 1px; padding: 5px;" rowspan="2">RUNET</td>
+        <td>&nbsp;</td>
+        <td style="font-size: 25px; font-weight: bold; line-height: 25px; width: 1px; text-align: center; padding: 5px;" rowspan="2">ID</td>
+        <td>&nbsp;</td>
+        <td rowspan="2" style="font-size: 25px; font-weight: bold; line-height: 25px; width: 1px; text-align: center; padding: 5px;"><?=$user->RunetId;?></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td style="border-width: 3px 0 0 3px; border-color: #000; border-style: solid; width: 20px;">&nbsp;</td>
+        <td style="border-top: 3px solid #000; width: 20px;">&nbsp;</td>
+        <td style="border-top: 3px solid #000;">&nbsp;</td>
+        <td style="border-top: 3px solid #000; border-right: 3px solid #000; width: 20px;">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="10" style="border-left: 3px solid #000; border-right: 3px solid #000; border-bottom: 3px solid #000;">
+          
+          <table border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 50px; border-top: 0;">
+            <tbody>
+              <tr>
+                <td colspan="5" height="30"></td>
+              </tr>
 
-  .role {
-    margin-top: 15px;
-    margin-bottom: 10px;
-    display: block;
-    /*width: 140px;*/
-    text-align: center;
-    padding: 2px 0;
-    background-color: #4f4f4f;
-    color: #ffffff;
-    text-transform: uppercase;
-  }
-  .extra_pay {
-    margin-top: 5px;
-    display: block;
-    /*width: 140px;*/
-    text-align: center;
-    padding: 2px 0;
-    background-color: #4481A4;
-    color: #ffffff;
-  }
-  a.program-btn {
-    background: transparent url("http://runet-id.com/images/mail/riw13/program_bg.png") no-repeat;
-    color: #FFFFFF;
-    display: block;
-    font-size: 12px;
-    height: 26px;
-    line-height: 24px;
-    margin-top: 12px;
-    text-align: center;
-    text-transform: uppercase;
-    width: 192px;
-  }
-</style>
+              <tr>
+                <td></td>
+                <td colspan="3">
+                  <p>Здравствуйте, <?=$user->getShortName();?>!</p>
+                </td>
+                <td></td>
+              </tr>
 
-<body>
-  <table style="width: 660px;  color: #4e4e4e; font-family: tahoma; font-size: 14px; background-color: #F6F6F6; background-repeat: no-repeat; background-position: center -70px; padding-left: 20px; padding-right: 20px; padding-bottom: 20px; border: 20px solid #000;" cellpadding="0" cellspacing="0">
-    <tr>
-      <td>
-        <table style="width: 100%;" cellpadding="0" cellspacing="0">
-          <tr>
-            <td align="center"><img src="http://runet-id.com/images/mail/marketingparty2013/marketing-header.jpg" /></td>
-          </tr>
-          <tr>
-            <td style="padding-top: 20px; padding-left: 30px; padding-right: 30px; background-color: #ffffff">
-              <table style="width: 100%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td>
-                    <span style="font-size: 35px; font-weight: bold;">Путевой лист &mdash;<br/>Вечеринка для маркетинг директоров</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 10px;">
-                    <hr size="1" color="#d2d2d2" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <table style="width: 100%" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td valign="top" style="width: 270px; padding-right: 20px;">
-                          <div style="color: #000; font-size: 30px; font-weight: bold; line-height: 35px;"><?=$user['name'];?></div>
-                        </td>
-                        <td valign="top" style="padding-right: 20px; width: 205px; font-size: 12px;">
-                          <div class="role">Участник</div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 30px;">
-                    <table style="width: 100%;" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <td width="65%" style="background-color: #ececec; padding: 5px;">
-                          <strong>Время работы стойки регистрации</strong><br/>
-                          <span style="font-size: 80%;">17 октября 09:00-17:00 / 18 октября 10:00-17:00 / 19 октября 10:00-17:00</span>
-                        </td>
-                        <td align="right">
-                          <a href="http://runet-id.com/event/marketingparty2013/" target="_blank" class="program-btn">ПРОГРАММА</a>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="text-align: center; padding-top: 20px;">
-                    <img src="http://runet-id.com/images/mail/riw13/warning.png" />
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 10px;">
-                    <hr size="1" color="#d2d2d2" />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <span style="font-size: 35px; font-weight: bold;">Место проведения</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 10px;">
-                    <p>г. Москва, Кудринская площадь, д. 1, Simon Says</p>
-                    <p>По всем вопросам: +7 (916) 709-69-71, index@rta-moscow.com</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding-top: 10px; text-align: center;"><img src="http://runet-id.com/images/mail/marketingparty2013/map.jpg" border="0"/></td>
-                </tr>
-                <tr>
-                  <td style="text-align: center; padding: 20px;">
-                    <img src="http://runet-id.com/images/mail/spic13/ticket/runet-id_logo.gif" />
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
+              <tr>
+                <td colspan="5" height="25"></td>
+              </tr>
+
+              <!-- Columns width -->
+              <tr>
+                <td width="50"></td>
+                <td width="420">
+                  <h1>Вечеринка для маркетинг директоров</h1>
+                </td>
+                <td width="40"></td>
+                <td width="180">
+                  <img src="http://runet-id.com/images/mail/riw13/riw13_150.png" width="150" alt="">
+                </td>
+                <td width="50"></td>
+              </tr>
+
+              <tr>
+                <td colspan="5" height="25"></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td style="background: #e2f4fc;">
+                  <div style="padding: 20px 0 20px 30px;">
+                    <h3>Участие в закрытой вечеринке для маркетинг директоров 18 октября</h3>
+                  </div>
+                </td>
+                <td style="background: #e2f4fc;"></td>
+                <td style="background: #e2f4fc; vertical-align: middle;">
+                  <a href="http://2013.russianinternetweek.ru/marketing/" target="_blank" class="register-btn" style="display: inline-block; width: 139px; height: 41px; background: url(http://runet-id.com/images/mail/event-main-template/register-btn.png) transparent 0 0 no-repeat; color: #fff; font-size: 13px; line-height: 41px; text-align: center; text-decoration: none;">Регистрация</a>
+                </td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td colspan="5" height="25"></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td>
+                  <h3 style="margin-bottom: 15px;">Первая в истории рекламной индустрии закрытая вечеринка для маркетинг директоров:</h3>
+                  <ul style="margin-bottom: 15px;">
+                    <li>Исключительный состав участников. Ведущие маркетологи страны</li>
+                    <li>Обмен опытом с маркетинг директорами из разных индустрий</li>
+                    <li>Мастер-класс от самого молодого российского миллиардера и президента ГК «Связной» — Максима Ноготкова</li>
+                  </ul>
+                  <h3 style="margin-bottom: 15px;">УСЛОВИЯ УЧАСТИЯ</h3>
+                  <p style="margin-bottom: 15px;">Посещение вечеринки - бесплатное для всех зарегистрированных участников.</p>
+                  <p style="margin-bottom: 15px;">По всем вопросам можно обращаться по телефону:<br/>+7(916) 709-69-71</p>
+                  <p style="margin-bottom: 15px;">E-mail: <a href="mailto:index@rta-moscow.com">index@rta-moscow.com</a></p>
+                </td>
+                <td></td>
+                <td valign="top">
+                  <h3 style="margin-bottom: 10px;"><b>18 октября, 20:00</b></h3>
+                  <p style="margin-bottom: 10px;">
+                    <strong>Место проведения</strong>:<br>г. Москва<br/>Кудринская пл, д.1,<br/>Simon Says
+                  </p>
+                </td>
+                <td></td>
+              </tr>
+
+            </tbody>
+          </table>
+          
+        </td>
+      </tr>
+    </table>
+    <p style="width: 740px; margin: 0 auto; color: #909090;">Вы получили это письмо, так как являетесь <a href="<?=$user->getUrl();?>" target="_blank" style="color: #909090;">пользователем runet-id.ru</a> и подписаны на новостную рассылку. Вы можете <a href="http://runet-id.com/user/setting/subscription/" target="_blank" style="color: #909090;">изменить настройки уведомлений</a>.</p>
+
+  </body>
+</html>

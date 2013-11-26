@@ -1,4 +1,4 @@
-<?=$user->getShortName();?>, добрый день!
+Здравствуйте!
 
 Вы – зарегистрированный участник конференции  "Право на Download 2013":
 http://runet-id.com/event/pravodownload2013/
