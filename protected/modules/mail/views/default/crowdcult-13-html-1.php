@@ -150,13 +150,13 @@
 
               <tr>
                 <td></td>
-                <td style="background: #e2f4fc;">
-                  <div style="padding: 20px 0 20px 20px;">
+                <td style="background: #6B9BAF;">
+                  <div style="padding: 20px 0 20px 20px; color: #ffffff;">
                     <h4>Профессиональная конференция о краудфандинге, краудсорсинге и краудинвестинг</h4>
                   </div>
                 </td>
-                <td style="background: #e2f4fc;"></td>
-                <td style="background: #e2f4fc; vertical-align: middle;">
+                <td style="background: #6B9BAF;"></td>
+                <td style="background: #6B9BAF; vertical-align: middle;">
                   <a href="<?=$user->getFastauthUrl('http://runet-id.com/event/crowdcultpro13');?>" target="_blank" class="register-btn" style="display: inline-block; width: 139px; height: 41px; background: url(http://runet-id.com/images/mail/event-main-template/register-btn.png) transparent 0 0 no-repeat; color: #fff; font-size: 13px; line-height: 41px; text-align: center; text-decoration: none;">Регистрация</a>
                 </td>
                 <td></td>
