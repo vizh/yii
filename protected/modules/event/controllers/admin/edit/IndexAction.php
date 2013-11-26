@@ -30,12 +30,16 @@ class IndexAction extends \CAction
       if ($event->LinkSite !== null)
       {
         $form->SiteUrl = (string) $event->LinkSite->Site;
-      } 
-      $form->Address->attributes = $event->getContactAddress()->attributes;
+      }
+
+      $form->Address->setAttributes(
+        $event->getContactAddress()->getAttributes($form->Address->getSafeAttributeNames())
+      );
     }
     else 
     {
       $event = new \event\models\Event();
+      $event->External = false;
     }
     
     
@@ -54,8 +58,6 @@ class IndexAction extends \CAction
         $event->Visible = $form->Visible;
         $event->TypeId = $form->TypeId;
         $event->ShowOnMain = $form->ShowOnMain;
-        $event->Top = $form->Top;
-        $event->Free = $form->Free;
         $event->Approved = $form->Approved;
         $event->StartDay = date('d', $form->StartDateTS);
         $event->StartMonth = date('m', $form->StartDateTS);;
@@ -64,6 +66,9 @@ class IndexAction extends \CAction
         $event->EndMonth = date('m', $form->EndDateTS);;
         $event->EndYear = date('Y', $form->EndDateTS);;
         $event->save();
+
+        $event->Top = $form->Top;
+        $event->Free = $form->Free;
         
         // Сохранение адреса
         $address = $event->getContactAddress();
@@ -71,14 +76,8 @@ class IndexAction extends \CAction
         {
           $address = new \contact\models\Address();
         }
-        $address->RegionId = $form->Address->RegionId;
-        $address->CountryId = $form->Address->CountryId;
-        $address->CityId = $form->Address->CityId;
-        $address->Street = $form->Address->Street;
-        $address->House = $form->Address->House;
-        $address->Building = $form->Address->Building;
-        $address->Wing = $form->Address->Wing;
-        $address->Place = $form->Address->Place;
+
+        $address->setAttributes($form->Address->getAttributes(), false);
         $address->save();
         $event->setContactAddress($address);
         
@@ -141,7 +140,9 @@ class IndexAction extends \CAction
         }
         
         \Yii::app()->user->setFlash('success', \Yii::t('app', 'Мероприятие успешно сохранено'));
-        $this->getController()->refresh();
+        $this->getController()->redirect(
+          $this->getController()->createUrl('/event/admin/edit/index', ['eventId' => $event->Id])
+        );
       }
     }
     
