@@ -73,7 +73,7 @@
         <div class="control-group">
           <?=\CHtml::activeLabel($form, 'ReportFullInfo', ['class' => 'control-label']);?>
           <div class="controls">
-            <?=\CHtml::activeTextArea($form, 'ReportFullInfo',  ['class' => 'span9']);?>
+            <?=\CHtml::activeTextArea($form, 'ReportFullInfo',  ['class' => 'span9 ckeditor']);?>
           </div>
         </div>
         <div class="control-group">
