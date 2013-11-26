@@ -7,9 +7,8 @@ class AdminMainController extends MainController
 
   protected function initResources()
   {
-    parent::initResources();
-
     \Yii::app()->getClientScript()->registerPackage('runetid.admin');
+    parent::initResources();
   }
 
 }

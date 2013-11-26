@@ -35,7 +35,7 @@ class Yii extends YiiBase
     return $_SERVER['DOCUMENT_ROOT'];
   }
 
-  public static function getExistClass($namespace, $name, $default)
+  public static function getExistClass($namespace, $name, $default = null)
   {
     $namespace = rtrim($namespace, ' \\').'\\';
     $path = \Yii::getPathOfAlias(str_replace('\\', '.', ltrim($namespace, '\\'))).DIRECTORY_SEPARATOR.$name.'.php';
@@ -43,7 +43,7 @@ class Yii extends YiiBase
     {
       return $namespace.$name;
     }
-    return $namespace.$default;
+    return $default !== null ? $namespace.$default : null;
   }
 
 }

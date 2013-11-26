@@ -83,8 +83,8 @@ return array(
    /** MicroSoft **/
   array(
     'allow',
-    'roles' => array('microsoft'),
-    'controllers' => array('ms')
+    'roles' => ['microsoft'],
+    'controllers' => ['ms', 'pay']
   ),
 
   /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/
