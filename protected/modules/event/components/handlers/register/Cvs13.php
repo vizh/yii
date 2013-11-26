@@ -15,6 +15,6 @@ class Cvs13 extends Base
 
   public function getBody()
   {
-    return \Yii::app()->getController()->renderPartial('event.views.mail.register.cvs13', ['user' => $this->user], true);
+    return \Yii::app()->getController()->renderPartial('event.views.mail.register.cvs13', ['user' => $this->user, 'participant' => $this->participant], true);
   }
 }

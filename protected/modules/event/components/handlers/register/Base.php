@@ -45,10 +45,28 @@ class Base extends \mail\components\Mail
   }
 
   /**
+   * @return null|string
+   */
+  public function getSubject()
+  {
+    if (isset($this->event->MailRegisterSubject))
+    {
+      return $this->event->MailRegisterSubject;
+    }
+    return null;
+  }
+
+
+  /**
    * @return string
    */
   public function getBody()
   {
+    if (isset($this->event->MailRegisterBodyRendered))
+    {
+      $view = 'event.views.mail.register.'.strtolower($this->event->IdName);
+      return $this->renderBody($view, ['user' => $this->user, 'event' => $this->event, 'participant' => $this->participant]);
+    }
     return null;
   }
   
