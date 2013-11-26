@@ -108,7 +108,8 @@ class ParticipantsAction extends \partner\components\Action
       }
     }
     
-    $this->getController()->getPageTitle(\Yii::t('app','Программа'));
+    $this->getController()->setPageTitle(\Yii::t('app','Редактирование участников секции'));
+    \Yii::app()->getClientScript()->registerPackage('runetid.ckeditor');
     $this->getController()->render('participants', array(
       'section' => $section, 
       'form' => $form,
