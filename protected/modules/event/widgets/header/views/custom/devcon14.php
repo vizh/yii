@@ -13,5 +13,5 @@ $event = $this->event;
 <?endif;?>
 
 <div class="b-event-promo" style="background: #ffffff;">
-  <a href="http://msdevcon.cloudapp.net/register/" target="_blank"><img src="/img/event/devcon14/bg.png" border="0" /></a>
+  <a href="http://www.msdevcon.ru/register/" target="_blank"><img src="/img/event/devcon14/bg.png" border="0" /></a>
 </div>

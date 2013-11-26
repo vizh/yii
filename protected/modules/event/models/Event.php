@@ -108,7 +108,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
    */
   protected function getInternalAttributeNames()
   {
-    return array('UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson');
+    return array('UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson', 'MailRegisterSubject', 'MailRegisterBody', 'MailRegisterBodyRendered');
   }
 
   public function __get($name)
