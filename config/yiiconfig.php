@@ -116,7 +116,7 @@ return array(
         array(
           'class'=>'CEmailLogRoute',
           'levels'=>'error',
-          'except' => 'exception.CHttpException.404',
+          'except' => ['exception.CHttpException.404','exception.api\components\Exception'],
           'emails' => 'error@runet-id.com',
           'subject' => 'RUNET-ID Exception',
           'sentFrom' => 'yii@runet-id.com',

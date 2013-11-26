@@ -407,6 +407,10 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
       return;
     }
 
+    $apiCallback = \api\components\callback\Base::getCallback($this);
+    if ($apiCallback !== null)
+      $apiCallback->registerOnEvent($event->params['user'], $event->params['role']);
+
     $mailer = new \mail\components\mailers\PhpMailer();
     $sender = $event->sender;
     $class = \Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');

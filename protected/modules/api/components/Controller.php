@@ -118,6 +118,12 @@ class Controller extends \application\components\controllers\BaseController
     //header('Content-type: text/html; charset=utf-8');
   }
 
+  protected function initResources()
+  {
+
+  }
+
+
   /** @var AccessControlFilter */
   private $accessFilter;
   public function getAccessFilter()

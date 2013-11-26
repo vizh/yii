@@ -47,8 +47,7 @@ class PublicMainController extends MainController
 
   protected function initResources()
   {
-    parent::initResources();
-
     \Yii::app()->getClientScript()->registerPackage('runetid.application');
+    parent::initResources();
   }
 }
