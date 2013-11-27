@@ -7,45 +7,43 @@ $hideJuridical = $account->OrderLastTime !== null && $account->OrderLastTime < d
 $hideReceipt = $account->ReceiptLastTime !== null && $account->ReceiptLastTime < date('Y-m-d H:i:s') || !$account->ReceiptEnable;
 
 $paysystems = ['uniteller', 'payonline', 'yandexmoney', 'paypal'];
-
-$buttons = ['back'];
+$paybuttons = [];
 if ($account->Uniteller)
-  $buttons[] = 'uniteller';
+  $paybuttons[] = 'uniteller';
 if ($account->PayOnline)
 {
-  $buttons[] = 'payonline';
-  $buttons[] = 'yandexmoney';
+  $paybuttons[] = 'payonline';
+  $paybuttons[] = 'yandexmoney';
 }
-$buttons[] = 'paypal';
+$paybuttons[] = 'paypal';
 if (!$hideReceipt)
 {
-  $buttons[] = 'receipt';
-}
-if (!$hideJuridical)
-{
-  $buttons[] = 'juridical';
+  $paybuttons[] = 'receipt';
 }
 $i = 0;
 ?>
 
-<?while ($i < count($buttons)):?>
-  <div class="actions clearfix">
-    <?for ($j=0; $j<4 && $i < count($buttons); $j++, $i++):?>
-      <?if (in_array($buttons[$i], $paysystems)):?>
-          <?$this->renderPartial('index/buttons/paysystem', ['account' => $account, 'system' => $buttons[$i]]);?>
-      <?else:?>
-        <?$this->renderPartial('index/buttons/'.$buttons[$i], ['account' => $account]);?>
-      <?endif;?>
-    <?endfor;?>
+<div class="pay-buttons clearfix">
+  <div class="pull-left">
+    <h5><?=\Yii::t('app', 'Для юридических лиц');?></h5>
+    <?if ($hideJuridical && $account->OrderEnable):?>
+      <p class="text-error">Окончен период выставления счетов юридическими лицами. Оплата возможна только банковскими картами и электронными деньгами.</p>
+    <?elseif(!$hideJuridical):?>
+      <?$this->renderPartial('index/buttons/juridical', ['account' => $account]);?>
+    <?endif;?>
   </div>
-<?endwhile;?>
+  <div class="pull-right">
+    <h5><?=\Yii::t('app', 'Для физических лиц');?></h5>
+    <ul class="clearfix actions">
+      <?foreach ($paybuttons as $button):?>
+        <li>
+          <?$this->renderPartial('index/buttons/'.(in_array($button, $paysystems) ? 'paysystem' : $button), ['account' => $account, 'system' => $button]);?>
+        </li>
+      <?endforeach;?>
+    </ul>
+  </div>
+</div>
 
-<?if ($hideJuridical && $account->OrderEnable):?>
-  <div class="actions clearfix">
-    <div class="row">
-      <div class="offset2 span8">
-        <p class="text-error">Окончен период выставления счетов юридическими лицами. Оплата возможна только банковскими картами и электронными деньгами.</p>
-      </div>
-    </div>
-  </div>
-<?endif;?>
+<div class="nav-buttons">
+  <?$this->renderPartial('index/buttons/back', ['account' => $account]);?>
+</div>

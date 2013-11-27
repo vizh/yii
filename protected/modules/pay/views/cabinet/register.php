@@ -121,7 +121,7 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
         <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
       </div>
 
-      <div class="actions">
+      <div class="nav-buttons">
         <a href="#" onclick="$('#registration_form').trigger('submit'); return false;" class="btn btn-large btn-info">
           <?=\Yii::t('app', 'Продолжить');?>
           <i class="icon-circle-arrow-right icon-white"></i>
