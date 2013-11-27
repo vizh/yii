@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'crowdcult-13-html-2';
+    $template = 'tc2013-html-1';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -32,7 +32,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 */
 
     // Чтение из файла
-
+/*
 //    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-11-26/alley_all.csv');
 //    foreach($arUsers as $eml) $emails[$eml] = trim($eml);
     $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
@@ -47,7 +47,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = array_slice($emails, $offset, $limit, true);
 
 //    print count($emails); exit();
-
+*/
 
     /*
     // C ПОИСКОМ ПО БД
@@ -64,15 +64,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $users = \user\models\User::model()->findAll($criteria);
     */
-/*
+
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
       'Settings' => array('select' => false)
     );
-*/
-//    $criteria->addInCondition('"Participants"."EventId"', array(738));
+
+    $criteria->addInCondition('"Participants"."EventId"', array(738));
 
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
@@ -81,12 +81,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addNotInCondition('"Participants"."RoleId"', array(3));
     $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "UserEmployment" WHERE "CompanyId" IN (23,8624,7677,10384,1167,35594,35594,3392,39028,13565) AND ("StartYear" > 2008 OR "StartYear" IS NULL) )');
 */
-/*
+
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953,122262));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -95,7 +95,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
-*/
+
     /* Для PK PASS для Яблочников */
 //    $event = \event\models\Event::model()->findByPk(738);
 
@@ -125,8 +125,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->ContentType = ($isHTML) ? 'text/html' : 'text/plain';
         $mail->IsHTML($isHTML);
 
-//        $email = $user->Email;
-        $email = $user;
+        $email = $user->Email;
+//        $email = $user;
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
@@ -152,7 +152,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
 //        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция Crowdcult-Pro - регистрация началась!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Сезон Техкранча объявляется открытым!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
@@ -162,8 +162,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //        $mail->Send();
 
-        fwrite($fp, $email . "\n");
-//        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+//        fwrite($fp, $email . "\n");
+        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
