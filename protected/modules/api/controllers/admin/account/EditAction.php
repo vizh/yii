@@ -74,7 +74,7 @@ class EditAction extends \CAction
       }
       foreach (array_diff($ips, $this->form->Ips) as $ip)
       {
-        \api\models\Ip::model()->byAccountId($this->account->Id)->byIp($ip)->delete();
+        \api\models\Ip::model()->byAccountId($this->account->Id)->byIp($ip)->find()->delete();
       }
       foreach (array_diff($this->form->Ips, $ips) as $ip)
       {
@@ -91,8 +91,9 @@ class EditAction extends \CAction
       }
       foreach (array_diff($domains, $this->form->Domains) as $domain)
       {
-        \api\models\Domain::model()->byAccountId($this->account->Id)->byDomain($domain)->delete();
+        \api\models\Domain::model()->byAccountId($this->account->Id)->byDomain($domain)->find()->delete();
       }
+
       foreach (array_diff($this->form->Domains, $domains) as $domain)
       {
         $domainModel = new \api\models\Domain();
