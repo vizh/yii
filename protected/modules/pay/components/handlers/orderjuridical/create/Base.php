@@ -26,16 +26,16 @@ class Base extends \mail\components\Mail
   {
     return 'RUNET—ID';
   }
-  
+
   public function getSubject()
   {
     if (!$this->order->Receipt)
     {
-      return 'Выставлен счет на оплату '.$this->event->Title;
+      return 'Счет на оплату '.$this->event->Title;
     }
     else
     {
-      return 'Выставлена квитанция на оплату '.$this->event->Title;
+      return 'Квитанция на оплату '.$this->event->Title;
     }
   }
   

@@ -37,24 +37,23 @@ class Base extends \mail\components\Mail
   
   public function getSubject()
   {
-    if ($this->order->Juridical)
+    if ($this->order->Receipt)
     {
-      if (!$this->order->Receipt)
-      {
-        return 'Успешная оплата счета на '.$this->event->Title;
-      }
-      else
-      {
-        return 'Успешная оплата квитанции на '.$this->event->Title;
-      }
+      return 'Успешная оплата квитанции на '.$this->event->Title;
     }
+    elseif ($this->order->Juridical)
+    {
+      return 'Успешная оплата счета на '.$this->event->Title;
+    }
+
     return 'Успешная оплата на '.$this->event->Title;
   }
   
   public function getBody()
   {
-    $view = $this->order->Juridical ? $this->getJuridicalViewPath() : $this->getPhysicalViewPath();
-    $orderItems = array();
+    $isBankPayment = $this->order->Juridical || $this->order->Receipt;
+    $view = $isBankPayment ? $this->getJuridicalViewPath() : $this->getPhysicalViewPath();
+    $orderItems = [];
     foreach ($this->order->ItemLinks as $link)
     {
       if ($link->OrderItem->Paid)
@@ -66,13 +65,13 @@ class Base extends \mail\components\Mail
     if (empty($orderItems))
       return null;
     
-    return \Yii::app()->getController()->renderPartial($view, array(
+    return \Yii::app()->getController()->renderPartial($view, [
       'order' => $this->order,
       'payer' => $this->payer,
       'event' => $this->event,
       'total' => $this->total,
       'items' => $orderItems
-    ), true);
+    ], true);
   }
 
   protected function getJuridicalViewPath()
