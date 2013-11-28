@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'ibcrussia13-5';
-    $isHTML = false;
+    $template = 'beeline13-html-1';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -72,21 +72,21 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(688));
+//    $criteria->addInCondition('"Participants"."EventId"', array(844));
 
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
-    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" NOT IN (24, 26) AND "EventId" = 688)');
+//    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" NOT IN (24, 26) AND "EventId" = 688)');
 
     $criteria->distinct = true;
 //    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
-    $criteria->addCondition('"t"."Visible"');
+//    $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(59999,12953,185212,185213));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 300;
     $criteria->order = '"t"."RunetId" ASC';
@@ -94,35 +94,24 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = \user\models\User::model()->findAll($criteria);
 
     /* Для PK PASS для Яблочников */
-    $event = \event\models\Event::model()->findByPk(688);
+//    $event = \event\models\Event::model()->findByPk(688);
 
     if (!empty($users))
     {
       foreach ($users as $user)
       {
-//          print $user->Participants[0]->Role->Title;
+//        print $user->Participants[0]->Role->Title;
 //        print $user->Participants[0]->getTicketUrl();
-
-        $isPartners = false;
-        foreach($user->Participants as $item)
-        {
-          if(in_array($item->RoleId, array(2,3,5,6,12)))
-          {
-            $isPartners = true;
-            break;
-          }
-        }
-        $role = ($isPartners) ? $user->Participants[0]->Role : \event\models\Role::model()->findByPk(1);
 //        exit();
 
 //        /* PK PASS для Яблочников */
-        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $role);
+//        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $role);
 
 //        $arPromo = array();
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
 
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user, 'role' => $role->Title), true);
+        $body = $this->renderPartial($template, array('user' => $user), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
@@ -158,16 +147,17 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
 //        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('New_Year@beeline.ru', 'Ваш Билайн', false);
 //        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Путевой лист IBC Russia 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на Новый год для лучших сотрудников') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
 
         /* PK PASS для Яблочников */
-        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
+//        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
         $mail->Send();
 
