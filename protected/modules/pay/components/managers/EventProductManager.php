@@ -14,6 +14,9 @@ class EventProductManager extends BaseProductManager
     return array('RoleId');
   }
 
+  /** @var \event\models\Participant */
+  protected $participant;
+
   /**
    * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
    * @param \user\models\User $user
@@ -22,10 +25,10 @@ class EventProductManager extends BaseProductManager
    */
   public function checkProduct($user, $params = array())
   {
-    $participant = \event\models\Participant::model()
+    $this->participant = \event\models\Participant::model()
         ->byUserId($user->Id)
         ->byEventId($this->product->EventId)->with('Role')->find();
-    if ($participant === null)
+    if ($this->participant === null)
     {
       return true;
     }
@@ -35,8 +38,23 @@ class EventProductManager extends BaseProductManager
       return false;
     }
 
-    return $participant->Role->Priority < $role->Priority;
+    return $this->participant->Role->Priority < $role->Priority;
   }
+
+  protected function getCheckProductMessage($user, $params = [])
+  {
+    if ($this->participant != null)
+    {
+      $isSelf = !\Yii::app()->user->isGuest && \Yii::app()->user->getCurrentUser()->Id == $user->Id;
+      $roleTitle = $this->participant->Role->Title;
+      if ($isSelf)
+        return sprintf('Вы уже зарегистрированы на мероприятие со статусом "%s"', $roleTitle);
+      else
+        return sprintf('%s уже зарегистрирован на мероприятие со статусом "%s"', $user->getFullName(), $roleTitle);
+    }
+    return parent::getCheckProductMessage($user, $params);
+  }
+
 
   /**
    * @param \user\models\User $user

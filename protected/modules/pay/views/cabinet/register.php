@@ -75,8 +75,7 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
 
         <?if (!empty($account->SandBoxUserRegisterUrl)):?>
           <p>
-            <strong>Если вы еще не зарегистрировались на мероприятие или хотите зарегистрировать своих коллег, пройдите по ссылке
-              <a target="_blank" href="<?=$account->SandBoxUserRegisterUrl;?>">зарегистрироваться</a>.</strong>
+            <strong>Если ваши коллеги еще не зарегистрированы на конференцию, вы можете сделать это за них, пройдя по <a target="_blank" href="<?=$account->SandBoxUserRegisterUrl;?>">ссылке</a>.</strong>
           </p>
         <?endif;?>
 

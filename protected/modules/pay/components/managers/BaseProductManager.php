@@ -97,7 +97,18 @@ abstract class BaseProductManager
    * @param array $params
    * @return bool
    */
-  abstract public function checkProduct($user, $params = array());
+  abstract public function checkProduct($user, $params = []);
+
+  /**
+   * @param \user\models\User $user
+   * @param array $params
+   *
+   * @return string
+   */
+  protected function getCheckProductMessage($user, $params = [])
+  {
+    return 'Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар.';
+  }
 
   /**
    * Проверяет возможность покупки и оформляет покупку продукта на пользователя
@@ -176,7 +187,7 @@ abstract class BaseProductManager
   {
     if (!$this->checkProduct($owner))
     {
-      throw new \pay\components\Exception('Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар.');
+      throw new \pay\components\Exception($this->getCheckProductMessage($owner));
     }
 
     $orderItem = \pay\models\OrderItem::model()->byProductId($this->product->Id)
