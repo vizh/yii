@@ -7,6 +7,17 @@
  * или
  * @var \event\models\Participant $role
  */
+
+$isPartners = false;
+foreach($participants as $item)
+{
+  if(in_array($item->RoleId, array(2,3,5,6,12)))
+  {
+    $isPartners = true;
+    break;
+  }
+}
+
 ?>
 
 <style type="text/css">
@@ -66,15 +77,15 @@
   }
 
   .role {
-    margin-top: 15px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 0px;
     display: block;
     /*width: 140px;*/
     text-align: center;
-    padding: 5px 0;
+    padding: 3px 0;
     background-color: #4f4f4f;
     color: #ffffff;
-    text-transform: uppercase;
+    font-size: 11px;
   }
   .extra_pay {
     margin-top: 5px;
@@ -105,7 +116,7 @@
       <td>
         <table style="width: 100%;" cellpadding="0" cellspacing="0">
           <tr>
-            <td align="center"><img src="http://runet-id.com/img/event/tc2013/header-bg.jpg" width="715" /></td>
+            <td align="center"><img src="http://runet-id.com/img/event/ibcrussia13/header-bg.jpg" width="715" /></td>
           </tr>
           <tr>
             <td style="padding-top: 20px; padding-left: 30px; padding-right: 30px; background-color: #ffffff">
@@ -129,27 +140,33 @@
                           <div style="font-size: 12px; margin-top: 5px;"><?=$user->getEmploymentPrimary();?></div>
                         </td>
                         <td valign="top" style="padding-right: 20px; width: 205px; font-size: 12px;">
-                          <div class="role"><?=$role->Title;;?></div>
+                          <?if (!$isPartners):?>
+                            <?foreach($participants as $item):?>
+                              <?if($item->PartId != 17 && $item->RoleId != 24):?>
+                                <div class="role"><div style="text-transform: uppercase;"><?=$item->Part->Title?>:</div><?=$item->Role->Title;?></div>
+                              <?endif;?>
+                            <?endforeach;?>
+                          <?else:?>
+                            <div class="role" style="margin-top: 15px; font-size: 12px; padding: 5px;"><?=$participants[0]->Role->Title;?></div>
+                          <?endif;?>
                         </td>
-                        <td valign="top" style="background: #f6f6f6; padding: 10px; text-align: center;" align="right">
-                          <img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,120);?>" />
+                        <td valign="top" style="padding: 10px; text-align: center;" align="right">
+                          <img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,120);?>" /><br/>
+                          RUNET&mdash;ID <a href="<?=$user->getUrl();?>" style="color: #339dd5;"><?=$user->RunetId;?></a>
                         </td>
                       </tr>
                     </table>
                   </td>
                 </tr>
                 <tr>
-                  <td align="right" style="padding-top: 5px;">RUNET&mdash;ID <a href="<?=$user->getUrl();?>" style="color: #339dd5;"><?=$user->RunetId;?></a></td>
-                </tr>
-                <tr>
                   <td style="padding-top: 30px;">
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                       <tr>
                         <td width="45%" style="background-color: #ececec; padding: 5px;">
-                          <strong>Время работы стойки регистрации</strong><br/><small>8 декабря с 10:00 до 18:00</small><br/><small>9 декабря с 09:00 до 18:00</small>
+                          <strong>Время работы стойки регистрации</strong><br/><small>5 декабря с 09:00 до 18:00</small><br/><small>6 декабря с 09:00 до 18:00</small>
                         </td>
                         <td align="right">
-                          <a href="http://tc.digitaloctober.com/agenda" target="_blank" class="program-btn">ПРОГРАММА КОНФЕРЕНЦИИ</a>
+                          <a href="http://ibcrussia.com/program/" target="_blank" class="program-btn">ПРОГРАММА КОНФЕРЕНЦИИ</a>
                         </td>
                       </tr>
                     </table>
@@ -173,7 +190,7 @@
 
                 <tr>
                   <td style="padding-top: 10px;">
-                    <p><b>8-9 декабря 2013 года, Digital October</b></p>
+                    <p><b>5-6 декабря 2013 года, Digital October</b></p>
                     <p>г. Москва, Берсеневская набережная, д. 6, стр. 3</p>
                   </td>
                 </tr>
@@ -183,7 +200,7 @@
 
                 <tr>
                   <td style="text-align: center; padding: 20px 0px 0; font-size: 11px;">
-                    <p>Подробная информация: <a href="http://tc.digitaloctober.com/" target="_blank">www.tc.digitaloctober.com</a> | Служба поддержки: <a href="mailto:support@runet-id.com">support@runet-id.com</a></p>
+                    <p>Подробная информация: <a href="http://www.ibcrussia.com/" target="_blank">www.ibcrussia.com</a> | Служба поддержки по вопросам регистрации и оплаты: <a href="mailto:support@runet-id.com">support@runet-id.com</a></p>
                   </td>
                 </tr>
                 <tr>

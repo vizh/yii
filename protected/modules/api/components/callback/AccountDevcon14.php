@@ -5,6 +5,6 @@ class AccountDevcon14 extends AccountMicrosoft
 {
   protected function getUrlRegisterOnEvent()
   {
-    return 'http://msdevcon.cloudapp.net/payment/PayCallback/';
+    return 'http://www.msdevcon.ru/payment/PayCallback/';
   }
 }

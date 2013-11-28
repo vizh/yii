@@ -87,7 +87,7 @@ $total = 0;
     <div class="alert alert-success"><?=\Yii::t('app', 'Вы недавно оплатили участие или активировали промо-код. Список оплаченых товаров можно посмотреть ниже.');?></div>
   <?endif;?>
 
-  <div class="actions">
+  <div class="nav-buttons">
     <a href="<?=$account->ReturnUrl===null ? $this->createUrl('/pay/cabinet/register') : $account->ReturnUrl;?>" class="btn btn-large">
       <i class="icon-circle-arrow-left"></i>
       <?=\Yii::t('app', 'Назад');?>

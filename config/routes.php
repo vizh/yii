@@ -126,6 +126,8 @@ return array(
         'http://'. RUNETID_HOST.'/search/' => 'search/result/index',
         'http://'. RUNETID_HOST.'/contacts/' => 'page/info/contacts',
 
+        /*** ОПРОС Карена **/
+        'http://'. RUNETID_HOST.'/<_hr:(HR|hr|Hr|hR)>/' => 'page/content/hr',
 
 
 
