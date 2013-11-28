@@ -146,7 +146,7 @@
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                       <tr>
                         <td width="45%" style="background-color: #ececec; padding: 5px;">
-                          <strong>Время работы стойки регистрации</strong><br/><small>8 декабря с 11:00 до 18:00</small><br/><small>9 декабря с 09:00 до 18:00</small>
+                          <strong>Время работы стойки регистрации</strong><br/><small>8 декабря с 10:00 до 18:00</small><br/><small>9 декабря с 09:00 до 18:00</small>
                         </td>
                         <td align="right">
                           <a href="http://tc.digitaloctober.com/agenda" target="_blank" class="program-btn">ПРОГРАММА КОНФЕРЕНЦИИ</a>
