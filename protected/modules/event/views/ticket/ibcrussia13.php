@@ -116,7 +116,7 @@ foreach($participants as $item)
       <td>
         <table style="width: 100%;" cellpadding="0" cellspacing="0">
           <tr>
-            <td align="center"><img src="http://runet-id.com/img/event/ibcrussia13/header-bg.png" width="715" /></td>
+            <td align="center"><img src="http://runet-id.com/img/event/ibcrussia13/header-bg.jpg" width="715" /></td>
           </tr>
           <tr>
             <td style="padding-top: 20px; padding-left: 30px; padding-right: 30px; background-color: #ffffff">
