@@ -8,7 +8,7 @@ class ProductsAction extends \api\components\Action
     $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->findAll(
       ['order' => '"t"."Priority" DESC, "t"."Id" ASC']
     );
-    $result = array();
+    $result = [];
     foreach ($products as $product)
     {
       $result[] = $this->getAccount()->getDataBuilder()->createProduct($product);

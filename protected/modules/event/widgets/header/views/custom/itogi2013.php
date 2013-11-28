@@ -1,0 +1,18 @@
+<?php
+/**
+ * @var $this \event\widgets\Header
+ */
+$event = $this->event;
+?>
+
+<div class="b-event-promo" style="height: 350px; background: url('/img/event/itogi2013/bg.jpg') no-repeat scroll center 0 #ffffff;">
+  <div class="container" style="background-image: none; height: 250px;">
+    <?if ($this->eventPage):?>
+      <span class="all">
+      <a href="<?=Yii::app()->createUrl('/event/list/index');?>"><?=Yii::t('app', 'Все мероприятия');?></a>
+    </span>
+    <?endif;?>
+
+  </div>
+
+</div>
