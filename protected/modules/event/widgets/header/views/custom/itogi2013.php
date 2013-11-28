@@ -5,7 +5,7 @@
 $event = $this->event;
 ?>
 
-<div class="b-event-promo" style="height: 250px; background: url('/img/event/itogi2013/bg.jpg') no-repeat scroll center 0 #ffffff;">
+<div class="b-event-promo" style="height: 250px; background: url('/img/event/itogi2013/bg.jpg?20131128') no-repeat scroll center 0 #ffffff;">
   <div class="container" style="background-image: none; height: 125px;">
     <?if ($this->eventPage):?>
       <span class="all">
