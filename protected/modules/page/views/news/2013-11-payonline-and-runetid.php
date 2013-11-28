@@ -20,6 +20,18 @@
           <p><strong>История успеха:</strong> На&nbsp;протяжении многих лет сотрудничества, <nobr>RUNET-ID</nobr> и&nbsp;PayOnline успешно обслуживают такие крупные мероприятия, как RIW, РИФ+КИБ, Конференция САЙТ, TechCrunch и&nbsp;др.</p>
           <p><strong><em><nobr>RUNET-ID</nobr></em></strong><em>&nbsp;&mdash; крупнейший российский <nobr>интернет-ресурс</nobr>, посвященный отечественной <nobr>интернет-отрасли</nobr>. Портал объединил в&nbsp;себе календарь основных мероприятий Рунета, отраслевое СМИ, а&nbsp;также базу вакансий в&nbsp;<nobr>интернет-компаниях</nobr>. <nobr>RUNET-ID</nobr> позволяет не&nbsp;только получить информацию о&nbsp;крупнейших мероприятиях Рунета, но&nbsp;и&nbsp;организовать с&nbsp;его помощью собственное мероприятие, информируя целевую аудиторию и&nbsp;используя систему регистрации участников и&nbsp;оплаты.</em></p>
           <p><em><strong>PayOnline</strong>&nbsp;&mdash; универсальная система электронных платежей, позволяющая принимать на&nbsp;сайте оплаты по&nbsp;банковским картам, через QIWI Кошелек, WebMoney, Яндекс. Деньги, с&nbsp;помощью виртуальных карт мобильных операторов. На&nbsp;сегодняшний день компания занимает одну из&nbsp;лидирующих позиций на&nbsp;рынке электронных платежей в&nbsp;Рунете. PayOnline оказывает услуги <nobr>интернет-эквайринга</nobr> более чем 1&nbsp;500 предприятий <nobr>e-commerce</nobr> и&nbsp;обрабатывает платежи свыше 5&nbsp;млн. кардхолдеров. PayOnline работает с&nbsp;ведущими <nobr>банками-эквайерами</nobr> в&nbsp;России, а&nbsp;также успешно сотрудничает с&nbsp;крупнейшими банками Евросоюза и&nbsp;Азии.</em></p>
+          <script type="text/javascript">
+              (function() {
+              if (window.pluso)if (typeof window.pluso.start == "function") return;
+              if (window.ifpluso==undefined) { window.ifpluso = 1;
+                  var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+                  s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
+                  s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
+                  var h=d[g]('body')[0];
+                  h.appendChild(s);
+              }})();
+          </script>
+          <div class="pluso" data-background="none;" data-options="small,square,line,horizontal,counter,sepcounter=1,theme=14" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir" data-url="http://runet-id.com/page/news/payonline_and_runetid_2013/" data-title="Платежный сервис-провайдер PayOnline стал основной платежной системой RUNET-ID" data-description="Процессинговый центр PayOnline стал официальным платежным партнером сервиса RUNET-ID. Ежедневно через RUNET-ID происходят регистрации на мероприятия медиа- и интернет-индустрии. Это тысячи уникальных пользователей и потенциальных участников мероприятий, которые регистрируются и производят оплату своего участия в запланированных событиях через сайт." data-user="806308405"></div>
       </article>
     </div>
   </div>
