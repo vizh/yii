@@ -8,6 +8,7 @@ class EditAction extends \ruvents\components\Action
   {
     $request = \Yii::app()->getRequest();
     $runetId = $request->getParam('RunetId', null);
+    $email = $request->getParam('Email', null);
 
     $user = \user\models\User::model()->byRunetId($runetId)->find();
     if ($user === null)
@@ -24,10 +25,13 @@ class EditAction extends \ruvents\components\Action
     }
 
     $this->updateMainInfo($user);
-    $this->updateEmail($user);
     $this->updatePhone($user);
     $this->updateEmployment($user);
     $this->updateRole($user);
+
+    // Позволим редактировать посетителей без указания Email. Но только в случае когда он уже есть.
+    if ($email || !$user->Email)
+      $this->updateEmail($user);
 
     $this->getDetailLog()->UserId = $user->Id;
     $this->getDetailLog()->save();
