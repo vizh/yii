@@ -131,6 +131,11 @@ class EditAction extends \ruvents\components\Action
     $company = $request->getParam('Company', null);
     $position = $request->getParam('Position', '');
     $employment = $user->getEmploymentPrimary();
+
+    // Данных о трудоустройстве не было и не будет?
+    if (!$employment && !$company && !$position)
+      return;
+
     if ($company !== null)
     {
       if ($employment !== null)
