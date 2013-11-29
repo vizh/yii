@@ -14,7 +14,7 @@ return array(
   'language' => 'ru',
 
   // preloading 'log' component
-  'preload'=>array('log', 'session', 'debug'),
+  'preload'=>array('log', 'session'),
 
   // autoloading model and component classes
   'import'=>array(
@@ -48,10 +48,10 @@ return array(
 
     'db'=>array(
       'class'=>'\application\components\db\PgDbConnection',
-      'connectionString' => 'pgsql:host=runetid.internetmediaholding.com;port=5432;dbname=runetid',
+      'connectionString' => 'pgsql:host=localhost;port=5432;dbname=runetid',
       'emulatePrepare' => true,
       'username' => 'runetid',
-      'password' => 'Rofeena1jei8haes',
+      'password' => 'uRaiy1ThiexaGhai',
       'charset' => 'utf8',
       'enableProfiling' => true,
       'enableParamLogging'=>true,
@@ -68,19 +68,14 @@ return array(
       'enableParamLogging'=>true,
       'schemaCachingDuration'=>3600,
     ),
-      
-    'image'=>array(
-      'class'=>'application.extensions.image.CImageComponent',
-      'driver'=>'GD',
-    ),
-      
+
     'session' => array(
       'class' => '\application\components\web\PgDbHttpSession',
       'connectionID' => 'db',
       'autoCreateSessionTable' => false, //!!!
       'sessionName' => 'sessid',
-      'timeout' => 180 * 24 * 60 * 60,
       'gCProbability' => 1,
+      'timeout' => 180 * 24 * 60 * 60,
       'cookieParams' => array(
         'lifetime' => 0,
         'domain' => '.'.RUNETID_HOST
@@ -95,10 +90,19 @@ return array(
       'errorAction'=>'/main/error/index',
     ),
 
+    'image'=>array(
+      'class'=>'application.extensions.image.CImageComponent',
+      'driver'=>'GD',
+    ),
+
+    'mobileDetect' => array(
+      'class' => 'ext.MobileDetect.MobileDetect'
+    ),
+    
     'log'=>array(
       'class'=>'CLogRouter',
       'routes'=>array(
-        array(
+        /*array(
           'class'=>'CProfileLogRoute',
           'levels'=>'profile',
           'enabled'=>true,
@@ -107,11 +111,11 @@ return array(
           'class' => 'CWebLogRoute',
           'categories' => 'application',
           'levels'=>'error, warning, info',
-        ),
+        ),*/
         array(
           'class'=>'CFileLogRoute',
           'levels'=>'error, warning',
-          'except' => 'exception.CHttpException.404'
+          'except' => 'exception.CHttpException.404',
         ),
         array(
           'class'=>'CEmailLogRoute',
@@ -124,12 +128,6 @@ return array(
         ),
       ),
     ),
-
-    'debug' => array(
-      'class' => 'ext.yii2-debug.Yii2Debug',
-      'allowedIPs' => ['10.10.4.1']
-    ),
-
   ),
 
 );

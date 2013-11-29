@@ -72,7 +72,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(844));
+    $criteria->addInCondition('"Participants"."EventId"', array(844));
 
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
@@ -83,10 +83,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
 //    $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(59999,12953,185212,185213));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953,59999/*,185212,185213*/));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
     $criteria->limit = 300;
     $criteria->order = '"t"."RunetId" ASC';
@@ -100,6 +100,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       foreach ($users as $user)
       {
+
 //        print $user->Participants[0]->Role->Title;
 //        print $user->Participants[0]->getTicketUrl();
 //        exit();
@@ -126,7 +127,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $email = $user->Email;
 //        $email = $user;
 
-        if ($j == 300) { sleep(1); $j = 0; }; $j++;
+//        if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
 //        if ($j == 1) continue;
 
@@ -148,7 +149,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-        $mail->SetFrom('New_Year@beeline.ru', 'Ваш Билайн', false);
+        $mail->SetFrom('New_Year@beeline.ru', 'Beeline', false);
 //        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
         $mail->CharSet = 'utf-8';
         $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на Новый год для лучших сотрудников') .'?=';
@@ -159,7 +160,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-        $mail->Send();
+//        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
