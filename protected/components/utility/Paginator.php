@@ -3,10 +3,12 @@ namespace application\components\utility;
 
 class Paginator
 {
+  const AllPageName = 'all';
+
   private $count;
   private $countPages = null;
-  private $params = array();
-
+  private $showButtonAll;
+  private $params = [];
 
   public $page;
   public $perPage = 20;
@@ -16,12 +18,18 @@ class Paginator
    * @param int $count
    * @param array $params
    */
-  public function __construct($count, $params = array())
+  public function __construct($count, $params = [], $showButtonAll = false)
   {
     $this->count = $count;
     $this->params = $params;
-    $this->page = (int) \Yii::app()->request->getParam('page', 1);
-    $this->page = max($this->page, 1);
+    $this->page = \Yii::app()->request->getParam('page', 1);
+    $this->showButtonAll = $showButtonAll;
+
+    if ($this->page != self::AllPageName || !$this->showButtonAll)
+    {
+      $this->page = (int) $this->page;
+      $this->page = max($this->page, 1);
+    }
   }
 
   /**
@@ -57,6 +65,10 @@ class Paginator
   public function getCriteria()
   {
     $criteria = new \CDbCriteria();
+    if ($this->page == self::AllPageName && $this->showButtonAll)
+    {
+      return $criteria;
+    }
     $criteria->limit  = $this->perPage;
     $criteria->offset = $this->getOffset();
     return $criteria;
@@ -116,6 +128,15 @@ class Paginator
         $page->current = ($i == $this->page);
         $pages[] = $page;
       }
+    }
+
+    if ($this->showButtonAll)
+    {
+      $page = new \stdClass();
+      $page->value = \Yii::t('app', 'Все');
+      $page->url = $this->getUrl(self::AllPageName);
+      $page->current = ($this->page == self::AllPageName);
+      $pages[] = $page;
     }
     return $pages;
   }

@@ -17,7 +17,7 @@ class IndexAction extends \partner\components\Action
 
     $criteria = $form->getCriteria();
     $count = \user\models\User::model()->count($criteria);
-    $paginator = new \application\components\utility\Paginator($count);
+    $paginator = new \application\components\utility\Paginator($count, [], true);
     $paginator->perPage = \Yii::app()->params['PartnerUserPerPage'];
     $criteria->mergeWith($paginator->getCriteria());
 
@@ -39,6 +39,9 @@ class IndexAction extends \partner\components\Action
         'params' => array('EventId' => $this->getEvent()->Id),
         'together' => true
       ),
+      'Settings',
+      'Employments',
+      'LinkPhones'
     );
     $users = \user\models\User::model()->findAll($criteria);
     foreach ($users as $user)

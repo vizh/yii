@@ -75,26 +75,25 @@ class User extends \application\models\translation\ActiveRecord
   public function relations()
   {
     return array(
-      'LinkEmail' => array(self::HAS_ONE, '\user\models\LinkEmail', 'UserId'),
-      'LinkAddress' => array(self::HAS_ONE, '\user\models\LinkAddress', 'UserId'),
-      'LinkSite' => array(self::HAS_ONE, '\user\models\LinkSite', 'UserId'),
-      'LinkPhones' => array(self::HAS_MANY, '\user\models\LinkPhone', 'UserId'),
-      'LinkServiceAccounts' => array(self::HAS_MANY, '\user\models\LinkServiceAccount', 'UserId'),
-      'LinkProfessionalInterests' => array(self::HAS_MANY, '\user\models\LinkProfessionalInterest', 'UserId'),
+      'LinkEmail' => [self::HAS_ONE, '\user\models\LinkEmail', 'UserId'],
+      'LinkAddress' => [self::HAS_ONE, '\user\models\LinkAddress', 'UserId'],
+      'LinkSite' => [self::HAS_ONE, '\user\models\LinkSite', 'UserId'],
+      'LinkPhones' => [self::HAS_MANY, '\user\models\LinkPhone', 'UserId'],
+      'LinkServiceAccounts' => [self::HAS_MANY, '\user\models\LinkServiceAccount', 'UserId'],
+      'LinkProfessionalInterests' => [self::HAS_MANY, '\user\models\LinkProfessionalInterest', 'UserId'],
 
 
-      'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'UserId',
+      'Employments' => [self::HAS_MANY, '\user\models\Employment', 'UserId',
         'with' => 'Company',
         'order' => '"Employments"."Primary" DESC, "Employments"."EndYear" DESC, "Employments"."EndMonth" DESC, "Employments"."StartYear" DESC, "Employments"."StartMonth" DESC'
-      ),
+      ],
 
-      'Commissions' => array(self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => array('Commission', 'Role')),
-      'CommissionsActive' => array(self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => array('Commission', 'Role'), 'on' => '"CommissionsActive"."ExitTime" IS NULL OR "CommissionsActive"."ExitTime" > NOW()'),  
+      'Commissions' => [self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => ['Commission', 'Role']],
+      'CommissionsActive' => [self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => ['Commission', 'Role'], 'on' => '"CommissionsActive"."ExitTime" IS NULL OR "CommissionsActive"."ExitTime" > NOW()'],
         
-      'Participants' => array(self::HAS_MANY, '\event\models\Participant', 'UserId'),
-
-      'Settings' => array(self::HAS_ONE, '\user\models\Settings', 'UserId',),
-
+      'Participants' => [self::HAS_MANY, '\event\models\Participant', 'UserId'],
+      'Badges' => [self::HAS_MANY, '\ruvents\models\Badge', 'UserId'],
+      'Settings' => [self::HAS_ONE, '\user\models\Settings', 'UserId'],
     );
   }
 

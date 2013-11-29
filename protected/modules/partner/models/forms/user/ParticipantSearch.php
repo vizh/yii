@@ -33,12 +33,17 @@ class ParticipantSearch extends \CFormModel
 
     $criteria->addCondition('"Participants"."EventId" = :EventId');
     $criteria->params['EventId'] = $this->event->Id;
-    $criteria->with = array(
-      'Participants' => array(
+    $criteria->with = [
+      'Participants' => [
         'together' => true,
         'select' => false,
-      ),
-    );
+      ],
+      'Badges' =>  [
+        'select' => false,
+        'together' => true,
+        'on' => '"Badges"."EventId" = :EventId'
+      ]
+    ];
     $criteria->group = '"t"."Id"';    
     
     if ($this->User != '')
@@ -63,13 +68,7 @@ class ParticipantSearch extends \CFormModel
     
     if (!empty($this->Ruvents))
     {
-      $userIdList = \Yii::app()->getDb()->createCommand()
-        ->select('UserId')
-        ->from(\ruvents\models\Badge::model()->tableName())
-        ->where('"EventId" = :EventId')
-        ->queryColumn(['EventId' => $this->event->Id]);
-      
-      $criteria->addInCondition('"t"."Id"', $userIdList);
+      $criteria->addCondition('"Badges"."EventId" = :EventId');
     }
 
     $criteria->mergeWith($this->getSortCriteria());
@@ -87,7 +86,6 @@ class ParticipantSearch extends \CFormModel
     $sortValues = $this->getSortValues();
     $this->Sort = trim($this->Sort);
     $this->Sort = isset($sortValues[$this->Sort]) ? $this->Sort : 'DateRegister_DESC';
-
     $sort = explode('_', $this->Sort);
     switch ($sort[0])
     {
@@ -96,6 +94,9 @@ class ParticipantSearch extends \CFormModel
         break;
       case 'LastName':
         $criteria->order = '"t"."LastName"';
+        break;
+      case 'Ruvents':
+        $criteria->order = 'Min("Badges"."CreationTime")';
         break;
     }
     $criteria->order .= ' ' . $sort[1];
@@ -115,11 +116,17 @@ class ParticipantSearch extends \CFormModel
 
   public function getSortValues()
   {
-    return array(
+    $values = [
       'DateRegister_DESC' => 'по дате регистрации &DownArrow;',
       'DateRegister_ASC' => 'по дате регистрации &UpArrow;',
       'LastName_DESC' => 'по ФИО участника &DownArrow;',
-      'LastName_ASC' => 'по ФИО участника &UpArrow;',
-    );
+      'LastName_ASC' => 'по ФИО участника &UpArrow;'
+    ];
+    if (!empty($this->Ruvents))
+    {
+      $values['Ruvents_DESC'] = 'по дате прохода регистрации &DownArrow;';
+      $values['Ruvents_ASC']  = 'по дате прохода регистрации &UpArrow;';
+    }
+    return $values;
   }
 }
