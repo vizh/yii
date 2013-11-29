@@ -136,28 +136,33 @@ class EditAction extends \ruvents\components\Action
     $position = $request->getParam('Position', '');
     $employment = $user->getEmploymentPrimary();
 
-    // Данных о трудоустройстве не было и не будет?
-    if (!$employment && !$company && !$position)
-      return;
-
-    if ($company !== null)
+    if ($employment)
     {
-      if ($employment !== null)
-      {
-        if ($employment->Company->Name != $company || $employment->Position != $position)
-        {
-          $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Company', $employment->Company->Name, $company));
-          $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Position', $employment->Position, $position));
-          $user->setEmployment($company, $position);
-        }
-      }
-      else
-      {
-        $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Company', '', $company));
-        $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Position', '', $position));
-        $user->setEmployment($company, $position);
-      }
+      // Удаление привязки к компании путём очистки поля "Компания" в клиенте?
+      if (!$company)
+        $company = 'не указана';
+
+      // Ничего не поменялось?
+      if ($employment->Company->Name == $company && $employment->Position == $position)
+        return;
+
+      $currentCompany = $employment->Company->Name;
+      $currentPosition = $employment->Position;
     }
+
+    else
+    {
+      // Данных о трудоустройстве не было и не будет?
+      if (!$company && !$position)
+        return;
+
+      $currentCompany = '';
+      $currentPosition = '';
+    }
+
+    $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Company', $currentCompany, $company));
+    $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Position', $currentPosition, $position));
+    $user->setEmployment($company, $position);
   }
 
   private function updateRole(\user\models\User $user)
