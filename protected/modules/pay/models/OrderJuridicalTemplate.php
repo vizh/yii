@@ -22,6 +22,9 @@ namespace pay\models;
  * @property int[]  $SignSecondImageMargin
  * @property int[]  $StampImageMargin
  * @property bool $VAT
+ * @property string $OrderTemplateName
+ * @property string $NumberFormat
+ * @property int $Number
  *
  */
 class OrderJuridicalTemplate extends \CActiveRecord
@@ -78,5 +81,16 @@ class OrderJuridicalTemplate extends \CActiveRecord
   private function getImagePath($name, $absolute = false)
   {
     return ($absolute ? \Yii::getPathOfAlias('webroot') : '').'/img/pay/bill/template/'.$this->Id.'/'.$name;
+  }
+
+  public function getNextNumber()
+  {
+    $sql = 'SELECT "Number" FROM "'.$this->tableName().'" WHERE "Id" = :Id FOR UPDATE';
+    $command = \Yii::app()->getDb()->createCommand($sql);
+    $number = $command->queryScalar(['Id' => $this->Id]);
+    $sql = 'UPDATE "'.$this->tableName().'" SET "Number" = "Number" + 1 WHERE "Id" = :Id';
+    \Yii::app()->getDb()->createCommand($sql)->execute(['Id' => $this->Id]);
+
+    return sprintf($this->NumberFormat, $number);
   }
 }

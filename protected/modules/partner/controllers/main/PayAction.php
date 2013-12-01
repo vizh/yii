@@ -15,7 +15,7 @@ class PayAction extends \partner\components\Action
     $statistics = new PayStatistics();
 
     $statistics->countJuridicalOrders = \pay\models\Order::model()
-        ->byEventId($this->getEvent()->Id)->byJuridical(true)->count();
+        ->byEventId($this->getEvent()->Id)->byBankTransfer(true)->count();
 
 
     $command = \Yii::app()->getDb()->createCommand()
@@ -48,7 +48,7 @@ class PayAction extends \partner\components\Action
   {
     $statistics = new PayStatistics();
     $statistics->countJuridicalOrders = \pay\models\Order::model()
-        ->byEventId($this->getEvent()->Id)->byJuridical(true)->count();
+        ->byEventId($this->getEvent()->Id)->byBankTransfer(true)->count();
 
     if (\Yii::app()->partner->getAccount()->Role != 'AdminExtended' || $statistics->countJuridicalOrders > 100)
     {

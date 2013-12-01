@@ -18,19 +18,24 @@
   'total' => $total
 ]);?>
 
+<h4 class="offer-title">Публичная оферта на оказание услуг</h4>
+<div class="offer">
+  <?=$this->renderPartial('bills/offer/imh');?>
+</div>
+
 <?if ($withSign):?>
-  <img src="/img/pay/bill/ap/sign.jpg"/>
+  <img src="/img/pay/bill/imh.jpg"/>
 <?else:?>
   <table class="sign">
     <tr>
       <td>Руководитель предприятия</td>
       <td>__________________________</td>
-      <td>(Аникина М.П.)</td>
+      <td>(Гребенников С. В.)</td>
     </tr>
     <tr>
       <td>Главный бухгалтер</td>
       <td>__________________________</td>
-      <td>(Морозова Е.В.)</td>
+      <td>(Гулина Н. А.)</td>
     </tr>
   </table>
 <?endif;?>

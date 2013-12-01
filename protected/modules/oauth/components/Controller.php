@@ -19,9 +19,8 @@ class Controller extends \application\components\controllers\BaseController
 
   protected function initResources()
   {
-    parent::initResources();
-
     \Yii::app()->getClientScript()->registerPackage('runetid.bootstrap');
+    parent::initResources();
   }
 
 

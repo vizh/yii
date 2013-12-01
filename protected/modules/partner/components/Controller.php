@@ -42,10 +42,8 @@ class Controller extends \application\components\controllers\BaseController
 
   public function initResources()
   {
-    parent::initResources();
-    $this->registerDefaultResources('js');
-    $this->registerDefaultResources('css');
     \Yii::app()->getClientScript()->registerPackage('runetid.partner');
+    parent::initResources();
   }
 
   protected function beforeAction($action)

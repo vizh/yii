@@ -19,7 +19,18 @@
 ]);?>
 
 <?if ($withSign):?>
-  <img src="/img/pay/bill/kommersant/sign.jpg"/>
+  <img src="/img/pay/bill/digital-october/bill_withsign.png"/>
 <?else:?>
-  <img src="/img/pay/bill/kommersant/nosign.jpg"/>
+  <table class="sign">
+    <tr>
+      <td>Руководитель</td>
+      <td>__________________________</td>
+      <td>(Репин Д.В.)</td>
+    </tr>
+    <tr>
+      <td>Бухгалтер</td>
+      <td>__________________________</td>
+      <td>(ГРепин Д.В.)</td>
+    </tr>
+  </table>
 <?endif;?>

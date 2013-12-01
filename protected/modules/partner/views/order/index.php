@@ -4,6 +4,8 @@
  * @var $orders \pay\models\Order[]
  * @var $paginator \application\components\utility\Paginator
  */
+
+
 ?>
 <div class="row">
 
@@ -52,7 +54,7 @@
       <table class="table table-striped">
         <thead>
         <tr>
-          <th>Cчет</th>
+          <th>№ счета</th>
           <th class="span4">Краткие данные</th>
           <th class="span3">Выставил</th>
           <th>Дата</th>
@@ -64,7 +66,7 @@
         <tbody>
         <?foreach ($orders as $order):?>
           <tr>
-            <td><h3><?=$order->Id;?></h3></td>
+            <td><p class="lead order-number"><?=$order->Number;?></p><p class="order-number muted"><?=$order->Id;?></p></td>
             <td>
               <?if ($order->Juridical && !$order->Receipt):?>
               <strong><?=$order->OrderJuridical->Name;?></strong><br>
@@ -94,17 +96,32 @@
             </td>
             <td><?=$order->getPrice();?> руб.</td>
             <td>
-              <form action="<?=\Yii::app()->createUrl('/partner/order/view', array('orderId' => $order->Id));?>" method="post">
-              <a class="btn btn-info" href="<?=\Yii::app()->createUrl('/partner/order/view', array('orderId' => $order->Id));?>"><i class="icon-list icon-white"></i></a>
 
-              <?if (!$order->Paid && ($order->Juridical || Yii::app()->partner->getAccount()->getIsAdmin())):?>
-                <button class="btn btn-success" type="submit" onclick="return confirm('Вы уверены, что хотите отметить данный счет оплаченным?');" name="SetPaid"><i class="icon-ok icon-white"></i></button>
-              <?endif;?>
 
-                <?if ($order->Juridical):?>
-                <a class="btn" target="_blank" href="<?=$order->getUrl(true);?>"><i class="icon-print"></i></a>
-                <?endif;?>
-              </form>
+
+
+
+
+              <?=CHtml::beginForm(\Yii::app()->createUrl('/partner/order/view', array('orderId' => $order->Id)));?>
+                <div class="btn-group">
+
+                  <a class="btn btn-info" href="<?=\Yii::app()->createUrl('/partner/order/view', array('orderId' => $order->Id));?>"><i class="icon-list icon-white"></i></a>
+                  <?if (!$order->Paid && ($order->getIsBankTransfer() || Yii::app()->partner->getAccount()->getIsAdmin())):?>
+                    <button class="btn btn-success" type="submit" onclick="return confirm('Вы уверены, что хотите отметить данный счет оплаченным?');" name="SetPaid"><i class="icon-ok icon-white"></i></button>
+                  <?else:?>
+                    <button class="btn btn-success disabled" disabled type="submit" name="SetPaid"><i class="icon-ok icon-white"></i></button>
+                  <?endif;?>
+
+                  <?if ($order->getIsBankTransfer()):?>
+                    <a class="btn" target="_blank" href="<?=$order->getUrl(true);?>"><i class="icon-print"></i></a>
+                  <?else:?>
+                    <a class="btn disabled" target="_blank"><i class="icon-print"></i></a>
+                  <?endif;?>
+
+
+
+                </div>
+              <?=CHtml::endForm();?>
               
             </td>
           </tr>

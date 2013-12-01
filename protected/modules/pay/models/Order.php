@@ -13,12 +13,15 @@ namespace pay\models;
  * @property bool $Deleted
  * @property string $DeletionTime
  * @property bool $Receipt
+ * @property int $TemplateId
+ * @property string $Number
  *
  *
  * @property OrderLinkOrderItem[] $ItemLinks
  * @property OrderJuridical $OrderJuridical
  * @property \user\models\User $Payer
  * @property \event\models\Event $Event
+ * @property OrderJuridicalTemplate $Template
  *
  * @method \pay\models\Order findByPk()
  * @method \pay\models\Order find()
@@ -54,7 +57,8 @@ class Order extends \CActiveRecord
       'ItemLinks' => array(self::HAS_MANY, '\pay\models\OrderLinkOrderItem', 'OrderId'),
       'OrderJuridical' => array(self::HAS_ONE, '\pay\models\OrderJuridical', 'OrderId'),
       'Payer' => array(self::BELONGS_TO, '\user\models\User', 'PayerId'),
-      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId')
+      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
+      'Template' => [self::BELONGS_TO, '\pay\models\OrderJuridicalTemplate', 'TemplateId']
     );
   }
 
@@ -89,15 +93,15 @@ class Order extends \CActiveRecord
   }
 
   /**
-   * @param bool $juridical
+   * @param $bankTransfer
    * @param bool $useAnd
    *
    * @return Order
    */
-  public function byJuridical($juridical, $useAnd = true)
+  public function byBankTransfer($bankTransfer, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = ($juridical ? '' : 'NOT ') . '"t"."Juridical"';
+    $criteria->condition = ($bankTransfer ? '' : 'NOT ') . '("t"."Juridical" OR "t"."Receipt")';
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -191,27 +195,34 @@ class Order extends \CActiveRecord
   
   public function onActivate($event)
   {
-    /** @var $sender Event */
+    /** @var $sender Order */
     $sender = $event->sender;
     $class = \Yii::getExistClass('\pay\components\handlers\order\activate', ucfirst($sender->Event->IdName), 'Base');
-    /** @var $handler \event\components\handlers\register\Base */
+    /** @var $mail \event\components\handlers\register\Base */
     $mail = new $class(new \mail\components\mailers\PhpMailer(), $event);
     $mail->send();
   }
 
-    /**
+  /**
    * Заполняет счет элементами заказа. Возвращает значение Total (сумма заказа)
    *
    * @param \user\models\User $user
    * @param \event\models\Event $event
    * @param bool $juridical
    * @param array $juridicalData
+   * @param bool $receipt
    *
    * @throws \pay\components\Exception
    * @return int
    */
-  public function create($user, $event, $juridical = false, $juridicalData = array(), $receipt = false)
+  public function create($user, $event, $juridical = false, $juridicalData = [], $receipt = false)
   {
+    $account = \pay\models\Account::model()->byEventId($event->Id)->find();
+    if ($account == null)
+    {
+      throw new \pay\components\Exception(sprintf('Для мероприятия %s,%s,%s не определен платежный аккаунт', $event->Id, $event->IdName, $event->Title));
+    }
+
     $finder = \pay\components\collection\Finder::create($event->Id, $user->Id);
     $collection = $finder->getUnpaidFreeCollection();
     if ($collection->count() == 0)
@@ -223,7 +234,7 @@ class Order extends \CActiveRecord
 
     $this->PayerId = $user->Id;
     $this->EventId = $event->Id;
-    $this->Juridical = $juridical || $receipt;
+    $this->Juridical = $juridical;
     $this->Receipt = $receipt;
     $this->save();
     $this->refresh();
@@ -262,6 +273,17 @@ class Order extends \CActiveRecord
         $orderJuridical->PostAddress = $juridicalData['PostAddress'];
       }
       $orderJuridical->save();
+
+      $template = $juridical ? $account->OrderTemplate : $account->ReceiptTemplate;
+      $this->TemplateId = $template->Id;
+      $this->Number = $template->NumberFormat != null ? $template->getNextNumber() : null;
+      $this->save();
+
+      if ($this->Number == null)
+      {
+        $this->Number = $this->Id;
+        $this->save();
+      }
       
       $event = new \CModelEvent($this, ['payer' => $user, 'event' => $event, 'total' => $total]);
       $this->onCreateOrderJuridical($event);
@@ -272,9 +294,8 @@ class Order extends \CActiveRecord
   
   public function onCreateOrderJuridical($event)
   {
-    /** @var $sender Event */
     $class = \Yii::getExistClass('\pay\components\handlers\orderjuridical\create', ucfirst($event->params['event']->IdName), 'Base');
-    /** @var $handler \event\components\handlers\register\Base */
+    /** @var $mail \event\components\handlers\register\Base */
     $mail = new $class(new \mail\components\mailers\PhpMailer(), $event);
     $mail->send();
   }
@@ -344,7 +365,7 @@ class Order extends \CActiveRecord
 
   public function delete()
   {
-    if ($this->Paid || $this->Deleted || !$this->Juridical)
+    if ($this->Paid || $this->Deleted || (!$this->Juridical && !$this->Receipt))
     {
       return false;
     }
@@ -388,6 +409,14 @@ class Order extends \CActiveRecord
       $params['clear'] = 'clear';
     }
     return \Yii::app()->createAbsoluteUrl('/pay/order/index', $params);
+  }
+
+  /**
+   * @return bool
+   */
+  public function getIsBankTransfer()
+  {
+    return $this->Juridical || $this->Receipt;
   }
 
 }

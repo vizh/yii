@@ -46,9 +46,15 @@ class IndexAction extends \partner\components\Action
       'ItemLinks.OrderItem' => array('together' => false)
     );
 
+    if (!empty($form->Order))
+    {
+      $criteria->addCondition('"t"."Number" ilike :OrderNumber');
+      $criteria->params['OrderNumber'] ='%'.$form->Order.'%';
+    }
+
     if ((int)$form->Order !== 0)
     {
-      $criteria->addCondition('"t"."Id" = :OrderId');
+      $criteria->addCondition('"t"."Id" = :OrderId', 'OR');
       $criteria->params['OrderId'] =(int)$form->Order;
     }
 
@@ -84,7 +90,7 @@ class IndexAction extends \partner\components\Action
     {
       $criteria->with['Payer'] = array('together' => true);
       $criteria->addCondition('"Payer"."RunetId" = :RunetId');
-      $criteria->params['RunetId'] = $form->Payer;
+      $criteria->params['RunetId'] = (int)$form->Payer;
     }
     else
     {

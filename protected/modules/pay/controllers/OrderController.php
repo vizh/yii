@@ -2,20 +2,21 @@
 
 class OrderController extends \application\components\controllers\MainController
 {
+  public $layout = '/layouts/bill';
+
   public function actionIndex($orderId, $hash = null, $clear = null)
   {
     /** @var $order \pay\models\Order */
     $order = \pay\models\Order::model()->findByPk($orderId);
-    if ($order === null || !$order->Juridical)
-    {
+    if ($order === null || (!$order->Juridical && !$order->Receipt))
       throw new \CHttpException(404);
-    }
 
     $checkHash = $order->checkHash($hash);
     if (!$checkHash && (\Yii::app()->user->getCurrentUser() === null || \Yii::app()->user->getCurrentUser()->Id != $order->PayerId))
     {
       throw new \CHttpException(404);
     }
+    $this->setPageTitle('Счёт № ' . $order->Number);
 
     $billData = array();
     $total = 0;
@@ -40,41 +41,34 @@ class OrderController extends \application\components\controllers\MainController
 
     /** @var $account \pay\models\Account */
     $account = \pay\models\Account::model()->byEventId($order->EventId)->find();
-    
-    $viewData = [
-      'order' => $order,
-      'billData' => $billData,
-      'total' => $total,
-      'nds' => $total - round($total / 1.18, 2, PHP_ROUND_HALF_DOWN),
-      'withSign' => $clear===null
-    ];
 
+    $template = null;
     if (!$order->Receipt)
     {
-      if ($account->OrderTemplateName == null)
+      $template = $order->Template != null ? $order->Template : $account->OrderTemplate;
+      if ($template->OrderTemplateName === null)
       {
-        if ($account->OrderTemplateId !== null)
-        {
-          $viewData['template'] = $account->OrderTemplate;
-          $viewName = 'template';
-        }
-        else
-        {
-          $viewName = 'bill';
-        }
+        $viewName = 'template';
       }
       else
       {
-        $viewName = $account->OrderTemplateName;
+        $viewName = $template->OrderTemplateName;
       }
       $viewName = 'bills/'.$viewName;
     }
     else
     {
-      $viewData['template'] = $account->ReceiptTemplate;
+      $template = $order->Template != null ? $order->Template : $account->ReceiptTemplate;
       $viewName = 'receipt/template';
     }
 
-    $this->renderPartial($viewName, $viewData);
+    $this->render($viewName, [
+      'order' => $order,
+      'billData' => $billData,
+      'total' => $total,
+      'nds' => $total - round($total / 1.18, 2, PHP_ROUND_HALF_DOWN),
+      'withSign' => $clear===null,
+      'template' => $template
+    ]);
   }
 }

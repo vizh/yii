@@ -100,7 +100,7 @@ class Finder
     {
       $orders = \pay\models\Order::model()
           ->byEventId($this->eventId)->byPayerId($this->payerId)
-          ->byPaid(false)->byDeleted(false)->byJuridical(true)->findAll();
+          ->byPaid(false)->byDeleted(false)->byBankTransfer(true)->findAll();
       $this->unpaidOrderCollections = [];
       foreach ($orders as $order)
       {

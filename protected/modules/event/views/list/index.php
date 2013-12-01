@@ -130,4 +130,4 @@
     <li><a href="<?=$prevUrl;?>">&larr;&nbsp;Старые</a></li>
     <li><a href="<?=$nextUrl;?>">Новые&nbsp;&rarr;</a></li>
   </ul>
-</section>
+</div>

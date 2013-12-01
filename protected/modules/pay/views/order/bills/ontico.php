@@ -12,7 +12,7 @@ use application\components\utility\Texts;
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <HTML lang=ru xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml">
 <HEAD>
-  <TITLE>Счёт № <?=$order->Id;?></TITLE>
+  <TITLE>Счёт № <?=$order->Number;?></TITLE>
   <META content="text/html; charset=UTF-8" http-equiv=Content-Type>
 </HEAD>
 <BODY>
@@ -54,7 +54,7 @@ use application\components\utility\Texts;
     </TR>
     <TR>
       <TD style="TEXT-ALIGN: center" colspan="2">
-        <DIV style="MARGIN-TOP: 20px; FONT-SIZE: 24px"><B>СЧЕТ № <?=$order->Id;?> от <?=date('d.m.Y', strtotime($order->CreationTime));?></B></DIV>
+        <DIV style="MARGIN-TOP: 20px; FONT-SIZE: 24px"><B>СЧЕТ № <?=$order->Number;?> от <?=date('d.m.Y', strtotime($order->CreationTime));?></B></DIV>
 
         (Счет действителен в течение 5-и банковских дней)
       </TD>

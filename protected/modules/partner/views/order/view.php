@@ -6,8 +6,7 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
 
 <div class="row">
   <div class="span12 indent-bottom3">
-    <h2>Счет №<?=$order->Id;?></h2>
-
+    <h2>Счет № <?=$order->Number;?></h2>
     <p>
       <?if ($order->Paid):?>
       <span class="label label-success">ОПЛАЧЕН</span>

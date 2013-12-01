@@ -9,7 +9,7 @@ class PayCommand extends \application\components\console\BaseConsoleCommand
     $criteria->params['MinTime'] = $date.' 00:00:00';
     $criteria->params['MaxTime'] = $date.' 23:59:59';
 
-    $orders = \pay\models\Order::model()->byJuridical(true)->byDeleted(false)->byPaid(false)->findAll($criteria);
+    $orders = \pay\models\Order::model()->byBankTransfer(true)->byDeleted(false)->byPaid(false)->findAll($criteria);
     $mailer = new \mail\components\mailers\PhpMailer();
     foreach ($orders as $order)
     {

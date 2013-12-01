@@ -317,7 +317,7 @@ class OrderItem extends \CActiveRecord
    */
   public function getCouponActivation()
   {
-    if (!$this->Product->EnableCoupon)
+    if (!$this->Product->EnableCoupon && !$this->Paid)
     {
       return null;
     }

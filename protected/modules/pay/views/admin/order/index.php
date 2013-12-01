@@ -67,7 +67,10 @@
         <tbody>
         <?foreach ($orders as $order):?>
           <tr>
-            <td data-title="Номер счета/заказа"><h3><?=$order->Id;?></h3></td>
+            <td data-title="Номер счета/заказа">
+              <p class="lead" style="margin-bottom: 5px;"><?=$order->Number;?></p>
+              <p class="muted"><?=$order->Id;?></p>
+            </td>
             <td data-title="Краткие данные">
               <?if ($order->Juridical && !$order->Receipt):?>
                 <strong><?=$order->OrderJuridical->Name;?></strong><br>
@@ -98,17 +101,22 @@
             <td data-title="Сумма"><?=$order->getPrice();?> руб.</td>
             <td data-title="Управление">
               <form action="<?=\Yii::app()->createUrl('/pay/admin/order/view', array('orderId' => $order->Id));?>" method="post">
-                <a class="btn btn-info" href="<?=\Yii::app()->createUrl('/pay/admin/order/view', array('orderId' => $order->Id));?>"><i class="icon-list icon-white"></i></a>
+                <div class="btn-group">
+                  <a class="btn btn-info" href="<?=\Yii::app()->createUrl('/pay/admin/order/view', array('orderId' => $order->Id));?>"><i class="icon-list icon-white"></i></a>
 
-                <?if (!$order->Paid && $order->Juridical):?>
-                  <button class="btn btn-success" type="submit" onclick="return confirm('Вы уверены, что хотите отметить данный счет оплаченным?');" name="SetPaid"><i class="icon-ok icon-white"></i></button>
-                <?endif;?>
+                  <?if (!$order->Paid && $order->getIsBankTransfer()):?>
+                    <button class="btn btn-success" type="submit" onclick="return confirm('Вы уверены, что хотите отметить данный счет оплаченным?');" name="SetPaid"><i class="icon-ok icon-white"></i></button>
+                  <?else:?>
+                    <button class="btn btn-success disabled" type="submit" disabled name="SetPaid"><i class="icon-ok icon-white"></i></button>
+                  <?endif;?>
 
-                <?if ($order->Juridical):?>
-                  <a class="btn" target="_blank" href="<?=$order->getUrl(true);?>"><i class="icon-print"></i></a>
-                <?endif;?>
+                  <?if ($order->Juridical):?>
+                    <a class="btn" target="_blank" href="<?=$order->getUrl(true);?>"><i class="icon-print"></i></a>
+                  <?else:?>
+                    <a class="btn disabled" target="_blank"><i class="icon-print"></i></a>
+                  <?endif;?>
+                </div>
               </form>
-
             </td>
           </tr>
         <?endforeach;?>

@@ -23,8 +23,8 @@
 <noscript>JavaScript disabled</noscript>
 <header id="header" role="banner">
   <div class="navbar navbar-fixed-top navbar-inverse">
-    <?php $this->widget('application\widgets\Navbar');?>
-    <?php $this->widget('application\widgets\Searchbar');?>
+    <?$this->widget('application\widgets\Navbar');?>
+    <?$this->widget('application\widgets\Searchbar');?>
   </div>
 </header>
 

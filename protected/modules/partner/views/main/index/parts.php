@@ -28,11 +28,11 @@
     </tr>
   <?endforeach;?>
 
-  <tr>
+  <!--<tr>
     <td><strong>Всего:</strong></td>
     <?foreach ($timeSteps as $key => $time):?>
       <td><?=$statistics['Parts'][$key]['Total'];?></td>
     <?endforeach;?>
-  </tr>
+  </tr>-->
   </tbody>
 </table>

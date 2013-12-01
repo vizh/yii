@@ -216,4 +216,27 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 //    }
     echo '<tr><td>' . implode('</td><td>', $data) . '</td></tr>';
   }
+
+  public function actionQuestions()
+  {
+    $criteria = new CDbCriteria();
+    $criteria->order = '"t"."Sort"';
+    $questions = \competence\models\Question::model()->byTestId(3)->findAll($criteria);
+    foreach ($questions as $question)
+    {
+      if ($question->NextQuestionId != null || $question->PrevQuestionId != null)
+      {
+        echo $question->Code . ': ' . $question->Title . '<br>';
+        $data = $question->getFormData();
+        if (isset($data['Values']))
+        {
+          foreach ($data['Values'] as $value)
+          {
+            echo $value->key . ' - ' . $value->title . '<br>';
+          }
+        }
+        echo '<br><br><br>';
+      }
+    }
+  }
 }

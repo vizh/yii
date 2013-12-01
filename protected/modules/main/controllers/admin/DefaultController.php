@@ -88,7 +88,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     /** @var \pay\models\Order[] $orders */
     $orders = \pay\models\Order::model()->byEventId($eventId)
-        ->byPaid(true)->byJuridical(false)->findAll($criteria);
+        ->byPaid(true)->byBankTransfer(false)->findAll($criteria);
 
     $total = 0;
     foreach ($orders as $order)

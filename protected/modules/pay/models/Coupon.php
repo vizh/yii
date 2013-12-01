@@ -15,6 +15,10 @@ namespace pay\models;
  *
  * @property CouponActivation[] $Activations
  * @property Product $Product
+ *
+ * @method \pay\models\Coupon find($condition='',$params=array())
+ * @method \pay\models\Coupon findByPk($pk,$condition='',$params=array())
+ * @method \pay\models\Coupon[] findAll($condition='',$params=array())
  */
 class Coupon extends \CActiveRecord
 {

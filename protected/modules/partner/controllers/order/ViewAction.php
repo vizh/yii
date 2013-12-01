@@ -19,7 +19,7 @@ class ViewAction extends \partner\components\Action
       throw new \CHttpException(404, 'Счет с номером ' . $orderId . ' относится к другому мероприятию');
     }
 
-    $this->getController()->setPageTitle('Управление счетом № ' . $orderId);
+    $this->getController()->setPageTitle('Управление счетом № ' . $order->Number);
     $this->getController()->initActiveBottomMenu('index');
 
     $request = \Yii::app()->getRequest();

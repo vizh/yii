@@ -97,3 +97,11 @@ a:focus{
 .section-participant:nth-child(odd) > div{
   background: #f5f5f5;
 }
+
+p.order-number{
+  margin-bottom: 5px;
+}
+
+.container.navbar-fixed-top-menu{
+  width: 1200px;
+}
