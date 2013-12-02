@@ -86,16 +86,16 @@
 
 <script type="text/template" id="phone-item-tpl">
   <div class="form-row">
-    <span>+</span> <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][CountryCode]');?>" class="input-mini" />
-    <span>(</span> <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][CityCode]');?>" class="input-small" /> <span>)</span>
-    <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Phone]');?>" class="input-medium" />
-    <select name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Type]');?>" class="input-medium">
+    <span>+</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CountryCode]');?>" class="input-mini" />
+    <span>(</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CityCode]');?>" class="input-small" /> <span>)</span>
+    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Phone]');?>" class="input-medium" />
+    <select name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Type]');?>" class="input-medium">
       <?foreach($form->getPhoneTypeData() as $type => $title):?>
         <option value="<?=$type;?>"><?=$title;?></option>
       <?endforeach;?>
     </select>
     <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
-    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Delete]');?>"/>
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Delete]');?>"/>
   </div>
 </script>
 
@@ -104,32 +104,32 @@
     <%if(typeof Errors != "undefined"){%>
       <div class="alert alert-error errorSummary"></div>
     <%}%>
-    <span>+</span> <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][CountryCode]');?>" class="input-mini" value="<%=CountryCode%>" />
-    <span>(</span> <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][CityCode]');?>" class="input-small" value="<%=CityCode%>" /> <span>)</span>
-    <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Phone]');?>" class="input-medium" value="<%=Phone%>" />
-    <select name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Type]');?>" class="input-medium">
+    <span>+</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CountryCode]');?>" class="input-mini" value="<%=CountryCode%>" />
+    <span>(</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CityCode]');?>" class="input-small" value="<%=CityCode%>" /> <span>)</span>
+    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Phone]');?>" class="input-medium" value="<%=Phone%>" />
+    <select name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Type]');?>" class="input-medium">
       <?foreach($form->getPhoneTypeData() as $type => $title):?>
         <option value="<?=$type;?>" <%if(Type == '<?=$type;?>'){%>selected="selected"<%}%>><?=$title;?></option>
       <?endforeach;?>
     </select>
     <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
     <%if(Id != ''){%>
-      <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Id]');?>" value="<%=Id%>"/>
+      <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Id]');?>" value="<%=Id%>"/>
     <%}%>
-    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Delete]');?>" <%if(Delete == 1){%>value="1"<%}%>/>
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Delete]');?>" <%if(Delete == 1){%>value="1"<%}%>/>
   </div>
 </script>
 
 <script type="text/template" id="account-item-tpl">
   <div class="form-row">
-    <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Accounts[<%=i%>][Account]');?>" />
-    <select name="<?=\CHtml::resolveName($form, $_ = 'Accounts[<%=i%>][TypeId]');?>" class="input-medium">
+    <input type="text" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Account]');?>" />
+    <select name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][TypeId]');?>" class="input-medium">
       <?foreach($form->getAccountTypeData() as $type => $title):?>
         <option value="<?=$type;?>"><?=$title;?></option>
       <?endforeach;?>
     </select>
     <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
-    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Phones[<%=i%>][Delete]');?>"/>
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Delete]');?>"/>
   </div>
 </script>
 
@@ -138,16 +138,16 @@
     <%if(typeof Errors != "undefined"){%>
       <div class="alert alert-error errorSummary"></div>
     <%}%>
-    <input type="text" name="<?=\CHtml::resolveName($form, $_ = 'Accounts[<%=i%>][Account]');?>" value="<%=Account%>"/>
-    <select name="<?=\CHtml::resolveName($form, $_ = 'Accounts[<%=i%>][TypeId]');?>" class="input-medium">
+    <input type="text" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Account]');?>" value="<%=Account%>"/>
+    <select name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][TypeId]');?>" class="input-medium">
       <?foreach($form->getAccountTypeData() as $typeId => $title):?>
         <option value="<?=$typeId;?>" <%if(TypeId == '<?=$typeId;?>'){%>selected="selected"<%}%>><?=$title;?></option>
       <?endforeach;?>
     </select>
     <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
     <%if(Id != ''){%>
-      <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Accounts[<%=i%>][Id]');?>" value="<%=Id%>"/>
+      <input type="hidden" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Id]');?>" value="<%=Id%>"/>
     <%}%>
-    <input type="hidden" name="<?=\CHtml::resolveName($form, $_ = 'Accounts[<%=i%>][Delete]');?>" <%if(Delete == 1){%>value="1"<%}%>/>
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Delete]');?>" <%if(Delete == 1){%>value="1"<%}%>/>
   </div>
 </script>

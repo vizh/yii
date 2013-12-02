@@ -141,6 +141,14 @@ class MainController extends \oauth\components\Controller
       $user->Email = $formRegister->Email;
       $user->register();
 
+      if (!$formRegister->Address->getIsEmpty())
+      {
+        $address = new \contact\models\Address();
+        $address->setAttributes($formRegister->Address->getAttributes(), false);
+        $address->save();
+        $user->setContactAddress($address);
+      }
+
       if (!empty($formRegister->Company))
       {
         $user->setEmployment($formRegister->Company);
@@ -162,7 +170,7 @@ class MainController extends \oauth\components\Controller
         throw new \application\components\Exception('Не удалось пройти авторизацию после регистрации. Код ошибки: ' . $identity->errorCode);
       }
     }
-
+    \Yii::app()->getClientScript()->registerPackage('runetid.jquery.ui');
     $this->render('register', array('model' => $formRegister, 'socialProxy' => $socialProxy));
   }
 

@@ -25,11 +25,12 @@ return array(
           'css' => array('stylesheets/bootstrap.admin.min.css'),
           'depends' => array('runetid.jquery')
         ),
-        'runetid.jquery.ui' => array(
+        'runetid.jquery.ui' => [
           'baseUrl' => '/javascripts/',
-          'js' => array('jquery-ui-1.9.0.custom.min.js', 'jquery.ui.autocomplete.html.js'),
-          'depends' => array('runetid.jquery')
-        ),
+          'js' => ['jquery-ui-1.9.0.custom.min.js', 'jquery.ui.autocomplete.html.js', '/jquery.ui/jquery-ui-autocomplete-bootstrap-style.js'],
+          'css' => ['/jquery.ui/jquery-ui-autocomplete-bootstrap-style.css'],
+          'depends' => ['runetid.jquery']
+        ],
         'runetid.admin.jquery.ui' => array(
           'baseUrl' => '/javascripts/',
           'js' => array('jquery-ui-1.10.2.custom.min.js', 'jquery.ui/jquery-ui-datepicker-ru.js'),

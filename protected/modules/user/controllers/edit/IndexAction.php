@@ -12,11 +12,12 @@ class IndexAction extends \CAction
       $form->attributes = $request->getParam(get_class($form));
       if ($form->validate())
       {
-        $user->FirstName  = $form->FirstName;
-        $user->LastName   = $form->LastName;
+        $user->FirstName = $form->FirstName;
+        $user->LastName = $form->LastName;
         $user->FatherName = $form->FatherName;
-        $user->Gender     = $form->Gender;
-        $user->Birthday   = \Yii::app()->dateFormatter->format('yyyy-MM-dd', $form->Birthday);
+        $user->Gender = $form->Gender;
+        $user->Birthday = !empty($form->Birthday) ? \Yii::app()->dateFormatter->format('yyyy-MM-dd', $form->Birthday) : null;
+
         $user->save();
           
         \Yii::app()->user->setFlash('success', \Yii::t('app', 'Основная информация профиля успешно сохранена!'));

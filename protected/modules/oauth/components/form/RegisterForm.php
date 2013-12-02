@@ -9,8 +9,14 @@ class RegisterForm extends \CFormModel
   public $Email;
   public $CompanyId;
   public $Company;
-  public $CityId;
-  public $City;
+  public $Address;
+
+  public function __construct($scenario = '')
+  {
+    parent::__construct($scenario);
+    $this->Address = new \contact\models\forms\Address();
+  }
+
 
   public function attributeLabels()
   {
@@ -23,14 +29,26 @@ class RegisterForm extends \CFormModel
       'City' => \Yii::t('app', 'Город'),
     );
   }
-  
+
+  public function afterValidate()
+  {
+    $this->Address->attributes = \Yii::app()->getRequest()->getParam(get_class($this->Address));
+    if (!$this->Address->validate())
+    {
+      foreach ($this->Address->getErrors() as $messages)
+      {
+        $this->addError('Address', $messages[0]);
+      }
+    }
+  }
+
   public function rules()
   {
     return array(
       array('FirstName, LastName, Email', 'required'),
       array('Email', 'email'),
       array('Email', 'uniqueEmailValidate'),
-      array('FatherName, CompanyId, Company, CityId, City', 'safe')
+      array('FatherName, CompanyId, Company', 'safe')
     );
   }
   
@@ -57,6 +75,8 @@ class RegisterForm extends \CFormModel
     $attributes = $this->attributes;
     foreach ($this->attributes as $field => $value)
     {
+      if ($field == 'Address')
+        continue;
       $attributes[$field] = $purifier->purify($value);
     }
     $this->attributes = $attributes;

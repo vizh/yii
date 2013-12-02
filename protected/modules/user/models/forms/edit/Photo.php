@@ -7,7 +7,7 @@ class Photo extends \CFormModel
   public function rules()
   {
     return array(
-      array('Image', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => false),  
+      array('Image', 'file', 'types' => 'jpg, jpeg, gif, png', 'allowEmpty' => false),
     );
   }
   

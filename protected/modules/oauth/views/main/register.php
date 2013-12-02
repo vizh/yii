@@ -31,9 +31,9 @@
     <div class="control-group">
       <?=CHtml::activeTextField($model, 'Company', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('Company')));?>
     </div>
-    <div class="control-group">
-      <?=CHtml::activeTextField($model, 'City', array('class' => 'span4', 'placeholder' => $model->getAttributeLabel('City')));?>
-    </div>
+    <div class="control-group <?if ($model->Address->hasErrors()):?>error<?endif;?>">
+      <?$this->widget('\contact\widgets\AddressControls', array('form' => $model->Address, 'address' => false, 'place' => false, 'inputClass' => 'input-block-level'));?>
+   </div>
 
     <?=CHtml::errorSummary($model, '<div class="alert alert-error">', '</div>');?>
 

@@ -10,7 +10,7 @@ class AjaxController extends \CController
     $criteria = new \CDbCriteria();
     $criteria->with = array('Country', 'Region');
     $criteria->order = '"Country"."Priority" DESC, "Region"."Priority" DESC,"t"."Priority" DESC, "t"."Name" ASC';
-    $criteria->limit = 10;
+    $criteria->limit = 5;
     $criteria->addCondition('"t"."Name" ILIKE :Name');
     $criteria->params['Name'] = '%'.$term.'%';
     $cities = \geo\models\City::model()->findAll($criteria);

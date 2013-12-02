@@ -5,6 +5,7 @@ class AddressControls extends \CWidget
   public $form;
   public $address = true;
   public $place = true;
+  public $inputClass = '';
   
   public function init()
   {
