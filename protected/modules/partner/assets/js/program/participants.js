@@ -1,5 +1,13 @@
 $(function () {
-  CKEDITOR.on('instanceLoaded', function(e) {
-    e.editor.resize(700, 350)
+  var ckeditorCount = 0;
+  $('textarea[name*="Participant[ReportFullInfo]"]').each(function () {
+    ckeditorCount++;
+    var id = 'ckeditor'+ckeditorCount;
+    $(this).attr('id', id);
+    CKEDITOR.replace(id, {
+      'width'  : 700,
+      'height' : 500,
+      'customConfig' : 'config_partner_program.js'
+    })
   });
 });
