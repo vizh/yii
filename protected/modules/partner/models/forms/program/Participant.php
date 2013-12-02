@@ -69,8 +69,8 @@ class Participant extends \CFormModel
   {
     $purifier = new \CHtmlPurifier();
     $purifier->options = [
-      'HTML.AllowedElements'     => ['p', 'span', 'ol', 'li', 'strong', 'a', 'em', 's', 'ul', 'br', 'u', 'table', 'tbody', 'tr', 'td', 'thead', 'th', 'caption', 'h1', 'h2', 'h3', 'h4', 'h5'],
-      'HTML.AllowedAttributes'   => ['style', 'a.href', 'a.target', 'table.cellpadding', 'table.cellspacing', 'th.scope', 'table.border'],
+      'HTML.AllowedElements'     => ['p', 'span', 'ol', 'li', 'strong', 'a', 'em', 's', 'ul', 'br', 'u', 'table', 'tbody', 'tr', 'td', 'thead', 'th', 'caption', 'h1', 'h2', 'h3', 'h4', 'h5', 'img'],
+      'HTML.AllowedAttributes'   => ['style', 'a.href', 'a.target', 'table.cellpadding', 'table.cellspacing', 'th.scope', 'table.border', 'img.alt', 'img.src'],
       'Attr.AllowedFrameTargets' => ['_blank', '_self']
     ];
     return $purifier->purify($value);

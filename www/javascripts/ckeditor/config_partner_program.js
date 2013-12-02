@@ -14,10 +14,11 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'document', items : [ 'Source' ]},
 		{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ]},
 		{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList' ] },
-    { name: 'insert' , items: [ 'Table' ]},
-    { name: 'styles', items: ['Format', 'Font', 'FontSize' ] }
+    { name: 'insert' , items: [ 'Table','Image']},
+    { name: 'styles', items: ['Format'] }
 	];
-  config.format_tags = 'h1;h2;h3;h4;h5';
 	config.allowedContent = true;
   config.autoParagraph = false;
+	config.removeDialogTabs = 'image:advanced;link:advanced';
+  config.format_tags = 'h1;h2;h3;h4;h5';
 };
