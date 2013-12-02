@@ -89,7 +89,7 @@
                       <div style="font-family: Verdana; font-size: 11px; margin-left: 30px; line-height: 15px; margin-top: 6px; width: 130px;">GPS координаты:<br/>55.739782 N<br/>37.610134 E</div>
                     </td>
                     <td width="100" style="font-family: Verdana; text-align: center; width: 100px; vertical-align: top;">
-                      <div><img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100);?>" /><br/><?=$user->RunetId;?></div>
+                      <div style="background: #ffffff;"><img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100);?>" /><br/><?=$user->RunetId;?></div>
                     </td>
                   </tr>
                 </table>

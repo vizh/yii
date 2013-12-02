@@ -83,7 +83,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
 //    $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953,59999/*,185212,185213*/));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 454/*,59999/*,185212,185213*/));
 
 //    echo \user\models\User::model()->count($criteria);
 //    exit();
@@ -125,9 +125,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->IsHTML($isHTML);
 
         $email = $user->Email;
+//        $email = 'eroshenkov@mail.ru';
+
 //        $email = $user;
 
-//        if ($j == 300) { sleep(1); $j = 0; }; $j++;
+        if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
 //        if ($j == 1) continue;
 
@@ -149,7 +151,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-        $mail->SetFrom('New_Year@beeline.ru', 'Beeline', false);
+//        $mail->SetFrom('New_Year@beeline.ru', 'Beeline', false);
+        $mail->SetFrom('Vova@beeline.ru', 'Beeline', false);
 //        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
         $mail->CharSet = 'utf-8';
         $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на Новый год для лучших сотрудников') .'?=';
@@ -160,7 +163,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-//        $mail->Send();
+        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
