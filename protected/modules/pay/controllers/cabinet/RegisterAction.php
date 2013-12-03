@@ -45,19 +45,6 @@ class RegisterAction extends \pay\components\Action
         {
           $orderForm->Items[$k]['Owner'] = $owner;
         }
-        if (!empty($item['PromoCode']))
-        {
-          $coupon = \pay\models\Coupon::model()->byCode($item['PromoCode'])->find();
-          if ($coupon !== null 
-            && ($coupon->ProductId == null || $coupon->ProductId == $product->Id))
-          {
-            try
-            {
-              $coupon->activate($this->getUser(), $owner);
-            }
-            catch (\pay\components\Exception $e) {}
-          }
-        }
         
         try
         {
@@ -68,6 +55,20 @@ class RegisterAction extends \pay\components\Action
           if ($e->getCode() !== 701)
           {
             $orderForm->addError('Items', $e->getMessage());
+          }
+        }
+
+        if (!empty($item['PromoCode']))
+        {
+          $coupon = \pay\models\Coupon::model()->byCode($item['PromoCode'])->find();
+          if ($coupon !== null
+              && ($coupon->ProductId == null || $coupon->ProductId == $product->Id))
+          {
+            try
+            {
+              $coupon->activate($this->getUser(), $owner);
+            }
+            catch (\pay\components\Exception $e) {}
           }
         }
       }

@@ -36,7 +36,20 @@ class CouponActivateAction extends \pay\components\Action
       
       if ($result->success)
       {
-        $result->message = \Yii::t('app', 'Купон на скидку {discount}% успешно активирован!', array('{discount}' => $coupon->Discount*100));
+        if ($coupon->Discount == 1)
+        {
+          $criteria = new \CDbCriteria();
+          $criteria->with = ['Role' => ['together' => true]];
+          $criteria->order = '"Role"."Priority" DESC';
+          $participant = \event\models\Participant::model()
+              ->byEventId($this->getEvent()->Id)->byUserId($owner->Id)->find($criteria);
+          $result->message = \Yii::t('app', 'Регистрация на мероприятие прошла успешно! Промо-код на скидку 100% активирован. Статус: "{RoleTitle}".', ['{RoleTitle}' => $participant->Role->Title]);
+        }
+        else
+        {
+          $result->message = \Yii::t('app', 'Купон на скидку {discount}% успешно активирован!', array('{discount}' => $coupon->Discount*100));
+        }
+
         $result->coupon = new \stdClass();
         $result->coupon->Code = $code;
         $result->coupon->Discount = $coupon->Discount;
