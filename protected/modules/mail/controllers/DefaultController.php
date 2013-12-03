@@ -6,7 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'beeline13-html-4';
+//    $template = 'beeline13-html-4';
+    $template = 'ibcrussia13-html-6';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -72,22 +73,27 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(844));
-//    $criteria->addInCondition('"Participants"."EventId"', array(688));
+//    $criteria->addInCondition('"Participants"."EventId"', array(844));
+//    $criteria->addInCondition('"Participants"."EventId"', array(425));
 
 //    $criteria->addInCondition('"Participants"."RoleId"', array(3));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
-//    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" NOT IN (24, 26) AND "EventId" = 688)');
+    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE
+      ("RoleId" IN (11) AND "EventId" = 425) OR
+      ("RoleId" IN (1) AND "EventId" = 422)
+    )');
+
+    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" != 24 AND "EventId" = 688)');
 
     $criteria->distinct = true;
-//    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
-//    $criteria->addCondition('"t"."Visible"');
+    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+    $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(59999/*,185212,185213*/));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953, 454/*, 59999/*,185212,185213*/));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
     $criteria->limit = 300;
     $criteria->order = '"t"."RunetId" ASC';
@@ -113,7 +119,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
 
         // ПИСЬМО
-        $body = $this->renderPartial($template, array('user' => $user), true);
+        $body = $this->renderPartial($template, array('user' => $user, 'promo' => $this->getPromo()), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
@@ -132,7 +138,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-//        if ($j == 1) continue;
+        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -152,15 +158,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-//        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
+        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
 //        $mail->SetFrom('doklad@ibcrussia.com', 'IBC Russia 2013', false);
 
 //        $mail->SetFrom('New_Year@beeline.ru', 'Beeline', false);
-        $mail->SetFrom('Vova@beeline.ru', 'Beeline', false);
+//        $mail->SetFrom('Vova@beeline.ru', 'Beeline', false);
 
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на Новый год для лучших сотрудников') .'?=';
-//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Посмотрите программу конференции и уточните время своих докладов и секций') .'?=';
+//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на Новый год для лучших сотрудников') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Заканчивается регистрация на конференцию «Интернет и бизнес»') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
@@ -168,7 +174,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-        $mail->Send();
+//        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
@@ -211,11 +217,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
   private function getPromo()
   {
     $coupon = new \pay\models\Coupon();
-    $coupon->EventId = 425;
-    $coupon->Discount = '0.25';
-    $coupon->ProductId = 1309;
+    $coupon->EventId = 688;
+    $coupon->Discount = '0.1';
+//    $coupon->ProductId = 1309;
     $coupon->Code = $coupon->generateCode();
-    $coupon->Recipient = 'Выдано участнику прошлых мероприятий RIW и РИФ';
+    $coupon->Recipient = 'Выдано оплатившему участнику РИФ-2013 и RIW-2013';
     $coupon->save();
     return $coupon->Code;
   }
