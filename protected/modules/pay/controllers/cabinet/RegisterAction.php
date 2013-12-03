@@ -15,15 +15,7 @@ class RegisterAction extends \pay\components\Action
     }
     
     $request = \Yii::app()->getRequest();
-    $criteria = new \CDbCriteria();
-    $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
-
-    $model = \pay\models\Product::model()->byPublic(true);
-    if (!\Yii::app()->user->isGuest)
-    {
-      $model->byUserAccess(\Yii::app()->user->getCurrentUser()->Id, 'OR');
-    }
-    $products = $model->byEventId($this->event->Id)->findAll($criteria);
+    $products = $this->getProducts();
 
 
     $countRows = $request->getParam('count');
@@ -38,7 +30,7 @@ class RegisterAction extends \pay\components\Action
     {
       foreach ($orderForm->Items as $k => $item)
       {
-        $product = \pay\models\Product::model()->findByPk($item['ProductId']);
+        $product = $this->getProduct($item['ProductId']);
         if ($product === null)
         {
           throw new \CHttpException(404);
@@ -48,6 +40,10 @@ class RegisterAction extends \pay\components\Action
         if ($owner == null)
         {
           $orderForm->addError('Items', \Yii::t('app', 'Пользователь с RUNET-ID: {RunetId} не найден.', array('{RunetId}' => $item['RunetId'])));
+        }
+        else
+        {
+          $orderForm->Items[$k]['Owner'] = $owner;
         }
         if (!empty($item['PromoCode']))
         {
@@ -85,8 +81,16 @@ class RegisterAction extends \pay\components\Action
         {
           \partner\models\PartnerCallback::addOrderItem($this->getEvent(), $this->getUser());
           $this->getController()->redirect(
-            $this->getController()->createUrl('/pay/cabinet/index', array('eventIdName' => $this->getEvent()->IdName))
+            $this->getController()->createUrl('/pay/cabinet/index', ['eventIdName' => $this->getEvent()->IdName])
           );
+        }
+      }
+
+      foreach ($orderForm->Items as $key => $item)
+      {
+        if (!empty($item['Owner']))
+        {
+          $orderForm->Items[$key]['Discount'] = $this->getDiscount($item['Owner'], $this->getProduct($item['ProductId']));
         }
       }
     }
@@ -103,9 +107,12 @@ class RegisterAction extends \pay\components\Action
           $isOrderItemExist = \pay\models\OrderItem::model()->byOwnerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->exists();
           if (sizeof($countRows) == 1 && !$isOrderItemExist)
           {
+            $productId = key($countRows);
+            $product = \pay\models\Product::model()->findByPk($productId);
             $orderForm->Items[] = array(
-              'ProductId' => key($countRows),
-              'RunetId' => $this->getUser()->RunetId
+              'ProductId' => $productId,
+              'RunetId' => $this->getUser()->RunetId,
+              'Discount' => $this->getDiscount($this->getUser(), $product)
             );
           }
 
@@ -126,10 +133,11 @@ class RegisterAction extends \pay\components\Action
             ->byProductId($products[0]->Id)->byDeleted(false)->exists();
         if ($isParticipant && !$isOrderItemExist && $products[0]->getManager()->checkProduct($this->getUser()))
         {
-          $orderForm->Items[] = array(
+          $orderForm->Items[] = [
             'ProductId' => $products[0]->Id,
-            'RunetId' => $this->getUser()->RunetId
-          );
+            'RunetId' => $this->getUser()->RunetId,
+            'Discount' => $this->getDiscount($this->getUser(), $products[0])
+          ];
         }
       }
     }
@@ -174,5 +182,55 @@ class RegisterAction extends \pay\components\Action
     return 0;
 //    return \pay\models\Order::model()
 //      ->byPayerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->byPaid(false)->byBankTransfer(true)->count();
+  }
+
+  private $activations = [];
+
+  private function getDiscount(\user\models\User $user, \pay\models\Product $product)
+  {
+    if (!isset($this->activations[$user->Id]))
+    {
+      /** @var $activation \pay\models\CouponActivation */
+      $activation = \pay\models\CouponActivation::model()
+          ->byUserId($user->Id)
+          ->byEventId($this->getEvent()->Id)
+          ->byEmptyLinkOrderItem()->find();
+
+      $this->activations[$user->Id] = $activation;
+    }
+    $activation = $this->activations[$user->Id];
+    if ($activation == null)
+      return 0;
+    return $activation->getDiscount($product);
+  }
+
+  private $products = null;
+
+  private function getProducts()
+  {
+    if ($this->products == null)
+    {
+      $criteria = new \CDbCriteria();
+      $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
+
+      $model = \pay\models\Product::model()->byPublic(true);
+      if (!\Yii::app()->user->isGuest)
+      {
+        $model->byUserAccess(\Yii::app()->user->getCurrentUser()->Id, 'OR');
+      }
+      $this->products = $model->byEventId($this->event->Id)->findAll($criteria);
+    }
+
+    return $this->products;
+  }
+
+  private function getProduct($productId)
+  {
+    foreach ($this->getProducts() as $product)
+    {
+      if ($product->Id == $productId)
+        return $product;
+    }
+    return null;
   }
 }

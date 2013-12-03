@@ -12,7 +12,8 @@ var CPayRegister = function()
     rowWithData : _.template($('#row-withdata-tpl[type="text/template"]').html()),
     rowDataFields : _.template($('#row-data-tpl[type="text/template"]').html()),
     rowRegister : _.template($('#row-register-tpl[type="text/template"]').html()),
-    userAutocomlete : _.template($('#user-autocomlete-tpl[type="text/template"]').html())
+    userAutocomlete : _.template($('#user-autocomlete-tpl[type="text/template"]').html()),
+    discount: _.template($('#row-discount[type="text/template"]').html())
   };
   this.init();
 };
@@ -21,7 +22,8 @@ CPayRegister.prototype = {
     var self = this;
     if (payItems !== undefined) {
       $.each(payItems, function (i, payItem) {
-        self.createFillRow(payItem.productId, payItem.user, payItem.promoCode)
+        var row = self.createFillRow(payItem.productId, payItem.user, payItem.promoCode);
+        self.initDiscount(row, payItem.discount);
       });
     }
     this.calculate();
@@ -75,6 +77,32 @@ CPayRegister.prototype = {
       return false;
     });
   },
+
+  initDiscountRemote: function(row){
+    var self = this;
+
+    $.getJSON('/pay/ajax/couponinfo', {
+      runetId : row.find('input[name*="RunetId"]').val(),
+      productId : row.parents('table[data-product-id]').data('product-id'),
+      eventIdName : self.eventIdName
+    }, function(response){
+      self.initDiscount(row, response.Discount);
+      self.calculate();
+    });
+  },
+
+  initDiscount: function(row, discount){
+    var td = $('td.discount', row);
+    td.data('discount', discount);
+
+    if (discount == 0)
+      return;
+    var discountSum = Math.round(row.parents('table[data-product-id]').data('price') * discount);
+    var rowDiscount = this.templates.discount({
+      discount: discountSum
+    });
+    td.html(rowDiscount);
+  },
   
   /**
    * 
@@ -97,6 +125,8 @@ CPayRegister.prototype = {
     });
     
     promoSubmit.click(function(e) {
+      var row = $(e.currentTarget).parents('.user-row');
+
       if (!$(e.currentTarget).hasClass('disabled')) {
         $.getJSON('/pay/ajax/couponactivate', {
           code : promoInput.val(),
@@ -108,7 +138,6 @@ CPayRegister.prototype = {
           promoAlert.attr('class', 'alert').html('');
           if (response.success) {
             if (response.coupon.Discount == 1) {
-              var row = $(e.currentTarget).parents('.user-row');
               row.find('td').empty();
               row.html(
                 '<td colspan="4"><div class="alert alert-success">'+response.message+'</div></td>'
@@ -118,6 +147,8 @@ CPayRegister.prototype = {
               runAlertTimer = false;
             }
             else {
+              self.initDiscount(row, response.coupon.Discount);
+              self.calculate();
               promoAlert.addClass('alert-success').text(response.message);
               promoSubmit.addClass('disabled');
             }
@@ -174,6 +205,7 @@ CPayRegister.prototype = {
         self.calculate();
         self.initCouponField(row);
         self.initRemoveIcon(row);
+        self.initDiscountRemote(row);
         self.itemsIterator++;
       },
       response : function (event, ui) {
@@ -202,6 +234,8 @@ CPayRegister.prototype = {
       item : item,
       promoCode : promoCode
     });
+
+
    
     var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
     table.append(rowTemplate);
@@ -209,19 +243,25 @@ CPayRegister.prototype = {
     self.initRemoveIcon(row);
     self.initCouponField(row);
     self.itemsIterator++;
+
+    return row;
   },
           
   calculate : function () {
     var self     = this,
-        sum      = 0,
-        total    = 0,
-        all      = 0,
-        current  = 0;
+        total    = 0;
         
     self.form.find('table[data-product-id]').each(function () {
-      all = $(this).find('tbody .user-row').size();
-      current = $(this).find('tbody input:disabled').size();
-      sum = current*$(this).data('price');
+      var price = $(this).data('price'),
+        all = $(this).find('tbody .user-row').size(),
+        rows = $(this).find('tbody input:disabled'),
+        current = rows.size(),
+        sum = 0;
+
+      rows.each(function(){
+        var discount = $(this).parents('tr.user-row').find('td.discount').data('discount');
+        sum += Math.round(price * (1 - discount));
+      });
       total += sum;
       $(this).find('thead th .quantity').text(current);
       $(this).find('thead th .mediate-price').text(sum);

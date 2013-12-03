@@ -5,6 +5,7 @@ class AjaxController extends \pay\components\Controller
   {
     return array(
       'couponactivate' => '\pay\controllers\ajax\CouponActivateAction',
+      'couponinfo' => '\pay\controllers\ajax\CouponInfoAction',
     );
   }
 }

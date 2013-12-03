@@ -11,36 +11,43 @@ use application\components\utility\Texts;
  */
 ?>
 
-<html>
+<style type="text/css">
+  p	{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  9pt;
+  }
+  td	{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  9pt;
+  }
+  #small	{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:  8pt;
+  }
+  #title	{
+    font-family: Tahoma, Helvetica;
+    font-size: 11pt;
+  }
+  a:hover   {
+    color: #FF0000;
+  }
+  table.receipt  tbody > tr > td{
+    border: 1px solid #000;
+    padding: 3px;
+  }
+  table.receipt table{
+    border-bottom: 1px solid #000;
+  }
 
-<head>
-  <style type="text/css">
-    p	{
-      font-family: Arial, Helvetica, sans-serif;
-      font-size:  9pt;
-    }
-    td	{
-      font-family: Arial, Helvetica, sans-serif;
-      font-size:  9pt;
-    }
-    #small	{
-      font-family: Arial, Helvetica, sans-serif;
-      font-size:  8pt;
-    }
-    #title	{
-      font-family: Tahoma, Helvetica;
-      font-size: 11pt;
-    }
-    a:hover   {
-      color: #FF0000;
-    }
-  </style>
-  <title>Квитанция для оплаты услуг RUNET-ID</title>
-</head>
+  /*table.receipt-data > tbody > tr > td{
+    border: 1px solid #000;
+    padding: 5px;
+  }*/
+</style>
 
-<body link="#000080" vlink="#000080" bgcolor="#FFFFFF">
 
-<table cellspacing="0" border="1" cellpadding="3" width="640" bordercolorlight="#000000" bordercolordark="#FFFFFF">
+<table class="receipt" cellspacing="0" border="1" cellpadding="3" width="640" bordercolorlight="#000000" bordercolordark="#FFFFFF">
+  <tbody>
   <tr>
     <td align="left" width="240" valign="middle">
       &nbsp;&nbsp;<strong>ИЗВЕЩЕНИЕ</strong>
@@ -140,11 +147,8 @@ use application\components\utility\Texts;
       </table>
     </td>
   </tr>
+  </tbody>
 </table>
-</div>
 
-
-</body>
-</html>
 
 

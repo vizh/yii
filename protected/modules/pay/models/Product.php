@@ -10,7 +10,7 @@ namespace pay\models;
  * @property int $EventId
  * @property string $Unit
  * @property int $Count
- * @property int $EnableCoupon
+ * @property bool $EnableCoupon
  * @property bool $Public
  * @property int $Priority
  *

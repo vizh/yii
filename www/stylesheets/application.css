@@ -1203,7 +1203,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   font-size: 13px;
 }
 
-.event-register .table .input-promo {width: 166px;}
 .event-register .table .input-promo.filled {
   opacity: .25;
   -webkit-transition: opacity .5s;
@@ -1226,7 +1225,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   white-space: nowrap;
 }
 
-.event-register .table .btn-register {width: 180px;}
+.event-register .table .btn-register {width: 167px;}
 
 .event-register .table .icon-remove {
   position: absolute;
@@ -1235,6 +1234,16 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   margin: -7px 0 0 -21px;
   opacity: .5;
   cursor: pointer;
+}
+
+.event-register .table .input-promo > input{
+  width: 110px;
+}
+
+.event-register .table .discount{
+  font-weight: bold;
+  text-align: center;
+  color: #008000;
 }
 
 .event-register .table .col-width {width: 80px;}
@@ -2496,9 +2505,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .job article p{
   height: 140px;
   overflow: hidden;
-}
-.event-register .table .input-promo > input{
-  width: 100px;
 }
 
 

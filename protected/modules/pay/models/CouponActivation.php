@@ -81,62 +81,12 @@ class CouponActivation extends \CActiveRecord
     return $this;
   }
 
-
-  /** todo: old methods */
-
-
-
-  /**
-   * @static
-   * @param int $userId
-   * @param int $eventId
-   * @return CouponActivated[]
-   */
-  public static function GetByEvent($userId, $eventId)
+  public function getDiscount(Product $product = null)
   {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 't.UserId = :UserId AND Coupon.EventId = :EventId';
-    $criteria->params = array(':UserId' => $userId,':EventId' => $eventId);
-    $criteria->order = 't.CreationTime DESC';
-
-    return CouponActivated::model()->with('Coupon')->findAll($criteria);
-  }
-
-  /**
-   * @static
-   * @param array() $usersId
-   * @param int $eventId
-   * @return CouponActivated[]
-   */
-  public static function GetListByEvent($usersId, $eventId)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = 'Coupon.EventId = :EventId';
-    $criteria->params = array(':EventId' => $eventId);
-    $criteria->addInCondition('t.UserId', $usersId);
-    $criteria->order = 't.CreationTime DESC';
-
-    return CouponActivated::model()->with('Coupon')->findAll($criteria);
-  }
-
-  /**
-   * @param OrderItem $orderItem
-   * @return bool
-   */
-  public function CheckOrderItem($orderItem)
-  {
-    if (empty($this->OrderItems))
-    {
-      return true;
-    }
-
-    foreach ($this->OrderItems as $item)
-    {
-      if ($orderItem->OrderItemId === $item->OrderItemId)
-      {
-        return true;
-      }
-    }
-    return false;
+    if ($product == null)
+      return $this->Coupon->Discount;
+    if (!$product->EnableCoupon)
+      return 0;
+    return $this->Coupon->ProductId == null || $this->Coupon->ProductId == $product->Id ? $this->Coupon->Discount : 0;
   }
 }

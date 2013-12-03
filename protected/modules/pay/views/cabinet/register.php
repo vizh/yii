@@ -27,6 +27,7 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
     RunetId : '<?=$owner->RunetId;?>',
     FullName : '<?=\CHtml::encode($owner->getFullName());?>'
   };
+  payItem.discount = '<?=!empty($item['Discount']) ? $item['Discount'] : 0;?>';
   payItem.promoCode = '<?=!empty($item['PromoCode']) ? $item['PromoCode'] : '';?>';
   payItems.push(payItem);
   <?endforeach;?>
@@ -138,7 +139,8 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
         <input type="text" class="input-xxlarge form-element_text input-user" placeholder="<?=Yii::t('app', 'Введите ФИО'.$runetIdTitle);?>">
       </div>
     </td>
-    <td colspan="3" class="last-child">
+    <td class="discount" data-discount="0"></td>
+    <td colspan="2" class="last-child">
       <?if (!$account->SandBoxUser):?>
         <button class="btn btn-inverse btn-register pull-right" style="display: none;"><?=Yii::t('app', 'Зарегистрировать');?></button>
       <?endif;?>
@@ -154,7 +156,8 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
         <i class="icon-remove"></i>
       </div>
     </td>
-    <td colspan="3" class="last-child">
+    <td class="discount"></td>
+    <td colspan="2" class="last-child">
       <input type="hidden" name="<?=\CHtml::activeName($orderForm, 'Items[<%=i%>][ProductId]');?>" value="<%=productId%>" />
       <input type="hidden" name="<?=\CHtml::activeName($orderForm, 'Items[<%=i%>][RunetId]');?>" value="<%=item.RunetId%>" />
       <div class="input-append pull-right input-promo">
@@ -247,4 +250,8 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
       <?CHtml::endForm();?>
     </td>
   </tr>
+</script>
+
+<script  type="text/template" id="row-discount">
+  -<%=discount%> <?=Yii::t('app', 'руб.');?>
 </script>
