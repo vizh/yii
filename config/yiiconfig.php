@@ -46,17 +46,29 @@ return array(
       //'class'=>'CDummyCache'
     ),
 
-    'db'=>array(
-      'class'=>'\application\components\db\PgDbConnection',
-      'connectionString' => 'pgsql:host=runetid.internetmediaholding.com;port=5432;dbname=runetid',
-      'emulatePrepare' => true,
-      'username' => 'runetid',
-      'password' => 'Rofeena1jei8haes',
-      'charset' => 'utf8',
-      'enableProfiling' => true,
-      'enableParamLogging'=>true,
-      'schemaCachingDuration'=>600,
-    ),
+    'db' => $_SERVER['REMOTE_ADDR'] === '127.0.0.1' ?
+        array(
+          'class'=>'\application\components\db\PgDbConnection',
+          'connectionString' => 'pgsql:host=localhost;port=5432;dbname=runetid',
+          'emulatePrepare' => true,
+          'username' => 'postgres',
+          'password' => 'cccpmax',
+          'charset' => 'utf8',
+          'enableProfiling' => true,
+          'enableParamLogging'=>true,
+          'schemaCachingDuration'=>600,
+        ) :
+        array(
+          'class'=>'\application\components\db\PgDbConnection',
+          'connectionString' => 'pgsql:host=runetid.internetmediaholding.com;port=5432;dbname=runetid',
+          'emulatePrepare' => true,
+          'username' => 'runetid',
+          'password' => 'Rofeena1jei8haes',
+          'charset' => 'utf8',
+          'enableProfiling' => true,
+          'enableParamLogging'=>true,
+          'schemaCachingDuration'=>600,
+        ),
     'dbOld'=>array(
       'class'=>'CDbConnection',
       'connectionString' => 'mysql:host=109.234.156.202;dbname=rocid',
@@ -92,7 +104,8 @@ return array(
     ),
 
     'request'=>array(
-      'enableCookieValidation'=>true,
+      'class' => '\application\components\HttpRequest',
+      'enableCookieValidation' => true
     ),
 
     'errorHandler'=>array(

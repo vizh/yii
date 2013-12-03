@@ -5,3 +5,4 @@ nbproject
 runetid-pass.txt
 out
 logs
+*.log

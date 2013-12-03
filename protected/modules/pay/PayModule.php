@@ -1,6 +1,3 @@
 <?php
 
-class PayModule extends CWebModule
-{
-
-}
+class PayModule extends CWebModule { }

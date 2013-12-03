@@ -1,8 +1,16 @@
 <?php
 
-
 class ErrorController extends \application\components\controllers\PublicMainController
 {
+  /**
+   * Не валидируем для данного контроллера CSRF токен
+   * @param $filterChain
+   */
+  public function filterValidateCsrf($filterChain)
+  {
+    $filterChain->run();
+  }
+
   public function actionIndex()
   {
     $this->bodyId = 'error-page';

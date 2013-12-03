@@ -2,6 +2,15 @@
 
 class CabinetController extends \pay\components\Controller
 {
+  /**
+   * @return array Фильтры
+   */
+  public function filters()
+  {
+    return array_merge(parent::filters(), array(
+      'postOnly + deleteitem'
+    ));
+  }
 
   public function actions()
   {

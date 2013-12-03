@@ -41,7 +41,9 @@ $total = 0;
         <?$total += $item->getPriceDiscount();?>
         <tr>
           <td style="padding-left: 10px; width: 15px;">
-            <a href="<?=$this->createUrl('/pay/cabinet/deleteitem', array('orderItemId' => $item->getOrderItem()->Id));?>"><i class="icon-trash"></i></a>
+            <?= \CHtml::beginForm(array('/pay/cabinet/deleteitem', 'orderItemId' => $item->getOrderItem()->Id), 'post', array('class' => 'button-only')); ?>
+              <?= \CHtml::htmlButton('<i class="icon-trash"></i>', array('type' => 'submit')); ?>
+            <?= \CHtml::endForm(); ?>
           </td>
           <td>
             <?=$item->getOrderItem()->Owner->getFullName();?>

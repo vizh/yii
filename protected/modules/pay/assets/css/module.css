@@ -1,0 +1,13 @@
+/**
+ * Стили для модуля pay
+ */
+form.button-only {
+  margin: 0;
+}
+
+form.button-only button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+}

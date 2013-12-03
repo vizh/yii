@@ -14,6 +14,10 @@ namespace application\components;
  */
 class WebApplication extends \CWebApplication
 {
+  /**
+   * @var array Модули, для которых включена валидация CSRF токена
+   */
+  public $csrfValidationModules;
 
   /**
    * Отключает логгеры, которые выводят результаты логгирования в output

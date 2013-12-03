@@ -17,7 +17,9 @@
     <tr>
       <td style="padding-left: 10px; width: 15px;">
         <?if (!$collection->getOrder()->Paid):?>
-        <a href="<?=$this->createUrl('/pay/juridical/delete', array('orderId' => $collection->getOrder()->Id));?>"><i class="icon-trash"></i></a>
+          <?= \CHtml::beginForm(array('/pay/juridical/delete', 'orderId' => $collection->getOrder()->Id), 'post', array('style' => 'button-only')); ?>
+            <?= \CHtml::htmlButton('<i class="icon-trash"></i>', array('type' => 'submit')); ?>
+          <?= \CHtml::endForm(); ?>
         <?endif;?>
       </td>
       <td><?=\Yii::t('app', $collection->getOrder()->Receipt ? 'Квитанция' : 'Счет');?> № <?=$collection->getOrder()->Id;?> <?=\Yii::t('app', 'от');?> <?=\Yii::app()->dateFormatter->format('d MMMM yyyy', $collection->getOrder()->CreationTime);?>

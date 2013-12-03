@@ -29,4 +29,10 @@ return array(
     'mytest',
     'mail'
   ),
+
+  'csrfValidationModules' => array(
+    'main',
+    'oauth',
+    'pay'
+  )
 );

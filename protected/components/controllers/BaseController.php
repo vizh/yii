@@ -5,7 +5,7 @@ abstract class BaseController extends \CController
 {
   public function filters()
   {
-    return array('setHeaders', 'initResources');
+    return array('validateCsrf', 'setHeaders', 'initResources');
   }
 
   /**
@@ -28,6 +28,20 @@ abstract class BaseController extends \CController
   public function filterInitResources($filterChain)
   {
     $this->initResources();
+    $filterChain->run();
+  }
+
+  /**
+   * @param \CFilterChain $filterChain
+   */
+  public function filterValidateCsrf($filterChain)
+  {
+    if (in_array($this->getModule()->getId(), \Yii::app()->csrfValidationModules))
+    {
+      \Yii::app()->request->enableCsrfValidation = true;
+      \Yii::app()->request->validateCsrfToken(new \CEvent($this));
+    }
+
     $filterChain->run();
   }
 
