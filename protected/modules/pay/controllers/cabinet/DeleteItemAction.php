@@ -7,7 +7,7 @@ class DeleteItemAction extends \pay\components\Action
   {
     /** @var $item \pay\models\OrderItem */
     $item = \pay\models\OrderItem::model()->findByPk($orderItemId);
-    if ($item->Product->EventId == $this->getEvent()->Id && $item->PayerId == \Yii::app()->getUser()->getId())
+    if ($item->Product->EventId == $this->getEvent()->Id && $item->PayerId == $this->getUser()->Id)
     {
       $item->delete();
     }
