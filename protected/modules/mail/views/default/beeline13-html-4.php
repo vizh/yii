@@ -57,14 +57,14 @@
     </style>
   </head>
   <body>
-    <table align="center" style="margin: 0 auto; border-collapse:collapse; border-spacing: 0;" cellpadding="0" cellspacing="0">
+    <table align="center" border="0" style="margin: 0 auto; border-collapse:collapse; border-spacing: 0;" cellpadding="0" cellspacing="0">
       <tr>
         <td style="background: #ffffff;">
-          <table width="750" align="center" cellpadding="0" cellspacing="0" style="position: relative; width: 750px; /*height: 1060px; */border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0; background: #ffffff; font-family: Verdana;">
+          <table width="750" align="center" cellpadding="0" border="0" cellspacing="0" style="position: relative; width: 750px; /*height: 1060px; */border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0; background: #ffffff; font-family: Verdana;">
 
             <tr valign="top">
               <td width="750">
-                <table width="750" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
+                <table width="750" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
                   <tr>
                     <td valign="top" align="right" height="34" style="text-align: right; background: #ffffff; line-height: 34px; font-size: 11px; font-style: italic;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="color: #000000 !important; text-decoration: none;">Распечатать</a></td>
                     <td valign="top" width="66" height="34" style="line-height: 34px;"><a href="<?=$user->Participants[0]->getTicketUrl();?>"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/print-1.png" width="66" height="34"></a></td>
@@ -75,9 +75,9 @@
 
             <tr valign="top">
               <td width="750">
-                <table width="750" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
+                <table width="750" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
                   <tr>
-                    <td valign="top"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/logo.png"></td>
+                    <td valign="top" width="750" height="131"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/logo.png" width="750" height="131"></td>
                   </tr>
                 </table>
               </td>
@@ -85,7 +85,7 @@
 
             <tr valign="top">
               <td width="750">
-                <table width="750" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
+                <table width="750" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
                   <tr>
                     <td valign="top" width="44" height="175"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/str-3-1.png" width="44" height="175"></td>
                     <td valign="top" width="411" height="175" style="background: url('http://runet-id.com/img/event/beesuper13/str-3-2.png') no-repeat;">
@@ -102,7 +102,7 @@
 
             <tr valign="top">
               <td width="750">
-                <table width="750" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
+                <table width="750" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
                   <tr>
                     <td valign="top" width="750" height="94"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/str-4.png" width="750" height="94"></td>
                   </tr>
@@ -112,7 +112,7 @@
 
             <tr valign="top">
               <td width="750">
-                <table width="750" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
+                <table width="750" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
                   <tr>
                     <td valign="top" width="44" height="101"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/str-5-1.png" width="44" height="101"></td>
                     <td valign="top" style="background: #ffffff; font-family: Verdana; font-size: 16px; line-height: 23px; padding-left: 5px; padding-top: 15px; font-style: italic;">
@@ -126,7 +126,7 @@
 
             <tr valign="top">
               <td width="750">
-                <table width="750" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
+                <table width="750" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
                   <tr>
                     <td valign="top" width="750" height="107"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/str-6.png" width="750" height="107"></td>
                   </tr>
@@ -136,7 +136,7 @@
 
             <tr valign="top">
               <td width="750">
-                <table width="750" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
+                <table width="750" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
                   <tr>
                     <td valign="top" width="236" height="220" style="background: url('http://runet-id.com/img/event/beesuper13/str-7-1.png') no-repeat;">
                       <div style="font-family: Verdana; font-size: 11px; margin-left: 30px; line-height: 15px; margin-top: 23px; width: 130px;">Новогодний слет<br/>состоится 19 декабря<br/>с 18:00 до 23:00<br/>по адресу:<br/>г.Москва, Болотная<br/>набережная, 3/4<br/>клуб Gipsy</div>
@@ -144,7 +144,7 @@
                     </td>
                     <td valign="top" width="408" height="220"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/str-7-2.png" width="408" height="220"></td>
                     <td valign="top" width="106" height="220">
-                      <table width="106" height="220" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
+                      <table width="106" height="220" cellpadding="0" border="0" cellspacing="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
                         <tr>
                           <td valign="top" align="center" width="106" height="137" style="font-family: Verdana; background: #ffffff;">
                             <img style="border: 0;" border="0" src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100);?>" /><br/><?=$user->RunetId;?>
@@ -160,7 +160,7 @@
 
             <tr valign="top">
               <td width="750">
-                <table width="750" cellpadding="0" cellspacing="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
+                <table width="750" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; margin: 0; padding: 0; border-spacing: 0;">
                   <tr>
                     <td valign="top" bgcolor="#95969b" style="background: #95969b; font-family: Verdana; line-height: 15px; font-size: 11px; padding-left: 30px; padding-top: 25px;">
                       <div style="color: #000000;">Вход на слет супергероев<br/>будет осуществлен по<br/>индивидуальному QR-коду.</div>

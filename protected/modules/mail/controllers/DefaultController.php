@@ -84,7 +84,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
 //    $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953/*, 59999/*,185212,185213*/));
+    $criteria->addInCondition('"t"."RunetId"', array(185803/*, 59999/*,185212,185213*/));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -127,6 +127,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $email = $user->Email;
 //        $email = 'eroshenkov@mail.ru';
+//        $email = 'eroshenko.vitaliy@yandex.ru';
 
 //        $email = $user;
 
