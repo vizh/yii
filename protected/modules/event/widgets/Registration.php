@@ -35,6 +35,28 @@ class Registration extends \event\components\Widget
       return;
     }
 
+    /** @var \event\models\Participant $participant */
+    $participant = null;
+    if (!\Yii::app()->user->getIsGuest())
+    {
+      if (count($this->event->Parts) == 0)
+      {
+        $participant = \event\models\Participant::model()
+            ->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->event->Id)->find();
+      }
+      else
+      {
+        $participants = \event\models\Participant::model()->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->event->Id)->findAll();
+        foreach ($participants as $p)
+        {
+          if ($participant == null || $participant->Role->Priority < $p->Role->Priority)
+          {
+            $participant = $p;
+          }
+        }
+      }
+    }
+
     if ($account->ReturnUrl === null)
     {
       \Yii::app()->getClientScript()->registerPackage('runetid.event-calculate-price');
@@ -47,13 +69,6 @@ class Registration extends \event\components\Widget
       }
       $products = $model->byEventId($this->event->Id)->findAll($criteria);
 
-      $participant = null;
-      if (count($this->event->Parts) == 0 && !\Yii::app()->user->getIsGuest())
-      {
-        $participant = \event\models\Participant::model()
-            ->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->event->Id)->find();
-      }
-
       $this->render('registration', [
         'products' => $products,
         'account' => $account,
@@ -62,7 +77,10 @@ class Registration extends \event\components\Widget
     }
     else
     {
-      $this->render('registration-external', ['account' => $account]);
+      $this->render('registration-external', [
+        'account' => $account,
+        'participant' => $participant
+      ]);
     }
   }
 
