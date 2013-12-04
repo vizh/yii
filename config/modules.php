@@ -31,7 +31,6 @@ return array(
   ),
 
   'csrfValidationModules' => array(
-    'main',
     'oauth',
     'pay'
   )

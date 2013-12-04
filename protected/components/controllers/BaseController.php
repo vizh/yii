@@ -5,7 +5,7 @@ abstract class BaseController extends \CController
 {
   public function filters()
   {
-    return array('setHeaders', 'initResources');
+    return array('validateCsrf', 'setHeaders', 'initResources');
   }
 
   /**

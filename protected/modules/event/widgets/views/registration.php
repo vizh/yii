@@ -11,6 +11,7 @@ if (empty($products))
 }
 ?>
 <form method="post" action="<?=\Yii::app()->createUrl('/pay/cabinet/register', array('eventIdName' => $this->event->IdName));?>" class="registration">
+  <?= \CHtml::hiddenField(\Yii::app()->request->csrfTokenName, \Yii::app()->request->getCsrfToken()); ?>
 
   <?if ($participant !== null && $participant->RoleId != 24):?>
     <p class="text-success" style="font-size: 16px; line-height: 20px; margin: 15px 0 30px;">

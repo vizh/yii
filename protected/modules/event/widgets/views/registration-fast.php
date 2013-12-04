@@ -7,6 +7,7 @@
   </p>
   <?if (!$isParticipant):?>
     <?=\CHtml::form('','POST');?>
+      <?= \CHtml::hiddenField(\Yii::app()->request->csrfTokenName, \Yii::app()->request->getCsrfToken()); ?>
       <?if (\Yii::app()->user->isGuest):?>
         <a href="#" class="btn btn-info" id="PromoLogin"><?=\Yii::t('app', 'Авторизоваться / Зарегистрироваться');?></a>
       <?else:?>
