@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'beeline13-html-4';
+    $template = 'beeline13-html-5';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -84,7 +84,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
 //    $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(185803/*, 59999/*,185212,185213*/));
+    $criteria->addInCondition('"t"."RunetId"', array(12953,59999,185212,185213));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -101,6 +101,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       foreach ($users as $user)
       {
+
+        $this->genBeePDF($user);
 
 //        print $user->Participants[0]->Role->Title;
 //        print $user->Participants[0]->getTicketUrl();
@@ -164,12 +166,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->Subject = '=?UTF-8?B?'. base64_encode('Заканчивается регистрация на конференцию «Интернет и бизнес»') .'?=';
         $mail->Body = $body;
 
-//        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-10-02/marketingparty2013.pdf');
+        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
 
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-//        $mail->Send();
+        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
@@ -184,6 +186,23 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       echo 'Рассылка ушла!';
     }
+  }
+
+  private function genBeePDF($user)
+  {
+    ob_start();
+    ?>
+    <page backimg="http://runet-id.com/img/event/beesuper13/bee_pdf_bg.jpg">
+      <div style="text-align: center; position: absolute; bottom: 75mm; right: -3mm;"><img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100);?>" /><br/><?=$user->RunetId;?></div>
+    </page>
+    <?
+    $content = ob_get_clean();
+
+    require_once(\Yii::getPathOfAlias('ext.html2pdf.html2pdf').'.php');
+    $html2pdf = new HTML2PDF('P','A4','en');
+    $html2pdf->pdf->SetDisplayMode('fullpage');
+    $html2pdf->WriteHTML($content);
+    $html2pdf->Output($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf', 'F');
   }
 
   private function getRegLink($user)
