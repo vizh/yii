@@ -31,7 +31,7 @@
 
       /* Styles */
       body {
-        /*padding: 50px 0;*/
+        padding: 0 20px;
         font-size: 13px;
         font-family: Helvetica, Arial, sans-serif;
       }
