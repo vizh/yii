@@ -7,8 +7,8 @@ class PayPal implements ISocial
   const SessionNameAccessToken = 'pp_access_token';
   const SessionNameRedirectUrl = 'pp_redirect_url';
 
-  const ClientId = 'AQiUABAZ8WEPbbXoWhjvz-_i_UYAyGNZ_4c3tkvfzxASAQ88GS3RRIrH34lu';
-  const ClientSecret = 'EBveCBBMbMnT5kpimiwTGJ8WJZ59PHIN2KgB_mOxdS0Z2W_yROUc3SRpzICC';
+  const ClientId = 'AcTEGxClf9XPZ7Xsc1WnvMLhQeVQ6SGYV4XygpArCW7QXaFvLWoO3KspYlnf';
+  const ClientSecret = 'ELeYdBB2Rn582Re_ieZ3qKxueN3fVUgpYVbWc-gLSUv7VlyaRGXkDSOmQ3Cy';
 
   private $apicontext;
   private $redirectUrl;
