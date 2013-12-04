@@ -89,7 +89,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     echo \user\models\User::model()->count($criteria);
     exit();
 
-    $criteria->limit = 300;
+    $criteria->limit = 50;
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
@@ -115,6 +115,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
 
         // ПИСЬМО
+/*
         $body = $this->renderPartial($template, array('user' => $user), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
@@ -138,7 +139,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         {
           continue;
         }
-
+*/
         /*
         if (preg_match("/@ashmanov.com/i", $email))
         {
@@ -146,7 +147,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
           continue;
         }
         */
-
+/*
         $mail->AddAddress($email);
 //        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
 //        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
@@ -164,14 +165,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->Body = $body;
 
         $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
-
+*/
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
-
+/*
         $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+*/
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
