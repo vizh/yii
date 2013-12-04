@@ -15,7 +15,7 @@ class PayInfoAction extends \api\components\Action
 
     /** @var $activation \pay\models\CouponActivation */
     $activation = \pay\models\CouponActivation::model()
-        ->byUserId($externalUser->Id)
+        ->byUserId($externalUser->UserId)
         ->byEventId($this->getEvent()->Id)
         ->byEmptyLinkOrderItem()->find();
 
