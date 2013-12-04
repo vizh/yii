@@ -17,7 +17,7 @@
     <tr>
       <td style="padding-left: 10px; width: 15px;">
         <?if (!$collection->getOrder()->Paid):?>
-          <?= \CHtml::beginForm(array('/pay/juridical/delete', 'orderId' => $collection->getOrder()->Id), 'post', array('style' => 'button-only')); ?>
+          <?= \CHtml::beginForm(array('/pay/juridical/delete', 'orderId' => $collection->getOrder()->Id), 'post', array('class' => 'button-only')); ?>
             <?= \CHtml::htmlButton('<i class="icon-trash"></i>', array('type' => 'submit')); ?>
           <?= \CHtml::endForm(); ?>
         <?endif;?>
