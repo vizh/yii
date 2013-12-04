@@ -36,4 +36,19 @@ class Part extends \CActiveRecord
       'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
     );
   }
+
+  /**
+   * @param int $eventId
+   * @param bool $useAnd
+   *
+   * @return $this
+   */
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"EventId" = :EventId';
+    $criteria->params = ['EventId' => $eventId];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

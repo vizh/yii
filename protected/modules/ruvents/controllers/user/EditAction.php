@@ -1,6 +1,13 @@
 <?php
 namespace ruvents\controllers\user;
 
+use event\models\Part;
+use event\models\Participant;
+use event\models\Role;
+use ruvents\components\Exception;
+use ruvents\models\ChangeMessage;
+use user\models\User;
+
 class EditAction extends \ruvents\components\Action
 {
 
@@ -10,24 +17,23 @@ class EditAction extends \ruvents\components\Action
     $runetId = $request->getParam('RunetId', null);
     $email = $request->getParam('Email', null);
 
-    $user = \user\models\User::model()->byRunetId($runetId)->find();
-    if ($user === null)
-    {
-      throw new \ruvents\components\Exception(202, array($runetId));
-    }
+    $user = User::model()->byRunetId($runetId)->find(); if (!$user)
+      throw new Exception(202, array($runetId));
+
     $event = $this->getEvent();
 
-    $participant = \event\models\Participant::model()
-        ->byEventId($event->Id)->byUserId($user->Id)->find();
-    if ($participant === null)
-    {
-      throw new \ruvents\components\Exception(304);
-    }
+    $participant = Participant::model()
+        ->byEventId($event->Id)
+        ->byUserId($user->Id)
+        ->find();
+
+    if (!$participant)
+      throw new Exception(304);
 
     $this->updateMainInfo($user);
     $this->updatePhone($user);
     $this->updateEmployment($user);
-    $this->updateRole($user);
+    $this->updateRoles($user);
 
     // Позволим редактировать посетителей без указания Email. Но только в случае когда он уже есть.
     if ($email || !$user->Email)
@@ -45,11 +51,11 @@ class EditAction extends \ruvents\components\Action
   }
 
   /**
-   * @param \user\models\User $user
+   * @param User $user
    *
-   * @throws \ruvents\components\Exception
+   * @throws Exception
    */
-  private function updateMainInfo(\user\models\User $user)
+  private function updateMainInfo(User $user)
   {
     $request = \Yii::app()->getRequest();
 
@@ -64,7 +70,7 @@ class EditAction extends \ruvents\components\Action
       $newValue = $request->getParam($name, null);
       if ($newValue !== null && $user->$name != $newValue)
       {
-        $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage($name, $user->$name, $newValue));
+        $this->getDetailLog()->addChangeMessage(new ChangeMessage($name, $user->$name, $newValue));
         $form->$name = $newValue;
       }
       else
@@ -87,12 +93,12 @@ class EditAction extends \ruvents\components\Action
     {
       foreach ($form->getErrors() as $message)
       {
-        throw new \ruvents\components\Exception(207, $message);
+        throw new Exception(207, $message);
       }
     }
   }
 
-  private function updateEmail(\user\models\User $user)
+  private function updateEmail(User $user)
   {
     $request = \Yii::app()->getRequest();
     $email = $request->getParam('Email', null);
@@ -106,20 +112,20 @@ class EditAction extends \ruvents\components\Action
       $emailValidator = new \CEmailValidator();
       if (!$emailValidator->validateValue($email))
       {
-        throw new \ruvents\components\Exception(205);
+        throw new Exception(205);
       }
-      $checkUser = \user\models\User::model()->byEmail($email)->byVisible(true)->find();
+      $checkUser = User::model()->byEmail($email)->byVisible(true)->find();
       if ($checkUser !== null && $checkUser->Id != $user->Id)
       {
-        throw new \ruvents\components\Exception(206);
+        throw new Exception(206);
       }
-      $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Email', $user->Email, $email));
+      $this->getDetailLog()->addChangeMessage(new ChangeMessage('Email', $user->Email, $email));
       $user->Email = $email;
       $user->save();
     }
   }
 
-  private function updatePhone(\user\models\User $user)
+  private function updatePhone(User $user)
   {
 //    $phone = \Yii::app()->getRequest()->getParam('Phone', null);
 //    if (!empty($phone))
@@ -128,7 +134,7 @@ class EditAction extends \ruvents\components\Action
 //    }
   }
 
-  private function updateEmployment(\user\models\User $user)
+  private function updateEmployment(User $user)
   {
     $request = \Yii::app()->getRequest();
 
@@ -160,40 +166,34 @@ class EditAction extends \ruvents\components\Action
       $currentPosition = '';
     }
 
-    $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Company', $currentCompany, $company));
-    $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Position', $currentPosition, $position));
+    $this->getDetailLog()->addChangeMessage(new ChangeMessage('Company', $currentCompany, $company));
+    $this->getDetailLog()->addChangeMessage(new ChangeMessage('Position', $currentPosition, $position));
     $user->setEmployment($company, $position);
   }
 
-  private function updateRole(\user\models\User $user)
+  private function updateRoles(User $user)
   {
-    $roleId = (int)\Yii::app()->getRequest()->getParam('RoleId');
-    /** @var $role \event\models\Role */
-    $role = \event\models\Role::model()->findByPk($roleId);
-    if ($role !== null)
+    $event = $this->getEvent();
+    $statuses = (array) json_decode(\Yii::app()->getRequest()->getParam('Statuses'));
+
+    foreach ($statuses as $part_id => $role_id)
     {
-      if (sizeof($this->getEvent()->Parts) > 0)
+      $role = Role::model()->findByPk($role_id); if (!$role)
+        throw new Exception(302, [$role_id]);
+
+      // Обработка однопартийных мероприятий
+      if (!$part_id && count($statuses) === 1)
       {
-        //todo: phDays
-        $this->getEvent()->registerUserOnAllParts($user, $role);
-//        $partId = (int)\Yii::app()->getRequest()->getParam('PartId');
-//        /** @var $part \event\models\Part */
-//        $part = \event\models\Part::model()->findByPk($partId);
-//        if ($part === null || $part->EventId !== $this->getEvent()->Id)
-//        {
-//          throw new \ruvents\components\Exception(306);
-//        }
-//        $this->getEvent()->registerUserOnPart($part, $user, $role);
-//        if ($part !== null)
-//        {
-//          $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Part', $part->Id, $part->Id));
-//        }
+        $event->registerUser($user, $role);
+        $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', '', $role->Id));
+        continue;
       }
-      else
-      {
-        $this->getEvent()->registerUser($user, $role);
-      }
-      $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Role', 0, $role->Id));
+
+      $part = Part::model()->findByPk($part_id); if (!$part || $part->EventId !== $event->Id)
+        throw new Exception(306);
+
+      $event->registerUserOnPart($part, $user, $role); if ($part)
+        $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', $part->Id, $role->Id));
     }
   }
 }

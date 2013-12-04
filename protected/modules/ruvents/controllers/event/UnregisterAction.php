@@ -1,33 +1,47 @@
 <?php
 namespace ruvents\controllers\event;
 
+use event\models\Part;
+use event\models\Participant;
+use ruvents\components\Exception;
+use ruvents\models\ChangeMessage;
+use user\models\User;
+
 class UnregisterAction extends \ruvents\components\Action
 {
   public function run()
   {
     $request = \Yii::app()->getRequest();
     $runetId = $request->getParam('RunetId', null);
-    //$partId = $request->getParam('PartId', null);
+    $partId = $request->getParam('PartId', null);
 
-    //todo: phDays
-    $partId = $request->getParam('PartId', 7);
 
     $event = $this->getEvent();
-    $user = \user\models\User::model()->byRunetId($runetId)->find();
-    if ($user === null)
+    $user = User::model()->byRunetId($runetId)->find(); if (!$user)
+      throw new Exception(202, array($runetId));
+
+    $participant = Participant::model()->byEventId($event->Id)->byUserId($user->Id);
+    $part = null;
+
+    /**
+     * Если мероприятие многопартийное, но с какой именно части разрегистрировать посетителя не сказано,
+     * то отменяем его регистрацию на все части.
+     */
+    if (count($event->Parts) > 0 && !$partId)
     {
-      throw new \ruvents\components\Exception(202, array($runetId));
+      $event->unregisterUserOnAllParts($user);
+      $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', '', 'Отмена участия со всех частей.'));
+      $this->renderJson(['Success' => true]);
+      return;
     }
 
-    $participant = \event\models\Participant::model()->byEventId($event->Id)->byUserId($user->Id);
-    $part = null;
+    // дальше, сюда, пока алгоритм не пройдёт. можно не париться
+
     if (sizeof($event->Parts) > 0)
     {
-      $part = \event\models\Part::model()->findByPk($partId);
-      if ($part === null)
-      {
-        throw new \ruvents\components\Exception(306, array($partId));
-      }
+      $part = Part::model()->findByPk($partId); if (!$part)
+        throw new Exception(306, array($partId));
+
       $participant->byPartId($part->Id);
     }
     else
@@ -38,13 +52,13 @@ class UnregisterAction extends \ruvents\components\Action
     $participant = $participant->find();
     if ($participant === null)
     {
-      throw new \ruvents\components\Exception(304);
+      throw new Exception(304);
     }
 
-    $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Role', $participant->RoleId, 0));
+    $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', $participant->RoleId, 0));
     if ($part !== null)
     {
-      $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Day', $part->Id, $part->Id));
+      $this->getDetailLog()->addChangeMessage(new ChangeMessage('Day', $part->Id, $part->Id));
     }
     $this->getDetailLog()->UserId = $user->Id;
     $this->getDetailLog()->save();

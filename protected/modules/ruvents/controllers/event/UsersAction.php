@@ -97,6 +97,6 @@ class UsersAction extends \ruvents\components\Action
       $result['NextPageToken'] = $this->getController()->getPageToken($offset + \Yii::app()->params['RuventsMaxResults']);
     }
 
-    echo json_encode($result);
+    $this->renderJson($result);
   }
 }

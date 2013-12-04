@@ -1,6 +1,12 @@
 <?php
 namespace ruvents\controllers\user;
 
+use event\models\Part;
+use event\models\Role;
+use ruvents\components\Exception;
+use ruvents\models\ChangeMessage;
+use user\models\User;
+
 class CreateAction extends \ruvents\components\Action
 {
   public function run()
@@ -39,7 +45,7 @@ class CreateAction extends \ruvents\components\Action
     if ($form->validate())
     {
       $user = $form->register();
-      $this->updateRole($user);
+      $this->updateRoles($user);
 
       $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('LastName', '', $form->LastName));
       $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('FirstName', '', $form->FirstName));
@@ -59,7 +65,7 @@ class CreateAction extends \ruvents\components\Action
       $this->getDataBuilder()->buildUserEmployment($user);
       $result['User'] =  $this->getDataBuilder()->buildUserPhone($user);
 
-      echo json_encode($result);
+      $this->renderJson($result);
     }
     else
     {
@@ -70,35 +76,30 @@ class CreateAction extends \ruvents\components\Action
     }
   }
 
-  private function updateRole(\user\models\User $user)
+  private function updateRoles(User $user)
   {
-    $roleId = (int)\Yii::app()->getRequest()->getParam('RoleId');
-    /** @var $role \event\models\Role */
-    $role = \event\models\Role::model()->findByPk($roleId);
-    if ($role !== null)
+    $event = $this->getEvent();
+    $statuses = (array) json_decode(\Yii::app()->getRequest()->getParam('Statuses')); if (!$statuses)
+      throw new Exception(310);
+
+    foreach ($statuses as $part_id => $role_id)
     {
-      if (sizeof($this->getEvent()->Parts) > 0)
+      $role = Role::model()->findByPk($role_id); if (!$role)
+        throw new Exception(302, [$role_id]);
+
+      // Обработка однопартийных мероприятий
+      if (!$part_id && count($statuses) === 1)
       {
-        //todo: phDays
-        $this->getEvent()->registerUserOnAllParts($user, $role);
-//        $partId = (int)\Yii::app()->getRequest()->getParam('PartId');
-//        /** @var $part \event\models\Part */
-//        $part = \event\models\Part::model()->findByPk($partId);
-//        if ($part === null || $part->EventId !== $this->getEvent()->Id)
-//        {
-//          throw new \ruvents\components\Exception(306);
-//        }
-//        $this->getEvent()->registerUserOnPart($part, $user, $role);
-//        if ($part !== null)
-//        {
-//          $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Part', $part->Id, $part->Id));
-//        }
+        $event->registerUser($user, $role);
+        $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', '', $role->Id));
+        continue;
       }
-      else
-      {
-        $this->getEvent()->registerUser($user, $role);
-      }
-      $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('Role', 0, $role->Id));
+
+      $part = Part::model()->findByPk($part_id); if (!$part || $part->EventId !== $event->Id)
+        throw new Exception(306);
+
+      $event->registerUserOnPart($part, $user, $role); if ($part)
+      $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', $part->Id, $role->Id));
     }
   }
 }

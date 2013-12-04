@@ -1,6 +1,8 @@
 <?php
 namespace api\controllers\event;
 
+use api\components\Exception;
+
 class RegisterAction extends \api\components\Action
 {
   public function run()
@@ -13,13 +15,13 @@ class RegisterAction extends \api\components\Action
     $user = \user\models\User::model()->byRunetId($runetId)->find();
     if (empty($user))
     {
-      throw new \api\components\Exception(202, array($runetId));
+      throw new Exception(202, [$runetId]);
     }
 
     $role = \event\models\Role::model()->findByPk($roleId);
     if (empty($role))
     {
-      throw new \api\components\Exception(302);
+      throw new Exception(302, [$roleId]);
     }
 
     try{
@@ -34,11 +36,11 @@ class RegisterAction extends \api\components\Action
     }
     catch(\Exception $e)
     {
-      throw new \api\components\Exception(100, array($e->getMessage()));
+      throw new Exception(100, [$e->getMessage()]);
     }
     if (empty($participant))
     {
-      throw new \api\components\Exception(303);
+      throw new Exception(303);
     }
 
     $this->setResult(array('Success' => true));

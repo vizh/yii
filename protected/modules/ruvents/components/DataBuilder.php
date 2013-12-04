@@ -42,15 +42,13 @@ class DataBuilder
     $this->user->Gender = $user->Gender;
     $this->user->CreationTime = $user->CreationTime;
     $this->user->UpdateTime = $user->UpdateTime;
-
     $this->user->Email = trim($user->Email);
+    $this->user->Locales = $this->getLocales($user);
 
     $this->user->Photo = new \stdClass();
     $this->user->Photo->Small = $user->getPhoto()->get50px();
     $this->user->Photo->Medium = $user->getPhoto()->get90px();
     $this->user->Photo->Large = $user->getPhoto()->get200px();
-
-    $this->user->Locales = $this->getLocales($user);
 
     return $this->user;
   }
@@ -105,17 +103,17 @@ class DataBuilder
    */
   public function buildUserEvent($user)
   {
-    $this->user->Statuses = array();
+    $this->user->Statuses = [];
+
     foreach ($user->Participants as $participant)
-    {
       if ($participant->EventId == $this->eventId)
-      {
-        $status = new \stdClass();
-        $status->PartId = $participant->PartId;
-        $status->RoleId = $participant->RoleId;
-        $this->user->Statuses[] = $status;
-      }
-    }
+        $this->user->Statuses[$participant->PartId ? $participant->PartId : 0] = $participant->RoleId;
+
+    /**
+     * Данное преобразование важно для корректной передачи роли безпартийного мероприятия
+     * виде ассоциативного масива с индексом 0. То есть "Statuses":{"0":1}
+     */
+    $this->user->Statuses = (object) $this->user->Statuses;
 
     return $this->user;
   }
@@ -203,6 +201,23 @@ class DataBuilder
     $this->role->Name = $role->Title;
 
     return $this->role;
+  }
+
+  protected $part;
+
+  /**
+   * @param \event\models\Part $part
+   *
+   * @return \stdClass
+   */
+  public function createPart($part)
+  {
+    $this->part = new \stdClass();
+    $this->part->RoleId = $part->Id;
+    $this->part->Name = $part->Title;
+    $this->part->Order = $part->Order;
+
+    return $this->part;
   }
 
   protected $orderItem;

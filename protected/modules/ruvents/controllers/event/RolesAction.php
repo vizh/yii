@@ -1,18 +1,21 @@
 <?php
 namespace ruvents\controllers\event;
 
+use event\models\Role;
+
 class RolesAction extends \ruvents\components\Action
 {
   public function run()
   {
     $event = $this->getEvent();
+    $roles = Role::model()->byEventId($event->Id)->findAll();
+    $response = [];
 
-    $roles = \event\models\Role::model()->byEventId($event->Id)->findAll();
-    $result = array('Roles' => array());
     foreach ($roles as $role)
-    {
-      $result['Roles'][] = $this->getDataBuilder()->createRole($role);
-    }
-    echo json_encode($result);
+      $response[] = $this->getDataBuilder()->createRole($role);
+
+    $this->renderJson([
+      'Roles' => $response
+    ]);
   }
 }

@@ -21,7 +21,7 @@ class RegisterAction extends \ruvents\components\Action
     $role = \event\models\Role::model()->findByPk($roleId);
     if ($role === null)
     {
-      throw new \ruvents\components\Exception(302);
+      throw new \ruvents\components\Exception(302, [$roleId]);
     }
 
     $part = null;
