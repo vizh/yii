@@ -2668,6 +2668,9 @@ input.error, textarea.error {
 .ico16_social__google {
   background-position: -48px 0;
 }
+.ico16_social__paypal {
+  background-position: -64px 0;
+}
 
 .help-block {
   font: italic 12px Arial !important;

@@ -8,6 +8,7 @@ interface ISocial
   const Vkontakte = '15';
   const Google = '16';
   const Viadeo = '19';
+  const PayPal = '21';
 
   /**
    * @return string

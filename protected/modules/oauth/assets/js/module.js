@@ -11,6 +11,7 @@ var OAuthModule = function()
   this.vkUrl  = '';
   this.twiUrl = '';
   this.gUrl   = '';
+  this.ppUrl  = '';
   this.viadeoUrl = '';
  
   this.popUpWindow = null;
@@ -36,6 +37,11 @@ OAuthModule.prototype.init = function()
   $('#vk_login').on('click', function(e){
     e.preventDefault();
     self.twiLogin($(e.currentTarget).attr('href'));
+  });
+
+  $('#pp_login').on('click', function(e){
+    e.preventDefault();
+    self.ppLogin($(e.currentTarget).attr('href'));
   });
   
   $('#g_login').on('click', function (e) {
@@ -92,6 +98,21 @@ OAuthModule.prototype.twiLogin = function(url)
   var top = ($(window).height() - height) / 2;
   self.PopUpWindow = window.open(url, 'Twitter', 'menubar=no,width='+width+',height='+height+',toolbar=no,left='+left+',top='+top);
 };
+
+OAuthModule.prototype.ppLogin = function(url)
+{
+  var self = this;
+  if (self.popUpWindow)
+  {
+    self.popUpWindow.close();
+    self.popUpWindow = null;
+  }
+  var width = 400;
+  var height = 500;
+  var left = ($(window).width() - width) / 2;
+  var top = ($(window).height() - height) / 2;
+  self.PopUpWindow = window.open(url, 'PayPal', 'menubar=no,width='+width+',height='+height+',toolbar=no,left='+left+',top='+top);
+};
 OAuthModule.prototype.twiProcess = function()
 {
   var self = this;
@@ -137,6 +158,12 @@ OAuthModule.prototype.vkProcess = function()
 {
   var self = this;
   window.location.href = self.vkUrl;
+};
+
+OAuthModule.prototype.ppProcess = function()
+{
+  var self = this;
+  window.location.href = self.ppUrl;
 };
 
 OAuthModule.prototype.gProcess = function ()

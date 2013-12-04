@@ -27,8 +27,12 @@ class Proxy implements ISocial
       case ISocial::Viadeo:
         $this->social = new Viadeo();
         break;
+      case ISocial::PayPal:
+        $this->social = new PayPal($redirectUrl);
+        break;
       default:
         throw new \CHttpException(400, 'Не обнаружена авторизация по OAuth с идентификатором "' . $socialName . '"');
+        break;
     }
   }
 

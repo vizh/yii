@@ -130,7 +130,7 @@ class Contacts extends \CFormModel
   {
     $criteria = new \CDbCriteria();
     $criteria->order = '"t"."Title" ASC';
-    $types = \contact\models\ServiceType::model()->findAll($criteria);
+    $types = \contact\models\ServiceType::model()->byVisible()->findAll($criteria);
     return \CHtml::listData($types, 'Id', 'Title');
   }
 }

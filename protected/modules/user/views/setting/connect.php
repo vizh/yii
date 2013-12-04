@@ -4,6 +4,7 @@
   function fillOAuthUrls(oauth) {
     oauth.fbUrl  = '<?=$this->createUrl('/user/setting/connect', array('action' => 'connect', 'social' => \oauth\components\social\ISocial::Facebook));?>';
     oauth.vkUrl  = '<?=$this->createUrl('/user/setting/connect');?>';
+    oauth.ppUrl  = '<?=$this->createUrl('/user/setting/connect');?>';
     oauth.twiUrl = '<?=$this->createUrl('/user/setting/connect');?>';
     oauth.gUrl   = '<?=$this->createUrl('/user/setting/connect');?>';
   }
@@ -33,6 +34,8 @@
                     <i class="ico16 ico16_social ico16_social__vkontakte"></i>
                   <?elseif ($connect->Social->Id == \oauth\components\social\ISocial::Google):?>
                     <i class="ico16 ico16_social ico16_social__google"></i>
+                  <?elseif ($connect->Social->Id == \oauth\components\social\ISocial::PayPal):?>
+                    <i class="ico16 ico16_social ico16_social__paypal"></i>
                   <?endif;?>
                   <a class="text-error" href="<?=$this->createUrl('/user/setting/connect', array('social' => $connect->Social->Id, 'action' => 'disconnect'));?>"><?=\Yii::t('app', 'Отключить');?></a>
                 </div>
@@ -77,6 +80,10 @@
               <?elseif ($socialId == \oauth\components\social\ISocial::Google):?>
                 <?if ($connect === null):?>
                   <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Google,  'action' => 'connect'));?>" id="g_login"><i class="ico16 ico16_social ico16_social__google"></i> Google</a>
+                <?endif;?>
+              <?elseif ($socialId == \oauth\components\social\ISocial::PayPal):?>
+                <?if ($connect === null):?>
+                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::PayPal,  'action' => 'connect'));?>" id="pp_login"><i class="ico16 ico16_social ico16_social__paypal"></i> PayPal</a>
                 <?endif;?>
               <?endif;?>
             <?endforeach;?>

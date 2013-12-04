@@ -72,7 +72,9 @@ return array(
         'http://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
 
         /** OAuth Module */
+        'http://'.RUNETID_HOST.'/oauth/paypal/redirect' => 'oauth/paypal/redirect',
         '/oauth/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
+
 
         /** API Module Rules */
         'http://api.'.RUNETID_HOST.'/event/section/<action>' => 'api/section/<action>',

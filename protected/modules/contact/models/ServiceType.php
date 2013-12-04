@@ -6,6 +6,7 @@ namespace contact\models;
  * @property string $Title
  * @property string $Pattern
  * @property string $UrlMask
+ * @property bool $Visible
  */
 class ServiceType extends \CActiveRecord
 {
@@ -31,5 +32,18 @@ class ServiceType extends \CActiveRecord
   public function relations()
   {
     return array();
+  }
+
+  /**
+   * @param bool $visible
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byVisible($visible = true, $useAnd = true)
+  {
+    $critetia = new \CDbCriteria();
+    $critetia->condition = (!$visible ? 'NOT ' : '').'"t"."Visible"';
+    $this->getDbCriteria()->mergeWith($critetia,$useAnd);
+    return $this;
   }
 }
