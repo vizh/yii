@@ -10,7 +10,7 @@ class CreateAction extends \ruvents\components\Action
     //$partId = $request->getParam('PartId', null);
 
     //todo: для PHDays
-    $partId = $request->getParam('PartId', 18);
+    //$partId = $request->getParam('PartId', 18);
 
 
     $event = $this->getEvent();
@@ -26,30 +26,51 @@ class CreateAction extends \ruvents\components\Action
     $badge->UserId = $user->Id;
 
     $participant = \event\models\Participant::model()->byEventId($event->Id)->byUserId($user->Id);
-    if (sizeof($event->Parts) > 0)
-    {
-      /** @var $part \event\models\Part */
-      $part = \event\models\Part::model()->findByPk($partId);
-      if ($part === null || $part->EventId != $event->Id)
-      {
-        throw new \ruvents\components\Exception(306, array($partId));
-      }
+//    if (sizeof($event->Parts) > 0)
+//    {
+//      /** @var $part \event\models\Part */
+//      $part = \event\models\Part::model()->findByPk($partId);
+//      if ($part === null || $part->EventId != $event->Id)
+//      {
+//        throw new \ruvents\components\Exception(306, array($partId));
+//      }
+//
+//      $badge->PartId = $part->Id;
+//      $participant->byPartId($part->Id);
+//    }
+//    else
+//    {
+//      $participant->byPartId(null);
+//    }
 
-      $badge->PartId = $part->Id;
-      $participant->byPartId($part->Id);
+    if (count($event->Parts) > 0)
+    {
+      $participants = $participant->findAll();
+      if (count($participants) == 0)
+      {
+        throw new \ruvents\components\Exception(304);
+      }
+      $participant = null;
+      foreach ($participants as $p)
+      {
+        if ($participant == null || $participant->Role->Priority < $p->Role->Priority)
+        {
+          $participant = $p;
+        }
+        $p->UpdateTime = date('Y-m-d H:i:s');
+        $p->save();
+      }
     }
     else
     {
-      $participant->byPartId(null);
+      $participant = $participant->find();
+      if (empty($participant))
+      {
+        throw new \ruvents\components\Exception(304);
+      }
+      $participant->UpdateTime = date('Y-m-d H:i:s');
+      $participant->save();
     }
-
-    $participant = $participant->find();
-    if (empty($participant))
-    {
-      throw new \ruvents\components\Exception(304);
-    }
-    $participant->UpdateTime = date('Y-m-d H:i:s'); 
-    $participant->save();
 
     $badge->RoleId = $participant->RoleId;
     $badge->save();

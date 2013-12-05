@@ -35,7 +35,7 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
 </script>
 
 <section id="section" role="main">
-  <?=\CHtml::beginForm('', 'POST', [
+  <?=\CHtml::beginForm(Yii::app()->createUrl('/pay/cabinet/register', ['eventIdName' => $event->IdName]), 'POST', [
     'class' => 'registration',
     'id' => 'registration_form',
     'data-event-id-name' => $event->IdName,

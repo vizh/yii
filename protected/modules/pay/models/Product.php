@@ -1,7 +1,6 @@
 <?php
 namespace pay\models;
 
-
 /**
  * @property int $Id
  * @property string $ManagerName
@@ -20,9 +19,10 @@ namespace pay\models;
  * @property ProductPrice[] $PricesActive
  *
  *
- * @method \pay\models\Product find()
- * @method \pay\models\Product findByPk()
- * @method \pay\models\Product[] findAll()
+ * @method \pay\models\Product find($condition='',$params=array())
+ * @method \pay\models\Product findByPk($pk,$condition='',$params=array())
+ * @method \pay\models\Product[] findAll($condition='',$params=array())
+ *
  */
 class Product extends \application\models\translation\ActiveRecord
 {
