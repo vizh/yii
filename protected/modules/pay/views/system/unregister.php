@@ -14,7 +14,7 @@
             <?=\Yii::t('app', 'Для полного доступа к платежному кабинету <a id="PromoLogin" href="">авторизуйтесь или зарегистрируйтесь.</a>');?>
           </p>
 
-          <form action="" method="post">
+          <?= \CHtml::beginForm(); ?>
             <div class="control-group">
               <label for="pay_email">Для создания временного аккаунта введите Email:</label>
               <div class="controls">
@@ -23,12 +23,12 @@
               </div>
             </div>
             <button type="submit" class="btn btn-info">Продолжить</button>
-          </form>
+          <?= \CHtml::endForm(); ?>
         </div>
       <?else:?>
         <div class="well">
           <h4 class="m-bottom_10"><?=Yii::t('app', 'Экспресс-оплата');?></h4>
-          <form action="" method="post">
+          <?= \CHtml::beginForm(); ?>
             <div class="control-group">
               <label for="pay_email">E-mail:</label>
               <div class="controls">
@@ -45,7 +45,7 @@
             <?endif;?>
 
             <button type="submit" class="btn btn-info">Продолжить</button>
-          </form>
+          <?= \CHtml::endForm(); ?>
         </div>
       <?endif;?>
     </div>

@@ -122,7 +122,7 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
   </div>
   <?if ($order->Juridical):?>
   <div class="span12">
-    <form action="" method="post">
+    <?= \CHtml::beginForm(); ?>
       <fieldset>
         <div class="clearfix">
           <button type="submit" class="btn btn-success"
@@ -141,7 +141,7 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
           <a href="<?=\Yii::app()->createAbsoluteUrl('/pay/order/index', array('orderId' => $order->Id, 'hash' => $order->getHash(), 'clear' => 'clear'));?>" class="btn" target="_blank"><i class="icon-print"></i> Счет без печати</a>
         </div>
       </fieldset>
-    </form>
+    <?= \CHtml::endForm(); ?>
   </div>
   <?endif;?>
 </div>

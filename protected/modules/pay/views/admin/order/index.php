@@ -100,7 +100,7 @@
             </td>
             <td data-title="Сумма"><?=$order->getPrice();?> руб.</td>
             <td data-title="Управление">
-              <form action="<?=\Yii::app()->createUrl('/pay/admin/order/view', array('orderId' => $order->Id));?>" method="post">
+              <?= \CHtml::beginForm(array('/pay/admin/order/view', 'orderId' => $order->Id)); ?>
                 <div class="btn-group">
                   <a class="btn btn-info" href="<?=\Yii::app()->createUrl('/pay/admin/order/view', array('orderId' => $order->Id));?>"><i class="icon-list icon-white"></i></a>
 
@@ -116,7 +116,7 @@
                     <a class="btn disabled" target="_blank"><i class="icon-print"></i></a>
                   <?endif;?>
                 </div>
-              </form>
+              <?= \CHtml::endForm(); ?>
             </td>
           </tr>
         <?endforeach;?>
