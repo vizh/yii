@@ -5,7 +5,7 @@ class AccountMicrosoft extends Base
 {
   protected function getUrlRegisterOnEvent()
   {
-    return null;
+    return 'http://rusites.cloudapp.net/payment/paycallback?provider=runet';
   }
 
   protected function getErrorMessage($code)
