@@ -13,11 +13,12 @@ class Tc2013 extends Base
 {
   public function getSubject()
   {
-    return 'Ваш пригласительный билет TechCrunch Moscow 2013';
+    return 'TechCrunch Moscow 2013 Participant Confirmation';
   }
 
   public function getBody()
   {
+    $this->user->setLocale('en');
     return $this->renderBody('event.views.mail.register.tc13', [
       'user' => $this->user,
       'participant' => $this->participant

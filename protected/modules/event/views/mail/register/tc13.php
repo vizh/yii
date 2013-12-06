@@ -1,22 +1,17 @@
-<?=$user->getShortName();?>, добрый день!
+<?=$user->getShortName();?> Hello!
 
-Вы – зарегистрированный участник TechCrunch Moscow 2013
+Thank you for registering for TechCrunch Moscow 2013!
 
-//МЕСТО ПРОВЕДЕНИЯ
-8-9 декабря 2013 года в центре Digital October
-Адрес: г. Москва, Берсеневская наб. д.6, стр 3.
+Dates: December 8-9, 2013
+Venue: Digital October
+3/6 Bersenevskaya naberezhnaya, Moscow
 
-Для удобного прибытия на площадку и оперативной регистрации на месте советуем Вам распечатать путевой лист:
-<?=$participant->getTicketUrl();?>
+Please, save on the phone or print out this ticket: <?=$participant->getTicketUrl();?>
 
+Or be prepared to show the proper ID.
 
-Ваш билет уникален и не подлежит передаче третьим лицам. Пожалуйста, предъявите его при входе на площадку в распечатанном виде или посредством электронного устройства.
+Attached is also our passbook ticket for your convenience.
 
-P.S. Во вложении к письму Passbook-билет, который может быть открыт на устройствах под управлением iOS 6-7 или Android. Если вы являетесь обладателем такого устройства, то можете сохранить билет в специальном приложении и предъявить на регистрации вместо путевого листа. Для пользователей Android требуется предварительно скачать приложение из Google Play (например, Pass2U).
+See you at TechCrunch Moscow 2013!
 
-До встречи на мероприятии!
-
-
---
-С уважением,
-http://runet-id.com
+p.s.: should you need to contact us for directions, please use number +7 909 992 8002.
