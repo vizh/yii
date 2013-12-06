@@ -433,7 +433,7 @@ class OrderItem extends \CActiveRecord
   /**
    * @return string
    */
-  public function getPaidSystem()
+  public function getPaidOrder()
   {
     if (!$this->Paid)
     {
@@ -443,19 +443,7 @@ class OrderItem extends \CActiveRecord
     {
       if ($link->Order->Paid)
       {
-        if (!$link->Order->Juridical)
-        {
-          /** @var $log \pay\models\Log */
-          $log = \pay\models\Log::model()->byOrderId($link->Order->Id)->find();
-          if ($log !== null)
-          {
-            return $log->PaySystem;
-          }
-        }
-        else
-        {
-          return 'Juridical';
-        }
+        return $link->Order;
       }
     }
     return null;

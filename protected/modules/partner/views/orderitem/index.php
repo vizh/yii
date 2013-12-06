@@ -13,34 +13,34 @@
     <div class="span12">
       <?=CHtml::beginForm(Yii::app()->createUrl('/partner/orderitem/index/'), 'get');?>
       <div class="row">
-        <div class="span4">
+        <div class="span3">
           <?=CHtml::activeLabel($form, 'OrderItem');?>
           <?=CHtml::activeTextField($form, 'OrderItem');?>
         </div>
-        <div class="span4">
+        <div class="span3">
           <?=CHtml::activeLabel($form, 'Order');?>
           <?=CHtml::activeTextField($form, 'Order');?>
         </div>
-        <!--<div class="span4">
-          <?=CHtml::activeLabel($form, 'Product');?>
-          <?=CHtml::activeTextField($form, 'Product');?>
-        </div>-->
-        <div class="span4">
+        <div class="span3">
           <?=CHtml::activeLabel($form, 'Paid');?>
           <?=CHtml::activeDropDownList($form, 'Paid', $form->getListValues());?>
+        </div>
+        <div class="span3">
+          <?=CHtml::activeLabel($form, 'Product');?>
+          <?=CHtml::activeDropDownList($form, 'Product', $form->getProductData());?>
         </div>
       </div>
 
       <div class="row">
-        <div class="span4">
+        <div class="span3">
           <?=CHtml::activeLabel($form, 'Payer');?>
           <?=CHtml::activeTextField($form, 'Payer', array('placeholder' => 'RUNET-ID'));?>
         </div>
-        <div class="span4">
+        <div class="span3">
           <?=CHtml::activeLabel($form, 'Owner');?>
           <?=CHtml::activeTextField($form, 'Owner', array('placeholder' => 'RUNET-ID'));?>
         </div>
-        <div class="span4">
+        <div class="span3">
           <?=CHtml::activeLabel($form, 'Deleted');?>
           <?=CHtml::activeDropDownList($form, 'Deleted', $form->getListValues());?>
         </div>

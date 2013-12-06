@@ -9,7 +9,7 @@ class IndexAction extends \partner\components\Action
     $this->getController()->initActiveBottomMenu('index');
 
     $event = $this->getEvent();
-    $form = new \partner\models\forms\OrderItemSearch();
+    $form = new \partner\models\forms\OrderItemSearch($this->getEvent());
 
     $reset = \Yii::app()->getRequest()->getParam('reset');
     if ($reset !== 'reset')
@@ -33,7 +33,8 @@ class IndexAction extends \partner\components\Action
         'ChangedOwner',
         'Payer',
         'Owner',
-        'OrderLinks.Order'
+        'OrderLinks.Order',
+        'CouponActivationLink.CouponActivation.Coupon'
       )
     ));
 

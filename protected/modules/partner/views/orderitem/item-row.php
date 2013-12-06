@@ -35,17 +35,23 @@
     <?endif;?>
   </td>
   <td>
-    <?$system = $orderItem->getPaidSystem();?>
-    <?if ($system !== null):?>
-      <?if ($system == 'Juridical'):?>
+    <?$order = $orderItem->getPaidOrder();?>
+    <?if ($order !== null):?>
+      <?$type = $order->getPayType();?>
+      <?if ($type == \pay\models\Order::PayTypeJuridical):?>
         <span class="text-info">Юр. счет</span>
-      <?elseif (strpos($system, 'pay\components\systems\\') !== false):?>
-        <span class="text-warning"><?=str_replace('pay\components\systems\\', '', $system);?></span>
+      <?elseif (strpos($type, 'pay\components\systems\\') !== false):?>
+        <span class="text-warning"><?=str_replace('pay\components\systems\\', '', $type);?></span>
       <?else:?>
         <span class="muted">Не задан</span>
       <?endif;?>
+      <br/><a href="<?=$this->createUrl('/partner/order/view', ['orderId' => $order->Id]);?>" class="small">(<?=\Yii::t('app', 'счет');?>)</a>
     <?else:?>
-      <span class="muted">Не задан</span>
+      <?if ($orderItem->CouponActivationLink !== null && $orderItem->CouponActivationLink->CouponActivation->Coupon->Discount == 1):?>
+        <span class="label label-warning"><?=\Yii::t('app', 'Промо-код 100%');?></span>
+      <?else:?>
+        <span class="muted">Не задан</span>
+      <?endif;?>
     <?endif;?>
   </td>
   <td>

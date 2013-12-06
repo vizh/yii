@@ -1,7 +1,6 @@
 <?php
 namespace partner\models\forms;
 
-
 class OrderItemSearch extends \CFormModel
 {
   public $OrderItem;
@@ -11,6 +10,14 @@ class OrderItemSearch extends \CFormModel
   public $Owner;
   public $Paid;
   public $Deleted;
+
+  private $event;
+
+  public function __construct(\event\models\Event $event, $scenario = '')
+  {
+    parent::__construct($scenario);
+    $this->event = $event;
+  }
 
 
   public function rules()
@@ -73,6 +80,12 @@ class OrderItemSearch extends \CFormModel
       $criteria->addCondition(($this->Deleted == 0 ? 'NOT ' : '') . '"t"."Deleted"');
     }
 
+    if (!empty($this->Product))
+    {
+      $criteria->addCondition('"t"."ProductId" = :ProductId');
+      $criteria->params['ProductId'] = $this->Product;
+    }
+
     return $criteria;
   }
 
@@ -96,5 +109,22 @@ class OrderItemSearch extends \CFormModel
       1 => 'Да',
       0 => 'Нет',
     );
+  }
+
+  /**
+   * return string[]
+   */
+  public function getProductData()
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."Title" ASC';
+    $criteria->addNotInCondition('"t"."ManagerName"', ['RoomProductManager']);
+    $products = \pay\models\Product::model()->byEventId($this->event->Id)->findAll($criteria);
+    $data = ['' => \Yii::t('app', 'Все товары')];
+    foreach ($products as $product)
+    {
+      $data[$product->Id] = $product->Title;
+    }
+    return $data;
   }
 }

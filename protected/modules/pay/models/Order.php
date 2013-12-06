@@ -30,6 +30,7 @@ namespace pay\models;
 class Order extends \CActiveRecord
 {
   const BookDayCount = 5;
+  const PayTypeJuridical = 'Juridical';
 
   /**
    * @param string $className
@@ -419,4 +420,24 @@ class Order extends \CActiveRecord
     return $this->Juridical || $this->Receipt;
   }
 
+
+  /**
+   * @return string
+   */
+  public function getPayType()
+  {
+    if (!$this->Juridical)
+    {
+      /** @var $log \pay\models\Log */
+      $log = \pay\models\Log::model()->byOrderId($this->Id)->find();
+      if ($log !== null)
+      {
+        return $log->PaySystem;
+      }
+    }
+    else
+    {
+      return self::PayTypeJuridical;
+    }
+  }
 }

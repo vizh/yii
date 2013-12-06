@@ -30,7 +30,7 @@ class RedirectAction extends \partner\components\Action
         $owner = $orderItem->ChangedOwner !== null ? $orderItem->ChangedOwner : $orderItem->Owner;
         if ($orderItem->changeOwner($changedOwner))
         {
-          $form = new \partner\models\forms\OrderItemSearch();
+          $form = new \partner\models\forms\OrderItemSearch($this->getEvent());
           if ($this->changeRelative($orderItem, $owner, $changedOwner))
           {
             $form->Owner = $changedOwner->RunetId;

@@ -23,7 +23,7 @@ class CreateAction extends \partner\components\Action
 
       try{
         $orderItemId = $form->getProduct()->getManager()->createOrderItem($payer, $owner)->Id;
-        $searchForm = new \partner\models\forms\OrderItemSearch();
+        $searchForm = new \partner\models\forms\OrderItemSearch($this->getEvent());
         $this->getController()->redirect(
           \Yii::app()->createUrl('/partner/orderitem/index', [
             \CHtml::activeName($searchForm, 'OrderItem') => $orderItemId
