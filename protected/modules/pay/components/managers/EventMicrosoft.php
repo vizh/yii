@@ -6,14 +6,14 @@ class EventMicrosoft extends EventProductManager
 {
   const CallbackUrl = 'http://rusites.cloudapp.net/payment/paycallback?provider=runet';
 
-  protected function internalBuyProduct($user, $orderItem = null, $params = array())
-  {
-    if (parent::internalBuyProduct($user, $orderItem, $params))
-    {
-      $this->sendMessage($user, $this->RoleId);
-    }
-    return true;
-  }
+//  protected function internalBuyProduct($user, $orderItem = null, $params = array())
+//  {
+//    if (parent::internalBuyProduct($user, $orderItem, $params))
+//    {
+//      //$this->sendMessage($user, $this->RoleId);
+//    }
+//    return true;
+//  }
 
   protected function internalChangeOwner($fromUser, $toUser, $params = array())
   {
@@ -21,9 +21,8 @@ class EventMicrosoft extends EventProductManager
         ->byUserId($fromUser->Id)->byEventId($this->product->EventId)->find();
     if ($participant !== null)
     {
-      $participant->RoleId = 24;
-      $participant->save();
-      $this->sendMessage($fromUser, $participant->RoleId);
+      $role = \event\models\Role::model()->findByPk(24);
+      $this->product->Event->registerUser($fromUser, $role);
     }
 
     return $this->internalBuyProduct($toUser);

@@ -87,8 +87,8 @@ class Base
     curl_close($curl);
     if ($errno != 0)
     {
-
-      $this->logError(100, [$errno, $errmsg]);
+      $this->log->ErrorCode = 100;
+      $this->log->ErrorMessage = $this->parseErrorMessage(100, [$errno, $errmsg]);
       return null;
     }
     $this->log->Response = $result;
@@ -110,14 +110,18 @@ class Base
     return isset($errors[$code]) ? $errors[$code] : null;
   }
 
+  protected function parseErrorMessage($code, $params = [])
+  {
+    $message = $this->getErrorMessage($code);
+    return $message != null ? call_user_func_array('sprintf', array_merge([$message], $params)) : null;
+  }
+
   protected function logError($code, $params)
   {
     $log = new \api\models\CallbackLog();
     $log->AccountId = $this->account->Id;
     $log->ErrorCode = $code;
-    $message = $this->getErrorMessage($code);
-    if ($message != null)
-      $log->ErrorMessage = call_user_func_array('sprintf', array_merge([$message], $params));
+    $log->ErrorMessage = $this->parseErrorMessage($code, $params);
     $log->save();
   }
 }

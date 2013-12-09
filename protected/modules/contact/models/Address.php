@@ -48,6 +48,55 @@ class Address extends \application\models\translation\ActiveRecord
       'City' => array(self::BELONGS_TO, '\geo\models\City', 'CityId'),
     );
   }
+
+  /**
+   * @return array
+   */
+  public function getGeoPointCoordinates()
+  {
+    if ($this->GeoPoint == null)
+    {
+      $this->setGeoPointCoordinates();
+      $this->save();
+    }
+    return explode(',', $this->GeoPoint);
+  }
+
+  /**
+   * @return float
+   */
+  public function getLatitude()
+  {
+    return $this->getGeoPointCoordinates()[0];
+  }
+
+  /**
+   * @return float
+   */
+  public function getLongitude()
+  {
+    return $this->getGeoPointCoordinates()[1];
+  }
+
+  /**
+   *
+   */
+  private function setGeoPointCoordinates()
+  {
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_TIMEOUT, 3);
+    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_URL, 'http://geocode-maps.yandex.ru/1.x/?'.http_build_query(array('format' => 'json', 'geocode' => $this->__toString())));
+    $yaGeocoderResponse = json_decode(curl_exec($curl));
+    if (!empty($yaGeocoderResponse->response->GeoObjectCollection->featureMember))
+    {
+      $position = $yaGeocoderResponse->response->GeoObjectCollection->featureMember[0]->GeoObject->Point->pos;
+      $coordinates = explode(' ', $position);
+      $this->GeoPoint = $coordinates[1].','.$coordinates[0];
+    }
+  }
   
   
   public function getShort()
