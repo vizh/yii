@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'ibcrussia13-9';
-    $isHTML = false;
+    $template = 'descamp13-html-1';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -73,18 +73,19 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     );
 
 //    $criteria->addInCondition('"Participants"."EventId"', array(844));
-    $criteria->addInCondition('"Participants"."EventId"', array(688));
+    $criteria->addInCondition('"Participants"."EventId"', array(794));
 
-//    $criteria->addInCondition('"Participants"."RoleId"', array(24));
+    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
 //    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" != 24 AND "EventId" = 688)');
 
     $criteria->distinct = true;
-    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
-    $criteria->addCondition('"t"."Visible"');
+//    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+//    $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953/*,59999/*,185212,185213*/));
+//    $criteria->addInCondition('"t"."RunetId"', array(184399, 185239));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953/*,59999/*,185212,185213*/));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -132,7 +133,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-        if ($j == 1) continue;
+//        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -152,15 +153,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
-//        $mail->SetFrom('doklad@ibcrussia.com', 'IBC Russia 2013', false);
+//        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
+        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
 
 //        $mail->SetFrom('New_Year@beeline.ru', 'Beeline', false);
 //        $mail->SetFrom('Vova@beeline.ru', 'Beeline', false);
 
         $mail->CharSet = 'utf-8';
 //        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на Новый год для лучших сотрудников') .'?=';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Итоговый опрос участников') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Осталось 3 дня, чтобы купить билет!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
