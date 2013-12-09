@@ -58,7 +58,7 @@ class PayPal extends Base
     if ($ack == "SUCCESS" || $ack == "SUCCESSWITHWARNING")
     {
       $this->orderId = $orderId;
-      $this->total = \Yii::app()->getSession()->get('PayPalTotalRub');
+      $this->total = \Yii::app()->getSession()->get('PayPalTotal');
     }
     else
     {
@@ -78,7 +78,7 @@ class PayPal extends Base
       'PAYERID' => $request->getParam('PayerID', false),
       'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
       'PAYMENTREQUEST_0_AMT' => \Yii::app()->getSession()->get('PayPalTotal'),
-      'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD',
+      'PAYMENTREQUEST_0_CURRENCYCODE' => 'RUB',
       'IPADDRESS' => $_SERVER['SERVER_NAME']
     );
 
@@ -101,19 +101,8 @@ class PayPal extends Base
    */
   public function processPayment($eventId, $orderId, $total)
   {
-    $rates = new \ExchangeRatesCBRF();
-    $usd = $rates->GetRate('USD');
-    if ($usd === false)
-    {
-      throw new \Exception('Ошибка при получении курса валют, нужно срочно разобраться. PayPal не работает.');
-    }
-
-    $usd = str_replace(',', '.', $usd);
-    $usd = floatval($usd);
-
     $this->initRequiredParams($orderId);
-    $totalUsd = $total / $usd;
-    $totalUsd = number_format($totalUsd, 2, '.', '');
+    $total = number_format($total, 2, '.', '');
     //$totalUsd = 0.20;
 
     $event = \event\models\Event::model()->findByPk($eventId);
@@ -121,18 +110,18 @@ class PayPal extends Base
       throw new \pay\components\Exception('Не найдено мероприятие с идентификатором: ' . $eventId);
 
     $params = array(
-      'PAYMENTREQUEST_0_AMT' => $totalUsd,
+      'PAYMENTREQUEST_0_AMT' => $total,
       'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
       'RETURNURL' => \Yii::app()->createAbsoluteUrl('/pay/callback/index'),
       'CANCELURL' => \Yii::app()->createAbsoluteUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName)),
-      'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD',
+      'PAYMENTREQUEST_0_CURRENCYCODE' => 'RUB',
       'NOSHIPPING' => 1
 
     );
 
     $item = array(
       'L_PAYMENTREQUEST_0_NAME0' => 'Order №' . $orderId,
-      'L_PAYMENTREQUEST_0_AMT0' => $totalUsd,
+      'L_PAYMENTREQUEST_0_AMT0' => $total,
       'L_PAYMENTREQUEST_0_QTY0' => '1'
     );
 
@@ -141,8 +130,7 @@ class PayPal extends Base
     $ack = strtoupper($result["ACK"]);
     if($ack == 'SUCCESS' || $ack == 'SUCCESSWITHWARNING')
     {
-      \Yii::app()->getSession()->add('PayPalTotal', $totalUsd);
-      \Yii::app()->getSession()->add('PayPalTotalRub', $total);
+      \Yii::app()->getSession()->add('PayPalTotal', $total);
       \Yii::app()->getSession()->add('PayPalOrderId', $orderId);
       \Yii::app()->getController()->redirect($this->getPayPalUrl($result["TOKEN"]));
     }
