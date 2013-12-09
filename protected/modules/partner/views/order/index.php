@@ -21,8 +21,11 @@
         <?=CHtml::activeDropDownList($form, 'Paid', $form->getListValues());?>
       </div>
       <div class="span4">
-        <?=CHtml::activeLabel($form, 'Deleted');?>
-        <?=CHtml::activeDropDownList($form, 'Deleted', $form->getListValues());?>
+        <label>&nbsp;</label>
+        <label class="checkbox">
+          <?=CHtml::activeCheckBox($form, 'Deleted', ['uncheckValue' => null]);?>
+          <?=$form->getAttributeLabel('Deleted');?>
+        </label>
       </div>
     </div>
 
