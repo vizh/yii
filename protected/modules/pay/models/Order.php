@@ -139,8 +139,6 @@ class Order extends \CActiveRecord
    */
   public function activate()
   {
-
-
     $collection = \pay\components\OrderItemCollection::createByOrder($this);
     $total = 0;
     $errorItems = array();
@@ -289,6 +287,19 @@ class Order extends \CActiveRecord
       $event = new \CModelEvent($this, ['payer' => $user, 'event' => $event, 'total' => $total]);
       $this->onCreateOrderJuridical($event);
     }
+    else
+    {
+      $orders = Order::model()->byEventId($this->EventId)->byPaid(false)->byDeleted(false)
+          ->byBankTransfer(false)->byPayerId($this->PayerId)->findAll();
+
+      foreach ($orders as $order)
+      {
+        if ($order->Id != $this->Id)
+        {
+          $order->delete();
+        }
+      }
+    }
 
     return $total;
   }
@@ -366,7 +377,7 @@ class Order extends \CActiveRecord
 
   public function delete()
   {
-    if ($this->Paid || $this->Deleted || (!$this->Juridical && !$this->Receipt))
+    if ($this->Paid || $this->Deleted)
     {
       return false;
     }

@@ -8,7 +8,7 @@ class OrderSearch extends \CFormModel
   public $INN;
   public $Payer;
   public $Paid;
-  public $Deleted;
+  public $Deleted = null;
 
   public function rules()
   {
@@ -25,7 +25,7 @@ class OrderSearch extends \CFormModel
       'INN' => 'ИНН компании',
       'Payer' => 'Плательщик',
       'Paid' => 'Оплачен',
-      'Deleted' => 'Удален',
+      'Deleted' => 'Показывать удаленные',
     );
   }
 
