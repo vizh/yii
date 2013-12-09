@@ -120,7 +120,7 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
   <div class="span12 indent-bottom3">
     <h3>Сумма счета: <?=$order->getPrice();?> руб.</h3>
   </div>
-  <?if ($order->Juridical):?>
+  <?if ($order->getIsBankTransfer()):?>
   <div class="span12">
     <?= \CHtml::beginForm(); ?>
       <fieldset>

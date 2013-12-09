@@ -53,6 +53,7 @@ class ExportAction extends \partner\components\Action
       'Email',
       'Телефон',
       'Статус на мероприятии',
+      'Приобретенные товары',
       'Cумма оплаты',
       'Тип оплаты',
       'Дата регистрации на мероприятие',
@@ -105,7 +106,8 @@ class ExportAction extends \partner\components\Action
         'Email' => $user->Email,
         'Phone' => !empty($user->LinkPhones) ? (string)$user->LinkPhones[0]->Phone : '',
         'Role' => $participant != null ? $participant->Role->Title : '-',
-        'Price' => '',
+        'Products' => '',
+        'Price' => 0,
         'PaidType' => '',
         'DateRegister' => \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', $participant->CreationTime),
         'DatePay' => '',
@@ -119,28 +121,37 @@ class ExportAction extends \partner\components\Action
       }
 
       $criteria = new \CDbCriteria();
-      $criteria->with = array(
+      $criteria->with = [
         'Product',
-        'Product.Attributes' => array('select' => false, 'alias' => 'ProductAttributes')
-      );
-      $criteria->condition = '"t"."OwnerId" = :OwnerId AND "Product"."EventId" = :EventId AND "t"."Paid" AND "ProductAttributes"."Name" = :Name';
-      $criteria->params['EventId'] = \Yii::app()->partner->getAccount()->EventId;
-      $criteria->params['OwnerId'] = $user->Id;
-      $criteria->params['Name'] = 'RoleId';
-      /** @var $orderItem \pay\models\OrderItem */
-      $orderItem = \pay\models\OrderItem::model()->find($criteria);
-      if ($orderItem !== null)
+        'Product.Prices',
+        'OrderLinks.Order'
+      ];
+      $orderItems = \pay\models\OrderItem::model()
+          ->byOwnerId($user->Id)->byChangedOwnerId(null)->byChangedOwnerId($user->Id, false)
+          ->byEventId($this->getEvent()->Id)->byPaid(true)->findAll($criteria);
+
+      if (count($orderItems))
       {
-        $row['Price'] = $orderItem->getPriceDiscount() !== null ? $orderItem->getPriceDiscount() : 0;
-        $row['DatePay'] = \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', strtotime($orderItem->PaidTime));
-        foreach ($orderItem->OrderLinks as $link)
+        $datePay = [];
+        $paidType = [];
+        $products = [];
+        foreach ($orderItems as $orderItem)
         {
-          if ($link->Order->Paid)
+          $products[] = $orderItem->Product->Title;
+          $row['Price'] += $orderItem->getPriceDiscount() !== null ? $orderItem->getPriceDiscount() : 0;
+          $datePay[] = \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', strtotime($orderItem->PaidTime));
+
+          foreach ($orderItem->OrderLinks as $link)
           {
-            $row['PaidType'] = $link->Order->Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо'); 
-            break;
+            if ($link->Order->Paid)
+            {
+              $paidType[] = $link->Order->Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо');
+            }
           }
         }
+        $row['Products'] = implode(', ', $products);
+        $row['DatePay'] = implode(', ', array_unique($datePay));
+        $row['PaidType'] = implode(', ', array_unique($paidType));
       }
 
       /** @var $badge \ruvents\models\Badge */

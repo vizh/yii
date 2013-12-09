@@ -19,7 +19,7 @@ class ViewAction extends \CAction
     $this->getController()->setPageTitle('Управление счетом (заказом) № ' . $order->Number);
 
     $request = \Yii::app()->getRequest();
-    if ($order->Juridical && $request->getIsPostRequest())
+    if ($order->getIsBankTransfer() && $request->getIsPostRequest())
     {
       $paid = $request->getParam('SetPaid', false);
       if ($paid !== false)
