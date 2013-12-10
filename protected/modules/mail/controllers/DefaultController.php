@@ -6,8 +6,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'crowdcult-13-1';
-    $isHTML = false;
+//    $template = 'almsummit13-html-1';
+    $template = 'crowdcult-13-html-3';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -17,7 +18,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 
     // ГеоВыборка
-/*
     $criteria->with = array(
         'LinkAddress' => array('together' => true, 'select' => false),
         'LinkAddress.Address' => array('together' => true, 'select' => false),
@@ -28,8 +28,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         'Settings' => array('select' => false),
     );
 //    $criteria->addCondition(' ("Participants"."EventId" IN (258) OR "Region"."Id" IN (4925,4503,4773,3761,4481,3503,3251)) AND "Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 423)');
-    $criteria->addCondition('"Region"."Id" IN (4312)');
-*/
+    $criteria->addCondition('"Region"."Id" IN (4312) AND ( ("Participants"."EventId" = 425 AND "Participants"."RoleId" = 11) OR ("Participants"."EventId" = 422 AND "Participants"."RoleId" = 1) )');
+
 
     // Чтение из файла
 /*
@@ -66,14 +66,19 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Обычная выборка пользователей [по мероприятиям]
+    /*
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
       'Settings' => array('select' => false)
     );
+    */
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(844));
-    $criteria->addInCondition('"Participants"."EventId"', array(814));
+    //ALM
+//    $criteria->addInCondition('"Participants"."EventId"', array(787));
+
+    //CROWDCULT
+//    $criteria->addInCondition('"Participants"."EventId"', array(814));
 
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
@@ -84,7 +89,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953/*,59999/*,185212,185213*/));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953/*, 184445/*,59999/*,185212,185213*/));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -148,19 +153,17 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-//        $mail->SetFrom('ux2013@userexperience.ru', 'Userexperience 2013', false);
-//        $mail->SetFrom('experts@premiaruneta.ru', 'Премия Рунета 2013', false);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-//        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
-//        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
+//        $mail->SetFrom('event@runet-id.com', 'ALM Summit', false);
 
 //        $mail->SetFrom('New_Year@beeline.ru', 'Beeline', false);
 //        $mail->SetFrom('Vova@beeline.ru', 'Beeline', false);
 
         $mail->CharSet = 'utf-8';
 //        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на Новый год для лучших сотрудников') .'?=';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('CrowdCult-Pro 2.0 - Электронный билет') .'?=';
+//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Успейте оплатить участие до 31 деабря!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Crowdcult-Pro – профессиональная конференция о крауд-технологиях') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
