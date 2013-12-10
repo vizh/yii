@@ -6,8 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-//    $template = 'almsummit13-html-1';
-    $template = 'crowdcult-13-html-3';
+    $template = 'almsummit13-html-1';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -73,18 +72,18 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     );
 
     //ALM
-//    $criteria->addInCondition('"Participants"."EventId"', array(787));
+    $criteria->addInCondition('"Participants"."EventId"', array(787));
 
     // Beeline
-    $criteria->addInCondition('"Participants"."EventId"', array(844));
+//    $criteria->addInCondition('"Participants"."EventId"', array(844));
 
     //CROWDCULT
 //    $criteria->addInCondition('"Participants"."EventId"', array(814));
 
-//    $criteria->addInCondition('"Participants"."RoleId"', array(24));
+    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
-    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "CreationTime" > \'2013-12-10 10:00:00\' AND "EventId" = 844)');
+//    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "CreationTime" > \'2013-12-10 10:00:00\' AND "EventId" = 844)');
 
     $criteria->distinct = true;
 //    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
@@ -92,10 +91,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //    $criteria->addInCondition('"t"."RunetId"', array(12953/*, 184445/*,59999/*,185212,185213*/));
 
-//    echo \user\models\User::model()->count($criteria);
-//    exit();
+    echo \user\models\User::model()->count($criteria);
+    exit();
 
-    $criteria->limit = 50;
+    $criteria->limit = 300;
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
@@ -108,7 +107,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       foreach ($users as $user)
       {
 
-        $this->genBeePDF($user);
+//        $this->genBeePDF($user);
 
 //        print $user->Participants[0]->Role->Title;
 //        print $user->Participants[0]->getTicketUrl();
@@ -119,7 +118,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //        $arPromo = array();
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
-/*
+
         // ПИСЬМО
         $body = $this->renderPartial($template, array('user' => $user), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
@@ -144,7 +143,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         {
           continue;
         }
-*/
+
         /*
         if (preg_match("/@ashmanov.com/i", $email))
         {
@@ -152,30 +151,24 @@ class DefaultController extends \application\components\controllers\AdminMainCon
           continue;
         }
         */
-/*
+
         $mail->AddAddress($email);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-//        $mail->SetFrom('event@runet-id.com', 'ALM Summit', false);
-
-//        $mail->SetFrom('New_Year@beeline.ru', 'Beeline', false);
-//        $mail->SetFrom('Vova@beeline.ru', 'Beeline', false);
-
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('event@runet-id.com', 'ALM Summit', false);
         $mail->CharSet = 'utf-8';
-//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашение на Новый год для лучших сотрудников') .'?=';
-//        $mail->Subject = '=?UTF-8?B?'. base64_encode('Успейте оплатить участие до 31 деабря!') .'?=';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Crowdcult-Pro – профессиональная конференция о крауд-технологиях') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Успейте оплатить участие до 31 деабря!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
-*/
+
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
 //        $mail->Send();
 
-//        fwrite($fp, $email . "\n");
-//        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+        fwrite($fp, $email . "\n");
+        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
