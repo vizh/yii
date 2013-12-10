@@ -16,7 +16,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $criteria = new \CDbCriteria();
 
-
+/*
     // ГеоВыборка
     $criteria->with = array(
         'LinkAddress' => array('together' => true, 'select' => false),
@@ -29,7 +29,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     );
 //    $criteria->addCondition(' ("Participants"."EventId" IN (258) OR "Region"."Id" IN (4925,4503,4773,3761,4481,3503,3251)) AND "Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 423)');
     $criteria->addCondition('"Region"."Id" IN (4312) AND ( ("Participants"."EventId" = 425 AND "Participants"."RoleId" = 11) OR ("Participants"."EventId" = 422 AND "Participants"."RoleId" = 1) )');
-
+*/
 
     // Чтение из файла
 /*
@@ -66,16 +66,17 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Обычная выборка пользователей [по мероприятиям]
-    /*
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
       'Settings' => array('select' => false)
     );
-    */
 
     //ALM
 //    $criteria->addInCondition('"Participants"."EventId"', array(787));
+
+    // Beeline
+    $criteria->addInCondition('"Participants"."EventId"', array(844));
 
     //CROWDCULT
 //    $criteria->addInCondition('"Participants"."EventId"', array(814));
@@ -83,18 +84,18 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
-//    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" != 24 AND "EventId" = 688)');
+    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "CreationTime" > \'2013-12-10 10:00:00\' AND "EventId" = 844)');
 
     $criteria->distinct = true;
-    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
-    $criteria->addCondition('"t"."Visible"');
+//    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+//    $criteria->addCondition('"t"."Visible"');
 
 //    $criteria->addInCondition('"t"."RunetId"', array(12953/*, 184445/*,59999/*,185212,185213*/));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
-    $criteria->limit = 300;
+    $criteria->limit = 50;
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
@@ -107,7 +108,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       foreach ($users as $user)
       {
 
-//        $this->genBeePDF($user);
+        $this->genBeePDF($user);
 
 //        print $user->Participants[0]->Role->Title;
 //        print $user->Participants[0]->getTicketUrl();
@@ -118,7 +119,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //        $arPromo = array();
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
-
+/*
         // ПИСЬМО
         $body = $this->renderPartial($template, array('user' => $user), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
@@ -143,7 +144,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         {
           continue;
         }
-
+*/
         /*
         if (preg_match("/@ashmanov.com/i", $email))
         {
@@ -151,7 +152,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
           continue;
         }
         */
-
+/*
         $mail->AddAddress($email);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
@@ -167,14 +168,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
-
+*/
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
 //        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
-        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+//        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
@@ -202,7 +203,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $html2pdf = new HTML2PDF('P','A4','en');
     $html2pdf->pdf->SetDisplayMode('fullpage');
     $html2pdf->WriteHTML($content);
-    $html2pdf->Output($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf', 'F');
+    $html2pdf->Output($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-10/beeline_invite_'.$user->RunetId.'.pdf', 'F');
   }
 
   private function getRegLink($user)
