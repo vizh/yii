@@ -65,7 +65,7 @@ class IndexAction extends \partner\components\Action
 
     if ($form->Deleted != '1')
     {
-      $criteria->addCondition('NOT "t"."Deleted"');
+      $criteria->addCondition('(NOT "t"."Deleted" AND NOT "t"."Paid")');
     }
 
     if ($form->INN != '' || $form->Company != '')

@@ -109,9 +109,18 @@
             <table style="width: 100%" cellpadding="0" cellspacing="0">
               <tr>
                 <td>
-                  <span style="font-size: 35px; font-weight: bold;">Электронный билет &mdash;<br/><?=$event->Title;?></span>
-                  <br><br>
-                  <span style="font-size: 20px;"><?$this->widget('event\widgets\Date', ['event' => $event, 'html' => false]);?></span>
+                  <table>
+                    <tr>
+                      <td>
+                        <span style="font-size: 35px; font-weight: bold;">Электронный билет &mdash;<br/><?=$event->Title;?></span>
+                        <br><br>
+                        <span style="font-size: 20px;"><?$this->widget('event\widgets\Date', ['event' => $event, 'html' => false]);?></span>
+                      </td>
+                      <td>
+                        <img src="<?=$event->getLogo()->get120px();?>" alt=""/>
+                      </td>
+                    </tr>
+                  </table>
                 </td>
               </tr>
               <tr>
