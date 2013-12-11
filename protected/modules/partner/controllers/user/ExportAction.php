@@ -138,15 +138,23 @@ class ExportAction extends \partner\components\Action
         foreach ($orderItems as $orderItem)
         {
           $products[] = $orderItem->Product->Title;
-          $row['Price'] += $orderItem->getPriceDiscount() !== null ? $orderItem->getPriceDiscount() : 0;
+          $price = $orderItem->getPriceDiscount() !== null ? $orderItem->getPriceDiscount() : 0;
+          $row['Price'] += $price;
           $datePay[] = \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', strtotime($orderItem->PaidTime));
 
-          foreach ($orderItem->OrderLinks as $link)
+          if ($price != 0)
           {
-            if ($link->Order->Paid)
+            foreach ($orderItem->OrderLinks as $link)
             {
-              $paidType[] = $link->Order->Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо');
+              if ($link->Order->Paid)
+              {
+                $paidType[] = $link->Order->Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо');
+              }
             }
+          }
+          else
+          {
+            $paidType[] = 'Промо-код';
           }
         }
         $row['Products'] = implode(', ', $products);
@@ -184,5 +192,3 @@ class ExportAction extends \partner\components\Action
     return $row;
   }
 }
-
-?>

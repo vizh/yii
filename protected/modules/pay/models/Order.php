@@ -384,6 +384,8 @@ class Order extends \CActiveRecord
 
     foreach ($this->ItemLinks as $link)
     {
+      if ($link->OrderItem == null)
+        continue;
       if ($link->OrderItem->Booked != null)
       {
         $link->OrderItem->Booked = date('Y-m-d H:i:s', time() + 3 * 60 * 60);

@@ -35,4 +35,37 @@ class OneuseController extends \application\components\controllers\AdminMainCont
     echo $count;
 
   }
+
+  public function actionCleanOrders()
+  {
+    $comand = Yii::app()->getDb()->createCommand();
+
+    $comand->select('count("Id"), "EventId", "PayerId"')->from('PayOrder')->where('NOT "Juridical" AND NOT "Receipt" AND NOT "Deleted"');
+    $comand->group('EventId, PayerId');
+    $comand->having('count("Id") > 1');
+    $result = $comand->queryAll();
+
+    echo sizeof($result), '<br>';
+
+    foreach ($result as $row)
+    {
+      $orders = \pay\models\Order::model()
+          ->byEventId($row['EventId'])->byPayerId($row['PayerId'])
+          ->byBankTransfer(false)->findAll(['order' => '"t"."CreationTime" DESC']);
+      for ($i=1; $i<count($orders); $i++)
+      {
+        if (!$orders[$i]->Paid)
+        {
+          $orders[$i]->delete();
+        }
+      }
+    }
+
+    echo 'done';
+
+//    echo '<pre>';
+//
+//    var_dump($result);
+//    echo '</pre>';
+  }
 } 
