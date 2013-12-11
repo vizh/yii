@@ -6,12 +6,16 @@ namespace event\widgets;
  * @package event\widgets
  *
  * @property int $DefaultRoleId
+ * @property string $FastRegistrationText
  */
 class FastRegistration extends \event\components\Widget
 { 
   public function getAttributeNames()
   {
-    return ['DefaultRoleId'];
+    return [
+      'DefaultRoleId',
+      'FastRegistrationText'
+    ];
   }
   
   public function process()
