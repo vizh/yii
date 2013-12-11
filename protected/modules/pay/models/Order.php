@@ -108,6 +108,32 @@ class Order extends \CActiveRecord
   }
 
   /**
+   * @param bool $juridical
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byJuridical($juridical, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($juridical ? '' : 'NOT ') . '"t"."Juridical"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param bool $receipt
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byReceipt($receipt, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($receipt ? '' : 'NOT ') . '"t"."Receipt"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
    * @param bool $paid
    * @param bool $useAnd
    * @return Order

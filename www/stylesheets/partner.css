@@ -105,3 +105,13 @@ p.order-number{
 .container.navbar-fixed-top-menu{
   width: 1200px;
 }
+
+.table-statistics tbody td:not(:first-child){
+  text-align: center;
+}
+.table-statistics tbody td{
+  font-size: 15px;
+}
+.table-statistics tfoot td{
+  text-align: right;
+}
