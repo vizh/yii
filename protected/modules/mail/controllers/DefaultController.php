@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'itogi13-1';
+    $template = 'itogi13-2';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -71,7 +71,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(427));
+//    $criteria->addInCondition('"Participants"."EventId"', array(427));
 
     // Beeline
 //    $criteria->addInCondition('"Participants"."EventId"', array(844));
@@ -79,7 +79,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
-//    $criteria->addCondition('"Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "CreationTime" > \'2013-12-10 10:00:00\' AND "EventId" = 844)');
+    $criteria->addCondition('("Participants"."UserId" IN
+        (SELECT "UserId" FROM "EventParticipant" WHERE
+          ("EventId" IN (427,647)) OR
+          ("EventId" IN (688,425,422) AND "RoleId" = 3) OR
+          ("RoleId" = 2)
+        )
+      )
+      OR
+     ("Participants"."UserId" IN (SELECT "UserId" FROM "CommissionUser" WHERE "ExitTime" IS NULL))');
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
@@ -90,7 +98,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     echo \user\models\User::model()->count($criteria);
     exit();
 
-    $criteria->limit = 300;
+    $criteria->limit = 200;
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
@@ -133,7 +141,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 300) { sleep(1); $j = 0; }; $j++;
 
-//        if ($j == 1) continue;
+        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -153,7 +161,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
 //        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Приглашаем на ИТОГИ ГОДА 2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('IT и  Рунет 2013: Итоги года // регистрация на конференцию 17 декабря 2013 года') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
