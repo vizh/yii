@@ -5,6 +5,8 @@
  * @var \pay\models\forms\OrderForm $orderForm
  * @var \pay\models\Account $account
  * @var \pay\models\Product[] $products
+ * @var int $unpaidOwnerCount
+ * @var int $unpaidJuridicalOrderCount
  */
 
 $runetIdTitle = $account->SandBoxUser ? '' : ' или RUNET-ID';
@@ -58,36 +60,7 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
       </div>
 
 
-      <div class="alert alert-block alert-muted">
-        <?$user = $this->getUser();?>
-        <p>
-          <?if (!empty($user->FirstName)):?>
-            <?=$user->getShortName();?>,
-          <?else:?>
-            Уважаемый пользователь,
-          <?endif;?>
-          на данном шаге Вы можете сформировать или отредактировать свой заказ.</p>
-
-        <?if (count($products) > 1):?>
-        <p>Оплата может быть произведена как за одного, так и за несколько пользователей: все услуги для <?=$event->Title;?> разделены на группы, внутри каждой из которых вы можете указать получателей.</p>
-        <?else:?>
-          <p>Оплата на <?=$event->Title;?> может быть произведена как за одного, так и за несколько пользователей. Просто укажите своих коллег и друзей в качестве получателей услуги.</p>
-        <?endif;?>
-
-        <?if (!empty($account->SandBoxUserRegisterUrl)):?>
-          <p>
-            <strong>Если ваши коллеги еще не зарегистрированы на конференцию, вы можете сделать это за них, пройдя по <a target="_blank" href="<?=$account->SandBoxUserRegisterUrl;?>">ссылке</a>.</strong>
-          </p>
-        <?endif;?>
-
-        <?if (!$account->SandBoxUser):?>
-          <p>Для добавления участника достаточным будет ввести его ФИО или RUNET-ID, система автоматически проверит наличие пользователя среди участников ИТ-мероприятия и если будут найдены совпадения - предложит добавить существующий профиль. В противном случае нужно будет заполнить необходимую контактную информацию для участника.</p>
-
-          <?if ($unpaidOwnerCount > 0 || $unpaidJuridicalOrderCount > 0):?>
-            <p><strong>Важно:</strong> у Вас уже есть сформированные, но <a href="<?=$this->createUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName));?>">неоплаченные заказы</a>.</p>
-          <?endif;?>
-        <?endif;?>
-      </div>
+      <?$this->renderPartial('register-help', ['user' => $this->getUser(), 'products' => $products, 'account' => $account, 'event' => $event,'unpaidOwnerCount' => $unpaidOwnerCount, 'unpaidJuridicalOrderCount' => $unpaidJuridicalOrderCount]);?>
 
       <table class="table thead-actual">
         <thead>
@@ -208,12 +181,14 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
               <?php echo CHtml::activeTextField($registerForm, 'FirstName');?>
             </div>
           </div>
+          <?if (Yii::app()->language != 'en'):?>
           <div class="control-group">
             <label><?=\Yii::t('app', 'Отчество');?></label>
             <div class="controls">
               <?php echo CHtml::activeTextField($registerForm, 'FatherName');?>
             </div>
           </div>
+          <?endif;?>
           <div class="control-group">
             <label>Email</label>
             <div class="controls required">

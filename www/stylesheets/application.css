@@ -1268,6 +1268,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   float: left;
   width: 250px;
   margin-bottom: 10px;
+  margin-right: 5px;
 }
 .event-register .pay-buttons ul li .btn {box-sizing: content-box;}
 .event-register .pay-buttons .pull-left {width: 250px; margin-left: 100px;}
@@ -2561,8 +2562,8 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .actions .uniteller {
   background-image: url(/img/pay/uniteller.png);
   background-repeat: no-repeat;
-  background-position: 140px 5px;
-  padding-right: 100px;
+  background-position: right 5px;
+  padding-right: 102px;
 }
 .actions .btn-primary.uniteller {
   background-image: url(/img/pay/uniteller_white.png);
@@ -2571,8 +2572,8 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .actions .payonline {
   background-image: url(/img/pay/payonline.png);
   background-repeat: no-repeat;
-  background-position: 140px 8px;
-  padding-right: 110px;
+  background-position: right 10px;
+  padding-right: 115px;
 }
 .actions .btn-primary.payonline {
   background-image: url(/img/pay/payonline_white.png);
@@ -2581,8 +2582,8 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .actions .yandexmoney {
   background-image: url(/img/pay/yandexmoney.png);
   background-repeat: no-repeat;
-  background-position: 140px 4px;
-  padding-right: 90px;
+  background-position: right 4px;
+  padding-right: 92px;
 }
 .actions .btn-primary.yandexmoney {
   background-image: url(/img/pay/yandexmoney_white.png);
@@ -2591,8 +2592,8 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .actions .paypal {
   background-image: url(/img/pay/logo-paypal.png);
   background-repeat: no-repeat;
-  background-position: 140px 12px;
-  padding-right: 71px;
+  background-position: right 12px;
+  padding-right: 74px;
 }
 .actions .btn-primary.paypal {
   background-image: url(/img/pay/logo-paypal_white.png);

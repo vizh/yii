@@ -116,7 +116,6 @@ class PayPal extends Base
       'CANCELURL' => \Yii::app()->createAbsoluteUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName)),
       'PAYMENTREQUEST_0_CURRENCYCODE' => 'RUB',
       'NOSHIPPING' => 1
-
     );
 
     $item = array(
@@ -204,6 +203,7 @@ class PayPal extends Base
       . "&PWD=" . urlencode($this->password)
       . "&USER=" . urlencode($this->username)
       . "&SIGNATURE=" . urlencode($this->signature)
+      . "&LOCALECODE=" . urlencode(\Yii::app()->language == 'en' ? 'en_US' : 'ru_RU')
       //. '&=' . urlencode('PP-ECWizard')
       . '&' . $request;
   }

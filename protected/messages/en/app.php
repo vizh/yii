@@ -10,6 +10,7 @@ return array(
   'Партнеры мероприятия' => 'Partners',
 
   'Место проведения' => 'Venue',
+  'Комментарии пользователей' => 'User Comments',
 
   'Все мероприятия' => 'All events',
 
@@ -17,6 +18,7 @@ return array(
 
   'г.' => ' ',
   'д.' => ' ',
+  'стр.' => 'str.',
   
   'и'  => 'and', 
     
@@ -62,6 +64,9 @@ return array(
   'Оплатить через' => 'Pay via',
   'Выставить счет' => 'Issue an invoice',
   '(для юр. лиц)' => '(for juridical entities)',
+  'Для юридических лиц' => 'For legal entities',
+  'Для физических лиц' => 'For individuals',
+  'Квитанция на оплату' => 'Payment receipt',
   
   'У вас есть неоплаченный заказ' => 'You have a pending order',
   'В вашей корзине имеется неоплаченный заказ' => 'Нou have unpaid order',
@@ -117,6 +122,11 @@ return array(
   'Ссылки для экпонентов' => 'Links for exhibitions',
   'Страница не найдена' => 'Page not found!',
   'Перейдите на главную' => 'Back to main',
+  'Для создания временного аккаунта введите Email:' => 'To create a temporary account, enter you e-mail:',
+  'На указанный Email будет выслано письмо, с инструкциями по использованию временного аккаунта.' => 'A letter on how to use the account will be sent to the e-mail address.',
+
+
+
   
   
   'Указан неверный код купона' => 'Wrong coupon number',
@@ -124,13 +134,13 @@ return array(
   'Выставленные счета' => 'My bills',
   'Счет' => 'Bill',
   'Просмотреть счет' => 'View bill',
-  'У вас нет товаров для оплаты.' => 'You dont have premission for pay.',
+  'У вас нет товаров для оплаты.' => 'You dont have premissions to pay.',
   'Срок действия вашего промо кода истек' => 'Your coupon code is expired',
   'Превышено максимальное количество активаций промо кода' => 'You have reached maximum number of  activation attempts for this coupon',
   'Для промо кода со скидкой 100% не указан товар, на который распространяется скидка' => 'The product for 100% discount is not specified',
   'Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар' => 'This product is not available for selected user',
   'У пользователя уже активирован промо код с большей скидкой' => 'User already activated coupon for bigger discount',
-  'Пожалуйста, добавьте информацию об участниках для продолжения' => 'Please, add the information about the participants, for continue',
+  'Пожалуйста, добавьте информацию об участниках для продолжения' => 'To continue, please add participant data',
   
 
   'offer-demo.pdf' => 'offer-demo-en.pdf',

@@ -16,13 +16,13 @@
 
           <?= \CHtml::beginForm(); ?>
             <div class="control-group">
-              <label for="pay_email">Для создания временного аккаунта введите Email:</label>
+              <label for="pay_email"><?=Yii::t('app', 'Для создания временного аккаунта введите Email:');?></label>
               <div class="controls">
                 <input id="pay_email" class="span4" name="email" value="" type="text">
-                 <span class="help-block">На указанный Email будет выслано письмо, с инструкциями по использованию временного аккаунта.
+                 <span class="help-block"><?=Yii::t('app', 'На указанный Email будет выслано письмо, с инструкциями по использованию временного аккаунта.');?></span>
               </div>
             </div>
-            <button type="submit" class="btn btn-info">Продолжить</button>
+            <button type="submit" class="btn btn-info"><?=Yii::t('app', 'Продолжить');?></button>
           <?= \CHtml::endForm(); ?>
         </div>
       <?else:?>
