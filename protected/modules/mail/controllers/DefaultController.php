@@ -73,11 +73,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addInCondition('"Participants"."EventId"', array(427));
 
     // Beeline
-//    $criteria->addInCondition('"Participants"."EventId"', array(844));
+    $criteria->addInCondition('"Participants"."EventId"', array(844));
+    $criteria->addCondition('("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "CreationTime" >= \'2013-12-13 10:00:00\' AND "EventId" = 844 ))');
+
 
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
+    /*
     // ИТОГИ 2013
     $criteria->addCondition('("Participants"."UserId" IN
         (SELECT "UserId" FROM "EventParticipant" WHERE
@@ -90,7 +93,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       )
       OR
      ("Participants"."UserId" IN (SELECT "UserId" FROM "CommissionUser" WHERE "ExitTime" IS NULL))');
-
+    */
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
@@ -114,7 +117,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       foreach ($users as $user)
       {
 
-//        $this->genBeePDF($user);
+        $this->genBeePDF($user);
 
 //        print $user->Participants[0]->Role->Title;
 //        print $user->Participants[0]->getTicketUrl();
@@ -127,6 +130,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
 
         // ПИСЬМО
+
         $body = $this->renderPartial($template, array('user' => $user), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
@@ -177,6 +181,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
@@ -204,7 +209,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $html2pdf = new HTML2PDF('P','A4','en');
     $html2pdf->pdf->SetDisplayMode('fullpage');
     $html2pdf->WriteHTML($content);
-    $html2pdf->Output($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-10/beeline_invite_'.$user->RunetId.'.pdf', 'F');
+    $html2pdf->Output($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-13/beeline_invite_'.$user->RunetId.'.pdf', 'F');
   }
 
   private function getRegLink($user)
