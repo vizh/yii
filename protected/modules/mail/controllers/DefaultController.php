@@ -6,15 +6,15 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'descamp13-html-3';
-    $isHTML = true;
+    $template = 'itogi13-3';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
     $j = 0;
 
     $criteria = new \CDbCriteria();
-
+/*
     // ГеоВыборка
     $criteria->with = array(
         'LinkAddress' => array('together' => true, 'select' => false),
@@ -27,6 +27,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     );
 //    $criteria->addCondition(' ("Participants"."EventId" IN (258) OR "Region"."Id" IN (4925,4503,4773,3761,4481,3503,3251)) AND "Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 423)');
     $criteria->addCondition('"Region"."Id" IN (4312) AND ( ("Participants"."EventId" = 425 AND "Participants"."RoleId" = 11) OR ("Participants"."EventId" = 422 AND "Participants"."RoleId" = 1) )');
+*/
 
     // Чтение из файла
 /*
@@ -61,14 +62,14 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $users = \user\models\User::model()->findAll($criteria);
     */
-/*
+
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
       'Settings' => array('select' => false)
     );
-*/
+
 //    $criteria->addInCondition('"Participants"."EventId"', array(427));
 
     // Beeline
@@ -77,17 +78,19 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
-    /* ИТОГИ 2013
+    // ИТОГИ 2013
     $criteria->addCondition('("Participants"."UserId" IN
         (SELECT "UserId" FROM "EventParticipant" WHERE
           ("EventId" IN (427,647)) OR
-          ("EventId" IN (688,425,422) AND "RoleId" = 3) OR
-          ("RoleId" = 2)
+          ("EventId" IN (688,425,422,  411,423,773,595,673) AND "RoleId" = 3) OR
+          ("RoleId" = 2) OR
+          ("RoleId" = 32) OR
+          ("EventId" IN (411,423,773,595,673) AND "RoleId" = 1)
         )
       )
       OR
      ("Participants"."UserId" IN (SELECT "UserId" FROM "CommissionUser" WHERE "ExitTime" IS NULL))');
-    */
+
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
@@ -158,11 +161,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
-//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
+        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+//        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
 //        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('DesCamp – онлайн трансляция конференции!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Регистрация на конференцию "IT и Рунет 2013: Итоги года" (17 декабря 2013, DO)') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
