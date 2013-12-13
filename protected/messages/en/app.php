@@ -88,6 +88,7 @@ return array(
   'Новости' => 'theRunet',
   'Компетенции' => 'Competence',
   'Работа' => 'Jobs',
+  'Компании' => 'Companies',
 
   'Мой профиль' => 'My Profile',
   'Редактирование данных' => 'Edit Profile',
@@ -114,6 +115,7 @@ return array(
   'Восстановление пароля' => 'Password retrieval',
   'Вы можете получить ваш текущий пароль по электронной почте на адрес, указанный при регистрации RUNET-ID:' => 'Please enter email that you used to log in to RUNET-ID:',
   'Восстановить' => 'Recover',
+  'Регистрация на сайте www.runet-id.com' => 'Registration at www.runet-id.com',
 
 
   'Вы не авторизованы в системе RUNET-ID.' => 'You are not logged in the RUNET-ID',
