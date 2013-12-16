@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'itogi13-4';
+    $template = 'itogi13-5';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -73,16 +73,17 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addInCondition('"Participants"."EventId"', array(427));
 
     // Beeline
-    $criteria->addInCondition('"Participants"."EventId"', array(837));
-    $criteria->addCondition('("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "CreationTime" <= \'2013-12-13 19:00:00\' AND "EventId" = 837 ))');
+//    $criteria->addInCondition('"Participants"."EventId"', array(837));
+//    $criteria->addCondition('("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "CreationTime" <= \'2013-12-13 19:00:00\' AND "EventId" = 837 ))');
 
 
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
-    /*
     // ИТОГИ 2013
-    $criteria->addCondition('("Participants"."UserId" IN
+    $criteria->addCondition('
+    (
+      ("Participants"."UserId" IN
         (SELECT "UserId" FROM "EventParticipant" WHERE
           ("EventId" IN (427,647)) OR
           ("EventId" IN (688,425,422,  411,423,773,595,673) AND "RoleId" = 3) OR
@@ -92,8 +93,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         )
       )
       OR
-     ("Participants"."UserId" IN (SELECT "UserId" FROM "CommissionUser" WHERE "ExitTime" IS NULL))');
-    */
+      ("Participants"."UserId" IN (SELECT "UserId" FROM "CommissionUser" WHERE "ExitTime" IS NULL))
+    )
+
+    AND
+    ("Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 837))');
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
@@ -124,7 +128,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        exit();
 
 //        /* PK PASS для Яблочников */
-        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $user->Participants[0]->Role);
+//        $pkPass = new \application\components\utility\PKPassGenerator($event, $user, $user->Participants[0]->Role);
 
 //        $arPromo = array();
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
@@ -148,7 +152,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 200) { sleep(1); $j = 0; }; $j++;
 
-//        if ($j == 1) continue;
+        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -169,7 +173,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
 //        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('IT и Рунет 2013: итоги года - Электронный билет') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('ЗАВТРА пройдет конференция "IT и Рунет 2013: Итоги года"') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
