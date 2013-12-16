@@ -169,12 +169,14 @@
               </tr>
               <tr>
                 <td style="padding-top: 10px;">
-                  <p><b><?=$event->getContactAddress()->Place;?></b></p>
-                  <p><?=$event->getContactAddress();?></p>
+                  <b><?=$event->getContactAddress()->Place;?></b><br>
+                  <?=$event->getContactAddress();?>
                 </td>
               </tr>
               <tr>
-                <td style="padding-top: 10px; text-align: center;"><img style="border: 1px solid;" src="http://static-maps.yandex.ru/1.x/?l=map&ll=<?=$event->getContactAddress()->getLongitude();?>,<?=$event->getContactAddress()->getLatitude();?>&z=14&size=630,405&pt=<?=$event->getContactAddress()->getLongitude();?>,<?=$event->getContactAddress()->getLatitude();?>,pm2ntl" border="0"/></td>
+                <td style="padding-top: 10px; text-align: center;">
+                    <img style="border: 1px solid;  height: 330px;" src="http://static-maps.yandex.ru/1.x/?l=map&ll=<?=$event->getContactAddress()->getLongitude();?>,<?=$event->getContactAddress()->getLatitude();?>&z=14&size=630,330&pt=<?=$event->getContactAddress()->getLongitude();?>,<?=$event->getContactAddress()->getLatitude();?>,pm2ntl" border="0"/>
+                  </td>
               </tr>
               <?endif;?>
 
