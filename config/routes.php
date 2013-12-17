@@ -40,11 +40,13 @@ return array(
         'http://tc2013.'.RUNETID_HOST.'/pay/' => array('pay/cabinet/index/', 'defaultParams' => array('eventIdName' => 'tc2013')),
         'http://tc2013.'.RUNETID_HOST.'/create/' => array('pay/juridical/create/', 'defaultParams' => array('eventIdName' => 'tc2013')),
 
+
+
         /** Mail.ru Test 2013 */
-        'http://'.RUNETID_HOST.'/proftest2/' => ['competence/main/index/', 'defaultParams' => ['id' => 1]],
-        'http://'.RUNETID_HOST.'/proftest2/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 1]],
-        'http://'.RUNETID_HOST.'/proftest2/end' => ['competence/main/end/', 'defaultParams' => ['id' => 1]],
-        'http://'.RUNETID_HOST.'/proftest2/done' => ['competence/main/done/', 'defaultParams' => ['id' => 1]],
+        'http://'.RUNETID_HOST.'/proftest/' => ['competence/main/index/', 'defaultParams' => ['id' => 6]],
+        'http://'.RUNETID_HOST.'/proftest/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 6]],
+        'http://'.RUNETID_HOST.'/proftest/end' => ['competence/main/end/', 'defaultParams' => ['id' => 6]],
+        'http://'.RUNETID_HOST.'/proftest/done' => ['competence/main/done/', 'defaultParams' => ['id' => 6]],
 
         /** iResearch 2013 */
         'http://'.RUNETID_HOST.'/iresearch2013/' => ['competence/main/index/', 'defaultParams' => ['id' => 2]],
