@@ -1,26 +1,39 @@
 <?php
 namespace mail\components\mail;
 
-
-use mail\components\Mailer;
-
 class Template extends \mail\components\Mail
 {
-  protected $model;
+  protected $template;
+  protected $user;
 
-  public function __construct(Mailer $mailer, \mail\models\Template $model)
+  public function __construct(\mail\components\Mailer $mailer, \mail\models\Template $template, \user\models\User $user)
   {
     parent::__construct($mailer);
-    $this->model = $model;
+    $this->template = $template;
+    $this->user = $user;
   }
 
+  public function isHtml()
+  {
+    return true;
+  }
+
+  public function getFromName()
+  {
+    return $this->template->FromName;
+  }
+
+  public function getSubject()
+  {
+    return $this->template->Subject;
+  }
 
   /**
    * @return string
    */
   public function getFrom()
   {
-    // TODO: Implement getFrom() method.
+    return $this->template->From;
   }
 
   /**
@@ -28,7 +41,7 @@ class Template extends \mail\components\Mail
    */
   public function getTo()
   {
-    // TODO: Implement getTo() method.
+    return $this->user->Email;
   }
 
   /**
@@ -36,6 +49,47 @@ class Template extends \mail\components\Mail
    */
   public function getBody()
   {
-    // TODO: Implement getBody() method.
+    return $this->renderBody($this->template->getViewName(), ['user' => $this->user]);
+  }
+
+  protected function getRepeat()
+  {
+    return false;
+  }
+
+  public function getAttachments()
+  {
+    if ($this->template->SendPassbook)
+    {
+      $participants = $this->user->Participants[0];
+      $pkPass = new \application\components\utility\PKPassGenerator($participants->Event, $this->user, $participants->Role);
+      return [
+        'ticket.pkpass' => $pkPass->runAndSave()
+      ];
+    }
+    return [];
+  }
+
+
+  /**
+   * @return bool
+   */
+  public function getIsHasLog()
+  {
+    if ($this->template->getIsTestMode())
+      return false;
+
+    return \mail\models\TemplateLog::model()->byTemplateId($this->template->Id)->byUserId($this->user->Id)->exists();
+  }
+
+  /**
+   * @return \CModel
+   */
+  public function getLog()
+  {
+    $log = new \mail\models\TemplateLog();
+    $log->UserId = $this->user->Id;
+    $log->TemplateId = $this->template->Id;
+    return $log;
   }
 }

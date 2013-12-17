@@ -6,15 +6,26 @@ namespace mail\models;
  * @package mail\models
  *
  * @property int $Id
- * @property string $Type
- * @property int $EventId
  * @property string $Filter
  * @property string $Title
- * @property string $Path
+ * @property string $Subject
+ * @property string $From
+ * @property string $FromName
+ * @property bool $SendPassbook
+ * @property bool $SendUnsubscribe
+ * @property bool $Active
+ * @property string $ActivateTime
+ * @property bool $Success
+ * @property string $SuccessTime
+ * @property string $ViewHash
  *
  */
 class Template extends \CActiveRecord
 {
+  const UsersPerSend = 100;
+
+  private $testMode  = false;
+  private $testUsers = [];
 
   /**
    * @param string $className
@@ -36,15 +47,152 @@ class Template extends \CActiveRecord
     return 'Id';
   }
 
-  protected $typeComponent = null;
-
-  public function getTypeComponent()
+  public function send()
   {
-    return null;//new $class($this);
+    $mailer = new \mail\components\mailers\PhpMailer();
+    if (!$this->Success)
+    {
+      $recipients = [];
+      if (!$this->getIsTestMode())
+      {
+        $recipients = $this->getUsers();
+      }
+      else
+      {
+        $criteria = new \CDbCriteria();
+        $criteria->addInCondition('"t"."Id"', \CHtml::listData($this->testUsers, 'Id', 'Id'));
+        $criteria->mergeWith($this->getDbCriteria());
+        $recipients = \user\models\User::model()->findAll($criteria);
+      }
+      foreach ($recipients as $user)
+      {
+        $mail = new \mail\components\mail\Template($mailer, $this, $user);
+        $mail->send();
+      }
+    }
   }
 
-  public function send($count)
+  /**
+   * @return \user\models\User[]
+   */
+  public function getUsers()
   {
+    $criteria = $this->getCriteria();
+    $criteria->limit = self::UsersPerSend;
+    $users = \user\models\User::model()->findAll($criteria);
+    if (empty($users))
+    {
+      $this->Success = true;
+      $this->SuccessTime = date('Y-m-d H:i:s');
+      $this->save();
+    }
+    return $users;
+  }
 
+  /**
+   * @return \CDbCriteria
+   */
+  public function getCriteria($ignoreLog = false)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->with = ['Settings'];
+    if (!$this->SendUnsubscribe)
+    {
+      $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+    }
+    $criteria->addCondition('"t"."Visible"');
+
+    if (!$this->getIsTestMode() && !$ignoreLog)
+    {
+      $command = \Yii::app()->getDb()->createCommand();
+      $command->select('UserId')->from(TemplateLog::model()->tableName());
+      $command->where('"TemplateId" = :TemplateId');
+      $criteria->params['TemplateId'] = $this->Id;
+      $criteria->addCondition('"t"."Id" NOT IN (' . $command->getText(). ')');
+    }
+    $filter = $this->getFilter();
+    if (!empty($filter))
+    {
+      $criteria->mergeWith($filter->getCriteria());
+    }
+    return $criteria;
+  }
+
+  public function getViewName()
+  {
+    if (!$this->getIsNewRecord())
+    {
+      return 'mail.views.templates.template'.$this->Id;
+    }
+    return null;
+  }
+
+  private $viewPath = null;
+  public function getViewPath()
+  {
+    if ($this->viewPath == null && !$this->getIsNewRecord())
+    {
+      $this->viewPath = \Yii::getPathOfAlias($this->getViewName()).'.php';
+    }
+    return $this->viewPath;
+  }
+
+  /**
+   * @param bool $test
+   */
+  public function setTestMode($test)
+  {
+    $this->testMode = $test;
+    if (!$test)
+      $this->testUsers = [];
+  }
+
+  public function getIsTestMode()
+  {
+    return $this->testMode;
+  }
+
+  /**
+   * @param \user\models\User $users[]
+   */
+  public function setTestUsers($users)
+  {
+    $this->testUsers = $users;
+  }
+
+  /**
+   * @param bool $active
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byActive($active = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($active == false ? 'NOT ' : '').'"t"."Active"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param bool $success
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function bySuccess($success = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($success == false ? 'NOT ' : '').'"t"."Success"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function getFilter()
+  {
+    return unserialize(base64_decode($this->Filter));
+  }
+
+  public function setFilter($filter)
+  {
+    $this->Filter = base64_encode(serialize($filter));
   }
 }

@@ -11,7 +11,7 @@ namespace mail\models;
  * @property string $Error
  *
  */
-class Log extends \CActiveRecord
+class Log extends \CActiveRecord implements \mail\components\ILog
 {
 
   /**
@@ -47,5 +47,11 @@ class Log extends \CActiveRecord
     $criteria->params = array('Hash' => $hash);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
+  }
+
+
+  public function setError($error)
+  {
+    $this->Error = $error;
   }
 }

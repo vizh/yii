@@ -9,44 +9,48 @@ class Event
   /** @var EventCondition[]  */
   public $negative = [];
 
+
+  private $criteria;
   public function getCriteria()
   {
-    $result = new \CDbCriteria();
-
-    if (count($this->positive) > 0)
+    $this->criteria = new \CDbCriteria();
+    if (!empty($this->positive))
     {
-      $result->with = ['Participants' => ['together' => true]];
-      foreach ($this->positive as $cond)
-      {
-        $criteria = new \CDbCriteria();
-        $criteria->addCondition('"Participants"."EventId" = :EventId'.$cond->eventId);
-        $criteria->params['EventId'.$cond->eventId] = $cond->eventId;
-        if (count($cond->roles) > 0)
-        {
-          $criteria->addInCondition('"Participants"."RoleId"', $cond->roles);
-        }
-        $result->mergeWith($criteria, 'OR');
-      }
+      $this->fillCriteria($this->positive);
     }
 
-    if (count($this->negative) > 0)
+    if (!empty($this->negative))
     {
-      $command = \Yii::app()->getDb()->createCommand();
-      $command->select('UserId')->from('EventParticipant');
-      foreach ($this->negative as $cond)
-      {
-        $part = ['and',
-          ['EventId = :NegEventId'.$cond->eventId, ['NegEventId'.$cond->eventId => $cond->eventId]]
-        ];
-        if (count($cond->roles) > 0)
-        {
-          $part[] = ['in', 'RoleId', $cond->roles];
-        }
-        $command->orWhere($part);
-      }
-      $result->addCondition('"t"."Id" NOT IN (' . $command->getText(). ')');
+      $this->fillCriteria($this->negative, false);
     }
 
-    return $result;
+    if (count($this->positive) == 1 && empty($this->negative))
+    {
+      $this->criteria->with = [
+        'Participants' => ['together' => true, 'on' => '"Participants"."EventId" = :EventId_'.$this->positive[0]->eventId]
+      ];
+    }
+    else
+    {
+      $this->criteria->with = ['Participants'];
+    }
+    return $this->criteria;
+  }
+
+  private function fillCriteria($conditions, $in = true)
+  {
+    $command = \Yii::app()->getDb()->createCommand();
+    $command->select('UserId')->from('EventParticipant');
+    foreach ($conditions as $condition)
+    {
+      $part =  ['and', '"EventId" = :EventId_'.$condition->eventId];
+      if (count($condition->roles) > 0)
+      {
+        $part[] = ['in', 'RoleId', $condition->roles];
+      }
+      $command->orWhere($part);
+      $this->criteria->params['EventId_'.$condition->eventId] = $condition->eventId;
+    }
+    $this->criteria->addCondition('"t"."Id" '.(!$in ? 'NOT' : '').' IN (' . $command->getText(). ')');
   }
 }
