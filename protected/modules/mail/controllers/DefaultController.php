@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'itogi13-5';
+    $template = 'ibcrussia13-10';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -70,17 +70,17 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(427));
+    $criteria->addInCondition('"Participants"."EventId"', array(688));
 
     // Beeline
 //    $criteria->addInCondition('"Participants"."EventId"', array(837));
 //    $criteria->addCondition('("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "CreationTime" <= \'2013-12-13 19:00:00\' AND "EventId" = 837 ))');
 
-
-//    $criteria->addInCondition('"Participants"."RoleId"', array(24));
+    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
     // ИТОГИ 2013
+    /*
     $criteria->addCondition('
     (
       ("Participants"."UserId" IN
@@ -98,6 +98,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     AND
     ("Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 837))');
+    */
+
+    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" != 24 AND "EventId" = 688)');
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
@@ -169,11 +172,11 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-//        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('reg@ibcrussia.com', 'IBC Russia 2013', false);
 //        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('ЗАВТРА пройдет конференция "IT и Рунет 2013: Итоги года"') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Видеоматериалы и презентации опубликованы') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
