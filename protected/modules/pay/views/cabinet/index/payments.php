@@ -26,7 +26,9 @@ $i = 0;
 <div class="pay-buttons clearfix">
   <div class="pull-left">
     <h5><?=\Yii::t('app', 'Для юридических лиц');?></h5>
-    <?if ($hideJuridical && $account->OrderEnable):?>
+    <?if (!$account->OrderEnable):?>
+      <p class="text-error"><?=\Yii::t('app', 'Оплата недоступна. Оплата возможна только банковскими картами и электронными деньгами');?></p>
+    <?elseif ($hideJuridical && $account->OrderEnable):?>
       <p class="text-error">Окончен период выставления счетов юридическими лицами. Оплата возможна только банковскими картами и электронными деньгами.</p>
     <?elseif(!$hideJuridical):?>
       <?$this->renderPartial('index/buttons/juridical', ['account' => $account]);?>
