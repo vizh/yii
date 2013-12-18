@@ -2,10 +2,11 @@ $(function(){
   $('input[type="checkbox"][data-unchecker]').bind('change', function(event){
     var target = $(event.currentTarget);
     var unchecker = target.data('unchecker');
+    var group = target.data('group');
 
     if (target.prop('checked'))
     {
-      var checkboxes = $('input[type="checkbox"][data-unchecker!='+unchecker+']');
+      var checkboxes = $('input[type="checkbox"][data-unchecker!='+unchecker+'][data-group='+group+']');
       checkboxes.prop('checked', false);
       checkboxes.trigger('change');
     }

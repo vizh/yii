@@ -12,6 +12,40 @@ abstract class Base extends \CFormModel
     $this->question = $question;
   }
 
+  protected $baseQuestion = null;
+
+  protected function getBaseQuestionCode()
+  {
+    return null;
+  }
+
+  /**
+   * @return \competence\models\Question|null
+   */
+  public function getBaseQuestion()
+  {
+    if ($this->baseQuestion == null && $this->getBaseQuestionCode() != null)
+    {
+      $this->baseQuestion = \competence\models\Question::model()
+          ->byTestId($this->question->TestId)->byCode($this->getBaseQuestionCode())->find();
+      if ($this->baseQuestion != null)
+      {
+        $this->baseQuestion->setTest($this->question->getTest());
+      }
+    }
+    return $this->baseQuestion;
+  }
+
+  public function getQuestionByCode($code)
+  {
+    $question = \competence\models\Question::model()->byTestId($this->question->TestId)->byCode($code)->find();
+    if ($question != null)
+    {
+      $question->setTest($this->question->getTest());
+    }
+    return $question;
+  }
+
   /**
    * @return array
    */
@@ -169,7 +203,7 @@ abstract class Base extends \CFormModel
     {
       return $this->question->Prev;
     }
-    throw new \application\components\Exception('Необходимо задать Id следующего вопроса или переопределить метод getPrev()');
+    throw new \application\components\Exception('Необходимо задать Id предыдущего вопроса или переопределить метод getPrev()');
   }
 
   /**

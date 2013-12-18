@@ -26,3 +26,4 @@ class EditQuestionAction extends \CAction
     $this->getController()->render('editQuestion', ['question' => $question, 'test' => $test]);
   }
 }
+

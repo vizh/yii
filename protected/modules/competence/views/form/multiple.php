@@ -9,7 +9,7 @@ if (count($form->Values) > 6)
   $half = count($form->Values) / 2;
   foreach ($form->Values as $value)
   {
-    if (count($left) > $half)
+    if (count($left) >= $half)
     {
       $right[] = $value;
     }

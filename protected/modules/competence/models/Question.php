@@ -59,6 +59,11 @@ class Question extends \CActiveRecord
     ];
   }
 
+  /**
+   * @param bool $first
+   * @param bool $useAnd
+   * @return $this
+   */
   public function byFirst($first = true, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
@@ -67,11 +72,30 @@ class Question extends \CActiveRecord
     return $this;
   }
 
+  /**
+   * @param int $testId
+   * @param bool $useAnd
+   * @return $this
+   */
   public function byTestId($testId, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."TestId" = :TestId';
     $criteria->params = ['TestId' => $testId];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param string $code
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byCode($code, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Code" = :Code';
+    $criteria->params = ['Code' => $code];
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -132,6 +156,21 @@ class Question extends \CActiveRecord
     if ($this->test === null)
       throw new \application\components\Exception('Для вопроса не определен тест');
     return $this->test;
+  }
+
+  /**
+   * @return array
+   */
+  public function getResult()
+  {
+    try
+    {
+      return $this->getTest()->getResult()->getQuestionResult($this);
+    }
+    catch (\application\components\Exception $e)
+    {
+      return null;
+    }
   }
 
   protected function getFormPath()
