@@ -10,6 +10,6 @@ $(function () {
     }
   });
   
-  form.find('input[id*="Account_OrderLastTime"]').datepicker();
+  form.find('input[id*="Account_OrderLastTime"], input[id*="ReceiptLastTime"]').datepicker();
 });
 

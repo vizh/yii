@@ -8,14 +8,15 @@ class Account extends \CFormModel
   public $EventId;
   public $EventTitle;
   public $Own;
-  public $OrderTemplateName;
+  public $OrderTemplateId;
   public $ReturnUrl;
   public $Offer;
   public $OfferFile;
   public $OrderLastTime;
-  public $OrderEnable;
   public $Uniteller;
   public $PayOnline;
+  public $ReceiptTemplateId;
+  public $ReceiptLastTime;
   
   /**
    * 
@@ -31,10 +32,11 @@ class Account extends \CFormModel
   public function rules()
   {
     return [
-      ['EventId,EventTitle,Own,OrderEnable', 'required'],
-      ['OrderTemplateName, Offer', 'type', 'type' => 'string', 'allowEmpty' => true],
+      ['EventId,EventTitle,Own', 'required'],
+      ['Offer', 'type', 'type' => 'string', 'allowEmpty' => true],
+      ['OrderTemplateId, ReceiptTemplateId', 'exist', 'className' => '\pay\models\OrderJuridicalTemplate', 'attributeName' => 'Id', 'allowEmpty' => true],
       ['ReturnUrl', 'url', 'allowEmpty' => true],
-      ['OrderLastTime', 'date', 'format' => 'dd.MM.yyyy', 'allowEmpty' => true],
+      ['OrderLastTime, ReceiptLastTime', 'date', 'format' => 'dd.MM.yyyy', 'allowEmpty' => true],
       ['OfferFile', 'file', 'types' => 'pdf,doc,docx', 'allowEmpty' => true],
       ['EventId', 'filter', 'filter' => [$this, 'filterEventId']],
       ['Uniteller,PayOnline', 'numerical', 'max' => 1, 'min' => 1, 'allowEmpty' => true]
@@ -52,7 +54,7 @@ class Account extends \CFormModel
       'EventId' => \Yii::t('app', 'ID мероприятия'),
       'EventTitle' => \Yii::t('app', 'Название мероприятия'),
       'Own' => \Yii::t('app', 'Собственное мероприятие'),
-      'OrderTemplateName' => \Yii::t('app', 'Шаблон для счетов'),
+      'OrderTemplateId' => \Yii::t('app', 'Шаблон для счетов'),
       'ReturnUrl' => \Yii::t('app', 'URL после оплаты'),
       'Offer' => \Yii::t('app', 'Оферта'),
       'OfferFile' => \Yii::t('app', 'Файл с офертой'),
@@ -60,7 +62,9 @@ class Account extends \CFormModel
       'OrderEnable' => \Yii::t('app', 'Разрешить выставлять счета'),
       'Uniteller' => \Yii::t('app', 'Использовать платежную систему Uniteller'),
       'PayOnline' => \Yii::t('app', 'Использовать платежную систему PayOnline'),
-      'PaySystem' => \Yii::t('app', 'Платежная система')
+      'PaySystem' => \Yii::t('app', 'Платежная система'),
+      'ReceiptTemplateId' => \Yii::t('app', 'Шаблон для квитанций'),
+      'ReceiptLastTime' => \Yii::t('app', 'Последняя дата выставления квитанций')
     ];
   }
   
@@ -79,15 +83,14 @@ class Account extends \CFormModel
     return $value;
   }
   
-  public function getOrderTemplateNameData()
+  public function getOrderTemplateData()
   {
-    $data = $this->getData(\Yii::getPathOfAlias('pay.views.order.bills'));
+    $data = ['' => \Yii::t('app', 'Не задан')];
     $templates = \pay\models\OrderJuridicalTemplate::model()->findAll(['order' => '"t"."Title" ASC']);
     foreach ($templates as $template)
     {
       $data[$template->Id] = $template->Title;
     }
-    unset($data['template']);
     return $data;
   }
   

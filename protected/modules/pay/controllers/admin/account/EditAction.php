@@ -17,7 +17,7 @@ class EditAction extends \CAction
         throw new \CHttpException(404);
       }
     }
-    
+
     $form = new \pay\models\forms\admin\Account($account);
     $request = \Yii::app()->getRequest();
     if ($request->getIsPostRequest())
@@ -31,25 +31,28 @@ class EditAction extends \CAction
           $account->EventId = $form->EventId;
         }
         $account->Own = $form->Own == 1 ? true : false;
-        if (!empty($form->OrderTemplateName))
+        if (!empty($form->ReceiptTemplateId))
         {
-          if (is_numeric($form->OrderTemplateName))
-          {
-            $account->OrderTemplateName = null;
-            $account->OrderTemplateId   = $form->OrderTemplateName;
-          }
-          else
-          {
-            $account->OrderTemplateName = $form->OrderTemplateName;
-            $account->OrderTemplateId   = null;
-          }
+          $account->ReceiptTemplateId = $form->ReceiptTemplateId;
+          $account->ReceiptEnable = true;
         }
         else
         {
-          $account->OrderTemplateName = null;
-           $account->OrderTemplateId  = null;
+          $account->ReceiptTemplateId = null;
+          $account->ReceiptEnable = false;
         }
-        
+
+        if (!empty($form->OrderTemplateId))
+        {
+          $account->OrderTemplateId = $form->OrderTemplateId;
+          $account->OrderEnable = true;
+        }
+        else
+        {
+          $account->OrderTemplateId = null;
+          $account->OrderEnable = false;
+        }
+
         $account->ReturnUrl = !empty($form->ReturnUrl) ? $form->ReturnUrl : null;
         if ($form->OfferFile !== null)
         {
@@ -59,7 +62,7 @@ class EditAction extends \CAction
         }
         $account->Offer = !empty($form->Offer) ? $form->Offer : null;
         $account->OrderLastTime = !empty($form->OrderLastTime) ? \Yii::app()->getDateFormatter()->format('yyyy-MM-dd', $form->OrderLastTime).' 23:59:59' : null;
-        $account->OrderEnable = $form->OrderEnable == 1 ? true : false;
+        $account->ReceiptLastTime = !empty($form->ReceiptLastTime) ? \Yii::app()->getDateFormatter()->format('yyyy-MM-dd', $form->ReceiptLastTime).' 23:59:59' : null;
         $account->Uniteller = $form->Uniteller == 1 ? true : false;
         $account->PayOnline = $form->PayOnline == 1 ? true : false;
         $account->save();
@@ -73,18 +76,18 @@ class EditAction extends \CAction
     {
       foreach ($account->getAttributes() as $attr => $value)
       {
-        if (property_exists($form, $attr))
+        if (property_exists($form, $attr) && !empty($value))
         {
           switch ($attr)
           {
             case 'OrderLastTime':
-              $form->OrderLastTime = \Yii::app()->getDateFormatter()->format('dd.MM.yyyy', $account->OrderLastTime);
+            case 'ReceiptLastTime':
+              $form->$attr = \Yii::app()->getDateFormatter()->format('dd.MM.yyyy', $value);
               break;
-            case 'OrderTemplateName':
-              $form->OrderTemplateName = $account->OrderTemplateId == null ? $account->OrderTemplateName : $account->OrderTemplateId;
-              break;
+
             default:
-              $form->$attr = $value;
+                $form->$attr = $value;
+              break;
           }
         }
       }

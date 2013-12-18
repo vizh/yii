@@ -27,17 +27,19 @@
   </div>
 </div>
 <div class="control-group">
-  <?=\CHtml::activeLabel($form, 'OrderTemplateName', ['class' => 'control-label']);?>
+  <?=\CHtml::activeLabel($form, 'OrderTemplateId', ['class' => 'control-label']);?>
   <div class="controls">
-    <?=\CHtml::activeDropDownList($form, 'OrderTemplateName', $form->getOrderTemplateNameData());?>
-    <?if (!$form->getAccount()->getIsNewRecord() && $form->getAccount()->OrderTemplateId !== null):?>
-      <a href="<?=$this->createUrl('/pay/admin/account/ordertemplate', ['templateId' => $form->getAccount()->OrderTemplateId, 'backUrl' => \Yii::app()->getRequest()->requestUri]);?>" class="btn"><?=\Yii::t('app', 'Изменить');?></a>
-    <?endif;?>
-    <div class="help-block m-top_5">
-      <a href="<?=$this->createUrl('/pay/admin/account/ordertemplate',['backUrl' => \Yii::app()->getRequest()->requestUri]);?>" class="btn btn-mini"><?=\Yii::t('app','Создать новый шаблон');?></a>
-    </div>
+    <?=\CHtml::activeDropDownList($form, 'OrderTemplateId', $form->getOrderTemplateData());?>
   </div>
 </div>
+
+<div class="control-group">
+  <?=\CHtml::activeLabel($form, 'ReceiptTemplateId', ['class' => 'control-label']);?>
+  <div class="controls">
+    <?=\CHtml::activeDropDownList($form, 'ReceiptTemplateId', $form->getOrderTemplateData());?>
+  </div>
+</div>
+
 <div class="control-group">
   <?=\CHtml::activeLabel($form, 'ReturnUrl', ['class' => 'control-label']);?>
   <div class="controls">
@@ -54,15 +56,15 @@
   </div>
 </div>
 <div class="control-group">
-  <?=\CHtml::activeLabel($form, 'OrderEnable', ['class' => 'control-label']);?>
-  <div class="controls">
-    <?=\CHtml::activeCheckBox($form, 'OrderEnable');?>
-  </div>
-</div>
-<div class="control-group">
   <?=\CHtml::activeLabel($form, 'OrderLastTime', ['class' => 'control-label']);?>
   <div class="controls">
     <?=\CHtml::activeTextField($form, 'OrderLastTime');?>
+  </div>
+</div>
+<div class="control-group">
+  <?=\CHtml::activeLabel($form, 'ReceiptLastTime', ['class' => 'control-label']);?>
+  <div class="controls">
+    <?=\CHtml::activeTextField($form, 'ReceiptLastTime');?>
   </div>
 </div>
 <div class="control-group">
