@@ -30,6 +30,27 @@
       </div>
     </div>
 
+    <div class="control-group">
+      <?=\CHtml::activeLabel($question, 'BeforeTitleText', ['class' => 'control-label']);?>
+      <div class="controls">
+        <?=\CHtml::activeTextField($question, 'BeforeTitleText', ['class' => 'span6']);?>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <?=\CHtml::activeLabel($question, 'AfterTitleText', ['class' => 'control-label']);?>
+      <div class="controls">
+        <?=\CHtml::activeTextField($question, 'AfterTitleText', ['class' => 'span6']);?>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <?=\CHtml::activeLabel($question, 'AfterQuestionText', ['class' => 'control-label']);?>
+      <div class="controls">
+        <?=\CHtml::activeTextField($question, 'AfterQuestionText', ['class' => 'span6']);?>
+      </div>
+    </div>
+
     <?if ($question->getForm()->getAdminView() != null):?>
       <?=$this->renderPartial($question->getForm()->getAdminView(), ['question' => $question]);?>
     <?endif;?>

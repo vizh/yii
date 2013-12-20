@@ -8,8 +8,6 @@ $path = $manager->publish(\Yii::getPathOfAlias('competence.assets') . '/images/m
 \Yii::app()->getClientScript()->registerScriptFile($manager->publish(\Yii::getPathOfAlias('competence.assets') . '/js/mailru2013/a1.js'), \CClientScript::POS_END);
 ?>
 
-<p class="text-center text-error m-bottom_20"><strong>Внимание!</strong> Выбранные в вопросе варианты, после продолжения опроса или возврата назад уже не смогут быть изменены.</p>
-
 <ul class="unstyled interview-photo">
   <?foreach ($form->getOptions() as $key => $value):?>
     <li data-key="<?=$key;?>">

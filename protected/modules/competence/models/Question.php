@@ -17,6 +17,9 @@ namespace competence\models;
  * @property bool $First
  * @property bool $Last
  * @property int $Sort
+ * @property string $BeforeTitleText
+ * @property string $AfterTitleText
+ * @property string $AfterQuestionText
  *
  * @property QuestionType $Type
  * @property Question $Prev
@@ -191,8 +194,11 @@ class Question extends \CActiveRecord
   public function attributeLabels()
   {
     return [
-      'Title' => \Yii::t('app', 'Текст вопроса'),
-      'SubTitle' => \Yii::t('app', 'Комментарий к вопросу'),
+      'Title' => \Yii::t('app', 'Вопрос'),
+      'SubTitle' => \Yii::t('app', 'Дополнительный текст к вопросу'),
+      'BeforeTitleText' => \Yii::t('app', 'Текст перед вопросом'),
+      'AfterTitleText' => \Yii::t('app', 'Текст после вопроса'),
+      'AfterQuestionText' => \Yii::t('app', 'Текст после вариантов ответов'),
     ];
   }
 

@@ -295,5 +295,8 @@ abstract class Base extends \CFormModel
       $this->question->addError('Title', 'Поле "Текст вопроса" не может быть пустым');
     }
     $this->question->SubTitle = $params['SubTitle'];
+    $this->question->BeforeTitleText = $params['BeforeTitleText'];
+    $this->question->AfterTitleText = $params['AfterTitleText'];
+    $this->question->AfterQuestionText = $params['AfterQuestionText'];
   }
 }

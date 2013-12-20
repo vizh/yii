@@ -10,6 +10,8 @@
       <input type="hidden" name="question" value="<?=$this->question->Id;?>">
       <?=CHtml::activeHiddenField($this->question->getForm(), '_t');?>
 
+      <?=$this->question->BeforeTitleText != null ? $this->question->BeforeTitleText : '';?>
+
       <h3>
         <?=$this->question->Title;?>
         <?if (!empty($this->question->SubTitle)):?>
@@ -19,7 +21,11 @@
 
       <?php $this->widget('competence\components\ErrorsWidget', array('form' => $this->question->getForm()));?>
 
+      <?=$this->question->AfterTitleText != null ? $this->question->AfterTitleText : '';?>
+
       <?=$content;?>
+
+      <?=$this->question->AfterQuestionText != null ? $this->question->AfterQuestionText : '';?>
 
 
       <div class="row interview-controls">
