@@ -38,7 +38,7 @@ class OrderItemCollectable
     }
 
     $price = $price * (1 - $this->getDiscount());
-    return (int)$price;
+    return (int)round($price);
   }
 
   private $discount = null;
