@@ -70,7 +70,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(688));
+    $criteria->addInCondition('"Participants"."EventId"', array(688, 246));
 
     // Beeline
 //    $criteria->addInCondition('"Participants"."EventId"', array(837));
@@ -124,8 +124,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       foreach ($users as $user)
       {
 
-//        $this->genBeePDF($user);
-
 //        print $user->Participants[0]->Role->Title;
 //        print $user->Participants[0]->getTicketUrl();
 //        exit();
@@ -140,9 +138,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $body = $this->renderPartial($template, array('user' => $user), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user)), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'promo' => $this->getPromo()), true);
-//        $body = $this->renderPartial($template, array('user' => $user, 'regLink' => $this->getRegLink($user), 'role' => $user->Participants[0]->Role->Title), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'promo' => $this->getPromo()), true);
+//        $body = $this->renderPartial($template, array('user' => $user, 'role' => $user->Participants[0]->Role->Title), true);
 
         $mail = new \ext\mailer\PHPMailer(false);
         $mail->Mailer = 'mail';
@@ -155,7 +152,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 200) { sleep(1); $j = 0; }; $j++;
 
-//        if ($j == 1) continue;
+        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -200,46 +197,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       echo 'Рассылка ушла!';
     }
-  }
-
-  private function genBeePDF($user)
-  {
-    ob_start();
-    ?>
-    <page backimg="http://runet-id.com/img/event/beesuper13/bee_pdf_bg.jpg">
-      <div style="text-align: center; position: absolute; bottom: 75mm; right: -3mm;"><img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100);?>" /><br/><?=$user->RunetId;?></div>
-    </page>
-    <?
-    $content = ob_get_clean();
-
-    require_once(\Yii::getPathOfAlias('ext.html2pdf.html2pdf').'.php');
-    $html2pdf = new HTML2PDF('P','A4','en');
-    $html2pdf->pdf->SetDisplayMode('fullpage');
-    $html2pdf->WriteHTML($content);
-    $html2pdf->Output($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-13/beeline_invite_'.$user->RunetId.'.pdf', 'F');
-  }
-
-  private function getRegLink($user)
-  {
-    $runetId = $user->RunetId;
-    $secret = 'xggMpIQINvHqR0QlZgZa';
-
-   	$hash = substr(md5($runetId.$secret), 0, 16);
-
-//    return 'http://ibcrussia.com/my/'.$runetId.'/'.$hash.'/';
-    return 'http://2013.russianinternetweek.ru/my/'.$runetId.'/'.$hash.'/?redirect=/vote/';
-//    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/vote/';
-  }
-
-  private function getWaybillLink($user)
-  {
-    $runetId = $user->RunetId;
-    $secret = 'xggMpIQINvHqR0QlZgZa';
-
-   	$hash = substr(md5($runetId.$secret), 0, 16);
-
-//    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/';
-    return 'http://2013.sp-ic.ru/my/'.$runetId.'/'.$hash .'/?redirect=/my/waybill.php';
   }
 
   private function getPromo()
