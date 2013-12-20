@@ -10,11 +10,12 @@ class Account extends \CFormModel
   public $Key;
   public $Secret;
   public $Delete;
+  public $Role;
   
   public function rules()
   {
     return [
-      ['EventTitle', 'required'],
+      ['EventTitle, Role', 'required'],
       ['EventId', 'exist', 'attributeName' => 'Id', 'className' => '\event\models\Event'],
       ['Ips', 'filter', 'filter' => [$this, 'filterIps']],
       ['Domains', 'filter', 'filter' => [$this, 'filterDomains']],
@@ -28,7 +29,8 @@ class Account extends \CFormModel
       'EventTitle' => \Yii::t('app', 'Название мероприятия'),
       'EventId'    => \Yii::t('app', 'Id меропрития'),
       'Ips'        => \Yii::t('app', 'IP адреса'),
-      'Domains'    => \Yii::t('app', 'Домены')
+      'Domains'    => \Yii::t('app', 'Домены'),
+      'Role' => \Yii::t('app', 'Тип аккаунта'),
     ];
   }
   
@@ -57,4 +59,14 @@ class Account extends \CFormModel
     }
     return $value;
   }
+
+  public function getRoles()
+  {
+    return [
+      '' => 'Выберите тип аккаунта',
+      'own' => 'Собственное мероприятие',
+      'partner' => 'Партнерское мероприятие'
+    ];
+  }
+
 }

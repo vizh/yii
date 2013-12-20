@@ -38,7 +38,8 @@ class Account extends \CActiveRecord
   {
     return array(
       'Domains' => array(self::HAS_MANY, '\api\models\Domain', 'AccountId'),
-      'Ips' => array(self::HAS_MANY, '\api\models\Ip', 'AccountId')
+      'Ips' => array(self::HAS_MANY, '\api\models\Ip', 'AccountId'),
+      'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId']
     );
   }
 
@@ -88,26 +89,6 @@ class Account extends \CActiveRecord
     }
 
     return $this->_dataBuilder;
-  }
-
-  /** @var \event\models\Event */
-  private $event;
-
-  /**
-   * @return \event\models\Event
-   * @throws \api\components\Exception
-   */
-  public function getEvent()
-  {
-    if ($this->event === null)
-    {
-      $this->event = \event\models\Event::model()->findByPk($this->EventId);
-      if ($this->event === null)
-      {
-        throw new \api\components\Exception(301);
-      }
-    }
-    return $this->event;
   }
 
   /**

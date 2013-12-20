@@ -4,7 +4,8 @@ class AccountController extends \application\components\controllers\AdminMainCon
   public function actionIndex()
   {
     $criteria = new \CDbCriteria();
-    $criteria->order = '"t"."EventId" ASC';
+    $criteria->with = ['Event' => ['together' => false]];
+    $criteria->order = '"t"."EventId" DESC';
     $accounts = \api\models\Account::model()->findAll($criteria);
     $this->setPageTitle(\Yii::t('app', 'API аккаунты'));
     $this->render('index', ['accounts' => $accounts]);

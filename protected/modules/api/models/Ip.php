@@ -9,6 +9,10 @@ namespace api\models;
 class Ip extends \CActiveRecord
 {
 
+  /**
+   * @param string $className
+   * @return Ip
+   */
   public static function model($className=__CLASS__)
   {
     return parent::model($className);

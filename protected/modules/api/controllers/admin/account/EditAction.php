@@ -4,7 +4,10 @@ namespace api\controllers\admin\account;
 
 class EditAction extends \CAction
 {
+  /** @var \api\models\forms\admin\Account */
   private $form;
+
+  /** @var \api\models\Account */
   private $account;
   
   public function run($accountId = null)
@@ -33,6 +36,7 @@ class EditAction extends \CAction
         $this->form->Id  = $this->account->Id;
         $this->form->Key = $this->account->Key;
         $this->form->Secret = $this->account->Secret;
+        $this->form->Role = $this->account->Role;
         if (!empty($this->account->Event))
         {
           $this->form->EventId = $this->account->EventId;
@@ -65,6 +69,7 @@ class EditAction extends \CAction
         $this->account->Key = \application\components\utility\Texts::GenerateString(10, true);
         $this->account->Secret = \application\components\utility\Texts::GenerateString(25);
       }
+      $this->account->Role = $this->form->Role;
       $this->account->save();
 
       $ips = [];

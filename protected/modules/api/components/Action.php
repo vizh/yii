@@ -29,11 +29,16 @@ class Action extends \CAction
   }
 
   /**
+   * @throws Exception
    * @return \event\models\Event
    */
   public function getEvent()
   {
-    return $this->getAccount()->getEvent();
+    if ($this->getAccount()->Event == null)
+    {
+      throw new \api\components\Exception(301);
+    }
+    return $this->getAccount()->Event;
   }
 
   /**

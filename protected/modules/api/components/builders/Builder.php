@@ -87,7 +87,7 @@ class Builder
    */
   public function buildUserEvent(\user\models\User $user)
   {
-    $isOnePart = $this->account->EventId != null && empty($this->account->getEvent()->Parts);
+    $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
     foreach ($user->Participants as $participant)
     {
       if ($this->account->EventId != null && $participant->EventId == $this->account->EventId)

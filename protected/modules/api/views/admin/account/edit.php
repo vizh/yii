@@ -1,26 +1,32 @@
+<?php
+/**
+ * @var \api\models\Account $account
+ * @var \api\models\forms\admin\Account $form
+ */
+?>
 <?=\CHtml::form('','POST', ['class' => 'form-horizontal']);?>
-  <?=\CHtml::activeHiddenField($form, 'Id');?>
-  <?=\CHtml::activeHiddenField($form, 'EventId');?>
-  <div class="btn-toolbar">
-    <?if (!$account->getIsNewRecord()):?>
-      <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']);?>
-    <?endif;?>
+<?=\CHtml::activeHiddenField($form, 'Id');?>
+<?=\CHtml::activeHiddenField($form, 'EventId');?>
+<div class="btn-toolbar">
+  <?if (!$account->getIsNewRecord()):?>
+    <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']);?>
+  <?endif;?>
+</div>
+
+<div class="well">
+  <?=\CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
+  <?if (\Yii::app()->getUser()->hasFlash('success')):?>
+    <div class="alert alert-success"><?=\Yii::app()->getUser()->getFlash('success');?></div>
+  <?endif;?>
+
+  <div class="control-group">
+    <?=\CHtml::activeLabel($form, 'EventTitle', ['class' => 'control-label']);?>
+    <div class="controls">
+      <?=\CHtml::activeTextField($form, 'EventTitle', ['class' => 'input-xxlarge', 'readonly' => !$account->getIsNewRecord()]);?>
+    </div>
   </div>
 
-  <div class="well">
-    <?=\CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
-    <?if (\Yii::app()->getUser()->hasFlash('success')):?>
-      <div class="alert alert-success"><?=\Yii::app()->getUser()->getFlash('success');?></div>
-    <?endif;?>
-    
-    <div class="control-group">
-      <?=\CHtml::activeLabel($form, 'EventTitle', ['class' => 'control-label']);?>
-      <div class="controls">
-        <?=\CHtml::activeTextField($form, 'EventTitle', ['class' => 'input-xxlarge', 'readonly' => !$account->getIsNewRecord()]);?>
-      </div>
-    </div>
-    
-    <?if (!$account->getIsNewRecord()):?>
+  <?if (!$account->getIsNewRecord()):?>
     <div class="control-group">
       <?=\CHtml::activeLabel($form, 'Key', ['class' => 'control-label']);?>
       <div class="controls">
@@ -31,6 +37,12 @@
       <?=\CHtml::activeLabel($form, 'Secret', ['class' => 'control-label']);?>
       <div class="controls">
         <?=\CHtml::activeTextField($form, 'Secret', ['readonly' => 'readonly', 'class' => 'input-xlarge']);?>
+      </div>
+    </div>
+    <div class="control-group">
+      <?=\CHtml::activeLabel($form, 'Role', ['class' => 'control-label']);?>
+      <div class="controls">
+        <?=\CHtml::activeDropDownList($form, 'Role', $form->getRoles(), ['class' => 'input-xlarge']);?>
       </div>
     </div>
     <div class="control-group domains">
@@ -45,26 +57,33 @@
         <button class="btn btn-mini" type="button"><?=\Yii::t('app', 'Добавить IP адрес');?></button>
       </div>
     </div>
-    <?else:?>
+  <?else:?>
+    <div class="control-group">
+      <?=\CHtml::activeLabel($form, 'Role', ['class' => 'control-label']);?>
+      <div class="controls">
+        <?=\CHtml::activeDropDownList($form, 'Role', $form->getRoles(), ['class' => 'input-xlarge']);?>
+      </div>
+    </div>
+
     <div class="control-group" style="margin-bottom: 0;">
       <div class="controls">
         <?=\CHtml::submitButton(\Yii::t('app', 'Сгенерировать доступы'), ['class' => 'btn btn-success']);?>
       </div>
     </div>
-    <?endif;?>
-  </div>
+  <?endif;?>
+</div>
 <?=\CHtml::endForm();?>
 
 
 <script type="text/javascript">
   domains = [];
   <?foreach ($form->Domains as $domain):?>
-    domains.push('<?=$domain;?>');
+  domains.push('<?=$domain;?>');
   <?endforeach;?>
-    
+
   ips = [];
   <?foreach ($form->Ips as $ip):?>
-    ips.push('<?=$ip;?>');
+  ips.push('<?=$ip;?>');
   <?endforeach;?>
 </script>
 
