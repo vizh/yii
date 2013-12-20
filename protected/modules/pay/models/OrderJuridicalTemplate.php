@@ -25,6 +25,8 @@ namespace pay\models;
  * @property string $OrderTemplateName
  * @property string $NumberFormat
  * @property int $Number
+ * @property int $ParentTemplateId
+ * @property string $CreationTime
  *
  */
 class OrderJuridicalTemplate extends \CActiveRecord
@@ -44,7 +46,26 @@ class OrderJuridicalTemplate extends \CActiveRecord
   {
     return 'Id';
   }
-  
+
+  protected function beforeSave()
+  {
+    if (is_array($this->SignFirstImageMargin))
+    {
+      $this->SignFirstImageMargin  = implode(',', $this->SignFirstImageMargin);
+    }
+
+    if (is_array($this->SignSecondImageMargin))
+    {
+      $this->SignSecondImageMargin = implode(',', $this->SignSecondImageMargin);
+    }
+
+    if (is_array($this->StampImageMargin))
+    {
+      $this->StampImageMargin = implode(',', $this->StampImageMargin);
+    }
+    return parent::beforeSave();
+  }
+
   protected function afterFind()
   {
     $this->SignFirstImageMargin  = explode(',', trim($this->SignFirstImageMargin,')('));  
@@ -80,7 +101,8 @@ class OrderJuridicalTemplate extends \CActiveRecord
   
   private function getImagePath($name, $absolute = false)
   {
-    return ($absolute ? \Yii::getPathOfAlias('webroot') : '').'/img/pay/bill/template/'.$this->Id.'/'.$name;
+    $id = $this->ParentTemplateId !== null ? $this->ParentTemplateId : $this->Id;
+    return ($absolute ? \Yii::getPathOfAlias('webroot') : '').'/img/pay/bill/template/'.$id.'/'.$name;
   }
 
   public function getNextNumber()
@@ -92,5 +114,19 @@ class OrderJuridicalTemplate extends \CActiveRecord
     \Yii::app()->getDb()->createCommand($sql)->execute(['Id' => $this->Id]);
 
     return sprintf($this->NumberFormat, $number);
+  }
+
+  /**
+   * @param int $parentId
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byParentId($parentId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."ParentTemplateId" = :ParentId';
+    $criteria->params = array('ParentId' => $parentId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 }

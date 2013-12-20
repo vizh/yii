@@ -10,7 +10,7 @@
  */
 ?>
 
-<?$this->renderPartial('bills/base', [
+<?$this->renderPartial('pay.views.order.bills.base', [
   'order' => $order,
   'template' => $template,
   'billData' => $billData,
@@ -19,7 +19,7 @@
 ]);?>
 
 
-<div>
+<div style="margin-top: 100px;">
   <?if ($withSign):?>
     <div style="position: absolute; margin-left: <?=$template->SignFirstImageMargin[1];?>px; margin-top:<?=$template->SignFirstImageMargin[0];?>px">
       <?=\CHtml::image($template->getFirstSignImagePath());?>
@@ -41,7 +41,7 @@
       <td style="width: 1px; overflow: visible;white-space:nowrap;">(<?=$template->SignFirstName;?>)</td>
     </tr>
     <?if (!empty($template->SignSecondTitle) && !empty($template->SignSecondName)):?>
-      <tr><td style="height: 10px;" colspan="3"></td></tr>
+      <tr><td style="height: 20px;" colspan="3"></td></tr>
       <tr>
         <td style="width: 1px; overflow: visible;white-space:nowrap;"><?=$template->SignSecondTitle;?></td>
         <td style="border-bottom: 1px solid #000; padding: 0 10px;"></td>

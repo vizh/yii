@@ -5,12 +5,8 @@
 ?>
 <?=\CHtml::form('','POST',['class' => 'form-horizontal', 'enctype' => 'multipart/form-data']);?>
 <div class="btn-toolbar clearfix">
-  <?if (!empty($backUrl)):?>
-    <a href="<?=$backUrl;?>" class="btn"><i class="icon-arrow-left"></i> <?=\Yii::t('app', 'Вернуться');?></a>
-    <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success pull-right']);?>
-  <?else:?>
-    <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']);?>
-  <?endif;?>
+  <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']);?>
+  <p class="text-error m-top_5" style="font-size: 11px; margin-bottom: 0;"><?=\Yii::t('app', 'Нажимая кнопку сохранить, вы берете на себя отвественность за то, куда придут деньги плательщиков!');?></p>
 </div>
 <div class="well">
   <div class="row-fluid">
@@ -19,6 +15,8 @@
     <?if (\Yii::app()->getUser()->hasFlash('success')):?>
       <div class="alert alert-success"><?=\Yii::app()->getUser()->getFlash('success');?></div>
     <?endif;?>
+
+    <?if ($template->ParentTemplateId == null):?>
     <div class="control-group">
       <?=\Chtml::activeLabel($form, 'Title', ['class' => 'control-label']);?>
       <div class="controls">
@@ -91,11 +89,28 @@
         <?=\CHtml::activeCheckBox($form, 'VAT');?>
       </div>
     </div>
+    <div class="control-group">
+      <?=\Chtml::activeLabel($form, 'NumberFormat', ['class' => 'control-label']);?>
+      <div class="controls">
+        <?=\CHtml::activeTextField($form, 'NumberFormat');?>
+        <span class="help-inline"><strong>%s</strong> &mdash; <?=\Yii::t('app', 'место, куда выводить номер счета. Например IMH-%s будет отображаться как IMH-001');?></span>
+      </div>
+    </div>
+
+    <?if($template->getIsNewRecord() || $template->Number == 1):?>
+    <div class="control-group">
+      <?=\Chtml::activeLabel($form, 'Number', ['class' => 'control-label']);?>
+      <div class="controls">
+        <?=\CHtml::activeTextField($form, 'Number');?>
+        <p class="m-top_5 text-error"><?=\Yii::t('app', 'Внимание! Это поле редактируется только один раз');?></p>
+      </div>
+    </div>
+    <?endif;?>
 
     <div class="control-group m-top_20">
       <?=\Chtml::activeLabel($form, 'Stamp', ['class' => 'control-label']);?>
       <div class="controls">
-        <?=\CHtml::activeFileField($form, 'Stamp');?>
+        <?=\CHtml::fileField(\CHtml::activeName($form, 'Stamp'));?>
         <?if (file_exists($template->getStampImagePath(true))):?>
           <div class="m-top_5"><?=\CHtml::image($template->getStampImagePath());?></div>
         <?endif;?>
@@ -134,7 +149,7 @@
     <div class="control-group">
       <?=\Chtml::activeLabel($form, 'SignFirstImage', ['class' => 'control-label']);?>
       <div class="controls">
-        <?=\CHtml::activeFileField($form, 'SignFirstImage');?>
+        <?=\CHtml::fileField(\CHtml::activeName($form, 'SignFirstImage'));?>
         <?if (file_exists($template->getFirstSignImagePath(true))):?>
           <div class="m-top_5"><?=\CHtml::image($template->getFirstSignImagePath());?></div>
         <?endif;?>
@@ -173,7 +188,7 @@
     <div class="control-group">
       <?=\Chtml::activeLabel($form, 'SignSecondImage', ['class' => 'control-label']);?>
       <div class="controls">
-        <?=\CHtml::activeFileField($form, 'SignSecondImage');?>
+        <?=\CHtml::fileField(\CHtml::activeName($form, 'SignSecondImage'));?>
         <?if (file_exists($template->getSecondSignImagePath(true))):?>
           <div class="m-top_5"><?=\CHtml::image($template->getSecondSignImagePath());?></div>
         <?endif;?>
@@ -191,9 +206,35 @@
         <?=\CHtml::activeTextField($form, 'SignSecondImageMarginTop');?>
       </div>
     </div>
+
+    <?else:?>
+      <div class="control-group">
+        <?=\Chtml::activeLabel($form, 'Title', ['class' => 'control-label']);?>
+        <div class="controls">
+          <?=\CHtml::activeTextField($form, 'Title', ['class' => 'input-xxlarge']);?>
+        </div>
+      </div>
+      <div class="control-group">
+        <?=\Chtml::activeLabel($form, 'NumberFormat', ['class' => 'control-label']);?>
+        <div class="controls">
+          <?=\CHtml::activeTextField($form, 'NumberFormat');?>
+          <span class="help-inline"><strong>%s</strong> &mdash; <?=\Yii::t('app', 'место, куда выводить номер счета. Например IMH-%s будет отображаться как IMH-001');?></span>
+        </div>
+      </div>
+      <?if($template->getIsNewRecord() || $template->Number == 1):?>
+        <div class="control-group">
+          <?=\Chtml::activeLabel($form, 'Number', ['class' => 'control-label']);?>
+          <div class="controls">
+            <?=\CHtml::activeTextField($form, 'Number');?>
+            <p class="m-top_5 text-error"><?=\Yii::t('app', 'Внимание! Это поле редактируется только один раз');?></p>
+          </div>
+        </div>
+      <?endif;?>
+      <div class="alert alert-info"><?=\Yii::t('app', 'Данный шаблон яляется копией другово шаблона. Для того, чтобы внести изменения в основные поля, отредатируйте шаблон-родитель <a href="{url}" class="btn btn-mini">перейти</a>', ['{url}' => $this->createUrl('/pay/admin/orderjuridicaltemplate/edit', ['templateId' => $template->ParentTemplateId])]);?></div>
+    <?endif;?>
     </div>
     <div class="span2">
-      <a href="<?=$this->createUrl('/pay/admin/account/ordertemplate', ['templateId' => $template->Id, 'view' => true]);?>" class="btn btn-large" target="_blank"><i class="icon-eye-open"></i> <?=\Yii::t('app', 'Просмотр');?></a>
+      <a href="<?=$this->createUrl('/pay/admin/orderjuridicaltemplate/edit', ['templateId' => $template->Id, 'view' => true]);?>" class="btn btn-large" target="_blank"><i class="icon-eye-open"></i> <?=\Yii::t('app', 'Просмотр');?></a>
     </div>
   </div>
 </div>

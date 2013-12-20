@@ -10,7 +10,7 @@
  */
 ?>
 
-<?$this->renderPartial('bills/base', [
+<?$this->renderPartial('pay.views.order.bills.base', [
   'order' => $order,
   'template' => $template,
   'billData' => $billData,
@@ -20,7 +20,7 @@
 
 <h4 class="offer-title">Публичная оферта на оказание услуг</h4>
 <div class="offer">
-  <?=$this->renderPartial('bills/offer/imh');?>
+  <?=$this->renderPartial('pay.views.order.bills.offer.imh');?>
 </div>
 
 <?if ($withSign):?>

@@ -10,7 +10,7 @@
  */
 ?>
 
-<?$this->renderPartial('bills/base', [
+<?$this->renderPartial('pay.views.order.bills.base', [
   'order' => $order,
   'template' => $template,
   'billData' => $billData,

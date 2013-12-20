@@ -3,6 +3,8 @@ namespace pay\models\forms\admin;
 
 class OrderTemplate extends \CFormModel
 {
+  const ChildScenario = 'Child';
+
   public $Title;
   public $Recipient;
   public $Address;
@@ -15,6 +17,8 @@ class OrderTemplate extends \CFormModel
   public $Phone;
   public $Fax;
   public $VAT = true;
+  public $NumberFormat;
+  public $Number = 1;
 
   public $Stamp;
   public $StampMarginLeft;
@@ -47,6 +51,8 @@ class OrderTemplate extends \CFormModel
       'BIK' => \Yii::t('app', 'БИК'),
       'Phone' => \Yii::t('app', 'Телефон'),
       'Fax' => \Yii::t('app', 'Факс'),
+      'NumberFormat' => \Yii::t('app', 'Формат номер счета'),
+      'Number' => \Yii::t('app', 'Начальный номер счета'),
         
       'SignFirstTitle' => \Yii::t('app', 'Заголовок подписи'),
       'SignFirstName'  => \Yii::t('app', 'Имя около подписи'),
@@ -69,12 +75,15 @@ class OrderTemplate extends \CFormModel
   public function rules()
   {
     return [
-      ['Title,Recipient,Address,Phone,Bank,INN,BIK,AccountNumber,SignFirstTitle,SignFirstName,BankAccountNumber', 'required'],
-      ['SignFirstImage,Stamp,SignSecondImage', 'file', 'types' => 'png', 'allowEmpty' => true],
-      ['KPP,Fax,SignSecondTitle,SignSecondName', 'safe'],
-      ['VAT', 'boolean'],
-      ['SignFirstImageMarginLeft,SignFirstImageMarginTop,SignSecondImageMarginLeft,SignSecondImageMarginTop,StampMarginLeft,StampMarginTop', 'numerical', 'allowEmpty' => true],
-      ['SignFirstImageMarginLeft,SignFirstImageMarginTop,SignSecondImageMarginLeft,SignSecondImageMarginTop,StampMarginLeft,StampMarginTop', 'default', 'value' => 0, 'setOnEmpty' => true]
+      ['Title', 'required'],
+      ['NumberFormat', 'safe'],
+      ['Number', 'numerical'],
+      ['Recipient,Address,Phone,Bank,INN,BIK,AccountNumber,BankAccountNumber', 'required', 'except' => self::ChildScenario],
+      ['SignFirstImage,Stamp,SignSecondImage', 'file', 'types' => 'png', 'allowEmpty' => true, 'except' => self::ChildScenario],
+      ['KPP,Fax,SignSecondTitle,SignSecondName,SignFirstTitle,SignFirstName', 'safe', 'except' => self::ChildScenario],
+      ['VAT', 'boolean', 'except' => self::ChildScenario],
+      ['SignFirstImageMarginLeft,SignFirstImageMarginTop,SignSecondImageMarginLeft,SignSecondImageMarginTop,StampMarginLeft,StampMarginTop', 'numerical', 'allowEmpty' => true, 'except' => self::ChildScenario],
+      ['SignFirstImageMarginLeft,SignFirstImageMarginTop,SignSecondImageMarginLeft,SignSecondImageMarginTop,StampMarginLeft,StampMarginTop', 'default', 'value' => 0, 'setOnEmpty' => true, 'except' => self::ChildScenario]
     ];
   }
 }

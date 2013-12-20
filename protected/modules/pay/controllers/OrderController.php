@@ -16,7 +16,6 @@ class OrderController extends \application\components\controllers\MainController
     {
       throw new \CHttpException(404);
     }
-    $this->setPageTitle('Счёт № ' . $order->Number);
 
     $billData = array();
     $total = 0;
@@ -62,6 +61,8 @@ class OrderController extends \application\components\controllers\MainController
       $viewName = 'receipt/template';
     }
 
+
+    $this->setPageTitle('Счёт № ' . $order->Number);
     $this->render($viewName, [
       'order' => $order,
       'billData' => $billData,

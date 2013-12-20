@@ -38,6 +38,7 @@ return array(
     'AdminCatalogCompanyPerPage' => 20,
     'AdminPayAccountPerPage' => 50,
     'AdminMailPerPage' => 50,
+    'AdminOrderJuridicalTemplatePerPage' => 50,
     
     'CatalogCompanyDir' => '/files/catalog/company/', // файловая директория для хранения каталога логотипов компаний
       
