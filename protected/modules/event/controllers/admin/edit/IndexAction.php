@@ -98,23 +98,27 @@ class IndexAction extends \CAction
         // Сохранение виджетов
         foreach ($form->Widgets as $class => $params)
         {
-          $eventWidget = \event\models\Widget::model()->byEventId($event->Id)->byName($class)->find();
-          if ($eventWidget == null && $params['Activated'] == 1)
+          $widgetClass = \event\models\WidgetClass::model()->byClass($class)->find();
+          if ($widgetClass == null)
+            continue;
+
+          $linkWidget = \event\models\LinkWidget::model()->byEventId($event->Id)->byClassId($widgetClass->Id)->find();
+          if ($linkWidget == null && $params['Activated'] == 1)
           {
-            $eventWidget = new \event\models\Widget();
-            $eventWidget->EventId = $event->Id;
-            $eventWidget->Name  = $class;
-            $eventWidget->Order = $params['Order'];
-            $eventWidget->save();
+            $linkWidget = new \event\models\LinkWidget();
+            $linkWidget->EventId = $event->Id;
+            $linkWidget->ClassId = $widgetClass->Id;
+            $linkWidget->Order   = $params['Order'];
+            $linkWidget->save();
           }
-          else if ($eventWidget !== null && $params['Activated'] == 0)
+          else if ($linkWidget !== null && $params['Activated'] == 0)
           {
-            $eventWidget->delete();
+            $linkWidget->delete();
           }
-          else if ($eventWidget !== null && $params['Activated'] == 1)
+          else if ($linkWidget !== null && $params['Activated'] == 1)
           {
-            $eventWidget->Order = $params['Order'];
-            $eventWidget->save();
+            $linkWidget->Order = $params['Order'];
+            $linkWidget->save();
           }
         }
 
@@ -145,7 +149,7 @@ class IndexAction extends \CAction
         );
       }
     }
-    
+
     $widgetFactory = new \event\components\WidgetFactory();
     $widgets = new \stdClass();
     $widgets->All = $widgetFactory->getWidgets($event);

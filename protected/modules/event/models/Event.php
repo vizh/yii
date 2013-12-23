@@ -28,7 +28,7 @@ namespace event\models;
  * @property LinkSite $LinkSite
  * @property Type $Type
  *
- * @property Widget[] $Widgets
+ * @property LinkWidget[] $Widgets
  * @property Attribute[] $Attributes
  * @property Partner[] $Partners
  *
@@ -86,7 +86,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
       'Sections' => array(self::HAS_MANY, '\event\models\section\Section', 'EventId', 'order' => '"Sections"."StartTime" ASC, "Sections"."EndTime" ASC'),
       'Halls' => array(self::HAS_MANY, '\event\models\section\Hall', 'EventId', 'order' => '"Halls"."Order" ASC'),
         
-      'Widgets' => array(self::HAS_MANY, '\event\models\Widget', 'EventId', 'order' => '"Widgets"."Order" ASC'),
+      'Widgets' => array(self::HAS_MANY, '\event\models\LinkWidget', 'EventId', 'order' => '"Widgets"."Order" ASC', 'with' => 'Class'),
       'Attributes' => array(self::HAS_MANY, '\event\models\Attribute', 'EventId'),
 
       'Partners' => array(self::HAS_MANY, '\event\models\Partner', 'EventId'),

@@ -52,12 +52,11 @@ class LinkProfessionalInterest extends \CActiveRecord
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
-  
+
   /**
-   * 
    * @param int $eventId
    * @param bool $useAnd
-   * @return \event\models\Widget
+   * @return $this
    */
   public function byEventId($eventId, $useAnd = true)
   {

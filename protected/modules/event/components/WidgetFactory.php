@@ -9,30 +9,12 @@ class WidgetFactory
    */
   public function getWidgets($event)
   {
-    $clases = [
-      '\event\widgets\About',
-      '\event\widgets\Adv',
-      '\event\widgets\Comments',
-      '\event\widgets\Contacts',
-      '\event\widgets\Date',
-      '\event\widgets\FastRegistration',
-      '\event\widgets\Header',
-      '\event\widgets\Invite',
-      '\event\widgets\Location',
-      '\event\widgets\Partners',
-      '\event\widgets\PhotoSlider',
-      '\event\widgets\ProfessionalInterests',
-      '\event\widgets\Program',
-      '\event\widgets\Registration',
-      '\event\widgets\Users',
-      '\event\widgets\header\Banner',
-      '\event\widgets\header\Custom'
-    ];
-    
+    $classes = \event\models\WidgetClass::model()->byVisible(true)->findAll();
+
     $widgets = [];
-    foreach ($clases as $class)
+    foreach ($classes as $class)
     {
-      $widget = \Yii::app()->getController()->createWidget($class, array('event' => $event));
+      $widget = \Yii::app()->getController()->createWidget($class->Class, array('event' => $event));
       if ($widget instanceof \event\components\IWidget)
       {
         $widgets[] = $widget;

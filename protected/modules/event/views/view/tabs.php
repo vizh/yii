@@ -3,7 +3,7 @@
  * @var $event \event\models\Event
  */
 $firstTab = true;
-/** @var \event\models\Widget[] $widgets */
+/** @var \event\models\WidgetClass[] $widgets */
 $widgets = array();
 foreach ($event->Widgets as $widget)
 {

@@ -210,28 +210,30 @@
       
       <h4><?=\Yii::t('app', 'Контентная область');;?></h4>
       <?foreach ($widgetsAll[\event\components\WidgetPosition::Content] as $widget):?>
-         <div class="m-bottom_10 row-fluid">
-          <div class="span8">
-            <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Widgets['.get_class($widget).'][Activated]', array('checked' => isset($widgets->Used[get_class($widget)]) ? true : false));?> <?=$widget->getTitle();?></label>
-          </div>
-          <div class="span4">
-            <?php
-              if (isset($widgets->Used[get_class($widget)])):
-                $form->Widgets[get_class($widget)]['Order'] = $widgets->Used[get_class($widget)]->Order;
-              endif
-            ;?>
-            <?if ($widget->getAdminPanel() !== NULL && isset($widgets->Used[get_class($widget)])):?>
-              <a href="" class="btn"><i class="icon-edit"></i></a>
-            <?endif;?>
-            <?=\CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini'));?>
-          </div>
+       <?$class = get_class($widget);?>
+       <div class="m-bottom_10 row-fluid">
+        <div class="span8">
+          <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Widgets['.get_class($widget).'][Activated]', array('checked' => isset($widgets->Used[get_class($widget)]) ? true : false));?> <?=$widget->getTitle();?></label>
         </div>
+        <div class="span4">
+          <?php
+            if (isset($widgets->Used[get_class($widget)])):
+              $form->Widgets[get_class($widget)]['Order'] = $widgets->Used[get_class($widget)]->Order;
+            endif
+          ;?>
+          <?if ($widget->getAdminPanel() !== NULL && isset($widgets->Used[get_class($widget)])):?>
+            <a href="<?=$this->createUrl('/event/admin/edit/widget', array('widget' => $class, 'eventId' => $event->Id));?>" class="btn"><i class="icon-edit"></i></a>
+          <?endif;?>
+          <?=\CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini'));?>
+        </div>
+      </div>
       <?endforeach;?>
     </div>
     
     <div class="span3">
       <h4><?=\Yii::t('app', 'Табы');;?></h4>
       <?foreach ($widgetsAll[\event\components\WidgetPosition::Tabs] as $widget):?>
+         <?$class = get_class($widget);?>
          <div class="m-bottom_10 row-fluid">
           <div class="span8">
             <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Widgets['.get_class($widget).'][Activated]', array('checked' => isset($widgets->Used[get_class($widget)]) ? true : false));?> <?=$widget->getTitle();?></label>
@@ -243,7 +245,7 @@
               endif
             ;?>
             <?if ($widget->getAdminPanel() !== NULL && isset($widgets->Used[get_class($widget)])):?>
-              <a href="" class="btn"><i class="icon-edit"></i></a>
+              <a href="<?=$this->createUrl('/event/admin/edit/widget', array('widget' => $class, 'eventId' => $event->Id));?>" class="btn"><i class="icon-edit"></i></a>
             <?endif;?>
             <?=\CHtml::activeDropDownList($form, 'Widgets['.get_class($widget).'][Order]', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini'));?>
           </div>
