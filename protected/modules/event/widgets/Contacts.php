@@ -10,7 +10,8 @@ class Contacts extends \event\components\Widget
     {
       $phones[] = $linkPhone->Phone->__toString();
     }
-    $this->render('contacts', array('phones' => $phones));
+    $viewName = !$this->event->FullWidth ? 'contacts' : 'contacts-fullwidth';
+    $this->render($viewName, ['phones' => $phones]);
   }
 
   /**
