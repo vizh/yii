@@ -9,22 +9,17 @@ CKEDITOR.editorConfig = function( config ) {
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
-	config.toolbarGroups = [
-		{ name: 'links' },
-		{ name: 'forms' },
-		{ name: 'tools' },
-		{ name: 'document',	groups: [ 'mode', 'document', 'doctools' ]},
-		{ name: 'others' },
-		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup']},
-		{ name: 'paragraph',   groups: [ 'list'] },
-		{ name: 'colors' },
-    { name: 'insert' }
+	config.toolbar = [
+		{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ]},
+		{ name: 'document', items : [ 'Source' ]},
+    ['PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ],
+		{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat' ]},
+		{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList' ] },
+    { name: 'insert' , items: [ 'Table','Image']},
+    { name: 'styles', items: ['Format'] }
 	];
-
-	config.removeButtons = 'Underline,Subscript,Superscript';
-
 	config.allowedContent = true;
   config.autoParagraph = false;
-
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+  config.format_tags = 'h1;h2;h3;h4;h5';
 };

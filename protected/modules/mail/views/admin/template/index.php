@@ -5,6 +5,7 @@
   <table class="table">
     <thead>
       <th><?=\Yii::t('app', 'Название');?></th>
+      <th><?=\Yii::t('app', 'Дата создания');?></th>
       <th></th>
       <th></th>
       <th></th>
@@ -15,6 +16,7 @@
         <?/* @var \mail\models\Template $template */?>
         <tr>
           <td><a href="<?=$this->createUrl('/mail/admin/template/edit', ['templateId' => $template->Id]);?>"><?=$template->Title;?></a></td>
+          <td><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy HH:mm', $template->CreationTime);?></td>
           <td>
             <?if ($template->Active):?>
               <span class="label label-success"><?=\Yii::t('app', 'Запущена');?> <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy HH:mm', $template->ActivateTime);?></span>

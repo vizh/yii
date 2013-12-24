@@ -10,7 +10,7 @@ class Template extends \CFormModel
 
   public $Title;
   public $Subject;
-  public $From = 'user@runet-id.com';
+  public $From = 'users@runet-id.com';
   public $FromName = '—RUNET—ID—';
   public $SendPassbook;
   public $SendUnsubscribe;
@@ -29,8 +29,8 @@ class Template extends \CFormModel
       'FromName' => \Yii::t('app', 'Имя отправителя письма'),
       'SendPassbook' => \Yii::t('app', 'Добавлять PassBook'),
       'SendUnsubscribe' => \Yii::t('app', 'Отправлять отписавшимся'),
-      'Active' => \Yii::t('app', 'Активировать рассылку'),
-      'Test' => \Yii::t('app', 'Тестовая рассылка'),
+      'Active' => \Yii::t('app', 'Рассылка по выбранным получателям'),
+      'Test' => \Yii::t('app', 'Получатели тестовой рассылки'),
       'Body' => \Yii::t('app', 'Тело письма')
     ];
   }
@@ -148,7 +148,7 @@ class Template extends \CFormModel
     $roles = \event\models\Role::model()->findAll(['order' => '"t"."Title"']);
     foreach ($roles as $role)
     {
-      $data[$role->Id] = $role->Id.' - '.$role->Title;
+      $data[] = ['label' => $role->Id.' - '.$role->Title, 'value' => $role->Id];
     }
     return $data;
   }

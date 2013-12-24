@@ -88,6 +88,14 @@ class EditAction extends \CAction
     if ($this->template->Active)
     {
       $this->template->ActivateTime = date('Y-m-d H:i:s');
+      if (!$this->template->getIsNewRecord())
+      {
+        $logs = \mail\models\TemplateLog::model()->byTemplateId($this->template->Id)->findAll();
+        foreach ($logs as $log)
+        {
+          $log->delete();
+        }
+      }
     }
 
     $filter = new \mail\components\filter\Event();
@@ -145,6 +153,8 @@ class EditAction extends \CAction
         {
           $condition[$property->getName()] = isset($criteria->{$property->getName()}) ? $criteria->{$property->getName()} : null;
         }
+        $event = \event\models\Event::model()->findByPk($condition['eventId']);
+        $condition['eventLabel'] = $event->Id.', '.$event->Title;
         $conditions[] = $condition;
       }
     }

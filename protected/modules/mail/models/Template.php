@@ -18,6 +18,7 @@ namespace mail\models;
  * @property bool $Success
  * @property string $SuccessTime
  * @property string $ViewHash
+ * @property string $CreationTime
  *
  */
 class Template extends \CActiveRecord
@@ -61,7 +62,7 @@ class Template extends \CActiveRecord
       {
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('"t"."Id"', \CHtml::listData($this->testUsers, 'Id', 'Id'));
-        $criteria->mergeWith($this->getDbCriteria());
+        $criteria->mergeWith($this->getCriteria());
         $recipients = \user\models\User::model()->findAll($criteria);
       }
       foreach ($recipients as $user)

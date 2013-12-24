@@ -6,6 +6,7 @@
 ?>
 <script type="text/javascript">
   $(function () {
+    TemplateEdit.roles = <?=json_encode($form->getEventRolesData());?>;
     <?foreach ($form->Conditions as $condition):?>
       <?
       switch($condition['by']):
@@ -15,6 +16,10 @@
       endswitch;
       ?>
     <?endforeach;?>
+
+    <?if ($template->Active):?>
+      $('form.form-horizontal input, form.form-horizontal textarea, form.form-horizontal select').attr('disabled', 'disabled');
+    <?endif;?>
   });
 </script>
 
@@ -106,7 +111,7 @@
     <?=\CHtml::activeLabel($form, 'Test', ['class' => 'control-label']);?>
     <div class="controls">
       <?=\CHtml::activeTextField($form, 'TestUsers');?>
-      <button value="1" name="<?=\CHtml::activeName($form, 'Test');?>" class="btn btn-info" type="submit"><?=\Yii::t('app', 'Сделать тестовую рассылку');?></button>
+      <button value="1" name="<?=\CHtml::activeName($form, 'Test');?>" class="btn btn-info" type="submit"><?=\Yii::t('app', 'Отправить тест');?></button>
     </div>
   </div>
   <?endif;?>
@@ -123,18 +128,17 @@
 <script type="text/template" id="event-criteria-tpl">
   <div class="row-fluid m-top_20">
     <div class="span7">
-      <input type="text" name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][eventId]');?>" class="input-block-level" />
+      <input type="text" name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][eventLabel]');?>" class="input-block-level" placeholder="<?=\Yii::t('app', 'Мероприятие');?>"/>
+      <input type="hidden" name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][eventId]');?>" />
     </div>
     <div class="span3">
-      <select name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][roles][]');?>" multiple class="input-block-level">
-        <?foreach ($form->getEventRolesData() as $key => $value):?><option value="<?=$key;?>"><?=$value;?></option><?endforeach;?>
-      </select>
+      <input type="text" name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][rolesSearch]');?>" class="input-block-level" data-source='<?=json_encode($form->getEventRolesData());?>' placeholder="<?=\Yii::t('app', 'Роли');?>"/>
     </div>
     <div class="span2">
       <select name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][type]');?>" class="input-block-level">
         <?foreach ($form->getTypeData() as $key => $value):?><option value="<?=$key;?>"><?=$value;?></option><?endforeach;?>
       </select>
-      <button name="" class="btn btn-danger" type="button"><?=\Yii::t('app', 'Удалить');?></button>
+      <button name="" class="btn btn-danger m-top_5" type="button"><?=\Yii::t('app', 'Удалить');?></button>
     </div>
     <input type="hidden" name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][by]');?>" value="<?=\mail\models\forms\admin\Template::ByEvent;?>" />
   </div>
