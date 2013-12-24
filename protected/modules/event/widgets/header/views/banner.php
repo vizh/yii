@@ -9,7 +9,7 @@ $event = $this->event;
   <?=$this->HeaderBannerStyles;?>
 </style>
 <?endif;?>
-<div class="b-event-promo <?=$event->IdName;?>" style="background: <?if (isset($this->HeaderBannerBackgroundImagePath)):?>url('<?=$this->HeaderBannerBackgroundImagePath;?>') repeat-x<?endif;?> #<?=$this->HeaderBannerBackgroundColor;?>">
+<div class="b-event-promo <?=$event->IdName;?>" style="background: <?if (isset($this->HeaderBannerBackgroundImagePath)):?>url('<?=$this->HeaderBannerBackgroundImagePath;?>') repeat-x center center<?endif;?> #<?=$this->HeaderBannerBackgroundColor;?>">
   <div class="container" style="<?if (isset($this->HeaderBannerImagePath)):?>background: url('<?=$this->HeaderBannerImagePath;?>') no-repeat center center;<?endif;?> padding: 0; <?if (isset($this->HeaderBannerHeight)):?>height: <?=$this->HeaderBannerHeight;?>px<?endif;?>">
     <div class="row">
       <div class="span12"></div>
