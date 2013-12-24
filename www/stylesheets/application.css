@@ -966,6 +966,8 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 /* Event -> Page */
 .event-page {margin: 50px 0 100px;}
 
+.event-page-fullwidth { }
+
 .event-page .sidebar .title {text-align: center;}
 .event-page .sidebar > div:not(:last-child) {margin-bottom: 40px;}
 
@@ -1004,6 +1006,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   height: 340px;
   border: 1px solid #bdbdbd;
 }
+.event-page-fullwidth .location { border: none;}
 .event-page .location .title {
   position: absolute;
   top: 0;
@@ -1012,6 +1015,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   width: 100%;
   background: url(/images/bg-opacity-80.png) transparent center;
 }
+.event-page-fullwidth .location .title {display: none;}
 .event-page .location .map {
   width: 240px;
   height: 340px;
@@ -1032,12 +1036,22 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   color: #999;
 }
 
+.event-page .contacts-fullwidth {}
+
+.event-page .contacts-fullwidth h5 {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.event-page .contacts-fullwidth p.address {text-align: center;}
+
 .event-page .registration {
   margin-bottom: 40px;
   padding: 10px 20px 20px;
   border: 6px solid #333;
 }
 .event-page .registration .title {text-transform: uppercase;}
+.event-page-fullwidth .registration .title {text-align: center;}
 .event-page .registration .table th {
   color: #999;
   font-size: 11px;
@@ -1087,7 +1101,11 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   color: #999;
 }
 
+.event-page-fullwidth .tabs .tab header h4 {width: 640px; margin: 0 auto 25px;}
+
 .event-page .tabs .tab article {font-size: 13px;}
+.event-page .tabs .tab article {width: 800px; margin: 0 auto;}
+.event-page-fullwidth .tabs .tab article p {margin-bottom: 20px;}
 
 .event-page .participants {margin-bottom: -40px;}
 .event-page .participants .participant {

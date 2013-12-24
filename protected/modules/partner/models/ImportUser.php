@@ -110,6 +110,7 @@ class ImportUser extends \CActiveRecord
     if (empty($role))
       throw new \partner\components\ImportException('Не найдена роль.');
 
+    $this->prepareEmail($import);
     $user = $this->getUser($import);
 
     $import->Event->skipOnRegister = !$import->NotifyEvent;
@@ -127,6 +128,32 @@ class ImportUser extends \CActiveRecord
   }
 
   /**
+   * @param Import $import
+   * @throws \partner\components\ImportException
+   */
+  private function prepareEmail($import)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"ImportId" = :ImportId AND "Imported" AND "Email" = :Email AND "Id" != :Id';
+    $criteria->params = [
+      'ImportId' => $import->Id,
+      'Email' => $this->Email,
+      'Id' => $this->Id
+    ];
+
+    if (empty($this->Email) || ImportUser::model()->exists($criteria))
+    {
+      $this->Email = 'nomail'.$import->EventId.'+'.substr(md5($this->FirstName . $this->LastName . $this->Company), 0, 8).'@runet-id.com';
+    }
+    else
+    {
+      $validator = new \CEmailValidator();
+      if (!$validator->validateValue($this->Email))
+        throw new \partner\components\ImportException('Не корректный Email пользователя.');
+    }
+  }
+
+  /**
    *
    * @param Import $import
    *
@@ -135,46 +162,7 @@ class ImportUser extends \CActiveRecord
    */
   private function getUser($import)
   {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"ImportId" = :ImportId AND "Imported" AND "Email" = :Email AND "Id" != :Id';
-    $criteria->params = [
-      'ImportId' => $import->Id, 
-      'Email' => $this->Email, 
-      'Id' => $this->Id
-    ];
-  
-    if (empty($this->Email) || ImportUser::model()->exists($criteria))
-    {
-      $this->Email = 'nomail'.$import->EventId.'+'.substr(md5($this->FirstName . $this->LastName . $this->Company), 0, 8).'@runet-id.com';
-    }
-
-    $user = null;
-
-    if ($import->Visible)
-    {
-      $criteria = new \CDbCriteria();
-      $criteria->with = [
-        'Employments'
-      ];
-      $criteria->addCondition('
-        ("Employments"."EndYear" IS NULL AND "Employments"."EndMonth" IS NULL) 
-        AND "Company"."Name" ILIKE :Company AND "t"."FirstName" ILIKE :FirstName AND "t"."LastName" ILIKE :LastName'
-      );
-      $criteria->params['Company']   = $this->Company;
-      $criteria->params['FirstName'] = $this->FirstName;
-      $criteria->params['LastName']  = $this->LastName;
-      $user = \user\models\User::model()->find($criteria);
-      if ($user !== null)
-      {
-        if (!empty($this->Phone))
-        {
-          $user->setContactPhone($this->Phone);
-        }
-        return $user;
-      }
-      $user = \user\models\User::model()->byEmail($this->Email)->byVisible()->find();
-    }
-
+    $user = $this->getDuplicateUser($import);
     if ($user === null)
     {
       if (empty($this->FirstName) || empty($this->LastName))
@@ -208,6 +196,40 @@ class ImportUser extends \CActiveRecord
       $user->setContactPhone($this->Phone);
     }
     return $user;
+  }
+
+  /**
+   * @param Import $import
+   * @return \user\models\User
+   */
+  private function getDuplicateUser($import)
+  {
+    if ($import->Visible)
+    {
+      $criteria = new \CDbCriteria();
+      $criteria->with = [
+        'Employments'
+      ];
+      $criteria->addCondition('
+        ("Employments"."EndYear" IS NULL AND "Employments"."EndMonth" IS NULL)
+        AND "Company"."Name" ILIKE :Company AND "t"."FirstName" ILIKE :FirstName AND "t"."LastName" ILIKE :LastName'
+      );
+      $criteria->params['Company']   = $this->Company;
+      $criteria->params['FirstName'] = $this->FirstName;
+      $criteria->params['LastName']  = $this->LastName;
+      $user = \user\models\User::model()->find($criteria);
+      if ($user !== null)
+      {
+        if (!empty($this->Phone))
+        {
+          $user->setContactPhone($this->Phone);
+        }
+        return $user;
+      }
+      $user = \user\models\User::model()->byEmail($this->Email)->byVisible()->find();
+    }
+
+    return new \user\models\User();
   }
 
   protected function beforeSave()

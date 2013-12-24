@@ -7,7 +7,6 @@ namespace event\models;
  * @property string $Title
  * @property string $Info
  * @property string $FullInfo
- * @property string $LogoSource
  * @property int $StartYear
  * @property int $StartMonth
  * @property int $StartDay
@@ -18,7 +17,10 @@ namespace event\models;
  * @property bool $ShowOnMain
  * @property bool $External Для мероприятий, добавленных пользователями через форму на сайте - true, иначе - false
  * @property int $Approved Имеет значение только для мероприятий, добавленных пользователями, 0 - не определено, 1 - одобрено, -1 - отклонено
- *
+ * @property int $TypeId
+ * @property string $LogoSource
+ * @property string $CreationTime
+ * @property bool $FullWidth
  *
  * @property Part[] $Parts
  * @property \event\models\section\Section[] $Sections
