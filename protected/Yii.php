@@ -38,7 +38,7 @@ class Yii extends YiiBase
   public static function getExistClass($namespace, $name, $default = null)
   {
     $namespace = rtrim($namespace, ' \\').'\\';
-    $path = \Yii::getPathOfAlias(str_replace('\\', '.', ltrim($namespace, '\\'))).DIRECTORY_SEPARATOR.$name.'.php';
+    $path = \Yii::getPathOfAlias(str_replace('\\', '.', ltrim($namespace, '\\'))).DIRECTORY_SEPARATOR.str_replace('\\',DIRECTORY_SEPARATOR, $name).'.php';
     if (file_exists($path))
     {
       return $namespace.$name;
