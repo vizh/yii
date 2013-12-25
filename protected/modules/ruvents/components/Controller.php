@@ -3,6 +3,18 @@ namespace ruvents\components;
 
 class Controller extends \CController
 {
+  private $useLog = true;
+
+  public function setUseLog($userLog)
+  {
+    $this->useLog = $userLog;
+  }
+
+  public function getIsUseLog()
+  {
+    return $this->useLog;
+  }
+
   /**
    * Маппинг не только GET параметров свойствам экшенов, но и POST
    * @return array
@@ -156,5 +168,32 @@ class Controller extends \CController
 
     header('Content-type: application/json; charset=utf-8');
     echo $json;
+  }
+
+  protected function afterAction($action)
+  {
+    if ($this->getIsUseLog())
+    {
+      $this->createLog();
+    }
+    return parent::afterAction($action);
+  }
+
+  /**
+   * @return \ruvents\models\Log
+   */
+  public function createLog()
+  {
+    $log = new \ruvents\models\Log();
+    if ($this->getOperator() !== null)
+    {
+      $log->EventId = $this->getOperator()->EventId;
+      $log->OperatorId = $this->getOperator()->Id;
+    }
+    $log->Route = $this->getId() . '.' . $this->getAction()->getId();
+    $log->Params = json_encode($_REQUEST, JSON_UNESCAPED_UNICODE);
+    $log->FullTime = \Yii::getLogger()->getExecutionTime();
+    $log->save();
+    return $log;
   }
 }

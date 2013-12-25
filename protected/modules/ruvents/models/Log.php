@@ -3,12 +3,15 @@ namespace ruvents\models;
 
 
 /**
- * @property int $LogId
+ * @property int $Id
+ * @property int $EventId
  * @property int $OperatorId
- * @property string $Controller
- * @property string $Action
- * @property string $Request
- * @property string $Time
+ * @property string $Route
+ * @property string $Params
+ * @property string $FullTime
+ * @property string $CreationTime
+ * @property int $ErrorCode
+ * @property string $ErrorMessage
  */
 class Log extends \CActiveRecord
 {
@@ -24,11 +27,11 @@ class Log extends \CActiveRecord
 
   public function tableName()
   {
-    return 'Mod_RuventsLog';
+    return 'RuventsLog';
   }
 
   public function primaryKey()
   {
-    return 'LogId';
+    return 'Id';
   }
 }

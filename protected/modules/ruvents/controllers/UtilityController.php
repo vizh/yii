@@ -3,6 +3,7 @@ class UtilityController extends ruvents\components\Controller
 {
   public function actionPing()
   {
+    $this->setUseLog(false);
     $this->renderJson([
       'DateSignal' => date('Y-m-d H:i:s')
     ]);
