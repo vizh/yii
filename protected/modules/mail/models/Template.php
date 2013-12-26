@@ -19,6 +19,7 @@ namespace mail\models;
  * @property string $SuccessTime
  * @property string $ViewHash
  * @property string $CreationTime
+ * @property int $LastUserId;
  *
  */
 class Template extends \CActiveRecord
@@ -85,31 +86,33 @@ class Template extends \CActiveRecord
     {
       $this->Success = true;
       $this->SuccessTime = date('Y-m-d H:i:s');
-      $this->save();
     }
+    else
+    {
+      $this->LastUserId = $users[sizeof($users)-1]->Id;
+    }
+    $this->save();
     return $users;
   }
 
   /**
    * @return \CDbCriteria
    */
-  public function getCriteria($ignoreLog = false)
+  public function getCriteria($all = false)
   {
     $criteria = new \CDbCriteria();
     $criteria->with = ['Settings'];
+    $criteria->order = '"t"."Id" ASC';
     if (!$this->SendUnsubscribe)
     {
       $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     }
     $criteria->addCondition('"t"."Visible"');
 
-    if (!$this->getIsTestMode() && !$ignoreLog)
+    if (!$this->getIsTestMode() && !$all && $this->LastUserId !== null)
     {
-      $command = \Yii::app()->getDb()->createCommand();
-      $command->select('UserId')->from(TemplateLog::model()->tableName());
-      $command->where('"TemplateId" = :TemplateId');
-      $criteria->params['TemplateId'] = $this->Id;
-      $criteria->addCondition('"t"."Id" NOT IN (' . $command->getText(). ')');
+      $criteria->addCondition('"t"."Id" > :LastUserId');
+      $criteria->params['LastUserId'] = $this->LastUserId;
     }
     $filter = $this->getFilter();
     if (!empty($filter))

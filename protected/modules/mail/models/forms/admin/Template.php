@@ -109,6 +109,7 @@ class Template extends \CFormModel
       '{User.FullName}'  => '<?=$user->getFullName();?>',
       '{User.ShortName}' => '<?=$user->getShortName();?>',
       '{User.RunetId}'   => '<?=$user->RunetId;?>',
+      '{UnsubscribeUrl}' => '<?=$user->getFastauthUrl(\'/user/setting/subscription/\');?>',
       '{Event.Title}'    => '<?=$user->Participants[0]->Event->Title;?>',
       '{TicketUrl}'      => '<?=$user->Participants[0]->getTicketUrl();?>',
       '{Role.Title}'     => '<?=$user->Participants[0]->Role->Title;?>'
@@ -123,7 +124,8 @@ class Template extends \CFormModel
       '{User.RunetId}'   => \Yii::t('app', 'RUNET-ID пользователя'),
       '{Event.Title}'    => \Yii::t('app', 'Название меропрития'),
       '{TicketUrl}'      => \Yii::t('app', 'Ссылка на пригласительный'),
-      '{Role.Title}'     => \Yii::t('app', 'Роль на меропритие')
+      '{Role.Title}'     => \Yii::t('app', 'Роль на меропритие'),
+      '{UnsubscribeUrl}' => \Yii::t('app', 'Ссылка на отписаться')
     ];
   }
 
