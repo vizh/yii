@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'almsummit13-html-2';
-    $isHTML = true;
+    $template = 'research13-6';
+    $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -70,7 +70,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-    $criteria->addInCondition('"Participants"."EventId"', array(688, 246));
+//    $criteria->addInCondition('"Participants"."EventId"', array(773));
 
     // Beeline
 //    $criteria->addInCondition('"Participants"."EventId"', array(837));
@@ -79,26 +79,16 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
-    // ИТОГИ 2013
-    /*
     $criteria->addCondition('
     (
       ("Participants"."UserId" IN
         (SELECT "UserId" FROM "EventParticipant" WHERE
-          ("EventId" IN (427,647)) OR
-          ("EventId" IN (688,425,422,  411,423,773,595,673) AND "RoleId" = 3) OR
-          ("RoleId" = 2) OR
-          ("RoleId" = 32) OR
-          ("EventId" IN (411,423,773,595,673) AND "RoleId" = 1)
+          ("EventId" IN (773) AND "RoleId" = 2)
         )
       )
       OR
-      ("Participants"."UserId" IN (SELECT "UserId" FROM "CommissionUser" WHERE "ExitTime" IS NULL))
-    )
-
-    AND
-    ("Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 837))');
-    */
+      ("Participants"."UserId" IN (SELECT "UserId" FROM "CompetenceResult" WHERE "TestId" = 2))
+    )');
 
 //    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" != 24 AND "EventId" = 688)');
 
@@ -106,7 +96,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 15648, 39948));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -152,7 +142,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 200) { sleep(1); $j = 0; }; $j++;
 
-        if ($j == 1) continue;
+//        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -170,10 +160,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->AddAddress($email);
 //        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-        $mail->SetFrom('event@runet-id.com', 'ALM Summit', false);
+        $mail->SetFrom('research@raec.ru', 'Экономика Рунета', false);
 //        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('ALM Summit Russia') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Отчет по исследованию Экономика Рунета 2012-2013') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
