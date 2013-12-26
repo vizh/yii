@@ -1,1 +1,1 @@
-<p><?=$user->getFullName();?> Привет!</p>
+<?=$user->getFastauthUrl('/user/setting/subscription/');?>

@@ -38,13 +38,13 @@ class EditAction extends \CAction
       $filter = $this->template->getFilter();
       $this->form->Conditions = $this->getFormConditionsList($filter);
 
-      $this->count = \user\models\User::model()->count($this->template->getCriteria());
       if ($this->template->Success)
       {
         $this->countAll = \mail\models\TemplateLog::model()->byTemplateId($this->template->Id)->byHasError(false)->count();
       }
       else
       {
+        $this->count = \user\models\User::model()->count($this->template->getCriteria());
         $this->countAll = \user\models\User::model()->count($this->template->getCriteria(true));
       }
       if ($this->template->Active)
@@ -88,14 +88,6 @@ class EditAction extends \CAction
     if ($this->template->Active)
     {
       $this->template->ActivateTime = date('Y-m-d H:i:s');
-      if (!$this->template->getIsNewRecord())
-      {
-        $logs = \mail\models\TemplateLog::model()->byTemplateId($this->template->Id)->findAll();
-        foreach ($logs as $log)
-        {
-          $log->delete();
-        }
-      }
     }
 
     $filter = new \mail\components\filter\Event();
