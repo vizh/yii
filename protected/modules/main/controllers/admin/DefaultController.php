@@ -8,6 +8,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $this->render('index');
   }
 
+  public function actionTest()
+  {
+    $template = \mail\models\Template::model()->byActive()->bySuccess(false)->find(['order' => '"t"."Id" ASC']);
+
+    var_dump($template);
+  }
+
   public function actionCompetence()
   {
     $criteria = new CDbCriteria();

@@ -953,7 +953,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .events-box .event header .type {color: #ccc; margin-bottom: 0;}
 .events-box .event header .logo {margin-bottom: 20px;}
 .events-box .event header .title a {color: #333;}
-.events-box .event header .date {color: #ff9600; font-weight: 400px;}
+.events-box .event header .date {color: #ff9600; font-weight: 400;}
 
 .events-box .event article {font-size: 13px;}
 .events-box .event footer .btn {
@@ -966,7 +966,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 /* Event -> Page */
 .event-page {margin: 50px 0 100px;}
 
-.event-page-fullwidth { }
 
 .event-page .sidebar .title {text-align: center;}
 .event-page .sidebar > div:not(:last-child) {margin-bottom: 40px;}
@@ -1006,7 +1005,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   height: 340px;
   border: 1px solid #bdbdbd;
 }
-.event-page-fullwidth .location { border: none;}
 .event-page .location .title {
   position: absolute;
   top: 0;
@@ -1015,7 +1013,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   width: 100%;
   background: url(/images/bg-opacity-80.png) transparent center;
 }
-.event-page-fullwidth .location .title {display: none;}
 .event-page .location .map {
   width: 240px;
   height: 340px;
@@ -1051,7 +1048,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   border: 6px solid #333;
 }
 .event-page .registration .title {text-transform: uppercase;}
-.event-page-fullwidth .registration .title {text-align: center;}
 .event-page .registration .table th {
   color: #999;
   font-size: 11px;
@@ -1101,11 +1097,15 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   color: #999;
 }
 
-.event-page-fullwidth .tabs .tab header h4 {width: 640px; margin: 0 auto 25px;}
+
 
 .event-page .tabs .tab article {font-size: 13px;}
-.event-page .tabs .tab article {width: 800px; margin: 0 auto;}
-.event-page-fullwidth .tabs .tab article p {margin-bottom: 20px;}
+/*.event-page .tabs .tab article {width: 800px; margin: 0 auto;}*/
+
+.event-page article ul li{
+  margin-bottom: 5px;
+}
+
 
 .event-page .participants {margin-bottom: -40px;}
 .event-page .participants .participant {
@@ -1145,6 +1145,171 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   width: -moz-calc(25% - 20px);
   width: calc(25% - 20px);
 }
+
+
+/* EVENT REGISTRATION */
+.event-page-fullwidth .event-registration {
+  border: 6px solid #333;
+  margin-bottom: 100px;
+  padding: 40px 70px 60px;
+}
+.event-page-fullwidth .event-registration .title {
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 60px;
+}
+.event-page-fullwidth .event-registration article .article-title {
+  margin-bottom: 0;
+  font-size: 16px;
+  color: #333333;
+}
+.event-page-fullwidth .event-registration article{
+  color: #666666;
+  font-size: 13px;
+}
+
+.event-page-fullwidth .event-registration .table {margin-bottom: 60px;}
+.event-page-fullwidth .event-registration .table th {
+  border: none;
+  color: #999;
+  font-size: 11px;
+}
+.event-page-fullwidth .event-registration .table td {
+  font-size: 13px;
+  vertical-align: middle;
+}
+.event-page-fullwidth .event-registration .table td select {
+  margin: 0;
+  font-size: 13px;
+}
+.event-page-fullwidth .event-registration .total {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #f7f7f7;
+  margin-bottom: 70px;
+}
+.event-page-fullwidth .event-registration .total span {
+  margin-right: 10px;
+  text-transform: uppercase;
+}
+
+.event-page-fullwidth .event-registration .totalPrice {width: 100px;}
+
+/* CONTENT */
+.event-page-fullwidth .tabs .content-nav {
+  color: #999;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+}
+.event-page-fullwidth .tabs .content-nav a {
+  border-bottom: 1px dashed #27bb42;
+  color: #27bb42;
+  text-decoration: none;
+}
+.event-page-fullwidth .tabs .content-nav a.current,
+.event-page-fullwidth .tabs .content-nav a:hover {
+  border-bottom: 1px solid transparent;
+  color: #333;
+}
+
+
+/* CONTENT STYLE */
+.event-page-fullwidth .content header {
+  font-weight: bold;
+  padding: 0 40px;
+  margin-left: 100px;
+}
+.event-page-fullwidth .content header p {font-size: 15px;}
+.event-page-fullwidth .content p {
+  font-size: 14px;
+  line-height: 25px;
+}
+.event-page-fullwidth .content ul{
+  width: auto;
+}
+.event-page-fullwidth .content li {
+  display: block;
+  font-size: 14px;
+  line-height: 20px;
+  list-style: none;
+  margin-bottom: 40px;
+  position: relative;
+}
+.event-page-fullwidth .content li:before {
+  content: url("/img/widgets/list.png");
+  display: block;
+  left: -30px;
+  position: absolute;
+  top: -6px;
+}
+
+.event-page-fullwidth .content blockquote {
+  border-bottom: 1px solid #b3b3b3;
+  border-left: none;
+  border-top: 1px solid #b3b3b3;
+  color: #808080;
+  font-size: 13px;
+  font-weight: normal;
+  font-style: normal;
+  margin: 40px 0 40px 100px;
+  padding: 20px 40px;
+  width: 620px;
+}
+
+/* MAP */
+.event-page-fullwidth .map {margin-bottom: 100px;}
+.event-page-fullwidth .map nav {margin-bottom: 10px;}
+.event-page-fullwidth .map nav a {
+  border-bottom: 1px dashed #27bb42;
+  color: #27bb42;
+  font-size: 13px;
+  margin: 0 15px;
+  text-decoration: none;
+}
+.event-page-fullwidth .map nav a.current,
+.event-page-fullwidth .map nav a:hover {
+  border-bottom: 1px solid transparent;
+  color: #333;
+}
+
+.event-page-fullwidth .contacts {
+  margin-bottom: 20px;
+  text-align: center;
+  border: none;
+}
+.event-page-fullwidth .contacts .title {
+  text-transform: uppercase;
+  margin-bottom: 60px;
+}
+.event-page-fullwidth .contacts .phone,
+.event-page-fullwidth .contacts .email {
+  color: #999;
+  font-size: 28px;
+  font-weight: bold;
+  padding: 0 15px;
+  text-decoration: none;
+}
+
+/* PARTNERS */
+.event-page-fullwidth .partners{
+  border: 1px solid #e0e0e0;
+  margin-bottom: 100px;
+  padding: 80px 0;
+  text-align: center;
+}
+.event-page-fullwidth .partners h3 {
+  margin: -100px 0 80px;
+  text-transform: uppercase;
+}
+.event-page-fullwidth .partners h3 > span {
+  background: #fff;
+  padding: 0 10px;
+}
+.event-page-fullwidth .partners .partner {margin: 0 70px;}
+
+
 
 /* Event -> Register */
 .event-register {margin: 50px 0 100px;}
@@ -2524,11 +2689,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .job article p{
   height: 140px;
   overflow: hidden;
-}
-
-
-.event-page article ul li{
-  margin-bottom: 5px;
 }
 
 .user-account .b-participated .i {

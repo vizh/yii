@@ -16,7 +16,7 @@ foreach ($event->Widgets as $widget)
 
 <div id="event-tabs" class="tabs">
   <?if (sizeof($widgets) > 1):?>
-  <ul class="nav">
+  <ul class="nav content-nav">
     <?foreach ($widgets as $widget):?>
         <?if (!$firstTab):?>
         <li>/</li>

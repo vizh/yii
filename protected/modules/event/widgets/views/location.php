@@ -8,7 +8,7 @@ if ($address == null)
   return;
 }
 $address->setLocale('ru');
-$width = !$this->event->FullWidth ? 218 : 960;
+$width = !$this->event->FullWidth ? 218 : 940;
 ?>
 
 <div class="location">

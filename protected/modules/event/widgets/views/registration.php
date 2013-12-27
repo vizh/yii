@@ -27,6 +27,11 @@ if (empty($products))
     <h5 class="title"><?=Yii::t('app', 'Регистрация других участников');?></h5>
   <?else:?>
     <h5 class="title"><?=Yii::t('app', 'Регистрация');?></h5>
+
+      <?if (isset($this->RegistrationBeforeInfo)):?>
+        <?=$this->RegistrationBeforeInfo;?>
+      <?endif;?>
+
   <?endif;?>
 
 

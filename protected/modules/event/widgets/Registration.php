@@ -6,12 +6,13 @@ namespace event\widgets;
  * @package event\widgets
  *
  * @property string $RegistrationAfterInfo
+ * @property string $RegistrationBeforeInfo
  */
 class Registration extends \event\components\Widget
 {
   public function getAttributeNames()
   {
-    return ['RegistrationAfterInfo'];
+    return ['RegistrationAfterInfo', 'RegistrationBeforeInfo'];
   }
 
 
@@ -69,7 +70,9 @@ class Registration extends \event\components\Widget
       }
       $products = $model->byEventId($this->event->Id)->findAll($criteria);
 
-      $this->render('registration', [
+      $viewName = !$this->event->FullWidth ? 'registration' : 'fullwidth/registration';
+
+      $this->render($viewName, [
         'products' => $products,
         'account' => $account,
         'participant' => $participant

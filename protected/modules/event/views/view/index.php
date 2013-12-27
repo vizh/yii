@@ -25,25 +25,27 @@ if ($fullWidth)
 
 <div class="event-page <?=$event->FullWidth ? 'event-page-fullwidth' : '';?>">
   <div class="container">
-    <div class="row">
+
 
       <?if (!$event->FullWidth):?>
-        <aside class="sidebar span3 pull-left">
-          <?foreach ($event->Widgets as $widget):?>
-            <?if ($widget->getPosition() == \event\components\WidgetPosition::Sidebar && $widget->getIsActive()):?>
-              <?$widget->run()?>
-            <?endif?>
-          <?endforeach?>
-        </aside>
-        <div class="span8 pull-right">
-          <?foreach($event->Widgets as $widget):?>
-            <?if($widget->getPosition() == \event\components\WidgetPosition::Content):?>
-              <?$widget->run()?>
-            <?elseif($renderTabs && $widget->getPosition() == \event\components\WidgetPosition::Tabs):?>
-              <?$this->renderPartial('tabs', array('event' => $event))?>
-              <?$renderTabs = false?>
-            <?endif?>
-          <?endforeach?>
+        <div class="row">
+          <aside class="sidebar span3 pull-left">
+            <?foreach ($event->Widgets as $widget):?>
+              <?if ($widget->getPosition() == \event\components\WidgetPosition::Sidebar && $widget->getIsActive()):?>
+                <?$widget->run()?>
+              <?endif?>
+            <?endforeach?>
+          </aside>
+          <div class="span8 pull-right">
+            <?foreach($event->Widgets as $widget):?>
+              <?if($widget->getPosition() == \event\components\WidgetPosition::Content):?>
+                <?$widget->run()?>
+              <?elseif($renderTabs && $widget->getPosition() == \event\components\WidgetPosition::Tabs):?>
+                <?$this->renderPartial('tabs', array('event' => $event))?>
+                <?$renderTabs = false?>
+              <?endif?>
+            <?endforeach?>
+          </div>
         </div>
       <?else:?>
         <?foreach($event->Widgets as $widget):?>
@@ -55,6 +57,6 @@ if ($fullWidth)
           <?endif?>
         <?endforeach?>
       <?endif;?>
-    </div>
+
   </div>
 </div>

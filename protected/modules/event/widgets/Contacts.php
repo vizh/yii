@@ -5,12 +5,12 @@ class Contacts extends \event\components\Widget
 {
   public function run()
   {
-    $phones = array();
+    $phones = [];
     foreach ($this->event->LinkPhones as $linkPhone)
     {
       $phones[] = $linkPhone->Phone->__toString();
     }
-    $viewName = !$this->event->FullWidth ? 'contacts' : 'contacts-fullwidth';
+    $viewName = !$this->event->FullWidth ? 'contacts' : 'fullwidth/contacts';
     $this->render($viewName, ['phones' => $phones]);
   }
 
