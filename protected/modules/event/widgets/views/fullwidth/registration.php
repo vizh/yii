@@ -9,6 +9,10 @@
   <?=CHtml::beginForm('', 'POST', array('class' => 'event-registration registration'));?>
   <header>
     <h3 class="title">Регистрация</h3>
+
+    <?if (isset($this->RegistrationBeforeInfo)):?>
+      <?=$this->RegistrationBeforeInfo;?>
+    <?endif;?>
   </header>
 
   <?foreach ($products as $product):?>
