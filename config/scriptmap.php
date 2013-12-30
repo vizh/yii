@@ -78,6 +78,11 @@ return array(
           'js' => array('ckeditor.js'),
           'css' => array()
         ),
+        'runetid.bootstrap-datepicker' => [
+          'baseUrl' => '/javascripts/bootstrap-datepicker/',
+          'css' => ['css/datepicker.css'],
+          'js'  => ['js/bootstrap-datepicker.js', 'js/locales/bootstrap-datepicker.ru.js']
+        ]
       ),
 
       'scriptMap' => array(),

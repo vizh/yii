@@ -94,12 +94,12 @@ class CreateController extends \application\components\controllers\PublicMainCon
           $mail = new \event\components\handlers\Ruvents($mailer, $form);
           $mail->send();
         }
-
         \Yii::app()->user->setFlash('success', \Yii::t('app', '<h4 class="m-bottom_5">Поздравляем!</h4>Мероприятие отправлено. В ближайшее время c Вами свяжутся.'));
         $this->refresh();
       }
     }
-    
+    \Yii::app()->getClientScript()->registerPackage('runetid.bootstrap-datepicker');
+    $this->setPageTitle(\Yii::t('app', 'Добавление события'));
     $this->bodyId = 'event-create';
     $this->render('index', array('form' => $form));
   }

@@ -27,16 +27,27 @@ class Create extends \CFormModel
 
   public function rules()
   {
-    return array(
-      array('ContactName, ContactPhone, ContactEmail, Title, Place, StartDate, EndDate, Info', 'required'),
-      array('ContactEmail', 'filter', 'filter' => 'trim'),
-      array('Url, Info, FullInfo, Options, OneDayDate, LogoSource', 'safe'),
-      array('LogoSource', 'file', 'allowEmpty' => false),
-      array('ContactEmail', 'email'),
-      array('StartDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'StartTimestamp'),
-      array('EndDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'EndTimestamp'),
-      array('PlannedParticipants', 'filter', 'filter' => [$this, 'filterPlannedParticipants'])
-    );
+    return [
+      ['ContactName, ContactPhone, ContactEmail, Title, Place, StartDate, EndDate, Info', 'required'],
+      ['ContactEmail', 'filter', 'filter' => 'trim'],
+      ['Url, Info, FullInfo, Options, OneDayDate, LogoSource', 'safe'],
+      ['LogoSource', 'file', 'allowEmpty' => false],
+      ['ContactEmail', 'email'],
+      ['StartDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'StartTimestamp'],
+      ['EndDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'EndTimestamp'],
+      ['PlannedParticipants', 'filter', 'filter' => [$this, 'filterPlannedParticipants']]
+    ];
+  }
+
+  protected function beforeValidate()
+  {
+    $attributes = $this->attributes;
+    if ($attributes['OneDayDate'] == 1)
+    {
+      $attributes['EndDate'] = $attributes['StartDate'];
+    }
+    $this->setAttributes($attributes);
+    return parent::beforeValidate();
   }
 
 
