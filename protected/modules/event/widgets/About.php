@@ -13,7 +13,7 @@ class About extends \event\components\Widget
    */
   public function getTitle()
   {
-    return \Yii::t('app', 'Полное описание');
+    return \Yii::t('app', 'О мероприятии');
   }
 
   /**
