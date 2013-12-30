@@ -6,7 +6,8 @@
  */
 ?>
 
-  <?=CHtml::beginForm('', 'POST', array('class' => 'event-registration registration'));?>
+  <?=CHtml::beginForm(\Yii::app()->createUrl('/pay/cabinet/register', array('eventIdName' => $this->event->IdName)), 'POST', array('class' => 'event-registration registration'));?>
+  <?=\CHtml::hiddenField(\Yii::app()->request->csrfTokenName, \Yii::app()->request->getCsrfToken()); ?>
   <header>
     <h3 class="title">Регистрация</h3>
 
