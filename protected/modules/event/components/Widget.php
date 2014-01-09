@@ -14,7 +14,7 @@ abstract class Widget extends \CWidget implements IWidget
 
   public function init()
   {
-    if ($this->getIsHasDefaultResources())
+    if ($this->getIsHasDefaultResources() && strstr(\Yii::app()->getRequest()->getHostInfo(), 'admin.') == false)
     {
       $this->registerDefaultResources();
     }
