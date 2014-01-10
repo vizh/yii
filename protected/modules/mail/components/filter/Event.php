@@ -1,7 +1,7 @@
 <?php
 namespace mail\components\filter;
 
-class Event
+class Event implements IFilter
 {
   /** @var EventCondition[]  */
   public $positive = [];

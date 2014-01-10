@@ -4,6 +4,7 @@ namespace mail\models\forms\admin;
 class Template extends \CFormModel
 {
   const ByEvent = 'Event';
+  const ByEmail = 'Email';
 
   const TypePositive = 'positive';
   const TypeNegative = 'negative';
@@ -14,6 +15,7 @@ class Template extends \CFormModel
   public $FromName = '—RUNET—ID—';
   public $SendPassbook;
   public $SendUnsubscribe;
+  public $SendInvisible = 0;
   public $Active = 0;
   public $Test;
   public $TestUsers;
@@ -31,7 +33,8 @@ class Template extends \CFormModel
       'SendUnsubscribe' => \Yii::t('app', 'Отправлять отписавшимся'),
       'Active' => \Yii::t('app', 'Рассылка по выбранным получателям'),
       'Test' => \Yii::t('app', 'Получатели тестовой рассылки'),
-      'Body' => \Yii::t('app', 'Тело письма')
+      'Body' => \Yii::t('app', 'Тело письма'),
+      'SendInvisible' => \Yii::t('app', 'Отправлять скрытым пользователям')
     ];
   }
 
@@ -39,7 +42,7 @@ class Template extends \CFormModel
   public function rules()
   {
     return [
-      ['Title, Subject, From, FromName, SendPassbook, SendUnsubscribe, Active', 'required'],
+      ['Title, Subject, From, FromName, SendPassbook, SendUnsubscribe, Active, SendInvisible', 'required'],
       ['Test, TestUsers, Body', 'safe'],
       ['From', 'email'],
       ['Conditions', 'default', 'value' => []],
@@ -76,6 +79,10 @@ class Template extends \CFormModel
           $value[$key] = $this->filterConditionByEvent($condition);
           $countByEvent++;
           break;
+
+        case self::ByEmail:
+          $value[$key] = $this->filterConditionByEmail($condition);
+          break;
       }
     }
 
@@ -100,6 +107,27 @@ class Template extends \CFormModel
     if (empty($condition['roles']))
       $condition['roles'] = [];
 
+    return $condition;
+  }
+
+  private function filterConditionByEmail($condition)
+  {
+    if (empty($condition['emails']))
+    {
+      $this->addError('Conditions', \Yii::t('app', 'Укажите адреса Email в фильтре.'));
+    }
+    else
+    {
+      $emails = explode(',', $condition['emails']);
+      foreach ($emails as $email)
+      {
+        $user = \user\models\User::model()->byEmail($email)->find();
+        if ($user == null)
+        {
+          $this->addError('Conditions', \Yii::t('app', 'Не найден пользователь с Email:"{email}"', ['{email}' => $email]));
+        }
+      }
+    }
     return $condition;
   }
 
@@ -132,7 +160,8 @@ class Template extends \CFormModel
   public function getConditionData()
   {
     return [
-      self::ByEvent => 'По мероприятию'
+      self::ByEvent => 'По мероприятию',
+      self::ByEmail => 'По email'
     ];
   }
 

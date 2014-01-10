@@ -20,6 +20,7 @@ namespace mail\models;
  * @property string $ViewHash
  * @property string $CreationTime
  * @property int $LastUserId;
+ * @property bool $SendInvisible;
  *
  */
 class Template extends \CActiveRecord
@@ -107,7 +108,11 @@ class Template extends \CActiveRecord
     {
       $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     }
-    $criteria->addCondition('"t"."Visible"');
+
+    if (!$this->SendInvisible)
+    {
+      $criteria->addCondition('"t"."Visible"');
+    }
 
     if (!$this->getIsTestMode() && !$all && $this->LastUserId !== null)
     {

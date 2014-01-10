@@ -13,6 +13,9 @@
         case \mail\models\forms\admin\Template::ByEvent:
           echo 'TemplateEdit.createEventCriteria('.json_encode($condition).');';
           break;
+        case \mail\models\forms\admin\Template::ByEmail:
+          echo 'TemplateEdit.createEmailCriteria('.json_encode($condition).');';
+          break;
       endswitch;
       ?>
     <?endforeach;?>
@@ -79,6 +82,12 @@
       <?=\CHtml::activeCheckBox($form, 'SendUnsubscribe');?>
     </div>
   </div>
+  <div class="control-group">
+    <?=\CHtml::activeLabel($form, 'SendInvisible', ['class' => 'control-label']);?>
+    <div class="controls">
+      <?=\CHtml::activeCheckBox($form, 'SendInvisible');?>
+    </div>
+  </div>
 
   <div class="control-group">
     <?=\CHtml::activeLabel($form, 'Body', ['class' => 'control-label']);?>
@@ -143,4 +152,21 @@
     <input type="hidden" name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][by]');?>" value="<?=\mail\models\forms\admin\Template::ByEvent;?>" />
   </div>
 </script>
+
+<script type="text/template" id="email-criteria-tpl">
+  <div class="row-fluid m-top_20">
+    <div class="span10">
+      <textarea name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][emails]');?>" class="input-block-level" placeholder="<?=\Yii::t('app', 'Список E-mail через запятую');?>"/>
+    </div>
+    <div class="span2">
+      <select name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][type]');?>" class="input-block-level">
+        <?foreach ($form->getTypeData() as $key => $value):?><option value="<?=$key;?>"><?=$value;?></option><?endforeach;?>
+      </select>
+      <button name="" class="btn btn-danger m-top_5" type="button"><?=\Yii::t('app', 'Удалить');?></button>
+    </div>
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][by]');?>" value="<?=\mail\models\forms\admin\Template::ByEmail;?>" />
+  </div>
+</script>
+
+
 <?=\CHtml::endForm();?>

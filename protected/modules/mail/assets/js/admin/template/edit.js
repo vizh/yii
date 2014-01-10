@@ -107,6 +107,23 @@ CTemplateEdit.prototype = {
       row.find('select[name*="type"] option[value="'+data.type+'"]').attr('selected', 'selected');
     }
     this.criteriaIterator++;
+  },
+
+  createEmailCriteria : function (data) {
+    var self = this;
+    var iterator = self.criteriaIterator;
+    var template = _.template($('#email-criteria-tpl').html())({i : iterator});
+    $('#filter').append(template);
+    var row = $('#filter>div:last');
+    row.find('.btn-danger').click(function() {
+      row.remove();
+    });
+
+    if (typeof data != "undefined") {
+      row.find('textarea[name*="emails"]').val(data.emails);
+      row.find('select[name*="type"] option[value="'+data.type+'"]').attr('selected', 'selected');
+    }
+    this.criteriaIterator++;
   }
 }
 

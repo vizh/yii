@@ -36,7 +36,7 @@ class EditAction extends \CAction
       }
 
       $filter = $this->template->getFilter();
-      $this->form->Conditions = $this->getFormConditionsList($filter);
+      $this->form->Conditions = $this->getFormConditionsList($filter->getFilters());
 
       if ($this->template->Success)
       {
@@ -84,23 +84,29 @@ class EditAction extends \CAction
     $this->template->FromName = $this->form->FromName;
     $this->template->SendPassbook = $this->form->SendPassbook == 1 ? true : false;
     $this->template->SendUnsubscribe = $this->form->SendUnsubscribe == 1 ? true : false;
+    $this->template->SendInvisible = $this->form->SendInvisible == 1 ? true : false;
     $this->template->Active = $this->form->Active == 1 ? true : false;
     if ($this->template->Active)
     {
       $this->template->ActivateTime = date('Y-m-d H:i:s');
     }
 
-    $filter = new \mail\components\filter\Event();
+    $filter = new \mail\components\filter\Main();
     foreach ($this->form->Conditions as $key => $condition)
     {
-      $filterItem = null;
+      $positive = $condition['type'] == \mail\models\forms\admin\Template::TypePositive ? true : false;
       switch ($condition['by'])
       {
         case  \mail\models\forms\admin\Template::ByEvent:
-          $filterItem = new \mail\components\filter\EventCondition($condition['eventId'], $condition['roles']);
+          $condition = new \mail\components\filter\EventCondition($condition['eventId'], $condition['roles']);
+          $filter->addCondition('\mail\components\filter\Event', $condition, $positive);
+          break;
+
+        case \mail\models\forms\admin\Template::ByEmail:
+          $condition = new \mail\components\filter\EmailCondition(explode(',', $condition['emails']));
+          $filter->addCondition('\mail\components\filter\Email', $condition, $positive);
           break;
       }
-      $filter->{$condition['type']}[] = $filterItem;
     }
     $this->template->setFilter($filter);
     $this->template->save();
@@ -131,23 +137,43 @@ class EditAction extends \CAction
   private function getFormConditionsList($filter)
   {
     $conditions = [];
+    $filters = [
+      '\mail\components\filter\Event' => \mail\models\forms\admin\Template::ByEvent,
+      '\mail\components\filter\Email' => \mail\models\forms\admin\Template::ByEmail
+    ];
     $types = [
       \mail\models\forms\admin\Template::TypePositive,
       \mail\models\forms\admin\Template::TypeNegative
     ];
-    foreach ($types as $type)
+    foreach ($filters as $className => $by)
     {
-      foreach ($filter->$type as $criteria)
+      foreach ($types as $type)
       {
-        $condition = ['type' => $type, 'by' => \mail\models\forms\admin\Template::ByEvent];
-        $class = new \ReflectionClass($criteria);
-        foreach ($class->getProperties() as $property)
+        if (isset($filter[$className]))
         {
-          $condition[$property->getName()] = isset($criteria->{$property->getName()}) ? $criteria->{$property->getName()} : null;
+          foreach ($filter[$className]->$type as $criteria)
+          {
+            $condition = ['type' => $type, 'by' => $by];
+            $class = new \ReflectionClass($criteria);
+            foreach ($class->getProperties() as $property)
+            {
+              $condition[$property->getName()] = isset($criteria->{$property->getName()}) ? $criteria->{$property->getName()} : null;
+            }
+
+            switch ($by)
+            {
+              case \mail\models\forms\admin\Template::ByEvent:
+                $event = \event\models\Event::model()->findByPk($condition['eventId']);
+                $condition['eventLabel'] = $event->Id.', '.$event->Title;
+                break;
+
+              case \mail\models\forms\admin\Template::ByEmail:
+                $condition['emails'] = implode(',', $condition['emails']);
+                break;
+            }
+            $conditions[] = $condition;
+          }
         }
-        $event = \event\models\Event::model()->findByPk($condition['eventId']);
-        $condition['eventLabel'] = $event->Id.', '.$event->Title;
-        $conditions[] = $condition;
       }
     }
     return $conditions;

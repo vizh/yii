@@ -1,5 +1,6 @@
 <?php
 $_SERVER['REQUEST_URI'] = '';
+$_SERVER['SERVER_NAME'] = 'runet-id.com';
 $mainAppConfig = require (dirname(__FILE__).'/main.php');
 return array(
   'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'protected',
