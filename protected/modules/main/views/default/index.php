@@ -53,7 +53,7 @@
           <div class="slides">
             <div class="slide">
               <div class="content">
-                <h3 class="text-center" style="line-height: 68px; font-size: 42px;"><a href="http://2014.runet-id.com " target="_blank">В 2014 ГОДУ RUNET—ID РЕКОМЕНДУЕТ</a></h3>
+                <h3 class="text-center" style="line-height: 68px; font-size: 44px;"><a href="http://2014.runet-id.com " target="_blank">В 2014 ГОДУ RUNET—ID РЕКОМЕНДУЕТ</a></h3>
               </div>
             </div>
             <div class="slide">
