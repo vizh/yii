@@ -53,6 +53,11 @@
           <div class="slides">
             <div class="slide">
               <div class="content">
+                <h3 class="text-center" style="line-height: 68px; font-size: 42px;"><a href="http://2014.runet-id.com " target="_blank">В 2014 ГОДУ RUNET—ID РЕКОМЕНДУЕТ</a></h3>
+              </div>
+            </div>
+            <div class="slide">
+              <div class="content">
                 <h3 style="line-height: 28px"><a href="/page/news/payonline_and_runetid_2013/">Платежный сервис-провайдер PayOnline стал основной платежной системой RUNET-ID</a></h3>
                 <p>Процессинговый центр PayOnline стал официальным платежным партнером сервиса RUNET-ID. Ежедневно через RUNET-ID происходят регистрации на мероприятия медиа- и интернет-индустрии. Это более тысячи уникальных пользователей и потенциальных участников мероприятий, которые производят оплату своего участия в запланированных событиях через сайт.</p>
               </div>
