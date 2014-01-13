@@ -10,7 +10,7 @@
 <div class="row">
 
   <div class="span12">
-    <?=CHtml::beginForm();?>
+    <?=CHtml::beginForm('', 'get');?>
     <div class="row">
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Order');?>
@@ -115,14 +115,17 @@
                     <button class="btn btn-success disabled" disabled type="submit" name="SetPaid"><i class="icon-ok icon-white"></i></button>
                   <?endif;?>
 
+                  <?if ($order->getIsBankTransfer() && !$order->Paid):?>
+                    <a class="btn" href="<?=$this->createUrl('/partner/order/edit', ['orderId' => $order->Id]);?>"><i class="icon-edit"></i></a>
+                  <?else:?>
+                    <a class="btn disabled"><i class="icon-edit"></i></a>
+                  <?endif;?>
+
                   <?if ($order->getIsBankTransfer()):?>
                     <a class="btn" target="_blank" href="<?=$order->getUrl(true);?>"><i class="icon-print"></i></a>
                   <?else:?>
                     <a class="btn disabled" target="_blank"><i class="icon-print"></i></a>
                   <?endif;?>
-
-
-
                 </div>
               <?=CHtml::endForm();?>
               

@@ -8,6 +8,7 @@ class OrderController extends \partner\components\Controller
       'index' => '\partner\controllers\order\IndexAction',
       'create' => '\partner\controllers\order\CreateAction',
       'view' => '\partner\controllers\order\ViewAction',
+      'edit' => '\partner\controllers\order\EditAction'
     );
   }
 

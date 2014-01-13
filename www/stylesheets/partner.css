@@ -115,3 +115,10 @@ p.order-number{
 .table-statistics tfoot td{
   text-align: right;
 }
+
+.errorSummary ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  list-style-type: none;
+}
