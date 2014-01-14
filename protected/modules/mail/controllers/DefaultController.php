@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'research13-6';
-    $isHTML = false;
+    $template = 'almsummit13-html-3';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -79,24 +79,13 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
-    $criteria->addCondition('
-    (
-      ("Participants"."UserId" IN
-        (SELECT "UserId" FROM "EventParticipant" WHERE
-          ("EventId" IN (773) AND "RoleId" = 2)
-        )
-      )
-      OR
-      ("Participants"."UserId" IN (SELECT "UserId" FROM "CompetenceResult" WHERE "TestId" = 2))
-    )');
-
 //    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" != 24 AND "EventId" = 688)');
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 15648, 39948));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 122262));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -158,12 +147,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-//        $mail->SetFrom('info@russiandigitalgames.ru', 'Russian Digital Games 2013', false);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-        $mail->SetFrom('research@raec.ru', 'Экономика Рунета', false);
-//        $mail->SetFrom('event@runet-id.com', 'Design Camp', false);
+        $mail->SetFrom('event@runet-id.com', 'ALM Summit', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Отчет по исследованию Экономика Рунета 2012-2013') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Напоминание об оплате счета') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
@@ -171,7 +158,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-//        $mail->Send();
+        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");
