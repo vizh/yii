@@ -5,12 +5,21 @@
 ?>
 
 <div id="<?=$this->getNameId();?>" class="tab">
-  <div class="row">
-    <article class="<?=!$this->event->FullWidth ? 'span8' : 'span11';?> content">
-      <header>
-        <p><?=$this->event->Info;?></p>
-      </header>
+  <?if (!$this->event->FullWidth):?>
+    <header>
+      <h4><?=$this->event->Info;?></h4>
+    </header>
+    <article>
       <?=$this->event->FullInfo;?>
     </article>
-  </div>
+  <?else:?>
+    <div class="row">
+      <article class="span11 content">
+        <header>
+          <p><?=$this->event->Info;?></p>
+        </header>
+        <?=$this->event->FullInfo;?>
+      </article>
+    </div>
+  <?endif;?>
 </div>
