@@ -17,6 +17,9 @@ $(function () {
   $('input[id*="Create_Options_6"]').change(function () {
     $('input[id*="Create_PlannedParticipants"]').toggleClass('hide');
   });
+  CKEDITOR.replace('event\\models\\forms\\Create[FullInfo]', {
+    height: 500
+  });
 });
 </script>
 
@@ -46,96 +49,121 @@ $(function () {
       
       <?=\CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
       
-      <?=\CHtml::form('', 'POST', ['class' => 'form-horizontal', 'enctype' => 'multipart/form-data']);?>
-      <h4 class="m-bottom_20 m-top_40"><?=\Yii::t('app', 'Контактное лицо');?></h4>
+      <?=\CHtml::form('', 'POST', ['class' => '', 'enctype' => 'multipart/form-data']);?>
 
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'ContactName', array('class' => 'control-label', 'required' => true));?>
-        <div class="controls">
-          <?=\CHtml::activeTextField($form, 'ContactName');?>
+      <div class="well">
+        <h4 class="m-bottom_20"><?=\Yii::t('app', 'Информация о мероприятии');?></h4>
+        <div class="row">
+          <div class="span7">
+            <div class="control-group">
+              <?=\CHtml::activeLabel($form, 'Title', array('class' => 'control-label', 'required' => true));?>
+              <div class="controls">
+                <?=\CHtml::activeTextField($form, 'Title', ['class' => 'input-block-level']);?>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="span2">
+                <div class="control-group">
+                  <?=\CHtml::activeLabel($form, 'City', array('class' => 'control-label', 'required' => true));?>
+                  <div class="controls">
+                    <?=\CHtml::activeTextField($form, 'City', ['placeholder' => \Yii::t('app', 'Москва'), 'class' => 'input-block-level']);?>
+                  </div>
+                </div>
+              </div>
+              <div class="span5">
+                <div class="control-group">
+                  <?=\CHtml::activeLabel($form, 'Place', array('class' => 'control-label', 'required' => true));?>
+                  <div class="controls">
+                    <?=\CHtml::activeTextField($form, 'Place', ['placeholder' => \Yii::t('app', 'Берсеневская наб., 6 (Digital October)'), 'class' => 'input-block-level']);?>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <?=\CHtml::activeLabel($form, 'Date', array('class' => 'control-label', 'required' => true));?>
+              <div class="controls">
+                <?=\CHtml::activeTextField($form, 'StartDate', array('class' => 'input-medium', 'placeholder' => \Yii::t('app', 'дд.мм.гггг')));?> &ndash; <?=\CHtml::activeTextField($form, 'EndDate', array('class' => 'input-medium', 'placeholder' => \Yii::t('app', 'дд.мм.гггг')));?>
+                <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'OneDayDate');?> <?=$form->getAttributeLabel('OneDayDate');?></label>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <?=\CHtml::activeLabel($form, 'Url', array('class' => 'control-label'));?>
+              <div class="controls">
+                <?=\CHtml::activeTextField($form, 'Url');?>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <?=\CHtml::activeLabel($form, 'Info', array('class' => 'control-label', 'required' => true));?>
+              <div class="controls">
+                <?=\CHtml::activeTextArea($form, 'Info', array('class' => 'input-xxlarge', 'style' => 'height: 100px'));?>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <?=\CHtml::activeLabel($form, 'FullInfo', array('class' => 'control-label'));?>
+              <div class="controls">
+                <?=\CHtml::activeTextArea($form, 'FullInfo', array('class' => 'input-xxlarge'));?>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <?=\CHtml::activeLabel($form, 'Options', array('class' => 'control-label'));?>
+              <div class="controls">
+                <?foreach ($form->getOptionsData() as $key => $option):?>
+                <label class="checkbox">
+                  <?=\CHtml::activeCheckBox($form, 'Options['.$key.']', array('checked' => in_array($key, $form->Options) ? true : null, 'uncheckValue' => null, 'value' => $key));?> <?=$option;?>
+                </label>
+                <?if ($key == 6):?>
+                  <?=\CHtml::activeTextField($form, 'PlannedParticipants', ['placeholder' => \Yii::t('app', 'Введите планируемое кол-во участников'), 'class' => 'span4 '.(in_array(6, $form->Options)?'':'hide')]);?>
+                <?endif;?>
+                <?endforeach;?>
+              </div>
+            </div>
+          </div>
+          <div class="span3">
+            <div class="control-group">
+              <?=\CHtml::activeLabel($form, 'LogoSource', array('class' => 'control-label', 'required' => true))?>
+              <div class="controls" style="margin-top: -8px;">
+                <?=\CHtml::activeFileField($form, 'LogoSource')?>
+                <p class="help-block"><?=\Yii::t('app', 'В качестве логотипа загружать векторные изображения (EPS, AI)<br>или PNG24 с прозрачным фоном и шириной не менее 400px.')?></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'ContactPhone', array('class' => 'control-label', 'required' => true));?>
-        <div class="controls">
-          <?=\CHtml::activeTextField($form, 'ContactPhone');?>
+      <h4 class="m-bottom_20 m-top_40"><?=\Yii::t('app', 'Контактный представитель');?></h4>
+      <div class="row">
+        <div class="span4">
+          <div class="control-group">
+            <?=\CHtml::activeLabel($form, 'ContactName', array('class' => 'control-label', 'required' => true));?>
+            <div class="controls">
+              <?=\CHtml::activeTextField($form, 'ContactName', ['class' => 'input-block-level']);?>
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="control-group">
+            <?=\CHtml::activeLabel($form, 'ContactPhone', array('class' => 'control-label', 'required' => true));?>
+            <div class="controls">
+              <?=\CHtml::activeTextField($form, 'ContactPhone', ['class' => 'input-block-level']);?>
+            </div>
+          </div>
+        </div>
+        <div class="span4">
+          <div class="control-group">
+            <?=\CHtml::activeLabel($form, 'ContactEmail', array('class' => 'control-label', 'required' => true));?>
+            <div class="controls">
+              <?=\CHtml::activeTextField($form, 'ContactEmail', ['class' => 'input-block-level']);?>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'ContactEmail', array('class' => 'control-label', 'required' => true));?>
-        <div class="controls">
-          <?=\CHtml::activeTextField($form, 'ContactEmail');?>
-        </div>
-      </div>
-
-      <h4 class="m-bottom_20 m-top_40"><?=\Yii::t('app', 'Мероприятие');?></h4>
-
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'Title', array('class' => 'control-label', 'required' => true));?>
-        <div class="controls">
-          <?=\CHtml::activeTextField($form, 'Title');?>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'Place', array('class' => 'control-label', 'required' => true));?>
-        <div class="controls">
-          <?=\CHtml::activeTextField($form, 'Place');?>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'Date', array('class' => 'control-label', 'required' => true));?>
-        <div class="controls">
-          <?=\CHtml::activeTextField($form, 'StartDate', array('class' => 'input-medium', 'placeholder' => \Yii::t('app', 'дд.мм.гггг')));?> &ndash; <?=\CHtml::activeTextField($form, 'EndDate', array('class' => 'input-medium', 'placeholder' => \Yii::t('app', 'дд.мм.гггг')));?>
-          <label class="checkbox m-top_5"><?=\CHtml::activeCheckBox($form, 'OneDayDate');?> <?=$form->getAttributeLabel('OneDayDate');?></label>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'Url', array('class' => 'control-label'));?>
-        <div class="controls">
-          <?=\CHtml::activeTextField($form, 'Url');?>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'LogoSource', array('class' => 'control-label', 'required' => true))?>
-        <div class="controls">
-          <?=\CHtml::activeFileField($form, 'LogoSource')?>
-          <p class="help-block"><?=\Yii::t('app', 'В качестве логотипа загружать векторные изображения (EPS, AI)<br>или PNG24 с прозрачным фоном и шириной не менее 400px.')?></p>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'Info', array('class' => 'control-label', 'required' => true));?>
-        <div class="controls">
-          <?=\CHtml::activeTextArea($form, 'Info', array('class' => 'input-xxlarge'));?>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'FullInfo', array('class' => 'control-label'));?>
-        <div class="controls">
-          <?=\CHtml::activeTextArea($form, 'FullInfo', array('class' => 'input-xxlarge'));?>
-        </div>
-      </div>
-
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'Options', array('class' => 'control-label'));?>
-        <div class="controls">
-          <?foreach ($form->getOptionsData() as $key => $option):?>
-          <label class="checkbox">
-            <?=\CHtml::activeCheckBox($form, 'Options['.$key.']', array('checked' => in_array($key, $form->Options) ? true : null, 'uncheckValue' => null, 'value' => $key));?> <?=$option;?>
-          </label>
-          <?if ($key == 6):?>
-            <?=\CHtml::activeTextField($form, 'PlannedParticipants', ['placeholder' => \Yii::t('app', 'Введите планируемое кол-во участников'), 'class' => 'span4 '.(in_array(6, $form->Options)?'':'hide')]);?>
-          <?endif;?>
-          <?endforeach;?>
-        </div>
-      </div>
 
       <div class="control-group">
         <div class="controls">

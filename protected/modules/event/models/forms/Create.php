@@ -8,6 +8,7 @@ class Create extends \CFormModel
   
   public $Title;
   public $Place;
+  public $City;
 
   public $LogoSource;
 
@@ -28,15 +29,27 @@ class Create extends \CFormModel
   public function rules()
   {
     return [
-      ['ContactName, ContactPhone, ContactEmail, Title, Place, StartDate, EndDate, Info', 'required'],
+      ['ContactName, ContactPhone, ContactEmail, Title, City, Place, StartDate, EndDate, Info, FullInfo', 'required'],
       ['ContactEmail', 'filter', 'filter' => 'trim'],
-      ['Url, Info, FullInfo, Options, OneDayDate, LogoSource', 'safe'],
+      ['FullInfo', 'filter', 'filter' => [$this, 'filterFullInfo']],
+      ['Url, Info, Options, OneDayDate, LogoSource', 'safe'],
       ['LogoSource', 'file', 'allowEmpty' => false],
       ['ContactEmail', 'email'],
       ['StartDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'StartTimestamp'],
       ['EndDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'EndTimestamp'],
       ['PlannedParticipants', 'filter', 'filter' => [$this, 'filterPlannedParticipants']]
     ];
+  }
+
+  public function filterFullInfo($value)
+  {
+    $purifier = new \CHtmlPurifier();
+    $purifier->options = [
+      'HTML.AllowedElements' => ['p', 'span', 'ol', 'li', 'strong', 'a', 'em', 's', 'ul', 'br', 'u', 'table', 'tbody', 'tr', 'td', 'thead', 'th', 'caption', 'h1', 'h2', 'h3', 'h4', 'h5', 'img', 'div'],
+      'HTML.AllowedAttributes' => ['style', 'a.href', 'a.target', 'table.cellpadding', 'table.cellspacing', 'th.scope', 'table.border', 'img.alt', 'img.src', 'class'],
+      'Attr.AllowedFrameTargets' => ['_blank', '_self']
+    ];
+    return $purifier->purify($value);
   }
 
   protected function beforeValidate()
@@ -68,7 +81,8 @@ class Create extends \CFormModel
       'StartDate' => \Yii::t('app', 'Дата начала'),
       'EndDate' => \Yii::t('app', 'Дата окончания'),
       'OneDayDate' => \Yii::t('app', 'один день'),
-      'PlannedParticipants' => \Yii::t('app', 'Планируемое кол-во участников')
+      'PlannedParticipants' => \Yii::t('app', 'Планируемое кол-во участников'),
+      'City' => \Yii::t('app', 'Город')
     );
   }
   

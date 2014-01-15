@@ -55,7 +55,7 @@ class CreateController extends \application\components\controllers\PublicMainCon
         }
 
         $address = new \contact\models\Address();
-        $address->Place = $form->Place;
+        $address->Place = $form->City.', '.$form->Place;
         $address->save();
         $linkAddress = new \event\models\LinkAddress();
         $linkAddress->AddressId = $address->Id;
@@ -98,6 +98,8 @@ class CreateController extends \application\components\controllers\PublicMainCon
         $this->refresh();
       }
     }
+
+    \Yii::app()->getClientScript()->registerPackage('runetid.ckeditor');
     \Yii::app()->getClientScript()->registerPackage('runetid.bootstrap-datepicker');
     $this->setPageTitle(\Yii::t('app', 'Добавление события'));
     $this->bodyId = 'event-create';
