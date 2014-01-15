@@ -70,11 +70,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(773));
+//    $criteria->addInCondition('"Participants"."EventId"', array(787));
 
-    // Beeline
-//    $criteria->addInCondition('"Participants"."EventId"', array(837));
-//    $criteria->addCondition('("Participants"."UserId" IN (SELECT "UserId" FROM "EventParticipant" WHERE "CreationTime" <= \'2013-12-13 19:00:00\' AND "EventId" = 837 ))');
+    $criteria->addCondition('
+      ("Participants"."UserId" IN
+        (SELECT "PayerId" FROM "PayOrder" WHERE "EventId" = 787 AND "Paid" = false AND "Juridical" = true AND "Deleted" = false)
+      )');
 
 //    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
@@ -85,7 +86,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953, 122262));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953, 122262, 188122, 184445));
 
     echo \user\models\User::model()->count($criteria);
     exit();
@@ -150,7 +151,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->SetFrom('event@runet-id.com', 'ALM Summit', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Напоминание об оплате счета') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('ALM Summit: Напоминание об оплате счета') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
@@ -158,7 +159,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         /* PK PASS для Яблочников */
 //        $mail->AddAttachment($pkPass->runAndSave(), 'ticket.pkpass');
 
-        $mail->Send();
+//        $mail->Send();
 
 //        fwrite($fp, $email . "\n");
         fwrite($fp, $user->RunetId . ' - '. $email . "\n");

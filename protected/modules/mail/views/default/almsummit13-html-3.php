@@ -29,23 +29,22 @@
 	    					<tr>
                   <td>
                     <h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
-                    <p>Благодарим Вас за интерес к конференции ALM Summit и напоминаем, что заказанный Вами счет на оплату участия не был оплачен в течение 5 рабочих дней.</p>
+                    <p>Благодарим Вас за интерес к конференции <a href="http://www.alm-summit.ru/">ALM Summit</a> и напоминаем, что заказанный Вами счет на оплату участия не был оплачен в течение 5 рабочих дней.</p>
                     <p>Просим Вас оплатить заказанный счет до 22 января, чтобы гарантировать участие в конференции.</p>
 
-                    <a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/alm14/');?>" style="display: block; text-decoration: none; background: #7B3384; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Оплатить участие</a>
+                    <p><a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/alm14/');?>" style="display: block; text-decoration: none; background: #7B3384; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Оплатить участие</a></p>
 
-                    <p>Если у Вас возникли сложности с оплатой счета, пожалуйста, напишите нам об этом на <a href="mailto:event@runet-id.com">event@runet-id.com</a> или сообщите по телефону +7(495)950-56-51.</p>
-                    <p>Подробности о конференции ALM Summit вы можете узнать на <a href="http://www.alm-summit.ru/">официальном сайте мероприятия</a>.</p>
+                    <p>Если у Вас возникли сложности с оплатой счета, пожалуйста, напишите нам об этом на <a href="mailto:event@runet-id.com">event@runet-id.com</a> или сообщите по телефону <b>+7(495) 950-56-51</b>.</p>
+                    <p>Ознакомиться с <a href="http://events.techdays.ru/ALM-Summit/2014-02/schedule">программой</a> ALM Summit Вы можете на официальном сайте конференции <a href="http://www.alm-summit.ru/">www.alm-summit.ru</a></p>
                     <p>До встречи на <a href="http://www.alm-summit.ru/">ALM Summit</a>!</p>
 
                     <p>---<br>
                       <em>С уважением,<br>
-                        Организаторы конференции ALM Summit<br>
-                        <a href="http://www.alm-summit.ru/">www.alm-summit.ru</a>
-                        <br><br>
-
-                        Call-center конференции по вопросам оплаты:<br>
-                        <a href="mailto:event@runet-id.com">event@runet-id.com</a></em>
+                        Организаторы конференции ALM Summit<br>--<br>
+                        <a href="mailto:event@runet-id.com">event@runet-id.com</a></em><br>
+                        +7(495) 950-56-51<br>
+                        <a href="http://www.alm-summit.ru/">www.alm-summit.ru</a><br>
+                        #ALMSummit
                     </p>
                   </td>
 						    </tr>
