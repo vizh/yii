@@ -7,7 +7,7 @@
 
 <div class="contacts">
   <header>
-    <h3 class="title">Контакты</h3>
+    <h3 class="title"><?=\Yii::t('app', 'Контакты');?></h3>
   </header>
   <article>
     <?foreach ($phones as $phone):?>
