@@ -694,4 +694,35 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
   {
     return \Yii::app()->createAbsoluteUrl('/event/view/index', array('idName' => $this->IdName));
   }
+
+  /**
+   * @param \user\models\User $user
+   * @param Role $role
+   * @param string $redirectUrl
+   * @return string
+   */
+  public function getFastRegisterUrl($user, $role, $redirectUrl = '')
+  {
+    $params = [
+      'runetId' => $user->RunetId,
+      'eventIdName' => $this->IdName,
+      'roleId' => $role->Id,
+      'hash' => $this->getFastRegisterHash($user, $role)
+    ];
+    if (!empty($redirectUrl))
+    {
+      $params['redirectUrl'] = $redirectUrl;
+    }
+    return \Yii::app()->createAbsoluteUrl('/event/fastregister/index', $params);
+  }
+
+  /**
+   * @param \user\models\User $user
+   * @param Role $role
+   * @return string
+   */
+  public function getFastRegisterHash($user, $role)
+  {
+    return substr(md5($this->Id.$role->Id.'NrNojcA0vDpHN40NDHkE'.$user->RunetId), 0, 16);
+  }
 }
