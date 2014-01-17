@@ -18,7 +18,7 @@ $(function () {
     $('input[id*="Create_PlannedParticipants"]').toggleClass('hide');
   });
   CKEDITOR.replace('event\\models\\forms\\Create[FullInfo]', {
-    height: 500
+    height: 335
   });
 });
 </script>
@@ -95,34 +95,6 @@ $(function () {
                 <?=\CHtml::activeTextField($form, 'Url');?>
               </div>
             </div>
-
-            <div class="control-group">
-              <?=\CHtml::activeLabel($form, 'Info', array('class' => 'control-label', 'required' => true));?>
-              <div class="controls">
-                <?=\CHtml::activeTextArea($form, 'Info', array('class' => 'input-xxlarge', 'style' => 'height: 100px'));?>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <?=\CHtml::activeLabel($form, 'FullInfo', array('class' => 'control-label'));?>
-              <div class="controls">
-                <?=\CHtml::activeTextArea($form, 'FullInfo', array('class' => 'input-xxlarge'));?>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <?=\CHtml::activeLabel($form, 'Options', array('class' => 'control-label'));?>
-              <div class="controls">
-                <?foreach ($form->getOptionsData() as $key => $option):?>
-                <label class="checkbox">
-                  <?=\CHtml::activeCheckBox($form, 'Options['.$key.']', array('checked' => in_array($key, $form->Options) ? true : null, 'uncheckValue' => null, 'value' => $key));?> <?=$option;?>
-                </label>
-                <?if ($key == 6):?>
-                  <?=\CHtml::activeTextField($form, 'PlannedParticipants', ['placeholder' => \Yii::t('app', 'Введите планируемое кол-во участников'), 'class' => 'span4 '.(in_array(6, $form->Options)?'':'hide')]);?>
-                <?endif;?>
-                <?endforeach;?>
-              </div>
-            </div>
           </div>
           <div class="span3">
             <div class="control-group">
@@ -132,6 +104,35 @@ $(function () {
                 <p class="help-block"><?=\Yii::t('app', 'В качестве логотипа загружать векторные изображения (EPS, AI)<br>или PNG24 с прозрачным фоном и шириной не менее 400px.')?></p>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="m-bottom_40">
+          <div class="control-group">
+            <?=\CHtml::activeLabel($form, 'Info', array('class' => 'control-label', 'required' => true));?>
+            <div class="controls">
+              <?=\CHtml::activeTextArea($form, 'Info', array('class' => 'input-block-level', 'style' => 'height: 100px'));?>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <?=\CHtml::activeLabel($form, 'FullInfo', array('class' => 'control-label'));?>
+            <div class="controls">
+              <?=\CHtml::activeTextArea($form, 'FullInfo', array('class' => 'input-block-level'));?>
+            </div>
+          </div>
+        </div>
+        <div class="control-group">
+          <?=\CHtml::activeLabel($form, 'Options', array('class' => 'control-label'));?>
+          <div class="controls">
+            <span class="help-block">Укажите дополнительные опциии, которые были бы вам интересны. Наш менеджер свяжется с вами и предоставит подробную информацию.</span>
+            <?foreach ($form->getOptionsData() as $key => $option):?>
+              <label class="checkbox">
+                <?=\CHtml::activeCheckBox($form, 'Options['.$key.']', array('checked' => in_array($key, $form->Options) ? true : null, 'uncheckValue' => null, 'value' => $key));?> <?=$option;?>
+              </label>
+              <?if ($key == 6):?>
+                <?=\CHtml::activeTextField($form, 'PlannedParticipants', ['placeholder' => \Yii::t('app', 'Введите планируемое кол-во участников'), 'class' => 'span4 '.(in_array(6, $form->Options)?'':'hide')]);?>
+              <?endif;?>
+            <?endforeach;?>
           </div>
         </div>
       </div>

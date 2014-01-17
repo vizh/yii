@@ -77,7 +77,7 @@ class Create extends \CFormModel
       'Info' => \Yii::t('app', 'Краткое описание'),
       'LogoSource' => \Yii::t('app', 'Логотип'),
       'FullInfo' => \Yii::t('app', 'Подробное описание'),
-      'Options' => \Yii::t('app', 'Выберите необходимые вашему мероприятию опции'),
+      'Options' => \Yii::t('app', 'Дополнительные опции'),
       'StartDate' => \Yii::t('app', 'Дата начала'),
       'EndDate' => \Yii::t('app', 'Дата окончания'),
       'OneDayDate' => \Yii::t('app', 'один день'),
