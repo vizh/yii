@@ -16,6 +16,10 @@
         case \mail\models\forms\admin\Template::ByEmail:
           echo 'TemplateEdit.createEmailCriteria('.json_encode($condition).');';
           break;
+
+        case \mail\models\forms\admin\Template::ByRunetId:
+          echo 'TemplateEdit.createRunetIdCriteria('.json_encode($condition).');';
+          break;
       endswitch;
       ?>
     <?endforeach;?>
@@ -100,7 +104,7 @@
         <?endforeach;?>
       </p>
     <?else:?>
-      <div class="alert alert-info"><?=\Yii::t('app', 'Шаблон письма потерпел внешние изменения. Отредактируйте его через PHP редактор. Путь к шаблону: <strong>{path}</strong>', ['{path}' => $template->getViewPath()]);?></div>
+      <div class="alert alert-info"><?=\Yii::t('app', 'Шаблон письма притерпел внешние изменения. Отредактируйте его через PHP редактор. Путь к шаблону: <strong>{path}</strong>', ['{path}' => $template->getViewPath()]);?></div>
     <?endif;?>
     </div>
   </div>
@@ -167,6 +171,21 @@
     <input type="hidden" name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][by]');?>" value="<?=\mail\models\forms\admin\Template::ByEmail;?>" />
   </div>
 </script>
+
+  <script type="text/template" id="runetid-criteria-tpl">
+    <div class="row-fluid m-top_20">
+      <div class="span10">
+        <textarea name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][runetIdList]');?>" class="input-block-level" placeholder="<?=\Yii::t('app', 'Список RUNET-ID через запятую');?>"/>
+      </div>
+      <div class="span2">
+        <select name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][type]');?>" class="input-block-level">
+        <?foreach ($form->getTypeData() as $key => $value):?><option value="<?=$key;?>"><?=$value;?></option><?endforeach;?>
+      </select>
+        <button name="" class="btn btn-danger m-top_5" type="button"><?=\Yii::t('app', 'Удалить');?></button>
+      </div>
+      <input type="hidden" name="<?=\CHtml::activeName($form, 'Conditions[<%=i%>][by]');?>" value="<?=\mail\models\forms\admin\Template::ByRunetId;?>" />
+    </div>
+  </script>
 
 
 <?=\CHtml::endForm();?>

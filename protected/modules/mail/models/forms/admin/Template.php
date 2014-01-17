@@ -3,8 +3,9 @@ namespace mail\models\forms\admin;
 
 class Template extends \CFormModel
 {
-  const ByEvent = 'Event';
-  const ByEmail = 'Email';
+  const ByEvent   = 'Event';
+  const ByEmail   = 'Email';
+  const ByRunetId = 'RunetId';
 
   const TypePositive = 'positive';
   const TypeNegative = 'negative';
@@ -83,6 +84,10 @@ class Template extends \CFormModel
         case self::ByEmail:
           $value[$key] = $this->filterConditionByEmail($condition);
           break;
+
+        case self::ByRunetId:
+          $value[$key] = $this->filterConditionByRunetId($condition);
+          break;
       }
     }
 
@@ -131,6 +136,27 @@ class Template extends \CFormModel
     return $condition;
   }
 
+  private function filterConditionByRunetId($condition)
+  {
+    if (empty($condition['runetIdList']))
+    {
+      $this->addError('Conditions', \Yii::t('app', 'Укажите список RUNET-ID в фильтре.'));
+    }
+    else
+    {
+      $runetIdList = explode(',', $condition['runetIdList']);
+      foreach ($runetIdList as $runetId)
+      {
+        $user = \user\models\User::model()->byRunetId($runetId)->find();
+        if ($user == null)
+        {
+          $this->addError('Conditions', \Yii::t('app', 'Не найден пользователь с RUNET-ID:"{runetId}"', ['{runetId}' => $runetId]));
+        }
+      }
+    }
+    return $condition;
+  }
+
   public function bodyFields()
   {
     return [
@@ -161,7 +187,8 @@ class Template extends \CFormModel
   {
     return [
       self::ByEvent => 'По мероприятию',
-      self::ByEmail => 'По email'
+      self::ByEmail => 'По email',
+      self::ByRunetId => 'По RUNET-ID'
     ];
   }
 

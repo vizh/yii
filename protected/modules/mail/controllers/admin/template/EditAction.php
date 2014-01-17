@@ -106,6 +106,11 @@ class EditAction extends \CAction
           $condition = new \mail\components\filter\EmailCondition(explode(',', $condition['emails']));
           $filter->addCondition('\mail\components\filter\Email', $condition, $positive);
           break;
+
+        case \mail\models\forms\admin\Template::ByRunetId:
+          $condition = new \mail\components\filter\RunetIdCondition(explode(',', $condition['runetIdList']));
+          $filter->addCondition('\mail\components\filter\RunetId', $condition, $positive);
+          break;
       }
     }
     $this->template->setFilter($filter);
@@ -124,7 +129,7 @@ class EditAction extends \CAction
     {
       $this->template->setTestMode(true);
       $this->template->setTestUsers(
-        \user\models\User::model()->bySearch($this->form->TestUsers)->findAll()
+        \user\models\User::model()->byRunetIdList(explode(', ', $this->form->TestUsers))->findAll()
       );
       $this->template->send();
       \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Тестовая рассылка успешно отправлена!'));
@@ -138,8 +143,9 @@ class EditAction extends \CAction
   {
     $conditions = [];
     $filters = [
-      '\mail\components\filter\Event' => \mail\models\forms\admin\Template::ByEvent,
-      '\mail\components\filter\Email' => \mail\models\forms\admin\Template::ByEmail
+      '\mail\components\filter\Event'   => \mail\models\forms\admin\Template::ByEvent,
+      '\mail\components\filter\Email'   => \mail\models\forms\admin\Template::ByEmail,
+      '\mail\components\filter\RunetId' => \mail\models\forms\admin\Template::ByRunetId
     ];
     $types = [
       \mail\models\forms\admin\Template::TypePositive,
@@ -169,6 +175,10 @@ class EditAction extends \CAction
 
               case \mail\models\forms\admin\Template::ByEmail:
                 $condition['emails'] = implode(',', $condition['emails']);
+                break;
+
+              case \mail\models\forms\admin\Template::ByRunetId:
+                $condition['runetIdList'] = implode(',', $condition['runetIdList']);
                 break;
             }
             $conditions[] = $condition;

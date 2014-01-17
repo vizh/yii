@@ -104,14 +104,18 @@ class Template extends \CActiveRecord
     $criteria = new \CDbCriteria();
     $criteria->with = ['Settings'];
     $criteria->order = '"t"."Id" ASC';
-    if (!$this->SendUnsubscribe)
-    {
-      $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
-    }
 
-    if (!$this->SendInvisible)
+    if (!$this->getIsTestMode())
     {
-      $criteria->addCondition('"t"."Visible"');
+      if (!$this->SendUnsubscribe)
+      {
+        $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+      }
+
+      if (!$this->SendInvisible)
+      {
+        $criteria->addCondition('"t"."Visible"');
+      }
     }
 
     if (!$this->getIsTestMode() && !$all && $this->LastUserId !== null)
