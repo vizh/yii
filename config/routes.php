@@ -147,8 +147,7 @@ return array(
 
           
         /** ALL MODULES */
-        'http://'. RUNETID_HOST.'/fastauth/<runetId:\d+>/<hash>/' => 'main/fastauth/index',
-        'http://'. RUNETID_HOST.'/register/<runetId:\d+>/<eventIdName>/<roleId:\d+>/<hash>/' => 'event/fastregister/index',
+        'http://'. RUNETID_HOST.'/fastauth/<runetId:\d+>/<hash>/' => 'main/fastauth/index',  
           
         'http://'. RUNETID_HOST.'/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
             
