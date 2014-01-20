@@ -11,16 +11,6 @@ class FbController extends \application\components\controllers\AdminMainControll
 {
   public $layout = '/admin/layouts/simple';
 
-  protected function beforeAction($action)
-  {
-    \Yii::app()->getClientScript()->registerScript(
-      'fb-window-close',
-      'setTimeout(function() {window.close(); window.opener.location.reload();}, 3000)',
-      \CClientScript::POS_READY
-    );
-    return true;
-  }
-
   /**
    * Публикует мероприятие на Facebook
    * @param $eventId
@@ -69,6 +59,11 @@ class FbController extends \application\components\controllers\AdminMainControll
     try
     {
       $func();
+	  \Yii::app()->getClientScript()->registerScript(
+      'fb-window-close',
+      'setTimeout(function() {window.close(); window.opener.location.reload();}, 3000)',
+      \CClientScript::POS_READY
+    );
     }
     catch (\FacebookApiException $e)
     {
