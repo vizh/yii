@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'almsummit13-html-3';
+    $template = 'devcon14-html-1';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -30,10 +30,16 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 */
 
     // Чтение из файла
-/*
-//    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2013-11-26/alley_all.csv');
+    /*
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2014-01-20/users.csv');
 //    foreach($arUsers as $eml) $emails[$eml] = trim($eml);
-    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+
+    foreach($arUsers as $data) {
+      list($name, $eml) = explode(';', $data);
+      $emails[$eml] = $name . ';'. trim($eml);
+    }
+
+    $emails['v.eroshenko@gmail.com'] = 'Виталий;v.eroshenko@gmail.com';
 //    $emails['ilya.chertilov@gmail.com'] = 'ilya.chertilov@gmail.com';
 //    $emails['t.ruzhich@rta-moscow.com'] = 't.ruzhich@rta-moscow.com';
 //    $emails['grebennikov.sergey@gmail.com'] = 'grebennikov.sergey@gmail.com';
@@ -45,7 +51,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = array_slice($emails, $offset, $limit, true);
 
 //    print count($emails); exit();
-*/
+    */
 
     /*
     // C ПОИСКОМ ПО БД
@@ -96,6 +102,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
 
+
     /* Для PK PASS для Яблочников */
 //    $event = \event\models\Event::model()->findByPk(837);
 
@@ -103,6 +110,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       foreach ($users as $user)
       {
+//        list($name, $email) = explode(';', $user);
 
 //        print $user->Participants[0]->Role->Title;
 //        print $user->Participants[0]->getTicketUrl();
@@ -115,6 +123,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        for($i = 0; $i < 2; $i++) $arPromo[] = $this->getPromo();
 
         // ПИСЬМО
+
+//        $body = $this->renderPartial($template, array('user' => $name), true);
 
         $body = $this->renderPartial($template, array('user' => $user), true);
 //        $body = $this->renderPartial($template, array('user' => $user, 'arPromo' => $arPromo), true);
@@ -149,9 +159,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-        $mail->SetFrom('event@runet-id.com', 'ALM Summit', false);
+        $mail->SetFrom('devcon@runet-id.com', 'DevCon 2014', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('ALM Summit: Напоминание об оплате счета') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('DevCon 2014: подтвердите свое участие в конференции!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
