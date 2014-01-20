@@ -3,6 +3,7 @@
 /** @var $event \event\models\Event */
 
 ?>
+
 <?=\CHtml::form('','POST',array('class' => 'form-horizontal', 'enctype' => 'multipart/form-data'));?>
 <div class="btn-toolbar">
   <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), array('class' => 'btn btn-success'));?>
@@ -98,7 +99,9 @@
           <?=\CHtml::activeDropDownList($form, 'TypeId', \CHtml::listData(\event\models\Type::model()->findAll(), 'Id', 'Title'));?>
         </div>
       </div>
-      
+
+      <? $this->renderPartial('_fbPublish', ['event' => $event]); ?>
+
       <div class="control-group">
         <?=\CHtml::activeLabel($form, 'Visible', array('class' => 'control-label'));?>
         <div class="controls">

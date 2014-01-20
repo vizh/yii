@@ -4,6 +4,8 @@ return array(
   'params' => array(
     'CookieDomain' => '.'.RUNETID_HOST,
 
+    'PublicTmp' => '/files/tmp',
+
     'Languages' => array('ru', 'en'),
 
     'EventDir' => '/files/event/%s/', // директория файлов мероприятий
