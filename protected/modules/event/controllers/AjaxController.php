@@ -7,7 +7,7 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     $criteria = new \CDbCriteria();
     $criteria->limit = 10;
     $criteria->order = '"t"."Id" DESC';
-    
+
     if (is_numeric($term))
     {
       $criteria->addCondition('"t"."Id" = :Id');
@@ -18,7 +18,7 @@ class AjaxController extends \application\components\controllers\PublicMainContr
       $criteria->addCondition('"t"."IdName" ILIKE :Term OR "t"."Title" ILIKE :Term');
       $criteria->params['Term'] = '%'.$term.'%';
     }    
-    $events = \event\models\Event::model()->findAll($criteria);
+    $events = \event\models\Event::model()->byDeleted(false)->findAll($criteria);
     foreach ($events as $event)
     {
       $item = new \stdClass();

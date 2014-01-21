@@ -124,31 +124,52 @@
         </div>
       </div>
       <?if ($event->External == true):?>
-      <p class="text-warning"><?=\Yii::t('app', 'Внешнее мероприятие');?></p>
-      <div class="control-group">
-        <?=\CHtml::activeLabel($form, 'Approved', array('class' => 'control-label'));?>
-        <div class="controls">
-          <?=\CHtml::activeDropDownList($form, 'Approved', array(
-            \event\models\Approved::Yes => \Yii::t('app', 'Принят'),
-            \event\models\Approved::None => \Yii::t('app', 'На рассмотрении'),
-            \event\models\Approved::No => \Yii::t('app', 'Отклонен')
-          ));?>
+        <p class="text-warning"><?=\Yii::t('app', 'Внешнее мероприятие');?></p>
+        <div class="control-group">
+          <?=\CHtml::activeLabel($form, 'Approved', array('class' => 'control-label'));?>
+          <div class="controls">
+            <?=\CHtml::activeDropDownList($form, 'Approved', array(
+              \event\models\Approved::Yes => \Yii::t('app', 'Принят'),
+              \event\models\Approved::None => \Yii::t('app', 'На рассмотрении'),
+              \event\models\Approved::No => \Yii::t('app', 'Отклонен')
+            ));?>
+          </div>
         </div>
-      </div>
+
+        <?if (isset($event->Options)):?>
+          <div class="control-group">
+            <label class="control-label"><?=\Yii::t('app', 'Дополнительные услуги, выбранные клиентом');?>:</label>
+            <div class="controls m-top_5">
+              <?foreach (unserialize($event->Options) as $option):?>
+                <nobr>&mdash; <?=$option;?></nobr><br/>
+              <?endforeach;?>
+            </div>
+          </div>
+        <?endif?>
+
+        <?if (isset($event->ContactPerson)):?>
+          <div class="control-group">
+            <label class="control-label"><?=\Yii::t('app', 'Контактные данные клиента');?>:</label>
+            <div class="controls m-top_5">
+              <?$person = unserialize($event->ContactPerson);?>
+              <nobr><?=$person['Name'];?></nobr><br/><nobr>(<?=\CHtml::mailto($person['Email']);?>)</nobr><br/><nobr><?=$person['Phone'];?></nobr>
+            </div>
+          </div>
+        <?endif;?>
       <?endif;?>
 
       <?if (!$event->getIsNewRecord()):?>
-      <div class="control-group">
-        <div class="controls">
-          <a href="<?=$this->createUrl('/event/admin/edit/product', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-shopping-cart"></i> <?=\Yii::t('app', 'Товары');?></a>
+        <div class="control-group">
+          <div class="controls">
+            <a href="<?=$this->createUrl('/event/admin/edit/product', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-shopping-cart"></i> <?=\Yii::t('app', 'Товары');?></a>
+          </div>
         </div>
-      </div>
-      <div class="control-group">
-        <div class="controls">
-          <a href="<?=$this->createUrl('/event/admin/mail/register', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-pencil"></i> <?=\Yii::t('app', 'Рег. письмо');?></a>
+        <div class="control-group">
+          <div class="controls">
+            <a href="<?=$this->createUrl('/event/admin/mail/register', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-pencil"></i> <?=\Yii::t('app', 'Рег. письмо');?></a>
+          </div>
         </div>
-      </div>
-      <?endif;?>
+      <?endif?>
     </div>
   </div>
   

@@ -99,7 +99,7 @@ class Controller extends \application\components\controllers\BaseController
   private function getExtendedAccountEventData()
   {
     /** @var \event\models\Event[] $events */
-    $events = \event\models\Event::model()->findAll();
+    $events = \event\models\Event::model()->byDeleted(false)->findAll();
     $dataEvents = array();
     foreach ($events as $event)
     {

@@ -51,7 +51,9 @@ class CreateController extends \application\components\controllers\PublicMainCon
 
         if (!empty($form->Url))
         {
-          $event->setContactSite($form->Url);
+          $parseUrl = parse_url($form->Url);
+          $url = $parseUrl['host'].(!empty($parseUrl['path']) ? rtrim($parseUrl['path'], '/').'/' : '').(!empty($parseUrl['query']) ? '?'.$parseUrl['query'] : '');
+          $event->setContactSite($url, ($parseUrl['scheme'] == 'https' ? true : false));
         }
 
         $address = new \contact\models\Address();
@@ -79,7 +81,12 @@ class CreateController extends \application\components\controllers\PublicMainCon
         $attributeValue = array();
         foreach($form->Options as $option)
         {
-          $attributeValue[] = $form->getOptionValue($option);
+          $value = $form->getOptionValue($option);
+          if ($option == 6 && !empty($form->PlannedParticipants))
+          {
+            $value .= ', '.$form->PlannedParticipants.' чел.';
+          }
+          $attributeValue[] = $value;
         }
         $attribute->Value = serialize($attributeValue);
         $attribute->EventId = $event->Id;

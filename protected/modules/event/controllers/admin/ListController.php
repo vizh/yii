@@ -3,8 +3,11 @@ class ListController extends \application\components\controllers\AdminMainContro
 {
   public function actionIndex()
   {
+    $this->processAction();
+
     $criteria = new \CDbCriteria();
     $criteria->order = '"t"."Id" DESC';
+    $criteria->addCondition('NOT "t"."Deleted"');
 
     $searchQuery = \Yii::app()->request->getParam('Query', null);
     if (!empty($searchQuery))
@@ -41,5 +44,34 @@ class ListController extends \application\components\controllers\AdminMainContro
       'events' => $events, 
       'paginator' => $paginator,
     ));
+  }
+
+  private function processAction()
+  {
+    $request = \Yii::app()->getRequest();
+    $action = $request->getParam('Action');
+    if ($action == null)
+      return;
+
+    $event = \event\models\Event::model()->findByPk($request->getParam('EventId'));
+    if ($event == null)
+      return;
+
+    $backUrl = $request->getParam('BackUrl');
+    if ($backUrl == null)
+      return;
+
+    switch ($action)
+    {
+      case 'Delete':
+        if ($event->getCanBeRemoved())
+        {
+          $event->Deleted = true;
+          $event->DeletionTime = date('Y-m-d H:i:s');
+          $event->save();
+        }
+    }
+
+    $this->redirect($backUrl);
   }
 }

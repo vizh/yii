@@ -8,7 +8,7 @@ class Sidebar extends \CWidget
     $counts = new \stdClass();
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."External" = true AND "t"."Approved" = 0';
-    $counts->Event = \event\models\Event::model()->count($criteria);
+    $counts->Event = \event\models\Event::model()->byDeleted(false)->count($criteria);
     $this->render('sidebar', array('counts' => $counts));
   }
 }

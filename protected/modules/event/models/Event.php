@@ -21,6 +21,8 @@ namespace event\models;
  * @property string $LogoSource
  * @property string $CreationTime
  * @property bool $FullWidth
+ * @property bool $Deleted
+ * @property string $DeletionTime
  *
  * @property Part[] $Parts
  * @property \event\models\section\Section[] $Sections
@@ -110,7 +112,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
    */
   protected function getInternalAttributeNames()
   {
-    return array('UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson', 'MailRegisterSubject', 'MailRegisterBody', 'MailRegisterBodyRendered');
+    return array('UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson', 'MailRegisterSubject', 'MailRegisterBody', 'MailRegisterBodyRendered', 'Options');
   }
 
   public function __get($name)
@@ -270,6 +272,13 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
     return $this;
   }
 
+  public function byDeleted($deleted = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($deleted ? '' : 'NOT ') . '"t"."Deleted"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 
 //  public function byTagId($id, $useAnd = true)
 //  {
@@ -724,5 +733,13 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
   public function getFastRegisterHash($user, $role)
   {
     return substr(md5($this->Id.$role->Id.'NrNojcA0vDpHN40NDHkE'.$user->RunetId), 0, 16);
+  }
+
+  /**
+   * @return bool
+   */
+  public function getCanBeRemoved()
+  {
+    return ($this->External && $this->Approved !== Approved::Yes && !$this->Deleted);
   }
 }
