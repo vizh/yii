@@ -22,6 +22,8 @@ namespace event\models;
  * @property string $CreationTime
  * @property bool $FullWidth
  * @property string $FbId Идентификатор мероприятия на Facebook. Если его нет, то мероприятие считает не опубликованным
+ * @property bool $Deleted
+ * @property string $DeletionTime
  *
  * @property Part[] $Parts
  * @property \event\models\section\Section[] $Sections
@@ -267,6 +269,14 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
       'ToMonth' => $month,
       'ToDay' => $day
     );
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function byDeleted($deleted = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = ($deleted ? '' : 'NOT ') . '"t"."Deleted"';
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -812,5 +822,10 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
       $fbEvent->ticketUri = \Yii::app()->createAbsoluteUrl('/pay/cabinet/register', ['eventIdName' => $this->IdName]);
 
     return $fbEvent;
+  }
+
+  public function getCanBeRemoved()
+  {
+    return ($this->External && $this->Approved !== Approved::Yes && !$this->Deleted);
   }
 }
