@@ -22,7 +22,7 @@
           <?= \CHtml::endForm(); ?>
         <?endif;?>
       </td>
-      <td><?=\Yii::t('app', $collection->getOrder()->Receipt ? 'Квитанция' : 'Счет');?> № <?=$collection->getOrder()->Id;?> <?=\Yii::t('app', 'от');?> <?=\Yii::app()->dateFormatter->format('d MMMM yyyy', $collection->getOrder()->CreationTime);?>
+      <td><?=\Yii::t('app', $collection->getOrder()->Receipt ? 'Квитанция' : 'Счет');?> № <?=$collection->getOrder()->Number;?> <?=\Yii::t('app', 'от');?> <?=\Yii::app()->dateFormatter->format('d MMMM yyyy', $collection->getOrder()->CreationTime);?>
 
 
       </td>
