@@ -22,7 +22,10 @@
 
         <?foreach ($event->Widgets as $widget):?>
           <?if ($widget->getPosition() == \event\components\WidgetPosition::Sidebar):?>
-            <?$widget->run();?>
+            <?
+            $widget->getEvent()->FullWidth = false;
+            $widget->run();
+            ?>
           <?endif;?>
         <?endforeach;?>
       </aside>
