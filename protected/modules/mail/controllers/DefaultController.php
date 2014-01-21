@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'devcon14-html-1';
+    $template = 'almsummit13-html-4';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -76,30 +76,34 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       'Settings' => array('select' => false)
     );
 
-//    $criteria->addInCondition('"Participants"."EventId"', array(787));
+    $criteria->addInCondition('"Participants"."EventId"', array(787));
 
-    $criteria->addCondition('
-      ("Participants"."UserId" IN
-        (SELECT "PayerId" FROM "PayOrder" WHERE "EventId" = 787 AND "Paid" = false AND "Juridical" = true AND "Deleted" = false)
-      )');
-
-//    $criteria->addInCondition('"Participants"."RoleId"', array(24));
+    $criteria->addNotInCondition('"Participants"."RoleId"', array(24));
 //    $criteria->addInCondition('"Participants"."PartId"', array(19));
 
-//    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" != 24 AND "EventId" = 688)');
+    /*
+    $criteria->addCondition('
+      "Participants"."UserId" IN
+      (
+        SELECT "UserId" FROM "EventParticipant" WHERE "EventId" IN (424,246,195)
+      )
+    ');
+    */
+//    $criteria->addCondition('"Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "RoleId" != 24 AND "EventId" = 787)');
+
 
     $criteria->distinct = true;
     $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953, 122262, 188122, 184445));
+    $criteria->addInCondition('"t"."RunetId"', array(12953, 188122, 184445, 122262));
 
     echo \user\models\User::model()->count($criteria);
     exit();
 
     $criteria->limit = 200;
     $criteria->order = '"t"."RunetId" ASC';
-    $criteria->offset = $step * $criteria->limit;
+//    $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
 
 
@@ -159,9 +163,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-        $mail->SetFrom('devcon@runet-id.com', 'DevCon 2014', false);
+        $mail->SetFrom('event@runet-id.com', 'ALM Summit', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('DevCon 2014: подтвердите свое участие в конференции!') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Прими участие в ALM Summit бесплатно!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
