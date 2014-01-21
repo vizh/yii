@@ -68,9 +68,9 @@ class OrderJuridicalTemplate extends \CActiveRecord
 
   protected function afterFind()
   {
-    $this->SignFirstImageMargin  = explode(',', trim($this->SignFirstImageMargin,')('));  
-    $this->SignSecondImageMargin = explode(',', trim($this->SignSecondImageMargin,')('));  
-    $this->StampImageMargin      = explode(',', trim($this->StampImageMargin,')('));
+    if ($this->SignFirstImageMargin !== null) $this->SignFirstImageMargin = explode(',', trim($this->SignFirstImageMargin,')('));
+    if ($this->SignSecondImageMargin !== null) $this->SignSecondImageMargin = explode(',', trim($this->SignSecondImageMargin,')('));
+    if ($this->StampImageMargin !== null) $this->StampImageMargin = explode(',', trim($this->StampImageMargin,')('));
     parent::afterFind();
   }
   
