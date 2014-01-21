@@ -11,6 +11,7 @@
   <div class="row participants units"><?
     foreach ($users as $user):
     ?><div class="span2 participant unit">
+        <?$noIndex = !$user->Settings->IndexProfile;?>
         <?php
           if (sizeof($user->Participants) > 1):
             $roles = array();
@@ -22,7 +23,8 @@
             $status = $user->Participants[0]->Role->Title;
           endif;
         ?>
-        <a href="<?=$user->getUrl();?>" title="<?=$status;?>">
+        <?if ($noIndex):?><!--noindex--><?endif;?>
+        <a href="<?=$user->getUrl();?>" title="<?=$status;?>" <?if ($noIndex):?>rel="nofollow"<?endif;?>>
           <img src="<?=$user->getPhoto()->get58px();?>" alt="" width="58" height="58" class="photo">
           <div class="name"><?=$user->getName();?></div>
         </a>
@@ -31,6 +33,7 @@
             <small class="muted"><?=$user->getEmploymentPrimary()->Company->Name;?></small>
           </div>
         <?endif;?>
+      <?if ($noIndex):?><!--/noindex--><?endif;?>
       </div><?
     endforeach;
     ?></div>

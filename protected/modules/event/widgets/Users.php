@@ -16,7 +16,8 @@ class Users extends \event\components\Widget
       $userModel = \user\models\User::model()->byEventId($this->event->Id)->byVisible();
       $mainCriteria = new \CDbCriteria($userModel->getDbCriteria());
       $mainCriteria->order = $this->showCounter ? '"Participants"."CreationTime" DESC' : '"t"."LastName" ASC';
- 
+      $mainCriteria->with[] = 'Settings';
+
       if ($this->criteria !== null)
       {
         $mainCriteria->mergeWith($this->criteria);

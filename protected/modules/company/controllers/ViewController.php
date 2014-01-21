@@ -12,7 +12,7 @@ class ViewController extends \application\components\controllers\PublicMainContr
       'EmploymentsAll' => [
         'together' => false, 
         'order' => '"User"."LastName" ASC',
-        'with' => ['User'],
+        'with' => ['User', 'User.Settings'],
         'condition' => '"User"."Visible"'
       ]
     ];

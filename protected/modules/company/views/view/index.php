@@ -91,11 +91,14 @@
       <h4 class="title"><?=\Yii::t('app', 'Сотрудники компании');?></h4>
       <div class="row">
         <?foreach ($employments as $employment):?><div class="employee unit span2">
-          <a href="<?=$this->createUrl('/user/view/index', array('runetId' => $employment->User->RunetId));?>" class="imgcrop-140">
+          <?$noIndex = !$employment->User->Settings->IndexProfile;?>
+          <?if ($noIndex):?><!--noindex--><?endif;?>
+          <a href="<?=$this->createUrl('/user/view/index', array('runetId' => $employment->User->RunetId));?>" class="imgcrop-140" <?if ($noIndex):?>rel="nofollow"<?endif;?>>
             <?=\CHtml::image($employment->User->Photo->get200px(), $employment->User->getFullName(), array('width' => 138, 'height' => 138));?>
           </a>
-          <p class="name"><a href="<?=$this->createUrl('/user/view/index', array('runetId' => $employment->User->RunetId));?>"><?=$employment->User->getFullName();?></a></p>
+          <p class="name"><a href="<?=$this->createUrl('/user/view/index', array('runetId' => $employment->User->RunetId));?>" <?if ($noIndex):?>rel="nofollow"<?endif;?>><?=$employment->User->getFullName();?></a></p>
           <p class="post"><?=$employment->Position;?></p>
+          <?if ($noIndex):?><!--/noindex--><?endif;?>
         </div><?endforeach;?>
     </div>
     <?endif;?>
@@ -105,13 +108,16 @@
       <h5 class="title"><?=\Yii::t('app', 'Работали раньше');?></h5>
       <div class="row">
         <?foreach ($employmentsEx as $employment):?><div class="employee_ex unit span2">
-          <a href="<?=$this->createUrl('/user/view/index', array('runetId' => $employment->User->RunetId));?>">
+          <?$noIndex = !$employment->User->Settings->IndexProfile;?>
+          <?if ($noIndex):?><!--noindex--><?endif;?>
+          <a href="<?=$this->createUrl('/user/view/index', array('runetId' => $employment->User->RunetId));?>" <?if ($noIndex):?>rel="nofollow"<?endif;?>>
             <?=\CHtml::image($employment->User->Photo->get90px(), $employment->User->getFullName(), array('width' => 58, 'height' => 58, 'class' => 'photo'));?>
             <p class="name"><?=$employment->User->getFullName();?></p>
           </a>
           <p class="company">
             <?=$employment->Position;?>
           </p>
+          <?if ($noIndex):?><!--/noindex--><?endif;?>
         </div><?endforeach;?>
       </div>
     </div>
