@@ -8,9 +8,9 @@ class IndexAction extends \CAction
     $copy = \Yii::app()->getRequest()->getParam('copy');
     if ($copy !== null)
     {
-      $this->doCopyTemplate($copy);
+      $template = $this->createCopyTemplate($copy);
       $this->getController()->redirect(
-        $this->getController()->createUrl('/pay/admin/orderjuridicaltemplate/index')
+        $this->getController()->createUrl('/pay/admin/orderjuridicaltemplate/edit', ['templateId' => $template->Id])
       );
     }
     $criteria = new \CDbCriteria();
@@ -25,7 +25,12 @@ class IndexAction extends \CAction
     $this->getController()->render('index', ['templates' => $templates, 'paginator' => $paginator]);
   }
 
-  private function doCopyTemplate($parentTemplateId)
+  /**
+   * @param $parentTemplateId
+   * @return \pay\models\OrderJuridicalTemplate
+   * @throws \CHttpException
+   */
+  private function createCopyTemplate($parentTemplateId)
   {
     $template = \pay\models\OrderJuridicalTemplate::model()->findByPk($parentTemplateId);
     if ($template == null)
@@ -41,5 +46,7 @@ class IndexAction extends \CAction
     $template = new \pay\models\OrderJuridicalTemplate();
     $template->setAttributes($attributes, false);
     $template->save();
+
+    return $template;
   }
 } 

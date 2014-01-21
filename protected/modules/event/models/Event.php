@@ -21,8 +21,7 @@ namespace event\models;
  * @property string $LogoSource
  * @property string $CreationTime
  * @property bool $FullWidth
- * @property bool $Deleted
- * @property string $DeletionTime
+ * @property string $FbId Идентификатор мероприятия на Facebook. Если его нет, то мероприятие считает не опубликованным
  *
  * @property Part[] $Parts
  * @property \event\models\section\Section[] $Sections
@@ -112,7 +111,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
    */
   protected function getInternalAttributeNames()
   {
-    return array('UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson', 'MailRegisterSubject', 'MailRegisterBody', 'MailRegisterBodyRendered', 'Options');
+    return array('UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson', 'MailRegisterSubject', 'MailRegisterBody', 'MailRegisterBodyRendered');
   }
 
   public function __get($name)
@@ -272,13 +271,6 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
     return $this;
   }
 
-  public function byDeleted($deleted = true, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = ($deleted ? '' : 'NOT ') . '"t"."Deleted"';
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
 
 //  public function byTagId($id, $useAnd = true)
 //  {
@@ -736,10 +728,89 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
   }
 
   /**
+   * Удаляем мероприятие с Facebook при удалении в базе
+   * @return bool|void
+   */
+  public function delete()
+  {
+    parent::delete();
+    if ($this->isFbPublish())
+      $this->fbDelete();
+  }
+
+  /**
+   * Определяет, опубликовано ли мероприятие на Facebook
    * @return bool
    */
-  public function getCanBeRemoved()
+  public function isFbPublish()
   {
-    return ($this->External && $this->Approved !== Approved::Yes && !$this->Deleted);
+    return !empty($this->FbId);
+  }
+
+  /**
+   * Опубликовать мероприятрие на Facebook
+   * @throws \CException
+   */
+  public function fbPublish()
+  {
+    if (!empty($this->FbId))
+      throw new \CException('Мероприятие уже опубликовано!');
+
+    $fbEvent = $this->makeFbEvent();
+    $id = $fbEvent->publish();
+    if (empty($this->FbId))
+    {
+      $this->FbId = $id;
+      $this->save();
+    }
+
+    $fbEvent->setPicture($this->getLogo()->getOriginal(true));
+  }
+
+  /**
+   * Обновить мероприятие на Facebook
+   * @return bool
+   */
+  public function fbUpdate()
+  {
+    return $this->makeFbEvent()->update();
+  }
+
+  /**
+   * Удаляет мероприятие на Facebook
+   * @return mixed
+   * @throws \CException
+   */
+  public function fbDelete()
+  {
+    if (empty($this->FbId))
+      throw new \CException('Невозможно удалить не опубликованное мероприятие!');
+
+    $res = $this->makeFbEvent()->delete();
+    $this->FbId = null;
+    $this->save();
+    return $res;
+  }
+
+  /**
+   * Сгенерировать FbEvent
+   * @return \application\components\socials\facebook\Event
+   */
+  private function makeFbEvent()
+  {
+    $fbEvent = new \application\components\socials\facebook\Event($this->FbId);
+    $fbEvent->name = $this->Title;
+    $fbEvent->description = $this->Info;
+
+    $fbEvent->setStartTime($this->StartYear . '-' . $this->StartMonth . '-' . $this->StartDay);
+    if ($this->StartYear != $this->EndYear || $this->StartMonth != $this->EndMonth || $this->StartDay != $this->EndDay)
+      $fbEvent->setEndTime($this->EndYear . '-' . $this->EndMonth . '-' . $this->EndDay);
+
+    $fbEvent->location = (string)$this->LinkAddress->Address;
+
+    if (\pay\models\Product::model()->byEventId($this->Id)->count())
+      $fbEvent->ticketUri = \Yii::app()->createAbsoluteUrl('/pay/cabinet/register', ['eventIdName' => $this->IdName]);
+
+    return $fbEvent;
   }
 }

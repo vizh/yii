@@ -11,7 +11,7 @@ class IndexAction extends \CAction
       $event = \event\models\Event::model()->findByPk($eventId);
       if ($event == null)
       {
-        throw new CHttpException(404);
+        throw new \CHttpException(404);
       }
       
       $attributes = $event->getAttributes();
