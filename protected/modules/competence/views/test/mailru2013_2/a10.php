@@ -29,7 +29,7 @@ foreach ($form->getOptions() as $key => $value)
         <?foreach ($part1 as $key => $value):?>
           <li>
             <label class="checkbox">
-              <?=CHtml::activeCheckBox($form, 'value['.$keyTop.'][]', ['value' => $key, 'uncheckValue' => null, 'checked' => isset($form->value[$keyTop]) && in_array($key, $form->value[$keyTop]), 'data-group' => 'group'.$keyTop, 'data-negative' => (int)($key==90)]);?>
+              <?=CHtml::activeCheckBox($form, 'value['.$keyTop.'][]', ['value' => $key, 'uncheckValue' => null, 'checked' => isset($form->value[$keyTop]) && in_array($key, $form->value[$keyTop]), 'data-group' => 'group'.$keyTop, 'data-unchecker' => (int)($key==90)]);?>
               <?=$value;?>
             </label>
           </li>

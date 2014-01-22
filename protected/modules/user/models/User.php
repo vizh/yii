@@ -19,6 +19,7 @@ namespace user\models;
  * @property string $OldPassword
  * @property bool $Visible
  * @property bool $Temporary
+ * @property string $Language
  *
  *
  *
