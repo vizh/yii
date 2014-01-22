@@ -110,7 +110,7 @@ class ImportUser extends \CActiveRecord
     if (empty($role))
       throw new \partner\components\ImportException('Не найдена роль.');
 
-    $this->prepareEmail($import);
+    $this->Email = $this->getCorrectEmail($import);
     $user = $this->getUser($import);
 
     $import->Event->skipOnRegister = !$import->NotifyEvent;
@@ -127,12 +127,15 @@ class ImportUser extends \CActiveRecord
     $this->save();
   }
 
-  /**
-   * @param Import $import
-   * @throws \partner\components\ImportException
-   */
-  private function prepareEmail($import)
+  private function getCorrectEmail(Import $import)
   {
+    $validator = new \CEmailValidator();
+    $validator->allowEmpty = false;
+    if (!$validator->validateValue($this->Email))
+    {
+      $this->Email = $this->generateEmail($import);
+    }
+
     $criteria = new \CDbCriteria();
     $criteria->condition = '"ImportId" = :ImportId AND "Imported" AND "Email" = :Email AND "Id" != :Id';
     $criteria->params = [
@@ -140,27 +143,30 @@ class ImportUser extends \CActiveRecord
       'Email' => $this->Email,
       'Id' => $this->Id
     ];
-
     if (empty($this->Email) || ImportUser::model()->exists($criteria))
     {
-      $this->Email = 'nomail'.$import->EventId.'+'.substr(md5($this->FirstName . $this->LastName . $this->Company), 0, 8).'@runet-id.com';
+      return $this->generateEmail($import);
     }
-    else
+
+    $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
+    if ($import->Visible)
     {
-      $validator = new \CEmailValidator();
-      if (!$validator->validateValue($this->Email))
-        throw new \partner\components\ImportException('Не корректный Email пользователя.');
+      $model->byVisible(true);
     }
+    $user = $model->find();
+    if ($user != null && ($user->LastName != $this->LastName || $user->FirstName != $this->FirstName))
+    {
+      return $this->generateEmail($import);
+    }
+    return $this->Email;
   }
 
-  /**
-   *
-   * @param Import $import
-   *
-   * @throws \partner\components\ImportException
-   * @return \user\models\User
-   */
-  private function getUser($import)
+  private function generateEmail(Import $import)
+  {
+    return 'nomail'.$import->EventId.'+'.substr(md5($this->FirstName . $this->LastName . $this->Company), 0, 8).'@runet-id.com';
+  }
+
+  private function getUser(Import $import)
   {
     $user = $this->getDuplicateUser($import);
     if ($user === null)
@@ -177,8 +183,54 @@ class ImportUser extends \CActiveRecord
 
       $user->Visible = $import->Visible;
       $user->save();
-    }
 
+      $this->setCompany($user);
+    }
+    $this->setPhone($user);
+    return $user;
+  }
+
+  /**
+   * @param Import $import
+   * @return \user\models\User
+   */
+  private function getDuplicateUser($import)
+  {
+    $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
+    if ($import->Visible)
+    {
+      $model->byVisible(true);
+    }
+    $user = $model->find();
+    if ($user != null)
+    {
+      $this->setCompany($user);
+    }
+    else
+    {
+      $criteria = new \CDbCriteria();
+      $criteria->with = ['Employments'];
+      $criteria->addCondition('("Employments"."EndYear" IS NULL AND "Employments"."EndMonth" IS NULL)
+        AND "Company"."Name" ILIKE :Company
+        AND "t"."FirstName" ILIKE :FirstName AND "t"."LastName" ILIKE :LastName');
+      $criteria->params = ['Company' => $this->Company, 'FirstName' => $this->FirstName, 'LastName' => $this->LastName];
+
+      $model = \user\models\User::model();
+      if ($import->Visible)
+      {
+        $model->byVisible(true);
+      }
+      else
+      {
+        $model->byEventId($import->EventId);
+      }
+      $user = $model->find($criteria);
+    }
+    return $user;
+  }
+
+  private function setCompany(\user\models\User $user)
+  {
     if (!empty($this->Company))
     {
       try
@@ -190,46 +242,14 @@ class ImportUser extends \CActiveRecord
         $this->ErrorMessage = 'Не корректно задано название компании';
       }
     }
+  }
 
+  private function setPhone(\user\models\User $user)
+  {
     if (!empty($this->Phone))
     {
       $user->setContactPhone($this->Phone);
     }
-    return $user;
-  }
-
-  /**
-   * @param Import $import
-   * @return \user\models\User
-   */
-  private function getDuplicateUser($import)
-  {
-    if ($import->Visible)
-    {
-      $criteria = new \CDbCriteria();
-      $criteria->with = [
-        'Employments'
-      ];
-      $criteria->addCondition('
-        ("Employments"."EndYear" IS NULL AND "Employments"."EndMonth" IS NULL)
-        AND "Company"."Name" ILIKE :Company AND "t"."FirstName" ILIKE :FirstName AND "t"."LastName" ILIKE :LastName'
-      );
-      $criteria->params['Company']   = $this->Company;
-      $criteria->params['FirstName'] = $this->FirstName;
-      $criteria->params['LastName']  = $this->LastName;
-      $user = \user\models\User::model()->find($criteria);
-      if ($user !== null)
-      {
-        if (!empty($this->Phone))
-        {
-          $user->setContactPhone($this->Phone);
-        }
-        return $user;
-      }
-      $user = \user\models\User::model()->byEmail($this->Email)->byVisible()->find();
-    }
-
-    return new \user\models\User();
   }
 
   protected function beforeSave()
