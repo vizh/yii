@@ -33,8 +33,13 @@
     </div>
     <div class="control-group <?if ($model->Address->hasErrors()):?>error<?endif;?>">
       <?$this->widget('\contact\widgets\AddressControls', array('form' => $model->Address, 'address' => false, 'place' => false, 'inputClass' => 'input-block-level'));?>
-   </div>
+    </div>
 
+    <?if ($model->getAccount()->showPhoneFieldOnRegistration()):?>
+    <div class="control-group <?if ($model->Phone->hasErrors()):?>error<?endif;?>">
+      <?$this->widget('\contact\widgets\PhoneControls', array('form' => $model->Phone));?>
+    </div>
+    <?endif;?>
     <?=CHtml::errorSummary($model, '<div class="alert alert-error">', '</div>');?>
 
     <p class="muted agreement">Нажимая кнопку «<?=Yii::t('app', 'Зарегистрироваться');?>», я принимаю условия <a target="_blank"

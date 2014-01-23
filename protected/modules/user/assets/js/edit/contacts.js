@@ -61,6 +61,7 @@ CUserEditContacts.prototype = {
     self.phoneItems.find('.form-row-add').before(template);
     var item = self.phoneItems.find('.form-row:not(.form-row-add):last');
     self.initDeleteBtn(item);
+    item.find('input[name*="OriginalPhone"]').initPhoneInputMask();
     self.iteterators.phone++;
   },
           
@@ -79,6 +80,7 @@ CUserEditContacts.prototype = {
       });
       item.find('.alert-error').append(errorUl);
     }
+    item.find('input[name*="OriginalPhone"]').initPhoneInputMask();
     self.iteterators.phone++;
   },
           
@@ -107,7 +109,7 @@ CUserEditContacts.prototype = {
       item.find('.alert-error').append(errorUl);
     }
     self.iteterators.account++;
-  },
+  }
 }
 $(function () {
   var userEditContacts = new CUserEditContacts();

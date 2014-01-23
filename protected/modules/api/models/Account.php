@@ -7,6 +7,7 @@ namespace api\models;
  * @property int $EventId
  * @property string $IpCheck
  * @property string $Role
+ * @property string $RequestPhoneOnRegistration
  *
  * @property \event\models\Event $Event
  * @property Domain[] $Domains
@@ -176,5 +177,13 @@ class Account extends \CActiveRecord
     {
       return substr(md5($this->Key . $timestamp . $this->Secret), 0, 16);
     }
+  }
+
+  /**
+   * @return bool
+   */
+  public function showPhoneFieldOnRegistration()
+  {
+    return ($this->RequestPhoneOnRegistration != \application\models\RequiredStatus::None);
   }
 }

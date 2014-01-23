@@ -45,6 +45,12 @@
         <?=\CHtml::activeDropDownList($form, 'Role', $form->getRoles(), ['class' => 'input-xlarge']);?>
       </div>
     </div>
+    <div class="control-group">
+      <?=\CHtml::activeLabel($form, 'RequestPhoneOnRegistration', ['class' => 'control-label']);?>
+      <div class="controls">
+        <?=\CHtml::activeDropDownList($form, 'RequestPhoneOnRegistration', $form->getRequestPhoneOnRegistrationStatusData(), ['class' => 'input-xlarge']);?>
+      </div>
+    </div>
     <div class="control-group domains">
       <?=\CHtml::activeLabel($form, 'Domains', ['class' => 'control-label']);?>
       <div class="controls">

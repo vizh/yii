@@ -13,9 +13,7 @@
   <?foreach ($form->Phones as $phone):?>
     var phone = {
       'Id' : '<?=$phone->Id;?>',
-      'CountryCode' : '<?=$phone->CountryCode;?>',
-      'CityCode' : '<?=$phone->CityCode;?>',
-      'Phone' : '<?=$phone->Phone;?>',
+      'Phone' : '<?=$phone->OriginalPhone;?>',
       'Delete' : '<?=$phone->Delete;?>'
     };
     <?if ($phone->hasErrors()):?>
@@ -114,22 +112,18 @@
 
 <script type="text/template" id="phone-item-tpl">
   <div class="controls">
-    <span>+</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CountryCode]');?>" class="input-mini" />
-    <span>(</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CityCode]');?>" class="input-small" /> <span>)</span>
-    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Phone]');?>" class="input-medium" />
+    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][OriginalPhone]');?>" class="input-xlarge" />
     <a href="#" class="pseudo-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
     <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Delete]');?>"/>
   </div>
 </script>
 
 <script type="text/template" id="phone-item-withdata-tpl">
-  <div class="controls <%if(Delete == 1){%>hide<%}%>">
+  <div class="controls <%if(Delete == 1 && typeof Errors == "undefined"){%>hide<%}%>">
     <%if(typeof Errors != "undefined"){%>
       <div class="alert alert-error errorSummary"></div>
     <%}%>
-    <span>+</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CountryCode]');?>" class="input-mini" value="<%=CountryCode%>" />
-    <span>(</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CityCode]');?>" class="input-small" value="<%=CityCode%>" /> <span>)</span>
-    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Phone]');?>" class="input-medium" value="<%=Phone%>" />
+    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][OriginalPhone]');?>" class="input-xlarge" value="<%=Phone%>" />
     <a href="#" class="pseudo-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
     <%if(Id != ''){%>
       <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Id]');?>" value="<%=Id%>"/>

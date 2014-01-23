@@ -37,6 +37,7 @@ class EditAction extends \CAction
         $this->form->Key = $this->account->Key;
         $this->form->Secret = $this->account->Secret;
         $this->form->Role = $this->account->Role;
+        $this->form->RequestPhoneOnRegistration = $this->account->RequestPhoneOnRegistration;
         if (!empty($this->account->Event))
         {
           $this->form->EventId = $this->account->EventId;
@@ -70,6 +71,7 @@ class EditAction extends \CAction
         $this->account->Secret = \application\components\utility\Texts::GenerateString(25);
       }
       $this->account->Role = $this->form->Role;
+      $this->account->RequestPhoneOnRegistration = $this->form->RequestPhoneOnRegistration;
       $this->account->save();
 
       $ips = [];

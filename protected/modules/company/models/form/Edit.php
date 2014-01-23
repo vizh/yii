@@ -6,8 +6,8 @@ class Edit extends \CFormModel
   public $FullName;
   public $FullInfo;
   public $Address;
-  public $Phones = array();
-  public $Emails = array();
+  public $Phones = [];
+  public $Emails = [];
   public $Site;
   public $Logo;
   
@@ -19,20 +19,20 @@ class Edit extends \CFormModel
   
   public function rules()
   {
-    return array(
-      array('Name, FullName', 'filter', 'filter' => array('application\components\utility\Texts', 'filterPurify')),
-      array('Name', 'required'),
-      array('Site', 'url', 'allowEmpty' => true),
-      array('Phones', 'filter', 'filter' => array($this, 'filterPhones')),
-      array('Emails', 'filter', 'filter' => array($this, 'filterEmails')),
-      array('FullInfo', 'filter', 'filter' => array($this, 'filterFullInfo')),
-      array('Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true),  
-    );
+    return [
+      ['Name, FullName', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
+      ['Name', 'required'],
+      ['Site', 'url', 'allowEmpty' => true],
+      ['Phones', 'filter', 'filter' => [$this, 'filterPhones']],
+      ['Emails', 'filter', 'filter' => [$this, 'filterEmails']],
+      ['FullInfo', 'filter', 'filter' => [$this, 'filterFullInfo']],
+      ['Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true]
+    ];
   }
   
   public function attributeLabels()
   {
-    return array(
+    return [
       'Logo' => \Yii::t('app', 'Логотип'),
       'Name' => \Yii::t('app', 'Название организации'),
       'FullName' => \Yii::t('app', 'Полное название'),
@@ -41,7 +41,7 @@ class Edit extends \CFormModel
       'Address' => \Yii::t('app', 'Адрес'),
       'Phones' => \Yii::t('app', 'Номера телефонов'),
       'Emails' => \Yii::t('app', 'Эл. почта')
-    );
+    ];
   }
   
   public function setAttributes($values, $safeOnly = true)
@@ -50,7 +50,7 @@ class Edit extends \CFormModel
     {
       foreach ($values['Phones'] as $value)
       {
-        $form = new \contact\models\forms\Phone();
+        $form = new \contact\models\forms\Phone(\contact\models\forms\Phone::ScenarioOneFieldRequired);
         $form->attributes = $value;
         $this->Phones[] = $form;
       }

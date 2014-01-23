@@ -116,12 +116,10 @@ class ContactsAction extends \CAction
       
       foreach ($user->LinkPhones as $linkPhone)
       {
-        $phone = new \contact\models\forms\Phone();
+        $phone = new \contact\models\forms\Phone(\contact\models\forms\Phone::ScenarioOneFieldRequired);
         $phone->attributes = array(
           'Id' => $linkPhone->PhoneId,
-          'CityCode' => $linkPhone->Phone->CityCode,
-          'CountryCode' => $linkPhone->Phone->CountryCode,
-          'Phone' => $linkPhone->Phone->Phone,
+          'OriginalPhone' => $linkPhone->Phone->getWithoutFormatting(),
           'Type'  => $linkPhone->Phone->Type
         );
         $form->Phones[] = $phone;
@@ -146,7 +144,8 @@ class ContactsAction extends \CAction
         $form->Address->attributes = $user->getContactAddress()->attributes;
       }
     }
-    
+
+    \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
     $this->getController()->bodyId = 'user-account';
     $this->getController()->setPageTitle(\Yii::t('app','Редактирование профиля'));
     $this->getController()->render('contacts', array('form' => $form, 'user' => $user));

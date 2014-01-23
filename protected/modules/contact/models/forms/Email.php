@@ -11,19 +11,19 @@ class Email extends \CFormModel
 
   public function rules()
   {
-    return array(
-      array('Title', 'filter', 'filter' => array('application\components\utility\Texts', 'filterPurify')),
-      array('Email', 'required'),
-      array('Email', 'email'),
-      array('Id, Delete', 'numerical', 'allowEmpty' => true)
-    );
+    return [
+      ['Title', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
+      ['Email', 'required'],
+      ['Email', 'email'],
+      ['Id, Delete', 'numerical', 'allowEmpty' => true]
+    ];
   }
   
   public function attributeLabels()
   {
-    return array(
+    return [
       'Email' => \Yii::t('app', 'Адрес эл. почты'),
       'Title' => \Yii::t('app', 'Описание'),
-    );
+    ];
   }
 }

@@ -11,11 +11,12 @@ class Account extends \CFormModel
   public $Secret;
   public $Delete;
   public $Role;
+  public $RequestPhoneOnRegistration;
   
   public function rules()
   {
     return [
-      ['EventTitle, Role', 'required'],
+      ['EventTitle, Role, RequestPhoneOnRegistration', 'required'],
       ['EventId', 'exist', 'attributeName' => 'Id', 'className' => '\event\models\Event'],
       ['Ips', 'filter', 'filter' => [$this, 'filterIps']],
       ['Domains', 'filter', 'filter' => [$this, 'filterDomains']],
@@ -31,6 +32,7 @@ class Account extends \CFormModel
       'Ips'        => \Yii::t('app', 'IP адреса'),
       'Domains'    => \Yii::t('app', 'Домены'),
       'Role' => \Yii::t('app', 'Тип аккаунта'),
+      'RequestPhoneOnRegistration' => \Yii::t('app', 'Запрашивать номер телефона при регистрации')
     ];
   }
   
@@ -66,6 +68,15 @@ class Account extends \CFormModel
       '' => 'Выберите тип аккаунта',
       'own' => 'Собственное мероприятие',
       'partner' => 'Партнерское мероприятие'
+    ];
+  }
+
+  public function getRequestPhoneOnRegistrationStatusData()
+  {
+    return [
+      \application\models\RequiredStatus::None => \Yii::t('app', 'Нет'),
+      \application\models\RequiredStatus::Required => \Yii::t('app', 'Да, обязательный ввод'),
+      \application\models\RequiredStatus::NotRequired => \Yii::t('app', 'Да, но не обязательно')
     ];
   }
 

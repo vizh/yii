@@ -58,12 +58,10 @@ class EditController extends \application\components\controllers\PublicMainContr
       
       foreach ($this->company->LinkPhones as $linkPhone)
       {
-        $phone = new \contact\models\forms\Phone();
+        $phone = new \contact\models\forms\Phone(\contact\models\forms\Phone::ScenarioOneFieldRequired);
         $phone->attributes = array(
           'Id' => $linkPhone->PhoneId,
-          'CityCode' => $linkPhone->Phone->CityCode,
-          'CountryCode' => $linkPhone->Phone->CountryCode,
-          'Phone' => $linkPhone->Phone->Phone
+          'OriginalPhone' => $linkPhone->Phone->getWithoutFormatting(),
         );
         $form->Phones[] = $phone;
       }
@@ -84,7 +82,8 @@ class EditController extends \application\components\controllers\PublicMainContr
         $form->Address->attributes = $this->company->getContactAddress()->attributes;
       }
     }
-    \Yii::app()->clientScript->registerPackage('runetid.ckeditor');
+    \Yii::app()->getClientScript()->registerPackage('runetid.ckeditor');
+    \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
     $this->setPageTitle(\Yii::t('app', 'Редактирование компании'));
     $this->render('index', array('form' => $form, 'company' => $this->company));
   }

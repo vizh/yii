@@ -4,9 +4,7 @@
   <?foreach ($form->Phones as $phone):?>
     var phone = {
       'Id' : '<?=$phone->Id;?>',
-      'CountryCode' : '<?=$phone->CountryCode;?>',
-      'CityCode' : '<?=$phone->CityCode;?>',
-      'Phone' : '<?=$phone->Phone;?>',
+      'Phone' : '<?=$phone->OriginalPhone;?>',
       'Type' : '<?=$phone->Type;?>',
       'Delete' : '<?=$phone->Delete;?>'
     };
@@ -86,9 +84,7 @@
 
 <script type="text/template" id="phone-item-tpl">
   <div class="form-row">
-    <span>+</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CountryCode]');?>" class="input-mini" />
-    <span>(</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CityCode]');?>" class="input-small" /> <span>)</span>
-    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Phone]');?>" class="input-medium" />
+    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][OriginalPhone]');?>" class="input-xlarge" />
     <select name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Type]');?>" class="input-medium">
       <?foreach($form->getPhoneTypeData() as $type => $title):?>
         <option value="<?=$type;?>"><?=$title;?></option>
@@ -104,9 +100,7 @@
     <%if(typeof Errors != "undefined"){%>
       <div class="alert alert-error errorSummary"></div>
     <%}%>
-    <span>+</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CountryCode]');?>" class="input-mini" value="<%=CountryCode%>" />
-    <span>(</span> <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][CityCode]');?>" class="input-small" value="<%=CityCode%>" /> <span>)</span>
-    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Phone]');?>" class="input-medium" value="<%=Phone%>" />
+    <input type="text" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][OriginalPhone]');?>" class="input-xlarge" value="<%=Phone%>" />
     <select name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Type]');?>" class="input-medium">
       <?foreach($form->getPhoneTypeData() as $type => $title):?>
         <option value="<?=$type;?>" <%if(Type == '<?=$type;?>'){%>selected="selected"<%}%>><?=$title;?></option>

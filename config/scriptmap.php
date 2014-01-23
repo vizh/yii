@@ -82,7 +82,17 @@ return array(
           'baseUrl' => '/javascripts/bootstrap-datepicker/',
           'css' => ['css/datepicker.css'],
           'js'  => ['js/bootstrap-datepicker.js', 'js/locales/bootstrap-datepicker.ru.js']
-        ]
+        ],
+        'runetid.jquery.inputmask' => [
+          'baseUrl' => '/javascripts/jquery.inputmask/',
+          'js' => ['jquery.inputmask.js'],
+          'depends' => ['runetid.jquery']
+        ],
+        'runetid.jquery.inputmask-multi' => [
+          'baseUrl' => '/javascripts/jquery.inputmask-multi/',
+          'js' => ['jquery.inputmask-multi.js', 'jquery.bind-first-0.1.min.js', 'jquery.initphoneinputmask.js'],
+          'depends' => ['runetid.jquery.inputmask']
+        ],
       ),
 
       'scriptMap' => array(),

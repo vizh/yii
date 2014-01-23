@@ -3,6 +3,8 @@ namespace oauth\components\form;
 
 class RegisterForm extends \CFormModel
 {
+  private $account = null;
+
   public $LastName;
   public $FirstName;
   public $FatherName;
@@ -10,11 +12,19 @@ class RegisterForm extends \CFormModel
   public $CompanyId;
   public $Company;
   public $Address;
+  public $Phone;
 
-  public function __construct($scenario = '')
+
+  public function __construct(\api\models\Account $account)
   {
-    parent::__construct($scenario);
+    parent::__construct('');
+    $this->account = $account;
     $this->Address = new \contact\models\forms\Address();
+    if ($account->showPhoneFieldOnRegistration())
+    {
+      $formPhoneScenario = $account->RequestPhoneOnRegistration == \application\models\RequiredStatus::Required ? \contact\models\forms\Phone::ScenarioOneFieldRequired : \contact\models\forms\Phone::ScenarioOneField;
+      $this->Phone = new \contact\models\forms\Phone($formPhoneScenario);
+    }
   }
 
 
@@ -38,6 +48,18 @@ class RegisterForm extends \CFormModel
       foreach ($this->Address->getErrors() as $messages)
       {
         $this->addError('Address', $messages[0]);
+      }
+    }
+
+    if ($this->account->showPhoneFieldOnRegistration())
+    {
+      $this->Phone->attributes = \Yii::app()->getRequest()->getParam(get_class($this->Phone));
+      if (!$this->Phone->validate())
+      {
+        foreach ($this->Phone->getErrors() as $messages)
+        {
+          $this->addError('Phone', $messages[0]);
+        }
       }
     }
   }
@@ -75,13 +97,19 @@ class RegisterForm extends \CFormModel
     $attributes = $this->attributes;
     foreach ($this->attributes as $field => $value)
     {
-      if ($field == 'Address')
+      if ($field == 'Address' || $field == 'Phone')
         continue;
       $attributes[$field] = $purifier->purify($value);
     }
     $this->attributes = $attributes;
     return parent::beforeValidate();
   }
-  
 
+  /**
+   * @return \api\models\Account|null
+   */
+  public function getAccount()
+  {
+    return $this->account;
+  }
 }

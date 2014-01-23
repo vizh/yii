@@ -97,7 +97,7 @@ class Contacts extends \CFormModel
     {
       foreach ($values['Phones'] as $value)
       {
-        $form = new \contact\models\forms\Phone();
+        $form = new \contact\models\forms\Phone(\contact\models\forms\Phone::ScenarioOneFieldRequired);
         $form->attributes = $value;
         $this->Phones[] = $form;
       }

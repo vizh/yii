@@ -50,6 +50,7 @@ CCompanyEdit.prototype = {
     var template = self.templates.phoneItem({i : self.iteterators.phone});
     self.phoneItems.find('.controls-add').before(template);
     var item = self.phoneItems.find('.controls:last');
+    item.find('input[name*="OriginalPhone"]').initPhoneInputMask();
     self.initDeleteBtn(item);
     self.iteterators.phone++;
   },
@@ -60,6 +61,7 @@ CCompanyEdit.prototype = {
     var template = self.templates.phoneItemWithData(data);
     self.phoneItems.find('.controls-add').before(template);
     var item = self.phoneItems.find('.controls:last');
+    item.find('input[name*="OriginalPhone"]').initPhoneInputMask();
     self.initDeleteBtn(item);
     if (typeof data.Errors != "undefined") {
       var errorUl = $('<ul>');

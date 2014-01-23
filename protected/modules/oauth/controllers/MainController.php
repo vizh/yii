@@ -119,8 +119,8 @@ class MainController extends \oauth\components\Controller
       $this->redirect($this->createUrl('/oauth/main/dialog'));
     }
 
-    $formRegister = new \oauth\components\form\RegisterForm();
-    $socialProxy = null;
+    $formRegister = new \oauth\components\form\RegisterForm($this->Account);
+    $socialProxy  = null;
 
     $socialProxy = !empty($this->social) ? new \oauth\components\social\Proxy($this->social) : null;
     if ($socialProxy !== null && $socialProxy->isHasAccess())
@@ -147,6 +147,18 @@ class MainController extends \oauth\components\Controller
         $address->setAttributes($formRegister->Address->getAttributes(), false);
         $address->save();
         $user->setContactAddress($address);
+      }
+
+      if ($this->Account->showPhoneFieldOnRegistration() && !$formRegister->Phone->getIsEmpty())
+      {
+        $phone = new \contact\models\Phone();
+        $phone->setAttributesFromForm($formRegister->Phone);
+        $phone->save();
+
+        $linkPhone = new \user\models\LinkPhone();
+        $linkPhone->UserId = $user->Id;
+        $linkPhone->PhoneId = $phone->Id;
+        $linkPhone->save();
       }
 
       if (!empty($formRegister->Company))

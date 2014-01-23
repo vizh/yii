@@ -53,4 +53,29 @@ class Phone extends \CActiveRecord
     }
     return $phone;
   }
+
+  /**
+   * @param forms\Phone $form
+   */
+  public function setAttributesFromForm(\contact\models\forms\Phone $form)
+  {
+    $this->CountryCode = $form->CountryCode;
+    $this->CityCode = !empty($form->CityCode) ? $form->CityCode : null;
+    $this->Phone = $form->Phone;
+    $this->Type = $form->Type;
+  }
+
+  /**
+   * @return string
+   */
+  public function getWithoutFormatting()
+  {
+    $result = $this->CountryCode;
+    if (!empty($this->CityCode))
+    {
+      $result .= $this->CityCode;
+    }
+    $result .= $this->Phone;
+    return $result;
+  }
 }
