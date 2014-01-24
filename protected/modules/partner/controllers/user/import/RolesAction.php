@@ -20,7 +20,7 @@ class RolesAction extends \partner\components\Action
     {
       $import->Roles = base64_encode(serialize($values));
       $import->save();
-      $this->getController()->redirect(\Yii::app()->createUrl('/partner/user/importprocess', ['id' => $import->Id]));
+      $this->getController()->redirect(\Yii::app()->createUrl('/partner/user/importproducts', ['id' => $import->Id]));
     }
 
     $this->getController()->render('import/roles', [

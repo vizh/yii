@@ -15,6 +15,7 @@ namespace partner\models;
  * @property string $Company
  * @property string $Position
  * @property string $Role
+ * @property string $Product
  *
  *
  * @property bool $Imported
@@ -97,18 +98,25 @@ class ImportUser extends \CActiveRecord
   /**
    * @param Import $import
    * @param array $roles
+   * @param array $products
    *
    * @throws \partner\components\ImportException
    */
-  public function parse($import, $roles)
+  public function parse($import, $roles, $products)
   {
     $roleName = $this->Role !== null ? $this->Role : 0;
     $roleId = isset($roles[$roleName]) ? $roles[$roleName] : 0;
 
-    /** @var $role \event\models\Role */
     $role = \event\models\Role::model()->findByPk($roleId);
     if (empty($role))
       throw new \partner\components\ImportException('Не найдена роль.');
+
+    $productName = $this->Product !== null ? $this->Product : 0;
+    $productId = isset($products[$productName]) ? $products[$productName] : -1;
+
+    $product = \pay\models\Product::model()->findByPk($productId);
+    if ($productId != -1 && ($product == null || $product->EventId != $import->EventId))
+      throw new \partner\components\ImportException('Не найден товар: "' . $productName . '".');
 
     $this->Email = $this->getCorrectEmail($import);
     $user = $this->getUser($import);
@@ -121,6 +129,14 @@ class ImportUser extends \CActiveRecord
     else
     {
       $import->Event->registerUserOnAllParts($user, $role);
+    }
+
+    if ($product != null)
+    {
+      $orderItem = $product->getManager()->createOrderItem($user, $user);
+      $orderItem->Paid = true;
+      $orderItem->PaidTime = date('Y-m-d H:i:s');
+      $orderItem->save();
     }
 
     $this->Imported = true;

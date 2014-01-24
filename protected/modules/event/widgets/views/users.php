@@ -46,7 +46,7 @@
   </div>
   <?elseif($this->showPagination):?>
     <div class="row m-top_40">
-      <div class="<?=!$this->event->FullWidth ? 'span8' : 'span12';?>">
+      <div class="span8">
         <?$this->widget('\application\widgets\Paginator', array('paginator' => $paginator));?>
       </div>
     </div>

@@ -84,6 +84,7 @@ class ImportPrepare extends \CFormModel
     'Company' => 'Компания',
     'Position' => 'Должность',
     'Role' => 'Статус',
+    'Product' => 'Товар'
   ];
 
   public function getColumnValues()

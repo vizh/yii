@@ -32,7 +32,7 @@ class ProcessAction extends \partner\components\Action
       {
         try
         {
-          $user->parse($import, unserialize(base64_decode($import->Roles)));
+          $user->parse($import, unserialize(base64_decode($import->Roles)), unserialize(base64_decode($import->Products)));
         }
         catch (\partner\components\ImportException $e)
         {

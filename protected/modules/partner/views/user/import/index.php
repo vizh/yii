@@ -51,6 +51,8 @@
                   <a class="btn btn-mini" href="<?=Yii::app()->createUrl('/partner/user/importmap', ['id' => $import->Id]);?>">Задать поля</a>
                 <?elseif ($import->Roles == null):?>
                   <a class="btn btn-mini" href="<?=Yii::app()->createUrl('/partner/user/importroles', ['id' => $import->Id]);?>">Задать роли</a>
+                <?elseif ($import->Products == null):?>
+                  <a class="btn btn-mini" href="<?=Yii::app()->createUrl('/partner/user/importproducts', ['id' => $import->Id]);?>">Задать товары</a>
                 <?endif;?>
               </td>
             </tr>

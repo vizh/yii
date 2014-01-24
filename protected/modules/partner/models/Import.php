@@ -13,6 +13,7 @@ namespace partner\models;
  * @property bool $NotifyEvent
  * @property bool $Visible
  * @property string $CreationTime
+ * @property string $Products
  *
  * @property ImportUser[] $Users
  * @property \event\models\Event $Event
