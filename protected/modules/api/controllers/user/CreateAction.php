@@ -21,7 +21,7 @@ class CreateAction extends \api\components\Action
     {
       throw new \api\components\Exception(205);
     }
-    if (\user\models\User::model()->byEmail($email)->count() != 0)
+    if (\user\models\User::model()->byEmail($email)->byVisible(true)->count() != 0)
     {
       throw new \api\components\Exception(206);
     }
