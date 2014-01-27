@@ -783,7 +783,10 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
    */
   public function fbUpdate()
   {
-    return $this->makeFbEvent()->update();
+    $fbEvent = $this->makeFbEvent();
+    $result = $fbEvent->update();
+    $fbEvent->setPicture($this->getLogo()->getOriginal(true));
+    return $result;
   }
 
   /**
