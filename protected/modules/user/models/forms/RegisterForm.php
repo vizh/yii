@@ -3,6 +3,7 @@ namespace user\models\forms;
 
 class RegisterForm extends \CFormModel
 {
+  public $EventId;
   public $LastName;
   public $FirstName;
   public $FatherName = '';
@@ -18,21 +19,36 @@ class RegisterForm extends \CFormModel
   
   public function rules()
   {
-    return array(
-      array('LastName, FirstName, FatherName, Email, Phone, Company, Position', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
-      array('LastName,FirstName,Email,Company', 'required'),
-      array('Email', 'email'),
-      array('Email', 'uniqueUser'),
-      array('FatherName, Phone, Position, CompanyId, City, CityId', 'safe')
-    );
+    return [
+      ['LastName, FirstName, FatherName, Email, Phone, Company, Position', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
+      ['LastName,FirstName,Email,Company', 'required'],
+      ['Email', 'email'],
+      ['Email', 'uniqueUser'],
+      ['Position', 'checkPosition'],
+      ['FatherName, Phone, Position, CompanyId, City, CityId, EventId', 'safe']
+    ];
   }
+
+
 
   public function uniqueUser($attribute, $params)
   {
-    $model = \user\models\User::model()->byEmail($this->Email)->byVisible(true);
-    if ($this->Visible && $model->exists())
+    if (!empty($this->Email))
     {
-      $this->addError('Email', \Yii::t('app', 'Пользователь с таким email уже существует'));
+      $model = \user\models\User::model()->byEmail($this->Email)->byVisible(true);
+      if ($this->Visible && $model->exists())
+      {
+        $this->addError('Email', \Yii::t('app', 'Пользователь с таким Email уже существует.'));
+      }
+    }
+  }
+
+  public function checkPosition($attribute, $params)
+  {
+    $event = \event\models\Event::model()->findByPk($this->EventId);
+    if ($event !== null && isset($event->PositionRequired) && $event->PositionRequired && empty($this->Position))
+    {
+      $this->addError('Position', \Yii::t('app', 'Необходимо заполнить поле Должность.'));
     }
   }
 
