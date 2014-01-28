@@ -47,6 +47,8 @@ namespace event\models;
  * @property string $UrlSectionMask
  * @property string $FbPlaceId
  *
+ * @property bool $PositionRequired
+ *
  * Вспомогательные описания методов методы
  * @method \event\models\Event find($condition='',$params=array())
  * @method \event\models\Event findByPk($pk,$condition='',$params=array())
@@ -113,7 +115,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
    */
   protected function getInternalAttributeNames()
   {
-    return array('UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson', 'MailRegisterSubject', 'MailRegisterBody', 'MailRegisterBodyRendered');
+    return ['UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson', 'MailRegisterSubject', 'MailRegisterBody', 'MailRegisterBodyRendered', 'PositionRequired'];
   }
 
   public function __get($name)
