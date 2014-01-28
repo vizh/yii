@@ -14,6 +14,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $j = 0;
 
     $criteria = new \CDbCriteria();
+
 /*
     // ГеоВыборка
     $criteria->with = array(
@@ -86,7 +87,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
 //    $criteria->addCondition('"t"."Visible"');
 
-    $criteria->addInCondition('"t"."RunetId"', array(12953));
+//    $criteria->addInCondition('"t"."RunetId"', array(12953));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 188122, 184445, 122262));
 
     echo \user\models\User::model()->count($criteria);
