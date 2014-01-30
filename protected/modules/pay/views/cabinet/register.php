@@ -7,6 +7,7 @@
  * @var \pay\models\Product[] $products
  * @var int $unpaidOwnerCount
  * @var int $unpaidJuridicalOrderCount
+ * @var \user\models\forms\RegisterForm $registerForm
  */
 
 $runetIdTitle = $account->SandBoxUser ? '' : ' или RUNET-ID';
@@ -209,12 +210,12 @@ $hasTickets = !empty($products->tickets);
   <img src='<%=item.Photo.Small%>' alt='<%=item.FullName%>'>
 </script>
 
-
 <script type="text/template" id="row-register-tpl">
   <tr>
     <td colspan="4" class="last-child">
       <?=CHtml::beginForm('', 'POST', array('class' => 'user-register'));?>
       <header><h4 class="title"><?=\Yii::t('app', 'Регистрация нового участника');?></h4></header>
+      <?=CHtml::activeHiddenField($registerForm, 'EventId', ['value' => $event->Id]);?>
       <div class="alert alert-error" style="display: none;"></div>
       <div class="clearfix">
         <div class="pull-left">
@@ -227,14 +228,14 @@ $hasTickets = !empty($products->tickets);
           <div class="control-group">
             <label><?=\Yii::t('app', 'Имя');?></label>
             <div class="required">
-              <?php echo CHtml::activeTextField($registerForm, 'FirstName');?>
+              <?=CHtml::activeTextField($registerForm, 'FirstName');?>
             </div>
           </div>
           <?if (Yii::app()->language != 'en'):?>
           <div class="control-group">
             <label><?=\Yii::t('app', 'Отчество');?></label>
             <div class="controls">
-              <?php echo CHtml::activeTextField($registerForm, 'FatherName');?>
+              <?=CHtml::activeTextField($registerForm, 'FatherName');?>
             </div>
           </div>
           <?endif;?>
@@ -258,7 +259,13 @@ $hasTickets = !empty($products->tickets);
           </div>
           <div class="control-group">
             <label><?=\Yii::t('app', 'Должность');?></label>
+            <?if (isset($event->PositionRequired) && $event->PositionRequired):?>
+            <div class="required">
             <?=CHtml::activeTextField($registerForm, 'Position');?>
+            </div>
+            <?else:?>
+            <?=CHtml::activeTextField($registerForm, 'Position');?>
+            <?endif;?>
           </div>
         </div>
       </div>
