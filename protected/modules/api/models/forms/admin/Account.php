@@ -16,7 +16,8 @@ class Account extends \CFormModel
   public function rules()
   {
     return [
-      ['EventTitle, Role, RequestPhoneOnRegistration', 'required'],
+      ['EventTitle, Role', 'required'],
+      ['RequestPhoneOnRegistration', 'safe'],
       ['EventId', 'exist', 'attributeName' => 'Id', 'className' => '\event\models\Event'],
       ['Ips', 'filter', 'filter' => [$this, 'filterIps']],
       ['Domains', 'filter', 'filter' => [$this, 'filterDomains']],

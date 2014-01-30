@@ -12,6 +12,8 @@ namespace pay\models;
  * @property string $Recipient
  * @property string $CreationTime
  * @property string $EndTime
+ * @property bool $IsTicket
+ * @property int $OwnerId
  *
  * @property CouponActivation[] $Activations
  * @property Product $Product
@@ -103,6 +105,19 @@ class Coupon extends \CActiveRecord
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."EventId" = :EventId';
     $criteria->params = array('EventId' => $eventId);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param bool $isTicket
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byIsTicket($isTicket = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = (!$isTicket ? 'NOT ' : '').'"t"."IsTicket"';
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }

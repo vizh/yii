@@ -1,12 +1,29 @@
 <?php
 namespace pay\components\managers;
 
-
+/**
+ * Class Ticket
+ * @property int $ProductId
+ */
 class Ticket extends BaseProductManager
 {
+  protected $paidProduct;
+
+  public function __construct($product)
+  {
+    parent::__construct($product);
+    $this->paidProduct = \pay\models\Product::model()->findByPk($this->ProductId);
+  }
+
+  public function getOrderItemAttributeNames()
+  {
+    return ['Count'];
+  }
+
+
   public function getProductAttributeNames()
   {
-    return ['EventId', 'Count'];
+    return ['ProductId'];
   }
 
 
@@ -27,22 +44,23 @@ class Ticket extends BaseProductManager
   protected function internalBuyProduct($user, $orderItem = null, $params = array())
   {
     $coupons = [];
-    for ($i = 0; $i < intval($params['Count']); $i++)
+    for ($i = 0; $i < $orderItem->getItemAttribute('Count'); $i++)
     {
       $coupon = new \pay\models\Coupon();
-      $coupon->EventId = $params['EventId'];
-      $coupon->ProductId = $this->product->Id;
+      $coupon->EventId = $this->product->EventId;
+      $coupon->ProductId = $this->ProductId;
       $coupon->Code = 'ticket-'.$coupon->generateCode();
+      $coupon->OwnerId = $user->Id;
       $coupon->Discount = 1;
       $coupon->IsTicket = true;
       $coupon->save();
       $coupons[] = $coupon;
     }
 
-    // Отправляем письмо с покупкой текста
-
-    // отправляем письма
-    // TODO: Implement internalBuyProduct() method.
+    $event = new \CModelEvent($this, ['payer' => $user, 'product' => $this->paidProduct, 'coupons' => $coupons]);
+    $mail = new \pay\components\handlers\buyproduct\Ticket(new \mail\components\mailers\PhpMailer(), $event);
+    $mail->send();
+    return true;
   }
 
   /**
@@ -52,8 +70,7 @@ class Ticket extends BaseProductManager
    */
   public function rollbackProduct($user)
   {
-    //Удалить промокоды
-    // TODO: Implement rollbackProduct() method.
+    return false;
   }
 
   /**
@@ -66,8 +83,7 @@ class Ticket extends BaseProductManager
    */
   protected function internalChangeOwner($fromUser, $toUser, $params = array())
   {
-    //Перенести промокоды
-    // TODO: Implement internalChangeOwner() method.
+    return false;
   }
 
   public function filter($params, $filter)
@@ -79,4 +95,26 @@ class Ticket extends BaseProductManager
   {
     return $this->product;
   }
+
+  public function getPrice($orderItem)
+  {
+    $price = $this->paidProduct->getManager()->getPrice($orderItem);
+    if (is_object($orderItem))
+    {
+      $count = intval($orderItem->getItemAttribute('Count'));
+      return ($price * $count);
+    }
+    return $price;
+  }
+
+  public function getTitle($orderItem)
+  {
+    $count = intval($orderItem->getItemAttribute('Count'));
+    $title  = \Yii::t('app', '1#Билет|n>1#Билеты', $count);
+    $title .= ' '.\Yii::t('app', 'на').' "';
+    $title .= $this->paidProduct->Title.'"';
+    return $title;
+  }
+
+
 }

@@ -140,6 +140,7 @@ class Product extends \CFormModel
       ];
     }
     $managers['FoodProductManager'] = \Yii::t('app', 'Питание');
+    $managers['Ticket'] = \Yii::t('app', 'Билет');
     return $managers;
   }
   

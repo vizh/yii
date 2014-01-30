@@ -1,8 +1,20 @@
 <?php
 namespace pay\components\handlers\buyproduct;
 
-class TicketOnEvent extends Base
+class Ticket extends Base
 {
+  /**
+   * @var \pay\models\Coupon[] $coupons
+   */
+  protected $coupons;
+
+  public function __construct(\mail\components\Mailer $mailer, \CEvent $event)
+  {
+    parent::__construct($mailer, $event);
+    $this->coupons = $event->params['coupons'];
+  }
+
+
   public function getSubject()
   {
     return 'Куплены билеты';
@@ -13,6 +25,6 @@ class TicketOnEvent extends Base
    */
   public function getBody()
   {
-    // TODO: Implement getBody() method.
+    return $this->renderBody('pay.views.mail.buyproduct.ticket', ['product' => $this->product, 'payer' => $this->payer, 'coupons' => $this->coupons]);
   }
 }

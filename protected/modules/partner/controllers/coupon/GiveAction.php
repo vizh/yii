@@ -8,7 +8,7 @@ class GiveAction extends \partner\components\Action
     $request = \Yii::app()->getRequest();
     $criteria = new \CDbCriteria();
     $criteria->addInCondition('"t"."Code"', $request->getParam('Coupons'));
-    $coupons = \pay\models\Coupon::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
+    $coupons = \pay\models\Coupon::model()->byEventId($this->getEvent()->Id)->byIsTicket(false)->findAll($criteria);
     if (empty($coupons))
       throw new \CHttpException(404);
 

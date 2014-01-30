@@ -164,16 +164,7 @@ class Product extends \application\models\translation\ActiveRecord
 
   public function getPrice($time = null)
   {
-    $time = $time === null ? date('Y-m-d H:i:s', time()) : $time;
-    foreach ($this->Prices as $price)
-    {
-      if ($price->StartTime <= $time && ($price->EndTime == null || $time < $price->EndTime))
-      {
-        return $price->Price;
-      }
-    }
-
-    throw new \pay\components\Exception('Не удалось определить цену продукта!');
+    return $this->getManager()->getPrice($time);
   }
 
   /**

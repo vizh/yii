@@ -14,14 +14,17 @@ class IndexAction extends \pay\components\Action
     }
 
     $finder = \pay\components\collection\Finder::create($this->getEvent()->Id, $this->getUser()->Id);
-    $unpaidItems = [];
+    $unpaidItems = new \stdClass();
+    $unpaidItems->all = [];
+    $unpaidItems->tickets = [];
     foreach ($finder->getUnpaidFreeCollection() as $item)
     {
-      if (!isset($unpaidItems[$item->getOrderItem()->ProductId]))
+      $key = $item->getOrderItem()->Product->ManagerName == 'Ticket' ? 'tickets' : 'all';
+      if (!isset($unpaidItems->{$key}[$item->getOrderItem()->ProductId]))
       {
-        $unpaidItems[$item->getOrderItem()->ProductId] = [];
+        $unpaidItems->{$key}[$item->getOrderItem()->ProductId] = [];
       }
-      $unpaidItems[$item->getOrderItem()->ProductId][] = $item;
+      $unpaidItems->{$key}[$item->getOrderItem()->ProductId][] = $item;
     }
 
     $allPaidCollections = array_merge($finder->getPaidOrderCollections(), $finder->getPaidFreeCollections());

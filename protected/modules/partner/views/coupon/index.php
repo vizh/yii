@@ -64,7 +64,11 @@
     <tbody>
     <?php foreach ($coupons as $coupon):?>
     <tr>
-        <td><input type="checkbox" name="Coupons[]" value="<?=$coupon->Code;?>" /></td>
+        <td>
+          <?if (!$coupon->IsTicket):?>
+            <input type="checkbox" name="Coupons[]" value="<?=$coupon->Code;?>" />
+          <?endif;?>
+        </td>
         <td><strong><?=$coupon->Code;?></strong></td>
         <td><strong><?=($coupon->Discount * 100);?> %</strong></td>
         <td>
@@ -77,7 +81,9 @@
             <?endif;?>
         </td>
         <td>
-            <?if ($coupon->Recipient == null):?>
+            <?if ($coupon->IsTicket):?>
+              <span class="label label-important"><?=\Yii::t('app', 'Продан');?></span>
+            <?elseif ($coupon->Recipient == null):?>
                 <span class="label"><?=\Yii::t('app', 'Не выдан');?></span>
             <?else:?>
                 <span class="label label-info"><?=\Yii::t('app', 'Выдан');?></span>

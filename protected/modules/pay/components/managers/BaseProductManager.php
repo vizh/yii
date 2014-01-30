@@ -237,12 +237,26 @@ abstract class BaseProductManager
   abstract public function getFilterProduct($params);
 
   /**
-   * @param \pay\models\OrderItem $orderItem
+   * @param \pay\models\OrderItem|string $orderItem Принимает объект или время
    * @return int
    */
   public function getPrice($orderItem)
   {
-    return $this->product->GetPrice($orderItem->PaidTime);
+    $time = $orderItem;
+    if (is_object($orderItem))
+    {
+      $time = $orderItem->PaidTime;
+    }
+
+    $time = $time === null ? date('Y-m-d H:i:s', time()) : $time;
+    foreach ($this->product->Prices as $price)
+    {
+      if ($price->StartTime <= $time && ($price->EndTime == null || $time < $price->EndTime))
+      {
+        return $price->Price;
+      }
+    }
+    throw new \pay\components\Exception('Не удалось определить цену продукта!');
   }
 
   /**

@@ -11,6 +11,7 @@
 
 $runetIdTitle = $account->SandBoxUser ? '' : ' или RUNET-ID';
 $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
+$hasTickets = !empty($products->tickets);
 ?>
 
 <script type="text/javascript">
@@ -20,19 +21,21 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
   }
 
   payItems = [];
-  <?if (!empty($orderForm->Items)):?>
-  <?foreach ($orderForm->Items as $item):?>
-  <?php $owner = \user\models\User::model()->byRunetId($item['RunetId'])->find();?>
-  var payItem = [];
-  payItem.productId = '<?=$item['ProductId'];?>';
-  payItem.user = {
-    RunetId : '<?=$owner->RunetId;?>',
-    FullName : '<?=\CHtml::encode($owner->getFullName());?>'
-  };
-  payItem.discount = '<?=!empty($item['Discount']) ? $item['Discount'] : 0;?>';
-  payItem.promoCode = '<?=!empty($item['PromoCode']) ? $item['PromoCode'] : '';?>';
-  payItems.push(payItem);
-  <?endforeach;?>
+  <?if ($orderForm->Scenario == \pay\models\forms\OrderForm::ScenarioRegisterUser):?>
+    <?if (!empty($orderForm->Items)):?>
+      <?foreach ($orderForm->Items as $item):?>
+        <?php $owner = \user\models\User::model()->byRunetId($item['RunetId'])->find();?>
+        var payItem = [];
+        payItem.productId = '<?=$item['ProductId'];?>';
+        payItem.user = {
+          RunetId : '<?=$owner->RunetId;?>',
+          FullName : '<?=\CHtml::encode($owner->getFullName());?>'
+        };
+        payItem.discount = '<?=!empty($item['Discount']) ? $item['Discount'] : 0;?>';
+        payItem.promoCode = '<?=!empty($item['PromoCode']) ? $item['PromoCode'] : '';?>';
+        payItems.push(payItem);
+      <?endforeach;?>
+    <?endif;?>
   <?endif;?>
 </script>
 
@@ -59,9 +62,20 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
         </div>
       </div>
 
+      <?if ($hasTickets):?>
+      <div class="clearfix m-bottom_20" style="margin-left: 40px; margin-right: 40px;">
+        <div style="width: 50%;" class="pull-left">
+          <label class="radio"><?=\CHtml::activeRadioButton($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterUser, 'uncheckValue' => null]);?> <?=\Yii::t('app', 'Зарегистрировать участников');?></label>
+        </div>
+        <div style="width: 50%;" class="pull-right">
+          <label class="radio"><?=\CHtml::activeRadioButton($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterTicket, 'uncheckValue' => null]);?> <?=\Yii::t('app', 'Купить билеты');?></label>
+        </div>
+      </div>
+      <?endif;?>
 
+
+      <div <?if ($hasTickets):?>style="display: none;"<?endif;?> data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterUser;?>">
       <?$this->renderPartial('register-help', ['user' => $this->getUser(), 'products' => $products, 'account' => $account, 'event' => $event,'unpaidOwnerCount' => $unpaidOwnerCount, 'unpaidJuridicalOrderCount' => $unpaidJuridicalOrderCount]);?>
-
       <table class="table thead-actual">
         <thead>
         <tr>
@@ -73,7 +87,7 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
         </thead>
       </table>
 
-      <?foreach ($products as $product):?>
+      <?foreach ($products->all as $product):?>
         <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="<?=$countRows[$product->Id];?>" data-row-current="0">
           <thead>
           <tr>
@@ -88,10 +102,45 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
           <tbody>
           </tbody>
         </table>
+        <div class="total">
+          <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
+        </div>
       <?endforeach;?>
+      </div>
 
-      <div class="total">
-        <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
+      <div style="display: none;" data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterTicket;?>">
+        <table class="table thead-actual">
+          <thead>
+          <tr>
+            <th><?=\Yii::t('app', 'Тип билета');?></th>
+            <th class="col-width t-right"><?=\Yii::t('app', 'Цена');?></th>
+            <th class="t-center" style="width: 30px;"><?=\Yii::t('app', 'Кол-во');?></th>
+            <th class="col-width t-right last-child"><?=\Yii::t('app', 'Сумма');?></th>
+          </tr>
+          </thead>
+          <?foreach ($products->tickets as $i => $product):?>
+          <tbody>
+            <tr data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>">
+              <td><?=$product->Title;?></td>
+              <td class="t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></td>
+              <td class="t-center">
+                <?
+                $value = \CHtml::resolveValue($orderForm, 'Items['.$i.'][Count]');
+                if ($value == null)
+                {
+                  $value = isset($countRows[$product->getManager()->ProductId]) ? $countRows[$product->getManager()->ProductId] : 0;
+                }
+                echo \CHtml::dropDownList(\CHtml::activeName($orderForm, 'Items['.$i.'][Count]'), $value, [0,1,2,3,4,5,6,7,8,9,10],  ['class' => 'input-mini']);?>
+              </td>
+              <td class="t-right"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.');?></td>
+            </tr>
+          </tbody>
+          <?=\CHtml::activeHiddenField($orderForm, 'Items['.$i.'][ProductId]', ['value' => $product->Id]);?>
+          <?endforeach;?>
+        </table>
+        <div class="total">
+          <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
+        </div>
       </div>
 
       <div class="nav-buttons">
@@ -125,7 +174,7 @@ $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
   <tr class="user-row">
     <td>
       <div class="p-relative">
-        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="Введите ФИО<?=$runetIdTitle;?>" value="<%=item.FullName%>, <?=$runetIdTitle2;?> <%=item.RunetId%>" disabled>
+        <input type="text" class="input-xxlarge form-element_text input-user no-disabled" placeholder="Введите ФИО<?=$runetIdTitle;?>" value="<%=item.FullName%>, <?=$runetIdTitle2;?> <%=item.RunetId%>" disabled>
         <i class="icon-remove"></i>
       </div>
     </td>

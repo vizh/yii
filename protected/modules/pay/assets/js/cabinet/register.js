@@ -4,6 +4,8 @@ var CPayRegister = function()
 {
   this.itemsIterator = 0;
   this.form = $('#registration_form');
+  this.scenario = 'User';
+
   this.eventIdName = this.form.data('event-id-name');
   this.eventId = this.form.data('event-id');
   this.sandBoxUser = this.form.data('sandbox-user');
@@ -20,19 +22,35 @@ var CPayRegister = function()
 CPayRegister.prototype = {
   init: function () {
     var self = this;
+    self.form.find('input[name*="Scenario"]').change(function (e) {
+      self.initScenario($(e.currentTarget).val());
+    }).filter(':checked').trigger('change');
+
     if (payItems !== undefined) {
       $.each(payItems, function (i, payItem) {
         var row = self.createFillRow(payItem.productId, payItem.user, payItem.promoCode);
         self.initDiscount(row, payItem.discount);
       });
     }
-    this.calculate();
-    
+    this.calculate('User');
+    this.calculate('Ticket');
+
     self.form.find('table[data-product-id]').each(function () {
       for (var i = $(this).data('row-current'); i < $(this).data('row-max'); i++) {
         self.createEmptyRow($(this).data('product-id'));
       }
     });
+
+    self.form.find('div[data-scenario="Ticket"] select[name*="Count"]').change(function () {
+      self.calculate();
+    });
+  },
+
+  initScenario : function (scenario) {
+    var self = this;
+    self.scenario = scenario;
+    this.form.find('div[data-scenario]').hide().find(':input').prop('disabled', true);
+    this.form.find('div[data-scenario="'+self.scenario+'"]').show().find(':input').not('.no-disabled').prop('disabled', false);
   },
   
   /**
@@ -201,7 +219,7 @@ CPayRegister.prototype = {
           runetId : ui.item.RunetId
         });
         row.find('.last-child').html(rowDataFieldsTemplate);
-        $(this).attr('disabled', 'disabled').blur().after('<i class="icon-remove"></i>');
+        $(this).attr('disabled', 'disabled').addClass('no-disabled').blur().after('<i class="icon-remove"></i>');
         self.calculate();
         self.initCouponField(row);
         self.initRemoveIcon(row);
@@ -247,31 +265,48 @@ CPayRegister.prototype = {
     return row;
   },
           
-  calculate : function () {
+  calculate : function (scenario) {
     var self     = this,
         total    = 0;
-        
-    self.form.find('table[data-product-id]').each(function () {
-      var price = $(this).data('price'),
-        all = $(this).find('tbody .user-row').size(),
-        rows = $(this).find('tbody input:disabled'),
-        current = rows.size(),
-        sum = 0;
 
-      rows.each(function(){
-        var discount = $(this).parents('tr.user-row').find('td.discount').data('discount');
-        sum += Math.round(price * (1 - discount));
-      });
-      total += sum;
-      $(this).find('thead th .quantity').text(current);
-      $(this).find('thead th .mediate-price').text(sum);
-      if (all == current) {
-        self.createEmptyRow($(this).data('product-id'));
-        current++;
-      } 
-      $(this).data('row-current', current);
-    });
-    self.form.find('#total-price').text(total);
+    if (typeof(scenario) == "undefined")
+      scenario = self.scenario;
+
+    var form = self.form.find('div[data-scenario="'+scenario+'"]');
+
+    switch (scenario) {
+      case 'User':
+        form.find('table[data-product-id]').each(function () {
+          var price = $(this).data('price'),
+            all = $(this).find('tbody .user-row').size(),
+            rows = $(this).find('tbody input:disabled'),
+            current = rows.size(),
+            sum = 0;
+
+          rows.each(function(){
+            var discount = $(this).parents('tr.user-row').find('td.discount').data('discount');
+            sum += Math.round(price * (1 - discount));
+          });
+          total += sum;
+          $(this).find('thead th .quantity').text(current);
+          $(this).find('thead th .mediate-price').text(sum);
+          if (all == current) {
+            self.createEmptyRow($(this).data('product-id'));
+            current++;
+          }
+          $(this).data('row-current', current);
+        });
+        break;
+
+      case 'Ticket':
+        form.find('tr[data-product-id]').each(function () {
+          var sum = $(this).find('select[name*="Count"]').val() * $(this).data('price');
+          $(this).find('.mediate-price').text(sum);
+          total += sum;
+        });
+        break;
+    }
+    form.find('#total-price').text(total);
   }
 };
 

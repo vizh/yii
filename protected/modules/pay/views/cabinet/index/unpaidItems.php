@@ -9,7 +9,7 @@
 $total = 0;
 ?>
 
-<?if (sizeof($unpaidItems) > 0):?>
+<?if (sizeof($unpaidItems->all) > 0 || sizeof($unpaidItems->tickets) > 0):?>
 
   <table class="table thead-actual">
     <thead>
@@ -22,7 +22,7 @@ $total = 0;
     </thead>
   </table>
 
-  <?foreach ($unpaidItems as $items):?>
+  <?foreach ($unpaidItems->all as $items):?>
     <?
     /** @var $items \pay\components\OrderItemCollectable[] */
     $product = $items[0]->getOrderItem()->Product;
@@ -60,6 +60,31 @@ $total = 0;
           </td>
         </tr>
       <?endforeach;?>
+      </tbody>
+    </table>
+  <?endforeach;?>
+
+  <?foreach ($unpaidItems->tickets as $items):?>
+    <table class="table">
+      <thead>
+        <tr>
+          <th colspan="5"><h4 class="title"><?=\Yii::t('app', 'Билеты');?> <i class="icon-chevron-up"></i></h4></th>
+        </tr>
+      </thead>
+      <tbody>
+        <?foreach ($items as $item):?>
+          <?$total += $item->getPriceDiscount();?>
+          <tr>
+            <td style="padding-left: 10px; width: 15px;">
+              <?= \CHtml::beginForm(array('/pay/cabinet/deleteitem', 'orderItemId' => $item->getOrderItem()->Id), 'post', array('class' => 'button-only')); ?>
+              <?= \CHtml::htmlButton('<i class="icon-trash"></i>', array('type' => 'submit')); ?>
+              <?= \CHtml::endForm(); ?>
+            </td>
+            <td colspan="2"><?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem());?></td>
+            <td class="col-width t-right"><?=$item->getOrderItem()->getItemAttribute('Count');?></td>
+            <td class="col-width t-right last-child"><b class="number"><?=$item->getOrderItem()->getPrice();?>  <?=Yii::t('app', 'руб.');?></b></td>
+          </tr>
+        <?endforeach;?>
       </tbody>
     </table>
   <?endforeach;?>
