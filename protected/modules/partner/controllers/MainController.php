@@ -2,6 +2,18 @@
 
 class MainController extends \partner\components\Controller
 {
+  public function registeredGoogleApis()
+  {
+    return [
+      'visualization' => [
+        'version' => '1.0',
+        'options' => [
+          'packages' => ['corechart']
+        ]
+      ]
+    ];
+  }
+
   public function actions()
   {
     return array(

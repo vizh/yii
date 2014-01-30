@@ -24,11 +24,14 @@ class IndexAction extends \partner\components\Action
       $statistics = $this->getManyPartsStatistics();
     }
 
+    $statRegistersAll = new \event\components\stats\RegistrationsAll(\Yii::app()->partner->getAccount()->EventId);
+
     $this->getController()->render('index', [
         'roles' => $roles,
         'statistics' => $statistics,
         'event' => \Yii::app()->partner->getEvent(),
-        'timeSteps' => $this->getTimeSteps()
+        'timeSteps' => $this->getTimeSteps(),
+        'statRegistrationsByRoles' => $statRegistersAll->getStatByRoles()
       ]
     );
   }

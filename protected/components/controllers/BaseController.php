@@ -5,7 +5,7 @@ abstract class BaseController extends \CController
 {
   public function filters()
   {
-    return array('validateCsrf', 'setHeaders', 'initResources');
+    return array('validateCsrf', 'registerApis', 'setHeaders', 'initResources');
   }
 
   /**
@@ -42,6 +42,39 @@ abstract class BaseController extends \CController
       \Yii::app()->request->validateCsrfToken(new \CEvent($this));
     }
 
+    $filterChain->run();
+  }
+
+  /**
+   * Регистрируем различные API
+   * @param $filterChain
+   */
+  public function filterRegisterApis($filterChain)
+  {
+    $googleApis = $this->registeredGoogleApis();
+    if (!empty($googleApis))
+    {
+      $cs = \Yii::app()->getClientScript();
+      $cs->registerScriptFile('https:'.\CGoogleApi::$bootstrapUrl, \CClientScript::POS_HEAD);
+      $i = 0;
+      foreach ($googleApis as $apiName => $config)
+      {
+        if (is_array($config))
+        {
+          $cs->registerScript(
+            'init-api'.$i++,
+            \CGoogleApi::load(
+              $apiName,
+              isset($config['version']) ? $config['version'] : '1',
+              isset($config['options']) ? $config['options'] : []
+            ),
+            \CClientScript::POS_HEAD
+          );
+        }
+        else
+          $cs->registerScript('init-api'.$i++, \CGoogleApi::load($config), \CClientScript::POS_HEAD);
+      }
+    }
     $filterChain->run();
   }
 
@@ -89,4 +122,18 @@ abstract class BaseController extends \CController
     }
   }
 
+  /**
+   * Регистрирует перечисленные API гугла
+   * @return array Массив с различными API. Например
+   * ['visualization' =>
+   *  'version' => '1.0',
+   *  'options' => [
+   *    'packages' => ['corechart']
+   *  ]
+   * ] для графиков
+   */
+  protected function registeredGoogleApis()
+  {
+    return [];
+  }
 }
