@@ -116,5 +116,13 @@ class Ticket extends BaseProductManager
     return $title;
   }
 
+  /**
+   * @return \pay\models\Product
+   */
+  public function getPaidProduct()
+  {
+    return $this->paidProduct;
+  }
+
 
 }

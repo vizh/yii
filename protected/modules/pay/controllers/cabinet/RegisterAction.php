@@ -78,13 +78,13 @@ class RegisterAction extends \pay\components\Action
         $isParticipant = \event\models\Participant::model()->byEventId($this->getEvent()->Id)->byUserId($this->getUser()->Id)->exists();
         $isOrderItemExist = \pay\models\OrderItem::model()
             ->byPayerId($this->getUser()->Id)->byOwnerId($this->getUser()->Id)
-            ->byProductId($products[0]->Id)->byDeleted(false)->exists();
-        if ($isParticipant && !$isOrderItemExist && $products[0]->getManager()->checkProduct($this->getUser()))
+            ->byProductId($products->all[0]->Id)->byDeleted(false)->exists();
+        if ($isParticipant && !$isOrderItemExist && $products->all[0]->getManager()->checkProduct($this->getUser()))
         {
           $this->form->Items[] = [
-            'ProductId' => $products[0]->Id,
+            'ProductId' => $products->all[0]->Id,
             'RunetId' => $this->getUser()->RunetId,
-            'Discount' => $this->getDiscount($this->getUser(), $products[0])
+            'Discount' => $this->getDiscount($this->getUser(), $products->all[0])
           ];
         }
       }
