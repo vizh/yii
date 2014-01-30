@@ -87,7 +87,6 @@ $hasTickets = !empty($products->tickets);
         </tr>
         </thead>
       </table>
-
       <?foreach ($products->all as $product):?>
         <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="<?=$countRows[$product->Id];?>" data-row-current="0">
           <thead>
@@ -103,10 +102,10 @@ $hasTickets = !empty($products->tickets);
           <tbody>
           </tbody>
         </table>
-        <div class="total">
-          <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
-        </div>
       <?endforeach;?>
+      <div class="total">
+        <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
+      </div>
       </div>
 
       <div style="display: none;" data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterTicket;?>">
