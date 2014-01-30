@@ -64,7 +64,7 @@ class OperatorAction extends \partner\components\Action
       $operator = new \ruvents\models\Operator();
       $operator->EventId = $this->getEvent()->Id;
       $operator->Login = $login;
-      $operator->Password = \ruvents\models\Operator::generatePasswordHash($password);
+      $operator->Password = $password;
       $operator->Role = $role;
       $operator->save();
       fputcsv($this->getFile(), array($login, $password));

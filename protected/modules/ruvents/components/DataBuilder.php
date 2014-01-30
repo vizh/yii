@@ -24,6 +24,24 @@ class DataBuilder
     return $this->activeEvent;
   }
 
+  protected $operator;
+
+  /**
+   * @param \ruvents\models\Operator $operator
+   * @return \stdClass
+   */
+  public function createOperator($operator)
+  {
+    $this->operator = new \stdClass();
+
+    $this->operator->Id = $operator->Id;
+    $this->operator->Login = $operator->Login;
+    $this->operator->Password = $operator->Password;
+    $this->operator->Role = $operator->Role;
+
+    return $this->operator;
+  }
+
   protected $user;
   /**
    * @param \user\models\User $user

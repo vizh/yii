@@ -8,6 +8,7 @@ namespace ruvents\models;
  * @property string $Password
  * @property string $Role
  * @property string $LastLoginTime
+ *
  * @method \ruvents\models\Operator find()
  * @method \ruvents\models\Operator findByAttributes()
  */
@@ -36,18 +37,17 @@ class Operator extends \CActiveRecord
     return 'Id';
   }
 
-  public function getAuthHash()
+  /**
+   * @param int $eventId
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byEventId($eventId, $useAnd = true)
   {
-    return substr(md5($this->Login . $this->Password . $this->LastLoginTime . $_SERVER['REMOTE_ADDR']), 3, 16);
-  }
-
-  public function isLoginExpire()
-  {
-    return $this->LastLoginTime < date('Y-m-d H:i:s', time() - 24*3600);
-  }
-
-  public static function generatePasswordHash($password)
-  {
-    return md5($password);
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params = ['EventId' => $eventId];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 }

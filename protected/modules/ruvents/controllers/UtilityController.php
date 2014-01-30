@@ -9,6 +9,21 @@ class UtilityController extends ruvents\components\Controller
     ]);
   }
 
+  public function actionOperators()
+  {
+    if ($this->getAccount() === null)
+      throw new \ruvents\components\Exception(104);
+    $operators = \ruvents\models\Operator::model()->byEventId($this->getAccount()->EventId)->findAll();
+
+    $result = [];
+    foreach ($operators as $operator)
+    {
+      $result[] = $this->getDataBuilder()->createOperator($operator);
+    }
+
+    $this->renderJson(['Operators' => $result]);
+  }
+
   public function actionChanges()
   {
     $request = \Yii::app()->getRequest();

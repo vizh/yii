@@ -3,17 +3,10 @@
 return array(
   array(
     'allow',
-    'users' => array('?'),
-    'module' => 'ruvents',
-    'controllers' => array('auth'),
-    'actions' => array('login')
-  ),
-  array(
-    'allow',
-    'users' => array('?'),
+    'users' =>  array('?'),
     'module' => 'ruvents',
     'controllers' => array('utility'),
-    'actions' => array('ping')
+    'actions' => array('ping', 'operators')
   ),
   array(
     'allow',

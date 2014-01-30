@@ -82,6 +82,14 @@ class Controller extends \CController
   }
 
   /**
+   * @return \ruvents\models\Account
+   */
+  public function getAccount()
+  {
+    return \ruvents\components\WebUser::Instance()->getAccount();
+  }
+
+  /**
    * @return \ruvents\models\Operator
    */
   public function getOperator()
@@ -99,7 +107,7 @@ class Controller extends \CController
   {
     if ($this->event === null)
     {
-      $this->event = \event\models\Event::model()->findByPk($this->getOperator()->EventId);
+      $this->event = $this->getAccount()->Event;
       if ($this->event === null)
       {
         throw new \ruvents\components\Exception(301);
@@ -117,7 +125,7 @@ class Controller extends \CController
   {
     if ($this->dataBuilder == null)
     {
-      $this->dataBuilder = new DataBuilder($this->getOperator()->EventId);
+      $this->dataBuilder = new DataBuilder($this->getAccount()->EventId);
     }
 
     return $this->dataBuilder;
@@ -155,7 +163,7 @@ class Controller extends \CController
   /**
    * Кодирует данные в JSON формат.
    * Данные преобразуются в JSON формат, вставляются в layout текущего констроллера и отображаются.
-   * @param $data данные, которые будут преобразованы в JSON
+   * @param mixed $data данные, которые будут преобразованы в JSON
    */
   public function renderJson($data)
   {
@@ -176,7 +184,7 @@ class Controller extends \CController
     {
       $this->createLog();
     }
-    return parent::afterAction($action);
+    parent::afterAction($action);
   }
 
   /**
@@ -187,7 +195,7 @@ class Controller extends \CController
     $log = new \ruvents\models\Log();
     if ($this->getOperator() !== null)
     {
-      $log->EventId = $this->getOperator()->EventId;
+      $log->EventId = $this->getAccount()->EventId;
       $log->OperatorId = $this->getOperator()->Id;
     }
     $log->Route = $this->getId() . '.' . $this->getAction()->getId();

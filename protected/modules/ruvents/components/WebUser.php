@@ -14,9 +14,26 @@ class WebUser extends \CWebUser
     if (self::$instance === null)
     {
       self::$instance = new WebUser();
+      self::$instance->initAccount();
     }
 
     return self::$instance;
+  }
+
+  private $account = null;
+
+  private function initAccount()
+  {
+    $hash = \Yii::app()->getRequest()->getParam('Hash');
+    $this->account = \ruvents\models\Account::model()->byHash($hash)->find();
+  }
+
+  /**
+   * @return \ruvents\models\Account
+   */
+  public function getAccount()
+  {
+    return $this->account;
   }
 
   private $operator = null;
@@ -27,16 +44,15 @@ class WebUser extends \CWebUser
    */
   public function getOperator()
   {
-    if ($this->operator === null && !$this->alreadyTryLoad)
+    if (!$this->alreadyTryLoad && $this->operator === null && $this->getAccount() !== null)
     {
-      $request = \Yii::app()->getRequest();
-      $operatorId = $request->getParam('OperatorId');
-      $hash = $request->getParam('Hash');
-      /** @var $operator \ruvents\models\Operator */
+      $operatorId = \Yii::app()->getRequest()->getParam('OperatorId');
+      /** @var \ruvents\models\Operator $operator */
       $operator = \ruvents\models\Operator::model()->findByPk($operatorId);
-      if ($operator !== null && $operator->getAuthHash() === $hash
-        && !$operator->isLoginExpire())
+      if ($operator !== null)
       {
+        if ($operator->EventId != $this->getAccount()->EventId)
+          throw new Exception(103);
         $this->operator = $operator;
       }
       $this->alreadyTryLoad = true;
@@ -75,11 +91,11 @@ class WebUser extends \CWebUser
 
   public function getIsGuest()
   {
-    return $this->getOperator() === null;
+    return $this->getAccount() === null || $this->getOperator() === null;
   }
 
   public function getId()
   {
-    return $this->getOperator() !== null ? $this->getOperator()->Id : null;
+    return $this->getAccount() !== null && $this->getOperator() !== null ? $this->getOperator()->Id : null;
   }
 }
