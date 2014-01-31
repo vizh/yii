@@ -122,7 +122,7 @@ $(function () {
           </div>
         </div>
         <div class="control-group">
-          <?=\CHtml::activeLabel($form, 'Options', array('class' => 'control-label'));?>
+          <p style="margin-bottom: 5px;">Дополнительные опции (<a target="_blank" href="http://runet-id.com/docs/presentation.pdf">подробное описание</a>)</p>
           <div class="controls">
             <span class="help-block">Укажите дополнительные опциии, которые были бы вам интересны. Наш менеджер свяжется с вами и предоставит подробную информацию.</span>
             <?foreach ($form->getOptionsData() as $key => $option):?>
