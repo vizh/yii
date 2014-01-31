@@ -37,31 +37,31 @@
     <div class="container units">
       <div class="unit">
         <img src="/images/blank.gif" alt="" class="i-event_large i-event_conference">
-        <p class="caption">Конференция</p>
+        <p class="caption"><?=Yii::t('app', 'Конференция');?></p>
       </div
           ><div class="unit">
         <img src="/images/blank.gif" alt="" class="i-event_large i-event_training">
-        <p class="caption">Семинар тренинг</p>
+        <p class="caption"><?=Yii::t('app', 'Семинар тренинг');?></p>
       </div
           ><div class="unit">
         <img src="/images/blank.gif" alt="" class="i-event_large i-event_webinar">
-        <p class="caption">Вебинар</p>
+        <p class="caption"><?=Yii::t('app', 'Вебинар');?></p>
       </div
           ><div class="unit">
         <img src="/images/blank.gif" alt="" class="i-event_large i-event_roundtable">
-        <p class="caption">Круглый стол</p>
+        <p class="caption"><?=Yii::t('app', 'Круглый стол');?></p>
       </div
           ><div class="unit">
         <img src="/images/blank.gif" alt="" class="i-event_large i-event_confpartner">
-        <p class="caption">Партнерская конференция</p>
+        <p class="caption"><?=Yii::t('app', 'Партнерская конференция');?></p>
       </div
           ><div class="unit">
         <img src="/images/blank.gif" alt="" class="i-event_large i-event_contestprize">
-        <p class="caption">Конкурс премия</p>
+        <p class="caption"><?=Yii::t('app', 'Конкурс премия');?></p>
       </div
           ><div class="unit">
         <img src="/images/blank.gif" alt="" class="i-event_large i-event_eventsother">
-        <p class="caption">Другие мероприятия</p>
+        <p class="caption"><?=Yii::t('app', 'Другие мероприятия');?></p>
       </div>
     </div>
   </div>
@@ -71,31 +71,31 @@
         <div class="row">
           <nav class="nav" role="navigation">
             <span class="span2 item">
-              <a href="<?=$this->createUrl('/page/info/about');?>">О проекте</a>
+              <a href="<?=$this->createUrl('/page/info/about');?>"><?=Yii::t('app', 'О проекте');?></a>
             </span>
             <span class="span2 item">
-              <a href="<?=$this->createUrl('/page/info/adv');?>">Реклама</a>
+              <a href="<?=$this->createUrl('/page/info/adv');?>"><?=Yii::t('app', 'Реклама');?></a>
             </span>
             <span class="span2 item">
-              <a href="<?=$this->createUrl('/page/info/agreement');?>">Соглашение</a>
+              <a href="<?=$this->createUrl('/page/info/agreement');?>"><?=Yii::t('app', 'Соглашение');?></a>
             </span>
             <span class="span2 item">
-              <a href="<?=$this->createUrl('/page/info/pay');?>">Оплата</a>
+              <a href="<?=$this->createUrl('/page/info/pay');?>"><?=Yii::t('app', 'Оплата');?></a>
             </span>
             <span class="span2 item">
-              <a href="<?=$this->createUrl('/event/list/index');?>">Мероприятия</a>
+              <a href="<?=$this->createUrl('/event/list/index');?>"><?=Yii::t('app', 'Мероприятия');?></a>
             </span>
             <span class="span2 item">
-              <a href="<?=$this->createUrl('/company/list/index');?>">Компании</a>
+              <a href="<?=$this->createUrl('/company/list/index');?>"><?=Yii::t('app', 'Компании');?></a>
             </span>
             <span class="span2 item">
-              <a href="<?=$this->createUrl('/page/info/contacts');?>">Контакты</a>
+              <a href="<?=$this->createUrl('/page/info/contacts');?>"><?=Yii::t('app', 'Контакты');?></a>
             </span>
           </nav>
         </div>
       </div>
       <form id="search-footer" class="span4" action="<?=$this->createUrl('/search/result/index');?>" role="search">
-        <input type="text" class="form-element_text" name="term" placeholder="Поиск по людям, компаниям, новостям">
+        <input type="text" class="form-element_text" name="term" placeholder="<?=Yii::t('app', 'Поиск по людям, компаниям, новостям');?>">
         <input type="image" class="form-element_image pull-right" src="/images/search-type-image-dark.png" width="20" height="19">
       </form>
     </div>

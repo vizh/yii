@@ -25,7 +25,7 @@
 
   <?if (!empty($account->SandBoxUserRegisterUrl)):?>
     <p>
-      <strong>Если ваши коллеги еще не зарегистрированы на конференцию, вы можете сделать это за них, пройдя по <a target="_blank" href="<?=$account->SandBoxUserRegisterUrl;?>">ссылке</a>.</strong>
+      <strong>If your colleagues have not yet registered for the conference, you can do this on their behalf by <a target="_blank" href="<?=$account->SandBoxUserRegisterUrl;?>">clicking the link</a>.</strong>
     </p>
   <?endif;?>
 

@@ -220,12 +220,16 @@ class Order extends \CActiveRecord
   
   public function onActivate($event)
   {
+    $oldLanguage = \Yii::app()->getLanguage();
+    $language = $this->Payer->Language != null ? $this->Payer->Language : 'ru';
+    \Yii::app()->setLanguage($language);
     /** @var $sender Order */
     $sender = $event->sender;
     $class = \Yii::getExistClass('\pay\components\handlers\order\activate', ucfirst($sender->Event->IdName), 'Base');
     /** @var $mail \event\components\handlers\register\Base */
     $mail = new $class(new \mail\components\mailers\PhpMailer(), $event);
     $mail->send();
+    \Yii::app()->setLanguage($oldLanguage);
   }
 
   /**
@@ -332,10 +336,14 @@ class Order extends \CActiveRecord
   
   public function onCreateOrderJuridical($event)
   {
+    $oldLanguage = \Yii::app()->getLanguage();
+    $language = $this->Payer->Language != null ? $this->Payer->Language : 'ru';
+    \Yii::app()->setLanguage($language);
     $class = \Yii::getExistClass('\pay\components\handlers\orderjuridical\create', ucfirst($event->params['event']->IdName), 'Base');
     /** @var $mail \event\components\handlers\register\Base */
     $mail = new $class(new \mail\components\mailers\PhpMailer(), $event);
     $mail->send();
+    \Yii::app()->setLanguage($oldLanguage);
   }
 
   /**

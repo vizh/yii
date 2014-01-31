@@ -1,12 +1,7 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: Alaris
- * Date: 11/26/13
- * Time: 7:28 PM
- * To change this template use File | Settings | File Templates.
+ * @var \pay\models\Order $order
  */
-
 ?>
 
 
@@ -23,8 +18,8 @@
           <td style="font-size: 13px;">
 
             <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="4" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 18px;">
-              <?if (!empty($payer->LastName)):?>
-                Здравствуйте, <?=$payer->getFullName();?>.
+              <?if (!empty($order->Payer->LastName)):?>
+                Здравствуйте, <?=$order->Payer->getFullName();?>.
               <?else:?>
                 Уважаемый пользователь.
               <?endif;?>

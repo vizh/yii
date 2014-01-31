@@ -13,6 +13,8 @@ class PayCommand extends \application\components\console\BaseConsoleCommand
     $mailer = new \mail\components\mailers\PhpMailer();
     foreach ($orders as $order)
     {
+      $language = $order->Payer->Language != null ? $order->Payer->Language : 'ru';
+      Yii::app()->setLanguage($language);
       $class = \Yii::getExistClass('\pay\components\handlers\orderjuridical\notify\notpaid', ucfirst($order->Event->IdName), 'Base'); 
       $mail = new $class($mailer, $order);
       $mail->send();
