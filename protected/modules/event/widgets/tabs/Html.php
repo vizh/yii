@@ -1,6 +1,13 @@
 <?php
 namespace event\widgets\tabs;
 
+/**
+ * Class Html
+ * @package event\widgets\tabs
+ *
+ * @property string $TabTitle
+ * @property string $TabContent
+ */
 class Html extends \event\components\Widget
 {
   public function getAttributeNames()
@@ -18,7 +25,7 @@ class Html extends \event\components\Widget
    */
   public function getTitle()
   {
-    return $this->TabTitle;
+    return isset($this->TabTitle) ? $this->TabTitle : 'Таб 1';
   }
 
   /**
