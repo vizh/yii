@@ -114,7 +114,7 @@ abstract class Mail
     return true;
   }
 
-  protected final function renderBody($view, $params)
+  protected function renderBody($view, $params)
   {
     $controller = new \CController('default', null);
     return $controller->renderPartial($view, $params, true);

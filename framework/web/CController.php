@@ -654,7 +654,6 @@ class CController extends CBaseController
 		}
 		elseif(($module=$this->getModule())===null)
 			$module=Yii::app();
-
 		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),Yii::app()->getViewPath(),$module->getViewPath());
 	}
 

@@ -9,9 +9,9 @@ abstract class Mailer
   public final function send(Mail $mail)
   { 
     $log = $mail->getLog();
-    try 
+    try
     {
-      $this->internalSend($mail);
+      echo $this->internalSend($mail);
     }
     catch (\Exception $e)
     {

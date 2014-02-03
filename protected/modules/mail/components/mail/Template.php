@@ -54,7 +54,7 @@ class Template extends \mail\components\Mail
 
   protected function getRepeat()
   {
-    return false;
+    return true;
   }
 
   public function getAttachments()
@@ -92,4 +92,17 @@ class Template extends \mail\components\Mail
     $log->TemplateId = $this->template->Id;
     return $log;
   }
+
+  protected function renderBody($view, $params)
+  {
+    if ($this->template->Layout == \mail\models\Layout::None)
+    {
+      return parent::renderBody($view, $params);
+    }
+    $controller = new \mail\components\MailController($this->user, ($this->template->Layout == \mail\models\Layout::TwoColumn));
+    \Yii::app()->getClientScript()->reset();
+    return $controller->render($view, $params, true);
+  }
+
+
 }

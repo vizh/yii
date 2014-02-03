@@ -22,6 +22,7 @@ class Template extends \CFormModel
   public $TestUsers;
   public $Conditions = [];
   public $Body;
+  public $Layout = \mail\models\Layout::OneColumn;
 
   public function attributeLabels()
   {
@@ -35,7 +36,8 @@ class Template extends \CFormModel
       'Active' => \Yii::t('app', 'Рассылка по выбранным получателям'),
       'Test' => \Yii::t('app', 'Получатели тестовой рассылки'),
       'Body' => \Yii::t('app', 'Тело письма'),
-      'SendInvisible' => \Yii::t('app', 'Отправлять скрытым пользователям')
+      'SendInvisible' => \Yii::t('app', 'Отправлять скрытым пользователям'),
+      'Layout' => \Yii::t('app', 'Шаблон')
     ];
   }
 
@@ -44,7 +46,7 @@ class Template extends \CFormModel
   {
     return [
       ['Title, Subject, From, FromName, SendPassbook, SendUnsubscribe, Active, SendInvisible', 'required'],
-      ['Test, TestUsers, Body', 'safe'],
+      ['Test, TestUsers, Body, Layout', 'safe'],
       ['From', 'email'],
       ['Conditions', 'default', 'value' => []],
       ['Conditions', 'filter', 'filter' => [$this, 'filterConditions']],
@@ -209,5 +211,14 @@ class Template extends \CFormModel
       $data[] = ['label' => $role->Id.' - '.$role->Title, 'value' => $role->Id];
     }
     return $data;
+  }
+
+  public function getLayoutData()
+  {
+    return [
+      \mail\Models\Layout::None => \Yii::t('app', 'Без шаблона'),
+      \mail\Models\Layout::OneColumn => \Yii::t('app', 'Одноколоночный'),
+      \mail\Models\Layout::TwoColumn => \Yii::t('app', 'Двухколоночный')
+    ];
   }
 } 

@@ -6,6 +6,8 @@ class ConsoleApplicationTemplater extends \CBehavior
 
     private $_theme;
     private $_viewPath;
+    private $_layoutPath;
+    private $_clientScript = null;
 
     /**
      * Returns the widget factory.
@@ -58,5 +60,20 @@ class ConsoleApplicationTemplater extends \CBehavior
             return $this->_viewPath;
         else
             return $this->_viewPath = $this->owner->getBasePath() . DIRECTORY_SEPARATOR . 'views';
+    }
+
+    public function getLayoutPath()
+    {
+      if($this->_layoutPath!==null)
+        return $this->_layoutPath;
+      else
+        return $this->_layoutPath=$this->getViewPath().DIRECTORY_SEPARATOR.'layouts';
+    }
+
+    public function getClientScript()
+    {
+      if ($this->_clientScript==null)
+        $this->_clientScript = new \CClientScript();
+      return $this->_clientScript;
     }
 }

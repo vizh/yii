@@ -21,6 +21,7 @@ namespace mail\models;
  * @property string $CreationTime
  * @property int $LastUserId;
  * @property bool $SendInvisible;
+ * @property string $Layout
  *
  */
 class Template extends \CActiveRecord
