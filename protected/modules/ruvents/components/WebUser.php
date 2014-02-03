@@ -40,6 +40,7 @@ class WebUser extends \CWebUser
   private $alreadyTryLoad = false;
 
   /**
+   * @throws Exception
    * @return \ruvents\models\Operator
    */
   public function getOperator()
@@ -72,11 +73,9 @@ class WebUser extends \CWebUser
    */
   public function getRole()
   {
-    if ($this->getOperator() !== null)
-    {
-      return $this->getOperator()->Role;
-    }
-    return null;
+    if ($this->getAccount() === null)
+      return null;
+    return $this->getOperator() !== null ? $this->getOperator()->Role : 'Server';
   }
 
   protected $_access = array();
@@ -91,11 +90,13 @@ class WebUser extends \CWebUser
 
   public function getIsGuest()
   {
-    return $this->getAccount() === null || $this->getOperator() === null;
+    return $this->getAccount() === null;
   }
 
   public function getId()
   {
-    return $this->getAccount() !== null && $this->getOperator() !== null ? $this->getOperator()->Id : null;
+    if ($this->getAccount() === null)
+      return null;
+    return $this->getOperator() !== null ? $this->getOperator()->Id : 'acc'.$this->getAccount()->Id;
   }
 }

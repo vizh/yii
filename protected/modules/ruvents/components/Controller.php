@@ -193,10 +193,13 @@ class Controller extends \CController
   public function createLog()
   {
     $log = new \ruvents\models\Log();
-    if ($this->getOperator() !== null)
+    if ($this->getAccount() !== null)
     {
       $log->EventId = $this->getAccount()->EventId;
-      $log->OperatorId = $this->getOperator()->Id;
+      if ($this->getOperator() !== null)
+      {
+        $log->OperatorId = $this->getOperator()->Id;
+      }
     }
     $log->Route = $this->getId() . '.' . $this->getAction()->getId();
     $log->Params = json_encode($_REQUEST, JSON_UNESCAPED_UNICODE);

@@ -36,7 +36,7 @@ class UtilityController extends ruvents\components\Controller
     }
 
     $logModel = \ruvents\models\DetailLog::model()
-      ->byEventId($this->getOperator()->EventId)->byUserId($user->Id);
+      ->byEventId($this->getAccount()->EventId)->byUserId($user->Id);
     $logModel->getDbCriteria()->order = '"t"."CreationTime" ASC';
     $logs = $logModel->findAll();
 
