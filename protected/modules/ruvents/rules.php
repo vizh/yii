@@ -6,7 +6,7 @@ return array(
     'users' =>  array('?'),
     'module' => 'ruvents',
     'controllers' => array('utility'),
-    'actions' => array('ping', 'operators')
+    'actions' => array('ping')
   ),
 
 
@@ -15,7 +15,7 @@ return array(
     'roles' => array('Server'),
     'module' => 'ruvents',
     'controllers' => array('utility'),
-    'actions' => array('operators')
+    'actions' => array('ping', 'operators')
   ),
   array(
     'allow',
