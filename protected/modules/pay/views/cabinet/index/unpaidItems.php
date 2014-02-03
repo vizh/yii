@@ -81,7 +81,7 @@ $total = 0;
               <?= \CHtml::endForm(); ?>
             </td>
             <td><?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem());?></td>
-            <td class="col-width t-right"><?=$item->getOrderItem()->Product->getManager()->getPaidProduct()->getPrice($item->getOrderItem());?> <?=Yii::t('app', 'руб.');?></td>
+            <td class="col-width t-right"><?=$item->getOrderItem()->Product->getPrice();?> <?=Yii::t('app', 'руб.');?></td>
             <td class="col-width t-right"><?=$item->getOrderItem()->getItemAttribute('Count');?></td>
             <td class="col-width t-right last-child"><b class="number"><?=$item->getOrderItem()->getPrice();?>  <?=Yii::t('app', 'руб.');?></b></td>
           </tr>

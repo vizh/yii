@@ -98,22 +98,19 @@ class Ticket extends BaseProductManager
 
   public function getPrice($orderItem)
   {
-    $price = $this->paidProduct->getManager()->getPrice($orderItem);
-    if (is_object($orderItem))
-    {
-      $count = intval($orderItem->getItemAttribute('Count'));
-      return ($price * $count);
-    }
-    return $price;
+    $count = intval($orderItem->getItemAttribute('Count'));
+    return $count * parent::getPrice($orderItem);
   }
+
+  public function getPriceByTime($time = null)
+  {
+    return $this->getPaidProduct()->getPrice($time);
+  }
+
 
   public function getTitle($orderItem)
   {
-    $count = intval($orderItem->getItemAttribute('Count'));
-    $title  = \Yii::t('app', '1#Билет|n>1#Билеты', $count);
-    $title .= ' '.\Yii::t('app', 'на').' "';
-    $title .= $this->paidProduct->Title.'"';
-    return $title;
+    return $this->getPaidProduct()->Title;
   }
 
   /**
@@ -124,5 +121,8 @@ class Ticket extends BaseProductManager
     return $this->paidProduct;
   }
 
-
+  public function getCount($orderItem)
+  {
+    return $orderItem->getItemAttribute('Count');
+  }
 }

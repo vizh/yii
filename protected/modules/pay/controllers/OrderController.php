@@ -23,8 +23,10 @@ class OrderController extends \application\components\controllers\MainController
     foreach ($collection as $item)
     {
       $orderItem = $item->getOrderItem();
-      $price = $item->getPriceDiscount($order->CreationTime);
-      if (! isset($billData[$orderItem->ProductId.$price]))
+      $isTicket = $orderItem->Product->ManagerName == 'Ticket';
+
+      $price = $isTicket ? $orderItem->Product->getPrice() : $item->getPriceDiscount($order->CreationTime);
+      if (!isset($billData[$orderItem->ProductId.$price]))
       {
         $billData[$orderItem->ProductId.$price] = array(
           'Title' => $orderItem->Product->getManager()->GetTitle($orderItem),
@@ -34,8 +36,9 @@ class OrderController extends \application\components\controllers\MainController
           'ProductId' => $orderItem->ProductId
         );
       }
-      $billData[$orderItem->ProductId.$price]['Count'] += 1;
-      $total += $price;
+      $count = $orderItem->Product->getManager()->getCount($orderItem);
+      $billData[$orderItem->ProductId.$price]['Count'] += $count;
+      $total += $count * $price;
     }
 
     /** @var $account \pay\models\Account */

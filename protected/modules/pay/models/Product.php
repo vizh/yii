@@ -162,9 +162,13 @@ class Product extends \application\models\translation\ActiveRecord
     return $this;
   }
 
+  /**
+   * @param string $time
+   * @return int
+   */
   public function getPrice($time = null)
   {
-    return $this->getManager()->getPrice($time);
+    return $this->getManager()->getPriceByTime($time);
   }
 
   /**

@@ -121,7 +121,7 @@ $hasTickets = !empty($products->tickets);
           <?foreach ($products->tickets as $i => $product):?>
           <tbody>
             <tr data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>">
-              <td><?=$product->Title;?></td>
+              <td><?=$product->getManager()->getPaidProduct()->Title;?></td>
               <td class="t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></td>
               <td class="t-center">
                 <?

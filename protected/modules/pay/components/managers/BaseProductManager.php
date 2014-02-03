@@ -237,17 +237,21 @@ abstract class BaseProductManager
   abstract public function getFilterProduct($params);
 
   /**
-   * @param \pay\models\OrderItem|string $orderItem Принимает объект или время
+   * @param \pay\models\OrderItem $orderItem
    * @return int
    */
   public function getPrice($orderItem)
   {
-    $time = $orderItem;
-    if (is_object($orderItem))
-    {
-      $time = $orderItem->PaidTime;
-    }
+    return $this->getPriceByTime($orderItem->PaidTime);
+  }
 
+  /**
+   * @param string $time
+   * @return int
+   * @throws \pay\components\Exception
+   */
+  public function getPriceByTime($time = null)
+  {
     $time = $time === null ? date('Y-m-d H:i:s', time()) : $time;
     foreach ($this->product->Prices as $price)
     {
@@ -266,5 +270,14 @@ abstract class BaseProductManager
   public function getTitle($orderItem)
   {
     return $this->product->Title;
+  }
+
+  /**
+   * @param \pay\models\OrderItem $orderItem
+   * @return int
+   */
+  public function getCount($orderItem)
+  {
+    return 1;
   }
 }
