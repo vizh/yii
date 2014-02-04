@@ -11,17 +11,14 @@ class OperatorAction extends \partner\components\Action
     $this->getController()->setPageTitle('Генерация аккаунтов операторов');
     $this->getController()->initActiveBottomMenu('operator');
     $request = \Yii::app()->getRequest();
-    $file = $request->getParam('file');
-    if ($file != null)
+
+    $account = \ruvents\models\Account::model()->byEventId($this->getEvent()->Id)->find();
+    if ($account == null)
     {
-      if (strpos($file, 'operators') !== 0 || substr($file, strlen($file)-4, 4) !== '.csv')
-      {
-        $this->getController()->redirect(\Yii::app()->createUrl('/partner/ruvents/operator/'));
-      }
-      header('Content-type: text/csv; charset=utf8');
-      header('Content-Disposition: attachment; filename="'.$file.'"');
-      readfile($this->getDataPath() . $file);
-      exit;
+      $account = new \ruvents\models\Account();
+      $account->EventId = $this->getEvent()->Id;
+      $account->Hash = \application\components\utility\Texts::GenerateString(25);
+      $account->save();
     }
 
     $form = new \partner\models\forms\OperatorGenerate();
@@ -33,9 +30,13 @@ class OperatorAction extends \partner\components\Action
       $form = new \partner\models\forms\OperatorGenerate();
     }
 
-    $files = $this->getFileList();
+    $operators = \ruvents\models\Operator::model()->byEventId($this->getEvent()->Id)->findAll(['order' => '"Role" DESC, "Id"']);
 
-    $this->getController()->render('operator', array('form' => $form, 'files' => $files));
+    $this->getController()->render('operator', [
+      'form' => $form,
+      'account' => $account,
+      'operators' => $operators
+    ]);
   }
 
   private function addOperators($prefix, $count, $role)
@@ -104,29 +105,5 @@ class OperatorAction extends \partner\components\Action
       $password .= mt_rand(1, 9);
     }
     return $password;
-  }
-
-  private function getFileList()
-  {
-    $results = array();
-
-        // create a handler for the directory
-    $handler = opendir($this->getDataPath());
-
-    // open directory and walk through the filenames
-    while ($file = readdir($handler)) {
-
-      // if file isn't this directory or its parent, add it to the results
-      if ($file != "." && $file != "..") {
-        $results[] = $file;
-      }
-
-    }
-
-    // tidy up: close the handler
-    closedir($handler);
-
-    // done!
-    return $results;
   }
 }

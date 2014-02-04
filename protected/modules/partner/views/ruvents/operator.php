@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var \partner\models\forms\OperatorGenerate $form
+ * @var \ruvents\models\Account $account
+ * @var \ruvents\models\Operator[] $operators
+ */
+?>
 <div class="row">
   <div class="span12 indent-bottom3">
     <h2>Генерация операторов</h2>
@@ -40,15 +47,33 @@
   </div>
 </div>
 
-  <div class="row">
-    <div class="span12">
-      <h3>Ранее генерированные файлы:</h3>
-      <?if (!empty($files)):?>
-      <ul class="unstyled">
-      <?foreach ($files as $file):?>
-        <li><?=$file;?> <a target="_blank" href="<?=Yii::app()->createUrl('/partner/ruvents/operator', ['file' => $file]);?>">Скачать</a></li>
-      <?endforeach;?>
-      </ul>
-      <?endif;?>
-    </div>
+<div class="row">
+  <div class="span12">
+    <h3>Хэш клиента</h3>
+    <code style="font-size: 16px;"><?=$account->Hash;?></code>
   </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+    <h3>Ранее генерированные операторы:</h3>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Логин</th>
+        <th>Пароль</th>
+        <th>Роль</th>
+      </tr>
+      </thead>
+      <tbody>
+      <?foreach ($operators as $operator):?>
+        <tr>
+          <td><?=$operator->Login;?></td>
+          <td><?=$operator->Password;?></td>
+          <td><?=$operator->Role;?></td>
+        </tr>
+      <?endforeach;?>
+      </tbody>
+    </table>
+  </div>
+</div>
