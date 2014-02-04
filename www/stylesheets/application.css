@@ -1161,12 +1161,12 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   text-transform: uppercase;
   margin-bottom: 20px;
 }
-.event-page-fullwidth .event-registration article .article-title {
+.event-registration article .article-title {
   margin-bottom: 0;
   font-size: 16px;
   color: #333333;
 }
-.event-page-fullwidth .event-registration article{
+.event-registration article{
   color: #666666;
   font-size: 13px;
 }

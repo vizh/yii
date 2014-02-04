@@ -10,7 +10,7 @@ if (empty($products))
   return;
 }
 ?>
-<form method="post" action="<?=\Yii::app()->createUrl('/pay/cabinet/register', array('eventIdName' => $this->event->IdName));?>" class="registration">
+<form method="post" action="<?=\Yii::app()->createUrl('/pay/cabinet/register', array('eventIdName' => $this->event->IdName));?>" class="registration event-registration">
   <?= \CHtml::hiddenField(\Yii::app()->request->csrfTokenName, \Yii::app()->request->getCsrfToken()); ?>
 
   <?if ($participant !== null && $participant->RoleId != 24):?>
@@ -38,7 +38,7 @@ if (empty($products))
   <table class="table table-condensed">
     <thead>
     <tr>
-      <th><?=Yii::t('app', 'Тип билета');?></th>
+      <th></th>
       <th class="t-right col-width"><?=Yii::t('app', 'Цена');?></th>
       <th class="t-center col-width"><?=Yii::t('app', 'Кол-во');?></th>
       <th class="t-right col-width"><?=Yii::t('app', 'Сумма');?></th>
@@ -48,8 +48,15 @@ if (empty($products))
     <?foreach ($products as $product):?>
       <?if (sizeof($product->PricesActive) > 1):?>
         <tr>
-          <td style="padding-top: 25px;"><strong><?=$product->Title;?></strong></td>
-          <td colspan="3"></td>
+          <td colspan="4">
+            <article>
+              <h4 class="article-title"><?=$product->Title;?></h4>
+              <?if (!empty($product->Description)):?>
+                <p><?=$product->Description;?></p>
+              <?endif;?>
+            </article>
+
+          </td>
         </tr>
       <?endif;?>
       <?foreach ($product->PricesActive as $price):?>
