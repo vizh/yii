@@ -1,0 +1,11 @@
+.scenario-selector {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+.scenario-selector>div {
+  width: 50%;
+}
+.scenario-selector label {
+  width: 300px;
+  margin: 0 auto;
+}

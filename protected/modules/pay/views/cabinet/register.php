@@ -64,14 +64,16 @@ $hasTickets = !empty($products->tickets);
       </div>
 
       <?if ($hasTickets):?>
-      <div class="clearfix m-bottom_20" style="margin-left: 40px; margin-right: 40px;">
-        <div style="width: 50%;" class="pull-left">
-          <label class="radio"><?=\CHtml::activeRadioButton($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterUser, 'uncheckValue' => null]);?> <?=\Yii::t('app', 'Зарегистрировать участников');?></label>
+      <div class="clearfix m-bottom_30 scenario-selector m-top_40">
+        <div class="pull-left">
+          <label class="radio"><?=\CHtml::activeRadioButton($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterUser, 'uncheckValue' => null]);?> <?=\Yii::t('app', '<strong>Я знаю кто пойдет на мероприятие</strong>, и хочу указать участников сразу');?></label>
         </div>
-        <div style="width: 50%;" class="pull-right">
-          <label class="radio"><?=\CHtml::activeRadioButton($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterTicket, 'uncheckValue' => null]);?> <?=\Yii::t('app', 'Купить билеты');?></label>
+        <div class="pull-right">
+          <label class="radio"><?=\CHtml::activeRadioButton($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterTicket, 'uncheckValue' => null]);?> <?=\Yii::t('app', '<strong>Я не знаю кто пойдет на мероприятие</strong>, и хочу указать участников позже');?></label>
         </div>
       </div>
+      <?else:?>
+        <?=\CHtml::activeHiddenField($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterUser]);?>
       <?endif;?>
 
 
@@ -108,7 +110,9 @@ $hasTickets = !empty($products->tickets);
       </div>
       </div>
 
+      <?if ($hasTickets):?>
       <div style="display: none;" data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterTicket;?>">
+        <?$this->renderPartial('register-help', ['user' => $this->getUser(), 'products' => $products, 'account' => $account, 'event' => $event,'unpaidOwnerCount' => $unpaidOwnerCount, 'unpaidJuridicalOrderCount' => $unpaidJuridicalOrderCount]);?>
         <table class="table thead-actual">
           <thead>
           <tr>
@@ -142,9 +146,10 @@ $hasTickets = !empty($products->tickets);
           <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
         </div>
       </div>
+      <?endif;?>
 
       <div class="nav-buttons">
-        <a href="#" onclick="$('#registration_form').trigger('submit'); return false;" class="btn btn-large btn-info">
+        <a href="#" onclick="$('#registration_form').trigger('submit'); return false;" class="btn btn-large btn-info disabled">
           <?=\Yii::t('app', 'Продолжить');?>
           <i class="icon-circle-arrow-right icon-white"></i>
         </a>

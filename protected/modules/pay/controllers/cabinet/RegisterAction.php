@@ -40,6 +40,10 @@ class RegisterAction extends \pay\components\Action
         case \pay\models\forms\OrderForm::ScenarioRegisterTicket:
           $this->processFormRegisterTicket();
           break;
+
+        default:
+          $this->afterProcessForm();
+          break;
       }
     }
     else

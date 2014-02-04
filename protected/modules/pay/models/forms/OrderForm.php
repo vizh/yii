@@ -6,7 +6,7 @@ class OrderForm extends \CFormModel
   const ScenarioRegisterUser   = 'User';
   const ScenarioRegisterTicket = 'Ticket';
 
-  public $Scenario = self::ScenarioRegisterUser;
+  public $Scenario;
   public $Items = array();
 
   public function rules()

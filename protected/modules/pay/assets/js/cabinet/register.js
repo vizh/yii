@@ -44,6 +44,12 @@ CPayRegister.prototype = {
     self.form.find('div[data-scenario="Ticket"] select[name*="Count"]').change(function () {
       self.calculate();
     });
+
+    self.form.submit(function () {
+      if (self.form.find('.nav-buttons a.btn-large').hasClass('disabled')) {
+        return false;
+      }
+    });
   },
 
   initScenario : function (scenario) {
@@ -51,6 +57,7 @@ CPayRegister.prototype = {
     self.scenario = scenario;
     this.form.find('div[data-scenario]').hide().find(':input').prop('disabled', true);
     this.form.find('div[data-scenario="'+self.scenario+'"]').show().find(':input').not('.no-disabled').prop('disabled', false);
+    this.form.find('.nav-buttons a.btn-large').removeClass('disabled');
   },
   
   /**
