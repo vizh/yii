@@ -6,7 +6,7 @@
  * @var \event\models\Event $event
  */
 ?>
-<div class="registration fast">
+<div class="event-registration registration fast">
 
   <?if (isset($this->FastRegistrationText)):?>
     <?=$this->FastRegistrationText;?>
@@ -25,7 +25,11 @@
       <?if (\Yii::app()->user->isGuest):?>
         <a href="#" class="btn btn-info" id="PromoLogin"><?=\Yii::t('app', 'Авторизоваться / Зарегистрироваться');?></a>
       <?else:?>
-        <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрироваться'), array('class' => 'btn btn-info'));?>
+      <?if (isset($this->FastRegistrationButtonText)):?>
+        <?=\CHtml::submitButton($this->FastRegistrationButtonText, ['class' => !$event->FullWidth ? 'btn btn-info' : 'btn btn-large btn-success']);?>
+      <?else:?>
+        <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрироваться'), ['class' => !$event->FullWidth ? 'btn btn-info' : 'btn btn-large btn-success']);?>
+      <?endif;?>
       <?endif;?>
     <?=\CHtml::endForm();?>
   <?else:?>

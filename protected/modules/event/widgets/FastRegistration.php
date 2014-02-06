@@ -7,6 +7,7 @@ namespace event\widgets;
  *
  * @property int $DefaultRoleId
  * @property string $FastRegistrationText
+ * @property string $FastRegistrationButtonText
  */
 class FastRegistration extends \event\components\Widget
 { 
@@ -14,7 +15,8 @@ class FastRegistration extends \event\components\Widget
   {
     return [
       'DefaultRoleId',
-      'FastRegistrationText'
+      'FastRegistrationText',
+      'FastRegistrationButtonText'
     ];
   }
   

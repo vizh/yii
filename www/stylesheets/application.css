@@ -1198,6 +1198,10 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 .event-page-fullwidth .event-registration .totalPrice {width: 100px;}
 
+.event-page-fullwidth .event-registration.fast{
+  padding-bottom: 60px;
+}
+
 /* CONTENT */
 .event-page-fullwidth .tabs .content-nav {
   color: #999;
