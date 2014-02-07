@@ -149,7 +149,7 @@ $hasTickets = !empty($products->tickets);
       <?endif;?>
 
       <div class="nav-buttons">
-        <a href="#" onclick="$('#registration_form').trigger('submit'); return false;" class="btn btn-large btn-info disabled">
+        <a href="#" onclick="$('#registration_form').trigger('submit'); return false;" class="btn btn-large btn-info <?if ($hasTickets):?>disabled<?endif;?>">
           <?=\Yii::t('app', 'Продолжить');?>
           <i class="icon-circle-arrow-right icon-white"></i>
         </a>

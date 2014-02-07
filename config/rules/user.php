@@ -18,6 +18,6 @@ return array(
     'allow',
     'roles' => array('admin'),
     'module' => 'user',
-    'controllers' => array('admin/moderator', 'admin/merge', 'admin/auth')
+    'controllers' => array('admin/moderator', 'admin/merge', 'admin/auth', 'admin/edit', 'admin/list')
   ),
 );

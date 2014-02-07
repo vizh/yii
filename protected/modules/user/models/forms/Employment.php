@@ -16,7 +16,7 @@ class Employment extends \CFormModel
   public function rules()
   {
     return array(
-      array('Company,Position,StartMonth,StartYear,EndMonth,EndYear,Primary,Delete', 'filter', 'filter' => array('application\components\utility\Texts', 'filterPurify')),
+      array('Company,Position,StartMonth,StartYear,EndMonth,EndYear,Primary,Delete', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']),
       array('Company', 'required'),
       array('Position', 'safe'),
       array('Id,StartMonth,StartYear,EndMonth,EndYear,Primary,Delete', 'numerical', 'allowEmpty' => true)
