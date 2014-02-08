@@ -192,7 +192,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
   {
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."TypeId" = :TypeId';
-    $criteria->params = array('TypeId' => $typeId);
+    $criteria->params = ['TypeId' => intval($typeId)];
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -417,6 +417,8 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
    */
   public function onRegister($event)
   {
+    $this->saveRegisterLog($event->params['user'], $event->params['role'], $event->params['participant']->Part, $event->params['message']);
+
     if ($this->skipOnRegister)
     {
       return;
@@ -436,8 +438,6 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
     $class = \Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
     $mail = new $class($mailer, $event);
     $mail->send();
-    
-    $this->saveRegisterLog($event->params['user'], $event->params['role'], $event->params['participant']->Part, $event->params['message']);
   }
   
   /**

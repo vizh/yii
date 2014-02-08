@@ -32,9 +32,12 @@ class IndexAction extends \CAction
         $form->SiteUrl = (string) $event->LinkSite->Site;
       }
 
-      $form->Address->setAttributes(
-        $event->getContactAddress()->getAttributes($form->Address->getSafeAttributeNames())
-      );
+      if ($event->getContactAddress() != null)
+      {
+        $form->Address->setAttributes(
+          $event->getContactAddress()->getAttributes($form->Address->getSafeAttributeNames())
+        );
+      }
     }
     else 
     {

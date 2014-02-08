@@ -27,7 +27,7 @@ class ListController extends \application\components\controllers\PublicMainContr
           {
             case 'City':
               $criteria->addCondition('"Address"."CityId" = :CityId');
-              $criteria->params['CityId'] = $value;
+              $criteria->params['CityId'] = intval($value);
               break;
 
             case 'Type':

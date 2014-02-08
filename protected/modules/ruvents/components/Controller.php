@@ -45,11 +45,14 @@ class Controller extends \CController
     if (parent::beforeAction($action))
     {
       \Yii::app()->language = 'ru';
-      if ($this->getOperator() !== null)
+      if ($this->getAccount() != null)
       {
         $this->detailLog = new \ruvents\models\DetailLog();
-        $this->detailLog->OperatorId = $this->getOperator()->Id;
-        $this->detailLog->EventId = $this->getOperator()->EventId;
+        if ($this->getOperator() !== null)
+        {
+          $this->detailLog->OperatorId = $this->getOperator()->Id;
+        }
+        $this->detailLog->EventId = $this->getAccount()->EventId;
         $this->detailLog->Controller = $this->getId();
         $this->detailLog->Action = $action->getId();
       }
