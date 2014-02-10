@@ -17,7 +17,7 @@ class Ticket extends Base
 
   public function getSubject()
   {
-    return 'Куплены билеты';
+    return 'Билеты "' . $this->product->Title . '"';
   }
 
   /**

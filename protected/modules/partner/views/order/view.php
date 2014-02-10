@@ -119,7 +119,7 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
   <div class="span12 indent-bottom3">
     <h3>Сумма счета: <?=$order->getPrice();?> руб.</h3>
   </div>
-  <?if ($order->Juridical):?>
+  <?if ($order->Juridical || $order->Receipt):?>
   <div class="span12">
     <form action="" method="post">
       <fieldset>

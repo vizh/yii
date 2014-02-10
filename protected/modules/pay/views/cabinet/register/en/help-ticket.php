@@ -22,6 +22,6 @@
   <?if ($unpaidOwnerCount > 0 || $unpaidJuridicalOrderCount > 0):?>
     <p><strong>Important:</strong> you have already formed but still <a href="<?=$this->createUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName));?>">unpaid orders</a>.</p>
   <?else:?>
-    <p><strong>Important!</strong> Promo codes do not work on this type of ticket.</p>
+    <p><strong>Important!</strong> На билеты данного типа не распространяются промо-коды.</p>
   <?endif;?>
 </div>
