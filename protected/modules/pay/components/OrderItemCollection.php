@@ -33,7 +33,14 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
       {
         if ($this->eventId != $item->Product->EventId)
         {
-          throw new Exception('Попытка создать коллекцию с заказами из разных мероприятий');
+          $messageItems = '';
+          $messageEvents = '';
+          foreach ($orderItems as $item2)
+          {
+            $messageItems .= ' ' . $item2->Id;
+            $messageEvents .= ' ' . $item2->Product->EventId;
+          }
+          throw new Exception('Попытка создать коллекцию с заказами из разных мероприятий. (' . $messageItems, ', ' . $messageEvents . ')');
         }
         $this->items[] = new OrderItemCollectable($item, $this);
       }

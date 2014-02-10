@@ -9,29 +9,30 @@ class IndexAction extends \partner\components\Action
     $this->getController()->setPageTitle('Партнерский интерфейс');
     $this->getController()->initActiveBottomMenu('index');
 
+    $statistics = new \event\components\Statistics($this->getEvent()->Id);
 
     /** @var $roles \event\models\Role[] */
     $roles = \event\models\Role::model()
         ->byEventId(\Yii::app()->partner->getAccount()->EventId)->findAll();
 
-    $statistics = null;
+    $textStatistics = null;
     if (sizeof(\Yii::app()->partner->getEvent()->Parts) === 0)
     {
-      $statistics = $this->getSingleStatistics();
+      $textStatistics = $this->getSingleStatistics();
     }
     else
     {
-      $statistics = $this->getManyPartsStatistics();
+      $textStatistics = $this->getManyPartsStatistics();
     }
 
-    $statRegistersAll = new \event\components\stats\RegistrationsAll(\Yii::app()->partner->getAccount()->EventId);
+
 
     $this->getController()->render('index', [
         'roles' => $roles,
-        'statistics' => $statistics,
         'event' => \Yii::app()->partner->getEvent(),
         'timeSteps' => $this->getTimeSteps(),
-        'statRegistrationsByRoles' => $statRegistersAll->getStatByRoles()
+        'statistics' => $statistics,
+        'textStatistics' => $textStatistics
       ]
     );
   }

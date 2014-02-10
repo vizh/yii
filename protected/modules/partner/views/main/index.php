@@ -1,19 +1,59 @@
 <?php
 /**
- * @var $roles \event\models\Role[]
- * @var $statistics array
- * @var $event \event\models\Event
- * @var $this MainController
- * @var $timeSteps array
+ * @var \event\models\Role[] $roles
+ * @var \event\models\Event $event
+ * @var MainController $this
+ * @var \event\components\Statistics $statistics
+ * @var array $timeSteps
+ * @var array $textStatistics
  */
+
+
+$statRegistrationsByRoles = $statistics->getRegistrationsAll();
+$statRegistrationDeltaByRoles = $statistics->getRegistrationsDelta();
 ?>
+<script type="text/javascript">
+  partnerStatistics = new CParnerStatistics();
+  partnerStatistics.Dates = <?=json_encode($statistics->getDates(), JSON_UNESCAPED_UNICODE);?>;
+  partnerStatistics.RegistrationsAll = <?=json_encode($statistics->getRegistrationsAll(), JSON_UNESCAPED_UNICODE)?>;
+  partnerStatistics.RegistrationsDelta = <?=json_encode($statistics->getRegistrationsDelta(), JSON_UNESCAPED_UNICODE)?>;
+  partnerStatistics.Payments = <?=json_encode($statistics->getPayments(), JSON_UNESCAPED_UNICODE)?>;
+  partnerStatistics.Count = <?=json_encode($statistics->getCount(), JSON_UNESCAPED_UNICODE)?>;
+  partnerStatistics.Roles = <?=json_encode($statistics->getRolesTitle(), JSON_UNESCAPED_UNICODE);?>;
+
+  google.setOnLoadCallback(function() {
+    $(function() {
+      partnerStatistics.init();
+    });
+  });
+</script>
 
 <div class="row">
   <div class="span12">
-    <h2 class="indent-bottom1">Участники</h2>
 
+    <h3>Диапазон выборки</h3>
+    <div id="datesSlider" class="indent-bottom1"></div>
+    <div id="datesRange" class="indent-bottom2"><strong>Выборка за:</strong> <span></span></div>
+
+    <h3 class="m-top_30">Общее количество регистраций</h3>
     <div id="chart-registrations-all"></div>
+
+    <h3 class="m-top_30">Количество регистраций по дням</h3>
+    <div id="chart-registrations-delta"></div>
+
+    <h3 class="m-top_30">Распределение по платежам</h3>
     <div id="chart-payments"></div>
+
+    <h3 class="m-top_30">Количество участников</h3>
+    <div id="chart-count"></div>
+
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="span12">
+    <h3 class="indent-bottom1">Текстовые данные</h3>
 
     <table class="table">
       <thead>
@@ -30,7 +70,7 @@
         <tr>
           <td><?=$role->Title;?></td>
           <?foreach ($timeSteps as $key => $time):?>
-            <td><?=isset($statistics[$key][$role->Id]) ? $statistics[$key][$role->Id] : 0;?></td>
+            <td><?=isset($textStatistics[$key][$role->Id]) ? $textStatistics[$key][$role->Id] : 0;?></td>
           <?endforeach;?>
         </tr>
       <?endforeach;?>
@@ -38,7 +78,7 @@
       <tr>
         <td><strong>Всего:</strong></td>
         <?foreach ($timeSteps as $key => $time):?>
-          <td><?=$statistics[$key]['Total'];?></td>
+          <td><?=$textStatistics[$key]['Total'];?></td>
         <?endforeach;?>
       </tr>
       </tbody>
@@ -46,67 +86,10 @@
 
     <?if (sizeof($event->Parts) > 0):?>
       <?$this->renderPartial('index/parts', [
-        'statistics' => $statistics,
+        'statistics' => $textStatistics,
         'event' => $event,
         'timeSteps' => $timeSteps
       ]);?>
     <?endif;?>
   </div>
 </div>
-
-<script>
-  // Set a callback to run when the Google Visualization API is loaded.
-  google.setOnLoadCallback(drawChartPayments);
-  google.setOnLoadCallback(drawChartRegistrationsAll);
-
-  // Callback that creates and populates a data table,
-  // instantiates the pie chart, passes in the data and
-  // draws it.
-  function drawChartPayments() {
-    var data = google.visualization.arrayToDataTable([
-      ['Участники', 'Проф. участники', 'СМИ', 'Другое', { role: 'style' } ],
-      ['Оплатили', 10, 24, 20, 32],
-      ['Не оплатили', 16, 22, 23, 30],
-      ['Другое', 1, 22, 2, 30]
-    ]);
-
-    var options = {
-      height: 400,
-      legend: { position: 'top', maxLines: 3 },
-      chartArea: {left: 30, top: 40, width: '100%', height: '80%'},
-      bar: { groupWidth: '75%' },
-      isStacked: true
-    };
-
-    // Instantiate and draw our chart, passing in some options.
-    var chart = new google.visualization.ColumnChart(document.getElementById('chart-payments'));
-    chart.draw(data, options);
-  }
-
-  function drawChartRegistrationsAll() {
-    var data = google.visualization.arrayToDataTable([
-      <?
-        $curData = current($statRegistrationsByRoles);
-        $rolesKeys = !empty($curData) ? $curData : [];
-      ?>
-      ['Общее число регистраций', '<?=implode("','", array_keys($rolesKeys))?>'],
-      <? foreach ($statRegistrationsByRoles as $date => $v): ?>
-        <?="['$date', ".implode(',', $v)."],"?>
-      <? endforeach ?>
-      <? if (empty($statRegistrationsByRoles)): ?>
-        []
-      <? endif ?>
-    ]);
-
-    var options = {
-      height: 400,
-      chartArea: {left: 50, top: 50, width: '100%', height: '80%'},
-      title: 'Общее число регистраций за весь период',
-      legend: { position: 'top' },
-      isStacked: true
-    };
-
-    var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart-registrations-all'));
-    chart.draw(data, options);
-  }
-</script>

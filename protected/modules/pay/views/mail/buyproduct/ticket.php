@@ -17,9 +17,11 @@
 
 <p>
   <font face="Courier New, sans-serif" size="3" style="font-family: Courier New, sans-serif; font-size: 16px; color: #00a651;">
-  <?foreach ($coupons as $coupon):?>
-    <?=$coupon->Code;?><br/>
-  <?endforeach;?>
+    <strong>
+      <?foreach ($coupons as $coupon):?>
+        <?=$coupon->Code;?><br/>
+      <?endforeach;?>
+    </strong>
   </font>
 </p>
 
