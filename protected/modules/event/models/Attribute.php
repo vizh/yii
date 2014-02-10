@@ -46,4 +46,33 @@ class Attribute extends \application\models\translation\ActiveRecord
   {
     return ['Value'];
   }
+
+
+  /**
+   * @param int $eventId
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byEventId($eventId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."EventId" = :EventId';
+    $criteria->params = ['EventId' => $eventId];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param string $name
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byName($name, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Name" = :Name';
+    $criteria->params = ['Name' => $name];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
 }

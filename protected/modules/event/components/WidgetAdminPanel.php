@@ -42,7 +42,7 @@ abstract class WidgetAdminPanel implements IWidgetAdminPanel
       $this->errors[] = $message;
     }
   }
-  
+
   protected function renderView($params = [])
   {
     $class = get_class($this);

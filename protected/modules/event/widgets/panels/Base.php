@@ -21,9 +21,22 @@ class Base extends \event\components\WidgetAdminPanel
     $this->form = new \event\models\forms\widgets\Base();
     if (!empty($attributes))
     {
-      foreach ($attributes as $attr)
+      foreach ($attributes as $name)
       {
-        $this->form->Attributes[$attr] = isset($this->getWidget()->$attr) ? $this->getWidget()->$attr : '';
+        $attribute = \event\models\Attribute::model()->byEventId($this->getEvent()->Id)->byName($name)->find();
+        foreach ($this->form->getLocaleList() as $locale)
+        {
+          if ($attribute == null)
+          {
+            $this->form->Attributes[$name][$locale] = '';
+          }
+          else
+          {
+            $attribute->setLocale($locale);
+            $this->form->Attributes[$name][$locale] = $attribute->Value;
+            $attribute->resetLocale();
+          }
+        }
       }
     }
     else
@@ -40,9 +53,35 @@ class Base extends \event\components\WidgetAdminPanel
     $this->form->attributes = $request->getParam(get_class($this->form));
     if ($this->showForm && $this->form->validate())
     {
-      foreach($this->getWidget()->getAttributeNames() as $attr)
+      foreach($this->getWidget()->getAttributeNames() as $name)
       {
-        $this->getWidget()->$attr = isset($this->form->Attributes[$attr]) ? $this->form->Attributes[$attr] : '';
+        $attribute = \event\models\Attribute::model()->byName($name)->byEventId($this->getEvent()->Id)->find();
+        if ($attribute == null)
+        {
+          $attribute = new \event\models\Attribute();
+          $attribute->EventId = $this->getEvent()->Id;
+          $attribute->Name = $name;
+        }
+
+        $delete = false;
+        foreach ($this->form->getLocaleList() as $locale)
+        {
+          $value = isset($this->form->Attributes[$name][$locale]) && strlen($this->form->Attributes[$name][$locale]) ? $this->form->Attributes[$name][$locale] : null;
+          if ($locale == \Yii::app()->getLanguage() && $value == null)
+          {
+            $attribute->delete();
+            $delete = true;
+            break;
+          }
+          $attribute->setLocale($locale);
+          $attribute->Value = $value !== null ? $value : '';
+          $attribute->resetLocale();
+        }
+
+        if(!$delete)
+        {
+          $attribute->save();
+        }
       }
       $this->setSuccess(\Yii::t('app', 'Настройки виджета успешно сохранены'));
       return true;

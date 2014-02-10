@@ -19,4 +19,10 @@ class Base extends \CFormModel
 
     return $value;
   }
+
+
+  public function getLocaleList()
+  {
+    return \Yii::app()->params['Languages'];
+  }
 } 

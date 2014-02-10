@@ -10,7 +10,14 @@
       <div class="control-group">
         <?=\CHtml::activeLabel($form, $attr, ['class' => 'control-label']);?>
         <div class="controls">
-          <?=\CHtml::activeTextField($form, 'Attributes['.$attr.']', ['class' => 'input-xxlarge']);?>
+          <?foreach ($form->getLocaleList() as $locale):?>
+            <div class="m-bottom_5">
+              <div class="input-append">
+                <?=\CHtml::activeTextField($form, 'Attributes['.$attr.']['.$locale.']', ['class' => 'input-xxlarge']);?>
+                <span class="add-on"><?=$locale;?></span>
+              </div>
+            </div>
+          <?endforeach;?>
         </div>
       </div>
     <?endforeach;?>
