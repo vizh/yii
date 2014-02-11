@@ -54,6 +54,18 @@ a:focus{
 }
 
 
+/* BOOTSTRAP OVERRIDE */
+h6 {
+    color: #999999;
+    font-weight: normal;
+}
+
+ul > li,
+ol > li {
+    margin-bottom: 10px;
+}
+
+
 /* LINKS */
 /* Default pseudo */
 a.pseudo-link {border-bottom: 1px dotted #08c;}
