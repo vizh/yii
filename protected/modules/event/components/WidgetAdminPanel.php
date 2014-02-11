@@ -52,6 +52,7 @@ abstract class WidgetAdminPanel implements IWidgetAdminPanel
     $params = array_merge($params, ['widget' => $this->getWidget()]);
     return \Yii::app()->getController()->renderPartial($view, $params, true);
   }
+
   
   /**
    * 

@@ -116,16 +116,18 @@ abstract class Widget extends \CWidget implements IWidget
   {
     if ($this->adminPanel == null)
     {
-      $class = get_class($this);
-      $class = substr($class, mb_strrpos($class, 'widgets\\')+8,mb_strlen($class));
-      $class = \Yii::getExistClass('\event\widgets\panels', $class, 'Base');
-      $this->adminPanel = new $class($this);
+      $this->adminPanel = $this->getInternalAdminPanel();
     }
     return $this->adminPanel;
   }
- 
-  
-  
+
+  protected function getInternalAdminPanel()
+  {
+    $class = get_class($this);
+    $class = substr($class, mb_strrpos($class, 'widgets\\')+8,mb_strlen($class));
+    $class = \Yii::getExistClass('\event\widgets\panels', $class, 'Base');
+    return new $class($this);
+  }
 
   /**
    * @return void

@@ -35,4 +35,9 @@ class Html6 extends \event\components\Widget
   {
     return \event\components\WidgetPosition::Tabs;
   }
+
+  protected function getInternalAdminPanel()
+  {
+    return new \event\widgets\panels\tabs\Html($this);
+  }
 }
