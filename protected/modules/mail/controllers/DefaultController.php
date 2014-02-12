@@ -15,7 +15,6 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $criteria = new \CDbCriteria();
 
-/*
     // ГеоВыборка
     $criteria->with = array(
         'LinkAddress' => array('together' => true, 'select' => false),
@@ -27,8 +26,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         'Settings' => array('select' => false),
     );
 //    $criteria->addCondition(' ("Participants"."EventId" IN (258) OR "Region"."Id" IN (4925,4503,4773,3761,4481,3503,3251)) AND "Participants"."UserId" NOT IN (SELECT "UserId" FROM "EventParticipant" WHERE "EventId" = 423)');
-    $criteria->addCondition('"Region"."Id" IN (4312) AND ( ("Participants"."EventId" = 425 AND "Participants"."RoleId" = 11) OR ("Participants"."EventId" = 422 AND "Participants"."RoleId" = 1) )');
-*/
+//    $criteria->addCondition('"Region"."Id" IN (4312) AND ( ("Participants"."EventId" = 425 AND "Participants"."RoleId" = 11) OR ("Participants"."EventId" = 422 AND "Participants"."RoleId" = 1) )');
+    $criteria->addCondition('"Region"."Id" IN (4312)');
+
 
     // Чтение из файла
     /*
@@ -40,6 +40,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       $emails[$eml] = $name . ';'. trim($eml);
     }
 */
+
+/*
     $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
     $emails['eroshenkov@mail.ru'] = 'eroshenkov@mail.ru';
     $emails['eroshenko.vitaliy@yandex.ru'] = 'eroshenko.vitaliy@yandex.ru';
@@ -65,9 +67,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = array_slice($emails, $offset, $limit, true);
 
     print count($emails); exit();
+*/
 
-
-    /*
+/*
     // C ПОИСКОМ ПО БД
     $criteria->with = array(
       'Settings' => array('select' => false)
@@ -81,37 +83,39 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     exit();
 
     $users = \user\models\User::model()->findAll($criteria);
-    */
+*/
 
-/*
     // Обычная выборка пользователей [по мероприятиям]
+    /*
     $criteria->with = array(
       'Participants' => array('together' => true),
       'Participants.Role',
       'Settings' => array('select' => false)
     );
+    */
 
-    $criteria->addInCondition('"Participants"."EventId"', array(787));
+//    $criteria->addInCondition('"Participants"."EventId"', array(787));
 
-    $criteria->addInCondition('"Participants"."RoleId"', array(24));
+//    $criteria->addInCondition('"Participants"."RoleId"', array(24));
 
-    $criteria->addCondition('("Participants"."UserId" IN (SELECT "PayerId" FROM "PayOrder" WHERE "EventId" = 787 AND "Paid" = false AND "Juridical" = true AND "Deleted" = false))');
+//    $criteria->addCondition('("Participants"."UserId" IN (SELECT "PayerId" FROM "PayOrder" WHERE "EventId" = 787 AND "Paid" = false AND "Juridical" = true AND "Deleted" = false))');
 
     $criteria->distinct = true;
-//    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
-//    $criteria->addCondition('"t"."Visible"');
+    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+    $criteria->addCondition('"t"."Visible"');
+    $criteria->addCondition('"t"."RunetId" > 30000');
 
 //    $criteria->addInCondition('"t"."RunetId"', array(12953));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 188122, 184445, 122262));
 
-    echo \user\models\User::model()->count($criteria);
-    exit();
+//    echo \user\models\User::model()->count($criteria);
+//    exit();
 
-    $criteria->limit = 200;
+    $criteria->limit = 2000;
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
-*/
+
     /* Для PK PASS для Яблочников */
 //    $event = \event\models\Event::model()->findByPk(837);
 
@@ -119,6 +123,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     {
       foreach ($users as $user)
       {
+        print $user->RunetId .',';
 //        list($name, $email) = explode(';', $user);
 
 //        print $user->Participants[0]->Role->Title;
@@ -184,7 +189,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
       fclose($fp);
 
-      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
+//      echo '<html><head><meta http-equiv="REFRESH" content="0; url='.$this->createUrl('/mail/default/send', array('step' => $step+1)).'"></head><body></body></html>';
 //      echo $this->createUrl('/mail/default/send', array('step' => $step+1));
     }
     else
