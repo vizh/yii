@@ -203,7 +203,11 @@ class Statistics
     return $result;
   }
 
-  private function getOrderItemsQuery($withCouponCondition = true)
+  /**
+   * @param int[] $products
+   * @return string
+   */
+  private function getOrderItemsQuery($products = [])
   {
     $query = 'SELECT
 CASE
@@ -222,11 +226,14 @@ ON pca."Id" = pcaoi."CouponActivationId"
 LEFT JOIN "PayCoupon" pc
 ON pc."Id" = pca."CouponId"
 
-WHERE poi."Paid" AND poi."ProductId" IN (%s)';
-
-    if ($withCouponCondition)
+WHERE poi."Paid"';
+    if (count($products) > 0)
     {
-      $query .= ' AND (pc."IsTicket" OR pc."Discount" %s)';
+      $query .= sprintf(' AND poi."ProductId" IN (%s)', implode(',', $products));
+    }
+    else
+    {
+      $query .= ' AND FALSE';
     }
 
     return $query;
@@ -251,7 +258,7 @@ WHERE poi."Paid" AND poi."ProductId" IN (%s)';
     $stats = \Yii::app()->db->createCommand()
       ->select('p."RoleId", count(p."RoleId") "Count"')
       ->from('EventParticipant p')
-      ->where('p."EventId" = :EventId AND p."UserId" IN (' . sprintf($this->getOrderItemsQuery(), implode(',', $productsId), '< 1 OR pc."Id" IS NULL') . ')')
+      ->where('p."EventId" = :EventId AND p."UserId" IN (' . $this->getOrderItemsQuery($productsId) .' AND (pc."IsTicket" OR pc."Discount" < 1 OR pc."Id" IS NULL)' . ')')
       ->group('p.RoleId')->query(['EventId' => $this->eventId]);
 
     $dummy = [];
@@ -270,7 +277,7 @@ WHERE poi."Paid" AND poi."ProductId" IN (%s)';
     $stats = \Yii::app()->db->createCommand()
       ->select('p."RoleId", count(p."RoleId") "Count"')
       ->from('EventParticipant p')
-      ->where('p."EventId" = :EventId AND p."UserId" IN (' . sprintf($this->getOrderItemsQuery(), implode(',', $productsId), '= 1') . ')')
+      ->where('p."EventId" = :EventId AND p."UserId" IN (' . $this->getOrderItemsQuery($productsId) . ' AND NOT pc."IsTicket" AND pc."Discount" = 1' . ')')
       ->group('p.RoleId')->query(['EventId' => $this->eventId]);
 
     $dummy = [];
@@ -290,7 +297,7 @@ WHERE poi."Paid" AND poi."ProductId" IN (%s)';
     $stats = \Yii::app()->db->createCommand()
       ->select('p."RoleId", count(p."RoleId") "Count"')
       ->from('EventParticipant p')
-      ->where('p."EventId" = :EventId AND p."UserId" NOT IN (' . sprintf($this->getOrderItemsQuery(false), implode(',', $productsId)) . ')')
+      ->where('p."EventId" = :EventId AND p."UserId" NOT IN (' . $this->getOrderItemsQuery($productsId) . ')')
       ->group('p.RoleId')->query(['EventId' => $this->eventId]);
 
     $dummy = [];
