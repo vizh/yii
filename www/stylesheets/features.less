@@ -1,0 +1,254 @@
+.box-shadow(@shadow) {
+    -webkit-box-shadow: @shadow;
+    -moz-box-shadow: @shadow;
+    box-shadow: @shadow;
+}
+.border-radius (@radius) {
+    border-radius: @radius;
+    -moz-border-radius: @radius;
+    -webkit-border-radius: @radius;
+}
+
+#features-page{
+    header{
+        padding-top: 125px;
+
+        .navbar-features{
+            height: 45px;
+            width: 100%;
+            padding: 0 5px;
+            margin: 0 -5px 0;
+            background: none repeat scroll 0 0 #f6f6f6;
+            .box-shadow(inset 0 3px 3px 0 rgba(0, 0, 0, .2));
+
+            ul{
+                padding: 10px 0;
+                text-align: center;
+                color: #000000;
+                li{
+                    display: inline-block;
+                    margin: 0 23px;
+                    padding-left: 12px;
+                    background: url("/images/features/circle.png") no-repeat scroll 0 center transparent;
+                    a{
+                        color: #000000;
+                        text-transform: uppercase;
+                        font-size: 13px;
+                        line-height: 25px;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+
+    .container.info{
+        margin-top: 90px;
+        color: #000000;
+
+        h1{
+            font-size: 30px;
+            line-height: 30px;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            margin-bottom: 80px;
+        }
+
+        h2{
+            font-size: 24px;
+            line-height: 30px;
+            letter-spacing: 3px;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        p{
+            font-size: 18px;
+            line-height: 24px;
+            font-weight: 300;
+            margin-bottom: 30px;
+
+            &:last-child{
+                margin-bottom: 0;
+            }
+
+            a{
+                color: #0099ff;
+                text-decoration: underline;
+
+                &:hover{
+                    color: #0088cc;
+                }
+            }
+        }
+
+        div.step{
+            text-align: center;
+            font-size: 18px;
+            line-height: 18px;
+            color: #666666;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+
+            span{
+                display: inline-block;
+                width: 19px;
+                height: 19px;
+                .border-radius(50%);
+                margin-bottom: -3px;
+
+                &.green{ background: #deefe1; }
+                &.purple{ background: #e3daeb; }
+                &.blue{ background: #d6effd; }
+            }
+        }
+    }
+
+    .f-slider{
+        height: 400px;
+        background: none repeat-x scroll 0 0 transparent;
+
+        &.f-create{
+            background-image: url("/images/features/background.green.png");
+        }
+    }
+
+    .f-adv-thesises {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+
+        li {
+            display: inline-block;
+            margin: 0;
+            width: 150px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 14px;
+            vertical-align: top;
+            color: #666666;
+
+            b {
+                position: relative;
+                display: block;
+                margin: 0 auto 15px;
+                padding-top: 3px;
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                background: #cccccc;
+                vertical-align: middle;
+
+                i {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    display: block;
+                    margin: auto;
+                    background: url("/images/features/sprite.png");
+
+
+                    &.control-1 {
+                        background-position: 0px 569px;
+                        height: 37px;
+                        width: 53px;
+                    }
+                    &.control-2 {
+                        background-position: 0px 532px;
+                        height: 25px;
+                        width: 52px;
+                    }
+                    &.control-3 {
+                        background-position: 0px 507px;
+                        height: 44px;
+                        width: 44px;
+                    }
+                    &.control-4 {
+                        background-position: 0px 463px;
+                        height: 36px;
+                        width: 43px;
+                    }
+                    &.control-5 {
+                        background-position: 0px 427px;
+                        height: 42px;
+                        width: 47px;
+                    }
+                    &.control-6 {
+                        background-position: 0px 385px;
+                        height: 47px;
+                        width: 44px;
+                    }
+                    &.create-1 {
+                        background-position: 0px 338px;
+                        height: 38px;
+                        width: 45px;
+                    }
+                    &.create-2 {
+                        background-position: 0px 300px;
+                        height: 36px;
+                        width: 47px;
+                    }
+                    &.create-3 {
+                        background-position: 0px 264px;
+                        height: 38px;
+                        width: 41px;
+                    }
+                    &.create-4 {
+                        background-position: 0px 226px;
+                        height: 28px;
+                        width: 45px;
+                    }
+                    &.promo-1 {
+                        background-position: 0px 198px;
+                        height: 42px;
+                        width: 44px;
+                    }
+                    &.promo-2 {
+                        background-position: 0px 156px;
+                        height: 53px;
+                        width: 64px;
+                    }
+                    &.promo-3 {
+                        background-position: 0px 103px;
+                        height: 52px;
+                        width: 58px;
+                    }
+                    &.promo-4 {
+                        background-position: 0px 51px;
+                        height: 51px;
+                        width: 41px;
+                    }
+                }
+            }
+
+
+        }
+
+        .active(@colorBack, @colorText) {
+            li.active, li:hover{
+                color: @colorText;
+                cursor: pointer;
+
+                b{
+                    background-color: @colorBack;
+                }
+            }
+        }
+
+        &.green{
+            .active(#deefe1,#b9dcbf);
+        }
+        &.purple{
+            .active(#e0d9eb,#bfb4d1);
+        }
+        &.blue{
+            .active(#bee7fc,#92c6e1);
+        }
+    }
+
+}
