@@ -1,6 +1,8 @@
 <?php
 class InfoController extends \application\components\controllers\PublicMainController
 {
+  public $navbar = null;
+
   public function actionAbout()
   {
     $this->bodyId = 'about-page';
@@ -35,5 +37,14 @@ class InfoController extends \application\components\controllers\PublicMainContr
   {
     $this->bodyId = 'about-page';
     $this->render('payback');
+  }
+  public function actionFeatures()
+  {
+    Yii::app()->getClientScript()->registerCssFile('/stylesheets/features.css');
+
+    Yii::app()->disableOutputLoggers();
+    $this->bodyId = 'features-page';
+    $this->navbar = $this->renderPartial('features-navbar', [], true);
+    $this->render('features');
   }
 }

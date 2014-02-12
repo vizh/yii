@@ -29,11 +29,11 @@ class FastregisterController extends  \application\components\controllers\Public
 
       if (empty($event->Parts))
       {
-        $event->registerUser($user, $role);
+        $event->registerUser($user, $role, true);
       }
       else
       {
-        $event->registerUserOnAllParts($user, $role);
+        $event->registerUserOnAllParts($user, $role, true);
       }
 
       if (!empty($redirectUrl))

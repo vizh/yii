@@ -2,53 +2,6 @@
 
 class OneuseController extends \application\components\controllers\AdminMainController
 {
-  public function actionClearphdays()
-  {
-    $eventId = 497;
-
-    $command = \Yii::app()->getDb()->createCommand()
-        ->select('EventParticipant.UserId')->from('EventParticipant')
-        ->where('"EventParticipant"."EventId" = '.$eventId);
-
-    $criteria = new \CDbCriteria();
-    $criteria->addCondition('"t"."Id" IN ('.$command->getText().')');
-    $criteria->limit = 200;
-
-    $users = \user\models\User::model()->findAll($criteria);
-
-
-    $counterExist = 0;
-    $counterDelete = 0;
-    foreach ($users as $user)
-    {
-      $flag = false;
-      foreach ($user->Participants as $participant)
-      {
-        if ($participant->EventId == $eventId)
-        {
-          $participant->delete();
-        }
-        else
-        {
-          $flag = true;
-        }
-      }
-      if (!$flag)
-      {
-        $user->Visible = false;
-        $user->save();
-        $counterDelete++;
-      }
-      else
-      {
-        $counterExist++;
-      }
-    }
-
-    echo 'Оставлено: ' . $counterExist . ' Удалено: ' . $counterDelete;
-
-  }
-
   public function actionCreators()
   {
     return;
@@ -217,26 +170,34 @@ class OneuseController extends \application\components\controllers\AdminMainCont
     echo '<tr><td>' . implode('</td><td>', $data) . '</td></tr>';
   }
 
-  public function actionQuestions()
+  public function actionPlog()
   {
-    $criteria = new CDbCriteria();
-    $criteria->order = '"t"."Sort"';
-    $questions = \competence\models\Question::model()->byTestId(3)->findAll($criteria);
-    foreach ($questions as $question)
+    return;
+    $eventId = 831;
+
+    $sql = 'SELECT ep.* FROM "EventParticipant" ep
+
+LEFT JOIN "EventParticipantLog" epl ON ep."EventId" = epl."EventId" AND ep."UserId" = epl."UserId"
+
+WHERE epl."Id" IS NULL AND ep."EventId" = 831';
+
+    $command = Yii::app()->getDb()->createCommand();
+    $result = $command->select('ep.*')->from('EventParticipant ep')
+      ->leftJoin('EventParticipantLog epl', 'ep."EventId" = epl."EventId" AND ep."UserId" = epl."UserId"')
+      ->where('epl."Id" IS NULL AND ep."EventId" = :EventId')->query(['EventId' => $eventId]);
+
+    foreach ($result as $row)
     {
-      if ($question->NextQuestionId != null || $question->PrevQuestionId != null)
-      {
-        echo $question->Code . ': ' . $question->Title . '<br>';
-        $data = $question->getFormData();
-        if (isset($data['Values']))
-        {
-          foreach ($data['Values'] as $value)
-          {
-            echo $value->key . ' - ' . $value->title . '<br>';
-          }
-        }
-        echo '<br><br><br>';
-      }
+      $pl = new \event\models\ParticipantLog();
+      $pl->EventId = $row['EventId'];
+      $pl->PartId = $row['PartId'];
+      $pl->UserId = $row['UserId'];
+      $pl->RoleId = $row['RoleId'];
+      $pl->CreationTime = $row['CreationTime'];
+      //$pl->save();
     }
+
+    echo 'Done';
+
   }
 }

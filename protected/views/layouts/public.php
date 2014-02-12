@@ -25,6 +25,9 @@
   <div class="navbar navbar-fixed-top navbar-inverse">
     <?$this->widget('application\widgets\Navbar');?>
     <?$this->widget('application\widgets\Searchbar');?>
+    <?if (isset($this->navbar) && !empty($this->navbar)):?>
+      <?=$this->navbar;?>
+    <?endif;?>
   </div>
 </header>
 
