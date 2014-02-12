@@ -3,36 +3,55 @@ class ListController extends \application\components\controllers\AdminMainContro
 {
   public function actionIndex()
   {
+    $filter = new \user\models\forms\admin\ListFilter();
+
     $models = ['User' => new \user\models\User()];
     $criteries = [
       'User' => new \CDbCriteria(),
       'Companies' => new \CDbCriteria()
     ];
-    $criteries['User']->order = '"t"."RunetId" ASC';
-    $criteries['User']->with  = ['Settings'];
+    $criteries['User']->with  = ['Settings', 'Employments.Company'];
+    $criteries['User']->order = '"t"."CreationTime" DESC';
     $criteries['Companies']->order = '"t"."Id" ASC';
+    $criteries['Companies']->with = [
+      'Employments' => [
+        'with'  => ['User'],
+        'order' => '"User"."CreationTime" DESC'
+      ],
+      'Employments.User.Settings'
+    ];
 
-    $query = \Yii::app()->getRequest()->getParam('Query');
-
-    if ($query !== null)
+    $filter->attributes = \Yii::app()->getRequest()->getParam(get_class($filter));
+    if ($filter->validate())
     {
-      if (strstr($query, '@'))
+      if (!empty($filter->Sort))
       {
-        $criteries['User']->addCondition('"t"."Email" ILIKE :Email');
-        $criteries['User']->params['Email'] = '%'.$query.'%';
+        $order = explode('_', $filter->Sort);
+        $criteries['User']->order = '"t"."'.$order[0].'" '.$order[1];
+        $criteries['Companies']->with['Employments']['order'] = '"User"."'.$order[0].'" '.$order[1];
       }
-      elseif (is_numeric($query))
+
+      if (!empty($filter->Query))
       {
-        $criteries['User']->addCondition('"t"."RunetId" = :RunetId');
-        $criteries['User']->params['RunetId'] = $query;
-      }
-      else
-      {
-        $models['Companies'] = new \company\models\Company();
-        $criteries['User']->mergeWith(\user\models\User::model()->bySearch($query, null, true, false)->getDbCriteria());
-        $criteries['Companies']->mergeWith(\company\models\Company::model()->bySearch($query)->getDbCriteria());
+        if (strstr($filter->Query, '@'))
+        {
+          $criteries['User']->addCondition('"t"."Email" ILIKE :Email');
+          $criteries['User']->params['Email'] = '%'.$filter->Query.'%';
+        }
+        elseif (is_numeric($filter->Query))
+        {
+          $criteries['User']->addCondition('"t"."RunetId" = :RunetId');
+          $criteries['User']->params['RunetId'] = $filter->Query;
+        }
+        else
+        {
+          $models['Companies'] = new \company\models\Company();
+          $criteries['User']->mergeWith(\user\models\User::model()->bySearch($filter->Query, null, true, false)->getDbCriteria());
+          $criteries['Companies']->mergeWith(\company\models\Company::model()->bySearch($filter->Query)->getDbCriteria());
+        }
       }
     }
+
 
     $counts = [];
     foreach ($models as $key => $model)
@@ -42,7 +61,7 @@ class ListController extends \application\components\controllers\AdminMainContro
 
     $results = [];
     $paginator = new \application\components\utility\Paginator(array_sum($counts));
-
+    $paginator->perPage = $filter->PerPage;
     $offset = $paginator->getOffset();
     $limit  = $paginator->perPage;
     $count  = 0;
@@ -63,6 +82,6 @@ class ListController extends \application\components\controllers\AdminMainContro
       if ($limit == 0)
         break;
     }
-    $this->render('index', ['results' => $results, 'paginator' => $paginator]);
+    $this->render('index', ['results' => $results, 'paginator' => $paginator, 'filter' => $filter]);
   }
 }

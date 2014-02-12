@@ -16,6 +16,8 @@ class Edit extends \CFormModel
   public $Subscribe;
 
   public $NewPassword;
+  public $Photo;
+  public $DeletePhoto;
 
   public $Employments = [];
 
@@ -35,7 +37,7 @@ class Edit extends \CFormModel
   public function rules()
   {
     return [
-      ['FatherName, Visible, Subscribe', 'safe'],
+      ['FatherName, Visible, Subscribe, DeletePhoto', 'safe'],
       ['Email', 'email'],
       ['Email', 'unique', 'className' => '\user\models\User', 'attributeName' => 'Email', 'caseSensitive' => false, 'criteria' => ['condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => ['UserId' => $this->user->Id]]],
       ['Email', 'required'],
@@ -43,7 +45,8 @@ class Edit extends \CFormModel
       ['FirstName', 'filter', 'filter' => [$this, 'filterFirstName']],
       ['LastName', 'filter', 'filter' => [$this, 'filterLastName']],
       ['Employments', 'filter', 'filter' => [$this, 'filterEmployments']],
-      ['Phones', 'filter', 'filter' => [$this, 'filterPhones']]
+      ['Phones', 'filter', 'filter' => [$this, 'filterPhones']],
+      ['Photo', 'file', 'types' => 'jpg, jpeg, gif, png', 'allowEmpty' => true]
     ];
   }
 
@@ -59,7 +62,9 @@ class Edit extends \CFormModel
         'FirstName' => \Yii::t('app', 'Имя'),
         'LastName' => \Yii::t('app', 'Фамилия'),
         'FatherName' => \Yii::t('app', 'Отчество'),
-        'Employments' => \Yii::t('app', 'Места работы')
+        'Employments' => \Yii::t('app', 'Места работы'),
+        'Photo' => \Yii::t('app', 'Фотография'),
+        'DeletePhoto' => \Yii::t('app', 'Удалить')
       ];
       $this->_attributeLabels = array_merge($this->formContacts->attributeLabels(), $this->_attributeLabels);
       $this->_attributeLabels = array_merge($this->formEmployments->attributeLabels(), $this->_attributeLabels);

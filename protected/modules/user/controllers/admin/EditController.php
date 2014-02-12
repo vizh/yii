@@ -20,6 +20,7 @@ class EditController extends \application\components\controllers\AdminMainContro
     if ($request->getIsPostRequest())
     {
       $this->form->attributes = $request->getParam(get_class($this->form));
+      $this->form->Photo = \CUploadedFile::getInstance($this->form, 'Photo');
       if ($this->form->validate())
       {
         $this->processForm();
@@ -30,11 +31,10 @@ class EditController extends \application\components\controllers\AdminMainContro
       $this->initForm();
     }
 
-
     \Yii::app()->getClientScript()->registerPackage('runetid.backbone');
     \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
     $this->setPageTitle(\Yii::t('app', 'Редатирование данных пользователя'));
-    $this->render('index', ['form' => $this->form, 'backUrl' => $backUrl]);
+    $this->render('index', ['form' => $this->form, 'user' => $this->user, 'backUrl' => $backUrl]);
   }
 
   /**
@@ -112,10 +112,19 @@ class EditController extends \application\components\controllers\AdminMainContro
     $this->user->save();
     $this->user->Settings->UnsubscribeAll = $this->form->Subscribe == 0 ? true : false;
     $this->user->Settings->save();
-
     if (!empty($this->form->NewPassword))
     {
       $this->user->changePassword($this->form->NewPassword);
+    }
+
+    if ($this->form->DeletePhoto == 1)
+    {
+      $this->user->getPhoto()->delete();
+    }
+
+    if ($this->form->Photo !== null)
+    {
+      $this->user->getPhoto()->SavePhoto($this->form->Photo);
     }
 
     $address = $this->user->getContactAddress();

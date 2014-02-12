@@ -38,7 +38,7 @@
   <?endforeach;?>
 </script>
 
-<?=\CHtml::beginForm('', 'POST', ['class' => 'form-horizontal']);?>
+<?=\CHtml::beginForm('', 'POST', ['class' => 'form-horizontal', 'enctype' => 'multipart/form-data']);?>
 <div class="btn-toolbar">
   <?if (!empty($backUrl)):?>
     <a href="<?=$backUrl;?>" class="btn"><?=\Yii::t('app', 'Вернуться к списку');?></a>
@@ -50,6 +50,12 @@
   <?if (\Yii::app()->getUser()->hasFlash('success')):?>
     <div class="alert alert-success"><?=\Yii::app()->getUser()->getFlash('success');?></div>
   <?endif;?>
+  <div class="control-group">
+    <label class="control-label"><?=\Yii::t('app', 'Дата регистрации');?></label>
+    <div class="controls m-top_5">
+      <b><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy HH:mm', $user->CreationTime);?></b>
+    </div>
+  </div>
   <div class="control-group">
     <?=\CHtml::activeLabel($form, 'FirstName', ['class' => 'control-label']);?>
     <div class="controls">
@@ -125,6 +131,16 @@
     <?=\CHtml::activeLabel($form, 'NewPassword', ['class' => 'control-label']);?>
     <div class="controls">
       <?=\CHtml::activeTextField($form, 'NewPassword');?>
+    </div>
+  </div>
+  <div class="control-group">
+    <?=\CHtml::activeLabel($form, 'Photo', ['class' => 'control-label']);?>
+    <div class="controls">
+      <label class="checkbox">
+        <?=\CHtml::activeCheckBox($form, 'DeletePhoto');?> <?=$form->getAttributeLabel('DeletePhoto');?>
+      </label>
+      <div class="help-block"><img src="<?=$user->getPhoto()->get50px();?>" /></div>
+      <?=\CHtml::activeFileField($form, 'Photo');?>
     </div>
   </div>
 </div>

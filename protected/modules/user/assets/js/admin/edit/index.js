@@ -37,6 +37,11 @@ CAdminUserEdit.prototype = {
       self.createEmploymentEmptyItem();
       return false;
     });
+
+    if (self.form.find('.alert-success').length == 1) {
+      var image = new Image();
+      image.src = $('input[name*="Edit[Photo]"]').prev('.help-block').find('img').attr('src');
+    }
   },
 
   initPhoneDeleteBtn : function (item) {

@@ -150,4 +150,17 @@ class Photo
     $newImage = $this->get50px(true);
     \application\components\graphics\Image::ResizeAndSave($clearSaveTo, $newImage, 50, 50, array('x1'=>0, 'y1'=>0));
   }
+
+  public function delete()
+  {
+    $methodsMap = ['getClear', 'getOriginal', 'get238px', 'get200px', 'get90px', 'get50px'];
+    foreach ($methodsMap as $method)
+    {
+      $path = $this->$method(true);
+      if (file_exists($path))
+      {
+        unlink($path);
+      }
+    }
+  }
 }
