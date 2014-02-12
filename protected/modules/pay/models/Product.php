@@ -176,6 +176,6 @@ class Product extends \application\models\translation\ActiveRecord
    */
   public function getTranslationFields()
   {
-    return ['Title'];
+    return ['Title', 'Description'];
   }
 }
