@@ -20,4 +20,4 @@
   </tr>
 </table>
 
-<p>Официальный регистратор: <a href="http://nic.ru/about/">RU-CENTER</a>.</p>
+<p>Организатор: <a href="http://www.trinet.ru/">TRINET</a> и <a href="http://www.semcomplex.ru/">SEM Complex</a>. Официальный регистратор: <a href="http://nic.ru/about/">RU-CENTER</a>.</p>
