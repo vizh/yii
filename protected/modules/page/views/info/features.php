@@ -33,7 +33,7 @@
             <div class="tc">
               <h3>Онлайн регисрация</h3>
               <p>Возможность указания различных типов <br/>участия, пакетов и дополнительных услуг. <br/>Гибкое управление ценовой политикой.</p>
-              <a href="<?=\Yii::app()->createUrl('/event/create/index')?>" class="btn btn-large btn-success"><i class="icon-white icon-ok-sign"></i> Регистрировать мероприятие</a>
+              <a href="<?=\Yii::app()->createUrl('/event/create/index')?>" class="btn btn-large btn-success"><i class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
             </div>
           </div>
         </div>
@@ -42,7 +42,7 @@
             <div class="tc">
               <h3>Информационная поддержка</h3>
               <p>Проведение таргетированных рассылок <br/>по базе пользователей. Продвижение <br/>мероприятия в RUNET-ID Календаре, <br/>в том числе приоритетное размещение <br/>на главной странице и в календаре.</p>
-              <a href="<?=\Yii::app()->createUrl('/event/create/index')?>" class="btn btn-large btn-success"><i class="icon-white icon-ok-sign"></i> Регистрировать мероприятие</a>
+              <a href="<?=\Yii::app()->createUrl('/event/create/index')?>" class="btn btn-large btn-success"><i class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
             <div class="tc">
               <h3>Видео трансляция</h3>
               <p>Одновременная трансляция из нескольких <br/>залов, неограниченное количество камер, <br/>любое качество, любое количество зрителей, возможность титрования спикеров, возможность обеспечения разноязыковых видеопотоков и <a href="">другие преимущества</a>.</p>
-              <a href="<?=\Yii::app()->createUrl('/event/create/index')?>" class="btn btn-large btn-success"><i class="icon-white icon-ok-sign"></i> Регистрировать мероприятие</a>
+              <a href="<?=\Yii::app()->createUrl('/event/create/index')?>" class="btn btn-large btn-success"><i class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
             </div>
           </div>
         </div>
@@ -60,7 +60,7 @@
             <div class="tc">
               <h3>Регистрация на мероприятии</h3>
               <p>Регистрация участников на площадке проведения мероприятия. Встреча и быстрая регистрация гостей на площадке (выдача бэйджа, пакета участника), моментальная синхронизация базы, статистика в режиме реального времени.</p>
-              <a href="<?=\Yii::app()->createUrl('/event/create/index')?>" class="btn btn-large btn-success"><i class="icon-white icon-ok-sign"></i> Регистрировать мероприятие</a>
+              <a href="<?=\Yii::app()->createUrl('/event/create/index')?>" class="btn btn-large btn-success"><i class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
             </div>
           </div>
         </div>
