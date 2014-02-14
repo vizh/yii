@@ -8,6 +8,10 @@
     -moz-border-radius: @radius;
     -webkit-border-radius: @radius;
 }
+.opacity(@opacity) {
+  -moz-opacity: @opacity;
+  opacity: @opacity;
+}
 
 #features-page{
     header{
@@ -25,6 +29,8 @@
                 padding: 10px 0;
                 text-align: center;
                 color: #000000;
+                list-style: none;
+                list-style-type: none;
                 li{
                     display: inline-block;
                     margin: 0 23px;
@@ -42,16 +48,25 @@
         }
     }
 
-    .container.info{
+    .container.info, .container.contacts{
         margin-top: 90px;
         color: #000000;
+
+        &.contacts {
+          margin-top: 50px;
+          margin-bottom: 120px;
+          p {
+            font-size: 24px;
+            padding: 0 10px;
+          }
+        }
 
         h1{
             font-size: 30px;
             line-height: 30px;
             text-transform: uppercase;
             letter-spacing: 6px;
-            margin-bottom: 80px;
+            margin-bottom: 30px;
         }
 
         h2{
@@ -68,6 +83,7 @@
             line-height: 24px;
             font-weight: 300;
             margin-bottom: 30px;
+            font-family: "Helvetica Neue", Helvetica, "Arial Narrow", Arial, sans-serif;
 
             &:last-child{
                 margin-bottom: 0;
@@ -107,18 +123,129 @@
     }
 
     .f-slider{
-        height: 400px;
+        @slide-height: 400px;
+        height: @slide-height;
         background: none repeat-x scroll 0 0 transparent;
 
         &.f-create{
-            background-image: url("/images/features/background.green.png");
+          background-image: url("/images/features/background.green.png");
+        }
+        &.f-promo {
+          background-image: url("/images/features/background.purple.png");
+        }
+        &.f-control {
+          background-image: url("/images/features/background.blue.png");
+        }
+
+        .container {
+          width: 920px;
+        }
+        .item {
+          height: @slide-height;
+          width: 410px;
+          padding-left: 470px;
+
+          &.create-1 {
+            background: url("/images/features/slide/create-1.png") 70px bottom no-repeat;
+          }
+          &.create-2 {
+            background: url("/images/features/slide/create-2.png") 20px center no-repeat;
+          }
+          &.create-3 {
+            background: url("/images/features/slide/create-3.png") 0 center no-repeat;
+          }
+          &.create-4 {
+            background: url("/images/features/slide/create-4.png") 60px bottom no-repeat;
+          }
+          &.promo-1 {
+            background: url("/images/features/slide/promo-1.png") 60px bottom no-repeat;
+          }
+          &.promo-2 {
+            background: url("/images/features/slide/promo-2.png") 60px bottom no-repeat;
+          }
+          &.promo-3 {
+            background: url("/images/features/slide/promo-3.png") 60px bottom no-repeat;
+          }
+          &.promo-4 {
+            background: url("/images/features/slide/promo-4.png") 60px bottom no-repeat;
+          }
+          &.control-1 {
+            background: url("/images/features/slide/control-1.png") 120px center no-repeat;
+          }
+          &.control-2 {
+            background: url("/images/features/slide/control-2.png") 120px center no-repeat;
+          }
+          &.control-3 {
+            background: url("/images/features/slide/control-3.png") 60px center no-repeat;
+          }
+          &.control-4 {
+            background: url("/images/features/slide/control-4.png") 100px center no-repeat;
+          }
+          &.control-5 {
+            background: url("/images/features/slide/control-5.png") 60px bottom no-repeat;
+          }
+          &.control-6 {
+            background: url("/images/features/slide/control-6.png") 60px bottom no-repeat;
+          }
+
+          .t {
+            display: table;
+            height: @slide-height;
+          }
+          .tc {
+            display: table-cell;
+            vertical-align: middle;
+
+            h3 {
+              line-height: 30px;
+              font-weight: 500;
+              font-size: 24px;
+            }
+            p {
+              line-height: 24px;
+              font-size: 20px;
+              font-weight: 300;
+            }
+
+            a.btn-success {
+              margin-top: 30px;
+            }
+          }
+        }
+
+        .carousel-control {
+          width: 30px;
+          height: 54px;
+          border-radius: 0;
+          border: 0;
+          .opacity(1);
+          margin-top: 0;
+
+          &.left {
+            left: 0;
+            background: url('/images/features/sprites/slider-left.png') no-repeat;
+          }
+          &.right {
+            right: 0;
+            background: url('/images/features/sprites/slider-right.png') no-repeat;
+          }
         }
     }
 
     .f-adv-thesises {
-        margin: 0;
+        margin: 65px 0 0;
         padding: 0;
         text-align: center;
+
+        &.green li.active {
+          background-image: url('/images/features/sprites/green-arrow.png');
+        }
+        &.purple li.active {
+          background-image: url('/images/features/sprites/purple-arrow.png');
+        }
+        &.blue li.active {
+          background-image: url('/images/features/sprites/blue-arrow.png');
+        }
 
         li {
             display: inline-block;
@@ -130,7 +257,12 @@
             line-height: 14px;
             vertical-align: top;
             color: #666666;
+            height: 180px;
 
+            &.active {
+              background-position: bottom center;
+              background-repeat: no-repeat;
+            }
             b {
                 position: relative;
                 display: block;
@@ -233,7 +365,6 @@
             li.active, li:hover{
                 color: @colorText;
                 cursor: pointer;
-
                 b{
                     background-color: @colorBack;
                 }
