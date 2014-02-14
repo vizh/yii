@@ -16,9 +16,9 @@ if (empty($products))
   <?if ($participant !== null && $participant->RoleId != 24):?>
     <p class="text-success" style="font-size: 16px; line-height: 20px; margin: 15px 0 30px;">
       <strong><?=Yii::app()->user->getCurrentUser()->getFullName();?></strong>,<br>
-      Вы зарегистрированы на «<?=$this->event->Title;?>».<br>
-      Ваш статус: <strong><?=$participant->Role->Title;?></strong><br>
-      Ваш путевой лист: <a target="_blank" href="<?=$participant->getTicketUrl();?>">скачать</a>
+      <?=Yii::t('app', 'Вы зарегистрированы на');?> «<?=$this->event->Title;?>».<br>
+      <?=Yii::t('app', 'Ваш статус')?> - <strong><?=$participant->Role->Title;?></strong><br>
+      <a target="_blank" href="<?=$participant->getTicketUrl();?>"><?=Yii::t('app', 'Скачать электронный билет');?></a>
       <?if (isset($this->RegistrationAfterInfo)):?>
       <br><br><span class="muted" style="font-size: 14px; line-height: 16px;"><?=$this->RegistrationAfterInfo;?></span>
       <?endif;?>
@@ -89,6 +89,9 @@ if (empty($products))
           <td class="t-right <?=$mutedClass?>">
             <?if ($price->Price != 0):?>
             <span class="number"><?=$price->Price;?></span> <?=Yii::t('app', 'руб.');?>
+              <?if (Yii::app()->getLanguage() == 'en'):?>
+                <br><span class="muted" style="font-size: 85%;">approx. <?=round($price->Price/47);?> eur</span>
+              <?endif;?>
             <?else:?>
               <?=Yii::t('app', 'бесплатно');?>
             <?endif;?>
