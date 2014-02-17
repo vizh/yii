@@ -10,9 +10,17 @@
   <?=\CHtml::hiddenField(\Yii::app()->request->csrfTokenName, \Yii::app()->request->getCsrfToken()); ?>
   <header>
     <h3 class="title"><?=\Yii::t('app', 'Регистрация');?></h3>
-
-    <?if (isset($this->RegistrationBeforeInfo)):?>
-      <?=$this->RegistrationBeforeInfo;?>
+    <?if ($participant !== null && $participant->RoleId != 24):?>
+      <p class="text-center"><?=\Yii::t('app', 'Ваш статус');?>: <span class="label label-success"><?=$participant->Role->Title;?></span> <br/><a href="<?=$participant->getTicketUrl();?>" target="_blank"><small><?=\Yii::t('app', 'скачайте путевой лист');?></small></a></p>
+      <p><?=\Yii::app()->getUser()->getCurrentUser()->getShortName();?>, вы уже зарегистрированы со статусом <strong>«<?=$participant->Role->Title;?>»</strong> на данное мероприятие. Если вы хотите зарегистрировать коллег, воспользуйтесь формой ниже.</p>
+      <hr/>
+      <?if (isset($this->RegistrationAfterInfo)):?>
+        <?=$this->RegistrationAfterInfo;?>
+      <?endif;?>
+    <?else:?>
+      <?if (isset($this->RegistrationBeforeInfo)):?>
+        <?=$this->RegistrationBeforeInfo;?>
+      <?endif;?>
     <?endif;?>
   </header>
 
