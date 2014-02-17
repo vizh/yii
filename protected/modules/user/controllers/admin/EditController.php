@@ -108,6 +108,7 @@ class EditController extends \application\components\controllers\AdminMainContro
     }
     $this->user->resetLocale();
 
+    $this->user->Email = $this->form->Email;
     $this->user->Visible = $this->form->Visible == 1 ? true : false;
     $this->user->save();
     $this->user->Settings->UnsubscribeAll = $this->form->Subscribe == 0 ? true : false;
