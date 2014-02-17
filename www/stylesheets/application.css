@@ -5,6 +5,10 @@ body {
   position: relative;
   /* min-width: 940px; */
   min-height: 100%;
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+input, button, select, textarea {
+  font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .p-absolute {position: absolute;}
@@ -55,6 +59,10 @@ a:focus{
 
 
 /* BOOTSTRAP OVERRIDE */
+.btn-large [class^="icon-"] {
+  margin-top: 6px;
+}
+
 section h6 {
     color: #999999;
     font-weight: normal;
@@ -64,6 +72,7 @@ section ul > li,
 section ol > li {
     margin-bottom: 10px;
 }
+
 
 
 /* LINKS */
@@ -1488,7 +1497,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 }
 .event-register .pay-buttons ul li {
   float: left;
-  width: 250px;
+  width: 260px;
   margin-bottom: 10px;
   margin-right: 5px;
 }
