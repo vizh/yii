@@ -45,6 +45,7 @@ class InfoController extends \application\components\controllers\PublicMainContr
     Yii::app()->disableOutputLoggers();
     $this->bodyId = 'features-page';
     $this->navbar = $this->renderPartial('features-navbar', [], true);
+    $this->setPageTitle(\Yii::t('app', 'Услуги и преимущества'));
     $this->render('features');
   }
 }

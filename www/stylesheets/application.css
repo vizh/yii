@@ -55,13 +55,13 @@ a:focus{
 
 
 /* BOOTSTRAP OVERRIDE */
-h6 {
+section h6 {
     color: #999999;
     font-weight: normal;
 }
 
-ul > li,
-ol > li {
+section ul > li,
+section ol > li {
     margin-bottom: 10px;
 }
 
