@@ -27,12 +27,12 @@ class ListController extends \application\components\controllers\AdminMainContro
     $approved = \Yii::app()->request->getParam('Approved', null);
     if ($approved !== null)
     {
-      $criteria->addCondition('"t"."External" = true AND "t"."Approved" = :Approved');
+      $criteria->addCondition('"t"."External" AND "t"."Approved" = :Approved');
       $criteria->params['Approved'] = $approved;
     }
     else
     {
-      $criteria->addCondition('"t"."Visible"');
+      $criteria->addCondition('"t"."Visible" OR NOT "t"."External"');
     }
     
     $eventCountAll = \event\models\Event::model()->count($criteria);
