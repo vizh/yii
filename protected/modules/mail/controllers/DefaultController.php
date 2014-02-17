@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'csf14-1';
+    $template = 'csf14-2';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -94,12 +94,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     );
 
     $criteria->addInCondition('"Participants"."EventId"', array(870));
-    $criteria->addInCondition('"Participants"."RoleId"', array(24));
+    $criteria->addInCondition('"Participants"."RoleId"', array(3));
 
 //    $criteria->addCondition('("Participants"."UserId" IN (SELECT "PayerId" FROM "PayOrder" WHERE "EventId" = 787 AND "Paid" = false AND "Juridical" = true AND "Deleted" = false))');
 
     $criteria->distinct = true;
-    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
+//    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
 //    $criteria->addInCondition('"t"."RunetId"', array(12953));
@@ -149,7 +149,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         if ($j == 200) { sleep(1); $j = 0; }; $j++;
 
-        if ($j == 1) continue;
+//        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -168,7 +168,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->SetFrom('users@runet-id.com', 'Cyber Security Forum 2014', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Завершите Вашу регистрацию на Cyber Security Forum (19 февраля 2014)') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Вниманию ДОКЛАДЧИКОВ Cyber Security Forum (19 февраля 2014)') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
