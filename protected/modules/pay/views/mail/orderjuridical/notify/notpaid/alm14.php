@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var \pay\models\Order $order
+ */
+?>
 <p>
 <?if (!empty($order->Payer->LastName)):?>
 Здравствуйте, <?=$order->Payer->getShortName();?>.
