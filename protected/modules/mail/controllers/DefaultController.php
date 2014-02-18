@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'csf14-2';
+    $template = 'csf14-4';
     $isHTML = false;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -94,7 +94,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     );
 
     $criteria->addInCondition('"Participants"."EventId"', array(870));
-    $criteria->addInCondition('"Participants"."RoleId"', array(3));
+    $criteria->addInCondition('"Participants"."RoleId"', array(2));
 
 //    $criteria->addCondition('("Participants"."UserId" IN (SELECT "PayerId" FROM "PayOrder" WHERE "EventId" = 787 AND "Paid" = false AND "Juridical" = true AND "Deleted" = false))');
 
@@ -102,7 +102,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //    $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
     $criteria->addCondition('"t"."Visible"');
 
-//    $criteria->addInCondition('"t"."RunetId"', array(12953));
+    $criteria->addInCondition('"t"."RunetId"', array(12953));
 //    $criteria->addInCondition('"t"."RunetId"', array(12953, 188122, 184445, 122262));
 
     echo \user\models\User::model()->count($criteria);
@@ -168,7 +168,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
         $mail->SetFrom('users@runet-id.com', 'Cyber Security Forum 2014', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Вниманию ДОКЛАДЧИКОВ Cyber Security Forum (19 февраля 2014)') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Вниманию аккредитованных СМИ: информация по Cyber Security Forum (19 февраля 2014)') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
