@@ -30,29 +30,6 @@ $statRegistrationDeltaByRoles = $statistics->getRegistrationsDelta();
 
 <div class="row">
   <div class="span12">
-
-    <h3>Диапазон выборки</h3>
-    <div id="datesSlider" class="indent-bottom1"></div>
-    <div id="datesRange" class="indent-bottom2"><strong>Выборка за:</strong> <span></span></div>
-
-    <h3 class="m-top_30">Общее количество регистраций</h3>
-    <div id="chart-registrations-all"></div>
-
-    <h3 class="m-top_30">Количество регистраций по дням</h3>
-    <div id="chart-registrations-delta"></div>
-
-    <h3 class="m-top_30">Распределение по платежам</h3>
-    <div id="chart-payments"></div>
-
-    <h3 class="m-top_30">Количество участников</h3>
-    <div id="chart-count"></div>
-
-  </div>
-</div>
-
-
-<div class="row">
-  <div class="span12">
     <h3 class="indent-bottom1">Текстовые данные</h3>
 
     <table class="table">
@@ -91,5 +68,27 @@ $statRegistrationDeltaByRoles = $statistics->getRegistrationsDelta();
         'timeSteps' => $timeSteps
       ]);?>
     <?endif;?>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12">
+
+    <h3>Диапазон выборки</h3>
+    <div id="datesSlider" class="indent-bottom1"></div>
+    <div id="datesRange" class="indent-bottom2"><strong>Выборка за:</strong> <span></span></div>
+
+    <h3 class="m-top_30">Общее количество регистраций</h3>
+    <div id="chart-registrations-all"></div>
+
+    <h3 class="m-top_30">Количество регистраций по дням</h3>
+    <div id="chart-registrations-delta"></div>
+
+    <h3 class="m-top_30">Распределение по платежам</h3>
+    <div id="chart-payments"></div>
+
+    <h3 class="m-top_30">Количество участников</h3>
+    <div id="chart-count"></div>
+
   </div>
 </div>
