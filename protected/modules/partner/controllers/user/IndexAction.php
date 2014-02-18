@@ -41,7 +41,14 @@ class IndexAction extends \partner\components\Action
       ),
       'Settings',
       'Employments',
-      'LinkPhones'
+      'LinkPhones',
+      'Badges' => [
+        'together' => false,
+        'order' => '"Badges"."CreationTime" ASC',
+        'with' => ['Operator'],
+        'on' => '"Badges"."EventId" = :EventId',
+        'params' => ['EventId' => $this->getEvent()->Id]
+      ]
     );
     $users = \user\models\User::model()->findAll($criteria);
     foreach ($users as $user)
@@ -58,7 +65,8 @@ class IndexAction extends \partner\components\Action
         'users' => $usersSort,
         'roles' => $roles,
         'paginator' => $paginator,
-        'form' => $form
+        'form' => $form,
+        'showRuventsInfo' => ($form->Ruvents == 1)
       )
     );
   }

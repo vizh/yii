@@ -39,6 +39,7 @@ class DetailLog extends \CActiveRecord
   {
     return [
       'Operator' => [self::BELONGS_TO, '\ruvents\models\Operator', 'OperatorId'],
+      'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
     ];
   }
 

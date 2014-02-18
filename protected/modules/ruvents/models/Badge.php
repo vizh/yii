@@ -42,9 +42,10 @@ class Badge extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Role' => array(self::BELONGS_TO, '\event\models\Role', 'RoleId'),
-      'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-      'Part' => array(self::BELONGS_TO, '\event\models\Part', 'PartId')
+      'Role' => [self::BELONGS_TO, '\event\models\Role', 'RoleId'],
+      'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+      'Part' => [self::BELONGS_TO, '\event\models\Part', 'PartId'],
+      'Operator' => [self::BELONGS_TO, '\ruvents\models\Operator', 'OperatorId']
     );
   }
 

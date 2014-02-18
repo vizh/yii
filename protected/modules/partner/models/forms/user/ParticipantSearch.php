@@ -39,9 +39,10 @@ class ParticipantSearch extends \CFormModel
         'select' => false,
       ],
       'Badges' =>  [
+        'alias' => 'BadgesForCondition',
         'select' => false,
         'together' => true,
-        'on' => '"Badges"."EventId" = :EventId'
+        'on' => '"BadgesForCondition"."EventId" = :EventId'
       ]
     ];
     $criteria->group = '"t"."Id"';    
@@ -68,7 +69,7 @@ class ParticipantSearch extends \CFormModel
     
     if (!empty($this->Ruvents))
     {
-      $criteria->addCondition('"Badges"."EventId" = :EventId');
+      $criteria->addCondition('"BadgesForCondition"."EventId" = :EventId');
     }
 
     $criteria->mergeWith($this->getSortCriteria());
@@ -96,7 +97,7 @@ class ParticipantSearch extends \CFormModel
         $criteria->order = '"t"."LastName"';
         break;
       case 'Ruvents':
-        $criteria->order = 'Min("Badges"."CreationTime")';
+        $criteria->order = 'Min("BadgesForCondition"."CreationTime")';
         break;
     }
     $criteria->order .= ' ' . $sort[1];

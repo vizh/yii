@@ -61,6 +61,9 @@ foreach ($roles as $role)
       <th>Ф.И.О.</th>
       <th>Работа</th>
       <th>Статус</th>
+      <?if ($showRuventsInfo):?>
+        <th>Регистрация</th>
+      <?endif;?>
       <th>Управление</th>
     </tr>
     </thead>
@@ -77,7 +80,7 @@ foreach ($roles as $role)
             <p><em><?=$user->LinkPhones[0]->Phone;?></em></p>
           <?php endif;?>
         </td>
-        <td width="30%">
+        <td width="20%">
           <?if ($user->getEmploymentPrimary() !== null):?>
               <strong><?=$user->getEmploymentPrimary()->Company->Name;?></strong>
             <p class="position"><?=$user->getEmploymentPrimary()->Position;?></p>
@@ -100,6 +103,17 @@ foreach ($roles as $role)
               <?endforeach;?>
           <?endif;?>
         </td>
+        <?if ($showRuventsInfo):?>
+          <td>
+            <?=\Yii::app()->getDateFormatter()->format('dd.MM.yyyy HH:mm', $user->Badges[0]->CreationTime);?>
+            <em><?=$user->Badges[0]->Operator->Login;?></em>
+            <?if ($this->getAccessFilter()->checkAccess('partner', 'ruvents', 'userlog')):?>
+            <div>
+              <a href="<?=$this->createUrl('/partner/ruvents/userlog', ['runetId' => $user->RunetId, 'backUrl' => \Yii::app()->getRequest()->getRequestUri()]);?>" class="btn btn-mini m-top_5"><?=\Yii::t('app','Подробнее');?></a>
+            </div>
+            <?endif;?>
+          </td>
+        <?endif;?>
         <td><a href="<?=Yii::app()->createUrl('/partner/user/edit', array('runetId' => $user->RunetId));?>" class="btn btn-info">Редактировать</a></td>
       </tr>
     <?php endforeach;?>

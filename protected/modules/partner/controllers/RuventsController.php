@@ -7,6 +7,7 @@ class RuventsController extends \partner\components\Controller
       'index' => '\partner\controllers\ruvents\IndexAction',
       'operator' => '\partner\controllers\ruvents\OperatorAction',
       'csvinfo' => '\partner\controllers\ruvents\CsvinfoAction',
+      'userlog' => '\partner\controllers\ruvents\UserlogAction'
     );
   }
 

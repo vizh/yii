@@ -68,7 +68,7 @@ class Base extends \mail\components\Mail
       if ($this->role->Id == 24)
         return null;
       $view = 'event.views.mail.register.'.strtolower($this->event->IdName);
-      return $this->renderBody($view, ['user' => $this->user, 'event' => $this->event, 'participant' => $this->participant]);
+      return $this->renderBody($view, ['user' => $this->user, 'event' => $this->event, 'participant' => $this->participant, 'role' => $this->role]);
     }
     return null;
   }
