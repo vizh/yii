@@ -2,6 +2,17 @@
 /**
  * @var string $video
  */
+$prefix = 'v';
+$port = false;
+if ($video == '0b75ffed81')
+{
+  $prefix = 'v2';
+  $port = '8080';
+}
+elseif($video == '74f08d3c86')
+{
+  $prefix = 'v3';
+}
 ?>
 <html>
 <head>
@@ -18,7 +29,7 @@
     }
   </style>
 
-  <script src="http://v.tpprf.ru/handlers/webrtc.php?key=<?=$video;?>"></script>
+  <script src="http://<?=$prefix;?>.tpprf.ru<?=!empty($port)?':'.$port : '';?>/handlers/webrtc.php?key=<?=$video;?>"></script>
   <script type="text/javascript">
     $(function () {
       $('#web-rtc').webRTC();
