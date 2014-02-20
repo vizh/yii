@@ -153,6 +153,7 @@ abstract class Widget extends \CWidget implements IWidget
       \Yii::app()->clientScript->registerScriptFile(\Yii::app()->assetManager->publish($path));
     
     $path = $assetsPath.'css'.DIRECTORY_SEPARATOR.$class.'.css';
+
     if (file_exists($path))
       \Yii::app()->clientScript->registerCssFile(\Yii::app()->assetManager->publish($path));
   }

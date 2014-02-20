@@ -11,8 +11,12 @@
   <header>
     <h3 class="title"><?=\Yii::t('app', 'Регистрация');?></h3>
     <?if ($participant !== null && $participant->RoleId != 24):?>
-      <p class="text-center"><?=\Yii::t('app', 'Ваш статус');?>: <span class="label label-success"><?=$participant->Role->Title;?></span> <br/><a href="<?=$participant->getTicketUrl();?>" target="_blank"><small><?=\Yii::t('app', 'скачайте путевой лист');?></small></a></p>
-      <p><?=\Yii::app()->getUser()->getCurrentUser()->getShortName();?>, вы уже зарегистрированы со статусом <strong>«<?=$participant->Role->Title;?>»</strong> на данное мероприятие. Если вы хотите зарегистрировать коллег, воспользуйтесь формой ниже.</p>
+      <div class="text-center participant-info">
+        <p><?=\Yii::app()->getUser()->getCurrentUser()->getShortName();?>, <?=\Yii::t('app', 'ваш статус');?>:</p>
+        <p><span class="label label-success"><?=$participant->Role->Title;?></span></p>
+        <p class="m-bottom_20"><a href="<?=$participant->getTicketUrl();?>" target="_blank"><?=\Yii::t('app', 'скачайте путевой лист');?></small></a></p>
+        <p><?=\Yii::t('app','Если вы хотите зарегистрировать коллег, воспользуйтесь формой ниже.');?></p>
+      </div>
       <hr/>
       <?if (isset($this->RegistrationAfterInfo)):?>
         <?=$this->RegistrationAfterInfo;?>

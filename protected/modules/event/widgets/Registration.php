@@ -16,6 +16,11 @@ class Registration extends \event\components\Widget
   }
 
 
+  public function getIsHasDefaultResources()
+  {
+    return true;
+  }
+
   public function process()
   {
     $request = \Yii::app()->getRequest();
