@@ -107,40 +107,40 @@ class IndexAction extends \partner\components\Action
 
   private function getUserStatistics()
   {
-    $result = new \stdClass();
-    $result->ByRoles = [];
-    $result->All = 0;
-
     $logs = \Yii::app()->db->createCommand()
-      ->select('DISTINCT ON ("UserId") *')
-      ->from('(SELECT DISTINCT ON ("UserId") "UserId", "CreationTime", "Changes" FROM "RuventsDetailLog"
-      WHERE "EventId" = :EventId AND "Controller" = :Controller AND "Action" = :Action ORDER BY "UserId", "CreationTime" DESC) p')
-      ->query([
-        'EventId' => $this->getEvent()->Id,
-        'Controller' => 'event',
-        'Action' => 'register'
-      ]);
+      ->select('"RoleId", CAST("CreationTime" AS DATE) as "Date", count("UserId") AS "Count"')
+      ->from('(SELECT DISTINCT ON ("UserId") "UserId", "CreationTime", "RoleId" FROM "RuventsBadge"
+      WHERE "EventId" = :EventId ORDER BY "UserId", "CreationTime") p')
+      ->group('"RoleId", CAST("CreationTime" AS DATE)')
+      ->query(['EventId' => $this->getEvent()->Id]);
 
+    $byRoles = [];
+    $all = [];
+    $roles = [];
+    $total = 0;
     foreach ($logs as $log)
     {
-      $changes = unserialize(base64_decode($log['Changes']))[0];
-      if (!isset($result->ByRoles[$changes->to]))
+      $date = $log['Date'];
+      if (!isset($byRoles[$date]))
       {
-        $result->ByRoles[$changes->to] = 0;
+        $byRoles[$date] = [];
+        $all[$date] = 0;
       }
-      $result->ByRoles[$changes->to]++;
-      $result->All++;
+      $roles[] = $log['RoleId'];
+      $byRoles[$date][$log['RoleId']] = $log['Count'];
+      $all[$date] += $log['Count'];
+      $total += $log['Count'];
     }
 
-    $result->New = \Yii::app()->getDb()->createCommand()
-      ->from('RuventsDetailLog')
-      ->select('Count(*) as Count')
-      ->where('"EventId" = :EventId AND "Controller" = :Controller AND "Action" = :Action')
-      ->queryColumn([
-        'EventId' => $this->getEvent()->Id,
-        'Controller' => 'user',
-        'Action' => 'create'
-      ])[0];
+    $dates = array_keys($all);
+    sort($dates, SORT_STRING);
+
+    $result = new \stdClass();
+    $result->Roles = array_unique($roles);
+    $result->Dates = $dates;
+    $result->ByRoles = $byRoles;
+    $result->All = $all;
+    $result->Total = $total;
 
     return $result;
   }
