@@ -11,13 +11,7 @@ class IndexAction extends \partner\components\Action
     $stat = new \stdClass();
     $stat->Operators = new \stdClass();
     $stat->Operators->Count = 0;
-    $stat->CountParticipants = 0;
-
-    $stat->New = array();
-
     $stat->Roles = array();
-
-
     $event = $this->getEvent();
 
     // Кол-во всего выданных бейджей
@@ -35,93 +29,7 @@ class IndexAction extends \partner\components\Action
       $stat->Roles[$badge->RoleId] = $badge->Role->Title;
     }
 
-
-    // Подсчет участников по каждому дню
-    $dateStart = new \DateTime($event->StartYear.'-'.$event->StartMonth.'-'.$event->StartDay);
-    $dateEnd   = new \DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay);
-    while ($dateStart <= $dateEnd)
-    {
-      //по бейджам
-      foreach ($stat->Roles as $roleId => $roleName)
-      {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."CreationTime" >= :MinDateTime AND "t"."CreationTime" <= :MaxDateTime AND "t"."UserId" NOT IN (SELECT "t1"."UserId" FROM "'.\ruvents\models\Badge::model()->tableName().'" "t1" WHERE "t1"."CreationTime" < :MinDateTime AND "t1"."EventId" = :EventId) AND "t"."EventId" = :EventId AND "t"."RoleId" = :RoleId';
-        $criteria->params['MinDateTime'] = $dateStart->format('Y-m-d').' 00:00:00';
-        $criteria->params['MaxDateTime'] = $dateStart->format('Y-m-d').' 23:59:59';
-        $criteria->params['EventId'] = $event->Id;
-        $criteria->params['RoleId'] = $roleId;
-        $criteria->select = '"count"(Distinct "t"."UserId") as "CountForCriteria"';
-        $badges = \ruvents\models\Badge::model()->findAll($criteria);
-        foreach ($badges as $badge)
-        {
-          $stat->Participants[$dateStart->format('d.m.Y')][$roleId] = $badge->CountForCriteria;
-          $stat->CountParticipants += $badge->CountForCriteria;
-        }
-      }
-
-      //новых участников в каждый за день
-
-      $criteria = new \CDbCriteria();
-      $criteria->addCondition('"t"."CreationTime" >= :MinDateTime');
-      $criteria->addCondition('"t"."CreationTime" <= :MaxDateTime');
-      $criteria->addCondition('"t"."EventId" = :EventId');
-      $criteria->params = array(
-        'MinDateTime' => $dateStart->format('Y-m-d').' 05:00:00',
-        'MaxDateTime' => $dateStart->format('Y-m-d').' 22:00:00',
-        'EventId' => $event->Id
-      );
-
-      /** @var $participants \event\models\Participant[] */
-      $participants = \event\models\Participant::model()->findAll($criteria);
-      $userIdList = array();
-
-
-      $stat->New[$dateStart->format('d.m.Y')]['AllParticipants'] = sizeof($participants);
-      $stat->New[$dateStart->format('d.m.Y')]['AllParticipantsByRuvents'] = 0;
-
-      foreach ($participants as $participant)
-      {
-        $badge = \ruvents\models\Badge::model()
-            ->byEventId($event->Id)
-            ->byUserId($participant->UserId);
-        $badge = $badge->find('"t"."CreationTime" - timestamp :CreationTime < interval \'1 hour\'', array('CreationTime' => $participant->CreationTime));
-        if (!empty($badge))
-        {
-          $stat->New[$dateStart->format('d.m.Y')]['AllParticipantsByRuvents']++;
-          $userIdList[] = $participant->UserId;
-        }
-      }
-      //новых пользователей за день
-      $criteria = new \CDbCriteria();
-      $criteria->addCondition('"t"."CreationTime" >= :MinDateTime');
-      $criteria->addCondition('"t"."CreationTime" <= :MaxDateTime');
-      $criteria->params = array(
-        'MinDateTime' => $dateStart->format('Y-m-d').' 05:00:00',
-        'MaxDateTime' => $dateStart->format('Y-m-d').' 22:00:00',
-      );
-      $criteria->addInCondition('"t"."Id"', $userIdList);
-
-      /** @var $users \user\models\User[] */
-      $users = \user\models\User::model()->findAll($criteria);
-      $stat->New[$dateStart->format('d.m.Y')]['AllUsers'] = sizeof($users);
-      $stat->New[$dateStart->format('d.m.Y')]['AllUsersByRuvents'] = 0;
-
-      foreach ($users as $user)
-      {
-        $badge = \ruvents\models\Badge::model()
-            ->byEventId($event->Id)
-            ->byUserId($user->Id);
-
-        $badge = $badge->find('"t"."CreationTime" - timestamp :CreationTime < interval \'1 hour\'', array('CreationTime' => $user->CreationTime));
-        if (!empty($badge))
-        {
-          $stat->New[$dateStart->format('d.m.Y')]['AllUsersByRuvents']++;
-        }
-      }
-
-
-      $dateStart->modify('+1 day');
-    }
+    $stat->Users = $this->getUserStatistics();
 
     // Список операторов
     $operators = \ruvents\models\Operator::model()->findAllByAttributes([
@@ -172,9 +80,6 @@ class IndexAction extends \partner\components\Action
       $dateStart->modify('+1 day');
     }
 
-
-
-
     // Подсчет повторных печатей бейджей
     $criteria = new \CDbCriteria();
     $criteria->select = '"t"."UserId", "count"(*) as "CountForCriteria"';
@@ -197,5 +102,46 @@ class IndexAction extends \partner\components\Action
       'stat' => $stat,
       'operators' => $operatorsLogin)
     );
+  }
+
+
+  private function getUserStatistics()
+  {
+    $result = new \stdClass();
+    $result->ByRoles = [];
+    $result->All = 0;
+
+    $logs = \Yii::app()->db->createCommand()
+      ->select('DISTINCT ON ("UserId") *')
+      ->from('(SELECT DISTINCT ON ("UserId") "UserId", "CreationTime", "Changes" FROM "RuventsDetailLog"
+      WHERE "EventId" = :EventId AND "Controller" = :Controller AND "Action" = :Action ORDER BY "UserId", "CreationTime" DESC) p')
+      ->query([
+        'EventId' => $this->getEvent()->Id,
+        'Controller' => 'event',
+        'Action' => 'register'
+      ]);
+
+    foreach ($logs as $log)
+    {
+      $changes = unserialize(base64_decode($log['Changes']))[0];
+      if (!isset($result->ByRoles[$changes->to]))
+      {
+        $result->ByRoles[$changes->to] = 0;
+      }
+      $result->ByRoles[$changes->to]++;
+      $result->All++;
+    }
+
+    $result->New = \Yii::app()->getDb()->createCommand()
+      ->from('RuventsDetailLog')
+      ->select('Count(*) as Count')
+      ->where('"EventId" = :EventId AND "Controller" = :Controller AND "Action" = :Action')
+      ->queryColumn([
+        'EventId' => $this->getEvent()->Id,
+        'Controller' => 'user',
+        'Action' => 'create'
+      ])[0];
+
+    return $result;
   }
 }

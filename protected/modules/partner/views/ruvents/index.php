@@ -36,9 +36,9 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
         <?php endif;?>
       </div>
       <div class="span6 offset1">
-        <p>Всего участников: <span class="label large"><?php echo $stat->CountParticipants;?></span></p>
-        <p>Всего выдано бейджей: <span class="label large"><?php echo $stat->CountBadges;?></span></p>
-        <p>Количество регистраторов: <span class="label large"><?php echo count($operators);?></span></p>
+        <p>Всего участников: <span class="label large"><?=$stat->Users->All;?></span></p>
+        <p>Всего выдано бейджей: <span class="label large"><?=$stat->CountBadges;?></span></p>
+        <p>Количество регистраторов: <span class="label large"><?=count($operators);?></span></p>
       </div>
     </div>
   </div>
@@ -129,60 +129,20 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
 
     <table class="table table-striped">
       <thead>
-      <tr>
-        <th>Тип данных</th>
-        <?php foreach ($stat->New as $date => $info):?>
-        <th><?php echo $date;?></th>
-        <?php endforeach;?>
-        <th>Всего</th>
-      </tr>
+        <th><?=\Yii::t('app', 'Роль');?></th>
+        <th><?=\Yii::t('app', 'Кол-во');?></th>
       </thead>
       <tbody>
-
+      <?foreach ($stat->Users->ByRoles as $roleId => $count):?>
+        <tr>
+          <td><?=$stat->Roles[$roleId];?></td>
+          <td><?=$count;?></td>
+        </tr>
+      <?endforeach;?>
       <tr>
-        <td>Новых участников</td>
-        <?php $totalX = 0;?>
-        <?php foreach ($stat->New as $date => $info):?>
-        <td>
-          <?=$info['AllParticipants']; $totalX += $info['AllParticipants'];?>
-        </td>
-        <?php endforeach;?>
-        <td><?php echo $totalX;?></td>
+        <td><?=\Yii::t('app', 'Всего');?></td>
+        <td><?=$stat->Users->All;?> (<?=\Yii::t('app', 'Новых пользователей');?>: <?=$stat->Users->New;?>)</td>
       </tr>
-
-      <tr>
-        <td>Новых участников через Ruvents</td>
-        <?php $totalX = 0;?>
-        <?php foreach ($stat->New as $date => $info):?>
-        <td>
-          <?=$info['AllParticipantsByRuvents']; $totalX += $info['AllParticipantsByRuvents'];?>
-        </td>
-        <?php endforeach;?>
-        <td><?php echo $totalX;?></td>
-      </tr>
-
-      <tr>
-        <td>Новых пользователей</td>
-        <?php $totalX = 0;?>
-        <?php foreach ($stat->New as $date => $info):?>
-        <td>
-          <?=$info['AllUsers']; $totalX += $info['AllUsers'];?>
-        </td>
-        <?php endforeach;?>
-        <td><?php echo $totalX;?></td>
-      </tr>
-
-      <tr>
-        <td>Новых пользователей через Ruvents</td>
-        <?php $totalX = 0;?>
-        <?php foreach ($stat->New as $date => $info):?>
-        <td>
-          <?=$info['AllUsersByRuvents']; $totalX += $info['AllUsersByRuvents'];?>
-        </td>
-        <?php endforeach;?>
-        <td><?php echo $totalX;?></td>
-      </tr>
-
       </tbody>
     </table>
   </div>
