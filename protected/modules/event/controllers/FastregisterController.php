@@ -51,12 +51,9 @@ class FastregisterController extends  \application\components\controllers\Public
           }
         }
       }
-      else
-      {
-        $this->redirect(
-          $this->createUrl('/main/default/index')
-        );
-      }
+      $this->redirect(
+        $this->createUrl('/main/default/index')
+      );
     }
   }
 } 

@@ -41,12 +41,9 @@ class FastauthController extends \application\components\controllers\PublicMainC
           }
         }
       }
-      else
-      {
-        $this->redirect(
-          $this->createUrl('/main/default/index')
-        );
-      }
+      $this->redirect(
+        $this->createUrl('/main/default/index')
+      );
     }
   }
 }
