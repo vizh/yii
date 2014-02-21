@@ -10,7 +10,12 @@ class Banner extends \event\widgets\Header
   
   public function run()
   {
-    $this->render('banner');
+   if (isset($this->HeaderBannerStyles))
+   {
+    \Yii::app()->getClientScript()->registerCss($this->getNameId(), $this->HeaderBannerStyles);
+   }
+
+   $this->render('banner');
   }
   
   /**
