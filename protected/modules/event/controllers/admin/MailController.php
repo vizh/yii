@@ -4,7 +4,8 @@ class MailController extends \application\components\controllers\AdminMainContro
   public function actions()
   {
     return [
-      'register' => '\event\controllers\admin\mail\RegisterAction'
+      'index' => '\event\controllers\admin\mail\IndexAction',
+      'edit'  => '\event\controllers\admin\mail\EditAction'
     ];
   }
 } 

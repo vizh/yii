@@ -169,7 +169,7 @@
         </div>
         <div class="control-group">
           <div class="controls">
-            <a href="<?=$this->createUrl('/event/admin/mail/register', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-pencil"></i> <?=\Yii::t('app', 'Рег. письмо');?></a>
+            <a href="<?=$this->createUrl('/event/admin/mail/index', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-pencil"></i> <?=\Yii::t('app', 'Рег. письмо');?></a>
           </div>
         </div>
       <?endif?>

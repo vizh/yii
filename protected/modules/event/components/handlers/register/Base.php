@@ -25,7 +25,28 @@ class Base extends \mail\components\Mail
     $this->role  = $event->params['role'];
     $this->participant  = $event->params['participant'];
   }
-  
+
+  private $registerMail = null;
+  private function getRegisterMail()
+  {
+    if ($this->registerMail == null)
+    {
+      $mails = isset($this->event->MailRegister) ? unserialize(base64_decode($this->event->MailRegister)) : [];
+      foreach ($mails as $mail)
+      {
+        $inExcept = in_array($this->role->Id, $mail->RolesExcept);
+        $part1 = in_array($this->role->Id, $mail->Roles) && !$inExcept;
+        $part2 = $this->registerMail == null && empty($mail->Roles) && empty($mail->RolesExcept);
+        $part3 = empty($mail->Roles) && !empty($mail->RolesExcept) && !$inExcept;
+        if ($part1 || $part2 || $part3)
+        {
+          $this->registerMail = $mail;
+        }
+      }
+    }
+    return $this->registerMail;
+  }
+
   public function getTo()
   {
     return $this->user->Email;
@@ -49,9 +70,9 @@ class Base extends \mail\components\Mail
    */
   public function getSubject()
   {
-    if (isset($this->event->MailRegisterSubject))
+    if ($this->getRegisterMail() !== null)
     {
-      return $this->event->MailRegisterSubject;
+      return $this->getRegisterMail()->Subject;
     }
     return null;
   }
@@ -62,19 +83,19 @@ class Base extends \mail\components\Mail
    */
   public function getBody()
   {
-    if (isset($this->event->MailRegisterBodyRendered))
+    if ($this->getRegisterMail() !== null)
     {
-      /** todo: Быстрокостыль, убрать отсюда когда будет нормальное решение */
-      if ($this->role->Id == 24)
-        return null;
-      $view = 'event.views.mail.register.'.strtolower($this->event->IdName);
-      return $this->renderBody($view, ['user' => $this->user, 'event' => $this->event, 'participant' => $this->participant, 'role' => $this->role]);
+      return $this->renderBody(
+        $this->getRegisterMail()->getViewName(),
+        ['user' => $this->user, 'event' => $this->event, 'participant' => $this->participant, 'role' => $this->role]
+      );
     }
     return null;
   }
   
   public function getAttachments()
   {
+    return [];
     $pkPass = new \application\components\utility\PKPassGenerator($this->event, $this->user, $this->role);
     return array(
       'ticket.pkpass' => $pkPass->runAndSave()
