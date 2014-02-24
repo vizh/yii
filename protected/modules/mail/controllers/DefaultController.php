@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'dg14-2';
-    $isHTML = false;
+    $template = 'dg14-html-1';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -32,34 +32,21 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Чтение из файла
-    /*
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2014-01-20/users.csv');
-//    foreach($arUsers as $eml) $emails[$eml] = trim($eml);
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2014-02-24/emails.csv');
+    foreach($arUsers as $eml) $emails[$eml] = trim($eml);
 
+    /*
     foreach($arUsers as $data) {
       list($name, $eml) = explode(';', $data);
       $emails[$eml] = $name . ';'. trim($eml);
     }
-*/
+    */
 
-/*
-    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
-    $emails['eroshenkov@mail.ru'] = 'eroshenkov@mail.ru';
-    $emails['eroshenko.vitaliy@yandex.ru'] = 'eroshenko.vitaliy@yandex.ru';
-    $emails['bulanovdmitry@yandex.ru'] = 'bulanovdmitry@yandex.ru';
-    $emails['star.absorber@gmail.com'] = 'star.absorber@gmail.com';
-    $emails['star.absorber@yandex.ru'] = 'star.absorber@yandex.ru';
-    $emails['star.absorber@yahoo.com'] = 'star.absorber@yahoo.com';
-    $emails['star.absorber@me.com'] = 'star.absorber@me.com';
-    $emails['nikitin@internetmediaholding.com'] = 'nikitin@internetmediaholding.com';
-    $emails['korotov@internetmediaholding.com'] = 'korotov@internetmediaholding.com';
-    $emails['bulanov@internetmediaholding.com'] = 'bulanov@internetmediaholding.com';
-    $emails['borzov@internetmediaholding.com'] = 'borzov@internetmediaholding.com';
-
-
+//    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
 //    $emails['ilya.chertilov@gmail.com'] = 'ilya.chertilov@gmail.com';
-//    $emails['t.ruzhich@rta-moscow.com'] = 't.ruzhich@rta-moscow.com';
 //    $emails['grebennikov.sergey@gmail.com'] = 'grebennikov.sergey@gmail.com';
+
+//    $emails['t.ruzhich@rta-moscow.com'] = 't.ruzhich@rta-moscow.com';
 //    $emails['borzov@internetmediaholding.com'] = 'borzov@internetmediaholding.com';
 //    $emails['plugotarenko@raec.ru'] = 'plugotarenko@raec.ru';
 
@@ -68,7 +55,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $users = array_slice($emails, $offset, $limit, true);
 
     print count($emails); exit();
-*/
+
 
 /*
     // C ПОИСКОМ ПО БД
@@ -85,7 +72,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $users = \user\models\User::model()->findAll($criteria);
 */
-
+/*
     // Обычная выборка пользователей [по мероприятиям]
     $criteria->with = array(
       'Participants' => array('together' => true),
@@ -112,7 +99,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     $criteria->order = '"t"."RunetId" ASC';
     $criteria->offset = $step * $criteria->limit;
     $users = \user\models\User::model()->findAll($criteria);
-
+*/
     /* Для PK PASS для Яблочников */
 //    $event = \event\models\Event::model()->findByPk(837);
 
@@ -144,12 +131,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         $mail->ContentType = ($isHTML) ? 'text/html' : 'text/plain';
         $mail->IsHTML($isHTML);
 
-        $email = $user->Email;
-//        $email = $user;
+//        $email = $user->Email;
+        $email = $user;
 
         if ($j == 200) { sleep(1); $j = 0; }; $j++;
 
-        if ($j == 1) continue;
+//        if ($j == 1) continue;
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         {
@@ -165,10 +152,10 @@ class DefaultController extends \application\components\controllers\AdminMainCon
         */
 
         $mail->AddAddress($email);
-        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-//        $mail->SetFrom('users@runet-id.com', 'Cyber Security Forum 2014', false);
+//        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
+        $mail->SetFrom('users@runet-id.com', 'DigitalGoods', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Конференция Digital Goods – все о цифровых товарах в интернете') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('DIGITAL GOODS - приглашаем на конференцию') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
@@ -178,8 +165,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
 //        $mail->Send();
 
-//        fwrite($fp, $email . "\n");
-        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
+        fwrite($fp, $email . "\n");
+//        fwrite($fp, $user->RunetId . ' - '. $email . "\n");
 
       }
       fwrite($fp, "\n\n\n" . sizeof($users) . "\n\n\n");
