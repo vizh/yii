@@ -1120,7 +1120,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 
 
-.event-page .tabs .tab article {font-size: 13px;}
+.event-page article {font-size: 13px;}
 /*.event-page .tabs .tab article {width: 800px; margin: 0 auto;}*/
 
 .event-page article ul li{
@@ -1224,7 +1224,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 }
 
 /* CONTENT */
-.event-page-fullwidth .tabs .content-nav {
+.event-page-fullwidth .tabs .content-nav li {
   color: #999;
   font-size: 20px;
   font-weight: bold;
@@ -1268,7 +1268,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   margin-bottom: 20px;
   position: relative;
 }
-.event-page-fullwidth .content li:before {
+.event-page-fullwidth .content > ul li:before {
   content: url("/img/widgets/list.png");
   display: block;
   left: -30px;

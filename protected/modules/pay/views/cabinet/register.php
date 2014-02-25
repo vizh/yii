@@ -8,6 +8,7 @@
  * @var int $unpaidOwnerCount
  * @var int $unpaidJuridicalOrderCount
  * @var \user\models\forms\RegisterForm $registerForm
+ * @var array $countRows
  */
 
 $runetIdTitle = $account->SandBoxUser ? '' : ' или RUNET-ID';
@@ -22,10 +23,10 @@ $hasTickets = !empty($products->tickets);
   }
 
   payItems = [];
-  <?if ($orderForm->Scenario == \pay\models\forms\OrderForm::ScenarioRegisterUser):?>
+  <?if ($orderForm->Scenario == null || $orderForm->Scenario == \pay\models\forms\OrderForm::ScenarioRegisterUser):?>
     <?if (!empty($orderForm->Items)):?>
       <?foreach ($orderForm->Items as $item):?>
-        <?php $owner = \user\models\User::model()->byRunetId($item['RunetId'])->find();?>
+        <?$owner = \user\models\User::model()->byRunetId($item['RunetId'])->find();?>
         var payItem = [];
         payItem.productId = '<?=$item['ProductId'];?>';
         payItem.user = {
