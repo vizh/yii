@@ -125,6 +125,6 @@ class Generate extends \CFormModel
 
   public function getFullCode()
   {
-    return $this->event->IdName . '_' . $this->suffix;
+    return strtoupper($this->event->IdName . '_' . $this->suffix);
   }
 }
