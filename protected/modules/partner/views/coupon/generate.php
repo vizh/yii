@@ -62,8 +62,8 @@ foreach ($products as $product)
       <div data-coupon-type="many" class="control-group <?=$form->hasErrors('suffix') ? 'error' : '';?>">
         <?=CHtml::activeLabel($form, 'suffix');?>
         <div class="input-prepend">
-          <span class="add-on"><?=$event->IdName;?>_</span>
-          <?=CHtml::activeTextField($form, 'suffix', ['class' => 'span2']);?>
+          <span class="add-on" style="text-transform: uppercase;"><?=$event->IdName;?>_</span>
+          <?=CHtml::activeTextField($form, 'suffix', ['class' => 'span2', 'style' => 'text-transform: uppercase;']);?>
         </div>
       </div>
 

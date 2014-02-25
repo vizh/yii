@@ -13,7 +13,7 @@ class OrderItemCollectable
    */
   private $collection;
 
-  function __construct($orderItem, $collection)
+  function __construct(\pay\models\OrderItem $orderItem, OrderItemCollection $collection)
   {
     $this->orderItem = $orderItem;
     $this->collection = $collection;

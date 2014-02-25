@@ -9,6 +9,8 @@ namespace pay\models;
  * @property int $EventId
  * @property string $Type
  * @property float $Discount
+ * @property string $StartDate
+ * @property string $EndDate
  *
  * @property \event\models\Event $Event
  * @property CollectionCouponAttribute[] $Attributes
@@ -93,5 +95,33 @@ class CollectionCoupon extends \CActiveRecord
       $this->typeManager = new $type($this);
     }
     return $this->typeManager;
+  }
+
+  /**
+   * Активен ли купон
+   * @param string $dateTime Дата и время в формате воспринимаемом функцией date_parse
+   * @return bool
+   * @throws \CException
+   */
+  public function isActive($dateTime = null)
+  {
+    if (empty($dateTime))
+      $dateTime = date('Y-m-d H:i:s');
+    else
+    {
+      $dateParsed = date_parse($dateTime);
+      if (!empty($dateParsed['errors']))
+        throw new \CException('Передан неверный формат даты!');
+
+      $dateTime = mktime($dateParsed['hour'], $dateParsed['minute'], $dateParsed['second'],
+        $dateParsed['month'], $dateParsed['day'], $dateParsed['year']);
+
+      $dateTime = date('Y-m-d H:i:s', $dateTime);
+    }
+
+    if ($dateTime >= $this->StartDate && $dateTime <= $this->EndDate)
+      return true;
+
+    return false;
   }
 }

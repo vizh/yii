@@ -1,51 +1,32 @@
 <?php
 namespace pay\components;
 
-use Traversable;
-
+/**
+ * Class OrderItemCollection
+ * @package pay\components
+ */
 class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregate
 {
 
   /**
    * @var OrderItemCollectable
    */
-  private $items;
+  private $_items;
 
   /**
    * @var int
    */
-  private $eventId = null;
+  private $_eventId = null;
 
   /**
-   * @param \pay\models\OrderItem[] $orderItems
-   *
-   * @throws Exception
+   * @var \pay\models\Order
    */
-  function __construct($orderItems)
-  {
-    $this->position = 0;
-    $this->order = null;
-    $this->items = [];
-    if (sizeof($orderItems) > 0)
-    {
-      $this->eventId = $orderItems[0]->Product->EventId;
-      foreach ($orderItems as $item)
-      {
-        if ($this->eventId != $item->Product->EventId)
-        {
-          $messageItems = '';
-          $messageEvents = '';
-          foreach ($orderItems as $item2)
-          {
-            $messageItems .= ' ' . $item2->Id;
-            $messageEvents .= ' ' . $item2->Product->EventId;
-          }
-          throw new Exception('Попытка создать коллекцию с заказами из разных мероприятий. (' . $messageItems, ', ' . $messageEvents . ')');
-        }
-        $this->items[] = new OrderItemCollectable($item, $this);
-      }
-    }
-  }
+  private $_order = null;
+
+  /**
+   * @var float Скидка на коллекцию
+   */
+  private $_discount;
 
   /**
    * @param \pay\models\Order $order
@@ -59,8 +40,8 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
     {
       $items[] = $link->OrderItem;
     }
-    $collection = new OrderItemCollection($items);
-    $collection->order = $order;
+    $collection = new self($items);
+    $collection->_order = $order;
     return $collection;
   }
 
@@ -71,49 +52,67 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
    */
   public static function createByOrderItems($orderItems)
   {
-    return new OrderItemCollection($orderItems);
-  }
-
-  private $discount;
-
-  public function getDiscount()
-  {
-    if ($this->discount === null)
-    {
-      if ($this->eventId == 688)
-      {
-        $coupon = new \pay\components\collection\CountCoupon();
-        $this->discount = $coupon->getDiscount($this);
-      }
-      else
-      {
-        /** @var \pay\models\CollectionCoupon[] $coupons */
-        $coupons = \pay\models\CollectionCoupon::model()->byEventId($this->eventId)->findAll();
-        $this->discount = 0;
-        foreach ($coupons as $coupon)
-        {
-          $this->discount = max($this->discount, $coupon->getTypeManager()->getDiscount($this));
-        }
-      }
-    }
-    return $this->discount;
+    return new self($orderItems);
   }
 
   /**
-   * @var \pay\models\Order
+   * @param \pay\models\OrderItem[] $orderItems
+   *
+   * @throws Exception
    */
-  private $order = null;
+  private function __construct($orderItems)
+  {
+    $this->position = 0;
+    $this->_order = null;
+    $this->_items = [];
+    if (sizeof($orderItems) > 0)
+    {
+      $this->_eventId = $orderItems[0]->Product->EventId;
+      foreach ($orderItems as $item)
+      {
+        if ($this->_eventId != $item->Product->EventId)
+        {
+          $message_items = '';
+          $messageEvents = '';
+          foreach ($orderItems as $item2)
+          {
+            $message_items .= ' ' . $item2->Id;
+            $messageEvents .= ' ' . $item2->Product->EventId;
+          }
+          throw new Exception('Попытка создать коллекцию с заказами из разных мероприятий. (' . $message_items, ', ' . $messageEvents . ')');
+        }
+        $this->_items[] = new OrderItemCollectable($item, $this);
+      }
+    }
+  }
+
+  /**
+   * Вычисляет скидку для коллекции и кеширует её
+   * @return float Скидка для коллекцию
+   */
+  public function getDiscount()
+  {
+    if ($this->_discount === null)
+    {
+      /** @var \pay\models\CollectionCoupon[] $coupons */
+      $coupons = \pay\models\CollectionCoupon::model()->byEventId($this->_eventId)->findAll();
+      $this->_discount = 0;
+      foreach ($coupons as $coupon)
+      {
+        if ($coupon->isActive(!empty($this->_order) ? $this->_order->CreationTime : null))
+          $this->_discount = max($this->_discount, $coupon->getTypeManager()->getDiscount($this));
+      }
+    }
+    return $this->_discount;
+  }
 
   /**
    * @return \pay\models\Order|null
    */
   public function getOrder()
   {
-    return $this->order;
+    return $this->_order;
   }
-
-
-
 
   /**
    * (PHP 5 &gt;= 5.1.0)<br/>
@@ -126,7 +125,7 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
    */
   public function count()
   {
-    return sizeof($this->items);
+    return sizeof($this->_items);
   }
 
   /**
@@ -145,7 +144,7 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
    */
   public function offsetExists($offset)
   {
-    return isset($this->items[$offset]);
+    return isset($this->_items[$offset]);
   }
 
   /**
@@ -159,7 +158,7 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
    */
   public function offsetGet($offset)
   {
-    return isset($this->items[$offset]) ? $this->items[$offset] : null;
+    return isset($this->_items[$offset]) ? $this->_items[$offset] : null;
   }
 
   /**
