@@ -11,7 +11,7 @@ class ServiceAccount extends \CFormModel
   public function rules()
   {
     return array(
-      array('Account', 'filter', 'filter' => array('application\components\utility\Texts', 'filterPurify')),
+      array('Account', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')),
       array('Account', 'required'),
       array('TypeId', 'exist', 'className' => '\contact\models\ServiceType', 'attributeName' => 'Id'),
       array('Id,Delete', 'numerical', 'allowEmpty' => true)
