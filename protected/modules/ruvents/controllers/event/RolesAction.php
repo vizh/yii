@@ -7,8 +7,7 @@ class RolesAction extends \ruvents\components\Action
 {
   public function run()
   {
-    $event = $this->getEvent();
-    $roles = Role::model()->byEventId($event->Id)->findAll();
+    $roles = $this->getEvent()->getRoles();
     $response = [];
 
     foreach ($roles as $role)

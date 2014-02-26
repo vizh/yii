@@ -15,9 +15,7 @@ class ExportAction extends \partner\components\Action
     }
 
     /** @var $roles \event\models\Role[] */
-    $roles = \event\models\Role::model()
-        ->byEventId(\Yii::app()->partner->getAccount()->EventId)->findAll();
-    
+    $roles = $this->getEvent()->getRoles();
     $this->getController()->setPageTitle('Экспорт участников в CSV');
     $this->getController()->initActiveBottomMenu('export');
     $this->getController()->render('export', array('roles' => $roles));

@@ -49,6 +49,12 @@ class TopMenu extends \CWidget
       'Access' => $this->checkAccess('program', 'index'),
       'Active' => $this->isActive('program')
     ];
+    $menu[] = [
+      'Title' => 'Настройки',
+      'Url' => \Yii::app()->createUrl('/partner/settings/roles'),
+      'Access' => $this->checkAccess('settings', 'roles'),
+      'Active' => $this->isActive('settings')
+    ];
     if (!\Yii::app()->partner->isGuest)
     {
       $menu[] = [

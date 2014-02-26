@@ -95,7 +95,6 @@ class Base extends \mail\components\Mail
   
   public function getAttachments()
   {
-    return [];
     $pkPass = new \application\components\utility\PKPassGenerator($this->event, $this->user, $this->role);
     return array(
       'ticket.pkpass' => $pkPass->runAndSave()

@@ -32,7 +32,7 @@ return array(
     'allow',
     'roles' => array('Partner'),
     'module' => 'partner',
-    'controllers' => array('main', 'order', 'coupon', 'userEdit', 'utility', 'special'),
+    'controllers' => array('main', 'order', 'coupon', 'userEdit', 'utility', 'special', 'settings'),
   ),
   array(
     'allow',

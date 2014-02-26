@@ -15,6 +15,15 @@ class Register extends \CFormModel
   public $Role;
   public $Hidden;
 
+  private $event;
+
+  public function __construct(\event\models\Event $event, $scenario = '')
+  {
+    parent::__construct($scenario);
+    $this->event = $event;
+  }
+
+
   public function rules()
   {
     return [
@@ -67,19 +76,11 @@ class Register extends \CFormModel
     ];
   }
 
-  private $roles = null;
-
+  /**
+   * @return array
+   */
   public function getRoles()
   {
-    if ($this->roles == null)
-    {
-      $this->roles = ['' => 'Выберите роль'];
-      $roles = \event\models\Role::model()->findAll(['order' => '"t"."Title" ASC']);
-      foreach ($roles as $role)
-      {
-        $this->roles[$role->Id] = $role->Title;
-      }
-    }
-    return $this->roles;
+    return \CHtml::listData($this->event->getRoles(), 'Id', 'Title');
   }
 }

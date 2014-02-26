@@ -833,4 +833,35 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
   {
     return ($this->External && $this->Approved !== Approved::Yes && !$this->Deleted);
   }
+
+
+  private $roles = null;
+  /**
+   * @return Role[]
+   */
+  public function getRoles()
+  {
+    if ($this->roles == null)
+    {
+      $command = \Yii::app()->getDb()->createCommand();
+      $command->setDistinct(true);
+      $roleIdList = $command->select('EventRole.Id')
+        ->from('EventRole')
+        ->leftJoin('EventParticipant', '"EventParticipant"."RoleId" = "EventRole"."Id"')
+        ->where('"EventParticipant"."EventId" = :EventId OR "EventRole"."Base"')
+        ->queryColumn(['EventId' => $this->Id]);
+
+      $linkRoles = LinkRole::model()->byEventId($this->Id)->findAll();
+      foreach ($linkRoles as $linkRole)
+      {
+        $roleIdList[] = $linkRole->RoleId;
+      }
+
+      $criteria = new \CDbCriteria();
+      $criteria->order = '"t"."Title" ASC';
+      $criteria->addInCondition('"t"."Id"', $roleIdList);
+      $this->roles = Role::model()->findAll($criteria);
+    }
+    return $this->roles;
+  }
 }

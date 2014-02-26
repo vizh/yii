@@ -41,7 +41,7 @@
   <?if ($this->showCounter):?>
   <div class="row m-top_40">
     <div class="<?=!$this->event->FullWidth ? 'span8' : 'span12';?>">
-      <p class="text-center"><a href="<?=Yii::app()->createUrl('/event/view/users', array('idName' => $this->event->IdName));?>">Всего зарегистрированно <?=Yii::t('app', '{n} участник|{n} участника|{n} участников|{n} участника', $paginator->getCount());?></a></p>
+      <p class="text-center"><a href="<?=Yii::app()->createUrl('/event/view/users', array('idName' => $this->event->IdName));?>">Всего зарегистрировано <?=Yii::t('app', '{n} участник|{n} участника|{n} участников|{n} участника', $paginator->getCount());?></a></p>
     </div>
   </div>
   <?elseif($this->showPagination):?>

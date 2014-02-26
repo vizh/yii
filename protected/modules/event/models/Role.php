@@ -57,6 +57,20 @@ class Role extends \application\models\translation\ActiveRecord
   }
 
   /**
+   * @param bool $isBase
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byBase($base = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = (!$base ? 'NOT ' : '').'"t"."Base"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+
+  /**
    * @return string[]
    */
   public function getTranslationFields()

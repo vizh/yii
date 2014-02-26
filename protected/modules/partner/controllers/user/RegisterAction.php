@@ -12,7 +12,7 @@ class RegisterAction extends \partner\components\Action
     $cs->registerPackage('runetid.jquery.ui');
 
     $request = \Yii::app()->getRequest();
-    $form = new \partner\models\forms\user\Register();
+    $form = new \partner\models\forms\user\Register($this->getEvent());
     $form->attributes = $request->getParam(get_class($form));
     $user = null;
     if ($request->getIsPostRequest() && $form->validate())
@@ -67,7 +67,7 @@ class RegisterAction extends \partner\components\Action
         $this->getEvent()->skipOnRegister = !$notify;
         $this->getEvent()->registerUser($user, \event\models\Role::model()->findByPk($form->Role));
       }
-      $form = new \partner\models\forms\user\Register();
+      $form = new \partner\models\forms\user\Register($this->getEvent());
     }
     $this->getController()->render('register', ['form' => $form, 'user' => $user]);
   }
