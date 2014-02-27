@@ -91,7 +91,7 @@ $hasTickets = !empty($products->tickets);
         </thead>
       </table>
       <?foreach ($products->all as $product):?>
-        <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="<?=$countRows[$product->Id];?>" data-row-current="0">
+        <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="<?=$countRows[$product->Id] == 0 ? 1 : $countRows[$product->Id];?>" data-row-current="0">
           <thead>
           <tr>
             <th>
