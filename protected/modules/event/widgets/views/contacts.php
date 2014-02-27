@@ -12,7 +12,7 @@ $site = $this->event->getContactSite();
   <h5 class="title"><?=\Yii::t('app', 'Контактная информация')?></h5>
   <p class="name"><?=$this->event->Title;?></p>
   <?if ($address !== null):?>
-  <p class="address"><?=$address;?></p>
+  <p class="address" itemprop="location" itemscope itemtype="http://schema.org/Place"><span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"><?=$address->getWithSchema();?></span></p>
   <?endif;?>
   <?if (!empty($phones)):?>
   <p class="telephone">
