@@ -93,6 +93,7 @@ class RegisterAction extends \pay\components\Action
         }
       }
     }
+
     $this->getController()->render('register', [
         'event' => $this->getEvent(),
         'products' => $products,
