@@ -416,16 +416,19 @@ class OrderItem extends \CActiveRecord
    */
   public function getPriceDiscount()
   {
-    $activation = $this->getCouponActivation();
     $price = $this->getPrice();
     if ($price === null)
     {
       throw new \pay\components\Exception('Не удалось определить цену продукта!');
     }
 
-    if ($activation !== null)
+    if ($this->Product->ManagerName != 'Ticket')
     {
-      $price = $price * (1 - $activation->Coupon->Discount);
+      $activation = $this->getCouponActivation();
+      if ($activation !== null)
+      {
+        $price = $price * (1 - $activation->Coupon->Discount);
+      }
     }
     return (int)$price;
   }
