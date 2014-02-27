@@ -97,47 +97,62 @@ class Address extends \application\models\translation\ActiveRecord
       $this->GeoPoint = $coordinates[1].','.$coordinates[0];
     }
   }
-  
-  
-  public function getShort()
-  {
-    $address = [];
 
-    if (!empty($this->City->Name))
-      $address[] = \Yii::t('app', 'г.').' '. $this->City->Name;
+  private function getParts($city = true, $place = false)
+  {
+    $parts = [];
+
+    if ($city && !empty($this->City->Name))
+      $parts[] = \Yii::t('app', 'г.').' '. $this->City->Name;
 
     if (!empty($this->Street))
-      $address[] = $this->Street;
+      $parts[] = $this->Street;
 
     if (!empty($this->House))
-      $address[] .= \Yii::t('app', 'д.').' '.$this->House;
+      $parts[] = \Yii::t('app', 'д.').' '.$this->House;
 
     if (!empty($this->Building))
-      $address[] .= \Yii::t('app', 'стр.').' '.$this->Building;
+      $parts[] = \Yii::t('app', 'стр.').' '.$this->Building;
 
     if (!empty($this->Wing))
-      $address[] .= \Yii::t('app', 'корпус').' '.$this->Wing;
+      $parts[] = \Yii::t('app', 'корпус').' '.$this->Wing;
 
     if (!empty($this->Apartment))
-      $address[] .= \Yii::t('app', 'кв. ').' '.$this->Apartment;
+      $parts[] = \Yii::t('app', 'кв. ').' '.$this->Apartment;
 
-    return implode(', ', $address);
+    if ($place && !empty($this->Place))
+      $parts[] = $this->Place;
+
+    return $parts;
+  }
+
+  public function getShort()
+  {
+    return implode(', ', $this->getParts());
   }
   
   public function __toString()
   {
-    $address = $this->getShort();
+    return implode(', ', $this->getParts(true, true));
+  }
 
-    if (!empty($this->Place))
+  /**
+   * @return string
+   */
+  public function getWithSchema()
+  {
+    $address = '';
+    if (!empty($this->City->Name))
+      $address .= \Yii::t('app', 'г.').' <span itemprop="addressLocality">'.$this->City->Name.'</span>';
+
+    $parts = $this->getParts(false, true);
+    if (!empty($parts))
     {
-      if (!empty($address))
-        $address .= ', ';
-
-      $address .= $this->Place;
+      $address .= (!empty($address) ? ', ' : '').'<span itemprop="streetAddress">'.implode(', ', $parts).'</span>';
     }
-
     return $address;
   }
+
 
   /**
    * @return string[]

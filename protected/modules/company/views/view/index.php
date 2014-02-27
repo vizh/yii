@@ -23,22 +23,22 @@
       </h5>
       <?endif;?>
       
-      <div class="row">
+      <div class="row" itemscope itemtype="http://schema.org/Organization">
         <div class="span3">
-          <?=\CHtml::image($company->getLogo()->get200px(), $company->Name);?>
+          <?=\CHtml::image($company->getLogo()->get200px(), $company->Name, ['itemprop' => 'logo']);?>
         </div>
         <div class="span8">
           <div class="row">
             <div class="span4 b-details">
               <header>
-                <h3 class="title"><?=$company->Name;?></h3>
+                <h3 class="title" itemprop="name"><?=$company->Name;?></h3>
                 <?if (!empty($company->FullName)):?>
                 <h4 class="transcription"><?=$company->FullName;?></h4>
                 <?endif;?>
               </header>
 
               <?if (!empty($company->FullInfo)):?>
-                <article id="company-description" class="description">
+                <article id="company-description" class="description" itemprop="description">
                   <?=$company->FullInfo;?>
                 </article>
                 <?if (mb_strlen($company->FullInfo, 'utf-8') > 260):?>
@@ -51,7 +51,7 @@
               <dl class="dl-horizontal">
                 <dt>Эл. почта:</dt>
                 <?php foreach ($company->LinkEmails as $link):?>
-                <dd><a href="mailto:<?=$link->Email->Email;?>"><?=$link->Email->Email;?></a> <?if(!empty($link->Email->Title)):?>(<?=$link->Email->Title;?>)<?php endif;?></dd>
+                <dd><a href="mailto:<?=$link->Email->Email;?>" itemprop="email"><?=$link->Email->Email;?></a> <?if(!empty($link->Email->Title)):?>(<?=$link->Email->Title;?>)<?php endif;?></dd>
                 <?php endforeach;?>
               </dl>
               <?endif;?>
@@ -59,7 +59,7 @@
               <?if(!empty($company->LinkSite)):?>
               <dl class="dl-horizontal">
                 <dt>Сайт:</dt>
-                <dd><a href="<?=$company->LinkSite->Site;?>"><?=$company->LinkSite->Site->Url;?></a></dd>
+                <dd><a href="<?=$company->LinkSite->Site;?>" itemprop="url"><?=$company->LinkSite->Site->Url;?></a></dd>
               </dl>
               <?endif;?>
               <?if(!empty($company->LinkPhones)):?>
@@ -67,16 +67,16 @@
                 <dt>Телефон:</dt>
                 <dd>
                   <?php foreach ($company->LinkPhones as $link):?>
-                    <b><?=$link->Phone;?></b>
+                    <b itemprop="telephone"><?=$link->Phone;?></b>
                   <?php endforeach;?>
                 </dd>
               </dl>
               <?endif;?>
 
               <?if (!empty($company->LinkAddress)):?>
-              <dl class="dl-horizontal">
+              <dl class="dl-horizontal" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                 <dt>Адрес:</dt>
-                <dd><?=$company->LinkAddress->Address;?></dd>
+                <dd><?=$company->LinkAddress->Address->getWithSchema();?></dd>
               </dl>
               <?endif;?>
             </div>
