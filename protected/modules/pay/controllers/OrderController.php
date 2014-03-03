@@ -25,7 +25,7 @@ class OrderController extends \application\components\controllers\MainController
       $orderItem = $item->getOrderItem();
       $isTicket = $orderItem->Product->ManagerName == 'Ticket';
 
-      $price = $isTicket ? $orderItem->Product->getPrice() : $item->getPriceDiscount($order->CreationTime);
+      $price = $isTicket ? $orderItem->Product->getPrice($order->CreationTime) : $item->getPriceDiscount($order->CreationTime);
       if (!isset($billData[$orderItem->ProductId.$price]))
       {
         $billData[$orderItem->ProductId.$price] = array(
