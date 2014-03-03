@@ -153,7 +153,7 @@ class BookingSearch extends \CFormModel
     if (!property_exists($this, $fieldName))
       return null;
 
-    if ($this->$fieldName === '')
+    if ($this->$fieldName === '' || $this->$fieldName === null)
       return null;
 
     if (!in_array(intval($this->$fieldName), array_keys($this->_groupValues[$fieldName])))
