@@ -53,12 +53,16 @@
 
           <?if (!$isMuted):?><td><strong><?else:?><td class="muted"><?endif;?>
 
+            <?if (empty($price->Title)):?>
             <?if ($key == 0 && $price->EndTime != null):?>
               <?=\Yii::t('app', 'При регистрации до');?> <?=$dateFormatter->format('d MMMM', $price->EndTime);?>
             <?elseif ($key != 0 && $price->EndTime != null):?>
               <?=\Yii::t('app', 'При регистрации c');?> <?=$dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'по');?> <?=$dateFormatter->format('d MMMM', $price->EndTime);?>
             <?else:?>
               <?=\Yii::t('app', 'При регистрации с');?> <?=$dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'и на входе');?>
+            <?endif;?>
+            <?else:?>
+              <?=$price->Title;?>
             <?endif;?>
 
             <?if (!$isMuted):?></strong><?endif;?></td>
