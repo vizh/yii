@@ -69,6 +69,8 @@
   </ul>
   
   <a href="<?=Yii::app()->createUrl('/pay/admin/order/index');?>" class="nav-header collapsed" href="#menu-pay"><i class="icon-shopping-cart icon-white"></i><span class="hidden-phone">Платежная система</span></a>
+
+  <a href="<?=Yii::app()->createUrl('/pay/admin/booking/index');?>" class="nav-header collapsed" href="#menu-pay"><i class="icon-globe icon-white"></i><span class="hidden-phone">Бронирование номеров</span></a>
   
   <!--<a class="nav-header" href="help.html"><i class="icon-question-sign"></i>Help</a>
   <a class="nav-header" href="faq.html"><i class="icon-comment"></i>Faq</a>-->

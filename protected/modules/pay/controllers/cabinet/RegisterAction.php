@@ -23,7 +23,7 @@ class RegisterAction extends \pay\components\Action
     $countRows = $request->getParam('count');
     if (!$request->getIsPostRequest() && count($products) == 1)
     {
-      $countRows[$products->all[0]->Id] = 1;
+      $countRows[$products->all[0]->Id] = 0;
     }
      
     $this->form = new \pay\models\forms\OrderForm();
@@ -72,7 +72,7 @@ class RegisterAction extends \pay\components\Action
           {
             if (!isset($countRows[$product->Id]))
             {
-              $countRows[$product->Id] = 1;
+              $countRows[$product->Id] = 0;
             }
           }
         }
@@ -93,6 +93,7 @@ class RegisterAction extends \pay\components\Action
         }
       }
     }
+
     $this->getController()->render('register', [
         'event' => $this->getEvent(),
         'products' => $products,

@@ -26,7 +26,7 @@ class FastRegistration extends \event\components\Widget
     if (!\Yii::app()->user->isGuest && ($request->getIsPostRequest() || \Yii::app()->user->getIsRecentlyLogin()))
     {
       $role = \event\models\Role::model()->findByPk($this->DefaultRoleId);
-      $this->event->registerUser(\Yii::app()->user->getCurrentUser(), $role);
+      $this->event->registerUser(\Yii::app()->user->getCurrentUser(), $role, true);
       \Yii::app()->getController()->refresh();
     }
   }

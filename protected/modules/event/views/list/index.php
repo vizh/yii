@@ -50,17 +50,21 @@
       <?if (empty($sliceEvents)) break;?>
       <div class="container">
         <div class="row units events">
-          <?foreach ($sliceEvents as $event):?><div class="unit span4 event <?if ($event->getFormattedEndDate('yyyy-MM-dd') < date('Y-m-d')):?>past<?endif;?>">
+          <?foreach ($sliceEvents as $event):?><div class="unit span4 event <?if ($event->getFormattedEndDate('yyyy-MM-dd') < date('Y-m-d')):?>past<?endif;?>" itemscope itemtype="http://schema.org/Event">
               <header>
                 <p class="type"><small><?=$event->Type->Title;?></small></p>
-                <h3 class="date"><?$this->widget('\event\widgets\Date', array('event' => $event));?></h3>
-                <h3 class="title"><a href="<?=$event->getUrl();?>"><?=$event->Title;?></a></h3>
+                <h3 class="date" itemprop="startDate" content="<?=$event->getFormattedStartDate('yyyy-MM-dd');?>"><?$this->widget('\event\widgets\Date', array('event' => $event));?></h3>
+                <h3 class="title"><a href="<?=$event->getUrl();?>" itemprop="name"><?=$event->Title;?></a></h3>
                 <?if ($event->getContactAddress() !== null):?>
-                  <small class="muted"><?=$event->getContactAddress();?></small>
+                  <small class="muted" itemprop="location" itemscope itemtype="http://schema.org/Place">
+                    <span itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                      <?=$event->getContactAddress()->getWithSchema();?>
+                    </span>
+                  </small>
                 <?endif;?>
               </header>
               <article>
-                <p><?=\application\components\utility\Texts::cropText($event->Info, \Yii::app()->params['EventPreviewLength']);?></p>
+                <p itemprop="description"><?=\application\components\utility\Texts::cropText($event->Info, \Yii::app()->params['EventPreviewLength']);?></p>
               </article>
               <footer>
                 <?if (in_array($event->Id, $eventWithCurrentUser)):?>

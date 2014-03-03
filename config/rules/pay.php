@@ -2,7 +2,7 @@
 return array(
   array(
     'allow',
-    'users' => array('*'),
+    'users' => ['*'],
     'module' => 'pay',
     'controllers' => array('internal', 'cabinet', 'juridical', 'ajax', 'order', 'receipt')
   ),
@@ -11,15 +11,24 @@ return array(
   /** Admin Rules */
   array(
     'allow',
-    'roles' => array('admin'),
+    'roles' => ['admin'],
     'module' => 'pay',
-    'controllers' => array('admin/account', 'admin/oneuse', 'admin/orderjuridicaltemplate')
-  ),  
+    'controllers' => ['admin/account', 'admin/oneuse', 'admin/orderjuridicaltemplate']
+  ),
     
   array(
     'allow',
-    'roles' => array('booker'),
+    'roles' => ['booker'],
     'module' => 'pay',
-    'controllers' => array('admin/order')
+    'controllers' => ['admin/order']
   ),
+
+  array(
+    'allow',
+    'roles' => ['roommanager', 'admin'],
+    'module' => 'pay',
+    'controllers' => ['admin/booking']
+  )
+
+
 );
