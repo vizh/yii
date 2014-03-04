@@ -30,12 +30,16 @@ class Edit extends \CFormModel
   public $ProfInterest = [];
   
   public $Address;
+  public $Phone;
+  public $Email;
+
 
   public function rules()
   {
     return [
       ['Title, IdName, Info, StartDate, EndDate', 'required'],
       ['Free, Top', 'numerical', 'allowEmpty' => true],
+      ['Email', 'email', 'allowEmpty' => true],
       ['StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'],
       ['EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'],
       ['Info', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')],
@@ -63,20 +67,22 @@ class Edit extends \CFormModel
       'Free' => \Yii::t('app', 'Бесплатное мероприятие'),
       'Top' => \Yii::t('app', 'Выделить в блок'),
       'StartDate' => \Yii::t('app', 'Дата начала'),
-      'EndDate' => \Yii::t('app', 'Дата окончания')
+      'EndDate' => \Yii::t('app', 'Дата окончания'),
+      'Phone' => \Yii::t('app', 'Номер телефона')
     ];
   }
   
   public function __construct($scenario = '')
   {
     $this->Address = new \contact\models\forms\Address();
+    $this->Phone = new \contact\models\forms\Phone(\contact\models\forms\Phone::ScenarioOneField);
     return parent::__construct($scenario);
   }
 
 
   public function validate($attributes = null, $clearErrors = true)
   {
-    $this->Address->attributes = \Yii::app()->request->getParam(get_class($this->Address));
+    $this->Address->attributes = \Yii::app()->getRequest()->getParam(get_class($this->Address));
     if (!$this->Address->validate())
     {
       foreach ($this->Address->getErrors() as $messages)
@@ -84,6 +90,16 @@ class Edit extends \CFormModel
         $this->addError('Address', $messages[0]);
       }
     }
+
+    $this->Phone->attributes = \Yii::app()->getRequest()->getParam(get_class($this->Phone));
+    if (!$this->Phone->validate())
+    {
+      foreach ($this->Phone->getErrors() as $messages)
+      {
+        $this->addError('Phone', $messages[0]);
+      }
+    }
+
     return parent::validate($attributes, false);
   }
 }
