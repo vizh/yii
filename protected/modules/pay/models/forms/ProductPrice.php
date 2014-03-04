@@ -6,6 +6,7 @@ class ProductPrice extends \CFormModel
   
   public $Id;
   public $ProductId;
+  public $Title;
   public $Price;
   public $StartDate;
   public $EndDate;
@@ -17,6 +18,7 @@ class ProductPrice extends \CFormModel
       ['ProductId,Price,StartDate', 'required'],
       ['Id,ProductId,Price', 'numerical'],
       ['Id, Delete', 'safe'],
+      ['Title', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
       ['StartDate', 'date', 'format' => self::FORMAT_DATEFIELD, 'allowEmpty' => false],
       ['EndDate', 'date', 'format' => self::FORMAT_DATEFIELD, 'allowEmpty' => true],
       ['StartDate', 'filter', 'filter' => array($this, 'filterDate')]

@@ -16,7 +16,7 @@ CEventEditProduct.prototype = {
       });
       
       form.find('a.new-price').click(function () {
-        var data = {'Id' : '', 'Price' : '', 'StartDate' : '', 'EndDate' : '', 'ProductId' : $(form).find('input[id*="Product_Id"]').val()};
+        var data = {'Id' : '', 'Price' : '', 'Title' : '', 'StartDate' : '', 'EndDate' : '', 'ProductId' : $(form).find('input[id*="Product_Id"]').val()};
         form.find('.prices').append(
           self.createPriceControlGroup(form, data)
         );

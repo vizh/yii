@@ -78,6 +78,7 @@ class ProductAction extends \CAction
       }
       
       $product->Title = $form->Title;
+      $product->Description = !empty($form->Description) ? $form->Description : null;
       $product->EnableCoupon = $form->EnableCoupon == 1 ? true : false;
       $product->Public = $form->Public == 1 ? true : false;
       $product->Priority = $form->Priority;
@@ -111,6 +112,7 @@ class ProductAction extends \CAction
         }
        
         $price->Price = $formPrice->Price;
+        $price->Title = !empty($formPrice->Title) ? $formPrice->Title : null;
         $price->StartTime = $formPrice->getStartTime();
         $price->EndTime   = $formPrice->getEndTime();
         $price->save();
