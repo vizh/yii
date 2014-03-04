@@ -1,0 +1,8 @@
+table#rooms th, table#rooms td {
+  text-align: center;
+  vertical-align: middle;
+
+  -webkit-border-top-left-radius: 0px;
+  -moz-border-radius-topleft: 0px;
+  border-top-left-radius: 0px;
+}
