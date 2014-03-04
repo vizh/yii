@@ -68,6 +68,7 @@ class Registration extends \event\components\Widget
       \Yii::app()->getClientScript()->registerPackage('runetid.event-calculate-price');
       $criteria = new \CDbCriteria();
       $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
+      $criteria->addCondition('"t"."ManagerName" != \'Ticket\'');
       $model = \pay\models\Product::model()->byPublic(true);
       if (!\Yii::app()->user->isGuest)
       {

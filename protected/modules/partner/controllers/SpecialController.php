@@ -28,7 +28,7 @@ class SpecialController extends \partner\components\Controller
     }
     else
     {
-      return [];
+      return ['exportnopaid' => '\partner\controllers\special\ExportnopaidAction'];
     }
   }
 
