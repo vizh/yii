@@ -261,6 +261,11 @@ class BookingSearch extends \CFormModel
     if (count($ownerIds) !== count($userNames) || count($ownerIds) !== count($dates))
       throw new \CException('Ошибка парсига диапазонов дат!');
 
+    $partnerOwners = [];
+    self::parseValues($partnerOwners, $row['PartnerOwners'], ';;');
+    $partnerDates = [];
+    self::parseValues($partnerDates, $row['PartnerDates'], ';;');
+
     // Парсим диапазоны дат
     $datesRanges = [];
     for ($i = 0; $i < count($dates); ++$i)
@@ -278,6 +283,33 @@ class BookingSearch extends \CFormModel
         {
           $datesRanges[$startDate.'-'.$endDate]['UserId'] = $ownerIds[$i];
           $datesRanges[$startDate.'-'.$endDate]['Name'] = $userNames[$i];
+        }
+      }
+    }
+
+    // Парсим диапазоны дат
+    for ($i = 0; $i < count($partnerDates); ++$i)
+    {
+      if (empty($partnerDates[$i]))
+        continue;
+
+      $range = [];
+      self::parseValues($range, $partnerDates[$i], ',', '=');
+
+      $minDate = min(self::$_dates); $maxDate = max(self::$_dates);
+      foreach (self::$_dateRanges as $startDate => $endDate)
+      {
+        if ($range['DateIn'] >= $minDate && $range['DateIn'] <= $startDate && $range['DateOut'] <= $maxDate && $range['DateOut'] >= $endDate)
+        {
+          if (isset($datesRanges[$startDate.'-'.$endDate]['UserId']))
+            $datesRanges[$startDate.'-'.$endDate]['UserId'] .= null;
+          else
+            $datesRanges[$startDate.'-'.$endDate]['UserId'] = null;
+
+          if (isset($datesRanges[$startDate.'-'.$endDate]['Name']))
+            $datesRanges[$startDate.'-'.$endDate]['Name'] .= $partnerOwners[$i];
+          else
+            $datesRanges[$startDate.'-'.$endDate]['Name'] = $partnerOwners[$i];
         }
       }
     }
@@ -299,9 +331,10 @@ class BookingSearch extends \CFormModel
                 GROUP BY oi."Id"
                 HAVING count("oia"."Id") = 2';
 
+    $usedProductByPartnerIdsSql = 'SELECT prpb."ProductId" FROM "PayRoomPartnerBooking" prpb WHERE "DateIn" <= :dateIn AND "DateOut" >= :dateOut';
     if (!empty($this->DateIn) && !empty($this->DateOut))
     {
-      $usedProductIdsSql  = 'products."Id" '.($this->NotFree ? '' : 'NOT') . ' IN ('.$usedProductIdsSql . ')';
+      $usedProductIdsSql  = 'products."Id" '.($this->NotFree ? '' : 'NOT') . ' IN ('.$usedProductIdsSql.') OR products."Id" IN ('.$usedProductByPartnerIdsSql.')';
       $data['dateIn'] = min($this->DateIn, $this->DateOut);
       $data['dateOut'] = max($this->DateOut, $this->DateIn);
     }
@@ -333,8 +366,15 @@ class BookingSearch extends \CFormModel
         WHERE "EventId" = :eventId AND p."ManagerName" = \'RoomProductManager\'
         GROUP BY p."Id"
     )
-    SELECT products."Id", products."Attributes", STRING_AGG(CAST(orders."OwnerId" AS TEXT), \',\') AS "OwnerIds", STRING_AGG(orders."Name", \';\') AS "Names", STRING_AGG(orders."Dates", \';\') AS "Dates" FROM products
+    SELECT products."Id", products."Attributes",
+        STRING_AGG(CAST(orders."OwnerId" AS TEXT), \',\') AS "OwnerIds",
+        STRING_AGG(orders."Name", \';\') AS "Names",
+        STRING_AGG(orders."Dates", \';\') AS "Dates",
+        STRING_AGG(rpb."Owner", \';;\') AS "PartnerOwners",
+        STRING_AGG(\'DateIn\' || \'=\' || rpb."DateIn" || \',\' || \'DateOut\' || \'=\' || rpb."DateOut", \';\') AS "PartnerDates"
+      FROM products
       LEFT JOIN orders ON products."Id" = orders."ProductId"
+      LEFT JOIN "PayRoomPartnerBooking" rpb ON rpb."ProductId" = products."Id"
       '.$where.'
       GROUP BY products."Id", products."Attributes"
       ORDER BY products."Id"';
