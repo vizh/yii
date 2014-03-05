@@ -41,6 +41,9 @@ class Base extends \mail\components\Mail
   
   public function getBody()
   {
+    if (!(\Yii::app()->getController() instanceof \CController))
+      return null;
+
     return \Yii::app()->getController()->renderPartial($this->getViewPath(), array(
       'order' => $this->order,
       'payer' => $this->payer,

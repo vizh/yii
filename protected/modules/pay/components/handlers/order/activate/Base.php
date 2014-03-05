@@ -51,6 +51,9 @@ class Base extends \mail\components\Mail
   
   public function getBody()
   {
+    if (!(\Yii::app()->getController() instanceof \CController))
+      return null;
+
     $isBankPayment = $this->order->Juridical || $this->order->Receipt;
     $view = $isBankPayment ? $this->getJuridicalViewPath() : $this->getPhysicalViewPath();
     $orderItems = [];

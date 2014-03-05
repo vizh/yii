@@ -20,6 +20,6 @@ return array(
     'allow',
     'roles' => array('admin'),
     'module' => 'event',
-    'controllers' => array('admin/default', 'admin/edit', 'admin/list', 'admin/section', 'admin/oneuse', 'admin/mail', 'admin/fb')
+    'controllers' => array('admin/default', 'admin/edit', 'admin/list', 'admin/section', 'admin/oneuse', 'admin/mail', 'admin/fb', 'admin/demo')
   ),
 );
