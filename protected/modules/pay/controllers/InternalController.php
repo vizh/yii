@@ -7,7 +7,8 @@ class InternalController extends \application\components\controllers\PublicMainC
 
   public function actionClear()
   {
-    //return;
+    echo 'closed';
+    return;
     /** @var $products \pay\models\Product[] */
     $products = \pay\models\Product::model()->byEventId(self::EventId)->byManagerName('RoomProductManager')->findAll();
 
@@ -58,15 +59,20 @@ class InternalController extends \application\components\controllers\PublicMainC
 
   public function actionImportrooms()
   {
+    echo 'closed';
+
+    return;
     $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/import_20140305.csv');
     $parser->SetInEncoding('utf-8');
     $parser->SetDelimeter(';');
     $results = $parser->Parse($this->fieldMap, true);
 
-//    echo '<pre>';
-//    print_r($results);
-//    echo '</pre>';
-//    return;
+    $results = array_slice($results, 400, 200);
+
+    echo '<pre>';
+    print_r($results);
+    echo '</pre>';
+    return;
 
     foreach ($results as $result)
     {
