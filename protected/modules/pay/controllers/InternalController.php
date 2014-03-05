@@ -1,25 +1,26 @@
 <?php
 
-
 class InternalController extends \application\components\controllers\PublicMainController
 {
 
-//  public function actionClear()
-//  {
-//    return;
-//    /** @var $products \pay\models\Product[] */
-//    $products = \pay\models\Product::model()->byEventId(422)->byManagerName('RoomProductManager')->findAll();
-//
-//    foreach ($products as $product)
-//    {
-//      foreach ($product->Attributes as $attr)
-//      {
-//        //$attr->delete();
-//      }
-//      //$product->delete();
-//    }
-//    echo 'OK';
-//  }
+  const EventId = 789;
+
+  public function actionClear()
+  {
+    //return;
+    /** @var $products \pay\models\Product[] */
+    $products = \pay\models\Product::model()->byEventId(self::EventId)->byManagerName('RoomProductManager')->findAll();
+
+    foreach ($products as $product)
+    {
+      foreach ($product->Attributes as $attr)
+      {
+        $attr->delete();
+      }
+      $product->delete();
+    }
+    echo 'OK';
+  }
 
   public $fieldMap = array(
     'TechnicalNumber' => 0,
@@ -34,6 +35,7 @@ class InternalController extends \application\components\controllers\PublicMainC
     'PlaceMore' => 9,
     'DescriptionBasic' => 10,
     'DescriptionMore' => 11,
+    'Booking' => 12,
     'Price' => 13,
   );
 
@@ -56,25 +58,22 @@ class InternalController extends \application\components\controllers\PublicMainC
 
   public function actionImportrooms()
   {
-    echo 'empty';
-    return;
-
-    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/rooms-4.csv');
+    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/import_20140305.csv');
     $parser->SetInEncoding('utf-8');
     $parser->SetDelimeter(';');
     $results = $parser->Parse($this->fieldMap, true);
 
-    echo '<pre>';
-    print_r($results);
-    echo '</pre>';
+//    echo '<pre>';
+//    print_r($results);
+//    echo '</pre>';
+//    return;
 
-    return;
     foreach ($results as $result)
     {
       $product = new \pay\models\Product();
       $product->ManagerName = 'RoomProductManager';
-      $product->Title = 'Участие в объединенной конференции РИФ+КИБ 2013 с проживанием';
-      $product->EventId = 422;
+      $product->Title = 'Участие в объединенной конференции РИФ+КИБ 2014 с проживанием';
+      $product->EventId = self::EventId;
       $product->Unit = 'усл.';
       $product->EnableCoupon = false;
       $product->Public = false;
@@ -83,18 +82,48 @@ class InternalController extends \application\components\controllers\PublicMainC
       $price = new \pay\models\ProductPrice();
       $price->ProductId = $product->Id;
       $price->Price = $result->Price;
-      $price->StartTime = '2013-03-14 09:00:00';
+      $price->StartTime = '2014-03-01 09:00:00';
       $price->save();
+
+      if (empty($result->EuroRenovation))
+      {
+        $result->EuroRenovation = 'нет';
+      }
+      if (empty($result->Housing))
+      {
+        $result->Housing = 'Основной корпус';
+      }
 
       foreach ($this->fieldMap as $key => $value)
       {
-//        if ($key == 'EuroRenovation')
-//        {
-//          $result->$key = $result->$key == 1 ? 'да' : 'нет';
-//        }
-        $product->getManager()->$key = trim($result->$key);
+        switch ($key)
+        {
+          case 'Booking':
+            $booking = trim($result->$key);
+            if ($booking == 'САЙТ')
+            {
+              $product->getManager()->Visible = 1;
+            }
+            else
+            {
+              $product->getManager()->Visible = 0;
+              if ($booking == 'ОРГКОМ')
+              {
+                $roomBooking = new \pay\models\RoomPartnerBooking();
+                $roomBooking->ProductId = $product->Id;
+                $roomBooking->Owner = 'Оргкомитет';
+                $roomBooking->DateIn = '2014-04-22';
+                $roomBooking->DateOut = '2014-04-25';
+                $roomBooking->ShowPrice = false;
+                $roomBooking->save();
+              }
+            }
+            break;
+          default:
+            $product->getManager()->$key = trim($result->$key);
+        }
       }
-      $product->getManager()->Visible = 0;
+
     }
 
     echo 'done';

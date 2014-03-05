@@ -2,7 +2,7 @@
 
 class BookingController extends \application\components\controllers\AdminMainController
 {
-  const EventId = 422;
+  const EventId = 789;
 
   public function actions()
   {

@@ -171,19 +171,19 @@ class BookingSearch extends \CFormModel
   /**
    * Задаем новые групповые значения
    */
-  protected function afterValidate()
-  {
-    $this->makeGroupValues([
-      'Housing',
-      'Category',
-      'DescriptionBasic',
-      'DescriptionMore',
-      'PlaceBasic',
-      'PlaceMore',
-      'PlaceTotal',
-      'RoomCount'
-    ]);
-  }
+//  protected function afterValidate()
+//  {
+//    $this->makeGroupValues([
+//      'Housing',
+//      'Category',
+//      'DescriptionBasic',
+//      'DescriptionMore',
+//      'PlaceBasic',
+//      'PlaceMore',
+//      'PlaceTotal',
+//      'RoomCount'
+//    ]);
+//  }
 
   /**
    * Возвращает список значений для заданного поля

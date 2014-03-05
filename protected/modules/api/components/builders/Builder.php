@@ -135,6 +135,19 @@ class Builder
     return $this->user;
   }
 
+  public function buildUserBadge(\user\models\User $user)
+  {
+    $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
+    if ($isOnePart && !empty($this->user->Status))
+    {
+      $model =  \ruvents\models\Badge::model()
+        ->byEventId($this->account->EventId)->byUserId($user->Id);
+      $this->user->Status->Registered = $model->exists();
+    }
+
+    return $this->user;
+  }
+
   protected $company;
   /**
    * @param \company\models\Company $company
