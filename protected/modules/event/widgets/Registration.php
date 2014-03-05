@@ -81,7 +81,8 @@ class Registration extends \event\components\Widget
       $this->render($viewName, [
         'products' => $products,
         'account' => $account,
-        'participant' => $participant
+        'participant' => $participant,
+        'event' => $this->event
       ]);
     }
     else
