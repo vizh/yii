@@ -175,8 +175,8 @@ class Product extends \CFormModel
   {
     $purifier = new \CHtmlPurifier();
     $purifier->options = [
-      'HTML.AllowedElements'   => ['p'],
-      'HTML.AllowedAttributes' => ['p.class'],
+      'HTML.AllowedElements'   => ['p', 'ul', 'li'],
+      'HTML.AllowedAttributes' => ['class'],
     ];
     return trim($purifier->purify($value));
   }
