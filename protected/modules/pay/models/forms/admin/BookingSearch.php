@@ -8,15 +8,15 @@ namespace pay\models\forms\admin;
  */
 class BookingSearch extends \CFormModel
 {
-  public $Hotel;
-  public $Housing;
+  public $Hotel = [];
+  public $Housing = [];
   public $Category;
   public $DescriptionBasic;
   public $DescriptionMore;
-  public $PlaceBasic;
-  public $PlaceMore;
-  public $PlaceTotal;
-  public $RoomCount;
+  public $PlaceBasic = [];
+  public $PlaceMore = [];
+  public $PlaceTotal = [];
+  public $RoomCount = [];
 
   public $DateIn;
   public $DateOut;
@@ -66,10 +66,31 @@ class BookingSearch extends \CFormModel
   public function rules()
   {
     return [
-      ['Hotel, Housing, Category, DescriptionBasic, DescriptionMore, PlaceBasic, PlaceBasic, PlaceMore, PlaceTotal, RoomCount', 'validateGroups'],
+      ['Hotel, Housing, PlaceBasic, PlaceBasic, PlaceMore, PlaceTotal, RoomCount', 'validateGroupsArray'],
+      ['Category, DescriptionBasic, DescriptionMore', 'validateGroups'],
       ['DateIn, DateOut', 'date', 'format' => 'yyyy-MM-dd'],
       ['NotFree', 'boolean']
     ];
+  }
+
+  public function validateGroupsArray($attribute)
+  {
+    if (!in_array($attribute, array_keys($this->_groupValues)))
+    {
+      $this->addError($attribute, 'Неизвестный атрибут');
+      return;
+    }
+
+    if (empty($this->$attribute) || !is_array($this->$attribute))
+      return;
+
+    foreach ($this->$attribute as $attr)
+    {
+      if (!in_array($attr, array_keys($this->_groupValues[$attribute])))
+      {
+        $this->addError($attribute, "Неверное значение для атрибута $attribute!");
+      }
+    }
   }
 
   /**
@@ -101,18 +122,38 @@ class BookingSearch extends \CFormModel
   {
     parent::init();
     self::$_dateRanges = $this->makeDateRanges(self::$_dates);
+    $this->makeGroupValues();
+  }
 
-    $results = \Yii::app()->getDb()->createCommand()
-      ->select('ppa.Name, ppa.Value')->from('PayProductAttribute ppa')
-      ->leftJoin('PayProduct pp', 'ppa."ProductId" = pp."Id"')
-      ->where('pp."EventId" = :EventId AND pp."ManagerName" = :ManagerName')
-      ->andWhere('ppa."Name" IN (\'' . implode('\',\'', self::$_attributeGroups) . '\')')
-      ->group('ppa.Name, ppa.Value')
-      ->query(['EventId' => \BookingController::EventId, 'ManagerName' => 'RoomProductManager']);
+  /**
+   * Заполняет групповые значения
+   * @param array $remakeAttributeGroups
+   */
+  private function makeGroupValues($remakeAttributeGroups = [])
+  {
+    $command = \Yii::app()->getDb()->createCommand()
+        ->select('ppa.Name, ppa.Value')->from('PayProductAttribute ppa')
+        ->leftJoin('PayProduct pp', 'ppa."ProductId" = pp."Id"')
+        ->where('pp."EventId" = :EventId AND pp."ManagerName" = :ManagerName')
+        ->andWhere('ppa."Name" IN (\'' . implode('\',\'', self::$_attributeGroups) . '\')')
+        ->group('ppa.Name, ppa.Value')
+        ->order('ppa.Value');
+
+    $idsSubquery = $this->makeProductIdsSubqueries();
+    if (!empty($idsSubquery))
+      $command->andWhere('ppa."ProductId" IN ('.$idsSubquery.')');
+
+    $results = $command->query(['EventId' => \BookingController::EventId, 'ManagerName' => 'RoomProductManager']);
+
+    foreach ($remakeAttributeGroups as $group)
+      unset($this->_groupValues[$group]);
 
     foreach ($results as $row)
     {
       $name = $row['Name'];
+      if (!empty($remakeAttributeGroups) && !in_array($name, $remakeAttributeGroups))
+        continue;
+
       if (!isset($this->_groupValues[$name]))
         $this->_groupValues[$name] = [];
 
@@ -125,6 +166,23 @@ class BookingSearch extends \CFormModel
 
     array_pop($this->_groupValues['DateIn']);
     array_shift($this->_groupValues['DateOut']);
+  }
+
+  /**
+   * Задаем новые групповые значения
+   */
+  protected function afterValidate()
+  {
+    $this->makeGroupValues([
+      'Housing',
+      'Category',
+      'DescriptionBasic',
+      'DescriptionMore',
+      'PlaceBasic',
+      'PlaceMore',
+      'PlaceTotal',
+      'RoomCount'
+    ]);
   }
 
   /**
@@ -156,10 +214,25 @@ class BookingSearch extends \CFormModel
     if ($this->$fieldName === '' || $this->$fieldName === null)
       return null;
 
-    if (!in_array(intval($this->$fieldName), array_keys($this->_groupValues[$fieldName])))
-      return null;
+    if (is_array($this->$fieldName))
+    {
+      $result = [];
+      foreach ($this->$fieldName as $field)
+      {
+        $field = intval($field);
+        if (in_array($field, array_keys($this->_groupValues[$fieldName])))
+          $result[] = $this->_groupValues[$fieldName][$field];
+      }
+      return $result;
+    }
+    else
+    {
+      $field = intval($this->$fieldName);
+      if (!in_array($field, array_keys($this->_groupValues[$fieldName])))
+        return null;
 
-    return $this->_groupValues[$fieldName][intval($this->$fieldName)];
+      return $this->_groupValues[$fieldName][$field];
+    }
   }
 
   /**
@@ -234,7 +307,7 @@ class BookingSearch extends \CFormModel
     $usedProductIdsSql = 'SELECT oi."ProductId" FROM "PayOrderItem" oi
                 INNER JOIN "PayProduct" p ON oi."ProductId" = p."Id"
                 LEFT JOIN "PayOrderItemAttribute" oia ON oia."OrderItemId" = oi."Id"
-                WHERE p."EventId" = 422 AND p."ManagerName" = \'RoomProductManager\' AND (oi."Paid" OR NOT oi."Deleted") AND
+                WHERE p."EventId" = :eventId AND p."ManagerName" = \'RoomProductManager\' AND (oi."Paid" OR NOT oi."Deleted") AND
 			            (oia."Name" = \'DateIn\' AND (oia."Value" < :dateIn OR oia."Value" < :dateOut)
 			              OR oia."Name" = \'DateOut\' AND (oia."Value" > :dateIn OR oia."Value" > :dateOut))
                 GROUP BY oi."Id"
@@ -249,17 +322,8 @@ class BookingSearch extends \CFormModel
     else
       $usedProductIdsSql = '';
 
-    $idsSubqueries = [];
-    foreach (self::$_attributeGroups as $field)
-    {
-      $val = $this->getAttributeValue($field);
-      if (!empty($val))
-        $idsSubqueries[] = "SELECT pp.\"ProductId\" FROM \"PayProductAttribute\" pp WHERE (pp.\"Name\" = '$field' AND pp.\"Value\" = '$val')";
-    }
-    if (empty($idsSubqueries))
-      $idsSubqueries = '';
-    else
-      $idsSubqueries = 'products."Id" IN ('.implode(' INTERSECT ', $idsSubqueries).') ';
+    $idsSubqueries = $this->makeProductIdsSubqueries();
+    $idsSubqueries = empty($idsSubqueries) ? '' : 'products."Id" IN ('.$idsSubqueries.') ';
 
     $where = implode(' AND ', array_filter([$usedProductIdsSql, $idsSubqueries], function($v) {
           if (empty($v))
@@ -291,6 +355,37 @@ class BookingSearch extends \CFormModel
 
     $data[':eventId'] = \BookingController::EventId;
     return \Yii::app()->db->createCommand($query)->query($data);
+  }
+
+  /**
+   * Создает группу подзапросов запросов по продуктам
+   * @return string
+   */
+  private function makeProductIdsSubqueries()
+  {
+    $queries = [];
+    foreach (self::$_attributeGroups as $field)
+    {
+      $val = $this->getAttributeValue($field);
+      if (empty($val))
+        continue;
+
+      if (is_array($val))
+      {
+        $subqueries = [];
+        foreach ($val as $v)
+          $subqueries[] = "SELECT pp.\"ProductId\" FROM \"PayProductAttribute\" pp WHERE (pp.\"Name\" = '$field' AND pp.\"Value\" = '$v')";
+
+        $queries[] = ' ('.implode(') UNION (', $subqueries).') ';
+      }
+      else
+        $queries[] = "SELECT pp.\"ProductId\" FROM \"PayProductAttribute\" pp WHERE (pp.\"Name\" = '$field' AND pp.\"Value\" = '$val')";
+    }
+
+    if (empty($queries))
+      return null;
+    else
+      return ' ('.implode(') INTERSECT (', $queries).') ';
   }
 
   public function attributeLabels()

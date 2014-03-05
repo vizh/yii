@@ -21,19 +21,29 @@
     <div class="well well-small">
       <h4 class="text-center">Размещение</h4>
       <div class="row-fluid">
+        <div class="span12">
+          <?foreach (['Hotel', 'Housing', 'PlaceBasic', 'PlaceMore', 'PlaceTotal', 'RoomCount'] as $attribute):?>
+            <div class="control-group">
+              <?=$activeForm->labelEx($form, $attribute, ['class' => 'control-label'])?>
+              <div class="controls">
+                <? $this->widget('\application\widgets\GroupBtnSelect', [
+                  'values' => $form->getAttributeValues($attribute),
+                  'model' => $form,
+                  'attribute' => $attribute
+                ])?>
+              </div>
+            </div>
+          <?endforeach?>
+        </div>
+      </div>
+
+      <div class="row-fluid">
         <?$attributes = array_keys($form->getAttributes([
-          'Hotel',
-          'Housing',
           'Category',
           'DescriptionBasic',
           'DescriptionMore',
-          'PlaceBasic',
-          'PlaceMore',
-          'PlaceTotal',
-          'RoomCount'
         ]))?>
         <?$div2 = ceil(count($attributes) / 2)?>
-
         <div class="span6">
           <? for ($i = 0; $i < $div2; ++$i): ?>
             <?$attribute = $attributes[$i]?>
