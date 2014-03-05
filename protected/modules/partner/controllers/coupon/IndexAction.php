@@ -8,10 +8,13 @@ class IndexAction extends \partner\components\Action
     $this->getController()->setPageTitle('Поиск промо-кодов');
     $this->getController()->initActiveBottomMenu('index');
 
+    $hasTicket = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->byManagerName('Ticket')->exists();
+
     $form = new \partner\models\forms\coupon\Search();
     $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
-    $criteria = $form->getCriteria();
-
+    $criteria = new \CDbCriteria();
+    $criteria->with = ['Owner', 'Product'];
+    $criteria->mergeWith($form->getCriteria());
     $count = \pay\models\Coupon::model()->byEventId($this->getEvent()->Id)->count($criteria);
 
     $paginator = new \application\components\utility\Paginator($count);
@@ -25,7 +28,8 @@ class IndexAction extends \partner\components\Action
         'coupons' => $coupons,
         'paginator' => $paginator,
         'form' => $form,
-        'products' => $this->getProductValues()
+        'products' => $this->getProductValues(),
+        'hasTicket' => $hasTicket
       )
     );
   }

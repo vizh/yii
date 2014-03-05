@@ -17,6 +17,7 @@ namespace pay\models;
  *
  * @property CouponActivation[] $Activations
  * @property Product $Product
+ * @property \user\models\User $Owner
  *
  * @method \pay\models\Coupon find($condition='',$params=array())
  * @method \pay\models\Coupon findByPk($pk,$condition='',$params=array())
@@ -48,8 +49,9 @@ class Coupon extends \CActiveRecord
   public function relations()
   {
     return array(
-      'Activations' => array(self::HAS_MANY, '\pay\models\CouponActivation', 'CouponId'),
-      'Product' => array(self::BELONGS_TO, '\pay\models\Product', 'ProductId')
+      'Activations' => [self::HAS_MANY, '\pay\models\CouponActivation', 'CouponId'],
+      'Product' => [self::BELONGS_TO, '\pay\models\Product', 'ProductId'],
+      'Owner' => [self::BELONGS_TO, '\user\models\User', 'OwnerId']
     );
   }
 
