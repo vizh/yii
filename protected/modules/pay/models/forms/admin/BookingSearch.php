@@ -10,11 +10,7 @@ class BookingSearch extends \CFormModel
 {
   public $Hotel = [];
   public $Housing = [];
-  public $Category;
-  public $DescriptionBasic;
-  public $DescriptionMore;
-  public $PlaceBasic = [];
-  public $PlaceMore = [];
+  public $Category = [];
   public $PlaceTotal = [];
   public $RoomCount = [];
 
@@ -29,10 +25,6 @@ class BookingSearch extends \CFormModel
     'Hotel',
     'Housing',
     'Category',
-    'DescriptionBasic',
-    'DescriptionMore',
-    'PlaceBasic',
-    'PlaceMore',
     'PlaceTotal',
     'RoomCount',
     'Visible'
@@ -42,10 +34,10 @@ class BookingSearch extends \CFormModel
    * @var array Даты проведения мероприятия
    */
   private static $_dates = [
-    '2013-04-16',
-    '2013-04-17',
-    '2013-04-18',
-    '2013-04-19'
+    '2014-04-22',
+    '2014-04-23',
+    '2014-04-24',
+    '2014-04-25'
   ];
 
   private static $_dateRanges;
@@ -66,8 +58,7 @@ class BookingSearch extends \CFormModel
   public function rules()
   {
     return [
-      ['Hotel, Housing, PlaceBasic, PlaceBasic, PlaceMore, PlaceTotal, RoomCount', 'validateGroupsArray'],
-      ['Category, DescriptionBasic, DescriptionMore', 'validateGroups'],
+      ['Hotel, Category, Housing, PlaceTotal, RoomCount', 'validateGroupsArray'],
       ['DateIn, DateOut', 'date', 'format' => 'yyyy-MM-dd'],
       ['NotFree', 'boolean']
     ];
@@ -86,6 +77,9 @@ class BookingSearch extends \CFormModel
 
     foreach ($this->$attribute as $attr)
     {
+      if (empty($attr) || intval($attr) === -1)
+        continue;
+
       if (!in_array($attr, array_keys($this->_groupValues[$attribute])))
       {
         $this->addError($attribute, "Неверное значение для атрибута $attribute!");
@@ -127,9 +121,9 @@ class BookingSearch extends \CFormModel
 
   /**
    * Заполняет групповые значения
-   * @param array $remakeAttributeGroups
+   * @param array $usedAttributes
    */
-  private function makeGroupValues($remakeAttributeGroups = [])
+  private function makeGroupValues($usedAttributes = [])
   {
     $command = \Yii::app()->getDb()->createCommand()
         ->select('ppa.Name, ppa.Value')->from('PayProductAttribute ppa')
@@ -139,19 +133,20 @@ class BookingSearch extends \CFormModel
         ->group('ppa.Name, ppa.Value')
         ->order('ppa.Value');
 
-    $idsSubquery = $this->makeProductIdsSubqueries();
+    $idsSubquery = $this->makeProductIdsSubqueries($usedAttributes);
     if (!empty($idsSubquery))
       $command->andWhere('ppa."ProductId" IN ('.$idsSubquery.')');
 
     $results = $command->query(['EventId' => \BookingController::EventId, 'ManagerName' => 'RoomProductManager']);
 
-    foreach ($remakeAttributeGroups as $group)
-      unset($this->_groupValues[$group]);
+    foreach ($this->_groupValues as $groupName => $group)
+      if (!in_array($groupName, $usedAttributes))
+        unset($this->_groupValues[$groupName]);
 
     foreach ($results as $row)
     {
       $name = $row['Name'];
-      if (!empty($remakeAttributeGroups) && !in_array($name, $remakeAttributeGroups))
+      if (!empty($usedAttributes) && in_array($name, $usedAttributes))
         continue;
 
       if (!isset($this->_groupValues[$name]))
@@ -171,19 +166,10 @@ class BookingSearch extends \CFormModel
   /**
    * Задаем новые групповые значения
    */
-//  protected function afterValidate()
-//  {
-//    $this->makeGroupValues([
-//      'Housing',
-//      'Category',
-//      'DescriptionBasic',
-//      'DescriptionMore',
-//      'PlaceBasic',
-//      'PlaceMore',
-//      'PlaceTotal',
-//      'RoomCount'
-//    ]);
-//  }
+  protected function afterValidate()
+  {
+    $this->makeGroupValues(['Hotel']);
+  }
 
   /**
    * Возвращает список значений для заданного поля
@@ -359,12 +345,14 @@ class BookingSearch extends \CFormModel
 
   /**
    * Создает группу подзапросов запросов по продуктам
+   * @param array $userAttributes Атрибуты используемые при постоении запроса
    * @return string
    */
-  private function makeProductIdsSubqueries()
+  private function makeProductIdsSubqueries($userAttributes = [])
   {
     $queries = [];
-    foreach (self::$_attributeGroups as $field)
+    $usedAttributes = !empty($userAttributes) ? $userAttributes : self::$_attributeGroups;
+    foreach ($usedAttributes as $field)
     {
       $val = $this->getAttributeValue($field);
       if (empty($val))
@@ -391,7 +379,7 @@ class BookingSearch extends \CFormModel
   public function attributeLabels()
   {
     return [
-      'Hotel' => 'Отель',
+      'Hotel' => 'Пансионат',
       'Housing' => 'Корпус',
       'Category' => 'Категория',
       'DescriptionBasic' => 'Основные места',

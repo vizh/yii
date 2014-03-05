@@ -6,3 +6,11 @@ table#rooms th, table#rooms td {
   -moz-border-radius-topleft: 0px;
   border-top-left-radius: 0px;
 }
+
+.hidden-room {
+  background-color: #f3f1fa;
+  opacity: 0.6;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0.6);
+  -moz-opacity: 0.6;
+  -khtml-opacity: 0.6;
+}
