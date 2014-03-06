@@ -9,13 +9,17 @@
   <?if (!empty($formProducts)):?>
   <table class="table m-bottom_40">
     <thead>
+    <tr>
+      <th>ID</th>
       <th><?=\Yii::t('app', 'Название товара');?></th>
       <th><?=\Yii::t('app', 'Менеджер');?></th>
       <th></th>
+    </tr>
     </thead>
     <tbody>
       <?foreach ($formProducts as $formProduct):?>
         <tr>
+          <td><?=$formProduct->getProduct()->Id;?></td>
           <td><?=$formProduct->getProduct()->Title;?></td>
           <td><?=$formProduct->getManagerTitle();?></td>
           <td class="text-right"><a href="#" class="btn btn-mini"><?=\Yii::t('app', 'Редактировать');?></a></td>
