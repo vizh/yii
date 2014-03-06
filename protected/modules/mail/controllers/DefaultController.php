@@ -6,8 +6,8 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'spic14-1';
-    $isHTML = false;
+    $template = 'simon-1-html';
+    $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
     $fp = fopen($logPath.$template.'.log',"a+");
@@ -32,7 +32,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Чтение из файла
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2014-02-24/emails.csv');
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2014-03-06/emails.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
 
     /*
@@ -42,15 +42,19 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     }
     */
 
-//    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
+    $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
 //    $emails['ilya.chertilov@gmail.com'] = 'ilya.chertilov@gmail.com';
-//    $emails['grebennikov.sergey@gmail.com'] = 'grebennikov.sergey@gmail.com';
+
+    $emails['grebennikov.sergey@gmail.com'] = 'grebennikov.sergey@gmail.com';
+    $emails['tatulova@cafe-anderson.ru'] = 'tatulova@cafe-anderson.ru';
+    $emails['AHomichuk@okey-dokey.ru'] = 'AHomichuk@okey-dokey.ru';
+    $emails['dolzhenko.strana@gmail.com'] = 'dolzhenko.strana@gmail.com';
 
 //    $emails['t.ruzhich@rta-moscow.com'] = 't.ruzhich@rta-moscow.com';
 //    $emails['borzov@internetmediaholding.com'] = 'borzov@internetmediaholding.com';
 //    $emails['plugotarenko@raec.ru'] = 'plugotarenko@raec.ru';
 
-    $limit = 300;
+    $limit = 200;
     $offset = $step * $limit;
     $users = array_slice($emails, $offset, $limit, true);
 
@@ -153,9 +157,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-        $mail->SetFrom('users@runet-id.com', 'DigitalGoods', false);
+        $mail->SetFrom('info@simonbar.ru', 'Simon Says Bar', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('DIGITAL GOODS - приглашаем на конференцию') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('Встречаем весну с Simon Says Bar') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
