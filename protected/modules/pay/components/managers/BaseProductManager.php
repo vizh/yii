@@ -187,7 +187,7 @@ abstract class BaseProductManager
   {
     if (!$this->checkProduct($owner))
     {
-      throw new \pay\components\Exception($this->getCheckProductMessage($owner));
+      throw new \pay\components\Exception($this->getCheckProductMessage($owner), 700);
     }
 
     $orderItem = \pay\models\OrderItem::model()->byProductId($this->product->Id)
