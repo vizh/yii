@@ -138,6 +138,26 @@ class InternalController extends \application\components\controllers\PublicMainC
     echo '</pre>';
   }
 
+  public function actionFixprice()
+  {
+    echo 'closed';
+
+    return;
+    $products = \pay\models\Product::model()
+      ->byEventId(self::EventId)->byManagerName('RoomProductManager')->findAll();
+
+    foreach ($products as $product)
+    {
+      $price = $product->getManager()->Price;
+      $price = str_replace(',', '', $price);
+      $product->getManager()->Price = intval($price);
+
+      $priceModel = $product->Prices[0];
+      $priceModel->Price = intval($price);
+      $priceModel->save();
+    }
+  }
+
   public function actionCreatefood()
   {
     return;
@@ -178,6 +198,28 @@ class InternalController extends \application\components\controllers\PublicMainC
       $productPrice->Price = $price;
       $productPrice->StartTime = '2013-03-14 09:00:00';
       $productPrice->save();
+    }
+  }
+
+  public function actionRemovePhysicalBooked()
+  {
+    $orderItems = \pay\models\OrderItem::model()->byEventId(789)
+      ->byPaid(false)->byBooked(false)->byDeleted(false)->findAll();
+
+    foreach ($orderItems as $item)
+    {
+      /** @var $links OrderLinkOrderItem[] */
+      $links = $item->OrderLinks(array('with' => array('Order')));
+      foreach ($links as $link)
+      {
+        if (($link->Order->Juridical || $link->Order->Receipt) && !$link->Order->Deleted)
+        {
+          continue;
+        }
+      }
+
+      echo $item->Id . ' ' . $item->CreationTime . ' Booked to ' . $item->Booked . '<br>';
+      $item->delete();
     }
   }
 }

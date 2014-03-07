@@ -277,7 +277,7 @@ class Order extends \CActiveRecord
       $orderLink->OrderItemId = $item->getOrderItem()->Id;
       $orderLink->save();
 
-      if ($juridical) //todo: костыль для РИФ+КИБ проживания, продумать адекватное выставление сроков бронирования
+      if ($juridical || $receipt) //todo: костыль для РИФ+КИБ проживания, продумать адекватное выставление сроков бронирования
       {
         if ($item->getOrderItem()->Booked != null)
         {
@@ -422,7 +422,7 @@ class Order extends \CActiveRecord
         continue;
       if ($link->OrderItem->Booked != null)
       {
-        $link->OrderItem->Booked = date('Y-m-d H:i:s', time() + 3 * 60 * 60);
+        $link->OrderItem->Booked = date('Y-m-d H:i:s', time() + 5 * 60 * 60);
       }
       $link->OrderItem->PaidTime = null;
       $link->OrderItem->save();

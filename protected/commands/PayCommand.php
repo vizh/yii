@@ -21,4 +21,12 @@ class PayCommand extends \application\components\console\BaseConsoleCommand
     }
     return 0;
   }
+
+  public function actionClearPhysicalBook()
+  {
+    $orderItems = \pay\models\OrderItem::model()
+      ->byPaid(false)->byBooked(false)->byDeleted(false)->findAll();
+
+    return 0;
+  }
 }

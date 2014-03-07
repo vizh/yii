@@ -37,4 +37,14 @@ return array(
     'bizRule' => null,
     'data' => null
   ),
+
+  'roommanager' => array(
+    'type' => CAuthItem::TYPE_ROLE,
+    'description' => 'Администрирование номероного фонда',
+    'children' => array(
+      'guest',
+    ),
+    'bizRule' => null,
+    'data' => null
+  ),
 );

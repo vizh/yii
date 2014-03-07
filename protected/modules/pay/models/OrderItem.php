@@ -463,7 +463,7 @@ class OrderItem extends \CActiveRecord
     $links = $this->OrderLinks(array('with' => array('Order')));
     foreach ($links as $link)
     {
-      if ($link->Order->Juridical && !$link->Order->Deleted)
+      if (($link->Order->Juridical || $link->Order->Receipt) && !$link->Order->Deleted)
       {
         return false;
       }
