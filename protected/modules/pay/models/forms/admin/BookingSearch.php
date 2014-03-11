@@ -238,7 +238,11 @@ class BookingSearch extends \CFormModel
       // Парсим атрибуты
       self::parseValues($room, $row['Attributes'], ';;', '=');
       // Парсим даты
+
+      //print_r($row);
+
       $this->parseDates($room, $row);
+      //print_r($room);
       $this->_rooms[] = $room;
     }
     return $this->_rooms;
@@ -258,6 +262,10 @@ class BookingSearch extends \CFormModel
     self::parseValues($userNames, $row['Names'], ';');
     $dates = [];
     self::parseValues($dates, $row['Dates'], ';');
+    $paids = [];
+    self::parseValues($paids, $row['Paid'], ';');
+    $booked = [];
+    self::parseValues($booked, $row['Booked'], ';');
     if (count($ownerIds) !== count($userNames) || count($ownerIds) !== count($dates))
       throw new \CException('Ошибка парсига диапазонов дат!');
 
@@ -281,8 +289,12 @@ class BookingSearch extends \CFormModel
       {
         if ($range['DateIn'] >= $minDate && $range['DateIn'] <= $startDate && $range['DateOut'] <= $maxDate && $range['DateOut'] >= $endDate)
         {
-          $datesRanges[$startDate.'-'.$endDate]['UserId'] = $ownerIds[$i];
-          $datesRanges[$startDate.'-'.$endDate]['Name'] = $userNames[$i];
+          $datesRanges[$startDate.'-'.$endDate][] = [
+            'RunetId' => $ownerIds[$i],
+            'Name' => $userNames[$i],
+            'Paid' => $paids[$i] == 'true' ? true : false,
+            'Booked' => $booked[$i],
+          ];
         }
       }
     }
@@ -301,15 +313,12 @@ class BookingSearch extends \CFormModel
       {
         if ($range['DateIn'] >= $minDate && $range['DateIn'] <= $startDate && $range['DateOut'] <= $maxDate && $range['DateOut'] >= $endDate)
         {
-          if (isset($datesRanges[$startDate.'-'.$endDate]['UserId']))
-            $datesRanges[$startDate.'-'.$endDate]['UserId'] .= null;
-          else
-            $datesRanges[$startDate.'-'.$endDate]['UserId'] = null;
-
-          if (isset($datesRanges[$startDate.'-'.$endDate]['Name']))
-            $datesRanges[$startDate.'-'.$endDate]['Name'] .= $partnerOwners[$i];
-          else
-            $datesRanges[$startDate.'-'.$endDate]['Name'] = $partnerOwners[$i];
+          $datesRanges[$startDate.'-'.$endDate][] = [
+            'Name' => $partnerOwners[$i],
+            'RunetId' => null,
+            'Paid' => false,
+            'Booked' => null
+          ];
         }
       }
     }
@@ -354,12 +363,12 @@ class BookingSearch extends \CFormModel
 
     $query = '
     WITH orders AS (
-     SELECT oi."ProductId", oi."OwnerId", (COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\') || \' \' || COALESCE(u."FatherName", \'\')) AS "Name", STRING_AGG(oia."Name" || \'=\' || oia."Value", \',\') AS "Dates"
+     SELECT oi."ProductId", oi."OwnerId", oi."Paid", oi."Booked", u."RunetId", (COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')) AS "Name", STRING_AGG(oia."Name" || \'=\' || oia."Value", \',\') AS "Dates"
          FROM "PayOrderItem" oi
          INNER JOIN "PayOrderItemAttribute" oia ON oi."Id" = oia."OrderItemId"
          INNER JOIN "User" u ON u."Id" = oi."OwnerId"
          WHERE (oi."Paid" OR NOT oi."Deleted")
-         GROUP BY oi."Id", COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\') || \' \' || COALESCE(u."FatherName", \'\')
+         GROUP BY oi."Id", u."RunetId", COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')
     ), products AS (
 	    SELECT p."Id", STRING_AGG(ppa."Name" || \'=\' || ppa."Value", \';;\') AS "Attributes" FROM "PayProduct" p
         INNER JOIN "PayProductAttribute" ppa ON p."Id" = ppa."ProductId"
@@ -367,9 +376,11 @@ class BookingSearch extends \CFormModel
         GROUP BY p."Id"
     )
     SELECT products."Id", products."Attributes",
-        STRING_AGG(CAST(orders."OwnerId" AS TEXT), \',\') AS "OwnerIds",
+        STRING_AGG(CAST(orders."RunetId" AS TEXT), \',\') AS "OwnerIds",
         STRING_AGG(orders."Name", \';\') AS "Names",
         STRING_AGG(orders."Dates", \';\') AS "Dates",
+        STRING_AGG(CAST(orders."Paid" AS text), \';\') AS "Paid",
+        STRING_AGG(CAST(orders."Booked" AS text), \';\') AS "Booked",
         STRING_AGG(rpb."Owner", \';;\') AS "PartnerOwners",
         STRING_AGG(\'DateIn\' || \'=\' || rpb."DateIn" || \',\' || \'DateOut\' || \'=\' || rpb."DateOut", \';\') AS "PartnerDates"
       FROM products

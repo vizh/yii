@@ -1,7 +1,8 @@
 <?php
-/*
+/**
  * @var BookingController $this
- * @var \CActiveForm $activeForm
+ * @var \pay\models\forms\admin\BookingSearch $form
+ * @var CActiveForm $activeForm
  */
 ?>
 
@@ -139,8 +140,24 @@
           Основных: <?=$room['DescriptionBasic']?>;<br/>
           Доп.: <?=$room['DescriptionMore']?>;
         </td>
-        <?foreach (\pay\models\forms\admin\BookingSearch::getDateRanges() as $startDate => $endDate):?>
-          <td><?=isset($dates[$startDate.'-'.$endDate]) ? $dates[$startDate.'-'.$endDate]['UserId'].'<br/>'.$dates[$startDate.'-'.$endDate]['Name'] : ''?></td>
+        <?foreach (\pay\models\forms\admin\BookingSearch::getDateRanges() as $startDate => $endDate):
+            $key = $startDate.'-'.$endDate;
+          ?>
+          <td <?=isset($dates[$key]) && count($dates[$key]) > 1 ? 'style="background-color: #f2dede;"' : '';?>>
+            <?if (isset($dates[$key])):?>
+              <?foreach ($dates[$key] as $dateData):?>
+                <?if ($dateData['RunetId'] != null):?>
+                  <?=$dateData['RunetId'];?><br>
+                <?endif;?>
+                <?=$dateData['Name'];?><br>
+                <?if ($dateData['Paid']):?>
+                  <span style="font-weight: normal;" class="label label-success">Оплачен</span>
+                <?elseif (!empty($dateData['Booked'])):?>
+                  <span style="font-weight: normal;" class="label label-warning">до <?=Yii::app()->getDateFormatter()->format('dd.MM H:m', $dateData['Booked']);?></span>
+                <?endif;?><br>
+              <?endforeach;?>
+            <?endif;?>
+          </td>
         <?endforeach?>
         <td></td>
         <td><span class="label label-success"><?=$room['Price']?>&nbsp;р.</span></td>
