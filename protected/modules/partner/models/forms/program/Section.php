@@ -13,7 +13,6 @@ class Section extends \CFormModel
   public $AttributeNew;
   public $Type;
   
-  
   public function attributeLabels()
   {
     return array(
@@ -31,11 +30,11 @@ class Section extends \CFormModel
   public function rules()
   {
     return array(
-      array('Title, Date, TimeStart, TimeEnd, Type', 'required'),
-      array('Date', 'date', 'format' => 'yyyy-MM-dd'),
-      array('TimeStart, TimeEnd', 'date', 'format' => 'HH:mm'),
-      array('Hall, HallNew, Attribute, Info', 'safe'),
-      array('AttributeNew', 'filter', 'filter' => [$this, 'filterAttributeNew'])
+      ['Title, Date, TimeStart, TimeEnd, Type', 'required'],
+      ['Date', 'date', 'format' => 'yyyy-MM-dd'],
+      ['TimeStart, TimeEnd', 'date', 'format' => 'HH:mm'],
+      ['Hall, HallNew, Attribute, Info', 'safe'],
+      ['AttributeNew', 'filter', 'filter' => [$this, 'filterAttributeNew']]
     );
   }
   

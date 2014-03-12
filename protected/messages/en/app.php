@@ -176,4 +176,9 @@ return array(
   'Конкурс премия' => 'Contest prize',
   'Другие мероприятия' => 'Other events',
 
+
+  'Докладчики' => 'Speakers',
+  'Ведущие' => 'Moderators',
+  'Ведущий' => 'Moderator',
+  'Программа' => 'Event schedule'
 );
