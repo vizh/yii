@@ -49,6 +49,12 @@
       </div>
     </div>
     <div class="control-group">
+      <?=\CHtml::activeLabel($form, 'SendPassbook', ['class' => 'control-label']);?>
+      <div class="controls">
+        <?=\CHtml::activeCheckBox($form, 'SendPassbook');?>
+      </div>
+    </div>
+    <div class="control-group">
       <div class="controls clearfix">
         <button type="submit" class="btn btn-success"><?=\Yii::t('app', 'Сохранить');?></button>
         <button type="submit" name="<?=\CHtml::activeName($form, 'Delete');?>" value="1" class="btn btn-danger pull-right"><?=\Yii::t('app', 'Удалить');?></button>

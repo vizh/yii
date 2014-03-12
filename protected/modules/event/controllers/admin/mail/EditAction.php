@@ -42,6 +42,7 @@ class EditAction extends \CAction
         $mail->BodyRendered = str_replace(array_keys($this->fields()), $this->fields(), $form->Body);
         $mail->Roles = $form->Roles;
         $mail->RolesExcept = $form->RolesExcept;
+        $mail->SendPassbook = $form->SendPassbook == 1 ? true : false;
         $this->saveMail($mail);
         \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Письмо успешно сохранено'));
         $this->getController()->redirect(
@@ -55,6 +56,10 @@ class EditAction extends \CAction
       $form->Body = $mail->Body;
       $form->Roles = $mail->Roles;
       $form->RolesExcept = $mail->RolesExcept;
+      if (isset($mail->SendPassbook))
+      {
+        $form->SendPassbook = $mail->SendPassbook;
+      }
     }
 
     $this->getController()->setPageTitle(\Yii::t('app', 'Редактирование регистрационного письма'));

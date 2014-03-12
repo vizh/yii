@@ -9,6 +9,7 @@ class Register extends \CFormModel
   public $Roles = [];
   public $RolesExcept = [];
   public $Delete = 0;
+  public $SendPassbook;
 
   public function rules()
   {
@@ -16,7 +17,8 @@ class Register extends \CFormModel
       ['Subject,Body', 'required'],
       ['Delete', 'safe'],
       ['Body', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
-      ['Roles, RolesExcept', 'filter', 'filter' => [$this, 'filterRoles']]
+      ['Roles, RolesExcept', 'filter', 'filter' => [$this, 'filterRoles']],
+      ['SendPassbook', 'boolean']
     ];
   }
 
@@ -26,7 +28,8 @@ class Register extends \CFormModel
       'Subject' => \Yii::t('app', 'Тема письма'),
       'Body' => \Yii::t('app', 'Тело письма'),
       'Roles' => \Yii::t('app', 'Роли'),
-      'RolesExcept' => \Yii::t('app', 'Исключая роли')
+      'RolesExcept' => \Yii::t('app', 'Исключая роли'),
+      'SendPassbook' => \Yii::t('app', 'Отправлять Passbook файл')
     ];
   }
 
