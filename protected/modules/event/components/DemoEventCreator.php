@@ -190,7 +190,7 @@ class DemoEventCreator
     $productPrice->ProductId = $product->Id;
     $productPrice->Price = $startPrice;
     $productPrice->StartTime = $startPriceDate->format('Y-m-d');
-    $productPrice->EndTime = ($changePriceDate !== null || $changedPrice !== null) ? $beforeOneDayChangePriceDate->format('Y-m-d') : null;
+    $productPrice->EndTime = ($changePriceDate !== null && $changedPrice !== null) ? $beforeOneDayChangePriceDate->format('Y-m-d') : null;
     $productPrice->save();
 
     if ($changePriceDate !== null && $changedPrice !== null)

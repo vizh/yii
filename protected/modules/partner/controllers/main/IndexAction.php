@@ -25,8 +25,6 @@ class IndexAction extends \partner\components\Action
       $textStatistics = $this->getManyPartsStatistics();
     }
 
-
-
     $this->getController()->render('index', [
         'roles' => $roles,
         'event' => \Yii::app()->partner->getEvent(),
