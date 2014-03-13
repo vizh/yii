@@ -8,7 +8,8 @@ class BookingController extends \application\components\controllers\AdminMainCon
   {
     return [
       'index' => '\pay\controllers\admin\booking\IndexAction',
-      //'view' => '\pay\controllers\admin\order\ViewAction',
+      'edit' => '\pay\controllers\admin\booking\EditAction',
+      'delete' => '\pay\controllers\admin\booking\DeleteAction',
     ];
   }
 } 

@@ -116,6 +116,7 @@
       <th rowspan="2">Места</th>
       <th colspan="4">Бронирование</th>
       <th rowspan="2">Цена</th>
+      <th rowspan="2">&nbsp;</th>
     </tr>
     <tr>
       <?foreach (\pay\models\forms\admin\BookingSearch::getDateRanges() as $startDate => $endDate):?>
@@ -154,13 +155,20 @@
                   <span style="font-weight: normal;" class="label label-success">Оплачен</span>
                 <?elseif (!empty($dateData['Booked'])):?>
                   <span style="font-weight: normal;" class="label label-warning">до <?=Yii::app()->getDateFormatter()->format('dd.MM H:m', $dateData['Booked']);?></span>
+                <?else:?>
+                  <span style="font-weight: normal;" class="label label-warning">Не оплачен</span>
                 <?endif;?><br>
               <?endforeach;?>
             <?endif;?>
           </td>
         <?endforeach?>
-        <td></td>
+        <td>
+          <?if ($dates['other']):?>
+            <span style="font-weight: normal;" class="label label-important">Да</span>
+          <?endif;?>
+        </td>
         <td><span class="label label-success"><?=$room['Price']?>&nbsp;р.</span></td>
+        <td><a href="<?=Yii::app()->createUrl('/pay/admin/booking/edit', ['productId' => $room['Id']]);?>" class="btn btn-info"><i class="icon-edit icon-white"></i></a></td>
       </tr>
     <? endforeach ?>
   </tbody>

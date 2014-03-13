@@ -44,4 +44,41 @@ class RoomPartnerBooking extends \CActiveRecord
   {
     return [];
   }
+
+  /**
+   * @param int $productId
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byProductId($productId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."ProductId" = :ProductId';
+    $criteria->params = ['ProductId' => $productId];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+
+  public function byDeleted($deleted, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = (!$deleted ? 'NOT ' : '' ) . '"t"."Deleted"';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  public function deleteHard()
+  {
+    if ($this->Paid || $this->Deleted)
+    {
+      return false;
+    }
+
+    $this->Deleted = true;
+    $this->DeletionTime = date('Y-m-d H:i:s');
+    $this->save();
+
+    return true;
+  }
 }
