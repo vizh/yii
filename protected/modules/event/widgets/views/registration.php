@@ -73,9 +73,9 @@ if (empty($products))
                 if (empty($title))
                 {
                   if ($price->EndTime !== null)
-                    $title = \Yii::t('app', 'При регистрации до').' '.\Yii::app()->dateFormatter->format('d MMMM', $price->EndTime);
+                    $title = \Yii::t('app', 'При регистрации онлайн до').' '.\Yii::app()->dateFormatter->format('d MMMM', $price->EndTime);
                   else
-                    $title = \Yii::t('app', 'При регистрации с').' '.\Yii::app()->dateFormatter->format('d MMMM', $price->StartTime).' '.\Yii::t('app', 'и на входе');
+                    $title = \Yii::t('app', 'При регистрации онлайн с').' '.\Yii::app()->dateFormatter->format('d MMMM', $price->StartTime).' '.\Yii::t('app', 'или на входе').' ('.$event->getFormattedStartDate('dd MMMM').')';
                 }
               ?>
               <?=$title;?>

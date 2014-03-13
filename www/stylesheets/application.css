@@ -32,6 +32,8 @@ input, button, select, textarea {
 .m-bottom_20 {margin-bottom: 20px !important;}
 .m-bottom_30 {margin-bottom: 30px !important;}
 .m-bottom_40 {margin-bottom: 40px !important;}
+.m-bottom_50 {margin-bottom: 50px !important;}
+.m-bottom_60 {margin-bottom: 60px !important;}
 
 .m-top_5  {margin-top: 5px  !important;}
 .m-top_10 {margin-top: 10px !important;}
@@ -1254,7 +1256,8 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   font-size: 14px;
   line-height: 25px;
 }
-.event-page-fullwidth .content > p {
+.event-page-fullwidth .content > p,
+.event-page-fullwidth .content > h3{
   margin-left: 80px;
 }
 .event-page-fullwidth .content ul{
@@ -2728,6 +2731,9 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   padding: 0;
   list-style: none;
   list-style-type: none;
+}
+.errorSummary ul li {
+  margin-bottom: 0;
 }
 
 .job header h4{

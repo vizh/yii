@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="span10">
+  <div class="span8">
     <ul class="nav nav-pills">
       <?php
       $dt = new \DateTime();
@@ -13,8 +13,9 @@
       <?endwhile;?>
     </ul>
   </div>
-  <div class="span2">
-    <a href="<?=$this->createUrl('/partner/program/section');?>" class="btn btn-info pull-right"><?=\Yii::t('app', 'Новая секция');?></a>
+  <div class="span4" style="text-align: right;">
+    <a href="<?=$this->createUrl('/partner/program/hall');?>" class="btn" style="margin-right: 10px;"><?=\Yii::t('app', 'Список залов');?></a>
+    <a href="<?=$this->createUrl('/partner/program/section');?>" class="btn btn-info"><?=\Yii::t('app', 'Новая секция');?></a>
   </div>
 </div>
 

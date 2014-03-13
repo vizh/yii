@@ -455,7 +455,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
     $log->UserId  = $user->Id;
     $log->PartId  = $part !== null ? $part->Id : null;
     $log->Message = !empty($message) ? $message : null;
-    if (!\Yii::app()->getUser()->getIsGuest())
+    if (!(\Yii::app() instanceof \CConsoleApplication) && !\Yii::app()->getUser()->getIsGuest())
     {
       $log->EditorId = \Yii::app()->getUser()->getId();
     }

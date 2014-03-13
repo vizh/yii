@@ -12,8 +12,12 @@ class ProductAction extends \CAction
     $this->event= \event\models\Event::model()->findByPk($eventId);
     if ($this->event == null)
       throw new \CHttpException(404);
-      
-    foreach (\pay\models\Product::model()->byEventId($this->event->Id)->findAll() as $product)
+
+    $criteria = new \CDbCriteria();
+    $criteria->condition = 't."ManagerName" != :ManagerName';
+    $criteria->params = ['ManagerName' => 'RoomProductManager'];
+    $criteria->order = 't."Id"';
+    foreach (\pay\models\Product::model()->byEventId($this->event->Id)->findAll($criteria) as $product)
     {
       $formProduct = new \pay\models\forms\Product($this->event, $product);
       foreach ($product->Prices as $price)
@@ -78,6 +82,7 @@ class ProductAction extends \CAction
       }
       
       $product->Title = $form->Title;
+      $product->Description = !empty($form->Description) ? $form->Description : null;
       $product->EnableCoupon = $form->EnableCoupon == 1 ? true : false;
       $product->Public = $form->Public == 1 ? true : false;
       $product->Priority = $form->Priority;
@@ -111,6 +116,7 @@ class ProductAction extends \CAction
         }
        
         $price->Price = $formPrice->Price;
+        $price->Title = !empty($formPrice->Title) ? $formPrice->Title : null;
         $price->StartTime = $formPrice->getStartTime();
         $price->EndTime   = $formPrice->getEndTime();
         $price->save();

@@ -38,8 +38,15 @@ class AddAction extends \api\components\Action
     {
       throw new \api\components\Exception(402);
     }
-    
-    $orderItem = $product->getManager()->createOrderItem($payer, $owner);
+
+    try{
+      $orderItem = $product->getManager()->createOrderItem($payer, $owner);
+    }
+    catch (\pay\components\Exception $e)
+    {
+      throw new \api\components\Exception(408, [$e->getCode(), $e->getMessage()], $e);
+    }
+
     $collection = \pay\components\OrderItemCollection::createByOrderItems([$orderItem]);
     $result = null;
     foreach ($collection as $item)

@@ -10,6 +10,7 @@ class Product extends \CFormModel
   public $Title;
   public $Public;
   public $Priority;
+  public $Description;
   public $EnableCoupon;
   public $Unit;
   public $ManagerName;
@@ -164,15 +165,27 @@ class Product extends \CFormModel
     return [
       ['Id,Public,Priority,EnableCoupon,Delete', 'safe'],
       ['Title,ManagerName,Unit', 'required'],
+      ['Description', 'filter', 'filter' => [$this, 'filterDescription']],
       ['Prices', 'filter', 'filter' => array($this, 'filterPrices')],
       ['Attributes', 'filter', 'filter' => array($this, 'filterAttributes')]
     ];
   }
-  
+
+  public function filterDescription($value)
+  {
+    $purifier = new \CHtmlPurifier();
+    $purifier->options = [
+      'HTML.AllowedElements'   => ['p', 'ul', 'li'],
+      'HTML.AllowedAttributes' => ['class'],
+    ];
+    return trim($purifier->purify($value));
+  }
+
   public function attributeLabels()
   {
     return [
       'Title' => \Yii::t('app', 'Название'),
+      'Description' => \Yii::t('app', 'Описание'),
       'Public' => \Yii::t('app', 'Отображение'),
       'Priority' => \Yii::t('app', 'Приоритет'),
       'ManagerName' => \Yii::t('app', 'Менеджер'),

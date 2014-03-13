@@ -1,3 +1,7 @@
+<?/**
+ * @var \event\models\section\Section $section
+ */
+?>
 <h2 class="m-bottom_30"><?=\Yii::t('app','Редактирование секции');?></h2>
 <div class="row">
 <div class="span8">
@@ -7,8 +11,20 @@
   </div>
   <?endif;?>
   <?=\CHtml::errorSummary($form, '<div class="alert alert-error">','</div>');?>
-  
+
   <?=\CHtml::beginForm('', 'POST', array('class' => 'form-horizontal'));?>
+    <div class="control-group">
+      <div class="controls">
+      <?if (!$section->getIsNewRecord()):?>
+        <div class="btn-group">
+          <?foreach (\Yii::app()->params['Languages'] as $l):?>
+            <a href="<?=$this->createUrl('/partner/program/section', ['sectionId' => $section->Id, 'locale' => $l]);?>" class="btn <?if ($l == $locale):?>active<?endif;?>"><?=$l;?></a>
+          <?endforeach;?>
+        </div>
+      <?endif;?>
+      </div>
+    </div>
+
     <div class="control-group">
       <?=\CHtml::activeLabel($form, 'Title', array('class' => 'control-label'));?>
       <div class="controls">

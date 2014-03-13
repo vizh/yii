@@ -357,18 +357,18 @@ class OrderItem extends \CActiveRecord
   public function activate($order = null)
   {
     $owner = $this->ChangedOwner !== null ? $this->ChangedOwner : $this->Owner;
-    if (!$this->Product->getManager()->checkProduct($owner))
-    {
-      $this->Deleted = true;
-      $this->DeletionTime = date('Y-m-d H:i:s');
-      $this->save();
-      return false;
-    }
-    $this->Product->getManager()->buyProduct($owner, $this);
+//    if (!$this->Product->getManager()->checkProduct($owner))
+//    {
+//      $this->Deleted = true;
+//      $this->DeletionTime = date('Y-m-d H:i:s');
+//      $this->save();
+//      return false;
+//    }
+    $result = $this->Product->getManager()->buyProduct($owner, $this);
     $this->Paid = true;
     $this->PaidTime = ($order!== null && $order->Juridical) ? $order->CreationTime : date('Y-m-d H:i:s');
     $this->save();
-    return true;
+    return $result;
   }
 
   public function check()
@@ -416,16 +416,19 @@ class OrderItem extends \CActiveRecord
    */
   public function getPriceDiscount()
   {
-    $activation = $this->getCouponActivation();
     $price = $this->getPrice();
     if ($price === null)
     {
       throw new \pay\components\Exception('Не удалось определить цену продукта!');
     }
 
-    if ($activation !== null)
+    if ($this->Product->ManagerName != 'Ticket')
     {
-      $price = $price * (1 - $activation->Coupon->Discount);
+      $activation = $this->getCouponActivation();
+      if ($activation !== null)
+      {
+        $price = $price * (1 - $activation->Coupon->Discount);
+      }
     }
     return (int)$price;
   }
@@ -460,7 +463,7 @@ class OrderItem extends \CActiveRecord
     $links = $this->OrderLinks(array('with' => array('Order')));
     foreach ($links as $link)
     {
-      if ($link->Order->Juridical && !$link->Order->Deleted)
+      if (($link->Order->Juridical || $link->Order->Receipt) && !$link->Order->Deleted)
       {
         return false;
       }

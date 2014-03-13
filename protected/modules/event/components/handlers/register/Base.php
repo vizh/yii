@@ -26,6 +26,9 @@ class Base extends \mail\components\Mail
     $this->participant  = $event->params['participant'];
   }
 
+  /**
+   * @var \event\models\MailRegister $registerMail
+   */
   private $registerMail = null;
   private function getRegisterMail()
   {
@@ -95,6 +98,11 @@ class Base extends \mail\components\Mail
   
   public function getAttachments()
   {
+    if ($this->getRegisterMail() !== null && !$this->getRegisterMail()->SendPassbook)
+    {
+      return [];
+    }
+
     $pkPass = new \application\components\utility\PKPassGenerator($this->event, $this->user, $this->role);
     return array(
       'ticket.pkpass' => $pkPass->runAndSave()

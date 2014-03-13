@@ -14,4 +14,16 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $this->render('list', array('events' => $events, 'paginator' => $paginator));
   }
+
+  public function actionCreators()
+  {
+    $criteria = new CDbCriteria();
+    $criteria->condition = '"StartYear" >= :StartYear';
+    $criteria->params = ['StartYear' => 2014];
+    $criteria->order = '"StartYear" DESC, "StartMonth" DESC, "StartDay" DESC';
+
+    $events = \event\models\Event::model()->findAll($criteria);
+
+    $this->render('creators', ['events' => $events]);
+  }
 }

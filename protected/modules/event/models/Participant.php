@@ -154,7 +154,7 @@ class Participant extends \CActiveRecord
   
   public function getTicketUrl()
   {
-    return \Yii::app()->getController()->createAbsoluteUrl('/event/ticket/index', [
+    return \Yii::app()->createAbsoluteUrl('/event/ticket/index', [
       'eventIdName' => $this->Event->IdName,
       'runetId' => $this->User->RunetId,
       'hash' => $this->getHash()

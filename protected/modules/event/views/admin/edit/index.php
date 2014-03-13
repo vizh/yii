@@ -54,6 +54,18 @@
         <?=\CHtml::activeLabel($form, 'Address', array('class' => 'control-label'));?>
         <?$this->widget('\contact\widgets\AddressControls', array('form' => $form->Address));?>
       </div>
+
+      <div class="control-group">
+        <?=\CHtml::activeLabel($form, 'Phone', array('class' => 'control-label'));?>
+        <?$this->widget('\contact\widgets\PhoneControls', array('form' => $form->Phone));?>
+      </div>
+
+      <div class="control-group">
+        <?=\CHtml::activeLabel($form, 'Email', array('class' => 'control-label'));?>
+        <div class="controls">
+          <?=\CHtml::activeTextField($form, 'Email');?>
+        </div>
+      </div>
       
       <div class="control-group">
         <?=\CHtml::activeLabel($form, 'ProfInterest', array('class' => 'control-label'));?>

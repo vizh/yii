@@ -9,6 +9,7 @@ class MailRegister
   public $Subject;
   public $Roles = [];
   public $RolesExcept = [];
+  public $SendPassbook = true;
 
   protected $eventIdName;
 

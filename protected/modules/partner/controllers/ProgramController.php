@@ -26,7 +26,8 @@ class ProgramController extends \partner\components\Controller
   {
     return array(
       'section' => '\partner\controllers\program\SectionAction',
-      'participants' => '\partner\controllers\program\ParticipantsAction'
+      'participants' => '\partner\controllers\program\ParticipantsAction',
+      'hall' => '\partner\controllers\program\HallAction'
     );
   }
 }

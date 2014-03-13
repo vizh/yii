@@ -21,4 +21,32 @@ class PayCommand extends \application\components\console\BaseConsoleCommand
     }
     return 0;
   }
+
+  public function actionClearPhysicalBook()
+  {
+    $orderItems = \pay\models\OrderItem::model()->byEventId(789)
+      ->byPaid(false)->byBooked(false)->byDeleted(false)->findAll();
+
+    foreach ($orderItems as $item)
+    {
+      $canBeDelete = true;
+      /** @var $links \pay\models\OrderLinkOrderItem[] */
+      $links = $item->OrderLinks(array('with' => array('Order')));
+      foreach ($links as $link)
+      {
+        if (($link->Order->Juridical || $link->Order->Receipt) && !$link->Order->Deleted)
+        {
+          $canBeDelete = false;
+          break;
+        }
+      }
+
+      if ($canBeDelete)
+      {
+        $item->delete();
+      }
+    }
+
+    return 0;
+  }
 }

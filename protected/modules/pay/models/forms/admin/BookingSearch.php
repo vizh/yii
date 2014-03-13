@@ -8,15 +8,11 @@ namespace pay\models\forms\admin;
  */
 class BookingSearch extends \CFormModel
 {
-  public $Hotel;
-  public $Housing;
-  public $Category;
-  public $DescriptionBasic;
-  public $DescriptionMore;
-  public $PlaceBasic;
-  public $PlaceMore;
-  public $PlaceTotal;
-  public $RoomCount;
+  public $Hotel = [];
+  public $Housing = [];
+  public $Category = [];
+  public $PlaceTotal = [];
+  public $RoomCount = [];
 
   public $DateIn;
   public $DateOut;
@@ -29,10 +25,6 @@ class BookingSearch extends \CFormModel
     'Hotel',
     'Housing',
     'Category',
-    'DescriptionBasic',
-    'DescriptionMore',
-    'PlaceBasic',
-    'PlaceMore',
     'PlaceTotal',
     'RoomCount',
     'Visible'
@@ -42,10 +34,10 @@ class BookingSearch extends \CFormModel
    * @var array Даты проведения мероприятия
    */
   private static $_dates = [
-    '2013-04-16',
-    '2013-04-17',
-    '2013-04-18',
-    '2013-04-19'
+    '2014-04-22',
+    '2014-04-23',
+    '2014-04-24',
+    '2014-04-25'
   ];
 
   private static $_dateRanges;
@@ -66,10 +58,33 @@ class BookingSearch extends \CFormModel
   public function rules()
   {
     return [
-      ['Hotel, Housing, Category, DescriptionBasic, DescriptionMore, PlaceBasic, PlaceBasic, PlaceMore, PlaceTotal, RoomCount', 'validateGroups'],
+      ['Hotel, Category, Housing, PlaceTotal, RoomCount', 'validateGroupsArray'],
       ['DateIn, DateOut', 'date', 'format' => 'yyyy-MM-dd'],
       ['NotFree', 'boolean']
     ];
+  }
+
+  public function validateGroupsArray($attribute)
+  {
+    if (!in_array($attribute, array_keys($this->_groupValues)))
+    {
+      $this->addError($attribute, 'Неизвестный атрибут');
+      return;
+    }
+
+    if (empty($this->$attribute) || !is_array($this->$attribute))
+      return;
+
+    foreach ($this->$attribute as $attr)
+    {
+      if (empty($attr) || intval($attr) === -1)
+        continue;
+
+      if (!in_array($attr, array_keys($this->_groupValues[$attribute])))
+      {
+        $this->addError($attribute, "Неверное значение для атрибута $attribute!");
+      }
+    }
   }
 
   /**
@@ -101,18 +116,39 @@ class BookingSearch extends \CFormModel
   {
     parent::init();
     self::$_dateRanges = $this->makeDateRanges(self::$_dates);
+    $this->makeGroupValues();
+  }
 
-    $results = \Yii::app()->getDb()->createCommand()
-      ->select('ppa.Name, ppa.Value')->from('PayProductAttribute ppa')
-      ->leftJoin('PayProduct pp', 'ppa."ProductId" = pp."Id"')
-      ->where('pp."EventId" = :EventId AND pp."ManagerName" = :ManagerName')
-      ->andWhere('ppa."Name" IN (\'' . implode('\',\'', self::$_attributeGroups) . '\')')
-      ->group('ppa.Name, ppa.Value')
-      ->query(['EventId' => \BookingController::EventId, 'ManagerName' => 'RoomProductManager']);
+  /**
+   * Заполняет групповые значения
+   * @param array $usedAttributes
+   */
+  private function makeGroupValues($usedAttributes = [])
+  {
+    $command = \Yii::app()->getDb()->createCommand()
+        ->select('ppa.Name, ppa.Value')->from('PayProductAttribute ppa')
+        ->leftJoin('PayProduct pp', 'ppa."ProductId" = pp."Id"')
+        ->where('pp."EventId" = :EventId AND pp."ManagerName" = :ManagerName')
+        ->andWhere('ppa."Name" IN (\'' . implode('\',\'', self::$_attributeGroups) . '\')')
+        ->group('ppa.Name, ppa.Value')
+        ->order('ppa.Value');
+
+    $idsSubquery = $this->makeProductIdsSubqueries($usedAttributes);
+    if (!empty($idsSubquery))
+      $command->andWhere('ppa."ProductId" IN ('.$idsSubquery.')');
+
+    $results = $command->query(['EventId' => \BookingController::EventId, 'ManagerName' => 'RoomProductManager']);
+
+    foreach ($this->_groupValues as $groupName => $group)
+      if (!in_array($groupName, $usedAttributes))
+        unset($this->_groupValues[$groupName]);
 
     foreach ($results as $row)
     {
       $name = $row['Name'];
+      if (!empty($usedAttributes) && in_array($name, $usedAttributes))
+        continue;
+
       if (!isset($this->_groupValues[$name]))
         $this->_groupValues[$name] = [];
 
@@ -125,6 +161,14 @@ class BookingSearch extends \CFormModel
 
     array_pop($this->_groupValues['DateIn']);
     array_shift($this->_groupValues['DateOut']);
+  }
+
+  /**
+   * Задаем новые групповые значения
+   */
+  protected function afterValidate()
+  {
+    $this->makeGroupValues(['Hotel']);
   }
 
   /**
@@ -156,10 +200,25 @@ class BookingSearch extends \CFormModel
     if ($this->$fieldName === '' || $this->$fieldName === null)
       return null;
 
-    if (!in_array(intval($this->$fieldName), array_keys($this->_groupValues[$fieldName])))
-      return null;
+    if (is_array($this->$fieldName))
+    {
+      $result = [];
+      foreach ($this->$fieldName as $field)
+      {
+        $field = intval($field);
+        if (in_array($field, array_keys($this->_groupValues[$fieldName])))
+          $result[] = $this->_groupValues[$fieldName][$field];
+      }
+      return $result;
+    }
+    else
+    {
+      $field = intval($this->$fieldName);
+      if (!in_array($field, array_keys($this->_groupValues[$fieldName])))
+        return null;
 
-    return $this->_groupValues[$fieldName][intval($this->$fieldName)];
+      return $this->_groupValues[$fieldName][$field];
+    }
   }
 
   /**
@@ -179,7 +238,11 @@ class BookingSearch extends \CFormModel
       // Парсим атрибуты
       self::parseValues($room, $row['Attributes'], ';;', '=');
       // Парсим даты
+
+      //print_r($row);
+
       $this->parseDates($room, $row);
+      //print_r($room);
       $this->_rooms[] = $room;
     }
     return $this->_rooms;
@@ -199,8 +262,17 @@ class BookingSearch extends \CFormModel
     self::parseValues($userNames, $row['Names'], ';');
     $dates = [];
     self::parseValues($dates, $row['Dates'], ';');
+    $paids = [];
+    self::parseValues($paids, $row['Paid'], ';');
+    $booked = [];
+    self::parseValues($booked, $row['Booked'], ';');
     if (count($ownerIds) !== count($userNames) || count($ownerIds) !== count($dates))
       throw new \CException('Ошибка парсига диапазонов дат!');
+
+    $partnerOwners = [];
+    self::parseValues($partnerOwners, $row['PartnerOwners'], ';;');
+    $partnerDates = [];
+    self::parseValues($partnerDates, $row['PartnerDates'], ';;');
 
     // Парсим диапазоны дат
     $datesRanges = [];
@@ -217,8 +289,36 @@ class BookingSearch extends \CFormModel
       {
         if ($range['DateIn'] >= $minDate && $range['DateIn'] <= $startDate && $range['DateOut'] <= $maxDate && $range['DateOut'] >= $endDate)
         {
-          $datesRanges[$startDate.'-'.$endDate]['UserId'] = $ownerIds[$i];
-          $datesRanges[$startDate.'-'.$endDate]['Name'] = $userNames[$i];
+          $datesRanges[$startDate.'-'.$endDate][] = [
+            'RunetId' => $ownerIds[$i],
+            'Name' => $userNames[$i],
+            'Paid' => $paids[$i] == 'true' ? true : false,
+            'Booked' => $booked[$i],
+          ];
+        }
+      }
+    }
+
+    // Парсим диапазоны дат
+    for ($i = 0; $i < count($partnerDates); ++$i)
+    {
+      if (empty($partnerDates[$i]))
+        continue;
+
+      $range = [];
+      self::parseValues($range, $partnerDates[$i], ',', '=');
+
+      $minDate = min(self::$_dates); $maxDate = max(self::$_dates);
+      foreach (self::$_dateRanges as $startDate => $endDate)
+      {
+        if ($range['DateIn'] >= $minDate && $range['DateIn'] <= $startDate && $range['DateOut'] <= $maxDate && $range['DateOut'] >= $endDate)
+        {
+          $datesRanges[$startDate.'-'.$endDate][] = [
+            'Name' => $partnerOwners[$i],
+            'RunetId' => null,
+            'Paid' => false,
+            'Booked' => null
+          ];
         }
       }
     }
@@ -234,32 +334,24 @@ class BookingSearch extends \CFormModel
     $usedProductIdsSql = 'SELECT oi."ProductId" FROM "PayOrderItem" oi
                 INNER JOIN "PayProduct" p ON oi."ProductId" = p."Id"
                 LEFT JOIN "PayOrderItemAttribute" oia ON oia."OrderItemId" = oi."Id"
-                WHERE p."EventId" = 422 AND p."ManagerName" = \'RoomProductManager\' AND (oi."Paid" OR NOT oi."Deleted") AND
+                WHERE p."EventId" = :eventId AND p."ManagerName" = \'RoomProductManager\' AND (oi."Paid" OR NOT oi."Deleted") AND
 			            (oia."Name" = \'DateIn\' AND (oia."Value" < :dateIn OR oia."Value" < :dateOut)
 			              OR oia."Name" = \'DateOut\' AND (oia."Value" > :dateIn OR oia."Value" > :dateOut))
                 GROUP BY oi."Id"
                 HAVING count("oia"."Id") = 2';
 
+    $usedProductByPartnerIdsSql = 'SELECT prpb."ProductId" FROM "PayRoomPartnerBooking" prpb WHERE "DateIn" <= :dateIn AND "DateOut" >= :dateOut';
     if (!empty($this->DateIn) && !empty($this->DateOut))
     {
-      $usedProductIdsSql  = 'products."Id" '.($this->NotFree ? '' : 'NOT') . ' IN ('.$usedProductIdsSql . ')';
+      $usedProductIdsSql  = 'products."Id" '.($this->NotFree ? '' : 'NOT') . ' IN ('.$usedProductIdsSql.') OR products."Id" IN ('.$usedProductByPartnerIdsSql.')';
       $data['dateIn'] = min($this->DateIn, $this->DateOut);
       $data['dateOut'] = max($this->DateOut, $this->DateIn);
     }
     else
       $usedProductIdsSql = '';
 
-    $idsSubqueries = [];
-    foreach (self::$_attributeGroups as $field)
-    {
-      $val = $this->getAttributeValue($field);
-      if (!empty($val))
-        $idsSubqueries[] = "SELECT pp.\"ProductId\" FROM \"PayProductAttribute\" pp WHERE (pp.\"Name\" = '$field' AND pp.\"Value\" = '$val')";
-    }
-    if (empty($idsSubqueries))
-      $idsSubqueries = '';
-    else
-      $idsSubqueries = 'products."Id" IN ('.implode(' INTERSECT ', $idsSubqueries).') ';
+    $idsSubqueries = $this->makeProductIdsSubqueries();
+    $idsSubqueries = empty($idsSubqueries) ? '' : 'products."Id" IN ('.$idsSubqueries.') ';
 
     $where = implode(' AND ', array_filter([$usedProductIdsSql, $idsSubqueries], function($v) {
           if (empty($v))
@@ -271,20 +363,29 @@ class BookingSearch extends \CFormModel
 
     $query = '
     WITH orders AS (
-     SELECT oi."ProductId", oi."OwnerId", (COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\') || \' \' || COALESCE(u."FatherName", \'\')) AS "Name", STRING_AGG(oia."Name" || \'=\' || oia."Value", \',\') AS "Dates"
+     SELECT oi."ProductId", oi."OwnerId", oi."Paid", oi."Booked", u."RunetId", (COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')) AS "Name", STRING_AGG(oia."Name" || \'=\' || oia."Value", \',\') AS "Dates"
          FROM "PayOrderItem" oi
          INNER JOIN "PayOrderItemAttribute" oia ON oi."Id" = oia."OrderItemId"
          INNER JOIN "User" u ON u."Id" = oi."OwnerId"
          WHERE (oi."Paid" OR NOT oi."Deleted")
-         GROUP BY oi."Id", COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\') || \' \' || COALESCE(u."FatherName", \'\')
+         GROUP BY oi."Id", u."RunetId", COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')
     ), products AS (
 	    SELECT p."Id", STRING_AGG(ppa."Name" || \'=\' || ppa."Value", \';;\') AS "Attributes" FROM "PayProduct" p
         INNER JOIN "PayProductAttribute" ppa ON p."Id" = ppa."ProductId"
         WHERE "EventId" = :eventId AND p."ManagerName" = \'RoomProductManager\'
         GROUP BY p."Id"
     )
-    SELECT products."Id", products."Attributes", STRING_AGG(CAST(orders."OwnerId" AS TEXT), \',\') AS "OwnerIds", STRING_AGG(orders."Name", \';\') AS "Names", STRING_AGG(orders."Dates", \';\') AS "Dates" FROM products
+    SELECT products."Id", products."Attributes",
+        STRING_AGG(CAST(orders."RunetId" AS TEXT), \',\') AS "OwnerIds",
+        STRING_AGG(orders."Name", \';\') AS "Names",
+        STRING_AGG(orders."Dates", \';\') AS "Dates",
+        STRING_AGG(CAST(orders."Paid" AS text), \';\') AS "Paid",
+        STRING_AGG(CAST(orders."Booked" AS text), \';\') AS "Booked",
+        STRING_AGG(rpb."Owner", \';;\') AS "PartnerOwners",
+        STRING_AGG(\'DateIn\' || \'=\' || rpb."DateIn" || \',\' || \'DateOut\' || \'=\' || rpb."DateOut", \';\') AS "PartnerDates"
+      FROM products
       LEFT JOIN orders ON products."Id" = orders."ProductId"
+      LEFT JOIN "PayRoomPartnerBooking" rpb ON rpb."ProductId" = products."Id"
       '.$where.'
       GROUP BY products."Id", products."Attributes"
       ORDER BY products."Id"';
@@ -293,10 +394,43 @@ class BookingSearch extends \CFormModel
     return \Yii::app()->db->createCommand($query)->query($data);
   }
 
+  /**
+   * Создает группу подзапросов запросов по продуктам
+   * @param array $userAttributes Атрибуты используемые при постоении запроса
+   * @return string
+   */
+  private function makeProductIdsSubqueries($userAttributes = [])
+  {
+    $queries = [];
+    $usedAttributes = !empty($userAttributes) ? $userAttributes : self::$_attributeGroups;
+    foreach ($usedAttributes as $field)
+    {
+      $val = $this->getAttributeValue($field);
+      if (empty($val))
+        continue;
+
+      if (is_array($val))
+      {
+        $subqueries = [];
+        foreach ($val as $v)
+          $subqueries[] = "SELECT pp.\"ProductId\" FROM \"PayProductAttribute\" pp WHERE (pp.\"Name\" = '$field' AND pp.\"Value\" = '$v')";
+
+        $queries[] = ' ('.implode(') UNION (', $subqueries).') ';
+      }
+      else
+        $queries[] = "SELECT pp.\"ProductId\" FROM \"PayProductAttribute\" pp WHERE (pp.\"Name\" = '$field' AND pp.\"Value\" = '$val')";
+    }
+
+    if (empty($queries))
+      return null;
+    else
+      return ' ('.implode(') INTERSECT (', $queries).') ';
+  }
+
   public function attributeLabels()
   {
     return [
-      'Hotel' => 'Отель',
+      'Hotel' => 'Пансионат',
       'Housing' => 'Корпус',
       'Category' => 'Категория',
       'DescriptionBasic' => 'Основные места',

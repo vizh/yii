@@ -17,6 +17,9 @@ class OrderController extends \application\components\controllers\MainController
       throw new \CHttpException(404);
     }
 
+    if ($clear === null && $order->Deleted)
+      throw new \CHttpException(404);
+
     $billData = array();
     $total = 0;
     $collection = \pay\components\OrderItemCollection::createByOrder($order);

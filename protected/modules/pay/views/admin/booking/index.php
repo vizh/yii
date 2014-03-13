@@ -1,7 +1,8 @@
 <?php
-/*
+/**
  * @var BookingController $this
- * @var \CActiveForm $activeForm
+ * @var \pay\models\forms\admin\BookingSearch $form
+ * @var CActiveForm $activeForm
  */
 ?>
 
@@ -21,42 +22,48 @@
     <div class="well well-small">
       <h4 class="text-center">Размещение</h4>
       <div class="row-fluid">
-        <?$attributes = array_keys($form->getAttributes([
-          'Hotel',
-          'Housing',
-          'Category',
-          'DescriptionBasic',
-          'DescriptionMore',
-          'PlaceBasic',
-          'PlaceMore',
-          'PlaceTotal',
-          'RoomCount'
-        ]))?>
-        <?$div2 = ceil(count($attributes) / 2)?>
-
-        <div class="span6">
-          <? for ($i = 0; $i < $div2; ++$i): ?>
-            <?$attribute = $attributes[$i]?>
+        <div class="span12">
+          <?foreach (['Hotel', 'Housing'] as $attribute):?>
             <div class="control-group">
               <?=$activeForm->labelEx($form, $attribute, ['class' => 'control-label'])?>
               <div class="controls">
-                <?=$activeForm->dropDownList($form, $attribute, $form->getAttributeValues($attribute), ['class' => 'span12', 'prompt' => ''])?>
+                <? $this->widget('\application\widgets\GroupBtnSelect', [
+                  'values' => $form->getAttributeValues($attribute),
+                  'model' => $form,
+                  'attribute' => $attribute
+                ])?>
               </div>
             </div>
-          <? endfor ?>
+          <?endforeach?>
         </div>
+      </div>
 
-        <div class="span6">
-          <? for ($i = $div2; $i < count($attributes); ++$i): ?>
-            <?$attribute = $attributes[$i]?>
-            <div class="control-group">
-              <?=$activeForm->labelEx($form, $attribute, ['class' => 'control-label'])?>
-              <div class="controls">
-                <?=$activeForm->dropDownList($form, $attribute, $form->getAttributeValues($attribute), ['class' => 'span12', 'prompt' => ''])?>
-              </div>
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="control-group">
+            <?=$activeForm->labelEx($form, $attribute, ['class' => 'control-label'])?>
+            <div class="controls">
+              <?=$activeForm->listBox($form, 'Category', $form->getAttributeValues('Category'), ['class' => 'span8', 'multiple' => 'multiple'])?>
             </div>
-          <? endfor ?>
+          </div>
         </div>
+      </div>
+
+      <div class="row-fluid">
+        <?foreach (['RoomCount', 'PlaceTotal'] as $attribute):?>
+          <div class="span5">
+              <div class="control-group">
+                <?=$activeForm->labelEx($form, $attribute, ['class' => 'control-label'])?>
+                <div class="controls">
+                  <? $this->widget('\application\widgets\GroupBtnSelect', [
+                    'values' => $form->getAttributeValues($attribute),
+                    'model' => $form,
+                    'attribute' => $attribute
+                  ])?>
+                </div>
+              </div>
+          </div>
+        <?endforeach?>
       </div>
     </div>
 
@@ -101,23 +108,18 @@
 <table id="rooms" class="table table-bordered">
   <thead>
     <tr>
-      <th rowspan="2">Технический номер</th>
-      <th rowspan="2">Отель</th>
+      <th rowspan="2">#</th>
+      <th rowspan="2">Пансионат</th>
       <th rowspan="2">Корпус</th>
-      <th rowspan="2">Номер</th>
-      <th rowspan="2">Категория</th>
+      <th rowspan="2">№</th>
       <th rowspan="2">Число комнат</th>
-      <th rowspan="2">Евро-ремонт</th>
-      <th colspan="3">Места</th>
+      <th rowspan="2">Места</th>
       <th colspan="4">Бронирование</th>
       <th rowspan="2">Цена</th>
     </tr>
     <tr>
-      <th>Всего</th>
-      <th>Основных</th>
-      <th>Дополнительных</th>
       <?foreach (\pay\models\forms\admin\BookingSearch::getDateRanges() as $startDate => $endDate):?>
-        <th><?=$startDate.'-'.$endDate?></th>
+        <th><?=(new \DateTime($startDate))->format('d').'-'.(new \DateTime($endDate))->format('d')?></th>
       <?endforeach?>
       <th>Доп.</th>
     </tr>
@@ -125,19 +127,37 @@
   <tbody>
     <? foreach ($rooms as $room): ?>
       <?$dates = $room['Dates']?>
-      <tr>
-        <td><?=$room['TechnicalNumber']?><br/><?=!$room['Visible'] ? '<span class="label">Скрытый номер</span>' : ''?></td>
+      <tr <?=!$room['Visible'] ? 'class="hidden-room"' : ''?>>
+        <td style="font-size: 10px;"><?=$room['TechnicalNumber']?></td>
         <td><?=$room['Hotel']?></td>
         <td><?=$room['Housing']?></td>
         <td><span class="label label-info"><?=$room['Number']?></span></td>
-        <td><?=$room['Category']?></td>
-        <td><span class="label label-important"><?=$room['RoomCount']?></span></td>
-        <td><?=$room['EuroRenovation']?></td>
-        <td><span class="label label-warning"><?=$room['PlaceTotal']?></span></td>
-        <td><?=$room['PlaceBasic']?><br/><?=$room['DescriptionBasic']?></td>
-        <td><?=$room['PlaceMore']?><br/><?=$room['DescriptionMore']?></td>
-        <?foreach (\pay\models\forms\admin\BookingSearch::getDateRanges() as $startDate => $endDate):?>
-          <td><?=isset($dates[$startDate.'-'.$endDate]) ? $dates[$startDate.'-'.$endDate]['UserId'].'<br/>'.$dates[$startDate.'-'.$endDate]['Name'] : ''?></td>
+        <td>
+          <span class="label label-error"><?=$room['RoomCount']?></span><br/>Категория: <?=$room['Category']?>
+        </td>
+        <td>
+          Всего: <span class="label label-important"><?=$room['PlaceTotal']?></span>;<br/>
+          Основных: <?=$room['DescriptionBasic']?>;<br/>
+          Доп.: <?=$room['DescriptionMore']?>;
+        </td>
+        <?foreach (\pay\models\forms\admin\BookingSearch::getDateRanges() as $startDate => $endDate):
+            $key = $startDate.'-'.$endDate;
+          ?>
+          <td <?=isset($dates[$key]) && count($dates[$key]) > 1 ? 'style="background-color: #f2dede;"' : '';?>>
+            <?if (isset($dates[$key])):?>
+              <?foreach ($dates[$key] as $dateData):?>
+                <?if ($dateData['RunetId'] != null):?>
+                  <?=$dateData['RunetId'];?><br>
+                <?endif;?>
+                <?=$dateData['Name'];?><br>
+                <?if ($dateData['Paid']):?>
+                  <span style="font-weight: normal;" class="label label-success">Оплачен</span>
+                <?elseif (!empty($dateData['Booked'])):?>
+                  <span style="font-weight: normal;" class="label label-warning">до <?=Yii::app()->getDateFormatter()->format('dd.MM H:m', $dateData['Booked']);?></span>
+                <?endif;?><br>
+              <?endforeach;?>
+            <?endif;?>
+          </td>
         <?endforeach?>
         <td></td>
         <td><span class="label label-success"><?=$room['Price']?>&nbsp;р.</span></td>

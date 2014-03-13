@@ -70,6 +70,9 @@ a:focus{
   font-size: 120%;
 }
 
+.text-center {text-align: center !important;}
+.text-right  {text-align: right !important;}
+
 .alert ul {
   padding-bottom: 0;
   margin-bottom: 0;
@@ -79,6 +82,7 @@ a:focus{
   background-color: transparent;
 }
 
+.m-bottom_0  {margin-bottom: 0px  !important;}
 .m-bottom_5  {margin-bottom: 5px  !important;}
 .m-bottom_10 {margin-bottom: 10px !important;}
 .m-bottom_20 {margin-bottom: 20px !important;}

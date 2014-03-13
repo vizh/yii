@@ -26,7 +26,8 @@ class GetAction extends \api\components\Action
 
       $this->getDataBuilder()->createUser($user);
       $this->getDataBuilder()->buildUserEmployment($user);
-      $userData = $this->getDataBuilder()->buildUserEvent($user);
+      $this->getDataBuilder()->buildUserEvent($user);
+      $userData = $this->getDataBuilder()->buildUserBadge($user);
       $permissionModel = \oauth\models\Permission::model()
           ->byUserId($user->Id)->byAccountId($this->getAccount()->Id)->byDeleted(false);
       if (isset($userData->Status) || $permissionModel->exists() || $this->getAccount()->Role == 'own')

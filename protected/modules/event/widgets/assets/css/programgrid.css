@@ -1,0 +1,23 @@
+#event_widgets_ProgramGrid>h4 {
+  text-align: center;
+  text-transform: uppercase;
+}
+#event_widgets_ProgramGrid .table {
+  font-size: 12px;
+}
+#event_widgets_ProgramGrid .table th {
+  text-align: center;
+}
+#event_widgets_ProgramGrid .table h4 {
+  font-weight: 500;
+  margin-top: 0;
+}
+#event_widgets_ProgramGrid .table ul li {
+  line-height: 16px;
+}
+#event_widgets_ProgramGrid .table b {
+  font-weight: 500;
+}
+#event_widgets_ProgramGrid .table td.time {
+  white-space: nowrap;
+}

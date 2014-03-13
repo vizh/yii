@@ -9,13 +9,17 @@
   <?if (!empty($formProducts)):?>
   <table class="table m-bottom_40">
     <thead>
+    <tr>
+      <th>ID</th>
       <th><?=\Yii::t('app', 'Название товара');?></th>
       <th><?=\Yii::t('app', 'Менеджер');?></th>
       <th></th>
+    </tr>
     </thead>
     <tbody>
       <?foreach ($formProducts as $formProduct):?>
         <tr>
+          <td><?=$formProduct->getProduct()->Id;?></td>
           <td><?=$formProduct->getProduct()->Title;?></td>
           <td><?=$formProduct->getManagerTitle();?></td>
           <td class="text-right"><a href="#" class="btn btn-mini"><?=\Yii::t('app', 'Редактировать');?></a></td>
@@ -35,6 +39,12 @@
               <?=\CHtml::activeLabel($formProduct, 'Title', ['class' => 'control-label']);?>
               <div class="controls">
                 <?=\CHtml::activeTextField($formProduct, 'Title', ['class' => 'input-xxlarge']);?>
+              </div>
+            </div>
+            <div class="control-group">
+              <?=\CHtml::activeLabel($formProduct, 'Description', ['class' => 'control-label']);?>
+              <div class="controls">
+                <?=\CHtml::activeTextArea($formProduct, 'Description', ['class' => 'input-xxlarge', 'style' => 'height: 120px;']);?>
               </div>
             </div>
             <div class="control-group">
@@ -73,7 +83,12 @@
                 <div class="control-group">
                   <label class="control-label"><?=$name;?></label>
                   <div class="controls">
-                    <?=\CHtml::activeTextField($formProduct, 'Attributes['.$name.']', ['value' => isset($formProduct->Attributes[$name]) ? $formProduct->Attributes[$name] : '']);?>
+                    <?if ($name == 'RoleId'):?>
+                      <?=\CHtml::activeDropDownList($formProduct, 'Attributes['.$name.']', \CHtml::listData($event->getRoles(), 'Id', 'Title'), ['value' => isset($formProduct->Attributes[$name]) ? $formProduct->Attributes[$name] : '']);?>
+                      <span class="help-block m-top_5">Если нужного вам статуса нет в списке, тогда его нужно привязать к мероприятию в настройках интерфейса партнера.</span>
+                    <?else:?>
+                      <?=\CHtml::activeTextField($formProduct, 'Attributes['.$name.']', ['value' => isset($formProduct->Attributes[$name]) ? $formProduct->Attributes[$name] : '']);?>
+                    <?endif;?>
                   </div>
                 </div>
               <?endforeach;?>
@@ -114,6 +129,12 @@
           </div>
         </div>
         <div class="control-group">
+          <?=\CHtml::activeLabel($formNewProduct, 'Description', ['class' => 'control-label']);?>
+          <div class="controls">
+            <?=\CHtml::activeTextArea($formNewProduct, 'Description', ['class' => 'input-xxlarge', 'style' => 'height: 120px;']);?>
+          </div>
+        </div>
+        <div class="control-group">
           <?=\CHtml::activeLabel($formNewProduct, 'Unit', ['class' => 'control-label']);?>
           <div class="controls">
             <?=\CHtml::activeTextField($formNewProduct, 'Unit');?>
@@ -136,9 +157,10 @@
   
   <script type="text/template" id="tpl__price-control-group">   
     <div class="controls">
-      <input type="text" value="<%=Price%>" class="input-mini" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][Price]');?>" />
-      <input type="text" value="<%=StartDate%>" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][StartDate]');?>" /> &mdash;
-      <input type="text" value="<%=EndDate%>" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][EndDate]');?>');?>" /> 
+      <input type="text" value="<%=Price%>" class="input-mini" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][Price]');?>" placeholder="<?=\Yii::t('app', 'Цена');?>" />
+      <input type="text" value="<%=Title%>" class="" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][Title]');?>" placeholder="<?=\Yii::t('app', 'Описание');?>" />
+      <input type="text" value="<%=StartDate%>" class="input-small" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][StartDate]');?>" /> &mdash;
+      <input type="text" value="<%=EndDate%>" class="input-small" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][EndDate]');?>');?>" />
       <a href="#" class="btn btn-danger"><?=\Yii::t('app', 'Удалить');?></a>
       <input type="hidden" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][ProductId]');?>" value="<%=ProductId%>" />
       <input type="hidden" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][Id]');?>" value="<%=Id%>" />

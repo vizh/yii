@@ -3,12 +3,14 @@ namespace partner\controllers\program;
 
 class SectionAction extends \partner\components\Action
 {
+  private $locale;
+
   public function run($sectionId = null)
   {
     $request = \Yii::app()->getRequest();
     $form = new \partner\models\forms\program\Section();
     $event = \Yii::app()->partner->getEvent();
-    
+    $this->locale = \Yii::app()->sourceLanguage;
     if ($sectionId == null)
     {
       $section = new \event\models\section\Section();
@@ -16,11 +18,13 @@ class SectionAction extends \partner\components\Action
     }
     else
     {
+      $this->locale = \Yii::app()->getRequest()->getParam('locale', $this->locale);
       $section = \event\models\section\Section::model()->byEventId($event->Id)->findByPk($sectionId);
       if ($section == null)
       {
         throw new CHttpException(404);
       }
+      $section->setLocale($this->locale);
       $form->Title = $section->Title;
       $form->Info = $section->Info;
       $form->Date = \Yii::app()->dateFormatter->format('yyyy-MM-dd', $section->StartTime);
@@ -92,7 +96,7 @@ class SectionAction extends \partner\components\Action
         
         \Yii::app()->user->setFlash('success', \Yii::t('app','Информация о секции успешно сохранена!'));
         $this->getController()->redirect(
-          $this->getController()->createUrl('/partner/program/section', array('sectionId' => $section->Id))
+          $this->getController()->createUrl('/partner/program/section', array('sectionId' => $section->Id, 'locale' => $this->locale))
         );
       }
     }
@@ -100,7 +104,8 @@ class SectionAction extends \partner\components\Action
     $this->getController()->render('section', array(
       'form' => $form,
       'event' => $event,
-      'section' => $section
+      'section' => $section,
+      'locale' => $this->locale
     ));
   }
 }

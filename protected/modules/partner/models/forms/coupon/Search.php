@@ -5,7 +5,8 @@ namespace partner\models\forms\coupon;
 class Search extends \CFormModel
 {
   public $Code;
-  public $Owner;
+  public $Owner = '';
+  public $Activator;
   public $Discount;
   public $Activated;
   public $Product;
@@ -13,7 +14,7 @@ class Search extends \CFormModel
   public function rules()
   {
     return array(
-      array('Code, Owner, Discount, Activated, Product', 'safe')
+      array('Code, Owner, Discount, Activator, Activated, Product, Owner', 'safe')
     );
   }
 
@@ -30,9 +31,9 @@ class Search extends \CFormModel
       $criteria->params['Code'] = $this->Code;
     }
 
-    if ((int)$this->Owner !== 0)
+    if ((int)$this->Activator !== 0)
     {
-      $user = \user\models\User::model()->byRunetId($this->Owner)->find();
+      $user = \user\models\User::model()->byRunetId($this->Activator)->find();
       if ($user !== null)
       {
         $criteria->addCondition('"Activations"."UserId" = :UserId');
@@ -66,26 +67,50 @@ class Search extends \CFormModel
       $criteria->params['ProductId'] = $this->Product;
     }
 
+    if (!empty($this->Owner))
+    {
+      $userModel = new \user\models\User();
+      if (strpos($this->Owner, '@') !== false)
+      {
+        $userModel->byEmail($this->Owner);
+      }
+      else
+      {
+        $userModel->bySearch($this->Owner, null, true, false);
+      }
+      $user = $userModel->find();
+      if ($user !== null)
+      {
+        $criteria->addCondition('"OwnerId" = :OwnerId');
+        $criteria->params['OwnerId'] = $user->Id;
+      }
+      else
+      {
+        $criteria->addCondition('1=2');
+      }
+    }
+
     return $criteria;
   }
 
   public function attributeLabels()
   {
-    return array(
+    return [
       'Code' => 'Промо-код',
-      'Owner' => 'Получатель',
+      'Activator' => 'Получатель',
       'Discount' => 'Размер скидки (%)',
       'Activated' => 'Активирован',
-      'Product' => 'Товар'
-    );
+      'Product' => 'Товар',
+      'Owner' => 'Владелец билета'
+    ];
   }
 
   public function getListValues()
   {
-    return array(
+    return [
       '' => '',
       1 => 'Да',
       0 => 'Нет',
-    );
+    ];
   }
 }

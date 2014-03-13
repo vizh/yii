@@ -16,8 +16,8 @@
         <?=CHtml::activeTextField($form, 'Code');?>
       </div>
       <div class="span4">
-        <?=CHtml::activeLabel($form, 'Owner');?>
-        <?=CHtml::activeTextField($form, 'Owner', array('placeholder' => 'RUNET-ID'));?>
+        <?=CHtml::activeLabel($form, 'Activator');?>
+        <?=CHtml::activeTextField($form, 'Activator', array('placeholder' => 'RUNET-ID'));?>
       </div>
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Discount');?>
@@ -34,6 +34,12 @@
         <?=CHtml::activeLabel($form, 'Product');?>
         <?=CHtml::activeDropDownList($form, 'Product', $products);?>
       </div>
+      <?if ($hasTicket):?>
+      <div class="span4">
+        <?=CHtml::activeLabel($form, 'Owner');?>
+        <?=CHtml::activeTextField($form, 'Owner', ['placeholder' => 'RUNET-ID, ФИО, E-mail']);?>
+      </div>
+      <?endif;?>
     </div>
 
     <div class="row indent-top2">
@@ -83,6 +89,11 @@
         <td>
             <?if ($coupon->IsTicket):?>
               <span class="label label-important"><?=\Yii::t('app', 'Продан');?></span>
+              <?if ($coupon->Owner->Temporary):?>
+                <br/><span class="small"><?=$coupon->Owner->Email;?>, <?=$coupon->Owner->RunetId;?>
+              <?else:?>
+                <br/><a target="_blank" href="<?=\Yii::app()->createUrl('/user/view/index', array('runetId' => $coupon->Owner->RunetId));?>" class="small"><strong><?=$coupon->Owner->getFullName();?>, <?=$coupon->Owner->RunetId;?></strong></a>
+              <?endif;?>
             <?elseif ($coupon->Recipient == null):?>
                 <span class="label"><?=\Yii::t('app', 'Не выдан');?></span>
             <?else:?>

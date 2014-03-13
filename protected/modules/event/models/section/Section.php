@@ -20,7 +20,7 @@ namespace event\models\section;
  * @property LinkTheme $LinkTheme
  * @property Type $Type
  */
-class Section extends \CActiveRecord
+class Section extends \application\models\translation\ActiveRecord
 {
   /**
    * @param string $className
@@ -119,5 +119,13 @@ class Section extends \CActiveRecord
       $this->url = str_replace(':SECTION_ID', $this->Id, $this->Event->UrlSectionMask);
     }
     return $this->url;
+  }
+
+  /**
+   * @return \string[]
+   */
+  public function getTranslationFields()
+  {
+    return ['Title', 'Info'];
   }
 }

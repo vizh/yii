@@ -7,7 +7,7 @@ namespace event\models\section;
  * @property string $Title
  * @property int $Order
  */
-class Hall extends \CActiveRecord
+class Hall extends \application\models\translation\ActiveRecord
 {
   /**
    * @param string $className
@@ -41,5 +41,13 @@ class Hall extends \CActiveRecord
     $criteria->params = array('EventId' => $eventId);
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
+  }
+
+  /**
+   * @return \string[]
+   */
+  public function getTranslationFields()
+  {
+    return ['Title'];
   }
 }

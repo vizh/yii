@@ -18,7 +18,7 @@ return array(
   /** Admin Rules */
   array(
     'allow',
-    'roles' => array('admin', 'raec', 'booker'),
+    'roles' => array('admin', 'raec', 'booker', 'roommanager'),
     'module' => 'main',
     'controllers' => array('admin/default')
   ),

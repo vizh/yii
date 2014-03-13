@@ -55,11 +55,11 @@
 
             <?if (empty($price->Title)):?>
             <?if ($key == 0 && $price->EndTime != null):?>
-              <?=\Yii::t('app', 'При регистрации до');?> <?=$dateFormatter->format('d MMMM', $price->EndTime);?>
+              <?=\Yii::t('app', 'При регистрации онлайн до');?> <?=$dateFormatter->format('d MMMM', $price->EndTime);?>
             <?elseif ($key != 0 && $price->EndTime != null):?>
-              <?=\Yii::t('app', 'При регистрации c');?> <?=$dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'по');?> <?=$dateFormatter->format('d MMMM', $price->EndTime);?>
+              <?=\Yii::t('app', 'При регистрации онлайн с');?> <?=$dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'по');?> <?=$dateFormatter->format('d MMMM', $price->EndTime);?>
             <?else:?>
-              <?=\Yii::t('app', 'При регистрации с');?> <?=$dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'и на входе');?>
+              <?=\Yii::t('app', 'При регистрации онлайн с');?> <?=$dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'или на входе').' ('.$event->getFormattedStartDate('dd MMMM').')';?>
             <?endif;?>
             <?else:?>
               <?=$price->Title;?>

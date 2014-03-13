@@ -42,9 +42,10 @@ return array(
   'Скачать электронный билет' => 'Downlad e-ticket',
 
 
-  'При регистрации до' => 'When registering before',
-  'При регистрации с' => 'When registering starting from',
-  'и на входе' => 'and upon entrance',
+  'При регистрации онлайн до' => 'When registering online before',
+  'При регистрации онлайн с' => 'When registering online starting from',
+  'или на входе' => 'or upon entrance',
+  'по' => 'to',
 
   'руб.' => 'rub.',
   'бесплатно' => 'free',
@@ -175,4 +176,9 @@ return array(
   'Конкурс премия' => 'Contest prize',
   'Другие мероприятия' => 'Other events',
 
+
+  'Докладчики' => 'Speakers',
+  'Ведущие' => 'Moderators',
+  'Ведущий' => 'Moderator',
+  'Программа' => 'Event schedule'
 );

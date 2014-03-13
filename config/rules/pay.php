@@ -4,7 +4,7 @@ return array(
     'allow',
     'users' => ['*'],
     'module' => 'pay',
-    'controllers' => array('internal', 'cabinet', 'juridical', 'ajax', 'order', 'receipt')
+    'controllers' => ['cabinet', 'juridical', 'ajax', 'order', 'receipt']
   ),
 
 
@@ -13,7 +13,7 @@ return array(
     'allow',
     'roles' => ['admin'],
     'module' => 'pay',
-    'controllers' => ['admin/account', 'admin/oneuse', 'admin/orderjuridicaltemplate']
+    'controllers' => ['admin/account', 'admin/oneuse', 'admin/orderjuridicaltemplate', 'internal']
   ),
     
   array(
