@@ -55,6 +55,11 @@ return array(
     'roles' => array('base'),
     'controllers' => array('pay')
   ),
+  array(
+    'allow',
+    'roles' => array('base'),
+    'controllers' => array('invite')
+  ),
 
 
   /*** Спецпроект для сбербанка  ***/

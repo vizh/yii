@@ -100,7 +100,32 @@ class InviteRequest extends \CActiveRecord
       $this->onDisapprove($event);
     }
   }
-  
+
+  /**
+   * @return bool
+   */
+  protected function beforeSave()
+  {
+    if ($this->getIsNewRecord())
+    {
+      $event = new \CModelEvent($this, ['event' => $this->Event, 'user' => $this->Owner]);
+      $this->onCreate($event);
+    }
+    return parent::beforeSave();
+  }
+
+
+  /**
+   * @param $event
+   */
+  public function onCreate($event)
+  {
+    $mailer = new \mail\components\mailers\PhpMailer();
+    $class = \Yii::getExistClass('\event\components\handlers\invite\create', ucfirst($event->params['event']->IdName), 'Base');
+    $mail = new $class($mailer, $event);
+    $mail->send();
+  }
+
   /**
    * @param \CModelEvent $event
    */

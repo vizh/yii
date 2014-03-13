@@ -8,6 +8,7 @@ $roleDDlist .= '</select>';
 
 <div class="row">
   <div class="span12">
+    <?if ($showGenerateForm):?>
     <?=\CHtml::form('','POST',array('id' => 'invite-generator'));?>
     <div class="alert m-bottom_40">
       <h4 class="m-bottom_10"><?=\Yii::t('app', 'Генерация пришглашений');?></h4>
@@ -23,6 +24,7 @@ $roleDDlist .= '</select>';
     </div>
     <?=\CHtml::hiddenField('Action', 'generate');?>
     <?=\CHtml::endForm();?>
+    <?endif;?>
     
     <h3><?=\Yii::t('app', 'Поданные заявки');?></h3>
     <?=\CHtml::form(\Yii::app()->createUrl('/partner/user/invite/'), 'get');?>
@@ -74,10 +76,13 @@ $roleDDlist .= '</select>';
               <td><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy HH:mm', $request->CreationTime);?></td>
               <td>
                 <?if ($request->Approved == \event\models\Approved::Yes):?>
-                <span class="label label-success"><?=\event\models\Approved::getLabels()[\event\models\Approved::Yes];?></span>
-                <?elseif ($request->Approved == \event\models\Approved::No):?>
-                  <span class="label label-important"><?=\event\models\Approved::getLabels()[\event\models\Approved::No];?></span>
+                  <span class="label label-success"><?=\event\models\Approved::getLabels()[\event\models\Approved::Yes];?></span>
                 <?else:?>
+                  <?if ($request->Approved == \event\models\Approved::No):?>
+                    <div class="m-bottom_5">
+                      <span class="label label-important"><?=\event\models\Approved::getLabels()[\event\models\Approved::No];?></span>
+                    </div>
+                  <?endif;?>
                   <?=\CHtml::form('', 'POST', array('class' => 'form-horizontal'));?>
                     <?=$roleDDlist;?>
                     <div class="btn-group m-top_5">

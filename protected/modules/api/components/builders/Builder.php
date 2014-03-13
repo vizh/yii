@@ -520,5 +520,20 @@ class Builder
     return $this->report;
   }
 
+  protected $inviteRequest;
 
+  /**
+   * @param \event\models\InviteRequest $request
+   * @return \stdClass
+   */
+  public function createInviteRequest(\event\models\InviteRequest $request)
+  {
+    $this->inviteRequest = new \stdClass();
+    $this->inviteRequest->Sender = $this->createUser($request->Sender);
+    $this->inviteRequest->Owner = $this->createUser($request->Owner);
+    $this->inviteRequest->CreationTime = $request->CreationTime;
+    $this->inviteRequest->Event = $this->createEvent($request->Event);
+    $this->inviteRequest->Approved = $request->Approved;
+    return $this->inviteRequest;
+  }
 }

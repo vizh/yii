@@ -63,7 +63,7 @@ class UserController extends \partner\components\Controller
             'Title' => 'Приглашения',
             'Url' => \Yii::app()->createUrl('/partner/user/invite'),
             'Access' => $this->getAccessFilter()->checkAccess('partner', 'user', 'invite')
-                && \event\models\LinkWidget::model()->byEventId(\Yii::app()->partner->getEvent()->Id)->byClassId(8)->exists()
+                && \event\models\InviteRequest::model()->byEventId(\Yii::app()->partner->getEvent()->Id)->exists()
         ),
     );
   }

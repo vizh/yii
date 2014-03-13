@@ -38,15 +38,12 @@ class InviteAction extends \partner\components\Action
     $paginator->perPage = \Yii::app()->params['PartnerInviteRequestPerPage'];
     $criteria->mergeWith($paginator->getCriteria());
     $inviteRequests = \event\models\InviteRequest::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
-    
-    $criteria = new \CDbCriteria();
-    $criteria->order = '"t"."Title" ASC';
-    $roles = \event\models\Role::model()->findAll($criteria);
-    
+    $showGenerateForm = \event\models\LinkWidget::model()->byEventId($this->getEvent()->Id)->byClassId(8)->exists();
+
     $this->getController()->setPageTitle('Приглашения');
     $this->getController()->initActiveBottomMenu('invite');
     $this->getController()->render('invite', 
-      ['inviteRequests' => $inviteRequests, 'filter' => $filter, 'paginator' => $paginator, 'roles' => $roles]
+      ['inviteRequests' => $inviteRequests, 'filter' => $filter, 'paginator' => $paginator, 'roles' => $this->getEvent()->getRoles(), 'showGenerateForm' => $showGenerateForm]
     );
   }
   
