@@ -6,7 +6,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     set_time_limit(84600);
     error_reporting(E_ALL & ~E_DEPRECATED);
 
-    $template = 'simon-1-html';
+    $template = 'devcon14-html-2';
     $isHTML = true;
 
     $logPath = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
@@ -32,7 +32,7 @@ class DefaultController extends \application\components\controllers\AdminMainCon
     */
 
     // Чтение из файла
-    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2014-03-06/emails.csv');
+    $arUsers = file(Yii::getPathOfAlias('webroot') . '/files/ext/2014-03-13/emails.csv');
     foreach($arUsers as $eml) $emails[$eml] = trim($eml);
 
     /*
@@ -44,12 +44,12 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
     $emails['v.eroshenko@gmail.com'] = 'v.eroshenko@gmail.com';
 //    $emails['ilya.chertilov@gmail.com'] = 'ilya.chertilov@gmail.com';
-
+/*
     $emails['grebennikov.sergey@gmail.com'] = 'grebennikov.sergey@gmail.com';
     $emails['tatulova@cafe-anderson.ru'] = 'tatulova@cafe-anderson.ru';
     $emails['AHomichuk@okey-dokey.ru'] = 'AHomichuk@okey-dokey.ru';
     $emails['dolzhenko.strana@gmail.com'] = 'dolzhenko.strana@gmail.com';
-
+*/
 //    $emails['t.ruzhich@rta-moscow.com'] = 't.ruzhich@rta-moscow.com';
 //    $emails['borzov@internetmediaholding.com'] = 'borzov@internetmediaholding.com';
 //    $emails['plugotarenko@raec.ru'] = 'plugotarenko@raec.ru';
@@ -157,9 +157,9 @@ class DefaultController extends \application\components\controllers\AdminMainCon
 
         $mail->AddAddress($email);
 //        $mail->SetFrom('users@runet-id.com', '—RUNET—ID—', false);
-        $mail->SetFrom('info@simonbar.ru', 'Simon Says Bar', false);
+        $mail->SetFrom('devcon@runet-id.com', 'DevCon 2014', false);
         $mail->CharSet = 'utf-8';
-        $mail->Subject = '=?UTF-8?B?'. base64_encode('Встречаем весну с Simon Says Bar') .'?=';
+        $mail->Subject = '=?UTF-8?B?'. base64_encode('DevCon 2014: подтвердите свое участие в конференции!') .'?=';
         $mail->Body = $body;
 
 //        $mail->AddAttachment($_SERVER['DOCUMENT_ROOT'] . '/files/ext/2013-12-04/beeline_invite_'.$user->RunetId.'.pdf');
