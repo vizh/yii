@@ -10,6 +10,7 @@ class AutocompleteInput extends \CWidget
   public $addOn = null;
   public $source;
   public $class = null;
+  public $adminMode = false;
 
 
   public function init()
@@ -41,7 +42,15 @@ class AutocompleteInput extends \CWidget
   protected function initResources()
   {
     $cs = \Yii::app()->getClientScript();
-    $cs->registerPackage('runetid.jquery.ui');
+    if (!$this->adminMode)
+    {
+      $cs->registerPackage('runetid.jquery.ui');
+    }
+    else
+    {
+      $cs->registerPackage('runetid.admin.jquery.ui');
+    }
+
     $cs->registerScriptFile(
       \Yii::app()->getAssetManager()->publish(\Yii::getPathOfAlias('application.widgets.assets.js').'/autocompleteinput.js'),
       \CClientScript::POS_HEAD

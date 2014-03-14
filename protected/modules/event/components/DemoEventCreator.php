@@ -51,36 +51,40 @@ class DemoEventCreator
       // Участники
       echo 'Creation participants...'."\n";
       $productParticipant = self::createParticipantProduct($event, self::PARTICIPANT, self::$beginSalesDate, 10000, self::$changePriceDate, 15000);
-      self::createParticipants($event, $productParticipant, 90/*900*/);
+      self::createParticipants($event, $productParticipant, 900);
       echo 'Participants were successfully created'."\n";
       // Видео участники
       echo 'Creation video-participants...'."\n";
       $productVideoParticipant = self::createParticipantProduct($event, self::VIDEO_PARTICIPANT, self::$beginSalesDate, 2000, self::$changePriceDate, 3000);
-      self::createParticipants($event, $productVideoParticipant, 15/*150*/);
+      self::createParticipants($event, $productVideoParticipant, 150);
       echo 'Video-participants were successfully created'."\n";
       // Партнеры
       echo 'Creation partners...'."\n";
       $product = self::createParticipantProduct($event, self::MASS_MEDIA, self::$beginSalesDate, 0);
-      self::createSpecialParticipants($event, $product, 6/*60*/);
+      self::createSpecialParticipants($event, $product, 60);
       echo 'Partners were successfully created'."\n";
       // СМИ
       echo 'Creation mass media...'."\n";
       $product = self::createParticipantProduct($event, self::PARTNER, self::$beginSalesDate, 0);
-      self::createSpecialParticipants($event, $product, 7/*70*/);
+      self::createSpecialParticipants($event, $product, 70);
       echo 'Mass media were successfully created'."\n";
       // Организаторы
       echo 'Creation organizers...'."\n";
-      self::createOrganizers($event, 2/*20*/);
+      self::createOrganizers($event, 20);
       echo 'Organizers were successfully created'."\n";
       // Промо-коды
       echo 'Creation promos...'."\n";
-      self::createPromos($event, $productParticipant, 10/*100*/);
-      self::createPromos($event, $productVideoParticipant, 10/*100*/);
+      self::createPromos($event, $productParticipant, 100);
+      self::createPromos($event, $productVideoParticipant, 100);
       echo 'Promos were successfully created'."\n";
       // Операторы
       echo 'Creation operators...'."\n";
       self::createOperators($event, 10);
       echo 'Operators were successfully created'."\n";
+
+      echo 'Randomization dates...'."\n";
+      self::randomizeEventParticipantLogDates($event);
+      echo 'Dates were successfully randomized'."\n";
 
       $transaction->commit();
       echo 'Success.';
@@ -163,7 +167,7 @@ class DemoEventCreator
     $beforeOneDayChangePriceDate = clone $changePriceDate;
     $beforeOneDayChangePriceDate->sub(new \DateInterval('P1D'));
 
-    $role = \event\models\Role::model()->find('"Id" = :roleId', [':roleId' => $roleId]);
+    $role = \event\models\Role::model()->findByPk($roleId);
     if (empty($role))
       throw new \CException('Неизвестный идентификатор роли!');
 
@@ -179,14 +183,14 @@ class DemoEventCreator
     $productAttribute = new \pay\models\ProductAttribute();
     $productAttribute->ProductId = $product->Id;
     $productAttribute->Name = 'RoleId';
-    $productAttribute->Value = 1;
+    $productAttribute->Value = $roleId;
     $productAttribute->save();
 
     $productPrice = new \pay\models\ProductPrice();
     $productPrice->ProductId = $product->Id;
     $productPrice->Price = $startPrice;
     $productPrice->StartTime = $startPriceDate->format('Y-m-d');
-    $productPrice->EndTime = ($changePriceDate !== null || $changedPrice !== null) ? $beforeOneDayChangePriceDate->format('Y-m-d') : null;
+    $productPrice->EndTime = ($changePriceDate !== null && $changedPrice !== null) ? $beforeOneDayChangePriceDate->format('Y-m-d') : null;
     $productPrice->save();
 
     if ($changePriceDate !== null && $changedPrice !== null)
@@ -400,6 +404,35 @@ class DemoEventCreator
       echo ++$index."\n";
     }
   }
+
+  /**
+   * Рандомихирует даты CreationTime в ParticipantLog
+   * @param \event\models\Event $event
+   */
+  private static function randomizeEventParticipantLogDates(\event\models\Event $event)
+  {
+    $participants = \event\models\Participant::model()->findAll('"EventId" = :eventId', [':eventId' => $event->Id]);
+    foreach ($$participants as $participant)
+    {
+      $participant->CreationTime = self::generateRandomDate(self::$beginSalesDate, self::$eventStartDate);
+      $participant->save();
+    }
+
+    $logs = \event\models\ParticipantLog::model()->findAll('"EventId" = :eventId', [':eventId' => $event->Id]);
+    foreach ($logs as $log)
+    {
+      $log->CreationTime = self::generateRandomDate(self::$beginSalesDate, self::$eventStartDate);
+      $log->save();
+
+      $participant = \event\models\Participant::model()->find(
+        '"EventId" = :eventId AND "UserId" = :userId',
+        [':eventId' => $log->EventId, ':userId' => $log->UserId]
+      );
+      $participant->CreationTime = $log->CreationTime;
+      $participant->save();
+    }
+  }
+
 
   /**
    * Печатает заданное количество бейджей

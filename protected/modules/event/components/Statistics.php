@@ -184,7 +184,7 @@ class Statistics
     {
       $roleId = $row['RoleId'];
       $date = $dateFormatter->format('d MMM', strtotime($row['Date']));
-      $dummy[$date][$roleId] = $row['Count'];
+      $dummy[$date][$roleId] = intval($row['Count']);
     }
 
     $result = [];
@@ -269,7 +269,7 @@ WHERE poi."Paid"';
     $column = ['Оплатили участие'];
     foreach ($this->getRoles() as $role)
     {
-      $column[] = isset($dummy[$role->Id]) ? $dummy[$role->Id] : 0;
+      $column[] = isset($dummy[$role->Id]) ? intval($dummy[$role->Id]) : 0;
     }
     $result[] = $column;
 
@@ -288,7 +288,7 @@ WHERE poi."Paid"';
     $column = ['Активировали 100% промо-коды'];
     foreach ($this->getRoles() as $role)
     {
-      $column[] = isset($dummy[$role->Id]) ? $dummy[$role->Id] : 0;
+      $column[] = isset($dummy[$role->Id]) ? intval($dummy[$role->Id]) : 0;
     }
     $result[] = $column;
 
@@ -308,7 +308,7 @@ WHERE poi."Paid"';
     $column = ['Прямое проставление статуса'];
     foreach ($this->getRoles() as $role)
     {
-      $column[] = isset($dummy[$role->Id]) ? $dummy[$role->Id] : 0;
+      $column[] = isset($dummy[$role->Id]) ? intval($dummy[$role->Id]) : 0;
     }
     $result[] = $column;
 
@@ -333,7 +333,7 @@ WHERE poi."Paid"';
     $result = [];
     foreach ($this->getRoles() as $role)
     {
-      $result[] = [$role->Title ,isset($dummy[$role->Id]) ? $dummy[$role->Id] : 0];
+      $result[] = [$role->Title ,isset($dummy[$role->Id]) ? intval($dummy[$role->Id]) : 0];
     }
     return $result;
   }

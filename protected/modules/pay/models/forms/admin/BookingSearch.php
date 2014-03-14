@@ -40,6 +40,9 @@ class BookingSearch extends \CFormModel
     '2014-04-25'
   ];
 
+  private $minDate;
+  private $maxDate;
+
   private static $_dateRanges;
 
   /**
@@ -117,6 +120,8 @@ class BookingSearch extends \CFormModel
     parent::init();
     self::$_dateRanges = $this->makeDateRanges(self::$_dates);
     $this->makeGroupValues();
+    $this->minDate = new \DateTime(min(self::$_dates));
+    $this->maxDate = new \DateTime(max(self::$_dates));
   }
 
   /**
@@ -272,10 +277,12 @@ class BookingSearch extends \CFormModel
     $partnerOwners = [];
     self::parseValues($partnerOwners, $row['PartnerOwners'], ';;');
     $partnerDates = [];
-    self::parseValues($partnerDates, $row['PartnerDates'], ';;');
+    self::parseValues($partnerDates, $row['PartnerDates'], ';');
+    $partnerPaids = [];
+    self::parseValues($partnerPaids, $row['PartnerPaid'], ';');
 
     // Парсим диапазоны дат
-    $datesRanges = [];
+    $datesRanges = ['other' => false];
     for ($i = 0; $i < count($dates); ++$i)
     {
       if (empty($dates[$i]))
@@ -284,18 +291,27 @@ class BookingSearch extends \CFormModel
       $range = [];
       self::parseValues($range, $dates[$i], ',', '=');
 
-      $minDate = min(self::$_dates); $maxDate = max(self::$_dates);
-      foreach (self::$_dateRanges as $startDate => $endDate)
+      $startDate = new \DateTime($range['DateIn']);
+      $endDate = new \DateTime($range['DateOut']);
+
+      while ($startDate < $endDate)
       {
-        if ($range['DateIn'] >= $minDate && $range['DateIn'] <= $startDate && $range['DateOut'] <= $maxDate && $range['DateOut'] >= $endDate)
+        $nextDate = clone $startDate;
+        $nextDate->add(new \DateInterval('P1D'));
+        if ($startDate >= $this->minDate && $nextDate <= $this->maxDate)
         {
-          $datesRanges[$startDate.'-'.$endDate][] = [
+          $datesRanges[$startDate->format('Y-m-d').'-'.$nextDate->format('Y-m-d')][] = [
             'RunetId' => $ownerIds[$i],
             'Name' => $userNames[$i],
             'Paid' => $paids[$i] == 'true' ? true : false,
             'Booked' => $booked[$i],
           ];
         }
+        else
+        {
+          $datesRanges['other'] = true;
+        }
+        $startDate = $nextDate;
       }
     }
 
@@ -308,20 +324,30 @@ class BookingSearch extends \CFormModel
       $range = [];
       self::parseValues($range, $partnerDates[$i], ',', '=');
 
-      $minDate = min(self::$_dates); $maxDate = max(self::$_dates);
-      foreach (self::$_dateRanges as $startDate => $endDate)
+      $startDate = new \DateTime($range['DateIn']);
+      $endDate = new \DateTime($range['DateOut']);
+
+      while ($startDate < $endDate)
       {
-        if ($range['DateIn'] >= $minDate && $range['DateIn'] <= $startDate && $range['DateOut'] <= $maxDate && $range['DateOut'] >= $endDate)
+        $nextDate = clone $startDate;
+        $nextDate->add(new \DateInterval('P1D'));
+        if ($startDate >= $this->minDate && $nextDate <= $this->maxDate)
         {
-          $datesRanges[$startDate.'-'.$endDate][] = [
-            'Name' => $partnerOwners[$i],
+          $datesRanges[$startDate->format('Y-m-d').'-'.$nextDate->format('Y-m-d')][] = [
             'RunetId' => null,
-            'Paid' => false,
-            'Booked' => null
+            'Name' => $partnerOwners[$i],
+            'Paid' => $partnerPaids[$i] == 'true' ? true : false,
+            'Booked' => null,
           ];
         }
+        else
+        {
+          $datesRanges['other'] = true;
+        }
+        $startDate = $nextDate;
       }
     }
+
     $room['Dates'] = $datesRanges;
   }
 
@@ -382,10 +408,11 @@ class BookingSearch extends \CFormModel
         STRING_AGG(CAST(orders."Paid" AS text), \';\') AS "Paid",
         STRING_AGG(CAST(orders."Booked" AS text), \';\') AS "Booked",
         STRING_AGG(rpb."Owner", \';;\') AS "PartnerOwners",
+        STRING_AGG(CAST(rpb."Paid" AS text), \';\') AS "PartnerPaid",
         STRING_AGG(\'DateIn\' || \'=\' || rpb."DateIn" || \',\' || \'DateOut\' || \'=\' || rpb."DateOut", \';\') AS "PartnerDates"
       FROM products
       LEFT JOIN orders ON products."Id" = orders."ProductId"
-      LEFT JOIN "PayRoomPartnerBooking" rpb ON rpb."ProductId" = products."Id"
+      LEFT JOIN "PayRoomPartnerBooking" rpb ON rpb."ProductId" = products."Id" AND (rpb."Paid" OR NOT rpb."Deleted")
       '.$where.'
       GROUP BY products."Id", products."Attributes"
       ORDER BY products."Id"';
