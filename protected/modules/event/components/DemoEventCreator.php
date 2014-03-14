@@ -411,6 +411,13 @@ class DemoEventCreator
    */
   private static function randomizeEventParticipantLogDates(\event\models\Event $event)
   {
+    $participants = \event\models\Participant::model()->findAll('"EventId" = :eventId', [':eventId' => $event->Id]);
+    foreach ($$participants as $participant)
+    {
+      $participant->CreationTime = self::generateRandomDate(self::$beginSalesDate, self::$eventStartDate);
+      $participant->save();
+    }
+
     $logs = \event\models\ParticipantLog::model()->findAll('"EventId" = :eventId', [':eventId' => $event->Id]);
     foreach ($logs as $log)
     {
