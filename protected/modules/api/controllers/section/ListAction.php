@@ -7,7 +7,7 @@ class ListAction extends \api\components\Action
   {
     $sections = $this->getEvent()->Sections([
       'with' => ['LinkHalls.Hall', 'Attributes'],
-      'order' => '"Sections"."Id"'
+      'order' => '"Sections"."StartTime", "Sections"."EndTime", "Hall"."Order"'
     ]);
 
     $result = [];
