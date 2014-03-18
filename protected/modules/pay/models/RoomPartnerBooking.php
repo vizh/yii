@@ -16,6 +16,7 @@ namespace pay\models;
  * @property string $CreationTime
  * @property bool $Deleted
  * @property string $DeletionTime
+ * @property int $OrderId
  *
  */
 class RoomPartnerBooking extends \CActiveRecord
@@ -42,7 +43,10 @@ class RoomPartnerBooking extends \CActiveRecord
 
   public function relations()
   {
-    return [];
+    return [
+      'Order' => [self::BELONGS_TO, '\pay\models\RoomPartnerOrder', 'OrderId'],
+      'Product' => [self::BELONGS_TO, '\pay\models\Product', 'ProductId']
+    ];
   }
 
   /**
@@ -68,6 +72,33 @@ class RoomPartnerBooking extends \CActiveRecord
     return $this;
   }
 
+  /**
+   * @param string $owner
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byOwner($owner, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Owner" = :Owner';
+    $criteria->params = ['Owner' => $owner];
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param bool $hasOrder
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byHasOrder($hasOrder = true, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."OrderId" '.($hasOrder ? 'NOT' : '').' IS NULL';
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
   public function deleteHard()
   {
     if ($this->Paid || $this->Deleted)
@@ -80,5 +111,10 @@ class RoomPartnerBooking extends \CActiveRecord
     $this->save();
 
     return true;
+  }
+
+  public function getStayDay()
+  {
+    return (strtotime($this->DateOut) - strtotime($this->DateIn)) / 60 / 60 / 24;
   }
 }
