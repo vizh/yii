@@ -208,22 +208,9 @@ class InternalController extends \application\components\controllers\PublicMainC
 
     foreach ($orderItems as $item)
     {
-      $canBeDelete = true;
-      /** @var $links \pay\models\OrderLinkOrderItem[] */
-      $links = $item->OrderLinks(array('with' => array('Order')));
-      foreach ($links as $link)
-      {
-        if (($link->Order->Juridical || $link->Order->Receipt) && !$link->Order->Deleted)
-        {
-          $canBeDelete = false;
-          break;
-        }
-      }
-
-      if ($canBeDelete)
+      if ($item->delete())
       {
         echo $item->Id . ' ' . $item->CreationTime . ' Booked to ' . $item->Booked . '<br>';
-        $item->delete();
       }
     }
   }

@@ -135,18 +135,33 @@ class RoomProductManager extends BaseProductManager
                 HAVING count("oia"."Id") = :CountParams';
 
       $command = \Yii::app()->getDb()->createCommand($sql);
-
-      $command->bindValue(':EventId', $this->product->EventId);
-      $command->bindValue(':ManagerName', $this->product->ManagerName);
-      $command->bindValue(':Name1', 'DateIn');
-      $command->bindValue(':Value1', $orderAttributes['DateIn']);
-      $command->bindValue(':Name2', 'DateOut');
-      $command->bindValue(':Value2', $orderAttributes['DateOut']);
-      $command->bindValue(':CountParams', sizeof($orderAttributes));
-
+      $command->bindValue('EventId', $this->product->EventId);
+      $command->bindValue('ManagerName', $this->product->ManagerName);
+      $command->bindValue('Name1', 'DateIn');
+      $command->bindValue('Value1', $orderAttributes['DateIn']);
+      $command->bindValue('Name2', 'DateOut');
+      $command->bindValue('Value2', $orderAttributes['DateOut']);
+      $command->bindValue('CountParams', sizeof($orderAttributes));
       $result = $command->queryAll();
 
-      $productIdList = array();
+      $productIdList = [];
+      foreach ($result as $value)
+      {
+        $productIdList[] = $value['ProductId'];
+      }
+
+      $command = \Yii::app()->getDb()->createCommand('
+      SELECT rpb."ProductId" FROM "PayRoomPartnerBooking"  rpb
+        INNER JOIN "PayProduct" p ON rpb."ProductId" = p."Id"
+        WHERE p."EventId" = :EventId AND (NOT rpb."Deleted" OR rpb."Paid") AND
+        (rpb."DateIn" < :DateIn OR rpb."DateIn" < :DateOut OR
+          rpb."DateOut" > :DateIn OR rpb."DateOut" > :DateOut)
+      ');
+      $command->bindValue('EventId', $this->product->EventId);
+      $command->bindValue('DateIn', $orderAttributes['DateIn']);
+      $command->bindValue('DateOut', $orderAttributes['DateOut']);
+      $result = $command->queryAll();
+
       foreach ($result as $value)
       {
         $productIdList[] = $value['ProductId'];
