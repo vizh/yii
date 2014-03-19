@@ -75,6 +75,7 @@
   <ul class="nav nav-list collapse" id="menu-booking">
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/index');?>"><?=\Yii::t('app', 'Бронирования');?></a></li>
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/partners');?>"><?=\Yii::t('app', 'Партнеры');?></a></li>
+    <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/statistics');?>"><?=\Yii::t('app', 'Статистика');?></a></li>
   </ul>
 
 
