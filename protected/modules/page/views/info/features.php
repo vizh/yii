@@ -18,7 +18,6 @@
   <ul class="f-adv-thesises green" data-slider="sliderCreate">
     <li class="active"><b><i class="create-1"></i></b>Онлайн регистрация</li>
     <li><b><i class="create-2"></i></b>Информационная поддержкая</li>
-    <li><b><i class="create-3"></i></b>Видео трансляция</li>
     <li><b><i class="create-4"></i></b>Офлайн регистрация</li>
   </ul>
 </div>
@@ -42,15 +41,6 @@
             <div class="tc">
               <h3>Информационная поддержка</h3>
               <p>Проведение таргетированных рассылок <br/>по базе пользователей. Продвижение <br/>мероприятия в RUNET-ID Календаре, <br/>в том числе приоритетное размещение <br/>на главной странице и в календаре.</p>
-              <a href="<?=\Yii::app()->createUrl('/event/create/index')?>" class="btn btn-large btn-success"><i class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
-            </div>
-          </div>
-        </div>
-        <div class="item create-3">
-          <div class="t">
-            <div class="tc">
-              <h3>Видео трансляция</h3>
-              <p>Одновременная трансляция из нескольких <br/>залов, неограниченное количество камер, <br/>любое качество, любое количество зрителей, возможность титрования спикеров, возможность обеспечения разноязыковых видеопотоков и <a href="">другие преимущества</a>.</p>
               <a href="<?=\Yii::app()->createUrl('/event/create/index')?>" class="btn btn-large btn-success"><i class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
             </div>
           </div>

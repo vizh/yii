@@ -14,7 +14,6 @@ class InNumbersProductManager extends BaseProductManager
    */
   public function checkProduct($user, $params = array())
   {
-    // TODO: Implement CheckProduct() method.
     return true;
   }
 
@@ -81,7 +80,7 @@ class InNumbersProductManager extends BaseProductManager
    */
   public function rollbackProduct($user)
   {
-
+    return false;
   }
 
   /**
@@ -94,6 +93,6 @@ class InNumbersProductManager extends BaseProductManager
    */
   public function internalChangeOwner($fromUser, $toUser, $params = array())
   {
-
+    return false;
   }
 }
