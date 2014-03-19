@@ -182,11 +182,6 @@ class Order extends \CActiveRecord
       }
       else
       {
-        if (($this->Juridical || $this->Receipt) && $item->getOrderItem()->PaidTime != $this->CreationTime)
-        {
-          $item->getOrderItem()->PaidTime = $this->CreationTime;
-          $item->getOrderItem()->save();
-        }
         $errorItems[] = $item->getOrderItem()->Id;
       }
       $total += $item->getPriceDiscount();

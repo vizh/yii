@@ -357,16 +357,9 @@ class OrderItem extends \CActiveRecord
   public function activate($order = null)
   {
     $owner = $this->ChangedOwner !== null ? $this->ChangedOwner : $this->Owner;
-//    if (!$this->Product->getManager()->checkProduct($owner))
-//    {
-//      $this->Deleted = true;
-//      $this->DeletionTime = date('Y-m-d H:i:s');
-//      $this->save();
-//      return false;
-//    }
     $result = $this->Product->getManager()->buyProduct($owner, $this);
     $this->Paid = true;
-    $this->PaidTime = ($order!== null && $order->Juridical) ? $order->CreationTime : date('Y-m-d H:i:s');
+    $this->PaidTime = ($order !== null && ($order->Juridical || $order->Receipt)) ? $order->CreationTime : date('Y-m-d H:i:s');
     $this->save();
     return $result;
   }

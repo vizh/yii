@@ -334,7 +334,7 @@ class RoomProductManager extends BaseProductManager
    */
   public function rollbackProduct($user)
   {
-
+    return true;
   }
 
   /**

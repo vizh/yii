@@ -13,20 +13,20 @@ class FoodProductManager extends BaseProductManager
    */
   public function checkProduct($user, $params = array())
   {
-    // TODO: Implement CheckProduct() method.
     return true;
   }
 
   /**
    * Оформляет покупку продукта на пользователя
    * @param \user\models\User $user
+   * @param null $orderItem
    * @param array $params
    *
    * @return bool
    */
   protected function internalBuyProduct($user, $orderItem = null, $params = array())
   {
-    // TODO: Implement internalBuyProduct() method.
+    return true;
   }
 
   /**
@@ -55,7 +55,7 @@ class FoodProductManager extends BaseProductManager
    */
   public function rollbackProduct($user)
   {
-
+    return true;
   }
 
   /**
