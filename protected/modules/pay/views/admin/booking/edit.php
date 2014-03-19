@@ -81,9 +81,11 @@ $manager = $product->getManager();
         </tr>
       <?endforeach;?>
 
+      <?if (!empty($partnerBooking)):?>
       <tr>
         <td colspan="5"><input type="submit" class="btn btn-success" value="Сохранить" name="savePartners"></td>
       </tr>
+      <?endif;?>
 
       <?=CHtml::endForm();?>
 
@@ -92,7 +94,7 @@ $manager = $product->getManager();
         <td><?=CHtml::textField('partnerNewData[Owner]', $formNewPartner->Owner, ['class' => 'span4 partnerName']);?></td>
         <td><?=CHtml::textField('partnerNewData[DateIn]', $formNewPartner->DateIn, ['class' => 'span2 date-in']);?></td>
         <td><?=CHtml::textField('partnerNewData[DateOut]', $formNewPartner->DateOut, ['class' => 'span2 date-out']);?></td>
-        <td colspan="2"><input type="submit" class="btn" name="createPartner" value="Добавить"></td>
+        <td colspan="2"><button class="btn" type="submit" name="createPartner" value="1"><i class="icon-plus"></i> Добавить</button></td>
       </tr>
       <?=CHtml::endForm();?>
       </tbody>
@@ -134,9 +136,11 @@ $manager = $product->getManager();
         </tr>
       <?endforeach;?>
 
+      <?if (!empty($orderItems)):?>
       <tr>
         <td colspan="5"><input type="submit" class="btn btn-success" value="Сохранить" name="saveUsers"></td>
       </tr>
+      <?endif;?>
 
       <?=CHtml::endForm();?>
 

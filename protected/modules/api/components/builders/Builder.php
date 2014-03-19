@@ -449,6 +449,7 @@ class Builder
     $this->section->End = $section->EndTime;
     $this->section->UpdateTime = $section->UpdateTime;
     $this->section->Type = $section->TypeId == 4 ? 'short' : 'full'; //todo: deprecated
+    $this->section->TypeCode = $section->Type->Code;
 
     if (sizeof($section->LinkHalls) > 0)
     {
