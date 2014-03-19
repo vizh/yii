@@ -10,7 +10,7 @@ class ParticipantsAction extends \partner\components\Action
     $criteria->with = array(
       'LinkUsers' => array(
         'together' => false,
-        'order' => '"LinkUsers"."Order" DESC, "LinkUsers"."Id" ASC'
+        'order' => '"LinkUsers"."Order", "LinkUsers"."Id" ASC'
       )
     );
     /** @var \event\models\section\Section $section */
