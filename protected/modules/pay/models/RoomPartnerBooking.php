@@ -17,6 +17,7 @@ namespace pay\models;
  * @property bool $Deleted
  * @property string $DeletionTime
  * @property int $OrderId
+ * @property int $AdditionalCount
  *
  */
 class RoomPartnerBooking extends \CActiveRecord

@@ -1,6 +1,7 @@
 <?/**
  * @var \pay\models\forms\admin\PartnerOrder $form
  * @var \pay\models\RoomPartnerOrder $order
+ * @var \pay\models\RoomPartnerBooking[] $bookings
  */?>
 <?if ($order->Paid):?>
 <script type="text/javascript">
@@ -99,23 +100,29 @@
     <div class="controls">
       <table class="table table-bordered">
         <thead>
+        <tr>
           <th></th>
           <th><?=\Yii::t('app', 'Бронь');?></th>
           <th><?=\Yii::t('app', 'Дата въезда');?></th>
           <th><?=\Yii::t('app', 'Дата выезда');?></th>
+          <th>Доп. мест</th>
           <th class="total"></th>
+        </tr>
         </thead>
         <tbody>
         <?foreach ($bookings as $booking):?>
           <?if ($booking->OrderId == null || $booking->OrderId == $order->Id):?>
-            <?$manager = $booking->Product->getManager();
-            $price = $manager->Price * $booking->getStayDay();
+            <?
+            /** @var \pay\components\managers\RoomProductManager $manager */
+            $manager = $booking->Product->getManager();
+            $price = $booking->getStayDay() * $manager->Price + $booking->AdditionalCount * $manager->AdditionalPrice;
             ?>
             <tr>
               <td style="width: 1px;"><?=\CHtml::activeCheckBox($form, 'BookingIdList[]', ['uncheckValue' => null, 'value' => $booking->Id, 'checked' => in_array($booking->Id, $form->BookingIdList), 'data-price' => $price]);?></td>
               <td><?=$manager->Hotel;?>, <?=$manager->Housing;?>, №<?=$manager->Number;?></td>
               <td><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $booking->DateIn);?></td>
               <td><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $booking->DateOut);?></td>
+              <td><?=$booking->AdditionalCount;?></td>
               <td><span class="label"><?=$price;?> <?=\Yii::t('app', 'руб');?></span></td>
             </tr>
           <?endif;?>

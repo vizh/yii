@@ -214,4 +214,29 @@ class InternalController extends \application\components\controllers\PublicMainC
       }
     }
   }
+
+  public function actionFixRoomAdditionalPrice()
+  {
+    echo 'closed';
+    return;
+    $products = \pay\models\Product::model()
+      ->byEventId(789)->byManagerName('RoomProductManager')->findAll();
+
+    $addPrice = ['ЛЕСНЫЕ ДАЛИ' => 500, 'НАЗАРЬЕВО' => 500, 'ПОЛЯНЫ' => 500, 'СОСНЫ' => 710, ];
+
+    foreach ($products as $product)
+    {
+      /** @var \pay\components\managers\RoomProductManager $manager */
+      $manager = $product->getManager();
+
+      if ($manager->Hotel == 'СОСНЫ')
+      {
+        $manager->AdditionalPrice = 710;
+      }
+      else
+      {
+        $manager->AdditionalPrice = 500;
+      }
+    }
+  }
 }

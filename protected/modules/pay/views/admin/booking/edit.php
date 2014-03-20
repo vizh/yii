@@ -45,9 +45,11 @@ $manager = $product->getManager();
     <p>
       Категория: <em><?=$manager->Category;?></em><br>
       Число комнат: <span class="label"><?=$manager->RoomCount;?></span><br>
-      Число мест: <span class="label label-important"><?=$manager->PlaceTotal;?></span><br>
+      Число основных мест: <span class="label label-important"><?=$manager->PlaceBasic;?></span><br>
+      Число доп. мест: <span class="label label-info"><?=$manager->PlaceMore;?></span><br>
       Основные места:  <em><?=$manager->DescriptionBasic;?></em>; дополнительные места: <em><?=$manager->DescriptionMore;?></em><br>
-      Цена за сутки: <span class="label label-success"><?=$manager->Price;?> руб.</span>
+      Цена за сутки: <span class="label label-success"><?=$manager->Price;?> руб.</span><br>
+      Цена за доп. место: <span class="label label-success"><?=$manager->AdditionalPrice;?> руб.</span><br>
     </p>
 
 
@@ -58,7 +60,7 @@ $manager = $product->getManager();
         <th class="span5">Название</th>
         <th>Дата заезда</th>
         <th>Дата выезда</th>
-        <th>Оплачен</th>
+        <th>Количество доп. мест</th>
         <th>&nbsp;</th>
       </tr>
       </thead>
@@ -66,17 +68,17 @@ $manager = $product->getManager();
       <?=CHtml::beginForm();?>
       <?foreach ($partnerBooking as $booking):?>
         <tr>
-          <td><?=$booking->Owner;?></td>
+          <td><a href="<?=Yii::app()->createUrl('/pay/admin/booking/partner', ['owner' => $booking->Owner])?>"><?=$booking->Owner;?></a></td>
           <?if (!$booking->Paid):?>
             <td><?=CHtml::textField('partnerData['.$booking->Id.'][DateIn]', $booking->DateIn, ['class' => 'span2 date-in']);?></td>
             <td><?=CHtml::textField('partnerData['.$booking->Id.'][DateOut]', $booking->DateOut, ['class' => 'span2 date-out']);?></td>
-            <td><!--<?=CHtml::checkBox('partnerData['.$booking->Id.'][Paid]', $booking->Paid);?>--></td>
+            <td><?=CHtml::textField('partnerData['.$booking->Id.'][AdditionalCount]', $booking->AdditionalCount, ['class' => 'span1']);?></td>
             <td><a class="btn btn-danger booking-delete" href="<?=Yii::app()->createUrl('/pay/admin/booking/delete', ['type' => 'partner', 'id' => $booking->Id]);?>"><i class="icon-remove icon-white"></i></a></td>
           <?else:?>
             <td><?=$booking->DateIn;?></td>
             <td><?=$booking->DateOut;?></td>
+            <td><?=$booking->AdditionalCount;?></td>
             <td><span class="label label-success">Оплачен</span></td>
-            <td></td>
           <?endif;?>
         </tr>
       <?endforeach;?>
@@ -94,7 +96,8 @@ $manager = $product->getManager();
         <td><?=CHtml::textField('partnerNewData[Owner]', $formNewPartner->Owner, ['class' => 'span4 partnerName']);?></td>
         <td><?=CHtml::textField('partnerNewData[DateIn]', $formNewPartner->DateIn, ['class' => 'span2 date-in']);?></td>
         <td><?=CHtml::textField('partnerNewData[DateOut]', $formNewPartner->DateOut, ['class' => 'span2 date-out']);?></td>
-        <td colspan="2"><button class="btn" type="submit" name="createPartner" value="1"><i class="icon-plus"></i> Добавить</button></td>
+        <td><?=CHtml::textField('partnerNewData[AdditionalCount]', $formNewPartner->AdditionalCount, ['class' => 'span1']);?></td>
+        <td><button class="btn" type="submit" name="createPartner" value="1"><i class="icon-plus"></i></button></td>
       </tr>
       <?=CHtml::endForm();?>
       </tbody>

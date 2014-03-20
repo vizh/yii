@@ -7,17 +7,14 @@ class PartnerBooking extends \CFormModel
   public $Owner;
   public $DateIn;
   public $DateOut;
+  public $AdditionalCount;
   public $Paid;
 
-  public function __construct(\pay\models\RoomPartnerBooking $booking = null, $scenario='')
+  private $product;
+
+  public function __construct(\pay\models\Product $product, $scenario='')
   {
-    if ($booking != null)
-    {
-      $this->Owner = $booking->Owner;
-      $this->DateIn = $booking->DateIn;
-      $this->DateOut = $booking->DateOut;
-      $this->Paid = $booking->Paid;
-    }
+    $this->product = $product;
   }
 
   public function rules()
@@ -25,10 +22,20 @@ class PartnerBooking extends \CFormModel
     return [
       ['Owner, DateIn, DateOut', 'required'],
       ['DateIn, DateOut', 'date', 'allowEmpty' => false, 'format' => 'yyyy-MM-dd'],
-      ['Paid', 'safe']
+      ['Paid', 'safe'],
+      ['AdditionalCount', 'checkAdditional']
     ];
   }
 
+  public function checkAdditional($attribute)
+  {
+    /** @var \pay\components\managers\RoomProductManager $manager */
+    $manager = $this->product->getManager();
+    if ($manager->PlaceMore < $this->AdditionalCount)
+    {
+      $this->addError('AdditionalCount', 'Количество выбранных доп. мест превышает максимально допустимое для данного номера. Максимум: ' .$manager->PlaceMore);
+    }
+  }
 
 
   public function attributeLabels()
@@ -37,6 +44,7 @@ class PartnerBooking extends \CFormModel
       'Owner' => 'Название',
       'DateIn' => 'Дата заезда',
       'DateOut' => 'Дата выезда',
+      'AdditionalCount' => 'Количество доп. мест'
     ];
   }
 

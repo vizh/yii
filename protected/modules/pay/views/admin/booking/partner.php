@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var string $owner
+ * @var \pay\models\RoomPartnerOrder[] $orders
+ * @var \pay\models\RoomPartnerBooking[] $bookings
+ */
+?>
 <div class="btn-toolbar"></div>
 <div class="well">
   <h2>Партнер: <?=$owner;?></h2>
@@ -5,10 +12,12 @@
     <h3><?=\Yii::t('app', 'Счета');?></h3>
     <table class="table">
       <thead>
+      <tr>
         <th><?=\Yii::t('app', 'Кол-во номеров');?></th>
         <th><?=\Yii::t('app', 'Сумма');?></th>
         <th><?=\Yii::t('app', 'Статус');?></th>
         <th></th>
+      </tr>
       </thead>
       <tbody>
         <?foreach ($orders as $order):?>
@@ -44,18 +53,26 @@
       <?=\CHtml::hiddenField('owner', $owner);?>
       <table class="table">
         <thead>
-          <th><?=\Yii::t('app', 'Заказ');?></th>
-          <th></th>
+        <tr>
+          <th colspan="2"><?=\Yii::t('app', 'Заказ');?></th>
+          <th>Дата заезда</th>
+          <th>Дата выезда</th>
+          <th>Доп. мест</th>
+          <th>Итого за номер</th>
+        </tr>
         </thead>
         <?foreach ($bookings as $booking):?>
-          <?$manager = $booking->Product->getManager();
-          $price = $manager->Price * $booking->getStayDay();
+          <?
+          /** @var \pay\components\managers\RoomProductManager $manager */
+          $manager = $booking->Product->getManager();
+          $price = $booking->getStayDay() * $manager->Price + $booking->AdditionalCount * $manager->AdditionalPrice;
           ?>
           <tr>
-            <td style="width: 1px;"><?=\CHtml::checkBox('bookingIdList[]', false, ['value' => $booking->Id]);?></td>
-            <td><?=$manager->Hotel;?>, <?=$manager->Housing;?>, №<?=$manager->Number;?></td>
+            <td style="width: 1px;"><label class="checkbox"><?=\CHtml::checkBox('bookingIdList[]', false, ['value' => $booking->Id]);?></label></td>
+            <td><a href="<?=Yii::app()->createUrl('/pay/admin/booking/edit', ['productId' => $booking->Product->Id]);?>"><?=$manager->Hotel;?>, <?=$manager->Housing;?>, №<?=$manager->Number;?></a></td>
             <td><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $booking->DateIn);?></td>
             <td><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $booking->DateOut);?></td>
+            <td><span class="label label-info"><?=$booking->AdditionalCount;?></span></td>
             <td><span class="label"><?=$price;?> <?=\Yii::t('app', 'руб');?></span></td>
           </tr>
         <?endforeach;?>

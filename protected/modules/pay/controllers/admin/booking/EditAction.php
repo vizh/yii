@@ -45,7 +45,7 @@ class EditAction extends \CAction
   private function parseNewPartner()
   {
     $request = \Yii::app()->getRequest();
-    $formNewPartner = new \pay\models\forms\admin\PartnerBooking();
+    $formNewPartner = new \pay\models\forms\admin\PartnerBooking($this->product);
     if ($request->getParam('createPartner') != null)
     {
       $formNewPartner->setAttributes($request->getParam('partnerNewData'));
@@ -56,6 +56,7 @@ class EditAction extends \CAction
         $newPartnerBooking->Owner = $formNewPartner->Owner;
         $newPartnerBooking->DateIn = $formNewPartner->DateIn;
         $newPartnerBooking->DateOut = $formNewPartner->DateOut;
+        $newPartnerBooking->AdditionalCount = (int)$formNewPartner->AdditionalCount;
         $newPartnerBooking->save();
 
         $this->getController()->refresh();
@@ -77,7 +78,7 @@ class EditAction extends \CAction
         $partnerBooking = \pay\models\RoomPartnerBooking::model()->findByPk($key);
         if ($partnerBooking != null && !$partnerBooking->Paid)
         {
-          $form = new \pay\models\forms\admin\PartnerBooking();
+          $form = new \pay\models\forms\admin\PartnerBooking($this->product);
           $form->setAttributes($data);
           $form->Owner = $partnerBooking->Owner;
           if ($form->validate())
@@ -85,6 +86,7 @@ class EditAction extends \CAction
             $partnerBooking->DateIn = $form->DateIn;
             $partnerBooking->DateOut = $form->DateOut;
             $partnerBooking->Paid = $form->Paid == 1;
+            $partnerBooking->AdditionalCount = (int)$form->AdditionalCount;
             $partnerBooking->save();
           }
           else

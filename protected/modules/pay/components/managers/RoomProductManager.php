@@ -16,6 +16,7 @@ namespace pay\components\managers;
  * @property string $DescriptionMore
  * @property string $Price
  *
+ * @property string $AdditionalPrice
  * @property string $Visible
  *
  */
@@ -43,6 +44,7 @@ class RoomProductManager extends BaseProductManager
       'DescriptionMore',
       'Price',
       //-------
+      'AdditionalPrice',
       'Visible'
     );
   }
