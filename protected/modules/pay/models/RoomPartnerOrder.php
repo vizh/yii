@@ -24,6 +24,8 @@ namespace pay\models;
  * @property string $ChiefNameP
  * @property string $ChiefPositionP
  *
+ *
+ * @property RoomPartnerBooking[] $Bookings
  */
 class RoomPartnerOrder extends \CActiveRecord
 {

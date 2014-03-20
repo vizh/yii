@@ -115,7 +115,7 @@
             <?
             /** @var \pay\components\managers\RoomProductManager $manager */
             $manager = $booking->Product->getManager();
-            $price = $booking->getStayDay() * $manager->Price + $booking->AdditionalCount * $manager->AdditionalPrice;
+            $price = $booking->getStayDay() * ((int)$manager->Price + $booking->AdditionalCount * $manager->AdditionalPrice);
             ?>
             <tr>
               <td style="width: 1px;"><?=\CHtml::activeCheckBox($form, 'BookingIdList[]', ['uncheckValue' => null, 'value' => $booking->Id, 'checked' => in_array($booking->Id, $form->BookingIdList), 'data-price' => $price]);?></td>

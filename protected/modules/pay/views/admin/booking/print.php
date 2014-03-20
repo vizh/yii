@@ -62,14 +62,17 @@
             </thead>
             <tbody>
               <?foreach ($order->Bookings as $booking):?>
-                <?$manager = $booking->Product->getManager();?>
+                <?
+                /** @var \pay\components\managers\RoomProductManager $manager */
+                $manager = $booking->Product->getManager();
+                ?>
                 <tr>
                   <td style="border: 1px solid #000000;padding: 8px;"><?=$manager->Hotel;?></td>
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->Housing;?></td>
                   <td style="border: 1px solid #000000;padding: 8px;"><?=$manager->Category;?></td>
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->Number;?></td>
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->Price;?></td>
-                  <td style="border: 1px solid #000000;padding: 8px;text-align:center;">&nbsp;</td>
+                  <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->AdditionalPrice * $booking->AdditionalCount;?></td>
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;">
                     <?if ($booking->DateIn <= '2014-04-22' && $booking->DateOut >= '2014-04-23'):?>1<?endif;?>
                   </td>
@@ -80,7 +83,7 @@
                     <?if ($booking->DateIn <= '2014-04-24' && $booking->DateOut >= '2014-04-25'):?>1<?endif;?>
                   </td>
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$booking->getStayDay();?></td>
-                  <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$booking->getStayDay()*$manager->Price;?></td>
+                  <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$booking->getStayDay()*((int)$manager->Price + $booking->AdditionalCount * $manager->AdditionalPrice);?></td>
                 </tr>
               <?endforeach;?>
             </tbody>
