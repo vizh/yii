@@ -32,7 +32,7 @@ return array(
     'allow',
     'roles' => array('base'),
     'controllers' => array('user'),
-    'actions' => array('auth', 'search', 'create', 'get', 'login')
+    'actions' => array('auth', 'search', 'create', 'get', 'login', 'purposes')
   ),
   array(
     'allow',
@@ -48,7 +48,7 @@ return array(
     'allow',
     'roles' => array('base'),
     'controllers' => array('event'),
-    'actions' => array('roles', 'register', 'list', 'info', 'companies', 'statistics', 'users')
+    'actions' => array('roles', 'register', 'list', 'info', 'companies', 'statistics', 'users', 'purposes')
   ),
   array(
     'allow',
@@ -59,6 +59,11 @@ return array(
     'allow',
     'roles' => array('base'),
     'controllers' => array('invite')
+  ),
+  array(
+    'allow',
+    'roles' => array('base'),
+    'controllers' => array('purpose')
   ),
 
 

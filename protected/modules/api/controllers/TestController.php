@@ -4,8 +4,10 @@ class TestController extends CController
 {
   public function actionIndex()
   {
-    $api = 'zrnzd5rs8i';
-    $secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
+    //$api = 'zrnzd5rs8i';
+    //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
+    $api = '749dnb4h3n';
+    $secret = 'nRd3kR8FbBaHd6DbBkd6QHKbF';
 
     $params = array(
       'ApiKey' => $api,
@@ -15,9 +17,11 @@ class TestController extends CController
     //$params['Email'] = 'alaris.nik@gmail.com';
     //$params['LastName'] = 'Никитин';
     //$params['FirstName'] = 'Виталий';
-    $params['ExternalId'] = 121;
-    $params['RoleId'] = 5;
-    $this->apiRequest('/api/ms/updateRegistration', $params);
+    //$params['ExternalId'] = 121;
+    //$params['RoleId'] = 5;
+    $params['RunetId'] = 321;
+    $params['PurposeId'] = 1;
+    $this->apiRequest('/api/purpose/add', $params);
   }
 
   private function apiRequest($url, $params)

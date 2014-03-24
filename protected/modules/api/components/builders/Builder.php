@@ -537,4 +537,17 @@ class Builder
     $this->inviteRequest->Approved = $request->Approved;
     return $this->inviteRequest;
   }
+
+  protected $purpose;
+
+  /**
+   * @param \event\models\Purpose $purpose
+   */
+  public function createEventPuprose(\event\models\Purpose $purpose)
+  {
+    $this->purpose = new \stdClass();
+    $this->purpose->Id = $purpose->Id;
+    $this->purpose->Title = $purpose->Title;
+    return $this->purpose;
+  }
 }
