@@ -12,6 +12,7 @@ namespace pay\models;
  * @property bool $EnableCoupon
  * @property bool $Public
  * @property int $Priority
+ * @property string $AdditionalAttributes
  *
  * @property \event\models\Event $Event
  * @property ProductAttribute[] $Attributes
@@ -177,5 +178,25 @@ class Product extends \application\models\translation\ActiveRecord
   public function getTranslationFields()
   {
     return ['Title', 'Description'];
+  }
+
+  /**
+   * @return AdditionalAttribute[]
+   */
+  public function getAdditionalAttributes()
+  {
+    if ($this->AdditionalAttributes == null)
+    {
+      return [];
+    }
+    return unserialize(base64_decode($this->AdditionalAttributes));
+  }
+
+  /**
+   * @param AdditionalAttribute[] $attributes
+   */
+  public function setAdditionalAttributes($attributes)
+  {
+    $this->AdditionalAttributes = base64_encode(serialize($attributes));
   }
 }

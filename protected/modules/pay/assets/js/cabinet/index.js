@@ -33,4 +33,15 @@ $(function () {
   payButtons.on('click', function () {
     return offerCheckbox.prop('checked');
   });
+
+
+  $('.pay-buttons a').click(function (e) {
+    $target = $(e.currentTarget);
+    $form = $('form.additional-attributes');
+    if ($form.size() > 0 && !$target.is('[disabled=disabled]')) {
+      $form.find('input[name*="SuccessUrl"]').val($target.attr('href'));
+      $form.submit();
+      return false;
+    }
+  });
 });

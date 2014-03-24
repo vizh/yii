@@ -16,6 +16,7 @@ class Product extends \CFormModel
   public $ManagerName;
   public $Attributes = [];
   public $Prices = [];
+  public $AdditionalAttributes = [];
   public $Delete;
 
   public function __construct(\event\models\Event $event, \pay\models\Product $product = null, $scenario = '')
@@ -26,6 +27,9 @@ class Product extends \CFormModel
     {
       foreach ($product->getAttributes() as $attr => $value)
       {
+        if ($attr == 'AdditionalAttributes')
+          continue;
+
         if (in_array($attr, $this->attributeNames()))
           $this->$attr = $value;
       }
@@ -44,6 +48,17 @@ class Product extends \CFormModel
         $this->Prices[] = $form;
       }
       unset($values['Prices']);
+    }
+
+    if (isset($values['AdditionalAttributes']))
+    {
+      foreach($values['AdditionalAttributes'] as $value)
+      {
+        $form = new \pay\models\forms\AdditionalAttribute();
+        $form->attributes = $value;
+        $this->AdditionalAttributes[] = $form;
+      }
+      unset($values['AdditionalAttributes']);
     }
 
     if (!empty($values['Id']))
@@ -66,7 +81,7 @@ class Product extends \CFormModel
     }
     return $attributes;
   }
-  
+
   public function filterPrices($prices)
   {
     $valid = true;
@@ -98,7 +113,7 @@ class Product extends \CFormModel
     }
     return $prices;
   }
-  
+
   public function clearPrices()
   {
     foreach ($this->Prices as $i => $formPrice)
@@ -167,8 +182,26 @@ class Product extends \CFormModel
       ['Title,ManagerName,Unit', 'required'],
       ['Description', 'filter', 'filter' => [$this, 'filterDescription']],
       ['Prices', 'filter', 'filter' => array($this, 'filterPrices')],
-      ['Attributes', 'filter', 'filter' => array($this, 'filterAttributes')]
+      ['Attributes', 'filter', 'filter' => array($this, 'filterAttributes')],
+      ['AdditionalAttributes', 'filter', 'filter' => [$this, 'filterAdditionalAttributes']]
     ];
+  }
+
+  public function filterAdditionalAttributes($attributes)
+  {
+    $valid = true;
+    foreach ($attributes as $attr)
+    {
+      if (!$attr->validate())
+      {
+        $valid = false;
+      }
+    }
+    if (!$valid)
+    {
+      $this->addError('Prices', \Yii::t('app', 'Ошибка в заполнении дополнительных параметров заказа'));
+    }
+    return $attributes;
   }
 
   public function filterDescription($value)
@@ -192,7 +225,8 @@ class Product extends \CFormModel
       'Attributes' => \Yii::t('app', 'Параметры'),
       'Prices' => \Yii::t('app', 'Цены'),
       'Unit' => \Yii::t('app', 'Ед. измерения'),
-      'EnableCoupon' => \Yii::t('app', 'Разрешить промо-коды')
+      'EnableCoupon' => \Yii::t('app', 'Разрешить промо-коды'),
+      'AdditionalAttributes' => \Yii::t('app', 'Дополнительные параметры заказа')
     ];
   }
 }

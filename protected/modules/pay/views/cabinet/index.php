@@ -24,8 +24,12 @@
       </div>
     </div>
 
-    <?$this->renderPartial('index/unpaidItems', array('unpaidItems' => $unpaidItems, 'hasRecentPaidItems' => $hasRecentPaidItems, 'account' => $account));?>
-
+    <?$this->renderPartial('index/unpaidItems', [
+      'unpaidItems' => $unpaidItems,
+      'hasRecentPaidItems' => $hasRecentPaidItems,
+      'account' => $account,
+      'formAdditionalAttributes' => $formAdditionalAttributes
+    ]);?>
     <?if (sizeof($finder->getUnpaidOrderCollections()) > 0):?>
       <?$this->renderPartial('index/orders', array('finder' => $finder));?>
     <?endif;?>

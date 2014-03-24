@@ -31,6 +31,17 @@ class ProductAction extends \CAction
       {
         $formProduct->Attributes[$attr->Name] = $attr->Value;
       }
+
+      foreach($product->getAdditionalAttributes() as $attr)
+      {
+        $formAdditionalAttribute = new \pay\models\forms\AdditionalAttribute();
+        $formAdditionalAttribute->Name  = $attr->Name;
+        $formAdditionalAttribute->Label = $attr->Label;
+        $formAdditionalAttribute->Type  = $attr->Type;
+        $formAdditionalAttribute->Order = $attr->Order;
+        $formProduct->AdditionalAttributes[] = $formAdditionalAttribute;
+      }
+
       $this->formProducts[] = $formProduct;
     }
     
@@ -88,6 +99,19 @@ class ProductAction extends \CAction
       $product->Priority = $form->Priority;
       $product->Unit = $form->Unit;
       $product->ManagerName = $form->ManagerName;
+
+      $additionalAttributes = [];
+      foreach($form->AdditionalAttributes as $formAdditionalAttribute)
+      {
+        $additionalAttribute = new \pay\models\AdditionalAttribute();
+        $additionalAttribute->Name  = $formAdditionalAttribute->Name;
+        $additionalAttribute->Label = $formAdditionalAttribute->Label;
+        $additionalAttribute->Type  = $formAdditionalAttribute->Type;
+        $additionalAttribute->Order = $formAdditionalAttribute->Order;
+        $additionalAttributes[] = $additionalAttribute;
+      }
+      $product->setAdditionalAttributes($additionalAttributes);
+
       $product->save();
       
       foreach ($form->Attributes as $name => $value)
@@ -121,7 +145,7 @@ class ProductAction extends \CAction
         $price->EndTime   = $formPrice->getEndTime();
         $price->save();
       }
-      
+
       $this->successAndRefresh();
     }
     else

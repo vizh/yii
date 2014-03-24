@@ -4,6 +4,7 @@
  * @var $hasRecentPaidItems bool
  * @var $this CabinetController
  * @var $account \pay\models\Account
+ * @var $formAdditionalAttributes \pay\models\forms\AddtionalAttributes
  */
 
 $total = 0;
@@ -98,13 +99,30 @@ $total = 0;
   </div>
 
   <div style="width: 500px; margin: 0 auto; margin-bottom: 40px;">
+    <?if (!$formAdditionalAttributes->getIsEmpty()):?>
+      <div class="well m-bottom_30">
+        <h4><?=\Yii::t('app', 'Дополнительные данные для отправки пакета материалов');?></h4>
+        <?=\CHtml::errorSummary($formAdditionalAttributes, '<div class="alert alert-error">', '</div>');?>
+        <?=\CHtml::form('','POST',['class' => 'additional-attributes']);?>
+        <?foreach($formAdditionalAttributes->attributeNames() as $attr):?>
+          <div class="control-group">
+            <?=\CHtml::activeLabel($formAdditionalAttributes, $attr, ['class' => 'control-label']);?>
+            <div class="controls">
+              <?=$formAdditionalAttributes->getHtmlActiveField($attr);?>
+            </div>
+          </div>
+        <?endforeach;?>
+        <?=\CHtml::activeHiddenField($formAdditionalAttributes, 'SuccessUrl');?>
+        <?=\CHtml::endForm();?>
+      </div>
+    <?endif;?>
+
     <label class="checkbox">
       <input type="checkbox" name="agreeOffer" value="1"/><?=\Yii::t('app', 'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате', array('{url}' => $this->createUrl('/pay/cabinet/offer')));?>
     </label>
   </div>
 
   <?$this->renderPartial('index/payments', array('account' => $account));?>
-
 <?else:?>
 
   <style type="text/css">

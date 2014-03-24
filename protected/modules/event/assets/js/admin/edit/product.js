@@ -17,9 +17,17 @@ CEventEditProduct.prototype = {
       
       form.find('a.new-price').click(function () {
         var data = {'Id' : '', 'Price' : '', 'Title' : '', 'StartDate' : '', 'EndDate' : '', 'ProductId' : $(form).find('input[id*="Product_Id"]').val()};
-        form.find('.prices').append(
-          self.createPriceControlGroup(form, data)
-        );
+        self.createPriceControlGroup(form, data)
+        return false;
+      });
+
+      $.each(form.data('additional-attributes'), function (i, attribute) {
+        self.createAdditionalAttributeControlGroup(form, attribute);
+      });
+
+      form.find('a.new-additional-attribute').click(function () {
+        var data = {'Name' : '', 'Label' : '', 'Type' : '', 'Order' : 0};
+        self.createAdditionalAttributeControlGroup(form, data);
         return false;
       });
     });
@@ -44,6 +52,7 @@ CEventEditProduct.prototype = {
     cg.find('.btn.btn-danger').click(function (e) {
       cg.find('input[name*="Delete"]').val(1);
       cg.hide();
+      return false;
     });
     
     cg.find('input[name*="StartDate"],input[name*="EndDate"]').datepicker();
@@ -51,6 +60,24 @@ CEventEditProduct.prototype = {
     iterator++;
     form.data('price-iterator', iterator);
     form.find('.prices').append(cg);
+  },
+
+  createAdditionalAttributeControlGroup : function (form, data) {
+    var iterator = form.data('additional-attribute-iterator');
+    data.i = iterator;
+    var cg = $('<div/>', {
+      'class' : 'control-group',
+      'html'  : _.template($('#tpl__additional-attribute-control-group').html(), data)
+    });
+
+    cg.find('.btn.btn-danger').click(function (e) {
+      cg.remove();
+      return false;
+    });
+
+    iterator++;
+    form.data('additional-attribute-iterator', iterator);
+    form.find('.additional-attributes').append(cg);
   }
 };
 

@@ -32,8 +32,14 @@
             {
               $prices[] = $price->getAttributes();
             }
+
+            $additionalAttributes = [];
+            foreach ($formProduct->AdditionalAttributes as $additionalAttribute)
+            {
+              $additionalAttributes[] = $additionalAttribute->getAttributes();
+            }
             ?>
-            <form method="POST" class="form-horizontal" data-prices='<?=json_encode($prices);?>' data-price-iterator ="0">
+            <form method="POST" class="form-horizontal" data-prices='<?=json_encode($prices);?>' data-price-iterator ="0" data-additional-attributes='<?=json_encode($additionalAttributes);?>' data-additional-attribute-iterator="0">
             <?=\CHtml::errorSummary($formProduct, '<div class="alert alert-error">', '</div>');?>
             <div class="control-group">
               <?=\CHtml::activeLabel($formProduct, 'Title', ['class' => 'control-label']);?>
@@ -100,6 +106,13 @@
               </div>
             </div>
             <div class="prices"></div>
+
+            <div class="control-group" style="margin-bottom: 0;">
+              <div class="controls">
+                <h5><?=$formProduct->getAttributeLabel('AdditionalAttributes');?></h5> <?=\CHtml::link(\Yii::t('app', 'Добавить атрибут'), '#', ['class' => 'btn btn-mini m-bottom_10 new-additional-attribute']);?>
+              </div>
+            </div>
+            <div class="additional-attributes"></div>
             
             <div class="control-group">
               <div class="controls">
@@ -165,6 +178,20 @@
       <input type="hidden" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][ProductId]');?>" value="<%=ProductId%>" />
       <input type="hidden" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][Id]');?>" value="<%=Id%>" />
       <input type="hidden" name="<?=\CHtml::activeName($formNewProduct, 'Prices[<%=i%>][Delete]');?>" value="" />
+    </div>
+  </script>
+
+  <script type="text/template" id="tpl__additional-attribute-control-group">
+    <div class="controls">
+      <input type="text" value="<%=Name%>" name="<?=\CHtml::activeName($formNewProduct, 'AdditionalAttributes[<%=i%>][Name]');?>" class="input-small" placeholder="<?=\Yii::t('app', 'Символьный код');?>" />
+      <input type="text" value="<%=Label%>" name="<?=\CHtml::activeName($formNewProduct, 'AdditionalAttributes[<%=i%>][Label]');?>" placeholder="<?=\Yii::t('app', 'Название');?>" />
+      <select name="<?=\CHtml::activeName($formNewProduct, 'AdditionalAttributes[<%=i%>][Type]');?>" class="input-small">
+        <%_.each(<?=json_encode(\pay\models\AdditionalAttribute::getTypes());?>, function(value) { %>
+          <option value="<%=value%>" <%if(value==Type){%>selected="selected"<%}%>><%=value%></option>
+        <% }); %>
+      </select>
+      <input type="text" value="<%=Order%>" class="input-mini" name="<?=\CHtml::activeName($formNewProduct, 'AdditionalAttributes[<%=i%>][Order]');?>" placeholder="<?=\Yii::t('app', 'Сортировка');?>" />
+      <a href="#" class="btn btn-danger"><?=\Yii::t('app', 'Удалить');?></a>
     </div>
   </script>
 </div>
