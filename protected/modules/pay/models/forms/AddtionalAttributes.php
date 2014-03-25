@@ -4,6 +4,7 @@ namespace pay\models\forms;
 class AddtionalAttributes extends \CFormModel
 {
   public $SuccessUrl;
+  public $FormTitle = null;
 
   private $attributes;
   private $values;

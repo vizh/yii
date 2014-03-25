@@ -113,7 +113,14 @@
               </div>
             </div>
             <div class="additional-attributes"></div>
-            
+
+            <div class="control-group">
+              <?=\CHtml::activeLabel($formProduct, 'AdditionalAttributesTitle', ['class' => 'control-label']);?>
+              <div class="controls">
+                <?=\CHtml::activeTextField($formProduct, 'AdditionalAttributesTitle');?>
+              </div>
+            </div>
+
             <div class="control-group">
               <div class="controls">
                 <?=\CHtml::activeHiddenField($formProduct, 'Id');?>

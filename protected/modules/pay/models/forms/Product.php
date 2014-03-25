@@ -16,6 +16,7 @@ class Product extends \CFormModel
   public $ManagerName;
   public $Attributes = [];
   public $Prices = [];
+  public $AdditionalAttributesTitle;
   public $AdditionalAttributes = [];
   public $Delete;
 
@@ -178,7 +179,7 @@ class Product extends \CFormModel
   public function rules()
   {
     return [
-      ['Id,Public,Priority,EnableCoupon,Delete', 'safe'],
+      ['Id,Public,Priority,EnableCoupon,Delete,AdditionalAttributesTitle', 'safe'],
       ['Title,ManagerName,Unit', 'required'],
       ['Description', 'filter', 'filter' => [$this, 'filterDescription']],
       ['Prices', 'filter', 'filter' => array($this, 'filterPrices')],
@@ -226,7 +227,8 @@ class Product extends \CFormModel
       'Prices' => \Yii::t('app', 'Цены'),
       'Unit' => \Yii::t('app', 'Ед. измерения'),
       'EnableCoupon' => \Yii::t('app', 'Разрешить промо-коды'),
-      'AdditionalAttributes' => \Yii::t('app', 'Дополнительные параметры заказа')
+      'AdditionalAttributes' => \Yii::t('app', 'Дополнительные параметры заказа'),
+      'AdditionalAttributesTitle' => \Yii::t('app', 'Заголовок к дополнительным параметрам')
     ];
   }
 }

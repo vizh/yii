@@ -13,6 +13,7 @@ namespace pay\models;
  * @property bool $Public
  * @property int $Priority
  * @property string $AdditionalAttributes
+ * @property string $AdditionalAttributesTitle
  *
  * @property \event\models\Event $Event
  * @property ProductAttribute[] $Attributes

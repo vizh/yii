@@ -75,17 +75,24 @@ class IndexAction extends \pay\components\Action
    */
   private function getAddtionalAttributesForm(\pay\components\collection\Finder $finder)
   {
+    $title = null;
     $attributes = [];
     $values = [];
     foreach ($finder->getUnpaidFreeCollection() as $item)
     {
-      foreach ($item->getOrderItem()->Product->getAdditionalAttributes() as $attr)
+      $product = $item->getOrderItem()->Product;
+      foreach ($product->getAdditionalAttributes() as $attr)
       {
         $attributes[$attr->Name] = $attr;
         $value = \pay\models\EventUserAdditionalAttribute::model()->byEventId($this->getEvent()->Id)->byUserId($this->getUser()->Id)->byName($attr->Name)->find();
         if ($value !== null)
         {
           $values[$value->Name] = $value->Value;
+        }
+
+        if (!empty($product->AdditionalAttributesTitle))
+        {
+          $title = $product->AdditionalAttributesTitle;
         }
       }
     }
@@ -98,6 +105,7 @@ class IndexAction extends \pay\components\Action
     });
 
     $form = new \pay\models\forms\AddtionalAttributes($attributes, $values);
+    $form->FormTitle = $title;
     return $form;
   }
 
