@@ -14,8 +14,8 @@ class ReceiptController extends \pay\components\Controller
 
     if (sizeof($unpaidItems) > 0)
     {
-      $order->create($this->getUser(), $this->getEvent(), false, [], true);
-      $this->redirect(\Yii::app()->createUrl('/pay/order/index', array('orderId' => $order->Id, 'hash' => $order->getHash())));
+      $order->create($this->getUser(), $this->getEvent(), \pay\models\OrderType::Receipt, []);
+      $this->redirect(\Yii::app()->createUrl('/pay/order/index', ['orderId' => $order->Id, 'hash' => $order->getHash()]));
     }
 
     $this->render('index', []);

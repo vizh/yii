@@ -22,7 +22,7 @@ class CreateAction extends \pay\components\Action
       $form->attributes = $request->getParam(get_class($form));
       if ($request->getIsPostRequest() && $request->getParam(get_class($form)) !== null && $form->validate())
       {
-        $order->create($this->getUser(), $this->getEvent(), true, $form->attributes);
+        $order->create($this->getUser(), $this->getEvent(), \pay\models\OrderType::Juridical, $form->attributes);
         $this->getController()->redirect(\Yii::app()->createUrl('/pay/order/index', array('orderId' => $order->Id, 'hash' => $order->getHash())));
       }
     }

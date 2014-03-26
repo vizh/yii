@@ -12,7 +12,7 @@
   Уважаемый пользователь.
 <?endif;?>
 
-<p>Финансовая служба подтверждает получение оплаты по <?=$order->Receipt ? 'квитанции' :'счету';?> №<?=$order->Id;?> на оплату участия в конференции AppSummit на сумму <?=$total;?> руб. за следующие услуги:<br/>
+<p>Финансовая служба подтверждает получение оплаты по <?=$order->Type == \pay\models\OrderType::Receipt  ? 'квитанции' :'счету';?> №<?=$order->Id;?> на оплату участия в конференции AppSummit на сумму <?=$total;?> руб. за следующие услуги:<br/>
   <?foreach($items as $orderItem):?>
     &ndash; "<?=$orderItem->Product->Title;?>" на <?=$orderItem->Owner->getFullName();?><br/>
   <?endforeach;?>

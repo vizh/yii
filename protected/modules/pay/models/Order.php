@@ -15,6 +15,7 @@ namespace pay\models;
  * @property bool $Receipt
  * @property int $TemplateId
  * @property string $Number
+ * @property int $Type
  *
  *
  * @property OrderLinkOrderItem[] $ItemLinks
@@ -94,6 +95,27 @@ class Order extends \CActiveRecord
   }
 
   /**
+   * @param $longPayment
+   * @param bool $useAnd
+   *
+   * @return Order
+   */
+  public function byLongPayment($longPayment, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    if ($longPayment)
+    {
+      $criteria->addInCondition('"t"."Type"', OrderType::getLong(), $useAnd);
+    }
+    else
+    {
+      $criteria->addNotInCondition('"t"."Type"', OrderType::getLong(), $useAnd);
+    }
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
    * @param $bankTransfer
    * @param bool $useAnd
    *
@@ -102,7 +124,14 @@ class Order extends \CActiveRecord
   public function byBankTransfer($bankTransfer, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = ($bankTransfer ? '' : 'NOT ') . '("t"."Juridical" OR "t"."Receipt")';
+    if ($bankTransfer)
+    {
+      $criteria->addInCondition('"t"."Type"', OrderType::getBank(), $useAnd);
+    }
+    else
+    {
+      $criteria->addNotInCondition('"t"."Type"', OrderType::getBank(), $useAnd);
+    }
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -115,7 +144,14 @@ class Order extends \CActiveRecord
   public function byJuridical($juridical, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = ($juridical ? '' : 'NOT ') . '"t"."Juridical"';
+    if ($juridical)
+    {
+      $criteria->addInCondition('"t"."Type"', [OrderType::Juridical], $useAnd);
+    }
+    else
+    {
+      $criteria->addNotInCondition('"t"."Type"', [OrderType::Juridical], $useAnd);
+    }
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -128,7 +164,14 @@ class Order extends \CActiveRecord
   public function byReceipt($receipt, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
-    $criteria->condition = ($receipt ? '' : 'NOT ') . '"t"."Receipt"';
+    if ($receipt)
+    {
+      $criteria->addInCondition('"t"."Type"', [OrderType::Receipt], $useAnd);
+    }
+    else
+    {
+      $criteria->addNotInCondition('"t"."Type"', [OrderType::Receipt], $useAnd);
+    }
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -232,14 +275,13 @@ class Order extends \CActiveRecord
    *
    * @param \user\models\User $user
    * @param \event\models\Event $event
-   * @param bool $juridical
-   * @param array $juridicalData
-   * @param bool $receipt
-   *
+   * @param int $type
+   * @param array $data
    * @throws \pay\components\Exception
+   *
    * @return int
    */
-  public function create($user, $event, $juridical = false, $juridicalData = [], $receipt = false)
+  public function create($user, $event, $type, $data = [])
   {
     $account = \pay\models\Account::model()->byEventId($event->Id)->find();
     if ($account == null)
@@ -258,8 +300,7 @@ class Order extends \CActiveRecord
 
     $this->PayerId = $user->Id;
     $this->EventId = $event->Id;
-    $this->Juridical = $juridical;
-    $this->Receipt = $receipt;
+    $this->Type = $type;
     $this->save();
     $this->refresh();
 
@@ -272,7 +313,7 @@ class Order extends \CActiveRecord
       $orderLink->OrderItemId = $item->getOrderItem()->Id;
       $orderLink->save();
 
-      if ($juridical || $receipt) //todo: костыль для РИФ+КИБ проживания, продумать адекватное выставление сроков бронирования
+      if (OrderType::getIsLong($this->Type)) //todo: костыль для РИФ+КИБ проживания, продумать адекватное выставление сроков бронирования
       {
         if ($item->getOrderItem()->Booked != null)
         {
@@ -283,39 +324,25 @@ class Order extends \CActiveRecord
       }
     }
 
-    if ($juridical || $receipt)
+    if (OrderType::getIsLong($this->Type))
     {
       $orderJuridical= new OrderJuridical();
       $orderJuridical->OrderId = $this->Id;
-      if (!$receipt)
+      if ($this->Type == OrderType::Juridical)
       {
-        $orderJuridical->Name = $juridicalData['Name'];
-        $orderJuridical->Address = $juridicalData['Address'];
-        $orderJuridical->INN = $juridicalData['INN'];
-        $orderJuridical->KPP = $juridicalData['KPP'];
-        $orderJuridical->Phone = $juridicalData['Phone'];
-        $orderJuridical->PostAddress = $juridicalData['PostAddress'];
+        $orderJuridical->Name = $data['Name'];
+        $orderJuridical->Address = $data['Address'];
+        $orderJuridical->INN = $data['INN'];
+        $orderJuridical->KPP = $data['KPP'];
+        $orderJuridical->Phone = $data['Phone'];
+        $orderJuridical->PostAddress = $data['PostAddress'];
       }
       $orderJuridical->save();
-
-      $template = $juridical ? $account->OrderTemplate : $account->ReceiptTemplate;
-      $this->TemplateId = $template->Id;
-      $this->Number = $template->NumberFormat != null ? $template->getNextNumber() : null;
-      $this->save();
-
-      if ($this->Number == null)
-      {
-        $this->Number = $this->Id;
-        $this->save();
-      }
-      
-      $event = new \CModelEvent($this, ['payer' => $user, 'event' => $event, 'total' => $total]);
-      $this->onCreateOrderJuridical($event);
     }
     else
     {
       $orders = Order::model()->byEventId($this->EventId)->byPaid(false)->byDeleted(false)
-          ->byBankTransfer(false)->byPayerId($this->PayerId)->findAll();
+          ->byLongPayment(false)->byPayerId($this->PayerId)->findAll();
 
       foreach ($orders as $order)
       {
@@ -324,6 +351,22 @@ class Order extends \CActiveRecord
           $order->delete();
         }
       }
+    }
+
+    if (OrderType::getIsTemplate($this->Type))
+    {
+      $template = $this->Type == OrderType::Juridical ? $account->OrderTemplate : $account->ReceiptTemplate;
+      $this->TemplateId = $template->Id;
+      $this->Number = $template->NumberFormat != null ? $template->getNextNumber() : $this->Id;
+      $this->save();
+
+      $event = new \CModelEvent($this, ['payer' => $user, 'event' => $event, 'total' => $total]);
+      $this->onCreateOrderJuridical($event);
+    }
+    else
+    {
+      $this->Number = $this->Id;
+      $this->save();
     }
 
     return $total;
@@ -459,7 +502,7 @@ class Order extends \CActiveRecord
    */
   public function getIsBankTransfer()
   {
-    return $this->Juridical || $this->Receipt;
+    return OrderType::getIsBank($this->Type);
   }
 
 
@@ -468,7 +511,7 @@ class Order extends \CActiveRecord
    */
   public function getPayType()
   {
-    if (!$this->Juridical)
+    if (!OrderType::getIsBank($this->Type))
     {
       /** @var $log \pay\models\Log */
       $log = \pay\models\Log::model()->byOrderId($this->Id)->find();
@@ -481,5 +524,7 @@ class Order extends \CActiveRecord
     {
       return self::PayTypeJuridical;
     }
+
+    return 'unknown';
   }
 }

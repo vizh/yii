@@ -287,7 +287,7 @@ class DemoEventCreator
       else
         $order->CreationTime = self::generateRandomDate(self::$changePriceDate, self::$dayBeforeEventEndDate);
 
-      $order->create($users[0], $event, rand(0, 1), self::$juridicalData, rand(0, 1));
+      $order->create($users[0], $event, rand(1, 3), self::$juridicalData);
 
       // Некоторым активируем скидки
       if (!mt_rand(0, 2))

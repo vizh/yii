@@ -29,7 +29,7 @@ class Base extends \mail\components\Mail
 
   public function getSubject()
   {
-    if (!$this->order->Receipt)
+    if ($this->order->Type != \pay\models\OrderType::Receipt)
     {
       return 'Счет на оплату '.$this->event->Title;
     }

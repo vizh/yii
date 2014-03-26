@@ -22,7 +22,7 @@
           <?= \CHtml::endForm(); ?>
         <?endif;?>
       </td>
-      <td><?=\Yii::t('app', $collection->getOrder()->Receipt ? 'Квитанция' : 'Счет');?> № <?=$collection->getOrder()->Number;?> <?=\Yii::t('app', 'от');?> <?=\Yii::app()->dateFormatter->format('d MMMM yyyy', $collection->getOrder()->CreationTime);?>
+      <td><?=\Yii::t('app', $collection->getOrder()->Type == \pay\models\OrderType::Receipt ? 'Квитанция' : 'Счет');?> № <?=$collection->getOrder()->Number;?> <?=\Yii::t('app', 'от');?> <?=\Yii::app()->dateFormatter->format('d MMMM yyyy', $collection->getOrder()->CreationTime);?>
 
 
       </td>
@@ -33,7 +33,7 @@
         <?endif;?>
       </td>
 
-      <td><a target="_blank" href="<?=$collection->getOrder()->getUrl();?>"><?=\Yii::t('app', 'Просмотреть '.($collection->getOrder()->Receipt ? 'квитанцию' : 'счет'));?></a></td>
+      <td><a target="_blank" href="<?=$collection->getOrder()->getUrl();?>"><?=\Yii::t('app', 'Просмотреть '.($collection->getOrder()->Type == \pay\models\OrderType::Receipt ? 'квитанцию' : 'счет'));?></a></td>
     </tr>
   <?endforeach;?>
   </tbody>

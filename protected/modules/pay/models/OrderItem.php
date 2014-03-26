@@ -359,7 +359,7 @@ class OrderItem extends \CActiveRecord
     $owner = $this->ChangedOwner !== null ? $this->ChangedOwner : $this->Owner;
     $result = $this->Product->getManager()->buyProduct($owner, $this);
     $this->Paid = true;
-    $this->PaidTime = ($order !== null && ($order->Juridical || $order->Receipt)) ? $order->CreationTime : date('Y-m-d H:i:s');
+    $this->PaidTime = ($order !== null && OrderType::getIsLong($order->Type)) ? $order->CreationTime : date('Y-m-d H:i:s');
     $this->save();
     return $result;
   }
@@ -456,7 +456,7 @@ class OrderItem extends \CActiveRecord
     $links = $this->OrderLinks(array('with' => array('Order')));
     foreach ($links as $link)
     {
-      if (($link->Order->Juridical || $link->Order->Receipt) && !$link->Order->Deleted)
+      if (OrderType::getIsLong($link->Order->Type) && !$link->Order->Deleted)
       {
         return false;
       }

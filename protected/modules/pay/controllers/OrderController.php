@@ -8,7 +8,7 @@ class OrderController extends \application\components\controllers\MainController
   {
     /** @var $order \pay\models\Order */
     $order = \pay\models\Order::model()->findByPk($orderId);
-    if ($order === null || (!$order->Juridical && !$order->Receipt))
+    if ($order === null || (!\pay\models\OrderType::getIsBank($order->Type)))
       throw new \CHttpException(404);
 
     $checkHash = $order->checkHash($hash);
@@ -48,7 +48,7 @@ class OrderController extends \application\components\controllers\MainController
     $account = \pay\models\Account::model()->byEventId($order->EventId)->find();
 
     $template = null;
-    if (!$order->Receipt)
+    if ($order->Type == \pay\models\OrderType::Juridical)
     {
       $template = $order->Template != null ? $order->Template : $account->OrderTemplate;
       if ($template->OrderTemplateName === null)

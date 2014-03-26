@@ -72,7 +72,7 @@ class IndexAction extends \partner\components\Action
       {
         if ($link->Order->Paid)
         {
-          if (!$link->Order->Juridical)
+          if (!\pay\models\OrderType::getIsBank($link->Order->Type))
           {
             /** @var $log \pay\models\Log */
             $log = \pay\models\Log::model()->byOrderId($link->Order->Id)->find();

@@ -72,10 +72,10 @@
               <p class="muted"><?=$order->Id;?></p>
             </td>
             <td data-title="Краткие данные">
-              <?if ($order->Juridical && !$order->Receipt):?>
+              <?if ($order->Type == \pay\models\OrderType::Juridical):?>
                 <strong><?=$order->OrderJuridical->Name;?></strong><br>
                 ИНН/КПП:&nbsp;<?=$order->OrderJuridical->INN;?> / <?=$order->OrderJuridical->KPP;?>
-              <?elseif ($order->Receipt):?>
+              <?elseif ($order->Type == \pay\models\OrderType::Receipt):?>
                 <p class="text-warning"><strong>Квитанция</strong></p>
               <?else:?>
                 <p class="text-warning"><strong>Через платежную систему</strong></p>
@@ -110,7 +110,7 @@
                     <button class="btn btn-success disabled" type="submit" disabled name="SetPaid"><i class="icon-ok icon-white"></i></button>
                   <?endif;?>
 
-                  <?if ($order->Juridical):?>
+                  <?if ($order->Type == \pay\models\OrderType::Juridical):?>
                     <a class="btn" target="_blank" href="<?=$order->getUrl(true);?>"><i class="icon-print"></i></a>
                   <?else:?>
                     <a class="btn disabled" target="_blank"><i class="icon-print"></i></a>
