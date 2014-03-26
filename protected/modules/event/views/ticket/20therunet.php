@@ -201,25 +201,6 @@
                   <img src="http://runet-id.com/images/mail/spic13/ticket/runet-id_logo.gif" />
                 </td>
               </tr>
-
-              <tr>
-                <td>
-                  <table style="width: 100%; font-size: 15px; margin-bottom: 20px;" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td style="padding: 15px; border: 1px dashed #000000; width: 50%;">
-                        <img src="/img/event/dg14/ticket/offer_qrcode_paypal.png" alt="" title="" style="float: right;  margin-left: 10px;"/>
-                        <p style="padding-bottom: 10px; margin-top: 15px;">Cпециальное предложение для участников Digital Goods<br/>
-                          от <img src="http://getlogo.org/img/paypal/375/70x/" alt="PayPal" title="PayPal" style="display: inline-block; margin-top: 5px;"/></p>
-                      </td>
-                      <td style="padding: 15px; border: 1px dashed #000000; width: 50%;">
-                        <img src="/img/event/dg14/ticket/offer_qrcode_vtb24.png" alt="" title="" style="float: right;  margin-left: 10px;"/>
-                        <p style="padding-bottom: 10px; margin-top: 15px;">Cпециальное предложение для участников Digital Goods от<br/>
-                          <img src="http://getlogo.org/img/vtb24/351/x30/" alt="ВТБ24" title="ВТБ24" style="display: inline-block; margin-top: 5px;"/></p>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
             </table>
           </td>
         </tr>
@@ -227,9 +208,6 @@
     </td>
   </tr>
 </table>
-<div style="text-align: center; width: 810px; padding: 15px; border: 1px dashed #000000; margin-bottom: 15px;">
-  <img src="/img/event/dg14/ticket/banner1.png" />
-</div>
 <div style="text-align: center; width: 810px; padding: 15px; border: 1px dashed #000000;">
   <img src="/img/event/dg14/ticket/banner2.png" />
 </div>
