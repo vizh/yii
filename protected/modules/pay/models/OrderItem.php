@@ -258,55 +258,6 @@ class OrderItem extends \CActiveRecord
   }
 
   /**
-   * Добавляет ограничение на выборку не оплаченных не удаленных OrderItem, не включенных ни в какие не удаленные юр. счета
-   *
-   * @param int $payerId
-   * @param int $eventId
-   * @param bool $not
-   * @param bool $useAnd
-   *
-   * @return OrderItem
-   */
-  public function byInOrders($payerId, $eventId, $not = true, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->distinct = true;
-    $criteria->with = array(
-      'OrderLinks.Order' => array('select' => false, 'together' => true),
-    );
-    $criteria->addCondition('"Order"."Juridical"')
-        ->addCondition('NOT "Order"."Deleted"')
-        ->addCondition('"Order"."EventId" = :EventId');
-    $criteria->params = array('EventId' => $eventId);
-    $criteria->select = array('"t"."Id"');
-
-    $model = new OrderItem();
-    /** @var $items OrderItem[] */
-    $items = $model->byPayerId($payerId)
-        ->byPaid(false)
-        ->byDeleted(false)
-        ->findAll($criteria);
-    $ids = array();
-    foreach ($items as $item)
-    {
-      $ids[] = $item->Id;
-    }
-
-
-    $criteria = new \CDbCriteria();
-    if ($not)
-    {
-      $criteria->addNotInCondition('"t"."Id"', $ids);
-    }
-    else
-    {
-      $criteria->addInCondition('"t"."Id"', $ids);
-    }
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
    * @var CouponActivation
    */
   private $couponActivation = null;
@@ -499,23 +450,4 @@ class OrderItem extends \CActiveRecord
     );
     return $count;
   }
-
-  /**
-   * @param int $payerId
-   * @param int $eventId
-   *
-   * @return OrderItem[]
-   */
-  public static function getFreeItems($payerId, $eventId)
-  {
-    $model = OrderItem::model()
-        ->byBooked(true)->byPaid(true, false)
-        ->byPayerId($payerId)
-        ->byEventId($eventId)
-        ->byInOrders($payerId, $eventId)
-        ->byDeleted(false);
-
-    return $model->findAll();
-  }
-
 }

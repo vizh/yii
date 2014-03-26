@@ -385,34 +385,6 @@ class Order extends \CActiveRecord
   }
 
   /**
-   * @param \user\models\User $user
-   * @param \event\models\Event $event
-   *
-   * @return \pay\models\OrderItem[]
-   */
-  public function getUnpaidItems($user, $event)
-  {
-    $items = OrderItem::getFreeItems($user->Id, $event->Id);
-    /** @var $unpaidItems OrderItem[] */
-    $unpaidItems = array();
-    foreach ($items as $item)
-    {
-      if (!$item->Paid)
-      {
-        if ($item->Product->getManager()->checkProduct($item->Owner))
-        {
-          $unpaidItems[] = $item;
-        }
-        else
-        {
-          $item->delete();
-        }
-      }
-    }
-    return $unpaidItems;
-  }
-
-  /**
    * @static
    * @param string $start
    * @return string format Y-m-d H:i:s
