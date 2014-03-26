@@ -7,7 +7,7 @@ class PayAction extends \pay\components\Action
   {
 
     $order = new \pay\models\Order();
-    $total = $order->create($this->getUser(), $this->getEvent());
+    $total = $order->create($this->getUser(), $this->getEvent(), \pay\models\OrderType::PaySystem);
 
     /** @var $account \pay\models\Account */
     $account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();

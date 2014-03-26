@@ -71,10 +71,10 @@
           <tr>
             <td><p class="lead order-number"><?=$order->Number;?></p><p class="order-number muted"><?=$order->Id;?></p></td>
             <td>
-              <?if ($order->Juridical && !$order->Receipt):?>
+              <?if ($order->Type == \pay\models\OrderType::Juridical):?>
               <strong><?=$order->OrderJuridical->Name;?></strong><br>
               ИНН/КПП:&nbsp;<?=$order->OrderJuridical->INN;?>&nbsp;/&nbsp;<?=$order->OrderJuridical->KPP;?>
-              <?elseif ($order->Receipt):?>
+              <?elseif ($order->Type == \pay\models\OrderType::Receipt):?>
                 <p class="text-warning"><strong>Квитанция.</strong></p>
               <?else:?>
                 <p class="text-warning"><strong>Через платежную систему.</strong></p>

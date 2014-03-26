@@ -146,7 +146,7 @@ class ExportAction extends \partner\components\Action
             {
               if ($link->Order->Paid)
               {
-                $paidType[] = $link->Order->Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо');
+                $paidType[] = $link->Order->Type == \pay\models\OrderType::Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо');
               }
             }
           }

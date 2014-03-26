@@ -23,7 +23,7 @@ class ViewAction extends \partner\components\Action
     $this->getController()->initActiveBottomMenu('index');
 
     $request = \Yii::app()->getRequest();
-    if (($order->Juridical || $order->Receipt || \Yii::app()->partner->getAccount()->getIsAdmin()) && $request->getIsPostRequest())
+    if ((\pay\models\OrderType::getIsBank($order->Type) || \Yii::app()->partner->getAccount()->getIsAdmin()) && $request->getIsPostRequest())
     {
       $paid = $request->getParam('SetPaid', false);
       if ($paid !== false)

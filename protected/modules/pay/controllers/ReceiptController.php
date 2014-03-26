@@ -9,15 +9,14 @@ class ReceiptController extends \pay\components\Controller
       throw new \CHttpException(404);
     }
 
+    $finder = \pay\components\collection\Finder::create($this->getEvent()->Id, $this->getUser()->Id);
+    $collection = $finder->getUnpaidFreeCollection();
+    if ($collection->count() == 0)
+      $this->redirect($this->createUrl('/pay/cabinet/index'));
+
     $order = new \pay\models\Order();
-    $unpaidItems = $order->getUnpaidItems($this->getUser(), $this->getEvent());
+    $order->create($this->getUser(), $this->getEvent(), \pay\models\OrderType::Receipt, []);
 
-    if (sizeof($unpaidItems) > 0)
-    {
-      $order->create($this->getUser(), $this->getEvent(), false, [], true);
-      $this->redirect(\Yii::app()->createUrl('/pay/order/index', array('orderId' => $order->Id, 'hash' => $order->getHash())));
-    }
-
-    $this->render('index', []);
+    $this->redirect(\Yii::app()->createUrl('/pay/order/index', ['orderId' => $order->Id, 'hash' => $order->getHash()]));
   }
 }

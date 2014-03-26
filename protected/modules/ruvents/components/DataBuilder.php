@@ -276,7 +276,7 @@ class DataBuilder
       $this->orderItem->PayType = 'individual';
       foreach ($orderItem->OrderLinks as $link)
       {
-        if ($link->Order->Juridical && $link->Order->Paid)
+        if ($link->Order->Type == \pay\models\OrderType::Juridical && $link->Order->Paid)
         {
           $this->orderItem->PayType = 'juridical';
         }

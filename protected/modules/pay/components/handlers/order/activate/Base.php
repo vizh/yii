@@ -37,11 +37,11 @@ class Base extends \mail\components\Mail
   
   public function getSubject()
   {
-    if ($this->order->Receipt)
+    if ($this->order->Type == \pay\models\OrderType::Receipt)
     {
       return 'Успешная оплата квитанции на '.$this->event->Title;
     }
-    elseif ($this->order->Juridical)
+    elseif ($this->order->Type == \pay\models\OrderType::Juridical)
     {
       return 'Успешная оплата счета на '.$this->event->Title;
     }
@@ -54,7 +54,7 @@ class Base extends \mail\components\Mail
     if (!(\Yii::app()->getController() instanceof \CController))
       return null;
 
-    $isBankPayment = $this->order->Juridical || $this->order->Receipt;
+    $isBankPayment = \pay\models\OrderType::getIsBank($this->order->Type);
     $view = $isBankPayment ? $this->getJuridicalViewPath() : $this->getPhysicalViewPath();
     $orderItems = [];
     foreach ($this->order->ItemLinks as $link)

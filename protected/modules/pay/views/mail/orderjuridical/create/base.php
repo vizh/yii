@@ -8,7 +8,7 @@
 ?>
 Здравствуйте, <?=$payer->getFullName();?>.
 
-<?if (!$order->Receipt):?>
+<?if ($order->Type == \pay\models\OrderType::Juridical):?>
 Вами был выставлен счет №<?=$order->Number;?> на оплату <?=$event->Title;?> на сумму <?=$total;?> руб.
 
 Распечатать счет:

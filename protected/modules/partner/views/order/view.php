@@ -34,7 +34,7 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
     <?endif;?>
   </div>
 
-  <?if ($order->Juridical && !$order->Receipt):?>
+  <?if ($order->Type == \pay\models\OrderType::Juridical):?>
   <div class="span6 indent-bottom3">
     <h3>Данные заказчика</h3>
 
@@ -119,7 +119,7 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
   <div class="span12 indent-bottom3">
     <h3>Сумма счета: <?=$order->getPrice();?> руб.</h3>
   </div>
-  <?if ($order->Juridical || $order->Receipt):?>
+  <?if (\pay\models\OrderType::getIsBank($order->Type)):?>
   <div class="span12">
     <form action="" method="post">
       <fieldset>

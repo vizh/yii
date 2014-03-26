@@ -27,7 +27,7 @@
             <br />
             <br />
 
-            <?if (!$order->Receipt):?>
+            <?if ($order->Type == \pay\models\OrderType::Juridical):?>
             <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">This is to inform that you have created an invoice for legal entities  No. <?=$order->Id;?> to pay for participation in DevCon 2014 in the amount of <?=$total;?> rubles.</font>
               <br />
               <br />

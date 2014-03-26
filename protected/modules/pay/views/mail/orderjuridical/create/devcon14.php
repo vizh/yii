@@ -27,7 +27,7 @@
             <br />
             <br />
 
-            <?if (!$order->Receipt):?>
+            <?if ($order->Type == \pay\models\OrderType::Juridical):?>
             <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Сообщаем, что вы создали счет для юридических лиц № <?=$order->Id;?> на оплату участия в конференции DevCon 2014 на сумму <?=$total;?> руб.</font>
               <br />
               <br />

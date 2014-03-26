@@ -35,7 +35,7 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
     <?endif;?>
   </div>
 
-  <?if ($order->Juridical && !$order->Receipt):?>
+  <?if ($order->Type == \pay\models\OrderType::Juridical):?>
   <div class="span6 indent-bottom3">
     <h3>Данные заказчика</h3>
 
