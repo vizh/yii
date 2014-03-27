@@ -78,6 +78,10 @@
       <?=\CHtml::activeCheckBox($form, 'PayOnline', ['uncheckValue' => null]);?>
       PayOnline
     </label>
+    <label class="checkbox inline">
+      <?=\CHtml::activeCheckBox($form, 'MailRuMoney', ['uncheckValue' => null]);?>
+      MailRuMoney
+    </label>
   </div>
 </div>
 </div>

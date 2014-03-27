@@ -458,15 +458,24 @@ class Order extends \CActiveRecord
 
   public function getUrl($clear = false)
   {
-    $params = array(
-      'orderId' => $this->Id,
-      'hash' => $this->getHash()
-    );
-    if ($clear)
+    if (OrderType::getIsBank($this->Type))
     {
-      $params['clear'] = 'clear';
+      $params = array(
+        'orderId' => $this->Id,
+        'hash' => $this->getHash()
+      );
+      if ($clear)
+      {
+        $params['clear'] = 'clear';
+      }
+      return \Yii::app()->createAbsoluteUrl('/pay/order/index', $params);
     }
-    return \Yii::app()->createAbsoluteUrl('/pay/order/index', $params);
+    elseif ($this->Type == OrderType::MailRu)
+    {
+      return $this->OrderJuridical->UrlPay;
+    }
+
+    return '';
   }
 
   /**

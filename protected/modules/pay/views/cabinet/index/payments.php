@@ -16,6 +16,8 @@ if ($account->PayOnline)
   $paybuttons[] = 'yandexmoney';
 }
 $paybuttons[] = 'paypal';
+if ($account->MailRuMoney)
+  $paybuttons[] = 'mailrumoney';
 if (!$hideReceipt)
 {
   $paybuttons[] = 'receipt';

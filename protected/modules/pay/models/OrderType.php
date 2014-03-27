@@ -8,6 +8,40 @@ final class OrderType
   const Receipt = 3;
   const MailRu = 4;
 
+  public static function getTitle($type)
+  {
+    $title = '';
+    switch ($type) {
+      case self::Juridical:
+        $title = 'Счет';
+        break;
+      case self::Receipt:
+        $title = 'Квитанция';
+        break;
+      case self::MailRu:
+        $title = 'Счет Деньги@Mail.Ru';
+        break;
+    }
+    return \Yii::t('app', $title);
+  }
+
+  public static function getTitleViewOrder($type)
+  {
+    $title = 'Просмотреть ';
+    switch ($type) {
+      case self::Juridical:
+        $title .= 'счет';
+        break;
+      case self::Receipt:
+        $title .= 'квитанцию';
+        break;
+      case self::MailRu:
+        $title .= 'счет Деньги@Mail.Ru';
+        break;
+    }
+    return \Yii::t('app', $title);
+  }
+
   public static function getLong()
   {
     return [self::Juridical, self::Receipt, self::MailRu];
@@ -40,4 +74,6 @@ final class OrderType
     $type = intval($type);
     return in_array($type, self::getBank());
   }
+
+
 } 

@@ -65,6 +65,7 @@ class EditAction extends \CAction
         $account->ReceiptLastTime = !empty($form->ReceiptLastTime) ? \Yii::app()->getDateFormatter()->format('yyyy-MM-dd', $form->ReceiptLastTime).' 23:59:59' : null;
         $account->Uniteller = $form->Uniteller == 1 ? true : false;
         $account->PayOnline = $form->PayOnline == 1 ? true : false;
+        $account->MailRuMoney = $form->MailRuMoney == 1 ? true : false;
         $account->save();
         \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Данные платежного аккаунта успешно сохранены!'));
         $this->getController()->redirect(

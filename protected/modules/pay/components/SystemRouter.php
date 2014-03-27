@@ -78,6 +78,7 @@ class SystemRouter
       $log->Info = self::$instance->system->Info();
       $log->OrderId = self::$instance->system->getOrderId();
       $log->Total = self::$instance->system->getTotal();
+      $log->PaySystem = get_class(self::$instance->system);
     }
     else
     {
@@ -85,19 +86,23 @@ class SystemRouter
       print_r($_REQUEST);
       $log->Info = ob_get_clean();
     }
-    $log->PaySystem = get_class(self::$instance->system);
     $log->Error = true;
     $log->save();
   }
 
   public static function LogSuccess()
   {
+    self::LogSuccessWithParams(self::Instance()->system->Info(), get_class(self::Instance()->system), self::Instance()->system->getOrderId(), self::Instance()->system->getTotal());
+  }
+
+  public static function LogSuccessWithParams($info, $paySystem, $orderId, $total)
+  {
     $log = new \pay\models\Log();
     $log->Message = 'Success payment';
-    $log->Info = self::$instance->system->Info();
-    $log->PaySystem = get_class(self::$instance->system);
-    $log->OrderId = self::$instance->system->getOrderId();
-    $log->Total = self::$instance->system->getTotal();
+    $log->Info = $info;
+    $log->PaySystem = $paySystem;
+    $log->OrderId = $orderId;
+    $log->Total = $total;
     $log->Error = false;
     $log->save();
   }

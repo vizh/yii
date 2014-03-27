@@ -15,6 +15,7 @@ class Account extends \CFormModel
   public $OrderLastTime;
   public $Uniteller;
   public $PayOnline;
+  public $MailRuMoney;
   public $ReceiptTemplateId;
   public $ReceiptLastTime;
   
@@ -39,7 +40,7 @@ class Account extends \CFormModel
       ['OrderLastTime, ReceiptLastTime', 'date', 'format' => 'dd.MM.yyyy', 'allowEmpty' => true],
       ['OfferFile', 'file', 'types' => 'pdf,doc,docx', 'allowEmpty' => true],
       ['EventId', 'filter', 'filter' => [$this, 'filterEventId']],
-      ['Uniteller,PayOnline', 'numerical', 'max' => 1, 'min' => 1, 'allowEmpty' => true]
+      ['Uniteller,PayOnline,MailRuMoney', 'numerical', 'max' => 1, 'min' => 1, 'allowEmpty' => true]
     ];
   }
   
@@ -62,6 +63,7 @@ class Account extends \CFormModel
       'OrderEnable' => \Yii::t('app', 'Разрешить выставлять счета'),
       'Uniteller' => \Yii::t('app', 'Использовать платежную систему Uniteller'),
       'PayOnline' => \Yii::t('app', 'Использовать платежную систему PayOnline'),
+      'MailRuMoney' => \Yii::t('app', 'Использовать платежную систему MailRuMoney'),
       'PaySystem' => \Yii::t('app', 'Платежная система'),
       'ReceiptTemplateId' => \Yii::t('app', 'Шаблон для квитанций'),
       'ReceiptLastTime' => \Yii::t('app', 'Последняя дата выставления квитанций')

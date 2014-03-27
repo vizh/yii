@@ -11,6 +11,8 @@ namespace pay\models;
  * @property string $Phone
  * @property string $Fax
  * @property string $PostAddress
+ * @property string $ExternalKey
+ * @property string $UrlPay
  *
  * @property Order $Order
  */

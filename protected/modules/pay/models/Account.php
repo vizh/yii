@@ -12,6 +12,7 @@ namespace pay\models;
  * @property bool $OrderEnable
  * @property bool $Uniteller
  * @property bool $PayOnline
+ * @property bool $MailRuMoney
  * @property int  $OrderTemplateId
  * @property bool $SandBoxUser
  * @property string $SandBoxUserRegisterUrl

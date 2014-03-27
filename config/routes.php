@@ -102,7 +102,7 @@ return array(
         'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/<hash>/' => 'pay/order/index',
         'http://pay.'. RUNETID_HOST.'/order/<orderId:\d+>/' => 'pay/order/index',
 
-        'http://pay.'.RUNETID_HOST.'/callback/index/' => 'pay/callback/index',
+        'http://pay.'.RUNETID_HOST.'/callback/<action:\w+>/' => 'pay/callback/<action>',
 
         'http://pay.'. RUNETID_HOST.'/auth/<eventIdName>/<runetId:\d+>/<hash>/' => 'pay/cabinet/auth',
 
