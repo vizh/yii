@@ -31,7 +31,7 @@ class MailruController extends \pay\components\Controller
           $total = $order->create($this->getUser(), $this->getEvent(), \pay\models\OrderType::MailRu);
 
           $mailRu = new MailRu_Money(\pay\components\systems\MailRu::ApiKey);
-          $result = $mailRu->makeInvoice($email, number_format($total, 2, '.', ''), 'TEST', 'Оплата услуг на ' . $this->getEvent()->Title, $_SERVER['REMOTE_ADDR'], $order->Id);
+          $result = $mailRu->makeInvoice($email, number_format($total, 2, '.', ''), 'RUR', 'Оплата услуг на ' . $this->getEvent()->Title, $_SERVER['REMOTE_ADDR'], $order->Id);
 
           $order->refresh();
           $order->OrderJuridical->ExternalKey = $result;
@@ -46,6 +46,7 @@ class MailruController extends \pay\components\Controller
               $this->redirect($order->OrderJuridical->UrlPay);
             }
           }
+          $this->redirect($this->createUrl('/pay/mailru/wait', ['orderId' => $order->Id]));
         }
         catch (\Exception $e)
         {
@@ -72,6 +73,25 @@ class MailruController extends \pay\components\Controller
 
   public function actionWait($orderId, $eventIdName)
   {
+    $startTime = time();
 
+    if (Yii::app()->getRequest()->getIsPostRequest())
+    {
+      $order = \pay\models\Order::model()->findByPk($orderId);
+      if ($order == null)
+        throw new CHttpException(404);
+
+      while (time()-$startTime < 20)
+      {
+        sleep(1);
+        $order->OrderJuridical->refresh();
+        if ($order->OrderJuridical->UrlPay != null)
+        {
+          $this->redirect($order->OrderJuridical->UrlPay);
+        }
+      }
+    }
+
+    $this->render('wait');
   }
 } 
