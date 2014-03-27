@@ -4,4 +4,4 @@
  * @var string $system
  */
 ?>
-<a href="<?=$this->createUrl('/pay/cabinet/pay', ['type' => $system]);?>" class="btn btn-large btn-primary <?=$system;?>"><?=\Yii::t('app', 'Оплатить через');?></a>
+<a href="<?=$this->createUrl('/pay/cabinet/pay', ['type' => $system]);?>" class="btn btn-large <?=$system;?>">&nbsp;</a>

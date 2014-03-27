@@ -10,3 +10,7 @@ table#rooms th, table#rooms td {
 .hidden-room {
   background-color: #f3f3f3;
 }
+
+.exclude-room {
+  background-color: #ffd0d0;
+}

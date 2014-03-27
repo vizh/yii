@@ -2790,44 +2790,58 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 /**
 Кнопки
 **/
+.actions .btn-primary{
+  background-image: none;
+}
 .actions .uniteller {
-  background-image: url(/img/pay/uniteller.png);
+  background-image: url(/img/pay/uniteller_36.png);
   background-repeat: no-repeat;
-  background-position: right 5px;
-  padding-right: 63px;
+  background-position: center 2px;
+  width: 55px;
 }
 .actions .btn-primary.uniteller {
-  background-image: url(/img/pay/uniteller_white.png);
+  background-image: url(/img/pay/uniteller_36_white.png);
 }
 
 .actions .payonline {
-  background-image: url(/img/pay/payonline.png);
+  background-image: url(/img/pay/payonline_20.png);
   background-repeat: no-repeat;
-  background-position: right 10px;
-  padding-right: 115px;
+  background-position: center 10px;
+  width: 96px;
 }
 .actions .btn-primary.payonline {
-  background-image: url(/img/pay/payonline_white.png);
+  background-image: url(/img/pay/payonline_20_white.png);
 }
 
 .actions .yandexmoney {
-  background-image: url(/img/pay/yandexmoney.png);
+  background-image: url(/img/pay/yandexmoney_34.png);
   background-repeat: no-repeat;
-  background-position: right 4px;
-  padding-right: 92px;
+  background-position: center 3px;
+  width: 80px;
 }
 .actions .btn-primary.yandexmoney {
-  background-image: url(/img/pay/yandexmoney_white.png);
+  background-image: url(/img/pay/yandexmoney_34_white.png);
 }
 
 .actions .paypal {
-  background-image: url(/img/pay/logo-paypal.png);
+  background-image: url(/img/pay/paypal_30.png);
   background-repeat: no-repeat;
-  background-position: right 12px;
-  padding-right: 74px;
+  background-position: center 7px;
+  width: 117px;
 }
 .actions .btn-primary.paypal {
-  background-image: url(/img/pay/logo-paypal_white.png);
+  background-image: url(/img/pay/paypal_30_white.png);
+}
+
+.actions .mailrumoney{
+  background-image: url(/img/pay/mailrumoney_25.png);
+  background-repeat: no-repeat;
+  background-position: center 8px;
+  width: 180px;
+  display: inline-block;
+}
+.actions .btn-primary.mailrumoney{
+  background-image: url(/img/pay/mailrumoney_25_white.png);
 }
 
 
