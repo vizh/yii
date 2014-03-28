@@ -7,22 +7,20 @@ $hideJuridical = $account->OrderLastTime !== null && $account->OrderLastTime < d
 $hideReceipt = $account->ReceiptLastTime !== null && $account->ReceiptLastTime < date('Y-m-d H:i:s') || !$account->ReceiptEnable;
 
 $paysystems = ['uniteller', 'payonline', 'yandexmoney', 'paypal'];
+$onlinemoney = ['yandexmoney', 'paypal'];
+
+$systembuttons = [];
 $paybuttons = [];
 if ($account->Uniteller)
-  $paybuttons[] = 'uniteller';
+  $systembuttons[] = 'uniteller';
 if ($account->PayOnline)
 {
-  $paybuttons[] = 'payonline';
+  $systembuttons[] = 'payonline';
   $paybuttons[] = 'yandexmoney';
 }
 $paybuttons[] = 'paypal';
 if ($account->MailRuMoney)
   $paybuttons[] = 'mailrumoney';
-if (!$hideReceipt)
-{
-  $paybuttons[] = 'receipt';
-}
-$i = 0;
 ?>
 
 <div class="pay-buttons clearfix">
@@ -38,13 +36,31 @@ $i = 0;
   </div>
   <div class="pull-right">
     <h5><?=\Yii::t('app', 'Для физических лиц');?></h5>
-    <ul class="clearfix actions">
-      <?foreach ($paybuttons as $button):?>
+    <ul class="clearfix actions pay-systems">
+      <?foreach ($systembuttons as $button):?>
         <li>
-          <?$this->renderPartial('index/buttons/'.(in_array($button, $paysystems) ? 'paysystem' : $button), ['account' => $account, 'system' => $button]);?>
+          <?$this->renderPartial('index/buttons/'. $button, ['account' => $account, 'system' => $button]);?>
         </li>
       <?endforeach;?>
     </ul>
+
+    <h5><?=\Yii::t('app', 'Электронные деньги');?></h5>
+    <ul class="clearfix actions">
+      <?foreach ($paybuttons as $button):?>
+        <li>
+          <?$this->renderPartial('index/buttons/'.(in_array($button, $paysystems) ? 'onlinemoney' : $button), ['account' => $account, 'system' => $button]);?>
+        </li>
+      <?endforeach;?>
+    </ul>
+
+    <?if (!$hideReceipt):?>
+    <h5><?=\Yii::t('app', 'Квитанцией в банке');?></h5>
+    <ul class="clearfix actions">
+      <li>
+        <?$this->renderPartial('index/buttons/receipt', ['account' => $account, 'system' => $button]);?>
+      </li>
+    </ul>
+    <?endif;?>
   </div>
 </div>
 

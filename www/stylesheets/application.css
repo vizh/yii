@@ -2790,28 +2790,50 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 /**
 Кнопки
 **/
+.event-register .pay-buttons ul.pay-systems li{
+  clear: both;
+}
+
+.event-register .pay-buttons ul.pay-systems li span{
+  display: inline-block;
+  vertical-align: middle;
+  background: url("/img/pay/pay-icons.png") no-repeat scroll 0 0 transparent;
+  height: 47px;
+  margin-left: 30px;
+}
+.event-register .pay-buttons ul.pay-systems li span.uniteller{
+  width: 120px;
+}
+.event-register .pay-buttons ul.pay-systems li span.payonline{
+  width: 262px;
+}
+
 .actions .btn-primary{
   background-image: none;
 }
+
 .actions .uniteller {
   background-image: url(/img/pay/uniteller_36.png);
   background-repeat: no-repeat;
-  background-position: center 2px;
-  width: 75px;
+  background-position: center center;
+  width: 85px;
+  line-height: 40px;
 }
 .actions .btn-primary.uniteller {
   background-image: url(/img/pay/uniteller_36_white.png);
 }
-
 .actions .payonline {
   background-image: url(/img/pay/payonline_20.png);
   background-repeat: no-repeat;
-  background-position: center 10px;
-  width: 96px;
+  background-position: center center;
+  width: 106px;
+  line-height: 40px;
 }
 .actions .btn-primary.payonline {
   background-image: url(/img/pay/payonline_20_white.png);
 }
+
+
 
 .actions .yandexmoney {
   background-image: url(/img/pay/yandexmoney_34.png);
@@ -2843,7 +2865,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .actions .btn-primary.mailrumoney{
   background-image: url(/img/pay/mailrumoney_25_white.png);
 }
-
 
 /**
 Кроп изображений
