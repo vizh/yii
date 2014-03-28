@@ -32,7 +32,7 @@ return array(
     'allow',
     'roles' => array('base'),
     'controllers' => array('user'),
-    'actions' => array('auth', 'search', 'create', 'get', 'login', 'purposes')
+    'actions' => array('auth', 'search', 'create', 'get', 'login', 'purposes', 'professionalinterests')
   ),
   array(
     'allow',
@@ -64,6 +64,11 @@ return array(
     'allow',
     'roles' => array('base'),
     'controllers' => array('purpose')
+  ),
+  array(
+    'allow',
+    'roles' => array('base'),
+    'controllers' => array('professionalinterest')
   ),
 
 

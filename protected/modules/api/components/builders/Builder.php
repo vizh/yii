@@ -550,4 +550,18 @@ class Builder
     $this->purpose->Title = $purpose->Title;
     return $this->purpose;
   }
+
+  protected $professionalInterest;
+
+  /**
+   * @param \application\models\ProfessionalInterest $professionalInterest
+   * @return \stdClass
+   */
+  public function createProfessionalInterest(\application\models\ProfessionalInterest $professionalInterest)
+  {
+    $this->professionalInterest = new \stdClass();
+    $this->professionalInterest->Id = $professionalInterest->Id;
+    $this->professionalInterest->Title = $professionalInterest->Title;
+    return $this->professionalInterest;
+  }
 }
