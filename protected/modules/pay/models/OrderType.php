@@ -19,7 +19,7 @@ final class OrderType
         $title = 'Квитанция';
         break;
       case self::MailRu:
-        $title = 'Счет Деньги@Mail.Ru';
+        $title = 'Счет Деньги Mail.Ru';
         break;
     }
     return \Yii::t('app', $title);
@@ -36,7 +36,7 @@ final class OrderType
         $title .= 'квитанцию';
         break;
       case self::MailRu:
-        $title .= 'счет Деньги@Mail.Ru';
+        $title .= 'счет в системе Деньги Mail.Ru';
         break;
     }
     return \Yii::t('app', $title);

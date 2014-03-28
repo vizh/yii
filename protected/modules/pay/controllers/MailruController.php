@@ -6,7 +6,7 @@ class MailruController extends \pay\components\Controller
   public function actionIndex($eventIdName)
   {
     $startTime = time();
-    $this->setPageTitle('Выставление счета Деньги@mail.ru / ' .$this->getEvent()->Title . ' / RUNET-ID');
+    $this->setPageTitle('Выставление счета Деньги Mail.Ru / ' .$this->getEvent()->Title . ' / RUNET-ID');
     if (!$this->getAccount()->MailRuMoney)
       throw new \CHttpException(404);
 
@@ -54,11 +54,11 @@ class MailruController extends \pay\components\Controller
             $order->delete();
           if ($e->getCode() == MailRu_Money::ERR_API_NO_SUCH_USER)
           {
-            $error = 'Пользователь, на email которого выставляется счет, не зарегистрирован в  системе Деньги@mail.ru.';
+            $error = 'Пользователь, на email которого выставляется счет, не зарегистрирован в системе Деньги Mail.Ru.';
           }
           else
           {
-            $error = 'Произошла ошибка при выставлении счета в системе Деньги@mail.ru. Повторите попытку позже или напишите нам на email <a href="mailto:support@runet-id.com">support@runet-id.com</a>, для решения проблемы. Ошибка: ' . $e->getCode() . ' ' . get_class($e);
+            $error = 'Произошла ошибка при выставлении счета в системе Деньги Mail.Ru. Повторите попытку позже или напишите нам на email <a href="mailto:support@runet-id.com">support@runet-id.com</a>, для решения проблемы. Ошибка: ' . $e->getCode();
           }
         }
       }

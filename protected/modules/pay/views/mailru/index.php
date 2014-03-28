@@ -13,7 +13,7 @@
       <div class="offset2 span8">
         <h3><?=Yii::t('app', 'Оформление заказа');?></h3>
 
-        <p>Введите, пожалуйста, Ваш e-mail в системе Деньги@mail.ru для выставления счета на оплату. После успешного ввода адреса Вы будете переадресованы в систему Деньги@mail.ru.</p>
+        <p>Введите, пожалуйста, Ваш e-mail в системе Деньги Mail.Ru для выставления счета на оплату. После успешного ввода адреса Вы будете переадресованы в систему Деньги Mail.Ru.</p>
 
         <?if ($error):?>
           <div class="alert alert-error">
@@ -41,18 +41,12 @@
               </div>
               <div class="span3">
                 <button type="submit" class="btn btn-info"><?=\Yii::t('app', 'Перейти к оплате')?></button>
-                <!--<a id="order_submit" class="btn btn-info" href=""><?=\Yii::t('app', 'Перейти к оплате')?></a>-->
               </div>
             </div>
           </div>
         </div>
-
         <?php echo CHtml::endForm();?>
-
-
       </div>
     </div>
   </div>
-
-
 </section>
