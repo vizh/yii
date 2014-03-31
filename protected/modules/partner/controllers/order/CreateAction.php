@@ -60,7 +60,7 @@ class CreateAction extends \partner\components\Action
     if ($form->validate())
     {
       $order = new \pay\models\Order();
-      $order->create($payer, $this->getEvent(), true, $form->attributes);
+      $order->create($payer, $this->getEvent(), \pay\models\OrderType::Juridical, $form->attributes);
       $this->getController()->redirect(\Yii::app()->createUrl('/partner/order/view', ['orderId' => $order->Id]));
     }
 
