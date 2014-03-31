@@ -165,6 +165,20 @@ class Product extends \application\models\translation\ActiveRecord
   }
 
   /**
+   * Исключить менеджер комнат
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function excludeRoomManager($useAnd = true)
+  {
+    $criteria = new \CDbCriteria([
+      'condition' => '"t"."ManagerName" <> \'RoomProductManager\''
+    ]);
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
    * @param string $time
    * @return int
    */

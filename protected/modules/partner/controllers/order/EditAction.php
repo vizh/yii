@@ -1,28 +1,38 @@
 <?php
 namespace partner\controllers\order;
 
+/**
+ * Class EditAction
+ *
+ * Действие для редактирования счетов
+ *
+ * @package partner\controllers\order
+ */
 class EditAction extends \partner\components\Action
 {
-  private $order;
-  private $request;
+  use ProcessOrderItems;
+
+  /**
+   * @var \pay\models\Order
+   */
+  protected $order;
 
   public function run($orderId)
   {
+    $this->registerResources();
+
     $this->order = \pay\models\Order::model()->byEventId($this->getEvent()->Id)->byPaid(false)->findByPk($orderId);
     if ($this->order == null || !$this->order->getIsBankTransfer())
       throw new \CHttpException(404);
 
     $form = new \pay\models\forms\Juridical();
-    $this->request = \Yii::app()->getRequest();
-    if ($this->request->getIsAjaxRequest())
-    {
-      $this->processAjax();
-      \Yii::app()->end();
-    }
+    $request = \Yii::app()->getRequest();
+    if ($request->getIsAjaxRequest())
+      $this->processOrderItemsByAjax();
 
-    if ($this->request->getIsPostRequest())
+    if ($request->getIsPostRequest())
     {
-      $form->attributes = $this->request->getParam(get_class($form));
+      $form->attributes = $request->getParam(get_class($form));
       if ($form->validate())
       {
         $this->order->OrderJuridical->setAttributes($form->getAttributes(), false);
@@ -40,30 +50,14 @@ class EditAction extends \partner\components\Action
       }
     }
 
-
-    $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->findAll();
-    $this->getController()->setPageTitle(\Yii::t('app', 'Редактирование счета'));
+    $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->excludeRoomManager()->findAll();
     $this->getController()->render('edit', ['form' => $form, 'products' => $products, 'order' => $this->order]);
   }
 
-
-  private function processAjax()
-  {
-    $method = $this->request->getParam('Method');
-    $method = 'ajaxMethod'.$method;
-    if (method_exists($this, $method))
-    {
-      $result = $this->$method();
-      echo json_encode($result, JSON_UNESCAPED_UNICODE);
-    }
-    else
-    {
-      throw new \CHttpException(404);
-    }
-    exit();
-  }
-
-  private function ajaxMethodGetItemList()
+  /**
+   * @return array Список заказов
+   */
+  protected function ajaxMethodGetItemsList()
   {
     $result = [];
     foreach ($this->order->ItemLinks as $itemLink)
@@ -81,12 +75,17 @@ class EditAction extends \partner\components\Action
     return $result;
   }
 
-  private function ajaxMethodDeteleItem()
+  /**
+   * Удаляет заказ
+   * @return \stdClass
+   */
+  protected function ajaxMethodDeleteItem()
   {
-    $orderItemId = $this->request->getParam('OrderItemId');
+    $orderItemId = \Yii::app()->request->getParam('OrderItemId');
     $orderItem = \pay\models\OrderItem::model()->byDeleted(false)->byPaid(false)->byEventId($this->getEvent()->Id)->findByPk($orderItemId);
     $result = new \stdClass();
     $result->success = false;
+
     if ($orderItem !== null)
     {
       $link = \pay\models\OrderLinkOrderItem::model()->byOrderId($this->order->Id)->byOrderItemId($orderItem->Id)->find();
@@ -102,7 +101,11 @@ class EditAction extends \partner\components\Action
     return $result;
   }
 
-  private function ajaxMethodCreateItem()
+  /**
+   * Создает заказ
+   * @return \stdClass
+   */
+  protected function ajaxMethodCreateItem()
   {
     $result = new \stdClass();
     $result->success = false;
