@@ -8,6 +8,18 @@
 <HEAD>
   <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
   <TITLE>Договор</TITLE>
+  <style type="text/css">
+    ol>li{
+      list-style: none outside none;
+    }
+    ol>li:before{
+      content:counters(item,".") ". ";
+      counter-increment:item;
+    }
+    ol{
+      counter-reset:item;
+    }
+  </style>
 </HEAD>
 <BODY style="color: #000; font-family: Arial; font-size: 12px; width: 700px;">
   <h1 style="text-align: center; font-size: 16px;">ДОГОВОР НА ОКАЗАНИЕ УСЛУГ №</h1>
@@ -17,7 +29,7 @@
       <td style="text-align: right;"><?=\Yii::app()->getDateFormatter()->format('«dd» MMMM yyyy г.', $order->CreationTime);?></td>
     </tr>
   </table>
-  <p><strong><?=$owner;?></strong>, именуемое в дальнейшем <strong>«Заказчик»</strong>, в лице <?=$order->ChiefPositionP;?> <?=$order->ChiefNameP;?>, действующего на основании Устава, и <strong>Общество с ограниченной ответственностью «Интернет Медиа Холдинг»</strong>, именуемое в дальнейшем <strong>«Организатор»</strong>, в лице Директора Гребенникова Сергея Владимировича, действующего на основании Устава, а совместно именуемые «Стороны», заключили настоящий договор о нижеследующем:</p>
+  <p><strong><?=$order->Name;?></strong>, именуемое в дальнейшем <strong>«Заказчик»</strong>, в лице <?=$order->ChiefPositionP;?> <?=$order->ChiefNameP;?>, действующего на основании <?=!empty($order->StatuteTitle) ? $order->StatuteTitle : 'Устава';?>, и <strong>Общество с ограниченной ответственностью «Интернет Медиа Холдинг»</strong>, именуемое в дальнейшем <strong>«Организатор»</strong>, в лице Директора Гребенникова Сергея Владимировича, действующего на основании Устава, а совместно именуемые «Стороны», заключили настоящий договор о нижеследующем:</p>
   <ol>
     <li style="padding-bottom: 10px;">
       <span style="font-size: 15px; font-weight: bold;">ПРЕДМЕТ ДОГОВОРА</span>
@@ -40,13 +52,17 @@
     <li style="padding-bottom: 10px;">
       <span style="font-size: 15px; font-weight: bold;">СТОИМОСТЬ ДОГОВОРА И ПОРЯДОК РАСЧЕТОВ</span>
       <ol style="padding-top: 10px;">
-        <?$nds = round($order->getTotalPrice() / 1.18, 2, PHP_ROUND_HALF_DOWN);?>
-        <li style="padding-bottom: 10px;">Общая стоимость услуг по настоящему договору составляет <?=number_format($order->getTotalPrice(), 0, ',', ' ');?> (<?=mb_strtolower(\application\components\utility\Texts::NumberToText($order->getTotalPrice(), true));?>) рублей 00 копеек, в т.ч. НДС <?=number_format($nds, 0, ',', ' ');?> (<?=mb_strtolower(\application\components\utility\Texts::NumberToText($nds, true));?>) рублей 00 копеек.</li>
+        <?
+        $total = $order->getTotalPrice();
+        $nds = $total - round($total / 1.18, 2, PHP_ROUND_HALF_DOWN);
+        ?>
+        <li style="padding-bottom: 10px;">Общая стоимость услуг по настоящему договору составляет <?=number_format($order->getTotalPrice(), 0, ',', ' ');?> (<?=mb_strtolower(\application\components\utility\Texts::NumberToText($order->getTotalPrice(), true));?>) <?=Yii::t('app', 'рубль| рубля|рублей|рубля', $order->getTotalPrice());?> 00 копеек, в т.ч. НДС <?=number_format(floor($nds), 0, ',', ' ');?> (<?=mb_strtolower(\application\components\utility\Texts::NumberToText($nds, true));?>) <?=Yii::t('app', 'рубль| рубля|рублей|рубля', floor($nds));?>
+          <?$kop = round(($nds - floor($nds)) * 100, 0, PHP_ROUND_HALF_DOWN);?>
+          <?=$kop < 10 ? '0' . $kop : $kop;?> копеек.</li>
         <li style="padding-bottom: 10px;">
           Проживание:
-        </li>
-      </ol>
-          <table class="order" cellpadding="0" cellspacing="0" style="font-size: 12px; width: 100%; padding: 0; margin: 0 0 20px; margin-top: 10px; border-collapse: collapse;">
+
+          <table class="order" cellpadding="0" cellspacing="0" style="font-size: 12px; width: 100%; padding: 0; margin: 0 0 20px; position: relative; left: -50px; margin-top: 10px; border-collapse: collapse;">
             <thead>
               <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">ПАНСИОНАТ</th>
               <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">КОРПУС</th>
@@ -88,7 +104,7 @@
               <?endforeach;?>
             </tbody>
           </table>
-      <ol start="3">
+      </li>
         <li style="padding-bottom: 10px;">Оплата услуг по настоящему договору осуществляется Заказчиком на условиях 100% (Сто процентного) авансового платежа в течение 5 (пяти) банковских дней с момента выставления Организатором соответствующего счета.</li>
       </ol>
     </li>
@@ -117,7 +133,10 @@
             <p><strong>«Заказчик»</strong></p>
             <p>
               <?=$owner;?><br/>
-              <?=$order->Address;?><br/>
+              Юр. адрес: <?=$order->Address;?><br/>
+              <?if (!empty($order->RealAddress)):?>
+              Фактич. адрес: <?=$order->RealAddress;?><br/>
+              <?endif;?>
               ИНН/КПП <?=$order->INN;?> / <?=$order->KPP;?><br/>
               <?=$order->BankName;?><br/>
               р/с <?=$order->Account;?><br/>

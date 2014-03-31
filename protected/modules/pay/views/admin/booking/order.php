@@ -37,6 +37,13 @@
     </div>
   </div>
   <div class="control-group">
+    <?=\CHtml::activeLabel($form, 'RealAddress', ['class' => 'control-label']);?>
+    <div class="controls">
+      <?=\CHTml::activeTextField($form, 'RealAddress', ['class' => 'input-xxlarge']);?>
+    </div>
+  </div>
+
+  <div class="control-group">
     <?=\CHtml::activeLabel($form, 'INN', ['class' => 'control-label']);?>
     <div class="controls">
       <?=\CHTml::activeTextField($form, 'INN', ['class' => 'input-xxlarge']);?>
@@ -96,6 +103,13 @@
       <?=\CHTml::activeTextField($form, 'ChiefNameP', ['class' => 'input-xxlarge']);?>
     </div>
   </div>
+  <div class="control-group">
+    <?=\CHtml::activeLabel($form, 'StatuteTitle', ['class' => 'control-label']);?>
+    <div class="controls">
+      <?=\CHTml::activeTextField($form, 'StatuteTitle', ['class' => 'input-xxlarge']);?>
+    </div>
+  </div>
+
   <div class="control-group">
     <div class="controls">
       <table class="table table-bordered">
