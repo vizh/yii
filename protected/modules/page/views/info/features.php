@@ -206,6 +206,13 @@
   </div>
 </div>
 
+<div class="container create">
+  <p class="text-center">
+    <a class="btn btn-large btn-success m-bottom_10" href="/create/"><i class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
+  </p>
+  <hr/>
+</div>
+
 <div class="container contacts">
   <h2>Остались вопросы?</h2>
   <div class="row">
