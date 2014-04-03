@@ -49,13 +49,9 @@ class IndexAction extends \partner\components\Action
     if (!empty($form->Order))
     {
       $criteria->addCondition('"t"."Number" ilike :OrderNumber');
-      $criteria->params['OrderNumber'] ='%'.$form->Order.'%';
-    }
-
-    if ((int)$form->Order !== 0)
-    {
       $criteria->addCondition('"t"."Id" = :OrderId', 'OR');
-      $criteria->params['OrderId'] =(int)$form->Order;
+      $criteria->params['OrderNumber'] = '%'.$form->Order.'%';
+      $criteria->params['OrderId'] = $form->Order;
     }
 
     if ($form->Paid !== '' && $form->Paid !== null)
@@ -63,9 +59,13 @@ class IndexAction extends \partner\components\Action
       $criteria->addCondition(($form->Paid == 0 ? 'NOT ' : '') . '"t"."Paid"');
     }
 
-    if ($form->Deleted != '1')
+    if ($form->Deleted == '1')
     {
-      $criteria->addCondition('(NOT "t"."Deleted" AND NOT "t"."Paid")');
+      $criteria->addCondition('("t"."Deleted" AND NOT "t"."Paid")');
+    }
+    else
+    {
+      $criteria->addCondition('NOT "t"."Deleted" OR "t"."Paid"');
     }
 
     if ($form->INN != '' || $form->Company != '')

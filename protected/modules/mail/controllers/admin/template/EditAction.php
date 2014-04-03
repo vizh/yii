@@ -12,13 +12,13 @@ class EditAction extends \CAction
 
   public function run($templateId = null)
   {
-    $this->form = new \mail\models\forms\admin\Template();
-
     if ($templateId !== null)
     {
       $this->template = \mail\models\Template::model()->findByPk($templateId);
       if ($this->template == null)
         throw new \CHttpException(404);
+
+      $this->form = new \mail\models\forms\admin\Template($this->template->getMailer());
 
       foreach ($this->template->getAttributes() as $attribute => $value)
       {
@@ -55,6 +55,7 @@ class EditAction extends \CAction
     else
     {
       $this->template = new \mail\models\Template();
+      $this->form = new \mail\models\forms\admin\Template($this->template->getMailer());
     }
 
     $request = \Yii::app()->getRequest();

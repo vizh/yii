@@ -3,15 +3,16 @@ namespace mail\components;
 
 class MailController extends \CController
 {
-  protected $user;
+  protected $mailer;
 
   /**
-   * @param \user\models\User $user
+   * @param mailers\template\ITemplateMailer $mailer
+   * @param bool $twoColumn
    */
-  public function __construct($user, $twoColumn = false)
+  public function __construct(\mail\components\mailers\template\ITemplateMailer $mailer, $twoColumn = false)
   {
     parent::__construct('default', null);
-    $this->user = $user;
     $this->layout = '/layouts/mail/'. ($twoColumn ? 'two' : 'one').'-column';
+    $this->mailer = $mailer;
   }
 }
