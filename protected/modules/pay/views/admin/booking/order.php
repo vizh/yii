@@ -121,6 +121,7 @@
           <th><?=\Yii::t('app', 'Дата выезда');?></th>
           <th>Доп. мест</th>
           <th class="total"></th>
+          <td></td>
         </tr>
         </thead>
         <tbody>
@@ -138,6 +139,7 @@
               <td><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $booking->DateOut);?></td>
               <td><?=$booking->AdditionalCount;?></td>
               <td><span class="label"><?=$price;?> <?=\Yii::t('app', 'руб');?></span></td>
+              <td class="text-center"><a href="<?=$this->createUrl('/pay/admin/booking/partnerbookinginfo', ['bookingId' => $booking->Id,'backUrl'=>\Yii::app()->getRequest()->getUrl()]);?>" class="btn btn-info btn-mini"><i class="icon-wrench icon-white"></i></a></td>
             </tr>
           <?endif;?>
         <?endforeach;?>

@@ -5,7 +5,9 @@
  * @var \pay\models\RoomPartnerBooking[] $bookings
  */
 ?>
-<div class="btn-toolbar"></div>
+<div class="btn-toolbar">
+  <a href="<?=$this->createUrl('/pay/admin/booking/partners/');?>" class="btn">← <?=\Yii::t('app','Назад');?></a>
+</div>
 <div class="well">
   <h2>Партнер: <?=$owner;?></h2>
   <?if (!empty($orders)):?>
@@ -59,6 +61,7 @@
           <th>Дата выезда</th>
           <th>Доп. мест</th>
           <th>Итого за номер</th>
+          <th></th>
         </tr>
         </thead>
         <?foreach ($bookings as $booking):?>
@@ -74,6 +77,7 @@
             <td><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $booking->DateOut);?></td>
             <td><span class="label label-info"><?=$booking->AdditionalCount;?></span></td>
             <td><span class="label"><?=$price;?> <?=\Yii::t('app', 'руб');?></span></td>
+            <td class="text-center"><a href="<?=$this->createUrl('/pay/admin/booking/partnerbookinginfo', ['bookingId' => $booking->Id,'backUrl'=>\Yii::app()->getRequest()->getUrl()]);?>" class="btn btn-info btn-mini"><i class="icon-wrench icon-white"></i></a></td>
           </tr>
         <?endforeach;?>
       </table>
