@@ -35,4 +35,61 @@ class OneuseController extends \application\components\controllers\AdminMainCont
     echo $count;
 
   }
+
+  public function actionAddRooms()
+  {
+    echo 'closed';
+    return;
+    $rooms = [];
+
+
+
+    /**
+    $rooms[] = [
+      'TechnicalNumber' => '',
+      'Hotel' => '',
+      'Housing' => '',
+      'Category' => '',
+      'Number' => '',
+      'EuroRenovation' => '',
+      'RoomCount' => '',
+      'PlaceTotal' => '',
+      'PlaceBasic' => '',
+      'PlaceMore' => '',
+      'DescriptionBasic' => '',
+      'DescriptionMore' => '',
+      'Visible' => '',
+      'Price' => '',
+    ];
+    */
+
+
+    foreach ($rooms as $room)
+    {
+      $this->addRoom($room);
+    }
+  }
+
+  private function addRoom($room)
+  {
+    $product = new \pay\models\Product();
+    $product->ManagerName = 'RoomProductManager';
+    $product->Title = 'Участие в объединенной конференции РИФ+КИБ 2014 с проживанием';
+    $product->EventId = 789;
+    $product->Unit = 'усл.';
+    $product->EnableCoupon = false;
+    $product->Public = false;
+    $product->save();
+
+    $price = new \pay\models\ProductPrice();
+    $price->ProductId = $product->Id;
+    $price->Price = $room['Price'];
+    $price->StartTime = '2014-03-01 09:00:00';
+    $price->save();
+
+    foreach ($room as $key => $value)
+    {
+      $product->getManager()->$key = trim($value);
+    }
+  }
 } 
