@@ -129,7 +129,7 @@
     <? foreach ($rooms as $room): ?>
       <?$dates = $room['Dates']?>
       <tr <?=$room['Visible'] == 0 ? 'class="hidden-room"' : ($room['Visible'] == -1 ? 'class="exclude-room"' : '');?>>
-        <td style="font-size: 10px;"><?=$room['TechnicalNumber']?></td>
+        <td style="font-size: 10px;"><a href="<?=$this->createUrl('/pay/admin/booking/product', ['productId' => $room['Id'], 'backUrl' => \Yii::app()->getRequest()->getUrl()]);?>"><?=$room['TechnicalNumber']?></a></td>
         <td><?=$room['Hotel']?></td>
         <td><?=$room['Housing']?></td>
         <td><span class="label label-info"><?=$room['Number']?></span></td>
