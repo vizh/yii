@@ -345,6 +345,7 @@ class Builder
     $this->orderItem->Paid = $orderItem->Paid == 1;
     $this->orderItem->PaidTime = $orderItem->PaidTime;
     $this->orderItem->Booked = $orderItem->Booked;
+    $this->orderItem->Deleted = $orderItem->Deleted;
 
     $this->orderItem->Attributes = array();
     foreach ($orderItem->Attributes as $attribute)
