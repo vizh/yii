@@ -4,19 +4,38 @@ namespace mail\components;
 abstract class Mailer
 {
 
-  protected abstract function internalSend(Mail $mail);  
+  /**
+   * @param Mail[] $mails
+   * @return void
+   */
+  protected abstract function internalSend($mails);
  
-  public final function send(Mail $mail)
-  { 
-    $log = $mail->getLog();
+  public final function send($mails)
+  {
+    if (!is_array($mails))
+    {
+      $mails = [$mails];
+    }
+
+    $error = null;
     try
     {
-      echo $this->internalSend($mail);
+      $this->internalSend($mails);
     }
     catch (\Exception $e)
     {
-      $log->setError($e->getMessage());
+      $error = $e->getMessage();
     }
-    $log->save();
+
+    /** @var Mail $mail */
+    foreach ($mails as $mail)
+    {
+      $log = $mail->getLog();
+      if ($error !== null)
+      {
+        $log->setError($error);
+      }
+      $log->save();
+    }
   }
 }

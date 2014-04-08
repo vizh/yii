@@ -1,54 +1,57 @@
 <?php
-namespace mail\components\mailers\template;
+namespace mail\components\mailers;
 
 
-class MandrillMailer extends BaseMailer
+class MandrillMailer extends \mail\components\Mailer
 {
   const ApiKey = 'trMZUlPTlLyIoUJRAQoFrw';
   const TemplateName = 'RUNETID';
   const GoogleAnalyticsCampaign = 'mail@runet-id.com';
 
   /**
-   * @param \user\models\User[] $users
+   * @param \mail\components\Mail[] $users
    */
-  public function internalSend($users)
+  public function internalSend($mails)
   {
     $to = [];
     $vars = [];
     $attachments = [];
-    foreach ($users as $user)
+
+    /** @var \mail\components\Mail $mail */
+    foreach ($mails as $mail)
     {
       $to[] = [
-        'email' => $user->Email,
-        'name'  => $user->getFullName(),
+        'email' => $mail->getTo(),
+        'name'  => $mail->getToName(),
         'type'  => 'to'
       ];
 
-      $var = [
-        'rcpt' => $user->Email,
-        'vars' => []
+      $vars[] = [
+        'rcpt' => $mail->getTo(),
+        'vars' => [
+          0 => [
+            'name' => $this->getVarNameMailBody(),
+            'content' => $mail->getBody()
+          ]
+        ]
       ];
-      foreach ($this->template->getBodyVarValues($user) as $name => $content)
-      {
-        $var['vars'][] = [
-          'name' => $name,
-          'content' => $content
-        ];
-      }
+    }
 
-      foreach ($this->getAttachments($user) as $name => $path)
-      {
-        $attachments[] = [
-          'name' => $name,
-          'type' => \CFileHelper::getMimeType($path),
-          'content' => base64_encode(file_get_contents($path))
-        ];
-      }
-      $vars[] = $var;
+    foreach ($mails[0]->getAttachments() as $name => $path)
+    {
+      $attachments[] = [
+        'name' => $name,
+        'type' => \CFileHelper::getMimeType($path),
+        'content' => base64_encode(file_get_contents($path))
+      ];
     }
 
     $message = $this->getBaseMessage();
     $message['to'] = $to;
+    $message['subject'] = $mails[0]->getSubject();
+    $message['from_email'] = $mails[0]->getFrom();
+    $message['from_name'] = $mails[0]->getFromName();
+    $message['headers']['Reply-To'] = $mails[0]->getFrom();
     $message['merge_vars'] = $vars;
     $message['attachments'] = $attachments;
     \Yii::import('ext.Mandrill.Mandrill');
@@ -72,64 +75,16 @@ class MandrillMailer extends BaseMailer
     return '*|MailBody|*';
   }
 
-  /**
-   * @return sring
-   */
-  public function getVarNameUserUrl()
-  {
-    return 'UserUrl';
-  }
-
-  /**
-   * @return sring
-   */
-  public function getTagUserUrl()
-  {
-    return '*|UserUrl|*';
-  }
-
-  /**
-   * @return sring
-   */
-  public function getVarNameUserRunetId()
-  {
-    return 'UserRunetId';
-  }
-
-  /**
-   * @return sring
-   */
-  public function getTagUserRunetId()
-  {
-    return '*|UserRunetId|*';
-  }
-
-  /**
-   * @return sring
-   */
-  public function getVarNameUnsubscribeUrl()
-  {
-    return 'UnsubscribeUrl';
-  }
-
-  /**
-   * @return sring
-   */
-  public function getTagUnsubscribeUrl()
-  {
-    return '*|UnsubscribeUrl|*';
-  }
-
   private function getBaseMessage()
   {
     $message = array(
-      'html' => $this->getMailLayout(),
+      'html' => $this->getTagMailBody(),
       'text' => null,
-      'subject' => $this->template->Subject,
-      'from_email' => $this->template->From,
-      'from_name' => $this->template->FromName,
+      'subject' => '',
+      'from_email' => '',
+      'from_name' => '',
       'to' => [],
-      'headers' => ['Reply-To' => $this->template->From],
+      'headers' => [],
       'important' => false,
       'track_opens' => null,
       'track_clicks' => null,

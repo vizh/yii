@@ -26,7 +26,7 @@ namespace mail\models;
  */
 class Template extends \CActiveRecord
 {
-  const UsersPerSend = 10;
+  const UsersPerSend = 50;
 
   private $testMode  = false;
   private $testUsers = [];
@@ -57,8 +57,15 @@ class Template extends \CActiveRecord
     {
       if (!$this->getIsTestMode())
       {
-        $recipients = $this->getUsers();
-        $this->getMailer()->send($recipients);
+        $mails = [];
+        foreach ($this->getUsers() as $user)
+        {
+          $mails[] = new \mail\components\mail\Template($this->getMailer(), $user, $this);
+        }
+        if (!empty($mails))
+        {
+          $this->getMailer()->send($mails);
+        }
       }
       else
       {
@@ -69,7 +76,8 @@ class Template extends \CActiveRecord
           $criteria->params['UserId'] = $user->Id;
           $criteria->mergeWith($this->getCriteria());
           $recipient = \user\models\User::model()->find($criteria);
-          $this->getMailer()->send(array($recipient));
+          $mail = new \mail\components\mail\Template($this->getMailer(),$recipient,$this);
+          $this->getMailer()->send([$mail]);
         }
       }
     }
@@ -81,7 +89,7 @@ class Template extends \CActiveRecord
   public function getUsers()
   {
     $criteria = $this->getCriteria();
-    $criteria->limit = $this->getMailer()->getIsHasAttachments() ? 1 : self::UsersPerSend;
+    $criteria->limit = $this->SendPassbook ? 1 : self::UsersPerSend;
     $users = \user\models\User::model()->findAll($criteria);
     if (empty($users))
     {
@@ -213,13 +221,13 @@ class Template extends \CActiveRecord
   private $mailer = null;
 
   /**
-   * @return \mail\components\mailers\template\ITemplateMailer
+   * @return \mail\components\Mailer
    */
   public function getMailer()
   {
     if ($this->mailer == null)
     {
-      $this->mailer = new \mail\components\mailers\template\MandrillMailer($this);
+      $this->mailer = new \mail\components\mailers\MandrillMailer();
     }
     return $this->mailer;
   }
@@ -234,7 +242,6 @@ class Template extends \CActiveRecord
     $result = [
       $this->getMailer()->getVarNameUserUrl() => $user->getUrl(),
       $this->getMailer()->getVarNameUserRunetId() => $user->RunetId,
-      $this->getMailer()->getVarNameUnsubscribeUrl() => $user->getFastauthUrl('/user/setting/subscription/'),
       $this->getMailer()->getVarNameMailBody() => $controller->renderPartial($this->getViewName(), ['user' => $user], true)
     ];
     return $result;

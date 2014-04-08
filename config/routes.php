@@ -123,6 +123,7 @@ return array(
         
         'http://'. RUNETID_HOST.'/user/edit/' => 'user/edit/index',
         'http://'. RUNETID_HOST.'/user/setting/' => 'user/setting/password',
+        'http://'. RUNETID_HOST.'/user/unsubscribe/' => 'user/unsubscribe/index',
 
         'http://'. RUNETID_HOST.'/companies/' => 'company/list/index',
         'http://'. RUNETID_HOST.'/company/<companyId:\d+>/' => 'company/view/index',

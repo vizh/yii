@@ -48,10 +48,13 @@ class IndexAction extends \partner\components\Action
 
     if (!empty($form->Order))
     {
-      $criteria->addCondition('"t"."Number" ilike :OrderNumber');
-      $criteria->addCondition('"t"."Id" = :OrderId', 'OR');
+      if ((int) $form->Order != 0)
+      {
+        $criteria->addCondition('"t"."Id" = :OrderId');
+        $criteria->params['OrderId'] = $form->Order;
+      }
+      $criteria->addCondition('"t"."Number" ilike :OrderNumber', 'OR');
       $criteria->params['OrderNumber'] = '%'.$form->Order.'%';
-      $criteria->params['OrderId'] = $form->Order;
     }
 
     if ($form->Paid !== '' && $form->Paid !== null)
