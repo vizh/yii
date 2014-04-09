@@ -263,6 +263,8 @@ class BookingSearch extends \CFormModel
   {
     $ownerIds = [];
     self::parseValues($ownerIds, $row['OwnerIds'], ',');
+    $emails = [];
+    self::parseValues($emails, $row['Emails'], ';');
     $userNames = [];
     self::parseValues($userNames, $row['Names'], ';');
     $dates = [];
@@ -302,6 +304,7 @@ class BookingSearch extends \CFormModel
         {
           $datesRanges[$startDate->format('Y-m-d').'-'.$nextDate->format('Y-m-d')][] = [
             'RunetId' => $ownerIds[$i],
+            'Email' => $emails[$i],
             'Name' => $userNames[$i],
             'Paid' => $paids[$i] == 'true' ? true : false,
             'Booked' => $booked[$i],
@@ -335,6 +338,7 @@ class BookingSearch extends \CFormModel
         {
           $datesRanges[$startDate->format('Y-m-d').'-'.$nextDate->format('Y-m-d')][] = [
             'RunetId' => null,
+            'Email' => null,
             'Name' => $partnerOwners[$i],
             'Paid' => $partnerPaids[$i] == 'true' ? true : false,
             'Booked' => null,
@@ -389,12 +393,12 @@ class BookingSearch extends \CFormModel
 
     $query = '
     WITH orders AS (
-     SELECT oi."ProductId", oi."OwnerId", oi."Paid", oi."Booked", u."RunetId", (COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')) AS "Name", STRING_AGG(oia."Name" || \'=\' || oia."Value", \',\') AS "Dates"
+     SELECT oi."ProductId", oi."OwnerId", oi."Paid", oi."Booked", u."RunetId", u."Email", (COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')) AS "Name", STRING_AGG(oia."Name" || \'=\' || oia."Value", \',\') AS "Dates"
          FROM "PayOrderItem" oi
          INNER JOIN "PayOrderItemAttribute" oia ON oi."Id" = oia."OrderItemId"
          INNER JOIN "User" u ON u."Id" = oi."OwnerId"
          WHERE (oi."Paid" OR NOT oi."Deleted")
-         GROUP BY oi."Id", u."RunetId", COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')
+         GROUP BY oi."Id", u."RunetId", u."Email", COALESCE(u."LastName", \'\') || \' \' || COALESCE(u."FirstName", \'\')
     ), products AS (
 	    SELECT p."Id", STRING_AGG(ppa."Name" || \'=\' || ppa."Value", \';;\') AS "Attributes" FROM "PayProduct" p
         INNER JOIN "PayProductAttribute" ppa ON p."Id" = ppa."ProductId"
@@ -403,6 +407,7 @@ class BookingSearch extends \CFormModel
     )
     SELECT products."Id", products."Attributes",
         STRING_AGG(CAST(orders."RunetId" AS TEXT), \',\') AS "OwnerIds",
+        STRING_AGG(orders."Email", \';\') AS "Emails",
         STRING_AGG(orders."Name", \';\') AS "Names",
         STRING_AGG(orders."Dates", \';\') AS "Dates",
         STRING_AGG(CAST(orders."Paid" AS text), \';\') AS "Paid",

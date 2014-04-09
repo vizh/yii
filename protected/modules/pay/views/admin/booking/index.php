@@ -105,7 +105,7 @@
   </div>
 <? $this->endWidget() ?>
 
-<table id="rooms" class="table table-bordered">
+<table id="rooms" class="table table-bordered" style="font-size: 13px;">
   <thead>
     <tr>
       <th rowspan="2">#</th>
@@ -151,6 +151,9 @@
                   <?=$dateData['RunetId'];?><br>
                 <?endif;?>
                 <?=$dateData['Name'];?><br>
+                <?if ($dateData['Email'] != null):?>
+                  <span style="font-size: 10px;"><?=$dateData['Email'];?></span><br>
+                <?endif;?>
                 <?if ($dateData['Paid']):?>
                   <span style="font-weight: normal;" class="label label-success">Оплачен</span>
                 <?elseif (!empty($dateData['Booked'])):?>
