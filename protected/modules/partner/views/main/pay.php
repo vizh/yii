@@ -107,11 +107,9 @@
       </tfoot>
     </table>
   </div>
-  <div class="span4">
-
-  </div>
-  <div class="span4 offset4">
-
+  <div class="span12 indent-top3" style="font-size: 16px;">
+    <strong>Количество запросивших счет/квитанцию:</strong>
+    <?=$statistics->countJuridicalUsers + $statistics->countReceiptUsers - $statistics->countPaidJuridicalUsers - $statistics->countPaidReceiptUsers;?>
   </div>
 </div>
 
