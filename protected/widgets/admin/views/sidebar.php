@@ -76,6 +76,7 @@
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/index');?>"><?=\Yii::t('app', 'Бронирования');?></a></li>
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/partners');?>"><?=\Yii::t('app', 'Партнеры');?></a></li>
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/statistics');?>"><?=\Yii::t('app', 'Статистика');?></a></li>
+    <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/food');?>"><?=\Yii::t('app', 'Питание');?></a></li>
   </ul>
 
 

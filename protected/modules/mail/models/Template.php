@@ -26,7 +26,7 @@ namespace mail\models;
  */
 class Template extends \CActiveRecord
 {
-  const UsersPerSend = 100;
+  const UsersPerSend = 50;
 
   private $testMode  = false;
   private $testUsers = [];
@@ -53,25 +53,32 @@ class Template extends \CActiveRecord
 
   public function send()
   {
-    $mailer = new \mail\components\mailers\PhpMailer();
     if (!$this->Success)
     {
-      $recipients = [];
       if (!$this->getIsTestMode())
       {
-        $recipients = $this->getUsers();
+        $mails = [];
+        foreach ($this->getUsers() as $user)
+        {
+          $mails[] = new \mail\components\mail\Template($this->getMailer(), $user, $this);
+        }
+        if (!empty($mails))
+        {
+          $this->getMailer()->send($mails);
+        }
       }
       else
       {
-        $criteria = new \CDbCriteria();
-        $criteria->addInCondition('"t"."Id"', \CHtml::listData($this->testUsers, 'Id', 'Id'));
-        $criteria->mergeWith($this->getCriteria());
-        $recipients = \user\models\User::model()->findAll($criteria);
-      }
-      foreach ($recipients as $user)
-      {
-        $mail = new \mail\components\mail\Template($mailer, $this, $user);
-        $mail->send();
+        foreach ($this->testUsers as $user)
+        {
+          $criteria = new \CDbCriteria();
+          $criteria->addCondition('"t"."Id" = :UserId');
+          $criteria->params['UserId'] = $user->Id;
+          $criteria->mergeWith($this->getCriteria());
+          $recipient = \user\models\User::model()->find($criteria);
+          $mail = new \mail\components\mail\Template($this->getMailer(),$recipient,$this);
+          $this->getMailer()->send([$mail]);
+        }
       }
     }
   }
@@ -82,7 +89,7 @@ class Template extends \CActiveRecord
   public function getUsers()
   {
     $criteria = $this->getCriteria();
-    $criteria->limit = self::UsersPerSend;
+    $criteria->limit = $this->SendPassbook ? 1 : self::UsersPerSend;
     $users = \user\models\User::model()->findAll($criteria);
     if (empty($users))
     {
@@ -105,6 +112,7 @@ class Template extends \CActiveRecord
     $criteria = new \CDbCriteria();
     $criteria->with = ['Settings'];
     $criteria->order = '"t"."Id" ASC';
+    $criteria->addCondition('"t"."Email" != \'\'');
 
     if (!$this->getIsTestMode())
     {
@@ -208,5 +216,34 @@ class Template extends \CActiveRecord
   public function setFilter($filter)
   {
     $this->Filter = base64_encode(serialize($filter));
+  }
+
+  private $mailer = null;
+
+  /**
+   * @return \mail\components\Mailer
+   */
+  public function getMailer()
+  {
+    if ($this->mailer == null)
+    {
+      $this->mailer = new \mail\components\mailers\MandrillMailer();
+    }
+    return $this->mailer;
+  }
+
+  /**
+   * @param \user\models\User $user
+   * @return array
+   */
+  public function getBodyVarValues(\user\models\User $user)
+  {
+    $controller = new \CController('default',null);
+    $result = [
+      $this->getMailer()->getVarNameUserUrl() => $user->getUrl(),
+      $this->getMailer()->getVarNameUserRunetId() => $user->RunetId,
+      $this->getMailer()->getVarNameMailBody() => $controller->renderPartial($this->getViewName(), ['user' => $user], true)
+    ];
+    return $result;
   }
 }

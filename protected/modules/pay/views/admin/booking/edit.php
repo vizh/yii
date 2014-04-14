@@ -14,7 +14,8 @@ $manager = $product->getManager();
 ?>
 
 <script type="text/javascript">
-  var partnerNames = ["<?=implode('","', $partnerNames);?>"];
+  //var jsonPartnerNames =
+  var partnerNames = <?=json_encode($partnerNames);?>;
 </script>
 
 <?if ($formNewPartner->hasErrors()):?>

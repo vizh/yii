@@ -24,6 +24,19 @@ class Template extends \CFormModel
   public $Body;
   public $Layout = \mail\models\Layout::OneColumn;
 
+  private $mailer;
+
+  /**
+   * @param \mail\components\mailers\template\ITemplateMailer $mailer
+   * @param string $scenario
+   */
+  public function __construct($mailer, $scenario = '')
+  {
+    parent::__construct($scenario);
+    $this->mailer = $mailer;
+  }
+
+
   public function attributeLabels()
   {
     return [
@@ -162,19 +175,21 @@ class Template extends \CFormModel
   public function bodyFields()
   {
     return [
-      '{User.FullName}'  => '<?=$user->getFullName();?>',
+      '{User.Url}' => '<?=$user->getUrl();?>',
+      '{User.FullName}' => '<?=$user->getFullName();?>',
       '{User.ShortName}' => '<?=$user->getShortName();?>',
-      '{User.RunetId}'   => '<?=$user->RunetId;?>',
+      '{User.RunetId}' => '<?=$user->RunetId;?>',
       '{UnsubscribeUrl}' => '<?=$user->getFastauthUrl(\'/user/setting/subscription/\');?>',
-      '{Event.Title}'    => '<?=$user->Participants[0]->Event->Title;?>',
-      '{TicketUrl}'      => '<?=$user->Participants[0]->getTicketUrl();?>',
-      '{Role.Title}'     => '<?=$user->Participants[0]->Role->Title;?>'
+      '{Event.Title}' => '<?=$user->Participants[0]->Event->Title;?>',
+      '{TicketUrl}' => '<?=$user->Participants[0]->getTicketUrl();?>',
+      '{Role.Title}' => '<?=$user->Participants[0]->Role->Title;?>'
     ];
   }
 
   public function bodyFieldLabels()
   {
     return [
+      '{User.Url}'       => \Yii::t('app', 'Ссылка на страницу пользователя'),
       '{User.FullName}'  => \Yii::t('app', 'Полное имя пользователя'),
       '{User.ShortName}' => \Yii::t('app', 'Краткое имя пользователя. Имя или имя + отчество'),
       '{User.RunetId}'   => \Yii::t('app', 'RUNET-ID пользователя'),

@@ -105,7 +105,7 @@
   </div>
 <? $this->endWidget() ?>
 
-<table id="rooms" class="table table-bordered">
+<table id="rooms" class="table table-bordered" style="font-size: 13px;">
   <thead>
     <tr>
       <th rowspan="2">#</th>
@@ -129,7 +129,7 @@
     <? foreach ($rooms as $room): ?>
       <?$dates = $room['Dates']?>
       <tr <?=$room['Visible'] == 0 ? 'class="hidden-room"' : ($room['Visible'] == -1 ? 'class="exclude-room"' : '');?>>
-        <td style="font-size: 10px;"><?=$room['TechnicalNumber']?></td>
+        <td style="font-size: 10px;"><a href="<?=$this->createUrl('/pay/admin/booking/product', ['productId' => $room['Id'], 'backUrl' => \Yii::app()->getRequest()->getUrl()]);?>"><?=$room['TechnicalNumber']?></a></td>
         <td><?=$room['Hotel']?></td>
         <td><?=$room['Housing']?></td>
         <td><span class="label label-info"><?=$room['Number']?></span></td>
@@ -151,6 +151,9 @@
                   <?=$dateData['RunetId'];?><br>
                 <?endif;?>
                 <?=$dateData['Name'];?><br>
+                <?if ($dateData['Email'] != null):?>
+                  <span style="font-size: 10px;"><?=$dateData['Email'];?></span><br>
+                <?endif;?>
                 <?if ($dateData['Paid']):?>
                   <span style="font-weight: normal;" class="label label-success">Оплачен</span>
                 <?elseif (!empty($dateData['Booked'])):?>

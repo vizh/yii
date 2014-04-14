@@ -22,6 +22,14 @@ abstract class Mail
   /**
    * @return string
    */
+  public function getToName()
+  {
+    return '';
+  }
+
+  /**
+   * @return string
+   */
   public function getFromName()
   {
     return 'RUNET-ID';

@@ -18,6 +18,8 @@ namespace pay\models;
  * @property string $DeletionTime
  * @property int $OrderId
  * @property int $AdditionalCount
+ * @property string $People
+ * @property string $Car
  *
  */
 class RoomPartnerBooking extends \CActiveRecord

@@ -14,6 +14,7 @@ if(isset($config))
 else
 	$app=Yii::createConsoleApplication(array('basePath'=>dirname(__FILE__).'/cli'));
 
+\Yii::setPathOfAlias('webroot',dirname(__FILE__).'/../www/');
 $env=@getenv('YII_CONSOLE_COMMANDS');
 if(!empty($env))
 	$app->commandRunner->addCommands($env);

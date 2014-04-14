@@ -23,7 +23,7 @@
       <div class="span4">
         <label>&nbsp;</label>
         <label class="checkbox">
-          <?=CHtml::activeCheckBox($form, 'Deleted', ['uncheckValue' => null]);?>
+          <?=CHtml::activeCheckBox($form, 'Deleted');?>
           <?=$form->getAttributeLabel('Deleted');?>
         </label>
       </div>

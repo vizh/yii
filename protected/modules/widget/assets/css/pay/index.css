@@ -1,0 +1,22 @@
+.products {}
+.products .title {text-transform: uppercase;}
+.products .table th {
+  color: #999;
+  font-size: 11px;
+}
+.products .table td {
+  vertical-align: middle;
+  font-size: 13px;
+}
+.products .table td .number {font-size: 14px;}
+.products .table td .form-element_select {
+  margin: 0;
+  font-size: 13px;
+}
+.products .table .col-width {width: 80px;}
+.products .table .total {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #f7f7f7;
+}
+.products .table .total span {text-transform: uppercase;}

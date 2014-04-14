@@ -1,31 +1,24 @@
 <?php
 namespace mail\components\mail;
 
-class Template extends \mail\components\Mail
+class Template extends \mail\components\MailLayout
 {
-  protected $template;
   protected $user;
+  protected $template;
 
-  public function __construct(\mail\components\Mailer $mailer, \mail\models\Template $template, \user\models\User $user)
+  public function __construct(\mail\components\Mailer $mailer, \user\models\User $user, \mail\models\Template $template)
   {
     parent::__construct($mailer);
-    $this->template = $template;
     $this->user = $user;
+    $this->template = $template;
   }
 
+  /**
+   * @return bool
+   */
   public function isHtml()
   {
     return true;
-  }
-
-  public function getFromName()
-  {
-    return $this->template->FromName;
-  }
-
-  public function getSubject()
-  {
-    return $this->template->Subject;
   }
 
   /**
@@ -39,6 +32,14 @@ class Template extends \mail\components\Mail
   /**
    * @return string
    */
+  public function getFromName()
+  {
+    return $this->template->FromName;
+  }
+
+  /**
+   * @return string
+   */
   public function getTo()
   {
     return $this->user->Email;
@@ -47,16 +48,15 @@ class Template extends \mail\components\Mail
   /**
    * @return string
    */
-  public function getBody()
+  public function getToName()
   {
-    return $this->renderBody($this->template->getViewName(), ['user' => $this->user]);
+    return $this->user->getFullName();
   }
 
-  protected function getRepeat()
-  {
-    return true;
-  }
 
+  /**
+   * @return array
+   */
   public function getAttachments()
   {
     if ($this->template->SendPassbook)
@@ -70,21 +70,22 @@ class Template extends \mail\components\Mail
     return [];
   }
 
+  /**
+   * @return string
+   */
+  public function getSubject()
+  {
+    return $this->template->Subject;
+  }
 
   /**
    * @return bool
    */
-  public function getIsHasLog()
+  protected function getRepeat()
   {
-    if ($this->template->getIsTestMode())
-      return false;
-
-    return \mail\models\TemplateLog::model()->byTemplateId($this->template->Id)->byUserId($this->user->Id)->exists();
+    return true;
   }
 
-  /**
-   * @return \CModel
-   */
   public function getLog()
   {
     $log = new \mail\models\TemplateLog();
@@ -93,16 +94,24 @@ class Template extends \mail\components\Mail
     return $log;
   }
 
-  protected function renderBody($view, $params)
+  /**
+   * @return string
+   */
+  public function getLayoutName()
   {
-    if ($this->template->Layout == \mail\models\Layout::None)
-    {
-      return parent::renderBody($view, $params);
-    }
-    $controller = new \mail\components\MailController($this->user, ($this->template->Layout == \mail\models\Layout::TwoColumn));
-    \Yii::app()->getClientScript()->reset();
-    return $controller->render($view, $params, true);
+    return $this->template->Layout;
   }
 
+  /**
+   * @return string
+   */
+  public function getBody()
+  {
+    return $this->renderBody($this->template->getViewName(), ['user' => $this->user]);
+  }
 
+  function getUser()
+  {
+    return $this->user;
+  }
 }

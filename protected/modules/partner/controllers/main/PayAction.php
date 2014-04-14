@@ -39,8 +39,9 @@ class PayAction extends \partner\components\Action
     $command = \Yii::app()->getDb()->createCommand()
         ->select('count("p"."Id") as "countPaid", sum("p"."Total") as "totalPaid"')
         ->from('PayOrder p')
-        ->where('"p"."EventId" = :EventId AND "p"."Paid" AND "p"."Juridical"');
+        ->where('"p"."EventId" = :EventId AND "p"."Paid" AND "p"."Type" = :Type');
     $command->bindValue('EventId', $this->getEvent()->Id);
+    $command->bindValue('Type', \pay\models\OrderType::Juridical);
     $result = $command->queryRow();
 
     $this->statistics->countPaidJuridicalOrders = $result['countPaid'];
@@ -51,8 +52,9 @@ class PayAction extends \partner\components\Action
         ->from('PayOrder o')
         ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
         ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-        ->where('"o"."EventId" = :EventId AND ("o"."Paid" OR NOT "o"."Deleted") AND "o"."Juridical"');
+        ->where('"o"."EventId" = :EventId AND ("o"."Paid" OR NOT "o"."Deleted") AND "o"."Type" = :Type');
     $command->bindValue('EventId', $this->getEvent()->Id);
+    $command->bindValue('Type', \pay\models\OrderType::Juridical);
     $result = $command->queryRow();
 
     $this->statistics->countJuridicalUsers = $result['countUsers'];
@@ -62,8 +64,9 @@ class PayAction extends \partner\components\Action
         ->from('PayOrder o')
         ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
         ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-        ->where('"o"."EventId" = :EventId AND "o"."Paid" AND "o"."Juridical"');
+        ->where('"o"."EventId" = :EventId AND "o"."Paid" AND "o"."Type" = :Type');
     $command->bindValue('EventId', $this->getEvent()->Id);
+    $command->bindValue('Type', \pay\models\OrderType::Juridical);
     $result = $command->queryRow();
 
     $this->statistics->countPaidJuridicalUsers = $result['countUsers'];
@@ -77,8 +80,9 @@ class PayAction extends \partner\components\Action
     $command = \Yii::app()->getDb()->createCommand()
         ->select('count("p"."Id") as "countPaid", sum("p"."Total") as "totalPaid"')
         ->from('PayOrder p')
-        ->where('"p"."EventId" = :EventId AND "p"."Paid" AND "p"."Receipt"');
+        ->where('"p"."EventId" = :EventId AND "p"."Paid" AND "p"."Type" = :Type');
     $command->bindValue('EventId', $this->getEvent()->Id);
+    $command->bindValue('Type', \pay\models\OrderType::Receipt);
     $result = $command->queryRow();
 
     $this->statistics->countPaidReceipts = $result['countPaid'];
@@ -89,8 +93,9 @@ class PayAction extends \partner\components\Action
         ->from('PayOrder o')
         ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
         ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-        ->where('"o"."EventId" = :EventId AND ("o"."Paid" OR NOT "o"."Deleted") AND "o"."Receipt"');
+        ->where('"o"."EventId" = :EventId AND ("o"."Paid" OR NOT "o"."Deleted") AND "o"."Type" = :Type');
     $command->bindValue('EventId', $this->getEvent()->Id);
+    $command->bindValue('Type', \pay\models\OrderType::Receipt);
     $result = $command->queryRow();
 
     $this->statistics->countReceiptUsers = $result['countUsers'];
@@ -100,8 +105,9 @@ class PayAction extends \partner\components\Action
         ->from('PayOrder o')
         ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
         ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-        ->where('"o"."EventId" = :EventId AND "o"."Paid"  AND "o"."Receipt"');
+        ->where('"o"."EventId" = :EventId AND "o"."Paid"  AND "o"."Type" = :Type');
     $command->bindValue('EventId', $this->getEvent()->Id);
+    $command->bindValue('Type', \pay\models\OrderType::Receipt);
     $result = $command->queryRow();
 
     $this->statistics->countPaidReceiptUsers = $result['countUsers'];
@@ -115,8 +121,10 @@ class PayAction extends \partner\components\Action
     $command = \Yii::app()->getDb()->createCommand()
         ->select('count("p"."Id") as "countPaid", sum("p"."Total") as "totalPaid"')
         ->from('PayOrder p')
-        ->where('"p"."EventId" = :EventId AND "p"."Paid" AND NOT "p"."Receipt" AND NOT "p"."Juridical"');
+        ->where('"p"."EventId" = :EventId AND "p"."Paid" AND "p"."Type" != :Type1 AND "p"."Type" != :Type2');
     $command->bindValue('EventId', $this->getEvent()->Id);
+    $command->bindValue('Type1', \pay\models\OrderType::Juridical);
+    $command->bindValue('Type2', \pay\models\OrderType::Receipt);
     $result = $command->queryRow();
 
     $this->statistics->countPaidPaySystemOrders = $result['countPaid'];
@@ -127,8 +135,10 @@ class PayAction extends \partner\components\Action
         ->from('PayOrder o')
         ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
         ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-        ->where('"o"."EventId" = :EventId AND ("o"."Paid" OR NOT "o"."Deleted") AND NOT "o"."Receipt" AND NOT "o"."Juridical"');
+        ->where('"o"."EventId" = :EventId AND ("o"."Paid" OR NOT "o"."Deleted") AND "o"."Type" != :Type1 AND "o"."Type" != :Type2');
     $command->bindValue('EventId', $this->getEvent()->Id);
+    $command->bindValue('Type1', \pay\models\OrderType::Juridical);
+    $command->bindValue('Type2', \pay\models\OrderType::Receipt);
     $result = $command->queryRow();
 
     $this->statistics->countPaySystemUsers = $result['countUsers'];
@@ -138,8 +148,10 @@ class PayAction extends \partner\components\Action
         ->from('PayOrder o')
         ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
         ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-        ->where('"o"."EventId" = :EventId AND "o"."Paid" AND NOT "o"."Receipt" AND NOT "o"."Juridical"');
+        ->where('"o"."EventId" = :EventId AND "o"."Paid" AND "o"."Type" != :Type1 AND "o"."Type" != :Type2');
     $command->bindValue('EventId', $this->getEvent()->Id);
+    $command->bindValue('Type1', \pay\models\OrderType::Juridical);
+    $command->bindValue('Type2', \pay\models\OrderType::Receipt);
     $result = $command->queryRow();
 
     $this->statistics->countPaidPaySystemUsers = $result['countUsers'];

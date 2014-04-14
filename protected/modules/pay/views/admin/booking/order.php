@@ -37,6 +37,13 @@
     </div>
   </div>
   <div class="control-group">
+    <?=\CHtml::activeLabel($form, 'RealAddress', ['class' => 'control-label']);?>
+    <div class="controls">
+      <?=\CHTml::activeTextField($form, 'RealAddress', ['class' => 'input-xxlarge']);?>
+    </div>
+  </div>
+
+  <div class="control-group">
     <?=\CHtml::activeLabel($form, 'INN', ['class' => 'control-label']);?>
     <div class="controls">
       <?=\CHTml::activeTextField($form, 'INN', ['class' => 'input-xxlarge']);?>
@@ -97,6 +104,13 @@
     </div>
   </div>
   <div class="control-group">
+    <?=\CHtml::activeLabel($form, 'StatuteTitle', ['class' => 'control-label']);?>
+    <div class="controls">
+      <?=\CHTml::activeTextField($form, 'StatuteTitle', ['class' => 'input-xxlarge']);?>
+    </div>
+  </div>
+
+  <div class="control-group">
     <div class="controls">
       <table class="table table-bordered">
         <thead>
@@ -107,6 +121,7 @@
           <th><?=\Yii::t('app', 'Дата выезда');?></th>
           <th>Доп. мест</th>
           <th class="total"></th>
+          <td></td>
         </tr>
         </thead>
         <tbody>
@@ -124,6 +139,7 @@
               <td><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $booking->DateOut);?></td>
               <td><?=$booking->AdditionalCount;?></td>
               <td><span class="label"><?=$price;?> <?=\Yii::t('app', 'руб');?></span></td>
+              <td class="text-center"><a href="<?=$this->createUrl('/pay/admin/booking/partnerbookinginfo', ['bookingId' => $booking->Id,'backUrl'=>\Yii::app()->getRequest()->getUrl()]);?>" class="btn btn-info btn-mini"><i class="icon-wrench icon-white"></i></a></td>
             </tr>
           <?endif;?>
         <?endforeach;?>

@@ -10,7 +10,7 @@ return array(
     'allow',
     'users' => array('*'),
     'module' => 'user',
-    'controllers' => array('ajax','view', 'edit','setting','logout')
+    'controllers' => array('ajax','view', 'edit','setting','logout','unsubscribe')
   ),
     
   /** Admin Rules */

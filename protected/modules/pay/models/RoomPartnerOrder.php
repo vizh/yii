@@ -24,6 +24,9 @@ namespace pay\models;
  * @property string $ChiefNameP
  * @property string $ChiefPositionP
  *
+ * @property string $StatuteTitle
+ * @property string $RealAddress
+ *
  *
  * @property RoomPartnerBooking[] $Bookings
  */
@@ -94,7 +97,7 @@ class RoomPartnerOrder extends \CActiveRecord
       foreach ($this->Bookings as $booking)
       {
         $manager = $booking->Product->getManager();
-        $this->total += $manager->Price * $booking->getStayDay();
+        $this->total += $booking->getStayDay() * ((int)$manager->Price + $booking->AdditionalCount * $manager->AdditionalPrice);
       }
     }
     return $this->total;

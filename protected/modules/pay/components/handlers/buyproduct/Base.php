@@ -1,7 +1,7 @@
 <?php
 namespace pay\components\handlers\buyproduct;
 
-abstract class Base extends \mail\components\Mail
+abstract class Base extends \mail\components\MailLayout
 {
   /** @var \pay\models\Product */
   protected $product;
@@ -35,10 +35,18 @@ abstract class Base extends \mail\components\Mail
     return $this->payer->Email;
   }
 
-  protected function renderBody($view, $params)
+  /**
+   * @return \user\models\User
+   */
+  public function getUser()
   {
-    $controller = new \mail\components\MailController($this->payer);
-    return $controller->render($view, $params, true);
+    return $this->payer;
   }
+
+  public function getLayoutName()
+  {
+    return \mail\models\Layout::OneColumn;
+  }
+
 
 }

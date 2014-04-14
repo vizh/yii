@@ -49,7 +49,8 @@ class Section extends \application\models\translation\ActiveRecord
       'LinkUsers' => array(self::HAS_MANY, '\event\models\section\LinkUser', 'SectionId', 'order' => '"LinkUsers"."Order" ASC'),
       'LinkHalls' => array(self::HAS_MANY, '\event\models\section\LinkHall', 'SectionId', 'with' => array('Hall'), 'order' => '"Hall"."Order" ASC'),
       'LinkTheme' => array(self::HAS_ONE, '\event\models\section\LinkTheme', 'SectionId'),
-      'Type' => array(self::BELONGS_TO, '\event\models\section\Type', 'TypeId')
+      'Type' => array(self::BELONGS_TO, '\event\models\section\Type', 'TypeId'),
+      'Favorites' => array(self::HAS_MANY, '\event\models\section\Favorite', 'SectionId')
     );
   }
 
@@ -119,6 +120,17 @@ class Section extends \application\models\translation\ActiveRecord
       $this->url = str_replace(':SECTION_ID', $this->Id, $this->Event->UrlSectionMask);
     }
     return $this->url;
+  }
+
+  public function addToFavorite(\user\models\User $user)
+  {
+    if (!Favorite::model()->byUserId($user->Id)->bySectionId($this->Id)->exists())
+    {
+      $favorite = new Favorite();
+      $favorite->SectionId = $this->Id;
+      $favorite->UserId = $user->Id;
+      $favorite->save();
+    }
   }
 
   /**

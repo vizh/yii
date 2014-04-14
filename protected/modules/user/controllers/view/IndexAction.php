@@ -9,12 +9,7 @@ class IndexAction extends \CAction
   public function run($runetId)
   {
     $this->initUser($runetId);
-    $this->getController()->setPageTitle($this->user->getFullName() . ' / RUNET-ID');
-    \Yii::app()->clientScript->registerPackage('runetid.charts');
-    if (!$this->user->Settings->IndexProfile)
-    {
-      \Yii::app()->clientScript->registerMetaTag('noindex,noarchive','robots');
-    }
+    $this->iniPageProperties();
 
     $professionalInterests = [];
     foreach ($this->user->LinkProfessionalInterests as $interest) {
@@ -145,6 +140,51 @@ class IndexAction extends \CAction
     }
     return $result;
   }
+
+  /**
+   *
+   */
+  private function iniPageProperties()
+  {
+    $this->getController()->setPageTitle($this->user->getFullName() . ' / RUNET-ID');
+    \Yii::app()->getClientScript()->registerPackage('runetid.charts');
+    if (!$this->user->Settings->IndexProfile)
+    {
+      \Yii::app()->getClientScript()->registerMetaTag('noindex,noarchive','robots');
+    }
+    $description = '';
+
+    $employment  = $this->user->getEmploymentPrimary();
+    if ($employment !== null)
+    {
+      $description .= !empty($employment->Position) ? ($employment->Position . ' ' . \Yii::t('app','в') . ' ' . $employment->Company->Name) : (\Yii::t('app','В') . ' ' . $employment->Company->Name);
+      if (!empty($employment->StartYear))
+      {
+        $description.=' ' . \Yii::t('app', 'c') . ' ' . $employment->StartYear . ' ' . \Yii::t('app', 'года');
+      }
+      $description.='.';
+    }
+
+    $interests = [];
+    foreach ($this->user->LinkProfessionalInterests as $link)
+    {
+      $interests[] = $link->ProfessionalInterest->Title;
+    }
+    if (!empty($interests))
+    {
+      $description .= (!empty($description) ? ' ' : '').\Yii::t('app','Профессиональные интересы: ').' '.implode(', ', $interests);
+    }
+
+    \Yii::app()->getClientScript()->registerMetaTag($this->user->getFullName(), 'og:title');
+    \Yii::app()->getClientScript()->registerMetaTag($this->user->getFullName(), 'title');
+    \Yii::app()->getClientScript()->registerMetaTag($description, 'og:description');
+    \Yii::app()->getClientScript()->registerMetaTag($description, 'description');
+    \Yii::app()->getClientScript()->registerMetaTag($this->user->getUrl(), 'og:url');
+
+    $photoUrl = 'http://' . RUNETID_HOST . $this->user->getPhoto()->getOriginal();
+    \Yii::app()->getClientScript()->registerMetaTag($photoUrl, 'og:image');
+    \Yii::app()->getClientScript()->registerLinkTag('image_src', null, $photoUrl);
+  }
 }
 
 class ParticipantCollection
@@ -173,6 +213,8 @@ class ParticipantCollection
   public function parseParticipant($participant)
   {
     $eventId = $participant->EventId;
+    if ($participant->Event == null)
+      return;
 
     if (!isset($this->participants[$eventId]))
     {

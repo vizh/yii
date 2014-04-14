@@ -17,6 +17,9 @@ class PartnerOrder extends \CFormModel
   public $ChiefPositionP;
   public $BookingIdList = [];
 
+  public $StatuteTitle = 'Устава';
+  public $RealAddress;
+
   private $owner;
 
   public function __construct($owner, $scenario = '')
@@ -29,8 +32,9 @@ class PartnerOrder extends \CFormModel
   public function rules()
   {
     return [
-      ['Name, Address, INN, KPP, BankName, Account, CorrespondentAccount, BIK, ChiefName, ChiefPosition, ChiefNameP, ChiefPositionP', 'required'],
-      ['BookingIdList', 'filter', 'filter' => [$this, 'filterBookingIdList']]
+      ['Name, Address, INN, KPP, BankName, Account, CorrespondentAccount, BIK, ChiefName, ChiefPosition, ChiefNameP, ChiefPositionP,StatuteTitle', 'required'],
+      ['BookingIdList', 'filter', 'filter' => [$this, 'filterBookingIdList']],
+      ['RealAddress', 'safe']
     ];
   }
 
@@ -38,7 +42,7 @@ class PartnerOrder extends \CFormModel
   {
     return [
       'Name' => \Yii::t('app', 'Название организации'),
-      'Address' => \Yii::t('app', 'Адрес'),
+      'Address' => \Yii::t('app', 'Юридический адрес'),
       'INN' => \Yii::t('app', 'ИНН'),
       'KPP' => \Yii::t('app', 'KПП'),
       'BankName' => \Yii::t('app', 'Банк'),
@@ -49,6 +53,9 @@ class PartnerOrder extends \CFormModel
       'ChiefPosition' => \Yii::t('app', 'Должность руководителя'),
       'ChiefNameP' => \Yii::t('app', 'Имя руководителя (в род. падеже)'),
       'ChiefPositionP' => \Yii::t('app', 'Должность руководителя(в род. падеже)'),
+
+      'RealAddress' => \Yii::t('app', 'Фактический адрес'),
+      'StatuteTitle' => \Yii::t('app', 'Действующего на основании (в род. падаже, с большой буквы)'),
     ];
   }
 

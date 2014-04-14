@@ -31,6 +31,9 @@
   line-height: 25px;
   font-weight: 500;
 }
+#features-page .container.create {
+  margin-top: 60px;
+}
 #features-page .container.info,
 #features-page .container.contacts {
   margin-top: 90px;
@@ -38,7 +41,7 @@
 }
 #features-page .container.info.contacts,
 #features-page .container.contacts.contacts {
-  margin-top: 50px;
+  margin-top: 0px;
   margin-bottom: 120px;
 }
 #features-page .container.info.contacts p,

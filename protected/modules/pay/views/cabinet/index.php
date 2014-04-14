@@ -8,8 +8,6 @@
  * @var $this \pay\components\Controller
  */
 ?>
-
-
 <div class="event-register" data-event-idname="<?=$this->getEvent()->IdName;?>">
   <div class="container">
 

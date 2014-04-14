@@ -1,0 +1,145 @@
+/* Event -> Register -> Table */
+.cabinet .table th:first-child,
+.cabinet .table td:first-child {padding-left: 40px;}
+.cabinet .table th:last-child,
+.cabinet .table td:last-child {padding-right: 40px;}
+
+.cabinet .table {margin-bottom: 0;}
+.cabinet .table thead {
+  background: #ebebeb;
+  cursor: pointer;
+}
+.cabinet .table th,
+.cabinet .table td {
+  vertical-align: middle;
+  font-size: 13px;
+}
+
+.cabinet .table.thead-actual thead {
+  background: none;
+  cursor: default;
+}
+.cabinet .table.thead-actual th {
+  color: #999;
+  font-size: 11px;
+}
+
+.cabinet .table .user-row:last-child > td:first-child {background: url(/images/icon-plus.png) transparent 14px center no-repeat;}
+.cabinet .table .title {
+  margin: 0;
+  font-weight: normal;
+}
+.cabinet .table .title i {margin-top: 4px;}
+.cabinet .table .number {font-size: 14px;}
+
+.cabinet .table .form-element_text,
+.cabinet .table .form-element_select {
+  margin: 0;
+  font-size: 13px;
+}
+
+.cabinet .table .input-promo.filled {
+  opacity: .25;
+  -webkit-transition: opacity .5s;
+  -moz-transition: opacity .5s;
+  -ms-transition: opacity .5s;
+  -o-transition: opacity .5s;
+  transition: opacity .5s;
+}
+.cabinet .table .input-promo.filled:hover {opacity: 1;}
+.cabinet .table .promo-validate {
+  position: relative;
+  float: right;
+  margin-bottom: 0;
+}
+.cabinet .table .promo-validate .help-inline  {
+  position: absolute;
+  top: 5px;
+  right: 100%;
+  margin-right: 5px;
+  white-space: nowrap;
+}
+
+.cabinet .table .btn-register {width: 167px;}
+
+.cabinet .table .icon-remove {
+  position: absolute;
+  top: 50%;
+  left: auto;
+  margin: -7px 0 0 -21px;
+  opacity: .5;
+  cursor: pointer;
+}
+
+.cabinet .table .input-promo > input{
+  width: 110px;
+}
+
+.cabinet .table .discount{
+  font-weight: bold;
+  text-align: center;
+  color: #008000;
+}
+
+.cabinet .table .col-width {width: 80px;}
+
+.cabinet .total {
+  margin-bottom: 40px;
+  padding: 8px 40px;
+  background: #f7f7f7;
+  text-align: right;
+}
+.cabinet .total span {text-transform: uppercase;}
+
+.cabinet .pay-buttons {
+  margin-bottom: 40px;
+}
+.cabinet .pay-buttons ul {
+  list-style: none;
+  list-style-type: none;
+  margin: 0;
+}
+.cabinet .pay-buttons ul li {
+  float: left;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+.cabinet .pay-buttons ul li .btn {box-sizing: content-box;}
+.cabinet .pay-buttons .pull-left {width: 250px; margin-left: 100px;}
+.cabinet .pay-buttons .pull-right {
+  width: 545px;
+  border-left: 1px dashed #E6E6E6;
+  padding-left: 20px;
+}
+.cabinet .pay-buttons h5 {margin-bottom: 15px;}
+.cabinet .pay-buttons .juridical {
+  padding: 34px 0;
+  width: 100%;
+  box-sizing: content-box;
+}
+.cabinet .nav-buttons {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.cabinet .scenario-selector {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+.cabinet .scenario-selector>div {
+  width: 50%;
+}
+.cabinet .scenario-selector label {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.cabinet form.button-only {
+  margin: 0;
+}
+.cabinet form.button-only button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+}

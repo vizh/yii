@@ -1,3 +1,4 @@
+<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
 <table align="left" border="0" cellpadding="0" cellspacing="0" style="color: rgb(34, 34, 34); line-height: normal; border: 1px solid rgb(239, 239, 239); font-family: Tahoma, Arial, Helvetica, sans-serif;" width="634">
     <tbody>
     <tr>
