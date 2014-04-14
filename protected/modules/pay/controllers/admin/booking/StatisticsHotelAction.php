@@ -9,11 +9,8 @@ class StatisticsHotelAction extends \CAction
 
   public function run($hotel)
   {
-    //echo $_SERVER['SERVER_ADDR'];
-    //exit;
 
-    $rifConnection = new \CDbConnection('mysql:host=109.234.156.202;dbname=rif2014', 'rif2014', 'eipahgoo9PeetieN');
-    $cmd = $rifConnection->createCommand();
+    $cmd = \BookingController::getRifDb()->createCommand();
     $cmd->select('*')->from('ext_booked_person');
     $result = $cmd->queryAll();
     $usersFullData = [];
@@ -22,7 +19,7 @@ class StatisticsHotelAction extends \CAction
       $usersFullData[$row['ownerRunetId']] = $row;
     }
 
-    $cmd = $rifConnection->createCommand();
+    $cmd = \BookingController::getRifDb()->createCommand();
     $cmd->select('*')->from('ext_booked_person_together');
     $result = $cmd->queryAll();
 
