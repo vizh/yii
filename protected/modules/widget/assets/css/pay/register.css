@@ -1,0 +1,135 @@
+/* Event -> Register -> Table */
+.register .table th:first-child,
+.register .table td:first-child {padding-left: 40px;}
+.register .table th:last-child,
+.register .table td:last-child {padding-right: 40px;}
+
+.register .table {margin-bottom: 0;}
+.register .table thead {
+  background: #ebebeb;
+  cursor: pointer;
+}
+.register .table th,
+.register .table td {
+  vertical-align: middle;
+  font-size: 13px;
+}
+
+.register .table.thead-actual thead {
+  background: none;
+  cursor: default;
+}
+.register .table.thead-actual th {
+  color: #999;
+  font-size: 11px;
+}
+
+.register .table .user-row:last-child > td:first-child {background: url(/images/icon-plus.png) transparent 14px center no-repeat;}
+.register .table .title {
+  margin: 0;
+  font-weight: normal;
+}
+.register .table .title i {margin-top: 4px;}
+.register .table .number {font-size: 14px;}
+
+.register .table .form-element_text,
+.register .table .form-element_select {
+  margin: 0;
+  font-size: 13px;
+}
+
+.register .table .input-promo.filled {
+  opacity: .25;
+  -webkit-transition: opacity .5s;
+  -moz-transition: opacity .5s;
+  -ms-transition: opacity .5s;
+  -o-transition: opacity .5s;
+  transition: opacity .5s;
+}
+.register .table .input-promo.filled:hover {opacity: 1;}
+.register .table .promo-validate {
+  position: relative;
+  float: right;
+  margin-bottom: 0;
+}
+.register .table .promo-validate .help-inline  {
+  position: absolute;
+  top: 5px;
+  right: 100%;
+  margin-right: 5px;
+  white-space: nowrap;
+}
+
+.register .table .btn-register {width: 167px;}
+
+.register .table .icon-remove {
+  position: absolute;
+  top: 50%;
+  left: auto;
+  margin: -7px 0 0 -21px;
+  opacity: .5;
+  cursor: pointer;
+}
+
+.register .table .input-promo > input{
+  width: 110px;
+}
+
+.register .table .discount{
+  font-weight: bold;
+  text-align: center;
+  color: #008000;
+}
+
+.register .table .col-width {width: 80px;}
+
+.register .total {
+  margin-bottom: 40px;
+  padding: 8px 40px;
+  background: #f7f7f7;
+  text-align: right;
+}
+.register .total span {text-transform: uppercase;}
+
+.register .pay-buttons {
+  margin-bottom: 40px;
+}
+.register .pay-buttons ul {
+  list-style: none;
+  list-style-type: none;
+  margin: 0;
+}
+.register .pay-buttons ul li {
+  float: left;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+.register .pay-buttons ul li .btn {box-sizing: content-box;}
+.register .pay-buttons .pull-left {width: 250px; margin-left: 100px;}
+.register .pay-buttons .pull-right {
+  width: 545px;
+  border-left: 1px dashed #E6E6E6;
+  padding-left: 20px;
+}
+.register .pay-buttons h5 {margin-bottom: 15px;}
+.register .pay-buttons .juridical {
+  padding: 34px 0;
+  width: 100%;
+  box-sizing: content-box;
+}
+.register .nav-buttons {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.register .scenario-selector {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+.register .scenario-selector>div {
+  width: 50%;
+}
+.register .scenario-selector label {
+  width: 300px;
+  margin: 0 auto;
+}
