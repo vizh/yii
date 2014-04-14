@@ -1,0 +1,12 @@
+<p><img src="http://runet-id.com/img/mail/2014/20140331-20therunet.jpg" alt="20 лет Рунету!"/></p>
+<p><strong><?=$user->getShortName();?></strong>, здравствуйте!</p>
+<p><strong>Ровно через неделю, 7 апреля 2014 года</strong>, Рунет отметит самый важный в&nbsp;этом году праздник&nbsp;&mdash; свой <nobr>20-летний</nobr> юбилей.</p>
+<p>К&nbsp;Юбилею Рунета мы&nbsp;подготовились тщательно: </p>
+<ul>	<li>Cобрали с&nbsp;вашей помощью много интересных фактов из&nbsp;<a href="http://20.therunet.ru">истории Рунета</a></li>	<li>Сняли видеосюжеты в&nbsp;формате <a href="http://rutube.ru/video/person/555784/">&laquo;Видеохроники Рунета&raquo;</a> (по&nbsp;одному на&nbsp;каждый год развития Рунета)</li>	<li>И&nbsp;самое главное&nbsp;&mdash; организовали незабываемое юбилейное шоу для всех, кто причастен к&nbsp;развитию интернета в&nbsp;России! Мероприятие пройдет в&nbsp;День рождения Рунета 7 апреля. </li>
+</ul>
+<p>Каждый, кто работает в&nbsp;<nobr>интернет-индустрии</nobr> и&nbsp;ежедневно развивает Рунет, заслужил этот праздник!</p>
+<p>Мы&nbsp;приглашаем Вас <strong>7 апреля в&nbsp;Arena Moscow</strong>, где соберется вся <nobr>интернет-отрасль</nobr>, чтобы отметить Юбилей Рунета, пообщаться друг с&nbsp;другом, насладиться праздничным вечером и&nbsp;выступлениями известных музыкантов, которые прославились благодаря интернету. На&nbsp;сцене выступят <strong>Ляпис Трубецкой</strong>, <strong>БРАВО</strong>, <strong>Сансара</strong>, <strong>Вася Обломов</strong> и&nbsp;другие.</p>
+<p>Также в&nbsp;программе вечера: работа <nobr>welcome-зоны</nobr>, подарки от&nbsp;партнеров, юбилейное шоу и&nbsp;концерт, новые знакомства и&nbsp;общение с&nbsp;друзьями, море позитива.</p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/20therunet/');?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">КУПИТЬ БИЛЕТ</a></p>
+<p style="text-align: center"><strong>ВНИМАНИЕ: Количество мест ограничено!</strong></p>
+<p>Билеты также можно приобрести в&nbsp;кассе <a href="http://www.arenagroup.ru/timetable/443">Arena Moscow</a>, на&nbsp;сайте <a href="http://redkassa.ru/events/70337-bilety_na_koncert_20_let_online/">Redkassa</a>, на&nbsp;сайте <a href="http://www.nashe.ru/">Нашего Радио</a> и&nbsp;на&nbsp;<a href="http://runet-id.com/event/20therunet/"><nobr>Runet-ID</nobr></a>.</p>
