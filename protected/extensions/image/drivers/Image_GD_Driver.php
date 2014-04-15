@@ -282,6 +282,23 @@ class Image_GD_Driver extends Image_Driver {
 		return $status;
 	}
 
+  /**
+   * @param array $properties
+   * @return boolean
+   */
+  public function text($properties)
+  {
+    $color = imagecolorallocate($this->tmp_image, 0,0,0);
+    $font = \Yii::getPathOfAlias('webroot.fonts.roboto.Roboto-Regular').'.ttf';
+    if ($properties['x'] == 0)
+    {
+      $box = imagettfbbox($properties['size'], 0, $font, $properties['text']);
+      $properties['x'] = $this->image['width'] / 2 - (($box[2]-$box[0])/2);
+    }
+    imagettftext($this->tmp_image, $properties['size'], 0, $properties['x'], $properties['y'], $color, $font, $properties['text']);
+    return true;
+  }
+
     public function rotate($amount)
 	{
 		// Use current image to rotate
@@ -376,5 +393,4 @@ class Image_GD_Driver extends Image_Driver {
 
 		return $img;
 	}
-
 } // End Image GD Driver

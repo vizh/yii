@@ -294,6 +294,24 @@ class Image {
 		return $this;
 	}
 
+  /**
+   * @param $text
+   * @param int $size
+   * @param int $x
+   * @param int $y
+   * @return $this
+   */
+  public function text($text, $size = 12, $x = 0, $y = 0)
+  {
+    $this->actions['text'] = array(
+      'text' => $text,
+      'size' => $size,
+      'x'    => $x,
+      'y'    => $y
+    );
+    return $this;
+  }
+
 	/**
 	 * Sharpen an image.
 	 *
