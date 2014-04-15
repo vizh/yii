@@ -174,6 +174,17 @@ class Image_ImageMagick_Driver extends Image_Driver {
 		return TRUE;
 	}
 
+  /**
+   * @param array $properties
+   * @return boolean
+   */
+  public function text($prop)
+  {
+
+  }
+
+
+
 	public function rotate($amt)
 	{
 		if ($error = exec(escapeshellcmd($this->dir.'convert'.$this->ext).' -rotate '.escapeshellarg($amt).' -background transparent '.$this->cmd_image.' '.$this->cmd_image))
@@ -209,5 +220,4 @@ class Image_ImageMagick_Driver extends Image_Driver {
 	{
 		return array_slice(getimagesize($this->tmp_image), 0, 2, FALSE);
 	}
-
 } // End Image ImageMagick Driver

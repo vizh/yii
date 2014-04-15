@@ -20,11 +20,12 @@ class RegisterForm extends \CFormModel
   public function rules()
   {
     return [
-      ['LastName, FirstName, FatherName, Email, Phone, Company, Position', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
+      ['LastName, FirstName, FatherName, Email, Phone, Company, Position,', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
       ['LastName,FirstName,Email,Company', 'required'],
       ['Email', 'email'],
       ['Email', 'uniqueUser'],
       ['Position', 'checkPosition'],
+      ['Phone', 'checkPhone'],
       ['FatherName, Phone, Position, CompanyId, City, CityId, EventId', 'safe']
     ];
   }
@@ -45,11 +46,34 @@ class RegisterForm extends \CFormModel
 
   public function checkPosition($attribute, $params)
   {
-    $event = \event\models\Event::model()->findByPk($this->EventId);
+    $event = $this->getEvent();
     if ($event !== null && isset($event->PositionRequired) && $event->PositionRequired && empty($this->Position))
     {
       $this->addError('Position', \Yii::t('app', 'Необходимо заполнить поле Должность.'));
     }
+  }
+
+  public function checkPhone($attribute, $params)
+  {
+    $event = $this->getEvent();
+    if ($event !== null && isset($event->PhoneRequired) && $event->PhoneRequired && empty($this->Phone))
+    {
+      $this->addError('Phone', \Yii::t('app', 'Необходимо заполнить поле Телефон.'));
+    }
+  }
+
+  private $event = null;
+
+  /**
+   * @return \event\models\Event|null
+   */
+  private function getEvent()
+  {
+    if ($this->event == null)
+    {
+      $this->event = \event\models\Event::model()->findByPk($this->EventId);
+    }
+    return $this->event;
   }
 
   /**

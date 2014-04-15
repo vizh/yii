@@ -146,4 +146,10 @@ abstract class Image_Driver {
 	 */
 	abstract public function sharpen($amount);
 
+  /**
+   * @param array $properties
+   * @return boolean
+   */
+  abstract public function text($properties);
+
 } // End Image Driver

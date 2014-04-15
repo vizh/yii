@@ -4,6 +4,7 @@
  * @var array $orderItemsByProduct
  * @var array $usersFullData
  * @var array $usersTogether
+ * @var array $partnerBookingsByProduct
  */
 ?>
 <div class="btn-toolbar"></div>
@@ -23,7 +24,8 @@
         'product' => $product,
         'orderItems' => isset($orderItemsByProduct[$product->Id]) ? $orderItemsByProduct[$product->Id] : [],
         'usersFullData' => $usersFullData,
-        'usersTogether' => $usersTogether
+        'usersTogether' => $usersTogether,
+        'partnerBookings' => isset($partnerBookingsByProduct[$product->Id]) ? $partnerBookingsByProduct[$product->Id] : []
       ]);?>
     <?endforeach;?>
     </tbody>

@@ -56,11 +56,23 @@ class StatisticsHotelAction extends \CAction
       $orderItemsByProduct[$item->ProductId][] = $item;
     }
 
+    $criteria = new \CDbCriteria();
+    $criteria->addInCondition('t."ProductId"', $idList);
+    $criteria->addCondition('NOT t."Deleted" OR t."Paid"');
+    $partnerBookings = \pay\models\RoomPartnerBooking::model()->findAll($criteria);
+
+    $partnerBookingsByProduct = [];
+    foreach ($partnerBookings as $booking)
+    {
+      $partnerBookingsByProduct[$booking->ProductId][] = $booking;
+    }
+
     $this->getController()->render('statistics/hotel', [
       'products' => $products,
       'orderItemsByProduct' => $orderItemsByProduct,
       'usersFullData' => $usersFullData,
-      'usersTogether' => $usersTogether
+      'usersTogether' => $usersTogether,
+      'partnerBookingsByProduct' => $partnerBookingsByProduct
     ]);
   }
 } 

@@ -33,9 +33,8 @@ $hasTickets = !empty($products->tickets);
   <?endif;?>
 </script>
 
-<?=\CHtml::beginForm('', 'POST', ['class' => 'registration', 'data-event-id-name' => $event->IdName, 'data-event-id' => $event->Id]);?>
-
 <div class="register">
+  <?=\CHtml::beginForm('', 'POST', ['data-event-id-name' => $event->IdName, 'data-event-id' => $event->Id]);?>
   <?=\CHtml::errorSummary($orderForm, '<div class="container"><div class="alert alert-error">', '</div></div>');?>
   <div class="container">
     <?if ($hasTickets):?>
@@ -64,7 +63,7 @@ $hasTickets = !empty($products->tickets);
         </thead>
       </table>
       <?foreach ($products->all as $product):?>
-        <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="<?=$countRows[$product->Id] == 0 ? 1 : $countRows[$product->Id];?>" data-row-current="0">
+        <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="<?=!isset($countRows[$product->Id]) || $countRows[$product->Id] == 0 ? 1 : $countRows[$product->Id];?>" data-row-current="0">
           <thead>
           <tr>
             <th>
@@ -122,14 +121,14 @@ $hasTickets = !empty($products->tickets);
     <?endif;?>
 
     <div class="nav-buttons">
-      <a href="#" onclick="$('form.registration').trigger('submit'); return false;" class="btn btn-large btn-info <?if ($hasTickets):?>disabled<?endif;?>">
+      <a href="#" onclick="$('.register form').trigger('submit'); return false;" class="btn btn-large btn-info <?if ($hasTickets):?>disabled<?endif;?>">
         <?=\Yii::t('app', 'Продолжить');?>
         <i class="icon-circle-arrow-right icon-white"></i>
       </a>
     </div>
   </div>
+  <?=\CHtml::endForm();?>
 </div>
-<?=\CHtml::endForm();?>
 
 <script type="text/template" id="row-tpl">
   <tr class="user-row">
