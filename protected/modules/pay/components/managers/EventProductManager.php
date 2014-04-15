@@ -47,6 +47,12 @@ class EventProductManager extends BaseProductManager
     {
       $isSelf = !\Yii::app()->user->isGuest && \Yii::app()->user->getCurrentUser()->Id == $user->Id;
       $roleTitle = $this->participant->Role->Title;
+
+      if ($this->participant->RoleId == 64) {
+          return 'К сожалению, на данный момент Вы не можете оплатить участие в DevCon 2014, т.к. все места на конференцию уже забронированы, и Вы переведены в лист ожидания. При появлении свободных мест мы обязательно с Вами свяжемся.';
+      }
+
+
       if ($isSelf)
         return sprintf('Вы уже зарегистрированы на мероприятие со статусом "%s"', $roleTitle);
       else
