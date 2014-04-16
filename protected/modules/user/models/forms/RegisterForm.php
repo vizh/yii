@@ -30,8 +30,6 @@ class RegisterForm extends \CFormModel
     ];
   }
 
-
-
   public function uniqueUser($attribute, $params)
   {
     if (!empty($this->Email))

@@ -4,20 +4,6 @@ class BookingController extends \application\components\controllers\AdminMainCon
 {
   const EventId = 789;
 
-  private static $rifDb = null;
-
-  /**
-   * @return CDbConnection
-   */
-  public static function getRifDb()
-  {
-    if (self::$rifDb == null)
-    {
-      self::$rifDb = new \CDbConnection('mysql:host=109.234.156.202;dbname=rif2014', 'rif2014', 'eipahgoo9PeetieN');
-    }
-    return self::$rifDb;
-  }
-
   public function actions()
   {
     return [
