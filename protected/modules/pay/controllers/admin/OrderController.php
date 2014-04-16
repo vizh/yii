@@ -7,6 +7,7 @@ class OrderController extends \application\components\controllers\AdminMainContr
     return array(
       'index' => '\pay\controllers\admin\order\IndexAction',
       'view' => '\pay\controllers\admin\order\ViewAction',
+      'print' => '\pay\controllers\admin\order\PrintAction'
     );
   }
 

@@ -20,62 +20,14 @@ class OrderController extends \application\components\controllers\MainController
     if ($clear === null && $order->Deleted)
       throw new \CHttpException(404);
 
-    $billData = array();
-    $total = 0;
-    $collection = \pay\components\OrderItemCollection::createByOrder($order);
-    foreach ($collection as $item)
-    {
-      $orderItem = $item->getOrderItem();
-      $isTicket = $orderItem->Product->ManagerName == 'Ticket';
-
-      $price = $isTicket ? $orderItem->Product->getPrice($order->CreationTime) : $item->getPriceDiscount($order->CreationTime);
-      if (!isset($billData[$orderItem->ProductId.$price]))
-      {
-        $billData[$orderItem->ProductId.$price] = array(
-          'Title' => $orderItem->Product->getManager()->GetTitle($orderItem),
-          'Unit' => $orderItem->Product->Unit,
-          'Count' => 0,
-          'DiscountPrice' => $price,
-          'ProductId' => $orderItem->ProductId
-        );
-      }
-      $count = $orderItem->Product->getManager()->getCount($orderItem);
-      $billData[$orderItem->ProductId.$price]['Count'] += $count;
-      $total += $count * $price;
-    }
-
-    /** @var $account \pay\models\Account */
-    $account = \pay\models\Account::model()->byEventId($order->EventId)->find();
-
-    $template = null;
-    if ($order->Type == \pay\models\OrderType::Juridical)
-    {
-      $template = $order->Template != null ? $order->Template : $account->OrderTemplate;
-      if ($template->OrderTemplateName === null)
-      {
-        $viewName = 'template';
-      }
-      else
-      {
-        $viewName = $template->OrderTemplateName;
-      }
-      $viewName = 'bills/'.$viewName;
-    }
-    else
-    {
-      $template = $order->Template != null ? $order->Template : $account->ReceiptTemplate;
-      $viewName = 'receipt/template';
-    }
-
-
     $this->setPageTitle('Счёт № ' . $order->Number);
-    $this->render($viewName, [
+    $this->render($order->getViewName(), [
       'order' => $order,
-      'billData' => $billData,
-      'total' => $total,
-      'nds' => $total - round($total / 1.18, 2, PHP_ROUND_HALF_DOWN),
+      'billData' => $order->getBillData()->Data,
+      'total' => $order->getBillData()->Total,
+      'nds' => $order->getBillData()->Nds,
       'withSign' => $clear===null,
-      'template' => $template
+      'template' => $order->getViewTemplate()
     ]);
   }
 }

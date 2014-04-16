@@ -193,6 +193,23 @@ class OrderItem extends \CActiveRecord
   }
 
   /**
+   * @param $userId
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byAnyOwnerId($userId, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->addCondition('
+      ("t"."OwnerId" = :OwnerId AND "t"."ChangedOwnerId" IS NULL) OR "t"."ChangedOwnerId" = :OwnerId'
+    );
+    $criteria->params['OwnerId'] = $userId;
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+
+  /**
    * @param int $eventId
    * @param bool $useAnd
    * @return OrderItem
