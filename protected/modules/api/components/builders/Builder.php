@@ -99,6 +99,7 @@ class Builder
           $this->user->Status->RoleName = $participant->Role->Title;
           $this->user->Status->RoleTitle = $participant->Role->Title;
           $this->user->Status->UpdateTime = $participant->UpdateTime;
+          $this->user->Status->TicketUrl = $participant->getTicketUrl();
         }
         else
         {
@@ -113,6 +114,7 @@ class Builder
           $status->RoleName = $participant->Role->Title;
           $status->RoleTitle = $participant->Role->Title;
           $status->UpdateTime = $participant->UpdateTime;
+          $status->TicketUrl = $participant->getTicketUrl();
           $this->user->Status[] = $status;
         }
       }

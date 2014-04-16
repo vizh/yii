@@ -214,22 +214,22 @@ $roomProductManager = $roomOrderItem !== null ? $roomOrderItem->Product->getMana
           <div class="col-xs-3">
             <div class="date"><big>22</big>апреля</div>
             <div class="time"><span>Начало</span> 12:00</div>
-            <div class="time"><span>Окончание</span> 21:00</div>
+            <div class="time"><span>Окончание</span> 00:00</div>
           </div>
           <div class="col-xs-3">
             <div class="date"><big>23</big>апреля</div>
-            <div class="time"><span>Начало</span> 8:00</div>
+            <div class="time"><span>Начало</span> 00:00</div>
             <div class="time"><span>Окончание</span> 21:00</div>
           </div>
           <div class="col-xs-3">
             <div class="date"><big>24</big>апреля</div>
             <div class="time"><span>Начало</span> 8:00</div>
-            <div class="time"><span>Окончание</span> 19:30</div>
+            <div class="time"><span>Окончание</span> 19:00</div>
           </div>
           <div class="col-xs-3">
             <div class="date"><big>25</big>апреля</div>
             <div class="time"><span>Начало</span> 8:00</div>
-            <div class="time"><span>Окончание</span> 18:00</div>
+            <div class="time"><span>Окончание</span> 16:00</div>
           </div>
         </div>
       </div>
@@ -249,7 +249,7 @@ $roomProductManager = $roomOrderItem !== null ? $roomOrderItem->Product->getMana
           <div class="col-xs-3">
             <div class="date"><big>22</big>апреля</div>
             <div class="time"><span>Начало</span> 15:30</div>
-            <div class="time"><span>Окончание</span> 21:00</div>
+            <div class="time"><span>Окончание</span> 22:00</div>
           </div>
           <div class="col-xs-3">
             <div class="date"><big>23</big>апреля</div>
@@ -264,7 +264,7 @@ $roomProductManager = $roomOrderItem !== null ? $roomOrderItem->Product->getMana
           <div class="col-xs-3">
             <div class="date"><big>25</big>апреля</div>
             <div class="time"><span>Начало</span> 8:00</div>
-            <div class="time"><span>Окончание</span> 18:00</div>
+            <div class="time"><span>Окончание</span> 19:00</div>
           </div>
         </div>
       </div>
