@@ -69,7 +69,12 @@
     <li><a href="<?=Yii::app()->createUrl('/api/admin/account/index');?>">Аккаунты</a></li>
   </ul>
   
-  <a href="<?=Yii::app()->createUrl('/pay/admin/order/index');?>" class="nav-header collapsed" href="#menu-pay"><i class="icon-shopping-cart icon-white"></i><span class="hidden-phone">Платежная система</span></a>
+  <a data-toggle="collapse" class="nav-header" href="#menu-order"><i class="icon-shopping-cart icon-white"></i><span class="hidden-phone">Платежная система</span></a>
+  <ul class="nav nav-list collapse" id="menu-order">
+    <li><a href="<?=Yii::app()->createUrl('/pay/admin/order/index');?>">Счета</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/pay/admin/order/print');?>">Печать</a></li>
+  </ul>
+
 
   <a data-toggle="collapse" class="nav-header" href="#menu-booking" class="nav-header collapsed" href="#menu-pay"><i class="icon-globe icon-white"></i><span class="hidden-phone">Бронирование номеров</span></a>
   <ul class="nav nav-list collapse" id="menu-booking">

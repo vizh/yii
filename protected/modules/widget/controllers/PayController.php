@@ -1,5 +1,5 @@
 <?php
-class PayController extends \application\components\controllers\PublicMainController
+class PayController extends \widget\components\Controller
 {
   public function actions()
   {
@@ -8,6 +8,8 @@ class PayController extends \application\components\controllers\PublicMainContro
       'auth' => '\widget\controllers\pay\AuthAction',
       'register' => '\widget\controllers\pay\RegisterAction',
       'cabinet' => '\widget\controllers\pay\CabinetAction',
+      'juridical' => '\widget\controllers\pay\JuridicalAction',
+      'receipt' => '\widget\controllers\pay\ReceiptAction'
     ];
   }
 

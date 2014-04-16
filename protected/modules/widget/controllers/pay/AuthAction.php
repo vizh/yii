@@ -7,15 +7,18 @@ class AuthAction extends \widget\components\pay\Action
 
   public function run()
   {
-    $request = \Yii::app()->getRequest();
+    if (!\Yii::app()->getUser()->getIsGuest())
+    {
+      $this->getController()->gotoNextStep();
+    }
 
+    $request = \Yii::app()->getRequest();
     $this->tmpUserForm = new \user\models\forms\Email();
     $this->tmpUserForm->attributes = $request->getParam(get_class($this->tmpUserForm));
     if ($request->getIsPostRequest() && $this->tmpUserForm->validate())
     {
       $this->processTmpUserForm();
     }
-
     $this->getController()->render('auth', ['tmpUserForm' => $this->tmpUserForm]);
   }
 

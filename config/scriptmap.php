@@ -93,6 +93,12 @@ return array(
           'js' => ['jquery.inputmask-multi.js', 'jquery.bind-first-0.1.min.js', 'jquery.initphoneinputmask.js'],
           'depends' => ['runetid.jquery.inputmask']
         ],
+        'runetid.widget' => array(
+          'baseUrl' => '/',
+          'js' => array(),
+          'css' => array('stylesheets/application.css'),
+          'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.backbone', 'runetid.bootstrap', 'runetid.auth')
+        ),
       ),
 
       'scriptMap' => array(),

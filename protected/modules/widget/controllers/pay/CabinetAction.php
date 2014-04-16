@@ -48,6 +48,8 @@ class CabinetAction extends \widget\components\pay\Action
         break;
     }
 
+    $this->processAction();
+
     $this->getController()->render('cabinet', array(
       'finder' => $finder,
       'unpaidItems' => $unpaidItems,
@@ -117,4 +119,30 @@ class CabinetAction extends \widget\components\pay\Action
     }
     $this->getController()->redirect($form->SuccessUrl);
   }
+
+  private function processAction()
+  {
+    $request = \Yii::app()->getRequest();
+    $action = $request->getParam('action');
+    if ($action !== null)
+    {
+      $method = 'processAction'.ucfirst($action);
+      if (method_exists($this, $method))
+      {
+        $this->$method();
+      }
+      $this->getController()->redirect(['/widget/pay/cabinet']);
+    }
+  }
+
+  private function processActionOrderDelete()
+  {
+    $request = \Yii::app()->getRequest();
+    $order = \pay\models\Order::model()->findByPk($request->getParam('orderId'));
+    if ($order !== null && $order->EventId == $this->getEvent()->Id && $order->PayerId == $this->getUser()->Id)
+    {
+      $order->delete();
+    }
+  }
+
 } 

@@ -18,11 +18,9 @@
       <td style="padding-left: 10px; width: 15px;">
         <?if (!$collection->getOrder()->Paid):?>
           <?if (\pay\models\OrderType::getIsBank($collection->getOrder()->Type)):?>
-          <?=\CHtml::beginForm(array('/pay/juridical/delete', 'orderId' => $collection->getOrder()->Id), 'post', array('class' => 'button-only'));?>
-            <?=\CHtml::htmlButton('<i class="icon-trash"></i>', array('type' => 'submit'));?>
-          <?=\CHtml::endForm();?>
+            <a href="<?=$this->createUrl('/widget/pay/cabinet', ['action' => 'orderDelete', 'orderId' => $collection->getOrder()->Id]);?>"><i class="icon-trash"></i></a>
           <?elseif ($collection->getOrder()->Type == \pay\models\OrderType::MailRu):?>
-            <a  onclick="return confirm('Для удаления счета вы будете направлены на страницу системы Деньги@Mail.Ru');" target="_blank" href="<?=$collection->getOrder()->OrderJuridical->UrlPay;?>"><i class="icon-trash"></i></a>
+            <a onclick="return confirm('Для удаления счета вы будете направлены на страницу системы Деньги@Mail.Ru');" target="_blank" href="<?=$collection->getOrder()->OrderJuridical->UrlPay;?>"><i class="icon-trash"></i></a>
           <?endif;?>
         <?endif;?>
       </td>
