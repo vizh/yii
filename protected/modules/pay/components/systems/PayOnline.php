@@ -96,10 +96,14 @@ class PayOnline extends Base
 
     $hash = md5(http_build_query($params));
     unset($params['PrivateSecurityKey']);
-
     $params['SecurityKey'] = $hash;
-    $params['ReturnUrl'] = \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', array('eventIdName' => \event\models\Event::model()->findByPk($eventId)->IdName));
 
+    $order = \pay\models\Order::model()->findByPk($orderId);
+    if ($order == null)
+      throw new \CHttpException(404);
+    $params['email'] = $order->Payer->Email;
+
+    $params['ReturnUrl'] = \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', array('eventIdName' => \event\models\Event::model()->findByPk($eventId)->IdName));
     $url = self::Url . ($this->toYandexMoney ? 'yandexmoney/' : '');
     \Yii::app()->getController()->redirect($url . '?' . http_build_query($params));
   }
