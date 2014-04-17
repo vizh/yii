@@ -77,7 +77,10 @@ class CreateUserAction extends \api\components\Action
       }
     }
 
-    $role = \event\models\Role::model()->findByPk(24);
+    $roleId = 24;
+    if ($this->getEvent()->Id == 831)
+      $roleId = 64;
+    $role = \event\models\Role::model()->findByPk($roleId);
     $this->getEvent()->skipOnRegister = true;
     $this->getEvent()->registerUser($user, $role);
 
