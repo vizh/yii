@@ -13,7 +13,7 @@
     <div class="alert alert-error hide errorSummary"></div>
     <div class="row-fluid">
       <div class="span3">
-        <?=\CHtml::activeTextField($form,'Number',['placeholder' => $form->getAttributeLabel('Number'), 'class' => 'input-block-level']);?>
+        <?=\CHtml::activeTextField($form,'Number',['placeholder' => $form->getAttributeLabel('Number'), 'class' => 'input-block-level', 'style' => 'border: 1px solid #3A87AD;']);?>
       </div>
       <div class="span3">
         <?=\CHtml::activeTextField($form,'Brand',['placeholder' => $form->getAttributeLabel('Brand'), 'class' => 'input-block-level']);?>
@@ -72,6 +72,9 @@
               break;
 
             case \pay\controllers\admin\booking\ParkingItem::STATUS_REPORTER: $class = 'text-success';
+              break;
+
+            case \pay\controllers\admin\booking\ParkingItem::STATUS_ORGANIZER: $class = 'text-error';
               break;
           }
           ?>

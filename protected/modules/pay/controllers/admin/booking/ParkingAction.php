@@ -36,7 +36,7 @@ class ParkingAction extends \CAction
     foreach ($bookings as $booking)
     {
       $car = json_decode($booking->Car);
-      if ($car !== null && !empty($car->Numer))
+      if ($car !== null && !empty($car->Number))
       {
         $manager = $booking->Product->getManager();
 
@@ -179,7 +179,9 @@ class ParkingItem
   const STATUS_PARTNER = 'partner';
   const STATUS_PARTICIPANT = 'participant';
   const STATUS_REPORTER = 'reporter';
+  const STATUS_ORGANIZER = 'organizer';
   const STATUS_VIP = 'vip';
+  const STATUS_TV = 'tv';
 
   public $Number;
   public $Brand;
@@ -194,7 +196,9 @@ class ParkingItem
       self::STATUS_PARTICIPANT => \Yii::t('app', 'Участник'),
       self::STATUS_PARTNER => \Yii::t('app', 'Партнер'),
       self::STATUS_REPORTER => \Yii::t('app', 'Докладчик'),
-      self::STATUS_VIP => \Yii::t('app', 'VIP')
+      self::STATUS_ORGANIZER => \Yii::t('app', 'Организатор'),
+      self::STATUS_VIP => \Yii::t('app', 'VIP'),
+      self::STATUS_TV => \Yii::t('app', 'Телеканал')
     ];
   }
 
