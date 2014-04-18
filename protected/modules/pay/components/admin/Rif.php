@@ -10,7 +10,6 @@ class Rif
 
   const EventId = 789;
 
-
   private static $db = null;
 
   /**

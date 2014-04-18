@@ -17,7 +17,8 @@ class BookingController extends \application\components\controllers\AdminMainCon
       'partnerbookinginfo' => '\pay\controllers\admin\booking\PartnerBookingInfoAction',
       'product' => '\pay\controllers\admin\booking\ProductAction',
       'statisticsHotel' => '\pay\controllers\admin\booking\StatisticsHotelAction',
-      'food' => '\pay\controllers\admin\booking\FoodAction'
+      'food' => '\pay\controllers\admin\booking\FoodAction',
+      'parking' => '\pay\controllers\admin\booking\ParkingAction'
     ];
   }
 } 
