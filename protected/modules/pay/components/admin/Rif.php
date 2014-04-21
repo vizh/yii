@@ -126,4 +126,14 @@ class Rif
     }
     return null;
   }
+
+  public static function getHotelTitles()
+  {
+    return [
+      self::HOTEL_LD => 'Лесные дали',
+      self::HOTEL_P => 'Поляны',
+      self::HOTEL_N => 'Назарьево',
+      self::HOTEL_S => 'Сосны'
+    ];
+  }
 } 
