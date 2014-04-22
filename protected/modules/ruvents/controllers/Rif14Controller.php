@@ -81,8 +81,46 @@ class Rif14Controller extends CController
     echo json_encode($result, JSON_UNESCAPED_UNICODE);
   }
 
+  public function actionAdd($runetId, $productId)
+  {
+    $user = \user\models\User::model()->byRunetId($runetId)->find();
+    if ($user == null)
+      throw new \ruvents\components\Exception(202,[$runetId]);
 
+    $product = \pay\models\Product::model()->findByPk($productId);
+    if ($product == null)
+      throw new \ruvents\components\Exception(401,[$productId]);
 
+    $exists = \pay\models\ProductGet::model()->byUserId($user->Id)->byProductId($product->Id)->exists();
+    if ($exists)
+      throw new \ruvents\components\Exception(420);
+
+    $get = new \pay\models\ProductGet();
+    $get->UserId = $user->Id;
+    $get->ProductId = $product->Id;
+    $get->save();
+    echo json_encode(['Success' => true]);
+  }
+
+  public function actionList($fromTime)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->with = ['User'];
+    $criteria->addCondition('"t"."CreationTime" >= :Time');
+    $criteria->params['Time'] = $fromTime;
+    $gets = \pay\models\ProductGet::model()->findAll($criteria);
+    $result = [];
+    foreach ($gets as $get)
+    {
+      $item = new \stdClass();
+      $item->UserId = $get->User->RunetId;
+      $item->ProductId = $get->ProductId;
+      $item->CretionTime = $get->CreationTime;
+      $result[] = $item;
+    }
+    echo json_encode($result);
+  }
+  
   private function getUsersIdbyRunetId($runetIdList)
   {
     $command = Yii::app()->getDb()->createCommand();
