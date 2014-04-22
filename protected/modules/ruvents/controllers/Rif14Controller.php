@@ -103,7 +103,7 @@ class Rif14Controller extends CController
     echo json_encode(['Success' => true, 'CreationTime' => $get->CreationTime]);
   }
 
-  public function actionList($fromTime = null)
+  public function actionList($fromTime = null, $productId = null)
   {
     $criteria = new \CDbCriteria();
     $criteria->with = ['User'];
@@ -118,6 +118,17 @@ class Rif14Controller extends CController
       $criteria->addCondition('"t"."CreationTime" >= :Time');
       $criteria->params['Time'] = $datetime->format('Y-m-d H:i:s');
     }
+
+    if (!empty($productId))
+    {
+      $product = \pay\models\Product::model()->findByPk($productId);
+      if ($product == null)
+        throw new \ruvents\components\Exception(401,[$productId]);
+
+      $criteria->addCondition('"t"."ProductId" = :ProductId');
+      $criteria->params['ProductId'] = $product->Id;
+    }
+
     $gets = \pay\models\ProductGet::model()->findAll($criteria);
     $result = [];
     foreach ($gets as $get)
