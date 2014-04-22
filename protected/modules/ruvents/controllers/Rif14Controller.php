@@ -99,15 +99,20 @@ class Rif14Controller extends CController
     $get->UserId = $user->Id;
     $get->ProductId = $product->Id;
     $get->save();
-    echo json_encode(['Success' => true]);
+    $get->refresh();
+    echo json_encode(['Success' => true, 'CreationTime' => $get->CreationTime]);
   }
 
   public function actionList($fromTime)
   {
+    $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $fromTime);
+    if ($datetime === false)
+      throw new \ruvents\components\Exception(321);
+
     $criteria = new \CDbCriteria();
     $criteria->with = ['User'];
     $criteria->addCondition('"t"."CreationTime" >= :Time');
-    $criteria->params['Time'] = $fromTime;
+    $criteria->params['Time'] = $datetime->format('Y-m-d H:i:s');
     $gets = \pay\models\ProductGet::model()->findAll($criteria);
     $result = [];
     foreach ($gets as $get)
@@ -120,7 +125,7 @@ class Rif14Controller extends CController
     }
     echo json_encode($result);
   }
-  
+
   private function getUsersIdbyRunetId($runetIdList)
   {
     $command = Yii::app()->getDb()->createCommand();
