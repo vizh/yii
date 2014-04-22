@@ -140,4 +140,9 @@ class Rif14Controller extends CController
     }
     return $result;
   }
+
+  public function createLog()
+  {
+    return null;
+  }
 } 

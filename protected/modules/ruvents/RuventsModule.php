@@ -38,9 +38,12 @@ class RuventsModule extends CWebModule
     /** @var \ruvents\components\Controller $controller */
     $controller = \Yii::app()->getController();
     $log = $controller->createLog();
-    $log->ErrorCode = $exception->getCode();
-    $log->ErrorMessage = $exception->getMessage();
-    $log->save();
+    if ($log !== null)
+    {
+      $log->ErrorCode = $exception->getCode();
+      $log->ErrorMessage = $exception->getMessage();
+      $log->save();
+    }
   }
 }
 
