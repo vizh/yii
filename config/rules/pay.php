@@ -28,7 +28,13 @@ return array(
     'roles' => ['roommanager', 'admin'],
     'module' => 'pay',
     'controllers' => ['admin/booking']
+  ),
+
+  array(
+    'allow',
+    'expression' => '$user->getId() == 179693',
+    'module' => 'pay',
+    'controllers' => ['admin/booking'],
+    'actions' => ['parking']
   )
-
-
 );
