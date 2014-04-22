@@ -115,6 +115,24 @@
         <td><?=count($usersFood['breakfastN'][$food['breakfast'][$key]]);?></td>
       <?endforeach;?>
     </tr>
+
+    <tr>
+      <td>Список завтракающих</td>
+
+      <?foreach ($dates as $key => $value):?>
+        <?
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('t."RunetId"', $usersFood['breakfastN'][$food['breakfast'][$key]]);
+        $criteria->order = 't."LastName"';
+        $users = \user\models\User::model()->findAll($criteria);
+        ?>
+        <td>
+          <?foreach ($users as $user):?>
+            <?=$user->RunetId;?>, <?=$user->getFullName();?><br>
+          <?endforeach;?>
+        </td>
+      <?endforeach;?>
+    </tr>
     </tbody>
   </table>
 
