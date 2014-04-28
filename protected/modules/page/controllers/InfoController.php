@@ -5,6 +5,7 @@ class InfoController extends \application\components\controllers\PublicMainContr
 
   public function actionAbout()
   {
+    $this->setPageTitle(\Yii::t('app', 'О проекте'));
     $this->bodyId = 'about-page';
     $this->render('about');
   }
