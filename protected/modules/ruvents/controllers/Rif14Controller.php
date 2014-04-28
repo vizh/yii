@@ -10,6 +10,9 @@ class Rif14Controller extends CController
 
   public function actionIndex($hotel, $product)
   {
+    //echo json_encode([321, 454, 35287, 59999, 1466, 122262, 12959, 158947], JSON_UNESCAPED_UNICODE);
+    //Yii::app()->end();
+
     $hotel = intval($hotel);
     $product = intval($product);
     $food = [
@@ -91,15 +94,16 @@ class Rif14Controller extends CController
     if ($product == null)
       throw new \ruvents\components\Exception(401,[$productId]);
 
-    $exists = \pay\models\ProductGet::model()->byUserId($user->Id)->byProductId($product->Id)->exists();
-    if ($exists)
-      throw new \ruvents\components\Exception(420);
+    $get = \pay\models\ProductGet::model()->byUserId($user->Id)->byProductId($product->Id)->find();
+    if ($get == null)
+    {
+      $get = new \pay\models\ProductGet();
+      $get->UserId = $user->Id;
+      $get->ProductId = $product->Id;
+      $get->save();
+      $get->refresh();
+    }
 
-    $get = new \pay\models\ProductGet();
-    $get->UserId = $user->Id;
-    $get->ProductId = $product->Id;
-    $get->save();
-    $get->refresh();
     echo json_encode(['Success' => true, 'CreationTime' => $get->CreationTime]);
   }
 
