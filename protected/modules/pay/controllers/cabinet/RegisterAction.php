@@ -77,18 +77,18 @@ class RegisterAction extends \pay\components\Action
           }
         }
       }
-      elseif (count($products->all) == 1)
+      elseif (count($products->participations) == 1)
       {
         $isParticipant = \event\models\Participant::model()->byEventId($this->getEvent()->Id)->byUserId($this->getUser()->Id)->exists();
         $isOrderItemExist = \pay\models\OrderItem::model()
             ->byPayerId($this->getUser()->Id)->byOwnerId($this->getUser()->Id)
-            ->byProductId($products->all[0]->Id)->byDeleted(false)->exists();
-        if ($isParticipant && !$isOrderItemExist && $products->all[0]->getManager()->checkProduct($this->getUser()))
+            ->byProductId($products->participations[0]->Id)->byDeleted(false)->exists();
+        if ($isParticipant && !$isOrderItemExist && $products->participations[0]->getManager()->checkProduct($this->getUser()))
         {
           $this->form->Items[] = [
-            'ProductId' => $products->all[0]->Id,
+            'ProductId' => $products->participations[0]->Id,
             'RunetId' => $this->getUser()->RunetId,
-            'Discount' => $this->getDiscount($this->getUser(), $products->all[0])
+            'Discount' => $this->getDiscount($this->getUser(), $products->participations[0])
           ];
         }
       }
@@ -181,6 +181,7 @@ class RegisterAction extends \pay\components\Action
       $products = $model->byEventId($this->event->Id)->findAll($criteria);
       $this->products = new \stdClass();
       $this->products->all = [];
+      $this->products->participations = [];
       $this->products->tickets = [];
       foreach ($products as $product)
       {
@@ -190,6 +191,8 @@ class RegisterAction extends \pay\components\Action
         }
         else
         {
+          if (substr($product->ManagerName, 0, 5) == 'Event')
+            $this->products->participations[] = $product;
           $this->products->all[] = $product;
         }
       }
