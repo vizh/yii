@@ -89,7 +89,11 @@ class CreateUserAction extends \api\components\Action
       $coupon->activate($user, $user);
     }
 
-    $url = $user->getFastauthUrl(\Yii::app()->createUrl('/pay/cabinet/register', ['eventIdName' => $this->getEvent()->IdName]));
+    $urlParams = ['eventIdName' => $this->getEvent()->IdName];
+    if ($this->getAccount()->EventId == 1013)
+      $urlParams['lang'] = 'en';
+
+    $url = $user->getFastauthUrl(\Yii::app()->createUrl('/pay/cabinet/register', $urlParams));
     $this->setResult(['PayUrl' => $url]);
   }
 }
