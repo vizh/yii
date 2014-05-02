@@ -15,7 +15,7 @@
         <li class="account dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
             <img width="18" height="18" class="avatar" alt="" src="<?=Yii::app()->user->getCurrentUser()->getPhoto()->get18px();?>">
-            Личный кабинет
+            <?=Yii::t('app', 'Личный кабинет');?>
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu pull-right">
