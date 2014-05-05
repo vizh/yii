@@ -36,7 +36,7 @@ class LinkEventPurpose extends \CActiveRecord
   {
     return [
       'Purpose' => [self::BELONGS_TO, '\event\models\Purpose', 'PurposeId'],
-      'User' => [self::BELONGS_TO, '\event\models\User', 'UserId']
+      'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
     ];
   }
 
