@@ -67,10 +67,13 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
     $this->_items = [];
     if (sizeof($orderItems) > 0)
     {
-      $this->_eventId = $orderItems[0]->Product->EventId;
       foreach ($orderItems as $item)
       {
-        if ($this->_eventId != $item->Product->EventId)
+        if ($this->_eventId == null)
+        {
+          $this->_eventId = $item->Product->EventId;
+        }
+        elseif ($this->_eventId != $item->Product->EventId)
         {
           $message_items = '';
           $messageEvents = '';
@@ -79,7 +82,7 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
             $message_items .= ' ' . $item2->Id;
             $messageEvents .= ' ' . $item2->Product->EventId;
           }
-          throw new Exception('Попытка создать коллекцию с заказами из разных мероприятий. (' . $message_items, ', ' . $messageEvents . ')');
+          throw new Exception('Попытка создать коллекцию с заказами из разных мероприятий. (' . $message_items . ', ' . $messageEvents . ') Мероприятие: ' . $this->_eventId);
         }
         $this->_items[] = new OrderItemCollectable($item, $this);
       }
