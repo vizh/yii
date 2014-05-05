@@ -6,8 +6,8 @@ class TestController extends CController
   {
     //$api = 'zrnzd5rs8i';
     //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-    $api = 'ny2bp534c3';
-    $secret = '62z9526EcX4r35t79m368T44R';
+    $api = '7ad7ten4e5';
+    $secret = 'Y6T33tRzzsEYh2Fyn3T29aQY8';
 
     $params = array(
       'ApiKey' => $api,
@@ -24,6 +24,8 @@ class TestController extends CController
 
     //$params['SectionId'] = 12322;
     //$this->apiRequest('/api/section/deleteFavorite', $params);
+
+    print_r($params);
 
     $this->apiRequest('/api/section/favorites', $params);
   }
