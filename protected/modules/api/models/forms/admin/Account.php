@@ -69,7 +69,8 @@ class Account extends \CFormModel
       '' => 'Выберите тип аккаунта',
       'own' => 'Собственное мероприятие',
       'partner' => 'Партнерское мероприятие',
-      'microsoft' => 'Мероприятие Microsoft'
+      'microsoft' => 'Мероприятие Microsoft',
+      'mblt' => 'Мероприятие MBLT'
     ];
   }
 

@@ -158,6 +158,32 @@ class Rif14Controller extends CController
     return $result;
   }
 
+  public function actionFillCardUsers()
+  {
+    $operatorId = 802;
+    $criteria = new CDbCriteria();
+    $criteria->condition = 't."OperatorId" = :OperatorId';
+    $criteria->params = ['OperatorId' => $operatorId];
+
+    /** @var \ruvents\models\Badge[] $badges */
+    $badges = \ruvents\models\Badge::model()->findAll($criteria);
+
+    foreach ($badges as $badge)
+    {
+      if (\user\models\LoyaltyProgram::model()->byUserId($badge->UserId)->exists())
+      {
+        $badge->delete();
+//        $program = new \user\models\LoyaltyProgram();
+//        $program->UserId = $badge->UserId;
+//        $program->EventId = $badge->EventId;
+//        $program->CreationTime = $badge->CreationTime;
+//        $program->save();
+      }
+    }
+
+    echo count($badges);
+  }
+
   public function createLog()
   {
     return null;

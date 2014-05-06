@@ -92,4 +92,59 @@ class OneuseController extends \application\components\controllers\AdminMainCont
       $product->getManager()->$key = trim($value);
     }
   }
+
+  public function actionDevconWaitlist()
+  {
+    $goodUsers = [];
+
+    $orders = \pay\models\Order::model()
+      ->byEventId(831)->byBankTransfer(true)->byDeleted(false)->findAll();
+    foreach ($orders as $order)
+    {
+      foreach ($order->ItemLinks as $link)
+      {
+        $ownerId = $link->OrderItem->ChangedOwnerId == null ? $link->OrderItem->OwnerId : $link->OrderItem->ChangedOwnerId;
+        $goodUsers[] = $ownerId;
+      }
+    }
+
+    $goodUsers = array_unique($goodUsers);
+
+    $criteria = new CDbCriteria();
+    $criteria->with = ['Participants' => array('together' => true)];
+    $criteria->addNotInCondition('t."Id"', $goodUsers);
+    $criteria->addCondition('"Participants"."EventId" = :EventId AND "Participants"."RoleId" = :RoleId');
+    $criteria->params['EventId'] = 831;
+    $criteria->params['RoleId'] = 24;
+    $criteria->order = 't."LastName", t."FirstName"';
+
+
+    $badUsers = \user\models\User::model()->findAll($criteria);
+
+    echo count($badUsers), '<br>';
+    echo '<table>';
+    foreach ($badUsers as $user)
+    {
+      echo '<tr>';
+      $this->printTD($user->RunetId);
+      $this->printTD($user->getFullName());
+      $this->printTD($user->Email);
+      echo '</tr>';
+    }
+    echo '</table>';
+
+//    $event = \event\models\Event::model()->findByPk(831);
+//    $role = \event\models\Role::model()->findByPk(64);
+//
+//    foreach ($badUsers as $user)
+//    {
+//      $event->registerUser($user, $role, true, 'Перевод в лист ожидания по запросу Натальи Ивановой');
+//    }
+    echo 'done';
+  }
+
+  private function printTD($value)
+  {
+    echo '<td>', $value, '</td>';
+  }
 } 
