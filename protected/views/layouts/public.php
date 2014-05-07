@@ -118,7 +118,7 @@
         </div>
       </div>
       <div class="development pull-right">
-        &copy;&nbsp;2008-<?=date('Y')?>, ООО &laquo;Интернет Медиа Холдинг&raquo;<br />
+        &copy;&nbsp;2008-<?=date('Y')?>, ООО &laquo;РУВЕНТС&raquo;<br />
         Разработка и поддержка: <a href="http://internetmediaholding.com" title="Internet Media Holding" target="_blank">Internet Media Holding</a><br />
         Дизайн: <a href="http://coalla.ru/" title="Агентство Coalla" target="_blank">Coalla</a>
       </div>
