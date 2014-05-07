@@ -6,7 +6,7 @@
 ?>
 
 <section id="section" role="main">
-  <div class="container m-top_40">
+  <div class="container">
     <div class="row">
       <div class="offset2 span8">
 

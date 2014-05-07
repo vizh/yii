@@ -1,8 +1,16 @@
 <?php
-return array(
-  array(
+return [
+  [
+    'deny',
+    'users' => ['?'],
+    'module' => 'widget',
+    'controllers' => ['pay'],
+    'actions' => ['cabinet','register']
+  ],
+  [
     'allow',
-    'users' => array('*'),
-    'module' => 'widget'
-  ),
-);
+    'users' => ['*'],
+    'module' => 'widget',
+    'controllers' => ['pay']
+  ]
+];

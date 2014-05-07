@@ -88,6 +88,10 @@ return array(
           'js' => ['jquery.inputmask.js'],
           'depends' => ['runetid.jquery']
         ],
+        'runetid.easyXDM' => [
+          'baseUrl' => '/javascripts/',
+          'js' => ['easyXDM.min.js'],
+        ],
         'runetid.jquery.inputmask-multi' => [
           'baseUrl' => '/javascripts/jquery.inputmask-multi/',
           'js' => ['jquery.inputmask-multi.js', 'jquery.bind-first-0.1.min.js', 'jquery.initphoneinputmask.js'],

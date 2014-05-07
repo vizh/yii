@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row-fluid">
     <div class="span12">
-      <?=\CHtml::form('', 'POST', ['class' => 'products']);?>
+      <?=\CHtml::form('', 'POST', ['class' => 'products','target' => '_self']);?>
         <table class="table table-condensed">
           <thead>
           <tr>

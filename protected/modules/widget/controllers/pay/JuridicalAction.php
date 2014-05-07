@@ -20,7 +20,7 @@ class JuridicalAction extends \widget\components\pay\Action
     {
       $order = new \pay\models\Order();
       $order->create($this->getUser(), $this->getEvent(), \pay\models\OrderType::Juridical, $form->attributes);
-      $this->getController()->redirect(\Yii::app()->createUrl('/widget/pay/cabinet'));
+      $this->getController()->redirect($this->getController()->createUrl('/widget/pay/cabinet'));
     }
 
     $this->getController()->render('juridical', array(

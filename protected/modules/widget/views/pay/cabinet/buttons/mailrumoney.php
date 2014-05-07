@@ -3,4 +3,4 @@
  * @var \pay\models\Account $account
  */
 ?>
-<a href="<?=$this->createUrl('/pay/mailru/index');?>" class="btn btn-large mailrumoney">&nbsp;</a>
+<a href="<?=\Yii::app()->createAbsoluteUrl('/pay/mailru/index', ['eventIdName' => $this->getEvent()->IdName]);?>" class="btn btn-large mailrumoney" target="_top">&nbsp;</a>

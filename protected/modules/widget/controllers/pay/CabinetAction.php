@@ -131,7 +131,20 @@ class CabinetAction extends \widget\components\pay\Action
       {
         $this->$method();
       }
-      $this->getController()->redirect(['/widget/pay/cabinet']);
+
+      $this->getController()->redirect(
+        $this->getController()->createUrl('/widget/pay/cabinet')
+       );
+    }
+  }
+
+  private function processActionOrderItemDelete()
+  {
+    $request = \Yii::app()->getRequest();
+    $item = \pay\models\OrderItem::model()->findByPk($request->getParam('orderItemId'));
+    if ($item->Product->EventId == $this->getEvent()->Id && $item->PayerId == $this->getUser()->Id)
+    {
+      $item->delete();
     }
   }
 

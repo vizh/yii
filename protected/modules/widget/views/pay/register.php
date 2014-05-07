@@ -38,7 +38,7 @@ $hasTickets = !empty($products->tickets);
   <?=\CHtml::errorSummary($orderForm, '<div class="container"><div class="alert alert-error">', '</div></div>');?>
   <div class="container">
     <?if ($hasTickets):?>
-      <div class="clearfix m-bottom_30 scenario-selector m-top_40">
+      <div class="clearfix m-bottom_30 scenario-selector">
         <div class="pull-left">
           <label class="radio"><?=\CHtml::activeRadioButton($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterUser, 'uncheckValue' => null]);?> <?=\Yii::t('app', '<strong>Я знаю кто пойдет на мероприятие</strong>, и хочу указать участников сразу');?></label>
         </div>

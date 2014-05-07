@@ -10,4 +10,12 @@ class Action extends \CAction
   {
     return $this->getController()->getEvent();
   }
+
+  /**
+   * @return \api\models\Account
+   */
+  public function getApiAccount()
+  {
+    return $this->getController()->getApiAccount();
+  }
 } 

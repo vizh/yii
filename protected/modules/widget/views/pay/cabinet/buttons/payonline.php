@@ -4,6 +4,6 @@
  * @var string $system
  */
 ?>
-<a href="<?=$this->createUrl('/pay/cabinet/pay', ['type' => $system]);?>" class="btn btn-large <?=$system;?>">&nbsp;</a>
+<a href="<?=\Yii::app()->createAbsoluteUrl('/pay/cabinet/pay', ['eventIdName' => $this->getEvent()->IdName, 'type' => $system]);?>" class="btn btn-large <?=$system;?>" target="_top">&nbsp;</a>
 
 <span class="payonline"></span>

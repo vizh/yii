@@ -42,9 +42,7 @@ $total = 0;
         <?$total += $item->getPriceDiscount();?>
         <tr>
           <td style="padding-left: 10px; width: 15px;">
-            <?= \CHtml::beginForm(array('/pay/cabinet/deleteitem', 'orderItemId' => $item->getOrderItem()->Id), 'post', array('class' => 'button-only')); ?>
-              <?= \CHtml::htmlButton('<i class="icon-trash"></i>', array('type' => 'submit')); ?>
-            <?= \CHtml::endForm(); ?>
+            <a href="<?=$this->createUrl('/widget/pay/cabinet', ['action' => 'orderItemDelete', 'orderItemId' => $item->getOrderItem()->Id]);?>"><i class="icon-trash"></i></a>
           </td>
           <td>
             <?=$item->getOrderItem()->Owner->getFullName();?>
@@ -80,9 +78,7 @@ $total = 0;
           <?$total += $item->getPriceDiscount();?>
           <tr>
             <td style="padding-left: 10px; width: 15px;">
-              <?= \CHtml::beginForm(array('/pay/cabinet/deleteitem', 'orderItemId' => $item->getOrderItem()->Id), 'post', array('class' => 'button-only')); ?>
-              <?= \CHtml::htmlButton('<i class="icon-trash"></i>', array('type' => 'submit')); ?>
-              <?= \CHtml::endForm(); ?>
+              <a href="<?=$this->createUrl('/widget/pay/cabinet', ['action' => 'orderItemDelete', 'orderItemId' => $item->getOrderItem()->Id]);?>"><i class="icon-trash"></i></a>
             </td>
             <td><?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem());?></td>
             <td class="col-width t-right"><?=$item->getOrderItem()->Product->getPrice();?> <?=Yii::t('app', 'руб.');?></td>
@@ -137,7 +133,7 @@ $total = 0;
   <?endif;?>
 
   <div class="nav-buttons">
-    <a href="<?=$account->ReturnUrl===null ? $this->createUrl('/pay/cabinet/register') : $account->ReturnUrl;?>" class="btn btn-large">
+    <a href="<?=$this->createUrl('/widget/pay/register');?>" class="btn btn-large">
       <i class="icon-circle-arrow-left"></i>
       <?=\Yii::t('app', 'Назад');?>
     </a>

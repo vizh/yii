@@ -10,8 +10,8 @@ class RegisterAction extends \widget\components\pay\Action
     $request = \Yii::app()->getRequest();
     $products = $this->getProducts();
 
-    $countRows = \Yii::app()->getSession()->get(\widget\controllers\pay\IndexACtion::SessionProductCount, []);
-    \Yii::app()->session[\widget\controllers\pay\IndexACtion::SessionProductCount] = [];
+    $countRows = \Yii::app()->getSession()->get(\widget\controllers\pay\IndexAction::SessionProductCount, []);
+    \Yii::app()->session[\widget\controllers\pay\IndexAction::SessionProductCount] = [];
     if (!$request->getIsPostRequest() && count($products) == 1)
     {
       $countRows[$products->all[0]->Id] = 0;

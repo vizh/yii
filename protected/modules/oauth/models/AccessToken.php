@@ -8,6 +8,7 @@ namespace oauth\models;
  * @property int $AccountId
  * @property string $CreationTime
  * @property string $EndingTime
+ * @property \user\models\User $user
  *
  */
 class AccessToken extends \CActiveRecord
@@ -30,6 +31,13 @@ class AccessToken extends \CActiveRecord
   public function primaryKey()
   {
     return 'Id';
+  }
+
+  public function relations()
+  {
+    return [
+      'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
+    ];
   }
 
   /**
