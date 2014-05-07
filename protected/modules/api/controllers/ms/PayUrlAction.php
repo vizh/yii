@@ -9,6 +9,9 @@ class PayUrlAction extends \api\components\Action
     $externalId = $request->getParam('ExternalId');
     $lang = $request->getParam('Lang', 'ru');
 
+    if ($this->getAccount()->EventId == 1013)
+      $lang = 'en';
+
     $externalUser = \api\models\ExternalUser::model()
         ->byExternalId($externalId)->byPartner($this->getAccount()->Role)->find();
     if ($externalUser === null)

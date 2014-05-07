@@ -14,6 +14,13 @@ return array(
     'module' => 'main'
   ),
 
+  [
+    'allow',
+    'users' => ['*'],
+    'controllers' => ['devcon'],
+    'module' => 'main'
+  ],
+
 
   /** Admin Rules */
   array(

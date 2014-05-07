@@ -46,7 +46,7 @@ if (empty($products))
     </thead>
     <tbody>
     <?foreach ($products as $product):?>
-      <?if (sizeof($product->PricesActive) > 1):?>
+      <?if (sizeof($product->PricesActive) > 1 || !empty($product->Description)):?>
         <tr>
           <td colspan="4">
             <article>
@@ -66,7 +66,7 @@ if (empty($products))
         $mutedClass = $isMuted ? 'muted' : '';
         ?>
         <tr data-price="<?=$price->Price;?>">
-          <?if (sizeof($product->PricesActive) > 1):?>
+          <?if (sizeof($product->PricesActive) > 1 || !empty($product->Description)):?>
             <td class="<?=$mutedClass?>">
               <?
                 $title = $price->Title;

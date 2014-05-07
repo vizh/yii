@@ -9,8 +9,7 @@ class StatisticsHotelAction extends \CAction
 
   public function run($hotel)
   {
-
-    $cmd = \BookingController::getRifDb()->createCommand();
+    $cmd = \pay\components\admin\Rif::getDb()->createCommand();
     $cmd->select('*')->from('ext_booked_person');
     $result = $cmd->queryAll();
     $usersFullData = [];
@@ -19,7 +18,7 @@ class StatisticsHotelAction extends \CAction
       $usersFullData[$row['ownerRunetId']] = $row;
     }
 
-    $cmd = \BookingController::getRifDb()->createCommand();
+    $cmd = \pay\components\admin\Rif::getDb()->createCommand();
     $cmd->select('*')->from('ext_booked_person_together');
     $result = $cmd->queryAll();
 

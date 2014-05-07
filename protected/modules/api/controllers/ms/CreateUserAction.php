@@ -77,7 +77,10 @@ class CreateUserAction extends \api\components\Action
       }
     }
 
-    $role = \event\models\Role::model()->findByPk(24);
+    $roleId = 24;
+    if ($this->getEvent()->Id == 831)
+      $roleId = 64;
+    $role = \event\models\Role::model()->findByPk($roleId);
     $this->getEvent()->skipOnRegister = true;
     $this->getEvent()->registerUser($user, $role);
 
@@ -86,7 +89,11 @@ class CreateUserAction extends \api\components\Action
       $coupon->activate($user, $user);
     }
 
-    $url = $user->getFastauthUrl(\Yii::app()->createUrl('/pay/cabinet/register', ['eventIdName' => $this->getEvent()->IdName]));
+    $urlParams = ['eventIdName' => $this->getEvent()->IdName];
+    if ($this->getAccount()->EventId == 1013)
+      $urlParams['lang'] = 'en';
+
+    $url = $user->getFastauthUrl(\Yii::app()->createUrl('/pay/cabinet/register', $urlParams));
     $this->setResult(['PayUrl' => $url]);
   }
 }

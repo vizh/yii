@@ -49,6 +49,7 @@ return array(
 
   'руб.' => 'rub.',
   'бесплатно' => 'free',
+  'Бесплатно' => 'Free',
   'Оплата' => 'Payment',
   'Перейти к оплате' => 'Pay',
   'Продолжить' => 'Continue',
@@ -88,6 +89,8 @@ return array(
   '{n} неоплаченный счет|{n} неоплаченных счета|{n} неоплаченных счетов|{n} неоплаченных счетов' => '{n} unpaid bill|{n} unpaid bill',
   'Для его просмотра и оплаты нажмите «Перейти к оплате» внизу страницы или' => 'To review and pay for your orders please click on "go to payment" button on the bottom of page or',
   'сюда' => 'here',
+  'Оплаченные товары' => 'Paid products',
+  '' => '',
 
 
   'Выставление счета' => 'Invoice Issuance',
@@ -107,10 +110,13 @@ return array(
   'Реклама' => 'Ads info',
   'Соглашение' => 'Terms',
 
+  'Личный кабинет' => 'Personal settings',
   'Мой профиль' => 'My Profile',
   'Редактирование данных' => 'Edit Profile',
   'Настройки' => 'Account Settings',
   'Выйти' => 'Log Out',
+
+  'Поиск по людям, компаниям, мероприятиям' => 'Search for people, companies, events',
 
   'Авторизация' => 'Authorization',
   'Вы&nbsp;можете авторизоваться при помощи аккаунта RUNET-ID, если являетесь пользователем сервиса:' => 'Log in to RUNET-ID:',
@@ -154,12 +160,15 @@ return array(
   'Просмотреть счет' => 'View bill',
   'Просмотреть квитанцию' => 'View receipt',
   'У вас нет товаров для оплаты.' => 'You dont have premissions to pay.',
+  'Вы недавно оплатили участие или активировали промо-код. Список оплаченных товаров можно посмотреть ниже.' => 'List of paid products can be viewed below.',
   'Срок действия вашего промо кода истек' => 'Your coupon code is expired',
   'Превышено максимальное количество активаций промо кода' => 'You have reached maximum number of  activation attempts for this coupon',
   'Для промо кода со скидкой 100% не указан товар, на который распространяется скидка' => 'The product for 100% discount is not specified',
   'Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар' => 'This product is not available for selected user',
   'У пользователя уже активирован промо код с большей скидкой' => 'User already activated coupon for bigger discount',
   'Пожалуйста, добавьте информацию об участниках для продолжения' => 'To continue, please add participant data',
+  'Электронные деньги' => 'Electronic money',
+  'Оплата недоступна. Оплата возможна только банковскими картами и электронными деньгами' => 'Payment type is not available.',
 
 
   'offer-demo.pdf' => 'offer-demo-en.pdf',

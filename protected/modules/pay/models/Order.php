@@ -508,4 +508,103 @@ class Order extends \CActiveRecord
 
     return 'unknown';
   }
+
+  private $billData = null;
+
+  /**
+   * @return null|BillData
+   */
+  public function getBillData()
+  {
+    if (!\pay\models\OrderType::getIsBank($this->Type))
+      return null;
+
+    if ($this->billData == null)
+    {
+      if (!\pay\models\OrderType::getIsBank($this->Type))
+        return null;
+
+      $collection = \pay\components\OrderItemCollection::createByOrder($this);
+      foreach ($collection as $item)
+      {
+        $orderItem = $item->getOrderItem();
+        $isTicket = $orderItem->Product->ManagerName == 'Ticket';
+        $price = $isTicket ? $orderItem->Product->getPrice($this->CreationTime) : $item->getPriceDiscount($this->CreationTime);
+        $key = $orderItem->ProductId.$price;
+        if (!isset($this->billData->Data[$key]))
+        {
+          $this->billData->Data[$key] = [
+            'Title' => $orderItem->Product->getManager()->GetTitle($orderItem),
+            'Unit' => $orderItem->Product->Unit,
+            'Count' => 0,
+            'DiscountPrice' => $price,
+            'ProductId' => $orderItem->ProductId
+          ];
+        }
+        $count = $orderItem->Product->getManager()->getCount($orderItem);
+        $this->billData->Data[$key]['Count'] += $count;
+        $this->billData->Total += $count * $price;
+      }
+      $this->billData->Nds = $this->billData->Total - round($this->billData->Total / 1.18, 2, PHP_ROUND_HALF_DOWN);
+    }
+    return $this->billData;
+  }
+
+  private $viewName = null;
+
+  /**
+   * @return null|string
+   */
+  public function getViewName()
+  {
+    if ($this->viewName == null)
+    {
+      if (!\pay\models\OrderType::getIsBank($this->Type))
+        return null;
+
+      if ($this->Type == \pay\models\OrderType::Juridical)
+      {
+        $template = $this->getViewTemplate();
+        if ($template->OrderTemplateName === null)
+        {
+          $this->viewName = 'template';
+        }
+        else
+        {
+          $this->viewName = $template->OrderTemplateName;
+        }
+        $this->viewName = 'bills/'.$this->viewName;
+      }
+      else
+      {
+        $this->viewName = 'receipt/template';
+      }
+    }
+    return $this->viewName;
+  }
+
+  private $viewTemplate = null;
+
+  /**
+   * @return null|OrderJuridicalTemplate
+   */
+  public function getViewTemplate()
+  {
+    if ($this->viewTemplate == null)
+    {
+      if (!\pay\models\OrderType::getIsBank($this->Type))
+        return null;
+
+      if ($this->Template !== null)
+      {
+        $this->viewTemplate = $this->Template;
+      }
+      else
+      {
+        $account = \pay\models\Account::model()->byEventId($this->EventId)->find();
+        $this->viewTemplate = $this->Type == OrderType::Juridical ? $account->OrderTemplate : $account->ReceiptTemplate;
+      }
+    }
+    return $this->viewTemplate;
+  }
 }

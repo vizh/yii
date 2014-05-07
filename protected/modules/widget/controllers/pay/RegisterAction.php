@@ -10,7 +10,8 @@ class RegisterAction extends \widget\components\pay\Action
     $request = \Yii::app()->getRequest();
     $products = $this->getProducts();
 
-    $countRows = $request->getParam('count');
+    $countRows = \Yii::app()->getSession()->get(\widget\controllers\pay\IndexACtion::SessionProductCount, []);
+    \Yii::app()->session[\widget\controllers\pay\IndexACtion::SessionProductCount] = [];
     if (!$request->getIsPostRequest() && count($products) == 1)
     {
       $countRows[$products->all[0]->Id] = 0;
@@ -73,7 +74,6 @@ class RegisterAction extends \widget\components\pay\Action
         'countRows' => $countRows,
         'registerForm' => new \user\models\forms\RegisterForm(),
         'unpaidOwnerCount' => $this->getUnpaidOwnerCount(),
-        'unpaidJuridicalOrderCount' => $this->getUnpaidJuridicalOrderCount(),
         'account' => $this->getAccount()
       ]
     );
@@ -99,13 +99,6 @@ class RegisterAction extends \widget\components\pay\Action
       $count = sizeof(array_unique($ownerIdList));
     }
     return $count;
-  }
-
-  private function getUnpaidJuridicalOrderCount()
-  {
-    return 0;
-//    return \pay\models\Order::model()
-//      ->byPayerId($this->getUser()->Id)->byEventId($this->getEvent()->Id)->byDeleted(false)->byPaid(false)->byBankTransfer(true)->count();
   }
 
   private $activations = [];

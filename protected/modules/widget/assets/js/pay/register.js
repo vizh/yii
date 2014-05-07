@@ -1,7 +1,7 @@
 var CRegister = function()
 {
   this.itemsIterator = 0;
-  this.form = $('form.registration');
+  this.form = $('.register form');
   this.scenario = 'User';
 
   this.eventIdName = this.form.data('event-id-name');
@@ -209,13 +209,12 @@ CRegister.prototype = {
     var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
     table.append(rowTemplate);
     var row = table.find('tr:last-child');
-    var source = '/user/ajax/search/?eventId=' + self.eventId;
     row.find('input.input-user').autocomplete({
       minLength: 2,
       position: {
         collision: 'flip'
       },
-      source: source,
+      source: '/user/ajax/search/',
       select: function(event, ui) {
         var rowDataFieldsTemplate = self.templates.rowDataFields({
           i : self.itemsIterator,

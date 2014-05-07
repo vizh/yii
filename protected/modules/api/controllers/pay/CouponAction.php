@@ -20,11 +20,9 @@ class CouponAction extends \api\components\Action
     $externalId = $request->getParam('ExternalId');
 
     /** @var $coupon \pay\models\Coupon */
-    $coupon = \pay\models\Coupon::model()->byCode($couponCode)->find();
+    $coupon = \pay\models\Coupon::model()->byCode($couponCode)->byEventId($this->getEvent()->Id)->find();
     if ($coupon == null)
       throw new \api\components\Exception(406);
-    elseif ($coupon->EventId != $this->getEvent()->Id)
-      throw new \api\components\Exception(407);
 
     $payer = null;
     $owner = null;

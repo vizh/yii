@@ -137,6 +137,9 @@ return array(
         /*** ОПРОС Карена **/
         'http://'. RUNETID_HOST.'/<_hr:(HR|hr|Hr|hR)>/' => 'page/content/hr',
 
+        /** DevCon */
+        'http://'. RUNETID_HOST.'/devcon/<code>' => 'main/devcon/index',
+
 
 
         'http://<domain:\w+>.'. RUNETID_HOST .'/user/ajax/<action:\w+>' => 'user/ajax/<action>',  

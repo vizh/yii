@@ -133,7 +133,7 @@ $total = 0;
   <?if (!$hasRecentPaidItems):?>
     <div class="alert alert-error"><?=\Yii::t('app', 'У вас нет товаров для оплаты.');?></div>
   <?else:?>
-    <div class="alert alert-success"><?=\Yii::t('app', 'Вы недавно оплатили участие или активировали промо-код. Список оплаченых товаров можно посмотреть ниже.');?></div>
+    <div class="alert alert-success"><?=\Yii::t('app', 'Вы недавно оплатили участие или активировали промо-код. Список оплаченных товаров можно посмотреть ниже.');?></div>
   <?endif;?>
 
   <div class="nav-buttons">

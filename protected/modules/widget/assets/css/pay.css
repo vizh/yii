@@ -1,0 +1,43 @@
+#widget-pay .ui-autocomplete {
+  position: absolute;
+  width: 0;
+  background: #fff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .5);
+  list-style-type: none;
+}
+#widget-pay .ui-autocomplete .ui-menu-item a {
+  position: relative;
+  min-height: 60px;
+  padding: 6px 8px;
+  display: block;
+  color: #333;
+  font-size: 13px;
+  text-decoration: none;
+}
+#widget-pay .ui-autocomplete .ui-menu-item:not(:last-child) a {
+  border-bottom: 1px solid #e6e6e6;
+}
+#widget-pay .ui-autocomplete .ui-menu-item a.ui-state-focus {
+  background: #eee;
+  cursor: pointer;
+}
+#widget-pay .ui-autocomplete .ui-menu-item a p {
+  margin-right: 70px;
+  margin-bottom: 0;
+}
+#widget-pay .ui-autocomplete .ui-menu-item a img {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  border: 1px solid #e6e6e6;
+}
+#widget-pay .user-row .last-child .alert {
+  position: absolute;
+  margin-top: 5px;
+  font-size: 12px !important;
+  padding-right: 14px;
+}
+#widget-pay .user-row .alert {
+  margin-bottom: 0;
+}
+#widget-pay .table .user-row:last-child > td:first-child {background: none !important;}
