@@ -132,3 +132,65 @@
   width: 300px;
   margin: 0 auto;
 }
+
+/* Event -> Register -> User register */
+.register .user-register {
+  margin-bottom: 0;
+  padding: 20px 0;
+}
+
+.register .user-register .alert {
+  position: relative;
+  left: -15px;
+  margin: 0 auto 20px;
+  width: 449px;
+  text-align: center;
+}
+
+.register .user-register .clearfix {
+  margin: 0 auto 10px;
+  width: 530px;
+}
+.register .user-register .clearfix > div {width: 250px;}
+
+.register .user-register .title {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: center;
+  text-transform: uppercase;
+}
+.register .user-register label {font-size: 13px;}
+.register .user-register label:not(.checkbox) {
+  margin-bottom: 1px;
+  color: #999;
+}
+.register .user-register input {
+  margin-bottom: 0;
+  font-size: 13px;
+}
+
+.register .user-register .checkbox {margin-top: 35px;}
+
+.register .user-register .required {
+  position: relative;
+  display: inline-block;
+}
+.register .user-register .required:after {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  color: #b94a48;
+  content: "*";
+  font-size: 15px;
+}
+
+.register .required-notice {
+  display: block;
+  text-align: center;
+}
+.register .required-asterisk {
+  color: #b94a48;
+  font-size: 15px;
+}
+.register .user-register .form-actions {text-align: center;}

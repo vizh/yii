@@ -35,97 +35,95 @@ $hasTickets = !empty($products->tickets);
 
 <div class="register">
   <?=\CHtml::beginForm('', 'POST', ['data-event-id-name' => $event->IdName, 'data-event-id' => $event->Id]);?>
-  <?=\CHtml::errorSummary($orderForm, '<div class="container"><div class="alert alert-error">', '</div></div>');?>
-  <div class="container">
-    <?if ($hasTickets):?>
-      <div class="clearfix m-bottom_30 scenario-selector">
-        <div class="pull-left">
-          <label class="radio"><?=\CHtml::activeRadioButton($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterUser, 'uncheckValue' => null]);?> <?=\Yii::t('app', '<strong>Я знаю кто пойдет на мероприятие</strong>, и хочу указать участников сразу');?></label>
-        </div>
-        <div class="pull-right">
-          <label class="radio"><?=\CHtml::activeRadioButton($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterTicket, 'uncheckValue' => null]);?> <?=\Yii::t('app', '<strong>Я не знаю кто пойдет на мероприятие</strong>, и хочу указать участников позже');?></label>
-        </div>
+  <?=\CHtml::errorSummary($orderForm, '<div class="alert alert-error">', '</div>');?>
+  <?if ($hasTickets):?>
+    <div class="clearfix m-bottom_30 scenario-selector">
+      <div class="pull-left">
+        <label class="radio"><?=\CHtml::activeRadioButton($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterUser, 'uncheckValue' => null]);?> <?=\Yii::t('app', '<strong>Я знаю кто пойдет на мероприятие</strong>, и хочу указать участников сразу');?></label>
       </div>
-    <?else:?>
-      <?=\CHtml::activeHiddenField($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterUser]);?>
-    <?endif;?>
+      <div class="pull-right">
+        <label class="radio"><?=\CHtml::activeRadioButton($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterTicket, 'uncheckValue' => null]);?> <?=\Yii::t('app', '<strong>Я не знаю кто пойдет на мероприятие</strong>, и хочу указать участников позже');?></label>
+      </div>
+    </div>
+  <?else:?>
+    <?=\CHtml::activeHiddenField($orderForm, 'Scenario', ['value' => \pay\models\forms\OrderForm::ScenarioRegisterUser]);?>
+  <?endif;?>
 
 
-    <div <?if ($hasTickets):?>style="display: none;"<?endif;?> data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterUser;?>">
+  <div <?if ($hasTickets):?>style="display: none;"<?endif;?> data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterUser;?>">
+    <table class="table thead-actual">
+      <thead>
+      <tr>
+        <th><?=\Yii::t('app', 'Тип билета');?></th>
+        <th class="col-width t-right"><?=\Yii::t('app', 'Цена');?></th>
+        <th class="col-width t-center"><?=\Yii::t('app', 'Кол-во');?></th>
+        <th class="col-width t-right last-child"><?=\Yii::t('app', 'Сумма');?></th>
+      </tr>
+      </thead>
+    </table>
+    <?foreach ($products->all as $product):?>
+      <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="<?=!isset($countRows[$product->Id]) || $countRows[$product->Id] == 0 ? 1 : $countRows[$product->Id];?>" data-row-current="0">
+        <thead>
+        <tr>
+          <th>
+            <h4 class="title"><?=$product->Title;?> <i class="icon-chevron-up"></i></h4>
+          </th>
+          <th class="col-width t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></th>
+          <th class="col-width t-center"><span class="number quantity"></span></th>
+          <th class="col-width t-right last-child"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.');?></th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    <?endforeach;?>
+    <div class="total">
+      <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
+    </div>
+  </div>
+
+  <?if ($hasTickets):?>
+    <div style="display: none;" data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterTicket;?>">
       <table class="table thead-actual">
         <thead>
         <tr>
           <th><?=\Yii::t('app', 'Тип билета');?></th>
           <th class="col-width t-right"><?=\Yii::t('app', 'Цена');?></th>
-          <th class="col-width t-center"><?=\Yii::t('app', 'Кол-во');?></th>
+          <th class="t-center" style="width: 30px;"><?=\Yii::t('app', 'Кол-во');?></th>
           <th class="col-width t-right last-child"><?=\Yii::t('app', 'Сумма');?></th>
         </tr>
         </thead>
-      </table>
-      <?foreach ($products->all as $product):?>
-        <table class="table" data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>" data-row-max="<?=!isset($countRows[$product->Id]) || $countRows[$product->Id] == 0 ? 1 : $countRows[$product->Id];?>" data-row-current="0">
-          <thead>
-          <tr>
-            <th>
-              <h4 class="title"><?=$product->Title;?> <i class="icon-chevron-up"></i></h4>
-            </th>
-            <th class="col-width t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></th>
-            <th class="col-width t-center"><span class="number quantity"></span></th>
-            <th class="col-width t-right last-child"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.');?></th>
-          </tr>
-          </thead>
+        <?foreach ($products->tickets as $i => $product):?>
           <tbody>
+          <tr data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>">
+            <td><?=$product->getManager()->getPaidProduct()->Title;?></td>
+            <td class="t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></td>
+            <td class="t-center">
+              <?
+              $value = \CHtml::resolveValue($orderForm, 'Items['.$i.'][Count]');
+              if ($value == null)
+              {
+                $value = isset($countRows[$product->getManager()->ProductId]) ? $countRows[$product->getManager()->ProductId] : 0;
+              }
+              echo \CHtml::dropDownList(\CHtml::activeName($orderForm, 'Items['.$i.'][Count]'), $value, [0,1,2,3,4,5,6,7,8,9,10],  ['class' => 'input-mini']);?>
+            </td>
+            <td class="t-right"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.');?></td>
+          </tr>
           </tbody>
-        </table>
-      <?endforeach;?>
+          <?=\CHtml::activeHiddenField($orderForm, 'Items['.$i.'][ProductId]', ['value' => $product->Id]);?>
+        <?endforeach;?>
+      </table>
       <div class="total">
         <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
       </div>
     </div>
+  <?endif;?>
 
-    <?if ($hasTickets):?>
-      <div style="display: none;" data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterTicket;?>">
-        <table class="table thead-actual">
-          <thead>
-          <tr>
-            <th><?=\Yii::t('app', 'Тип билета');?></th>
-            <th class="col-width t-right"><?=\Yii::t('app', 'Цена');?></th>
-            <th class="t-center" style="width: 30px;"><?=\Yii::t('app', 'Кол-во');?></th>
-            <th class="col-width t-right last-child"><?=\Yii::t('app', 'Сумма');?></th>
-          </tr>
-          </thead>
-          <?foreach ($products->tickets as $i => $product):?>
-            <tbody>
-            <tr data-product-id="<?=$product->Id;?>" data-price="<?=$product->getPrice();?>">
-              <td><?=$product->getManager()->getPaidProduct()->Title;?></td>
-              <td class="t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></td>
-              <td class="t-center">
-                <?
-                $value = \CHtml::resolveValue($orderForm, 'Items['.$i.'][Count]');
-                if ($value == null)
-                {
-                  $value = isset($countRows[$product->getManager()->ProductId]) ? $countRows[$product->getManager()->ProductId] : 0;
-                }
-                echo \CHtml::dropDownList(\CHtml::activeName($orderForm, 'Items['.$i.'][Count]'), $value, [0,1,2,3,4,5,6,7,8,9,10],  ['class' => 'input-mini']);?>
-              </td>
-              <td class="t-right"><b class="number mediate-price">0</b> <?=Yii::t('app', 'руб.');?></td>
-            </tr>
-            </tbody>
-            <?=\CHtml::activeHiddenField($orderForm, 'Items['.$i.'][ProductId]', ['value' => $product->Id]);?>
-          <?endforeach;?>
-        </table>
-        <div class="total">
-          <span><?=Yii::t('app', 'Итого');?>:</span> <b id="total-price" class="number">0</b> <?=Yii::t('app', 'руб.');?>
-        </div>
-      </div>
-    <?endif;?>
-
-    <div class="nav-buttons">
-      <a href="#" onclick="$('.register form').trigger('submit'); return false;" class="btn btn-large btn-info <?if ($hasTickets):?>disabled<?endif;?>">
-        <?=\Yii::t('app', 'Продолжить');?>
-        <i class="icon-circle-arrow-right icon-white"></i>
-      </a>
-    </div>
+  <div class="nav-buttons">
+    <a href="#" onclick="$('.register form').trigger('submit'); return false;" class="btn btn-large btn-info <?if ($hasTickets):?>disabled<?endif;?>">
+      <?=\Yii::t('app', 'Продолжить');?>
+      <i class="icon-circle-arrow-right icon-white"></i>
+    </a>
   </div>
   <?=\CHtml::endForm();?>
 </div>

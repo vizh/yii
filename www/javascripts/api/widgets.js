@@ -4,7 +4,12 @@ var RIdWidget = new function () {
     this.url = document.location;
     this.container = container;
     this.apiKey = container.getAttribute('data-apikey');
-    this.widget = container.getAttribute('data-widget');;
+    this.widget = container.getAttribute('data-widget');
+
+    this.preloader = document.createElement('div');
+    this.preloader.setAttribute('style', "display:block;position:absolute;left:50%;margin-left:-50px;height:50px;width:50px;background: url('http://runet-id.com/images/api/widget-preloder.gif') no-repeat center center;");
+    this.container.appendChild(this.preloader);
+
     this.initSocket();
   }
 
@@ -14,9 +19,9 @@ var RIdWidget = new function () {
       remote : self.getUrl(),
       container : self.container,
       onMessage: function(message, origin){
+        self.preloader.style.display = 'none';
         var iframe = this.container.getElementsByTagName("iframe")[0];
-        iframe.style.height = message+'px';
-        iframe.style.width  = '100%';
+        iframe.style.height = message+'px'; iframe.style.width  = '100%';
       }
     });
   };

@@ -23,8 +23,8 @@ if ($account->MailRuMoney)
   $paybuttons[] = 'mailrumoney';
 ?>
 
-<div class="pay-buttons clearfix">
-  <div class="pull-left">
+<div class="pay-buttons row-fluid">
+  <div class="span3 offset3">
     <h5><?=\Yii::t('app', 'Для юридических лиц');?></h5>
     <?if (!$account->OrderEnable):?>
       <p class="text-error"><?=\Yii::t('app', 'Оплата недоступна. Оплата возможна только банковскими картами и электронными деньгами');?></p>
@@ -34,7 +34,7 @@ if ($account->MailRuMoney)
       <?$this->renderPartial('cabinet/buttons/juridical', ['account' => $account]);?>
     <?endif;?>
   </div>
-  <div class="pull-right">
+  <div class="span6">
     <h5><?=\Yii::t('app', 'Для физических лиц');?></h5>
     <ul class="clearfix actions pay-systems">
       <?foreach ($systembuttons as $button):?>
