@@ -12,12 +12,12 @@ h3{
   padding: 10px 0;
 }
 .interview h3{
-  font-weight: bold;
+  font-weight: 500;
   line-height: 26px;
   margin-bottom: 30px;
 }
 .interview h3 span{
-  font-weight: normal;
+  font-weight: 400;
   font-size: 18px;
   line-height: 22px;
   color: #666666;

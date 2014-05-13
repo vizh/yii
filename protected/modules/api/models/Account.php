@@ -12,6 +12,10 @@ namespace api\models;
  * @property \event\models\Event $Event
  * @property Domain[] $Domains
  * @property Ip[] $Ips
+ *
+ * @method \api\models\Account find($condition='',$params=array())
+ * @method \api\models\Account findByPk($pk,$condition='',$params=array())
+ * @method \api\models\Account[] findAll($condition='',$params=array())
  */
 class Account extends \CActiveRecord
 {

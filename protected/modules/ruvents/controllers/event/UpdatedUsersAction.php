@@ -49,6 +49,7 @@ class UpdatedUsersAction extends \ruvents\components\Action
     }
     $orderItems = $this->getOrderItems($idList);
     $badgesCount = $this->getBadgesCount($idList);
+    $externalList = $this->getExternalIds($idList);
 
     $result = array();
     $result['Users'] = array();
@@ -87,6 +88,7 @@ class UpdatedUsersAction extends \ruvents\components\Action
         }
       }
       $resultUser->BadgeCount = isset($badgesCount[$user->Id]) ? $badgesCount[$user->Id] : 0;
+      $resultUser->ExternalId = isset($externalList[$user->Id]) ? $externalList[$user->Id] : null;
       $result['Users'][] = $resultUser;
     }
 
@@ -132,6 +134,25 @@ class UpdatedUsersAction extends \ruvents\components\Action
     {
       $ownerId = $item->ChangedOwnerId === null ? $item->OwnerId : $item->ChangedOwnerId;
       $result[$ownerId][] = $item;
+    }
+    return $result;
+  }
+
+  private function getExternalIds($idList)
+  {
+    $result = [];
+    $apiAccount = \api\models\Account::model()->byEventId($this->getEvent()->Id)->find();
+    if ($apiAccount != null)
+    {
+      $criteria = new \CDbCriteria();
+      $criteria->addInCondition('t."UserId"', $idList);
+
+      $externals = \api\models\ExternalUser::model()
+        ->byPartner($apiAccount->Role)->findAll($criteria);
+      foreach ($externals as $external)
+      {
+        $result[$external->UserId] = substr($external->ExternalId, 0, 8);
+      }
     }
     return $result;
   }

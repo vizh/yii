@@ -79,7 +79,7 @@ use application\components\utility\Texts;
 
   <tr>
     <td>1</td>
-    <td>Услуги по участию в конференции "IBC Russia 2013", 5-6 декабря 2013 года</td>
+    <td>Участие в конференции "Internet Business Conference (IBC Russia 2014)" 27-28 ноября 2014 г.</td>
     <td class="center">-</td>
     <td class="center">1</td>
     <td class="center nowrap"><?=number_format(round($total, 2, PHP_ROUND_HALF_UP), 2, ',', ' ');?></td>
