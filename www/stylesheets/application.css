@@ -661,7 +661,14 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   padding: 25px;
   background: url("/images/main-features-promo.png") no-repeat scroll 265px 65px transparent;
 }
-.create-event-banner > div h3 {
+.request-registration-banner > div {
+  height: 196px;
+  border: 2px solid #2796B6;
+  padding: 25px;
+  background: url("/images/main-request-registration.png") no-repeat scroll 265px 65px transparent;
+}
+.create-event-banner > div h3,
+.request-registration-banner > div h3 {
   margin: 0 0 20px;
   font-size: 20px;
   line-height: 25px;
@@ -669,7 +676,8 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   font-weight: 500;
   letter-spacing: 1px;
 }
-.create-event-banner > div p {
+.create-event-banner > div p,
+.request-registration-banner > div p {
   width: 240px;
   margin-bottom: 20px;
 }

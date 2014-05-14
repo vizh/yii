@@ -19,37 +19,12 @@
           <a class="btn btn-large btn-success" href="<?=Yii::app()->createUrl('/page/info/features')?>"><i class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
         </div>
       </div>
-
-      <div id="promo-slider" class="b-slider span6">
-        <div class="slider">
-          <div class="slides">
-            <div class="slide">
-              <div class="content">
-                <h3 class="text-center" style="line-height: 68px; font-size: 48px;"><a href="http://2014.runet-id.com " target="_blank">В 2014 ГОДУ RUNET—ID РЕКОМЕНДУЕТ</a></h3>
-              </div>
-            </div>
-            <div class="slide">
-              <div class="content">
-                <h3 style="line-height: 28px"><a href="/page/news/payonline_and_runetid_2013/">Платежный сервис-провайдер PayOnline стал основной платежной системой RUNET-ID</a></h3>
-                <p>Процессинговый центр PayOnline стал официальным платежным партнером сервиса RUNET-ID. Ежедневно через RUNET-ID происходят регистрации на мероприятия медиа- и интернет-индустрии. Это более тысячи уникальных пользователей и потенциальных участников мероприятий, которые производят оплату своего участия в запланированных событиях через сайт.</p>
-              </div>
-            </div>
-            <div class="slide">
-              <div class="content">
-                <h3>Для интернет-пользователей</h3>
-                <p>Он объединяет в себе удобную систему регистрации на мероприятия медиа- и интернет-индустрии, а также позволяет всем участникам системы записывать в историю профессиональный опыт и отображать компетенции в различных сферах. Сервис будет удобен специалистам для реализации своих идей и проектов.</p>
-              </div>
-            </div>
-            <div class="slide">
-              <div class="content">
-                <h3>Сервис для компаний</h3>
-                <p>Если вы организуете конференции, семинары, вебинары, форумы, премии или иные мероприятия медиа- и интернет-направленности, сервис позволяет открыть мероприятие и сообщить об этом целевой аудитории. Для привлечения аудитории мы предлагаем как внутренние ресурсы системы, так и задействуем внешние источники (контекстная реклама, работа с пользователями социальных сетей, реклама в СМИ, рекламно-информационная продукция).</p>
-              </div>
-            </div>
-          </div>
+      <div class="span6 request-registration-banner">
+        <div>
+          <h3>Если нужна регистрация<br>участников на месте</h3>
+          <p>Офлайн регистрация участников<br>любой сложности<br>по справедливой стоимости</p>
+          <a class="btn btn-large btn-info" href="http://ruvents.com/" target="_blank"><i class="icon-white icon-ok-sign"></i> Заказать регистрацию</a>
         </div>
-        <i id="promo-slider_prev" class="icon-chevron-left"></i>
-        <i id="promo-slider_next" class="icon-chevron-right"></i>
       </div>
     </div>
   </div>
