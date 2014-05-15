@@ -6,7 +6,7 @@
 <div class="registration">
     <h5 class="title"><?=Yii::t('app', 'Регистрация');?></h5>
 
-    <p>Тут должен быть текст на пару абзацев, кратко объясняющий что и зачем.</p>
+    <p>Для участия в мероприятии необходимо заполнить все поля формы.</p>
 
     <?=\CHtml::beginForm('', 'post', []);?>
     <?=\CHtml::errorSummary($this->form, '<div class="alert alert-error">', '</div>');?>

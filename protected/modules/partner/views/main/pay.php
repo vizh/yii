@@ -1,7 +1,8 @@
 <?php
 /**
- * @var $statistics \partner\controllers\main\PayStatistics
- * @var $oldStatistics \partner\controllers\main\PayStatistics
+ * @var \partner\controllers\main\PayStatistics $statistics
+ * @var \partner\controllers\main\PayStatistics $oldStatistics
+ * @var array $productStatistics
  */
 ?>
 <style type="text/css">
@@ -9,12 +10,6 @@
 </style>
 
 <h1 class="indent-bottom3">Статистика по платежам</h1>
-
-<div class="row indent-bottom2">
-  <div class="span4">
-
-  </div>
-</div>
 
 <div class="row indent-bottom2">
   <div class="span12">
@@ -111,6 +106,31 @@
     <strong>Количество запросивших счет/квитанцию:</strong>
     <?=$statistics->countJuridicalUsers + $statistics->countReceiptUsers - $statistics->countPaidJuridicalUsers - $statistics->countPaidReceiptUsers;?>
   </div>
+</div>
+
+<h3 class="indent-bottom2">Статистика проданных товаров</h3>
+
+<div class="row indent-bottom2">
+    <div class="span12">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Количество</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?foreach ($productStatistics as $row):?>
+                <tr>
+                    <td><?=$row['productId'];?></td>
+                    <td><?=$row['title'];?></td>
+                    <td><span class="lead"><?=$row['count'];?></span></td>
+                </tr>
+            <?endforeach;?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
