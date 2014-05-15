@@ -1,12 +1,15 @@
-<?/**
- * @var \contact\models\forms\PhoneNewFormat $form
+<?php
+/**
+ * @var \contact\widgets\PhoneControls $this
  */
+
+$class =  $this->inputClass != null ? $this->inputClass : 'input-block-level';
+if ($this->form->hasErrors())
+    $class .= ' error';
 ?>
 
 <div class="widget-phone-controls">
   <div class="controls">
-    <div class="input-prepend">
-      <?=\CHtml::activeTextField($form, 'OriginalPhone', ['class' => 'input-block-level', 'placeholder' => \Yii::t('app', 'Номер телефона')]);?>
-    </div>
+      <?=\CHtml::activeTextField($this->form, 'OriginalPhone', ['class' => $class, 'placeholder' => \Yii::t('app', 'Номер телефона')]);?>
   </div>
 </div>
