@@ -27,6 +27,8 @@ class DetailedRegistration extends \event\components\Widget
         $request = \Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
             $this->form->attributes = $request->getParam(get_class($this->form));
+            $this->form->photo = \CUploadedFile::getInstance($this->form, 'photo');
+            $this->form->saveTempPhoto();
             if ($this->form->validate()) {
                 $user = $this->updateUser($this->form->getUser());
                 $role = \event\models\Role::model()->findByPk(1);
@@ -43,6 +45,8 @@ class DetailedRegistration extends \event\components\Widget
                 $this->getController()->refresh();
             }
         }
+        else
+            $this->form->clearTempPhoto();
     }
 
     /**
@@ -74,6 +78,7 @@ class DetailedRegistration extends \event\components\Widget
 
         $this->updatePhone($user);
         $this->updateAddress($user);
+        $this->form->savePhoto($user);
 
         $this->fillAdditionalAttributes($user, ['birthday', 'birthPlace', 'passportSerial', 'passportNumber']);
 

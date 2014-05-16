@@ -30,6 +30,11 @@ class DetailedRegistration extends \CFormModel
     public $passportSerial;
     public $passportNumber;
 
+    /**
+     * @var \CUploadedFile
+     */
+    public $photo;
+
     public function __construct(\user\models\User $user = null)
     {
         $this->user = $user;
@@ -69,6 +74,11 @@ class DetailedRegistration extends \CFormModel
                 $this->birthday = \Yii::app()->dateFormatter->format('dd.MM.yyyy', $this->user->Birthday);
             }
         }
+
+        // Создаем директорию для фото
+        $this->makePhotosPath();
+        if (!$this->hasPhoto())
+            $this->scenario = 'no-has-photo';
     }
 
 
@@ -78,7 +88,9 @@ class DetailedRegistration extends \CFormModel
             ['email, lastName, firstName, fatherName, company, position, birthday, birthPlace, passportSerial, passportNumber', 'required'],
             ['email', 'uniqueEmailValidate'],
             ['birthday', 'date', 'format' => 'dd.MM.yyyy'],
-            ['password', 'safe']
+            ['password', 'safe'],
+            ['photo', 'required', 'on' => 'no-has-photo', 'message' => 'Необходимо загрузить фотографию'],
+            ['photo', 'file', 'types' => 'jpg, jpeg, png, gif, bmp', 'allowEmpty' => true]
         ];
     }
 
@@ -157,6 +169,112 @@ class DetailedRegistration extends \CFormModel
         $attribute = ucfirst($attribute);
         return !empty($this->user->$attribute);
     }
+
+    /**
+     * @param boolean $fullPath
+     * @return string Путь к файлам фотографий
+     */
+    public function getPhotosPath($fullPath = true)
+    {
+        return ($fullPath ? \Yii::getPathOfAlias('webroot') : '').'/files/user/internetbusiness14/';
+    }
+
+    /**
+     * Создает директорию с файлами фотографий
+     * @throws \CException
+     */
+    private function makePhotosPath()
+    {
+        $photoPath = $this->getPhotosPath();
+        if (!is_dir($photoPath))
+            @mkdir($photoPath, 0777, true);
+        if (!is_dir($photoPath))
+            throw new \CException('Невозможно создать директорию: '.$photoPath);
+    }
+
+    /**
+     * @return bool Имеется ли у пользователя фотография
+     */
+    public function hasPhoto()
+    {
+        if ($this->user == null) {
+            if (!\Yii::app()->user->hasState('temp-photo-name'))
+                return false;
+
+            return file_exists($this->getPhotosPath().\Yii::app()->user->getState('temp-photo-name'));
+        }
+
+        return file_exists($this->getPhotosPath().$this->user->Id);
+    }
+
+    /**
+     * @return null|string Путь к фотографии
+     */
+    public function getPhotoUrl()
+    {
+        if ($this->user == null) {
+            if (!\Yii::app()->user->hasState('temp-photo-name'))
+                return null;
+
+            return $this->getPhotosPath(false).\Yii::app()->user->getState('temp-photo-name');
+        }
+
+        return $this->getPhotosPath(false).$this->user->Id;
+    }
+
+    /**
+     * Сохраняет загруженный файл со временным именем
+     * @return bool Удалось ли сохранить файл
+     */
+    public function saveTempPhoto()
+    {
+        if ($this->photo && $this->photo instanceof \CUploadedFile) {
+            $tempName = md5($this->photo->getTempName().microtime());
+            $result = $this->photo->saveAs($this->getPhotosPath().$tempName);
+            \Yii::app()->user->setState('temp-photo-name', $tempName);
+            return $result;
+        }
+        return false;
+    }
+
+    /**
+     * Сохраняет загруженный файл
+     * @param \user\models\User $user
+     * @return bool
+     */
+    public function savePhoto(\user\models\User $user)
+    {
+        $result = false;
+        if (\Yii::app()->user->hasState('temp-photo-name')) {
+            $tempName = \Yii::app()->user->getState('temp-photo-name');
+            if (file_exists($this->getPhotosPath().$tempName)) {
+                $result = copy($this->getPhotosPath().$tempName, $this->getPhotosPath().$user->Id);
+                @unlink($this->getPhotosPath().$tempName);
+            }
+            \Yii::app()->user->setState('temp-photo-name', null);
+        }
+        elseif (!$result) {
+            if ($this->photo && $this->photo instanceof \CUploadedFile)
+                $result = $this->photo->saveAs($this->getPhotosPath().$user->Id);
+        }
+        return $result;
+    }
+
+    /**
+     * Чистит кеш и файл, если есть
+     */
+    public function clearTempPhoto()
+    {
+        if (!\Yii::app()->user->hasState('temp-photo-name'))
+            return;
+
+        $tempName = \Yii::app()->user->getState('temp-photo-name');
+        if (file_exists($tempName)) {
+            @unlink($this->getPhotosPath().$tempName);
+        }
+        \Yii::app()->user->setState('temp-photo-name', null);
+    }
+
 
     public function attributeLabels()
     {

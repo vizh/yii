@@ -8,7 +8,7 @@
 
     <p>Для участия в мероприятии необходимо заполнить все поля формы.</p>
 
-    <?=\CHtml::beginForm('', 'post', []);?>
+    <?=\CHtml::beginForm('', 'post', ['enctype' => 'multipart/form-data']);?>
     <?=\CHtml::errorSummary($this->form, '<div class="alert alert-error">', '</div>');?>
 
     <h5>Основная информация</h5>
@@ -58,8 +58,20 @@
         <?=\CHtml::activeTextField($this->form, 'passportNumber', ['class' => 'span3', 'placeholder' => $this->form->getAttributeLabel('passportNumber')]);?>
     </div>
 
+    <h5>Фото</h5>
+
+    <div class="form-inline m-bottom_5">
+        <? if ($this->form->hasPhoto()): ?>
+            <figure>
+                <figcaption>Загруженный файл</figcaption>
+                <?=\CHtml::image($this->form->getPhotoUrl(false))?>
+            </figure>
+            <? endif ?>
+        <?=\CHtml::activeFileField($this->form, 'photo', ['class' => 'span12']);?>
+    </div>
+
     <div class="form-inline m-top_20">
-        <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрироваться'), ['class' => 'btn btn-info']);?>
+      <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрироваться'), ['class' => 'btn btn-info']);?>
     </div>
 
 
