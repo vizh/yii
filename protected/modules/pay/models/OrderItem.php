@@ -391,7 +391,7 @@ class OrderItem extends \CActiveRecord
         $price = $price * (1 - $activation->Coupon->Discount);
       }
     }
-    return (int)$price;
+    return (int)round($price);
   }
 
   /**
