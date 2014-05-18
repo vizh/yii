@@ -197,14 +197,10 @@ class DetailedRegistration extends \CFormModel
      */
     public function hasPhoto()
     {
-        if ($this->user == null) {
-            if (!\Yii::app()->user->hasState('temp-photo-name'))
-                return false;
+        if (!\Yii::app()->user->hasState('temp-photo-name'))
+            return false;
 
-            return file_exists($this->getPhotosPath().\Yii::app()->user->getState('temp-photo-name'));
-        }
-
-        return file_exists($this->getPhotosPath().$this->user->Id);
+        return file_exists($this->getPhotosPath().\Yii::app()->user->getState('temp-photo-name'));
     }
 
     /**
@@ -212,14 +208,10 @@ class DetailedRegistration extends \CFormModel
      */
     public function getPhotoUrl()
     {
-        if ($this->user == null) {
-            if (!\Yii::app()->user->hasState('temp-photo-name'))
-                return null;
+        if (!\Yii::app()->user->hasState('temp-photo-name'))
+            return null;
 
-            return $this->getPhotosPath(false).\Yii::app()->user->getState('temp-photo-name');
-        }
-
-        return $this->getPhotosPath(false).$this->user->Id;
+        return $this->getPhotosPath(false).\Yii::app()->user->getState('temp-photo-name');
     }
 
     /**
@@ -229,7 +221,7 @@ class DetailedRegistration extends \CFormModel
     public function saveTempPhoto()
     {
         if ($this->photo && $this->photo instanceof \CUploadedFile) {
-            $tempName = md5($this->photo->getTempName().microtime());
+            $tempName = md5($this->photo->getTempName().microtime()) . '.' . $this->photo->extensionName;
             $result = $this->photo->saveAs($this->getPhotosPath().$tempName);
             \Yii::app()->user->setState('temp-photo-name', $tempName);
             return $result;
@@ -248,14 +240,15 @@ class DetailedRegistration extends \CFormModel
         if (\Yii::app()->user->hasState('temp-photo-name')) {
             $tempName = \Yii::app()->user->getState('temp-photo-name');
             if (file_exists($this->getPhotosPath().$tempName)) {
-                $result = copy($this->getPhotosPath().$tempName, $this->getPhotosPath().$user->Id);
+                $pathParts = pathinfo($tempName);
+                $result = copy($this->getPhotosPath().$tempName, $this->getPhotosPath().$user->Id.'.'.$pathParts['extension']);
                 @unlink($this->getPhotosPath().$tempName);
             }
             \Yii::app()->user->setState('temp-photo-name', null);
         }
         elseif (!$result) {
             if ($this->photo && $this->photo instanceof \CUploadedFile)
-                $result = $this->photo->saveAs($this->getPhotosPath().$user->Id);
+                $result = $this->photo->saveAs($this->getPhotosPath().$user->Id.'.'.$this->photo->extensionName);
         }
         return $result;
     }
