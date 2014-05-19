@@ -21,7 +21,7 @@
         </ul>
       </div>
     </div>
-    <?if (!\Yii::app()->getUser()->getIsGuest()):?>
+    <?if (!\Yii::app()->getUser()->getIsGuest() && $userLinksCount->all > 0):?>
     <div class="span6 text-right user-links">
       <a href="<?=$this->createUrl('/widget/link/cabinet');?>"><?=\Yii::t('app', 'Предложена {n} встреча|Предложено {n} встречи|Предложено {n} встреч|Предложено {n} встреч', $userLinksCount->all);?></a>
       <?if ($userLinksCount->new !== 0):?>
@@ -31,13 +31,14 @@
     <?endif;?>
   </div>
   <hr class="m-top_10 m-bottom_10"/>
+  <div class="clearfix">
   <?foreach($users as $user):?>
     <div class="participant">
-      <a class="photo" href="#">
+      <a class="photo" href="<?=$user->getUrl();?>" target="_blank">
         <img src="<?=$user->getPhoto()->get50px();?>" alt=""/>
       </a>
       <div class="participant-body">
-        <h4><?=$user->getFullName();?></h4>
+        <h4><a href="<?=$user->getUrl();?>" target="_blank"><?=$user->getFullName();?></a></h4>
         <?if ($user->getEmploymentPrimary() !== null):?>
           <p class="employent"><?=$user->getEmploymentPrimary()->Company->Name;?><?if (!empty($user->getEmploymentPrimary()->Position)):?>, <?=$user->getEmploymentPrimary()->Position;?><?endif;?></p>
         <?endif;?>
@@ -50,5 +51,6 @@
       </div>
     </div>
   <?endforeach;?>
+  </div>
   <?$this->widget('\application\widgets\Paginator', ['paginator' => $paginator]);?>
 </div>

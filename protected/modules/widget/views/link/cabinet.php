@@ -5,7 +5,6 @@
 <div id="preloader"></div>
 <div class="cabinet">
   <a href="<?=$this->createUrl('/widget/link/index');?>" class="btn"><i class="icon-list"></i> <?=\Yii::t('app', 'Участники');?></a>
-  <hr class="m-top_10 m-bottom_10"/>
   <?if (!empty($schedule->notDistributedLinks)):?>
   <h3 class="m-bottom_20"><?=\Yii::t('app', 'Приглашения мне');?></h3>
   <?/** @var \link\models\Link $link */?>
@@ -32,7 +31,6 @@
          </div>
        </div>
      </div>
-    <hr/>
   <?endforeach;?>
   <?endif;?>
 
@@ -44,9 +42,9 @@
         <div class="span8 clearfix">
           <h4 class="datetime"><?=$link->getFormattedMeetingTime('dd MMMM yyyy, HH:mm');?></h4>
           <div class="pull-left photo">
-            <a href="<?=$user->getUrl();?>"><?=\CHtml::image($user->getPhoto()->get50px());?></a>
+            <a href="<?=$user->getUrl();?>" target="_blank"><?=\CHtml::image($user->getPhoto()->get50px());?></a>
           </div>
-          <h4><a href="<?=$user->getUrl();?>"><?=$user->getFullName();?></a></h4>
+          <h4><a href="<?=$user->getUrl();?>" target="_blank"><?=$user->getFullName();?></a></h4>
           <?if ($user->getEmploymentPrimary() !== null):?>
             <?=$user->getEmploymentPrimary();?>
           <?endif;?>
@@ -55,7 +53,7 @@
         <div class="span4 text-right">
           <?=\CHtml::form('','',['class' => 'form-inline hide', 'data-url' => $this->createUrl('/widget/link/cabinet', ['action'=>'setDatetime','linkId'=>$link->Id])]);?>
             <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Date');?>" placeholder="<?=$formDatetime->getAttributeLabel('Date');?>" class="input-small" value="<?=$link->getFormattedMeetingTime('dd.MM.yyyy');?>"/>
-            <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Time');?>" placeholder="<?=$formDatetime->getAttributeLabel('Time');?>" class="input-small" value="<?=$link->getFormattedMeetingTime('HH:mm');?>"/>
+            <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Time');?>" placeholder="<?=$formDatetime->getAttributeLabel('Time');?>" class="input-mini" value="<?=$link->getFormattedMeetingTime('HH:mm');?>"/>
             <?=\CHtml::submitButton(\Yii::t('app', 'Подтвердить'), ['class' => 'btn btn-success']);?>
           <?=\CHtml::endForm();?>
           <div class="btn-group">
@@ -64,6 +62,5 @@
         </div>
         <?endif;?>
       </div>
-      <hr/>
     <?endforeach;?>
   <?endif;?>

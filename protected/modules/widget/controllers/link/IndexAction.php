@@ -12,7 +12,6 @@ class IndexAction extends \widget\components\Action
     {
       $this->processAjaxRequest();
     }
-    $this->paginator = new \application\components\utility\Paginator(99);
     $this->order = \Yii::app()->getRequest()->getParam('order', 'date');
     $this->getController()->render('index', [
       'users' => $this->getUsers(),
@@ -29,13 +28,12 @@ class IndexAction extends \widget\components\Action
   {
     $idList = [];
     $params = [
-      'EventId' => $this->getEvent()->Id,
-      'Limit'  => $this->paginator->getCount(),
-      'Offset' => $this->paginator->getOffset()
+      'EventId' => $this->getEvent()->Id
     ];
-    if ($this->order == 'interests')
+
+    $profInteresIdList = !\Yii::app()->getUser()->getIsGuest() ? \CHtml::listData(\Yii::app()->getUser()->getCurrentUser()->LinkProfessionalInterests, 'Id', 'ProfessionalInterestId') : [];
+    if ($this->order == 'interests' && !empty($profInteresIdList))
     {
-      $profInteresIdList = \CHtml::listData(\Yii::app()->getUser()->getCurrentUser()->LinkProfessionalInterests, 'Id', 'ProfessionalInterestId');
       $sql = '
         SELECT (cast (sumpi as real) / (cpi + '.sizeof($profInteresIdList).' - sumpi)) as coef, "UserId"
           FROM (
@@ -51,8 +49,6 @@ class IndexAction extends \widget\components\Action
           ORDER BY count("ProfessionalInterestId") desc
         ) AS sumpilist
         ORDER BY coef desc
-        LIMIT :Limit
-        OFFSET :Offset
       ';
       $params['UserId'] = \Yii::app()->getUser()->getId();
       $command = \Yii::app()->getDb()->createCommand($sql);
@@ -73,13 +69,14 @@ class IndexAction extends \widget\components\Action
            '.($this->order == 'date' ?
                 '"t"."CreationTime" ORDER BY "t"."CreationTime" ASC '
               : '"User"."LastName", "User"."FirstName" ORDER BY "User"."LastName" ASC, "User"."FirstName" ASC').'
-          LIMIT :Limit
-          OFFSET :Offset
       ';
       $command = \Yii::app()->getDb()->createCommand($sql);
       $idList = $command->queryColumn($params);
     }
 
+    $this->paginator = new \application\components\utility\Paginator(sizeof($idList));
+    $this->paginator->perPage = 99;
+    $idList = array_slice($idList, $this->paginator->getOffset(), $this->paginator->perPage);
     $criteria = new \CDbCriteria();
     $criteria->with = ['Employments.Company', 'Settings'];
     $criteria->addInCondition('"t"."Id"', $idList);

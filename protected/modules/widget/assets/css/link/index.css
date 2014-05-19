@@ -15,6 +15,9 @@ body#widget-link .participants .participant .participant-body h4{
   line-height: 14px;
   margin-top: 0;
 }
+body#widget-link .participants .participant .participant-body h4 a {
+  color: #000;
+}
 body#widget-link .participants .participant .photo {
   margin: 0 10px 60px 0;
   float:left;

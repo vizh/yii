@@ -5,6 +5,7 @@ var RIdWidget = new function () {
     this.container = container;
     this.apiKey = container.getAttribute('data-apikey');
     this.widget = container.getAttribute('data-widget');
+    this.action = container.getAttribute('data-action');
 
     this.preloader = document.createElement('div');
     this.preloader.setAttribute('style', "display:block;position:absolute;left:50%;margin-left:-50px;height:50px;width:50px;background: url('http://runet-id.com/images/api/widget-preloder.gif') no-repeat center center;");
@@ -28,7 +29,8 @@ var RIdWidget = new function () {
 
   RIdWidget.prototype.getUrl = function(){
     var self = this;
-    var url = self.baseUrl + '?url=' + encodeURIComponent('/widget/' + self.widget + '/index?' + '&apikey='+ self.apiKey + '&url=' + self.url);
+    var action = self.action != null ? self.action : 'index';
+    var url = self.baseUrl + '?url=' + encodeURIComponent('/widget/' + self.widget + '/'+action+'?' + '&apikey='+ self.apiKey + '&url=' + self.url);
     return url;
   };
   return RIdWidget;

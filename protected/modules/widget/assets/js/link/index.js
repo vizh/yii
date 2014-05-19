@@ -10,9 +10,13 @@ $(function () {
         });
 
         $modal.modal('show');
+        $modal.css({
+          'top' : $target.position().top,
+          'margin-top' : '-50px'
+        });
         $modal.on('hidden', function () {
           $modal.remove();
-        })
+        });
       }
       else if(response.success) {
         $target.next('a.btn').removeClass('hide');
