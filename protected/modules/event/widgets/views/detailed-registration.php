@@ -61,13 +61,14 @@
     <h5>Фото</h5>
 
     <div class="form-inline m-bottom_5">
-        <? if ($this->form->hasPhoto()): ?>
+        <?if ($this->form->hasPhoto()):?>
             <figure>
                 <figcaption>Загруженный файл</figcaption>
                 <?=\CHtml::image($this->form->getPhotoUrl(false))?>
             </figure>
-            <? endif ?>
+        <?endif;?>
         <?=\CHtml::activeFileField($this->form, 'photo', ['class' => 'span12']);?>
+        <p style="font-size: 12px; color: #666;">Фотографии должны быть предоставлены в&nbsp;цветном исполнении, размером 30 на&nbsp;40&nbsp;мм, с&nbsp;четким изображением лица, строго в&nbsp;анфас, без головного убора. Размер изображения овала лица на&nbsp;фотографии должен занимать не&nbsp;менее 80 процентов от&nbsp;размера фотографии. Задний фон светлее изображения лица, ровный, без полос, пятен и&nbsp;посторонних предметов.</p>
     </div>
 
     <div class="form-inline m-top_20">
