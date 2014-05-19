@@ -101,7 +101,7 @@ return array(
           'baseUrl' => '/',
           'js' => array(),
           'css' => array('stylesheets/application.css'),
-          'depends' => array('runetid.jquery', 'runetid.jquery.ui', 'runetid.backbone', 'runetid.bootstrap', 'runetid.auth')
+          'depends' => array('runetid.jquery', 'runetid.admin.jquery.ui', 'runetid.backbone', 'runetid.bootstrap', 'runetid.auth')
         ),
       ),
 

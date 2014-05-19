@@ -15,9 +15,14 @@ abstract class MailLayout extends \mail\components\Mail
     return true;
   }
 
+  public function showUnsubscribeLink()
+  {
+    return true;
+  }
+
   protected function renderBody($view, $params)
   {
-    $controller = new \mail\components\MailController($this->getUser(), $this->getLayoutName());
+    $controller = new \mail\components\MailController($this->getUser(), $this->getLayoutName(), $this->showUnsubscribeLink());
     $layout = $controller->getLayoutFile($controller->layout);
     return $controller->renderFile($layout, ['content' => $controller->renderPartial($view, $params, true)], true);
   }

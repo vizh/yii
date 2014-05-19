@@ -1,0 +1,4 @@
+#widget-link .cabinet .link-row h4{margin: 0 0 5px;}
+#widget-link .cabinet .link-row h4.datetime {margin-bottom: 10px;}
+#widget-link .cabinet .link-row .photo {margin: 0 20px 0 0;}
+#widget-link .cabinet .link-row .datetime span{font-weight: bold; font-size: 25px;display: block;margin-bottom: 3px;}

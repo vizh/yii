@@ -22,6 +22,7 @@ return array(
     'job',
     'page',  
     'widget',
+    'link',
 
     'competence',
       

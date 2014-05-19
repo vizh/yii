@@ -16,3 +16,9 @@
 .b-event-promo.tc2013 .details, .b-event-promo.tc2013 .side.right {
   display: none;
 }
+
+/* internetbusiness14 */
+.b-event-promo.internetbusiness14 {
+  background: #ecf6ff !important;
+}
+

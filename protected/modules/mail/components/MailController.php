@@ -4,12 +4,13 @@ namespace mail\components;
 class MailController extends \CController
 {
   protected $user;
+  protected $showUnsubscribeLink;
 
   /**
    * @param \user\models\User $user
    * @param string $template
    */
-  public function __construct(\user\models\User $user, $template = null)
+  public function __construct(\user\models\User $user, $template = null, $showUnsubscribeLink = true)
   {
     parent::__construct('default', null);
     switch ($template)
@@ -25,5 +26,6 @@ class MailController extends \CController
     }
     $this->layout = '/layouts/mail/'.$layout;
     $this->user = $user;
+    $this->showUnsubscribeLink = $showUnsubscribeLink;
   }
 }

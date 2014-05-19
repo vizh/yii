@@ -1,0 +1,21 @@
+body#widget-link .user-links {
+  padding: 5px 20px 0 0;
+}
+body#widget-link .participants .participant {
+  float: left;
+  width: 33%;
+  margin-bottom: 20px;
+  height: 150px;
+}
+body#widget-link .participants .participant .participant-body {
+  padding: 0 10px;
+}
+body#widget-link .participants .participant .participant-body h4{
+  font-size: 14px;
+  line-height: 14px;
+  margin-top: 0;
+}
+body#widget-link .participants .participant .photo {
+  margin: 0 10px 60px 0;
+  float:left;
+}

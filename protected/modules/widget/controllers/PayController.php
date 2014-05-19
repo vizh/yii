@@ -76,12 +76,4 @@ class PayController extends \widget\components\Controller
     }
     return $this->account;
   }
-
-  /**
-   * @return \event\models\Event
-   */
-  public function getEvent()
-  {
-    return \event\models\Event::model()->findByPk(789);
-  }
 } 

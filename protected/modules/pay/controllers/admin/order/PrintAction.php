@@ -5,7 +5,7 @@ namespace pay\controllers\admin\order;
 
 class PrintAction extends \CAction
 {
-  const EVENT_ID = 789;
+  const EVENT_ID = 832;
 
   public function run()
   {
