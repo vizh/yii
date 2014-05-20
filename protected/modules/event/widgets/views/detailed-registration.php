@@ -6,7 +6,7 @@
 <div class="registration">
     <h5 class="title"><?=Yii::t('app', 'Регистрация');?></h5>
     <?if(\Yii::app()->getUser()->getIsGuest()):?>
-    <p>Если вы&nbsp;уже зарегистрированы в&nbsp;<nobr>RUNET-ID</nobr>, <span class="login">войдите в&nbsp;систему</span> под своим аккаунтом для регистрации на&nbsp;Форум &laquo;<nobr>Интернет-предпринимательство</nobr> в&nbsp;России&raquo;.</p>
+    <p>Если вы&nbsp;уже зарегистрированы в&nbsp;<nobr>RUNET-ID</nobr>, <span class="login"><a href="#" id="PromoLogin">войдите в&nbsp;систему</a></span> под своим аккаунтом для регистрации на&nbsp;Форум &laquo;<nobr>Интернет-предпринимательство</nobr> в&nbsp;России&raquo;.</p>
     <?endif;?>
     <p>Для участия в мероприятии необходимо заполнить все поля формы.</p>
 
