@@ -30,7 +30,16 @@ var RIdWidget = new function () {
   RIdWidget.prototype.getUrl = function(){
     var self = this;
     var action = self.action != null ? self.action : 'index';
-    var url = self.baseUrl + '?url=' + encodeURIComponent('/widget/' + self.widget + '/'+action+'?' + '&apikey='+ self.apiKey + '&url=' + self.url);
+
+    var url = '/widget/' + self.widget + '/'+action+'?' + '&apikey='+ self.apiKey + '&url=' + self.url;
+    for (var i = 0; i < this.container.attributes.length; i++) {
+      var attr = this.container.attributes.item(i);
+      if (attr.nodeName.indexOf('data-param-') != -1) {
+        url += '&'+attr.nodeName.substr(5)+'='+attr.nodeValue;
+      }
+    }
+
+    url = self.baseUrl + '?url=' + encodeURIComponent(url);
     return url;
   };
   return RIdWidget;

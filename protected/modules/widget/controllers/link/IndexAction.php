@@ -31,6 +31,22 @@ class IndexAction extends \widget\components\Action
       'EventId' => $this->getEvent()->Id
     ];
 
+    $condition = '';
+    $join = '';
+
+    if ($this->getController()->getWidgetParamValue('product') !== null)
+    {
+      $product = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byPublic(true)->findByPk($this->getController()->getWidgetParamValue('product'));
+      if ($product == null)
+        throw new \CHttpException(500);
+
+      $params['ProductId'] = $product->Id;
+      $join .= 'LEFT JOIN "PayOrderItem" ON "PayOrderItem"."OwnerId" = "t"."UserId"';
+      $condition .= 'AND "PayOrderItem"."Paid" AND "PayOrderItem"."ProductId" = :ProductId';
+    }
+
+
+
     $profInteresIdList = !\Yii::app()->getUser()->getIsGuest() ? \CHtml::listData(\Yii::app()->getUser()->getCurrentUser()->LinkProfessionalInterests, 'Id', 'ProfessionalInterestId') : [];
     if ($this->order == 'interests' && !empty($profInteresIdList))
     {
@@ -44,7 +60,9 @@ class IndexAction extends \widget\components\Action
           ) as sumpi, "t"."UserId" FROM "UserLinkProfessionalInterest" "t"
           LEFT JOIN "EventParticipant" ON "EventParticipant"."UserId" = "t"."UserId"
           LEFT JOIN "UserSettings" ON "UserSettings"."UserId" = "t"."UserId"
+          '.$join.'
           WHERE "t"."UserId" != :UserId AND "EventParticipant"."EventId" = :EventId AND "UserSettings"."Visible" AND "EventParticipant"."RoleId" NOT IN ('. implode(',',$this->getExcludedRoles()) .')
+          '.$condition.'
           GROUP BY "t"."UserId"
           ORDER BY count("ProfessionalInterestId") desc
         ) AS sumpilist
@@ -64,7 +82,9 @@ class IndexAction extends \widget\components\Action
         SELECT "t"."UserId" FROM "EventParticipant" "t"
           LEFT JOIN "User" ON "User"."Id" = "t"."UserId"
           LEFT JOIN "UserSettings" ON "User"."Id" = "UserSettings"."UserId"
+          '.$join.'
           WHERE "UserSettings"."Visible" AND "t"."EventId" = :EventId AND "t"."RoleId" NOT IN ('. implode(',',$this->getExcludedRoles()) .')
+          '.$condition.'
           GROUP BY "t"."UserId",
            '.($this->order == 'date' ?
                 '"t"."CreationTime" ORDER BY "t"."CreationTime" ASC '

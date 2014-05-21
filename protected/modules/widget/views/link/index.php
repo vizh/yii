@@ -40,7 +40,7 @@
       <div class="participant-body">
         <h4><a href="<?=$user->getUrl();?>" target="_blank"><?=$user->getFullName();?></a></h4>
         <?if ($user->getEmploymentPrimary() !== null):?>
-          <p class="employent"><?=$user->getEmploymentPrimary()->Company->Name;?><?if (!empty($user->getEmploymentPrimary()->Position)):?>, <?=$user->getEmploymentPrimary()->Position;?><?endif;?></p>
+          <p class="employent"><?=\application\components\utility\Texts::cropText((string)$user->getEmploymentPrimary(), 100);?></p>
         <?endif;?>
         <?if (!in_array($user->Id, $userLinks)):?>
           <a href="<?=$this->createUrl('/widget/link/index', ['ownerRunetId' => $user->RunetId, 'action' => 'suggest']);?>" class="btn btn-info btn-mini suggest"><?=\Yii::t('app','Предложить встречу');?></a>

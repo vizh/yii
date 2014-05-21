@@ -9,7 +9,7 @@
   <h3 class="m-bottom_20"><?=\Yii::t('app', 'Приглашения мне');?></h3>
   <?/** @var \link\models\Link $link */?>
   <?foreach ($schedule->notDistributedLinks as $link):?>
-     <div class="row-fluid link-row">
+     <div class="row-fluid link-row m-bottom_20">
        <div class="span5 clearfix">
          <div class="pull-left photo">
            <a href="<?=$link->User->getUrl();?>"><?=\CHtml::image($link->User->getPhoto()->get50px());?></a>
@@ -22,7 +22,7 @@
        <div class="span7 text-right">
          <?=\CHtml::form('','',['class' => 'form-inline hide', 'data-url' => $this->createUrl('/widget/link/cabinet', ['action'=>'setDatetime','linkId'=>$link->Id])]);?>
             <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Date');?>" placeholder="<?=$formDatetime->getAttributeLabel('Date');?>" class="input-small" value="" />
-            <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Time');?>" placeholder="<?=$formDatetime->getAttributeLabel('Time');?>" class="input-small" value="" />
+            <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Time');?>" placeholder="00:00" class="input-mini" value="" />
             <?=\CHtml::submitButton(\Yii::t('app', 'Подтвердить'), ['class' => 'btn btn-success']);?>
          <?=\CHtml::endForm();?>
          <div class="btn-group">
@@ -38,7 +38,7 @@
     <h3 class="m-bottom_20"><?=\Yii::t('app', 'Мои встречи');?></h3>
     <?foreach ($schedule->links as $link):?>
       <?$user = $link->OwnerId == \Yii::app()->getUser()->getId() ? $link->User : $link->Owner;?>
-      <div class="row-fluid link-row">
+      <div class="row-fluid link-row m-bottom_20">
         <div class="span8 clearfix">
           <h4 class="datetime"><?=$link->getFormattedMeetingTime('dd MMMM yyyy, HH:mm');?></h4>
           <div class="pull-left photo">
@@ -53,7 +53,7 @@
         <div class="span4 text-right">
           <?=\CHtml::form('','',['class' => 'form-inline hide', 'data-url' => $this->createUrl('/widget/link/cabinet', ['action'=>'setDatetime','linkId'=>$link->Id])]);?>
             <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Date');?>" placeholder="<?=$formDatetime->getAttributeLabel('Date');?>" class="input-small" value="<?=$link->getFormattedMeetingTime('dd.MM.yyyy');?>"/>
-            <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Time');?>" placeholder="<?=$formDatetime->getAttributeLabel('Time');?>" class="input-mini" value="<?=$link->getFormattedMeetingTime('HH:mm');?>"/>
+            <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Time');?>" placeholder="00:00" class="input-mini" value="<?=$link->getFormattedMeetingTime('HH:mm');?>"/>
             <?=\CHtml::submitButton(\Yii::t('app', 'Подтвердить'), ['class' => 'btn btn-success']);?>
           <?=\CHtml::endForm();?>
           <div class="btn-group">
@@ -64,3 +64,4 @@
       </div>
     <?endforeach;?>
   <?endif;?>
+  <div style="height: 200px;"></div>
