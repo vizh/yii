@@ -24,6 +24,7 @@
             <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Date');?>" placeholder="<?=$formDatetime->getAttributeLabel('Date');?>" class="input-small" value="" />
             <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Time');?>" placeholder="00:00" class="input-mini" value="" />
             <?=\CHtml::submitButton(\Yii::t('app', 'Подтвердить'), ['class' => 'btn btn-success']);?>
+            <p class="muted agree"><?=\Yii::t('app', 'Подтверждая встречу я даю согласие на передачу моих контактных данных');?></p>
          <?=\CHtml::endForm();?>
          <div class="btn-group">
            <button class="btn btn-success settime"><?=\Yii::t('app', 'Принять');?></button>
@@ -39,7 +40,7 @@
     <?foreach ($schedule->links as $link):?>
       <?$user = $link->OwnerId == \Yii::app()->getUser()->getId() ? $link->User : $link->Owner;?>
       <div class="row-fluid link-row m-bottom_20">
-        <div class="span8 clearfix">
+        <div class="span5 clearfix">
           <h4 class="datetime"><?=$link->getFormattedMeetingTime('dd MMMM yyyy, HH:mm');?></h4>
           <div class="pull-left photo">
             <a href="<?=$user->getUrl();?>" target="_blank"><?=\CHtml::image($user->getPhoto()->get50px());?></a>
@@ -50,11 +51,12 @@
           <?endif;?>
         </div>
         <?if ($link->OwnerId == \Yii::app()->getUser()->getId()):?>
-        <div class="span4 text-right">
+        <div class="span7 text-right">
           <?=\CHtml::form('','',['class' => 'form-inline hide', 'data-url' => $this->createUrl('/widget/link/cabinet', ['action'=>'setDatetime','linkId'=>$link->Id])]);?>
             <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Date');?>" placeholder="<?=$formDatetime->getAttributeLabel('Date');?>" class="input-small" value="<?=$link->getFormattedMeetingTime('dd.MM.yyyy');?>"/>
             <input type="text" name="<?=\CHtml::activeName($formDatetime, 'Time');?>" placeholder="00:00" class="input-mini" value="<?=$link->getFormattedMeetingTime('HH:mm');?>"/>
             <?=\CHtml::submitButton(\Yii::t('app', 'Подтвердить'), ['class' => 'btn btn-success']);?>
+            <p class="muted agree"><?=\Yii::t('app', 'Подтверждая встречу я даю согласие на передачу моих контактных данных');?></p>
           <?=\CHtml::endForm();?>
           <div class="btn-group">
             <button class="btn settime"><?=\Yii::t('app', 'Изменить время');?></button>
