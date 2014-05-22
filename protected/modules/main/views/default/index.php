@@ -23,7 +23,7 @@
         <div>
           <h3>Если нужна регистрация<br>участников на месте</h3>
           <p>Офлайн регистрация участников<br>любой сложности<br>по справедливой стоимости</p>
-          <a class="btn btn-large btn-info" href="http://ruvents.com/" target="_blank"><i class="icon-white icon-ok-sign"></i> Заказать регистрацию</a>
+          <a class="btn btn-large btn-info" href="http://promo.ruvents.com/" target="_blank"><i class="icon-white icon-ok-sign"></i> Заказать регистрацию</a>
         </div>
       </div>
     </div>
