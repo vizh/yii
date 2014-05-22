@@ -53,20 +53,20 @@ class Q2 extends \competence\models\form\Base
     {
         return [
             ['value, azure, other', 'safe'],
-            ['platform', 'platformValidator'],
+            //['platform', 'platformValidator'],
             //['other', 'otherValidator'],
-            ['other2', 'other2Validator'],
+            //['other2', 'other2Validator'],
         ];
     }
 
-    public function platformValidator($attribute, $params)
-    {
-        if ($this->value === 'q2_5' && empty($this->platform)) {
-            $this->addError('', 'Выберите одну из облачных платформ или укажите свой вариант');
-            return false;
-        }
-        return true;
-    }
+//    public function platformValidator($attribute, $params)
+//    {
+//        if ($this->value === 'q2_5' && empty($this->platform)) {
+//            $this->addError('', 'Выберите одну из облачных платформ или укажите свой вариант');
+//            return false;
+//        }
+//        return true;
+//    }
 
 //    public function otherValidator($attribute, $params)
 //    {
@@ -78,15 +78,15 @@ class Q2 extends \competence\models\form\Base
 //        return true;
 //    }
 
-    public function other2Validator($attribute, $params)
-    {
-        $this->other2 = trim($this->other2);
-        if ($this->value === 'q2_5' && $this->platform === 'platform_3' && empty($this->other2)) {
-            $this->addError('', 'Укажите свой вариант облачной платформы');
-            return false;
-        }
-        return true;
-    }
+//    public function other2Validator($attribute, $params)
+//    {
+//        $this->other2 = trim($this->other2);
+//        if ($this->value === 'q2_5' && $this->platform === 'platform_3' && empty($this->other2)) {
+//            $this->addError('', 'Укажите свой вариант облачной платформы');
+//            return false;
+//        }
+//        return true;
+//    }
 
     public function checkOtherValidator($attribute, $params)
     {

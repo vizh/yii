@@ -6,8 +6,7 @@ class Q14 extends \competence\models\form\Single
     public function rules()
     {
         return [
-            ['value', 'safe'],
-            ['other', 'checkOtherValidator'],
+            ['value, other', 'safe'],
         ];
     }
 }

@@ -37,7 +37,7 @@ class Q10 extends \competence\models\form\Base
         return $this->questions;
     }
 
-    private $values = ['-', 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    private $values = ['0' => '-', '9' => '9', '8' => '8', '7' => '7', '6' => '6', '5' => '5', '4' => '4', '3' => '3', '2' => '2', '1' => '1', '10' => 'Не знаю'];
 
     public function getValues()
     {
@@ -55,7 +55,7 @@ class Q10 extends \competence\models\form\Base
     {
         foreach ($this->getQuestions() as $key => $question) {
             $value = isset($this->value[$key]) ? intval($this->value[$key]) : 0;
-            if ($value <= 0 || $value > 9) {
+            if ($value <= 0 || $value > 10) {
                 $this->addError('', 'Необходимо оценить мероприятие по всем критериям из списка');
                 return false;
             }

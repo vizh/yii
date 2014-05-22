@@ -3,8 +3,11 @@ namespace competence\models\test\devcon14;
 
 class Q15 extends \competence\models\form\Single
 {
-    public function getOtherValidatorErrorMessage()
+    public function rules()
     {
-        return 'Необходимо заполнить текстовое поле';
+        return [
+            ['value', 'required', 'message' => 'Выберите один ответ из списка'],
+            ['other', 'safe'],
+        ];
     }
 }
