@@ -353,5 +353,19 @@ class DataBuilder
     $model->resetLocale();
     return $locales;
   }
+
+  protected $sectionHall;
+
+  /**
+   * @param \event\models\section\Hall $hall
+   * @return mixed
+   */
+  public function createSectionHall(\event\models\section\Hall $hall)
+  {
+    $this->sectionHall = new \stdClass();
+    $this->sectionHall->HallId = $hall->Id;
+    $this->sectionHall->Title = $hall->Title;
+    return $this->sectionHall;
+  }
 }
 
