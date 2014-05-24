@@ -77,3 +77,11 @@
     </table>
   </div>
 </div>
+
+<div class="row">
+    <div class="span12 m-bottom_40">
+        <h3>QR-код для мобильного приложения</h3>
+        <img src="<?=Yii::app()->createUrl('/partner/ruvents/mobile');?>" alt=""/>
+        <a target="_blank" href="<?=Yii::app()->createUrl('/partner/ruvents/mobile');?>">Открыть в новом окне</a>
+    </div>
+</div>
