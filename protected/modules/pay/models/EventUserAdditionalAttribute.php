@@ -9,6 +9,10 @@ namespace pay\models;
  * @property int $UserId
  * @property string $Name
  * @property string $Value
+ *
+ * @method \pay\models\EventUserAdditionalAttribute find($condition='',$params=array())
+ * @method \pay\models\EventUserAdditionalAttribute findByPk($pk,$condition='',$params=array())
+ * @method \pay\models\EventUserAdditionalAttribute[] findAll($condition='',$params=array())
  */
 class EventUserAdditionalAttribute extends \CActiveRecord
 {

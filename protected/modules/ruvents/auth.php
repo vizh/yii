@@ -18,6 +18,14 @@ return array(
         'data' => null
     ),
 
+    'Mobile' => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Mobile',
+        'children' => ['guest'],
+        'bizRule' => null,
+        'data' => null
+    ],
+
     'Operator' => array(
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Operator',
@@ -37,4 +45,6 @@ return array(
         'bizRule' => null,
         'data' => null
     ),
+
+
 );

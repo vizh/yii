@@ -5,8 +5,7 @@ class UserController extends \application\components\controllers\AdminMainContro
   {
     $criteria = new \CDbCriteria();
     $criteria->with = array('Users.Role');
-    $criteria->order = '"Role"."Priority" DESC';
-    $criteria->addCondition('"Users"."ExitTime" IS NULL OR "Users"."ExitTime" > NOW()');
+    $criteria->order = '"Role"."Priority" DESC, "Users"."ExitTime" DESC';
     $commission = \commission\models\Commission::model()->findByPk($commissionId, $criteria);
     if ($commission == null)
     {

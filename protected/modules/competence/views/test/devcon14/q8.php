@@ -5,8 +5,8 @@
 ?>
 
 <div class="row q9_head">
-    <div class="span2 offset5 text-center"><?=$form->getValues()['yes'];?></div>
-    <div class="span2 text-center"><?=$form->getValues()['want'];?></div>
+    <div class="span2 offset5 text-center"><?=$form->getValues()['online'];?></div>
+    <div class="span2 text-center"><?=$form->getValues()['offline'];?></div>
 </div>
 
 <?foreach ($form->getQuestions() as $qKey => $question):?>

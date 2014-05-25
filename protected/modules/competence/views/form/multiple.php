@@ -22,7 +22,7 @@ if (count($form->Values) > 6)
 
 if (!function_exists('printCheckBox'))
 {
-  function printCheckBox(\competence\models\form\Multiple $form, \competence\models\form\attribute\CheckboxValue $value)
+  function printCheckBox(\competence\models\form\Multiple $form, \competence\models\form\attribute\CheckboxValue $value, $wide = true)
   {
     $attrs = [
       'value' => $value->key,
@@ -42,7 +42,7 @@ if (!function_exists('printCheckBox'))
         <?=$value->title;?>
       </label>
       <?if ($value->isOther):?>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($form, 'other', ['class' => 'span4', 'data-group' => $form->getQuestion()->Code, 'id' => $form->getQuestion()->Code.'_'.$value->key]);?>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($form, 'other', ['class' => $wide ? 'span4' : 'span3', 'data-group' => $form->getQuestion()->Code, 'id' => $form->getQuestion()->Code.'_'.$value->key]);?>
       <?endif;?>
     </li>
   <?
@@ -66,7 +66,7 @@ if (!function_exists('printCheckBox'))
         <?
         foreach ($left as $value)
         {
-          printCheckBox($form, $value);
+          printCheckBox($form, $value, false);
         }
         ?>
       </ul>
@@ -76,7 +76,7 @@ if (!function_exists('printCheckBox'))
         <?
         foreach ($right as $value)
         {
-          printCheckBox($form, $value);
+          printCheckBox($form, $value, false);
         }
         ?>
       </ul>

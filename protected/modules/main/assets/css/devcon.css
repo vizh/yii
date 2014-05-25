@@ -1,0 +1,96 @@
+.devcon .competence-title {
+  font-weight: 300;
+  color: #333;
+  font-size: 48px;
+}
+.devcon-hero {
+  border-top: 0.5em solid #55A51C;
+}
+
+
+.devcon .interview h3 {
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+
+.devcon-rules {
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 300;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+@media screen and (max-width:960px) {
+  html {
+    min-width: 480px;
+  }
+  .container {
+    width: 480px;
+  }
+
+  .row{
+    margin-left: 0;
+  }
+  [class*="span"] {
+    margin-left: 0;
+  }
+
+  .span12 {
+    width: 100%;
+  }
+  textarea.span9 {
+    width: 90%;
+  }
+  .span9 {
+    width: 80%;
+  }
+  .span8 {
+    width: 100%;
+  }
+  .span5 {
+    width: 60%;
+  }
+  .span2 {
+    width: 20%;
+  }
+  .span2.offset5{
+    margin-left: 60%;
+  }
+  .q9_head {
+    font-size: 12px;
+  }
+
+  .span4 {
+    width: 100%;
+  }
+  input.span4{
+    width: 65%;
+  }
+  input.span3{
+    width: 65%;
+  }
+
+
+  .offset2 {
+    margin-left: 10%;
+  }
+  .offset1 {
+    margin-left: 0;
+  }
+  #Q2_platforms .span8 {
+    width: 80%;
+  }
+  #Q2_platforms .offset1 {
+    margin-left: 20%;
+  }
+
+
+
+
+  .table .span8 {
+    width: auto;
+  }
+
+
+}
