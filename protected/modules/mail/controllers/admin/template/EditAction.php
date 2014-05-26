@@ -88,6 +88,8 @@ class EditAction extends \CAction
     $this->template->SendInvisible = $this->form->SendInvisible == 1 ? true : false;
     $this->template->Active = $this->form->Active == 1 ? true : false;
     $this->template->Layout = $this->form->Layout;
+    $this->template->ShowUnsubscribeLink = $this->form->ShowUnsubscribeLink == 1 ? true : false;
+    $this->template->ShowFooter = $this->form->ShowFooter == 1 ? true : false;
     if ($this->template->Active)
     {
       $this->template->ActivateTime = date('Y-m-d H:i:s');

@@ -23,6 +23,8 @@ class Template extends \CFormModel
   public $Conditions = [];
   public $Body;
   public $Layout = \mail\models\Layout::OneColumn;
+  public $ShowUnsubscribeLink = 1;
+  public $ShowFooter = 1;
 
   private $mailer;
 
@@ -50,7 +52,9 @@ class Template extends \CFormModel
       'Test' => \Yii::t('app', 'Получатели тестовой рассылки'),
       'Body' => \Yii::t('app', 'Тело письма'),
       'SendInvisible' => \Yii::t('app', 'Отправлять скрытым пользователям'),
-      'Layout' => \Yii::t('app', 'Шаблон')
+      'Layout' => \Yii::t('app', 'Шаблон'),
+      'ShowUnsubscribeLink' => \Yii::t('app', 'Показывать ссылку на отписку'),
+      'ShowFooter' => \Yii::t('app', 'Показывать футер')
     ];
   }
 
@@ -58,7 +62,7 @@ class Template extends \CFormModel
   public function rules()
   {
     return [
-      ['Title, Subject, From, FromName, SendPassbook, SendUnsubscribe, Active, SendInvisible', 'required'],
+      ['Title, Subject, From, FromName, SendPassbook, SendUnsubscribe, Active, SendInvisible,ShowUnsubscribeLink,ShowFooter', 'required'],
       ['Test, TestUsers, Body, Layout', 'safe'],
       ['From', 'email'],
       ['Conditions', 'default', 'value' => []],

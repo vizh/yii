@@ -87,6 +87,18 @@
     </div>
   </div>
   <div class="control-group">
+    <?=\CHtml::activeLabel($form, 'ShowUnsubscribeLink', ['class' => 'control-label']);?>
+    <div class="controls">
+      <?=\CHtml::activeCheckBox($form, 'ShowUnsubscribeLink');?>
+    </div>
+  </div>
+  <div class="control-group">
+    <?=\CHtml::activeLabel($form, 'ShowFooter', ['class' => 'control-label']);?>
+    <div class="controls">
+      <?=\CHtml::activeCheckBox($form, 'ShowFooter');?>
+    </div>
+  </div>
+  <div class="control-group">
     <?=\CHtml::activeLabel($form, 'SendInvisible', ['class' => 'control-label']);?>
     <div class="controls">
       <?=\CHtml::activeCheckBox($form, 'SendInvisible');?>
