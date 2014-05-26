@@ -25,7 +25,24 @@
 <noscript>JavaScript disabled</noscript>
 
 <section id="section" role="main">
-  <?php echo $content;?>
+    <div class="devcon">
+        <div class="container m-top_30 m-bottom_30">
+            <div class="row">
+                <div class="span9 offset2">
+                    <a target="_blank" href="http://www.msdevcon.ru/"><img src="/img/event/devcon14/logo.png" alt=""/></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="devcon-hero"></div>
+
+        <div class="container m-top_40">
+            <h3 class="text-center competence-title">Анкета участника</h3>
+        </div>
+
+        <?=$content;?>
+
+    </div>
 </section>
 
 </body>

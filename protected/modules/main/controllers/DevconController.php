@@ -2,7 +2,7 @@
 
 class DevconController extends \application\components\controllers\MainController
 {
-    public $layout = "/layouts/devcon";
+    public $layout = "/devcon/layout";
 
     const EventId = 831;
     const TestId = 1;
@@ -15,13 +15,16 @@ class DevconController extends \application\components\controllers\MainControlle
     {
         $this->code = $code;
 
+        if (date('Y-m-d H:i:s') < '2014-05-29 10:00:00') {
+            $this->render('before', ['user' => $this->getUser()]);
+            return;
+        }
+
         $hasErrors = false;
         if (\Yii::app()->getRequest()->getIsPostRequest())
         {
             $hasErrors = $this->process();
         }
-
-
 
         $this->render('index', [
             'test' => $this->getTest(),
