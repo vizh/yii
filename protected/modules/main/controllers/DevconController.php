@@ -15,10 +15,18 @@ class DevconController extends \application\components\controllers\MainControlle
     {
         $this->code = $code;
 
-        if (date('Y-m-d H:i:s') < '2014-05-29 10:00:00') {
+        $test = Yii::app()->getRequest()->getParam('test');
+        if (date('Y-m-d H:i:s') < '2014-05-29 10:00:00' && empty($test)) {
             $this->render('before', ['user' => $this->getUser()]);
             return;
         }
+
+        $this->render('index', ['user' => $this->getUser(), 'code' => $code]);
+    }
+
+    public function actionProcess($code)
+    {
+        $this->code = $code;
 
         $hasErrors = false;
         if (\Yii::app()->getRequest()->getIsPostRequest())
@@ -26,7 +34,7 @@ class DevconController extends \application\components\controllers\MainControlle
             $hasErrors = $this->process();
         }
 
-        $this->render('index', [
+        $this->render('process', [
             'test' => $this->getTest(),
             'questions' => $this->getQuestions(),
             'hasErrors' => $hasErrors

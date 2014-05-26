@@ -139,6 +139,7 @@ return array(
 
         /** DevCon */
         'http://'. RUNETID_HOST.'/devcon/<code>' => 'main/devcon/index',
+          'http://'. RUNETID_HOST.'/devcon/process/<code>' => 'main/devcon/process',
 
 
 
