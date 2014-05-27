@@ -31,7 +31,7 @@ class ProductGetListAction extends \ruvents\components\Action
     foreach ($gets as $get)
     {
       $item = new \stdClass();
-      $item->UserId = $get->User->RunetId;
+      $item->RunetId = $get->User->RunetId;
       $item->ProductId = $get->ProductId;
       $item->CretionTime = $get->CreationTime;
       $result[] = $item;
