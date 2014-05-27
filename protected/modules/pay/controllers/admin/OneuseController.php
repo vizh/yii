@@ -216,6 +216,53 @@ class OneuseController extends \application\components\controllers\AdminMainCont
         echo 'Done';
     }
 
+    public function actionDevconimportproduct()
+    {
+      \Yii::import('ext.PHPExcel.PHPExcel', true);
+      $excel = \PHPExcel_IOFactory::load(\Yii::getPathOfAlias('pay.data.DevCon2014_Register').'.xlsx');
+      $worksheet = $excel->getSheet(0);
+
+      $columns = [];
+      foreach ($worksheet->getRowIterator(2) as $row)
+      {
+        /** @var $row \PHPExcel_Worksheet_Row */
+        $cellIterator = $row->getCellIterator();
+        //$cellIterator->setIterateOnlyExistingCells(false);
+        foreach ($cellIterator as $cell)
+        {
+          /** @var $cell \PHPExcel_Cell */
+          $value = trim($cell->getValue());
+          if (!empty($value))
+          {
+            $columns[] = $cell->getColumn();
+          }
+        }
+      }
+      $columns = array_unique($columns);
+      sort($columns, SORT_STRING);
+
+      for ($i = 2; $i <= $worksheet->getHighestRow(); $i++)
+      {
+        $criteria = new \CDbCriteria();
+        $criteria->addCondition('"t"."FirstName" ILIKE :FirtsName');
+        $criteria->addCondition('"t"."LastName" ILIKE :LastName');
+        $criteria->addCondition('"Role"."Title" = :Role AND "Participants"."EventId" = 831');
+        $criteria->with = ['Participants.Role'];
+        $criteria->params['FirtsName'] = $worksheet->getCell('B'.$i)->getValue();
+        $criteria->params['LastName'] = $worksheet->getCell('D'.$i)->getValue();
+        $criteria->params['Role'] = $worksheet->getCell('J'.$i)->getValue();
+
+        $count = \user\models\User::model()->count($criteria);
+        if ($count == 0)
+        {
+          echo 'Не найден: '.implode(', ', $criteria->params).'<br/>';
+        }
+        elseif ($count>1) {
+          echo 'Найдено: '.$count.', '.implode(', ', $criteria->params).'<br/>';
+        }
+      }
+    }
+
     public function actionPhdaysfood() {
         $criteria = new CDbCriteria();
         $criteria->addInCondition('t."ProductId"', [1448, 1449, 1450]);
