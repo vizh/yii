@@ -278,7 +278,7 @@ class OneuseController extends \application\components\controllers\AdminMainCont
         $count = \user\models\User::model()->count($criteria);
         if ($count == 0)
         {
-          echo 'Не найден: '.implode(', ', $criteria->params).'<br/>';
+          echo 'Не найден: '.implode(', ', $criteria->params).' '.$worksheet->getCell('K'.$i)->getValue().'<br/>';
         }
         elseif ($count > 1)
         {
