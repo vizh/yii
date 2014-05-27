@@ -228,6 +228,19 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
     public function actionDevconimportproduct()
     {
+      $products = [
+        'ГК' => 2765,
+        'Без проживания' => 2764,
+        'Обед 28-29 мая' => 2763,
+        'Обед 29 мая' => 2762,
+        'Обед 28 мая' => 2761,
+        'Анива' => 2760,
+        '4 корпус' => 2759,
+        'Обед 29.05' => 2762,
+        'без проживания' => 2764
+      ];
+
+
       \Yii::import('ext.PHPExcel.PHPExcel', true);
       $excel = \PHPExcel_IOFactory::load(\Yii::getPathOfAlias('pay.data.DevCon2014_Register').'.xlsx');
       $worksheet = $excel->getSheet(0);
@@ -258,17 +271,49 @@ class OneuseController extends \application\components\controllers\AdminMainCont
         $criteria->addCondition('"t"."LastName" ILIKE :LastName');
         $criteria->addCondition('"Role"."Title" = :Role AND "Participants"."EventId" = 831');
         $criteria->with = ['Participants.Role'];
-        $criteria->params['FirtsName'] = $worksheet->getCell('B'.$i)->getValue();
-        $criteria->params['LastName'] = $worksheet->getCell('D'.$i)->getValue();
-        $criteria->params['Role'] = $worksheet->getCell('J'.$i)->getValue();
+        $criteria->params['FirtsName'] = trim($worksheet->getCell('B'.$i)->getValue());
+        $criteria->params['LastName'] = trim($worksheet->getCell('D'.$i)->getValue());
+        $criteria->params['Role'] = trim($worksheet->getCell('J'.$i)->getValue());
 
         $count = \user\models\User::model()->count($criteria);
         if ($count == 0)
         {
           echo 'Не найден: '.implode(', ', $criteria->params).'<br/>';
         }
-        elseif ($count>1) {
-          echo 'Найдено: '.$count.', '.implode(', ', $criteria->params).'<br/>';
+        elseif ($count > 1)
+        {
+          $users = \user\models\User::model()->findAll($criteria);
+          echo 'Найдено '.$count.': '.implode(', ', $criteria->params);
+          foreach ($users as $user)
+          {
+            echo $user->RunetId.', ';
+          }
+          echo '<br/>';
+        }
+        elseif ($count == 1)
+        {
+          $product = trim($worksheet->getCell('K'.$i));
+          if (!array_key_exists($product, $products))
+          {
+            echo 'Не найден товар: '. $product.'<br/>';
+            continue;
+          }
+
+          $user = \user\models\User::model()->find($criteria);
+          $productId = $products[$product];
+          if (!\pay\models\OrderItem::model()->byProductId($productId)->byOwnerId($user->Id)->exists())
+          {
+            $orderItem = new \pay\models\OrderItem();
+            $orderItem->PayerId = $orderItem->OwnerId = $user->Id;
+            $orderItem->ProductId = $products[$product];
+            $orderItem->save();
+            $orderItem->activate();
+            echo 'ОК<br/>';
+          }
+          else
+          {
+            //echo 'Есть товар<br/>';
+          }
         }
       }
     }

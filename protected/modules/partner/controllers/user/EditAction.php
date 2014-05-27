@@ -177,7 +177,7 @@ class EditAction extends \partner\components\Action
   private function processEvent831Product()
   {
     $request = \Yii::app()->getRequest();
-    $event831productIdList = [2759,2760,2761,2762,2763,2764];
+    $event831productIdList = [2759,2760,2761,2762,2763,2764,2765];
     $criteria = new \CDbCriteria();
     $criteria->addInCondition('"t"."Id"', $event831productIdList);
     $this->viewParams['event831Products'] = \pay\models\Product::model()->findAll($criteria);
