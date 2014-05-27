@@ -197,9 +197,12 @@ class OneuseController extends \application\components\controllers\AdminMainCont
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, 'http://56929cf22e99473f87042cbc2a818b96.cloudapp.net/api/MaterialVoting/GetUserIDAssignments');
+        curl_setopt($ch, CURLOPT_URL, 'http://www.msdevcon.ru/api/MaterialVoting/GetUserIDAssignments');
         $result = curl_exec($ch);
         $data = json_decode($result);
+
+        $countAddPhone = 0;
+        $countAddExternalId = 0;
 
         foreach ($data as $row) {
             $extUser = \api\models\ExternalUser::model()->byExternalId($row->UserID)->find();
@@ -209,11 +212,18 @@ class OneuseController extends \application\components\controllers\AdminMainCont
                 $row->Phone = trim($row->Phone);
                 if ($user->getContactPhone() == null && !empty($row->Phone)) {
                     $user->setContactPhone($row->Phone, \contact\models\PhoneType::Mobile);
+                    $countAddPhone++;
+                }
+
+                if ($extUser->ShortExternalId === null && !empty($row->WPUserID)) {
+                    $extUser->ShortExternalId = trim($row->WPUserID);
+                    $extUser->save();
+                    $countAddExternalId++;
                 }
             }
         }
 
-        echo 'Done';
+        echo sprintf('Add phones: %d, add extId: %d', $countAddPhone, $countAddExternalId);
     }
 
     public function actionDevconimportproduct()
