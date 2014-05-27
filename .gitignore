@@ -6,3 +6,4 @@ runetid-pass.txt
 out
 logs
 *.log
+protected/modules/pay/data/
