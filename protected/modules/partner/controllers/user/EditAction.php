@@ -11,6 +11,8 @@ class EditAction extends \partner\components\Action
   /** @var \event\models\Role[] */
   public $roles;
 
+  private $viewParams = [];
+
   public function run()
   {
     $this->getController()->initActiveBottomMenu('edit');
@@ -55,14 +57,20 @@ class EditAction extends \partner\components\Action
       }
 
       $participants = $this->prepareParticipants();
-      $this->getController()->render('edit-tabs',
-        array(
-          'user' => $this->user,
-          'event' => $this->getEvent(),
-          'roles' => $this->roles,
-          'participants' => $participants
-        )
-      );
+      $this->viewParams = [
+        'user' => $this->user,
+        'event' => $this->getEvent(),
+        'roles' => $this->roles,
+        'participants' => $participants
+      ];
+
+      // TODO: это от devcon14, нужно не забыть убрать
+      if ($this->getEvent()->Id == 831)
+      {
+        $this->processEvent831Product();
+      }
+
+      $this->getController()->render('edit-tabs', $this->viewParams);
     }
   }
 
@@ -163,6 +171,48 @@ class EditAction extends \partner\components\Action
       }
       echo json_encode($result);
       \Yii::app()->end();
+    }
+  }
+
+  private function processEvent831Product()
+  {
+    $request = \Yii::app()->getRequest();
+    $event831productIdList = [2759,2760,2761,2762,2763,2764];
+    $criteria = new \CDbCriteria();
+    $criteria->addInCondition('"t"."Id"', $event831productIdList);
+    $this->viewParams['event831Products'] = \pay\models\Product::model()->findAll($criteria);
+
+    $criteria = new \CDbCriteria();
+    $criteria->addInCondition('"t"."ProductId"', $event831productIdList);
+    $this->viewParams['event831OrderItem'] = \pay\models\OrderItem::model()->byOwnerId($this->user->Id)->byDeleted(false)->find($criteria);
+
+    $event831Product = $request->getParam('event831Product');
+    if ($event831Product !== null)
+    {
+      if ($event831Product != '')
+      {
+        $orderItem = new \pay\models\OrderItem();
+        $orderItem->ProductId = $event831Product;
+        $orderItem->OwnerId = $orderItem->PayerId = $this->user->Id;
+        $orderItem->save();
+        $orderItem->activate();
+
+        if ($this->viewParams['event831OrderItem'] !== null)
+        {
+          $this->viewParams['event831OrderItem']->Paid = false;
+          $this->viewParams['event831OrderItem']->PaidTime = null;
+          $this->viewParams['event831OrderItem']->save();
+          $this->viewParams['event831OrderItem']->delete();
+        }
+      }
+      else
+      {
+        $this->viewParams['event831OrderItem']->Paid = false;
+        $this->viewParams['event831OrderItem']->PaidTime = null;
+        $this->viewParams['event831OrderItem']->save();
+        $this->viewParams['event831OrderItem']->delete();
+      }
+      $this->getController()->refresh();
     }
   }
 }
