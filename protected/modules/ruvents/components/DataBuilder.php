@@ -78,6 +78,12 @@ class DataBuilder
    */
   public function buildUserPhone ($user)
   {
+
+      //todo: Хот фикс для девкон
+      if (sizeof($user->LinkPhones) > 0) {
+          $this->user->Phone = (string)$user->LinkPhones[0]->Phone;
+      }
+      return;
     $this->user->Phones = array();
     if (sizeof($user->LinkPhones) > 0)
     {
