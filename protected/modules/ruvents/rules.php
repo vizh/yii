@@ -19,7 +19,7 @@ return array(
         'allow',
         'roles' => ['Mobile'],
         'controllers' => ['product'],
-        'actions' => ['list']
+        'actions' => ['list','createproductget','productgetlist']
     ],
 
 
