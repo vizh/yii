@@ -33,7 +33,7 @@ class ProductGetListAction extends \ruvents\components\Action
       $item = new \stdClass();
       $item->RunetId = $get->User->RunetId;
       $item->ProductId = $get->ProductId;
-      $item->CretionTime = $get->CreationTime;
+      $item->CreationTime = $get->CreationTime;
       $result[] = $item;
     }
 
