@@ -31,7 +31,15 @@ class DevconController extends \application\components\controllers\MainControlle
         $hasErrors = false;
         if (\Yii::app()->getRequest()->getIsPostRequest())
         {
-            $hasErrors = $this->process();
+          $hasErrors = $this->process();
+        }
+        else
+        {
+          foreach ($this->getQuestions() as $question)
+          {
+            $result = $question->getTest()->getResult()->getQuestionResult($question);
+            $question->getForm()->setAttributes($result, false);
+          }
         }
 
         $this->render('process', [
@@ -39,6 +47,12 @@ class DevconController extends \application\components\controllers\MainControlle
             'questions' => $this->getQuestions(),
             'hasErrors' => $hasErrors
         ]);
+    }
+
+    public function actionResult($code)
+    {
+      $this->code = $code;
+      $this->render('result');
     }
 
     private $apiAccount = null;
@@ -131,7 +145,7 @@ class DevconController extends \application\components\controllers\MainControlle
         foreach ($this->getQuestions() as $question) {
             $form = $question->getForm();
             $form->setAttributes($request->getParam(get_class($form)), false);
-            if (!$form->process())
+            if (!$form->process(true))
                 $hasErrors = true;
         }
 
@@ -144,15 +158,17 @@ class DevconController extends \application\components\controllers\MainControlle
             $this->getTest()->saveResult();
 
             $product = \pay\models\Product::model()->findByPk(2757);
-
-            $orderItem = $product->getManager()->createOrderItem($this->getUser(), $this->getUser());
-            $orderItem->Paid = true;
-            $orderItem->PaidTime = date('Y-m-d H:i:s');
-            $orderItem->save();
-
+            $orderItem = \pay\models\OrderItem::model()->byProductId($product->Id)->byOwnerId($this->getUser()->Id)->find();
+            if ($orderItem == null)
+            {
+              $orderItem = $product->getManager()->createOrderItem($this->getUser(), $this->getUser());
+              $orderItem->Paid = true;
+              $orderItem->PaidTime = date('Y-m-d H:i:s');
+              $orderItem->save();
+            }
+            $this->redirect($this->createUrl('/main/devcon/result', ['code' => $this->code]));
             $this->refresh();
         }
-
         return $hasErrors;
     }
 

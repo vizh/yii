@@ -150,9 +150,10 @@ abstract class Base extends \CFormModel
   /**
    * @return bool
    */
-  public final function process()
+  public final function process($alwaysSave = false)
   {
-    if ($this->validate())
+    $valid = $this->validate();
+    if ($valid || $alwaysSave)
     {
       $result = $this->question->Test->getResult();
       $oldData = $result->getQuestionResult($this->question);
@@ -163,9 +164,8 @@ abstract class Base extends \CFormModel
 
       $result->setQuestionResult($this->question, $data);
       $result->save();
-      return true;
     }
-    return false;
+    return $valid;
   }
 
   /**
