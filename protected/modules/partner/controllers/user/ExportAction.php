@@ -191,7 +191,7 @@ class ExportAction extends \partner\components\Action
                 }
             }
 
-            fputcsv($fp, $this->rowHandler($row), $this->csvDelimiter);
+            $this->fwritecsv($fp, $this->rowHandler($row), $this->csvDelimiter);
         }
 
         \Yii::app()->end();
@@ -221,9 +221,30 @@ class ExportAction extends \partner\components\Action
             {
                 $item = iconv('utf-8', 'Windows-1251', $item);
             }
-            $item = str_replace($this->csvDelimiter, '', $item);
         }
         unset($item);
         return $row;
+    }
+
+    private function fwritecsv($handle, $fields, $delimiter = ',', $enclosure = '"')
+    {
+        # Check if $fields is an array
+        if (!is_array($fields)) {
+            return false;
+        }
+        # Walk through the data array
+        foreach ($fields as $k => $v) {
+            $fields[$k] = trim($fields[$k]);
+            
+            if (!is_numeric($fields[$k]))
+                $fields[$k] = $enclosure . str_replace($enclosure, '', $fields[$k]) . $enclosure;
+            else
+                $fields[$k] = '='.$enclosure . str_replace($enclosure, '', $fields[$k]) . $enclosure;
+        }
+        # Combine the data array with $delimiter and write it to the file
+        $line = implode($delimiter, $fields) . "\n";
+        fwrite($handle, $line);
+        # Return the length of the written data
+        return strlen($line);
     }
 }
