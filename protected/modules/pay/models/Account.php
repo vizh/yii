@@ -20,6 +20,7 @@ namespace pay\models;
  * @property int $ReceiptTemplateId
  * @property string $ReceiptLastTime
  * @property bool $ReceiptEnable
+ * @property string $OrderDisableMessage
  *
  * @property \event\models\Event $Event
  * @property OrderJuridicalTemplate $OrderTemplate

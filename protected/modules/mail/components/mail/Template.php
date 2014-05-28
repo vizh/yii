@@ -53,7 +53,6 @@ class Template extends \mail\components\MailLayout
     return $this->user->getFullName();
   }
 
-
   /**
    * @return array
    */
@@ -114,4 +113,16 @@ class Template extends \mail\components\MailLayout
   {
     return $this->user;
   }
+
+  public function showUnsubscribeLink()
+  {
+    return $this->template->ShowUnsubscribeLink;
+  }
+
+  public function showFooter()
+  {
+    return $this->template->ShowFooter;
+  }
+
+
 }

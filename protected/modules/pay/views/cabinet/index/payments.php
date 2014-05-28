@@ -27,10 +27,22 @@ if ($account->MailRuMoney)
   <div class="pull-left">
     <h5><?=\Yii::t('app', 'Для юридических лиц');?></h5>
     <?if (!$account->OrderEnable):?>
-      <p class="text-error"><?=\Yii::t('app', 'Оплата недоступна. Оплата возможна только банковскими картами и электронными деньгами');?></p>
+      <p class="text-error">
+      <?if ($account->OrderDisableMessage !== null):?>
+        <?=$account->OrderDisableMessage;?>
+      <?else:?>
+        <?=\Yii::t('app', 'Оплата недоступна. Оплата возможна только банковскими картами и электронными деньгами');?>
+      <?endif;?>
+      </p>
     <?elseif ($hideJuridical && $account->OrderEnable):?>
-      <p class="text-error">Окончен период выставления счетов юридическими лицами. Оплата возможна только банковскими картами и электронными деньгами.</p>
-    <?elseif(!$hideJuridical):?>
+      <p class="text-error">
+        <?if ($account->OrderDisableMessage !== null):?>
+          <?=$account->OrderDisableMessage;?>
+        <?else:?>
+          Окончен период выставления счетов юридическими лицами. Оплата возможна только банковскими картами и электронными деньгами.
+        <?endif;?>
+      </p>
+      <?elseif(!$hideJuridical):?>
       <?$this->renderPartial('index/buttons/juridical', ['account' => $account]);?>
     <?endif;?>
   </div>

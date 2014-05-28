@@ -86,5 +86,20 @@
       </div>
       <?endforeach;?>
   <?endif;?>
+
+  <?/** TODO: это от devcon14, нужно не забыть убрать */?>
+  <?if ($event->Id == 831):?>
+    <div class="row">
+      <div class="span4">
+        <label for="event831Product" class="large">Продукт</label>
+      </div>
+      <div class="span8">
+        <form class="form-inline" method="post">
+        <?=\CHtml::dropDownList('event831Product', $event831OrderItem !== null ? $event831OrderItem->Product->Id : '', ['' => 'Не задан'] + \CHtml::listData($event831Products, 'Id', 'Title'));?>
+        <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn']);?>
+        </form>
+      </div>
+    </div>
+  <?endif;?>
 </div>
 </div>

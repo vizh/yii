@@ -15,6 +15,13 @@ return array(
         'controllers' => ['visit']
     ],
 
+    [
+        'allow',
+        'roles' => ['Mobile'],
+        'controllers' => ['product'],
+        'actions' => ['list', 'createproductget', 'productgetlist', 'fastpaiditems']
+    ],
+
 
     array(
         'allow',

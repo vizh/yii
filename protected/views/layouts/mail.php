@@ -9,7 +9,7 @@
   <title><?=\Yii::t('app', 'Письмо');?></title>
 </head>
 <body bgcolor="#FFFFFF" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; margin: 0; padding: 0;">
-<?=$content?><table class="footer-wrap" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%; clear: both !important; margin: 5px 0 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #909090; line-height: 1.5; text-align: center; font-size: 9px; margin: 0; padding: 0;" align="center"></td>
+<?=$content?><?if ($this->showFooter):?><table class="footer-wrap" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%; clear: both !important; margin: 5px 0 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #909090; line-height: 1.5; text-align: center; font-size: 9px; margin: 0; padding: 0;" align="center"></td>
     <td class="container" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #909090; line-height: 1.5; text-align: center; font-size: 9px; display: block !important; max-width: 720px !important; clear: both !important; margin: 0 auto; padding: 0;" align="center">
       <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; max-width: 720px; display: block; margin: 0 auto; padding: 0;">
         <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;"><td align="center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #909090; line-height: 1.5; text-align: center; font-size: 9px; margin: 0; padding: 0;">
@@ -19,5 +19,5 @@
 
     </td>
     <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; color: #909090; line-height: 1.5; text-align: center; font-size: 9px; margin: 0; padding: 0;" align="center"></td>
-  </tr></table><!-- /FOOTER --></body>
+  </tr></table><?endif;?><!-- /FOOTER --></body>
 </html>

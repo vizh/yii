@@ -21,6 +21,8 @@ namespace mail\models;
  * @property string $CreationTime
  * @property int $LastUserId;
  * @property bool $SendInvisible;
+ * @property bool $ShowUnsubscribeLink
+ * @property bool $ShowFooter
  * @property string $Layout
  *
  */

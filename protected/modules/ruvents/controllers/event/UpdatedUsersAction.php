@@ -151,7 +151,7 @@ class UpdatedUsersAction extends \ruvents\components\Action
         ->byPartner($apiAccount->Role)->findAll($criteria);
       foreach ($externals as $external)
       {
-        $result[$external->UserId] = substr($external->ExternalId, 0, 8);
+        $result[$external->UserId] = $external->ShortExternalId;
       }
     }
     return $result;
