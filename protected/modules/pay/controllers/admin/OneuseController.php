@@ -204,6 +204,8 @@ class OneuseController extends \application\components\controllers\AdminMainCont
         $countAddPhone = 0;
         $countAddExternalId = 0;
 
+        $countBadExtId = 0;
+
         foreach ($data as $row) {
             $extUser = \api\models\ExternalUser::model()->byExternalId($row->UserID)->find();
             if ($extUser != null) {
@@ -220,10 +222,13 @@ class OneuseController extends \application\components\controllers\AdminMainCont
                     $extUser->save();
                     $countAddExternalId++;
                 }
+                elseif (!empty($row->WPUserID) && $extUser->ShortExternalId != $row->WPUserID) {
+                    $countBadExtId++;
+                }
             }
         }
 
-        echo sprintf('Add phones: %d, add extId: %d', $countAddPhone, $countAddExternalId);
+        echo sprintf('Add phones: %d, add extId: %d, bad ext id: %d', $countAddPhone, $countAddExternalId, $countBadExtId);
     }
 
     public function actionDevconimportproduct()

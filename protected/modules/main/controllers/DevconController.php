@@ -21,12 +21,24 @@ class DevconController extends \application\components\controllers\MainControlle
             return;
         }
 
+        $result = \competence\models\Result::model()
+            ->byTestId($this->getTest()->Id)->byUserId($this->getUser()->Id)->find();
+        if ($result != null && $result->Finished) {
+            $this->redirect($this->createUrl('/main/devcon/result', ['code' => $this->code]));
+        }
+
         $this->render('index', ['user' => $this->getUser(), 'code' => $code]);
     }
 
     public function actionProcess($code)
     {
         $this->code = $code;
+
+        $result = \competence\models\Result::model()
+            ->byTestId($this->getTest()->Id)->byUserId($this->getUser()->Id)->find();
+        if ($result != null && $result->Finished) {
+            $this->redirect($this->createUrl('/main/devcon/result', ['code' => $this->code]));
+        }
 
         $hasErrors = false;
         if (\Yii::app()->getRequest()->getIsPostRequest())
