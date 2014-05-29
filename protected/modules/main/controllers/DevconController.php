@@ -15,10 +15,16 @@ class DevconController extends \application\components\controllers\MainControlle
     {
         $this->code = $code;
 
-        $test = Yii::app()->getRequest()->getParam('test');
-        if (date('Y-m-d H:i:s') < '2014-05-29 10:00:00' && empty($test)) {
-            $this->render('before', ['user' => $this->getUser()]);
-            return;
+//        $test = Yii::app()->getRequest()->getParam('test');
+//        if (date('Y-m-d H:i:s') < '2014-05-29 10:00:00' && empty($test)) {
+//            $this->render('before', ['user' => $this->getUser()]);
+//            return;
+//        }
+
+        $result = \competence\models\Result::model()
+            ->byTestId($this->getTest()->Id)->byUserId($this->getUser()->Id)->find();
+        if ($result != null && $result->Finished) {
+            $this->redirect($this->createUrl('/main/devcon/result', ['code' => $this->code]));
         }
 
         $this->render('index', ['user' => $this->getUser(), 'code' => $code]);
@@ -27,6 +33,12 @@ class DevconController extends \application\components\controllers\MainControlle
     public function actionProcess($code)
     {
         $this->code = $code;
+
+        $result = \competence\models\Result::model()
+            ->byTestId($this->getTest()->Id)->byUserId($this->getUser()->Id)->find();
+        if ($result != null && $result->Finished) {
+            $this->redirect($this->createUrl('/main/devcon/result', ['code' => $this->code]));
+        }
 
         $hasErrors = false;
         if (\Yii::app()->getRequest()->getIsPostRequest())
