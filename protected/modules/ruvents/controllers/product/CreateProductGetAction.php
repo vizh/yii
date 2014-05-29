@@ -14,15 +14,15 @@ class CreateProductGetAction extends \ruvents\components\Action
     if ($product == null)
       throw new \ruvents\components\Exception(401,[$productId]);
 
-    $get = \pay\models\ProductGet::model()->byUserId($user->Id)->byProductId($product->Id)->find();
-    if ($get == null)
-    {
+//    $get = \pay\models\ProductGet::model()->byUserId($user->Id)->byProductId($product->Id)->find();
+//    if ($get == null)
+//    {
       $get = new \pay\models\ProductGet();
       $get->UserId = $user->Id;
       $get->ProductId = $product->Id;
       $get->save();
       $get->refresh();
-    }
+    //}
 
     $this->renderJson(['Success' => true, 'CreationTime' => $get->CreationTime]);
   }
