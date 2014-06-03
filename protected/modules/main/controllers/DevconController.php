@@ -197,6 +197,4 @@ class DevconController extends \application\components\controllers\MainControlle
 
         parent::initResources();
     }
-
-
 }

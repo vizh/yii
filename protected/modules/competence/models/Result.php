@@ -13,6 +13,7 @@ namespace competence\models;
  * @property string $UpdateTime
  * @property bool $Finished
  * @property string $UserKey
+ * @property \user\models\User $User
  *
  */
 class Result extends \CActiveRecord
