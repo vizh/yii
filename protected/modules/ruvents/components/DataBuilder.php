@@ -78,20 +78,9 @@ class DataBuilder
    */
   public function buildUserPhone ($user)
   {
-
-      //todo: Хот фикс для девкон
-      if (sizeof($user->LinkPhones) > 0) {
-          $this->user->Phone = (string)$user->LinkPhones[0]->Phone;
-      }
-      return;
-    $this->user->Phones = array();
-    if (sizeof($user->LinkPhones) > 0)
-    {
-      $this->user->Phones = array();
-      foreach ($user->LinkPhones as $link)
-      {
-        $this->user->Phones[] = (string)$link->Phone;
-      }
+    $phone = $user->getContactPhone(\contact\models\PhoneType::Mobile);
+    if ($phone !== null) {
+      $this->user->Phone = (string)$phone;
     }
     return $this->user;
   }

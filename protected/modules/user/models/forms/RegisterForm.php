@@ -134,7 +134,10 @@ class RegisterForm extends \CFormModel
    */
   private function setPhone($user)
   {
-    //todo: Добавить данные по городам
+    if (!empty($this->Phone))
+    {
+      $user->setContactPhone($this->Phone);
+    }
   }
   
   public function attributeLabels()

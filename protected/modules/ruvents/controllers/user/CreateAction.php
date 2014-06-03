@@ -63,7 +63,7 @@ class CreateAction extends \ruvents\components\Action
       $result = array();
       $this->getDataBuilder()->createUser($user);
       $this->getDataBuilder()->buildUserEmployment($user);
-      $result['User'] =  $this->getDataBuilder()->buildUserPhone($user);
+      $result['User'] = $this->getDataBuilder()->buildUserPhone($user);
 
       $this->renderJson($result);
     }
