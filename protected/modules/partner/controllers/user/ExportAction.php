@@ -67,6 +67,13 @@ class ExportAction extends \partner\components\Action
             $row[] = 'Номер паспорта';
         }
 
+        if ($this->getEvent()->Id == 831) {
+            $row[] = 'Получил диплом';
+            $row[] = 'Получил инфопак';
+            $row[] = 'Заполнил анкету';
+            $row[] = 'Получил подарок за анкету';
+        }
+
         fputcsv($fp, $this->rowHandler($row), $this->csvDelimiter);
 
         $criteria = new \CDbCriteria();
@@ -127,52 +134,63 @@ class ExportAction extends \partner\components\Action
                 $row['Position'] = $user->getEmploymentPrimary()->Position;
             }
 
-            $criteria = new \CDbCriteria();
-            $criteria->with = [
-                'Product',
-                'Product.Prices',
-                'OrderLinks.Order'
-            ];
-            $orderItems = \pay\models\OrderItem::model()
-                ->byOwnerId($user->Id)->byChangedOwnerId(null)->byChangedOwnerId($user->Id, false)
-                ->byEventId($this->getEvent()->Id)->byPaid(true)->findAll($criteria);
+            if ($this->getEvent()->Id != 831 || true) {
+                $criteria = new \CDbCriteria();
+                $criteria->with = [
+                    'Product',
+                    'Product.Prices',
+                    'OrderLinks.Order'
+                ];
 
-            if (count($orderItems))
-            {
-                $datePay = [];
-                $paidType = [];
-                $products = [];
-                foreach ($orderItems as $orderItem)
+                if ($this->getEvent()->Id == 831) {
+                    $criteria->addInCondition('t."ProductId"', [1451, 1460, 2715]);
+                }
+
+
+                $orderItems = \pay\models\OrderItem::model()
+                    ->byOwnerId($user->Id)->byChangedOwnerId(null)->byChangedOwnerId($user->Id, false)
+                    ->byEventId($this->getEvent()->Id)->byPaid(true)->findAll($criteria);
+
+                if (count($orderItems))
                 {
-                    $products[] = $orderItem->Product->Title;
-                    $price = $orderItem->getPriceDiscount() !== null ? $orderItem->getPriceDiscount() : 0;
-                    $row['Price'] += $price;
-                    $datePay[] = \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', strtotime($orderItem->PaidTime));
-
-                    if ($price != 0)
+                    $datePay = [];
+                    $paidType = [];
+                    $products = [];
+                    foreach ($orderItems as $orderItem)
                     {
-                        foreach ($orderItem->OrderLinks as $link)
+                        $products[] = $orderItem->Product->Title;
+                        $price = $orderItem->getPriceDiscount() !== null ? $orderItem->getPriceDiscount() : 0;
+                        $row['Price'] += $price;
+                        $datePay[] = \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', strtotime($orderItem->PaidTime));
+
+                        if ($price != 0)
                         {
-                            if ($link->Order->Paid)
+                            foreach ($orderItem->OrderLinks as $link)
                             {
-                                $paidType[] = $link->Order->Type == \pay\models\OrderType::Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо');
+                                if ($link->Order->Paid)
+                                {
+                                    $paidType[] = $link->Order->Type == \pay\models\OrderType::Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо');
+                                }
                             }
                         }
+                        else
+                        {
+                            $paidType[] = 'Промо-код';
+                        }
                     }
-                    else
-                    {
-                        $paidType[] = 'Промо-код';
-                    }
+                    $row['Products'] = implode(', ', $products);
+                    $row['DatePay'] = implode(', ', array_unique($datePay));
+                    $row['PaidType'] = implode(', ', array_unique($paidType));
                 }
-                $row['Products'] = implode(', ', $products);
-                $row['DatePay'] = implode(', ', array_unique($datePay));
-                $row['PaidType'] = implode(', ', array_unique($paidType));
             }
 
+
+
+            $criteria = new \CDbCriteria();
+            $criteria->order = 't."CreationTime"';
             /** @var $badge \ruvents\models\Badge */
             $badge = \ruvents\models\Badge::model()
-                ->byEventId($this->getEvent()->Id)
-                ->byUserId($user->Id)->find();
+                ->byEventId($this->getEvent()->Id)->byUserId($user->Id)->find($criteria);
             if ($badge !== null)
             {
                 $row['DateBadge'] = $badge->CreationTime;
@@ -191,10 +209,70 @@ class ExportAction extends \partner\components\Action
                 }
             }
 
+            if ($this->getEvent()->Id == 831) {
+                if (!empty($row['DateBadge'])) {
+                    $row['Dyplom'] = $this->getDyplomInfo($user);
+                    $row['Infopak'] = $this->getInfopak($user);
+                    $row['Test'] = $this->getTestResult($user);
+                    $row['Prize'] = $this->getPrize($user);
+                } else {
+                    $row['Dyplom'] = '';
+                    $row['Infopak'] = '';
+                    $row['Test'] = '';
+                    $row['Prize'] = '';
+                }
+            }
+
             $this->fwritecsv($fp, $this->rowHandler($row), $this->csvDelimiter);
         }
 
         \Yii::app()->end();
+    }
+
+    private function getDyplomInfo(\user\models\User $user)
+    {
+        $model = \ruvents\models\Badge::model()->byEventId($this->getEvent()->Id)->byUserId($user->Id);
+        if ($model->count() > 1)
+        {
+            $criteria = new \CDbCriteria();
+            $criteria->addCondition('t."OperatorId" = 850');
+            $criteria->addCondition('t."CreationTime" > \'2014-05-29 00:00:00\'');
+            $criteria->order = 't."CreationTime" DESC';
+            /** @var $badge \ruvents\models\Badge */
+            $badge = \ruvents\models\Badge::model()
+                ->byEventId($this->getEvent()->Id)->byUserId($user->Id)->find($criteria);
+            if ($badge != null) {
+                return $badge->CreationTime;
+            }
+        }
+        return '';
+    }
+
+    private function getInfopak(\user\models\User $user) {
+        $productGet = \pay\models\ProductGet::model()
+            ->byProductId(2758)->byUserId($user->Id)->find();
+        if ($productGet != null) {
+            return $productGet->CreationTime;
+        }
+        return '';
+    }
+
+    private function getTestResult(\user\models\User $user) {
+        $result = \competence\models\Result::model()
+            ->byTestId(7)->byUserId($user->Id)->byFinished(true)->find();
+        if ($result != null) {
+            return $result->UpdateTime;
+        }
+        return '';
+    }
+
+    private function getPrize(\user\models\User $user) {
+        $productGet = \pay\models\ProductGet::model()
+            ->byProductId(2757)->byUserId($user->Id)->find();
+        if ($productGet != null) {
+            return $productGet->CreationTime;
+        }
+        return '';
     }
 
     /**
