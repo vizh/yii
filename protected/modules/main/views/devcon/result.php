@@ -1,7 +1,7 @@
 <div class="container interview m-top_30 m-bottom_40">
   <div class="row">
     <div class="span8 offset2 m-top_30 text-center">
-      <p class="lead">Спасибо, ваш отзыв очень важен для нас! Не забудьте получить свой приз на стойке «Информация»!</p>
+      <p class="lead"><strong>Спасибо, ваш отзыв очень важен для нас!</strong><br><br><br> Не забудьте получить свой приз на стойке «Информация»!</p>
       <ul class="thumbnails">
         <li class="span4">
           <img src="/img/event/devcon14/test/tfs.png" />

@@ -127,11 +127,11 @@ class EditAction extends \ruvents\components\Action
 
   private function updatePhone(User $user)
   {
-//    $phone = \Yii::app()->getRequest()->getParam('Phone', null);
-//    if (!empty($phone))
-//    {
-//      $user->setContactPhone($phone);
-//    }
+    $phone = \Yii::app()->getRequest()->getParam('Phone', null);
+    if (!empty($phone))
+    {
+      $user->setContactPhone($phone);
+    }
   }
 
   private function updateEmployment(User $user)

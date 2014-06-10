@@ -40,8 +40,12 @@ class AjaxController extends \application\components\controllers\PublicMainContr
       $user->Email = $form->Email;
       $user->register();
       $user->setEmployment($form->Company, $form->Position);
+      if (!empty($form->Phone))
+      {
+        $user->setContactPhone($form->Phone);
+      }
       $result->success = true;
-      $result->user = $this->getUserData($user);      
+      $result->user = $this->getUserData($user);
     }
     else
     {

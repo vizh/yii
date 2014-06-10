@@ -40,8 +40,18 @@ class Phone extends \CActiveRecord
    */
   public function parsePhone($phone)
   {
-    //todo: Сделать нормальный парсер телефона
-    $this->Phone = $phone;
+    if (preg_match('/\+(\d+)\s*(\(\d+\))\s*([\d-]+)/', $phone, $matches) > 0)
+    {
+      $this->CountryCode = $matches[1];
+      $this->CityCode = !empty($matches[2]) ? trim($matches[2], '()') : null;
+      $this->Phone = str_replace('-', '', $matches[3]);
+    }
+    else
+    {
+      $this->CountryCode = null;
+      $this->CityCode = null;
+      $this->Phone = $phone;
+    }
   }
   
   public function __toString() 
