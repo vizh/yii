@@ -197,38 +197,69 @@ class OneuseController extends \application\components\controllers\AdminMainCont
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, 'http://www.msdevcon.ru/api/MaterialVoting/GetUserIDAssignments');
+        curl_setopt($ch, CURLOPT_URL, 'http://3ad2a593e0bb46d3a47b2032868a9586.cloudapp.net/api/MaterialVoting/GetUserIDAssignments');
         $result = curl_exec($ch);
         $data = json_decode($result);
 
         $countAddPhone = 0;
         $countAddExternalId = 0;
-
         $countBadExtId = 0;
+
+        $countAddCountry = 0;
+        $countAddCity = 0;
 
         foreach ($data as $row) {
             $extUser = \api\models\ExternalUser::model()->byExternalId($row->UserID)->find();
             if ($extUser != null) {
                 $user = \user\models\User::model()->findByPk($extUser->UserId);
 
-                $row->Phone = trim($row->Phone);
+                /*$row->Phone = trim($row->Phone);
                 if ($user->getContactPhone() == null && !empty($row->Phone)) {
                     $user->setContactPhone($row->Phone, \contact\models\PhoneType::Mobile);
                     $countAddPhone++;
+                }*/
+
+                $row->Country = trim($row->Country);
+                $model = \pay\models\EventUserAdditionalAttribute::model()
+                    ->byUserId($user->Id)->byEventId(831)->byName('Country');
+                if (!empty($row->Country) && !$model->exists()) {
+                    $attribute = new \pay\models\EventUserAdditionalAttribute();
+                    $attribute->UserId = $user->Id;
+                    $attribute->EventId = 831;
+                    $attribute->Name = 'Country';
+                    $attribute->Value = $row->Country;
+                    $attribute->save();
+
+                    $countAddCountry++;
                 }
 
-                if ($extUser->ShortExternalId === null && !empty($row->WPUserID)) {
+                $row->City = trim($row->City);
+                $model = \pay\models\EventUserAdditionalAttribute::model()
+                    ->byUserId($user->Id)->byEventId(831)->byName('City');
+                if (!empty($row->City) && !$model->exists()) {
+                    $attribute = new \pay\models\EventUserAdditionalAttribute();
+                    $attribute->UserId = $user->Id;
+                    $attribute->EventId = 831;
+                    $attribute->Name = 'City';
+                    $attribute->Value = $row->City;
+                    $attribute->save();
+
+                    $countAddCity++;
+                }
+
+
+                /*if ($extUser->ShortExternalId === null && !empty($row->WPUserID)) {
                     $extUser->ShortExternalId = trim($row->WPUserID);
                     $extUser->save();
                     $countAddExternalId++;
                 }
                 elseif (!empty($row->WPUserID) && $extUser->ShortExternalId != $row->WPUserID) {
                     $countBadExtId++;
-                }
+                }*/
             }
         }
 
-        echo sprintf('Add phones: %d, add extId: %d, bad ext id: %d', $countAddPhone, $countAddExternalId, $countBadExtId);
+        echo sprintf('Add phones: %d, add extId: %d, bad ext id: %d, add country: %d, add city: %d', $countAddPhone, $countAddExternalId, $countBadExtId, $countAddCountry, $countAddCity);
     }
 
     public function actionDevconimportproduct()
@@ -323,6 +354,85 @@ class OneuseController extends \application\components\controllers\AdminMainCont
       }
     }
 
+    public function actionDevconhalls()
+    {
+        echo 'closed';
+        exit;
+
+        \Yii::import('ext.PHPExcel.PHPExcel', true);
+        $excel = \PHPExcel_IOFactory::load(\Yii::getPathOfAlias('pay.data.halls-all').'.xlsx');
+        $worksheet = $excel->getSheet(0);
+
+        $max = $worksheet->getHighestRow();
+        for ($i = 1; $i <= $max; $i++) {
+            $hallId = intval($worksheet->getCell('A'.$i)->getValue());
+            $runetId = intval($worksheet->getCell('B'.$i)->getValue());
+            $date = date('Y-m-d H:i:s', strtotime($worksheet->getCell('C'.$i)));
+            //Yii::app()->getDb()->createCommand()->insert('TmpHallsDevcon', ['HallId' => $hallId, 'RunetId' => $runetId, 'CreationTime' => $date]);
+        }
+
+        echo 'done';
+    }
+
+    public function actionDevconhallstat()
+    {
+        $beforeTime = '2014-05-29 15:20:00';
+        $startTime = '2014-05-29 16:40:00';
+        $endTime = '2014-05-29 18:00:00';
+
+        $halls = [188, 189, 190, 191, 192];
+
+        $lastVisits = [];
+        $command = Yii::app()->getDb()->createCommand('SELECT DISTINCT ON ("RunetId") "RunetId","HallId" FROM "TmpHallsDevcon"
+            WHERE "CreationTime" BETWEEN :StartTime AND :EndTime ORDER BY "RunetId", "CreationTime" DESC');
+        $command->bindValue('StartTime', $beforeTime);
+        $command->bindValue('EndTime', $startTime);
+        $result = $command->queryAll();
+        foreach ($result as $row) {
+            $lastVisits[$row['HallId']][] = $row['RunetId'];
+        }
+
+        foreach ($halls as $hall) {
+            $users = [];
+
+            $command = Yii::app()->getDb()->createCommand('SELECT "RunetId" FROM "TmpHallsDevcon"
+            WHERE "HallId" = :HallId AND "CreationTime" BETWEEN :StartTime AND :EndTime');
+            $command->bindValue('HallId', $hall);
+            $command->bindValue('StartTime', $startTime);
+            $command->bindValue('EndTime', $endTime);
+
+            $result = $command->queryAll();
+            foreach ($result as $row) {
+                $users[] = $row['RunetId'];
+            }
+            $users = array_unique($users);
+            echo $hall . ' - ' . count($users), '<br>';
+
+
+            $command = Yii::app()->getDb()->createCommand('SELECT "RunetId" FROM "TmpHallsDevcon"
+            WHERE "HallId" != :HallId AND "CreationTime" BETWEEN :StartTime AND :EndTime');
+            $command->bindValue('HallId', $hall);
+            $command->bindValue('StartTime', $startTime);
+            $command->bindValue('EndTime', $endTime);
+
+            $badUsers = [];
+            $result = $command->queryAll();
+            foreach ($result as $row) {
+                $badUsers[] = $row['RunetId'];
+            }
+
+            $additionalUsers = array_diff(!empty($lastVisits[$hall]) ? $lastVisits[$hall] : [], $badUsers);
+            $users = array_merge($users, $additionalUsers);
+            $users = array_unique($users);
+            echo $hall . ' - ' . count($users), '<br><br>';
+
+
+        }
+
+
+        echo 'done';
+    }
+
     public function actionPhdaysfood() {
         $criteria = new CDbCriteria();
         $criteria->addInCondition('t."ProductId"', [1448, 1449, 1450]);
@@ -361,6 +471,7 @@ class OneuseController extends \application\components\controllers\AdminMainCont
     {
 
     }
+
 }
 
 
