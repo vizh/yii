@@ -1,0 +1,9 @@
+User-agent: *
+
+Disallow:
+Disallow: /oauth/
+Disallow: /ticket/
+Disallow: /fastauth/
+Disallow: /proftest/
+Disallow: /devcon/
+Disallow: /student/
