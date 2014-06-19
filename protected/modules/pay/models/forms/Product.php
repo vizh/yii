@@ -18,6 +18,7 @@ class Product extends \CFormModel
   public $Prices = [];
   public $AdditionalAttributesTitle;
   public $AdditionalAttributes = [];
+  public $OrderTitle;
   public $Delete;
 
   public function __construct(\event\models\Event $event, \pay\models\Product $product = null, $scenario = '')
@@ -179,7 +180,7 @@ class Product extends \CFormModel
   public function rules()
   {
     return [
-      ['Id,Public,Priority,EnableCoupon,Delete,AdditionalAttributesTitle', 'safe'],
+      ['Id,Public,Priority,EnableCoupon,Delete,AdditionalAttributesTitle,OrderTitle', 'safe'],
       ['Title,ManagerName,Unit', 'required'],
       ['Description', 'filter', 'filter' => [$this, 'filterDescription']],
       ['Prices', 'filter', 'filter' => array($this, 'filterPrices')],
@@ -228,7 +229,8 @@ class Product extends \CFormModel
       'Unit' => \Yii::t('app', 'Ед. измерения'),
       'EnableCoupon' => \Yii::t('app', 'Разрешить промо-коды'),
       'AdditionalAttributes' => \Yii::t('app', 'Дополнительные параметры заказа'),
-      'AdditionalAttributesTitle' => \Yii::t('app', 'Заголовок к дополнительным параметрам')
+      'AdditionalAttributesTitle' => \Yii::t('app', 'Заголовок к дополнительным параметрам'),
+      'OrderTitle' => \Yii::t('app', 'Название для счетов')
     ];
   }
 }

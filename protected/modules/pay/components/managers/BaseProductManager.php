@@ -269,7 +269,7 @@ abstract class BaseProductManager
    */
   public function getTitle($orderItem)
   {
-    return $this->product->Title;
+    return !empty($this->product->OrderTitle) ? $this->product->OrderTitle : $this->product->Title;
   }
 
   /**

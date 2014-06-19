@@ -77,7 +77,14 @@
                 <?=\CHtml::activeTextField($formProduct, 'Unit');?>
               </div>
             </div>
-            
+
+            <div class="control-group">
+              <?=\CHtml::activeLabel($formProduct, 'OrderTitle', ['class' => 'control-label']);?>
+              <div class="controls">
+                <?=\CHtml::activeTextField($formProduct, 'OrderTitle');?>
+              </div>
+            </div>
+
             <?$productAttributeNames = $formProduct->getProduct()->getManager()->getProductAttributeNames();?>
             <?if (!empty($productAttributeNames)):?>
               <div class="control-group" style="margin-bottom: 0;">

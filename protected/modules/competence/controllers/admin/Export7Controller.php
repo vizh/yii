@@ -26,6 +26,15 @@ class Export7Controller extends \application\components\controllers\PublicMainCo
       $row[] = $result->User->getEmploymentPrimary() !== null ? $result->User->getEmploymentPrimary()->Company->Name : '';
       $row[] = $result->User->Email;
 
+      $phone = $result->User->getContactPhone();
+      $row[] = $phone !== null ? (string)$phone : '';
+
+      $country = \pay\models\EventUserAdditionalAttribute::model()->byUserId($result->User->Id)->byName('Country')->find();
+      $row[] = $country !== null ? $country->Value : '';
+
+      $city = \pay\models\EventUserAdditionalAttribute::model()->byUserId($result->User->Id)->byName('City')->find();
+      $row[] = $city !== null ? $city->Value : '';
+
       /** @var \competence\models\Question $question */
       foreach ($this->questions as $question)
       {
@@ -121,6 +130,9 @@ class Export7Controller extends \application\components\controllers\PublicMainCo
     $result[] = 'Фамилия';
     $result[] = 'Компания';
     $result[] = 'E-mail';
+    $result[] = 'Телефон';
+    $result[] = 'Страна';
+    $result[] = 'Город';
 
     /** @var \competence\models\Question $question */
     foreach ($this->questions as $question)

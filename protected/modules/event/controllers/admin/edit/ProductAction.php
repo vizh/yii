@@ -99,6 +99,7 @@ class ProductAction extends \CAction
       $product->Priority = $form->Priority;
       $product->Unit = $form->Unit;
       $product->ManagerName = $form->ManagerName;
+      $product->OrderTitle = !empty($form->OrderTitle) ? $form->OrderTitle : null;
       $product->AdditionalAttributesTitle = !empty($form->AdditionalAttributesTitle) ? $form->AdditionalAttributesTitle : null;
 
       $additionalAttributes = [];

@@ -107,10 +107,9 @@ class Ticket extends BaseProductManager
     return $this->getPaidProduct()->getPrice($time);
   }
 
-
   public function getTitle($orderItem)
   {
-    return $this->getPaidProduct()->Title;
+    return !empty($this->getPaidProduct()->OrderTitle) ? $this->getPaidProduct()->OrderTitle : $this->getPaidProduct()->Title;
   }
 
   /**

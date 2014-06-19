@@ -14,6 +14,7 @@ namespace pay\models;
  * @property int $Priority
  * @property string $AdditionalAttributes
  * @property string $AdditionalAttributesTitle
+ * @property string $OrderTitle
  *
  * @property \event\models\Event $Event
  * @property ProductAttribute[] $Attributes
