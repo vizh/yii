@@ -16,14 +16,14 @@
         <div>
           <h3>Если есть событие в Рунете &mdash;<br>вы найдете его у нас</h3>
           <p>Создайте свое мероприятие<br>и&nbsp;начните продавать билеты<br>прямо сейчас</p>
-          <a class="btn btn-large btn-success" href="<?=Yii::app()->createUrl('/page/info/features')?>"><i class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
+          <a class="btn btn-large btn-success reachGoal" data-goal="BANNER_MAINPAGE_CREATE-EVENT" href="<?=Yii::app()->createUrl('/page/info/features')?>"><i class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
         </div>
       </div>
       <div class="span6 request-registration-banner">
         <div>
           <h3>Если нужна регистрация<br>участников на месте</h3>
           <p>Офлайн регистрация участников<br>любой сложности<br>по справедливой стоимости</p>
-          <a class="btn btn-large btn-info" href="http://promo.ruvents.com/" target="_blank"><i class="icon-white icon-ok-sign"></i> Заказать регистрацию</a>
+          <a class="btn btn-large btn-info reachGoal" data-goal="BANNER_MAINPAGE_REQUEST-REGISTRATION" href="http://bit.ly/1hcOyaG" target="_blank"><i class="icon-white icon-ok-sign"></i> Заказать регистрацию</a>
         </div>
       </div>
     </div>
@@ -50,18 +50,18 @@
         <div class="event span4">
           <div class="logo-box">
             <div class="white">
-              <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>"><img src="<?=$event->getLogo()->getSquare70();?>" width="70" height="70" alt="" class="logo"></a>
+              <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>" class="reachGoal" data-goal="BANNER_MAINPAGE_EVENTS"><img src="<?=$event->getLogo()->getSquare70();?>" width="70" height="70" alt="" class="logo"></a>
             </div>
           </div>
           <?=$this->renderPartial('index/event-dates', array('event' => $event));?>
           <header>
             <h4 class="title">
-              <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>"><?=$event->Title;?></a>
+              <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>" class="reachGoal" data-goal="BANNER_MAINPAGE_EVENTS"><?=$event->Title;?></a>
             </h4>
           </header>
           <article>
             <p><?=$event->Info;?></p>
-            <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>">...</a>
+            <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>" class="reachGoal" data-goal="BANNER_MAINPAGE_EVENTS">...</a>
           </article>
           <footer>
             <img src="/images/blank.gif" alt="" class="i-event_small <?=$event->Type->CssClass;?>">
