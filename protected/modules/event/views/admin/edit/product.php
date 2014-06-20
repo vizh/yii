@@ -54,6 +54,12 @@
               </div>
             </div>
             <div class="control-group">
+              <?=\CHtml::activeLabel($formProduct, 'OrderTitle', ['class' => 'control-label']);?>
+              <div class="controls">
+                <?=\CHtml::activeTextArea($formProduct, 'OrderTitle', ['class' => 'input-xxlarge', 'style' => 'height: 40px;']);?>
+              </div>
+            </div>
+            <div class="control-group">
               <?=\CHtml::activeLabel($formProduct, 'EnableCoupon', ['class' => 'control-label']);?>
               <div class="controls">
                 <?=\CHtml::activeCheckBox($formProduct, 'EnableCoupon');?>
@@ -75,13 +81,6 @@
               <?=\CHtml::activeLabel($formProduct, 'Unit', ['class' => 'control-label']);?>
               <div class="controls">
                 <?=\CHtml::activeTextField($formProduct, 'Unit');?>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <?=\CHtml::activeLabel($formProduct, 'OrderTitle', ['class' => 'control-label']);?>
-              <div class="controls">
-                <?=\CHtml::activeTextField($formProduct, 'OrderTitle');?>
               </div>
             </div>
 
