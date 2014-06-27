@@ -34,6 +34,13 @@ return array(
     'module' => 'partner',
     'controllers' => array('main', 'order', 'coupon', 'userEdit', 'utility', 'special'),
   ),
+    array(
+        'allow',
+        'roles' => array('Partner'),
+        'module' => 'partner',
+        'controllers' => array('user'),
+        'actions' => array('index', 'edit', 'translate', 'invite')
+    ),
   array(
     'allow',
     'roles' => array('Partner'),
