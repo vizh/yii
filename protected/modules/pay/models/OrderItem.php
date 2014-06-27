@@ -385,11 +385,18 @@ class OrderItem extends \CActiveRecord
 
     if ($this->Product->ManagerName != 'Ticket')
     {
+      $discount = 0;
       $activation = $this->getCouponActivation();
       if ($activation !== null)
       {
-        $price = $price * (1 - $activation->Coupon->Discount);
+        $discount = $activation->Coupon->Discount;
       }
+      if ($this->getLoyaltyDiscount() !== null && $this->getLoyaltyDiscount()->Discount > $discount)
+      {
+        $discount = $this->getLoyaltyDiscount()->Discount;
+      }
+
+      $price = $price * (1-$discount);
     }
     return (int)round($price);
   }
@@ -466,5 +473,20 @@ class OrderItem extends \CActiveRecord
       array(':Booked' => date('Y-m-d H:i:s'))
     );
     return $count;
+  }
+
+
+  private $loyaltyDiscount = null;
+
+  /**
+   * @return null|LoyaltyProgramDiscount
+   */
+  public function getLoyaltyDiscount()
+  {
+    if ($this->loyaltyDiscount == null)
+    {
+      $this->loyaltyDiscount = $this->Owner->getLoyaltyDiscount($this->Product);
+    }
+    return $this->loyaltyDiscount;
   }
 }

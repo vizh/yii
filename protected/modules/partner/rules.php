@@ -32,14 +32,21 @@ return array(
     'allow',
     'roles' => array('Partner'),
     'module' => 'partner',
-    'controllers' => array('main', 'order', 'coupon', 'userEdit', 'utility', 'special', 'settings'),
+    'controllers' => array('main', 'order', 'coupon', 'userEdit', 'utility', 'special'),
   ),
   array(
     'allow',
     'roles' => array('Partner'),
     'module' => 'partner',
-    'controllers' => array('user'),
-    'actions' => array('index', 'edit', 'translate', 'invite')
+    'controllers' => array('settings'),
+    'actions' => array('roles')
+  ),
+  array(
+    'allow',
+    'roles' => array('Admin'),
+    'module' => 'partner',
+    'controllers' => array('settings'),
+    'actions' => array('loyalty')
   ),
 
   array(

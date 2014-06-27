@@ -17,8 +17,13 @@ class CouponInfoAction extends \pay\components\Action
           ->byEmptyLinkOrderItem()->find();
 
       $discount = $activation != null ? $activation->getDiscount($product) : 0;
-    }
 
+      $loyaltyDiscount = $user->getLoyaltyDiscount($product);
+      if ($loyaltyDiscount !== null && $loyaltyDiscount->Discount > $discount)
+      {
+        $discount = $loyaltyDiscount->Discount;
+      }
+    }
     echo json_encode(['Discount' => $discount]);
   }
 }

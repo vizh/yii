@@ -47,11 +47,24 @@ class OrderItemCollectable
   {
     if ($this->discount === null)
     {
-      if ($this->orderItem->Product->EnableCoupon)
+      if ($this->orderItem->Product->EnableCoupon || $this->orderItem->Owner->hasLoyaltyDiscount())
       {
         $activation = $this->orderItem->getCouponActivation();
-        $this->discount = $activation !== null ? $activation->Coupon->Discount : 0;
-        $this->discount = $this->discount > $this->collection->getDiscount() ? $this->discount : $this->collection->getDiscount();
+        if ($activation !== null)
+        {
+          $this->discount = $activation->Coupon->Discount;
+        }
+
+        $loyaltyDiscount = $this->orderItem->getLoyaltyDiscount();
+        if ($loyaltyDiscount && $loyaltyDiscount->Discount > $this->discount)
+        {
+          $this->discount = $loyaltyDiscount->Discount;
+        }
+
+        if ($this->collection->getDiscount() > $this->discount)
+        {
+          $this->discount = $this->collection->getDiscount();
+        }
       }
       else
       {

@@ -821,4 +821,28 @@ class User extends \application\models\translation\ActiveRecord
   {
     return $this->getFullName();
   }
+
+  /**
+   * @param \pay\models\Product $product
+   * @return null|\pay\models\LoyaltyProgramDiscount
+   */
+  public function getLoyaltyDiscount(\pay\models\Product $product)
+  {
+    if ($this->hasLoyaltyDiscount())
+    {
+      return \pay\models\LoyaltyProgramDiscount::model()
+        ->byEventId($product->EventId)->byProductId($product->Id)->byActual()->find();
+    }
+    return null;
+  }
+
+  private $hasLoyaltyDiscount = null;
+  public function hasLoyaltyDiscount()
+  {
+    if ($this->hasLoyaltyDiscount == null)
+    {
+      $this->hasLoyaltyDiscount = LoyaltyProgram::model()->byUserId($this->Id)->exists();
+    }
+    return $this->hasLoyaltyDiscount;
+  }
 }

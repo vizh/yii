@@ -52,7 +52,11 @@ $total = 0;
           <td colspan="3" class="t-right muted last-child">
             <?if ($item->getPriceDiscount() < $item->getOrderItem()->getPrice()):?>
               <?if (!$item->getIsGroupDiscount()):?>
-                <?=\Yii::t('app', 'Промо код');?> <?=$item->getOrderItem()->getCouponActivation()->Coupon->Code;?>:
+                <?if ($item->getOrderItem()->getCouponActivation() !== null):?>
+                  <?=\Yii::t('app', 'Промо код');?> <?=$item->getOrderItem()->getCouponActivation()->Coupon->Code;?>
+                <?elseif ($item->getOrderItem()->Owner->hasLoyaltyDiscount()):?>
+                  <?=\Yii::t('app', 'RUNET-ID CARD');?>
+                <?endif;?>
               <?else:?>
                   <?=\Yii::t('app', 'Групповая скидка');?>:
               <?endif;?>
