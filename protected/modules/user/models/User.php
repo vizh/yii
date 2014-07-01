@@ -302,8 +302,8 @@ class User extends \application\models\translation\ActiveRecord
       }
       else
       {
-        $criteria->condition = '"t"."LastName" ILIKE :Part0 AND "t"."FirstName" ILIKE :Part1 AND ' .
-          '"t"."FatherName" ILIKE :Part2';
+        $criteria->condition = '("t"."LastName" ILIKE :Part0 AND "t"."FirstName" ILIKE :Part1 AND ' .
+          '"t"."FatherName" ILIKE :Part2) OR ("t"."FirstName" ILIKE :Part0 AND "t"."FatherName" ILIKE :Part1 AND "t"."LastName" ILIKE :Part2)';
         $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%',
           ':Part1' => \Utils::PrepareStringForLike($names[1]) . '%',
           ':Part2' => \Utils::PrepareStringForLike($names[2]) . '%');
