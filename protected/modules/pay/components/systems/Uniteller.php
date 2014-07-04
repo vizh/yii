@@ -8,10 +8,11 @@ class Uniteller extends Base
   private $shopId;
   private $password;
 
-  function __construct($shopId = null)
-  {
-    $this->shopId = $shopId;
-  }
+    function __construct($shopId = null, $addition = null)
+    {
+        parent::__construct($addition);
+        $this->shopId = $shopId;
+    }
 
   /**
    * @return array
@@ -21,14 +22,20 @@ class Uniteller extends Base
     return array('Shop_IDP', 'Password');
   }
 
-  protected function initRequiredParams($orderId)
-  {
-    if ($this->shopId == null)
+    protected function initRequiredParams($orderId)
     {
-      $this->shopId = '00001681';
+        if ($this->addition === 'ruvents') {
+            $this->password = '1T6IFhrMvLxPEUzLhRBKIE4tX14CrT2aWUHke0yyLd6PT46ztWsr8pnUlHG5nnB4djSM9nFZnYE2k3Kt';
+            if ($this->shopId == null) {
+                $this->shopId = '00003770';
+            }
+        } else {
+            $this->password = 'Ip4Ft2bcCCGezOni6S9aihhAZ2I0MPlUJgw9G1SNflmZMkJ7UIIQVheXtZG29cGUsSSxko9stQWHXdqK';
+            if ($this->shopId == null) {
+                $this->shopId = '00001681';
+            }
+        }
     }
-    $this->password = 'Ip4Ft2bcCCGezOni6S9aihhAZ2I0MPlUJgw9G1SNflmZMkJ7UIIQVheXtZG29cGUsSSxko9stQWHXdqK';
-  }
 
   protected function getClass()
   {
@@ -47,10 +54,11 @@ class Uniteller extends Base
     return $orderId !== false && $signature !== false;
   }
 
-  /**
-   * Заполняет общие параметры всех платежных систем, для единой обработки платежей
-   * @return void
-   */
+    /**
+     * Заполняет общие параметры всех платежных систем, для единой обработки платежей
+     * @throws \pay\components\Exception
+     * @return void
+     */
   public function fillParams()
   {
     $request = \Yii::app()->getRequest();

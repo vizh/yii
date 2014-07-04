@@ -1,16 +1,16 @@
 <?php
 
+use pay\components\SystemRouter;
+
 class CallbackController extends CController
 {
-  public function actionIndex()
+  public function actionIndex($addition = null)
   {
-    try
-    {
-      \pay\components\SystemRouter::Instance()->parseSystemCallback();
-    }
-    catch (\pay\components\Exception $e)
-    {
-      \pay\components\SystemRouter::logError($e->getMessage(), $e->getCode());
+    try {
+        $router = SystemRouter::create();
+        $router->parseSystemCallback();
+    } catch (\pay\components\Exception $e) {
+      SystemRouter::logError($e->getMessage(), $e->getCode());
       header('Status: 500');
       exit();
     }

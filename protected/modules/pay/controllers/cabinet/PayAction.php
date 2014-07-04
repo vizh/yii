@@ -1,6 +1,8 @@
 <?php
 namespace pay\controllers\cabinet;
 
+use pay\components\systems\Uniteller;
+
 class PayAction extends \pay\components\Action
 {
   public function run($eventIdName, $type = null)
@@ -17,16 +19,15 @@ class PayAction extends \pay\components\Action
     {
       $system = new \pay\components\systems\PayPal();
     }
-    elseif ($account->Uniteller && $type == 'uniteller')
+    elseif ($type == 'uniteller' && $account->Uniteller)
     {
-      if ($account->Own)
-      {
-        $system = new \pay\components\systems\Uniteller('00000524');
-      }
-      else
-      {
-        $system = new \pay\components\systems\Uniteller();
-      }
+        if ($account->UnitellerRuvents) {
+            $system = new Uniteller(null, 'ruvents');
+        } elseif ($account->Own) {
+            $system = new \pay\components\systems\Uniteller('00000524');
+        } else {
+            $system = new \pay\components\systems\Uniteller();
+        }
     }
     elseif ($type == 'yandexmoney' && $account->PayOnline)
     {

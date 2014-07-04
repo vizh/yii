@@ -70,10 +70,17 @@
 <div class="control-group">
   <?=\CHtml::activeLabel($form, 'PaySystem', ['class' => 'control-label']);?>
   <div class="controls">
-    <label class="checkbox inline">
-      <?=\CHtml::activeCheckBox($form, 'Uniteller', ['uncheckValue' => null]);?>
-      Uniteller
-    </label>
+      <div style="float: left; margin-right: 20px;">
+          <label class="checkbox inline">
+              <?=\CHtml::activeCheckBox($form, 'Uniteller', ['uncheckValue' => null]);?>
+              Uniteller
+          </label><br>
+          <label class="checkbox inline muted">
+              <?=\CHtml::activeCheckBox($form, 'UnitellerRuvents', ['uncheckValue' => null]);?>
+              Использовать ООО "РУВЕНТС"
+          </label>
+      </div>
+
     <label class="checkbox inline">
       <?=\CHtml::activeCheckBox($form, 'PayOnline', ['uncheckValue' => null]);?>
       PayOnline

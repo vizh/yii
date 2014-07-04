@@ -3,6 +3,13 @@ namespace pay\components\systems;
 
 abstract class Base
 {
+    protected  $addition = null;
+
+    public function __construct($addition = null)
+    {
+        $this->addition = $addition;
+    }
+
   /**
    * @abstract
    * @return array

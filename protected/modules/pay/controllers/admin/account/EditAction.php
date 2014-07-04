@@ -64,6 +64,7 @@ class EditAction extends \CAction
         $account->OrderLastTime = !empty($form->OrderLastTime) ? \Yii::app()->getDateFormatter()->format('yyyy-MM-dd', $form->OrderLastTime).' 23:59:59' : null;
         $account->ReceiptLastTime = !empty($form->ReceiptLastTime) ? \Yii::app()->getDateFormatter()->format('yyyy-MM-dd', $form->ReceiptLastTime).' 23:59:59' : null;
         $account->Uniteller = $form->Uniteller == 1 ? true : false;
+          $account->UnitellerRuvents = $form->UnitellerRuvents == 1 ? true : false;
         $account->PayOnline = $form->PayOnline == 1 ? true : false;
         $account->MailRuMoney = $form->MailRuMoney == 1 ? true : false;
         $account->save();
@@ -93,6 +94,8 @@ class EditAction extends \CAction
         }
       }
       $form->EventTitle = $account->Event->Title;
+    } else {
+        $form->UnitellerRuvents = true;
     }
     
     $this->getController()->setPageTitle(\Yii::t('app', 'Редактирование платежного аккаунта'));

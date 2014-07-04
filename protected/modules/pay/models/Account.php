@@ -11,6 +11,7 @@ namespace pay\models;
  * @property string $OrderLastTime
  * @property bool $OrderEnable
  * @property bool $Uniteller
+ * @property bool $UnitellerRuvents
  * @property bool $PayOnline
  * @property bool $MailRuMoney
  * @property int  $OrderTemplateId
