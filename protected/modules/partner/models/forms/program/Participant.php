@@ -10,6 +10,7 @@ class Participant extends \CFormModel
   public $ReportThesis;
   public $ReportUrl;
   public $ReportFullInfo;
+  public $VideoUrl;
   public $Delete;
   public $Order;
 
@@ -33,6 +34,7 @@ class Participant extends \CFormModel
       $this->CustomText = $linkUser->CustomText;
       $this->RoleId = $linkUser->RoleId;
       $this->Order = $linkUser->Order;
+      $this->VideoUrl = $linkUser->VideoUrl;
       if ($linkUser->Report !== null)
       {
         $this->ReportTitle = $linkUser->Report->Title;
@@ -59,8 +61,8 @@ class Participant extends \CFormModel
     return [
       ['Id, Order', 'numerical', 'allowEmpty' => true],
       ['RoleId', 'required'],
-      ['RunetId, CompanyId, CustomText, ReportTitle, ReportThesis, Delete, ReportFullInfo', 'safe'],
-      ['ReportUrl', 'url', 'allowEmpty' => true],
+      ['RunetId, CompanyId, CustomText, ReportTitle, ReportThesis, Delete, ReportFullInfo, VideoUrl', 'safe'],
+      ['ReportUrl,VideoUrl', 'url', 'allowEmpty' => true],
       ['ReportFullInfo', 'filter', 'filter' => [$this, 'filterReportFullInfo']]
     ];
   }
@@ -90,7 +92,8 @@ class Participant extends \CFormModel
       'Delete' => \Yii::t('app', 'Удалить'),
       'Order' => \Yii::t('app', 'Сортировка'),
       'Role' => \Yii::t('app', 'Роль'),
-      'Report' => \Yii::t('app', 'Доклад')
+      'Report' => \Yii::t('app', 'Доклад'),
+      'VideoUrl' => \Yii::t('app', 'Ссылка на видеозапись')
     ];
   }
 

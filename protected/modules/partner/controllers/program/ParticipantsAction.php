@@ -86,7 +86,8 @@ class ParticipantsAction extends \partner\components\Action
             $linkUser->CustomText = $form->CustomText;
           }
           $linkUser->RoleId = $form->RoleId;
-          $linkUser->Order  = $form->Order;
+          $linkUser->Order = $form->Order;
+          $linkUser->VideoUrl = !empty($form->VideoUrl) ? $form->VideoUrl : null;
           if (!$form->getIsEmptyReportData())
           {
             $report = $linkUser->Report;

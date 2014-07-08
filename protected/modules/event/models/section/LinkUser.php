@@ -10,6 +10,7 @@ namespace event\models\section;
  * @property int $Order
  * @property int $CompanyId
  * @property string $CustomText
+ * @property string $VideoUrl
  *
  * @property Section $Section
  * @property \user\models\User $User

@@ -71,6 +71,13 @@
         </div>
 
         <div class="control-group">
+          <?=\CHtml::activeLabel($form, 'VideoUrl', ['class' => 'control-label']);?>
+          <div class="controls">
+            <?=\CHtml::activeTextField($form, 'VideoUrl', ['class' => 'span9']);?>
+          </div>
+        </div>
+
+        <div class="control-group">
           <?=\CHtml::activeLabel($form, 'ReportFullInfo', ['class' => 'control-label']);?>
           <div class="controls">
             <?=\CHtml::activeTextArea($form, 'ReportFullInfo',  ['class' => 'span9']);?>

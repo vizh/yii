@@ -520,6 +520,7 @@ class Builder
       $this->report->LinkPresentation = $link->Report->Url;//todo: deprecated
       $this->report->Url = $link->Report->Url;
     }
+    $this->report->VideoUrl = $link->VideoUrl;
 
     return $this->report;
   }
