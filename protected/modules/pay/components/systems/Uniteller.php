@@ -8,7 +8,7 @@ class Uniteller extends Base
   private $shopId;
   private $password;
 
-    function __construct($shopId = null, $addition = null)
+    function __construct($addition = null, $shopId = null)
     {
         parent::__construct($addition);
         $this->shopId = $shopId;
