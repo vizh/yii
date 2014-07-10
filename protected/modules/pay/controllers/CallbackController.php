@@ -7,7 +7,7 @@ class CallbackController extends CController
   public function actionIndex($addition = null)
   {
     try {
-        $router = SystemRouter::create();
+        $router = SystemRouter::create($addition);
         $router->parseSystemCallback();
     } catch (\pay\components\Exception $e) {
       SystemRouter::logError($e->getMessage(), $e->getCode());

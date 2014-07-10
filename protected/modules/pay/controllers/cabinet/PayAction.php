@@ -22,9 +22,9 @@ class PayAction extends \pay\components\Action
     elseif ($type == 'uniteller' && $account->Uniteller)
     {
         if ($account->UnitellerRuvents) {
-            $system = new Uniteller(null, 'ruvents');
+            $system = new Uniteller('ruvents');
         } elseif ($account->Own) {
-            $system = new \pay\components\systems\Uniteller('00000524');
+            $system = new \pay\components\systems\Uniteller(null, '00000524');
         } else {
             $system = new \pay\components\systems\Uniteller();
         }
