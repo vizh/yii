@@ -66,6 +66,7 @@ class EditAction extends \CAction
       $this->form->StampMarginLeft = $this->template->StampImageMargin[1];
     }
 
+    \Yii::app()->getClientScript()->registerPackage('runetid.ckeditor');
     $this->getController()->setPageTitle(\Yii::t('app', 'Редактирование шаблона счета'));
     $this->getController()->render('edit',['form' => $this->form, 'template' => $this->template]);
   }

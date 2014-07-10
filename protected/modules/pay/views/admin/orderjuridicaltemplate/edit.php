@@ -3,6 +3,13 @@
  * @var pay\models\OrderJuridicalTemplate $template
  */
 ?>
+<script type="text/javascript">
+    $(function () {
+        CKEDITOR.replace('pay\\models\\forms\\admin\\OrderTemplate[OfferText]', {
+            'customConfig' : 'config_admin.js'
+        });
+    });
+</script>
 <?=\CHtml::form('','POST',['class' => 'form-horizontal', 'enctype' => 'multipart/form-data']);?>
 <div class="btn-toolbar clearfix">
   <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']);?>
@@ -127,6 +134,12 @@
       <div class="controls">
         <?=\CHtml::activeTextField($form, 'StampMarginTop');?>
       </div>
+    </div>
+    <div class="control-group">
+        <?=\Chtml::activeLabel($form, 'OfferText', ['class' => 'control-label']);?>
+        <div class="controls">
+            <?=\CHtml::activeTextArea($form, 'OfferText');?>
+        </div>
     </div>
 
     <div class="control-group m-top_20">

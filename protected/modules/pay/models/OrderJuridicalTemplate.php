@@ -27,6 +27,7 @@ namespace pay\models;
  * @property int $Number
  * @property int $ParentTemplateId
  * @property string $CreationTime
+ * @property string $OfferText
  *
  */
 class OrderJuridicalTemplate extends \CActiveRecord

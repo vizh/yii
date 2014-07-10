@@ -18,6 +18,12 @@
   'total' => $total
 ]);?>
 
+<?if (!empty($template->OfferText)):?>
+<h4 class="offer-title">Публичная оферта на оказание услуг</h4>
+<div class="offer">
+    <?=$template->OfferText;?>
+</div>
+<?endif;?>
 
 <div style="margin-top: 100px;">
   <?if ($withSign):?>

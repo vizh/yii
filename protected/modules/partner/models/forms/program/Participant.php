@@ -62,7 +62,7 @@ class Participant extends \CFormModel
       ['Id, Order', 'numerical', 'allowEmpty' => true],
       ['RoleId', 'required'],
       ['RunetId, CompanyId, CustomText, ReportTitle, ReportThesis, Delete, ReportFullInfo, VideoUrl', 'safe'],
-      ['ReportUrl,VideoUrl', 'url', 'allowEmpty' => true],
+      ['ReportUrl', 'url', 'allowEmpty' => true],
       ['ReportFullInfo', 'filter', 'filter' => [$this, 'filterReportFullInfo']]
     ];
   }

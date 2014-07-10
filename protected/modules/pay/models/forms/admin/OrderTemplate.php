@@ -23,6 +23,8 @@ class OrderTemplate extends \CFormModel
   public $Stamp;
   public $StampMarginLeft;
   public $StampMarginTop;
+
+  public $OfferText;
   
   public $SignFirstTitle;
   public $SignFirstName;
@@ -53,6 +55,7 @@ class OrderTemplate extends \CFormModel
       'Fax' => \Yii::t('app', 'Факс'),
       'NumberFormat' => \Yii::t('app', 'Формат номер счета'),
       'Number' => \Yii::t('app', 'Начальный номер счета'),
+      'OfferText' => \Yii::t('app', 'Текст оферты'),
         
       'SignFirstTitle' => \Yii::t('app', 'Заголовок подписи'),
       'SignFirstName'  => \Yii::t('app', 'Имя около подписи'),
@@ -76,7 +79,7 @@ class OrderTemplate extends \CFormModel
   {
     return [
       ['Title', 'required'],
-      ['NumberFormat', 'safe'],
+      ['NumberFormat, OfferText', 'safe'],
       ['Number', 'numerical'],
       ['Recipient,Address,Phone,Bank,INN,BIK,AccountNumber,BankAccountNumber', 'required', 'except' => self::ChildScenario],
       ['SignFirstImage,Stamp,SignSecondImage', 'file', 'types' => 'png', 'allowEmpty' => true, 'except' => self::ChildScenario],
