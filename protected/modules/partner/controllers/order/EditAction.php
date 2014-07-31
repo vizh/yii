@@ -20,7 +20,6 @@ class EditAction extends \partner\components\Action
   public function run($orderId)
   {
     $this->registerResources();
-
     $this->order = \pay\models\Order::model()->byEventId($this->getEvent()->Id)->byPaid(false)->findByPk($orderId);
     if ($this->order == null || !$this->order->getIsBankTransfer())
       throw new \CHttpException(404);

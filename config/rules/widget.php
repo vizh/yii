@@ -4,13 +4,6 @@ return [
     'deny',
     'users' => ['?'],
     'module' => 'widget',
-    'controllers' => ['pay'],
-    'actions' => ['cabinet','register']
-  ],
-  [
-    'deny',
-    'users' => ['?'],
-    'module' => 'widget',
     'controllers' => ['link'],
     'actions' => ['cabinet']
   ],
@@ -18,6 +11,6 @@ return [
     'allow',
     'users' => ['*'],
     'module' => 'widget',
-    'controllers' => ['pay','link']
+    'controllers' => ['pay','link', 'test']
   ]
 ];

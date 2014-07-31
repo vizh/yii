@@ -19,7 +19,7 @@ class AuthAction extends \widget\components\pay\Action
       $this->processTmpUserForm();
     }
 
-    if (!\Yii::app()->getUser()->getIsGuest())
+    if ($this->getUser() !== null)
     {
       $this->getController()->gotoNextStep();
     }
@@ -67,6 +67,7 @@ class AuthAction extends \widget\components\pay\Action
     $identity->authenticate();
     if ($identity->errorCode == \application\components\auth\identity\Base::ERROR_NONE)
     {
+
       \Yii::app()->payUser->login($identity);
       $this->getController()->refresh();
     }
