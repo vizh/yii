@@ -5,6 +5,8 @@ namespace application\models;
  * @property int $Id
  * @property string $Code
  * @property string $Title
+ * @property string $Description
+ * @property strong $En
  */
 class ProfessionalInterest extends \CActiveRecord
 {

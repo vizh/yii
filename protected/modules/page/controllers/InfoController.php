@@ -49,4 +49,13 @@ class InfoController extends \application\components\controllers\PublicMainContr
     $this->setPageTitle(\Yii::t('app', 'Услуги и преимущества'));
     $this->render('features');
   }
+
+  public function actionEcosystems()
+  {
+    $this->setPageTitle(\Yii::t('app', 'Экосистемы Рунета'));
+    $criteria = new \CDbCriteria();
+    $criteria->order = '"t"."Title" ASC';
+    $ecosystems = \application\models\ProfessionalInterest::model()->findAll($criteria);
+    $this->render('ecosystems', ['ecosystems' => $ecosystems]);
+  }
 }
