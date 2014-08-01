@@ -2452,8 +2452,14 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 
 /* ABOUT PAGE */
-.about-page {margin-bottom: 100px;}
+.about-page {margin-bottom: 150px;}
 
+/* ECOSYSTEM PAGE */
+.ecosystem-page {margin-bottom: 100px;}
+.ecosystem-page .ecosystem h2 {font-weight: 400; font-size: 40px;}
+.ecosystem-page .ecosystem p {
+  font-size: 16px;
+}
 
 /* EVENTS COLOR */
 .event-color_0 {color: #333 !important;}
