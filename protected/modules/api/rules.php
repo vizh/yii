@@ -30,9 +30,9 @@ return array(
   ),
   array(
     'allow',
-    'roles' => array('base'),
-    'controllers' => array('user'),
-    'actions' => array('auth', 'search', 'create', 'get', 'login', 'purposes', 'professionalinterests')
+    'roles' => ['base'],
+    'controllers' => ['user'],
+    'actions' => ['auth', 'search', 'create', 'get', 'login', 'purposes', 'professionalinterests', 'edit']
   ),
   array(
     'allow',
