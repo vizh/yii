@@ -182,12 +182,4 @@ class Account extends \CActiveRecord
       return substr(md5($this->Key . $timestamp . $this->Secret), 0, 16);
     }
   }
-
-  /**
-   * @return bool
-   */
-  public function showPhoneFieldOnRegistration()
-  {
-    return ($this->RequestPhoneOnRegistration != \application\models\RequiredStatus::None);
-  }
 }

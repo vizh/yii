@@ -94,6 +94,7 @@ class RegisterAction extends \pay\components\Action
       }
     }
 
+    \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
     $this->getController()->render('register', [
         'event' => $this->getEvent(),
         'products' => $products,

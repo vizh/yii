@@ -10,8 +10,11 @@ var CUserEditContacts = function () {
     'phoneItem' : _.template($('#phone-item-tpl').html()),
     'phoneItemWithData' : _.template($('#phone-item-withdata-tpl').html()),
     'accountItem' : _.template($('#account-item-tpl').html()),
-    'accountItemWithData' : _.template($('#account-item-withdata-tpl').html())
+    'accountItemWithData' : _.template($('#account-item-withdata-tpl').html()),
+    'primaryPhoneVerifyFormTpl' : _.template($('#primaryphone-verify-form-tpl').html())
   }
+
+  this.primaryPhoneVerify = $('#primaryphone-verify');
   this.init();
 }
 CUserEditContacts.prototype = {
@@ -36,6 +39,11 @@ CUserEditContacts.prototype = {
       self.createAccountEmptyItem();
       return false;
     });
+
+    self.form.find('[name*="[PrimaryPhone]"]').initPhoneInputMask();
+    if (self.primaryPhoneVerify.size() > 0) {
+      self.primaryPhoneVerifyInit();
+    }
   },
   
   initDeleteBtn : function (item) {
@@ -109,6 +117,80 @@ CUserEditContacts.prototype = {
       item.find('.alert-error').append(errorUl);
     }
     self.iteterators.account++;
+  },
+
+  'primaryPhoneVerifyInit' : function () {
+    var self = this;
+    var $error = self.primaryPhoneVerify.find('p.text-error');
+    var $sendBtn = self.primaryPhoneVerify.find('.btn.send');
+    $sendBtn.click(function (e) {
+      $error.addClass('hide');
+      $.getJSON('/user/ajax/phoneverify', {'action' : 'send'}, function (response) {
+        if (typeof (response.error) != "undefined") {
+          $error.text(response.error).removeClass('hide');
+        } else {
+          $sendBtn.before(self.templates.primaryPhoneVerifyFormTpl());
+          $sendBtn.remove();
+
+          var $verifyForm = self.primaryPhoneVerify.find('form');
+          var $repeatBtn  = $verifyForm.find('a.send');
+          $repeatBtn.hide(0).delay($repeatBtn.data('delay')).show(0);
+          $repeatBtn.click(function(e) {
+            $.getJSON('/user/ajax/phoneverify', {'action' : 'send'}, function (response) {
+              if (typeof (response.error) != "undefined") {
+                $error.text(response.error).removeClass('hide');
+              }
+            });
+            $repeatBtn.hide(0).delay($repeatBtn.data('delay')).show(0);
+            e.preventDefault();
+          });
+
+          var $verifyBtn  = $verifyForm.find('button.btn').click(function (e) {
+            $verifyBtn.addClass('disabled');
+            $.getJSON('/user/ajax/phoneverify', {'action' : 'verify', 'code' : $verifyForm.find('input[type="text"]').val()}, function (response) {
+              if (typeof (response.error) != "undefined") {
+                $error.text(response.error).removeClass('hide');
+                $verifyBtn.removeClass('disabled');
+              } else {
+                self.primaryPhoneVerify.remove();
+              }
+            });
+            e.preventDefault();
+          });
+        }
+      });
+      e.preventDefault();
+    });
+
+    function initSendBtn(btn) {
+      btn.click(function (e) {
+        $error.addClass('hide');
+        $.getJSON('/user/ajax/phoneverify', {'action' : 'send'}, function (response) {
+          if (typeof (response.error) != "undefined") {
+            $error.text(response.error).removeClass('hide');
+          } else {
+            $sendBtn.before(self.templates.primaryPhoneVerifyFormTpl());
+            $sendBtn.remove();
+            var $verifyForm = self.primaryPhoneVerify.find('form');
+            var $repeatBtn  = $verifyForm.find('a.send').hide(0);
+            $repeatBtn.delay($repeatBtn.data('delay')).show(0);
+            var $verifyBtn  = $verifyForm.find('button.btn').click(function (e) {
+              $verifyBtn.addClass('disabled');
+              $.getJSON('/user/ajax/phoneverify', {'action' : 'verify', 'code' : $verifyForm.find('input[type="text"]').val()}, function (response) {
+                if (typeof (response.error) != "undefined") {
+                  $error.text(response.error).removeClass('hide');
+                  $verifyBtn.removeClass('disabled');
+                } else {
+                  self.primaryPhoneVerify.remove();
+                }
+              });
+              e.preventDefault();
+            });
+          }
+        });
+        e.preventDefault();
+      });
+    }
   }
 }
 $(function () {

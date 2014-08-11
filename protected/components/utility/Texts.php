@@ -218,4 +218,12 @@ class Texts
     }
     return $result;
   }
+
+  /**
+   * @param string $str
+   * @return string
+   */
+  public static function getOnlyNumbers($str) {
+    return preg_replace('/[^0-9]/i', '', $str);
+  }
 }

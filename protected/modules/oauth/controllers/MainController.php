@@ -139,6 +139,7 @@ class MainController extends \oauth\components\Controller
       $user->FirstName = $formRegister->FirstName;
       $user->FatherName = $formRegister->FatherName;
       $user->Email = $formRegister->Email;
+      $user->PrimaryPhone = $formRegister->Phone;
       $user->register();
 
       if (!$formRegister->Address->getIsEmpty())
@@ -147,18 +148,6 @@ class MainController extends \oauth\components\Controller
         $address->setAttributes($formRegister->Address->getAttributes(), false);
         $address->save();
         $user->setContactAddress($address);
-      }
-
-      if ($this->Account->showPhoneFieldOnRegistration() && !$formRegister->Phone->getIsEmpty())
-      {
-        $phone = new \contact\models\Phone();
-        $phone->setAttributesFromForm($formRegister->Phone);
-        $phone->save();
-
-        $linkPhone = new \user\models\LinkPhone();
-        $linkPhone->UserId = $user->Id;
-        $linkPhone->PhoneId = $phone->Id;
-        $linkPhone->save();
       }
 
       if (!empty($formRegister->Company))
@@ -183,6 +172,7 @@ class MainController extends \oauth\components\Controller
       }
     }
     \Yii::app()->getClientScript()->registerPackage('runetid.jquery.ui');
+    \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
     $this->render('register', array('model' => $formRegister, 'socialProxy' => $socialProxy));
   }
 

@@ -74,6 +74,7 @@ CPayRegister.prototype = {
       row.hide();
       
       var registerForm = row.next('tr').find('form');
+      registerForm.find('input[name*="RegisterForm[Phone]"]').initPhoneInputMask();
       registerForm.find('.form-actions .btn-submit').click(function () {
         var alertContainer = registerForm.find('.alert-error');
         alertContainer.html('').hide();

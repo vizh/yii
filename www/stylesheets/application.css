@@ -2987,3 +2987,11 @@ input[type="file"] {
   position: absolute;
   margin-top: 0;
 }
+
+.alert.primary-phone-verify {
+  margin-bottom: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+.alert.primary-phone-verify a.btn.btn-mini {margin-top: 0;}

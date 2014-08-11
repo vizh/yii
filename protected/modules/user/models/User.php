@@ -1,5 +1,6 @@
 <?php
 namespace user\models;
+use application\components\utility\Texts;
 
 /**
  * @throws \Exception
@@ -20,6 +21,9 @@ namespace user\models;
  * @property bool $Visible
  * @property bool $Temporary
  * @property string $Language
+ * @property stirng $PrimaryPhone
+ * @property bool $PrimaryPhoneVerify
+ * @property string $PrimaryPhoneVerifyTime
  *
  *
  *
@@ -152,6 +156,20 @@ class User extends \application\models\translation\ActiveRecord
     $criteria = new \CDbCriteria();
     $criteria->condition = '"t"."Email" = :Email';
     $criteria->params = array(':Email' => mb_strtolower($email));
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
+  }
+
+  /**
+   * @param string $phone
+   * @param bool $useAnd
+   * @return $this
+   */
+  public function byPrimaryPhone($phone, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."PrimaryPhone" = :Phone AND "t"."PrimaryPhoneVerify"';
+    $criteria->params = array(':Phone' => Texts::getOnlyNumbers($phone));
     $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     return $this;
   }
@@ -844,5 +862,18 @@ class User extends \application\models\translation\ActiveRecord
       $this->hasLoyaltyDiscount = LoyaltyProgram::model()->byUserId($this->Id)->exists();
     }
     return $this->hasLoyaltyDiscount;
+  }
+
+  public function getPrimaryPhoneVerifyCode()
+  {
+    if (!empty($this->PrimaryPhone)) {
+      $hash = md5($this->PrimaryPhone.$this->RunetId);
+      $code = Texts::getOnlyNumbers($hash);
+      if (strlen($code) < 5) {
+        $code = str_pad($code, 5, '0');
+      }
+      return substr($code, 0, 5);
+    }
+    return null;
   }
 }

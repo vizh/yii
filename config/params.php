@@ -65,5 +65,9 @@ return array(
     /** Ruvents Params */
 
     'RuventsMaxResults' => 500,
+
+    /** LittleSms */
+    'LittleSmsUser' => 'acc-3c0a9d79',
+    'LittleSmsKey'  => 'ZWyFOkv5'
   )
 );

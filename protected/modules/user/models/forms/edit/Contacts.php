@@ -5,6 +5,7 @@ class Contacts extends \CFormModel
 {
   public $Email;
   public $Site;
+  public $PrimaryPhone;
   public $Phones = array();
   public $Accounts = array();
   public $Address;
@@ -31,12 +32,14 @@ class Contacts extends \CFormModel
   public function rules()
   {
     return array(
+      ['PrimaryPhone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
       array('Email', 'email'),
       array('Email', 'unique', 'className' => '\user\models\User', 'attributeName' => 'Email', 'caseSensitive' => false, 'criteria' => array('condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => array('UserId' => \Yii::app()->user->getId()))),
-      array('Email', 'required'),
+      array('Email, PrimaryPhone', 'required'),
       array('Site', 'url', 'allowEmpty' => true),
       array('Phones', 'filter', 'filter' => array($this, 'filterPhones')),
-      array('Accounts', 'filter', 'filter' => array($this, 'filterAccounts'))
+      array('Accounts', 'filter', 'filter' => array($this, 'filterAccounts')),
+      ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ['condition' => '"t"."Id" != :UserId', 'params' => ['UserId' => \Yii::app()->user->getId()]]]
     );
   }
  
@@ -44,7 +47,8 @@ class Contacts extends \CFormModel
   {
     return array(
       'Site' => \Yii::t('app', 'Сайт'),
-      'Phones' => \Yii::t('app', 'Телефоны'),
+      'PrimaryPhone' => \Yii::t('app', 'Основной телефон'),
+      'Phones' => \Yii::t('app', 'Дополнительные телефоны'),
       'Accounts' => \Yii::t('app', 'Аккаунты в социальных сетях'),
       'Address' => \Yii::t('app', 'Город')
     );

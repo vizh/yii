@@ -1,3 +1,10 @@
+<?
+use user\models\User;
+/**
+ * @var User $user
+ */
+?>
+
 <?=$this->renderPartial('parts/title');?>
 <script type="text/javascript">
   var phones = [];
@@ -54,15 +61,27 @@
               </div>
 
               <div class="form-row">
-                <?=\CHtml::activeLabel($form, 'Site');?>
-                <?=\CHtml::activeTextField($form, 'Site', array('class' => 'span5'));?>
+                <?=\CHtml::activeLabel($form, 'PrimaryPhone');?>
+                <?=\CHtml::activeTextField($form, 'PrimaryPhone', array('class' => 'span5'));?>
               </div>
+              <?if (!empty($user->PrimaryPhone) && !$user->PrimaryPhoneVerify):?>
+                <div class="alert alert-warning" id="primaryphone-verify">
+                  <p><strong><?=\Yii::t('app', 'Телефон не подтвержден. Пожалуйста подтвердите номер телефона.');?></strong></p>
+                  <button class="btn send"><?=\Yii::t('app', 'Отправить код подтверждения');?></button>
+                  <p class="text-error hide m-top_5" style="margin-bottom: 0;"></p>
+                </div>
+              <?endif;?>
 
               <div class="user-phone-items">
                 <div class="form-row"><?=\CHtml::activeLabel($form, 'Phones');?></div>
                 <div class="form-row form-row-add">
                   <a href="#" class="pseudo-link iconed-link"><i class="icon-plus-sign"></i> <span><?=\Yii::t('app', 'Добавить номер телефона');?></span></a>
                 </div>
+              </div>
+
+              <div class="form-row">
+                <?=\CHtml::activeLabel($form, 'Site');?>
+                <?=\CHtml::activeTextField($form, 'Site', array('class' => 'span5'));?>
               </div>
               
               <div class="user-account-items m-top_20">
@@ -144,4 +163,12 @@
     <%}%>
     <input type="hidden" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Delete]');?>" <%if(Delete == 1){%>value="1"<%}%>/>
   </div>
+</script>
+
+<script type="text/template" id="primaryphone-verify-form-tpl">
+  <form class="form-inline" style="margin-bottom: 0;">
+    <input type="text" name="" placeholder="<?=\Yii::t('app', 'Код подтверждения');?>" />
+    <button class="btn"><?=\Yii::t('app', 'Подтвердить');?></button>
+    <a href="#" class="send pseudo-link" data-delay="<?=(\user\controllers\ajax\PhoneVerifyAction::VERIFY_SEND_DELAY * 1000);?>" style="margin-left: 20px;"><small><?=\Yii::t('app', 'Отправить код повтоно');?></small></a>
+  </form>
 </script>

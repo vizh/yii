@@ -1,4 +1,5 @@
 <div class="navbar-inner">
+  <?$this->widget('\application\widgets\AlertPhoneVerify');?>
   <div class="container">
     <a class="brand" href="<?=Yii::app()->createUrl('/main/default/index');?>">
       <img src="/images/logo-small.png" width="115" height="10" alt="-RUNET-ID-">

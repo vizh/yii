@@ -7,6 +7,13 @@ return array(
     'controllers' => array('edit','setting','logout')
   ),
   array(
+    'deny',
+    'users' => ['?'],
+    'module' => 'user',
+    'controllers' => ['ajax'],
+    'actions' => ['phoneverify']
+  ),
+  array(
     'allow',
     'users' => array('*'),
     'module' => 'user',

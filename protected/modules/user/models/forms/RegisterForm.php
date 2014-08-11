@@ -20,8 +20,10 @@ class RegisterForm extends \CFormModel
   public function rules()
   {
     return [
-      ['LastName, FirstName, FatherName, Email, Phone, Company, Position,', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
-      ['LastName,FirstName,Email,Company', 'required'],
+      ['LastName, FirstName, FatherName, Email, Company, Position,', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
+      ['Phone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
+      ['LastName,FirstName,Email,Company,Phone', 'required'],
+      ['Phone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone'],
       ['Email', 'email'],
       ['Email', 'uniqueUser'],
       ['Position', 'checkPosition'],

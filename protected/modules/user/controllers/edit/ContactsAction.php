@@ -13,6 +13,10 @@ class ContactsAction extends \CAction
     {
       if ($form->validate())
       {
+        $user->PrimaryPhone = $form->PrimaryPhone;
+        if ($user->PrimaryPhone !== $form->PrimaryPhone) {
+          $user->PrimaryPhoneVerify = false;
+        }
         $user->Email = $form->Email;
         if (!empty($form->Site))
         {
@@ -109,6 +113,7 @@ class ContactsAction extends \CAction
     else
     {
       $form->Email = $user->Email;
+      $form->PrimaryPhone = $user->PrimaryPhone;
       if ($user->getContactSite() !== null)
       {
         $form->Site = (string) $user->getContactSite();

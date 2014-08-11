@@ -32,6 +32,8 @@ class ListAction extends \api\components\Action
       }
     }
 
+    usort($result->Items, [$this,'sortItems']);
+
     /** @var $collections \pay\components\OrderItemCollection[] */
     $collections = array_merge($finder->getUnpaidOrderCollections(), $finder->getPaidOrderCollections());
 
@@ -54,5 +56,19 @@ class ListAction extends \api\components\Action
     }
 
     $this->getController()->setResult($result);
+  }
+
+  /**
+   * @param $item1
+   * @param $item2
+   * @return bool|int
+   */
+  private function sortItems($item1, $item2)
+  {
+    $result = strcasecmp($item1->Owner->LastName, $item2->Owner->LastName);
+    if ($result == 0) {
+        $result = strcasecmp($item1->Owner->FirstName, $item2->Owner->FirstName);
+    }
+    return $result;
   }
 }

@@ -17,8 +17,13 @@
   display: none;
 }
 
-/* internetbusiness14 */
+/** internetbusiness14 */
 .b-event-promo.internetbusiness14 {
   background: #ecf6ff !important;
+}
+
+/** detint14 */
+.b-event-promo.detint14 {
+  background: #C04036 !important;
 }
 

@@ -254,13 +254,9 @@ $hasTickets = !empty($products->tickets);
         <div class="pull-right">
           <div class="control-group">
             <label><?=\Yii::t('app', 'Телефон');?></label>
-            <?if (isset($event->PhoneRequired) && $event->PhoneRequired):?>
-              <div class="required">
-                <?=CHtml::activeTextField($registerForm, 'Phone');?>
-              </div>
-            <?else:?>
+            <div class="required">
               <?=CHtml::activeTextField($registerForm, 'Phone');?>
-            <?endif;?>
+            </div>
           </div>
           <div class="control-group">
             <label><?=\Yii::t('app', 'Компания');?></label>

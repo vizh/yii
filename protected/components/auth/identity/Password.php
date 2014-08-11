@@ -13,7 +13,7 @@ class Password extends \application\components\auth\identity\Base
   {
     /** @var $user \user\models\User */
     $user = \user\models\User::model()
-        ->byRunetId(intval($this->username))->byEmail($this->username, false)
+        ->byRunetId(intval($this->username))->byEmail($this->username, false)->byPrimaryPhone($this->username, false)
         ->byVisible(true)->find();
     if ($user === null)
     {

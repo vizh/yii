@@ -1,6 +1,13 @@
 <?php
 class AjaxController extends \application\components\controllers\PublicMainController
 {
+  public function actions()
+  {
+    return [
+      'phoneverify' => '\user\controllers\ajax\PhoneVerifyAction'
+    ];
+  }
+
   public function actionSearch($term, $eventId = null)
   {
     $results = array();
@@ -38,12 +45,9 @@ class AjaxController extends \application\components\controllers\PublicMainContr
       $user->FirstName = $form->FirstName;
       $user->FatherName = $form->FatherName;
       $user->Email = $form->Email;
+      $user->PrimaryPhone = $form->Phone;
       $user->register();
       $user->setEmployment($form->Company, $form->Position);
-      if (!empty($form->Phone))
-      {
-        $user->setContactPhone($form->Phone);
-      }
       $result->success = true;
       $result->user = $this->getUserData($user);
     }
