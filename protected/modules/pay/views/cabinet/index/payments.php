@@ -1,6 +1,7 @@
 <?php
 /**
- *  @var $account \pay\models\Account
+ * @var \pay\models\Account $account
+ * @var int $total
  */
 
 $hideJuridical = $account->OrderLastTime !== null && $account->OrderLastTime < date('Y-m-d H:i:s') || !$account->OrderEnable;
@@ -34,6 +35,10 @@ if ($account->MailRuMoney)
         <?=\Yii::t('app', 'Оплата недоступна. Оплата возможна только банковскими картами и электронными деньгами');?>
       <?endif;?>
       </p>
+    <?elseif (!empty($account->OrderMinTotal) && $total < $account->OrderMinTotal):?>
+        <p class="text-error">
+        <?=$account->OrderMinTotalMessage;?>
+        </p>
     <?elseif ($hideJuridical && $account->OrderEnable):?>
       <p class="text-error">
         <?if ($account->OrderDisableMessage !== null):?>

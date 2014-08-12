@@ -91,5 +91,19 @@
     </label>
   </div>
 </div>
+
+    <div class="control-group">
+        <?=\CHtml::activeLabel($form, 'OrderMinTotal', ['class' => 'control-label']);?>
+        <div class="controls">
+            <?=\CHtml::activeTextField($form, 'OrderMinTotal', ['class' => 'input-xxlarge']);?>
+        </div>
+    </div>
+    <div class="control-group">
+        <?=\CHtml::activeLabel($form, 'OrderMinTotalMessage', ['class' => 'control-label']);?>
+        <div class="controls">
+            <?=\CHtml::activeTextArea($form, 'OrderMinTotalMessage', ['class' => 'input-xxlarge']);?>
+        </div>
+    </div>
+
 </div>
 <?=\CHtml::endForm();?>

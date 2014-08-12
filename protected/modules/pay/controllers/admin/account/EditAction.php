@@ -67,6 +67,10 @@ class EditAction extends \CAction
           $account->UnitellerRuvents = $form->UnitellerRuvents == 1 ? true : false;
         $account->PayOnline = $form->PayOnline == 1 ? true : false;
         $account->MailRuMoney = $form->MailRuMoney == 1 ? true : false;
+
+          $account->OrderMinTotal = !empty($form->OrderMinTotal) ? $form->OrderMinTotal : null;
+          $account->OrderMinTotalMessage = !empty($form->OrderMinTotalMessage) ? $form->OrderMinTotalMessage : null;
+
         $account->save();
         \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Данные платежного аккаунта успешно сохранены!'));
         $this->getController()->redirect(

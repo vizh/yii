@@ -22,6 +22,8 @@ namespace pay\models;
  * @property string $ReceiptLastTime
  * @property bool $ReceiptEnable
  * @property string $OrderDisableMessage
+ * @property int $OrderMinTotal
+ * @property string $OrderMinTotalMessage
  *
  * @property \event\models\Event $Event
  * @property OrderJuridicalTemplate $OrderTemplate

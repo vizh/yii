@@ -126,7 +126,7 @@ $total = 0;
     </label>
   </div>
 
-  <?$this->renderPartial('index/payments', array('account' => $account));?>
+  <?$this->renderPartial('index/payments', ['account' => $account, 'total' => $total]);?>
 <?else:?>
 
   <style type="text/css">

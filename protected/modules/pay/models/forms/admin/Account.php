@@ -19,6 +19,8 @@ class Account extends \CFormModel
     public $MailRuMoney;
     public $ReceiptTemplateId;
     public $ReceiptLastTime;
+    public $OrderMinTotal;
+    public $OrderMinTotalMessage;
 
     /**
      *
@@ -41,7 +43,9 @@ class Account extends \CFormModel
             ['OrderLastTime, ReceiptLastTime', 'date', 'format' => 'dd.MM.yyyy', 'allowEmpty' => true],
             ['OfferFile', 'file', 'types' => 'pdf,doc,docx', 'allowEmpty' => true],
             ['EventId', 'filter', 'filter' => [$this, 'filterEventId']],
-            ['Uniteller,UnitellerRuvents,PayOnline,MailRuMoney', 'numerical', 'max' => 1, 'min' => 1, 'allowEmpty' => true]
+            ['Uniteller,UnitellerRuvents,PayOnline,MailRuMoney', 'numerical', 'max' => 1, 'min' => 1, 'allowEmpty' => true],
+            ['OrderMinTotal', 'type', 'type' => 'integer', 'allowEmpty' => true],
+            ['OrderMinTotalMessage', 'safe']
         ];
     }
 
@@ -68,7 +72,9 @@ class Account extends \CFormModel
             'MailRuMoney' => \Yii::t('app', 'Использовать платежную систему MailRuMoney'),
             'PaySystem' => \Yii::t('app', 'Платежная система'),
             'ReceiptTemplateId' => \Yii::t('app', 'Шаблон для квитанций'),
-            'ReceiptLastTime' => \Yii::t('app', 'Последняя дата выставления квитанций')
+            'ReceiptLastTime' => \Yii::t('app', 'Последняя дата выставления квитанций'),
+            'OrderMinTotal' => \Yii::t('app', 'Минимальная сумма для выставления юр. счета'),
+            'OrderMinTotalMessage' => \Yii::t('app', 'Сообщение при невозможности выставить счет из-за минимальной суммы'),
         ];
     }
 
