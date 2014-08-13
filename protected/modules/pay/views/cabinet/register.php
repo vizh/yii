@@ -14,6 +14,11 @@
 $runetIdTitle = $account->SandBoxUser ? '' : ' или RUNET-ID';
 $runetIdTitle2 = $account->SandBoxUser ? 'ID' : 'RUNET-ID';
 $hasTickets = !empty($products->tickets);
+
+$paidEvent = false;
+foreach ($products->all as $product) {
+    $paidEvent = $paidEvent || $product->getPrice() > 0;
+}
 ?>
 
 <script type="text/javascript">
@@ -79,7 +84,7 @@ $hasTickets = !empty($products->tickets);
 
 
       <div <?if ($hasTickets):?>style="display: none;"<?endif;?> data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterUser;?>">
-      <?$this->renderPartial('register/help', ['user' => $this->getUser(), 'products' => $products, 'account' => $account, 'event' => $event,'unpaidOwnerCount' => $unpaidOwnerCount, 'unpaidJuridicalOrderCount' => $unpaidJuridicalOrderCount]);?>
+      <?$this->renderPartial('register/help', ['user' => $this->getUser(), 'products' => $products, 'account' => $account, 'event' => $event,'unpaidOwnerCount' => $unpaidOwnerCount, 'unpaidJuridicalOrderCount' => $unpaidJuridicalOrderCount, 'paidEvent' => $paidEvent]);?>
       <table class="table thead-actual">
         <thead>
         <tr>
@@ -113,7 +118,7 @@ $hasTickets = !empty($products->tickets);
 
       <?if ($hasTickets):?>
       <div style="display: none;" data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterTicket;?>">
-        <?$this->renderPartial('register/help-ticket', ['user' => $this->getUser(), 'products' => $products, 'account' => $account, 'event' => $event,'unpaidOwnerCount' => $unpaidOwnerCount, 'unpaidJuridicalOrderCount' => $unpaidJuridicalOrderCount]);?>
+        <?$this->renderPartial('register/help-ticket', ['user' => $this->getUser(), 'products' => $products, 'account' => $account, 'event' => $event,'unpaidOwnerCount' => $unpaidOwnerCount, 'unpaidJuridicalOrderCount' => $unpaidJuridicalOrderCount, 'paidEvent' => $paidEvent]);?>
         <table class="table thead-actual">
           <thead>
           <tr>

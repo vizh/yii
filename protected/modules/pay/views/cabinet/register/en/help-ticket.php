@@ -6,6 +6,7 @@
  * @var \event\models\Event $event
  * @var int $unpaidOwnerCount
  * @var int $unpaidJuridicalOrderCount
+ * @var bool $paidEvent
  */
 ?>
 <div class="alert alert-block alert-muted">

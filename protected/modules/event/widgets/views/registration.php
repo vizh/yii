@@ -6,9 +6,9 @@
  * @var \event\models\Participant $participant
  */
 if (empty($products))
-{
   return;
-}
+
+$paidEvent = false;
 ?>
 <form method="post" action="<?=\Yii::app()->createUrl('/pay/cabinet/register', array('eventIdName' => $this->event->IdName));?>" class="registration event-registration">
   <?= \CHtml::hiddenField(\Yii::app()->request->csrfTokenName, \Yii::app()->request->getCsrfToken()); ?>
@@ -64,6 +64,7 @@ if (empty($products))
         $curTime = date('Y-m-d H:i:s');
         $isMuted = $curTime < $price->StartTime;
         $mutedClass = $isMuted ? 'muted' : '';
+            $paidEvent = $paidEvent || $price->Price > 0;
         ?>
         <tr data-price="<?=$price->Price;?>">
           <?if (sizeof($product->PricesActive) > 1 || !empty($product->Description)):?>
@@ -122,13 +123,15 @@ if (empty($products))
     </tbody>
   </table>
   <div class="clearfix">
-    <img src="/img/pay/pay-methods.png" class="pull-left" alt="Поддерживаемые способы оплаты"/>
-    <?if ($account->PayOnline):?>
-    <a style="margin-top: -2px; display: inline-block;" href="http://money.yandex.ru" target="_blank"><img src="http://money.yandex.ru/img/yamoney_logo88x31.gif " alt="Я принимаю Яндекс.Деньги" title="Я принимаю Яндекс.Деньги" border="0" /></a>
-    <?endif;?>
+      <?if ($paidEvent):?>
+          <img src="/img/pay/pay-methods.png" class="pull-left" alt="Поддерживаемые способы оплаты"/>
+          <?if ($account->PayOnline):?>
+              <a style="margin-top: -2px; display: inline-block;" href="http://money.yandex.ru" target="_blank"><img src="http://money.yandex.ru/img/yamoney_logo88x31.gif " alt="Я принимаю Яндекс.Деньги" title="Я принимаю Яндекс.Деньги" border="0" /></a>
+          <?endif;?>
+      <?endif;?>
     <button type="submit" class="btn btn-info pull-right">
       <?if ($participant !== null && $participant->RoleId != 24):?>
-        <?=Yii::t('app', 'Оплатить (за себя или коллег)');?>
+        <?=Yii::t('app', $paidEvent ? 'Оплатить (за себя или коллег)' : 'Зарегистрировать коллег');?>
       <?else:?>
         <?=Yii::t('app', 'Зарегистрироваться');?>
       <?endif;?>
