@@ -89,19 +89,14 @@ class ProgramGrid extends \event\components\Widget
 
       $item = new \stdClass();
       $item->Section = $section;
-      $item->Roles = [];
+      $item->Links = [];
       foreach ($section->LinkUsers as $link)
       {
-        if ($link->User == null)
-         continue;
-
-        if (!isset($item->Roles[$link->RoleId]))
+        if (!isset($item->Links[$link->RoleId]))
         {
-          $item->Roles[$link->RoleId] = new \stdClass();
-          $item->Roles[$link->RoleId]->Role = $link->Role;
-          $item->Roles[$link->RoleId]->Users = [];
+          $item->Links[$link->RoleId] = [];
         }
-        $item->Roles[$link->RoleId]->Users[] = $link->User;
+        $item->Links[$link->RoleId][] = $link;
       }
 
       $colspan = 0;

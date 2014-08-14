@@ -2,6 +2,8 @@
 /**
  * @var $this \event\widgets\ProgramGrid
  */
+use event\models\section\LinkUser;
+
 ?>
 
 <div id="<?=$this->getNameId();?>" class="tab">
@@ -32,22 +34,43 @@
               <td colspan="<?=$colspan;?>">
                 <?$section = $data->Sections[$hallId][$time]->Section;?>
                 <h4><?=$section->Title;?></h4>
-                <?/** @var \event\models\section\Role $role */?>
-                <?foreach ($data->Sections[$hallId][$time]->Roles as $role):?>
+                  <?if (!empty($section->Info)):?>
+                  <p><?=$section->Info;?></p>
+                  <?endif;?>
+                <?/** @var LinkUser[] $links */?>
+                <?foreach ($data->Sections[$hallId][$time]->Links as $links):?>
                   <div class="m-bottom_10">
-                  <?if ($role->Role->Type != \event\models\RoleType::Speaker):?>
-                    <b><?=\Yii::t('app', sizeof($role->Users) > 1 ? 'Ведущие' : 'Ведущий');?>:</b><br/>
-                    <?foreach ($role->Users as $user):?>
-                      <a href="<?=$user->getUrl();?>"><?=$user->getFullName();?></a>
-                      <?if ($user->getEmploymentPrimary() !== null):?>(<?=$user->getEmploymentPrimary()->Company->Name;?>)<?endif;?><br/>
+                  <?if ($links[0]->Role->Type != \event\models\RoleType::Speaker):?>
+                    <b><?=\Yii::t('app', sizeof($links) > 1 ? 'Ведущие' : 'Ведущий');?>:</b><br/>
+                    <?foreach ($links as $link):?>
+                          <?if ($link->User != null):?>
+                              <a href="<?=$link->User->getUrl();?>"><?=$link->User->getFullName();?></a>
+                              <?if ($link->User->getEmploymentPrimary() !== null):?>(<?=$link->User->getEmploymentPrimary()->Company->Name;?>)<?endif;?>
+                          <?elseif ($link->Company != null):?>
+                              <a href="<?=$link->Company->getUrl();?>"><?=$link->Company->Name;?></a>
+                          <?else:?>
+                              <?=$link->CustomText;?>
+                          <?endif;?>
+                      <br/>
                     <?endforeach;?>
                   <?else:?>
                     <?=\Yii::t('app', 'Докладчики');?>:
                     <?/** @var \user\models\User $user */;?>
                     <ul>
-                    <?foreach ($role->Users as $user):?>
-                      <li><a href="<?=$user->getUrl();?>"><?=$user->getFullName();?></a>
-                      <?if ($user->getEmploymentPrimary() !== null):?>(<?=$user->getEmploymentPrimary()->Company->Name;?>)<?endif;?></li>
+                    <?foreach ($links as $link):?>
+                      <li>
+                          <?if (!empty($link->Report->Title)):?>
+                          <strong><?=$link->Report->Title;?></strong><br>
+                          <?endif;?>
+                          <?if ($link->User != null):?>
+                              <a href="<?=$link->User->getUrl();?>"><?=$link->User->getFullName();?></a>
+                              <?if ($link->User->getEmploymentPrimary() !== null):?>(<?=$link->User->getEmploymentPrimary()->Company->Name;?>)<?endif;?>
+                          <?elseif ($link->Company != null):?>
+                              <a href="<?=$link->Company->getUrl();?>"><?=$link->Company->Name;?></a>
+                          <?else:?>
+                              <?=$link->CustomText;?>
+                          <?endif;?>
+                      </li>
                     <?endforeach;?>
                     </ul>
                   <?endif;?>
