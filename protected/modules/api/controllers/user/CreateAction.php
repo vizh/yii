@@ -11,6 +11,7 @@ class CreateAction extends \api\components\Action
     $firstName = $request->getParam('FirstName', null);
     $fathertName = $request->getParam('FatherName', null);
     $password = $request->getParam('Password', null); //todo: deprecated
+    $phone = $request->getParam('Phone', null);
 
     if (empty($email) || empty($lastName) || empty($firstName))
     {
@@ -31,6 +32,10 @@ class CreateAction extends \api\components\Action
     $user->FirstName = $firstName;
     $user->FatherName = $fathertName;
     $user->Email = $email;
+    if (!empty($phone)) {
+      $user->PrimaryPhone = $phone;
+    }
+
     if ($password !== null)
     {
       $user->Password = $password;
@@ -49,7 +54,6 @@ class CreateAction extends \api\components\Action
 
     $this->setEmployment($user);
     $this->setCity($user);
-    $this->setPhone($user);
 
     $this->getAccount()->getDataBuilder()->createUser($user);
     $this->getAccount()->getDataBuilder()->buildUserContacts($user);
@@ -87,18 +91,5 @@ class CreateAction extends \api\components\Action
 //      $address->save();
 //      $user->AddAddress($address);
 //    }
-  }
-
-  /**
-   * @param \user\models\User $user
-   */
-  private function setPhone($user)
-  {
-    $phone = \Yii::app()->getRequest()->getParam('Phone', null);
-
-    if (! empty($phone))
-    {
-      $user->setContactPhone($phone);
-    }
   }
 }
