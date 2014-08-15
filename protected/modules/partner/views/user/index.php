@@ -117,7 +117,7 @@ foreach ($roles as $role)
         <td>
             <div class="btn-group">
             <a href="<?=Yii::app()->createUrl('/partner/user/edit', array('runetId' => $user->RunetId));?>" class="btn btn-info">Редактировать</a>
-            <?if (sizeof($user->Participants) == 1):?>
+            <?if (sizeof($user->Participants) > 0):?>
                 <a href="<?=$user->Participants[0]->getTicketUrl();?>" class="btn" target="_blank"><i class="icon-file"></i></a>
             <?endif;?>
             </div>

@@ -136,9 +136,15 @@
                         <div style="color: #000; font-size: 30px; font-weight: bold; line-height: 35px;"><?=$user->getFullName();?></div>
                         <div style="font-size: 12px; margin-top: 5px;"><?=$user->getEmploymentPrimary();?></div>
                       </td>
-                      <td valign="top" style="padding-right: 20px; width: 205px; font-size: 12px;">
-                        <div class="role"><?=$role->Title;;?></div>
-                      </td>
+                        <td valign="top" style="padding-right: 20px; width: 205px; font-size: 12px;">
+                            <?if (!empty($role)):?>
+                                <div class="role"><?=$role->Title;;?></div>
+                            <?elseif (!empty($participants)):?>
+                                <?foreach($participants as $item):?>
+                                    <div class="role"><div style="text-transform: uppercase;"><?=$item->Part->Title?>:</div><?=$item->Role->Title;?></div>
+                                <?endforeach;?>
+                            <?endif;?>
+                        </td>
                       <td valign="top" style="background: #f6f6f6; padding: 10px; text-align: center;" align="right">
                         <img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,120);?>" />
                       </td>
