@@ -11,3 +11,12 @@
   z-index: 1040;
   display: none;
 }
+
+.input-user {
+  width: 85%;
+  padding-right: 20px !important;
+}
+
+#widget-pay .dropdown-menu a{
+  white-space: normal;
+}

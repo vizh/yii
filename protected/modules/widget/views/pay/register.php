@@ -51,6 +51,7 @@ $hasTickets = !empty($products->tickets);
 
 
   <div <?if ($hasTickets):?>style="display: none;"<?endif;?> data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterUser;?>">
+      <?$this->renderPartial('register/help', ['user' => $this->getUser(), 'products' => $products, 'account' => $account, 'event' => $event,'unpaidOwnerCount' => $unpaidOwnerCount, 'unpaidJuridicalOrderCount' => $unpaidJuridicalOrderCount, 'paidEvent' => $paidEvent]);?>
     <table class="table thead-actual">
       <thead>
       <tr>
@@ -84,6 +85,7 @@ $hasTickets = !empty($products->tickets);
 
   <?if ($hasTickets):?>
     <div style="display: none;" data-scenario="<?=\pay\models\forms\OrderForm::ScenarioRegisterTicket;?>">
+        <?$this->renderPartial('register/help-ticket', ['user' => $this->getUser(), 'products' => $products, 'account' => $account, 'event' => $event,'unpaidOwnerCount' => $unpaidOwnerCount, 'unpaidJuridicalOrderCount' => $unpaidJuridicalOrderCount, 'paidEvent' => $paidEvent]);?>
       <table class="table thead-actual">
         <thead>
         <tr>
@@ -132,7 +134,7 @@ $hasTickets = !empty($products->tickets);
   <tr class="user-row">
     <td>
       <div class="p-relative">
-        <input type="text" class="input-xxlarge form-element_text input-user" placeholder="<?=Yii::t('app', 'Введите ФИО или RUNET-ID');?>">
+        <input type="text" class="form-element_text input-user" placeholder="<?=Yii::t('app', 'Введите ФИО или RUNET-ID');?>">
       </div>
     </td>
     <td class="discount" data-discount="0"></td>
@@ -146,7 +148,7 @@ $hasTickets = !empty($products->tickets);
   <tr class="user-row">
     <td>
       <div class="p-relative">
-        <input type="text" class="input-xxlarge form-element_text input-user no-disabled" placeholder="Введите ФИО или RUNET-ID" value="<%=item.FullName%>, RUNET-ID <%=item.RunetId%>" disabled>
+        <input type="text" class="form-element_text input-user no-disabled" placeholder="Введите ФИО или RUNET-ID" value="<%=item.FullName%>, RUNET-ID <%=item.RunetId%>" disabled>
         <i class="icon-remove"></i>
       </div>
     </td>

@@ -92,7 +92,7 @@
 .cabinet .total span {text-transform: uppercase;}
 
 .cabinet .pay-buttons {
-  margin-bottom: 40px;
+  padding-bottom: 40px;
 }
 .cabinet .pay-buttons ul {
   list-style: none;
@@ -116,7 +116,7 @@
   box-sizing: content-box;
 }
 .cabinet .nav-buttons {
-  margin-bottom: 40px;
+  padding-bottom: 40px;
   text-align: center;
 }
 
@@ -140,4 +140,18 @@
   background: none;
   padding: 0;
   margin: 0;
+}
+
+.pay-buttons ul.pay-systems li span{
+  display: inline-block;
+  vertical-align: middle;
+  background: url("/img/pay/pay-icons.png") no-repeat scroll 0 0 transparent;
+  height: 47px;
+  margin-left: 30px;
+}
+.pay-buttons ul.pay-systems li span.uniteller{
+  width: 120px;
+}
+.pay-buttons ul.pay-systems li span.payonline{
+  width: 262px;
 }
