@@ -2,10 +2,12 @@
 /**
  * @var $unpaidItems array
  * @var $hasRecentPaidItems bool
- * @var $this CabinetController
+ * @var $this Controller
  * @var $account \pay\models\Account
  * @var $formAdditionalAttributes \pay\models\forms\AddtionalAttributes
  */
+
+use widget\components\Controller;
 
 $total = 0;
 ?>
@@ -114,7 +116,7 @@ $total = 0;
     <?endif;?>
 
     <label class="checkbox">
-      <input type="checkbox" name="agreeOffer" value="1"/><?=\Yii::t('app', 'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате', array('{url}' => $this->createUrl('/pay/cabinet/offer')));?>
+      <input type="checkbox" name="agreeOffer" value="1"/><?=\Yii::t('app', 'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате', ['{url}' => Yii::app()->createUrl('/pay/cabinet/offer', ['eventIdName' => $this->getEvent()->IdName])]);?>
     </label>
   </div>
 
