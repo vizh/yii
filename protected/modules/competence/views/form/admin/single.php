@@ -17,6 +17,7 @@ $rows = count($values) + 10;
   <tr>
     <th>Ключ</th>
     <th>Значение</th>
+          <th>Описание</th>
     <th>Ввод своего значения</th>
     <th>Сортировка</th>
   </tr>
@@ -31,6 +32,11 @@ $rows = count($values) + 10;
       <td>
         <input class="span5" type="text" name="Single[<?=$i?>][title]" value="<?=$value->title;?>"/>
       </td>
+
+            <td>
+                <textarea class="span5" name="Single[<?=$i?>][description]"  rows="3"><?=$value->description;?></textarea>
+            </td>
+
       <td>
         <label class="checkbox">
           <input type="checkbox" name="Single[<?=$i?>][isOther]" <?=$value->isOther ? 'checked' : '';?>  value="1"/>

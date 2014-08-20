@@ -14,8 +14,8 @@ namespace competence\models;
  * @property string $Code
  * @property string $Title
  * @property string $SubTitle
- * @property bool $First
- * @property bool $Last
+ * @property boolean $First
+ * @property boolean $Last
  * @property int $Sort
  * @property string $BeforeTitleText
  * @property string $AfterTitleText

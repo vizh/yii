@@ -282,21 +282,21 @@ abstract class Base extends \CFormModel
     return null;
   }
 
-  public function processAdminPanel()
-  {
-    $request = \Yii::app()->getRequest();
-    $params = $request->getParam(get_class($this->question));
-    if (!empty($params['Title']))
+    public function processAdminPanel()
     {
-      $this->question->Title = $params['Title'];
+        $request = \Yii::app()->getRequest();
+        $params = $request->getParam(get_class($this->question));
+        if (!empty($params['Title']))
+        {
+            $this->question->Title = $params['Title'];
+        }
+        else
+        {
+            $this->question->addError('Title', 'Поле "Текст вопроса" не может быть пустым');
+        }
+        $this->question->SubTitle = $params['SubTitle'];
+        $this->question->BeforeTitleText = $params['BeforeTitleText'];
+        $this->question->AfterTitleText = $params['AfterTitleText'];
+        $this->question->AfterQuestionText = $params['AfterQuestionText'];
     }
-    else
-    {
-      $this->question->addError('Title', 'Поле "Текст вопроса" не может быть пустым');
-    }
-    $this->question->SubTitle = $params['SubTitle'];
-    $this->question->BeforeTitleText = $params['BeforeTitleText'];
-    $this->question->AfterTitleText = $params['AfterTitleText'];
-    $this->question->AfterQuestionText = $params['AfterQuestionText'];
-  }
 }

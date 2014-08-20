@@ -72,7 +72,7 @@ class Multiple extends \competence\models\form\Base
       if (empty($row['key']) && empty($row['title']))
         continue;
 
-      $values[] = new \competence\models\form\attribute\CheckboxValue($row['key'], $row['title'], isset($row['isOther']), (int)$row['sort'], isset($row['isUnchecker']));
+      $values[] = new \competence\models\form\attribute\CheckboxValue($row['key'], $row['title'], isset($row['isOther']), (int)$row['sort'], isset($row['isUnchecker']), $row['description']);
       $maxSort = max((int)$row['sort'], $maxSort);
     }
 
