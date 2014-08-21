@@ -4,7 +4,7 @@
  */
 $event = $this->event;
 ?>
-<div class="b-event-promo <?=$event->Type->Code;?> <?=$event->IdName;?>" style="background: url('/img/event/pm14/header-bg.png') no-repeat scroll center 0 #ffffff">
+<div class="b-event-promo <?=$event->Type->Code;?> <?=$event->IdName;?>" style="background: url('/img/event/pm14/header-bg.jpg') no-repeat scroll center 0 #ffffff">
     <div class="container" style="padding-bottom: 25px;">
         <div class="row">
             <div class="side left span2">
