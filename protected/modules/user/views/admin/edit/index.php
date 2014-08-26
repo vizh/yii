@@ -56,6 +56,12 @@
       <b><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy HH:mm', $user->CreationTime);?></b>
     </div>
   </div>
+    <div class="control-group">
+        <label class="control-label" for="NewRunetId">RUNET-ID</label>
+        <div class="controls">
+            <input id="NewRunetId" type="text" name="NewRunetId" value="<?=$user->RunetId;?>"/>
+        </div>
+    </div>
   <div class="control-group">
     <?=\CHtml::activeLabel($form, 'FirstName', ['class' => 'control-label']);?>
     <div class="controls">

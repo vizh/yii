@@ -1,4 +1,6 @@
 <?php
+use user\models\User;
+
 /**
  * Class EditController
  * @property \user\models\forms\admin\Edit $form
@@ -11,7 +13,7 @@ class EditController extends \application\components\controllers\AdminMainContro
 
   public function actionIndex($runetId, $backUrl = '')
   {
-    $this->user = \user\models\User::model()->byRunetId($runetId)->find();
+    $this->user = User::model()->byRunetId($runetId)->find();
     if ($this->user == null)
       throw new \CHttpException(404);
 
@@ -21,9 +23,28 @@ class EditController extends \application\components\controllers\AdminMainContro
     {
       $this->form->attributes = $request->getParam(get_class($this->form));
       $this->form->Photo = \CUploadedFile::getInstance($this->form, 'Photo');
-      if ($this->form->validate())
+        $this->form->validate();
+
+        $updateRunetId = false;
+        $newRunetId = (int)$request->getParam('NewRunetId');
+        if (!empty($runetId) && $this->user->RunetId != $newRunetId) {
+            if (User::model()->byRunetId($newRunetId)->exists()) {
+                $this->form->addError('', sprintf('Пользователь с RUNET-ID %s уже существует.', $newRunetId));
+            } elseif ($newRunetId > User::model()->find('', ['order' => 't."RunetId" DESC'])->RunetId) {
+                $this->form->addError('', sprintf('RUNET-ID %s больше, чем самый большой RUNET-ID в системе.', $newRunetId));
+            } else {
+                $this->user->RunetId = $newRunetId;
+                $updateRunetId = true;
+            }
+        }
+      if (!$this->form->hasErrors())
       {
         $this->processForm();
+          if ($updateRunetId) {
+              $this->redirect(Yii::app()->createUrl('/user/admin/edit/index', ['runetId' => $newRunetId, 'backUrl' => $backUrl]));
+          } else {
+              $this->refresh();
+          }
       }
     }
     else
@@ -140,7 +161,6 @@ class EditController extends \application\components\controllers\AdminMainContro
     $this->processFormPhone();
     $this->processFormEmployment();
     \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Данные пользователя успешно сохранены!'));
-    $this->refresh();
   }
 
   /**
