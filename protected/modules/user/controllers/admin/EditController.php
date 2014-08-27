@@ -30,7 +30,7 @@ class EditController extends \application\components\controllers\AdminMainContro
         if (!empty($runetId) && $this->user->RunetId != $newRunetId) {
             if (User::model()->byRunetId($newRunetId)->exists()) {
                 $this->form->addError('', sprintf('Пользователь с RUNET-ID %s уже существует.', $newRunetId));
-            } elseif ($newRunetId > User::model()->find('', ['order' => 't."RunetId" DESC'])->RunetId) {
+            } elseif ($newRunetId > User::model()->find(['order' => 't."RunetId" DESC'])->RunetId) {
                 $this->form->addError('', sprintf('RUNET-ID %s больше, чем самый большой RUNET-ID в системе.', $newRunetId));
             } else {
                 $this->user->RunetId = $newRunetId;

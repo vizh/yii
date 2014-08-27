@@ -60,6 +60,7 @@
         <label class="control-label" for="NewRunetId">RUNET-ID</label>
         <div class="controls">
             <input id="NewRunetId" type="text" name="NewRunetId" value="<?=$user->RunetId;?>"/>
+            <p class="help-inline">Внимание! При изменении RUNET-ID фото пользователя будет удалено.</p>
         </div>
     </div>
   <div class="control-group">
