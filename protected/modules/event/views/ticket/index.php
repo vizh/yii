@@ -157,7 +157,7 @@
               </tr>
               <tr>
                 <td style="text-align: center; padding-top: 20px;">
-                  <img src="http://runet-id.com/images/mail/riw13/warning.png" />
+                  <img src="http://runet-id.com/img/ticket/warning.png" />
                 </td>
               </tr>
               <tr>
