@@ -9,8 +9,9 @@ namespace pay\models;
  * @property int $EventId
  * @property string $Type
  * @property float $Discount
- * @property string $StartDate
- * @property string $EndDate
+ * @property string $CreationTime
+ * @property string $StartTime
+ * @property string $EndTime
  *
  * @property \event\models\Event $Event
  * @property CollectionCouponAttribute[] $Attributes
@@ -119,13 +120,13 @@ class CollectionCoupon extends \CActiveRecord
       $dateTime = date('Y-m-d H:i:s', $dateTime);
     }
 
-    if (empty($this->StartDate) && empty($this->EndDate))
+    if (empty($this->StartTime) && empty($this->EndTime))
       return true;
-    if (empty($this->EndDate) && $dateTime >= $this->StartDate)
+    if (empty($this->EndTime) && $dateTime >= $this->StartTime)
       return true;
-    if (empty($this->StartDate) && $dateTime <= $this->EndDate)
+    if (empty($this->StartTime) && $dateTime <= $this->EndTime)
       return true;
-    if ($dateTime >= $this->StartDate && $dateTime <= $this->EndDate)
+    if ($dateTime >= $this->StartTime && $dateTime <= $this->EndTime)
       return true;
 
     return false;
