@@ -69,7 +69,9 @@ class Base extends \event\components\WidgetAdminPanel
           $value = isset($this->form->Attributes[$name][$locale]) && strlen($this->form->Attributes[$name][$locale]) ? $this->form->Attributes[$name][$locale] : null;
           if ($locale == \Yii::app()->getLanguage() && $value == null)
           {
-            $attribute->delete();
+              if (!$attribute->getIsNewRecord()) {
+                  $attribute->delete();
+              }
             $delete = true;
             break;
           }

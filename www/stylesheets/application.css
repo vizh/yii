@@ -1600,12 +1600,12 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 }
 
 /* Event -> Register -> User register */
-#event-register .user-register {
+#event-register .user-register, .form-user-register {
   margin-bottom: 0;
   padding: 20px 0;
 }
 
-#event-register .user-register .alert {
+#event-register .user-register .alert, .form-user-register .alert {
   position: relative;
   left: -15px;
   margin: 0 auto 20px;
@@ -1613,38 +1613,41 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   text-align: center;
 }
 
-#event-register .user-register .clearfix {
+#event-register .user-register .clearfix, .form-user-register .clearfix {
   margin: 0 auto 10px;
   width: 530px;
 }
-#event-register .user-register .clearfix > div {width: 250px;}
+#event-register .user-register .clearfix > div, .form-user-register .clearfix > div  {width: 250px;}
 
-#event-register .user-register .title {
+#event-register .user-register .title, .form-user-register .title {
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid #e5e5e5;
   text-align: center;
   text-transform: uppercase;
-  
-  
 }
-#event-register .user-register label {font-size: 13px;}
-#event-register .user-register label:not(.checkbox) {
+#event-register .user-register label, .form-user-register label {font-size: 13px;}
+#event-register .user-register label:not(.checkbox):not(.radio),
+.form-user-register label:not(.checkbox):not(.radio){
   margin-bottom: 1px;
   color: #999;
 }
-#event-register .user-register input {
+#event-register .user-register label.defined-attribute:not(.checkbox):not(.radio),
+.form-user-register label.defined-attribute:not(.checkbox):not(.radio){
+  color: #468847;
+}
+#event-register .user-register input, .form-user-register input {
   margin-bottom: 0;
   font-size: 13px;
 }
 
-#event-register .user-register .checkbox {margin-top: 35px;}
+#event-register .user-register .checkbox, .form-user-register .checkbox {margin-top: 20px;}
 
-#event-register .user-register .required {
+#event-register .user-register .required, .form-user-register .required {
   position: relative;
   display: inline-block;
 }
-#event-register .user-register .required:after {
+#event-register .user-register .required:after, .form-user-register .required:after {
   position: absolute;
   top: 8px;
   right: 10px;
@@ -1653,11 +1656,11 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   font-size: 15px;
 }
 
-#event-register .required-notice {
+#event-register .required-notice, .form-user-register .required-notice {
   display: block;
   text-align: center;
 }
-#event-register .required-asterisk {
+#event-register .required-asterisk, .form-user-register .required-asterisk {
   color: #b94a48;
   font-size: 15px;
 }
@@ -2995,3 +2998,13 @@ input[type="file"] {
   border-radius: 0;
 }
 .alert.primary-phone-verify a.btn.btn-mini {margin-top: 0;}
+
+
+.widget-invite form { margin-bottom: 0; }
+.widget-invite .form-user-register { padding: 0; }
+.widget-invite .form-user-register .clearfix { width: 568px; }
+.widget-invite .form-user-register .clearfix > div { width: 269px; }
+
+/*.widget-invite .form-user-register input[type="text"],
+.widget-invite .form-user-register input[type="password"] { width: 226px; }
+.widget-invite .form-user-register select { width: 240px; }*/

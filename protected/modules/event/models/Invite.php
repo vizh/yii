@@ -11,12 +11,17 @@ namespace event\models;
  * @property string $ActivationTime
  *
  * @property \user\models\User $User
+ *
+ * @method Invite find($condition='',$params=array())
+ * @method Invite findByPk($pk,$condition='',$params=array())
+ * @method Invite[] findAll($condition='',$params=array())
  */
+
 class Invite extends \CActiveRecord
 {
   /**
    * @param string $className
-   * @return Type
+   * @return Invite
    */
   public static function model($className=__CLASS__)
   {
@@ -61,7 +66,7 @@ class Invite extends \CActiveRecord
    * 
    * @param string $code
    * @param bool $useAnd
-   * @return \event\models\InviteCode
+   * @return Invite
    */
   public function byCode($code, $useAnd = true)
   {

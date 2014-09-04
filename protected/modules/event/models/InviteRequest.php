@@ -16,7 +16,7 @@ class InviteRequest extends \CActiveRecord
 {
   /**
    * @param string $className
-   * @return Type
+   * @return InviteRequest
    */
   public static function model($className=__CLASS__)
   {
@@ -46,7 +46,7 @@ class InviteRequest extends \CActiveRecord
    * 
    * @param int $eventId
    * @param bool $useAnd
-   * @return \event\models\Invite
+   * @return InviteRequest
    */
   public function byEventId($eventId, $useAnd = true)
   {
@@ -61,7 +61,7 @@ class InviteRequest extends \CActiveRecord
    * 
    * @param int $userId
    * @param bool $useAnd
-   * @return \event\models\InviteRequest
+   * @return InviteRequest
    */
   public function byOwnerUserId($userId, $useAnd = true)
   {

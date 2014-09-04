@@ -1,8 +1,8 @@
 $(function () {
-  $('form.form-inline input[name*="FullName"]').autocomplete({
+  $('.widget-invite input[name*="FullName"]').autocomplete({
     source : '/user/ajax/search',
     select : function (event, ui) {
-      $(this).parent('form').find('input[name*="RunetId"]').val(ui.item.RunetId);
+      $(this).parent().find('input[name*="RunetId"]').val(ui.item.RunetId);
     },
     minLength: 2,
     response : function (event, ui) {
@@ -14,7 +14,7 @@ $(function () {
     html : true
   }).keypress(function (e) {
     if (e.which !== 13) {
-      $(this).parent('form').find('input[name*="RunetId"]').val('');
+      $(this).parent().find('input[name*="RunetId"]').val('');
     }
   });
 });
