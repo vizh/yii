@@ -5,7 +5,6 @@
  * @var \pay\models\Account $account
  * @var \event\models\Event $event
  * @var int $unpaidOwnerCount
- * @var int $unpaidJuridicalOrderCount
  * @var bool $paidEvent
  */
 ?>
@@ -35,7 +34,7 @@
   <?if (!$account->SandBoxUser):?>
     <p>Для добавления участника достаточным будет ввести его ФИО или RUNET-ID, система автоматически проверит наличие пользователя среди участников ИТ-мероприятия и если будут найдены совпадения - предложит добавить существующий профиль. В противном случае нужно будет заполнить необходимую контактную информацию для участника.</p>
 
-    <?if ($unpaidOwnerCount > 0 || $unpaidJuridicalOrderCount > 0):?>
+    <?if ($unpaidOwnerCount > 0):?>
       <p><strong>Важно:</strong> у Вас уже есть сформированные, но <a href="<?=$this->getNextStepUrl();?>">неоплаченные заказы</a>.</p>
     <?endif;?>
   <?endif;?>

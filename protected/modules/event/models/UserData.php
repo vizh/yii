@@ -57,16 +57,15 @@ class UserData extends \CActiveRecord
     protected $manager = null;
 
     /**
-     * todo: Раскомментировать, когда будут доступны traits на runet-id
      * @return UserDataManager
      */
-    /*public function getManager()
+    public function getManager()
     {
         if ($this->manager === null) {
             $this->manager = new UserDataManager($this);
         }
         return $this->manager;
-    }*/
+    }
 
     /**
      * @param int $eventId
@@ -97,12 +96,11 @@ class UserData extends \CActiveRecord
     }
 
     /**
-     * todo: Раскомментировать, когда будут доступны traits на runet-id
      * @param Event $event
      * @param User $user
      * @return string[]
      */
-    /*public static function getDefinedAttributes($event, $user)
+    public static function getDefinedAttributes($event, $user)
     {
         $userDataModels = UserData::model()->byEventId($event->Id)->byUserId($user->Id)
             ->findAll(['order' => 't."CreationTime" DESC']);
@@ -120,5 +118,5 @@ class UserData extends \CActiveRecord
 
         $attributeNames = array_unique($attributeNames);
         return $attributeNames;
-    }*/
+    }
 } 

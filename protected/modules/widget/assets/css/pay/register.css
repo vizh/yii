@@ -184,6 +184,14 @@
   content: "*";
   font-size: 15px;
 }
+.register .user-register label.required:after {
+  position: absolute;
+  top: -3px;
+  right: -10px;
+  color: #b94a48;
+  content: "*";
+  font-size: 15px;
+}
 
 .register .required-notice {
   display: block;

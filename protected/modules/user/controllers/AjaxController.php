@@ -1,4 +1,8 @@
 <?php
+use event\models\UserData;
+use user\models\forms\RegisterForm;
+use user\models\User;
+
 class AjaxController extends \application\components\controllers\PublicMainController
 {
   public function actions()
@@ -31,45 +35,90 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     }
     echo json_encode($results);
   }
-  
+
   public function actionRegister()
   {
     $result = new \stdClass();
-    $form = new \user\models\forms\RegisterForm();
-    
-    $form->attributes = \Yii::app()->request->getParam(get_class($form));
-    if ($form->validate())
-    {
-      $user = new \user\models\User();
-      $user->LastName = $form->LastName;
-      $user->FirstName = $form->FirstName;
-      $user->FatherName = $form->FatherName;
-      $user->Email = $form->Email;
-      $user->PrimaryPhone = $form->Phone;
-      $user->register();
-      $user->setEmployment($form->Company, $form->Position);
-      $result->success = true;
-      $result->user = $this->getUserData($user);
-    }
-    else
-    {
-      $user = \user\models\User::model()->byEmail($form->Email)->byVisible(true)->find();
-      if ($user != null && $user->LastName == $form->LastName)
-      {
+      $request = \Yii::app()->getRequest();
+    $form = new RegisterForm();
+    $form->attributes = $request->getParam(get_class($form));
+
+      $userData = new UserData();
+      $userData->EventId = $form->EventId;
+      $userData->CreatorId = $this->getCreator() !== null ? $this->getCreator()->Id : null;
+      $dataManager = $userData->getManager();
+      $dataManagerValidate = true;
+      if ($request->getParam(get_class($dataManager)) !== null) {
+          $dataManager->setAttributes($request->getParam(get_class($dataManager)));
+          $dataManagerValidate = $dataManager->validate();
+      }
+
+    if ($form->validate() && $dataManagerValidate) {
+        $user = $this->createUser($form);
         $result->success = true;
         $result->user = $this->getUserData($user);
-      }
-      else
-      {
-        $result->success = false;
-        $result->errors  = $form->getErrors();
-      }
+
+        if ($dataManager->hasDefinitions()) {
+            $userData->UserId = $user->Id;
+            $userData->save();
+        }
+    } else {
+      $user = \user\models\User::model()->byEmail($form->Email)->byVisible(true)->find();
+        $isUserExist = $user !== null && $user->LastName === $form->LastName;
+        if ($isUserExist && $dataManagerValidate) {
+            $result->success = true;
+            $result->user = $this->getUserData($user);
+
+            if ($dataManager->hasDefinitions()) {
+                $userData->UserId = $user->Id;
+                $userData->save();
+            }
+        } elseif($isUserExist) {
+            $result->success = false;
+            $result->errors  = $dataManager->getErrors();
+        } else {
+            $result->success = false;
+            $result->errors  = array_merge($form->getErrors(), $dataManager->getErrors());
+        }
     }
     echo json_encode($result);
   }
-  
-  
-  private function getUserData($user)
+
+    /**
+     * @param RegisterForm $form
+     * @return User
+     */
+    private function createUser(RegisterForm $form)
+    {
+        $user = new \user\models\User();
+        $user->LastName = $form->LastName;
+        $user->FirstName = $form->FirstName;
+        $user->FatherName = $form->FatherName;
+        $user->Email = $form->Email;
+        $user->PrimaryPhone = $form->Phone;
+        $user->register();
+        $user->setEmployment($form->Company, $form->Position);
+        return $user;
+    }
+
+    /**
+     * @return User|null
+     */
+    private function getCreator()
+    {
+        if (\Yii::app()->user->getCurrentUser() !== null) {
+            return \Yii::app()->user->getCurrentUser();
+        } elseif (\Yii::app()->payUser->getCurrentUser() !== null) {
+            return \Yii::app()->payUser->getCurrentUser();
+        }
+        return null;
+    }
+
+    /**
+     * @param User $user
+     * @return stdClass
+     */
+    private function getUserData($user)
   {
     $data = new \stdClass();
     $data->RunetId = $data->value = $user->RunetId;

@@ -1,4 +1,6 @@
-var CRegister = function()
+
+
+var CPayRegister = function()
 {
   this.itemsIterator = 0;
   this.form = $('.register form');
@@ -6,17 +8,19 @@ var CRegister = function()
 
   this.eventIdName = this.form.data('event-id-name');
   this.eventId = this.form.data('event-id');
-  this.templates = {
-    row : _.template($('#row-tpl[type="text/template"]').html()),
-    rowWithData : _.template($('#row-withdata-tpl[type="text/template"]').html()),
-    rowDataFields : _.template($('#row-data-tpl[type="text/template"]').html()),
-    rowRegister : _.template($('#row-register-tpl[type="text/template"]').html()),
-    userAutocomlete : _.template($('#user-autocomlete-tpl[type="text/template"]').html()),
-    discount: _.template($('#row-discount[type="text/template"]').html())
-  };
+  this.sandBoxUser = this.form.data('sandbox-user');
+    this.templates = {
+        row : _.template($('#row-tpl[type="text/template"]').html()),
+        rowWithData : _.template($('#row-withdata-tpl[type="text/template"]').html()),
+        rowDataFields : _.template($('#row-data-tpl[type="text/template"]').html()),
+        rowRegister : _.template($('#row-register-tpl[type="text/template"]').html()),
+        userAutocomlete : _.template($('#user-autocomlete-tpl[type="text/template"]').html()),
+        discount: _.template($('#row-discount[type="text/template"]').html()),
+        rowEditUserData: _.template($('#row-userdataedit-tpl[type="text/template"]').html())
+    };
   this.init();
 };
-CRegister.prototype = {
+CPayRegister.prototype = {
   init: function () {
     var self = this;
     self.form.find('input[name*="Scenario"]').change(function (e) {
@@ -56,42 +60,43 @@ CRegister.prototype = {
     this.form.find('div[data-scenario="'+self.scenario+'"]').show().find(':input').not('.no-disabled').prop('disabled', false);
     this.form.find('.nav-buttons a.btn-large').removeClass('disabled');
   },
-
+  
   /**
-   *
+   * 
    */
   initRegisterButton : function (row) {
     var self = this,
-      table = row.parents('table[data-product-id]');
+        table = row.parents('table[data-product-id]');
 
     row.find('button.btn-register').on('click', function (e) {
       var registerRowTemplate = self.templates.rowRegister();
       $(e.currentTarget).hide();
       row.after(registerRowTemplate);
       row.hide();
-
+      
       var registerForm = row.next('tr').find('form');
+      registerForm.find('input[name*="RegisterForm[Phone]"]').initPhoneInputMask();
       registerForm.find('.form-actions .btn-submit').click(function () {
         var alertContainer = registerForm.find('.alert-error');
         alertContainer.html('').hide();
         $.post('/user/ajax/register', registerForm.serialize(), function (response) {
-            if (response.success) {
-              registerForm.parents('tr').remove();
-              self.createFillRow(table.data('product-id'), response.user);
-              row.remove();
-              self.calculate();
-            }
-            else {
-              alertContainer.show().html('');
-              $.each(response.errors, function (field, messsage) {
-                alertContainer.append(messsage+'<br/>');
-              });
-            }
-          },
-          'json');
+          if (response.success) {
+            registerForm.parents('tr').remove();
+            self.createFillRow(table.data('product-id'), response.user);
+            row.remove();
+            self.calculate();
+          }
+          else {
+            alertContainer.show().html('');
+            $.each(response.errors, function (field, messsage) {
+              alertContainer.append(messsage+'<br/>');
+            });
+          }
+        }, 
+        'json');
         return false;
       });
-
+      
       registerForm.find('.form-actions .btn-cancel').click(function () {
         registerForm.parents('tr').remove();
         row.show();
@@ -125,18 +130,18 @@ CRegister.prototype = {
     });
     td.html(rowDiscount);
   },
-
+  
   /**
-   *
+   * 
    */
   initCouponField : function (row) {
     var self = this,
-      promoInput  = row.find('.input-promo>input'),
-      promoSubmit = row.find('.input-promo>.btn'),
-      promoAlert  = row.find('.input-promo>.alert');
+        promoInput  = row.find('.input-promo>input'),
+        promoSubmit = row.find('.input-promo>.btn'),
+        promoAlert  = row.find('.input-promo>.alert');
 
     promoInput.placeholder();
-
+    
     promoInput.keyup(function(e) {
       if ($(e.currentTarget).val().length > 0) {
         promoSubmit.addClass('btn-success').removeClass('disabled');
@@ -145,7 +150,7 @@ CRegister.prototype = {
         promoSubmit.removeClass('btn-success').addClass('disabled');
       }
     });
-
+    
     promoSubmit.click(function(e) {
       var row = $(e.currentTarget).parents('.user-row');
 
@@ -178,7 +183,7 @@ CRegister.prototype = {
           else {
             promoAlert.addClass('alert-error').text(response.error);
           }
-
+          
           if (runAlertTimer) {
             setTimeout(function () { promoAlert.addClass('hide'); }, 2000);
           }
@@ -186,9 +191,9 @@ CRegister.prototype = {
       }
     });
   },
-
+  
   /**
-   *
+   * 
    */
   initRemoveIcon : function (row) {
     var self = this;
@@ -198,43 +203,35 @@ CRegister.prototype = {
       self.calculate();
     });
   },
-
+  
   /**
    *
    */
   createEmptyRow : function (productId) {
     var self = this,
-      rowTemplate = this.templates.row();
-
+        rowTemplate = this.templates.row();
+ 
     var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
     table.append(rowTemplate);
     var row = table.find('tr:last-child');
+    var source = '/user/ajax/search/' + (self.sandBoxUser ? '?eventId=' + self.eventId : '');
     row.find('input.input-user').autocomplete({
       minLength: 2,
       position: {
         collision: 'flip'
       },
-      source: '/user/ajax/search/',
+      source: source,
       select: function(event, ui) {
-        var rowDataFieldsTemplate = self.templates.rowDataFields({
-          i : self.itemsIterator,
-          productId : productId,
-          runetId : ui.item.RunetId
-        });
-        row.find('.last-child').html(rowDataFieldsTemplate);
-        $(this).attr('disabled', 'disabled').addClass('no-disabled').blur().after('<i class="icon-remove"></i>');
-        self.calculate();
-        self.initCouponField(row);
-        self.initRemoveIcon(row);
-        self.initDiscountRemote(row);
-        self.itemsIterator++;
+          row.find('button.btn-register').hide();
+          self.processUserDataRow(row, productId, ui.item.RunetId);
       },
       response : function (event, ui) {
         $.each(ui.content, function (i) {
           ui.content[i].label = self.templates.userAutocomlete({
             item: ui.content[i]
           });
-          ui.content[i].value = ui.content[i].FullName + ', '+ 'RUNET-ID ' + ui.content[i].RunetId;
+          var runetIdTitle = self.sandBoxUser ? 'ID ' : 'RUNET-ID ';
+          ui.content[i].value = ui.content[i].FullName + ', '+ runetIdTitle + ui.content[i].RunetId;
         });
         row.find('button.btn-register').show();
       },
@@ -242,9 +239,9 @@ CRegister.prototype = {
     });
     self.initRegisterButton(row);
   },
-
+  
   /**
-   *
+   * 
    */
   createFillRow: function (productId, item, promoCode) {
     var self = this;
@@ -256,7 +253,7 @@ CRegister.prototype = {
     });
 
 
-
+   
     var table = self.form.find('table[data-product-id="'+ productId +'"] tbody');
     table.append(rowTemplate);
     var row = table.find('tr:last-child');
@@ -267,9 +264,77 @@ CRegister.prototype = {
     return row;
   },
 
+    processUserDataRow: function(row, productId, runetId) {
+        var self = this;
+        var inputUser = row.find('.input-user');
+
+        $.get('/pay/ajax/userdata', {
+                runetId: runetId,
+                eventIdName: self.eventIdName
+            }, function (response) {
+                if (response.showEditArea) {
+                    var editUserDataTemplate = self.templates.rowEditUserData({
+                        userInfo: inputUser.val(),
+                        editArea: response.editArea
+                    });
+                    row.after(editUserDataTemplate);
+                    row.hide();
+
+                    var editForm = row.next('tr').find('form');
+                    editForm.find('.form-actions .btn-submit').click(function () {
+                        var alertContainer = editForm.find('.alert-error');
+                        alertContainer.html('').hide();
+                        $.post('/pay/ajax/edituserdata/?eventIdName='+self.eventIdName+'&runetId='+runetId,
+                            editForm.serialize(),
+                            function (response) {
+                                if (response.success) {
+                                    editForm.parents('tr').remove();
+                                    self.processEmptyRow(row, productId, runetId);
+                                    row.show();
+                                }
+                                else {
+                                    alertContainer.show().html('');
+                                    $.each(response.errors, function (field, messsage) {
+                                        alertContainer.append(messsage+'<br/>');
+                                    });
+                                }
+                            },
+                            'json');
+                        return false;
+                    });
+
+                    editForm.find('.form-actions .btn-cancel').click(function () {
+                        editForm.parents('tr').remove();
+                        inputUser.val('');
+                        row.show();
+                    });
+                } else {
+                    self.processEmptyRow(row, productId, runetId);
+                }
+            },
+            'json');
+    },
+
+    processEmptyRow: function(row, productId, runetId) {
+        var self = this;
+
+        var rowDataFieldsTemplate = self.templates.rowDataFields({
+            i : self.itemsIterator,
+            productId: productId,
+            runetId: runetId
+        });
+        row.find('.last-child').html(rowDataFieldsTemplate);
+        row.find('.input-user').attr('disabled', 'disabled').addClass('no-disabled').blur().after('<i class="icon-remove"></i>');
+        self.calculate();
+        self.initCouponField(row);
+        self.initRemoveIcon(row);
+        self.initDiscountRemote(row);
+        self.itemsIterator++;
+    },
+          
   calculate : function (scenario) {
     var self     = this,
-      total    = 0;
+        total    = 0;
 
     if (typeof(scenario) == "undefined")
       scenario = self.scenario;
@@ -287,6 +352,8 @@ CRegister.prototype = {
 
           rows.each(function(){
             var discount = $(this).parents('tr.user-row').find('td.discount').data('discount');
+              if (typeof(discount) == "undefined")
+              discount = 0;
             sum += Math.round(price * (1 - discount));
           });
           total += sum;
@@ -313,6 +380,7 @@ CRegister.prototype = {
 };
 
 $(function () {
-  $_ = new CRegister();
+  var payRegister = new CPayRegister();
+
   $('input, textarea').placeholder();
 });

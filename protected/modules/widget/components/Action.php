@@ -1,6 +1,12 @@
 <?php
 namespace widget\components;
 
+/**
+ * Class Action
+ * @package widget\components
+ *
+ * @method Controller getController()
+ */
 class Action extends \CAction
 {
   /**

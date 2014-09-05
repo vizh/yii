@@ -9,14 +9,15 @@ var CPayRegister = function()
   this.eventIdName = this.form.data('event-id-name');
   this.eventId = this.form.data('event-id');
   this.sandBoxUser = this.form.data('sandbox-user');
-  this.templates = {
-    row : _.template($('#row-tpl[type="text/template"]').html()),
-    rowWithData : _.template($('#row-withdata-tpl[type="text/template"]').html()),
-    rowDataFields : _.template($('#row-data-tpl[type="text/template"]').html()),
-    rowRegister : _.template($('#row-register-tpl[type="text/template"]').html()),
-    userAutocomlete : _.template($('#user-autocomlete-tpl[type="text/template"]').html()),
-    discount: _.template($('#row-discount[type="text/template"]').html())
-  };
+    this.templates = {
+        row : _.template($('#row-tpl[type="text/template"]').html()),
+        rowWithData : _.template($('#row-withdata-tpl[type="text/template"]').html()),
+        rowDataFields : _.template($('#row-data-tpl[type="text/template"]').html()),
+        rowRegister : _.template($('#row-register-tpl[type="text/template"]').html()),
+        userAutocomlete : _.template($('#user-autocomlete-tpl[type="text/template"]').html()),
+        discount: _.template($('#row-discount[type="text/template"]').html()),
+        rowEditUserData: _.template($('#row-userdataedit-tpl[type="text/template"]').html())
+    };
   this.init();
 };
 CPayRegister.prototype = {
@@ -221,18 +222,8 @@ CPayRegister.prototype = {
       },
       source: source,
       select: function(event, ui) {
-        var rowDataFieldsTemplate = self.templates.rowDataFields({
-          i : self.itemsIterator,
-          productId : productId,
-          runetId : ui.item.RunetId
-        });
-        row.find('.last-child').html(rowDataFieldsTemplate);
-        $(this).attr('disabled', 'disabled').addClass('no-disabled').blur().after('<i class="icon-remove"></i>');
-        self.calculate();
-        self.initCouponField(row);
-        self.initRemoveIcon(row);
-        self.initDiscountRemote(row);
-        self.itemsIterator++;
+          row.find('button.btn-register').hide();
+          self.processUserDataRow(row, productId, ui.item.RunetId);
       },
       response : function (event, ui) {
         $.each(ui.content, function (i) {
@@ -272,6 +263,74 @@ CPayRegister.prototype = {
 
     return row;
   },
+
+    processUserDataRow: function(row, productId, runetId) {
+        var self = this;
+        var inputUser = row.find('.input-user');
+
+        $.get('/pay/ajax/userdata', {
+                runetId: runetId,
+                eventIdName: self.eventIdName
+            }, function (response) {
+                if (response.showEditArea) {
+                    var editUserDataTemplate = self.templates.rowEditUserData({
+                        userInfo: inputUser.val(),
+                        editArea: response.editArea
+                    });
+                    row.after(editUserDataTemplate);
+                    row.hide();
+
+                    var editForm = row.next('tr').find('form');
+                    editForm.find('.form-actions .btn-submit').click(function () {
+                        var alertContainer = editForm.find('.alert-error');
+                        alertContainer.html('').hide();
+                        $.post('/pay/ajax/edituserdata/?eventIdName='+self.eventIdName+'&runetId='+runetId,
+                            editForm.serialize(),
+                            function (response) {
+                                if (response.success) {
+                                    editForm.parents('tr').remove();
+                                    self.processEmptyRow(row, productId, runetId);
+                                    row.show();
+                                }
+                                else {
+                                    alertContainer.show().html('');
+                                    $.each(response.errors, function (field, messsage) {
+                                        alertContainer.append(messsage+'<br/>');
+                                    });
+                                }
+                            },
+                            'json');
+                        return false;
+                    });
+
+                    editForm.find('.form-actions .btn-cancel').click(function () {
+                        editForm.parents('tr').remove();
+                        inputUser.val('');
+                        row.show();
+                    });
+                } else {
+                    self.processEmptyRow(row, productId, runetId);
+                }
+            },
+            'json');
+    },
+
+    processEmptyRow: function(row, productId, runetId) {
+        var self = this;
+
+        var rowDataFieldsTemplate = self.templates.rowDataFields({
+            i : self.itemsIterator,
+            productId: productId,
+            runetId: runetId
+        });
+        row.find('.last-child').html(rowDataFieldsTemplate);
+        row.find('.input-user').attr('disabled', 'disabled').addClass('no-disabled').blur().after('<i class="icon-remove"></i>');
+        self.calculate();
+        self.initCouponField(row);
+        self.initRemoveIcon(row);
+        self.initDiscountRemote(row);
+        self.itemsIterator++;
+    },
           
   calculate : function (scenario) {
     var self     = this,
@@ -293,6 +352,8 @@ CPayRegister.prototype = {
 
           rows.each(function(){
             var discount = $(this).parents('tr.user-row').find('td.discount').data('discount');
+              if (typeof(discount) == "undefined")
+              discount = 0;
             sum += Math.round(price * (1 - discount));
           });
           total += sum;
