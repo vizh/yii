@@ -1119,7 +1119,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 }
 .event-page .registration .table .total span {text-transform: uppercase;}
 .event-page .registration.fast {
-  padding-bottom: 10px;
+  padding: 25px;
   text-align: center;
 }
 .event-page .registration.fast input {
