@@ -56,6 +56,7 @@ class Base extends \mail\components\Mail
    */
   public function getBody()
   {
-    return $this->renderBody('event.views.mail.invite.create.base', ['user' => $this->user, 'event' => $this->event]);
+      return null;
+    //return $this->renderBody('event.views.mail.invite.create.base', ['user' => $this->user, 'event' => $this->event]);
   }
 }

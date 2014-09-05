@@ -5,7 +5,7 @@ use widget\components\Controller;
  * @var Controller $this
  */
 ?>
-<?if ($this->getEvent()->Id != 1136):?>
+<?if ($this->getEvent()->Id != 1301):?>
 <div class="row-fluid">
   <div class="span6 text-right">
     <p>Для доступа<Br/> к платежному кабинету</p>
