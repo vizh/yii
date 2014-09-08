@@ -84,7 +84,9 @@ class UserDataManager extends \CModel
     public function rules()
     {
         $rules = $this->definitionRules();
-        $rules[] = ['AccountFB', 'checkSocials'];
+        if ($this->model()->EventId == 1375) {
+            $rules[] = ['AccountFB', 'checkSocials'];
+        }
         return $rules;
     }
 
