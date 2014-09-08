@@ -13,7 +13,7 @@
       <?=$this->question->BeforeTitleText != null ? $this->question->BeforeTitleText : '';?>
 
       <h3>
-        <?=$this->question->Title;?>
+        <?=$this->question->getForm()->getTitle();?>
         <?if (!empty($this->question->SubTitle)):?>
           <br><span><?=$this->question->SubTitle;?></span>
         <?endif;?>
