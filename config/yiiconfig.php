@@ -48,10 +48,10 @@ return array(
 
     'db' => array(
           'class'=>'\application\components\db\PgDbConnection',
-          'connectionString' => 'pgsql:host=runetid.internetmediaholding.com;port=5432;dbname=runetid',
+          'connectionString' => 'pgsql:host=10.10.5.79;port=5432;dbname=runetid_dev',
           'emulatePrepare' => true,
-          'username' => 'runetid',
-          'password' => 'Rofeena1jei8haes',
+          'username' => 'ruvents_beta',
+          'password' => 'ieBoo3thooDaer2E',
           'charset' => 'utf8',
           'enableProfiling' => true,
           'enableParamLogging'=>true,
