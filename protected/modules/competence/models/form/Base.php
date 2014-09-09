@@ -190,7 +190,7 @@ abstract class Base extends \CFormModel
     {
       return $this->question->Next;
     }
-    throw new \application\components\Exception('Необходимо задать Id следующего вопроса или переопределить метод getNext()');
+    throw new \application\components\Exception('Необходимо задать Id следующего вопроса или переопределить метод getNext() для ' . get_class($this));
   }
 
   /**
@@ -205,7 +205,7 @@ abstract class Base extends \CFormModel
     {
       return $this->question->Prev;
     }
-    throw new \application\components\Exception('Необходимо задать Id предыдущего вопроса или переопределить метод getPrev()');
+    throw new \application\components\Exception('Необходимо задать Id предыдущего вопроса или переопределить метод getPrev() для ' . get_class($this));
   }
 
   /**

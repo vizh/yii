@@ -1,6 +1,7 @@
 <?php
 namespace competence\models\test\runet2014;
 
+use application\components\Exception;
 use competence\models\Question;
 
 class D2 extends \competence\models\form\Base
@@ -33,6 +34,24 @@ class D2 extends \competence\models\form\Base
         }
         return $this->questions;
     }
+
+    public function getPrev()
+    {
+        $b1 = Question::model()->byCode('B1')->byTestId($this->getQuestion()->TestId)->find();
+        $b1->Test = $this->getQuestion()->getTest();
+        $resultB1 = $b1->getResult();
+        $b2 = Question::model()->byCode('B2_'.$resultB1['value'])->byTestId($this->getQuestion()->TestId)->find();
+        $b2->Test = $this->getQuestion()->getTest();
+        $resultB2 = $b2->getResult();
+        for ($i=16; $i>=1; $i--) {
+            if (in_array($i, $resultB2['value'])) {
+                return Question::model()->byCode('C10A_'.$i)->byTestId($this->getQuestion()->TestId)->find();
+            }
+        }
+        throw new Exception('Ошибка при получении предыдущего вопроса в D2');
+        return null;
+    }
+
 
     public function getNext()
     {

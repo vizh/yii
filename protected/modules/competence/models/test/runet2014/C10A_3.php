@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\runet2014;
 
-class C10A_3 extends \competence\models\form\Input {
+class C10A_3 extends C10A {
+    protected $baseCodeMarket = 'B2_1';
 
+    protected $nextCodes = [4 => 'B3_4', 5  => 'B3_5', 6 => 'B3_6'];
 }

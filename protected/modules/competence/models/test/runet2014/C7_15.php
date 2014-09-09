@@ -5,4 +5,6 @@ class C7_15 extends C7 {
     protected $baseCode = 'B4_15';
 
     protected $nextCodeToCompany = 'C9_15';
+
+    protected $nextCodeToComment = 'C10A_15';
 }
