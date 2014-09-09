@@ -57,7 +57,7 @@ class D2 extends D
     {
         foreach ($this->value as $value) {
             if ($value !== 'not') {
-                if (!$this->getIsMarketParticipant()) {
+                if (!$this->getIsMarketParticipant($this->getQuestion()->Test)) {
                     $question = Question::model()->byCode('D4')->byTestId($this->getQuestion()->TestId)->find();
                     $question->Test = $this->getQuestion()->getTest();
                     return $question;

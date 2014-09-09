@@ -5,6 +5,8 @@ use competence\models\Question;
 
 class D7 extends \competence\models\form\Textarea
 {
+    use MarketParticipant;
+
     public function getPrev()
     {
         $test = $this->getQuestion()->getTest();
@@ -14,7 +16,7 @@ class D7 extends \competence\models\form\Textarea
 
         foreach ($result['value'] as $value) {
             if ($value !== 'not') {
-                if (!$this->getIsMarketParticipant()) {
+                if (!$this->getIsMarketParticipant($this->getQuestion()->Test)) {
                     $question = Question::model()->byCode('D5')->byTestId($this->getQuestion()->TestId)->find();
                     $question->Test = $this->getQuestion()->getTest();
                     return $question;
