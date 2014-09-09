@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\runet2014;
 
-class B3_11 extends \competence\models\form\Single {
+class B3_11 extends B3 {
+    protected $prevCodes = [10 => 'B3_10'];
 
+    protected $baseCode = 'B2_3';
 }

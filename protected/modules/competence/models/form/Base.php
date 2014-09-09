@@ -147,12 +147,14 @@ abstract class Base extends \CFormModel
     return $definedPath !== null ? $definedPath : $this->getGeneratedViewPath();
   }
 
-  /**
-   * @return bool
-   */
+    /**
+     * @param bool $alwaysSave
+     * @return bool
+     */
   public final function process($alwaysSave = false)
   {
-    $valid = $this->validate();
+      $prev = \Yii::app()->getRequest()->getParam('prev');
+      $valid = $this->validate() || !empty($prev);
     if ($valid || $alwaysSave)
     {
       $result = $this->question->Test->getResult();
