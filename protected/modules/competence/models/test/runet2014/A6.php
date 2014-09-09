@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\runet2014;
 
+use user\models\User;
+
 class A6 extends \competence\models\form\Base
 {
     public $work_phone;
@@ -8,6 +10,20 @@ class A6 extends \competence\models\form\Base
     public $work_email;
     public $main_email;
     public $additional_email;
+
+    public function __construct($question, $scenario = '')
+    {
+        parent::__construct($question, $scenario);
+        /** @var User $user */
+        $user = \Yii::app()->getUser()->getCurrentUser();
+        if (empty($this->main_email)) {
+            $this->main_email = $user->Email;
+        }
+
+        if (empty($this->mobile_phone) && !empty($user->PrimaryPhone)) {
+            $this->mobile_phone = $user->PrimaryPhone;
+        }
+    }
 
     protected function getFormData()
     {

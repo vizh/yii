@@ -14,6 +14,11 @@ class D7 extends \competence\models\form\Textarea
 
         foreach ($result['value'] as $value) {
             if ($value !== 'not') {
+                if (!$this->getIsMarketParticipant()) {
+                    $question = Question::model()->byCode('D5')->byTestId($this->getQuestion()->TestId)->find();
+                    $question->Test = $this->getQuestion()->getTest();
+                    return $question;
+                }
                 return parent::getPrev();
             }
         }

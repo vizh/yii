@@ -4,7 +4,7 @@ namespace competence\models\test\runet2014;
 use application\components\Exception;
 use competence\models\Question;
 
-class D2 extends \competence\models\form\Base
+class D2 extends D
 {
     private $values = null;
     public function getValues()
@@ -57,6 +57,11 @@ class D2 extends \competence\models\form\Base
     {
         foreach ($this->value as $value) {
             if ($value !== 'not') {
+                if (!$this->getIsMarketParticipant()) {
+                    $question = Question::model()->byCode('D4')->byTestId($this->getQuestion()->TestId)->find();
+                    $question->Test = $this->getQuestion()->getTest();
+                    return $question;
+                }
                 return parent::getNext();
             }
         }
