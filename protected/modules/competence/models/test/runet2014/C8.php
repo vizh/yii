@@ -32,5 +32,28 @@ class C8 extends \competence\models\form\Base
         }
     }
 
+    public function rules()
+    {
+        return [
+            ['value', 'validateValue']
+        ];
+    }
+
+    public function validateValue($attribute, $params)
+    {
+        $valid = false;
+        if (is_array($this->$attribute)) {
+            $sum = 0;
+            foreach ($this->$attribute as $val) {
+                $sum += $val;
+            }
+
+            if ($sum == 100)
+                $valid = true;
+        }
+
+        if (!$valid)
+            $this->addError($attribute, 'Сумма оборота всех компаний должна быть равной 100%');
+    }
 
 } 
