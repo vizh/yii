@@ -21,3 +21,8 @@
 #event_widgets_ProgramGrid .table td.time {
   white-space: nowrap;
 }
+
+.rif-crimea14 #event_widgets_ProgramGrid th:nth-child(2),
+.rif-crimea14 #event_widgets_ProgramGrid th:nth-child(3) {
+    width: 45%;
+}
