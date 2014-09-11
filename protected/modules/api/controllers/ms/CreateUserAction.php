@@ -1,6 +1,10 @@
 <?php
 namespace api\controllers\ms;
 
+use application\components\utility\Texts;
+use event\models\UserData;
+use user\models\User;
+
 class CreateUserAction extends \api\components\Action
 {
     public function run()
@@ -12,10 +16,13 @@ class CreateUserAction extends \api\components\Action
         $firstName = $request->getParam('FirstName');
         $company = $request->getParam('Company');
         $position = $request->getParam('Position');
+        $phone = $request->getParam('Phone', '');
+        $country = $request->getParam('Country');
+        $city = $request->getParam('City');
         $couponCode = $request->getParam('CouponCode');
 
         $externalUser = \api\models\ExternalUser::model()
-            ->byExternalId($externalId)->byPartner($this->getAccount()->Role)->find();
+            ->byExternalId($externalId)->byAccountId($this->getAccount()->Id)->find();
         if ($externalUser !== null)
             throw new \api\components\Exception(3002, [$externalId]);
         if (empty($externalId))
@@ -28,61 +35,80 @@ class CreateUserAction extends \api\components\Action
             throw new \api\components\Exception(3004, ['FirstName']);
 
         $coupon = null;
-        if ($couponCode != null)
-        {
-            /** @var $coupon \pay\models\Coupon */
+        if ($couponCode != null) {
             $coupon = \pay\models\Coupon::model()->byCode($couponCode)->find();
             if ($coupon == null)
                 throw new \api\components\Exception(3006);
             elseif ($coupon->EventId != $this->getEvent()->Id)
                 throw new \api\components\Exception(3006);
 
-            try
-            {
+            try {
                 $coupon->check();
-            }
-            catch (\pay\components\Exception $e)
-            {
+            } catch (\pay\components\Exception $e) {
                 throw new \api\components\Exception(408, [$e->getCode(), $e->getMessage()], $e);
             }
         }
 
-        $user = new \user\models\User();
-        $user->FirstName = $firstName;
-        $user->LastName = $lastName;
-        $user->Email = strtolower($email);
-        $user->register(false);
+        $user = User::model()->byEmail($email)->byVisible(true)->find();
+        $isEqualUser = $user !== null && mb_strtolower($lastName) === mb_strtolower($user->LastName);
+        $isEqualUser = $isEqualUser && mb_strtolower($firstName) === mb_strtolower($user->FirstName);
+        if (!$isEqualUser) {
+            $user = new \user\models\User();
+            $user->FirstName = $firstName;
+            $user->LastName = $lastName;
+            $user->Email = mb_strtolower($email);
+            $user->register(false);
 
-        $user->Visible = false;
-        $user->Temporary = true;
-        $user->save();
+            $user->Visible = false;
+            $user->Temporary = true;
+            $user->save();
 
-        $user->Settings->UnsubscribeAll = true;
-        $user->Settings->save();
+            $user->Settings->UnsubscribeAll = true;
+            $user->Settings->save();
+        }
 
         $externalUser = new \api\models\ExternalUser();
+        $externalUser->AccountId = $this->getAccount()->Id;
         $externalUser->Partner = $this->getAccount()->Role;
         $externalUser->UserId = $user->Id;
         $externalUser->ExternalId = $externalId;
         $externalUser->save();
 
-        if (!empty($company))
-        {
-            try
-            {
+        if (!empty($company)) {
+            try {
                 $user->setEmployment($company, !empty($position) ? $position : '');
-            }
-            catch (\application\components\Exception $e)
-            {
+            } catch (\application\components\Exception $e) {}
+        }
+
+        $phone = Texts::getOnlyNumbers($phone);
+        if (!empty($phone)) {
+            if (!$user->PrimaryPhoneVerify) {
+                $user->PrimaryPhone = $phone;
+                $user->PrimaryPhoneVerifyTime = null;
+                $user->save();
+            } elseif ($user->PrimaryPhone !== $phone) {
+                $user->setContactPhone($phone);
             }
         }
 
+        $jsonData = [];
+        if (!empty($country)) {
+            $jsonData['Country'] = $country;
+        }
+        if (!empty($city)) {
+            $jsonData['City'] = $city;
+        }
+        if (!empty($jsonData)) {
+            $userData = new UserData();
+            $userData->EventId = $this->getEvent()->Id;
+            $userData->CreatorId = $userData->UserId = $user->Id;
+            $userData->Attributes = json_encode($jsonData, JSON_UNESCAPED_UNICODE);
+            $userData->save();
+        }
 
         $roleId = $request->getParam('RoleId');
         if ($roleId === null) {
             $roleId = 24;
-            if ($this->getEvent()->Id == 831)
-                $roleId = 64;
         }
         $role = \event\models\Role::model()->findByPk($roleId);
 
@@ -96,8 +122,7 @@ class CreateUserAction extends \api\components\Action
         $this->getEvent()->skipOnRegister = true;
         $this->getEvent()->registerUser($user, $role);
 
-        if ($coupon != null)
-        {
+        if ($coupon != null) {
             $coupon->activate($user, $user);
         }
 
@@ -105,7 +130,12 @@ class CreateUserAction extends \api\components\Action
         if ($this->getAccount()->EventId == 1013)
             $urlParams['lang'] = 'en';
 
-        $url = $user->getFastauthUrl(\Yii::app()->createUrl('/pay/cabinet/register', $urlParams));
-        $this->setResult(['PayUrl' => $url]);
+        $url = $user->getFastauthUrl(\Yii::app()->createUrl('/pay/cabinet/register', $urlParams), true);
+
+        $result = ['PayUrl' => $url];
+        if ($coupon != null) {
+            $result['Discount'] = $coupon->Discount;
+        }
+        $this->setResult($result);
     }
 }

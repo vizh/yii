@@ -35,7 +35,7 @@ class EventMicrosoft extends EventProductManager
   protected function sendMessage($user, $roleId)
   {
     $externalUser = \api\models\ExternalUser::model()
-        ->byUserId($user->Id)->byPartner($this->getAccount()->Role)->find();
+        ->byUserId($user->Id)->byAccountId($this->getAccount()->Id)->find();
     if ($externalUser == null)
     {
       \Yii::log('MICROSOFT!!! Не найден ExternalId для пользователя c Id: ' . $user->Id, \CLogger::LEVEL_ERROR);

@@ -21,7 +21,7 @@ use application\components\utility\Texts;
  * @property bool $Visible
  * @property bool $Temporary
  * @property string $Language
- * @property stirng $PrimaryPhone
+ * @property string $PrimaryPhone
  * @property bool $PrimaryPhoneVerify
  * @property string $PrimaryPhoneVerifyTime
  *
@@ -741,12 +741,14 @@ class User extends \application\models\translation\ActiveRecord
     return $employment;
   }
 
-  /**
-   * @return string
-   */
-  public function getHash()
+    /**
+     * @param bool $isTemporary
+     * @return string
+     */
+  public function getHash($isTemporary = false)
   {
-    return substr(md5($this->Id.'L2qLLQWpZWYcKbjharsx'.$this->RunetId), 0, 16);
+      $salt = !$isTemporary ? 'L2qLLQWpZWYcKbjharsx' : 'cJt2zUusjphYFio26N8m';
+    return substr(md5($this->Id.$salt.$this->RunetId), 0, 16);
   }
   
   public function getRecoveryHash($date = null)
@@ -770,16 +772,18 @@ class User extends \application\models\translation\ActiveRecord
     return false;
   }
   
-  public function getFastauthUrl($redirectUrl = '')
+  public function getFastauthUrl($redirectUrl = '', $isTemporary = false)
   {
-    $params = array(
+    $params = [
       'runetId' => $this->RunetId,
-      'hash' => $this->getHash(),
-    );
-    if (!empty($redirectUrl))
-    {
+      'hash' => $this->getHash($isTemporary),
+    ];
+    if (!empty($redirectUrl)) {
       $params['redirectUrl'] = $redirectUrl;
     }
+      if ($isTemporary) {
+          $params['temporary'] = 1;
+      }
     return \Yii::app()->createAbsoluteUrl('/main/fastauth/index', $params);
   }
 

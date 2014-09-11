@@ -7,6 +7,7 @@ namespace api\models;
  *
  * @property int $Id
  * @property string $Partner
+ * @property int $AccountId
  * @property int $UserId
  * @property string $ExternalId
  * @property string $ShortExternalId
@@ -58,6 +59,20 @@ class ExternalUser extends \CActiveRecord
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."Partner" = :Partner';
         $criteria->params = ['Partner' => $partner];
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * @param int $accountId
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byAccountId($accountId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."AccountId" = :AccountId';
+        $criteria->params = ['AccountId' => $accountId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }

@@ -29,7 +29,7 @@ class CouponAction extends \api\components\Action
     if (!empty($externalId))
     {
       $externalUser = \api\models\ExternalUser::model()
-          ->byExternalId($externalId)->byPartner($this->getAccount()->Role)->find();
+          ->byExternalId($externalId)->byAccountId($this->getAccount()->Id)->find();
       if ($externalUser === null)
         throw new \api\components\Exception(3003, [$externalId]);
       $payer = $owner = $externalUser;

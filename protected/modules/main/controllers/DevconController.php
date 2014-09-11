@@ -99,7 +99,7 @@ class DevconController extends \application\components\controllers\MainControlle
             $criteria->params = ['Code' => strtolower($code) . '%'];
 
             $externalUser = \api\models\ExternalUser::model()
-                ->byPartner($this->getApiAccount()->Role)->find($criteria);
+                ->byAccountId($this->getApiAccount()->Id)->find($criteria);
             if ($externalUser === null)
                 throw new CHttpException(404);
 

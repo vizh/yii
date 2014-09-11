@@ -13,7 +13,7 @@ class PayUrlAction extends \api\components\Action
       $lang = 'en';
 
     $externalUser = \api\models\ExternalUser::model()
-        ->byExternalId($externalId)->byPartner($this->getAccount()->Role)->find();
+        ->byExternalId($externalId)->byAccountId($this->getAccount()->Id)->find();
     if ($externalUser === null)
       throw new \api\components\Exception(3003, [$externalId]);
 

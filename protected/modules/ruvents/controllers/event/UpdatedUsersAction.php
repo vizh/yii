@@ -148,7 +148,7 @@ class UpdatedUsersAction extends \ruvents\components\Action
       $criteria->addInCondition('t."UserId"', $idList);
 
       $externals = \api\models\ExternalUser::model()
-        ->byPartner($apiAccount->Role)->findAll($criteria);
+          ->byAccountId($apiAccount->Id)->findAll($criteria);
       foreach ($externals as $external)
       {
         $result[$external->UserId] = $external->ShortExternalId;

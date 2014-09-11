@@ -24,7 +24,7 @@ class AccountMicrosoft extends Base
     if ($url !== null)
     {
       $externalUser = \api\models\ExternalUser::model()
-          ->byUserId($user->Id)->byPartner($this->account->Role)->find();
+          ->byUserId($user->Id)->byAccountId($this->account->Id)->find();
       if ($externalUser == null)
       {
         $this->logError(3001, [$user->Id]);
