@@ -27,8 +27,8 @@ class DetailedRegistration extends \event\components\Widget
         $request = \Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
             $this->form->attributes = $request->getParam(get_class($this->form));
-            $this->form->photo = \CUploadedFile::getInstance($this->form, 'photo');
-            $this->form->saveTempPhoto();
+            //$this->form->photo = \CUploadedFile::getInstance($this->form, 'photo');
+            //$this->form->saveTempPhoto();
             if ($this->form->validate()) {
                 $user = $this->updateUser($this->form->getUser());
                 $role = \event\models\Role::model()->findByPk(1);
@@ -45,8 +45,8 @@ class DetailedRegistration extends \event\components\Widget
                 $this->getController()->refresh();
             }
         }
-        else
-            $this->form->clearTempPhoto();
+//        else
+//            $this->form->clearTempPhoto();
     }
 
     /**
@@ -59,16 +59,17 @@ class DetailedRegistration extends \event\components\Widget
             $user = new \user\models\User();
             $user->LastName = $this->form->lastName;
             $user->FirstName = $this->form->firstName;
-            $user->FatherName = $this->form->fatherName;
+            //$user->FatherName = $this->form->fatherName;
+            $user->PrimaryPhone = $this->form->phone->CountryCode.$this->form->phone->CityCode.$this->form->phone->Phone;
             $user->Email = $this->form->email;
             $user->register();
         }
         else {
-            if (empty($user->FatherName))
-                $user->FatherName = $this->form->fatherName;
+            if (empty($user->PrimaryPhone))
+                $user->PrimaryPhone = $this->form->phone->CountryCode.$this->form->phone->CityCode.$this->form->phone->Phone;
         }
 
-        $user->Birthday = \Yii::app()->dateFormatter->format('yyyy-MM-dd', $this->form->birthday);
+        //$user->Birthday = \Yii::app()->dateFormatter->format('yyyy-MM-dd', $this->form->birthday);
         $user->save();
 
         $employment = $user->getEmploymentPrimary();
@@ -76,11 +77,11 @@ class DetailedRegistration extends \event\components\Widget
             $user->setEmployment($this->form->company, $this->form->position);
         }
 
-        $this->updatePhone($user);
-        $this->updateAddress($user);
-        $this->form->savePhoto($user);
+        //$this->updatePhone($user);
+        //$this->updateAddress($user);
+        //$this->form->savePhoto($user);
 
-        $this->fillAdditionalAttributes($user, ['birthday', 'birthPlace', 'passportSerial', 'passportNumber']);
+        //$this->fillAdditionalAttributes($user, ['birthday', 'birthPlace', 'passportSerial', 'passportNumber']);
 
         return $user;
     }

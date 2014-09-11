@@ -44,7 +44,7 @@ class Phone extends \CFormModel
 
     if (!$valid)
     {
-      $this->addError('Phone', 'Необходимо заполнить поле Номер телефона.');
+      $this->addError('Phone', \Yii::t('app', 'Необходимо заполнить поле Номер телефона.'));
     }
     return $value;
   }

@@ -6,6 +6,7 @@ class PhoneControls extends \CWidget
     /** @var \CFormModel */
     public $form = null;
     public $inputClass = null;
+    public $disabled = false;
 
 
     public function init()

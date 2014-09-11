@@ -10,6 +10,6 @@ if ($this->form->hasErrors())
 
 <div class="widget-phone-controls">
   <div class="controls">
-      <?=\CHtml::activeTextField($this->form, 'OriginalPhone', ['class' => $class, 'placeholder' => \Yii::t('app', 'Номер телефона')]);?>
+      <?=\CHtml::activeTextField($this->form, 'OriginalPhone', ['class' => $class, 'placeholder' => \Yii::t('app', 'Номер телефона'), 'disabled' => $this->disabled]);?>
   </div>
 </div>

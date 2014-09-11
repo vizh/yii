@@ -13,7 +13,7 @@ class DetailedRegistration extends \CFormModel
 
     public $lastName;
     public $firstName;
-    public $fatherName;
+//    public $fatherName;
 
     public $company;
     public $position;
@@ -22,13 +22,13 @@ class DetailedRegistration extends \CFormModel
     public $phone;
 
     /** @var Address */
-    public $address;
-
-
-    public $birthday;
-    public $birthPlace;
-    public $passportSerial;
-    public $passportNumber;
+//    public $address;
+//
+//
+//    public $birthday;
+//    public $birthPlace;
+//    public $passportSerial;
+//    public $passportNumber;
 
     /**
      * @var \CUploadedFile
@@ -45,13 +45,13 @@ class DetailedRegistration extends \CFormModel
     {
         parent::init();
 
-        $this->address = new Address();
+        //$this->address = new Address();
         $this->phone = new Phone(Phone::ScenarioOneFieldRequired);
 
         if ($this->user != null) {
             $this->lastName = $this->user->LastName;
             $this->firstName = $this->user->FirstName;
-            $this->fatherName = $this->user->FatherName;
+            //$this->fatherName = $this->user->FatherName;
             $this->email = $this->user->Email;
 
             if ($this->user->getEmploymentPrimary() !== null) {
@@ -59,38 +59,40 @@ class DetailedRegistration extends \CFormModel
                 $this->position = $this->user->getEmploymentPrimary()->Position;
             }
 
-            if ($this->user->getContactAddress() !== null) {
-                $this->address->attributes = $this->user->getContactAddress()->getAttributes();
-            }
+//            if ($this->user->getContactAddress() !== null) {
+//                $this->address->attributes = $this->user->getContactAddress()->getAttributes();
+//            }
 
-            if ($this->user->getContactPhone() != null) {
+            if ($this->user->PrimaryPhone !== null) {
                 $this->phone->attributes = [
-                    'Id' => $this->user->getContactPhone()->Id,
-                    'OriginalPhone' => $this->user->getContactPhone()->getWithoutFormatting()
+                    'OriginalPhone' => $this->user->PrimaryPhone
                 ];
             }
+//            elseif ($this->user->getContactPhone() != null) {
+//                $this->phone->attributes = [
+//                    'Id' => $this->user->getContactPhone()->Id,
+//                    'OriginalPhone' => $this->user->getContactPhone()->getWithoutFormatting()
+//                ];
+//            }
 
-            if ($this->user->Birthday !== null) {
-                $this->birthday = \Yii::app()->dateFormatter->format('dd.MM.yyyy', $this->user->Birthday);
-            }
+//            if ($this->user->Birthday !== null) {
+//                $this->birthday = \Yii::app()->dateFormatter->format('dd.MM.yyyy', $this->user->Birthday);
+//            }
         }
 
         // Создаем директорию для фото
-        $this->makePhotosPath();
-        if (!$this->hasPhoto())
-            $this->scenario = 'no-has-photo';
+//        $this->makePhotosPath();
+//        if (!$this->hasPhoto())
+//            $this->scenario = 'no-has-photo';
     }
 
 
     public function rules()
     {
         return [
-            ['email, lastName, firstName, fatherName, company, position, birthday, birthPlace, passportSerial, passportNumber', 'required'],
+            ['email, lastName, firstName, company, position', 'required'],
             ['email', 'uniqueEmailValidate'],
-            ['birthday', 'date', 'format' => 'dd.MM.yyyy'],
             ['password', 'safe'],
-            ['photo', 'required', 'on' => 'no-has-photo', 'message' => 'Необходимо загрузить фотографию'],
-            ['photo', 'file', 'types' => 'jpg, jpeg, png, gif, bmp', 'allowEmpty' => true]
         ];
     }
 
@@ -112,23 +114,12 @@ class DetailedRegistration extends \CFormModel
 
     public function afterValidate()
     {
-        $this->address->attributes = \Yii::app()->getRequest()->getParam(get_class($this->address));
-        if (!$this->address->validate()) {
-            foreach ($this->address->getErrors() as $messages) {
-                $this->addError('address', $messages[0]);
-            }
-        }
-        else {
-            if (empty($this->address->RegionId)) {
-                $this->address->addError('CityLabel', 'Не задан город');
-                $this->addError('address', 'Необходимо заполнить поле Город.');
-            }
-        }
-
-        $this->phone->attributes = \Yii::app()->getRequest()->getParam(get_class($this->phone));
-        if (!$this->phone->validate()) {
-            foreach ($this->phone->getErrors() as $messages) {
-                $this->addError('Phone', $messages[0]);
+        if (!$this->isDisabled('primaryPhone')) {
+            $this->phone->attributes = \Yii::app()->getRequest()->getParam(get_class($this->phone));
+            if (!$this->phone->validate()) {
+                foreach ($this->phone->getErrors() as $messages) {
+                    $this->addError('Phone', $messages[0]);
+                }
             }
         }
     }
@@ -143,7 +134,7 @@ class DetailedRegistration extends \CFormModel
             return true;
 
         if (empty($this->password)) {
-            $this->addError($attribute, 'Пользователь с таким Email уже существует. Для регистрации введите пароль или авторизуйтесь под своим аккаунтом.');
+            $this->addError($attribute, \Yii::t('registration', 'Пользователь с таким Email уже существует. Для регистрации введите пароль или авторизуйтесь под своим аккаунтом.'));
             $this->addError('password', '');
         } else {
             if ($user->checkLogin($this->password)) {

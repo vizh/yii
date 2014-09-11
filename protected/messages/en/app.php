@@ -191,5 +191,14 @@ return array(
   'Докладчики' => 'Speakers',
   'Ведущие' => 'Moderators',
   'Ведущий' => 'Moderator',
-  'Программа' => 'Event schedule'
+  'Программа' => 'Event schedule',
+
+    'Номер телефона' => 'Telephone',
+    'Адрес электронной почты' => 'E-mail',
+
+    'Необходимо заполнить поле Номер телефона.' => 'Telephone cannot be blank.',
+
+
+
+
 );
