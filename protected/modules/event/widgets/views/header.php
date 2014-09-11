@@ -37,7 +37,7 @@ $event = $this->event;
         <div class="actions img-circle">
           <div class="calendar">
             <div class="calendar">
-              <span><i class="icon-calendar"></i><br/>В календарь</span><br/>
+              <span><i class="icon-calendar"></i><br/><?=\Yii::t('app', 'В календарь');?></span><br/>
               <a href="<?=\Yii::app()->createUrl('/event/view/share', ['targetService' => 'Google', 'idName' => $event->IdName])?>" class="pseudo-link">Google Calendar</a>
               <a href="<?=\Yii::app()->createUrl('/event/view/share', ['targetService' => 'iCal', 'idName' => $event->IdName])?>" class="pseudo-link">iCalendar (.ics)</a>
             </div>

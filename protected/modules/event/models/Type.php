@@ -1,5 +1,6 @@
 <?php
 namespace event\models;
+use application\models\translation\ActiveRecord;
 
 /**
  * @property int $Id
@@ -9,7 +10,7 @@ namespace event\models;
  * @property int $Priority
  *
  */
-class Type extends \CActiveRecord
+class Type extends ActiveRecord
 {
   /**
    * @param string $className
@@ -29,4 +30,12 @@ class Type extends \CActiveRecord
   {
     return 'Id';
   }
+
+    /**
+     * @return string[]
+     */
+    public function getTranslationFields()
+    {
+        return ['Title'];
+    }
 }

@@ -19,6 +19,8 @@ return array(
   'Введите ФИО или RUNET-ID' => 'Enter your full name or RUNET-ID',
   'Введите ФИО' => 'Full name',
 
+    'В календарь' => 'Add to calendar',
+
   'г.' => ' ',
   'д.' => ' ',
   'стр.' => 'str.',
