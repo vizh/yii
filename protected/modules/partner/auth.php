@@ -16,6 +16,15 @@ return array(
     'bizRule' => null,
     'data' => null
   ),
+    'PartnerVerified' => array(
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Partner',
+        'children' => array(
+            'Partner',
+        ),
+        'bizRule' => null,
+        'data' => null
+    ),
   'PartnerExtended' => array(
     'type' => CAuthItem::TYPE_ROLE,
     'description' => 'PartnerExtended - account for multi-event access',

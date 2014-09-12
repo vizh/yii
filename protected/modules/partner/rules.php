@@ -41,6 +41,7 @@ return array(
         'controllers' => array('user'),
         'actions' => array('index', 'edit', 'translate', 'invite')
     ),
+
   array(
     'allow',
     'roles' => array('Partner'),
@@ -48,6 +49,16 @@ return array(
     'controllers' => array('settings'),
     'actions' => array('roles')
   ),
+
+    array(
+        'allow',
+        'roles' => array('PartnerVerified'),
+        'module' => 'partner',
+        'controllers' => array('user'),
+        'actions' => array('export')
+    ),
+
+
   array(
     'allow',
     'roles' => array('Admin'),
