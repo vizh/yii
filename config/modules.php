@@ -23,6 +23,7 @@ return array(
     'page',  
     'widget',
     'link',
+    'raec',
 
     'competence',
       

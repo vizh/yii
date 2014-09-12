@@ -1,0 +1,11 @@
+.brief .frame {
+  border: 1px solid #858585;
+  padding: 30px;
+  margin-bottom: 60px;
+}
+.brief .frame h4 {
+  position: absolute;
+  margin: -42px 0 0 -20px;
+  background-color: #fff;
+  padding: 0 20px;
+}
