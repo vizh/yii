@@ -1,29 +1,37 @@
 .b-event-promo.cloudaward2013 {
-  background: #234870 url('/img/event/cloudaward2013/header-bg.png') no-repeat left center;
+    background: #234870 url('/img/event/cloudaward2013/header-bg.png') no-repeat left center;
 }
 
 /* TC2013 */
 .b-event-promo.tc2013 {
-  background: #9aabb9;
+    background: #9aabb9;
 }
+
 .b-event-promo.tc2013 .container {
-  height: 185px;
-  background: url('/img/event/tc2013/header-bg.jpg') no-repeat center center;
+    height: 185px;
+    background: url('/img/event/tc2013/header-bg.jpg') no-repeat center center;
 }
+
 .b-event-promo.tc2013 .side {
-  margin-top: 77px;
+    margin-top: 77px;
 }
+
 .b-event-promo.tc2013 .details, .b-event-promo.tc2013 .side.right {
-  display: none;
+    display: none;
 }
 
 /** internetbusiness14 */
 .b-event-promo.internetbusiness14 {
-  background: #ecf6ff !important;
+    background: #ecf6ff !important;
 }
 
 /** detint14 */
 .b-event-promo.detint14 {
-  background: #C04036 !important;
+    background: #C04036 !important;
+}
+
+/** ibcrussia14 */
+.b-event-promo.ibcrussia14 {
+    background: url('/img/event/ibcrussia14/header-bg.jpg') no-repeat center center;
 }
 
