@@ -33,6 +33,11 @@
             <small class="muted"><?=$user->getEmploymentPrimary()->Company->Name;?></small>
           </div>
         <?endif;?>
+        <?if ($user->getContactAddress() != null):?>
+        <div class="city">
+            <small class="muted"><nobr>г. <?=$user->getContactAddress()->City->Name;?></nobr></small>
+        </div>
+    <?endif;?>
       <?if ($noIndex):?><!--/noindex--><?endif;?>
       </div><?
     endforeach;
