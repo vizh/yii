@@ -18,6 +18,6 @@ class IndexAction extends \widget\components\pay\Action
       \Yii::app()->session[self::SessionProductCount] = $request->getParam('ProductCount', []);
       $this->getController()->gotoNextStep();
     }
-    $this->getController()->render('index', ['products' => $products]);
+    $this->getController()->render('index', ['products' => $products, 'event' => $this->getEvent()]);
   }
 }
