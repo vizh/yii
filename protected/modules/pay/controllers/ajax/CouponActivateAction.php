@@ -5,9 +5,8 @@ class CouponActivateAction extends \pay\components\Action
 {
   public function run($code, $eventIdName, $ownerRunetId, $productId)
   {
-    $event = \event\models\Event::model()->byIdName($eventIdName)->find();
     $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
-    if ($event == null || $owner == null)
+    if ($owner == null)
     {
       throw new \CHttpException(404);
     }
@@ -15,7 +14,7 @@ class CouponActivateAction extends \pay\components\Action
     $result = new \stdClass();
     $result->success = true;
     /** @var $coupon \pay\models\Coupon */
-    $coupon = \pay\models\Coupon::model()->byCode($code)->byEventId($event->Id)->find();
+    $coupon = \pay\models\Coupon::model()->byCode($code)->byEventId($this->getEvent()->Id)->find();
     if ($coupon == null
       || ($coupon->ProductId !== null && $coupon->ProductId != $productId && $coupon->Discount != 1))
     {
