@@ -103,6 +103,7 @@ class BriefController extends PublicMainController
                 $this->redirectToNextAction();
             }
         }
+        \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
         $this->render('users', ['modelForm' => $form]);
     }
 

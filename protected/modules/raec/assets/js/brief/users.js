@@ -13,6 +13,8 @@ CRaecBriefUsers.prototype = {
       });
     }
 
+    self.$registration.find('input[name*="[Phone]"]').initPhoneInputMask();
+
     self.$form.find('input[name*="Label"]').autocomplete({
       'source' : '/user/ajax/search',
       'select' : function (event, ui) {
