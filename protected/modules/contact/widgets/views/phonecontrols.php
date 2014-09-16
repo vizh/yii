@@ -3,13 +3,14 @@
  * @var \contact\widgets\PhoneControls $this
  */
 
-$class =  $this->inputClass != null ? $this->inputClass : 'input-block-level';
-if ($this->form->hasErrors())
-    $class .= ' error';
+$class = $this->inputClass;
+if ($this->form->hasErrors()) {
+    $class .= ' ' . $this->errorClass;
+}
 ?>
 
 <div class="widget-phone-controls">
   <div class="controls">
-      <?=\CHtml::activeTextField($this->form, 'OriginalPhone', ['class' => $class, 'placeholder' => \Yii::t('app', 'Номер телефона'), 'disabled' => $this->disabled]);?>
+      <?=\CHtml::activeTextField($this->form, $this->name, ['class' => $class, 'placeholder' => $this->placeholder !== null ? Yii::t('app', $this->placeholder) : '', 'disabled' => $this->disabled]);?>
   </div>
 </div>

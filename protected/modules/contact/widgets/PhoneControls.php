@@ -5,8 +5,11 @@ class PhoneControls extends \CWidget
 {
     /** @var \CFormModel */
     public $form = null;
-    public $inputClass = null;
+    public $name = 'OriginalPhone';
+    public $inputClass = 'input-block-level';
+    public $errorClass = 'error';
     public $disabled = false;
+    public $placeholder = 'Номер телефона';
 
 
     public function init()
