@@ -156,11 +156,6 @@
                 <td align="right" style="padding-top: 5px;">RUNET&mdash;ID <a href="<?=$user->getUrl();?>" style="color: #339dd5;"><?=$user->RunetId;?></a></td>
               </tr>
               <tr>
-                <td style="text-align: center; padding-top: 20px;">
-                  <img src="http://runet-id.com/img/ticket/warning.png" />
-                </td>
-              </tr>
-              <tr>
                 <td style="padding-top: 10px;">
                   <hr size="1" color="#d2d2d2" />
                 </td>
@@ -170,7 +165,7 @@
               <?if ($event->getContactAddress() != null):?>
               <tr>
                 <td>
-                  <span style="font-size: 35px; font-weight: bold;">Место проведения</span>
+                  <span style="font-size: 35px; font-weight: bold;">Место проведения / Location</span>
                 </td>
               </tr>
               <tr>
