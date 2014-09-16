@@ -79,7 +79,7 @@ CPayRegister.prototype = {
       registerForm.find('.form-actions .btn-submit').click(function () {
         var alertContainer = registerForm.find('.alert-error');
         alertContainer.html('').hide();
-        $.post('/user/ajax/register', registerForm.serialize(), function (response) {
+        $.post('/event/ajax/userregister', registerForm.serialize(), function (response) {
           if (response.success) {
             registerForm.parents('tr').remove();
             self.createFillRow(table.data('product-id'), response.user);

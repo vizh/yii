@@ -13,14 +13,14 @@ use raec\models\forms\brief\About;
         <?foreach ($modelForm->CompanySynonyms as $synonym):?>
             var synonym = {
                 'Id' : '<?=$synonym['Id'];?>',
-                'Label' : '<?=$synonym['Label'];?>'
+                'Label' : '<?=CHtml::encode($synonym['Label']);?>'
             }
             companySynonyms.push(synonym);
         <?endforeach;?>
     </script>
 <?endif;?>
 
-<?$form = $this->createWidget('CActiveForm');?>
+<?$form = $this->beginWidget('CActiveForm');?>
 <?=$form->errorSummary($modelForm, '<div class="alert alert-error">', '</div>');?>
 <div class="row m-bottom_50">
     <div class="span12">
@@ -65,7 +65,7 @@ use raec\models\forms\brief\About;
 </div>
 
 <div class="frame">
-    <h4><?=\Yii::t('app', 'Информация о бухгалтере');?></h4>
+    <h4><?=\Yii::t('app', 'Информация о главном бухгалтере');?></h4>
     <div class="row-fluid">
         <div class="span4">
             <?=$form->label($modelForm, 'BookerLastName');?>
@@ -155,11 +155,14 @@ use raec\models\forms\brief\About;
     </div>
 </div>
 
+<hr/>
 <div class="row">
     <div class="span12 text-center">
-        <?=\CHtml::submitButton(\Yii::t('app', 'Далее'), ['class' => 'btn btn-success']);?>
+        <?=\CHtml::submitButton(\Yii::t('app', 'Следующий шаг'), ['class' => 'btn btn-success btn-large']);?>
     </div>
 </div>
+
+<?$this->endWidget();?>
 
 <script type="text/template" id="company-synonym-tpl">
     <div class="row-fluid">

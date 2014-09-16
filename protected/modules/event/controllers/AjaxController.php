@@ -1,7 +1,15 @@
 <?php
 class AjaxController extends \application\components\controllers\PublicMainController
 {
-  public function actionSearch($term)
+    public function actions()
+    {
+        return [
+          'userregister' => '\event\controllers\ajax\UserRegisterAction'
+        ];
+    }
+
+
+    public function actionSearch($term)
   {
     $results  = [];
     $criteria = new \CDbCriteria();

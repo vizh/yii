@@ -36,53 +36,30 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     echo json_encode($results);
   }
 
-  public function actionRegister()
-  {
-    $result = new \stdClass();
-      $request = \Yii::app()->getRequest();
-    $form = new RegisterForm();
-    $form->attributes = $request->getParam(get_class($form));
+    public function actionRegister()
+    {
+        $result = new \stdClass();
+        $request = \Yii::app()->getRequest();
+        $form = new RegisterForm();
+        $form->attributes = $request->getParam(get_class($form));
 
-      $userData = new UserData();
-      $userData->EventId = $form->EventId;
-      $userData->CreatorId = $this->getCreator() !== null ? $this->getCreator()->Id : null;
-      $dataManager = $userData->getManager();
-      $dataManagerValidate = true;
-      if ($request->getParam(get_class($dataManager)) !== null) {
-          $dataManager->setAttributes($request->getParam(get_class($dataManager)));
-          $dataManagerValidate = $dataManager->validate();
-      }
-
-    if ($form->validate() && $dataManagerValidate) {
-        $user = $this->createUser($form);
-        $result->success = true;
-        $result->user = $this->getUserData($user);
-
-        if ($dataManager->hasDefinitions()) {
-            $userData->UserId = $user->Id;
-            $userData->save();
-        }
-    } else {
-      $user = \user\models\User::model()->byEmail($form->Email)->byVisible(true)->find();
-        $isUserExist = $user !== null && $user->LastName === $form->LastName;
-        if ($isUserExist && $dataManagerValidate) {
+        if ($form->validate()) {
+            $user = $this->createUser($form);
             $result->success = true;
             $result->user = $this->getUserData($user);
-
-            if ($dataManager->hasDefinitions()) {
-                $userData->UserId = $user->Id;
-                $userData->save();
-            }
-        } elseif($isUserExist) {
-            $result->success = false;
-            $result->errors  = $dataManager->getErrors();
         } else {
-            $result->success = false;
-            $result->errors  = array_merge($form->getErrors(), $dataManager->getErrors());
+            $user = \user\models\User::model()->byEmail($form->Email)->byVisible(true)->find();
+            $isUserExist = $user !== null && $user->LastName === $form->LastName;
+            if ($isUserExist) {
+                $result->success = true;
+                $result->user = $this->getUserData($user);
+            } else {
+                $result->success = false;
+                $result->errors  = $form->getErrors();
+            }
         }
+        echo json_encode($result);
     }
-    echo json_encode($result);
-  }
 
     /**
      * @param RegisterForm $form

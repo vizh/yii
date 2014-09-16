@@ -58,7 +58,7 @@ class About extends \CFormModel
                 }
             } elseif (strpos($attribute, 'Booker') === 0) {
                 foreach ($messages as $i => $message) {
-                    $errors[$attribute][$i] = str_replace($label, $label.' '.\Yii::t('app', 'бухгалтера'), $message);
+                    $errors[$attribute][$i] = str_replace($label, $label.' '.\Yii::t('app', 'главного бухгалтера'), $message);
                 }
             }
 
@@ -74,7 +74,7 @@ class About extends \CFormModel
         return [
             'CompanyLabel' => \Yii::t('app', 'Название компании'),
             'CompanyId' => \Yii::t('app', 'Компания'),
-            'CompanySynonyms' => \Yii::t('app', 'Компании синонимы'),
+            'CompanySynonyms' => \Yii::t('app', 'Дочерние компании'),
             'CEOFirstName' => \Yii::t('app', 'Имя'),
             'CEOLastName' => \Yii::t('app', 'Фамилия'),
             'CEOFatherName' => \Yii::t('app', 'Отчество'),
@@ -83,20 +83,20 @@ class About extends \CFormModel
             'BookerFirstName' => \Yii::t('app', 'Имя'),
             'BookerLastName' => \Yii::t('app', 'Фамилия'),
             'BookerFatherName' => \Yii::t('app', 'Отчество'),
-            'JuridicalOPF' => \Yii::t('app', 'ОПФ'),
+            'JuridicalOPF' => \Yii::t('app', 'Тип'),
             'JuridicalShortName' => \Yii::t('app', 'Краткое наименование'),
             'JuridicalFullName' => \Yii::t('app', 'Полное наименование'),
             'JuridicalAddress' => \Yii::t('app', 'Юридический адрес'),
             'JuridicalAddressActual' => \Yii::t('app', 'Фактический адрес'),
             'JurudicalINN' => \Yii::t('app', 'ИНН'),
-            'JurudicalOGRN' => \Yii::t('app', 'ОГРМ'),
+            'JurudicalOGRN' => \Yii::t('app', 'ОГРН'),
             'JurudicalOGRNDate' => \Yii::t('app', 'Дата ОГРН'),
             'JurudicalBIK' => \Yii::t('app', 'БИК'),
             'JuridicalKPP' => \Yii::t('app', 'КПП'),
             'JuridicalBankName' => \Yii::t('app', 'Наименование банка'),
             'JurudicalAccount' => \Yii::t('app', 'Расчетный счет'),
             'JurudicalCorrAccount' => \Yii::t('app', 'Корреспондентский счет'),
-            'JuridicalAddressEqual' => \Yii::t('app', 'Совпадает')
+            'JuridicalAddressEqual' => \Yii::t('app', 'Совпадает с юридическим')
         ];
     }
 
