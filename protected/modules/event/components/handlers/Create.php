@@ -5,15 +5,16 @@ class Create extends \mail\components\Mail
 {
   protected $form;
   
-  public function __construct(\mail\components\Mailer $mailer, \event\models\forms\Create $form)
+  public function __construct(\mail\components\Mailer $mailer, \event\models\forms\Create $form, \event\models\Event $event)
   {
     parent::__construct($mailer);
     $this->form = $form;
+    $this->event = $event;
   }
 
   public function getSubject()
   {
-    return 'Получено новое мероприятие';
+    return 'Новое мероприятие: ' . $this->event->Title;
   }
   
   public function getBody()

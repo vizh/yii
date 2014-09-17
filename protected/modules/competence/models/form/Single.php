@@ -76,7 +76,7 @@ class Single extends Base
             if (empty($row['key']) && empty($row['title']))
                 continue;
 
-            $values[] = new \competence\models\form\attribute\RadioValue($row['key'], $row['title'], isset($row['isOther']), (int)$row['sort'], $row['description']);
+            $values[] = new \competence\models\form\attribute\RadioValue($row['key'], $row['title'], isset($row['isOther']), (int)$row['sort'], $row['description'], $row['suffix']);
             $maxSort = max((int)$row['sort'], $maxSort);
         }
 

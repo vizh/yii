@@ -6,8 +6,8 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
 
 <div class="row">
   <div class="span12 indent-bottom3">
+    <div class="pull-right" style="margin-top: 15px"><a href="<?=\Yii::app()->createUrl('/pay/admin/order/index');?>" class="btn"><i class="icon-shopping-cart"></i> Список счетов</a></div>
     <h2>Счет (заказ) № <?=$order->Number;?></h2>
-
     <p>
       <?if ($order->Paid):?>
       <span class="label label-success">ОПЛАЧЕН</span>
@@ -20,13 +20,14 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
       <?endif;?>
     </p>
   </div>
-
+</div>
+<div class="row">
   <div class="span12 indent-bottom3">
     <?if (!empty($this->action->error)):?>
     <div class="alert alert-error">
       <p><strong>Возникла ошибка!</strong> <?=$this->action->error;?></p>
 
-      <p>Отправьте данное сообщение на email: <a href="mailto:users@rocid.ru">users@rocid.ru</a></p>
+      <p>Отправьте данное сообщение на email: <a href="mailto:users@runet-id.com">users@runet-id.com</a></p>
     </div>
     <?elseif (! empty($this->action->result)):?>
     <div class="alert alert-success">
@@ -52,7 +53,7 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
   <div class="span6 indent-bottom3">
     <h3>Данные пользователя</h3>
 
-    <p><strong>rocID:</strong> <a target="_blank" href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $order->Payer->RunetId));?>"><?=$order->Payer->RunetId;?></a></p>
+    <p><strong>RUNET-ID:</strong> <a target="_blank" href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $order->Payer->RunetId));?>"><?=$order->Payer->RunetId;?></a></p>
 
     <p><strong>ФИО:</strong> <?=$order->Payer->getFullName();?></p>
 
