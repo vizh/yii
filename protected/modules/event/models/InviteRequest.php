@@ -1,5 +1,6 @@
 <?php
 namespace event\models;
+use mail\components\mailers\MandrillMailer;
 
 /**
  * @property int $Id
@@ -120,7 +121,7 @@ class InviteRequest extends \CActiveRecord
    */
   public function onCreate($event)
   {
-    $mailer = new \mail\components\mailers\PhpMailer();
+    $mailer = new MandrillMailer();
     $class = \Yii::getExistClass('\event\components\handlers\invite\create', ucfirst($event->params['event']->IdName), 'Base');
     $mail = new $class($mailer, $event);
     $mail->send();
@@ -131,7 +132,7 @@ class InviteRequest extends \CActiveRecord
    */
   public function onDisapprove($event)
   {
-    $mailer = new \mail\components\mailers\PhpMailer();
+    $mailer = new MandrillMailer();
     $class = \Yii::getExistClass('\event\components\handlers\invite\disapprove', ucfirst($event->params['event']->IdName), 'Base');
     $mail = new $class($mailer, $event);
     $mail->send();

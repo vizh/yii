@@ -54,6 +54,9 @@ class MandrillMailer extends \mail\components\Mailer
     $message['headers']['Reply-To'] = $mails[0]->getFrom();
     $message['merge_vars'] = $vars;
     $message['attachments'] = $attachments;
+    if ($mails[0]->getIsPriority()) {
+        $message['important'] = true;
+    }
     \Yii::import('ext.Mandrill.Mandrill');
     $mandrill = new \Mandrill(self::ApiKey);
     $mandrill->messages->sendTemplate(self::TemplateName, [], $message);

@@ -3,12 +3,6 @@
  * @var $user \user\models\User
  */
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-  <title>RUNET-ID: Registration</title>
-</head>
-<body style="margin: 0">
 <p><strong>Dear Customer</strong>,</p>
 <p>You have successfully registered a temporary account at <a href="http://runet-id.com/"><strong>RUNET-ID</strong></a>.</p>
 
@@ -22,5 +16,3 @@
 
 <p>Kind regards,<br>
   RUNET-ID</p>
-</body>
-</html>

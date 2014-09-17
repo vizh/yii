@@ -1,6 +1,8 @@
 <?php
 namespace event\models;
 
+use \mail\components\mailers\MandrillMailer;
+
 /**
  * @property int $Id
  * @property string $IdName
@@ -429,7 +431,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
     if ($apiCallback !== null)
       $apiCallback->registerOnEvent($event->params['user'], $event->params['role']);
 
-    $mailer = new \mail\components\mailers\PhpMailer();
+    $mailer = new MandrillMailer();
     $sender = $event->sender;
     $class = \Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
     /** @var \mail\components\Mail $mail */

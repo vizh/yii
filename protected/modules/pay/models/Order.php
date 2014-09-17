@@ -1,5 +1,6 @@
 <?php
 namespace pay\models;
+use mail\components\mailers\MandrillMailer;
 
 /**
  * @property int $Id
@@ -265,7 +266,7 @@ class Order extends \CActiveRecord
     $sender = $event->sender;
     $class = \Yii::getExistClass('\pay\components\handlers\order\activate', ucfirst($sender->Event->IdName), 'Base');
     /** @var $mail \event\components\handlers\register\Base */
-    $mail = new $class(new \mail\components\mailers\PhpMailer(), $event);
+    $mail = new $class(new MandrillMailer(), $event);
     $mail->send();
     \Yii::app()->setLanguage($oldLanguage);
   }
@@ -379,7 +380,7 @@ class Order extends \CActiveRecord
     \Yii::app()->setLanguage($language);
     $class = \Yii::getExistClass('\pay\components\handlers\orderjuridical\create', ucfirst($event->params['event']->IdName), 'Base');
     /** @var $mail \event\components\handlers\register\Base */
-    $mail = new $class(new \mail\components\mailers\PhpMailer(), $event);
+    $mail = new $class(new MandrillMailer(), $event);
     $mail->send();
     \Yii::app()->setLanguage($oldLanguage);
   }

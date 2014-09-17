@@ -19,6 +19,11 @@ CEventMailEdit.prototype = {
         return false;
       }
     });
+
+    CKEDITOR.replace('event\\models\\forms\\admin\\mail\\Register_Body', {
+      customConfig : 'config_mail_template.js',
+      height : 500
+    });
   },
   'createRoleLabel' : function (id, title, field) {
     var $label = $('<span/>', {

@@ -1,6 +1,8 @@
 <?php
 namespace event\models;
 
+use \mail\models\Layout;
+
 class MailRegister
 {
   public $Id = null;
@@ -10,6 +12,7 @@ class MailRegister
   public $Roles = [];
   public $RolesExcept = [];
   public $SendPassbook = true;
+  public $Layout = Layout::OneColumn;
 
   protected $eventIdName;
 

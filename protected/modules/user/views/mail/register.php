@@ -4,12 +4,6 @@
  * @var string $password
  */
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-  <title>RUNET-ID: Регистрация</title>
-</head>
-<body style="margin: 0">
 <p><strong><?=$user->getFullName();?></strong>,</p>
 <p>Вы успешно стали членом профессионального сообщества в Рунете, зарегистрировавшись на <a href="http://runet-id.com/"><strong>RUNET-ID</strong></a>.</p>
 <p><strong>RUNET-ID</strong> - сервис для интернет-пользователей, объединяющий в себе удобную систему регистрации на мероприятия медиа- и интернет-индустрии, а также позволяющий всем участникам системы формировать хронологию своего профессионального роста и отображать компетенции в различных сферах.</p>
@@ -32,7 +26,5 @@
 <h2>Поддержка</h2>
 <p style="margin-bottom: 80px;">По всем вопросам работы сервиса вы всегда можете обратиться в нашу службу поддержки пользователей:<br/><a href="mailto:support@runet-id.com">support@runet-id.com</a></p>
 
-С уважением,<br/>
-команда поддержки RUNET-ID
-</body>
-</html>
+<p>С уважением,<br/>
+команда поддержки RUNET-ID</p>

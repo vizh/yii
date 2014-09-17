@@ -45,9 +45,15 @@
     <div class="control-group">
       <?=\CHtml::activeLabel($form, 'Body', ['class' => 'control-label']);?>
       <div class="controls">
-        <?=\CHtml::activeTextArea($form, 'Body', ['class' => 'input-block-level', 'style' => 'height: 500px']);?>
+        <?=\CHtml::activeTextArea($form, 'Body', ['class' => 'input-block-level']);?>
       </div>
     </div>
+      <div class="control-group">
+          <?=\CHtml::activeLabel($form, 'Layout', ['class' => 'control-label']);?>
+          <div class="controls">
+              <?=\CHtml::activeDropDownList($form, 'Layout', $form->getLayoutData());?>
+          </div>
+      </div>
     <div class="control-group">
       <?=\CHtml::activeLabel($form, 'SendPassbook', ['class' => 'control-label']);?>
       <div class="controls">

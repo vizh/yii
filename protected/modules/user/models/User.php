@@ -1,6 +1,8 @@
 <?php
 namespace user\models;
 use application\components\utility\Texts;
+use mail\components\mailers\MandrillMailer;
+use user\components\handlers\Register;
 
 /**
  * @throws \Exception
@@ -364,7 +366,7 @@ class User extends \application\models\translation\ActiveRecord
 
     if ($notify)
     {
-      $event = new \CModelEvent($this, array('password' => $password));
+      $event = new \CModelEvent($this, ['password' => $password]);
       $this->onRegister($event);
     }
 
@@ -373,19 +375,11 @@ class User extends \application\models\translation\ActiveRecord
 
   public function onRegister($event)
   {
-    $mail = new \ext\mailer\PHPMailer(false);
-    $mail->AddAddress($this->Email);
-    $mail->SetFrom('reg@'.RUNETID_HOST, \Yii::t('app', 'RUNET-ID'), false);
-    $mail->CharSet = 'utf-8';
-    $mail->Subject = '=?UTF-8?B?'. base64_encode(\Yii::t('app', 'Регистрация на сайте www.runet-id.com')) .'?=';
-    $mail->IsHTML(true);
-    $template = !$this->Temporary ? 'user.views.mail.register' : 'user.views.mail.register-temporary';
-    $mail->MsgHTML(
-      \Yii::app()->controller->renderPartial($template, array('user' => $this, 'password' => $event->params['password']), true)
-    );
-    $mail->Send();
-    
-    $this->raiseEvent('onRegister', $event);
+      /** @var \mail\components\Mail $mail */
+      $mail = new Register(new MandrillMailer(), $event);
+      $mail->send();
+
+      $this->raiseEvent('onRegister', $event);
   }
 
   /**

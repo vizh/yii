@@ -20,7 +20,7 @@ class RecoverPassword extends RecoverBase
    */
   public function getBody()
   {
-    return \Yii::app()->getController()->renderPartial('user.views.mail.recover', [
+    return $this->renderBody('user.views.mail.recover', [
       'user' => $this->user,
       'type' => 'withPassword',
       'password' => $this->password

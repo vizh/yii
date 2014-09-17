@@ -1,5 +1,10 @@
 <?php
-class PayCommand extends \application\components\console\BaseConsoleCommand
+use application\components\console\BaseConsoleCommand;
+use mail\components\mailers\MandrillMailer;
+use pay\models\Order;
+use pay\models\OrderItem;
+
+class PayCommand extends BaseConsoleCommand
 {   
   public function actionJuridicalOrderNotPaidNotify()
   {
@@ -9,8 +14,8 @@ class PayCommand extends \application\components\console\BaseConsoleCommand
     $criteria->params['MinTime'] = $date.' 00:00:00';
     $criteria->params['MaxTime'] = $date.' 23:59:59';
 
-    $orders = \pay\models\Order::model()->byBankTransfer(true)->byDeleted(false)->byPaid(false)->findAll($criteria);
-    $mailer = new \mail\components\mailers\PhpMailer();
+    $orders = Order::model()->byBankTransfer(true)->byDeleted(false)->byPaid(false)->findAll($criteria);
+    $mailer = new MandrillMailer();
     foreach ($orders as $order)
     {
       $language = $order->Payer->Language != null ? $order->Payer->Language : 'ru';
@@ -24,8 +29,7 @@ class PayCommand extends \application\components\console\BaseConsoleCommand
 
   public function actionClearPhysicalBook()
   {
-    $orderItems = \pay\models\OrderItem::model()->byEventId(789)
-      ->byPaid(false)->byBooked(false)->byDeleted(false)->findAll();
+    $orderItems = OrderItem::model()->byEventId(789)->byPaid(false)->byBooked(false)->byDeleted(false)->findAll();
 
     foreach ($orderItems as $item)
     {

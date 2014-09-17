@@ -4,12 +4,6 @@
  * @var string $password
  */
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-  <title>RUNET-ID: Регистрация</title>
-</head>
-<body style="margin: 0">
 <p><strong>Dear <?=$user->FirstName;?> <?=$user->LastName;?></strong>,</p>
 <p>You have successfully joined the professional community by registering at <a href="http://runet-id.com/"><strong>RUNET-ID</strong></a>.</p>
 
@@ -24,5 +18,3 @@
 
 <p>Kind regards,<br>
 RUNET-ID</p>
-</body>
-</html>

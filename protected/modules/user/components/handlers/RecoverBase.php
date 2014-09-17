@@ -2,47 +2,65 @@
 namespace user\components\handlers;
 
 use mail\components\Mailer;
+use mail\components\MailLayout;
 
-abstract class RecoverBase extends \mail\components\Mail
+abstract class RecoverBase extends MailLayout
 {
-  protected $user;
+    protected $user;
 
-  public function __construct(Mailer $mailer, \user\models\User $user)
-  {
-    parent::__construct($mailer);
-    $this->user = $user;
-  }
+    public function __construct(Mailer $mailer, \user\models\User $user)
+    {
+        parent::__construct($mailer);
+        $this->user = $user;
+    }
 
-  /**
-   * @return string
-   */
-  public function getFrom()
-  {
-    return 'users@runet-id.com';
-  }
+    /**
+     * @return string
+     */
+    public function getFrom()
+    {
+        return 'users@runet-id.com';
+    }
 
-  public function getFromName()
-  {
-    return 'RUNET-ID';
-  }
+    public function getFromName()
+    {
+        return 'RUNET-ID';
+    }
 
-  public function getSubject()
-  {
-    return \Yii::t('app', 'Восстановление пароля');
-  }
+    public function getSubject()
+    {
+        return \Yii::t('app', 'Восстановление пароля');
+    }
 
-  public function isHtml()
-  {
-    return true;
-  }
+    /**
+     * @return string
+     */
+    public function getTo()
+    {
+        return $this->user->Email;
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 
-  /**
-   * @return string
-   */
-  public function getTo()
-  {
-    return $this->user->Email;
-  }
+    /**
+     * @return bool
+     */
+    public function showUnsubscribeLink()
+    {
+        return false;
+    }
 
+    /**
+     * @return bool
+     */
+    public function getIsPriority()
+    {
+        return true;
+    }
 }
