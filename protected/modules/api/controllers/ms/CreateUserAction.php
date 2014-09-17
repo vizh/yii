@@ -34,20 +34,7 @@ class CreateUserAction extends \api\components\Action
         if (empty($firstName))
             throw new \api\components\Exception(3004, ['FirstName']);
 
-        $coupon = null;
-        if ($couponCode != null) {
-            $coupon = \pay\models\Coupon::model()->byCode($couponCode)->find();
-            if ($coupon == null)
-                throw new \api\components\Exception(3006);
-            elseif ($coupon->EventId != $this->getEvent()->Id)
-                throw new \api\components\Exception(3006);
 
-            try {
-                $coupon->check();
-            } catch (\pay\components\Exception $e) {
-                throw new \api\components\Exception(408, [$e->getCode(), $e->getMessage()], $e);
-            }
-        }
 
         $user = User::model()->byEmail($email)->byVisible(true)->find();
         $isEqualUser = $user !== null && mb_strtolower($lastName) === mb_strtolower($user->LastName);
@@ -122,8 +109,17 @@ class CreateUserAction extends \api\components\Action
         $this->getEvent()->skipOnRegister = true;
         $this->getEvent()->registerUser($user, $role);
 
-        if ($coupon != null) {
-            $coupon->activate($user, $user);
+        $coupon = null;
+        if ($couponCode != null) {
+            $coupon = \pay\models\Coupon::model()->byCode($couponCode)->find();
+
+            if ($coupon !== null && $coupon->EventId == $this->getEvent()->Id) {
+                try {
+                    $coupon->activate($user, $user);
+                } catch (\pay\components\Exception $e) {
+                    //если при активации промо-кода происходит ошибка, аккаунт все равно создается, ошибку скрываем
+                }
+            }
         }
 
         $urlParams = ['eventIdName' => $this->getEvent()->IdName];
