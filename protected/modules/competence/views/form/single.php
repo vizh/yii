@@ -9,6 +9,12 @@
       <label class="radio">
         <?=CHtml::activeRadioButton($form, 'value', ['value' => $value->key, 'uncheckValue' => null, 'data-group' => $form->getQuestion()->Code, 'data-target' => '#'.$form->getQuestion()->Code.'_'.$value->key]);?>
         <?=$value->title;?>
+
+          <?if (!empty($value->description)):?>
+            <div class="value-description">
+                <?=$value->description;?>
+            </div>
+          <?endif;?>
       </label>
       <?if ($value->isOther):?>
           <?if (empty($value->suffix)):?>

@@ -136,3 +136,15 @@ p.personal-info{
   width: 620px;
   text-align: center;
 }
+
+.interview .value-description {
+  padding-bottom: 10px;
+  font-size: 13px;
+  color: #666666;
+}
+.interview .value-description ul {
+  list-style: disc outside none;
+}
+.interview .value-description ul li {
+  margin-bottom: 0;
+}

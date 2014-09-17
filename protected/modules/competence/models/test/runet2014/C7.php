@@ -11,6 +11,19 @@ class C7 extends \competence\models\form\Base
 
     protected $nextCodeToComment = null;
 
+    public function rules()
+    {
+        return [
+            ['value', 'validateValue']
+        ];
+    }
+
+    public function validateValue($attribute, $params)
+    {
+        if (empty($this->value['place1']) || empty($this->value['place2']) || empty($this->value['place3']))
+            $this->addError($attribute, 'Необходимо ввести названия всех трех компаний');
+    }
+
     protected function getDefinedViewPath()
     {
         return 'competence.views.test.runet2014.c7';
