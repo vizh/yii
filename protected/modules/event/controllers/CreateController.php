@@ -94,7 +94,7 @@ class CreateController extends \application\components\controllers\PublicMainCon
 
         
         $mailer = new \mail\components\mailers\PhpMailer();
-        $mail = new \event\components\handlers\Create($mailer, $form);
+        $mail = new \event\components\handlers\Create($mailer, $form, $event);
         $mail->send();
         if (in_array(6, $form->Options))
         {
