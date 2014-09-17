@@ -14,8 +14,7 @@ class A6 extends \competence\models\form\Base
     public function __construct($question, $scenario = '')
     {
         parent::__construct($question, $scenario);
-        /** @var User $user */
-        $user = \Yii::app()->getUser()->getCurrentUser();
+        $user = \Yii::app()->user->getCurrentUser();
         if (empty($this->main_email)) {
             $this->main_email = $user->Email;
         }
@@ -48,10 +47,10 @@ class A6 extends \competence\models\form\Base
     public function attributeLabels()
     {
         return [
-            'work_phone'       => 'Рабочий телефон',
-            'mobile_phone'     => 'Мобильный телефон',
-            'main_email'       => 'Основной  адрес электронной почты',
-            'work_email'       => 'Рабочий адрес электронной почты',
+            'work_phone' => 'Рабочий телефон',
+            'mobile_phone' => 'Мобильный телефон',
+            'main_email' => 'Основной  адрес электронной почты',
+            'work_email' => 'Рабочий адрес электронной почты',
             'additional_email' => 'Дополнительный адрес электронной почты'
         ];
     }

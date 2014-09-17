@@ -4,23 +4,35 @@ namespace competence\models\test\runet2014;
 use competence\models\form\Textarea;
 use competence\models\Question;
 
-class C10A extends Textarea
+class C10A extends C3A
 {
     use RouteMarket, MarketIndex;
 
+    public function getCodes()
+    {
+        $result = $this->getBaseQuestion()->getResult();
+        if ($result['value'] == 1) {
+            return ['C7', 'C8', 'C9', 'C10'];
+        } else {
+            return ['C7', 'C8'];
+        }
+    }
+
+    protected function getBaseQuestionCode()
+    {
+        return 'B4_'.$this->getMarketIndex();
+    }
+
     public function getPrev()
     {
-        $marketIndex = $this->getMarketIndex();
-        $baseQuestion = Question::model()->byTestId($this->getQuestion()->TestId)->byCode('B4_'.$marketIndex)->find();
-        $baseQuestion->Test = $this->getQuestion()->Test;
-        $result = $baseQuestion->getResult();
+        $result = $this->getBaseQuestion()->getResult();
         $code = null;
         if ($result['value'] == 1) {
-            $code = 'B10_';
+            $code = 'C10_';
         } else {
-            $code = in_array($marketIndex, [1, 2, 3, 5, 7, 8, 10, 11, 12]) ? 'C8_' : 'C7_';
+            $code = in_array($this->getMarketIndex(), [1, 2, 3, 5, 7, 8, 10, 11, 12]) ? 'C8_' : 'C7_';
         }
-        return Question::model()->byTestId($this->getQuestion()->TestId)->byCode($code.$marketIndex)->find();
+        return Question::model()->byTestId($this->getQuestion()->TestId)->byCode($code.$this->getMarketIndex())->find();
     }
 
     public function getNext()

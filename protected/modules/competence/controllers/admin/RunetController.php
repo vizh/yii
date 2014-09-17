@@ -1,5 +1,6 @@
 <?php
 use competence\models\form\attribute\RadioValue;
+use competence\models\Question;
 use competence\models\QuestionType;
 use competence\models\Test;
 
@@ -9,6 +10,40 @@ class RunetController extends \application\components\controllers\AdminMainContr
      * @var Test
      */
     public $test = null;
+
+    public function actionReplacetitle()
+    {
+        echo 'already done';
+        return;
+        $questions = Question::model()->byTestId(8)->findAll();
+
+        $types = [
+            1 => 'Веб-разработка и мобильная разработка',
+            2 => 'Контекстная реклама/ Performance',
+            3 => 'Медийная реклама /Display',
+            4 => 'Видеореклама',
+            5 => 'Маркетинг в социальных медиа (SMM)',
+            6 => 'Поисковая оптимизация',
+            7 => 'Программное обеспечение как услуга (SaaS)',
+            8 => 'Хостинг',
+            9 => 'Домены',
+            10 => 'Ретейл',
+            11 => 'Электронные платежи',
+            12 => 'Туризм',
+            13 => 'Игры',
+            14 => 'Видео',
+            15 => 'Музыка',
+            16 => 'Книги и СМИ',
+        ];
+
+        foreach ($questions as $question) {
+            foreach ($types as $type) {
+                $question->Title = str_replace(' «'.$type.'»', ' <strong>«'.$type.'»</strong>', $question->Title);
+            }
+            $question->save();
+        }
+        echo 'done';
+    }
 
     public function actionIndex()
     {

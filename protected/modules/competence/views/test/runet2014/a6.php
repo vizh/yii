@@ -8,15 +8,11 @@ use competence\models\test\runet2014\A6;
 <div class="form-horizontal">
     <div class="control-group">
         <?=CHtml::activeLabel($form, 'work_phone', ['class' => 'control-label']);?>
-        <div class="controls">
-            <?=CHtml::activeTextField($form, 'work_phone');?>
-        </div>
+        <?$this->widget('\contact\widgets\PhoneControls', ['form' => $form, 'name' => 'work_phone', 'inputClass' => '', 'placeholder' => null]);?>
     </div>
     <div class="control-group">
         <?=CHtml::activeLabel($form, 'mobile_phone', ['class' => 'control-label']);?>
-        <div class="controls">
-            <?=CHtml::activeTextField($form, 'mobile_phone');?>
-        </div>
+        <?$this->widget('\contact\widgets\PhoneControls', ['form' => $form, 'name' => 'mobile_phone', 'inputClass' => '', 'placeholder' => null]);?>
     </div>
     <div class="control-group">
         <?=CHtml::activeLabel($form, 'work_email', ['class' => 'control-label']);?>

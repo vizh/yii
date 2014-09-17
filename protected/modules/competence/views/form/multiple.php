@@ -42,11 +42,10 @@ if (!function_exists('printCheckBox'))
         <?=$value->title;?>
       </label>
       <?if ($value->isOther):?>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <?if (empty($value->suffix)):?>
-              <?=CHtml::activeTextField($form, 'other', ['class' => $wide ? 'span4' : 'span3', 'data-group' => $form->getQuestion()->Code, 'id' => $form->getQuestion()->Code.'_'.$value->key]);?>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=CHtml::activeTextField($form, 'other', ['class' => $wide ? 'span4' : 'span3', 'data-group' => $form->getQuestion()->Code, 'id' => $form->getQuestion()->Code.'_'.$value->key]);?>
           <?else:?>
-              <div class="input-append">
+              <div style="margin-left: 18px;" class="input-append">
                   <?=CHtml::activeTextField($form, 'other', ['class' => $wide ? 'span4' : 'span3', 'data-group' => $form->getQuestion()->Code, 'id' => $form->getQuestion()->Code.'_'.$value->key]);?>
                   <span class="add-on"><?=$value->suffix;?></span>
               </div>

@@ -16,15 +16,31 @@ $(function(){
     var target = $(e.currentTarget);
     var dataTarget = target.data('target');
     $(dataTarget).prop('disabled', !target.prop('checked'));
+      if (!target.prop('checked')) {
+          $(dataTarget).val('');
+      }
   });
 
 
   $('input[type="radio"][data-group]').change(function (e) {
     var target = $(e.currentTarget);
     var group = target.data('group');
-    $('input[type="text"][data-group="'+group+'"]').attr('disabled', 'disabled');
-    if (typeof target.data('target') != "undefined") {
-      $(target.data('target')).removeAttr('disabled');
+      var otherInputs = $('input[type="text"][data-group="'+group+'"]');
+      otherInputs.prop('disabled', true);
+
+      var otherTarget = target.data('target');
+
+    if (typeof otherTarget != "undefined") {
+      $(target.data('target')).prop('disabled', false);
+        var id = otherTarget.substring(1);
+        otherInputs.each(function(index, element) {
+            element = $(element);
+            if (element.attr('id') != id) {
+                element.val('');
+            }
+        });
+    } else {
+        otherInputs.val('');
     }
   });
 
