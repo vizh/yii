@@ -8,6 +8,8 @@ abstract class BaseProductManager
    */
   protected $product;
 
+    protected $isUniqueOrderItem = true;
+
   /**
    * @param \pay\models\Product $product
    */
@@ -190,13 +192,15 @@ abstract class BaseProductManager
       throw new \pay\components\Exception($this->getCheckProductMessage($owner), 700);
     }
 
-    $orderItem = \pay\models\OrderItem::model()->byProductId($this->product->Id)
-        ->byPayerId($payer->Id)->byOwnerId($owner->Id)
-        ->byDeleted(false)->byPaid(false)->find();
-    if ($orderItem !== null)
-    {
-      throw new \pay\components\Exception('Вы уже заказали этот товар', 701);
-    }
+      if ($this->isUniqueOrderItem) {
+          $orderItem = \pay\models\OrderItem::model()->byProductId($this->product->Id)
+              ->byPayerId($payer->Id)->byOwnerId($owner->Id)
+              ->byDeleted(false)->byPaid(false)->find();
+          if ($orderItem !== null) {
+              throw new \pay\components\Exception('Вы уже заказали этот товар', 701);
+          }
+      }
+
 
     foreach ($this->getOrderItemAttributeNames() as $key)
     {
