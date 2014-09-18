@@ -19,4 +19,6 @@ class Action extends \CAction
   {
     return \Yii::app()->partner->getEvent();
   }
+
+
 }

@@ -32,4 +32,15 @@ class ListDefinition extends Definition
             'style' => $this->cssStyle
         ]);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPrintValue($container)
+    {
+        $key = parent::getPrintValue($container);
+        return isset($this->data[$key]) ? $this->data[$key] : '';
+    }
+
+
 }

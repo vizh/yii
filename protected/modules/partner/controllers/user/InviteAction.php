@@ -43,7 +43,7 @@ class InviteAction extends \partner\components\Action
     $this->getController()->setPageTitle('Приглашения');
     $this->getController()->initActiveBottomMenu('invite');
     $this->getController()->render('invite', 
-      ['inviteRequests' => $inviteRequests, 'filter' => $filter, 'paginator' => $paginator, 'roles' => $this->getEvent()->getRoles(), 'showGenerateForm' => $showGenerateForm]
+      ['inviteRequests' => $inviteRequests, 'event' => $this->getEvent(), 'filter' => $filter, 'paginator' => $paginator, 'roles' => $this->getEvent()->getRoles(), 'showGenerateForm' => $showGenerateForm]
     );
   }
   

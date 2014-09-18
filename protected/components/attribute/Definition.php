@@ -76,4 +76,13 @@ class Definition
     {
         return get_called_class();
     }
+
+    /**
+     * @param $container
+     * @return string
+     */
+    public function getPrintValue($container)
+    {
+        return $container->{$this->name};
+    }
 } 
