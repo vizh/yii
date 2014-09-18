@@ -21,4 +21,10 @@ class D4 extends D
         }
         return parent::getPrev();
     }
+
+    public function getTitle()
+    {
+        $title = parent::getTitle();
+        return sprintf($title, $this->getSegment());
+    }
 } 

@@ -61,7 +61,7 @@ class D extends Base
     public function valueValidator($attribute, $params) {
         foreach ($this->value as $val) {
             if (empty($val)) {
-                $this->addError($attribute, 'Необходимо выбрать одно значение для всех инициатив.');
+                $this->addError($attribute, 'Необходимо выбрать ответ для каждого закона.');
                 break;
             }
         }
