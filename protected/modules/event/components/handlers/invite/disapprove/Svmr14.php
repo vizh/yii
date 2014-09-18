@@ -1,7 +1,7 @@
 <?php
 namespace event\components\handlers\invite\disapprove;
 
-class Svmr14_123 extends Base
+class Svmr14 extends Base
 {
     public function getSubject()
     {
@@ -10,6 +10,6 @@ class Svmr14_123 extends Base
 
     public function getBody()
     {
-        return \Yii::app()->getController()->renderPartial('event.views.mail.invite.disapprove.svmr14', ['user' => $this->user], true);
+        return $this->renderBody('event.views.mail.invite.disapprove.svmr14', ['user' => $this->user]);
     }
 } 

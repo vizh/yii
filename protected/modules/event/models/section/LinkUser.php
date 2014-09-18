@@ -17,6 +17,10 @@ namespace event\models\section;
  * @property Role $Role
  * @property Report $Report
  * @property \company\models\Company $Company
+ *
+ * @method LinkUser find($condition='',$params=array())
+ * @method LinkUser findByPk($pk,$condition='',$params=array())
+ * @method LinkUser[] findAll($condition='',$params=array())
  */
 class LinkUser extends \CActiveRecord
 {

@@ -39,11 +39,11 @@ class AddAction extends \api\components\Action
       throw new \api\components\Exception(402);
     }
 
-    try{
-      $orderItem = $product->getManager()->createOrderItem($payer, $owner);
-    }
-    catch (\pay\components\Exception $e)
-    {
+      $attributes = $request->getParam('Attributes', []);
+
+    try {
+      $orderItem = $product->getManager()->createOrderItem($payer, $owner, null, $attributes);
+    } catch (\pay\components\Exception $e) {
       throw new \api\components\Exception(408, [$e->getCode(), $e->getMessage()], $e);
     }
 
