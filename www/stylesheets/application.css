@@ -2623,7 +2623,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 .content .table {
   margin: 0 0 40px 80px;
-  width: 620px;
 }
 .content .table caption {
   margin-bottom: 20px;
@@ -2635,6 +2634,19 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   font-size: 11px;
 }
 .content .table td {font-size: 13px;}
+.content .table td:nth-child(1) {width: 90px;}
+.content .table li {
+    display: list-item;
+    list-style: square;
+    margin-bottom: 10px;
+}
+.content .table ul{
+    margin-left: 25px;
+}
+.content .table ul,
+.content .table p {
+    margin-bottom: 15px;
+}
 
 .content .form-horizontal {
   margin: 0 0 40px 80px;
