@@ -10,7 +10,6 @@ namespace api\models;
  * @property int $AccountId
  * @property int $UserId
  * @property string $ExternalId
- * @property string $ShortExternalId
  *
  * @property \user\models\User $User
  *

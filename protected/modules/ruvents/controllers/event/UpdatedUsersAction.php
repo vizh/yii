@@ -151,7 +151,7 @@ class UpdatedUsersAction extends \ruvents\components\Action
           ->byAccountId($apiAccount->Id)->findAll($criteria);
       foreach ($externals as $external)
       {
-        $result[$external->UserId] = $external->ShortExternalId;
+        $result[$external->UserId] = $external->ExternalId;
       }
     }
     return $result;
