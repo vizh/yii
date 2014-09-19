@@ -6,6 +6,7 @@ namespace event\models;
  * @property string $Code
  * @property string $Title
  * @property int $Priority
+ * @property string $Color
  *
  * @method \event\models\Role find($condition='',$params=array())
  * @method \event\models\Role findByPk($pk,$condition='',$params=array())

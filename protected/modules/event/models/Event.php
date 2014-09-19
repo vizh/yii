@@ -27,6 +27,7 @@ use user\models\User;
  * @property string $FbId Идентификатор мероприятия на Facebook. Если его нет, то мероприятие считает не опубликованным
  * @property bool $Deleted
  * @property string $DeletionTime
+ * @property string $Color
  *
  * @property Part[] $Parts
  * @property \event\models\section\Section[] $Sections
@@ -855,16 +856,27 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
                 ->where('"EventParticipant"."EventId" = :EventId OR "EventRole"."Base"')
                 ->queryColumn(['EventId' => $this->Id]);
 
+
+            $colors = [];
             $linkRoles = LinkRole::model()->byEventId($this->Id)->findAll();
             foreach ($linkRoles as $linkRole)
             {
                 $roleIdList[] = $linkRole->RoleId;
+                if (!empty($linkRole->Color)) {
+                    $colors[$linkRole->RoleId] = $linkRole->Color;
+                }
             }
 
             $criteria = new \CDbCriteria();
             $criteria->order = '"t"."Title" ASC';
             $criteria->addInCondition('"t"."Id"', $roleIdList);
             $this->roles = Role::model()->findAll($criteria);
+
+            foreach ($this->roles as $key => $role) {
+                if (isset($colors[$role->Id])) {
+                    $this->roles[$key]->Color = $colors[$role->Id];
+                }
+            }
         }
         return $this->roles;
     }

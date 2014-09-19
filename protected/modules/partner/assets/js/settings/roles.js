@@ -35,12 +35,26 @@ CPartnerSettingsRoles.prototype = {
   },
   'loadRoles' : function () {
     var self = this;
-    self.$table.find('tbody').html('<tr><td colspan="2" style="text-align: center;">Идет загрузка...</td></tr>');
+    self.$table.find('tbody').html('<tr><td colspan="3" style="text-align: center;">Идет загрузка...</td></tr>');
     $.getJSON('?', {'Action' : 'list'}, function (response) {
       self.$table.find('tbody').html('');
       $.each(response, function (i, role) {
         var $tr = $('<tr/>', {
-          'html' : '<td style="width: 10px">'+(role.CanDelete ? '<a href="#" class="btn-delete"><i class="icon-trash"></i></a>' : '')+'</td><td>'+role.Title+'</td>'
+          'html' : '<td style="width: 10px">'+(role.CanDelete ? '<a href="#" class="btn-delete"><i class="icon-trash"></i></a>' : '')+'</td><td>'+role.Title+'</td>'+
+            '<td><input type="text" class="input-small" name="color" value="' + (role.Color) + '" readonly="readonly" ' + (role.Color.length > 0 ? ('style="background-color:' + role.Color + '"') : '') + '/></td>'
+        });
+
+        $tr.find('input[name="color"]').colpick({
+          'layout' : 'hex',
+          'color'  : role.Color,
+          'submit' : false,
+          'onChange' : function (hsb, hex, rgb, element) {
+            $(element).val('#'+hex);
+            $(element).css('background-color', '#'+hex);
+          },
+          'onHide'  : function(element) {
+            $.getJSON('?', {'Action' : 'setcolor', 'RoleId' : role.Id, 'Color' : $tr.find('input[name="color"]').val()});
+          }
         });
         if (role.CanDelete) {
           $tr.find('a.btn-delete').click(function (e) {

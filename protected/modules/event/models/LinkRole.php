@@ -6,6 +6,7 @@ namespace event\models;
  * @property int $Id
  * @property int $EventId
  * @property int $RoleId
+ * @property string $Color
  * @package event\models
  */
 class LinkRole extends \CActiveRecord
