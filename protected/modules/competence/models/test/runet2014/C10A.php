@@ -11,7 +11,7 @@ class C10A extends C3A
     public function getCodes()
     {
         $result = $this->getBaseQuestion()->getResult();
-        if ($result['value'] == 1) {
+        if (!empty($result) && $result['value'] == 1) {
             return ['C7', 'C8', 'C9', 'C10'];
         } else {
             return ['C7', 'C8'];
@@ -27,7 +27,7 @@ class C10A extends C3A
     {
         $result = $this->getBaseQuestion()->getResult();
         $code = null;
-        if ($result['value'] == 1) {
+        if (!empty($result) && $result['value'] == 1) {
             $code = 'C10_';
         } else {
             $code = in_array($this->getMarketIndex(), [1, 2, 3, 5, 7, 8, 10, 11, 12]) ? 'C8_' : 'C7_';

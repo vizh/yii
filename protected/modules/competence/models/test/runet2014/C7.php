@@ -37,7 +37,7 @@ class C7 extends \competence\models\form\Base
         $baseQuestion = Question::model()->byTestId($this->getQuestion()->TestId)->byCode($this->baseCode)->find();
         $baseQuestion->setTest($this->getQuestion()->Test);
         $result = $baseQuestion->getResult();
-        if ($result['value'] == '1') {
+        if (!empty($result) && $result['value'] == '1') {
             return Question::model()->byTestId($this->getQuestion()->TestId)->byCode($this->nextCodeToCompany)->find();
         } else {
             return Question::model()->byTestId($this->getQuestion()->TestId)->byCode($this->nextCodeToComment)->find();
