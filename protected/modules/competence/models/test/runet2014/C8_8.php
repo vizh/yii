@@ -7,8 +7,8 @@ class C8_8 extends C8 {
     protected $nextCodeToCompany = 'C9_8';
 
     public $subMarkets = [
-        '8_1' => 'Электронные платежные системы',
-        '8_2' => 'Интернет-эквайринг'
+        '8_1' => 'Хостинг (кроме облачного)',
+        '8_2' => 'Облачный хостинг'
     ];
 
     protected $nextCodeToComment = 'C10A_8';

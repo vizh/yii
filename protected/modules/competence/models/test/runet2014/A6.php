@@ -38,9 +38,9 @@ class A6 extends \competence\models\form\Base
     public function rules()
     {
         return [
-            ['mobile_phone, main_email', 'required'],
+            ['main_email', 'required'],
             ['main_email,work_email,additional_email', 'email'],
-            ['work_phone', 'safe']
+            ['mobile_phone, work_phone', 'safe']
         ];
     }
 

@@ -6,7 +6,7 @@ class C8_2 extends C8 {
 
     protected $nextCodeToCompany = 'C9_2';
 
-    public $subMarkets = ['2_1' => 'Рекламные сети и RTB', '2_2' => 'Прямое размещение'];
+    public $subMarkets = ['2_1' => 'Поисковая', '2_2' => 'Не поисковая'];
 
     protected $nextCodeToComment = 'C10A_2';
 }

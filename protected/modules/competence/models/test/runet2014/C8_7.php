@@ -7,10 +7,8 @@ class C8_7 extends C8 {
     protected $nextCodeToCompany = 'C9_7';
 
     public $subMarkets = [
-        '7_1' => 'Физические товары, включая продукты питания',
-        '7_2' => 'Купоны',
-        '7_3' => 'Билеты (мероприятия)',
-        '7_4' => 'Бытовые услуги и медицина'
+        '7_1' => 'Сегмент B2C',
+        '7_2' => 'Сегмент B2B'
     ];
 
     protected $nextCodeToComment = 'C10A_7';

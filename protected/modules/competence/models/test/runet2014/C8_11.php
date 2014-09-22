@@ -6,7 +6,7 @@ class C8_11 extends C8 {
 
     protected $nextCodeToCompany = 'C9_11';
 
-    public $subMarkets = ['11_1' => 'Сегмент B2C', '11_2' => 'Сегмент B2B'];
+    public $subMarkets = ['11_1' => 'Электронные платежные системы', '11_2' => 'Интернет-эквайринг'];
 
     protected $nextCodeToComment = 'C10A_11';
 }
