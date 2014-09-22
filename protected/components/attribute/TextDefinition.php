@@ -3,8 +3,10 @@ namespace application\components\attribute;
 
 class TextDefinition extends Definition
 {
-    protected function internalActiveEdit(\CModel $container)
+    protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
     {
-        return \CHtml::activeTextArea($container, $this->name, ['class' => $this->cssClass, 'style' => $this->cssStyle]);
+        $htmlOptions['class'] = $this->cssClass . (isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
+        $htmlOptions['style'] = $this->cssStyle . (isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
+        return \CHtml::activeTextArea($container, $this->name, $htmlOptions);
     }
 } 

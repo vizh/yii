@@ -25,12 +25,11 @@ class ListDefinition extends Definition
         return $value;
     }
 
-    protected function internalActiveEdit(\CModel $container)
+    protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
     {
-        return \CHtml::activeDropDownList($container, $this->name, $this->data, [
-            'class' => $this->cssClass,
-            'style' => $this->cssStyle
-        ]);
+        $htmlOptions['class'] = $this->cssClass . (isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
+        $htmlOptions['style'] = $this->cssStyle . (isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
+        return \CHtml::activeDropDownList($container, $this->name, $this->data, $htmlOptions);
     }
 
     /**

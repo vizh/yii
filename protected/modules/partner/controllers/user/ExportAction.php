@@ -1,6 +1,9 @@
 <?php
 namespace partner\controllers\user;
 
+use application\models\attribute\Definition;
+use event\models\UserData;
+
 class ExportAction extends \partner\components\Action
 {
     private $csvDelimiter = ';';
@@ -58,6 +61,27 @@ class ExportAction extends \partner\components\Action
             'Дата оплаты участия',
             'Дата выдачи бейджа'
         );
+
+
+        $userDataMap = [];
+
+        $data = new UserData();
+        $data->EventId = $this->getEvent()->Id;
+        foreach ($data->getManager()->getDefinitions() as $definition) {
+            $row[] = $definition->title;
+            $userDataMap[] = $definition->name;
+        }
+
+        $usersData = [];
+        $data = UserData::model()->byEventId($this->getEvent()->Id)->byDeleted(false)->findAll();
+        foreach ($data as $item) {
+            $definitions = $item->getManager()->getDefinitions();
+            /** @var Definition $definition */
+            foreach ($definitions as $definition) {
+                $usersData[$item->UserId][$definition->name][] = $definition->getPrintValue($item->getManager());
+            }
+        }
+
 
         if ($this->getEvent()->Id == 963) {
             $row[] = 'Город';
@@ -184,8 +208,6 @@ class ExportAction extends \partner\components\Action
                 }
             }
 
-
-
             $criteria = new \CDbCriteria();
             $criteria->order = 't."CreationTime"';
             /** @var $badge \ruvents\models\Badge */
@@ -221,6 +243,10 @@ class ExportAction extends \partner\components\Action
                     $row['Test'] = '';
                     $row['Prize'] = '';
                 }
+            }
+
+            foreach ($userDataMap as $name) {
+                $row[$name] = isset($usersData[$user->Id][$name]) ? implode(';', $usersData[$user->Id][$name]) : '';
             }
 
             $this->fwritecsv($fp, $this->rowHandler($row), $this->csvDelimiter);

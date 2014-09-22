@@ -51,20 +51,35 @@
 
         <?$data = $event->getUserData($user);?>
         <?if (!empty($data)):?>
-            <table class="table m-top_30 table-bordered table-striped">
+            <table class="table m-top_30 table-bordered table-striped user-data">
                 <thead>
                     <tr>
                         <?foreach($data[0]->getManager()->getDefinitions() as $definition):?>
                             <th><?=$definition->title;?></th>
                         <?endforeach;?>
+                        <th style="width: 1px;"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?foreach($data as $row):?>
-                        <tr>
-                        <?foreach ($row->getManager()->getDefinitions() as $definition):?>
-                            <td><?=$definition->getPrintValue($row->getManager());?></td>
-                        <?endforeach;?>
+                        <tr data-id="<?=$row->Id;?>">
+                            <?foreach ($row->getManager()->getDefinitions() as $definition):?>
+                            <td>
+                                <div class="input hide">
+                                    <?=$definition->activeEdit($row->getManager(), ['class' => 'input-block-level', 'data-name' => $definition->name]);?>
+                                </div>
+                                <div class="value" data-name="<?=$definition->name;?>">
+                                    <?=$definition->getPrintValue($row->getManager());?>
+                                </div>
+                            </td>
+                            <?endforeach;?>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="#" class="btn btn-mini edit"><?=\Yii::t('app', 'Редактировать');?></a>
+                                    <a href="#" class="btn btn-mini btn-danger delete"><?=\Yii::t('app', 'Удалить');?></a>
+                                </div>
+                                <a href="#" class="btn btn-mini btn-success save hide"><?=\Yii::t('app', 'Сохранить');?></a>
+                            </td>
                         </tr>
                     <?endforeach;?>
                 </tbody>

@@ -176,7 +176,7 @@
               <tr>
                 <td style="padding-top: 10px;">
                   <b><?=$event->getContactAddress()->Place;?></b><br>
-                  <?=$event->getContactAddress();?>
+                  <?=$event->getContactAddress()->getShort();?>
                 </td>
               </tr>
               <tr>

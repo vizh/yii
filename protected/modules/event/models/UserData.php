@@ -14,6 +14,7 @@ use user\models\User;
  * @property int $CreatorId
  * @property string $Attributes
  * @property string $CreationTime
+ * @property bool $Deleted
  *
  * @property Event $Event
  * @property User $User
@@ -91,6 +92,19 @@ class UserData extends \CActiveRecord
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."UserId" = :UserId';
         $criteria->params = ['UserId' => $userId];
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * @param bool $deleted
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byDeleted($deleted, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = (!$deleted ? 'NOT ' : '') . '"t"."Deleted"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }

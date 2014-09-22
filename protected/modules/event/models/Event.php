@@ -887,6 +887,6 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
      */
     public function getUserData(User $user)
     {
-        return UserData::model()->byEventId($this->Id)->byUserId($user->Id)->findAll();
+        return UserData::model()->byEventId($this->Id)->byUserId($user->Id)->byDeleted(false)->findAll();
     }
 }

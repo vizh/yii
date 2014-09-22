@@ -10,9 +10,10 @@ class BooleanDefinition extends Definition
         return (boolean)$value;
     }
 
-    protected function internalActiveEdit(\CModel $container)
+    protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
     {
-        $checkbox = \CHtml::activeCheckBox($container, $this->name, ['uncheckValue' => null]);
+        $htmlOptions['uncheckValue'] = null;
+        $checkbox = \CHtml::activeCheckBox($container, $this->name, $htmlOptions);
         return \CHtml::label($checkbox . ' ' . $this->title, false, ['class' => $this->cssClass, 'style' => $this->cssStyle]);
     }
 }

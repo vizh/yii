@@ -36,14 +36,16 @@ class Definition
      * @param \CModel $container должен быть реализован трейт JsonContainer
      * @return string
      */
-    final public function activeEdit(\CModel $container)
+    final public function activeEdit(\CModel $container, $htmlOptions = [])
     {
-        return $this->internalActiveEdit($container);
+        return $this->internalActiveEdit($container, $htmlOptions);
     }
 
-    protected function internalActiveEdit(\CModel $container)
+    protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
     {
-        return \CHtml::activeTextField($container, $this->name, ['class' => $this->cssClass, 'style' => $this->cssStyle]);
+        $htmlOptions['class'] = $this->cssClass . (isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
+        $htmlOptions['style'] = $this->cssStyle . (isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
+        return \CHtml::activeTextField($container, $this->name, $htmlOptions);
     }
 
     public function rules()

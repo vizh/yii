@@ -55,7 +55,13 @@ class EditAction extends \partner\components\Action
             $doAction = $request->getParam('do');
             if (!empty($doAction))
             {
-                $this->processParticipants($doAction);
+                $method = 'processAjaxAction'.ucfirst($doAction);
+                if (method_exists($this,$method)) {
+                    $result = $this->$method();
+                    echo json_encode($result);
+                    \Yii::app()->end();
+                } else
+                    throw new \CHttpException(404);
             }
 
             $participants = $this->prepareParticipants();
@@ -113,31 +119,50 @@ class EditAction extends \partner\components\Action
         return $result;
     }
 
-    private function processParticipants($doAction)
+    private function processAjaxActionChangeParticipant()
     {
-        if ($doAction === 'changeParticipant')
+        $result = array();
+        $request = \Yii::app()->getRequest();
+
+        $roleId  = $request->getParam('roleId');
+        $partId  = $request->getParam('partId');
+        $message = $request->getParam('message');
+
+        /** @var $role \event\models\Role */
+        $role = \event\models\Role::model()->findByPk($roleId);
+        if ($role !== null)
         {
-            $result = array();
-            $request = \Yii::app()->getRequest();
-
-            $roleId  = $request->getParam('roleId');
-            $partId  = $request->getParam('partId');
-            $message = $request->getParam('message');
-
-            /** @var $role \event\models\Role */
-            $role = \event\models\Role::model()->findByPk($roleId);
-            if ($role !== null)
+            if (sizeof($this->getEvent()->Parts) == 0)
+            {
+                $this->getEvent()->registerUser($this->user, $role, false, $message);
+            }
+            else
+            {
+                $part = \event\models\Part::model()->findByPk($partId);
+                if ($part !== null)
+                {
+                    $this->getEvent()->registerUserOnPart($part, $this->user, $role, false, $message);
+                }
+                else
+                {
+                    $result['error'] = true;
+                }
+            }
+        }
+        else
+        {
+            if ((int)$roleId == 0)
             {
                 if (sizeof($this->getEvent()->Parts) == 0)
                 {
-                    $this->getEvent()->registerUser($this->user, $role, false, $message);
+                    $this->getEvent()->unregisterUser($this->user, $message);
                 }
                 else
                 {
                     $part = \event\models\Part::model()->findByPk($partId);
                     if ($part !== null)
                     {
-                        $this->getEvent()->registerUserOnPart($part, $this->user, $role, false, $message);
+                        $this->getEvent()->unregisterUserOnPart($part, $this->user, $message);
                     }
                     else
                     {
@@ -147,33 +172,45 @@ class EditAction extends \partner\components\Action
             }
             else
             {
-                if ((int)$roleId == 0)
-                {
-                    if (sizeof($this->getEvent()->Parts) == 0)
-                    {
-                        $this->getEvent()->unregisterUser($this->user, $message);
-                    }
-                    else
-                    {
-                        $part = \event\models\Part::model()->findByPk($partId);
-                        if ($part !== null)
-                        {
-                            $this->getEvent()->unregisterUserOnPart($part, $this->user, $message);
-                        }
-                        else
-                        {
-                            $result['error'] = true;
-                        }
-                    }
-                }
-                else
-                {
-                    $result['error'] = true;
-                }
+                $result['error'] = true;
             }
-            echo json_encode($result);
-            \Yii::app()->end();
         }
+        return $result;
+    }
+
+    private function processAjaxActionEditData()
+    {
+        $result = [];
+
+        $request = \Yii::app()->getRequest();
+        /** @var UserData $data */
+        $data = UserData::model()->byEventId($this->getEvent()->Id)->byUserId($this->user->Id)->findByPk($request->getParam('dataId'));
+        if ($data == null)
+            throw new \CHttpException(404);
+
+        $data->getManager()->setAttributes($request->getParam('attributes'));
+        if ($data->getManager()->validate()) {
+            $data->save();
+            $result['values'] = [];
+            foreach ($data->getManager()->getDefinitions() as $definition) {
+                $result['values'][$definition->name] = $definition->getPrintValue($data->getManager());
+            }
+        } else {
+            $result['errors'] = $data->getManager()->getErrors();
+        }
+        return $result;
+    }
+
+    private function processAjaxActionDeleteData()
+    {
+        $request = \Yii::app()->getRequest();
+        $data = UserData::model()->byEventId($this->getEvent()->Id)->byUserId($this->user->Id)->findByPk($request->getParam('dataId'));
+        if ($data == null)
+            throw new \CHttpException(404);
+
+        $data->Deleted = true;
+        $data->save();
+        return ['success' => true];
     }
 
     private function processEvent831Product()
