@@ -1,6 +1,8 @@
 <?php
 namespace partner\models;
 
+use api\models\Account;
+
 /**
  * Class Import
  * @package partner\models
@@ -63,5 +65,21 @@ class Import extends \CActiveRecord
 
     return $path . DIRECTORY_SEPARATOR . $this->Id;
   }
+
+    /**
+     * @var Account
+     */
+    private $apiAccount = null;
+
+    /**
+     * @return Account
+     */
+    public function getApiAccount()
+    {
+        if ($this->apiAccount === null) {
+            $this->apiAccount = Account::model()->byEventId($this->EventId)->find();
+        }
+        return $this->apiAccount;
+    }
 
 }

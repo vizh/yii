@@ -25,7 +25,7 @@ class RolesAction extends \partner\components\Action
 
     $this->getController()->render('import/roles', [
       'roleNames' => $roleNames,
-      'roles' => \event\models\Role::model()->findAll(['order' => '"Title"']),
+      'roles' => $this->getEvent()->getRoles(),
       'values' => $values,
       'error' => !$check
     ]);

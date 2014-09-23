@@ -1,6 +1,8 @@
 <?php
 namespace partner\models;
 
+use api\models\ExternalUser;
+
 /**
  * Class ImportUser
  * @package partner\models
@@ -16,6 +18,7 @@ namespace partner\models;
  * @property string $Position
  * @property string $Role
  * @property string $Product
+ * @property string $ExternalId
  *
  *
  * @property bool $Imported
@@ -200,6 +203,15 @@ class ImportUser extends \CActiveRecord
       $user->Visible = $import->Visible;
       $user->save();
 
+        if (!empty($this->ExternalId) && $import->getApiAccount() !== null) {
+            $externalUser = new ExternalUser();
+            $externalUser->UserId = $user->Id;
+            $externalUser->AccountId = $import->getApiAccount()->Id;
+            $externalUser->Partner = $import->getApiAccount()->Role;
+            $externalUser->ExternalId = $this->ExternalId;
+            $externalUser->save();
+        }
+
       $this->setCompany($user);
     }
     $this->setPhone($user);
@@ -212,6 +224,12 @@ class ImportUser extends \CActiveRecord
    */
   private function getDuplicateUser($import)
   {
+      if (!empty($this->ExternalId) && $import->getApiAccount() != null) {
+          $externalUser = ExternalUser::model()
+              ->byExternalId($this->ExternalId)->byAccountId($import->getApiAccount()->Id)->find();
+          return $externalUser !== null ? $externalUser->User : null;
+      }
+
     $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
     if ($import->Visible)
     {
