@@ -28,7 +28,7 @@ $site = $this->event->getContactSite();
   </p>
   <?if ($site != null):?>
   <p class="url">
-    <a target="_blank" href="<?=$site;?>"><?=trim($site->Url,' /');?></a>
+    <a target="_blank" href="<?=$site;?>"><?=$site->getCleanUrl();?></a>
   </p>
   <?endif;?>
 </div>
