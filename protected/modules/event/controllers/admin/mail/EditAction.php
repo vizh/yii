@@ -148,7 +148,8 @@ class EditAction extends \CAction
             '{User.RunetId}'   => '<?=$user->RunetId;?>',
             '{Event.Title}'    => '<?=$event->Title;?>',
             '{TicketUrl}'      => '<?=$participant->getTicketUrl();?>',
-            '{Role.Title}'     => '<?=$role->Title;?>'
+            '{Role.Title}'     => '<?=$role->Title;?>',
+            '{CalendarLinks}'  => '<?$this->renderPartial(\'event.views.mail.register.parts.calendar\', [\'event\' => $event]);?>'
         ];
     }
 
@@ -160,7 +161,8 @@ class EditAction extends \CAction
             '{User.RunetId}'   => \Yii::t('app', 'RUNET-ID пользователя'),
             '{Event.Title}'    => \Yii::t('app', 'Название меропрития'),
             '{TicketUrl}'      => \Yii::t('app', 'Ссылка на пригласительный'),
-            '{Role.Title}'     => \Yii::t('app', 'Роль на меропритие')
+            '{Role.Title}'     => \Yii::t('app', 'Роль на меропритие'),
+            '{CalendarLinks}'  => \Yii::t('app', 'Добавление в календарь')
         ];
         return $labels[$field];
     }

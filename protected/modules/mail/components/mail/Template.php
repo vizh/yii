@@ -58,13 +58,12 @@ class Template extends \mail\components\MailLayout
    */
   public function getAttachments()
   {
-    //$attachments = ['program.pgf' => \Yii::getPathOfAlias('webroot.files.event.rif-crimea14.program') . '.pdf'];
     $attachments = [];
     if ($this->template->SendPassbook)
     {
       $participants = $this->user->Participants[0];
       $pkPass = new \application\components\utility\PKPassGenerator($participants->Event, $this->user, $participants->Role);
-      $attachments[] = $pkPass->runAndSave();
+      $attachments['ticket.pkpass'] = $pkPass->runAndSave();
     }
 
 
