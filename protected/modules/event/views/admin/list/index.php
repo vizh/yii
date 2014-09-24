@@ -57,11 +57,13 @@ use event\models\Approved;
                     <td><?$this->widget('event\widgets\Date', array('event' => $event));?></td>
                     <td class="buttons">
                         <div class="btn-group">
-                            <?if ($event->getCanBeRemoved()):?>
+                            <?if (!$event->Deleted):?>
                                 <a href="<?=$this->createUrl('/event/admin/list/index', ['EventId' => $event->Id, 'Action' => 'Delete', 'BackUrl' => \Yii::app()->getRequest()->getRequestUri()]);?>" class="btn btn-danger"><i class="icon-remove icon-white"></i></a>
                             <?endif;?>
                             <a href="<?=$this->createUrl('/event/admin/edit/index', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-edit"></i></a>
-                            <a href="<?=$this->createUrl('/event/view/index', ['idName' => $event->IdName]);?>" class="btn" target="_blank"><i class="icon-share"></i></a>
+                            <?if (!$event->Deleted):?>
+                                <a href="<?=$this->createUrl('/event/view/index', ['idName' => $event->IdName]);?>" class="btn" target="_blank"><i class="icon-share"></i></a>
+                            <?endif;?>
                         </div>
                     </td>
                 </tr>

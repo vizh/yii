@@ -31,6 +31,7 @@
     <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index', array('Approved' => \event\models\Approved::Yes));?>"><?=\Yii::t('app','Принятые');?></a></li>
     <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index', array('Approved' => \event\models\Approved::None));?>"><?=\Yii::t('app','На одобрение');?> <?if($counts->Event != 0):?><span class="label label-info pull-right">+<?=$counts->Event?></span><?endif;?></a></li>
     <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index', array('Approved' => \event\models\Approved::No));?>"><?=\Yii::t('app','Отклоненные');?></a></li>
+    <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index', array('Deleted' => true));?>"><?=\Yii::t('app','Удаленные');?></a></li>
     <li><a href="<?=Yii::app()->createUrl('/event/admin/default/creators');?>"><?=\Yii::t('app','Заявители');?></a></li>
   </ul>
 

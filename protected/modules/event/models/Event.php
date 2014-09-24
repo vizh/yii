@@ -834,12 +834,6 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
         return $fbEvent;
     }
 
-    public function getCanBeRemoved()
-    {
-        return ($this->External && $this->Approved !== Approved::Yes && !$this->Deleted);
-    }
-
-
     private $roles = null;
     /**
      * @return Role[]

@@ -13,31 +13,31 @@ class ListController extends \application\components\controllers\AdminMainContro
         $criteria->with  = ['Type','Attributes','LinkProfessionalInterests'];
 
         $searchQuery = \Yii::app()->getRequest()->getParam('Query', null);
-        if (!empty($searchQuery))
-        {
-            if (is_numeric($searchQuery))
-            {
+        if (!empty($searchQuery)) {
+            if (is_numeric($searchQuery)) {
                 $criteria->addCondition('"t"."Id" = :Query');
                 $criteria->params['Query'] = $searchQuery;
             }
-            else
-            {
+            else {
                 $criteria->addCondition('"t"."IdName" ILIKE :Query OR "t"."Title" ILIKE :Query');
                 $criteria->params['Query'] = '%'.$searchQuery.'%';
             }
         }
 
-        $approved = \Yii::app()->request->getParam('Approved', null);
-        if ($approved !== null)
-        {
+        $approved = \Yii::app()->getRequest()->getParam('Approved', null);
+        if ($approved !== null) {
             $criteria->addCondition('"t"."External" AND "t"."Approved" = :Approved');
             $criteria->params['Approved'] = $approved;
         }
+
+        $deleted = \Yii::app()->getRequest()->getParam('Deleted', null);
+        $criteria->addCondition(($deleted == null ? 'NOT ' : '') . '"t"."Deleted"');
 
         $paginator = new Paginator(Event::model()->count($criteria));
         $paginator->perPage = \Yii::app()->params['AdminEventPerPage'];
         $criteria->mergeWith($paginator->getCriteria());
         $events = Event::model()->findAll($criteria);
+        $this->setPageTitle(\Yii::t('app', 'Список мероприятий'));
         $this->render('index', array(
             'events' => $events,
             'paginator' => $paginator,
@@ -59,17 +59,12 @@ class ListController extends \application\components\controllers\AdminMainContro
         if ($backUrl == null)
             return;
 
-        switch ($action)
-        {
-            case 'Delete':
-                if ($event->getCanBeRemoved())
-                {
-                    $event->Deleted = true;
-                    $event->DeletionTime = date('Y-m-d H:i:s');
-                    $event->save();
-                }
+        if ($action == 'Delete') {
+            $event->Deleted = true;
+            $event->DeletionTime = date('Y-m-d H:i:s');
         }
 
+        $event->save();
         $this->redirect($backUrl);
     }
 }
