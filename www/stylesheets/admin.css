@@ -561,3 +561,28 @@ body.http-error {
   */
   table.relative-no-table td:before { content: attr(data-title); }
 }
+
+/*
+  Список мероприятий
+  */
+table.events tr.muted td{
+  background-color: #EEEEEE;
+  color: #000;
+}
+table.events tr.error td {
+  -moz-opacity: 0.70;
+  -khtml-opacity: 0.70;
+  opacity: 0.70;
+}
+table.events td.icons {
+  white-space: nowrap;
+  word-wrap: normal;
+}
+table.events td.icons i.muted {
+  -moz-opacity: 0.15;
+  -khtml-opacity: 0.15;
+  opacity: 0.15;
+}
+table.events td.buttons {
+  text-align: right;
+}
