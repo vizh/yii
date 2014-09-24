@@ -12,6 +12,7 @@ class CouponController extends \partner\components\Controller
       'activation' => '\partner\controllers\coupon\ActivationAction',
       'give' => '\partner\controllers\coupon\GiveAction',
       'generate' => '\partner\controllers\coupon\GenerateAction',
+        'statistics' => '\partner\controllers\coupon\StatisticsAction'
     );
   }
 

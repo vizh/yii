@@ -87,6 +87,6 @@ class CouponActivation extends \CActiveRecord
       return $this->Coupon->Discount;
     if (!$product->EnableCoupon)
       return 0;
-    return $this->Coupon->ProductId == null || $this->Coupon->ProductId == $product->Id ? $this->Coupon->Discount : 0;
+    return $this->Coupon->getIsForProduct($product->Id) ? $this->Coupon->Discount : 0;
   }
 }

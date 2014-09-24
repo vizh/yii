@@ -6,6 +6,8 @@ class Controller extends \application\components\controllers\BaseController
 {
   public $layout = '/layouts/public';
 
+    public $showMenu = true;
+
   public function filters()
   {
     $filters = parent::filters();

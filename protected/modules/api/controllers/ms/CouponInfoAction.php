@@ -9,7 +9,7 @@ class CouponInfoAction extends \api\components\Action
     $couponCode = $request->getParam('CouponCode');
 
     /** @var $coupon \pay\models\Coupon */
-    $coupon = \pay\models\Coupon::model()->byCode($couponCode)->find();
+    $coupon = \pay\models\Coupon::model()->byEventId($this->getEvent()->Id)->byCode($couponCode)->find();
     if ($coupon == null)
       throw new \api\components\Exception(3006);
     elseif ($coupon->EventId != $this->getEvent()->Id)

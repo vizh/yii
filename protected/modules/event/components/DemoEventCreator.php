@@ -269,10 +269,10 @@ class DemoEventCreator
       {
         $coupon = new \pay\models\Coupon();
         $coupon->EventId = $event->Id;
-        $coupon->ProductId = $product->Id;
         $coupon->Discount = 1.00;
         $coupon->Code = $coupon->generateCode();
         $coupon->save();
+          $coupon->addProductLinks([$product]);
 
         foreach ($users as $user)
           $coupon->activate($user, $user);
@@ -294,10 +294,10 @@ class DemoEventCreator
       {
         $coupon = new \pay\models\Coupon();
         $coupon->EventId = $event->Id;
-        $coupon->ProductId = $product->Id;
         $coupon->Discount = mt_rand(0, 1) ? 0.1 : 0.25;
         $coupon->Code = $coupon->generateCode();
         $coupon->save();
+          $coupon->addProductLinks([$product]);
 
         foreach ($users as $user)
           $coupon->activate($user, $user);
@@ -333,10 +333,10 @@ class DemoEventCreator
       // 100% промо-код
       $coupon = new \pay\models\Coupon();
       $coupon->EventId = $event->Id;
-      $coupon->ProductId = $product->Id;
       $coupon->Discount = 1.00;
       $coupon->Code = $coupon->generateCode();
       $coupon->save();
+        $coupon->addProductLinks([$product]);
       $coupon->activate($user, $user);
       echo ++$index."\n";
     }
@@ -376,10 +376,10 @@ class DemoEventCreator
     {
       $coupon = new \pay\models\Coupon();
       $coupon->EventId = $event->Id;
-      $coupon->ProductId = $product->Id;
       $coupon->Discount = mt_rand(0, 1) ? (mt_rand(0, 1) ? 0.1 : 0.25) : 0.1;
       $coupon->Code = $coupon->generateCode();
       $coupon->save();
+        $coupon->addProductLinks([$product]);
       echo ++$index."\n";
     }
   }

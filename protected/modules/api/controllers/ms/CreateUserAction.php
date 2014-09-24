@@ -111,7 +111,7 @@ class CreateUserAction extends \api\components\Action
 
         $coupon = null;
         if ($couponCode != null) {
-            $coupon = \pay\models\Coupon::model()->byCode($couponCode)->find();
+            $coupon = \pay\models\Coupon::model()->byEventId($this->getEvent()->Id)->byCode($couponCode)->find();
 
             if ($coupon !== null && $coupon->EventId == $this->getEvent()->Id) {
                 try {

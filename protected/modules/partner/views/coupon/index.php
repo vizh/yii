@@ -4,7 +4,10 @@
  * @var $paginator \application\components\utility\Paginator
  * @var $form \partner\models\forms\coupon\Search
  * @var $products array
+ * @var Event $event
  */
+use event\models\Event;
+
 ?>
 
 <div class="row">
@@ -17,7 +20,7 @@
       </div>
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Activator');?>
-        <?=CHtml::activeTextField($form, 'Activator', array('placeholder' => 'RUNET-ID'));?>
+        <?=CHtml::activeTextField($form, 'Activator', ['placeholder' => 'RUNET-ID']);?>
       </div>
       <div class="span4">
         <?=CHtml::activeLabel($form, 'Discount');?>
@@ -65,6 +68,7 @@
         <th>Продукт</th>
         <th>Выдан</th>
         <th>Активация</th>
+        <th>&nbsp;</th>
     </tr>
     </thead>
     <tbody>
@@ -78,10 +82,12 @@
         <td><strong><?=$coupon->Code;?></strong></td>
         <td><strong><?=($coupon->Discount * 100);?> %</strong></td>
         <td>
-            <?if ($coupon->ProductId !== null):?>
-                <span title="<?=$coupon->Product->Title;?>">
-                <?=\application\components\utility\Texts::cropText($coupon->Product->Title, 20);?>
-                </span>
+            <?if (!empty($coupon->Products)):?>
+                <?foreach ($coupon->Products as $product):?>
+                    <span title="<?=$product->Title;?>">
+                        <?=\application\components\utility\Texts::cropText($product->Title, 20);?>
+                    </span><br>
+                <?endforeach;?>
             <?else:?>
                 &ndash;
             <?endif;?>
@@ -104,16 +110,19 @@
             <?endif;?>
         </td>
         <td>
-            <?if (!$coupon->Multiple && sizeof($coupon->Activations) > 0):?>
+            <?php if (!$coupon->Multiple && sizeof($coupon->Activations) > 0):?>
                 <span class="label label-success">Активирован</span> 
                 <br/><a target="_blank" href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => $coupon->Activations[0]->User->RunetId));?>" class="small"><strong><?=$coupon->Activations[0]->User->getFullName();?>, <?=$coupon->Activations[0]->User->RunetId;?></strong></a>
-            <?elseif ($coupon->Multiple):?>
+            <?php elseif ($coupon->Multiple):?>
                 <span class="label <?=count($coupon->Activations) > 0 ? 'label-success' : '';?>">
                     Активирован <?=sizeof($coupon->Activations);?> из <?=$coupon->MultipleCount;?>
                 </span>
             <?php else:?>
                 <span class="label">Не активирован</span>
             <?php endif;?>
+        </td>
+        <td>
+            <a target="_blank" title="Статистика" class="btn" href="<?=Yii::app()->createUrl('/partner/coupon/statistics', ['eventIdName' => $event->IdName, 'code' => $coupon->Code, 'hash' => $coupon->getHash()]);?>"><i class="icon-share"></i></a>
         </td>
     </tr>
     <?php endforeach;?>

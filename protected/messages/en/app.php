@@ -153,7 +153,7 @@ return array(
 
 
 
-  'Указан неверный код купона' => 'Wrong coupon number',
+  'Указан неверный промо код' => 'Wrong coupon code',
   'Купон на скидку {discount}% успешно активирован!' => 'Coupon for {discount}% discount successfully activated!',
   'Выставленные счета' => 'My bills',
   'Выставленные счета и квитанции' => 'My bills and receipts',

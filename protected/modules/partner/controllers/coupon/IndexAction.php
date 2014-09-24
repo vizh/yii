@@ -29,7 +29,8 @@ class IndexAction extends \partner\components\Action
         'paginator' => $paginator,
         'form' => $form,
         'products' => $this->getProductValues(),
-        'hasTicket' => $hasTicket
+        'hasTicket' => $hasTicket,
+          'event' => $this->getEvent()
       )
     );
   }

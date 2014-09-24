@@ -17,7 +17,7 @@
       <thead>
       <tr>
         <td colspan="5" class="lead">
-          <strong>Всего участников:</strong> <?=$statistics->countParticipants;?>
+          <strong>Всего зарегистрировано:</strong> <?=$statistics->countParticipants;?>
         </td>
       </tr>
       </thead>

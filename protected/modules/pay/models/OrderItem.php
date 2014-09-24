@@ -301,7 +301,7 @@ class OrderItem extends \CActiveRecord
             ->byEmptyLinkOrderItem()->find();
         if ($activation !== null)
         {
-          $rightProduct = $activation->Coupon->ProductId === null || $activation->Coupon->ProductId == $this->ProductId;
+          $rightProduct = $activation->Coupon->getIsForProduct($this->ProductId);
           $rightTime = $this->PaidTime === null || $this->PaidTime >= $activation->CreationTime;
           if ($rightProduct && $rightTime)
           {

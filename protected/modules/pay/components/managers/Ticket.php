@@ -49,12 +49,12 @@ class Ticket extends BaseProductManager
         {
             $coupon = new \pay\models\Coupon();
             $coupon->EventId = $this->product->EventId;
-            $coupon->ProductId = $this->ProductId;
             $coupon->Code = 'ticket-'.$coupon->generateCode();
             $coupon->OwnerId = $user->Id;
             $coupon->Discount = 1;
             $coupon->IsTicket = true;
             $coupon->save();
+            $coupon->addProductLinks([$this->product]);
             $coupons[] = $coupon;
         }
 

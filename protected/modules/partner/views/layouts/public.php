@@ -9,7 +9,9 @@
 </head>
 <body>
 
-<?php $this->widget('\partner\widgets\TopMenu');?>
+<?php if ($this->showMenu):?>
+    <?php $this->widget('\partner\widgets\TopMenu');?>
+<?php endif;?>
 
 <div class="container">
   <div class="rocid-logo">
@@ -18,7 +20,9 @@
 </div>
 
 <div class="container content-block">
-  <?php $this->widget('\partner\widgets\BottomMenu', array('menu' => $this->getBottomMenu()));?>
+    <?php if ($this->showMenu):?>
+        <?php $this->widget('\partner\widgets\BottomMenu', array('menu' => $this->getBottomMenu()));?>
+    <?php endif;?>
   <?=$content;?>
 </div>
   
