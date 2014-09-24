@@ -48,11 +48,11 @@ return array(
         'http://'.RUNETID_HOST.'/proftest/end' => ['competence/main/end/', 'defaultParams' => ['id' => 6]],
         'http://'.RUNETID_HOST.'/proftest/done' => ['competence/main/done/', 'defaultParams' => ['id' => 6]],
 
-        /** iResearch 2013 */
-        'http://'.RUNETID_HOST.'/iresearch2013/' => ['competence/main/index/', 'defaultParams' => ['id' => 2]],
-        'http://'.RUNETID_HOST.'/iresearch2013/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 2]],
-        'http://'.RUNETID_HOST.'/iresearch2013/end' => ['competence/main/end/', 'defaultParams' => ['id' => 2]],
-        'http://'.RUNETID_HOST.'/iresearch2013/done' => ['competence/main/done/', 'defaultParams' => ['id' => 2]],
+        /** iResearch 2014 */
+        'http://'.RUNETID_HOST.'/iresearch2014/' => ['competence/main/index/', 'defaultParams' => ['id' => 8]],
+        'http://'.RUNETID_HOST.'/iresearch2014/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 8]],
+        'http://'.RUNETID_HOST.'/iresearch2014/end' => ['competence/main/end/', 'defaultParams' => ['id' => 8]],
+        'http://'.RUNETID_HOST.'/iresearch2014/done' => ['competence/main/done/', 'defaultParams' => ['id' => 8]],
 
 
         /** Student Test 2013 */
