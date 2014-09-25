@@ -13,7 +13,7 @@ class IndexAction extends \partner\components\Action
     $form = new \partner\models\forms\coupon\Search();
     $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
     $criteria = new \CDbCriteria();
-    $criteria->with = ['Owner', 'Product'];
+    $criteria->with = ['Owner'];
     $criteria->mergeWith($form->getCriteria());
     $count = \pay\models\Coupon::model()->byEventId($this->getEvent()->Id)->count($criteria);
 

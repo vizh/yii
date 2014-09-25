@@ -4,7 +4,6 @@ namespace pay\models;
 /**
  * @property int $Id
  * @property int $EventId
- * @property int $ProductId
  * @property string $Code
  * @property float $Discount
  * @property bool $Multiple
@@ -16,7 +15,6 @@ namespace pay\models;
  * @property int $OwnerId
  *
  * @property CouponActivation[] $Activations
- * @property Product $Product
  * @property \user\models\User $Owner
  * @property CouponLinkProduct[] $ProductLinks
  * @property Product[] $Products
@@ -53,7 +51,6 @@ class Coupon extends \CActiveRecord
     {
         return [
             'Activations' => [self::HAS_MANY, '\pay\models\CouponActivation', 'CouponId'],
-            'Product' => [self::BELONGS_TO, '\pay\models\Product', 'ProductId'],
             'Owner' => [self::BELONGS_TO, '\user\models\User', 'OwnerId'],
             'ProductLinks' => [self::HAS_MANY, '\pay\models\CouponLinkProduct', 'CouponId'],
             'Products' => [self::HAS_MANY, '\pay\models\Product', ['ProductId' => 'Id'], 'through' => 'ProductLinks']

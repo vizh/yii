@@ -70,6 +70,9 @@ use event\models\section\LinkUser;
                           <?else:?>
                               <?=$link->CustomText;?>
                           <?endif;?>
+                          <?php if (!empty($link->Report) && !empty($link->Report->Url)):?>
+                              <a title="Скачать презентацию" target="_blank" href="<?=$link->Report->Url;?>"><img style="vertical-align: bottom;" src="/images/icon-adobe-pdf.png" alt="Скачать презентацию"/></a>
+                          <?php endif;?>
                       </li>
                     <?endforeach;?>
                     </ul>
