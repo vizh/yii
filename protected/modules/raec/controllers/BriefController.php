@@ -13,42 +13,33 @@ use user\models\User;
 class BriefController extends PublicMainController
 {
     const DATA_SESSION_NAME = 'RaecBrief';
-    const STEP_SESSION_NAME = 'RaecBriefStep';
+    const HISTORY_SESSION_NAME = 'RaecBriefHistory';
 
     protected function beforeAction($action)
     {
-        if ($action->getId() != $this->getSteps()[0]) {
-            $step = \Yii::app()->getSession()->get(self::STEP_SESSION_NAME, 0);
-            if (array_search($action->getId(), $this->getSteps()) > $step || \Yii::app()->getUser()->getIsGuest()) {
-                $this->redirect('/raec/brief/'.$this->getSteps()[0]);
-            }
+        $session = \Yii::app()->getSession();
+        if (($action->getId() != 'index' && \Yii::app()->getUser()->getIsGuest()) || ($action->getId() == $this->getLastActionId() && $session->get(self::HISTORY_SESSION_NAME) == null)) {
+            $this->redirect('/raec/brief/index');
         }
         $this->setPageTitle(\Yii::t('app', 'Анкета на вступление в Ассоциацию'));
         return parent::beforeAction($action);
     }
 
-
     public function getSteps()
     {
-        return ['index','about','resume','users','final'];
-    }
-
-    public function getStepTitle($step)
-    {
-        $titles = [
-            'index'  => \Yii::t('app', '1. Общая информация'),
-            'about'  => \Yii::t('app', '2. Об организации'),
-            'resume' => \Yii::t('app', '3. Дополнительная информация'),
-            'users'  => \Yii::t('app', '4. Сотрудники'),
-            'final'  => \Yii::t('app', '5. Завершение')
+        return [
+            'index' => [\Yii::t('app', '1. Общая информация'), false],
+            'about' => [\Yii::t('app', '2. Об организации'), true],
+            'resume' => [\Yii::t('app', '3. Дополнительная информация'), true],
+            'users' => [\Yii::t('app', '4. Сотрудники'), true],
+            $this->getLastActionId()  => [\Yii::t('app', '5. Завершение'), false]
         ];
-
-        if (array_key_exists($step, $titles)) {
-            return $titles[$step];
-        }
-        return null;
     }
 
+    public function getLastActionId()
+    {
+        return 'final';
+    }
 
     public function actionIndex()
     {
@@ -205,17 +196,46 @@ class BriefController extends PublicMainController
     private function clearSession()
     {
         \Yii::app()->getSession()->remove(self::DATA_SESSION_NAME);
-        \Yii::app()->getSession()->remove(self::STEP_SESSION_NAME);
+        \Yii::app()->getSession()->remove(self::HISTORY_SESSION_NAME);
     }
 
     private function redirectToNextAction()
     {
-        $key = array_search($this->getAction()->getId(), $this->getSteps());
-        if ($key === false)
-            throw new CHttpException(500);
+        $next = \Yii::app()->getRequest()->getParam('NextAction');
+        if (empty($next) || !array_key_exists($next, $this->getSteps()) || (!$this->getSteps()[$next][1] && $next != $this->getLastActionId())) {
+            throw new \CHttpException(500);
+        }
 
-        $key = $key+1;
-        \Yii::app()->getSession()->add(self::STEP_SESSION_NAME, $key);
-        $this->redirect(['/raec/brief/' . $this->getSteps()[$key]]);
+        $history = \Yii::app()->getSession()->get(self::HISTORY_SESSION_NAME, []);
+        $history[] = $this->getAction()->getId();
+        \Yii::app()->getSession()->add(self::HISTORY_SESSION_NAME, $history);
+
+        if ($next == $this->getLastActionId()) {
+            foreach (array_keys($this->getSteps()) as $action) {
+                if (!in_array($action, $history)) {
+                    $next = $action;
+                    break;
+                }
+            }
+        }
+        $this->redirect('/raec/brief/'.$next);
     }
-} 
+
+    public function getNextActionInput()
+    {
+        return \CHtml::hiddenField('NextAction', $this->getNextAction());
+    }
+
+    private function getNextAction()
+    {
+        $flag = false;
+        foreach ($this->getSteps() as $action => $params) {
+            if ($action == $this->getAction()->getId()) {
+                $flag = true;
+            } elseif ($flag) {
+                return $action;
+            }
+        }
+        throw new \CHttpException(500);
+    }
+}

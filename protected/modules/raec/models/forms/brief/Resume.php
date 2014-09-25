@@ -15,7 +15,7 @@ class Resume extends \CFormModel
     public function rules()
     {
         return [
-            ['Year,ProfessionalInterest,Progress,Employees', 'required'],
+            ['Year,ProfessionalInterest,Progress,Employees', 'safe'],
             ['Customers,Additional', 'type', 'type' => 'string'],
             ['Year', 'date', 'format' => 'yyyy'],
             ['ProfessionalInterest', 'professionalInterestValidate']

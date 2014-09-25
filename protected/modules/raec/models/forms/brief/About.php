@@ -38,7 +38,8 @@ class About extends \CFormModel
     public function rules()
     {
         return [
-            ['CompanyLabel,CEOFirstName,CEOLastName,CEOFatherName,CEOPosition,CEOPositionBase,BookerFirstName,BookerLastName,BookerFatherName,JuridicalOPF,JuridicalShortName,JuridicalFullName,JuridicalAddress,JuridicalAddressActual,JurudicalINN,JurudicalOGRN,JurudicalOGRNDate,JurudicalBIK,JuridicalKPP,JuridicalBankName,JurudicalAccount,JurudicalCorrAccount', 'required'],
+            ['CompanyLabel', 'required'],
+            ['CEOFirstName,CEOLastName,CEOFatherName,CEOPosition,CEOPositionBase,BookerFirstName,BookerLastName,BookerFatherName,JuridicalOPF,JuridicalShortName,JuridicalFullName,JuridicalAddress,JuridicalAddressActual,JurudicalINN,JurudicalOGRN,JurudicalOGRNDate,JurudicalBIK,JuridicalKPP,JuridicalBankName,JurudicalAccount,JurudicalCorrAccount', 'safe'],
             ['CompanyId', 'exist', 'className' => '\company\models\Company', 'attributeName' => 'Id', 'allowEmpty' => true],
             ['JuridicalOPF', 'in', 'range' => $this->getJuridicalOPFData()],
             ['JurudicalOGRNDate', 'date', 'format' => 'dd.MM.yyyy'],

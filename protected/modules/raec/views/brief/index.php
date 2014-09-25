@@ -60,6 +60,7 @@ use user\models\User;
         <?endif;?>
         <?=\CHtml::beginForm();?>
             <?=\CHtml::submitButton(\Yii::t('app', 'Заполнить анкету'), ['class' => 'btn btn-success btn-large'.(\Yii::app()->getUser()->getIsGuest() ? ' disabled' : '')]);?>
+            <?=$this->getNextActionInput();?>
         <?=\CHtml::endForm();?>
     </div>
 </div>

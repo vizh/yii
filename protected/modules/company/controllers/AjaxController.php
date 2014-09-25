@@ -22,7 +22,10 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     }
     else
     {
-      $companyCmd->where('to_tsvector("Company"."Name") @@ plainto_tsquery(:Query) OR to_tsvector("Company"."FullName") @@ plainto_tsquery(:Query)', array('Query' => $term))
+      $companyCmd->where('to_tsvector("Company"."Name") @@ plainto_tsquery(:Query) OR to_tsvector("Company"."FullName") @@ plainto_tsquery(:Query) OR "Company"."Name" ILIKE :LikeQuery OR "Company"."FullName" ILIKE :LikeQuery', [
+          'Query' => $term,
+          'LikeQuery' => $term.'%'
+      ])
         ->limit(10);
     }
     $companies = $companyCmd->queryAll();

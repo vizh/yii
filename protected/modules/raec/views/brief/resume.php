@@ -59,5 +59,5 @@ use raec\models\forms\brief\Resume;
         <?=\CHtml::submitButton(\Yii::t('app', 'Следующий шаг'), ['class' => 'btn btn-success btn-large']);?>
     </div>
 </div>
-
+<?=$this->getNextActionInput();?>
 <?$this->endWidget();?>

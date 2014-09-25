@@ -88,6 +88,7 @@ use raec\models\forms\brief\Users;
             <?=\CHtml::submitButton(\Yii::t('app', 'Следующий шаг'), ['class' => 'btn btn-success btn-large']);?>
         </div>
     </div>
+<?=$this->getNextActionInput();?>
 <?$this->endWidget();?>
 
 <script type="text/template" id="user-tpl">

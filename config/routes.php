@@ -156,7 +156,9 @@ return array(
         'http://admin.' .  RUNETID_HOST . '/' => 'main/admin/default/index',
         'http://admin.' .  RUNETID_HOST . '/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/admin/<controller>/<action>',
 
-          
+        /** РАЭК */
+        'http://'. RUNETID_HOST.'/raec/brief/' => 'raec/brief/index',
+
         /** ALL MODULES */
         'http://'. RUNETID_HOST.'/fastauth/<runetId:\d+>/<hash>/' => 'main/fastauth/index',
         'http://'. RUNETID_HOST.'/register/<runetId:\d+>/<eventIdName>/<roleId:\d+>/<hash>/' => 'event/fastregister/index',

@@ -44,8 +44,6 @@ class Users extends \CFormModel
                         break;
                     }
                 }
-            } else {
-                $valid = false;
             }
         } else {
             $valid = false;
