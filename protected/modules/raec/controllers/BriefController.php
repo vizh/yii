@@ -21,7 +21,7 @@ class BriefController extends PublicMainController
         if (($action->getId() != 'index' && \Yii::app()->getUser()->getIsGuest()) || ($action->getId() == $this->getLastActionId() && $session->get(self::HISTORY_SESSION_NAME) == null)) {
             $this->redirect('/raec/brief/index');
         }
-        $this->setPageTitle(\Yii::t('app', 'Анкета на вступление в Ассоциацию'));
+        $this->setPageTitle(\Yii::t('app', 'Анкета члена НП “РАЭК”'));
         return parent::beforeAction($action);
     }
 
