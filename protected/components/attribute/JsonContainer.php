@@ -160,9 +160,6 @@ trait JsonContainer
         foreach ($this->attributes as $name => $value) {
             $this->attributes[$name] = $this->definitions[$name]->typecast($value);
         }
-//        var_dump($this->attributes);
-//        echo json_encode($this->attributes, JSON_UNESCAPED_UNICODE);
-//        exit;
         $this->model()->{$this->containerName()} = json_encode($this->attributes, JSON_UNESCAPED_UNICODE);
     }
 

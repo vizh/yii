@@ -445,6 +445,7 @@ class Builder
     $this->section = new \stdClass();
 
     $this->section->SectionId = $section->Id;
+      $this->section->Id = $section->Id;
     $this->section->Title = $this->filterSectionTitle($section->Title);
     $this->section->Description = $section->Info; //todo: deprecated
     $this->section->Info = $section->Info;

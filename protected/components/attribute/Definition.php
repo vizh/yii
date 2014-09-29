@@ -16,9 +16,6 @@ class Definition
 
     public $required = false;
 
-    /** @var bool Если данный параметр true - его поля не должны выводиться в форме, если ранее были заполнены другим пользователем */
-    public $secure = false;
-
     public $cssStyle = null;
 
     public $cssClass = null;
@@ -34,6 +31,7 @@ class Definition
 
     /**
      * @param \CModel $container должен быть реализован трейт JsonContainer
+     * @param array $htmlOptions
      * @return string
      */
     final public function activeEdit(\CModel $container, $htmlOptions = [])
