@@ -20,10 +20,11 @@ return array(
     'user',
     'search',
     'job',
-    'page',  
+    'page',
     'widget',
     'link',
     'raec',
+    'sms',
 
     'competence',
       

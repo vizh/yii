@@ -1,10 +1,10 @@
 <?php
-namespace user\components\handlers;
+namespace user\components\handlers\recover\mail;
 
 use mail\components\Mailer;
 use mail\components\MailLayout;
 
-abstract class RecoverBase extends MailLayout
+class Recover extends MailLayout
 {
     protected $user;
 
@@ -62,5 +62,12 @@ abstract class RecoverBase extends MailLayout
     public function getIsPriority()
     {
         return true;
+    }
+
+    public function getBody()
+    {
+        return $this->renderBody('user.views.mail.recover', [
+            'user' => $this->user
+        ], true);
     }
 }
