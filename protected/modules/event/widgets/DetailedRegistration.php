@@ -63,6 +63,11 @@ class DetailedRegistration extends \event\components\Widget
             $user->PrimaryPhone = $this->form->phone->CountryCode.$this->form->phone->CityCode.$this->form->phone->Phone;
             $user->Email = $this->form->email;
             $user->register();
+
+            if (isset($this->getEvent()->UnsubscribeNewUser) && $this->getEvent()->UnsubscribeNewUser) {
+                $user->Settings->UnsubscribeAll = true;
+                $user->Settings->save();
+            }
         }
         else {
             if (empty($user->PrimaryPhone))

@@ -53,6 +53,8 @@ use user\models\User;
  *
  * @property bool $PositionRequired
  * @property bool $PhoneRequired
+ * @property bool $UnsubscribeNewUser
+ *
  *
  * Вспомогательные описания методов методы
  * @method \event\models\Event find($condition='',$params=array())
