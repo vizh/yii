@@ -143,24 +143,29 @@ class Account extends \CActiveRecord
     return false;
   }
 
-  /**
-   * @param string $url
-   *
-   * @return bool
-   */
-  public function checkUrl($url)
-  {
-    $host = parse_url($url, PHP_URL_HOST);
-    foreach ($this->Domains as $domain)
+    /**
+     * @param string $url
+     *
+     * @return bool
+     */
+    public function checkUrl($url)
     {
-      $pattern = '/^' . $domain->Domain . '$/i';
-      if (preg_match($pattern, $host) === 1)
-      {
-        return true;
-      }
+        $host = parse_url($url, PHP_URL_HOST);
+        foreach ($this->Domains as $domain) {
+            if ($domain->Domain[0] === '*') {
+                $needle = substr($domain->Domain, 2);
+                if (stripos($host, $needle) !== false) {
+                    return true;
+                }
+            } else {
+                $pattern = '/^' . $domain->Domain . '$/i';
+                if (preg_match($pattern, $host) === 1) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
-    return false;
-  }
 
   public function getRefererHash($referer)
   {
