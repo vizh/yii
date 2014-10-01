@@ -141,6 +141,49 @@ CTemplateEdit.prototype = {
       row.find('select[name*="type"] option[value="'+data.type+'"]').attr('selected', 'selected');
     }
     this.criteriaIterator++;
+  },
+
+  createGeoCriteria : function (data) {
+    var self = this;
+    var iterator = self.criteriaIterator;
+    var template = _.template($('#geo-criteria-tpl').html())({i : iterator});
+    $('#filter').append(template);
+    var row = $('#filter>div:last');
+    row.find('.btn-danger').click(function() {
+      row.remove();
+    });
+
+    var fields = {
+      'label' : row.find('input[name*="label"]'),
+      'cityId' : row.find('input[name*="cityId"]'),
+      'regionId' : row.find('input[name*="regionId"]'),
+      'countryId' : row.find('input[name*="countryId"]')
+    };
+
+    fields.label.autocomplete({
+      'source' : '/contact/ajax/search',
+      select : function (event, ui) {
+        fields.cityId.val(
+          typeof ui.item.CityId !== "undefined" ? ui.item.CityId : ""
+        );
+        fields.regionId.val(ui.item.RegionId);
+        fields.countryId.val(ui.item.CountryId);
+      },
+      response: function(event, ui) {
+        fields.cityId.val('');
+        fields.regionId.val('');
+        fields.countryId.val('');
+      }
+    });
+
+    if (typeof data != "undefined") {
+      fields.label.val(data.label);
+      fields.cityId.val(data.cityId);
+      fields.regionId.val(data.regionId);
+      fields.countryId.val(data.countryId);
+      row.find('select[name*="type"] option[value="'+data.type+'"]').attr('selected', 'selected');
+    }
+    this.criteriaIterator++;
   }
 }
 
