@@ -24,6 +24,20 @@ class CreateProductGetAction extends \ruvents\components\Action
       $get->refresh();
     //}
 
+      if ($productId == 3036) {
+          $badge = new \ruvents\models\Badge();
+          $badge->OperatorId = 1534;
+          $badge->EventId = $this->getEvent()->Id;
+          $badge->UserId = $user->Id;
+
+          $participant = \event\models\Participant::model()->byEventId($this->getEvent()->Id)->byUserId($user->Id)->find();
+          if ($participant === null) {
+              throw new \ruvents\components\Exception(304);
+          }
+          $badge->RoleId = $participant->RoleId;
+          $badge->save();
+      }
+
     $this->renderJson(['Success' => true, 'CreationTime' => $get->CreationTime]);
   }
 } 
