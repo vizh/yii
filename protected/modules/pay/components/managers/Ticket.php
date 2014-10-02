@@ -1,6 +1,7 @@
 <?php
 namespace pay\components\managers;
 use mail\components\mailers\MandrillMailer;
+use string;
 
 /**
  * Class Ticket
@@ -16,13 +17,34 @@ class Ticket extends BaseProductManager
         $this->paidProduct = \pay\models\Product::model()->findByPk($this->ProductId);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getOrderItemAttributeNames()
+    {
+        return array_merge(['Count'], parent::getOrderItemAttributeNames());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRequiredOrderItemAttributeNames()
     {
         return ['Count'];
     }
 
-
+    /**
+     * @inheritdoc
+     */
     public function getProductAttributeNames()
+    {
+        return array_merge(['ProductId'], parent::getProductAttributeNames());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRequiredProductAttributeNames()
     {
         return ['ProductId'];
     }

@@ -1,5 +1,6 @@
 <?php
 namespace pay\components\managers;
+use string;
 
 /**
  * Class Callback
@@ -11,12 +12,34 @@ class Callback extends BaseProductManager
 {
     public $isUniqueOrderItem = false;
 
+    /**
+     * @inheritdoc
+     */
     public function getProductAttributeNames()
+    {
+        return array_merge(['CallbackUrl'], parent::getProductAttributeNames());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRequiredProductAttributeNames()
     {
         return ['CallbackUrl'];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getOrderItemAttributeNames()
+    {
+        return array_merge(['Price', 'Data', 'Title'], parent::getOrderItemAttributeNames());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRequiredOrderItemAttributeNames()
     {
         return ['Price', 'Data', 'Title'];
     }
