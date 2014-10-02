@@ -90,11 +90,11 @@ class Controller extends \application\components\controllers\BaseController
     $log->DbTime = null;
     $log->save();
 
-    if ($executionTime > 0.1)
-    {
-      $profilingResults = \Yii::getLogger()->getProfilingResults();
-      \Yii::log($executionTime . '   ' . var_export($profilingResults, true), \CLogger::LEVEL_WARNING);
-    }
+//    if ($executionTime > 0.1)
+//    {
+//      $profilingResults = \Yii::getLogger()->getProfilingResults();
+//      \Yii::log($executionTime . '   ' . var_export($profilingResults, true), \CLogger::LEVEL_WARNING);
+//    }
 
     return $log;
   }
