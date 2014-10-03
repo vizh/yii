@@ -59,7 +59,7 @@ class Company extends \application\models\translation\ActiveRecord implements \s
             'LinkModerators' => array(self::HAS_MANY, '\company\models\LinkModerator', 'CompanyId'),
 
             //Сотрудники
-            'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'order' => '"User"."LastName" DESC', 'condition' => '"Employments"."EndYear" IS NULL', 'with' => array('User')),
+            'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'order' => '"User"."LastName" DESC', 'condition' => '"Employments"."EndYear" IS NULL AND "User"."Visible"', 'with' => array('User')),
             'EmploymentsAll' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'with' => array('User')),
         );
     }
