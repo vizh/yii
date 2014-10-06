@@ -5,6 +5,7 @@ namespace event\models\section;
  * @property int $Id
  * @property int $EventId
  * @property string $Title
+ * @property string $UpdateTime
  * @property int $Order
  */
 class Hall extends \application\models\translation\ActiveRecord

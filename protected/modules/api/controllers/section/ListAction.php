@@ -61,6 +61,12 @@ class ListAction extends \api\components\Action
             $criteria->addInCondition('"Sections"."Id"', $command->queryColumn());
         }
 
+        $fromUpdateTime = \Yii::app()->getRequest()->getParam('FromUpdateTime', null);
+        if ($fromUpdateTime !== null) {
+            $criteria->addCondition('"Sections"."UpdateTime" > :UpdateTime');
+            $criteria->params['UpdateTime'] = $fromUpdateTime;
+        }
+
         return $criteria;
     }
 }

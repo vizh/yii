@@ -48,7 +48,7 @@ return array(
     'allow',
     'roles' => array('base'),
     'controllers' => array('event'),
-    'actions' => array('roles', 'register', 'list', 'info', 'companies', 'statistics', 'users', 'purposes')
+    'actions' => array('roles', 'register', 'list', 'info', 'companies', 'statistics', 'users', 'purposes', 'halls')
   ),
   array(
     'allow',

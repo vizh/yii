@@ -485,11 +485,12 @@ class Builder
      * @param Hall $hall
      * @return \stdClass
      */
-    protected function createSectionHall($hall)
+    public function createSectionHall($hall)
     {
         $this->sectionHall = new \stdClass();
         $this->sectionHall->Id = $hall->Id;
         $this->sectionHall->Title = $hall->Title;
+        $this->sectionHall->UpdateTime = $hall->UpdateTime;
         $this->sectionHall->Order = $hall->Order;
         return $this->sectionHall;
     }
