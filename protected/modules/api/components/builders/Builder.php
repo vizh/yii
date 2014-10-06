@@ -482,7 +482,7 @@ class Builder
     protected $sectionHall;
 
     /**
-     * @param $hall
+     * @param Hall $hall
      * @return \stdClass
      */
     protected function createSectionHall($hall)
@@ -490,6 +490,7 @@ class Builder
         $this->sectionHall = new \stdClass();
         $this->sectionHall->Id = $hall->Id;
         $this->sectionHall->Title = $hall->Title;
+        $this->sectionHall->Order = $hall->Order;
         return $this->sectionHall;
     }
 
