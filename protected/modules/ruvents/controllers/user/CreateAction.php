@@ -3,17 +3,19 @@ namespace ruvents\controllers\user;
 
 use event\models\Part;
 use event\models\Role;
+use ruvents\components\Action;
 use ruvents\components\Exception;
 use ruvents\models\ChangeMessage;
+use user\models\forms\RegisterForm;
 use user\models\User;
 
-class CreateAction extends \ruvents\components\Action
+class CreateAction extends Action
 {
   public function run()
   {
     $request = \Yii::app()->getRequest();
 
-    $form = new \user\models\forms\RegisterForm();
+    $form = new RegisterForm(RegisterForm::SCENARIO_RUVENTS);
     $form->LastName = $request->getParam('LastName');
     $form->FirstName = $request->getParam('FirstName');
     $form->FatherName = $request->getParam('FatherName');
@@ -71,7 +73,7 @@ class CreateAction extends \ruvents\components\Action
     {
       foreach ($form->getErrors() as $message)
       {
-        throw new \ruvents\components\Exception(207, $message);
+        throw new Exception(207, $message);
       }
     }
   }
