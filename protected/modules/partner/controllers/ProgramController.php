@@ -17,7 +17,7 @@ class ProgramController extends \partner\components\Controller
         throw new CHttpException(404);
     }
     
-    $sections = \event\models\section\Section::model()->byDate($date)->findAll();
+    $sections = \event\models\section\Section::model()->byDate($date)->byEventId($event->Id)->findAll();
     $this->setPageTitle(\Yii::t('app', 'Программа'));
     $this->render('index', array('event' => $event, 'sections' => $sections, 'date' => $date));
   }

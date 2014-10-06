@@ -47,7 +47,7 @@ class PKPassGenerator
   public function run($output = false)
   { 
     $this->standardKeys['serialNumber'] = $this->event->Id.$this->user->RunetId;
-    $this->visualAppearanceKeys['barcode']['message'] = '~RUNETID#'.$this->user->RunetId;
+    $this->visualAppearanceKeys['barcode']['message'] = '~RUNETID#'.$this->user->RunetId.'$';
     $this->styleKeys = array(
       'eventTicket' => array(
         'headerFields' => array(

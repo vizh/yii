@@ -121,6 +121,7 @@ class EditAction extends \CAction
                 case Template::ByRunetId:
                     $condition = new RunetIdCondition(explode(',', $condition['runetIdList']));
                     $filter->addCondition('\mail\components\filter\RunetId', $condition, $positive);
+                    break;
 
                 case Template::ByGeo:
                     $condition = new GeoCondition($condition['label'], $condition['countryId'], $condition['regionId'], $condition['cityId']);

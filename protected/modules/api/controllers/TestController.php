@@ -6,12 +6,13 @@ class TestController extends CController
   {
     //$api = 'zrnzd5rs8i';
     //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-    $api = '7e4a7ny8e6';
-    $secret = 'zSBGzZSFQndAKaiDi2dEidhEb';
+    $api = 'bcOGdeQYwz';
+    $secret = 'ULWCFtNbAsdCPLqRQXZ9b0kUg';
 
     $params = array(
       'ApiKey' => $api,
-      'Hash' => md5($api . $secret)
+      'Hash' => md5($api . $secret),
+      'Filter' => ['Attributes' => ['TEST' => 3]]
     );
 
     //$params['Email'] = 'alaris.nik@gmail.com';
@@ -27,7 +28,7 @@ class TestController extends CController
 
     print_r($params);
 
-    $this->apiRequest('/api/pay/list', $params);
+    $this->apiRequest('/api/section/list', $params);
   }
 
   private function apiRequest($url, $params)
