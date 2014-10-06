@@ -63,16 +63,17 @@ class Account extends \CFormModel
     return $value;
   }
 
-  public function getRoles()
-  {
-    return [
-      '' => 'Выберите тип аккаунта',
-      'own' => 'Собственное мероприятие',
-      'partner' => 'Партнерское мероприятие',
-      'microsoft' => 'Мероприятие Microsoft',
-      'mblt' => 'Мероприятие MBLT'
-    ];
-  }
+    public function getRoles()
+    {
+        return [
+            '' => 'Выберите тип аккаунта',
+            'own' => 'Собственное мероприятие',
+            'partner' => 'Партнерское мероприятие',
+            'microsoft' => 'Мероприятие Microsoft',
+            'mblt' => 'Мероприятие MBLT',
+            'mobile' => 'Мобильное приложение'
+        ];
+    }
 
   public function getRequestPhoneOnRegistrationStatusData()
   {
