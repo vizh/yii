@@ -2,6 +2,7 @@
 use competence\models\form\attribute\RadioValue;
 use competence\models\Question;
 use competence\models\QuestionType;
+use competence\models\Result;
 use competence\models\Test;
 
 class RunetController extends \application\components\controllers\AdminMainController
@@ -10,6 +11,64 @@ class RunetController extends \application\components\controllers\AdminMainContr
      * @var Test
      */
     public $test = null;
+
+    public function actionResultMarkets()
+    {
+        /** @var Result[] $results */
+        $results = Result::model()->byTestId(8)->byFinished(true)->findAll();
+
+        $codes = ['B2_1', 'B2_2', 'B2_3', 'B2_4'];
+        $markets = [];
+        foreach ($results as $result) {
+            $data = $result->getResultByData();
+            foreach ($codes as $code) {
+                if (isset($data[$code])) {
+                    $values = $data[$code]['value'];
+                    foreach ($values as $value) {
+                        if (!isset($markets[$value])) {
+                            $markets[$value] = 0;
+                        }
+                        $markets[$value]++;
+                    }
+                    break;
+                }
+            }
+        }
+
+
+        $types = [
+            1 => 'Веб-разработка и мобильная разработка',
+            2 => 'Контекстная реклама/ Performance',
+            3 => 'Медийная реклама /Display',
+            4 => 'Видеореклама',
+            5 => 'Маркетинг в социальных медиа (SMM)',
+            6 => 'Поисковая оптимизация',
+            7 => 'Программное обеспечение как услуга (SaaS)',
+            8 => 'Хостинг',
+            9 => 'Домены',
+            10 => 'Ретейл',
+            11 => 'Электронные платежи',
+            12 => 'Туризм',
+            13 => 'Игры',
+            14 => 'Видео',
+            15 => 'Музыка',
+            16 => 'Книги и СМИ',
+        ];
+
+        foreach ($types as $key => $value) {
+            echo $value . ': ' . $markets[$key] . '<br>';
+        }
+//
+//        echo '<pre>';
+//        print_r($markets);
+//        echo '</pre>';
+//
+//        ksort($markets);
+//
+//        echo '<pre>';
+//        print_r($markets);
+//        echo '</pre>';
+    }
 
     public function actionReplacetitle()
     {
