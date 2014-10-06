@@ -19,7 +19,7 @@ class ListAction extends \api\components\Action
      */
     private function getCriteria()
     {
-        $fitler = \Yii::app()->getRequest()->getParam('Filter');
+        $fitler = \Yii::app()->getRequest()->getParam('Filter', []);
 
         $criteria = new \CDbCriteria();
         $criteria->with = ['LinkHalls.Hall', 'Attributes'];
