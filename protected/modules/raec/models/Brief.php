@@ -1,5 +1,9 @@
 <?php
 namespace raec\models;
+use raec\components\BriefData;
+use raec\models\forms\brief\About;
+use raec\models\forms\brief\Resume;
+use raec\models\forms\brief\Users;
 use user\models\User;
 
 /**
@@ -35,9 +39,35 @@ class Brief extends \CActiveRecord
     public function relations()
     {
         return [
-            'User' => [self::BELONGS_TO, '\user\models\User', 'Id']
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId']
         ];
     }
 
+    private $briefData = null;
 
+    /**
+     * @return BriefData
+     */
+    public function getBriefData()
+    {
+        if ($this->briefData == null) {
+            $this->briefData = new BriefData($this);
+        }
+        return $this->briefData;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCompletePercent()
+    {
+        $count = 0;
+        $attributes = $this->getBriefData()->getAttributes();
+        foreach ($attributes as $attr => $value) {
+            if (!empty($value)) {
+                $count++;
+            }
+        }
+        return round($count / sizeof($attributes) * 100);
+    }
 } 

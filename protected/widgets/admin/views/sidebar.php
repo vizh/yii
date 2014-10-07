@@ -86,6 +86,11 @@
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/list');?>"><?=\Yii::t('app', 'Списки');?></a></li>
   </ul>
 
+  <a data-toggle="collapse" class="nav-header" href="#menu-raec"><i class="icon-star icon-white"></i><span class="hidden-phone">РАЭК</span></a>
+  <ul class="nav nav-list collapse" id="menu-raec">
+    <li><a href="<?=Yii::app()->createUrl('/raec/admin/brief/index');?>">Анкеты</a></li>
+  </ul>
+
 
   <!--<a class="nav-header" href="help.html"><i class="icon-question-sign"></i>Help</a>
   <a class="nav-header" href="faq.html"><i class="icon-comment"></i>Faq</a>-->
