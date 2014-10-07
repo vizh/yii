@@ -2,7 +2,7 @@
 return [
     [
         'allow',
-        'roles' => ['admin'],
+        'roles' => ['raec'],
         'module' => 'raec',
         'controllers' => ['admin/brief']
     ],
