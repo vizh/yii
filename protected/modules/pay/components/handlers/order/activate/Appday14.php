@@ -22,4 +22,15 @@ class Appday14 extends Base
     {
         return 'pay.views.mail.order.activate.appday14';
     }
+
+    public function getSubject()
+    {
+        if ($this->order->Type == \pay\models\OrderType::Receipt) {
+            return 'Успешная оплата квитанции на участие в конференции '.$this->event->Title;
+        } elseif ($this->order->Type == \pay\models\OrderType::Juridical) {
+            return 'Успешная оплата счета на участие в конференции '.$this->event->Title;
+        }
+
+        return 'Успешная оплата участия в конференции '.$this->event->Title;
+    }
 }
