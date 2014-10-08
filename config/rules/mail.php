@@ -5,6 +5,6 @@ return array(
     'allow',
     'roles' => ['admin'],
     'module' => 'mail',
-    'controllers' => ['admin/template', 'default', 'partner']
+    'controllers' => ['admin/template', 'admin/sendemail', 'default', 'partner']
   ],
 );

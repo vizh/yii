@@ -24,6 +24,7 @@ namespace pay\models;
  * @property string $OrderDisableMessage
  * @property int $OrderMinTotal
  * @property string $OrderMinTotalMessage
+ * @property string $AfterPayUrl
  *
  * @property \event\models\Event $Event
  * @property OrderJuridicalTemplate $OrderTemplate
