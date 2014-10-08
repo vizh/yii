@@ -17,7 +17,17 @@ $width = !$this->event->FullWidth ? 218 : 940;
 </div>
 <script type="text/javascript">
 function fid_13401960168727002685(ymaps) {
-    var geocoder = ymaps.geocode("<?=addslashes($address->getShort());?>", {result : 1});
+    <?php
+        if (!empty($address->GeoPoint)) {
+            $points = explode(',', $address->GeoPoint);
+            $geo = $points[1].','.$points[0];
+        } else {
+            $geo =  $address->getShort();
+        }
+    ?>
+
+
+    var geocoder = ymaps.geocode("<?=$geo;?>", {result : 1});
     geocoder.then(
         function (response) {
             var map = new ymaps.Map("ymaps-map-id_13401960168727002685", {
