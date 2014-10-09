@@ -61,7 +61,11 @@ foreach ($products->all as $product) {
       <div class="tabs clearfix">
         <div class="tab current pull-left">
           <span class="number img-circle">1</span>
-          <?=\Yii::t('app', 'Регистрация');?>
+            <?php if (!$account->SandBoxUser):?>
+                <?=\Yii::t('app', 'Регистрация');?>
+            <?php else:?>
+                <?=\Yii::t('app', 'Регистрация других участников');?>
+            <?php endif;?>
         </div>
         <div class="tab pull-left">
           <span class="number img-circle">2</span>
