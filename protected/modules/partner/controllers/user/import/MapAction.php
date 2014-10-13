@@ -19,7 +19,7 @@ class MapAction extends \partner\components\Action
 
     $request = \Yii::app()->getRequest();
 
-    $form = new \partner\models\forms\user\ImportPrepare($columns);
+    $form = new \partner\models\forms\user\ImportPrepare($columns, $this->getEvent());
     $form->attributes = $request->getParam(get_class($form));
 
 
@@ -32,21 +32,26 @@ class MapAction extends \partner\components\Action
       $import->Fields = base64_encode(serialize($fields));
       $import->save();
 
-      for ($i = 2; $i <= $worksheet->getHighestRow(); $i++)
-      {
-        $importUser = new \partner\models\ImportUser();
-        $importUser->ImportId = $import->Id;
-        foreach ($columns as $column)
-        {
-          $field = $form->$column;
-          $value = trim($worksheet->getCell($column.$i)->getValue());
-          if (!empty($field) && !empty($value))
-          {
-            $importUser->$field = $value;
-          }
-          $importUser->save();
+        for ($i = 2; $i <= $worksheet->getHighestRow(); $i++) {
+            $importUser = new \partner\models\ImportUser();
+            $importUser->ImportId = $import->Id;
+            $data = [];
+            foreach ($columns as $column) {
+                $field = $form->$column;
+                $value = trim($worksheet->getCell($column.$i)->getValue());
+                if (!empty($field) && !empty($value)) {
+                    if ($importUser->hasAttribute($field)) {
+                        $importUser->$field = $value;
+                    } else {
+                        $data[$field] = $value;
+                    }
+                }
+            }
+            if (!empty($data)) {
+                $importUser->UserData = json_encode($data, JSON_UNESCAPED_UNICODE);
+            }
+            $importUser->save();
         }
-      }
 
       $this->getController()->redirect(\Yii::app()->createUrl('/partner/user/importroles', ['id' => $import->Id]));
     }

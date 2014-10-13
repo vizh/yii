@@ -2,6 +2,7 @@
 namespace partner\models;
 
 use api\models\ExternalUser;
+use event\models\UserData;
 use pay\components\Exception;
 
 /**
@@ -20,6 +21,7 @@ use pay\components\Exception;
  * @property string $Role
  * @property string $Product
  * @property string $ExternalId
+ * @property string $UserData
  *
  *
  * @property bool $Imported
@@ -29,274 +31,283 @@ use pay\components\Exception;
  */
 class ImportUser extends \CActiveRecord
 {
-  /**
-   * @static
-   * @param string $className
-   * @return ImportUser
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
-
-  public function tableName()
-  {
-    return 'PartnerImportUser';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return [
-      'Import' => [self::BELONGS_TO, 'partner\models\Import', 'ImportId']
-    ];
-  }
-
-  /**
-   * @param int $importId
-   * @param bool $useAnd
-   *
-   * @return ImportUser
-   */
-  public function byImportId($importId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."ImportId" = :ImportId';
-    $criteria->params = array('ImportId' => $importId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param bool $imported
-   * @param bool $useAnd
-   *
-   * @return ImportUser
-   */
-  public function byImported($imported, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = ($imported ? '' : 'NOT ') . '"t"."Imported"';
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param bool $error
-   * @param bool $useAnd
-   *
-   * @return ImportUser
-   */
-  public function byError($error, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = ($error ? '' : 'NOT ') . '"t"."Error"';
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param Import $import
-   * @param array $roles
-   * @param array $products
-   *
-   * @throws \partner\components\ImportException
-   */
-  public function parse($import, $roles, $products)
-  {
-    $roleName = $this->Role !== null ? $this->Role : 0;
-    $roleId = isset($roles[$roleName]) ? $roles[$roleName] : 0;
-
-    $role = \event\models\Role::model()->findByPk($roleId);
-    if (empty($role))
-      throw new \partner\components\ImportException('Не найдена роль.');
-
-    $productName = $this->Product !== null ? $this->Product : 0;
-    $productId = isset($products[$productName]) ? $products[$productName] : -1;
-
-    $product = \pay\models\Product::model()->findByPk($productId);
-    if ($productId != -1 && ($product == null || $product->EventId != $import->EventId))
-      throw new \partner\components\ImportException('Не найден товар: "' . $productName . '".');
-
-    $this->Email = $this->getCorrectEmail($import);
-    $user = $this->getUser($import);
-
-    $import->Event->skipOnRegister = !$import->NotifyEvent;
-    if (sizeof($import->Event->Parts) == 0)
+    /**
+     * @static
+     * @param string $className
+     * @return ImportUser
+     */
+    public static function model($className=__CLASS__)
     {
-      $import->Event->RegisterUser($user, $role);
-    }
-    else
-    {
-      $import->Event->registerUserOnAllParts($user, $role);
+        return parent::model($className);
     }
 
-    if ($product != null)
+    public function tableName()
     {
-        try {
-            $orderItem = $product->getManager()->createOrderItem($user, $user);
-            $orderItem->Paid = true;
-            $orderItem->PaidTime = date('Y-m-d H:i:s');
-            $orderItem->save();
-        } catch (Exception $e) {}
+        return 'PartnerImportUser';
     }
 
-    $this->Imported = true;
-    $this->save();
-  }
-
-  private function getCorrectEmail(Import $import)
-  {
-    $validator = new \CEmailValidator();
-    $validator->allowEmpty = false;
-    if (!$validator->validateValue($this->Email))
+    public function primaryKey()
     {
-      $this->Email = $this->generateEmail($import);
+        return 'Id';
     }
 
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"ImportId" = :ImportId AND "Imported" AND "Email" = :Email AND "Id" != :Id';
-    $criteria->params = [
-      'ImportId' => $import->Id,
-      'Email' => $this->Email,
-      'Id' => $this->Id
-    ];
-    if (empty($this->Email) || ImportUser::model()->exists($criteria))
+    public function relations()
     {
-      return $this->generateEmail($import);
+        return [
+            'Import' => [self::BELONGS_TO, 'partner\models\Import', 'ImportId']
+        ];
     }
 
-    $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
-    if ($import->Visible)
+    /**
+     * @param int $importId
+     * @param bool $useAnd
+     *
+     * @return ImportUser
+     */
+    public function byImportId($importId, $useAnd = true)
     {
-      $model->byVisible(true);
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."ImportId" = :ImportId';
+        $criteria->params = array('ImportId' => $importId);
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
     }
-    $user = $model->find();
-    if ($user != null && ($user->LastName != $this->LastName || $user->FirstName != $this->FirstName))
+
+    /**
+     * @param bool $imported
+     * @param bool $useAnd
+     *
+     * @return ImportUser
+     */
+    public function byImported($imported, $useAnd = true)
     {
-      return $this->generateEmail($import);
+        $criteria = new \CDbCriteria();
+        $criteria->condition = ($imported ? '' : 'NOT ') . '"t"."Imported"';
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
     }
-    return $this->Email;
-  }
 
-  private function generateEmail(Import $import)
-  {
-    return 'nomail'.$import->EventId.'+'.substr(md5($this->FirstName . $this->LastName . $this->Company), 0, 8).'@runet-id.com';
-  }
-
-  private function getUser(Import $import)
-  {
-    $user = $this->getDuplicateUser($import);
-    if ($user === null)
+    /**
+     * @param bool $error
+     * @param bool $useAnd
+     *
+     * @return ImportUser
+     */
+    public function byError($error, $useAnd = true)
     {
-      if (empty($this->FirstName) || empty($this->LastName))
-        throw new \partner\components\ImportException('Не заданы имя или фамилия участника.');
+        $criteria = new \CDbCriteria();
+        $criteria->condition = ($error ? '' : 'NOT ') . '"t"."Error"';
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
 
-      $user = new \user\models\User();
-      $user->FirstName = $this->FirstName;
-      $user->LastName = $this->LastName;
-      $user->FatherName = $this->FatherName;
-      $user->Email = strtolower($this->Email);
-      $user->register($import->Notify);
+    /**
+     * @param Import $import
+     * @param array $roles
+     * @param array $products
+     *
+     * @throws \partner\components\ImportException
+     */
+    public function parse($import, $roles, $products)
+    {
+        $roleName = $this->Role !== null ? $this->Role : 0;
+        $roleId = isset($roles[$roleName]) ? $roles[$roleName] : 0;
 
-      $user->Visible = $import->Visible;
-      $user->save();
+        $role = \event\models\Role::model()->findByPk($roleId);
+        if (empty($role))
+            throw new \partner\components\ImportException('Не найдена роль.');
 
-        if (!empty($this->ExternalId) && $import->getApiAccount() !== null) {
-            $externalUser = new ExternalUser();
-            $externalUser->UserId = $user->Id;
-            $externalUser->AccountId = $import->getApiAccount()->Id;
-            $externalUser->Partner = $import->getApiAccount()->Role;
-            $externalUser->ExternalId = $this->ExternalId;
-            $externalUser->save();
+        $productName = $this->Product !== null ? $this->Product : 0;
+        $productId = isset($products[$productName]) ? $products[$productName] : -1;
+
+        $product = \pay\models\Product::model()->findByPk($productId);
+        if ($productId != -1 && ($product == null || $product->EventId != $import->EventId))
+            throw new \partner\components\ImportException('Не найден товар: "' . $productName . '".');
+
+        $this->Email = $this->getCorrectEmail($import);
+        $user = $this->getUser($import);
+
+        $import->Event->skipOnRegister = !$import->NotifyEvent;
+        if (sizeof($import->Event->Parts) == 0) {
+            $import->Event->RegisterUser($user, $role);
+        } else {
+            $import->Event->registerUserOnAllParts($user, $role);
         }
 
-      $this->setCompany($user);
-    }
-    $this->setPhone($user);
-    return $user;
-  }
+        if ($product != null) {
+            try {
+                $orderItem = $product->getManager()->createOrderItem($user, $user);
+                $orderItem->Paid = true;
+                $orderItem->PaidTime = date('Y-m-d H:i:s');
+                $orderItem->save();
+            } catch (Exception $e) {}
+        }
 
-  /**
-   * @param Import $import
-   * @return \user\models\User
-   */
-  private function getDuplicateUser($import)
-  {
-      if (!empty($this->ExternalId) && $import->getApiAccount() != null) {
-          $externalUser = ExternalUser::model()
-              ->byExternalId($this->ExternalId)->byAccountId($import->getApiAccount()->Id)->find();
-          return $externalUser !== null ? $externalUser->User : null;
-      }
+        $this->Imported = true;
+        $this->save();
+    }
 
-    $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
-    if ($import->Visible)
+    private function getCorrectEmail(Import $import)
     {
-      $model->byVisible(true);
+        $validator = new \CEmailValidator();
+        $validator->allowEmpty = false;
+        if (!$validator->validateValue($this->Email)) {
+            $this->Email = $this->generateEmail($import);
+        }
+
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"ImportId" = :ImportId AND "Imported" AND "Email" = :Email AND "Id" != :Id';
+        $criteria->params = [
+            'ImportId' => $import->Id,
+            'Email' => $this->Email,
+            'Id' => $this->Id
+        ];
+        if (empty($this->Email) || ImportUser::model()->exists($criteria)) {
+            return $this->generateEmail($import);
+        }
+
+        $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
+        if ($import->Visible) {
+            $model->byVisible(true);
+        }
+        $user = $model->find();
+        if ($user != null && ($user->LastName != $this->LastName || $user->FirstName != $this->FirstName)) {
+            return $this->generateEmail($import);
+        }
+        return $this->Email;
     }
-    $user = $model->find();
-    if ($user != null)
+
+    private function generateEmail(Import $import)
     {
-      $this->setCompany($user);
+        return 'nomail'.$import->EventId.'+'.substr(md5($this->FirstName . $this->LastName . $this->Company), 0, 8).'@runet-id.com';
     }
-    else
+
+    private function getUser(Import $import)
     {
-      $criteria = new \CDbCriteria();
-      $criteria->with = ['Employments'];
-      $criteria->addCondition('("Employments"."EndYear" IS NULL AND "Employments"."EndMonth" IS NULL)
+        $user = $this->getDuplicateUser($import);
+        if ($user === null) {
+            if (empty($this->FirstName) || empty($this->LastName))
+                throw new \partner\components\ImportException('Не заданы имя или фамилия участника.');
+
+            $user = new \user\models\User();
+            $user->FirstName = $this->FirstName;
+            $user->LastName = $this->LastName;
+            $user->FatherName = $this->FatherName;
+            $user->Email = strtolower($this->Email);
+            $user->register($import->Notify);
+
+            $user->Visible = $import->Visible;
+            $user->save();
+
+            if (!empty($this->ExternalId) && $import->getApiAccount() !== null) {
+                $externalUser = new ExternalUser();
+                $externalUser->UserId = $user->Id;
+                $externalUser->AccountId = $import->getApiAccount()->Id;
+                $externalUser->Partner = $import->getApiAccount()->Role;
+                $externalUser->ExternalId = $this->ExternalId;
+                $externalUser->save();
+            }
+
+            $this->setCompany($user);
+        }
+        $this->setPhone($user);
+        $this->setUserData($user, $import);
+        return $user;
+    }
+
+    /**
+     * @param Import $import
+     * @return \user\models\User
+     */
+    private function getDuplicateUser($import)
+    {
+        if (!empty($this->ExternalId) && $import->getApiAccount() != null) {
+            $externalUser = ExternalUser::model()
+                ->byExternalId($this->ExternalId)->byAccountId($import->getApiAccount()->Id)->find();
+            return $externalUser !== null ? $externalUser->User : null;
+        }
+
+        $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
+        if ($import->Visible)
+        {
+            $model->byVisible(true);
+        }
+        $user = $model->find();
+        if ($user != null)
+        {
+            $this->setCompany($user);
+        }
+        else
+        {
+            $criteria = new \CDbCriteria();
+            $criteria->with = ['Employments'];
+            $criteria->addCondition('("Employments"."EndYear" IS NULL AND "Employments"."EndMonth" IS NULL)
         AND "Company"."Name" ILIKE :Company
         AND "t"."FirstName" ILIKE :FirstName AND "t"."LastName" ILIKE :LastName');
-      $criteria->params = ['Company' => $this->Company, 'FirstName' => $this->FirstName, 'LastName' => $this->LastName];
+            $criteria->params = ['Company' => $this->Company, 'FirstName' => $this->FirstName, 'LastName' => $this->LastName];
 
-      $model = \user\models\User::model();
-      if ($import->Visible)
-      {
-        $model->byVisible(true);
-      }
-      else
-      {
-        $model->byEventId($import->EventId);
-      }
-      $user = $model->find($criteria);
+            $model = \user\models\User::model();
+            if ($import->Visible)
+            {
+                $model->byVisible(true);
+            }
+            else
+            {
+                $model->byEventId($import->EventId);
+            }
+            $user = $model->find($criteria);
+        }
+        return $user;
     }
-    return $user;
-  }
 
-  private function setCompany(\user\models\User $user)
-  {
-    if (!empty($this->Company))
+    private function setCompany(\user\models\User $user)
     {
-      try
-      {
-        $user->setEmployment($this->Company, !empty($this->Position) ? $this->Position : '');
-      }
-      catch (\application\components\Exception $e)
-      {
-        $this->ErrorMessage = 'Не корректно задано название компании';
-      }
+        if (!empty($this->Company))
+        {
+            try
+            {
+                $user->setEmployment($this->Company, !empty($this->Position) ? $this->Position : '');
+            }
+            catch (\application\components\Exception $e)
+            {
+                $this->ErrorMessage = 'Не корректно задано название компании';
+            }
+        }
     }
-  }
 
-  private function setPhone(\user\models\User $user)
-  {
-    if (!empty($this->Phone))
+    private function setPhone(\user\models\User $user)
     {
-      $user->setContactPhone($this->Phone);
+        if (!empty($this->Phone))
+        {
+            $user->setContactPhone($this->Phone);
+        }
     }
-  }
 
-  protected function beforeSave()
-  {
-    if ($this->getIsNewRecord())
+    private function setUserData(\user\models\User $user, Import $import)
     {
-      $this->Email = mb_strtolower($this->Email, 'utf-8');
+        if (!empty($this->UserData)) {
+            $data = json_decode($this->UserData, true);
+            $userData = new UserData();
+            $userData->EventId = $import->EventId;
+            $userData->UserId = $user->Id;
+
+            foreach ($data as $key => $value) {
+                try {
+                    $userData->getManager()->{$key} = $value;
+                } catch (\application\components\Exception $e) {}
+            }
+            $userData->save();
+        }
     }
-    return parent::beforeSave();
-  }
+
+    protected function beforeSave()
+    {
+        if ($this->getIsNewRecord())
+        {
+            $this->Email = mb_strtolower($this->Email, 'utf-8');
+        }
+        return parent::beforeSave();
+    }
 
 
 }
