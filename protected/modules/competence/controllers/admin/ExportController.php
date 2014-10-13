@@ -1,87 +1,109 @@
 <?php
 
+use competence\models\Result;
 use \competence\models\tests\mailru2013;
+\Yii::import('ext.PHPExcel.PHPExcel', true);
 
 class ExportController extends \application\components\controllers\AdminMainController
 {
-  /** @var  \competence\models\Test */
-  private $test;
+    /** @var  \competence\models\Test */
+    private $test;
 
-  public function actionIndex($testId)
-  {
-    $this->test = \competence\models\Test::model()->findByPk($testId);
-    if ($this->test === null)
-      throw new CHttpException(404);
-
-    if (Yii::app()->getRequest()->getIsPostRequest())
+    public function actionIndex($id)
     {
-      ini_set("memory_limit", "512M");
-      $fp = fopen(Yii::getPathOfAlias('competence.data') . '/result'.$this->test->Id.'.csv',"w");
+        $this->test = \competence\models\Test::model()->findByPk($id);
+        if ($this->test === null)
+            throw new CHttpException(404);
 
-      $row = [];
-      $row[] = 'ID';
-      $row[] = 'Статус';
-      foreach ($this->getQuestions() as $question)
-      {
-        $row[] = $question->Code . ': ' . $question->Title;
-        $row[] = $question->Code . ': ' . $question->Title . ' - other';
-        $row[] = $question->Code . ': ' . $question->Title . ' - time';
-      }
+        if (Yii::app()->getRequest()->getIsPostRequest()) {
+            ini_set("memory_limit", "512M");
 
-      fputcsv($fp, $row, ';');
+            $phpExcel = new PHPExcel();
+            $phpExcel->setActiveSheetIndex(0);
 
-      /** @var \competence\models\Result[] $results */
-      $results = \competence\models\Result::model()->byTestId($this->test->Id)->findAll();
+            $this->fillProperties($phpExcel);
+            $this->fillTitles($phpExcel);
+            $this->fillResults($phpExcel);
 
-      foreach ($results as $result)
-      {
-        $data = unserialize(base64_decode($result->Data));
-        $row = [];
-        $row[] = $result->Id;
-        $row[] = $result->Finished ? 'Завершена' : 'Не завершена';
-        foreach ($this->getQuestions() as $question)
-        {
-          if (isset($data[$question->Code]))
-          {
-            $qData = $data[$question->Code];
 
-            $row[] = json_encode($qData['value'], JSON_UNESCAPED_UNICODE);
-            $row[] = json_encode(isset($qData['other']) ? $qData['other'] : '', JSON_UNESCAPED_UNICODE);
-            $row[] = $qData['DeltaTime'];
-          }
-          else
-          {
-            $row[] = '';
-            $row[] = '';
-            $row[] = '';
-          }
+            $objWriter = new PHPExcel_Writer_Excel2007($phpExcel);
+            $path = Yii::getPathOfAlias('competence.data') . '/result'.$this->test->Id.'.xlsx';
+            $objWriter->save($path);
+
+            echo 'Done<br>';
+            echo 'Saved to: ' . $path;
+            exit;
         }
-        fputcsv($fp, $row, ';');
-      }
 
-      fclose($fp);
+        $countFinished = \competence\models\Result::model()->byTestId($this->test->Id)->count('"Finished"');
+        $countNotFinished = \competence\models\Result::model()->byTestId($this->test->Id)->count('NOT "Finished"');
 
-      echo 'Done';
-      exit;
+        $this->render('index', [
+            'test' => $this->test,
+            'countFinished' => $countFinished,
+            'countNotFinished' => $countNotFinished
+        ]);
     }
 
-    $countFinished = \competence\models\Result::model()->byTestId($this->test->Id)->count('"Finished"');
-    $countNotFinished = \competence\models\Result::model()->byTestId($this->test->Id)->count('NOT "Finished"');
+    private $questions = null;
 
-    $this->render('index', ['test' => $this->test, 'countFinished' => $countFinished, 'countNotFinished' => $countNotFinished]);
-  }
-
-  private $questions = null;
-
-  private function getQuestions()
-  {
-    if ($this->questions === null)
+    private function getQuestions()
     {
-      $this->questions = \competence\models\Question::model()->byTestId($this->test->Id)
-        ->findAll(['order' => '"Sort"']);
-      foreach ($this->questions as $question)
-        $question->setTest($this->test);
+        if ($this->questions === null) {
+            $this->questions = \competence\models\Question::model()->byTestId($this->test->Id)
+                ->findAll(['order' => '"Sort"']);
+            foreach ($this->questions as $question)
+                $question->setTest($this->test);
+        }
+        return $this->questions;
     }
-    return $this->questions;
-  }
+
+    private $results = null;
+
+    private function getResults()
+    {
+        if ($this->results === null) {
+            $this->results = Result::model()->byTestId($this->test->Id)->byFinished(true)->findAll();
+        }
+        return $this->results;
+    }
+
+    private function fillProperties(PHPExcel $phpExcel)
+    {
+        $phpExcel->getProperties()->setTitle($this->test->Title);
+    }
+
+    private function fillTitles(PHPExcel $phpExcel)
+    {
+        $col = 0;
+        foreach ($this->getQuestions() as $question) {
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 1, $question->Code);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 2, $question->getForm()->getTitle());
+
+            $titles = $question->getForm()->getExportValueTitles();
+            $delta = count($titles) - 1;
+            $phpExcel->getActiveSheet()->mergeCellsByColumnAndRow($col, 1, $col+$delta, 1);
+            $phpExcel->getActiveSheet()->mergeCellsByColumnAndRow($col, 2, $col+$delta, 2);
+            foreach ($titles as $title) {
+                $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 3, $title);
+                $col++;
+            }
+        }
+    }
+
+    private function fillResults(PHPExcel $phpExcel)
+    {
+        $row = 4;
+        foreach ($this->getResults() as $result) {
+            $col = 0;
+            foreach ($this->getQuestions() as $question) {
+                $data = $question->getForm()->getExportData($result);
+                foreach ($data as $value) {
+                    $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, $value);
+                    $col++;
+                }
+            }
+            $row++;
+        }
+    }
 }

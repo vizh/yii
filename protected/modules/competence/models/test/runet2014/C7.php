@@ -2,6 +2,7 @@
 namespace competence\models\test\runet2014;
 
 use competence\models\Question;
+use competence\models\Result;
 
 class C7 extends \competence\models\form\Base
 {
@@ -42,5 +43,16 @@ class C7 extends \competence\models\form\Base
         } else {
             return Question::model()->byTestId($this->getQuestion()->TestId)->byCode($this->nextCodeToComment)->find();
         }
+    }
+
+    public function getInternalExportValueTitles()
+    {
+        return ['Компания 1', 'Компания 2', 'Компания 3'];
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $data = $result->getQuestionResult($this->question);
+        return !empty($data) ? [$data['value']['place1'], $data['value']['place2'], $data['value']['place3']] : ['', '', ''];
     }
 }

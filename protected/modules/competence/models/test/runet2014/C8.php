@@ -2,6 +2,7 @@
 namespace competence\models\test\runet2014;
 
 use competence\models\Question;
+use competence\models\Result;
 
 class C8 extends \competence\models\form\Base
 {
@@ -54,6 +55,21 @@ class C8 extends \competence\models\form\Base
 
         if (!$valid)
             $this->addError($attribute, 'Сумма оборота всех компаний должна быть равной 100%');
+    }
+
+    public function getInternalExportValueTitles()
+    {
+        return array_values($this->subMarkets);
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        foreach ($this->subMarkets as $key => $market) {
+            $data[] = isset($questionData['value'][$key]) ? $questionData['value'][$key] : '';
+        }
+        return $data;
     }
 
 } 

@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\form;
 
+use competence\models\Result;
+
 /**
  * Class Single
  * @package competence\models\form
@@ -98,5 +100,26 @@ class Single extends Base
         }
 
         $this->question->setFormData(['Values' => $values]);
+    }
+
+    public function getInternalExportValueTitles()
+    {
+        $titles = [];
+        foreach ($this->Values as $value) {
+            $titles[] = $value->title;
+        }
+        $titles[] = 'Свое значение';
+        return $titles;
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        foreach ($this->Values as $value) {
+            $data[] = !empty($questionData) && $questionData['value'] == $value->key ? 1 : 0;
+        }
+        $data[] = !empty($questionData) ? $questionData['other'] : '';
+        return $data;
     }
 }

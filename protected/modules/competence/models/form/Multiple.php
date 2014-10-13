@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\form;
 
+use competence\models\Result;
+
 /**
  * Class Multiple
  * @package competence\models\form
@@ -95,4 +97,25 @@ class Multiple extends \competence\models\form\Base
 
     $this->question->setFormData(['Values' => $values]);
   }
+
+    public function getInternalExportValueTitles()
+    {
+        $titles = [];
+        foreach ($this->Values as $value) {
+            $titles[] = $value->title;
+        }
+        $titles[] = 'Свое значение';
+        return $titles;
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        foreach ($this->Values as $value) {
+            $data[] = !empty($questionData) && in_array($value->key, $questionData['value']) ? 1 : 0;
+        }
+        $data[] = !empty($questionData) ? $questionData['other'] : '';
+        return $data;
+    }
 }

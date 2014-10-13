@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\form;
 
+use competence\models\Result;
+
 /**
  * Class Textarea
  * @package competence\models\form
@@ -49,5 +51,16 @@ class Textarea extends Base
         $data = [];
         $data['Required'] = isset($attributes['Required']) ? (boolean)$attributes['Required'] : false;
         $this->question->setFormData($data);
+    }
+
+    public function getInternalExportValueTitles()
+    {
+        return ['Ответ'];
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $data = $result->getQuestionResult($this->question);
+        return !empty($data) ? [$data['value']] : [''];
     }
 }

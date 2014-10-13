@@ -9,8 +9,10 @@
 namespace competence\models\test\runet2014;
 
 
+use application\components\Exception;
 use competence\models\form\Base;
 use competence\models\Question;
+use competence\models\Result;
 
 class D extends Base
 {
@@ -40,14 +42,19 @@ class D extends Base
 
     public function getSegment()
     {
-        $test = $this->getQuestion()->getTest();
-        $question = Question::model()->byCode('B1')->byTestId($test->Id)->find();
-        $question->Test = $test;
-        $result = $question->Test->getResult()->getQuestionResult($question);
-        $values = $question->getFormData()['Values'];
-        foreach ($values as $value) {
-            if ($value->key == $result['value'])
-                return $value->title;
+        try {
+            $test = $this->getQuestion()->getTest();
+            if ($test->getResult())
+                $question = Question::model()->byCode('B1')->byTestId($test->Id)->find();
+            $question->Test = $test;
+            $result = $question->Test->getResult()->getQuestionResult($question);
+            $values = $question->getFormData()['Values'];
+            foreach ($values as $value) {
+                if ($value->key == $result['value'])
+                    return $value->title;
+            }
+        } catch (Exception $e) {
+            return '{СЕГМЕНТ}';
         }
     }
 
@@ -65,5 +72,27 @@ class D extends Base
                 break;
             }
         }
+    }
+
+    public function getInternalExportValueTitles()
+    {
+        $d2 = new D2($this->getQuestion());
+        $questions = array_values($d2->getQuestions());
+        $titles = [];
+        foreach ($questions as $question) {
+            $titles[] = implode(': ', $question);
+        }
+        return $titles;
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $d2 = new D2($this->getQuestion());
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        foreach ($d2->getQuestions() as $key => $question) {
+            $data[] = isset($questionData['value'][$key]) ? $questionData['value'][$key] : '';
+        }
+        return $data;
     }
 } 

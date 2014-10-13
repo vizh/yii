@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\form;
 
+use competence\models\Result;
+
 abstract class Base extends \CFormModel
 {
     /** @var \competence\models\Question */
@@ -309,5 +311,37 @@ abstract class Base extends \CFormModel
     public function getTitle()
     {
         return $this->getQuestion()->Title;
+    }
+
+    final public function getExportValueTitles()
+    {
+        $titles = $this->getInternalExportValueTitles();
+        $titles[] = 'Время на ответ';
+        return $titles;
+    }
+
+        /**
+     * @return array
+     */
+    protected function getInternalExportValueTitles()
+    {
+        return [];
+    }
+
+    final public function getExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = $this->getInternalExportData($result);
+        $data[] = !empty($questionData) ? $questionData['DeltaTime'] : 0;
+        return $data;
+    }
+
+    /**
+     * @param Result $result
+     * @return array
+     */
+    protected function getInternalExportData(Result $result)
+    {
+        return [];
     }
 }

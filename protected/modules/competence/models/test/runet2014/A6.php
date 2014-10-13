@@ -1,6 +1,7 @@
 <?php
 namespace competence\models\test\runet2014;
 
+use competence\models\Result;
 use user\models\User;
 
 class A6 extends \competence\models\form\Base
@@ -53,5 +54,16 @@ class A6 extends \competence\models\form\Base
             'work_email' => 'Рабочий адрес электронной почты',
             'additional_email' => 'Дополнительный адрес электронной почты'
         ];
+    }
+
+    public function getInternalExportValueTitles()
+    {
+        return ['Рабочий телефон', 'Мобильный телефон', 'Основной  адрес электронной почты', 'Рабочий адрес электронной почты', 'Дополнительный адрес электронной почты'];
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $data = $result->getQuestionResult($this->question);
+        return !empty($data) ? [$data['work_phone'], $data['mobile_phone'], $data['main_email'], $data['work_email'], $data['additional_email'],] : ['', '', '', '', ''];
     }
 }

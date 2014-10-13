@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\form;
 
+use competence\models\Result;
+
 /**
  * Class Input
  * @package competence\models\form
@@ -52,5 +54,16 @@ class Input extends Base
         $data['Suffix'] = !empty($attributes['Suffix']) ? $attributes['Suffix'] : null;
         $data['Required'] = isset($attributes['Required']) ? (boolean)$attributes['Required'] : false;
         $this->question->setFormData($data);
+    }
+
+    public function getInternalExportValueTitles()
+    {
+        return ['Ответ'];
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $data = $result->getQuestionResult($this->question);
+        return !empty($data) ? [$data['value']] : [''];
     }
 }
