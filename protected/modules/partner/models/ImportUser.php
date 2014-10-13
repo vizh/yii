@@ -2,6 +2,7 @@
 namespace partner\models;
 
 use api\models\ExternalUser;
+use pay\components\Exception;
 
 /**
  * Class ImportUser
@@ -136,10 +137,12 @@ class ImportUser extends \CActiveRecord
 
     if ($product != null)
     {
-      $orderItem = $product->getManager()->createOrderItem($user, $user);
-      $orderItem->Paid = true;
-      $orderItem->PaidTime = date('Y-m-d H:i:s');
-      $orderItem->save();
+        try {
+            $orderItem = $product->getManager()->createOrderItem($user, $user);
+            $orderItem->Paid = true;
+            $orderItem->PaidTime = date('Y-m-d H:i:s');
+            $orderItem->save();
+        } catch (Exception $e) {}
     }
 
     $this->Imported = true;
