@@ -24,8 +24,8 @@
 
   <?if ($event !== null):?>
     <h4 class="m-bottom_10"><?=\Yii::t('app', 'Счета для «{event}»', ['{event}' => $event->Title]);?>:</h4>
-    <?for($p = 0; $p <= $paginator->getCountPages(); $p++):?>
-      <a href="<?=$paginator->getUrl($p);?>" class="btn" target="_blank"><?=(($p-1) * $paginator->perPage)+1;?> &mdash; <?=$p * $paginator->perPage;?></a>
-    <?endfor;?>
+    <?foreach ($paginator->getPages() as $page):?>
+      <a href="<?=$page->url;?>" class="btn" target="_blank"><?=(($page->value-1) * $paginator->perPage)+1;?> &mdash; <?=($page->value * $paginator->perPage);?></a>
+    <?endforeach;?>
   <?endif;?>
 </div>
