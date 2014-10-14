@@ -1,57 +1,58 @@
 <?php
 /**
  * @var \event\widgets\DetailedRegistration $this
+ * @var \event\models\UserData $userData
  */
-
+use \application\components\attribute\BooleanDefinition;
 ?>
 <div class="registration">
     <h5 class="title"><?=Yii::t('app', 'Регистрация');?></h5>
-
-    <p><?=Yii::t('registration', 'Вы можете бесплатно зарегистрироваться на мероприятие «Следуй за АЛД Автомотив или новое прочтение классики» со статусом «Участник».');?></p>
-
-    <p><?=Yii::t('registration', 'Нажимая кнопку «Зарегистрироваться» вы подтверждаете свое участие в мероприятие 2 октября 2014, которое состоится по адресу г. Москва, Смоленская пл., д. 3, Ресторан «White Rabbit»');?></p>
-
     <?=\CHtml::beginForm('', 'post', ['enctype' => 'multipart/form-data']);?>
     <?=\CHtml::errorSummary($this->form, '<div class="alert alert-error">', '</div>');?>
 
-    <h5><?=Yii::t('registration', 'Основная информация');?></h5>
     <div class="form-inline row-fluid m-bottom_5">
-
         <div class="span6">
-            <?=\CHtml::activeTextField($this->form, 'email', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('email'), 'disabled' => $this->form->isDisabled('email')]);?>
+            <?=\CHtml::activeTextField($this->form, 'Email', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('Email'), 'disabled' => $this->form->isDisabled('Email')]);?>
         </div>
-
-
-
         <div class="span6">
-            <?$this->widget('\contact\widgets\PhoneControls', ['form' => $this->form->phone, 'inputClass' => 'span12', 'disabled' => $this->form->isDisabled('primaryPhone')]);?>
+            <?=\CHtml::activeTextField($this->form, 'PrimaryPhone', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('PrimaryPhone'), 'disabled' => $this->form->isDisabled('PrimaryPhone')]);?>
         </div>
-
-
-        <?if ($this->form->hasErrors('password')):?>
-        <?=\CHtml::activePasswordField($this->form, 'password', ['class' => 'span6 m-top_5', 'placeholder' => $this->form->getAttributeLabel('password')]);?>
+        <?if ($this->form->hasErrors('Password')):?>
+            <?=\CHtml::activePasswordField($this->form, 'Password', ['class' => 'span6 m-top_5', 'placeholder' => $this->form->getAttributeLabel('Password')]);?>
         <?endif;?>
     </div>
 
-    <div class="form-inline row-fluid m-bottom_20">
-
-        <div class="span6"><?=\CHtml::activeTextField($this->form, 'lastName', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('lastName'), 'disabled' => $this->form->isDisabled('lastName')]);?></div>
-
-
-        <div class="span6"><?=\CHtml::activeTextField($this->form, 'firstName', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('firstName'), 'disabled' => $this->form->isDisabled('firstName')]);?></div>
-
-
+    <div class="form-inline row-fluid">
+        <div class="span6"><?=\CHtml::activeTextField($this->form, 'LastName', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('LastName'), 'disabled' => $this->form->isDisabled('LastName')]);?></div>
+        <div class="span6"><?=\CHtml::activeTextField($this->form, 'FirstName', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('FirstName'), 'disabled' => $this->form->isDisabled('FirstName')]);?></div>
     </div>
 
+    <div class="form-inline row-fluid">
+        <div class="span6"><?=\CHtml::activeTextField($this->form, 'FatherName', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('FatherName'), 'disabled' => $this->form->isDisabled('FatherName')]);?></div>
+        <div class="span6">
+            <?$this->widget('\contact\widgets\AddressControls', ['form' => $this->form->Address, 'inputClass' => 'span12', 'place' => false, 'address' => false, 'disabled' => $this->form->isDisabled('LinkAddress')]);?>
+        </div>
+    </div>
+
+    <div class="form-inline row-fluid">
+        <div class="span6"><?=\CHtml::activeTextField($this->form, 'Birthday', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('Birthday').'. '.\Yii::t('app', 'Пример: 01.01.1980'), 'disabled' => $this->form->isDisabled('Birthday')]);?></div>
+    </div>
+    <hr/>
+
+    <?if ($this->ShowEmployment):?>
     <div class="form-inline row-fluid m-bottom_5">
-
-        <div class="span6"><?=\CHtml::activeTextField($this->form, 'company', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('company')]);?></div>
-
-
-        <div class="span6"><?=\CHtml::activeTextField($this->form, 'position', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('position')]);?></div>
-
-
+        <div class="span6"><?=\CHtml::activeTextField($this->form, 'Company', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('Company')]);?></div>
+        <div class="span6"><?=\CHtml::activeTextField($this->form, 'Position', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('Position')]);?></div>
     </div>
+    <hr/>
+    <?endif;?>
+
+    <?foreach($this->userData->getManager()->getDefinitions() as $definition):?>
+    <div class="form-inline row-fluid m-bottom_10">
+        <div class="span12"><?=$definition->activeEdit($this->userData->getManager(), ['placeholder' => $definition->title, 'class' => ($definition instanceof BooleanDefinition) ? '' : 'span12']);?></div>
+    </div>
+    <?endforeach;?>
+
 
     <div class="form-user-register" style="padding: 0;">
         <small class="muted required-notice">
@@ -59,7 +60,7 @@
         </small>
     </div>
 
-    <div class="form-inline m-top_20">
+    <div class="form-inline m-top_20 text-center">
         <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрироваться'), ['class' => 'btn btn-info']);?>
     </div>
 

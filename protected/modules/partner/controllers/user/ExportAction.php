@@ -134,6 +134,11 @@ class ExportAction extends \partner\components\Action
                 }
             }
 
+            $phone = $user->PrimaryPhone;
+            if (empty($phone) && !empty($user->LinkPhones)) {
+                $phone = (string)$user->LinkPhones[0]->Phone;
+            }
+
             $row = array(
                 'RUNET-ID' => $user->RunetId,
                 'LastName' => $user->LastName,
@@ -142,7 +147,7 @@ class ExportAction extends \partner\components\Action
                 'Company' => '',
                 'Position' => '',
                 'Email' => $user->Email,
-                'Phone' => !empty($user->LinkPhones) ? (string)$user->LinkPhones[0]->Phone : '',
+                'Phone' => $phone,
                 'Role' => $participant != null ? $participant->Role->Title : '-',
                 'Products' => '',
                 'Price' => 0,

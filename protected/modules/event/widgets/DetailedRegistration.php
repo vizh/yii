@@ -1,19 +1,45 @@
 <?php
 namespace event\widgets;
 
-use pay\models\EventUserAdditionalAttribute;
+use application\components\auth\identity\RunetId;
+use application\components\utility\Texts;
+use contact\models\Address;
+use event\components\WidgetPosition;
+use \event\models\forms\DetailedRegistration as DetailedRegistrationForm;
+use event\models\Participant;
+use event\models\Role;
+use event\models\UserData;
+use user\models\User;
 
 class DetailedRegistration extends \event\components\Widget
 {
+    public function getAttributeNames()
+    {
+        return [
+            'DefaultRoleId',
+            'RegisterUnvisibleUser',
+            'ShowEmployment'
+        ];
+    }
+
     /** @var \event\models\forms\DetailedRegistration */
     public $form;
+
+    /** @var  UserData */
+    public $userData;
 
     public function init()
     {
         parent::init();
 
-        $user = \Yii::app()->user->getCurrentUser();
-        $this->form = new \event\models\forms\DetailedRegistration($user);
+        $scenario = '';
+        if (isset($this->ShowEmployment) && $this->ShowEmployment) {
+            $scenario = DetailedRegistrationForm::ScenarioShowEmployment;
+        }
+
+        $this->form = new DetailedRegistrationForm(\Yii::app()->getUser()->getCurrentUser(), $scenario);
+        $this->userData = new UserData();
+        $this->userData->EventId = $this->getEvent()->Id;
     }
 
     public function getIsHasDefaultResources()
@@ -27,133 +53,51 @@ class DetailedRegistration extends \event\components\Widget
         $request = \Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
             $this->form->attributes = $request->getParam(get_class($this->form));
-            //$this->form->photo = \CUploadedFile::getInstance($this->form, 'photo');
-            //$this->form->saveTempPhoto();
-            if ($this->form->validate()) {
+            $this->userData->getManager()->setAttributes(
+                $request->getParam(get_class($this->userData->getManager()))
+            );
+
+            $this->form->validate();
+            $this->userData->getManager()->validate();
+
+            if (!$this->form->hasErrors() && !$this->userData->getManager()->hasErrors() && isset($this->DefaultRoleId)) {
                 $user = $this->updateUser($this->form->getUser());
-                $role = \event\models\Role::model()->findByPk(1);
+                $role = Role::model()->findByPk($this->DefaultRoleId);
                 $this->getEvent()->registerUser($user, $role);
 
-                if (\Yii::app()->user->getIsGuest()) {
-                    $identity = new \application\components\auth\identity\RunetId($user->RunetId);
+                $this->userData->UserId = $user->Id;
+                $this->userData->save();
+
+                if (\Yii::app()->getUser()->getIsGuest()) {
+                    $identity = new RunetId($user->RunetId);
                     $identity->authenticate();
                     if ($identity->errorCode == \CUserIdentity::ERROR_NONE) {
-                        \Yii::app()->user->login($identity);
+                        \Yii::app()->getUser()->login($identity);
                     }
                 }
-                \Yii::app()->user->setFlash('SUCCESS_REGISTER', true);
                 $this->getController()->refresh();
+            } else {
+                $this->form->addErrors($this->userData->getManager()->getErrors());
             }
         }
-//        else
-//            $this->form->clearTempPhoto();
     }
 
-    /**
-     * @param \user\models\User|null $user
-     * @return \user\models\User
-     */
-    private function updateUser($user)
-    {
-        if ($user === null) {
-            $user = new \user\models\User();
-            $user->LastName = $this->form->lastName;
-            $user->FirstName = $this->form->firstName;
-            //$user->FatherName = $this->form->fatherName;
-            $user->PrimaryPhone = $this->form->phone->CountryCode.$this->form->phone->CityCode.$this->form->phone->Phone;
-            $user->Email = $this->form->email;
-            $user->register();
-
-            if (isset($this->getEvent()->UnsubscribeNewUser) && $this->getEvent()->UnsubscribeNewUser) {
-                $user->Settings->UnsubscribeAll = true;
-                $user->Settings->save();
-            }
-        }
-        else {
-            if (empty($user->PrimaryPhone))
-                $user->PrimaryPhone = $this->form->phone->CountryCode.$this->form->phone->CityCode.$this->form->phone->Phone;
-        }
-
-        //$user->Birthday = \Yii::app()->dateFormatter->format('yyyy-MM-dd', $this->form->birthday);
-        $user->save();
-
-        $employment = $user->getEmploymentPrimary();
-        if ($employment === null || $employment->Position !== $this->form->position || $employment->Company->Name !== $this->form->company) {
-            $user->setEmployment($this->form->company, $this->form->position);
-        }
-
-        //$this->updatePhone($user);
-        //$this->updateAddress($user);
-        //$this->form->savePhoto($user);
-
-        //$this->fillAdditionalAttributes($user, ['birthday', 'birthPlace', 'passportSerial', 'passportNumber']);
-
-        return $user;
-    }
-
-    private function updatePhone(\user\models\User $user)
-    {
-        $phone = $user->getContactPhone();
-        if ($phone === null)
-            $phone = new \contact\models\Phone();
-
-        $phone->CountryCode = $this->form->phone->CountryCode;
-        $phone->CityCode = $this->form->phone->CityCode;
-        $phone->Phone = $this->form->phone->Phone;
-        $phone->Type = \contact\models\PhoneType::Mobile;
-
-        if ($phone->getIsNewRecord()) {
-            $phone->save();
-            $linkPhone = new \user\models\LinkPhone();
-            $linkPhone->UserId = $user->Id;
-            $linkPhone->PhoneId = $phone->Id;
-            $linkPhone->save();
-        } else {
-            $phone->save();
-        }
-    }
-
-    private function updateAddress(\user\models\User $user)
-    {
-        $address = $user->getContactAddress();
-        if ($address == null)
-            $address = new \contact\models\Address();
-        $address->RegionId = $this->form->address->RegionId;
-        $address->CountryId = $this->form->address->CountryId;
-        $address->CityId = $this->form->address->CityId;
-        $address->save();
-        $user->setContactAddress($address);
-    }
-
-    private function fillAdditionalAttributes(\user\models\User $user, $names)
-    {
-        foreach ($names as $name) {
-            $attribute = new EventUserAdditionalAttribute();
-            $attribute->UserId = $user->Id;
-            $attribute->EventId = $this->getEvent()->Id;
-            $attribute->Name = $name;
-            $attribute->Value = $this->form->$name;
-            $attribute->save();
-        }
-    }
 
     public function run()
     {
-        /** @var \event\models\Participant $participant */
+        /** @var Participant $participant */
         $participant = null;
         if (!\Yii::app()->user->getIsGuest()) {
-            $participant = \event\models\Participant::model()->byEventId($this->event->Id)
-                ->byUserId(\Yii::app()->user->getCurrentUser()->Id)->find();
+            $participant = Participant::model()->byEventId($this->event->Id)->byUserId(\Yii::app()->user->getCurrentUser()->Id)->find();
         }
 
-        if ($participant == null || $participant->RoleId == 24) {
+        if ($participant == null) {
+            \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
+            $userData = new UserData();
+            $userData->EventId = $this->getEvent()->Id;
             $this->render('detailed-registration');
         } else {
-            $successRegister = \Yii::app()->user->getFlash('SUCCESS_REGISTER');
-            $this->render('detailed-registration-complete', [
-                'participant' => $participant,
-                'successRegister' => $successRegister
-            ]);
+            $this->render('detailed-registration-complete');
         }
 
     }
@@ -171,6 +115,62 @@ class DetailedRegistration extends \event\components\Widget
      */
     public function getPosition()
     {
-        return \event\components\WidgetPosition::Content;
+        return WidgetPosition::Content;
+    }
+
+
+    /**
+     * @param User $user
+     * @return User
+     */
+    private function updateUser($user)
+    {
+        if ($user === null) {
+            $user = new User();
+            $user->LastName = $this->form->LastName;
+            $user->FirstName = $this->form->FirstName;
+            $user->FatherName = $this->form->FatherName;
+            $user->PrimaryPhone = $this->form->PrimaryPhone;
+            $user->Email = $this->form->Email;
+
+            $user->register();
+
+            if ($this->getEvent()->UnsubscribeNewUser) {
+                $user->Settings->UnsubscribeAll = true;
+                $user->Settings->save();
+            }
+
+            if (isset($this->RegisterUnvisibleUser) && $this->RegisterUnvisibleUser) {
+                $user->Visible = false;
+            }
+        }
+        else {
+            if (empty($user->PrimaryPhone)) {
+                $user->PrimaryPhone = $this->form->PrimaryPhone;
+            }
+        }
+
+        $user->FatherName = $this->form->FatherName;
+        $user->Birthday = \Yii::app()->dateFormatter->format('yyyy-MM-dd', $this->form->Birthday);
+        $user->save();
+
+        if (isset($this->ShowEmployment) && $this->ShowEmployment) {
+            $employment = $user->getEmploymentPrimary();
+            if ($employment === null || $employment->Position !== $this->form->Position || $employment->Company->Name !== $this->form->Company) {
+                $user->setEmployment($this->form->Company, $this->form->Position);
+            }
+        }
+
+        $address = $user->getContactAddress();
+        if ($address == null) {
+            $address = new Address();
+        }
+        $address->RegionId = $this->form->Address->RegionId;
+        $address->CountryId = $this->form->Address->CountryId;
+        $address->CityId = $this->form->Address->CityId;
+        $address->save();
+        $user->setContactAddress($address);
+
+        return $user;
     }
 }
