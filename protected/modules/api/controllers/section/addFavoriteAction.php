@@ -12,9 +12,8 @@ class AddFavoriteAction extends \api\components\Action
       throw new \api\components\Exception(202, [$runetId]);
 
     $sectionId = $request->getParam('SectionId');
-    /** @var \event\models\section\Section $section */
-    $section = \event\models\section\Section::model()->findByPk($sectionId);
-    if ($section == null)
+    $section = \event\models\section\Section::model()->byDeleted(false)->findByPk($sectionId);
+    if ($section === null)
       throw new \api\components\Exception(310, [$sectionId]);
     if ($section->EventId != $this->getEvent()->Id)
       throw new \api\components\Exception(311);

@@ -1,5 +1,6 @@
 <?php
 namespace api\components\builders;
+use event\models\section\Favorite;
 use event\models\section\Hall;
 
 /**
@@ -454,6 +455,7 @@ class Builder
         $this->section->Finish = $section->EndTime; //todo: deprecated
         $this->section->End = $section->EndTime;
         $this->section->UpdateTime = $section->UpdateTime;
+        $this->section->Deleted = $section->Deleted;
         $this->section->Type = $section->TypeId == 4 ? 'short' : 'full'; //todo: deprecated
         $this->section->TypeCode = $section->Type->Code;
 
@@ -492,6 +494,7 @@ class Builder
         $this->sectionHall->Title = $hall->Title;
         $this->sectionHall->UpdateTime = $hall->UpdateTime;
         $this->sectionHall->Order = $hall->Order;
+        $this->sectionHall->Deleted = $hall->Deleted;
         return $this->sectionHall;
     }
 
@@ -544,6 +547,22 @@ class Builder
         $this->report->VideoUrl = $link->VideoUrl;
 
         return $this->report;
+    }
+
+    protected $favorite;
+
+    /**
+     * @param Favorite $favorite
+     * @return \stdClass
+     */
+    public function createFavorite($favorite)
+    {
+        $this->favorite = new \stdClass();
+        $this->favorite->SectionId = $favorite->SectionId;
+        $this->favorite->Deleted = $favorite->Deleted;
+        $this->favorite->UpdateTime = $favorite->UpdateTime;
+
+        return $this->favorite;
     }
 
     protected $inviteRequest;

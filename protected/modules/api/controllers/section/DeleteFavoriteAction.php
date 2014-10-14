@@ -12,16 +12,18 @@ class DeleteFavoriteAction extends \api\components\Action
       throw new \api\components\Exception(202, [$runetId]);
 
     $sectionId = $request->getParam('SectionId');
-    /** @var \event\models\section\Section $section */
-    $section = \event\models\section\Section::model()->findByPk($sectionId);
+    $section = \event\models\section\Section::model()->byDeleted(false)->findByPk($sectionId);
     if ($section == null)
       throw new \api\components\Exception(310, [$sectionId]);
     if ($section->EventId != $this->getEvent()->Id)
       throw new \api\components\Exception(311);
 
     $favorite = \event\models\section\Favorite::model()
-      ->byUserId($user->Id)->bySectionId($section->Id)->find();
-    if ($favorite != null)
+      ->byUserId($user->Id)->bySectionId($section->Id)->byDeleted(false)->find();
+    if ($favorite !== null) {
+        $favorite->Deleted = true;
+        $favorite->save();
+    }
       $favorite->delete();
 
     $this->setResult(['Success' => true]);

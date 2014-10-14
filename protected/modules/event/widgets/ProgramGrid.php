@@ -65,7 +65,7 @@ class ProgramGrid extends \event\components\Widget
       ]
     ];
 
-    $sections = \event\models\section\Section::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
+    $sections = \event\models\section\Section::model()->byEventId($this->getEvent()->Id)->byDeleted(false)->findAll($criteria);
     /** @var \event\models\section\Section $section */
     foreach ($sections as $section)
     {

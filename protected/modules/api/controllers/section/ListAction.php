@@ -1,11 +1,27 @@
 <?php
 namespace api\controllers\section;
 
+use event\models\section\Section;
+
 class ListAction extends \api\components\Action
 {
     public function run()
     {
-        $sections = $this->getEvent()->Sections($this->getCriteria());
+        $request = \Yii::app()->getRequest();
+        $model = Section::model()->byEventId($this->getEvent()->Id);
+
+        $fromUpdateTime = $request->getParam('FromUpdateTime');
+        if ($fromUpdateTime !== null) {
+            $model->byUpdateTime($fromUpdateTime);
+        }
+
+        $withDeleted = $request->getParam('WithDeleted', false);
+        if (!$withDeleted) {
+            $model->byDeleted(false);
+        }
+
+        $this->applyFilterCriteria($model);
+        $sections = $model->findAll();
 
         $result = [];
         foreach ($sections as $section) {
@@ -15,21 +31,20 @@ class ListAction extends \api\components\Action
     }
 
     /**
+     * @param Section $model
      * @return \CDbCriteria
      */
-    private function getCriteria()
+    private function applyFilterCriteria($model)
     {
         $fitler = \Yii::app()->getRequest()->getParam('Filter', []);
 
         $criteria = new \CDbCriteria();
         $criteria->with = ['LinkHalls.Hall', 'Attributes'];
-        $criteria->order = '"Sections"."StartTime", "Sections"."EndTime", "Hall"."Order"';
+        $criteria->order = 't."StartTime", t."EndTime", "Hall"."Order"';
 
         if (!empty($fitler['Date'])) {
-            $criteria->addCondition('"Sections"."StartTime" >= :StartTime AND "Sections"."EndTime" <= :EndTime');
             $date = \Yii::app()->getDateFormatter()->format('yyyy-MM-dd', $fitler['Date']);
-            $criteria->params['StartTime'] = $date.' 00:00:00';
-            $criteria->params['EndTime'] = $date.' 23:59:59';
+            $model->byDate($date);
         }
 
         if (!empty($fitler['Hall'])) {
@@ -61,12 +76,6 @@ class ListAction extends \api\components\Action
             $criteria->addInCondition('"Sections"."Id"', $command->queryColumn());
         }
 
-        $fromUpdateTime = \Yii::app()->getRequest()->getParam('FromUpdateTime', null);
-        if ($fromUpdateTime !== null) {
-            $criteria->addCondition('"Sections"."UpdateTime" > :UpdateTime');
-            $criteria->params['UpdateTime'] = $fromUpdateTime;
-        }
-
-        return $criteria;
+        $model->getDbCriteria()->mergeWith($criteria);
     }
 }

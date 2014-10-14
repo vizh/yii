@@ -77,7 +77,7 @@ class Section extends \CFormModel
       ->from(\event\models\section\Attribute::model()->tableName().' Attribute')
       ->selectDistinct('Attribute.Name')
       ->join(\event\models\section\Section::model()->tableName()." as Section", '"Section"."Id" = "Attribute"."SectionId"')
-      ->where('"Section"."EventId" = :EventId', array('EventId' => $event->Id))
+      ->where('"Section"."EventId" = :EventId AND NOT "Section"."Deleted"', array('EventId' => $event->Id))
       ->queryColumn();
     
     $list = array_fill_keys($attributes,'');

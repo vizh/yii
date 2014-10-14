@@ -14,7 +14,9 @@ class HallAction extends \partner\components\Action
 
     $criteria = new \CDbCriteria();
     $criteria->order = '"t"."Order" ASC, "t"."Title" ASC';
-    $halls = \event\models\section\Hall::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
+    $halls = \event\models\section\Hall::model()->byEventId($this->getEvent()->Id)
+        ->byDeleted(false)->findAll($criteria);
+
     foreach ($halls as $hall)
     {
       $hall->setLocale($this->locale);
@@ -51,7 +53,8 @@ class HallAction extends \partner\components\Action
         $hasLinks = \event\models\section\LinkHall::model()->byHallId($hall->Id)->exists();
         if (!$hasLinks)
         {
-          $hall->delete();
+            $hall->Deleted = true;
+            $hall->save();
           $this->getController()->refresh();
         }
       }

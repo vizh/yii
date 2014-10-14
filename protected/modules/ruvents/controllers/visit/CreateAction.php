@@ -5,7 +5,8 @@ class CreateAction extends \ruvents\components\Action
 {
     public function run($hallId, $visitTime, $runetId = null, $externalId = null)
     {
-        $hall = \event\models\section\Hall::model()->byEventId($this->getEvent()->Id)->findByPk($hallId);
+        $hall = \event\models\section\Hall::model()->byEventId($this->getEvent()->Id)
+            ->byDeleted(false)->findByPk($hallId);
         if ($hall == null)
             throw new \ruvents\components\Exception(701, [$hallId]);
 

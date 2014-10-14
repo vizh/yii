@@ -19,10 +19,10 @@ class SectionAction extends \partner\components\Action
     else
     {
       $this->locale = \Yii::app()->getRequest()->getParam('locale', $this->locale);
-      $section = \event\models\section\Section::model()->byEventId($event->Id)->findByPk($sectionId);
+      $section = \event\models\section\Section::model()->byEventId($event->Id)->byDeleted(false)->findByPk($sectionId);
       if ($section == null)
       {
-        throw new CHttpException(404);
+        throw new \CHttpException(404);
       }
       $section->setLocale($this->locale);
       $form->Title = $section->Title;

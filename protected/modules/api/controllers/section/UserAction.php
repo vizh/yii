@@ -26,7 +26,7 @@ class UserAction extends \api\components\Action
 
     /** @var $sections \event\models\section\Section[] */
     $sections = \event\models\section\Section::model()
-        ->byEventId($this->getEvent()->Id)
+        ->byEventId($this->getEvent()->Id)->byDeleted(false)
         ->with(array('LinkUsers' => array('together' => true)))->findAll($criteria);
 
     foreach ($sections as $section)

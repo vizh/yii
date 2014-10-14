@@ -8,15 +8,20 @@ class HallsAction extends Action
 {
     public function run()
     {
-        $fromUpdateTime = \Yii::app()->getRequest()->getParam('FromUpdateTime', null);
-        $criteria = new \CDbCriteria();
-        $criteria->order = 't."Order"';
+        $request = \Yii::app()->getRequest();
+        $model = Hall::model()->byEventId($this->getEvent()->Id);
+
+        $fromUpdateTime = $request->getParam('FromUpdateTime');
         if ($fromUpdateTime !== null) {
-            $criteria->condition = 't."UpdateTime" > :UpdateTime';
-            $criteria->params = ['UpdateTime' => $fromUpdateTime];
+            $model->byUpdateTime($fromUpdateTime);
         }
 
-        $halls = Hall::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
+        $withDeleted = $request->getParam('WithDeleted', false);
+        if (!$withDeleted) {
+            $model->byDeleted(false);
+        }
+
+        $halls = $model->findAll(['order' => 't."Order"']);
         $result = [];
         foreach ($halls as $hall) {
             $result[] = $this->getDataBuilder()->createSectionHall($hall);
