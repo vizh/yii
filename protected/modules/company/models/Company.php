@@ -60,7 +60,7 @@ class Company extends \application\models\translation\ActiveRecord implements \s
 
             //Сотрудники
             'Employments' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'order' => '"User"."LastName" DESC', 'condition' => '"Employments"."EndYear" IS NULL AND "User"."Visible"', 'with' => array('User')),
-            'EmploymentsAll' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'with' => array('User')),
+            'EmploymentsAll' => array(self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'with' => ['User'], 'condition' => '"User"."Visible"'),
         );
     }
 

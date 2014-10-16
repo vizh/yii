@@ -6,6 +6,9 @@
 use \application\components\attribute\BooleanDefinition;
 ?>
 <div class="registration">
+    <?if (isset($this->RegistrationBeforeInfo)):?>
+        <?=$this->RegistrationBeforeInfo;?>
+    <?endif;?>
     <h5 class="title"><?=Yii::t('app', 'Регистрация');?></h5>
     <?=\CHtml::beginForm('', 'post', ['enctype' => 'multipart/form-data']);?>
     <?=\CHtml::errorSummary($this->form, '<div class="alert alert-error">', '</div>');?>

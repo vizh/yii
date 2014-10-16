@@ -18,7 +18,8 @@ class DetailedRegistration extends \event\components\Widget
         return [
             'DefaultRoleId',
             'RegisterUnvisibleUser',
-            'ShowEmployment'
+            'ShowEmployment',
+            'RegistrationBeforeInfo'
         ];
     }
 
