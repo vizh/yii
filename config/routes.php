@@ -60,6 +60,12 @@ return array(
           'http://'.RUNETID_HOST.'/rif-crimea14/end' => ['competence/main/end/', 'defaultParams' => ['id' => 9]],
           'http://'.RUNETID_HOST.'/rif-crimea14/done' => ['competence/main/done/', 'defaultParams' => ['id' => 9]],
 
+          /** PM14 2014 */
+          'http://'.RUNETID_HOST.'/test/pm14/' => ['competence/main/index/', 'defaultParams' => ['id' => 11]],
+          'http://'.RUNETID_HOST.'/test/pm14/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 11]],
+          'http://'.RUNETID_HOST.'/test/pm14/end' => ['competence/main/end/', 'defaultParams' => ['id' => 11]],
+          'http://'.RUNETID_HOST.'/test/pm14/done' => ['competence/main/done/', 'defaultParams' => ['id' => 11]],
+
 
         /** Student Test 2013 */
         'http://'.RUNETID_HOST.'/student/' => ['competence/main/index/', 'defaultParams' => ['id' => 3]],
