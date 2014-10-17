@@ -22,8 +22,6 @@ $(function() {
   /* PLACEHOLDER */
   $('input[placeholder], textarea[placeholder]').placeholder();
 
-  $('#live-search').trigger('focus');
-
   /* INDEX PAGE */
   /* Index page -> Promo tabs */
   $('#promo-tabs').tabs();
