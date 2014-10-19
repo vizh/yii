@@ -1,6 +1,8 @@
 <?php
 namespace partner\controllers\user;
 
+use api\models\Account;
+use api\models\ExternalUser;
 use application\models\attribute\Definition;
 use event\models\UserData;
 
@@ -82,21 +84,10 @@ class ExportAction extends \partner\components\Action
             }
         }
 
-
-        if ($this->getEvent()->Id == 963) {
-            $row[] = 'Город';
-            $row[] = 'Дата рождения';
-            $row[] = 'Место рождения';
-            $row[] = 'Серия паспорта';
-            $row[] = 'Номер паспорта';
+        if ($this->hasExternalId()) {
+            $row[] = 'Внешний ID';
         }
 
-        if ($this->getEvent()->Id == 831) {
-            $row[] = 'Получил диплом';
-            $row[] = 'Получил инфопак';
-            $row[] = 'Заполнил анкету';
-            $row[] = 'Получил подарок за анкету';
-        }
 
         fputcsv($fp, $this->rowHandler($row), $this->csvDelimiter);
 
@@ -223,35 +214,13 @@ class ExportAction extends \partner\components\Action
                 $row['DateBadge'] = $badge->CreationTime;
             }
 
-            if ($this->getEvent()->Id == 963) {
-                $row['City'] =  $this->getCity($user->getContactAddress());
-                $row['birthday'] = '';
-                $row['birthPlace'] = '';
-                $row['passportSerial'] = '';
-                $row['passportNumber'] = '';
-                $additionals = \pay\models\EventUserAdditionalAttribute::model()
-                    ->byUserId($user->Id)->byEventId($this->getEvent()->Id)->findAll();
-                foreach ($additionals as $additional) {
-                    $row[$additional->Name] = $additional->Value;
-                }
-            }
-
-            if ($this->getEvent()->Id == 831) {
-                if (!empty($row['DateBadge'])) {
-                    $row['Dyplom'] = $this->getDyplomInfo($user);
-                    $row['Infopak'] = $this->getInfopak($user);
-                    $row['Test'] = $this->getTestResult($user);
-                    $row['Prize'] = $this->getPrize($user);
-                } else {
-                    $row['Dyplom'] = '';
-                    $row['Infopak'] = '';
-                    $row['Test'] = '';
-                    $row['Prize'] = '';
-                }
-            }
-
             foreach ($userDataMap as $name) {
                 $row[$name] = isset($usersData[$user->Id][$name]) ? implode(';', $usersData[$user->Id][$name]) : '';
+            }
+
+            if ($this->hasExternalId()) {
+                $externalUser = ExternalUser::model()->byAccountId($this->getApiAccount()->Id)->byUserId($user->Id)->find();
+                $row['ExternalId'] = $externalUser !== null ? $externalUser->ExternalId : '';
             }
 
             $this->fwritecsv($fp, $this->rowHandler($row), $this->csvDelimiter);
@@ -355,5 +324,31 @@ class ExportAction extends \partner\components\Action
         fwrite($handle, $line);
         # Return the length of the written data
         return strlen($line);
+    }
+
+    private $hasExternalId = null;
+
+    private function hasExternalId()
+    {
+        if ($this->hasExternalId === null) {
+            $this->hasExternalId = false;
+            if ($this->getApiAccount() !== null) {
+                $this->hasExternalId = ExternalUser::model()->byAccountId($this->getApiAccount()->Id)->exists();
+            }
+        }
+        return $this->hasExternalId;
+    }
+
+    private $apiAccount = false;
+
+    /**
+     * @return Account|null
+     */
+    private function getApiAccount()
+    {
+        if ($this->apiAccount === false) {
+            $this->apiAccount = Account::model()->byEventId($this->getEvent()->Id)->find();
+        }
+        return $this->apiAccount;
     }
 }
