@@ -1,6 +1,8 @@
 <?php
 namespace pay\controllers\ajax;
 
+use pay\models\Product;
+
 class CouponActivateAction extends \pay\components\Action
 {
     public function run($code, $eventIdName, $ownerRunetId, $productId)
@@ -8,6 +10,8 @@ class CouponActivateAction extends \pay\components\Action
         $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
         if ($owner == null)
             throw new \CHttpException(404);
+
+        $product = Product::model()->findByPk($productId);
 
         $result = new \stdClass();
         $result->success = false;
@@ -19,7 +23,7 @@ class CouponActivateAction extends \pay\components\Action
             $result->error = \Yii::t('app', 'Указанный промо код не может быть активирован для этого товара');
         } else {
             try {
-                $coupon->activate($this->getUser(), $owner);
+                $coupon->activate($this->getUser(), $owner, $product);
                 $result->success = true;
             } catch(\pay\components\Exception $e) {
                 $result->error = $e->getMessage();

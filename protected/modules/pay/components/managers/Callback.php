@@ -1,5 +1,6 @@
 <?php
 namespace pay\components\managers;
+use pay\models\OrderItem;
 use string;
 
 /**
@@ -65,7 +66,7 @@ class Callback extends BaseProductManager
      *
      * @return bool
      */
-    protected function internalBuyProduct($user, $orderItem = null, $params = array())
+    protected function internalBuy($user, $orderItem = null, $params = array())
     {
         $params = [
             'Price' => $orderItem->getItemAttribute('Price'),
@@ -99,13 +100,11 @@ class Callback extends BaseProductManager
     }
 
     /**
-     * Отменяет покупку продукта на пользовтеля
-     * @param \user\models\User $user
-     * @return bool
+     * @inheritdoc
      */
-    public function rollbackProduct($user)
+    protected function internalRollback(OrderItem $orderItem)
     {
-        return false;
+
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace pay\components\managers;
-use string;
+use event\models\Participant;
+use pay\models\OrderItem;
 
 /**
  * @property int $RoleId
@@ -79,7 +80,7 @@ class EventProductManager extends BaseProductManager
      *
      * @return bool
      */
-    protected function internalBuyProduct($user, $orderItem = null, $params = array())
+    protected function internalBuy($user, $orderItem = null, $params = array())
     {
         /** @var $role \event\models\Role */
         $role = \event\models\Role::model()->findByPk($this->RoleId);
@@ -97,49 +98,28 @@ class EventProductManager extends BaseProductManager
      */
     protected function internalChangeOwner($fromUser, $toUser, $params = array())
     {
-        $participant = \event\models\Participant::model()
-            ->byUserId($fromUser->Id)->byEventId($this->product->EventId)->find();
-        if ($participant !== null)
-        {
-            if ($participant->RoleId == $this->RoleId)
-            {
-                $participant->delete();
-            }
+        $participant = \event\models\Participant::model()->byEventId($this->product->EventId)
+            ->byRoleId($this->RoleId)->byUserId($fromUser->Id)->find();
+        if ($participant !== null) {
+            // todo: Необходимо по логу смотреть прошлый перед оплатой статус, и выставлять его
+            $participant->delete();
         }
 
-        return $this->internalBuyProduct($toUser);
+        return $this->internalBuy($toUser);
     }
 
-
     /**
-     * @param \user\models\User $user
-     *
-     * @return bool
+     * @inheritdoc
      */
-    public function rollbackProduct($user)
+    protected function internalRollback(OrderItem $orderItem)
     {
-        $orderItem = \pay\models\OrderItem::model()
-            ->byOwnerId($user->Id)->byProductId($this->product->Id)->byPaid(true)->find();
-
-        if ( $orderItem != null)
-        {
-            $orderItem->Paid = 0;
-            $orderItem->PaidTime = null;
-            $orderItem->save();
+        $owner = $orderItem->getCurrentOwner();
+        $participant = Participant::model()->byEventId($this->product->EventId)
+            ->byRoleId($this->RoleId)->byUserId($owner->Id)->find();
+        if ($participant != null) {
+            // todo: аналогично internalChangeOwner
+            $participant->delete();
         }
-        else
-        {
-            return false;
-        }
-
-        $participant = \event\models\Participant::model()
-            ->byEventId($this->product->EventId)->byUserId($user->Id)->find();
-        if ($participant != null)
-        {
-            $participant->UpdateRole($participant->Event->DefaultRole);
-            return true;
-        }
-        return false;
     }
 
     /**

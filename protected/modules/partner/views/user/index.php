@@ -1,10 +1,13 @@
 <?php
 /**
+ * @var Event $event
  * @var $roles \event\models\Role[]
  * @var $users \user\models\User[]
  * @var $paginator \application\components\utility\Paginator
  * @var $form \partner\models\forms\user\ParticipantSearch
  */
+
+use event\models\Event;
 
 $roleList = array(
   '' => 'Все зарегистрированные'
@@ -89,19 +92,19 @@ foreach ($roles as $role)
           <?endif;?>
         </td>
         <td>
-          <?if (sizeof($user->Participants) == 1):?>
-            <?=$user->Participants[0]->Role->Title;?><br/>
-            <em><?=Yii::app()->dateFormatter->formatDateTime($user->Participants[0]->CreationTime, 'long');?></em>
-          <?else:?>
-              <?foreach ($user->Participants as $participant):?>
-                <?if (!empty($participant->Part)):?>
-                <p>
-                  <strong><?=$participant->Part->Title;?></strong> - <?=$participant->Role->Title;?><br/>
-                  <em><?php echo Yii::app()->dateFormatter->formatDateTime($participant->CreationTime, 'long');?></em>
-                </p>
-                <?endif;?>
-              <?endforeach;?>
-          <?endif;?>
+            <?if (count($event->Parts) == 0):?>
+                <?=$user->Participants[0]->Role->Title;?><br/>
+                <em><?=Yii::app()->dateFormatter->formatDateTime($user->Participants[0]->CreationTime, 'long');?></em>
+            <?else:?>
+                <?foreach ($user->Participants as $participant):?>
+                    <?if (!empty($participant->Part)):?>
+                        <p>
+                            <strong><?=$participant->Part->Title;?></strong> - <?=$participant->Role->Title;?><br/>
+                            <em><?php echo Yii::app()->dateFormatter->formatDateTime($participant->CreationTime, 'long');?></em>
+                        </p>
+                    <?endif;?>
+                <?endforeach;?>
+            <?endif;?>
         </td>
         <?if ($showRuventsInfo):?>
           <td>

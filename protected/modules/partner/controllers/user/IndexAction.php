@@ -62,6 +62,7 @@ class IndexAction extends \partner\components\Action
 
     $this->getController()->render('index',
       array(
+          'event' => $this->getEvent(),
         'users' => $usersSort,
         'roles' => $roles,
         'paginator' => $paginator,

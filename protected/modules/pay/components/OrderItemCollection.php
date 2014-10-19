@@ -82,7 +82,7 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
             $message_items .= ' ' . $item2->Id;
             $messageEvents .= ' ' . $item2->Product->EventId;
           }
-          throw new Exception('Попытка создать коллекцию с заказами из разных мероприятий. (' . $message_items . ', ' . $messageEvents . ') Мероприятие: ' . $this->_eventId);
+          throw new MessageException('Попытка создать коллекцию с заказами из разных мероприятий. (' . $message_items . ', ' . $messageEvents . ') Мероприятие: ' . $this->_eventId, MessageException::ORDER_ITEM_GROUP_CODE);
         }
         $this->_items[] = new OrderItemCollectable($item, $this);
       }

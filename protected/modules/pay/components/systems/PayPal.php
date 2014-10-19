@@ -1,5 +1,8 @@
 <?php
 namespace pay\components\systems;
+use pay\components\CodeException;
+use pay\components\Exception;
+
 \Yii::import('ext.ExchangeRates.*');
 
 class PayPal extends Base
@@ -107,7 +110,7 @@ class PayPal extends Base
 
     $event = \event\models\Event::model()->findByPk($eventId);
     if ($event == null)
-      throw new \pay\components\Exception('Не найдено мероприятие с идентификатором: ' . $eventId);
+        throw new CodeException(902, [$eventId]);
 
     $params = array(
       'PAYMENTREQUEST_0_AMT' => $total,

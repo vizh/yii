@@ -1,7 +1,8 @@
 <?php
 namespace pay\components\managers;
 
-use string;
+
+use pay\models\OrderItem;
 
 class AnyPriceProductManager extends BaseProductManager
 {
@@ -40,7 +41,7 @@ class AnyPriceProductManager extends BaseProductManager
      * @param array $params
      * @return bool
      */
-    public function internalBuyProduct($user, $orderItem = null, $params = array())
+    public function internalBuy($user, $orderItem = null, $params = array())
     {
         return true;
     }
@@ -75,14 +76,16 @@ class AnyPriceProductManager extends BaseProductManager
     }
 
     /**
-     * Отменяет покупку продукта на пользовтеля
-     * @param \user\models\User $user
+     * Отменяет покупку по соответствующему заказу
+     * @param OrderItem $orderItem
      * @return bool
      */
-    public function rollbackProduct($user)
+    protected function internalRollback(OrderItem $orderItem)
     {
 
     }
+
+
 
     /**
      *

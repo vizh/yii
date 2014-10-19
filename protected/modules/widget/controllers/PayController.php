@@ -1,4 +1,6 @@
 <?php
+use pay\components\CodeException;
+
 class PayController extends \widget\components\Controller
 {
     protected function getWidgetParamNames()
@@ -87,7 +89,7 @@ class PayController extends \widget\components\Controller
         $this->account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
         if ($this->account === null)
         {
-            throw new \pay\components\Exception('Для работы платежного кабинета необходимо создать платежный аккаунт мероприятия.');
+            throw new CodeException(CodeException::NO_PAY_ACCOUNT, [$this->getEvent()->Id, $this->getEvent()->IdName, $this->getEvent()->Title]);
         }
         return $this->account;
     }

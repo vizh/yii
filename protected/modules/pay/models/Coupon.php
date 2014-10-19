@@ -1,6 +1,11 @@
 <?php
 namespace pay\models;
 
+use pay\components\CodeException;
+use pay\components\Exception;
+use pay\components\MessageException;
+use user\models\User;
+
 /**
  * @property int $Id
  * @property int $EventId
@@ -172,19 +177,37 @@ class Coupon extends \CActiveRecord
     /**
      * @param \user\models\User $payer
      * @param \user\models\User $owner
+     * @param Product $product
      *
      * @throws \pay\components\Exception
      * @return void
      */
-    public function activate($payer, $owner)
+    public function activate($payer, $owner, $product = null)
     {
         $this->check();
-
         if (abs($this->Discount - 1.00) < self::MaxDelta) {
-            if (count($this->Products) != 1)
-                throw new \pay\components\Exception(\Yii::t('app','Для промо кода со скидкой 100% не указан товар, на который распространяется скидка, или указано больше одного товара.'), 303);
+            $this->activate100($payer, $owner, $product);
+        } else {
+            $this->processOldActivations($owner);
+            $this->createActivation($owner);
+        }
+    }
 
-            $product = $this->Products[0];
+    /**
+     * Активирует 100% промо-код
+     * @param \user\models\User $payer
+     * @param \user\models\User $owner
+     * @param Product $product
+     *
+     * @throws \pay\components\Exception
+     * @return void
+     */
+    protected function activate100($payer, $owner, $product)
+    {
+        $product = $this->getActivate100Product($product);
+        $transaction = \Yii::app()->getDb()->beginTransaction();
+        try {
+            $this->cleanActivate100MultipleProduct($owner, $product);
 
             $item = OrderItem::model()
                 ->byProductId($product->Id)
@@ -204,12 +227,65 @@ class Coupon extends \CActiveRecord
                 $link->OrderItemId = $item->Id;
                 $link->save();
             } else {
-                throw new \pay\components\Exception(\Yii::t('app','Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар'), 304);
+                throw new CodeException(401);
             }
-        } else {
-            $this->processOldActivations($owner);
-            $this->createActivation($owner);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        } catch (\Exception $e) {
+            $transaction->rollback();
+            throw $e;
         }
+    }
+
+    /**
+     * @param Product $product
+     *
+     * @throws \pay\components\Exception
+     * @return Product
+     */
+    protected function getActivate100Product($product)
+    {
+        if (count($this->Products) === 0)
+            throw new CodeException(CodeException::NO_PRODUCT_FOR_COUPON_100);
+        if (count($this->Products) === 1) {
+            return $this->Products[0];
+        }
+        foreach ($this->Products as $p) {
+            if ($product !== null && $p->Id == $product->Id) {
+                return $product;
+            }
+        }
+
+        throw new CodeException(CodeException::WRONG_PRODUCT_FOR_COUPON_100);
+    }
+
+    /**
+     * @param User $owner
+     * @param Product $product
+     * @throws \pay\components\MessageException
+     */
+    protected function cleanActivate100MultipleProduct($owner, $product)
+    {
+        if (count($this->Products) === 1)
+            return;
+
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"OrderItem"."Paid" AND NOT "OrderItem"."Deleted"';
+        $criteria->with = ['OrderItemLinks.OrderItem' => ['together' => true]];
+        /** @var CouponActivation $couponActivation */
+        $couponActivation = CouponActivation::model()->byCouponId($this->Id)->byUserId($owner->Id)->find($criteria);
+        if ($couponActivation === null)
+            return;
+
+        $orderItem = $couponActivation->OrderItemLinks[0]->OrderItem;
+        if ($orderItem->ProductId === $product->Id)
+            throw new MessageException('Вы уже активировали 100% промо-код для этого товара ранее');
+
+        $orderItem->deactivate();
+        $couponActivation->OrderItemLinks[0]->delete();
+        $couponActivation->delete();
     }
 
     /**
@@ -217,13 +293,11 @@ class Coupon extends \CActiveRecord
      */
     public function check()
     {
-        if (!$this->getIsNotExpired())
-        {
-            throw new \pay\components\Exception(\Yii::t('app','Срок действия вашего промо кода истек'), 305);
+        if (!$this->getIsNotExpired()) {
+            throw new CodeException(305);
         }
-        if (!$this->getIsRightCountActivations())
-        {
-            throw new \pay\components\Exception(\Yii::t('app','Превышено максимальное количество активаций промо кода'), 301);
+        if (!$this->getIsRightCountActivations()) {
+            throw new CodeException(301);
         }
     }
 
@@ -242,7 +316,7 @@ class Coupon extends \CActiveRecord
 
         if ($activation !== null) {
             if ($activation->Coupon->contains($this)) {
-                throw new \pay\components\Exception(\Yii::t('app', 'У пользователя уже активирован промо код с большей скидкой'), 302);
+                throw new CodeException(302);
             } else {
                 $activation->delete();
             }

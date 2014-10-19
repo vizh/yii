@@ -57,6 +57,15 @@ class CouponActivation extends \CActiveRecord
     return $this;
   }
 
+    public function byCouponId($couponId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."CouponId" = :CouponId';
+        $criteria->params = ['CouponId' => $couponId];
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
   /**
    * @param int $eventId
    * @param bool $useAnd

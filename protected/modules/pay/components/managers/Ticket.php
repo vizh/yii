@@ -1,6 +1,8 @@
 <?php
 namespace pay\components\managers;
 use mail\components\mailers\MandrillMailer;
+use pay\components\MessageException;
+use pay\models\OrderItem;
 use string;
 
 /**
@@ -64,7 +66,7 @@ class Ticket extends BaseProductManager
      *
      * @return bool
      */
-    protected function internalBuyProduct($user, $orderItem = null, $params = array())
+    protected function internalBuy($user, $orderItem = null, $params = array())
     {
         $coupons = [];
         for ($i = 0; $i < $orderItem->getItemAttribute('Count'); $i++)
@@ -87,13 +89,11 @@ class Ticket extends BaseProductManager
     }
 
     /**
-     * Отменяет покупку продукта на пользовтеля
-     * @param \user\models\User $user
-     * @return bool
+     * @inheritdoc
      */
-    public function rollbackProduct($user)
+    protected function internalRollback(OrderItem $orderItem)
     {
-        return false;
+        throw new MessageException('Данный товар возможно вернуть только в ручном режиме', MessageException::GENERAL_CODE);
     }
 
     /**

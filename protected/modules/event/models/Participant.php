@@ -96,26 +96,25 @@ class Participant extends \CActiveRecord
     return $this;
   }
 
-  /**
-   * @param int|null $partId
-   * @param bool $useAnd
-   * @return Participant
-   */
-  public function byPartId($partId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    if ($partId === null)
+    /**
+     * @param int|int[]|null $partId
+     * @param bool $useAnd
+     * @return Participant
+     */
+    public function byPartId($partId, $useAnd = true)
     {
-      $criteria->addCondition('"t"."PartId" IS NULL');
+        $criteria = new \CDbCriteria();
+        if ($partId === null) {
+            $criteria->addCondition('t."PartId" IS NULL');
+        } elseif (is_array($partId)) {
+            $criteria->addInCondition('t."PartId"', $partId);
+        } else {
+            $criteria->condition = 't."PartId" = :PartId';
+            $criteria->params = ['PartId' => $partId];
+        }
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
     }
-    else
-    {
-      $criteria->condition = '"t"."PartId" = :PartId';
-      $criteria->params = array('PartId' => $partId);
-    }
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
 
   /**
    * @param $role Role

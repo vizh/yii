@@ -116,9 +116,8 @@ class Controller extends \application\components\controllers\PublicMainControlle
   public function getAccount()
   {
     $this->account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
-    if ($this->account === null)
-    {
-      throw new \pay\components\Exception('Для работы платежного кабинета необходимо создать платежный аккаунт мероприятия.');
+    if ($this->account === null) {
+        throw new CodeException(CodeException::NO_PAY_ACCOUNT, [$this->getEvent()->Id, $this->getEvent()->IdName, $this->getEvent()->Title]);
     }
     return $this->account;
   }

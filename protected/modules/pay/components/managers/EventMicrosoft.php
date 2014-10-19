@@ -2,13 +2,15 @@
 namespace pay\components\managers;
 
 
+use pay\components\MessageException;
+
 class EventMicrosoft extends EventProductManager
 {
   const CallbackUrl = 'http://rusites.cloudapp.net/payment/paycallback?provider=runet';
 
-//  protected function internalBuyProduct($user, $orderItem = null, $params = array())
+//  protected function internalBuy($user, $orderItem = null, $params = array())
 //  {
-//    if (parent::internalBuyProduct($user, $orderItem, $params))
+//    if (parent::internalBuy($user, $orderItem, $params))
 //    {
 //      //$this->sendMessage($user, $this->RoleId);
 //    }
@@ -25,7 +27,7 @@ class EventMicrosoft extends EventProductManager
       $this->product->Event->registerUser($fromUser, $role);
     }
 
-    return $this->internalBuyProduct($toUser);
+    return $this->internalBuy($toUser);
   }
 
   /**
@@ -82,9 +84,8 @@ class EventMicrosoft extends EventProductManager
     if ($this->account == null)
     {
       $this->account = \api\models\Account::model()->byEventId($this->product->EventId)->find();
-      if ($this->account == null)
-      {
-        throw new \pay\components\Exception('Не найден api аккаунт мероприятия, для совершения callback');
+      if ($this->account == null) {
+          throw new MessageException('Не найден api аккаунт мероприятия, для совершения callback');
       }
     }
 

@@ -1,6 +1,10 @@
 <?php
 namespace pay\components\managers;
 
+use event\models\Participant;
+use pay\components\MessageException;
+use pay\models\OrderItem;
+
 /**
  * @property $RoleId
  */
@@ -38,15 +42,13 @@ class EventAllParts extends BaseProductManager
      */
     public function checkProduct($user, $params = array())
     {
-        if (sizeof($this->product->Event->Parts) === 0)
-        {
-            throw new \pay\components\Exception('Данное мероприятие не имеет логической разбивки. Используйте продукт регистрации на всё мероприятие.');
+        if (sizeof($this->product->Event->Parts) === 0) {
+            throw new MessageException('Данное мероприятие не имеет логической разбивки. Используйте продукт регистрации на всё мероприятие.');
         }
 
         $this->role = \event\models\Role::model()->findByPk($this->RoleId);
-        if ($this->role === null)
-        {
-            throw new \pay\components\Exception('Не корректно установлена роль на мероприятии для товара категории EventOnPart');
+        if ($this->role === null) {
+            throw new MessageException('Не корректно установлена роль на мероприятии для товара категории EventOnPart');
         }
 
         /** @var $participants \event\models\Participant[] */
@@ -70,7 +72,7 @@ class EventAllParts extends BaseProductManager
      * @param array $params
      * @return bool
      */
-    public function internalBuyProduct($user, $orderItem = null, $params = array())
+    public function internalBuy($user, $orderItem = null, $params = array())
     {
         $this->product->Event->registerUserOnAllParts($user, $this->role);
 
@@ -97,44 +99,17 @@ class EventAllParts extends BaseProductManager
     }
 
     /**
-     * Отменяет покупку продукта на пользовтеля
-     * @param \user\models\User $user
-     * @return bool
+     * @inheritdoc
      */
-    public function rollbackProduct($user)
+    protected function internalRollback(OrderItem $orderItem)
     {
-        throw new \pay\components\Exception('Не реализовано');
-        /** @var $orderItem \pay\models\OrderItem */
-        $orderItem = \pay\models\OrderItem::model()->find(
-            't.Paid = 1 AND t.OwnerId = :OwnerId AND t.ProductId = :ProductId',
-            array(
-                ':OwnerId' => $user->UserId,
-                ':ProductId' => $this->product->ProductId
-            ));
-
-        if ( $orderItem != null)
-        {
-            $orderItem->Paid = 0;
-            $orderItem->PaidTime = null;
-            $orderItem->save();
+        $owner = $orderItem->getCurrentOwner();
+        $participants = Participant::model()->byEventId($this->product->EventId)
+            ->byRoleId($this->RoleId)->byUserId($owner->Id)->findAll();
+        foreach ($participants as $participant) {
+            // todo: проверять по логу прошлый статус и менять на него
+            $participant->delete();
         }
-        else
-        {
-            return false;
-        }
-
-        /** @var $participants \event\models\Participant[] */
-        $participants = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($user->UserId)->findAll();
-        if (!empty($participants))
-        {
-            foreach ($participants as $participant)
-            {
-                $participant->UpdateRole($this->product->Event->DefaultRole);
-            }
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -148,7 +123,7 @@ class EventAllParts extends BaseProductManager
      */
     public function internalChangeOwner($fromUser, $toUser, $params = array())
     {
-        throw new \pay\components\Exception('Не реализовано');
+        throw new MessageException('Не реализовано');
         if (!$this->CheckProduct($toUser))
         {
             return false;

@@ -258,7 +258,7 @@ class RegisterAction extends \pay\components\Action
         $coupon = \pay\models\Coupon::model()->byCode($item['PromoCode'])->byEventId($this->getEvent()->Id)->find();
         if ($coupon !== null && $coupon->getIsForProduct($product->Id)) {
           try {
-            $coupon->activate($this->getUser(), $owner);
+            $coupon->activate($this->getUser(), $owner, $product);
           } catch (\pay\components\Exception $e) {}
         }
       }

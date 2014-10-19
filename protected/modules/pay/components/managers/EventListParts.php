@@ -1,6 +1,10 @@
 <?php
 namespace pay\components\managers;
 
+use event\models\Participant;
+use pay\components\MessageException;
+use pay\models\OrderItem;
+
 /**
  * @property int $RoleId
  * @property int $PartIdList
@@ -40,12 +44,12 @@ class EventListParts extends BaseProductManager
             $this->parts = \event\models\Part::model()->findAll($criteria);
             if (empty($this->parts))
             {
-                throw new \pay\components\Exception('Не корректно задан PartIdList для товара категории EventListParts. Идентификатор товара: ' . $this->product->Id);
+                throw new MessageException('Не корректно задан PartIdList для товара категории EventListParts. Идентификатор товара: ' . $this->product->Id);
             }
             foreach ($this->parts as $part)
             {
                 if ($part->EventId != $this->product->EventId)
-                    throw new \pay\components\Exception('Не корректно задана одна из частей параметра PartIdList для товара категории EventListParts. Идентификатор товара: ' . $this->product->Id);
+                    throw new MessageException('Не корректно задана одна из частей параметра PartIdList для товара категории EventListParts. Идентификатор товара: ' . $this->product->Id);
             }
         }
 
@@ -63,15 +67,13 @@ class EventListParts extends BaseProductManager
      */
     public function checkProduct($user, $params = array())
     {
-        if (sizeof($this->product->Event->Parts) === 0)
-        {
-            throw new \pay\components\Exception('Данное мероприятие не имеет логической разбивки. Используйте продукт регистрации на всё мероприятие.');
+        if (sizeof($this->product->Event->Parts) === 0) {
+            throw new MessageException('Данное мероприятие не имеет логической разбивки. Используйте продукт регистрации на всё мероприятие.');
         }
 
         $this->role = \event\models\Role::model()->findByPk($this->RoleId);
-        if ($this->role === null)
-        {
-            throw new \pay\components\Exception('Не корректно установлена роль на мероприятии для товара категории EventListParts');
+        if ($this->role === null) {
+            throw new MessageException('Не корректно установлена роль на мероприятии для товара категории EventListParts');
         }
 
         /** @var $participants \event\models\Participant[] */
@@ -101,7 +103,7 @@ class EventListParts extends BaseProductManager
      *
      * @return bool
      */
-    protected function internalBuyProduct($user, $orderItem = null, $params = array())
+    protected function internalBuy($user, $orderItem = null, $params = array())
     {
         foreach ($this->getParts() as $part)
         {
@@ -110,14 +112,18 @@ class EventListParts extends BaseProductManager
     }
 
     /**
-     * Отменяет покупку продукта на пользовтеля
-     * @param \user\models\User $user
-     * @return bool
+     * @inheritdoc
      */
-    public function rollbackProduct($user)
+    protected function internalRollback(OrderItem $orderItem)
     {
-        throw new \pay\components\Exception('Не реализовано');
-        // TODO: Implement rollbackProduct() method.
+        $owner = $orderItem->getCurrentOwner();
+        $partIdList = preg_split('/[ ,]/', $this->PartIdList, -1, PREG_SPLIT_NO_EMPTY);
+        $participants = Participant::model()->byEventId($this->product->EventId)
+            ->byUserId($owner->Id)->byRoleId($this->RoleId)->byPartId($partIdList)->findAll();
+        foreach ($participants as $participant) {
+            // todo: проверять по логу прошлый статус и менять на него
+            $participant->delete();
+        }
     }
 
     /**
@@ -130,7 +136,7 @@ class EventListParts extends BaseProductManager
      */
     protected function internalChangeOwner($fromUser, $toUser, $params = array())
     {
-        throw new \pay\components\Exception('Не реализовано');
+        throw new MessageException('Не реализовано');
         // TODO: Implement internalChangeOwner() method.
     }
 

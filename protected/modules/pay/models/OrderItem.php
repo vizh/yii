@@ -1,6 +1,8 @@
 <?php
 namespace pay\models;
 
+use pay\components\MessageException;
+
 /**
  * @property int $Id
  * @property int $ProductId
@@ -64,26 +66,22 @@ class OrderItem extends \CActiveRecord
 
   public function getItemAttribute($name)
   {
-    if ($this->getIsNewRecord())
-    {
-      throw new \pay\components\Exception('Заказ еще не сохранен.');
-    }
-    if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames()))
-    {
-      $attributes = $this->getOrderItemAttributes();
-      return isset($attributes[$name]) ? $attributes[$name]->Value : null;
-    }
-    else
-    {
-      throw new \pay\components\Exception('Данный заказ не содержит аттрибута с именем ' . $name);
-    }
+      if ($this->getIsNewRecord()) {
+          throw new MessageException('Заказ еще не сохранен.');
+      }
+      if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames())) {
+          $attributes = $this->getOrderItemAttributes();
+          return isset($attributes[$name]) ? $attributes[$name]->Value : null;
+      } else {
+          throw new MessageException('Данный заказ не содержит аттрибута с именем ' . $name);
+      }
   }
 
   public function setItemAttribute($name, $value)
   {
     if ($this->getIsNewRecord())
     {
-      throw new \pay\components\Exception('Заказ еще не сохранен.');
+      throw new MessageException('Заказ еще не сохранен.');
     }
     if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames()))
     {
@@ -104,7 +102,7 @@ class OrderItem extends \CActiveRecord
     }
     else
     {
-      throw new \pay\components\Exception('Данный заказ не содержит аттрибута с именем ' . $name);
+      throw new MessageException('Данный заказ не содержит аттрибута с именем ' . $name);
     }
   }
 
@@ -325,7 +323,7 @@ class OrderItem extends \CActiveRecord
   public function activate($order = null)
   {
     $owner = $this->ChangedOwner !== null ? $this->ChangedOwner : $this->Owner;
-    $result = $this->Product->getManager()->buyProduct($owner, $this);
+    $result = $this->Product->getManager()->buy($owner, $this);
     $this->Paid = true;
     $this->PaidTime = ($order !== null && OrderType::getIsLong($order->Type)) ? $order->CreationTime : date('Y-m-d H:i:s');
     $this->save();
@@ -340,7 +338,10 @@ class OrderItem extends \CActiveRecord
 
   public function deactivate()
   {
-
+      $this->Product->getManager()->rollback($this);
+      $this->Paid = false;
+      $this->PaidTime = null;
+      $this->save();
   }
 
   /**
@@ -380,7 +381,7 @@ class OrderItem extends \CActiveRecord
     $price = $this->getPrice();
     if ($price === null)
     {
-      throw new \pay\components\Exception('Не удалось определить цену продукта!');
+      throw new MessageException('Не удалось определить цену продукта!');
     }
 
     if ($this->Product->ManagerName != 'Ticket')
@@ -489,4 +490,12 @@ class OrderItem extends \CActiveRecord
     }
     return $this->loyaltyDiscount;
   }
+
+    /**
+     * @return \user\models\User
+     */
+    public function getCurrentOwner()
+    {
+        return $this->ChangedOwner === null ? $this->Owner : $this->ChangedOwner;
+    }
 }

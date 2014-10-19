@@ -77,7 +77,8 @@ foreach ($products as $product) {
 
             <div class="control-group <?=$form->hasErrors('productIdList') ? 'error' : '';?>">
                 <?=CHtml::activeLabel($form, 'productIdList');?>
-                <?=CHtml::activeDropDownList($form, 'productIdList', $productDropDown, ['multiple' => true, 'size' => count($products)+1, 'class' => 'span8']);?>
+                <?=CHtml::activeDropDownList($form, 'productIdList', $productDropDown, ['multiple' => true, 'size' => count($products)+1, 'class' => 'span8 m-bottom_0']);?>
+                <span class="help-block">Для промо-кодов со скидкой 100% рекомендуется выбирать ровно один тип продукта.</span>
             </div>
 
             <div class="control-group <?=$form->hasErrors('endTime') ? 'error' : '';?>">

@@ -26,15 +26,14 @@ class OrderItemCollectable
 
   /**
    * Итоговое значение цены товара, с учетом скидки, если она есть
-   * @throws \pay\components\Exception
+   * @throws MessageException
    * @return int|null
    */
   public function getPriceDiscount()
   {
     $price = $this->orderItem->getPrice();
-    if ($price === null)
-    {
-      throw new \pay\components\Exception('Не удалось определить цену продукта!');
+    if ($price === null) {
+        throw new MessageException('Не удалось определить цену продукта!');
     }
 
     $price = $price * (1 - $this->getDiscount());

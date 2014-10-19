@@ -59,10 +59,6 @@ class Generate extends \CFormModel
             }
         }
 
-        if ($this->discount === 100 && count($this->productList) != 1) {
-            $this->addError('productIdList', 'Для 100% промо-кодов необходимо выбрать ровно один тип продукта');
-        }
-
         if (Coupon::model()->byCode($this->code)->byEventId($this->event->Id)->exists()) {
             $this->addError('code', 'Такой промо-код уже существует.');
         }

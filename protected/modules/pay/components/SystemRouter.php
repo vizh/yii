@@ -27,22 +27,19 @@ class SystemRouter
 
     private function init()
     {
-        foreach (self::$SystemNames as $name)
-        {
+        foreach (self::$SystemNames as $name) {
             $className = self::Prefix . $name;
-            if (!class_exists($className))
-            {
-                throw new Exception('Not exist class: ' . $className, 101);
+            if (!class_exists($className)) {
+                throw new MessageException('Not exist class: ' . $className);
             }
             /** @var $system \pay\components\systems\Base */
             $system = new $className($this->addition);
-            if ($system->check())
-            {
+            if ($system->check()) {
                 $this->system = $system;
                 return;
             }
         }
-        throw new Exception('Not find payment system for request', 102);
+        throw new MessageException('Not find payment system for request', 102);
     }
 
     public function parseSystemCallback()

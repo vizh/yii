@@ -1,6 +1,9 @@
 <?php
 namespace pay\components\systems;
 
+use pay\components\CodeException;
+use pay\components\Exception;
+
 abstract class Base
 {
     protected  $addition = null;
@@ -79,14 +82,12 @@ abstract class Base
     /** @var $order \pay\models\Order */
     $order = \pay\models\Order::model()->findByPk($this->getOrderId());
 
-    if (empty($order))
-    {
-      throw new \pay\components\Exception('Оплачен неизвестный заказ номер ' . $this->getOrderId(), 201);
+    if ($order === null) {
+        throw new CodeException(201, [$this->getOrderId()]);
     }
 
-    if ($order->Paid)
-    {
-      throw new \pay\components\Exception('Заказ номер ' . $order->Id . 'уже оплачен', 204);
+    if ($order->Paid) {
+        throw new CodeException(204, [$order->Id]);
     }
 
     $payResult = $order->activate();
@@ -99,7 +100,7 @@ abstract class Base
 
     if ($this->getTotal() !== null && $payResult['Total'] != $this->getTotal())
     {
-      throw new \pay\components\Exception('Сумма заказа и полученная через платежную систему не совпадают', 202);
+      throw new CodeException(202);
     }
 
     if ($this->getTotal() === null)
@@ -107,11 +108,10 @@ abstract class Base
       $this->total = $payResult['Total'];
     }
 
-    if (!empty($payResult['ErrorItems']))
-    {
-      $itemList = serialize($payResult['ErrorItems']);
-      throw new \pay\components\Exception('Один или несколько товаров имеют более ценный эквивалент среди уже приобретенных пользователем. Список id:' . $itemList, 203);
-    }
+      if (!empty($payResult['ErrorItems'])) {
+          $itemList = serialize($payResult['ErrorItems']);
+          throw new CodeException(203, [$itemList]);
+      }
   }
 
   /**

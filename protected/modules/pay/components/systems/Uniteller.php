@@ -1,6 +1,9 @@
 <?php
 namespace pay\components\systems;
 
+use pay\components\CodeException;
+use pay\components\Exception;
+
 class Uniteller extends Base
 {
   const Url = 'https://wpay.uniteller.ru/pay/';
@@ -69,7 +72,7 @@ class Uniteller extends Base
 
     if ($status != 'paid' && $status != 'authorized')
     {
-      throw new \pay\components\Exception('Не корректный статус платежа: ' . $status .'!', 221);
+      throw new CodeException(903, [$status]);
     }
 
     if ($hash === $request->getParam('Signature'))
@@ -79,7 +82,7 @@ class Uniteller extends Base
     }
     else
     {
-      throw new \pay\components\Exception('Ошибка при вычислении хеша! Hash='.$hash, 211);
+      throw new CodeException(901);
     }
   }
 

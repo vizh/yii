@@ -2,6 +2,7 @@
 namespace pay\components\managers;
 
 use pay\components\Exception;
+use pay\components\MessageException;
 use pay\models\OrderItem;
 use pay\models\Product;
 use user\models\User;
@@ -39,30 +40,23 @@ abstract class BaseProductManager
 
     public function __set($name, $value)
     {
-        if ($this->product->getIsNewRecord())
-        {
-            throw new \pay\components\Exception('Продукт еще не сохранен.');
+        if ($this->product->getIsNewRecord()) {
+            throw new MessageException('Продукт еще не сохранен.');
         }
-        if (in_array($name, $this->getProductAttributeNames()))
-        {
+        if (in_array($name, $this->getProductAttributeNames())) {
             $attributes = $this->product->getProductAttributes();
-            if (!isset($attributes[$name]))
-            {
+            if (!isset($attributes[$name])) {
                 $attribute = new \pay\models\ProductAttribute();
                 $attribute->ProductId = $this->product->Id;
                 $attribute->Name = $name;
                 $this->product->setProductAttribute($attribute);
-            }
-            else
-            {
+            } else {
                 $attribute = $attributes[$name];
             }
             $attribute->Value = $value;
             $attribute->save();
-        }
-        else
-        {
-            throw new \pay\components\Exception('Данный продукт не содержит аттрибута с именем ' . $name);
+        } else {
+            throw new MessageException('Данный продукт не содержит аттрибута с именем ' . $name);
         }
     }
 
@@ -143,12 +137,12 @@ abstract class BaseProductManager
      *
      * @return bool
      */
-    final public function buyProduct($user, $orderItem = null, $params = array())
+    final public function buy($user, $orderItem = null, $params = array())
     {
         if (!$this->checkProduct($user, $params)) {
             return false;
         }
-        $result = $this->internalBuyProduct($user, $orderItem, $params);
+        $result = $this->internalBuy($user, $orderItem, $params);
         if ($result) {
             $this->buyLinkProducts($user, $orderItem);
         }
@@ -161,7 +155,7 @@ abstract class BaseProductManager
      */
     private function buyLinkProducts($user, $parentOrderItem)
     {
-        if (isset($this->LinkProducts) && $parentOrderItem->getItemAttribute('SelectedLinkProducts') !== null) {
+        if (isset($this->LinkProducts) && !$parentOrderItem->getIsNewRecord() && $parentOrderItem->getItemAttribute('SelectedLinkProducts') !== null) {
             $productIdList = explode(',',$this->LinkProducts);
             $selectedProductIdList = explode(',', $parentOrderItem->getItemAttribute('SelectedLinkProducts'));
             foreach (array_intersect($selectedProductIdList, $productIdList) as $productId) {
@@ -186,15 +180,24 @@ abstract class BaseProductManager
      *
      * @return bool
      */
-    abstract protected function internalBuyProduct($user, $orderItem = null, $params = array());
+    abstract protected function internalBuy($user, $orderItem = null, $params = array());
 
     /**
-     * Отменяет покупку продукта на пользовтеля
-     * @abstract
-     * @param \user\models\User $user
+     * @param OrderItem $orderItem
      * @return bool
      */
-    abstract public function rollbackProduct($user);
+    public function rollback(OrderItem $orderItem)
+    {
+        return $this->internalRollback($orderItem);
+    }
+
+    /**
+     * Отменяет покупку по соответствующему заказу
+     * @abstract
+     * @param OrderItem $orderItem
+     * @return bool
+     */
+    abstract protected function internalRollback(OrderItem $orderItem);
 
     /**
      * @param \user\models\User $fromUser
@@ -234,9 +237,8 @@ abstract class BaseProductManager
      */
     public function createOrderItem(\user\models\User $payer, \user\models\User $owner, $bookTime = null, $attributes = array())
     {
-        if (!$this->checkProduct($owner))
-        {
-            throw new \pay\components\Exception($this->getCheckProductMessage($owner), 700);
+        if (!$this->checkProduct($owner)) {
+            throw new MessageException($this->getCheckProductMessage($owner), MessageException::ORDER_ITEM_GROUP_CODE);
         }
 
         if ($this->isUniqueOrderItem) {
@@ -244,16 +246,15 @@ abstract class BaseProductManager
                 ->byPayerId($payer->Id)->byOwnerId($owner->Id)
                 ->byDeleted(false)->byPaid(false)->find();
             if ($orderItem !== null) {
-                throw new \pay\components\Exception('Вы уже заказали этот товар', 701);
+                throw new MessageException('Вы уже заказали этот товар', MessageException::ORDER_ITEM_GROUP_CODE);
             }
         }
 
 
         foreach ($this->getRequiredOrderItemAttributeNames() as $key)
         {
-            if (!isset($attributes[$key]))
-            {
-                throw new \pay\components\Exception('Не задан обязательный параметр ' . $key . ' при добавлении заказа.');
+            if (!isset($attributes[$key])) {
+                throw new MessageException('Не задан обязательный параметр ' . $key . ' при добавлении заказа.', MessageException::ORDER_ITEM_GROUP_CODE);
             }
         }
 
@@ -313,7 +314,7 @@ abstract class BaseProductManager
                 return $price->Price;
             }
         }
-        throw new \pay\components\Exception('Не удалось определить цену продукта!');
+        throw new MessageException('Не удалось определить цену продукта!');
     }
 
     /**

@@ -2,6 +2,8 @@
 namespace pay\components\managers;
 
 
+use pay\models\OrderItem;
+
 class FoodProductManager extends BaseProductManager
 {
 
@@ -24,7 +26,7 @@ class FoodProductManager extends BaseProductManager
    *
    * @return bool
    */
-  protected function internalBuyProduct($user, $orderItem = null, $params = array())
+  protected function internalBuy($user, $orderItem = null, $params = array())
   {
     return true;
   }
@@ -48,15 +50,13 @@ class FoodProductManager extends BaseProductManager
     return $this->product;
   }
 
-  /**
-   * Отменяет покупку продукта на пользовтеля
-   * @param \user\models\User $user
-   * @return bool
-   */
-  public function rollbackProduct($user)
-  {
-    return true;
-  }
+    /**
+     * @inheritdoc
+     */
+    protected function internalRollback(OrderItem $orderItem)
+    {
+
+    }
 
   /**
    *

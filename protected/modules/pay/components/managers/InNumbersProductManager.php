@@ -1,6 +1,8 @@
 <?php
 namespace pay\components\managers;
 
+use pay\models\OrderItem;
+
 class InNumbersProductManager extends BaseProductManager
 {
   const CallbackUrl = 'http://www.in-numbers.ru/subscribe/callback.php';
@@ -25,7 +27,7 @@ class InNumbersProductManager extends BaseProductManager
    *
    * @return bool
    */
-  public function internalBuyProduct($user, $orderItem = null, $params = array())
+  public function internalBuy($user, $orderItem = null, $params = array())
   {
 
     $external = array();
@@ -73,15 +75,13 @@ class InNumbersProductManager extends BaseProductManager
     return $this->product;
   }
 
-  /**
-   * Отменяет покупку продукта на пользовтеля
-   * @param \user\models\User $user
-   * @return bool
-   */
-  public function rollbackProduct($user)
-  {
-    return false;
-  }
+    /**
+     * @inheritdoc
+     */
+    protected function internalRollback(OrderItem $orderItem)
+    {
+
+    }
 
   /**
    *

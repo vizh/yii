@@ -1,6 +1,9 @@
 <?php
 namespace pay\components\systems;
 
+use pay\components\CodeException;
+use pay\components\Exception;
+
 class PayOnline extends Base
 {
   const Url = 'https://secure.payonlinesystem.com/ru/payment/select/';
@@ -69,9 +72,8 @@ class PayOnline extends Base
       $this->orderId = $orderId;
       $this->total = intval($request->getParam('Amount'));
     }
-    else
-    {
-      throw new \pay\components\Exception('Ошибка при вычислении хеша!', 211);
+    else {
+        throw new CodeException(901);
     }
   }
 

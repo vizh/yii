@@ -1,6 +1,9 @@
 <?php
 namespace pay\models;
 use mail\components\mailers\MandrillMailer;
+use pay\components\CodeException;
+use pay\components\Exception;
+use pay\components\MessageException;
 
 /**
  * @property int $Id
@@ -285,16 +288,14 @@ class Order extends \CActiveRecord
   public function create($user, $event, $type, $data = [])
   {
     $account = \pay\models\Account::model()->byEventId($event->Id)->find();
-    if ($account == null)
-    {
-      throw new \pay\components\Exception(sprintf('Для мероприятия %s,%s,%s не определен платежный аккаунт', $event->Id, $event->IdName, $event->Title));
+    if ($account == null) {
+        throw new CodeException(CodeException::NO_PAY_ACCOUNT, [$event->Id, $event->IdName, $event->Title]);
     }
 
     $finder = \pay\components\collection\Finder::create($event->Id, $user->Id);
     $collection = $finder->getUnpaidFreeCollection();
-    if ($collection->count() == 0)
-    {
-      throw new \pay\components\Exception('У вас нет не оплаченных товаров, для выставления счета.');
+    if ($collection->count() == 0) {
+      throw new MessageException('У вас нет не оплаченных товаров, для выставления счета.');
     }
 
     \partner\models\PartnerCallback::tryPay($event, $user);
