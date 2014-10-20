@@ -15,24 +15,27 @@ class ExportController extends \application\components\controllers\AdminMainCont
         if ($this->test === null)
             throw new CHttpException(404);
 
-        if (Yii::app()->getRequest()->getIsPostRequest()) {
+        $request = Yii::app()->getRequest();
+
+        if ($request->getIsPostRequest()) {
             ini_set("memory_limit", "512M");
+
+            $type = $request->getParam('type', 'all');
 
             $phpExcel = new PHPExcel();
             $phpExcel->setActiveSheetIndex(0);
 
             $this->fillProperties($phpExcel);
             $this->fillTitles($phpExcel);
-            $this->fillResults($phpExcel);
+            $this->fillResults($phpExcel, $type);
 
 
             $objWriter = new PHPExcel_Writer_Excel2007($phpExcel);
-            $path = Yii::getPathOfAlias('competence.data') . '/result'.$this->test->Id.'.xlsx';
+            $path = Yii::getPathOfAlias('competence.data') . sprintf('/%s-%s-%s.xlsx', $this->test->Code, $type, date('YmdHis'));
             $objWriter->save($path);
 
-            echo 'Done<br>';
-            echo 'Saved to: ' . $path;
-            exit;
+            Yii::app()->user->setFlash('success', $path);
+            $this->refresh();
         }
 
         $countFinished = \competence\models\Result::model()->byTestId($this->test->Id)->count('"Finished"');
@@ -58,14 +61,22 @@ class ExportController extends \application\components\controllers\AdminMainCont
         return $this->questions;
     }
 
-    private $results = null;
-
-    private function getResults()
+    /**
+     * @param string $type
+     * @return Result
+     */
+    private function getResults($type)
     {
-        if ($this->results === null) {
-            $this->results = Result::model()->byTestId($this->test->Id)->byFinished(true)->findAll();
+        $model = Result::model()->byTestId($this->test->Id);
+        switch ($type) {
+            case 'finished':
+                $model->byFinished(true);
+                break;
+            case 'unfinished':
+                $model->byFinished(false);
+                break;
         }
-        return $this->results;
+        return $model->findAll();
     }
 
     private function fillProperties(PHPExcel $phpExcel)
@@ -91,10 +102,11 @@ class ExportController extends \application\components\controllers\AdminMainCont
         }
     }
 
-    private function fillResults(PHPExcel $phpExcel)
+    private function fillResults(PHPExcel $phpExcel, $type)
     {
+        $results = $this->getResults($type);
         $row = 4;
-        foreach ($this->getResults() as $result) {
+        foreach ($results as $result) {
             $col = 0;
             foreach ($this->getQuestions() as $question) {
                 $data = $question->getForm()->getExportData($result);
