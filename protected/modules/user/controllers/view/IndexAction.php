@@ -1,6 +1,8 @@
 <?php
 namespace user\controllers\view;
 
+use event\models\section\LinkUser;
+
 class IndexAction extends \CAction
 {
   /** @var \user\models\User */
@@ -56,12 +58,10 @@ class IndexAction extends \CAction
   private function getParticipation()
   {
     $criteria = new \CDbCriteria();
-    $criteria->addCondition('"t"."UserId" = :UserId');
-    $criteria->params = ['UserId'  => $this->user->Id];
     $criteria->with = ['Section', 'Report', 'Role'];
     $criteria->order = '"Role"."Priority" DESC';
 
-    $linkUsers = \event\models\section\LinkUser::model()->findAll($criteria);
+    $linkUsers = LinkUser::model()->byUserId($this->user->Id)->byDeleted(false)->findAll($criteria);
 
     $collection = new ParticipantCollection($this->user);
     foreach ($this->user->Participants as $participant)

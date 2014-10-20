@@ -1,6 +1,8 @@
 <?php
 namespace partner\controllers\program;
 
+use event\models\section\LinkUser;
+
 class ParticipantsAction extends \partner\components\Action
 {
     public function run($sectionId)
@@ -22,8 +24,7 @@ class ParticipantsAction extends \partner\components\Action
         $form->attributes = $request->getParam(get_class($form));
         if ($request->getIsPostRequest() && $form->validate()) {
             if (!empty($form->Id)) {
-                $linkUser = \event\models\section\LinkUser::model()
-                    ->bySectionId($section->Id)->findByPk($form->Id);
+                $linkUser = LinkUser::model()->bySectionId($section->Id)->findByPk($form->Id);
                 if ($linkUser == null) {
                     $form->addError('Id', \Yii::t('app', 'Не найдена секция'));
                 }
@@ -36,8 +37,10 @@ class ParticipantsAction extends \partner\components\Action
 
             if (!$form->hasErrors()) {
                 if ($form->Delete == 1) {
-                    $linkUser->delete();
-                    if ($form->user !== null && \event\models\section\LinkUser::model()->byEventId($event->Id)->byUserId($form->user->Id)->exists() == false) {
+                    $linkUser->Deleted = true;
+                    $linkUser->save();
+
+                    if ($form->user !== null && !LinkUser::model()->byEventId($event->Id)->byUserId($form->user->Id)->byDeleted(false)->exists()) {
                         if (!empty($event->Parts)) {
                             $event->unregisterUserOnAllParts($form->user);
                         } else {

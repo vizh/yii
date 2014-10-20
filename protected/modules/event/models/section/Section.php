@@ -52,8 +52,8 @@ class Section extends \application\models\translation\ActiveRecord
         return array(
             'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
             'Attributes' => [self::HAS_MANY, '\event\models\section\Attribute', 'SectionId'],
-            'LinkUsers' => [self::HAS_MANY, '\event\models\section\LinkUser', 'SectionId', 'order' => '"LinkUsers"."Order" ASC'],
-            'LinkHalls' => [self::HAS_MANY, '\event\models\section\LinkHall', 'SectionId', 'with' => array('Hall'), 'order' => '"Hall"."Order" ASC'],
+            'LinkUsers' => [self::HAS_MANY, '\event\models\section\LinkUser', 'SectionId', 'on' => 'NOT "LinkUsers"."Deleted"', 'order' => '"LinkUsers"."Order" ASC'],
+            'LinkHalls' => [self::HAS_MANY, '\event\models\section\LinkHall', 'SectionId', 'with' => ['Hall'], 'order' => '"Hall"."Order" ASC'],
             'LinkTheme' => [self::HAS_ONE, '\event\models\section\LinkTheme', 'SectionId'],
             'Type' => [self::BELONGS_TO, '\event\models\section\Type', 'TypeId'],
             'Favorites' => [self::HAS_MANY, '\event\models\section\Favorite', 'SectionId']

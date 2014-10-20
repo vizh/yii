@@ -517,17 +517,12 @@ class Builder
         $this->report = new \stdClass();
 
         $this->report->Id = $link->Id;
-        if (!empty($link->User))
-        {
+        if (!empty($link->User)) {
             $this->createUser($link->User);
             $this->report->User = $this->buildUserEmployment($link->User);
-        }
-        elseif (!empty($link->Company))
-        {
+        } elseif (!empty($link->Company)) {
             $this->report->Company = $this->createCompany($link->Company);
-        }
-        else
-        {
+        } else {
             $this->report->CustomText = $link->CustomText;
         }
 
@@ -535,8 +530,7 @@ class Builder
         $this->report->SectionRoleName = $link->Role->Title;//todo: deprecated
         $this->report->SectionRoleTitle = $link->Role->Title;
         $this->report->Order = $link->Order;
-        if (! empty($link->Report))
-        {
+        if (! empty($link->Report)) {
             $this->report->Header = $link->Report->Title;//todo: deprecated
             $this->report->Title = $link->Report->Title;
             $this->report->Thesis = $link->Report->Thesis;
@@ -545,6 +539,8 @@ class Builder
             $this->report->Url = $link->Report->Url;
         }
         $this->report->VideoUrl = $link->VideoUrl;
+        $this->report->UpdateTime = $link->UpdateTime;
+        $this->report->Deleted = $link->Deleted;
 
         return $this->report;
     }
