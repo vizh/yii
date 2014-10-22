@@ -13,7 +13,7 @@ return array(
     'allow',
     'roles' => ['admin'],
     'module' => 'pay',
-    'controllers' => ['admin/account', 'admin/oneuse', 'admin/orderjuridicaltemplate', 'internal']
+    'controllers' => ['admin/account', 'admin/oneuse', 'admin/orderjuridicaltemplate', 'internal', 'admin/coupon']
   ),
     
   array(
