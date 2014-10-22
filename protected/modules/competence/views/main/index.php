@@ -22,3 +22,5 @@
     <?endif;?>
   </div>
 </div>
+
+<p class="muted text-center"><small>Можно выбрать не более 5 вариантов</small></p>

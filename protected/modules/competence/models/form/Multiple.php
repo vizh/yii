@@ -21,7 +21,7 @@ class Multiple extends \competence\models\form\Base
   public function rules()
   {
     return [
-      ['value', 'required', 'message' => 'Выберите один ответ из списка'],
+      ['value', 'required', 'message' => 'Необходимо выбрать хотя бы один ответ из списка'],
       ['other', 'checkOtherValidator'],
     ];
   }
