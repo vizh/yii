@@ -46,7 +46,7 @@ var RIdWidget = new function () {
 };
 
 window.onload = function () {
-  var widgets = document.getElementsByClassName('rid-widget');
+    var widgets = document.querySelectorAll('.rid-widget');
   for (var i = 0; i < widgets.length; i++){
     var widget = widgets[i];
     new RIdWidget(widget);

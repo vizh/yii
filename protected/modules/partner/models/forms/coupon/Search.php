@@ -63,7 +63,8 @@ class Search extends \CFormModel
 
     if ((int)$this->Product !== 0)
     {
-      $criteria->addCondition('"t"."ProductId" = :ProductId');
+        $criteria->with['ProductLinks'] = ['together' => true, 'select' => false];
+      $criteria->addCondition('"ProductLinks"."ProductId" = :ProductId');
       $criteria->params['ProductId'] = $this->Product;
     }
 
