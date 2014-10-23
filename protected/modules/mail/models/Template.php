@@ -28,7 +28,7 @@ namespace mail\models;
  */
 class Template extends \CActiveRecord
 {
-  const UsersPerSend = 50;
+  const UsersPerSend = 200;
 
   private $testMode  = false;
   private $testUsers = [];
