@@ -1,0 +1,45 @@
+#widget-speaker .alphabet {
+  margin-bottom: 5px;
+}
+#widget-speaker .alphabet a {
+  display: inline-block;
+  margin-right: 10px;
+  text-decoration: underline;
+}
+#widget-speaker .alphabet a:hover {
+  text-decoration: none;
+}
+#widget-speaker .alphabet a.active {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+}
+#widget-speaker ul.users {
+  margin-left: 0;
+  list-style: outside none none;
+}
+#widget-speaker ul.users>li {
+  width: 33.33333%;
+  margin: 0 0 30px 0;
+  display: block;
+  float: left;
+}
+#widget-speaker figure.user-profile {
+  margin: 0;
+  position: relative;
+}
+#widget-speaker figure.user-profile > figcaption {
+  left: 120px;
+  position: absolute;
+  top: 30%;
+  padding-right: 10px;
+}
+#widget-speaker figure.user-profile > figcaption h5 {
+  font-size: 15px;
+  margin: 0 0 5px 0;
+  line-height: 18px;
+}
+#widget-speaker figure.user-profile > figcaption p {
+  color: #616266;
+  line-height: 15px;
+}

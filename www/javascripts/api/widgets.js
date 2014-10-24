@@ -35,7 +35,7 @@ var RIdWidget = new function () {
     for (var i = 0; i < this.container.attributes.length; i++) {
       var attr = this.container.attributes.item(i);
       if (attr.nodeName.indexOf('data-param-') != -1) {
-        url += '&'+attr.nodeName.substr(5)+'='+attr.nodeValue;
+        url += '&'+attr.nodeName.substr(5)+'='+encodeURIComponent(attr.nodeValue);
       }
     }
 

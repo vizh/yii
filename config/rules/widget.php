@@ -11,6 +11,6 @@ return [
     'allow',
     'users' => ['*'],
     'module' => 'widget',
-    'controllers' => ['pay','link', 'test']
+    'controllers' => ['pay','link', 'speaker', 'test']
   ]
 ];

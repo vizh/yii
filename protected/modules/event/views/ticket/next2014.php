@@ -176,7 +176,8 @@
               <tr>
                 <td style="padding-top: 10px;">
                   <b><?=$event->getContactAddress()->Place;?></b><br>
-                  <?=$event->getContactAddress()->getShort();?>
+                  <?=$event->getContactAddress()->getShort();?><br/>
+                  Вход в DI Telegraph со стороны Газетного переулка.
                 </td>
               </tr>
               <tr>

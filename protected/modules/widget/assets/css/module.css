@@ -20,3 +20,8 @@
 #widget-pay .dropdown-menu a{
   white-space: normal;
 }
+
+.pagination {
+  height: auto;
+  margin-bottom: 0;
+}
