@@ -27,6 +27,7 @@
 #widget-speaker figure.user-profile {
   margin: 0;
   position: relative;
+  height: 90px;
 }
 #widget-speaker figure.user-profile > figcaption {
   left: 120px;
