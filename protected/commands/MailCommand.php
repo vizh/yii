@@ -14,7 +14,7 @@ class MailCommand extends \application\components\console\BaseConsoleCommand
     while(true)
     {
       $template->send();
-      if (time() - $startTime >= 40 || $template->Success)
+      if (time() - $startTime >= 180 || $template->Success)
         return 0;
     }
   }

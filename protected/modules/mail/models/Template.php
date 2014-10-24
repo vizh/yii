@@ -85,26 +85,33 @@ class Template extends \CActiveRecord
     }
   }
 
-  /**
-   * @return \user\models\User[]
-   */
-  public function getUsers()
-  {
-    $criteria = $this->getCriteria();
-    $criteria->limit = $this->SendPassbook ? 1 : self::UsersPerSend;
-    $users = \user\models\User::model()->findAll($criteria);
-    if (empty($users))
+    /**
+     * @throws \Exception
+     * @return \user\models\User[]
+     */
+    public function getUsers()
     {
-      $this->Success = true;
-      $this->SuccessTime = date('Y-m-d H:i:s');
+        $transaction = \Yii::app()->getDb()->beginTransaction();
+        try {
+            \Yii::app()->getDb()->createCommand('LOCK TABLE "MailTemplate" IN ACCESS EXCLUSIVE MODE;')->execute();
+            $this->refresh();
+            $criteria = $this->getCriteria();
+            $criteria->limit = $this->SendPassbook ? 1 : self::UsersPerSend;
+            $users = \user\models\User::model()->findAll($criteria);
+            if (empty($users)) {
+                $this->Success = true;
+                $this->SuccessTime = date('Y-m-d H:i:s');
+            } else {
+                $this->LastUserId = $users[sizeof($users)-1]->Id;
+            }
+            $this->save();
+            $transaction->commit();
+            return $users;
+        } catch (\Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
     }
-    else
-    {
-      $this->LastUserId = $users[sizeof($users)-1]->Id;
-    }
-    $this->save();
-    return $users;
-  }
 
   /**
    * @return \CDbCriteria
