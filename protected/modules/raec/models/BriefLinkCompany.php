@@ -40,4 +40,33 @@ class BriefLinkCompany extends \CActiveRecord
             'Company' => [self::BELONGS_TO, '\company\models\Company', 'Id']
         ];
     }
-} 
+
+
+    /**
+     * @param int $briefId
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byBriefId($briefId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."BriefId" = :BriefId';
+        $criteria->params = array(':BriefId' => $briefId);
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * @param int $companyId
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byCompanyId($companyId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."CompanyId" = :CompanyId';
+        $criteria->params = array(':CompanyId' => $companyId);
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+}

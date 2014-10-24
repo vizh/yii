@@ -70,4 +70,18 @@ class Brief extends \CActiveRecord
         }
         return round($count / sizeof($attributes) * 100);
     }
+
+    /**
+     * @param int $userId
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byUserId($userId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."UserId" = :UserId';
+        $criteria->params = array(':UserId' => $userId);
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
 } 

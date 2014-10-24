@@ -52,7 +52,7 @@ class BriefController extends PublicMainController
     public function actionAbout()
     {
         $form = new About();
-        $this->fillFormFromSession($form);
+        $this->fillForm($form);
 
         $request = \Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
@@ -70,7 +70,7 @@ class BriefController extends PublicMainController
     public function actionResume()
     {
         $form = new Resume();
-        $this->fillFormFromSession($form);
+        $this->fillForm($form);
         $request = \Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
             $form->attributes = $request->getParam(get_class($form));
@@ -85,7 +85,7 @@ class BriefController extends PublicMainController
     public function actionUsers()
     {
         $form = new Users();
-        $this->fillFormFromSession($form);
+        $this->fillForm($form);
         $request = \Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
             $form->attributes = $request->getParam(get_class($form));
@@ -100,66 +100,10 @@ class BriefController extends PublicMainController
 
     public function actionFinal()
     {
-        $forms = [
-            '\raec\models\forms\brief\About',
-            '\raec\models\forms\brief\Resume',
-            '\raec\models\forms\brief\Users'
-        ];
-        $data  = [];
-        foreach ($forms as $name) {
-            $form = new $name();
-            $this->fillFormFromSession($form);
-            if (!$form->validate())
-                throw new \CHttpException(500);
-
-            $data = array_merge($data, $form->getAttributes());
-        }
-
-        $brief = new Brief();
-        $brief->UserId = \Yii::app()->getUser()->getId();
-        $brief->Data = json_encode($data);
-        $brief->save();
-
-        if (!empty($data['CompanyLabel']) && empty($data['CompanyId'])) {
-            $company = Company::create($data['CompanyLabel']);
-        } else {
-            $company = Company::model()->findByPk($data['CompanyId']);
-        }
-        if ($company == null)
-            throw new \CHttpException(500);
-
-        $linkCompany = new BriefLinkCompany();
-        $linkCompany->CompanyId = $company->Id;
-        $linkCompany->BriefId = $brief->Id;
-        $linkCompany->Primary = true;
-        $linkCompany->save();
-
-        foreach ($data['CompanySynonyms'] as $value) {
-            if (!empty($value['Label']) && empty($value['Id'])) {
-                $company = Company::create($value['Label']);
-            } else {
-                $company = Company::model()->findByPk($value['Id']);
-            }
-            if ($company == null)
-                throw new \CHttpException(500);
-
-            $linkCompany = new BriefLinkCompany();
-            $linkCompany->CompanyId = $company->Id;
-            $linkCompany->BriefId = $brief->Id;
-            $linkCompany->save();
-        }
-
-        foreach ($data['Users'] as $value) {
-            $user = User::model()->byRunetId($value['RunetId'])->find();
-            $role = BriefUserRole::model()->findByPk($value['RoleId']);
-            if ($user == null || $role == null)
-                throw new \CHttpException(500);
-
-            $linkUser = new BriefLinkUser();
-            $linkUser->BriefId = $brief->Id;
-            $linkUser->UserId  = $user->Id;
-            $linkUser->RoleId  = $role->Id;
-            $linkUser->save();
+        if ($this->getExistBrief() == null) {
+            $brief = new Brief();
+            $brief->UserId = \Yii::app()->getUser()->getId();
+            $this->saveBrief($brief);
         }
         $this->clearSession();
         $this->render('final');
@@ -179,17 +123,29 @@ class BriefController extends PublicMainController
         $data = \Yii::app()->getSession()->get(self::DATA_SESSION_NAME, []);
         $data[get_class($form)] = $form->getAttributes();
         \Yii::app()->getSession()->add(self::DATA_SESSION_NAME, $data);
+        if ($this->getExistBrief() !== null) {
+            $this->saveBrief($this->getExistBrief());
+        }
     }
 
     /**
      * @param \CFormModel $form
      */
-    private function fillFormFromSession($form)
+    private function fillForm($form)
     {
         $data = \Yii::app()->getSession()->get(self::DATA_SESSION_NAME, []);
         $key  = get_class($form);
         if (array_key_exists($key, $data)) {
             $form->setAttributes($data[$key]);
+        } else {
+            $brief = $this->getExistBrief();
+            if ($brief !== null) {
+                foreach ($form->getAttributes() as $attr => $value) {
+                    if (empty($value) && isset($brief->getBriefData()->$attr)) {
+                        $form->$attr = $brief->getBriefData()->$attr;
+                    }
+                }
+            }
         }
     }
 
@@ -237,5 +193,110 @@ class BriefController extends PublicMainController
             }
         }
         throw new \CHttpException(500);
+    }
+
+    /**
+     * @param Brief $brief
+     * @throws CHttpException
+     */
+    private function saveBrief($brief)
+    {
+        $forms = [
+            '\raec\models\forms\brief\About',
+            '\raec\models\forms\brief\Resume',
+            '\raec\models\forms\brief\Users'
+        ];
+        $data  = [];
+        foreach ($forms as $name) {
+            $form = new $name();
+            $this->fillForm($form);
+            if (!$form->validate())
+                throw new \CHttpException(500);
+
+            foreach ($form->getAttributes() as $attr => $value) {
+                try {
+                    $brief->getBriefData()->$attr = $value;
+                } catch(Exception $e) {};
+            }
+        }
+        $brief->save();
+
+        BriefLinkCompany::model()->deleteAll('"BriefId" = :BriefId', ['BriefId' => $brief->Id]);
+        $this->saveCompany($brief, $brief->getBriefData()->CompanyLabel, $brief->getBriefData()->CompanyId, true);
+        foreach ($brief->getBriefData()->CompanySynonyms as $value) {
+            $this->saveCompany($brief, $value['Label'], $value['Id']);
+        }
+
+        BriefLinkUser::model()->deleteAll('"BriefId" = :BriefId', ['BriefId' => $brief->Id]);
+        foreach ($brief->getBriefData()->Users as $value) {
+            $this->saveUser($brief, $value);
+        }
+    }
+
+    /**
+     * @param Brief $brief
+     * @param string $companyLabel
+     * @param int $companyId
+     * @param bool $primary
+     * @return BriefLinkCompany
+     * @throws CHttpException
+     * @throws \application\components\Exception
+     */
+    private function saveCompany($brief, $companyLabel, $companyId = null, $primary = false)
+    {
+        if (!empty($companyLabel) && empty($companyId)) {
+            $company = Company::create($companyLabel);
+        } else {
+            $company = Company::model()->findByPk($companyId);
+        }
+        if ($company == null)
+            throw new \CHttpException(500);
+
+        $link = BriefLinkCompany::model()->byBriefId($brief->Id)->byCompanyId($company->Id)->find();
+        if ($link == null) {
+            $link = new BriefLinkCompany();
+            $link->CompanyId = $company->Id;
+            $link->BriefId = $brief->Id;
+            $link->Primary = $primary;
+            $link->save();
+        }
+        return $link;
+    }
+
+    /**
+     * @param Brief $brief
+     * @param $value
+     * @return CActiveRecord|BriefLinkUser
+     * @throws CHttpException
+     */
+    private function saveUser($brief, $value)
+    {
+        $user = User::model()->byRunetId($value['RunetId'])->find();
+        $role = BriefUserRole::model()->findByPk($value['RoleId']);
+        if ($user == null || $role == null)
+            throw new \CHttpException(500);
+
+        $link = BriefLinkUser::model()->byBriefId($brief->Id)->byUserId($user->Id)->byRoleId($role->Id)->find();
+        if ($link == null) {
+            $link = new BriefLinkUser();
+            $link->BriefId = $brief->Id;
+            $link->UserId  = $user->Id;
+            $link->RoleId  = $role->Id;
+            $link->save();
+        }
+        return $link;
+    }
+
+    private $existBrief = null;
+
+    /**
+     * @return Brief
+     */
+    private function getExistBrief()
+    {
+        if ($this->existBrief == null) {
+            $this->existBrief = Brief::model()->byUserId(\Yii::app()->getUser()->getId())->find();
+        }
+        return $this->existBrief;
     }
 }

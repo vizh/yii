@@ -49,4 +49,46 @@ class BriefLinkUser extends \CActiveRecord
             'Role' => [self::BELONGS_TO, '\raec\models\BriefUserRole', 'Id']
         ];
     }
+
+    /**
+     * @param int $briefId
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byBriefId($briefId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."BriefId" = :BriefId';
+        $criteria->params = array(':BriefId' => $briefId);
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * @param int $userId
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byUserId($userId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."UserId" = :UserId';
+        $criteria->params = array(':UserId' => $userId);
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * @param int $roleId
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byRoleId($roleId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."RoleId" = :RoleId';
+        $criteria->params = array(':RoleId' => $roleId);
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
 } 

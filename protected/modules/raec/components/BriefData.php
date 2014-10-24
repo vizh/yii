@@ -45,6 +45,7 @@ class BriefData extends \CFormModel{
     protected function attributeDefinitions()
     {
         return [
+            'CompanyId',
             ['CompanyLabel', 'Definition', 0, 'title' => \Yii::t('app', 'Компания')],
             ['CompanySynonyms', 'ModelListDefinition', 0, 'title' => \Yii::t('app', 'Дочерние компании'), 'className' => '\company\models\Company',
                 'attributeName' => function (\CActiveRecord $model, $data) {
@@ -92,7 +93,8 @@ class BriefData extends \CFormModel{
                'valueAttributeName' => function (User $user) {
                     return \CHtml::link($user->getFullName(), $user->getUrl(), ['target' => '_blank']) . ' ('.$user->RunetId.')';
                }
-            ]
+            ],
+            'Label'
         ];
     }
 }
