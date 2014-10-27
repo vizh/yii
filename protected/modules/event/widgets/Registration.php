@@ -12,7 +12,7 @@ class Registration extends \event\components\Widget
 {
   public function getAttributeNames()
   {
-    return ['RegistrationAfterInfo', 'RegistrationBeforeInfo'];
+    return ['RegistrationAfterInfo', 'RegistrationBeforeInfo', 'RegistrationTitle', 'RegistrationBuyLabel'];
   }
 
 

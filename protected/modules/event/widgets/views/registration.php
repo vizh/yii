@@ -26,7 +26,7 @@ $paidEvent = false;
 
     <h5 class="title"><?=Yii::t('app', 'Регистрация других участников');?></h5>
   <?else:?>
-    <h5 class="title"><?=Yii::t('app', 'Регистрация');?></h5>
+    <h5 class="title"><?=isset($this->RegistrationTitle) ? $this->RegistrationTitle : \Yii::t('app', 'Регистрация');?></h5>
 
       <?if (isset($this->RegistrationBeforeInfo)):?>
         <?=$this->RegistrationBeforeInfo;?>
@@ -128,11 +128,15 @@ $paidEvent = false;
           <a style="margin-top: -2px; display: inline-block;" href="http://money.yandex.ru" target="_blank"><img src="http://money.yandex.ru/img/yamoney_logo88x31.gif " alt="Я принимаю Яндекс.Деньги" title="Я принимаю Яндекс.Деньги" border="0" /></a>
       <?endif;?>
     <button type="submit" class="btn btn-info pull-right">
-      <?if ($participant !== null && $participant->RoleId != 24):?>
-        <?=Yii::t('app', $paidEvent ? 'Оплатить (за себя или коллег)' : 'Зарегистрировать коллег');?>
-      <?else:?>
-        <?=Yii::t('app', 'Зарегистрироваться');?>
-      <?endif;?>
+        <?if (isset($this->RegistrationBuyLabel)):?>
+            <?=$this->RegistrationBuyLabel;?>
+        <?else:?>
+          <?if ($participant !== null && $participant->RoleId != 24):?>
+            <?=Yii::t('app', $paidEvent ? 'Оплатить (за себя или коллег)' : 'Зарегистрировать коллег');?>
+          <?else:?>
+            <?=Yii::t('app', 'Зарегистрироваться');?>
+          <?endif;?>
+        <?endif;?>
     </button>
   </div>
 </form>
