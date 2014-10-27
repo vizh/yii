@@ -141,7 +141,7 @@ class DetailedRegistration extends \event\components\Widget
                 $user->Settings->save();
             }
 
-            if (isset($this->RegisterUnvisibleUser) && !$this->RegisterUnvisibleUser) {
+            if (isset($this->RegisterUnvisibleUser) && $this->RegisterUnvisibleUser) {
                 $user->Visible = false;
             }
         }

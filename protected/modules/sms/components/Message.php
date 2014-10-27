@@ -22,12 +22,12 @@ abstract class Message
     abstract public function getTo();
 
     /**
-     *
+     * @return bool
      */
     public final function send()
     {
         if ($this->getMessage() !== null && $this->getTo() !== null) {
-            $this->gate->send($this);
+            return $this->gate->send($this);
         }
     }
 } 
