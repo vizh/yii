@@ -26,6 +26,7 @@ class ReportsAction extends \api\components\Action
             'Role',
             'Report'
         ];
+        $criteria->order = '"t"."Order" ASC';
 
         $model = LinkUser::model()->bySectionId($section->Id);
         if ($fromUpdateTime !== null) {
@@ -34,7 +35,7 @@ class ReportsAction extends \api\components\Action
         if (!$withDeleted) {
             $model->byDeleted(false);
         }
-        $linkUsers = $model->findAll();
+        $linkUsers = $model->findAll($criteria);
 
         $result = [];
         foreach ($linkUsers as $link) {
