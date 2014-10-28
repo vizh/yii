@@ -109,6 +109,7 @@ class EventListParts extends BaseProductManager
         {
             $this->product->Event->registerUserOnPart($part, $user, $this->role);
         }
+        return true;
     }
 
     /**

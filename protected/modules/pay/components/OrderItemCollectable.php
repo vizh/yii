@@ -57,7 +57,11 @@ class OrderItemCollectable
         $loyaltyDiscount = $this->orderItem->getLoyaltyDiscount();
         if ($loyaltyDiscount && $loyaltyDiscount->Discount > $this->discount)
         {
-          $this->discount = $loyaltyDiscount->Discount;
+            if ($this->orderItem->Product->EventId == 889) {
+                $this->discount = date('Y-m-d') >= '2014-11-01' ? 0.50 : 0.428571;//42857143
+            } else {
+                $this->discount = $loyaltyDiscount->Discount;
+            }
         }
 
         if ($this->collection->getDiscount() > $this->discount)
