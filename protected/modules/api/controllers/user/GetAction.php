@@ -1,6 +1,8 @@
 <?php
 namespace api\controllers\user;
 
+use user\models\User;
+
 class GetAction extends \api\components\Action
 {
   public function run()
@@ -28,9 +30,9 @@ class GetAction extends \api\components\Action
       $this->getDataBuilder()->buildUserEmployment($user);
       $this->getDataBuilder()->buildUserEvent($user);
       $userData = $this->getDataBuilder()->buildUserBadge($user);
-      $permissionModel = \oauth\models\Permission::model()
-          ->byUserId($user->Id)->byAccountId($this->getAccount()->Id)->byDeleted(false);
-      if (isset($userData->Status) || $permissionModel->exists() || $this->getAccount()->Role == 'own')
+
+
+      if ($this->hasContactsPermission($user, $userData))
       {
         $userData = $this->getDataBuilder()->buildUserContacts($user);
       }
@@ -41,4 +43,18 @@ class GetAction extends \api\components\Action
       throw new \api\components\Exception(202, array($runetId));
     }
   }
+
+    private function hasContactsPermission(User $user, $userData)
+    {
+        switch ($this->getAccount()->Role) {
+            case 'own':
+                return true;
+            case 'mobile':
+                return false;
+            default:
+                $permissionModel = \oauth\models\Permission::model()->byUserId($user->Id)
+                    ->byAccountId($this->getAccount()->Id)->byDeleted(false);
+                return isset($userData->Status) || $permissionModel->exists();
+        }
+    }
 }

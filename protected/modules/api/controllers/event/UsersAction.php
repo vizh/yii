@@ -50,7 +50,9 @@ class UsersAction extends \api\components\Action
     foreach ($users as $user)
     {
       $this->getAccount()->getDataBuilder()->createUser($user);
-      $this->getAccount()->getDataBuilder()->buildUserContacts($user);
+        if ($this->getAccount()->Role != 'mobile') {
+            $this->getAccount()->getDataBuilder()->buildUserContacts($user);
+        }
       $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
       $result['Users'][] = $this->getAccount()->getDataBuilder()->buildUserEvent($user);
     }

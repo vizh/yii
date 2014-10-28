@@ -56,7 +56,9 @@ class CreateAction extends \api\components\Action
     $this->setCity($user);
 
     $this->getAccount()->getDataBuilder()->createUser($user);
-    $this->getAccount()->getDataBuilder()->buildUserContacts($user);
+      if ($this->getAccount()->Role != 'mobile') {
+          $this->getAccount()->getDataBuilder()->buildUserContacts($user);
+      }
     $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
     $this->getController()->setResult($this->getAccount()->getDataBuilder()->buildUserEvent($user));
   }
