@@ -62,7 +62,7 @@ class MergeController extends \application\components\controllers\AdminMainContr
 
   private function merge(\company\models\Company $to, \company\models\Company $from)
   {
-    foreach ($from->EmploymentsAll as $employment)
+    foreach ($from->EmploymentsAllWithInvisible as $employment)
     {
       $employment->CompanyId = $to->Id;
       $employment->save();

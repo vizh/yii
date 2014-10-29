@@ -17,6 +17,8 @@ return [
   'behaviors'=>[
     'templater'=>'\application\components\console\ConsoleApplicationTemplater',
   ],
+
+    'preload'=>['log'],
     
   // application components
   'components'=>[
@@ -24,7 +26,26 @@ return [
     'urlManager' => $mainAppConfig['components']['urlManager'],
     'image' => $mainAppConfig['components']['image'],
     'clientScript' => $mainAppConfig['components']['clientScript'],
-    'widgetFactory' => ['class' => 'CWidgetFactory']
+    'widgetFactory' => ['class' => 'CWidgetFactory'],
+      'log'=>array(
+          'class'=>'CLogRouter',
+          'routes'=>array(
+              array(
+                  'class'=>'CFileLogRoute',
+                  'levels'=>'error, warning',
+                  'except' => 'exception.CHttpException.404'
+              ),
+              array(
+                  'class'=>'CEmailLogRoute',
+                  'levels'=>'error',
+                  'except' => ['exception.CHttpException.404','exception.api\components\Exception'],
+                  'emails' => 'nikitin@internetmediaholding.com',
+                  'subject' => 'RUNET-ID console Exception',
+                  'sentFrom' => 'yii@runet-id.com',
+                  'utf8' => true
+              ),
+          ),
+      ),
   ],
   'params' => $mainAppConfig['params'], 
   'modules' => $mainAppConfig['modules']
