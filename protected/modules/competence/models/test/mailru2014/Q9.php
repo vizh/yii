@@ -7,11 +7,19 @@ class Q9 extends \competence\models\form\Multiple
 {
     public function getPrev()
     {
-        $baseQuestion = Question::model()->byTestId($this->getQuestion()->TestId)->byCode('Q7')->find();
-        $baseQuestion->setTest($this->getQuestion()->Test);
-        $result = $baseQuestion->getResult();
+        $q7 = Question::model()->byTestId($this->getQuestion()->TestId)->byCode('Q7')->find();
+        $q7->setTest($this->getQuestion()->Test);
+        $result = $q7->getResult();
         if ($result['value'] == 1 || $result['value'] == 2) {
-            return Question::model()->byTestId($this->getQuestion()->TestId)->byCode('Q8_1')->find();
+            $q2_1 = Question::model()->byTestId($this->getQuestion()->TestId)->byCode('Q2_1')->find();
+            $q2_1->setTest($this->getQuestion()->Test);
+            $resultQ2_1 = $q2_1->getResult();
+
+            if (isset($resultQ2_1['value']) && $resultQ2_1['value'] == 1) {
+                return Question::model()->byTestId($this->getQuestion()->TestId)->byCode('Q8_1')->find();
+            } else {
+                return Question::model()->byTestId($this->getQuestion()->TestId)->byCode('Q7')->find();
+            }
         } else {
             return Question::model()->byTestId($this->getQuestion()->TestId)->byCode('Q8_2')->find();
         }
