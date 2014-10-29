@@ -45,6 +45,7 @@ class ListAction extends \api\components\Action
       $orderObj = new \stdClass();
       $orderObj->OrderId = $collection->getOrder()->Id;
       $orderObj->CreationTime = $collection->getOrder()->CreationTime;
+      $orderObj->Number = $collection->getOrder()->Number;
       $orderObj->Paid = $collection->getOrder()->Paid;
       $orderObj->Url = $collection->getOrder()->getUrl();
       $orderObj->Items = array();
