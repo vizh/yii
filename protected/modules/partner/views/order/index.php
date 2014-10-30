@@ -60,7 +60,8 @@
           <th>№ счета</th>
           <th class="span4">Краткие данные</th>
           <th class="span3">Выставил</th>
-          <th>Дата</th>
+          <th>Дата создания</th>
+            <th>Оплата</th>
           <th>Сумма</th>
           <th class="span2">Управление</th>
         </tr>
@@ -90,9 +91,11 @@
                   <p><em><?=urldecode($link->Phone);?></em></p>
               <?endforeach;?>
             </td>
-            <td><?=Yii::app()->locale->getDateFormatter()->format('d MMMM y', strtotime($order->CreationTime));?><br>
+              <td><?=Yii::app()->locale->getDateFormatter()->format('d MMMM y', strtotime($order->CreationTime));?></td>
+            <td>
               <?if ($order->Paid):?>
-                <span class="label label-success">ОПЛАЧЕН</span>
+                <span class="label label-success">ОПЛАЧЕН</span><br>
+                  <?=Yii::app()->locale->getDateFormatter()->format('d MMMM y', strtotime($order->PaidTime));?>
               <?else:?>
                 <span class="label label-important">НЕ ОПЛАЧЕН</span>
               <?endif;?>
