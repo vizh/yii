@@ -21,7 +21,7 @@ class Recovery extends \CFormModel
     public function attributeLabels()
     {
         return [
-            'EmailOrPhone' => \Yii::t('app', 'Электронная почта или номер телефона'),
+            'EmailOrPhone' => \Yii::t('app', 'Электронная почта'),
             'Captcha' => \Yii::t('app', 'Код проверки')
         ];
     }
