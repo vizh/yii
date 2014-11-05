@@ -1,5 +1,6 @@
 <?php
 namespace mail\models;
+use mail\components\mailers\PhpMailer;
 
 /**
  * Class Template
@@ -236,7 +237,7 @@ class Template extends \CActiveRecord
   {
     if ($this->mailer == null)
     {
-      $this->mailer = new \mail\components\mailers\MandrillMailer();
+        $this->mailer = new \mail\components\mailers\MandrillMailer();
     }
     return $this->mailer;
   }
