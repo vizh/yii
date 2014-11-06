@@ -74,6 +74,7 @@
   <ul class="nav nav-list collapse" id="menu-order">
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/order/index');?>">Счета</a></li>
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/order/print');?>">Печать</a></li>
+      <li><a href="<?=Yii::app()->createUrl('/pay/admin/order/payers');?>">Плательщики</a></li>
   </ul>
 
 
