@@ -57,6 +57,12 @@ return array(
           'http://'.RUNETID_HOST.'/test/userexp14/end' => ['competence/main/end/', 'defaultParams' => ['id' => 13]],
           'http://'.RUNETID_HOST.'/test/userexp14/done' => ['competence/main/done/', 'defaultParams' => ['id' => 13]],
 
+          /** Biz.Mail.ru 2014 */
+          'http://'.RUNETID_HOST.'/test/mailru2014/' => ['competence/main/index/', 'defaultParams' => ['id' => 12]],
+          'http://'.RUNETID_HOST.'/test/mailru2014/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 12]],
+          'http://'.RUNETID_HOST.'/test/mailru2014/end' => ['competence/main/end/', 'defaultParams' => ['id' => 12]],
+          'http://'.RUNETID_HOST.'/test/mailru2014/done' => ['competence/main/done/', 'defaultParams' => ['id' => 12]],
+
 
 
           
