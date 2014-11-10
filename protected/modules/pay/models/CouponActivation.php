@@ -10,6 +10,10 @@ namespace pay\models;
  * @property Coupon $Coupon
  * @property CouponActivationLinkOrderItem[] $OrderItemLinks
  * @property \user\models\User $User
+ *
+ * @method CouponActivation find($condition='',$params=array())
+ * @method CouponActivation findByPk($pk,$condition='',$params=array())
+ * @method CouponActivation[] findAll($condition='',$params=array())
  */
 class CouponActivation extends \CActiveRecord
 {
