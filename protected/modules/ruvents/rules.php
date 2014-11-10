@@ -1,13 +1,13 @@
 <?php
 
 return array(
-    array(
+    [
         'allow',
-        'users' =>  array('?'),
+        'users' =>  ['?'],
         'module' => 'ruvents',
-        'controllers' => array('utility'),
-        'actions' => array('ping')
-    ),
+        'controllers' => ['utility'],
+        'actions' => ['ping']
+    ],
 
     [
         'allow',
@@ -81,23 +81,23 @@ return array(
         'controllers' => array('badge'),
         'actions' => array('create')
     ),
-    array(
+    [
         'allow',
-        'roles' => array('Operator'),
+        'roles' => ['Operator'],
         'module' => 'ruvents',
-        'controllers' => array('user'),
-        'actions' => array('create', 'edit')
-    ),
-    array(
+        'controllers' => ['user'],
+        'actions' => ['create', 'edit']
+    ],
+    [
         'allow',
-        'roles' => array('Operator'),
+        'roles' => ['Operator'],
         'module' => 'ruvents',
-        'controllers' => array('product'),
-        'actions' => array('changepaid')
-    ),
+        'controllers' => ['product'],
+        'actions' => ['changepaid']
+    ],
 
-    array(
+    [
         'deny',
-        'users' => array('*')
-    ),
+        'users' => ['*']
+    ],
 );
