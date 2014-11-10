@@ -10,11 +10,19 @@ class PgDbHttpSession extends \CDbHttpSession
 //    var_dump($data);
 //    return $data;
 //  }
+    public function open()
+    {
+        parent::open();
+
+        if (session_id() === '') {
+            session_regenerate_id(true);
+        }
+    }
 
 
-  public function writeSession($id, $data)
-  {
-    $data = str_replace('\\', '\\\\', $data);
-    return parent::writeSession($id, $data);
-  }
+    public function writeSession($id, $data)
+    {
+        $data = str_replace('\\', '\\\\', $data);
+        return parent::writeSession($id, $data);
+    }
 }
