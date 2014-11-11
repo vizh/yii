@@ -211,7 +211,11 @@ class DataBuilder
   {
     $this->role = new \stdClass();
     $this->role->RoleId = $role->Id;
-    $this->role->Name  = $role->Title;
+      if ($this->getEvent()->Id === 889 && $role->Id === 1) {
+          $this->role->Name  = 'Посетитель';
+      } else {
+          $this->role->Name  = $role->Title;
+      }
     $this->role->Color = $role->Color;
     return $this->role;
   }
