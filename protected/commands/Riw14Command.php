@@ -3,6 +3,7 @@
 use application\components\console\BaseConsoleCommand;
 use event\models\Participant;
 use pay\models\OrderItem;
+use user\models\User;
 
 class Riw14Command extends BaseConsoleCommand
 {
@@ -74,6 +75,10 @@ class Riw14Command extends BaseConsoleCommand
                 $participant->UserId = $userId;
                 $participant->RoleId = $riwParticipantRole;
                 $participant->save();
+
+                $userModel = User::model()->findByPk($userId);
+                $userModel->Settings->UnsubscribeAll = true;
+                $userModel->Settings->save();
             }
 
             $orderItem = new OrderItem();
