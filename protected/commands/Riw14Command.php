@@ -42,7 +42,7 @@ class Riw14Command extends BaseConsoleCommand
         return 0;
     }
 
-    public function actionSoftoolParticipants()
+    public function actionSoftool()
     {
         $roleLinks = [
             38 => 3068,
