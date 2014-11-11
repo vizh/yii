@@ -3,8 +3,8 @@ namespace oauth\components\social;
 
 class Twitter implements ISocial
 {
-  const Key = 'cuyeLG3CNMocA3iL1UmnjQ';
-  const Secret = 'PuWPUjxuL5jNKA2t7JNSkiWHYOq6J5L87xZSk2owV8';
+  const Key = '2cfKI2ZXUhuAPpiTaNDOK97YL';
+  const Secret = 'wuIgCtwVUVvI4USGLnyVLNZPZEWgXZLMSvfrcyqiBS5Ry6yVdX';
 
   /** @var \tmhOAuth */
   protected $connection = null;
@@ -17,7 +17,8 @@ class Twitter implements ISocial
       $this->connection = new \tmhOAuth(array(
         'consumer_key' => self::Key,
         'consumer_secret' => self::Secret,
-        'curl_ssl_verifypeer' => false
+        'curl_ssl_verifypeer' => false,
+        'oauth_version' => '1.1'
       ));
     }
 
@@ -38,6 +39,10 @@ class Twitter implements ISocial
     );
 
     $code = $this->getConnection()->request('POST', $this->getConnection()->url('oauth/request_token', ''), $params);
+
+
+      var_dump($this->getConnection());
+      exit;
     if ($code == 200)
     {
       $oauth = $this->getConnection()->extract_params($this->getConnection()->response['response']);

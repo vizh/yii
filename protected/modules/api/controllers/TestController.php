@@ -6,13 +6,12 @@ class TestController extends CController
   {
     //$api = 'zrnzd5rs8i';
     //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-    $api = 'bcOGdeQYwz';
-    $secret = 'ULWCFtNbAsdCPLqRQXZ9b0kUg';
+    $api = 's5nf89taba';
+    $secret = '8Z7YaZnhzhnGfBAAK6fNBnzdQ';
 
     $params = array(
       'ApiKey' => $api,
-      'Hash' => md5($api . $secret),
-      'Filter' => ['Attributes' => ['TEST' => 3]]
+      'Hash' => md5($api . $secret)
     );
 
     //$params['Email'] = 'alaris.nik@gmail.com';
@@ -21,14 +20,14 @@ class TestController extends CController
     //$params['ExternalId'] = 121;
     //$params['RoleId'] = 5;
 
-    $params['PayerRunetId'] = 321;
+    $params['RunetId'] = 321;
 
     //$params['SectionId'] = 12322;
     //$this->apiRequest('/api/section/deleteFavorite', $params);
 
     print_r($params);
 
-    $this->apiRequest('/api/section/list', $params);
+    $this->apiRequest('/api/section/favorites', $params);
   }
 
   private function apiRequest($url, $params)
