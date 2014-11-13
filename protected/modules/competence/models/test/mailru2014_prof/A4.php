@@ -16,19 +16,20 @@ class A4 extends \competence\models\form\Base {
                 41 => '<strong>Дуров</strong> (<em>ex ВКонтакте</em>)',
                 403 => '<strong>Рогозов</strong> (<em>ВКонтакте</em>)',
                 404 => '<strong>Доброеев</strong> (<em>ВКонтакте</em>)',
-                405 => '<strong>Сергеев Дм.</strong> (<em>ВКонтакте</em>)',
+                405 => '<strong>Сергеев</strong> (<em>ВКонтакте</em>)',
                 42 => '<strong>Молибог</strong> (<em>РБК</em>)',
                 43 => '<strong>Пейдж</strong> (<em>Google&nbsp;Global</em>)',
                 44 => '<strong>Цукерберг</strong> (<em>Facebook</em>)',
                 45 => '<strong>Балмер</strong> (<em>ex Microsoft</em>)',
-                406 => '<strong>Сатья Наделла</strong> (<em>Microsoft</em>)',
+                406 => '<strong>Наделла</strong> (<em>Microsoft</em>)',
                 46 => '<strong>Касперский</strong> (<em>Касперский</em>)',
                 47 => '<strong>Белоусов</strong> (<em>Parallels</em>)',
                 408 => '<strong>Соловьева</strong> (<em>Google Россия</em>)',
                 48 => '<strong>Долгов</strong> (<em>eBay</em>)',
-                407 => '<strong>Антон Федчин</strong> (<em>Одноклассники</em>)',
+                407 => '<strong>Федчин</strong> (<em>Одноклассники</em>)',
                 400 => '<strong>Широков</strong> (<em>Mail.Ru Group, ex Одноклассники</em>)',
-                401 => '<strong>Артамонова</strong> (<em>Mail.ru Group</em>)'
+                401 => '<strong>Артамонова</strong> (<em>Mail.ru Group</em>)',
+                409 => '<strong>Шульгин</strong> (<em>Яндекс</em>)'
             ]);
         }
         return $this->options;

@@ -27,7 +27,8 @@ class A1 extends \competence\models\form\Base {
                 405 => '405.jpg',
                 406 => '406.jpg',
                 407 => '407.jpg',
-                408 => '408.jpg'
+                408 => '408.jpg',
+                409 => '409.jpg'
             ]);
             $this->options[49] = 'unknow.png';
         }

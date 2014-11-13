@@ -11,7 +11,7 @@ class A10 extends \competence\models\form\Base {
     if ($this->options === null)
     {
       $this->options = $this->rotate('A10_opt', [
-        83 => 'Mail.Ru',
+        83 => 'Mail.Ru Group',
         84 => 'Яндекс',
         85 => 'Google',
         86 => 'Facebook',
