@@ -13,6 +13,7 @@ use \application\components\attribute\BooleanDefinition;
     <?=\CHtml::beginForm('', 'post', ['enctype' => 'multipart/form-data']);?>
     <?=\CHtml::errorSummary($this->form, '<div class="alert alert-error">', '</div>');?>
 
+    <?if (!$this->form->hasErrors('Invite')):?>
     <div class="form-inline row-fluid m-bottom_5">
         <div class="span6">
             <?=\CHtml::activeTextField($this->form, 'Email', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('Email'), 'disabled' => $this->form->isDisabled('Email')]);?>
@@ -52,7 +53,14 @@ use \application\components\attribute\BooleanDefinition;
 
     <?foreach($this->userData->getManager()->getDefinitions() as $definition):?>
     <div class="form-inline row-fluid m-bottom_10">
-        <div class="span12"><?=$definition->activeEdit($this->userData->getManager(), ['placeholder' => $definition->title, 'class' => ($definition instanceof BooleanDefinition) ? '' : 'span12']);?></div>
+        <div class="span12">
+            <?if (isset($this->ShowUserDataLabel) && $this->ShowUserDataLabel):?>
+                <label class="control-label"><?=$definition->title;?></label>
+                <?=$definition->activeEdit($this->userData->getManager(), ['class' => ($definition instanceof BooleanDefinition) ? '' : 'span12']);?>
+            <?else:?>
+                <?=$definition->activeEdit($this->userData->getManager(), ['placeholder' => $definition->title, 'class' => ($definition instanceof BooleanDefinition) ? '' : 'span12']);?>
+            <?endif;?>
+        </div>
     </div>
     <?endforeach;?>
 
@@ -66,9 +74,6 @@ use \application\components\attribute\BooleanDefinition;
     <div class="form-inline m-top_20 text-center">
         <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрироваться'), ['class' => 'btn btn-info']);?>
     </div>
-
-
+    <?endif;?>
     <?=\CHtml::endForm();?>
-
-
 </div>

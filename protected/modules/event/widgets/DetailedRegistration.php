@@ -6,6 +6,7 @@ use application\components\utility\Texts;
 use contact\models\Address;
 use event\components\WidgetPosition;
 use \event\models\forms\DetailedRegistration as DetailedRegistrationForm;
+use event\models\Invite;
 use event\models\Participant;
 use event\models\Role;
 use event\models\UserData;
@@ -19,7 +20,9 @@ class DetailedRegistration extends \event\components\Widget
             'DefaultRoleId',
             'RegisterUnvisibleUser',
             'ShowEmployment',
-            'RegistrationBeforeInfo'
+            'RegistrationBeforeInfo',
+            'UseInvites',
+            'ShowUserDataLabel'
         ];
     }
 
@@ -28,6 +31,11 @@ class DetailedRegistration extends \event\components\Widget
 
     /** @var  UserData */
     public $userData;
+
+    /**
+     * @var Invite
+     */
+    public $invite = null;
 
     public function init()
     {
@@ -39,6 +47,13 @@ class DetailedRegistration extends \event\components\Widget
         }
 
         $this->form = new DetailedRegistrationForm(\Yii::app()->getUser()->getCurrentUser(), $scenario);
+        if (isset($this->UseInvites) && $this->UseInvites) {
+            $code = \Yii::app()->getRequest()->getParam('invite');
+            $this->invite = Invite::model()->byEventId($this->getEvent()->Id)->byCode($code)->find();
+            if ($this->invite == null || !empty($this->invite->UserId)) {
+                $this->form->addError('Invite', \Yii::t('app','Для регистрации на мероприятие «{event}» требуется приглашение.', ['{event}' => $this->event->Title]));
+            }
+        }
         $this->userData = new UserData();
         $this->userData->EventId = $this->getEvent()->Id;
     }
@@ -58,13 +73,18 @@ class DetailedRegistration extends \event\components\Widget
                 $request->getParam(get_class($this->userData->getManager()))
             );
 
-            $this->form->validate();
+            $this->form->validate(null, false);
             $this->userData->getManager()->validate();
 
             if (!$this->form->hasErrors() && !$this->userData->getManager()->hasErrors() && isset($this->DefaultRoleId)) {
                 $user = $this->updateUser($this->form->getUser());
-                $role = Role::model()->findByPk($this->DefaultRoleId);
-                $this->getEvent()->registerUser($user, $role);
+                if ($this->invite !== null) {
+                    $this->invite->activate($user);
+                }
+                else {
+                    $role = Role::model()->findByPk($this->DefaultRoleId);
+                    $this->getEvent()->registerUser($user, $role);
+                }
 
                 $this->userData->UserId = $user->Id;
                 $this->userData->save();

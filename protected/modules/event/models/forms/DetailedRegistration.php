@@ -28,6 +28,8 @@ class DetailedRegistration extends \CFormModel
 
     public $Birthday;
 
+    public $Invite;
+
     /**
      * @var \CUploadedFile
      */
@@ -89,14 +91,14 @@ class DetailedRegistration extends \CFormModel
     public function rules()
     {
         return [
-            ['Email, LastName, FirstName, FatherName, Birthday', 'required'],
+            ['Email, LastName, FirstName, Birthday', 'required'],
             ['Email', 'email'],
             ['Email', 'validateUniqueEmail'],
             ['PrimaryPhone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
             ['PrimaryPhone', 'required'],
             ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ($this->user !== null ? ['condition' => '"t"."Id" != :UserId', 'params' => ['UserId' => $this->user->Id]] : [])],
             ['Company, Position', 'required', 'on' => [self::ScenarioShowEmployment]],
-            ['Password', 'safe'],
+            ['Password,FatherName', 'safe'],
             ['Birthday', 'date', 'format' => 'dd.MM.yyyy']
         ];
     }
