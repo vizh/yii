@@ -1,159 +1,121 @@
 <?php
 namespace oauth\components\social;
 
+use oauth\components\exceptions\TwitterException;
+
 class Twitter implements ISocial
 {
-  const Key = '2cfKI2ZXUhuAPpiTaNDOK97YL';
-  const Secret = 'wuIgCtwVUVvI4USGLnyVLNZPZEWgXZLMSvfrcyqiBS5Ry6yVdX';
+    const Key = '2cfKI2ZXUhuAPpiTaNDOK97YL';
+    const Secret = 'wuIgCtwVUVvI4USGLnyVLNZPZEWgXZLMSvfrcyqiBS5Ry6yVdX';
 
-  /** @var \tmhOAuth */
-  protected $connection = null;
+    const TEMPORARY_NAME = 'twitter_temporary_credentials';
+    const PERMANENT_NAME = 'twitter_token_credentials';
+    const VERIFIER_NAME = 'oauth_verifier';
 
-
-  public function getConnection()
-  {
-    if ($this->connection == null)
+    /**
+     * @param array $credentials
+     * @return \TwitterOAuth
+     */
+    public function createConnection($credentials = [])
     {
-      $this->connection = new \tmhOAuth(array(
-        'consumer_key' => self::Key,
-        'consumer_secret' => self::Secret,
-        'curl_ssl_verifypeer' => false,
-        'oauth_version' => '1.1'
-      ));
+        if (empty($credentials)) {
+            return new \TwitterOAuth(self::Key, self::Secret);
+        } else {
+            return new \TwitterOAuth(self::Key, self::Secret, $credentials['oauth_token'], $credentials['oauth_token_secret']);
+        }
     }
 
-    return $this->connection;
-  }
-
-  public function resetConnection()
-  {
-    $this->connection = null;
-  }
-
-
-  public function getOAuthUrl()
-  {
-    $params = array(
-      'oauth_callback' => \tmhUtilities::php_self(false),
-      'x_auth_access_type' => 'read'
-    );
-
-    $code = $this->getConnection()->request('POST', $this->getConnection()->url('oauth/request_token', ''), $params);
-
-
-      var_dump($this->getConnection());
-      exit;
-    if ($code == 200)
+    public function getOAuthUrl()
     {
-      $oauth = $this->getConnection()->extract_params($this->getConnection()->response['response']);
-      \Yii::app()->session->add('oauth', $oauth);
-      return $this->getConnection()->url('oauth/authenticate', '') . "?oauth_token={$oauth['oauth_token']}";
+        $connection = $this->createConnection();
+        $callBackUrl = \Yii::app()->request->hostInfo . \Yii::app()->request->url;
+        $temporaryCredentials = $connection->getRequestToken($callBackUrl);
+
+        $this->checkResponse($connection, $temporaryCredentials);
+        \Yii::app()->session->add(static::TEMPORARY_NAME, $temporaryCredentials);
+
+        return $connection->getAuthorizeURL($temporaryCredentials, false);
     }
-    else
+
+    public function isHasAccess()
     {
-      throw new \CHttpException(400, 'Сервис авторизации Twitter не отвечает');
-    }
-  }
+        $tokenCredentials = \Yii::app()->getSession()->get(static::PERMANENT_NAME, null);
+        $verifier = \Yii::app()->request->getParam(static::VERIFIER_NAME, null);
+        if (empty($tokenCredentials) && !empty($verifier)) {
+            $temporaryCredentials = \Yii::app()->getSession()->get(static::TEMPORARY_NAME);
+            $connection = $this->createConnection($temporaryCredentials);
+            $tokenCredentials = $connection->getAccessToken($verifier);
 
-  public function isHasAccess()
-  {
-    $accessToken = \Yii::app()->getSession()->get('access_token', null);
-    $verifier = \Yii::app()->request->getParam('oauth_verifier', null);
-    if (empty($accessToken) && !empty($verifier))
+            $this->checkResponse($connection, $tokenCredentials);
+
+            \Yii::app()->session->add(static::PERMANENT_NAME, $tokenCredentials);
+            \Yii::app()->session->remove(static::TEMPORARY_NAME);
+        }
+        return !empty($tokenCredentials) || !empty($verifier);
+    }
+
+    public function getData()
     {
-      $oauth = \Yii::app()->getSession()->get('oauth');
-      $this->getConnection()->config['user_token'] = $oauth['oauth_token'];
-      $this->getConnection()->config['user_secret'] = $oauth['oauth_token_secret'];
+        $tokenCredentials = \Yii::app()->getSession()->get(static::PERMANENT_NAME, null);
 
-      $code = $this->getConnection()->request(
-        'POST',
-        $this->getConnection()->url('oauth/access_token', ''),
-        array('oauth_verifier' => \Yii::app()->request->getParam('oauth_verifier', null))
-      );
+        $connection = $this->createConnection($tokenCredentials);
+        $account = $connection->get('account/verify_credentials');
 
-      if ($code == 200)
-      {
-        $accessToken = $this->getConnection()->extract_params($this->getConnection()->response['response']);
-        \Yii::app()->session->add('access_token', $accessToken);
-        \Yii::app()->session->remove('oauth');
-      }
-      else
-      {
-        throw new \CHttpException(400, 'Сервис авторизации Twitter не отвечает');
-      }
+        $this->checkResponse($connection, $account);
+
+        $data = new Data();
+
+        $data->Hash = $account->id;
+        $data->UserName = $account->screen_name;
+
+        $nameParts =  explode(' ' , $account->name);
+        $data->LastName = isset($nameParts[0]) ? $nameParts[0] : '';
+        $data->FirstName = isset($nameParts[1]) ? $nameParts[1] : '';
+        $data->Email = '';
+
+        return $data;
     }
-    return !empty($accessToken) || !empty($verifier);
-  }
 
-  public function getData()
-  {
-    $accessToken = \Yii::app()->getSession()->get('access_token', null);
-
-    $this->resetConnection();
-    $this->getConnection()->config['user_token'] = $accessToken['oauth_token'];
-    $this->getConnection()->config['user_secret'] = $accessToken['oauth_token_secret'];
-
-    $code = $this->getConnection()->request('GET', $this->getConnection()->url('1.1/account/verify_credentials.json'));
-
-    if ($code == 200)
+    public function getSocialId()
     {
-      $user_profile = json_decode($this->getConnection()->response['response']);
-
-      $data = new Data();
-
-      $data->Hash = $user_profile->id;
-      $data->UserName = $user_profile->screen_name;
-
-      $nameParts =  explode(' ' , $user_profile->name);
-      $data->LastName = isset($nameParts[0]) ? $nameParts[0] : '';
-      $data->FirstName = isset($nameParts[1]) ? $nameParts[1] : '';
-      $data->Email = '';
-
-      return $data;
+        return self::Twitter;
     }
-    else
+
+    private function checkResponse($connection, $data)
     {
-      throw new \CHttpException(400, 'Сервис авторизации Twitter не отвечает');
+        if (!empty($data) && isset($data->errors))
+            throw new TwitterException('', $data->errors);
+
+        if ($connection->http_code != 200)
+            throw new TwitterException('Не верный http статус ответа: ' . $connection->http_code);
     }
-  }
 
-  public function getSocialId()
-  {
-    return self::Twitter;
-  }
-
-  /**
-   * @return void
-   */
-  public function renderScript()
-  {
-    echo '<script>
+    /**
+     * @return void
+     */
+    public function renderScript()
+    {
+        echo '<script>
       if(window.opener != null && !window.opener.closed)
       {
         window.opener.oauthModuleObj.twiProcess();
         window.close();
       }
       </script>';
-  }
+    }
 
-  /**
-   * @return string
-   */
-  public function getSocialTitle()
-  {
-    return 'Twitter';
-  }
-  
-  public function clearAccess()
-  {
-    ;
-  }
+    /**
+     * @return string
+     */
+    public function getSocialTitle()
+    {
+        return 'Twitter';
+    }
+
+    public function clearAccess()
+    {
+        ;
+    }
 }
 
-require dirname(__FILE__) . '/twitter/tmhOAuth.php';
-require dirname(__FILE__) . '/twitter/tmhUtilities.php';
-
-function outputError($tmhOAuth) {
-  echo 'Error: ' . $tmhOAuth->response['response'] . PHP_EOL;
-  \tmhUtilities::pr($tmhOAuth);
-}
+require dirname(__FILE__) . '/twitter/twitteroauth.php';

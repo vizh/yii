@@ -71,9 +71,9 @@
   <p><?=Yii::t('app', 'Или вы&nbsp;можете авторизоваться при помощи учетных записей социальных сетей:');?></p>
   <div class="nowrap">
     <a href="#" id="fb_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__facebook"></i>&nbsp;Facebook</a>
-    <!--<a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Twitter));?>" id="twi_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__twitter"></i>&nbsp;Twitter</a>-->
-    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Vkontakte));?>" id="vk_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__vkontakte"></i>&nbsp;<?=Yii::t('app', 'Вконтакте');?></a>
-    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Google));?>" id="g_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__google"></i>&nbsp;Google</a><br/>
+    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Twitter));?>" id="twi_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__twitter"></i>&nbsp;Twitter</a>
+    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Vkontakte));?>" id="vk_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__vkontakte"></i>&nbsp;<?=Yii::t('app', 'Вконтакте');?></a><br/>
+    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Google));?>" id="g_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__google"></i>&nbsp;Google</a>
     <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::PayPal));?>" id="pp_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__paypal"></i>&nbsp;PayPal</a>
     <!--<a href="#" id="viadeo_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__google"></i>&nbsp;Viadeo</a>-->
   </div>
