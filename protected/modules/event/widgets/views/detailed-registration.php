@@ -31,6 +31,7 @@ use \application\components\attribute\BooleanDefinition;
         <div class="span6"><?=\CHtml::activeTextField($this->form, 'FirstName', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('FirstName'), 'disabled' => $this->form->isDisabled('FirstName')]);?></div>
     </div>
 
+        <?if (false):?>
     <div class="form-inline row-fluid">
         <div class="span6"><?=\CHtml::activeTextField($this->form, 'FatherName', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('FatherName'), 'disabled' => $this->form->isDisabled('FatherName')]);?></div>
         <div class="span6">
@@ -41,12 +42,15 @@ use \application\components\attribute\BooleanDefinition;
     <div class="form-inline row-fluid">
         <div class="span6"><?=\CHtml::activeTextField($this->form, 'Birthday', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('Birthday').'. '.\Yii::t('app', 'Пример: 01.01.1980'), 'disabled' => $this->form->isDisabled('Birthday')]);?></div>
     </div>
+            <?endif;?>
     <hr/>
 
     <?if ($this->ShowEmployment):?>
     <div class="form-inline row-fluid m-bottom_5">
         <div class="span6"><?=\CHtml::activeTextField($this->form, 'Company', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('Company')]);?></div>
+        <?if (false):?>
         <div class="span6"><?=\CHtml::activeTextField($this->form, 'Position', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('Position')]);?></div>
+        <?endif;?>
     </div>
     <hr/>
     <?endif;?>

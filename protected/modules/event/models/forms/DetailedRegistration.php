@@ -76,14 +76,15 @@ class DetailedRegistration extends \CFormModel
                 $this->Position = $this->user->getEmploymentPrimary()->Position;
             }
 
-            if ($this->user->getContactAddress() !== null) {
-                $this->Address->attributes = $this->user->getContactAddress()->getAttributes();
-            }
-
-
-            if ($this->user->Birthday !== null) {
-                $this->Birthday = \Yii::app()->dateFormatter->format('dd.MM.yyyy', $this->user->Birthday);
-            }
+//  todo: говнокод для мероприятия ЛеруаМерлен
+//            if ($this->user->getContactAddress() !== null) {
+//                $this->Address->attributes = $this->user->getContactAddress()->getAttributes();
+//            }
+//
+//
+//            if ($this->user->Birthday !== null) {
+//                $this->Birthday = \Yii::app()->dateFormatter->format('dd.MM.yyyy', $this->user->Birthday);
+//            }
         }
     }
 
@@ -91,15 +92,15 @@ class DetailedRegistration extends \CFormModel
     public function rules()
     {
         return [
-            ['Email, LastName, FirstName, Birthday', 'required'],
+            ['Email, LastName, FirstName', 'required'],
             ['Email', 'email'],
             ['Email', 'validateUniqueEmail'],
             ['PrimaryPhone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
             ['PrimaryPhone', 'required'],
             ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ($this->user !== null ? ['condition' => '"t"."Id" != :UserId', 'params' => ['UserId' => $this->user->Id]] : [])],
-            ['Company, Position', 'required', 'on' => [self::ScenarioShowEmployment]],
+            ['Company',/* todo: говнокод для мероприятия ЛеруаМерлен Position',*/ 'required', 'on' => [self::ScenarioShowEmployment]],
             ['Password,FatherName', 'safe'],
-            ['Birthday', 'date', 'format' => 'dd.MM.yyyy']
+            //  todo: говнокод для мероприятия ЛеруаМерлен ['Birthday', 'date', 'format' => 'dd.MM.yyyy']
         ];
     }
 
@@ -121,14 +122,15 @@ class DetailedRegistration extends \CFormModel
 
     public function afterValidate()
     {
-        if (!$this->isDisabled('LinkAddress')) {
-            $this->Address->attributes = \Yii::app()->getRequest()->getParam(get_class($this->Address));
-            if (!$this->Address->validate()) {
-                foreach ($this->Address->getErrors() as $messages) {
-                    $this->addError('Address', $messages[0]);
-                }
-            }
-        }
+//  todo: говнокод для мероприятия ЛеруаМерлен
+//        if (!$this->isDisabled('LinkAddress')) {
+//            $this->Address->attributes = \Yii::app()->getRequest()->getParam(get_class($this->Address));
+//            if (!$this->Address->validate()) {
+//                foreach ($this->Address->getErrors() as $messages) {
+//                    $this->addError('Address', $messages[0]);
+//                }
+//            }
+//        }
     }
 
     public function validateUniqueEmail($attribute, $params)

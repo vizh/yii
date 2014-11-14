@@ -20,6 +20,9 @@ class DetailedRegistration extends \event\components\Widget
             'DefaultRoleId',
             'RegisterUnvisibleUser',
             'ShowEmployment',
+            'ShowFatherName',
+            'ShowAddress',
+            'ShowBirthday',
             'RegistrationBeforeInfo',
             'UseInvites',
             'ShowUserDataLabel'
@@ -46,7 +49,7 @@ class DetailedRegistration extends \event\components\Widget
             $scenario = DetailedRegistrationForm::ScenarioShowEmployment;
         }
 
-        $this->form = new DetailedRegistrationForm(\Yii::app()->getUser()->getCurrentUser(), $scenario);
+        $this->form = new DetailedRegistrationForm(\Yii::app()->user->getCurrentUser(), $scenario);
         if (isset($this->UseInvites) && $this->UseInvites) {
             $code = \Yii::app()->getRequest()->getParam('invite');
             $this->invite = Invite::model()->byEventId($this->getEvent()->Id)->byCode($code)->find();
@@ -153,16 +156,12 @@ class DetailedRegistration extends \event\components\Widget
             $user->FatherName = $this->form->FatherName;
             $user->PrimaryPhone = $this->form->PrimaryPhone;
             $user->Email = $this->form->Email;
-
-            $user->register();
+            $user->Visible = !isset($this->RegisterUnvisibleUser) || !$this->RegisterUnvisibleUser;
+            $user->register($user->Visible);
 
             if ($this->getEvent()->UnsubscribeNewUser) {
                 $user->Settings->UnsubscribeAll = true;
                 $user->Settings->save();
-            }
-
-            if (isset($this->RegisterUnvisibleUser) && $this->RegisterUnvisibleUser) {
-                $user->Visible = false;
             }
         }
         else {
