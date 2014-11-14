@@ -28,7 +28,7 @@ class A4 extends \competence\models\form\Base {
                 48 => '<strong>Долгов</strong> (<em>eBay</em>)',
                 407 => '<strong>Федчин</strong> (<em>Одноклассники</em>)',
                 400 => '<strong>Широков</strong> (<em>Mail.Ru Group, ex Одноклассники</em>)',
-                401 => '<strong>Артамонова</strong> (<em>Mail.ru Group</em>)',
+                401 => '<strong>Артамонова</strong> (<em>Mail.Ru Group</em>)',
                 409 => '<strong>Шульгин</strong> (<em>Яндекс</em>)'
             ]);
         }
