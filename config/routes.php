@@ -27,21 +27,18 @@ return array(
         'http://demo2013.'.RUNETID_HOST.'/create/' => array('pay/juridical/create/', 'defaultParams' => array('eventIdName' => 'demo2013')),
         'http://demo2013.'.RUNETID_HOST.'/pay/alley/' => array('event/exclusive/demo2013/alley/', 'defaultParams' => array('eventIdName' => 'demo2013')),
         'http://demo2013.'.RUNETID_HOST.'/exibitionlinks/' => array('event/exclusive/demo2013/exibitionlinks/', 'defaultParams' => array('eventIdName' => 'demo2013')),
-          
+
         /** PhDays 2013 */
         'http://phdays2013.'.RUNETID_HOST.'/' => array('event/view/index/', 'defaultParams' => array('idName' => 'phdays2013')),
         'http://phdays2013.'.RUNETID_HOST.'/register/' => array('pay/cabinet/register/', 'defaultParams' => array('eventIdName' => 'phdays2013')),
         'http://phdays2013.'.RUNETID_HOST.'/pay/' => array('pay/cabinet/index/', 'defaultParams' => array('eventIdName' => 'phdays2013')),
         'http://phdays2013.'.RUNETID_HOST.'/create/' => array('pay/juridical/create/', 'defaultParams' => array('eventIdName' => 'phdays2013')),
-          
+
         /** TC 2013 */
         'http://tc2013.'.RUNETID_HOST.'/' => array('event/view/index/', 'defaultParams' => array('idName' => 'tc2013')),
         'http://tc2013.'.RUNETID_HOST.'/register/' => array('pay/cabinet/register/', 'defaultParams' => array('eventIdName' => 'tc2013')),
         'http://tc2013.'.RUNETID_HOST.'/pay/' => array('pay/cabinet/index/', 'defaultParams' => array('eventIdName' => 'tc2013')),
         'http://tc2013.'.RUNETID_HOST.'/create/' => array('pay/juridical/create/', 'defaultParams' => array('eventIdName' => 'tc2013')),
-
-
-
 
         /** iResearch 2014 */
         'http://'.RUNETID_HOST.'/iresearch2014/' => ['competence/main/index/', 'defaultParams' => ['id' => 8]],
@@ -63,10 +60,13 @@ return array(
           'http://'.RUNETID_HOST.'/test/mailru2014/end' => ['competence/main/end/', 'defaultParams' => ['id' => 12]],
           'http://'.RUNETID_HOST.'/test/mailru2014/done' => ['competence/main/done/', 'defaultParams' => ['id' => 12]],
 
+          /** Riw14 */
+          'http://'.RUNETID_HOST.'/test/riw14/' => ['competence/main/index/', 'defaultParams' => ['id' => 15]],
+          'http://'.RUNETID_HOST.'/test/riw14/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 15]],
+          'http://'.RUNETID_HOST.'/test/riw14/end' => ['competence/main/end/', 'defaultParams' => ['id' => 15]],
+          'http://'.RUNETID_HOST.'/test/riw14/done' => ['competence/main/done/', 'defaultParams' => ['id' => 15]],
 
 
-          
-          
         /** Partner Module Rules */
         'http://partner.'. RUNETID_HOST.'/' => 'partner/main/index',
         'http://partner.'. RUNETID_HOST.'/auth/' => 'partner/auth/index',
@@ -126,7 +126,7 @@ return array(
         'http://'. RUNETID_HOST.'/ticket/<eventIdName>/<runetId>/<hash>/' => 'event/ticket/index',
 
         'http://'. RUNETID_HOST.'/create/' => 'event/create/index',
-        
+
         'http://'. RUNETID_HOST.'/user/edit/' => 'user/edit/index',
         'http://'. RUNETID_HOST.'/user/setting/' => 'user/setting/password',
         'http://'. RUNETID_HOST.'/user/unsubscribe/' => 'user/unsubscribe/index',
@@ -151,12 +151,12 @@ return array(
 
 
 
-        'http://<domain:\w+>.'. RUNETID_HOST .'/user/ajax/<action:\w+>' => 'user/ajax/<action>',  
-        'http://<domain:\w+>.'. RUNETID_HOST .'/pay/ajax/<action:\w+>' => 'pay/ajax/<action>',   
-        'http://<domain:\w+>.'. RUNETID_HOST .'/event/ajax/<action:\w+>' => 'event/ajax/<action>', 
-        'http://<domain:\w+>.'. RUNETID_HOST .'/company/ajax/<action:\w+>' => 'company/ajax/<action>',   
-        'http://<domain:\w+>.'. RUNETID_HOST .'/contact/ajax/<action:\w+>' => 'contact/ajax/<action>',     
-          
+        'http://<domain:\w+>.'. RUNETID_HOST .'/user/ajax/<action:\w+>' => 'user/ajax/<action>',
+        'http://<domain:\w+>.'. RUNETID_HOST .'/pay/ajax/<action:\w+>' => 'pay/ajax/<action>',
+        'http://<domain:\w+>.'. RUNETID_HOST .'/event/ajax/<action:\w+>' => 'event/ajax/<action>',
+        'http://<domain:\w+>.'. RUNETID_HOST .'/company/ajax/<action:\w+>' => 'company/ajax/<action>',
+        'http://<domain:\w+>.'. RUNETID_HOST .'/contact/ajax/<action:\w+>' => 'contact/ajax/<action>',
+
         /** Настройка путей админки */
         'http://admin.' .  RUNETID_HOST . '/' => 'main/admin/default/index',
         'http://admin.' .  RUNETID_HOST . '/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/admin/<controller>/<action>',
@@ -169,8 +169,8 @@ return array(
         'http://'. RUNETID_HOST.'/register/<runetId:\d+>/<eventIdName>/<roleId:\d+>/<hash>/' => 'event/fastregister/index',
 
         'http://'. RUNETID_HOST.'/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
-            
-          
+
+
         'http://'. RUNETID_HOST.'/<module:\w+>/exclusive/<controller:\w+>/<action:\w+>' => '<module>/exclusive/<controller>/<action>',
       ),
     ),
