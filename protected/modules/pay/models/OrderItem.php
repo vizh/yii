@@ -403,7 +403,7 @@ class OrderItem extends \CActiveRecord
     }
 
     /**
-     * @return string
+     * @return Order
      */
     public function getPaidOrder()
     {

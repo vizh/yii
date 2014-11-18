@@ -5,6 +5,8 @@ use api\models\Account;
 use api\models\ExternalUser;
 use application\models\attribute\Definition;
 use event\models\UserData;
+use pay\components\OrderItemCollection;
+use pay\models\OrderType;
 
 class ExportAction extends \partner\components\Action
 {
@@ -154,54 +156,51 @@ class ExportAction extends \partner\components\Action
                 $row['Position'] = $user->getEmploymentPrimary()->Position;
             }
 
-            if ($this->getEvent()->Id != 831 || true) {
-                $criteria = new \CDbCriteria();
-                $criteria->with = [
-                    'Product',
-                    'Product.Prices',
-                    'OrderLinks.Order'
-                ];
+            $criteria = new \CDbCriteria();
+            $criteria->with = [
+                'OrderLinks.Order',
+                'OrderLinks.Order.ItemLinks'
+            ];
 
-                if ($this->getEvent()->Id == 831) {
-                    $criteria->addInCondition('t."ProductId"', [1451, 1460, 2715]);
-                }
+            if ($this->getEvent()->Id == 831) {
+                $criteria->addInCondition('t."ProductId"', [1451, 1460, 2715]);
+            }
 
 
-                $orderItems = \pay\models\OrderItem::model()
-                    ->byOwnerId($user->Id)->byChangedOwnerId(null)->byChangedOwnerId($user->Id, false)
-                    ->byEventId($this->getEvent()->Id)->byPaid(true)->findAll($criteria);
+            $orderItems = \pay\models\OrderItem::model()
+                ->byOwnerId($user->Id)->byChangedOwnerId(null)->byChangedOwnerId($user->Id, false)
+                ->byEventId($this->getEvent()->Id)->byPaid(true)->findAll($criteria);
 
-                if (count($orderItems))
+            if (count($orderItems))
+            {
+                $datePay = [];
+                $paidType = [];
+                $products = [];
+                foreach ($orderItems as $orderItem)
                 {
-                    $datePay = [];
-                    $paidType = [];
-                    $products = [];
-                    foreach ($orderItems as $orderItem)
-                    {
-                        $products[] = $orderItem->Product->Title;
-                        $price = $orderItem->getPriceDiscount() !== null ? $orderItem->getPriceDiscount() : 0;
-                        $row['Price'] += $price;
-                        $datePay[] = \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', strtotime($orderItem->PaidTime));
-
-                        if ($price != 0)
-                        {
-                            foreach ($orderItem->OrderLinks as $link)
-                            {
-                                if ($link->Order->Paid)
-                                {
-                                    $paidType[] = $link->Order->Type == \pay\models\OrderType::Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо');
-                                }
+                    $price = 0;
+                    $order = $orderItem->getPaidOrder();
+                    if ($order !== null) {
+                        $collections = OrderItemCollection::createByOrder($order);
+                        foreach ($collections as $orderItemCollectable) {
+                            if ($orderItemCollectable->getOrderItem()->Id == $orderItem->Id) {
+                                $products[] = $orderItemCollectable->getOrderItem()->Product->Title;
+                                $price = $orderItemCollectable->getPriceDiscount();
+                                break;
                             }
                         }
-                        else
-                        {
-                            $paidType[] = 'Промо-код';
-                        }
+
+                        $paidType[] = $order->Type == OrderType::Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо');
+                    } else {
+                        $paidType[] = 'Промо-код';
                     }
-                    $row['Products'] = implode(', ', $products);
-                    $row['DatePay'] = implode(', ', array_unique($datePay));
-                    $row['PaidType'] = implode(', ', array_unique($paidType));
+
+                    $row['Price'] += $price;
+                    $datePay[] = \Yii::app()->dateFormatter->format('dd MMMM yyyy H:m', strtotime($orderItem->PaidTime));
                 }
+                $row['Products'] = implode(', ', $products);
+                $row['DatePay'] = implode(', ', array_unique($datePay));
+                $row['PaidType'] = implode(', ', array_unique($paidType));
             }
 
             $criteria = new \CDbCriteria();
