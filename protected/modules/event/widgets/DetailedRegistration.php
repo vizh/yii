@@ -25,7 +25,8 @@ class DetailedRegistration extends \event\components\Widget
             'ShowBirthday',
             'RegistrationBeforeInfo',
             'UseInvites',
-            'ShowUserDataLabel'
+            'ShowUserDataLabel',
+            'RegistrationCompleteText'
         ];
     }
 

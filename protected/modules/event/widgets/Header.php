@@ -3,29 +3,38 @@ namespace event\widgets;
 
 class Header extends \event\components\Widget
 {
-  public function getIsHasDefaultResources()
-  {
-    return true;
-  }
-  
-  public function run()
-  {
-    $this->render('header', array());
-  }
+    public function getAttributeNames()
+    {
+        return ['HeaderBannerStyles'];
+    }
 
-  /**
-   * @return string
-   */
-  public function getTitle()
-  {
-    return \Yii::t('app', 'Шапка мероприятия');
-  }
+    public function getIsHasDefaultResources()
+    {
+        return true;
+    }
 
-  /**
-   * @return string
-   */
-  public function getPosition()
-  {
-    return \event\components\WidgetPosition::Header;
-  }
+    public function run()
+    {
+        if (isset($this->HeaderBannerStyles))
+        {
+            \Yii::app()->getClientScript()->registerCss($this->getNameId(), $this->HeaderBannerStyles);
+        }
+        $this->render('header', array());
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return \Yii::t('app', 'Шапка мероприятия');
+    }
+
+    /**
+     * @return string
+     */
+    public function getPosition()
+    {
+        return \event\components\WidgetPosition::Header;
+    }
 }
