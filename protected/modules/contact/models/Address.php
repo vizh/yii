@@ -118,7 +118,7 @@ class Address extends \application\models\translation\ActiveRecord
       $parts[] = \Yii::t('app', 'корпус').' '.$this->Wing;
 
     if (!empty($this->Apartment))
-      $parts[] = \Yii::t('app', 'кв. ').' '.$this->Apartment;
+      $parts[] = \Yii::t('app', 'офис ').' '.$this->Apartment;
 
     if ($place && !empty($this->Place))
       $parts[] = $this->Place;
