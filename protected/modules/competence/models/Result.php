@@ -15,6 +15,9 @@ namespace competence\models;
  * @property string $UserKey
  * @property \user\models\User $User
  *
+ * @method Result find($condition='',$params=array())
+ * @method Result findByPk($pk,$condition='',$params=array())
+ * @method Result[] findAll($condition='',$params=array())
  */
 class Result extends \CActiveRecord
 {

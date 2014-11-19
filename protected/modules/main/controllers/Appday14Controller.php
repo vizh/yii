@@ -9,7 +9,7 @@ class Appday14Controller extends \application\components\controllers\MainControl
 
     /** @var User */
     private $user = null;
-
+//
 //    const EventId = 831;
 //    const TestId = 7;
 
@@ -71,6 +71,58 @@ class Appday14Controller extends \application\components\controllers\MainControl
         $this->render('select', ['user' => $this->user]);
     }
 
+    public function actionForm()
+    {
+        $result = \competence\models\Result::model()
+            ->byTestId($this->getTest()->Id)->byUserId($this->user->Id)->find();
+        if ($result != null && $result->Finished) {
+            $this->redirect($this->createUrl('/main/appday14/select'));
+        }
+
+        $hasErrors = false;
+        if (\Yii::app()->getRequest()->getIsPostRequest()) {
+            $hasErrors = $this->processForm();
+        } else {
+            foreach ($this->getQuestions() as $question) {
+                $result = $question->getTest()->getResult()->getQuestionResult($question);
+                $question->getForm()->setAttributes($result, false);
+            }
+        }
+
+        $this->render('form', [
+            'test' => $this->getTest(),
+            'questions' => $this->getQuestions(),
+            'hasErrors' => $hasErrors
+        ]);
+    }
+
+    /**
+     * @return bool
+     */
+    private function processForm()
+    {
+        $request = \Yii::app()->getRequest();
+
+        $hasErrors = false;
+        foreach ($this->getQuestions() as $question) {
+            $form = $question->getForm();
+            $form->setAttributes($request->getParam(get_class($form)), false);
+            if (!$form->process(true))
+                $hasErrors = true;
+        }
+
+        if (!$hasErrors) {
+            $this->getTest()->saveResult();
+            $this->redirect($this->createUrl('/main/appday14/select'));
+        }
+        return $hasErrors;
+    }
+
+    public function actionSection()
+    {
+
+    }
+
     public function getCode()
     {
         return Yii::app()->getSession()->get('Appday14Code');
@@ -79,6 +131,39 @@ class Appday14Controller extends \application\components\controllers\MainControl
     public function setCode($code)
     {
         Yii::app()->getSession()->add('Appday14Code', $code);
+    }
+
+    private $test = null;
+
+    public function getTest()
+    {
+        if ($this->test === null) {
+            $this->test = \competence\models\Test::model()->findByPk(self::TestId);
+            if ($this->test === null)
+                throw new CHttpException(404);
+            $this->test->setUser($this->user);
+        }
+        return $this->test;
+    }
+
+    /** @var \competence\models\Question[] */
+    private $questions = null;
+
+    private function getQuestions()
+    {
+        if ($this->questions === null) {
+            $this->questions = [];
+            $question = $this->getTest()->getFirstQuestion();
+            while(true) {
+                $this->questions[] = $question;
+                /** @var \competence\models\Question $question */
+                $question = $question->getForm()->getNext();
+                if ($question == null)
+                    break;
+                $question->setTest($this->getTest());
+            }
+        }
+        return $this->questions;
     }
 
     protected function initResources()
