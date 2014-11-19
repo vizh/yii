@@ -4,8 +4,7 @@
  * @var \event\models\Role $role
  */
 
-$vip = \pay\models\OrderItem::model()->byAnyOwnerId($user->Id)->byProductId(3080)->exists();
-$path = \Yii::getPathOfAlias('webroot.img.ticket.premiaru14.tickets.'.$user->Id.'_'.$role->Id.'_'.($vip ? '1' : '0')).'.jpg';
+$path = \Yii::getPathOfAlias('webroot.img.ticket.premiaru14.tickets.'.$user->Id.'_'.$role->Id).'.jpg';
 if (!file_exists($path)) {
     $bg = \Yii::getPathOfAlias('webroot.img.ticket.premiaru14.bg').'.jpg';
     /** @var Image $ticket */
@@ -18,7 +17,7 @@ if (!file_exists($path)) {
     }
 
     $x = 588;
-    if ($vip) {
+    if ($role->Id == 14) {
         $text = 'V'.$text;
         $x = $x - 18;
     }
