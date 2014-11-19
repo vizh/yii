@@ -17,7 +17,7 @@ return array(
   [
     'allow',
     'users' => ['*'],
-    'controllers' => ['devcon'],
+    'controllers' => ['devcon', 'appday14'],
     'module' => 'main'
   ],
 

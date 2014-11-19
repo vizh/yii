@@ -149,6 +149,11 @@ return array(
           'http://'. RUNETID_HOST.'/devcon/process/<code>' => 'main/devcon/process',
           'http://'. RUNETID_HOST.'/devcon/result/<code>' => 'main/devcon/result',
 
+          /** App Day 14  */
+          'http://'. RUNETID_HOST.'/appday14/<action:(select|form|section)>' => 'main/appday14/<action>',
+          'http://'. RUNETID_HOST.'/appday14/<code>' => 'main/appday14/index',
+          'http://'. RUNETID_HOST.'/appday14/' => 'main/appday14/index',
+
 
 
         'http://<domain:\w+>.'. RUNETID_HOST .'/user/ajax/<action:\w+>' => 'user/ajax/<action>',
