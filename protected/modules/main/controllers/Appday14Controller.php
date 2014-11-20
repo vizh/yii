@@ -18,6 +18,17 @@ class Appday14Controller extends \application\components\controllers\MainControl
 
     protected function beforeAction($action)
     {
+        $path = \Yii::getPathOfAlias($this->module->name . '.assets.css') . DIRECTORY_SEPARATOR;
+        $path .= 'devcon.css';
+        $path = \Yii::app()->assetManager->publish($path);
+        \Yii::app()->clientScript->registerCssFile($path);
+
+        $test = Yii::app()->getRequest()->getParam('test');
+        if (date('Y-m-d H:i:s') < '2014-11-21 10:00:00' && !$test) {
+            $this->render('before');
+            return false;
+        }
+
         if ($action->id != 'index') {
             $form = new CodeValidation(self::EventId);
             $form->code = $this->getCode();
@@ -27,15 +38,7 @@ class Appday14Controller extends \application\components\controllers\MainControl
             $this->user = $form->getUser();
         }
 
-        $path = \Yii::getPathOfAlias($this->module->name . '.assets.css') . DIRECTORY_SEPARATOR;
-        $path .= 'devcon.css';
-        $path = \Yii::app()->assetManager->publish($path);
-        \Yii::app()->clientScript->registerCssFile($path);
 
-        $path = \Yii::getPathOfAlias($this->module->name . '.assets.js') . DIRECTORY_SEPARATOR;
-        $path .= 'devcon.js';
-        $path = \Yii::app()->assetManager->publish($path);
-        \Yii::app()->clientScript->registerScriptFile($path);
 
         return parent::beforeAction($action);
     }

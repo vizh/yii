@@ -92,5 +92,15 @@
     width: auto;
   }
 
+  .welcome .span8 {
+    width: 80%;
+  }
+
+  .welcome .span6 {
+    width: 60%;
+  }
+
 
 }
+
+

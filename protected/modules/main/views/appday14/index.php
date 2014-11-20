@@ -5,7 +5,7 @@
 use main\models\forms\CodeValidation;
 
 ?>
-<div class="container interview m-top_30 m-bottom_40">
+<div class="container interview m-top_30 m-bottom_40 welcome">
     <div class="row">
         <div class="span8 offset2 m-top_30">
             <p class="lead text-center">Здравствуйте!</p>
