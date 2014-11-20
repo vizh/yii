@@ -71,19 +71,23 @@ class DataBuilder
     return $this->user;
   }
 
-  /**
-   *
-   * @param \user\models\User $user
-   * @return \stdClass
-   */
-  public function buildUserPhone ($user)
-  {
-    $phone = $user->getContactPhone(\contact\models\PhoneType::Mobile);
-    if ($phone !== null) {
-      $this->user->Phone = (string)$phone;
+    /**
+     *
+     * @param \user\models\User $user
+     * @return \stdClass
+     */
+    public function buildUserPhone ($user)
+    {
+        if ($user->PrimaryPhone !== null) {
+            $this->user->Phone = $user->PrimaryPhone;
+        } else {
+            $phone = $user->getContactPhone(\contact\models\PhoneType::Mobile);
+            if ($phone !== null) {
+                $this->user->Phone = (string)$phone;
+            }
+        }
+        return $this->user;
     }
-    return $this->user;
-  }
 
 
   /**
