@@ -23,7 +23,7 @@ class A1 extends \competence\models\form\Base {
                 400 => '400.png',
                 401 => '401.png',
                 403 => '403.jpg',
-                404 => '404.jpeg',
+                404 => '404.jpg',
                 405 => '405.jpg',
                 406 => '406.jpg',
                 407 => '407.jpg',
