@@ -14,11 +14,11 @@ class Appday14Controller extends \application\components\controllers\MainControl
     /** @var User */
     private $user = null;
 //
-    const EventId = 831;
-    const TestId = 7;
+//    const EventId = 831;
+//    const TestId = 7;
 
-//    const EventId = 1369;
-//    const TestId = 16;
+    const EventId = 1369;
+    const TestId = 16;
 
     protected function beforeAction($action)
     {
@@ -141,7 +141,7 @@ class Appday14Controller extends \application\components\controllers\MainControl
         $criteria->addCondition('t."StartTime" < :CurrentTime');
         $criteria->params = ['CurrentTime' => $currentTime];
         $criteria->order = 't."StartTime", t."Id"';
-        $criteria->limit = 4;
+        $criteria->limit = 6;
 
         $sections = Section::model()->byEventId(self::EventId)->findAll($criteria);
         $sectionsByTime = [];
