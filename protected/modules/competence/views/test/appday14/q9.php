@@ -18,7 +18,7 @@
                 'value' => $key,
                 'uncheckValue' => null,
                 'data-group' => $form->getQuestion()->Code.'_'.$qKey,
-                'data-unchecker' => (int)($key == 'want'),
+                'data-unchecker' => (int)($key == 'connect'),
                 'checked' => isset($form->value[$qKey]) && $form->value[$qKey] == $key
             ];
             ?>
