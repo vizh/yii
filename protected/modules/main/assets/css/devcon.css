@@ -21,6 +21,16 @@
   margin-bottom: 5px;
 }
 
+.devcon .interview h3.section-title {
+  margin-bottom: 8px;
+  font-size: 20px;
+  line-height: 22px;
+}
+.devcon .interview h3.section-title span {
+  font-weight: 300;
+  font-size: 16px;
+}
+
 @media screen and (max-width:960px) {
   html {
     min-width: 480px;

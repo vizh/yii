@@ -1,5 +1,7 @@
 <?php
 
+use event\models\section\Section;
+use event\models\section\Vote;
 use main\models\forms\CodeValidation;
 use user\models\User;
 
@@ -7,14 +9,16 @@ class Appday14Controller extends \application\components\controllers\MainControl
 {
     public $layout = '/appday14/layout';
 
+    public $title = 'Анкета участника';
+
     /** @var User */
     private $user = null;
 //
-//    const EventId = 831;
-//    const TestId = 7;
+    const EventId = 831;
+    const TestId = 7;
 
-    const EventId = 1369;
-    const TestId = 16;
+//    const EventId = 1369;
+//    const TestId = 16;
 
     protected function beforeAction($action)
     {
@@ -71,7 +75,9 @@ class Appday14Controller extends \application\components\controllers\MainControl
 
     public function actionSelect()
     {
-        $this->render('select', ['user' => $this->user]);
+        $messageCode = Yii::app()->user->getFlash('Appday14Message');
+
+        $this->render('select', ['user' => $this->user, 'messageCode' => $messageCode]);
     }
 
     public function actionForm()
@@ -79,7 +85,7 @@ class Appday14Controller extends \application\components\controllers\MainControl
         $result = \competence\models\Result::model()
             ->byTestId($this->getTest()->Id)->byUserId($this->user->Id)->find();
         if ($result != null && $result->Finished) {
-            $this->redirect($this->createUrl('/main/appday14/select'));
+            $this->redirect($this->createUrl('/main/appday14/select', ['test' => 1]));
         }
 
         $hasErrors = false;
@@ -116,14 +122,83 @@ class Appday14Controller extends \application\components\controllers\MainControl
 
         if (!$hasErrors) {
             $this->getTest()->saveResult();
-            $this->redirect($this->createUrl('/main/appday14/select'));
+            Yii::app()->user->setFlash('Appday14Message', 'FormOK');
+            $this->redirect($this->createUrl('/main/appday14/select', ['test' => 1]));
         }
         return $hasErrors;
     }
 
+    private $voteValues = ['0' => '-', '9' => 9, '8' => 8, '7' => 7, '6' => 6, '5' => 5, '4' => 4, '3' => 3, '2' => 2, '1' => 1];
+
     public function actionSection()
     {
+        $this->title = 'Голосование за доклады';
+        //$currentTime = date('Y-m-d H:i:s');
+        $currentTime = '2014-11-21 13:00:00';
 
+
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('t."StartTime" < :CurrentTime');
+        $criteria->params = ['CurrentTime' => $currentTime];
+        $criteria->order = 't."StartTime", t."Id"';
+        $criteria->limit = 4;
+
+        $sections = Section::model()->byEventId(self::EventId)->findAll($criteria);
+        $sectionsByTime = [];
+        $sectionsId = [];
+        foreach ($sections as $section) {
+            $sectionsByTime[$section->StartTime][] = $section;
+            $sectionsId[] = $section->Id;
+        }
+
+        if (Yii::app()->getRequest()->getIsPostRequest()) {
+            $this->saveSectionsVotes($sections);
+        }
+
+        $votes = Vote::model()->byUserId($this->user->Id)->bySectionId($sectionsId)->findAll(['index' => 'SectionId']);
+
+        $this->render('section', [
+            'sectionsByTime' => $sectionsByTime,
+            'voteValues' => $this->voteValues,
+            'votes' => $votes
+        ]);
+    }
+
+    /**
+     * @param Section[] $sections
+     */
+    private function saveSectionsVotes($sections)
+    {
+        $voteData = Yii::app()->getRequest()->getParam('vote');
+
+        foreach ($sections as $section) {
+            if (isset($voteData[$section->Id])) {
+                $vote = Vote::model()->bySectionId($section->Id)->byUserId($this->user->Id)->find();
+                if ($vote == null) {
+                    $vote = new Vote();
+                    $vote->SectionId = $section->Id;
+                    $vote->UserId = $this->user->Id;
+                }
+                $vote->SpeakerSkill = $this->filterVoteValue($voteData[$section->Id]['SpeakerSkill']);
+                $vote->ReportInteresting = $this->filterVoteValue($voteData[$section->Id]['ReportInteresting']);
+                $vote->save();
+            }
+        }
+
+        Yii::app()->user->setFlash('Appday14Message', 'VoteOK');
+        $this->redirect($this->createUrl('/main/appday14/select', ['test' => 1]));
+    }
+
+    /**
+     * @param string $value
+     * @return int|null
+     */
+    private function filterVoteValue($value)
+    {
+        if (!isset($this->voteValues[$value]) || $value == 0) {
+            return null;
+        }
+        return intval($value);
     }
 
     public function getCode()

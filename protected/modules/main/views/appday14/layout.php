@@ -37,7 +37,7 @@
         <div class="devcon-hero"></div>
 
         <div class="container m-top_40">
-            <h3 class="text-center competence-title">Анкета участника</h3>
+            <h3 class="text-center competence-title"><?=$this->title;?></h3>
         </div>
 
         <?=$content;?>
