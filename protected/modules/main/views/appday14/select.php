@@ -16,7 +16,7 @@ use main\models\forms\CodeValidation;
 
     <div class="row m-top_30 m-bottom_30">
         <div class="span4 offset2 text-center">
-            <a class="btn btn-large btn-success" href="">Заполнить анкету</a>
+            <a class="btn btn-large btn-success" href="<?=Yii::app()->createUrl('/main/appday14/form');?>">Заполнить анкету</a>
         </div>
         <div class="span4 text-center">
             <a class="btn btn-large btn-success" href="">Оценить доклады</a>
