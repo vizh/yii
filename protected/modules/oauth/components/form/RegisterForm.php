@@ -55,7 +55,7 @@ class RegisterForm extends \CFormModel
       ['Email', 'email'],
       ['Email', 'uniqueEmailValidate'],
       ['FatherName, CompanyId, Company', 'safe'],
-      ['Phone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone']
+      ['Phone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ['condition' => '"t"."Visible"']]
     ];
   }
   

@@ -355,4 +355,16 @@ WHERE epl."Id" IS NULL AND ep."EventId" = 831';
         }
         fclose($csv);
     }
+
+    public function actionPremia14()
+    {
+        $participants = \event\models\Participant::model()->byEventId(889)->byRoleId(2)->findAll();
+        $event = \event\models\Event::model()->findByPk(1533);
+        $role = \event\models\Role::model()->findByPk(2);
+        foreach ($participants as $participant) {
+            if (!\event\models\Participant::model()->byEventId(1533)->byUserId($participant->UserId)->exists()) {
+                $event->registerUser($participant->User, $role, true);
+            }
+        }
+    }
 }

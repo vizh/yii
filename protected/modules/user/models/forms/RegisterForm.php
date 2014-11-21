@@ -26,11 +26,10 @@ class RegisterForm extends \CFormModel
             ['Phone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
             ['LastName,FirstName,Email,Company', 'required'],
             ['Phone', 'required', 'except' => self::SCENARIO_RUVENTS],
-            ['Phone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone'],
+            ['Phone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ['condition' => '"t"."Visible"']],
             ['Email', 'email'],
             ['Email', 'uniqueUser'],
             ['Position', 'checkPosition'],
-            ['Phone', 'checkPhone'],
             ['FatherName, Phone, Position, CompanyId, City, CityId, EventId', 'safe']
         ];
     }
@@ -53,15 +52,6 @@ class RegisterForm extends \CFormModel
         if ($event !== null && isset($event->PositionRequired) && $event->PositionRequired && empty($this->Position))
         {
             $this->addError('Position', \Yii::t('app', 'Необходимо заполнить поле Должность.'));
-        }
-    }
-
-    public function checkPhone($attribute, $params)
-    {
-        $event = $this->getEvent();
-        if ($event !== null && isset($event->PhoneRequired) && $event->PhoneRequired && empty($this->Phone))
-        {
-            $this->addError('Phone', \Yii::t('app', 'Необходимо заполнить поле Телефон.'));
         }
     }
 
