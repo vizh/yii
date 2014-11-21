@@ -11,7 +11,7 @@ class A1 extends \competence\models\form\Base {
         {
             $this->options = $this->rotate('A1_opt', [
                 39 => '39.png',
-                40 => '40.png',
+                40 => '40.jpg',
                 41 => '41.png',
                 42 => '42.png',
                 43 => '43.png',

@@ -1,6 +1,8 @@
 <?php
 namespace ruvents\controllers\user;
 
+use api\models\ExternalUser;
+use application\components\utility\Texts;
 use event\models\Part;
 use event\models\Role;
 use ruvents\components\Action;
@@ -48,6 +50,15 @@ class CreateAction extends Action
     {
       $user = $form->register();
       $this->updateRoles($user);
+
+        if ($this->getEvent()->Id == 1369) {
+            $externalUser = new ExternalUser();
+            $externalUser->AccountId = 105;
+            $externalUser->Partner = 'microsoft';
+            $externalUser->UserId = $user->Id;
+            $externalUser->ExternalId = Texts::GenerateString(8, true);
+            $externalUser->save();
+        }
 
       $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('LastName', '', $form->LastName));
       $this->getDetailLog()->addChangeMessage(new \ruvents\models\ChangeMessage('FirstName', '', $form->FirstName));
