@@ -1,7 +1,10 @@
 <?php
 
+use api\models\Account;
+use api\models\ExternalUser;
 use application\components\controllers\PublicMainController;
 use competence\models\Result;
+use event\models\Participant;
 use user\models\User;
 
 class InfoController extends PublicMainController
@@ -52,5 +55,22 @@ class InfoController extends PublicMainController
             'time' => $time,
             'users' => $users
         ]);
+    }
+
+    public function actionAppdaycodes()
+    {
+        $eventId = 1369;
+        $api = Account::model()->byEventId($eventId)->find();
+
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('t."RoleId" != 24');
+        $criteria->with = ['User' => ['together' => true]];
+        $criteria->order = '"User"."LastName", "User"."FirstName"';
+
+        $participants = Participant::model()->byEventId($eventId)->findAll($criteria);
+
+        $externalUsers = ExternalUser::model()->byAccountId($api->Id)->findAll(['index' => 'UserId']);
+
+        $this->render('appdaycodes', ['participants' => $participants, 'externalUsers' => $externalUsers]);
     }
 } 

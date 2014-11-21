@@ -110,7 +110,18 @@
     width: 60%;
   }
 
+  .select-buttons .span4 {
+    width: 40%;
+  }
+
 
 }
 
-
+@media screen and (max-width:480px) {
+  html {
+    min-width: 320px;
+  }
+  .container {
+    width: 320px;
+  }
+}

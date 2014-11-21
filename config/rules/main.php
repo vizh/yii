@@ -29,6 +29,14 @@ return array(
         'module' => 'main'
     ],
 
+    [
+        'allow',
+        'users' => [528, 113001, 172852, 1466, 59999, 122262],
+        'controllers' => ['info'],
+        'actions' => ['appdaycodes'],
+        'module' => 'main'
+    ],
+
 
   /** Admin Rules */
   array(
