@@ -311,4 +311,48 @@ WHERE epl."Id" IS NULL AND ep."EventId" = 831';
         }
         echo 'ОК! '.sizeof($orderItems);
     }
+
+    public function actionVilikesnow()
+    {
+        $csv = fopen(\Yii::getPathOfAlias('event.data.vilike').'.csv', "r");
+        $first = true;
+        while (($data = fgetcsv($csv, 1000, ";")) !== FALSE) {
+            if ($first) {
+                $first = !$first;
+                continue;
+            }
+
+            $user = \user\models\User::model()->byRunetId($data[0])->find();
+            if ($user == null) {
+                echo 'Не найден пользователь!<br/>';
+                continue;
+            }
+
+            $participant = \event\models\Participant::model()->byUserId($user->Id)->byEventId(1495)->find();
+            if ($participant == null) {
+                echo 'Не найден участник<br/>';
+                continue;
+            }
+
+            $productId = null;
+            switch ($data[16]) {
+                case 'A':case 'А': $productId = 3082; break;
+                case 'B':case 'В': $productId = 3083; break;
+                case 'C':case 'С': $productId = 3084; break;
+                case 'D': $productId = 3085; break;
+                case 'E':case 'Е': $productId = 3086; break;
+                case 'F': $productId=3087;
+            }
+
+            if ($productId !== null) {
+                $product = \pay\models\Product::model()->findByPk($productId);
+                if (!\pay\models\OrderItem::model()->byOwnerId($user->Id)->byProductId($product->Id)->exists()) {
+                    $orderItem = $product->getManager()->createOrderItem($user, $user);
+                    $orderItem->activate();
+                    echo 'Куплен<br/>';
+                }
+            }
+        }
+        fclose($csv);
+    }
 }
