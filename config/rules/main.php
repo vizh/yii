@@ -21,6 +21,14 @@ return array(
     'module' => 'main'
   ],
 
+    [
+        'allow',
+        'users' => [528, 113001, 172852],
+        'controllers' => ['info'],
+        'actions' => ['appday14'],
+        'module' => 'main'
+    ],
+
 
   /** Admin Rules */
   array(
