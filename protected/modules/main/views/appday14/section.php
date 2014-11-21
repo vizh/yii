@@ -14,7 +14,7 @@ use event\models\section\Vote;
     <div class="row m-top_30">
         <div class="span9 offset2">
 
-            <p class="help-block text-center">Вы можете голосовать за текущие доклады и доклады прошлой сессии.</p>
+            <p class="help-block text-center">Вы можете голосовать за текущие доклады и доклады двух прошлых сессий.</p>
 
 
             <?=CHtml::beginForm();?>
@@ -44,17 +44,9 @@ use event\models\section\Vote;
                         <tbody>
 
                         <tr>
-                            <td class="span8">Мастерство докладчика</td>
+                            <td class="span8">Ваша оценка</td>
                             <td>
                                 <?=CHtml::dropDownList('vote['.$section->Id.'][SpeakerSkill]', isset($votes[$section->Id]) ? $votes[$section->Id]->SpeakerSkill : null, $voteValues, ['class' => 'span1']);?>
-                            </td>
-                        </tr>
-
-
-                        <tr>
-                            <td class="span8">Интересность материала</td>
-                            <td>
-                                <?=CHtml::dropDownList('vote['.$section->Id.'][ReportInteresting]', isset($votes[$section->Id]) ? $votes[$section->Id]->ReportInteresting : null, $voteValues, ['class' => 'span1']);?>
                             </td>
                         </tr>
 

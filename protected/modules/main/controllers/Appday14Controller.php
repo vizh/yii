@@ -1,5 +1,6 @@
 <?php
 
+use competence\models\Result;
 use event\models\section\Section;
 use event\models\section\Vote;
 use main\models\forms\CodeValidation;
@@ -13,15 +14,13 @@ class Appday14Controller extends \application\components\controllers\MainControl
 
     /** @var User */
     private $user = null;
-//
-//    const EventId = 831;
-//    const TestId = 7;
 
     const EventId = 1369;
     const TestId = 16;
 
     protected function beforeAction($action)
     {
+        $this->setPageTitle('Russian App Day 2014 - Анкета участника');
         $path = \Yii::getPathOfAlias($this->module->name . '.assets.css') . DIRECTORY_SEPARATOR;
         $path .= 'devcon.css';
         $path = \Yii::app()->assetManager->publish($path);
@@ -76,8 +75,14 @@ class Appday14Controller extends \application\components\controllers\MainControl
     public function actionSelect()
     {
         $messageCode = Yii::app()->user->getFlash('Appday14Message');
+        $result = Result::model()->byTestId($this->getTest()->Id)
+            ->byUserId($this->user->Id)->byFinished(true)->find();
 
-        $this->render('select', ['user' => $this->user, 'messageCode' => $messageCode]);
+        $this->render('select', [
+            'user' => $this->user,
+            'messageCode' => $messageCode,
+            'result' => $result
+        ]);
     }
 
     public function actionForm()
@@ -85,7 +90,7 @@ class Appday14Controller extends \application\components\controllers\MainControl
         $result = \competence\models\Result::model()
             ->byTestId($this->getTest()->Id)->byUserId($this->user->Id)->find();
         if ($result != null && $result->Finished) {
-            $this->redirect($this->createUrl('/main/appday14/select', ['test' => 1]));
+            $this->redirect($this->createUrl('/main/appday14/select'));
         }
 
         $hasErrors = false;
@@ -123,7 +128,7 @@ class Appday14Controller extends \application\components\controllers\MainControl
         if (!$hasErrors) {
             $this->getTest()->saveResult();
             Yii::app()->user->setFlash('Appday14Message', 'FormOK');
-            $this->redirect($this->createUrl('/main/appday14/select', ['test' => 1]));
+            $this->redirect($this->createUrl('/main/appday14/select'));
         }
         return $hasErrors;
     }
@@ -133,15 +138,15 @@ class Appday14Controller extends \application\components\controllers\MainControl
     public function actionSection()
     {
         $this->title = 'Голосование за доклады';
-        //$currentTime = date('Y-m-d H:i:s');
-        $currentTime = '2014-11-21 13:00:00';
-
+        $currentTime = date('Y-m-d H:i:s');
 
         $criteria = new CDbCriteria();
         $criteria->addCondition('t."StartTime" < :CurrentTime');
         $criteria->params = ['CurrentTime' => $currentTime];
-        $criteria->order = 't."StartTime", t."Id"';
+        $criteria->with = ['LinkHalls' => ['together' => true]];
+        $criteria->order = 't."StartTime" DESC, "LinkHalls"."HallId"';
         $criteria->limit = 6;
+
 
         $sections = Section::model()->byEventId(self::EventId)->findAll($criteria);
         $sectionsByTime = [];
@@ -150,6 +155,8 @@ class Appday14Controller extends \application\components\controllers\MainControl
             $sectionsByTime[$section->StartTime][] = $section;
             $sectionsId[] = $section->Id;
         }
+
+        $sectionsByTime = array_reverse($sectionsByTime);
 
         if (Yii::app()->getRequest()->getIsPostRequest()) {
             $this->saveSectionsVotes($sections);
@@ -180,13 +187,12 @@ class Appday14Controller extends \application\components\controllers\MainControl
                     $vote->UserId = $this->user->Id;
                 }
                 $vote->SpeakerSkill = $this->filterVoteValue($voteData[$section->Id]['SpeakerSkill']);
-                $vote->ReportInteresting = $this->filterVoteValue($voteData[$section->Id]['ReportInteresting']);
                 $vote->save();
             }
         }
 
         Yii::app()->user->setFlash('Appday14Message', 'VoteOK');
-        $this->redirect($this->createUrl('/main/appday14/select', ['test' => 1]));
+        $this->redirect($this->createUrl('/main/appday14/select'));
     }
 
     /**

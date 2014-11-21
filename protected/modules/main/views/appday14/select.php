@@ -2,7 +2,10 @@
 /**
  * @var \user\models\User $user
  * @var string $messageCode
+ * @var Result $result
  */
+use competence\models\Result;
+
 ?>
 <div class="container interview m-top_30 m-bottom_40 welcome">
     <div class="row">
@@ -25,12 +28,16 @@
         </div>
     </div>
 
-    <div class="row m-top_30 m-bottom_30">
+    <div class="row m-top_30 m-bottom_30 select-buttons">
         <div class="span4 offset2 text-center">
-            <a class="btn btn-large btn-success" href="<?=Yii::app()->createUrl('/main/appday14/form', ['test' => 1]);?>">Заполнить анкету</a>
+            <?php if ($result == null):?>
+            <a class="btn btn-large btn-success" href="<?=Yii::app()->createUrl('/main/appday14/form');?>">Заполнить анкету</a>
+            <?php else:?>
+                <p class="text-success">Анкета участника заполнена.</p>
+            <?php endif;?>
         </div>
         <div class="span4 text-center">
-            <a class="btn btn-large btn-success" href="<?=Yii::app()->createUrl('/main/appday14/section', ['test' => 1]);?>">Оценить доклады</a>
+            <a class="btn btn-large btn-success" href="<?=Yii::app()->createUrl('/main/appday14/section');?>">Оценить доклады</a>
         </div>
     </div>
 </div>

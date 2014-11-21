@@ -3,7 +3,7 @@
 <head>
   <title><?=CHtml::encode($this->pageTitle);?></title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <meta name="description" content="">
   <meta name="keywords" content="">
   <meta name="google-site-verification" content="j6z-Xgf-Q_q6jFA-UANgpdjIdqPN7J43TiepOX-58EM" />
