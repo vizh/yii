@@ -123,7 +123,13 @@ return array(
         'http://'. RUNETID_HOST.'/event/<idName>/users/' => 'event/view/users',
         'http://'. RUNETID_HOST.'/event/<idName>/shareTo:<targetService>' => 'event/view/share',
         'http://'. RUNETID_HOST.'/event/<idName>/invite/<code>/' => 'event/invite/index',
+
+          'http://'. RUNETID_HOST.'/ticket/premiaru14-ceremony/<runetId>/<hash>/' => ['event/ticket/index', 'defaultParams' => ['eventIdName' => 'premiaru14']],
+          'http://'. RUNETID_HOST.'/ticket/premiaru14-vote/<runetId>/<hash>/' => ['event/ticket/index', 'defaultParams' => ['eventIdName' => 'premiaru14']],
+
         'http://'. RUNETID_HOST.'/ticket/<eventIdName>/<runetId>/<hash>/' => 'event/ticket/index',
+
+
 
         'http://'. RUNETID_HOST.'/create/' => 'event/create/index',
 

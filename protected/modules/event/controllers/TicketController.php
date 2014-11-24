@@ -22,7 +22,8 @@ class TicketController extends application\components\controllers\PublicMainCont
         $model = \event\models\Participant::model()->byUserId($user->Id)->byEventId($this->event->Id);
         if (count($this->event->Parts) == 0) {
             $participant = $model->find();
-            if ($participant == null || $participant->getHash() !== $hash)
+            $hash2 = substr(md5('1420aHQR/agr(pSEt/t.EFS.BT/!'.$user->Id), 2, 25);
+            if ($participant == null || ($participant->getHash() !== $hash && $hash2 !== $hash))
                 throw new \CHttpException(404);
             $params['role'] = $participant->Role;
         } else {
