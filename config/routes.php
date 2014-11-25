@@ -67,6 +67,13 @@ return array(
           'http://'.RUNETID_HOST.'/test/riw14/done' => ['competence/main/done/', 'defaultParams' => ['id' => 15]],
 
 
+          /** Mail.Ru Proftest  2014 */
+          'http://'.RUNETID_HOST.'/proftest2014/' => ['competence/main/index/', 'defaultParams' => ['id' => 14]],
+          'http://'.RUNETID_HOST.'/proftest2014/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 14]],
+          'http://'.RUNETID_HOST.'/proftest2014/end' => ['competence/main/end/', 'defaultParams' => ['id' => 14]],
+          'http://'.RUNETID_HOST.'/proftest2014/done' => ['competence/main/done/', 'defaultParams' => ['id' => 14]],
+
+
         /** Partner Module Rules */
         'http://partner.'. RUNETID_HOST.'/' => 'partner/main/index',
         'http://partner.'. RUNETID_HOST.'/auth/' => 'partner/auth/index',
