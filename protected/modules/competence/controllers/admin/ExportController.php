@@ -93,9 +93,11 @@ class ExportController extends \application\components\controllers\AdminMainCont
         $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(1,3, 'Фамилия');
         $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2,3, 'Отчество');
         $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3,3, 'Компания');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4,3, 'Компания');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4,3, 'Должность');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5,3, 'Email');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6,3, 'Телефон');
 
-        $col = 5;
+        $col = 7;
         foreach ($this->getQuestions() as $question) {
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 1, $question->Code);
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 2, $question->getForm()->getTitle());
@@ -124,8 +126,10 @@ class ExportController extends \application\components\controllers\AdminMainCont
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $row, $user->FatherName);
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Company->Name : ''));
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Position : ''));
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, $row, $user->Email);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6, $row, $user->PrimaryPhone);
 
-            $col = 5;
+            $col = 7;
             foreach ($this->getQuestions() as $question) {
                 $data = $question->getForm()->getExportData($result);
                 foreach ($data as $value) {

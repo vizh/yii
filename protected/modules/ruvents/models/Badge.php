@@ -13,7 +13,13 @@ namespace ruvents\models;
  * @property \event\models\Role $Role
  * @property \user\models\User $User
  * @property \event\models\Part $Part
+ *
+ * @method Badge find($condition='',$params=array())
+ * @method Badge findByPk($pk,$condition='',$params=array())
+ * @method Badge[] findAll($condition='',$params=array())
+ *
  */
+
 class Badge extends \CActiveRecord
 {
   public $CountForCriteria = null;
