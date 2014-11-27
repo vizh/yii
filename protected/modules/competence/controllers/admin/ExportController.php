@@ -67,6 +67,9 @@ class ExportController extends \application\components\controllers\AdminMainCont
      */
     private function getResults($type)
     {
+        $criteria = new \CDbCriteria();
+        $criteria->with = ['User.Employments.Company'];
+
         $model = Result::model()->byTestId($this->test->Id);
         switch ($type) {
             case 'finished':
@@ -86,7 +89,13 @@ class ExportController extends \application\components\controllers\AdminMainCont
 
     private function fillTitles(PHPExcel $phpExcel)
     {
-        $col = 0;
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(0,3, 'Имя');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(1,3, 'Фамилия');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2,3, 'Отчество');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3,3, 'Компания');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4,3, 'Компания');
+
+        $col = 5;
         foreach ($this->getQuestions() as $question) {
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 1, $question->Code);
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 2, $question->getForm()->getTitle());
@@ -106,8 +115,17 @@ class ExportController extends \application\components\controllers\AdminMainCont
     {
         $results = $this->getResults($type);
         $row = 4;
+        /** @var Result $result */
         foreach ($results as $result) {
-            $col = 0;
+
+            $user = $result->User;
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(0, $row, $user->FirstName);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $row, $user->LastName);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $row, $user->FatherName);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Company->Name : ''));
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Position : ''));
+
+            $col = 5;
             foreach ($this->getQuestions() as $question) {
                 $data = $question->getForm()->getExportData($result);
                 foreach ($data as $value) {

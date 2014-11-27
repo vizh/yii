@@ -3,6 +3,7 @@ namespace competence\models\test\appday14;
 
 use competence\models\form\attribute\CheckboxValue;
 use \competence\models\form\attribute\RadioValue;
+use competence\models\Result;
 
 class Q5 extends \competence\models\form\Base
 {
@@ -120,5 +121,40 @@ class Q5 extends \competence\models\form\Base
             'platform' => $this->platform,
             'other2' => $this->other2
         ];
+    }
+
+    public function getInternalExportValueTitles()
+    {
+        $values = [];
+        foreach ($this->getValues() as $value) {
+            $values[] = $value->title;
+            if ($value->key == 'q5_1') {
+                foreach ($this->getPlatforms() as $platform) {
+                    $values[] = $platform->title;
+                }
+            }
+        }
+        return $values;
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+
+        foreach ($this->getValues() as $value) {
+            if ($value->key == 'q5_4') {
+                $data[] = $questionData['other'];
+            }
+            else {
+                $data[] = $questionData['value'] == $value->key ? 1 : 0;
+                if ($value->key == 'q5_1') {
+                    foreach ($this->getPlatforms() as $platform) {
+                        $data[] = $questionData['platform'] == $platform->key ? 1 : 0;
+                    }
+                }
+            }
+        }
+        return $data;
     }
 }

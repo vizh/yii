@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\appday14;
 
+use competence\models\Result;
+
 class Q2 extends \competence\models\form\Base
 {
     public $other;
@@ -59,4 +61,20 @@ class Q2 extends \competence\models\form\Base
             'other' => $this->other
         ];
     }
+
+    public function getInternalExportValueTitles()
+    {
+        return array_values($this->getQuestions());
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        foreach ($this->getQuestions() as $key => $market) {
+            $data[] = isset($questionData['value'][$key]) ? $questionData['value'][$key] : '';
+        }
+        return $data;
+    }
+
 }
