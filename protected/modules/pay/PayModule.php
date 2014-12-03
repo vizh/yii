@@ -1,3 +1,7 @@
 <?php
 
-class PayModule extends CWebModule { }
+class PayModule extends \application\components\WebModule
+{
+
+}
+

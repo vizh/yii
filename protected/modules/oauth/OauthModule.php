@@ -1,5 +1,6 @@
 <?php
-class OauthModule extends CWebModule 
+
+class OauthModule extends \application\components\WebModule
 {
   public function beforeControllerAction($controller, $action) 
   {

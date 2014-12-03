@@ -1,10 +1,10 @@
 <?php
-return array(
-  'modules' => array(
-    /**
-     * Список модулей, используемых основным приложением
-     * Модулт отдельных приложений объявляются в своих файлах (api, partner, ruvents)
-     */
+
+return [
+  /**
+   * Список модулей, используемых основным приложением
+   * Модулт отдельных приложений объявляются в своих файлах (api, partner, ruvents)
+   */
     'catalog',
     'commission',
     'company',
@@ -13,8 +13,8 @@ return array(
     'geo',
     'main',
     'news',
-    'oauth',
-    'pay',
+    'oauth' => ['csrfValidation' => true],
+    'pay' => ['csrfValidation' => true],
     'rbac',
     'tag',
     'user',
@@ -25,17 +25,9 @@ return array(
     'link',
     'raec',
     'sms',
-
     'competence',
-      
-    /** Технические модули */
-    'convert',
+
+  /** Технические модули */
     'mytest',
     'mail'
-  ),
-
-  'csrfValidationModules' => array(
-    'oauth',
-    'pay'
-  )
-);
+];

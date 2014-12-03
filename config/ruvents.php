@@ -1,14 +1,10 @@
 <?php
-return array(
-  'modules' => array(
-    'ruvents',
-  ),
-  'components' => array(
-
-    'ruventsAuthManager'=>array(
-      'class' => '\ruvents\components\PhpAuthManager',
-      'defaultRoles' => array('guest')
-    )
-
-  ),
-);
+return [
+    'modules' => ['ruvents'],
+    'components' => [
+        'ruventsAuthManager' => [
+            'class' => '\ruvents\components\PhpAuthManager',
+            'defaultRoles' => ['guest']
+        ]
+    ],
+];
