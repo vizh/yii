@@ -25,7 +25,7 @@ use event\models\section\LinkUser;
             <?/** @var \event\models\section\Section $section */?>
             <?$section = isset($data->Sections[$hallId][$time]) ? $data->Sections[$hallId][$time]->Section : null;?>
             <?if ($flag):?>
-              <tr <?if ($data->Sections[$hallId][$time]->ColSpan == sizeof($data->Halls)):?>class="info"<?endif;?>>
+              <tr <?if ($data->Sections[$hallId][$time]->ColSpan == sizeof($data->Halls) && $data->Sections[$hallId][$time]->Section->TypeId == 4):?>class="info"<?endif;?>>
                 <td class="time"><?=$label;?></td>
                 <?$flag = false;?>
             <?endif;?>
