@@ -16,6 +16,7 @@ class Edit extends \CFormModel
     public $Free;
     public $Top;
     public $UnsubscribeNewUser = 0;
+    public $RegisterHideNotSelectedProduct = 0;
 
     public $StartDate;
     public $EndDate;
@@ -39,7 +40,7 @@ class Edit extends \CFormModel
     {
         return [
             ['Title, IdName, Info, StartDate, EndDate', 'required'],
-            ['Free, Top, UnsubscribeNewUser', 'boolean', 'allowEmpty' => true],
+            ['Free, Top, UnsubscribeNewUser, RegisterHideNotSelectedProduct', 'boolean', 'allowEmpty' => true],
             ['Email', 'email', 'allowEmpty' => true],
             ['StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'],
             ['EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'],
@@ -70,7 +71,8 @@ class Edit extends \CFormModel
             'StartDate' => \Yii::t('app', 'Дата начала'),
             'EndDate' => \Yii::t('app', 'Дата окончания'),
             'Phone' => \Yii::t('app', 'Номер телефона'),
-            'UnsubscribeNewUser' => \Yii::t('app', 'Не подписывать новых пользователей на рассылки')
+            'UnsubscribeNewUser' => \Yii::t('app', 'Не подписывать новых пользователей на рассылки'),
+            'RegisterHideNotSelectedProduct' => \Yii::t('app', 'Скрывать не выбранные товары при регистрации')
         ];
     }
 

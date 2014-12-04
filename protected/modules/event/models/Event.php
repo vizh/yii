@@ -54,6 +54,7 @@ use user\models\User;
  * @property bool $PositionRequired
  * @property bool $PhoneRequired
  * @property bool $UnsubscribeNewUser
+ * @property bool $RegisterHideNotSelectedProduct
  *
  *
  * Вспомогательные описания методов методы
@@ -114,7 +115,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
      */
     public function getTranslationFields()
     {
-        return array('Title', 'Info', 'FullInfo');
+        return ['Title', 'Info', 'FullInfo'];
     }
 
     /**
@@ -122,7 +123,7 @@ class Event extends \application\models\translation\ActiveRecord implements \sea
      */
     protected function getInternalAttributeNames()
     {
-        return ['UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson', 'MailRegister', 'PositionRequired', 'PhoneRequired', 'Options', 'UnsubscribeNewUser'];
+        return ['UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson', 'MailRegister', 'PositionRequired', 'PhoneRequired', 'Options', 'UnsubscribeNewUser', 'RegisterHideNotSelectedProduct'];
     }
 
     public function __get($name)

@@ -144,6 +144,12 @@
                     <?=\CHtml::activeCheckBox($form, 'UnsubscribeNewUser');?>
                 </div>
             </div>
+            <div class="control-group">
+                <?=\CHtml::activeLabel($form, 'RegisterHideNotSelectedProduct', array('class' => 'control-label'));?>
+                <div class="controls">
+                    <?=\CHtml::activeCheckBox($form, 'RegisterHideNotSelectedProduct');?>
+                </div>
+            </div>
             <?if ($event->External == true):?>
                 <p class="text-warning"><?=\Yii::t('app', 'Внешнее мероприятие');?></p>
                 <div class="control-group">

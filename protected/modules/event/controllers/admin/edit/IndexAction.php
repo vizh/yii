@@ -87,6 +87,7 @@ class IndexAction extends \CAction
                 $event->Top = $form->Top;
                 $event->Free = $form->Free;
                 $event->UnsubscribeNewUser = $form->UnsubscribeNewUser;
+                $event->RegisterHideNotSelectedProduct = $form->RegisterHideNotSelectedProduct;
 
 
                 // Сохранение адреса
@@ -182,6 +183,7 @@ class IndexAction extends \CAction
         {
             $widgets->Used[$widget->Name] = $widget;
         }
+        $this->getController()->setPageTitle(\Yii::t('app', 'Редактирование мероприятия'));
         \Yii::app()->clientScript->registerPackage('runetid.ckeditor');
         $this->getController()->render('index', array(
                 'form'    => $form,
