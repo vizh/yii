@@ -169,6 +169,10 @@ $isHideProduct = function (Product $product) use ($event, $countRows) {
                 <?endif;?>
 
                 <div class="nav-buttons">
+                    <a href="<?=$event->getUrl();?>" class="btn btn-large">
+                        <i class="icon-circle-arrow-left"></i>
+                        <?=\Yii::t('app', 'Назад');?>
+                    </a>
                     <a href="#" onclick="$('#registration_form').trigger('submit'); return false;" class="btn btn-large btn-info <?if ($hasTickets):?>disabled<?endif;?>">
                         <?=\Yii::t('app', 'Продолжить');?>
                         <i class="icon-circle-arrow-right icon-white"></i>
