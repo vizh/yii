@@ -15,6 +15,7 @@ namespace pay\models;
  * @property string $AdditionalAttributes
  * @property string $AdditionalAttributesTitle
  * @property string $OrderTitle
+ * @property string $GroupName
  *
  * @property \event\models\Event $Event
  * @property ProductAttribute[] $Attributes

@@ -1,6 +1,9 @@
 <?php
 namespace event\widgets;
 
+use event\models\Participant;
+use pay\models\ProductPrice;
+
 /**
  * Class Registration
  * @package event\widgets
@@ -10,103 +13,106 @@ namespace event\widgets;
  */
 class Registration extends \event\components\Widget
 {
-  public function getAttributeNames()
-  {
-    return ['RegistrationAfterInfo', 'RegistrationBeforeInfo', 'RegistrationTitle', 'RegistrationBuyLabel'];
-  }
-
-
-  public function getIsHasDefaultResources()
-  {
-    return true;
-  }
-
-  public function process()
-  {
-    $request = \Yii::app()->getRequest();
-    $product = $request->getParam('product', array());
-    if ($request->getIsPostRequest() && sizeof($product) !== 0)
+    public function getAttributeNames()
     {
-      $this->getController()->redirect(\Yii::app()->createUrl('/pay/cabinet/register', ['eventIdName' => $this->event->IdName]));
-    }
-  }
-
-
-  public function run()
-  {
-    /** @var $account \pay\models\Account */
-    $account = \pay\models\Account::model()->byEventId($this->event->Id)->find();
-    if ($account === null)
-    {
-      return;
+        return ['RegistrationAfterInfo', 'RegistrationBeforeInfo', 'RegistrationTitle', 'RegistrationBuyLabel'];
     }
 
-    /** @var \event\models\Participant $participant */
-    $participant = null;
-    if (!\Yii::app()->user->getIsGuest())
+
+    public function getIsHasDefaultResources()
     {
-      if (count($this->event->Parts) == 0)
-      {
-        $participant = \event\models\Participant::model()
-            ->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->event->Id)->find();
-      }
-      else
-      {
-        $participants = \event\models\Participant::model()->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->event->Id)->findAll();
-        foreach ($participants as $p)
-        {
-          if ($participant == null || $participant->Role->Priority < $p->Role->Priority)
-          {
-            $participant = $p;
-          }
+        return true;
+    }
+
+    public function process()
+    {
+        $request = \Yii::app()->getRequest();
+        $product = $request->getParam('product', []);
+        if ($request->getIsPostRequest() && sizeof($product) !== 0) {
+            $this->getController()->redirect(\Yii::app()->createUrl('/pay/cabinet/register', ['eventIdName' => $this->event->IdName]));
         }
-      }
     }
 
-    if ($account->ReturnUrl === null)
+
+    public function run()
     {
-      \Yii::app()->getClientScript()->registerPackage('runetid.event-calculate-price');
-      $criteria = new \CDbCriteria();
-      $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
-      $criteria->addCondition('"t"."ManagerName" != \'Ticket\'');
-      $model = \pay\models\Product::model()->byPublic(true);
-      if (!\Yii::app()->user->isGuest)
-      {
-        $model->byUserAccess(\Yii::app()->user->getCurrentUser()->Id, 'OR');
-      }
-      $products = $model->byEventId($this->event->Id)->findAll($criteria);
+        $account = \pay\models\Account::model()->byEventId($this->event->Id)->find();
+        if ($account === null) {
+            return;
+        }
 
-      $viewName = !$this->event->FullWidth ? 'registration' : 'fullwidth/registration';
+        /** @var Participant $participant */
+        $participant = null;
+        if (!\Yii::app()->user->getIsGuest()) {
+            if (count($this->event->Parts) == 0) {
+                $participant = Participant::model()->byUserId(\Yii::app()->user->getCurrentUser()->Id)
+                    ->byEventId($this->event->Id)->find();
+            } else {
+                $participants = Participant::model()->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->event->Id)->findAll();
+                foreach ($participants as $p) {
+                    if ($participant == null || $participant->Role->Priority < $p->Role->Priority) {
+                        $participant = $p;
+                    }
+                }
+            }
+        }
 
-      $this->render($viewName, [
-        'products' => $products,
-        'account' => $account,
-        'participant' => $participant,
-        'event' => $this->event
-      ]);
+        if ($account->ReturnUrl === null) {
+            \Yii::app()->getClientScript()->registerPackage('runetid.event-calculate-price');
+            $criteria = new \CDbCriteria();
+            $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
+            $criteria->addCondition('"t"."ManagerName" != \'Ticket\'');
+            $model = \pay\models\Product::model()->byPublic(true);
+            if (!\Yii::app()->user->isGuest) {
+                $model->byUserAccess(\Yii::app()->user->getCurrentUser()->Id, 'OR');
+            }
+            $products = $model->byEventId($this->event->Id)->findAll($criteria);
+
+            $productsByGroup = [];
+            foreach ($products as $product) {
+                if (!empty($product->GroupName)) {
+                    $productsByGroup[$product->GroupName][] = $product;
+                } else {
+                    $productsByGroup[] = $product;
+                }
+            }
+
+            $viewName = !$this->event->FullWidth ? 'registration/index' : 'fullwidth/registration';
+
+            $criteria = new \CDbCriteria();
+            $criteria->condition = 't."Price" > 0 AND "Product"."EventId" = :EventId';
+            $criteria->params = ['EventId' => $this->getEvent()->Id];
+            $criteria->with = ['Product' => ['together' => true, 'select' => false]];
+            $paidEvent = ProductPrice::model()->exists($criteria);
+
+            $this->render($viewName, [
+                'products' => $products,
+                'account' => $account,
+                'participant' => $participant,
+                'productsByGroup' => $productsByGroup,
+                'paidEvent' => $paidEvent
+            ]);
+        } else {
+            $this->render('registration-external', [
+                'account' => $account,
+                'participant' => $participant
+            ]);
+        }
     }
-    else
+
+    /**
+     * @return string
+     */
+    public function getTitle()
     {
-      $this->render('registration-external', [
-        'account' => $account,
-        'participant' => $participant
-      ]);
+        return \Yii::t('app', 'Регистрация на мероприятии');
     }
-  }
 
-  /**
-   * @return string
-   */
-  public function getTitle()
-  {
-    return \Yii::t('app', 'Регистрация на мероприятии');
-  }
-
-  /**
-   * @return string
-   */
-  public function getPosition()
-  {
-    return \event\components\WidgetPosition::Content;
-  }
+    /**
+     * @return string
+     */
+    public function getPosition()
+    {
+        return \event\components\WidgetPosition::Content;
+    }
 }

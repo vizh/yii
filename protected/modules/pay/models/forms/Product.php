@@ -19,6 +19,7 @@ class Product extends \CFormModel
     public $AdditionalAttributesTitle;
     public $AdditionalAttributes = [];
     public $OrderTitle;
+    public $GroupName;
     public $Delete;
 
     public function __construct(\event\models\Event $event, \pay\models\Product $product = null, $scenario = '')
@@ -184,9 +185,10 @@ class Product extends \CFormModel
             ['Id,Public,Priority,EnableCoupon,Delete,AdditionalAttributesTitle,OrderTitle', 'safe'],
             ['Title,ManagerName,Unit', 'required'],
             ['Description', 'filter', 'filter' => [$this, 'filterDescription']],
-            ['Prices', 'filter', 'filter' => array($this, 'filterPrices')],
-            ['Attributes', 'filter', 'filter' => array($this, 'filterAttributes')],
-            ['AdditionalAttributes', 'filter', 'filter' => [$this, 'filterAdditionalAttributes']]
+            ['Prices', 'filter', 'filter' => [$this, 'filterPrices']],
+            ['Attributes', 'filter', 'filter' => [$this, 'filterAttributes']],
+            ['AdditionalAttributes', 'filter', 'filter' => [$this, 'filterAdditionalAttributes']],
+            ['GroupName', 'filter', 'filter' => [new \CHtmlPurifier(), 'purify']],
         ];
     }
 
@@ -211,7 +213,7 @@ class Product extends \CFormModel
     {
         $purifier = new \CHtmlPurifier();
         $purifier->options = [
-            'HTML.AllowedElements'   => ['p', 'ul', 'li'],
+            'HTML.AllowedElements'   => ['p', 'ul', 'li', 'br', 'strong', 'em'],
             'HTML.AllowedAttributes' => ['class'],
         ];
         return trim($purifier->purify($value));
@@ -231,7 +233,8 @@ class Product extends \CFormModel
             'EnableCoupon' => \Yii::t('app', 'Разрешить промо-коды'),
             'AdditionalAttributes' => \Yii::t('app', 'Дополнительные параметры заказа'),
             'AdditionalAttributesTitle' => \Yii::t('app', 'Заголовок к дополнительным параметрам'),
-            'OrderTitle' => \Yii::t('app', 'Название для счетов')
+            'OrderTitle' => \Yii::t('app', 'Название для счетов'),
+            'GroupName' => \Yii::t('app', 'Название группы товаров')
         ];
     }
 }

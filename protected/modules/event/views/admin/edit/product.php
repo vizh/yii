@@ -52,6 +52,12 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <?=\CHtml::activeLabel($formProduct, 'GroupName', ['class' => 'control-label']);?>
+                            <div class="controls">
+                                <?=\CHtml::activeTextField($formProduct, 'GroupName', ['class' => 'input-xxlarge']);?>
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <?=\CHtml::activeLabel($formProduct, 'OrderTitle', ['class' => 'control-label']);?>
                             <div class="controls">
                                 <?=\CHtml::activeTextArea($formProduct, 'OrderTitle', ['class' => 'input-xxlarge', 'style' => 'height: 40px;']);?>

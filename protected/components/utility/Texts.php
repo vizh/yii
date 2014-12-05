@@ -243,4 +243,9 @@ class Texts
         $str = str_replace(["\r\n","\n"], "", $str);
         return $str;
     }
+
+    public static function isHtml($string)
+    {
+        return preg_match("/<[^<]+>/",$string,$m) != 0;
+    }
 }
