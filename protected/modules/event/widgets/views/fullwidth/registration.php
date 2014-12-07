@@ -59,7 +59,7 @@
             <?elseif ($key != 0 && $price->EndTime != null):?>
               <?=\Yii::t('app', 'При регистрации онлайн с');?> <?=$dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'по');?> <?=$dateFormatter->format('d MMMM', $price->EndTime);?>
             <?else:?>
-              <?=\Yii::t('app', 'При регистрации онлайн с');?> <?=$dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'или на входе').' ('.$event->getFormattedStartDate('dd MMMM').')';?>
+              <?=\Yii::t('app', 'При регистрации онлайн с');?> <?=$dateFormatter->format('d MMMM', $price->StartTime);?> <?=\Yii::t('app', 'или на входе').' ('.$this->getEvent()->getFormattedStartDate('dd MMMM').')';?>
             <?endif;?>
             <?else:?>
               <?=$price->Title;?>
