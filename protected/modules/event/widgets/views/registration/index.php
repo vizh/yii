@@ -52,6 +52,10 @@ if (empty($products))
         </tbody>
     </table>
 
+<?php if (isset($this->RegistrationNote) && !empty($this->RegistrationNote)):?>
+    <p class="m-bottom_20"><span class="required-asterisk">*</span> <small class="muted"><?=$this->RegistrationNote;?></small></p>
+<?php endif;?>
+
 <?php $this->render('registration/footer', ['participant' => $participant, 'paidEvent' => $paidEvent]);?>
 
 <?=CHtml::endForm();?>

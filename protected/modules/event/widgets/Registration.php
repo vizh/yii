@@ -10,12 +10,15 @@ use pay\models\ProductPrice;
  *
  * @property string $RegistrationAfterInfo
  * @property string $RegistrationBeforeInfo
+ * @property string $RegistrationTitle
+ * @property string $RegistrationBuyLabel
+ * @property string $RegistrationNote
  */
 class Registration extends \event\components\Widget
 {
     public function getAttributeNames()
     {
-        return ['RegistrationAfterInfo', 'RegistrationBeforeInfo', 'RegistrationTitle', 'RegistrationBuyLabel'];
+        return ['RegistrationAfterInfo', 'RegistrationBeforeInfo', 'RegistrationTitle', 'RegistrationBuyLabel', 'RegistrationNote'];
     }
 
 
