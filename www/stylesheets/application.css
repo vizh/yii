@@ -1283,16 +1283,23 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   padding: 0 40px;
   margin-left: 100px;
 }
+.event-page-fullwidth .content > h2 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-align: center;
+}
 .event-page-fullwidth .content header p {font-size: 15px;}
 .event-page-fullwidth .content p {
   font-size: 14px;
   line-height: 25px;
 }
 .event-page-fullwidth .content > p,
-.event-page-fullwidth .content > h3{
+.event-page-fullwidth .content > h3 {
   margin-left: 80px;
 }
-.event-page-fullwidth .content ul{
+.event-page-fullwidth .content ul,
+.event-page-fullwidth .content ol {
+  margin-bottom: 30px;
   width: auto;
 }
 .event-page-fullwidth .content li {
@@ -1300,15 +1307,15 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   font-size: 14px;
   line-height: 20px;
   list-style: none;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  margin-left: 20px;
   position: relative;
 }
 .event-page-fullwidth .content > ul li:before {
-  content: url("/img/widgets/list.png");
+  content: "— ";
   display: block;
-  left: -30px;
+  left: -20px;
   position: absolute;
-  top: -6px;
 }
 
 .event-page-fullwidth .content blockquote {
@@ -2603,7 +2610,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 
 /* CONTENT STYLES */
-.content {margin-bottom: -40px;}
+.content {margin-bottom: -20px;}
 
 .content h1:first-child,
 .content h2:first-child,
@@ -2613,19 +2620,19 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 .content h6:first-child {margin-top: 0;}
 
 .content blockquote {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   font-weight: bold;
   font-style: italic;
 }
 
 .content p {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   font-size: 13px;
 }
 
 .content ol,
 .content ul {
-  margin: 0 0 40px 80px;
+  margin: 0 0 20px 80px;
   width: 620px;
   font-size: 13px;
 }
