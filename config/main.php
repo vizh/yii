@@ -79,6 +79,7 @@ $config = [
 $config = CMap::mergeArray($config, require(__DIR__ . '/api.php'));
 $config = CMap::mergeArray($config, require(__DIR__ . '/partner.php'));
 $config = CMap::mergeArray($config, require(__DIR__ . '/ruvents.php'));
+$config = CMap::mergeArray($config, require(__DIR__ . '/ruvents2.php'));
 
 if (RUNETID_DEV) {
     $config['components']['debug'] = [
