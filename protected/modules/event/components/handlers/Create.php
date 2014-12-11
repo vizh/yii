@@ -4,6 +4,7 @@ namespace event\components\handlers;
 class Create extends \mail\components\Mail
 {
   protected $form;
+    protected $to = null;
   
   public function __construct(\mail\components\Mailer $mailer, \event\models\forms\Create $form, \event\models\Event $event)
   {
@@ -29,6 +30,14 @@ class Create extends \mail\components\Mail
 
   public function getTo()
   {
-    return \Yii::app()->params['EmailEventCalendar'];
-  }  
+      if ($this->to === null) {
+          return \Yii::app()->params['EmailEventCalendar'];
+      }
+      return $this->to;
+  }
+
+    public function setTo($to)
+    {
+        $this->to = $to;
+    }
 }
