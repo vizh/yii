@@ -4,6 +4,8 @@ namespace mail\models\forms\admin;
 use geo\models\City;
 use geo\models\Country;
 use geo\models\Region;
+use mail\components\Mailer;
+use mail\models\Layout;
 
 class Template extends \CFormModel
 {
@@ -35,7 +37,7 @@ class Template extends \CFormModel
     private $mailer;
 
     /**
-     * @param \mail\components\mailers\template\ITemplateMailer $mailer
+     * @param Mailer $mailer
      * @param string $scenario
      */
     public function __construct($mailer, $scenario = '')
@@ -272,9 +274,10 @@ class Template extends \CFormModel
     public function getLayoutData()
     {
         return [
-            \mail\Models\Layout::None => \Yii::t('app', 'Без шаблона'),
-            \mail\Models\Layout::OneColumn => \Yii::t('app', 'Одноколоночный'),
-            \mail\Models\Layout::TwoColumn => \Yii::t('app', 'Двухколоночный')
+            Layout::None => \Yii::t('app', 'Без шаблона'),
+            Layout::OneColumn => \Yii::t('app', 'Одноколоночный'),
+            Layout::TwoColumn => \Yii::t('app', 'Двухколоночный'),
+            Layout::DevCon15 => \Yii::t('app', 'DevCon 2015'),
         ];
     }
 } 
