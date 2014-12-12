@@ -10,7 +10,7 @@ HOST: https://ruvents2.runet-id.loc
 Для того, чтобы вызвать метод API *RUVENTS Регистрация*, вам необходимо осуществить запрос по протоколу **HTTPS** на указанный URL:
 
 ```http
-https://ruvents2.runet-id.loc/{METHOD}?{PARAMETERS}
+https://ruvents2.runet-id.com/{METHOD}?{PARAMETERS}
 ```
 
 Результат возвращается в формате JSON
@@ -19,6 +19,12 @@ https://ruvents2.runet-id.loc/{METHOD}?{PARAMETERS}
 
 ```http
 X-Ruvents-Hash: {Hash}
+```
+
+Для запросов, изменяющих данные на стороне сервиса необходимо передавать Id оператора, производящего данные изменения
+
+```http
+X-Ruvents-Operator: {Id}
 ```
 
 ## Обработка ошибок и кодов состояния HTTP
@@ -43,7 +49,7 @@ X-Ruvents-Hash: {Hash}
 ```
 
 
-# Group Event
+# Group Мероприятие
 
 Получение информации о текущем мероприятии.
 
@@ -84,12 +90,90 @@ X-Ruvents-Hash: {Hash}
                 }
             }
 
-
-## Части мероприятия [/event/parts]
+## Операторы [/event/operators]
 
 ### GET
 
-+ Response
++ Response 200
+
+    + Body
+
+            [
+                {
+                    "Id": 323,
+                    "Login": "op1",
+                    "Password": "87245",
+                    "Role": "Admin" 
+                },
+                {
+                    "Id": 324,
+                    "Login": "op2",
+                    "Password": "18636",
+                    "Role": "Operator"
+                }
+            ]
+    + Schema
+
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "Id": { "type": "integer" },
+                        "Login": { "type": "string" },
+                        "Password": { "type": "string" },
+                        "Role": { "enum": [ "Admin", "Operator" ] }
+                    },
+                    "required": ["Id", "Login", "Password", "Role"]
+                }
+            }
+
+## Статусы [/event/statuses]
+
+### GET
+
++ Response 200
+
+    + Body
+
+            [
+                {
+                    "Id": 6,
+                    "Title": "Организатор",
+                    "Color": "#ff0000",
+                    "Priority": 90 
+                },
+                {
+                    "Id": 1,
+                    "Title": "Участник",
+                    "Color": "#000000",
+                    "Priority": 30
+                }
+            ]
+    + Schema
+
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "Id": { "type": "integer" },
+                        "Title": { "type": "string" },
+                        "Color": { "type": "string" },
+                        "Priority": { "type": "integer" }
+                    },
+                    "required": ["Id", "Title", "Color", "Priority"]
+                }
+            }
+
+
+## Части мероприятия [/event/parts]
+
+Возвращается пустой массив, если у мероприятия нет разбивки на части
+
+### GET
+
++ Response 200
 
     + Body
 
@@ -128,35 +212,700 @@ X-Ruvents-Hash: {Hash}
             }
 
 
-# Group Notes
-Group description (also with *Markdown*)
+## Товары [/event/products]
 
-## Note List [/notes]
-Note list description
+### GET
 
-+ Even
-+ More
-+ Markdown
-
-+ Model
-
-    + Headers
-
-            Content-Type: application/json
-            X-Request-ID: f72fc914
-            X-Response-Time: 4ms
++ Response 200
 
     + Body
 
             [
                 {
-                    "id": 1,
-                    "title": "Grocery list",
-                    "body": "Buy milk"
+                    "Id": 1,
+                    "Manager": "Event",
+                    "Title": "Участие в мероприятии",
+                    "Price": 3000
                 },
                 {
-                    "id": 2,
-                    "title": "TODO",
-                    "body": "Fix garage door"
+                    "Id": 2,
+                    "Manager": "Food",
+                    "Title": "Питание на мероприятии",
+                    "Price": 500
                 }
             ]
+
+    + Schema
+
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "Id": {
+                            "type": "integer",
+                            "required": true
+                        },
+                        "Manager": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "Title": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "Price": {
+                            "type": "integer",
+                            "required": true
+                        }
+                    }
+                }
+            }
+
+
+## Шаблоны бейджей [/event/badges]
+
+<span style="color: #ff0000;">Не реализовано</span>
+
+### GET
+
++ Response 200
+    
+    + Body
+
+            [
+                {},
+                {}
+            ]
+    + Schema
+            
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "Id": {
+                            "type": "integer",
+                            "required": true
+                        },
+                        "Title": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "Template": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                }
+            }
+
+
+
+
+# Group Участники
+
+## Пользовательские поля [/participants/fields]
+
+Задает список возможных полей для участника.
+
+Для RUNET-ID в ответе сервера всегда присутствуют следующие поля: LastName, FirstName, FatherName, Email, Phone, Company, Position
+
+### GET
+
++ Response 200
+
+    + Body
+
+            {
+                "FirstName": {
+                    "type": "string",
+                    "required": true,
+                    "hasLocales": true
+                },
+                "LastName": {
+                    "type": "string",
+                    "required": false,
+                    "hasLocales": true
+                },
+                "Email": {
+                    "type": "string",
+                    "format": "email",
+                    "hasLocales": false
+                }
+            }
+
+    + Schema
+
+            {
+                "type": "object",
+                "patternProperties": {
+                    "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                        "type": "object",
+                        "properties": {
+                            "type": { 
+                                "type": "string",
+                                "enum": ["string", "integer", "number", "boolean"]
+                            },
+                            "pattern": { "type": "string" },
+                            "format": {
+                                "type": "string",
+                                "enum": ["date-time", "email", "uri"]
+                            },
+                            "required": { "type": "boolean" },
+                            "hasLocales": { "type": "boolean" }
+                        },
+                        "required": ["type"]
+                    }
+                }
+            }
+
+## Список участников [/participants{?since}]
+
+### GET
+
++ Parameters
+    + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены участники, обновленные позднее этой даты
+
++ Response 200
+
+    Если мероприятие не содержит частей, ```PartId = null``` и в массиве будет ровно один элемент.<br/>
+    Если мероприятие содержит части, то для каждой части будет информация о статусе.
+
+    ```StatusId = null``` означает, что у пользователя отсутствует статус на мероприятии или определенной части мероприятия, но при этом он проявлял какую либо активность в рамках этого мероприятия.
+
+    + Body
+
+            {
+                "Participants": [
+                    {
+                        "Id": 234,
+                        "Statuses": [
+                            {
+                                "PartId": 1,
+                                "StatusId": 3
+                            },
+                            {
+                                "PartId": 2,
+                                "StatusId": null
+                            }
+                        ],
+                        "Locales": {
+                            "ru": {
+                                "LastName": "Петров",
+                                "FirstName": "Петр",
+                                "FatherName": "Петрович"
+                            },
+                            "en": {
+                                "LastName": "Petrov",
+                                "FirstName": "Petr",
+                                "FatherName": "Petrovich"
+                            }
+                        }
+                    }
+                ],
+                "HasMore": true,
+                "NextSince": "2014-12-24 17:41:03"
+            }
+            
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Items" : {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "Id": {
+                                    "type": "integer"
+                                },
+                                "Statuses": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",                                
+                                        "properties": {
+                                            "PartId": { "type": ["integer", "null"] },
+                                            "StatusId": { "type": ["integer", "null"] }
+                                        }
+                                    }
+                                },
+                                "Locales": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ru": {
+                                            "type": "object",
+                                            "patternProperties": {
+                                                "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                                                    "type": ["string", "integer", "number", "boolean"]
+                                                }
+                                            }
+                                        },
+                                        "en": {
+                                            "type": "object",
+                                            "patternProperties": {
+                                                "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                                                    "type": ["string", "integer", "number", "boolean"]
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "patternProperties": {
+                                "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                                    "type": ["string", "integer", "number", "boolean"]
+                                }
+                            },
+                            "required": ["Id", "Statuses"]
+                        }
+                    },
+                    "HasMore": {"type": "boolean"},
+                    "NextSince": {"type": "string"},
+                }
+            }
+    
+            
+
+## Создание участника [/participants]
+
+### POST
+
+Для мероприятий без частей ```PartId = null``` и в массиве ```Statuses``` ровно один элемент.
+
+Для мероприятий с несколькими частями:
+1. Запрещено передавать несколько элементов с одинаковым ```PartId```.
+2. Разрешено не передавать некоторые ```PartId```. В этом случае для переданных ```PartId``` выставляется соответствующий статус, для всех остальных выставляется ```StatusId = null```
+
++ Request
+    
+    + Headers
+
+            X-Ruvents-Operator: 2
+
+    + Body
+
+            {
+                "Statuses": [
+                    {
+                        "PartId": 1,
+                        "StatusId": 3
+                    },
+                    {
+                        "PartId": 2,
+                        "StatusId": null
+                    }
+                ],
+                "LastName": "Петров",
+                "FirstName": "Петр",
+                "FatherName": "Петрович"
+            }
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Statuses": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",                                
+                            "properties": {
+                                "PartId": { "type": ["integer", "null"] },
+                                "StatusId": { "type": ["integer", "null"] }
+                            }
+                        }
+                    }
+                },
+                "patternProperties": {
+                    "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                        "type": ["string", "integer", "number", "boolean"]
+                    }
+                },
+                "required": ["Statuses"]
+            }
+
++ Response 200
+
+    + Body
+
+            {
+                "Id": 234
+            }
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Id": {
+                        "type": "integer"
+                    }
+                }
+            }
+
+
+## Изменение участника [/participants/{Id}]
+
++ Parameters
+    + Id (required, integer) ... Идентификатор участника
+
+### Редактирование [PUT]
+
+Передаются только изменившиеся данные. 
+
+Для мероприятий с несколькими частями передаются статусы для тех частей, для которых они изменились.
+
++ Request
+
+    + Headers
+
+            X-Ruvents-Operator: 2
+
+    + Body
+
+            {
+                "Statuses": [
+                    {
+                        "PartId": 1,
+                        "StatusId": 3
+                    },
+                    {
+                        "PartId": 2,
+                        "StatusId": null
+                    }
+                ],
+                "LastName": "Петров",
+                "FirstName": "Петр",
+                "FatherName": "Петрович"
+            }
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Statuses": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",                                
+                            "properties": {
+                                "PartId": { "type": ["integer", "null"] },
+                                "StatusId": { "type": ["integer", "null"] }
+                            }
+                        }
+                    }
+                },
+                "patternProperties": {
+                    "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                        "type": ["string", "integer", "number", "boolean"]
+                    }
+                },
+                "required": ["Statuses"]
+            }
+
++ Response 200
+
+### Удаление [DELETE]
+
+Удаляет участие на текущем мероприятии. Участник перестает возвращаться в методе ```/participants```
+
++ Request
+
+    + Headers
+
+            X-Ruvents-Operator: 2
+
++ Response 200
+
+
+## Глобальный поиск [/users{?query}]
+
+Доступен только для RUNET-ID.
+Возвращает не более 50 пользователей.
+
+### GET
+
++ Parameters
+    + query (required, string) 
+
+        Универсальный поисковой запрос пользователей на RUNET-ID. Допустимо передавать: Id, список Id через запятую, Фамилию, Фамилию Имя, Имя Фамилию, Фамилию Имя Отчество, Email
+
++ Response 200
+
+    + Body
+
+            {
+                "Users": [
+                    {
+                        "Id": 234,
+                        "LastName": "Петров",                    
+                        "FirstName": "Петр",
+                        "FatherName": "Петрович",
+                        "Email": "test-petr@runet-id.com",
+                        "Phone": "7345452342",
+                        "Company": "Рога и копыта",
+                        "Position": "Главный забойщик",
+                    },
+                    {
+                        "Id": 235,
+                        "LastName": "Петров",                    
+                        "FirstName": "Иван",
+                        "FatherName": "Иванович",
+                        "Email": "test-ivan@runet-id.com",
+                        "Phone": "7424342323",
+                        "Company": "Вектор",
+                        "Position": "Генеральный директор",
+                    }
+                ]
+            }
+            
+
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Users": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "Id": { "type": "integer"},
+                                "LastName": { "type": "string"},
+                                "FirstName": { "type": "string"},
+                                "FatherName": { "type": "string"},
+                                "Email": { "type": "string"},
+                                "Phone": { "type": "string"},
+                                "Company": { "type": "string"},
+                                "Position": { "type": "string"}
+                            }
+                        },
+                        "maxItems": 50
+                    }
+                }
+            }
+            
+
+
+# Group Бейджи
+
+## Список бейджей [/badges{?since}]
+
+### GET
+
++ Parameters
+    + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены бейджи, созданные позднее этой даты.
+
++ Response 200
+
+    + Body
+
+            {
+                "Badges":[
+                    {
+                        "Id": 23340,
+                        "UserId": 234,
+                        "PartId": null,
+                        "RoleId": 1,
+                        "OperatorId": 1,
+                        "CreationTime": "2014-12-17 11:04:37"
+                    },
+                    {
+                        "Id": 23349,
+                        "UserId": 234,
+                        "PartId": null,
+                        "RoleId": 1,
+                        "OperatorId": 2,
+                        "CreationTime": "2014-12-17 11:06:37"
+                    }
+                ],
+                "HasMore": true,
+                "NextSince": "2014-12-24 17:42:53" 
+            }
+
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Items" : {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "Id": { "type": "integer" },
+                                "UserId": { "type": "integer" },
+                                "PartId": { "type": ["integer", "null"] },
+                                "RoleId": { "type": "integer" },
+                                "OperatorId": { "type": "integer" },
+                                "CreationTime": { "type": "string" }
+                            },
+                            "required": ["Id", "UserId", "PartId", "RoleId", "OperatorId", "CreationTime"]
+                        }
+                    },
+                    "HasMore": {"type": "boolean"},
+                    "NextSince": {"type": "string"}
+                }
+            }
+            
+
+
+## Создание бейджа [/badges]
+
+### POST
+
+Для раздельной регистрации на отдельные части на мероприятии с несколькими частями необходимо передавать ```PartId```<br/>
+Иначе, ```PartId``` может не передаваться или его значение может быть  ```null```
+
++ Request
+
+    + Headers
+
+            X-Ruvents-Operator: 2
+    
+    + Body
+
+            {
+                "UserId": 234
+            }
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "UserId": { "type": "integer" },
+                    "PartId": { "type": ["integer", "null"] }
+                },
+                "required": ["UserId"]
+            }
+
++ Response 200
+
+    + Body
+
+            {
+                "Id": 23340
+            }
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Id": { "type": "integer" }
+                },
+                "required": ["Id"]
+            }
+
+# Group Оплаты и товары
+
+## Оплаченные товары [/orderitems{?since}]
+
+### GET
+
++ Parameters
+    + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены обновленные позднее этой даты товары.
+
++ Response 200
+    
+    + Body
+
+            {
+                "OrderItems": [
+                    {
+                        "Id": 123233,
+                        "UserId": 234,
+                        "ProductId": 1,
+                        "Paid": true,
+                        "PaidTime": "2014-12-10 17:15:48",
+                        "Discount": 100,
+                        "PromoCode": "dSfar34Da",
+                        "PayType": "promo"                    
+                    },
+                    {
+                        "Id": 123234,
+                        "UserId": 234,
+                        "ProductId": 2,
+                        "Paid": true,
+                        "PaidTime": "2014-11-10 14:35:17",
+                        "Discount": 0,
+                        "PromoCode": null,
+                        "PayType": "juridical"
+                    }
+                ],
+                "HasMore": true,
+                "NextSince": "2014-12-24 17:42:53" 
+            }
+            
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Items" : {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Id": { "type": "integer" },
+                                    "UserId": { "type": "integer" },
+                                    "ProductId": { "type": "integer" },
+                                    "Paid": { "type": "boolean" },
+                                    "PaidTime": { "type": "string" },
+                                    "Discount": { 
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 100
+                                    },
+                                    "PromoCode": { "type": ["string", "null"] },
+                                    "PayType": { "enum": [ "promo", "individual", "juridical" ] }
+                                },
+                                "required": ["Id", "UserId", "ProductId", "Paid", "PaidTime", "Discount", "PromoCode", "PayType"]
+                            }
+                        }
+                    },
+                    "HasMore": {"type": "boolean"},
+                    "NextSince": {"type": "string"}
+                }
+            }
+
+
+## Выдача товаров [/products/{Id}/checks]
+
+
+### Список [GET]
+
+<span style="color: #ff0000;">Не реализовано</span>
+
+
+### Выдача [POST]
+
+<span style="color: #ff0000;">Не реализовано</span>
+
+
+# Group Утилиты
+
+## Пинг [/ping]
+
+### GET
+
++ Response 200
+
+    + Body
+
+            {
+                "DateSignal": "2014-12-18 15:46:47"
+            }
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "DateSignal": { "type": "string" }
+                },
+                "required": ["DateSignal"]
+            }
+
+
+
+
