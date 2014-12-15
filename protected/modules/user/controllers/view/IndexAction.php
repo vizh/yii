@@ -40,7 +40,7 @@ class IndexAction extends \CAction
       'Participants' => array(
         'together' => false,
         'with' => array('Event', 'Role'),
-        'order' => '"Event"."EndYear" DESC, "Event"."EndMonth" DESC'
+        'order' => '"Event"."EndYear" DESC, "Event"."EndMonth" DESC, "Event"."EndDay" DESC'
       ),
       'CommissionsActive' => array(
         'together' => false
