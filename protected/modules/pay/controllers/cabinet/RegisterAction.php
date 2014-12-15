@@ -1,6 +1,9 @@
 <?php
 namespace pay\controllers\cabinet;
 
+use pay\components\CodeException;
+use pay\components\MessageException;
+
 class RegisterAction extends \pay\components\Action
 {
     private $form;
@@ -247,8 +250,7 @@ class RegisterAction extends \pay\components\Action
             }
             catch(\pay\components\Exception $e)
             {
-                if ($e->getCode() !== 701)
-                {
+                if (!in_array($e->getCode(), [701, CodeException::ORDER_ITEM_EXISTS])) {
                     $this->form->addError('Items', $e->getMessage());
                 }
             }

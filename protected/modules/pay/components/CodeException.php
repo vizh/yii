@@ -18,6 +18,7 @@ class CodeException extends Exception
 
     const NO_PRODUCT_FOR_COUPON_100 = 303;
     const WRONG_PRODUCT_FOR_COUPON_100 = 304;
+    const ORDER_ITEM_EXISTS = 402;
 
     private $codes = [
         /** Yii Exception */
@@ -44,9 +45,7 @@ class CodeException extends Exception
 
         /** Ошибки OrderItem */
         401 => 'Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар',
-
-
-
+        self::ORDER_ITEM_EXISTS => 'Вы уже заказали этот товар',
 
 
 

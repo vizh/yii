@@ -1,6 +1,7 @@
 <?php
 namespace pay\components\managers;
 
+use pay\components\CodeException;
 use pay\components\Exception;
 use pay\components\MessageException;
 use pay\models\OrderItem;
@@ -246,7 +247,7 @@ abstract class BaseProductManager
                 ->byPayerId($payer->Id)->byOwnerId($owner->Id)
                 ->byDeleted(false)->byPaid(false)->find();
             if ($orderItem !== null) {
-                throw new MessageException('Вы уже заказали этот товар', MessageException::ORDER_ITEM_GROUP_CODE);
+                throw new CodeException(CodeException::ORDER_ITEM_EXISTS);
             }
         }
 

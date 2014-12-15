@@ -22,7 +22,7 @@ foreach ($products->all as $product) {
 }
 
 $isHideProduct = function (Product $product) use ($event, $countRows) {
-    if (isset($event->RegisterHideNotSelectedProduct) && $event->RegisterHideNotSelectedProduct == 1) {
+    if (is_array($countRows) && isset($event->RegisterHideNotSelectedProduct) && $event->RegisterHideNotSelectedProduct == 1) {
         if (array_sum($countRows) > 0 && $countRows[$product->Id] == 0) {
             return true;
         }
