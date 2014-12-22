@@ -19,6 +19,9 @@ namespace api\models;
  */
 class Account extends \CActiveRecord
 {
+
+    const SelfId = 1;
+
   /**
    * @param string $className
    *
@@ -151,6 +154,13 @@ class Account extends \CActiveRecord
     public function checkUrl($url)
     {
         $host = parse_url($url, PHP_URL_HOST);
+
+        if ($this->Id === self::SelfId && (empty($url) || empty($host))) {
+            return true;
+        } elseif ($this->Id !== self::SelfId && empty($url)) {
+            return false;
+        }
+
         foreach ($this->Domains as $domain) {
             if ($domain->Domain[0] === '*') {
                 $needle = substr($domain->Domain, 2);

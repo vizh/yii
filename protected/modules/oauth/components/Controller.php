@@ -1,6 +1,8 @@
 <?php
 namespace oauth\components;
 
+use api\models\Account;
+
 class Controller extends \application\components\controllers\BaseController
 {
   const SelfId = 1;
@@ -50,15 +52,12 @@ class Controller extends \application\components\controllers\BaseController
 
     $request = \Yii::app()->getRequest();
     $this->apiKey = $request->getParam('apikey');
-    if ($this->apiKey !== null)
-    {
-      /** @var $account \api\models\Account */
-      $account = \api\models\Account::model()->byKey($this->apiKey)->find();
-    }
-    else
-    {
-      $account = \api\models\Account::model()->findByPk(self::SelfId);
-    }
+      if ($this->apiKey !== null)
+      {
+          $account = Account::model()->byKey($this->apiKey)->find();
+      } else {
+          $account = Account::model()->findByPk(Account::SelfId);
+      }
 
     $this->url = $request->getParam('url');
     $this->social = $request->getParam('social');
@@ -69,10 +68,7 @@ class Controller extends \application\components\controllers\BaseController
       throw new \CHttpException(400, 'Не найден аккаунт внешнего агента');
     }
 
-      $selfCheckUrl = $account->Id === self::SelfId && (empty($this->url) || $account->checkUrl($this->url));
-      $notSelfCheckUrl = $account->Id !== self::SelfId && !empty($this->url) && $account->checkUrl($this->url);
-
-      if ($selfCheckUrl || $notSelfCheckUrl) {
+      if ($account->checkUrl($this->url)) {
           $this->Account = $account;
       } else {
           throw new \CHttpException(400, 'Не корректно задан путь возврата' . $this->url);

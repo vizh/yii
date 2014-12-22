@@ -22,7 +22,7 @@ class MainController extends \oauth\components\Controller
 
     public function actionDialog()
     {
-        if ($this->Account->Id === self::SelfId)
+        if ($this->Account->Id === \api\models\Account::SelfId)
         {
             if (!Yii::app()->user->isGuest)
             {
