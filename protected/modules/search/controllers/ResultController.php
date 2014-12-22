@@ -18,7 +18,7 @@ class ResultController extends PublicMainController
     public function actionIndex($term = '')
     {
         $this->paginators = new \stdClass();
-        $this->term = $term;
+        $this->term = strval($term);
 
         $search = new Search();
         $this->currentTab = \Yii::app()->request->getParam('tab', SearchResultTabId::User);

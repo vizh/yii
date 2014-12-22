@@ -87,12 +87,12 @@ class ServiceAccount extends \CActiveRecord
   
   public function getLinkTarget()
   {
-    return (substr($this->getAccountUrl(), 0, strlen('http://')) == 'http://') ? 'target="_blank"' : '';
+    return (substr($this->getAccountUrl(), 0, strlen('http://')) == 'http://') ? '_blank' : null;
   }
 
   
   public function __toString()
   {
-    return '<a href="'.$this->getAccountUrl().'" '.$this->getLinkTarget().'>'.$this->Account.'</a>';
+      return \CHtml::link($this->Account, $this->getAccountUrl(), ['target' => $this->getLinkTarget()]);
   }
 }

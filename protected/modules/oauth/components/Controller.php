@@ -69,14 +69,14 @@ class Controller extends \application\components\controllers\BaseController
       throw new \CHttpException(400, 'Не найден аккаунт внешнего агента');
     }
 
-    if ($account->Id !== self::SelfId && (empty($this->url) || !$account->checkUrl($this->url)))
-    {
-      throw new \CHttpException(400, 'Не корректно задан путь возврата' . $this->url);
-    }
-    else
-    {
-      $this->Account = $account;
-    }
+      $selfCheckUrl = $account->Id === self::SelfId && (empty($this->url) || $account->checkUrl($this->url));
+      $notSelfCheckUrl = $account->Id !== self::SelfId && !empty($this->url) && $account->checkUrl($this->url);
+
+      if ($selfCheckUrl || $notSelfCheckUrl) {
+          $this->Account = $account;
+      } else {
+          throw new \CHttpException(400, 'Не корректно задан путь возврата' . $this->url);
+      }
 
     return true;
   }
