@@ -26,7 +26,6 @@ $(function() {
   /* Index page -> Promo tabs */
   $('#promo-tabs').tabs();
 
-
   /* EVENTS */
   /* Event page -> Thumbs */
   $('#event-thumbs .thumb').click('click',function() {
@@ -38,6 +37,20 @@ $(function() {
 
   /* Event page -> Tabs */
   $('#event-tabs').tabs();
+
+  var url = document.location.toString();
+  if (url.match('#')) {
+    $('.nav a[href=#'+url.split('#')[1]+']', '#event-tabs').tab('show');
+    setTimeout(function() {
+      $(document).scrollTop();
+    }, 1);
+  }
+
+  $('.nav a').on('click', function (e) {
+    var scrollmem = $('body').scrollTop();
+    window.location.hash = e.target.hash;
+    $('html,body').scrollTop(scrollmem);
+  })
 
   /* Event register -> Toggle */
   $('#event-register .table thead').click(function() {
@@ -156,4 +169,3 @@ $(window).resize(function() {
 function getValues() {
   footerHeight = $('#footer').outerHeight();
 }
-
