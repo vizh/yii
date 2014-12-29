@@ -34,7 +34,7 @@ $config = [
             'showScriptName' => false,
             'urlSuffix'=>'/',
             'useStrictParsing' => true,
-            'rules' => require(__DIR__ . '/url-rules.php')
+            'rules' => []
         ],
         'cache' => [
             'class'=>'CXCache',
@@ -79,6 +79,10 @@ $config = [
 $config = CMap::mergeArray($config, require(__DIR__ . '/api.php'));
 $config = CMap::mergeArray($config, require(__DIR__ . '/partner.php'));
 $config = CMap::mergeArray($config, require(__DIR__ . '/ruvents.php'));
+$config = CMap::mergeArray($config, require(__DIR__ . '/ruvents2.php'));
+
+
+$config['components']['urlManager']['rules'] = CMap::mergeArray($config['components']['urlManager']['rules'], require(__DIR__.'/url-rules.php'));
 
 if (RUNETID_DEV) {
     $config['components']['debug'] = [
