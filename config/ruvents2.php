@@ -2,11 +2,16 @@
 return [
     'modules' => ['ruvents2'],
     'components' => [
-//        'ruvents2AuthManager' => [
-//            'class' => '\ruvents2\components\PhpAuthManager',
-//            'defaultRoles' => ['guest']
-//        ]
-    ],
+        'ruvents2AuthManager' => [
+            'class' => '\ruvents2\components\PhpAuthManager',
+            'defaultRoles' => ['guest']
+        ],
+        'urlManager' => [
+            'rules' => [
+                'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents2/<controller>/<action>',
+            ]
+        ]
+    ]
 ];
 
 /*

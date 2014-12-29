@@ -44,7 +44,7 @@ X-Ruvents-Operator: {Id}
 
 ```javascript
 {
-    error: {code: 34, message: "Текст ошибки в человекопонятном формате"}
+    Error: { Code: 34, Message: "Текст ошибки в человекопонятном формате"}
 }
 ```
 
