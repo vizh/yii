@@ -78,7 +78,7 @@ class Ticket extends BaseProductManager
             $coupon->Discount = 1;
             $coupon->IsTicket = true;
             $coupon->save();
-            $coupon->addProductLinks([$this->product]);
+            $coupon->addProductLinks([$this->paidProduct]);
             $coupons[] = $coupon;
         }
 
