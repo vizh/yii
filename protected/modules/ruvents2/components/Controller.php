@@ -1,6 +1,8 @@
 <?php
 namespace ruvents2\components;
 
+use application\components\Exception;
+
 class Controller extends \CController
 {
     public $writeLog = true;
@@ -31,6 +33,39 @@ class Controller extends \CController
     {
         $rules = \Yii::getPathOfAlias('ruvents2.rules').'.php';
         return require($rules);
+    }
+
+    /**
+     * @return null|\ruvents2\models\Account
+     */
+    public function getAccount()
+    {
+        return WebUser::Instance()->getAccount();
+    }
+
+    /**
+     * @return null|\ruvents2\models\Operator
+     */
+    public function getOperator()
+    {
+        return WebUser::Instance()->getOperator();
+    }
+
+    protected $event = null;
+
+    /**
+     * @return \event\models\Event|null
+     * @throws Exception]
+     */
+    public function getEvent()
+    {
+        if ($this->event === null) {
+            $this->event = $this->getAccount()->Event;
+            if ($this->event === null) {
+                throw new Exception('Не найдено мероприятие для текущего RUVENTS-аккаунта');
+            }
+        }
+        return $this->event;
     }
 
     /**

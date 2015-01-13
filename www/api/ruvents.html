@@ -211,126 +211,136 @@ a.list-group-item.heading:hover {
         </span>}
     </span>}
 </span>}
-</code></pre></li></ul></section><h4 id="мероприятие-операторы">Операторы&nbsp;<a href="#page:мероприятие,header:мероприятие-операторы"><i class="fa fa-link"></i></a></h4><section id="мероприятие-операторы-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:мероприятие,header:мероприятие-операторы-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/event/operators</code></div></div><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#01fbb4dcfec6b1e41620059e30699379" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="01fbb4dcfec6b1e41620059e30699379" class="list-group-item panel-collapse collapse"><h5>Body</h5><pre><code>[
-    {
-        "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">323</span></span>,
-        "<span class="hljs-attribute">Login</span>": <span class="hljs-value"><span class="hljs-string">"op1"</span></span>,
-        "<span class="hljs-attribute">Password</span>": <span class="hljs-value"><span class="hljs-string">"87245"</span></span>,
-        "<span class="hljs-attribute">Role</span>": <span class="hljs-value"><span class="hljs-string">"Admin"</span> 
-    </span>},
-    {
-        "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">324</span></span>,
-        "<span class="hljs-attribute">Login</span>": <span class="hljs-value"><span class="hljs-string">"op2"</span></span>,
-        "<span class="hljs-attribute">Password</span>": <span class="hljs-value"><span class="hljs-string">"18636"</span></span>,
-        "<span class="hljs-attribute">Role</span>": <span class="hljs-value"><span class="hljs-string">"Operator"</span>
-    </span>}
-]
-</code></pre><h5>Schema</h5><pre><code>{
-    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span></span>,
-    "<span class="hljs-attribute">items</span>": <span class="hljs-value">{
-        "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
-        "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
-            "<span class="hljs-attribute">Id</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span> </span>}</span>,
-            "<span class="hljs-attribute">Login</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
-            "<span class="hljs-attribute">Password</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
-            "<span class="hljs-attribute">Role</span>": <span class="hljs-value">{ "<span class="hljs-attribute">enum</span>": <span class="hljs-value">[ <span class="hljs-string">"Admin"</span>, <span class="hljs-string">"Operator"</span> ] </span>}
-        </span>}</span>,
-        "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"Id"</span>, <span class="hljs-string">"Login"</span>, <span class="hljs-string">"Password"</span>, <span class="hljs-string">"Role"</span>]
-    </span>}
+</code></pre></li></ul></section><h4 id="мероприятие-операторы">Операторы&nbsp;<a href="#page:мероприятие,header:мероприятие-операторы"><i class="fa fa-link"></i></a></h4><section id="мероприятие-операторы-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:мероприятие,header:мероприятие-операторы-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/event/operators</code></div></div><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#875ed7aee3dcb0b8db8a2bf335bbc18c" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="875ed7aee3dcb0b8db8a2bf335bbc18c" class="list-group-item panel-collapse collapse"><h5>Body</h5><pre><code>{
+    "<span class="hljs-attribute">Operators</span>": <span class="hljs-value">[
+        {
+            "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">323</span></span>,
+            "<span class="hljs-attribute">Login</span>": <span class="hljs-value"><span class="hljs-string">"op1"</span></span>,
+            "<span class="hljs-attribute">Password</span>": <span class="hljs-value"><span class="hljs-string">"87245"</span></span>,
+            "<span class="hljs-attribute">Role</span>": <span class="hljs-value"><span class="hljs-string">"Admin"</span> 
+        </span>},
+        {
+            "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">324</span></span>,
+            "<span class="hljs-attribute">Login</span>": <span class="hljs-value"><span class="hljs-string">"op2"</span></span>,
+            "<span class="hljs-attribute">Password</span>": <span class="hljs-value"><span class="hljs-string">"18636"</span></span>,
+            "<span class="hljs-attribute">Role</span>": <span class="hljs-value"><span class="hljs-string">"Operator"</span>
+        </span>}
+    ]
 </span>}
-</code></pre></li></ul></section><h4 id="мероприятие-статусы">Статусы&nbsp;<a href="#page:мероприятие,header:мероприятие-статусы"><i class="fa fa-link"></i></a></h4><section id="мероприятие-статусы-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:мероприятие,header:мероприятие-статусы-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/event/statuses</code></div></div><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#27b2c48382743199e1294a9b0a751d23" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="27b2c48382743199e1294a9b0a751d23" class="list-group-item panel-collapse collapse"><h5>Body</h5><pre><code>[
-    {
-        "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">6</span></span>,
-        "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Организатор"</span></span>,
-        "<span class="hljs-attribute">Color</span>": <span class="hljs-value"><span class="hljs-string">"#ff0000"</span></span>,
-        "<span class="hljs-attribute">Priority</span>": <span class="hljs-value"><span class="hljs-number">90</span> 
-    </span>},
-    {
-        "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
-        "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Участник"</span></span>,
-        "<span class="hljs-attribute">Color</span>": <span class="hljs-value"><span class="hljs-string">"#000000"</span></span>,
-        "<span class="hljs-attribute">Priority</span>": <span class="hljs-value"><span class="hljs-number">30</span>
-    </span>}
-]
 </code></pre><h5>Schema</h5><pre><code>{
-    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span></span>,
-    "<span class="hljs-attribute">items</span>": <span class="hljs-value">{
-        "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
-        "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
-            "<span class="hljs-attribute">Id</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span> </span>}</span>,
-            "<span class="hljs-attribute">Title</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
-            "<span class="hljs-attribute">Color</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
-            "<span class="hljs-attribute">Priority</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span> </span>}
-        </span>}</span>,
-        "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"Id"</span>, <span class="hljs-string">"Title"</span>, <span class="hljs-string">"Color"</span>, <span class="hljs-string">"Priority"</span>]
-    </span>}
-</span>}
-</code></pre></li></ul></section><h4 id="мероприятие-части-мероприятия">Части мероприятия&nbsp;<a href="#page:мероприятие,header:мероприятие-части-мероприятия"><i class="fa fa-link"></i></a></h4><p>Возвращается пустой массив, если у мероприятия нет разбивки на части</p>
-<section id="мероприятие-части-мероприятия-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:мероприятие,header:мероприятие-части-мероприятия-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/event/parts</code></div></div><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#e5bc082c1a8eaadf79daeb3d7696b59c" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="e5bc082c1a8eaadf79daeb3d7696b59c" class="list-group-item panel-collapse collapse"><h5>Body</h5><pre><code>[
-    {
-        "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
-        "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Поток 1"</span></span>,
-        "<span class="hljs-attribute">Order</span>": <span class="hljs-value"><span class="hljs-number">1</span>
-    </span>},
-    {
-        "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
-        "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Поток 2"</span></span>,
-        "<span class="hljs-attribute">Order</span>": <span class="hljs-value"><span class="hljs-number">2</span>
-    </span>}
-]
-</code></pre><h5>Schema</h5><pre><code>{
-    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span></span>,
-    "<span class="hljs-attribute">items</span>": <span class="hljs-value">{
-        "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
-        "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
-            "<span class="hljs-attribute">Id</span>": <span class="hljs-value">{
-                "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span></span>,
-                "<span class="hljs-attribute">required</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
-            </span>}</span>,
-            "<span class="hljs-attribute">Title</span>": <span class="hljs-value">{
-                "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span></span>,
-                "<span class="hljs-attribute">required</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
-            </span>}</span>,
-            "<span class="hljs-attribute">Order</span>": <span class="hljs-value">{
-                "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span>
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
+    "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">Operators</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span></span>,
+            "<span class="hljs-attribute">items</span>": <span class="hljs-value">{
+                "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
+                "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+                    "<span class="hljs-attribute">Id</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span> </span>}</span>,
+                    "<span class="hljs-attribute">Login</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
+                    "<span class="hljs-attribute">Password</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
+                    "<span class="hljs-attribute">Role</span>": <span class="hljs-value">{ "<span class="hljs-attribute">enum</span>": <span class="hljs-value">[ <span class="hljs-string">"Admin"</span>, <span class="hljs-string">"Operator"</span> ] </span>}
+                </span>}</span>,
+                "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"Id"</span>, <span class="hljs-string">"Login"</span>, <span class="hljs-string">"Password"</span>, <span class="hljs-string">"Role"</span>]
             </span>}
         </span>}
     </span>}
 </span>}
-</code></pre></li></ul></section><h4 id="мероприятие-товары">Товары&nbsp;<a href="#page:мероприятие,header:мероприятие-товары"><i class="fa fa-link"></i></a></h4><section id="мероприятие-товары-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:мероприятие,header:мероприятие-товары-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/event/products</code></div></div><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#e4bbe835a4ed991fd39aac3122889323" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="e4bbe835a4ed991fd39aac3122889323" class="list-group-item panel-collapse collapse"><h5>Body</h5><pre><code>[
-    {
-        "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
-        "<span class="hljs-attribute">Manager</span>": <span class="hljs-value"><span class="hljs-string">"Event"</span></span>,
-        "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Участие в мероприятии"</span></span>,
-        "<span class="hljs-attribute">Price</span>": <span class="hljs-value"><span class="hljs-number">3000</span>
-    </span>},
-    {
-        "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
-        "<span class="hljs-attribute">Manager</span>": <span class="hljs-value"><span class="hljs-string">"Food"</span></span>,
-        "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Питание на мероприятии"</span></span>,
-        "<span class="hljs-attribute">Price</span>": <span class="hljs-value"><span class="hljs-number">500</span>
-    </span>}
-]
+</code></pre></li></ul></section><h4 id="мероприятие-статусы">Статусы&nbsp;<a href="#page:мероприятие,header:мероприятие-статусы"><i class="fa fa-link"></i></a></h4><section id="мероприятие-статусы-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:мероприятие,header:мероприятие-статусы-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/event/statuses</code></div></div><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#8c5306cfcdd7b9424c482f1b524a136b" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="8c5306cfcdd7b9424c482f1b524a136b" class="list-group-item panel-collapse collapse"><h5>Body</h5><pre><code>{
+    "<span class="hljs-attribute">Statuses</span>": <span class="hljs-value">[
+        {
+            "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">6</span></span>,
+            "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Организатор"</span></span>,
+            "<span class="hljs-attribute">Color</span>": <span class="hljs-value"><span class="hljs-string">"#ff0000"</span></span>,
+            "<span class="hljs-attribute">Priority</span>": <span class="hljs-value"><span class="hljs-number">90</span> 
+        </span>},
+        {
+            "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+            "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Участник"</span></span>,
+            "<span class="hljs-attribute">Color</span>": <span class="hljs-value"><span class="hljs-string">"#000000"</span></span>,
+            "<span class="hljs-attribute">Priority</span>": <span class="hljs-value"><span class="hljs-number">30</span>
+        </span>}
+    ]
+</span>}
 </code></pre><h5>Schema</h5><pre><code>{
-    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span></span>,
-    "<span class="hljs-attribute">items</span>": <span class="hljs-value">{
-        "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
-        "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
-            "<span class="hljs-attribute">Id</span>": <span class="hljs-value">{
-                "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span></span>,
-                "<span class="hljs-attribute">required</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
-            </span>}</span>,
-            "<span class="hljs-attribute">Manager</span>": <span class="hljs-value">{
-                "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span></span>,
-                "<span class="hljs-attribute">required</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
-            </span>}</span>,
-            "<span class="hljs-attribute">Title</span>": <span class="hljs-value">{
-                "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span></span>,
-                "<span class="hljs-attribute">required</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
-            </span>}</span>,
-            "<span class="hljs-attribute">Price</span>": <span class="hljs-value">{
-                "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span></span>,
-                "<span class="hljs-attribute">required</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
+    "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">Statuses</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span></span>,
+            "<span class="hljs-attribute">items</span>": <span class="hljs-value">{
+                "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
+                "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+                    "<span class="hljs-attribute">Id</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span> </span>}</span>,
+                    "<span class="hljs-attribute">Title</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
+                    "<span class="hljs-attribute">Color</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value">[<span class="hljs-string">"string"</span>, <span class="hljs-string">"null"</span>] </span>}</span>,
+                    "<span class="hljs-attribute">Priority</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span> </span>}
+                </span>}</span>,
+                "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"Id"</span>, <span class="hljs-string">"Title"</span>, <span class="hljs-string">"Color"</span>, <span class="hljs-string">"Priority"</span>]
+            </span>}
+        </span>}
+    </span>}
+</span>}
+</code></pre></li></ul></section><h4 id="мероприятие-части-мероприятия">Части мероприятия&nbsp;<a href="#page:мероприятие,header:мероприятие-части-мероприятия"><i class="fa fa-link"></i></a></h4><p>Возвращается пустой массив, если у мероприятия нет разбивки на части</p>
+<section id="мероприятие-части-мероприятия-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:мероприятие,header:мероприятие-части-мероприятия-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/event/parts</code></div></div><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#9fa21c7df5ac9789dab7b91ad7921d1a" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="9fa21c7df5ac9789dab7b91ad7921d1a" class="list-group-item panel-collapse collapse"><h5>Body</h5><pre><code>{
+    "<span class="hljs-attribute">Parts</span>": <span class="hljs-value">[
+        {
+            "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+            "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Поток 1"</span></span>,
+            "<span class="hljs-attribute">Order</span>": <span class="hljs-value"><span class="hljs-number">1</span>
+        </span>},
+        {
+            "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+            "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Поток 2"</span></span>,
+            "<span class="hljs-attribute">Order</span>": <span class="hljs-value"><span class="hljs-number">2</span>
+        </span>}
+    ]
+</span>}
+</code></pre><h5>Schema</h5><pre><code>{
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
+    "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">Parts</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span></span>,
+            "<span class="hljs-attribute">items</span>": <span class="hljs-value">{
+                "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
+                "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+                    "<span class="hljs-attribute">Id</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span> </span>}</span>,
+                    "<span class="hljs-attribute">Title</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
+                    "<span class="hljs-attribute">Order</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span> </span>}
+                </span>}</span>,
+                "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"Id"</span>, <span class="hljs-string">"Title"</span>]
+            </span>}
+        </span>}
+    </span>}
+</span>}
+</code></pre></li></ul></section><h4 id="мероприятие-товары">Товары&nbsp;<a href="#page:мероприятие,header:мероприятие-товары"><i class="fa fa-link"></i></a></h4><section id="мероприятие-товары-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:мероприятие,header:мероприятие-товары-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/event/products</code></div></div><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#6951bff89b852bbbe18b55ae812026b9" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="6951bff89b852bbbe18b55ae812026b9" class="list-group-item panel-collapse collapse"><h5>Body</h5><pre><code>{
+    "<span class="hljs-attribute">Products</span>": <span class="hljs-value">[
+        {
+            "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
+            "<span class="hljs-attribute">Manager</span>": <span class="hljs-value"><span class="hljs-string">"Event"</span></span>,
+            "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Участие в мероприятии"</span></span>,
+            "<span class="hljs-attribute">Price</span>": <span class="hljs-value"><span class="hljs-number">3000</span>
+        </span>},
+        {
+            "<span class="hljs-attribute">Id</span>": <span class="hljs-value"><span class="hljs-number">2</span></span>,
+            "<span class="hljs-attribute">Manager</span>": <span class="hljs-value"><span class="hljs-string">"Food"</span></span>,
+            "<span class="hljs-attribute">Title</span>": <span class="hljs-value"><span class="hljs-string">"Питание на мероприятии"</span></span>,
+            "<span class="hljs-attribute">Price</span>": <span class="hljs-value"><span class="hljs-number">500</span>
+        </span>}
+    ]
+</span>}
+</code></pre><h5>Schema</h5><pre><code>{
+    "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
+    "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+        "<span class="hljs-attribute">Products</span>": <span class="hljs-value">{
+            "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span></span>,
+            "<span class="hljs-attribute">items</span>": <span class="hljs-value">{
+                "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
+                "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
+                    "<span class="hljs-attribute">Id</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span> </span>}</span>,
+                    "<span class="hljs-attribute">Manager</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
+                    "<span class="hljs-attribute">Title</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
+                    "<span class="hljs-attribute">Price</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span> </span>}
+                </span>}</span>,
+                "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"Id"</span>, <span class="hljs-string">"Manager"</span>, <span class="hljs-string">"Title"</span>, <span class="hljs-string">"Price"</span>]
             </span>}
         </span>}
     </span>}
@@ -772,7 +782,7 @@ a.list-group-item.heading:hover {
     </span>}</span>,
     "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"DateSignal"</span>]
 </span>}
-</code></pre></li></ul></section></div></div><a href="#page:оплаты-и-товары" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Previous</a><div class="clearfix"></div><hr></div></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 29 Dec 2014</p><div id="localFile" style="display: none; position: absolute; top: 0; left: 0; width: 100%; color: white; background: red; font-size: 150%; text-align: center; padding: 1em;">This page may not display correctly when opened as a local file. Instead, view it from a web server.
+</code></pre></li></ul></section></div></div><a href="#page:оплаты-и-товары" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Previous</a><div class="clearfix"></div><hr></div></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 13 Jan 2015</p><div id="localFile" style="display: none; position: absolute; top: 0; left: 0; width: 100%; color: white; background: red; font-size: 150%; text-align: center; padding: 1em;">This page may not display correctly when opened as a local file. Instead, view it from a web server.
 
 </div></body><script src="//code.jquery.com/jquery-1.11.0.min.js"></script><script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script><script>(function() {
   if (location.protocol === 'file:') {

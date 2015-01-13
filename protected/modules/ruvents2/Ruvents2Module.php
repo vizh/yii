@@ -8,6 +8,8 @@ class Ruvents2Module extends CWebModule
     {
         parent::init();
 
+        \Yii::app()->attachEventHandler('onException', [$this, 'onException']);
+
         Yii::app()->setComponent('authManager', [
             'class' => '\ruvents2\components\PhpAuthManager',
             'defaultRoles' => ['guest']
@@ -24,8 +26,6 @@ class Ruvents2Module extends CWebModule
                     $route->enabled = false;
                 }
             }
-
-            \Yii::app()->attachEventHandler('onException', [$this, 'onException']);
             return true;
         }
         return false;
@@ -38,6 +38,8 @@ class Ruvents2Module extends CWebModule
     {
         if ($event->exception instanceof \ruvents2\components\Exception) {
             $event->exception->render();
+        } elseif ($event->exception instanceof CHttpException && $event->exception->statusCode == 404) {
+            http_response_code(404);
         } else {
             http_response_code(500);
         }

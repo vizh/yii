@@ -8,7 +8,12 @@ return [
         ],
         'urlManager' => [
             'rules' => [
-                'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents2/<controller>/<action>',
+
+                ['ruvents2/event/index', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/event', 'verb' => 'GET'],
+                ['ruvents2/event/<action>', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/event/<action:\w+>', 'verb' => 'GET'],
+
+
+                'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents2/not/found',
             ]
         ]
     ]
@@ -24,5 +29,9 @@ return [
     array('api/<controller>/update', 'pattern'=>'api/<controller:\w+>/<id:\d+>', 'verb'=>'PUT, POST'),
     array('api/<controller>/delete', 'pattern'=>'api/<controller:\w+>/<id:\d+>', 'verb'=>'DELETE'),
 
+
+
+
+    'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents2/<controller>/<action>',
  *
  */

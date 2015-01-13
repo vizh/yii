@@ -98,33 +98,40 @@ X-Ruvents-Operator: {Id}
 
     + Body
 
-            [
-                {
-                    "Id": 323,
-                    "Login": "op1",
-                    "Password": "87245",
-                    "Role": "Admin" 
-                },
-                {
-                    "Id": 324,
-                    "Login": "op2",
-                    "Password": "18636",
-                    "Role": "Operator"
-                }
-            ]
+            {
+                "Operators": [
+                    {
+                        "Id": 323,
+                        "Login": "op1",
+                        "Password": "87245",
+                        "Role": "Admin" 
+                    },
+                    {
+                        "Id": 324,
+                        "Login": "op2",
+                        "Password": "18636",
+                        "Role": "Operator"
+                    }
+                ]
+            }
     + Schema
 
             {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "Id": { "type": "integer" },
-                        "Login": { "type": "string" },
-                        "Password": { "type": "string" },
-                        "Role": { "enum": [ "Admin", "Operator" ] }
-                    },
-                    "required": ["Id", "Login", "Password", "Role"]
+                "type": "object",
+                "properties": {
+                    "Operators": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "Id": { "type": "integer" },
+                                "Login": { "type": "string" },
+                                "Password": { "type": "string" },
+                                "Role": { "enum": [ "Admin", "Operator" ] }
+                            },
+                            "required": ["Id", "Login", "Password", "Role"]
+                        }
+                    }
                 }
             }
 
@@ -136,33 +143,40 @@ X-Ruvents-Operator: {Id}
 
     + Body
 
-            [
-                {
-                    "Id": 6,
-                    "Title": "Организатор",
-                    "Color": "#ff0000",
-                    "Priority": 90 
-                },
-                {
-                    "Id": 1,
-                    "Title": "Участник",
-                    "Color": "#000000",
-                    "Priority": 30
-                }
-            ]
+            {
+                "Statuses": [
+                    {
+                        "Id": 6,
+                        "Title": "Организатор",
+                        "Color": "#ff0000",
+                        "Priority": 90 
+                    },
+                    {
+                        "Id": 1,
+                        "Title": "Участник",
+                        "Color": "#000000",
+                        "Priority": 30
+                    }
+                ]
+            }
     + Schema
 
             {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "Id": { "type": "integer" },
-                        "Title": { "type": "string" },
-                        "Color": { "type": "string" },
-                        "Priority": { "type": "integer" }
-                    },
-                    "required": ["Id", "Title", "Color", "Priority"]
+                "type": "object",
+                "properties": {
+                    "Statuses": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "Id": { "type": "integer" },
+                                "Title": { "type": "string" },
+                                "Color": { "type": ["string", "null"] },
+                                "Priority": { "type": "integer" }
+                            },
+                            "required": ["Id", "Title", "Color", "Priority"]
+                        }
+                    }
                 }
             }
 
@@ -177,35 +191,35 @@ X-Ruvents-Operator: {Id}
 
     + Body
 
-            [
-                {
-                    "Id": 1,
-                    "Title": "Поток 1",
-                    "Order": 1
-                },
-                {
-                    "Id": 2,
-                    "Title": "Поток 2",
-                    "Order": 2
-                }
-            ]
+            {
+                "Parts": [
+                    {
+                        "Id": 1,
+                        "Title": "Поток 1",
+                        "Order": 1
+                    },
+                    {
+                        "Id": 2,
+                        "Title": "Поток 2",
+                        "Order": 2
+                    }
+                ]
+            }
     + Schema
 
             {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "Id": {
-                            "type": "integer",
-                            "required": true
-                        },
-                        "Title": {
-                            "type": "string",
-                            "required": true
-                        },
-                        "Order": {
-                            "type": "integer"
+                "type": "object",
+                "properties": {
+                    "Parts": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "Id": { "type": "integer" },
+                                "Title": { "type": "string" },
+                                "Order": { "type": "integer" }
+                            },
+                            "required": ["Id", "Title"]
                         }
                     }
                 }
@@ -220,43 +234,39 @@ X-Ruvents-Operator: {Id}
 
     + Body
 
-            [
-                {
-                    "Id": 1,
-                    "Manager": "Event",
-                    "Title": "Участие в мероприятии",
-                    "Price": 3000
-                },
-                {
-                    "Id": 2,
-                    "Manager": "Food",
-                    "Title": "Питание на мероприятии",
-                    "Price": 500
-                }
-            ]
+            {
+                "Products": [
+                    {
+                        "Id": 1,
+                        "Manager": "Event",
+                        "Title": "Участие в мероприятии",
+                        "Price": 3000
+                    },
+                    {
+                        "Id": 2,
+                        "Manager": "Food",
+                        "Title": "Питание на мероприятии",
+                        "Price": 500
+                    }
+                ]
+            }
 
     + Schema
 
             {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "Id": {
-                            "type": "integer",
-                            "required": true
-                        },
-                        "Manager": {
-                            "type": "string",
-                            "required": true
-                        },
-                        "Title": {
-                            "type": "string",
-                            "required": true
-                        },
-                        "Price": {
-                            "type": "integer",
-                            "required": true
+                "type": "object",
+                "properties": {
+                    "Products": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "Id": { "type": "integer" },
+                                "Manager": { "type": "string" },
+                                "Title": { "type": "string" },
+                                "Price": { "type": "integer" }
+                            },
+                            "required": ["Id", "Manager", "Title", "Price"]
                         }
                     }
                 }

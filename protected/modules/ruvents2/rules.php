@@ -10,6 +10,11 @@ return [
         'actions' => ['ping']
     ],
     [
+        'allow',
+        'roles' => [Role::SERVER],
+        'controllers' => ['event']
+    ],
+    [
         'deny',
         'users' => ['*']
     ]
