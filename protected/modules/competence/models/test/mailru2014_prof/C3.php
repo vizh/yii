@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\mailru2014_prof;
 
+use competence\models\Result;
+
 class C3 extends \competence\models\form\Base {
 
   public $values = [
@@ -14,4 +16,18 @@ class C3 extends \competence\models\form\Base {
       ['value', 'required', 'message' => 'Выберите регион из списка']
     ];
   }
+
+    protected function getInternalExportValueTitles()
+    {
+        $titles = ['Город'];
+        return array_values($titles);
+    }
+
+    protected function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $key = $questionData['value'];
+        $data[] = isset($this->values[$key]) ? $this->values[$key] : '';
+        return $data;
+    }
 }

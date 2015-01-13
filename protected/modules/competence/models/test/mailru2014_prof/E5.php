@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\mailru2014_prof;
 
+use competence\models\Result;
+
 class E5 extends \competence\models\form\Base {
 
   public $options = [
@@ -60,4 +62,24 @@ class E5 extends \competence\models\form\Base {
     }
     return $this->getQuestionByCode('A4');
   }
+
+    protected function getInternalExportValueTitles()
+    {
+        $titles = [];
+        foreach ($this->options as $title) {
+            $titles[] = $title;
+        }
+        return $titles;
+    }
+
+    protected function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        foreach ($this->options as $key => $title) {
+            $valueKey = isset($questionData['value'][$key]) ? $questionData['value'][$key] : null;
+            $data[] = $key !== null ? $this->values[$valueKey] : '';
+        }
+        return $data;
+    }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\mailru2014_prof;
 
+use competence\models\Result;
+
 class A6 extends \competence\models\form\Base {
 
   public $value = [];
@@ -54,4 +56,50 @@ class A6 extends \competence\models\form\Base {
     }
     return parent::getNext();
   }
+
+    protected function getInternalExportValueTitles()
+    {
+        $titles = [
+            1 => 'Яндекс',
+            2 => 'Mail.Ru Group',
+            3 => 'Google Russia',
+            4 => 'ВКонтакте',
+            5 => 'Rambler Media Group',
+            6 => 'Google Global',
+            7 => 'Facebook',
+            8 => 'Microsoft',
+            9 => 'Kaspersky',
+            10 => 'Parallels',
+            11 => 'РБК',
+            12 => 'Одноклассники',
+            99 => 'Затрудняюсь ответить'
+        ];
+        return array_values($titles);
+    }
+
+    protected function getInternalExportData(Result $result)
+    {
+        $titles = [
+            1 => 'Яндекс',
+            2 => 'Mail.Ru Group',
+            3 => 'Google Russia',
+            4 => 'ВКонтакте',
+            5 => 'Rambler Media Group',
+            6 => 'Google Global',
+            7 => 'Facebook',
+            8 => 'Microsoft',
+            9 => 'Kaspersky',
+            10 => 'Parallels',
+            11 => 'РБК',
+            12 => 'Одноклассники',
+            99 => 'Затрудняюсь ответить'
+        ];
+        $keys = array_keys($titles);
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        foreach ($keys as $key) {
+            $data[] = !empty($questionData['value']) && in_array($key, $questionData['value']) ? 1 : '';
+        }
+        return $data;
+    }
 }

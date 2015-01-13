@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\mailru2014_prof;
 
+use competence\models\Result;
+
 class A2 extends \competence\models\form\Base {
   protected function getBaseQuestionCode()
   {
@@ -69,4 +71,57 @@ class A2 extends \competence\models\form\Base {
     }
     return parent::getPrev();
   }
+
+    protected function getInternalExportValueTitles()
+    {
+        $titles = [
+            39 . ' - Фамилия', 39 . ' - Компания',
+            40 . ' - Фамилия', 40 . ' - Компания',
+            41 . ' - Фамилия', 41 . ' - Компания',
+            42 . ' - Фамилия', 42 . ' - Компания',
+            43 . ' - Фамилия', 43 . ' - Компания',
+            44 . ' - Фамилия', 44 . ' - Компания',
+            45 . ' - Фамилия', 45 . ' - Компания',
+            46 . ' - Фамилия', 46 . ' - Компания',
+            47 . ' - Фамилия', 47 . ' - Компания',
+            48 . ' - Фамилия', 48 . ' - Компания',
+            400 . ' - Фамилия', 400 . ' - Компания',
+            401 . ' - Фамилия', 401 . ' - Компания',
+            403 . ' - Фамилия', 403 . ' - Компания',
+            404 . ' - Фамилия', 404 . ' - Компания',
+            405 . ' - Фамилия', 405 . ' - Компания',
+            406 . ' - Фамилия', 406 . ' - Компания',
+            407 . ' - Фамилия', 407 . ' - Компания',
+            408 . ' - Фамилия', 408 . ' - Компания',
+            409 . ' - Фамилия', 409 . ' - Компания'
+        ];
+        return $titles;
+    }
+
+    protected function getInternalExportData(Result $result)
+    {
+        $titles = [
+            39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 400, 401, 403, 404, 405, 406, 407, 408, 409
+        ];
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        foreach ($titles as $key) {
+            if (isset($questionData['value'][$key]['LastName'])) {
+                $data[] = $questionData['value'][$key]['LastName'];
+            } elseif (isset($questionData['value'][$key]['LastNameEmpty'])) {
+                $data[] = 'не знаю';
+            } else {
+                $data[] = '';
+            }
+
+            if (isset($questionData['value'][$key]['Company'])) {
+                $data[] = $questionData['value'][$key]['Company'];
+            } elseif (isset($questionData['value'][$key]['CompanyEmpty'])) {
+                $data[] = 'не знаю';
+            } else {
+                $data[] = '';
+            }
+        }
+        return $data;
+    }
 }

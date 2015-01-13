@@ -69,6 +69,7 @@ class ExportController extends \application\components\controllers\AdminMainCont
     {
         $criteria = new \CDbCriteria();
         $criteria->with = ['User.Employments.Company'];
+        $criteria->order = 't."UpdateTime"';
 
         $model = Result::model()->byTestId($this->test->Id);
         switch ($type) {
@@ -79,7 +80,7 @@ class ExportController extends \application\components\controllers\AdminMainCont
                 $model->byFinished(false);
                 break;
         }
-        return $model->findAll();
+        return $model->findAll($criteria);
     }
 
     private function fillProperties(PHPExcel $phpExcel)
@@ -89,15 +90,17 @@ class ExportController extends \application\components\controllers\AdminMainCont
 
     private function fillTitles(PHPExcel $phpExcel)
     {
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(0,3, 'Имя');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(1,3, 'Фамилия');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2,3, 'Отчество');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3,3, 'Компания');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4,3, 'Должность');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5,3, 'Email');
-        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6,3, 'Телефон');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(0,3, 'RUNET-ID');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(1,3, 'Имя');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2,3, 'Фамилия');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3,3, 'Отчество');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4,3, 'Компания');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5,3, 'Должность');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6,3, 'Email');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(7,3, 'Телефон');
+        $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(8,3, 'Дата заполнения');
 
-        $col = 7;
+        $col = 9;
         foreach ($this->getQuestions() as $question) {
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 1, $question->Code);
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 2, $question->getForm()->getTitle());
@@ -121,15 +124,17 @@ class ExportController extends \application\components\controllers\AdminMainCont
         foreach ($results as $result) {
 
             $user = $result->User;
-            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(0, $row, $user->FirstName);
-            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $row, $user->LastName);
-            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $row, $user->FatherName);
-            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Company->Name : ''));
-            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Position : ''));
-            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, $row, $user->Email);
-            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6, $row, $user->PrimaryPhone);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(0, $row, $user->RunetId);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(1, $row, $user->FirstName);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(2, $row, $user->LastName);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(3, $row, $user->FatherName);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Company->Name : ''));
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Position : ''));
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6, $row, $user->Email);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(7, $row, $user->PrimaryPhone);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(8, $row, $result->UpdateTime);
 
-            $col = 7;
+            $col = 9;
             foreach ($this->getQuestions() as $question) {
                 $data = $question->getForm()->getExportData($result);
                 foreach ($data as $value) {

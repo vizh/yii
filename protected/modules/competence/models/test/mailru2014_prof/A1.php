@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\mailru2014_prof;
 
+use competence\models\Result;
+
 class A1 extends \competence\models\form\Base {
 
     private $options = null;
@@ -69,5 +71,24 @@ class A1 extends \competence\models\form\Base {
         return parent::getNext();
     }
 
+    protected function getInternalExportValueTitles()
+    {
+        $titles = [
+            39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 400, 401, 403, 404, 405, 406, 407, 408, 409, 'Затрудняюсь ответить'
+        ];
+        return $titles;
+    }
 
+    protected function getInternalExportData(Result $result)
+    {
+        $titles = [
+            39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 400, 401, 403, 404, 405, 406, 407, 408, 409, 49
+        ];
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        foreach ($titles as $key) {
+            $data[] = isset($questionData['value'][$key]) ? 1 : '';
+        }
+        return $data;
+    }
 }
