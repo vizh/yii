@@ -44,6 +44,10 @@ CTemplateEdit.prototype = {
       }
     });
 
+    $('input[name*="RelatedEventId"]').autocomplete({
+       'source' : '/event/ajax/search'
+    });
+
     if ($('textarea[name*="Template[Body]"]').length > 0) {
       CKEDITOR.replace('mail\\models\\forms\\admin\\Template[Body]', {
         customConfig : 'config_mail_template.js',

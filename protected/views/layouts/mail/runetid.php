@@ -3,13 +3,13 @@
             <td class="container" bgcolor="#FFFFFF" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; display: block !important; max-width: 720px !important; clear: both !important; margin: 0 auto; padding: 0;">
                 <table style="border-collapse: separate; width: 100%; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;" border="0" cellpadding="0" cellspacing="0">
                     <tr>
-                        <?if (!$this->user->Temporary):?>
+                        <?if (!$this->mail->getUser()->Temporary):?>
                             <td>&nbsp;</td>
                             <td style="font-size: 25px; font-weight: bold; line-height: 25px; text-align: center; width: 100px; padding: 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0;" rowspan="2">RUNET</td>
                             <td>&nbsp;</td>
                             <td style="font-size: 25px; font-weight: bold; line-height: 25px; width: 30px; text-align: center; padding: 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0;" rowspan="2">ID</td>
                             <td>&nbsp;</td>
-                            <td rowspan="2" style="font-size: 25px; font-weight: bold; line-height: 25px; width: 1px; text-align: center; padding: 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0;"><?=$this->user->RunetId;?></td>
+                            <td rowspan="2" style="font-size: 25px; font-weight: bold; line-height: 25px; width: 1px; text-align: center; padding: 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0;"><?=$this->mail->getUser()->RunetId;?></td>
                             <td>&nbsp;</td>
                         <?else:?>
                             <td colspan="7">&nbsp;</td>

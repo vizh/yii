@@ -105,6 +105,12 @@ use mail\models\forms\admin\Template;
             </div>
         </div>
         <div class="control-group">
+            <?=\CHtml::activeLabel($form, 'RelatedEventId', ['class' => 'control-label']);?>
+            <div class="controls">
+                <?=\CHtml::activeTextField($form, 'RelatedEventId');?>
+            </div>
+        </div>
+        <div class="control-group">
             <?=\CHtml::activeLabel($form, 'Layout', ['class' => 'control-label']);?>
             <div class="controls">
                 <?=\CHtml::activeDropDownList($form, 'Layout', $form->getLayoutData());?>

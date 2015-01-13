@@ -1,6 +1,8 @@
 <?php
 namespace mail\components;
+use event\models\Event;
 use \mail\models\Layout;
+use user\models\User;
 
 abstract class MailLayout extends Mail
 {
@@ -9,6 +11,9 @@ abstract class MailLayout extends Mail
         return Layout::OneColumn;
     }
 
+    /**
+     * @return User
+     */
     abstract function getUser();
 
     public function isHtml()
@@ -22,6 +27,14 @@ abstract class MailLayout extends Mail
     }
 
     /**
+     * @return null|Event
+     */
+    public function getRelatedEvent()
+    {
+        return null;
+    }
+
+    /**
      * @return bool
      */
     public function showFooter()
@@ -31,7 +44,7 @@ abstract class MailLayout extends Mail
 
     protected function renderBody($view, $params)
     {
-        $controller = new MailController($this->getUser(), $this->getLayoutName(), $this->showFooter(), $this->showUnsubscribeLink());
+        $controller = new MailController($this);
         $layout = $controller->getLayoutFile($controller->layout);
         return $controller->renderFile($layout, ['content' => $controller->renderPartial($view, $params, true)], true);
     }

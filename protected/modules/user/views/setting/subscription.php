@@ -1,3 +1,9 @@
+<?
+/**
+ *  @var \user\models\forms\setting\Subsciption $form
+ */
+?>
+
 <?=$this->renderPartial('parts/title');?>
 <div class="user-account-settings">
   <div class="clearfix">
@@ -17,6 +23,22 @@
                 <?=\CHtml::activeCheckBox($form, 'Subscribe');?> <?=$form->getAttributeLabel('Subscribe');?>
               </label>
             </div>
+            <?php $unsubscribeEventsData = $form->getUnsubscribeEventsData();?>
+            <?php if (!empty($unsubscribeEventsData) && $form->Subscribe):?>
+                <h5 class="m-top_20"><?=\Yii::t('app', 'Отписаться от рассылок мероприятий:');?></h5>
+                <?php foreach ($form->getUnsubscribeEventsData() as $id => $title):?>
+                    <div class="row">
+                        <div class="span8 offset1">
+                            <div class="form-row">
+                                <label class="checkbox">
+                                    <?=\CHtml::activeCheckBox($form, 'UnsubscribeEvents['.$id.']', ['checked' => true]);?> <?=$title;?>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                <?endforeach;?>
+            <?endif;?>
+
             <div class="form-footer">
               <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), array('class' => 'btn btn-info'));?>
             </div>

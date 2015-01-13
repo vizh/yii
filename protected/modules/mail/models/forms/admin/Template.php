@@ -33,6 +33,7 @@ class Template extends \CFormModel
     public $Layout = \mail\models\Layout::OneColumn;
     public $ShowUnsubscribeLink = 1;
     public $ShowFooter = 1;
+    public $RelatedEventId;
 
     private $mailer;
 
@@ -62,7 +63,8 @@ class Template extends \CFormModel
             'SendInvisible' => \Yii::t('app', 'Отправлять скрытым пользователям'),
             'Layout' => \Yii::t('app', 'Шаблон'),
             'ShowUnsubscribeLink' => \Yii::t('app', 'Показывать ссылку на отписку'),
-            'ShowFooter' => \Yii::t('app', 'Показывать футер')
+            'ShowFooter' => \Yii::t('app', 'Показывать футер'),
+            'RelatedEventId' => \Yii::t('app', 'Связанное мероприятие')
         ];
     }
 
@@ -73,6 +75,8 @@ class Template extends \CFormModel
             ['Title, Subject, From, FromName, SendPassbook, SendUnsubscribe, Active, SendInvisible,ShowUnsubscribeLink,ShowFooter', 'required'],
             ['Test, TestUsers, Body, Layout', 'safe'],
             ['From', 'email'],
+            ['RelatedEventId', 'numerical', 'integerOnly' => true],
+            ['RelatedEventId', 'exist', 'className' => '\event\models\Event', 'attributeName' => 'Id', 'skipOnError' => true],
             ['Conditions', 'default', 'value' => []],
             ['Conditions', 'filter', 'filter' => [$this, 'filterConditions']],
             ['Test', 'filter', 'filter' => [$this, 'filterTest']]

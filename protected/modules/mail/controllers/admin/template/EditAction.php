@@ -6,13 +6,17 @@ use mail\components\filter\EventCondition;
 use mail\components\filter\GeoCondition;
 use mail\components\filter\RunetIdCondition;
 use \mail\models\forms\admin\Template;
+use user\models\User;
 
 
 class EditAction extends \CAction
 {
     private $count = 0;
     private $countAll = 0;
+    /** @var  Template */
     private $form;
+
+    /** @var  \mail\models\Template */
     private $template;
 
     private $viewHasExternalChanges = false;
@@ -26,7 +30,6 @@ class EditAction extends \CAction
                 throw new \CHttpException(404);
 
             $this->form = new \mail\models\forms\admin\Template($this->template->getMailer());
-
             foreach ($this->template->getAttributes() as $attribute => $value)
             {
                 if (property_exists($this->form, $attribute))
@@ -97,6 +100,7 @@ class EditAction extends \CAction
         $this->template->Layout = $this->form->Layout;
         $this->template->ShowUnsubscribeLink = $this->form->ShowUnsubscribeLink == 1 ? true : false;
         $this->template->ShowFooter = $this->form->ShowFooter == 1 ? true : false;
+        $this->template->RelatedEventId = !empty($this->form->RelatedEventId) ? $this->form->RelatedEventId : null;
         if ($this->template->Active)
         {
             $this->template->ActivateTime = date('Y-m-d H:i:s');
@@ -132,24 +136,33 @@ class EditAction extends \CAction
         $this->template->setFilter($filter);
         $this->template->save();
 
-        if (!$this->viewHasExternalChanges)
-        {
+        if (!$this->viewHasExternalChanges) {
             $this->form->Body = str_replace(array_keys($this->form->bodyFields()), $this->form->bodyFields(), $this->form->Body);
             file_put_contents($this->template->getViewPath(), $this->form->Body);
             $this->template->ViewHash = md5_file($this->template->getViewPath());
             $this->template->save();
         }
 
-        \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Рассылка успешно сохранена!'));
-        if ($this->form->Test == 1)
-        {
+        if ($this->form->Test == 1) {
             $this->template->setTestMode(true);
-            $this->template->setTestUsers(
-                \user\models\User::model()->byRunetIdList(explode(', ', $this->form->TestUsers))->findAll()
-            );
+            $users = User::model()->byRunetIdList(explode(', ', $this->form->TestUsers))->findAll();
+            foreach ($users as $user) {
+                $criteria = $this->template->getCriteria();
+                $criteria->addCondition('"t"."Id" = :UserId');
+                $criteria->params['UserId'] = $user->Id;
+                if (!User::model()->exists($criteria)) {
+                    $this->form->addError('Test', \Yii::t('app', 'В тестовой рассылке пользователь с RUNET-ID: {runetId} не попадает в общую выборку!', ['{runetId}' => $user->RunetId]));
+                    return;
+                }
+            }
+
+            $this->template->setTestUsers($users);
             $this->template->send();
             \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Тестовая рассылка успешно отправлена!'));
+        } else {
+            \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Рассылка успешно сохранена!'));
         }
+
         $this->getController()->redirect(
             $this->getController()->createUrl('/mail/admin/template/edit', ['templateId' => $this->template->Id])
         );
