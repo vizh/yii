@@ -83,6 +83,15 @@ class ListAction extends Action
         }
         $data['Photo'] = 'http://' . RUNETID_HOST . $user->getPhoto()->get200px();
 
+        $statuses = [];
+        foreach ($user->Participants as $participant) {
+            $statuses[] = [
+                'StatusId' => $participant->RoleId,
+                'PartId' => $participant->PartId
+            ];
+        }
+        $data['Statuses'] = $statuses;
+
         return $data;
     }
 }
