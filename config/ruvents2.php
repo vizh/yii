@@ -12,7 +12,11 @@ return [
                 ['ruvents2/event/index', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/event', 'verb' => 'GET'],
                 ['ruvents2/event/<action>', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/event/<action:\w+>', 'verb' => 'GET'],
 
+                ['ruvents2/participants/fields', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/participants/fields', 'verb' => 'GET'],
+                ['ruvents2/participants/list', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/participants', 'verb' => 'GET'],
 
+
+                ['ruvents2/utility/ping', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/utility/ping', 'verb' => 'GET'],
                 'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents2/not/found',
             ]
         ]

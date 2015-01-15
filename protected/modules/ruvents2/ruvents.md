@@ -370,12 +370,13 @@ X-Ruvents-Operator: {Id}
                 }
             }
 
-## Список участников [/participants{?since}]
+## Список участников [/participants{?since,limit}]
 
 ### GET
 
 + Parameters
     + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены участники, обновленные позднее этой даты
+    + limit (optional, integer) ... Количество возвращаемых участников. Может быть ограничено сверху внутренними настройками API.
 
 + Response 200
 
@@ -411,7 +412,8 @@ X-Ruvents-Operator: {Id}
                                 "FirstName": "Petr",
                                 "FatherName": "Petrovich"
                             }
-                        }
+                        },
+                        "UpdateTime": "2014-10-12 23:04:15"
                     }
                 ],
                 "HasMore": true,
@@ -428,9 +430,7 @@ X-Ruvents-Operator: {Id}
                         "items": {
                             "type": "object",
                             "properties": {
-                                "Id": {
-                                    "type": "integer"
-                                },
+                                "Id": { "type": "integer" },
                                 "Statuses": {
                                     "type": "array",
                                     "items": {
@@ -461,14 +461,15 @@ X-Ruvents-Operator: {Id}
                                             }
                                         }
                                     }
-                                }
+                                },
+                                "UpdateTime": { "type": "string"}
                             },
                             "patternProperties": {
                                 "^[a-zA-Z_][a-zA-Z0-9_]*$": {
                                     "type": ["string", "integer", "number", "boolean"]
                                 }
                             },
-                            "required": ["Id", "Statuses"]
+                            "required": ["Id", "Statuses", "UpdateTime"]
                         }
                     },
                     "HasMore": {"type": "boolean"},
@@ -698,12 +699,13 @@ X-Ruvents-Operator: {Id}
 
 # Group Бейджи
 
-## Список бейджей [/badges{?since}]
+## Список бейджей [/badges{?since,limit}]
 
 ### GET
 
 + Parameters
     + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены бейджи, созданные позднее этой даты.
+    + limit (optional, integer) ... Количество возвращаемых бейджей. Может быть ограничено сверху внутренними настройками API.
 
 + Response 200
 
@@ -807,12 +809,13 @@ X-Ruvents-Operator: {Id}
 
 # Group Оплаты и товары
 
-## Оплаченные товары [/orderitems{?since}]
+## Оплаченные товары [/orderitems{?since,limit}]
 
 ### GET
 
 + Parameters
     + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены обновленные позднее этой даты товары.
+    + limit (optional, integer) ... Количество возвращаемых оплаченных товаров. Может быть ограничено сверху внутренними настройками API.
 
 + Response 200
     

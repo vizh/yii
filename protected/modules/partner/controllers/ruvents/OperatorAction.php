@@ -15,13 +15,12 @@ class OperatorAction extends \partner\components\Action
         $request = \Yii::app()->getRequest();
 
         $account = \ruvents\models\Account::model()
-            ->byEventId($this->getEvent()->Id)->byRole(AccountRole::SERVER)->find();
+            ->byEventId($this->getEvent()->Id)->find();
         if ($account == null)
         {
             $account = new \ruvents\models\Account();
             $account->EventId = $this->getEvent()->Id;
             $account->Hash = \application\components\utility\Texts::GenerateString(25);
-            $account->Role = AccountRole::SERVER;
             $account->save();
         }
 

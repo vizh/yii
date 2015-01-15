@@ -411,8 +411,9 @@ a.list-group-item.heading:hover {
         </span>}
     </span>}
 </span>}
-</code></pre></li></ul></section><h4 id="участники-список-участников">Список участников&nbsp;<a href="#page:участники,header:участники-список-участников"><i class="fa fa-link"></i></a></h4><section id="участники-список-участников-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:участники,header:участники-список-участников-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/participants{?since}</code></div></div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>since</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<p>Дата в формате <code>Y-m-d H:i:s</code>. Будут возвращены участники, обновленные позднее этой даты</p>
-</dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#5ffb2f19684640e6aac0c5b9971b67f7" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="5ffb2f19684640e6aac0c5b9971b67f7" class="list-group-item panel-collapse collapse"><div class="description"><p>Если мероприятие не содержит частей, <code>PartId = null</code> и в массиве будет ровно один элемент.<br/>
+</code></pre></li></ul></section><h4 id="участники-список-участников">Список участников&nbsp;<a href="#page:участники,header:участники-список-участников"><i class="fa fa-link"></i></a></h4><section id="участники-список-участников-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:участники,header:участники-список-участников-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/participants{?since,limit}</code></div></div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>since</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<p>Дата в формате <code>Y-m-d H:i:s</code>. Будут возвращены участники, обновленные позднее этой даты</p>
+</dd><dt>limit</dt><dd><code>integer</code>&nbsp;<span>(optional)</span>&nbsp;<p>Количество возвращаемых участников. Может быть ограничено сверху внутренними настройками API.</p>
+</dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#f1df448fd32dffef3255d96ef1202572" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="f1df448fd32dffef3255d96ef1202572" class="list-group-item panel-collapse collapse"><div class="description"><p>Если мероприятие не содержит частей, <code>PartId = null</code> и в массиве будет ровно один элемент.<br/>
 Если мероприятие содержит части, то для каждой части будет информация о статусе.</p>
 <p><code>StatusId = null</code> означает, что у пользователя отсутствует статус на мероприятии или определенной части мероприятия, но при этом он проявлял какую либо активность в рамках этого мероприятия.</p>
 </div><h5>Body</h5><pre><code>{
@@ -440,7 +441,8 @@ a.list-group-item.heading:hover {
                     "<span class="hljs-attribute">FirstName</span>": <span class="hljs-value"><span class="hljs-string">"Petr"</span></span>,
                     "<span class="hljs-attribute">FatherName</span>": <span class="hljs-value"><span class="hljs-string">"Petrovich"</span>
                 </span>}
-            </span>}
+            </span>}</span>,
+            "<span class="hljs-attribute">UpdateTime</span>": <span class="hljs-value"><span class="hljs-string">"2014-10-12 23:04:15"</span>
         </span>}
     ]</span>,
     "<span class="hljs-attribute">HasMore</span>": <span class="hljs-value"><span class="hljs-literal">true</span></span>,
@@ -454,9 +456,7 @@ a.list-group-item.heading:hover {
             "<span class="hljs-attribute">items</span>": <span class="hljs-value">{
                 "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
                 "<span class="hljs-attribute">properties</span>": <span class="hljs-value">{
-                    "<span class="hljs-attribute">Id</span>": <span class="hljs-value">{
-                        "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span>
-                    </span>}</span>,
+                    "<span class="hljs-attribute">Id</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"integer"</span> </span>}</span>,
                     "<span class="hljs-attribute">Statuses</span>": <span class="hljs-value">{
                         "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"array"</span></span>,
                         "<span class="hljs-attribute">items</span>": <span class="hljs-value">{
@@ -487,14 +487,15 @@ a.list-group-item.heading:hover {
                                 </span>}
                             </span>}
                         </span>}
-                    </span>}
+                    </span>}</span>,
+                    "<span class="hljs-attribute">UpdateTime</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span></span>}
                 </span>}</span>,
                 "<span class="hljs-attribute">patternProperties</span>": <span class="hljs-value">{
                     "<span class="hljs-attribute">^[a-zA-Z_][a-zA-Z0-9_]*$</span>": <span class="hljs-value">{
                         "<span class="hljs-attribute">type</span>": <span class="hljs-value">[<span class="hljs-string">"string"</span>, <span class="hljs-string">"integer"</span>, <span class="hljs-string">"number"</span>, <span class="hljs-string">"boolean"</span>]
                     </span>}
                 </span>}</span>,
-                "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"Id"</span>, <span class="hljs-string">"Statuses"</span>]
+                "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"Id"</span>, <span class="hljs-string">"Statuses"</span>, <span class="hljs-string">"UpdateTime"</span>]
             </span>}
         </span>}</span>,
         "<span class="hljs-attribute">HasMore</span>": <span class="hljs-value">{"<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"boolean"</span></span>}</span>,
@@ -644,7 +645,8 @@ a.list-group-item.heading:hover {
         </span>}
     </span>}
 </span>}
-</code></pre></li></ul></section></div></div><a href="#page:бейджи" class="btn btn-default pull-right">Next&nbsp;<i class="fa fa-arrow-circle-right"></i></a><a href="#page:мероприятие" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Previous</a><div class="clearfix"></div><hr></div><div data-bind="visible: page() == 'бейджи', style: {marginTop: page() == 'бейджи' ? '38px' : ''}"><div class="panel panel-default"><div class="panel-heading"><h3 id="бейджи">Бейджи&nbsp;<a href="#page:бейджи"><i class="fa fa-link"></i></a></h3></div><div class="panel-body"><h4 id="бейджи-список-бейджей">Список бейджей&nbsp;<a href="#page:бейджи,header:бейджи-список-бейджей"><i class="fa fa-link"></i></a></h4><section id="бейджи-список-бейджей-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:бейджи,header:бейджи-список-бейджей-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/badges{?since}</code></div></div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>since</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<p>Дата в формате <code>Y-m-d H:i:s</code>. Будут возвращены бейджи, созданные позднее этой даты.</p>
+</code></pre></li></ul></section></div></div><a href="#page:бейджи" class="btn btn-default pull-right">Next&nbsp;<i class="fa fa-arrow-circle-right"></i></a><a href="#page:мероприятие" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Previous</a><div class="clearfix"></div><hr></div><div data-bind="visible: page() == 'бейджи', style: {marginTop: page() == 'бейджи' ? '38px' : ''}"><div class="panel panel-default"><div class="panel-heading"><h3 id="бейджи">Бейджи&nbsp;<a href="#page:бейджи"><i class="fa fa-link"></i></a></h3></div><div class="panel-body"><h4 id="бейджи-список-бейджей">Список бейджей&nbsp;<a href="#page:бейджи,header:бейджи-список-бейджей"><i class="fa fa-link"></i></a></h4><section id="бейджи-список-бейджей-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:бейджи,header:бейджи-список-бейджей-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/badges{?since,limit}</code></div></div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>since</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<p>Дата в формате <code>Y-m-d H:i:s</code>. Будут возвращены бейджи, созданные позднее этой даты.</p>
+</dd><dt>limit</dt><dd><code>integer</code>&nbsp;<span>(optional)</span>&nbsp;<p>Количество возвращаемых бейджей. Может быть ограничено сверху внутренними настройками API.</p>
 </dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#f3a8b623329a23a4745384041fd5b4b7" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="f3a8b623329a23a4745384041fd5b4b7" class="list-group-item panel-collapse collapse"><h5>Body</h5><pre><code>{
     "<span class="hljs-attribute">Badges</span>":<span class="hljs-value">[
         {
@@ -712,7 +714,8 @@ a.list-group-item.heading:hover {
     </span>}</span>,
     "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"Id"</span>]
 </span>}
-</code></pre></li></ul></section></div></div><a href="#page:оплаты-и-товары" class="btn btn-default pull-right">Next&nbsp;<i class="fa fa-arrow-circle-right"></i></a><a href="#page:участники" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Previous</a><div class="clearfix"></div><hr></div><div data-bind="visible: page() == 'оплаты-и-товары', style: {marginTop: page() == 'оплаты-и-товары' ? '38px' : ''}"><div class="panel panel-default"><div class="panel-heading"><h3 id="оплаты-и-товары">Оплаты и товары&nbsp;<a href="#page:оплаты-и-товары"><i class="fa fa-link"></i></a></h3></div><div class="panel-body"><h4 id="оплаты-и-товары-оплаченные-товары">Оплаченные товары&nbsp;<a href="#page:оплаты-и-товары,header:оплаты-и-товары-оплаченные-товары"><i class="fa fa-link"></i></a></h4><section id="оплаты-и-товары-оплаченные-товары-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:оплаты-и-товары,header:оплаты-и-товары-оплаченные-товары-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/orderitems{?since}</code></div></div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>since</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<p>Дата в формате <code>Y-m-d H:i:s</code>. Будут возвращены обновленные позднее этой даты товары.</p>
+</code></pre></li></ul></section></div></div><a href="#page:оплаты-и-товары" class="btn btn-default pull-right">Next&nbsp;<i class="fa fa-arrow-circle-right"></i></a><a href="#page:участники" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Previous</a><div class="clearfix"></div><hr></div><div data-bind="visible: page() == 'оплаты-и-товары', style: {marginTop: page() == 'оплаты-и-товары' ? '38px' : ''}"><div class="panel panel-default"><div class="panel-heading"><h3 id="оплаты-и-товары">Оплаты и товары&nbsp;<a href="#page:оплаты-и-товары"><i class="fa fa-link"></i></a></h3></div><div class="panel-body"><h4 id="оплаты-и-товары-оплаченные-товары">Оплаченные товары&nbsp;<a href="#page:оплаты-и-товары,header:оплаты-и-товары-оплаченные-товары"><i class="fa fa-link"></i></a></h4><section id="оплаты-и-товары-оплаченные-товары-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:оплаты-и-товары,header:оплаты-и-товары-оплаченные-товары-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/orderitems{?since,limit}</code></div></div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>since</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<p>Дата в формате <code>Y-m-d H:i:s</code>. Будут возвращены обновленные позднее этой даты товары.</p>
+</dd><dt>limit</dt><dd><code>integer</code>&nbsp;<span>(optional)</span>&nbsp;<p>Количество возвращаемых оплаченных товаров. Может быть ограничено сверху внутренними настройками API.</p>
 </dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#464bfb70065bbe5b1a542f7442b1598a" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="464bfb70065bbe5b1a542f7442b1598a" class="list-group-item panel-collapse collapse"><h5>Body</h5><pre><code>{
     "<span class="hljs-attribute">OrderItems</span>": <span class="hljs-value">[
         {
@@ -782,7 +785,7 @@ a.list-group-item.heading:hover {
     </span>}</span>,
     "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"DateSignal"</span>]
 </span>}
-</code></pre></li></ul></section></div></div><a href="#page:оплаты-и-товары" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Previous</a><div class="clearfix"></div><hr></div></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 13 Jan 2015</p><div id="localFile" style="display: none; position: absolute; top: 0; left: 0; width: 100%; color: white; background: red; font-size: 150%; text-align: center; padding: 1em;">This page may not display correctly when opened as a local file. Instead, view it from a web server.
+</code></pre></li></ul></section></div></div><a href="#page:оплаты-и-товары" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Previous</a><div class="clearfix"></div><hr></div></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 15 Jan 2015</p><div id="localFile" style="display: none; position: absolute; top: 0; left: 0; width: 100%; color: white; background: red; font-size: 150%; text-align: center; padding: 1em;">This page may not display correctly when opened as a local file. Instead, view it from a web server.
 
 </div></body><script src="//code.jquery.com/jquery-1.11.0.min.js"></script><script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script><script>(function() {
   if (location.protocol === 'file:') {
