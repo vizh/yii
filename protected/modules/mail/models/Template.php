@@ -254,7 +254,7 @@ class Template extends \CActiveRecord
     {
         if ($this->mailer == null)
         {
-            $this->mailer = new \mail\components\mailers\MandrillMailer();
+            $this->mailer = new PhpMailer();
         }
         return $this->mailer;
     }

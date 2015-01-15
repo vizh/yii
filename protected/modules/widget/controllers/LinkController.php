@@ -3,7 +3,7 @@ class LinkController extends \widget\components\Controller
 {
   protected function getWidgetParamNames()
   {
-    return ['product'];
+    return ['product', 'disable-link'];
   }
 
 

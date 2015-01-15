@@ -45,7 +45,6 @@ class MandrillMailer extends \mail\components\Mailer
         'content' => base64_encode(file_get_contents($path))
       ];
     }
-
     $message = $this->getBaseMessage();
     $message['to'] = $to;
     $message['subject'] = $mails[0]->getSubject();
