@@ -123,19 +123,19 @@ class ResultController extends PublicMainController
     {
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."Name" ASC';
+        $criteria->order  = 'Count("Employments"."Id") DESC, "t"."Name" ASC';
         $criteria->with = [
-            'LinkAddress.Address.City',
-            'Employments' => ['together' => false],
-            'LinkPhones' => [
-                'together' => false,
-                'with' => ['Phone']
-            ],
-            'LinkEmails' => [
-                'together' => false,
-                'with' => ['Email']
-            ],
-            'LinkSite.Site'
+            'Employments' => [
+                'together' => true,
+                'select' => false,
+                'with' => [
+                    'User' => [
+                        'select' => false
+                    ]
+                ]
+            ]
         ];
+        $criteria->group  = '"t"."Id"';
         return $criteria;
     }
 }
