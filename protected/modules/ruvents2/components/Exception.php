@@ -14,15 +14,24 @@ class Exception extends \CException
     const INVALID_OPERATOR_ID = 103;
     const INVALID_OPERATOR_EVENT = 104;
     const INVALID_PARAM = 110;
+    const INVALID_PARAMS = 111;
+
+    const NEW_PARTICIPANT_EMPTY_STATUS = 201;
+    const INVALID_PARTICIPANT_ID = 202;
 
     /**
      * Генерирует исключение при неверном параметре
-     * @param $paramName
+     * @param string|array $paramName
+     * @param string $message
      * @return Exception
      */
-    public static function createInvalidParam($paramName)
+    public static function createInvalidParam($paramName, $message = '')
     {
-        return new self(static::INVALID_PARAM, [$paramName]);
+        if (is_array($paramName)) {
+            return new self(static::INVALID_PARAMS, [implode(', ', $paramName)]);
+        } else {
+            return new self(static::INVALID_PARAM, [$paramName, $message]);
+        }
     }
 
     public function __construct($code, $params = [], Exception $previous = null)
@@ -49,7 +58,11 @@ class Exception extends \CException
             static::INVALID_HASH => 'Неверный Hash доступа к API',
             static::INVALID_OPERATOR_ID => 'Не найден оператор с Id %s',
             static::INVALID_OPERATOR_EVENT => 'Оператор с Id %s относится к другому мероприятию',
-            static::INVALID_PARAM => 'Задан неверный параметр %s'
+            static::INVALID_PARAM => 'Задан неверный параметр %s. %s',
+            static::INVALID_PARAMS => "Неверно заданы следующие параметры: %s",
+
+            static::NEW_PARTICIPANT_EMPTY_STATUS => 'Для нового участника статус на мероприятии не может быть пустым',
+            static::INVALID_PARTICIPANT_ID => 'Не найден участник с ID: %s'
         ];
     }
 

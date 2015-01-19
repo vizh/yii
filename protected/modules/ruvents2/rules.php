@@ -24,7 +24,7 @@ return [
         'allow',
         'roles' => [Role::OPERATOR],
         'controllers' => ['participants'],
-        'actions' => ['ping']
+        'actions' => ['create', 'edit', 'delete']
     ],
     [
         'deny',

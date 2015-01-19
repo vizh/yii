@@ -413,7 +413,7 @@ a.list-group-item.heading:hover {
 </span>}
 </code></pre></li></ul></section><h4 id="участники-список-участников">Список участников&nbsp;<a href="#page:участники,header:участники-список-участников"><i class="fa fa-link"></i></a></h4><section id="участники-список-участников-get" class="panel panel-info"><div class="panel-heading"><div style="float:left"><a href="#page:участники,header:участники-список-участников-get" class="btn btn-xs btn-primary">GET</a></div><div style="overflow:hidden"><code>/participants{?since,limit}</code></div></div><ul class="list-group"><li class="list-group-item bg-default"><strong>Parameters</strong></li><li class="list-group-item"><dl class="dl-horizontal"><dt>since</dt><dd><code>string</code>&nbsp;<span>(optional)</span>&nbsp;<p>Дата в формате <code>Y-m-d H:i:s</code>. Будут возвращены участники, обновленные позднее этой даты</p>
 </dd><dt>limit</dt><dd><code>integer</code>&nbsp;<span>(optional)</span>&nbsp;<p>Количество возвращаемых участников. Может быть ограничено сверху внутренними настройками API.</p>
-</dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#f1df448fd32dffef3255d96ef1202572" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="f1df448fd32dffef3255d96ef1202572" class="list-group-item panel-collapse collapse"><div class="description"><p>Если мероприятие не содержит частей, <code>PartId = null</code> и в массиве будет ровно один элемент.<br/>
+</dd></dl></li></ul><ul class="list-group"><li class="list-group-item"><strong>Response&nbsp;&nbsp;<code>200</code></strong><a data-toggle="collapse" data-target="#3595caf283c16ccdde0588b1294fb56c" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="3595caf283c16ccdde0588b1294fb56c" class="list-group-item panel-collapse collapse"><div class="description"><p>Если мероприятие не содержит частей, <code>PartId = null</code> и в массиве будет ровно один элемент.<br/>
 Если мероприятие содержит части, то для каждой части будет информация о статусе.</p>
 <p><code>StatusId = null</code> означает, что у пользователя отсутствует статус на мероприятии или определенной части мероприятия, но при этом он проявлял какую либо активность в рамках этого мероприятия.</p>
 </div><h5>Body</h5><pre><code>{
@@ -488,7 +488,9 @@ a.list-group-item.heading:hover {
                             </span>}
                         </span>}
                     </span>}</span>,
-                    "<span class="hljs-attribute">UpdateTime</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span></span>}
+                    "<span class="hljs-attribute">UpdateTime</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
+                    "<span class="hljs-attribute">Photo</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}</span>,
+                    "<span class="hljs-attribute">ExternalId</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"string"</span> </span>}
                 </span>}</span>,
                 "<span class="hljs-attribute">patternProperties</span>": <span class="hljs-value">{
                     "<span class="hljs-attribute">^[a-zA-Z_][a-zA-Z0-9_]*$</span>": <span class="hljs-value">{
@@ -508,7 +510,7 @@ a.list-group-item.heading:hover {
 <li>Запрещено передавать несколько элементов с одинаковым <code>PartId</code>.</li>
 <li>Разрешено не передавать некоторые <code>PartId</code>. В этом случае для переданных <code>PartId</code> выставляется соответствующий статус, для всех остальных выставляется <code>StatusId = null</code></li>
 </ol>
-</div><ul class="list-group"><li class="list-group-item"><strong>Request</strong><a data-toggle="collapse" data-target="#b4c2fbd2886c628cad8c64d6eee8f974" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="b4c2fbd2886c628cad8c64d6eee8f974" class="list-group-item panel-collapse collapse"><h5>Headers</h5><pre><code><span class="hljs-attribute">X-Ruvents-Operator</span>: <span class="hljs-string">2</span><br></code></pre><h5>Body</h5><pre><code>{
+</div><ul class="list-group"><li class="list-group-item"><strong>Request</strong><a data-toggle="collapse" data-target="#9b2a1777daef1237438d4c61f8ae5f9a" class="pull-right collapsed"><span class="closed">Show</span><span class="open">Hide</span></a></li><li id="9b2a1777daef1237438d4c61f8ae5f9a" class="list-group-item panel-collapse collapse"><h5>Headers</h5><pre><code><span class="hljs-attribute">X-Ruvents-Operator</span>: <span class="hljs-string">2</span><br></code></pre><h5>Body</h5><pre><code>{
     "<span class="hljs-attribute">Statuses</span>": <span class="hljs-value">[
         {
             "<span class="hljs-attribute">PartId</span>": <span class="hljs-value"><span class="hljs-number">1</span></span>,
@@ -521,7 +523,8 @@ a.list-group-item.heading:hover {
     ]</span>,
     "<span class="hljs-attribute">LastName</span>": <span class="hljs-value"><span class="hljs-string">"Петров"</span></span>,
     "<span class="hljs-attribute">FirstName</span>": <span class="hljs-value"><span class="hljs-string">"Петр"</span></span>,
-    "<span class="hljs-attribute">FatherName</span>": <span class="hljs-value"><span class="hljs-string">"Петрович"</span>
+    "<span class="hljs-attribute">FatherName</span>": <span class="hljs-value"><span class="hljs-string">"Петрович"</span></span>,
+    "<span class="hljs-attribute">Visible</span>": <span class="hljs-value"><span class="hljs-literal">true</span>
 </span>}
 </code></pre><h5>Schema</h5><pre><code>{
     "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"object"</span></span>,
@@ -535,7 +538,8 @@ a.list-group-item.heading:hover {
                     "<span class="hljs-attribute">StatusId</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value">[<span class="hljs-string">"integer"</span>, <span class="hljs-string">"null"</span>] </span>}
                 </span>}
             </span>}
-        </span>}
+        </span>}</span>,
+        "<span class="hljs-attribute">Visible</span>": <span class="hljs-value">{ "<span class="hljs-attribute">type</span>": <span class="hljs-value"><span class="hljs-string">"boolean"</span></span>, "<span class="hljs-attribute">default</span>": <span class="hljs-value"><span class="hljs-literal">true</span> </span>}
     </span>}</span>,
     "<span class="hljs-attribute">patternProperties</span>": <span class="hljs-value">{
         "<span class="hljs-attribute">^[a-zA-Z_][a-zA-Z0-9_]*$</span>": <span class="hljs-value">{
@@ -785,7 +789,7 @@ a.list-group-item.heading:hover {
     </span>}</span>,
     "<span class="hljs-attribute">required</span>": <span class="hljs-value">[<span class="hljs-string">"DateSignal"</span>]
 </span>}
-</code></pre></li></ul></section></div></div><a href="#page:оплаты-и-товары" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Previous</a><div class="clearfix"></div><hr></div></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 15 Jan 2015</p><div id="localFile" style="display: none; position: absolute; top: 0; left: 0; width: 100%; color: white; background: red; font-size: 150%; text-align: center; padding: 1em;">This page may not display correctly when opened as a local file. Instead, view it from a web server.
+</code></pre></li></ul></section></div></div><a href="#page:оплаты-и-товары" class="btn btn-default"><i class="fa fa-arrow-circle-left"></i> Previous</a><div class="clearfix"></div><hr></div></div></div></div><p style="text-align: center;" class="text-muted">Generated by&nbsp;<a href="https://github.com/danielgtaylor/aglio" class="aglio">aglio</a>&nbsp;on 19 Jan 2015</p><div id="localFile" style="display: none; position: absolute; top: 0; left: 0; width: 100%; color: white; background: red; font-size: 150%; text-align: center; padding: 1em;">This page may not display correctly when opened as a local file. Instead, view it from a web server.
 
 </div></body><script src="//code.jquery.com/jquery-1.11.0.min.js"></script><script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script><script>(function() {
   if (location.protocol === 'file:') {

@@ -14,9 +14,13 @@ return [
 
                 ['ruvents2/participants/fields', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/participants/fields', 'verb' => 'GET'],
                 ['ruvents2/participants/list', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/participants', 'verb' => 'GET'],
+                ['ruvents2/participants/create', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/participants', 'verb' => 'POST'],
+                ['ruvents2/participants/edit', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/participants/<runetId:\d+>', 'verb' => 'PUT'],
+                ['ruvents2/participants/delete', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/participants/<runetId:\d+>', 'verb' => 'DELETE'],
 
 
                 ['ruvents2/utility/ping', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/utility/ping', 'verb' => 'GET'],
+                'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/' => 'ruvents2/not/found',
                 'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents2/not/found',
             ]
         ]

@@ -462,7 +462,9 @@ X-Ruvents-Operator: {Id}
                                         }
                                     }
                                 },
-                                "UpdateTime": { "type": "string"}
+                                "UpdateTime": { "type": "string" },
+                                "Photo": { "type": "string" },
+                                "ExternalId": { "type": "string" }
                             },
                             "patternProperties": {
                                 "^[a-zA-Z_][a-zA-Z0-9_]*$": {
@@ -510,7 +512,8 @@ X-Ruvents-Operator: {Id}
                 ],
                 "LastName": "Петров",
                 "FirstName": "Петр",
-                "FatherName": "Петрович"
+                "FatherName": "Петрович",
+                "Visible": true
             }
     + Schema
 
@@ -526,7 +529,8 @@ X-Ruvents-Operator: {Id}
                                 "StatusId": { "type": ["integer", "null"] }
                             }
                         }
-                    }
+                    },
+                    "Visible": { "type": "boolean", "default": true }
                 },
                 "patternProperties": {
                     "^[a-zA-Z_][a-zA-Z0-9_]*$": {
