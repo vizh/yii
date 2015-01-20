@@ -1,6 +1,7 @@
 <?php
 namespace mail\models;
 use event\models\Event;
+use mail\components\mailers\MandrillMailer;
 use mail\components\mailers\PhpMailer;
 
 /**
@@ -254,7 +255,7 @@ class Template extends \CActiveRecord
     {
         if ($this->mailer == null)
         {
-            $this->mailer = new PhpMailer();
+            $this->mailer = new MandrillMailer();
         }
         return $this->mailer;
     }
