@@ -15,6 +15,7 @@ use pay\components\MessageException;
  * @property string $CreationTime
  * @property bool $Deleted
  * @property string $DeletionTime
+ * @property string $UpdateTime
  *
  * @property Product $Product
  * @property \user\models\User $Payer
@@ -420,6 +421,13 @@ class OrderItem extends \CActiveRecord
         }
         return null;
     }
+
+    protected function beforeSave()
+    {
+        $this->UpdateTime = date('Y-m-d H:i:s');
+        return parent::beforeSave();
+    }
+
 
     public function delete()
     {

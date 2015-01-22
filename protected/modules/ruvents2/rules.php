@@ -14,6 +14,8 @@ return [
         'roles' => [Role::SERVER],
         'controllers' => ['event']
     ],
+
+    /** Participants */
     [
         'allow',
         'roles' => [Role::SERVER],
@@ -22,10 +24,39 @@ return [
     ],
     [
         'allow',
+        'roles' => [Role::SERVER],
+        'controllers' => ['users'],
+        'actions' => ['list']
+    ],
+    [
+        'allow',
         'roles' => [Role::OPERATOR],
         'controllers' => ['participants'],
         'actions' => ['create', 'edit', 'delete']
     ],
+
+    /** Badges */
+    [
+        'allow',
+        'roles' => [Role::SERVER],
+        'controllers' => ['badges'],
+        'actions' => ['list']
+    ],
+    [
+        'allow',
+        'roles' => [Role::OPERATOR],
+        'controllers' => ['badges'],
+        'actions' => ['create']
+    ],
+
+    /** Positions */
+    [
+        'allow',
+        'roles' => [Role::SERVER],
+        'controllers' => ['positions'],
+        'actions' => ['list']
+    ],
+
     [
         'deny',
         'users' => ['*']

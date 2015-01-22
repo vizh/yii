@@ -19,6 +19,30 @@ class Exception extends \CException
     const NEW_PARTICIPANT_EMPTY_STATUS = 201;
     const INVALID_PARTICIPANT_ID = 202;
 
+    const INVALID_PART_ID_FOR_BADGE = 301;
+
+    /**
+     * Возвращает массив трансляции сообщений
+     * @return array
+     */
+    protected function getMessages()
+    {
+        return [
+            static::ACCESS_DENIED => 'Недостаточно прав доступа к ресурсу',
+            static::INVALID_HASH => 'Неверный Hash доступа к API',
+            static::INVALID_OPERATOR_ID => 'Не найден оператор с Id %s',
+            static::INVALID_OPERATOR_EVENT => 'Оператор с Id %s относится к другому мероприятию',
+            static::INVALID_PARAM => 'Задан неверный параметр %s. %s',
+            static::INVALID_PARAMS => "Неверно заданы следующие параметры: %s",
+
+            static::NEW_PARTICIPANT_EMPTY_STATUS => 'Для нового участника статус на мероприятии не может быть пустым',
+            static::INVALID_PARTICIPANT_ID => 'Не найден участник с ID: %s',
+
+            static::INVALID_PART_ID_FOR_BADGE => 'Пользователь %s не является участником части мероприятия %s'
+        ];
+    }
+
+
     /**
      * Генерирует исключение при неверном параметре
      * @param string|array $paramName
@@ -45,25 +69,6 @@ class Exception extends \CException
     public function getName()
     {
         return 'Ruvents2 Exception';
-    }
-
-    /**
-     * Возвращает массив трансляции сообщений
-     * @return array
-     */
-    protected function getMessages()
-    {
-        return [
-            static::ACCESS_DENIED => 'Недостаточно прав доступа к ресурсу',
-            static::INVALID_HASH => 'Неверный Hash доступа к API',
-            static::INVALID_OPERATOR_ID => 'Не найден оператор с Id %s',
-            static::INVALID_OPERATOR_EVENT => 'Оператор с Id %s относится к другому мероприятию',
-            static::INVALID_PARAM => 'Задан неверный параметр %s. %s',
-            static::INVALID_PARAMS => "Неверно заданы следующие параметры: %s",
-
-            static::NEW_PARTICIPANT_EMPTY_STATUS => 'Для нового участника статус на мероприятии не может быть пустым',
-            static::INVALID_PARTICIPANT_ID => 'Не найден участник с ID: %s'
-        ];
     }
 
     /**

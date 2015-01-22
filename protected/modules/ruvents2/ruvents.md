@@ -570,6 +570,8 @@ X-Ruvents-Operator: {Id}
 
 Для мероприятий с несколькими частями передаются статусы для тех частей, для которых они изменились.
 
+<span style="color: #ff0000;">Реализовано только изменение статусов</span>
+
 + Request
 
     + Headers
@@ -813,7 +815,7 @@ X-Ruvents-Operator: {Id}
 
 # Group Оплаты и товары
 
-## Оплаченные товары [/orderitems{?since,limit}]
+## Оплаченные товары [/positions{?since,limit}]
 
 ### GET
 
@@ -826,7 +828,7 @@ X-Ruvents-Operator: {Id}
     + Body
 
             {
-                "OrderItems": [
+                "Positions": [
                     {
                         "Id": 123233,
                         "UserId": 234,
@@ -857,7 +859,7 @@ X-Ruvents-Operator: {Id}
             {
                 "type": "object",
                 "properties": {
-                    "Items" : {
+                    "Positions" : {
                         "type": "array",
                         "items": {
                             "type": "array",

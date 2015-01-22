@@ -18,6 +18,12 @@ return [
                 ['ruvents2/participants/edit', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/participants/<runetId:\d+>', 'verb' => 'PUT'],
                 ['ruvents2/participants/delete', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/participants/<runetId:\d+>', 'verb' => 'DELETE'],
 
+                ['ruvents2/users/list', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/users', 'verb' => 'GET'],
+
+                ['ruvents2/badges/list', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/badges', 'verb' => 'GET'],
+                ['ruvents2/badges/create', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/badges', 'verb' => 'POST'],
+
+                ['ruvents2/positions/list', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/positions', 'verb' => 'GET'],
 
                 ['ruvents2/utility/ping', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/utility/ping', 'verb' => 'GET'],
                 'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/' => 'ruvents2/not/found',
