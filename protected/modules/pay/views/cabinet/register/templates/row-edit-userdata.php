@@ -11,7 +11,7 @@
             <%=editArea%>
             <div class="form-actions">
                 <button class="btn btn-cancel"><?=\Yii::t('app', 'Отмена');?></button>
-                <button class="btn btn-inverse btn-submit"><?=\Yii::t('app', 'Сохранить');?></button>
+                <button class="btn btn-inverse btn-submit"><?=\Yii::t('app', 'Добавить');?></button>
             </div>
             <?CHtml::endForm();?>
         </td>

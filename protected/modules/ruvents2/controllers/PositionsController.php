@@ -57,7 +57,7 @@ class PositionsController extends Controller
     private function getPositionData($position)
     {
         $data = ArrayHelper::toArray($position, ['pay\models\OrderItem' => [
-            'Id', 'ProductId', 'Paid', 'PaidTime', 'CreationTime'
+            'Id', 'ProductId', 'Paid', 'PaidTime', 'UpdateTime'
         ]]);
 
         $couponActivation = $position->getCouponActivation();
