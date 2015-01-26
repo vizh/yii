@@ -188,6 +188,11 @@
             <?if (!$event->getIsNewRecord()):?>
                 <div class="control-group">
                     <div class="controls">
+                        <a href="<?=$this->createUrl('/event/admin/edit/parts', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-tags"></i> <?=\Yii::t('app', 'Части мероприятия');?></a>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
                         <a href="<?=$this->createUrl('/event/admin/edit/product', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-shopping-cart"></i> <?=\Yii::t('app', 'Товары');?></a>
                     </div>
                 </div>
