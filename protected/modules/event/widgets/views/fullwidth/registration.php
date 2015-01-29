@@ -6,6 +6,10 @@
  */
 ?>
 
+<?if ($this->event->Id == 1498):?>
+    <div id="<?=$this->getNameId();?>" class="tab">
+<?endif;?>
+
   <?=CHtml::beginForm(\Yii::app()->createUrl('/pay/cabinet/register', array('eventIdName' => $this->event->IdName)), 'POST', array('class' => 'event-registration registration'));?>
   <?=\CHtml::hiddenField(\Yii::app()->request->csrfTokenName, \Yii::app()->request->getCsrfToken()); ?>
   <header>
@@ -93,3 +97,8 @@
     <button class="btn btn-large btn-success" type="submit"><?=\Yii::t('app', 'Зарегистрироваться');?></button>
   </div>
   <?php echo CHtml::endForm();?>
+
+
+<?if ($this->event->Id == 1498):?>
+    </div>
+<?endif;?>

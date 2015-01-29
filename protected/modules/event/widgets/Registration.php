@@ -108,6 +108,9 @@ class Registration extends \event\components\Widget
      */
     public function getTitle()
     {
+        if ($this->event->Id == 1498) {
+            return \Yii::t('app', 'Регистрация');
+        }
         return \Yii::t('app', 'Регистрация на мероприятии');
     }
 
@@ -116,6 +119,9 @@ class Registration extends \event\components\Widget
      */
     public function getPosition()
     {
+        if ($this->event->Id == 1498) {
+            return \event\components\WidgetPosition::Tabs;
+        }
         return \event\components\WidgetPosition::Content;
     }
 }
