@@ -8,29 +8,25 @@
  */
 
 use event\models\Event;
-
-$roleList = array(
-  '' => 'Все зарегистрированные'
-);
-foreach ($roles as $role)
-{
-  $roleList[$role->Id] = $role->Title;
-}
 ?>
 
   <div class="row">
     <div class="span12">
       <?=CHtml::beginForm(Yii::app()->createUrl('/partner/user/index/'), 'get');?>
       <div class="row">
-        <div class="span4">
+        <div class="span3">
           <?=CHtml::activeLabel($form, 'User');?>
           <?=CHtml::activeTextField($form, 'User', array('placeholder' => 'ФИО, RUNET-ID или E-mail'));?>
         </div>
-        <div class="span4">
+          <div class="span3">
+              <?=CHtml::activeLabel($form, 'Company');?>
+              <?=CHtml::activeTextField($form, 'Company');?>
+          </div>
+        <div class="span3">
           <?=CHtml::activeLabel($form, 'Role');?>
-          <?=CHtml::activeDropDownList($form, 'Role', $roleList);?>
+          <?=CHtml::activeDropDownList($form, 'Role', $form->getRoleData());?>
         </div>
-        <div class="span4">
+        <div class="span3">
           <?=CHtml::activeLabel($form, 'Sort');?>
           <?=CHtml::activeDropDownList($form, 'Sort', $form->getSortValues(), array('encode' => false));?>
         </div>

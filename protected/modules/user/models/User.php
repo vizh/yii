@@ -94,6 +94,8 @@ class User extends \application\models\translation\ActiveRecord
                 'with' => 'Company',
                 'order' => '"Employments"."Primary" DESC, "Employments"."EndYear" DESC, "Employments"."EndMonth" DESC, "Employments"."StartYear" DESC, "Employments"."StartMonth" DESC'
             ],
+            'EmploymentsForCriteria' => [self::HAS_MANY, '\user\models\Employment', 'UserId'],
+
 
             'Commissions' => [self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => ['Commission', 'Role']],
             'CommissionsActive' => [self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => ['Commission', 'Role'], 'on' => '"CommissionsActive"."ExitTime" IS NULL OR "CommissionsActive"."ExitTime" > NOW()'],
