@@ -189,6 +189,7 @@ class ParticipantSearch extends \CFormModel
             '' => 'Все зарегистрированные'
         ];
         $roles = Role::model()->byEventId(\Yii::app()->partner->getAccount()->EventId)->findAll();
-        return array_merge($data, \CHtml::listData($roles, 'Id', 'Title'));
+        $data += \CHtml::listData($roles, 'Id', 'Title');
+        return $data;
     }
 }
