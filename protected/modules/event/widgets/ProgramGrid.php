@@ -1,6 +1,12 @@
 <?php
 namespace event\widgets;
 
+/**
+ * Class ProgramGrid
+ * @package event\widgets
+ *
+ * @property string $PdfUrl
+ */
 class ProgramGrid extends \event\components\Widget
 {
 
@@ -9,7 +15,7 @@ class ProgramGrid extends \event\components\Widget
    */
   public function getAttributeNames()
   {
-    return [];
+    return ['PdfUrl'];
   }
 
 
