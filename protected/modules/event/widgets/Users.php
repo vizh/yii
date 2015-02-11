@@ -64,7 +64,7 @@ class Users extends \event\components\Widget
    */
   public function getTitle()
   {
-    return \Yii::t('app', 'Список участников');
+    return \Yii::t('app', 'Участники');
   }
 
   /**
