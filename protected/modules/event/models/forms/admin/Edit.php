@@ -44,8 +44,7 @@ class Edit extends \CFormModel
             ['Email', 'email', 'allowEmpty' => true],
             ['StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'],
             ['EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'],
-            ['Info', 'filter', 'filter' => array(new \application\components\utility\Texts(), 'filterPurify')],
-            ['Title, IdName, Info, FullInfo, Visible, TypeId, ShowOnMain, Approved, Widgets, ProfInterest, SiteUrl', 'safe'],
+            ['Title, IdName, Info, FullInfo, Info, Visible, TypeId, ShowOnMain, Approved, Widgets, ProfInterest, SiteUrl', 'safe'],
             ['Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true]
         ];
     }
