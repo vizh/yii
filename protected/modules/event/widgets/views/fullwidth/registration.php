@@ -18,7 +18,7 @@
       <div class="text-center participant-info">
         <p><?=\Yii::app()->getUser()->getCurrentUser()->getShortName();?>, <?=\Yii::t('app', 'ваш статус');?>:</p>
         <p><span class="label label-success"><?=$participant->Role->Title;?></span></p>
-        <p class="m-bottom_20"><a href="<?=$participant->getTicketUrl();?>" target="_blank"><?=\Yii::t('app', 'скачайте путевой лист');?></small></a></p>
+        <p class="m-bottom_20"><a href="<?=$participant->getTicketUrl();?>" target="_blank"><?=\Yii::t('app', 'Скачать электронный билет');?></small></a></p>
         <p><?=\Yii::t('app','Если вы хотите зарегистрировать коллег, воспользуйтесь формой ниже.');?></p>
       </div>
       <hr/>

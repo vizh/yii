@@ -10,7 +10,7 @@ use event\models\section\LinkUser;
   <?foreach ($grid as $date => $data):?>
     <h4><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $date);?></h4>
       <?php if (isset($this->PdfUrl) && !empty($this->PdfUrl)):?>
-          <p class="text-center"><a target="_blank" href="<?=$this->PdfUrl;?>">Программа в PDF</a></p>
+          <p class="text-center"><a target="_blank" href="<?=$this->PdfUrl;?>"><i class="icon-file"></i> Программа в PDF</a></p>
       <?php endif;?>
     <table class="table m-bottom_50">
       <thead>
