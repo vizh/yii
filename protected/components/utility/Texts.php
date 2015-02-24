@@ -227,6 +227,23 @@ class Texts
         return preg_replace('/[^0-9]/i', '', $str);
     }
 
+    private static $clearPurifier = null;
+
+    /**
+     * @return \CHtmlPurifier
+     */
+    private static function getClearPurifier()
+    {
+        if (self::$clearPurifier === null) {
+            self::$clearPurifier = new \CHtmlPurifier();
+            self::$clearPurifier->options = [
+                'HTML.AllowedElements'   => [],
+                'HTML.AllowedAttributes' => [],
+            ];
+        }
+        return self::$clearPurifier;
+    }
+
     /**
      * @param $str
      * @return mixed|string
@@ -234,12 +251,7 @@ class Texts
     public static function clear($str)
     {
         $str = trim($str);
-        $purifier = new \CHtmlPurifier();
-        $purifier->options = [
-            'HTML.AllowedElements'   => [],
-            'HTML.AllowedAttributes' => [],
-        ];
-        $str = $purifier->purify($str);
+        $str = self::getClearPurifier()->purify($str);
         $str = str_replace(["\r\n","\n"], "", $str);
         return $str;
     }
@@ -247,5 +259,31 @@ class Texts
     public static function isHtml($string)
     {
         return preg_match("/<[^<]+>/",$string,$m) != 0;
+    }
+
+    /**
+     * Подготавливает строку для вставки в функцию to_tsvector БД PostgreSQL. Для этого удаляются все управляющие
+     * символы и добавляется символ :* для обозначения произвольного количесва идущих после слова букв.
+     * @param string $str
+     * @return string
+     */
+    public static function prepareStringForTsvector($str)
+    {
+        $str = trim(preg_replace('/\W+/u', ' ', $str));
+
+        if (!empty($str))
+            return implode(':* & ', preg_split('/\s+/', $str, -1, PREG_SPLIT_NO_EMPTY)) . ':*';
+
+        return null;
+    }
+
+    /**
+     * Подготавливает строку для поиска LIKE и ILIKE
+     * @param string $str
+     * @return string
+     */
+    public static function prepareStringForLike($str)
+    {
+        return strtr($str, ['%'=>'\%', '_'=>'\_', '\\'=>'\\\\']);
     }
 }

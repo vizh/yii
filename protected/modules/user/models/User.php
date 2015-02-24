@@ -37,6 +37,7 @@ use user\components\handlers\Register;
  * @property LinkServiceAccount[] $LinkServiceAccounts
  * @property LinkProfessionalInterest[] $LinkProfessionalInterests
  * @property Employment[] $Employments
+ * @property Education[] $Educations
  * @property \commission\models\Commission[] $Commissions
  * @property \event\models\Participant[] $Participants
  * @property Settings $Settings Настройки аккаунта пользователя
@@ -95,6 +96,12 @@ class User extends \application\models\translation\ActiveRecord
                 'order' => '"Employments"."Primary" DESC, "Employments"."EndYear" DESC, "Employments"."EndMonth" DESC, "Employments"."StartYear" DESC, "Employments"."StartMonth" DESC'
             ],
             'EmploymentsForCriteria' => [self::HAS_MANY, '\user\models\Employment', 'UserId'],
+
+            'Educations' => [
+                self::HAS_MANY, '\user\models\Education', 'UserId',
+                'with' => ['University', 'Faculty'],
+                'order' => '"Educations"."EndYear" DESC'
+            ],
 
 
             'Commissions' => [self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => ['Commission', 'Role']],
