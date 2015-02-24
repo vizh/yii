@@ -2,15 +2,15 @@ $(function(){
   $('.date-in, .date-out').datepicker({
     dateFormat: 'yy-mm-dd',
     defaultDate: '2014-04-22',
-    minDate: '2014-04-01',
-    maxDate: '2014-04-30',
+    minDate: '2015-04-01',
+    maxDate: '2015-04-30',
     hideIfNoPrevNext: true
   });
 
   $('.date-booked').datepicker({
     dateFormat: 'yy-mm-dd',
-    minDate: '2014-03-01',
-    maxDate: '2014-04-20'
+    minDate: '2015-02-01',
+    maxDate: '2015-04-30'
   });
 
   $('.booking-delete').on('click', function(e){

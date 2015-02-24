@@ -3,7 +3,7 @@
 class InternalController extends \application\components\controllers\PublicMainController
 {
 
-  const EventId = 789;
+  const EventId = 1534;
 
   public function actionClear()
   {
@@ -59,26 +59,25 @@ class InternalController extends \application\components\controllers\PublicMainC
 
   public function actionImportrooms()
   {
-    echo 'closed';
-
-    return;
-    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/import_20140305.csv');
+    //echo 'closed';
+    //return;
+    $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/test-import_20150219.csv');
     $parser->SetInEncoding('utf-8');
     $parser->SetDelimeter(';');
     $results = $parser->Parse($this->fieldMap, true);
 
-    $results = array_slice($results, 400, 200);
+    //$results = array_slice($results, 400, 200); // TODO: если файл большой
 
     echo '<pre>';
     print_r($results);
     echo '</pre>';
-    return;
+    //return; // TODO: Вернуть перед импортом чтобы проверить данные
 
     foreach ($results as $result)
     {
       $product = new \pay\models\Product();
       $product->ManagerName = 'RoomProductManager';
-      $product->Title = 'Участие в объединенной конференции РИФ+КИБ 2014 с проживанием';
+      $product->Title = 'Участие в объединенной конференции РИФ+КИБ 2015 с проживанием';
       $product->EventId = self::EventId;
       $product->Unit = 'усл.';
       $product->EnableCoupon = false;
@@ -88,7 +87,7 @@ class InternalController extends \application\components\controllers\PublicMainC
       $price = new \pay\models\ProductPrice();
       $price->ProductId = $product->Id;
       $price->Price = $result->Price;
-      $price->StartTime = '2014-03-01 09:00:00';
+      $price->StartTime = '2015-02-19 09:00:00';
       $price->save();
 
       if (empty($result->EuroRenovation))
@@ -118,8 +117,8 @@ class InternalController extends \application\components\controllers\PublicMainC
                 $roomBooking = new \pay\models\RoomPartnerBooking();
                 $roomBooking->ProductId = $product->Id;
                 $roomBooking->Owner = 'Оргкомитет';
-                $roomBooking->DateIn = '2014-04-22';
-                $roomBooking->DateOut = '2014-04-25';
+                $roomBooking->DateIn = '2015-04-21';
+                $roomBooking->DateOut = '2015-04-24';
                 $roomBooking->ShowPrice = false;
                 $roomBooking->save();
               }

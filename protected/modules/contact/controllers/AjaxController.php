@@ -12,7 +12,7 @@ class AjaxController extends \CController
     $criteria->order = '"Country"."Priority" DESC, "Region"."Priority" DESC,"t"."Priority" DESC, "t"."Name" ASC';
     $criteria->limit = 5;
     $criteria->addCondition('"t"."Name" ILIKE :Name');
-    $criteria->params['Name'] = '%'.$term.'%';
+    $criteria->params['Name'] = $term.'%';
     $cities = \geo\models\City::model()->findAll($criteria);
     $result = array();
     foreach ($cities as $city)
