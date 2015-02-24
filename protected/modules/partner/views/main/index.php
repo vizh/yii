@@ -9,6 +9,8 @@
  */
 
 
+$this->setPageTitle('Партнерский интерфейс');
+$this->initActiveBottomMenu('index');
 $statRegistrationsByRoles = $statistics->getRegistrationsAll();
 $statRegistrationDeltaByRoles = $statistics->getRegistrationsDelta();
 ?>
