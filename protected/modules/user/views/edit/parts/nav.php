@@ -1,7 +1,7 @@
 <?php
 $menu = [
     'index' => \Yii::t('app', 'Основная информация'),
-    //todo: Раскомментировать после тестирования 'education' => \Yii::t('app', 'Образование'),
+    'education' => \Yii::t('app', 'Образование'),
     'employment' => \Yii::t('app', 'Места работы'),
     'profinterests' => \Yii::t('app', 'Профессиональные интересы'),
     'contacts' => \Yii::t('app', 'Контактная информация'),
