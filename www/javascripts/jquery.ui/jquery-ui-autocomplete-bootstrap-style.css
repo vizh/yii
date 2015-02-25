@@ -8,3 +8,30 @@ li.ui-menu-item > a.ui-state-focus {
   color: #FFFFFF;
   text-decoration: none;
 }
+
+.ui-autocomplete.ui-autocomplete-bootstrap {
+  background-clip: padding-box;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  float: left;
+  list-style: outside none none;
+  margin: 2px 0 0;
+  min-width: 160px;
+  padding: 5px 0;
+}
+
+.ui-autocomplete.ui-autocomplete-bootstrap li>a {
+  clear: both;
+  color: #333;
+  display: block;
+  font-weight: normal;
+  line-height: 20px;
+  padding: 3px 20px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.ui-autocomplete.ui-autocomplete-bootstrap li>a:hover {
+  color: #fff;
+}
