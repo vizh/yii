@@ -35,6 +35,8 @@ CUserEditEducation.prototype = {
         var FacultyIdHidden = item.find('input[name*="FacultyId"]');
         var FacultyNameInput = item.find('input[name*="FacultyName"]');
 
+        var SpecialtyInput = item.find('input[name*="Specialty"]');
+
         CityNameInput.autocomplete({
             minLength: 2,
             source : function (request, response) {
@@ -53,6 +55,9 @@ CUserEditEducation.prototype = {
                 self.resetPartOfItem(item, ['UniversityName', 'UniversityId', 'FacultyName', 'FacultyId', 'Specialty']);
                 UniversityNameInput.focus();
                 UniversityNameInput.autocomplete( "search", "" );
+            },
+            search : function (event, ui) {
+                UniversityNameInput.removeAttr('disabled');
             }
         });
 
@@ -74,6 +79,9 @@ CUserEditEducation.prototype = {
                 self.resetPartOfItem(item, ['FacultyName', 'FacultyId', 'Specialty']);
                 FacultyNameInput.focus();
                 FacultyNameInput.autocomplete( "search", "" );
+            },
+            search : function (event, ui) {
+                FacultyNameInput.removeAttr('disabled');
             }
         });
 
@@ -92,6 +100,9 @@ CUserEditEducation.prototype = {
             },
             select: function( event, ui ) {
                 FacultyIdHidden.val(ui.item.id);
+            },
+            search : function (event, ui) {
+                SpecialtyInput.removeAttr('disabled');
             }
         });
 
@@ -99,7 +110,7 @@ CUserEditEducation.prototype = {
         item.find('.form-row-remove a').click(function (e) {
             e.preventDefault();
             if (item.find('input[name*="[Id]"]').size() == 1) {
-                if (confirm("Вы точно желаете удалить место работы?")) {
+                if (confirm("Вы точно желаете удалить место образования?")) {
                     item.find('input[name*="Delete"]').val(1);
                     item.hide();
                 }

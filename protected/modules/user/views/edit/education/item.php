@@ -21,17 +21,17 @@ $degrees = array_merge(['' => 'Выберите степень'], Degree::getAll
         </div>
         <div class="form-row">
             <?=\CHtml::activeLabel($form, 'UniversityName');?>
-            <input type="text" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][UniversityName]');?>" value="" class="span5"/>
+            <input type="text" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][UniversityName]');?>" value="" class="span5" disabled="disabled"/>
             <input type="hidden" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][UniversityId]');?>" value="" class="span5"/>
         </div>
         <div class="form-row">
             <?=\CHtml::activeLabel($form, 'FacultyName');?>
-            <input type="text" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][FacultyName]');?>" value="" class="span5"/>
+            <input type="text" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][FacultyName]');?>" value="" class="span5" disabled="disabled"/>
             <input type="hidden" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][FacultyId]');?>" value="" class="span5"/>
         </div>
         <div class="form-row">
             <?=\CHtml::activeLabel($form, 'Specialty');?>
-            <input type="text" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][Specialty]');?>" value="" class="span5"/>
+            <input type="text" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][Specialty]');?>" value="" class="span5" disabled="disabled"/>
         </div>
         <div class="form-row form-row-date">
             <label><?=\CHtml::activeLabel($form, 'EndYear');?></label>
