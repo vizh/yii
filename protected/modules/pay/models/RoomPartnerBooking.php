@@ -1,5 +1,6 @@
 <?php
 namespace pay\models;
+use application\components\ActiveRecord;
 
 /**
  * Class RoomPartnerBooking
@@ -21,103 +22,97 @@ namespace pay\models;
  * @property string $People
  * @property string $Car
  *
+ * @method RoomPartnerBooking byDeleted(boolean $deleted)
+ * @method RoomPartnerBooking[] findAll()
+ *
  */
-class RoomPartnerBooking extends \CActiveRecord
+class RoomPartnerBooking extends ActiveRecord
 {
-  /**
-   * @param string $className
-   *
-   * @return RoomPartnerBooking
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
-
-  public function tableName()
-  {
-    return 'PayRoomPartnerBooking';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return [
-      'Order' => [self::BELONGS_TO, '\pay\models\RoomPartnerOrder', 'OrderId'],
-      'Product' => [self::BELONGS_TO, '\pay\models\Product', 'ProductId']
-    ];
-  }
-
-  /**
-   * @param int $productId
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byProductId($productId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."ProductId" = :ProductId';
-    $criteria->params = ['ProductId' => $productId];
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-
-  public function byDeleted($deleted, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = (!$deleted ? 'NOT ' : '' ) . '"t"."Deleted"';
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param string $owner
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byOwner($owner, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."Owner" = :Owner';
-    $criteria->params = ['Owner' => $owner];
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param bool $hasOrder
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byHasOrder($hasOrder = true, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."OrderId" '.($hasOrder ? 'NOT' : '').' IS NULL';
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  public function deleteHard()
-  {
-    if ($this->Paid || $this->Deleted)
+    /**
+     * @param string $className
+     *
+     * @return RoomPartnerBooking
+     */
+    public static function model($className=__CLASS__)
     {
-      return false;
+        return parent::model($className);
     }
 
-    $this->Deleted = true;
-    $this->DeletionTime = date('Y-m-d H:i:s');
-    $this->save();
+    public function tableName()
+    {
+        return 'PayRoomPartnerBooking';
+    }
 
-    return true;
-  }
+    public function primaryKey()
+    {
+        return 'Id';
+    }
 
-  public function getStayDay()
-  {
-    return (strtotime($this->DateOut) - strtotime($this->DateIn)) / 60 / 60 / 24;
-  }
+    public function relations()
+    {
+        return [
+            'Order' => [self::BELONGS_TO, '\pay\models\RoomPartnerOrder', 'OrderId'],
+            'Product' => [self::BELONGS_TO, '\pay\models\Product', 'ProductId']
+        ];
+    }
+
+    /**
+     * @param int $productId
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byProductId($productId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."ProductId" = :ProductId';
+        $criteria->params = ['ProductId' => $productId];
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * @param string $owner
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byOwner($owner, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."Owner" = :Owner';
+        $criteria->params = ['Owner' => $owner];
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * @param bool $hasOrder
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byHasOrder($hasOrder = true, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."OrderId" '.($hasOrder ? 'NOT' : '').' IS NULL';
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    public function deleteHard()
+    {
+        if ($this->Paid || $this->Deleted)
+        {
+            return false;
+        }
+
+        $this->Deleted = true;
+        $this->DeletionTime = date('Y-m-d H:i:s');
+        $this->save();
+
+        return true;
+    }
+
+    public function getStayDay()
+    {
+        return (strtotime($this->DateOut) - strtotime($this->DateIn)) / 60 / 60 / 24;
+    }
 }

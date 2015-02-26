@@ -67,7 +67,7 @@ class ParkingAction extends \CAction
         $item->Brand  = $row['brand'];
         $item->Model  = $row['model'];
 
-        $participant = \event\models\Participant::model()->byUserId($user->Id)->byEventId(\BookingController::EventId)->find();
+        $participant = \event\models\Participant::model()->byUserId($user->Id)->byEventId(\Yii::app()->params['AdminBookingEventId'])->find();
         if ($participant == null)
           continue;
 
@@ -82,7 +82,7 @@ class ParkingAction extends \CAction
           $criteria = new \CDbCriteria();
           $criteria->addCondition('"Product"."ManagerName" = :ManagerName');
           $criteria->params['ManagerName'] = 'RoomProductManager';
-          $orderItem = \pay\models\OrderItem::model()->byEventId(\BookingController::EventId)->byPaid(true)->byAnyOwnerId($user->Id)->find($criteria);
+          $orderItem = \pay\models\OrderItem::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->byPaid(true)->byAnyOwnerId($user->Id)->find($criteria);
           if ($orderItem == null)
             continue;
 

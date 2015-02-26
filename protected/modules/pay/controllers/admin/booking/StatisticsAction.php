@@ -3,20 +3,19 @@ namespace pay\controllers\admin\booking;
 
 class StatisticsAction extends \CAction
 {
-  const EventId = 789;
   const ManagerName = 'RoomProductManager';
 
   private $event;
 
   public function run()
   {
-    $this->event = \event\models\Event::model()->findByPk(self::EventId);
+    $this->event = \event\models\Event::model()->findByPk(\Yii::app()->params['AdminBookingEventId']);
     $statistics = $this->getStatisticsArray();
 
     $criteria = new \CDbCriteria();
     $criteria->with = ['Product'];
     $criteria->addCondition('"Product"."EventId" = :EventId AND "Product"."ManagerName" = :Manager');
-    $criteria->params['EventId'] = self::EventId;
+    $criteria->params['EventId'] = \Yii::app()->params['AdminBookingEventId'];
     $criteria->params['Manager'] = self::ManagerName;
     $orderItems = \pay\models\OrderItem::model()->byDeleted(false)->findAll($criteria);
 
@@ -81,6 +80,6 @@ class StatisticsAction extends \CAction
     $criteria = new \CDbCriteria();
     $criteria->with = ['Attributes'];
     $criteria->addCondition('"Attributes"."Name" = \'Visible\' AND "Attributes"."Value" = \'1\'');
-    return \pay\models\Product::model()->byEventId(self::EventId)->byManagerName(self::ManagerName)->count($criteria);
+    return \pay\models\Product::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->byManagerName(self::ManagerName)->count($criteria);
   }
 } 

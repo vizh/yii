@@ -29,6 +29,7 @@ return [
     'AdminPayAccountPerPage' => 50,
     'AdminMailPerPage' => 50,
     'AdminOrderJuridicalTemplatePerPage' => 50,
+    'AdminBookingEventId' => 1534,
 
     'EmailEventCalendar' => 'calendar@internetmediaholding.com',
     'UserPasswordMinLenght' => 6,

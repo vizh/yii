@@ -7,7 +7,7 @@ class ProductAction extends \CAction
 
   public function run($productId, $backUrl = null)
   {
-    $product = \pay\models\Product::model()->byManagerName('RoomProductManager')->byEventId(\BookingController::EventId)->findByPk($productId);
+    $product = \pay\models\Product::model()->byManagerName('RoomProductManager')->byEventId(\Yii::app()->params['AdminBookingEventId'])->findByPk($productId);
     if ($product == null)
       throw new \CHttpException(404);
 

@@ -4,7 +4,6 @@ namespace pay\controllers\admin\booking;
 
 class StatisticsHotelAction extends \CAction
 {
-  const EventId = 789;
   const ManagerName = 'RoomProductManager';
 
   public function run($hotel)
@@ -32,7 +31,7 @@ class StatisticsHotelAction extends \CAction
     $criteria->with = ['Attributes' => ['together' => true, 'select' => false]];
     $criteria->condition = '"Attributes"."Name" = :Name AND "Attributes"."Value" ilike :Value';
     $criteria->params = ['Name' => 'Hotel', 'Value' => $hotel];
-    $products = \pay\models\Product::model()->byEventId(self::EventId)->findAll($criteria);
+    $products = \pay\models\Product::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->findAll($criteria);
     $idList = [];
     foreach ($products as $product)
     {

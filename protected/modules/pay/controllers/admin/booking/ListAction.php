@@ -10,7 +10,7 @@ class ListAction extends \CAction
     $criteria = new \CDbCriteria();
     $criteria->with = ['Product.Attributes', 'Owner.Settings'];
     $criteria->addCondition('"Product"."ManagerName" = \'RoomProductManager\'');
-    $orderItems = \pay\models\OrderItem::model()->byEventId(\BookingController::EventId)->byPaid(true)->findAll($criteria);
+    $orderItems = \pay\models\OrderItem::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->byPaid(true)->findAll($criteria);
     foreach ($orderItems as $orderItem)
     {
       $manager = $orderItem->Product->getManager();
