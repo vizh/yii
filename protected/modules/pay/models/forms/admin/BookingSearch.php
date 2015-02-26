@@ -142,7 +142,7 @@ class BookingSearch extends \CFormModel
     if (!empty($idsSubquery))
       $command->andWhere('ppa."ProductId" IN ('.$idsSubquery.')');
 
-    $results = $command->query(['EventId' => \BookingController::EventId, 'ManagerName' => 'RoomProductManager']);
+    $results = $command->query(['EventId' => \Yii::app()->params['AdminBookingEventId'], 'ManagerName' => 'RoomProductManager']);
 
     foreach ($this->_groupValues as $groupName => $group)
       if (!in_array($groupName, $usedAttributes))
@@ -422,7 +422,7 @@ class BookingSearch extends \CFormModel
       GROUP BY products."Id", products."Attributes"
       ORDER BY products."Id"';
 
-    $data[':eventId'] = \BookingController::EventId;
+    $data[':eventId'] = \Yii::app()->params['AdminBookingEventId'];
     return \Yii::app()->db->createCommand($query)->query($data);
   }
 

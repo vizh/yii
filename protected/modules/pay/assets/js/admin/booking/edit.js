@@ -9,7 +9,7 @@ $(function(){
 
   $('.date-booked').datepicker({
     dateFormat: 'yy-mm-dd',
-    minDate: '2015-02-01',
+    minDate: '2015-04-01',
     maxDate: '2015-04-30'
   });
 

@@ -57,19 +57,17 @@ class InternalController extends \application\components\controllers\PublicMainC
 
     public function actionImportrooms()
     {
-        echo 'closed';
         return;
-        $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/test-import_20150219.csv');
+        $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/import_26062015.csv');
         $parser->SetInEncoding('utf-8');
         $parser->SetDelimeter(';');
-        $results = $parser->Parse($this->fieldMap, true);
+        $results = $parser->Parse($this->fieldMap, false);
 
-        //$results = array_slice($results, 400, 200); // TODO: если файл большой
-
+        $results = array_slice($results, 200, 300); // TODO: если файл большой
         echo '<pre>';
         print_r($results);
         echo '</pre>';
-        //return; // TODO: Вернуть перед импортом чтобы проверить данные
+        return; // TODO: Вернуть перед импортом чтобы проверить данные
 
         foreach ($results as $result)
         {
@@ -84,7 +82,7 @@ class InternalController extends \application\components\controllers\PublicMainC
 
             $price = new \pay\models\ProductPrice();
             $price->ProductId = $product->Id;
-            $price->Price = $result->Price;
+            $price->Price = \application\components\utility\Texts::getOnlyNumbers($result->Price);
             $price->StartTime = '2015-02-19 09:00:00';
             $price->save();
 
@@ -103,7 +101,7 @@ class InternalController extends \application\components\controllers\PublicMainC
                 {
                     case 'Booking':
                         $booking = trim($result->$key);
-                        if ($booking == 'САЙТ')
+                        if ($booking == 'сайт')
                         {
                             $product->getManager()->Visible = 1;
                         }
