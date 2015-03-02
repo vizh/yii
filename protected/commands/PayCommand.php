@@ -29,7 +29,7 @@ class PayCommand extends BaseConsoleCommand
 
   public function actionClearPhysicalBook()
   {
-    $orderItems = OrderItem::model()->byEventId(789)->byPaid(false)->byBooked(false)->byDeleted(false)->findAll();
+    $orderItems = OrderItem::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->byPaid(false)->byBooked(false)->byDeleted(false)->findAll();
 
     foreach ($orderItems as $item)
     {

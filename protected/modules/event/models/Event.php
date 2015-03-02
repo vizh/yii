@@ -1,7 +1,9 @@
 <?php
 namespace event\models;
 
+use application\models\translation\ActiveRecord;
 use \mail\components\mailers\MandrillMailer;
+use search\components\interfaces\ISearch;
 use user\models\User;
 
 /**
@@ -61,8 +63,9 @@ use user\models\User;
  * @method \event\models\Event find($condition='',$params=array())
  * @method \event\models\Event findByPk($pk,$condition='',$params=array())
  * @method \event\models\Event[] findAll($condition='',$params=array())
+ * @method Event byApproved($approved)
  */
-class Event extends \application\models\translation\ActiveRecord implements \search\components\interfaces\ISearch
+class Event extends ActiveRecord implements ISearch
 {
     protected $fileDir; // кеш, содержащий путь к файлам мероприятия. использовать только через getPath()
     protected $baseDir; // кеш, содержащий абсолютный путь к wwwroot

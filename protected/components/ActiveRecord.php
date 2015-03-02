@@ -42,6 +42,17 @@ class ActiveRecord extends \CActiveRecord
         return $this;
     }
 
+    /**
+     * Устанавливает лимит записей
+     * @param int $limit
+     * @return $this
+     */
+    public function limit($limit)
+    {
+        $this->getDbCriteria()->limit = $limit;
+        return $this;
+    }
+
     private static $_events = array();
 
     public function __set($name, $value)

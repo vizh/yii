@@ -1,5 +1,6 @@
 <?php
 namespace pay\models;
+use application\components\ActiveRecord;
 use mail\components\mailers\MandrillMailer;
 use pay\components\CodeException;
 use pay\components\Exception;
@@ -32,7 +33,7 @@ use pay\components\MessageException;
  * @method \pay\models\Order find()
  * @method \pay\models\Order[] findAll()
  */
-class Order extends \CActiveRecord
+class Order extends ActiveRecord
 {
   const BookDayCount = 5;
   const PayTypeJuridical = 'Juridical';
