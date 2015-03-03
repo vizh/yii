@@ -12,5 +12,8 @@ date_default_timezone_set('Europe/Moscow');
 $config=dirname(__FILE__).'/../config/main.php';
 
 require_once($yii);
+$vendor=dirname(__FILE__).'/../vendor/autoload.php';
+require_once($vendor);
+
 $app = Yii::createWebApplication($config);
 $app->run();

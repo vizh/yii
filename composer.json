@@ -1,0 +1,13 @@
+{
+	"name": "runet-id/runet-id.com",
+	"description": "RUNETID",
+	"keywords": ["event"],
+	"homepage": "http://runet-id.com/",
+	"type": "project",
+	"license": "???",
+	"minimum-stability": "beta",
+	"require": {
+		"php": ">=5.4.0",
+        "mpdf/mpdf": "5.7.4"
+	}
+}
