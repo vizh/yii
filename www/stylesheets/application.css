@@ -1357,12 +1357,16 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   margin-bottom: 60px;
 }
 .event-page-fullwidth .contacts .phone,
-.event-page-fullwidth .contacts .email {
+.event-page-fullwidth .contacts .email,
+.event-page-fullwidth .contacts .address{
   color: #999;
   font-size: 28px;
   font-weight: bold;
   padding: 0 15px;
   text-decoration: none;
+}
+.event-page-fullwidth .contacts .address {
+  line-height: 1.4;
 }
 
 /* PARTNERS */
