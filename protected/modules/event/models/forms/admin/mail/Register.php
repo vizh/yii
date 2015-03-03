@@ -12,6 +12,7 @@ class Register extends \CFormModel
     public $Delete = 0;
     public $SendPassbook;
     public $Layout = Layout::OneColumn;
+    public $SendTicket;
 
     public function rules()
     {
@@ -19,7 +20,7 @@ class Register extends \CFormModel
             ['Subject,Body', 'required'],
             ['Delete,Layout,Body', 'safe'],
             ['Roles, RolesExcept', 'filter', 'filter' => [$this, 'filterRoles']],
-            ['SendPassbook', 'boolean']
+            ['SendPassbook,SendTicket', 'boolean']
         ];
     }
 
@@ -31,6 +32,7 @@ class Register extends \CFormModel
             'Roles' => \Yii::t('app', 'Роли'),
             'RolesExcept' => \Yii::t('app', 'Исключая роли'),
             'SendPassbook' => \Yii::t('app', 'Отправлять Passbook файл'),
+            'SendTicket' => \Yii::t('app', 'Отправлять билет'),
             'Layout' => \Yii::t('app', 'Шаблон')
         ];
     }

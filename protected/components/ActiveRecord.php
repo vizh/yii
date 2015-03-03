@@ -30,6 +30,10 @@ class ActiveRecord extends \CActiveRecord
      */
     public function orderBy($orders)
     {
+        if (!is_array($orders)) {
+            $orders = [$orders];
+        }
+
         $criteria = new \CDbCriteria();
         foreach ($orders as $column => $order) {
             if (!is_string($column)) {

@@ -1,49 +1,41 @@
 <?php
+
+use event\models\Event;
+use user\models\User;
+use event\models\Participant;
+
 class TicketController extends application\components\controllers\PublicMainController
 {
-    public $layout = '//layouts/ticket';
-
-    /** @var \event\models\Event */
-    protected $event = null;
-
     public function actionIndex($eventIdName, $runetId, $hash)
     {
-        $this->event = \event\models\Event::model()->byIdName($eventIdName)->find();
-        $user  = \user\models\User::model()->byRunetId($runetId)->find();
-
-        if ($this->event == null || $user == null)
+        $event = Event::model()->byIdName($eventIdName)->find();
+        $user = User::model()->byRunetId($runetId)->find();
+        if ($event == null || $user == null || !$this->checkHash($event, $user, $hash))
             throw new \CHttpException(404);
 
-        $orderItems = \pay\models\OrderItem::model()
-            ->byOwnerId($user->Id)->byChangedOwnerId(null)->byChangedOwnerId($user->Id, false)
-            ->byEventId($this->event->Id)->byPaid(true)->findAll();
 
-        $params = ['event' => $this->event, 'user' => $user, 'orderItems' => $orderItems];
-        $model = \event\models\Participant::model()->byUserId($user->Id)->byEventId($this->event->Id);
-        if (count($this->event->Parts) == 0) {
-            $participant = $model->find();
-            $hash2 = substr(md5('1420aHQR/agr(pSEt/t.EFS.BT/!'.$user->Id), 2, 25);
-            if ($participant == null || ($participant->getHash() !== $hash && $hash2 !== $hash))
-                throw new \CHttpException(404);
-            $params['role'] = $participant->Role;
-        } else {
-            $participants = $model->findAll([
-                'with' => ['Part' => ['together' => true]],
-                'order' => '"Part"."Order"'
-            ]);
-            if (count($participants) == 0 || $participants[0]->getHash() !== $hash)
-                throw new \CHttpException(404);
-            $params['participants'] = $participants;
-        }
-        $this->renderTicket($params);
+        $class = \Yii::getExistClass('event\components\tickets', ucfirst($event->IdName), 'Ticket');
+        /** @var \event\components\tickets\Ticket $ticket */
+        $ticket = new $class($event, $user);
+        $ticket->getPdf()->Output($ticket->getFileName(), 'I');
     }
 
-    protected function renderTicket($params)
-    {
-        $path = \Yii::getPathOfAlias('event.views.ticket.'.$this->event->IdName).'.php';
-        $view = file_exists($path) ? $this->event->IdName : 'index';
-        $this->setPageTitle(\Yii::t('app', 'Ваш билет на мероприятие «{event}»', ['{event}' => $this->event->Title]));
-        \Yii::app()->getClientScript()->reset();
-        $this->render($view, $params);
+    /**
+     * @param User $user
+     * @param Event $event
+     * @param string $hash
+     * @return bool
+     */
+    private function checkHash(Event $event, User $user, $hash) {
+        $model = Participant::model()->byUserId($user->Id)->byEventId($event->Id);
+        if (!empty($event->Parts)) {
+            $model->with('Part');
+        }
+        $participants = $model->findAll();
+        foreach ($participants as $participant) {
+            if ($participant->getHash() == $hash)
+                return true;
+        }
+        return false;
     }
 }

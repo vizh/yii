@@ -1,5 +1,7 @@
 <?php
 namespace event\models;
+use application\components\ActiveRecord;
+use event\components\tickets\Ticket;
 
 /**
  * @property int $Id
@@ -19,7 +21,7 @@ namespace event\models;
  * @method \event\models\Participant[] findAll()
  * @method \event\models\Participant findByPk()
  */
-class Participant extends \CActiveRecord
+class Participant extends ActiveRecord
 {
     /** @var int */
     public $CountForCriteria;
@@ -151,6 +153,10 @@ class Participant extends \CActiveRecord
         return substr(md5($this->EventId.$this->hashSalt.$this->UserId), 2, 25);
     }
 
+    /**
+     * Ссылка на билет
+     * @return string
+     */
     public function getTicketUrl()
     {
         return \Yii::app()->createAbsoluteUrl('/event/ticket/index', [
@@ -158,5 +164,16 @@ class Participant extends \CActiveRecord
             'runetId' => $this->User->RunetId,
             'hash' => $this->getHash()
         ]);
+    }
+
+
+    /**
+     * Возвращает билет
+     * @return Ticket
+     */
+    public function getTicket()
+    {
+        $class = \Yii::getExistClass('event\components\tickets', ucfirst($this->Event->IdName), 'Ticket');
+        return new $class($this->Event, $this->User);
     }
 }

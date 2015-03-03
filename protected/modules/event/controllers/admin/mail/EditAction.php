@@ -1,13 +1,16 @@
 <?php
 namespace event\controllers\admin\mail;
 
+use event\models\forms\admin\mail\Register;
+use event\models\Event;
+
 class EditAction extends \CAction
 {
     private $event;
 
     public function run($eventId, $id = null)
     {
-        $this->event = \event\models\Event::model()->findByPk($eventId);
+        $this->event = Event::model()->findByPk($eventId);
         if ($this->event == null)
             throw new \CHttpException(404);
 
@@ -15,22 +18,18 @@ class EditAction extends \CAction
         if ($mail == null)
             throw new \CHttpException(404);
 
-        $form = new \event\models\forms\admin\mail\Register();
+        $form = new Register();
         $request = \Yii::app()->getRequest();
 
         $class = 'event.components.handlers.register.'.ucfirst($this->event->IdName);
-        if (file_exists(\Yii::getPathOfAlias($class).'.php'))
-        {
+        if (file_exists(\Yii::getPathOfAlias($class).'.php')) {
             $form->addError('Subject', \Yii::t('app', 'У мероприятия существует класс для отправки писем о регистрации. Пока сущеcтвует этот класс нельзя изменить насйтроки письма.'));
         }
 
-        if ($request->getIsPostRequest())
-        {
+        if ($request->getIsPostRequest()) {
             $form->attributes = $request->getParam(get_class($form));
-            if (!$form->hasErrors() && $form->validate())
-            {
-                if ($form->Delete == 1)
-                {
+            if (!$form->hasErrors() && $form->validate()) {
+                if ($form->Delete == 1) {
                     $this->deleteMail($mail);
                     $this->getController()->redirect(
                         $this->getController()->createUrl('/event/admin/mail/index', ['eventId' => $this->event->Id])
@@ -44,6 +43,7 @@ class EditAction extends \CAction
                 $mail->Roles = $form->Roles;
                 $mail->RolesExcept = $form->RolesExcept;
                 $mail->SendPassbook = $form->SendPassbook == 1 ? true : false;
+                $mail->SendTicket = $form->SendTicket == 1 ? true : false;
                 $this->saveMail($mail);
                 \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Письмо успешно сохранено'));
                 $this->getController()->redirect(
@@ -51,17 +51,14 @@ class EditAction extends \CAction
                 );
             }
         }
-        else
-        {
+        else {
             $form->Subject = $mail->Subject;
             $form->Body = $mail->Body;
             $form->Roles = $mail->Roles;
             $form->RolesExcept = $mail->RolesExcept;
             $form->Layout = $mail->Layout;
-            if (isset($mail->SendPassbook))
-            {
-                $form->SendPassbook = $mail->SendPassbook;
-            }
+            $form->SendPassbook = isset($mail->SendPassbook) ? $mail->SendPassbook : false;
+            $form->SendTicket = isset($mail->SendTicket) ? $mail->SendTicket : false;
         }
 
         $this->getController()->setPageTitle(\Yii::t('app', 'Редактирование регистрационного письма'));

@@ -7,3 +7,6 @@ out
 logs
 *.log
 protected/modules/pay/data/
+composer.phar
+vendor
+composer.lock

@@ -1,6 +1,7 @@
 <?php
 namespace event\components\handlers\register;
 
+use application\components\utility\PKPassGenerator;
 use mail\components\MailLayout;
 use \mail\models\Layout;
 
@@ -99,17 +100,27 @@ class Base extends MailLayout
         return null;
     }
 
+    /**
+     * @return array
+     */
     public function getAttachments()
     {
-        if ($this->getRegisterMail() !== null && !$this->getRegisterMail()->SendPassbook)
-        {
+        $mail = $this->getRegisterMail();
+        if ($mail == null) {
             return [];
         }
 
-        $pkPass = new \application\components\utility\PKPassGenerator($this->event, $this->user, $this->role);
-        return array(
-            'ticket.pkpass' => $pkPass->runAndSave()
-        );
+        $attachments = [];
+        if ($mail->SendPassbook) {
+            $pkPass = new PKPassGenerator($this->event, $this->user, $this->role);
+            $attachments['ticket.pkpass'] = $pkPass->runAndSave();
+        }
+
+        if ($mail->SendTicket) {
+            $ticket = $this->participant->getTicket();
+            $attachments[$ticket->getFileName()] = $ticket->save();
+        }
+        return $attachments;
     }
 
     /**
