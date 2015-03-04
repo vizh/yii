@@ -12,7 +12,7 @@ use ruvents\components\QrCode;
 
 $contacts = [];
 if ($event->getContactSite() != null) {
-    $contacts[] = 'Подробная информация: ' . $event->getContactSite()->getCleanUrl();
+    $contacts[] = 'Сайт: ' . $event->getContactSite()->getCleanUrl();
 }
 if (!empty($event->LinkPhones)) {
     $contacts[] = 'Тел.: ' . $event->LinkPhones[0]->Phone;
@@ -35,7 +35,9 @@ if (!empty($event->LinkEmails)) {
     }
 </style>
 <div style="position: absolute; width: 87mm; rotate: 90;font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif; font-size: 3mm; color: #556a7d;">
-    <div style="padding: 3mm 0;background-color: #586877; text-align: center; color: #fff; border-radius: 7mm 7mm 0 0;"><img src="/img/ticket/pdf/base/logo.png" style="padding-right: 4mm; display: inline-block;"/> eTicket</div>
+    <div style="padding: 3mm 0;background-color: #586877; text-align: center; color: #fff; border-radius: 7mm 7mm 0 0;">
+        <img src="/img/ticket/pdf/base/logo.png" style="padding-right: 3mm; image-resolution: 110dpi;"/> eTicket
+    </div>
     <div style="padding: 5mm; border-left: 0.5mm solid #ededed; border-right: 0.5mm solid #ededed; height: 77mm;">
         <h3><span style="text-transform: uppercase;">ЭЛЕКТРОННЫЙ БИЛЕТ</span><br/><span style="font-weight: bold;"><?=$event->Title;?></span></h3>
         <h3 style="padding: 12mm 0; font-weight: bold; text-transform: uppercase;"><?$this->widget('\event\widgets\Date', ['event' => $event]);?></h3>
@@ -49,7 +51,9 @@ if (!empty($event->LinkEmails)) {
                 <td style="height: 33mm; vertical-align: top;">
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td style="font-size: 5mm; font-weight: 100; padding: 0; margin: 0;"><?=$user->getFullName();?></td>
+                            <td style="font-size: 5mm; font-weight: 100; padding: 0; margin: 0;">
+                                <?=$user->LastName?><br/><?=$user->getShortName();?>
+                            </td>
                         </tr>
                         <?if ($user->getEmploymentPrimary() !== null):?>
                             <tr>
@@ -98,7 +102,7 @@ if (!empty($event->LinkEmails)) {
     </tbody>
 </table>
 <div style="margin: 0 5mm; padding: 5mm 0; background-color: #ededed; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif; font-size: 3mm; color: #556a7d;">
-    <h3 style="font-size: 5mm; font-weight: 100; text-transform: uppercase; text-align: center; margin: 0; padding: 0 0 4mm;">Организатор</h3>
+    <h3 style="font-size: 5mm; font-weight: 100; text-transform: uppercase; text-align: center; margin: 0; padding: 0 0 4mm;">Контакты</h3>
     <p style="text-align: center;"><?=implode(' | ', $contacts);?></p>
 </div>
 <div style="background: url('/img/ticket/pdf/base/cutting-line.png') center center; height: 1mm; background-image-resolution: 100dpi; margin: 5mm 0;"></div>

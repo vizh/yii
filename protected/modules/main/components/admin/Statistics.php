@@ -19,6 +19,11 @@ class Statistics
     {
         $this->fillEvents();
         $this->fillUsers();
+        $this->fillCompany();
+    }
+
+    private function fillCompany()
+    {
         $this->company = Company::model()->count();
     }
 

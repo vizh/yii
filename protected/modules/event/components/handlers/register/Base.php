@@ -116,7 +116,7 @@ class Base extends MailLayout
             $attachments['ticket.pkpass'] = $pkPass->runAndSave();
         }
 
-        if ($mail->SendTicket) {
+        if ($mail->SendTicket && false) {
             $ticket = $this->participant->getTicket();
             $attachments[$ticket->getFileName()] = $ticket->save();
         }

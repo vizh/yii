@@ -36,7 +36,7 @@ use application\components\web\ArrayDataProvider;
                 }
             ],
             [
-                'header' => 'Тип',
+                'header' => '',
                 'type' => 'html',
                 'value' => function (Order $order) {
                     return \CHtml::tag('span', ['class' => 'label'], OrderType::getTitle($order->Type));
