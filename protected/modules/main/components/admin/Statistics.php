@@ -44,7 +44,7 @@ class Statistics
         $criteria = new \CDbCriteria();
         $criteria->with = ['Settings'];
         $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
-        $this->users->subscribes = User::model()->count($criteria);
+        $this->users->subscribes = User::model()->byVisible(true)->count($criteria);
     }
 
 }
