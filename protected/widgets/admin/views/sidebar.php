@@ -5,10 +5,6 @@
 ?>
 
 <div class="sidebar-nav">
-  <form class="search form-inline hidden-phone">
-    <input type="text" placeholder="Search...">
-  </form>
-
   <a data-toggle="collapse" class="nav-header" href="#menu-users"><i class="icon-user icon-white"></i><span class="hidden-phone">Пользователи</span></a>
   <ul class="nav nav-list collapse" id="menu-users">
     <li><a href="<?=Yii::app()->createUrl('/user/admin/list/index');?>">Список пользователей</a></li>

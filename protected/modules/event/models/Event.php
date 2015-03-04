@@ -63,7 +63,8 @@ use user\models\User;
  * @method \event\models\Event find($condition='',$params=array())
  * @method \event\models\Event findByPk($pk,$condition='',$params=array())
  * @method \event\models\Event[] findAll($condition='',$params=array())
- * @method Event byApproved($approved)
+ * @method Event byApproved(int $approved)
+ * @method Event byExternal(boolean $external)
  */
 class Event extends ActiveRecord implements ISearch
 {

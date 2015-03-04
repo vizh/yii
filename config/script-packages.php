@@ -99,5 +99,10 @@ return [
         'baseUrl' => '/javascripts/jquery.colpick',
         'js' => ['colpick.js'],
         'css' => ['colpick.css']
+    ],
+    'runetid.jquery.migrate' => [
+        'baseUrl' => '/javascripts/',
+        'js' => ['jquery-migrate-1.1.1.min.js'],
+        'depends' => ['runetid.jquery']
     ]
 ];

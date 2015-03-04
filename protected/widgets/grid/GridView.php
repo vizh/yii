@@ -29,5 +29,14 @@ class GridView extends \CGridView
         parent::init();
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function registerClientScript()
+    {
+        \Yii::app()->getClientScript()->registerPackage('runetid.jquery.migrate');
+        parent::registerClientScript();
+    }
+
 
 } 
