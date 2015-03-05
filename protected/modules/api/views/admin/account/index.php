@@ -13,8 +13,8 @@
     </thead>
     <?foreach($accounts as $account):?>
       <tr>
-        <?if (!empty($account->EventId)):?>
-          <td><?=$account->EventId;?></td>
+        <?if (!empty($account->Event)):?>
+          <td><?=$account->Event->Id;?></td>
           <td><?=$account->Event->Title;?></td>
         <?else:?>
           <td colspan="2">&mdash;</td>

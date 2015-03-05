@@ -1,56 +1,50 @@
 <?php
 namespace api\controllers\user;
 
-class LoginAction extends \api\components\Action
+use api\components\Action;
+use user\models\User;
+use api\components\Exception;
+
+class LoginAction extends Action
 {
-  public function run()
-  {
-    $request = \Yii::app()->getRequest();
-    $runetId = intval($request->getParam('RunetId', null));
-    if (empty($runetId))
+    public function run()
     {
-      $runetId = intval($request->getParam('RocId', null));
-    }
-    $email = $request->getParam('Email', null);
-    //$password = $request->getParam('Password');
-    //$password2 = $request->getParam('PasswordCp1251');
-    $password = base64_decode($request->getParam('Password'));
+        $request = \Yii::app()->getRequest();
 
-    /** @var $user \user\models\User */
-    $user = null;
-    if (!empty($runetId))
-    {
-      $user = \user\models\User::model()->byRunetId($runetId)->find();
-      if ($user === null)
-      {
-        throw new \api\components\Exception(202, array($runetId));
-      }
-    }
-    elseif (! empty($email))
-    {
-      $user = \user\models\User::model()->byEmail($email)->find();
-      if ($user === null)
-      {
-        throw new \api\components\Exception(210, array($email));
-      }
-    }
-    else
-    {
-      throw new \api\components\Exception(110);
+        $login = $this->getLoginParam();
+        $password = base64_decode($request->getParam('Password'));
+
+        $user = User::model()->byRunetId($login)->byEmail($login, 'OR')->find();
+        if ($user === null) {
+            throw new Exception(211, [$login]);
+        }
+
+        if (!$user->checkLogin($password)) {
+            throw new Exception(201);
+        }
+
+        $this->getAccount()->getDataBuilder()->createUser($user);
+        if ($this->getAccount()->Role != 'mobile') {
+            $this->getAccount()->getDataBuilder()->buildUserContacts($user);
+        }
+        $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
+        $result = $this->getAccount()->getDataBuilder()->buildUserEvent($user);
+        $this->setResult($result);
     }
 
-    if (!$user->checkLogin($password))
+    /**
+     * @return mixed
+     * @throws Exception
+     */
+    public function getLoginParam()
     {
-      throw new \api\components\Exception(201);
+        $request = \Yii::app()->getRequest();
+        foreach (['Login', 'Email', 'RunetId'] as $name) {
+            $login = $request->getParam($name);
+            if (!empty($login)) {
+                return trim($login);
+            }
+        }
+        throw new Exception(110);
     }
-
-    $this->getAccount()->getDataBuilder()->createUser($user);
-      if ($this->getAccount()->Role != 'mobile') {
-          $this->getAccount()->getDataBuilder()->buildUserContacts($user);
-      }
-    $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
-    $result = $this->getAccount()->getDataBuilder()->buildUserEvent($user);
-
-    $this->setResult($result);
-  }
 }

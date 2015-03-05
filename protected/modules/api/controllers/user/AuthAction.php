@@ -1,39 +1,39 @@
 <?php
 namespace api\controllers\user;
 
-class AuthAction extends \api\components\Action
+use api\components\Action;
+use api\components\Exception;
+use oauth\models\AccessToken;
+use user\models\User;
+
+class AuthAction extends Action
 {
-  public function run()
-  {
-    $request = \Yii::app()->getRequest();
-
-    $token = $request->getParam('token');
-    /** @var $accessToken \oauth\models\AccessToken */
-    $accessToken = \oauth\models\AccessToken::model()->byToken($token)->find();
-
-    if (empty($accessToken))
+    public function run()
     {
-      \Yii::log('Token: ' . $token, \CLogger::LEVEL_ERROR);
-      throw new \api\components\Exception(222);
-    }
-    if ($accessToken->AccountId != $this->getAccount()->Id)
-    {
-      throw new \api\components\Exception(223);
-    }
-    /** @var $user \user\models\User */
-    $user = \user\models\User::model()->findByPk($accessToken->UserId);
-    if (empty($user))
-    {
-      throw new \api\components\Exception(224);
-    }
+        $request = \Yii::app()->getRequest();
+        $token = $request->getParam('token');
+        /** @var $accessToken AccessToken */
+        $accessToken = AccessToken::model()->byToken($token)->find();
 
-    $this->getAccount()->getDataBuilder()->createUser($user);
-      if ($this->getAccount()->Role != 'mobile') {
-          $this->getAccount()->getDataBuilder()->buildUserContacts($user);
-      }
-    $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
-    $this->getAccount()->getDataBuilder()->buildUserEvent($user);
+        if (empty($accessToken)) {
+            \Yii::log('Token: ' . $token, \CLogger::LEVEL_ERROR);
+            throw new Exception(222);
+        }
+        if ($accessToken->AccountId != $this->getAccount()->Id) {
+            throw new Exception(223);
+        }
+        /** @var $user User*/
+        $user = User::model()->findByPk($accessToken->UserId);
+        if (empty($user)) {
+            throw new Exception(224);
+        }
 
-    $this->getController()->setResult($this->getAccount()->getDataBuilder()->buildUserBadge($user));
-  }
+        $this->getAccount()->getDataBuilder()->createUser($user);
+        if ($this->getAccount()->Role != 'mobile') {
+            $this->getAccount()->getDataBuilder()->buildUserContacts($user);
+        }
+        $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
+        $this->getAccount()->getDataBuilder()->buildUserEvent($user);
+        $this->getController()->setResult($this->getAccount()->getDataBuilder()->buildUserBadge($user));
+    }
 }
