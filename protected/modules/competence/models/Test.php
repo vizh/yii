@@ -18,6 +18,7 @@ namespace competence\models;
  * @property bool $FastAuth
  * @property string $FastAuthSecret
  * @property int $EventId
+ * @property string $StartTime
  *
  * @property \event\models\Event $Event
  * @property Result[] $ResultsAll

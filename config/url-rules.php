@@ -77,10 +77,12 @@ return [
     'http://partner.'. RUNETID_HOST.'/user/edit/<action:\w+>' => 'partner/userEdit/<action>',
     'http://partner.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'partner/<controller>/<action>',
 
-
-
     /** Ruvents Module Rules */
     'http://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
+
+    /** Event Interview Rules */
+    'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>' => 'competence/event/index',
+    'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>/<action:\w+>' => 'competence/event/<action>',
 
     /** OAuth Module */
     'http://'.RUNETID_HOST.'/oauth/paypal/redirect' => 'oauth/paypal/redirect',

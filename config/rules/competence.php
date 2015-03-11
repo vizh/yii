@@ -3,7 +3,7 @@ return array(
   array(
     'allow',
     'users' => array('*'),
-    'controllers' => array('main'),
+    'controllers' => array('main', 'event'),
     'module' => 'competence'
   ),
   /** Admin Rules */

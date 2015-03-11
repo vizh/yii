@@ -180,7 +180,7 @@ class Competence extends \event\components\Widget
     $manager = \Yii::app()->getAssetManager();
     $path = \Yii::getPathOfAlias('competence.assets');
     $cs->registerCssFile($manager->publish($path . '/css/competence.css'));
-    \Yii::app()->getClientScript()->registerScriptFile($manager->publish($path . '/js/unchecker.js'), \CClientScript::POS_END);
+    \Yii::app()->getClientScript()->registerScriptFile($manager->publish($path . '/js/module.js'), \CClientScript::POS_END);
 
     $this->render('competence', ['test' => $this->getTest()]);
   }
