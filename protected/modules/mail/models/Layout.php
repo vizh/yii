@@ -7,4 +7,5 @@ interface Layout
     const OneColumn = 'one-column';
     const TwoColumn = 'two-column';
     const DevCon15 = 'devcon15';
+    const MSDevTour = 'msdevtour';
 } 
