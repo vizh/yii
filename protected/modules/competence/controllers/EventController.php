@@ -1,0 +1,231 @@
+<?php
+use event\models\Event;
+use competence\models\Test;
+use competence\models\Question;
+use user\models\User;
+use \competence\models\Result;
+use event\models\Participant;
+use competence\models\form\event\CodeValidation;
+use \application\components\controllers\MainController;
+
+/**
+ * Class MSController
+ *
+ * Опросы для Miscrosoft, голосование, в которых доступно по коду
+ */
+class EventController extends MainController
+{
+    CONST START_ACTION_NAME = 'index';
+    CONST END_ACTION_NAME = 'done';
+
+    public $layout = '/event/layout';
+
+    /** @var Event */
+    private $event;
+
+    /** @var Test */
+    private $test;
+
+    /**
+     * @inheritdoc
+     */
+    protected function beforeAction($action)
+    {
+        $request = \Yii::app()->getRequest();
+        $this->event = Event::model()->byIdName($request->getParam('eventIdName'))->find();
+        if ($this->event === null) {
+            throw new \CHttpException(404);
+        }
+
+        $this->test = Test::model()->byEnable(true)->byEventId($this->event->Id)->find();
+        if ($this->test === null) {
+            throw new \CHttpException(404);
+        }
+
+        if ($action->getId() != static::START_ACTION_NAME) {
+            if ($this->getUser() === null || !$this->checkStartTest() || !$this->checkEndTest()) {
+                $this->redirect([self::START_ACTION_NAME, 'eventIdName' => $this->event->IdName]);
+            }
+        } elseif ($this->getUser() !== null && !$this->checkParticipant()) {
+            throw new \CHttpException(404);
+        }
+
+        if ($action->getId() != self::END_ACTION_NAME && !$this->test->Multiple && $this->checkExistsResult()) {
+            $this->redirect([self::END_ACTION_NAME, 'eventIdName' => $this->event->IdName]);
+        }
+        return parent::beforeAction($action);
+    }
+
+    /**
+     * Проверяет открылось голосование
+     * @return bool
+     */
+    private function checkStartTest()
+    {
+        return (empty($this->test->StartTime) || $this->test->StartTime < date('Y-m-d H:i:s'));
+    }
+
+    /**
+     * Проверяет не закрылось голосование
+     * @return bool
+     */
+    private function checkEndTest()
+    {
+        return (empty($this->test->EndTime) || $this->test->EndTime > date('Y-m-d H:i:s'));
+    }
+
+
+    /**
+     * Проверяет заполнял ли участник опрос
+     * @return bool
+     */
+    private function checkExistsResult()
+    {
+        if ($this->getUser() !== null) {
+            return Result::model()->byFinished(true)->byUserId($this->getUser()->Id)->byTestId($this->test->Id)->find();
+        }
+        return false;
+    }
+
+    /**
+     * Проверяет является ли пользователь участником мероприятия
+     * @return bool
+     */
+    private function checkParticipant()
+    {
+        if ($this->getUser() !== null) {
+            return Participant::model()->byUserId($this->getUser()->Id)->byEventId($this->event->Id)->exists();
+        }
+        return false;
+    }
+
+    /**
+     * @return User|null
+     */
+    private function getUser()
+    {
+        $user = \Yii::app()->getUser();
+        if (!$user->getIsGuest()) {
+            return $user->getCurrentUser();
+        }
+        return null;
+    }
+
+    /**
+     * Список вопросов
+     * @return Question[]
+     * @throws \application\components\Exception
+     */
+    private function getQuestions()
+    {
+        $questions = [];
+        $question = $this->test->getFirstQuestion();
+        while(true)
+        {
+            $questions[] = $question;
+            /** @var \competence\models\Question $question */
+            $question = $question->getForm()->getNext();
+            if ($question == null)
+                break;
+            $question->setTest($this->test);
+        }
+        return $questions;
+    }
+
+    /**
+     * @return Event
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function initResources()
+    {
+        parent::initResources();
+        $clientScript = \Yii::app()->getClientScript();
+        $clientScript->registerPackage('runetid.bootstrap');
+        $clientScript->registerCssFile('/stylesheets/application.css');
+    }
+
+
+    /**
+     *
+     */
+    public function actionIndex()
+    {
+        $request = \Yii::app()->getRequest();
+        $form = new CodeValidation($this->test);
+        if ($request->getIsPostRequest()) {
+            $form->fillFromPost();
+            if ($form->process()) {
+                $this->redirect(['process', 'eventIdName' => $this->event->IdName]);
+            }
+        }
+
+
+        $viewName = 'index';
+        if (!$this->checkStartTest()) {
+            $viewName = 'before';
+        } elseif (!$this->checkEndTest()) {
+            $viewName = 'after';
+        }
+
+        $this->render($viewName, [
+            'event' => $this->event,
+            'user'  => $this->getUser(),
+            'test'  => $this->test,
+            'form'  => $form
+        ]);
+    }
+
+    /**
+     * Страница опроса, с сохранением результа
+     */
+    public function actionProcess()
+    {
+        $request = \Yii::app()->getRequest();
+
+        $this->test->setUser($this->getUser());
+        $questions = $this->getQuestions();
+
+        $hasErrors = false;
+        if ($request->getIsPostRequest()) {
+            foreach ($questions as $question) {
+                $form = $question->getForm();
+                $form->setAttributes($request->getParam(get_class($form)), false);
+                if (!$form->process(true)) {
+                    $hasErrors = true;
+                }
+            }
+
+            if (!$hasErrors) {
+                $this->test->saveResult();
+                $this->redirect([self::END_ACTION_NAME, 'eventIdName' => $this->event->IdName]);
+            }
+        }
+
+        $this->render('process', [
+            'event' => $this->event,
+            'user' => $this->getUser(),
+            'test' => $this->test,
+            'questions' => $questions,
+            'hasErrors' => $hasErrors
+        ]);
+    }
+
+    /**
+     * Страница с благодарностью за голосование
+     */
+    public function actionDone()
+    {
+        $this->render('done', [
+            'event' => $this->event,
+            'user' => $this->getUser(),
+            'test' => $this->test
+        ]);
+    }
+} 

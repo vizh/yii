@@ -1,6 +1,5 @@
 <?php
-namespace application\components\web;
-
+namespace application\components\form;
 
 abstract class SearchFormModel extends \CFormModel
 {

@@ -14,7 +14,7 @@
             <p><?= \Yii::t('app', 'Вы можете бесплатно зарегистрироваться на мероприятие'); ?> &laquo;<?= $event->Title; ?>&raquo; <?= \Yii::t('app', 'со статусом'); ?> &laquo;<?= $role->Title; ?>&raquo;.<br/>
             </p>
             <? if ($event->getContactAddress() !== null): ?>
-                <p><?= \Yii::t('app', 'Нажимая кнопку «Зарегистрироваться» вы подтверждаете свое участие в мероприятие'); ?> <? $this->widget('event\widgets\Date', ['html' => false, 'event' => $event]); ?>
+                <p><?= \Yii::t('app', 'Нажимая кнопку «Зарегистрироваться» вы подтверждаете свое участие в мероприятии'); ?> <? $this->widget('event\widgets\Date', ['html' => false, 'event' => $event]); ?>
                     , <?= \Yii::t('app', 'которое состоится по адресу'); ?> <?= $event->getContactAddress(); ?></p>
             <? endif; ?>
         <?endif; ?>

@@ -1,8 +1,8 @@
 <?php
 namespace pay\models\search\admin\booking;
 
+use application\components\form\SearchFormModel;
 use application\components\web\ArrayDataProvider;
-use application\components\web\SearchFormModel;
 use pay\models\RoomPartnerBooking;
 
 class Partners extends SearchFormModel

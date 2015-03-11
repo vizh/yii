@@ -1,103 +1,105 @@
 <?php
+use application\components\controllers\PublicMainController;
+use \competence\models\Result;
 
-class MainController extends \application\components\controllers\PublicMainController
+class MainController extends PublicMainController
 {
-  public $layout = '/layouts/public';
+    public $layout = '/layouts/public';
 
-  /** @var \competence\models\Test */
-  public $test;
+    /** @var \competence\models\Test */
+    public $test;
 
-  /** @var \competence\models\Question */
-  public $question;
+    /** @var \competence\models\Question */
+    public $question;
 
-  public function actions()
-  {
-    return [
-      'process' => 'competence\controllers\main\ProcessAction',
-    ];
-  }
-
-  /**
-   * @return \competence\models\Test
-   */
-  public function getTest()
-  {
-    if ($this->test == null)
+    public function actions()
     {
-      $this->test = \competence\models\Test::model()->findByPk($this->actionParams['id']);
-    }
-    return $this->test;
-  }
-
-  protected function beforeAction($action)
-  {
-    $cs = \Yii::app()->clientScript;
-    $manager = \Yii::app()->getAssetManager();
-    $path = \Yii::getPathOfAlias('competence.assets');
-    $cs->registerCssFile($manager->publish($path . '/css/competence.css'));
-    \Yii::app()->getClientScript()->registerScriptFile($manager->publish($path . '/js/unchecker.js'), \CClientScript::POS_END);
-
-    if ($this->getTest() == null || !$this->getTest()->Enable)
-      throw new \CHttpException(404);
-
-    if ($this->getTest()->getUserKey() == null && \Yii::app()->user->getCurrentUser() == null)
-    {
-      $this->render('competence.views.system.unregister');
-      return false;
+        return [
+            'process' => 'competence\controllers\main\ProcessAction',
+        ];
     }
 
-    if (!$this->getTest()->Test && !$this->getTest()->Multiple)
+    /**
+     * @return \competence\models\Test
+     */
+    public function getTest()
     {
-      $model = \competence\models\Result::model()->byTestId($this->getTest()->Id)->byFinished();
-      if ($this->getTest()->getUserKey() !== null)
-      {
-        $model->byUserKey($this->getTest()->getUserKey());
-      }
-      else
-      {
-        $model->byUserId(\Yii::app()->user->getCurrentUser()->Id);
-      }
-      $result = $model->find();
-      if ($result != null && $action->getId() != 'end' && $action->getId() != 'done')
-      {
-        $this->redirect(\Yii::app()->createUrl('/competence/main/done', ['id' => $this->getTest()->Id]));
-      }
+        if ($this->test == null)
+        {
+            $this->test = \competence\models\Test::model()->findByPk($this->actionParams['id']);
+        }
+        return $this->test;
     }
 
-    $this->getTest()->setUser(\Yii::app()->user->getCurrentUser());
-    return parent::beforeAction($action);
-  }
-
-
-
-  public function actionIndex($id)
-  {
-    $this->setPageTitle(strip_tags($this->getTest()->Title));
-    if (\Yii::app()->request->getIsPostRequest())
+    /**
+     * @inheritdoc
+     */
+    protected function beforeAction($action)
     {
-      if ($this->getTest()->Test)
-      {
-        $this->test->getFirstQuestion()->getForm()->clearResult();
-        $this->test->getFirstQuestion()->getForm()->clearRotation();
-      }
-      $this->redirect($this->createUrl('/competence/main/process', ['id' => $id]));
+        if ($this->getTest() == null || !$this->getTest()->Enable) {
+            throw new \CHttpException(404);
+        }
+
+        if ($this->getTest()->getUserKey() == null && \Yii::app()->user->getCurrentUser() == null) {
+            $this->render('competence.views.system.unregister');
+            return false;
+        }
+
+        if (!$this->getTest()->Test && !$this->getTest()->Multiple) {
+            $model = Result::model()->byTestId($this->getTest()->Id)->byFinished();
+            if ($this->getTest()->getUserKey() !== null) {
+                $model->byUserKey($this->getTest()->getUserKey());
+            }
+            else {
+                $model->byUserId(\Yii::app()->user->getCurrentUser()->Id);
+            }
+            $result = $model->find();
+            if ($result != null && $action->getId() != 'end' && $action->getId() != 'done') {
+                $this->redirect(\Yii::app()->createUrl('/competence/main/done', ['id' => $this->getTest()->Id]));
+            }
+        }
+
+        $this->getTest()->setUser(\Yii::app()->user->getCurrentUser());
+        return parent::beforeAction($action);
     }
-    $this->render('index', ['test' => $this->getTest()]);
-  }
 
-  public function actionEnd($id)
-  {
-    $this->setPageTitle(strip_tags($this->getTest()->Title));
+    public function actionIndex($id)
+    {
+        $this->setPageTitle(strip_tags($this->getTest()->Title));
+        if (\Yii::app()->request->getIsPostRequest())
+        {
+            if ($this->getTest()->Test)
+            {
+                $this->test->getFirstQuestion()->getForm()->clearResult();
+                $this->test->getFirstQuestion()->getForm()->clearRotation();
+            }
+            $this->redirect($this->createUrl('/competence/main/process', ['id' => $id]));
+        }
+        $this->render('index', ['test' => $this->getTest()]);
+    }
 
-    if ($this->getTest()->Id)
+    public function actionEnd($id)
+    {
+        $this->setPageTitle(strip_tags($this->getTest()->Title));
 
-    $this->render($this->getTest()->getEndView(), ['done' => false, 'test' => $this->getTest()]);
-  }
+        if ($this->getTest()->Id)
 
-  public function actionDone($id)
-  {
-    $this->setPageTitle(strip_tags($this->getTest()->Title));
-    $this->render('end', ['done' => true]);
-  }
+            $this->render($this->getTest()->getEndView(), ['done' => false, 'test' => $this->getTest()]);
+    }
+
+    public function actionDone($id)
+    {
+        $this->setPageTitle(strip_tags($this->getTest()->Title));
+        $this->render('end', ['done' => true]);
+    }
+
+    protected function initResources()
+    {
+        parent::initResources();
+        $clientScript = \Yii::app()->getClientScript();
+        $manager = \Yii::app()->getAssetManager();
+        $clientScript->registerScriptFile($manager->publish(\Yii::getPathOfAlias('competence.assets') . '/js/unchecker.js'), \CClientScript::POS_END);
+    }
+
 
 }

@@ -1,5 +1,3 @@
-
-
 h1, h2, h3, h4, h5, h6{
   font-weight: normal;
 }
@@ -38,6 +36,10 @@ h3{
 .interview ul li{
   margin-bottom: 15px;
 }
+.interview .errorSummary li {
+  margin-bottom: 0;
+}
+
 .interview-controls{
   margin-top: 50px;
 }

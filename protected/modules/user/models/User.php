@@ -1,6 +1,7 @@
 <?php
 namespace user\models;
 use application\components\utility\Texts;
+use competence\models\Result;
 use mail\components\mailers\MandrillMailer;
 use user\components\handlers\Register;
 
@@ -41,6 +42,7 @@ use user\components\handlers\Register;
  * @property \commission\models\Commission[] $Commissions
  * @property \event\models\Participant[] $Participants
  * @property Settings $Settings Настройки аккаунта пользователя
+ * @property Result $CompetenceResults
  *
  * События
  * @property \CEvent $onRegister
@@ -110,6 +112,7 @@ class User extends \application\models\translation\ActiveRecord
             'Participants' => [self::HAS_MANY, '\event\models\Participant', 'UserId'],
             'Badges' => [self::HAS_MANY, '\ruvents\models\Badge', 'UserId'],
             'Settings' => [self::HAS_ONE, '\user\models\Settings', 'UserId'],
+            'CompetenceResults' => [self::HAS_MANY, '\competence\models\Result', 'UserId'],
         );
     }
 
