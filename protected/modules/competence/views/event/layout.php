@@ -8,7 +8,7 @@ use event\components\WidgetPosition;
 <!doctype html>
 <html>
 <head>
-    <title><?=CHtml::encode($this->pageTitle);?></title>
+    <title><?=CHtml::encode(\Yii::t('app', 'Анкета участника'));?></title>
     <meta charset="utf-8">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <!--[if lte IE 9]>

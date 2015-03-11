@@ -1,11 +1,9 @@
 <?php
-namespace application\migrations;
-
 class m150310_162421_add_column_starttime_to_competencetest extends \CDbMigration
 {
     public function safeUp()
     {
-        $this->addColumn('CompetenceTest', 'EndTime', 'timestamp NULL');
+        $this->addColumn('CompetenceTest', 'StartTime', 'timestamp NULL');
         return true;
     }
 
