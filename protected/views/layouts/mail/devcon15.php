@@ -48,12 +48,4 @@
     </tr>
 </table>
 
-
-
-
-
-
-
-
-
 <?=$this->endContent();?>

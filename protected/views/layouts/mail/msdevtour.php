@@ -39,3 +39,5 @@
         <td>&nbsp;</td>
     </tr>
 </table>
+
+<?=$this->endContent();?>
