@@ -37,11 +37,11 @@ use application\components\utility\Texts;
                     </td>
                     <td style="text-align: right;">
                         <div class="btn-group">
-                            <?=\CHTml::link(\Yii::t('app', !$order->Paid ? 'Редактировать' : 'Просмотреть'), ['order', 'owner' => $owner, 'id' => $order->Id], ['class' => 'btn']);?>
-                            <?=\CHTml::link(\Yii::t('app', 'Счет для печати'), ['order', 'owner' => $owner, 'id' => $order->Id, 'print' => 1], ['class' => 'btn', 'target' => '_blank']);?>
+                            <?=\CHtml::link(\Yii::t('app', !$order->Paid ? 'Редактировать' : 'Просмотреть'), ['order', 'owner' => $owner, 'id' => $order->Id], ['class' => 'btn']);?>
+                            <?=\CHtml::link(\Yii::t('app', 'Счет для печати'), ['order', 'owner' => $owner, 'id' => $order->Id, 'print' => 1], ['class' => 'btn', 'target' => '_blank']);?>
                             <?if (!$order->Paid):?>
-                                <?=\CHTml::link(\Yii::t('app', 'Отметить оплаченным'), ['partner', 'owner' => $owner, 'action' => 'activate', 'orderId' => $order->Id], ['class' => 'btn']);?>
-                                <?=\CHTml::link(\Yii::t('app', 'Удалить'), ['partner', 'owner' => $owner, 'action' => 'delete', 'orderId' => $order->Id], ['class' => 'btn btn-danger']);?>
+                                <?=\CHtml::link(\Yii::t('app', 'Отметить оплаченным'), ['partner', 'owner' => $owner, 'action' => 'activate', 'orderId' => $order->Id], ['class' => 'btn']);?>
+                                <?=\CHtml::link(\Yii::t('app', 'Удалить'), ['partner', 'owner' => $owner, 'action' => 'delete', 'orderId' => $order->Id], ['class' => 'btn btn-danger']);?>
                             <?endif;?>
                         </div>
                     </td>

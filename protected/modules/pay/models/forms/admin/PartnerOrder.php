@@ -83,6 +83,7 @@ class PartnerOrder extends CreateUpdateForm
 
         $order = new RoomPartnerOrder();
         $order->Number  = ('RIF15/' . str_pad($number, 3, '0', STR_PAD_LEFT));
+        $order->EventId = $eventId;
         $this->model = $order;
         return $this->updateActiveRecord();
     }
