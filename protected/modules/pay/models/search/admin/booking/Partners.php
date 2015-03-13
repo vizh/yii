@@ -42,7 +42,7 @@ class Partners extends SearchFormModel
         if ($this->validate()) {
             if (!empty($this->Partner)) {
                 $criteria->addCondition('"t"."Owner" ILIKE :Owner');
-                $criteria->params['Owner'] = $this->Partner . '%';
+                $criteria->params['Owner'] = '%' . $this->Partner . '%';
             }
         }
 

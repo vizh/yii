@@ -1,5 +1,7 @@
 <?php
 namespace pay\models;
+use application\components\ActiveRecord;
+use application\components\utility\Texts;
 
 /**
  * Class RoomPartnerOrder
@@ -23,120 +25,124 @@ namespace pay\models;
  * @property string $ChiefPosition
  * @property string $ChiefNameP
  * @property string $ChiefPositionP
+ * @property int $EventId;
  *
  * @property string $StatuteTitle
  * @property string $RealAddress
  *
  *
  * @property RoomPartnerBooking[] $Bookings
+ *
+ * @method RoomPartnerBooking byEventId(int $eventId)
  */
-class RoomPartnerOrder extends \CActiveRecord
+class RoomPartnerOrder extends ActiveRecord
 {
-  /**
-   * @param string $className
-   *
-   * @return RoomPartnerBooking
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
-
-  public function tableName()
-  {
-    return 'PayRoomPartnerOrder';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return [
-      'Bookings' => [self::HAS_MANY, '\pay\models\RoomPartnerBooking', 'OrderId']
-    ];
-  }
-
-  /**
-   * @param bool $deleted
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byDeleted($deleted, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = (!$deleted ? 'NOT ' : '' ) . '"t"."Deleted"';
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  /**
-   * @param bool $paid
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byPaid($paid = true, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = (!$paid ? 'NOT ' : '' ) . '"t"."Paid"';
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
-
-  private $total = null;
-  /**
-   * @return int
-   */
-  public function getTotalPrice()
-  {
-    if ($this->total == null)
+    /**
+     * @param string $className
+     *
+     * @return RoomPartnerBooking
+     */
+    public static function model($className=__CLASS__)
     {
-      $this->total = 0;
-      foreach ($this->Bookings as $booking)
-      {
-        $manager = $booking->Product->getManager();
-        $this->total += $booking->getStayDay() * ((int)$manager->Price + $booking->AdditionalCount * $manager->AdditionalPrice);
-      }
-    }
-    return $this->total;
-  }
-
-  public function activate()
-  {
-    if ($this->Deleted || $this->Paid)
-      return false;
-
-    $timestamp = date('Y-m-d H:i:s');
-    foreach ($this->Bookings as $booking)
-    {
-      $booking->Paid = true;
-      $booking->PaidTime = $timestamp;
-      $booking->save();
+        return parent::model($className);
     }
 
-    $this->Paid = true;
-    $this->PaidTime = $timestamp;
-    $this->save();
-    return true;
-  }
-
-  public function delete()
-  {
-    if ($this->Deleted || $this->Paid)
-      return false;
-
-    $this->Deleted = true;
-    $this->DeletionTime = date('Y-m-d H:i:s');
-    $this->save();
-    foreach ($this->Bookings as $booking)
+    public function tableName()
     {
-      $booking->OrderId = null;
-      $booking->save();
+        return 'PayRoomPartnerOrder';
     }
-    return true;
-  }
+
+    public function primaryKey()
+    {
+        return 'Id';
+    }
+
+    public function relations()
+    {
+        return [
+            'Bookings' => [self::HAS_MANY, '\pay\models\RoomPartnerBooking', 'OrderId']
+        ];
+    }
+
+    /**
+     * @param bool $deleted
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byDeleted($deleted, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = (!$deleted ? 'NOT ' : '' ) . '"t"."Deleted"';
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * @param bool $paid
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byPaid($paid = true, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = (!$paid ? 'NOT ' : '' ) . '"t"."Paid"';
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    private $total = null;
+    /**
+     * @return int
+     */
+    public function getTotalPrice()
+    {
+        if ($this->total == null)
+        {
+            $this->total = 0;
+            foreach ($this->Bookings as $booking)
+            {
+                $manager = $booking->Product->getManager();
+                $price = Texts::getOnlyNumbers($manager->Price) + $booking->AdditionalCount * $manager->AdditionalPrice;
+                $this->total += $booking->getStayDay() * $price;
+            }
+        }
+        return $this->total;
+    }
+
+    public function activate()
+    {
+        if ($this->Deleted || $this->Paid)
+            return false;
+
+        $timestamp = date('Y-m-d H:i:s');
+        foreach ($this->Bookings as $booking)
+        {
+            $booking->Paid = true;
+            $booking->PaidTime = $timestamp;
+            $booking->save();
+        }
+
+        $this->Paid = true;
+        $this->PaidTime = $timestamp;
+        $this->save();
+        return true;
+    }
+
+    public function delete()
+    {
+        if ($this->Deleted || $this->Paid)
+            return false;
+
+        $this->Deleted = true;
+        $this->DeletionTime = date('Y-m-d H:i:s');
+        $this->save();
+        foreach ($this->Bookings as $booking)
+        {
+            $booking->OrderId = null;
+            $booking->save();
+        }
+        return true;
+    }
 
 
 }
