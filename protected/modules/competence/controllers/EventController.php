@@ -141,6 +141,14 @@ class EventController extends MainController
     }
 
     /**
+     * @return Test
+     */
+    public function getTest()
+    {
+        return $this->test;
+    }
+
+    /**
      * @inheritdoc
      */
     protected function initResources()

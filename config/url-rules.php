@@ -81,6 +81,8 @@ return [
     'http://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
 
     /** Event Interview Rules */
+    'http://' . RUNETID_HOST . '/msdevtour' => 'competence/devtour/index',
+
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>' => 'competence/event/index',
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>/<action:\w+>' => 'competence/event/<action>',
 
