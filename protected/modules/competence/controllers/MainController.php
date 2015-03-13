@@ -92,14 +92,4 @@ class MainController extends PublicMainController
         $this->setPageTitle(strip_tags($this->getTest()->Title));
         $this->render('end', ['done' => true]);
     }
-
-    protected function initResources()
-    {
-        parent::initResources();
-        $clientScript = \Yii::app()->getClientScript();
-        $manager = \Yii::app()->getAssetManager();
-        $clientScript->registerScriptFile($manager->publish(\Yii::getPathOfAlias('competence.assets') . '/js/unchecker.js'), \CClientScript::POS_END);
-    }
-
-
 }

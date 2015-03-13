@@ -32,6 +32,9 @@ use competence\models\Question;
                     $this->widget('competence\components\ErrorsWidget', ['form' => $question->getForm()]);
                     $this->renderPartial($question->getForm()->getViewPath(), ['form' => $question->getForm()]);
                 ?>
+                <?if (!empty($question->AfterQuestionText)):?>
+                    <?=$question->AfterQuestionText;?>
+                <?endif;?>
                 <hr/>
             <?endforeach;?>
             <div class="row interview-controls">

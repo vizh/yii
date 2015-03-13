@@ -1,20 +1,15 @@
 <?php
-namespace competence\models\test\devcon14;
+namespace competence\models\test\mdtspb15;
 
-class Q8 extends \competence\models\form\Base
-{
+class Q9 extends \competence\models\form\Base {
     private $questions = null;
 
     public function getQuestions() {
         if ($this->questions == null) {
             $this->questions = [
-                'q8_1' => 'Windows Camp',
-                'q8_2' => 'AppsMafia Hackathon',
-                'q8_3' => 'Cloud OS Summit',
-                'q8_4' => 'Design Camp',
-                'q8_5' => 'ALM Summit',
-                'q8_6' => 'AppSummit',
-                'q8_7' => 'DevCon 2013',
+                'q9_1' => 'DevCon 2014',
+                'q9_2' => 'Russian App Day',
+                'q9_3' => 'IT Conference'
             ];
         }
         return $this->questions;
