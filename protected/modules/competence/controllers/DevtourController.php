@@ -13,11 +13,11 @@ class DevtourController extends MainController
 
     public function actionIndex()
     {
-        if (\Yii::app()->getUser()->getIsGuest()) {
+        $user = $this->getUser();
+        if ($user === null) {
             throw new \CHttpException(404);
         }
 
-        $user = \Yii::app()->getUser()->getCurrentUser();
         $result = Result::model()->byUserId($user->Id)->byFinished(true)->byTestId($this->getTest()->Id)->find();
 
         $this->render('index', [
@@ -25,6 +25,20 @@ class DevtourController extends MainController
             'result' => $result,
             'event' => $this->getEvent()
         ]);
+    }
+
+    /**
+     * @return null|\user\models\User
+     */
+    private function getUser()
+    {
+        if (\Yii::app()->user->getCurrentUser() !== null) {
+            return \Yii::app()->user->getCurrentUser();
+        }
+        elseif (\Yii::app()->tempUser->getCurrentUser() !== null) {
+            return \Yii::app()->tempUser->getCurrentUser();
+        }
+        return null;
     }
 
 

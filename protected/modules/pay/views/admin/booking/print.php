@@ -266,19 +266,6 @@ use application\components\utility\Texts;
       <?=mb_substr($stringTotal, 0, 1).mb_substr(mb_strtolower($stringTotal), 1);?> <?=Yii::t('app', 'рубль| рубля|рублей|рубля', $total);?> 00 копеек
   </p>
 
-
-  <table class="sign">
-      <tbody><tr>
-          <td style="padding: 5px;">Руководитель предприятия</td>
-          <td style="padding: 5px;">__________________________</td>
-          <td style="padding: 5px;">(Гребенников С. В.)</td>
-      </tr>
-      <tr>
-          <td style="padding: 5px;">Главный бухгалтер</td>
-          <td style="padding: 5px;">__________________________</td>
-          <td style="padding: 5px;">(Гулина Н. А.)</td>
-      </tr>
-      </tbody>
-  </table>
+  <img src="/img/pay/bill/imh.jpg" style="margin-left: -10px;">
 </BODY>
 </HTML>

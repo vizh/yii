@@ -24,7 +24,7 @@ class FastregisterController extends  \application\components\controllers\Public
                 {
                     \Yii::app()->user->logout();
                 }
-                \Yii::app()->payUser->login($identity);
+                \Yii::app()->tempUser->login($identity);
             }
 
             if (empty($event->Parts))

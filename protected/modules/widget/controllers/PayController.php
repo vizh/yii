@@ -71,9 +71,9 @@ class PayController extends \widget\components\Controller
         {
             return \Yii::app()->user->getCurrentUser();
         }
-        elseif (\Yii::app()->payUser->getCurrentUser() !== null)
+        elseif (\Yii::app()->tempUser->getCurrentUser() !== null)
         {
-            return \Yii::app()->payUser->getCurrentUser();
+            return \Yii::app()->tempUser->getCurrentUser();
         }
         return null;
     }

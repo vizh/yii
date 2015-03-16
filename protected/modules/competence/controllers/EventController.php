@@ -104,9 +104,11 @@ class EventController extends MainController
      */
     private function getUser()
     {
-        $user = \Yii::app()->getUser();
-        if (!$user->getIsGuest()) {
-            return $user->getCurrentUser();
+        if (\Yii::app()->user->getCurrentUser() !== null) {
+            return \Yii::app()->user->getCurrentUser();
+        }
+        elseif (\Yii::app()->tempUser->getCurrentUser() !== null) {
+            return \Yii::app()->tempUser->getCurrentUser();
         }
         return null;
     }

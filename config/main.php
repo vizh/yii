@@ -19,9 +19,9 @@ $config = [
             'allowAutoLogin' => true,
             'identityCookie' => ['domain' => '.'.RUNETID_HOST],
         ],
-        'payUser' => [
+        'tempUser' => [
             'class' => '\application\components\auth\WebUser',
-            'stateKeyPrefix'=>'payUser',
+            'stateKeyPrefix'=>'tempUser',
             'loginUrl' => null,
             'identityCookie' => ['domain' => '.'.RUNETID_HOST]
         ],

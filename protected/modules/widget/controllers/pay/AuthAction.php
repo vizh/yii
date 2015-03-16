@@ -68,7 +68,7 @@ class AuthAction extends \widget\components\pay\Action
     if ($identity->errorCode == \application\components\auth\identity\Base::ERROR_NONE)
     {
 
-      \Yii::app()->payUser->login($identity);
+      \Yii::app()->tempUser->login($identity);
       $this->getController()->refresh();
     }
     else

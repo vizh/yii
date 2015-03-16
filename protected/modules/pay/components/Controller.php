@@ -17,9 +17,9 @@ class Controller extends \application\components\controllers\PublicMainControlle
     {
       return \Yii::app()->user->getCurrentUser();
     }
-    elseif (\Yii::app()->payUser->getCurrentUser() !== null)
+    elseif (\Yii::app()->tempUser->getCurrentUser() !== null)
     {
-      return \Yii::app()->payUser->getCurrentUser();
+      return \Yii::app()->tempUser->getCurrentUser();
     }
     return null;
   }
@@ -53,14 +53,14 @@ class Controller extends \application\components\controllers\PublicMainControlle
     $isFastAuth = $this->getId() == 'cabinet' && $this->getAction()->getId() == 'auth';
     if ($this->getUser() === null && !$isFastAuth)
     {
-      $error = $this->createPayUser();
+      $error = $this->createTemporaryUser();
       $this->render('pay.views.system.unregister', ['error' => $error, 'account' => $this->getAccount()]);
       return false;
     }
     return parent::beforeAction($action);
   }
 
-  protected function createPayUser()
+  protected function createTemporaryUser()
   {
     $email = \Yii::app()->getRequest()->getParam('email');
     if ($email !== null)
@@ -84,7 +84,7 @@ class Controller extends \application\components\controllers\PublicMainControlle
         $identity->authenticate();
         if ($identity->errorCode == \application\components\auth\identity\Base::ERROR_NONE)
         {
-          \Yii::app()->payUser->login($identity);
+          \Yii::app()->tempUser->login($identity);
           $this->refresh();
         }
         else

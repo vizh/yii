@@ -50,9 +50,9 @@ class PublicMainController extends MainController
     $lang = isset(\Yii::app()->getRequest()->cookies['lang']) ? \Yii::app()->getRequest()->cookies['lang']->value : null;
     $lang = in_array($lang, \Yii::app()->params['Languages']) ? $lang : null;
     $langCreationTime = isset(\Yii::app()->getRequest()->cookies['langCreationTime']) ? (int)\Yii::app()->getRequest()->cookies['langCreationTime']->value : null;
-    if (!\Yii::app()->user->isGuest || !\Yii::app()->payUser->isGuest)
+    if (!\Yii::app()->user->isGuest || !\Yii::app()->tempUser->isGuest)
     {
-      $user = !\Yii::app()->user->isGuest ? \Yii::app()->user->getCurrentUser() : \Yii::app()->payUser->getCurrentUser();
+      $user = !\Yii::app()->user->isGuest ? \Yii::app()->user->getCurrentUser() : \Yii::app()->tempUser->getCurrentUser();
       if ($lang !== null &&
           ($user->Language == null || ($langCreationTime != null && time() - $langCreationTime < 60*60)))
       {

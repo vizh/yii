@@ -85,8 +85,8 @@ class AjaxController extends \application\components\controllers\PublicMainContr
     {
         if (\Yii::app()->user->getCurrentUser() !== null) {
             return \Yii::app()->user->getCurrentUser();
-        } elseif (\Yii::app()->payUser->getCurrentUser() !== null) {
-            return \Yii::app()->payUser->getCurrentUser();
+        } elseif (\Yii::app()->tempUser->getCurrentUser() !== null) {
+            return \Yii::app()->tempUser->getCurrentUser();
         }
         return null;
     }

@@ -25,7 +25,7 @@ class AuthAction extends \pay\components\Action
         }
         else
         {
-          \Yii::app()->payUser->login($identity);
+          \Yii::app()->tempUser->login($identity);
         }
       }
       else
