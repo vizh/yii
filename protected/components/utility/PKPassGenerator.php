@@ -113,7 +113,7 @@ class PKPassGenerator
     $pkPass->setCertificate(
       \Yii::getPathOfAlias('ext.pkpass').'/certificates/pass-certificate.p12'
     );
-    $pkPass->setCertificatePassword('QHqYBAi8on');
+    $pkPass->setCertificatePassword('4FYRLaXR');
     $pkPass->setWWDRcertPath(
       \Yii::getPathOfAlias('ext.pkpass').'/certificates/AppleWWDRCA.pem'
     );
