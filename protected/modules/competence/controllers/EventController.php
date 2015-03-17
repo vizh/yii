@@ -42,17 +42,20 @@ class EventController extends MainController
             throw new \CHttpException(404);
         }
 
-        if ($action->getId() != static::START_ACTION_NAME) {
-            if ($this->getUser() === null || !$this->checkStartTest() || !$this->checkEndTest()) {
-                $this->redirect([self::START_ACTION_NAME, 'eventIdName' => $this->event->IdName]);
+        if ($this->checkExistsResult()) {
+            if ($action->getId() != self::END_ACTION_NAME) {
+                $this->redirect([self::END_ACTION_NAME, 'eventIdName' => $this->event->IdName]);
             }
-        } elseif ($this->getUser() !== null && !$this->checkParticipant()) {
-            throw new \CHttpException(404);
+        } else {
+            if ($action->getId() != static::START_ACTION_NAME) {
+                if (($this->getUser() === null || !$this->checkStartTest() || !$this->checkEndTest())) {
+                    $this->redirect([self::START_ACTION_NAME, 'eventIdName' => $this->event->IdName]);
+                }
+            } elseif ($this->getUser() !== null && !$this->checkParticipant()) {
+                throw new \CHttpException(404);
+            }
         }
 
-        if ($action->getId() != self::END_ACTION_NAME && !$this->test->Multiple && $this->checkExistsResult()) {
-            $this->redirect([self::END_ACTION_NAME, 'eventIdName' => $this->event->IdName]);
-        }
         return parent::beforeAction($action);
     }
 
@@ -81,7 +84,7 @@ class EventController extends MainController
      */
     private function checkExistsResult()
     {
-        if ($this->getUser() !== null) {
+        if ($this->getUser() !== null && !$this->test->Multiple) {
             return Result::model()->byFinished(true)->byUserId($this->getUser()->Id)->byTestId($this->test->Id)->find();
         }
         return false;

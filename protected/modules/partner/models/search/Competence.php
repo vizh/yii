@@ -54,7 +54,7 @@ class Competence extends SearchFormModel
 
         if ($this->validate()) {
             if (!empty($this->Name)) {
-                $model->bySearch($this->Name);
+                $model->bySearch($this->Name, null, true, false);
             }
         }
         $model->getDbCriteria()->mergeWith($criteria);

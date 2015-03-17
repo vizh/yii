@@ -11,7 +11,7 @@ use competence\models\Test;
     <div class="row">
         <div class="span8 offset2 m-top_30 text-center">
             <p class="lead">Здравствуйте!</p>
-            <p class="lead">Вы немного поторопились &mdash; заполнить анкету участника <?=$event->Title;?> можно будет с <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy HH:mm', $test->StartTime);?>.</p>
+            <p class="lead">Вы немного поторопились &mdash; заполнить анкету участника можно будет с <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy с HH:mm', $test->StartTime);?>.</p>
         </div>
     </div>
 </div>
