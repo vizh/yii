@@ -45,7 +45,7 @@ CTemplateEdit.prototype = {
     });
 
     $('input[name*="RelatedEventId"]').autocomplete({
-       'source' : '/event/ajax/search'
+       'source' : '/event/ajax/searchnotnull'
     });
 
     if ($('textarea[name*="Template[Body]"]').length > 0) {
@@ -66,7 +66,7 @@ CTemplateEdit.prototype = {
       row.remove();
     });
     row.find('input[name*="eventLabel"]').autocomplete({
-      'source' : '/event/ajax/search',
+      'source' : '/event/ajax/searchnotnull',
       'select' : function (event, ui) {
         this.value = ui.item.value+', '+ui.item.label;
         row.find('input[name*="eventId"]').val(ui.item.value);
