@@ -127,7 +127,7 @@ use application\components\utility\Texts;
         <li style="padding-bottom: 10px;">Настоящий договор составлен на русском языке в двух экземплярах, имеющих одинаковую юридическую силу, по одному для каждой из Сторон.</li>
       </ol>
     </li>
-    <li style="padding-bottom: 10px;">
+    <li style="padding-bottom: 10px; <?if (sizeof($order->Bookings) > 3):?>page-break-before: always;<?endif;?>">
       <span style="font-size: 15px; font-weight: bold;">АДРЕСА И БАНКОВСКИЕ РЕКВИЗИТЫ СТОРОН</span>
       <table style="margin-top: 20px; width: 100%;">
         <tr>
@@ -167,6 +167,8 @@ use application\components\utility\Texts;
                 </p>
             </td>
             <td style="vertical-align: bottom;">
+                <img src="/img/pay/bill/booking/stamp.png" style="position: absolute; margin: 10px 0 0 -30px; z-index: 2;"/>
+                <img src="/img/pay/bill/booking/sign.png" style="position: absolute; margin: 25px 0 0 10px; z-index: 1;"/>
                 <p>
                     Директор:<br/><br/>
                     _____________________ / Гребенников С.В./<br/>
