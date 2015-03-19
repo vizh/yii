@@ -31,43 +31,37 @@ use \application\components\attribute\BooleanDefinition;
         <div class="span6"><?=\CHtml::activeTextField($this->form, 'FirstName', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('FirstName'), 'disabled' => $this->form->isDisabled('FirstName')]);?></div>
     </div>
 
-        <?if (false):?>
-    <div class="form-inline row-fluid">
-        <div class="span6"><?=\CHtml::activeTextField($this->form, 'FatherName', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('FatherName'), 'disabled' => $this->form->isDisabled('FatherName')]);?></div>
-        <div class="span6">
-            <?$this->widget('\contact\widgets\AddressControls', ['form' => $this->form->Address, 'inputClass' => 'span12', 'place' => false, 'address' => false, 'disabled' => $this->form->isDisabled('LinkAddress')]);?>
-        </div>
-    </div>
-
-    <div class="form-inline row-fluid">
-        <div class="span6"><?=\CHtml::activeTextField($this->form, 'Birthday', ['class' => 'span12 m-bottom_5', 'placeholder' => $this->form->getAttributeLabel('Birthday').'. '.\Yii::t('app', 'Пример: 01.01.1980'), 'disabled' => $this->form->isDisabled('Birthday')]);?></div>
-    </div>
-            <?endif;?>
-    <hr/>
-
     <?if ($this->ShowEmployment):?>
     <div class="form-inline row-fluid m-bottom_5">
         <div class="span6"><?=\CHtml::activeTextField($this->form, 'Company', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('Company')]);?></div>
-        <?if (false):?>
-        <div class="span6"><?=\CHtml::activeTextField($this->form, 'Position', ['class' => 'span12', 'placeholder' => $this->form->getAttributeLabel('Position')]);?></div>
-        <?endif;?>
     </div>
     <hr/>
     <?endif;?>
 
-    <?foreach($this->userData->getManager()->getDefinitions() as $definition):?>
-    <div class="form-inline row-fluid m-bottom_10">
-        <div class="span12">
-            <?if (isset($this->ShowUserDataLabel) && $this->ShowUserDataLabel):?>
-                <label class="control-label"><?=$definition->title;?></label>
-                <?=$definition->activeEdit($this->userData->getManager(), ['class' => ($definition instanceof BooleanDefinition) ? '' : 'span12']);?>
-            <?else:?>
-                <?=$definition->activeEdit($this->userData->getManager(), ['placeholder' => $definition->title, 'class' => ($definition instanceof BooleanDefinition) ? '' : 'span12']);?>
-            <?endif;?>
+    <?if ($this->userData !== null):?>
+        <?foreach($this->userData->getManager()->getDefinitions() as $definition):?>
+        <div class="form-inline row-fluid m-bottom_10">
+            <div class="span12">
+                <?if (isset($this->ShowUserDataLabel) && $this->ShowUserDataLabel):?>
+                    <label class="control-label"><?=$definition->title;?></label>
+                    <?=$definition->activeEdit($this->userData->getManager(), ['class' => ($definition instanceof BooleanDefinition) ? '' : 'span12']);?>
+                <?else:?>
+                    <?=$definition->activeEdit($this->userData->getManager(), ['placeholder' => $definition->title, 'class' => ($definition instanceof BooleanDefinition) ? '' : 'span12']);?>
+                <?endif;?>
+            </div>
         </div>
-    </div>
-    <?endforeach;?>
+        <?endforeach;?>
+        <hr/>
+    <?endif;?>
 
+    <?if ($this->form->getRoleData() !== []):?>
+        <div class="form-inline row-fluid m-bottom_5">
+            <div class="span12">
+                <?=\CHtml::activeLabel($this->form, 'RoleId', ['class' => 'control-label']);?>
+                <?=\CHtml::activeDropDownList($this->form, 'RoleId', $this->form->getRoleData(), ['class' => 'span12']);?>
+            </div>
+        </div>
+    <?endif;?>
 
     <div class="form-user-register" style="padding: 0;">
         <small class="muted required-notice">

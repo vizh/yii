@@ -3,6 +3,7 @@ namespace event\models\forms;
 
 use \contact\models\forms\Phone;
 use \contact\models\forms\Address;
+use event\models\Role;
 use user\models\User;
 
 class DetailedRegistration extends \CFormModel
@@ -30,14 +31,23 @@ class DetailedRegistration extends \CFormModel
 
     public $Invite;
 
+    /** @var  int */
+    public $RoleId;
+
     /**
      * @var \CUploadedFile
      */
     public $photo;
 
-    public function __construct(\user\models\User $user = null, $scenario = '')
+    /**
+     * @param User $user
+     * @param string $scenario
+     * @param Role[] $roles
+     */
+    public function __construct(User $user = null, $scenario = '', $roles = [])
     {
         $this->user = $user;
+        $this->roleData = \CHtml::listData($roles, 'Id', 'Title');
         parent::__construct($scenario);
     }
 
@@ -75,16 +85,6 @@ class DetailedRegistration extends \CFormModel
                 $this->Company = $this->user->getEmploymentPrimary()->Company->Name;
                 $this->Position = $this->user->getEmploymentPrimary()->Position;
             }
-
-//  todo: говнокод для мероприятия ЛеруаМерлен
-//            if ($this->user->getContactAddress() !== null) {
-//                $this->Address->attributes = $this->user->getContactAddress()->getAttributes();
-//            }
-//
-//
-//            if ($this->user->Birthday !== null) {
-//                $this->Birthday = \Yii::app()->dateFormatter->format('dd.MM.yyyy', $this->user->Birthday);
-//            }
         }
     }
 
@@ -98,9 +98,9 @@ class DetailedRegistration extends \CFormModel
             ['PrimaryPhone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
             ['PrimaryPhone', 'required'],
             ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ($this->user !== null ? ['condition' => '"t"."Id" != :UserId', 'params' => ['UserId' => $this->user->Id]] : [])],
-            ['Company',/* todo: говнокод для мероприятия ЛеруаМерлен Position',*/ 'required', 'on' => [self::ScenarioShowEmployment]],
+            ['Company', 'required', 'on' => [self::ScenarioShowEmployment]],
             ['Password,FatherName', 'safe'],
-            //  todo: говнокод для мероприятия ЛеруаМерлен ['Birthday', 'date', 'format' => 'dd.MM.yyyy']
+            ['RoleId', 'validateRole']
         ];
     }
 
@@ -118,19 +118,6 @@ class DetailedRegistration extends \CFormModel
         }
         $this->attributes = $attributes;
         return parent::beforeValidate();
-    }
-
-    public function afterValidate()
-    {
-//  todo: говнокод для мероприятия ЛеруаМерлен
-//        if (!$this->isDisabled('LinkAddress')) {
-//            $this->Address->attributes = \Yii::app()->getRequest()->getParam(get_class($this->Address));
-//            if (!$this->Address->validate()) {
-//                foreach ($this->Address->getErrors() as $messages) {
-//                    $this->addError('Address', $messages[0]);
-//                }
-//            }
-//        }
     }
 
     public function validateUniqueEmail($attribute, $params)
@@ -184,6 +171,34 @@ class DetailedRegistration extends \CFormModel
             'PrimaryPhone' => \Yii::t('app', 'Телефон'),
             'Address' => \Yii::t('app', 'Город'),
             'Birthday' => \Yii::t('app', 'Дата рождения'),
+            'RoleId' => \Yii::t('app', 'Статус участия')
         ];
+    }
+
+    /**
+     * @var array
+     */
+    private $roleData;
+
+    /**
+     * @return array
+     */
+    public function getRoleData()
+    {
+        return $this->roleData;
+    }
+
+    /**
+     * @param string $attribute
+     * @return bool
+     */
+    public function validateRole($attribute)
+    {
+        $value = $this->$attribute;
+        if (!empty($this->roleData) && !array_key_exists($value, $this->roleData)) {
+            $this->addError($attribute, \Yii::t('app', 'Неверное значение для поля {field}.', ['{field}' => $this->getAttributeLabel($attribute)]));
+            return false;
+        }
+        return true;
     }
 } 

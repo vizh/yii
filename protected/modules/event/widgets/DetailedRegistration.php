@@ -18,6 +18,7 @@ class DetailedRegistration extends \event\components\Widget
     {
         return [
             'DefaultRoleId',
+            'SelectRoleIdList',
             'RegisterUnvisibleUser',
             'ShowEmployment',
             'ShowFatherName',
@@ -34,7 +35,7 @@ class DetailedRegistration extends \event\components\Widget
     public $form;
 
     /** @var  UserData */
-    public $userData;
+    public $userData = null;
 
     /**
      * @var Invite
@@ -44,13 +45,8 @@ class DetailedRegistration extends \event\components\Widget
     public function init()
     {
         parent::init();
-
-        $scenario = '';
-        if (isset($this->ShowEmployment) && $this->ShowEmployment) {
-            $scenario = DetailedRegistrationForm::ScenarioShowEmployment;
-        }
-
-        $this->form = new DetailedRegistrationForm(\Yii::app()->user->getCurrentUser(), $scenario);
+        $this->initForm();
+        $this->initUserData();
         if (isset($this->UseInvites) && $this->UseInvites) {
             $code = \Yii::app()->getRequest()->getParam('invite');
             $this->invite = Invite::model()->byEventId($this->getEvent()->Id)->byCode($code)->find();
@@ -58,8 +54,40 @@ class DetailedRegistration extends \event\components\Widget
                 $this->form->addError('Invite', \Yii::t('app','Для регистрации на мероприятие «{event}» требуется приглашение.', ['{event}' => $this->event->Title]));
             }
         }
-        $this->userData = new UserData();
-        $this->userData->EventId = $this->getEvent()->Id;
+    }
+
+    /**
+     * Инициализация основной формы
+     */
+    private function initForm()
+    {
+        $scenario = '';
+        if (isset($this->ShowEmployment) && $this->ShowEmployment) {
+            $scenario = DetailedRegistrationForm::ScenarioShowEmployment;
+        }
+
+        $roles = [];
+        if (isset($this->SelectRoleIdList)) {
+            $roles = Role::model()->findAllByPk(explode(',', $this->SelectRoleIdList));
+        }
+
+        $user = \Yii::app()->getUser();
+        $this->form = new DetailedRegistrationForm($user->getCurrentUser(), $scenario, $roles);
+        $this->form->RoleId = $this->DefaultRoleId;
+    }
+
+    /**
+     * Инициализация дополнительных полей пользователя
+     */
+    private function initUserData()
+    {
+        $data = new UserData();
+        $data->EventId = $this->getEvent()->Id;
+
+        $definitions = $data->getManager()->getDefinitions();
+        if (!empty($definitions)) {
+            $this->userData = $data;
+        }
     }
 
     public function getIsHasDefaultResources()
@@ -73,25 +101,29 @@ class DetailedRegistration extends \event\components\Widget
         $request = \Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
             $this->form->attributes = $request->getParam(get_class($this->form));
-            $this->userData->getManager()->setAttributes(
-                $request->getParam(get_class($this->userData->getManager()))
-            );
-
             $this->form->validate(null, false);
-            $this->userData->getManager()->validate();
 
-            if (!$this->form->hasErrors() && !$this->userData->getManager()->hasErrors() && isset($this->DefaultRoleId)) {
+            if ($this->userData !== null) {
+                $this->userData->getManager()->setAttributes(
+                    $request->getParam(get_class($this->userData->getManager()))
+                );
+                $this->userData->getManager()->validate();
+            }
+
+            if (!$this->form->hasErrors() && ($this->userData == null || !$this->userData->getManager()->hasErrors())) {
                 $user = $this->updateUser($this->form->getUser());
                 if ($this->invite !== null) {
                     $this->invite->activate($user);
                 }
                 else {
-                    $role = Role::model()->findByPk($this->DefaultRoleId);
+                    $role = Role::model()->findByPk($this->form->RoleId);
                     $this->getEvent()->registerUser($user, $role);
                 }
 
-                $this->userData->UserId = $user->Id;
-                $this->userData->save();
+                if ($this->userData !== null) {
+                    $this->userData->UserId = $user->Id;
+                    $this->userData->save();
+                }
 
                 if (\Yii::app()->getUser()->getIsGuest()) {
                     $identity = new RunetId($user->RunetId);
@@ -101,7 +133,7 @@ class DetailedRegistration extends \event\components\Widget
                     }
                 }
                 $this->getController()->refresh();
-            } else {
+            } elseif ($this->userData !== null) {
                 $this->form->addErrors($this->userData->getManager()->getErrors());
             }
         }
@@ -110,16 +142,16 @@ class DetailedRegistration extends \event\components\Widget
 
     public function run()
     {
+        $user = \Yii::app()->user;
+
         /** @var Participant $participant */
         $participant = null;
-        if (!\Yii::app()->user->getIsGuest()) {
-            $participant = Participant::model()->byEventId($this->event->Id)->byUserId(\Yii::app()->user->getCurrentUser()->Id)->find();
+        if (!$user->getIsGuest()) {
+            $participant = Participant::model()->byEventId($this->event->Id)->byUserId($user->getCurrentUser()->Id)->find();
         }
 
         if ($participant == null) {
             \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
-            $userData = new UserData();
-            $userData->EventId = $this->getEvent()->Id;
             $this->render('detailed-registration');
         } else {
             $this->render('detailed-registration-complete');

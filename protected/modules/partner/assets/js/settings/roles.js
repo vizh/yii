@@ -40,7 +40,7 @@ CPartnerSettingsRoles.prototype = {
       self.$table.find('tbody').html('');
       $.each(response, function (i, role) {
         var $tr = $('<tr/>', {
-          'html' : '<td style="width: 10px">'+(role.CanDelete ? '<a href="#" class="btn-delete"><i class="icon-trash"></i></a>' : '')+'</td><td>'+role.Title+'</td>'+
+          'html' : '<td style="width: 10px">'+(role.CanDelete ? '<a href="#" class="btn-delete"><i class="icon-trash"></i></a>' : '')+'</td><td class="text-center">'+ role.Id +'</td><td>'+role.Title+'</td>'+
             '<td><input type="text" class="input-small" name="color" value="' + (role.Color) + '" readonly="readonly" ' + (role.Color.length > 0 ? ('style="background-color:' + role.Color + '"') : '') + '/></td>'
         });
 

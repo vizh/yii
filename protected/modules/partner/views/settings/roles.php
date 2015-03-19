@@ -1,7 +1,7 @@
 <h2 class="m-bottom_30"><?=\Yii::t('app', 'Статусы мероприятия');?></h2>
 <table class="table table-striped">
   <thead>
-    <th colspan="2"><?=\Yii::t('app', 'Статусы');?></th>
+    <th colspan="3"><?=\Yii::t('app', 'Статусы');?></th>
     <th><?=\Yii::t('app', 'Цвет');?></th>
   </thead>
   <tbody>

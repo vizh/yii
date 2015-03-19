@@ -7,7 +7,7 @@ use competence\models\Test;
 
 class DevtourController extends MainController
 {
-    const EVENT_ID = 1715;
+    const EVENT_ID = 1716;
 
     public $layout = '/event/layout';
 
