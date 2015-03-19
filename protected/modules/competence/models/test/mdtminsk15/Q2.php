@@ -1,5 +1,5 @@
 <?php
-namespace competence\models\test\mdtspb15;
+namespace competence\models\test\mdtminsk15;
 
 use \competence\models\form\attribute\RadioValue;
 use \competence\models\form\Base;
