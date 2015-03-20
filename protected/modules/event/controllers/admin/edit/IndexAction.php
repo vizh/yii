@@ -1,6 +1,10 @@
 <?php
 namespace event\controllers\admin\edit;
 
+use event\components\IWidget;
+use event\models\Event;
+use event\models\WidgetClass;
+
 class IndexAction extends \CAction
 {
     public function run($eventId = null)
@@ -176,20 +180,13 @@ class IndexAction extends \CAction
             }
         }
 
-        $widgetFactory = new \event\components\WidgetFactory();
-        $widgets = new \stdClass();
-        $widgets->All = $widgetFactory->getWidgets($event);
-        foreach ($event->Widgets as $widget)
-        {
-            $widgets->Used[$widget->Name] = $widget;
-        }
         $this->getController()->setPageTitle(\Yii::t('app', 'Редактирование мероприятия'));
         \Yii::app()->clientScript->registerPackage('runetid.ckeditor');
-        $this->getController()->render('index', array(
-                'form'    => $form,
-                'event'   => $event,
-                'widgets' => $widgets)
-        );
+        $this->getController()->render('index', [
+            'form'    => $form,
+            'event'   => $event,
+            'widgets' => $this->getWidgets($event)
+        ]);
     }
 
     /**
@@ -257,5 +254,28 @@ class IndexAction extends \CAction
             $link->Email->delete();
             $link->delete();
         }
+    }
+
+    /**
+     * @param Event $event
+     * @return \stdClass
+     */
+    private function getWidgets(Event $event)
+    {
+        $widgets = new \stdClass();
+        $classes = WidgetClass::model()->byVisible(true)->findAll();
+        /** @var WidgetClass $class */
+        foreach ($classes as $class) {
+            $widget = $class->createWidget($event, true);
+            if ($widget instanceof IWidget) {
+                $widgets->All[$widget->getName()] = $widget;
+            }
+        }
+
+        foreach ($event->Widgets as $link) {
+            $widget = $link->Class->createWidget($event, true);
+            $widgets->Used[$widget->getName()] = $link;
+        }
+        return $widgets;
     }
 }

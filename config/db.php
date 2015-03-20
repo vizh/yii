@@ -1,6 +1,6 @@
 <?php
 
-if (YII_DEBUG)
+if (!YII_DEBUG)
 {
 return [
     'class' => '\application\components\db\PgDbConnection',
