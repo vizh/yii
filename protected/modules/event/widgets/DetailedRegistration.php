@@ -73,7 +73,9 @@ class DetailedRegistration extends \event\components\Widget
 
         $user = \Yii::app()->getUser();
         $this->form = new DetailedRegistrationForm($user->getCurrentUser(), $scenario, $roles);
-        $this->form->RoleId = $this->DefaultRoleId;
+        if (isset($this->DefaultRoleId)) {
+            $this->form->RoleId = $this->DefaultRoleId;
+        }
     }
 
     /**
