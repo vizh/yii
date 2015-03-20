@@ -84,6 +84,12 @@ $config = CMap::mergeArray($config, require(__DIR__ . '/ruvents2.php'));
 
 $config['components']['urlManager']['rules'] = CMap::mergeArray($config['components']['urlManager']['rules'], require(__DIR__.'/url-rules.php'));
 
+if (YII_DEBUG) {
+  $config['components']['cache'] = [
+    'class' => 'CDummyCache'
+  ];
+}
+
 if (RUNETID_DEV) {
     $config['components']['debug'] = [
         'class' => 'ext.yii2-debug.Yii2Debug',
