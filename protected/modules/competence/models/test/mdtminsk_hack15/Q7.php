@@ -1,6 +1,8 @@
 <?php
 namespace competence\models\test\mdtminsk_hack15;
 
+use competence\models\Result;
+
 class Q7 extends \competence\models\form\Base
 {
     public $other;
@@ -55,5 +57,30 @@ class Q7 extends \competence\models\form\Base
             'value' => $this->value,
             'other' => $this->other
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getInternalExportValueTitles()
+    {
+        $result = array_values($this->getQuestions());
+        $result[] = 'Ваши комментарии и пожелания по организационным вопросам конференции';
+        return $result;
+    }
+
+    /**
+     * @param Result $result
+     * @return array
+     */
+    public function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        foreach ($this->getQuestions() as $key => $market) {
+            $data[] = isset($questionData['value'][$key]) ? $questionData['value'][$key] : '';
+        }
+        $data[] = $questionData['other'];
+        return $data;
     }
 }
