@@ -1,5 +1,6 @@
 <?php
 namespace competence\models;
+use application\components\ActiveRecord;
 
 /**
  * Class Test
@@ -19,6 +20,9 @@ namespace competence\models;
  * @property string $FastAuthSecret
  * @property int $EventId
  * @property string $StartTime
+ * @property string $BeforeText
+ * @property string $AfterText
+ * @property bool $ParticipantsOnly
  *
  * @property \event\models\Event $Event
  * @property Result[] $ResultsAll
@@ -26,8 +30,9 @@ namespace competence\models;
  * @method \competence\models\Test find($condition='',$params=array())
  * @method \competence\models\Test findByPk($pk,$condition='',$params=array())
  * @method \competence\models\Test[] findAll($condition='',$params=array())
+ * @method Test byParticipantsOnly(bool $participantsOnly)
  */
-class Test extends \CActiveRecord
+class Test extends ActiveRecord
 {
     /**
      * @param string $className

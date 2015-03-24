@@ -1,5 +1,5 @@
 <?php
-namespace competence\models\test\mdtminsk_hack15;
+namespace competence\models\test\mdtrnd15;
 
 use competence\models\Result;
 

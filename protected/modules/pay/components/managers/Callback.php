@@ -86,13 +86,13 @@ class Callback extends BaseProductManager
         $errno = curl_errno($curl);
         curl_close($curl);
         if ($errno != 0) {
-            \Yii::log(sprintf('Не корректное обращение к CallbackUrl (OrderItem: %s). Ошибка номер: %s', $orderItem->Id, $errno), \CLogger::LEVEL_ERROR);
+            \Yii::log(sprintf('Не корректное обращение к CallbackUrl (OrderItem: %s, CallbackUrl: %s). Ошибка номер: %s', $orderItem->Id, $this->CallbackUrl, $errno), \CLogger::LEVEL_ERROR);
             return false;
         }
         $resultObject = json_decode($result);
 
         if (!isset($resultObject->Success) || !$resultObject->Success) {
-            \Yii::log(sprintf("Не корректное обращение к CallbackUrl (OrderItem: %s). Ответ сервера: %s \r\n \r\n Параметры: %s", $orderItem->Id, $result, var_export($params, true)), \CLogger::LEVEL_ERROR);
+            \Yii::log(sprintf("Не корректное обращение к CallbackUrl (OrderItem: %s, CallbackUrl: %s). Ответ сервера: %s \r\n \r\n Параметры: %s", $orderItem->Id, $this->CallbackUrl, $result, var_export($params, true)), \CLogger::LEVEL_ERROR);
             return false;
         }
 

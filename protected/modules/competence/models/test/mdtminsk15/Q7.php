@@ -83,7 +83,7 @@ class Q7 extends \competence\models\form\Base
         foreach ($this->getQuestions() as $key => $market) {
             $data[] = isset($questionData['value'][$key]) ? $questionData['value'][$key] : '';
         }
-        $data[] = $this->other;
+        $data[] = $questionData['other'];
         return $data;
     }
 }

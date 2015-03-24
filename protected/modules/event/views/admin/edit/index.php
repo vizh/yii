@@ -210,6 +210,7 @@
     </div>
     <div class="row-fluid">
         <?php
+        /** @var \event\components\Widget $widget */
         foreach ($widgets->All as $widget):
             $widgetsAll[$widget->getPosition()][] = $widget;
         endforeach;

@@ -37,7 +37,7 @@ class EventController extends MainController
             throw new \CHttpException(404);
         }
 
-        $this->test = Test::model()->byEnable(true)->byEventId($this->event->Id)->find();
+        $this->test = Test::model()->byEnable(true)->byParticipantsOnly(true)->byEventId($this->event->Id)->find();
         if ($this->test === null) {
             throw new \CHttpException(404);
         }

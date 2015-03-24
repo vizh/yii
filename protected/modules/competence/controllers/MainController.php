@@ -26,7 +26,7 @@ class MainController extends PublicMainController
     {
         if ($this->test == null)
         {
-            $this->test = \competence\models\Test::model()->findByPk($this->actionParams['id']);
+            $this->test = \competence\models\Test::model()->byParticipantsOnly(false)->findByPk($this->actionParams['id']);
         }
         return $this->test;
     }

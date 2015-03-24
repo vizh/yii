@@ -25,7 +25,7 @@ use competence\models\Result;
             <?php endif;?>
         </div>
         <div class="span4 text-center">
-            <a class="btn btn-large btn-success" href="http://events.techdays.ru/msdevtour/saint-petersburg">Оценить доклады</a>
+            <a class="btn btn-large btn-success" href="http://events.techdays.ru/msdevtour/rostov-on-don#vote">Оценить доклады</a>
         </div>
     </div>
 </div>

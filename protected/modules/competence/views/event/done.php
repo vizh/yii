@@ -8,6 +8,27 @@
 use event\models\Event;
 use user\models\User;
 use competence\models\Test;
+
+//TODO: Костыль разлогинивания для тестов msdevtour
+if (strpos($test->Code, 'mdt') === 0) {
+    /** @var CWebUser $user */
+    if (\Yii::app()->user->getCurrentUser() !== null) {
+        $user = \Yii::app()->user;
+    }
+    elseif (\Yii::app()->tempUser->getCurrentUser() !== null) {
+        $user = \Yii::app()->tempUser;
+    }
+
+    if (!$user->getIsGuest()) {
+        $user->logout();
+    }
+
+    \Yii::app()->getClientScript()->registerMetaTag(
+        '10; url='.$this->createUrl('index', ['eventIdName' => $event->IdName]),
+        null,
+        'refresh'
+    );
+}
 ?>
 <div class="container interview m-top_30 m-bottom_40">
     <div class="row">
