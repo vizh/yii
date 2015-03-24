@@ -88,7 +88,7 @@ use application\components\utility\Texts;
         </tr>
         <tr>
           <td align="left">&nbsp;<br>Оплата счета № <?=$order->Number;?> от <?=date('d.m.Y', strtotime($order->CreationTime));?><br>&nbsp;</td>
-          <td valign="bottom" width="75"><img src="/images/b.gif" width="75" height="1" border="0"></td>
+          <td valign="bottom" width="75"><img src="/images/blank.gif" width="75" height="1" border="0"></td>
           <td valign="middle" align="center" width="75"><?=number_format($total, 2, ',', ' ');?> руб.</td>
         </tr>
         <tr>
@@ -138,7 +138,7 @@ use application\components\utility\Texts;
         </tr>
         <tr>
           <td align="left">&nbsp;<br>Оплата счета № <?=$order->Number;?> от <?=date('d.m.Y', strtotime($order->CreationTime));?><br>&nbsp;</td>
-          <td valign="bottom" width="75"><img src="/images/b.gif"  height="1" border="0"></td>
+          <td valign="bottom" width="75"><img src="/images/blank.gif"  height="1" border="0"></td>
           <td valign="middle" align="center" width="75"><?=number_format($total, 2, ',', ' ');?> руб.</td>
         </tr>
         <tr>
