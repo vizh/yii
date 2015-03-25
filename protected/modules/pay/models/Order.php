@@ -35,7 +35,7 @@ use pay\components\MessageException;
  */
 class Order extends ActiveRecord
 {
-  const BookDayCount = 5;
+  const BookDayCount = 10;
   const PayTypeJuridical = 'Juridical';
 
   /**
