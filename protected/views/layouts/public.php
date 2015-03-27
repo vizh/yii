@@ -115,7 +115,13 @@
       <div class="clearfix pull-left">
         <div class="development pull-left">
           Оплата за участие в мероприятиях<br/>осуществляется при поддержке <a href="http://payonline.ru" target="_blank">PayOnline</a> и <a href="http://uniteller.ru" target="_blank">Uniteller</a><br /><br />
-          <img src="/img/pay/icon-visa.png" alt="VISA"/> <img src="/img/pay/icon-mastercard.png" alt="Master Card"/>
+          <img src="/img/pay/visa.png" alt="VISA"/> 
+          <img src="/img/pay/mastercard.png" alt="Master Card"/>
+          <img src="/img/pay/paypal.png" alt="Master Card"/>
+          <img src="/img/pay/moneymail.png" alt="Master Card"/>
+          <!--<img src="/img/pay/webmoney.png" alt="Master Card"/>-->
+          <img src="/img/pay/yandex-money.png" alt="Master Card"/>
+         
         </div>
       </div>
       <div class="development pull-right">
