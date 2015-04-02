@@ -5,9 +5,10 @@
 	"homepage": "http://runet-id.com/",
 	"type": "project",
 	"license": "???",
-	"minimum-stability": "beta",
+	"minimum-stability": "dev",
 	"require": {
 		"php": ">=5.4.0",
-        "mpdf/mpdf": "5.7.4"
+        "mpdf/mpdf": "5.7.4",
+	"facebook/php-sdk-v4" : "4.0.*"
 	}
 }
