@@ -2,6 +2,8 @@
 namespace event\components\handlers\register;
 
 use application\components\utility\PKPassGenerator;
+use event\models\MailRegister;
+use event\models\Role;
 use mail\components\MailLayout;
 use \mail\models\Layout;
 
@@ -30,17 +32,18 @@ class Base extends MailLayout
         $this->participant  = $event->params['participant'];
     }
 
-    /**
-     * @var \event\models\MailRegister $registerMail
-     */
+    /** @var MailRegister */
     private $registerMail = null;
+
+    /**
+     * Возвращает регистрационное письмо, удовлетворяющее критерии
+     * @return MailRegister
+     */
     private function getRegisterMail()
     {
-        if ($this->registerMail == null)
-        {
+        if ($this->registerMail === null) {
             $mails = isset($this->event->MailRegister) ? unserialize(base64_decode($this->event->MailRegister)) : [];
-            foreach ($mails as $mail)
-            {
+            foreach ($mails as $mail) {
                 $inExcept = in_array($this->role->Id, $mail->RolesExcept);
                 $part1 = in_array($this->role->Id, $mail->Roles) && !$inExcept;
                 $part2 = $this->registerMail == null && empty($mail->Roles) && empty($mail->RolesExcept);
@@ -54,69 +57,79 @@ class Base extends MailLayout
         return $this->registerMail;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getTo()
     {
         return $this->user->Email;
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getFrom()
     {
         return 'users@runet-id.com';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getFromName()
     {
         return '—RUNET—ID—';
     }
 
     /**
-     * @return null|string
+     * @inheritdoc
      */
     public function getSubject()
     {
-        if ($this->getRegisterMail() !== null)
-        {
+        if ($this->getRegisterMail() !== null) {
             return $this->getRegisterMail()->Subject;
         }
-        return null;
+        return 'Электронный билет - ' . $this->event->Title;
     }
 
-
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getBody()
     {
-        if ($this->getRegisterMail() !== null)
-        {
-            return $this->renderBody(
-                $this->getRegisterMail()->getViewName(),
-                ['user' => $this->user, 'event' => $this->event, 'participant' => $this->participant, 'role' => $this->role]
-            );
+        $params = [
+            'user' => $this->user,
+            'event' => $this->event,
+            'participant' => $this->participant,
+            'role' => $this->role
+        ];
+
+        if ($this->getRegisterMail() === null) {
+            if ($this->role->Id != Role::VIRTUAL_ROLE_ID) {
+               $viewName = 'event.views.mail.register.base';
+            } else {
+                return null;
+            }
+        } else {
+            $viewName = $this->getRegisterMail()->getViewName();
         }
-        return null;
+        return $this->renderBody($viewName, $params);
     }
 
     /**
-     * @return array
+     * @inheritdoc
      */
     public function getAttachments()
     {
-        $mail = $this->getRegisterMail();
-        if ($mail == null) {
-            return [];
-        }
-
         $attachments = [];
-        if ($mail->SendPassbook) {
+
+        $mail = $this->getRegisterMail();
+        if ($mail === null || $mail->SendPassbook) {
             $pkPass = new PKPassGenerator($this->event, $this->user, $this->role);
             $attachments['ticket.pkpass'] = $pkPass->runAndSave();
         }
 
-        if ($mail->SendTicket && false) {
+        if ($mail !== null && $mail->SendTicket && false) {
             $ticket = $this->participant->getTicket();
             $attachments[$ticket->getFileName()] = $ticket->save();
         }
@@ -132,15 +145,19 @@ class Base extends MailLayout
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getLayoutName()
     {
-        return isset($this->getRegisterMail()->Layout) ? $this->getRegisterMail()->Layout : Layout::None;
+        if (isset($this->getRegisterMail()->Layout)) {
+            return $this->getRegisterMail()->Layout;
+        } else {
+            return Layout::TwoColumn;
+        }
     }
 
     /**
-     * @return bool
+     * @inheritdoc
      */
     public function showUnsubscribeLink()
     {
@@ -148,7 +165,7 @@ class Base extends MailLayout
     }
 
     /**
-     * @return bool
+     * @inheritdoc
      */
     public function getIsPriority()
     {

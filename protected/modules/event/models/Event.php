@@ -483,9 +483,8 @@ class Event extends ActiveRecord implements ISearch
      */
     public function registerUserOnAllParts(\user\models\User $user, Role $role, $usePriority = false)
     {
-        $result = array();
-        foreach ($this->Parts as $part)
-        {
+        $result = [];
+        foreach ($this->Parts as $part) {
             $result[$part->Id] = $this->registerUserOnPart($part, $user, $role, $usePriority);
         }
         return $result;

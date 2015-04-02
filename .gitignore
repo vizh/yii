@@ -10,3 +10,4 @@ protected/modules/pay/data/
 composer.phar
 vendor
 composer.lock
+protected/modules/event/views/mail/register/rif14/

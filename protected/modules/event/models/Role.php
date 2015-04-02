@@ -14,68 +14,69 @@ namespace event\models;
  */
 class Role extends \application\models\translation\ActiveRecord
 {
+    const VIRTUAL_ROLE_ID = 24;
 
-  /**
-   * @param string $className
-   * @return Role
-   */
-  public static function model($className=__CLASS__)
-  {    
-    return parent::model($className);
-  }
-  
-  public function tableName()
-  {
-    return 'EventRole';
-  }
-  
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-  
-  public function relations()
-  {
-    return array(
-      'Participants' => array(self::HAS_MANY, 'event\models\Participant', 'RoleId')
-    );
-  }
+    /**
+     * @param string $className
+     * @return Role
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-  /**
-   * @param int $eventId
-   * @param bool $useAnd
-   *
-   * @return $this
-   */
-  public function byEventId($eventId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"Participants"."EventId" = :EventId';
-    $criteria->params = ['EventId' => $eventId];
-    $criteria->with = ['Participants' => ['together' => true, 'select' => false]];
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function tableName()
+    {
+        return 'EventRole';
+    }
 
-  /**
-   * @param bool $isBase
-   * @param bool $useAnd
-   * @return $this
-   */
-  public function byBase($base = true, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = (!$base ? 'NOT ' : '').'"t"."Base"';
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function primaryKey()
+    {
+        return 'Id';
+    }
+
+    public function relations()
+    {
+        return array(
+            'Participants' => array(self::HAS_MANY, 'event\models\Participant', 'RoleId')
+        );
+    }
+
+    /**
+     * @param int $eventId
+     * @param bool $useAnd
+     *
+     * @return $this
+     */
+    public function byEventId($eventId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"Participants"."EventId" = :EventId';
+        $criteria->params = ['EventId' => $eventId];
+        $criteria->with = ['Participants' => ['together' => true, 'select' => false]];
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * @param bool $isBase
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byBase($base = true, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = (!$base ? 'NOT ' : '').'"t"."Base"';
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
 
 
-  /**
-   * @return string[]
-   */
-  public function getTranslationFields()
-  {
-    return ['Title'];
-  }
+    /**
+     * @return string[]
+     */
+    public function getTranslationFields()
+    {
+        return ['Title'];
+    }
 }

@@ -6,6 +6,10 @@ use user\models\User;
 
 abstract class MailLayout extends Mail
 {
+    /**
+     * Имя шаблона письма
+     * @return string
+     */
     public function getLayoutName()
     {
         return Layout::OneColumn;
@@ -16,11 +20,18 @@ abstract class MailLayout extends Mail
      */
     abstract function getUser();
 
+    /**
+     * @inheritdoc
+     */
     public function isHtml()
     {
         return true;
     }
 
+    /**
+     * Отображать ссылку на отписку
+     * @return bool
+     */
     public function showUnsubscribeLink()
     {
         return true;
@@ -35,6 +46,7 @@ abstract class MailLayout extends Mail
     }
 
     /**
+     * Отображать footer письма
      * @return bool
      */
     public function showFooter()
@@ -42,6 +54,9 @@ abstract class MailLayout extends Mail
         return true;
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function renderBody($view, $params)
     {
         $controller = new MailController($this);

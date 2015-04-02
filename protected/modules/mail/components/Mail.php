@@ -1,6 +1,8 @@
 <?php
 namespace mail\components;
 
+use mail\models\Log;
+
 abstract class Mail
 {
     protected $mailer;
@@ -10,16 +12,19 @@ abstract class Mail
     }
 
     /**
+     * Отправитель
      * @return string
      */
     abstract public function getFrom();
 
     /**
+     * Получатель
      * @return string
      */
     abstract public function getTo();
 
     /**
+     * Имя получателя
      * @return string
      */
     public function getToName()
@@ -28,6 +33,7 @@ abstract class Mail
     }
 
     /**
+     * Имя отправителя
      * @return string
      */
     public function getFromName()
@@ -36,6 +42,7 @@ abstract class Mail
     }
 
     /**
+     * Тема письма
      * @return string
      */
     public function getSubject()
@@ -44,6 +51,7 @@ abstract class Mail
     }
 
     /**
+     * Отправлять письмо в HTML
      * @return bool
      */
     public function isHtml()
@@ -52,32 +60,37 @@ abstract class Mail
     }
 
     /**
+     * Тело письма
      * @return string
      */
     abstract public function getBody();
 
     /**
+     * Прилогаемые файлы
      * @return array
      */
     public function getAttachments()
     {
-        return array();
+        return [];
     }
 
+    /**
+     * Отправка письма
+     */
     public function send()
     {
-        if ($this->getBody() !== null && $this->getTo() !== null && ($this->getRepeat() || !$this->getIsHasLog()))
-        {
+        if ($this->getBody() !== null && $this->getTo() !== null && ($this->getRepeat() || !$this->getIsHasLog())) {
             $this->mailer->send($this);
         }
     }
 
     /**
+     * Проверка существования записи в логах
      * @return bool
      */
     public function getIsHasLog()
     {
-        return \mail\models\Log::model()->byHash($this->getHash())->exists();
+        return Log::model()->byHash($this->getHash())->exists();
     }
 
     /**
@@ -94,19 +107,20 @@ abstract class Mail
     }
 
     /**
+     * Возвращает хэш для письма письма
      * @return string
      */
     public function getHash()
     {
         $hash = md5(get_class($this).$this->getTo().$this->getSubject());
-        if ($this->getHashSolt() !== null)
-        {
+        if ($this->getHashSolt() !== null) {
             $hash .= $this->getHashSolt();
         }
         return $hash;
     }
 
     /**
+     * Соль для хэша письма
      * @return null|string
      */
     protected function getHashSolt()
@@ -115,6 +129,7 @@ abstract class Mail
     }
 
     /**
+     * Повторять письмо при возникновение события
      * @return bool
      */
     protected function getRepeat()
@@ -122,6 +137,11 @@ abstract class Mail
         return true;
     }
 
+    /**
+     * @param string $view
+     * @param array $params
+     * @return string
+     */
     protected function renderBody($view, $params)
     {
         $controller = new \CController('default', null);
@@ -129,6 +149,7 @@ abstract class Mail
     }
 
     /**
+     * Отправлять письмо в приоритете
      * @return bool
      */
     public function getIsPriority()
