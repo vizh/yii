@@ -87,8 +87,10 @@ return [
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>/<action:\w+>' => 'competence/event/<action>',
 
     /** OAuth Module */
+    'http://'. RUNETID_HOST.'/oauth/social/request/<social:\d+>' => 'oauth/social/request',
     'http://'.RUNETID_HOST.'/oauth/paypal/redirect' => 'oauth/paypal/redirect',
     '/oauth/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
+
 
 
     /** API Module Rules */
@@ -191,4 +193,5 @@ return [
 
 
     'http://'. RUNETID_HOST.'/<module:\w+>/exclusive/<controller:\w+>/<action:\w+>' => '<module>/exclusive/<controller>/<action>',
+
 ];
