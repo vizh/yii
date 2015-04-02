@@ -8,6 +8,7 @@ class Controller extends \application\components\controllers\BaseController
   const SelfId = 1;
 
   public $layout = '/layouts/oauth';
+  public $bodyId = null;
 
   /** @var \api\models\Account */
   protected $Account = null;
@@ -21,7 +22,7 @@ class Controller extends \application\components\controllers\BaseController
 
   protected function initResources()
   {
-    \Yii::app()->getClientScript()->registerPackage('runetid.bootstrap');
+    \Yii::app()->getClientScript()->registerPackage('runetid.bootstrap3');
     parent::initResources();
   }
 
@@ -83,9 +84,12 @@ class Controller extends \application\components\controllers\BaseController
     {
       $params['apikey'] = $this->apiKey;
     }
+    if (!empty($this->url)) {
+        $params['url'] = $this->url;
+    }
+
     $params = array_merge([
-      'url' => $this->url,
-      'social' => $this->social,
+      'social' => $this->social
     ], $params);
     if ($this->fast !== null)
     {
