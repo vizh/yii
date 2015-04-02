@@ -39,13 +39,7 @@ function fillOAuthUrls(oauth)
       <div class="span6 offset1">
         <div class="block">
           <div class="block_t">RUNET-ID</div>
-          <div class="row">
-            <div class="span4 offset1">
-              <div class="block_cnt">
                 <?=$content;?>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
