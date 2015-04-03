@@ -32,7 +32,7 @@ class EventController extends MainController
     protected function beforeAction($action)
     {
         $request = \Yii::app()->getRequest();
-        $this->event = Event::model()->byIdName($request->getParam('eventIdName'))->find();
+        $this->event = Event::model()->byIdName($request->getParam('eventIdName'))->byDeleted(false)->find();
         if ($this->event === null) {
             throw new \CHttpException(404);
         }
