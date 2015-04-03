@@ -118,6 +118,13 @@ class Controller extends \application\components\controllers\BaseController
 
     public function isFrame()
     {
-        return strpos(\Yii::app()->request->urlReferrer, 'frame') ? true : false;
+
+        if (strpos(\Yii::app()->request->urlReferrer, 'frame') or !strpos(\Yii::app()->request->urlReferrer, 'runet-id'))
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
