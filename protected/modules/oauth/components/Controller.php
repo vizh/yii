@@ -5,96 +5,119 @@ use api\models\Account;
 
 class Controller extends \application\components\controllers\BaseController
 {
-  const SelfId = 1;
+    const SelfId = 1;
 
-  public $layout = '/layouts/oauth';
-  public $bodyId = null;
+    public $layout = '/layouts/oauth';
+    public $bodyId = null;
 
-  /** @var \api\models\Account */
-  protected $Account = null;
+    /** @var \api\models\Account */
+    protected $Account = null;
 
-  protected $apiKey = null;
-  protected $referer = null;
-  protected $refererHash = null;
-  protected $url = null;
-  protected $social = null;
-  protected $fast = null;
+    protected $apiKey = null;
+    protected $referer = null;
+    protected $refererHash = null;
+    protected $url = null;
+    protected $social = null;
+    protected $fast = null;
 
-  protected function initResources()
-  {
-    \Yii::app()->getClientScript()->registerPackage('runetid.bootstrap3');
-    parent::initResources();
-  }
-
-
-  public function beforeAction($action)
-  {
-    \Yii::app()->disableOutputLoggers();
-    
-    
-    $url = \Yii::app()->request->getParam('url');
-    if ($url !== null)
+    protected function initResources()
     {
-      $urlParams = array();
-      parse_str(parse_url($url, PHP_URL_QUERY), $urlParams);
-      if (isset($urlParams['lang']) 
-        && in_array($urlParams['lang'], \Yii::app()->params['Languages']))
-      {
-        \Yii::app()->setLanguage($urlParams['lang']);
-      }
+        \Yii::app()->getClientScript()->registerPackage('runetid.bootstrap3');
+        parent::initResources();
     }
-    
-    
-    $langCookie = isset(\Yii::app()->getRequest()->cookies['lang']) ? \Yii::app()->getRequest()->cookies['lang']->value : null;
-    if ($langCookie !== null && in_array($langCookie, \Yii::app()->params['Languages']))
+
+    /**
+     * @param \CAction $action
+     * @return bool
+     * @throws \CHttpException
+     */
+
+    public function beforeAction($action)
     {
-      \Yii::app()->setLanguage($langCookie);
+        \Yii::app()->disableOutputLoggers();
+
+
+        $url = \Yii::app()->request->getParam('url');
+        if ($url !== null)
+        {
+            $urlParams = array();
+            parse_str(parse_url($url, PHP_URL_QUERY), $urlParams);
+            if (isset($urlParams['lang'])
+                && in_array($urlParams['lang'], \Yii::app()->params['Languages']))
+            {
+                \Yii::app()->setLanguage($urlParams['lang']);
+            }
+        }
+
+
+        $langCookie = isset(\Yii::app()->getRequest()->cookies['lang']) ? \Yii::app()->getRequest()->cookies['lang']->value : null;
+        if ($langCookie !== null && in_array($langCookie, \Yii::app()->params['Languages']))
+        {
+            \Yii::app()->setLanguage($langCookie);
+        }
+
+        $request = \Yii::app()->getRequest();
+        $this->apiKey = $request->getParam('apikey');
+        if ($this->apiKey !== null)
+        {
+            $account = Account::model()->byKey($this->apiKey)->find();
+        } else {
+            $account = Account::model()->findByPk(Account::SelfId);
+        }
+
+        $this->url = $request->getParam('url');
+        $this->social = $request->getParam('social');
+        $this->fast = $request->getParam('fast');
+
+        if ($account === null)
+        {
+            throw new \CHttpException(400, 'Не найден аккаунт внешнего агента');
+        }
+
+        if ($account->checkUrl($this->url)) {
+            $this->Account = $account;
+        } else {
+            throw new \CHttpException(400, 'Не корректно задан путь возврата' . $this->url);
+        }
+
+        return true;
     }
 
-    $request = \Yii::app()->getRequest();
-    $this->apiKey = $request->getParam('apikey');
-      if ($this->apiKey !== null)
-      {
-          $account = Account::model()->byKey($this->apiKey)->find();
-      } else {
-          $account = Account::model()->findByPk(Account::SelfId);
-      }
+    /**
+     * @param string $route
+     * @param array $params
+     * @param string $ampersand
+     * @return string
+     */
 
-    $this->url = $request->getParam('url');
-    $this->social = $request->getParam('social');
-    $this->fast = $request->getParam('fast');
-
-    if ($account === null)
+    public function createUrl($route, $params = [], $ampersand = '&')
     {
-      throw new \CHttpException(400, 'Не найден аккаунт внешнего агента');
+        if (!empty($this->apiKey))
+        {
+            $params['apikey'] = $this->apiKey;
+        }
+        if (!empty($this->url)) {
+            $params['url'] = $this->url;
+        }
+
+        $params = array_merge([
+            'social' => $this->social
+        ], $params);
+        if ($this->fast !== null)
+        {
+            $params['fast'] = $this->fast;
+        }
+        return parent::createUrl($route, $params, $ampersand);
     }
 
-      if ($account->checkUrl($this->url)) {
-          $this->Account = $account;
-      } else {
-          throw new \CHttpException(400, 'Не корректно задан путь возврата' . $this->url);
-      }
+    /**
+     * @return bool
+     *
+     * Проверка открыто окно во фрейме или нет
+     */
 
-    return true;
-  }
-
-  public function createUrl($route, $params = [], $ampersand = '&')
-  {
-    if (!empty($this->apiKey))
+    public function isFrame()
     {
-      $params['apikey'] = $this->apiKey;
+        return strpos(\Yii::app()->request->urlReferrer, 'frame') ? true : false;
     }
-    if (!empty($this->url)) {
-        $params['url'] = $this->url;
-    }
-
-    $params = array_merge([
-      'social' => $this->social
-    ], $params);
-    if ($this->fast !== null)
-    {
-      $params['fast'] = $this->fast;
-    }
-    return parent::createUrl($route, $params, $ampersand);
-  }
 }

@@ -9,6 +9,7 @@
   <fieldset>
     <legend><?=Yii::t('app', 'Регистрация');?></legend>
 
+    <?=CHtml::errorSummary($model, '<div class="alert alert-danger">', '</div>');?>
     <?if ($socialProxy !== null && $socialProxy->isHasAccess()):?>
       <div class="alert alert-warning">
         Не найдена связь с аккаунтом социальной сети <strong><?=$socialProxy->getSocialTitle();?></strong>. Она будет добавлена после регистрации или <a href="<?=$this->createUrl('/oauth/main/auth');?>">авторизации</a> в RUNET-ID.
@@ -38,7 +39,6 @@
     <div class="form-group <?=$model->hasErrors('Phone') ? 'error' : '';?>">
       <?=CHtml::activeTextField($model, 'Phone', array('class' => 'form-control', 'placeholder' => $model->getAttributeLabel('Phone')));?>
     </div>
-    <?=CHtml::errorSummary($model, '<div class="alert alert-error">', '</div>');?>
 
     <p class="muted agreement">Нажимая кнопку «<?=Yii::t('app', 'Зарегистрироваться');?>», я принимаю условия <a target="_blank"
             href="<?=Yii::app()->createUrl('/page/info/agreement');?>">Пользовательского соглашения</a> и даю своё согласие RUNET-ID на обработку моих персональных данных, в соответствии с Федеральным законом от 27.07.2006 года №152-ФЗ «О персональных данных»</p>

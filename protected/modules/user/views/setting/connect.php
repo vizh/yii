@@ -67,7 +67,7 @@
                       ref.parentNode.insertBefore(js, ref);
                     }(document));
                   </script>
-                  <a class="btn" href="#" id="fb_login"><i class="ico16 ico16_social ico16_social__facebook"></i> Facebook</a>
+                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Facebook,  'action' => 'connect'));?>" id="fb_login"><i class="ico16 ico16_social ico16_social__facebook"></i> Facebook</a>
                 <?endif;?>
               <?elseif ($socialId == \oauth\components\social\ISocial::Twitter):?>
                 <?if ($connect === null):?>

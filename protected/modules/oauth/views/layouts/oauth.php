@@ -34,9 +34,9 @@ function fillOAuthUrls(oauth)
 }
 </script>
 <section id="section" role="main">
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="span6 offset1">
+      <div class="col-sm-6 col-xs-12 col-sm-offset-3">
         <div class="block">
           <div class="block_t">RUNET-ID</div>
                 <?=$content;?>

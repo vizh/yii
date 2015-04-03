@@ -7,7 +7,7 @@ var ModalAuth = function()
 {
   this.modal = $('#ModalAuth');
   this.src = this.modal.data('src');
-  this.width = this.modal.data('width');
+  this.width = this.modal.data('width') - 20;
   this.height = this.modal.data('height');
 
   this.init();
@@ -20,9 +20,12 @@ ModalAuth.prototype.init = function()
   self.modal.on('show', function(){
     var top = $(window).scrollTop() + $(window).height() / 10;
     self.modal.css('top', parseInt(top)+'px');
+      self.modal.css('margin-left', '-' + (self.width  - 40) / 2 + 'px');
+
+      var prefix = getPrefix();
 
     var iframe = $('<iframe></iframe>');
-    iframe.attr('src', self.src);
+    iframe.attr('src', self.src + prefix + 'frame=true');
     iframe.attr('width', self.width);
     iframe.attr('height', self.height);
     iframe.attr('scrolling', 'no');
@@ -54,4 +57,15 @@ ModalAuth.prototype.iFrameResize = function(event)
   $(target).attr('height', target.contentWindow.document.body.offsetHeight);
 };
 
-
+function getPrefix()
+{
+    var url = location.search;
+    if (url.indexOf('?') != -1)
+    {
+        return '&';
+    }
+    else
+    {
+        return '?';
+    }
+}
