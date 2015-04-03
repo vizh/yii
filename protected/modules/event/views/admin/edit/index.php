@@ -1,7 +1,8 @@
 <?php
-
-/** @var $event \event\models\Event */
-
+/**
+ * @var \event\models\Event $event
+ * @var \event\models\forms\admin\Edit $form
+ */
 ?>
 
 <?=\CHtml::form('','POST',array('class' => 'form-horizontal', 'enctype' => 'multipart/form-data'));?>
@@ -142,6 +143,12 @@
                 <?=\CHtml::activeLabel($form, 'UnsubscribeNewUser', array('class' => 'control-label'));?>
                 <div class="controls">
                     <?=\CHtml::activeCheckBox($form, 'UnsubscribeNewUser');?>
+                </div>
+            </div>
+            <div class="control-group">
+                <?=\CHtml::activeLabel($form, 'NotSendRegisterMail', array('class' => 'control-label'));?>
+                <div class="controls">
+                    <?=\CHtml::activeCheckBox($form, 'NotSendRegisterMail');?>
                 </div>
             </div>
             <div class="control-group">
