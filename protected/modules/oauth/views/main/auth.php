@@ -46,8 +46,6 @@
 
 <?php echo CHtml::beginForm([], 'post', ['id'=>'authForm']);?>
   <fieldset>
-    <legend><?=Yii::t('app', 'Авторизация');?></legend>
-
     <p><?=Yii::t('app', 'Вы&nbsp;можете авторизоваться при помощи аккаунта RUNET-ID, если являетесь пользователем сервиса:');?></p>
 
     <?php echo CHtml::errorSummary($model, '<div class="alert alert-danger">', '</div>');?>
@@ -64,10 +62,16 @@
 
 
     <div class="checkbox">
-        <label class="checkbox clearfix muted">
-            <?=CHtml::activeCheckBox($model, 'RememberMe', array('uncheckValue' => null));?><?=$model->getAttributeLabel('RememberMe');?><br />
-            <a href="<?=$this->createUrl('/oauth/main/recover');?>" class=""><?=Yii::t('app', 'Восстановить пароль');?></a>
-        </label>
+        <div class = "row">
+
+            <div class="col-sm-6">
+                <label class="checkbox clearfix muted"><?=CHtml::activeCheckBox($model, 'RememberMe', array('uncheckValue' => null));?><?=$model->getAttributeLabel('RememberMe');?></label>
+            </div>
+            <div class="col-sm-6 text-right restore-password">
+                <a href="<?=$this->createUrl('/oauth/main/recover');?>" class=""><?=Yii::t('app', 'Восстановить пароль');?></a>
+            </div>
+
+        </div>
     </div>
 
 
@@ -78,12 +82,12 @@
 <hr>
 <div class="social">
   <p class="text-center"><?=Yii::t('app', 'Или вы&nbsp;можете авторизоваться при помощи учетных записей социальных сетей:');?></p>
-  <div class="text-center" >
-    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Facebook));?>" id="fb_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__facebook"></i>&nbsp;Facebook</a>
-    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Twitter));?>" id="twi_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__twitter"></i>&nbsp;Twitter</a>
-    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Vkontakte));?>" id="vk_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__vkontakte"></i>&nbsp;<?=Yii::t('app', 'Вконтакте');?></a>
-    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Google));?>" id="g_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__google"></i>&nbsp;Google</a>
-    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::PayPal));?>" id="pp_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__paypal"></i>&nbsp;PayPal</a>
+  <div class="text-center social_btn" >
+    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Facebook));?>" id="fb_login" class="btn social_btn"><i class="fa fa-facebook-official"></i></a>
+    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Twitter));?>" id="twi_login" class="btn social_btn"><i class="fa fa-twitter-square"></i></a>
+    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Vkontakte));?>" id="vk_login" class="btn social_btn"><i class="fa fa-vk"></i></a>
+    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Google));?>" id="g_login" class="btn social_btn"><i class="fa fa-google-plus-square"></i></a>
+    <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::PayPal));?>" id="pp_login" class="btn social_btn"><i class="fa fa-paypal"></i></a>
     <!--<a href="#" id="viadeo_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__google"></i>&nbsp;Viadeo</a>-->
   </div>
 </div>

@@ -38,8 +38,7 @@ class Controller extends \application\components\controllers\BaseController
 
 
         $url = \Yii::app()->request->getParam('url');
-        if ($url !== null)
-        {
+        if ($url !== null){
             $urlParams = array();
             parse_str(parse_url($url, PHP_URL_QUERY), $urlParams);
             if (isset($urlParams['lang'])
@@ -51,15 +50,13 @@ class Controller extends \application\components\controllers\BaseController
 
 
         $langCookie = isset(\Yii::app()->getRequest()->cookies['lang']) ? \Yii::app()->getRequest()->cookies['lang']->value : null;
-        if ($langCookie !== null && in_array($langCookie, \Yii::app()->params['Languages']))
-        {
+        if ($langCookie !== null && in_array($langCookie, \Yii::app()->params['Languages'])){
             \Yii::app()->setLanguage($langCookie);
         }
 
         $request = \Yii::app()->getRequest();
         $this->apiKey = $request->getParam('apikey');
-        if ($this->apiKey !== null)
-        {
+        if ($this->apiKey !== null){
             $account = Account::model()->byKey($this->apiKey)->find();
         } else {
             $account = Account::model()->findByPk(Account::SelfId);
@@ -69,8 +66,7 @@ class Controller extends \application\components\controllers\BaseController
         $this->social = $request->getParam('social');
         $this->fast = $request->getParam('fast');
 
-        if ($account === null)
-        {
+        if ($account === null){
             throw new \CHttpException(400, 'Не найден аккаунт внешнего агента');
         }
 
@@ -92,8 +88,7 @@ class Controller extends \application\components\controllers\BaseController
 
     public function createUrl($route, $params = [], $ampersand = '&')
     {
-        if (!empty($this->apiKey))
-        {
+        if (!empty($this->apiKey)){
             $params['apikey'] = $this->apiKey;
         }
         if (!empty($this->url)) {
@@ -103,8 +98,7 @@ class Controller extends \application\components\controllers\BaseController
         $params = array_merge([
             'social' => $this->social
         ], $params);
-        if ($this->fast !== null)
-        {
+        if ($this->fast !== null){
             $params['fast'] = $this->fast;
         }
         return parent::createUrl($route, $params, $ampersand);
@@ -118,9 +112,8 @@ class Controller extends \application\components\controllers\BaseController
 
     public function isFrame()
     {
-
-        if (strpos(\Yii::app()->request->urlReferrer, 'frame') or !strpos(\Yii::app()->request->urlReferrer, 'runet-id'))
-        {
+        $request = \Yii::app()->request->urlReferrer;
+        if (strpos($request, 'frame') || !strpos($request, 'runet-id')){
             return true;
         }
         else {
