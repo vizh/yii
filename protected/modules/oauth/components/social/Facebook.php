@@ -35,10 +35,21 @@ class Facebook implements ISocial
         $this->redirectLoginHelper = new FacebookRedirectLoginHelper($redirectUrl);
     }
 
+    /**
+     * @return string
+     */
+
     public function getOAuthUrl()
     {
         return $this->redirectLoginHelper->getLoginUrl();
     }
+
+    /**
+     * @return bool
+     * @throws \CHttpException
+     *
+     * Проверка доступа
+     */
 
     public function isHasAccess()
     {
@@ -73,6 +84,10 @@ class Facebook implements ISocial
     {
         \Yii::app()->getSession()->remove(static::SESSION_TOKEN_NAME);
     }
+
+    /**
+     * @return Data
+     */
 
     public function getData()
     {

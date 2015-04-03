@@ -8,12 +8,12 @@ if ($address == null)
   return;
 }
 $address->setLocale('ru');
-$width = !$this->event->FullWidth ? 218 : 940;
+$width = !$this->event->FullWidth ? '218px' : '100%';
 ?>
 
 <div class="location">
   <h5 style="z-index: 100;" class="title"><?=Yii::t('app', 'Место проведения');?></h5>
-  <div id="ymaps-map-id_13401960168727002685" style="width: <?=$width;?>px; height: 340px;"></div>
+  <div id="ymaps-map-id_13401960168727002685" style="width: <?=$width;?>; height: 340px;"></div>
 </div>
 <script type="text/javascript">
 function fid_13401960168727002685(ymaps) {

@@ -497,6 +497,8 @@ class OrderItem extends \CActiveRecord
                 $paidTime = $this->PaidTime !== null ? $this->PaidTime : date('Y-m-d H:i:s');
                 $this->loyaltyDiscount = LoyaltyProgramDiscount::model()
                     ->byActual($paidTime)->byEventId($this->Product->EventId)->byProductId($this->ProductId)->find();
+            } else {
+                $this->loyaltyDiscount = null;
             }
         }
         return $this->loyaltyDiscount;

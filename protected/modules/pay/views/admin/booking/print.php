@@ -242,9 +242,9 @@ use application\components\utility\Texts;
           <td style="border: 1px solid #000;  padding: 5px;">1</td>
           <td style="border: 1px solid #000;  padding: 5px;">Услуги по участию представителей Заказчика в конференции "РИФ+КИБ 2015", проходящей в период с 21 апреля 2015 года по 24 апреля 2015 года по адресу Московская область, Одинцовский район, поселок Горки-10, согласно Договору № <?=$order->Number;?> от <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy г', $order->CreationTime);?>.</td>
           <td style="border: 1px solid #000;  padding: 5px; text-align: center;">усл.</td>
-          <td style="border: 1px solid #000;  padding: 5px; text-align: center;"><?=sizeof($order->Bookings);?></td>
-          <td style="border: 1px solid #000;  padding: 5px; text-align: center; white-space: nowrap;"><?=number_format($total, 2, ',', ' ');?></td>
-          <td style="border: 1px solid #000;  padding: 5px; text-align: right; white-space: nowrap;"><?=number_format($total, 2, ',', ' ');?></td>
+          <td style="border: 1px solid #000;  padding: 5px; text-align: center;">1</td>
+          <td style="border: 1px solid #000;  padding: 5px; text-align: center; white-space: nowrap;"><?=number_format($total-$nds, 2, ',', ' ');?></td>
+          <td style="border: 1px solid #000;  padding: 5px; text-align: right; white-space: nowrap;"><?=number_format($total-$nds, 2, ',', ' ');?></td>
       </tr>
 
       <tr>

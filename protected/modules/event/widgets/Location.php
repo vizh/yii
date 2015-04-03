@@ -6,7 +6,7 @@ class Location extends \event\components\Widget
 
   public function run()
   {
-    $this->render('location', array());
+    $this->render('location', []);
   }
 
   /**

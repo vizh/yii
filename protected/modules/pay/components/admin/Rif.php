@@ -19,7 +19,7 @@ class Rif
   {
     if (self::$db == null)
     {
-      self::$db = new \CDbConnection('mysql:host=109.234.156.202;dbname=rif2014', 'rif2014', 'eipahgoo9PeetieN');
+      self::$db = new \CDbConnection('mysql:host=109.234.156.202;dbname=rif2015', 'rif2015', 'we9ichailu8Xeet2');
     }
     return self::$db;
   }
