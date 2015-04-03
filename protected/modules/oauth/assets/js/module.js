@@ -25,11 +25,15 @@ OAuthModule.prototype.init = function()
   var self = this;
 
   $('#fb_login').on('click', function(e){
-
+      if (isUserEditAction())
+      {
+          e.preventDefault();
+          self.twiLogin($(e.currentTarget).attr('href'));
+      }
   });
 
   $('#twi_login').on('click', function(e){
-      if (isFrame())
+      if (isFrame() || isUserEditAction() )
       {
           e.preventDefault();
           self.twiLogin($(e.currentTarget).attr('href'));
@@ -37,11 +41,15 @@ OAuthModule.prototype.init = function()
   });
 
   $('#vk_login').on('click', function(e){
-
+      if (isUserEditAction())
+      {
+          e.preventDefault();
+          self.twiLogin($(e.currentTarget).attr('href'));
+      }
   });
 
   $('#pp_login').on('click', function(e){
-      if (isFrame())
+      if (isFrame() || isUserEditAction())
       {
           e.preventDefault();
           self.twiLogin($(e.currentTarget).attr('href'));
@@ -49,7 +57,7 @@ OAuthModule.prototype.init = function()
   });
   
   $('#g_login').on('click', function (e) {
-      if (isFrame())
+      if (isFrame() || isUserEditAction())
       {
           e.preventDefault();
           self.twiLogin($(e.currentTarget).attr('href'));
@@ -182,4 +190,17 @@ function isFrame()
             if (tmp[0] === 'frame') result = true;
         });
     return result;
+}
+
+function isUserEditAction()
+{
+    var url = location.search;
+    if (url.indexOf('user/setting/connect') != -1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

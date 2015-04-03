@@ -3,49 +3,63 @@
 
 class SocialController extends \oauth\components\Controller
 {
-  public function actionRequest()
-  {
-    $socialProxy = new \oauth\components\social\Proxy($this->social);
-    if ($socialProxy->isHasAccess())
+
+    /**
+     * @throws CException
+     * @throws CHttpException
+     */
+
+    public function actionRequest()
     {
-      $data = $socialProxy->getData();
-      $social = $socialProxy->getSocial($data->Hash);
-      if (!empty($social))
-      {
-        $identity = new \application\components\auth\identity\RunetId($social->User->RunetId);
-        $identity->authenticate();
-        if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
+        $socialProxy = new \oauth\components\social\Proxy($this->social);
+        if ($socialProxy->isHasAccess())
         {
-          \Yii::app()->user->login($identity, $identity->GetExpire());
+            $data = $socialProxy->getData();
+            $social = $socialProxy->getSocial($data->Hash);
+            if (!empty($social))
+            {
+                $identity = new \application\components\auth\identity\RunetId($social->User->RunetId);
+                $identity->authenticate();
+                if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
+                {
+                    \Yii::app()->user->login($identity, $identity->GetExpire());
+                }
+                else
+                {
+                    throw new CHttpException(400);
+                }
+                $this->redirect($this->createUrl('/oauth/main/dialog'));
+            }
+            else
+            {
+                $this->redirect($this->createUrl('/oauth/main/register'));
+            }
         }
         else
         {
-          throw new CHttpException(400);
+            $this->redirect($socialProxy->getOAuthUrl());
         }
-        $this->redirect($this->createUrl('/oauth/main/dialog'));
-      }
-      else
-      {
-        $this->redirect($this->createUrl('/oauth/main/register'));
-      }
     }
-    else
-    {
-      $this->redirect($socialProxy->getOAuthUrl());
-    }
-  }
 
-  public function actionConnect()
-  {
-    $socialProxy = new \oauth\components\social\Proxy($this->social);
-    if ($socialProxy->isHasAccess())
+    /**
+     * @throws CHttpException
+     */
+
+    public function actionConnect()
     {
-      $socialProxy->renderScript();
+        $socialProxy = new \oauth\components\social\Proxy($this->social);
+        if ($socialProxy->isHasAccess())
+        {
+            if ($this->isFrame()) {
+                $socialProxy->renderScript();
+            }
+            else {
+                $this->actionRequest();
+            }
+        }
+        else
+        {
+            $this->redirect($socialProxy->getOAuthUrl());
+        }
     }
-    else
-    {
-      //echo $socialProxy->getOAuthUrl();
-      $this->redirect($socialProxy->getOAuthUrl());
-    }
-  }
 }
