@@ -49,7 +49,7 @@
 <div class="user-account">
 <div class="clearfix">
   <div class="container">
-    <div class="b-card">
+    <div class="b-card"  itemscope="" itemtype="http://schema.org/Person">
       <h5 class="b-header_small medium">
         <span class="backing">Runet</span>
         <span class="backing">ID</span>
@@ -64,12 +64,13 @@
               <b class="id"><?=$user->RunetId;?></b>
               <header>
                 <h4 class="title">
-                  <?=$user->getShortName();?><br><span class="family-name"><?=$user->LastName;?></span>
+                    <span itemprop="givenName"><?=$user->FirstName;?></span> <span itemprop="additionalName"><?=$user->FatherName;?></span>
+                  <br><span class="family-name" itemprop="familyName"><?=$user->LastName;?></span>
                 </h4>
                 <?php $age = $user->getBirthDate();?>
                 <?if ($age > 0 || $user->LinkAddress !== null):?>
                   <small class="muted">
-                    <?if ($age > 0):?><?=\Yii::t('app', 'День рождения');?> <?=$age;?>,<?endif;?>
+                    <?if ($age > 0):?><?=\Yii::t('app', 'День рождения');?> <span itemprop="birthDate" datetime="<?= $user->Birthday?>"><?=$age;?></span>,<?endif;?>
                     <?if ($user->getContactAddress() !== null && $user->getContactAddress()->City !== null):?><?=$user->getContactAddress()->City->Name;?><?endif;?>
                   </small>
                 <?endif;?>
@@ -79,7 +80,7 @@
                 <div class="b-job">
                   <header>
                     <h6 class="title company">
-                      <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $primaryEmployment->Company->Id));?>">
+                      <a href="<?=$this->createUrl('/company/view/index', array('companyId' => $primaryEmployment->Company->Id));?>" itemprop="affiliation">
                         <?=$primaryEmployment->Company->Name;?>
                       </a>
                     </h6>
@@ -129,10 +130,10 @@
                       <?$startYear = $employments[sizeof($employments)-1]->StartYear;?>
                       <dt><?=$startYear;?></dt>
                       <dd>
-                        <h6 class="b-career_company"><a href="<?=$employments[0]->Company->getUrl();?>"><?=$employments[0]->Company->Name;?></a></h6>
+                        <h6 class="b-career_company"><a href="<?=$employments[0]->Company->getUrl();?>" itemprop="memberOf"><?=$employments[0]->Company->Name;?></a></h6>
                         <?foreach ($employments as $employment):?>
                           <?if (!empty($employment->Position)):?>
-                            <p class="b-career_post"><?=$employment->Position;?></p>
+                            <p class="b-career_post"  itemprop="jobTitle"><?=$employment->Position;?></p>
                             <?if (($interval = $employment->getWorkingInterval()) !== null):?>
                               <p class="b-career_length muted"><small>
                                   <?if ($interval->Years > 0):?>

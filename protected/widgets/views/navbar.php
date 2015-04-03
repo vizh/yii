@@ -1,3 +1,7 @@
+<?php
+Yii::import('ext.MobileDetect.MobileDetect');
+$device = Yii::app()->mobileDetect;
+?>
 <div class="navbar-inner">
   <?$this->widget('\application\widgets\AlertPhoneVerify');?>
   <div class="container">
@@ -11,7 +15,11 @@
       <li class="item"><a href="<?=Yii::app()->createUrl('/ecosystems');?>"><?=Yii::t('app', 'Экосистемы');?></a></li>
       <li class="divider-vertical"></li>
       <?if (Yii::app()->user->getCurrentUser() === null):?>
-        <li class="login"><a id="NavbarLogin" href="#"><?=Yii::t('app', 'Войти');?> / <?=Yii::t('app', 'Зарегистрироваться');?></a></li>
+        <?if (!$device->isMobile()): ?>
+          <li class="login"><a id="NavbarLogin" href="#"><?=Yii::t('app', 'Войти');?> / <?=Yii::t('app', 'Зарегистрироваться');?></a></li>
+        <?else:?>
+              <li class="login"><a href="<?=Yii::app()->createUrl('/oauth/main/login');?>"><?=Yii::t('app', 'Войти');?> / <?=Yii::t('app', 'Зарегистрироваться');?></a></li>
+        <?endif;?>
       <?else:?>
         <li class="account dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -48,4 +56,3 @@
     </ul>
   </div>
 </div>
-

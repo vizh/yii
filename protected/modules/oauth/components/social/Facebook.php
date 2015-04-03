@@ -1,87 +1,120 @@
 <?php
+
 namespace oauth\components\social;
+
+use Facebook\FacebookSession;
+use Facebook\FacebookRedirectLoginHelper;
+use Facebook\FacebookRequest;
+use Facebook\FacebookResponse;
+use Facebook\FacebookSDKException;
+use Facebook\FacebookRequestException;
+use Facebook\FacebookAuthorizationException;
+use Facebook\GraphObject;
+use Facebook\Entities\AccessToken;
+use Facebook\HttpClients\FacebookCurlHttpClient;
+use Facebook\HttpClients\FacebookHttpable;
 
 class Facebook implements ISocial
 {
-  const AppId = 201234113248910;
-  const Secret = '102257e6ef534fb163c7d1e7e31ffca7';
+    const AppId = 201234113248910;
+    const Secret = '102257e6ef534fb163c7d1e7e31ffca7';
 
+    const SESSION_TOKEN_NAME = 'fb_access_token';
 
-  /** @var \Facebook */
-  protected $connection = null;
+    private $redirectLoginHelper;
 
+    /** @var \Facebook */
+    protected $connection = null;
 
-  public function getConnection()
-  {
-    if ($this->connection == null)
+    public function __construct($redirectUrl = null)
     {
-      $this->connection = new \Facebook(array(
-        'appId' => self::AppId,
-        'secret' => self::Secret,
-        'cookie' => true
-      ));
+        if ($redirectUrl === null) {
+            $redirectUrl = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/request');
+        }
+        FacebookSession::setDefaultApplication(static::AppId,static::Secret);
+        $this->redirectLoginHelper = new FacebookRedirectLoginHelper($redirectUrl);
     }
 
-    return $this->connection;
-  }
-
-  public function getOAuthUrl()
-  {
-    return $this->getConnection()->getLoginUrl(array('scope' => 'email'));
-  }
-
-  public function isHasAccess()
-  {
-    $user = $this->getConnection()->getUser();
-    return !empty($user);
-  }
-
-  public function getData()
-  {
-    if ($this->isHasAccess())
+    public function getOAuthUrl()
     {
-      $user_profile = $this->getConnection()->api('/me');
-      $data = new Data();
-
-      $data->Hash = $user_profile['id'];
-      $data->UserName = $user_profile['username'];
-
-      $data->LastName = $user_profile['last_name'];
-      $data->FirstName = $user_profile['first_name'];
-      $data->Email = $user_profile['email'];
-      return $data;
+        return $this->redirectLoginHelper->getLoginUrl();
     }
-    else
+
+    public function isHasAccess()
     {
-      return new Data();
+        $token = $this->getAccessToken();
+        if (empty($token)) {
+            try {
+                $session = $this->redirectLoginHelper->getSessionFromRedirect();
+            } catch(FacebookRequestException $ex) {
+                throw new \CHttpException(400, 'Сервис авторизации FB не отвечает'.$ex);
+            } catch(\Exception $ex) {
+                throw new \CHttpException(400, 'Сервис авторизации FB не отвечает'.$ex);
+            }
+            if ($session) {
+                \Yii::app()->getSession()->add(static::SESSION_TOKEN_NAME, $session->getToken());
+            }
+        }
+        return !empty($token);
     }
-  }
 
-  public function getSocialId()
-  {
-    return self::Facebook;
-  }
+    /**
+     * @return mixed
+     */
+    protected function getAccessToken()
+    {
+        return \Yii::app()->getSession()->get(static::SESSION_TOKEN_NAME, null);
+    }
 
-  /**
-   * @return void
-   */
-  public function renderScript()
-  {
-    //empty for FB
-  }
+    /**
+     *  remove token
+     */
+    public function clearAccess()
+    {
+        \Yii::app()->getSession()->remove(static::SESSION_TOKEN_NAME);
+    }
 
-  /**
-   * @return string
-   */
-  public function getSocialTitle()
-  {
-    return 'Facebook';
-  }
-  
-  public function clearAccess()
-  {
-    ;
-  }
+    public function getData()
+    {
+        $session = new FacebookSession($this->getAccessToken());
+        if ($session)
+        {
+            $request = new FacebookRequest($session, 'GET', '/me');
+            $response = $request->execute();
+            $graphObject = $response->getGraphObject();
+            $data = new Data();
+            $data->Hash = $graphObject->getProperty('id');
+            $data->UserName = $graphObject->getProperty('name');
+            $data->LastName = $graphObject->getProperty('last_name');
+            $data->FirstName = $graphObject->getProperty('first_name');
+            $data->Email = $graphObject->getProperty('email');
+            return $data;
+        }
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getSocialId()
+    {
+        return self::Facebook;
+    }
+
+    /**
+     * @return void
+     */
+    public function renderScript()
+    {
+        //empty for FB
+    }
+
+    /**
+     * @return string
+     */
+    public function getSocialTitle()
+    {
+        return 'Facebook';
+    }
 }
 
-require dirname(__FILE__) . '/facebook/facebook.php';
