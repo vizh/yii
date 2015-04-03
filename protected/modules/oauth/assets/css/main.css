@@ -1,0 +1,8 @@
+.row form{
+    width:90%;
+    margin:0 auto;
+}
+
+.container-fluid{
+    min-width:250px;
+}
