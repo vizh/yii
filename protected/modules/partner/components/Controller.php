@@ -44,7 +44,7 @@ class Controller extends \application\components\controllers\BaseController
 
   public function initResources()
   {
-    \Yii::app()->getClientScript()->registerPackage('runetid.partner');
+    \Yii::app()->getClientScript()->registerPackage('pixel-admin');
     parent::initResources();
   }
 
