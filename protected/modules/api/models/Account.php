@@ -154,6 +154,7 @@ class Account extends \CActiveRecord
     public function checkUrl($url)
     {
         $host = parse_url($url, PHP_URL_HOST);
+        $path = parse_url($url, PHP_URL_PATH);
 
         if ($this->Id === self::SelfId && (empty($url) || empty($host))) {
             return true;
@@ -162,7 +163,13 @@ class Account extends \CActiveRecord
         }
 
         foreach ($this->Domains as $domain) {
-            if ($domain->Domain[0] === '*') {
+            if ($path === '/widget/pay/auth/') {
+                $query = parse_url($url, PHP_URL_QUERY);
+                if (stripos($query, $domain->Domain) !== false) {
+                    return true;
+                }
+            }
+            elseif ($domain->Domain[0] === '*') {
                 $needle = substr($domain->Domain, 2);
                 if (stripos($host, $needle) !== false) {
                     return true;
