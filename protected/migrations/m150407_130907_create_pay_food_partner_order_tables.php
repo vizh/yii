@@ -41,7 +41,7 @@ class m150407_130907_create_pay_food_partner_order_tables extends CDbMigration
             'Count' => 'integer DEFAULT 0',
             'CreationTime' => 'timestamp DEFAULT (\'now\'::text)::timestamp(0) without time zone',
         ]);
-        $this->addForeignKey('PayFoodPartnerOrderItem_ProductId_fkey', 'PayFoodPartnerOrderItem', 'ProductId', 'Product', 'Id', 'RESTRICT', 'RESTRICT');
+        $this->addForeignKey('PayFoodPartnerOrderItem_ProductId_fkey', 'PayFoodPartnerOrderItem', 'ProductId', 'PayProduct', 'Id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('PayFoodPartnerOrderItem_OrderId_fkey', 'PayFoodPartnerOrderItem', 'OrderId', 'PayFoodPartnerOrder', 'Id', 'RESTRICT', 'RESTRICT');
         return true;
 	}

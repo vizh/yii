@@ -135,6 +135,9 @@ class PartnerFoodOrder extends BasePartnerOrder
     public static function getFoodProductData()
     {
         $data = [
+            '2015-04-21' => [
+                3682 => 'Ужин'
+            ],
             '2015-04-22' => [
                 3634 => 'Завтрак',
                 3635 => 'Обед',

@@ -143,8 +143,8 @@ class PartnerAction extends \CAction
     private function getFoodOrders()
     {
         $criteria = new \CDbCriteria();
-        //$criteria->addCondition('"Product"."EventId" = :EventId');
-        //$criteria->params['EventId'] = \Yii::app()->params['AdminBookingEventId'];
+        $criteria->addCondition('"Product"."EventId" = :EventId');
+        $criteria->params['EventId'] = \Yii::app()->params['AdminBookingEventId'];
         $foodOrders = FoodPartnerOrder::model()->byOwner($this->owner)->byDeleted(false)->orderBy('"t"."Id"')->with(['Items.Product'])->findAll($criteria);
         return $foodOrders;
     }
