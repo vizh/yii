@@ -13,7 +13,7 @@ class Proxy implements ISocial
     switch ($socialName)
     {
       case ISocial::Facebook:
-        $this->social = new Facebook();
+        $this->social = new Facebook($redirectUrl);
         break;
       case ISocial::Twitter:
         $this->social = new Twitter();
