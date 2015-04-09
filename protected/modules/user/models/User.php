@@ -555,6 +555,24 @@ class User extends \application\models\translation\ActiveRecord
     }
 
     /**
+     * Возращает номер телефона пользователя
+     * @return null|string
+     */
+    public function getPhone()
+    {
+        if (!empty($this->PrimaryPhone)) {
+            return $this->PrimaryPhone;
+        } else {
+            $phone = $this->getContactPhone();
+            if ($phone !== null) {
+                return $phone->Phone;
+            }
+        }
+        return null;
+    }
+
+
+    /**
      * @param string $type
      * @return \contact\models\Phone|null
      */
