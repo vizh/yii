@@ -62,6 +62,10 @@ function getPrefix()
     var url = location.search;
     if (url.indexOf('?') != -1)
     {
+	if (window.location.hostname.indexOf('runet-id') != -1)
+	{
+		return '?';
+	}
         return '&';
     }
     else
