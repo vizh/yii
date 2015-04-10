@@ -57,7 +57,7 @@ class Education extends \CActiveRecord
     }
 
     /**
-     * 
+     *
      */
     protected function afterSave()
     {

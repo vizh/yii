@@ -42,7 +42,7 @@ class Education extends \user\models\forms\edit\Base
     {
         $cityId = intval($cityId);
         if ($cityId === 0) {
-            $this->addError('CityName', 'Необходимо выбрать город из выпадающего списка.');
+            $this->addError('CityName', 'Необходимо выбрать город.');
         } elseif (City::model()->findByPk($cityId) === null) {
             $this->addError('CityName', 'Указанный город не найден.');
         }
@@ -60,7 +60,7 @@ class Education extends \user\models\forms\edit\Base
         $this->UniversityName = Texts::clear($this->UniversityName);
 
         if ($this->UniversityId === 0 && empty($this->UniversityName)) {
-            $this->addError('UniversityName', 'Необходимо выбрать ВУЗ из выпадающего списка или заполнить поле своим значением.');
+            $this->addError('UniversityName', 'Необходимо выбрать ВУЗ из списка или указать свой.');
         } elseif ($this->UniversityId !== 0) {
             $university = University::model()->findByPk($this->UniversityId);
             if ($university === null) {
@@ -99,7 +99,7 @@ class Education extends \user\models\forms\edit\Base
         if ($this->EndYear !== null) {
             $this->EndYear = intval($this->EndYear);
             if ($this->EndYear === 0) {
-                $this->addError('EndYear', 'Необходимо выбрать год окончания ВУЗа или отметить "продолжаю учиться".');
+                $this->addError('EndYear', 'Необходимо указать год выпуска.');
             }
         }
     }
