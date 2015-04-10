@@ -26,6 +26,7 @@ namespace pay\models;
  * @method \pay\models\Product find($condition='',$params=array())
  * @method \pay\models\Product findByPk($pk,$condition='',$params=array())
  * @method \pay\models\Product[] findAll($condition='',$params=array())
+ * @method Product byId(int $id)
  *
  */
 class Product extends \application\models\translation\ActiveRecord

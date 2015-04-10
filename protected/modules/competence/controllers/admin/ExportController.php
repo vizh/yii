@@ -131,7 +131,7 @@ class ExportController extends \application\components\controllers\AdminMainCont
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Company->Name : ''));
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Position : ''));
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6, $row, $user->Email);
-            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(7, $row, $user->PrimaryPhone);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(7, $row, $user->getPhone());
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(8, $row, $result->UpdateTime);
 
             $col = 9;

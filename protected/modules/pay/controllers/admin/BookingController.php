@@ -5,6 +5,8 @@ use pay\models\forms\admin\PartnerOrder as PartnerOrderForm;
 use pay\models\RoomPartnerOrder;
 use \pay\models\search\admin\booking\Partners as PartnersSearch;
 use pay\models\RoomPartnerBooking;
+use pay\models\forms\admin\PartnerFoodOrder as PartnerFoodOrderForm;
+use pay\models\FoodPartnerOrder;
 
 class BookingController extends \application\components\controllers\AdminMainController
 {
@@ -49,7 +51,6 @@ class BookingController extends \application\components\controllers\AdminMainCon
                 $this->renderPartial('print', ['order' => $order, 'owner' => $owner]);
                 \Yii::app()->end();
             }
-
         }
 
         $form = new PartnerOrderForm($owner, $order);
@@ -89,5 +90,45 @@ class BookingController extends \application\components\controllers\AdminMainCon
     {
         $search = new PartnersSearch();
         $this->render('partners', ['search' => $search]);
+    }
+
+
+    /**
+     * Выставление счета на питание
+     * @param string|null $owner
+     * @param int|null $id
+     * @param int|null $print
+     * @throws CException
+     * @throws CHttpException
+     */
+    public function actionOrderFood($owner = null, $id = null, $print = null)
+    {
+        $request = \Yii::app()->getRequest();
+
+        $order = null;
+
+        if ($id !== null) {
+            $order = FoodPartnerOrder::model()->byDeleted(false)->findByPk($id);
+            if ($order === null || $order->Owner !== $owner) {
+                throw new \CHttpException(404);
+            }
+
+            if ($print !== null) {
+                $this->renderPartial('print-food', ['order' => $order, 'owner' => $owner]);
+                \Yii::app()->end();
+            }
+        }
+
+        $form = new PartnerFoodOrderForm($owner, $order);
+        if ($request->getIsPostRequest()) {
+            $form->fillFromPost();
+            $result = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
+            if ($result !== null) {
+                Flash::setSuccess(\Yii::t('app', 'Счет усешно сохранен'));
+                $this->redirect(['orderfood', 'owner' => $form->getActiveRecord()->Owner, 'id' => $form->getActiveRecord()->Id]);
+            }
+        }
+
+        $this->render('order-food', ['form' => $form, 'order' => $order]);
     }
 } 

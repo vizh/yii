@@ -110,4 +110,15 @@ class City extends \application\models\translation\ActiveRecord
         }
         return $result . $this->Name;
     }
+
+    /**
+     * Увеличивает приоритет города
+     */
+    public function incrementPriority()
+    {
+        $this->Priority = $this->Priority + 1;
+        if (!$this->getIsNewRecord()) {
+            $this->save();
+        }
+    }
 }

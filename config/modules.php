@@ -1,6 +1,6 @@
 <?php
 
-return [
+$modules = [
   /**
    * Список модулей, используемых основным приложением
    * Модулт отдельных приложений объявляются в своих файлах (api, partner, ruvents)
@@ -33,3 +33,11 @@ return [
     'mytest',
     'mail'
 ];
+
+if (YII_DEBUG) {
+    $modules['gii'] = [
+        'class' => 'system.gii.GiiModule',
+        'password' => '123456'
+    ];
+}
+return $modules;

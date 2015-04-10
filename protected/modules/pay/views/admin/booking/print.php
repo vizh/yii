@@ -167,8 +167,8 @@ use application\components\utility\Texts;
                 </p>
             </td>
             <td style="vertical-align: bottom;">
-                <img src="/img/pay/bill/booking/stamp.png" style="position: absolute; margin: 10px 0 0 -30px; z-index: 2;"/>
-                <img src="/img/pay/bill/booking/sign.png" style="position: absolute; margin: 25px 0 0 10px; z-index: 1;"/>
+                <img src="/img/pay/bill/booking/stamp.png" style="position: absolute; margin: 5px 0 0 -30px; z-index: 2;image-resolution: 150dpi;"/>
+                <img src="/img/pay/bill/booking/sign.png" style="position: absolute; margin: 10px 0 0 10px; z-index: 1;image-resolution: 150dpi;"/>
                 <p>
                     Директор:<br/><br/>
                     _____________________ / Гребенников С.В./<br/>
@@ -268,6 +268,6 @@ use application\components\utility\Texts;
       <?=mb_substr($stringTotal, 0, 1).mb_substr(mb_strtolower($stringTotal), 1);?> <?=Yii::t('app', 'рубль| рубля|рублей|рубля', $total);?> 00 копеек
   </p>
 
-  <img src="/img/pay/bill/imh.jpg" style="margin-left: -10px;">
+  <img src="/img/pay/bill/imh.jpg" style="margin-left: -10px;image-resolution: 150dpi;">
 </BODY>
 </HTML>
