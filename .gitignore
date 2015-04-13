@@ -11,3 +11,4 @@ composer.phar
 vendor
 composer.lock
 protected/modules/event/views/mail/register/rif14/
+www/img/event/rif15/ticket/car_rendered/
