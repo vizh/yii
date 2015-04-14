@@ -18,13 +18,11 @@ class DeleteFavoriteAction extends \api\components\Action
     if ($section->EventId != $this->getEvent()->Id)
       throw new \api\components\Exception(311);
 
-    $favorite = \event\models\section\Favorite::model()
-      ->byUserId($user->Id)->bySectionId($section->Id)->byDeleted(false)->find();
+    $favorite = \event\models\section\Favorite::model()->byUserId($user->Id)->bySectionId($section->Id)->byDeleted(false)->find();
     if ($favorite !== null) {
         $favorite->Deleted = true;
         $favorite->save();
     }
-      $favorite->delete();
 
     $this->setResult(['Success' => true]);
   }
