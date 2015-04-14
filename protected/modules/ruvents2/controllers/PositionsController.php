@@ -4,7 +4,9 @@ namespace ruvents2\controllers;
 use application\components\helpers\ArrayHelper;
 use pay\models\OrderItem;
 use pay\models\OrderType;
+use pay\models\Product;
 use ruvents2\components\Controller;
+use pay\components\admin\Rif;
 
 class PositionsController extends Controller
 {
@@ -15,20 +17,65 @@ class PositionsController extends Controller
         $limit = intval($limit);
         $limit = $limit > 0 ? min($limit, self::MAX_LIMIT) : self::MAX_LIMIT;
         $criteria = $this->getCriteria($since, $limit);
-        $positions = OrderItem::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
+        $positions = OrderItem::model()->byEventId($this->getEvent()->Id)->byPaid(true)->with(['Owner', 'ChangedOwner'])->findAll($criteria);
         $result = [];
         foreach ($positions as $position) {
             $result[] = $this->getPositionData($position);
         }
 
+        // TODO: костыль для РИФ15
+        if ($this->getEvent()->IdName == 'rif15') {
+            $result = $this->modifyPositionsForRif15($result);
+        }
+
         $nextSince = count($positions) == $limit ? $positions[$limit-1]->CreationTime : null;
         $hasMore = $nextSince !== null;
         $this->renderJson([
-            'Badges' => $result,
+            'Positions' => $result,
             'HasMore' => $hasMore,
             'NextSince' => $nextSince
         ]);
     }
+
+
+    /**
+     * @param $positions
+     * @return array
+     */
+    private function modifyPositionsForRif15($positions)
+    {
+        $foodMap = [
+            Rif::HOTEL_LD => [
+                3634 => 3771,
+                3637 => 3772,
+                3640 => 3773
+            ],
+            Rif::HOTEL_N => [
+                3634 => 3774,
+                3637 => 3775,
+                3640 => 3776
+            ],
+            Rif::HOTEL_P => [
+                3634 => 3768,
+                3637 => 3769,
+                3640 => 3770
+            ]
+        ];
+
+        $result = [];
+        foreach ($positions as $key => $position) {
+            if (in_array($position['ProductId'], [3634,3637,3640])) {
+                $hotel = Rif::getUserHotel($position['ProductId']);
+                if ($hotel === null) {
+                    $hotel = Rif::HOTEL_P;
+                }
+                $position['ProductId'] = $foodMap[$hotel][$position['ProductId']];
+            }
+            $result[$key] = $position;
+        }
+        return $positions;
+    }
+
 
     /**
      * @param string $since
@@ -59,6 +106,8 @@ class PositionsController extends Controller
         $data = ArrayHelper::toArray($position, ['pay\models\OrderItem' => [
             'Id', 'ProductId', 'Paid', 'PaidTime', 'UpdateTime'
         ]]);
+
+        $data['UserId'] = $position->ChangedOwner == null ? $position->Owner->RunetId : $position->ChangedOwner->RunetId;
 
         $couponActivation = $position->getCouponActivation();
 

@@ -15,6 +15,9 @@ class Exception extends \CException
     const INVALID_OPERATOR_EVENT = 104;
     const INVALID_PARAM = 110;
     const INVALID_PARAMS = 111;
+    const INVALID_CHECK_TIME = 121;
+    const INVALID_PRODUCT_ID = 131;
+
 
     const NEW_PARTICIPANT_EMPTY_STATUS = 201;
     const INVALID_PARTICIPANT_ID = 202;
@@ -34,6 +37,7 @@ class Exception extends \CException
             static::INVALID_OPERATOR_EVENT => 'Оператор с Id %s относится к другому мероприятию',
             static::INVALID_PARAM => 'Задан неверный параметр %s. %s',
             static::INVALID_PARAMS => "Неверно заданы следующие параметры: %s",
+            static::INVALID_PRODUCT_ID => "Не найден товар с ID: %s",
 
             static::NEW_PARTICIPANT_EMPTY_STATUS => 'Для нового участника статус на мероприятии не может быть пустым',
             static::INVALID_PARTICIPANT_ID => 'Не найден участник с ID: %s',

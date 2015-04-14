@@ -16,6 +16,7 @@ namespace pay\models;
  * @property string $AdditionalAttributesTitle
  * @property string $OrderTitle
  * @property string $GroupName
+ * @property bool $VisibleForRuvents
  *
  * @property \event\models\Event $Event
  * @property ProductAttribute[] $Attributes
@@ -27,6 +28,7 @@ namespace pay\models;
  * @method \pay\models\Product findByPk($pk,$condition='',$params=array())
  * @method \pay\models\Product[] findAll($condition='',$params=array())
  * @method Product byId(int $id)
+ * @method Product byVisibleForRuvents(bool $visible)
  *
  */
 class Product extends \application\models\translation\ActiveRecord

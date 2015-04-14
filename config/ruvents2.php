@@ -8,7 +8,6 @@ return [
         ],
         'urlManager' => [
             'rules' => [
-
                 ['ruvents2/event/index', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/event', 'verb' => 'GET'],
                 ['ruvents2/event/<action>', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/event/<action:\w+>', 'verb' => 'GET'],
 
@@ -24,6 +23,10 @@ return [
                 ['ruvents2/badges/create', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/badges', 'verb' => 'POST'],
 
                 ['ruvents2/positions/list', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/positions', 'verb' => 'GET'],
+
+
+                ['ruvents2/products/checks', 'pattern' => 'http://ruvents2.' . RUNETID_HOST . '/products/<id:\d+>/checks', 'verb' => 'GET'],
+                ['ruvents2/products/check', 'pattern' => 'http://ruvents2.' . RUNETID_HOST . '/products/<id:\d+>/checks', 'verb' => 'POST'],
 
                 ['ruvents2/utility/ping', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/utility/ping', 'verb' => 'GET'],
                 'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/' => 'ruvents2/not/found',

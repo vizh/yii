@@ -57,6 +57,14 @@ return [
         'actions' => ['list']
     ],
 
+    /** Products */
+    [
+        'allow',
+        'roles' => [Role::SERVER],
+        'controllers' => ['products'],
+        'actions' => ['checks', 'check']
+    ],
+
     [
         'deny',
         'users' => ['*']

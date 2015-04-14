@@ -45,7 +45,7 @@ class EventController extends Controller
 
     public function actionProducts()
     {
-        $products = Product::model()->byEventId($this->getEvent()->Id)->findAll();
+        $products = Product::model()->byEventId($this->getEvent()->Id)->byVisibleForRuvents(true)->findAll();
         $result = [];
         foreach ($products as $product) {
             $result[] = ArrayHelper::toArray($product, ['pay\models\Product' => [
