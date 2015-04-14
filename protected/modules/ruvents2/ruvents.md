@@ -889,18 +889,90 @@ X-Ruvents-Operator: {Id}
             }
 
 
-## Выдача товаров [/products/{Id}/checks]
+## Выданные товары [/products/{Id}/checks{?since,limit}]
+
+### GET
+
++ Parameters
+    + Id (integer) ... ID выдаваемого товара.
+    + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены обновленные позднее этой даты товары.
+    + limit (optional, integer) ... Количество возвращаемых оплаченных товаров. Может быть ограничено сверху внутренними настройками API.
+    
++ Response 200
+    
+    + Body
+
+            {
+                "Checks": [
+                    {
+                        "Id": 6,
+                        "CheckTime": "2015-04-14 17:52:19",
+                        "CreationTime": "2015-04-14 18:52:19",
+                        "UserId": 321                    
+                    },
+                    {
+                        "Id": 7,
+                        "CheckTime": "2015-04-14 17:53:20",
+                        "CreationTime": "2015-04-14 18:53:20",
+                        "UserId": 454                    
+                    },
+                ],
+                "HasMore": true,
+                "NextSince": "2015-04-14 18:53:20" 
+            }
+            
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Checks" : {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Id": { "type": "integer" },
+                                    "CheckTime": { "type": "string" },
+                                    "CreationTime": { "type": "string" },
+                                    "UserId": { "type": "integer" }
+                                },
+                                "required": ["Id", "CheckTime", "CreationTime", "UserId"]
+                            }
+                        }
+                    },
+                    "HasMore": {"type": "boolean"},
+                    "NextSince": {"type": "string"}
+                }
+            }
 
 
-### Список [GET]
+## Выдача товаров [/products/{Id}/checks{UserId,CheckTime}]
 
-<span style="color: #ff0000;">Не реализовано</span>
+### POST
 
++ Parameters
+    + Id (integer) ... ID выдаваемого товара.
+    + UserId (integer) ... ID пользователя, который получает товар
+    + CheckTime (string) ...  Дата в формате ```Y-m-d H:i:s```. Даьа и время проверки на устройстве
 
-### Выдача [POST]
++ Response 200
 
-<span style="color: #ff0000;">Не реализовано</span>
+    + Body
 
+            {
+                "Id": 10
+            }
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Id": { "type": "integer" }
+                },
+                "required": ["Id"]
+            }
 
 # Group Утилиты
 
