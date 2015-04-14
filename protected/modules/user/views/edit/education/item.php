@@ -2,21 +2,19 @@
 /**
  * @var Educations $form
  */
-
 use education\models\Degree;
 use user\models\forms\edit\Educations;
-
 $degrees = array_merge(['' => 'Выберите степень'], Degree::getAll())
 ?>
 
 <script type="text/template" id="education-item-tpl">
     <div class="user-career-item">
         <%if(typeof Errors != "undefined"){%>
-        <div class="alert alert-error errorSummary"></div>
+            <div class="alert alert-error errorSummary"></div>
         <%}%>
         <div class="form-row">
             <?=\CHtml::activeLabel($form, 'CityName');?>
-            <input type="text" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][CityName]');?>" value="" class="span5"/>
+            <input type="text" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][CityName]');?>" value="" class="span5" placeholder="<?=\Yii::t('app', 'Не выбран');?>" data-default-source='<?=$form->getCityDefaultSource();?>'/>
             <input type="hidden" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][CityId]');?>" value=""/>
         </div>
         <div class="form-row">

@@ -219,7 +219,7 @@ class CArray {
 					if (is_array($val))
 					{
 						// Arrays are merged recursively
-						$result[$key] = arr::merge($result[$key], $val);
+						$result[$key] = static::merge($result[$key], $val);
 					}
 					elseif (is_int($key))
 					{
@@ -313,4 +313,21 @@ class CArray {
 		return $object;
 	}
 
+    /**
+     * Преорразуется массив любой вложенности в список
+     * @param array $array
+     * @return array
+     */
+    public static function to_list(array $array)
+    {
+        $result = [];
+        foreach ($array as $value) {
+            if (is_array($value)) {
+                $result = array_merge($result, self::to_list($value));
+            } else {
+                $result[] = $value;
+            }
+        }
+        return $result;
+    }
 } // End arr

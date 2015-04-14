@@ -13,7 +13,6 @@ class TicketController extends application\components\controllers\PublicMainCont
         if ($event == null || $user == null || !$this->checkHash($event, $user, $hash))
             throw new \CHttpException(404);
 
-
         $class = \Yii::getExistClass('event\components\tickets', ucfirst($event->IdName), 'Ticket');
         /** @var \event\components\tickets\Ticket $ticket */
         $ticket = new $class($event, $user);

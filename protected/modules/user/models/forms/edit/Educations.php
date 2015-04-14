@@ -2,6 +2,7 @@
 namespace user\models\forms\edit;
 
 use application\components\helpers\ArrayHelper;
+use geo2\models\City;
 
 class Educations extends \user\models\forms\edit\Base
 {
@@ -93,5 +94,18 @@ class Educations extends \user\models\forms\edit\Base
             $range[$i] = $i;
         }
         return $range;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCityDefaultSource()
+    {
+        $cities = City::model()->limit(10)->orderBy(['"t"."Priority"' => SORT_DESC])->findAll();
+        $source = [];
+        foreach ($cities as $city) {
+            $source[] = $city->getAjaxAttributes();
+        }
+        return json_encode($source);
     }
 }
