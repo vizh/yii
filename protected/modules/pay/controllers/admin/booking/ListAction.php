@@ -4,20 +4,15 @@ namespace pay\controllers\admin\booking;
 class ListAction extends \CAction
 {
     private $hotel = null;
-    private $list = [];
+    protected $list = [];
     public function run()
     {
-
         $this->hotel = \Yii::app()->getRequest()->getParam('hotel', \pay\components\admin\Rif::HOTEL_P);
-
-        $partnerBooking = $this->partnerBooking($this->list, $this->hotel);
-        $rifBooking = $this->rifBooking($this->list);
-        $mainBooking = $this->mainBooking($this->list, $this->hotel);
-
-        $result = array_merge($partnerBooking, $rifBooking, $mainBooking);
-
-        usort($result, [$this, 'sort']);
-        $this->getController()->render('list', ['list' => $result, 'hotel' => $this->hotel]);
+        $this->partnerBooking($this->hotel);
+        $this->mainBooking($this->hotel);
+        $this->rifBooking();
+        usort($this->list, [$this, 'sort']);
+        $this->getController()->render('list', ['list' => $this->list, 'hotel' => $this->hotel]);
 
     }
 
@@ -44,7 +39,7 @@ class ListAction extends \CAction
      * @return array
      */
 
-    private function partnerBooking($list, $hotel)
+    private function partnerBooking($hotel)
     {
         $bookings = \pay\models\RoomPartnerBooking::model()->findAll();
         foreach ($bookings as $booking)
@@ -61,12 +56,12 @@ class ListAction extends \CAction
                         $item->UserName = $name;
                         $item->Housing = $manager->Housing;
                         $item->Number = $manager->Number;
-                        $list[] = $item;
+                        $this->list[] = $item;
                     }
                 }
             }
         }
-        return $list;
+        return $this->list;
     }
 
     /**
@@ -74,22 +69,22 @@ class ListAction extends \CAction
      * @return array
      */
 
-    private function rifBooking($list)
+    private function rifBooking()
     {
         $command = \pay\components\admin\Rif::getDb()->createCommand();
         $together = $command->select('*')->from('ext_booked_person_together')->queryAll();
         foreach ($together as $row)
         {
-            if (array_key_exists($row['ownerRunetId'], $list))
+            if (array_key_exists($row['ownerRunetId'], $this->list))
             {
                 $item = new ListItem();
                 $item->UserName = $row['userName'];
-                $item->Housing = $list[$row['ownerRunetId']]->Housing;
-                $item->Number = $list[$row['ownerRunetId']]->Number;
-                $list[] = $item;
+                $item->Housing = $this->list[$row['ownerRunetId']]->Housing;
+                $item->Number = $this->list[$row['ownerRunetId']]->Number;
+                $this->list[] = $item;
             }
         }
-        return $list;
+        return $this->list;
     }
 
     /**
@@ -98,7 +93,7 @@ class ListAction extends \CAction
      * @return array
      */
 
-    private function mainBooking($list, $hotel)
+    private function mainBooking($hotel)
     {
         $criteria = new \CDbCriteria();
         $criteria->with = ['Product.Attributes', 'Owner.Settings'];
@@ -113,10 +108,10 @@ class ListAction extends \CAction
                 $item->UserName = $orderItem->Owner->getFullName();
                 $item->Housing = $manager->Housing;
                 $item->Number = $manager->Number;
-                $list[] = $item;
+                $this->list[$orderItem->Owner->RunetId] = $item;
             }
         }
-        return $list;
+        return $this->list;
     }
 }
 
