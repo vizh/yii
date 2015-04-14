@@ -1,6 +1,13 @@
 <?php
 namespace pay\controllers\admin\booking;
 
+use pay\models\RoomPartnerBooking;
+use pay\components\admin\Rif;
+use event\models\Participant;
+use pay\models\OrderItem;
+use user\models\User;
+use pay\models\TmpRifParking;
+use \pay\models\forms\admin\TmpRifParking as TmpRifParkingForm;
 
 /**
  * Class ParkingAction
@@ -19,7 +26,7 @@ class ParkingAction extends \CAction
     $this->initParticipants();
     $this->initLocalTable();
 
-    $this->form = new \pay\models\forms\admin\TmpRifParking();
+    $this->form = new TmpRifParkingForm();
 
     $this->processAjaxAction();
 
@@ -29,9 +36,7 @@ class ParkingAction extends \CAction
 
   private function initPartner()
   {
-    $criteria = new \CDbCriteria();
-    $criteria->order = '"t"."Id" ASC';
-    $bookings = \pay\models\RoomPartnerBooking::model()->findAll($criteria);
+    $bookings = RoomPartnerBooking::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->findAll();
     /** @var \pay\models\RoomPartnerBooking $booking */
     foreach ($bookings as $booking)
     {
@@ -54,12 +59,12 @@ class ParkingAction extends \CAction
 
   private function initParticipants()
   {
-    $command = \pay\components\admin\Rif::getDb()->createCommand();
+    $command = Rif::getDb()->createCommand();
     $command->select('*')->from('ext_booked_parking')->order('id ASC');
     $result = $command->queryAll();
     foreach ($result as $row)
     {
-      $user = \user\models\User::model()->byRunetId($row['ownerRunetId'])->find();
+      $user = User::model()->byRunetId($row['ownerRunetId'])->find();
       if ($user !== null)
       {
         $item = new ParkingItem();
@@ -67,22 +72,22 @@ class ParkingAction extends \CAction
         $item->Brand  = $row['brand'];
         $item->Model  = $row['model'];
 
-        $participant = \event\models\Participant::model()->byUserId($user->Id)->byEventId(\Yii::app()->params['AdminBookingEventId'])->find();
+        $participant = Participant::model()->byUserId($user->Id)->byEventId(\Yii::app()->params['AdminBookingEventId'])->find();
         if ($participant == null)
           continue;
 
         if ($participant->RoleId == 3)
         {
           $item->Status = ParkingItem::STATUS_REPORTER;
-          $item->Dates  = $this->getDateList('2013-04-23', '2013-04-25');
-          $item->Hotel  = \pay\components\admin\Rif::HOTEL_P;
+          $item->Dates  = $this->getDateList(date('Y').'-04-22', date('Y').'-04-24');
+          $item->Hotel  = Rif::HOTEL_P;
         }
         else
         {
           $criteria = new \CDbCriteria();
           $criteria->addCondition('"Product"."ManagerName" = :ManagerName');
           $criteria->params['ManagerName'] = 'RoomProductManager';
-          $orderItem = \pay\models\OrderItem::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->byPaid(true)->byAnyOwnerId($user->Id)->find($criteria);
+          $orderItem = OrderItem::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->byPaid(true)->byAnyOwnerId($user->Id)->find($criteria);
           if ($orderItem == null)
             continue;
 
@@ -98,9 +103,7 @@ class ParkingAction extends \CAction
 
   private function initLocalTable()
   {
-    $criteria = new \CDbCriteria();
-    $criteria->order = '"t"."Id" ASC';
-    $parking = \pay\models\TmpRifParking::model()->findAll($criteria);
+    $parking = TmpRifParking::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->findAll();
     /** @var \pay\models\TmpRifParking $model */
     foreach ($parking as $model)
     {
@@ -131,9 +134,6 @@ class ParkingAction extends \CAction
     }
   }
 
-  /**
-   *
-   */
   private function processAjaxActionAddParking()
   {
     $result = new \stdClass();
@@ -141,7 +141,7 @@ class ParkingAction extends \CAction
     $this->form->attributes = $request->getParam(get_class($this->form));
     if ($this->form->validate())
     {
-      $parking = new \pay\models\TmpRifParking();
+      $parking = new TmpRifParking();
       $parking->Brand   = $this->form->Brand;
       $parking->Model   = $this->form->Model;
       $parking->Number  = $this->form->Number;
@@ -149,6 +149,7 @@ class ParkingAction extends \CAction
       $parking->DateIn  = \Yii::app()->getDateFormatter()->format('yyyy-MM-dd', $this->form->DateIn);
       $parking->DateOut = \Yii::app()->getDateFormatter()->format('yyyy-MM-dd', $this->form->DateOut);
       $parking->Status  = $this->form->Status;
+      $parking->EventId  = \Yii::app()->params['AdminBookingEventId'];
       $parking->save();
       $result->success = true;
     }
@@ -159,7 +160,11 @@ class ParkingAction extends \CAction
     return $result;
   }
 
-
+  /**
+   * @param $dateIn
+   * @param $dateOut
+   * @return array
+   */
 
   private function getDateList($dateIn, $dateOut)
   {
@@ -189,6 +194,7 @@ class ParkingItem
   public $Status;
   public $Hotel;
   public $Dates = [];
+  public $EventId;
 
   public static function getStatusTitleList()
   {

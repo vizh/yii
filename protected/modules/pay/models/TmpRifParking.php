@@ -1,5 +1,8 @@
 <?php
+
 namespace pay\models;
+
+use application\components\ActiveRecord;
 
 /**
  * Class TmpRifParking
@@ -12,8 +15,10 @@ namespace pay\models;
  * @property string $DateIn
  * @property string $DateOut
  * @property string $Status
+ *
+ * @method \pay\models\TmpRifParking byEventId()
  */
-class TmpRifParking extends \CActiveRecord
+class TmpRifParking extends ActiveRecord
 {
   /**
    * @param string $className

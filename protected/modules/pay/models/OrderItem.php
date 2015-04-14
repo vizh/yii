@@ -27,7 +27,7 @@ use pay\components\MessageException;
  *
  * @method \pay\models\OrderItem findByPk()
  * @method \pay\models\OrderItem find()
- * @method \pay\models\OrderItem[] findAll()
+ * @method \pay\models\OrderItem findAll()
  */
 class OrderItem extends \CActiveRecord
 {

@@ -1,13 +1,17 @@
 <?php
 namespace pay\controllers\admin\booking;
 
+use pay\models\RoomPartnerBooking;
+use pay\models\OrderItem;
+use pay\components\admin\Rif;
+
 class ListAction extends \CAction
 {
     private $hotel = null;
     protected $list = [];
     public function run()
     {
-        $this->hotel = \Yii::app()->getRequest()->getParam('hotel', \pay\components\admin\Rif::HOTEL_P);
+        $this->hotel = \Yii::app()->getRequest()->getParam('hotel', Rif::HOTEL_P);
         $this->partnerBooking($this->hotel);
         $this->mainBooking($this->hotel);
         $this->rifBooking();
@@ -41,7 +45,7 @@ class ListAction extends \CAction
 
     private function partnerBooking($hotel)
     {
-        $bookings = \pay\models\RoomPartnerBooking::model()->findAll();
+        $bookings = RoomPartnerBooking::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->findAll();
         foreach ($bookings as $booking)
         {
             $manager = $booking->Product->getManager();
@@ -71,7 +75,7 @@ class ListAction extends \CAction
 
     private function rifBooking()
     {
-        $command = \pay\components\admin\Rif::getDb()->createCommand();
+        $command = Rif::getDb()->createCommand();
         $together = $command->select('*')->from('ext_booked_person_together')->queryAll();
         foreach ($together as $row)
         {
@@ -98,7 +102,7 @@ class ListAction extends \CAction
         $criteria = new \CDbCriteria();
         $criteria->with = ['Product.Attributes', 'Owner.Settings'];
         $criteria->addCondition('"Product"."ManagerName" = \'RoomProductManager\'');
-        $orderItems = \pay\models\OrderItem::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->byPaid(true)->findAll($criteria);
+        $orderItems = OrderItem::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->byPaid(true)->findAll($criteria);
         foreach ($orderItems as $orderItem)
         {
             $manager = $orderItem->Product->getManager();
