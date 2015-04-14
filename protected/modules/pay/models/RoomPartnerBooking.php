@@ -25,6 +25,9 @@ use application\components\ActiveRecord;
  * @method RoomPartnerBooking byDeleted(boolean $deleted)
  * @method RoomPartnerBooking[] findAll()
  *
+ * @method RoomPartnerBooking byProductId(int $productId)
+ * @method RoomPartnerBooking byOwner(string $owner)
+ *
  */
 class RoomPartnerBooking extends ActiveRecord
 {
@@ -57,32 +60,20 @@ class RoomPartnerBooking extends ActiveRecord
     }
 
     /**
-     * @param int $productId
+     * @param int $eventId
      * @param bool $useAnd
      * @return $this
      */
-    public function byProductId($productId, $useAnd = true)
+    public function byEventId($eventId, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."ProductId" = :ProductId';
-        $criteria->params = ['ProductId' => $productId];
+        $criteria->with = ['Product'];
+        $criteria->condition = '"Product"."EventId" = :EventId';
+        $criteria->params = ['EventId' => $eventId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }
 
-    /**
-     * @param string $owner
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byOwner($owner, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Owner" = :Owner';
-        $criteria->params = ['Owner' => $owner];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
 
     /**
      * @param bool $hasOrder
@@ -99,8 +90,7 @@ class RoomPartnerBooking extends ActiveRecord
 
     public function deleteHard()
     {
-        if ($this->Paid || $this->Deleted)
-        {
+        if ($this->Paid || $this->Deleted){
             return false;
         }
 

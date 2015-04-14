@@ -9,8 +9,8 @@ CPayAdminBookingParking.prototype = {
   'init' : function () {
     var self = this;
     self.$form.find('input[name*="DateIn"], input[name*="DateOut"]').datepicker({
-      'minDate' : new Date(2014, 3, 23),
-      'maxDate' : new Date(2014, 3, 25)
+      'minDate' : new Date(2015, 3, 22),
+      'maxDate' : new Date(2015, 3, 24)
     });
 
     self.$form.submit(function () {

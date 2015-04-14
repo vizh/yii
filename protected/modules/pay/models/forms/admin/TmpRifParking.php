@@ -47,7 +47,6 @@ class TmpRifParking extends \CFormModel
       \pay\components\admin\Rif::HOTEL_P  => \pay\components\admin\Rif::HOTEL_P,
       \pay\components\admin\Rif::HOTEL_LD => \pay\components\admin\Rif::HOTEL_LD,
       \pay\components\admin\Rif::HOTEL_N  => \pay\components\admin\Rif::HOTEL_N,
-      \pay\components\admin\Rif::HOTEL_S  => \pay\components\admin\Rif::HOTEL_S
     ];
   }
 
