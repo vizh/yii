@@ -41,16 +41,25 @@ class OrderItem extends \CActiveRecord
         return parent::model($className);
     }
 
+    /**
+     * @return string
+     */
     public function tableName()
     {
         return 'PayOrderItem';
     }
 
+    /**
+     * @return string
+     */
     public function primaryKey()
     {
         return 'Id';
     }
 
+    /**
+     * @return array
+     */
     public function relations()
     {
         return array(
@@ -65,6 +74,11 @@ class OrderItem extends \CActiveRecord
         );
     }
 
+    /**
+     * @param $name
+     * @return null|string
+     * @throws MessageException
+     */
     public function getItemAttribute($name)
     {
         if ($this->getIsNewRecord()) {
@@ -78,24 +92,25 @@ class OrderItem extends \CActiveRecord
         }
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @throws MessageException
+     */
     public function setItemAttribute($name, $value)
     {
-        if ($this->getIsNewRecord())
-        {
+        if ($this->getIsNewRecord()){
             throw new MessageException('Заказ еще не сохранен.');
         }
-        if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames()))
-        {
+        if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames())){
             $attributes = $this->getOrderItemAttributes();
-            if (!isset($attributes[$name]))
-            {
+            if (!isset($attributes[$name])){
                 $attribute = new \pay\models\OrderItemAttribute();
                 $attribute->OrderItemId = $this->Id;
                 $attribute->Name = $name;
                 $this->orderItemAttributes[$name] = $attribute;
             }
-            else
-            {
+            else{
                 $attribute = $attributes[$name];
             }
             $attribute->Value = $value;
@@ -115,11 +130,9 @@ class OrderItem extends \CActiveRecord
      */
     public function getOrderItemAttributes()
     {
-        if ($this->orderItemAttributes === null)
-        {
+        if ($this->orderItemAttributes === null){
             $this->orderItemAttributes = array();
-            foreach ($this->Attributes as $attribute)
-            {
+            foreach ($this->Attributes as $attribute){
                 $this->orderItemAttributes[$attribute->Name] = $attribute;
             }
         }
@@ -178,13 +191,11 @@ class OrderItem extends \CActiveRecord
     public function byChangedOwnerId($userId, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        if ($userId !== null)
-        {
+        if ($userId !== null){
             $criteria->condition = '"t"."ChangedOwnerId" = :ChangedOwnerId';
             $criteria->params = array('ChangedOwnerId' => $userId);
         }
-        else
-        {
+        else{
             $criteria->condition = '"t"."ChangedOwnerId" IS NULL';
         }
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
@@ -207,7 +218,6 @@ class OrderItem extends \CActiveRecord
         return $this;
     }
 
-
     /**
      * @param int $eventId
      * @param bool $useAnd
@@ -225,7 +235,7 @@ class OrderItem extends \CActiveRecord
 
     /**
      * @param bool $paid
-     * @param bool $useAnd
+     * @param bool $useAnds
      * @return OrderItem
      */
     public function byPaid($paid, $useAnd = true)
@@ -260,12 +270,10 @@ class OrderItem extends \CActiveRecord
     public function byBooked($booked = true, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        if ($booked)
-        {
+        if ($booked){
             $criteria->condition = '"t"."Booked" IS NULL OR "t"."Booked" > :Booked';
         }
-        else
-        {
+        else{
             $criteria->condition = '"t"."Booked" IS NOT NULL AND "t"."Booked" < :Booked';
         }
         $criteria->params = array('Booked' => date('Y-m-d H:i:s'));
@@ -284,32 +292,26 @@ class OrderItem extends \CActiveRecord
      */
     public function getCouponActivation()
     {
-        if (!$this->Product->EnableCoupon && !$this->Paid)
-        {
+        if (!$this->Product->EnableCoupon && !$this->Paid){
             return null;
         }
-        if ($this->couponActivation === null && !$this->couponTrySet)
-        {
+        if ($this->couponActivation === null && !$this->couponTrySet){
             $this->couponTrySet = true;
-            if (!$this->Paid)
-            {
+            if (!$this->Paid){
                 /** @var $activation CouponActivation */
                 $activation = CouponActivation::model()
                     ->byUserId($this->OwnerId)
                     ->byEventId($this->Product->EventId)
                     ->byEmptyLinkOrderItem()->find();
-                if ($activation !== null)
-                {
+                if ($activation !== null){
                     $rightProduct = $activation->Coupon->getIsForProduct($this->ProductId);
                     $rightTime = $this->PaidTime === null || $this->PaidTime >= $activation->CreationTime;
-                    if ($rightProduct && $rightTime)
-                    {
+                    if ($rightProduct && $rightTime){
                         $this->couponActivation = $activation;
                     }
                 }
             }
-            else
-            {
+            else{
                 $this->couponActivation = $this->CouponActivationLink !== null ? $this->CouponActivationLink->CouponActivation : null;
             }
         }
@@ -331,6 +333,9 @@ class OrderItem extends \CActiveRecord
         return $result;
     }
 
+    /**
+     * @return bool
+     */
     public function check()
     {
         $owner = $this->ChangedOwnerId == null ? $this->Owner : $this->ChangedOwner;
@@ -353,8 +358,7 @@ class OrderItem extends \CActiveRecord
     public function changeOwner(\user\models\User $newOwner)
     {
         $fromOwner = empty($this->ChangedOwner) ? $this->Owner : $this->ChangedOwner;
-        if ($this->Product->getManager()->changeOwner($fromOwner, $newOwner))
-        {
+        if ($this->Product->getManager()->changeOwner($fromOwner, $newOwner)){
             $this->ChangedOwnerId = $newOwner->Id;
             $this->save();
             return true;
@@ -380,13 +384,11 @@ class OrderItem extends \CActiveRecord
     public function getPriceDiscount()
     {
         $price = $this->getPrice();
-        if ($price === null)
-        {
+        if ($price === null){
             throw new MessageException('Не удалось определить цену продукта!');
         }
 
-        if ($this->Product->ManagerName != 'Ticket')
-        {
+        if ($this->Product->ManagerName != 'Ticket'){
             $discount = 0;
             $activation = $this->getCouponActivation();
             if ($activation !== null)
@@ -408,20 +410,20 @@ class OrderItem extends \CActiveRecord
      */
     public function getPaidOrder()
     {
-        if (!$this->Paid)
-        {
+        if (!$this->Paid){
             return null;
         }
-        foreach ($this->OrderLinks as $link)
-        {
-            if ($link->Order->Paid)
-            {
+        foreach ($this->OrderLinks as $link){
+            if ($link->Order->Paid){
                 return $link->Order;
             }
         }
         return null;
     }
 
+    /**
+     * @return bool
+     */
     protected function beforeSave()
     {
         $this->UpdateTime = date('Y-m-d H:i:s');
@@ -429,19 +431,19 @@ class OrderItem extends \CActiveRecord
     }
 
 
+    /**
+     * @return bool
+     */
     public function delete()
     {
-        if ($this->Paid || $this->Deleted)
-        {
+        if ($this->Paid || $this->Deleted){
             return false;
         }
 
         /** @var $links OrderLinkOrderItem[] */
         $links = $this->OrderLinks(array('with' => array('Order')));
-        foreach ($links as $link)
-        {
-            if (OrderType::getIsLong($link->Order->Type) && !$link->Order->Deleted)
-            {
+        foreach ($links as $link){
+            if (OrderType::getIsLong($link->Order->Type) && !$link->Order->Deleted){
                 return false;
             }
         }
@@ -453,10 +455,12 @@ class OrderItem extends \CActiveRecord
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function deleteHard()
     {
-        if ($this->Paid || $this->Deleted)
-        {
+        if ($this->Paid || $this->Deleted){
             return false;
         }
 

@@ -90,8 +90,7 @@ class RoomPartnerBooking extends ActiveRecord
 
     public function deleteHard()
     {
-        if ($this->Paid || $this->Deleted)
-        {
+        if ($this->Paid || $this->Deleted){
             return false;
         }
 

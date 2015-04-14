@@ -9,6 +9,7 @@ class ListAction extends \CAction
 {
     private $hotel = null;
     protected $list = [];
+
     public function run()
     {
         $this->hotel = \Yii::app()->getRequest()->getParam('hotel', Rif::HOTEL_P);
@@ -17,7 +18,6 @@ class ListAction extends \CAction
         $this->rifBooking();
         usort($this->list, [$this, 'sort']);
         $this->getController()->render('list', ['list' => $this->list, 'hotel' => $this->hotel]);
-
     }
 
     /**
@@ -46,16 +46,12 @@ class ListAction extends \CAction
     private function partnerBooking($hotel)
     {
         $bookings = RoomPartnerBooking::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->findAll();
-        foreach ($bookings as $booking)
-        {
+        foreach ($bookings as $booking){
             $manager = $booking->Product->getManager();
             $people = json_decode($booking->People);
-            if (!empty($people) && $manager->Hotel == $hotel)
-            {
-                foreach ($people as $name)
-                {
-                    if (!empty($name))
-                    {
+            if (!empty($people) && $manager->Hotel == $hotel){
+                foreach ($people as $name){
+                    if (!empty($name)){
                         $item = new ListItem();
                         $item->UserName = $name;
                         $item->Housing = $manager->Housing;
@@ -77,10 +73,8 @@ class ListAction extends \CAction
     {
         $command = Rif::getDb()->createCommand();
         $together = $command->select('*')->from('ext_booked_person_together')->queryAll();
-        foreach ($together as $row)
-        {
-            if (array_key_exists($row['ownerRunetId'], $this->list))
-            {
+        foreach ($together as $row){
+            if (array_key_exists($row['ownerRunetId'], $this->list)){
                 $item = new ListItem();
                 $item->UserName = $row['userName'];
                 $item->Housing = $this->list[$row['ownerRunetId']]->Housing;
@@ -103,11 +97,9 @@ class ListAction extends \CAction
         $criteria->with = ['Product.Attributes', 'Owner.Settings'];
         $criteria->addCondition('"Product"."ManagerName" = \'RoomProductManager\'');
         $orderItems = OrderItem::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->byPaid(true)->findAll($criteria);
-        foreach ($orderItems as $orderItem)
-        {
+        foreach ($orderItems as $orderItem){
             $manager = $orderItem->Product->getManager();
-            if ($manager->Hotel == $hotel)
-            {
+            if ($manager->Hotel == $hotel){
                 $item = new ListItem();
                 $item->UserName = $orderItem->Owner->getFullName();
                 $item->Housing = $manager->Housing;
