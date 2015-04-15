@@ -65,7 +65,7 @@ class PositionsController extends Controller
         $result = [];
         foreach ($positions as $key => $position) {
             if (in_array($position['ProductId'], [3634,3637,3640])) {
-                $hotel = Rif::getUserHotel($position['ProductId']);
+                $hotel = Rif::getUserHotel($position['UserId']);
                 if ($hotel === null) {
                     $hotel = Rif::HOTEL_P;
                 }
@@ -73,7 +73,7 @@ class PositionsController extends Controller
             }
             $result[$key] = $position;
         }
-        return $positions;
+        return $result;
     }
 
 
