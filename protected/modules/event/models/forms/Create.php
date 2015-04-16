@@ -29,12 +29,11 @@ class Create extends \CFormModel
   public function rules()
   {
     return [
-      ['ContactName, ContactPhone, ContactEmail, Title, City, Place, StartDate, EndDate, Info, FullInfo', 'required'],
+      ['ContactName, ContactPhone, ContactEmail, Title, City, Place, StartDate, EndDate, Info, FullInfo, Url', 'required'],
       ['ContactEmail', 'filter', 'filter' => 'trim'],
       ['FullInfo', 'filter', 'filter' => [$this, 'filterFullInfo']],
       ['Info, Options, OneDayDate, LogoSource', 'safe'],
       ['LogoSource', 'file', 'allowEmpty' => false],
-      ['Url', 'url', 'allowEmpty' => false],
       ['ContactEmail', 'email'],
       ['StartDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'StartTimestamp'],
       ['EndDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'EndTimestamp'],
