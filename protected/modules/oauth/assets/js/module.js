@@ -13,6 +13,7 @@ var OAuthModule = function()
   this.gUrl   = '';
   this.ppUrl  = '';
   this.viadeoUrl = '';
+  this.LinkedinUrl = '/oauth/social/request/22/';
  
   this.popUpWindow = null;
 
@@ -68,6 +69,14 @@ OAuthModule.prototype.init = function()
     e.preventDefault();
     self.viadeoLogin();
   });
+
+    $('#li_login').on('click', function (e) {
+        if (isFrame() || isUserEditAction())
+        {
+            e.preventDefault();
+            self.twiLogin($(e.currentTarget).attr('href'));
+        }
+    });
 
   $('#btn_cancel').on('click', function(e){
     e.preventDefault();
@@ -157,6 +166,12 @@ OAuthModule.prototype.gProcess = function ()
   window.location.href = self.gUrl;
 }
 
+
+OAuthModule.prototype.LIProcess = function()
+{
+    var self = this;
+    window.location.href = self.LinkedinUrl;
+};
 function loadScript(src, callback)
 {
   var s,

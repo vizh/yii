@@ -2133,7 +2133,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 /* User -> Account -> Settings */
 .user-account-settings .b-form, .company-edit .b-form {margin-left: 20px; position: relative;}
-.user-account-settings .b-form :before, .company-edit .b-form:before {
+.user-account-settings .b-form :before, .company-edit .b-form:before, i:not([.fa]) {
   background: #e6e6e6;
   bottom: 0;
   content: '';

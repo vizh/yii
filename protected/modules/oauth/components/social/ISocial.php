@@ -10,6 +10,8 @@ interface ISocial
   const Viadeo = '19';
   const PayPal = '21';
 
+  const Linkedin = '22';
+
   /**
    * @return string
    */
