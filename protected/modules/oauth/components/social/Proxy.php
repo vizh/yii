@@ -30,6 +30,9 @@ class Proxy implements ISocial
       case ISocial::PayPal:
         $this->social = new PayPal($redirectUrl);
         break;
+      case ISocial::Linkedin:
+        $this->social = new Linkedin($redirectUrl);
+        break;
       default:
         throw new \CHttpException(400, 'Не обнаружена авторизация по OAuth с идентификатором "' . $socialName . '"');
         break;

@@ -89,6 +89,7 @@
     <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Google));?>" id="g_login" class="btn social_btn"><i class="fa fa-google-plus-square"></i></a>
     <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::PayPal));?>" id="pp_login" class="btn social_btn"><i class="fa fa-paypal"></i></a>
     <!--<a href="#" id="viadeo_login" class="btn social_btn"><i class="ico16 ico16_social ico16_social__google"></i>&nbsp;Viadeo</a>-->
+      <a href="<?=$this->createUrl('/oauth/social/connect', array('social' => \oauth\components\social\ISocial::Linkedin));?>" id="li_login" class="btn social_btn"><i class="fa fa-linkedin-square"></i></a>
   </div>
 </div>
 

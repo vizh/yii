@@ -91,6 +91,8 @@ return [
     'http://'.RUNETID_HOST.'/oauth/paypal/redirect' => 'oauth/paypal/redirect',
     '/oauth/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
 
+    'http://'.RUNETID_HOST.'/oauth/social/connect/social/22' => ['oauth/social/connect/', 'defaultParams' => ['social' => 22]],
+
 
 
     /** API Module Rules */
