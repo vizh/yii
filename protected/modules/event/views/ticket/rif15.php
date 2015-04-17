@@ -837,7 +837,7 @@ $foodTimes = [
     $image->text($text1,250,0,1300);
     $image->save(\Yii::getPathOfAlias('webroot').$path);
     $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot') . $path);
-    $image->text('23,24,25', 250, 700, 2100);
+    $image->text('22,23,24', 250, 700, 2100);
     $image->save(\Yii::getPathOfAlias('webroot') . $path)
     ?>
     <div class="text-center">
