@@ -48,7 +48,7 @@ class BookingController extends \application\components\controllers\AdminMainCon
             }
 
             if ($print !== null) {
-                $this->renderPartial('print', ['order' => $order, 'owner' => $owner]);
+                $this->renderPartial('print', ['order' => $order, 'owner' => $owner, 'clear' => false]);
                 \Yii::app()->end();
             }
         }
@@ -114,7 +114,7 @@ class BookingController extends \application\components\controllers\AdminMainCon
             }
 
             if ($print !== null) {
-                $this->renderPartial('print-food', ['order' => $order, 'owner' => $owner]);
+                $this->renderPartial('print-food', ['order' => $order, 'owner' => $owner, 'clear' => false]);
                 \Yii::app()->end();
             }
         }
@@ -130,5 +130,27 @@ class BookingController extends \application\components\controllers\AdminMainCon
         }
 
         $this->render('order-food', ['form' => $form, 'order' => $order]);
+    }
+
+    public function actionPrint($print = null, $clear = false)
+    {
+        $eventId = \Yii::app()->params['AdminBookingEventId'];
+        if (!empty($print)) {
+            $result = '';
+            $orders = RoomPartnerOrder::model()->byEventId($eventId)->byDeleted(false)->byPaid(true)->orderBy('"t"."CreationTime"')->with('Bookings')->findAll();
+            foreach ($orders as $order) {
+                $owner = $order->Bookings[0]->Owner;
+                $result .= $this->renderPartial('print', ['order' => $order, 'owner' => $owner, 'clear' => (bool)$clear], true);
+            }
+
+            $orders = FoodPartnerOrder::model()->byEventId($eventId)->byDeleted(false)->byPaid(true)->orderBy('"t"."CreationTime"')->findAll();
+            foreach ($orders as $order) {
+                $result .= $this->renderPartial('print-food', ['order' => $order, 'owner' => $order->Owner, 'clear' => (bool)$clear], true);
+            }
+            echo $result;
+            \Yii::app()->end();
+        }
+
+        $this->render('print-all');
     }
 } 

@@ -49,6 +49,10 @@ class Partners extends SearchFormModel
         $criteria->with = ['Product'];
         $criteria->addCondition('"Product"."EventId" = :EventId');
         $criteria->params['EventId'] = \Yii::app()->params['AdminBookingEventId'];
+        if (!empty($this->Partner)) {
+            $criteria->addCondition('"t"."Owner" ILIKE :Owner');
+            $criteria->params['Owner'] = '%'.$this->Partner.'%';
+        }
 
         $bookings = RoomPartnerBooking::model()->byDeleted(false)->findAll($criteria);
         foreach ($bookings as $booking) {
@@ -74,6 +78,10 @@ class Partners extends SearchFormModel
         $criteria->with = ['Items.Product'];
         $criteria->addCondition('"Product"."EventId" = :EventId');
         $criteria->params['EventId'] = \Yii::app()->params['AdminBookingEventId'];
+        if (!empty($this->Partner)) {
+            $criteria->addCondition('"t"."Owner" ILIKE :Owner');
+            $criteria->params['Owner'] = '%'.$this->Partner.'%';
+        }
 
         $orders = FoodPartnerOrder::model()->byDeleted(false)->findAll($criteria);
         foreach ($orders as $order) {

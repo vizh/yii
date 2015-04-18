@@ -33,14 +33,15 @@ use application\components\utility\Texts;
  *
  * @property RoomPartnerBooking[] $Bookings
  *
- * @method RoomPartnerBooking byEventId(int $eventId)
+ * @method RoomPartnerOrder byEventId(int $eventId)
+ * @method RoomPartnerOrder[] findAll()
  */
 class RoomPartnerOrder extends ActiveRecord
 {
     /**
      * @param string $className
      *
-     * @return RoomPartnerBooking
+     * @return RoomPartnerOrder
      */
     public static function model($className=__CLASS__)
     {

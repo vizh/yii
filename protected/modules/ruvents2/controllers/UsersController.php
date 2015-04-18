@@ -56,12 +56,10 @@ class UsersController extends Controller
             $data['Position'] = $employment->Position;
         }
 
-        if (!empty($user->PrimaryPhone)) {
-            $data['Phone'] = $user->PrimaryPhone;
-        } elseif ($user->getContactPhone() !== null) {
-            $data['Phone'] = $user->getContactPhone()->__toString();
+        $phone = $user->getPhone();
+        if (!empty($phone)) {
+            $data['Phone'] = $phone;
         }
-
         return $data;
     }
 }

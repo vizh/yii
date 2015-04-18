@@ -237,11 +237,11 @@ $parkingReporter = !empty($parking) && in_array($role->Id, $parkingReporterRoleI
         color:#999
     }
     .row-reminder {
-        background: #F2F3F4 url('/img/event/rif15/ticket/reminder_bg.png') center bottom;
-        background-image-resolution: 120dpi;
         color:#656565;
-        padding:2.6mm 0 35mm;
-        font-size:80%
+        padding:2.6mm 0 50mm;
+        font-size:80%;
+        background: #F2F3F4 url('/img/event/rif15/ticket/reminder_bg.jpg') center -30mm;
+        background-image-resolution: 120dpi;
     }
     .row-reminder h2 {
         margin-bottom: 4mm;
@@ -660,7 +660,7 @@ $foodTimes = [
     </div>
 </div>
 <div class="text-center">
-    <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=16&center=55.74100172,37.41633146&size=900x200&scale=2&maptype=roadmap&markers=scale:2%7Cicon:http://runet-id.com/img/event/rif15/ticket/icon_bus.png%7Cshadow=false%7C55.74017251,37.41547315&sensor=false&language=ru" />
+    <img src="/img/event/rif15/ticket/map_bus.jpg" style="image-resolution: 100dpi;"/>
 </div>
 
 <!-- Расписание автобусов -->
