@@ -1,3 +1,9 @@
+<?
+\Yii::app()->getClientScript()->registerPackage('runetid.ckeditor');
+\Yii::app()->getClientScript()->registerPackage('runetid.bootstrap-datepicker');
+$this->setPageTitle(\Yii::t('app', 'Добавление события'));
+$this->bodyId = 'event-create';
+?>
 <style type="text/css">
   .form-horizontal .control-label {
     width: 160px;
@@ -163,6 +169,14 @@ $(function () {
             </div>
           </div>
         </div>
+          <div class="span12">
+              <div class="control-group">
+                  <?=\CHtml::activeLabel($form, 'Company', array('class' => 'control-label', 'required' => true));?>
+                  <div class="controls">
+                      <?=\CHtml::activeTextField($form, 'Company', ['class' => 'input-block-level']);?>
+                  </div>
+              </div>
+          </div>
       </div>
 
 

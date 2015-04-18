@@ -141,7 +141,8 @@ class Event extends ActiveRecord implements ISearch
             'Options',
             'UnsubscribeNewUser',
             'RegisterHideNotSelectedProduct',
-            'NotSendRegisterMail'
+            'NotSendRegisterMail',
+            'OrganizerInfo'
         ];
     }
 

@@ -190,6 +190,16 @@
                         </div>
                     </div>
                 <?endif;?>
+                <?if (isset($event->OrganizerInfo)):?>
+                    <div class="control-group">
+                        <!--<label class="control-label"><?=\Yii::t('app', 'Компания организатор');?>:</label>-->
+                        <?=\CHtml::activeLabel($form, 'OrganizerInfo', array('class' => 'control-label'));?>
+                        <div class="controls m-top_5">
+                            <!--<nobr><?=$event->OrganizerInfo;?></nobr>-->
+                            <?=\CHtml::activeTextField($form, 'OrganizerInfo');?>
+                        </div>
+                    </div>
+                <?endif;?>
             <?endif;?>
 
             <?if (!$event->getIsNewRecord()):?>
