@@ -106,7 +106,33 @@
         </tbody>
     </table>
 
-
-
+    <h3>Завтракающие в назарьево</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <?foreach ($dates as $date):?>
+                    <th><?=date('d.m', strtotime($date));?></th>
+                <?endforeach;?>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <?foreach ($dates as $key => $value):?>
+                    <td>
+                        <ul>
+                        <?foreach ($usersFood['breakfastN'][$food['breakfast'][$key]] as $id):?>
+                            <?$user = \user\models\User::model()->byRunetId($id)->find();?>
+                            <li><?=$user->getFullName();?>
+                            <?if ($user->getEmploymentPrimary() !== null && $user->getEmploymentPrimary()->Company !== null):?>
+                                (<?=$user->getEmploymentPrimary()->Company->Name;?>)
+                            <?endif;?>
+                            </li>
+                        <?endforeach;?>
+                        </ul>
+                    </td>
+                <?endforeach;?>
+            </tr>
+        </tbody>
+    </table>
 
 </div>
