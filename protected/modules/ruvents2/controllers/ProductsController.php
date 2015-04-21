@@ -58,7 +58,7 @@ class ProductsController extends Controller
     {
         $request = \Yii::app()->getRequest();
         $runetId = $request->getParam('UserId');
-        $user = User::model()->byRunetId($runetId)->byEventId($this->getEvent()->Id)->find();
+        $user = User::model()->byRunetId($runetId)->find();
         if ($user === null) {
             throw new Exception(Exception::INVALID_PARTICIPANT_ID, [$runetId]);
         }
