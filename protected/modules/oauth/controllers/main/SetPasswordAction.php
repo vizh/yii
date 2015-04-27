@@ -1,6 +1,7 @@
 <?php
 namespace oauth\controllers\main;
 
+use oauth\components\Controller;
 use user\models\forms\SetPassword;
 
 class SetPasswordAction extends \CAction
@@ -24,8 +25,10 @@ class SetPasswordAction extends \CAction
             if ($form->getScenario() != SetPassword::SCENARIO_SKIP_VALIDATION) {
                 $user->getCurrentUser()->changePassword($form->Password);
             }
+            $params = [];
+            Controller::isFrame() ? $params['frame'] = 'true' : '';
             $this->getController()->redirect(
-                $this->getController()->createUrl('/oauth/main/dialog')
+                $this->getController()->createUrl('/oauth/main/dialog', $params)
             );
         }
 
