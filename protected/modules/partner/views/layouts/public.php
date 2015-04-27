@@ -29,7 +29,9 @@ use \partner\components\Controller;
         <div class="page-header">
             <div class="row">
                 <h1 class="col-xs-12 col-sm-4 text-center text-left-sm">
-                    <?//FA::icon($this->icon, ['class' => 'page-header-icon'])?>
+                    <?if ($this->titleIcon !== null):?>
+                        <i class="fa fa-<?=$this->titleIcon;?>"></i>
+                    <?endif;?>
                     <?=\CHtml::encode($this->pageTitle)?>
                 </h1>
             </div>

@@ -62,10 +62,10 @@ return [
         'baseUrl' => '/',
         'js' => ['javascripts/charts.js']
     ],
-    'runetid.partner' => [
+    'partner' => [
         'baseUrl' => '/',
         'css' => ['stylesheets/partner.css'],
-        'depends' => ['runetid.jquery', 'runetid.admin.jquery.ui', 'runetid.bootstrap']
+        'depends' => ['runetid.jquery', 'pixel-admin']
     ],
     'runetid.ckeditor' => [
         'baseUrl' => '/javascripts/ckeditor',
@@ -111,7 +111,8 @@ return [
             'javascripts/pixel-admin/ie.js',
             'javascripts/pixel-admin/init.js',
             'javascripts/pixel-admin/jquery-ui-extras.min.js',
-            'javascripts/pixel-admin/pixel-admin.js'
+            'javascripts/pixel-admin/pixel-admin.js',
+            'javascripts/pixel-admin/bootstrap.min.js'
         ],
         'css' => [
             'stylesheets/pixel-admin/bootstrap.css',
