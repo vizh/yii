@@ -39,7 +39,7 @@ class PositionsController extends Controller
 
 
     /**
-     * @param $positions
+     * @param OrderItem[] $positions
      * @return array
      */
     private function modifyPositionsForRif15($positions)
@@ -85,9 +85,13 @@ class PositionsController extends Controller
     private function getCriteria($since, $limit)
     {
         $criteria = new \CDbCriteria();
-        $criteria->with = ['Owner', 'ChangedOwner', 'OrderLinks.Order'];
+        $criteria->with = ['Owner', 'ChangedOwner', 'OrderLinks.Order', 'Product'];
         $criteria->order = 't."UpdateTime"';
         $criteria->limit = $limit;
+
+        if ($this->getEvent()->IdName == 'rif15') {
+            $criteria->addCondition('"Product"."ManagerName" = \'FoodProductManager\'');
+        }
 
         if ($since !== null) {
             $since = date('Y-m-d H:i:s', strtotime($since));

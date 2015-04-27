@@ -22,10 +22,10 @@ class FoodAction extends \CAction
         $usersFood['breakfastP']  = $this->getFoodUsers($food['breakfast'], array_merge($users['ЛЕСНЫЕ ДАЛИ'], $users['НАЗАРЬЕВО']), true);
         $usersFood['breakfastLD'] = $this->getFoodUsers($food['breakfast'], $users['ЛЕСНЫЕ ДАЛИ']);
         $usersFood['breakfastN']  = $this->getFoodUsers($food['breakfast'], $users['НАЗАРЬЕВО']);
-        $usersFood['lunchP']      = $this->getFoodUsers($food['lunch'], $users['ЛЕСНЫЕ ДАЛИ'], true);
-        $usersFood['lunchLD']     = $this->getFoodUsers($food['lunch'], $users['ЛЕСНЫЕ ДАЛИ']);
-        $usersFood['dinnerP']     = $this->getFoodUsers($food['dinner'], $users['ЛЕСНЫЕ ДАЛИ'], true);
-        $usersFood['dinnerLD']    = $this->getFoodUsers($food['dinner'], $users['ЛЕСНЫЕ ДАЛИ']);
+        $usersFood['lunchP']      = $this->getFoodUsers($food['lunch'], [], true);
+        $usersFood['lunchLD']     = [];
+        $usersFood['dinnerP']     = $this->getFoodUsers($food['dinner'], [], true);;
+        $usersFood['dinnerLD']    = [];
 
         $this->getController()->render('food', [
             'dates' => $dates,
