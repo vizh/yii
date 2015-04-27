@@ -197,7 +197,9 @@ class MainController extends \oauth\components\Controller
                     $socialProxy->saveSocialData($user);
                 }
                 \user\models\Log::create($user);
-                $this->redirect($this->createUrl('/oauth/main/dialog'));
+                $params = [];
+                $this->isFrame() ? $params['frame'] = 'true' : '';
+                $this->redirect($this->createUrl('/oauth/main/dialog', $params));
             }
             else
             {
@@ -234,8 +236,11 @@ class MainController extends \oauth\components\Controller
                         $identity = new RunetId($user->RunetId);
                         $identity->authenticate();
                         \Yii::app()->getUser()->login($identity);
+                        $params = [];
+                        $params['hash'] = $form->Code;
+                        $this->isFrame() ? $params['frame'] = 'true' : '';
                         $this->redirect(
-                            $this->createUrl('/oauth/main/setpassword', ['hash' => $form->Code])
+                            $this->createUrl('/oauth/main/setpassword', $params)
                         );
                     } else {
                         $form->addError('Code', \Yii::t('app', 'Указан не верный код для смены пароля.'));

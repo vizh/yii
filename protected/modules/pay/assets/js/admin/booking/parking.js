@@ -46,7 +46,9 @@ CPayAdminBookingParking.prototype = {
       var $target = $(e.currentTarget);
       self.$table.find('tbody tr').each(function () {
         var $row = $(this);
-        if ($row.find('td:first').text().indexOf($target.val()) == -1) {
+	var searchstr = $target.val().toUpperCase();
+	var searcheble = $row.find('td:first').text().toUpperCase();
+        if (searcheble.indexOf(searchstr) == -1) {
           $row.hide();
         }
         else {

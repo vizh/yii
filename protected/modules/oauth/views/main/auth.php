@@ -7,6 +7,12 @@
  */
 ?>
 
+<?
+//Праметры для редиректа
+$params = [];
+$this->isFrame() ? $params['frame'] = 'true' : '';
+?>
+
 <div id="fb-root"></div>
 <script>
   // Additional JS functions here
@@ -60,7 +66,6 @@
         </div>
     </div>
 
-
     <div class="checkbox">
         <div class = "row">
 
@@ -68,12 +73,12 @@
                 <label class="checkbox clearfix muted"><?=CHtml::activeCheckBox($model, 'RememberMe', array('uncheckValue' => null));?><?=$model->getAttributeLabel('RememberMe');?></label>
             </div>
             <div class="col-sm-6 text-right restore-password">
-                <a href="<?=$this->createUrl('/oauth/main/recover');?>" class=""><?=Yii::t('app', 'Восстановить пароль');?></a>
+
+                <a href="<?=$this->createUrl('/oauth/main/recover', $params);?>" class=""><?=Yii::t('app', 'Восстановить пароль');?></a>
             </div>
 
         </div>
     </div>
-
 
     <button type="submit" class="btn btn-large btn-block btn-primary"><i class="icon-ok-sign icon-white"></i>&nbsp;<?=Yii::t('app', 'Войти');?></button>
     <p></p>
@@ -100,4 +105,4 @@
 <?endif;?>
 
 <hr>
-<p class="text-center"><?=\Yii::t('app', 'Если у&nbsp;вас нет RUNET-ID, вы&nbsp;можете его <a href="{url}">зарегистрировать</a>.', array('{url}' => $this->createUrl('/oauth/main/register')));?></p>
+<p class="text-center"><?=\Yii::t('app', 'Если у&nbsp;вас нет RUNET-ID, вы&nbsp;можете его <a href="{url}">зарегистрировать</a>.', array('{url}' => $this->createUrl('/oauth/main/register', $params)));?></p>
