@@ -2,6 +2,7 @@
 namespace ruvents2\controllers;
 
 use application\components\helpers\ArrayHelper;
+use event\models\section\Hall;
 use pay\models\Product;
 use ruvents2\components\Controller;
 use ruvents2\models\Operator;
@@ -56,5 +57,21 @@ class EventController extends Controller
             ]]);
         }
         $this->renderJson(['Products' => $result]);
+    }
+
+    /**
+     * Список залов мероприятия
+     * @throws \application\components\Exception
+     */
+    public function actionHalls()
+    {
+        $halls = Hall::model()->byEventId($this->getEvent()->Id)->byDeleted(false)->orderBy('"t"."Order"')->findAll();
+        $result = [];
+        foreach ($halls as $hall) {
+            $result[] = ArrayHelper::toArray($hall, ['event\models\section\Hall' => [
+                'Id', 'Title', 'Order'
+            ]]);
+        }
+        $this->renderJson(['Halls' => $result]);
     }
 }

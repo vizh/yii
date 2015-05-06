@@ -65,6 +65,14 @@ return [
         'actions' => ['checks', 'check']
     ],
 
+    /** Halls */
+    [
+        'allow',
+        'roles' => [Role::SERVER],
+        'controllers' => ['halls'],
+        'actions' => ['checks', 'check']
+    ],
+
     [
         'deny',
         'users' => ['*']

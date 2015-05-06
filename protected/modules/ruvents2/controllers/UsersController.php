@@ -48,7 +48,7 @@ class UsersController extends Controller
      */
     public function getUserData($user)
     {
-        $data = ArrayHelper::toArray($user, ['user\models\User' => ['Id', 'LastName', 'FirstName', 'FatherName', 'Email']]);
+        $data = ArrayHelper::toArray($user, ['user\models\User' => ['Id' => 'RunetId', 'LastName', 'FirstName', 'FatherName', 'Email']]);
 
         $employment = $user->getEmploymentPrimary();
         if ($employment !== null) {

@@ -23,11 +23,6 @@ class PositionsController extends Controller
             $result[] = $this->getPositionData($position);
         }
 
-        // TODO: костыль для РИФ15
-        if ($this->getEvent()->IdName == 'rif15') {
-            $result = $this->modifyPositionsForRif15($result);
-        }
-
         $nextSince = count($positions) == $limit ? $positions[$limit-1]->CreationTime : null;
         $hasMore = $nextSince !== null;
         $this->renderJson([
@@ -35,45 +30,6 @@ class PositionsController extends Controller
             'HasMore' => $hasMore,
             'NextSince' => $nextSince
         ]);
-    }
-
-
-    /**
-     * @param OrderItem[] $positions
-     * @return array
-     */
-    private function modifyPositionsForRif15($positions)
-    {
-        $foodMap = [
-            Rif::HOTEL_LD => [
-                3634 => 3771,
-                3637 => 3772,
-                3640 => 3773
-            ],
-            Rif::HOTEL_N => [
-                3634 => 3774,
-                3637 => 3775,
-                3640 => 3776
-            ],
-            Rif::HOTEL_P => [
-                3634 => 3768,
-                3637 => 3769,
-                3640 => 3770
-            ]
-        ];
-
-        $result = [];
-        foreach ($positions as $key => $position) {
-            if (in_array($position['ProductId'], [3634,3637,3640])) {
-                $hotel = Rif::getUserHotel($position['UserId']);
-                if ($hotel === null) {
-                    $hotel = Rif::HOTEL_P;
-                }
-                $position['ProductId'] = $foodMap[$hotel][$position['ProductId']];
-            }
-            $result[$key] = $position;
-        }
-        return $result;
     }
 
 

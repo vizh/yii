@@ -28,6 +28,9 @@ return [
                 ['ruvents2/products/checks', 'pattern' => 'http://ruvents2.' . RUNETID_HOST . '/products/<id:\d+>/checks', 'verb' => 'GET'],
                 ['ruvents2/products/check', 'pattern' => 'http://ruvents2.' . RUNETID_HOST . '/products/<id:\d+>/checks', 'verb' => 'POST'],
 
+                ['ruvents2/halls/checks', 'pattern' => 'http://ruvents2.' . RUNETID_HOST . '/halls/<id:\d+>/checks', 'verb' => 'GET'],
+                ['ruvents2/halls/check', 'pattern' => 'http://ruvents2.' . RUNETID_HOST . '/halls/<id:\d+>/checks', 'verb' => 'POST'],
+
                 ['ruvents2/utility/ping', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/utility/ping', 'verb' => 'GET'],
                 'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/' => 'ruvents2/not/found',
                 'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents2/not/found',

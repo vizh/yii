@@ -1,5 +1,6 @@
 <?php
 namespace event\models\section;
+use application\models\translation\ActiveRecord;
 
 /**
  * @property int $Id
@@ -12,8 +13,10 @@ namespace event\models\section;
  * @method Hall find($condition='',$params=array())
  * @method Hall findByPk($pk,$condition='',$params=array())
  * @method Hall[] findAll($condition='',$params=array())
+ * @method Hall byDeleted(boolean $deleted)
+ * @method Hall byEventId(integer $eventId)
  */
-class Hall extends \application\models\translation\ActiveRecord
+class Hall extends ActiveRecord
 {
     /**
      * @param string $className
@@ -38,28 +41,6 @@ class Hall extends \application\models\translation\ActiveRecord
     public function relations()
     {
         return array();
-    }
-
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = array('EventId' => $eventId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param boolean $deleted
-     * @param boolean $useAnd
-     * @return $this
-     */
-    public function byDeleted($deleted, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$deleted ? 'NOT ' : '') . 't."Deleted"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
     }
 
     /**
