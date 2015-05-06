@@ -119,7 +119,7 @@ class OrderItemSearch extends \CFormModel
     $criteria = new \CDbCriteria();
     $criteria->order = '"t"."Title" ASC';
     $criteria->addNotInCondition('"t"."ManagerName"', ['RoomProductManager']);
-    $products = \pay\models\Product::model()->byEventId($this->event->Id)->findAll($criteria);
+    $products = \pay\models\Product::model()->byEventId($this->event->Id)->byDeleted(false)->findAll($criteria);
     $data = ['' => \Yii::t('app', 'Все товары')];
     foreach ($products as $product)
     {

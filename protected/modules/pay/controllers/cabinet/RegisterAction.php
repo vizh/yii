@@ -182,7 +182,7 @@ class RegisterAction extends \pay\components\Action
                 $model->byUserAccess(\Yii::app()->user->getCurrentUser()->Id, 'OR');
             }
 
-            $products = $model->byEventId($this->event->Id)->findAll($criteria);
+            $products = $model->byEventId($this->event->Id)->byDeleted(false)->findAll($criteria);
             $this->products = new \stdClass();
             $this->products->all = [];
             $this->products->participations = [];

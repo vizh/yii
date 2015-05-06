@@ -1,6 +1,11 @@
 <?php
 namespace event\controllers\admin\edit;
 
+use pay\models\Product;
+use \pay\models\forms\Product as ProductForm;
+use \pay\models\forms\ProductPrice as ProductPriceForm;
+use \pay\models\forms\AdditionalAttribute as AdditionalAttributeForm;
+
 class ProductAction extends \CAction
 {
     private $formProducts = [];
@@ -17,24 +22,21 @@ class ProductAction extends \CAction
         $criteria->condition = 't."ManagerName" != :ManagerName';
         $criteria->params = ['ManagerName' => 'RoomProductManager'];
         $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
-        foreach (\pay\models\Product::model()->byEventId($this->event->Id)->findAll($criteria) as $product)
-        {
-            $formProduct = new \pay\models\forms\Product($this->event, $product);
-            foreach ($product->Prices as $price)
-            {
-                $formPrice = new \pay\models\forms\ProductPrice();
+        $products = Product::model()->byEventId($this->event->Id)->byDeleted(false)->findAll($criteria);
+        foreach ($products as $product) {
+            $formProduct = new ProductForm($this->event, $product);
+            foreach ($product->Prices as $price) {
+                $formPrice = new ProductPriceForm();
                 $formPrice->setAttributes($price->getAttributes());
                 $formProduct->Prices[] = $formPrice;
             }
 
-            foreach ($product->getProductAttributes() as $attr)
-            {
+            foreach ($product->getProductAttributes() as $attr) {
                 $formProduct->Attributes[$attr->Name] = $attr->Value;
             }
 
-            foreach($product->getAdditionalAttributes() as $attr)
-            {
-                $formAdditionalAttribute = new \pay\models\forms\AdditionalAttribute();
+            foreach($product->getAdditionalAttributes() as $attr) {
+                $formAdditionalAttribute = new AdditionalAttributeForm();
                 $formAdditionalAttribute->Name  = $attr->Name;
                 $formAdditionalAttribute->Label = $attr->Label;
                 $formAdditionalAttribute->Type  = $attr->Type;
@@ -45,14 +47,12 @@ class ProductAction extends \CAction
             $this->formProducts[] = $formProduct;
         }
 
-        if (\Yii::app()->getRequest()->getIsPostRequest())
-        {
+        if (\Yii::app()->getRequest()->getIsPostRequest()) {
             $this->processPostRequest();
         }
 
-        if ($this->formNewProduct == null)
-        {
-            $this->formNewProduct = new \pay\models\forms\Product($this->event);
+        if ($this->formNewProduct == null) {
+            $this->formNewProduct = new ProductForm($this->event);
         }
 
         \Yii::app()->getClientScript()->registerPackage('runetid.backbone');
@@ -69,7 +69,7 @@ class ProductAction extends \CAction
      */
     private function processPostRequest()
     {
-        $form = new \pay\models\forms\Product($this->event);
+        $form = new ProductForm($this->event);
         $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
         $form->clearPrices();
         if ($form->validate())

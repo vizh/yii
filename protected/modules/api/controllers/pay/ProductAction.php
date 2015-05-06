@@ -5,7 +5,7 @@ class ProductAction extends \api\components\Action
 {
   public function run()
   {
-    $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->findAll(
+    $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byDeleted(false)->findAll(
       ['order' => '"t"."Priority" DESC, "t"."Id" ASC']
     );
     $result = array();
