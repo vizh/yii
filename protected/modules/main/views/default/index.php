@@ -27,6 +27,12 @@
         </div>
       </div>
     </div>
+
+      <div class="row" style="margin-top: 60px;">
+          <div class="span12 create-event-banner">
+              <a href="http://mcf.moscow" target="_blank"><img src="http://take.ms/8Wy5u" style="height: auto; width: 100%;"></a>
+          </div>
+      </div>
   </div>
 </div>
 
