@@ -10,20 +10,26 @@ class UsersController extends Controller
 {
     const MAX_LIMIT = 50;
 
-    public function actionList($query = null)
+    public function actionList($query = null, $onlyVisible = true)
     {
         if (empty($query)) {
             throw Exception::createInvalidParam('query', 'Строка поиска не может быть пустой');
         }
 
         $users = [];
+
+        $userModel = User::model();
         if (filter_var($query, FILTER_VALIDATE_EMAIL)) {
-            $user = User::model()->byEmail($query)->byVisible(true)->find();
+            $userModel->byEmail($query);
+            if ($onlyVisible) {
+                $userModel->byVisible(true);
+            }
+            $user = $userModel->find();
             if ($user !== null) {
                 $users[] = $user;
             }
         } else {
-            $userModel = \user\models\User::model()->bySearch($query);
+            $userModel = $userModel->bySearch($query, null, true, $onlyVisible);
             $criteria = new \CDbCriteria();
             $criteria->with = [
                 'Employments' => ['together' => false],
