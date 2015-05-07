@@ -81,7 +81,7 @@ return [
     'http://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
 
     /** Event Interview Rules */
-    'http://' . RUNETID_HOST . '/msdevtour' => 'competence/devtour/index',
+    'http://' . RUNETID_HOST . '/devcon' => 'competence/devcon/index',
 
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>' => 'competence/event/index',
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>/<action:\w+>' => 'competence/event/<action>',
@@ -161,11 +161,6 @@ return [
 
     /*** ОПРОС Карена **/
     'http://'. RUNETID_HOST.'/<_hr:(HR|hr|Hr|hR)>/' => 'page/content/hr',
-
-    /** DevCon */
-    'http://'. RUNETID_HOST.'/devcon/<code>' => 'main/devcon/index',
-    'http://'. RUNETID_HOST.'/devcon/process/<code>' => 'main/devcon/process',
-    'http://'. RUNETID_HOST.'/devcon/result/<code>' => 'main/devcon/result',
 
     /** App Day 14  */
     'http://'. RUNETID_HOST.'/appday14/<action:(select|form|section)>' => 'main/appday14/<action>',

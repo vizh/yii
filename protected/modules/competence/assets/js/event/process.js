@@ -3,6 +3,10 @@ $(function () {
     var $progress  = $('div.interview-progress .progress');
 
     $questions.find('input,select,textarea').change(function () {
+       fillProgressBar();
+    });
+
+    function fillProgressBar() {
         var count = 0,
             answered = 0;
 
@@ -34,5 +38,8 @@ $(function () {
         } else {
             $progress.removeClass('progress-success');
         }
-    }).trigger('change');
+    };
+
+
+    fillProgressBar();
 });
