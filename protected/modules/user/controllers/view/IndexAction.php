@@ -212,10 +212,12 @@ class ParticipantCollection
    */
   public function parseParticipant($participant)
   {
+    if (!$participant->Event->Visible){
+        $participant->Event = null;
+    }
     $eventId = $participant->EventId;
     if ($participant->Event == null)
       return;
-
     if (!isset($this->participants[$eventId]))
     {
       $this->participants[$eventId] = new ParticipantDetail();

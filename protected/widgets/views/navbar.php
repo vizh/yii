@@ -28,6 +28,7 @@ $device = Yii::app()->mobileDetect;
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu pull-right">
+            <li><a href="<?=Yii::app()->createUrl('/user/events/index');?>"><?=Yii::t('app', 'Мои мероприятия');?></a></li>
             <li><a href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => Yii::app()->user->getCurrentUser()->RunetId));?>"><?=Yii::t('app', 'Мой профиль');?></a></li>
             <li><a href="<?=Yii::app()->createUrl('/user/edit/index');?>"><?=Yii::t('app', 'Редактирование данных');?></a></li>
             <li><a href="<?=Yii::app()->createUrl('/user/setting/password');?>"><?=Yii::t('app', 'Настройки');?></a></li>

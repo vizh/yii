@@ -4,7 +4,7 @@ return array(
     'deny',
     'users' => array('?'),
     'module' => 'user',
-    'controllers' => array('edit','setting','logout')
+    'controllers' => array('edit','setting','logout', 'events')
   ),
   array(
     'deny',
@@ -17,7 +17,7 @@ return array(
     'allow',
     'users' => array('*'),
     'module' => 'user',
-    'controllers' => array('ajax','view', 'edit','setting','logout','unsubscribe')
+    'controllers' => array('ajax','view', 'edit','setting','logout','unsubscribe', 'events')
   ),
     
   /** Admin Rules */
