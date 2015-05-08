@@ -14,7 +14,7 @@ use event\components\UserDataManager;
 $userData = new UserData();
 $userData->EventId = $event->Id;
 
-if (!$userData->getManager()->hasDefinitions()) {
+if (!$userData->getManager()->hasDefinitions(true)) {
     return;
 }
 

@@ -64,9 +64,10 @@ trait JsonContainer
      * 2. [['Name', 'DefinitionClass', 'GroupId', ...params], ...] - каждое хранимое поле определяется тем классом,
      * который был указан после имени поля. Также возможно задать дополнительные параметры,
      * соответствующие DefinitionClass.
+     * @param boolean $onlyPublic
      * @return string[]|array
      */
-    protected abstract function attributeDefinitions();
+    protected abstract function attributeDefinitions($onlyPublic = false);
 
     private function createDefinitions()
     {
@@ -99,10 +100,15 @@ trait JsonContainer
     }
 
     /**
+     * @param $onlyPublic
      * @return bool
      */
-    public function hasDefinitions()
+    public function hasDefinitions($onlyPublic = false)
     {
+        if ($onlyPublic) {
+            $definitions = $this->attributeDefinitions($onlyPublic);
+            return !empty($definitions);
+        }
         return count($this->definitions) !== 0;
     }
 

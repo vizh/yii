@@ -8,6 +8,7 @@ use application\components\attribute\JsonContainer;
 use application\components\attribute\ListDefinition;
 use application\models\attribute\Group;
 use event\models\UserData;
+use \application\models\attribute\Definition as DefinitionModel;
 
 /**
  * Class UserDataManager
@@ -46,12 +47,22 @@ class UserDataManager extends \CModel
      * 2. [['Name', 'DefinitionClass', ...params],...] - каждое хранимое поле определяется тем классом,
      * который был указан после имени поля. Также возможно задать дополнительные параметры,
      * соответствующие DefinitionClass.
+     * @param bool $onlyPublic
      * @return string[]|array
      */
-    protected function attributeDefinitions()
+    protected function attributeDefinitions($onlyPublic = false)
     {
-        $definitions = \application\models\attribute\Definition::model()
-            ->byModelName('EventUserData')->byModelId($this->model()->EventId)->ordered()->findAll();
+        $model = DefinitionModel::model()
+            ->byModelName('EventUserData')
+            ->byModelId($this->model()->EventId)
+            ->ordered();
+
+        if ($onlyPublic) {
+            $model->byPublic(true);
+        }
+
+        $definitions = $model->findAll();
+
         $result = [];
         foreach ($definitions as $definition) {
             $row = [];
