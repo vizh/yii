@@ -28,7 +28,11 @@ use competence\models\form\event\CodeValidation;
                     <?=$activeForm->label($form, 'Code');?>
                     <?=$activeForm->textField($form, 'Code', ['class' => 'span6']);?>
                     <p class="muted">
-                        Ссылка на анкету и код были отправлены в письме накануне мероприятия. <br/>Если вы не получили письмо, узнать свой код для прохождения опроса можно на стойке регистрации.
+                        <?if ($event->IdName == 'devcon15'):?>
+                            Для заполнения анкеты введите код, который напечатан на вашем бейдже
+                        <?else:?>
+                            Ссылка на анкету и код были отправлены в письме накануне мероприятия. <br/>Если вы не получили письмо, узнать свой код для прохождения опроса можно на стойке регистрации.
+                        <?endif;?>
                     </p>
                     <div class="text-center m-top_30">
                         <?=\CHtml::submitButton($test->StartButtonText, ['class' => 'btn btn-success']);?>
