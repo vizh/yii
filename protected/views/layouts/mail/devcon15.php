@@ -30,9 +30,9 @@
 
                                             Информационный центр поддержки конференции DevCon по вопросам оплаты: <br/>
                                             <br/>
-                                            Email:<a href="mailto:devcon@runet-id.com">devcon@runet-id.com</a><br/>
+                                            Email:<a href="mailto:ms@devcon2015.ru">ms@devcon2015.ru</a><br/>
                                             <br/>
-                                            Call-center: +7 (495) 950-56-51  <br/>
+                                            Call-center: +7 (929) 694-00-99  <br/>
                                             Режим работы: будни 09:00 – 18:00 <br/>
                                             <br/>
                                             <a href="www.msdevcon.ru">Сайт конференции</a>

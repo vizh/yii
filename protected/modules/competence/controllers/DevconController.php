@@ -5,9 +5,9 @@ use event\models\Event;
 use competence\models\Result;
 use competence\models\Test;
 
-class DevtourController extends MainController
+class DevconController extends MainController
 {
-    const EVENT_ID = 1728;
+    const EVENT_ID = 1524;
 
     public $layout = '/event/layout';
 
