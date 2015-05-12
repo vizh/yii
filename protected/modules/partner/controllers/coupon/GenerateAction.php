@@ -1,6 +1,8 @@
 <?php
 namespace partner\controllers\coupon;
 
+use pay\models\Product;
+
 class GenerateAction extends \partner\components\Action
 {
   public function run()
@@ -25,7 +27,7 @@ class GenerateAction extends \partner\components\Action
     $criteria = new \CDbCriteria();
     $criteria->addCondition('"t"."ManagerName" != :ManagerName');
     $criteria->params['ManagerName'] = 'RoomProductManager';
-    $products = \pay\models\Product::model()->byEventId($form->event->Id)->findAll($criteria);
+    $products = Product::model()->byEventId($form->event->Id)->byDeleted(false)->findAll($criteria);
 
     $this->getController()->render('generate', array(
       'products' => $products,
