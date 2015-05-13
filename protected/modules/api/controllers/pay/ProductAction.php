@@ -1,11 +1,13 @@
 <?php
 namespace api\controllers\pay;
 
+use pay\models\Product;
+
 class ProductAction extends \api\components\Action
 {
   public function run()
   {
-    $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->byDeleted(false)->findAll(
+    $products = Product::model()->byEventId($this->getEvent()->Id)->byDeleted(false)->findAll(
       ['order' => '"t"."Priority" DESC, "t"."Id" ASC']
     );
     $result = array();
