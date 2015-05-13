@@ -6,8 +6,8 @@ class TestController extends CController
   {
     //$api = 'zrnzd5rs8i';
     //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-    $api = 'z8kttydy52';
-    $secret = 'G3aHZZFG35YTTK52eEThRE68K';
+    $api = 'y7s32hs3ry';
+    $secret = 'atYHhHtKzaK9eQNz5YnRz9sSY';
 
     $params = array(
       'ApiKey' => $api,
@@ -20,15 +20,15 @@ class TestController extends CController
     //$params['ExternalId'] = 121;
     //$params['RoleId'] = 5;
 
-    $params['RunetId'] = 454;
-    $params['WithDeleted'] = 1;
+    //$params['OnlyPublic'] = true;
+    //$params['WithDeleted'] = 1;
 
     //$params['SectionId'] = 12322;
     //$this->apiRequest('/api/section/deleteFavorite', $params);
 
     print_r($params);
 
-    $this->apiRequest('/api/section/favorites', $params);
+    $this->apiRequest('/api/pay/products', $params);
   }
 
   private function apiRequest($url, $params)

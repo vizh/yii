@@ -306,6 +306,7 @@ abstract class Base extends \CFormModel
         $this->question->BeforeTitleText = $params['BeforeTitleText'];
         $this->question->AfterTitleText = $params['AfterTitleText'];
         $this->question->AfterQuestionText = $params['AfterQuestionText'];
+        $this->question->Required = (bool)$params['Required'];
     }
 
     public function getTitle()

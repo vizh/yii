@@ -1,6 +1,9 @@
 <?php
 namespace competence\models\test\devcon15;
 
-class Q9 extends \competence\models\form\Single {
+use competence\models\form\Single;
+
+class Q9 extends Single
+{
 
 }

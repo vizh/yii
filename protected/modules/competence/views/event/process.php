@@ -22,7 +22,7 @@ use competence\models\Question;
             <?endif;?>
 
             <?foreach($questions as $question):?>
-                <div class="question">
+                <div class="question" data-required="<?=intval($question->Required)?>">
                     <h3 class="m-top_40">
                         <?=$question->Title;?>
                         <?if (!empty($question->SubTitle)):?>
@@ -52,7 +52,7 @@ use competence\models\Question;
 <div class="interview-progress">
     <div class="progress progress-striped active">
         <div class="bar" style="width: 0;">
-            <span>60% Complete</span>
+            <span></span>
         </div>
     </div>
 </div>

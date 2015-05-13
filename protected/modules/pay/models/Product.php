@@ -18,6 +18,8 @@ use application\models\translation\ActiveRecord;
  * @property string $OrderTitle
  * @property string $GroupName
  * @property bool $VisibleForRuvents
+ * @property bool $Deleted
+ * @property string $DeletionTime
  *
  * @property \event\models\Event $Event
  * @property ProductAttribute[] $Attributes
