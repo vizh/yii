@@ -92,4 +92,18 @@ class MainController extends PublicMainController
         $this->setPageTitle(strip_tags($this->getTest()->Title));
         $this->render('end', ['done' => true]);
     }
+
+    /**
+     * @return User|null
+     */
+    public function getUser()
+    {
+        if (\Yii::app()->user->getCurrentUser() !== null) {
+            return \Yii::app()->user->getCurrentUser();
+        }
+        elseif (\Yii::app()->tempUser->getCurrentUser() !== null) {
+            return \Yii::app()->tempUser->getCurrentUser();
+        }
+        return null;
+    }
 }

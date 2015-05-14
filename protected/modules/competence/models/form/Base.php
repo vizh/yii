@@ -345,4 +345,13 @@ abstract class Base extends \CFormModel
     {
         return [];
     }
+
+    /**
+     * Описание для кнопки перехода к следующему вопросу
+     * @return string
+     */
+    public function getBtnNextLabel()
+    {
+        return 'Продолжить';
+    }
 }
