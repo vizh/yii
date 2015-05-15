@@ -24,18 +24,15 @@
                                         <br/><br/>
 
                                         <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">
+                                            До встречи на DevCon 2015!<br/><br/>
                                             С уважением,<br/>
                                             организаторы конференции DevCon 2015<br/>
                                             _______________________________________<br/>
-
-                                            Информационный центр поддержки конференции DevCon по организационным вопросам: <br/>
+                                            +7 (929) 694-00-99<br/>
+                                            <a href="mailto:ms@devcon2015.ru">ms@devcon2015.ru</a><br/>
+                                            <a href="http://www.msdevcon.ru">www.msdevcon.ru</a><br/>
                                             <br/>
-                                            Email:<a href="mailto:ms@devcon2015.ru">ms@devcon2015.ru</a><br/>
-                                            <br/>
-                                            Call-center: +7 (929) 694-00-99  <br/>
-                                            Режим работы: будни 09:00 – 18:00 <br/>
-                                            <br/>
-                                            <a href="www.msdevcon.ru">Сайт конференции</a>
+                                            #msdevcon
                                         </p>
                                     </td>
                                 </tr>

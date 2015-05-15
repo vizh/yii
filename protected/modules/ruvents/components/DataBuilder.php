@@ -150,7 +150,10 @@ class DataBuilder
             /** @var UserData $row */
             $row = array_pop($data);
             foreach ($row->getManager()->getDefinitions() as $definition) {
-                $this->user->Data[$definition->name] = $definition->getPrintValue($row->getManager());
+                $dataItem = new \stdClass();
+                $dataItem->Label = $definition->title;
+                $dataItem->Value = $definition->getPrintValue($row->getManager());
+                $this->user->Data[$definition->name] = $dataItem;
             }
         }
         return $this->user;

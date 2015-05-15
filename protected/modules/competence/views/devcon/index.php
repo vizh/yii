@@ -13,7 +13,7 @@ use competence\models\Result;
     <div class="row">
         <div class="span8 offset2 m-top_30">
             <p class="lead text-center">Здравствуйте, <?=$user->getShortName();?>!</p>
-            <p class="lead text-center">Спасибо за&nbsp;готовность оставить свое мнение о&nbsp;мероприятии, заполнив анкету. Это займет у&nbsp;вас не&nbsp;более 5&nbsp;минут.</p>
+            <p class="lead text-center">Спасибо за готовность оставить свое мнение о мероприятии, заполнив анкету участника и оценив доклады. Это займет у вас не более 5 минут.</p>
         </div>
     </div>
     <div class="row m-top_30 m-bottom_30 select-buttons">
@@ -25,7 +25,7 @@ use competence\models\Result;
             <?php endif;?>
         </div>
         <div class="span4 text-center">
-            <a class="btn btn-large btn-success" href="http://events.techdays.ru/msdevtour/astana#vote">Оценить доклады</a>
+            <a class="btn btn-large btn-success" href="http://www.msdevcon.ru/vote/">Оценить доклады</a>
         </div>
     </div>
 </div>
