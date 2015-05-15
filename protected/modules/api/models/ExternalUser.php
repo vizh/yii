@@ -1,5 +1,6 @@
 <?php
 namespace api\models;
+use application\components\ActiveRecord;
 
 /**
  * Class ExternalUser
@@ -18,7 +19,7 @@ namespace api\models;
  * @method \api\models\ExternalUser findByPk($pk,$condition='',$params=array())
  * @method \api\models\ExternalUser[] findAll($condition='',$params=array())
  */
-class ExternalUser extends \CActiveRecord
+class ExternalUser extends ActiveRecord
 {
     /**
      * @param string $className

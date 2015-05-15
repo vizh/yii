@@ -6,8 +6,8 @@ class TestController extends CController
   {
     //$api = 'zrnzd5rs8i';
     //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-    $api = 'y7s32hs3ry';
-    $secret = 'atYHhHtKzaK9eQNz5YnRz9sSY';
+    $api = 'df98ikfihe';
+    $secret = 'abNztfbyS23hkZiB4b57zE26d';
 
     $params = array(
       'ApiKey' => $api,
@@ -28,7 +28,7 @@ class TestController extends CController
 
     print_r($params);
 
-    $this->apiRequest('/api/pay/products', $params);
+    $this->apiRequest('/api/ms/users', $params);
   }
 
   private function apiRequest($url, $params)
