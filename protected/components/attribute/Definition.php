@@ -85,4 +85,27 @@ class Definition
     {
         return $container->{$this->name};
     }
+
+    /**
+     * Метод, вызываемый во время сохранения атрибута
+     * @param \CModel $container
+     * @return string
+     */
+    public function internalPush(\CModel $container, $value)
+    {
+        return $value;
+    }
+
+    /**
+     * Метод вызывается во время установки параметров модели из request
+     * @param \CModel $container
+     * @return null|string
+     */
+    public function internalSetAttribute(\CModel $container)
+    {
+        /** @var \CHttpRequest $request */
+        $request = \Yii::app()->getRequest();
+        $param = $request->getParam(get_class($container));
+        return $param !== null && !empty($param[$this->name]) ? $param[$this->name]  : null;
+    }
 } 

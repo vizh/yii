@@ -42,7 +42,7 @@ trait JsonContainer
     /**
      * @return \CActiveRecord
      */
-    protected function model()
+    public function model()
     {
         return $this->model;
     }
@@ -164,6 +164,7 @@ trait JsonContainer
     public function pushAttributes()
     {
         foreach ($this->attributes as $name => $value) {
+            $value = $this->definitions[$name]->internalPush($this->model(), $value);
             $this->attributes[$name] = $this->definitions[$name]->typecast($value);
         }
         $this->model()->{$this->containerName()} = json_encode($this->attributes, JSON_UNESCAPED_UNICODE);

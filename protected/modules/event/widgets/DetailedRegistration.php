@@ -106,10 +106,11 @@ class DetailedRegistration extends \event\components\Widget
             $this->form->validate(null, false);
 
             if ($this->userData !== null) {
-                $this->userData->getManager()->setAttributes(
-                    $request->getParam(get_class($this->userData->getManager()))
-                );
-                $this->userData->getManager()->validate();
+                $manager = $this->userData->getManager();
+                foreach ($manager->getDefinitions() as $definition) {
+                    $manager->{$definition->name} = $definition->internalSetAttribute($manager);
+                }
+                $manager->validate();
             }
 
             if (!$this->form->hasErrors() && ($this->userData == null || !$this->userData->getManager()->hasErrors())) {
