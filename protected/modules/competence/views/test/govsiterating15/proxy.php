@@ -16,7 +16,7 @@
                     <a target="_blank" href="http://open.gov.ru/"><img title="Открытое правительство" alt="Открытое правительство" src="http://getlogo.org/img/open-gov/946/150x/"></a>
                 </td>
                 <td class="text-right" style="vertical-align: middle;">
-                    <a target="_blank" href="http://raec.ru"><img title="РАЭК" alt="РАЭК" src="http://getlogo.org/img/raec/2/150x/"></a>
+                    <a target="_blank" href="http://raec.ru"><img title="РАЭК" alt="РАЭК" src="http://getlogo.org/img/raec/4/150x/"></a>
                 </td>
             </tr>
         </table>
