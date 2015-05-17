@@ -71,7 +71,8 @@ class HallsController extends Controller
         $check->VisitTime = $time;
         $check->HallId = $hall->Id;
         $check->save();
-        $this->renderJson(['Id' => $check->Id]);
+        $check->refresh();
+        $this->renderJson(['Id' => $check->Id, 'CreationTime' => $check->CreationTime]);
     }
 
     /**

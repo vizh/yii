@@ -126,7 +126,7 @@ class Base extends MailLayout
         $mail = $this->getRegisterMail();
         if ($mail === null || $mail->SendPassbook) {
             $pkPass = new PKPassGenerator($this->event, $this->user, $this->role);
-            //$attachments['ticket.pkpass'] = $pkPass->runAndSave();
+            $attachments['ticket.pkpass'] = $pkPass->runAndSave();
         }
 
         if ($mail !== null && $mail->SendTicket && false) {

@@ -59,7 +59,10 @@ abstract class CreateUpdateForm extends FormModel
      */
     public function isUpdateMode()
     {
-        return !empty($this->model);
+        if (empty($this->model) || $this->model->getIsNewRecord()) {
+            return false;
+        }
+        return true;
     }
 
     /**
