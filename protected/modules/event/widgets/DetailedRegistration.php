@@ -17,16 +17,6 @@ use user\models\User;
  * Class DetailedRegistration
  * @package event\widgets
  *
- * @property int $DefaultRoleId,
- * @property string $SelectRoleIdList,
- * @property int $RegisterUnvisibleUser,
- * @property int $ShowEmployment,
- * @property int $ShowFatherName,
- * @property int $ShowPhoto,
- * @property string $RegistrationBeforeInfo,
- * @property int $UseInvites,
- * @property int $ShowUserDataLabel,
- * @property string $RegistrationCompleteText
  */
 class DetailedRegistration extends \event\components\Widget
 {
@@ -39,6 +29,9 @@ class DetailedRegistration extends \event\components\Widget
             'ShowEmployment',
             'ShowFatherName',
             'ShowPhoto',
+            'ShowPhone',
+            'ShowBirthday',
+            'ShowUserDataGroupLabel',
             'RegistrationBeforeInfo',
             'UseInvites',
             'RegistrationCompleteText'
@@ -86,6 +79,14 @@ class DetailedRegistration extends \event\components\Widget
 
         if (isset($this->ShowPhoto) && $this->ShowPhoto == 1) {
             $attributes[] = 'Photo';
+        }
+
+        if (isset($this->ShowPhone) && $this->ShowPhone == 1) {
+            $attributes[] = 'PrimaryPhone';
+        }
+
+        if (isset($this->ShowBirthday) && $this->ShowBirthday == 1) {
+            $attributes[] = 'Birthday';
         }
 
         if (isset($this->ShowEmployment) && $this->ShowEmployment == 1) {

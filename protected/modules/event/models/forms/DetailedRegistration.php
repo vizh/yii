@@ -109,6 +109,19 @@ class DetailedRegistration extends CreateUpdateForm
                 case 'Photo':
                     $rules[] = ['Photo', 'file', 'types' => 'jpg, jpeg, gif, png', 'allowEmpty' => $this->isUpdateMode()];
                     break;
+
+                case 'PrimaryPhone':
+                    $rules = array_merge($rules, [
+                        [$attribute, 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
+                        [$attribute, 'required'],
+                        [$attribute, 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ($this->isUpdateMode() ? ['condition' => '"t"."Id" != :UserId', 'params' => ['UserId' => $this->model->Id]] : [])],
+                    ]);
+                    break;
+
+                case 'Birthday':
+                    $rules[] = ['Birthday', 'required'];
+                    $rules[] = ['Birthday', 'date', 'format' => 'dd.MM.yyyy'];
+                    break;
             }
         }
         return $rules;
@@ -310,6 +323,16 @@ class DetailedRegistration extends CreateUpdateForm
                 if (in_array('FatherName', $this->getUsedAttributes())) {
                     $this->model->FatherName = $this->FatherName;
                 }
+
+                if (in_array('Birthday', $this->getUsedAttributes())) {
+                    $this->model->Birthday = \Yii::app()->getDateFormatter()->format('yyyy-MM-dd', $this->Birthday);
+                }
+
+                if (in_array('PrimaryPhone', $this->getUsedAttributes()) && $this->model->PrimaryPhone != $this->PrimaryPhone) {
+                    $this->model->PrimaryPhone = $this->PrimaryPhone;
+                    $this->model->PrimaryPhoneVerify = false;
+                }
+
                 $this->model->save();
 
                 if (in_array('Company', $this->getUsedAttributes())) {
@@ -350,10 +373,16 @@ class DetailedRegistration extends CreateUpdateForm
     {
         $result = parent::loadData();
         if ($result) {
-            $employment = $this->model->getEmploymentPrimary();
-            if ($employment !== null && $employment->Company !== null) {
-                $this->Company  = $employment->Company->Name;
-                $this->Position = $employment->Position;
+            if (in_array('Birthday', $this->getUsedAttributes())) {
+                $this->Birthday = !empty($this->model->Birthday) ? \Yii::app()->getDateFormatter()->format('dd.MM.yyyy', $this->model->Birthday) : null;
+            }
+
+            if (in_array('Company', $this->getUsedAttributes())) {
+                $employment = $this->model->getEmploymentPrimary();
+                if ($employment !== null && $employment->Company !== null) {
+                    $this->Company = $employment->Company->Name;
+                    $this->Position = $employment->Position;
+                }
             }
         }
         return $result;

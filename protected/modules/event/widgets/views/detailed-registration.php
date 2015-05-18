@@ -4,6 +4,7 @@
  * @var \event\models\UserData $userData
  */
 use \application\components\attribute\BooleanDefinition;
+use \application\models\attribute\Group;
 ?>
 <div class="registration">
     <?if (isset($this->RegistrationBeforeInfo)):?>
@@ -19,7 +20,9 @@ use \application\components\attribute\BooleanDefinition;
                 <div class="control-group">
                     <?=\CHtml::activeLabel($this->form, $attribute, ['class' => 'control-label']);?>
                     <div class="controls">
-                        <?php if ($attribute == 'Photo'):?>
+                        <?php if ($attribute == 'Birthday'):?>
+                            <?=\CHtml::activeTextField($this->form, $attribute, ['disabled' => $this->form->isDisabled($attribute),'class' => 'span12', 'placeholder' => \Yii::t('app', 'Например: 01.01.1980')]);?>
+                        <?php elseif ($attribute == 'Photo'):?>
                             <?if ($this->form->isUpdateMode()):?>
                                 <?=CHtml::image($this->form->getActiveRecord()->getPhoto()->get50px(),'',['class'=>'img-polaroid']);?>
                             <?else:?>
@@ -35,11 +38,23 @@ use \application\components\attribute\BooleanDefinition;
         <hr/>
 
 
-        <?if ($this->form->getUserData() !== null):?>
-            <?foreach($this->form->getUserData()->getManager()->getDefinitions() as $definition):?>
+        <?php if ($this->form->getUserData() !== null):?>
+            <?php $group = null;?>
+            <?php foreach($this->form->getUserData()->getManager()->getDefinitions() as $definition):?>
+                <?php if (isset($this->ShowUserDataGroupLabel) && $this->ShowUserDataGroupLabel == 1):?>
+                    <?php if ($group == null || $group->Id !== $definition->groupId):?>
+                        <?if ($group !== null):?>
+                            <hr/>
+                        <?endif;?>
+                        <?php $group = Group::model()->findByPk($definition->groupId);?>
+                        <p><strong><?=$group->Title;?></strong></p>
+                    <?php endif;?>
+                <?php endif;?>
                 <div class="row-fluid">
                     <div class="control-group">
-                        <label class="control-label"><?=$definition->title;?></label>
+                        <?php if (!($definition instanceof BooleanDefinition)):?>
+                            <label class="control-label"><?=$definition->title;?></label>
+                        <?php endif;?>
                         <div class="controls">
                             <?=$definition->activeEdit($this->form->getUserData()->getManager(), ['class' => ($definition instanceof BooleanDefinition) ? '' : 'span12']);?>
                         </div>

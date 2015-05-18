@@ -48,9 +48,10 @@ class Definition
 
     public function rules()
     {
-        return $this->required ? [
-            [$this->name, 'required']
-        ] : [];
+        return [
+            [$this->name, 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            [$this->name, $this->required  ? 'required' : 'safe']
+        ];
     }
 
     /**
