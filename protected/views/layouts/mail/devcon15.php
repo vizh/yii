@@ -21,23 +21,21 @@
 
                                         <?= $content; ?>
 
-                                        <br/><br/>
-                                        <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">
-                                            _______________________________________<br/>
-                                            С уважением, организаторы DevCon 2015
-                                        </p>
                                         <?/**
+                                        <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">
+                                            С уважением, организаторы DevCon 2015
+                                        </p>*/?>
                                         <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">
                                             До встречи на DevCon 2015!<br/><br/>
                                             С уважением,<br/>
                                             организаторы конференции DevCon 2015<br/>
                                             _______________________________________<br/>
-                                            +7 (929) 694-00-99<br/>
-                                            <a href="mailto:ms@devcon2015.ru">ms@devcon2015.ru</a><br/>
+                                            <?/*+7 (929) 694-00-99<br/>
+                                            <a href="mailto:ms@devcon2015.ru">ms@devcon2015.ru</a><br/>*/?>
                                             <a href="http://www.msdevcon.ru">www.msdevcon.ru</a><br/>
                                             <br/>
                                             #msdevcon
-                                        </p>**/?>
+                                        </p>
                                     </td>
                                 </tr>
                             </table>

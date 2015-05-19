@@ -20,10 +20,9 @@ class SpecialController extends \partner\components\Controller
         'fixchanges' => 'partner\controllers\special\rif13\FixchangesAction',
       ];
     }
-    elseif (Yii::app()->partner->getEvent()->IdName == 'tc2013')
-    {
+    elseif (Yii::app()->partner->getEvent()->IdName == 'mademoscow15') {
       return [
-        'startup' => 'partner\controllers\special\tc13\StartupAction'
+          'export' => 'partner\controllers\special\mademoscow15\ExportAction'
       ];
     }
     else
