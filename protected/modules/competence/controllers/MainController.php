@@ -32,6 +32,24 @@ class MainController extends PublicMainController
     }
 
     /**
+     * Проверяет проходил ли пользователь опрос
+     * @return bool
+     */
+    private function checkExistsResult()
+    {
+        if (!$this->getTest()->Test && !$this->getTest()->Multiple) {
+            $model = Result::model()->byTestId($this->getTest()->Id)->byFinished();
+            if ($this->getTest()->getUserKey() !== null) {
+                $model->byUserKey($this->getTest()->getUserKey());
+            } else {
+                $model->byUserId($this->getUser()->Id);
+            }
+            return $model->exists();
+        }
+        return false;
+    }
+
+    /**
      * @inheritdoc
      */
     protected function beforeAction($action)
@@ -45,18 +63,12 @@ class MainController extends PublicMainController
             return false;
         }
 
-        if (!$this->getTest()->Test && !$this->getTest()->Multiple) {
-            $model = Result::model()->byTestId($this->getTest()->Id)->byFinished();
-            if ($this->getTest()->getUserKey() !== null) {
-                $model->byUserKey($this->getTest()->getUserKey());
-            }
-            else {
-                $model->byUserId(\Yii::app()->user->getCurrentUser()->Id);
-            }
-            $result = $model->find();
-            if ($result != null && $action->getId() != 'end' && $action->getId() != 'done') {
-                $this->redirect(\Yii::app()->createUrl('/competence/main/done', ['id' => $this->getTest()->Id]));
-            }
+        if ($this->checkExistsResult()) {
+            $this->redirect(['done', 'id' => $this->getTest()->Id]);
+        }
+
+        if (!empty($this->getTest()->EndTime) && $this->test->EndTime < date('Y-m-d H:i:s') && $action->getId() != 'after') {
+            $this->redirect(['after', 'id' => $this->getTest()->Id]);
         }
 
         $this->getTest()->setUser(\Yii::app()->user->getCurrentUser());
@@ -78,19 +90,17 @@ class MainController extends PublicMainController
         $this->render('index', ['test' => $this->getTest()]);
     }
 
-    public function actionEnd($id)
-    {
-        $this->setPageTitle(strip_tags($this->getTest()->Title));
-
-        if ($this->getTest()->Id)
-
-            $this->render($this->getTest()->getEndView(), ['done' => false, 'test' => $this->getTest()]);
-    }
-
     public function actionDone($id)
     {
-        $this->setPageTitle(strip_tags($this->getTest()->Title));
-        $this->render('end', ['done' => true]);
+        $this->render($this->getTest()->getEndView(), [
+            'test' => $this->getTest(),
+            'done' => $this->checkExistsResult()
+        ]);
+    }
+
+    public function actionAfter($id)
+    {
+        $this->render('after', ['test' => $this->getTest()]);
     }
 
     /**

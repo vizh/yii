@@ -75,22 +75,6 @@ class ProcessAction extends \CAction
     {
         $test = $this->getController()->getTest();
         $test->saveResult();
-
-
-        if ($test->Id == 12) {
-            $user = \Yii::app()->user->getCurrentUser();
-            $couponActivation = CouponActivation::model()->byUserId($user->Id)->byEventId(889)->find();
-            if ($couponActivation === null || $couponActivation->Coupon->Discount < 0.25) {
-                $coupon = new Coupon();
-                $coupon->EventId = 889;
-                $coupon->Discount = 0.25;
-                $coupon->Code = $coupon->generateCode();
-                $coupon->save();
-
-                $coupon->activate($user, $user);
-            }
-        }
-
-        $this->getController()->redirect(\Yii::app()->createUrl('/competence/main/end', ['id' => $test->Id]));
+        $this->getController()->redirect(['done', 'id' => $test->Id]);
     }
 }

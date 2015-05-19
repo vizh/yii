@@ -22,7 +22,11 @@
                                         <?= $content; ?>
 
                                         <br/><br/>
-
+                                        <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">
+                                            _______________________________________<br/>
+                                            С уважением, организаторы DevCon 2015
+                                        </p>
+                                        <?/**
                                         <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">
                                             До встречи на DevCon 2015!<br/><br/>
                                             С уважением,<br/>
@@ -33,7 +37,7 @@
                                             <a href="http://www.msdevcon.ru">www.msdevcon.ru</a><br/>
                                             <br/>
                                             #msdevcon
-                                        </p>
+                                        </p>**/?>
                                     </td>
                                 </tr>
                             </table>

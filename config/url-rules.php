@@ -83,6 +83,10 @@ return [
     /** Event Interview Rules */
     'http://' . RUNETID_HOST . '/devcon' => 'competence/devcon/index',
 
+    'http://' . RUNETID_HOST . '/govresources' => ['competence/main/process/', 'defaultParams' => ['id' => 38]],
+    'http://' . RUNETID_HOST . '/govresources/done' => ['competence/main/done', 'defaultParams' => ['id' => 38]],
+    'http://' . RUNETID_HOST . '/govresources/after' => ['competence/main/after', 'defaultParams' => ['id' => 38]],
+
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>' => 'competence/event/index',
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>/<action:\w+>' => 'competence/event/<action>',
 
