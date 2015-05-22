@@ -37,13 +37,16 @@
                 </strong>
                 <?$employment = $user->getEmploymentPrimary();?><sup><?=$user->RunetId;?></sup>
                 <?if ($employment !== null):?>
-                    <br/><span class="small">
-          <?php
-          echo $employment->Company->Name;
-          $employment->Company->setLocale('en');
-          echo ' ('.$employment->Company->Name.')';
-          ?>
-        </span>
+                    <br/>
+                    <span class="small">
+                        <?=$employment->Company->Name;?>
+                        <?php $employment->Company->setLocale('en');?>
+                        (<?=$employment->Company->Name;?>)
+                    </span>
+                <?endif;?>
+                <?php if (!empty($user->Birthday)):?>
+                    <br/>
+                    <span class="small">Дата рождения: <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $user->Birthday);?></span>
                 <?endif;?>
                 <div class="m-top_10"><a href="<?=$this->createUrl('/partner/user/translate', array('runetId' => $user->RunetId));?>" class="btn btn-mini"><?=\Yii::t('app', 'Редактировать');?></a></div>
             </div>

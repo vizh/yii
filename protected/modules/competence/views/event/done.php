@@ -10,7 +10,7 @@ use user\models\User;
 use competence\models\Test;
 
 //TODO: Костыль разлогинивания для тестов msdevtour
-if (strpos($test->Code, 'mdt') === 0) {
+if (strpos($test->Code, 'devcon') === 0) {
     /** @var CWebUser $user */
     if (\Yii::app()->user->getCurrentUser() !== null) {
         $user = \Yii::app()->user;

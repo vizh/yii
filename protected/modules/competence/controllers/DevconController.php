@@ -14,12 +14,10 @@ class DevconController extends MainController
     public function actionIndex()
     {
         $user = $this->getUser();
-        if ($user === null) {
-            throw new \CHttpException(404);
+        $result = null;
+        if ($user !== null) {
+            $result = Result::model()->byUserId($user->Id)->byFinished(true)->byTestId($this->getTest()->Id)->find();
         }
-
-        $result = Result::model()->byUserId($user->Id)->byFinished(true)->byTestId($this->getTest()->Id)->find();
-
         $this->render('index', [
             'user' => $user,
             'result' => $result,

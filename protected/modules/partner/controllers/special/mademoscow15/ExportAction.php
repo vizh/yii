@@ -28,7 +28,8 @@ class ExportAction extends Action
                 $filepath = $user->getPhoto()->getOriginal(true);
             }
             $extension = substr($filepath, strrpos($filepath, '.'));
-            $localname = iconv('utf-8', 'CP866//TRANSLIT//IGNORE',  $user->getFullName().' (' . $user->RunetId . ')'.$extension);
+            //$localname = iconv('utf-8', 'CP866//TRANSLIT//IGNORE',  $user->getFullName().' (' . $user->RunetId . ')'.$extension);
+            $localname = $user->getFullName().' (' . $user->RunetId . ')'.$extension;
             $zip->addFile($filepath, $localname);
         }
         $zip->close();

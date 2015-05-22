@@ -26,7 +26,7 @@
                                             С уважением, организаторы DevCon 2015
                                         </p>*/?>
                                         <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">
-                                            До встречи на DevCon 2015!<br/><br/>
+                                            <?/*До встречи на DevCon 2015!<br/><br/>*/?>
                                             С уважением,<br/>
                                             организаторы конференции DevCon 2015<br/>
                                             _______________________________________<br/>

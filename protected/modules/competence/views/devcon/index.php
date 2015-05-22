@@ -12,7 +12,7 @@ use competence\models\Result;
 <div class="container interview m-top_30 m-bottom_40 welcome">
     <div class="row">
         <div class="span8 offset2 m-top_30">
-            <p class="lead text-center">Здравствуйте, <?=$user->getShortName();?>!</p>
+            <p class="lead text-center">Здравствуйте<?php if ($user !== null):?>, <?=$user->getShortName();?><?php endif;?>!</p>
             <p class="lead text-center">Спасибо за готовность оставить свое мнение о мероприятии, заполнив анкету участника и оценив доклады. Это займет у вас не более 5 минут.</p>
         </div>
     </div>

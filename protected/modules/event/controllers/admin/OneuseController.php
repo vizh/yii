@@ -370,6 +370,8 @@ WHERE epl."Id" IS NULL AND ep."EventId" = 831';
 
     public function actionDevcon15()
     {
+        /*$query = 'INSERT INTO "PayOrderItem" ("ProductId", "PayerId", "OwnerId", "Paid", "PaidTime") VALUES ('3819', '322482', '322482', 't', '2015-05-20 07:00:00');';*/
+
         /*
         $eventId = 1524;
         $participants = \event\models\Participant::model()->byEventId($eventId)->findAll();
@@ -418,5 +420,24 @@ WHERE epl."Id" IS NULL AND ep."EventId" = 831';
         }
         fclose($csv);
         */
+    }
+
+    public function actionPhdays15()
+    {
+        $participants = \event\models\Participant::model()->byEventId(1551)->orderBy(['"t"."CreationTime"' => SORT_DESC])->findAll();
+        $idlist = [];
+        foreach ($participants as $participant) {
+            if (!in_array($participant->UserId, $idlist)) {
+                $idlist[] = $participant->UserId;
+                echo $participant->User->getFullName().' '.\CHtml::link($participant->getTicketUrl(), $participant->getTicketUrl()).'<br/>';
+            }
+
+
+            if (count($idlist) == 37) {
+                exit;
+            }
+        }
+
+
     }
 }

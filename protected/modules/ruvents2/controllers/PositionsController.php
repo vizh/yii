@@ -45,7 +45,7 @@ class PositionsController extends Controller
         $criteria->order = 't."UpdateTime"';
         $criteria->limit = $limit;
 
-        if ($this->getEvent()->IdName == 'rif15') {
+        if ($this->getEvent()->IdName == 'devcon15') {
             $criteria->addCondition('"Product"."ManagerName" = \'FoodProductManager\'');
         }
 
