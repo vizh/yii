@@ -59,6 +59,7 @@ class Definition
      * @param string $name
      * @param integer $groupId
      * @param array $params
+     * @param boolean $public
      * @return Definition
      */
     final public static function createDefinition($class, $name, $groupId = 0, $params = [])

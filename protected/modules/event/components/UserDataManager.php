@@ -72,6 +72,7 @@ class UserDataManager extends \CModel
             $row['title'] = $definition->Title;
             $row['required'] = $definition->Required;
             $row['secure'] = $definition->Secure;
+            $row['public'] = $definition->Public;
             foreach ($definition->getParams() as $key => $value) {
                 $row[$key] = $value;
             }

@@ -21,7 +21,7 @@ class FileDefinition extends Definition
     public function rules()
     {
         return [
-            [$this->name, 'file', 'types' => $this->types, 'allowEmpty' => !$this->required]
+            [$this->name, 'file', 'types' => $this->types, 'allowEmpty' => (!$this->required || !$this->public)]
         ];
     }
 
@@ -54,7 +54,10 @@ class FileDefinition extends Definition
      */
     public function getPrintValue($container)
     {
-        return \CHtml::link(\Yii::t('app', 'Скачать'), ['/partner/user/viewdatafile', 'id' => $container->model()->Id, 'attribute' => $this->name]);
+        if (!empty($container->{$this->name})) {
+            return \CHtml::link(\Yii::t('app', 'Скачать'), ['/partner/user/viewdatafile', 'id' => $container->model()->Id, 'attribute' => $this->name]);
+        }
+        return '';
     }
 
 

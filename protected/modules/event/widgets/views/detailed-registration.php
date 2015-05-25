@@ -41,6 +41,11 @@ use \application\models\attribute\Group;
         <?php if ($this->form->getUserData() !== null):?>
             <?php $group = null;?>
             <?php foreach($this->form->getUserData()->getManager()->getDefinitions() as $definition):?>
+                <?php
+                    if (!$definition->public) {
+                        continue;
+                    }
+                ?>
                 <?php if (isset($this->ShowUserDataGroupLabel) && $this->ShowUserDataGroupLabel == 1):?>
                     <?php if ($group == null || $group->Id !== $definition->groupId):?>
                         <?if ($group !== null):?>

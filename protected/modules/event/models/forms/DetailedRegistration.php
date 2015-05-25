@@ -316,7 +316,7 @@ class DetailedRegistration extends CreateUpdateForm
                     }
                 }
 
-                if ($this->Photo !== null) {
+                if (in_array('Photo', $this->getUsedAttributes()) && $this->Photo !== null) {
                     $this->model->getPhoto()->SavePhoto($this->Photo);
                 }
 
