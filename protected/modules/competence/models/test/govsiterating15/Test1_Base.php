@@ -10,21 +10,27 @@ namespace competence\models\test\govsiterating15;
 
 
 use competence\models\form\Single;
+use competence\models\Result;
 
 class Test1_Base extends Single
 {
-    public function getTitle()
+    /**
+     * @return array
+     */
+    public function getInternalExportValueTitles()
     {
-        $site = Proxy::getRateSite();
-        $title  = '
-            Найдите на сайте "<a href="'. $site[1] .'" target="_blank">'. $site[0] .'</a>" порядок поступления граждан на государственную службу и номера телефонов, по которым можно получить информацию по вопросу замещения вакансий в данном ФОИВ.
-            <div class="row m-top_10 m-bottom_60">
-                <div class="text-center span8">
-                    <a class="btn" style="font-weight: normal;" href="'. $site[1] . '" target="_blank">ПЕРЕЙТИ НА САЙТ ФОИВ</a>
-                </div>
-            </div>
-        ';
-        $title .= parent::getTitle();
-        return $title;
+        $titles[] = 'Значение';
+        return $titles;
+    }
+
+    /**
+     * @param Result $result
+     * @return array
+     */
+    public function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $value = !empty($questionData) ? $questionData['value'] : '-';
+        return [$value];
     }
 } 

@@ -437,7 +437,16 @@ WHERE epl."Id" IS NULL AND ep."EventId" = 831';
                 exit;
             }
         }
+    }
 
-
+    public function actionMademoscow15()
+    {
+        /*
+        $event = \event\models\Event::model()->findByPk(1919);
+        $participants = \event\models\Participant::model()->byEventId($event->Id)->byRoleId(24)->findAll();
+        foreach ($participants as $participant) {
+            $event->registerUser($participant->User, \event\models\Role::model()->findByPk(1));
+        }
+        */
     }
 }
