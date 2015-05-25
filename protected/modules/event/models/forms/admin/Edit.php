@@ -28,6 +28,7 @@ class Edit extends \CFormModel
     public $EndDateTS;
 
     public $Logo;
+    public $TicketImage;
 
     public $SiteUrl;
 
@@ -51,7 +52,7 @@ class Edit extends \CFormModel
             ['StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'],
             ['EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'],
             ['Title, IdName, Info, FullInfo, Info, Visible, TypeId, ShowOnMain, Approved, Widgets, ProfInterest, SiteUrl, OrganizerInfo', 'safe'],
-            ['Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true]
+            ['Logo, TicketImage', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true]
         ];
     }
 
@@ -69,6 +70,7 @@ class Edit extends \CFormModel
             'ProfInterest' => \Yii::t('app', 'Профессиональные интересы'),
             'Approved' => \Yii::t('app', 'Статус'),
             'Logo' => \Yii::t('app', 'Лого'),
+            'TicketImage' => \Yii::t('app', 'Изображение для билета'),
             'SiteUrl' => \Yii::t('app', 'URl сайта'),
             'Address' => \Yii::t('app', 'Адрес'),
             'Free' => \Yii::t('app', 'Бесплатное мероприятие'),
@@ -78,7 +80,8 @@ class Edit extends \CFormModel
             'Phone' => \Yii::t('app', 'Номер телефона'),
             'UnsubscribeNewUser' => \Yii::t('app', 'Не подписывать новых пользователей на рассылки'),
             'RegisterHideNotSelectedProduct' => \Yii::t('app', 'Скрывать не выбранные товары при регистрации'),
-            'NotSendRegisterMail' => \Yii::t('app', 'Не оповещать пользователей о регистрации')
+            'NotSendRegisterMail' => \Yii::t('app', 'Не оповещать пользователей о регистрации'),
+            'OrganizerInfo' => \Yii::t('app', 'Информация об организаторе')
         ];
     }
 

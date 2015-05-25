@@ -69,6 +69,7 @@ class IndexAction extends \CAction
         {
             $form->attributes = $request->getParam(get_class($form));
             $form->Logo = \CUploadedFile::getInstance($form, 'Logo');
+            $form->TicketImage = \CUploadedFile::getInstance($form, 'TicketImage');
             if ($form->validate()){
                 // Сохранение мероприятия
                 $event->IdName = $form->IdName;
@@ -120,6 +121,10 @@ class IndexAction extends \CAction
                     $event->getLogo()->save($form->Logo->getTempName());
                 }
 
+                if ($form->TicketImage !== null) {
+                    $event->getTicketImage()->saveUpload($form->TicketImage);
+                }
+
                 // Сохранение виджетов
                 foreach ($form->Widgets as $class => $params){
                     $widgetClass = WidgetClass::model()->byClass($class)->find();
@@ -159,11 +164,7 @@ class IndexAction extends \CAction
                     }
                 }
 
-                $CompanyName = Attribute::model()->byEventId($event->Id)->byName('OrganizerInfo')->find();
-                if ($CompanyName->Value != $form->OrganizerInfo){
-                    $CompanyName->Value = $form->OrganizerInfo;
-                    $CompanyName->save();
-                }
+                $event->OrganizerInfo = $form->OrganizerInfo;
 
                 \Yii::app()->user->setFlash('success', \Yii::t('app', 'Мероприятие успешно сохранено'));
                 $this->getController()->redirect(

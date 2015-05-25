@@ -97,7 +97,14 @@ if (!empty($event->LinkEmails)) {
 <table style="width: 100%;" cellpadding="0" cellspacing="0">
     <tbody>
         <tr>
-            <td style="text-align: center; vertical-align: middle; height: 60mm;"><img src="<?=$event->getLogo()->get150px();?>"></td>
+            <td style="text-align: center; vertical-align: middle; height: 60mm;">
+                <?if ($event->getTicketImage()->getOriginal() !== null):?>
+                    <img src="<?=$event->getTicketImage()->resize(900, 250);?>" style="image-resolution: 130dpi;">
+                <?else:;?>
+                    <img src="<?=$event->getLogo()->get150px();?>">
+                <?endif;?>
+
+            </td>
         </tr>
     </tbody>
 </table>

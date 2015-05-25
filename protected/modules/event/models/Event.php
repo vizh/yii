@@ -2,6 +2,7 @@
 namespace event\models;
 
 use api\components\callback\Base;
+use application\components\Image;
 use application\models\translation\ActiveRecord;
 use \mail\components\mailers\MandrillMailer;
 use search\components\interfaces\ISearch;
@@ -32,6 +33,7 @@ use user\models\User;
  * @property string $DeletionTime
  * @property string $Color
  *
+ *
  * @property Part[] $Parts
  * @property \event\models\section\Section[] $Sections
  * @property LinkAddress $LinkAddress
@@ -59,6 +61,7 @@ use user\models\User;
  * @property bool $UnsubscribeNewUser
  * @property bool $RegisterHideNotSelectedProduct
  * @property bool $NotSendRegisterMail
+ * @property string $OrganizerInfo
  *
  *
  * Вспомогательные описания методов методы
@@ -906,5 +909,13 @@ class Event extends ActiveRecord implements ISearch
     public function getUserData(User $user)
     {
         return UserData::model()->byEventId($this->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"'])->byDeleted(false)->findAll();
+    }
+
+    /**
+     * @return Image
+     */
+    public function getTicketImage()
+    {
+        return new Image($this, null, 'ticket');
     }
 }

@@ -88,7 +88,6 @@
                 <?=\CHtml::activeLabel($form, 'Logo', array('class' => 'control-label'));?>
                 <div class="controls">
                     <?php
-
                     if ($event->LogoSource)
                     {
                         $LogoSource = $event->getPath($event->LogoSource);
@@ -104,6 +103,16 @@
                     <?=\CHtml::fileField(\CHtml::activeName($form, 'Logo'));?>
                 </div>
                 <div class="controls"><?=\CHtml::image($event->getLogo()->get50px());?></div>
+            </div>
+
+            <div class="control-group">
+                <?=\CHtml::activeLabel($form, 'TicketImage', ['class' => 'control-label']);?>
+                <div class="controls">
+                    <?=\CHtml::activeFileField($form, 'TicketImage');?>
+                </div>
+                <?php if ($event->getTicketImage()->getOriginal() !== null):?>
+                    <div class="controls"><?=\CHtml::image($event->getTicketImage()->get120px());?></div>
+                <?endif;?>
             </div>
 
             <div class="control-group">
@@ -190,17 +199,14 @@
                         </div>
                     </div>
                 <?endif;?>
-                <?if (isset($event->OrganizerInfo)):?>
-                    <div class="control-group">
-                        <!--<label class="control-label"><?=\Yii::t('app', 'Компания организатор');?>:</label>-->
-                        <?=\CHtml::activeLabel($form, 'OrganizerInfo', array('class' => 'control-label'));?>
-                        <div class="controls m-top_5">
-                            <!--<nobr><?=$event->OrganizerInfo;?></nobr>-->
-                            <?=\CHtml::activeTextField($form, 'OrganizerInfo');?>
-                        </div>
-                    </div>
-                <?endif;?>
             <?endif;?>
+
+            <div class="control-group">
+                <?=\CHtml::activeLabel($form, 'OrganizerInfo', ['class' => 'control-label']);?>
+                <div class="controls m-top_5">
+                    <?=\CHtml::activeTextField($form, 'OrganizerInfo');?>
+                </div>
+            </div>
 
             <?if (!$event->getIsNewRecord()):?>
                 <div class="control-group">
