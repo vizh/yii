@@ -42,7 +42,11 @@ class Site extends \application\models\translation\ActiveRecord
         $parts = parse_url($this);
         $url = $parts['scheme'].'://'.$parts['host'];
         if (!empty($parts['path'])) {
-            $url .= $parts['path'];
+            $path = $parts['path'];
+            if (strpos($path, 'index.php') !== false) {
+                $path = str_replace('index.php', '', $path);
+            }
+            $url .= $path;
         }
         return $url;
     }
