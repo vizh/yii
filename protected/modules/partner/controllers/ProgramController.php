@@ -1,5 +1,9 @@
 <?php
-class ProgramController extends \partner\components\Controller
+
+use \partner\components\Controller;
+use \event\models\section\Section;
+
+class ProgramController extends Controller
 {
     public function actionIndex($date = null)
     {
@@ -14,18 +18,17 @@ class ProgramController extends \partner\components\Controller
                 throw new CHttpException(404);
         }
 
-        $sections = \event\models\section\Section::model()->byDate($date)->byEventId($event->Id)
-            ->byDeleted(false)->findAll();
+        $sections = Section::model()->byDate($date)->byEventId($event->Id)->byDeleted(false)->findAll();
         $this->setPageTitle(\Yii::t('app', 'Программа'));
         $this->render('index', array('event' => $event, 'sections' => $sections, 'date' => $date));
     }
 
     public function actions()
     {
-        return array(
+        return [
             'section' => '\partner\controllers\program\SectionAction',
             'participants' => '\partner\controllers\program\ParticipantsAction',
             'hall' => '\partner\controllers\program\HallAction'
-        );
+        ];
     }
 }

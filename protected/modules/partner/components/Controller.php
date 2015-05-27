@@ -113,21 +113,4 @@ class Controller extends \application\components\controllers\BaseController
         }
         return $dataEvents;
     }
-
-    protected $bottomMenu = array();
-    protected function initBottomMenu() {}
-
-    public function initActiveBottomMenu($active)
-    {
-        $this->initBottomMenu();
-        foreach ($this->bottomMenu as $key => $value)
-        {
-            $this->bottomMenu[$key]['Active'] = ($key == $active);
-        }
-    }
-
-    public function getBottomMenu()
-    {
-        return $this->bottomMenu;
-    }
 }

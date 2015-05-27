@@ -1,7 +1,9 @@
 <?php
 namespace partner\widgets;
 
+use competence\models\Test;
 use event\models\Event;
+use event\models\InviteRequest;
 
 /**
  * Class Sidebar
@@ -57,59 +59,51 @@ class Sidebar extends \CWidget
     }
 
     /**
-     * @return Event
-     * @throws \application\components\Exception
-     */
-    private function getCurrentEvent()
-    {
-        return \Yii::app()->partner->getEvent();
-    }
-
-    /**
      * Возвращает элементы меню сайдбара
      * @return array
      */
     private function getItemsConfig()
     {
+        $event = $this->event;
+
         $items = [
-            'common' => ['label' => 'Общая информация', 'icon' => 'dashboard', 'url' => ['event/view']],
-            'participants' => [
-                'label' => 'Участники', 'icon' => 'group', 'url' => '#',
-                'items' => [
-                    ['label' => 'Список участников', 'url' => ['participant/list']],
-                    ['label' => 'Импорт', 'url' => ['participant/import']],
-                    ['label' => 'Экспорт', 'url' => ['participant/export']],
-                ]
-            ],
-            'finance' => ['label' => 'Финансы', 'icon' => 'building-o', 'url' => ['order/list']],
-            'mail' => ['label' => 'Рассылки', 'icon' => 'envelope', 'url' => ['mail/list']],
-            'discounts' => [
-                'label' => 'Программа лояльности', 'icon' => 'ticket', 'url' => '#',
-                'items' => [
-                    ['label' => 'Скидки', 'url' => ['discount/template-list']],
-                    ['label' => 'Купоны', 'url' => ['discount/list']],
-                ]
-            ],
-            'settings' => [
-                'label' => 'Настройки', 'icon' => 'cog', 'url' => '#',
-                'items' => [
-                    ['label' => 'Основные', 'url' => ['event/edit']],
-                    ['label' => 'Место проведения', 'url' => ['event/place']],
-                    ['label' => 'Контакты', 'url' => ['event/contacts']],
-                    ['label' => 'Настройки шапки', 'url' => ['event/header']],
-                    ['label' => 'Поля участников', 'url' => ['participant/attributes']],
-                    ['label' => 'Статусы', 'url' => ['event/statuses']],
-                    ['label' => 'Товары', 'url' => ['pay/products']],
-                    [
-                        'label' => 'Тариф',
-                        'url' => ['event/tariff']
-                    ],
-                    [
-                        'label' => 'Шаблон юр. счета',
-                        'url' => ['pay/order-template']
-                    ],
-                ]
-            ]
+            ['label' => 'Главная', 'icon' => 'dashboard', 'url' => ['main/index'], 'items' => [
+                ['label' => 'Участники', 'url' => ['main/index']],
+                ['label' => 'Фин. статистика', 'url' => ['main/pay']]
+            ]],
+            ['label' => 'Регистрации', 'icon' => 'male', 'url' => ['ruvents/index'], 'items' => [
+                ['label' => 'Статистика', 'url' => ['ruvents/index']],
+                ['label' => 'Генерация операторов', 'url' => ['ruvents/operator']],
+                ['label' => 'Итоги мероприятия (csv)', 'url' => ['ruvents/csvinfo']]
+            ]],
+            ['label' => 'Участники', 'icon' => 'group', 'url' => ['user/index'], 'items' => [
+                ['label' => 'Участники', 'url' => ['user/index']],
+                ['label' => 'Редактирование', 'url' => ['user/edit']],
+                ['label' => 'Регистрация', 'url' => ['user/register']],
+                ['label' => 'Статистика регистраций', 'url' => ['user/statistics']],
+                ['label' => 'Экспорт участников в CSV', 'url' => ['user/export']],
+                ['label' => 'Импорт участников', 'url' => ['user/import']],
+                ['label' => 'Приглашения', 'url' => ['user/invite'], 'visible' => InviteRequest::model()->byEventId($event->Id)->exists()],
+                ['label' => 'Опрос участников', 'url' => ['user/competence'], 'visible' => Test::model()->byEventId($event->Id)->exists()],
+            ]],
+            ['label' => 'Промо-коды', 'icon' => 'ticket', 'url' => ['coupon/index'], 'items' => [
+                ['label' => 'Промо-коды', 'url' => ['coupon/index']],
+                ['label' => 'Генерация промо-кодов', 'url' => ['coupon/generate']]
+            ]],
+            ['label' => 'Счета', 'icon' => 'building-o', 'url' => ['order/index'], 'items' => [
+                ['label' => 'Поиск счетов', 'url' => ['order/index']],
+                ['label' => 'Выставить счет', 'url' => ['order/create']]
+            ]],
+            ['label' => 'Заказы', 'icon' => 'shopping-cart ', 'url' => ['orderitem/index'], 'items' => [
+                ['label' => 'Заказы', 'url' => ['orderitem/index']],
+                ['label' => 'Добавить заказ', 'url' => ['orderitem/create']],
+                ['label' => 'Перенести заказ', 'url' => ['orderitem/redirect']],
+            ]],
+            ['label' => 'Программа', 'icon' => 'align-justify', 'url' => ['program/index']],
+            ['label' => 'Настройки', 'icon' => 'cog', 'url' => ['settings/roles'], 'items' => [
+                ['label' => 'Статусы', 'url' => ['settings/roles']],
+                ['label' => 'Программа лояльности', 'url' => ['settings/loyalty']]
+            ]],
         ];
         return $items;
     }

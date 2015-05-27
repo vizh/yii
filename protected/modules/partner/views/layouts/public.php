@@ -25,6 +25,7 @@ use \partner\components\Controller;
 </head>
 <body class="theme-default">
 <div id="main-wrapper">
+    <?$this->widget('partner\widgets\Sidebar', ['event' => $this->getAction()->getEvent()]);?>
     <div id="content-wrapper">
         <div class="page-header">
             <div class="row">
@@ -38,9 +39,7 @@ use \partner\components\Controller;
         </div>
         <?=$content?>
     </div>
-    <div id="main-menu-bg">
-        <?$this->widget('partner\widgets\Sidebar', ['event' => $this->getAction()->getEvent()]);?>
-    </div>
+    <div id="main-menu-bg"></div>
 </div>
 <script>window.PixelAdmin.start(init);</script>
 </body>
