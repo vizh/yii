@@ -269,4 +269,16 @@ class Image
             parent::__call($name, $arguments);
         }
     }
+
+    /**
+     * Возмращает существует ли изображение
+     * @return bool
+     */
+    public function exists()
+    {
+        if (!$this->model->getIsNewRecord() && $this->getOriginal() !== null) {
+            return true;
+        }
+        return false;
+    }
 } 

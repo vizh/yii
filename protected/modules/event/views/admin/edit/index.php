@@ -110,7 +110,7 @@
                 <div class="controls">
                     <?=\CHtml::activeFileField($form, 'TicketImage');?>
                 </div>
-                <?php if (!$event->getIsNewRecord() && $event->getTicketImage()->getOriginal() !== null):?>
+                <?php if ($event->getTicketImage()->exists()):?>
                     <div class="controls"><?=\CHtml::image($event->getTicketImage()->get120px());?></div>
                 <?endif;?>
             </div>
