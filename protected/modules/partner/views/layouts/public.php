@@ -28,7 +28,7 @@ use \partner\components\Controller;
     <div id="content-wrapper">
         <div class="page-header">
             <div class="row">
-                <h1 class="col-xs-12 col-sm-4 text-center text-left-sm">
+                <h1 class="col-xs-12 col-sm-4 text-left-sm">
                     <?if ($this->titleIcon !== null):?>
                         <i class="fa fa-<?=$this->titleIcon;?>"></i>
                     <?endif;?>
@@ -38,8 +38,9 @@ use \partner\components\Controller;
         </div>
         <?=$content?>
     </div>
-
-    <div id="main-menu-bg"></div>
+    <div id="main-menu-bg">
+        <?$this->widget('partner\widgets\Sidebar', ['event' => $this->getAction()->getEvent()]);?>
+    </div>
 </div>
 <script>window.PixelAdmin.start(init);</script>
 </body>

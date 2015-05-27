@@ -1,5 +1,6 @@
 <?php
 namespace partner\widgets;
+
 use event\models\Event;
 
 /**
@@ -11,6 +12,11 @@ use event\models\Event;
 class Sidebar extends \CWidget
 {
     /**
+     * @var Event
+     */
+    public $event;
+
+    /**
      * @var array Элементы меню
      */
     private $items = [];
@@ -20,7 +26,6 @@ class Sidebar extends \CWidget
      */
     public function init()
     {
-        $this->event = $this->getCurrentEvent();
         $this->items = $this->getItemsConfig();
         $this->findAndSetActiveItem();
     }

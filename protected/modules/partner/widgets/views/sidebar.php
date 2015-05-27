@@ -10,12 +10,12 @@ use event\models\Event;
             <div class="menu-content top animated fadeIn">
                 <div class="text-center">
                     <span class="menu-content-event-logo">
-                        <?=\CHtml::img($event->getLogo()->get120px(), ['alt' => $event->Name])?>
+                        <?=\CHtml::image($event->getLogo()->get120px(), $event->Title)?>
                     </span>
-                    <p class="text-light-gray"><?=Html::encode($event->Title)?></p>
+                    <p class="text-light-gray"><?=\CHtml::encode($event->Title)?></p>
                 </div>
             </div>
         <?php endif ?>
-        <?=Menu::widget(['items' => $items, 'activateParents' => true, 'options' => ['class' => 'navigation']])?>
+        <?$this->widget('partner\widgets\Menu', ['items' => $items, 'activateParents' => true, 'htmlOptions' => ['class' => 'navigation']]);?>
     </div>
 </div>
