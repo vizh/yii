@@ -20,16 +20,16 @@ use \event\components\Statistics;
         });
     });
 </script>
-<div class="panel panel-info">
+<div class="panel panel-warning">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-bar-chart"></i> <?=\Yii::t('app', 'Графические данные');?></span>
     </div> <!-- / .panel-heading -->
-    <div class="alert alert-info alert-dark alert-page">
+    <div class="alert alert-warning alert-dark alert-page">
         <div id="datesSlider"></div>
         <div id="datesRange" class="m-top_10"><strong><?=\Yii::t('app', 'Выборка за');?>:</strong> <span></span></div>
     </div>
     <div class="panel-body">
-        <div class="panel-group panel-group-info">
+        <div class="panel-group panel-group-warning">
             <div class="panel">
                 <div class="panel-heading">
                     <a href="#chart-registrations-all-panel" class="accordion-toggle" data-toggle="collapse">

@@ -9,8 +9,6 @@
  */
 
 $this->setPageTitle('Статистика мероприятия');
-$this->titleIcon = 'area-chart';
-$this->initActiveBottomMenu('index');
 $statRegistrationsByRoles = $statistics->getRegistrationsAll();
 $statRegistrationDeltaByRoles = $statistics->getRegistrationsDelta();
 ?>
