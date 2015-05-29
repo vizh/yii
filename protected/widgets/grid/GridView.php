@@ -13,9 +13,11 @@ class GridView extends \CGridView
 
     public $cssFile = false;
 
-    public $pagerCssClass = 'pagination pagination-centered';
+    public $pagerCssClass = 'text-center';
 
-    public $template="{items}\n{pager}";
+    public $summaryCssClass = 'table-header';
+
+    public $template="{summary}\n{items}\n{pager}";
 
     public $enableHistory = true;
 
@@ -34,9 +36,41 @@ class GridView extends \CGridView
      */
     public function registerClientScript()
     {
-        \Yii::app()->getClientScript()->registerPackage('runetid.jquery.migrate');
+        /** @var \CClientScript $clientScript */
+        $clientScript = \Yii::app()->getClientScript();
+        $clientScript->registerPackage('runetid.jquery.migrate');
         parent::registerClientScript();
     }
 
+    protected function initColumns()
+    {
+        foreach ($this->columns as &$column) {
+            if (!isset($column['class'])) {
+                $column['class'] = '\application\widgets\grid\DataColumn';
+            }
+        }
+        parent::initColumns();
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function renderFilter()
+    {
+        if($this->filter !== null) {
+            echo "<tr class=\"{$this->filterCssClass}\">\n";
+            $skip = 0;
+            foreach($this->columns as $column) {
+                if ($skip == 0) {
+                    $column->renderFilterCell();
+                } else {
+                    $skip--;
+                }
+                if (isset($column->filterHtmlOptions['colspan'])) {
+                    $skip = $column->filterHtmlOptions['colspan'] - 1;
+                }
+            }
+            echo "</tr>\n";
+        }
+    }
 } 

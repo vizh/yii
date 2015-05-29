@@ -25,7 +25,9 @@ use \partner\components\Controller;
 </head>
 <body class="theme-default">
 <div id="main-wrapper">
-    <?$this->widget('partner\widgets\Sidebar', ['event' => $this->getAction()->getEvent()]);?>
+    <?php if ($this->getAction() !== null):?>
+        <?$this->widget('partner\widgets\Sidebar', ['event' => $this->getAction()->getEvent()]);?>
+    <?php endif;?>
     <div id="content-wrapper">
         <div class="page-header">
             <div class="row">

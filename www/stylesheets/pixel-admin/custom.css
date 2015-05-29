@@ -74,6 +74,9 @@ thead td > .form-control {
 .text-right {
   text-align: right !important;
 }
+.text-left {
+  text-align: left !important;
+}
 /*********************************************************
 * INPUTS
 **********************************************************/

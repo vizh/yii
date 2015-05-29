@@ -10,8 +10,6 @@ class OperatorAction extends \partner\components\Action
 
     public function run()
     {
-        $this->getController()->setPageTitle('Генерация аккаунтов операторов');
-        $this->getController()->initActiveBottomMenu('operator');
         $request = \Yii::app()->getRequest();
 
         $account = \ruvents\models\Account::model()
@@ -26,8 +24,7 @@ class OperatorAction extends \partner\components\Action
 
         $form = new \partner\models\forms\OperatorGenerate();
         $form->attributes = $request->getParam(get_class($form));
-        if ($request->getIsPostRequest() && $form->validate())
-        {
+        if ($request->getIsPostRequest() && $form->validate()) {
             $this->addOperators($form->Prefix . '_' . self::OperatorSubname, $form->CountOperators, \ruvents\models\Operator::RoleOperator);
             $this->addOperators($form->Prefix . '_' . self::AdminSubname, $form->CountAdmins, \ruvents\models\Operator::RoleAdmin);
             $form = new \partner\models\forms\OperatorGenerate();
@@ -44,8 +41,7 @@ class OperatorAction extends \partner\components\Action
 
     private function addOperators($prefix, $count, $role)
     {
-        if ($count <= 0)
-        {
+        if ($count <= 0) {
             return;
         }
         $criteria = new \CDbCriteria();
@@ -55,14 +51,12 @@ class OperatorAction extends \partner\components\Action
         $operators = \ruvents\models\Operator::model()->findAll($criteria);
 
         $max = 0;
-        foreach ($operators as $operator)
-        {
+        foreach ($operators as $operator) {
             $number = intval(substr($operator->Login, strlen($prefix)));
             $max = $number > $max ? $number : $max;
         }
         $max += 1;
-        for ($i = 0; $i < $count; $i++)
-        {
+        for ($i = 0; $i < $count; $i++) {
             $login = $prefix . ($max+$i);
             $password = $this->generatePassword(5);
             $operator = new \ruvents\models\Operator();
@@ -78,9 +72,8 @@ class OperatorAction extends \partner\components\Action
     private $file = null;
     private function getFile()
     {
-        if ($this->file == null)
-        {
-            $this->file = fopen($this->getDataPath() . 'operators_' . date('Y-m-d H:i:s') . '.csv', 'w');
+        if ($this->file == null) {
+            $this->file = fopen($this->getDataPath() . 'operators_' . date('Y-m-d_H-i-s') . '.csv', 'w');
         }
         return $this->file;
     }
@@ -88,12 +81,10 @@ class OperatorAction extends \partner\components\Action
     private $dataPath = null;
     private function getDataPath()
     {
-        if (empty($this->dataPath))
-        {
+        if (empty($this->dataPath)) {
             $path = \Yii::getPathOfAlias('partner.data');
-            $this->dataPath = $path . '/' . \Yii::app()->partner->getAccount()->EventId . '/operator/';
-            if (!file_exists($this->dataPath))
-            {
+            $this->dataPath = $path . DIRECTORY_SEPARATOR . \Yii::app()->partner->getAccount()->EventId . DIRECTORY_SEPARATOR . 'operator' . DIRECTORY_SEPARATOR;
+            if (!file_exists($this->dataPath)) {
                 mkdir($this->dataPath, 0755, true);
             }
         }
