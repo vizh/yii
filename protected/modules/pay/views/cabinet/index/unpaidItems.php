@@ -150,8 +150,10 @@ $total = 0;
                 <?=\CHtml::endForm();?>
             </div>
         <?endif;?>
-
-        <label class="checkbox">
+        <?php if (\Yii::app()->getLanguage() == 'en'):?>
+            <h4 class="text-center">Mark the checkbox and select the appropriate payment method</h4>
+        <?php endif;?>
+        <label class="checkbox text-error">
             <input type="checkbox" name="agreeOffer" value="1"/><?=\Yii::t('app', 'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате', array('{url}' => $this->createUrl('/pay/cabinet/offer')));?>
         </label>
     </div>
