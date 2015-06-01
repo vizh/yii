@@ -110,4 +110,30 @@ class City extends \application\models\translation\ActiveRecord
         }
         return $result . $this->Name;
     }
+
+    /**
+     * Увеличивает приоритет города
+     */
+    public function incrementPriority()
+    {
+        $this->Priority = $this->Priority + 1;
+        if (!$this->getIsNewRecord()) {
+            $this->save();
+        }
+    }
+
+    /**
+     * Возвращает атрибуты для ответа ajax запроса
+     * @return \stdClass
+     */
+    public function getAjaxAttributes()
+    {
+        $attributes = new \stdClass();
+        $attributes->CityId = $this->Id;
+        $attributes->value = $attributes->Name = $this->Name;
+        $attributes->RegionId = $this->RegionId;
+        $attributes->CountryId = $this->CountryId;
+        $attributes->label = $this->getAbsoluteName();
+        return $attributes;
+    }
 }

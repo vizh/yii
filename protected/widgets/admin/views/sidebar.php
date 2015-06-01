@@ -76,11 +76,12 @@
 
   <a data-toggle="collapse" class="nav-header" href="#menu-booking" class="nav-header collapsed" href="#menu-pay"><i class="icon-globe icon-white"></i><span class="hidden-phone">Бронирование номеров</span></a>
   <ul class="nav nav-list collapse" id="menu-booking">
-    <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/index');?>"><?=\Yii::t('app', 'Бронирования');?></a></li>
-    <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/partners');?>"><?=\Yii::t('app', 'Партнеры');?></a></li>
-    <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/statistics');?>"><?=\Yii::t('app', 'Статистика');?></a></li>
-    <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/food');?>"><?=\Yii::t('app', 'Питание');?></a></li>
-    <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/list');?>"><?=\Yii::t('app', 'Списки');?></a></li>
+        <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/index');?>"><?=\Yii::t('app', 'Бронирования');?></a></li>
+        <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/partners');?>"><?=\Yii::t('app', 'Партнеры');?></a></li>
+        <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/statistics');?>"><?=\Yii::t('app', 'Статистика');?></a></li>
+        <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/food');?>"><?=\Yii::t('app', 'Питание');?></a></li>
+        <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/list');?>"><?=\Yii::t('app', 'Списки');?></a></li>
+        <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/print');?>"><?=\Yii::t('app', 'Печать партнерских договоров');?></a></li>
   </ul>
 
   <a data-toggle="collapse" class="nav-header" href="#menu-raec"><i class="icon-star icon-white"></i><span class="hidden-phone">РАЭК</span></a>

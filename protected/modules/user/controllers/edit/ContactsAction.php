@@ -1,30 +1,36 @@
 <?php
 namespace user\controllers\edit;
 
+use user\models\forms\edit\Contacts;
+use contact\models\Address;
+use user\models\LinkPhone;
+use contact\models\Phone;
+use contact\models\ServiceType;
+use user\models\LinkServiceAccount;
+Use contact\models\forms\Phone as PhoneForm;
+use contact\models\forms\ServiceAccount as ServiceAccountForm;
+
 class ContactsAction extends \CAction
 {
   public function run()
   {
     $user = \Yii::app()->user->getCurrentUser();
     $request = \Yii::app()->getRequest();
-    $form = new \user\models\forms\edit\Contacts();
+    $form = new Contacts();
     $form->attributes = $request->getParam(get_class($form));
-    if ($request->getIsPostRequest())
-    {
-      if ($form->validate())
-      {
-        $user->PrimaryPhone = $form->PrimaryPhone;
+    if ($request->getIsPostRequest()){
+      if ($form->validate()){
         if ($user->PrimaryPhone !== $form->PrimaryPhone) {
           $user->PrimaryPhoneVerify = false;
+          $user->PrimaryPhoneVerifyTime = null;
         }
+        $user->PrimaryPhone = $form->PrimaryPhone;
         $user->Email = $form->Email;
-        if (!empty($form->Site))
-        {
+        if (!empty($form->Site)){
           $site = parse_url($form->Site);
           $user->setContactSite($site['host'], ($site['scheme'] == 'https'));
         }
-        else
-        {
+        else{
           $user->setContactSite(null);
         }
         
@@ -32,11 +38,9 @@ class ContactsAction extends \CAction
         
         // Сохранение адреса
         $address = $user->getContactAddress();
-        if (!$form->Address->getIsEmpty() || $address !== null)
-        {
-          if ($address == null)
-          {
-            $address = new \contact\models\Address();
+        if (!$form->Address->getIsEmpty() || $address !== null){
+          if ($address == null){
+            $address = new Address();
           }
           $address->RegionId = $form->Address->RegionId;
           $address->CountryId = $form->Address->CountryId;
@@ -46,28 +50,24 @@ class ContactsAction extends \CAction
         }
         
         // Сохранение номеров телефонов
-        foreach ($form->Phones as $formPhone)
-        {
-          if (!empty($formPhone->Id))
-          {
-            $linkPhone = \user\models\LinkPhone::model()->byUserId($user->Id)->byPhoneId($formPhone->Id)->find();
+        foreach ($form->Phones as $formPhone){
+          if (!empty($formPhone->Id)){
+            $linkPhone = LinkPhone::model()->byUserId($user->Id)->byPhoneId($formPhone->Id)->find();
             if ($linkPhone == null)
               throw new \CHttpException(500);
             $phone = $linkPhone->Phone;
-            if ($formPhone->Delete == 1)
-            {
+            if ($formPhone->Delete == 1){
               $linkPhone->delete();
               $phone->delete();
               continue;
             }
           }
-          else
-          {
-            $linkPhone = new \user\models\LinkPhone();
+          else{
+            $linkPhone = new LinkPhone();
             $linkPhone->UserId = $user->Id;
-            $phone = new \contact\models\Phone();
+            $phone = new Phone();
           }
-          
+
           $phone->CountryCode = $formPhone->CountryCode;
           $phone->CityCode = $formPhone->CityCode;
           $phone->Phone = $formPhone->Phone;
@@ -78,30 +78,25 @@ class ContactsAction extends \CAction
         }
         
         // Сохранение аккаунтов в соц. сетях
-        foreach ($form->Accounts as $formAccount)
-        {
-          $serviceType = \contact\models\ServiceType::model()->findByPk($formAccount->TypeId);
-          if (!empty($formAccount->Id))
-          {
-            $linkServiceAccount = \user\models\LinkServiceAccount::model()->byAccountId($formAccount->Id)->byUserId($user->Id)->find();
+        foreach ($form->Accounts as $formAccount){
+          $serviceType = ServiceType::model()->findByPk($formAccount->TypeId);
+          if (!empty($formAccount->Id)){
+            $linkServiceAccount = LinkServiceAccount::model()->byAccountId($formAccount->Id)->byUserId($user->Id)->find();
             if ($linkServiceAccount == null)
               throw new \CHttpException(500);
             $serviceAccount = $linkServiceAccount->ServiceAccount;
-            if ($formAccount->Delete == 1)
-            {
+            if ($formAccount->Delete == 1){
               $serviceAccount->delete();
               $linkServiceAccount->delete();
               continue;
             }
-            else
-            {
+            else{
               $serviceAccount->Account = $formAccount->Account;
               $serviceAccount->TypeId  = $serviceType->Id;
               $serviceAccount->save();
             }
           }
-          else
-          {
+          else{
             $serviceAccount = $user->setContactServiceAccount($formAccount->Account, $serviceType);
           }
         }
@@ -110,18 +105,15 @@ class ContactsAction extends \CAction
         $this->getController()->refresh();
       }
     }
-    else
-    {
+    else{
       $form->Email = $user->Email;
       $form->PrimaryPhone = $user->PrimaryPhone;
-      if ($user->getContactSite() !== null)
-      {
+      if ($user->getContactSite() !== null){
         $form->Site = (string) $user->getContactSite();
       }
       
-      foreach ($user->LinkPhones as $linkPhone)
-      {
-        $phone = new \contact\models\forms\Phone(\contact\models\forms\Phone::ScenarioOneFieldRequired);
+      foreach ($user->LinkPhones as $linkPhone){
+        $phone = new PhoneForm(PhoneForm::ScenarioOneFieldRequired);
         $phone->attributes = array(
           'Id' => $linkPhone->PhoneId,
           'OriginalPhone' => $linkPhone->Phone->getWithoutFormatting(),
@@ -130,11 +122,9 @@ class ContactsAction extends \CAction
         $form->Phones[] = $phone;
       }
       
-      foreach ($user->LinkServiceAccounts as $linkAccount)
-      {
-        if ($linkAccount->ServiceAccount !== null)
-        {
-          $account = new \contact\models\forms\ServiceAccount();
+      foreach ($user->LinkServiceAccounts as $linkAccount){
+        if ($linkAccount->ServiceAccount !== null){
+          $account = new ServiceAccountForm();
           $account->attributes = array(
             'Id' => $linkAccount->ServiceAccount->Id,
             'TypeId' => $linkAccount->ServiceAccount->TypeId,
@@ -144,8 +134,7 @@ class ContactsAction extends \CAction
         }
       }
       
-      if ($user->getContactAddress() !== null)
-      {
+      if ($user->getContactAddress() !== null){
         $form->Address->attributes = $user->getContactAddress()->attributes;
       }
     }

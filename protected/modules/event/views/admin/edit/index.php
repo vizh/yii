@@ -1,7 +1,8 @@
 <?php
-
-/** @var $event \event\models\Event */
-
+/**
+ * @var \event\models\Event $event
+ * @var \event\models\forms\admin\Edit $form
+ */
 ?>
 
 <?=\CHtml::form('','POST',array('class' => 'form-horizontal', 'enctype' => 'multipart/form-data'));?>
@@ -87,7 +88,6 @@
                 <?=\CHtml::activeLabel($form, 'Logo', array('class' => 'control-label'));?>
                 <div class="controls">
                     <?php
-
                     if ($event->LogoSource)
                     {
                         $LogoSource = $event->getPath($event->LogoSource);
@@ -103,6 +103,16 @@
                     <?=\CHtml::fileField(\CHtml::activeName($form, 'Logo'));?>
                 </div>
                 <div class="controls"><?=\CHtml::image($event->getLogo()->get50px());?></div>
+            </div>
+
+            <div class="control-group">
+                <?=\CHtml::activeLabel($form, 'TicketImage', ['class' => 'control-label']);?>
+                <div class="controls">
+                    <?=\CHtml::activeFileField($form, 'TicketImage');?>
+                </div>
+                <?php if ($event->getTicketImage()->exists()):?>
+                    <div class="controls"><?=\CHtml::image($event->getTicketImage()->get120px());?></div>
+                <?endif;?>
             </div>
 
             <div class="control-group">
@@ -145,6 +155,12 @@
                 </div>
             </div>
             <div class="control-group">
+                <?=\CHtml::activeLabel($form, 'NotSendRegisterMail', array('class' => 'control-label'));?>
+                <div class="controls">
+                    <?=\CHtml::activeCheckBox($form, 'NotSendRegisterMail');?>
+                </div>
+            </div>
+            <div class="control-group">
                 <?=\CHtml::activeLabel($form, 'RegisterHideNotSelectedProduct', array('class' => 'control-label'));?>
                 <div class="controls">
                     <?=\CHtml::activeCheckBox($form, 'RegisterHideNotSelectedProduct');?>
@@ -184,6 +200,13 @@
                     </div>
                 <?endif;?>
             <?endif;?>
+
+            <div class="control-group">
+                <?=\CHtml::activeLabel($form, 'OrganizerInfo', ['class' => 'control-label']);?>
+                <div class="controls m-top_5">
+                    <?=\CHtml::activeTextField($form, 'OrganizerInfo');?>
+                </div>
+            </div>
 
             <?if (!$event->getIsNewRecord()):?>
                 <div class="control-group">

@@ -272,6 +272,49 @@ X-Ruvents-Operator: {Id}
                 }
             }
 
+## Залы [/event/halls]
+
+### GET
+
++ Response 200
+
+    + Body
+
+            {
+                "Halls": [
+                    {
+                        "Id": 1,
+                        "Title": "Зал A",
+                        "Order": 1,
+                    },
+                    {
+                        "Id": 2,
+                        "Title": "Зал B",
+                        "Order": 2,
+                    },
+                ]
+            }
+
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Halls": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "Id": { "type": "integer" },
+                                "Title": { "type": "string" },
+                                "Order": { "type": "integer" },
+                            },
+                            "required": ["Id", "Title", "Order"]
+                        }
+                    }
+                }
+            }
+
 
 ## Шаблоны бейджей [/event/badges]
 
@@ -889,18 +932,231 @@ X-Ruvents-Operator: {Id}
             }
 
 
+## Выданные товары [/products/{Id}/checks{?since,limit}]
+
+### GET
+
++ Parameters
+    + Id (integer) ... ID выдаваемого товара.
+    + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены обновленные позднее этой даты товары.
+    + limit (optional, integer) ... Количество возвращаемых оплаченных товаров. Может быть ограничено сверху внутренними настройками API.
+    
++ Response 200
+    
+    + Body
+
+            {
+                "Checks": [
+                    {
+                        "Id": 6,
+                        "CheckTime": "2015-04-14 17:52:19",
+                        "CreationTime": "2015-04-14 18:52:19",
+                        "UserId": 321                    
+                    },
+                    {
+                        "Id": 7,
+                        "CheckTime": "2015-04-14 17:53:20",
+                        "CreationTime": "2015-04-14 18:53:20",
+                        "UserId": 454                    
+                    },
+                ],
+                "HasMore": true,
+                "NextSince": "2015-04-14 18:53:20" 
+            }
+            
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Checks" : {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Id": { "type": "integer" },
+                                    "CheckTime": { "type": "string" },
+                                    "CreationTime": { "type": "string" },
+                                    "UserId": { "type": "integer" }
+                                },
+                                "required": ["Id", "CheckTime", "CreationTime", "UserId"]
+                            }
+                        }
+                    },
+                    "HasMore": {"type": "boolean"},
+                    "NextSince": {"type": "string"}
+                }
+            }
+
+
 ## Выдача товаров [/products/{Id}/checks]
 
+### POST
 
-### Список [GET]
++ Parameters
+    + Id (integer) ... ID выдаваемого товара.
 
-<span style="color: #ff0000;">Не реализовано</span>
++ Request
 
+    + Headers
+    
+            X-Ruvents-Operator: 2
 
-### Выдача [POST]
+    + Body
+    
+            {
+                "UserId": "321",
+                "CheckTime": "2015-04-28 17:32:32"
+            }
 
-<span style="color: #ff0000;">Не реализовано</span>
+    + Schema
+    
+            {
+                "type": "object",
+                "properties": {
+                    "UserId": { "type": "integer" },
+                    "CheckTime": { "type": "string" }
+                },
+                "patternProperties": {
+                    "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                        "type": ["string", "integer", "number", "boolean"]
+                    }
+                },
+                "required": ["UserId", "CheckTime"]
+            }
 
++ Response 200
+
+    + Body
+
+            {
+                "Id": 10
+            }
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Id": { "type": "integer" }
+                },
+                "required": ["Id"]
+            }
+
+# Group Посещение залов
+
+## Посещеные залы [/halls/{Id}/checks{?since,limit}]
+
+### GET
+
++ Parameters
+    + Id (integer) ... ID посещенного зала.
+    + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены обновленные позднее этой даты посещения.
+    + limit (optional, integer) ... Количество возвращаемых посещений. Может быть ограничено сверху внутренними настройками API.
+
++ Response 200
+
+    + Body
+
+            {
+                "Checks": [
+                    {
+                        "Id": 6,
+                        "CheckTime": "2015-04-14 17:52:19",
+                        "CreationTime": "2015-04-14 18:52:19",
+                        "UserId": 321
+                    },
+                    {
+                        "Id": 7,
+                        "CheckTime": "2015-04-14 17:53:20",
+                        "CreationTime": "2015-04-14 18:53:20",
+                        "UserId": 454
+                    },
+                ],
+                "HasMore": true,
+                "NextSince": "2015-04-14 18:53:20"
+            }
+
+    + Schema
+    
+            {
+                "type": "object",
+                "properties": {
+                    "Checks" : {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "Id": { "type": "integer" },
+                                    "CheckTime": { "type": "string" },
+                                    "CreationTime": { "type": "string" },
+                                    "UserId": { "type": "integer" }
+                                },
+                                "required": ["Id", "CheckTime", "CreationTime", "UserId"]
+                            }
+                        }
+                    },
+                    "HasMore": {"type": "boolean"},
+                    "NextSince": {"type": "string"}
+                }
+            }
+
+## Отметка о посещение зала [/halls/{Id}/checks]
+
+### POST
+
++ Parameters
+
+    + Id (integer) ... ID зала.
+
++ Request
+
+    + Headers
+    
+            X-Ruvents-Operator: 2
+
+    + Body
+    
+            {
+                "UserId": "321",
+                "CheckTime": "2015-04-28 17:32:32"
+            }
+
+    + Schema
+    
+            {
+                "type": "object",
+                "properties": {
+                    "UserId": { "type": "integer" },
+                    "CheckTime": { "type": "string" }
+                },
+                "patternProperties": {
+                    "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                        "type": ["string", "integer", "number", "boolean"]
+                    }
+                },
+                "required": ["UserId", "CheckTime"]
+            }
+
++ Response 200
+
+    + Body
+
+            {
+                "Id": 21
+            }
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Id": { "type": "integer" }
+                },
+                "required": ["Id"]
+            }
 
 # Group Утилиты
 

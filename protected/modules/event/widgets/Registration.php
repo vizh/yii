@@ -65,7 +65,7 @@ class Registration extends \event\components\Widget
             $criteria = new \CDbCriteria();
             $criteria->order = '"t"."Priority" DESC, "t"."Id" ASC';
             $criteria->addCondition('"t"."ManagerName" != \'Ticket\'');
-            $model = \pay\models\Product::model()->byPublic(true);
+            $model = \pay\models\Product::model()->byPublic(true)->byDeleted(false);
             if (!\Yii::app()->user->isGuest) {
                 $model->byUserAccess(\Yii::app()->user->getCurrentUser()->Id, 'OR');
             }
@@ -86,7 +86,7 @@ class Registration extends \event\components\Widget
             $criteria->condition = 't."Price" > 0 AND "Product"."EventId" = :EventId';
             $criteria->params = ['EventId' => $this->getEvent()->Id];
             $criteria->with = ['Product' => ['together' => true, 'select' => false]];
-            $paidEvent = ProductPrice::model()->exists($criteria);
+            $paidEvent = ProductPrice::model()->byDeleted(false)->exists($criteria);
 
             $this->render($viewName, [
                 'products' => $products,

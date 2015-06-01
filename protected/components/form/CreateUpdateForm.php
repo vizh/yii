@@ -59,7 +59,10 @@ abstract class CreateUpdateForm extends FormModel
      */
     public function isUpdateMode()
     {
-        return !empty($this->model);
+        if (empty($this->model) || $this->model->getIsNewRecord()) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -88,8 +91,9 @@ abstract class CreateUpdateForm extends FormModel
         if (!$this->isUpdateMode()) {
             return false;
         }
+
         foreach ($this->getAttributes() as $attr => $value) {
-            if ($this->model->hasAttribute($attr)) {
+            if ($this->isAttributeSafe($attr) && $this->model->hasAttribute($attr)) {
                 $this->model->$attr = $value;
             }
         }

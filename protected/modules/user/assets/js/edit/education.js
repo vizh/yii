@@ -38,20 +38,18 @@ CUserEditEducation.prototype = {
         var SpecialtyInput = item.find('input[name*="Specialty"]');
 
         CityNameInput.autocomplete({
-            minLength: 2,
+            minLength : 0,
             source : function (request, response) {
-                $.getJSON('/geo2/ajax/cities', {term : request.term}, function( data ) {
-                    response( $.map( data, function( item ) {
-                        return {
-                            label: item.label,
-                            value: item.Name,
-                            id: item.CityId
-                        }
-                    }));
-                });
+                if (request.term == '') {
+                    response(CityNameInput.data('default-source'));
+                } else {
+                    $.getJSON('/geo2/ajax/cities', {term : request.term}, function( data ) {
+                        response(data);
+                    });
+                }
             },
             select: function( event, ui ) {
-                CityIdHidden.val(ui.item.id);
+                CityIdHidden.val(ui.item.CityId);
                 self.resetPartOfItem(item, ['UniversityName', 'UniversityId', 'FacultyName', 'FacultyId', 'Specialty']);
                 UniversityNameInput.focus();
                 UniversityNameInput.autocomplete( "search", "" );
@@ -59,6 +57,8 @@ CUserEditEducation.prototype = {
             search : function (event, ui) {
                 UniversityNameInput.removeAttr('disabled');
             }
+        }).focus(function(){
+            CityNameInput.autocomplete('search', $(this).val());
         });
 
         UniversityNameInput.autocomplete({

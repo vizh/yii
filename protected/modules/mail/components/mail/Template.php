@@ -66,6 +66,12 @@ class Template extends \mail\components\MailLayout
             $attachments['ticket.pkpass'] = $pkPass->runAndSave();
         }
 
+        if ($this->template->Id == 493) {
+            $attachments['Карта гостя.pdf'] = \Yii::getPathOfAlias('application') . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
+                . 'www' . DIRECTORY_SEPARATOR . 'docs' . DIRECTORY_SEPARATOR . 'mail' . DIRECTORY_SEPARATOR . 'devcon15' . DIRECTORY_SEPARATOR
+                . 'map-guest.pdf';
+        }
+
 
         return $attachments;
     }

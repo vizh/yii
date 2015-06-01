@@ -169,5 +169,14 @@ class Competence extends Widget
         parent::registerDefaultResources();
     }
 
+    /**
+     * Указывает на наличие ресурсов у виджета.
+     * Если значение false, метод @see \event\components\Widget::registerDefaultResources() вызван не будет
+     * @return bool
+     */
+    public function getIsHasDefaultResources()
+    {
+        return true;
+    }
 
 }

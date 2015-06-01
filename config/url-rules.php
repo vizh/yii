@@ -81,7 +81,11 @@ return [
     'http://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
 
     /** Event Interview Rules */
-    'http://' . RUNETID_HOST . '/msdevtour' => 'competence/devtour/index',
+    'http://' . RUNETID_HOST . '/devcon' => 'competence/devcon/index',
+
+    'http://' . RUNETID_HOST . '/govresources' => ['competence/main/process/', 'defaultParams' => ['id' => 38]],
+    'http://' . RUNETID_HOST . '/govresources/done' => ['competence/main/done', 'defaultParams' => ['id' => 38]],
+    'http://' . RUNETID_HOST . '/govresources/after' => ['competence/main/after', 'defaultParams' => ['id' => 38]],
 
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>' => 'competence/event/index',
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>/<action:\w+>' => 'competence/event/<action>',
@@ -90,6 +94,8 @@ return [
     'http://'. RUNETID_HOST.'/oauth/social/request/<social:\d+>' => 'oauth/social/request',
     'http://'.RUNETID_HOST.'/oauth/paypal/redirect' => 'oauth/paypal/redirect',
     '/oauth/<controller:\w+>/<action:\w+>' => 'oauth/<controller>/<action>',
+
+    'http://'.RUNETID_HOST.'/oauth/social/connect/social/22' => ['oauth/social/connect/', 'defaultParams' => ['social' => 22]],
 
 
 
@@ -159,11 +165,6 @@ return [
 
     /*** ОПРОС Карена **/
     'http://'. RUNETID_HOST.'/<_hr:(HR|hr|Hr|hR)>/' => 'page/content/hr',
-
-    /** DevCon */
-    'http://'. RUNETID_HOST.'/devcon/<code>' => 'main/devcon/index',
-    'http://'. RUNETID_HOST.'/devcon/process/<code>' => 'main/devcon/process',
-    'http://'. RUNETID_HOST.'/devcon/result/<code>' => 'main/devcon/result',
 
     /** App Day 14  */
     'http://'. RUNETID_HOST.'/appday14/<action:(select|form|section)>' => 'main/appday14/<action>',

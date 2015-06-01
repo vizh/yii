@@ -21,10 +21,10 @@ class Single extends Base
 
     public function rules()
     {
-        return [
-            ['value', 'required', 'message' => 'Выберите один ответ из списка'],
-            ['other', 'checkOtherValidator'],
-        ];
+        $rules = [];
+        $rules[] = $this->question->Required ? ['value', 'required', 'message' => 'Выберите один ответ из списка'] : ['value', 'safe'];
+        $rules[] = ['other', 'checkOtherValidator'];
+        return $rules;
     }
 
     public function checkOtherValidator($attribute, $params)
@@ -47,7 +47,7 @@ class Single extends Base
 
     public function getOtherValidatorErrorMessage()
     {
-        return 'Необходимо заполнить текстовое поле "другое"';
+        return 'Необходимо заполнить текстовое поле рядом с ответом';
     }
 
     protected function getFormAttributeNames()

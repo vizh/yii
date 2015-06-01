@@ -1,6 +1,7 @@
 <?php
 namespace api\controllers\user;
 
+use api\models\Account;
 use user\models\User;
 
 class GetAction extends \api\components\Action
@@ -46,11 +47,17 @@ class GetAction extends \api\components\Action
 
     private function hasContactsPermission(User $user, $userData)
     {
-        switch ($this->getAccount()->Role) {
-            case 'own':
+        switch ($this->getAccount()->Role)
+        {
+            case Account::ROLE_OWN:
                 return true;
-            case 'mobile':
+                break;
+
+            case Account::ROLE_MOBILE:
+            case Account::ROLE_PARTNER_WOC:
                 return false;
+                break;
+
             default:
                 $permissionModel = \oauth\models\Permission::model()->byUserId($user->Id)
                     ->byAccountId($this->getAccount()->Id)->byDeleted(false);

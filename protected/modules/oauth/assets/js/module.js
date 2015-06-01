@@ -13,6 +13,7 @@ var OAuthModule = function()
   this.gUrl   = '';
   this.ppUrl  = '';
   this.viadeoUrl = '';
+  this.LinkedinUrl = '/oauth/social/request/22/';
  
   this.popUpWindow = null;
 
@@ -25,11 +26,15 @@ OAuthModule.prototype.init = function()
   var self = this;
 
   $('#fb_login').on('click', function(e){
-
+      if (isUserEditAction())
+      {
+          e.preventDefault();
+          self.twiLogin($(e.currentTarget).attr('href'));
+      }
   });
 
   $('#twi_login').on('click', function(e){
-      if (isFrame())
+      if (isFrame() || isUserEditAction() )
       {
           e.preventDefault();
           self.twiLogin($(e.currentTarget).attr('href'));
@@ -37,11 +42,15 @@ OAuthModule.prototype.init = function()
   });
 
   $('#vk_login').on('click', function(e){
-
+      if (isUserEditAction())
+      {
+          e.preventDefault();
+          self.twiLogin($(e.currentTarget).attr('href'));
+      }
   });
 
   $('#pp_login').on('click', function(e){
-      if (isFrame())
+      if (isFrame() || isUserEditAction())
       {
           e.preventDefault();
           self.twiLogin($(e.currentTarget).attr('href'));
@@ -49,7 +58,7 @@ OAuthModule.prototype.init = function()
   });
   
   $('#g_login').on('click', function (e) {
-      if (isFrame())
+      if (isFrame() || isUserEditAction())
       {
           e.preventDefault();
           self.twiLogin($(e.currentTarget).attr('href'));
@@ -60,6 +69,14 @@ OAuthModule.prototype.init = function()
     e.preventDefault();
     self.viadeoLogin();
   });
+
+    $('#li_login').on('click', function (e) {
+        if (isFrame() || isUserEditAction())
+        {
+            e.preventDefault();
+            self.twiLogin($(e.currentTarget).attr('href'));
+        }
+    });
 
   $('#btn_cancel').on('click', function(e){
     e.preventDefault();
@@ -149,6 +166,12 @@ OAuthModule.prototype.gProcess = function ()
   window.location.href = self.gUrl;
 }
 
+
+OAuthModule.prototype.LIProcess = function()
+{
+    var self = this;
+    window.location.href = self.LinkedinUrl;
+};
 function loadScript(src, callback)
 {
   var s,
@@ -182,4 +205,17 @@ function isFrame()
             if (tmp[0] === 'frame') result = true;
         });
     return result;
+}
+
+function isUserEditAction()
+{
+    var url = location.search;
+    if (url.indexOf('user/setting/connect') != -1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

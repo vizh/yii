@@ -1,6 +1,7 @@
 <?php
 namespace mail\models;
 use event\models\Event;
+use mail\components\filter\Main;
 use mail\components\mailers\MandrillMailer;
 use mail\components\mailers\PhpMailer;
 
@@ -236,6 +237,9 @@ class Template extends \CActiveRecord
         return $this;
     }
 
+    /**
+     * @return Main
+     */
     public function getFilter()
     {
         return unserialize(base64_decode($this->Filter));

@@ -2,6 +2,7 @@
 
 use competence\models\Result;
 use \competence\models\tests\mailru2013;
+use \event\models\Participant;
 \Yii::import('ext.PHPExcel.PHPExcel', true);
 
 class ExportController extends \application\components\controllers\AdminMainController
@@ -101,6 +102,11 @@ class ExportController extends \application\components\controllers\AdminMainCont
         $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(8,3, 'Дата заполнения');
 
         $col = 9;
+        if (!empty($this->test->Event)) {
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 3, 'Статус');
+            $col++;
+        }
+
         foreach ($this->getQuestions() as $question) {
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 1, $question->Code);
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 2, $question->getForm()->getTitle());
@@ -131,10 +137,17 @@ class ExportController extends \application\components\controllers\AdminMainCont
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(4, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Company->Name : ''));
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(5, $row, ($user->getEmploymentPrimary() !== null ? $user->getEmploymentPrimary()->Position : ''));
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(6, $row, $user->Email);
-            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(7, $row, $user->PrimaryPhone);
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(7, $row, $user->getPhone());
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow(8, $row, $result->UpdateTime);
 
             $col = 9;
+            if (!empty($this->test->Event)) {
+                /** @var Participant $participant */
+                $participant = Participant::model()->byEventId($this->test->Event->Id)->byUserId($user->Id)->with(['Role'])->find();
+                $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, $row, (!empty($participant) ? $participant->Role->Title : ''));
+                $col++;
+            }
+
             foreach ($this->getQuestions() as $question) {
                 $data = $question->getForm()->getExportData($result);
                 foreach ($data as $value) {

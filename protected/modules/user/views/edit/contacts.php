@@ -34,8 +34,17 @@ use user\models\User;
     <?endif;?>
     accounts.push(account);
   <?endforeach;?>
-</script>
 
+    function chPrimaryPhone(value){
+        value = value.replace('+', '').replace('(', '').replace(')', '').replace('-', '').replace('-', '').replace('_', '');
+        if (value == <?=$form->PrimaryPhone ?>){
+            document.getElementById('primaryphone-verify').style.display = 'block';
+        }
+        else{
+           document.getElementById('primaryphone-verify').style.display = 'none';
+        }
+    }
+</script>
 <div class="user-account-settings">
   <div class="clearfix">
     <div class="container">
@@ -62,7 +71,7 @@ use user\models\User;
 
               <div class="form-row">
                 <?=\CHtml::activeLabel($form, 'PrimaryPhone');?>
-                <?=\CHtml::activeTextField($form, 'PrimaryPhone', array('class' => 'span5'));?>
+                <?=\CHtml::activeTextField($form, 'PrimaryPhone', array('class' => 'span5', 'onkeyup'=>'chPrimaryPhone(this.value)'));?>
               </div>
               <?if (!empty($user->PrimaryPhone) && !$user->PrimaryPhoneVerify):?>
                 <div class="alert alert-warning" id="primaryphone-verify">

@@ -37,13 +37,16 @@
                 </strong>
                 <?$employment = $user->getEmploymentPrimary();?><sup><?=$user->RunetId;?></sup>
                 <?if ($employment !== null):?>
-                    <br/><span class="small">
-          <?php
-          echo $employment->Company->Name;
-          $employment->Company->setLocale('en');
-          echo ' ('.$employment->Company->Name.')';
-          ?>
-        </span>
+                    <br/>
+                    <span class="small">
+                        <?=$employment->Company->Name;?>
+                        <?php $employment->Company->setLocale('en');?>
+                        (<?=$employment->Company->Name;?>)
+                    </span>
+                <?endif;?>
+                <?php if (!empty($user->Birthday)):?>
+                    <br/>
+                    <span class="small">Дата рождения: <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $user->Birthday);?></span>
                 <?endif;?>
                 <div class="m-top_10"><a href="<?=$this->createUrl('/partner/user/translate', array('runetId' => $user->RunetId));?>" class="btn btn-mini"><?=\Yii::t('app', 'Редактировать');?></a></div>
             </div>
@@ -122,21 +125,6 @@
                     </div>
                 </div>
             <?endforeach;?>
-        <?endif;?>
-
-        <?/** TODO: это от devcon14, нужно не забыть убрать */?>
-        <?if ($event->Id == 831):?>
-            <div class="row">
-                <div class="span4">
-                    <label for="event831Product" class="large">Продукт</label>
-                </div>
-                <div class="span8">
-                    <form class="form-inline" method="post">
-                        <?=\CHtml::dropDownList('event831Product', $event831OrderItem !== null ? $event831OrderItem->Product->Id : '', ['' => 'Не задан'] + \CHtml::listData($event831Products, 'Id', 'Title'));?>
-                        <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn']);?>
-                    </form>
-                </div>
-            </div>
         <?endif;?>
     </div>
 </div>

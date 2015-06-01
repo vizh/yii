@@ -10,5 +10,4 @@
  * @copyright Copyright &copy; 2008 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
-
 require_once(dirname(__FILE__).'/yiic.php');

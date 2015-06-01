@@ -367,4 +367,86 @@ WHERE epl."Id" IS NULL AND ep."EventId" = 831';
             }
         }
     }
+
+    public function actionDevcon15()
+    {
+        /*$query = 'INSERT INTO "PayOrderItem" ("ProductId", "PayerId", "OwnerId", "Paid", "PaidTime") VALUES ('3819', '322482', '322482', 't', '2015-05-20 07:00:00');';*/
+
+        /*
+        $eventId = 1524;
+        $participants = \event\models\Participant::model()->byEventId($eventId)->findAll();
+        echo "<Users>\n";
+        foreach ($participants as $participant) {
+            $isExternal= \api\models\ExternalUser::model()->byUserId($participant->UserId)->exists();
+            if (!$isExternal) {
+                $user = $participant->User;
+
+                $externalUser = new \api\models\ExternalUser();
+                $externalUser->UserId = $user->Id;
+                $externalUser->AccountId = 118;
+                $externalUser->Partner = 'microsoft';
+                $externalUser->ExternalId = strtolower(sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535)));
+                //$externalUser->save();
+
+                $employment = $user->getEmploymentPrimary();
+                $phone = $user->getPhone();
+                echo '<User Firstname="' . $user->FirstName . '" Lastname="' . $user->LastName . '" Middlename="' . $user->FatherName . '" Email="' . $user->Email . '" Phone="' . (!empty($phone) ? $phone : '')  . '" Position="' . (!empty($employment) ? $employment->Position : '') . '" City="" Organization="' . (!empty($employment) ? \CHtml::encode($employment->Company->Name) : '') .  '" ID="' . $externalUser->ExternalId . '" />'."\n";
+            }
+        }
+        echo '</Users>';
+        */
+
+        /*
+        $csv = fopen(\Yii::getPathOfAlias('event.data.msdevcon').'.csv', "r");
+        while (($data = fgetcsv($csv, 1000, ";")) !== FALSE) {
+            $mail = $data[7];
+            if (empty($mail))
+                continue;
+
+            $users = \user\models\User::model()->byEmail($mail)->findAll();
+            foreach ($users as $user) {
+                $isParticipant = \event\models\Participant::model()->byEventId(1524)->byUserId($user->Id)->exists();
+                if ($isParticipant) {
+                    $userdata = new \event\models\UserData();
+                    $userdata->EventId = 1524;
+                    $manager = $userdata->getManager();
+                    $manager->Place = $data[10];
+                    $manager->ParticipatedPreviously = $data[11];
+                    $userdata->UserId = $user->Id;
+                    $userdata->save();
+                    break;
+                }
+            }
+        }
+        fclose($csv);
+        */
+    }
+
+    public function actionPhdays15()
+    {
+        $participants = \event\models\Participant::model()->byEventId(1551)->orderBy(['"t"."CreationTime"' => SORT_DESC])->findAll();
+        $idlist = [];
+        foreach ($participants as $participant) {
+            if (!in_array($participant->UserId, $idlist)) {
+                $idlist[] = $participant->UserId;
+                echo $participant->User->getFullName().' '.\CHtml::link($participant->getTicketUrl(), $participant->getTicketUrl()).'<br/>';
+            }
+
+
+            if (count($idlist) == 37) {
+                exit;
+            }
+        }
+    }
+
+    public function actionMademoscow15()
+    {
+        /*
+        $event = \event\models\Event::model()->findByPk(1919);
+        $participants = \event\models\Participant::model()->byEventId($event->Id)->byRoleId(24)->findAll();
+        foreach ($participants as $participant) {
+            $event->registerUser($participant->User, \event\models\Role::model()->findByPk(1));
+        }
+        */
+    }
 }

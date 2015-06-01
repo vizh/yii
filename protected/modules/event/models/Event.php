@@ -1,6 +1,8 @@
 <?php
 namespace event\models;
 
+use api\components\callback\Base;
+use application\components\Image;
 use application\models\translation\ActiveRecord;
 use \mail\components\mailers\MandrillMailer;
 use search\components\interfaces\ISearch;
@@ -31,6 +33,7 @@ use user\models\User;
  * @property string $DeletionTime
  * @property string $Color
  *
+ *
  * @property Part[] $Parts
  * @property \event\models\section\Section[] $Sections
  * @property LinkAddress $LinkAddress
@@ -57,6 +60,8 @@ use user\models\User;
  * @property bool $PhoneRequired
  * @property bool $UnsubscribeNewUser
  * @property bool $RegisterHideNotSelectedProduct
+ * @property bool $NotSendRegisterMail
+ * @property string $OrganizerInfo
  *
  *
  * Вспомогательные описания методов методы
@@ -127,7 +132,21 @@ class Event extends ActiveRecord implements ISearch
      */
     protected function getInternalAttributeNames()
     {
-        return ['UrlSectionMask', 'FbPlaceId', 'Free', 'Top', 'ContactPerson', 'MailRegister', 'PositionRequired', 'PhoneRequired', 'Options', 'UnsubscribeNewUser', 'RegisterHideNotSelectedProduct'];
+        return [
+            'UrlSectionMask',
+            'FbPlaceId',
+            'Free',
+            'Top',
+            'ContactPerson',
+            'MailRegister',
+            'PositionRequired',
+            'PhoneRequired',
+            'Options',
+            'UnsubscribeNewUser',
+            'RegisterHideNotSelectedProduct',
+            'NotSendRegisterMail',
+            'OrganizerInfo'
+        ];
     }
 
     public function __get($name)
@@ -430,22 +449,24 @@ class Event extends ActiveRecord implements ISearch
     public function onRegister($event)
     {
         $this->saveRegisterLog($event->params['user'], $event->params['role'], $event->params['participant']->Part, $event->params['message']);
-
-        if ($this->skipOnRegister)
-        {
+        if ($this->skipOnRegister) {
             return;
         }
 
-        $apiCallback = \api\components\callback\Base::getCallback($this);
-        if ($apiCallback !== null)
+        $apiCallback = Base::getCallback($this);
+        if ($apiCallback !== null) {
             $apiCallback->registerOnEvent($event->params['user'], $event->params['role']);
+        }
 
         $mailer = new MandrillMailer();
         $sender = $event->sender;
-        $class = \Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
-        /** @var \mail\components\Mail $mail */
-        $mail = new $class($mailer, $event);
-        $mail->send();
+
+        if (!isset($this->NotSendRegisterMail) || !$this->NotSendRegisterMail) {
+            $class = \Yii::getExistClass('\event\components\handlers\register', ucfirst($sender->IdName), 'Base');
+            /** @var \mail\components\Mail $mail */
+            $mail = new $class($mailer, $event);
+            $mail->send();
+        }
 
         $class = \Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
         $mail = new $class($mailer, $event);
@@ -887,6 +908,14 @@ class Event extends ActiveRecord implements ISearch
      */
     public function getUserData(User $user)
     {
-        return UserData::model()->byEventId($this->Id)->byUserId($user->Id)->byDeleted(false)->findAll();
+        return UserData::model()->byEventId($this->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"'])->byDeleted(false)->findAll();
+    }
+
+    /**
+     * @return Image
+     */
+    public function getTicketImage()
+    {
+        return new Image($this, null, 'ticket');
     }
 }

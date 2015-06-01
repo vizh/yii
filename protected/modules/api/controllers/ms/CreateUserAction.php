@@ -95,13 +95,13 @@ class CreateUserAction extends \api\components\Action
 
         $roleId = $request->getParam('RoleId');
         if ($roleId === null) {
-            $roleId = 24;
+            $roleId = 64;
         }
         $role = \event\models\Role::model()->findByPk($roleId);
 
         if ($role === null) {
             $roleId = 24;
-            if ($this->getEvent()->Id == 831)
+            if ($this->getEvent()->Id == 1524)
                 $roleId = 64;
             $role = \event\models\Role::model()->findByPk($roleId);
         }

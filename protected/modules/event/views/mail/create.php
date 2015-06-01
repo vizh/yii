@@ -1,3 +1,13 @@
+<?
+/**
+ * @var Create $form
+ * @var Event $event
+ */
+
+use \event\models\forms\Create;
+use event\models\Event;
+?>
+
 Контактное лицо: <?=$form->ContactName;?>
 
 Контактный телефон: <?=$form->ContactPhone;?>
@@ -6,7 +16,7 @@
 
 Название мероприятия: <?=$form->Title;?>
 
-Место проведения: <?=$form->Place;?>
+Место проведения: <?=$form->City?>, <?=$form->Place;?>
 
 Дата: от <?=$form->StartDate;?> до <?=$form->EndDate;?>
 

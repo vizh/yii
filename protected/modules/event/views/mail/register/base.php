@@ -13,7 +13,8 @@
 </p>
 <p style="line-height: 20.7999992370605px;">Дата и время проведения: <strong><?$this->widget('\event\widgets\Date', ['event' => $event]);?>.</strong></p>
 <?php if ($event->getContactAddress() !== null):?>
-    <p style="line-height: 20.7999992370605px;">Место проведения: <strong><span itemprop="streetAddress" style="font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 20px;"><?=$event->getContactAddress()->Place;?> (<?=$event->getContactAddress()->getShort();?>)</span></strong></p>
+    <?php $short = $event->getContactAddress()->getShort();?>
+    <p style="line-height: 20.7999992370605px;">Место проведения: <strong><span itemprop="streetAddress" style="font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 20px;"><?=$event->getContactAddress()->Place;?><?if (!empty($short)):?> (<?=$short;?>)<?endif;?></span></strong></p>
 <?php endif;?>
 <div style="text-align: center; background: #F0F0F0; border: 2px dashed #FFF; padding: 10px;">
     <p style="margin-bottom: 5px">Пожалуйста, сохраните на телефон или распечатайте ваш электронный билет:</p>

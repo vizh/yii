@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
   <link rel="icon" href="/favicon.ico">
-
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <title>Авторизация / RUNET-ID</title>
 </head>
 <body class="page_registration">
@@ -30,22 +30,17 @@ function fillOAuthUrls(oauth)
   oauth.twiUrl = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Twitter));?>';
   oauth.gUrl   = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Google));?>';
   oauth.viadeoUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Viadeo));?>';
-  oauth.ppUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::PayPal));?>'
+  oauth.ppUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::PayPal));?>';
+  oauth.linkedinUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Linkedin));?>';
 }
 </script>
 <section id="section" role="main">
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="span6 offset1">
+      <div class="col-sm-6 col-xs-12 col-sm-offset-3">
         <div class="block">
           <div class="block_t">RUNET-ID</div>
-          <div class="row">
-            <div class="span4 offset1">
-              <div class="block_cnt">
                 <?=$content;?>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

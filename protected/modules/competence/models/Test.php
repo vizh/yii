@@ -200,11 +200,10 @@ class Test extends ActiveRecord
     public function getEndView()
     {
         $path = 'competence.views.tests.'.$this->Code;
-        if (file_exists(\Yii::getPathOfAlias($path).DIRECTORY_SEPARATOR.'end.php'))
-        {
-            return $path . '.end';
+        if (file_exists(\Yii::getPathOfAlias($path).DIRECTORY_SEPARATOR.'done.php')) {
+            return $path . '.done';
         }
-        return 'end';
+        return 'done';
     }
 
     public function saveResult()

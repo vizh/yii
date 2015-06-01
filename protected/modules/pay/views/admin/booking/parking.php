@@ -4,8 +4,9 @@
  */?>
 <div class="btn-toolbar">
 <style>
-  .content {margin-left: 0;}
-  .sidebar-nav {display: none;}
+    .content {margin-left: 0;}
+    .sidebar-nav {display: none;}
+    .navbar.navbar-inverse {display: none;}
 </style>
 </div>
 <div class="well">

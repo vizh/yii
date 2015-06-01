@@ -25,7 +25,7 @@ return array(
 
   array(
     'allow',
-    'roles' => ['roommanager', 'admin'],
+    'roles' => ['roommanager', 'admin', 'booker'],
     'module' => 'pay',
     'controllers' => ['admin/booking']
   )

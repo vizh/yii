@@ -3,6 +3,8 @@ namespace application\components;
 
 class ActiveRecord extends \CActiveRecord
 {
+    protected $useSoftDelete = false;
+
     public function __call($name, $parameters)
     {
         if (strpos($name, 'by') === 0) {
@@ -134,5 +136,20 @@ class ActiveRecord extends \CActiveRecord
                 unset(self::$_events[$index]);
         }
         return parent::detachEventHandler($name, $handler);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function delete()
+    {
+        if ($this->useSoftDelete) {
+            $this->Deleted = true;
+            $this->DeletionTime = date('Y-m-d H:i:s');
+            $this->save();
+            return true;
+        } else {
+            return parent::delete();
+        }
     }
 }

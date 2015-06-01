@@ -4,7 +4,9 @@ namespace ruvents2\controllers;
 use application\components\helpers\ArrayHelper;
 use pay\models\OrderItem;
 use pay\models\OrderType;
+use pay\models\Product;
 use ruvents2\components\Controller;
+use pay\components\admin\Rif;
 
 class PositionsController extends Controller
 {
@@ -15,7 +17,7 @@ class PositionsController extends Controller
         $limit = intval($limit);
         $limit = $limit > 0 ? min($limit, self::MAX_LIMIT) : self::MAX_LIMIT;
         $criteria = $this->getCriteria($since, $limit);
-        $positions = OrderItem::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
+        $positions = OrderItem::model()->byEventId($this->getEvent()->Id)->byPaid(true)->with(['Owner', 'ChangedOwner'])->findAll($criteria);
         $result = [];
         foreach ($positions as $position) {
             $result[] = $this->getPositionData($position);
@@ -24,11 +26,12 @@ class PositionsController extends Controller
         $nextSince = count($positions) == $limit ? $positions[$limit-1]->CreationTime : null;
         $hasMore = $nextSince !== null;
         $this->renderJson([
-            'Badges' => $result,
+            'Positions' => $result,
             'HasMore' => $hasMore,
             'NextSince' => $nextSince
         ]);
     }
+
 
     /**
      * @param string $since
@@ -38,9 +41,13 @@ class PositionsController extends Controller
     private function getCriteria($since, $limit)
     {
         $criteria = new \CDbCriteria();
-        $criteria->with = ['Owner', 'ChangedOwner', 'OrderLinks.Order'];
+        $criteria->with = ['Owner', 'ChangedOwner', 'OrderLinks.Order', 'Product'];
         $criteria->order = 't."UpdateTime"';
         $criteria->limit = $limit;
+
+        if ($this->getEvent()->IdName == 'devcon15') {
+            $criteria->addCondition('"Product"."ManagerName" = \'FoodProductManager\'');
+        }
 
         if ($since !== null) {
             $since = date('Y-m-d H:i:s', strtotime($since));
@@ -59,6 +66,8 @@ class PositionsController extends Controller
         $data = ArrayHelper::toArray($position, ['pay\models\OrderItem' => [
             'Id', 'ProductId', 'Paid', 'PaidTime', 'UpdateTime'
         ]]);
+
+        $data['UserId'] = $position->ChangedOwner == null ? $position->Owner->RunetId : $position->ChangedOwner->RunetId;
 
         $couponActivation = $position->getCouponActivation();
 

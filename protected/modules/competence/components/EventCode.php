@@ -29,13 +29,17 @@ class EventCode
      */
     public static function parse($code, Test $test)
     {
-        if (!empty($test->EventId) || strlen($code) != static::CODE_LENGTH) {
+        if (!empty($test->EventId)) {
             $criteria = new \CDbCriteria();
-            $criteria->addCondition('substr(MD5(concat("t"."UserId",:HashSalt,:TestId)), 6, '. static::CODE_LENGTH .') = :Code');
-            $criteria->params['HashSalt'] = static::HASH_SALT;
-            $criteria->params['TestId'] = $test->Id;
-            $criteria->params['Code'] = $code;
-
+            if (is_numeric($code)) {
+                $criteria->addCondition('"User"."RunetId" = :RunetId AND NOT "User"."Visible"');
+                $criteria->params['RunetId'] = $code;
+            } else {
+                $criteria->addCondition('substr(MD5(concat("t"."UserId",:HashSalt,:TestId)), 6, '. static::CODE_LENGTH .') = :Code');
+                $criteria->params['HashSalt'] = static::HASH_SALT;
+                $criteria->params['TestId'] = $test->Id;
+                $criteria->params['Code'] = $code;
+            }
             /** @var Participant $participant */
             $participant = Participant::model()->byEventId($test->EventId)->with('User')->find($criteria);
             if ($participant !== null) {

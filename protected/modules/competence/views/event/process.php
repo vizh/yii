@@ -22,20 +22,22 @@ use competence\models\Question;
             <?endif;?>
 
             <?foreach($questions as $question):?>
-                <h3 class="m-top_40">
-                    <?=$question->Title;?>
-                    <?if (!empty($question->SubTitle)):?>
-                        <br><span><?=$question->SubTitle;?></span>
+                <div class="question" data-required="<?=intval($question->Required)?>">
+                    <h3 class="m-top_40">
+                        <?=$question->Title;?>
+                        <?if (!empty($question->SubTitle)):?>
+                            <br><span><?=$question->SubTitle;?></span>
+                        <?endif;?>
+                    </h3>
+                    <?
+                        $this->widget('competence\components\ErrorsWidget', ['form' => $question->getForm()]);
+                        $this->renderPartial($question->getForm()->getViewPath(), ['form' => $question->getForm()]);
+                    ?>
+                    <?if (!empty($question->AfterQuestionText)):?>
+                        <?=$question->AfterQuestionText;?>
                     <?endif;?>
-                </h3>
-                <?
-                    $this->widget('competence\components\ErrorsWidget', ['form' => $question->getForm()]);
-                    $this->renderPartial($question->getForm()->getViewPath(), ['form' => $question->getForm()]);
-                ?>
-                <?if (!empty($question->AfterQuestionText)):?>
-                    <?=$question->AfterQuestionText;?>
-                <?endif;?>
-                <hr/>
+                    <hr/>
+                </div>
             <?endforeach;?>
             <div class="row interview-controls">
                 <div class="span8 text-center">
@@ -45,5 +47,13 @@ use competence\models\Question;
             <?=CHtml::endForm();?>
         </div>
     </div>
-
 </div>
+
+<div class="interview-progress">
+    <div class="progress progress-striped active">
+        <div class="bar" style="width: 0;">
+            <span></span>
+        </div>
+    </div>
+</div>
+

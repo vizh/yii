@@ -1,5 +1,6 @@
 <?php
 namespace application\models\attribute;
+use application\components\ActiveRecord;
 
 /**
  * Class Definition
@@ -14,12 +15,15 @@ namespace application\models\attribute;
  * @property boolean $Secure
  * @property string $Params
  * @property int $Order
+ * @property boolean $Public
  *
  * @method Definition find($condition='',$params=array())
  * @method Definition findByPk($pk,$condition='',$params=array())
  * @method Definition[] findAll($condition='',$params=array())
+ *
+ * @method Definition byPublic(boolean $public)
  */
-class Definition extends \CActiveRecord
+class Definition extends ActiveRecord
 {
     /**
      * @param string $className

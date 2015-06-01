@@ -108,6 +108,7 @@
 <table id="rooms" class="table table-bordered" style="font-size: 13px;">
   <thead>
     <tr>
+        <th rowspan="2">ID</th>
       <th rowspan="2">#</th>
       <th rowspan="2">Пансионат</th>
       <th rowspan="2">Корпус</th>
@@ -129,6 +130,7 @@
     <? foreach ($rooms as $room): ?>
       <?$dates = $room['Dates']?>
       <tr <?=$room['Visible'] == 0 ? 'class="hidden-room"' : ($room['Visible'] == -1 ? 'class="exclude-room"' : '');?>>
+        <td><?=$room['Id'];?></td>
         <td style="font-size: 10px;"><a href="<?=$this->createUrl('/pay/admin/booking/product', ['productId' => $room['Id'], 'backUrl' => \Yii::app()->getRequest()->getUrl()]);?>"><?=$room['TechnicalNumber']?></a></td>
         <td><?=$room['Hotel']?></td>
         <td><?=$room['Housing']?></td>

@@ -170,16 +170,22 @@ class EditAction extends \CAction
 
     private function getFormConditionsList($filter)
     {
-        $conditions = [];
-        $filters = [
-            '\mail\components\filter\Event'   => \mail\models\forms\admin\Template::ByEvent,
-            '\mail\components\filter\Email'   => \mail\models\forms\admin\Template::ByEmail,
-            '\mail\components\filter\RunetId' => \mail\models\forms\admin\Template::ByRunetId,
-            '\mail\components\filter\Geo'     => \mail\models\forms\admin\Template::ByGeo
+        $filterMap = [
+            '\mail\components\filter\Event'   => Template::ByEvent,
+            '\mail\components\filter\Email'   => Template::ByEmail,
+            '\mail\components\filter\RunetId' => Template::ByRunetId,
+            '\mail\components\filter\Geo'     => Template::ByGeo
         ];
+
+
+        $filters = [];
+        foreach (array_keys($filter) as $class) {
+            $filters[$class] = $filterMap[$class];
+        }
+        $conditions = [];
         $types = [
-            \mail\models\forms\admin\Template::TypePositive,
-            \mail\models\forms\admin\Template::TypeNegative
+            Template::TypePositive,
+            Template::TypeNegative
         ];
         foreach ($filters as $className => $by)
         {

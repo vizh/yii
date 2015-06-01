@@ -1,35 +1,40 @@
 <?php
 namespace event\models\forms;
+
+use event\models\Event;
+use ext\translator\Translite;
+use contact\models\Address;
+use event\models\LinkAddress;
+use event\models\Attribute;
+use mail\components\mailers\PhpMailer;
+use event\components\handlers\Create as HandlerCreate;
+use event\components\handlers\Ruvents;
+
 class Create extends \CFormModel
 {
   public $ContactName;
   public $ContactPhone;
   public $ContactEmail;
-  
   public $Title;
   public $Place;
   public $City;
-
   public $LogoSource;
-
   public $StartDate;
   public $EndDate;
   public $OneDayDate;
   public $StartTimestamp;
   public $EndTimestamp;
-
   public $Url;
   public $Info;
   public $FullInfo;
-
   public $Options = array();
-  
   public $PlannedParticipants;
+  public $Company;
 
   public function rules()
   {
     return [
-      ['ContactName, ContactPhone, ContactEmail, Title, City, Place, StartDate, EndDate, Info, FullInfo', 'required'],
+      ['ContactName, ContactPhone, ContactEmail, Title, City, Place, StartDate, EndDate, Info, FullInfo, Company', 'required'],
       ['ContactEmail', 'filter', 'filter' => 'trim'],
       ['FullInfo', 'filter', 'filter' => [$this, 'filterFullInfo']],
       ['Info, Options, OneDayDate, LogoSource', 'safe'],
@@ -38,7 +43,7 @@ class Create extends \CFormModel
       ['ContactEmail', 'email'],
       ['StartDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'StartTimestamp'],
       ['EndDate', 'date', 'format' => 'dd.MM.yyyy', 'timestampAttribute' => 'EndTimestamp'],
-      ['PlannedParticipants', 'filter', 'filter' => [$this, 'filterPlannedParticipants']]
+      ['PlannedParticipants', 'filter', 'filter' => [$this, 'filterPlannedParticipants']],
     ];
   }
 
@@ -64,7 +69,6 @@ class Create extends \CFormModel
     return parent::beforeValidate();
   }
 
-
   public function attributeLabels()
   {
     return array(
@@ -83,7 +87,8 @@ class Create extends \CFormModel
       'EndDate' => \Yii::t('app', 'Дата окончания'),
       'OneDayDate' => \Yii::t('app', 'один день'),
       'PlannedParticipants' => \Yii::t('app', 'Планируемое кол-во участников'),
-      'City' => \Yii::t('app', 'Город')
+      'City' => \Yii::t('app', 'Город'),
+      'Company' => \Yii::t('app', 'Компания организотор ')
     );
   }
   
@@ -104,7 +109,7 @@ class Create extends \CFormModel
     return $optionsData[$id];
   }
   
-  function filterPlannedParticipants($value)
+  public function filterPlannedParticipants($value)
   {
     if (in_array(6, $this->Options) && empty($this->PlannedParticipants))
     {
@@ -112,4 +117,106 @@ class Create extends \CFormModel
     }
     return $value;
   }
+
+  public function save($form){
+        $event = new Event();
+        $event->Title = $form->Title;
+        $event->Info = $form->Info;
+        if (!empty($form->FullInfo))
+        {
+            $event->FullInfo = $form->FullInfo;
+        }
+        $event->External = true;
+
+        $translit = new Translite();
+        $event->IdName = preg_replace("|[^a-z]|i", "", $translit->translit($event->Title));
+        $event->IdName = mb_substr($event->IdName, 0, 128);
+
+        $startDate = getdate($form->StartTimestamp);
+        $event->StartYear = $startDate['year'];
+        $event->StartMonth = $startDate['mon'];
+        $event->StartDay = $startDate['mday'];
+
+        $endDate = getdate($form->EndTimestamp);
+        $event->EndYear = $endDate['year'];
+        $event->EndMonth = $endDate['mon'];
+        $event->EndDay = $endDate['mday'];
+
+        $event->LogoSource = \CUploadedFile::getInstance($form, 'LogoSource');
+
+        if ($event->save())
+        {
+            $LogoSource_path = $event->getPath($event->LogoSource, true);
+
+
+            if (!file_exists(dirname($LogoSource_path)))
+                mkdir(dirname($LogoSource_path));
+
+            $event->LogoSource->saveAs($LogoSource_path);
+
+            if (!empty($form->Url))
+            {
+                $parseUrl = parse_url($form->Url);
+                $url = $parseUrl['host'].(!empty($parseUrl['path']) ? rtrim($parseUrl['path'], '/').'/' : '').(!empty($parseUrl['query']) ? '?'.$parseUrl['query'] : '');
+                $event->setContactSite($url, ($parseUrl['scheme'] == 'https' ? true : false));
+            }
+
+            $address = new Address();
+            $address->Place = $form->City.', '.$form->Place;
+            $address->save();
+            $linkAddress = new LinkAddress();
+            $linkAddress->AddressId = $address->Id;
+            $linkAddress->EventId = $event->Id;
+            $linkAddress->save();
+
+            $attribute = new Attribute();
+            $attribute->Name = 'OrganizerInfo';
+            $attribute->Value = $form->Company;
+            $attribute->EventId = $event->Id;
+            $attribute->save();
+
+            $attribute = new Attribute();
+            $attribute->Name = 'ContactPerson';
+            $attributeValue = [
+                'Name'    => $form->ContactName,
+                'Email'   => $form->ContactEmail,
+                'Phone'   => $form->ContactPhone,
+                'RunetId' => \Yii::app()->getUser()->getCurrentUser()->RunetId,
+            ];
+            $attribute->Value = serialize($attributeValue);
+            $attribute->EventId = $event->Id;
+            $attribute->save();
+
+            $attribute = new Attribute();
+            $attribute->Name  = 'Options';
+            $attributeValue = array();
+            foreach($form->Options as $option)
+            {
+                $value = $form->getOptionValue($option);
+                if ($option == 6 && !empty($form->PlannedParticipants))
+                {
+                    $value .= ', '.$form->PlannedParticipants.' чел.';
+                }
+                $attributeValue[] = $value;
+            }
+            $attribute->Value = serialize($attributeValue);
+            $attribute->EventId = $event->Id;
+            $attribute->save();
+
+            $mailer = new PhpMailer();
+            $mail = new HandlerCreate($mailer, $form, $event);
+            $mail->send();
+
+            $mail2 = new HandlerCreate($mailer, $form, $event);
+            $mail2->setTo('chertilov@internetmediaholding.com');
+            $mail2->send();
+            if (in_array(6, $form->Options))
+            {
+                $mail = new Ruvents($mailer, $form);
+                $mail->send();
+            }
+            \Yii::app()->user->setFlash('success', \Yii::t('app', '<h4 class="m-bottom_5">Поздравляем!</h4>Мероприятие отправлено. В ближайшее время c Вами свяжутся.'));
+            $this->refresh();
+        }
+    }
 }

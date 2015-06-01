@@ -10,6 +10,7 @@ class UserController extends Controller
         return [
             'index' => '\partner\controllers\user\IndexAction',
             'edit' => '\partner\controllers\user\EditAction',
+            'viewdatafile' => '\partner\controllers\user\ViewDataFileAction',
             'translate' => '\partner\controllers\user\TranslateAction',
             'ajaxget' => '\partner\controllers\user\AjaxGetAction',
             'register' => '\partner\controllers\user\RegisterAction',

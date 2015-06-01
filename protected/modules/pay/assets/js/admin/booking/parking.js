@@ -9,8 +9,8 @@ CPayAdminBookingParking.prototype = {
   'init' : function () {
     var self = this;
     self.$form.find('input[name*="DateIn"], input[name*="DateOut"]').datepicker({
-      'minDate' : new Date(2014, 3, 23),
-      'maxDate' : new Date(2014, 3, 25)
+      'minDate' : new Date(2015, 3, 22),
+      'maxDate' : new Date(2015, 3, 24)
     });
 
     self.$form.submit(function () {
@@ -46,7 +46,9 @@ CPayAdminBookingParking.prototype = {
       var $target = $(e.currentTarget);
       self.$table.find('tbody tr').each(function () {
         var $row = $(this);
-        if ($row.find('td:first').text().indexOf($target.val()) == -1) {
+	var searchstr = $target.val().toUpperCase();
+	var searcheble = $row.find('td:first').text().toUpperCase();
+        if (searcheble.indexOf(searchstr) == -1) {
           $row.hide();
         }
         else {

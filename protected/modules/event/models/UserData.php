@@ -1,6 +1,7 @@
 <?php
 namespace event\models;
 
+use application\components\ActiveRecord;
 use event\components\UserDataManager;
 use user\models\User;
 
@@ -25,7 +26,7 @@ use user\models\User;
  * @method UserData[] findAll($condition='',$params=array())
  */
 
-class UserData extends \CActiveRecord
+class UserData extends ActiveRecord
 {
     /**
      * @param string $className

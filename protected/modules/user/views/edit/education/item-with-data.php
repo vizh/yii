@@ -16,7 +16,7 @@ $degrees = array_merge(['' => 'Выберите степень'], Degree::getAll
         <%}%>
         <div class="form-row">
             <?=\CHtml::activeLabel($form, 'CityName');?>
-            <input type="text" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][CityName]');?>" value="<%=CityName%>" class="span5"/>
+            <input type="text" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][CityName]');?>" value="<%=CityName%>" class="span5" data-default-source='<?=$form->getCityDefaultSource();?>'/>
             <input type="hidden" name="<?=\CHtml::activeName($form, 'educations[<%=i%>][CityId]');?>" value="<%=CityId%>"/>
         </div>
         <div class="form-row">

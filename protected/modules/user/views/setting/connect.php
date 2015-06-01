@@ -1,5 +1,5 @@
 <?=$this->renderPartial('parts/title');?>
-
+<? Yii::app()->getClientScript()->registerCssFile('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');?>
 <script type="text/javascript">
   function fillOAuthUrls(oauth) {
     oauth.fbUrl  = '<?=$this->createUrl('/user/setting/connect', array('action' => 'connect', 'social' => \oauth\components\social\ISocial::Facebook));?>';
@@ -7,6 +7,7 @@
     oauth.ppUrl  = '<?=$this->createUrl('/user/setting/connect');?>';
     oauth.twiUrl = '<?=$this->createUrl('/user/setting/connect');?>';
     oauth.gUrl   = '<?=$this->createUrl('/user/setting/connect');?>';
+    oauth.LinkedinUrl   = '<?=$this->createUrl('/user/setting/connect');?>';
   }
 </script>
 
@@ -24,18 +25,22 @@
             </div>
             <div class="m-bottom_20">
             <?foreach ($connects as $connect):?>
-              <?if ($connect !== null):?>
+              <?
+
+              if ($connect !== null):?>
                 <div class="m-bottom_10">
                   <?if ($connect->Social->Id == \oauth\components\social\ISocial::Facebook):?>
-                    <i class="ico16 ico16_social ico16_social__facebook"></i>
+                    <i class="fa fa-facebook-official"></i>
                   <?elseif ($connect->Social->Id == \oauth\components\social\ISocial::Twitter):?>
-                    <i class="ico16 ico16_social ico16_social__twitter"></i>
+                    <i class="fa fa-twitter-square"></i>
                   <?elseif ($connect->Social->Id == \oauth\components\social\ISocial::Vkontakte):?>
-                    <i class="ico16 ico16_social ico16_social__vkontakte"></i>
+                    <i class="fa fa-vk"></i>
                   <?elseif ($connect->Social->Id == \oauth\components\social\ISocial::Google):?>
-                    <i class="ico16 ico16_social ico16_social__google"></i>
+                    <i class="fa fa-google-plus-square"></i>
                   <?elseif ($connect->Social->Id == \oauth\components\social\ISocial::PayPal):?>
-                    <i class="ico16 ico16_social ico16_social__paypal"></i>
+                    <i class="fa fa-paypal"></i>
+                  <?elseif ($connect->Social->Id == \oauth\components\social\ISocial::Linkedin):?>
+                      <i class="fa fa-linkedin-square"></i>
                   <?endif;?>
                   <a class="text-error" href="<?=$this->createUrl('/user/setting/connect', array('social' => $connect->Social->Id, 'action' => 'disconnect'));?>"><?=\Yii::t('app', 'Отключить');?></a>
                 </div>
@@ -67,23 +72,29 @@
                       ref.parentNode.insertBefore(js, ref);
                     }(document));
                   </script>
-                  <a class="btn" href="#" id="fb_login"><i class="ico16 ico16_social ico16_social__facebook"></i> Facebook</a>
+                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Facebook,  'action' => 'connect'));?>" id="fb_login"><i class="fa fa-facebook-official"></i> Facebook</a>
                 <?endif;?>
               <?elseif ($socialId == \oauth\components\social\ISocial::Twitter):?>
                 <?if ($connect === null):?>
-                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Twitter,  'action' => 'connect'));?>" id="twi_login"><i class="ico16 ico16_social ico16_social__twitter"></i> Twitter</a>
+                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Twitter,  'action' => 'connect'));?>" id="twi_login"><i class="fa fa-twitter-square"></i> Twitter</a>
                 <?endif;?>
               <?elseif ($socialId == \oauth\components\social\ISocial::Vkontakte):?>
                 <?if ($connect === null):?>
-                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Vkontakte,  'action' => 'connect'));?>" id="vk_login"><i class="ico16 ico16_social ico16_social__vkontakte"></i> Вконтакте</a>
+                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Vkontakte,  'action' => 'connect'));?>" id="vk_login"><i class="fa fa-vk"></i> Вконтакте</a>
                 <?endif;?>
               <?elseif ($socialId == \oauth\components\social\ISocial::Google):?>
                 <?if ($connect === null):?>
-                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Google,  'action' => 'connect'));?>" id="g_login"><i class="ico16 ico16_social ico16_social__google"></i> Google</a>
+                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Google,  'action' => 'connect'));?>" id="g_login"><i class="fa fa-google-plus-square"></i> Google</a>
                 <?endif;?>
               <?elseif ($socialId == \oauth\components\social\ISocial::PayPal):?>
                 <?if ($connect === null):?>
-                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::PayPal,  'action' => 'connect'));?>" id="pp_login"><i class="ico16 ico16_social ico16_social__paypal"></i> PayPal</a>
+                  <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::PayPal,  'action' => 'connect'));?>" id="pp_login"><i class="fa fa-paypal"></i> PayPal</a>
+                <?endif;?>
+
+
+                <?elseif ($socialId == \oauth\components\social\ISocial::Linkedin):?>
+                <?if ($connect === null):?>
+                    <a class="btn" href="<?=$this->createUrl('/user/setting/connect', array('social' => oauth\components\social\ISocial::Linkedin,  'action' => 'connect'));?>" id="li_login"><i class="fa fa-linkedin-square"></i> LinkedIn</a>
                 <?endif;?>
               <?endif;?>
             <?endforeach;?>

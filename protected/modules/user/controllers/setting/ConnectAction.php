@@ -49,7 +49,8 @@ class ConnectAction extends \CAction
       \oauth\components\social\ISocial::Vkontakte => null,
       \oauth\components\social\ISocial::Twitter   => null,
       \oauth\components\social\ISocial::Google    => null,
-      \oauth\components\social\ISocial::PayPal    => null
+      \oauth\components\social\ISocial::PayPal    => null,
+      \oauth\components\social\ISocial::Linkedin  => null
     );
     
     $oauthSocialConnects = \oauth\models\Social::model()->byUserId($user->Id)->findAll();

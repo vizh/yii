@@ -13,7 +13,7 @@ class Proxy implements ISocial
     switch ($socialName)
     {
       case ISocial::Facebook:
-        $this->social = new Facebook();
+        $this->social = new Facebook($redirectUrl);
         break;
       case ISocial::Twitter:
         $this->social = new Twitter();
@@ -29,6 +29,9 @@ class Proxy implements ISocial
         break;
       case ISocial::PayPal:
         $this->social = new PayPal($redirectUrl);
+        break;
+      case ISocial::Linkedin:
+        $this->social = new Linkedin($redirectUrl);
         break;
       default:
         throw new \CHttpException(400, 'Не обнаружена авторизация по OAuth с идентификатором "' . $socialName . '"');

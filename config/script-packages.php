@@ -120,5 +120,11 @@ return [
             'stylesheets/pixel-admin/custom.css',
             'stylesheets/pixel-admin/themes.css',
         ]
+    ],
+    'runetid.bootstrap3' => [
+        'baseUrl' => '/',
+        'js' => ['javascripts/bootstrap-3/js/bootstrap.min.js'],
+        'css' => ['javascripts/bootstrap-3/css/bootstrap.min.css'],
+        'depends' => ['runetid.jquery']
     ]
 ];

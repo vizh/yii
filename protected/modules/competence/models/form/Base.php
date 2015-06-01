@@ -306,6 +306,7 @@ abstract class Base extends \CFormModel
         $this->question->BeforeTitleText = $params['BeforeTitleText'];
         $this->question->AfterTitleText = $params['AfterTitleText'];
         $this->question->AfterQuestionText = $params['AfterQuestionText'];
+        $this->question->Required = (bool)$params['Required'];
     }
 
     public function getTitle()
@@ -343,5 +344,14 @@ abstract class Base extends \CFormModel
     protected function getInternalExportData(Result $result)
     {
         return [];
+    }
+
+    /**
+     * Описание для кнопки перехода к следующему вопросу
+     * @return string
+     */
+    public function getBtnNextLabel()
+    {
+        return 'Продолжить';
     }
 }

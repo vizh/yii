@@ -1,6 +1,9 @@
 <?php
 namespace event\models\forms\admin;
 
+use contact\models\forms\Address;
+use contact\models\forms\Phone;
+
 class Edit extends \CFormModel
 {
     const DATE_FORMAT = 'dd.MM.yyyy';
@@ -17,6 +20,7 @@ class Edit extends \CFormModel
     public $Top;
     public $UnsubscribeNewUser = 0;
     public $RegisterHideNotSelectedProduct = 0;
+    public $NotSendRegisterMail = 0;
 
     public $StartDate;
     public $EndDate;
@@ -24,6 +28,7 @@ class Edit extends \CFormModel
     public $EndDateTS;
 
     public $Logo;
+    public $TicketImage;
 
     public $SiteUrl;
 
@@ -35,17 +40,19 @@ class Edit extends \CFormModel
     public $Phone;
     public $Email;
 
+    public $OrganizerInfo;
+
 
     public function rules()
     {
         return [
             ['Title, IdName, Info, StartDate, EndDate', 'required'],
-            ['Free, Top, UnsubscribeNewUser, RegisterHideNotSelectedProduct', 'boolean', 'allowEmpty' => true],
+            ['Free, Top, UnsubscribeNewUser, RegisterHideNotSelectedProduct, NotSendRegisterMail', 'boolean', 'allowEmpty' => true],
             ['Email', 'email', 'allowEmpty' => true],
             ['StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'],
             ['EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'],
-            ['Title, IdName, Info, FullInfo, Info, Visible, TypeId, ShowOnMain, Approved, Widgets, ProfInterest, SiteUrl', 'safe'],
-            ['Logo', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true]
+            ['Title, IdName, Info, FullInfo, Info, Visible, TypeId, ShowOnMain, Approved, Widgets, ProfInterest, SiteUrl, OrganizerInfo', 'safe'],
+            ['Logo, TicketImage', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true]
         ];
     }
 
@@ -63,6 +70,7 @@ class Edit extends \CFormModel
             'ProfInterest' => \Yii::t('app', 'Профессиональные интересы'),
             'Approved' => \Yii::t('app', 'Статус'),
             'Logo' => \Yii::t('app', 'Лого'),
+            'TicketImage' => \Yii::t('app', 'Изображение для билета'),
             'SiteUrl' => \Yii::t('app', 'URl сайта'),
             'Address' => \Yii::t('app', 'Адрес'),
             'Free' => \Yii::t('app', 'Бесплатное мероприятие'),
@@ -71,38 +79,34 @@ class Edit extends \CFormModel
             'EndDate' => \Yii::t('app', 'Дата окончания'),
             'Phone' => \Yii::t('app', 'Номер телефона'),
             'UnsubscribeNewUser' => \Yii::t('app', 'Не подписывать новых пользователей на рассылки'),
-            'RegisterHideNotSelectedProduct' => \Yii::t('app', 'Скрывать не выбранные товары при регистрации')
+            'RegisterHideNotSelectedProduct' => \Yii::t('app', 'Скрывать не выбранные товары при регистрации'),
+            'NotSendRegisterMail' => \Yii::t('app', 'Не оповещать пользователей о регистрации'),
+            'OrganizerInfo' => \Yii::t('app', 'Информация об организаторе')
         ];
     }
 
     public function __construct($scenario = '')
     {
-        $this->Address = new \contact\models\forms\Address();
-        $this->Phone = new \contact\models\forms\Phone(\contact\models\forms\Phone::ScenarioOneField);
+        $this->Address = new Address();
+        $this->Phone = new Phone(Phone::ScenarioOneField);
         return parent::__construct($scenario);
     }
-
 
     public function validate($attributes = null, $clearErrors = true)
     {
         $this->Address->attributes = \Yii::app()->getRequest()->getParam(get_class($this->Address));
-        if (!$this->Address->validate())
-        {
-            foreach ($this->Address->getErrors() as $messages)
-            {
+        if (!$this->Address->validate()){
+            foreach ($this->Address->getErrors() as $messages){
                 $this->addError('Address', $messages[0]);
             }
         }
 
         $this->Phone->attributes = \Yii::app()->getRequest()->getParam(get_class($this->Phone));
-        if (!$this->Phone->validate())
-        {
-            foreach ($this->Phone->getErrors() as $messages)
-            {
+        if (!$this->Phone->validate()){
+            foreach ($this->Phone->getErrors() as $messages){
                 $this->addError('Phone', $messages[0]);
             }
         }
-
         return parent::validate($attributes, false);
     }
 }

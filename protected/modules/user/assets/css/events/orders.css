@@ -1,0 +1,47 @@
+.tab-item {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.ui-tabs-active a {
+    color: #999;
+    text-decoration: none;
+}
+
+.eventOrders {
+    border: 1px solid #ddd;
+    margin-bottom: 37px;
+    padding: 10px 20px;
+}
+
+.eventOrders table {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.eventOrders h4 {
+    background: #fff;
+    margin-top: -23px;
+    margin-left: -5px;
+    display: table;
+    padding: 0 5px;
+}
+
+.eventOrders h5 {
+    margin-top: 20px;
+}
+
+.orderPrice {
+    width: 100px;
+    text-align: right !important;
+}
+
+.table td.eventTitle {
+    padding-left: 0;
+}
+
+.inner-tab{
+    width: 100%;
+
+    padding-top: 30px !important;
+}

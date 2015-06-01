@@ -48,9 +48,10 @@ class Definition
 
     public function rules()
     {
-        return $this->required ? [
-            [$this->name, 'required']
-        ] : [];
+        return [
+            [$this->name, 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            [$this->name, $this->required  ? 'required' : 'safe']
+        ];
     }
 
     /**
@@ -58,6 +59,7 @@ class Definition
      * @param string $name
      * @param integer $groupId
      * @param array $params
+     * @param boolean $public
      * @return Definition
      */
     final public static function createDefinition($class, $name, $groupId = 0, $params = [])
@@ -84,5 +86,28 @@ class Definition
     public function getPrintValue($container)
     {
         return $container->{$this->name};
+    }
+
+    /**
+     * Метод, вызываемый во время сохранения атрибута
+     * @param \CModel $container
+     * @return string
+     */
+    public function internalPush(\CModel $container, $value)
+    {
+        return $value;
+    }
+
+    /**
+     * Метод вызывается во время установки параметров модели из request
+     * @param \CModel $container
+     * @return null|string
+     */
+    public function internalSetAttribute(\CModel $container)
+    {
+        /** @var \CHttpRequest $request */
+        $request = \Yii::app()->getRequest();
+        $param = $request->getParam(get_class($container));
+        return $param !== null && !empty($param[$this->name]) ? $param[$this->name]  : null;
     }
 } 

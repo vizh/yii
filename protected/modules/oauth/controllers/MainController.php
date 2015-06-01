@@ -19,6 +19,12 @@ class MainController extends \oauth\components\Controller
         ];
     }
 
+    /**
+     *@return mixed
+     *
+     * Редиректит на главную страницу если не во фрейме
+     * или закрывает окно фрэйма
+    */
 
     public function actionDialog()
     {
@@ -28,7 +34,11 @@ class MainController extends \oauth\components\Controller
             {
                 Yii::app()->user->setIsRecentlyLogin();
             }
-            if ($this->url === '' || $this->url === null)
+            if (!$this->isFrame())
+            {
+                $this->redirect('/');
+            }
+            if (empty($this->url))
             {
                 echo '
         <script>
@@ -65,6 +75,7 @@ class MainController extends \oauth\components\Controller
 
         $this->render('dialog', array('user' => $user, 'event' => $this->Account->Event));
     }
+
 
     private function redirectWithToken()
     {
@@ -186,7 +197,9 @@ class MainController extends \oauth\components\Controller
                     $socialProxy->saveSocialData($user);
                 }
                 \user\models\Log::create($user);
-                $this->redirect($this->createUrl('/oauth/main/dialog'));
+                $params = [];
+                $this->isFrame() ? $params['frame'] = 'true' : '';
+                $this->redirect($this->createUrl('/oauth/main/dialog', $params));
             }
             else
             {
@@ -223,8 +236,11 @@ class MainController extends \oauth\components\Controller
                         $identity = new RunetId($user->RunetId);
                         $identity->authenticate();
                         \Yii::app()->getUser()->login($identity);
+                        $params = [];
+                        $params['hash'] = $form->Code;
+                        $this->isFrame() ? $params['frame'] = 'true' : '';
                         $this->redirect(
-                            $this->createUrl('/oauth/main/setpassword', ['hash' => $form->Code])
+                            $this->createUrl('/oauth/main/setpassword', $params)
                         );
                     } else {
                         $form->addError('Code', \Yii::t('app', 'Указан не верный код для смены пароля.'));
@@ -243,56 +259,6 @@ class MainController extends \oauth\components\Controller
         $this->render('error');
     }
 
-    public function actionLogin()
-    {
-        //\Yii::app()->getClientScript()->registerCssFile('/stylesheets/application.css');
-        $this->layout= '/layouts/mobile';
-        //$this->bodyId = 'index-page login';
-        if (!\Yii::app()->user->isGuest)
-        {
-            $this->redirect('/');
-        }
-        $fast = $this->fast;
-        $this->fast = null;
-
-        $socialProxy = !empty($this->social) ? new \oauth\components\social\Proxy($this->social) : null;
-
-        $request = \Yii::app()->getRequest();
-        $authForm = new \oauth\components\form\AuthForm();
-        $authForm->attributes = $request->getParam(get_class($authForm));
-        if ($request->getIsPostRequest() && $authForm->validate())
-        {
-            $identity = new application\components\auth\identity\Password($authForm->Login, $authForm->Password);
-            $identity->authenticate();
-            if ($identity->errorCode == \CUserIdentity::ERROR_NONE)
-            {
-                if ($authForm->RememberMe == 1)
-                {
-                    \Yii::app()->user->login($identity, $identity->GetExpire());
-                }
-                else
-                {
-                    \Yii::app()->user->login($identity);
-                }
-                \user\models\Log::create(\Yii::app()->user->getCurrentUser());
-                if (isset($socialProxy) && $socialProxy->isHasAccess())
-                {
-                    $socialProxy->saveSocialData(\Yii::app()->user->getCurrentUser());
-                }
-                $this->redirect('/');
-            }
-            else
-            {
-                $authForm->addError('Login', 'Пользователя с такими Эл. почтой или RUNET-ID и паролем не существует.');
-            }
-        }
-
-        $this->render('auth', [
-            'model' => $authForm,
-            'socialProxy' => $socialProxy,
-            'fast' => $fast
-        ]);
-    }
 }
 
 ?>
