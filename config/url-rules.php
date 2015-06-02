@@ -43,34 +43,6 @@ return [
     'http://'.RUNETID_HOST.'/iresearch2014/end' => ['competence/main/end/', 'defaultParams' => ['id' => 8]],
     'http://'.RUNETID_HOST.'/iresearch2014/done' => ['competence/main/done/', 'defaultParams' => ['id' => 8]],
 
-
-
-    /** PM14 2014 */
-    'http://'.RUNETID_HOST.'/test/userexp14/' => ['competence/main/index/', 'defaultParams' => ['id' => 13]],
-    'http://'.RUNETID_HOST.'/test/userexp14/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 13]],
-    'http://'.RUNETID_HOST.'/test/userexp14/end' => ['competence/main/end/', 'defaultParams' => ['id' => 13]],
-    'http://'.RUNETID_HOST.'/test/userexp14/done' => ['competence/main/done/', 'defaultParams' => ['id' => 13]],
-
-    /** Biz.Mail.ru 2014 */
-    'http://'.RUNETID_HOST.'/test/mailru2014/' => ['competence/main/index/', 'defaultParams' => ['id' => 12]],
-    'http://'.RUNETID_HOST.'/test/mailru2014/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 12]],
-    'http://'.RUNETID_HOST.'/test/mailru2014/end' => ['competence/main/end/', 'defaultParams' => ['id' => 12]],
-    'http://'.RUNETID_HOST.'/test/mailru2014/done' => ['competence/main/done/', 'defaultParams' => ['id' => 12]],
-
-    /** Riw14 */
-    'http://'.RUNETID_HOST.'/test/riw14/' => ['competence/main/index/', 'defaultParams' => ['id' => 15]],
-    'http://'.RUNETID_HOST.'/test/riw14/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 15]],
-    'http://'.RUNETID_HOST.'/test/riw14/end' => ['competence/main/end/', 'defaultParams' => ['id' => 15]],
-    'http://'.RUNETID_HOST.'/test/riw14/done' => ['competence/main/done/', 'defaultParams' => ['id' => 15]],
-
-
-    /** Mail.Ru Proftest  2014 */
-    'http://'.RUNETID_HOST.'/proftest2014/' => ['competence/main/index/', 'defaultParams' => ['id' => 14]],
-    'http://'.RUNETID_HOST.'/proftest2014/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 14]],
-    'http://'.RUNETID_HOST.'/proftest2014/end' => ['competence/main/end/', 'defaultParams' => ['id' => 14]],
-    'http://'.RUNETID_HOST.'/proftest2014/done' => ['competence/main/done/', 'defaultParams' => ['id' => 14]],
-
-
     /** Partner Module Rules */
     'http://partner.'. RUNETID_HOST.'/' => 'partner/main/index',
     'http://partner.'. RUNETID_HOST.'/auth/' => 'partner/auth/index',
@@ -81,11 +53,9 @@ return [
     'http://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
 
     /** Event Interview Rules */
-    'http://' . RUNETID_HOST . '/devcon' => 'competence/devcon/index',
-
-    'http://' . RUNETID_HOST . '/govresources' => ['competence/main/process/', 'defaultParams' => ['id' => 38]],
-    'http://' . RUNETID_HOST . '/govresources/done' => ['competence/main/done', 'defaultParams' => ['id' => 38]],
-    'http://' . RUNETID_HOST . '/govresources/after' => ['competence/main/after', 'defaultParams' => ['id' => 38]],
+    'http://' . RUNETID_HOST . '/vote/edu' => ['competence/main/process/', 'defaultParams' => ['id' => 39]],
+    'http://' . RUNETID_HOST . '/vote/edu/done' => ['competence/main/done', 'defaultParams' => ['id' => 39]],
+    'http://' . RUNETID_HOST . '/vote/edu/after' => ['competence/main/after', 'defaultParams' => ['id' => 39]],
 
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>' => 'competence/event/index',
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>/<action:\w+>' => 'competence/event/<action>',
@@ -107,9 +77,6 @@ return [
 
     'http://api.'.RUNETID_HOST.'/raec/commission/list' => 'api/raec/commissionlist',
     'http://api.'.RUNETID_HOST.'/raec/commission/users' => 'api/raec/commissionusers',
-
-
-
 
     'http://api.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
 
@@ -140,12 +107,7 @@ return [
     'http://'. RUNETID_HOST.'/event/<idName>/shareTo:<targetService>' => 'event/view/share',
     'http://'. RUNETID_HOST.'/event/<idName>/invite/<code>/' => 'event/invite/index',
 
-    'http://'. RUNETID_HOST.'/ticket/premiaru14-ceremony/<runetId>/<hash>/' => ['event/ticket/index', 'defaultParams' => ['eventIdName' => 'premiaru14']],
-    'http://'. RUNETID_HOST.'/ticket/premiaru14-vote/<runetId>/<hash>/' => ['event/ticket/index', 'defaultParams' => ['eventIdName' => 'premiaru14']],
-
     'http://'. RUNETID_HOST.'/ticket/<eventIdName>/<runetId>/<hash>/' => 'event/ticket/index',
-
-
 
     'http://'. RUNETID_HOST.'/create/' => 'event/create/index',
 
@@ -165,13 +127,6 @@ return [
 
     /*** ОПРОС Карена **/
     'http://'. RUNETID_HOST.'/<_hr:(HR|hr|Hr|hR)>/' => 'page/content/hr',
-
-    /** App Day 14  */
-    'http://'. RUNETID_HOST.'/appday14/<action:(select|form|section)>' => 'main/appday14/<action>',
-    'http://'. RUNETID_HOST.'/appday14/<code>' => 'main/appday14/index',
-    'http://'. RUNETID_HOST.'/appday14/' => 'main/appday14/index',
-
-
 
     'http://<domain:\w+>.'. RUNETID_HOST .'/user/ajax/<action:\w+>' => 'user/ajax/<action>',
     'http://<domain:\w+>.'. RUNETID_HOST .'/pay/ajax/<action:\w+>' => 'pay/ajax/<action>',

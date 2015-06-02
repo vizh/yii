@@ -1,6 +1,7 @@
 <?php
 namespace education\models;
 
+use application\components\ActiveRecord;
 use application\components\utility\Texts;
 use geo2\models\City;
 
@@ -22,7 +23,7 @@ use geo2\models\City;
  * @method University findByPk($pk,$condition='',$params=array())
  * @method University[] findAll($condition='',$params=array())
  */
-class University extends \CActiveRecord
+class University extends ActiveRecord
 {
     /**
      * @param string $className
@@ -71,7 +72,7 @@ class University extends \CActiveRecord
      */
     public function byName($name, $useAnd = true)
     {
-        $name = Texts::prepareStringForLike($name) . '%';
+        $name = '%' . Texts::prepareStringForLike($name) . '%';
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."Name" ILIKE :Name';
         $criteria->params = ['Name' => $name];

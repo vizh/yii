@@ -154,6 +154,14 @@ abstract class Base extends \CFormModel
     }
 
     /**
+     * Событие, вызываемое при успешной обработке и сохранении результата
+     */
+    public function afterProcess()
+    {
+
+    }
+
+    /**
      * @param bool $alwaysSave
      * @return bool
      */
@@ -172,6 +180,7 @@ abstract class Base extends \CFormModel
 
             $result->setQuestionResult($this->question, $data);
             $result->save();
+            $this->afterProcess();
         }
         return $valid;
     }
