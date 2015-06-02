@@ -15,11 +15,11 @@ use event\models\Event;
 
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-file-excel-o"></i> <?=\Yii::t('app', 'Итоговые данные мероприятия');?></span>
+        <span class="panel-title"><i class="fa fa-group"></i> <?=\Yii::t('app', 'Участники');?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
         <div class="table-info">
-            <?$this->widget('\partner\widgets\grid\GridView', [
+            <?$this->widget('\application\widgets\grid\GridView', [
                 'dataProvider'=> $search->getDataProvider(),
                 'filter' => $search,
                 'summaryText' => 'Пользователи {start}-{end} из {count}.',
@@ -36,11 +36,15 @@ use event\models\Event;
                         ]
                     ],
                     [
+                        'name' => 'Name',
                         'type' => 'raw',
                         'header' => $search->getAttributeLabel('Name'),
                         'value' => function (User $user) {
                             $result  = \CHtml::tag('strong', [], $user->getFullName());
-                            $result .= '<p><em>' . $user->Email . '</em></p>';
+                            $result .= '<br/><em>' . $user->Email . '</em>';
+                            if ($user->getPhone() !== null) {
+                                $result .= '<br/><em>Тел.: ' . $user->getPhone() . '</em>';
+                            }
                             return $result;
                         },
                         'htmlOptions' => [
@@ -100,11 +104,15 @@ use event\models\Event;
                         'headerHtmlOptions' => [
                             'class' => 'text-left'
                         ],
-                        'filter' => $search->getRoleData()
+                        'filter' => [
+                            'class' => '\partner\widgets\grid\MultiSelect',
+                            'items' => $search->getRoleData()
+                        ]
                     ],
                     [
                         'type' => 'raw',
                         'header' => $search->getAttributeLabel('Ruvents'),
+                        'name' => 'Ruvents',
                         'value' => function (User $user) use ($controller) {
                             $result = '';
                             if (!empty($user->Badges)) {
@@ -125,7 +133,8 @@ use event\models\Event;
                         ],
                         'headerHtmlOptions' => [
                             'class' => 'text-left'
-                        ]
+                        ],
+                        'filter' => false
                     ],
                     [
                         'class' => '\application\widgets\grid\ButtonColumn',

@@ -7,7 +7,7 @@ class GridView extends \CGridView
 {
     const DEFAULT_PAGE_SIZE = 30;
 
-    public $itemsCssClass = 'table';
+    public $itemsCssClass = 'table table-striped';
 
     public $rowCssClass = [];
 
@@ -50,6 +50,28 @@ class GridView extends \CGridView
             }
         }
         parent::initColumns();
+        $this->initColumnFilterScripts();
+    }
+
+    /**
+     *
+     */
+    protected function initColumnFilterScripts()
+    {
+        $functions = '';
+        foreach ($this->columns as $column) {
+            if ($column instanceof DataColumn && $column->getFilterWidget() !== null) {
+                $functions .= $column->getFilterWidget()->getInitJsFunctionName() . '();';
+            }
+        }
+
+        if (!empty($functions)) {
+            $this->afterAjaxUpdate = 'function (id, data) {' . $functions . '}';
+            \Yii::app()->getClientScript()->registerScript(
+                $this->getId() . '_filters',
+                ('$(function () {' . $functions . '});')
+            );
+        }
     }
 
     /**

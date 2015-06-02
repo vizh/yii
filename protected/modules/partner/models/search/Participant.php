@@ -10,7 +10,9 @@ namespace application\modules\partner\models\search;
 
 
 use application\components\form\SearchFormModel;
+use application\components\web\ActiveDataProvider;
 use event\models\Role;
+use ruvents\models\Badge;
 use user\models\User;
 use event\models\Event;
 
@@ -31,10 +33,13 @@ class Participant extends SearchFormModel
 
     public $Company;
 
+    public $Ruvents;
+
     public function rules()
     {
         return [
-            ['Query, Role, Company', 'safe']
+            ['Query, Company', 'safe'],
+            ['Role', 'type', 'type' => 'array']
         ];
     }
 
@@ -54,6 +59,7 @@ class Participant extends SearchFormModel
      */
     public function getDataProvider()
     {
+        $sort = $this->getSort();
         $criteria = new \CDbCriteria();
         $criteria->with = [
             'Participants' => [
@@ -61,21 +67,33 @@ class Participant extends SearchFormModel
                 'params' => ['EventId' => $this->event->Id],
                 'together' => true
             ],
-            'Settings',
-            'Employments',
-            'LinkPhones',
             'Badges' => [
                 'together' => false,
                 'order' => '"Badges"."CreationTime" ASC',
                 'with' => ['Operator'],
                 'on' => '"Badges"."EventId" = :EventId',
-                'params' => ['EventId' => $this->event->Id]
+                'params' => [
+                    'EventId' => $this->event->Id
+                ]
             ]
         ];
+
         $criteria->addInCondition('"t"."Id"', \CHtml::listData(User::model()->findAll($this->getCriteria()), 'Id', 'Id'));
 
+        if (array_key_exists('Ruvents', $sort->getDirections())) {
+            $criteria->with['Badges']['together'] = true;
+            $criteria->with['Badges']['on'] = '"Badges"."Id" IN (
+                SELECT MIN("Id") FROM "RuventsBadge"
+                WHERE "EventId" = :EventId
+                GROUP BY "UserId"
+            )';
+        } elseif (array_key_exists('Role', $sort->getDirections())) {
+            $criteria->group = '"t"."Id","Participants"."Id"';
+        }
+
         return new \CActiveDataProvider('\user\models\User', [
-            'criteria' => $criteria
+            'criteria' => $criteria,
+            'sort' => $sort
         ]);
     }
 
@@ -92,12 +110,6 @@ class Participant extends SearchFormModel
                 'together' => true,
                 'select' => false,
             ],
-            'Badges' =>  [
-                'alias' => 'BadgesForCondition',
-                'select' => false,
-                'together' => true,
-                'on' => '"BadgesForCondition"."EventId" = :EventId'
-            ],
             'EmploymentsForCriteria' => [
                 'together' => true,
                 'select' => false,
@@ -106,7 +118,6 @@ class Participant extends SearchFormModel
                 ]
             ]
         ];
-        $criteria->group = '"t"."Id"';
 
         if ($this->validate()) {
             if ($this->Query != '') {
@@ -118,24 +129,40 @@ class Participant extends SearchFormModel
                     $criteria->mergeWith(User::model()->bySearch($this->Query, null, true, false)->getDbCriteria());
                 }
             }
-
-            if ($this->Role != '') {
-                $criteria->addCondition('"Participants"."RoleId" = :RoleId');
-                $criteria->params['RoleId'] = (int)$this->Role;
+            if (!empty($this->Role)) {
+                $criteria->addInCondition('"Participants"."RoleId"', $this->Role);
             }
 
             if (!empty($this->Company)) {
                 $criteria->addCondition('"Company"."Name" ILIKE :Company AND "EmploymentsForCriteria"."Primary"');
                 $criteria->params['Company'] = '%' . $this->Company . '%';
             }
-
-            if (!empty($this->Ruvents)) {
-                $criteria->addCondition('"BadgesForCondition"."EventId" = :EventId');
-            }
         }
 
-        //$this->fillCriteriaOrder($criteria);
         return $criteria;
+    }
+
+    public function getSort()
+    {
+        $sort = new \CSort();
+        $sort->defaultOrder = ['Role' => SORT_DESC];
+        $sort->attributes = [
+            'Query' => 't.RunetId',
+            'Name'  => [
+                'asc'  => '"t"."LastName" ASC, "t"."FirstName" ASC',
+                'desc' => '"t"."LastName" DESC, "t"."FirstName" DESC',
+            ],
+            'Role' => [
+                'asc'  => 'max("Participants"."CreationTime") ASC',
+                'desc' => 'max("Participants"."CreationTime") DESC'
+            ],
+            'Ruvents' => [
+                'asc'  => '"Badges"."CreationTime" ASC',
+                'desc' => '"Badges"."CreationTime" DESC'
+            ]
+        ];
+        return $sort;
+
     }
 
     /**
