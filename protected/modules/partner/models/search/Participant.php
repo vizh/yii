@@ -65,7 +65,7 @@ class Participant extends SearchFormModel
             'Participants' => [
                 'on' => '"Participants"."EventId" = :EventId',
                 'params' => ['EventId' => $this->event->Id],
-                'together' => true
+                'select' => false
             ],
             'Badges' => [
                 'together' => false,

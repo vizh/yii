@@ -91,7 +91,7 @@ use event\models\Event;
                                     }
 
                                     $result .= '<p>' .
-                                        \CHtml::tag('strong', $participant->Part->Title) . ' - ' . $participant->Role->Title . '<br/>' .
+                                        \CHtml::tag('strong', [], $participant->Part->Title) . ' - ' . $participant->Role->Title . '<br/>' .
                                         '<em>' . $dateFormatter->format($participant->CreationTime, 'long') . '</em>' .
                                         '</p>';
                                 }

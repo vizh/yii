@@ -52,6 +52,7 @@ use user\components\handlers\Register;
  * @method \user\models\User find($condition='',$params=array())
  * @method \user\models\User findByPk($pk,$condition='',$params=array())
  * @method \user\models\User[] findAll($condition='',$params=array())
+ * @method User byTemporary(bool $temporary)
  *
  */
 class User extends \application\models\translation\ActiveRecord
