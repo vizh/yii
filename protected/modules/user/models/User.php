@@ -111,6 +111,8 @@ class User extends \application\models\translation\ActiveRecord
             'CommissionsActive' => [self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => ['Commission', 'Role'], 'on' => '"CommissionsActive"."ExitTime" IS NULL OR "CommissionsActive"."ExitTime" > NOW()'],
 
             'Participants' => [self::HAS_MANY, '\event\models\Participant', 'UserId'],
+            'ParticipantsForCriteria' => [self::HAS_MANY, '\event\models\Participant', 'UserId'],
+
             'Badges' => [self::HAS_MANY, '\ruvents\models\Badge', 'UserId'],
             'Settings' => [self::HAS_ONE, '\user\models\Settings', 'UserId'],
             'CompetenceResults' => [self::HAS_MANY, '\competence\models\Result', 'UserId'],
@@ -377,8 +379,7 @@ class User extends \application\models\translation\ActiveRecord
         $this->save();
         $this->refresh();
 
-        if ($notify)
-        {
+        if ($notify) {
             $event = new \CModelEvent($this, ['password' => $password]);
             $this->onRegister($event);
         }

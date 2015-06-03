@@ -150,55 +150,10 @@ use event\models\Event;
                             ]
                         ],
                         'template' => '{update}{ticket}',
-                        'updateButtonUrl' => 'Yii::app()->controller->createUrl("edit",["runetId" => $data->RunetId])'
+                        'updateButtonUrl' => 'Yii::app()->controller->createUrl("edit",["id" => $data->RunetId])'
                     ]
                 ]
             ]);?>
         </div>
     </div> <!-- / .panel-body -->
 </div>
-
-
-<?/*
-  <div class="row">
-    <div class="span12">
-      <?=CHtml::beginForm(Yii::app()->createUrl('/partner/user/index/'), 'get');?>
-      <div class="row">
-        <div class="span3">
-          <?=CHtml::activeLabel($form, 'User');?>
-          <?=CHtml::activeTextField($form, 'User', array('placeholder' => 'ФИО, RUNET-ID или E-mail'));?>
-        </div>
-          <div class="span3">
-              <?=CHtml::activeLabel($form, 'Company');?>
-              <?=CHtml::activeTextField($form, 'Company');?>
-          </div>
-        <div class="span3">
-          <?=CHtml::activeLabel($form, 'Role');?>
-          <?=CHtml::activeDropDownList($form, 'Role', $form->getRoleData());?>
-        </div>
-        <div class="span3">
-          <?=CHtml::activeLabel($form, 'Sort');?>
-          <?=CHtml::activeDropDownList($form, 'Sort', $form->getSortValues(), array('encode' => false));?>
-        </div>
-      </div>
-      <div class="row m-top_10">
-        <div class="span4">
-          <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Ruvents', ['uncheckValue' => null]);?> <?=$form->getAttributeLabel('Ruvents');?></label>
-        </div>
-      </div>
-
-      <div class="row indent-top2">
-        <div class="span2">
-          <button class="btn btn-large" type="submit"><i class="icon-search"></i> Искать</button>
-        </div>
-        <div class="span3">
-          <button class="btn btn-large" type="submit" name="reset" value="reset">Сбросить</button>
-        </div>
-      </div>
-      <?=CHtml::endForm();?>
-    </div>
-  </div>
-
-  <h3>Всего по запросу <?=\Yii::t('', '{n} участник|{n} участника|{n} участников|{n} участника', $paginator->getCount());?></h3>
-
-*/?>

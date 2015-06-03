@@ -14,7 +14,6 @@ class UserController extends Controller
             'translate' => '\partner\controllers\user\TranslateAction',
             'ajaxget' => '\partner\controllers\user\AjaxGetAction',
             'register' => '\partner\controllers\user\RegisterAction',
-            'statistics' => '\partner\controllers\user\StatisticsAction',
             'export' => '\partner\controllers\user\ExportAction',
             'invite' => '\partner\controllers\user\InviteAction',
             'import' => '\partner\controllers\user\import\IndexAction',

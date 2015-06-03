@@ -88,7 +88,7 @@ abstract class CreateUpdateForm extends FormModel
      */
     protected function fillActiveRecord()
     {
-        if (!$this->isUpdateMode()) {
+        if (empty($this->model)) {
             return false;
         }
 

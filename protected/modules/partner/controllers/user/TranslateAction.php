@@ -1,77 +1,47 @@
 <?php
 namespace partner\controllers\user;
 
+use application\helpers\Flash;
+use partner\models\forms\user\Translate;
+use user\models\User;
+
 class TranslateAction extends \partner\components\Action
 {
-  public function run($runetId)
-  {
-    $user = \user\models\User::model()
-      ->byRunetId($runetId)->byEventId($this->getEvent()->Id)->find();    
-    if ($user == null)
+    public function run($id)
     {
-      throw new \CHttpException(404);
-    }
-    
-    $employment = $user->getEmploymentPrimary();
-    $locales = \Yii::app()->params['Languages'];
-    
-    $forms = new \stdClass();
-    foreach ($locales as $locale)
-    {
-      $forms->$locale = new \partner\models\forms\user\Translate();
-    }
-    
-    $request = \Yii::app()->getRequest();
-    if ($request->getIsPostRequest())
-    {
-      $valid = true;
-      $translate = $request->getParam('Translate');
-      foreach ($locales as $locale)
-      {
-        $forms->$locale->attributes = $translate[$locale];
-        if ($forms->$locale->validate())
-        {
-          $user->setLocale($locale);
-          $user->FirstName  = $forms->$locale->FirstName;
-          $user->LastName   = $forms->$locale->LastName;
-          $user->FatherName = $forms->$locale->FatherName;
-          $user->save();
-          if ($employment !== null)
-          {
-            $employment->Company->setLocale($locale);
-            $employment->Company->Name = $forms->$locale->Company;
-            $employment->Company->save();
-          }
+        $user = User::model()->byRunetId($id)->byEventId($this->getEvent()->Id)->find();
+        if ($user == null) {
+            throw new \CHttpException(404);
         }
-        else
-        {
-          $valid = false;
+
+        $locales = \Yii::app()->params['Languages'];
+
+        /** @var Translate[] $forms */
+        $forms = [];
+        foreach ($locales as $locale) {
+            $forms[] = new Translate($locale, $user);
         }
-      }
-      if ($valid)
-      {
-        \Yii::app()->user->setFlash('success', \Yii::t('app', 'Персональные данные пользователя успешно сохранены'));
-        $this->getController()->refresh();
-      }
-    }
-    else
-    {
-      foreach ($locales as $locale)
-      {
-        $user->setLocale($locale);
-        $forms->$locale->FirstName  = $user->FirstName;
-        $forms->$locale->LastName   = $user->LastName;
-        $forms->$locale->FatherName = $user->FatherName;
-        if ($employment !== null)
-        {
-          $employment->Company->setLocale($locale);
-          $forms->$locale->Company = $employment->Company->Name;
+
+        /** @var \CHttpRequest $request */
+        $request = \Yii::app()->getRequest();
+        if ($request->getIsPostRequest()) {
+            $valid = true;
+
+            foreach ($forms as $locale => $form) {
+                $form->fillFromPost();
+                if (!$form->validate()) {
+                    $valid = false;
+                }
+            }
+
+            if ($valid) {
+                foreach ($forms as $locale => $form) {
+                    $form->updateActiveRecord();
+                }
+                Flash::setSuccess(\Yii::t('app', 'Персональные данные пользователя сохранены!'));
+                $this->getController()->refresh();
+            }
         }
-      }
+        $this->getController()->render('translate', array('forms' => $forms, 'locales' => $locales, 'user' => $user));
     }
-    $user->resetLocale();
-    
-    $this->getController()->setPageTitle(\Yii::t('app', 'Редактирование персональных данных'));
-    $this->getController()->render('translate', array('forms' => $forms, 'locales' => $locales, 'user' => $user));
-  }
 }

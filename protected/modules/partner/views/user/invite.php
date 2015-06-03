@@ -1,3 +1,14 @@
+<?php
+/**
+ * @var \partner\components\Controller $this
+ */
+
+$this->setPageTitle(\Yii::t('app', 'Приглашения'))
+?>
+
+
+
+
 <?$roleDDlist = '<select name="RoleId" class="input-medium">';
 foreach ($roles as $role):
     $roleDDlist .= '<option value="'.$role->Id.'" '.($role->Id == 1 ? 'selected="seleceted"' : '').'>'.$role->Title.'</option>';

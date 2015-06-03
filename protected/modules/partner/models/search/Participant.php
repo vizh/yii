@@ -11,8 +11,6 @@ namespace application\modules\partner\models\search;
 
 use application\components\form\SearchFormModel;
 use application\components\web\ActiveDataProvider;
-use event\models\Role;
-use ruvents\models\Badge;
 use user\models\User;
 use event\models\Event;
 
@@ -65,7 +63,13 @@ class Participant extends SearchFormModel
             'Participants' => [
                 'on' => '"Participants"."EventId" = :EventId',
                 'params' => ['EventId' => $this->event->Id],
-                'select' => false
+                'together' => false
+            ],
+            'ParticipantsForCriteria' => [
+                'together' => true,
+                'select' => false,
+                'on' => '"ParticipantsForCriteria"."EventId" = :EventId',
+                'params' => ['EventId' => $this->event->Id],
             ],
             'Badges' => [
                 'together' => false,
@@ -88,12 +92,15 @@ class Participant extends SearchFormModel
                 GROUP BY "UserId"
             )';
         } elseif (array_key_exists('Role', $sort->getDirections())) {
-            $criteria->group = '"t"."Id","Participants"."Id"';
+            $criteria->group = '"t"."Id","ParticipantsForCriteria"."Id"';
         }
 
         return new \CActiveDataProvider('\user\models\User', [
             'criteria' => $criteria,
-            'sort' => $sort
+            'sort' => $sort,
+            'pagination' => [
+                'pageSize' => 10,
+            ]
         ]);
     }
 
@@ -108,7 +115,7 @@ class Participant extends SearchFormModel
         $criteria->with = [
             'Participants' => [
                 'together' => true,
-                'select' => false,
+                'select' => false
             ],
             'EmploymentsForCriteria' => [
                 'together' => true,
@@ -153,8 +160,8 @@ class Participant extends SearchFormModel
                 'desc' => '"t"."LastName" DESC, "t"."FirstName" DESC',
             ],
             'Role' => [
-                'asc'  => 'max("Participants"."CreationTime") ASC',
-                'desc' => 'max("Participants"."CreationTime") DESC'
+                'asc'  => 'max("ParticipantsForCriteria"."CreationTime") ASC',
+                'desc' => 'max("ParticipantsForCriteria"."CreationTime") DESC'
             ],
             'Ruvents' => [
                 'asc'  => '"Badges"."CreationTime" ASC',

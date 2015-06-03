@@ -80,7 +80,6 @@ class Sidebar extends \CWidget
                 ['label' => 'Участники', 'url' => ['user/index']],
                 ['label' => 'Редактирование', 'url' => ['user/edit']],
                 ['label' => 'Регистрация', 'url' => ['user/register']],
-                ['label' => 'Статистика регистраций', 'url' => ['user/statistics']],
                 ['label' => 'Экспорт участников в CSV', 'url' => ['user/export']],
                 ['label' => 'Импорт участников', 'url' => ['user/import']],
                 ['label' => 'Приглашения', 'url' => ['user/invite'], 'visible' => InviteRequest::model()->byEventId($event->Id)->exists()],

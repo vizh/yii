@@ -18,7 +18,7 @@ class EditAction extends \partner\components\Action
         /** @var \CHttpRequest $request */
         $request = \Yii::app()->getRequest();
 
-        if ($this->id === null) {
+        if ($id === null) {
             $form = new Edit();
             if ($request->getIsPostRequest()) {
                 $form->attributes = $request->getParam(get_class($form));
@@ -35,96 +35,29 @@ class EditAction extends \partner\components\Action
                 throw new \CHttpException(404);
             }
 
+            $this->processAjaxAction();
+
             $this->getController()->render('edit-tabs', [
                 'user'  => $this->user,
                 'event' => $this->getEvent(),
                 'participants' => $this->prepareParticipants()
             ]);
         }
-
-
-
-
-
-
-        /*
-        $request = \Yii::app()->request;
-        $runetId = $request->getParam('runetId');
-        $name = $request->getParam('name');
-        if ((int)$runetId === 0)
-        {
-            $runetId = (int)$name;
-        }
-        $this->user = \user\models\User::model()->byRunetId($runetId)->find();
-        $this->setTitle();
-
-        if ($this->user === null)
-        {
-            if ($request->getIsPostRequest())
-            {
-                $this->error = 'Не удалось найти пользователя. Убедитесь, что все данные указаны правильно.';
-            }
-            $this->getController()->render('edit', array(
-                'runetId' => $runetId,
-                'name' => $name
-            ));
-        }
-        else
-        {
-            if ($request->getQuery('runetId', null) == null)
-            {
-                $this->getController()->redirect(
-                    \Yii::app()->createUrl('/partner/user/edit',
-                        array('runetId' => $this->user->RunetId)
-                    )
-                );
-            }
-
-            $this->roles = $this->getEvent()->getRoles();
-            $doAction = $request->getParam('do');
-            if (!empty($doAction))
-            {
-                $method = 'processAjaxAction'.ucfirst($doAction);
-                if (method_exists($this,$method)) {
-                    $result = $this->$method();
-                    echo json_encode($result);
-                    \Yii::app()->end();
-                } else
-                    throw new \CHttpException(404);
-            }
-
-            $participants = $this->prepareParticipants();
-            $this->viewParams = [
-                'user' => $this->user,
-                'event' => $this->getEvent(),
-                'roles' => $this->roles,
-                'participants' => $participants,
-            ];
-
-            // TODO: это от devcon14, нужно не забыть убрать
-            if ($this->getEvent()->Id == 831)
-            {
-                $this->processEvent831Product();
-            }
-
-            $this->getController()->render('edit-tabs', $this->viewParams);
-        }
-        */
     }
 
-    /**
-    private function setTitle()
+    private function processAjaxAction()
     {
-        if (!empty($this->user))
-        {
-            $this->getController()->setPageTitle('Добавление/редактирование участника мероприятия: ' . $this->user->GetFullName());
-        }
-        else
-        {
-            $this->getController()->setPageTitle('Добавление/редактирование участника мероприятия');
+        $action = \Yii::app()->getRequest()->getParam('do');
+        if (!empty($action)) {
+            $method = 'processAjaxAction'.ucfirst($action);
+            if (method_exists($this,$method)) {
+                $result = $this->$method();
+                echo json_encode($result);
+                \Yii::app()->end();
+            } else
+                throw new \CHttpException(404);
         }
     }
-     * /
 
     /**
      * @return \event\models\Participant[]

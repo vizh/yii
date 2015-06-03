@@ -5,8 +5,8 @@ $(function(){
 
 var UserEdit = function()
 {
-    this.runetId = $('input[name="runetId"]').attr('value');
-    this.editUrl = '/user/edit/?runetId=' + this.runetId;
+    this.id = $('input[name="id"]').attr('value');
+    this.editUrl = '/user/edit/?id=' + this.id;
     this.init();
     this.initUserDataTable();
 };
@@ -24,37 +24,42 @@ UserEdit.prototype = {
         var target = $(event.currentTarget);
 
         var $modal = $('<div/>', {
-            'class' : 'modal'
+            'class' : 'modal modal-blur'
         });
         $('body').append($modal);
         $modal.html(
-            ' <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h3>Укажите комментарий</h3></div>'
-            +'<div class="modal-body"><textarea class="input-block-level"></textarea></div>'
-            +'<div class="modal-footer"><button class="btn btn-primary">Сохранить</button></div>'
-        );
+            '<div class="modal-dialog modal-md">' +
+                '<div class="modal-content">' +
+                    '<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h4 class="modal-title">Укажите комментарий</h4></div>' +
+                    '<div class="modal-body"><textarea class="form-control"></textarea></div>' +
+                    '<div class="modal-footer"><button class="btn btn-primary">Сохранить</button></div>' +
+                '</div>'+
+            '</div>'
+        )
         $modal.on('hidden', function () {
             $modal.remove();
         });
         $modal.find('.btn-primary').click(function () {
-            target.after($('<span class="badge badge-warning">Сохранение...</span>'));
-            $.post(self.editUrl, {
-                'do': 'changeParticipant',
-                'roleId': target.val(),
-                'partId': target.data('part-id'),
-                'message' : $modal.find('textarea').val()
+            var $controlGroup = target.parent('.form-group'),
+                $helpBlock = $('<p/>', {'class' : 'help-block', 'text' : 'Сохранение...'});
+            $controlGroup.addClass('has-warning dark');
+            target.after($helpBlock);
+
+            $.post(self.editUrl, {'do': 'changeParticipant', 'roleId': target.val(), 'partId': target.data('part-id'), 'message' : $modal.find('textarea').val()
             }, function(data) {
-                var next = target.next();
-                next.removeClass('badge-warning');
-                if (!data['error'])
-                {
-                    next.addClass('badge-success');
-                    next.html('Изменения сохранены.');
+                $controlGroup.removeClass('has-warning');
+                if (!data['error']) {
+                    $controlGroup.addClass('has-success');
+                    $helpBlock.text('Изменения сохранены!');
                 }
                 else{
-                    next.addClass('badge-important');
-                    next.html('Ошибка при сохранении!');
+                    $controlGroup.addClass('has-error');
+                    $helpBlock.text('Ошибка при сохранении!');
                 }
-                setTimeout(function(){next.remove();}, 1000);
+                setTimeout(function(){
+                    $controlGroup.removeAttr('class').addClass('form-group');
+                    $helpBlock.remove();
+                }, 1000);
             }, 'json');
             $modal.modal('hide');
         });
