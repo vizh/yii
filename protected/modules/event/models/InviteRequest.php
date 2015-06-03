@@ -91,9 +91,9 @@ class InviteRequest extends \CActiveRecord
     if ($status == \event\models\Approved::Yes)
     {
       if (empty($this->Event->Parts))
-        $this->Event->registerUser($this->Owner, $role);
+        $this->Event->registerUser($this->Owner, $role, true);
       else
-        $this->Event->registerUserOnAllParts($this->Owner, $role);
+        $this->Event->registerUserOnAllParts($this->Owner, $role, true);
     }
     elseif ($status == \event\models\Approved::No)
     {
