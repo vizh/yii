@@ -83,9 +83,16 @@
     <div class="control-group">
       <div class="controls">
         <?=\CHtml::submitButton(\Yii::t('app', 'Обновить'), array('class' => 'btn btn-info'));?>
+          <a href="<?=\Yii::app()->createUrl('/partner/program/deletesection', ['sectionId' => $section->Id]);?>"
+             class="btn btn-danger"
+              onclick="return window.confirm('Вы действительно хотите удалить этоу секцию?')">
+              <?=\Yii::t('app', 'Удалить секцию');?>
+          </a>
       </div>
     </div>
   <?=\CHtml::endForm();?>
+
+
 </div>
   
   <div class="span1 offset1">
