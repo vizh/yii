@@ -1,12 +1,134 @@
 <?php
 /**
- * @var $form \partner\models\forms\OrderSearch
- * @var $orders \pay\models\Order[]
- * @var $paginator \application\components\utility\Paginator
+ * @var \partner\components\Controller $this
+ * @var \application\modules\partner\models\search\Orders $search
  */
 
+use pay\models\Order;
+use pay\models\OrderType;
 
+$this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
 ?>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-ticket"></i> <?=\Yii::t('app', 'Промо-коды мероприятия');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <div class="table-info">
+            <?$this->widget('\application\widgets\grid\GridView', [
+                'dataProvider'=> $search->getDataProvider(),
+                'filter' => $search,
+                'summaryCssClass' => 'table-header',
+                'summaryText' => 'Счета {start}-{end} из {count}.',
+                'columns' => [
+                    [
+                        'name'  => 'Number',
+                        'type'  => 'raw',
+                        'header'=> $search->getAttributeLabel('Number'),
+                        'value' => function (Order $order) {
+                            return \CHtml::tag('span', ['class' => 'lead'], $order->Number);
+                        }
+                    ],
+                    [
+                        'name'  => 'Type',
+                        'type'  => 'raw',
+                        'header'=> $search->getAttributeLabel('Type'),
+                        'value' => function (Order $order) {
+                            if ($order->Type == OrderType::Juridical) {
+                                $result = \CHtml::tag('span', ['class' => 'label label-info'], \Yii::t('app', 'Юр. счет'));
+                                $result.= '<p class="small m-top_5">' . $order->OrderJuridical->Name. ', ' . \Yii::t('app', 'ИНН/КПП:') . ' ' . $order->OrderJuridical->INN . '/' . $order->OrderJuridical->KPP . '</p>';
+                                return $result;
+                            } elseif ($order->Type == OrderType::Receipt) {
+                                return \CHtml::tag('span', ['class' => 'label label-warning'], \Yii::t('app', 'Квитанция'));
+                            } else {
+                                return \CHtml::tag('span', ['class' => 'label label-primary'], \Yii::t('app', 'Через платежную систему.'));
+                            }
+                        }
+                    ],
+                    [
+                        'name'  => 'Payer',
+                        'type'  => 'raw',
+                        'header'=> $search->getAttributeLabel('Payer'),
+                        'value' => '\CHtml::link(\CHtml::tag("span", ["class" => "lead"], $data->Payer->RunetId), ["user/edit", "id" => $data->Payer->RunetId], ["target" => "_blank"]);',
+                        'headerHtmlOptions' => [
+                            'colspan' => 2
+                        ],
+                        'filterHtmlOptions' => [
+                            'colspan' => 2
+                        ],
+                    ],
+                    [
+                        'type' => 'raw',
+                        'value' => function (Order $order) {
+                            $user = $order->Payer;
+                            $result = \CHtml::tag('strong', [], $user->getFullName());
+                            if (($employment = $user->getEmploymentPrimary()) !== null) {
+                                $result .= '<br/>' . $employment;
+                            }
+                            $result.='<p class="m-top_5"><i class="fa fa-envelope-o"></i> ' . $user->Email;
+                            if (($phone = $user->getPhone()) !== null) {
+                                $result.='<br/><i class="fa fa-phone"></i> ' . $phone;
+                            }
+                            $result.='</p>';
+                            return $result;
+                        },
+                        'htmlOptions' => ['class' => 'text-left']
+                    ],
+                    [
+                        'name' => 'CreationTime',
+                        'header' => $search->getAttributeLabel('CreationTime'),
+                        'value' => 'Yii::app()->locale->getDateFormatter()->format("d MMMM y", $data->CreationTime)',
+                        'filter' => false
+                    ],
+                    [
+                        'name' => 'Status',
+                        'type' => 'raw',
+                        'header' => $search->getAttributeLabel('Status'),
+                        'value' => function (Order $order) {
+                            if ($order->Paid) {
+                                $result = \CHtml::tag('span', ['class' => 'label label-success'], \Yii::t('app', 'Оплачен'));
+                                $result.= '<p class="small m-top_5">' . \Yii::app()->getDateFormatter()->format('d MMMM y', $order->PaidTime) . '</p>';
+                                return $result;
+                            } elseif ($order->Deleted) {
+                                return \CHtml::tag('span', ['class' => 'label label-danger'], \Yii::t('app', 'Удален'));
+                            } else {
+                                return \CHtml::tag('span', ['class' => 'label'], \Yii::t('app', 'Не оплачен'));
+                            }
+                        }
+                    ],
+                    [
+                        'name' => 'Price',
+                        'type' => 'raw',
+                        'header' => $search->getAttributeLabel('Price'),
+                        'value' => '$data->getPrice() . "&nbsp;руб."',
+                        'filter' => false
+                    ],
+                    [
+                        'class' => '\application\widgets\grid\ButtonColumn',
+                        'template' => '{view}{update}{print}',
+                        'buttons' => [
+                            'update' => [
+                                'visible' => '$data->getIsBankTransfer() && !$data->Paid'
+                            ],
+                            'print' => [
+                                'label' => '<i class="fa fa-print"></i>',
+                                'url' => '$data->getUrl(true)',
+                                'options' => [
+                                    'class'  => 'btn btn-default',
+                                    'target' => '_blank',
+                                    'title'  => 'Печать'
+                                ],
+                                'visible' => '$data->getIsBankTransfer()'
+                            ]
+                        ]
+                    ]
+                ]
+            ]);?>
+        </div>
+    </div>
+</div>
+
+<?/*
 <div class="row">
 
   <div class="span12">
@@ -70,37 +192,6 @@
         <tbody>
         <?foreach ($orders as $order):?>
           <tr>
-            <td><p class="lead order-number"><?=$order->Number;?></p><p class="order-number muted"><?=$order->Id;?></p></td>
-            <td>
-              <?if ($order->Type == \pay\models\OrderType::Juridical):?>
-              <strong><?=$order->OrderJuridical->Name;?></strong><br>
-              ИНН/КПП:&nbsp;<?=$order->OrderJuridical->INN;?>&nbsp;/&nbsp;<?=$order->OrderJuridical->KPP;?>
-              <?elseif ($order->Type == \pay\models\OrderType::Receipt):?>
-                <p class="text-warning"><strong>Квитанция.</strong></p>
-              <?else:?>
-                <p class="text-warning"><strong>Через платежную систему.</strong></p>
-              <?endif;?>
-            </td>
-            <td>
-              <?php echo $order->Payer->RunetId;?>, <strong><?php echo $order->Payer->getFullName();?></strong>
-              <p>
-                <em><?=$order->Payer->Email;?></em>
-              </p>
-              <?foreach ($order->Payer->LinkPhones as $link):?>
-                <?if ($link->Phone == null) { continue; }?>
-                  <p><em><?=urldecode($link->Phone);?></em></p>
-              <?endforeach;?>
-            </td>
-              <td><?=Yii::app()->locale->getDateFormatter()->format('d MMMM y', strtotime($order->CreationTime));?></td>
-            <td>
-              <?if ($order->Paid):?>
-                <span class="label label-success">ОПЛАЧЕН</span><br>
-                  <?=Yii::app()->locale->getDateFormatter()->format('d MMMM y', strtotime($order->PaidTime));?>
-              <?else:?>
-                <span class="label label-important">НЕ ОПЛАЧЕН</span>
-              <?endif;?>
-            </td>
-            <td><?=$order->getPrice();?> руб.</td>
             <td>
 
 
@@ -118,11 +209,7 @@
                     <button class="btn btn-success disabled" disabled type="submit" name="SetPaid"><i class="icon-ok icon-white"></i></button>
                   <?endif;?>
 
-                  <?if ($order->getIsBankTransfer() && !$order->Paid):?>
-                    <a class="btn" href="<?=$this->createUrl('/partner/order/edit', ['orderId' => $order->Id]);?>"><i class="icon-edit"></i></a>
-                  <?else:?>
-                    <a class="btn disabled"><i class="icon-edit"></i></a>
-                  <?endif;?>
+
 
                   <?if ($order->getIsBankTransfer()):?>
                     <a class="btn" target="_blank" href="<?=$order->getUrl(true);?>"><i class="icon-print"></i></a>
@@ -151,3 +238,4 @@
 
   <div class="span12 indent-bottom3"></div>
 </div>
+*/?>

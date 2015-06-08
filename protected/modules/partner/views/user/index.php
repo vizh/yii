@@ -141,11 +141,11 @@ use event\models\Event;
                         'buttons' => [
                             'ticket' => [
                                 'label' => '<i class="fa fa-ticket"></i>',
-                                'title' => 'Билет',
                                 'url' => '$data->Participants[0]->getTicketUrl()',
                                 'options' => [
                                     'class' => 'btn btn-default',
-                                    'target' => '_blank'
+                                    'target' => '_blank',
+                                    'title' => 'Билет'
                                 ]
                             ]
                         ],

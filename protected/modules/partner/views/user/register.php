@@ -11,27 +11,6 @@ use application\helpers\Flash;
 ?>
 
 
-<?/*
-<div class="row">
-    <div class="span12 indent-bottom3">
-        <h2>Регистрация пользователя</h2>
-    </div>
-</div>
-
-<?if (!empty($user)):?>
-    <div class="alert alert-block alert-success">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <h4>Пользователь создан успешно!</h4>
-        Перейти к редактированию пользователя: <a target="_blank" href="<?=Yii::app()->createUrl('/partner/user/edit', ['runetId' => $user->RunetId]);?>"><?=$user->RunetId;?></a>
-    </div>
-<?endif;?>
-
-<?=CHtml::errorSummary($form, '<div class="row"><div class="span12 indent-bottom2"><div class="alert alert-error">', '</div></div></div>');?>
-
-*/?>
-
-
-
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-plus-circle"></i> <?=\Yii::t('app', 'Новый пользователь');?></span>

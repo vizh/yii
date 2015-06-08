@@ -20,14 +20,14 @@ class Competence extends SearchFormModel
     public function rules()
     {
         return [
-            ['Name', 'safe']
+            ['Name', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'Name' => \Yii::t('app', 'Ф.И.О.'),
+            'Name' => \Yii::t('app', 'Участник'),
             'Status' => \Yii::t('app', 'Статус'),
             'Finished' => \Yii::t('app', 'Пройден опрос')
         ];
@@ -54,10 +54,29 @@ class Competence extends SearchFormModel
 
         if ($this->validate()) {
             if (!empty($this->Name)) {
-                $model->bySearch($this->Name, null, true, false);
+                $model->bySearch($this->Name, null, true, false)->byEmail($this->Name, false);
             }
         }
         $model->getDbCriteria()->mergeWith($criteria);
-        return new \CActiveDataProvider($model);
+        return new \CActiveDataProvider($model,[
+            'sort' => $this->getSort()
+        ]);
+    }
+
+
+    /**
+     * @return \CSort
+     */
+    private function getSort()
+    {
+        $sort = new \CSort();
+        $sort->attributes = [
+            'Name' => [
+                'asc' => '"t"."LastName" ASC, "t"."FirstName" ASC',
+                'desc' => '"t"."LastName" DESC, "t"."FirstName" DESC',
+            ]
+        ];
+        $sort->defaultOrder = ['Name' => SORT_ASC];
+        return $sort;
     }
 }

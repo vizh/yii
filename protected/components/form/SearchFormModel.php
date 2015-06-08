@@ -7,9 +7,7 @@ abstract class SearchFormModel extends \CFormModel
     {
         parent::init();
         $request = \Yii::app()->getRequest();
-        if ($request->getIsAjaxRequest()) {
-            $this->setAttributes($request->getParam(get_class($this)));
-        }
+        $this->setAttributes($request->getParam(get_class($this)));
     }
 
     /**

@@ -1,12 +1,20 @@
 <?php
 namespace partner\controllers\order;
 
+use application\modules\partner\models\search\Orders;
+
 class IndexAction extends \partner\components\Action
 {
     public function run()
     {
-        $this->getController()->setPageTitle('Поиск счетов');
-        $this->getController()->initActiveBottomMenu('index');
+        $search = new Orders($this->getEvent());
+        $this->getController()->render('index', [
+            'search' => $search
+        ]);
+        exit;
+
+
+
 
         $event = \Yii::app()->partner->getEvent();
 

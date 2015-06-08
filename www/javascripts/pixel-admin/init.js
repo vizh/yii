@@ -1,6 +1,6 @@
 var init = [];
 init.push(function () {
-    $('.add-tooltip').tooltip();
+    $('[data-toggle="tooltip"]').tooltip();
     $('input[type="file"]').pixelFileInput({
         placeholder: 'Файл не выбран',
         choose_btn_tmpl: '<a href="#" class="btn btn-xs btn-primary">Выбрать</a>',

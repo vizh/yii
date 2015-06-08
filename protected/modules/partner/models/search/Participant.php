@@ -36,7 +36,7 @@ class Participant extends SearchFormModel
     public function rules()
     {
         return [
-            ['Query, Company', 'safe'],
+            ['Query,Company', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
             ['Role', 'type', 'type' => 'array']
         ];
     }

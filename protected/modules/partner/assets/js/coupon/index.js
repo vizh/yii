@@ -1,43 +1,40 @@
 CPageCouponIndex = function () {
-    this.table  = $('.container table.table');
-    
-    this.headCheckbox = $('thead input[type="checkbox"]', self.table);
-    this.bodyCheckbox = $('tbody input[type="checkbox"]', self.table);
-    
-    this.btnGiveCoupon = $('tfoot input[type="submit"]', this.table);
     this.init();
 }
 
 CPageCouponIndex.prototype.init = function () {
-    var self = this;
-    
-   self.headCheckbox.change( function (e) {
-        if ( $(e.currentTarget).prop('checked')) {
-            self.bodyCheckbox.attr('checked', 'checked');
+    var $table  = $('.grid-view table'),
+        $btnGiveCoupon = $('input#btn-give'),
+        $headCheckbox  = $('thead input:checkbox', $table),
+        $bodyCheckbox  = $('tbody input[name*="Coupons"]:checkbox', $table);
+
+    $btnGiveCoupon.click(function (e) {
+        $table.closest('form').trigger('submit');
+    }).addClass('hide');
+
+    $headCheckbox.on('change', function (e) {
+        if ($(e.currentTarget).prop('checked')) {
+            $bodyCheckbox.attr('checked', 'checked');
+        } else {
+            $bodyCheckbox.removeAttr('checked');
         }
-        else {
-            self.bodyCheckbox.removeAttr('checked');
-        }
-        self.bodyCheckbox.trigger('change');
+        $bodyCheckbox.trigger('change');
     });
-    
-    self.bodyCheckbox.change( function () {
-        if ( self.bodyCheckbox.filter(':checked').length != self.bodyCheckbox.length) {
-            self.headCheckbox.removeAttr('checked');
-        }
-        else {
-            self.headCheckbox.attr('checked', 'checked');
+    $bodyCheckbox.on('change', function () {
+        if ($bodyCheckbox.filter(':checked').length != $bodyCheckbox.length) {
+            $headCheckbox.removeAttr('checked');
+        } else {
+            $headCheckbox.attr('checked', 'checked');
         }
         
-        if ( self.bodyCheckbox.filter(':checked').length > 0) {
-            self.btnGiveCoupon.show();
-        }
-        else { 
-            self.btnGiveCoupon.hide();
+        if ($bodyCheckbox.filter(':checked').length > 0) {
+            $btnGiveCoupon.removeClass('hide');
+        } else {
+            $btnGiveCoupon.addClass('hide');
         }
     });
 }
 
 $(function () {
-    var PageCouponIndex = new CPageCouponIndex();
+    pageCouponIndex = new CPageCouponIndex();
 });

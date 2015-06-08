@@ -1,43 +1,34 @@
 <?php
 namespace partner\controllers\coupon;
 
-use event\models\Event;
 use partner\components\Action;
 use pay\models\Coupon;
 
 class StatisticsAction extends Action
 {
-    public function run($eventIdName, $code, $hash)
+    public function run($id)
     {
-        $this->getController()->setPageTitle('Статистика по промо-коду');
-        $this->getController()->showMenu = false;
-
-        $event = Event::model()->byIdName($eventIdName)->find();
-        if ($event === null)
+        $coupon = Coupon::model()->byEventId($this->getEvent()->Id)->findByPk($id);
+        if ($coupon === null) {
             throw new \CHttpException(404);
-        $coupon = Coupon::model()->byCode($code)->byEventId($event->Id)->find();
-        if ($coupon === null)
-            throw new \CHttpException(404);
-        if ($coupon->getHash() !== $hash)
-            throw new \CHttpException(404);
+        }
 
+        $stat = new \stdClass();
+        $stat->count = 0;
+        $stat->total = 0;
 
-        $paidCount = 0;
-        $paidTotal = 0;
         foreach ($coupon->Activations as $activation) {
             foreach ($activation->OrderItemLinks as $link) {
                 if ($link->OrderItem->Paid) {
-                    $paidCount++;
-                    $paidTotal += $link->OrderItem->getPriceDiscount();
+                    $stat->count++;
+                    $stat->total += $link->OrderItem->getPriceDiscount();
                 }
             }
         }
 
-
         $this->getController()->render('statistics', [
             'coupon' => $coupon,
-            'paidCount' => $paidCount,
-            'paidTotal' => $paidTotal
+            'stat' => $stat,
         ]);
     }
 } 

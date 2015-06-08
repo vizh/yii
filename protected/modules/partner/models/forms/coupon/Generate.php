@@ -1,130 +1,193 @@
 <?php
 namespace partner\models\forms\coupon;
 
+use application\components\form\CreateUpdateForm;
+use application\helpers\Flash;
+use event\models\Event;
 use pay\models\Coupon;
-use pay\models\CouponLinkProduct;
 use pay\models\Product;
 
-class Generate extends \CFormModel
+class Generate extends CreateUpdateForm
 {
-    public $type = 'solo';
-    public $count;
-    public $discount;
-    public $productIdList = [0];
-    public $endTime;
+    public $IsMultiple = false;
 
-    public $code;
+    public $Count;
 
-    /** @var \pay\models\Product[] */
-    public $productList;
+    public $Discount;
 
-    /** @var \event\models\Event */
-    public $event = null;
+    public $Products;
 
+    public $EndTime;
+
+    public $Code;
+
+    /** @var Event */
+    private $event;
+
+    /**
+     * @param Event $event
+     */
+    public function __construct(Event $event)
+    {
+        $this->event = $event;
+        parent::__construct(null);
+    }
+
+
+    /**
+     * @return array
+     */
     public function rules()
     {
         return [
-            ['type, productIdList, code', 'safe'],
-            ['discount', 'numerical', 'min' => 1, 'max' => 100, 'integerOnly' => true, 'allowEmpty' => false],
-            ['count', 'numerical', 'min' => 1, 'integerOnly' => true, 'allowEmpty' => false],
-            ['endTime', 'date', 'allowEmpty' => true, 'format' => 'dd.MM.yyyy'],
-
-            /** Валидация для сценария many */
-            ['code', 'match', 'pattern' => '/^[A-Za-z0-9_\-]+$/', 'allowEmpty' => false, 'on' => 'many', 'message' => 'Поле "Промо-код" может содержать только латиницу, цифры, знаки "_" и "-"'],
+            ['IsMultiple', 'boolean'],
+            ['Code', 'match', 'pattern' => '/^[A-Za-z0-9_\-]+$/', 'allowEmpty' => true, 'message' => 'Поле "Промо-код" может содержать только латиницу, цифры, знаки "_" и "-"'],
+            ['Code', 'validateCode'],
+            ['Count', 'numerical', 'min' => 1, 'max' => 1000, 'integerOnly' => true, 'allowEmpty' => false],
+            ['Discount', 'numerical', 'min' => 1, 'max' => 100, 'integerOnly' => true, 'allowEmpty' => false],
+            ['Discount', 'validateDiscount'],
+            ['EndTime', 'date', 'allowEmpty' => true, 'format' => 'dd.MM.yyyy'],
+            ['Products', 'validateProducts']
         ];
     }
 
-    public function getTypes()
+    /**
+     * @param $attribute
+     * @return bool
+     */
+    public function validateCode($attribute)
     {
-        return [
-            'solo' => 'Индивидуальный',
-            'many' => 'Множественный',
-        ];
+        $value = $this->$attribute;
+        if ($this->IsMultiple == 1) {
+            if (empty($value)) {
+                $this->addError($attribute, \Yii::t('app', 'Необходимо заполнить поле {label}.', ['{label}' => $this->getAttributeLabel($attribute)]));
+                return false;
+            }
+
+            $exists = Coupon::model()->byEventId($this->event->Id)->byCode($value)->exists();
+            if ($exists) {
+                $this->addError($attribute, \Yii::t('app', 'Такой промо-код уже существует.'));
+                return false;
+            }
+        }
+        return true;
     }
 
-    protected function afterValidate()
-    {
-        parent::afterValidate();
-        $this->discount = (int)$this->discount;
+    /**
+     * @param $attribute
+     * @return bool
+     */
+    public function validateDiscount($attribute) {
+        $value = (int) $this->$attribute;
+        if ($value === 100 && empty($this->Products)) {
+            $this->addError($attribute, \Yii::t('app', 'Для промо-кодов со скидкой 100% должен быть {label}.', ['{label}' => $this->getAttributeLabel('Products')]));
+            return false;
+        }
+        return true;
+    }
 
-        $this->productList = [];
-        foreach ($this->productIdList as $productId) {
-            if ($productId == 0)
-                continue;
-            $product = Product::model()->findByPk($productId);
-            if ($product === null || $product->EventId != $this->event->Id) {
-                $this->addError('productIdList', 'Проблема при назначении типа продукта с ID: ' . $productId);
+    public function validateProducts($attribute)
+    {
+        $products = $this->$attribute;
+        $valid = true;
+        if (!empty($products)) {
+            if (is_array($products)) {
+                foreach ($products as $id) {
+                    $product = Product::model()->byEventId($this->event->Id)->findByPk($id);
+                    if (empty($product)) {
+                        $valid = false;
+                    }
+                }
             } else {
-                $this->productList[] = $product;
+                $valid = false;
             }
         }
 
-        if (Coupon::model()->byCode($this->code)->byEventId($this->event->Id)->exists()) {
-            $this->addError('code', 'Такой промо-код уже существует.');
+        if (!$valid) {
+            $this->addError($attribute, \Yii::t('app', 'Тип продукта отсутствует в списке.'));
         }
     }
 
     /**
-     * @return \pay\models\Coupon[] $coupon
+     * @inheritdoc
      */
-    public function generate()
+    public function createActiveRecord()
     {
-        $result = [];
-        $endTime = !empty($this->endTime) ? date('Y-m-d', strtotime($this->endTime)) . ' 23:59:59' : null;
-        if ($this->type == 'many')
-        {
-            $coupon = new Coupon();
-            $coupon->EventId = $this->event->Id;
-            $coupon->Discount = (float) $this->discount / 100;
-            $coupon->Code = $this->code;
-            $coupon->Multiple = true;
-            $coupon->MultipleCount = $this->count;
-            $coupon->EndTime = $endTime;
-            $coupon->save();
-
-            $coupon->addProductLinks($this->productList);
-
-
-            $result[] = $coupon;
+        if (!$this->validate()) {
+            return null;
         }
-        else
-        {
-            for ($i=0; $i<$this->count; $i++)
-            {
+
+        $transaction = \Yii::app()->getDb()->beginTransaction();
+        try {
+            $coupons = [];
+            if ($this->IsMultiple) {
                 $coupon = new Coupon();
-                $coupon->EventId = $this->event->Id;
-                $coupon->Discount = (float) $this->discount / 100;
-                $coupon->Code = $coupon->generateCode();
-                $coupon->EndTime = $endTime;
-                $coupon->save();
-
-                $coupon->addProductLinks($this->productList);
-
-                $result[] = $coupon;
+                $coupon->Multiple = true;
+                $coupon->MultipleCount = $this->Count;
+                $this->fillAndSaveModel($coupon);
+                $coupons[] = $coupon;
+            } else {
+                for ($i=0; $i < $this->Count; $i++) {
+                    $coupon = new Coupon();
+                    $this->fillAndSaveModel($coupon);
+                    $coupons[] = $coupon;
+                }
             }
+            $transaction->commit();
+            return $coupons;
+        } catch (\CDbException $e) {
+            $transaction->rollBack();
+            Flash::setError($e);
         }
+        return null;
+    }
 
-        return $result;
+    /**
+     * @param Coupon $coupon
+     */
+    private function fillAndSaveModel(Coupon $coupon)
+    {
+        $coupon->EventId = $this->event->Id;
+        $coupon->Discount = (float) $this->Discount / 100;
+        $coupon->Code = !empty($this->Code) && $this->IsMultiple == 1 ? $this->Code : $coupon->generateCode();
+        if (!empty($this->EndTime)) {
+            $coupon->EndTime = date('Y-m-d', strtotime($this->EndTime)) . ' 23:59:59';
+        }
+        $coupon->save();
+        if (!empty($this->Products)) {
+            $products = Product::model()->findAllByPk($this->Products);
+            $coupon->addProductLinks($products);
+        }
     }
 
 
+    /**
+     * @return array
+     */
     public function attributeLabels()
     {
-        return [
-            'code' => 'Промо-код',
-            'count' => $this->getCountTitle(),
-            'discount' => 'Размер скидки (%)',
-            'productIdList' => 'Тип продукта',
-            'endTime' => 'Срок действия до'
+        $labels = [
+            'Code' => 'Код',
+            'CountCoupons' => 'Кол-во кодов',
+            'Discount' => 'Размер скидки (%)',
+            'Products' => 'Тип продукта',
+            'EndTime' => 'Срок действия до',
+            'CountActivations' => 'Кол-во активаций'
         ];
+
+        $labels['Count'] = $this->IsMultiple == 1 ? $labels['CountActivations'] : $labels['CountCoupons'];
+        return $labels;
     }
 
-    protected function getCountTitle()
+    /**
+     * @return array
+     */
+    public function getProductData()
     {
-        if ($this->scenario == 'many')
-        {
-            return 'Количество активаций промо-кодa';
-        }
-        return 'Количество промо-кодов';
+        $criteria = new \CDbCriteria();
+        $criteria->addCondition('"t"."ManagerName" != :ManagerName');
+        $criteria->params['ManagerName'] = 'RoomProductManager';
+        $products = Product::model()->byEventId($this->event->Id)->byDeleted(false)->findAll($criteria);
+        return \CHtml::listData($products, 'Id', 'Title');
     }
 }

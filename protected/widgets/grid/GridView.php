@@ -59,6 +59,10 @@ class GridView extends \CGridView
     protected function initColumnFilterScripts()
     {
         $functions = '';
+        if (!empty($this->afterAjaxUpdate)) {
+            $functions .= $this->afterAjaxUpdate . '();';
+        }
+
         foreach ($this->columns as $column) {
             if ($column instanceof DataColumn && $column->getFilterWidget() !== null) {
                 $functions .= $column->getFilterWidget()->getInitJsFunctionName() . '();';
@@ -95,4 +99,44 @@ class GridView extends \CGridView
             echo "</tr>\n";
         }
     }
+
+    public function renderTableHeader()
+    {
+        if(!$this->hideHeader)
+        {
+            echo "<thead>\n";
+
+            if($this->filterPosition===self::FILTER_POS_HEADER) {
+                $this->renderFilter();
+            }
+
+            echo "<tr>\n";
+            $skip = 0;
+            /** @var \CDataColumn $column */
+            foreach($this->columns as $column) {
+                if ($skip == 0) {
+                    $column->renderHeaderCell();
+                } else {
+                    $skip--;
+                }
+                if (isset($column->headerHtmlOptions['colspan'])) {
+                    $skip = $column->headerHtmlOptions['colspan'] - 1;
+                }
+            }
+            echo "</tr>\n";
+
+            if($this->filterPosition===self::FILTER_POS_BODY)
+                $this->renderFilter();
+
+            echo "</thead>\n";
+        }
+        elseif($this->filter!==null && ($this->filterPosition===self::FILTER_POS_HEADER || $this->filterPosition===self::FILTER_POS_BODY))
+        {
+            echo "<thead>\n";
+            $this->renderFilter();
+            echo "</thead>\n";
+        }
+    }
+
+
 } 

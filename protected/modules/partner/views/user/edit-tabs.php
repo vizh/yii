@@ -27,13 +27,13 @@ $this->setPageTitle(\Yii::t('app', 'Добавление/редактирова�
                 </h3>
                 <?php $employment = $user->getEmploymentPrimary();?>
                 <?php if ($employment !== null):?>
-                    <h5>
+                    <h5 class="clear-indents m-top_10">
                         <?=$employment->Company->Name;?>
                         <?php $employment->Company->setLocale('en');?>
                         (<?=$employment->Company->Name;?>)
                     </h5>
                 <?php endif;?>
-                <?=\CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn btn-sm']);?>
+                <?=\CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn btn-sm m-top_10']);?>
                 <p class="m-top_20">
                     <span class="fa fa-envelope-o"></span> <?=\CHtml::mailto($user->Email);?>
                     <?php if ($user->getPhone() !== null):?>
