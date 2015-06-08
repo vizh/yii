@@ -2,6 +2,7 @@
 namespace competence\models\test\education15;
 
 use competence\models\form\Base;
+use competence\models\Result;
 use education\models\University;
 use user\models\Education;
 use user\models\User;
@@ -119,4 +120,30 @@ class Q1 extends Base
         $university->save();
         return $university;
     }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getInternalExportValueTitles()
+    {
+        $titles = ['ВУЗ', 'Специальность'];
+        return $titles;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        /** @var University $education */
+        $university = University::model()->findByPk($questionData['University']);
+        $speciality = $questionData['Speciality'];
+        return [
+            $university->Name,
+            $speciality
+        ];
+    }
+
+
 }
