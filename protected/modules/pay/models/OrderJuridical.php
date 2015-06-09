@@ -19,26 +19,26 @@ namespace pay\models;
 class OrderJuridical extends \CActiveRecord
 {
 
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'PayOrderJuridical';
-  }
+    public function tableName()
+    {
+        return 'PayOrderJuridical';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
+    public function primaryKey()
+    {
+        return 'Id';
+    }
 
-  public function relations()
-  {
-    return array(
-      'Order' => array(self::BELONGS_TO, '\pay\models\Order', 'OrderId'),
-    );
-  }
+    public function relations()
+    {
+        return array(
+            'Order' => array(self::BELONGS_TO, '\pay\models\Order', 'OrderId'),
+        );
+    }
 
 }

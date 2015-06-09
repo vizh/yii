@@ -11,6 +11,8 @@ namespace application\widgets\grid;
 
 class DataColumn extends \CDataColumn
 {
+    public $filterInputHtmlOptions = [];
+
     /**
      * @inheritdoc
      */
@@ -23,11 +25,13 @@ class DataColumn extends \CDataColumn
         } elseif(is_string($filter)) {
             echo $filter;
         } elseif($filter!==false && $this->grid->filter!==null && $this->name!==null && strpos($this->name,'.')===false) {
+            $htmlOptions = array_merge($this->filterInputHtmlOptions, ['id' => false, 'class' => 'form-control']);
             if(is_array($filter)) {
-                echo \CHtml::activeDropDownList($this->grid->filter, $this->name, $filter, ['id' => false, 'prompt' => '', 'class' => 'form-control']);
+                $htmlOptions['prompt'] = '';
+                echo \CHtml::activeDropDownList($this->grid->filter, $this->name, $filter, $htmlOptions);
             }
             elseif($filter===null) {
-                echo \CHtml::activeTextField($this->grid->filter, $this->name, ['id' => false, 'class' => 'form-control']);
+                echo \CHtml::activeTextField($this->grid->filter, $this->name, $htmlOptions);
             }
         } else {
             parent::renderFilterCellContent();

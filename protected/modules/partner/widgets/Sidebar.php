@@ -95,8 +95,7 @@ class Sidebar extends \CWidget
             ]],
             ['label' => 'Заказы', 'icon' => 'shopping-cart ', 'url' => ['orderitem/index'], 'items' => [
                 ['label' => 'Заказы', 'url' => ['orderitem/index']],
-                ['label' => 'Добавить заказ', 'url' => ['orderitem/create']],
-                ['label' => 'Перенести заказ', 'url' => ['orderitem/redirect']],
+                ['label' => 'Добавить заказ', 'url' => ['orderitem/create']]
             ]],
             ['label' => 'Программа', 'icon' => 'align-justify', 'url' => ['program/index']],
             ['label' => 'Настройки', 'icon' => 'cog', 'url' => ['settings/roles'], 'items' => [

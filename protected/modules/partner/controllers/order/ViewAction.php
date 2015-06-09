@@ -1,54 +1,43 @@
 <?php
 namespace partner\controllers\order;
 
-class ViewAction extends \partner\components\Action
+use application\helpers\Flash;
+use partner\components\Action;
+use pay\models\Order;
+
+class ViewAction extends Action
 {
-  public $error = false;
-  public $result = false;
-
-  public function run($orderId)
-  {
-    /** @var $order \pay\models\Order */
-    $order = \pay\models\Order::model()->findByPk($orderId);
-    if ($order === null)
+    public function run($id)
     {
-      throw new \CHttpException(404, 'Не найден счет с номером: ' . $orderId);
-    }
-    if ($order->EventId != \Yii::app()->partner->getEvent()->Id)
-    {
-      throw new \CHttpException(404, 'Счет с номером ' . $orderId . ' относится к другому мероприятию');
-    }
-
-    $this->getController()->setPageTitle('Управление счетом № ' . $order->Number);
-    $this->getController()->initActiveBottomMenu('index');
-
-    $request = \Yii::app()->getRequest();
-    if ((\pay\models\OrderType::getIsBank($order->Type) || \Yii::app()->partner->getAccount()->getIsAdmin()) && $request->getIsPostRequest())
-    {
-      $paid = $request->getParam('SetPaid', false);
-      if ($paid !== false)
-      {
-        $payResult = $order->activate();
-
-        if (! empty($payResult['ErrorItems']))
-        {
-          $this->error = 'Повторно активированы некоторые заказы. Список идентификаторов: ' . implode(', ', $payResult['ErrorItems']);
+        $order = Order::model()->byEventId($this->getEvent()->Id)->findByPk($id);
+        if ($order === null) {
+            throw new \CHttpException(404);
         }
-        else
-        {
-          $this->result = 'Счет успешно активирован, платежи проставлены! Сумма счета: <strong>' . $payResult['Total'] . '</strong> руб.';
+
+        $action = \Yii::app()->getRequest()->getParam('action');
+        if (!empty($action)) {
+            $this->processAction($order, $action);
+            $this->getController()->redirect(['view', 'id' => $order->Id]);
         }
-      }
-      else
-      {
-        $order->delete();
-      }
+
+        $this->getController()->render('view', ['order' => $order]);
     }
 
-    $this->getController()->render('view',
-      array(
-        'order' => $order
-      )
-    );
-  }
+    /**
+     * @param Order $order
+     * @param $action
+     */
+    private function processAction(Order $order, $action)
+    {
+        if ($action === 'setPaid') {
+            $result = $order->activate();
+            if (!empty($result['ErrorItems'])) {
+                Flash::setError('Повторно активированы некоторые заказы. Список идентификаторов: ' . implode(', ', $result['ErrorItems']));
+            } else {
+                Flash::setSuccess('Счет успешно активирован, платежи проставлены! Сумма счета: <strong>' . $result['Total'] . '</strong> руб.');
+            }
+        } elseif ($action === 'setDeleted') {
+            $order->delete();
+        }
+    }
 }

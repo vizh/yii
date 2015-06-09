@@ -1,96 +1,89 @@
 <?php
 namespace partner\models\forms\orderitem;
 
-class Create extends \CFormModel
+use application\components\form\CreateUpdateForm;
+use application\helpers\Flash;
+use event\models\Event;
+use pay\components\Exception;
+use pay\models\OrderItem;
+use pay\models\Product;
+use user\models\User;
+
+class Create extends CreateUpdateForm
 {
-  public $ProductId;
-  public $PayerRunetId;
-  public $OwnerRunetId;
+    public $ProductId;
 
-  public $OrderItem;
+    public $Payer;
 
-  /** @var \event\models\Event */
-  protected $event;
+    public $Owner;
 
-  /**
-   * @param \event\models\Event $event
-   * @param string $scenario
-   */
-  public function __construct($event, $scenario = '')
-  {
-    parent::__construct($scenario);
-    $this->event = $event;
-  }
+    public $OrderItem;
 
-  public function rules()
-  {
-    return [
-      ['PayerRunetId, OwnerRunetId, ProductId', 'required'],
-      ['PayerRunetId, OwnerRunetId', 'userExist'],
-      ['ProductId', 'productExist']
-    ];
-  }
+    /** @var \event\models\Event */
+    protected $event;
 
-  public function userExist($attribute, $params)
-  {
-    if (!\user\models\User::model()->byRunetId($this->$attribute)->exists())
+    /**
+     * @param Event $event
+     */
+    public function __construct(Event $event)
     {
-      $this->addError($attribute, 'Не найден пользователь поля '.$this->getAttributeLabel($attribute));
+        $this->event = $event;
+        parent::__construct();
     }
-  }
 
-  protected $product = null;
-
-  public function getProduct()
-  {
-    if ($this->product === null)
+    /**
+     * @return array
+     */
+    public function rules()
     {
-      $this->product = \pay\models\Product::model()->findByPk($this->ProductId);
+        return [
+            ['Payer, Owner, ProductId', 'required'],
+            ['Payer, Owner', 'exist', 'className' => '\user\models\User', 'attributeName' => 'RunetId'],
+            ['ProductId', 'in', 'range' => array_keys($this->getProductData())]
+        ];
     }
-    return $this->product;
-  }
 
-  public function productExist($attribute, $params)
-  {
-    if ($attribute == 'ProductId' && $this->getProduct() == null)
+    /**
+     * return string[]
+     */
+    public function getProductData()
     {
-      $this->addError($attribute, 'Не найден выбранный товар');
+        $criteria = new \CDbCriteria();
+        $criteria->order = '"t"."Title" ASC';
+        $criteria->addNotInCondition('"t"."ManagerName"', ['RoomProductManager']);
+        $products = Product::model()->byEventId($this->event->Id)->byDeleted(false)->findAll($criteria);
+        return \CHtml::listData($products, 'Id', 'Title');
     }
-  }
 
-  protected $products = null;
-
-  public function getProducts()
-  {
-    if ($this->products === null)
+    public function attributeLabels()
     {
-      $this->products = \pay\models\Product::model()
-          ->byEventId($this->event->Id)->findAll(['order' => '"t"."Priority" DESC']);
+        return [
+            'ProductId' => \Yii::t('app', 'Товар'),
+            'Payer' => \Yii::t('app', 'Плательщик'),
+            'Owner' => \Yii::t('app', 'Получатель'),
+        ];
     }
-    return $this->products;
-  }
 
-  protected $productData = null;
-
-  public function getProductData()
-  {
-    if ($this->productData === null)
+    /**
+     * @return OrderItem|null
+     */
+    public function createActiveRecord()
     {
-      $this->productData = ['' => 'Выберите товар'];
-      foreach ($this->getProducts() as $product)
-      {
-        $this->productData[$product->Id] = $product->Title;
-      }
-    }
-    return $this->productData;
-  }
+        if (!$this->validate()) {
+            return null;
+        }
 
-  public function attributeLabels()
-  {
-    return array(
-      'ProductId' => \Yii::t('app', 'Товар'),
-      'PayerRunetId' => \Yii::t('app', 'Плательщик'),
-      'OwnerRunetId' => \Yii::t('app', 'Получатель'),
-    );
-  }
+        $payer = User::model()->byRunetId($this->Payer)->find();
+        $owner = User::model()->byRunetId($this->Owner)->find();
+
+        try{
+            $product = Product::model()->findByPk($this->ProductId);
+            return $product->getManager()->createOrderItem($payer, $owner);
+        } catch (Exception $e) {
+            Flash::setError($e->getMessage());
+            return null;
+        }
+    }
+
+
 }
