@@ -29,7 +29,6 @@ use mail\components\mailers\PhpMailer;
  * @property bool $ShowFooter
  * @property string $Layout
  * @property int $RelatedEventId;
- *
  * @property Event $RelatedEvent;
  */
 class Template extends \CActiveRecord
@@ -38,6 +37,8 @@ class Template extends \CActiveRecord
 
     private $testMode  = false;
     private $testUsers = [];
+    public $Attachments = [];
+
 
     /**
      * @param string $className
@@ -49,11 +50,17 @@ class Template extends \CActiveRecord
         return parent::model($className);
     }
 
+    /**
+     * @return string
+     */
     public function tableName()
     {
         return 'MailTemplate';
     }
 
+    /**
+     * @return int
+     */
     public function primaryKey()
     {
         return 'Id';
@@ -69,26 +76,22 @@ class Template extends \CActiveRecord
         ];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function send()
     {
-        if (!$this->Success)
-        {
-            if (!$this->getIsTestMode())
-            {
+        if (!$this->Success){
+            if (!$this->getIsTestMode()){
                 $mails = [];
-                foreach ($this->getUsers() as $user)
-                {
+                foreach ($this->getUsers() as $user){
                     $mails[] = new \mail\components\mail\Template($this->getMailer(), $user, $this);
                 }
-                if (!empty($mails))
-                {
+                if (!empty($mails)){
                     $this->getMailer()->send($mails);
                 }
-            }
-            else
-            {
-                foreach ($this->testUsers as $user)
-                {
+            } else{
+                foreach ($this->testUsers as $user){
                     $criteria = new \CDbCriteria();
                     $criteria->addCondition('"t"."Id" = :UserId');
                     $criteria->params['UserId'] = $user->Id;
@@ -139,10 +142,8 @@ class Template extends \CActiveRecord
         $criteria->order = '"t"."Id" ASC';
         $criteria->addCondition('"t"."Email" != \'\'');
 
-        if (!$this->getIsTestMode())
-        {
-            if (!$this->SendUnsubscribe)
-            {
+        if (!$this->getIsTestMode()){
+            if (!$this->SendUnsubscribe){
                 $criteria->addCondition('NOT "Settings"."UnsubscribeAll"');
                 if (!empty($this->RelatedEventId)) {
                     $criteria->addCondition('"t"."Id" NOT IN (SELECT "UserId" FROM "UserUnsubscribeEventMail" WHERE "EventId" = :RelativeEventId)');
@@ -150,39 +151,41 @@ class Template extends \CActiveRecord
                 }
             }
 
-            if (!$this->SendInvisible)
-            {
+            if (!$this->SendInvisible){
                 $criteria->addCondition('"t"."Visible"');
             }
         }
 
-        if (!$this->getIsTestMode() && !$all && $this->LastUserId !== null)
-        {
+        if (!$this->getIsTestMode() && !$all && $this->LastUserId !== null){
             $criteria->addCondition('"t"."Id" > :LastUserId');
             $criteria->params['LastUserId'] = $this->LastUserId;
         }
         $filter = $this->getFilter();
-        if (!empty($filter))
-        {
+        if (!empty($filter)){
             $criteria->mergeWith($filter->getCriteria());
         }
         return $criteria;
     }
 
+    /**
+     * @return null|string
+     */
     public function getViewName()
     {
-        if (!$this->getIsNewRecord())
-        {
+        if (!$this->getIsNewRecord()){
             return 'mail.views.templates.template'.$this->Id;
         }
         return null;
     }
 
     private $viewPath = null;
+
+    /**
+     * @return null|string
+     */
     public function getViewPath()
     {
-        if ($this->viewPath == null && !$this->getIsNewRecord())
-        {
+        if ($this->viewPath == null && !$this->getIsNewRecord()){
             $this->viewPath = \Yii::getPathOfAlias($this->getViewName()).'.php';
         }
         return $this->viewPath;
@@ -198,6 +201,9 @@ class Template extends \CActiveRecord
             $this->testUsers = [];
     }
 
+    /**
+     * @return bool
+     */
     public function getIsTestMode()
     {
         return $this->testMode;
@@ -245,6 +251,9 @@ class Template extends \CActiveRecord
         return unserialize(base64_decode($this->Filter));
     }
 
+    /**
+     * @param $filter
+     */
     public function setFilter($filter)
     {
         $this->Filter = base64_encode(serialize($filter));
@@ -257,8 +266,7 @@ class Template extends \CActiveRecord
      */
     public function getMailer()
     {
-        if ($this->mailer == null)
-        {
+        if ($this->mailer == null){
             $this->mailer = new MandrillMailer();
         }
         return $this->mailer;

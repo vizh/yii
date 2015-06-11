@@ -30,7 +30,7 @@ use mail\models\forms\admin\Template;
         });
     </script>
 
-<?=\CHtml::beginForm('', 'POST', ['class' => 'form-horizontal']);?>
+<?=\CHtml::beginForm('', 'POST', ['class' => 'form-horizontal', 'enctype'=>'multipart/form-data']);?>
     <div class="btn-toolbar">
         <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']);?>
     </div>
@@ -114,6 +114,57 @@ use mail\models\forms\admin\Template;
             <?=\CHtml::activeLabel($form, 'Layout', ['class' => 'control-label']);?>
             <div class="controls">
                 <?=\CHtml::activeDropDownList($form, 'Layout', $form->getLayoutData());?>
+            </div>
+        </div>
+
+        <div id="attach">
+            <div class="control-group">
+                <label class="control-label" for="Attachments[]"><?=Yii::t('app', 'Вложение');?></label>
+                <div class="controls">
+                    <?php $this->widget('CMultiFileUpload', array(
+                        'name' => 'Attachments',
+                        'duplicate' => 'File is not existed!',
+                        'denied' => 'Not images',
+                        'htmlOptions'=>array(
+                            'class'=>'form-control'
+                        ),
+                    )); ?>
+
+                    <?
+                    $templateId = \Yii::app()->request->getParam('templateId');
+                    if($templateId):
+                        $dir = \Yii::getpathOfAlias('webroot.files.emailAttachments.'.$templateId);
+                        $files = CFileHelper::findFiles($dir);
+                        ?>
+                        <table class="table">
+                            <?$i=0;?>
+                            <?foreach($files as $file):?>
+                                <tr id="file<?=$i?>">
+                                    <td>
+                                        <a href="<?='//runet-id.com/files/emailAttachments/'.$templateId.'/'.basename($file)?>"><?=basename($file)?>
+                                    </td>
+                                    <td>
+                                        <a onclick="deleteAttach('<?=basename($file).'\', \''.$templateId?>', 'file<?=$i;?>'); return false;" href="<?=\Yii::app()->createUrl('/mail/admin/template/deleteattachment', ['file'=>basename($file), 'templateId'=>$templateId])?>"> <i class="icon-remove"></i></a>
+                                    </td>
+                                </tr>
+                                <?$i++?>
+                            <?endforeach;?>
+                        </table>
+                        <script>
+                            function deleteAttach(attach, template, element)
+                            {
+                                $.ajax({
+                                    type: "GET",
+                                    url: '<?=\Yii::app()->createUrl('/mail/admin/template/deleteattachment')?>?file=' + attach + '&templateId=' + template + '&ajax=true',
+                                    success: function(data){
+                                        $('#' + element).remove();
+                                    }
+                                });
+                                return false
+                            }
+                        </script>
+                    <?endif;?>
+                </div>
             </div>
         </div>
 
