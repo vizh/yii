@@ -50,7 +50,7 @@ class Participant extends \CFormModel
     $this->CustomText = trim($this->CustomText);
     if (empty($this->RunetId) && empty($this->CompanyId) && empty($this->CustomText))
     {
-      $this->addError('', 'Должно быть заполнено хотя бы одно из полей: RUNET-ID, ID компании или Произвольный текст');
+      $this->addError('', 'Должно быть заполнено хотя бы одно из полей: Пользователь, Компания или Произвольный текст');
     }
     return parent::beforeValidate();
   }
@@ -81,8 +81,8 @@ class Participant extends \CFormModel
   public function attributeLabels()
   {
     return [
-      'RunetId' => \Yii::t('app', 'RUNET-ID'),
-      'CompanyId' => \Yii::t('app', 'ID компании'),
+      'RunetId' => \Yii::t('app', 'Пользователь'),
+      'CompanyId' => \Yii::t('app', 'Компания'),
       'CustomText' => \Yii::t('app', 'Произвольный текст'),
       'RoleId' => \Yii::t('app', 'ID роли'),
       'ReportTitle' => \Yii::t('app', 'Название доклада'),

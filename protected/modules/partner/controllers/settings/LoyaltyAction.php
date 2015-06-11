@@ -1,72 +1,69 @@
 <?php
 namespace partner\controllers\settings;
 
-class LoyaltyAction extends \partner\components\Action
+use application\helpers\Flash;
+use partner\components\Action;
+use pay\models\forms\LoyaltyProgramDiscount as LoyaltyProgramDiscountForm;
+use pay\models\LoyaltyProgramDiscount;
+
+class LoyaltyAction extends Action
 {
-  private $form;
-
-  public function run()
-  {
-    $request = \Yii::app()->getRequest();
-    $this->form = new \pay\models\forms\LoyaltyProgramDiscount($this->getEvent());
-    $this->form->attributes = $request->getParam(get_class($this->form));
-    if ($request->getIsPostRequest() && $this->form->validate())
+    public function run()
     {
-      $this->processForm();
+        /** @var \CHttpRequest $request */
+        $request = \Yii::app()->getRequest();
+        $form = new LoyaltyProgramDiscountForm($this->getEvent());
+
+        $action = $request->getParam('action');
+        if ($action !== null) {
+            $method = 'processAction'.ucfirst($action);
+            $this->$method();
+            $this->getController()->redirect(['loyalty']);
+        }
+
+        if ($request->getIsPostRequest()) {
+            $form->fillFromPost();
+            if ($form->createActiveRecord()) {
+                Flash::setSuccess(\Yii::t('app', 'Скидка успешно создана!'));
+                $this->getController()->refresh();
+            }
+        }
+
+        $this->getController()->render('loyalty', [
+            'form' => $form,
+            'discounts' => $this->getDiscounts()
+        ]);
+
     }
 
-    $action = $request->getParam('action');
-    if ($action !== null)
+    /**
+     * @return LoyaltyProgramDiscount[]
+     */
+    private function getDiscounts()
     {
-      $method = 'processAction'.ucfirst($action);
-      if (method_exists($this, $method))
-      {
-        $this->$method();
-        $this->getController()->redirect(['/partner/settings/loyalty/']);
-      }
+        return LoyaltyProgramDiscount::model()->byEventId($this->getEvent()->Id)
+            ->with(['Product'])->orderBy(['"StartTime"' => SORT_ASC, '"EndTime"' => SORT_ASC])->findAll();
     }
 
 
-    $this->getController()->setPageTitle(\Yii::t('app', \Yii::t('app', 'Программа лояльности')));
-    $this->getController()->initActiveBottomMenu('loyalty');
-    $this->getController()->render('loyalty', ['form' => $this->form, 'discounts' => $this->getDiscounts()]);
-  }
-
-  private function getDiscounts()
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->order = '"t"."StartTime" ASC, "t"."EndTime" ASC';
-    $criteria->with = ['Product'];
-    return \pay\models\LoyaltyProgramDiscount::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
-  }
-
-  private function processForm()
-  {
-    $discount = new \pay\models\LoyaltyProgramDiscount();
-    $discount->Discount = $this->form->Discount / 100;
-    $discount->StartTime = !empty($this->form->StartDate) ? \Yii::app()->getDateFormatter()->format('yyyy-MM-dd 00:00:00', $this->form->StartDate) : null;
-    $discount->EndTime = !empty($this->form->EndDate) ? \Yii::app()->getDateFormatter()->format('yyyy-MM-dd 23:59:59', $this->form->EndDate) : null;;
-    $discount->ProductId = !empty($this->form->ProductId) ? $this->form->ProductId : null;
-    $discount->EventId = $this->getEvent()->Id;
-    $discount->save();
-    \Yii::app()->getController()->refresh();
-  }
-
-  private function processActionDelete()
-  {
-    $request = \Yii::app()->getRequest();
-    $discount = \pay\models\LoyaltyProgramDiscount::model()->byEventId($this->getEvent()->Id)->findByPk($request->getParam('discountId'));
-    if ($discount == null)
-      throw new \CHttpException(404);
-
-    if ($discount->getStatus() == $discount::StatusActive)
+    /**
+     * Удаление или остановка действия скидки
+     * @throws \CHttpException
+     */
+    private function processActionDelete()
     {
-      $discount->EndTime = date('Y-m-d H:i:s');
-      $discount->save();
+        $request = \Yii::app()->getRequest();
+        $discount = LoyaltyProgramDiscount::model()->byEventId($this->getEvent()->Id)->findByPk($request->getParam('id'));
+        if ($discount === null) {
+            throw new \CHttpException(404);
+        }
+
+        if ($discount->getStatus() == LoyaltyProgramDiscount::StatusActive) {
+            $discount->EndTime = date('Y-m-d H:i:s');
+            $discount->save();
+        } elseif ($discount->getStatus() == LoyaltyProgramDiscount::StatusSoon) {
+            $discount->delete();
+        }
     }
-    elseif ($discount->getStatus() == $discount::StatusSoon) {
-      $discount->delete();
-    }
-  }
 
 }

@@ -2,114 +2,100 @@
 /**
  * @var \event\models\section\Section $section
  * @var \partner\models\forms\program\Participant $form
+ * @var \partner\components\Controller $this
  */
+
+use \partner\models\forms\program\Participant;
+use application\helpers\Flash;
+use event\models\section\Role;
+
+$this->setPageTitle(\Yii::t('app','Редактирование участников секции'));
 ?>
-<h2 class="m-bottom_30"><?=\Yii::t('app','Участники секции');?> "<a href="<?=$this->createUrl('/partner/program/section', array('sectionId' => $section->Id));?>"><?=$section->Title;?></a>"</h2>
-<h4 class="m-bottom_40"><?=\Yii::t('app', 'Новый участник');?></h4>
-<?=\CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
-<?if (\Yii::app()->user->hasFlash('success')):?>
-  <div class="alert alert-success"><?=\Yii::app()->user->getFlash('success');?></div>
-<?endif;?>
-<div class="row">
-  <div class="span12">
-    <?=\CHtml::form('', 'POST', array('class' => 'form-horizontal'));?>
 
-    <?$this->renderPartial('participants-select', ['form' => $form]);?>
+<?=Flash::html();?>
 
-    <div class="control-group">
-      <?=\CHtml::activeLabel($form, 'Role', array('class' => 'control-label'));?>
-      <div class="controls">
-        <?=\CHtml::activeDropDownList($form, 'RoleId', \CHtml::listData(\event\models\section\Role::model()->findAll(), 'Id', 'Title'));?>
-      </div>
+<?=\CHtml::form('', 'POST');?>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><span class="fa fa-plus"></span> <?=\Yii::t('app', 'Новый участник');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <?=\CHtml::errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
+        <?$this->renderPartial('participants/select', ['form' => $form]);?>
+        <div class="form-group">
+            <?=\CHtml::activeLabel($form, 'Role');?>
+            <?=\CHtml::activeDropDownList($form, 'RoleId', \CHtml::listData(Role::model()->findAll(), 'Id', 'Title'), ['class' => 'form-control']);?>
+        </div>
     </div>
-    <div class="control-group">
-      <div class="controls">
-        <?=\CHtml::submitButton(\Yii::t('app', 'Добавить'), array('class' => 'btn btn-info'));?>
-      </div>
+    <div class="panel-footer">
+        <?=\CHtml::submitButton(\Yii::t('app', 'Добавить'), ['class' => 'btn btn-primary']);?>
     </div>
-    <?=\CHtml::endForm();?>
-  </div>
 </div>
+<?=\CHtml::endForm();?>
 
 
-<?if (!empty($section->LinkUsers)):?>
-  <h4 class="m-bottom_40"><?=\Yii::t('app', 'Список участников');?></h4>
-  <?foreach ($section->LinkUsers as $link):?>
-    <div class="row m-bottom_40 section-participant">
-      <div class="span12">
-        <?$form = new \partner\models\forms\program\Participant($link);?>
-        <?=\CHtml::form('', 'POST', array('class' => 'form-horizontal'));?>
+<?php if (!empty($section->LinkUsers)):?>
+    <?php foreach ($section->LinkUsers as $link):?>
+        <?=\CHtml::form('', 'POST');?>
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <span class="panel-title"><span class="fa fa-group"></span> <?=\Yii::t('app', 'Участник секции');?></span>
+            </div> <!-- / .panel-heading -->
+            <div class="panel-body">
+                <?php $form = new Participant($link);?>
+                <?$this->renderPartial('participants/select', ['form' => $form]);?>
 
-        <?$this->renderPartial('participants-select', ['form' => $form]);?>
+                <div class="form-group">
+                    <?=\CHtml::activeLabel($form, 'Role');?>
+                    <?=\CHtml::activeDropDownList($form, 'RoleId', \CHtml::listData(Role::model()->findAll(), 'Id', 'Title'), ['class' => 'form-control']);?>
+                </div>
 
-        <div class="control-group">
-          <?=\CHtml::activeLabel($form, 'Role', array('class' => 'control-label'));?>
-          <div class="controls">
-            <?=\CHtml::activeDropDownList($form, 'RoleId', \CHtml::listData(\event\models\section\Role::model()->findAll(), 'Id', 'Title'));?>
-          </div>
-        </div>
+                <div class="form-group">
+                    <?=\CHtml::activeLabel($form, 'ReportTitle');?>
+                    <?=\CHtml::activeTextField($form, 'ReportTitle', ['class' => 'form-control']);?>
+                </div>
 
-        <div class="control-group">
-          <?=\CHtml::activeLabel($form, 'ReportTitle', ['class' => 'control-label']);?>
-          <div class="controls">
-            <?=\CHtml::activeTextField($form, 'ReportTitle');?>
-          </div>
-        </div>
+                <div class="form-group">
+                    <?=\CHtml::activeLabel($form, 'ReportThesis');?>
+                    <?=\CHtml::activeTextArea($form, 'ReportThesis', ['class' => 'form-control']);?>
+                </div>
 
-        <div class="control-group">
-          <?=\CHtml::activeLabel($form, 'ReportThesis', ['class' => 'control-label']);?>
-          <div class="controls">
-            <?=\CHtml::activeTextArea($form, 'ReportThesis', ['class' => 'span9']);?>
-          </div>
-        </div>
+                <div class="form-group">
+                    <?=\CHtml::activeLabel($form, 'ReportUrl');?>
+                    <?=\CHtml::activeTextField($form, 'ReportUrl', ['class' => 'form-control']);?>
+                </div>
 
-        <div class="control-group">
-          <?=\CHtml::activeLabel($form, 'ReportUrl', ['class' => 'control-label']);?>
-          <div class="controls">
-            <?=\CHtml::activeTextField($form, 'ReportUrl', ['class' => 'span9']);?>
-          </div>
-        </div>
+                <div class="form-group">
+                    <?=\CHtml::activeLabel($form, 'VideoUrl');?>
+                    <?=\CHtml::activeTextField($form, 'VideoUrl', ['class' => 'form-control']);?>
+                </div>
 
-        <div class="control-group">
-          <?=\CHtml::activeLabel($form, 'VideoUrl', ['class' => 'control-label']);?>
-          <div class="controls">
-            <?=\CHtml::activeTextField($form, 'VideoUrl', ['class' => 'span9']);?>
-          </div>
-        </div>
-
-        <div class="control-group">
-          <?=\CHtml::activeLabel($form, 'ReportFullInfo', ['class' => 'control-label']);?>
-          <div class="controls">
-            <?=\CHtml::activeTextArea($form, 'ReportFullInfo',  ['class' => 'span9']);?>
-          </div>
-        </div>
-        <div class="control-group">
-          <?if ($link->Report !== null && !empty($link->Report->Url)):?>
-            <div class="controls m-top_10">
-              <a href="<?=$link->Report->Url;?>"><?=\Yii::t('app', 'Скачать презентацию');?></a>
+                <div class="form-group">
+                    <?=\CHtml::activeLabel($form, 'ReportFullInfo');?>
+                    <?=\CHtml::activeTextArea($form, 'ReportFullInfo', ['class' => 'form-control']);?>
+                </div>
+                <div class="form-group">
+                    <?if ($link->Report !== null && !empty($link->Report->Url)):?>
+                        <a href="<?=$link->Report->Url;?>" class="m-bottom_5"><?=\Yii::t('app', 'Скачать презентацию');?></a>
+                    <?endif;?>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <?=\CHtml::activeCheckBox($form, 'Delete', ['uncheckValue' => null]);?> <?=$form->getAttributeLabel('Delete');?>
+                    </label>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <?=\CHtml::activeLabel($form, 'Order');?>
+                        <?=CHtml::activeTextField($form, 'Order', ['class' => 'form-control']);?>
+                    </div>
+                </div>
+                <?=\CHtml::activeHiddenField($form, 'Id');?>
             </div>
-          <?endif;?>
+            <div class="panel-footer">
+                <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить изменения'), ['class' => 'btn btn-primary']);?>
+            </div>
         </div>
-        <div class="control-group">
-          <?=\CHtml::activeLabel($form, 'Delete', array('class' => 'control-label'));?>
-          <div class="controls">
-            <?=\CHtml::activeCheckBox($form, 'Delete', array('uncheckValue' => null));?>
-          </div>
-        </div>
-        <div class="control-group">
-          <?=\CHtml::activeLabel($form, 'Order', array('class' => 'control-label'));?>
-          <div class="controls">
-            <?=CHtml::activeTextField($form, 'Order', ['class' => 'input-mini']);?>
-          </div>
-        </div>
-        <div class="control-group">
-          <div class="controls">
-            <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить изменения'), array('class' => 'btn btn-info'));?>
-          </div>
-        </div>
-        <?=\CHtml::activeHiddenField($form, 'Id');?>
         <?=\CHtml::endForm();?>
-      </div>
-    </div>
-  <? endforeach; ?>
-<?endif;?>
+    <?php endforeach;?>
+<?php endif;?>

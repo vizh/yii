@@ -2,12 +2,17 @@
 namespace partner\components;
 
 
+use event\models\Event;
+
 class Controller extends \application\components\controllers\BaseController
 {
-    public $layout = '/layouts/public';
-    public $titleIcon = null;
+    const PAGE_HEADER_CLIP_ID = 'page-header';
 
-    public $showMenu = true;
+    public $layout = '/layouts/public';
+    public $bodyClass = '';
+
+    public $showSidebar = true;
+    public $showPageHeader = true;
 
     public function filters()
     {
@@ -69,7 +74,7 @@ class Controller extends \application\components\controllers\BaseController
                 else
                 {
                     $this->render('partner.views.system.select-event', array(
-                        'dataEvents' => $this->getExtendedAccountEventData()
+                        'events' => $this->getExtendedAccountEventData()
                     ));
                     return false;
                 }
@@ -82,15 +87,12 @@ class Controller extends \application\components\controllers\BaseController
     private function parseExtendedAccountRequest()
     {
         $request = \Yii::app()->getRequest();
-        if ($request->getIsPostRequest())
-        {
-            $eventId = $request->getParam('eventId');
-            if ($eventId !== null)
-            {
+        if ($request->getIsPostRequest()) {
+            $id = $request->getParam('id');
+            if ($id !== null) {
                 /** @var \event\models\Event $event */
-                $event = \event\models\Event::model()->findByPk($eventId);
-                if ($event !== null)
-                {
+                $event = Event::model()->findByPk($id);
+                if ($event !== null) {
                     \Yii::app()->getSession()->add('PartnerAccountEventId', $event->Id);
                     return true;
                 }
@@ -102,15 +104,14 @@ class Controller extends \application\components\controllers\BaseController
     private function getExtendedAccountEventData()
     {
         /** @var \event\models\Event[] $events */
-        $events = \event\models\Event::model()->byDeleted(false)->findAll();
-        $dataEvents = array();
-        foreach ($events as $event)
-        {
+        $events = Event::model()->byDeleted(false)->findAll();
+        $data = [];
+        foreach ($events as $event) {
             $item = new \stdClass();
             $item->value = $event->Id . ', ' . $event->IdName . ', ' . \application\components\utility\Texts::cropText($event->Title, 200);
             $item->id = $event->Id;
-            $dataEvents[] = $item;
+            $data[] = $item;
         }
-        return $dataEvents;
+        return $data;
     }
 }

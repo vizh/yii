@@ -1,23 +1,27 @@
 <?php
 namespace partner\controllers\program;
 
+use application\helpers\Flash;
 use event\models\section\LinkUser;
+use event\models\section\Section;
+use partner\components\Action;
 
-class ParticipantsAction extends \partner\components\Action
+class ParticipantsAction extends Action
 {
-    public function run($sectionId)
+    public function run($id)
     {
         $event = \Yii::app()->partner->getEvent();
         $criteria = new \CDbCriteria();
-        $criteria->with = array(
-            'LinkUsers' => array(
+        $criteria->with = [
+            'LinkUsers' => [
                 'together' => false,
                 'order' => '"LinkUsers"."Order", "LinkUsers"."Id" ASC'
-            )
-        );
-        $section = \event\models\section\Section::model()->byEventId($event->Id)->byDeleted(false)->findByPk($sectionId, $criteria);
-        if ($section === null)
+            ]
+        ];
+        $section = Section::model()->byEventId($event->Id)->byDeleted(false)->findByPk($id, $criteria);
+        if ($section === null) {
             throw new \CHttpException(404);
+        }
 
         $request = \Yii::app()->getRequest();
         $form = new \partner\models\forms\program\Participant();
@@ -83,16 +87,15 @@ class ParticipantsAction extends \partner\components\Action
                     $linkUser->save();
                 }
                 $section->save();
-                \Yii::app()->user->setFlash('success', \Yii::t('app', 'Информация об участниках секции успешно сохранена!'));
+                Flash::setSuccess(\Yii::t('app', 'Информация об участниках секции успешно сохранена!'));
                 $this->getController()->refresh();
             }
         }
 
-        $this->getController()->setPageTitle(\Yii::t('app','Редактирование участников секции'));
         \Yii::app()->getClientScript()->registerPackage('runetid.ckeditor');
-        $this->getController()->render('participants', array(
+        $this->getController()->render('participants', [
             'section' => $section,
             'form' => $form,
-        ));
+        ]);
     }
 }

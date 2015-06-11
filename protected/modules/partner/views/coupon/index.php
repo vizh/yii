@@ -1,14 +1,19 @@
 <?php
 /**
- * @var \partner\components\Controller $this
+ * @var Controller $this
  * @var \application\modules\partner\models\search\Coupons $search
  */
 
 use pay\models\Coupon;
 use application\components\utility\Texts;
+use \partner\components\Controller;
 
 $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
 ?>
+
+<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
+    <?=\CHtml::link('<span class="fa fa-plus"></span> ' . \Yii::t('app', 'Генерация промо-кодов'), ['generate'], ['class' => 'btn btn-primary']);?>
+<?php $this->endClip();?>
 
 <?=\CHtml::beginForm(['give'], 'get');?>
 <div class="panel panel-info">

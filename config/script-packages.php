@@ -119,6 +119,7 @@ return [
             'stylesheets/pixel-admin/pixel-admin.css',
             'stylesheets/pixel-admin/custom.css',
             'stylesheets/pixel-admin/themes.css',
+            'stylesheets/pixel-admin/pages.css',
         ]
     ],
     'runetid.bootstrap3' => [

@@ -1,5 +1,6 @@
 <?php
 namespace pay\models;
+use application\components\ActiveRecord;
 
 /**
  * Class LoyaltyProgramDiscount
@@ -17,7 +18,7 @@ namespace pay\models;
  * @method \pay\models\LoyaltyProgramDiscount find()
  * @method \pay\models\LoyaltyProgramDiscount[] findAll()
  */
-class LoyaltyProgramDiscount extends \CActiveRecord
+class LoyaltyProgramDiscount extends ActiveRecord
 {
     const StatusEnd    = -1;
     const StatusActive =  1;

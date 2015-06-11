@@ -2,8 +2,10 @@
 /**
  * @var Participant $search
  * @var Event $event
- * @var \partner\components\Controller $this
+ * @var Controller $this
  */
+
+use \partner\components\Controller;
 
 $this->setPageTitle(\Yii::t('app', 'Поиск участников мероприятия'));
 $controller = $this;
@@ -12,6 +14,10 @@ use \application\modules\partner\models\search\Participant;
 use user\models\User;
 use event\models\Event;
 ?>
+<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
+    <?=\CHtml::link('<span class="fa fa-plus"></span> ' . \Yii::t('app', 'Добавить участника'), ['edit'], ['class' => 'btn btn-primary']);?>
+<?php $this->endClip();?>
+
 
 <div class="panel panel-info">
     <div class="panel-heading">

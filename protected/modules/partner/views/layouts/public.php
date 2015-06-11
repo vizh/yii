@@ -4,6 +4,8 @@
  * @var Controller $this
  */
 use \partner\components\Controller;
+
+$sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]>         <html class="ie8" lang="<?=\Yii::app()->getLanguage()?>"> <![endif]-->
@@ -19,30 +21,37 @@ use \partner\components\Controller;
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <title><?=\CHtml::encode($this->pageTitle); ?></title>
-    <!--[if lt IE 9]>
-    <script src="/js/ie.min.js"></script>
-    <![endif]-->
 </head>
-<body class="theme-default">
-<div id="main-wrapper">
-    <?php if ($this->getAction() !== null):?>
+<body class="theme-default <?=$this->bodyClass;?>">
+<div <?php if ($sidebar):?>id="main-wrapper"<?php endif;?>>
+    <?php if ($sidebar):?>
         <?$this->widget('partner\widgets\Sidebar', ['event' => $this->getAction()->getEvent()]);?>
     <?php endif;?>
+
     <div id="content-wrapper">
-        <div class="page-header">
-            <div class="row">
-                <h1 class="col-xs-12 col-sm-4 text-left-sm">
-                    <?if ($this->titleIcon !== null):?>
-                        <i class="fa fa-<?=$this->titleIcon;?>"></i>
-                    <?endif;?>
-                    <?=\CHtml::encode($this->pageTitle)?>
-                </h1>
+        <?php if ($this->showPageHeader):?>
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <h1><?=\CHtml::encode($this->pageTitle)?></h1>
+                    </div>
+                    <div class="col-sm-6 text-right hidden-xs">
+                        <?=$this->clips[Controller::PAGE_HEADER_CLIP_ID];?>
+                    </div>
+                    <div class="visible-xs m-top_5 col-xs-12">
+                        <?=$this->clips[Controller::PAGE_HEADER_CLIP_ID];?>
+                    </div>
+                </div>
             </div>
-        </div>
+        <?php endif;?>
         <?=$content?>
     </div>
-    <div id="main-menu-bg"></div>
+
+    <?php if ($sidebar):?>
+        <div id="main-menu-bg"></div>
+    <?php endif;?>
 </div>
 <script>window.PixelAdmin.start(init);</script>
+<?php $this->widget('\application\widgets\ModalAuth', ['bootstrapVersion' => 3]);?>
 </body>
 </html>

@@ -29,7 +29,10 @@ class Sidebar extends \CWidget
     public function init()
     {
         $this->items = $this->getItemsConfig();
-        $this->findAndSetActiveItem();
+
+        $route = \Yii::app()->getController()->getRoute();
+        $route = str_replace('partner/', '', $route);
+        $this->findAndSetActiveItem($route, $this->items);
     }
 
     /**
@@ -46,16 +49,29 @@ class Sidebar extends \CWidget
 
     /**
      * Устанавливает активный элемент меню
+     * @param $route
+     * @param $items
      */
-    private function findAndSetActiveItem()
+    private function findAndSetActiveItem($route, &$items)
     {
-        $route = \Yii::app()->getController()->getRoute();
-        foreach ($this->items as &$item) {
-            $url = is_array($item['url']) ? $item['url'][0] : $item['url'];
-            if ($route === $url) {
+        foreach ($items as &$item) {
+            $active = false;
+
+            if (isset($item['items'])) {
+                $active = $this->findAndSetActiveItem($route, $item['items']);
+            } else {
+                $url = is_array($item['url']) ? $item['url'][0] : $item['url'];
+                if ($route === $url) {
+                    $active = true;
+                }
+            }
+
+            if ($active) {
                 $item['active'] = true;
+                return true;
             }
         }
+        return false;
     }
 
     /**
@@ -90,8 +106,7 @@ class Sidebar extends \CWidget
                 ['label' => 'Генерация промо-кодов', 'url' => ['coupon/generate']]
             ]],
             ['label' => 'Счета', 'icon' => 'building-o', 'url' => ['order/index'], 'items' => [
-                ['label' => 'Поиск счетов', 'url' => ['order/index']],
-                ['label' => 'Выставить счет', 'url' => ['order/create']]
+                ['label' => 'Поиск счетов', 'url' => ['order/index']]
             ]],
             ['label' => 'Заказы', 'icon' => 'shopping-cart ', 'url' => ['orderitem/index'], 'items' => [
                 ['label' => 'Заказы', 'url' => ['orderitem/index']],

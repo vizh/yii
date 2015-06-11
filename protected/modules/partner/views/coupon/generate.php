@@ -21,10 +21,10 @@ $this->setPageTitle(\Yii::t('app', 'Генерация промо-кодов'));
             <div class="form-group">
                 <?=CHtml::activeCheckBox($form, 'IsMultiple');?>
             </div>
-            <iv class="form-group" data-for-multiple="true">
+            <div class="form-group" data-for-multiple="true">
                 <?=$activeForm->label($form, 'Code');?>
                 <?=$activeForm->textField($form, 'Code', ['class' => 'form-control']);?>
-        </div>d
+            </div>
             <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group">

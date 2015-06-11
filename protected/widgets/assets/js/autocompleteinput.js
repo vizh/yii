@@ -1,7 +1,7 @@
 var AutoCompleteInput = function (element) {
   this.textField = $(element);
   this.hiddenField = this.textField.nextAll('input[type="hidden"]');
-  this.addOn = this.textField.next('.add-on');
+  this.addOn = this.textField.next('.input-group-addon');
   this.init();
 }
 AutoCompleteInput.prototype = {

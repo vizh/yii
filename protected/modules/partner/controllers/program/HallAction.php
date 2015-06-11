@@ -1,80 +1,47 @@
 <?php
 namespace partner\controllers\program;
 
+use application\helpers\Flash;
+use event\models\section\Hall;
+use partner\models\forms\program\Hall as HallForm;
+
 class HallAction extends \partner\components\Action
 {
+    private $locale;
 
-  private $forms = [];
-  private $locale;
-
-  public function run()
-  {
-    $request = \Yii::app()->getRequest();
-    $this->locale = $request->getParam('locale', \Yii::app()->sourceLanguage);
-
-    $criteria = new \CDbCriteria();
-    $criteria->order = '"t"."Order" ASC, "t"."Title" ASC';
-    $halls = \event\models\section\Hall::model()->byEventId($this->getEvent()->Id)
-        ->byDeleted(false)->findAll($criteria);
-
-    foreach ($halls as $hall)
+    public function run()
     {
-      $hall->setLocale($this->locale);
-      $form = new \partner\models\forms\program\Hall($this->getEvent());
-      $form->Id = $hall->Id;
-      $form->Title = $hall->Title;
-      $form->Order = $hall->Order;
-      $this->forms[] = $form;
-    }
+        /** @var \CHttpRequest $request */
+        $request = \Yii::app()->getRequest();
 
-    if ($request->getIsPostRequest())
-    {
-      $this->processForm();
-    }
+        /** @var HallForm[] $forms */
+        $forms = [];
 
-    $this->getController()->setPageTitle(\Yii::t('app', 'Список залов'));
-    $this->getController()->render('hall', ['forms' => $this->forms, 'locale' => $this->locale]);
-  }
 
-  private function processForm()
-  {
-    $request = \Yii::app()->getRequest();
-    $form = new \partner\models\forms\program\Hall($this->getEvent());
-    $form->attributes = $request->getParam(get_class($form));
-    if ($form->validate())
-    {
-      $hall = \event\models\section\Hall::model()->byEventId($this->getEvent()->Id)->findByPk($form->Id);
-      $hall->setLocale($this->locale);
-      if ($hall == null)
-        throw new \CHttpException(404);
-
-      if ($form->Delete == 1)
-      {
-        $hasLinks = \event\models\section\LinkHall::model()->byHallId($hall->Id)->exists();
-        if (!$hasLinks)
-        {
-            $hall->Deleted = true;
-            $hall->save();
-          $this->getController()->refresh();
+        $halls = Hall::model()->byEventId($this->getEvent()->Id)->byDeleted(false)->orderBy(['"Order"' => SORT_ASC, '"Title"' => SORT_ASC])->findAll();
+        foreach ($halls as $hall) {
+            $forms[] = new HallForm($this->getEvent(), $hall, $request->getParam('locale'));
         }
-      }
 
-      $hall->Title = $form->Title;
-      $hall->Order = $form->Order;
-      $hall->save();
-      \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Информация о залах успешно сохранена'));
-      $this->getController()->refresh();
-    }
-    else
-    {
-      foreach ($this->forms as $key => $f)
-      {
-        if ($f->Id == $form->Id)
-        {
-          $this->forms[$key] = $form;
-          break;
+        if ($request->getIsPostRequest()) {
+            $valid = true;
+            foreach ($forms as $form) {
+                $form->fillFromPost();
+                if (!$form->validate()) {
+                    $valid = false;
+                }
+            }
+
+            if ($valid) {
+                foreach ($forms as $form) {
+                    $form->updateActiveRecord();
+                }
+
+                Flash::setSuccess(\Yii::t('app','Информация о залах успешно сохранена!'));
+                $this->getController()->refresh();
+            }
         }
-      }
+
+        $this->getController()->render('hall', ['forms' => $forms]);
     }
-  }
 } 

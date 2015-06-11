@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $this \partner\components\Controller
+ * @var $this Controller
  * @var \partner\models\search\OrderItems $search
  */
 
@@ -8,8 +8,16 @@ use pay\models\OrderItem;
 use pay\components\managers\RoomProductManager;
 use partner\models\search\OrderItems;
 use pay\models\Order;
+use partner\components\Controller;
+
 $this->setPageTitle(\Yii::t('app', 'Заказы'));
 ?>
+
+
+<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
+    <?=\CHtml::link('<span class="fa fa-plus"></span> ' . \Yii::t('app', 'Создание заказа'), ['create'], ['class' => 'btn btn-primary']);?>
+<?php $this->endClip();?>
+
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-shopping-cart"></i> <?=\Yii::t('app', 'Заказы мероприятия');?></span>

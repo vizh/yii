@@ -1,15 +1,17 @@
 <?php
 /**
- * @var \partner\components\Controller $this
+ * @var Controller $this
  * @var Orders $search
  */
 
 use pay\models\Order;
 use pay\models\OrderType;
 use application\modules\partner\models\search\Orders;
+use partner\components\Controller;
 
 $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
 ?>
+
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-building-o"></i> <?=\Yii::t('app', 'Счета мероприятия');?></span>
