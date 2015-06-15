@@ -12,7 +12,7 @@ use event\models\Event;
                     <span class="menu-content-event-logo">
                         <?=\CHtml::image($event->getLogo()->get120px(), $event->Title)?>
                     </span>
-                    <p class="text-light-gray"><?=\CHtml::encode($event->Title)?></p>
+                    <p class="text-light-gray m-top_10"><?=\CHtml::encode($event->Title)?></p>
                 </div>
             </div>
         <?php endif ?>

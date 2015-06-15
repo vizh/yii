@@ -64,7 +64,7 @@ use application\helpers\Flash;
         </div>
     </div>
     <div class="panel-footer">
-        <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрировать'), ['auth/logout'], ['class' => 'btn btn-primary']);?>
+        <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрировать'), ['class' => 'btn btn-primary']);?>
     </div>
 </div>
 <?php $this->endWidget();?>
