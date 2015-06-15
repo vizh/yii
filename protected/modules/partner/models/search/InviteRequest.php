@@ -26,7 +26,8 @@ class InviteRequest extends SearchFormModel
     public function rules()
     {
         return [
-            ['Sender,Owner,Approved', 'filter', 'filter' => '\application\components\utility\Texts::clear']
+            ['Sender,Owner', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['Approved', 'safe']
         ];
     }
 

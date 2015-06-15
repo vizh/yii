@@ -30,7 +30,8 @@ $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
                         'header'=> $search->getAttributeLabel('Number'),
                         'value' => function (Order $order) {
                             return \CHtml::tag('span', ['class' => 'lead'], $order->Number);
-                        }
+                        },
+                        'width' => 150
                     ],
                     [
                         'name'  => 'Type',
@@ -50,7 +51,8 @@ $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
                         'filter' => [
                             'class' => '\partner\widgets\grid\MultiSelect',
                             'items' => $search->getTypeData()
-                        ]
+                        ],
+                        'width' => '20%'
                     ],
                     [
                         'name'  => 'Payer',
@@ -65,7 +67,8 @@ $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
                         ],
                         'filterInputHtmlOptions' => [
                             'placeholder' => \Yii::t('app', 'ФИО, компания или ИНН')
-                        ]
+                        ],
+                        'width' => 120
                     ],
                     [
                         'type' => 'raw',
@@ -82,13 +85,15 @@ $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
                             $result.='</p>';
                             return $result;
                         },
-                        'htmlOptions' => ['class' => 'text-left']
+                        'htmlOptions' => ['class' => 'text-left'],
+                        'width' => '30%'
                     ],
                     [
                         'name' => 'CreationTime',
                         'header' => $search->getAttributeLabel('CreationTime'),
                         'value' => 'Yii::app()->locale->getDateFormatter()->format("d MMMM y", $data->CreationTime)',
-                        'filter' => false
+                        'filter' => false,
+                        'width' => 100
                     ],
                     [
                         'name' => 'Status',
@@ -105,14 +110,16 @@ $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
                                 return \CHtml::tag('span', ['class' => 'label'], $search->getStatusData()[Orders::STATUS_DEFAULT]);
                             }
                         },
-                        'filter' => $search->getStatusData()
+                        'filter' => $search->getStatusData(),
+                        'width' => 100
                     ],
                     [
                         'name' => 'Price',
                         'type' => 'raw',
                         'header' => $search->getAttributeLabel('Price'),
                         'value' => '$data->getPrice() . "&nbsp;руб."',
-                        'filter' => false
+                        'filter' => false,
+                        'width' => 120
                     ],
                     [
                         'class' => '\application\widgets\grid\ButtonColumn',

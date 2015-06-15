@@ -23,6 +23,9 @@ $sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
     <title><?=\CHtml::encode($this->pageTitle); ?></title>
 </head>
 <body class="theme-default <?=$this->bodyClass;?>">
+
+<?$this->widget('partner\widgets\Navbar');?>
+
 <div <?php if ($sidebar):?>id="main-wrapper"<?php endif;?>>
     <?php if ($sidebar):?>
         <?$this->widget('partner\widgets\Sidebar', ['event' => $this->getAction()->getEvent()]);?>

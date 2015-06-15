@@ -8,28 +8,31 @@
  */
 $this->setPageTitle('Генерация аккаунтов операторов');
 ?>
+
+<?php $activeForm = $this->beginWidget('CActiveForm');?>
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-plus-circle"></i> <?=\Yii::t('app', 'Генерация операторов');?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
-        <?php $activeForm = $this->beginWidget('CActiveForm', ['htmlOptions' => ['class' => 'form-inline']]);?>
-            <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
-            <div class="form-group">
+        <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
+        <div class="row">
+            <div class="col-sm-4">
                 <?=$activeForm->textField($form, 'Prefix', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Prefix')]);?>
             </div>
-            <div class="form-group">
+            <div class="col-sm-4">
                 <?=$activeForm->textField($form, 'CountOperators', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('CountOperators')]);?>
             </div>
-            <div class="form-group">
+            <div class="col-sm-4">
                 <?=$activeForm->textField($form, 'CountAdmins', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('CountAdmins')]);?>
             </div>
-            <div class="form-group">
-                <?=\CHtml::submitButton(\Yii::t('app', 'Сгенерировать'), ['class' => 'btn']);?>
-            </div>
-        <?php $this->endWidget();?>
+        </div>
     </div> <!-- / .panel-body -->
+    <div class="panel-footer">
+        <?=\CHtml::submitButton(\Yii::t('app', 'Сгенерировать'), ['class' => 'btn btn-primary']);?>
+    </div>
 </div>
+<?php $this->endWidget();?>
 
 <div class="panel panel-warning">
     <div class="panel-heading">

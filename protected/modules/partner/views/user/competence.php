@@ -35,7 +35,8 @@ $this->setPageTitle(\Yii::t('app', 'Опрос участников'));
                         ],
                         'headerHtmlOptions' => [
                             'colspan' => 2
-                        ]
+                        ],
+                        'width' => 120
                     ],
                     [
                         'type' => 'raw',
@@ -46,7 +47,8 @@ $this->setPageTitle(\Yii::t('app', 'Опрос участников'));
                             }
                             return $result;
                         },
-                        'htmlOptions' => ['class' => 'text-left']
+                        'htmlOptions' => ['class' => 'text-left'],
+                        'width' => '40%'
                     ],
                     [
                         'header' => $search->getAttributeLabel('Status'),
@@ -61,7 +63,8 @@ $this->setPageTitle(\Yii::t('app', 'Опрос участников'));
                                 }
                                 return implode('<br/>', $roles);
                             }
-                        }
+                        },
+                        'width' => '20%'
                     ],
                     [
                         'type' => 'html',
@@ -73,7 +76,8 @@ $this->setPageTitle(\Yii::t('app', 'Опрос участников'));
                             } else {
                                 return \CHtml::tag('span', ['class' => 'label label-warning'], \Yii::t('app', 'Нет'));
                             }
-                        }
+                        },
+                        'width' => 100
                     ],
                     [
                         'type'  => 'raw',
@@ -89,7 +93,10 @@ $this->setPageTitle(\Yii::t('app', 'Опрос участников'));
                             ]);
                             echo \CHtml::tag('h2', ['class' => 'text-center'], EventCode::generate($user, $test));
                             $controller->endWidget();
-                        }
+                        },
+                        'htmlOptions' => [
+                            'class' => 'text-right'
+                        ]
                     ]
                 ]
             ]);?>

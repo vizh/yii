@@ -33,13 +33,15 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                         'name' => 'Id',
                         'type' => 'raw',
                         'header' => $search->getAttributeLabel('Id'),
-                        'value' => '"<span class=\"lead\">" . $data->Id . "</span>"'
+                        'value' => '"<span class=\"lead\">" . $data->Id . "</span>"',
+                        'width' => 120
                     ],
                     [
                         'name' => 'CreationTime',
                         'header' => $search->getAttributeLabel('CreationTime'),
                         'value' => '\Yii::app()->getDateFormatter()->format("dd MMMM yyyy HH:mm", $data->CreationTime)',
-                        'filter' => false
+                        'filter' => false,
+                        'width' => 120
                     ],
                     [
                         'name' => 'Product',
@@ -64,12 +66,14 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                         'filter' => [
                             'class' => '\partner\widgets\grid\MultiSelect',
                             'items' => $search->getProductData()
-                        ]
+                        ],
+                        'width' => 120
                     ],
                     [
                         'type' => 'raw',
                         'header' => $search->getAttributeLabel('Total'),
-                        'value' => '$data->getPriceDiscount() . "&nbsp;руб."'
+                        'value' => '$data->getPriceDiscount() . "&nbsp;руб."',
+                        'width' => 120
                     ],
                     [
                         'type' => 'raw',
@@ -84,7 +88,8 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                                 return \CHtml::tag('span', ['class' => 'label'], $search->getStatusData()[OrderItems::STATUS_DEFAULT]);
                             }
                         },
-                        'filter' => $search->getStatusData()
+                        'filter' => $search->getStatusData(),
+                        'width' => 100
                     ],
                     [
                         'type' => 'raw',
@@ -107,7 +112,8 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                             } else {
                                 return \CHtml::tag('span', ['class' => 'label'], \Yii::t('app', 'Не задан'));
                             }
-                        }
+                        },
+                        'width' => 100
                     ],
                     [
                         'name'  => 'Payer',
@@ -119,7 +125,8 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                         ],
                         'filterHtmlOptions' => [
                             'colspan' => 2
-                        ]
+                        ],
+                        'width' => 120
                     ],
                     [
                         'type' => 'raw',
@@ -132,7 +139,8 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                             $result.='<p class="m-top_5"><i class="fa fa-envelope-o"></i>&nbsp;' . $user->Email . '</p>';
                             return $result;
                         },
-                        'htmlOptions' => ['class' => 'text-left']
+                        'htmlOptions' => ['class' => 'text-left'],
+                        'width' => '20%'
                     ],
                     [
                         'name'  => 'Owner',
@@ -144,7 +152,8 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                         ],
                         'filterHtmlOptions' => [
                             'colspan' => 2
-                        ]
+                        ],
+                        'width' => 120
                     ],
                     [
                         'type' => 'raw',
@@ -163,7 +172,8 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
 
                             return $result;
                         },
-                        'htmlOptions' => ['class' => 'text-left']
+                        'htmlOptions' => ['class' => 'text-left'],
+                        'width' => '20%'
                     ],
                     [
                         'class' => '\application\widgets\grid\ButtonColumn',

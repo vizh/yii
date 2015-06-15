@@ -32,7 +32,8 @@ $this->setPageTitle(\Yii::t('app', 'Приглашения'))
                         ],
                         'headerHtmlOptions' => [
                             'colspan' => 2
-                        ]
+                        ],
+                        'width' => 120
                     ],
                     [
                         'type' => 'raw',
@@ -44,7 +45,8 @@ $this->setPageTitle(\Yii::t('app', 'Приглашения'))
                             }
                             return $result;
                         },
-                        'htmlOptions' => ['class' => 'text-left']
+                        'htmlOptions' => ['class' => 'text-left'],
+                        'width' => '25%'
                     ],
                     [
                         'header' => $search->getAttributeLabel('Owner'),
@@ -56,7 +58,8 @@ $this->setPageTitle(\Yii::t('app', 'Приглашения'))
                         ],
                         'headerHtmlOptions' => [
                             'colspan' => 2
-                        ]
+                        ],
+                        'width' => 120
                     ],
 
                     [
@@ -78,13 +81,15 @@ $this->setPageTitle(\Yii::t('app', 'Приглашения'))
                             }
                             return $result;
                         },
-                        'htmlOptions' => ['class' => 'text-left']
+                        'htmlOptions' => ['class' => 'text-left'],
+                        'width' => '25%'
                     ],
                     [
                         'header' => \Yii::t('app', 'Дата подачи'),
                         'name'   => 'CreationTime',
                         'value'  => '\Yii::app()->getDateFormatter()->format("dd MMMM yyyy HH:mm", $data->CreationTime)',
-                        'filter' => false
+                        'filter' => false,
+                        'width'  => 120,
                     ],
                     [
                         'type' => 'raw',

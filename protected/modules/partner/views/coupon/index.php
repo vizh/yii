@@ -39,20 +39,22 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                                 return \CHtml::checkBox('Coupons[]', false, ['value' => $coupon->Id]);
                             }
                         },
-                        'htmlOptions' => ['style' => 'width: 1px;'],
-                        'header' => \CHtml::checkBox("", false)
+                        'header' => \CHtml::checkBox("", false),
+                        'width' => 1
                     ],
                     [
                         'name' => 'Code',
                         'type' => 'raw',
                         'header' =>  $search->getAttributeLabel('Code'),
-                        'value' => '\CHtml::tag("span", ["class" => "lead"], $data->Code)'
+                        'value' => '\CHtml::tag("span", ["class" => "lead"], $data->Code)',
+                        'width' => '20%'
                     ],
                     [
                         'name'  => 'Discount',
                         'header' =>  $search->getAttributeLabel('Discount'),
                         'type'  => 'raw',
-                        'value' => '$data->Discount * 100 . "%"'
+                        'value' => '$data->Discount * 100 . "%"',
+                        'width' => 100
                     ],
                     [
                         'name' => 'Product',
@@ -70,7 +72,8 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                         'filter' => [
                             'class' => '\partner\widgets\grid\MultiSelect',
                             'items' => $search->getProductData()
-                        ]
+                        ],
+                        'width' => '30%'
                     ],
                     [
                         'type'  => 'raw',
@@ -91,7 +94,8 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                                 $result .= \CHtml::tag('p', ['class' => 'small m-top_5'], $coupon->Recipient);
                             }
                             return $result;
-                        }
+                        },
+                        'width' => 150
                     ],
                     [
                         'name' => 'Owner',
@@ -101,7 +105,7 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                             if (!$coupon->Multiple && !empty($coupon->Activations)) {
                                 $user = $coupon->Activations[0]->User;
                                 return \CHtml::tag('span', ['class' => 'label label-success'], \Yii::t('app', 'Активирован')).
-                                    '<p class="small">' . \CHtml::link($user->getFullName() . ' (' . $user->RunetId . ')', ['user/edit', 'id' => $user->RunetId], ['target' => '_blank']) . '</p>';
+                                    '<p class="small m-top_5">' . \CHtml::link($user->getFullName() . ' (' . $user->RunetId . ')', ['user/edit', 'id' => $user->RunetId], ['target' => '_blank']) . '</p>';
                             } elseif ($coupon->Multiple) {
                                 return \CHtml::tag(
                                     'span',
@@ -111,7 +115,8 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                             } else {
                                 return \CHtml::tag('span', ['class' => 'label'], \Yii::t('app', 'Не активирован'));
                             }
-                        }
+                        },
+                        'width' => 150
                     ],
                     [
                         'name' => 'EndTime',
@@ -129,7 +134,8 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                                 return \CHtml::tag('span', ['class' => 'label label-info'], \Yii::t('app', 'Безлимитный'));
                             }
                         },
-                        'filter' => false
+                        'filter' => false,
+                        'width' => 100
                     ],
                     [
                         'class' => '\application\widgets\grid\ButtonColumn',

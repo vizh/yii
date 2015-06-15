@@ -10,13 +10,12 @@ $this->setPageTitle(\Yii::t('app', 'Регистрация нового поль
 use application\helpers\Flash;
 ?>
 
-
+<?php $activeForm = $this->beginWidget('CActiveForm');?>
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-plus-circle"></i> <?=\Yii::t('app', 'Новый пользователь');?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
-        <?php $activeForm = $this->beginWidget('CActiveForm');?>
         <?=Flash::html();?>
         <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
         <div class="form-group">
@@ -63,10 +62,10 @@ use application\helpers\Flash;
                 <?=$activeForm->checkBox($form, 'Hidden', ['uncheckValue' => null]);?> <?=$form->getAttributeLabel('Hidden');?>
             </label>
         </div>
-        <div class="form-group">
-            <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрировать'), ['class' => 'btn btn-info']);?>
-        </div>
-        <?php $this->endWidget();?>
+    </div>
+    <div class="panel-footer">
+        <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрировать'), ['auth/logout'], ['class' => 'btn btn-primary']);?>
     </div>
 </div>
+<?php $this->endWidget();?>
 

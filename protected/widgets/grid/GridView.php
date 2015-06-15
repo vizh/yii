@@ -48,6 +48,15 @@ class GridView extends \CGridView
             if (!isset($column['class'])) {
                 $column['class'] = '\application\widgets\grid\DataColumn';
             }
+
+            if (isset($column['width'])) {
+                $width = $column['width'];
+                if (is_numeric($width)) {
+                    $width .= 'px;';
+                }
+                $column['htmlOptions']['style'] = (isset($column['htmlOptions']['style']) ? $column['htmlOptions']['style'] . '; ' : '') . 'width:' . $width;
+                $column['headerHtmlOptions']['style'] = (isset($column['headerHtmlOptions']['style']) ? $column['headerHtmlOptions']['style'] . '; ' : '') . 'width:' . $width;
+            }
         }
         parent::initColumns();
         $this->initColumnFilterScripts();

@@ -12,6 +12,9 @@ $this->setPageTitle(\Yii::t('app', 'Добавление/редактирова�
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-user"></i> <?=\Yii::t('app', 'Персональные данные');?></span>
+        <div class="panel-heading-controls">
+            <?=\CHtml::link('<span class="fa fa-external-link"></span> ' . \Yii::t('app', 'Профиль'), $user->getUrl(), ['target' => '_blank', 'class' => 'btn btn-xs btn-info btn-outline']);?>
+        </div>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
         <div class="row">

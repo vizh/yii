@@ -38,7 +38,8 @@ class Coupons extends SearchFormModel
     public function rules()
     {
         return [
-            ['Code, Discount, Product, Owner', 'filter', 'filter' => '\application\components\utility\Texts::clear']
+            ['Code, Discount, Owner', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['Product', 'safe']
         ];
     }
 

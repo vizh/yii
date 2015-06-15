@@ -131,6 +131,9 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
         <div class="panel-footer">
             <div class="btn-group">
                 <?=\CHtml::link('<span class="fa fa-check"></span> Отметить как оплаченный', ['', 'id' => $order->Id, 'action' => 'setPaid'], ['class' => 'btn btn-success', 'onclick' => "return confirm('" . ($order->Paid ? 'Счет уже отмечен как оплаченный. Повторить?' : 'Вы уверены, что хотите отметить данный счет оплаченным?') . "');"]);?>
+                <?php if ($order->getIsBankTransfer() && !$order->Paid):?>
+                    <?=\CHtml::link('<span class="fa fa-pencil"></span> Редактировать', ['edit', 'id' => $order->Id], ['class' => 'btn btn-info']);?>
+                <?php endif;?>
                 <?php if (!$order->Paid):?>
                     <?=\CHtml::link('<span class="fa fa-times"></span> Удалить', ['', 'id' => $order->Id, 'action' => 'setDeleted'], ['class' => 'btn btn-danger', 'onclick' => "return confirm('Вы уверены, что хотите удалить счет?');"]);?>
                 <?php endif;?>

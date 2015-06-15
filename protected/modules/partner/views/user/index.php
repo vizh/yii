@@ -39,7 +39,8 @@ use event\models\Event;
                         },
                         'filterHtmlOptions' => [
                             'colspan' => 2
-                        ]
+                        ],
+                        'width' => 120
                     ],
                     [
                         'name' => 'Name',
@@ -58,7 +59,8 @@ use event\models\Event;
                         ],
                         'headerHtmlOptions' => [
                             'class' => 'text-left'
-                        ]
+                        ],
+                        'width' => '20%'
                     ],
                     [
                         'type' => 'raw',
@@ -78,7 +80,8 @@ use event\models\Event;
                         ],
                         'headerHtmlOptions' => [
                             'class' => 'text-left'
-                        ]
+                        ],
+                        'width' =>  '30%'
                     ],
                     [
                         'type' => 'raw',
@@ -113,7 +116,8 @@ use event\models\Event;
                         'filter' => [
                             'class' => '\partner\widgets\grid\MultiSelect',
                             'items' => $search->getRoleData()
-                        ]
+                        ],
+                        'width' => '20%'
                     ],
                     [
                         'type' => 'raw',
@@ -140,7 +144,8 @@ use event\models\Event;
                         'headerHtmlOptions' => [
                             'class' => 'text-left'
                         ],
-                        'filter' => false
+                        'filter' => false,
+                        'width' =>  150
                     ],
                     [
                         'class' => '\application\widgets\grid\ButtonColumn',

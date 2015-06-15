@@ -11,6 +11,9 @@ namespace application\widgets\grid;
 
 class DataColumn extends \CDataColumn
 {
+    /** @var null|int Фиксированная ширина колонки  */
+    public $width = null;
+
     public $filterInputHtmlOptions = [];
 
     /**

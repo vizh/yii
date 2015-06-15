@@ -6,12 +6,12 @@
 
 $this->setPageTitle(\Yii::t('app', 'Экспорт участников в CSV'));
 ?>
+<?=\CHtml::beginForm();?>
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-cogs"></i> <?=\Yii::t('app', 'Настройки экспорта');?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
-        <?=\CHtml::beginForm();?>
         <div class="form-group">
             <?=\CHtml::label(\Yii::t('app', 'Кодировка'), 'charset');?>
             <div class="radio">
@@ -42,9 +42,9 @@ $this->setPageTitle(\Yii::t('app', 'Экспорт участников в CSV')
                 </label>
             </div>
         </div>
-        <div class="form-group">
-            <?=\CHtml::submitButton(\Yii::t('app', 'Получить список'), ['class' => 'btn btn-info']);?>
-        </div>
-        <?=\CHtml::endForm();?>
+    </div>
+    <div class="panel-footer">
+        <?=\CHtml::submitButton(\Yii::t('app', 'Получить список'), ['class' => 'btn btn-primary']);?>
     </div>
 </div>
+<?=\CHtml::endForm();?>
