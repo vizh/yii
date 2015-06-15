@@ -133,36 +133,38 @@ use mail\models\forms\admin\Template;
                     <?
                     $templateId = \Yii::app()->request->getParam('templateId');
                     if($templateId):
-                        $dir = \Yii::getpathOfAlias('webroot.files.emailAttachments.'.$templateId);
-                        $files = CFileHelper::findFiles($dir);
-                        ?>
-                        <table class="table">
-                            <?$i=0;?>
-                            <?foreach($files as $file):?>
-                                <tr id="file<?=$i?>">
-                                    <td>
-                                        <a href="<?='//runet-id.com/files/emailAttachments/'.$templateId.'/'.basename($file)?>"><?=basename($file)?>
-                                    </td>
-                                    <td>
-                                        <a onclick="deleteAttach('<?=basename($file).'\', \''.$templateId?>', 'file<?=$i;?>'); return false;" href="<?=\Yii::app()->createUrl('/mail/admin/template/deleteattachment', ['file'=>basename($file), 'templateId'=>$templateId])?>"> <i class="icon-remove"></i></a>
-                                    </td>
-                                </tr>
-                                <?$i++?>
-                            <?endforeach;?>
-                        </table>
-                        <script>
-                            function deleteAttach(attach, template, element)
-                            {
-                                $.ajax({
-                                    type: "GET",
-                                    url: '<?=\Yii::app()->createUrl('/mail/admin/template/deleteattachment')?>?file=' + attach + '&templateId=' + template + '&ajax=true',
-                                    success: function(data){
-                                        $('#' + element).remove();
-                                    }
-                                });
-                                return false
-                            }
-                        </script>
+                        $dir = \Yii::getpathOfAlias('webroot.files.upload.mails.'.$templateId);
+                        if (file_exists($dir)):
+                            $files = CFileHelper::findFiles($dir);
+                            ?>
+                            <table class="table">
+                                <?$i=0;?>
+                                <?foreach($files as $file):?>
+                                    <tr id="file<?=$i?>">
+                                        <td>
+                                            <a href="<?='//runet-id.com/files/emailAttachments/'.$templateId.'/'.basename($file)?>"><?=basename($file)?>
+                                        </td>
+                                        <td>
+                                            <a onclick="deleteAttach('<?=basename($file).'\', \''.$templateId?>', 'file<?=$i;?>'); return false;" href="<?=\Yii::app()->createUrl('/mail/admin/template/deleteattachment', ['file'=>basename($file), 'templateId'=>$templateId])?>"> <i class="icon-remove"></i></a>
+                                        </td>
+                                    </tr>
+                                    <?$i++?>
+                                <?endforeach;?>
+                            </table>
+                            <script>
+                                function deleteAttach(attach, template, element)
+                                {
+                                    $.ajax({
+                                        type: "GET",
+                                        url: '<?=\Yii::app()->createUrl('/mail/admin/template/deleteattachment')?>?file=' + attach + '&templateId=' + template + '&ajax=true',
+                                        success: function(data){
+                                            $('#' + element).remove();
+                                        }
+                                    });
+                                    return false
+                                }
+                            </script>
+                        <?endif;?>
                     <?endif;?>
                 </div>
             </div>

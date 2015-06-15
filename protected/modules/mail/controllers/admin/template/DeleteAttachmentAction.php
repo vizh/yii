@@ -5,7 +5,7 @@ class DeleteAttachmentAction extends \CAction
 {
     public function run($file = null, $templateId = null)
     {
-        $path = \Yii::getpathOfAlias('webroot.files.emailAttachments.'.$templateId).'/'.$file;
+        $path = \Yii::getpathOfAlias('webroot.files.upload.mails.'.$templateId).'/'.$file;
         unlink($path);
         $ajax = \Yii::app()->request->getParam('ajax');
         if(!$ajax)

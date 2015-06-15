@@ -98,17 +98,17 @@ class CMultiFileUpload extends CInputWidget
 	/**
 	 * Registers the needed CSS and JavaScript.
 	 */
-	public function registerClientScript()
-	{
-		$id=$this->htmlOptions['id'];
+    public function registerClientScript()
+    {
+        $id=$this->htmlOptions['id'];
 
-		$options=$this->getClientOptions();
-		$options=$options===array()? '' : CJavaScript::encode($options);
+        $options=$this->getClientOptions();
+        $options=$options===array()? '' : CJavaScript::encode($options);
 
-		$cs=Yii::app()->getClientScript();
-		$cs->registerCoreScript('multifile');
-		$cs->registerScript('Yii.CMultiFileUpload#'.$id,"jQuery(\"#{$id}\").MultiFile({$options});");
-	}
+        $cs=Yii::app()->getClientScript();
+        $cs->registerCoreScript('multifile');
+        $cs->registerScript('Yii.CMultiFileUpload#'.$id,"jQuery(\"#{$id}\").MultiFile({$options});");
+    }
 
 	/**
 	 * @return array the javascript options
