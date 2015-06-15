@@ -6,7 +6,8 @@ class TemplateController extends \application\components\controllers\AdminMainCo
   {
     return [
       'index' => '\mail\controllers\admin\template\IndexAction',
-      'edit'  => '\mail\controllers\admin\template\EditAction'
+      'edit'  => '\mail\controllers\admin\template\EditAction',
+      'deleteattachment'  => '\mail\controllers\admin\template\DeleteAttachmentAction'
     ];
   }
 }

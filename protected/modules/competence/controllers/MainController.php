@@ -63,7 +63,7 @@ class MainController extends PublicMainController
             return false;
         }
 
-        if ($this->checkExistsResult()) {
+        if ($this->checkExistsResult() && $action->getId() != 'done') {
             $this->redirect(['done', 'id' => $this->getTest()->Id]);
         }
 

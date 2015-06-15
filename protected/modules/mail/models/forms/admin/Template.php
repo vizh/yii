@@ -13,8 +13,6 @@ class Template extends \CFormModel
     const ByEmail   = 'Email';
     const ByRunetId = 'RunetId';
     const ByGeo     = 'Geo';
-
-
     const TypePositive = 'positive';
     const TypeNegative = 'negative';
 
@@ -34,6 +32,7 @@ class Template extends \CFormModel
     public $ShowUnsubscribeLink = 1;
     public $ShowFooter = 1;
     public $RelatedEventId;
+    public $Attachments = [];
 
     private $mailer;
 
@@ -47,7 +46,9 @@ class Template extends \CFormModel
         $this->mailer = $mailer;
     }
 
-
+    /**
+     * @return array
+     */
     public function attributeLabels()
     {
         return [
@@ -68,7 +69,9 @@ class Template extends \CFormModel
         ];
     }
 
-
+    /**
+     * @return array
+     */
     public function rules()
     {
         return [
@@ -79,17 +82,20 @@ class Template extends \CFormModel
             ['RelatedEventId', 'exist', 'className' => '\event\models\Event', 'attributeName' => 'Id', 'skipOnError' => true],
             ['Conditions', 'default', 'value' => []],
             ['Conditions', 'filter', 'filter' => [$this, 'filterConditions']],
-            ['Test', 'filter', 'filter' => [$this, 'filterTest']]
+            ['Test', 'filter', 'filter' => [$this, 'filterTest']],
+            ['Attachments', 'safe']
         ];
     }
 
+    /**
+     * @param $value
+     * @return mixed
+     */
     public function filterTest($value)
     {
-        if ($this->Test == 1)
-        {
+        if ($this->Test == 1){
             $this->TestUsers = trim($this->TestUsers, ', ');
-            if (empty($this->TestUsers))
-            {
+            if (empty($this->TestUsers)){
                 $this->addError('Test', \Yii::t('app', 'Не указаны получатели тестовой рассылки.'));
             }
         }
@@ -103,10 +109,8 @@ class Template extends \CFormModel
     public function filterConditions($value)
     {
         $countByEvent = 0;
-        foreach ($value as $key => $condition)
-        {
-            switch($condition['by'])
-            {
+        foreach ($value as $key => $condition){
+            switch($condition['by']){
                 case self::ByEvent:
                     $value[$key] = $this->filterConditionByEvent($condition);
                     $countByEvent++;
@@ -140,8 +144,7 @@ class Template extends \CFormModel
     private function filterConditionByEvent($condition)
     {
         $event = \event\models\Event::model()->findByPk($condition['eventId']);
-        if ($event == null)
-        {
+        if ($event == null){
             $this->addError('Conditions', \Yii::t('app', 'Не найдена мероприятие с ID:{id}', ['{id}' => $condition['eventId']]));
         }
         if (empty($condition['roles']))
@@ -150,20 +153,19 @@ class Template extends \CFormModel
         return $condition;
     }
 
+    /**
+     * @param $condition
+     * @return mixed
+     */
     private function filterConditionByEmail($condition)
     {
-        if (empty($condition['emails']))
-        {
+        if (empty($condition['emails'])){
             $this->addError('Conditions', \Yii::t('app', 'Укажите адреса Email в фильтре.'));
-        }
-        else
-        {
+        } else {
             $emails = explode(',', $condition['emails']);
-            foreach ($emails as $email)
-            {
+            foreach ($emails as $email){
                 $user = \user\models\User::model()->byEmail($email)->find();
-                if ($user == null)
-                {
+                if ($user == null){
                     $this->addError('Conditions', \Yii::t('app', 'Не найден пользователь с Email:"{email}"', ['{email}' => $email]));
                 }
             }
@@ -171,20 +173,19 @@ class Template extends \CFormModel
         return $condition;
     }
 
+    /**
+     * @param $condition
+     * @return mixed
+     */
     private function filterConditionByRunetId($condition)
     {
-        if (empty($condition['runetIdList']))
-        {
+        if (empty($condition['runetIdList'])){
             $this->addError('Conditions', \Yii::t('app', 'Укажите список RUNET-ID в фильтре.'));
-        }
-        else
-        {
+        } else {
             $runetIdList = explode(',', $condition['runetIdList']);
-            foreach ($runetIdList as $runetId)
-            {
+            foreach ($runetIdList as $runetId) {
                 $user = \user\models\User::model()->byRunetId($runetId)->find();
-                if ($user == null)
-                {
+                if ($user == null) {
                     $this->addError('Conditions', \Yii::t('app', 'Не найден пользователь с RUNET-ID:"{runetId}"', ['{runetId}' => $runetId]));
                 }
             }
@@ -192,12 +193,15 @@ class Template extends \CFormModel
         return $condition;
     }
 
+    /**
+     * @param $condition
+     * @return mixed
+     */
     private function filterConditionByGeo($condition)
     {
         if (empty($condition['countryId']) || empty($condition['regionId']) || empty($condition['label'])) {
             $this->addError('Conditions', \Yii::t('app', 'Укажите региональную принадлежность.'));
-        }
-        else {
+        } else {
             $country = Country::model()->findByPk($condition['countryId']);
             if ($country !== null) {
                 $region = Region::model()->byCountryId($country->Id)->findByPk($condition['regionId']);
@@ -218,6 +222,9 @@ class Template extends \CFormModel
         return $condition;
     }
 
+    /**
+     * @return array
+     */
     public function bodyFields()
     {
         return [
@@ -232,6 +239,9 @@ class Template extends \CFormModel
         ];
     }
 
+    /**
+     * @return array
+     */
     public function bodyFieldLabels()
     {
         return [
@@ -246,6 +256,9 @@ class Template extends \CFormModel
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getConditionData()
     {
         return [
@@ -256,6 +269,9 @@ class Template extends \CFormModel
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getTypeData()
     {
         return [
@@ -264,17 +280,22 @@ class Template extends \CFormModel
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getEventRolesData()
     {
         $data = [];
         $roles = \event\models\Role::model()->findAll(['order' => '"t"."Title"']);
-        foreach ($roles as $role)
-        {
+        foreach ($roles as $role) {
             $data[] = ['label' => $role->Id.' - '.$role->Title, 'value' => $role->Id];
         }
         return $data;
     }
 
+    /**
+     * @return array
+     */
     public function getLayoutData()
     {
         return [

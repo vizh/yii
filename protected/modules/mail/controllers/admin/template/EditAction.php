@@ -7,7 +7,7 @@ use mail\components\filter\GeoCondition;
 use mail\components\filter\RunetIdCondition;
 use \mail\models\forms\admin\Template;
 use user\models\User;
-
+use \mail\models\Template as TemplateModel;
 
 class EditAction extends \CAction
 {
@@ -25,13 +25,12 @@ class EditAction extends \CAction
     {
         if ($templateId !== null)
         {
-            $this->template = \mail\models\Template::model()->findByPk($templateId);
+            $this->template = TemplateModel::model()->findByPk($templateId);
             if ($this->template == null)
                 throw new \CHttpException(404);
 
-            $this->form = new \mail\models\forms\admin\Template($this->template->getMailer());
-            foreach ($this->template->getAttributes() as $attribute => $value)
-            {
+            $this->form = new Template($this->template->getMailer());
+            foreach ($this->template->getAttributes() as $attribute => $value){
                 if (property_exists($this->form, $attribute))
                     $this->form->$attribute = $value;
             }
@@ -39,8 +38,7 @@ class EditAction extends \CAction
             if (md5_file($this->template->getViewPath()) != $this->template->ViewHash)
                 $this->viewHasExternalChanges = true;
 
-            if (!$this->viewHasExternalChanges)
-            {
+            if (!$this->viewHasExternalChanges){
                 $body = file_get_contents($this->template->getViewPath());
                 $this->form->Body = str_replace($this->form->bodyFields(), array_keys($this->form->bodyFields()), $body);
             }
@@ -48,30 +46,23 @@ class EditAction extends \CAction
             $filter = $this->template->getFilter();
             $this->form->Conditions = $this->getFormConditionsList($filter->getFilters());
 
-            if ($this->template->Success)
-            {
+            if ($this->template->Success){
                 $this->countAll = \mail\models\TemplateLog::model()->byTemplateId($this->template->Id)->byHasError(false)->count();
-            }
-            else
-            {
+            } else{
                 $this->count = \user\models\User::model()->count($this->template->getCriteria());
                 $this->countAll = \user\models\User::model()->count($this->template->getCriteria(true));
             }
-            if ($this->template->Active)
-            {
+            if ($this->template->Active){
                 $this->form->addError('Active', \Yii::t('app', 'Рассылка была активирована, внесни изменения невозможно!'));
             }
-        }
-        else
-        {
+        } else{
             $this->template = new \mail\models\Template();
             $this->form = new \mail\models\forms\admin\Template($this->template->getMailer());
         }
 
         $request = \Yii::app()->getRequest();
         $this->form->attributes = $request->getParam(get_class($this->form));
-        if ($request->getIsPostRequest() && $this->form->validate(null, false))
-        {
+        if ($request->getIsPostRequest() && $this->form->validate(null, false)){
             $this->processForm();
         }
 
@@ -101,8 +92,7 @@ class EditAction extends \CAction
         $this->template->ShowUnsubscribeLink = $this->form->ShowUnsubscribeLink == 1 ? true : false;
         $this->template->ShowFooter = $this->form->ShowFooter == 1 ? true : false;
         $this->template->RelatedEventId = !empty($this->form->RelatedEventId) ? $this->form->RelatedEventId : null;
-        if ($this->template->Active)
-        {
+        if ($this->template->Active){
             $this->template->ActivateTime = date('Y-m-d H:i:s');
         }
 
@@ -136,7 +126,17 @@ class EditAction extends \CAction
         $this->template->setFilter($filter);
         $this->template->save();
 
-        if (!$this->viewHasExternalChanges) {
+        $Attachments = \CUploadedFile::getInstancesByName('Attachments');
+        $dir =  \Yii::getpathOfAlias('webroot.files.upload.mails.'.$this->template->Id);
+        if (!file_exists($dir))
+            mkdir($dir, 0777, true);
+        if (isset($Attachments) && count($Attachments) > 0) {
+            foreach ($Attachments as $attachment => $file) {
+                $file->saveAs($dir . '/' . str_replace(' ', '-', $file->name));
+            };
+        };
+
+        if (!$this->viewHasExternalChanges){
             $this->form->Body = str_replace(array_keys($this->form->bodyFields()), $this->form->bodyFields(), $this->form->Body);
             file_put_contents($this->template->getViewPath(), $this->form->Body);
             $this->template->ViewHash = md5_file($this->template->getViewPath());
@@ -177,7 +177,6 @@ class EditAction extends \CAction
             '\mail\components\filter\Geo'     => Template::ByGeo
         ];
 
-
         $filters = [];
         foreach (array_keys($filter) as $class) {
             $filters[$class] = $filterMap[$class];
@@ -187,23 +186,17 @@ class EditAction extends \CAction
             Template::TypePositive,
             Template::TypeNegative
         ];
-        foreach ($filters as $className => $by)
-        {
-            foreach ($types as $type)
-            {
-                if (isset($filter[$className]))
-                {
-                    foreach ($filter[$className]->$type as $criteria)
-                    {
+        foreach ($filters as $className => $by){
+            foreach ($types as $type){
+                if (isset($filter[$className])){
+                    foreach ($filter[$className]->$type as $criteria){
                         $condition = ['type' => $type, 'by' => $by];
                         $class = new \ReflectionClass($criteria);
-                        foreach ($class->getProperties() as $property)
-                        {
+                        foreach ($class->getProperties() as $property){
                             $condition[$property->getName()] = isset($criteria->{$property->getName()}) ? $criteria->{$property->getName()} : null;
                         }
 
-                        switch ($by)
-                        {
+                        switch ($by){
                             case Template::ByEvent:
                                 $event = \event\models\Event::model()->findByPk($condition['eventId']);
                                 $condition['eventLabel'] = $event->Id.', '.$event->Title;

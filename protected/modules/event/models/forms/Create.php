@@ -88,7 +88,7 @@ class Create extends \CFormModel
       'OneDayDate' => \Yii::t('app', 'один день'),
       'PlannedParticipants' => \Yii::t('app', 'Планируемое кол-во участников'),
       'City' => \Yii::t('app', 'Город'),
-      'Company' => \Yii::t('app', 'Компания организотор ')
+      'Company' => \Yii::t('app', 'Компания организатор ')
     );
   }
   

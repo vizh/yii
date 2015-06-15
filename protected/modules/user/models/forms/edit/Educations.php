@@ -46,8 +46,10 @@ class Educations extends \user\models\forms\edit\Base
     {
         $form = new Education();
         $form->Id = $education->Id;
-        $form->CityId = $education->University->CityId;
-        $form->CityName = $education->University->City->Name;
+        if (!empty($education->University->CityId)) {
+            $form->CityId = $education->University->CityId;
+            $form->CityName = $education->University->City->Name;
+        }
         $form->UniversityId = $education->UniversityId;
         $form->UniversityName = $education->University->Name;
         $form->FacultyId = $education->FacultyId;
