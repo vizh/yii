@@ -6,3 +6,12 @@
 .container-fluid{
     min-width:250px;
 }
+
+.form-text{
+    line-height: 34px;
+    color: #999;
+}
+
+.g-recaptcha>div>div{
+    margin: 0 auto;
+}
