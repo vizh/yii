@@ -9,15 +9,15 @@ use pay\components\managers\RoomProductManager;
 use partner\models\search\OrderItems;
 use pay\models\Order;
 use partner\components\Controller;
+use application\components\utility\Texts;
 
 $this->setPageTitle(\Yii::t('app', 'Заказы'));
-?>
 
+?>
 
 <?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
     <?=\CHtml::link('<span class="fa fa-plus"></span> ' . \Yii::t('app', 'Создание заказа'), ['create'], ['class' => 'btn btn-primary']);?>
 <?php $this->endClip();?>
-
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-shopping-cart"></i> <?=\Yii::t('app', 'Заказы мероприятия');?></span>
@@ -81,89 +81,58 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                         'header' => $search->getAttributeLabel('Status'),
                         'value' => function (OrderItem $orderItem) use ($search) {
                             if ($orderItem->Paid) {
-                                return \CHtml::tag('span', ['class' => 'label label-success'], $search->getStatusData()[OrderItems::STATUS_PAID]);
+                                $result =  \CHtml::tag('p', ['class' => 'text-success'], $search->getStatusData()[OrderItems::STATUS_PAID]);
                             } elseif ($orderItem->Deleted) {
-                                return \CHtml::tag('span', ['class' => 'label label-danger'], $search->getStatusData()[OrderItems::STATUS_DELETED]);
+                                $result = \CHtml::tag('p', ['class' => 'text-danger'], $search->getStatusData()[OrderItems::STATUS_DELETED]);
                             } else {
-                                return \CHtml::tag('span', ['class' => 'label'], $search->getStatusData()[OrderItems::STATUS_DEFAULT]);
+                                $result = \CHtml::tag('p', ['class' => 'text-light-gray'], $search->getStatusData()[OrderItems::STATUS_DEFAULT]);
                             }
+
+                            $order = $orderItem->getPaidOrder();
+                            if ($order !== null) {
+                                $type = $order->getPayType();
+                                if ($type == Order::PayTypeJuridical) {
+                                    $result.= \CHtml::tag('span', ['class' => 'label label-info'], \Yii::t('app', 'Юр. счет'));
+                                } elseif (strpos($type, 'pay\components\systems\\') !== false) {
+                                    $result.= \CHtml::tag('span', ['class' => 'label label-warning'], str_replace('pay\components\systems\\', '', $type));
+                                } else {
+                                    $result.= \CHtml::tag('span', ['class' => 'label'], \Yii::t('app', 'Не задан'));
+                                }
+                                $result.=\CHtml::tag('p', ['class' => 'small m-top_5'], \CHtml::link(\Yii::t('app', 'счет'), ['order/view', 'id' => $order->Id]));
+                            } elseif ($orderItem->CouponActivationLink !== null && $orderItem->CouponActivationLink->CouponActivation->Coupon->Discount == 1) {
+                                $result.=\CHtml::tag('span', ['class' => 'label label-warning'], \Yii::t('app', 'Промо-код 100%'));
+                            }
+                            return $result;
                         },
                         'filter' => $search->getStatusData(),
                         'width' => 100
                     ],
                     [
-                        'type' => 'raw',
-                        'header' => $search->getAttributeLabel('PaidType'),
-                        'value' => function (OrderItem $orderItem) {
-                            $order = $orderItem->getPaidOrder();
-                            if ($order !== null) {
-                                $type = $order->getPayType();
-                                if ($type == Order::PayTypeJuridical) {
-                                    $result = \CHtml::tag('span', ['class' => 'label label-info'], \Yii::t('app', 'Юр. счет'));
-                                } elseif (strpos($type, 'pay\components\systems\\') !== false) {
-                                    $result = \CHtml::tag('span', ['class' => 'label label-warning'], str_replace('pay\components\systems\\', '', $type));
-                                } else {
-                                    $result = \CHtml::tag('span', ['class' => 'label'], \Yii::t('app', 'Не задан'));
-                                }
-                                $result.=\CHtml::tag('p', ['class' => 'small m-top_5'], \CHtml::link(\Yii::t('app', 'счет'), ['order/view', 'id' => $order->Id]));
-                                return $result;
-                            } elseif ($orderItem->CouponActivationLink !== null && $orderItem->CouponActivationLink->CouponActivation->Coupon->Discount == 1) {
-                                return \CHtml::tag('span', ['class' => 'label label-warning'], \Yii::t('app', 'Промо-код 100%'));
-                            } else {
-                                return \CHtml::tag('span', ['class' => 'label'], \Yii::t('app', 'Не задан'));
-                            }
-                        },
-                        'width' => 100
-                    ],
-                    [
-                        'name'  => 'Payer',
-                        'type'  => 'raw',
-                        'header'=> $search->getAttributeLabel('Payer'),
-                        'value' => '\CHtml::link(\CHtml::tag("span", ["class" => "lead"], $data->Payer->RunetId), ["user/edit", "id" => $data->Payer->RunetId], ["target" => "_blank"]);',
-                        'headerHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'filterHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'width' => 120
-                    ],
-                    [
+                        'name' => 'Payer',
+                        'header' => $search->getAttributeLabel('Payer'),
                         'type' => 'raw',
                         'value' => function (OrderItem $orderItem) {
                             $user = $orderItem->Payer;
-                            $result = \CHtml::tag('strong', [], $user->getFullName());
+                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank']);
                             if (($employment = $user->getEmploymentPrimary()) !== null) {
                                 $result .= '<br/>' . $employment;
                             }
-                            $result.='<p class="m-top_5"><i class="fa fa-envelope-o"></i>&nbsp;' . $user->Email . '</p>';
+                            $result.='<p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;' . \CHtml::mailto(Texts::cropText($user->Email, 20), $user->Email) . '</p>';
                             return $result;
                         },
-                        'htmlOptions' => ['class' => 'text-left'],
-                        'width' => '20%'
+                        'htmlOptions' => ['class' => 'text-left']
                     ],
                     [
-                        'name'  => 'Owner',
-                        'type'  => 'raw',
-                        'header'=> $search->getAttributeLabel('Owner'),
-                        'value' => '\CHtml::link(\CHtml::tag("span", ["class" => "lead"], $data->getCurrentOwner()->RunetId), ["user/edit", "id" => $data->getCurrentOwner()->RunetId], ["target" => "_blank"]);',
-                        'headerHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'filterHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'width' => 120
-                    ],
-                    [
+                        'name' => 'Owner',
+                        'header' => $search->getAttributeLabel('Owner'),
                         'type' => 'raw',
                         'value' => function (OrderItem $orderItem) {
                             $user = !empty($orderItem->ChangedOwner) ? $orderItem->ChangedOwner : $orderItem->Owner;
-                            $result = \CHtml::tag('strong', [], $user->getFullName());
+                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank']);
                             if (($employment = $user->getEmploymentPrimary()) !== null) {
                                 $result .= '<br/>' . $employment;
                             }
-                            $result.='<p class="m-top_5"><i class="fa fa-envelope-o"></i>&nbsp;' . $user->Email . '</p>';
+                            $result.='<p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;' . \CHtml::mailto(Texts::cropText($user->Email, 20), $user->Email) . '</p>';
 
                             if (!empty($orderItem->ChangedOwner)) {
                                 $result.='
@@ -172,8 +141,7 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
 
                             return $result;
                         },
-                        'htmlOptions' => ['class' => 'text-left'],
-                        'width' => '20%'
+                        'htmlOptions' => ['class' => 'text-left']
                     ],
                     [
                         'class' => '\application\widgets\grid\ButtonColumn',

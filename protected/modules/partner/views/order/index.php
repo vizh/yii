@@ -78,7 +78,7 @@ $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
                             if (($employment = $user->getEmploymentPrimary()) !== null) {
                                 $result .= '<br/>' . $employment;
                             }
-                            $result.='<p class="m-top_5"><i class="fa fa-envelope-o"></i>&nbsp;' . $user->Email;
+                            $result.='<p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;' . \CHtml::mailto($user->Email);
                             if (($phone = $user->getPhone()) !== null) {
                                 $result.='<br/><i class="fa fa-phone"></i>&nbsp;' . $phone;
                             }
@@ -147,9 +147,6 @@ $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
                                 ],
                                 'url' => 'Yii::app()->controller->createUrl("view",["id"=>$data->primaryKey, "action" => "setPaid"])'
                             ]
-                        ],
-                        'headerHtmlOptions' => [
-                            'style' => 'width:170px;'
                         ]
                     ]
                 ]
