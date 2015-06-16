@@ -84,7 +84,7 @@ class RegisterForm extends \CFormModel
     {
         $response = \Yii::app()->request->getPost('g-recaptcha-response');
         if ($response == ''){
-            $this->addError('Captcha', 'Поставьте галочку "Я не робот"');
+            $this->addError('Captcha', \Yii::t('app', 'Поставьте галочку "Я не робот"'));
         } else {
             $postdata = http_build_query(
                 [
@@ -102,11 +102,11 @@ class RegisterForm extends \CFormModel
             $context = stream_context_create($opts);
             $captchaResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $context);
             if (!$captchaResponse) {
-                $this->addError('Captcha', 'Нет связи с сервером капчи');
+                $this->addError('Captcha', \Yii::t('app', 'Нет связи с сервером капчи'));
             } else {
                 $result = json_decode($captchaResponse);
                 if (!$result->success) {
-                    $this->addError('Captcha', 'Поставьте галочку "Я не робот"');
+                    $this->addError('Captcha', \Yii::t('app', 'Поставьте галочку "Я не робот"'));
                 }
             }
         }
