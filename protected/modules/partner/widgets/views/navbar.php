@@ -8,7 +8,7 @@ $partner = \Yii::app()->partner;
 ?>
     <div role="navigation" class="navbar navbar-inverse" id="main-navbar">
     <!-- Main menu toggle -->
-        <button id="main-menu-toggle" type="button"><i class="navbar-icon fa fa-bars icon"></i><span class="hide-menu-text">HIDE MENU</span></button>
+        <button id="main-menu-toggle" type="button"><i class="navbar-icon fa fa-bars icon"></i><span class="hide-menu-text">СКРЫТЬ МЕНЮ</span></button>
         <div class="navbar-inner">
             <!-- Main navbar header -->
             <div class="navbar-header">

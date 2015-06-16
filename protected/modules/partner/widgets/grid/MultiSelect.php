@@ -43,7 +43,8 @@ class MultiSelect extends FilterWidget
             'id' => $this->getId(),
             'multiple' => true,
             'class' => 'form-control',
-            'placeholder' => \CHtml::encode($this->placeholder)
+            'placeholder' => \CHtml::encode($this->placeholder),
+            'style' => 'width: 100%'
         ]);
     }
 

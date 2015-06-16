@@ -93,3 +93,11 @@ input[type="text"].lg {
 .nav-tabs-panel-heading {
   border-bottom: 0;
 }
+@media (max-width: 992px) {
+  #content-wrapper {
+    width: 992px !important;
+  }
+  #main-wrapper {
+    overflow: auto !important;
+  }
+}

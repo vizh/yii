@@ -67,7 +67,7 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                         <td><strong class="text-success"><?=$statistics->totalPaidUsers;?></strong></td>
                     </tr>
                     <tr>
-                        <td colspan="4">Активировано 100% промо-кодов:</td>
+                        <td colspan="4" class="text-left">Активировано 100% промо-кодов:</td>
                         <td><?=$statistics->totalPromoUsers;?></td>
                     </tr>
                     <tr>
@@ -81,7 +81,9 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                         <td>
                             <span class="text-success lead"><?=number_format($statistics->totalPaySystem, 0, ',', ' ');?> руб.</span>
                         </td>
-                        <td></td>
+                        <td>
+                            <span class="text-success lead"><?=number_format($statistics->getTotal(), 0, ',', ' ');?> руб.
+                        </td>
                     </tr>
                 </tbody>
             </table>

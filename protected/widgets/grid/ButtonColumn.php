@@ -12,17 +12,10 @@ namespace application\widgets\grid;
 class ButtonColumn extends \CButtonColumn
 {
     /**
-     * @var array the HTML options for the data cell tags.
-     */
-    public $htmlOptions = [
-        'class' => 'text-right'
-    ];
-
-    /**
      * @var array the HTML options for the header cell tag.
      */
     public $headerHtmlOptions = [
-        'style' => 'width:150px;'
+        'style' => 'width:1px;'
     ];
 
     /**
@@ -77,9 +70,13 @@ class ButtonColumn extends \CButtonColumn
      */
     protected function renderDataCellContent($row, $data)
     {
-        echo '<div class="btn-group" role="group">';
+        ob_start();
         parent::renderDataCellContent($row, $data);
-        echo '</div>';
+        $content = ob_get_contents();
+        ob_end_clean();
+
+
+        echo '<div class="btn-group-vertical" role="group">' . $content . '</div>';
     }
 
 

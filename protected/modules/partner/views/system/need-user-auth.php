@@ -21,7 +21,7 @@ $detector = Yii::app()->mobileDetect;
 
         <p class="text-center"><?=\Yii::t('app', 'Для доступа к партнерcкому интерфейсу необходимо быть авторизованным в основной части сайта');?></p>
         <div class="form-actions text-center">
-            <?=\CHtml::link(\Yii::t('app', 'Авторизоваться'), ($detector->isMobile() ? ['oauth/main/auth', 'url' => $_SERVER['REQUEST_URI']] : '#'), ($detector->isMobile() ? ['class' => 'signin-btn bg-primary'] : ['id' => 'NavbarLogin', 'class' => 'signin-btn bg-primary']));?>
+            <?=\CHtml::link(\Yii::t('app', 'Авторизоваться'), ($detector->isMobile() ? ['/oauth/main/auth', 'url' => $_SERVER['REQUEST_URI']] : '#'), ($detector->isMobile() ? ['class' => 'signin-btn bg-primary'] : ['id' => 'NavbarLogin', 'class' => 'signin-btn bg-primary']));?>
         </div>
     </div>
     <!-- Right side -->
