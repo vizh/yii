@@ -1,11 +1,14 @@
 <?php
 namespace mail\models\forms\admin;
 
+use event\models\Role;
+use event\models\Event;
 use geo\models\City;
 use geo\models\Country;
 use geo\models\Region;
 use mail\components\Mailer;
 use mail\models\Layout;
+use user\models\User;
 
 class Template extends \CFormModel
 {
@@ -143,7 +146,7 @@ class Template extends \CFormModel
      */
     private function filterConditionByEvent($condition)
     {
-        $event = \event\models\Event::model()->findByPk($condition['eventId']);
+        $event = Event::model()->findByPk($condition['eventId']);
         if ($event == null){
             $this->addError('Conditions', \Yii::t('app', 'Не найдена мероприятие с ID:{id}', ['{id}' => $condition['eventId']]));
         }
@@ -164,7 +167,7 @@ class Template extends \CFormModel
         } else {
             $emails = explode(',', $condition['emails']);
             foreach ($emails as $email){
-                $user = \user\models\User::model()->byEmail($email)->find();
+                $user = User::model()->byEmail($email)->find();
                 if ($user == null){
                     $this->addError('Conditions', \Yii::t('app', 'Не найден пользователь с Email:"{email}"', ['{email}' => $email]));
                 }
@@ -184,7 +187,7 @@ class Template extends \CFormModel
         } else {
             $runetIdList = explode(',', $condition['runetIdList']);
             foreach ($runetIdList as $runetId) {
-                $user = \user\models\User::model()->byRunetId($runetId)->find();
+                $user = User::model()->byRunetId($runetId)->find();
                 if ($user == null) {
                     $this->addError('Conditions', \Yii::t('app', 'Не найден пользователь с RUNET-ID:"{runetId}"', ['{runetId}' => $runetId]));
                 }
@@ -235,7 +238,9 @@ class Template extends \CFormModel
             '{UnsubscribeUrl}' => '<?=$user->getFastauthUrl(\'/user/setting/subscription/\');?>',
             '{Event.Title}' => '<?=$user->Participants[0]->Event->Title;?>',
             '{TicketUrl}' => '<?=$user->Participants[0]->getTicketUrl();?>',
-            '{Role.Title}' => '<?=$user->Participants[0]->Role->Title;?>'
+            '{Role.Title}' => '<?=$user->Participants[0]->Role->Title;?>',
+            '{Event.Start.Date}' => '<?=$event->getFormattedStartDate();?>',
+            '{Event.End.Date}' => '<?=$event->getFormattedEndDate();?>'
         ];
     }
 
@@ -252,7 +257,9 @@ class Template extends \CFormModel
             '{Event.Title}'    => \Yii::t('app', 'Название меропрития'),
             '{TicketUrl}'      => \Yii::t('app', 'Ссылка на пригласительный'),
             '{Role.Title}'     => \Yii::t('app', 'Роль на меропритие'),
-            '{UnsubscribeUrl}' => \Yii::t('app', 'Ссылка на отписаться')
+            '{UnsubscribeUrl}' => \Yii::t('app', 'Ссылка на отписаться'),
+            '{Event.Start.Date}' => \Yii::t('app', 'Дата начала события'),
+            '{Event.End.Date}' => \Yii::t('app', 'Дата окончания события'),
         ];
     }
 
@@ -286,7 +293,7 @@ class Template extends \CFormModel
     public function getEventRolesData()
     {
         $data = [];
-        $roles = \event\models\Role::model()->findAll(['order' => '"t"."Title"']);
+        $roles = Role::model()->findAll(['order' => '"t"."Title"']);
         foreach ($roles as $role) {
             $data[] = ['label' => $role->Id.' - '.$role->Title, 'value' => $role->Id];
         }
