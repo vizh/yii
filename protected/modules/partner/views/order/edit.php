@@ -1,30 +1,30 @@
 <?
 /**
- * @var OrderController $this
+ * @var \partner\components\Controller $this
  * @var \pay\models\Order $order
  * @var \pay\models\forms\Juridical $form
  * @var \pay\models\Product[] $products
+ * @var CActiveForm $activeForm
  */
-  $this->pageTitle = \Yii::t('app', 'Редактирование счета');
+
+use application\helpers\Flash;
+$this->setPageTitle(\Yii::t('app', 'Редактирование счета') . ' №' . $order->Id);
 ?>
 
-<h2 class="indent-bottom3"><?=\Yii::t('app', 'Редактирование счета');?> №<?=$order->Id;?></h2>
-<? if (\Yii::app()->getUser()->hasFlash('success')): ?>
-  <div class="alert alert-success"><?=\Yii::app()->getUser()->getFlash('success');?></div>
-<? endif ?>
-<?=\CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
-
-<?=\CHtml::beginForm('', 'POST', ['class' => 'form-horizontal']);?>
-  <?$this->renderPartial('_juridical-data', ['form' => $form])?>
-  <div class="control-group">
-    <div class="controls">
-      <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']);?>
+<?php $activeForm = $this->beginWidget('CActiveForm');?>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><span class="fa fa-pencil"></span> <?=\Yii::t('app', 'Редактирование счета');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
+        <?=Flash::html();?>
+        <?$this->renderPartial('edit/juridical', ['activeForm' => $activeForm, 'form' => $form]);?>
+        <hr/>
+        <?$this->renderPartial('edit/items', ['products' => $products]);?>
     </div>
-  </div>
-<?=\CHtml::endForm();?>
-
-<div class="m-top_40">
-<?=\CHtml::beginForm()?>
-  <?$this->renderPartial('_orders-table', ['products' => $products])?>
-<?=\CHtml::endForm()?>
+    <div class="panel-footer">
+        <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary']);?>
+    </div>
 </div>
+<?php $this->endWidget();?>

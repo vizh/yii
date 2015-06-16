@@ -62,10 +62,10 @@ return [
         'baseUrl' => '/',
         'js' => ['javascripts/charts.js']
     ],
-    'runetid.partner' => [
+    'partner' => [
         'baseUrl' => '/',
         'css' => ['stylesheets/partner.css'],
-        'depends' => ['runetid.jquery', 'runetid.admin.jquery.ui', 'runetid.bootstrap']
+        'depends' => ['runetid.jquery', 'runetid.jquery.ui', 'pixel-admin']
     ],
     'runetid.ckeditor' => [
         'baseUrl' => '/javascripts/ckeditor',
@@ -105,10 +105,28 @@ return [
         'js' => ['jquery-migrate-1.1.1.min.js'],
         'depends' => ['runetid.jquery']
     ],
+    'pixel-admin' => [
+        'baseUrl' => '/',
+        'js' => [
+            'javascripts/pixel-admin/bootstrap.min.js',
+            'javascripts/pixel-admin/ie.js',
+            'javascripts/pixel-admin/jquery-ui-extras.min.js',
+            'javascripts/pixel-admin/pixel-admin.js',
+            'javascripts/pixel-admin/init.js'
+        ],
+        'css' => [
+            'stylesheets/pixel-admin/bootstrap.css',
+            'stylesheets/pixel-admin/pixel-admin.css',
+            'stylesheets/pixel-admin/custom.css',
+            'stylesheets/pixel-admin/themes.css',
+            'stylesheets/pixel-admin/pages.css',
+        ]
+    ],
     'runetid.bootstrap3' => [
         'baseUrl' => '/',
         'js' => ['javascripts/bootstrap-3/js/bootstrap.min.js'],
         'css' => ['javascripts/bootstrap-3/css/bootstrap.min.css'],
         'depends' => ['runetid.jquery']
-    ]
+    ],
+    'jquery' => []
 ];

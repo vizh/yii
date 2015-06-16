@@ -1,57 +1,44 @@
-<div class="row">
-  <div class="span12 m-bottom_30">
-    <h2 class="m-bottom_5"><?=\Yii::t('app', 'Редактирование персональных данных участника');?></h2>
-    <a href="<?=$this->createUrl('/partner/user/edit', array('runetId' => $user->RunetId));?>" class="small">&larr; <?=\Yii::t('app', 'Вернуться к редактированию участника');?></a>
-  </div>
- 
-  <?php
-    $errors = array();
-    foreach ($locales as $locale):
-      $errors = array_merge($errors, $forms->$locale->getErrors());
-    endforeach;
-    
-    if (!empty($errors)):
-  ?>
-  <div class="span12 m-bottom_10">
-    <div class="alert alert-error">
-      <?foreach($errors as $error):?>
-        <?=$error[0];?><br/>
-      <?endforeach;?>
-    </div>
-  </div>
-  <?elseif (\Yii::app()->user->hasFlash('success')):?>
-  <div class="span12">
-    <div class="alert alert-success">
-      <?=\Yii::app()->user->getFlash('success');?>
-    </div>
-  </div>
-  <?endif;?>
-  
-  
-  
-  <?=\CHtml::beginForm('', 'POST', array('class' => 'form-horizontal'));?>
-  <div class="span12">
-    <?foreach (array_keys($forms->ru->getAttributes()) as $attribute):?>
-      <?if ($attribute == 'Company' && $user->getEmploymentPrimary() == null) 
-        continue;
-      ?>
-      <div class="control-group">
-        <?=\CHtml::activeLabel($forms->ru, $attribute, array('class' => 'control-label'));?>
-        <div class="controls">
-          <?foreach ($locales as $locale):?>
-            <div class="input-prepend">
-              <span class="add-on"><?=$locale;?></span>
-              <?=\CHtml::activeTextField($forms->$locale, $attribute, array('class' => 'input-medium', 'name' => 'Translate['.$locale.']['.$attribute.']'));?>
-            </div>
-          <?endforeach;?>
+<?php
+/**
+ * @var \user\models\User $user
+ * @var \partner\components\Controller $this
+ * @var \partner\models\forms\user\Translate[] $forms
+ * @var \CActiveForm $activeForm
+ */
+
+use application\helpers\Flash;
+
+$this->setPageTitle(\Yii::t('app', 'Редактирование персональных данных'));
+?>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-user"></i> <?=\Yii::t('app', 'Персональные данные');?></span>
+        <div class="panel-heading-controls">
+            <?=\CHtml::link('<span class="fa fa-arrow-left"></span>&nbsp;&nbsp;' . \Yii::t('app', 'Назад'), ['edit', 'id' => $user->RunetId], ['class' => 'btn btn-xs btn-info']);?>
         </div>
-      </div>
-    <?endforeach;?>
-    <div class="control-group">
-      <div class="controls">
-        <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), array('class' => 'btn'));?>
-      </div>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <?php $activeForm = $this->beginWidget('CActiveForm');?>
+            <?=Flash::html();?>
+            <?php foreach ($forms as $form):?>
+                <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
+                <?php foreach ($form->getSafeAttributeNames() as $attr):?>
+                    <?php if ($attr == 'Company' && $user->getEmploymentPrimary() == null)
+                        continue;
+                    ?>
+                    <div class="form-group">
+                        <?=$activeForm->label($form, $attr);?>
+                        <div class="input-group">
+                            <div class="input-group-addon"><?=$form->getLocale();?></div>
+                            <?=$activeForm->textField($form, $attr. '[' . $form->getLocale() . ']', ['class' => 'form-control', 'value' => $form->$attr]);?>
+                        </div>
+                    </div>
+                <?php endforeach;?>
+                <hr/>
+            <?php endforeach;?>
+            <div class="form-group">
+                <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-info']);?>
+            </div>
+        <?php $this->endWidget();?>
     </div>
-  </div>
-  <?=\CHTml::endForm();?>
 </div>

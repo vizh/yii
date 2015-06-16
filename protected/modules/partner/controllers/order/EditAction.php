@@ -1,5 +1,12 @@
 <?php
 namespace partner\controllers\order;
+use application\helpers\Flash;
+use partner\components\Action;
+use pay\components\Exception;
+use pay\models\forms\Juridical;
+use pay\models\Order;
+use pay\models\OrderLinkOrderItem;
+use pay\models\Product;
 
 /**
  * Class EditAction
@@ -8,146 +15,148 @@ namespace partner\controllers\order;
  *
  * @package partner\controllers\order
  */
-class EditAction extends \partner\components\Action
+class EditAction extends Action
 {
-  use ProcessOrderItems;
+    //use ProcessOrderItems;
 
-  /**
-   * @var \pay\models\Order
-   */
-  protected $order;
-
-  public function run($orderId)
-  {
-    $this->registerResources();
-    $this->order = \pay\models\Order::model()->byEventId($this->getEvent()->Id)->byPaid(false)->findByPk($orderId);
-    if ($this->order == null || !$this->order->getIsBankTransfer())
-      throw new \CHttpException(404);
-
-    $form = new \pay\models\forms\Juridical();
-    $request = \Yii::app()->getRequest();
-    if ($request->getIsAjaxRequest())
-      $this->processOrderItemsByAjax();
-
-    if ($request->getIsPostRequest())
+    public function run($id)
     {
-      $form->attributes = $request->getParam(get_class($form));
-      if ($form->validate())
-      {
-        $this->order->OrderJuridical->setAttributes($form->getAttributes(), false);
-        $this->order->OrderJuridical->save();
-        \Yii::app()->getUser()->setFlash('success', \Yii::t('app', 'Счет успешно сохранен!'));
-        $this->getController()->refresh();
-      }
-    }
-    else
-    {
-      foreach ($this->order->OrderJuridical->getAttributes() as $attr => $value)
-      {
-        if (property_exists($form, $attr))
-          $form->$attr = $value;
-      }
+        //$this->registerResources();
+        $order = Order::model()->byEventId($this->getEvent()->Id)->byPaid(false)->findByPk($id);
+        if ($order == null || !$order->getIsBankTransfer()) {
+            throw new \CHttpException(404);
+        }
+
+        $form = new Juridical($order);
+        $request = \Yii::app()->getRequest();
+        if ($request->getIsAjaxRequest()) {
+            $this->processAjaxMethod($order);
+        }
+
+        if ($request->getIsPostRequest()) {
+            $form->fillFromPost();
+            if ($form->updateActiveRecord() !== null) {
+                Flash::setSuccess(\Yii::t('app', 'Cчет успешно сохранен!'));
+                $this->getController()->refresh();
+            }
+        }
+
+        $this->getController()->render('edit', [
+            'form' => $form,
+            'products' => $this->getProducts(),
+            'order' => $order
+        ]);
     }
 
-    $products = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->excludeRoomManager()->findAll();
-    $this->getController()->render('edit', ['form' => $form, 'products' => $products, 'order' => $this->order]);
-  }
-
-  /**
-   * @return array Список заказов
-   */
-  protected function ajaxMethodGetItemsList()
-  {
-    $result = [];
-    foreach ($this->order->ItemLinks as $itemLink)
+    /**
+     * @return \pay\models\Product[]
+     */
+    private function getProducts()
     {
-      if (!$itemLink->OrderItem->Paid && !$itemLink->OrderItem->Deleted)
-      {
-        $item = new \stdClass();
-        $item->Id = $itemLink->OrderItem->Id;
-        $item->Owner = $itemLink->OrderItem->Owner->getFullName();
-        $item->Product = $itemLink->OrderItem->Product->Title;
-        $item->Price = $itemLink->OrderItem->getPriceDiscount().' '.\Yii::t('app', 'руб.');
-        $result[] = $item;
-      }
-    }
-    return $result;
-  }
-
-  /**
-   * Удаляет заказ
-   * @return \stdClass
-   */
-  protected function ajaxMethodDeleteItem()
-  {
-    $orderItemId = \Yii::app()->request->getParam('OrderItemId');
-    $orderItem = \pay\models\OrderItem::model()->byDeleted(false)->byPaid(false)->byEventId($this->getEvent()->Id)->findByPk($orderItemId);
-    $result = new \stdClass();
-    $result->success = false;
-
-    if ($orderItem !== null)
-    {
-      $link = \pay\models\OrderLinkOrderItem::model()->byOrderId($this->order->Id)->byOrderItemId($orderItem->Id)->find();
-      $link->delete();
-      $orderItem->delete();
-      $result->success = true;
-    }
-    else
-    {
-      $result->error = true;
-      $result->message = \Yii::t('app', 'Заказ не найден!');
-    }
-    return $result;
-  }
-
-  /**
-   * Создает заказ
-   * @return \stdClass
-   */
-  protected function ajaxMethodCreateItem()
-  {
-    $result = new \stdClass();
-    $result->success = false;
-    $request = \Yii::app()->getRequest();
-
-    $error = null;
-    $product = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->findByPk($request->getParam('ProductId'));
-    if ($product == null)
-    {
-      $error = \Yii::t('app', 'Продукт не найден!');
+        return Product::model()->byEventId($this->getEvent()->Id)->excludeRoomManager()->findAll();
     }
 
-    $owner = \user\models\User::model()->byRunetId($request->getParam('RunetId'))->find();
-    if ($owner == null)
+    /**
+     * Выполняет AJAX запрос
+     * @param Order $order
+     * @throws \CHttpException
+     */
+    protected function processAjaxMethod(Order $order)
     {
-      $error = \Yii::t('app', 'Пользователь не найден!');
+        $method = \Yii::app()->request->getParam('method');
+        $method = 'ajaxMethod'.ucfirst($method);
+        if (method_exists($this, $method)) {
+            $result = $this->$method($order);
+            echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        } else {
+            throw new \CHttpException(404);
+        }
+        \Yii::app()->end();
     }
 
-    if ($error == null)
+    /**
+     * @param Order $order
+     * @return array
+     */
+    protected function ajaxMethodGetItemsList(Order $order)
     {
-      try
-      {
-        $orderItem = $product->getManager()->createOrderItem($this->order->Payer, $owner);
-        $link = new \pay\models\OrderLinkOrderItem();
-        $link->OrderId = $this->order->Id;
-        $link->OrderItemId = $orderItem->Id;
-        $link->save();
-      }
-      catch(\pay\components\Exception $e)
-      {
-        $error = $e->getMessage();
-      }
+        $result = [];
+        foreach ($order->ItemLinks as $link) {
+            if (!$link->OrderItem->Paid && !$link->OrderItem->Deleted) {
+                $item = new \stdClass();
+                $item->Id = $link->OrderItem->Id;
+                $item->Owner = $link->OrderItem->Owner->getFullName();
+                $item->Product = $link->OrderItem->Product->Title;
+                $item->Price = $link->OrderItem->getPriceDiscount().' '.\Yii::t('app', 'руб.');
+                $result[] = $item;
+            }
+        }
+        return $result;
     }
 
-    if ($error == null)
+    /*
+    protected function ajaxMethodDeleteItem()
     {
-      $result->success = true;
+        $orderItemId = \Yii::app()->request->getParam('OrderItemId');
+        $orderItem = \pay\models\OrderItem::model()->byDeleted(false)->byPaid(false)->byEventId($this->getEvent()->Id)->findByPk($orderItemId);
+        $result = new \stdClass();
+        $result->success = false;
+
+        if ($orderItem !== null)
+        {
+            $link = \pay\models\OrderLinkOrderItem::model()->byOrderId($this->order->Id)->byOrderItemId($orderItem->Id)->find();
+            $link->delete();
+            $orderItem->delete();
+            $result->success = true;
+        }
+        else
+        {
+            $result->error = true;
+            $result->message = \Yii::t('app', 'Заказ не найден!');
+        }
+        return $result;
     }
-    else
+    */
+
+
+    /**
+     * @return \stdClass
+     */
+    protected function ajaxMethodCreateItem(Order $order)
     {
-      $result->error = true;
-      $result->message = $error;
+        $result = new \stdClass();
+        $result->success = false;
+        $request = \Yii::app()->getRequest();
+
+        $error = null;
+        $product = Product::model()->byEventId($this->getEvent()->Id)->findByPk($request->getParam('ProductId'));
+        if ($product == null) {
+            $error = \Yii::t('app', 'Продукт не найден!');
+        }
+
+        $owner = \user\models\User::model()->byRunetId($request->getParam('RunetId'))->find();
+        if ($owner == null) {
+            $error = \Yii::t('app', 'Пользователь не найден!');
+        }
+
+        if ($error == null) {
+            try {
+                $orderItem = $product->getManager()->createOrderItem($order->Payer, $owner);
+                $link = new OrderLinkOrderItem();
+                $link->OrderId = $order->Id;
+                $link->OrderItemId = $orderItem->Id;
+                $link->save();
+            } catch(Exception $e) {
+                $error = $e->getMessage();
+            }
+        }
+
+        if ($error == null) {
+            $result->success = true;
+        } else {
+            $result->error = true;
+            $result->message = $error;
+        }
+        return $result;
     }
-    return $result;
-  }
 } 

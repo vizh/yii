@@ -2,64 +2,65 @@
 /**
  * @var $worksheet \PHPExcel_Worksheet
  * @var $form \partner\models\forms\user\ImportPrepare
+ * @var $this \partner\components\Controller
  */
+
+$this->setPageTitle(\Yii::t('app', 'Импорт участников мероприятия'));
 ?>
-
-<div class="row">
-  <div class="span12">
-
-    <?=CHtml::beginForm();?>
-
-    <h3>Выберите соответствие столбцов и полей данных</h3>
-
-    <?if ($form->hasErrors()):?>
-      <?=CHtml::errorSummary($form, '', null, array('class' => 'alert alert-error'));?>
-    <?endif;?>
-
-    <table class="table table-bordered">
-      <thead>
-      <tr>
-        <?foreach ($form->getColumns() as $column):?>
-          <th><?=$column;?></th>
-        <?endforeach;?>
-      </tr>
-      </thead>
-      <tbody>
-      <?for ($i = 2; $i < 12; $i++):?>
-        <tr>
-          <?foreach ($form->getColumns() as $column):?>
-            <td><?=$worksheet->getCell($column.$i)->getValue();?></td>
-          <?endforeach;?>
-        </tr>
-      <?endfor;?>
-      <tr>
-        <?foreach ($form->getColumns() as $column):?>
-          <td>
-            <?=CHtml::activeDropDownList($form, $column, $form->getColumnValues(), ['class' => 'span2']);?>
-          </td>
-        <?endforeach;?>
-      </tr>
-      </tbody>
-    </table>
-
-    <div class="control-group">
-      <label class="checkbox"><?=CHtml::activeCheckBox($form, 'Notify');?> Уведомлять пользователей о регистрации в RUNET-ID</label>
+<?=\CHtml::beginForm();?>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-caret-square-o-down"></i> <?=\Yii::t('app', 'Выберите соответствие столбцов и полей данных');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <?=\CHtml::errorSummary($form, '', null, ['class' => 'alert alert-danger']);?>
+        <div class="table-info">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <?php foreach ($form->getColumns() as $column):?>
+                            <th><?=$column;?></th>
+                        <?php endforeach;?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php for ($i = 2; $i < 12; $i++):?>
+                        <tr>
+                            <?php foreach ($form->getColumns() as $column):?>
+                                <td><?=$worksheet->getCell($column.$i)->getValue();?></td>
+                            <?php endforeach;?>
+                        </tr>
+                    <?endfor;?>
+                    <tr>
+                        <?php foreach ($form->getColumns() as $column):?>
+                            <td>
+                                <?=\CHtml::activeDropDownList($form, $column, $form->getColumnValues(), ['class' => 'form-control']);?>
+                            </td>
+                        <?php endforeach;?>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <?=\CHtml::activeCheckBox($form, 'Notify');?> Уведомлять пользователей о регистрации в RUNET-ID
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <?=\CHtml::activeCheckBox($form, 'NotifyEvent');?> Уведомлять пользователей о регистрации на мероприятии
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <?=\CHtml::activeCheckBox($form, 'Visible');?> НЕ скрывать новых пользователей
+                </label>
+            </div>
+        </div>
     </div>
-
-    <div class="control-group">
-      <label class="checkbox"><?=CHtml::activeCheckBox($form, 'NotifyEvent');?> Уведомлять пользователей о регистрации на мероприятии</label>
+    <div class="panel-footer">
+        <?=\CHtml::submitButton(\Yii::t('app', 'Продолжить'), ['class' => 'btn btn-primary']);?>
     </div>
-
-    <div class="control-group">
-      <label class="checkbox"><?=CHtml::activeCheckBox($form, 'Visible');?> НЕ скрывать новых пользователей</label>
-    </div>
-
-    <div class="control-group">
-      <div class="controls">
-        <input type="submit" value="Продолжить" class="btn"/>
-      </div>
-    </div>
-
-    <?=CHtml::endForm();?>
-  </div>
 </div>
+<?=CHtml::endForm();?>

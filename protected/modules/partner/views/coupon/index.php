@@ -1,62 +1,164 @@
 <?php
 /**
- * @var $coupons \pay\models\Coupon[]
- * @var $paginator \application\components\utility\Paginator
- * @var $form \partner\models\forms\coupon\Search
- * @var $products array
- * @var Event $event
+ * @var Controller $this
+ * @var \application\modules\partner\models\search\Coupons $search
  */
-use event\models\Event;
 
+use pay\models\Coupon;
+use application\components\utility\Texts;
+use \partner\components\Controller;
+
+$this->setPageTitle(\Yii::t('app', 'Промо-коды'));
 ?>
 
-<div class="row">
-  <div class="span12">
-    <?=CHtml::beginForm(Yii::app()->createUrl('/partner/coupon/index/'), 'get');?>
-    <div class="row">
-      <div class="span4">
-        <?=CHtml::activeLabel($form, 'Code');?>
-        <?=CHtml::activeTextField($form, 'Code');?>
-      </div>
-      <div class="span4">
-        <?=CHtml::activeLabel($form, 'Activator');?>
-        <?=CHtml::activeTextField($form, 'Activator', ['placeholder' => 'RUNET-ID']);?>
-      </div>
-      <div class="span4">
-        <?=CHtml::activeLabel($form, 'Discount');?>
-        <?=CHtml::activeTextField($form, 'Discount');?>
-      </div>
-    </div>
+<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
+    <?=\CHtml::link('<span class="fa fa-plus"></span> ' . \Yii::t('app', 'Генерация промо-кодов'), ['generate'], ['class' => 'btn btn-primary']);?>
+<?php $this->endClip();?>
 
-    <div class="row">
-      <div class="span4">
-        <?=CHtml::activeLabel($form, 'Activated');?>
-        <?=CHtml::activeDropDownList($form, 'Activated', $form->getListValues());?>
-      </div>
-      <div class="span4">
-        <?=CHtml::activeLabel($form, 'Product');?>
-        <?=CHtml::activeDropDownList($form, 'Product', $products);?>
-      </div>
-      <?if ($hasTicket):?>
-      <div class="span4">
-        <?=CHtml::activeLabel($form, 'Owner');?>
-        <?=CHtml::activeTextField($form, 'Owner', ['placeholder' => 'RUNET-ID, ФИО, E-mail']);?>
-      </div>
-      <?endif;?>
+<?=\CHtml::beginForm(['give'], 'get');?>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-ticket"></i> <?=\Yii::t('app', 'Промо-коды мероприятия');?></span>
+        <div class="panel-heading-controls">
+            <?=\CHtml::button(\Yii::t('app', 'Выдать промо-коды'), ['class' => 'btn btn-xs btn-primary hide', 'id' => 'btn-give']);?>
+        </div>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <div class="table-info">
+            <?$this->widget('\application\widgets\grid\GridView', [
+                'dataProvider'=> $search->getDataProvider(),
+                'filter' => $search,
+                'summaryCssClass' => 'table-header clearfix',
+                'summaryText' => 'Промо-коды {start}-{end} из {count}.',
+                'afterAjaxUpdate' => 'pageCouponIndex.init',
+                'columns' => [
+                    [
+                        'type'  => 'raw',
+                        'value' => function (Coupon $coupon) {
+                            if (!$coupon->IsTicket) {
+                                return \CHtml::checkBox('Coupons[]', false, ['value' => $coupon->Id]);
+                            }
+                        },
+                        'header' => \CHtml::checkBox("", false),
+                        'width' => 1
+                    ],
+                    [
+                        'name' => 'Code',
+                        'type' => 'raw',
+                        'header' =>  $search->getAttributeLabel('Code'),
+                        'value' => '\CHtml::tag("span", ["class" => "lead"], $data->Code)',
+                        'width' => '20%'
+                    ],
+                    [
+                        'name'  => 'Discount',
+                        'header' =>  $search->getAttributeLabel('Discount'),
+                        'type'  => 'raw',
+                        'value' => '$data->Discount * 100 . "%"',
+                        'width' => 100
+                    ],
+                    [
+                        'name' => 'Product',
+                        'header' =>  $search->getAttributeLabel('Product'),
+                        'type' => 'raw',
+                        'value' => function (Coupon $coupon) {
+                            if (!empty($coupon->Products)) {
+                                $result = '';
+                                foreach ($coupon->Products as $product) {
+                                    $result .= Texts::cropText($product->Title, 50) . '<br/>';
+                                }
+                                return $result;
+                            }
+                        },
+                        'filter' => [
+                            'class' => '\partner\widgets\grid\MultiSelect',
+                            'items' => $search->getProductData()
+                        ],
+                        'width' => '30%'
+                    ],
+                    [
+                        'type'  => 'raw',
+                        'value' => function (Coupon $coupon) {
+                            $result = '';
+                            if ($coupon->IsTicket) {
+                                $user = $coupon->Owner;
+                                $result .= \CHtml::tag('span', ['class' => 'label label-primary'], \Yii::t('app', 'Продан'));
+                                if ($coupon->Owner->Temporary) {
+                                    $result .= \CHtml::tag('p', [], \CHtml::tag('span', ['class' => 'small m-top_5'], \CHtml::mailto($user->Email)));
+                                } else {
+                                    $result .= \CHtml::tag('p', [], \CHtml::tag('span', ['class' => 'small m-top_5'], \CHtml::link($user->getFullName() . ' (' . $user->RunetId . ')', ['user/edit', 'id' => $user->RunetId], ['target' => '_blank'])));
+                                }
+                            } elseif (empty($coupon->Recipient)) {
+                                $result .= \CHtml::tag('span', ['class' => 'label'], \Yii::t('app', 'Не выдан'));
+                            } else {
+                                $result .= \CHtml::tag('span', ['class' => 'label label-success'], \Yii::t('app', 'Выдан'));
+                                $result .= \CHtml::tag('p', ['class' => 'small m-top_5'], $coupon->Recipient);
+                            }
+                            return $result;
+                        },
+                        'width' => 150
+                    ],
+                    [
+                        'name' => 'Owner',
+                        'header' => $search->getAttributeLabel('Owner'),
+                        'type' => 'raw',
+                        'value' => function (Coupon $coupon) {
+                            if (!$coupon->Multiple && !empty($coupon->Activations)) {
+                                $user = $coupon->Activations[0]->User;
+                                return \CHtml::tag('span', ['class' => 'label label-success'], \Yii::t('app', 'Активирован')).
+                                    '<p class="small m-top_5">' . \CHtml::link($user->getFullName() . ' (' . $user->RunetId . ')', ['user/edit', 'id' => $user->RunetId], ['target' => '_blank']) . '</p>';
+                            } elseif ($coupon->Multiple) {
+                                return \CHtml::tag(
+                                    'span',
+                                    ['class' => 'label' . (!empty($coupon->Activations) ? ' label-success' : '')],
+                                    \Yii::t('app', 'Активирован') . ' ' . sizeof($coupon->Activations) . ' ' . \Yii::t('app', 'из') . ' ' . $coupon->MultipleCount
+                                );
+                            } else {
+                                return \CHtml::tag('span', ['class' => 'label'], \Yii::t('app', 'Не активирован'));
+                            }
+                        },
+                        'width' => 150
+                    ],
+                    [
+                        'name' => 'EndTime',
+                        'header' => $search->getAttributeLabel('EndTime'),
+                        'type'  => 'raw',
+                        'value' => function (Coupon $coupon) {
+                            if (!empty($coupon->EndTime)) {
+                                $date = \Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $coupon->EndTime);
+                                if ($coupon->EndTime < date('Y-m-d H:i:s')) {
+                                    return \CHtml::tag('span', ['class' => 'label label-danger'], \Yii::t('app', 'Истек') . ' ' . $date);
+                                } else {
+                                    return \CHtml::tag('span', ['class' => 'label label-default'], \Yii::t('app', 'До') . ' ' . $date);
+                                }
+                            } else {
+                                return \CHtml::tag('span', ['class' => 'label label-info'], \Yii::t('app', 'Безлимитный'));
+                            }
+                        },
+                        'filter' => false,
+                        'width' => 100
+                    ],
+                    [
+                        'class' => '\application\widgets\grid\ButtonColumn',
+                        'buttons' => [
+                            'statistics' => [
+                                'label' => '<i class="fa fa-pie-chart"></i>',
+                                'url' => 'Yii::app()->controller->createUrl("statistics",["id" => $data->Id])',
+                                'options' => [
+                                    'class' => 'btn btn-info',
+                                    'title' => 'Статистика'
+                                ]
+                            ]
+                        ],
+                        'template' => '{statistics}'
+                    ]
+                ]
+            ]);?>
+        </div>
     </div>
-
-    <div class="row indent-top2">
-      <div class="span4">
-        <button class="btn btn-large" type="submit"><i class="icon-search"></i> Искать</button>
-      </div>
-      <div class="span4">
-        <h4>Всего найдено: <?=$paginator->getCount();?></h4>
-      </div>
-    </div>
-    <?=CHtml::endForm();?>
-  </div>
 </div>
+<?=\CHtml::endForm();?>
 
+<?/*
 <?if (!empty($coupons)):?>
 <form action="<?=Yii::app()->createUrl('/partner/coupon/give');?> " method="GET">
 <table class="table table-striped">
@@ -141,3 +243,4 @@ use event\models\Event;
 <?php endif;?>
 
 <?$this->widget('\application\widgets\Paginator', array('paginator' => $paginator));?>
+*/?>

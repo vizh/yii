@@ -1,38 +1,101 @@
 <?php
 namespace partner\models\forms\program;
 
-class Hall extends \CFormModel
+use application\components\form\CreateUpdateForm;
+use application\components\helpers\ArrayHelper;
+use event\models\Event;
+use event\models\section\Hall as HallModel;
+
+class Hall extends CreateUpdateForm
 {
-  public $Id;
-  public $Title;
-  public $Order = 0;
-  public $Delete = 0;
+    public $Id;
 
-  private $event;
+    public $Title;
 
-  public function __construct(\event\models\Event $event, $scenario = '')
-  {
-    parent::__construct($scenario);
-    $this->event = $event;
-  }
+    public $Order;
 
-  public function rules()
-  {
-    return [
-      ['Id', 'exist', 'className' => '\event\models\section\Hall', 'attributeName' => 'Id', 'criteria' => ['condition' => '"t"."EventId" = :EventId', 'params' => ['EventId' => $this->event->Id]], 'allowEmpty' => true],
-      ['Title', 'required'],
-      ['Order', 'numerical'],
-      ['Delete', 'boolean', 'allowEmpty' => true]
-    ];
-  }
+    public $Delete;
 
-  public function attributeLabels()
-  {
-    return [
-      'Title' => \Yii::t('app', 'Название зала'),
-      'Order' => \Yii::t('app', 'Сортировка')
-    ];
-  }
+    /** @var Event */
+    private $event;
+
+    /** @var string */
+    private $locale;
+
+    /** @var HallModel */
+    protected $model;
+
+    public function __construct(Event $event, HallModel $model, $locale)
+    {
+        $this->event = $event;
+        $this->locale = $locale == null ? \Yii::app()->sourceLanguage : $locale;
+        if ($model !== null) {
+            $model->setLocale($this->locale);
+        }
+        parent::__construct($model);
+
+    }
+
+    public function rules()
+    {
+        return [
+            ['Title, Order', 'required'],
+            ['Order', 'numerical'],
+            ['Delete', 'boolean', 'allowEmpty' => true]
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'Title' => \Yii::t('app', 'Название зала'),
+            'Order' => \Yii::t('app', 'Сортировка')
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function fillFromPost()
+    {
+        $request = \Yii::app()->getRequest();
+        $attributes = $request->getParam(get_class($this));
+
+        if (is_array($attributes)) {
+            foreach ($attributes as $name => $value) {
+                if (isset($value[$this->model->Id])) {
+                    $attributes[$name] = $value[$this->model->Id];
+                }
+            }
+        }
+        $this->setAttributes($attributes);
+    }
+
+    /**
+     * @return HallModel|null
+     */
+    public function updateActiveRecord()
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+
+        if ($this->Delete == 1) {
+            $this->model->Deleted = true;
+        } else {
+            $this->fillActiveRecord();
+        }
+        $this->model->save();
+        return $this->model;
+    }
 
 
 } 

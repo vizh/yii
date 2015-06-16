@@ -2,131 +2,116 @@
 namespace partner\components;
 
 
+use event\models\Event;
+
 class Controller extends \application\components\controllers\BaseController
 {
-  public $layout = '/layouts/public';
+    const PAGE_HEADER_CLIP_ID = 'page-header';
 
-    public $showMenu = true;
+    public $layout = '/layouts/public';
+    public $bodyClass = '';
 
-  public function filters()
-  {
-    $filters = parent::filters();
-    return array_merge(
-      $filters,
-      array(
-        'accessControl'
-      )
-    );
-  }
+    public $showSidebar = true;
+    public $showPageHeader = true;
 
-  /** @var AccessControlFilter */
-  private $accessFilter;
-  public function getAccessFilter()
-  {
-    if (empty($this->accessFilter))
+    public function filters()
     {
-      $this->accessFilter = new AccessControlFilter();
-      $this->accessFilter->setRules($this->accessRules());
+        $filters = parent::filters();
+        return array_merge(
+            $filters,
+            array(
+                'accessControl'
+            )
+        );
     }
-    return $this->accessFilter;
-  }
 
-  public function filterAccessControl($filterChain)
-  {
-    $this->getAccessFilter()->filter($filterChain);
-  }
-
-  public function accessRules()
-  {
-    $rules = \Yii::getPathOfAlias('partner.rules').'.php';
-    return require($rules);
-  }
-
-  public function initResources()
-  {
-    \Yii::app()->getClientScript()->registerPackage('runetid.partner');
-    parent::initResources();
-  }
-
-  protected function beforeAction($action)
-  {
-    if (\Yii::app()->partner->getAccount() !==null && $this->getId() !== 'auth')
+    /** @var AccessControlFilter */
+    private $accessFilter;
+    public function getAccessFilter()
     {
-      if (\Yii::app()->user->getIsGuest())
-      {
-        \Yii::app()->getClientScript()->registerPackage('runetid.auth');
-        $this->render('partner.views.system.need-user-auth');
+        if (empty($this->accessFilter))
+        {
+            $this->accessFilter = new AccessControlFilter();
+            $this->accessFilter->setRules($this->accessRules());
+        }
+        return $this->accessFilter;
+    }
+
+    public function filterAccessControl($filterChain)
+    {
+        $this->getAccessFilter()->filter($filterChain);
+    }
+
+    public function accessRules()
+    {
+        $rules = \Yii::getPathOfAlias('partner.rules').'.php';
+        return require($rules);
+    }
+
+    public function initResources()
+    {
+        \Yii::app()->getClientScript()->registerPackage('partner');
+        parent::initResources();
+    }
+
+    protected function beforeAction($action)
+    {
+        if (\Yii::app()->partner->getAccount() !==null && $this->getId() !== 'auth')
+        {
+            if (\Yii::app()->user->getIsGuest())
+            {
+                \Yii::app()->getClientScript()->registerPackage('runetid.auth');
+                $this->render('partner.views.system.need-user-auth');
+                return false;
+            }
+            elseif (\Yii::app()->partner->getEvent() === null)
+            {
+                $success = $this->parseExtendedAccountRequest();
+                if ($success)
+                {
+                    $this->refresh();
+                }
+                else
+                {
+                    $this->render('partner.views.system.select-event', array(
+                        'events' => $this->getExtendedAccountEventData()
+                    ));
+                    return false;
+                }
+            }
+        }
+
+        return parent::beforeAction($action);
+    }
+
+    private function parseExtendedAccountRequest()
+    {
+        $request = \Yii::app()->getRequest();
+        if ($request->getIsPostRequest()) {
+            $id = $request->getParam('id');
+            if ($id !== null) {
+                /** @var \event\models\Event $event */
+                $event = Event::model()->findByPk($id);
+                if ($event !== null) {
+                    \Yii::app()->getSession()->add('PartnerAccountEventId', $event->Id);
+                    return true;
+                }
+            }
+        }
         return false;
-      }
-      elseif (\Yii::app()->partner->getEvent() === null)
-      {
-        $success = $this->parseExtendedAccountRequest();
-        if ($success)
-        {
-          $this->refresh();
-        }
-        else
-        {
-          $this->render('partner.views.system.select-event', array(
-            'dataEvents' => $this->getExtendedAccountEventData()
-          ));
-          return false;
-        }
-      }
     }
 
-    return parent::beforeAction($action);
-  }
-
-  private function parseExtendedAccountRequest()
-  {
-    $request = \Yii::app()->getRequest();
-    if ($request->getIsPostRequest())
+    private function getExtendedAccountEventData()
     {
-      $eventId = $request->getParam('eventId');
-      if ($eventId !== null)
-      {
-        /** @var \event\models\Event $event */
-        $event = \event\models\Event::model()->findByPk($eventId);
-        if ($event !== null)
-        {
-          \Yii::app()->getSession()->add('PartnerAccountEventId', $event->Id);
-          return true;
+        /** @var \event\models\Event[] $events */
+        $events = Event::model()->byDeleted(false)->findAll();
+        $data = [];
+        foreach ($events as $event) {
+            $item = new \stdClass();
+            $item->value = $event->Id . ', ' . $event->IdName . ', ' . \application\components\utility\Texts::cropText($event->Title, 200);
+            $item->id = $event->Id;
+            $data[] = $item;
         }
-      }
+        return $data;
     }
-    return false;
-  }
-
-  private function getExtendedAccountEventData()
-  {
-    /** @var \event\models\Event[] $events */
-    $events = \event\models\Event::model()->byDeleted(false)->findAll();
-    $dataEvents = array();
-    foreach ($events as $event)
-    {
-      $item = new \stdClass();
-      $item->value = $event->Id . ', ' . $event->IdName . ', ' . \application\components\utility\Texts::cropText($event->Title, 200);
-      $item->id = $event->Id;
-      $dataEvents[] = $item;
-    }
-    return $dataEvents;
-  }
-
-  protected $bottomMenu = array();
-  protected function initBottomMenu() {}
-
-  public function initActiveBottomMenu($active)
-  {
-    $this->initBottomMenu();
-    foreach ($this->bottomMenu as $key => $value)
-    {
-      $this->bottomMenu[$key]['Active'] = ($key == $active);
-    }
-  }
-
-  public function getBottomMenu()
-  {
-    return $this->bottomMenu;
-  }
 }

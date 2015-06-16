@@ -42,7 +42,7 @@ class ActiveRecord extends \CActiveRecord
                 $column = $order;
                 $order  = SORT_ASC;
             }
-            $criteria->order .= $column . ' ' . ($order === SORT_DESC ? 'DESC' : 'ASC');
+            $criteria->order .= (!empty($criteria->order) ? ', ' : '') . $column . ' ' . ($order === SORT_DESC ? 'DESC' : 'ASC');
         }
         $this->getDbCriteria()->mergeWith($criteria);
         return $this;

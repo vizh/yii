@@ -1,29 +1,42 @@
-<div class="row login-box">
-  <div class="offset4 span4">
-    <form class="well" method="post" action="">
-      <h2>Вход</h2>
+<?php
+/**
+ * @var \partner\components\Controller $this
+ */
+$this->bodyClass = 'page-signin';
+$this->showPageHeader = false;
+$this->showSidebar = false;
+$this->setPageTitle(\Yii::t('app', 'Авторизация в партнерском интерфейсе'));
+?>
+<div class="signin-container">
+    <div class="signin-form">
+        <form id="signin-form_id" action="" novalidate="novalidate" method="post">
+            <div class="text-center m-bottom_20">
+                <img src="http://getlogo.org/img/runet-id/298/150x/" alt="RUNET-ID" title="RUNET-ID" />
+            </div>
+            <div class="signin-text">
+                <span><?=\Yii::t('app', 'Партнерский интерфейс');?></span>
+            </div> <!-- / .signin-text -->
 
-      <div class="control-group">
-        <label for="login" class="control-label">Логин</label>
-        <div class="controls">
-          <input type="text" id="login" class="span3" name="login" placeholder="Введите свой логин">
-        </div>
-      </div>
+            <?php if ($this->error):?>
+                <div class="alert alert-danger">
+                    <?=\Yii::t('app', 'Ошибка авторизации');?>
+                </div>
+            <?endif;?>
 
-      <div class="control-group">
-        <label for="password" class="control-label">Пароль</label>
-        <div class="controls">
-          <input type="password" id="password" class="span3" name="password" placeholder="Введите пароль">
-          <?if ($this->error):?>
-          <p class="help-block  <?=$this->error ? 'error' : '';?>">
-            <span class="label label-important">Ошибка авторизации</span>
-          </p>
-          <?endif;?>
-        </div>
-      </div>
+            <div class="form-group w-icon">
+                <input type="text" placeholder="Введите свой логин" class="form-control input-lg" id="username_id" name="login">
+                <span class="fa fa-user signin-form-icon"></span>
+            </div> <!-- / Username -->
 
-      <input type="submit" class="btn btn-primary" name="submit" value="Вход">
+            <div class="form-group w-icon">
+                <input type="password" placeholder="Пароль" class="form-control input-lg" name="password">
+                <span class="fa fa-lock signin-form-icon"></span>
+            </div> <!-- / Password -->
 
-    </form>
-  </div>
+            <div class="form-actions">
+                <input type="submit" class="signin-btn bg-primary" value="Вход">
+            </div> <!-- / .form-actions -->
+        </form>
+    </div>
+    <!-- Right side -->
 </div>

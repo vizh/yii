@@ -1,47 +1,50 @@
 <?php
 /**
- * @var $roles \event\models\Role[]
+ * @var $event \event\models\Event
+ * @var $this \partner\components\Controller
  */
+
+$this->setPageTitle(\Yii::t('app', 'Экспорт участников в CSV'));
 ?>
-<div class="span12">
-  <form class="form-horizontal" method="POST">
-    <div class="control-group">
-      <label class="control-label">Кодировка</label>
-      <div class="controls">
-        <label class="radio">
-          <input type="radio" value="utf8" name="charset" checked="checked"> UTF8 (MacOS)
-        </label>
-        <label class="radio">
-          <input type="radio" value="Windows-1251" name="charset"> Windows-1251 (Microsoft Office)
-        </label>
-      </div>
+<?=\CHtml::beginForm();?>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-cogs"></i> <?=\Yii::t('app', 'Настройки экспорта');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <div class="form-group">
+            <?=\CHtml::label(\Yii::t('app', 'Кодировка'), 'charset');?>
+            <div class="radio">
+                <label>
+                    <?=\CHtml::radioButton('charset', false,['value' => 'utf8']);?> UTF8 (MacOS)
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <?=\CHtml::radioButton('charset', true, ['value' => 'Windows-1251']);?> Windows-1251 (Microsoft Office)
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <?=\CHtml::label(\Yii::t('app', 'Выберите роли для экспорта'), false);?>
+            <?=\CHtml::listBox('roles[]', false, \CHtml::listData($event->getRoles(), 'Id', 'Title'), ['multiple' => 'multiple', 'class' => 'form-control']);?>
+        </div>
+        <div class="form-group">
+            <?=\CHtml::label(\Yii::t('app', 'Язык выгрузки'), false);?>
+            <div class="radio">
+                <label>
+                    <?=\CHtml::radioButton('language', true, ['value' => 'ru']);?> Руский
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <?=\CHtml::radioButton('language', false, ['value' => 'en']);?> Английский
+                </label>
+            </div>
+        </div>
     </div>
-
-    <div class="control-group">
-      <label class="control-label">Выберите роли для экспорта</label>
-      <div class="controls">
-        <select name="roles[]" id="" multiple="multiple" size="<?=sizeof($roles);?>">
-          <?foreach ($roles as $role):?>
-            <option value="<?= $role->Id;?>"><?=$role->Title;?></option>
-          <?endforeach;?>
-        </select>
-      </div>
+    <div class="panel-footer">
+        <?=\CHtml::submitButton(\Yii::t('app', 'Получить список'), ['class' => 'btn btn-primary']);?>
     </div>
-
-    <div class="control-group">
-      <label class="control-label">Язык выгрузки</label>
-      <div class="controls">
-        <label class="radio">
-          <input type="radio" value="ru" name="language" checked="checked"> Руский
-        </label>
-        <label class="radio">
-          <input type="radio" value="en" name="language"> Английский
-        </label>
-      </div>
-    </div>
-
-    <div class="control-group">
-      <div class="controls"><input type="submit" value="Получить список" class="btn"/></div>
-    </div>
-  </form>
 </div>
+<?=\CHtml::endForm();?>

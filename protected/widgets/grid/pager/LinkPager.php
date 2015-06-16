@@ -9,6 +9,8 @@ class LinkPager extends \CLinkPager
 
     public $nextPageLabel = '';
 
+    public $htmlOptions = ['class' => 'pagination'];
+
     /**
      * @inheritdoc
      */

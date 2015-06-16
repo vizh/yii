@@ -5,167 +5,185 @@
 
 $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay);
 ?>
-  <div class="row indent-bottom3">
-    <div class="span12">
-      <h2 class="indent-bottom2">Общая информация</h2>
-      <div class="row">
-        <div class="span5">
-          <?php if (!empty($stat->Participants)):?>
-            <table class="table table-striped">
-              <thead>
-              <tr>
-                <th>День</th>
-                <th>Участников</th>
-              </tr>
-              </thead>
-              <tbody>
-              <?php foreach ($stat->Participants as $date => $participant):?>
-                <?php
-                $total = 0;
-                foreach($participant as $roleId => $count) {
-                  $total += $count;
-                }
-                ?>
-                <tr>
-                  <td><?php echo $date;?></td>
-                  <td><?php echo $total;?></td>
-                </tr>
-              <?php endforeach;?>
-              </tbody>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-info"></i> <?=\Yii::t('app', 'Общая информация');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <?php if (!empty($stat->Participants)):?>
+            <div class="table-info">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>День</th>
+                        <th>Участников</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($stat->Participants as $date => $participant):?>
+                        <?php
+                        $total = 0;
+                        foreach($participant as $roleId => $count) {
+                            $total += $count;
+                        }
+                        ?>
+                        <tr>
+                            <td><?php echo $date;?></td>
+                            <td><?php echo $total;?></td>
+                        </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif;?>
+
+        <div class="table-info">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Всего участников</th>
+                        <th>Всего выдано бейджей</th>
+                        <th>Количество регистраторов</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?=$stat->Users->Total;?></td>
+                        <td><?=$stat->CountBadges;?></td>
+                        <td><?=count($operators);?></td>
+                    </tr>
+                </tbody>
             </table>
-          <?php endif;?>
         </div>
-        <div class="span6 offset1">
-          <p>Всего участников: <span class="label large"><?=$stat->Users->Total;?></span></p>
-          <p>Всего выдано бейджей: <span class="label large"><?=$stat->CountBadges;?></span></p>
-          <p>Количество регистраторов: <span class="label large"><?=count($operators);?></span></p>
+    </div> <!-- / .panel-body -->
+</div>
+
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-group"></i> <?=\Yii::t('app', 'Участники');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <div class="table-warning">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th><?=\Yii::t('app', 'Роль');?></th>
+                    <?foreach ($stat->Users->Dates as $date):?>
+                        <th><?=date('d.m.Y', strtotime($date));?></th>
+                    <?endforeach;?>
+                    <th><?=\Yii::t('app', 'Кол-во');?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($stat->Users->Roles as $roleId):?>
+                    <tr>
+                        <td><?=$stat->Roles[$roleId];?></td>
+                        <?php $total = 0;?>
+                        <?php foreach ($stat->Users->Dates as $date):?>
+                            <td>
+                                <?php
+                                $count = isset($stat->Users->ByRoles[$date][$roleId]) ? $stat->Users->ByRoles[$date][$roleId] : 0;
+                                $total += $count;
+                                ?>
+                                <?=$count;?>
+                            </td>
+                        <?php endforeach;?>
+                        <td><?=$total;?></td>
+                    </tr>
+                <?php endforeach;?>
+                <tr>
+                    <td><strong>Итого</strong></td>
+                    <?$total = 0;?>
+                    <?php foreach ($stat->Users->Dates as $date):?>
+                        <td>
+                            <?
+                            $total += $stat->Users->All[$date];
+                            echo $stat->Users->All[$date];
+                            ?>
+                        </td>
+                    <?php endforeach;?>
+                    <td><?=$total;?></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="row indent-bottom3">
-    <div class="span12">
-      <h2 class="indent-bottom2">Участники</h2>
-
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th><?=\Yii::t('app', 'Роль');?></th>
-          <?foreach ($stat->Users->Dates as $date):?>
-            <th><?=date('d.m.Y', strtotime($date));?></th>
-          <?endforeach;?>
-          <th><?=\Yii::t('app', 'Кол-во');?></th>
-        </tr>
-        </thead>
-        <tbody>
-        <?foreach ($stat->Users->Roles as $roleId):?>
-          <tr>
-            <td><?=$stat->Roles[$roleId];?></td>
-            <?$total = 0;?>
-            <?foreach ($stat->Users->Dates as $date):?>
-              <td>
-                <?
-                $count = isset($stat->Users->ByRoles[$date][$roleId]) ? $stat->Users->ByRoles[$date][$roleId] : 0;
-                $total += $count;
-                echo $count;
-                ?>
-              </td>
-            <?endforeach;?>
-            <td><?=$total;?></td>
-          </tr>
-        <?endforeach;?>
-
-        <tr>
-          <td><strong>Итого</strong></td>
-          <?$total = 0;?>
-          <?foreach ($stat->Users->Dates as $date):?>
-            <td>
-              <?
-              $total += $stat->Users->All[$date];
-              echo $stat->Users->All[$date];
-              ?>
-            </td>
-          <?endforeach;?>
-          <td><?=$total;?></td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+    </div> <!-- / .panel-body -->
+</div>
 
 <?php if (isset($stat->PrintBadges)):?>
-  <div class="row indent-bottom3">
-    <div class="span12">
-      <h2 class="indent-bottom2">Количество выданных бейджей</h2>
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>Регистратор</th>
-          <?php for ($dateI = new DateTime($event->StartYear.'-'.$event->StartMonth.'-'.$event->StartDay); $dateI <= $dateEnd; $dateI->modify('+1 day')):?>
-            <th><?php echo $dateI->format('d.m.Y');?></th>
-          <?php endfor;?>
-          <?php if ($event->StartYear != $event->EndYear && $event->StartMonth != $event->EndMonth && $event->StartDay != $event->EndDay):?>
-            <th>Всего</th>
-          <?php endif;?>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($operators as $opId => $opLogin):?>
-          <?php $total = 0;?>
-          <tr>
-            <td><?php echo $opLogin;?></td>
-            <?php for ($dateI = new DateTime($event->StartYear.'-'.$event->StartMonth.'-'.$event->StartDay); $dateI <= $dateEnd; $dateI->modify('+1 day')):?>
-              <td>
-                <?php if (isset($stat->PrintBadges[$dateI->format('d.m.Y')][$opId])):?>
-                  <?php echo $stat->PrintBadges[$dateI->format('d.m.Y')][$opId]->Count;?>
-                  <?php
-                  $total += $stat->PrintBadges[$dateI->format('d.m.Y')][$opId]->Count;
-                  ?>
-                <?php else:?>
-                  &ndash;
-                <?php endif;?>
-              </td>
-            <?php endfor;?>
-            <?php if ($event->StartYear != $event->EndYear && $event->StartMonth != $event->EndMonth && $event->StartDay != $event->EndDay):?>
-              <td><?php echo $total;?></td>
-            <?php endif;?>
-          </tr>
-        <?php endforeach;?>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-square"></i> <?=\Yii::t('app', 'Количество выданных бейджей');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <div class="table-success">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Регистратор</th>
+                    <?php for ($dateI = new DateTime($event->StartYear.'-'.$event->StartMonth.'-'.$event->StartDay); $dateI <= $dateEnd; $dateI->modify('+1 day')):?>
+                        <th><?php echo $dateI->format('d.m.Y');?></th>
+                    <?php endfor;?>
+                    <?php if ($event->StartYear != $event->EndYear && $event->StartMonth != $event->EndMonth && $event->StartDay != $event->EndDay):?>
+                        <th>Всего</th>
+                    <?php endif;?>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($operators as $opId => $opLogin):?>
+                    <?php $total = 0;?>
+                    <tr>
+                        <td><?php echo $opLogin;?></td>
+                        <?php for ($dateI = new DateTime($event->StartYear.'-'.$event->StartMonth.'-'.$event->StartDay); $dateI <= $dateEnd; $dateI->modify('+1 day')):?>
+                            <td>
+                                <?php if (isset($stat->PrintBadges[$dateI->format('d.m.Y')][$opId])):?>
+                                    <?php echo $stat->PrintBadges[$dateI->format('d.m.Y')][$opId]->Count;?>
+                                    <?php
+                                    $total += $stat->PrintBadges[$dateI->format('d.m.Y')][$opId]->Count;
+                                    ?>
+                                <?php else:?>
+                                    &ndash;
+                                <?php endif;?>
+                            </td>
+                        <?php endfor;?>
+                        <?php if ($event->StartYear != $event->EndYear && $event->StartMonth != $event->EndMonth && $event->StartDay != $event->EndDay):?>
+                            <td><?php echo $total;?></td>
+                        <?php endif;?>
+                    </tr>
+                <?php endforeach;?>
+                </tbody>
+            </table>
+        </div>
+    </div> <!-- / .panel-body -->
+</div>
 <?php endif;?>
 
-
-
-
-
-
 <?php if (isset($stat->RePrintBadges)):?>
-  <div class="row indent-bottom3">
-    <div class="span8">
-      <h2 class="indent-bottom2">Повторные печати бейджей</h2>
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>RUNET-ID</th>
-          <th>ФИО</th>
-          <th>Печатей</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($stat->RePrintBadges as $item):?>
-          <tr>
-            <td><?php echo $item->User->RunetId;?></td>
-            <td><?php echo $item->User->LastName;?> <?php echo $item->User->FirstName;?></td>
-            <td><?php echo $item->Count;?></td>
-          </tr>
-        <?php endforeach;?>
-        </tbody>
-      </table>
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <span class="panel-title"><i class="fa fa-history"></i> <?=\Yii::t('app', 'Количество выданных бейджей');?></span>
+        </div> <!-- / .panel-heading -->
+        <div class="panel-body">
+            <div class="table-danger">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>RUNET-ID</th>
+                        <th>ФИО</th>
+                        <th>Печатей</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($stat->RePrintBadges as $item):?>
+                        <tr>
+                            <td><?=$item->User->RunetId;?></td>
+                            <td><?=$item->User->LastName;?> <?php echo $item->User->FirstName;?></td>
+                            <td><?=$item->Count;?></td>
+                        </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- / .panel-body -->
     </div>
-  </div>
 <?php endif;?>

@@ -108,7 +108,7 @@ class Event extends ActiveRecord implements ISearch
             'LinkEmails' => array(self::HAS_MANY, '\event\models\LinkEmail', 'EventId'),
             'LinkSite' => array(self::HAS_ONE, '\event\models\LinkSite', 'EventId'),
             'Sections' => array(self::HAS_MANY, '\event\models\section\Section', 'EventId', 'order' => '"Sections"."StartTime" ASC, "Sections"."EndTime" ASC'),
-            'Halls' => array(self::HAS_MANY, '\event\models\section\Hall', 'EventId', 'order' => '"Halls"."Order" ASC'),
+            'Halls' => array(self::HAS_MANY, '\event\models\section\Hall', 'EventId', 'order' => '"Halls"."Order" ASC', 'on' => 'NOT "Halls"."Deleted"'),
 
             'Widgets' => array(self::HAS_MANY, '\event\models\LinkWidget', 'EventId', 'order' => '"Widgets"."Order" ASC', 'with' => 'Class'),
             'Attributes' => array(self::HAS_MANY, '\event\models\Attribute', 'EventId'),

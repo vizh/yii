@@ -1,3 +1,6 @@
 $(function () {
-  $('table.table-striped form input[name*="Date"]').datepicker();
+  $('form input[name*="Date"]').datepicker({
+      format: 'dd.mm.yyyy',
+      language: 'ru'
+  });
 });

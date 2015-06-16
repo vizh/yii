@@ -1,39 +1,34 @@
 <?php
 namespace partner\controllers\coupon;
 
-use pay\models\Product;
+use application\helpers\Flash;
+use partner\components\Action;
+use partner\models\forms\coupon\Generate;
+use pay\models\Coupon;
 
-class GenerateAction extends \partner\components\Action
+class GenerateAction extends Action
 {
-  public function run()
-  {
-    $this->getController()->setPageTitle('Генерация промо-кодов');
-    $this->getController()->initActiveBottomMenu('generate');
-
-    $request = \Yii::app()->getRequest();
-
-    $form = new \partner\models\forms\coupon\Generate();
-    $form->event = \Yii::app()->partner->getEvent();
-    $form->attributes = $request->getParam(get_class($form));
-    $form->setScenario($form->type);
-    $result = [];
-    if ($request->getIsPostRequest() && $form->validate())
+    public function run()
     {
-      $result = $form->generate();
-      $form = new \partner\models\forms\coupon\Generate();
-      $form->event = $this->getEvent();
+        /** @var \CHttpRequest $request */
+        $request = \Yii::app()->getRequest();
+        $form = new Generate($this->getEvent());
+        if ($request->getIsPostRequest()) {
+            $form->fillFromPost();
+            $coupons = $form->createActiveRecord();
+            if ($coupons !== null) {
+                $success = '';
+                /** @var Coupon $coupon */
+                foreach ($coupons as $coupon) {
+                    $success .= \CHtml::tag('li', ['class' => 'list-group-item'], $coupon->Code);
+                }
+                $success = \CHtml::tag('ul', ['class' => 'list-group m-top_10'], $success);
+                Flash::setSuccess('<strong>' . \Yii::t('app', 'Промо-коды успешно сгенерированы') . '</strong>' . $success);
+                $this->getController()->refresh();
+            }
+        }
+        $this->getController()->render('generate', array(
+            'form' => $form
+        ));
     }
-
-    $criteria = new \CDbCriteria();
-    $criteria->addCondition('"t"."ManagerName" != :ManagerName');
-    $criteria->params['ManagerName'] = 'RoomProductManager';
-    $products = Product::model()->byEventId($form->event->Id)->byDeleted(false)->findAll($criteria);
-
-    $this->getController()->render('generate', array(
-      'products' => $products,
-      'form' => $form,
-      'result' => $result,
-      'event' => $this->getEvent()
-    ));
-  }
 }

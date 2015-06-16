@@ -3,85 +3,76 @@
  * @var \partner\models\forms\OperatorGenerate $form
  * @var \ruvents\models\Account $account
  * @var \ruvents\models\Operator[] $operators
+ * @var \partner\components\Controller $this
+ * @var \CActiveForm $activeForm
  */
+$this->setPageTitle('Генерация аккаунтов операторов');
 ?>
-<div class="row">
-  <div class="span12 indent-bottom3">
-    <h2>Генерация операторов</h2>
-  </div>
-</div>
 
-<?php echo CHtml::errorSummary(
-  $form, '<div class="row"><div class="span12 indent-bottom2"><div class="alert alert-error">', '</div></div></div>'
-);?>
-
-
-<div class="row">
-  <div class="span12">
-    <?php echo CHtml::beginForm('', 'POST', array('class' => 'form-horizontal'));?>
-    <div class="control-group">
-      <label class="control-label"><?php echo CHtml::activeLabel($form, 'Prefix');?></label>
-      <div class="controls">
-        <?php echo CHtml::activeTextField($form, 'Prefix');?>
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label"><?php echo CHtml::activeLabel($form, 'CountOperators');?></label>
-      <div class="controls">
-        <?php echo CHtml::activeTextField($form, 'CountOperators');?>
-      </div>
-    </div>
-    <div class="control-group indent-bottom4">
-      <label class="control-label"><?php echo CHtml::activeLabel($form, 'CountAdmins');?></label>
-      <div class="controls">
-        <?php echo CHtml::activeTextField($form, 'CountAdmins');?>
-      </div>
-    </div>
-
-    <div class="control-group">
-      <div class="controls">
-        <?php echo CHtml::submitButton('Сгенерировать', array('class' => 'btn'));?>
-      </div>
-    </div>
-    <?php echo CHtml::endForm();?>
-  </div>
-</div>
-
-<div class="row">
-  <div class="span12">
-    <h3>Хэш клиента</h3>
-    <code style="font-size: 16px;"><?=$account->Hash;?></code>
-  </div>
-</div>
-
-<div class="row">
-  <div class="span12">
-    <h3>Ранее генерированные операторы:</h3>
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Логин</th>
-        <th>Пароль</th>
-        <th>Роль</th>
-      </tr>
-      </thead>
-      <tbody>
-      <?foreach ($operators as $operator):?>
-        <tr>
-          <td><?=$operator->Login;?></td>
-          <td><?=$operator->Password;?></td>
-          <td><?=$operator->Role;?></td>
-        </tr>
-      <?endforeach;?>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<div class="row">
-    <div class="span12 m-bottom_40">
-        <h3>QR-код для мобильного приложения</h3>
-        <img src="<?=Yii::app()->createUrl('/partner/ruvents/mobile');?>" alt=""/>
-        <a target="_blank" href="<?=Yii::app()->createUrl('/partner/ruvents/mobile');?>">Открыть в новом окне</a>
+<?php $activeForm = $this->beginWidget('CActiveForm');?>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-plus-circle"></i> <?=\Yii::t('app', 'Генерация операторов');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
+        <div class="row">
+            <div class="col-sm-4">
+                <?=$activeForm->textField($form, 'Prefix', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Prefix')]);?>
+            </div>
+            <div class="col-sm-4">
+                <?=$activeForm->textField($form, 'CountOperators', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('CountOperators')]);?>
+            </div>
+            <div class="col-sm-4">
+                <?=$activeForm->textField($form, 'CountAdmins', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('CountAdmins')]);?>
+            </div>
+        </div>
+    </div> <!-- / .panel-body -->
+    <div class="panel-footer">
+        <?=\CHtml::submitButton(\Yii::t('app', 'Сгенерировать'), ['class' => 'btn btn-primary']);?>
     </div>
 </div>
+<?php $this->endWidget();?>
+
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-qrcode"></i> <?=\Yii::t('app', 'Хэш клиента');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <p class="lead"><?=$account->Hash;?></p>
+        <hr/>
+        <p class="text-center">
+            <?=\CHtml::image($this->createUrl('mobile'));?>
+        </p>
+    </div> <!-- / .panel-body -->
+</div>
+
+<?php if (!empty($operators)):?>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-list"></i> <?=\Yii::t('app', 'Ранее генерированные операторы');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <div class="table-success">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Логин</th>
+                    <th>Пароль</th>
+                    <th>Роль</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($operators as $operator):?>
+                    <tr>
+                        <td><?=$operator->Login;?></td>
+                        <td><?=$operator->Password;?></td>
+                        <td><?=$operator->Role;?></td>
+                    </tr>
+                <?php endforeach;?>
+                </tbody>
+            </table>
+        </div>
+    </div> <!-- / .panel-body -->
+</div>
+<?php endif;?>

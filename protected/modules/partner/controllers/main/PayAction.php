@@ -9,10 +9,6 @@ class PayAction extends \partner\components\Action
     public function run()
     {
         ini_set("memory_limit", "512M");
-
-        $this->getController()->setPageTitle('Статистика платежей');
-        $this->getController()->initActiveBottomMenu('pay');
-
         $oldStatistics = $this->getOldStatistics();
 
         $this->statistics = new PayStatistics();

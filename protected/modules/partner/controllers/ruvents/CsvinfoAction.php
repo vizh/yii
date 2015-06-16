@@ -9,11 +9,7 @@ class CsvinfoAction extends \partner\components\Action
 
   public function run()
   {
-    $this->getController()->setPageTitle('Генерация итоговых данных мероприятия');
-    $this->getController()->initActiveBottomMenu('csvinfo');
-
-    if (!empty($this->getEvent()->Days))
-    {
+    if (!empty($this->getEvent()->Parts)) {
       throw new \Exception('Не реализован для мероприятий с несколькими логическими днями!');
     }
 

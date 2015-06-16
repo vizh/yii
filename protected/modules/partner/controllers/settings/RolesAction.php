@@ -2,40 +2,40 @@
 namespace partner\controllers\settings;
 
 use event\models\LinkRole;
+use event\models\Participant;
 use event\models\Role;
+use ext\translator\Translite;
+use partner\components\Action;
 
-class RolesAction extends \partner\components\Action
+class RolesAction extends Action
 {
     private $roles;
 
     public function run()
     {
-        if (\Yii::app()->getRequest()->getIsAjaxRequest())
-        {
+        /** @var \CHttpRequest $request */
+        $request = \Yii::app()->getRequest();
+        if ($request->getIsAjaxRequest()) {
             $this->processAjaxAction();
         }
         $this->roles = $this->getEvent()->getRoles();
-        $this->getController()->initActiveBottomMenu('roles');
-        $this->getController()->setPageTitle(\Yii::t('app', 'Статусы мероприятия'));
-        \Yii::app()->getClientScript()->registerPackage('runetid.jquery.colpick');
         $this->getController()->render('roles', []);
     }
 
     private $_canDeleteRoleIdList = null;
+
     /**
      * @return int[]
      */
     private function getCanDeleteRoleIdList()
     {
-        if ($this->_canDeleteRoleIdList == null)
-        {
+        if ($this->_canDeleteRoleIdList == null) {
             $this->_canDeleteRoleIdList = [];
             $links = LinkRole::model()->byEventId($this->getEvent()->Id)->findAll();
             foreach ($links as $link)
             {
-                $exists = \event\models\Participant::model()->byRoleId($link->RoleId)->byEventId($this->getEvent()->Id)->exists();
-                if (!$exists && !$link->Role->Base)
-                {
+                $exists = Participant::model()->byRoleId($link->RoleId)->byEventId($this->getEvent()->Id)->exists();
+                if (!$exists && !$link->Role->Base) {
                     $this->_canDeleteRoleIdList[] = $link->RoleId;
                 }
             }
@@ -56,13 +56,12 @@ class RolesAction extends \partner\components\Action
             'search'   => 'processAjaxSearchAction',
             'setcolor' => 'processAjaxSetColorAction'
         ];
-        if ($action !== null && isset($handlers[$action]))
-        {
+        if ($action !== null && isset($handlers[$action])) {
             $this->$handlers[$action]();
             \Yii::app()->end();
-        }
-        else
+        } else {
             throw new \CHttpException(404);
+        }
     }
 
     /**
@@ -71,11 +70,12 @@ class RolesAction extends \partner\components\Action
     private function processAjaxLinkAction()
     {
         $request = \Yii::app()->getRequest();
-        $role = \event\models\Role::model()->findByPk($request->getParam('RoleId'));
-        if ($role == null)
+        $role = Role::model()->findByPk($request->getParam('RoleId'));
+        if ($role == null) {
             throw new \CHttpException(404);
+        }
 
-        $link = new \event\models\LinkRole();
+        $link = new LinkRole();
         $link->EventId = $this->getEvent()->Id;
         $link->RoleId = $role->Id;
         $link->save();
@@ -90,16 +90,17 @@ class RolesAction extends \partner\components\Action
         $request = \Yii::app()->getRequest();
         $title = $request->getParam('RoleTitle', '');
         $title = trim($title);
-        if (strlen($title) == 0)
+        if (strlen($title) == 0) {
             throw new \CHttpException(404);
+        }
 
-        $translite = new \ext\translator\Translite();
-        $role = new \event\models\Role();
+        $translite = new Translite();
+        $role = new Role();
         $role->Title = $title;
         $role->Code = $translite->translit($title);
         $role->save();
 
-        $link = new \event\models\LinkRole();
+        $link = new LinkRole();
         $link->EventId = $this->getEvent()->Id;
         $link->RoleId = $role->Id;
         $link->save();
@@ -112,9 +113,10 @@ class RolesAction extends \partner\components\Action
     private function processAjaxDeleteAction()
     {
         $request = \Yii::app()->getRequest();
-        $link = \event\models\LinkRole::model()->byRoleId($request->getParam('RoleId'))->byEventId($this->getEvent()->Id)->find();
-        if ($link == null || !in_array($link->RoleId, $this->getCanDeleteRoleIdList()))
+        $link = LinkRole::model()->byRoleId($request->getParam('RoleId'))->byEventId($this->getEvent()->Id)->find();
+        if ($link == null || !in_array($link->RoleId, $this->getCanDeleteRoleIdList())) {
             throw new \CHttpException(404);
+        }
 
         $link->delete();
         echo json_encode(['success' => true]);
@@ -126,8 +128,7 @@ class RolesAction extends \partner\components\Action
     private function processAjaxListAction()
     {
         $result = [];
-        foreach ($this->getEvent()->getRoles() as $role)
-        {
+        foreach ($this->getEvent()->getRoles() as $role) {
             $item = new \stdClass();
             $item->Id = $role->Id;
             $item->Title = $role->Title;
@@ -144,8 +145,9 @@ class RolesAction extends \partner\components\Action
 
         $color = $request->getParam('Color', null);
         $role  = Role::model()->findByPk($request->getParam('RoleId'));
-        if ($role == null)
+        if ($role == null) {
             throw new \CHttpException(404);
+        }
 
         $link = LinkRole::model()->byRoleId($role->Id)->byEventId($this->getEvent()->Id)->find();
         if ($link == null) {
@@ -172,9 +174,8 @@ class RolesAction extends \partner\components\Action
         $criteria->addSearchCondition('"t"."Title"', $request->getParam('term'), true, 'AND', 'ILIKE');
         $criteria->limit = 10;
 
-        $roles = \event\models\Role::model()->findAll($criteria);
-        foreach ($roles as $role)
-        {
+        $roles = Role::model()->findAll($criteria);
+        foreach ($roles as $role) {
             $item = new \stdClass();
             $item->label = $role->Title;
             $item->value = $role->Id;

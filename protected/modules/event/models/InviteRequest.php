@@ -11,7 +11,8 @@ use mail\components\mailers\MandrillMailer;
  * @property int $ApprovedTime
  * @property int $SenderUserId
  *
- * @property \user\models\User $User
+ * @property \user\models\User $Sender
+ * @property \user\models\User $Owner
  */
 class InviteRequest extends \CActiveRecord
 {

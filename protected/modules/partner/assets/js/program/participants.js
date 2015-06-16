@@ -5,8 +5,7 @@ $(function () {
     var id = 'ckeditor'+ckeditorCount;
     $(this).attr('id', id);
     CKEDITOR.replace(id, {
-      'width'  : 700,
-      'height' : 500,
+      'height' :300,
       'customConfig' : 'config_partner_program.js'
     })
   });

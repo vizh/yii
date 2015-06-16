@@ -1,36 +1,46 @@
 <?php
 /**
- * @var $dataEvents array
+ * @var \partner\components\Controller $this
+ * @var $events array
  */
+$this->bodyClass = 'page-signin';
+$this->showPageHeader = false;
+$this->showSidebar = false;
+$this->setPageTitle(\Yii::t('app', 'Авторизация в партнерском интерфейсе'));
 ?>
+<div class="signin-container">
+    <div class="signin-form">
+        <form action="" method="post">
+            <div class="text-center m-bottom_20">
+                <img src="http://getlogo.org/img/runet-id/298/150x/" alt="RUNET-ID" title="RUNET-ID" />
+            </div>
+            <div class="signin-text">
+                <span><?=\Yii::t('app', 'Партнерский интерфейс');?></span>
+            </div> <!-- / .signin-text -->
+
+            <div class="form-group w-icon">
+                <input type="text" placeholder="Выберите мероприятие" class="form-control input-lg" />
+                <input type="hidden" name="id">
+                <span class="fa fa-list signin-form-icon"></span>
+            </div> <!-- / Username -->
+        </form>
+    </div>
+    <!-- Right side -->
+</div>
+
+
+
 
 <script type="text/javascript">
-  $(function(){
-    var dataEvents = <?=json_encode($dataEvents, JSON_UNESCAPED_UNICODE)?>;
-    $( "#EventSearch" ).autocomplete({
-      source: dataEvents,
-      select: function( event, ui ) {
-        $('input[name="eventId"]').val(ui.item.id);
-      }
+    $(function(){
+        var $form = $('div.signin-form form');
+        $form.find('input[type="text"]').autocomplete({
+            source: <?=json_encode($events, JSON_UNESCAPED_UNICODE)?>,
+            select: function( event, ui ) {
+                $form.find('input[name="id"]').val(ui.item.id);
+                $form.submit();
+                return false;
+            }
+        });
     });
-  });
 </script>
-
-<div class="row indent-top3">
-  <div class="span8 offset2">
-    <form action="" method="post">
-      <div class="control-group">
-        <label for="EventSearch"><strong>Поиск мероприятия</strong></label>
-        <div class="controls">
-          <input id="EventSearch" type="text" name="EventSearch" class="span6">
-          <input type="hidden" name="eventId">
-        </div>
-      </div>
-
-      <div class="control-group indent-top2">
-        <button type="submit" class="btn btn-info btn-large">Установить!</button>
-        <button type="reset" class="btn">Очистить</button>
-      </div>
-    </form>
-  </div>
-</div>

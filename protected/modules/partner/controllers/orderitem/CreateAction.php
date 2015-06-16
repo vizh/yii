@@ -1,41 +1,28 @@
 <?php
 namespace partner\controllers\orderitem;
 
-class CreateAction extends \partner\components\Action
+use partner\components\Action;
+use partner\models\forms\orderitem\Create;
+use partner\models\search\OrderItems;
+
+class CreateAction extends Action
 {
-  public $error;
-
-  public function run()
-  {
-    $this->getController()->setPageTitle('Добавление заказа');
-    $this->getController()->initActiveBottomMenu('create');
-
-
-    $request = \Yii::app()->getRequest();
-
-    $form = new \partner\models\forms\orderitem\Create($this->getEvent());
-    $form->attributes = $request->getParam(get_class($form));
-
-    if ($request->getIsPostRequest() && $form->validate())
+    public function run()
     {
-      $payer = \user\models\User::model()->byRunetId($form->PayerRunetId)->find();
-      $owner = \user\models\User::model()->byRunetId($form->OwnerRunetId)->find();
+        $form = new Create($this->getEvent());
 
-      try{
-        $orderItemId = $form->getProduct()->getManager()->createOrderItem($payer, $owner)->Id;
-        $searchForm = new \partner\models\forms\OrderItemSearch($this->getEvent());
-        $this->getController()->redirect(
-          \Yii::app()->createUrl('/partner/orderitem/index', [
-            \CHtml::activeName($searchForm, 'OrderItem') => $orderItemId
-          ])
-        );
-      }
-      catch (\pay\components\Exception $e)
-      {
-        $form->addError('OrderItem', $e->getMessage());
-      }
+        /** @var \CHttpRequest $request */
+        $request = \Yii::app()->getRequest();
+        if ($request->getIsPostRequest()) {
+            $form->fillFromPost();
+            $orderItem = $form->createActiveRecord();
+            if ($orderItem !== null) {
+                $this->getController()->redirect(
+                    ['index', \CHtml::activeName(new OrderItems($this->getEvent()), 'Id') => $orderItem->Id]
+                );
+            }
+        }
+
+        $this->getController()->render('create', ['form' => $form]);
     }
-
-    $this->getController()->render('create', ['form' => $form]);
-  }
 }

@@ -1,130 +1,170 @@
 <?php
 /**
+ * @var Participant $search
  * @var Event $event
- * @var $roles \event\models\Role[]
- * @var $users \user\models\User[]
- * @var $paginator \application\components\utility\Paginator
- * @var $form \partner\models\forms\user\ParticipantSearch
+ * @var Controller $this
  */
 
+use \partner\components\Controller;
+
+$this->setPageTitle(\Yii::t('app', 'Поиск участников мероприятия'));
+$controller = $this;
+
+use \application\modules\partner\models\search\Participant;
+use user\models\User;
 use event\models\Event;
 ?>
-    <div class="row">
-        <div class="span12">
-            <?=CHtml::beginForm(Yii::app()->createUrl('/partner/user/index/'), 'get');?>
-            <div class="row">
-                <div class="span3">
-                    <?=CHtml::activeLabel($form, 'User');?>
-                    <?=CHtml::activeTextField($form, 'User', array('placeholder' => 'ФИО, RUNET-ID или E-mail'));?>
-                </div>
-                <div class="span3">
-                    <?=CHtml::activeLabel($form, 'Company');?>
-                    <?=CHtml::activeTextField($form, 'Company');?>
-                </div>
-                <div class="span3">
-                    <?=CHtml::activeLabel($form, 'Role');?>
-                    <?=CHtml::activeDropDownList($form, 'Role', $form->getRoleData());?>
-                </div>
-                <div class="span3">
-                    <?=CHtml::activeLabel($form, 'Sort');?>
-                    <?=CHtml::activeDropDownList($form, 'Sort', $form->getSortValues(), array('encode' => false));?>
-                </div>
-            </div>
-            <div class="row m-top_10">
-                <div class="span4">
-                    <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Ruvents', ['uncheckValue' => null]);?> <?=$form->getAttributeLabel('Ruvents');?></label>
-                </div>
-            </div>
+<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
+    <?=\CHtml::link('<span class="fa fa-plus"></span> ' . \Yii::t('app', 'Добавить участника'), ['edit'], ['class' => 'btn btn-primary']);?>
+<?php $this->endClip();?>
 
-            <div class="row indent-top2">
-                <div class="span2">
-                    <button class="btn btn-large" type="submit"><i class="icon-search"></i> Искать</button>
-                </div>
-                <div class="span3">
-                    <button class="btn btn-large" type="submit" name="reset" value="reset">Сбросить</button>
-                </div>
-            </div>
-            <?=CHtml::endForm();?>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-group"></i> <?=\Yii::t('app', 'Участники');?></span>
+    </div> <!-- / .panel-heading -->
+    <div class="panel-body">
+        <div class="table-info">
+            <?$this->widget('\application\widgets\grid\GridView', [
+                'dataProvider'=> $search->getDataProvider(),
+                'filter' => $search,
+                'summaryText' => 'Пользователи {start}-{end} из {count}.',
+                'columns' => [
+                    [
+                        'name' => 'Query',
+                        'type' => 'raw',
+                        'header' => 'RUNET-ID',
+                        'value' => function (User $user) {
+                            return \CHtml::link(\CHtml::tag('strong', ['class' => 'lead'], $user->RunetId), $user->getUrl(), ['target' => '_blank']);
+                        },
+                        'filterHtmlOptions' => [
+                            'colspan' => 2
+                        ],
+                        'width' => 120
+                    ],
+                    [
+                        'name' => 'Name',
+                        'type' => 'raw',
+                        'header' => $search->getAttributeLabel('Name'),
+                        'value' => function (User $user) {
+                            $result  = \CHtml::tag('strong', [], $user->getFullName());
+                            $result .= '<br/><em>' . $user->Email . '</em>';
+                            if ($user->getPhone() !== null) {
+                                $result .= '<br/><em>Тел.: ' . $user->getPhone() . '</em>';
+                            }
+                            return $result;
+                        },
+                        'htmlOptions' => [
+                            'class' => 'text-left'
+                        ],
+                        'headerHtmlOptions' => [
+                            'class' => 'text-left'
+                        ],
+                        'width' => '20%'
+                    ],
+                    [
+                        'type' => 'raw',
+                        'header' => $search->getAttributeLabel('Company'),
+                        'name' => 'Company',
+                        'value' => function (User $user) {
+                            $employment = $user->getEmploymentPrimary();
+                            if ($employment !== null) {
+                                return \CHtml::tag('strong', [], $employment->Company->Name) .
+                                    \CHtml::tag('p', [], $employment->Position);
+                            } else {
+                                return \Yii::t('app', 'Место работы не указано');
+                            }
+                        },
+                        'htmlOptions' => [
+                            'class' => 'text-left'
+                        ],
+                        'headerHtmlOptions' => [
+                            'class' => 'text-left'
+                        ],
+                        'width' =>  '30%'
+                    ],
+                    [
+                        'type' => 'raw',
+                        'header' => $search->getAttributeLabel('Role'),
+                        'name' => 'Role',
+                        'value' => function (User $user) use ($event) {
+                            $dateFormatter = \Yii::app()->getDateFormatter();
+                            $participants  = $user->Participants;
+                            if (empty($event->Parts)) {
+                                return $participants[0]->Role->Title . '<br/><em>' . $dateFormatter->formatDateTime($participants[0]->CreationTime, 'long') . '</em>';
+                            } else {
+                                $result = '';
+                                foreach ($participants as $participant) {
+                                    if (empty($participant->Part)) {
+                                        continue;
+                                    }
+
+                                    $result .= '<p>' .
+                                        \CHtml::tag('strong', [], $participant->Part->Title) . ' - ' . $participant->Role->Title . '<br/>' .
+                                        '<em>' . $dateFormatter->format($participant->CreationTime, 'long') . '</em>' .
+                                        '</p>';
+                                }
+                                return $result;
+                            }
+                        },
+                        'htmlOptions' => [
+                            'class' => 'text-left'
+                        ],
+                        'headerHtmlOptions' => [
+                            'class' => 'text-left'
+                        ],
+                        'filter' => [
+                            'class' => '\partner\widgets\grid\MultiSelect',
+                            'items' => $search->getRoleData()
+                        ],
+                        'width' => '20%'
+                    ],
+                    [
+                        'type' => 'raw',
+                        'header' => $search->getAttributeLabel('Ruvents'),
+                        'name' => 'Ruvents',
+                        'value' => function (User $user) use ($controller) {
+                            $result = '';
+                            if (!empty($user->Badges)) {
+                                $badge = $user->Badges[0];
+                                $dateFormatter = \Yii::app()->getDateFormatter();
+                                $result.= $dateFormatter->format('dd.MM.yyyy HH:mm', $badge->CreationTime) . '<br/>';
+                                $result.= \CHtml::tag('em', [], $badge->Operator->Login);
+                                if ($this->getAccessFilter()->checkAccess('partner', 'ruvents', 'userlog')) {
+                                    $result.= \CHtml::tag('p', [], \CHtml::link(\Yii::t('app','Подробнее'), ['ruvents/userlog', 'runetId' => $user->RunetId, 'backUrl' => \Yii::app()->getRequest()->getRequestUri()], ['class' => 'btn btn-xs m-top_5']));
+                                }
+
+                            }
+                            return $result;
+
+                        },
+                        'htmlOptions' => [
+                            'class' => 'text-left'
+                        ],
+                        'headerHtmlOptions' => [
+                            'class' => 'text-left'
+                        ],
+                        'filter' => false,
+                        'width' =>  150
+                    ],
+                    [
+                        'class' => '\application\widgets\grid\ButtonColumn',
+                        'buttons' => [
+                            'ticket' => [
+                                'label' => '<i class="fa fa-ticket"></i>',
+                                'url' => '$data->Participants[0]->getTicketUrl()',
+                                'options' => [
+                                    'class' => 'btn btn-default',
+                                    'target' => '_blank',
+                                    'title' => 'Билет'
+                                ]
+                            ]
+                        ],
+                        'template' => '{update}{ticket}',
+                        'updateButtonUrl' => 'Yii::app()->controller->createUrl("edit",["id" => $data->RunetId])'
+                    ]
+                ]
+            ]);?>
         </div>
-    </div>
-
-    <h3>Всего по запросу <?=\Yii::t('', '{n} участник|{n} участника|{n} участников|{n} участника', $paginator->getCount());?></h3>
-
-
-<?if (sizeof($users) > 0):?>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>RUNET-ID</th>
-            <th>Ф.И.О.</th>
-            <th>Работа</th>
-            <th>Статус</th>
-            <?if ($showRuventsInfo):?>
-                <th>Регистрация</th>
-            <?endif;?>
-            <th>Управление</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?foreach ($users as $user):?>
-            <tr>
-                <td><h3><a target="_blank" href="<?=$user->getProfileUrl();?>"><?=$user->RunetId;?></a></h3></td>
-                <td>
-                    <strong><?=$user->getFullName();?></strong>
-                    <p>
-                        <em><?=$user->Email;?></em>
-                    </p>
-                    <?if (sizeof($user->LinkPhones)):?>
-                        <p><em><?=$user->LinkPhones[0]->Phone;?></em></p>
-                    <?php endif;?>
-                </td>
-                <td width="20%">
-                    <?if ($user->getEmploymentPrimary() !== null):?>
-                        <strong><?=$user->getEmploymentPrimary()->Company->Name;?></strong>
-                        <p class="position"><?=$user->getEmploymentPrimary()->Position;?></p>
-                    <?else:?>
-                        Место работы не указано
-                    <?endif;?>
-                </td>
-                <td>
-                    <?if (count($event->Parts) == 0):?>
-                        <?=$user->Participants[0]->Role->Title;?><br/>
-                        <em><?=Yii::app()->dateFormatter->formatDateTime($user->Participants[0]->CreationTime, 'long');?></em>
-                    <?else:?>
-                        <?foreach ($user->Participants as $participant):?>
-                            <?if (!empty($participant->Part)):?>
-                                <p>
-                                    <strong><?=$participant->Part->Title;?></strong> - <?=$participant->Role->Title;?><br/>
-                                    <em><?php echo Yii::app()->dateFormatter->formatDateTime($participant->CreationTime, 'long');?></em>
-                                </p>
-                            <?endif;?>
-                        <?endforeach;?>
-                    <?endif;?>
-                </td>
-                <?if ($showRuventsInfo):?>
-                    <td>
-                        <?=\Yii::app()->getDateFormatter()->format('dd.MM.yyyy HH:mm', $user->Badges[0]->CreationTime);?>
-                        <em><?=$user->Badges[0]->Operator->Login;?></em>
-                        <?if ($this->getAccessFilter()->checkAccess('partner', 'ruvents', 'userlog')):?>
-                            <div>
-                                <a href="<?=$this->createUrl('/partner/ruvents/userlog', ['runetId' => $user->RunetId, 'backUrl' => \Yii::app()->getRequest()->getRequestUri()]);?>" class="btn btn-mini m-top_5"><?=\Yii::t('app','Подробнее');?></a>
-                            </div>
-                        <?endif;?>
-                    </td>
-                <?endif;?>
-                <td>
-                    <div class="btn-group">
-                        <a href="<?=Yii::app()->createUrl('/partner/user/edit', array('runetId' => $user->RunetId));?>" class="btn btn-info">Редактировать</a>
-                        <?if (sizeof($user->Participants) > 0):?>
-                            <a href="<?=$user->Participants[0]->getTicketUrl();?>" class="btn" target="_blank"><i class="icon-file"></i></a>
-                        <?endif;?>
-                    </div>
-                </td>
-            </tr>
-        <?php endforeach;?>
-        </tbody>
-    </table>
-<?php else:?>
-    <div class="alert">По Вашему запросу нет ни одного участника.</div>
-<?php endif;?>
-<?$this->widget('\application\widgets\Paginator', array('paginator' => $paginator));?>
+    </div> <!-- / .panel-body -->
+</div>
