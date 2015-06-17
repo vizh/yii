@@ -67,6 +67,8 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                                     $result .= Texts::cropText($product->Title, 50) . '<br/>';
                                 }
                                 return $result;
+                            } else {
+                                return \CHtml::tag('label', ['class' => 'label label-success'], \Yii::t('app', 'Все продукты'));
                             }
                         },
                         'filter' => [

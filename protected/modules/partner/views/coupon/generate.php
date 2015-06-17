@@ -20,7 +20,9 @@ $this->setPageTitle(\Yii::t('app', 'Генерация промо-кодов'));
 
             <div class="form-group">
                 <?=CHtml::activeCheckBox($form, 'IsMultiple');?>
+                <p class="help-block">Для индивидуальной активаци / Для множественной активаци</p>
             </div>
+            <hr/>
             <div class="form-group" data-for-multiple="true">
                 <?=$activeForm->label($form, 'Code');?>
                 <?=$activeForm->textField($form, 'Code', ['class' => 'form-control']);?>
@@ -48,7 +50,16 @@ $this->setPageTitle(\Yii::t('app', 'Генерация промо-кодов'));
             </div>
             <div class="form-group">
                 <?=$activeForm->label($form, 'Products');?>
-                <?=$activeForm->dropDownList($form, 'Products', $form->getProductData(), ['class' => 'form-control', 'multiple' => true]);?>
+                <div class="checkbox">
+                    <label>
+                        <?=$activeForm->checkBox($form, 'ProductsAll');?> <strong><?=\Yii::t('app', 'Все типы продуктов');?></strong>
+                    </label>
+                    <?php foreach ($form->getProductData() as $id => $label):?>
+                        <label>
+                            <?=$activeForm->checkBox($form, 'Products[' . $id . ']', ['uncheckValue' => null]);?> <?=$label;?>
+                        </label>
+                    <?php endforeach;?>
+                </div>
                 <span class="help-block">
                     <?=\Yii::t('app', 'Для промо-кодов со скидкой 100% рекомендуется выбирать ровно один тип продукта.');?>
                 </span>

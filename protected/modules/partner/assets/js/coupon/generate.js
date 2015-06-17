@@ -18,4 +18,30 @@ $(function(){
         format: 'dd.mm.yyyy',
         language: 'ru'
     });
+
+
+    var products = {
+        all  : $('input[name*="Generate[ProductsAll]"]'),
+        list : $('input[name*="Generate[Products]"]')
+    }
+
+    products.all.change(function (e) {
+        var $target = $(e.currentTarget);
+        products.list.removeAttr('checked');
+    });
+
+    products.list.change(function (e) {
+        var $target = $(e.currentTarget);
+        if (!$target.is(':checked')) {
+            products.all.removeAttr('checked');
+        }
+
+        var size = products.list.filter(':checked').size();
+
+        if (size == products.list.size() || size == 0) {
+            products.all.prop('checked', true);
+        } else {
+            products.all.removeAttr('checked');
+        }
+    });
 });
