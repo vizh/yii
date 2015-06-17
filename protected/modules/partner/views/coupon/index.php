@@ -12,7 +12,7 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
 ?>
 
 <?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
-    <?=\CHtml::link('<span class="fa fa-plus"></span> ' . \Yii::t('app', 'Генерация промо-кодов'), ['generate'], ['class' => 'btn btn-primary']);?>
+    <?=\CHtml::link('<span class="fa fa-plus btn-label"></span> ' . \Yii::t('app', 'Генерация промо-кодов'), ['generate'], ['class' => 'btn btn-primary btn-labeled']);?>
 <?php $this->endClip();?>
 
 <?=\CHtml::beginForm(['give'], 'get');?>
@@ -147,9 +147,12 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                                     'class' => 'btn btn-info',
                                     'title' => 'Статистика'
                                 ]
-                            ]
+                            ],
+                            'delete' => [
+                                'visible' => '!$data->IsTicket && empty($data->Activations)'
+                            ],
                         ],
-                        'template' => '{statistics}'
+                        'template' => '{statistics}{delete}'
                     ]
                 ]
             ]);?>

@@ -51,30 +51,15 @@ $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
                         'filter' => [
                             'class' => '\partner\widgets\grid\MultiSelect',
                             'items' => $search->getTypeData()
-                        ],
-                        'width' => '20%'
+                        ]
                     ],
                     [
                         'name'  => 'Payer',
-                        'type'  => 'raw',
                         'header'=> $search->getAttributeLabel('Payer'),
-                        'value' => '\CHtml::link(\CHtml::tag("span", ["class" => "lead"], $data->Payer->RunetId), ["user/edit", "id" => $data->Payer->RunetId], ["target" => "_blank"]);',
-                        'headerHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'filterHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'filterInputHtmlOptions' => [
-                            'placeholder' => \Yii::t('app', 'ФИО, компания или ИНН')
-                        ],
-                        'width' => 120
-                    ],
-                    [
                         'type' => 'raw',
                         'value' => function (Order $order) {
                             $user = $order->Payer;
-                            $result = \CHtml::tag('strong', [], $user->getFullName());
+                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank', 'class' => 'lead lead-sm']);
                             if (($employment = $user->getEmploymentPrimary()) !== null) {
                                 $result .= '<br/>' . $employment;
                             }
@@ -86,7 +71,10 @@ $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
                             return $result;
                         },
                         'htmlOptions' => ['class' => 'text-left'],
-                        'width' => '30%'
+                        'width' => '30%',
+                        'filterInputHtmlOptions' => [
+                            'placeholder' => \Yii::t('app', 'ФИО, компания или ИНН')
+                        ],
                     ],
                     [
                         'name' => 'CreationTime',

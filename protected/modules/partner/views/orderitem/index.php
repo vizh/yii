@@ -16,7 +16,7 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
 ?>
 
 <?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
-    <?=\CHtml::link('<span class="fa fa-plus"></span> ' . \Yii::t('app', 'Создание заказа'), ['create'], ['class' => 'btn btn-primary']);?>
+    <?=\CHtml::link('<span class="fa fa-plus btn-label"></span> ' . \Yii::t('app', 'Создание заказа'), ['create'], ['class' => 'btn btn-primary btn-labeled']);?>
 <?php $this->endClip();?>
 <div class="panel panel-info">
     <div class="panel-heading">
@@ -113,7 +113,7 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                         'type' => 'raw',
                         'value' => function (OrderItem $orderItem) {
                             $user = $orderItem->Payer;
-                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank']);
+                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank', 'class' => 'lead lead-sm']);
                             if (($employment = $user->getEmploymentPrimary()) !== null) {
                                 $result .= '<br/>' . $employment;
                             }
@@ -128,7 +128,7 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                         'type' => 'raw',
                         'value' => function (OrderItem $orderItem) {
                             $user = !empty($orderItem->ChangedOwner) ? $orderItem->ChangedOwner : $orderItem->Owner;
-                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank']);
+                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank', 'class' => 'lead lead-sm']);
                             if (($employment = $user->getEmploymentPrimary()) !== null) {
                                 $result .= '<br/>' . $employment;
                             }

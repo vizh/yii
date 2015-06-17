@@ -41,7 +41,7 @@ $this->setPageTitle(\Yii::t('app', 'Опрос участников'));
                     [
                         'type' => 'raw',
                         'value' => function (User $user) {
-                            $result = \CHtml::tag('strong', [], $user->getFullName());
+                            $result = \CHtml::tag('span', ['class' => 'lead lead-sm'], $user->getFullName());
                             if (($employment = $user->getEmploymentPrimary()) !== null) {
                                 $result .= '<br/>' . $employment;
                             }

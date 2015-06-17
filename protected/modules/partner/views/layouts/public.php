@@ -22,7 +22,7 @@ $sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <title><?=\CHtml::encode($this->pageTitle); ?></title>
 </head>
-<body class="theme-default mmc <?=$this->bodyClass;?>">
+<body class="theme-default <?=$this->bodyClass;?>">
 
 <?$this->widget('partner\widgets\Navbar');?>
 

@@ -93,9 +93,9 @@ input[type="text"].lg {
 .nav-tabs-panel-heading {
   border-bottom: 0;
 }
-@media (max-width: 992px) {
+@media (max-width: 1200px) {
   #content-wrapper {
-    width: 992px !important;
+    min-width: 970px !important;
   }
   #main-wrapper {
     overflow: auto !important;
