@@ -41,13 +41,14 @@ class Edit extends \CFormModel
     public $Email;
 
     public $OrganizerInfo;
+    public $CloseRegisteration;
 
 
     public function rules()
     {
         return [
             ['Title, IdName, Info, StartDate, EndDate', 'required'],
-            ['Free, Top, UnsubscribeNewUser, RegisterHideNotSelectedProduct, NotSendRegisterMail', 'boolean', 'allowEmpty' => true],
+            ['Free, Top, UnsubscribeNewUser, RegisterHideNotSelectedProduct, NotSendRegisterMail, CloseRegisteration', 'boolean', 'allowEmpty' => true],
             ['Email', 'email', 'allowEmpty' => true],
             ['StartDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'StartDateTS'],
             ['EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'],
@@ -81,7 +82,8 @@ class Edit extends \CFormModel
             'UnsubscribeNewUser' => \Yii::t('app', 'Не подписывать новых пользователей на рассылки'),
             'RegisterHideNotSelectedProduct' => \Yii::t('app', 'Скрывать не выбранные товары при регистрации'),
             'NotSendRegisterMail' => \Yii::t('app', 'Не оповещать пользователей о регистрации'),
-            'OrganizerInfo' => \Yii::t('app', 'Информация об организаторе')
+            'OrganizerInfo' => \Yii::t('app', 'Информация об организаторе'),
+            'CloseRegisteration' => \Yii::t('app', 'Закрыть регистрацию после окончания')
         ];
     }
 

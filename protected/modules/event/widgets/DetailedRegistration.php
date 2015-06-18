@@ -133,19 +133,21 @@ class DetailedRegistration extends \event\components\Widget
 
     public function run()
     {
-        $user = \Yii::app()->user;
+        if ( !$this->event->closeRegistration()) {
+            $user = \Yii::app()->user;
 
-        /** @var Participant $participant */
-        $participant = null;
-        if (!$user->getIsGuest()) {
-            $participant = Participant::model()->byEventId($this->event->Id)->byUserId($user->getCurrentUser()->Id)->find();
-        }
+            /** @var Participant $participant */
+            $participant = null;
+            if (!$user->getIsGuest()) {
+                $participant = Participant::model()->byEventId($this->event->Id)->byUserId($user->getCurrentUser()->Id)->find();
+            }
 
-        if ($participant == null) {
-            \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
-            $this->render('detailed-registration');
-        } else {
-            $this->render('detailed-registration-complete');
+            if ($participant == null) {
+                \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
+                $this->render('detailed-registration');
+            } else {
+                $this->render('detailed-registration-complete');
+            }
         }
 
     }

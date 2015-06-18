@@ -137,6 +137,20 @@
                 </div>
             </div>
             <div class="control-group">
+                <?=\CHtml::activeLabel($form, 'CloseRegisteration', array('class' => 'control-label'));?>
+                <div class="controls">
+                    <?=\CHtml::activeCheckBox($form, 'CloseRegisteration');?>
+                </div>
+            </div>
+            <div class="control-group">
+                <?=\CHtml::activeLabel($form, 'UnsubscribeNewUser', array('class' => 'control-label'));?>
+                <div class="controls">
+                    <?=\CHtml::activeCheckBox($form, 'UnsubscribeNewUser');?>
+                </div>
+            </div>
+
+
+            <div class="control-group">
                 <?=\CHtml::activeLabel($form, 'Top', array('class' => 'control-label'));?>
                 <div class="controls">
                     <?=\CHtml::activeCheckBox($form, 'Top');?>
