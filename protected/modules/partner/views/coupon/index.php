@@ -87,7 +87,7 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                                 if ($coupon->Owner->Temporary) {
                                     $result .= \CHtml::tag('p', [], \CHtml::tag('span', ['class' => 'small m-top_5'], \CHtml::mailto($user->Email)));
                                 } else {
-                                    $result .= \CHtml::tag('p', [], \CHtml::tag('span', ['class' => 'small m-top_5'], \CHtml::link($user->getFullName() . ' (' . $user->RunetId . ')', ['user/edit', 'id' => $user->RunetId], ['target' => '_blank'])));
+                                    $result .= \CHtml::tag('p', [], \CHtml::tag('span', ['class' => 'small m-top_5'], \CHtml::link('<span class="text-light-gray">' . $user->RunetId . ',</span> ' . $user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['target' => '_blank'])));
                                 }
                             } elseif (empty($coupon->Recipient)) {
                                 $result .= \CHtml::tag('span', ['class' => 'label'], \Yii::t('app', 'Не выдан'));
@@ -107,7 +107,7 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                             if (!$coupon->Multiple && !empty($coupon->Activations)) {
                                 $user = $coupon->Activations[0]->User;
                                 return \CHtml::tag('span', ['class' => 'label label-success'], \Yii::t('app', 'Активирован')).
-                                    '<p class="small m-top_5">' . \CHtml::link($user->getFullName() . ' (' . $user->RunetId . ')', ['user/edit', 'id' => $user->RunetId], ['target' => '_blank']) . '</p>';
+                                    '<p class="small m-top_5">' . \CHtml::link('<span class="text-light-gray">' . $user->RunetId . ',</span> ' . $user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['target' => '_blank']) . '</p>';
                             } elseif ($coupon->Multiple) {
                                 return \CHtml::tag(
                                     'span',

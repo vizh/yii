@@ -112,13 +112,7 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                         'header' => $search->getAttributeLabel('Payer'),
                         'type' => 'raw',
                         'value' => function (OrderItem $orderItem) {
-                            $user = $orderItem->Payer;
-                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank', 'class' => 'lead lead-sm']);
-                            if (($employment = $user->getEmploymentPrimary()) !== null) {
-                                $result .= '<br/>' . $employment;
-                            }
-                            $result.='<p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;' . \CHtml::mailto(Texts::cropText($user->Email, 20), $user->Email) . '</p>';
-                            return $result;
+                            return  $this->renderPartial('../partial/grid/user', ['user' => $orderItem->Payer], true);
                         },
                         'htmlOptions' => ['class' => 'text-left']
                     ],
@@ -127,18 +121,11 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                         'header' => $search->getAttributeLabel('Owner'),
                         'type' => 'raw',
                         'value' => function (OrderItem $orderItem) {
-                            $user = !empty($orderItem->ChangedOwner) ? $orderItem->ChangedOwner : $orderItem->Owner;
-                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank', 'class' => 'lead lead-sm']);
-                            if (($employment = $user->getEmploymentPrimary()) !== null) {
-                                $result .= '<br/>' . $employment;
-                            }
-                            $result.='<p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;' . \CHtml::mailto(Texts::cropText($user->Email, 20), $user->Email) . '</p>';
-
+                            $result = $this->renderPartial('../partial/grid/user', ['user' => !empty($orderItem->ChangedOwner) ? $orderItem->ChangedOwner : $orderItem->Owner], true);
                             if (!empty($orderItem->ChangedOwner)) {
                                 $result.='
                                     <p class="m-top_5 small text-danger">' . \Yii::t('app', 'Перенесено с пользователя') . ':<br/>' . \CHtml::link($orderItem->Owner->getFullName(), ["user/edit", "id" => $orderItem->Owner->RunetId]) . '</p>';
                             }
-
                             return $result;
                         },
                         'htmlOptions' => ['class' => 'text-left']

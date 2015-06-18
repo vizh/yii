@@ -93,7 +93,7 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
                 <tbody>
                     <?php foreach ($collection as $item):?>
                         <tr>
-                            <td class="lead"><?=$item->getOrderItem()->Id;?></td>
+                            <td class=""><?=$item->getOrderItem()->Id;?></td>
                             <td class="text-left">
                                 <?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem());?>
                             </td>
@@ -104,11 +104,15 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
                                     <span class="label label-warning"><?=\Yii::t('app', 'Не оплачен');?></span>
                                 <?endif;?>
                             </td>
-                            <td>
-                                <?=\CHtml::link($item->getOrderItem()->Payer->getFullName(), ['user/edit', 'id' => $item->getOrderItem()->Payer->RunetId], ['class' => 'lead lead-sm']);?>
+                            <td class="text-left">
+                                <?=$this->renderPartial('../partial/grid/user', ['user' => $item->getOrderItem()->Payer], true);?>
                             </td>
                             <td>
-                                <?=\CHtml::link($item->getOrderItem()->Owner->getFullName(), ['user/edit', 'id' => $item->getOrderItem()->Owner->RunetId], ['class' => 'lead lead-sm']);?></sup>
+                                <?=$this->renderPartial('../partial/grid/user', [
+                                    'user' => $item->getOrderItem()->Payer,
+                                    'hideContacts' => true,
+                                    'hideEmployment' => true
+                                ], true);?>
                                 <?if ($item->getOrderItem()->ChangedOwner !== null):?>
                                     <p class="m-top_10">
                                         <strong class="text-success"><?=\Yii::t('app', 'Перенесено на пользователя');?>:</strong><br/>

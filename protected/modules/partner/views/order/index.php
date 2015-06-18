@@ -10,6 +10,8 @@ use application\modules\partner\models\search\Orders;
 use partner\components\Controller;
 
 $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
+
+$controller = $this;
 ?>
 
 <div class="panel panel-info">
@@ -57,18 +59,8 @@ $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
                         'name'  => 'Payer',
                         'header'=> $search->getAttributeLabel('Payer'),
                         'type' => 'raw',
-                        'value' => function (Order $order) {
-                            $user = $order->Payer;
-                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank', 'class' => 'lead lead-sm']);
-                            if (($employment = $user->getEmploymentPrimary()) !== null) {
-                                $result .= '<br/>' . $employment;
-                            }
-                            $result.='<p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;' . \CHtml::mailto($user->Email);
-                            if (($phone = $user->getPhone()) !== null) {
-                                $result.='<br/><i class="fa fa-phone"></i>&nbsp;' . $phone;
-                            }
-                            $result.='</p>';
-                            return $result;
+                        'value' => function (Order $order) use ($controller) {
+                            return $controller->renderPartial('../partial/grid/user', ['user' => $order->Payer], true);
                         },
                         'htmlOptions' => ['class' => 'text-left'],
                         'width' => '30%',

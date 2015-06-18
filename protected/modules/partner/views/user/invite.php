@@ -26,13 +26,8 @@ $this->setPageTitle(\Yii::t('app', 'Приглашения'))
                         'header' => $search->getAttributeLabel('Sender'),
                         'name' => 'Sender',
                         'type' => 'raw',
-                        'value' => function (InviteRequest $inviteRequest) {
-                            $user = $inviteRequest->Sender;
-                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank', 'class' => 'lead lead-sm']);
-                            if (($employment = $user->getEmploymentPrimary()) !== null) {
-                                $result .= '<br/>' . $employment;
-                            }
-                            return $result;
+                        'value' => function (InviteRequest $inviteRequest) use ($controller) {
+                            return $controller->renderPartial('../partial/grid/user', ['user' => $inviteRequest->Sender], true);
                         },
                         'htmlOptions' => ['class' => 'text-left'],
                         'width' => '25%'
@@ -43,10 +38,7 @@ $this->setPageTitle(\Yii::t('app', 'Приглашения'))
                         'type' => 'raw',
                         'value' => function (InviteRequest $inviteRequest) use ($event, $controller) {
                             $user = $inviteRequest->Owner;
-                            $result = \CHtml::link($user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank', 'class' => 'lead lead-sm']);
-                            if (($employment = $user->getEmploymentPrimary()) !== null) {
-                                $result .= '<br/>' . $employment;
-                            }
+                            $result = $controller->renderPartial('../partial/grid/user', ['user' => $user], true);
 
                             $data = $event->getUserData($user);
                             if (!empty($data)) {
