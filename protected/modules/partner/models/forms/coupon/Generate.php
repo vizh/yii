@@ -17,6 +17,8 @@ class Generate extends CreateUpdateForm
 
     public $Products;
 
+    public $ProductsAll = true;
+
     public $EndTime;
 
     public $Code;
@@ -47,6 +49,7 @@ class Generate extends CreateUpdateForm
             ['Discount', 'numerical', 'min' => 1, 'max' => 100, 'integerOnly' => true, 'allowEmpty' => false],
             ['Discount', 'validateDiscount'],
             ['EndTime', 'date', 'allowEmpty' => true, 'format' => 'dd.MM.yyyy'],
+            ['ProductsAll', 'boolean'],
             ['Products', 'validateProducts']
         ];
     }
@@ -92,7 +95,7 @@ class Generate extends CreateUpdateForm
         $valid = true;
         if (!empty($products)) {
             if (is_array($products)) {
-                foreach ($products as $id) {
+                foreach (array_keys($products) as $id) {
                     $product = Product::model()->byEventId($this->event->Id)->findByPk($id);
                     if (empty($product)) {
                         $valid = false;
@@ -155,7 +158,7 @@ class Generate extends CreateUpdateForm
         }
         $coupon->save();
         if (!empty($this->Products)) {
-            $products = Product::model()->findAllByPk($this->Products);
+            $products = Product::model()->findAllByPk(array_keys($this->Products));
             $coupon->addProductLinks($products);
         }
     }

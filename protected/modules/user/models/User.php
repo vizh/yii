@@ -2,6 +2,9 @@
 namespace user\models;
 use application\components\utility\Texts;
 use competence\models\Result;
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use mail\components\mailers\MandrillMailer;
 use user\components\handlers\Register;
 
@@ -562,12 +565,23 @@ class User extends \application\models\translation\ActiveRecord
      */
     public function getPhone()
     {
+        $phone = null;
+
         if (!empty($this->PrimaryPhone)) {
-            return $this->PrimaryPhone;
+            $phone = $this->PrimaryPhone;
         } else {
-            $phone = $this->getContactPhone();
-            if ($phone !== null) {
-                return $phone->Phone;
+            $contactPhone = $this->getContactPhone();
+            if ($contactPhone !== null) {
+                $phone = $contactPhone->Phone;
+            }
+        }
+
+        if (!empty($phone)) {
+            try {
+                $utils = PhoneNumberUtil::getInstance();
+                return $utils->format($utils->parse($phone, "RU"), PhoneNumberFormat::NATIONAL);
+            } catch (NumberParseException $e) {
+                return $phone;
             }
         }
         return null;

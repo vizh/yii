@@ -28,13 +28,11 @@
       </div>
     </div>
 
-        <!--
       <div class="row" style="margin-top: 60px;">
           <div class="span12 create-event-banner">
-              <a href="http://region.rif.ru/events/innopolis/" target="_blank"><img src="/images/banners/rif15-innopolis.jpg" style="height: auto; width: 100%;"></a>
+              <a href="https://regions.rif.ru/events/novosibirsk/" target="_blank"><img src="/images/banners/rifnsk15.jpg" style="height: auto; width: 100%;"></a>
           </div>
       </div>
-      -->
   </div>
 </div>
 

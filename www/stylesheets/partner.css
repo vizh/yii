@@ -23,5 +23,11 @@
   margin: 0;
 }
 .text-nowrap {
-  white-space: nowrap;
+  white-space: nowrap !important;
+}
+input.select2-input {
+  width: auto !important;
+}
+.lead-sm {
+  font-size: 14px !important;
 }

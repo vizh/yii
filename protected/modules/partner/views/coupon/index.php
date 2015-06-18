@@ -12,7 +12,7 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
 ?>
 
 <?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
-    <?=\CHtml::link('<span class="fa fa-plus"></span> ' . \Yii::t('app', 'Генерация промо-кодов'), ['generate'], ['class' => 'btn btn-primary']);?>
+    <?=\CHtml::link('<span class="fa fa-plus btn-label"></span> ' . \Yii::t('app', 'Генерация промо-кодов'), ['generate'], ['class' => 'btn btn-primary btn-labeled']);?>
 <?php $this->endClip();?>
 
 <?=\CHtml::beginForm(['give'], 'get');?>
@@ -67,6 +67,8 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                                     $result .= Texts::cropText($product->Title, 50) . '<br/>';
                                 }
                                 return $result;
+                            } else {
+                                return \CHtml::tag('label', ['class' => 'label label-success'], \Yii::t('app', 'Все продукты'));
                             }
                         },
                         'filter' => [
@@ -85,7 +87,7 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                                 if ($coupon->Owner->Temporary) {
                                     $result .= \CHtml::tag('p', [], \CHtml::tag('span', ['class' => 'small m-top_5'], \CHtml::mailto($user->Email)));
                                 } else {
-                                    $result .= \CHtml::tag('p', [], \CHtml::tag('span', ['class' => 'small m-top_5'], \CHtml::link($user->getFullName() . ' (' . $user->RunetId . ')', ['user/edit', 'id' => $user->RunetId], ['target' => '_blank'])));
+                                    $result .= \CHtml::tag('p', [], \CHtml::tag('span', ['class' => 'small m-top_5'], \CHtml::link('<span class="text-light-gray">' . $user->RunetId . ',</span> ' . $user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['target' => '_blank'])));
                                 }
                             } elseif (empty($coupon->Recipient)) {
                                 $result .= \CHtml::tag('span', ['class' => 'label'], \Yii::t('app', 'Не выдан'));
@@ -105,7 +107,7 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                             if (!$coupon->Multiple && !empty($coupon->Activations)) {
                                 $user = $coupon->Activations[0]->User;
                                 return \CHtml::tag('span', ['class' => 'label label-success'], \Yii::t('app', 'Активирован')).
-                                    '<p class="small m-top_5">' . \CHtml::link($user->getFullName() . ' (' . $user->RunetId . ')', ['user/edit', 'id' => $user->RunetId], ['target' => '_blank']) . '</p>';
+                                    '<p class="small m-top_5">' . \CHtml::link('<span class="text-light-gray">' . $user->RunetId . ',</span> ' . $user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['target' => '_blank']) . '</p>';
                             } elseif ($coupon->Multiple) {
                                 return \CHtml::tag(
                                     'span',
@@ -147,9 +149,12 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                                     'class' => 'btn btn-info',
                                     'title' => 'Статистика'
                                 ]
-                            ]
+                            ],
+                            'delete' => [
+                                'visible' => '!$data->IsTicket && empty($data->Activations)'
+                            ],
                         ],
-                        'template' => '{statistics}'
+                        'template' => '{statistics}{delete}'
                     ]
                 ]
             ]);?>

@@ -25,25 +25,9 @@ $this->setPageTitle(\Yii::t('app', 'Приглашения'))
                     [
                         'header' => $search->getAttributeLabel('Sender'),
                         'name' => 'Sender',
-                        'type'  => 'raw',
-                        'value' => '\CHtml::link(\CHtml::tag("span", ["class" => "lead"], $data->Sender->RunetId), ["edit", "id" => $data->Sender->RunetId], ["target" => "_blank"]);',
-                        'filterHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'headerHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'width' => 120
-                    ],
-                    [
                         'type' => 'raw',
-                        'value' => function (InviteRequest $inviteRequest) {
-                            $user = $inviteRequest->Sender;
-                            $result = \CHtml::tag('strong', [], $user->getFullName());
-                            if (($employment = $user->getEmploymentPrimary()) !== null) {
-                                $result .= '<br/>' . $employment;
-                            }
-                            return $result;
+                        'value' => function (InviteRequest $inviteRequest) use ($controller) {
+                            return $controller->renderPartial('../partial/grid/user', ['user' => $inviteRequest->Sender], true);
                         },
                         'htmlOptions' => ['class' => 'text-left'],
                         'width' => '25%'
@@ -51,25 +35,10 @@ $this->setPageTitle(\Yii::t('app', 'Приглашения'))
                     [
                         'header' => $search->getAttributeLabel('Owner'),
                         'name' => 'Owner',
-                        'type'  => 'raw',
-                        'value' => '\CHtml::link(\CHtml::tag("span", ["class" => "lead"], $data->Owner->RunetId), ["edit", "id" => $data->Owner->RunetId], ["target" => "_blank"]);',
-                        'filterHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'headerHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'width' => 120
-                    ],
-
-                    [
                         'type' => 'raw',
                         'value' => function (InviteRequest $inviteRequest) use ($event, $controller) {
                             $user = $inviteRequest->Owner;
-                            $result = \CHtml::tag('strong', [], $user->getFullName());
-                            if (($employment = $user->getEmploymentPrimary()) !== null) {
-                                $result .= '<br/>' . $employment;
-                            }
+                            $result = $controller->renderPartial('../partial/grid/user', ['user' => $user], true);
 
                             $data = $event->getUserData($user);
                             if (!empty($data)) {

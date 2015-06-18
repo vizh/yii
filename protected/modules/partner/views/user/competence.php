@@ -28,24 +28,9 @@ $this->setPageTitle(\Yii::t('app', 'Опрос участников'));
                     [
                         'header' => $search->getAttributeLabel('Name'),
                         'name'  => 'Name',
-                        'type'  => 'raw',
-                        'value' => '\CHtml::link(\CHtml::tag("span", ["class" => "lead"], $data->RunetId), ["edit", "id" => $data->RunetId], ["target" => "_blank"]);',
-                        'filterHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'headerHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'width' => 120
-                    ],
-                    [
                         'type' => 'raw',
-                        'value' => function (User $user) {
-                            $result = \CHtml::tag('strong', [], $user->getFullName());
-                            if (($employment = $user->getEmploymentPrimary()) !== null) {
-                                $result .= '<br/>' . $employment;
-                            }
-                            return $result;
+                        'value' => function (User $user) use ($controller) {
+                            return $this->renderPartial('../partial/grid/user', ['user' => $user], true);
                         },
                         'htmlOptions' => ['class' => 'text-left'],
                         'width' => '40%'

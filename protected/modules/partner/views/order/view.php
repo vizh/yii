@@ -85,7 +85,7 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
                         <th><?=\Yii::t('app', 'Номер');?></th>
                         <th style="width: 50%;"><?=\Yii::t('app', 'Наименование');?></th>
                         <th></th>
-                        <th colspan="2"><?=\Yii::t('app', 'Плательщик');?></th>
+                        <th><?=\Yii::t('app', 'Плательщик');?></th>
                         <th><?=\Yii::t('app', 'Получатель');?></th>
                         <th><?=\Yii::t('app', 'Стоимость');?></th>
                     </tr>
@@ -93,7 +93,7 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
                 <tbody>
                     <?php foreach ($collection as $item):?>
                         <tr>
-                            <td><?=$item->getOrderItem()->Id;?></td>
+                            <td class=""><?=$item->getOrderItem()->Id;?></td>
                             <td class="text-left">
                                 <?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem());?>
                             </td>
@@ -104,12 +104,15 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
                                     <span class="label label-warning"><?=\Yii::t('app', 'Не оплачен');?></span>
                                 <?endif;?>
                             </td>
-                            <td class="lead"><?=\CHtml::link($item->getOrderItem()->Payer->RunetId, ['user/edit', 'id' => $item->getOrderItem()->Payer->RunetId]);?></td>
-                            <td>
-                                <?=$item->getOrderItem()->Payer->getFullName();?>
+                            <td class="text-left">
+                                <?=$this->renderPartial('../partial/grid/user', ['user' => $item->getOrderItem()->Payer], true);?>
                             </td>
                             <td>
-                                <?=\CHtml::link($item->getOrderItem()->Owner->getFullName(), ['user/edit', 'id' => $item->getOrderItem()->Owner->RunetId]);?>&nbsp;<sup><?=$item->getOrderItem()->Owner->RunetId;?></sup>
+                                <?=$this->renderPartial('../partial/grid/user', [
+                                    'user' => $item->getOrderItem()->Payer,
+                                    'hideContacts' => true,
+                                    'hideEmployment' => true
+                                ], true);?>
                                 <?if ($item->getOrderItem()->ChangedOwner !== null):?>
                                     <p class="m-top_10">
                                         <strong class="text-success"><?=\Yii::t('app', 'Перенесено на пользователя');?>:</strong><br/>

@@ -11,12 +11,6 @@ namespace application\widgets\grid;
 
 class ButtonColumn extends \CButtonColumn
 {
-    /**
-     * @var array the HTML options for the header cell tag.
-     */
-    public $headerHtmlOptions = [
-        'style' => 'width:1px;'
-    ];
 
     /**
      * @var array the HTML options for the footer cell tag.
@@ -58,6 +52,26 @@ class ButtonColumn extends \CButtonColumn
     public $updateButtonUrl = 'Yii::app()->controller->createUrl("edit",["id"=>$data->primaryKey])';
 
     /**
+     * @var string the label for the delete button. Defaults to "Delete".
+     * Note that the label will not be HTML-encoded when rendering.
+     */
+    public $deleteButtonLabel = '<i class="fa fa-times"></i>';
+
+    /**
+     * @inheritdoc
+     */
+    public $deleteButtonOptions = [
+        'class' => 'btn btn-danger',
+        'title' => 'Удалить'
+    ];
+
+    /**
+     * @inheritdoc
+     */
+    public $deleteButtonImageUrl = false;
+
+
+    /**
      * @var array the HTML options for the view button tag.
      */
     public $viewButtonOptions = [
@@ -70,13 +84,9 @@ class ButtonColumn extends \CButtonColumn
      */
     protected function renderDataCellContent($row, $data)
     {
-        ob_start();
+        echo '<div class="text-right pull-right" style="width: ' . (40 * count($this->buttons)) . 'px;"><div class="btn-group" role="group">';
         parent::renderDataCellContent($row, $data);
-        $content = ob_get_contents();
-        ob_end_clean();
-
-
-        echo '<div class="btn-group-vertical" role="group">' . $content . '</div>';
+        echo '</div></div>';
     }
 
 

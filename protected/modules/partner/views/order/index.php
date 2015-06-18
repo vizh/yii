@@ -10,6 +10,8 @@ use application\modules\partner\models\search\Orders;
 use partner\components\Controller;
 
 $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
+
+$controller = $this;
 ?>
 
 <div class="panel panel-info">
@@ -51,42 +53,20 @@ $this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
                         'filter' => [
                             'class' => '\partner\widgets\grid\MultiSelect',
                             'items' => $search->getTypeData()
-                        ],
-                        'width' => '20%'
+                        ]
                     ],
                     [
                         'name'  => 'Payer',
-                        'type'  => 'raw',
                         'header'=> $search->getAttributeLabel('Payer'),
-                        'value' => '\CHtml::link(\CHtml::tag("span", ["class" => "lead"], $data->Payer->RunetId), ["user/edit", "id" => $data->Payer->RunetId], ["target" => "_blank"]);',
-                        'headerHtmlOptions' => [
-                            'colspan' => 2
-                        ],
-                        'filterHtmlOptions' => [
-                            'colspan' => 2
-                        ],
+                        'type' => 'raw',
+                        'value' => function (Order $order) use ($controller) {
+                            return $controller->renderPartial('../partial/grid/user', ['user' => $order->Payer], true);
+                        },
+                        'htmlOptions' => ['class' => 'text-left'],
+                        'width' => '30%',
                         'filterInputHtmlOptions' => [
                             'placeholder' => \Yii::t('app', 'ФИО, компания или ИНН')
                         ],
-                        'width' => 120
-                    ],
-                    [
-                        'type' => 'raw',
-                        'value' => function (Order $order) {
-                            $user = $order->Payer;
-                            $result = \CHtml::tag('strong', [], $user->getFullName());
-                            if (($employment = $user->getEmploymentPrimary()) !== null) {
-                                $result .= '<br/>' . $employment;
-                            }
-                            $result.='<p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;' . \CHtml::mailto($user->Email);
-                            if (($phone = $user->getPhone()) !== null) {
-                                $result.='<br/><i class="fa fa-phone"></i>&nbsp;' . $phone;
-                            }
-                            $result.='</p>';
-                            return $result;
-                        },
-                        'htmlOptions' => ['class' => 'text-left'],
-                        'width' => '30%'
                     ],
                     [
                         'name' => 'CreationTime',

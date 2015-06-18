@@ -1,6 +1,7 @@
 <?php
 namespace pay\models;
 
+use application\components\ActiveRecord;
 use pay\components\CodeException;
 use pay\components\Exception;
 use pay\components\MessageException;
@@ -18,6 +19,8 @@ use user\models\User;
  * @property string $EndTime
  * @property bool $IsTicket
  * @property int $OwnerId
+ * @property bool $Deleted
+ * @property string $DeletionTime
  *
  * @property CouponActivation[] $Activations
  * @property \user\models\User $Owner
@@ -27,9 +30,16 @@ use user\models\User;
  * @method \pay\models\Coupon find($condition='',$params=array())
  * @method \pay\models\Coupon findByPk($pk,$condition='',$params=array())
  * @method \pay\models\Coupon[] findAll($condition='',$params=array())
+ *
+ * @method Coupon byEventId(int $eventId)
+ * @method Coupon byCode(string $code)
+ * @method Coupon byIsTicket(bool $isTicket)
+ * @method Coupon byDeleted(bool $deleted)
  */
-class Coupon extends \CActiveRecord
+class Coupon extends ActiveRecord
 {
+    protected $useSoftDelete = true;
+
     const MaxDelta = 0.001;
 
     /**
@@ -70,22 +80,6 @@ class Coupon extends \CActiveRecord
         return parent::__get($name);
     }
 
-
-    /**
-     * @param string $code
-     * @param bool $useAnd
-     *
-     * @return Coupon
-     */
-    public function byCode($code, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Code" = :Code';
-        $criteria->params = array('Code' => $code);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
     /**
      * @param int $userId
      * @param bool $useAnd
@@ -102,33 +96,6 @@ class Coupon extends \CActiveRecord
         return $this;
     }
 
-    /**
-     * @param int $eventId
-     * @param bool $useAnd
-     *
-     * @return Coupon
-     */
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = array('EventId' => $eventId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param bool $isTicket
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byIsTicket($isTicket = true, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$isTicket ? 'NOT ' : '').'"t"."IsTicket"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
 
     public function getIsRightCountActivations()
     {

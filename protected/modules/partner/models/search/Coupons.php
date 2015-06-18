@@ -48,7 +48,7 @@ class Coupons extends SearchFormModel
      */
     public function getDataProvider()
     {
-        $model = Coupon::model()->byEventId($this->event->Id);
+        $model = Coupon::model()->byEventId($this->event->Id)->byDeleted(false);
         $this->fillCriteria($model);
         return new \CActiveDataProvider($model, [
             'sort' => $this->getSort()
