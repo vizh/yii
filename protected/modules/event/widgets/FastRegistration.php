@@ -38,7 +38,7 @@ class FastRegistration extends \event\components\Widget
 
     public function run()
     {
-        if ( !$this->event->closeRegistration()) {
+        if ( !$this->event->isRegistrationClosed()) {
             $isParticipant = false;
             if (!\Yii::app()->user->isGuest) {
                 $isParticipant = Participant::model()->byUserId(\Yii::app()->user->getId())->byEventId($this->event->Id)->exists();

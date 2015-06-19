@@ -50,7 +50,7 @@ class Registration extends \event\components\Widget
      */
     public function run()
     {
-        if ( !$this->event->closeRegistration()) {
+        if ( !$this->event->isRegistrationClosed()) {
             $account = Account::model()->byEventId($this->event->Id)->find();
             if ($account === null) {
                 return;

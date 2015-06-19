@@ -137,9 +137,9 @@
                 </div>
             </div>
             <div class="control-group">
-                <?=\CHtml::activeLabel($form, 'CloseRegisteration', array('class' => 'control-label'));?>
+                <?=\CHtml::activeLabel($form, 'CloseRegistrationAfterEnd', array('class' => 'control-label'));?>
                 <div class="controls">
-                    <?=\CHtml::activeCheckBox($form, 'CloseRegisteration');?>
+                    <?=\CHtml::activeCheckBox($form, 'CloseRegistrationAfterEnd');?>
                 </div>
             </div>
             <div class="control-group">

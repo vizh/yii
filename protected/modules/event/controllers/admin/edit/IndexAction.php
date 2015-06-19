@@ -172,7 +172,7 @@ class IndexAction extends \CAction
                 }
 
                 $event->OrganizerInfo = $form->OrganizerInfo;
-                $event->CloseRegisteration = $form->CloseRegisteration;
+                $event->CloseRegistrationAfterEnd = $form->CloseRegistrationAfterEnd;
 
                 \Yii::app()->user->setFlash('success', \Yii::t('app', 'Мероприятие успешно сохранено'));
                 $this->getController()->redirect(

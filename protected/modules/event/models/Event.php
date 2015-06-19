@@ -68,6 +68,7 @@ use \application\components\socials\facebook\Event as SocialEvent;
  * @property bool $RegisterHideNotSelectedProduct
  * @property bool $NotSendRegisterMail
  * @property string $OrganizerInfo
+ * @property int $CloseRegistrationAfterEnd
  *
  *
  * Вспомогательные описания методов методы
@@ -156,7 +157,7 @@ class Event extends ActiveRecord implements ISearch
             'RegisterHideNotSelectedProduct',
             'NotSendRegisterMail',
             'OrganizerInfo',
-            'CloseRegisteration'
+            'CloseRegistrationAfterEnd'
         ];
     }
 
@@ -1021,17 +1022,11 @@ class Event extends ActiveRecord implements ISearch
     /**
      * @return bool
      */
-    public function closeRegistration(){
-        $close = false;
-        foreach($this->Attributes as $attribute){
-            if($attribute->Name == 'CloseRegisteration')
-                $close = $attribute->Value;
-        }
-
-        if($this->getFormattedEndDate('yyyyMMdd') <= date('Ymd') && $close){
+    public function isRegistrationClosed(){
+        $close = isset($this->CloseRegistrationAfterEnd) && $this->CloseRegistrationAfterEnd == 1;
+        if ($close && $this->getTimeStampEndDate() <= time()) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }

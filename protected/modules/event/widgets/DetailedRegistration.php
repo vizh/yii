@@ -133,7 +133,7 @@ class DetailedRegistration extends \event\components\Widget
 
     public function run()
     {
-        if ( !$this->event->closeRegistration()) {
+        if ( !$this->event->isRegistrationClosed()) {
             $user = \Yii::app()->user;
 
             /** @var Participant $participant */
