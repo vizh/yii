@@ -22,7 +22,7 @@ class UserAutocompleteInput extends \CWidget
     public function init()
     {
         if ($this->form !== null) {
-            $this->value = $this->form->{$this->attribute};
+            $this->value = \CHtml::resolveValue($this->form, $this->attribute);
             $this->field = \CHtml::resolveName($this->form, $this->attribute);
         } else {
             $this->value = $this->getValue($this->field);

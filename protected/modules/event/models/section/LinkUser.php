@@ -1,5 +1,6 @@
 <?php
 namespace event\models\section;
+use application\components\ActiveRecord;
 
 /**
  * @property int $Id
@@ -13,6 +14,7 @@ namespace event\models\section;
  * @property string $VideoUrl
  * @property string $UpdateTime
  * @property bool $Deleted
+ * @property string $DeletionTime
  *
  * @property Section $Section
  * @property \user\models\User $User
@@ -23,9 +25,15 @@ namespace event\models\section;
  * @method LinkUser find($condition='',$params=array())
  * @method LinkUser findByPk($pk,$condition='',$params=array())
  * @method LinkUser[] findAll($condition='',$params=array())
+ *
+ * @method LinkUser byUserId(int $userId)
+ * @method LinkUser bySectionId(int $sectionId)
+ * @method LinkUser byDeleted(bool $deleted)
  */
-class LinkUser extends \CActiveRecord
+class LinkUser extends ActiveRecord
 {
+    protected $useSoftDelete = true;
+
     /**
      * @param string $className
      *
@@ -57,47 +65,6 @@ class LinkUser extends \CActiveRecord
         );
     }
 
-    public function bySectionId($sectionId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."SectionId" = :SectionId';
-        $criteria->params = array('SectionId' => $sectionId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    public function byEventId($eventId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->with = array('Section');
-        $criteria->condition = '"Section"."EventId" = :EventId';
-        $criteria->params = array('EventId' => $eventId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = array('UserId' => $userId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
-    /**
-     * @param boolean $deleted
-     * @param boolean $useAnd
-     * @return $this
-     */
-    public function byDeleted($deleted, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = (!$deleted ? 'NOT ' : '') . 't."Deleted"';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
     /**
      * @param string $updateTime
      * @param bool $useAnd
@@ -108,6 +75,21 @@ class LinkUser extends \CActiveRecord
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."UpdateTime" > :UpdateTime';
         $criteria->params = ['UpdateTime' => $updateTime];
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * @param int $eventId
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byEventId($eventId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->with = ['Section'];
+        $criteria->condition = '"Section"."EventId" = :EventId';
+        $criteria->params = ['EventId' => $eventId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }

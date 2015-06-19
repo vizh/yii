@@ -1,133 +1,270 @@
 <?php
 namespace partner\models\forms\program;
 
-class Participant extends \CFormModel
+use application\components\form\CreateUpdateForm;
+use application\helpers\Flash;
+use company\models\Company;
+use event\models\section\LinkUser;
+use event\models\section\Report;
+use event\models\section\Role;
+use event\models\section\Section;
+use user\models\User;
+use event\models\Role as EventRole;
+
+class Participant extends CreateUpdateForm
 {
-  public $Id;
+    const EVENT_ROLE_ID = 3;
+    const UNREGISTER_MESSAGE = 'Удален из секции в программе.';
+    const REGISTER_MESSAGE = 'Добавлен в секцию в программе.';
 
-  public $RoleId;
-  public $ReportTitle;
-  public $ReportThesis;
-  public $ReportUrl;
-  public $ReportFullInfo;
-  public $VideoUrl;
-  public $Delete;
-  public $Order;
+    /** @var LinkUser */
+    protected $model;
 
-  public $RunetId;
-  public $CompanyId;
-  public $CustomText;
+    /** @var Section */
+    protected $section;
 
-  /**
-   * @param \event\models\section\LinkUser $linkUser
-   * @param string $scenario
-   */
-  public function __construct($linkUser = null, $scenario = '')
-  {
-    parent::__construct($scenario);
+    public $RoleId;
+    public $ReportTitle;
+    public $ReportThesis;
+    public $ReportUrl;
+    public $ReportFullInfo;
+    public $VideoUrl;
+    public $Delete;
+    public $Order;
 
-    if ($linkUser !== null)
+    public $RunetId;
+    public $CompanyId;
+    public $CustomText;
+
+    /**
+     * @param Section $section
+     * @param \CActiveRecord $model
+     */
+    public function __construct(Section $section, \CActiveRecord $model = null)
     {
-      $this->Id = $linkUser->Id;
-      $this->RunetId = $linkUser->UserId !== null ? $linkUser->User->RunetId : null;
-      $this->CompanyId = $linkUser->CompanyId;
-      $this->CustomText = $linkUser->CustomText;
-      $this->RoleId = $linkUser->RoleId;
-      $this->Order = $linkUser->Order;
-      $this->VideoUrl = $linkUser->VideoUrl;
-      if ($linkUser->Report !== null)
-      {
-        $this->ReportTitle = $linkUser->Report->Title;
-        $this->ReportThesis = $linkUser->Report->Thesis;
-        $this->ReportUrl = $linkUser->Report->Url;
-        $this->ReportFullInfo = $linkUser->Report->FullInfo;
-      }
-    }
-  }
-
-  protected function beforeValidate()
-  {
-    $this->CustomText = trim($this->CustomText);
-    if (empty($this->RunetId) && empty($this->CompanyId) && empty($this->CustomText))
-    {
-      $this->addError('', 'Должно быть заполнено хотя бы одно из полей: Пользователь, Компания или Произвольный текст');
-    }
-    return parent::beforeValidate();
-  }
-
-
-  public function rules()
-  {
-    return [
-      ['Id, Order', 'numerical', 'allowEmpty' => true],
-      ['RoleId', 'required'],
-      ['RunetId, CompanyId, CustomText, ReportTitle, ReportThesis, Delete, ReportFullInfo, VideoUrl', 'safe'],
-      ['ReportUrl', 'url', 'allowEmpty' => true],
-      ['ReportFullInfo', 'filter', 'filter' => [$this, 'filterReportFullInfo']]
-    ];
-  }
-
-  public function filterReportFullInfo($value)
-  {
-    $purifier = new \CHtmlPurifier();
-    $purifier->options = [
-      'HTML.AllowedElements'     => ['p', 'span', 'ol', 'li', 'strong', 'a', 'em', 's', 'ul', 'br', 'u', 'table', 'tbody', 'tr', 'td', 'thead', 'th', 'caption', 'h1', 'h2', 'h3', 'h4', 'h5', 'img'],
-      'HTML.AllowedAttributes'   => ['style', 'a.href', 'a.target', 'table.cellpadding', 'table.cellspacing', 'th.scope', 'table.border', 'img.alt', 'img.src'],
-      'Attr.AllowedFrameTargets' => ['_blank', '_self']
-    ];
-    return $purifier->purify($value);
-  }
-
-  public function attributeLabels()
-  {
-    return [
-      'RunetId' => \Yii::t('app', 'Пользователь'),
-      'CompanyId' => \Yii::t('app', 'Компания'),
-      'CustomText' => \Yii::t('app', 'Произвольный текст'),
-      'RoleId' => \Yii::t('app', 'ID роли'),
-      'ReportTitle' => \Yii::t('app', 'Название доклада'),
-      'ReportThesis' => \Yii::t('app', 'Тезисы доклада'),
-      'ReportFullInfo' => \Yii::t('app', 'Текст доклада'),
-      'ReportUrl' => \Yii::t('app', 'Url доклада'),
-      'Delete' => \Yii::t('app', 'Удалить'),
-      'Order' => \Yii::t('app', 'Сортировка'),
-      'Role' => \Yii::t('app', 'Роль'),
-      'Report' => \Yii::t('app', 'Доклад'),
-      'VideoUrl' => \Yii::t('app', 'Ссылка на видеозапись')
-    ];
-  }
-
-  /** @var \user\models\User */
-  public $user = null;
-
-  /** @var \company\models\Company */
-  public $company = null;
-
-  public function buildModels()
-  {
-    if (!empty($this->RunetId))
-    {
-      $this->user = \user\models\User::model()->byRunetId($this->RunetId)->find();
-      if ($this->user === null)
-      {
-        $this->addError('', \Yii::t('app', 'Не найден пользователь с RUNET-ID: {RunetId}', array('RunetId' => $this->RunetId)));
-      }
-      return;
+        $this->section = $section;
+        parent::__construct($model);
     }
 
-    if (!empty($this->CompanyId))
-    {
-      $this->company = \company\models\Company::model()->findByPk($this->CompanyId);
-      if ($this->company === null)
-      {
-        $this->addError('', \Yii::t('app', 'Не найдена компания с ID: {CompanyId}', array('CompanyId' => $this->CompanyId)));
-      }
-      return;
-    }
-  }
 
-  public function getIsEmptyReportData()
-  {
-    return empty($this->ReportTitle) && empty($this->ReportThesis) && empty($this->ReportUrl) && empty($this->ReportFullInfo);
-  }
+    /**
+     * @inheritdoc
+     */
+    protected function loadData()
+    {
+        if (parent::loadData()) {
+            if (!empty($this->model->UserId)) {
+                $this->RunetId = $this->model->User->RunetId;
+            }
+
+            if (!empty($this->model->Report)) {
+                $this->ReportTitle = $this->model->Report->Title;
+                $this->ReportThesis = $this->model->Report->Thesis;
+                $this->ReportUrl = $this->model->Report->Url;
+                $this->ReportFullInfo = $this->model->Report->FullInfo;
+            }
+            return true;
+        }
+    }
+
+
+    public function rules()
+    {
+        return [
+            ['CustomText,ReportTitle,ReportThesis', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['Order,RunetId,CompanyId', 'numerical', 'allowEmpty' => true],
+            ['RunetId', 'validateUser'],
+            ['RoleId', 'required'],
+            ['RoleId', 'in', 'range' => array_keys($this->getRoleData())],
+            ['Delete', 'safe'],
+            ['ReportUrl,VideoUrl', 'url', 'allowEmpty' => true],
+            ['ReportFullInfo', 'filter', 'filter' => [$this, 'filterReportFullInfo']]
+        ];
+    }
+
+    /**
+     * @param string $attribute
+     * @return bool
+     */
+    public function validateUser($attribute)
+    {
+        if (!empty($this->RunetId)) {
+            $exist = User::model()->byRunetId($this->RunetId)->exists();
+            if (!$exist) {
+                $this->addError('', \Yii::t('app', 'Не найден пользователь с RUNET-ID: {RunetId}', ['{RunetId}' => $this->RunetId]));
+                return false;
+            }
+        } elseif (!empty($this->CompanyId)) {
+            $exist = Company::model()->findByPk($this->CompanyId);
+            if (!$exist) {
+                $this->addError('', \Yii::t('app', 'Не найдена компания с ID: {CompanyId}', ['{CompanyId}' => $this->CompanyId]));
+                return false;
+            }
+        } elseif (empty($this->CustomText)) {
+            $this->addError('', 'Должно быть заполнено хотя бы одно из полей: Пользователь, Компания или Произвольный текст');
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function filterReportFullInfo($value)
+    {
+        $purifier = new \CHtmlPurifier();
+        $purifier->options = [
+            'HTML.AllowedElements'     => ['p', 'span', 'ol', 'li', 'strong', 'a', 'em', 's', 'ul', 'br', 'u', 'table', 'tbody', 'tr', 'td', 'thead', 'th', 'caption', 'h1', 'h2', 'h3', 'h4', 'h5', 'img'],
+            'HTML.AllowedAttributes'   => ['style', 'a.href', 'a.target', 'table.cellpadding', 'table.cellspacing', 'th.scope', 'table.border', 'img.alt', 'img.src'],
+            'Attr.AllowedFrameTargets' => ['_blank', '_self']
+        ];
+        return $purifier->purify($value);
+    }
+
+    /**
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return [
+            'RunetId' => \Yii::t('app', 'Пользователь'),
+            'CompanyId' => \Yii::t('app', 'Компания'),
+            'CustomText' => \Yii::t('app', 'Произвольный текст'),
+            'ReportTitle' => \Yii::t('app', 'Название доклада'),
+            'ReportThesis' => \Yii::t('app', 'Тезисы доклада'),
+            'ReportFullInfo' => \Yii::t('app', 'Текст доклада'),
+            'ReportUrl' => \Yii::t('app', 'Ссылка на доклад'),
+            'Delete' => \Yii::t('app', 'Удалить'),
+            'Order' => \Yii::t('app', 'Сортировка'),
+            'RoleId' => \Yii::t('app', 'Роль'),
+            'Report' => \Yii::t('app', 'Доклад'),
+            'VideoUrl' => \Yii::t('app', 'Ссылка на видеозапись')
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoleData()
+    {
+        return \CHtml::listData(Role::model()->findAll(), 'Id', 'Title');
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return 'participant' . ($this->isUpdateMode() ? $this->model->Id : 'new');
+    }
+
+    /**
+     * @return \CActiveRecord|null
+     */
+    public function createActiveRecord()
+    {
+        $this->model = new LinkUser();
+        $this->model->SectionId = $this->section->Id;
+        return $this->updateActiveRecord();
+    }
+
+    /**
+     * @return \CActiveRecord|null
+     */
+    public function updateActiveRecord()
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+
+        $transaction = \Yii::app()->getDb()->beginTransaction();
+        try {
+            if ($this->Delete == 1) {
+                $this->model->delete();
+                $this->unRegisterUser();
+            } else {
+                $this->model->UserId = null;
+                $this->model->CompanyId = null;
+                $this->model->CustomText = null;
+
+                if (!empty($this->RunetId)) {
+                    $this->registerUser();
+                } elseif (!empty($this->CompanyId)) {
+                    $this->model->CompanyId = $this->CompanyId;
+                } else {
+                    $this->model->CustomText = $this->CustomText;
+                }
+
+                $this->model->RoleId = $this->RoleId;
+                $this->model->Order = $this->Order;
+                $this->model->VideoUrl = !empty($this->VideoUrl) ? $this->VideoUrl : null;
+                if (!$this->getIsEmptyReportData()) {
+                    $report = $this->model->Report !== null ? $this->model->Report : new Report();
+                    $report->Url = !empty($this->ReportUrl) ? $this->ReportUrl : null;
+                    $report->Thesis = !empty($this->ReportThesis) ? $this->ReportThesis : null;
+                    $report->Title = !empty($this->ReportTitle) ? $this->ReportTitle : null;
+                    $report->FullInfo = !empty($this->ReportFullInfo) ? $this->ReportFullInfo : null;
+                    $report->save();
+                    $this->model->ReportId = $report->Id;
+                }
+                $this->model->save();
+            }
+            $transaction->commit();
+            return $this->model;
+        } catch (\CDbException $e) {
+            $transaction->rollBack();
+            Flash::setError($e);
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    private function getIsEmptyReportData()
+    {
+        return empty($this->ReportTitle) && empty($this->ReportThesis) && empty($this->ReportUrl) && empty($this->ReportFullInfo);
+    }
+
+    /**
+     * Если в качестве участника указан пользователь, то регистрирует его на мероприятие
+     */
+    private function registerUser()
+    {
+        if (empty($this->RunetId)) {
+            return;
+        }
+
+        $event = $this->section->Event;
+
+        $user = User::model()->byRunetId($this->RunetId)->find();
+        $this->model->UserId = $user->Id;
+
+        $role = EventRole::model()->findByPk(self::EVENT_ROLE_ID);
+        if (!empty($event->Parts)) {
+            $event->registerUserOnAllParts($user, $role, true);
+        } else {
+            $event->registerUser($user, $role, true, self::REGISTER_MESSAGE);
+        }
+    }
+
+    /**
+     * Если в качестве участника указан пользователь, то снимает его регистрациб с мероприятия
+     */
+    private function unRegisterUser()
+    {
+        if (empty($this->RunetId)) {
+            return;
+        }
+        $user = User::model()->byRunetId($this->RunetId)->find();
+        $event = $this->section->Event;
+        $existLink = LinkUser::model()->byEventId($event->Id)->byUserId($user->Id)->byDeleted(false)->exists();
+        if (!$existLink) {
+            if (!empty($event->Parts)) {
+                $event->unregisterUserOnAllParts($user, self::UNREGISTER_MESSAGE);
+            } else {
+                $event->unregisterUser($user, self::UNREGISTER_MESSAGE);
+            }
+        }
+    }
 }

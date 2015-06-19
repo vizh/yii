@@ -11,7 +11,7 @@ CProgramGrid.prototype = {
             var cell2  = self.getCell($(this).data('time-end'), $(this).data('hall-end'));
 
             var width  = cell2.position().left - cell1.position().left + cell2.outerWidth() - ($(this).outerWidth() - $(this).outerWidth()),
-                height = cell2.position().top - cell1.position().top - ($(this).outerHeight() - $(this).height()) - 3;
+                height = cell2.position().top - cell1.position().top;
 
             $(this).css({
                 'top'  : cell1.position().top + 'px',

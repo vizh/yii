@@ -18,7 +18,7 @@ class AutocompleteInput extends \CWidget
     $this->initResources();
     if ($this->form !== null)
     {
-      $this->value = $this->form->{$this->field};
+      $this->value = \CHtml::resolveValue($this->form, $this->field);
       $this->field = \CHtml::resolveName($this->form, $this->field);
     }
     else
