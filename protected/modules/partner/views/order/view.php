@@ -109,7 +109,7 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
                             </td>
                             <td>
                                 <?=$this->renderPartial('../partial/grid/user', [
-                                    'user' => $item->getOrderItem()->Payer,
+                                    'user' => $item->getOrderItem()->Owner,
                                     'hideContacts' => true,
                                     'hideEmployment' => true
                                 ], true);?>
