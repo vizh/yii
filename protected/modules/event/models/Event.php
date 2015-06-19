@@ -1024,7 +1024,9 @@ class Event extends ActiveRecord implements ISearch
      */
     public function isRegistrationClosed(){
         $close = isset($this->CloseRegistrationAfterEnd) && $this->CloseRegistrationAfterEnd == 1;
-        if ($close && $this->getTimeStampEndDate() <= time()) {
+        $datetime = new \DateTime();
+        $datetime->modify('-1 day');
+        if ($close && $this->getTimeStampEndDate() <= $datetime->getTimestamp()) {
             return true;
         }
         return false;
