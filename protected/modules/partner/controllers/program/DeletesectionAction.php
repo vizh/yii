@@ -1,22 +1,30 @@
 <?php
 namespace partner\controllers\program;
 
+use event\models\section\LinkHall;
 use event\models\section\Section;
+use partner\components\Action;
 
-class DeletesectionAction extends \partner\components\Action
+class DeleteSectionAction extends Action
 {
+    public function run($id)
+    {
+        $section = Section::model()->byEventId($this->getEvent()->Id)->findByPk($id);
+        if ($section === null) {
+            throw new \CHttpException(404);
+        }
 
-  public function run($sectionId = null)
-  {
-      $event = \Yii::app()->partner->getEvent();
-      if ($sectionId != null)
-      {
-          $section = Section::model()->byEventId($event->Id)->byDeleted(false)->findByPk($sectionId);
-          $section->useSoftDelete = true;
-          $section->delete();
-      }
+        $transaction = \Yii::app()->getDb()->beginTransaction();
+        try {
+            foreach ($section->LinkHalls as $link) {
+                $link->delete();
+            }
+            $section->delete();
+            $transaction->commit();
+        } catch (\CDbException $e) {
+            $transaction->rollBack();
+        }
+        $this->getController()->redirect(['index']);
 
-      $this->getController()->redirect(\Yii::app()->createUrl('partner/program/index'));
-
-  }
+    }
 }

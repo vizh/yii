@@ -9,6 +9,7 @@ use application\models\translation\ActiveRecord;
  * @property string $UpdateTime
  * @property int $Order
  * @property bool $Deleted
+ * @property boolean $DeletionTIme
  *
  * @method Hall find($condition='',$params=array())
  * @method Hall findByPk($pk,$condition='',$params=array())
@@ -18,6 +19,8 @@ use application\models\translation\ActiveRecord;
  */
 class Hall extends ActiveRecord
 {
+    protected $useSoftDelete = true;
+
     /**
      * @param string $className
      *

@@ -12,6 +12,7 @@ namespace event\models\section;
  * @property int $TypeId
  * @property string $Code
  * @property boolean $Deleted
+ * @property boolean $DeletionTIme
  *
  *
  * @property \event\models\Event $Event
@@ -28,6 +29,8 @@ namespace event\models\section;
 
 class Section extends \application\models\translation\ActiveRecord
 {
+    protected $useSoftDelete = true;
+
     /**
      * @param string $className
      * @return Section
