@@ -14,7 +14,7 @@ $this->setPageTitle(\Yii::t('app', 'Список залов'));
 <?php $activeForm = $this->beginWidget('CActiveForm');?>
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><span class="fa fa-align-justify"></span> <?=\Yii::t('app', 'Список залов');?></span>
+        <span class="panel-title"><span class="fa fa-th"></span> <?=\Yii::t('app', 'Список залов');?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
         <?=Flash::html();?>

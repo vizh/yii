@@ -10,7 +10,8 @@ class ProgramController extends Controller
             'index' => '\partner\controllers\program\IndexAction',
             'section' => '\partner\controllers\program\SectionAction',
             'participants' => '\partner\controllers\program\ParticipantsAction',
-            'hall' => '\partner\controllers\program\HallAction'
+            'hall' => '\partner\controllers\program\HallAction',
+            'deletesection' => '\partner\controllers\program\DeleteSectionAction'
         ];
     }
 }

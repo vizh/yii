@@ -8,6 +8,7 @@ use \pay\models\OrderType;
 use application\helpers\Flash;
 
 $collection = \pay\components\OrderItemCollection::createByOrder($order);
+$formatter = \Yii::app()->getDateFormatter();
 $this->setPageTitle('Управление счетом № ' . $order->Number)
 ?>
 <div class="panel panel-info">
@@ -17,9 +18,10 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
     <div class="panel-body">
         <?=Flash::html();?>
         <h2 class="clear-indents">Счет № <?=$order->Number;?></h2>
+        <p class="text-xs m-top_5"><?=\Yii::t('app', 'Создан');?>: <?=$formatter->format('dd MMMM yyyy HH:mm', $order->CreationTime);?></p>
         <div class="m-top_10">
             <?php if ($order->Paid):?>
-                <span class="label label-success">Оплачен</span>
+                <span class="label label-success">Оплачен <?=$formatter->format('dd MMMM yyyy HH:mm', $order->PaidTime);?></span>
             <?php else:?>
                 <?php if (!$order->Deleted):?>
                     <span class="label label-warning">Не оплачен</span>

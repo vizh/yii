@@ -8,7 +8,7 @@ class StatisticsAction extends Action
 {
     public function run($id)
     {
-        $coupon = Coupon::model()->byEventId($this->getEvent()->Id)->findByPk($id);
+        $coupon = Coupon::model()->byEventId($this->getEvent()->Id)->with(['Activations'])->findByPk($id);
         if ($coupon === null) {
             throw new \CHttpException(404);
         }

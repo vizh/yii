@@ -89,7 +89,7 @@ class Hall extends CreateUpdateForm
         }
 
         if ($this->Delete == 1) {
-            $this->model->Deleted = true;
+            $this->model->delete();
         } else {
             $this->fillActiveRecord();
         }

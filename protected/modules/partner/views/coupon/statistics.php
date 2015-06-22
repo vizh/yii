@@ -15,7 +15,7 @@ $this->setPageTitle(\Yii::t('app', 'Статистика промо-кода'));
         <div class="row">
             <div class="col-sm-6">
                 <div class="stat-panel">
-                    <div class="stat-cell bg-danger valign-middle">
+                    <div class="stat-cell col-sm-5 bg-danger valign-middle bordered no-border-vr no-border-l">
                         <i class="fa fa-calculator bg-icon"></i>
                         <span class="text-xlg"><strong><?=count($coupon->Activations);?></strong></span><br>
                         <span class="text-bg"><?=\Yii::t('app', 'Активаций');?></span><br>
@@ -23,6 +23,27 @@ $this->setPageTitle(\Yii::t('app', 'Статистика промо-кода'));
                             <?=\Yii::t('app', 'Доступно активаций');?>: <?=$coupon->Multiple ? $coupon->MultipleCount : 1;?>
                         </span>
                     </div>
+                    <?php if (!empty($coupon->Activations)):?>
+                    <div class="stat-cell col-sm-7 no-padding bg-danger valign-middle">
+                        <div class="stat-rows">
+                            <?php $dark = false;?>
+                            <?php foreach ($coupon->Activations as $activation):?>
+                                <?php $dark = !$dark;?>
+                                <div class="stat-row">
+                                    <?=$this->renderPartial(
+                                        '../partial/grid/user', [
+                                            'user' => $activation->User,
+                                            'hideContacts' => true,
+                                            'hideEmployment' => true,
+                                            'linkHtmlOptions' => [
+                                                'class' => 'stat-cell padding-sm valign-middle' . ($dark ? ' darken bg-danger' : '')
+                                            ]
+                                        ], true);?>
+                                </div>
+                            <?php endforeach;?>
+                        </div>
+                    </div>
+                    <?php endif;?>
                 </div>
             </div>
             <div class="col-sm-6">

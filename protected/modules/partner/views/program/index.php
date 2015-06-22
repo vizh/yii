@@ -11,7 +11,7 @@ $dt->setTimestamp($event->getTimeStampStartDate());
 ?>
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><span class="fa fa-align-justify"></span> <?=\Yii::t('app', 'Программа мероприятия');?></span>
+        <span class="panel-title"><span class="fa fa-th"></span> <?=\Yii::t('app', 'Программа мероприятия');?></span>
         <div class="panel-heading-controls">
             <?=\CHtml::link(\Yii::t('app', 'Добавить секцию'), ['section'], ['class' => 'btn btn-xs btn-success btn-outline']);?>
             <?=\CHtml::link(\Yii::t('app', 'Список залов'), ['hall'], ['class' => 'btn btn-xs btn-warning btn-outline']);?>
@@ -26,7 +26,6 @@ $dt->setTimestamp($event->getTimeStampStartDate());
                 <?$dt->modify('+1 day');?>
             <?php endwhile;?>
         </ul>
-
         <?php if (!empty($event->Halls)):?>
             <div id="program-grid">
                 <div class="table-info m-top_20">

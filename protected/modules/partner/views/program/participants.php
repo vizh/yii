@@ -108,27 +108,3 @@ $activeForm = $this->beginWidget('CActiveForm', ['id' => $form->getId()]);?>
         </div>
     <?php $this->endWidget();?>
 <?php endforeach;?>
-
-
-
-<?/**
-<?=Flash::html();?>
-
-<?=\CHtml::form('', 'POST');?>
-<div class="panel panel-info">
-    <div class="panel-heading">
-        <span class="panel-title"><span class="fa fa-plus"></span> <?=\Yii::t('app', 'Новый участник');?></span>
-    </div> <!-- / .panel-heading -->
-    <div class="panel-body">
-        <?=\CHtml::errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
-        <?$this->renderPartial('participants/select', ['form' => $form]);?>
-        <div class="form-group">
-            <?=\CHtml::activeLabel($form, 'Role');?>
-            <?=\CHtml::activeDropDownList($form, 'RoleId', \CHtml::listData(Role::model()->findAll(), 'Id', 'Title'), ['class' => 'form-control']);?>
-        </div>
-    </div>
-    <div class="panel-footer">
-        <?=\CHtml::submitButton(\Yii::t('app', 'Добавить'), ['class' => 'btn btn-primary']);?>
-    </div>
-</div>
-*/?>

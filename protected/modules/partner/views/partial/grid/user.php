@@ -7,8 +7,13 @@
 
 $hideEmployment = isset($hideEmployment) && $hideEmployment;
 $hideContacts = isset($hideContacts) && $hideContacts;
+
+if (!isset($linkHtmlOptions)) {
+    $linkHtmlOptions = ['class' => 'lead lead-sm'];
+}
+$linkHtmlOptions['target'] = '_blank';
 ?>
-<?=\CHtml::link('<span class="text-light-gray">' . $user->RunetId . ',</span> ' . $user->getFullName(), ['user/edit', 'id' => $user->RunetId], ['targer' => '_blank', 'class' => 'lead lead-sm']);?>
+<?=\CHtml::link('<span class="text-light-gray">' . $user->RunetId . ',</span> ' . $user->getFullName(), ['user/edit', 'id' => $user->RunetId], $linkHtmlOptions);?>
 
 
 <?php if (!$hideEmployment && ($employment = $user->getEmploymentPrimary()) !== null):?>

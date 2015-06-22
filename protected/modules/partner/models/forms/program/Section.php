@@ -44,8 +44,8 @@ class Section extends CreateUpdateForm
 
     /**
      * @param Event $event
-     * @param Section $model
-     * @param string $locale
+     * @param SectionModel $model
+     * @param null $locale
      */
     public function __construct(Event $event, SectionModel $model = null, $locale = null)
     {
@@ -79,7 +79,8 @@ class Section extends CreateUpdateForm
             ['Title, Date, TimeStart, TimeEnd, TypeId', 'required'],
             ['Date', 'date', 'format' => 'yyyy-MM-dd'],
             ['TimeStart, TimeEnd', 'date', 'format' => 'HH:mm'],
-            ['Hall, Attribute', 'safe'],
+            ['Hall', 'validateHall'],
+            ['Attribute', 'safe'],
             ['AttributeNew', 'filter', 'filter' => [$this, 'filterAttributeNew']],
             ['TypeId', 'in', 'range' => array_keys($this->getTypeData())]
         ];
@@ -94,9 +95,20 @@ class Section extends CreateUpdateForm
     }
 
     /**
-     *
-     * @param \event\models\Event $event
-     * @return string[]
+     * @param $attribute
+     * @return bool
+     */
+    public function validateHall($attribute)
+    {
+        if (empty($this->Hall) && empty($this->HallNew)) {
+            $this->addError($attribute, \Yii::t('app', 'Должен быть указан хотя бы один зал!'));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @return array
      */
     public function getDateData()
     {
@@ -202,6 +214,7 @@ class Section extends CreateUpdateForm
             foreach ($this->getAttributeList() as $name) {
                 $this->model->setSectionAttribute($name, $this->Attribute[$name]);
             }
+
 
             foreach ($this->event->Halls as $hall) {
                 $link = LinkHall::model()->byHallId($hall->Id)->bySectionId($this->model->Id)->find();

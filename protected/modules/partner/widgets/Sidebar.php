@@ -112,7 +112,7 @@ class Sidebar extends \CWidget
                 ['label' => 'Заказы', 'url' => ['orderitem/index']],
                 ['label' => 'Добавить заказ', 'url' => ['orderitem/create']]
             ]],
-            ['label' => 'Программа', 'icon' => 'align-justify', 'url' => ['program/index']],
+            ['label' => 'Программа', 'icon' => 'th', 'url' => ['program/index']],
             ['label' => 'Настройки', 'icon' => 'cog', 'url' => ['settings/roles'], 'items' => [
                 ['label' => 'Статусы', 'url' => ['settings/roles']],
                 ['label' => 'Программа лояльности', 'url' => ['settings/loyalty']]

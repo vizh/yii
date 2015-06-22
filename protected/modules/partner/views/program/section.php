@@ -90,64 +90,10 @@ $this->setPageTitle(\Yii::t('app', 'Редактирование секции'))
     </div>
     <div class="panel-footer">
         <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary']);?>
+        <?php if ($form->isUpdateMode()):?>
+            <?=\CHtml::link(\Yii::t('app', 'Удалить'), ['deletesection', 'id' => $form->getActiveRecord()->Id], ['class' => 'btn btn-danger pull-right']);?>
+        <?php endif;?>
     </div>
 </div>
 <?php $this->endWidget();?>
 
-
-<?/*
-<h2 class="m-bottom_30"><?=\Yii::t('app','Редактирование секции');?></h2>
-<div class="row">
-<div class="span8">
-  <?if (\Yii::app()->user->hasFlash('success')):?>
-  <div class="alert alert-success">
-    <?=\Yii::app()->user->getFlash('success');?>
-  </div>
-  <?endif;?>
-  <?=\CHtml::errorSummary($form, '<div class="alert alert-error">','</div>');?>
-
-  <?=\CHtml::beginForm('', 'POST', array('class' => 'form-horizontal'));?>
-    <div class="control-group">
-      <div class="controls">
-      <?if (!$section->getIsNewRecord()):?>
-        <div class="btn-group">
-          <?foreach (\Yii::app()->params['Languages'] as $l):?>
-            <a href="<?=$this->createUrl('/partner/program/section', ['sectionId' => $section->Id, 'locale' => $l]);?>" class="btn <?if ($l == $locale):?>active<?endif;?>"><?=$l;?></a>
-          <?endforeach;?>
-        </div>
-      <?endif;?>
-      </div>
-    </div>
-
-
-
-  
-    <div class="control-group">
-      <?=\CHtml::activeLabel($form, 'Type', array('class' => 'control-label'));?>
-      <div class="controls">
-        <?=\CHtml::activeDropDownList($form, 'Type', $form->getTypeList());?>
-      </div>
-    </div>
-    
-    <div class="control-group">
-      <div class="controls">
-        <?=\CHtml::submitButton(\Yii::t('app', 'Обновить'), array('class' => 'btn btn-info'));?>
-          <a href="<?=\Yii::app()->createUrl('/partner/program/deletesection', ['sectionId' => $section->Id]);?>"
-             class="btn btn-danger"
-              onclick="return window.confirm('Вы действительно хотите удалить этоу секцию?')">
-              <?=\Yii::t('app', 'Удалить секцию');?>
-          </a>
-      </div>
-    </div>
-  <?=\CHtml::endForm();?>
-
-
-</div>
-  
-  <div class="span1 offset1">
-    <?if (!$section->getIsNewRecord()):?>
-      <a href="<?=$this->createUrl('/partner/program/participants', array('sectionId' => $section->Id));?>" class="btn"><?=\Yii::t('app', 'Участники');?></a>
-    <?endif;?>
-  </div>
-</div>
-*/?>
