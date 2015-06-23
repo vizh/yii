@@ -30,7 +30,7 @@ class GetAction extends \api\components\Action
             if (!empty($originalUser->MergeUserId)) {
                 $userData->RedirectRunetId = $originalUser->RunetId;
             }
-            
+
             $this->setResult($userData);
         } else {
             throw new Exception(202, [$id]);

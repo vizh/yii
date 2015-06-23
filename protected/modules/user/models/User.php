@@ -124,6 +124,9 @@ class User extends \application\models\translation\ActiveRecord
             'CompetenceResults' => [self::HAS_MANY, '\competence\models\Result', 'UserId'],
 
             'MergeUser' => [self::BELONGS_TO, '\user\models\User', 'Id'],
+
+            'Iri' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role']],
+            'IriActive' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role'], 'on' => '"IriActive"."ExitTime" IS NULL OR "IriActive"."ExitTime" > NOW()'],
         );
     }
 

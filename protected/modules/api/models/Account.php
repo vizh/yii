@@ -25,6 +25,7 @@ class Account extends \CActiveRecord
     const ROLE_MBLT = 'mblt';
     const ROLE_MOBILE = 'mobile';
     const ROLE_PARTNER_WOC = 'partner_woc';
+    const ROLE_IRI = 'iri';
 
     const SelfId = 1;
 
@@ -224,6 +225,7 @@ class Account extends \CActiveRecord
             self::ROLE_MICROSOFT => 'Мероприятие Microsoft',
             self::ROLE_MBLT => 'Мероприятие MBLT',
             self::ROLE_MOBILE => 'Мобильное приложение',
+            self::ROLE_IRI => 'ИРИ'
         ];
     }
 }

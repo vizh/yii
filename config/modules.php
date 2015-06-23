@@ -28,6 +28,7 @@ $modules = [
     'raec',
     'sms',
     'competence',
+    'iri',
 
   /** Технические модули */
     'mytest',

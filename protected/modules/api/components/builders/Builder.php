@@ -2,6 +2,8 @@
 namespace api\components\builders;
 use event\models\section\Favorite;
 use event\models\section\Hall;
+use iri\models\Role as IriRole;
+use iri\models\User as IriUser;
 use user\models\User;
 
 /**
@@ -604,5 +606,39 @@ class Builder
         $this->professionalInterest->Id = $professionalInterest->Id;
         $this->professionalInterest->Title = $professionalInterest->Title;
         return $this->professionalInterest;
+    }
+
+    protected $iriRole;
+
+    /**
+     * @param IriRole $role
+     * @return \stdClass
+     */
+    public function createIriRole(IriRole $role)
+    {
+        $this->iriRole = new \stdClass();
+
+        $this->iriRole->RoleId = $role->Id;
+        $this->iriRole->Name = $role->Title;
+        $this->iriRole->Priority = $role->Priority;
+
+        return $this->iriRole;
+    }
+
+    protected $iriUser;
+
+    /**
+     * @param IriUser $user
+     * @return \stdClass
+     */
+    public function createIriUser(IriUser $user)
+    {
+        $this->iriUser = new \stdClass();
+
+        $this->iriUser->User = $this->createUser($user->User);
+        $this->iriUser->Role = $this->createIriRole($user->Role);
+        $this->iriUser->JoinTime = $user->JoinTime;
+
+        return $this->iriUser;
     }
 }
