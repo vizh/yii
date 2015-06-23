@@ -1,20 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Андрей
- * Date: 23.06.2015
- * Time: 16:03
- */
-
 namespace api\controllers\iri;
 
 use api\components\Action;
 use api\components\Exception;
+use application\models\ProfessionalInterest;
 use iri\models\Role;
 use user\models\User;
 use iri\models\User as IriUser;
 
-class UserExitAction extends Action
+class ExpertDeleteAction extends Action
 {
     public function run()
     {
@@ -33,7 +27,20 @@ class UserExitAction extends Action
             throw new Exception(1001, [$roleId]);
         }
 
-        $iriUser = IriUser::model()->byUserId($user->Id)->byRoleId($role->Id)->find();
+        $criteria = new \CDbCriteria();
+
+        if (!empty($profInterestId)) {
+            $profInterest = ProfessionalInterest::model()->findByPk($profInterestId);
+            if (empty($profInterest)) {
+                throw new Exception(901, [$profInterestId]);
+            }
+            $criteria->addCondition('"t"."ProfessionalInterestId" = :ProfessionalInterestId');
+            $criteria->params['ProfessionalInterestId'] = $profInterest->Id;
+        } else {
+            $criteria->addCondition('"t"."ProfessionalInterestId" IS NULL');
+        }
+
+        $iriUser = IriUser::model()->byUserId($user->Id)->byRoleId($role->Id)->find($criteria);
         if ($iriUser === null || !empty($iriUser->ExitTime)) {
             throw new Exception(1003, [$user->RunetId, $role->Id]);
         }

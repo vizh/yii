@@ -14,12 +14,14 @@ class m150623_094509_iri extends CDbMigration
             'Id' => 'serial PRIMARY KEY',
             'UserId' => 'integer NOT NULL',
             'RoleId' => 'integer NOT NULL',
+            'ProfessionalInterestId' => 'integer NULL',
             'JoinTime' => 'timestamp DEFAULT (\'now\'::text)::timestamp(0) without time zone',
             'ExitTime' => 'timestamp NULL'
         ]);
 
         $this->addForeignKey('IriUser_UserId_fkey', 'IriUser', 'UserId', 'User', 'Id', 'RESTRICT', 'RESTRICT');
         $this->addForeignKey('IriUser_RoleId_fkey', 'IriUser', 'RoleId', 'IriRole', 'Id', 'RESTRICT', 'RESTRICT');
+        $this->addForeignKey('IriUser_ProfessionalInterestId_fkey', 'IriUser', 'ProfessionalInterestId', 'ProfessionalInterest', 'Id', 'RESTRICT', 'RESTRICT');
 
         $this->insert('IriRole', [
             'Title' => 'ТОП-эксперт ЭС'
@@ -33,6 +35,7 @@ class m150623_094509_iri extends CDbMigration
 	{
         $this->dropForeignKey('IriUser_UserId_fkey', 'IriUser');
         $this->dropForeignKey('IriUser_RoleId_fkey', 'IriUser');
+        $this->dropForeignKey('IriUser_ProfessionalInterestId_fkey', 'IriUser');
         $this->dropTable('IriRole');
         $this->dropTable('IriUser');
 	}

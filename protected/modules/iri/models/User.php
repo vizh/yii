@@ -1,6 +1,7 @@
 <?php
 namespace iri\models;
 use application\components\ActiveRecord;
+use application\models\ProfessionalInterest;
 
 /**
  * This is the model class for table "IriUser".
@@ -11,10 +12,12 @@ use application\components\ActiveRecord;
  * @property integer $RoleId
  * @property string $JoinTime
  * @property string $ExitTime
+ * @property integer $ProfessionalInterestId
  *
  * The followings are the available model relations:
  * @property \user\models\User $User
  * @property Role $Role
+ * @property ProfessionalInterest $ProfessionalInterest
  *
  * @method User byUserId(integer $userId)
  * @method User byRoleId(integer $roleId)
@@ -49,6 +52,21 @@ class User extends ActiveRecord
 		return [
 			'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
 			'Role' => [self::BELONGS_TO, '\iri\models\Role', 'RoleId'],
+            'ProfessionalInterest' => [self::BELONGS_TO, '\application\models\ProfessionalInterest', 'ProfessionalInterestId']
 		];
 	}
+
+    /**
+     * @return string
+     */
+    function __toString()
+    {
+        $result = $this->Role->Title;
+        if (!empty($this->ProfessionalInterest)) {
+            $result .= ', ' . \CHtml::link($this->ProfessionalInterest->Title, 'http://ири.рф/experts/', ['target' => '_blank']);
+        }
+        return $result;
+    }
+
+
 }

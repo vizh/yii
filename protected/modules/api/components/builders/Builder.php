@@ -637,6 +637,9 @@ class Builder
 
         $this->iriUser->User = $this->createUser($user->User);
         $this->iriUser->Role = $this->createIriRole($user->Role);
+        if (!empty($user->ProfessionalInterest)) {
+            $this->iriUser->ProfessionalInterest = $this->createProfessionalInterest($user->ProfessionalInterest);
+        }
         $this->iriUser->JoinTime = $user->JoinTime;
 
         return $this->iriUser;

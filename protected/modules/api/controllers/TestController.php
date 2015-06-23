@@ -13,7 +13,7 @@ class TestController extends CController
             'ApiKey' => $api,
             'Hash' => md5($api . $secret),
             'RunetId' => 321,
-            'RoleId' => 2
+            'RoleId' => 2,
         );
 
         //$params['Email'] = 'alaris.nik@gmail.com';
@@ -30,7 +30,7 @@ class TestController extends CController
 
         print_r($params);
 
-        $this->apiRequest('/api/iri/users', $params);
+        $this->apiRequest('/api/iri/expertadd', $params);
     }
 
     private function apiRequest($url, $params)

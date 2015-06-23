@@ -119,7 +119,7 @@
                                 <div class="b-iri">
                                     <?=\CHtml::link(\CHtml::image('/images/content/iri-logo_small.jpg', \Yii::t('app', 'Институт Развития Интернета'), ['class' => 'logo']), 'http://ири.рф', ['target' => '_blank']);?>
                                     <?php foreach ($user->IRIParticipantsActive as $participant):?>
-                                        <p class="text"><?=$participant->Role->Title;?></p>
+                                        <p class="text"><?=$participant;?></p>
                                     <?php endforeach;?>
                                 </div>
                             <?php endif;?>

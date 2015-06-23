@@ -12,7 +12,7 @@ namespace api\controllers\iri;
 use api\components\Action;
 use iri\models\User;
 
-class UsersAction extends Action
+class ExpertListAction extends Action
 {
     public function run()
     {

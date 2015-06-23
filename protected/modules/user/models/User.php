@@ -51,8 +51,8 @@ use iri\models\User as IriUser;
  * @property Settings $Settings Настройки аккаунта пользователя
  * @property Result $CompetenceResults
  * @property User $MergeUser
- * @property IriUser[] $IRIParticipants[]
- * @property IriUser[] $IRIParticipantsActive[]
+ * @property IriUser[] $IRIParticipants
+ * @property IriUser[] $IRIParticipantsActive
  *
  * События
  * @property \CEvent $onRegister

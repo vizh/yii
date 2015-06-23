@@ -6,7 +6,9 @@ namespace application\models;
  * @property string $Code
  * @property string $Title
  * @property string $Description
- * @property strong $En
+ * @property string $En
+ *
+ * @method ProfessionalInterest findByPk()
  */
 class ProfessionalInterest extends \CActiveRecord
 {
