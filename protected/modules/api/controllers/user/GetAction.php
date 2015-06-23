@@ -1,54 +1,45 @@
 <?php
 namespace api\controllers\user;
 
+use api\components\Exception;
 use api\models\Account;
+use oauth\models\Permission;
 use user\models\User;
 
 class GetAction extends \api\components\Action
 {
-  public function run()
-  {
-    $runetId = \Yii::app()->getRequest()->getParam('RunetId', null);
-    if ($runetId === null)
+    public function run()
     {
-      $runetId = \Yii::app()->getRequest()->getParam('RocId', null);
-    }
-
-    $user = \user\models\User::model()->byRunetId($runetId)->find();
-    if ($user !== null)
-    {
-      if ($this->getAccount()->Role == 'sberbank')
-      {
-        $participant = \event\models\Participant::model()
-            ->byUserId($user->Id)->byEventId($this->getEvent()->Id)->find();
-        if ($participant === null || $participant->RoleId == 24)
-        {
-          throw new \api\components\Exception(2001, array($runetId));
+        $id = \Yii::app()->getRequest()->getParam('RunetId', null);
+        if ($id === null) {
+            $id = \Yii::app()->getRequest()->getParam('RocId', null);
         }
-      }
 
-      $this->getDataBuilder()->createUser($user);
-      $this->getDataBuilder()->buildUserEmployment($user);
-      $this->getDataBuilder()->buildUserEvent($user);
-      $userData = $this->getDataBuilder()->buildUserBadge($user);
+        $originalUser = User::model()->byRunetId($id)->find();
+        if ($originalUser !== null) {
+            $user = !empty($originalUser->MergeUserId) ? $originalUser->MergeUser : $originalUser;
+            $this->getDataBuilder()->createUser($user);
+            $this->getDataBuilder()->buildUserEmployment($user);
+            $this->getDataBuilder()->buildUserEvent($user);
+            $userData = $this->getDataBuilder()->buildUserBadge($user);
 
+            if ($this->hasContactsPermission($user, $userData)) {
+                $userData = $this->getDataBuilder()->buildUserContacts($user);
+            }
 
-      if ($this->hasContactsPermission($user, $userData))
-      {
-        $userData = $this->getDataBuilder()->buildUserContacts($user);
-      }
-      $this->setResult($userData);
+            if (!empty($originalUser->MergeUserId)) {
+                $userData->RedirectRunetId = $originalUser->RunetId;
+            }
+            
+            $this->setResult($userData);
+        } else {
+            throw new Exception(202, [$id]);
+        }
     }
-    else
-    {
-      throw new \api\components\Exception(202, array($runetId));
-    }
-  }
 
     private function hasContactsPermission(User $user, $userData)
     {
-        switch ($this->getAccount()->Role)
-        {
+        switch ($this->getAccount()->Role) {
             case Account::ROLE_OWN:
                 return true;
                 break;
@@ -59,8 +50,7 @@ class GetAction extends \api\components\Action
                 break;
 
             default:
-                $permissionModel = \oauth\models\Permission::model()->byUserId($user->Id)
-                    ->byAccountId($this->getAccount()->Id)->byDeleted(false);
+                $permissionModel = Permission::model()->byUserId($user->Id)->byAccountId($this->getAccount()->Id)->byDeleted(false);
                 return isset($userData->Status) || $permissionModel->exists();
         }
     }

@@ -30,6 +30,8 @@ use user\components\handlers\Register;
  * @property string $PrimaryPhone
  * @property bool $PrimaryPhoneVerify
  * @property string $PrimaryPhoneVerifyTime
+ * @property int $MergeUserId
+ * @property string $MergeTime
  *
  *
  *
@@ -46,6 +48,7 @@ use user\components\handlers\Register;
  * @property \event\models\Participant[] $Participants
  * @property Settings $Settings Настройки аккаунта пользователя
  * @property Result $CompetenceResults
+ * @property User $MergeUser
  *
  * События
  * @property \CEvent $onRegister
@@ -119,6 +122,8 @@ class User extends \application\models\translation\ActiveRecord
             'Badges' => [self::HAS_MANY, '\ruvents\models\Badge', 'UserId'],
             'Settings' => [self::HAS_ONE, '\user\models\Settings', 'UserId'],
             'CompetenceResults' => [self::HAS_MANY, '\competence\models\Result', 'UserId'],
+
+            'MergeUser' => [self::BELONGS_TO, '\user\models\User', 'Id'],
         );
     }
 
@@ -142,13 +147,14 @@ class User extends \application\models\translation\ActiveRecord
     /**
      * @param int $runetId
      * @param bool $useAnd
-     * @return User
+     * @param bool $useMerge
+     * @return $this
      */
     public function byRunetId($runetId, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."RunetId" = :RunetId';
-        $criteria->params = array(':RunetId' => (int)$runetId);
+        $criteria->params['RunetId'] = (int)$runetId;
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }

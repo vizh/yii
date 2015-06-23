@@ -2,6 +2,7 @@
 namespace api\components\builders;
 use event\models\section\Favorite;
 use event\models\section\Hall;
+use user\models\User;
 
 /**
  * Методы делятся на 2 типа:
@@ -28,7 +29,7 @@ class Builder
      * @param \user\models\User $user
      * @return \stdClass
      */
-    public function createUser(\user\models\User $user)
+    public function createUser(User $user)
     {
         $this->user = new \stdClass();
 
