@@ -1,5 +1,6 @@
 <?php
 namespace user\models;
+
 use application\components\utility\Texts;
 use competence\models\Result;
 use libphonenumber\NumberParseException;
@@ -7,6 +8,7 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use mail\components\mailers\MandrillMailer;
 use user\components\handlers\Register;
+use iri\models\User as IriUser;
 
 /**
  * @throws \Exception
@@ -49,6 +51,8 @@ use user\components\handlers\Register;
  * @property Settings $Settings Настройки аккаунта пользователя
  * @property Result $CompetenceResults
  * @property User $MergeUser
+ * @property IriUser[] $IRIParticipants[]
+ * @property IriUser[] $IRIParticipantsActive[]
  *
  * События
  * @property \CEvent $onRegister
@@ -125,8 +129,8 @@ class User extends \application\models\translation\ActiveRecord
 
             'MergeUser' => [self::BELONGS_TO, '\user\models\User', 'Id'],
 
-            'Iri' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role']],
-            'IriActive' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role'], 'on' => '"IriActive"."ExitTime" IS NULL OR "IriActive"."ExitTime" > NOW()'],
+            'IRIParticipants' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role']],
+            'IRIParticipantsActive' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role'], 'on' => '"IRIParticipantsActive"."ExitTime" IS NULL OR "IRIParticipantsActive"."ExitTime" > NOW()'],
         );
     }
 
