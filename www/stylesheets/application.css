@@ -2210,8 +2210,8 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 .user-account .b-card .b-details .b-raec .logo,
 .user-account .b-card .b-details .b-iri .logo {margin-bottom: 5px;}
-.user-account .b-card .b-details .b-raec .text {color: #ef3c31;}
-.user-account .b-card .b-details .b-iri .text {color: #753182;}
+.user-account .b-card .b-details .b-raec .text,
+.user-account .b-card .b-details .b-iri .text {color: #ef3c31;}
 
 .user-account .b-card .tabs {margin-bottom: 45px;}
 .user-account .b-card .tabs .tab {

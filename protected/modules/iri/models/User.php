@@ -66,7 +66,7 @@ class User extends ActiveRecord
     {
         $result = $this->Role->Title;
         if (!empty($this->ProfessionalInterest)) {
-            $result .= ', ' . \Yii::t('app', 'экосистема') . ' «' . \CHtml::link($this->ProfessionalInterest->Title, 'http://ири.рф/experts/', ['target' => '_blank']) . '»';
+            $result .= ', ' . \CHtml::link(\Yii::t('app', 'экосистема') . ' «' . $this->ProfessionalInterest->Title . '»', 'http://ири.рф/experts/', ['target' => '_blank']);
         }
         return $result;
     }
