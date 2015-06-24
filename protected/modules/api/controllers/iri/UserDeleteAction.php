@@ -8,7 +8,7 @@ use iri\models\Role;
 use user\models\User;
 use iri\models\User as IriUser;
 
-class ExpertDeleteAction extends Action
+class UserDeleteAction extends Action
 {
     public function run()
     {
@@ -16,6 +16,8 @@ class ExpertDeleteAction extends Action
 
         $runetId = $request->getParam('RunetId');
         $roleId = $request->getParam('RoleId');
+        $type = $request->getParam('Type');
+        $profInterestId = $request->getParam('ProfessionalInterestId');
 
         $user = User::model()->byRunetId($runetId)->find();
         if (empty($user)) {
@@ -27,26 +29,31 @@ class ExpertDeleteAction extends Action
             throw new Exception(1001, [$roleId]);
         }
 
-        $criteria = new \CDbCriteria();
+        if (empty($type)) {
+            throw new Exception(1004);
+        }
 
+        $profInterest = null;
         if (!empty($profInterestId)) {
             $profInterest = ProfessionalInterest::model()->findByPk($profInterestId);
             if (empty($profInterest)) {
                 throw new Exception(901, [$profInterestId]);
             }
-            $criteria->addCondition('"t"."ProfessionalInterestId" = :ProfessionalInterestId');
-            $criteria->params['ProfessionalInterestId'] = $profInterest->Id;
-        } else {
-            $criteria->addCondition('"t"."ProfessionalInterestId" IS NULL');
         }
 
-        $iriUser = IriUser::model()->byUserId($user->Id)->byRoleId($role->Id)->find($criteria);
+        $iriUser = IriUser::model()
+            ->byUserId($user->Id)
+            ->byType($type)
+            ->byRoleId($role->Id)
+            ->byProfessionalInterestId($profInterest !== null ? $profInterest->Id : null)
+            ->find();
+
         if ($iriUser === null || !empty($iriUser->ExitTime)) {
             throw new Exception(1003, [$user->RunetId, $role->Id]);
         }
 
         $iriUser->ExitTime = date('Y-m-d H:i:s');
         $iriUser->save();
-        $this->setResult(['success' => true]);
+        $this->setResult(['Success' => true]);
     }
 } 

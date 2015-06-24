@@ -12,6 +12,7 @@ use application\models\ProfessionalInterest;
  * @property integer $RoleId
  * @property string $JoinTime
  * @property string $ExitTime
+ * @property string $Type
  * @property integer $ProfessionalInterestId
  *
  * The followings are the available model relations:
@@ -21,6 +22,8 @@ use application\models\ProfessionalInterest;
  *
  * @method User byUserId(integer $userId)
  * @method User byRoleId(integer $roleId)
+ * @method User byType(string $type)
+ * @method User byProfessionalInterestId(integer $professionalInterestId)
  * @method User find()
  */
 class User extends ActiveRecord
@@ -63,7 +66,7 @@ class User extends ActiveRecord
     {
         $result = $this->Role->Title;
         if (!empty($this->ProfessionalInterest)) {
-            $result .= ', ' . \CHtml::link($this->ProfessionalInterest->Title, 'http://ири.рф/experts/', ['target' => '_blank']);
+            $result .= ', ' . \Yii::t('app', 'экосистема') . ' «' . \CHtml::link($this->ProfessionalInterest->Title, 'http://ири.рф/experts/', ['target' => '_blank']) . '»';
         }
         return $result;
     }

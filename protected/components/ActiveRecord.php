@@ -13,8 +13,13 @@ class ActiveRecord extends \CActiveRecord
             if (array_key_exists($column, $schema->columns)) {
                 $criteria = new \CDbCriteria();
                 if ($schema->getColumn($column)->dbType !== 'boolean') {
-                    $criteria->addCondition('"t"."' . $column . '" = :'.$column);
-                    $criteria->params[$column] = $parameters[0];
+                    $value = $parameters[0];
+                    if ($value !== null) {
+                        $criteria->addCondition('"t"."' . $column . '" = :'.$column);
+                        $criteria->params[$column] = $value;
+                    } else {
+                        $criteria->addCondition('"t"."' . $column . '" IS NULL');
+                    }
                 } else {
                     $criteria->addCondition(($parameters[0] === false ? 'NOT ' : '') . '"t"."' . $column . '"');
                 }

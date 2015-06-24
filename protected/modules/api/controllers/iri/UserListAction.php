@@ -12,13 +12,16 @@ namespace api\controllers\iri;
 use api\components\Action;
 use iri\models\User;
 
-class ExpertListAction extends Action
+class UserListAction extends Action
 {
     public function run()
     {
+        $request = \Yii::app()->getRequest();
+        $type = $request->getParam('Type');
+
         $criteria = new \CDbCriteria();
         $criteria->addCondition('"t"."ExitTime" IS NULL OR "t"."ExitTime" > NOW()');
-        $users = User::model()->orderBy('"t"."JoinTime"')->findAll($criteria);
+        $users = User::model()->byType($type)->orderBy('"t"."JoinTime"')->findAll($criteria);
 
         $result = [];
         foreach ($users as $user) {

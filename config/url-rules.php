@@ -79,10 +79,7 @@ return [
     'http://api.'.RUNETID_HOST.'/raec/commission/list' => 'api/raec/commissionlist',
     'http://api.'.RUNETID_HOST.'/raec/commission/users' => 'api/raec/commissionusers',
 
-    'http://api.'.RUNETID_HOST.'/iri/expert/list' => 'api/iri/expertlist',
-    'http://api.'.RUNETID_HOST.'/iri/expert/add' => 'api/iri/expertadd',
-    'http://api.'.RUNETID_HOST.'/iri/expert/delete' => 'api/iri/expertdelete',
-
+    'http://api.'.RUNETID_HOST.'/iri/<Type:(expert|director)>/<action:\w+>' => 'api/iri/user<action>',
     'http://api.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
 
     /** PAY Module Rules */

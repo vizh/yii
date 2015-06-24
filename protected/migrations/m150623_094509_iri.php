@@ -14,6 +14,7 @@ class m150623_094509_iri extends CDbMigration
             'Id' => 'serial PRIMARY KEY',
             'UserId' => 'integer NOT NULL',
             'RoleId' => 'integer NOT NULL',
+            'Type' => 'varchar(255) NOT NULL',
             'ProfessionalInterestId' => 'integer NULL',
             'JoinTime' => 'timestamp DEFAULT (\'now\'::text)::timestamp(0) without time zone',
             'ExitTime' => 'timestamp NULL'
@@ -24,10 +25,10 @@ class m150623_094509_iri extends CDbMigration
         $this->addForeignKey('IriUser_ProfessionalInterestId_fkey', 'IriUser', 'ProfessionalInterestId', 'ProfessionalInterest', 'Id', 'RESTRICT', 'RESTRICT');
 
         $this->insert('IriRole', [
-            'Title' => 'ТОП-эксперт ЭС'
+            'Title' => 'Ведущий эксперт ЭС ИРИ'
         ]);
         $this->insert('IriRole', [
-            'Title' => 'Эксперт ЭС'
+            'Title' => 'Эксперт ЭС ИРИ'
         ]);
 	}
 
