@@ -683,11 +683,9 @@ class User extends \application\models\translation\ActiveRecord
      */
     public function getContactServiceAccount($type)
     {
-        foreach ($this->LinkServiceAccounts as $linkServiceAccount)
-        {
-            if ($linkServiceAccount->ServiceAccount->TypeId == $type->Id)
-            {
-                return $linkServiceAccount->ServiceAccount;
+        foreach ($this->LinkServiceAccounts as $link) {
+            if (!empty($link->ServiceAccount) && $link->ServiceAccount->TypeId == $type->Id) {
+                return $link->ServiceAccount;
             }
         }
         return null;
