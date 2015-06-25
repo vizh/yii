@@ -128,5 +128,7 @@ return [
         'css' => ['javascripts/bootstrap-3/css/bootstrap.min.css'],
         'depends' => ['runetid.jquery']
     ],
-    'jquery' => []
+    'jquery' => [
+        'depends' => ['runetid.jquery']
+    ]
 ];

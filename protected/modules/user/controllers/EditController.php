@@ -10,6 +10,7 @@ class EditController extends \application\components\controllers\PublicMainContr
             'contacts' => '\user\controllers\edit\ContactsAction',
             'profinterests' => '\user\controllers\edit\ProfessionalInterestsAction',
             'education' => 'user\controllers\edit\EducationAction',
+            'document' =>'user\controllers\edit\DocumentAction'
         );
     }
 }

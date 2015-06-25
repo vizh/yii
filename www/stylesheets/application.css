@@ -2175,6 +2175,44 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   vertical-align: top;
 }
 
+.user-account-settings .tabs {
+  display:inline-block;
+  width: 100%;
+}
+.user-account-settings .tabs ul.nav {
+  margin:0px 0 30px;
+  padding:0px;
+  border-bottom: 2px solid #ddd;
+}
+.user-account-settings .tabs ul.nav:after{
+  content:"";
+  display:block;
+  clear:both;
+}
+.user-account-settings .tabs ul.nav li{
+  margin:0px;
+  padding:0px;
+  float:left;
+}
+.user-account-settings .tabs ul.nav li a {
+  display:block;
+  padding:10px 15px;
+  background:#fff;
+  color:#707070;
+  border-radius: 3px 3px 0 0;
+}
+.user-account-settings .tabs ul.nav li.ui-state-active a, .user-account-settings .tabs ul.nav li.ui-state-hover a{
+  background:#e9eaeb;
+  color:#333;
+}
+
+.user-account-settings .tabs ul.nav li.ui-state-active a,
+.user-account-settings .tabs ul.nav li.ui-state-hover a {
+  color:#333;
+}
+
+
+
 /* User -> Account -> Card */
 .user-account .b-card {
   position: relative;
