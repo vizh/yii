@@ -85,9 +85,12 @@ class ServiceAccount extends \CActiveRecord
         return $this->accountUrl;
     }
 
+    /**
+     * @return null|string
+     */
     public function getLinkTarget()
     {
-        return (substr($this->getAccountUrl(), 0, strlen('http://')) == 'http://') ? '_blank' : null;
+        return strpos($this->getAccountUrl(), 'http://') !== false ? '_blank' : null;
     }
 
     private $cleanAccount = null;
@@ -98,9 +101,9 @@ class ServiceAccount extends \CActiveRecord
     private function getCleanAccount()
     {
         if ($this->cleanAccount == null) {
-            $this->cleanAccount = rtrim($this->Account, '/');
+            $this->cleanAccount = $this->Account;
             if (strpos($this->cleanAccount, 'http') === 0) {
-                $this->cleanAccount = substr($this->cleanAccount, strrpos($this->cleanAccount, '/')+1);
+                $this->cleanAccount = substr($this->cleanAccount, strrpos($this->cleanAccount, '/') + 1);
             }
         }
         return $this->cleanAccount;

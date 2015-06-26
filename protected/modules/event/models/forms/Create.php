@@ -88,7 +88,7 @@ class Create extends \CFormModel
       'OneDayDate' => \Yii::t('app', 'один день'),
       'PlannedParticipants' => \Yii::t('app', 'Планируемое кол-во участников'),
       'City' => \Yii::t('app', 'Город'),
-      'Company' => \Yii::t('app', 'Компания организатор ')
+      'Company' => \Yii::t('app', 'Компания организатор')
     );
   }
   
@@ -216,7 +216,6 @@ class Create extends \CFormModel
                 $mail->send();
             }
             \Yii::app()->user->setFlash('success', \Yii::t('app', '<h4 class="m-bottom_5">Поздравляем!</h4>Мероприятие отправлено. В ближайшее время c Вами свяжутся.'));
-            $this->refresh();
         }
     }
 }

@@ -14,9 +14,9 @@ class CreateController extends \application\components\controllers\PublicMainCon
       $form->addError('ContactName', '<a href="#" id="PromoLogin">Авторизуйтесь или зарегистрируйтесь</a> в системе RUNET-ID для добавления мероприятия');
     }
     
-    if ($request->getIsPostRequest() && $form->validate(null,false))
-    {
-        Form::save($form);
+    if ($request->getIsPostRequest() && $form->validate(null,false)) {
+        $form->save($form);
+        $this->refresh();
     }
 
     $this->render('index', array('form' => $form));
