@@ -13,6 +13,7 @@ namespace pay\models;
  * @property bool $Uniteller
  * @property bool $UnitellerRuvents
  * @property bool $PayOnline
+ * @property bool $CloudPayments
  * @property bool $MailRuMoney
  * @property int  $OrderTemplateId
  * @property bool $SandBoxUser

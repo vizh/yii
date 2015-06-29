@@ -1,51 +1,65 @@
 <?php
 namespace pay\controllers\cabinet;
 
+use pay\components\Action;
+use pay\components\systems\Base;
+use pay\components\systems\CloudPayments;
+use pay\components\systems\PayOnline;
+use pay\components\systems\PayPal;
 use pay\components\systems\Uniteller;
+use pay\models\Account;
+use pay\models\Order;
+use pay\models\OrderType;
 
-class PayAction extends \pay\components\Action
+class PayAction extends Action
 {
-  public function run($eventIdName, $type = null)
-  {
-
-    $order = new \pay\models\Order();
-    $total = $order->create($this->getUser(), $this->getEvent(), \pay\models\OrderType::PaySystem);
-
-    /** @var $account \pay\models\Account */
-    $account = \pay\models\Account::model()->byEventId($this->getEvent()->Id)->find();
-
-    $system = null;
-    if ($type == 'paypal')
+    public function run($eventIdName, $type = null)
     {
-      $system = new \pay\components\systems\PayPal();
+        $order = new Order();
+        $total = $order->create($this->getUser(), $this->getEvent(), OrderType::PaySystem);
+        $account = Account::model()->byEventId($this->getEvent()->Id)->find();
+        $system = $this->getSystem($type, $account);
+        $system->processPayment($this->getEvent()->Id, $order->Id, $total);
     }
-    elseif ($type == 'uniteller' && $account->Uniteller)
+
+    /**
+     * @param string $type
+     * @param Account $account
+     * @return Base
+     */
+    public function getSystem($type, Account $account)
+    {
+        if ($type == 'paypal') {
+            $system = new PayPal();
+        } elseif ($type == 'uniteller' && $account->Uniteller) {
+            $system = $this->getSystemUniteller($account);
+        } elseif ($type == 'yandexmoney' && $account->PayOnline) {
+            $system = new PayOnline();
+            $system->toYandexMoney = true;
+        } elseif ($type == 'cloudpayments') {
+            $system = new CloudPayments();
+        } else {
+            if ($account->PayOnline) {
+                $system = new PayOnline();
+            }
+            else {
+                $system = new Uniteller();
+            }
+        }
+        return $system;
+    }
+
+    /**
+     * @param Account $account
+     * @return Uniteller
+     */
+    private function getSystemUniteller(Account $account)
     {
         if ($account->UnitellerRuvents) {
-            $system = new Uniteller('ruvents');
+            return new Uniteller('ruvents');
         } elseif ($account->Own) {
-            $system = new \pay\components\systems\Uniteller(null, '00000524');
-        } else {
-            $system = new \pay\components\systems\Uniteller();
+            return new Uniteller(null, '00000524');
         }
+        return new Uniteller();
     }
-    elseif ($type == 'yandexmoney' && $account->PayOnline)
-    {
-      $system = new \pay\components\systems\PayOnline();
-      $system->toYandexMoney = true;
-    }
-    else
-    {
-      if ($account->PayOnline)
-      {
-        $system = new \pay\components\systems\PayOnline();
-      }
-      else
-      {
-        $system = new \pay\components\systems\Uniteller();
-      }
-    }
-
-    $system->processPayment($this->getEvent()->Id, $order->Id, $total);
-  }
 }
