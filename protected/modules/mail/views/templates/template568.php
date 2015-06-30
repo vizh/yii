@@ -46,12 +46,9 @@
 						<p><br />
 						<span style="font-family: arial,helvetica,sans-serif; font-size: 14px;">Здравствуйте <?=$user->getShortName();?>,</span></p>
 
-						<p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;"><span lang="RU">Компания Amazon Web Services (AWS) при информационной поддержке RUNET–ID рады пригласить Вас на <strong>«День AWS в Москве - AWSome Day Moscow»</strong> который впервые пройдет в России 2 июля 2015 года.</span></p>
+						<p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;">У Вас есть последняя возможность зарегистрироваться на День AWS в Москве, 2-го июля. Проводится только один раз в 2015, не пропустите этот бесплатный однодневный технический и бизнес тренинг по облачным решениям.</span></p>
 
-						<p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;">Тренинг по облачным технологиям в Digital October проведут технические инструкторы и ключевые представители команды AWS. Мероприятие будет состоять из двух параллельных секций – технического и бизнес курсов.</p>
-                        <p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;">На <strong>техническом курсе</strong> вы научитесь строить масштабируемые и безопасные приложения на AWS, а также получите детальное руководство по основным сервисам AWS, таким как Compute (вычислительные сервисы), Storage (хранение данных), Databases (базы данных) и Networking (cетевая инфраструктура). Тренинг будет полезен для технических пользователей - разработчиков, инженеров, системных администраторов и архитекторов.</p>
-                        <p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;">На <strong>бизнес-секции</strong> вы узнаете о преимуществах и финансовых выгодах облачных технологий для бизнеса, а также познакомитесь с успешными методами внедрения облака и использования платформы AWS. К участию приглашаются лица, принимающие решения - IT менеджеры, директора и бизнес-руководители.</p>
-                        <p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;">Если Вы хотите посетить мероприятие, пожалуйста, зарегистрируйтесь сегодня, поскольку количество место ограничено.</p>
+						<p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;">В этом сообщении Вы найдёте полезную информацию по поводу мероприятия «День AWS в Москве - AWSome Day Moscow».</p>
 
                         <table border="0" cellpadding="0" cellspacing="0" class="displayWidth" width="100%">
                             <tbody>
@@ -63,9 +60,9 @@
                                             <td style="padding-top:10px; padding-bottom:10px; padding-left:10px; color:#000000; font-family:arial, helvetica, sans-serif; font-size:14px; ">
                                                 <div class="mktEditable" id="ctaLeft1">
                                                     <p class="MsoNormal"><span style="font-size: 14px;"><span style="font-family: arial,helvetica,sans-serif; font-size: 16px;"><strong style="color: #ff9933;"><span lang="RU" style="color: #ff9933;">Детали мероприятия</span>:</strong></span><br />
-                                            <strong><span lang="RU" style="color: black;"><span style="font-family: arial,helvetica,sans-serif;">Дата: 2 июля 2015 |</span></span></strong> <span lang="RU" style="color: black; font-family: arial,helvetica,sans-serif;">08:30 - 18:00</span><br />
-                                            <strong><span lang="RU" style="color: black; font-family: &quot;Times New Roman&quot;,serif;"><span style="font-family: arial,helvetica,sans-serif;">Место:</span></span></strong> <span lang="RU" style="color: black; font-family: arial,helvetica,sans-serif;">Москва (адрес сообщим позже)</span><br />
-                                            <span style="font-family: arial,helvetica,sans-serif;"><strong><span lang="RU" style="color:
+                                        <strong><span lang="RU" style="color: black;"><span style="font-family: arial,helvetica,sans-serif;">Дата: 2 июля 2015 |</span></span></strong> <span lang="RU" style="color: black; font-family: arial,helvetica,sans-serif;">08:30 - 18:00</span><br />
+                                        <strong><span lang="RU" style="color: black; font-family: &quot;Times New Roman&quot;,serif;"><span style="font-family: arial,helvetica,sans-serif;">Место:</span></span></strong> <span lang="RU" style="color: black; font-family: arial,helvetica,sans-serif;">Москва (адрес сообщим позже)</span><br />
+                                        <span style="font-family: arial,helvetica,sans-serif;"><strong><span lang="RU" style="color:
 black;">Уровень знаний участников:</span></strong> <span lang="RU" style="color: black;">начальный и средний</span></span></span></p>
                                                 </div>
                                             </td>
@@ -87,74 +84,43 @@ black;">Уровень знаний участников:</span></strong> <span 
                             </tr>
                             </tbody>
                         </table>
-                        &nbsp;
 
                         <p>
-                            <span style="font-size: 14px;"><span style="font-family: arial,helvetica,sans-serif; font-size: 16px;"><strong style="color: #ff9933;"><span lang="RU" style="color: #ff9933;">Программа</span>:</strong></span></span>
+                            <span style="font-size: 14px;"><span style="font-family: arial,helvetica,sans-serif; font-size: 16px;"><strong style="color: #ff9933;"><span lang="RU" style="color: #ff9933;">Получение пропуска</span>:</strong></span></span>
                         </p>
 
-                        <table style="width: 100%;font-family: arial,helvetica,sans-serif; font-size: 14px; border-collapse: collapse;">
-                            <thead>
-                                <tr>
-                                    <th style="padding: 8px 10px; background-color: #F8F8F8;">Время</th>
-                                    <th style="padding: 8px 10px; background-color: #F8F8F8;">Технический Курс</th>
-                                    <th style="padding: 8px 10px; background-color: #F8F8F8;">Бизнес-Курс</th>
-                                </tr>
-                            </thead>
+                        <p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;"><strong>Выдача именных пропусков начнётся в 8.30</strong> на столе регистрации AWSome Day.</p>
+
+                        <p>
+                            <span style="font-size: 14px;"><span style="font-family: arial,helvetica,sans-serif; font-size: 16px;"><strong style="color: #ff9933;"><span lang="RU" style="color: #ff9933;">Как добраться?</span></strong></span></span>
+                        </p>
+
+                        <p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px; text-decoration: underline;"><strong>Место: 119072, Москва, Берсеневская набережная, 6, стр. 3</strong></span></p>
+                        <p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;"><strong>Digital October</strong> удобно расположен в центре города - можно добраться на автомобиле и метро. Для дополнительной информации, пожалуйста, <a href="http://digitaloctober.ru/ru/contact?mkt_tok=3RkMMJWWfF9wsRomrfCcI63Em2iQPJWpsrB0B%2FDC18kX3RUtJLSXYAfind1SFJk7a8C6XFpJQN1K9i0VQ7HM">нажмите здесь</a>.</span></p>
+
+                        <table align="center" width="600" cellspacing="1" cellpadding="10" border="0" style="border: 0px solid #ffffff; background-color: #ffffff;">
                             <tbody>
-                                <tr>
-                                    <td style="font-weight: bold; text-align: center; width: 150px; border: 1px solid #F8F8F8; padding: 8px 10px;">08:30 - 09:30</td>
-                                    <td colspan="2" style="text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">Регистрация</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-weight: bold; text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">09:30 - 10:30</td>
-                                    <td colspan="2" style="text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">Вступительная речь и объявление начала тренинга</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-weight: bold; text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">10:30 - 10:45</td>
-                                    <td colspan="2" style="text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">Перерыв</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-weight: bold; text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">10:45 - 11:45</td>
-                                    <td style="border: 1px solid #F8F8F8; padding: 8px 10px;">Вычислительные сервисы AWS</td>
-                                    <td style="border: 1px solid #F8F8F8; padding: 8px 10px;">Преимущества Облачных Технологий</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-weight: bold; text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">11:45 - 12:45</td>
-                                    <td style="border: 1px solid #F8F8F8; padding: 8px 10px;">Хранилища данных на AWS</td>
-                                    <td style="border: 1px solid #F8F8F8; padding: 8px 10px;">Использование платформы AWS</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-weight: bold; text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">12:45 - 13:45</td>
-                                    <td style="border: 1px solid #F8F8F8; padding: 8px 10px;">Сетевая инфраструктура и безопасность в AWS</td>
-                                    <td style="border: 1px solid #F8F8F8; padding: 8px 10px;">Экономические аспекты Облака</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-weight: bold; text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">13:45 - 14:45</td>
-                                    <td colspan="2" style="text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">Перерыв на обед / свободное общение (обед предоставляется)</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-weight: bold; text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">14:45 - 15:45</td>
-                                    <td style="border: 1px solid #F8F8F8; padding: 8px 10px;">Базы данных на AWS</td>
-                                    <td style="border: 1px solid #F8F8F8; padding: 8px 10px;">Безопасность и соответствие стандартам</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-weight: bold; text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">15:45 - 16:00</td>
-                                    <td style="border: 1px solid #F8F8F8; padding: 8px 10px;">Сервисы AWS по разворачиванию и управлению инфраструктурой</td>
-                                    <td style="border: 1px solid #F8F8F8; padding: 8px 10px;">Миграция в Облако</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-weight: bold; text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">16:00 - 17:00</td>
-                                    <td colspan="2" style="border: 1px solid #F8F8F8; padding: 8px 10px;">Перерыв</td>
-                                </tr>
-                                <tr>
-                                    <td style="font-weight: bold; text-align: center; border: 1px solid #F8F8F8; padding: 8px 10px;">17:00 - 18:00</td>
-                                    <td colspan="2" style="border: 1px solid #F8F8F8; padding: 8px 10px;">Заключительное слово</td>
-                                </tr>
+                            <tr valign="top">
+                                <td align="center" valign="middle" style="background-color: #dadbdb;">
+                                    <div><span style="font-family: arial, helvetica, sans-serif; font-size: 14px;"><strong>Метро<br>
+                                            </strong></span></div>
+                                </td>
+                                <td bgcolor="#f5f5f5"><span style="font-size: 14px; font-family: arial,helvetica,sans-serif;">Расположение в
+<em>10-15</em> минутах ходьбы от станций метро Кропоткинская, Полянка или Третьяковская.</span></td>
+                            </tr>
+                            <tr valign="top">
+                                <td align="center" valign="middle" style="background-color: #dadbdb;">
+                                    <div><span style="font-family: arial, helvetica, sans-serif; font-size: 14px;"><strong>Парковка</strong></span></div>
+                                </td>
+                                <td bgcolor="#f5f5f5">
+                                    <p><span style="font-size: 14px; font-family: arial,helvetica,sans-serif;">Есть несколько
+<a href="https://s3-eu-west-1.amazonaws.com/enterpriseday/AWSome+Day+Moscow/%D0%9F%D0%B0%D1%80%D0%BA%D0%BE%D0%B2%D0%BA%D0%B0+%D1%83+%D0%BF%D0%B5%D1%82%D1%80%D0%B0.pdf?mkt_tok=3RkMMJWWfF9wsRomrfCcI63Em2iQPJWpsrB0B%2FDC18kX3RUtJLSXYAfind1SFJk7a8C6XFpJQN1K9i0VQ7HM">автостоянок</a> рядом с местом проведения мероприятия.</span></p>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
-                        </div>
-						&nbsp;
+
+                        <p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;">Чтобы проверить последние новости, пожалуйста, посетите <a href="http://aws.amazon.com/ru/moscow-15/?mkt_tok=3RkMMJWWfF9wsRomrfCcI63Em2iQPJWpsrB0B%2FDC18kX3RUtJLSXYAfind1SFJk7a8C6XFpJQN1K9i0VQ7HM">страницу мероприятия</a></span></p>
 
 						<p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;"><strong><span lang="RU">С наилучшими пожеланиями,</span></strong></span><br/>
 							<span style="font-family: arial,helvetica,sans-serif; font-size: 14px;"><strong><span lang="RU">Коллектив</span></strong> <strong>Amazon</strong> <strong>Web</strong> <strong>Services</strong></span><br/>
