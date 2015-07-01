@@ -8,7 +8,7 @@ use \application\components\controllers\PublicMainController;
 use user\models\forms\document\BaseDocument;
 use application\helpers\Flash;
 
-$this->setPageTitle(\Yii::t('app', 'Документы удостоверяющие личность'));
+$this->setPageTitle(\Yii::t('app', 'Паспортные данные'));
 ?>
 <?=$this->renderPartial('parts/title');?>
 
@@ -32,7 +32,7 @@ $this->setPageTitle(\Yii::t('app', 'Документы удостоверяющ�
                 <div class="span9">
                     <div class="b-form">
                         <div class="form-header">
-                            <h4><?=\Yii::t('app', 'Документы удостоверяющие личность');?></h4>
+                            <h4><?=$this->getPageTitle();?></h4>
                         </div>
                         <?=Flash::html();?>
                         <div class="tabs" id="user-account-settings-tabs">

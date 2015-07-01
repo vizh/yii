@@ -4,8 +4,16 @@
  * @var \CActiveForm $activeForm
  * @var \user\models\forms\document\Passport $form
  */
-
+\Yii::app()->getClientScript()->registerPackage('runetid.bootstrap-datepicker');
 ?>
+<script type="text/javascript">
+    $(function (){
+        $('input[name*="Passport[DateIssue]"], input[name*="Passport[Birthday]"]').datepicker({
+            format : 'dd.mm.yyyy',
+            language : 'ru'
+        });
+    });
+</script>
 <?php $activeForm = $this->beginWidget('CActiveForm');?>
     <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
     <div class="row-fluid">
@@ -37,7 +45,7 @@
             <div class="control-group">
                 <?=$activeForm->label($form, 'DateIssue', ['class' => 'control-label']);?>
                 <div class="controls">
-                    <?=$activeForm->textField($form, 'DateIssue', ['class' => 'input-block-level', 'placeholder' => \Yii::t('app', 'Пример: 01.01.1980')]);?>
+                    <?=$activeForm->textField($form, 'DateIssue', ['class' => 'input-block-level']);?>
                 </div>
             </div>
         </div>
@@ -53,17 +61,17 @@
     <div class="row-fluid">
         <div class="span4">
             <div class="control-group">
-                <?=$activeForm->label($form, 'FirstName', ['class' => 'control-label']);?>
+                <?=$activeForm->label($form, 'LastName', ['class' => 'control-label']);?>
                 <div class="controls">
-                    <?=$activeForm->textField($form, 'FirstName', ['class' => 'input-block-level']);?>
+                    <?=$activeForm->textField($form, 'LastName', ['class' => 'input-block-level']);?>
                 </div>
             </div>
         </div>
         <div class="span4">
             <div class="control-group">
-                <?=$activeForm->label($form, 'LastName', ['class' => 'control-label']);?>
+                <?=$activeForm->label($form, 'FirstName', ['class' => 'control-label']);?>
                 <div class="controls">
-                    <?=$activeForm->textField($form, 'LastName', ['class' => 'input-block-level']);?>
+                    <?=$activeForm->textField($form, 'FirstName', ['class' => 'input-block-level']);?>
                 </div>
             </div>
         </div>
@@ -81,7 +89,7 @@
             <div class="control-group">
                 <?=$activeForm->label($form, 'Birthday', ['class' => 'control-label']);?>
                 <div class="controls">
-                    <?=$activeForm->textField($form, 'Birthday', ['class' => 'input-block-level', 'placeholder' => \Yii::t('app', 'Пример: 01.01.1980')]);?>
+                    <?=$activeForm->textField($form, 'Birthday', ['class' => 'input-block-level']);?>
                 </div>
             </div>
         </div>

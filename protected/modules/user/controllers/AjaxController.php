@@ -2,39 +2,43 @@
 use event\models\UserData;
 use user\models\forms\RegisterForm;
 use user\models\User;
+use user\models\Document;
+use application\components\controllers\PublicMainController;
 
-class AjaxController extends \application\components\controllers\PublicMainController
+
+
+class AjaxController extends PublicMainController
 {
-  public function actions()
-  {
-    return [
-      'phoneverify' => '\user\controllers\ajax\PhoneVerifyAction'
-    ];
-  }
+    public function actions()
+    {
+        return [
+            'phoneverify' => '\user\controllers\ajax\PhoneVerifyAction'
+        ];
+    }
 
-  public function actionSearch($term, $eventId = null)
-  {
-    $results = array();
-    $criteria = new \CDbCriteria();
-    $criteria->limit = 10;
-    $criteria->with = ['Employments.Company'];
-    $model = \user\models\User::model();
-    if ($eventId !== null)
+    public function actionSearch($term, $eventId = null)
     {
-      $model->bySearch($term, null, true, false)->byEventId($eventId);
+        $results = array();
+        $criteria = new \CDbCriteria();
+        $criteria->limit = 10;
+        $criteria->with = ['Employments.Company'];
+        $model = \user\models\User::model();
+        if ($eventId !== null)
+        {
+            $model->bySearch($term, null, true, false)->byEventId($eventId);
+        }
+        else
+        {
+            $model->bySearch($term);
+        }
+        /** @var $users \user\models\User[] */
+        $users = $model->findAll($criteria);
+        foreach ($users as $user)
+        {
+            $results[] = $this->getUserData($user);
+        }
+        echo json_encode($results);
     }
-    else
-    {
-      $model->bySearch($term);
-    }
-    /** @var $users \user\models\User[] */
-    $users = $model->findAll($criteria);
-    foreach ($users as $user)
-    {
-      $results[] = $this->getUserData($user);
-    }
-    echo json_encode($results);
-  }
 
     public function actionRegister()
     {
@@ -58,6 +62,23 @@ class AjaxController extends \application\components\controllers\PublicMainContr
                 $result->errors  = $form->getErrors();
             }
         }
+        echo json_encode($result);
+    }
+
+    /**
+     * Проверяет заполнен у пользователя документ, удостоверяющий личность
+     * @param int $id
+     */
+    public function actionCheckDocument($id)
+    {
+        $user = User::model()->byRunetId($id)->find();
+        if ($user === null) {
+            throw new \CHttpException(404);
+        }
+
+        $result = new \stdClass();
+        $result->result = Document::model()->byUserId($user->Id)->byActual(true)->exists();
+        $result->user = $this->getUserData($user);
         echo json_encode($result);
     }
 
@@ -96,21 +117,21 @@ class AjaxController extends \application\components\controllers\PublicMainContr
      * @return stdClass
      */
     private function getUserData($user)
-  {
-    $data = new \stdClass();
-    $data->RunetId = $data->value = $user->RunetId;
-    $data->LastName = $user->LastName;
-    $data->FirstName = $user->FirstName;
-    $data->FullName = $data->label = $user->getFullName();
-    $data->Photo = new \stdClass();
-    $data->Photo->Small = $user->getPhoto()->get50px();
-    $data->Photo->Medium = $user->getPhoto()->get90px();
-    $data->Photo->Large = $user->getPhoto()->get200px();
-    if ($user->getEmploymentPrimary() !== null)
     {
-      $data->Company = $user->getEmploymentPrimary()->Company->Name;
-      $data->Position = trim($user->getEmploymentPrimary()->Position);
+        $data = new \stdClass();
+        $data->RunetId = $data->value = $user->RunetId;
+        $data->LastName = $user->LastName;
+        $data->FirstName = $user->FirstName;
+        $data->FullName = $data->label = $user->getFullName();
+        $data->Photo = new \stdClass();
+        $data->Photo->Small = $user->getPhoto()->get50px();
+        $data->Photo->Medium = $user->getPhoto()->get90px();
+        $data->Photo->Large = $user->getPhoto()->get200px();
+        if ($user->getEmploymentPrimary() !== null)
+        {
+            $data->Company = $user->getEmploymentPrimary()->Company->Name;
+            $data->Position = trim($user->getEmploymentPrimary()->Position);
+        }
+        return $data;
     }
-    return $data;
-  }
 }

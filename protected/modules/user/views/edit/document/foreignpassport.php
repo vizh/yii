@@ -6,6 +6,16 @@
  */
 
 ?>
+
+<script type="text/javascript">
+    $(function (){
+        $('input[name*="ForeignPassport[DateIssue]"], input[name*="ForeignPassport[Birthday]"], input[name*="ForeignPassport[DateExpire]"]').datepicker({
+            format : 'dd.mm.yyyy',
+            language : 'ru'
+        });
+    });
+</script>
+
 <?php $activeForm = $this->beginWidget('CActiveForm');?>
 <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
 <div class="row-fluid">
@@ -75,7 +85,7 @@
         <div class="control-group">
             <?=$activeForm->label($form, 'Birthday', ['class' => 'control-label']);?>
             <div class="controls">
-                <?=$activeForm->textField($form, 'Birthday', ['class' => 'input-block-level', 'placeholder' => \Yii::t('app', 'Пример: 01.01.1980')]);?>
+                <?=$activeForm->textField($form, 'Birthday', ['class' => 'input-block-level']);?>
             </div>
         </div>
     </div>
@@ -90,28 +100,16 @@
 </div>
 <div class="row-fluid">
     <div class="span4">
-        <div class="control-group">
-            <?=$activeForm->label($form, 'DateIssue', ['class' => 'control-label']);?>
-            <div class="controls">
-                <?=$activeForm->textField($form, 'DateIssue', ['class' => 'input-block-level', 'placeholder' => \Yii::t('app', 'Пример: 01.01.1980')]);?>
-            </div>
-        </div>
+        <?=$activeForm->label($form, 'DateIssue', ['class' => 'control-label']);?>
+        <?=$activeForm->textField($form, 'DateIssue', ['class' => 'input-block-level']);?>
     </div>
     <div class="span4">
-        <div class="control-group">
-            <?=$activeForm->label($form, 'Authority', ['class' => 'control-label']);?>
-            <div class="controls">
-                <?=$activeForm->textField($form, 'Authority', ['class' => 'input-block-level']);?>
-            </div>
-        </div>
+        <?=$activeForm->label($form, 'Authority', ['class' => 'control-label']);?>
+        <?=$activeForm->textField($form, 'Authority', ['class' => 'input-block-level']);?>
     </div>
     <div class="span4">
-        <div class="control-group">
-            <?=$activeForm->label($form, 'DateExpire', ['class' => 'control-label']);?>
-            <div class="controls">
-                <?=$activeForm->textField($form, 'DateExpire', ['class' => 'input-block-level', 'placeholder' => \Yii::t('app', 'Пример: 01.01.1980')]);?>
-            </div>
-        </div>
+        <?=$activeForm->label($form, 'DateExpire', ['class' => 'control-label']);?>
+        <?=$activeForm->textField($form, 'DateExpire', ['class' => 'input-block-level']);?>
     </div>
 </div>
 <div class="form-footer">
