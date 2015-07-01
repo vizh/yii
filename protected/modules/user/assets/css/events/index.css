@@ -1,17 +1,6 @@
-.tab-item{
-    display: inline-block;
-    margin-right: 10px;
+#user-account-settings-tabs ul.nav {
+  margin-bottom: 0;
 }
-
-.ui-tabs-active a{
-    color: #999;
-    text-decoration:none;
-}
-
-.inner-tab{
-    width: 100%;
-}
-
 .table tr:first-child td{
     border: none;
     border-spacing: 0;
@@ -19,7 +8,12 @@
 }
 
 .inner-tab .table th, .table td {
-    padding: 18px 8px;
+  padding: 18px 8px;
+  vertical-align: middle;
+}
+
+.inner-tab .table th, .table td:last-child img{
+  height: 40px;
 }
 
 .ticket{

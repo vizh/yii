@@ -1525,6 +1525,14 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 .event-register .table .col-width {width: 80px;}
 
+.event-register .table .alert-row > td {
+  border: 0;
+  padding-top: 0;
+}
+.event-register .table .alert-row .alert {
+  margin-bottom: 0;
+}
+
 .event-register .total {
   margin-bottom: 40px;
   padding: 8px 40px;
@@ -2174,6 +2182,44 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   margin: 3px 0 0 20px;
   vertical-align: top;
 }
+
+.user-account-settings .tabs {
+  display:inline-block;
+  width: 100%;
+}
+.user-account-settings .tabs ul.nav {
+  margin:0px 0 30px;
+  padding:0px;
+  border-bottom: 2px solid #ddd;
+}
+.user-account-settings .tabs ul.nav:after{
+  content:"";
+  display:block;
+  clear:both;
+}
+.user-account-settings .tabs ul.nav li{
+  margin:0px;
+  padding:0px;
+  float:left;
+}
+.user-account-settings .tabs ul.nav li a {
+  display:block;
+  padding:10px 15px;
+  background:#fff;
+  color:#707070;
+  border-radius: 3px 3px 0 0;
+}
+.user-account-settings .tabs ul.nav li.ui-state-active a, .user-account-settings .tabs ul.nav li.ui-state-hover a{
+  background:#e9eaeb;
+  color:#333;
+}
+
+.user-account-settings .tabs ul.nav li.ui-state-active a,
+.user-account-settings .tabs ul.nav li.ui-state-hover a {
+  color:#333;
+}
+
+
 
 /* User -> Account -> Card */
 .user-account .b-card {

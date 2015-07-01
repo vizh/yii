@@ -41,7 +41,7 @@
 <?=\CHtml::beginForm('', 'POST', ['class' => 'form-horizontal', 'enctype' => 'multipart/form-data']);?>
 <div class="btn-toolbar">
   <?if (!empty($backUrl)):?>
-    <a href="<?=$backUrl;?>" class="btn"><?=\Yii::t('app', 'Вернуться к списку');?></a>
+    <a href="<?=$backUrl;?>" class="btn"><?=\Yii::t('app', '&larr; Вернуться');?></a>
   <?endif;?>
   <button class="btn btn-success" type="submit"><?=\Yii::t('app', 'Сохранить');?></button>
 </div>

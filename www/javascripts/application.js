@@ -94,6 +94,7 @@ $(function() {
   /* USER ACCOUNT */
   /* User account -> Tabs */
   $('#user-account-tabs').tabs();
+  $('#user-account-settings-tabs').tabs();
 
   /* COMPANIES */
   /* Company -> Account */

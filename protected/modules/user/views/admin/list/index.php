@@ -1,3 +1,13 @@
+<?
+/**
+ * @var  AdminMainController $this
+ */
+
+use application\components\controllers\AdminMainController;
+$this->setPageTitle('Список пользователей');
+?>
+
+
 <div class="btn-toolbar clearfix">
   <?=\CHtml::form($this->createUrl('/user/admin/list/index'), 'get', ['class' => 'form-inline']);?>
   <div class="pull-left">

@@ -68,7 +68,8 @@ use \application\components\socials\facebook\Event as SocialEvent;
  * @property bool $RegisterHideNotSelectedProduct
  * @property bool $NotSendRegisterMail
  * @property string $OrganizerInfo
- * @property int $CloseRegistrationAfterEnd
+ * @property bool $CloseRegistrationAfterEnd
+ * @property bool $DocumentRequired
  *
  *
  * Вспомогательные описания методов методы
@@ -152,6 +153,7 @@ class Event extends ActiveRecord implements ISearch
             'MailRegister',
             'PositionRequired',
             'PhoneRequired',
+            'DocumentRequired',
             'Options',
             'UnsubscribeNewUser',
             'RegisterHideNotSelectedProduct',

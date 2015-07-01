@@ -148,6 +148,12 @@
                     <?=\CHtml::activeCheckBox($form, 'UnsubscribeNewUser');?>
                 </div>
             </div>
+            <div class="control-group">
+                <?=\CHtml::activeLabel($form, 'DocumentRequired', array('class' => 'control-label'));?>
+                <div class="controls">
+                    <?=\CHtml::activeCheckBox($form, 'DocumentRequired');?>
+                </div>
+            </div>
 
 
             <div class="control-group">

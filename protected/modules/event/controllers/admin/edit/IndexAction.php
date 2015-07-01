@@ -93,6 +93,7 @@ class IndexAction extends \CAction
                 $event->UnsubscribeNewUser = $form->UnsubscribeNewUser;
                 $event->RegisterHideNotSelectedProduct = $form->RegisterHideNotSelectedProduct;
                 $event->NotSendRegisterMail = $form->NotSendRegisterMail;
+                $event->DocumentRequired = $form->DocumentRequired;
 
                 // Сохранение адреса
                 $address = $event->getContactAddress();

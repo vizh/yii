@@ -91,7 +91,6 @@ abstract class CreateUpdateForm extends FormModel
         if (empty($this->model)) {
             return false;
         }
-
         foreach ($this->getAttributes() as $attr => $value) {
             if ($this->isAttributeSafe($attr) && $this->model->hasAttribute($attr)) {
                 $this->model->$attr = $value;
