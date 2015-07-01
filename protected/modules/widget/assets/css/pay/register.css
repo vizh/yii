@@ -83,6 +83,14 @@
 
 .register .table .col-width {width: 80px;}
 
+.register .table .alert-row > td {
+  border: 0;
+  padding-top: 0;
+}
+.register .table .alert-row .alert {
+  margin-bottom: 0;
+}
+
 .register .total {
   margin-bottom: 40px;
   padding: 8px 40px;
