@@ -1,109 +1,116 @@
 <?php
 
 return [
-    /***  DENY BLOCK  ***/
-    [
-        'deny',
-        'roles' => ['mobile'],
-        'controllers' => ['event'],
-        'actions' => ['register']
-    ],
-    [
-        'deny',
-        'roles' => ['mobile'],
-        'controllers' => ['user'],
-        'actions' => ['create']
-    ],
-    [
-        'deny',
-        'roles' => ['mobile'],
-        'controllers' => ['pay']
-    ],
-    /*** END DENY BLOCK ***/
+
+  /***  DENY BLOCK  ***/
+  [
+    'deny',
+    'roles' => ['mobile'],
+    'controllers' => ['event'],
+    'actions' => ['register']
+  ],
+  [
+    'deny',
+    'roles' => ['mobile'],
+    'controllers' => ['user'],
+    'actions' => ['create']
+  ],
+  [
+    'deny',
+    'roles' => ['mobile'],
+    'controllers' => ['pay']
+  ],
+  /*** END DENY BLOCK ***/
 
 
-    [
-        'allow',
-        'users' => ['?'],
-        'controllers' => ['raec']
-    ],
+  [
+    'allow',
+    'users' => ['?'],
+    'controllers' => ['raec']
+  ],
+  [
+    'allow',
+    'roles' => ['base'],
+    'controllers' => ['user'],
+    'actions' => ['auth', 'search', 'create', 'get', 'login', 'purposes', 'professionalinterests', 'edit', 'setdata']
+  ],
+  [
+    'allow',
+    'roles' => ['base'],
+    'controllers' => ['section']
+  ],
+  [
+    'allow',
+    'roles' => ['base'],
+    'controllers' => ['company']
+  ],
+  [
+    'allow',
+    'roles' => ['base'],
+    'controllers' => ['event'],
+    'actions' => ['roles', 'register', 'list', 'info', 'companies', 'statistics', 'users', 'purposes', 'halls']
+  ],
+  [
+    'allow',
+    'roles' => ['base'],
+    'controllers' => ['pay']
+  ],
+  [
+    'allow',
+    'roles' => ['base'],
+    'controllers' => ['invite']
+  ],
+  [
+    'allow',
+    'roles' => ['base'],
+    'controllers' => ['purpose']
+  ],
+  [
+    'allow',
+    'roles' => ['base'],
+    'controllers' => ['professionalinterest']
+  ],
     [
         'allow',
         'roles' => ['base'],
-        'controllers' => ['user'],
-        'actions' => ['auth', 'search', 'create', 'get', 'login', 'purposes', 'professionalinterests', 'edit', 'setdata']
-    ],
-    [
-        'allow',
-        'roles' => ['base'],
-        'controllers' => ['section']
-    ],
-    [
-        'allow',
-        'roles' => ['base'],
-        'controllers' => ['company']
-    ],
-    [
-        'allow',
-        'roles' => ['base'],
-        'controllers' => ['event'],
-        'actions' => ['roles', 'register', 'list', 'info', 'companies', 'statistics', 'users', 'purposes', 'halls']
-    ],
-    [
-        'allow',
-        'roles' => ['base'],
-        'controllers' => ['pay']
-    ],
-    [
-        'allow',
-        'roles' => ['base'],
-        'controllers' => ['invite']
-    ],
-    [
-        'allow',
-        'roles' => ['base'],
-        'controllers' => ['purpose']
-    ],
-    [
-        'allow',
-        'roles' => ['base'],
-        'controllers' => ['professionalinterest']
+        'controllers' => ['document'],
+        'actions' => ['getdocumenttypelist', 'getuserdocument', 'setuserdocument']
     ],
 
 
-    /*** MBLT ***/
-    [
-        'allow',
-        'roles' => ['mblt'],
-        'controllers' => ['event'],
-        'actions' => ['users', 'companies']
-    ],
-    [
-        'allow',
-        'roles' => ['mblt'],
-        'controllers' => ['company'],
-        'actions' => ['get']
-    ],
-
-    /** MicroSoft **/
-    [
-        'allow',
-        'roles' => ['microsoft'],
-        'controllers' => ['ms', 'pay']
-    ],
-
-    /** MicroSoft **/
-    [
-        'allow',
-        'roles' => ['iri'],
-        'controllers' => ['iri']
-    ],
+  /*** Спецпроект для сбербанка  ***/
+  [
+    'allow',
+    'roles' => ['sberbank'],
+    'controllers' => ['user'],
+    'actions' => ['get']
+  ],
 
 
+  /*** MBLT ***/
+  [
+    'allow',
+    'roles' => ['mblt'],
+    'controllers' => ['event'],
+    'actions' => ['users', 'companies']
+  ],
+  [
+    'allow',
+    'roles' => ['mblt'],
+    'controllers' => ['company'],
+    'actions' => ['get']
+  ],
 
-    /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/
-    [
-        'deny',
-        'users' => ['*']
-    ],
+   /** MicroSoft **/
+  [
+    'allow',
+    'roles' => ['microsoft'],
+    'controllers' => ['ms', 'pay']
+  ],
+
+  /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/
+  [
+    'deny',
+    'users' => ['*']
+  ],
 ];
