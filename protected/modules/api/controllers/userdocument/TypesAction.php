@@ -1,10 +1,10 @@
 <?php
-namespace api\controllers\document;
+namespace api\controllers\userdocument;
 
 use api\components\Action;
 use user\models\DocumentType;
 
-class GetDocumentTypeListAction extends Action
+class TypesAction extends Action
 {
     public function run()
     {

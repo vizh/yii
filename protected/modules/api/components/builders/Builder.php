@@ -2,9 +2,8 @@
 namespace api\components\builders;
 use event\models\section\Favorite;
 use event\models\section\Hall;
-use iri\models\Role as IriRole;
-use iri\models\User as IriUser;
-use user\models\User;
+use user\models\DocumentType;
+use user\models\Document;
 
 /**
  * Методы делятся на 2 типа:
@@ -31,7 +30,7 @@ class Builder
      * @param \user\models\User $user
      * @return \stdClass
      */
-    public function createUser(User $user)
+    public function createUser(\user\models\User $user)
     {
         $this->user = new \stdClass();
 
@@ -58,8 +57,7 @@ class Builder
     {
         $this->user->Email = $user->Email;
         $this->user->Phones = array();
-        foreach ($user->LinkPhones as $link)
-        {
+        foreach ($user->LinkPhones as $link) {
             $this->user->Phones[] = (string) $link->Phone;
         }
         return $this->user;
@@ -72,8 +70,7 @@ class Builder
     public function buildUserEmployment($user)
     {
         $employment = $user->getEmploymentPrimary();
-        if ($employment !== null)
-        {
+        if ($employment !== null) {
             $this->user->Work = new \stdClass();
             $this->user->Work->Position = $employment->Position;
             $this->user->Work->Company = $this->createCompany($employment->Company);
@@ -93,23 +90,17 @@ class Builder
     public function buildUserEvent(\user\models\User $user)
     {
         $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
-        foreach ($user->Participants as $participant)
-        {
-            if ($this->account->EventId != null && $participant->EventId == $this->account->EventId)
-            {
-                if ($isOnePart)
-                {
+        foreach ($user->Participants as $participant) {
+            if ($this->account->EventId != null && $participant->EventId == $this->account->EventId) {
+                if ($isOnePart) {
                     $this->user->Status = new \stdClass();
                     $this->user->Status->RoleId = $participant->RoleId;
                     $this->user->Status->RoleName = $participant->Role->Title;
                     $this->user->Status->RoleTitle = $participant->Role->Title;
                     $this->user->Status->UpdateTime = $participant->UpdateTime;
                     $this->user->Status->TicketUrl = $participant->getTicketUrl();
-                }
-                else
-                {
-                    if (!isset($this->user->Status))
-                    {
+                } else {
+                    if (!isset($this->user->Status)) {
                         $this->user->Status = array();
                     }
                     $status = new \stdClass();
@@ -122,11 +113,8 @@ class Builder
                     $status->TicketUrl = $participant->getTicketUrl();
                     $this->user->Status[] = $status;
                 }
-            }
-            elseif ($this->account->EventId == null)
-            {
-                if (!$participant->Event->Visible)
-                {
+            } elseif ($this->account->EventId == null) {
+                if (!$participant->Event->Visible) {
                     continue;
                 }
                 $status = new \stdClass();
@@ -145,8 +133,7 @@ class Builder
     public function buildUserBadge(\user\models\User $user)
     {
         $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
-        if ($isOnePart && !empty($this->user->Status))
-        {
+        if ($isOnePart && !empty($this->user->Status)) {
             $model =  \ruvents\models\Badge::model()
                 ->byEventId($this->account->EventId)->byUserId($user->Id);
             $this->user->Status->Registered = $model->exists();
@@ -199,8 +186,7 @@ class Builder
         $this->event->Name = html_entity_decode($event->Title); //todo: deprecated
         $this->event->Title = html_entity_decode($event->Title);
         $this->event->Info = $event->Info;
-        if ($event->getContactAddress() !== null)
-        {
+        if ($event->getContactAddress() !== null) {
             $this->event->Place = $event->getContactAddress()->__toString();
         }
         $this->event->Url = $event->getContactSite() !== null ? (string)$event->getContactSite() : '';
@@ -229,12 +215,10 @@ class Builder
     private function getImageSize($path)
     {
         $size = null;
-        if (file_exists($path))
-        {
+        if (file_exists($path)) {
             $key = md5($path);
             $size = \Yii::app()->getCache()->get($key);
-            if ($size === false)
-            {
+            if ($size === false) {
                 $size = new \stdClass();
                 $image = imagecreatefrompng($path);
                 $size->Width = imagesx($image);
@@ -253,13 +237,11 @@ class Builder
     public function buildEventPlace($event)
     {
         $address = $event->getContactAddress();
-        if ($address !== null)
-        {
+        if ($address !== null) {
             $this->event->GeoPoint = $address->GeoPoint;
             $this->event->Address = $address->__toString();
         }
-        if (!empty($event->FbPlaceId))
-        {
+        if (!empty($event->FbPlaceId)) {
             $this->event->FbPlaceId = $event->FbPlaceId;
         }
         return $this->event;
@@ -317,8 +299,7 @@ class Builder
         $this->product->Title = $product->Title;
         $this->product->Price = $product->getPrice($time);
         $this->product->Attributes = array();
-        foreach ($product->Attributes as $attribute)
-        {
+        foreach ($product->Attributes as $attribute) {
             $this->product->Attributes[$attribute->Name] = $attribute->Value;
         }
         return $this->product;
@@ -356,12 +337,10 @@ class Builder
         $this->orderItem->CreationTime = $orderItem->CreationTime;
 
         $this->orderItem->Attributes = array();
-        foreach ($orderItem->Attributes as $attribute)
-        {
+        foreach ($orderItem->Attributes as $attribute) {
             $this->orderItem->Attributes[$attribute->Name] = $attribute->Value;
         }
         $this->orderItem->Params = $this->orderItem->Attributes; /** todo: deprecated */
-
 
         $this->orderItem->Discount = $item->getDiscount();
         $couponActivation = $orderItem->getCouponActivation();
@@ -369,14 +348,6 @@ class Builder
         $this->orderItem->GroupDiscount = $item->getIsGroupDiscount();
         return $this->orderItem;
     }
-
-
-
-
-
-
-
-
 
     protected $commission;
 
@@ -420,16 +391,13 @@ class Builder
     public function buildComissionProjects($comission)
     {
         $this->commission->Projects = array();
-        foreach ($comission->Projects as $pr)
-        {
-            if ($pr->Visible)
-            {
+        foreach ($comission->Projects as $pr) {
+            if ($pr->Visible) {
                 $project = new \stdClass();
                 $project->Title = $pr->Title;
                 $project->Description = $pr->Description;
                 $project->Users = array();
-                foreach ($pr->Users as $prUser)
-                {
+                foreach ($pr->Users as $prUser) {
                     $project->Users[] = $prUser->User->RunetId;
                 }
                 $this->commission->Projects[] = $project;
@@ -462,21 +430,18 @@ class Builder
         $this->section->Type = $section->TypeId == 4 ? 'short' : 'full'; //todo: deprecated
         $this->section->TypeCode = $section->Type->Code;
 
-        if (sizeof($section->LinkHalls) > 0)
-        {
+        if (sizeof($section->LinkHalls) > 0) {
             $this->section->Place = $section->LinkHalls[0]->Hall->Title; //todo: deprecated
         }
         $this->section->Halls  = [];
         $this->section->Places = array();
-        foreach ($section->LinkHalls as $linkHall)
-        {
+        foreach ($section->LinkHalls as $linkHall) {
             $this->section->Places[] = $linkHall->Hall->Title;
             $this->section->Halls[]  = $this->createSectionHall($linkHall->Hall);
         }
 
         $this->section->Attributes = array();
-        foreach ($section->Attributes as $attribute)
-        {
+        foreach ($section->Attributes as $attribute) {
             $this->section->{$attribute->Name} = $attribute->Value; //todo: deprecated
             $this->section->Attributes[$attribute->Name] = $attribute->Value;
         }
@@ -503,8 +468,7 @@ class Builder
 
     protected function filterSectionTitle($title)
     {
-        if ($this->account->Role == 'mobile')
-        {
+        if ($this->account->Role == 'mobile') {
             return (new \application\components\utility\Texts())->filterPurify($title);
         }
         return $title;
@@ -608,40 +572,33 @@ class Builder
         return $this->professionalInterest;
     }
 
-    protected $iriRole;
+
+    protected $userDocumentType;
 
     /**
-     * @param IriRole $role
+     * @param DocumentType $documentType
      * @return \stdClass
      */
-    public function createIriRole(IriRole $role)
+    public function createUserDocumentType(DocumentType $documentType)
     {
-        $this->iriRole = new \stdClass();
-
-        $this->iriRole->RoleId = $role->Id;
-        $this->iriRole->Name = $role->Title;
-        $this->iriRole->Priority = $role->Priority;
-
-        return $this->iriRole;
+        $this->userDocumentType = new \stdClass();
+        $this->userDocumentType->Id = $documentType->Id;
+        $this->userDocumentType->Title = $documentType->Title;
+        return $this->userDocumentType;
     }
 
-    protected $iriUser;
+
+    protected $userDocument;
 
     /**
-     * @param IriUser $user
+     * @param Document $document
      * @return \stdClass
      */
-    public function createIriUser(IriUser $user)
+    public function buildUserDocument(Document $document)
     {
-        $this->iriUser = new \stdClass();
-
-        $this->iriUser->User = $this->createUser($user->User);
-        $this->iriUser->Role = $this->createIriRole($user->Role);
-        if (!empty($user->ProfessionalInterest)) {
-            $this->iriUser->ProfessionalInterest = $this->createProfessionalInterest($user->ProfessionalInterest);
-        }
-        $this->iriUser->JoinTime = $user->JoinTime;
-
-        return $this->iriUser;
+        $this->user->Document = new \stdClass();
+        $this->user->Document->Type = $this->createUserDocumentType($document->Type);
+        $this->user->Document->Fields = $document->Attributes;
+        return $this->user->Document;
     }
 }

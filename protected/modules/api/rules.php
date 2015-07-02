@@ -73,8 +73,8 @@ return [
     [
         'allow',
         'roles' => ['base'],
-        'controllers' => ['document'],
-        'actions' => ['getdocumenttypelist', 'getuserdocument', 'setuserdocument']
+        'controllers' => ['userdocument'],
+        'actions' => ['types', 'get', 'set']
     ],
 
 

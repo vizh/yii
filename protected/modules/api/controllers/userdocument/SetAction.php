@@ -1,5 +1,5 @@
 <?php
-namespace api\controllers\document;
+namespace api\controllers\userdocument;
 
 use \api\components\Exception;
 use api\components\Action;
@@ -7,7 +7,7 @@ use user\models\DocumentType;
 use user\models\forms\document\BaseDocument;
 use user\models\User;
 
-class SetUserDocumentAction extends Action
+class SetAction extends Action
 {
     public function run()
     {
