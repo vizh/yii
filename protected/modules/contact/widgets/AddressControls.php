@@ -1,11 +1,15 @@
 <?php
 namespace contact\widgets;
+use contact\models\forms\Address;
+
 class AddressControls extends \CWidget
 {
+    /** @var  Address */
     public $form;
     public $address = true;
     public $place = true;
     public $inputClass = '';
+    public $inputPlaceholder = null;
     public $disabled = false;
 
 
@@ -18,6 +22,9 @@ class AddressControls extends \CWidget
 
     public function run()
     {
+        if ($this->inputPlaceholder === null) {
+            $this->inputPlaceholder = $this->form->getAttributeLabel('CityLabel');
+        }
         $this->render('addresscontrols', array(
             'form' => $this->form,
             'address' => $this->address,
