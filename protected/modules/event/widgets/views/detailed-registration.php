@@ -6,11 +6,13 @@
 use \application\components\attribute\BooleanDefinition;
 use \application\models\attribute\Group;
 ?>
-<div class="registration">
-    <?if (isset($this->RegistrationBeforeInfo)):?>
-        <?=$this->RegistrationBeforeInfo;?>
+<div class="registration" id="event_widgets_Registration">
+    <?if (isset($this->WidgetRegistrationBeforeInfo)):?>
+        <?=$this->WidgetRegistrationBeforeInfo;?>
     <?endif;?>
-    <h5 class="title"><?=Yii::t('app', 'Регистрация');?></h5>
+    <h5 class="title text-center">
+        <?=isset($this->WidgetRegistrationTitle)? $this->WidgetRegistrationTitle : Yii::t('app', 'Регистрация');?>
+    </h5>
     <?=\CHtml::beginForm('', 'post', ['enctype' => 'multipart/form-data']);?>
     <?=\CHtml::errorSummary($this->form, '<div class="alert alert-error">', '</div>');?>
 
@@ -22,6 +24,8 @@ use \application\models\attribute\Group;
                     <div class="controls">
                         <?php if ($attribute == 'Birthday'):?>
                             <?=\CHtml::activeTextField($this->form, $attribute, ['disabled' => $this->form->isDisabled($attribute),'class' => 'span12', 'placeholder' => \Yii::t('app', 'Например: 01.01.1980')]);?>
+                        <?php elseif ($attribute == 'ContactAddress'):?>
+                            <?$this->widget('\contact\widgets\AddressControls', ['form' => $this->form->ContactAddress, 'address' => false, 'place' => false, 'inputClass' => 'span12', 'inputPlaceholder' => false, 'disabled' => $this->form->isDisabled($attribute)]);?>
                         <?php elseif ($attribute == 'Photo'):?>
                             <?if ($this->form->isUpdateMode()):?>
                                 <?=CHtml::image($this->form->getActiveRecord()->getPhoto()->get50px(),'',['class'=>'img-polaroid']);?>
@@ -46,7 +50,7 @@ use \application\models\attribute\Group;
                         continue;
                     }
                 ?>
-                <?php if (isset($this->ShowUserDataGroupLabel) && $this->ShowUserDataGroupLabel == 1):?>
+                <?php if (isset($this->WidgetRegistrationShowUserDataGroupLabel) && $this->WidgetRegistrationShowUserDataGroupLabel == 1):?>
                     <?php if ($group == null || $group->Id !== $definition->groupId):?>
                         <?if ($group !== null):?>
                             <hr/>

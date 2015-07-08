@@ -24,7 +24,9 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeButtons = 'Underline,Subscript,Superscript';
 
 	config.allowedContent = true;
-  config.autoParagraph = false;
-
+    config.extraAllowedContent = '*[*];*(*);*{*}';
+    config.autoParagraph = false;
 	config.removeDialogTabs = 'image:advanced;link:advanced';
+    CKEDITOR.dtd.$removeEmpty.i = 0;
+    CKEDITOR.dtd.$removeEmpty.span = 0;
 };

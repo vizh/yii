@@ -45,7 +45,7 @@ class Generate extends CreateUpdateForm
             ['IsMultiple', 'boolean'],
             ['Code', 'match', 'pattern' => '/^[A-Za-z0-9_\-]+$/', 'allowEmpty' => true, 'message' => 'Поле "Промо-код" может содержать только латиницу, цифры, знаки "_" и "-"'],
             ['Code', 'validateCode'],
-            ['Count', 'numerical', 'min' => 1, 'max' => 1000, 'integerOnly' => true, 'allowEmpty' => false],
+            ['Count', 'numerical', 'min' => 1, 'integerOnly' => true, 'allowEmpty' => false],
             ['Discount', 'numerical', 'min' => 1, 'max' => 100, 'integerOnly' => true, 'allowEmpty' => false],
             ['Discount', 'validateDiscount'],
             ['EndTime', 'date', 'allowEmpty' => true, 'format' => 'dd.MM.yyyy'],

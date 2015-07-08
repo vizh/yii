@@ -4,16 +4,20 @@ namespace event\models\forms;
 use application\components\auth\identity\RunetId;
 use application\components\form\CreateUpdateForm;
 use application\components\utility\Texts;
+use contact\models\forms\Address;
 use event\models\Event;
 use event\models\Role;
 use event\models\UserData;
 use user\models\User;
+use event\widgets\DetailedRegistration as DetailedRegistrationWidget;
+use contact\models\Address as AddressModel;
 
 /**
  * Class DetailedRegistration
  * @package event\models\forms
  *
  * @property User $model
+ * @property Address $ContactAddress
  */
 class DetailedRegistration extends CreateUpdateForm
 {
@@ -22,6 +26,9 @@ class DetailedRegistration extends CreateUpdateForm
 
     /** @var Event */
     private $event;
+
+    /** @var DetailedRegistrationWidget */
+    private $widget;
 
     private $userData = null;
 
@@ -34,18 +41,48 @@ class DetailedRegistration extends CreateUpdateForm
     private $usedRoles = [];
 
     /**
-     * @param Event $event
+     * @param DetailedRegistrationWidget $widget
      * @param User $user
-     * @param string[] $attributes
-     * @param Role[] $roles
      */
-    public function __construct(Event $event, User $user = null, $attributes, $roles = [])
+    public function __construct(DetailedRegistrationWidget $widget, User $user = null)
     {
-        $this->event = $event;
-        $this->usedAttributes = array_fill_keys($attributes, null);
-        $this->usedRoles = $roles;
+        $this->widget = $widget;
+        $this->event  = $widget->getEvent();
+        $this->initUsedAttributes();
+        if (isset($this->widget->WidgetRegistrationSelectRoleIdList)) {
+            $this->usedRoles = Role::model()->findAllByPk(explode(',', $this->widget->WidgetRegistrationSelectRoleIdList));
+        }
         parent::__construct($user);
         $this->initUserData();
+    }
+
+    /**
+     * Инициализирует атрибуты, с которыми будет работать форма
+     */
+    private function initUsedAttributes()
+    {
+        $this->usedAttributes['Email'] = null;
+        $this->usedAttributes['LastName'] = null;
+        $this->usedAttributes['FirstName'] = null;
+        if (isset($this->widget->WidgetRegistrationShowFatherName) && $this->widget->WidgetRegistrationShowFatherName == 1) {
+            $this->usedAttributes['FatherName'] = null;
+        }
+        if (isset($this->widget->WidgetRegistrationShowPhoto) && $this->widget->WidgetRegistrationShowPhoto == 1) {
+            $this->usedAttributes['Photo'] = null;
+        }
+        if (isset($this->widget->WidgetRegistrationShowPhone) && $this->widget->WidgetRegistrationShowPhone == 1) {
+            $this->usedAttributes['PrimaryPhone'] = null;
+        }
+        if (isset($this->widget->WidgetRegistrationShowBirthday) && $this->widget->WidgetRegistrationShowBirthday == 1) {
+            $this->usedAttributes['Birthday'] = null;
+        }
+        if (isset($this->widget->WidgetRegistrationShowContactAddress) && $this->widget->WidgetRegistrationShowContactAddress == 1) {
+            $this->usedAttributes['ContactAddress'] = new Address();
+        }
+        if (isset($this->widget->WidgetRegistrationShowEmployment) && $this->widget->WidgetRegistrationShowEmployment == 1) {
+            $this->usedAttributes['Company'] = null;
+            $this->usedAttributes['Position'] = null;
+        }
     }
 
     /**
@@ -99,6 +136,10 @@ class DetailedRegistration extends CreateUpdateForm
                     $rules[] = [$attribute, 'safe'];
                     break;
 
+                case 'ContactAddress':
+                    $rules[] = [$attribute, 'validateContactAddress'];
+                    break;
+
                 case 'Company':
                     $rules = array_merge($rules, [
                         ['Company', 'required'],
@@ -134,6 +175,8 @@ class DetailedRegistration extends CreateUpdateForm
     {
         $attributes = $this->getAttributes();
         foreach ($this->getAttributes() as $name => $value) {
+            if (is_object($value))
+                continue;
             $attributes[$name] = Texts::clear($value);
         }
         $this->setAttributes($attributes);
@@ -177,6 +220,23 @@ class DetailedRegistration extends CreateUpdateForm
     }
 
     /**
+     * Валидация адреса пользователя
+     * @param string $attribute
+     * @return bool
+     */
+    public function validateContactAddress($attribute)
+    {
+        $address = $this->$attribute;
+        if (!$address->validate()){
+            foreach ($address->getErrors() as $messages){
+                $this->addError($attribute, $messages[0]);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * @param string $attribute
      * @return bool
      */
@@ -199,13 +259,14 @@ class DetailedRegistration extends CreateUpdateForm
             'LastName' => \Yii::t('app', 'Фамилия'),
             'FirstName' => \Yii::t('app', 'Имя'),
             'FatherName' => \Yii::t('app', 'Отчество'),
-            'Company' => \Yii::t('app', 'Компания'),
-            'Position' => \Yii::t('app', 'Должность'),
+            'Company' => isset($this->widget->WidgetRegistrationCompanyTitle) ? $this->widget->WidgetRegistrationCompanyTitle : \Yii::t('app', 'Компания'),
+            'Position' => isset($this->widget->WidgetRegistrationPositionTitle) ? $this->widget->WidgetRegistrationPositionTitle : \Yii::t('app', 'Должность'),
             'PrimaryPhone' => \Yii::t('app', 'Телефон'),
             'Address' => \Yii::t('app', 'Город'),
             'Birthday' => \Yii::t('app', 'Дата рождения'),
             'RoleId' => \Yii::t('app', 'Статус участия'),
-            'Photo' => \Yii::t('app', 'Фотография')
+            'Photo' => \Yii::t('app', 'Фотография'),
+            'ContactAddress' => \Yii::t('app', 'Город')
         ];
     }
 
@@ -272,6 +333,11 @@ class DetailedRegistration extends CreateUpdateForm
         if (in_array('Photo', $this->getUsedAttributes())) {
             $this->Photo = \CUploadedFile::getInstance($this, 'Photo');
         }
+
+        if (in_array('ContactAddress', $this->getUsedAttributes())) {
+            $this->ContactAddress->attributes = \Yii::app()->getRequest()->getParam(get_class($this->ContactAddress));
+        }
+
         if ($this->userData !== null) {
             $manager = $this->userData->getManager();
             foreach ($manager->getDefinitions() as $definition) {
@@ -342,6 +408,16 @@ class DetailedRegistration extends CreateUpdateForm
                     }
                 }
 
+                if (in_array('ContactAddress', $this->getUsedAttributes())) {
+                    $address = $this->model->getContactAddress();
+                    if ($address === null){
+                        $address = new AddressModel();
+                    }
+                    $address->setAttributes($this->ContactAddress->getAttributes(), false);
+                    $address->save();
+                    $this->model->setContactAddress($address);
+                }
+
                 if ($this->userData !== null) {
                     $this->userData->UserId = $this->model->Id;
                     $this->userData->save();
@@ -375,6 +451,13 @@ class DetailedRegistration extends CreateUpdateForm
         if ($result) {
             if (in_array('Birthday', $this->getUsedAttributes())) {
                 $this->Birthday = !empty($this->model->Birthday) ? \Yii::app()->getDateFormatter()->format('dd.MM.yyyy', $this->model->Birthday) : null;
+            }
+
+            if (in_array('ContactAddress', $this->getUsedAttributes())) {
+                $address = $this->model->getContactAddress();
+                if ($address !== null) {
+                    $this->ContactAddress->setAttributes($address->getAttributes($this->ContactAddress->getSafeAttributeNames()));
+                }
             }
 
             if (in_array('Company', $this->getUsedAttributes())) {

@@ -76,8 +76,8 @@ class Participant extends CreateUpdateForm
             ['RunetId', 'validateUser'],
             ['RoleId', 'required'],
             ['RoleId', 'in', 'range' => array_keys($this->getRoleData())],
-            ['Delete', 'safe'],
-            ['ReportUrl,VideoUrl', 'url', 'allowEmpty' => true],
+            ['Delete, VideoUrl', 'safe'],
+            ['ReportUrl', 'url', 'allowEmpty' => true],
             ['ReportFullInfo', 'filter', 'filter' => [$this, 'filterReportFullInfo']]
         ];
     }
@@ -203,7 +203,7 @@ class Participant extends CreateUpdateForm
                     $report = $this->model->Report !== null ? $this->model->Report : new Report();
                     $report->Url = !empty($this->ReportUrl) ? $this->ReportUrl : null;
                     $report->Thesis = !empty($this->ReportThesis) ? $this->ReportThesis : null;
-                    $report->Title = !empty($this->ReportTitle) ? $this->ReportTitle : null;
+                    $report->Title = !empty($this->ReportTitle) ? $this->ReportTitle : '';
                     $report->FullInfo = !empty($this->ReportFullInfo) ? $this->ReportFullInfo : null;
                     $report->save();
                     $this->model->ReportId = $report->Id;

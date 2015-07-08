@@ -17,6 +17,22 @@ use user\models\User;
  * Class DetailedRegistration
  * @package event\widgets
  *
+ * @property int $DefaultRoleId
+ * @property string $SelectRoleIdList
+ * @property int $RegisterUnvisibleUser
+ * @property int $WidgetRegistrationShowEmployment
+ * @property int $WidgetRegistrationShowFatherName
+ * @property int $WidgetRegistrationShowPhoto
+ * @property int $WidgetRegistrationShowPhone
+ * @property int $WidgetRegistrationShowBirthday
+ * @property int $WidgetRegistrationShowContactAddress
+ * @property int $WidgetRegistrationShowUserDataGroupLabel
+ * @property string $RegistrationBeforeInfo
+ * @property int $UseInvites
+ * @property string $WidgetRegistrationCompleteText
+ * @property string $WidgetRegistrationTitle
+ * @property string $WidgetRegistrationCompanyTitle
+ * @property string $WidgetRegistrationPositionTitle
  */
 class DetailedRegistration extends \event\components\Widget
 {
@@ -24,17 +40,21 @@ class DetailedRegistration extends \event\components\Widget
     {
         return [
             'DefaultRoleId',
-            'SelectRoleIdList',
+            'WidgetRegistrationSelectRoleIdList',
             'RegisterUnvisibleUser',
-            'ShowEmployment',
-            'ShowFatherName',
-            'ShowPhoto',
-            'ShowPhone',
-            'ShowBirthday',
-            'ShowUserDataGroupLabel',
-            'RegistrationBeforeInfo',
-            'UseInvites',
-            'RegistrationCompleteText'
+            'WidgetRegistrationShowEmployment',
+            'WidgetRegistrationShowFatherName',
+            'WidgetRegistrationShowPhoto',
+            'WidgetRegistrationShowPhone',
+            'WidgetRegistrationShowBirthday',
+            'WidgetRegistrationShowContactAddress',
+            'WidgetRegistrationShowUserDataGroupLabel',
+            'WidgetRegistrationBeforeInfo',
+            'WidgetRegistrationUseInvites',
+            'WidgetRegistrationCompleteText',
+            'WidgetRegistrationTitle',
+            'WidgetRegistrationCompanyTitle',
+            'WidgetRegistrationPositionTitle'
         ];
     }
 
@@ -53,7 +73,7 @@ class DetailedRegistration extends \event\components\Widget
     {
         parent::init();
         $this->initForm();
-        if (isset($this->UseInvites) && $this->UseInvites) {
+        if (isset($this->WidgetRegistrationUseInvites) && $this->WidgetRegistrationUseInvites) {
             $code = \Yii::app()->getRequest()->getParam('invite');
             $this->invite = Invite::model()->byEventId($this->getEvent()->Id)->byCode($code)->find();
             if ($this->invite == null || !empty($this->invite->UserId)) {
@@ -67,40 +87,8 @@ class DetailedRegistration extends \event\components\Widget
      */
     private function initForm()
     {
-        $attributes = [
-            'Email',
-            'LastName',
-            'FirstName'
-        ];
-
-        if (isset($this->ShowFatherName) && $this->ShowFatherName == 1) {
-            $attributes[] = 'FatherName';
-        }
-
-        if (isset($this->ShowPhoto) && $this->ShowPhoto == 1) {
-            $attributes[] = 'Photo';
-        }
-
-        if (isset($this->ShowPhone) && $this->ShowPhone == 1) {
-            $attributes[] = 'PrimaryPhone';
-        }
-
-        if (isset($this->ShowBirthday) && $this->ShowBirthday == 1) {
-            $attributes[] = 'Birthday';
-        }
-
-        if (isset($this->ShowEmployment) && $this->ShowEmployment == 1) {
-            $attributes[] = 'Company';
-            $attributes[] = 'Position';
-        }
-
-        $roles = [];
-        if (isset($this->SelectRoleIdList)) {
-            $roles = Role::model()->findAllByPk(explode(',', $this->SelectRoleIdList));
-        }
-
         $user = \Yii::app()->getUser();
-        $this->form = new DetailedRegistrationForm($this->getEvent(), $user->getCurrentUser(), $attributes, $roles);
+        $this->form = new DetailedRegistrationForm($this, $user->getCurrentUser());
         $this->form->registerVisibleUser = !isset($this->RegisterUnvisibleUser) || !$this->RegisterUnvisibleUser;
         $this->form->unsubscribeNewUser = $this->getEvent()->UnsubscribeNewUser;
     }
@@ -146,7 +134,7 @@ class DetailedRegistration extends \event\components\Widget
                 \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
                 $this->render('detailed-registration');
             } else {
-                $this->render('detailed-registration-complete');
+                $this->render('registration/complete');
             }
         }
 
