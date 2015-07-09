@@ -72,9 +72,10 @@ class ViewController extends \application\components\controllers\PublicMainContr
         if (!$event)
             throw new CHttpException(404);
 
-        // И зачем в базе не хранятся просто даты?..
-        $dateStart = sprintf('%d%02d%dT090000', $event->StartYear, $event->StartMonth, $event->StartDay);
-        $dateEnd = sprintf('%d%02d%dT180000', $event->EndYear, $event->EndMonth, $event->EndDay);
+
+
+        $dateStart = $event->getFormattedStartDate('yyyyMMddT090000');
+        $dateEnd = $event->getFormattedEndDate('yyyyMMddT180000');
 
         switch ($targetService)
         {
