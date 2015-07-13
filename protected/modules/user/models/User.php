@@ -7,8 +7,10 @@ use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use mail\components\mailers\MandrillMailer;
+use ruvents\models\Badge;
 use user\components\handlers\Register;
 use iri\models\User as IriUser;
+use ruvents2\models\Badge as Badge2;
 
 /**
  * @throws \Exception
@@ -51,6 +53,7 @@ use iri\models\User as IriUser;
  * @property Settings $Settings Настройки аккаунта пользователя
  * @property Result $CompetenceResults
  * @property User $MergeUser
+ * @property Badge[] $Badges
  * @property IriUser[] $IRIParticipants
  * @property IriUser[] $IRIParticipantsActive
  *
@@ -124,6 +127,7 @@ class User extends \application\models\translation\ActiveRecord
             'ParticipantsForCriteria' => [self::HAS_MANY, '\event\models\Participant', 'UserId'],
 
             'Badges' => [self::HAS_MANY, '\ruvents\models\Badge', 'UserId'],
+
             'Settings' => [self::HAS_ONE, '\user\models\Settings', 'UserId'],
             'CompetenceResults' => [self::HAS_MANY, '\competence\models\Result', 'UserId'],
 

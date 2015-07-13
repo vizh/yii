@@ -2,6 +2,7 @@
 namespace ruvents2\controllers\participants;
 
 use application\components\helpers\ArrayHelper;
+use event\models\Participant;
 use ruvents2\components\Action;
 use user\models\User;
 
@@ -13,6 +14,7 @@ class ListAction extends Action
     {
         $limit = intval($limit);
         $limit = $limit > 0 ? min($limit, self::MAX_LIMIT) : self::MAX_LIMIT;
+
         $criteria = $this->getCriteria($since, $limit);
         $users = User::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
         $result = [];
@@ -40,7 +42,12 @@ class ListAction extends Action
         $criteria->with = [
             'Employments' => ['together' => false],
             'Employments.Company' => ['together' => false],
-            'LinkPhones.Phone' => ['together' => false]
+            'LinkPhones.Phone' => ['together' => false],
+            'Badges' => [
+                'together' => false,
+                'on' => '"Badges"."EventId" = :EventId',
+                'params' => ['EventId' => $this->getEvent()->Id]
+            ]
         ];
         $criteria->order = 't."UpdateTime"';
         $criteria->limit = $limit;
@@ -59,7 +66,7 @@ class ListAction extends Action
      */
     private function getData($user)
     {
-        $data = ArrayHelper::toArray($user, ['user\models\User' => ['Id', 'UpdateTime', 'Email']]);
+        $data = ArrayHelper::toArray($user, ['user\models\User' => ['Id' => 'RunetId', 'UpdateTime', 'Email']]);
 
         $employment = $user->getEmploymentPrimary();
         if ($employment !== null) {
@@ -91,6 +98,12 @@ class ListAction extends Action
             ];
         }
         $data['Statuses'] = $statuses;
+
+        $badges = [];
+        foreach ($user->Badges as $badge) {
+            $badges[] = ArrayHelper::toArray($badge, ['ruvents2\models\Badge' => ['PartId', 'RoleId', 'OperatorId', 'CreationTime']]);
+        }
+        $data['Badges'] = $badges;
 
         return $data;
     }

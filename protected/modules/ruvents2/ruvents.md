@@ -434,6 +434,9 @@ X-Ruvents-Operator: {Id}
                 "Participants": [
                     {
                         "Id": 234,
+                        "Position" : "Программист",
+                        "Phone" : "7925000000",
+                        "Photo" : "http://runet-id.com/files/photo/nophoto_200.png"
                         "Statuses": [
                             {
                                 "PartId": 1,
@@ -448,14 +451,30 @@ X-Ruvents-Operator: {Id}
                             "ru": {
                                 "LastName": "Петров",
                                 "FirstName": "Петр",
-                                "FatherName": "Петрович"
+                                "FatherName": "Петрович",
+                                "Company" : "Яндекс"
                             },
                             "en": {
                                 "LastName": "Petrov",
                                 "FirstName": "Petr",
-                                "FatherName": "Petrovich"
+                                "FatherName": "Petrovich",
+                                "Company" : "Yandex"
                             }
                         },
+                        "Badges" => {
+                            {
+                                "PartId": 1,
+                                "RoleId": 3,
+                                "OperatorId" : 55,
+                                "CreationTime" : "2015-07-13 18:58:59"
+                            },
+                            {
+                                "PartId": 2,
+                                "RoleId": 1,
+                                "OperatorId" : 59,
+                                "CreationTime" : "2015-07-13 20:00:01"
+                            }
+                        }
                         "UpdateTime": "2014-10-12 23:04:15"
                     }
                 ],
@@ -474,6 +493,9 @@ X-Ruvents-Operator: {Id}
                             "type": "object",
                             "properties": {
                                 "Id": { "type": "integer" },
+                                "Position": { "type": "string" },
+                                "Phone": { "type": "string" },
+                                "Photo": { "type": "string" },
                                 "Statuses": {
                                     "type": "array",
                                     "items": {
@@ -505,9 +527,19 @@ X-Ruvents-Operator: {Id}
                                         }
                                     }
                                 },
+                                "Badges": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "PartId": { "type": ["integer", "null"] },
+                                            "RoleId": { "type": ["integer", "null"] },
+                                            "OperatorId" : { "type": "integer" },
+                                            "CreationTime" : { "type": "string" }
+                                        }
+                                    }
+                                },
                                 "UpdateTime": { "type": "string" },
-                                "Photo": { "type": "string" },
-                                "ExternalId": { "type": "string" }
                             },
                             "patternProperties": {
                                 "^[a-zA-Z_][a-zA-Z0-9_]*$": {
