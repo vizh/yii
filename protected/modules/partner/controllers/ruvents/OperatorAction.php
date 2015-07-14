@@ -1,7 +1,8 @@
 <?php
 namespace partner\controllers\ruvents;
 
-use ruvents\models\AccountRole;
+use partner\models\forms\OperatorGenerate;
+use ruvents\models\Operator;
 
 class OperatorAction extends \partner\components\Action
 {
@@ -12,29 +13,19 @@ class OperatorAction extends \partner\components\Action
     {
         $request = \Yii::app()->getRequest();
 
-        $account = \ruvents\models\Account::model()
-            ->byEventId($this->getEvent()->Id)->find();
-        if ($account == null)
-        {
-            $account = new \ruvents\models\Account();
-            $account->EventId = $this->getEvent()->Id;
-            $account->Hash = \application\components\utility\Texts::GenerateString(25);
-            $account->save();
-        }
-
-        $form = new \partner\models\forms\OperatorGenerate();
+        $form = new OperatorGenerate();
         $form->attributes = $request->getParam(get_class($form));
         if ($request->getIsPostRequest() && $form->validate()) {
             $this->addOperators($form->Prefix . '_' . self::OperatorSubname, $form->CountOperators, \ruvents\models\Operator::RoleOperator);
             $this->addOperators($form->Prefix . '_' . self::AdminSubname, $form->CountAdmins, \ruvents\models\Operator::RoleAdmin);
-            $form = new \partner\models\forms\OperatorGenerate();
+            $form = new OperatorGenerate();
         }
 
-        $operators = \ruvents\models\Operator::model()->byEventId($this->getEvent()->Id)->findAll(['order' => '"Role" DESC, "Id"']);
+        $operators = Operator::model()->byEventId($this->getEvent()->Id)->findAll(['order' => '"Role" DESC, "Id"']);
 
         $this->getController()->render('operator', [
             'form' => $form,
-            'account' => $account,
+            'account' => $this->getRuventsAccount(),
             'operators' => $operators
         ]);
     }
@@ -48,7 +39,7 @@ class OperatorAction extends \partner\components\Action
         $criteria->condition = '"t"."Login" LIKE :Login';
         $criteria->params = array('Login' => \Utils::PrepareStringForLike($prefix) . '%');
         /** @var $operators \ruvents\models\Operator[] */
-        $operators = \ruvents\models\Operator::model()->findAll($criteria);
+        $operators = Operator::model()->findAll($criteria);
 
         $max = 0;
         foreach ($operators as $operator) {
@@ -59,7 +50,7 @@ class OperatorAction extends \partner\components\Action
         for ($i = 0; $i < $count; $i++) {
             $login = $prefix . ($max+$i);
             $password = $this->generatePassword(5);
-            $operator = new \ruvents\models\Operator();
+            $operator = new Operator();
             $operator->EventId = $this->getEvent()->Id;
             $operator->Login = $login;
             $operator->Password = $password;

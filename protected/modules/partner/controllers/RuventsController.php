@@ -11,7 +11,8 @@ class RuventsController extends Controller
             'operator' => '\partner\controllers\ruvents\OperatorAction',
             'mobile' => '\partner\controllers\ruvents\MobileAction',
             'csvinfo' => '\partner\controllers\ruvents\CsvinfoAction',
-            'userlog' => '\partner\controllers\ruvents\UserlogAction'
+            'userlog' => '\partner\controllers\ruvents\UserlogAction',
+            'print' => '\partner\controllers\ruvents\PrintAction'
         ];
     }
 }

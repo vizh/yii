@@ -3,11 +3,16 @@
  * @var \partner\models\forms\OperatorGenerate $form
  * @var \ruvents\models\Account $account
  * @var \ruvents\models\Operator[] $operators
- * @var \partner\components\Controller $this
+ * @var Controller $this
  * @var \CActiveForm $activeForm
  */
 $this->setPageTitle('Генерация аккаунтов операторов');
+use partner\components\Controller;
 ?>
+
+<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
+    <?=\CHtml::link('<span class="fa fa-print btn-label"></span> ' . \Yii::t('app', 'Печать'), ['print'], ['class' => 'btn btn-info btn-labeled', 'target' => '_blank']);?>
+<?php $this->endClip();?>
 
 <?php $activeForm = $this->beginWidget('CActiveForm');?>
 <div class="panel panel-info">

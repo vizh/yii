@@ -8,8 +8,8 @@ use \partner\components\Controller;
 $sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
 ?>
 <!DOCTYPE html>
-<!--[if IE 8]>         <html class="ie8" lang="<?=\Yii::app()->getLanguage()?>"> <![endif]-->
-<!--[if IE 9]>         <html class="ie9 gt-ie8" lang="<?=\Yii::app()->getLanguage()?>"> <![endif]-->
+<!--[if IE 8]><html class="ie8" lang="<?=\Yii::app()->getLanguage()?>"> <![endif]-->
+<!--[if IE 9]><html class="ie9 gt-ie8" lang="<?=\Yii::app()->getLanguage()?>"> <![endif]-->
 <!--[if gt IE 9]><!--> <html class="gt-ie8 gt-ie9 not-ie" lang="<?=\Yii::app()->getLanguage()?>"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
