@@ -37,7 +37,7 @@ class EditAction extends \partner\components\Action
 
             $this->processAjaxAction();
 
-            $this->getController()->render('edit-tabs', [
+            $this->getController()->render('edit/user', [
                 'user'  => $this->user,
                 'event' => $this->getEvent(),
                 'participants' => $this->prepareParticipants()

@@ -1,5 +1,6 @@
 <?php
 namespace ruvents\models;
+use application\components\ActiveRecord;
 
 /**
  * @property int $Id
@@ -20,7 +21,7 @@ namespace ruvents\models;
  *
  */
 
-class Badge extends \CActiveRecord
+class Badge extends ActiveRecord
 {
   public $CountForCriteria = null;
   public $DateForCriteria = null;

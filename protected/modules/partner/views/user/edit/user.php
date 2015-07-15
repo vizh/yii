@@ -7,6 +7,8 @@
  */
 
 $this->setPageTitle(\Yii::t('app', 'Добавление/редактирование участника мероприятия') . ': ' . $user->GetFullName());
+
+$data = $event->getUserData($user);
 ?>
 <input type="hidden" name="id" value="<?=$user->RunetId;?>" />
 <div class="panel panel-info">
@@ -46,6 +48,7 @@ $this->setPageTitle(\Yii::t('app', 'Добавление/редактирова�
                         <br/><span class="fa fa-birthday-cake"></span> <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $user->Birthday);?>
                     <?php endif;?>
                 </p>
+                <?$this->renderPartial('edit/data', ['user' => $user, 'event' => $event]);?>
             </div>
         </div>
     </div>
