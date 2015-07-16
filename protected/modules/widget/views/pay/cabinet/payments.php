@@ -6,21 +6,25 @@
 $hideJuridical = $account->OrderLastTime !== null && $account->OrderLastTime < date('Y-m-d H:i:s') || !$account->OrderEnable;
 $hideReceipt = $account->ReceiptLastTime !== null && $account->ReceiptLastTime < date('Y-m-d H:i:s') || !$account->ReceiptEnable;
 
-$paysystems = ['uniteller', 'payonline', 'yandexmoney', 'paypal'];
+$paysystems = ['uniteller', 'payonline', 'yandexmoney', 'paypal', 'cloudpayments'];
 $onlinemoney = ['yandexmoney', 'paypal'];
 
 $systembuttons = [];
 $paybuttons = [];
-if ($account->Uniteller)
-  $systembuttons[] = 'uniteller';
-if ($account->PayOnline)
-{
-  $systembuttons[] = 'payonline';
-  $paybuttons[] = 'yandexmoney';
+if ($account->Uniteller) {
+    $systembuttons[] = 'uniteller';
+}
+if ($account->PayOnline) {
+    $systembuttons[] = 'payonline';
+    $paybuttons[] = 'yandexmoney';
+}
+if ($account->CloudPayments) {
+    $systembuttons[] = 'cloudpayments';
 }
 $paybuttons[] = 'paypal';
-if ($account->MailRuMoney)
-  $paybuttons[] = 'mailrumoney';
+if ($account->MailRuMoney) {
+    $paybuttons[] = 'mailrumoney';
+}
 ?>
 
 <div class="pay-buttons row-fluid">
