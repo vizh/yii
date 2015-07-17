@@ -5,4 +5,5 @@ class UserType
 {
     const EXPERT = 'experts';
     const DIRECTOR = 'directors';
+    const PROGRAM = 'program';
 } 

@@ -108,6 +108,13 @@ return [
     'controllers' => ['ms', 'pay']
   ],
 
+  /** Iri **/
+  [
+      'allow',
+      'roles' => ['iri'],
+      'controllers' => ['iri']
+  ],
+
   /***  ЗАПРЕЩЕНО ВСЕ ЧТО НЕ РАЗРЕШЕНО   ***/
   [
     'deny',
