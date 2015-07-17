@@ -1,6 +1,7 @@
 <?php
 namespace user\models;
 
+use application\components\utility\PhoneticSearch;
 use application\components\utility\Texts;
 use competence\models\Result;
 use libphonenumber\NumberParseException;
@@ -36,7 +37,8 @@ use ruvents2\models\Badge as Badge2;
  * @property string $PrimaryPhoneVerifyTime
  * @property int $MergeUserId
  * @property string $MergeTime
- *
+ * @property string $SearchLastName
+ * @property string $SearchFirstName
  *
  *
  * Внешние связи
@@ -285,33 +287,26 @@ class User extends \application\models\translation\ActiveRecord
      */
     public function bySearch($searchTerm, $locale = null, $useAnd = true, $useVisible = true)
     {
-        if ($useVisible)
-        {
+        if ($useVisible) {
             $this->byVisible(true);
         }
 
         $searchTerm = trim($searchTerm);
-
-        if (empty($searchTerm))
-        {
+        if (empty($searchTerm)) {
             $criteria = new \CDbCriteria();
             $criteria->addCondition('0=1');
             $this->getDbCriteria()->mergeWith($criteria, $useAnd);
             return $this;
         }
 
-        if (is_numeric($searchTerm) && intval($searchTerm) != 0)
-        {
+        if (is_numeric($searchTerm) && intval($searchTerm) != 0) {
             return $this->byRunetId($searchTerm, $useAnd);
         }
 
         $parts = preg_split('/[, .]/', $searchTerm, self::MaxSearchFragments, PREG_SPLIT_NO_EMPTY);
-        if (is_numeric($parts[0]) && intval($parts[0]) != 0)
-        {
+        if (is_numeric($parts[0]) && intval($parts[0]) != 0) {
             return $this->bySearchNumbers($parts, $useAnd);
-        }
-        else
-        {
+        } else {
             return $this->bySearchFullName($parts, $locale, $useAnd);
         }
     }
@@ -339,41 +334,46 @@ class User extends \application\models\translation\ActiveRecord
      */
     private function bySearchFullName($names, $locale = null, $useAnd = true)
     {
-        if ($locale === null || $locale == \Yii::app()->sourceLanguage)
-        {
+        if ($locale === null || $locale == \Yii::app()->sourceLanguage) {
+            foreach ($names as $i => $value) {
+                if ($i !== 2) {
+                    $value = PhoneticSearch::getIndex($value);
+                    $names[$i] = Texts::prepareStringForTsvector($value);
+                } else {
+                    $names[$i] = Texts::prepareStringForLike($value) . '%';
+                }
+            }
+
             $criteria = new \CDbCriteria();
             $size = sizeof($names);
-            if ($size == 1)
-            {
-                $criteria->condition = '"t"."LastName" ILIKE :Part0';
-                $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%');
-            }
-            elseif ($size == 2)
-            {
-                $criteria->condition = '("t"."LastName" ILIKE :Part0 AND "t"."FirstName" ILIKE :Part1 OR ' .
-                    '"t"."LastName" ILIKE :Part1 AND "t"."FirstName" ILIKE :Part0)';
-                $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%',
-                    ':Part1' => \Utils::PrepareStringForLike($names[1]) . '%');
-            }
-            else
-            {
-                $criteria->condition = '("t"."LastName" ILIKE :Part0 AND "t"."FirstName" ILIKE :Part1 AND ' .
-                    '"t"."FatherName" ILIKE :Part2) OR ("t"."FirstName" ILIKE :Part0 AND "t"."FatherName" ILIKE :Part1 AND "t"."LastName" ILIKE :Part2)';
-                $criteria->params = array(':Part0' => \Utils::PrepareStringForLike($names[0]) . '%',
-                    ':Part1' => \Utils::PrepareStringForLike($names[1]) . '%',
-                    ':Part2' => \Utils::PrepareStringForLike($names[2]) . '%');
+            if ($size == 1) {
+                $criteria->addCondition('"t"."SearchLastName" @@ to_tsquery(:Part0)');
+                $criteria->params['Part0'] = $names[0];
+            } elseif ($size == 2) {
+                $criteria->addCondition('
+                    ("t"."SearchLastName" @@ to_tsquery(:Part0) AND "t"."SearchFirstName" @@ to_tsquery(:Part1)) OR
+                    ("t"."SearchLastName" @@ to_tsquery(:Part1) AND "t"."SearchFirstName" @@ to_tsquery(:Part0))
+                ');
+                $criteria->params['Part0'] = $names[0];
+                $criteria->params['Part1'] = $names[1];
+            } else {
+                $criteria->addCondition('
+                    ("t"."SearchLastName" @@ to_tsquery(:Part0) AND "t"."SearchFirstName" @@ to_tsquery(:Part1) AND "t"."FatherName" ILIKE :Part2) OR
+                    ("t"."SearchLastName" @@ to_tsquery(:Part2) AND "t"."SearchFirstName" @@ to_tsquery(:Part0) AND "t"."FatherName" ILIKE :Part1)
+                ');
+                $criteria->params['Part0'] = $names[0];
+                $criteria->params['Part1'] = $names[1];
+                $criteria->params['Part2'] = $names[2];
             }
             $this->getDbCriteria()->mergeWith($criteria, $useAnd);
             return $this;
         }
-        else
-        {
+        else {
             $fields = array();
             $keys = array('LastName', 'FirstName', 'FatherName');
             foreach ($keys as $key => $field)
             {
-                if (isset($names[$key]))
-                {
+                if (isset($names[$key])) {
                     $fields[$field] = $names[$key];
                 }
             }
@@ -868,16 +868,33 @@ class User extends \application\models\translation\ActiveRecord
 
     protected function beforeSave()
     {
-        if (!$this->getIsNewRecord())
-        {
+        if (!$this->getIsNewRecord()) {
             $this->UpdateTime = date('Y-m-d H:i:s');
         }
+        $this->updateSearchIndex();
         return parent::beforeSave();
     }
 
-
-    public function getUrl()
+    /**
+     * Обновляет поисковые индексы для пользователя
+     */
+    public function updateSearchIndex()
     {
+        $isUpdated = $this->getIsNewRecord();
+        if ($isUpdated === false) {
+            $oldModel = static::findByPk($this->Id);
+            if ($oldModel->FirstName != $this->FirstName || $oldModel->LastName != $this->LastName) {
+                $isUpdated = true;
+            }
+        }
+
+        if ($isUpdated) {
+            $this->SearchFirstName = new \CDbExpression('to_tsvector(\'' . PhoneticSearch::getIndex($this->FirstName, false) . '\')');
+            $this->SearchLastName = new \CDbExpression('to_tsvector(\'' . PhoneticSearch::getIndex($this->LastName) . '\')');
+        }
+    }
+
+    public function getUrl(){
         return \Yii::app()->createAbsoluteUrl('/user/view/index', array('runetId' => $this->RunetId));
     }
 
