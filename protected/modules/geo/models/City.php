@@ -1,5 +1,6 @@
 <?php
 namespace geo\models;
+use application\models\translation\ActiveRecord;
 
 /**
  * @property int $Id
@@ -11,11 +12,12 @@ namespace geo\models;
  * @property Region $Region
  *
  * Вспомогательные описания методов методы
- * @method \geo\models\City find($condition='',$params=array())
- * @method \geo\models\City findByPk($pk,$condition='',$params=array())
- * @method \geo\models\City[] findAll($condition='',$params=array())
+ * @method City find($condition='',$params=array())
+ * @method City findByPk($pk,$condition='',$params=array())
+ * @method City[] findAll($condition='',$params=array())
+ * @method City byName(string $name)
  */
-class City extends \application\models\translation\ActiveRecord
+class City extends ActiveRecord
 {
     /**
      * @param string $className
