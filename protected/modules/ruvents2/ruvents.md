@@ -104,7 +104,7 @@ X-Ruvents-Operator: {Id}
                         "Id": 323,
                         "Login": "op1",
                         "Password": "87245",
-                        "Role": "Admin" 
+                        "Role": "Admin"
                     },
                     {
                         "Id": 324,
@@ -149,7 +149,7 @@ X-Ruvents-Operator: {Id}
                         "Id": 6,
                         "Title": "Организатор",
                         "Color": "#ff0000",
-                        "Priority": 90 
+                        "Priority": 90
                     },
                     {
                         "Id": 1,
@@ -323,7 +323,7 @@ X-Ruvents-Operator: {Id}
 ### GET
 
 + Response 200
-    
+
     + Body
 
             [
@@ -331,7 +331,7 @@ X-Ruvents-Operator: {Id}
                 {}
             ]
     + Schema
-            
+
             {
                 "type": "array",
                 "items": {
@@ -396,7 +396,7 @@ X-Ruvents-Operator: {Id}
                     "^[a-zA-Z_][a-zA-Z0-9_]*$": {
                         "type": "object",
                         "properties": {
-                            "type": { 
+                            "type": {
                                 "type": "string",
                                 "enum": ["string", "integer", "number", "boolean"]
                             },
@@ -481,7 +481,7 @@ X-Ruvents-Operator: {Id}
                 "HasMore": true,
                 "NextSince": "2014-12-24 17:41:03"
             }
-            
+
     + Schema
 
             {
@@ -499,7 +499,7 @@ X-Ruvents-Operator: {Id}
                                 "Statuses": {
                                     "type": "array",
                                     "items": {
-                                        "type": "object",                                
+                                        "type": "object",
                                         "properties": {
                                             "PartId": { "type": ["integer", "null"] },
                                             "StatusId": { "type": ["integer", "null"] }
@@ -551,10 +551,11 @@ X-Ruvents-Operator: {Id}
                     },
                     "HasMore": {"type": "boolean"},
                     "NextSince": {"type": "string"},
-                }
+                },
+                "required": ["NextSince"]
             }
-    
-            
+
+
 
 ## Создание участника [/participants]
 
@@ -567,7 +568,7 @@ X-Ruvents-Operator: {Id}
 2. Разрешено не передавать некоторые ```PartId```. В этом случае для переданных ```PartId``` выставляется соответствующий статус, для всех остальных выставляется ```StatusId = null```
 
 + Request
-    
+
     + Headers
 
             X-Ruvents-Operator: 2
@@ -598,7 +599,7 @@ X-Ruvents-Operator: {Id}
                     "Statuses": {
                         "type": "array",
                         "items": {
-                            "type": "object",                                
+                            "type": "object",
                             "properties": {
                                 "PartId": { "type": ["integer", "null"] },
                                 "StatusId": { "type": ["integer", "null"] }
@@ -641,7 +642,7 @@ X-Ruvents-Operator: {Id}
 
 ### Редактирование [PUT]
 
-Передаются только изменившиеся данные. 
+Передаются только изменившиеся данные.
 
 Для мероприятий с несколькими частями передаются статусы для тех частей, для которых они изменились.
 
@@ -678,7 +679,7 @@ X-Ruvents-Operator: {Id}
                     "Statuses": {
                         "type": "array",
                         "items": {
-                            "type": "object",                                
+                            "type": "object",
                             "properties": {
                                 "PartId": { "type": ["integer", "null"] },
                                 "StatusId": { "type": ["integer", "null"] }
@@ -717,7 +718,7 @@ X-Ruvents-Operator: {Id}
 ### GET
 
 + Parameters
-    + query (required, string) 
+    + query (required, string)
 
         Универсальный поисковой запрос пользователей на RUNET-ID. Допустимо передавать: Id, список Id через запятую, Фамилию, Фамилию Имя, Имя Фамилию, Фамилию Имя Отчество, Email
 
@@ -729,7 +730,7 @@ X-Ruvents-Operator: {Id}
                 "Users": [
                     {
                         "Id": 234,
-                        "LastName": "Петров",                    
+                        "LastName": "Петров",
                         "FirstName": "Петр",
                         "FatherName": "Петрович",
                         "Email": "test-petr@runet-id.com",
@@ -739,7 +740,7 @@ X-Ruvents-Operator: {Id}
                     },
                     {
                         "Id": 235,
-                        "LastName": "Петров",                    
+                        "LastName": "Петров",
                         "FirstName": "Иван",
                         "FatherName": "Иванович",
                         "Email": "test-ivan@runet-id.com",
@@ -749,7 +750,7 @@ X-Ruvents-Operator: {Id}
                     }
                 ]
             }
-            
+
 
     + Schema
 
@@ -775,7 +776,7 @@ X-Ruvents-Operator: {Id}
                     }
                 }
             }
-            
+
 
 
 # Group Бейджи
@@ -812,7 +813,7 @@ X-Ruvents-Operator: {Id}
                     }
                 ],
                 "HasMore": true,
-                "NextSince": "2014-12-24 17:42:53" 
+                "NextSince": "2014-12-24 17:42:53"
             }
 
     + Schema
@@ -839,7 +840,7 @@ X-Ruvents-Operator: {Id}
                     "NextSince": {"type": "string"}
                 }
             }
-            
+
 
 
 ## Создание бейджа [/badges]
@@ -854,7 +855,7 @@ X-Ruvents-Operator: {Id}
     + Headers
 
             X-Ruvents-Operator: 2
-    
+
     + Body
 
             {
@@ -899,7 +900,7 @@ X-Ruvents-Operator: {Id}
     + limit (optional, integer) ... Количество возвращаемых оплаченных товаров. Может быть ограничено сверху внутренними настройками API.
 
 + Response 200
-    
+
     + Body
 
             {
@@ -912,7 +913,7 @@ X-Ruvents-Operator: {Id}
                         "PaidTime": "2014-12-10 17:15:48",
                         "Discount": 100,
                         "PromoCode": "dSfar34Da",
-                        "PayType": "promo"                    
+                        "PayType": "promo"
                     },
                     {
                         "Id": 123234,
@@ -926,9 +927,9 @@ X-Ruvents-Operator: {Id}
                     }
                 ],
                 "HasMore": true,
-                "NextSince": "2014-12-24 17:42:53" 
+                "NextSince": "2014-12-24 17:42:53"
             }
-            
+
     + Schema
 
             {
@@ -946,7 +947,7 @@ X-Ruvents-Operator: {Id}
                                     "ProductId": { "type": "integer" },
                                     "Paid": { "type": "boolean" },
                                     "PaidTime": { "type": "string" },
-                                    "Discount": { 
+                                    "Discount": {
                                         "type": "integer",
                                         "minimum": 0,
                                         "maximum": 100
@@ -972,9 +973,9 @@ X-Ruvents-Operator: {Id}
     + Id (integer) ... ID выдаваемого товара.
     + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены обновленные позднее этой даты товары.
     + limit (optional, integer) ... Количество возвращаемых оплаченных товаров. Может быть ограничено сверху внутренними настройками API.
-    
+
 + Response 200
-    
+
     + Body
 
             {
@@ -983,19 +984,19 @@ X-Ruvents-Operator: {Id}
                         "Id": 6,
                         "CheckTime": "2015-04-14 17:52:19",
                         "CreationTime": "2015-04-14 18:52:19",
-                        "UserId": 321                    
+                        "UserId": 321
                     },
                     {
                         "Id": 7,
                         "CheckTime": "2015-04-14 17:53:20",
                         "CreationTime": "2015-04-14 18:53:20",
-                        "UserId": 454                    
+                        "UserId": 454
                     },
                 ],
                 "HasMore": true,
-                "NextSince": "2015-04-14 18:53:20" 
+                "NextSince": "2015-04-14 18:53:20"
             }
-            
+
     + Schema
 
             {
@@ -1033,18 +1034,18 @@ X-Ruvents-Operator: {Id}
 + Request
 
     + Headers
-    
+
             X-Ruvents-Operator: 2
 
     + Body
-    
+
             {
                 "UserId": "321",
                 "CheckTime": "2015-04-28 17:32:32"
             }
 
     + Schema
-    
+
             {
                 "type": "object",
                 "properties": {
@@ -1111,7 +1112,7 @@ X-Ruvents-Operator: {Id}
             }
 
     + Schema
-    
+
             {
                 "type": "object",
                 "properties": {
@@ -1147,18 +1148,18 @@ X-Ruvents-Operator: {Id}
 + Request
 
     + Headers
-    
+
             X-Ruvents-Operator: 2
 
     + Body
-    
+
             {
                 "UserId": "321",
                 "CheckTime": "2015-04-28 17:32:32"
             }
 
     + Schema
-    
+
             {
                 "type": "object",
                 "properties": {

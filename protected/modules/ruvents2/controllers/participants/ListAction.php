@@ -14,20 +14,24 @@ class ListAction extends Action
     {
         $limit = intval($limit);
         $limit = $limit > 0 ? min($limit, self::MAX_LIMIT) : self::MAX_LIMIT;
-
         $criteria = $this->getCriteria($since, $limit);
+
+        if ($since == null)
+            $since = date('Y-m-d H:i:s');
+
         $users = User::model()->byEventId($this->getEvent()->Id)->findAll($criteria);
         $result = [];
         foreach ($users as $user) {
             $result[] = $this->getData($user);
         }
 
-        $nextSince = count($users) == $limit ? $users[$limit-1]->UpdateTime : null;
-        $hasMore = $nextSince !== null;
+        if (($hasMore = count($users) == $limit))
+            $since = $users[$limit-1]->UpdateTime;
+
         $this->renderJson([
             'Participants' => $result,
             'HasMore' => $hasMore,
-            'NextSince' => $nextSince
+            'NextSince' => $since
         ]);
     }
 
