@@ -93,19 +93,12 @@ class UserDataManager extends \CModel
         return $result;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $rules = $this->definitionRules();
-        if ($this->model()->EventId == 1375) {
-            $rules[] = ['AccountFB', 'checkSocials'];
-        }
         return $rules;
-    }
-
-    public function checkSocials()
-    {
-        if (empty($this->AccountFB) && empty($this->AccountOK) && empty($this->AccountVK)) {
-            $this->addError('', 'Необходимо заполнить аккаунт хотя бы одной социальной сети.');
-        }
     }
 }

@@ -15,10 +15,6 @@ use user\models\User;
 
 class ExportAction extends Action
 {
-    private $csvDelimiter = ';';
-    private $csvCharset = 'utf8';
-    private $language = 'ru';
-
     private $rowIterator = 1;
 
     public function run()

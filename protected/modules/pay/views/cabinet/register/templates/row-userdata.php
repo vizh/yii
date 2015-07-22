@@ -44,7 +44,16 @@ $printEditArea = function(Definition $definition, UserDataManager $manager) use 
 ?>
 
 <?foreach ($userData->getManager()->getGroups() as $group):?>
-    <?if (count($group->getDefinitions()) !== 0):?>
+    <?php
+    $definitions = [];
+    foreach ($group->getDefinitions() as $definition) {
+        if (!$definition->public) {
+            continue;
+        }
+        $definitions[] = $definition;
+    }
+    ?>
+    <?if (count($definitions) !== 0):?>
         <div class="clearfix">
             <?if (!empty($group->title)):?>
                 <h5 class="title"><?=$group->title;?></h5>
@@ -53,7 +62,7 @@ $printEditArea = function(Definition $definition, UserDataManager $manager) use 
             <div class="pull-left">
                 <?
                 $i=0;
-                foreach ($group->getDefinitions() as $definition) {
+                foreach ($definitions as $definition) {
                     $i++;
                     if ($i % 2 == 0) continue;
                     $printEditArea($definition, $userData->getManager());
@@ -63,7 +72,7 @@ $printEditArea = function(Definition $definition, UserDataManager $manager) use 
             <div class="pull-right">
                 <?
                 $i=0;
-                foreach ($group->getDefinitions() as $definition) {
+                foreach ($definitions as $definition) {
                     $i++;
                     if ($i % 2 == 1) continue;
                     $printEditArea($definition, $userData->getManager());

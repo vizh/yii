@@ -46,7 +46,7 @@ use \application\models\attribute\Group;
             <?php $group = null;?>
             <?php foreach($this->form->getUserData()->getManager()->getDefinitions() as $definition):?>
                 <?php
-                    if (!$definition->public) {
+                    if ((!isset($this->WidgetRegistrationShowHiddenUserDataFields) || $this->WidgetRegistrationShowHiddenUserDataFields == 0) && !$definition->public) {
                         continue;
                     }
                 ?>

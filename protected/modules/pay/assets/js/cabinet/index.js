@@ -39,12 +39,33 @@ $(function () {
 
 
     $('.pay-buttons a').click(function (e) {
-        $target = $(e.currentTarget);
-        $form = $('form.additional-attributes');
-        if ($form.size() > 0 && !$target.is('[disabled=disabled]')) {
-            $form.find('input[name*="SuccessUrl"]').val($target.attr('href'));
-            $form.submit();
-            return false;
+        var $target = $(e.currentTarget);
+        var $form = $('form.additional-attributes');
+        if ($form.size() > 0 && $target.attr("disabled") != "disabled") {
+            if (!$form.data('valid')) {
+                var $alert = $form.find('.alert-error');
+                if ($alert.size() == 0) {
+                    $alert = $('<div/>', {'class' : 'alert alert-error errorSummary'});
+                    $form.prepend($alert);
+                }
+                $alert.hide().html('');
+                $.post('?checkAdditionalAttributes=true', $form.serialize(), function (response) {
+                    if (response.success) {
+                        $form.data('valid', true);
+                        $target.trigger('click');
+                    } else {
+                        var $ul = $('<ul/>');
+                        $.each(response.errors, function (attr, errors) {
+                            $.each(errors, function (i, error) {
+                                $ul.append('<li>' + error + '</li>')
+                            });
+                        });
+                        $alert.append($ul).show();
+                    }
+                },'json');
+                return false;
+            }
+            window.location = $target.attr('href');
         }
     });
 });

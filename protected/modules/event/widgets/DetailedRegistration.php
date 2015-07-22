@@ -49,6 +49,7 @@ class DetailedRegistration extends \event\components\Widget
             'WidgetRegistrationShowBirthday',
             'WidgetRegistrationShowContactAddress',
             'WidgetRegistrationShowUserDataGroupLabel',
+            'WidgetRegistrationShowHiddenUserDataFields',
             'WidgetRegistrationBeforeInfo',
             'WidgetRegistrationUseInvites',
             'WidgetRegistrationCompleteText',

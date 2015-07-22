@@ -1,6 +1,9 @@
 <?php
 namespace pay\controllers\cabinet;
 
+use pay\models\EventUserAdditionalAttribute;
+use \pay\models\forms\AddtionalAttributes as FormAdditionalAttributes;
+
 class IndexAction extends \pay\components\Action
 {
     public function run($eventIdName)
@@ -37,15 +40,8 @@ class IndexAction extends \pay\components\Action
             $unpaidItems->{$key}[$item->getOrderItem()->ProductId][] = $item;
         }
 
-        $formAdditionalAttributes = $this->getAddtionalAttributesForm($finder);
-        if (!$formAdditionalAttributes->getIsEmpty())
-        {
-            $formAdditionalAttributes->attributes = $request->getParam(get_class($formAdditionalAttributes));
-            if ($request->getIsPostRequest() && $formAdditionalAttributes->validate())
-            {
-                $this->processAddtionalAttributesForm($formAdditionalAttributes);
-            }
-        }
+        $formAdditionalAttributes = $this->getAdditionalAttributesForm($finder);
+        $this->processAdditionalAttributesForm($formAdditionalAttributes);
 
 
 
@@ -82,9 +78,8 @@ class IndexAction extends \pay\components\Action
      * @param \pay\components\collection\Finder $finder
      * @return \pay\models\forms\AddtionalAttributes
      */
-    private function getAddtionalAttributesForm(\pay\components\collection\Finder $finder)
+    private function getAdditionalAttributesForm(\pay\components\collection\Finder $finder)
     {
-        $title = null;
         $attributes = [];
         $values = [];
         foreach ($finder->getUnpaidFreeCollection() as $item)
@@ -94,14 +89,8 @@ class IndexAction extends \pay\components\Action
             {
                 $attributes[$attr->Name] = $attr;
                 $value = \pay\models\EventUserAdditionalAttribute::model()->byEventId($this->getEvent()->Id)->byUserId($this->getUser()->Id)->byName($attr->Name)->find();
-                if ($value !== null)
-                {
+                if ($value !== null) {
                     $values[$value->Name] = $value->Value;
-                }
-
-                if (!empty($product->AdditionalAttributesTitle))
-                {
-                    $title = $product->AdditionalAttributesTitle;
                 }
             }
         }
@@ -113,30 +102,42 @@ class IndexAction extends \pay\components\Action
             return ($a->Order < $b->Order) ? -1 : 1;
         });
 
-        $form = new \pay\models\forms\AddtionalAttributes($attributes, $values);
-        $form->FormTitle = $title;
+        $form = new FormAdditionalAttributes($attributes, $values);
         return $form;
     }
 
     /**
-     * @param \pay\models\forms\AddtionalAttributes $form
+     * Проверяет наличие формы дополнительных параметров и производит валидацию
+     * @param FormAdditionalAttributes $form
      */
-    private function processAddtionalAttributesForm(\pay\models\forms\AddtionalAttributes $form)
+    private function processAdditionalAttributesForm(FormAdditionalAttributes $form)
     {
-        foreach ($form->attributeNames() as $name)
-        {
-            $attribute = \pay\models\EventUserAdditionalAttribute::model()->byEventId($this->getEvent()->Id)->byUserId($this->getUser()->Id)->byName($name)->find();
-            if ($attribute == null)
-            {
-                $attribute = new \pay\models\EventUserAdditionalAttribute();
-                $attribute->EventId = $this->getEvent()->Id;
-                $attribute->UserId = $this->getUser()->Id;
-                $attribute->Name = $name;
-            }
-            $attribute->Value = $form->$name;
-            $attribute->save();
+        /** @var \CHttpRequest $request */
+        $request = \Yii::app()->getRequest();
+        if ($form->getIsEmpty() || !$request->getIsPostRequest() || $request->getParam('checkAdditionalAttributes') == null) {
+            return;
         }
-        $this->getController()->redirect($form->SuccessUrl);
+
+        $form->setAttributes($request->getParam(get_class($form)));
+        $result = ['success' => false];
+        if ($form->validate()) {
+            foreach ($form->attributeNames() as $name) {
+                $attribute = EventUserAdditionalAttribute::model()->byEventId($this->getEvent()->Id)->byUserId($this->getUser()->Id)->byName($name)->find();
+                if ($attribute == null) {
+                    $attribute = new EventUserAdditionalAttribute();
+                    $attribute->EventId = $this->getEvent()->Id;
+                    $attribute->UserId = $this->getUser()->Id;
+                    $attribute->Name = $name;
+                }
+                $attribute->Value = $form->$name;
+                $attribute->save();
+            }
+            $result['success'] = true;
+        } else {
+            $result['errors'] = $form->getErrors();
+        }
+        echo json_encode($result);
+        \Yii::app()->end();
     }
 
 }

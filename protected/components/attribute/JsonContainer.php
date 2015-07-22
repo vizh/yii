@@ -35,7 +35,7 @@ trait JsonContainer
             $this->createDefinitions();
             $this->pullAttributes();
             $this->model()->attachEventHandler('onBeforeSave', [$this, 'pushAttributes']);
-            $this->model()->attachEventHandler('onBeforeValidate', [$this, 'validateAttributes']);
+            $this->model()->attachEventHandler('onAfterValidate', [$this, 'afterValidateAttributes']);
         }
     }
 
@@ -170,10 +170,10 @@ trait JsonContainer
         $this->model()->{$this->containerName()} = json_encode($this->attributes, JSON_UNESCAPED_UNICODE);
     }
 
-    public function validateAttributes()
+    public function afterValidateAttributes()
     {
         $manager = $this;
-        if ($manager instanceof \CModel && !$manager->validate()) {
+        if ($manager instanceof \CModel && $manager->hasErrors()) {
             $this->model()->addError($this->containerName(), 'Ошибка при валидации дополнительных атрибутов');
         }
     }

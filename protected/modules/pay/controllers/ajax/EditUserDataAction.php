@@ -29,7 +29,7 @@ class EditUserDataAction extends \pay\components\Action
             if ($this->hasNewValues($userData, $earlyUserDataModels)) {
                 $userData->save(false);
             }
-        } elseif ($dataManager->validate()) {
+        } elseif ($dataManager->validate(null, true, true)) {
             $userData->save();
         } else {
             $result->success = false;

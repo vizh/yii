@@ -135,18 +135,12 @@ $total = 0;
     <div style="width: 500px; margin: 0 auto; margin-bottom: 40px;">
         <?if (!$formAdditionalAttributes->getIsEmpty()):?>
             <div class="well m-bottom_30">
-                <h4><?=($formAdditionalAttributes->FormTitle !== null ? $formAdditionalAttributes->FormTitle : \Yii::t('app', 'Дополнительные данные'));?></h4>
+                <h4><?=\Yii::t('app', 'Дополнительные данные');?></h4>
                 <?=\CHtml::errorSummary($formAdditionalAttributes, '<div class="alert alert-error">', '</div>');?>
-                <?=\CHtml::form('','POST',['class' => 'additional-attributes']);?>
+                <?=\CHtml::form('', 'POST', ['class' => 'additional-attributes', 'data-valid' => $formAdditionalAttributes->getIsValid()]);?>
                 <?foreach($formAdditionalAttributes->attributeNames() as $attr):?>
-                    <div class="control-group">
-                        <?=\CHtml::activeLabel($formAdditionalAttributes, $attr, ['class' => 'control-label']);?>
-                        <div class="controls">
-                            <?=$formAdditionalAttributes->getHtmlActiveField($attr);?>
-                        </div>
-                    </div>
+                    <?=$formAdditionalAttributes->getControlGroupHtml($attr);?>
                 <?endforeach;?>
-                <?=\CHtml::activeHiddenField($formAdditionalAttributes, 'SuccessUrl');?>
                 <?=\CHtml::endForm();?>
             </div>
         <?endif;?>
