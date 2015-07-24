@@ -20,10 +20,6 @@ class ContactsAction extends \CAction
     $form->attributes = $request->getParam(get_class($form));
     if ($request->getIsPostRequest()){
       if ($form->validate()){
-        if ($user->PrimaryPhone !== $form->PrimaryPhone) {
-          $user->PrimaryPhoneVerify = false;
-          $user->PrimaryPhoneVerifyTime = null;
-        }
         $user->PrimaryPhone = $form->PrimaryPhone;
         $user->Email = $form->Email;
         if (!empty($form->Site)){

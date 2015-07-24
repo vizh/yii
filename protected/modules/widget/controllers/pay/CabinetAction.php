@@ -95,7 +95,6 @@ class CabinetAction extends \widget\components\pay\Action
     });
 
     $form = new \pay\models\forms\AddtionalAttributes($attributes, $values);
-    $form->FormTitle = $title;
     return $form;
   }
 

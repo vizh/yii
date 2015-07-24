@@ -34,8 +34,8 @@ class PhoneticSearch
     public static function getIndex($string, $compressEnd = false)
     {
         $result = [];
-
-        $lang = self::getLang($string);
+        $strings = self::prepareString($string);
+        $lang = self::getLang($strings);
 
         $strings = self::prepareString($string);
         foreach ($strings as $string) {
@@ -145,14 +145,16 @@ class PhoneticSearch
 
     /**
      * Определяет язык входной строки
-     * @param $string
+     * @param array $strings
      * @return string
      */
-    private static function getLang($string)
+    private static function getLang($strings)
     {
-        foreach (self::$ALPHABET_RU as $char) {
-            if (strpos($string, $char) !== false) {
-                return self::LANG_RU;
+        if (isset($strings[0])) {
+            foreach (self::$ALPHABET_RU as $char) {
+                if (strpos($strings[0], $char) !== false) {
+                    return self::LANG_RU;
+                }
             }
         }
         return self::LANG_EN;

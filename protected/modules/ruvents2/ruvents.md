@@ -434,6 +434,8 @@ X-Ruvents-Operator: {Id}
                 "Participants": [
                     {
                         "Id": 234,
+                        "ExternalId" :  "0000-0000-0000-0000",
+                        "Birthday": "1991-10-12",
                         "Position" : "Программист",
                         "Phone" : "7925000000",
                         "Photo" : "http://runet-id.com/files/photo/nophoto_200.png"
@@ -461,21 +463,9 @@ X-Ruvents-Operator: {Id}
                                 "Company" : "Yandex"
                             }
                         },
-                        "Badges" => {
-                            {
-                                "PartId": 1,
-                                "RoleId": 3,
-                                "OperatorId" : 55,
-                                "CreationTime" : "2015-07-13 18:58:59"
-                            },
-                            {
-                                "PartId": 2,
-                                "RoleId": 1,
-                                "OperatorId" : 59,
-                                "CreationTime" : "2015-07-13 20:00:01"
-                            }
-                        }
-                        "UpdateTime": "2014-10-12 23:04:15"
+                        "BadgesCount" => 1,
+                        "RegistrationTime": "2014-10-12 23:04:15",
+                        "CreationTime": "2014-10-12 23:04:15"
                     }
                 ],
                 "HasMore": true,
@@ -493,6 +483,8 @@ X-Ruvents-Operator: {Id}
                             "type": "object",
                             "properties": {
                                 "Id": { "type": "integer" },
+                                "ExternalId" : { "type": ["string", "null"] },
+                                "Birthday" : { "type": "string" },
                                 "Position": { "type": "string" },
                                 "Phone": { "type": "string" },
                                 "Photo": { "type": "string" },
@@ -527,19 +519,9 @@ X-Ruvents-Operator: {Id}
                                         }
                                     }
                                 },
-                                "Badges": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "PartId": { "type": ["integer", "null"] },
-                                            "RoleId": { "type": ["integer", "null"] },
-                                            "OperatorId" : { "type": "integer" },
-                                            "CreationTime" : { "type": "string" }
-                                        }
-                                    }
-                                },
-                                "UpdateTime": { "type": "string" },
+                                "RegistrationTime" : { "type": "string" }
+                                "BadgesCount": { "type": "integer" },
+                                "CreationTime": { "type": "string" },
                             },
                             "patternProperties": {
                                 "^[a-zA-Z_][a-zA-Z0-9_]*$": {

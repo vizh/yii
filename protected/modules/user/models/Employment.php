@@ -1,5 +1,6 @@
 <?php
 namespace user\models;
+
 use company\models\Company;
 
 
@@ -16,11 +17,17 @@ use company\models\Company;
  *
  * @property \company\models\Company $Company
  * @property User $User
+ *
+ * @method Employment findByPk(integer $pk)
  */
 class Employment extends \CActiveRecord
 {
     const TableName = 'UserEmployment';
 
+    /**
+     * @param string $className
+     * @return Employment
+     */
     public static function model($className=__CLASS__)
     {
         return parent::model($className);

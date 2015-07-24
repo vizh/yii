@@ -135,4 +135,37 @@ class OneuseController extends AdminMainController
         }
         echo 'Проставлено: ' . $count;
     }
+
+    public function actionTersm15()
+    {
+        ini_set("memory_limit", "512M");
+        \Yii::import('ext.PHPExcel.PHPExcel', true);
+        $phpExcel = PHPExcel_IOFactory::createReader('Excel2007');
+        $phpExcel = $phpExcel->load(\Yii::getPathOfAlias('application') . '/../data/event/tersm15/participants.xlsx');
+        $phpExcel->setActiveSheetIndex(0);
+        /** @var PHPExcel_Worksheet $sheet */
+        $sheet = $phpExcel->getActiveSheet();
+
+        foreach ($sheet->getRowIterator(2) as $row) {
+            $i = $row->getRowIndex();
+            $name  = $sheet->getCell('B'.$i)->getValue() . ' ' . $sheet->getCell('C'.$i)->getValue();
+            $email = $sheet->getCell('E'.$i)->getValue();
+
+            $user = \user\models\User::model()->byEmail($email)->bySearch($name, null, true, false)->find();
+            if ($user !== null) {
+                $sheet->setCellValue('X'.$i, $user->RunetId);
+            } else {
+                $cellIterator = $row->getCellIterator();
+                foreach ($cellIterator as $cell) {
+                    $sheet->setCellValue($cell->getCoordinate(), '');
+                }
+            }
+        }
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment; filename="Участники.xlsx"');
+        $phpExcelWriter = \PHPExcel_IOFactory::createWriter($phpExcel, 'Excel2007');
+        $phpExcelWriter->save('php://output');
+
+    }
 }

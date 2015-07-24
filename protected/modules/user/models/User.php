@@ -1,14 +1,18 @@
 <?php
 namespace user\models;
 
+use api\models\ExternalUser;
 use application\components\utility\PhoneticSearch;
 use application\components\utility\Texts;
+use application\models\translation\ActiveRecord;
+use application\widgets\IAutocompleteItem;
 use competence\models\Result;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use mail\components\mailers\MandrillMailer;
 use ruvents\models\Badge;
+use search\components\interfaces\ISearch;
 use user\components\handlers\Register;
 use iri\models\User as IriUser;
 use ruvents2\models\Badge as Badge2;
@@ -58,6 +62,7 @@ use ruvents2\models\Badge as Badge2;
  * @property Badge[] $Badges
  * @property IriUser[] $IRIParticipants
  * @property IriUser[] $IRIParticipantsActive
+ * @property ExternalUser[] $ExternalAccounts
  *
  * События
  * @property \CEvent $onRegister
@@ -70,8 +75,8 @@ use ruvents2\models\Badge as Badge2;
  * @method User byTemporary(bool $temporary)
  *
  */
-class User extends \application\models\translation\ActiveRecord
-    implements \search\components\interfaces\ISearch, \application\widgets\IAutocompleteItem
+class User extends ActiveRecord
+    implements ISearch, IAutocompleteItem
 {
 
     //Защита от перегрузки при поиске
@@ -137,6 +142,8 @@ class User extends \application\models\translation\ActiveRecord
 
             'IRIParticipants' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role']],
             'IRIParticipantsActive' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role'], 'on' => '"IRIParticipantsActive"."ExitTime" IS NULL OR "IRIParticipantsActive"."ExitTime" > NOW()'],
+
+            'ExternalAccounts' => [self::HAS_MANY, '\api\models\ExternalUser', 'UserId']
         );
     }
 
@@ -871,7 +878,12 @@ class User extends \application\models\translation\ActiveRecord
         if (!$this->getIsNewRecord()) {
             $this->UpdateTime = date('Y-m-d H:i:s');
         }
+
         $this->updateSearchIndex();
+        if (!$this->getIsNewRecord() && $this->PrimaryPhone != $this->getOldAttributes()['PrimaryPhone']) {
+            $this->PrimaryPhoneVerify = false;
+            $this->PrimaryPhoneVerifyTime = null;
+        }
         return parent::beforeSave();
     }
 
@@ -880,18 +892,13 @@ class User extends \application\models\translation\ActiveRecord
      */
     public function updateSearchIndex()
     {
-        $isUpdated = $this->getIsNewRecord();
-        if ($isUpdated === false) {
-            $oldModel = static::findByPk($this->Id);
-            if ($oldModel->FirstName != $this->FirstName || $oldModel->LastName != $this->LastName) {
-                $isUpdated = true;
+        if (!$this->getIsNewRecord()) {
+            if ($this->getOldAttributes()['FirstName'] == $this->FirstName && $this->getOldAttributes()['LastName'] == $this->LastName) {
+                return;
             }
         }
-
-        if ($isUpdated) {
-            $this->SearchFirstName = new \CDbExpression('to_tsvector(\'' . PhoneticSearch::getIndex($this->FirstName, false) . '\')');
-            $this->SearchLastName = new \CDbExpression('to_tsvector(\'' . PhoneticSearch::getIndex($this->LastName) . '\')');
-        }
+        $this->SearchFirstName = new \CDbExpression('to_tsvector(\'' . PhoneticSearch::getIndex($this->FirstName, false) . '\')');
+        $this->SearchLastName = new \CDbExpression('to_tsvector(\'' . PhoneticSearch::getIndex($this->LastName) . '\')');
     }
 
     public function getUrl(){

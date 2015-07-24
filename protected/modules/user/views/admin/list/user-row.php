@@ -1,7 +1,7 @@
 <?/**
  * @var \user\models\User $user
  */
-$editUrl = ['admin/edit/index', 'runetId' => $user->RunetId, 'backUrl' => \Yii::app()->getRequest()->getRequestUri()];
+$editUrl = ['admin/edit/index', 'id' => $user->RunetId, 'backUrl' => \Yii::app()->getRequest()->getRequestUri()];
 ?>
 <td style="width: 1px;font-weight: bold;"><?=$user->RunetId;?></td>
 <td style="width: 50px;">

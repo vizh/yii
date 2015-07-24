@@ -65,6 +65,7 @@ $(function () {
                 },'json');
                 return false;
             }
+            e.preventDefault();
             window.location = $target.attr('href');
         }
     });

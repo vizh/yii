@@ -124,7 +124,6 @@ class UserData extends ActiveRecord
         foreach ($userDataModels as $userData) {
             $manager = $userData->getManager();
             foreach ($manager->getDefinitions() as $definition) {
-                if ($definition->)
                 $name = $definition->name;
                 if (!empty($manager->{$name})) {
                     $attributeNames[] = $name;
