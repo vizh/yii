@@ -144,16 +144,14 @@ class Product extends \CFormModel
     public function getManagerData()
     {
         $managers = [];
-        if (!empty($this->event->Parts))
-        {
+        if (!empty($this->event->Parts)) {
             $managers = [
                 'EventOnPart' => \Yii::t('app', 'Часть мероприятия'),
                 'EventListParts' => \Yii::t('app', 'Несколько частей мероприятия'),
-                'EventAllParts' => \Yii::t('app', 'Все части мероприятия')
+                'EventAllParts' => \Yii::t('app', 'Все части мероприятия'),
+                'Section' => \Yii::t('app', 'Секция')
             ];
-        }
-        else
-        {
+        } else {
             $managers = [
                 'EventProductManager' => \Yii::t('app', 'Мероприятие'),
                 'EventMicrosoft' =>  \Yii::t('app', 'Тип товара для мероприятий Microsoft'),

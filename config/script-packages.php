@@ -130,5 +130,14 @@ return [
     ],
     'jquery' => [
         'depends' => ['runetid.jquery']
+    ],
+    'jquery.pin' => [
+        'baseUrl' => '/javascripts/jquery.pin',
+        'js' => ['jquery.pin.min.js']
+    ],
+    'jquery.fotorama' => [
+        'baseUrl' => '/javascripts/jquery.fotorama',
+        'js' => ['fotorama.js'],
+        'css' => ['fotorama.css']
     ]
 ];

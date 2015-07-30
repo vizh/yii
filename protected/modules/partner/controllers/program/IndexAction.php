@@ -22,16 +22,35 @@ class IndexAction extends Action
             $validator = new \CTypeValidator();
             $validator->type = 'date';
             $validator->dateFormat = 'yyyy-MM-dd';
-            if (!$validator->validateValue($date))
+            if (!$validator->validateValue($date)) {
                 throw new CHttpException(404);
+            }
         }
 
         $sections = Section::model()->byDate($date)->byEventId($event->Id)->byDeleted(false)->findAll();
         $this->getController()->render('index', [
             'event' => $event,
             'sections' => $sections,
-            'date' => $date]
-        );
+            'date' => $date,
+            'intervals' => $this->getIntervals($sections)
+        ]);
     }
 
+    /**
+     * @param Section[] $sections
+     * @return array
+     */
+    public function getIntervals($sections)
+    {
+        $formatter = \Yii::app()->getDateFormatter();
+
+        $intervals = [];
+        foreach ($sections as $section) {
+            $intervals[] = $formatter->format('HH:mm', $section->StartTime);
+            $intervals[] = $formatter->format('HH:mm', $section->EndTime);
+        }
+        $intervals = array_unique($intervals);
+        sort($intervals);
+        return $intervals;
+    }
 } 

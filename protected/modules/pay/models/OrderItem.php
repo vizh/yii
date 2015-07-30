@@ -25,9 +25,9 @@ use pay\components\MessageException;
  * @property CouponActivationLinkOrderItem $CouponActivationLink
  * @property OrderItemAttribute[] $Attributes
  *
- * @method \pay\models\OrderItem findByPk()
- * @method \pay\models\OrderItem find()
- * @method \pay\models\OrderItem findAll()
+ * @method OrderItem findByPk()
+ * @method OrderItem find()
+ * @method OrderItem[] findAll()
  */
 class OrderItem extends \CActiveRecord
 {

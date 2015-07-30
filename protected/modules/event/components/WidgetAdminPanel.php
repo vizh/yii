@@ -73,9 +73,9 @@ abstract class WidgetAdminPanel implements IWidgetAdminPanel
   }
   
   const FLASH_SUCCESS_KEY = 'wap.success';
-  public function setSuccess($message)
+  public function setSuccess()
   {
-    \Yii::app()->getUser()->setFlash(self::FLASH_SUCCESS_KEY, $message);
+    \Yii::app()->getUser()->setFlash(self::FLASH_SUCCESS_KEY, \Yii::t('app', 'Настройки виджета успешно сохранены'));
   }
   
   public function getSuccess()

@@ -14,11 +14,14 @@ class CodeException extends Exception
     }
 
     const NO_PAY_ACCOUNT = 101;
-
+    const NO_EXISTS_PRODUCT  = 201;
 
     const NO_PRODUCT_FOR_COUPON_100 = 303;
     const WRONG_PRODUCT_FOR_COUPON_100 = 304;
     const ORDER_ITEM_EXISTS = 402;
+    const NO_EXISTS_ORDER_ITEM_PAYER = 403;
+    const NO_EXISTS_ORDER_ITEM_OWNER = 404;
+    const NO_EXISTS_ORDER_ITEM = 405;
 
     private $codes = [
         /** Yii Exception */
@@ -27,7 +30,8 @@ class CodeException extends Exception
         /** Общие ошибки */
         self::NO_PAY_ACCOUNT => 'Для мероприятия %s,%s,%s не определен платежный аккаунт',
 
-
+        /** Ошибки товаров */
+        self::NO_EXISTS_PRODUCT => 'Не найден товар',
 
         /** Ошибки Order */
         201 => 'Оплачен неизвестный заказ номер %s',
@@ -46,6 +50,9 @@ class CodeException extends Exception
         /** Ошибки OrderItem */
         401 => 'Данный товар не может быть приобретен этим пользователем. Возможно уже куплен этот или аналогичный товар',
         self::ORDER_ITEM_EXISTS => 'Вы уже заказали этот товар',
+        self::NO_EXISTS_ORDER_ITEM_PAYER => 'Не найден плательщик для заказа',
+        self::NO_EXISTS_ORDER_ITEM_OWNER => 'Не найден получатель для заказа',
+        self::NO_EXISTS_ORDER_ITEM => 'Не найден заказа',
 
 
 

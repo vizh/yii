@@ -4,6 +4,52 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
+    /** Создает частие мероприятий и товары для них на основе программы */
+    public function actionSectionToEventPart()
+    {
+        $id = 1995;
+        /*
+        $criteria = new \CDbCriteria();
+        $criteria->addNotInCondition('"t"."Id"', [2598,2599,2600,2644,2645,2646,2647,2648]);
+        $sections = \event\models\section\Section::model()->byEventId($id)->findAll($criteria);
+        foreach ($sections as $section) {
+            echo $section->Title . '<br/>';
+            $part = new \event\models\Part();
+            $part->EventId = $section->EventId;
+            $part->Title   = $section->Title;
+            $part->save();
+
+            $product = new \pay\models\Product();
+            $product->EventId = $section->EventId;
+            $product->ManagerName = 'Section';
+            $product->Title   = 'Участие в секции '.$section->Title;
+            $product->Public  = true;
+            $product->Unit    = 'чел.';
+            $product->save();
+
+            foreach (['Limit' => 50, 'SectionId' => $section->Id, 'PartId' => $part->Id, 'RoleId' => 1] as $name => $value) {
+                $attribute = new \pay\models\ProductAttribute();
+                $attribute->ProductId = $product->Id;
+                $attribute->Name  = $name;
+                $attribute->Value = $value;
+                $attribute->save();
+            }
+        }
+
+
+        $products = \pay\models\Product::model()->byEventId($id)->byManagerName('Section')->findAll();
+        foreach ($products as $product) {
+            $price = new \pay\models\ProductPrice();
+            $price->ProductId = $product->Id;
+            $price->Price = 0;
+            $price->StartTime = '2015-07-28 00:00:00';
+            $price->save();
+        }
+        */
+
+
+    }
+
     /**
      * Заполняет адреса пользователя, у которых они не заполнены. Учитывается лог посещения.
      * Алгоритм: если с одной точки было более двух посещений с интервалом больше суток, то используется это место

@@ -1,34 +1,48 @@
 <?php
-return array(
-  array(
-    'allow',
-    'users' => ['*'],
-    'module' => 'pay',
-    'controllers' => ['cabinet', 'juridical', 'ajax', 'order', 'receipt', 'mailru']
-  ),
+return [
+    [
+        'allow',
+        'users' => ['@'],
+        'module' => 'pay',
+        'controllers' => ['ajax'],
+        'actions' => ['addorderitem', 'deleteorderitem']
+    ],
+    [
+        'allow',
+        'users' => ['*'],
+        'module' => 'pay',
+        'controllers' => ['ajax'],
+        'actions' => ['couponactivate', 'couponinfo', 'userdata', 'edituserdata']
+    ],
+    [
+        'allow',
+        'users' => ['*'],
+        'module' => 'pay',
+        'controllers' => ['cabinet', 'juridical', 'order', 'receipt', 'mailru']
+    ],
 
 
-  /** Admin Rules */
-  array(
-    'allow',
-    'roles' => ['admin'],
-    'module' => 'pay',
-    'controllers' => ['admin/account', 'admin/oneuse', 'admin/orderjuridicaltemplate', 'internal', 'admin/coupon']
-  ),
-    
-  array(
-    'allow',
-    'roles' => ['booker'],
-    'module' => 'pay',
-    'controllers' => ['admin/order']
-  ),
+    /** Admin Rules */
+    [
+        'allow',
+        'roles' => ['admin'],
+        'module' => 'pay',
+        'controllers' => ['admin/account', 'admin/oneuse', 'admin/orderjuridicaltemplate', 'internal', 'admin/coupon']
+    ],
 
-  array(
-    'allow',
-    'roles' => ['roommanager', 'admin', 'booker'],
-    'module' => 'pay',
-    'controllers' => ['admin/booking']
-  )
+    [
+        'allow',
+        'roles' => ['booker'],
+        'module' => 'pay',
+        'controllers' => ['admin/order']
+    ],
+
+    [
+        'allow',
+        'roles' => ['roommanager', 'admin', 'booker'],
+        'module' => 'pay',
+        'controllers' => ['admin/booking']
+    ]
 
 
-);
+];

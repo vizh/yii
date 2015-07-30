@@ -20,6 +20,8 @@ class Definition
 
     public $cssClass = null;
 
+    public $placeholder = null;
+
     /**
      * @param mixed $value
      * @return mixed
@@ -43,6 +45,9 @@ class Definition
     {
         $htmlOptions['class'] = $this->cssClass . (isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
         $htmlOptions['style'] = $this->cssStyle . (isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
+        if (!empty($this->placeholder)) {
+            $htmlOptions['placeholder'] = $this->placeholder;
+        }
         return \CHtml::activeTextField($container, $this->name, $htmlOptions);
     }
 

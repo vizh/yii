@@ -1,12 +1,15 @@
 <?php
 namespace education\controllers;
 
-use application\components\controllers\AjaxController as BaseAjaxController;
+use application\components\controllers\AjaxController as TraitAjaxController;
+use application\components\controllers\MainController;
 use education\models\Faculty;
 use education\models\University;
 
-class AjaxController extends BaseAjaxController
+class AjaxController extends MainController
 {
+    use TraitAjaxController;
+
     /**
      * Поиск по университетам
      * @param string $term

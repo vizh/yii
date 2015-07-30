@@ -28,14 +28,11 @@ $this->setPageTitle(\Yii::t('app', 'Авторизация в партнерск
     <!-- Right side -->
 </div>
 
-
-
-
 <script type="text/javascript">
     $(function(){
         var $form = $('div.signin-form form');
         $form.find('input[type="text"]').autocomplete({
-            source: <?=json_encode($events, JSON_UNESCAPED_UNICODE)?>,
+            source: <?=json_encode($events, JSON_UNESCAPED_UNICODE);?>,
             select: function( event, ui ) {
                 $form.find('input[name="id"]').val(ui.item.id);
                 $form.submit();

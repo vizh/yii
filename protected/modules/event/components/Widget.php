@@ -145,7 +145,9 @@ abstract class Widget extends \CWidget implements IWidget
     protected function registerDefaultResources()
     {
         $class = get_class($this);
-        $class = mb_strtolower(mb_substr($class, strrpos($class, '\\')+1, mb_strlen($class)));
+        $class = mb_strtolower($class);
+        $class = substr($class, mb_strrpos($class, 'widgets\\')+8,mb_strlen($class));
+        $class = str_replace('\\',DIRECTORY_SEPARATOR, $class);
         $assetsPath = \Yii::getPathOfAlias('event.widgets.assets').DIRECTORY_SEPARATOR;
         $path = $assetsPath.'js'.DIRECTORY_SEPARATOR.$class.'.js';
 
@@ -165,5 +167,20 @@ abstract class Widget extends \CWidget implements IWidget
     public function getIsActive()
     {
         return true;
+    }
+
+    /**
+     * Название виджета
+     * @return string
+     */
+    abstract public function getTitle();
+
+    /**
+     * Название виджета для административного интерфейса
+     * @return string
+     */
+    public function getTitleAdmin()
+    {
+        return $this->getTitle();
     }
 }

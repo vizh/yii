@@ -159,6 +159,8 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
 
     private function setTranslationValue($field, $value)
     {
+        $this->initTranslations();
+
         if ($this->_locale !== null && $this->_locale !== \Yii::app()->sourceLanguage)
         {
             if (!isset($this->_translations[$this->_locale][$field]))

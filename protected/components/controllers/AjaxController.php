@@ -1,7 +1,7 @@
 <?php
 namespace application\components\controllers;
 
-class AjaxController extends MainController
+trait AjaxController
 {
     /**
      * @param \CAction $action
@@ -10,7 +10,6 @@ class AjaxController extends MainController
      */
     protected function beforeAction($action)
     {
-        // Проверка на доступ из вне сайта
         if (!isset($_SERVER['HTTP_REFERER']))
             throw new \CHttpException(400, 'Доступ из вне сайта к этому действию запрещен!');
 
@@ -24,8 +23,6 @@ class AjaxController extends MainController
             $request->getSchema() . 'admin.' . RUNETID_HOST,
             $request->getSchema() . 'partner.' . RUNETID_HOST,
         ];
-
-
         \Yii::app()->disableOutputLoggers();
         header('Access-Control-Allow-Origin: ' . implode(' ', $hosts)); // allow cross-domain requests
         header('Access-Control-Allow-Credentials: true');
@@ -33,5 +30,15 @@ class AjaxController extends MainController
         header("Access-Control-Allow-Methods: POST, GET");
         header("Connection: close");
         return parent::beforeAction($action);
+    }
+
+    /**
+     * @param $result
+     */
+    public function returnJSON($result)
+    {
+        header('Content-type: text/json; charset=utf-8');
+        echo json_encode($result, JSON_UNESCAPED_UNICODE);
+        \Yii::app()->end();
     }
 }

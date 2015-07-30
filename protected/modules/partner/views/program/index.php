@@ -1,6 +1,8 @@
 <?php
 /**
  * @var \partner\components\Controller $this
+ * @var \event\models\section\Section[] $section
+ * @var string[] $intervals
  */
 
 $this->setPageTitle(\Yii::t('app', 'Программа'));
@@ -36,24 +38,23 @@ $dt->setTimestamp($event->getTimeStampStartDate());
                             <?php $row = '';?>
                             <?foreach ($event->Halls as $hall):?>
                                 <th><?=$hall->Title;?></th>
-                                <?php $row .= '<td data-hall-id="'.$hall->Id.'"></td>';?>
+                                <?php $row .= '<td data-hall-id="'.$hall->Id.'" style="height: 100px;"></td>';?>
                             <?endforeach;?>
                         </tr>
                         </thead>
                         <tbody>
-                        <?for($t = 28800; $t <= (24*60*60); $t+=(15*60)):?>
+                        <?php foreach ($intervals as $time):?>
                             <tr>
-                                <td data-time="<?=gmdate('H:i', $t);?>"><?=gmdate('H:i', $t);?></td>
+                                <td data-time="<?=$time;?>"><?=$time;?></td>
                                 <?=$row;?>
                             </tr>
-                        <?endfor;?>
+                        <?php endforeach;?>
                         </tbody>
                     </table>
                 </div>
 
-                <?php foreach($sections as $section):?>
+                <?php foreach($sections as $i => $section):?>
                     <?php
-                    $formatter = \Yii::app()->getDateFormatter();
                     $timeStart = $formatter->format('HH:mm', $section->StartTime);
                     $timeEnd = $formatter->format('HH:mm', $section->EndTime);
                     $hallStart = $section->LinkHalls[0]->Hall->Id;

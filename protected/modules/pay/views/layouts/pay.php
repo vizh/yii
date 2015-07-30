@@ -10,8 +10,8 @@ use event\components\WidgetPosition;
     <?php foreach ($this->getEvent()->Widgets as $link):
         $widget = $link->Class->createWidget($this->getEvent(), true);
         if ($widget->getPosition() == WidgetPosition::Header) {
-            $widget->eventPage = false;
             $widget->run();
+            $widget->init();
         }
     endforeach;?>
     <?php echo $content; ?>

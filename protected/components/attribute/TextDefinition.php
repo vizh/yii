@@ -7,6 +7,9 @@ class TextDefinition extends Definition
     {
         $htmlOptions['class'] = $this->cssClass . (isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
         $htmlOptions['style'] = $this->cssStyle . (isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
+        if (!empty($this->placeholder)) {
+            $htmlOptions['placeholder'] = $this->placeholder;
+        }
         return \CHtml::activeTextArea($container, $this->name, $htmlOptions);
     }
 } 

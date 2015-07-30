@@ -75,7 +75,8 @@ class Section extends CreateUpdateForm
     public function rules()
     {
         return [
-            ['Title,Info,HallNew', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['HallNew', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['Title,Info', 'filter', 'filter' => [$this, 'filterHtmlText']],
             ['Title, Date, TimeStart, TimeEnd, TypeId', 'required'],
             ['Date', 'date', 'format' => 'yyyy-MM-dd'],
             ['TimeStart, TimeEnd', 'date', 'format' => 'HH:mm'],
@@ -84,6 +85,20 @@ class Section extends CreateUpdateForm
             ['AttributeNew', 'filter', 'filter' => [$this, 'filterAttributeNew']],
             ['TypeId', 'in', 'range' => array_keys($this->getTypeData())]
         ];
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function filterHtmlText($value)
+    {
+        $purifier = new \CHtmlPurifier();
+        $purifier->options = [
+            'HTML.AllowedElements'     => ['span', 'strong', 'a', 'br', 'u', 'h1', 'h2', 'h3', 'h4', 'h5'],
+            'Attr.AllowedFrameTargets' => ['_blank', '_self']
+        ];
+        return $purifier->purify($value);
     }
 
     public function filterAttributeNew($value)

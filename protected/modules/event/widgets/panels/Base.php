@@ -13,8 +13,8 @@ use event\models\Attribute;
 
 class Base extends \event\components\WidgetAdminPanel
 {
-    private $form;
-    private $showForm = true;
+    protected  $form;
+    protected  $showForm = true;
 
     public function __construct($widget)
     {
@@ -51,15 +51,8 @@ class Base extends \event\components\WidgetAdminPanel
         $this->form->attributes = $request->getParam(get_class($this->form));
         if ($this->showForm && $this->form->validate())
         {
-            foreach($this->getWidget()->getAttributeNames() as $name)
-            {
-                $attribute = \event\models\Attribute::model()->byName($name)->byEventId($this->getEvent()->Id)->find();
-                if ($attribute == null) {
-                    $attribute = new \event\models\Attribute();
-                    $attribute->EventId = $this->getEvent()->Id;
-                    $attribute->Name = $name;
-                }
-
+            foreach($this->getWidget()->getAttributeNames() as $name) {
+                $attribute = $this->getAttributeActiveRecord($name);
                 $delete = false;
                 foreach ($this->form->getLocaleList() as $locale) {
                     $value = isset($this->form->Attributes[$name][$locale]) && strlen($this->form->Attributes[$name][$locale]) ? $this->form->Attributes[$name][$locale] : null;
@@ -88,8 +81,23 @@ class Base extends \event\components\WidgetAdminPanel
         return false;
     }
 
-    function render()
+    public function render()
     {
         return $this->renderView(['form' => $this->form, 'showForm' => $this->showForm]);
+    }
+
+    /**
+     * @param string $name
+     * @return Attribute
+     */
+    protected function getAttributeActiveRecord($name)
+    {
+        $attribute = Attribute::model()->byName($name)->byEventId($this->getEvent()->Id)->find();
+        if ($attribute == null) {
+            $attribute = new Attribute();
+            $attribute->EventId = $this->getEvent()->Id;
+            $attribute->Name = $name;
+        }
+        return $attribute;
     }
 }

@@ -3117,3 +3117,19 @@ input[type="file"] {
 /*.widget-invite .form-user-register input[type="text"],
 .widget-invite .form-user-register input[type="password"] { width: 226px; }
 .widget-invite .form-user-register select { width: 240px; }*/
+
+.bg-success {
+  background-color: #DFF0D8 !important;
+}
+.bg-info {
+  background-color: #D9EDF7 !important;
+}
+.bg-warning {
+  background-color: #FCF8E3 !important;
+}
+.bg-danger {
+  background-color: #F2DEDE !important;
+}
+.bg-muted {
+  background-color: #f9f9f9 !important;
+}

@@ -15,7 +15,7 @@ interface IWidgetAdminPanel
    */
   public function errorSummary($header = '', $footer = '');
   
-  public function setSuccess($message);
+  public function setSuccess();
   /**
    * @return string
    */

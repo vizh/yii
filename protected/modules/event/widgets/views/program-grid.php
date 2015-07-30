@@ -29,14 +29,19 @@ use event\models\section\LinkUser;
             <?$section = isset($data->Sections[$hallId][$time]) ? $data->Sections[$hallId][$time]->Section : null;?>
             <?if ($flag):?>
               <tr <?if ($data->Sections[$hallId][$time]->ColSpan == sizeof($data->Halls) && $data->Sections[$hallId][$time]->Section->TypeId == 4):?>class="info"<?endif;?>>
-                <td class="time"><?=$label;?></td>
+                <td class="time">
+                    <?php if ($this->getEvent()->IdName == 'next2015' && trim($label) == '12:25 &mdash; 12:30'): //TODO: Костыль для next2015?>
+                    <?php else:?>
+                        <?=$label;?>
+                    <?php endif;?>
+                </td>
                 <?$flag = false;?>
             <?endif;?>
             <?if ($section !== null):?>
               <?$colspan = $data->Sections[$hallId][$time]->ColSpan;?>
               <td colspan="<?=$colspan;?>">
                 <?$section = $data->Sections[$hallId][$time]->Section;?>
-                <h4><?=$section->Title;?></h4>
+                <h5><?=$section->Title;?></h5>
                   <?if (!empty($section->Info)):?>
                   <p><?=$section->Info;?></p>
                   <?endif;?>
@@ -63,7 +68,7 @@ use event\models\section\LinkUser;
                     <?foreach ($links as $link):?>
                       <li>
                           <?if (!empty($link->Report->Title)):?>
-                          <strong><?=$link->Report->Title;?></strong><br>
+                            <strong><?=$link->Report->Title;?></strong><br>
                           <?endif;?>
                           <?if ($link->User != null):?>
                               <a href="<?=$link->User->getUrl();?>"><?=$link->User->getFullName();?></a>

@@ -5,6 +5,7 @@ use partner\components\Action;
 use pay\components\Exception;
 use pay\models\forms\Juridical;
 use pay\models\Order;
+use pay\models\OrderItem;
 use pay\models\OrderLinkOrderItem;
 use pay\models\Product;
 
@@ -94,29 +95,24 @@ class EditAction extends Action
         return $result;
     }
 
-    /*
-    protected function ajaxMethodDeleteItem()
+    protected function ajaxMethodDeleteItem(Order $order)
     {
-        $orderItemId = \Yii::app()->request->getParam('OrderItemId');
-        $orderItem = \pay\models\OrderItem::model()->byDeleted(false)->byPaid(false)->byEventId($this->getEvent()->Id)->findByPk($orderItemId);
+        $orderItemId = \Yii::app()->getRequest()->getParam('OrderItemId');
+        $orderItem = OrderItem::model()->byDeleted(false)->byPaid(false)->byEventId($this->getEvent()->Id)->findByPk($orderItemId);
         $result = new \stdClass();
         $result->success = false;
 
-        if ($orderItem !== null)
-        {
-            $link = \pay\models\OrderLinkOrderItem::model()->byOrderId($this->order->Id)->byOrderItemId($orderItem->Id)->find();
+        if ($orderItem !== null) {
+            $link = OrderLinkOrderItem::model()->byOrderId($order->Id)->byOrderItemId($orderItem->Id)->find();
             $link->delete();
             $orderItem->delete();
             $result->success = true;
-        }
-        else
-        {
+        } else {
             $result->error = true;
             $result->message = \Yii::t('app', 'Заказ не найден!');
         }
         return $result;
     }
-    */
 
 
     /**

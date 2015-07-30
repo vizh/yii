@@ -8,6 +8,13 @@ use pay\models\OrderItem;
 use pay\models\Product;
 use user\models\User;
 
+/**
+ * Class BaseProductManager
+ * @package pay\components\managers
+ *
+ * @property string $LinkProducts
+ * @property int $Limit
+ */
 abstract class BaseProductManager
 {
     /**
@@ -80,7 +87,7 @@ abstract class BaseProductManager
      */
     public function getProductAttributeNames()
     {
-        return ['LinkProducts'];
+        return ['LinkProducts', 'Limit'];
     }
 
 
@@ -118,6 +125,39 @@ abstract class BaseProductManager
      * @return bool
      */
     abstract public function checkProduct($user, $params = []);
+
+    /**
+     * Если у товара задано ограничение на кол-во продаж,
+     * проверяется возможность покупки
+     *
+     * @return bool
+     */
+    public function checkLimit()
+    {
+        if (isset($this->Limit)) {
+            $limit = intval($this->Limit);
+            if ($limit > 0) {
+                $count = OrderItem::model()->byProductId($this->product->Id)->byPaid(true)->count();
+                if ($count >= $limit) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * @param \user\models\User $user
+     * @param array $params
+     *
+     * @return string
+     */
+    protected function getCheckLimitMessage($user, $params = [])
+    {
+        return 'Данный товар не может быть приобретен. Превышен лимит допустимых продаж.';
+    }
+
 
     /**
      * @param \user\models\User $user
@@ -242,6 +282,10 @@ abstract class BaseProductManager
             throw new MessageException($this->getCheckProductMessage($owner), MessageException::ORDER_ITEM_GROUP_CODE);
         }
 
+        if (!$this->checkLimit()) {
+            throw new MessageException($this->getCheckLimitMessage($owner), MessageException::ORDER_ITEM_GROUP_CODE);
+        }
+
         if ($this->isUniqueOrderItem) {
             $orderItem = \pay\models\OrderItem::model()->byProductId($this->product->Id)
                 ->byPayerId($payer->Id)->byOwnerId($owner->Id)
@@ -250,7 +294,6 @@ abstract class BaseProductManager
                 throw new CodeException(CodeException::ORDER_ITEM_EXISTS);
             }
         }
-
 
         foreach ($this->getRequiredOrderItemAttributeNames() as $key)
         {

@@ -289,7 +289,7 @@
                 <?$class = get_class($widget);?>
                 <div class="m-bottom_10 row-fluid">
                     <div class="span8">
-                        <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Widgets['.$class.'][Activated]', array('checked' => isset($widgets->Used[$class]) ? true : false));?> <?=$widget->getTitle();?></label>
+                        <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Widgets['.$class.'][Activated]', array('checked' => isset($widgets->Used[$class]) ? true : false));?> <?=$widget->getTitleAdmin();?></label>
                     </div>
                     <div class="span4">
                         <?php
@@ -310,7 +310,7 @@
                 <?$class = get_class($widget);?>
                 <div class="m-bottom_10 row-fluid">
                     <div class="span8">
-                        <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Widgets['.get_class($widget).'][Activated]', array('checked' => isset($widgets->Used[get_class($widget)]) ? true : false));?> <?=$widget->getTitle();?></label>
+                        <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Widgets['.get_class($widget).'][Activated]', array('checked' => isset($widgets->Used[get_class($widget)]) ? true : false));?> <?=$widget->getTitleAdmin();?></label>
                     </div>
                     <div class="span4">
                         <?php
@@ -333,7 +333,7 @@
                 <?$class = get_class($widget);?>
                 <div class="m-bottom_10 row-fluid">
                     <div class="span8">
-                        <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Widgets['.get_class($widget).'][Activated]', array('checked' => isset($widgets->Used[get_class($widget)]) ? true : false));?> <?=$widget->getTitle();?></label>
+                        <label class="checkbox"><?=\CHtml::activeCheckBox($form, 'Widgets['.get_class($widget).'][Activated]', array('checked' => isset($widgets->Used[get_class($widget)]) ? true : false));?> <?=$widget->getTitleAdmin();?></label>
                     </div>
                     <div class="span4">
                         <?php

@@ -1,11 +1,14 @@
 <?php
 namespace geo2\controllers;
 
-use application\components\controllers\AjaxController as BaseAjaxController;
+use application\components\controllers\AjaxController as TraitAjaxController;
+use application\components\controllers\MainController;
 use geo2\models\City;
 
-class AjaxController extends BaseAjaxController
+class AjaxController extends MainController
 {
+    use TraitAjaxController;
+
     /**
      * Поиск по городам
      * @param string $term

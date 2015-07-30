@@ -104,7 +104,7 @@ class Controller extends \application\components\controllers\BaseController
     private function getExtendedAccountEventData()
     {
         /** @var \event\models\Event[] $events */
-        $events = Event::model()->byDeleted(false)->findAll();
+        $events = Event::model()->byDeleted(false)->orderBy(['"t"."Id"' => SORT_DESC])->findAll();
         $data = [];
         foreach ($events as $event) {
             $item = new \stdClass();

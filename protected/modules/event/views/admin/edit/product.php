@@ -99,12 +99,16 @@
                                 <div class="control-group">
                                     <label class="control-label"><?=$name;?></label>
                                     <div class="controls">
-                                        <?if ($name == 'RoleId'):?>
+                                        <?php if ($name == 'RoleId'):?>
                                             <?=\CHtml::activeDropDownList($formProduct, 'Attributes['.$name.']', \CHtml::listData($event->getRoles(), 'Id', 'Title'), ['value' => isset($formProduct->Attributes[$name]) ? $formProduct->Attributes[$name] : '']);?>
                                             <span class="help-block m-top_5">Если нужного вам статуса нет в списке, тогда его нужно привязать к мероприятию в настройках интерфейса партнера.</span>
-                                        <?else:?>
+                                        <?php elseif($name == 'SectionId'):?>
+                                            <?=\CHtml::activeDropDownList($formProduct, 'Attributes['.$name.']', \CHtml::listData($event->Sections, 'Id', 'Title'), ['value' => isset($formProduct->Attributes[$name]) ? $formProduct->Attributes[$name] : '']);?>
+                                        <?php elseif($name == 'PartId'):?>
+                                            <?=\CHtml::activeDropDownList($formProduct, 'Attributes['.$name.']', \CHtml::listData($event->Parts, 'Id', 'Title'), ['value' => isset($formProduct->Attributes[$name]) ? $formProduct->Attributes[$name] : '']);?>
+                                        <?php else:?>
                                             <?=\CHtml::activeTextField($formProduct, 'Attributes['.$name.']', ['value' => isset($formProduct->Attributes[$name]) ? $formProduct->Attributes[$name] : '']);?>
-                                        <?endif;?>
+                                        <?php endif;?>
                                     </div>
                                 </div>
                             <?endforeach;?>

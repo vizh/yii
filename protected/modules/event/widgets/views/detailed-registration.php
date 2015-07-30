@@ -84,7 +84,8 @@ use \application\models\attribute\Group;
 
         <div class="form-user-register" style="padding: 0;">
             <small class="muted required-notice">
-                <span class="required-asterisk">*</span> &mdash; <?=\Yii::t('registration', 'все поля обязательны для заполнения');?>
+                <span class="required-asterisk">*</span> &mdash; <?=\Yii::t('registration', 'все поля обязательны для заполнения');?><br/>
+                <span class="required-asterisk">**</span> &mdash; <?=\Yii::t('registration', 'заполняя анкету, я даю согласие на хранение и обработку персональных данных');?>
             </small>
         </div>
 
