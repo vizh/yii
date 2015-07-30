@@ -26,6 +26,8 @@ namespace pay\models;
  * @property int $OrderMinTotal
  * @property string $OrderMinTotalMessage
  * @property string $AfterPayUrl
+ * @property string $CabinetIndexTabTitle
+ * @property string $CabinetHasRecentPaidItemsMessage
  *
  * @property \event\models\Event $Event
  * @property OrderJuridicalTemplate $OrderTemplate

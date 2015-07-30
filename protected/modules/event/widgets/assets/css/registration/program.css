@@ -1,6 +1,24 @@
 #event_widgets_registration_Program {
   position: relative;
 }
+#event_widgets_registration_Program .nav {
+  margin: 20px 0;
+}
+#event_widgets_registration_Program .nav li {
+  margin: 0 10px;
+}
+#event_widgets_registration_Program .nav li a {
+  font-size: 18px;
+  line-height: 20px;
+  color: #999;
+}
+#event_widgets_registration_Program .nav li a.pseudo-link {
+  border-color: #999;
+}
+#event_widgets_registration_Program .nav li.ui-state-active a {
+  color: #000;
+}
+
 #event_widgets_registration_Program .total{
   border-bottom: 2px solid #ddd;
   background-color: #fff;

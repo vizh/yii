@@ -53,15 +53,10 @@ class ActiveRecord extends \CActiveRecord
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    protected function afterFind()
     {
-        $this->attachEventHandler('onAfterFind', function ($event) {
-            $event->sender->OldAttributes = $event->sender->Attributes;
-        });
-        parent::init();
+        $this->oldAttributes = $this->getAttributes();
+        parent::afterFind();
     }
 
 

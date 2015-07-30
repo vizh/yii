@@ -163,7 +163,13 @@ $total = 0;
     <?if (!$hasRecentPaidItems):?>
         <div class="alert alert-error"><?=\Yii::t('app', 'У вас нет товаров для оплаты.');?></div>
     <?else:?>
-        <div class="alert alert-success"><?=\Yii::t('app', 'Вы недавно оплатили участие или активировали промо-код. Список оплаченных товаров можно посмотреть ниже.');?></div>
+        <div class="alert alert-success">
+            <?php if (!empty($account->CabinetHasRecentPaidItemsMessage)):?>
+                <?=$account->CabinetHasRecentPaidItemsMessage;?>
+            <?php else:?>
+                <?=\Yii::t('app', 'Вы недавно оплатили участие или активировали промо-код. Список оплаченных товаров можно посмотреть ниже.');?>
+            <?php endif;?>
+        </div>
     <?endif;?>
 
     <div class="nav-buttons">

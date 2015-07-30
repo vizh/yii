@@ -18,7 +18,7 @@
       </div>
       <div class="tab current pull-left">
         <span class="number img-circle">2</span>
-        <?=\Yii::t('app', 'Оплата');?>
+        <?=!empty($account->CabinetIndexTabTitle) ? $account->CabinetIndexTabTitle :\Yii::t('app', 'Оплата');?>
       </div>
     </div>
 

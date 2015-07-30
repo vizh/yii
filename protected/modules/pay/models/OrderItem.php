@@ -28,6 +28,7 @@ use pay\components\MessageException;
  * @method OrderItem findByPk()
  * @method OrderItem find()
  * @method OrderItem[] findAll()
+ * @method OrderItem with()
  */
 class OrderItem extends \CActiveRecord
 {

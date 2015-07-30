@@ -7,6 +7,7 @@ var CRegistrationProgram = function () {
         'disabled' : 'bg-muted'
     };
     this.$widget = $('#event_widgets_registration_Program');
+    this.$tabs = this.$widget.find('.tabs');
     this.$grid = this.$widget.find('table');
     this.$sections = this.$grid.find('[data-product]:not([data-notforsale]):not([data-paid])');
     this.oneOnLineMode = this.$widget.data('oneonline-mode') == 1;
@@ -16,6 +17,8 @@ var CRegistrationProgram = function () {
 CRegistrationProgram.prototype = {
     'init' : function () {
         var self = this;
+
+        self.initTabs();
 
         self.isInitialized = true;
         self.$grid.find('tr:not(.info) td:not([data-product]):not(.time)').addClass(self.cssClasses.disabled);
@@ -55,6 +58,12 @@ CRegistrationProgram.prototype = {
         });
 
         self.calcTotal();
+    },
+
+    'initTabs' : function () {
+        var self = this;
+        self.$tabs.find('.nav a').off('click');
+        self.$tabs.tabs();
     },
 
     'addOrderItem' : function ($section) {
