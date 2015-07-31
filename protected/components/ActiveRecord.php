@@ -53,13 +53,6 @@ class ActiveRecord extends \CActiveRecord
         return $this;
     }
 
-    protected function afterFind()
-    {
-        $this->oldAttributes = $this->getAttributes();
-        parent::afterFind();
-    }
-
-
     /**
      * Устанавливает лимит записей
      * @param int $limit
@@ -84,25 +77,5 @@ class ActiveRecord extends \CActiveRecord
         } else {
             return parent::delete();
         }
-    }
-
-    private $oldAttributes = array();
-
-    /**
-     * Устанавливает значения атрибутов до измнения модели
-     * @param $value
-     */
-    public function setOldAttributes($value)
-    {
-        $this->oldAttributes = $value;
-    }
-
-    /**
-     * Возвращает значение атрибутов до изменения модели
-     * @return array
-     */
-    public function getOldAttributes()
-    {
-        return $this->oldAttributes;
     }
 }

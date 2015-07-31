@@ -90,10 +90,20 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
 
 
     private $_locale = null;
+
     public function setLocale($locale)
     {
         $this->_locale = $locale;
     }
+
+    /**
+     * @return null
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
+    }
+
     public function resetLocale()
     {
         $this->_locale = null;

@@ -62,9 +62,10 @@ foreach ($participant as $part) {
     </div>
     <div style="padding: 5mm; border-left: 0.5mm solid #ededed; border-right: 0.5mm solid #ededed; height: 77mm;">
         <h3><span style="text-transform: uppercase;">ЭЛЕКТРОННЫЙ БИЛЕТ</span><br/><span style="font-weight: bold;"><?=$event->Title;?></span></h3>
-        <h3 style="padding: 12mm 0; font-weight: bold; text-transform: uppercase;"><?$this->widget('\event\widgets\Date', ['event' => $event]);?></h3>
+        <h3 style="padding: 6mm 0; font-weight: bold; text-transform: uppercase;"><?$this->widget('\event\widgets\Date', ['event' => $event]);?></h3>
         <?if ($event->getContactAddress() != null):?>
-            <p><?=$event->getContactAddress()->Place;?><br/><?=$event->getContactAddress()->getShort();?></p>
+            <p style="padding-bottom: 4mm;"><strong>17-18 сентября:</strong><br/><?=$event->getContactAddress()->Place;?><br/><?=$event->getContactAddress()->getShort();?></p>
+            <p><strong>21 сентября:</strong><br/>ФРИИ Сити Холл<br/>Серебряническая набережная, 29, Бизнес-центр Silver City</p>
         <?endif;?>
     </div>
     <table style="width: 100%; background-color: #586877; padding: 5mm; color: #fff; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif;">

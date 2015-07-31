@@ -32,7 +32,7 @@
                 <?endforeach;?>
 
                 <tr>
-                    <td><strong>Всего:</strong></td>
+                    <td class="text-right"><strong>Всего:</strong></td>
                     <?foreach ($timeSteps as $key => $time):?>
                         <td><?=$textStatistics[$key]['Total'];?></td>
                     <?endforeach;?>

@@ -2,6 +2,7 @@
 namespace user\models;
 
 use api\models\ExternalUser;
+use application\components\db\ar\OldAttributesStorage;
 use application\components\utility\PhoneticSearch;
 use application\components\utility\Texts;
 use application\models\translation\ActiveRecord;
@@ -75,9 +76,9 @@ use ruvents2\models\Badge as Badge2;
  * @method User byTemporary(bool $temporary)
  *
  */
-class User extends ActiveRecord
-    implements ISearch, IAutocompleteItem
+class User extends ActiveRecord implements ISearch, IAutocompleteItem
 {
+    use OldAttributesStorage;
 
     //Защита от перегрузки при поиске
     const MaxSearchFragments = 500;
@@ -892,6 +893,10 @@ class User extends ActiveRecord
      */
     public function updateSearchIndex()
     {
+        if ($this->getLocale() !== null && $this->getLocale() != \Yii::app()->getLanguage()) {
+            return;
+        }
+
         if (!$this->getIsNewRecord()) {
             if ($this->getOldAttributes()['FirstName'] == $this->FirstName && $this->getOldAttributes()['LastName'] == $this->LastName) {
                 return;
