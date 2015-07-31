@@ -987,6 +987,11 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   padding-top: 30px;
   text-align: center;
 }
+
+.events-box .event_promo.riw15{
+  background: url("/img/mail/2015/riw1555.png") repeat scroll center center;
+}
+
 .events-box .event_promo .event {
   margin-bottom: 30px;
 }

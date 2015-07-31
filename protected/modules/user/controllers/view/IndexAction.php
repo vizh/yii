@@ -2,6 +2,7 @@
 namespace user\controllers\view;
 
 use event\models\section\LinkUser;
+use user\models\User;
 
 class IndexAction extends \CAction
 {
@@ -40,6 +41,7 @@ class IndexAction extends \CAction
             'Participants' => [
                 'together' => false,
                 'with' => ['Event', 'Role'],
+                'condition' => '"Role"."Visible"',
                 'order' => '"Event"."EndYear" DESC, "Event"."EndMonth" DESC, "Event"."EndDay" DESC'
             ],
             'CommissionsActive' => [
@@ -53,7 +55,7 @@ class IndexAction extends \CAction
             ],
             'LinkProfessionalInterests.ProfessionalInterest'
         ];
-        $this->user = \user\models\User::model()->byRunetId($runetId)->byVisible()->find($criteria);
+        $this->user = User::model()->byRunetId($runetId)->byVisible()->find($criteria);
         if ($this->user == null)
             throw new \CHttpException(404);
     }

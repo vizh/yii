@@ -58,3 +58,7 @@
 #event_widgets_registration_Program .table td {
   border-right: 1px solid #ddd;
 }
+#event_widgets_registration_Program .table td .limit {
+  margin: 5px 0 0;
+  font-size: 11px;
+}

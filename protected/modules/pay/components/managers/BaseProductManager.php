@@ -134,18 +134,38 @@ abstract class BaseProductManager
      */
     public function checkLimit()
     {
-        if (isset($this->Limit)) {
-            $limit = intval($this->Limit);
-            if ($limit > 0) {
-                $count = OrderItem::model()->byProductId($this->product->Id)->byPaid(true)->count();
-                if ($count >= $limit) {
-                    return false;
-                }
+        $limit = $this->getLimit();
+        if ($limit !== null) {
+            if ($this->getSoldCount() >= $limit) {
+                return false;
             }
         }
         return true;
     }
 
+    /**
+     * Возвращает лимит на кол-во продаж продукта
+     * @return int|null
+     */
+    public function getLimit()
+    {
+        if (isset($this->Limit)) {
+            $limit = intval($this->Limit);
+            if ($limit > 0) {
+                return $limit;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Возвращает кол-во продаж продукта
+     * @return int
+     */
+    public function getSoldCount()
+    {
+        return OrderItem::model()->byProductId($this->product->Id)->byPaid(true)->count();
+    }
 
     /**
      * @param \user\models\User $user

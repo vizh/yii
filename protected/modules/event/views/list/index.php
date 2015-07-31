@@ -86,7 +86,7 @@
 
       <?if (isset($topEvents[$i])):?>
         <?$event = $topEvents[$i];?>
-        <div class="event_promo">
+        <div class="event_promo <?=$event->IdName;?>">
           <div class="container">
             <div class="row units events">
               <div class="unit span12 event">

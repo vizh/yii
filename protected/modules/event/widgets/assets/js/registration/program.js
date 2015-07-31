@@ -75,6 +75,7 @@ CRegistrationProgram.prototype = {
             if (response.success == true) {
                 $section.data('price', response.price).data('orderitem', response.orderItemId);
                 $section.addClass(self.cssClasses.orderItemExists);
+                $section.find('p.limit').hide();
                 if (self.oneOnLineMode) {
                     $section.siblings('[data-product]:not(:data(notforsale))').addClass(self.cssClasses.notForSale);
                 }
@@ -93,6 +94,7 @@ CRegistrationProgram.prototype = {
             if (response.success == true) {
                 $section.removeData('orderitem').removeAttr('data-orderitem');
                 $section.removeClass(self.cssClasses.orderItemExists);
+                $section.find('p.limit').show();
                 if (self.oneOnLineMode) {
                     $section.siblings('[data-product]:not(:data(notforsale))').removeClass(self.cssClasses.notForSale);
                 }
