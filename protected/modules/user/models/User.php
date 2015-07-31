@@ -366,8 +366,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 $criteria->params['Part1'] = $names[1];
             } else {
                 $criteria->addCondition('
-                    ("t"."SearchLastName" @@ to_tsquery(:Part0) AND "t"."SearchFirstName" @@ to_tsquery(:Part1) AND "t"."FatherName" ILIKE :Part2) OR
-                    ("t"."SearchLastName" @@ to_tsquery(:Part2) AND "t"."SearchFirstName" @@ to_tsquery(:Part0) AND "t"."FatherName" ILIKE :Part1)
+                    ("t"."SearchLastName" @@ to_tsquery(:Part0) AND "t"."SearchFirstName" @@ to_tsquery(:Part1) AND "t"."FatherName" ILIKE :Part2)
                 ');
                 $criteria->params['Part0'] = $names[0];
                 $criteria->params['Part1'] = $names[1];
