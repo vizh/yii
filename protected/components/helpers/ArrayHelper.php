@@ -308,6 +308,37 @@ class ArrayHelper
     }
 
     /**
+     * Returns the values of a specified column in an array.
+     * The input array should be multidimensional or an array of objects.
+     *
+     * For example,
+     *
+     * ~~~
+     * $array = [
+     *     ['id' => '123', 'data' => 'abc'],
+     *     ['id' => '345', 'data' => 'def'],
+     * ];
+     * $result = ArrayHelper::getColumn($array, 'id');
+     * // the result is: ['123', '345']
+     *
+     * // using anonymous function
+     * $result = ArrayHelper::getColumn($array, function ($element) {
+     *     return $element['id'];
+     * });
+     * ~~~
+     *
+     * @param string|\Closure $name
+     * @param array $array
+     * @param boolean $keepKeys whether to maintain the array keys. If false, the resulting array
+     * will be re-indexed with integers.
+     * @return array the list of column values
+     */
+    public static function columnGet($name, $array, $keepKeys = true)
+    {
+        return self::getColumn($array, $name, $keepKeys);
+    }
+
+    /**
      * Builds a map (key-value pairs) from a multidimensional array or an array of objects.
      * The `$from` and `$to` parameters specify the key names or property names to set up the map.
      * Optionally, one can further group the map according to a grouping field `$group`.

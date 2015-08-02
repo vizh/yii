@@ -8,7 +8,7 @@ class Ruvents2Module extends CWebModule
     {
         parent::init();
 
-        \Yii::app()->attachEventHandler('onException', [$this, 'onException']);
+        Yii::app()->attachEventHandler('onException', [$this, 'onException']);
 
         Yii::app()->setComponent('authManager', [
             'class' => '\ruvents2\components\PhpAuthManager',
@@ -16,12 +16,11 @@ class Ruvents2Module extends CWebModule
         ]);
     }
 
-
     public function beforeControllerAction($controller, $action)
     {
         if (parent::beforeControllerAction($controller, $action)) {
             // Бездумный, as is, вывод логов в STDOUT будет порождать невалидный JSON. Предотвращаем. Для разработки должно хватать CFileLogRoute.
-            foreach (\Yii::app()->log->routes as $route) {
+            foreach (Yii::app()->log->routes as $route) {
                 if ($route instanceof \CWebLogRoute) {
                     $route->enabled = false;
                 }

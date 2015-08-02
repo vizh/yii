@@ -469,7 +469,7 @@ X-Ruvents-Operator: {Id}
                     }
                 ],
                 "HasMore": true,
-                "NextSince": "2014-12-24 17:41:03"
+                "Fount": "c5357478984c2f4c522f84e272eec93b"
             }
 
     + Schema
@@ -531,10 +531,10 @@ X-Ruvents-Operator: {Id}
                             "required": ["Id", "Statuses", "UpdateTime"]
                         }
                     },
-                    "HasMore": {"type": "boolean"},
                     "NextSince": {"type": "string"},
+                    "NextFount": {"type": "string"},
                 },
-                "required": ["NextSince"]
+                "required": ["Participants", "NextSince", "NextFount"]
             }
 
 
