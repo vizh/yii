@@ -16,7 +16,6 @@ class ListAction extends Action
 
     private $limit;
     private $since;
-    private $hasMore;
     private $fount;
 
     public function run($since = null, $limit = null)
