@@ -354,7 +354,26 @@ X-Ruvents-Operator: {Id}
             }
 
 
+## Настройки клиента [/event/settings]
 
+### GET
+
++ Response 200
+
+    + Body
+
+            {
+                "Setting1" : true,
+                "Setting2" : "Значение"
+            }
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "Setting": { "type": ["string", "integer", "number", "boolean"] },
+                }
+            }
 
 # Group Участники
 

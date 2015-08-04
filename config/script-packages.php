@@ -139,5 +139,9 @@ return [
         'baseUrl' => '/javascripts/jquery.fotorama',
         'js' => ['fotorama.js'],
         'css' => ['fotorama.css']
+    ],
+    'angular' => [
+        'baseUrl' => '/javascripts',
+        'js' => ['angular.min.js']
     ]
 ];

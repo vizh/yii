@@ -72,12 +72,13 @@ class Controller extends \CController
      * Кодирует данные в JSON формат.
      * Данные преобразуются в JSON формат, вставляются в layout текущего констроллера и отображаются.
      * @param mixed $data данные, которые будут преобразованы в JSON
+     * @param bool $useEncode преобразовавать данные в json формат
      */
-    public function renderJson($data)
+    public function renderJson($data, $useEncode = true)
     {
         http_response_code(200);
         // Рендер JSON
-        $json = json_encode($data, JSON_UNESCAPED_UNICODE);
+        $json = $useEncode ? json_encode($data, JSON_UNESCAPED_UNICODE) : $data;
 
         // Оставим за разработчиком право обернуть возвращаемый JSON глобальным JSON объектом
         if (($layoutFile = $this->getLayoutFile($this->layout)) !== false)

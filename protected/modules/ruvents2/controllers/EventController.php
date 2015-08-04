@@ -6,6 +6,7 @@ use event\models\section\Hall;
 use pay\models\Product;
 use ruvents2\components\Controller;
 use ruvents2\models\Operator;
+use ruvents2\models\Setting;
 
 class EventController extends Controller
 {
@@ -73,5 +74,16 @@ class EventController extends Controller
             ]]);
         }
         $this->renderJson(['Halls' => $result]);
+    }
+
+    /**
+     * Настройки клиента
+     * @throws \application\components\Exception
+     */
+    public function actionSettings()
+    {
+        $settings = Setting::model()->byEventId($this->getEvent()->Id)->find();
+        $settings !== null ?
+            $this->renderJson($settings->Attributes, false) : $this->renderJson([]);
     }
 }

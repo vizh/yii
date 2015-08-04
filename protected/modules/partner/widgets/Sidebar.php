@@ -90,7 +90,8 @@ class Sidebar extends \CWidget
             ['label' => 'Регистрации', 'icon' => 'male', 'url' => ['ruvents/index'], 'items' => [
                 ['label' => 'Статистика', 'url' => ['ruvents/index']],
                 ['label' => 'Генерация операторов', 'url' => ['ruvents/operator']],
-                ['label' => 'Итоги мероприятия (csv)', 'url' => ['ruvents/csvinfo']]
+                ['label' => 'Итоги мероприятия (csv)', 'url' => ['ruvents/csvinfo']],
+                ['label' => 'Настройки клиента', 'url' => ['ruvents/settings']]
             ]],
             ['label' => 'Участники', 'icon' => 'group', 'url' => ['user/index'], 'items' => [
                 ['label' => 'Участники', 'url' => ['user/index']],
