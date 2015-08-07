@@ -4,6 +4,7 @@ namespace ruvents2\controllers\participants;
 use event\models\Part;
 use event\models\Role;
 use ruvents2\components\Action;
+use ruvents2\components\data\UserBuilder;
 use ruvents2\components\Exception;
 use user\models\forms\RegisterForm;
 use user\models\User;
@@ -43,7 +44,13 @@ class CreateAction extends Action
             throw Exception::createInvalidParam(array_keys($form->getErrors()));
         }
 
-        $this->renderJson(['Id' => $user->RunetId]);
+        $user = UserBuilder::create()
+            ->setEvent($this->getEvent())
+            ->setApiAccount($this->getApiAccount())
+            ->setUser($user)
+            ->build();
+
+        $this->renderJson($user);
     }
 
     /**

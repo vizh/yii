@@ -4,6 +4,7 @@ namespace ruvents2\controllers\participants;
 use event\models\Part;
 use event\models\Role;
 use ruvents2\components\Action;
+use ruvents2\components\data\UserBuilder;
 use ruvents2\components\Exception;
 use user\models\User;
 use Yii;
@@ -24,7 +25,15 @@ class EditAction extends Action
             throw new Exception(Exception::INVALID_PARTICIPANT_ID, [$Id]);
 
         $this->updateStatuses($user);
-        $this->renderJson('');
+
+        /* Построение результата */
+        $user = UserBuilder::create()
+            ->setEvent($this->getEvent())
+            ->setApiAccount($this->getApiAccount())
+            ->setUser($user)
+            ->build();
+
+        $this->renderJson($user);
     }
 
     /**

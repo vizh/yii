@@ -1,11 +1,11 @@
 <?php
 namespace ruvents2\controllers\participants;
 
-use api\models\Account;
 use api\models\ExternalUser;
 use application\components\helpers\ArrayHelper;
 use CDbCriteria;
 use ruvents2\components\Action;
+use ruvents2\components\data\UserBuilder;
 use user\models\User;
 use Yii;
 
@@ -29,8 +29,17 @@ class ListAction extends Action
             ->byEventId($this->getEvent()->Id)
             ->findAll($this->getDetailedCriteria());
 
+        $builder = UserBuilder::create()
+            ->setEvent($this->getEvent())
+            ->setApiAccount($this->getApiAccount());
+
+        foreach ($users as &$user) {
+            $user = $builder->setUser($user)
+                ->build();
+        }
+
         $this->renderJson([
-            'Participants' => array_map(['self', 'getData'], $users),
+            'Participants' => $users,
             'NextSince' => $this->since ?: date('Y-m-d H:i:s'),
             'NextFount' => $this->fount
         ]);
@@ -111,54 +120,6 @@ class ListAction extends Action
         return $criteria;
     }
 
-    /**
-     * @param User $user
-     * @return array
-     */
-    private function getData($user)
-    {
-        $data = ArrayHelper::toArray($user, ['user\models\User' => ['Id' => 'RunetId', 'CreationTime', 'Email', 'Birthday']]);
-        if ($this->hasExternalId() && !empty($user->ExternalAccounts)) {
-            $data['ExternalId'] = $user->ExternalAccounts[0]->ExternalId;
-        }
-        $employment = $user->getEmploymentPrimary();
-        if ($employment !== null) {
-            $data['Position'] = $employment->Position;
-        }
-
-        foreach (Yii::app()->params['Languages'] as $lang) {
-            $user->setLocale($lang);
-            $localeData = ArrayHelper::toArray($user, ['user\models\User' => ['LastName', 'FirstName', 'FatherName']]);
-            if ($employment !== null) {
-                $employment->Company->setLocale($lang);
-                $localeData['Company'] = $employment->Company->Name;
-            }
-            $data['Locales'][$lang] = $localeData;
-        }
-        if (!empty($user->PrimaryPhone)) {
-            $data['Phone'] = $user->PrimaryPhone;
-        } elseif ($user->getContactPhone() !== null) {
-            $data['Phone'] = $user->getContactPhone()->__toString();
-        }
-        $data['Photo'] = 'http://' . RUNETID_HOST . $user->getPhoto()->get200px();
-
-        $data['RegistrationTime'] = null;
-
-        $statuses = [];
-        foreach ($user->Participants as $participant) {
-            $statuses[] = [
-                'StatusId' => $participant->RoleId,
-                'PartId' => $participant->PartId
-            ];
-            if ($data['RegistrationTime'] == null || $data['RegistrationTime'] > $participant->UpdateTime) {
-                $data['RegistrationTime'] = $participant->UpdateTime;
-            }
-        }
-        $data['Statuses'] = $statuses;
-        $data['BadgesCount'] = sizeof($user->Badges);
-        return $data;
-    }
-
     /** @var null|bool */
     private $hasExternalId = null;
 
@@ -173,20 +134,6 @@ class ListAction extends Action
                 : false;
 
         return $this->hasExternalId;
-    }
-
-    /** @var bool|Account|null */
-    private $apiAccount = false;
-
-    /**
-     * @return Account|null
-     */
-    private function getApiAccount()
-    {
-        if ($this->apiAccount === false) {
-            $this->apiAccount = Account::model()->byEventId($this->getEvent()->Id)->find();
-        }
-        return $this->apiAccount;
     }
 
     /**

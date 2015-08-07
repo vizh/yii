@@ -1,5 +1,8 @@
 <?php
+
 namespace ruvents2\components;
+
+use api\models\Account;
 
 /**
  * Class Action
@@ -9,6 +12,9 @@ namespace ruvents2\components;
  */
 class Action extends \CAction
 {
+    /** @var bool|Account|null */
+    private $apiAccount = false;
+
     /**
      * @return \ruvents\models\Operator
      */
@@ -28,5 +34,16 @@ class Action extends \CAction
     public function renderJson($data)
     {
         $this->getController()->renderJson($data);
+    }
+
+    /**
+     * @return Account|null
+     */
+    protected function getApiAccount()
+    {
+        if ($this->apiAccount === false)
+            $this->apiAccount = Account::model()->byEventId($this->getEvent()->Id)->find();
+
+        return $this->apiAccount;
     }
 }
