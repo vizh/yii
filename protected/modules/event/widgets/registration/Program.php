@@ -21,6 +21,7 @@ use user\models\User;
  * @package event\widgets\registration
  *
  * @property int $WidgetRegistrationProgramOneOnLineMode
+ * @property string $WidgetRegistrationProgramBeforeText
  */
 class Program extends ProgramGrid
 {
@@ -30,7 +31,8 @@ class Program extends ProgramGrid
     public function getAttributeNames()
     {
         return [
-            'WidgetRegistrationProgramOneOnLineMode'
+            'WidgetRegistrationProgramOneOnLineMode',
+            'WidgetRegistrationProgramBeforeText'
         ];
     }
 

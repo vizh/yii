@@ -4,7 +4,8 @@ var CRegistrationProgram = function () {
         'orderItemExists' : 'bg-warning',
         'orderItemPaid' : 'bg-success',
         'notForSale' : 'bg-muted muted',
-        'disabled' : 'bg-muted'
+        'disabled' : 'bg-muted',
+        'itemHover' : 'hover'
     };
     this.$widget = $('#event_widgets_registration_Program');
     this.$tabs = this.$widget.find('.tabs');
@@ -51,6 +52,16 @@ CRegistrationProgram.prototype = {
                 $(this).siblings('[data-product]:not([data-notforsale])').addClass(self.cssClasses.notForSale);
             });
         }
+        self.$sections.hover(function () {
+            var attrClass = $(this).attr('class');
+            if (typeof(attrClass) == "undefined" || attrClass == '') {
+                $(this).addClass(self.cssClasses.itemHover);
+            }
+        }, function () {
+            if ($(this).hasClass(self.cssClasses.itemHover)) {
+                $(this).removeClass(self.cssClasses.itemHover);
+            }
+        });
 
         self.$total.pin({
             'padding': {top: 80},
@@ -74,6 +85,7 @@ CRegistrationProgram.prototype = {
         $.get('/pay/ajax/addorderitem', {'productId' : product, 'ownerRunetId' : self.$widget.data('user')}, function (response) {
             if (response.success == true) {
                 $section.data('price', response.price).data('orderitem', response.orderItemId);
+                $section.removeClass(self.cssClasses.itemHover);
                 $section.addClass(self.cssClasses.orderItemExists);
                 $section.find('p.limit').hide();
                 if (self.oneOnLineMode) {

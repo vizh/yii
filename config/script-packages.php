@@ -122,7 +122,7 @@ return [
             'stylesheets/pixel-admin/pages.css',
         ]
     ],
-    'runetid.bootstrap3' => [
+    'bootstrap3' => [
         'baseUrl' => '/',
         'js' => ['javascripts/bootstrap-3/js/bootstrap.min.js'],
         'css' => ['javascripts/bootstrap-3/css/bootstrap.min.css'],
@@ -143,5 +143,9 @@ return [
     'angular' => [
         'baseUrl' => '/javascripts',
         'js' => ['angular.min.js']
-    ]
+    ],
+    'runetid.widget.b3' => [
+        'baseUrl' => '/',
+        'depends' => ['runetid.jquery', 'runetid.jquery.ui', 'bootstrap3']
+    ],
 ];

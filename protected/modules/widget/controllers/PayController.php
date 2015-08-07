@@ -62,22 +62,6 @@ class PayController extends \widget\components\Controller
         $this->redirect($this->getNextStepUrl());
     }
 
-    /**
-     * @return \user\models\User
-     */
-    public function getUser()
-    {
-        if (\Yii::app()->user->getCurrentUser() !== null)
-        {
-            return \Yii::app()->user->getCurrentUser();
-        }
-        elseif (\Yii::app()->tempUser->getCurrentUser() !== null)
-        {
-            return \Yii::app()->tempUser->getCurrentUser();
-        }
-        return null;
-    }
-
     protected $account = null;
 
     /**

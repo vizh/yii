@@ -21,10 +21,13 @@ use \event\widgets\registration\Program;
                     </span>
                 </div>
                 <div class="pull-right">
-                    <?=\CHtml::link('', ['/pay/cabinet/index', 'eventIdName' => $this->getEvent()->IdName], ['class' => 'btn btn-info pull-right']);?>
+                    <?=\CHtml::link('', ['/pay/cabinet/index', 'eventIdName' => $this->getEvent()->IdName], ['class' => 'btn btn-info']);?>
                 </div>
             </div>
         </div>
     </div>
+    <?php if (isset($this->WidgetRegistrationProgramBeforeText)):?>
+        <?=$this->WidgetRegistrationProgramBeforeText;?>
+    <?php endif;?>
     <?$this->render('program/grid', ['grid' => $grid]);?>
 </div>

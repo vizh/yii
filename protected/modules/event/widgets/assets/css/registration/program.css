@@ -31,6 +31,9 @@
   padding: 10px 0;
   height: 30px;
 }
+#event_widgets_registration_Program .total .btn {
+  margin-right: 10px;
+}
 #event_widgets_registration_Program > h4 {
   text-align: center;
   text-transform: uppercase;
@@ -61,4 +64,7 @@
 #event_widgets_registration_Program .table td .limit {
   margin: 5px 0 0;
   font-size: 11px;
+}
+#event_widgets_registration_Program .table td.hover {
+  background-color: #FDFBEE;
 }

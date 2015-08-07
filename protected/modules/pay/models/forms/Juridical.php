@@ -2,8 +2,12 @@
 namespace pay\models\forms;
 
 use application\components\form\CreateUpdateForm;
+use application\helpers\Flash;
+use event\models\Event;
 use pay\models\Order;
 use pay\models\OrderJuridical;
+use pay\models\OrderType;
+use user\models\User;
 
 class Juridical extends CreateUpdateForm
 {
@@ -22,10 +26,23 @@ class Juridical extends CreateUpdateForm
     /** @var Order */
     private $order;
 
+    /** @var User */
+    public $user;
+
+    /** @var Event */
+    public $event;
+
+    /**
+     * @param Order|null $model
+     */
     public function __construct(Order $model = null)
     {
-        $this->order = $model;
-        parent::__construct($model->OrderJuridical);
+        if ($model !== null) {
+            $this->order = $model;
+            parent::__construct($model->OrderJuridical);
+        } else {
+            parent::__construct(null);
+        }
     }
 
 
@@ -60,6 +77,21 @@ class Juridical extends CreateUpdateForm
     }
 
     /**
+     * @inheritdoc
+     */
+    public function attributeHelpMessages()
+    {
+        return [
+            'Name' => \Yii::t('app', 'Полное наименование организации, включая организационно-правовую форму предприятия'),
+            'Address' => \Yii::t('app', 'Например: 123056, г. Москва, ул. Б. Грузинская, д. 42, ком. 12'),
+            'INN' => \Yii::t('app', '10 или 12 цифр, зависит от организационной формы'),
+            'KPP' => \Yii::t('app', '9 цифр, если имеется'),
+            'Phone' => \Yii::t('app', 'Формат: +7 (xxx) xxx-xx-xx'),
+            'PostAddress' => \Yii::t('app', 'Например: 123056, г. Москва, ул. Б. Грузинская, д. 42, ком. 12'),
+        ];
+    }
+
+    /**
      * @return \CActiveRecord|null
      */
     public function updateActiveRecord()
@@ -71,6 +103,32 @@ class Juridical extends CreateUpdateForm
         $this->fillActiveRecord();
         $this->model->save();
         return $this->model;
+    }
+
+    /**
+     * Создает счет
+     * @param User $user
+     * @param Event $event
+     * @return null
+     */
+    public function createActiveRecord()
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+
+        /** @var \CDbTransaction $transaction */
+        $transaction = \Yii::app()->getDb()->beginTransaction();
+        try {
+            $this->order = new Order();
+            $this->order->create($this->user, $this->event, OrderType::Juridical, $this->getAttributes());
+            $this->model = $this->order->OrderJuridical;
+            $transaction->commit();
+            return $this->model;
+        } catch (\Exception $e) {
+            Flash::setError($e->getMessage());
+            return null;
+        }
     }
 
 
