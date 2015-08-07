@@ -6,15 +6,22 @@ use event\models\Role;
 use ruvents2\components\Action;
 use ruvents2\components\Exception;
 use user\models\User;
+use Yii;
 
 class EditAction extends Action
 {
-    public function run($runetId)
+    public function run($Id = null)
     {
-        $user = User::model()->byRunetId($runetId)->find();
-        if ($user == null) {
-            throw new Exception(Exception::INVALID_PARTICIPANT_ID, [$runetId]);
-        }
+        /* Если Id посетителя не получен из строки запроса, то пробуем
+         * считать его из параметров запроса. Это необходимо для
+         * значительного упрощения работы клиента. */
+        if ($Id == null)
+            Yii::app()->getRequest()->getPost("Id");
+
+        $user = User::model()->byRunetId($Id)->find();
+
+        if ($user == null)
+            throw new Exception(Exception::INVALID_PARTICIPANT_ID, [$Id]);
 
         $this->updateStatuses($user);
         $this->renderJson('');
@@ -26,7 +33,7 @@ class EditAction extends Action
      */
     private function updateStatuses($user)
     {
-        $statuses = json_decode(\Yii::app()->getRequest()->getParam('Statuses'));
+        $statuses = json_decode(Yii::app()->getRequest()->getParam('Statuses'));
         if (empty($statuses))
             throw new Exception(Exception::NEW_PARTICIPANT_EMPTY_STATUS);
 

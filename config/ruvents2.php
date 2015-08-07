@@ -32,6 +32,10 @@ return [
                 ['ruvents2/halls/check', 'pattern' => 'http://ruvents2.' . RUNETID_HOST . '/halls/<id:\d+>/checks', 'verb' => 'POST'],
 
                 ['ruvents2/utility/ping', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/utility/ping', 'verb' => 'GET'],
+
+                /* Хак, для большого удобства работы клиента */
+                ['ruvents2/participants/edit', 'pattern' => 'http://ruvents2.'. RUNETID_HOST.'/participants', 'verb' => 'PUT'],
+
                 'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/' => 'ruvents2/not/found',
                 'http://ruvents2.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents2/not/found',
             ]
