@@ -41,9 +41,9 @@ class WebUser extends \CWebUser
         if ($operatorId !== null && $this->account !== null) {
             $this->operator = Operator::model()->findByPk($operatorId);
             if ($this->operator === null)
-                throw new Exception(Exception::INVALID_OPERATOR_ID, [$operatorId]);
+                throw new Exception(Exception::INVALID_OPERATOR_ID, $operatorId);
             if ($this->operator->EventId !== $this->account->EventId)
-                throw new Exception(Exception::INVALID_OPERATOR_EVENT, [$this->operator->Id]);
+                throw new Exception(Exception::INVALID_OPERATOR_EVENT, $this->operator->Id);
         }
     }
 

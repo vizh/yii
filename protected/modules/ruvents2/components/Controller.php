@@ -1,6 +1,7 @@
 <?php
 namespace ruvents2\components;
 
+use api\models\Account;
 use application\components\Exception;
 
 class Controller extends \CController
@@ -66,6 +67,17 @@ class Controller extends \CController
             }
         }
         return $this->event;
+    }
+
+    /**
+     * @return Account|null
+     */
+    protected function getApiAccount()
+    {
+        if ($this->apiAccount === false)
+            $this->apiAccount = Account::model()->byEventId($this->getEvent()->Id)->find();
+
+        return $this->apiAccount;
     }
 
     /**

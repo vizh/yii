@@ -1,9 +1,14 @@
 <?php
+
 namespace ruvents2\controllers;
 
+use event\models\Role;
 use ruvents2\components\Controller;
+use ruvents2\components\data\UserBuilder;
 use ruvents2\components\Exception;
+use ruvents2\models\forms\ParticipantRegisterForm;
 use user\models\User;
+use Yii;
 
 class ParticipantsController extends Controller
 {
@@ -32,6 +37,37 @@ class ParticipantsController extends Controller
     }
 
     /**
+     * Роутится на PUT:participants
+     *
+     * @internal int       Id    Идентификатор посетителя
+     * @internal int|array Roles Роль, или список ролей попартийно, которые назначить посетителю
+     *
+     * @throws Exception
+     */
+    public function actionRegister()
+    {
+        $params = new ParticipantRegisterForm();
+
+        $user = User::model()
+            ->byRunetId($params->Id)
+            ->find();
+
+        if ($user === null)
+            throw new Exception(Exception::INVALID_PARTICIPANT_ID, $params->Id);
+
+        if (is_numeric($params->Roles))
+            $this->getEvent()->registerUser($user, Role::model()->findByPk($params->Roles));
+
+        $this->renderJson(
+            UserBuilder::create()
+                ->setEvent($this->getEvent())
+                ->setApiAccount($this->getApiAccount())
+                ->setUser($user)
+                ->build()
+        );
+    }
+
+    /**
      * Роутится на DELETE:participants/{runetId}
      * @param int $runetId
      * @throws Exception
@@ -40,7 +76,7 @@ class ParticipantsController extends Controller
     {
         $user = User::model()->byRunetId($runetId)->find();
         if ($user == null) {
-            throw new Exception(Exception::INVALID_PARTICIPANT_ID, [$runetId]);
+            throw new Exception(Exception::INVALID_PARTICIPANT_ID, $runetId);
         }
 
         if (count($this->getEvent()->Parts) == 0) {

@@ -592,4 +592,19 @@ class ArrayHelper
             return true;
         }
     }
+
+    /**
+     * Аналог array_map, только первым параметром передаётся массив,
+     * а вторым - функция его видоизменяющая. Это чисто эстетически
+     * правильнее и повышает читаемость. Также, вторым параметром в
+     * callback передаётся ключ текущего элемента.
+     *
+     * @param $array
+     * @param $callback
+     * @return array
+     */
+    public static function each(array $array, $callback)
+    {
+        return array_map($callback, $array, array_keys($array));
+    }
 }

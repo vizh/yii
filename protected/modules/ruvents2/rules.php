@@ -16,11 +16,12 @@ return [
     ],
 
     /** Participants */
+    /* toDo: Убрать register для Role::SERVER */
     [
         'allow',
         'roles' => [Role::SERVER],
         'controllers' => ['participants'],
-        'actions' => ['fields', 'list']
+        'actions' => ['fields', 'list', 'register']
     ],
     [
         'allow',
@@ -32,7 +33,7 @@ return [
         'allow',
         'roles' => [Role::OPERATOR],
         'controllers' => ['participants'],
-        'actions' => ['create', 'edit', 'delete']
+        'actions' => ['register', 'create', 'edit', 'delete']
     ],
 
     /** Badges */

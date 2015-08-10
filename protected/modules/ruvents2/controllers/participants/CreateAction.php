@@ -41,13 +41,13 @@ class CreateAction extends Action
             throw Exception::createInvalidParam(array_keys($form->getErrors()));
         }
 
-        $user = UserBuilder::create()
-            ->setEvent($this->getEvent())
-            ->setApiAccount($this->getApiAccount())
-            ->setUser($user)
-            ->build();
-
-        $this->renderJson($user);
+        $this->renderJson(
+            UserBuilder::create()
+                ->setEvent($this->getEvent())
+                ->setApiAccount($this->getApiAccount())
+                ->setUser($user)
+                ->build()
+        );
     }
 
     /**

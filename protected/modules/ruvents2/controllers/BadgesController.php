@@ -64,7 +64,7 @@ class BadgesController extends Controller
         $runetId = $request->getParam('UserId');
         $user = User::model()->byRunetId($runetId)->byEventId($this->getEvent()->Id)->find();
         if ($user === null) {
-            throw new Exception(Exception::INVALID_PARTICIPANT_ID, [$runetId]);
+            throw new Exception(Exception::INVALID_PARTICIPANT_ID, $runetId);
         }
 
         $part = null;

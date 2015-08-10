@@ -22,18 +22,18 @@ class EditAction extends Action
         $user = User::model()->byRunetId($Id)->find();
 
         if ($user == null)
-            throw new Exception(Exception::INVALID_PARTICIPANT_ID, [$Id]);
+            throw new Exception(Exception::INVALID_PARTICIPANT_ID, $Id);
 
         $this->updateStatuses($user);
 
         /* Построение результата */
-        $user = UserBuilder::create()
-            ->setEvent($this->getEvent())
-            ->setApiAccount($this->getApiAccount())
-            ->setUser($user)
-            ->build();
-
-        $this->renderJson($user);
+        $this->renderJson(
+            UserBuilder::create()
+                ->setEvent($this->getEvent())
+                ->setApiAccount($this->getApiAccount())
+                ->setUser($user)
+                ->build()
+        );
     }
 
     /**

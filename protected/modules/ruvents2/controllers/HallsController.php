@@ -52,7 +52,7 @@ class HallsController extends Controller
         $runetId = $request->getParam('UserId');
         $user = User::model()->byRunetId($runetId)->find();
         if ($user === null) {
-            throw new Exception(Exception::INVALID_PARTICIPANT_ID, [$runetId]);
+            throw new Exception(Exception::INVALID_PARTICIPANT_ID, $runetId);
         }
 
         $time = $request->getParam('CheckTime');
@@ -62,7 +62,7 @@ class HallsController extends Controller
 
         $hall = Hall::model()->byEventId($this->getEvent()->Id)->findByPk($id);
         if ($hall === null) {
-            throw new Exception(Exception::INVALID_HALL_ID, [$id]);
+            throw new Exception(Exception::INVALID_HALL_ID, $id);
         }
 
         $check = new UserVisit();
@@ -106,4 +106,4 @@ class HallsController extends Controller
         $data['UserId'] = $check->User->RunetId;
         return $data;
     }
-} 
+}

@@ -60,7 +60,7 @@ class ProductsController extends Controller
         $runetId = $request->getParam('UserId');
         $user = User::model()->byRunetId($runetId)->find();
         if ($user === null) {
-            throw new Exception(Exception::INVALID_PARTICIPANT_ID, [$runetId]);
+            throw new Exception(Exception::INVALID_PARTICIPANT_ID, $runetId);
         }
 
         $time = $request->getParam('CheckTime');
@@ -70,7 +70,7 @@ class ProductsController extends Controller
 
         $product = Product::model()->byEventId($this->getEvent()->Id)->findByPk($id);
         if ($product === null) {
-            throw new Exception(Exception::INVALID_PRODUCT_ID, [$id]);
+            throw new Exception(Exception::INVALID_PRODUCT_ID, $id);
         }
 
         $check = new ProductCheck();
@@ -113,4 +113,4 @@ class ProductsController extends Controller
         $data['UserId'] = $check->User->RunetId;
         return $data;
     }
-} 
+}
