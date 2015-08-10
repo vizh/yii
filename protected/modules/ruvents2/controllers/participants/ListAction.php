@@ -11,7 +11,7 @@ use Yii;
 
 class ListAction extends Action
 {
-    const MAX_LIMIT = 500;
+    const MAX_LIMIT = 1000;
     const PAGE_CACHE_TIME = 60;
 
     private $limit;
