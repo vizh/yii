@@ -84,7 +84,7 @@ class CArray {
 		return $val;
 	}
 
-	
+
 	/**
 	 * Extract one or more keys from an array. Each key given after the first
 	 * argument (the array) will be extracted. Keys that do not exist in the
@@ -288,33 +288,8 @@ class CArray {
 		return $array;
 	}
 
-	/**
-	 * Recursively convert an array to an object.
-	 *
-	 * @param   array   array to convert
-	 * @return  object
-	 */
-	public static function to_object(array $array, $class = 'stdClass')
-	{
-		$object = new $class;
-
-		foreach ($array as $key => $value)
-		{
-			if (is_array($value))
-			{
-				// Convert the array to an object
-				$value = arr::to_object($value, $class);
-			}
-
-			// Add the value to the object
-			$object->{$key} = $value;
-		}
-
-		return $object;
-	}
-
     /**
-     * Преорразуется массив любой вложенности в список
+     * Преобразует массив любой вложенности в список
      * @param array $array
      * @return array
      */
