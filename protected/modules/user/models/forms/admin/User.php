@@ -6,6 +6,7 @@ use application\components\utility\Texts;
 use application\helpers\Flash;
 use contact\models\forms\Address;
 use contact\models\forms\Phone;
+use CText;
 use user\models\forms\edit\Contacts;
 use user\models\forms\edit\Employments;
 use user\models\forms\Employment;
@@ -272,7 +273,7 @@ class User extends CreateUpdateForm
 
             $notify = true;
             if (empty($this->model->Email)) {
-                $this->model->Email = 'nomail+' . Texts::GenerateString(10, true) . '@runet-id.com';
+                $this->model->Email = CText::generateFakeEmail();
                 $notify = false;
             }
 

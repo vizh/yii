@@ -1,6 +1,8 @@
 <?php
 namespace partner\controllers\internal;
 
+use CText;
+
 class Eaapa2013importAction extends \partner\components\Action
 {
   const Path = '/files/eaapa2013/';
@@ -83,7 +85,7 @@ class Eaapa2013importAction extends \partner\components\Action
     }
     else
     {
-      $row->Email = 'nomaileaapa+'.substr(md5($row->FirstName.$row->LastName.microtime(true).mt_rand(0, 10000)), 0, 8). '@rocid.ru';
+      $row->Email = CText::generateFakeEmail('eaapa', 'rocid.ru');
     }
 
     if (empty($user))
@@ -94,17 +96,17 @@ class Eaapa2013importAction extends \partner\components\Action
       $user->FatherName = $row->FatherName;
       $user->Password = substr(md5($row->Email.$row->LastName), 5,10);
       $user->Email = $row->Email;
-      if (!$user->validate())
-      {
-        $user->Email = 'nomaileaapa+' . substr(md5($row->FirstName.$row->LastName.microtime(true).mt_rand(0, 10000)), 0, 8) . $user->Email;
-        if (!$user->validate())
-        {
-          echo '--------- user errors ---------<br><pre>';
-          print_r($user->getErrors());
-          echo '</pre><br><br>';
-          return null;
-        }
+
+      if (!$user->validate() && $user->hasErrors('Email'))
+           $user->Email = CText::generateFakeEmail('eaapa', 'rocid.ru');
+
+      if (!$user->validate()) {
+        echo '--------- user errors ---------<br><pre>';
+        print_r($user->getErrors());
+        echo '</pre><br><br>';
+        return null;
       }
+
       $user->Register();
 
       $this->newRocId[] = $user->RocId;

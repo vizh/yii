@@ -3,6 +3,7 @@ namespace ruvents\controllers\user;
 
 use api\models\ExternalUser;
 use application\components\utility\Texts;
+use CText;
 use event\models\Part;
 use event\models\Role;
 use ruvents\components\Action;
@@ -42,9 +43,7 @@ class CreateAction extends Action
     }
 
     if (!$form->Visible && empty($form->Email))
-    {
-      $form->Email = 'nomail'.$this->getEvent()->Id.'+'.substr(md5($form->FirstName . $form->LastName . $form->Company), 0, 8).'@runet-id.com';
-    }
+      $form->Email = CText::generateFakeEmail($this->getEvent()->Id);
 
     if ($form->validate())
     {

@@ -18,9 +18,4 @@ class RegisterAction extends \partner\components\Action
         }
         $this->getController()->render('register', ['form' => $form]);
     }
-
-    public function getRandomEmail()
-    {
-        return 'nomail'.$this->getEvent()->Id.'+'.substr(md5(microtime()), 0, 8).'@runet-id.com';
-    }
 }

@@ -4,6 +4,7 @@ namespace partner\models\forms\user;
 use application\components\form\CreateUpdateForm;
 use application\components\utility\Texts;
 use application\helpers\Flash;
+use CText;
 use event\models\Event;
 use event\models\Role;
 use user\models\User;
@@ -117,7 +118,7 @@ class Register extends CreateUpdateForm
             $this->fillActiveRecord();
             $this->model->PrimaryPhone = $this->Phone;
             if (empty($this->Email)) {
-                $this->Email = $this->getRandomEmail();
+                $this->Email = CText::generateFakeEmail($this->event->Id);
                 $notify = false;
             }
             $this->model->register($notify);
@@ -140,13 +141,5 @@ class Register extends CreateUpdateForm
             Flash::setError($e);
         }
         return null;
-    }
-
-    /**
-     * @return string
-     */
-    private function getRandomEmail()
-    {
-        return 'nomail'.$this->event->Id.'+'.substr(md5(microtime()), 0, 8).'@runet-id.com';
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace user\models\forms;
 
+use Yii;
+
 class RegisterForm extends \CFormModel
 {
     const SCENARIO_RUVENTS = 'ruvents';
@@ -24,7 +26,7 @@ class RegisterForm extends \CFormModel
         return [
             ['LastName, FirstName, FatherName, Email, Company, Position,', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
             ['Phone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
-            ['LastName,FirstName,Email,Company', 'required'],
+            ['LastName, FirstName, Email, Company', 'required'],
             ['Phone', 'required', 'except' => self::SCENARIO_RUVENTS],
             ['Phone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ['condition' => '"t"."Visible"']],
             ['Email', 'email'],
@@ -41,7 +43,7 @@ class RegisterForm extends \CFormModel
             $model = \user\models\User::model()->byEmail($this->Email)->byVisible(true);
             if ($this->Visible && $model->exists())
             {
-                $this->addError('Email', \Yii::t('app', 'Пользователь с таким Email уже существует.'));
+                $this->addError('Email', Yii::t('app', 'Пользователь с таким Email уже существует.'));
             }
         }
     }
@@ -51,7 +53,7 @@ class RegisterForm extends \CFormModel
         $event = $this->getEvent();
         if ($event !== null && isset($event->PositionRequired) && $event->PositionRequired && empty($this->Position))
         {
-            $this->addError('Position', \Yii::t('app', 'Необходимо заполнить поле Должность.'));
+            $this->addError('Position', Yii::t('app', 'Необходимо заполнить поле Должность.'));
         }
     }
 
@@ -63,9 +65,8 @@ class RegisterForm extends \CFormModel
     private function getEvent()
     {
         if ($this->event == null)
-        {
             $this->event = \event\models\Event::model()->findByPk($this->EventId);
-        }
+
         return $this->event;
     }
 
@@ -138,12 +139,12 @@ class RegisterForm extends \CFormModel
     public function attributeLabels()
     {
         return array(
-            'LastName' => \Yii::t('app', 'Фамилия'),
-            'FirstName' => \Yii::t('app', 'Имя'),
-            'FatherName' => \Yii::t('app', 'Отчество'),
-            'Phone' => \Yii::t('app', 'Телефон'),
-            'Company' => \Yii::t('app', 'Компания'),
-            'Position' => \Yii::t('app', 'Должность')
+            'LastName' => Yii::t('app', 'Фамилия'),
+            'FirstName' => Yii::t('app', 'Имя'),
+            'FatherName' => Yii::t('app', 'Отчество'),
+            'Phone' => Yii::t('app', 'Телефон'),
+            'Company' => Yii::t('app', 'Компания'),
+            'Position' => Yii::t('app', 'Должность')
         );
     }
 }

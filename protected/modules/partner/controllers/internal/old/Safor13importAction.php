@@ -1,6 +1,8 @@
 <?php
 namespace partner\controllers\internal;
 
+use CText;
+
 class Safor13importAction extends \partner\components\Action
 {
   const Path = '/files/safor13/';
@@ -39,7 +41,7 @@ class Safor13importAction extends \partner\components\Action
         echo '------------- error row (page: '.$page.')--------- <br><pre>';
         print_r($row);
         echo '</pre><br>';
-        $_SESSION['ImportResult'] .= ob_get_contents(); 
+        $_SESSION['ImportResult'] .= ob_get_contents();
         ob_end_clean();
         continue;
       }
@@ -62,9 +64,9 @@ class Safor13importAction extends \partner\components\Action
     echo implode(', ', $this->newParticipants);
     print_r($this->newParticipants);
     echo '</pre><br>';
-    $_SESSION['ImportResult'] .= ob_get_contents(); 
+    $_SESSION['ImportResult'] .= ob_get_contents();
     ob_end_clean();
-    
+
     if (!empty($results))
     {
       echo '<meta http-equiv="Refresh" content="2;url=/internal/safor13import/?page='.($page+1).'">';
@@ -83,27 +85,27 @@ class Safor13importAction extends \partner\components\Action
   {
     $user = null;
     $isNewUser = true;
-    
+
     if (!empty($row->Email))
     {
-      $user = \user\models\User::GetByEmail($row->Email, array('Employments'));
+      $user = \user\models\User::GetByEmail($row->Email, ['Employments']);
     }
     else
     {
-      $row->Email = 'nomail+'.substr(md5($row->FirstName.$row->LastName.time()), 10, 20). '@rocid.ru';
+      $row->Email = CText::generateFakeEmail('', 'rocid.ru');
     }
-    
+
     if (empty($user))
     {
       $user = new \user\models\User();
-      
+
       $firstName = explode(' ', $row->FirstName);
       if (sizeof($firstName) > 2)
       {
         $firstName[1] = $firstName[1].' '.$firstName[2];
         unset($firstName[2]);
       }
-      
+
       $user->FirstName = $firstName[0];
       $user->FatherName = isset($firstName[1]) ? $firstName[1] : '';
       $user->LastName = $row->LastName;
@@ -117,7 +119,7 @@ class Safor13importAction extends \partner\components\Action
         echo \CHtml::errorSummary($user);
         print_r($row);
         echo '</pre>';
-        $_SESSION['ImportResult'] .= ob_get_contents(); 
+        $_SESSION['ImportResult'] .= ob_get_contents();
         ob_end_clean();
         return null;
       }
@@ -131,7 +133,7 @@ class Safor13importAction extends \partner\components\Action
       $this->oldRocId[] = $user->RocId;
       $isNewUser = false;
     }
-    
+
     if (!empty($row->Company))
     {
       $flag = true;
@@ -143,7 +145,7 @@ class Safor13importAction extends \partner\components\Action
           $flag = false;
         }
       }
-       
+
       if ($flag)
       {
         $companyInfo = \company\models\Company::ParseName($row->Company);
@@ -155,7 +157,7 @@ class Safor13importAction extends \partner\components\Action
           $company->Opf = $companyInfo['opf'];
           $company->save();
         }
-        
+
         $employment = new \user\models\Employment();
         $employment->UserId = $user->UserId;
         $employment->CompanyId = $company->CompanyId;
@@ -180,7 +182,7 @@ class Safor13importAction extends \partner\components\Action
           }
         }
       }
-        
+
       if ($flag)
       {
         $phone = new \contact\models\Phone();

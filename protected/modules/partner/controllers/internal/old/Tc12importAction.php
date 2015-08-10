@@ -1,6 +1,8 @@
 <?php
 namespace partner\controllers\internal;
 
+use CText;
+
 class Tc12importAction extends \partner\components\Action
 {
   const Path = '/files/tc12/';
@@ -81,7 +83,7 @@ class Tc12importAction extends \partner\components\Action
     }
     else
     {
-      $row->Email = 'nomail+'.substr(md5($row->FirstName.$row->LastName.time()), 0, 8). '@rocid.ru';
+      $row->Email = CText::generateFakeEmail('', 'rocid.ru');
     }
 
     if (empty($user))

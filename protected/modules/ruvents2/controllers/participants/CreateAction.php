@@ -1,6 +1,7 @@
 <?php
 namespace ruvents2\controllers\participants;
 
+use CText;
 use event\models\Part;
 use event\models\Role;
 use ruvents2\components\Action;
@@ -8,12 +9,13 @@ use ruvents2\components\data\UserBuilder;
 use ruvents2\components\Exception;
 use user\models\forms\RegisterForm;
 use user\models\User;
+use Yii;
 
 class CreateAction extends Action
 {
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
 
         $form = new RegisterForm(RegisterForm::SCENARIO_RUVENTS);
         $form->LastName = $request->getParam('LastName');
@@ -21,17 +23,12 @@ class CreateAction extends Action
         $form->FatherName = $request->getParam('FatherName');
         $form->Company = $request->getParam('Company');
         $form->Position = $request->getParam('Position');
-
-        $form->Email = $request->getParam('Email');
+        $form->Email = $request->getParam('Email') ?: CText::generateFakeEmail($form->EventId);
         $form->Phone = $request->getParam('Phone');
         $form->Visible = $request->getParam('Visible');
 
-        if (empty($form->Email)) {
-            $form->Email = 'nomail'.$this->getEvent()->Id.'+'.substr(md5($form->FirstName . $form->LastName . $form->Company . mt_rand()), 0, 8).'@runet-id.com';
-        }
-
         if ($form->validate()) {
-            $transaction = \Yii::app()->getDb()->beginTransaction();
+            $transaction = Yii::app()->getDb()->beginTransaction();
             try {
                 $user = $form->register();
                 $this->updateStatuses($user);
@@ -59,7 +56,7 @@ class CreateAction extends Action
      */
     private function updateStatuses($user)
     {
-        $statuses = json_decode(\Yii::app()->getRequest()->getParam('Statuses'));
+        $statuses = json_decode(Yii::app()->getRequest()->getParam('Statuses'));
         if (empty($statuses))
             throw new Exception(Exception::NEW_PARTICIPANT_EMPTY_STATUS);
 

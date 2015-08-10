@@ -2,6 +2,8 @@
 namespace partner\components;
 
 
+use CText;
+
 abstract class ImportAction extends Action
 {
   const ByStep = 200;
@@ -148,9 +150,8 @@ abstract class ImportAction extends Action
     $user = null;
 
     if (empty($row->Email))
-    {
-      $row->Email = 'nomail'.$this->getEventId().'+'.substr(md5($row->FirstName . $row->LastName . $row->Company), 0, 8).'@runet-id.com';
-    }
+      $row->Email = CText::generateFakeEmail($this->getEventId());
+
     $user = \user\models\User::model()->byEmail($row->Email)->find();
     if ($user !== null)
     {

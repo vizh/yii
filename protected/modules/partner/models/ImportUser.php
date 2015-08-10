@@ -2,6 +2,7 @@
 namespace partner\models;
 
 use api\models\ExternalUser;
+use CText;
 use event\models\UserData;
 use pay\components\Exception;
 
@@ -151,9 +152,9 @@ class ImportUser extends \CActiveRecord
     {
         $validator = new \CEmailValidator();
         $validator->allowEmpty = false;
-        if (!$validator->validateValue($this->Email)) {
-            $this->Email = $this->generateEmail($import);
-        }
+
+        if (!$validator->validateValue($this->Email))
+            $this->Email = CText::generateFakeEmail($import->EventId);
 
         $criteria = new \CDbCriteria();
         $criteria->condition = '"ImportId" = :ImportId AND "Imported" AND "Email" = :Email AND "Id" != :Id';
@@ -162,24 +163,20 @@ class ImportUser extends \CActiveRecord
             'Email' => $this->Email,
             'Id' => $this->Id
         ];
-        if (empty($this->Email) || ImportUser::model()->exists($criteria)) {
-            return $this->generateEmail($import);
-        }
+
+        if (empty($this->Email) || ImportUser::model()->exists($criteria))
+            return CText::generateFakeEmail($import->EventId);
 
         $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
         if ($import->Visible) {
             $model->byVisible(true);
         }
         $user = $model->find();
-        if ($user != null && ($user->LastName != $this->LastName || $user->FirstName != $this->FirstName)) {
-            return $this->generateEmail($import);
-        }
-        return $this->Email;
-    }
 
-    private function generateEmail(Import $import)
-    {
-        return 'nomail'.$import->EventId.'+'.substr(md5($this->FirstName . $this->LastName . $this->Company), 0, 8).'@runet-id.com';
+        if ($user != null && ($user->LastName != $this->LastName || $user->FirstName != $this->FirstName))
+            return CText::generateFakeEmail($import->EventId);
+
+        return $this->Email;
     }
 
     private function getUser(Import $import)
