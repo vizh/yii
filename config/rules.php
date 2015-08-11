@@ -1,9 +1,9 @@
 <?php
-$files = array_diff(scandir('../config/rules/'), ['.', '..', '.DS_Store']);
+
 $result = [];
 
-foreach ($files as $file)
-  $result[] = require "../config/rules/$file";
+foreach (glob(BASE_PATH.'/config/rules/*.php') as $rule) /** @noinspection PhpIncludeInspection */
+    $result[] = require $rule;
 
 // Запрещено всё, что не разрешено.
 $result[] = ['deny', 'users' => ['*']];

@@ -1,9 +1,7 @@
 <?php
 
-require(__DIR__.'/init.php');
-
 $config = [
-    'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'protected',
+    'basePath' => BASE_PATH.'/protected',
     'name' => 'RUNET-ID',
     'sourceLanguage' => 'ru',
     'language' => 'ru',
@@ -21,7 +19,7 @@ $config = [
         ],
         'tempUser' => [
             'class' => '\application\components\auth\WebUser',
-            'stateKeyPrefix'=>'tempUser',
+            'stateKeyPrefix' => 'tempUser',
             'loginUrl' => null,
             'identityCookie' => ['domain' => '.'.RUNETID_HOST]
         ],
@@ -30,19 +28,19 @@ $config = [
             'defaultRoles' => ['guest']
         ],
         'urlManager' => [
-            'urlFormat'=>'path',
+            'urlFormat' => 'path',
             'showScriptName' => false,
-            'urlSuffix'=>'/',
+            'urlSuffix' => '/',
             'useStrictParsing' => true,
             'rules' => []
         ],
         'cache' => [
-            'class'=>'CXCache',
+            'class' => 'CXCache',
         ],
-        'db' => require(__DIR__.'/db.php'),
+        'db' => require 'db.php',
         'image' => [
-            'class'=>'application.extensions.image.CImageComponent',
-            'driver'=>'GD',
+            'class' => 'application.extensions.image.CImageComponent',
+            'driver' => 'GD',
         ],
         'mobileDetect' => [
             'class' => 'ext.MobileDetect.MobileDetect'
@@ -61,36 +59,33 @@ $config = [
             'enableCookieValidation' => true
         ],
         'errorHandler' => [
-            'errorAction'=>'/main/error/index',
+            'errorAction' => '/main/error/index',
         ],
         'log' => [
             'class' => 'CLogRouter',
-            'routes' => require(__DIR__ . '/log-routes.php')
+            'routes' => require 'log-routes.php'
         ],
         'clientScript' => [
-            'packages' => require(__DIR__ . '/script-packages.php'),
+            'packages' => require 'script-packages.php',
             'scriptMap' => []
         ]
     ],
-    'modules' => require(__DIR__ . '/modules.php'),
-    'params' => require(__DIR__ . '/params.php')
+    'modules' => require 'modules.php',
+    'params' => require 'params.php'
 ];
 
-$config = CMap::mergeArray($config, require(__DIR__ . '/api.php'));
-$config = CMap::mergeArray($config, require(__DIR__ . '/partner.php'));
-$config = CMap::mergeArray($config, require(__DIR__ . '/ruvents.php'));
-$config = CMap::mergeArray($config, require(__DIR__ . '/ruvents2.php'));
+$config = CMap::mergeArray($config, require 'api.php');
+$config = CMap::mergeArray($config, require 'partner.php');
+$config = CMap::mergeArray($config, require 'ruvents.php');
+$config = CMap::mergeArray($config, require 'ruvents2.php');
 
-
-$config['components']['urlManager']['rules'] = CMap::mergeArray($config['components']['urlManager']['rules'], require(__DIR__.'/url-rules.php'));
+$config['components']['urlManager']['rules'] = CMap::mergeArray($config['components']['urlManager']['rules'], require 'url-rules.php');
 
 if (YII_DEBUG) {
-  $config['components']['cache'] = [
-    'class' => 'CDummyCache'
-  ];
-}
+    $config['components']['cache'] = [
+        'class' => 'CDummyCache'
+    ];
 
-if (RUNETID_DEV) {
     $config['components']['debug'] = [
         'class' => 'ext.yii2-debug.Yii2Debug',
         'allowedIPs' => ['127.0.0.1', '::1', '82.142.129.37 ']

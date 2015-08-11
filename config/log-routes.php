@@ -16,7 +16,7 @@ $routes = [
     ]
 ];
 
-if (RUNETID_DEV) {
+if (YII_DEBUG) {
     $routes[] = [
         'class' => 'CWebLogRoute',
         'categories' => 'application',

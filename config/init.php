@@ -1,4 +1,8 @@
 <?php
 
-define('RUNETID_DEV', true);
-define('RUNETID_HOST', !RUNETID_DEV ? 'runet-id.com' : 'runet-id.loc');
+date_default_timezone_set('Europe/Moscow');
+
+define('YII_DEBUG', true);
+define('YII_TRACE_LEVEL', 3);
+
+define('RUNETID_HOST', 'runet-id.dev');
