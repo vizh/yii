@@ -99,7 +99,7 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                                     $result.= \CHtml::tag('span', ['class' => 'label'], \Yii::t('app', 'Не задан'));
                                 }
                                 $result.=\CHtml::tag('p', ['class' => 'small m-top_5'], \CHtml::link(\Yii::t('app', 'счет'), ['order/view', 'id' => $order->Id]));
-                            } elseif ($orderItem->CouponActivationLink !== null && $orderItem->CouponActivationLink->CouponActivation->Coupon->Discount == 1) {
+                            } elseif ($orderItem->CouponActivationLink !== null && $orderItem->CouponActivationLink->CouponActivation->Coupon->Discount == 100) {
                                 $result.=\CHtml::tag('span', ['class' => 'label label-warning'], \Yii::t('app', 'Промо-код 100%'));
                             }
                             return $result;

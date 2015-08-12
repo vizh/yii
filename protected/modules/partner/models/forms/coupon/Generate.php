@@ -151,7 +151,7 @@ class Generate extends CreateUpdateForm
     private function fillAndSaveModel(Coupon $coupon)
     {
         $coupon->EventId = $this->event->Id;
-        $coupon->Discount = (float) $this->Discount / 100;
+        $coupon->Discount = $this->Discount;
         $coupon->Code = !empty($this->Code) && $this->IsMultiple == 1 ? $this->Code : $coupon->generateCode();
         if (!empty($this->EndTime)) {
             $coupon->EndTime = date('Y-m-d', strtotime($this->EndTime)) . ' 23:59:59';

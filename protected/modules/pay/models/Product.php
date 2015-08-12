@@ -225,4 +225,13 @@ class Product extends ActiveRecord
     {
         $this->AdditionalAttributes = base64_encode(serialize($attributes));
     }
+
+    /**
+     * Является ли товар билетом
+     * @return bool
+     */
+    public function getIsTicket()
+    {
+        return $this->ManagerName == 'Ticket';
+    }
 }

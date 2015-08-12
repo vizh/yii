@@ -29,7 +29,7 @@ $this->setPageTitle(\Yii::t('app', 'Выдача промо-кодов'));
                     <?php foreach ($form->getCoupons() as $coupon):?>
                         <tr>
                             <td><span class="lead"><?=$coupon->Code;?></span></td>
-                            <td><?=$coupon->Discount * 100;?>%</td>
+                            <td><?=$coupon->getManager()->getDiscountString();?></td>
                             <td>
                                 <?php if (empty($coupon->Recipient)):?>
                                     <span class="label label-success"><?=\Yii::t('app','Свободен');?></span>

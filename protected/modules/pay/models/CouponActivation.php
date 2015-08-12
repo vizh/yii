@@ -11,55 +11,55 @@ namespace pay\models;
  * @property CouponActivationLinkOrderItem[] $OrderItemLinks
  * @property \user\models\User $User
  *
- * @method CouponActivation find($condition='',$params=array())
- * @method CouponActivation findByPk($pk,$condition='',$params=array())
- * @method CouponActivation[] findAll($condition='',$params=array())
+ * @method CouponActivation find($condition = '', $params = array())
+ * @method CouponActivation findByPk($pk, $condition = '', $params = array())
+ * @method CouponActivation[] findAll($condition = '', $params = array())
  */
 class CouponActivation extends \CActiveRecord
 {
 
-  /**
-   * @static
-   * @param string $className
-   * @return CouponActivation
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @static
+     * @param string $className
+     * @return CouponActivation
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'PayCouponActivation';
-  }
+    public function tableName()
+    {
+        return 'PayCouponActivation';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
+    public function primaryKey()
+    {
+        return 'Id';
+    }
 
-  public function relations()
-  {
-    return array(
-      'Coupon' => array(self::BELONGS_TO, '\pay\models\Coupon', 'CouponId'),
-      'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-      'OrderItemLinks' => array(self::HAS_MANY, '\pay\models\CouponActivationLinkOrderItem', 'CouponActivationId')
-    );
-  }
+    public function relations()
+    {
+        return array(
+            'Coupon' => array(self::BELONGS_TO, '\pay\models\Coupon', 'CouponId'),
+            'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
+            'OrderItemLinks' => array(self::HAS_MANY, '\pay\models\CouponActivationLinkOrderItem', 'CouponActivationId')
+        );
+    }
 
-  /**
-   * @param int $userId
-   * @param bool $useAnd
-   * @return CouponActivation
-   */
-  public function byUserId($userId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."UserId" = :UserId';
-    $criteria->params = array('UserId' => $userId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    /**
+     * @param int $userId
+     * @param bool $useAnd
+     * @return CouponActivation
+     */
+    public function byUserId($userId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."UserId" = :UserId';
+        $criteria->params = array('UserId' => $userId);
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
 
     public function byCouponId($couponId, $useAnd = true)
     {
@@ -70,36 +70,46 @@ class CouponActivation extends \CActiveRecord
         return $this;
     }
 
-  /**
-   * @param int $eventId
-   * @param bool $useAnd
-   * @return CouponActivation
-   */
-  public function byEventId($eventId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"Coupon"."EventId" = :EventId';
-    $criteria->params = array(':EventId' => $eventId);
-    $criteria->with = array('Coupon' => array('together' => true));
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    /**
+     * @param int $eventId
+     * @param bool $useAnd
+     * @return CouponActivation
+     */
+    public function byEventId($eventId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"Coupon"."EventId" = :EventId';
+        $criteria->params = array(':EventId' => $eventId);
+        $criteria->with = array('Coupon' => array('together' => true));
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
 
-  public function byEmptyLinkOrderItem($useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"OrderItemLinks"."CouponActivationId" IS NULL';
-    $criteria->with = array('OrderItemLinks' => array('together' => true));
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    public function byEmptyLinkOrderItem($useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"OrderItemLinks"."CouponActivationId" IS NULL';
+        $criteria->with = array('OrderItemLinks' => array('together' => true));
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
 
-  public function getDiscount(Product $product = null)
-  {
-    if ($product == null)
-      return $this->Coupon->Discount;
-    if (!$product->EnableCoupon)
-      return 0;
-    return $this->Coupon->getIsForProduct($product->Id) ? $this->Coupon->Discount : 0;
-  }
+    /**
+     * Возвращает размер скидки
+     * @param Product|null $product
+     * @return int|string
+     */
+    public function getDiscount(Product $product = null)
+    {
+        if ($product == null) {
+            return $this->Coupon->getManager()->getDiscountString();
+        }
+
+        if (!$product->EnableCoupon) {
+            return 0;
+        }
+
+        $price = $product->getPrice();
+        return $this->Coupon->getIsForProduct($product->Id) ? $price - $this->Coupon->getManager()->calcDiscountPrice($price) : 0;
+    }
 }

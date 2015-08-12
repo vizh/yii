@@ -69,7 +69,7 @@ class Coupons extends SearchFormModel
         if ($this->validate()) {
             if (!empty($this->Discount)) {
                 $criteria->addCondition('"t"."Discount" = :Discount');
-                $criteria->params['Discount'] = number_format((float)$this->Discount / 100, 2);
+                $criteria->params['Discount'] = $this->Discount;
             }
 
             if (!empty($this->Product)) {

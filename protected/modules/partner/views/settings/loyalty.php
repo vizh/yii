@@ -35,7 +35,7 @@ $this->setPageTitle(\Yii::t('app', 'Программа лояльности'));
                     <tbody>
                     <?foreach ($discounts as $discount):?>
                         <tr>
-                            <td><?=$discount->Discount * 100;?>%</td>
+                            <td><?=$discount->Discount;?>%</td>
                             <td><?=!empty($discount->StartTime) ? \Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $discount->StartTime) : \Yii::t('app', 'Не указано');?></td>
                             <td><?=!empty($discount->EndTime) ? \Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $discount->EndTime) : \Yii::t('app', 'Не указано');?></td>
                             <td><?=!empty($discount->Product) ? $discount->Product->Title : \Yii::t('app','Все товары');?></td>

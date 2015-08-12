@@ -72,7 +72,7 @@ class PositionsController extends Controller
         $couponActivation = $position->getCouponActivation();
 
         if ($couponActivation !== null) {
-            $data['Discount'] = (int)($couponActivation->Coupon->Discount * 100);
+            $data['Discount'] =  $couponActivation->Coupon->getManager()->getDiscountString();
             $data['PromoCode'] = $couponActivation->Coupon->Code;
         } else {
             $data['Discount'] = 0;

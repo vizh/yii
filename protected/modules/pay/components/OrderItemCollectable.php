@@ -1,99 +1,99 @@
 <?php
 namespace pay\components;
 
+use pay\models\OrderItem;
+
 class OrderItemCollectable
 {
-  /**
-   * @var \pay\models\OrderItem
-   */
-  private $orderItem;
+    /**
+     * @var \pay\models\OrderItem
+     */
+    private $orderItem;
 
-  /**
-   * @var OrderItemCollection
-   */
-  private $collection;
+    /**
+     * @var OrderItemCollection
+     */
+    private $collection;
 
-  function __construct(\pay\models\OrderItem $orderItem, OrderItemCollection $collection)
-  {
-    $this->orderItem = $orderItem;
-    $this->collection = $collection;
-  }
-
-  public function getOrderItem()
-  {
-    return $this->orderItem;
-  }
-
-  /**
-   * Итоговое значение цены товара, с учетом скидки, если она есть
-   * @throws MessageException
-   * @return int|null
-   */
-  public function getPriceDiscount()
-  {
-    $price = $this->orderItem->getPrice();
-    if ($price === null) {
-        throw new MessageException('Не удалось определить цену продукта!');
+    function __construct(OrderItem $orderItem, OrderItemCollection $collection)
+    {
+        $this->orderItem = $orderItem;
+        $this->collection = $collection;
     }
 
-    $price = $price * (1 - $this->getDiscount());
-    return (int)round($price);
-  }
-
-  private $discount = null;
-
-  public function getDiscount()
-  {
-    if ($this->discount === null)
+    public function getOrderItem()
     {
-      if ($this->orderItem->Product->EnableCoupon || $this->orderItem->Owner->hasLoyaltyDiscount())
-      {
-        $activation = $this->orderItem->getCouponActivation();
-        if ($activation !== null)
-        {
-          $this->discount = $activation->Coupon->Discount;
-        }
+        return $this->orderItem;
+    }
 
-        $loyaltyDiscount = $this->orderItem->getLoyaltyDiscount();
-        if ($loyaltyDiscount && $loyaltyDiscount->Discount > $this->discount)
-        {
-            if ($this->orderItem->Product->EventId == 889) {
-                $this->discount = date('Y-m-d') >= '2014-11-01' ? 0.50 : 0.428571;//42857143
+    /**
+     * Итоговое значение цены товара, с учетом скидки, если она есть
+     * @throws MessageException
+     * @return int|null
+     */
+    public function getPriceDiscount()
+    {
+        $price = $this->orderItem->getPriceDiscount();
+        if ($price > ($this->getPrice() - $this->collectionDiscount)) {
+            $price = $this->getPrice() - $this->collectionDiscount;
+        }
+        return $price;
+    }
+
+    /**
+     * Размер скидки для заказа
+     * @return int
+     */
+    public function getDiscount()
+    {
+        return $this->getPrice() - $this->getPriceDiscount();
+    }
+
+    /**
+     * @var int
+     */
+    private $collectionDiscount = 0;
+
+    /**
+     * Устанавливает груповую скидку
+     * @param int $discount
+     */
+    public function setCollectionDiscount($discount)
+    {
+        if ($this->collectionDiscount < $discount) {
+            $this->collectionDiscount = $discount;
+        }
+    }
+
+    private $isGroupDiscount = null;
+
+    /**
+     * @return bool|null
+     */
+    public function getIsGroupDiscount()
+    {
+        if ($this->isGroupDiscount === null) {
+            $orderItem = $this->orderItem;
+            if ($this->collectionDiscount > 0) {
+                $this->isGroupDiscount = $orderItem->getPriceDiscount() > ($orderItem->getPrice() - $this->collectionDiscount);
             } else {
-                $this->discount = $loyaltyDiscount->Discount;
+                $this->isGroupDiscount = false;
             }
         }
-
-        if ($this->collection->getDiscount() > $this->discount)
-        {
-          $this->discount = $this->collection->getDiscount();
-        }
-      }
-      else
-      {
-        $this->discount = 0;
-      }
+        return $this->isGroupDiscount;
     }
-    return $this->discount;
-  }
 
-  private $isGroupDiscount = null;
+    private $price = null;
 
-  public function getIsGroupDiscount()
-  {
-    if ($this->isGroupDiscount === null)
+    /**
+     * Стоимость заказа без учета скидок
+     * @return int
+     */
+    protected function getPrice()
     {
-      if ($this->orderItem->Product->EnableCoupon && $this->collection->getDiscount() > 0)
-      {
-        $activation = $this->orderItem->getCouponActivation();
-        $this->isGroupDiscount = $activation == null || !($activation->Coupon->Discount > $this->collection->getDiscount());
-      }
-      else
-      {
-        $this->isGroupDiscount = false;
-      }
+        if ($this->price == null) {
+            $this->price = $this->orderItem->getPrice();
+        }
+        return $this->price;
     }
-
-    return $this->isGroupDiscount;
-  }
 }

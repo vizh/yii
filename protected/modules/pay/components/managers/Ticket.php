@@ -75,7 +75,7 @@ class Ticket extends BaseProductManager
             $coupon->EventId = $this->product->EventId;
             $coupon->Code = 'ticket-'.$coupon->generateCode();
             $coupon->OwnerId = $user->Id;
-            $coupon->Discount = 1;
+            $coupon->Discount = 100;
             $coupon->IsTicket = true;
             $coupon->save();
             $coupon->addProductLinks([$this->paidProduct]);

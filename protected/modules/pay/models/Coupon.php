@@ -2,6 +2,7 @@
 namespace pay\models;
 
 use application\components\ActiveRecord;
+use pay\components\coupon\managers\Base as BaseDiscountManager;
 use pay\components\CodeException;
 use pay\components\Exception;
 use pay\components\MessageException;
@@ -21,6 +22,7 @@ use user\models\User;
  * @property int $OwnerId
  * @property bool $Deleted
  * @property string $DeletionTime
+ * @property string $ManagerName
  *
  * @property CouponActivation[] $Activations
  * @property \user\models\User $Owner
@@ -68,7 +70,7 @@ class Coupon extends ActiveRecord
             'Activations' => [self::HAS_MANY, '\pay\models\CouponActivation', 'CouponId'],
             'Owner' => [self::BELONGS_TO, '\user\models\User', 'OwnerId'],
             'ProductLinks' => [self::HAS_MANY, '\pay\models\CouponLinkProduct', 'CouponId'],
-            'Products' => [self::HAS_MANY, '\pay\models\Product', ['ProductId' => 'Id'], 'through' => 'ProductLinks']
+            'Products' => [self::HAS_MANY, '\pay\models\Product', ['ProductId' => 'Id'], 'through' => 'ProductLinks'],
         ];
     }
 
@@ -152,7 +154,7 @@ class Coupon extends ActiveRecord
     public function activate($payer, $owner, $product = null)
     {
         $this->check();
-        if (abs($this->Discount - 1.00) < self::MaxDelta) {
+        if ($this->Discount == 100) {
             $this->activate100($payer, $owner, $product);
         } else {
             $this->processOldActivations($owner);
@@ -299,10 +301,14 @@ class Coupon extends ActiveRecord
      */
     public function contains(Coupon $coupon)
     {
-        if (empty($this->Products))
+        if (empty($this->Products)) {
             return $this->compare($coupon) >= 0;
-        if (empty($coupon->Products))
+        }
+
+        if (empty($coupon->Products)) {
             return true;
+        }
+
         foreach ($coupon->Products as $product1) {
             $hasPair = false;
             foreach ($this->Products as $product2) {
@@ -328,7 +334,7 @@ class Coupon extends ActiveRecord
      */
     public function compare(Coupon $coupon)
     {
-        if (abs($this->Discount - $coupon->Discount) < self::MaxDelta)
+        if ($this->Discount == $coupon->Discount)
             return 0;
         else
             return $this->Discount > $coupon->Discount ? 1 : -1;
@@ -385,5 +391,20 @@ class Coupon extends ActiveRecord
     public function getHash()
     {
         return substr(md5($this->EventId.self::HashSecret.$this->Code), 0, 16);
+    }
+
+
+    private $manager = null;
+
+    /**
+     * @return BaseDiscountManager
+     */
+    public function getManager()
+    {
+        if ($this->manager === null) {
+            $class = '\pay\components\coupon\managers\\' . $this->ManagerName;
+            $this->manager = new $class($this);
+        }
+        return $this->manager;
     }
 }

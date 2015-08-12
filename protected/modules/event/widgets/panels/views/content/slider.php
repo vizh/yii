@@ -30,7 +30,7 @@ $controller = \Yii::app()->getController();
     <?php endforeach;?>
     <hr/>
 
-    <?php for($i = 0; $i < 10; $i++):?>
+    <?php for($i = 0; $i < 15; $i++):?>
         <div class="control-group">
             <?php foreach ($form->getLocaleList() as $locale):?>
                 <label class="control-label">Слайд <?=$i+1;?> <span class="label"><?=$locale;?></span></label>

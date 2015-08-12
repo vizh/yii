@@ -53,7 +53,7 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                         'name'  => 'Discount',
                         'header' =>  $search->getAttributeLabel('Discount'),
                         'type'  => 'raw',
-                        'value' => '$data->Discount * 100 . "%"',
+                        'value' => '$data->getManager()->getDiscountString()',
                         'width' => 100
                     ],
                     [
@@ -162,90 +162,3 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
     </div>
 </div>
 <?=\CHtml::endForm();?>
-
-<?/*
-<?if (!empty($coupons)):?>
-<form action="<?=Yii::app()->createUrl('/partner/coupon/give');?> " method="GET">
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th><input type="checkbox" name="" value="" /></th>
-        <th>Промо-код</th>
-        <th>Скидка</th>
-        <th>Продукт</th>
-        <th>Выдан</th>
-        <th>Активация</th>
-        <th>&nbsp;</th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($coupons as $coupon):?>
-    <tr>
-        <td>
-          <?if (!$coupon->IsTicket):?>
-            <input type="checkbox" name="Coupons[]" value="<?=$coupon->Code;?>" />
-          <?endif;?>
-        </td>
-        <td><strong><?=$coupon->Code;?></strong></td>
-        <td><strong><?=($coupon->Discount * 100);?> %</strong></td>
-        <td>
-            <?if (!empty($coupon->Products)):?>
-                <?foreach ($coupon->Products as $product):?>
-                    <span title="<?=$product->Title;?>">
-                        <?=\application\components\utility\Texts::cropText($product->Title, 20);?>
-                    </span><br>
-                <?endforeach;?>
-            <?else:?>
-                &ndash;
-            <?endif;?>
-        </td>
-        <td>
-            <?if ($coupon->IsTicket):?>
-              <span class="label label-important"><?=\Yii::t('app', 'Продан');?></span>
-              <?if ($coupon->Owner->Temporary):?>
-                <br/><span class="small"><?=$coupon->Owner->Email;?>, <?=$coupon->Owner->RunetId;?>
-              <?else:?>
-                <br/><a target="_blank" href="<?=\Yii::app()->createUrl('/user/view/index', array('runetId' => $coupon->Owner->RunetId));?>" class="small"><strong><?=$coupon->Owner->getFullName();?>, <?=$coupon->Owner->RunetId;?></strong></a>
-              <?endif;?>
-            <?elseif ($coupon->Recipient == null):?>
-                <span class="label"><?=\Yii::t('app', 'Не выдан');?></span>
-            <?else:?>
-                <span class="label label-info"><?=\Yii::t('app', 'Выдан');?></span>
-                <p>
-                  <em><?=$coupon->Recipient;?></em>
-                </p>
-            <?endif;?>
-        </td>
-        <td>
-            <?php if (!$coupon->Multiple && sizeof($coupon->Activations) > 0):?>
-                <span class="label label-success">Активирован</span> 
-                <br/><a target="_blank" href="<?=Yii::app()->createUrl('/user/view/index', array('runetId' => $coupon->Activations[0]->User->RunetId));?>" class="small"><strong><?=$coupon->Activations[0]->User->getFullName();?>, <?=$coupon->Activations[0]->User->RunetId;?></strong></a>
-            <?php elseif ($coupon->Multiple):?>
-                <span class="label <?=count($coupon->Activations) > 0 ? 'label-success' : '';?>">
-                    Активирован <?=sizeof($coupon->Activations);?> из <?=$coupon->MultipleCount;?>
-                </span>
-            <?php else:?>
-                <span class="label">Не активирован</span>
-            <?php endif;?>
-        </td>
-        <td>
-            <a target="_blank" title="Статистика" class="btn" href="<?=Yii::app()->createUrl('/partner/coupon/statistics', ['eventIdName' => $event->IdName, 'code' => $coupon->Code, 'hash' => $coupon->getHash()]);?>"><i class="icon-share"></i></a>
-        </td>
-    </tr>
-    <?php endforeach;?>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td></td>
-        <td><input type="submit" value="Выдать промо-коды" style="display: none;" class="btn btn-mini btn-success"/></a></td>
-        <td colspan="4"></td>
-      </tr>
-    </tfoot>
-</table>
-</form>
-<?php else:?>
-    <div class="alert">По Вашему запросу нет ни одного участника.</div>
-<?php endif;?>
-
-<?$this->widget('\application\widgets\Paginator', array('paginator' => $paginator));?>
-*/?>

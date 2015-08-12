@@ -124,9 +124,10 @@ CPayRegister.prototype = {
 
         if (discount == 0)
             return;
-        var discountSum = Math.round(row.parents('table[data-product-id]').data('price') * discount);
+
+        var price = row.parents('table[data-product-id]').data('price');
         var rowDiscount = this.templates.discount({
-            discount: discountSum
+            discount: discount
         });
         td.html(rowDiscount);
     },
@@ -373,7 +374,7 @@ CPayRegister.prototype = {
                         var discount = $(this).parents('tr.user-row').find('td.discount').data('discount');
                         if (typeof(discount) == "undefined")
                             discount = 0;
-                        sum += Math.round(price * (1 - discount));
+                        sum += (price - discount);
                     });
                     total += sum;
                     $(this).find('thead th .quantity').text(current);

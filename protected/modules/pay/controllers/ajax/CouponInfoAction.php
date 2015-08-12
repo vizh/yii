@@ -18,6 +18,7 @@ class CouponInfoAction extends \pay\components\Action
 
       $discount = $activation != null ? $activation->getDiscount($product) : 0;
 
+
         //todo: реализовать вычисление скидки для программы лояльности
 //      $loyaltyDiscount = $user->getLoyaltyDiscount($product);
 //      if ($loyaltyDiscount !== null && $loyaltyDiscount->Discount > $discount)

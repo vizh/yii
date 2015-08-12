@@ -118,7 +118,7 @@ class LoyaltyProgramDiscount extends CreateUpdateForm
         $model = new LoyaltyProgramDiscountModel();
         $model->EventId = $this->event->Id;
 
-        $model->Discount = $this->Discount / 100;
+        $model->Discount = $this->Discount;
         $model->StartTime = !empty($this->StartDate) ? $formatter->format('yyyy-MM-dd 00:00:00', $this->StartDate) : null;
         $model->EndTime = !empty($this->EndDate) ? $formatter->format('yyyy-MM-dd 23:59:59', $this->EndDate) : null;;
         $model->ProductId = !empty($this->ProductId) ? $this->ProductId : null;

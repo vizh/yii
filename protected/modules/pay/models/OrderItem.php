@@ -389,21 +389,20 @@ class OrderItem extends \CActiveRecord
             throw new MessageException('Не удалось определить цену продукта!');
         }
 
-        if ($this->Product->ManagerName != 'Ticket'){
-            $discount = 0;
+        if (!$this->Product->getIsTicket()){
             $activation = $this->getCouponActivation();
-            if ($activation !== null)
-            {
-                $discount = $activation->Coupon->Discount;
-            }
-            if ($this->getLoyaltyDiscount() !== null && $this->getLoyaltyDiscount()->Discount > $discount)
-            {
-                $discount = $this->getLoyaltyDiscount()->Discount;
+            if ($activation !== null) {
+                $price = $activation->Coupon->getManager()->apply($this);
             }
 
-            $price = $price * (1-$discount);
+            if ($this->getLoyaltyDiscount() !== null) {
+                $loyaltyPrice = $this->getLoyaltyDiscount()->apply($this);
+                if ($loyaltyPrice < $price) {
+                    $price = $loyaltyPrice;
+                }
+            }
         }
-        return (int)round($price);
+        return (int) round($price);
     }
 
     /**

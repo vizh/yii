@@ -19,7 +19,7 @@ class CouponActivateAction extends \pay\components\Action
         $coupon = \pay\models\Coupon::model()->byCode($code)->byEventId($this->getEvent()->Id)->find();
         if ($coupon == null) {
             $result->error = \Yii::t('app', 'Указан неверный промо код');
-        } elseif (!$coupon->getIsForProduct($productId) && $coupon->Discount != 1) {
+        } elseif (!$coupon->getIsForProduct($productId) && $coupon->Discount != 100) {
             $result->error = \Yii::t('app', 'Указанный промо код не может быть активирован для этого товара');
         } else {
             try {
@@ -30,7 +30,7 @@ class CouponActivateAction extends \pay\components\Action
             }
 
             if ($result->success) {
-                if ($coupon->Discount == 1) {
+                if ($coupon->Discount == 100) {
                     $criteria = new \CDbCriteria();
                     $criteria->with = ['Role' => ['together' => true]];
                     $criteria->order = '"Role"."Priority" DESC';
@@ -38,12 +38,14 @@ class CouponActivateAction extends \pay\components\Action
                         ->byEventId($this->getEvent()->Id)->byUserId($owner->Id)->find($criteria);
                     $result->message = \Yii::t('app', 'Регистрация на мероприятие прошла успешно! Промо-код на скидку 100% активирован. Статус: "{RoleTitle}".', ['{RoleTitle}' => $participant->Role->Title]);
                 } else {
-                    $result->message = \Yii::t('app', 'Купон на скидку {discount}% успешно активирован!', array('{discount}' => $coupon->Discount*100));
+                    $result->message = \Yii::t('app', 'Купон на скидку {discount} успешно активирован!', ['{discount}' => $coupon->getManager()->getDiscountString()]);
                 }
+
+                $price = $product->getPrice();
 
                 $result->coupon = new \stdClass();
                 $result->coupon->Code = $code;
-                $result->coupon->Discount = $coupon->Discount;
+                $result->coupon->Discount = $price - $coupon->getManager()->calcDiscountPrice($price);
             }
         }
 

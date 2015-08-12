@@ -24,6 +24,6 @@ class CouponInfoAction extends \api\components\Action
       throw new \api\components\Exception(408, [$e->getCode(), $e->getMessage()], $e);
     }
 
-    $this->setResult(['Discount' => $coupon->Discount]);
+    $this->setResult(['Discount' => $coupon->getManager()->getDiscountString()]);
   }
 }

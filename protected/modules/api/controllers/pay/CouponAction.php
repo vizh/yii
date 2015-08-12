@@ -54,7 +54,7 @@ class CouponAction extends \api\components\Action
         }
 
         $result = new \stdClass();
-        $result->Discount = $coupon->Discount;
+        $result->Discount = $coupon->getManager()->getDiscountString();
         $this->getController()->setResult($result);
     }
 }

@@ -130,7 +130,7 @@ class CreateUserAction extends \api\components\Action
 
         $result = ['PayUrl' => $url];
         if ($coupon != null) {
-            $result['Discount'] = $coupon->Discount;
+            $result['Discount'] = $coupon->getManager()->getDiscountString();
         }
         $this->setResult($result);
     }

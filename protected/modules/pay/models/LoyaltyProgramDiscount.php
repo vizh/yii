@@ -51,7 +51,6 @@ class LoyaltyProgramDiscount extends ActiveRecord
         ];
     }
 
-
     /**
      * @param int $productId
      * @param bool $useAnd
@@ -102,14 +101,22 @@ class LoyaltyProgramDiscount extends ActiveRecord
     {
         $status = self::StatusSoon;
         $currentDate = date('Y-m-d H:i:s');
-        if ($this->EndTime !== null && $this->EndTime < $currentDate)
-        {
+        if ($this->EndTime !== null && $this->EndTime < $currentDate) {
             $status = self::StatusEnd;
-        }
-        elseif (($this->StartTime == null || $this->StartTime < $currentDate) && ($this->EndTime == null || $this->EndTime > $currentDate))
-        {
+        } elseif (($this->StartTime == null || $this->StartTime < $currentDate) && ($this->EndTime == null || $this->EndTime > $currentDate)) {
             $status = self::StatusActive;
         }
         return $status;
+    }
+
+    /**
+     * Примет скидку к заказу и возвращает стоимость заказа, с учетом этой скидки
+     * @param OrderItem $orderItem
+     * @return int
+     */
+    public function apply(OrderItem $orderItem)
+    {
+        $price = $orderItem->getPrice();
+        return $price - $price * $this->Discount  / 100;
     }
 } 
