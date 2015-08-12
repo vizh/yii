@@ -5,6 +5,8 @@
  */
 
 $formatter = \Yii::app()->getDateFormatter();
+
+$modals = '';
 ?>
 <div class="tabs">
     <ul class="nav">
@@ -42,7 +44,8 @@ $formatter = \Yii::app()->getDateFormatter();
                         <?php if ($section !== null):?>
                             <?php
                                 $colspan = $data->Sections[$hallId][$time]->ColSpan;
-                                $this->render('program/grid-item', ['section' => $section, 'colspan' => $colspan]);
+                                $this->render('program/grid-item', ['section' => $section, 'colspan' => $colspan, 'data' => $data->Sections[$hallId][$time]]);
+                                $modals .= $this->render('program/grid-item-modal', ['section' => $section, 'data' => $data->Sections[$hallId][$time]], true);
                             ?>
                         <?php elseif ($colspan <= 0):?>
                             <td></td>
@@ -53,6 +56,7 @@ $formatter = \Yii::app()->getDateFormatter();
                 <?php endforeach;?>
                 </tbody>
             </table>
+            <?=$modals;?>
         </div>
     <?php endforeach;?>
 </div>

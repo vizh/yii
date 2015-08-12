@@ -3,9 +3,11 @@
  * @var \event\widgets\registration\Program $this
  * @var \event\models\section\Section $section,
  * @var int $colspan
+ * @var array $data
  */
 
 $content = $section->Title;
+$registration = '';
 
 $product = $this->getProduct($section);
 $orderItem = $this->getOrderItem($section);
@@ -15,17 +17,16 @@ if ($product !== null) {
     $htmlOptions['data-product'] = $product->Id;
     $manager = $product->getManager();
 
-    if (!$manager->checkLimit()) {
-        $htmlOptions['data-notforsale'] = 1;
-    }
-
-    if ($manager->getLimit() !== null && $orderItem == null) {
+    if ($manager->getLimit() !== null) {
         if ($manager->checkLimit()) {
-            $content .= \CHtml::tag('p', ['class' => 'text-success limit'], 'Осталось мест: ' . ($manager->getLimit() - $manager->getSoldCount()));
+            $registration .= \CHtml::tag('p', ['class' => 'text-success limit text-center'], 'Осталось мест: ' . ($manager->getLimit() - $manager->getSoldCount()));
         } else {
-            $content .= \CHtml::tag('p', ['class' => 'text-warning limit'], 'Места закончились');
+            $htmlOptions['data-notforsale'] = 1;
+            $registration .= \CHtml::tag('p', ['class' => 'text-warning limit text-center'], 'Места закончились');
         }
     }
+    $registration .= \CHtml::button(\Yii::t('app', 'Зарегистрироваться'), ['class' => 'btn btn-info btn-mini btn-block btn-register hide']);
+    $registration .= \CHtml::button(\Yii::t('app', 'Отменить'), ['class' => 'btn btn-danger btn-mini btn-block btn-unregister hide']);
 }
 if ($orderItem !== null) {
     $htmlOptions['data-orderitem'] = $orderItem->Id;
@@ -34,6 +35,12 @@ if ($orderItem !== null) {
         $htmlOptions['data-paid'] = 1;
     }
 }
+if (!empty($section->Info)) {
+    $registration .= \CHtml::button(\Yii::t('app', 'Подробнее'), ['class' => 'btn btn-mini btn-block', 'data-toggle' => 'modal', 'data-target' => '#' . $this->getId() . '_modal' . $section->Id]);
+}
 
+if (!empty($registration)) {
+    $content .= \CHtml::tag('div', ['class' => 'registration-block'], $registration);
+}
 ?>
 <?=\CHtml::tag('td', $htmlOptions, $content);?>

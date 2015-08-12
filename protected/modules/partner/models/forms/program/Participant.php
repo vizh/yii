@@ -71,14 +71,14 @@ class Participant extends CreateUpdateForm
     public function rules()
     {
         return [
-            ['CustomText,ReportTitle,ReportThesis', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['ReportTitle,ReportThesis', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
             ['Order,RunetId,CompanyId', 'numerical', 'allowEmpty' => true],
             ['RunetId', 'validateUser'],
             ['RoleId', 'required'],
             ['RoleId', 'in', 'range' => array_keys($this->getRoleData())],
             ['Delete, VideoUrl', 'safe'],
             ['ReportUrl', 'url', 'allowEmpty' => true],
-            ['ReportFullInfo', 'filter', 'filter' => [$this, 'filterReportFullInfo']]
+            ['ReportFullInfo,CustomText', 'filter', 'filter' => [$this, 'filterHtmlText']]
         ];
     }
 
@@ -111,7 +111,7 @@ class Participant extends CreateUpdateForm
      * @param $value
      * @return string
      */
-    public function filterReportFullInfo($value)
+    public function filterHtmlText($value)
     {
         $purifier = new \CHtmlPurifier();
         $purifier->options = [

@@ -4,8 +4,7 @@ var CRegistrationProgram = function () {
         'orderItemExists' : 'bg-warning',
         'orderItemPaid' : 'bg-success',
         'notForSale' : 'bg-muted muted',
-        'disabled' : 'bg-muted',
-        'itemHover' : 'hover'
+        'disabled' : 'bg-muted'
     };
     this.$widget = $('#event_widgets_registration_Program');
     this.$tabs = this.$widget.find('.tabs');
@@ -26,23 +25,16 @@ CRegistrationProgram.prototype = {
         self.$grid.find('[data-notforsale]:not([data-paid])').data('notforsale', 1).addClass(self.cssClasses.notForSale);
         self.$grid.find('[data-paid]').addClass(self.cssClasses.orderItemPaid);
 
-        self.$sections.click(function(e) {
-            e.preventDefault();
+        self.$sections.find('.btn-register').click(function (e) {
             var $target = $(e.currentTarget);
-            if ($target.hasClass(self.cssClasses.notForSale) || self.sentRequest) {
-                return;
-            }
-            self.sentRequest = true;
-            if (self.$widget.data('user') == '') {
-                $('#NavbarLogin').trigger('click');
-                return;
-            }
-            var orderItem = $($target).data('orderitem');
-            if (typeof(orderItem) == "undefined" || orderItem == '') {
-                self.addOrderItem($target);
-            } else {
-                self.deleteOrderItem($target);
-            }
+            self.addOrderItem($target.parents('td'));
+            e.preventDefault();
+        });
+
+        self.$sections.find('.btn-unregister').click(function (e) {
+            var $target = $(e.currentTarget);
+            self.deleteOrderItem($target.parents('td'));
+            e.preventDefault();
         });
 
         self.$sections.css('cursor', 'pointer');
@@ -52,15 +44,10 @@ CRegistrationProgram.prototype = {
                 $(this).siblings('[data-product]:not([data-notforsale])').addClass(self.cssClasses.notForSale);
             });
         }
-        self.$sections.hover(function () {
-            var attrClass = $(this).attr('class');
-            if (typeof(attrClass) == "undefined" || attrClass == '') {
-                $(this).addClass(self.cssClasses.itemHover);
-            }
+        self.$grid.find('td').hover(function () {
+            self.hoverSection($(this));
         }, function () {
-            if ($(this).hasClass(self.cssClasses.itemHover)) {
-                $(this).removeClass(self.cssClasses.itemHover);
-            }
+            $(this).find('.registration-block').hide();
         });
 
         self.$total.pin({
@@ -81,16 +68,24 @@ CRegistrationProgram.prototype = {
         var self = this,
             product = $section.data('product');
 
+        if (self.sentRequest) {
+            return;
+        }
+        if (self.$widget.data('user') == '') {
+            $('#NavbarLogin').trigger('click');
+            return;
+        }
+
         self.showLoader();
         $.get('/pay/ajax/addorderitem', {'productId' : product, 'ownerRunetId' : self.$widget.data('user')}, function (response) {
             if (response.success == true) {
                 $section.data('price', response.price).data('orderitem', response.orderItemId);
                 $section.removeClass(self.cssClasses.itemHover);
                 $section.addClass(self.cssClasses.orderItemExists);
-                $section.find('p.limit').hide();
                 if (self.oneOnLineMode) {
                     $section.siblings('[data-product]:not(:data(notforsale))').addClass(self.cssClasses.notForSale);
                 }
+                self.hoverSection($section);
                 self.calcTotal();
             } else {
                 self.showErrorMessage(response);
@@ -101,15 +96,18 @@ CRegistrationProgram.prototype = {
 
     'deleteOrderItem' : function ($section) {
         var self = this;
+        if (self.sentRequest) {
+            return;
+        }
         self.showLoader();
         $.get('/pay/ajax/deleteorderitem', {'id' : $section.data('orderitem')}, function (response) {
             if (response.success == true) {
                 $section.removeData('orderitem').removeAttr('data-orderitem');
                 $section.removeClass(self.cssClasses.orderItemExists);
-                $section.find('p.limit').show();
                 if (self.oneOnLineMode) {
                     $section.siblings('[data-product]:not(:data(notforsale))').removeClass(self.cssClasses.notForSale);
                 }
+                self.hoverSection($section);
                 self.calcTotal();
             } else {
                 self.showErrorMessage(response);
@@ -160,12 +158,35 @@ CRegistrationProgram.prototype = {
     },
 
     'showLoader' : function () {
+        self.sentRequest = true;
         this.$widget.css('opacity', 0.2);
     },
 
     'hideLoader' : function () {
         this.sentRequest = false;
         this.$widget.css('opacity', 1);
+    },
+
+    hoverSection : function ($section) {
+        var $registration = $section.find('.registration-block');
+        $registration.find('.btn:not([data-toggle])').addClass('hide');
+        if (!$section.hasClass(this.cssClasses.notForSale) && !$section.hasClass(this.cssClasses.orderItemPaid)) {
+            var orderItem = $section.data('orderitem');
+            if (typeof(orderItem) == "undefined" || orderItem == '') {
+                $section.find('p.limit').show();
+                $registration.find('.btn.btn-register').removeClass('hide');
+            } else {
+                $section.find('p.limit').hide();
+                $registration.find('.btn.btn-unregister').removeClass('hide');
+            }
+        }
+        if ($registration.find('.btn:not(.hide)').size() > 0) {
+            $registration.slideDown(200);
+        }
+    },
+
+    changeLimit : function($section, $opeation) {
+        var $limit
     }
 }
 

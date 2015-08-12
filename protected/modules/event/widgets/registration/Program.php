@@ -41,7 +41,7 @@ class Program extends ProgramGrid
      */
     public function getTitle()
     {
-        return 'Регистрация';
+        return 'Программа';
     }
 
     /**
