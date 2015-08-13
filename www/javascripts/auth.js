@@ -70,6 +70,14 @@ ModalAuth.prototype.getEventName = function (name) {
         name += '.bs.modal';
     }
     return name;
+};
+ModalAuth.prototype.login = function () {
+    var href = $('.navbar li.login a').attr('href');
+    if (href == '#') {
+        this.modal.modal('show');
+    } else {
+        window.location.href = href;
+    }
 }
 
 

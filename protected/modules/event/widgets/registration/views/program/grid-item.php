@@ -25,7 +25,7 @@ if ($product !== null) {
             $registration .= \CHtml::tag('p', ['class' => 'text-warning limit text-center'], 'Места закончились');
         }
     }
-    $registration .= \CHtml::button(\Yii::t('app', 'Зарегистрироваться'), ['class' => 'btn btn-info btn-mini btn-block btn-register hide']);
+    $registration .= \CHtml::button(\Yii::t('app', 'Регистрация'), ['class' => 'btn btn-info btn-mini btn-block btn-register hide']);
     $registration .= \CHtml::button(\Yii::t('app', 'Отменить'), ['class' => 'btn btn-danger btn-mini btn-block btn-unregister hide']);
 }
 if ($orderItem !== null) {

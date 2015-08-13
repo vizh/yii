@@ -72,7 +72,7 @@ CRegistrationProgram.prototype = {
             return;
         }
         if (self.$widget.data('user') == '') {
-            $('#NavbarLogin').trigger('click');
+            modalAuthObj.login();
             return;
         }
 
