@@ -4,6 +4,7 @@ namespace ruvents2\controllers;
 use application\components\helpers\ArrayHelper;
 use event\models\Part;
 use event\models\Participant;
+use ruvents2\components\data\CDbCriteria;
 use ruvents2\models\Badge;
 use ruvents2\components\Controller;
 use ruvents2\components\Exception;
@@ -41,20 +42,20 @@ class BadgesController extends Controller
     /**
      * @param string $since
      * @param int $limit
-     * @return \CDbCriteria
+     * @return CDbCriteria
      */
     private function getCriteria($since, $limit)
     {
-        $criteria = new \CDbCriteria();
-        $criteria->with = ['User'];
-        $criteria->order = 't."CreationTime"';
-        $criteria->limit = $limit;
+        $criteria = CDbCriteria::create()
+            ->setOrder('t."CreationTime" ASC')
+            ->setLimit($limit)
+            ->setWith(['User']);
 
         if ($since !== null) {
             $since = date('Y-m-d H:i:s', strtotime($since));
-            $criteria->addCondition('t."CreationTime" >= :CreationTime');
-            $criteria->params = ['CreationTime' => $since];
+            $criteria->addConditionWithParams('t."CreationTime" >= :CreationTime', ['CreationTime' => $since]);
         }
+
         return $criteria;
     }
 
@@ -76,14 +77,18 @@ class BadgesController extends Controller
                 throw Exception::createInvalidParam('PartId', 'Не найдена часть с ID: ' . $partId);
             }
             if ($part !== null) {
-                $criteria = new \CDbCriteria();
-                $criteria->with = ['Role' => ['together' => true]];
-                $criteria->order = '"Role"."Priority" DESC';
-                $participant = Participant::model()->byEventId($this->getEvent()->Id)
-                    ->byUserId($user->Id)->byPartId($part->Id)->find($criteria);
-                if ($participant == null) {
+                $participant = Participant::model()
+                    ->byEventId($this->getEvent()->Id)
+                    ->byUserId($user->Id)
+                    ->byPartId($part->Id)
+                    ->find(
+                        CDbCriteria::create()
+                            ->setWith(['Role' => ['together' => true]])
+                            ->setOrder('"Role"."Priority" DESC')
+                    );
+
+                if ($participant == null)
                     throw new Exception(Exception::INVALID_PART_ID_FOR_BADGE, [$runetId, $partId]);
-                }
             }
         } else {
             $participant = $user->Participants[0];

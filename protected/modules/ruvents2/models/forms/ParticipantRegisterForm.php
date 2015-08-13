@@ -5,10 +5,10 @@ namespace ruvents2\models\forms;
 use application\components\helpers\ArrayHelper;
 use event\models\Event;
 use ruvents2\components\Exception;
-use ruvents2\components\FormModel;
+use ruvents2\components\form\RequestForm;
 use Yii;
 
-class ParticipantRegisterForm extends FormModel
+class ParticipantRegisterForm extends RequestForm
 {
     public $Id;
     public $Roles;

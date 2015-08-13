@@ -4,9 +4,8 @@ namespace ruvents2\controllers;
 use application\components\helpers\ArrayHelper;
 use pay\models\OrderItem;
 use pay\models\OrderType;
-use pay\models\Product;
 use ruvents2\components\Controller;
-use pay\components\admin\Rif;
+use ruvents2\components\data\CDbCriteria;
 
 class PositionsController extends Controller
 {
@@ -36,24 +35,23 @@ class PositionsController extends Controller
     /**
      * @param string $since
      * @param int $limit
-     * @return \CDbCriteria
+     * @return CDbCriteria
      */
     private function getCriteria($since, $limit)
     {
-        $criteria = new \CDbCriteria();
-        $criteria->with = ['Owner', 'ChangedOwner', 'OrderLinks.Order', 'Product'];
-        $criteria->order = 't."UpdateTime"';
-        $criteria->limit = $limit;
+        $criteria = CDbCriteria::create()
+            ->setWith(['Owner', 'ChangedOwner', 'OrderLinks.Order', 'Product'])
+            ->setOrder('t."UpdateTime"')
+            ->setLimit($limit);
 
-        if ($this->getEvent()->IdName == 'devcon15') {
+        if ($this->getEvent()->IdName == 'devcon15')
             $criteria->addCondition('"Product"."ManagerName" = \'FoodProductManager\'');
-        }
 
         if ($since !== null) {
             $since = date('Y-m-d H:i:s', strtotime($since));
-            $criteria->addCondition('t."CreationTime" >= :CreationTime');
-            $criteria->params = ['CreationTime' => $since];
+            $criteria->addConditionWithParams('t."CreationTime" >= :CreationTime', ['CreationTime' => $since]);
         }
+
         return $criteria;
     }
 

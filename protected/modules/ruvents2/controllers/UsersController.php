@@ -3,6 +3,7 @@ namespace ruvents2\controllers;
 
 use application\components\helpers\ArrayHelper;
 use ruvents2\components\Controller;
+use ruvents2\components\data\CDbCriteria;
 use ruvents2\components\Exception;
 use user\models\User;
 
@@ -30,14 +31,15 @@ class UsersController extends Controller
             }
         } else {
             $userModel = $userModel->bySearch($query, null, true, $onlyVisible);
-            $criteria = new \CDbCriteria();
-            $criteria->with = [
-                'Employments' => ['together' => false],
-                'Employments.Company' => ['together' => false],
-                'LinkPhones.Phone' => ['together' => false]
-            ];
-            $criteria->limit = self::MAX_LIMIT;
-            $users = $userModel->findAll($criteria);
+            $users = $userModel->findAll(
+                CDbCriteria::create()
+                    ->setLimit(self::MAX_LIMIT)
+                    ->setWith([
+                        'Employments' => ['together' => false],
+                        'Employments.Company' => ['together' => false],
+                        'LinkPhones.Phone' => ['together' => false]
+                    ])
+            );
         }
 
         $result = [];

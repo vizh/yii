@@ -1,11 +1,12 @@
 <?php
 
-namespace ruvents2\components\data;
+namespace ruvents2\components\data\builders;
 
 use api\models\Account;
 use api\models\ExternalUser;
 use application\components\helpers\ArrayHelper;
 use event\models\Event;
+use ruvents2\components\data\AbstractBuilder;
 use user\models\User;
 use Yii;
 

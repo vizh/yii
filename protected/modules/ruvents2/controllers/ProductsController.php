@@ -10,6 +10,7 @@ namespace ruvents2\controllers;
 
 use application\components\helpers\ArrayHelper;
 use ruvents2\components\Controller;
+use ruvents2\components\data\CDbCriteria;
 use ruvents2\components\Exception;
 use user\models\User;
 use pay\models\Product;
@@ -85,19 +86,19 @@ class ProductsController extends Controller
     /**
      * @param string $since
      * @param int $limit
-     * @return \CDbCriteria
+     * @return CDbCriteria
      */
     private function getCheckCriteria($since, $limit)
     {
-        $criteria = new \CDbCriteria();
-        $criteria->order = 't."CreationTime"';
-        $criteria->limit = $limit;
+        $criteria = CDbCriteria::create()
+            ->setOrder('t."CreationTime"')
+            ->setLimit($limit);
 
         if ($since !== null) {
             $since = date('Y-m-d H:i:s', strtotime($since));
-            $criteria->addCondition('t."CreationTime" >= :CreationTime');
-            $criteria->params = ['CreationTime' => $since];
+            $criteria->addConditionWithParams('t."CreationTime" >= :CreationTime', ['CreationTime' => $since]);
         }
+
         return $criteria;
     }
 

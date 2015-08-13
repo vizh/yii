@@ -3,8 +3,10 @@
 $config=dirname(__FILE__).'/../config/console.php';
 date_default_timezone_set('Europe/Moscow');
 
+define('BASE_PATH', dirname(__DIR__));
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 defined('YII_DEBUG') or define('YII_DEBUG',false);
+require_once(BASE_PATH.'/config/main.php');
 require_once(dirname(__FILE__).'/Yii.php');
 if(isset($config))
 {

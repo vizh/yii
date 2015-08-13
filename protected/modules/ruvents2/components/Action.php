@@ -41,9 +41,6 @@ class Action extends \CAction
      */
     protected function getApiAccount()
     {
-        if ($this->apiAccount === false)
-            $this->apiAccount = Account::model()->byEventId($this->getEvent()->Id)->find();
-
-        return $this->apiAccount;
+        return $this->getController()->getApiAccount();
     }
 }

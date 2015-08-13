@@ -432,13 +432,14 @@ X-Ruvents-Operator: {Id}
                 }
             }
 
-## Список участников [/participants{?since,limit}]
+## Список участников [/participants{?since,limit,Fount}]
 
 ### GET
 
 + Parameters
-    + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены участники, обновленные позднее этой даты
+    + since (optional, string) ... Дата в формате ```Y-m-d H:i:s```. Будут возвращены участники, обновленные позднее этой даты. Для бесшовного получения и обновления списка посетителей мероприяти должно браться из NextSince предыдущего ответа.
     + limit (optional, integer) ... Количество возвращаемых участников. Может быть ограничено сверху внутренними настройками API.
+    + Fount (optional, string) ... Ключ источника незавершённой постраничной выдачи, подставляется из NextFount предыдущего ответа.
 
 + Response 200
 
@@ -487,8 +488,8 @@ X-Ruvents-Operator: {Id}
                         "CreationTime": "2014-10-12 23:04:15"
                     }
                 ],
-                "HasMore": true,
-                "Fount": "c5357478984c2f4c522f84e272eec93b"
+                "NextSince": "2014-10-12 23:04:15"
+                "NextFount": "c5357478984c2f4c522f84e272eec93b"
             }
 
     + Schema
