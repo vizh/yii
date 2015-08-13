@@ -46,13 +46,16 @@ class MainController extends \oauth\components\Controller
                 Yii::app()->user->setIsRecentlyLogin();
             }
             if (!$this->isFrame()) {
-                $this->redirect('/');
+                $this->redirect(
+                    !empty($this->url) ? $this->url : '/'
+                );
             }
+
             if (empty($this->url)) {
                 echo '
-        <script>
-          window.top.modalAuthObj.success();
-        </script>';
+                    <script>
+                        window.top.modalAuthObj.success();
+                    </script>';
                 return;
             } else {
                 $this->redirect($this->url);
@@ -124,7 +127,7 @@ class MainController extends \oauth\components\Controller
                 if (isset($socialProxy) && $socialProxy->isHasAccess()) {
                     $socialProxy->saveSocialData(\Yii::app()->user->getCurrentUser());
                 }
-                $this->redirect($this->createUrl('/oauth/main/dialog'));
+                $this->redirect(['dialog']);
             } else {
                 $authForm->addError('Login', 'Пользователя с такими Эл. почтой или RUNET-ID и паролем не существует.');
             }

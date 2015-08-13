@@ -18,7 +18,9 @@ $device = Yii::app()->mobileDetect;
         <?if (!$device->isMobile()): ?>
           <li class="login"><a id="NavbarLogin" href="#"><?=Yii::t('app', 'Войти');?> / <?=Yii::t('app', 'Зарегистрироваться');?></a></li>
         <?else:?>
-              <li class="login"><a href="<?=Yii::app()->createUrl('/oauth/main/auth');?>"><?=Yii::t('app', 'Войти');?> / <?=Yii::t('app', 'Зарегистрироваться');?></a></li>
+              <li class="login">
+                <?=\CHtml::link(Yii::t('app', 'Войти') . ' / ' . Yii::t('app', 'Зарегистрироваться'), ['/oauth/main/auth', 'url' => $_SERVER['REQUEST_URI']]);?>
+              </li>
         <?endif;?>
       <?else:?>
         <li class="account dropdown">
