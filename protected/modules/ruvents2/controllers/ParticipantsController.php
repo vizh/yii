@@ -55,8 +55,8 @@ class ParticipantsController extends Controller
         if ($user === null)
             throw new Exception(Exception::INVALID_PARTICIPANT_ID, $params->Id);
 
-        if (is_numeric($params->Roles))
-            $this->getEvent()->registerUser($user, Role::model()->findByPk($params->Roles));
+        if ($params->Role)
+            $this->getEvent()->registerUser($user, Role::model()->findByPk($params->Role));
 
         $this->renderJson(
             UserBuilder::create()

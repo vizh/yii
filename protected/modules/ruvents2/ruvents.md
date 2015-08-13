@@ -557,7 +557,13 @@ X-Ruvents-Operator: {Id}
                 "required": ["Participants", "NextSince", "NextFount"]
             }
 
+## Регистрация участника [/participants]
 
+### PUT
+
++ Parameters
+    + Id (required, integer) ... Идентификатор участника
+    + Role (optional, integer) ... Идентификатор роли на мероприятии
 
 ## Создание участника [/participants]
 

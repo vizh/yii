@@ -3,47 +3,65 @@
 namespace ruvents2\models\forms;
 
 use application\components\helpers\ArrayHelper;
-use event\models\Event;
-use ruvents2\components\Exception;
+use event\models\Role;
 use ruvents2\components\form\RequestForm;
 use Yii;
 
+/**
+ * @package ruvents2\models\forms
+ */
 class ParticipantRegisterForm extends RequestForm
 {
     public $Id;
-    public $Roles;
+    public $Role;
+//    public $Roles;
 
     public function rules()
     {
         return [
-            ['Id, Roles', 'required'],
-            ['Roles', 'validateRoles']
+            ['Id', 'required'],
+            ['Id', 'numerical', 'integerOnly' => true, 'min' => 1, 'max' => Yii::app()->params['RuventsMaxResults']],
+            ['Role', 'in', 'range' => ArrayHelper::getColumn($this->getPossibleRoles(), 'Id')],
+//            ['Roles', 'validateRoles']
         ];
     }
 
-    public function validateRoles($attribute)
+//    public function validateRoles($attribute)
+//    {
+//        /** @var Event $event */
+//        /** @noinspection PhpUndefinedMethodInspection */
+//        $event = Yii::app()->getController()->getEvent();
+//        $roles = ArrayHelper::getColumn($this->getPossibleRoles(), 'Id');
+//        /* toDo: Отладить работу с частями */
+//        $parts = $event->Parts;
+//
+//        /* Параметр может является числом, определяющим роль на беспартийное мероприятие. */
+//        if (is_numeric($this->Roles) && !in_array($this->Roles, $roles))
+//            $this->addError($attribute, Exception::getCodeMessage(Exception::INVALID_ROLE_ID, $this->Roles));
+//
+//        /* Параметр может являться ассоциативным массивом, закодированным в json, ключами которого
+//         * являются идентификаторы частей, а значениями - идентификаторы ролей */
+//        if (($jsonData = json_decode($this->Roles, true)) && is_array($jsonData)) {
+//            foreach ($jsonData as $PartId => $RoleId) {
+//                if (!is_numeric($RoleId) || !in_array($RoleId, $roles)) $this->addError($attribute, Exception::getCodeMessage(Exception::INVALID_ROLE_ID, $RoleId));
+//                if (!is_numeric($PartId) || !in_array($PartId, $parts)) $this->addError($attribute, Exception::getCodeMessage(Exception::INVALID_PART_ID, $PartId));
+//            }
+//
+//            if ($this->hasErrors() === false)
+//                $this->Roles = $jsonData;
+//        }
+//    }
+
+    /** @var bool|null|Role[] */
+    private $_possibleRoles = false;
+
+    private function getPossibleRoles()
     {
-        /** @var Event $event */
-        /** @noinspection PhpUndefinedMethodInspection */
-        $event = Yii::app()->getController()->getEvent();
-        $roles = ArrayHelper::getColumn($event->getRoles(), 'Id');
-        /* toDo: Отладить работу с частями */
-        $parts = $event->Parts;
-
-        /* Параметр может является числом, определяющим роль на беспартийное мероприятие. */
-        if (is_numeric($this->Roles) && !in_array($this->Roles, $roles))
-            $this->addError($attribute, Exception::getCodeMessage(Exception::INVALID_ROLE_ID, $this->Roles));
-
-        /* Параметр может являться ассоциативным массивом, закодированным в json, ключами которого
-         * являются идентификаторы частей, а значениями - идентификаторы ролей */
-        if (($jsonData = json_decode($this->Roles, true)) && is_array($jsonData)) {
-            foreach ($jsonData as $PartId => $RoleId) {
-                if (!is_numeric($RoleId) || !in_array($RoleId, $roles)) $this->addError($attribute, Exception::getCodeMessage(Exception::INVALID_ROLE_ID, $RoleId));
-                if (!is_numeric($PartId) || !in_array($PartId, $parts)) $this->addError($attribute, Exception::getCodeMessage(Exception::INVALID_PART_ID, $PartId));
-            }
-
-            if ($this->hasErrors() === false)
-                $this->Roles = $jsonData;
+        if ($this->_possibleRoles === false) {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $this->_possibleRoles = Yii::app()->getController()->getEvent()->getRoles();
         }
+
+        return $this->_possibleRoles;
     }
 }
