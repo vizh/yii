@@ -5,7 +5,7 @@ use CText;
 use event\models\Part;
 use event\models\Role;
 use ruvents2\components\Action;
-use ruvents2\components\data\UserBuilder;
+use ruvents2\components\data\builders\UserBuilder;
 use ruvents2\components\Exception;
 use user\models\forms\RegisterForm;
 use user\models\User;

@@ -4,7 +4,7 @@ namespace ruvents2\controllers;
 
 use event\models\Role;
 use ruvents2\components\Controller;
-use ruvents2\components\data\UserBuilder;
+use ruvents2\components\data\builders\UserBuilder;
 use ruvents2\components\Exception;
 use ruvents2\models\forms\ParticipantRegisterForm;
 use user\models\User;

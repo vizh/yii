@@ -6,8 +6,8 @@ class TestController extends CController
     {
         //$api = 'zrnzd5rs8i';
         //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-        $api = 'khi6a48f8r';
-        $secret = 'eY9bnBeKTetinQG2eGnhahQSR';
+        $api = '6isk9sbt86';
+        $secret = 'iRtzRnTT3sseTdBZeRnkS7KdF';
 
         $params = array(
             'ApiKey' => $api,
@@ -30,7 +30,7 @@ class TestController extends CController
 
         print_r($params);
 
-        $this->apiRequest('/api/iri/expertadd', $params);
+        $this->apiRequest('/api/user/get', $params);
     }
 
     private function apiRequest($url, $params)

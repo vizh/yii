@@ -1,10 +1,12 @@
 <?php
 
-namespace ruvents2\components;
+namespace ruvents2\components\form;
 
 use application\components\helpers\ArrayHelper;
+use ruvents2\components\Exception;
+use Yii;
 
-class FormModel extends \CFormModel
+class RequestForm extends \CFormModel
 {
     public function __construct($scenario = '')
     {
@@ -15,7 +17,7 @@ class FormModel extends \CFormModel
          * запроса, не важно каким образом они были переданы. Возможно, в дальнейшем
          * потребуется уточнение. Или дополнительные шаманства. Например, забрать
          * только $this->getAttributes() */
-        $this->attributes = $_REQUEST;
+        $this->attributes = array_filter(array_merge($_REQUEST, Yii::app()->getRequest()->getRestParams()), 'trim');
 
         /* И сразу же, дабы упростить использование, валидируем. */
         if ($this->validate() === false) {

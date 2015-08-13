@@ -44,6 +44,7 @@ return [
     'PartnerCompetenceResultPerPage' => 20,
 
     /** Ruvents Params */
+    'RuventsFountLifetime' => 3660,
     'RuventsMaxResults' => 500,
 
     /** LittleSms */

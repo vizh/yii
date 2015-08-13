@@ -16,6 +16,17 @@ $modals = '';
     </ul>
     <?php foreach ($grid as $date => $data):?>
         <div class="tab" id="<?=$this->getNameId();?>-<?=$date;?>">
+            <?php if ($this->getEvent()->IdName == 'next2015'): //TODO: Костыль для next2015?>
+                <div class="alert alert-info text-center">
+                    <strong>Место проведения:</strong>
+                    <?php if ($date == '2015-09-21'):?>
+                        ФРИИ Сити Холл, Серебряническая набережная, 29, Бизнес-центр Silver City
+                    <?php else:?>
+                        ГБПОУ "Воробьевы горы", г. Москва, Косыгина, д. 17
+                    <?php endif;?>
+                </div>
+            <?php endif;?>
+
             <table class="table m-bottom_50">
                 <thead>
                 <th></th>

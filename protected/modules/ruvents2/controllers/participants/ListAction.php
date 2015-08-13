@@ -3,150 +3,148 @@ namespace ruvents2\controllers\participants;
 
 use api\models\ExternalUser;
 use application\components\helpers\ArrayHelper;
-use CDbCriteria;
 use ruvents2\components\Action;
-use ruvents2\components\data\UserBuilder;
+use ruvents2\components\data\builders\UserBuilder;
+use ruvents2\components\data\CDbCriteria;
+use ruvents2\models\forms\ParticipantListRequest;
 use user\models\User;
 use Yii;
 
 class ListAction extends Action
 {
-    const MAX_LIMIT = 1000;
-    const PAGE_CACHE_TIME = 60;
-
-    private $limit;
-    private $since;
-    private $fount;
-
-    public function run($since = null, $limit = null)
+    public function run()
     {
-        $this->since = $since;
-        $this->limit = ($limit = intval($limit)) > 0
-            ? min($limit, self::MAX_LIMIT)
-            : self::MAX_LIMIT;
+        $params = new ParticipantListRequest();
 
         $users = User::model()
             ->byEventId($this->getEvent()->Id)
-            ->findAll($this->getDetailedCriteria());
+            ->findAll(
+                CDbCriteria::create()
+                    ->mergeWith($this->getDetailedCriteria($params))
+                    ->addInCondition('t."Id"', $this->getNextExcerptPage($params))
+            );
 
         $builder = UserBuilder::create()
             ->setEvent($this->getEvent())
             ->setApiAccount($this->getApiAccount());
 
-        foreach ($users as &$user) {
+        foreach ($users as &$user)
             $user = $builder->setUser($user)
                 ->build();
-        }
 
         $this->renderJson([
             'Participants' => $users,
-            'NextSince' => $this->since ?: date('Y-m-d H:i:s'),
-            'NextFount' => $this->fount
+            'NextSince' => $params->since,
+            'NextFount' => $params->Fount
         ]);
     }
 
-    private function getNextUsersPage() {
-        $this->fount = Yii::app()->getRequest()->getQuery('Fount', $this->getExcerptHash());
-        $users = Yii::app()->getCache()->get($this->fount);
+    /**
+     * Получает следующую страницу незавершённой постраничной выборки
+     *
+     * @param ParticipantListRequest $params
+     * @return array
+     */
+    private function getNextExcerptPage(ParticipantListRequest $params)
+    {
+        $cache = Yii::app()->getCache();
 
-        if ($users === false)
-            $users = ArrayHelper::columnGet('RunetId',
+        if ($params->Fount)
+        {
+            /* Если имеется ключ незавершённой постраничной навигации, забираем
+             * оставшиеся необработанными идентификаторы оттуда */
+            $users = $cache->get('excerpt:participants:'.$params->Fount);
+        }
+
+        else
+        {
+            /* Выбираем идентификаторы посетителей, удовлетворяющие запросу */
+            $criteria = CDbCriteria::create()
+                ->setSelect('t."Id"')
+                ->setOrder('t."UpdateTime" ASC');
+
+            if ($params->since)
+                $criteria->addConditionWithParams('t."UpdateTime" > :UpdateTime', ['UpdateTime' => $params->since]);
+
+            /* Дата следующего запроса запоминается каждый раз перед выборкой посетителей
+             * Важно, чтобы клиент запрашивал обновления именно с этой даты */
+            $params->since = date('Y-m-d H:i:s');
+
+            $users = ArrayHelper::columnGet('Id',
                 User::model()
                     ->byEventId($this->getEvent()->Id)
-                    ->findAll($this->getBaseCriteria())
+                    ->findAll($criteria)
             );
-
-        $usersPage = array_splice($users, 0, $this->limit);
-
-        if (count($users) > 0) {
-            /* Запомним оставшиеся RunetId для обработки следующим запросом */
-            Yii::app()->getCache()->set($this->fount, $users, self::PAGE_CACHE_TIME);
-        } else {
-            /* Удаляем хранилище с уже обработанными участниками */
-            Yii::app()->getCache()->delete($this->fount);
-            $this->fount = null;
         }
 
-        return $usersPage;
-    }
+        /* Забираем очередную порцию идентификаторов посетителей на обработку */
+        $excerpt = array_splice($users, 0, $params->limit);
 
-    /**
-     * Критерий для быстрой выборки идентификаторов посетителей. Не добавляет связей с другими таблицами,
-     * использует только
-     * @return CDbCriteria
-     */
-    private function getBaseCriteria()
-    {
-        $criteria = new CDbCriteria();
-        $criteria->order = 't."UpdateTime"';
+        if (count($users))
+        {
+            /* Если остались необработанные идентификаторы, то запишем их для следующей обработки */
+            if ($params->Fount === null)
+                $params->Fount = md5(implode([microtime(true), mt_rand()]));;
 
-        if ($this->since !== null) {
-            $criteria->addCondition('t."UpdateTime" >= :UpdateTime');
-            $criteria->params['UpdateTime'] = date('Y-m-d H:i:s', strtotime($this->since));
+            $cache->delete('excerpt:participants:'.$params->Fount);
+            $cache->add('excerpt:participants:'.$params->Fount, $users, Yii::app()->params['RuventsFountLifetime']);
         }
 
-        return $criteria;
+        else
+        {
+            /* Если необработанных посетителей не осталось, - очищаем хранилище */
+            if ($params->Fount) {
+                $cache->delete('excerpt:participants:'.$params->Fount);
+                $params->Fount = null;
+            }
+        }
+
+        return $excerpt;
     }
 
     /**
      * Критерий для выборки данных посетителей.
+     *
+     * @param ParticipantListRequest $params
      * @return CDbCriteria
      */
-    private function getDetailedCriteria()
+    private function getDetailedCriteria(ParticipantListRequest $params)
     {
-        $criteria = $this->getBaseCriteria();
-        $criteria->addInCondition('t."RunetId"', $this->getNextUsersPage());
-        $criteria->limit = $this->limit;
+        $criteria = CDbCriteria::create()
+            ->setLimit($params->limit)
+            ->setWith([
+                'Employments' => ['together' => false],
+                'Employments.Company' => ['together' => false],
+                'LinkPhones.Phone' => ['together' => false],
+                'Badges' => [
+                    'together' => false,
+                    'on' => '"Badges"."EventId" = :EventId',
+                    'params' => ['EventId' => $this->getEvent()->Id]
+                ]
+            ]);
 
-        $criteria->with = [
-            'Employments' => ['together' => false],
-            'Employments.Company' => ['together' => false],
-            'LinkPhones.Phone' => ['together' => false],
-            'Badges' => [
-                'together' => false,
-                'on' => '"Badges"."EventId" = :EventId',
-                'params' => ['EventId' => $this->getEvent()->Id]
-            ]
-        ];
-
-        if ($this->hasExternalId()) {
+        if ($this->hasExternalId())
             $criteria->with['ExternalAccounts'] = [
                 'together' => false,
                 'on' => '"ExternalAccounts"."AccountId" = :AccountId',
                 'params' => ['AccountId' => $this->getApiAccount()->Id]
             ];
-        }
 
         return $criteria;
     }
-
-    /** @var null|bool */
-    private $hasExternalId = null;
 
     /**
      * @return bool
      */
     private function hasExternalId()
     {
-        if ($this->hasExternalId === null)
-            $this->hasExternalId = $this->getApiAccount() !== null
+        static $hasExternalId;
+
+        if ($hasExternalId === null)
+            $hasExternalId = $this->getApiAccount() !== null
                 ? ExternalUser::model()->byAccountId($this->getApiAccount()->Id)->exists()
                 : false;
 
-        return $this->hasExternalId;
-    }
-
-    /**
-     * Генерирует идентификатор выборки для кеширования постраничной отдачи запроса
-     * @return string
-     */
-    private function getExcerptHash()
-    {
-        static $excerpt;
-
-        if ($excerpt == null)
-            $excerpt = md5(implode([microtime(true), self::getOperator()->Id]));
-
-        return $excerpt;
+        return $hasExternalId;
     }
 }

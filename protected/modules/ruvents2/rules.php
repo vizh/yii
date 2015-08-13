@@ -16,12 +16,11 @@ return [
     ],
 
     /** Participants */
-    /* toDo: Убрать register для Role::SERVER */
     [
         'allow',
         'roles' => [Role::SERVER],
         'controllers' => ['participants'],
-        'actions' => ['fields', 'list', 'register']
+        'actions' => ['fields', 'list']
     ],
     [
         'allow',

@@ -69,10 +69,12 @@ class Controller extends \CController
         return $this->event;
     }
 
+    private $apiAccount = false;
+
     /**
      * @return Account|null
      */
-    protected function getApiAccount()
+    public function getApiAccount()
     {
         if ($this->apiAccount === false)
             $this->apiAccount = Account::model()->byEventId($this->getEvent()->Id)->find();

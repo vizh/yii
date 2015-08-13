@@ -5,6 +5,7 @@ use application\components\helpers\ArrayHelper;
 use event\models\section\Hall;
 use event\models\section\UserVisit;
 use ruvents2\components\Controller;
+use ruvents2\components\data\CDbCriteria;
 use ruvents2\components\Exception;
 use user\models\User;
 
@@ -78,19 +79,19 @@ class HallsController extends Controller
     /**
      * @param string $since
      * @param int $limit
-     * @return \CDbCriteria
+     * @return CDbCriteria
      */
     private function getCheckCriteria($since, $limit)
     {
-        $criteria = new \CDbCriteria();
-        $criteria->order = 't."CreationTime"';
-        $criteria->limit = $limit;
+        $criteria = CDbCriteria::create()
+            ->setOrder('t."CreationTime"')
+            ->setLimit($limit);
 
         if ($since !== null) {
             $since = date('Y-m-d H:i:s', strtotime($since));
-            $criteria->addCondition('t."CreationTime" >= :CreationTime');
-            $criteria->params = ['CreationTime' => $since];
+            $criteria->addConditionWithParams('t."CreationTime" >= :CreationTime', ['CreationTime' => $since]);
         }
+
         return $criteria;
     }
 

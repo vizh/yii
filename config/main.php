@@ -82,14 +82,15 @@ $config = CMap::mergeArray($config, require 'ruvents2.php');
 $config['components']['urlManager']['rules'] = CMap::mergeArray($config['components']['urlManager']['rules'], require 'url-rules.php');
 
 if (YII_DEBUG) {
-    $config['components']['cache'] = [
-        'class' => 'CDummyCache'
-    ];
-
     $config['components']['debug'] = [
         'class' => 'ext.yii2-debug.Yii2Debug',
         'allowedIPs' => ['127.0.0.1', '::1', '82.142.129.37 ']
     ];
+    
+    if (YII_DEBUG_DISABLE_CHACHE)
+        $config['components']['cache'] = [
+            'class' => 'CDummyCache'
+        ];
 }
 
 return $config;
