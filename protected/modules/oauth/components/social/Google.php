@@ -5,7 +5,7 @@ class Google implements ISocial
 {
   const ClientId = '467484783673-m9sim31n4l1f746irq3e7ivfjikt9fi1.apps.googleusercontent.com';
   const ClientSecret = 'WoRL8MaNzqAiaa6jXCqwDoyE';
-  
+
   protected $redirectUrl;
   public function __construct($redirectUrl = null)
   {
@@ -19,7 +19,12 @@ class Google implements ISocial
       'response_type' => 'code',
       'scope' => 'email profile',
     ];
-    $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', array('social' => $this->getSocialId(), 'url' => '')) : $this->redirectUrl;
+    $returnUrlParams = [
+        'social' => $this->getSocialId(),
+        'url' => ''
+    ];
+    \Yii::app()->getController()->isFrame() ? $returnUrlParams['frame'] = 'true' : '';
+    $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $returnUrlParams) : $this->redirectUrl;
     return 'https://accounts.google.com/o/oauth2/auth?'.  http_build_query($params);
   }
   
@@ -35,8 +40,7 @@ class Google implements ISocial
       'access_token' => $accessToken->access_token
     ];
     $response = $this->makeRequest('https://www.googleapis.com/oauth2/v3/userinfo?'.http_build_query($params));
-    if (isset($response->error))
-    {
+    if (isset($response->error)) {
       throw new \CHttpException(400, 'Сервис авторизации Google Accounts не отвечает');
     }    
     $data = new Data();
@@ -56,11 +60,9 @@ class Google implements ISocial
   {
     $code = \Yii::app()->getRequest()->getParam('code', null);
     $accessToken = $this->getAccessToken();
-    if (empty($accessToken) && !empty($code))
-    {
+    if (empty($accessToken) && !empty($code)) {
       $accessToken = $this->requestAccessToken($code);
-      if (isset($accessToken->error))
-      {
+      if (isset($accessToken->error)) {
         throw new \CHttpException(400, 'Сервис авторизации Google Account не отвечает');
       }
       \Yii::app()->getSession()->add('google_access_token', $accessToken);
@@ -86,7 +88,12 @@ class Google implements ISocial
       'code' => $code,
       'grant_type' => 'authorization_code'
     );
-    $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', array('social' => $this->getSocialId(), 'url' => '')) : $this->redirectUrl;
+    $returnUrlParams = [
+        'social' => $this->getSocialId(),
+        'url' => ''
+    ];
+    \Yii::app()->getController()->isFrame()  ? $returnUrlParams['frame'] = 'true' : '';
+    $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $returnUrlParams) : $this->redirectUrl;
     return $this->makeRequest('https://accounts.google.com/o/oauth2/token?', $params);
   }
   
@@ -103,8 +110,7 @@ class Google implements ISocial
 
     $opts = self::$CURL_OPTS;
   
-    if (!empty($params))
-    {
+    if (!empty($params)) {
       $opts[CURLOPT_POSTFIELDS] = http_build_query($params, null, '&');
     }
     $opts[CURLOPT_URL] = $url;
@@ -112,8 +118,7 @@ class Google implements ISocial
     curl_setopt_array($ch, $opts);
     $result = curl_exec($ch);
     
-    if (curl_errno($ch) !== 0)
-    {
+    if (curl_errno($ch) !== 0) {
       throw new \CHttpException(400, 'Сервис авторизации Google Account  не отвечает');
     }
     return json_decode($result);
