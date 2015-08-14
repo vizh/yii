@@ -42,10 +42,10 @@ class ListAction extends Action
     /**
      * Получает следующую страницу незавершённой постраничной выборки
      *
-     * @param ParticipantList $params
+     * @param Forms\Participant\Get $params
      * @return array
      */
-    private function getNextExcerptPage(ParticipantList $params)
+    private function getNextExcerptPage(Forms\Participant\Get $params)
     {
         $cache = Yii::app()->getCache();
 
@@ -105,10 +105,10 @@ class ListAction extends Action
     /**
      * Критерий для выборки данных посетителей.
      *
-     * @param ParticipantList $params
+     * @param Forms\Participant\Get $params
      * @return CDbCriteria
      */
-    private function getDetailedCriteria(ParticipantList $params)
+    private function getDetailedCriteria(Forms\Participant\Get $params)
     {
         $criteria = CDbCriteria::create()
             ->setLimit($params->limit)

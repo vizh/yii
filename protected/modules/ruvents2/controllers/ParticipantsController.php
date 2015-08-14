@@ -68,21 +68,17 @@ class ParticipantsController extends Controller
     }
 
     /**
-     * Роутится на DELETE:participants/{runetId}
+     * Роутится на DELETE:participants/{id}
      * @throws Exception
      */
-    public function actionDelete()
+    public function actionDelete($id)
     {
-        $params = new Forms\Participant\Delete();
-
-        $user = User::model()->byRunetId($params->Id)->find();
+        $user = User::model()->byRunetId($id)->find();
 
         if ($user == null)
-            throw new Exception(Exception::INVALID_PARTICIPANT_ID, $params->Id);
+            throw new Exception(Exception::INVALID_PARTICIPANT_ID, $id);
 
-        count($this->getEvent()->Parts) == 0
-            ? $this->getEvent()->unregisterUser($user, 'Запрос через RUVENTS.')
-            : $this->getEvent()->unregisterUserOnAllParts($user, 'Запрос через RUVENTS.');
+        $this->getEvent()->unregisterUser($user, 'Запрос через RUVENTS.');
 
         $this->renderJson([
             'Success' => true

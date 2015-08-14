@@ -111,7 +111,7 @@ class EditAction extends \partner\components\Action
                 } else {
                     $part = Part::model()->findByPk($partId);
                     if ($part !== null) {
-                        $this->getEvent()->unregisterUserOnPart($part, $this->user, $message);
+                        $this->getEvent()->unregisterUserOnPart($this->user, $part, $message);
                     } else {
                         $result['error'] = true;
                     }
