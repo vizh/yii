@@ -1,16 +1,13 @@
 <?php
 
-namespace ruvents2\models\forms;
+namespace ruvents2\models\Forms\Participant;
 
 use application\components\helpers\ArrayHelper;
 use event\models\Role;
 use ruvents2\components\form\RequestForm;
 use Yii;
 
-/**
- * @package ruvents2\models\forms
- */
-class ParticipantRegisterForm extends RequestForm
+class Register extends RequestForm
 {
     public $Id;
     public $Role;

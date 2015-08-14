@@ -6,7 +6,7 @@ use application\components\helpers\ArrayHelper;
 use ruvents2\components\Action;
 use ruvents2\components\data\builders\UserBuilder;
 use ruvents2\components\data\CDbCriteria;
-use ruvents2\models\forms\ParticipantListRequest;
+use ruvents2\models\Forms;
 use user\models\User;
 use Yii;
 
@@ -14,7 +14,7 @@ class ListAction extends Action
 {
     public function run()
     {
-        $params = new ParticipantListRequest();
+        $params = new Forms\Participant\Get();
 
         $users = User::model()
             ->byEventId($this->getEvent()->Id)
@@ -42,10 +42,10 @@ class ListAction extends Action
     /**
      * Получает следующую страницу незавершённой постраничной выборки
      *
-     * @param ParticipantListRequest $params
+     * @param ParticipantList $params
      * @return array
      */
-    private function getNextExcerptPage(ParticipantListRequest $params)
+    private function getNextExcerptPage(ParticipantList $params)
     {
         $cache = Yii::app()->getCache();
 
@@ -105,10 +105,10 @@ class ListAction extends Action
     /**
      * Критерий для выборки данных посетителей.
      *
-     * @param ParticipantListRequest $params
+     * @param ParticipantList $params
      * @return CDbCriteria
      */
-    private function getDetailedCriteria(ParticipantListRequest $params)
+    private function getDetailedCriteria(ParticipantList $params)
     {
         $criteria = CDbCriteria::create()
             ->setLimit($params->limit)
