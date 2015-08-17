@@ -6,147 +6,159 @@
 ?>
 
 <div id="promo" class="b-promo">
-  <div class="container">
-    <img src="/images/logo-large.png" width="448" height="41" alt="-RUNET-ID-" class="logo">
-    <nav class="b-social">
+    <div class="container">
+        <img src="/images/logo-large.png" width="448" height="41" alt="-RUNET-ID-" class="logo">
+        <nav class="b-social">
 
-    </nav>
-    <div class="row">
-      <div class="span6 create-event-banner">
-        <div>
-          <h3>Если есть событие в Рунете &mdash;<br>вы найдете его у нас</h3>
-          <p>Создайте свое мероприятие<br>и&nbsp;начните продавать билеты<br>прямо сейчас</p>
-          <a class="btn btn-large btn-success" href="<?=Yii::app()->createUrl('/page/info/features')?>" onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_CREATE-EVENT'); return true;"><i class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
+        </nav>
+        <div class="row">
+            <div class="span6 create-event-banner">
+                <div>
+                    <h3>Если есть событие в Рунете &mdash;<br>вы найдете его у нас</h3>
+
+                    <p>Создайте свое мероприятие<br>и&nbsp;начните продавать билеты<br>прямо сейчас</p>
+                    <a class="btn btn-large btn-success" href="<?= Yii::app()->createUrl('/page/info/features') ?>"
+                       onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_CREATE-EVENT'); return true;"><i
+                            class="icon-white icon-ok-sign"></i> Создать мероприятие</a>
+                </div>
+            </div>
+            <div class="span6 request-registration-banner">
+                <div>
+                    <h3>Если нужна регистрация<br>участников на месте</h3>
+
+                    <p>Офлайн регистрация участников<br>любой сложности<br>по справедливой стоимости</p>
+                    <a class="btn btn-large btn-info" href="http://bit.ly/1hcOyaG"
+                       onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_REQUEST-REGISTRATION'); return true;"
+                       target="_blank"><i class="icon-white icon-ok-sign"></i> Заказать регистрацию</a>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="span6 request-registration-banner">
-        <div>
-          <h3>Если нужна регистрация<br>участников на месте</h3>
-          <p>Офлайн регистрация участников<br>любой сложности<br>по справедливой стоимости</p>
-          <a class="btn btn-large btn-info" href="http://bit.ly/1hcOyaG"  onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_REQUEST-REGISTRATION'); return true;" target="_blank"><i class="icon-white icon-ok-sign"></i> Заказать регистрацию</a>
+        <div class="row" style="margin-top: 20px;">
+            <div class="span12 create-event-banner">
+                <?=\CHtml::link(\CHtml::image('/images/banners/topevents15.jpg', 'RUNET—ID рукомендует. Главные мероприятия 2015 года', ['style' => 'height: auto; width: 100%;']), 'http://events.runet-id.com/', ['target' => '_blank']); ?>
+            </div>
         </div>
-      </div>
     </div>
-
-      <?/*
-      <div class="row" style="margin-top: 60px;">
-          <div class="span12 create-event-banner">
-              <a href="https://regions.rif.ru/events/novosibirsk/" target="_blank"><img src="/images/banners/rifnsk15.jpg" style="height: auto; width: 100%;"></a>
-          </div>
-      </div>
-      */?>
-  </div>
 </div>
 
 <div class="b-events">
-  <div class="container">
-    <h2 class="b-header_large dark">
-      <div class="line"></div>
-      <div class="container">
-        <div class="title">
-          <span class="backing runet">Runet</span>
-          <span class="backing text">Мероприятия</span>
-        </div>
+    <div class="container">
+        <h2 class="b-header_large dark">
+            <div class="line"></div>
+            <div class="container">
+                <div class="title">
+                    <span class="backing runet">Runet</span>
+                    <span class="backing text">Мероприятия</span>
+                </div>
         <span class="backing url">
-          <a href="<?=Yii::app()->createUrl('/event/list/index');?>">Все мероприятия</a>
+          <a href="<?= Yii::app()->createUrl('/event/list/index'); ?>">Все мероприятия</a>
         </span>
-      </div>
-    </h2>
-    <div class="row">
-
-      <?foreach ($events as $event):?>
-        <div class="event span4">
-          <div class="logo-box">
-            <div class="white">
-              <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>" onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_EVENTS'); return true;"><img src="<?=$event->getLogo()->getSquare70();?>" width="70" height="70" alt="" class="logo"></a>
             </div>
-          </div>
-          <?=$this->renderPartial('index/event-dates', array('event' => $event));?>
-          <header>
-            <h4 class="title">
-              <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>" onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_EVENTS'); return true;"><?=$event->Title;?></a>
-            </h4>
-          </header>
-          <article>
-            <p><?=$event->Info;?></p>
-            <a href="<?=Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName));?>" onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_EVENTS'); return true;">...</a>
-          </article>
-          <footer>
-            <img src="/images/blank.gif" alt="" class="i-event_small <?=$event->Type->CssClass;?>">
-          </footer>
+        </h2>
+        <div class="row">
+
+            <? foreach ($events as $event): ?>
+                <div class="event span4">
+                    <div class="logo-box">
+                        <div class="white">
+                            <a href="<?= Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName)); ?>"
+                               onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_EVENTS'); return true;"><img
+                                    src="<?= $event->getLogo()->getSquare70(); ?>" width="70" height="70" alt=""
+                                    class="logo"></a>
+                        </div>
+                    </div>
+                    <?= $this->renderPartial('index/event-dates', array('event' => $event)); ?>
+                    <header>
+                        <h4 class="title">
+                            <a href="<?= Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName)); ?>"
+                               onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_EVENTS'); return true;"><?= $event->Title; ?></a>
+                        </h4>
+                    </header>
+                    <article>
+                        <p><?= $event->Info; ?></p>
+                        <a href="<?= Yii::app()->createUrl('/event/view/index', array('idName' => $event->IdName)); ?>"
+                           onclick="yaCounter23089027.reachGoal('BANNER_MAINPAGE_EVENTS'); return true;">...</a>
+                    </article>
+                    <footer>
+                        <img src="/images/blank.gif" alt="" class="i-event_small <?= $event->Type->CssClass; ?>">
+                    </footer>
+                </div>
+            <? endforeach; ?>
         </div>
-      <?endforeach;?>
     </div>
-  </div>
 </div>
 
-<?php $this->widget('\application\widgets\News', array('limit' => 3));?>
+<?php $this->widget('\application\widgets\News', array('limit' => 3)); ?>
 
 <div class="b-competences" id="competences">
-  <div class="container">
-    <h2 class="b-header_large medium">
-      <div class="line"></div>
-      <div class="container">
-        <div class="title">
-          <span class="backing runet">Runet</span>
-          <span class="backing text">Компетенции</span>
+    <div class="container">
+        <h2 class="b-header_large medium">
+            <div class="line"></div>
+            <div class="container">
+                <div class="title">
+                    <span class="backing runet">Runet</span>
+                    <span class="backing text">Компетенции</span>
+                </div>
+            </div>
+        </h2>
+        <div class="row">
+            <div class="span6">
+                <article>
+                    <p>Центр компетенций&nbsp;&mdash; это проект RUNET-ID в&nbsp;сфере профессиональной ориентации
+                        пользвоателей&nbsp;Рунета. В&nbsp;скором времени будут доступны более 30 тестов по&nbsp;разным
+                        направлениям в&nbsp;области интернет-технологий.</p>
+                </article>
+            </div>
+            <div class="span6">
+                <article>
+                    <p>По&nbsp;итогам прохождения тестирования Вам будет присвоен балл и&nbsp;выданы рекомендации по&nbsp;повышению
+                        профессиональной деятельности (от&nbsp;литературы, курсов и&nbsp;учебных&nbsp;заведений).</p>
+                </article>
+            </div>
         </div>
-      </div>
-    </h2>
-    <div class="row">
-      <div class="span6">
-        <article>
-          <p>Центр компетенций&nbsp;&mdash; это проект RUNET-ID в&nbsp;сфере профессиональной ориентации пользвоателей&nbsp;Рунета. В&nbsp;скором времени будут доступны более 30 тестов по&nbsp;разным направлениям в&nbsp;области интернет-технологий.</p>
-        </article>
-      </div>
-      <div class="span6">
-        <article>
-          <p>По&nbsp;итогам прохождения тестирования Вам будет присвоен балл и&nbsp;выданы рекомендации по&nbsp;повышению профессиональной деятельности (от&nbsp;литературы, курсов и&nbsp;учебных&nbsp;заведений).</p>
-        </article>
-      </div>
     </div>
-  </div>
 </div>
 
 <div class="b-jobs">
-  <div class="container">
-    <h2 class="b-header_large light">
-      <div class="line"></div>
-      <div class="container">
-        <div class="title">
-          <span class="backing runet">Runet</span>
-          <span class="backing text">Работа</span>
-        </div>
+    <div class="container">
+        <h2 class="b-header_large light">
+            <div class="line"></div>
+            <div class="container">
+                <div class="title">
+                    <span class="backing runet">Runet</span>
+                    <span class="backing text">Работа</span>
+                </div>
         <span class="backing url">
-          <a href="<?=$this->createUrl('/job/default/index');?>">Все вакансии</a>
+          <a href="<?= $this->createUrl('/job/default/index'); ?>">Все вакансии</a>
         </span>
-      </div>
-    </h2>
-    <div class="row units">
-      <?foreach($jobs as $job):?>
-        <div class="job span3">
-          <div class="details">
-            <span class="label label-warning"><?=\Yii::app()->dateFormatter->format('dd MMMM', $job->CreationTime);?></span>
-            <span class="employer"><?=$job->Company->Name;?></span>
-            <span class="fade-rtl"></span>
-          </div>
-          <header>
-            <h4 class="title">
-              <a target="_blank" href="<?=$job->Url;?>"><?=$job->Title;?></a>
-            </h4>
-          </header>
-          <article>
-            <p><?=\application\components\utility\Texts::cropText($job->Text, \Yii::app()->params['JobPreviewLength']);?></p>
-            <a target="_blank" href="<?=$job->Url;?>"><?=\Yii::t('app', 'Ответить на вакансию');?></a>
-          </article>
-          <footer class="salary">
-            <?=$this->renderPartial('job.views.default.job-salary', array('job' => $job));?>
-          </footer>
-          <div class="category">
-            <a href="<?=$this->createUrl('/job/default/index', array('Filter[CategoryId]' => $job->CategoryId));?>"><?=$job->Category->Title;?></a>
-          </div>
+            </div>
+        </h2>
+        <div class="row units">
+            <? foreach ($jobs as $job): ?>
+                <div class="job span3">
+                    <div class="details">
+                        <span
+                            class="label label-warning"><?= \Yii::app()->dateFormatter->format('dd MMMM', $job->CreationTime); ?></span>
+                        <span class="employer"><?= $job->Company->Name; ?></span>
+                        <span class="fade-rtl"></span>
+                    </div>
+                    <header>
+                        <h4 class="title">
+                            <a target="_blank" href="<?= $job->Url; ?>"><?= $job->Title; ?></a>
+                        </h4>
+                    </header>
+                    <article>
+                        <p><?= \application\components\utility\Texts::cropText($job->Text, \Yii::app()->params['JobPreviewLength']); ?></p>
+                        <a target="_blank" href="<?= $job->Url; ?>"><?= \Yii::t('app', 'Ответить на вакансию'); ?></a>
+                    </article>
+                    <footer class="salary">
+                        <?= $this->renderPartial('job.views.default.job-salary', array('job' => $job)); ?>
+                    </footer>
+                    <div class="category">
+                        <a href="<?= $this->createUrl('/job/default/index', array('Filter[CategoryId]' => $job->CategoryId)); ?>"><?= $job->Category->Title; ?></a>
+                    </div>
+                </div>
+            <? endforeach; ?>
         </div>
-      <?endforeach;?>
     </div>
-  </div>
 </div>
