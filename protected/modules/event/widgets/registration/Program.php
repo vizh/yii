@@ -149,6 +149,4 @@ class Program extends ProgramGrid
         \Yii::app()->getClientScript()->registerPackage('jquery.pin');
         parent::registerDefaultResources();
     }
-
-
 }

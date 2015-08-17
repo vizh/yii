@@ -29,6 +29,7 @@ use application\components\ActiveRecord;
  * @method LinkUser byUserId(int $userId)
  * @method LinkUser bySectionId(int $sectionId)
  * @method LinkUser byDeleted(bool $deleted)
+ * @method LinkUser byRoleId(int $roleId)
  */
 class LinkUser extends ActiveRecord
 {
