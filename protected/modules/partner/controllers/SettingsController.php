@@ -7,7 +7,8 @@ class SettingsController extends Controller
     {
         return [
             'roles' => '\partner\controllers\settings\RolesAction',
-            'loyalty' => '\partner\controllers\settings\LoyaltyAction'
+            'loyalty' => '\partner\controllers\settings\LoyaltyAction',
+            'api' => '\partner\controllers\settings\ApiAction'
         ];
     }
 } 

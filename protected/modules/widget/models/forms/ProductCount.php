@@ -13,7 +13,7 @@ class ProductCount extends EventItemCreateUpdateForm
 {
     const SESSION_NAME = 'PRODUCT_COUNT';
 
-    public $Count;
+    public $Count = [];
 
     /**
      * @inheritdoc
@@ -67,7 +67,7 @@ class ProductCount extends EventItemCreateUpdateForm
 
         $result = [];
         foreach ($products as $product) {
-            $item = ArrayHelper::toArray($product, ['pay\models\Product' => ['Id', 'Title', 'Price']]);
+            $item = ArrayHelper::toArray($product, ['pay\models\Product' => ['Id', 'Title', 'Price', 'Description']]);
             $item['count'] = 0;
             $item['participants'] = [];
             $result[$product->Id] = $item;
@@ -97,6 +97,13 @@ class ProductCount extends EventItemCreateUpdateForm
                 $result[$collectionItem->getOrderItem()->ProductId]['participants'][] = $participant;
             }
         }
+
+        $this->unpack();
+        foreach ($this->Count as $id => $count) {
+            if ($count > 0 && ($count - sizeof($result[$id]['participants'])) > 0) {
+                $result[$id]['participants'] = array_pad($result[$id]['participants'], $count, []);
+            }
+        }
     }
 
     /**
@@ -105,5 +112,17 @@ class ProductCount extends EventItemCreateUpdateForm
     public function pack()
     {
         \Yii::app()->getSession()->add(self::SESSION_NAME, $this->getAttributes());
+    }
+
+    public function unpack()
+    {
+        return $this->setAttributes(
+            \Yii::app()->getSession()->get(self::SESSION_NAME)
+        );
+    }
+
+    public function clear()
+    {
+        \Yii::app()->getSession()->remove(self::SESSION_NAME);
     }
 }

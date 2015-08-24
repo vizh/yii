@@ -6,6 +6,7 @@ use pay\components\CodeException as PayCodeException;
 use pay\components\Exception as PayException;
 use pay\models\OrderItem;
 use \application\components\controllers\AjaxController as TraitAjaxController;
+use event\models\UserData;
 
 class AjaxController extends Controller
 {
@@ -69,6 +70,71 @@ class AjaxController extends Controller
         } catch (PayException $e) {
             $result->error = true;
             $result->message = $e->getMessage();
+        }
+        $this->returnJSON($result);
+    }
+
+    /**
+     * @param RUNET-ID пользователя $id
+     * @throws CHttpException
+     */
+    public function actionCheckUserData($id)
+    {
+        $user = User::model()->byRunetId($id)->find();
+        if ($user === null) {
+            throw new \CHttpException(404);
+        }
+
+        $result = new \stdClass();
+        $data = new UserData();
+        $data->EventId = $this->getEvent()->Id;
+        $manager = $data->getManager();
+
+        $result->success = true;
+        if ($manager->hasDefinitions(true)) {
+            $result->attributes = UserData::getDefinedAttributeValues($this->getEvent(), $user);
+            foreach ($manager->getGroups() as $group) {
+                foreach ($group->getDefinitions() as $definition) {
+                    $name = $definition->name;
+                    if (!$definition->public || array_key_exists($name, $result->attributes)) {
+                        continue;
+                    }
+                    $result->success = false;
+                    $result->attributes[$name] = null;
+                }
+            }
+        }
+        $this->returnJSON($result);
+    }
+
+    /**
+     * @param int $runetId
+     * @throws CHttpException
+     */
+    public function actionEditUserData($runetId)
+    {
+        $user = User::model()->byRunetId($runetId)->find();
+        if ($user === null) {
+            throw new \CHttpException(404);
+        }
+
+        /** @var \CHttpRequest $request */
+        $request = \Yii::app()->getRequest();
+
+        $data = new UserData();
+        $data->EventId = $this->getEvent()->Id;
+        $data->UserId = $user->Id;
+        $data->CreatorId = $this->getUser()->Id;
+        $manager = $data->getManager();
+        $manager->setAttributes($request->getParam(get_class($manager)));
+
+        $result = new \stdClass();
+        $result->success = true;
+        if ($manager->validate(null, true)) {
+            $data->save(false);
+        } else {
+            $result->success = false;
+            $result->errors  = $manager->getErrors();
         }
         $this->returnJSON($result);
     }

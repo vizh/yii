@@ -141,8 +141,8 @@ return [
         'css' => ['fotorama.css']
     ],
     'angular' => [
-        'baseUrl' => '/javascripts',
-        'js' => ['angular.min.js']
+        'baseUrl' => '/javascripts/angular',
+        'js' => ['angular.min.js','angular-sanitize.min.js']
     ],
     'runetid.widget.b3' => [
         'baseUrl' => '/',

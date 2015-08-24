@@ -1,5 +1,6 @@
 <?php
 namespace pay\models;
+use application\models\translation\ActiveRecord;
 
 /**
  * @property int $Id
@@ -15,7 +16,7 @@ namespace pay\models;
  * @property bool $PayOnline
  * @property bool $CloudPayments
  * @property bool $MailRuMoney
- * @property int  $OrderTemplateId
+ * @property int $OrderTemplateId
  * @property bool $SandBoxUser
  * @property string $SandBoxUserRegisterUrl
  * @property string $ReceiptName
@@ -33,54 +34,62 @@ namespace pay\models;
  * @property OrderJuridicalTemplate $OrderTemplate
  * @property OrderJuridicalTemplate $ReceiptTemplate
  *
- * @method \pay\models\Account find($condition='',$params=array())
- * @method \pay\models\Account findByPk($pk,$condition='',$params=array())
- * @method \pay\models\Account[] findAll($condition='',$params=array())
+ * @method \pay\models\Account find($condition = '', $params = array())
+ * @method \pay\models\Account findByPk($pk, $condition = '', $params = array())
+ * @method \pay\models\Account[] findAll($condition = '', $params = array())
  *
  */
-class Account extends \CActiveRecord
+class Account extends ActiveRecord
 {
-  /**
-   * @param string $className
-   *
-   * @return Account
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     *
+     * @return Account
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'PayAccount';
-  }
+    public function tableName()
+    {
+        return 'PayAccount';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
+    public function primaryKey()
+    {
+        return 'Id';
+    }
 
-  public function relations()
-  {
-    return array(
-      'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
-      'OrderTemplate' => [self::BELONGS_TO, '\pay\models\OrderJuridicalTemplate', 'OrderTemplateId'],
-      'ReceiptTemplate' => [self::BELONGS_TO, '\pay\models\OrderJuridicalTemplate', 'ReceiptTemplateId'],
-    );
-  }
+    public function relations()
+    {
+        return array(
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'OrderTemplate' => [self::BELONGS_TO, '\pay\models\OrderJuridicalTemplate', 'OrderTemplateId'],
+            'ReceiptTemplate' => [self::BELONGS_TO, '\pay\models\OrderJuridicalTemplate', 'ReceiptTemplateId'],
+        );
+    }
 
-  /**
-   * @param int $eventId
-   * @param bool $useAnd
-   *
-   * @return Account
-   */
-  public function byEventId($eventId, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."EventId" = :EventId';
-    $criteria->params = array('EventId' => $eventId);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    /**
+     * @param int $eventId
+     * @param bool $useAnd
+     *
+     * @return Account
+     */
+    public function byEventId($eventId, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."EventId" = :EventId';
+        $criteria->params = array('EventId' => $eventId);
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTranslationFields()
+    {
+        return ['OrderDisableMessage'];
+    }
 }

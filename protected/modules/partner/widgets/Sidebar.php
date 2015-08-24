@@ -116,7 +116,8 @@ class Sidebar extends \CWidget
             ['label' => 'Программа', 'icon' => 'th', 'url' => ['program/index']],
             ['label' => 'Настройки', 'icon' => 'cog', 'url' => ['settings/roles'], 'items' => [
                 ['label' => 'Статусы', 'url' => ['settings/roles']],
-                ['label' => 'Программа лояльности', 'url' => ['settings/loyalty']]
+                ['label' => 'Программа лояльности', 'url' => ['settings/loyalty']],
+                ['label' => 'API', 'url' => ['settings/api']]
             ]],
         ];
         return $items;

@@ -5,7 +5,7 @@ return [
         'users' => ['@'],
         'module' => 'pay',
         'controllers' => ['ajax'],
-        'actions' => ['addorderitem', 'deleteorderitem']
+        'actions' => ['addorderitem', 'deleteorderitem', 'checkuserdata']
     ],
     [
         'allow',

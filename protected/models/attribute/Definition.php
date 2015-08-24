@@ -1,6 +1,6 @@
 <?php
 namespace application\models\attribute;
-use application\components\ActiveRecord;
+use \application\models\translation\ActiveRecord;
 
 /**
  * Class Definition
@@ -109,4 +109,12 @@ class Definition extends ActiveRecord
         $this->cachedParams = $params;
         $this->Params = count($params) > 0 ? json_encode($params, JSON_UNESCAPED_UNICODE) : null;
     }
-} 
+
+    /**
+     * @return string[]
+     */
+    public function getTranslationFields()
+    {
+        return ['Title'];
+    }
+}

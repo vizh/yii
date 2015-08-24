@@ -134,4 +134,29 @@ class UserData extends ActiveRecord
         $attributeNames = array_unique($attributeNames);
         return $attributeNames;
     }
+
+
+    /**
+     * @param Event $event
+     * @param User $user
+     * @return array
+     */
+    public static function getDefinedAttributeValues(Event $event, User $user)
+    {
+        $values = [];
+
+        $userDataModels = $event->getUserData($user);
+        if (!empty($userDataModels)) {
+            foreach ($userDataModels as $userData) {
+                $manager = $userData->getManager();
+                foreach ($manager->getDefinitions() as $definition) {
+                    $name = $definition->name;
+                    if (!isset($values[$name]) && !empty($manager->$name)) {
+                        $values[$name] = $manager->$name;
+                    }
+                }
+            }
+        }
+        return $values;
+    }
 } 

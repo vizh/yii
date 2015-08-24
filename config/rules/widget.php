@@ -11,7 +11,7 @@ return [
         'allow',
         'users' => ['*'],
         'module' => 'widget',
-        'controllers' => ['pay', 'link', 'speaker', 'test', 'register', 'auth']
+        'controllers' => ['pay', 'link', 'speaker', 'test', 'auth']
     ],
     [
         'allow',
@@ -19,5 +19,19 @@ return [
         'module' => 'widget',
         'controllers' => ['paybuttons'],
         'actions' => ['index', 'juridical', 'success']
+    ],
+    [
+        'allow',
+        'users' => ['*'],
+        'module' => 'widget',
+        'controllers' => ['registration'],
+        'actions' => ['index']
+    ],
+    [
+        'allow',
+        'users' => ['@'],
+        'module' => 'widget',
+        'controllers' => ['registration'],
+        'actions' => ['participants', 'complete']
     ]
 ];

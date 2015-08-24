@@ -154,6 +154,20 @@ class Account extends \CActiveRecord
     }
 
     /**
+     * Домены для внутренего использования
+     * @return array
+     */
+    private function getInternalDomains()
+    {
+        return [
+            RUNETID_HOST,
+            'partner.' . RUNETID_HOST,
+            'www.' . RUNETID_HOST,
+            'www.partner.' . RUNETID_HOST,
+        ];
+    }
+
+    /**
      * @param string $url
      *
      * @return bool
@@ -169,20 +183,20 @@ class Account extends \CActiveRecord
             return false;
         }
 
-        foreach ($this->Domains as $domain) {
+        $domains = array_merge(\CHtml::listData($this->Domains, 'Id', 'Domain'), $this->getInternalDomains());
+        foreach ($domains as $domain) {
             if ($path === '/widget/pay/auth/') {
                 $query = parse_url($url, PHP_URL_QUERY);
-                if (stripos($query, $domain->Domain) !== false) {
+                if (stripos($query, $domain) !== false) {
                     return true;
                 }
-            }
-            elseif ($domain->Domain[0] === '*') {
-                $needle = substr($domain->Domain, 2);
+            } elseif ($domain[0] === '*') {
+                $needle = substr($domain, 2);
                 if (stripos($host, $needle) !== false) {
                     return true;
                 }
             } else {
-                $pattern = '/^' . $domain->Domain . '$/i';
+                $pattern = '/^' . $domain . '$/i';
                 if (preg_match($pattern, $host) === 1) {
                     return true;
                 }
