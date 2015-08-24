@@ -41,20 +41,28 @@ class Base extends MailLayout
      */
     private function getRegisterMail()
     {
-        if ($this->registerMail === null) {
-            $mails = isset($this->event->MailRegister) ? unserialize(base64_decode($this->event->MailRegister)) : [];
+        if ($this->registerMail === null && $this->hasRegisterMail()) {
+            $mails = unserialize(base64_decode($this->event->MailRegister));
             foreach ($mails as $mail) {
-                $inExcept = in_array($this->role->Id, $mail->RolesExcept);
-                $part1 = in_array($this->role->Id, $mail->Roles) && !$inExcept;
-                $part2 = $this->registerMail == null && empty($mail->Roles) && empty($mail->RolesExcept);
-                $part3 = empty($mail->Roles) && !empty($mail->RolesExcept) && !$inExcept;
-                if ($part1 || $part2 || $part3)
-                {
+                $conditionInExcept = in_array($this->role->Id, $mail->RolesExcept);
+                $condition1 = in_array($this->role->Id, $mail->Roles) && !$conditionInExcept;
+                $condition2 = $this->registerMail == null && empty($mail->Roles) && empty($mail->RolesExcept);
+                $condition3 = empty($mail->Roles) && !empty($mail->RolesExcept) && !$conditionInExcept;
+                if ($condition1 || $condition2 || $condition3) {
                     $this->registerMail = $mail;
                 }
             }
         }
         return $this->registerMail;
+    }
+
+    /**
+     * Возвращает true, если у мероприятия заданы регистрационные письма
+     * @return bool
+     */
+    private function hasRegisterMail()
+    {
+        return isset($this->event->MailRegister);
     }
 
     /**
@@ -104,16 +112,19 @@ class Base extends MailLayout
             'role' => $this->role
         ];
 
-        if ($this->getRegisterMail() === null) {
-            if ($this->role->Id != Role::VIRTUAL_ROLE_ID) {
-               $viewName = 'event.views.mail.register.base';
-            } else {
-                return null;
+        $viewName = null;
+        if ($this->hasRegisterMail()) {
+            if ($this->getRegisterMail() !== null) {
+                $viewName = $this->getRegisterMail()->getViewName();
             }
-        } else {
-            $viewName = $this->getRegisterMail()->getViewName();
+        } elseif ($this->role->Id != Role::VIRTUAL_ROLE_ID) {
+            $viewName = 'event.views.mail.register.base';
         }
-        return $this->renderBody($viewName, $params);
+
+        if ($viewName !== null) {
+            return $this->renderBody($viewName, $params);
+        }
+        return null;
     }
 
     /**
