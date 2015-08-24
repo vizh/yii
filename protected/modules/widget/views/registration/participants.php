@@ -51,7 +51,7 @@ $clientScript->registerPackage('runetid.jquery.inputmask-multi');
                         <div ng-if="!participant.userdata">
                             <div class="alert alert-danger" ng-if="participant.error !== undefined">{{participant.error}}</div>
                             <div class="row">
-                                <div ng-class="participant.discount !== undefined && participant.discount ? 'col-xs-7 col-lg-8' : 'col-xs-9'">
+                                <div class="{{getParticipantClass(participant)}}">
                                     <div class="input-group">
                                         <input type="text" readonly="readonly" value="{{participant.FullName}}, RUNET-ID {{participant.RunetId}}" class="form-control"/>
                                         <span class="input-group-btn">
@@ -84,11 +84,11 @@ $clientScript->registerPackage('runetid.jquery.inputmask-multi');
                     <div ng-if="participant.RunetId == undefined">
                         <div ng-if="participant.registration == undefined || !participant.registration">
                             <div class="alert alert-danger" ng-if="participant.error !== undefined">{{participant.error}}</div>
-                            <div class="control-group">
+                            <div class="control-group" style="width: 100%;">
                                 <input type="text" placeholder="Введите ФИО или RUNET-ID" userautocomplete data-product="{{product}}" data-index="{{$index}}" class="form-control"/>
-                                <div class="input-group-btn hide">
+                                <span class="input-group-btn hide">
                                     <button class="btn btn-info" type="button" ng-click="showRegistrationForm(participant)"><?=\Yii::t('app', 'Новый пользователь');?></button>
-                                </div>
+                                </span>
                             </div>
                         </div>
 

@@ -112,6 +112,10 @@ CRegistrationUsers.prototype = {
                 })
             }
 
+            $scope.getParticipantClass = function (participant) {
+                return (typeof(participant.discount) != "undefined" && participant.discount) ? 'col-xs-7 col-lg-8' : 'col-xs-9';
+            }
+
             $scope.calculate = function () {
                 var totalFilled = 0;
 
