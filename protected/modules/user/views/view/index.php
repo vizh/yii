@@ -136,8 +136,11 @@
                                 <div id="user-account-tab_career" class="tab b-career">
                                     <?foreach ($employmentHistory as $employments):?>
                                         <dl class="dl-horizontal">
-                                            <?$startYear = $employments[sizeof($employments)-1]->StartYear;?>
-                                            <dt><?=$startYear;?></dt>
+                                            <?php
+                                            $start = $employments[sizeof($employments)-1]->StartYear;
+                                            $end = $employments[0]->EndYear;
+                                            ?>
+                                            <dt><?=$start;?> &mdash; <?=!empty($end) ? $end : \Yii::t('app', 'н.в.');?></dt>
                                             <dd>
                                                 <h6 class="b-career_company"><a href="<?=$employments[0]->Company->getUrl();?>" itemprop="memberOf"><?=$employments[0]->Company->Name;?></a></h6>
                                                 <?foreach ($employments as $employment):?>
