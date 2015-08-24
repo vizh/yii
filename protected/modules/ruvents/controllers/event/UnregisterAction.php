@@ -29,7 +29,7 @@ class UnregisterAction extends \ruvents\components\Action
      */
     if (count($event->Parts) > 0 && !$partId)
     {
-      $event->unregisterUserOnAllParts($user);
+      $event->unregisterUser($user);
       $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', '', 'Отмена участия со всех частей.'));
       $this->renderJson(['Success' => true]);
       return;

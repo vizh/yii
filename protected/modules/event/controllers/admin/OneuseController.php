@@ -4,6 +4,18 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
+    public function actionInviteGenerator()
+    {
+        for ($i= 0; $i <= 30; $i++) {
+            $invite = new \event\models\Invite();
+            $invite->EventId = 2114;
+            $invite->RoleId  = 1;
+            $invite->Code = \application\components\utility\Texts::GenerateString(12);
+            $invite->save();
+            echo $invite->Code . '<br/>';
+        }
+    }
+
     /** Создает частие мероприятий и товары для них на основе программы */
     public function actionSectionToEventPart()
     {

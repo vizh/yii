@@ -1,12 +1,12 @@
 <?php
 
-namespace ruvents2\models\forms;
+namespace ruvents2\models\Forms\Participant;
 
 use ruvents2\components\Exception;
 use ruvents2\components\form\RequestForm;
 use Yii;
 
-class ParticipantListRequest extends RequestForm
+class Get extends RequestForm
 {
     public $since;
     public $limit;

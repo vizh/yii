@@ -6,7 +6,7 @@ use event\models\Role;
 use ruvents2\components\Controller;
 use ruvents2\components\data\builders\UserBuilder;
 use ruvents2\components\Exception;
-use ruvents2\models\forms\ParticipantRegisterForm;
+use ruvents2\models\Forms;
 use user\models\User;
 use Yii;
 
@@ -46,7 +46,7 @@ class ParticipantsController extends Controller
      */
     public function actionRegister()
     {
-        $params = new ParticipantRegisterForm();
+        $params = new Forms\Participant\Register();
 
         $user = User::model()
             ->byRunetId($params->Id)
@@ -68,24 +68,20 @@ class ParticipantsController extends Controller
     }
 
     /**
-     * Роутится на DELETE:participants/{runetId}
-     * @param int $runetId
+     * Роутится на DELETE:participants/{id}
      * @throws Exception
      */
-    public function actionDelete($runetId)
+    public function actionDelete($id)
     {
-        $user = User::model()->byRunetId($runetId)->find();
-        if ($user == null) {
-            throw new Exception(Exception::INVALID_PARTICIPANT_ID, $runetId);
-        }
+        $user = User::model()->byRunetId($id)->find();
 
-        if (count($this->getEvent()->Parts) == 0) {
-            $this->getEvent()->unregisterUser($user, 'Запрос через RUVENTS.');
-        } else {
-            $this->getEvent()->unregisterUserOnAllParts($user, 'Запрос через RUVENTS.');
-        }
+        if ($user == null)
+            throw new Exception(Exception::INVALID_PARTICIPANT_ID, $id);
 
+        $this->getEvent()->unregisterUser($user, 'Запрос через RUVENTS.');
 
-        $this->renderJson('');
+        $this->renderJson([
+            'Success' => true
+        ]);
     }
 }

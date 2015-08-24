@@ -18,7 +18,7 @@ return [
                 ['ruvents2/participants/register', 'pattern' => RUVENTS_API_HOST.'/participants',               'verb' => 'PUT'   ],
                 ['ruvents2/participants/create',   'pattern' => RUVENTS_API_HOST.'/participants',               'verb' => 'POST'  ],
                 ['ruvents2/participants/edit',     'pattern' => RUVENTS_API_HOST.'/participants/<runetId:\d+>', 'verb' => 'PUT'   ],
-                ['ruvents2/participants/delete',   'pattern' => RUVENTS_API_HOST.'/participants/<runetId:\d+>', 'verb' => 'DELETE'],
+                ['ruvents2/participants/delete',   'pattern' => RUVENTS_API_HOST.'/participants/<id:\d+>',      'verb' => 'DELETE'],
                 ['ruvents2/users/list',            'pattern' => RUVENTS_API_HOST.'/users',                      'verb' => 'GET'   ],
                 ['ruvents2/badges/list',           'pattern' => RUVENTS_API_HOST.'/badges',                     'verb' => 'GET'   ],
                 ['ruvents2/badges/create',         'pattern' => RUVENTS_API_HOST.'/badges',                     'verb' => 'POST'  ],

@@ -1,6 +1,6 @@
 var RIdWidget = new function () {
   function RIdWidget(container) {
-    this.baseUrl = 'http://runet-id.com/widget/main/index';
+    this.baseUrl = 'http://runet-id.loc/widget/main/index';
     this.url = document.location;
     this.container = container;
     this.apiKey = container.getAttribute('data-apikey');

@@ -15,8 +15,12 @@ class ActiveRecord extends \CActiveRecord
                 if ($schema->getColumn($column)->dbType !== 'boolean') {
                     $value = $parameters[0];
                     if ($value !== null) {
-                        $criteria->addCondition('"t"."' . $column . '" = :'.$column);
-                        $criteria->params[$column] = $value;
+                        if (is_array($value)) {
+                            $criteria->addInCondition('"t"."' . $column . '"', $value);
+                        } else {
+                            $criteria->addCondition('"t"."' . $column . '" = :'.$column);
+                            $criteria->params[$column] = $value;
+                        }
                     } else {
                         $criteria->addCondition('"t"."' . $column . '" IS NULL');
                     }

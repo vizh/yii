@@ -2,17 +2,14 @@
 namespace event\models;
 
 use api\components\callback\Base;
+use application\components\Exception;
 use application\components\Image;
+use application\components\socials\facebook\Event as SocialEvent;
 use application\models\translation\ActiveRecord;
-use \mail\components\mailers\MandrillMailer;
+use contact\models\Site;
+use mail\components\mailers\MandrillMailer;
 use search\components\interfaces\ISearch;
 use user\models\User;
-
-use \application\components\Exception;
-use \event\models\ParticipantLog;
-use \contact\models\Site;
-use \event\models\LinkAddress;
-use \application\components\socials\facebook\Event as SocialEvent;
 
 /**
  * @property int $Id
@@ -462,28 +459,10 @@ class Event extends ActiveRecord implements ISearch
      * @param null $message
      * @throws Exception
      */
-    public function unregisterUser (User $user, $message = null)
+    public function unregisterUser(User $user, $message = null)
     {
-        if (!empty($this->Parts)) {
-            throw new Exception('Данное мероприятие имеет логическую разбивку. Используйте метод удаления участия на конкретную часть мероприятия.');
-        }
-        $participant = Participant::model()
-            ->byEventId($this->Id)->byUserId($user->Id)->find();
-        if ($participant !== null) {
-            $this->saveRegisterLog($user, null, null, $message);
-            $participant->delete();
-        }
-    }
-
-    /**
-     * @param User $user
-     * @param null $message
-     * @throws Exception
-     */
-    public function unregisterUserOnAllParts(User $user, $message = null)
-    {
-        foreach ($this->Parts as $part) {
-            $this->unregisterUserOnPart($part, $user, $message);
+        foreach ($this->Parts ?: [null] as $part) {
+            $this->unregisterUserOnPart($user, $part, $message);
         }
     }
 
@@ -493,14 +472,19 @@ class Event extends ActiveRecord implements ISearch
      * @param null $message
      * @throws Exception
      */
-    public function unregisterUserOnPart(Part $part, User $user, $message = null)
+    public function unregisterUserOnPart(User $user, Part $part = null, $message = null)
     {
-        if (empty($this->Parts)) {
-            throw new Exception('Данное мероприятие не имеет логической разбивки. Используйте метод удаления участия на все мероприятие.');
-        }
-        /** @var $participant Participant */
         $participant = Participant::model()
-            ->byEventId($this->Id)->byUserId($user->Id)->byPartId($part->Id)->find();
+            ->byEventId($this->Id)
+            ->byUserId($user->Id)
+            ->find();
+
+        if ($part !== null) {
+            $participant->byPartId($part->Id);
+        }
+
+        $participant = $participant->find();
+
         if ($participant !== null) {
             $this->saveRegisterLog($user, null, $part, $message);
             $participant->delete();

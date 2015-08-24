@@ -4,12 +4,12 @@ namespace partner\models\forms\program;
 use application\components\form\CreateUpdateForm;
 use application\helpers\Flash;
 use company\models\Company;
+use event\models\Role as EventRole;
 use event\models\section\LinkUser;
 use event\models\section\Report;
 use event\models\section\Role;
 use event\models\section\Section;
 use user\models\User;
-use event\models\Role as EventRole;
 
 class Participant extends CreateUpdateForm
 {
@@ -260,11 +260,7 @@ class Participant extends CreateUpdateForm
         $event = $this->section->Event;
         $existLink = LinkUser::model()->byEventId($event->Id)->byUserId($user->Id)->byDeleted(false)->exists();
         if (!$existLink) {
-            if (!empty($event->Parts)) {
-                $event->unregisterUserOnAllParts($user, self::UNREGISTER_MESSAGE);
-            } else {
-                $event->unregisterUser($user, self::UNREGISTER_MESSAGE);
-            }
+            $event->unregisterUser($user, self::UNREGISTER_MESSAGE);
         }
     }
 }
