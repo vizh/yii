@@ -136,11 +136,6 @@
                                 <div id="user-account-tab_career" class="tab b-career">
                                     <?foreach ($employmentHistory as $employments):?>
                                         <dl class="dl-horizontal">
-                                            <?php
-                                            $start = $employments[sizeof($employments)-1]->StartYear;
-                                            $end = $employments[0]->EndYear;
-                                            ?>
-                                            <dt><?=$start;?> &mdash; <?=!empty($end) ? $end : \Yii::t('app', 'н.в.');?></dt>
                                             <dd>
                                                 <h6 class="b-career_company"><a href="<?=$employments[0]->Company->getUrl();?>" itemprop="memberOf"><?=$employments[0]->Company->Name;?></a></h6>
                                                 <?foreach ($employments as $employment):?>
@@ -159,6 +154,15 @@
                                                     <?endif;?>
                                                 <?endforeach;?>
                                             </dd>
+                                            <?php
+                                            $start = $employments[sizeof($employments)-1]->StartYear;
+                                            $end = $employments[0]->EndYear;
+                                            ?>
+                                            <?php if (!empty($start)):?>
+                                                <dt><?=$start;?> &mdash; <?=!empty($end) ? $end : \Yii::t('app', 'н.в.');?></dt>
+                                            <?php elseif (!empty($end)):?>
+                                                <dt><?=\Yii::t('app', 'до');?> <?=$end;?></dt>
+                                            <?php endif;?>
                                         </dl>
                                     <?endforeach;?>
                                 </div>

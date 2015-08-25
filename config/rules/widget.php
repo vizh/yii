@@ -32,6 +32,6 @@ return [
         'users' => ['@'],
         'module' => 'widget',
         'controllers' => ['registration'],
-        'actions' => ['participants', 'complete']
+        'actions' => ['participants', 'complete', 'pay', 'juridical']
     ]
 ];

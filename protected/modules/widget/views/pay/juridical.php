@@ -8,11 +8,7 @@
 <section id="section" role="main">
   <div class="row-fluid">
     <div class="span12">
-
-      <h3><?=Yii::t('app', 'Выставление счета');?></h3>
-
-      <h5><?=Yii::t('app', 'Заполните данные юридического лица');?></h5>
-
+      <h3 class="text-center"><?=Yii::t('app', 'Выставление счета');?></h3>
       <?=CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
 
       <?=CHtml::beginForm('', 'POST', array('class' => 'form-horizontal m-top_40'));?>
@@ -54,7 +50,7 @@
         </div>
       </div>
 
-        <div class="pull-right">
+        <div class="text-center">
             <a class="btn" href="<?=$this->createUrl('/widget/pay/cabinet');?>">
                 <i class="icon-circle-arrow-left"></i>
                 <?=\Yii::t('app', 'Назад');?>

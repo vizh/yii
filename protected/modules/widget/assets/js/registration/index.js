@@ -16,6 +16,9 @@ CRegistrationIndex.prototype = {
                 $scope.total = 0;
                 $.each($scope.products, function (id, product) {
                     product.total = product.count * product.Price;
+
+
+
                     $scope.total += product.total;
                 });
             }, true);

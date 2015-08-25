@@ -9,6 +9,12 @@ use pay\models\OrderJuridical;
 use pay\models\OrderType;
 use user\models\User;
 
+/**
+ * Class Juridical
+ * @package pay\models\forms
+ *
+ * @method OrderJuridical getActiveRecord()
+ */
 class Juridical extends CreateUpdateForm
 {
     public $Name;

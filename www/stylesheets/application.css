@@ -2304,7 +2304,8 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 
 .user-account .b-card .b-career .dl-horizontal dt {width: 90px;}
 .user-account .b-card .b-contacts .dl-horizontal dt {width: 80px;}
-.user-account .b-card .b-career .dl-horizontal dd {margin-left: 90px;}
+.user-account .b-card .b-career .dl-horizontal dd {margin-left: 0px; float: left; clear: left; width: 170px;}
+.user-account .b-card .b-career .dl-horizontal dt {clear: none; float: none; padding-left: 10px;}
 .user-account .b-card .b-contacts .dl-horizontal dd {margin-left: 100px;}
 
 

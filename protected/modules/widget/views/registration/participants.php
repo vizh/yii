@@ -158,7 +158,7 @@ $clientScript->registerPackage('runetid.jquery.inputmask-multi');
     </table>
 
     <div class="text-center" ng-if="showPayBtn">
-        <?=\CHtml::link(\Yii::t('app', 'Перейти к оплате'), ['/pay/cabinet/index', 'eventIdName' => $this->getEvent()->IdName], ['class' => 'btn btn-primary btn-lg', 'target' => '_top']);?>
+        <?=\CHtml::link(\Yii::t('app', 'Перейти к оплате'), ['pay'], ['class' => 'btn btn-primary btn-lg']);?>
     </div>
     <div class="text-center" ng-if="showRegisterBtn">
         <?=\CHtml::link(\Yii::t('app', 'Зарегистрировать'), ['complete'], ['class' => 'btn btn-primary btn-lg']);?>

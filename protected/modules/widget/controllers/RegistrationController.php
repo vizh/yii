@@ -3,9 +3,10 @@ use widget\components\Controller;
 
 use \widget\models\forms\ProductCount as ProductCountForm;
 use pay\components\collection\Finder;
-use pay\models\Order;
 use event\models\Participant;
 use pay\components\OrderItemCollectable;
+use pay\models\Account as PayAccount;
+use pay\models\forms\Juridical as JuridicalForm;
 
 class RegistrationController extends Controller
 {
@@ -44,6 +45,44 @@ class RegistrationController extends Controller
             'form' => $form,
             'finder' => $this->getFinder()
         ]);
+    }
+
+    /**
+     * Страница оплаты выставленных заказов
+     */
+    public function actionPay()
+    {
+        $collection = $this->getFinder()->getUnpaidFreeCollection();
+        if (sizeof($collection) === 0) {
+            $this->redirect(['participants']);
+        }
+
+        $account = PayAccount::model()->byEventId($this->getEvent()->Id)->find();
+        $form = new ProductCountForm($this->getEvent());
+        $form->clear();
+        $this->render('pay', ['form' => $form, 'account' => $account]);
+    }
+
+    /**
+     * Выставление юр. счета
+     */
+    public function actionJuridical()
+    {
+        $form = new JuridicalForm();
+        if (\Yii::app()->getRequest()->getIsPostRequest()) {
+            $form->fillFromPost();
+            $form->user  = $this->getUser();
+            $form->event = $this->getEvent();
+            if ($form->createActiveRecord() !== null) {
+                echo '
+                    <script>
+                        top.location.href=\''. $form->getActiveRecord()->Order->getUrl() .'\';
+                    </script>
+                ';
+                \Yii::app()->end();
+            }
+        }
+        $this->render('juridical', ['form' => $form]);
     }
 
     /**
