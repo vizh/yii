@@ -23,7 +23,7 @@ class Google implements ISocial
         'social' => $this->getSocialId(),
         'url' => ''
     ];
-    \Yii::app()->getController()->isFrame() ? $returnUrlParams['frame'] = 'true' : '';
+    \Iframe::isFrame() ? $returnUrlParams['frame'] = 'true' : '';
     $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $returnUrlParams) : $this->redirectUrl;
     return 'https://accounts.google.com/o/oauth2/auth?'.  http_build_query($params);
   }
@@ -92,7 +92,7 @@ class Google implements ISocial
         'social' => $this->getSocialId(),
         'url' => ''
     ];
-    \Yii::app()->getController()->isFrame()  ? $returnUrlParams['frame'] = 'true' : '';
+    \Iframe::isFrame() ? $returnUrlParams['frame'] = 'true' : '';
     $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $returnUrlParams) : $this->redirectUrl;
     return $this->makeRequest('https://accounts.google.com/o/oauth2/token?', $params);
   }
@@ -134,4 +134,5 @@ class Google implements ISocial
       }
       </script>';
   }
+
 }

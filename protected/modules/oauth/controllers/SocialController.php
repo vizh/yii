@@ -50,7 +50,7 @@ class SocialController extends \oauth\components\Controller
         $socialProxy = new \oauth\components\social\Proxy($this->social);
         if ($socialProxy->isHasAccess())
         {
-            if ($this->isFrame()) {
+            if (\Iframe::isFrame()) {
                 $socialProxy->renderScript();
             }
             else {

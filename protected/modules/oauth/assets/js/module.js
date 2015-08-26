@@ -25,14 +25,6 @@ OAuthModule.prototype.init = function()
 {
   var self = this;
 
-  $('#fb_login').on('click', function(e){
-      if (isUserEditAction())
-      {
-          e.preventDefault();
-          self.twiLogin($(e.currentTarget).attr('href'));
-      }
-  });
-
   $('#twi_login').on('click', function(e){
       if (isFrame() || isUserEditAction() )
       {
@@ -42,7 +34,7 @@ OAuthModule.prototype.init = function()
   });
 
   $('#vk_login').on('click', function(e){
-      if (isUserEditAction())
+      if (isFrame() || isUserEditAction())
       {
           e.preventDefault();
           self.twiLogin($(e.currentTarget).attr('href'));

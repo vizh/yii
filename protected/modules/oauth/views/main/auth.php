@@ -10,7 +10,7 @@
 <?
 //Праметры для редиректа
 $params = [];
-$this->isFrame() ? $params['frame'] = 'true' : '';
+\Iframe::isFrame() ? $params['frame'] = 'true' : '';
 ?>
 
 <div id="fb-root"></div>

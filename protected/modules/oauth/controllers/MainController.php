@@ -37,7 +37,7 @@ class MainController extends \oauth\components\Controller
      *
      * Редиректит на главную страницу если не во фрейме
      * или закрывает окно фрэйма
-    */
+     */
 
     public function actionDialog()
     {
@@ -45,9 +45,9 @@ class MainController extends \oauth\components\Controller
             if (!Yii::app()->user->isGuest) {
                 Yii::app()->user->setIsRecentlyLogin();
             }
-            if (!$this->isFrame()) {
+            if (!\Iframe::isFrame()) {
                 $this->redirect(
-                    !empty($this->url) ? $this->url : '/'
+                    '/'
                 );
             }
 
@@ -127,7 +127,7 @@ class MainController extends \oauth\components\Controller
                 if (isset($socialProxy) && $socialProxy->isHasAccess()) {
                     $socialProxy->saveSocialData(\Yii::app()->user->getCurrentUser());
                 }
-                $this->redirect(['dialog']);
+                $this->redirect($this->createUrl('/oauth/main/dialog'));
             } else {
                 $authForm->addError('Login', 'Пользователя с такими Эл. почтой или RUNET-ID и паролем не существует.');
             }
@@ -187,7 +187,7 @@ class MainController extends \oauth\components\Controller
                 }
                 Log::create($user);
                 $params = [];
-                $this->isFrame() ? $params['frame'] = 'true' : '';
+                \Iframe::isFrame() ? $params['frame'] = 'true' : '';
                 $this->redirect($this->createUrl('/oauth/main/dialog', $params));
             } else {
                 throw new Exception('Не удалось пройти авторизацию после регистрации. Код ошибки: ' . $identity->errorCode);
@@ -224,7 +224,7 @@ class MainController extends \oauth\components\Controller
                         \Yii::app()->getUser()->login($identity);
                         $params = [];
                         $params['hash'] = $form->Code;
-                        $this->isFrame() ? $params['frame'] = 'true' : '';
+                        \Iframe::isFrame() ? $params['frame'] = 'true' : '';
                         $this->redirect(
                             $this->createUrl('/oauth/main/setpassword', $params)
                         );
