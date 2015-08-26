@@ -3,13 +3,15 @@ namespace oauth\components\social;
 
 class Vkontakte implements ISocial
 {
-  const AppId = '3510181';
-  const Secret = 'dfMfN5tBWurKM35eKLAa';
+  /*const AppId = '3510181';
+  const Secret = 'dfMfN5tBWurKM35eKLAa';*/
+  const AppId = '5046569';
+  const Secret = '0dSGy95i2gneP2ZE9XEG';
   
   protected $redirectUrl;
   public function __construct($redirectUrl = null)
   {
-    $this->redirectUrl = $redirectUrl;
+    $this->redirectUrl = null; // $redirectUrl;
   }
 
   public function getOAuthUrl()
@@ -19,19 +21,20 @@ class Vkontakte implements ISocial
       'display' => 'touch',
       'scope' => 'offline,email'
     );
-    $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect') : $this->redirectUrl;    
-    return 'https://oauth.vk.com/authorize?' . http_build_query($params);
+
+
+    \Iframe::isFrame() ? $returnUrlParams['frame'] = 'true' : '';
+    $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $returnUrlParams) : $this->redirectUrl;
+    return 'https://oauth.vk.com/authorize?'.  http_build_query($params);
   }
 
   public function isHasAccess()
   {
     $code = \Yii::app()->getRequest()->getParam('code', null);
     $accessToken = $this->getAccessToken();
-    if (empty($accessToken) && !empty($code))
-    {
+    if (empty($accessToken) && !empty($code)) {
       $accessToken = $this->requestAccessToken($code);
-      if (isset($accessToken->error))
-      {
+      if (isset($accessToken->error)) {
         throw new \CHttpException(400, 'Сервис авторизации Vkontakte не отвечает');
       }
       \Yii::app()->getSession()->add('vk_access_token', $accessToken);
@@ -59,8 +62,7 @@ class Vkontakte implements ISocial
     curl_setopt_array($ch, $opts);
     $result = curl_exec($ch);
 
-    if (curl_errno($ch) !== 0)
-    {
+    if (curl_errno($ch) !== 0) {
       throw new \CHttpException(400, 'Сервис авторизации Vkontakte не отвечает');
     }
     return json_decode($result);
@@ -83,7 +85,8 @@ class Vkontakte implements ISocial
       'client_secret' => self::Secret,
       'code' => $code
     );
-    $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect') : $this->redirectUrl;
+    \Iframe::isFrame() ? $returnUrlParams['frame'] = 'true' : '';
+    $params['redirect_uri'] = $this->redirectUrl == null ? \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/connect', $returnUrlParams) : $this->redirectUrl;
     return $this->makeRequest('https://oauth.vk.com/access_token?'.http_build_query($params));
   }
 
@@ -93,6 +96,7 @@ class Vkontakte implements ISocial
    */
   public function getData()
   {
+
     $accessToken = $this->getAccessToken();
 
     $params['uid'] = $accessToken->user_id;
@@ -100,8 +104,7 @@ class Vkontakte implements ISocial
     $params['access_token'] = $accessToken->access_token;
 
     $response = $this->makeRequest('https://api.vk.com/method/getProfiles?'.http_build_query($params));
-    if (!isset($response->response[0]))
-    {
+    if (!isset($response->response[0])) {
       throw new \CHttpException(400, 'Сервис авторизации Vkontakte не отвечает');
     }
     $user_data = $response->response[0];

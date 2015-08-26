@@ -26,7 +26,7 @@ class SetPasswordAction extends \CAction
                 $user->getCurrentUser()->changePassword($form->Password);
             }
             $params = [];
-            Controller::isFrame() ? $params['frame'] = 'true' : '';
+            \Iframe::isFrame() ? $params['frame'] = 'true' : '';
             $this->getController()->redirect(
                 $this->getController()->createUrl('/oauth/main/dialog', $params)
             );
