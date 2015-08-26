@@ -11,6 +11,10 @@ namespace application\components;
  * @property \ruvents\components\PhpAuthManager $ruventsAuthManager
  *
  * @property array $params
+ *
+ * @method \CHttpRequest getRequest()
+ * @method \CClientScript getClientScript()
+ * @method \CAssetManager getAssetManager()
  */
 class WebApplication extends \CWebApplication
 {

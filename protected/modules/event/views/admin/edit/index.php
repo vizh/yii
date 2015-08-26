@@ -160,6 +160,9 @@
                 <?=\CHtml::activeLabel($form, 'Top', array('class' => 'control-label'));?>
                 <div class="controls">
                     <?=\CHtml::activeCheckBox($form, 'Top');?>
+                    <?php if (!$event->getIsNewRecord() && $form->Top):?>
+                        <p class="m-top_5"><?=\CHtml::link(\Yii::t('app', 'Настроить'), ['promo', 'id' => $event->Id], ['class' => 'btn btn-small']);?></p>
+                    <?php endif;?>
                 </div>
             </div>
             <div class="control-group">

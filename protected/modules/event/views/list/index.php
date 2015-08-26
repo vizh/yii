@@ -41,7 +41,7 @@
       </div>
     </div>
   </div>
-  
+
   <?if (!empty($events)):?>
     <?$unitsOnRow = 3;?>
     <?$i = 0;?>
@@ -71,7 +71,7 @@
                   <a href="<?=$event->getUrl();?>" class="btn disabled"><?=\Yii::t('app', 'Вы уже зарегистрированы');?></a>
                 <?elseif (isset($event->Free) && $event->Free == 1):?>
                   <a href="<?=$event->getUrl();?>" class="btn btn-large btn-info"><?=\Yii::t('app', 'Регистрация бесплатна');?></a>
-                <?endif;?>  
+                <?endif;?>
                 <?if (in_array($event->Id, $eventWithPayAccounts)):?>
                   <p class="muted"><small><?=\Yii::t('app', 'Регистрация через RUNET-ID');?></small></p>
                 <?endif;?>
@@ -86,36 +86,7 @@
 
       <?if (isset($topEvents[$i])):?>
         <?$event = $topEvents[$i];?>
-        <div class="event_promo <?=$event->IdName;?>">
-          <div class="container">
-            <div class="row units events">
-              <div class="unit span12 event">
-                <header>
-                  <img src="<?=$event->getLogo()->get120px();?>" alt="" class="logo">
-                  <p class="muted"><small><?=$event->Type->Title;?></small></p>
-                  <h2 class="date"><?$this->widget('\event\widgets\Date', array('event' => $event));?></h2>
-                  <h2 class="title"><a href="<?=$event->getUrl();?>"><?=$event->Title;?></a></h2>
-                  <?if ($event->getContactAddress() !== null):?>
-                    <small class="muted"><?=$event->getContactAddress();?></small>
-                  <?endif;?>
-                </header>
-                <article>
-                  <p><?=\application\components\utility\Texts::cropText($event->Info, \Yii::app()->params['EventPreviewLength']);?></p>
-                </article>
-                <footer>
-                  <?if (in_array($event->Id, $eventWithCurrentUser)):?>
-                    <a href="<?=$event->getUrl();?>" class="btn disabled"><?=\Yii::t('app', 'Вы уже зарегистрированы');?></a>
-                  <?elseif (isset($event->Free) && $event->Free == 1):?>
-                    <a href="<?=$event->getUrl();?>" class="btn btn-large btn-info"><?=\Yii::t('app', 'Регистрация бесплатна');?></a>
-                  <?endif;?>  
-                  <?if (in_array($event->Id, $eventWithPayAccounts)):?>
-                    <p class="muted"><small><?=\Yii::t('app', 'Регистрация через RUNET-ID');?></small></p>
-                  <?endif;?>
-                </footer>
-              </div>
-            </div>
-          </div>
-        </div>
+        <?php $this->widget('\event\widgets\Promo', ['event' => $event, 'isCurrentUserParticipant' => in_array($event->Id, $eventWithCurrentUser)]);?>
       <?endif;?>
       <?$i++;?>
     <?endwhile;?>

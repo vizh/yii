@@ -10,6 +10,7 @@ use contact\models\Site;
 use mail\components\mailers\MandrillMailer;
 use search\components\interfaces\ISearch;
 use user\models\User;
+use pay\models\Account as PayAccount;
 
 /**
  * @property int $Id
@@ -44,6 +45,7 @@ use user\models\User;
  * @property LinkEmail[] $LinkEmails
  * @property LinkSite $LinkSite
  * @property Type $Type
+ * @property PayAccount $PayAccount
  *
  * @property LinkWidget[] $Widgets
  * @property Attribute[] $Attributes
@@ -67,6 +69,8 @@ use user\models\User;
  * @property string $OrganizerInfo
  * @property bool $CloseRegistrationAfterEnd
  * @property bool $DocumentRequired
+ * @property string $PromoBlockStyles
+ * @property bool $Free
  *
  *
  * Вспомогательные описания методов методы
@@ -124,7 +128,8 @@ class Event extends ActiveRecord implements ISearch
             'Widgets' => array(self::HAS_MANY, '\event\models\LinkWidget', 'EventId', 'order' => '"Widgets"."Order" ASC', 'with' => 'Class'),
             'Attributes' => array(self::HAS_MANY, '\event\models\Attribute', 'EventId'),
             'Partners' => array(self::HAS_MANY, '\event\models\Partner', 'EventId'),
-            'LinkProfessionalInterests' => array(self::HAS_MANY, '\event\models\LinkProfessionalInterest', 'EventId', 'with' => 'ProfessionalInterest')
+            'LinkProfessionalInterests' => array(self::HAS_MANY, '\event\models\LinkProfessionalInterest', 'EventId', 'with' => 'ProfessionalInterest'),
+            'PayAccount' => [self::HAS_ONE, '\pay\models\Account', 'EventId']
         );
     }
 
@@ -156,7 +161,8 @@ class Event extends ActiveRecord implements ISearch
             'RegisterHideNotSelectedProduct',
             'NotSendRegisterMail',
             'OrganizerInfo',
-            'CloseRegistrationAfterEnd'
+            'CloseRegistrationAfterEnd',
+            'PromoBlockStyles'
         ];
     }
 
@@ -1016,5 +1022,14 @@ class Event extends ActiveRecord implements ISearch
             return true;
         }
         return false;
+    }
+
+    /**
+     * Фоновое изображение для Промо-блока
+     * @return Image
+     */
+    public function getPromoBackgroundImage()
+    {
+        return new Image($this, null, 'promo', IMG_PNG);
     }
 }

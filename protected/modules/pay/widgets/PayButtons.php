@@ -1,9 +1,10 @@
 <?php
 namespace pay\widgets;
 
+use application\components\web\Widget;
 use pay\models\Account;
 
-class PayButtons extends \CWidget
+class PayButtons extends Widget
 {
     /** @var Account */
     public $account;
@@ -89,14 +90,12 @@ class PayButtons extends \CWidget
     }
 
     /**
-     * @throws \CException
+     * @inheritdoc
      */
-    private function registerResources()
+    public function getIsHasDefaultResources()
     {
-        /** @var \CClientScript $clientScript */
-        $clientScript = \Yii::app()->getClientScript();
-        $clientScript->registerCssFile(
-            \Yii::app()->getAssetManager()->publish(\Yii::getPathOfAlias('pay.widgets.assets.css').'/pay-buttons.css')
-        );
+        return true;
     }
+
+
 }

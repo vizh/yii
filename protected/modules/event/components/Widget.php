@@ -1,21 +1,22 @@
 <?php
 namespace event\components;
 use application\components\Exception;
+use application\components\web\Widget as CWidget;
 
-abstract class Widget extends \CWidget implements IWidget
+abstract class Widget extends CWidget implements IWidget
 {
     /**
      * @return string[]
      */
     public function getAttributeNames()
     {
-        return array();
+        return [];
     }
 
     public function init()
     {
-        if ($this->getIsHasDefaultResources() && strstr(\Yii::app()->getRequest()->getHostInfo(), 'admin.') == false)
-        {
+        $isAdmin = strstr(\Yii::app()->getRequest()->getHostInfo(), 'admin.');
+        if ($this->getIsHasDefaultResources() && !$isAdmin) {
             $this->registerDefaultResources();
         }
     }
@@ -136,30 +137,6 @@ abstract class Widget extends \CWidget implements IWidget
     {
 
     }
-
-    public function getIsHasDefaultResources()
-    {
-        return false;
-    }
-
-    protected function registerDefaultResources()
-    {
-        $class = get_class($this);
-        $class = mb_strtolower($class);
-        $class = substr($class, mb_strrpos($class, 'widgets\\')+8,mb_strlen($class));
-        $class = str_replace('\\',DIRECTORY_SEPARATOR, $class);
-        $assetsPath = \Yii::getPathOfAlias('event.widgets.assets').DIRECTORY_SEPARATOR;
-        $path = $assetsPath.'js'.DIRECTORY_SEPARATOR.$class.'.js';
-
-        if (file_exists($path))
-            \Yii::app()->clientScript->registerScriptFile(\Yii::app()->assetManager->publish($path));
-
-        $path = $assetsPath.'css'.DIRECTORY_SEPARATOR.$class.'.css';
-
-        if (file_exists($path))
-            \Yii::app()->clientScript->registerCssFile(\Yii::app()->assetManager->publish($path));
-    }
-
 
     /**
      * @return bool

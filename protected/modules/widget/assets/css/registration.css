@@ -12,7 +12,7 @@ body {
 }
 #widget-registration th.col-width,
 #widget-registration td.col-width {
-  width: 120px;
+  width: 90px;
   white-space: nowrap;
 }
 
