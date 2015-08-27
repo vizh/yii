@@ -79,7 +79,7 @@ class Promo extends CreateUpdateForm
      */
     private function buildStyleString()
     {
-        $path = '#event_widget_Promo.' . $this->model->IdName;
+        $path = '.event_widget_Promo.' . $this->model->IdName;
         $styles = '';
         if ($this->model->getPromoBackgroundImage()->exists() || !empty($this->BackgroundColor)) {
             $styles .= $path . '{background:';

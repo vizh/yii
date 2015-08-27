@@ -6,7 +6,7 @@
 
 use application\components\utility\Texts;
 ?>
-<div id="event_widget_Promo" class="<?=$event->IdName;?>">
+<div class="event_widget_Promo <?=$event->IdName;?>">
     <div class="container">
         <div class="row units events">
             <div class="unit span12 event">

@@ -41,7 +41,7 @@ class Base extends MailLayout
      */
     private function getRegisterMail()
     {
-        if ($this->registerMail === null && $this->hasRegisterMail()) {
+        if ($this->registerMail === null && isset($this->event->MailRegister)) {
             $mails = unserialize(base64_decode($this->event->MailRegister));
             foreach ($mails as $mail) {
                 $conditionInExcept = in_array($this->role->Id, $mail->RolesExcept);
@@ -54,15 +54,6 @@ class Base extends MailLayout
             }
         }
         return $this->registerMail;
-    }
-
-    /**
-     * Возвращает true, если у мероприятия заданы регистрационные письма
-     * @return bool
-     */
-    private function hasRegisterMail()
-    {
-        return isset($this->event->MailRegister);
     }
 
     /**
@@ -113,18 +104,16 @@ class Base extends MailLayout
         ];
 
         $viewName = null;
-        if ($this->hasRegisterMail()) {
-            if ($this->getRegisterMail() !== null) {
-                $viewName = $this->getRegisterMail()->getViewName();
+        if ($this->getRegisterMail() !== null) {
+            $viewName = $this->getRegisterMail()->getViewName();
+        } else {
+            if ($this->role->Notification) {
+                $viewName = 'event.views.mail.register.base';
+            } else {
+                return null;
             }
-        } elseif ($this->role->Id != Role::VIRTUAL_ROLE_ID) {
-            $viewName = 'event.views.mail.register.base';
         }
-
-        if ($viewName !== null) {
-            return $this->renderBody($viewName, $params);
-        }
-        return null;
+        return $this->renderBody($viewName, $params);
     }
 
     /**

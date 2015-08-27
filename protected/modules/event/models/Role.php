@@ -7,6 +7,8 @@ namespace event\models;
  * @property string $Title
  * @property int $Priority
  * @property string $Color
+ * @property bool $Visible
+ * @property bool $Notification
  *
  * @method \event\models\Role find($condition='',$params=array())
  * @method \event\models\Role findByPk($pk,$condition='',$params=array())
