@@ -2,6 +2,8 @@
 namespace pay\components\managers;
 
 
+use pay\components\Exception;
+use pay\components\MessageException;
 use pay\models\OrderItem;
 
 class AnyPriceProductManager extends BaseProductManager
@@ -76,15 +78,13 @@ class AnyPriceProductManager extends BaseProductManager
     }
 
     /**
-     * Отменяет покупку по соответствующему заказу
      * @param OrderItem $orderItem
-     * @return bool
+     * @throws MessageException
      */
     protected function internalRollback(OrderItem $orderItem)
     {
-
+        throw new MessageException(\Yii::t('app', 'Метод отката заказа не реализован для этого типа продукта'));
     }
-
 
 
     /**

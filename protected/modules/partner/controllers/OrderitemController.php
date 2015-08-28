@@ -10,7 +10,7 @@ class OrderitemController extends Controller
             'index' => '\partner\controllers\orderitem\IndexAction',
             'create' => '\partner\controllers\orderitem\CreateAction',
             'redirect' => '\partner\controllers\orderitem\RedirectAction',
-            'activateajax' => '\partner\controllers\orderitem\ActivateAjaxAction'
+            'refund' => '\partner\controllers\orderitem\RefundAction'
         ];
     }
 }

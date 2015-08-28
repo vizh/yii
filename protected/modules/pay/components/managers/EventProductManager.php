@@ -114,12 +114,12 @@ class EventProductManager extends BaseProductManager
     protected function internalRollback(OrderItem $orderItem)
     {
         $owner = $orderItem->getCurrentOwner();
-        $participant = Participant::model()->byEventId($this->product->EventId)
-            ->byRoleId($this->RoleId)->byUserId($owner->Id)->find();
-        if ($participant != null) {
-            // todo: аналогично internalChangeOwner
-            $participant->delete();
+        $participant = Participant::model()->byEventId($this->product->EventId)->byRoleId($this->RoleId)->byUserId($owner->Id)->find();
+        if ($participant !== null) {
+            $participant->Event->unregisterUser($owner, \Yii::t('app', 'Отмена заказа'));
+            return true;
         }
+        return false;
     }
 
     /**

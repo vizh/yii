@@ -103,12 +103,18 @@ class EventOnPart extends BaseProductManager
     protected function internalRollback(OrderItem $orderItem)
     {
         $owner = $orderItem->getCurrentOwner();
-        $participant = Participant::model()->byEventId($this->product->EventId)
-            ->byUserId($owner->Id)->byRoleId($this->RoleId)->byPartId($this->PartId)->find();
+        $participant = Participant::model()
+            ->byEventId($this->product->EventId)
+            ->byUserId($owner->Id)
+            ->byRoleId($this->RoleId)
+            ->byPartId($this->PartId)
+            ->find();
+
         if ($participant !== null) {
-            // todo: проверять по логу прошлый статус и менять на него
-            $participant->delete();
+            $participant->Event->unregisterUserOnPart($owner, $participant->Part, \Yii::t('app', 'Отмена заказа'));
+            return true;
         }
+        return false;
     }
 
     /**
@@ -123,46 +129,5 @@ class EventOnPart extends BaseProductManager
     public function internalChangeOwner($fromUser, $toUser, $params = array())
     {
         throw new MessageException('Не реализовано');
-        if (!$this->CheckProduct($toUser))
-        {
-            return false;
-        }
-        list($roleId, $dayId) = $this->GetAttributes($this->GetAttributeNames());
-
-        /** @var $participant \event\models\Participant */
-        $participant = \event\models\Participant::model()
-            ->byUserId($fromUser->UserId)
-            ->byEventId($this->product->EventId)
-            ->byDayId($dayId)->find();
-
-        if ($participant != null)
-        {
-            if ($participant->RoleId == $roleId)
-            {
-                $participant->delete();
-            }
-        }
-
-        $role = \event\models\Role::GetById($roleId);
-        if (empty($role))
-        {
-            return false;
-        }
-
-        /** @var $participant \event\models\Participant */
-        $participant = \event\models\Participant::model()
-            ->byUserId($toUser->UserId)
-            ->byEventId($this->product->EventId)
-            ->byDayId($dayId)->find();
-        if (empty($participant))
-        {
-            $this->product->Event->RegisterUser($toUser, $role);
-        }
-        else
-        {
-            $participant->UpdateRole($role);
-        }
-
-        return true;
     }
 }

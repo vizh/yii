@@ -364,7 +364,7 @@ class RoomProductManager extends BaseProductManager
      */
     protected function internalRollback(OrderItem $orderItem)
     {
-
+        throw new MessageException(\Yii::t('app', 'Метод отката заказа не реализован для этого типа продукта'));
     }
 
     /**

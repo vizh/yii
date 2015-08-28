@@ -100,11 +100,13 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
                                 <?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem());?>
                             </td>
                             <td>
-                                <?if ($item->getOrderItem()->Paid):?>
+                                <?php if ($item->getOrderItem()->Paid):?>
                                     <span class="label label-success"><?=\Yii::t('app', 'Оплачен');?></span>
-                                <?else:?>
+                                <?php elseif ($item->getOrderItem()->Refund):?>
+                                    <span class="label label-danger"><?=\Yii::t('app', 'Возврат');?></span>
+                                <?php else:?>
                                     <span class="label label-warning"><?=\Yii::t('app', 'Не оплачен');?></span>
-                                <?endif;?>
+                                <?php endif;?>
                             </td>
                             <td class="text-left">
                                 <?=$this->renderPartial('../partial/grid/user', ['user' => $item->getOrderItem()->Payer], true);?>
@@ -135,14 +137,16 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
     <?php if (OrderType::getIsBank($order->Type)):?>
         <div class="panel-footer">
             <div class="btn-group">
-                <?php if (!$order->Paid):?>
-                    <?=\CHtml::link('<span class="fa fa-check"></span> Отметить как оплаченный', ['', 'id' => $order->Id, 'action' => 'setPaid'], ['class' => 'btn btn-success', 'onclick' => "return confirm('" . ($order->Paid ? 'Счет уже отмечен как оплаченный. Повторить?' : 'Вы уверены, что хотите отметить данный счет оплаченным?') . "');"]);?>
-                <?php endif;?>
-                <?php if ($order->getIsBankTransfer() && !$order->Paid):?>
-                    <?=\CHtml::link('<span class="fa fa-pencil"></span> Редактировать', ['edit', 'id' => $order->Id], ['class' => 'btn btn-info']);?>
-                <?php endif;?>
-                <?php if (!$order->Paid):?>
-                    <?=\CHtml::link('<span class="fa fa-times"></span> Удалить', ['', 'id' => $order->Id, 'action' => 'setDeleted'], ['class' => 'btn btn-danger', 'onclick' => "return confirm('Вы уверены, что хотите удалить счет?');"]);?>
+                <?php if (!$order->Deleted):?>
+                    <?php if (!$order->Paid):?>
+                        <?=\CHtml::link('<span class="fa fa-check"></span> Отметить как оплаченный', ['', 'id' => $order->Id, 'action' => 'setPaid'], ['class' => 'btn btn-success', 'onclick' => "return confirm('" . ($order->Paid ? 'Счет уже отмечен как оплаченный. Повторить?' : 'Вы уверены, что хотите отметить данный счет оплаченным?') . "');"]);?>
+                    <?php endif;?>
+                    <?php if ($order->getIsBankTransfer() && !$order->Paid):?>
+                        <?=\CHtml::link('<span class="fa fa-pencil"></span> Редактировать', ['edit', 'id' => $order->Id], ['class' => 'btn btn-info']);?>
+                    <?php endif;?>
+                    <?php if (!$order->Paid):?>
+                        <?=\CHtml::link('<span class="fa fa-times"></span> Удалить', ['', 'id' => $order->Id, 'action' => 'setDeleted'], ['class' => 'btn btn-danger', 'onclick' => "return confirm('Вы уверены, что хотите удалить счет?');"]);?>
+                    <?php endif;?>
                 <?php endif;?>
                 <?=\CHtml::link('<span class="fa fa-print"></span> Счет с печатью', $order->getUrl(), ['class' => 'btn', 'target' => '_blank']);?>
                 <?=\CHtml::link('<span class="fa fa-print"></span> Счет без печати', $order->getUrl(true), ['class' => 'btn', 'target' => '_blank']);?>

@@ -86,7 +86,7 @@ return array(
         'roles' => array('Partner'),
         'module' => 'partner',
         'controllers' => array('orderitem'),
-        'actions' => array('index', 'create', 'redirect')
+        'actions' => array('index', 'create', 'redirect', 'refund')
     ),
     array(
         'allow',

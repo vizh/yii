@@ -16,6 +16,8 @@ use pay\components\MessageException;
  * @property bool $Deleted
  * @property string $DeletionTime
  * @property string $UpdateTime
+ * @property boolean $Refund
+ * @property string $RefundTime
  *
  * @property Product $Product
  * @property \user\models\User $Payer
@@ -452,6 +454,38 @@ class OrderItem extends \CActiveRecord
         $this->DeletionTime = date('Y-m-d H:i:s');
         $this->save();
 
+        return true;
+    }
+
+    /**
+     * Отмечает возврат заказа.
+     * @return bool
+     */
+    public function refund()
+    {
+        if (!$this->Paid){
+            return false;
+        }
+
+        $time = date('Y-m-d H:i:s');
+
+        $this->Refund = true;
+        $this->RefundTime = $time;
+        $this->Paid = false;
+
+        /** @var OrderLinkOrderItem[] $links */
+        $links = $this->OrderLinks(['with' => ['Order']]);
+        foreach ($links as $link){
+            $order = $link->Order;
+            if ($order->Paid) {
+                $order->refund($this);
+            }
+        }
+
+        $this->Deleted = true;
+        $this->DeletionTime = $time;
+
+        $this->save();
         return true;
     }
 

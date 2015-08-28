@@ -5,6 +5,8 @@ use mail\components\mailers\MandrillMailer;
 use pay\components\CodeException;
 use pay\components\Exception;
 use pay\components\MessageException;
+use pay\components\OrderItemCollectable;
+use pay\components\OrderItemCollection;
 
 /**
  * @property int $Id
@@ -220,6 +222,10 @@ class Order extends ActiveRecord
 
         foreach ($collection as $item)
         {
+            if ($item->getOrderItem()->Refund) {
+                continue;
+            }
+
             $activation = $item->getOrderItem()->getCouponActivation();
             if ($item->getOrderItem()->activate($this))
             {
@@ -417,6 +423,9 @@ class Order extends ActiveRecord
         $price = 0;
         foreach ($collection as $item)
         {
+            if ($item->getOrderItem()->Refund) {
+                continue;
+            }
             $price += $item->getPriceDiscount();
         }
         return $price;
@@ -447,6 +456,54 @@ class Order extends ActiveRecord
 
         return true;
     }
+
+    /**
+     * Обновляет счет, в связи с возвратом заказа
+     * @return bool
+     */
+    public function refund(OrderItem $orderItem)
+    {
+        if (!$this->Paid || $this->getItemLink($orderItem) === null) {
+            return false;
+        }
+
+        $collection = OrderItemCollection::createByOrder($this);
+        $count = 0;
+        foreach ($collection as $item) {
+            if ($item->getOrderItem()->Refund) {
+                continue;
+            }
+
+            if ($item->getOrderItem()->Id === $orderItem->Id) {
+                $this->Total -= $item->getPriceDiscount();
+            }
+            $count++;
+        }
+
+        if ($count == 1) {
+            $this->Paid = false;
+            $this->Total = null;
+            $this->Deleted = true;
+            $this->DeletionTime = date('Y-m-d H:i:s');
+        }
+        $this->save();
+        return true;
+    }
+
+    /**
+     * Возаращает модель связи между счетом и заказом
+     * @param OrderItem $orderItem
+     * @return null|OrderLinkOrderItem
+     */
+    public function getItemLink(OrderItem $orderItem) {
+        foreach ($this->ItemLinks as $link) {
+            if ($link->OrderItemId === $orderItem->Id) {
+                return $link;
+            }
+        }
+        return null;
+    }
+
 
     private static $SecretKey = '7deSAJ42VhzHRgYkNmxz';
     public function getHash()
@@ -534,6 +591,10 @@ class Order extends ActiveRecord
             $collection = \pay\components\OrderItemCollection::createByOrder($this);
             foreach ($collection as $item)
             {
+                if ($item->getOrderItem()->Refund) {
+                    continue;
+                }
+
                 $orderItem = $item->getOrderItem();
                 $isTicket = $orderItem->Product->ManagerName == 'Ticket';
                 $price = $isTicket ? $orderItem->Product->getPrice($this->CreationTime) : $item->getPriceDiscount($this->CreationTime);

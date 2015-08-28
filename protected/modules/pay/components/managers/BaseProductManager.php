@@ -249,16 +249,22 @@ abstract class BaseProductManager
      */
     public function rollback(OrderItem $orderItem)
     {
-        return $this->internalRollback($orderItem);
+        if ($this->internalRollback($orderItem)) {
+            $orderItem->refund();
+            return true;
+        }
+        return false;
     }
 
     /**
-     * Отменяет покупку по соответствующему заказу
-     * @abstract
      * @param OrderItem $orderItem
+     * @throws MessageException
      * @return bool
      */
-    abstract protected function internalRollback(OrderItem $orderItem);
+    protected function internalRollback(OrderItem $orderItem)
+    {
+        throw new MessageException(\Yii::t('app', 'Метод отката заказа не реализован для этого типа продукта'));
+    }
 
     /**
      * @param \user\models\User $fromUser

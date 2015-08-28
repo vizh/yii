@@ -22,6 +22,7 @@ class CodeException extends Exception
     const NO_EXISTS_ORDER_ITEM_PAYER = 403;
     const NO_EXISTS_ORDER_ITEM_OWNER = 404;
     const NO_EXISTS_ORDER_ITEM = 405;
+    const ERROR_ORDER_ITEM_REFUND = 406;
 
     private $codes = [
         /** Yii Exception */
@@ -53,6 +54,7 @@ class CodeException extends Exception
         self::NO_EXISTS_ORDER_ITEM_PAYER => 'Не найден плательщик для заказа',
         self::NO_EXISTS_ORDER_ITEM_OWNER => 'Не найден получатель для заказа',
         self::NO_EXISTS_ORDER_ITEM => 'Не найден заказа',
+        self::ERROR_ORDER_ITEM_REFUND => 'Не удалось выполнить возврат заказа',
 
 
 

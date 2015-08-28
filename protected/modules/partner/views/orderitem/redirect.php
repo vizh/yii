@@ -23,12 +23,8 @@ $orderItem = $form->getActiveRecord();
             <?=Flash::html();?>
             <div class="note">
                 <h4 class="note-title"><?=$orderItem->Product->Title?></h4>
-                <?$owner = $orderItem->getCurrentOwner();?>
                 <p class="clear-indents">
-                    <?=\CHtml::link($owner->getFullName(), ['user/edit', 'id' => $owner->RunetId]);?>&nbsp;<sup><?=$owner->RunetId;?></sup>
-                    <?php if (($employment = $owner->getEmploymentPrimary()) !== null):?>
-                        <br/><?=$employment;?>
-                    <?php endif;?>
+                    <?=$this->renderPartial('../partial/grid/user', ['user' => $orderItem->getCurrentOwner()], true);;?>
                 </p>
             </div>
             <?$this->widget('\partner\widgets\UserAutocompleteInput', [

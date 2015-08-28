@@ -104,12 +104,14 @@ class EventAllParts extends BaseProductManager
     protected function internalRollback(OrderItem $orderItem)
     {
         $owner = $orderItem->getCurrentOwner();
-        $participants = Participant::model()->byEventId($this->product->EventId)
-            ->byRoleId($this->RoleId)->byUserId($owner->Id)->findAll();
-        foreach ($participants as $participant) {
-            // todo: проверять по логу прошлый статус и менять на него
-            $participant->delete();
+        $participants = Participant::model()->byEventId($this->product->EventId)->byRoleId($this->RoleId)->byUserId($owner->Id)->findAll();
+        if (empty($participants)) {
+            return false;
         }
+        foreach ($participants as $participant) {
+            $participant->Event->unregisterUserOnPart($owner, $participant->Part, \Yii::t('app', 'Отмена заказа'));
+        }
+        return true;
     }
 
     /**

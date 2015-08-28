@@ -81,7 +81,9 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                         'header' => $search->getAttributeLabel('Status'),
                         'value' => function (OrderItem $orderItem) use ($search) {
                             if ($orderItem->Paid) {
-                                $result =  \CHtml::tag('p', ['class' => 'text-success'], $search->getStatusData()[OrderItems::STATUS_PAID]);
+                                $result = \CHtml::tag('p', ['class' => 'text-success'], $search->getStatusData()[OrderItems::STATUS_PAID]);
+                            } elseif ($orderItem->Refund) {
+                                $result = \CHtml::tag('p', ['class' => 'text-warning'], $search->getStatusData()[OrderItems::STATUS_REFUND]);
                             } elseif ($orderItem->Deleted) {
                                 $result = \CHtml::tag('p', ['class' => 'text-danger'], $search->getStatusData()[OrderItems::STATUS_DELETED]);
                             } else {
@@ -132,7 +134,7 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                     ],
                     [
                         'class' => '\application\widgets\grid\ButtonColumn',
-                        'template' => '{redirect}',
+                        'template' => '{redirect}{refund}',
                         'buttons' => [
                             'redirect' => [
                                 'label' => '<i class="fa fa-exchange"></i>',
@@ -140,6 +142,15 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                                 'options' => [
                                     'class'   => 'btn btn-default',
                                     'title'   => 'Перенести',
+                                ],
+                                'visible' => '$data->Paid'
+                            ],
+                            'refund' => [
+                                'label' => '<i class="fa fa-undo"></i>',
+                                'url' => 'Yii::app()->controller->createUrl("refund",["id" => $data->primaryKey])',
+                                'options' => [
+                                    'class'   => 'btn btn-default',
+                                    'title'   => 'Вовзрат',
                                 ],
                                 'visible' => '$data->Paid'
                             ]

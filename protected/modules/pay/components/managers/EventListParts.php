@@ -1,6 +1,7 @@
 <?php
 namespace pay\components\managers;
 
+use event\models\Part;
 use event\models\Participant;
 use pay\components\MessageException;
 use pay\models\OrderItem;
@@ -31,28 +32,29 @@ class EventListParts extends BaseProductManager
     /** @var \event\models\Role */
     protected $role = null;
 
-    /** @var \event\models\Part[] */
+    /** @var Part[] */
     private $parts = null;
 
+    /**
+     * @return Part[]
+     * @throws MessageException
+     */
     protected function getParts()
     {
-        if ($this->parts == null)
-        {
+        if ($this->parts == null) {
             $idList = preg_split('/[ ,]/', $this->PartIdList, -1, PREG_SPLIT_NO_EMPTY);
             $criteria = new \CDbCriteria();
             $criteria->addInCondition('"t"."Id"', $idList);
-            $this->parts = \event\models\Part::model()->findAll($criteria);
-            if (empty($this->parts))
-            {
+            $this->parts = Part::model()->findAll($criteria);
+            if (empty($this->parts)) {
                 throw new MessageException('Не корректно задан PartIdList для товара категории EventListParts. Идентификатор товара: ' . $this->product->Id);
             }
-            foreach ($this->parts as $part)
-            {
-                if ($part->EventId != $this->product->EventId)
+            foreach ($this->parts as $part) {
+                if ($part->EventId != $this->product->EventId) {
                     throw new MessageException('Не корректно задана одна из частей параметра PartIdList для товара категории EventListParts. Идентификатор товара: ' . $this->product->Id);
+                }
             }
         }
-
         return $this->parts;
     }
 
@@ -118,27 +120,29 @@ class EventListParts extends BaseProductManager
     protected function internalRollback(OrderItem $orderItem)
     {
         $owner = $orderItem->getCurrentOwner();
-        $partIdList = preg_split('/[ ,]/', $this->PartIdList, -1, PREG_SPLIT_NO_EMPTY);
-        $participants = Participant::model()->byEventId($this->product->EventId)
-            ->byUserId($owner->Id)->byRoleId($this->RoleId)->byPartId($partIdList)->findAll();
-        foreach ($participants as $participant) {
-            // todo: проверять по логу прошлый статус и менять на него
-            $participant->delete();
+        $participants = Participant::model()
+            ->byEventId($this->product->EventId)
+            ->byUserId($owner->Id)
+            ->byRoleId($this->RoleId)
+            ->byPartId(\CHtml::listData($this->getParts(), 'Id', 'Id'))
+            ->find();
+
+        if (empty($participants)) {
+            return false;
         }
+
+        foreach ($participants as $participant) {
+            $participant->Event->unregisterUserOnPart($owner, $participant->Part, \Yii::t('app', 'Отмена заказа'));
+        }
+        return true;
     }
 
     /**
-     *
-     * @param \user\models\User $fromUser
-     * @param \user\models\User $toUser
-     * @param array $params
-     *
-     * @return bool
+     * @inheritdoc
      */
     protected function internalChangeOwner($fromUser, $toUser, $params = array())
     {
         throw new MessageException('Не реализовано');
-        // TODO: Implement internalChangeOwner() method.
     }
 
     /**

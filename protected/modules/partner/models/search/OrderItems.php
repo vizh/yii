@@ -12,6 +12,7 @@ class OrderItems extends SearchFormModel
     const STATUS_DEFAULT = 'default';
     const STATUS_PAID    = 'paid';
     const STATUS_DELETED = 'deleted';
+    const STATUS_REFUND  = 'refund';
 
     public $Id;
 
@@ -88,6 +89,8 @@ class OrderItems extends SearchFormModel
             if (!empty($this->Status)) {
                 if ($this->Status == self::STATUS_PAID) {
                     $criteria->addCondition('"t"."Paid"');
+                } elseif ($this->Status == self::STATUS_REFUND) {
+                    $criteria->addCondition('"t"."Refund"');
                 } elseif ($this->Status == self::STATUS_DELETED) {
                     $criteria->addCondition('"t"."Deleted" AND NOT "t"."Paid"');
                 } else {
@@ -157,7 +160,8 @@ class OrderItems extends SearchFormModel
         return [
             self::STATUS_DEFAULT => \Yii::t('app', 'Не оплачен'),
             self::STATUS_PAID => \Yii::t('app', 'Оплачен'),
-            self::STATUS_DELETED => \Yii::t('app', 'Удален')
+            self::STATUS_DELETED => \Yii::t('app', 'Удален'),
+            self::STATUS_REFUND => \Yii::t('app', 'Возврат')
         ];
     }
 }

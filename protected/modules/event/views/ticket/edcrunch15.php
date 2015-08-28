@@ -40,11 +40,13 @@ if (!empty($event->LinkEmails)) {
     </div>
     <div style="padding: 5mm; border-left: 0.5mm solid #ededed; border-right: 0.5mm solid #ededed; height: 77mm;">
         <h3><span style="text-transform: uppercase;">ЭЛЕКТРОННЫЙ БИЛЕТ</span><br/><span style="font-weight: bold;"><?=$event->Title;?></span></h3>
-        <h3 style="padding: 12mm 0; font-weight: bold; text-transform: uppercase;"><?$this->widget('\event\widgets\Date', ['event' => $event]);?></h3>
-        <?if ($event->getContactAddress() != null):?>
-            <p><?=$event->getContactAddress()->Place;?><br/><?=$event->getContactAddress()->getShort();?></p>
-        <?endif;?>
-        <p style="margin-top: 20px;">МИСиС<br/>г.Москва, Ленинский проспект, д. д. 4, Главное здание</p>
+        <h3 style="padding: 8mm 0; font-weight: bold; text-transform: uppercase;"><?$this->widget('\event\widgets\Date', ['event' => $event]);?></h3>
+        <p><strong>13 сентября / September, 13</strong><br/>Digital October, Берсеневская набережная, 6 стр 3<br/>6/3 Bersenevskaya naberezhnaya, Moscow, "Digital October" Center</p>
+        <p style="margin-top: 10px;">
+            <strong>14-15 сентября / September, 14 and 15</strong><br/>
+            МИСиС, Ленинский проспект, 4<br/>
+            4 Leninsky prospect, Moscow, National University of Science and Technology "MIS&S"
+        </p>
     </div>
     <table style="width: 100%; background-color: #586877; padding: 5mm; color: #fff; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif;">
         <tbody>

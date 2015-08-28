@@ -15,6 +15,7 @@ namespace application\components;
  * @method \CHttpRequest getRequest()
  * @method \CClientScript getClientScript()
  * @method \CAssetManager getAssetManager()
+ * @method \CDbConnection getDb()
  */
 class WebApplication extends \CWebApplication
 {

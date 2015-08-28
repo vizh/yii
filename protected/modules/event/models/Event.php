@@ -482,8 +482,7 @@ class Event extends ActiveRecord implements ISearch
     {
         $participant = Participant::model()
             ->byEventId($this->Id)
-            ->byUserId($user->Id)
-            ->find();
+            ->byUserId($user->Id);
 
         if ($part !== null) {
             $participant->byPartId($part->Id);
