@@ -28,6 +28,8 @@ namespace pay\models;
  * @property int $ParentTemplateId
  * @property string $CreationTime
  * @property string $OfferText
+ * @property boolean $ShowValidity
+ * @property int $ValidityDays
  *
  */
 class OrderJuridicalTemplate extends \CActiveRecord

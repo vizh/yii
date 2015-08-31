@@ -49,7 +49,9 @@ $vatMultiply = $template->VAT ? 1.18 : 1;
 
 <h2>
   Cчет № <?=$order->Number;?> от <?=date('d.m.Y', strtotime($order->CreationTime));?><br>
-  <span>(Счет действителен в течение 5-и банковских дней)</span>
+  <?php if ($template->ShowValidity):;?>
+    <span>(Счет действителен в течение <?=$template->ValidityDays;?>-и банковских дней)</span>
+  <?php endif;?>
 </h2>
 
 <p>
