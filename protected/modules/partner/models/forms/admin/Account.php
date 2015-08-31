@@ -40,6 +40,7 @@ class Account extends \CFormModel
     public function getRoles()
     {
         return [
+            'PartnerLimited' => 'Орграниченный партнер',
             'Partner' => 'Партнер',
             'PartnerVerified' => 'Одобренный партнер',
             'Admin' => 'Администратор',

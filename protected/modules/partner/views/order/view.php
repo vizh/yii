@@ -138,14 +138,14 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
         <div class="panel-footer">
             <div class="btn-group">
                 <?php if (!$order->Deleted):?>
-                    <?php if (!$order->Paid):?>
-                        <?=\CHtml::link('<span class="fa fa-check"></span> Отметить как оплаченный', ['', 'id' => $order->Id, 'action' => 'setPaid'], ['class' => 'btn btn-success', 'onclick' => "return confirm('" . ($order->Paid ? 'Счет уже отмечен как оплаченный. Повторить?' : 'Вы уверены, что хотите отметить данный счет оплаченным?') . "');"]);?>
+                    <?php if (!$order->Paid && $this->getAccessFilter()->checkAccess('partner', 'order', 'activate')):?>
+                        <?=\CHtml::link('<span class="fa fa-check"></span> Отметить как оплаченный', ['activate', 'id' => $order->Id], ['class' => 'btn btn-success', 'onclick' => "return confirm('" . ($order->Paid ? 'Счет уже отмечен как оплаченный. Повторить?' : 'Вы уверены, что хотите отметить данный счет оплаченным?') . "');"]);?>
                     <?php endif;?>
-                    <?php if ($order->getIsBankTransfer() && !$order->Paid):?>
+                    <?php if ($order->getIsBankTransfer() && !$order->Paid && $this->getAccessFilter()->checkAccess('partner', 'order', 'edit')):?>
                         <?=\CHtml::link('<span class="fa fa-pencil"></span> Редактировать', ['edit', 'id' => $order->Id], ['class' => 'btn btn-info']);?>
                     <?php endif;?>
-                    <?php if (!$order->Paid):?>
-                        <?=\CHtml::link('<span class="fa fa-times"></span> Удалить', ['', 'id' => $order->Id, 'action' => 'setDeleted'], ['class' => 'btn btn-danger', 'onclick' => "return confirm('Вы уверены, что хотите удалить счет?');"]);?>
+                    <?php if (!$order->Paid  && $this->getAccessFilter()->checkAccess('partner', 'order', 'delete')):?>
+                        <?=\CHtml::link('<span class="fa fa-times"></span> Удалить', ['delete', 'id' => $order->Id], ['class' => 'btn btn-danger', 'onclick' => "return confirm('Вы уверены, что хотите удалить счет?');"]);?>
                     <?php endif;?>
                 <?php endif;?>
                 <?=\CHtml::link('<span class="fa fa-print"></span> Счет с печатью', $order->getUrl(), ['class' => 'btn', 'target' => '_blank']);?>

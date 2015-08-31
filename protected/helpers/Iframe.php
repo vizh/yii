@@ -7,24 +7,25 @@ class Iframe
      *
      * Проверка открыто окно во фрейме или нет
      */
-
-    public function isFrame()
+    public static function isFrame()
     {
-        $requestReferrer = \Yii::app()->request->urlReferrer; //var_dump($requestURI);
-        $requestURI = \Yii::app()->request->requestUri;
-        $requerstHost = \Yii::app()->request->hostInfo;
-        if ((strpos($requestURI, 'frame') || strpos($requestReferrer, 'frame')) && strpos($requerstHost, 'runet-id')){
-            return true;
-        }
-        elseif((!strpos($requestURI, 'frame') || !strpos($requestReferrer, 'frame')) && strpos($requerstHost, 'runet-id')){
-            return false;
-        }
-        elseif(strpos($requestURI, 'frame'))
-        {
+        /** @var \CHttpRequest $request */
+        $request = \Yii::app()->getRequest();
 
+        $referrer = $request->getUrlReferrer();
+        $URI = $request->getRequestUri();
+        $host = $request->getHostInfo();
+
+        $isUriFrame = strpos($URI, 'frame');
+        $isReferrerFrame = strpos($referrer, 'frame');
+
+        if (($isUriFrame || $isReferrerFrame) && strpos($host, RUNETID_HOST)){
             return true;
-        }
-        else {
+        } elseif((!$isUriFrame || !$isReferrerFrame) && strpos($host, RUNETID_HOST)){
+            return false;
+        } elseif($isUriFrame) {
+            return true;
+        } else {
             return false;
         }
     }

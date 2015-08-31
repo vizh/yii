@@ -143,7 +143,7 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                                     'class'   => 'btn btn-default',
                                     'title'   => 'Перенести',
                                 ],
-                                'visible' => '$data->Paid'
+                                'visible' => '$data->Paid && Yii::app()->controller->getAccessFilter()->checkAccess("partner", "orderitem", "redirect")'
                             ],
                             'refund' => [
                                 'label' => '<i class="fa fa-undo"></i>',
@@ -152,7 +152,7 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                                     'class'   => 'btn btn-default',
                                     'title'   => 'Вовзрат',
                                 ],
-                                'visible' => '$data->Paid'
+                                'visible' => '$data->Paid && Yii::app()->controller->getAccessFilter()->checkAccess("partner", "orderitem", "refund")'
                             ]
                         ]
                     ]

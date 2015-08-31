@@ -106,7 +106,7 @@ $controller = $this;
                         'template' => '{view}{update}{paid}{print}',
                         'buttons' => [
                             'update' => [
-                                'visible' => '$data->getIsBankTransfer() && !$data->Paid'
+                                'visible' => '$data->getIsBankTransfer() && !$data->Paid && !$data->Deleted && Yii::app()->controller->getAccessFilter()->checkAccess("partner", "order", "edit")'
                             ],
                             'print' => [
                                 'label' => '<i class="fa fa-print"></i>',
@@ -120,12 +120,12 @@ $controller = $this;
                             ],
                             'paid' => [
                                 'label' => '<i class="fa fa-check"></i>',
-                                'visible' => '!$data->Paid && ($data->getIsBankTransfer() || \Yii::app()->partner->getAccount()->getIsAdmin())',
+                                'visible' => '!$data->Deleted && !$data->Paid && $data->getIsBankTransfer() && Yii::app()->controller->getAccessFilter()->checkAccess("partner", "order", "activate")',
                                 'options' => [
                                     'class'  => 'btn btn-warning',
                                     'title'  => 'Отметить данный счет оплаченным'
                                 ],
-                                'url' => 'Yii::app()->controller->createUrl("view",["id"=>$data->primaryKey, "action" => "setPaid"])'
+                                'url' => 'Yii::app()->controller->createUrl("activate",["id"=>$data->primaryKey])'
                             ]
                         ]
                     ]
