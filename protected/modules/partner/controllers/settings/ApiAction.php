@@ -37,6 +37,7 @@ class ApiAction extends Action
             $account->EventId = $this->getEvent()->Id;
             $account->Key = Texts::GenerateString(10, true);
             $account->Secret = Texts::GenerateString(25);
+            $account->Role = Account::ROLE_PARTNER;
             $account->save();
         }
         return $account;

@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Àíäðåé
+ * User: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * Date: 04.08.2015
  * Time: 16:55
  */
@@ -9,14 +9,75 @@
 namespace event\components\handlers\register;
 
 
+use mail\models\Layout;
+use partner\models\forms\program\Participant;
+use event\models\Participant as ParticipantModel;
+
+
 class Next2015 extends Base
 {
     /**
-     * Ïîâòîðÿòü ïèñüìî ïðè âîçíèêíîâåíèå ñîáûòèÿ
-     * @return bool
+     * @inheritdoc
+     */
+    public function getBody()
+    {
+        if ($this->requiredRegistrationConfirmation()) {
+            return $this->renderBody('event.views.mail.register.next2015.confirm', []);
+        }
+        return parent::getBody();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getLayoutName()
+    {
+        if ($this->requiredRegistrationConfirmation()) {
+            return Layout::OneColumn;
+        }
+        return parent::getLayoutName();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSubject()
+    {
+        if ($this->requiredRegistrationConfirmation()) {
+            return 'ÐŸÐ¾Ð´Ñ‚Ð²ÐµÑ€Ð¶Ð´ÐµÐ½Ð¸Ðµ Ñ€ÐµÐ³Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ð¸ ÑˆÐºÐ¾Ð»ÑŒÐ½Ð¸ÐºÐ¾Ð² - â€‹ÐšÐ¾Ð½Ñ„ÐµÑ€ÐµÐ½Ñ†Ð¸Ñ ÐŸÐ¾ÐºÐ¾Ð»ÐµÐ½Ð¸Ðµ NEXT "Ð¨ÐºÐ¾Ð»Ð° ÐÐ¾Ð²Ñ‹Ñ… Ð¢ÐµÑ…Ð½Ð¾Ð»Ð¾Ð³Ð¸Ð¹"';
+        }
+        return parent::getSubject();
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getAttachments()
+    {
+        if ($this->requiredRegistrationConfirmation()) {
+            return [
+                'Ð¤Ð¾Ñ€Ð¼Ð° 1.xlsx' => \Yii::getPathOfAlias('webroot.docs.mail.next2015.forma1').'.xlsx'
+            ];
+        }
+        return parent::getAttachments();
+    }
+
+
+    /**
+     * @inheritdoc
      */
     protected function getRepeat()
     {
+        if ($this->requiredRegistrationConfirmation()) {
+            return true;
+        }
         return false;
+    }
+
+
+    private function requiredRegistrationConfirmation()
+    {
+        return in_array($this->participant->PartId, [95,96,98,100]) && $this->participant->RoleId == 83;
     }
 }

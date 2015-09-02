@@ -478,7 +478,7 @@ class Event extends ActiveRecord implements ISearch
      * @param null $message
      * @throws Exception
      */
-    public function unregisterUserOnPart(User $user, Part $part = null, $message = null)
+    public function unregisterUserOnPart(User $user, $part = null, $message = null)
     {
         $participant = Participant::model()
             ->byEventId($this->Id)
