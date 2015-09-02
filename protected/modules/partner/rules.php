@@ -75,8 +75,7 @@ return array(
         'allow',
         'roles' => array('PartnerVerified'),
         'module' => 'partner',
-        'controllers' => array('user'),
-        'actions' => array('export')
+        'controllers' => array('user/export'),
     ),
 
 

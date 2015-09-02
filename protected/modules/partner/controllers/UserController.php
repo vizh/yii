@@ -1,5 +1,6 @@
 <?php
 use \partner\components\Controller;
+use partner\models\Export;
 
 class UserController extends Controller
 {
@@ -14,7 +15,8 @@ class UserController extends Controller
             'translate' => '\partner\controllers\user\TranslateAction',
             'ajaxget' => '\partner\controllers\user\AjaxGetAction',
             'register' => '\partner\controllers\user\RegisterAction',
-            'export' => '\partner\controllers\user\ExportAction',
+            'export' => '\partner\controllers\user\export\IndexAction',
+            'exportdownload' => '\partner\controllers\user\export\DownloadAction',
             'invite' => '\partner\controllers\user\InviteAction',
             'import' => '\partner\controllers\user\import\IndexAction',
             'importmap' => '\partner\controllers\user\import\MapAction',
