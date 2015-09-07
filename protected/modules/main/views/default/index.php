@@ -35,7 +35,7 @@
         </div>
         <div class="row" style="margin-top: 20px;">
             <div class="span12 create-event-banner">
-                <?=\CHtml::link(\CHtml::image('/images/banners/topevents15.jpg', 'RUNET—ID рукомендует. Главные мероприятия 2015 года', ['style' => 'height: auto; width: 100%;']), 'http://events.runet-id.com/', ['target' => '_blank']); ?>
+                <?php $this->widget('\application\widgets\Banner940');?>
             </div>
         </div>
     </div>
