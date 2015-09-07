@@ -1,15 +1,24 @@
 <?php
 namespace pay\components\handlers\orderjuridical\create;
 
+use event\models\Event;
 use mail\components\MailLayout;
+use user\models\User;
 
 class Base extends MailLayout
 {
     /** @var \pay\models\Order */
     protected $order;
+
+    /** @var User */
     protected $payer;
+
+    /** @var Event */
     protected $event;
+
+    /** @var int  */
     protected $total;
+
     public function __construct(\mail\components\Mailer $mailer, \CEvent $event)
     {
         parent::__construct($mailer);
@@ -54,8 +63,16 @@ class Base extends MailLayout
         ]);
     }
 
+    /**
+     * @return string
+     */
     protected function getViewPath()
     {
+        $alias = 'pay.views.mail.orderjuridical.create.' . strtolower($this->event->IdName);
+        $path  =  \Yii::getPathOfAlias($alias) . '.php';
+        if (file_exists($path)) {
+            return $alias;
+        }
         return 'pay.views.mail.orderjuridical.create.base';
     }
 

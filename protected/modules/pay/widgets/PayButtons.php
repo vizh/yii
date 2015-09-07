@@ -15,14 +15,6 @@ class PayButtons extends Widget
     public static $OnlineMoney = ['yandexmoney', 'paypal'];
 
     /**
-     *
-     */
-    public function init()
-    {
-        $this->registerResources();
-    }
-
-    /**
      * @throws \CException
      */
     public function run()
