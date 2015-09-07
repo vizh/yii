@@ -24,11 +24,14 @@ $clientScript->registerScript('init', '
         <tbody>
             <tr ng-repeat="product in products">
                 <td>
-                    <h4>{{product.Title}}</h4>
-                    <div class="text-muted" ng-bind-html="product.Description"></div>
+                    <strong>{{product.Title}}</strong>
+                    <div class="text-muted m-top_5" ng-bind-html="product.Description" ng-if="product.Description"></div>
                 </td>
                 <td class="text-right col-width">
                     {{product.Price != 0 ? product.Price  + " <?=Yii::t('app', 'руб.');?>" : "<?=\Yii::t('app', 'Бесплатно');?>"}}
+                    <p ng-repeat="price in product.futurePrices" class="future-price text-muted">
+                        {{price.Title}} <strong>{{price.Price}} <?=Yii::t('app', 'руб.');?></strong>
+                    </p>
                 </td>
                 <td class="text-center col-width">
                     <?=\CHtml::tag('select', ['ng-model' => 'product.count', 'ng-options' => 'option for option in [0,1,2,3,4,5,6,7,8,9,10]']);?>

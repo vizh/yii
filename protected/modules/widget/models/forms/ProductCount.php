@@ -7,6 +7,7 @@ use application\components\helpers\ArrayHelper;
 use pay\components\collection\Finder;
 use pay\models\CouponActivation;
 use pay\models\Product;
+use pay\models\ProductPrice;
 use user\models\User;
 
 class ProductCount extends EventItemCreateUpdateForm
@@ -70,6 +71,7 @@ class ProductCount extends EventItemCreateUpdateForm
             $item = ArrayHelper::toArray($product, ['pay\models\Product' => ['Id', 'Title', 'Price', 'Description']]);
             $item['count'] = 0;
             $item['participants'] = [];
+            $this->fillProductFuturePrices($product, $item);
             $result[$product->Id] = $item;
         }
         $this->fillProductsJsonParticipantsData($result);
@@ -102,6 +104,39 @@ class ProductCount extends EventItemCreateUpdateForm
         foreach ($this->Count as $id => $count) {
             if ($count > 0 && ($count - sizeof($result[$id]['participants'])) > 0) {
                 $result[$id]['participants'] = array_pad($result[$id]['participants'], $count, []);
+            }
+        }
+    }
+
+    /**
+     * @param Product $product
+     * @param $item
+     */
+    private function fillProductFuturePrices(Product $product, &$item)
+    {
+        if (sizeof ($product->PricesActive) > 1) {
+            foreach ($product->PricesActive as $i => $price) {
+                if ($i == 0) {
+                    continue;
+                }
+
+                $item['futurePrices'][] = ArrayHelper::toArray($price, [
+                    'pay\models\ProductPrice' => [
+                        'Price',
+                        'Title' => function (ProductPrice $price) {
+                            $title = $price->Title;
+                            if (empty($title)) {
+                                $formatter = \Yii::app()->getDateFormatter();
+                                if (!empty($price->EndTime)) {
+                                    $title = \Yii::t('app', 'с') . ' ' . $formatter->format('d MMM', $price->StartTime) . ' ' . \Yii::t('app', 'до') . ' ' . $formatter->format('d MMM', $price->EndTime);
+                                } else {
+                                    $title = \Yii::t('app', 'с') . ' ' . $formatter->format('d MMM', $price->StartTime);
+                                }
+                            }
+                            return $title;
+                        }
+                    ]
+                ]);
             }
         }
     }
