@@ -1,13 +1,74 @@
 <?php
 
-class TemplateController extends \application\components\controllers\AdminMainController
+use mail\models\Template;
+use mail\models\forms\admin\Template as TemplateForm;
+use application\components\controllers\AdminMainController;
+use application\helpers\Flash;
+use application\components\utility\Paginator;
+
+class TemplateController extends AdminMainController
 {
-  public function actions()
-  {
-    return [
-      'index' => '\mail\controllers\admin\template\IndexAction',
-      'edit'  => '\mail\controllers\admin\template\EditAction',
-      'deleteattachment'  => '\mail\controllers\admin\template\DeleteAttachmentAction'
-    ];
-  }
+    /**
+     * Список всех рассылок
+     */
+    public function actionIndex()
+    {
+        $paginator = new Paginator(Template::model()->count());
+        $paginator->perPage = \Yii::app()->getParams()['AdminMailPerPage'];
+        $templates = Template::model()->orderBy(['"t"."Id"' => SORT_DESC])->findAll($paginator->getCriteria());
+        $this->render('index', ['templates' => $templates, 'paginator' => $paginator]);
+    }
+
+    /**
+     * Редактирование или создание шаблона рассылки
+     * @param int $id
+     * @throws CHttpException
+     */
+    public function actionEdit($id = null)
+    {
+        $template = null;
+        if ($id !== null) {
+            $template = Template::model()->findByPk($id);
+            if ($template === null) {
+                throw new \CHttpException(404);
+            }
+
+            if ($template->Active) {
+                Flash::setError('Рассылка была активирована, внесни изменения невозможно!');
+            }
+        }
+
+        $form = new TemplateForm($template);
+        if (\Yii::app()->getRequest()->getIsPostRequest()) {
+            $form->fillFromPost();
+            $template = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
+            if ($template !== null) {
+                Flash::setSuccess($form->Test ? 'Тестовая рассылка успешно отправлена' : 'Рассылка успешно сохранена');
+                $this->redirect(['edit', 'id' => $template->Id]);
+            }
+        }
+
+        $this->render('edit', ['form' => $form]);
+    }
+
+    /**
+     * Удаление приложенного файла к рассылке
+     * @param int $id
+     * @param string $file
+     * @throws CHttpException
+     */
+    public function actionDeleteAttachment($id, $file)
+    {
+        $template = Template::model()->findByPk($id);
+        if ($template === null) {
+            throw new \CHttpException(404);
+        }
+
+        $form = new TemplateForm($template);
+        $path = $form->getPathAttachments() . DIRECTORY_SEPARATOR . $file;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        $this->redirect(['edit','id' => $template->Id]);
+    }
 }

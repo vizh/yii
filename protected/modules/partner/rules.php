@@ -71,12 +71,13 @@ return array(
         'actions' => array('roles', 'api')
     ),
 
-    array(
+    [
         'allow',
-        'roles' => array('PartnerVerified'),
+        'roles' => ['PartnerVerified'],
         'module' => 'partner',
-        'controllers' => array('user/export'),
-    ),
+        'controllers' => ['user'],
+        'actions' => ['export', 'exportdownload']
+    ],
 
 
     array(

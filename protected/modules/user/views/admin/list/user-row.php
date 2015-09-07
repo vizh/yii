@@ -14,9 +14,16 @@ $editUrl = ['admin/edit/index', 'id' => $user->RunetId, 'backUrl' => \Yii::app()
     <?endif;?>
 </td>
 <td><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy HH:mm', $user->CreationTime);?></td>
-<td>
+<td class="text-center">
     <?if ($user->Visible):?>
-        <span class="label label-success"><?=\Yii::t('app', 'Активный аккаунт');?></span>
+        <span class="label label-success"><?=\Yii::t('app', 'Активный аккаунт');?></span><br/>
+        <div style="font-size: 80%;">
+            <?php if ($user->Verified):?>
+                <span class="text-success"><?=\Yii::t('app', 'Подтвержден');?></span>
+            <?else:?>
+                <span class="muted"><?=\Yii::t('app', 'Не подтвержден');?></span>
+            <?endif;?>
+        </div>
     <?else:?>
         <span class="label label-warning"><?=\Yii::t('app', 'Cкрытый аккаунт');?></span>
     <?endif;?>

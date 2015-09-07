@@ -3,7 +3,7 @@ Yii::import('ext.MobileDetect.MobileDetect');
 $device = Yii::app()->mobileDetect;
 ?>
 <div class="navbar-inner">
-  <?$this->widget('\application\widgets\AlertPhoneVerify');?>
+  <?php $this->widget('\application\widgets\alerts\UserVerify');?>
   <div class="container">
     <a class="brand" href="<?=Yii::app()->createUrl('/main/default/index');?>">
       <img src="/images/logo-small.png" width="115" height="10" alt="-RUNET-ID-">

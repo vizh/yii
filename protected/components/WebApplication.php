@@ -1,5 +1,6 @@
 <?php
 namespace application\components;
+use application\components\auth\WebUser;
 
 /**
  * @property \application\components\auth\WebUser $user
@@ -16,6 +17,7 @@ namespace application\components;
  * @method \CClientScript getClientScript()
  * @method \CAssetManager getAssetManager()
  * @method \CDbConnection getDb()
+ * @method WebUser getUser()
  */
 class WebApplication extends \CWebApplication
 {

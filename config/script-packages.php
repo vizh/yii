@@ -123,9 +123,9 @@ return [
         ]
     ],
     'bootstrap3' => [
-        'baseUrl' => '/',
-        'js' => ['javascripts/bootstrap-3/js/bootstrap.min.js'],
-        'css' => ['javascripts/bootstrap-3/css/bootstrap.min.css'],
+        'baseUrl' => '/javascripts/bootstrap-3/',
+        'js' => ['js/bootstrap.min.js'],
+        'css' => ['css/bootstrap.min.css', 'css/custom.css'],
         'depends' => ['runetid.jquery']
     ],
     'jquery' => [

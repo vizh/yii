@@ -49,4 +49,20 @@ class Widget extends \CWidget
             \Yii::app()->getClientScript()->registerCssFile(\Yii::app()->getAssetManager()->publish($path));
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return ltrim(get_class($this), '\\');
+    }
+
+    /**
+     * @return string
+     */
+    public function getNameId()
+    {
+        return str_replace('\\', '_', $this->getName());
+    }
 }

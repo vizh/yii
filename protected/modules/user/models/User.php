@@ -3,6 +3,7 @@ namespace user\models;
 
 use api\models\ExternalUser;
 use application\components\db\ar\OldAttributesStorage;
+use application\components\utility\Pbkdf2;
 use application\components\utility\PhoneticSearch;
 use application\components\utility\Texts;
 use application\models\translation\ActiveRecord;
@@ -44,6 +45,7 @@ use ruvents2\models\Badge as Badge2;
  * @property string $MergeTime
  * @property string $SearchLastName
  * @property string $SearchFirstName
+ * @property bool $Verified
  *
  *
  * Внешние связи
@@ -74,11 +76,13 @@ use ruvents2\models\Badge as Badge2;
  * @method \user\models\User findByPk($pk,$condition='',$params=array())
  * @method \user\models\User[] findAll($condition='',$params=array())
  * @method User byTemporary(bool $temporary)
+ * @method User byVerified(bool $verified)
  *
  */
 class User extends ActiveRecord implements ISearch, IAutocompleteItem
 {
     use OldAttributesStorage;
+
 
     //Защита от перегрузки при поиске
     const MaxSearchFragments = 500;
@@ -396,12 +400,11 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function register($notify = true)
     {
-        if (empty($this->Password))
-        {
+        if (empty($this->Password)) {
             $this->Password = \Utils::GeneratePassword();
         }
         $password = $this->Password;
-        $pbkdf2 = new \application\components\utility\Pbkdf2();
+        $pbkdf2 = new  Pbkdf2();
         $this->Password = $pbkdf2->createHash($password);
         $this->save();
         $this->refresh();
@@ -905,8 +908,22 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         $this->SearchLastName = new \CDbExpression('to_tsvector(\'' . PhoneticSearch::getIndex($this->LastName) . '\')');
     }
 
-    public function getUrl(){
+    /**
+     * Абсолютная ссылка на профиль пользователя
+     * @return string
+     */
+    public function getUrl()
+    {
         return \Yii::app()->createAbsoluteUrl('/user/view/index', array('runetId' => $this->RunetId));
+    }
+
+    /**
+     * Абсолютная ссылка с авторизаией для подтверждения профиля пользователя
+     * @return string
+     */
+    public function getVerifyUrl()
+    {
+        return $this->getFastauthUrl('/user/setting/verify');
     }
 
     /**
@@ -953,5 +970,14 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             return substr($code, 0, 5);
         }
         return null;
+    }
+
+    /**
+     * Общее кол-во участников проекта
+     * @return int
+     */
+    public static function getTotalCount()
+    {
+        return self::model()->byVerified(true)->byVisible(true)->count();
     }
 }

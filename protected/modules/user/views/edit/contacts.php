@@ -88,7 +88,7 @@ use user\models\User;
                 </div>
               </div>
 
-              <div class="form-row">
+              <div class="form-row m-top_20">
                 <?=\CHtml::activeLabel($form, 'Site');?>
                 <?=\CHtml::activeTextField($form, 'Site', array('class' => 'span5'));?>
               </div>

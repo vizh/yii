@@ -12,6 +12,12 @@ trait OldAttributesStorage
         parent::afterFind();
     }
 
+    protected function afterSave()
+    {
+        $this->oldAttributes = $this->getAttributes();
+        parent::afterSave();
+    }
+
     protected $oldAttributes = [];
 
     /**

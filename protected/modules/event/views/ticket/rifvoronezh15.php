@@ -12,7 +12,7 @@ use ruvents\components\QrCode;
 
 $contacts = [];
 if ($event->getContactSite() != null) {
-    $contacts[] = 'Сайт: ' . $event->getContactSite()->getCleanUrl();
+    $contacts[] = 'Сайт: www.regions.rif.ru/events/voronezh' . ', www.rifvrn.ru';
 }
 if (!empty($event->LinkPhones)) {
     $contacts[] = 'Тел.: ' . $event->LinkPhones[0]->Phone;
@@ -98,12 +98,7 @@ if (!empty($event->LinkEmails)) {
     <tbody>
         <tr>
             <td style="text-align: center; vertical-align: middle; height: 60mm;">
-                <?if ($event->getTicketImage()->exists()):?>
-                    <img src="<?=$event->getTicketImage()->resize(900, 250);?>" style="image-resolution: 130dpi;">
-                <?else:;?>
-                    <img src="<?=$event->getLogo()->get150px();?>">
-                <?endif;?>
-
+                <img src="<?=$event->getTicketImage()->get864px();?>" style="image-resolution: 130dpi;">
             </td>
         </tr>
     </tbody>

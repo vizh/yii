@@ -40,4 +40,30 @@ class ActiveForm extends \CActiveForm
 
         return \CHtml::tag('span', $htmlOptions, $message);
     }
+
+    /**
+     * @param FormModel $model
+     * @param string $attribute
+     * @param sting $label
+     * @param array $htmlOptions
+     * @return string
+     */
+    public function button(FormModel $model, $attribute, $label, $htmlOptions = [])
+    {
+        $htmlOptions['name'] = \CHtml::activeName($model, $attribute);
+        return \CHtml::tag('button', $htmlOptions, $label);
+    }
+
+    /**
+     * @param FormModel $model
+     * @param string $attribute
+     * @param string $label
+     * @param array $htmlOptions
+     * @return string
+     */
+    public function submitButton(FormModel $model, $attribute, $label, $htmlOptions = [])
+    {
+        $htmlOptions['type'] = 'submit';
+        return $this->button($model, $attribute, $label, $htmlOptions);
+    }
 }

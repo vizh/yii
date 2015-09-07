@@ -16,6 +16,7 @@ class RegisterAction extends \partner\components\Action
                 $this->getController()->redirect(['edit', 'id' => $user->RunetId]);
             }
         }
+
         $this->getController()->render('register', ['form' => $form]);
     }
 }

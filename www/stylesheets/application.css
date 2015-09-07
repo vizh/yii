@@ -452,6 +452,10 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 #header .navbar .nav .lang {font-size: 13px;}
 #header .navbar .nav .lang .dropdown-menu {text-align: center;}
 
+#header .navbar .alert {
+  margin-bottom: 0;
+  border-radius: 0;
+}
 
 /* SEARCH */
 #search {
@@ -3091,14 +3095,6 @@ input[type="file"] {
   position: absolute;
   margin-top: 0;
 }
-
-.alert.primary-phone-verify {
-  margin-bottom: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
-}
-.alert.primary-phone-verify a.btn.btn-mini {margin-top: 0;}
 
 
 .widget-invite form { margin-bottom: 0; }

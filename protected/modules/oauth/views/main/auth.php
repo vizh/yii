@@ -66,17 +66,14 @@ $params = [];
         </div>
     </div>
 
-    <div class="checkbox">
-        <div class = "row">
-
-            <div class="col-sm-6">
-                <label class="checkbox clearfix muted"><?=CHtml::activeCheckBox($model, 'RememberMe', array('uncheckValue' => null));?><?=$model->getAttributeLabel('RememberMe');?></label>
+    <div class="row m-bottom_20">
+        <div class="col-xs-6">
+            <div class="checkbox clear-indents">
+              <label><?=CHtml::activeCheckBox($model, 'RememberMe', array('uncheckValue' => null));?><?=$model->getAttributeLabel('RememberMe');?></label>
             </div>
-            <div class="col-sm-6 text-right restore-password">
-
-                <a href="<?=$this->createUrl('/oauth/main/recover', $params);?>" class=""><?=Yii::t('app', 'Восстановить пароль');?></a>
-            </div>
-
+        </div>
+        <div class="col-xs-6 text-right">
+            <a href="<?=$this->createUrl('/oauth/main/recover', $params);?>" class=""><?=Yii::t('app', 'Восстановить пароль');?></a>
         </div>
     </div>
 

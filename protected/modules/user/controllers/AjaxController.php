@@ -4,16 +4,33 @@ use user\models\forms\RegisterForm;
 use user\models\User;
 use user\models\Document;
 use application\components\controllers\PublicMainController;
+use application\components\controllers\AjaxController as TraitAjaxController;
+use user\components\handlers\Verify;
+use mail\components\mailers\MandrillMailer;
 
 
 
 class AjaxController extends PublicMainController
 {
+    use TraitAjaxController;
+
     public function actions()
     {
         return [
             'phoneverify' => '\user\controllers\ajax\PhoneVerifyAction'
         ];
+    }
+
+    /**
+     * Отправка email с ссылкой на подтверждение аккаунта пользователя
+     */
+    public function actionVerify()
+    {
+        $user = \Yii::app()->getUser()->getCurrentUser();
+        if ($user !== null && !$user->Verified) {
+            $mail = new Verify(new MandrillMailer(), new \CModelEvent($user));
+            $mail->send();
+        }
     }
 
     public function actionSearch($term, $eventId = null)

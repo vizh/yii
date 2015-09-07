@@ -1,5 +1,6 @@
 <?php
 namespace mail\models;
+use application\components\ActiveRecord;
 use event\models\Event;
 use mail\components\filter\Main;
 use mail\components\mailers\MandrillMailer;
@@ -17,6 +18,7 @@ use mail\components\mailers\PhpMailer;
  * @property string $FromName
  * @property bool $SendPassbook
  * @property bool $SendUnsubscribe
+ * @property bool $SendUnverified
  * @property bool $Active
  * @property string $ActivateTime
  * @property bool $Success
@@ -30,8 +32,10 @@ use mail\components\mailers\PhpMailer;
  * @property string $Layout
  * @property int $RelatedEventId;
  * @property Event $RelatedEvent;
+ *
+ * @method Template findByPk(int $pk)
  */
-class Template extends \CActiveRecord
+class Template extends ActiveRecord
 {
     const UsersPerSend = 200;
 
@@ -133,6 +137,7 @@ class Template extends \CActiveRecord
     }
 
     /**
+     * @property bool $all
      * @return \CDbCriteria
      */
     public function getCriteria($all = false)
@@ -150,6 +155,11 @@ class Template extends \CActiveRecord
                     $criteria->params['RelativeEventId'] = $this->RelatedEventId;
                 }
             }
+
+            if (!$this->SendUnverified) {
+                $criteria->addCondition('"t"."Verified"');
+            }
+
 
             if (!$this->SendInvisible){
                 $criteria->addCondition('"t"."Visible"');
@@ -189,6 +199,15 @@ class Template extends \CActiveRecord
             $this->viewPath = \Yii::getPathOfAlias($this->getViewName()).'.php';
         }
         return $this->viewPath;
+    }
+
+    /**
+     * Возращает true, если представление рассылки было изменено из вне
+     * @return bool
+     */
+    public function checkViewExternalChanges()
+    {
+        return md5_file($this->getViewPath()) !== $this->ViewHash;
     }
 
     /**

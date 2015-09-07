@@ -16,6 +16,7 @@ use user\components\handlers\recover\sms\Recover as SmsRecover;
 use user\models\forms\Recovery;
 use user\models\User;
 use user\models\Log;
+use oauth\models\forms\Register as FormRegister;
 
 class MainController extends \oauth\components\Controller
 {
@@ -140,62 +141,30 @@ class MainController extends \oauth\components\Controller
         ]);
     }
 
+    /**
+     * Регистрация пользователей
+     * @throws Exception
+     */
     public function actionRegister()
     {
-        if (!Yii::app()->user->isGuest) {
-            $this->redirect($this->createUrl('/oauth/main/dialog'));
+        if (!Yii::app()->getUser()->getIsGuest()) {
+            $this->redirect(['dialog']);
         }
 
-        $formRegister = new RegisterForm($this->Account);
-        $socialProxy  = null;
+        $form = new FormRegister($this->social);
+        $form->fillFromSocialProxy();
 
-        $socialProxy = !empty($this->social) ? new Proxy($this->social) : null;
-        if ($socialProxy !== null && $socialProxy->isHasAccess()) {
-            $formRegister->LastName = $socialProxy->getData()->LastName;
-            $formRegister->FirstName = $socialProxy->getData()->FirstName;
-            $formRegister->Email = $socialProxy->getData()->Email;
-        }
-
-        $request = \Yii::app()->getRequest();
-        $formRegister->attributes = $request->getParam(get_class($formRegister));
-
-        if ($request->getIsPostRequest() && $formRegister->validate()) {
-            $user = new User();
-            $user->LastName = $formRegister->LastName;
-            $user->FirstName = $formRegister->FirstName;
-            $user->FatherName = $formRegister->FatherName;
-            $user->Email = $formRegister->Email;
-            $user->PrimaryPhone = $formRegister->Phone;
-            $user->register();
-
-            if (!$formRegister->Address->getIsEmpty()) {
-                $address = new Address();
-                $address->setAttributes($formRegister->Address->getAttributes(), false);
-                $address->save();
-                $user->setContactAddress($address);
-            }
-
-            if (!empty($formRegister->Company)) {
-                $user->setEmployment($formRegister->Company);
-            }
-            $identity = new RunetId($user->RunetId);
-            $identity->authenticate();
-            if ($identity->errorCode == \CUserIdentity::ERROR_NONE) {
-                \Yii::app()->user->login($identity);
-                if ($socialProxy !== null && $socialProxy->isHasAccess()) {
-                    $socialProxy->saveSocialData($user);
+        if (\Yii::app()->getRequest()->getIsPostRequest()) {
+            $form->fillFromPost();
+            if ($form->createActiveRecord() !== null) {
+                $url = ['dialog'];
+                if (Iframe::isFrame()) {
+                    $url['frame'] = 'true';
                 }
-                Log::create($user);
-                $params = [];
-                \Iframe::isFrame() ? $params['frame'] = 'true' : '';
-                $this->redirect($this->createUrl('/oauth/main/dialog', $params));
-            } else {
-                throw new Exception('Не удалось пройти авторизацию после регистрации. Код ошибки: ' . $identity->errorCode);
+                $this->redirect($url);
             }
         }
-        \Yii::app()->getClientScript()->registerPackage('runetid.jquery.ui');
-        \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
-        $this->render('register', array('model' => $formRegister, 'socialProxy' => $socialProxy));
+        $this->render('register', ['form' => $form]);
     }
 
     public function actionRecover()

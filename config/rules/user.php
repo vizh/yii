@@ -11,7 +11,7 @@ return array(
     'users' => ['?'],
     'module' => 'user',
     'controllers' => ['ajax'],
-    'actions' => ['phoneverify']
+    'actions' => ['phoneverify', 'verify']
   ),
   array(
     'allow',

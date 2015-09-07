@@ -16,10 +16,10 @@ $clientScript->registerScript('auth', '
         var js, id = "runetid - jssdk", ref = d.getElementsByTagName("script")[0];
         if (d.getElementById(id)) {return;}
         js = d.createElement("script"); js.id = id; js.async = true;
-        js.src = "//runet-id.loc/javascripts/api/runetid.js";
+        js.src = "//runet-id.com/javascripts/api/runetid.js";
         ref.parentNode.insertBefore(js, ref);
     }(document));
-');
+', \CClientScript::POS_HEAD);
 ?>
 <div class="text-center">
     <a href="#" class="btn btn-primary" onclick="rID.login(); return false;"><?=\Yii::t('app', 'Авторизуйтесь или зарегистрируйтесь.');?></a>

@@ -1,29 +1,46 @@
 <?php
 namespace mail\models\forms\admin;
 
+use application\components\form\CreateUpdateForm;
 use event\models\Role;
 use event\models\Event;
 use geo\models\City;
 use geo\models\Country;
 use geo\models\Region;
-use mail\components\Mailer;
+use mail\components\filter\EmailCondition;
+use mail\components\filter\EventCondition;
+use mail\components\filter\GeoCondition;
+use mail\components\filter\RunetIdCondition;
 use mail\models\Layout;
+use mail\models\TemplateLog;
 use user\models\User;
+use mail\models\Template as TemplateModel;
+use mail\components\filter\Main as MainFilter;
 
-class Template extends \CFormModel
+/**
+ * Class Template
+ * @package mail\models\forms\admin
+ *
+ * @method TemplateModel getActiveRecord()
+ */
+class Template extends CreateUpdateForm
 {
-    const ByEvent   = 'Event';
-    const ByEmail   = 'Email';
-    const ByRunetId = 'RunetId';
-    const ByGeo     = 'Geo';
+    const ByEvent      = 'Event';
+    const ByEmail      = 'Email';
+    const ByRunetId    = 'RunetId';
+    const ByGeo        = 'Geo';
+
     const TypePositive = 'positive';
     const TypeNegative = 'negative';
+
+    /** @var TemplateModel  */
+    protected $model;
 
     public $Title;
     public $Subject;
     public $From = 'users@runet-id.com';
     public $FromName = '—RUNET—ID—';
-    public $SendPassbook;
+    public $SendPassbook = 0;
     public $SendUnsubscribe;
     public $SendInvisible = 0;
     public $Active = 0;
@@ -35,19 +52,11 @@ class Template extends \CFormModel
     public $ShowUnsubscribeLink = 1;
     public $ShowFooter = 1;
     public $RelatedEventId;
+
+    /** @var \CUploadedFile[] */
     public $Attachments = [];
 
-    private $mailer;
-
-    /**
-     * @param Mailer $mailer
-     * @param string $scenario
-     */
-    public function __construct($mailer, $scenario = '')
-    {
-        parent::__construct($scenario);
-        $this->mailer = $mailer;
-    }
+    public $SendUnverified = 0;
 
     /**
      * @return array
@@ -61,6 +70,7 @@ class Template extends \CFormModel
             'FromName' => \Yii::t('app', 'Имя отправителя письма'),
             'SendPassbook' => \Yii::t('app', 'Добавлять PassBook'),
             'SendUnsubscribe' => \Yii::t('app', 'Отправлять отписавшимся'),
+            'SendUnverified' => \Yii::t('app', 'Отправлять неподтвежденным пользователям'),
             'Active' => \Yii::t('app', 'Рассылка по выбранным получателям'),
             'Test' => \Yii::t('app', 'Получатели тестовой рассылки'),
             'Body' => \Yii::t('app', 'Тело письма'),
@@ -68,7 +78,8 @@ class Template extends \CFormModel
             'Layout' => \Yii::t('app', 'Шаблон'),
             'ShowUnsubscribeLink' => \Yii::t('app', 'Показывать ссылку на отписку'),
             'ShowFooter' => \Yii::t('app', 'Показывать футер'),
-            'RelatedEventId' => \Yii::t('app', 'Связанное мероприятие')
+            'RelatedEventId' => \Yii::t('app', 'Связанное мероприятие'),
+            'Attachments' => \Yii::t('app', 'Приложенные файлы')
         ];
     }
 
@@ -78,7 +89,7 @@ class Template extends \CFormModel
     public function rules()
     {
         return [
-            ['Title, Subject, From, FromName, SendPassbook, SendUnsubscribe, Active, SendInvisible,ShowUnsubscribeLink,ShowFooter', 'required'],
+            ['Title, Subject, From, FromName, SendPassbook, SendUnsubscribe, Active, SendInvisible, ShowUnsubscribeLink, ShowFooter, SendUnverified', 'required'],
             ['Test, TestUsers, Body, Layout', 'safe'],
             ['From', 'email'],
             ['RelatedEventId', 'numerical', 'integerOnly' => true],
@@ -142,7 +153,8 @@ class Template extends \CFormModel
     }
 
     /**
-     * @param $condition string[]
+     * @param string[] $condition
+     * @return string
      */
     private function filterConditionByEvent($condition)
     {
@@ -312,5 +324,247 @@ class Template extends \CFormModel
             Layout::DevCon15 => \Yii::t('app', 'DevCon 2015'),
             Layout::MSDevTour => \Yii::t('add', 'MS Dev Tour 2015')
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createActiveRecord()
+    {
+        $this->model = new TemplateModel();
+        return $this->updateActiveRecord();
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function updateActiveRecord()
+    {
+        if ($this->model->Active || !$this->validate()) {
+            return null;
+        }
+        $isNewRecord = $this->model->getIsNewRecord();
+
+        $this->model->Title = $this->Title;
+        $this->model->Subject = $this->Subject;
+        $this->model->From = $this->From;
+        $this->model->FromName = $this->FromName;
+        $this->model->SendPassbook = $this->SendPassbook == 1 ? true : false;
+        $this->model->SendUnsubscribe = $this->SendUnsubscribe == 1 ? true : false;
+        $this->model->SendInvisible = $this->SendInvisible == 1 ? true : false;
+        $this->model->SendUnverified = $this->SendUnverified == 1 ? true : false;
+        $this->model->Active = $this->Active == 1 ? true : false;
+        $this->model->Layout = $this->Layout;
+        $this->model->ShowUnsubscribeLink = $this->ShowUnsubscribeLink == 1 ? true : false;
+        $this->model->ShowFooter = $this->ShowFooter == 1 ? true : false;
+        $this->model->RelatedEventId = !empty($this->RelatedEventId) ? $this->RelatedEventId : null;
+        if ($this->model->Active){
+            $this->model->ActivateTime = date('Y-m-d H:i:s');
+        }
+
+        $filter = new MainFilter();
+        foreach ($this->Conditions as $key => $condition) {
+            $positive = $condition['type'] == self::TypePositive ? true : false;
+            switch ($condition['by']) {
+                case self::ByEvent:
+                    $condition = new EventCondition($condition['eventId'], $condition['roles']);
+                    $filter->addCondition('\mail\components\filter\Event', $condition, $positive);
+                    break;
+
+                case self::ByEmail:
+                    $condition = new EmailCondition(explode(',', $condition['emails']));
+                    $filter->addCondition('\mail\components\filter\Email', $condition, $positive);
+                    break;
+
+                case self::ByRunetId:
+                    $condition = new RunetIdCondition(explode(',', $condition['runetIdList']));
+                    $filter->addCondition('\mail\components\filter\RunetId', $condition, $positive);
+                    break;
+
+                case self::ByGeo:
+                    $condition = new GeoCondition($condition['label'], $condition['countryId'], $condition['regionId'], $condition['cityId']);
+                    $filter->addCondition('\mail\components\filter\Geo', $condition, $positive);
+                    break;
+            }
+        }
+        $this->model->setFilter($filter);
+        $this->model->save();
+
+        if ($isNewRecord || !$this->model->checkViewExternalChanges()) {
+            $this->saveView();
+        }
+
+        $this->saveAttachments();
+        $this->model->save();
+        if ($this->Test && !$this->sendTestMails()) {
+            return null;
+        }
+        return $this->model;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function fillFromPost()
+    {
+        parent::fillFromPost();
+        $this->Attachments = \CUploadedFile::getInstances($this, 'Attachments');
+    }
+
+    /**
+     * Сохраняет приложенные к рассылки файлы
+     */
+    private function saveAttachments()
+    {
+        if (!empty($this->Attachments)) {
+            $path = $this->getPathAttachments();
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+            foreach ($this->Attachments as $i => $file) {
+                $file->saveAs($path . DIRECTORY_SEPARATOR . str_replace(' ', '-', $file->name));
+            };
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getPathAttachments()
+    {
+        return \Yii::getpathOfAlias('webroot.files.upload.mails.template' . $this->model->Id);
+    }
+
+    /**
+     * Сохраняет отображение рассылки
+     */
+    private function saveView()
+    {
+        $this->Body = strtr($this->Body, $this->bodyFields());
+        file_put_contents($this->model->getViewPath(), $this->Body);
+        $this->model->ViewHash = md5_file($this->model->getViewPath());
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function loadData()
+    {
+        if (parent::loadData()) {
+            if (!$this->model->checkViewExternalChanges()){
+                $this->Body = strtr(
+                    file_get_contents($this->model->getViewPath()),
+                    array_flip($this->bodyFields())
+                );
+            }
+            $this->fillConditionsAttribute();
+
+        }
+        return false;
+    }
+
+    /**
+     *
+     */
+    private function fillConditionsAttribute()
+    {
+        $filter = $this->model->getFilter()->getFilters();
+        $filterMap = [
+            '\mail\components\filter\Event'   => self::ByEvent,
+            '\mail\components\filter\Email'   => self::ByEmail,
+            '\mail\components\filter\RunetId' => self::ByRunetId,
+            '\mail\components\filter\Geo'     => self::ByGeo
+        ];
+
+        $filters = [];
+        foreach (array_keys($filter) as $class) {
+            $filters[$class] = $filterMap[$class];
+        }
+        $conditions = [];
+        $types = [
+            self::TypePositive,
+            self::TypeNegative
+        ];
+        foreach ($filters as $className => $by){
+            foreach ($types as $type){
+                if (isset($filter[$className])){
+                    foreach ($filter[$className]->$type as $criteria){
+                        $condition = ['type' => $type, 'by' => $by];
+                        $class = new \ReflectionClass($criteria);
+                        foreach ($class->getProperties() as $property){
+                            $condition[$property->getName()] = isset($criteria->{$property->getName()}) ? $criteria->{$property->getName()} : null;
+                        }
+
+                        switch ($by){
+                            case self::ByEvent:
+                                $event = \event\models\Event::model()->findByPk($condition['eventId']);
+                                $condition['eventLabel'] = $event->Id.', '.$event->Title;
+                                break;
+
+                            case self::ByEmail:
+                                $condition['emails'] = implode(',', $condition['emails']);
+                                break;
+
+                            case self::ByRunetId:
+                                $condition['runetIdList'] = implode(',', $condition['runetIdList']);
+                                break;
+                        }
+                        $conditions[] = $condition;
+                    }
+                }
+            }
+        }
+        $this->Conditions = $conditions;
+    }
+
+    /**
+     * Кол-во пользовтелей, которые получат рассылку
+     * @return int|string
+     */
+    public function getRecipientsCount()
+    {
+        if (!empty($this->model)) {
+            return User::model()->count($this->model->getCriteria());
+        }
+        return 0;
+    }
+
+    /**
+     * Кол-во уже отправленные писем
+     * @return int|string
+     */
+    public function getSentCount()
+    {
+        if (!empty($this->model)) {
+            $criteria = new \CDbCriteria();
+            $criteria->addCondition('"t"."CreationTime" >= :Time');
+            $criteria->params['Time'] = $this->model->ActivateTime;
+            return TemplateLog::model()->byTemplateId($this->model->Id)->byHasError(false)->count($criteria);
+        }
+        return 0;
+    }
+
+    /**
+     * Отправка тестовых писем пользователю
+     * @return bool
+     */
+    public function sendTestMails()
+    {
+        $this->model->setTestMode(true);
+        $users = User::model()->byRunetIdList(explode(', ', $this->TestUsers))->findAll();
+        foreach ($users as $user) {
+            $criteria = $this->model->getCriteria();
+            $criteria->addCondition('"t"."Id" = :UserId');
+            $criteria->params['UserId'] = $user->Id;
+            if (!User::model()->exists($criteria)) {
+                $this->addError('Test', \Yii::t('app', 'В тестовой рассылке пользователь с RUNET-ID: {id} не попадает в общую выборку!', ['{id}' => $user->RunetId]));
+                return false;
+            }
+        }
+
+        $this->model->setTestUsers($users);
+        $this->model->send();
+        return true;
     }
 } 
