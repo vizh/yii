@@ -525,7 +525,7 @@ class Template extends CreateUpdateForm
     public function getRecipientsCount()
     {
         if (!empty($this->model)) {
-            return User::model()->count($this->model->getCriteria());
+            return User::model()->count($this->model->getCriteria(true));
         }
         return 0;
     }

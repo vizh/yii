@@ -216,17 +216,23 @@ abstract class BaseProductManager
      */
     private function buyLinkProducts($user, $parentOrderItem)
     {
-        if (isset($this->LinkProducts) && !$parentOrderItem->getIsNewRecord() && $parentOrderItem->getItemAttribute('SelectedLinkProducts') !== null) {
-            $productIdList = explode(',',$this->LinkProducts);
-            $selectedProductIdList = explode(',', $parentOrderItem->getItemAttribute('SelectedLinkProducts'));
-            foreach (array_intersect($selectedProductIdList, $productIdList) as $productId) {
-                $product = Product::model()->findByPk($productId);
-                if ($product !== null) {
-                    try {
-                        $orderItem = $product->getManager()->createOrderItem($parentOrderItem->Payer, $parentOrderItem->Owner);
-                        $orderItem->activate();
-                    } catch (Exception $e) {}
-                }
+        if (!isset($this->LinkProducts) || $parentOrderItem->getIsNewRecord()) {
+            return;
+        }
+
+        $products = explode(',', $this->LinkProducts);
+        $selectedProducts = $parentOrderItem->getItemAttribute('SelectedLinkProducts') !== null ? explode(',', $parentOrderItem->getItemAttribute('SelectedLinkProducts')) : null;
+        foreach ($products as $id) {
+            if ($selectedProducts !== null && !in_array($id, $selectedProducts)) {
+                continue;
+            }
+
+            $product = Product::model()->byEventId($this->product->EventId)->findByPk($id);
+            if ($product !== null) {
+                try {
+                    $orderItem = $product->getManager()->createOrderItem($parentOrderItem->Payer, $parentOrderItem->Owner);
+                    $orderItem->activate();
+                } catch (Exception $e) {}
             }
         }
     }
