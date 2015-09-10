@@ -9,9 +9,7 @@
   </div>
 <?if (!empty($this->question)):?>
   <div class="container">
-    <?
-    $percent = null;
-    ?>
+    <?php $percent = $this->question->getForm()->getPercent();?>
     <?if ($percent !== null):?>
       <p style="text-align: center;">Опрос пройден на <strong><?=$percent;?>%</strong></p>
       <div class="row">

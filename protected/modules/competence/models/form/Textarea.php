@@ -14,9 +14,7 @@ class Textarea extends Base
     public function rules()
     {
         $rules = [];
-        if ($this->Required || $this->Required === null) {
-            $rules[] = ['value', 'required', 'message' => 'Введите в строке ответ на вопрос'];
-        }
+        $rules[] = $this->question->Required ? ['value', 'required', 'message' => 'Введите в строке ответ на вопрос'] : ['value', 'safe'];
         return $rules;
     }
 

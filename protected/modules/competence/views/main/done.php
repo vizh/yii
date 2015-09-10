@@ -1,8 +1,11 @@
 <?
 /**
+ * @var $this \application\components\controllers\PublicMainController
  * @var $done bool
  * @var $test \competence\models\Test
  */
+
+$this->setPageTitle($test->Title);
 ?>
 
 <div class="row">

@@ -1,9 +1,10 @@
 <?php
 namespace competence\models\form;
 
+use application\components\form\FormModel;
 use competence\models\Result;
 
-abstract class Base extends \CFormModel
+abstract class Base extends FormModel
 {
     /** @var \competence\models\Question */
     protected $question;
