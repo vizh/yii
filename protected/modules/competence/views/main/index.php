@@ -9,7 +9,7 @@
         <div class="text-center m-top_30">
             <form action="" method="post">
                 <input type="hidden" name="start" value="1">
-                <button type="submit" class="btn btn-success"><?=$test->StartButtonText;?></button>
+                <button type="submit" class="btn btn-success btn-large"><?=$test->StartButtonText;?></button>
             </form>
         </div>
     </div>

@@ -184,8 +184,9 @@ class PayAction extends \partner\components\Action
             ->select('count(DISTINCT "ca"."UserId") as "countUsers"')
             ->from('PayCouponActivation ca')
             ->leftJoin('PayCoupon c', '"ca"."CouponId" = "c"."Id"')
-            ->where('"c"."EventId" = :EventId AND "c"."Discount" = 1');
+            ->where('"c"."EventId" = :EventId AND ("c"."ManagerName" = :DiscountManagerName AND "c"."Discount" = 100)');
         $command->bindValue('EventId', $this->getEvent()->Id);
+        $command->bindValue('DiscountManagerName', 'Percent');
         $result = $command->queryRow();
 
         $this->statistics->totalPromoUsers = $result['countUsers'];
