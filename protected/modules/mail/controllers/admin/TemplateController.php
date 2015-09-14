@@ -5,6 +5,7 @@ use mail\models\forms\admin\Template as TemplateForm;
 use application\components\controllers\AdminMainController;
 use application\helpers\Flash;
 use application\components\utility\Paginator;
+use mail\components\mailers\MandrillMailer;
 
 class TemplateController extends AdminMainController
 {

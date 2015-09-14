@@ -49,7 +49,7 @@
       </thead>
       <tbody>
       <?$dateFormatter = \Yii::app()->dateFormatter;?>
-      <?foreach ($product->Prices as $key => $price):
+      <?foreach ($product->PricesActive as $key => $price):
         $curTime = date('Y-m-d H:i:s');
         $isMuted = $curTime < $price->StartTime || ($price->EndTime != null && $curTime > $price->EndTime);
         ?>
