@@ -18,13 +18,14 @@ class C4 extends \competence\models\form\Base
     public function validateValue($attribute, $params)
     {
         $value = $this->value;
+
         for ($i = 1; $i <= 4; $i++) {
-            if (empty($value[$i])) {
-                $this->addError($attribute, 'Необходимо ввести названия всех четырех компаний');
-                return false;
+            if (!empty($value[$i])) {
+                return true;
             }
         }
-        return true;
+        $this->addError($attribute, 'Необходимо ввести название хотя бы одной компании.');
+        return false;
     }
 
     /**

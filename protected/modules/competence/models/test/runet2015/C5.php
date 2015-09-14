@@ -20,16 +20,14 @@ class C5 extends \competence\models\form\Base
     public function validateValue($attribute, $params)
     {
         $value = $this->value;
-        for ($i = 1; $i <= 4; $i++) {
+        foreach ($this->getCompanyNames() as $i => $name) {
             if (empty($value[$i])) {
-                $this->addError($attribute, 'Необходимо ввести названия всех четырех компаний');
+                $this->addError($attribute, 'Необходимо ввести значения для всех указанных компаний.');
                 return false;
             } elseif (!is_numeric($value[$i])) {
                 $this->addError($attribute, 'Вводимое значение должно быть числом, дробная часть отделяется точкой.');
                 return false;
             }
-
-
         }
         return true;
     }
@@ -47,7 +45,16 @@ class C5 extends \competence\models\form\Base
         $code = str_replace('C5_', 'C4_', $this->getQuestion()->Code);
         $question = Question::model()->byTestId($this->getQuestion()->TestId)->byCode($code)->find();
         $question->setTest($this->getQuestion()->Test);
-        $result = $question->getResult();
-        return $result['value'];
+
+        $names = [];
+        $i = 1;
+
+        foreach ($question->getResult()['value'] as $value) {
+            if (!empty($value)) {
+                $names[$i] = $value;
+                $i++;
+            }
+        }
+        return $names;
     }
 } 
