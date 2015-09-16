@@ -11,8 +11,12 @@ $names = $form->getCompanyNames();
     <?php foreach ($names as $i => $name):?>
         <tr>
             <td style="vertical-align: middle;"><?=$name;?></td>
-            <td><?=CHtml::activeTextField($form, 'value[' . $i. ']', ['class' => 'input-block-level']);?></td>
-            <td style="white-space: nowrap;">млн. рублей</td>
+            <td>
+                <div class="input-append">
+                    <?=CHtml::activeTextField($form, 'value[' . $i. ']', ['class' => 'span2']);?>
+                    <span class="add-on">млн. рублей</span>
+                </div>
+            </td>
         </tr>
     <?php endforeach;?>
 </table>

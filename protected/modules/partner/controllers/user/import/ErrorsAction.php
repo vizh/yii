@@ -32,7 +32,7 @@ class ErrorsAction extends \partner\components\Action
                 }
             }
 
-            $this->getController()->redirect(\Yii::app()->createUrl('/partner/user/importprocess', ['id' => $import->Id]));
+            $this->getController()->redirect(['importprocess', 'id' => $import->Id]);
         }
 
         $this->getController()->render('import/errors', ['users' => $users]);

@@ -7,6 +7,7 @@ use \mail\components\Mailer;
 use \mail\models\Template as TemplateModel;
 use \mail\models\TemplateLog;
 use \user\models\User;
+use mail\models\forms\admin\Template as TemplateForm;
 
 class Template extends \mail\components\MailLayout
 {
@@ -72,21 +73,15 @@ class Template extends \mail\components\MailLayout
             $attachments['ticket.pkpass'] = $pkPass->runAndSave();
         };
 
-        //get attachments from folder
-        $dir =  \Yii::getpathOfAlias('webroot.files.emailAttachments.'.$this->template->Id);
-        if (file_exists($dir)) {
-            $files = \CFileHelper::findFiles($dir);
+
+        $form = new TemplateForm($this->template);
+        $path = $form->getPathAttachments();
+        if (file_exists($path)) {
+            $files = \CFileHelper::findFiles($path);
             foreach ($files as $file) {
                 $attachments[basename($file)] = $file;
-            };
-        };
-
-        if ($this->template->Id == 493) {
-            $attachments['Карта гостя.pdf'] = \Yii::getPathOfAlias('application') . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR
-                . 'www' . DIRECTORY_SEPARATOR . 'docs' . DIRECTORY_SEPARATOR . 'mail' . DIRECTORY_SEPARATOR . 'devcon15' . DIRECTORY_SEPARATOR
-                . 'map-guest.pdf';
-        };
-
+            }
+        }
         return $attachments;
     }
 

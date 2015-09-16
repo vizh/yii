@@ -16,4 +16,13 @@ class C1 extends \competence\models\form\Input
         ];
         return $rules;
     }
+
+    /**
+     * @return string
+     */
+    protected function getDefinedViewPath()
+    {
+        return 'competence.views.test.runet2015.numinput';
+    }
+
 }
