@@ -36,6 +36,9 @@ CRegistrationUsers.prototype = {
                         user = {'error' : response.message};
                     } else {
                         user.price = response.price;
+                        if (response.price < product.Price) {
+                            user.discount = product.Price - response.price;
+                        }
                         user.orderItemId = response.orderItemId;
                     }
                     $scope.products[product.Id].participants[$index] = user;

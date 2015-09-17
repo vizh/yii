@@ -22,7 +22,9 @@ class CouponInfoAction extends \pay\components\Action
 
             if (empty($discount)) {
                 $referralDiscount = ReferralDiscount::findDiscount($product, $user);
-                $discount = $referralDiscount->getDiscount($product);
+                if ($referralDiscount !== null) {
+                    $discount = $referralDiscount->getDiscount($product);
+                }
             }
         }
         echo json_encode(['Discount' => $discount]);

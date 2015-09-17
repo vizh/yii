@@ -3,6 +3,10 @@ namespace pay\controllers\cabinet;
 
 use pay\components\CodeException;
 use pay\components\MessageException;
+use pay\models\CouponActivation;
+use pay\models\Product;
+use pay\models\ReferralDiscount;
+use user\models\User;
 
 class RegisterAction extends \pay\components\Action
 {
@@ -147,22 +151,24 @@ class RegisterAction extends \pay\components\Action
      * @param \pay\models\Product $product
      * @return float|int
      */
-    private function getDiscount(\user\models\User $user, \pay\models\Product $product)
+    private function getDiscount(User $user, Product $product)
     {
-        if (!isset($this->activations[$user->Id]))
-        {
+        if (!isset($this->activations[$user->Id])) {
             /** @var $activation \pay\models\CouponActivation */
-            $activation = \pay\models\CouponActivation::model()
-                ->byUserId($user->Id)
-                ->byEventId($this->getEvent()->Id)
+            $activation = CouponActivation::model()->byUserId($user->Id)->byEventId($this->getEvent()->Id)
                 ->byEmptyLinkOrderItem()->find();
-
             $this->activations[$user->Id] = $activation;
         }
         $activation = $this->activations[$user->Id];
-        if ($activation == null)
-            return 0;
-        return $activation->getDiscount($product);
+        if ($activation !== null) {
+            return $activation->getDiscount($product);
+        }
+
+        $referralDiscount = ReferralDiscount::findDiscount($product, $user);
+        if ($referralDiscount !== null) {
+            return $referralDiscount->getDiscount($product);
+        }
+        return 0;
     }
 
     private $products = null;
