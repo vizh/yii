@@ -3,10 +3,15 @@
  * @var \widget\components\Controller $this
  * @var \pay\models\forms\Juridical $form
  * @var \application\widgets\ActiveForm $activeForm
+ * @var \pay\models\Account $account
  */
 
 use application\helpers\Flash;
 ?>
+<?php if (!empty($account->CabinetJuridicalCreateInfo)):?>
+    <?=$account->CabinetJuridicalCreateInfo;?>
+<?php endif;?>
+
 <?php $activeForm = $this->beginWidget('\application\widgets\ActiveForm');?>
     <?=Flash::html();?>
     <?=$activeForm->errorSummary($form);?>

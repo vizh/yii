@@ -57,10 +57,9 @@ class RegistrationController extends Controller
             $this->redirect(['participants']);
         }
 
-        $account = PayAccount::model()->byEventId($this->getEvent()->Id)->find();
         $form = new ProductCountForm($this->getEvent());
         $form->clear();
-        $this->render('pay', ['form' => $form, 'account' => $account]);
+        $this->render('pay', ['form' => $form, 'account' => $this->getPayAccount()]);
     }
 
     /**
@@ -82,7 +81,7 @@ class RegistrationController extends Controller
                 \Yii::app()->end();
             }
         }
-        $this->render('juridical', ['form' => $form]);
+        $this->render('juridical', ['form' => $form, 'account' => $this->getPayAccount()]);
     }
 
     /**
@@ -112,5 +111,13 @@ class RegistrationController extends Controller
     private function getFinder()
     {
         return Finder::create($this->getEvent()->Id, $this->getUser()->Id);
+    }
+
+    /**
+     * @return PayAccount
+     */
+    private function getPayAccount()
+    {
+        return PayAccount::model()->byEventId($this->getEvent()->Id)->find();
     }
 }

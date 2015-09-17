@@ -29,6 +29,7 @@ use application\models\translation\ActiveRecord;
  * @property string $AfterPayUrl
  * @property string $CabinetIndexTabTitle
  * @property string $CabinetHasRecentPaidItemsMessage
+ * @property string $CabinetJuridicalCreateInfo
  *
  * @property \event\models\Event $Event
  * @property OrderJuridicalTemplate $OrderTemplate
