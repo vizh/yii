@@ -1,6 +1,8 @@
 <?php
 namespace pay\components\managers;
 
+use mail\components\Mail;
+use mail\components\mailers\MandrillMailer;
 use pay\components\CodeException;
 use pay\components\Exception;
 use pay\components\MessageException;
@@ -206,8 +208,24 @@ abstract class BaseProductManager
         $result = $this->internalBuy($user, $orderItem, $params);
         if ($result) {
             $this->buyLinkProducts($user, $orderItem);
+            $this->sendMail($user);
         }
         return $result;
+    }
+
+    /**
+     * Отправляет письмо при покупке товара
+     * @param $user
+     * @return bool
+     */
+    private function sendMail($user)
+    {
+        $class = \Yii::getExistClass('\pay\components\handlers\buyproduct\products', 'Product' . $this->product->Id, 'Base');
+        $event = new \CModelEvent($this, ['owner' => $user, 'product' => $this->product]);
+
+        /** @var Mail $mail */
+        $mail = new $class(new MandrillMailer(), $event);
+        $mail->send();
     }
 
     /**

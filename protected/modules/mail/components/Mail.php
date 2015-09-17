@@ -156,4 +156,15 @@ abstract class Mail
     {
         return false;
     }
+
+    /**
+     * Проверяет существование представления для письма
+     * @param $view
+     * @return bool
+     */
+    protected function isViewExists($view)
+    {
+        $path = \Yii::getPathOfAlias($view) . '.php';
+        return file_exists($path);
+    }
 }
