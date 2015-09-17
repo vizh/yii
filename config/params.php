@@ -7,7 +7,7 @@ return [
     'EventDir' => '/files/event/%s/', // директория файлов мероприятий
     'EventPreviewLength' => 200,
     'EventViewUserPerPage' => 16,
-    'EventWidgetBannerMaxHeight' => 400,
+    'EventWidgetBannerMaxHeight' => 800,
     'UserViewMaxRecommendedEvents' => 4,
     'CompanyPerPage' => 20, // Количество результатов компаний на страницу
     'CompanyDir' => '/files/company/',

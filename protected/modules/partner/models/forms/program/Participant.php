@@ -71,14 +71,14 @@ class Participant extends CreateUpdateForm
     public function rules()
     {
         return [
-            ['ReportTitle,ReportThesis', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['ReportTitle', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
             ['Order,RunetId,CompanyId', 'numerical', 'allowEmpty' => true],
             ['RunetId', 'validateUser'],
             ['RoleId', 'required'],
             ['RoleId', 'in', 'range' => array_keys($this->getRoleData())],
             ['Delete, VideoUrl', 'safe'],
             ['ReportUrl', 'url', 'allowEmpty' => true],
-            ['ReportFullInfo,CustomText', 'filter', 'filter' => [$this, 'filterHtmlText']]
+            ['ReportFullInfo,CustomText,ReportThesis', 'filter', 'filter' => [$this, 'filterHtmlText']]
         ];
     }
 

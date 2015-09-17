@@ -2,6 +2,8 @@
 namespace application\components\controllers;
 
 use application\components\WebModule;
+use user\models\Referral;
+use user\models\User;
 
 /**
  * Class BaseController
@@ -13,7 +15,15 @@ abstract class BaseController extends \CController
 {
     public function filters()
     {
-        return array('validateCsrf', 'registerApis', 'setHeaders', 'initResources');
+        return [
+            'validateCsrf',
+            'registerApis',
+            'setHeaders',
+            'initResources',
+            [
+                '\application\components\controllers\filters\UserReferralFilter'
+            ]
+        ];
     }
 
     /**

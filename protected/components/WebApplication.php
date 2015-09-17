@@ -18,6 +18,7 @@ use application\components\auth\WebUser;
  * @method \CAssetManager getAssetManager()
  * @method \CDbConnection getDb()
  * @method WebUser getUser()
+ * @method \CHttpSession getSession()
  */
 class WebApplication extends \CWebApplication
 {

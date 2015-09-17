@@ -54,8 +54,8 @@ $total = 0;
                             <?if (!$item->getIsGroupDiscount()):?>
                                 <?if ($item->getOrderItem()->getCouponActivation() !== null):?>
                                     <?=\Yii::t('app', 'Промо код');?> <?=$item->getOrderItem()->getCouponActivation()->Coupon->Code;?>
-                                <?elseif ($item->getOrderItem()->Owner->hasLoyaltyDiscount()):?>
-                                    <?=\Yii::t('app', 'RUNET-ID CARD');?>
+                                <?else:?>
+                                    <?=\Yii::t('app', 'Скидка');?>
                                 <?endif;?>
                             <?else:?>
                                 <?=\Yii::t('app', 'Групповая скидка');?>:

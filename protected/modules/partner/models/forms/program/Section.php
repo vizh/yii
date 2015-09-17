@@ -95,7 +95,7 @@ class Section extends CreateUpdateForm
     {
         $purifier = new \CHtmlPurifier();
         $purifier->options = [
-            'HTML.AllowedElements'     => ['span', 'strong', 'a', 'br', 'u', 'h1', 'h2', 'h3', 'h4', 'h5'],
+            'HTML.AllowedElements'     => ['span', 'strong', 'a', 'br', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'ul', 'li', 'ol', 'p'],
             'Attr.AllowedFrameTargets' => ['_blank', '_self']
         ];
         return $purifier->purify($value);

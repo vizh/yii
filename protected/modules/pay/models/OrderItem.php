@@ -2,6 +2,7 @@
 namespace pay\models;
 
 use pay\components\MessageException;
+use user\models\Referral;
 
 /**
  * @property int $Id
@@ -386,24 +387,27 @@ class OrderItem extends \CActiveRecord
      */
     public function getPriceDiscount()
     {
-        $price = $this->getPrice();
-        if ($price === null){
+        $prices[] = $this->getPrice();
+        if ($prices[0] === null){
             throw new MessageException('Не удалось определить цену продукта!');
         }
 
-        if (!$this->Product->getIsTicket()){
+        if (!$this->Product->getIsTicket() && $this->Product->EnableCoupon){
             $activation = $this->getCouponActivation();
             if ($activation !== null) {
-                $price = $activation->Coupon->getManager()->apply($this);
+                $prices[] = $activation->Coupon->getManager()->apply($this);
             }
 
             if ($this->getLoyaltyDiscount() !== null) {
-                $loyaltyPrice = $this->getLoyaltyDiscount()->apply($this);
-                if ($loyaltyPrice < $price) {
-                    $price = $loyaltyPrice;
-                }
+                $prices[] = $this->getLoyaltyDiscount()->apply($this);
+            }
+
+            $discount = ReferralDiscount::findDiscount($this->Product, $this->Owner, $this->PaidTime);
+            if ($discount !== null) {
+                $prices[] = $discount->apply($this);
             }
         }
+        $price = min($prices);
         return (int) round($price);
     }
 

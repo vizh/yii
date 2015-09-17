@@ -1,31 +1,30 @@
 <?php
 namespace pay\controllers\ajax;
 
+use pay\models\CouponActivation;
+use pay\models\Product;
+use pay\models\ReferralDiscount;
+use user\models\User;
+
 class CouponInfoAction extends \pay\components\Action
 {
-  public function run($runetId, $eventIdName, $productId)
-  {
-    $user = \user\models\User::model()->byRunetId($runetId)->find();
-    $product = \pay\models\Product::model()->findByPk($productId);
-    $discount = 0;
-    if ($user != null && $product != null)
+    public function run($runetId, $eventIdName, $productId)
     {
-      /** @var $activation \pay\models\CouponActivation */
-      $activation = \pay\models\CouponActivation::model()
-          ->byUserId($user->Id)
-          ->byEventId($this->getEvent()->Id)
-          ->byEmptyLinkOrderItem()->find();
+        $user = User::model()->byRunetId($runetId)->find();
+        $product = Product::model()->findByPk($productId);
 
-      $discount = $activation != null ? $activation->getDiscount($product) : 0;
+        $discount = 0;
+        if ($user !== null && $product !== null) {
+            $activation = CouponActivation::model()
+                ->byUserId($user->Id)->byEventId($this->getEvent()->Id)->byEmptyLinkOrderItem()->find();
 
+            $discount = $activation != null ? $activation->getDiscount($product) : 0;
 
-        //todo: реализовать вычисление скидки для программы лояльности
-//      $loyaltyDiscount = $user->getLoyaltyDiscount($product);
-//      if ($loyaltyDiscount !== null && $loyaltyDiscount->Discount > $discount)
-//      {
-//        $discount = $loyaltyDiscount->Discount;
-//      }
+            if (empty($discount)) {
+                $referralDiscount = ReferralDiscount::findDiscount($product, $user);
+                $discount = $referralDiscount->getDiscount($product);
+            }
+        }
+        echo json_encode(['Discount' => $discount]);
     }
-    echo json_encode(['Discount' => $discount]);
-  }
 }

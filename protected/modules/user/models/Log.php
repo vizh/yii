@@ -1,6 +1,7 @@
 <?php
 namespace user\models;
 use application\components\ActiveRecord;
+use ext\ipgeobase\Geo;
 
 
 /**
@@ -42,27 +43,25 @@ class Log extends ActiveRecord
 
     public function relations()
     {
-        return array(
-            'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-        );
+        return [
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+        ];
     }
 
     static public function create($user)
     {
-        $log = new \user\models\Log();
+        $log = new Log();
         $log->UserId = $user->Id;
         $log->IP = $_SERVER['REMOTE_ADDR'];
         $log->UserAgent = $_SERVER['HTTP_USER_AGENT'];
         $log->Referal = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 
-        $geoIpService = new \ext\ipgeobase\Geo(array('charset' => 'utf-8'));
+        $geoIpService = new Geo(['charset' => 'utf-8']);
         $geoIpData = $geoIpService->get_geobase_data();
-        if (!empty($geoIpData))
-        {
+        if (!empty($geoIpData)) {
             $log->Country = !empty($geoIpData['country']) ? $geoIpData['country'] : null;
             $log->City = !empty($geoIpData['city']) ? $geoIpData['city'] : null;
         }
-
         $log->save();
     }
 }
