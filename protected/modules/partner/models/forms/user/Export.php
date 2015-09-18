@@ -31,6 +31,7 @@ class Export extends EventItemCreateUpdateForm
     public function rules()
     {
         return [
+            ['model', 'validateHasRunningExports'],
             ['Language', 'required'],
             ['Roles', 'safe'],
             ['Language', 'in', 'range' => array_keys($this->getLanguageData())]
@@ -46,6 +47,19 @@ class Export extends EventItemCreateUpdateForm
             'Language' => \Yii::t('app', 'Язык выгрузки'),
             'Roles' => \Yii::t('app', 'Выберите роли для экспорта')
         ];
+    }
+
+    /**
+     * @param $attribute
+     * @return bool
+     */
+    public function validateHasRunningExports($attribute)
+    {
+        if ($this->hasRunningExports()) {
+            $this->addError($attribute, 'Выполняется, ранее запущенный, процесс экспорта, подождите его завершения.');
+            return false;
+        }
+        return true;
     }
 
 
@@ -77,5 +91,14 @@ class Export extends EventItemCreateUpdateForm
             'ru' => \Yii::t('app', 'Русский'),
             'en' => \Yii::t('app', 'English')
         ];
+    }
+
+    /**
+     * Проверяет есть ли у мероприятия запущенные ранее экспорты
+     * @return bool
+     */
+    public function hasRunningExports()
+    {
+        return ExportModel::model()->bySuccess(false)->byEventId($this->event->Id)->exists();
     }
 }

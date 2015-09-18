@@ -16,33 +16,35 @@ $this->setPageTitle(\Yii::t('app', 'Экспорт участников в Excel
             <span class="panel-title"><i class="fa fa-history"></i> <?=\Yii::t('app', 'Ранее экспортировано');?></span>
         </div> <!-- / .panel-heading -->
         <div class="panel-body">
+            <?php if ($form->hasRunningExports()):?>
+                <div class="alert alert-warning">
+                    <?=\Yii::t('app', 'Выполняется процесс экспорта участников, в течении нескольких минут он будет завершен. Статус выполнения вы можете увидеть ниже.');?>
+                    <?=\CHtml::link('<span class="btn-label fa fa-refresh"></span>' . \Yii::t('app', 'Обновить'), [''], ['class' => 'btn btn-warning btn-labeled btn-xs btn-labeled']);?>
+                </div>
+            <?php endif;?>
+
             <div class="table-info">
                 <table class="table table-bordered">
                     <thead>
                         <th><?=\Yii::t('app', 'Дата запуска');?></th>
                         <th><?=\Yii::t('app', 'Количество участников');?></th>
                         <th><?=\Yii::t('app', 'Статус');?></th>
-                        <th></th>
                     </thead>
                     <tbody>
                         <?php foreach($exports as $export):?>
                             <tr>
                                 <td><?=$formatter->format('dd MMMM yyyy HH:mm', $export->CreationTime);?></td>
-                                <td><?=!empty($export->TotalRow) ? $export->TotalRow : '&mdash;';?></td>
+                                <td><?=!empty($export->TotalRow) ? $export->TotalRow : \Yii::t('app', 'Идет процесс инициализаци...');?></td>
                                 <td>
                                     <?php if ($export->Success):?>
-                                        <span class="label label-success"><?=\Yii::t('app', 'Экспорт завершен');?></span>
+                                        <div class="m-bottom_5">
+                                            <span class="label label-success"><?=\Yii::t('app', 'Экспорт завершен');?></span>
+                                        </div>
+                                        <?=\CHtml::link('<span class="btn-label icon fa fa-file-excel-o"></span>' . \Yii::t('app', 'Скачать '), ['exportdownload', 'id' => $export->Id], ['class' => 'btn btn-success btn-labeled btn-xs m-top_5']);?>
                                     <?php else:?>
                                         <span class="label label-default">
                                             <?=\Yii::t('app', 'Выполнено на {percent}%', ['{percent}' => $export->getExportedPercent()]);?>
                                         </span>
-                                    <?php endif;?>
-                                </td>
-                                <td>
-                                    <?php if ($export->Success):?>
-                                        <?=\CHtml::link('<span class="btn-label icon fa fa-file-excel-o"></span>' . \Yii::t('app', 'Скачать '), ['exportdownload', 'id' => $export->Id], ['class' => 'btn btn-success btn-labeled btn-xs']);?>
-                                    <?php else:?>
-                                        <?=\CHtml::link('<span class="fa fa-refresh"></span>', ['export'], ['class' => 'btn btn-default btn-xs']);?>
                                     <?php endif;?>
                                 </td>
                             </tr>
