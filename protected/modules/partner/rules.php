@@ -43,6 +43,12 @@ return array(
     ],
     [
         'allow',
+        'roles' => ['PartnerLimited'],
+        'module' => 'partner',
+        'controllers' => ['ajax'],
+    ],
+    [
+        'allow',
         'roles' => ['Partner'],
         'module' => 'partner',
         'controllers' => ['order'],

@@ -67,15 +67,13 @@ class RegistrationController extends Controller
      */
     public function actionJuridical()
     {
-        $form = new JuridicalForm();
+        $form = new JuridicalForm($this->getEvent(), $this->getUser());
         if (\Yii::app()->getRequest()->getIsPostRequest()) {
             $form->fillFromPost();
-            $form->user  = $this->getUser();
-            $form->event = $this->getEvent();
             if ($form->createActiveRecord() !== null) {
                 echo '
                     <script>
-                        top.location.href=\''. $form->getActiveRecord()->Order->getUrl() .'\';
+                        top.location.href=\''. $form->getOrder()->getUrl() .'\';
                     </script>
                 ';
                 \Yii::app()->end();

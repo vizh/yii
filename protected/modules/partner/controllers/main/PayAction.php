@@ -26,7 +26,8 @@ class PayAction extends \partner\components\Action
         $this->getController()->render('pay', [
             'statistics' => $this->statistics,
             'oldStatistics' => $oldStatistics,
-            'productStatistics' => $productStatistics
+            'productStatistics' => $productStatistics,
+            'event' => $this->getEvent()
         ]);
     }
 
@@ -259,14 +260,10 @@ class PayAction extends \partner\components\Action
 
             foreach ($collection as $item)
             {
-                if ($item->getOrderItem()->Paid)
-                {
-                    if ($order->Juridical)
-                    {
+                if ($item->getOrderItem()->Paid) {
+                    if ($order->Juridical) {
                         $statistics->totalJuridical += $item->getPriceDiscount();
-                    }
-                    else
-                    {
+                    } else {
                         $statistics->totalPaySystem += $item->getPriceDiscount();
                     }
                 }

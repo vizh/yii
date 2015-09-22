@@ -1,12 +1,11 @@
 <?php
 namespace pay\controllers\juridical;
 
+use pay\components\Action;
 use pay\components\collection\Finder;
 use pay\models\forms\Juridical;
-use pay\models\Order;
-use pay\models\OrderType;
 
-class CreateAction extends \pay\components\Action
+class CreateAction extends Action
 {
     public function run($eventIdName)
     {
@@ -17,18 +16,17 @@ class CreateAction extends \pay\components\Action
 
         $finder = Finder::create($this->getEvent()->Id, $this->getUser()->Id);
         $collection = $finder->getUnpaidFreeCollection();
-        if ($collection->count() == 0)
+        if ($collection->count() == 0) {
             $this->getController()->redirect($this->getController()->createUrl('/pay/cabinet/index'));
-
-        $form = new Juridical();
-        $request = \Yii::app()->getRequest();
-        $form->attributes = $request->getParam(get_class($form));
-        if ($request->getIsPostRequest() && $request->getParam(get_class($form)) !== null && $form->validate()) {
-            $order = new Order();
-            $order->create($this->getUser(), $this->getEvent(), OrderType::Juridical, $form->attributes);
-            $this->getController()->redirect(['/pay/order/index', 'orderId' => $order->Id, 'hash' => $order->getHash()]);
         }
 
+        $form = new Juridical($this->getEvent(), $this->getUser());
+        if (\Yii::app()->getRequest()->getIsPostRequest()) {
+            $form->fillFromPost();
+            if ($form->createActiveRecord() !== null) {
+                $this->getController()->redirect($form->getOrder()->getUrl());
+            }
+        }
         $this->getController()->render('create', array(
             'form' => $form,
             'account' => $this->getAccount()

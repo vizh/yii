@@ -16,6 +16,8 @@ class CodeException extends Exception
     const NO_PAY_ACCOUNT = 101;
     const NO_EXISTS_PRODUCT  = 201;
 
+    const NO_EXISTS_ORDER = 205;
+
     const NO_PRODUCT_FOR_COUPON_100 = 303;
     const WRONG_PRODUCT_FOR_COUPON_100 = 304;
     const ORDER_ITEM_EXISTS = 402;
@@ -39,6 +41,7 @@ class CodeException extends Exception
         202 => 'Сумма заказа и полученная через платежную систему не совпадают',
         203 => 'Один или несколько товаров имеют более ценный эквивалент среди уже приобретенных пользователем. Список id: %s',
         204 => 'Заказ № %s уже оплачен',
+        self::NO_EXISTS_ORDER => 'Не найден счет c номером %s',
 
         /** Ошибки промо-кодов */
         301 => 'Превышено максимальное количество активаций промо кода',

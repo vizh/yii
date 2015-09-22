@@ -9,10 +9,14 @@ use pay\models\OrderType;
 use application\modules\partner\models\search\Orders;
 use partner\components\Controller;
 
-$this->setPageTitle(\Yii::t('app', 'Поиск счетов'));
+$this->setPageTitle(\Yii::t('app', 'Счет'));
 
 $controller = $this;
 ?>
+
+<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
+    <?=\CHtml::link('<span class="fa fa-plus btn-label"></span> ' . \Yii::t('app', 'Выставить счет'), ['edit'], ['class' => 'btn btn-primary btn-labeled']);?>
+<?php $this->endClip();?>
 
 <div class="panel panel-info">
     <div class="panel-heading">

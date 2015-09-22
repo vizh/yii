@@ -114,4 +114,12 @@ class Controller extends \application\components\controllers\BaseController
         }
         return $data;
     }
+
+    /**
+     * @return \event\models\Event
+     */
+    public function getEvent()
+    {
+        return \Yii::app()->partner->getEvent();
+    }
 }

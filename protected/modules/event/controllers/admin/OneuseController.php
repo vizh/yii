@@ -4,13 +4,11 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
-    public function actionEdcrunch15Discount()
+    public function actionEdcrunch15()
     {
-        $coupon = \pay\models\Coupon::model()->byCode('EDCRUNCH14')->find();
-        $participant = \event\models\Participant::model()->byEventId(1303)->findAll();
-        foreach ($participant as $participant) {
-            $coupon->activate($participant->User, $participant->User);
-        }
+        $orderItem = \pay\models\OrderItem::model()->findByPk(294036);
+        var_dump($orderItem->getCouponActivation());
+
     }
 
     public function actionInviteGenerator()

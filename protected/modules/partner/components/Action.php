@@ -20,7 +20,7 @@ class Action extends \CAction
      */
     public function getEvent()
     {
-        return \Yii::app()->partner->getEvent();
+        return $this->getController()->getEvent();
     }
 
     /**

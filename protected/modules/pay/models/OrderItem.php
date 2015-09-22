@@ -1,6 +1,7 @@
 <?php
 namespace pay\models;
 
+use application\components\ActiveRecord;
 use pay\components\MessageException;
 use user\models\Referral;
 
@@ -32,8 +33,9 @@ use user\models\Referral;
  * @method OrderItem find()
  * @method OrderItem[] findAll()
  * @method OrderItem with()
+ * @method OrderItem byRefund(boolean $refund)
  */
-class OrderItem extends \CActiveRecord
+class OrderItem extends ActiveRecord
 {
     /**
      * @static

@@ -1,98 +1,77 @@
+var PartnerApp = angular.module('PartnerApp', ['ngSanitize']);
 
-var COrderEdit = function() {
-    this.$orderItems = $('table#order-items tbody');
+var COrderEdit = function (payerRunetId, orderId) {
+    this.payerRunetId = payerRunetId;
+    this.orderId = orderId;
     this.init();
 }
 COrderEdit.prototype = {
-    init : function () {
+    'init' : function () {
         var self = this;
-        this.loadOrderItem();
-        this.initNewOrderItemForm();
-    },
-    loadOrderItem : function () {
-        var self = this;
-        self.$orderItems.html('<tr><td colspan="4" class="muted" style="text-align: center">Идет загрузка...</td></tr>');
+        PartnerApp.controller('OrderEditController', function($scope, $http) {
+            $scope.newOrderItem = {};
+            $scope.orderItems = [];
+            $scope.loading = false;
 
-        var data = $.extend({}, self.additionalData || {});
-        data['method'] = 'getItemsList';
-        $.getJSON('', data, function (response) {
-            self.$orderItems.html('');
-            $.each(response, function (i, item) {
-                var tr = $('<tr/>', {
-                    'html' : '<td>'+item.Owner+'</td><td>'+item.Product+'</td><td>'+item.Price+'</td><td class="text-right"><a href="#" class="btn btn-danger"><span class="fa fa-times"></span></a></td>'
-                });
-                tr.data('order-item-id', item.Id);
-                tr.find('.btn.btn-danger').click(function (e) {
-                    e.preventDefault();
-                    if (confirm("Вы точно хотите удалить этот заказ?")){
-                        $.getJSON('', {'method' : 'deleteItem', 'OrderItemId' : tr.data('order-item-id')}, function (result) {
-                            if (result.success) {
-                                tr.remove();
-                            }
-                            else {
-                                self.showModal('Ошибка!', result.message);
-                            }
-                        });
-                    }
-                });
-                self.$orderItems.append(tr);
-            });
-        });
-    },
-
-    initNewOrderItemForm : function () {
-        var self = this,
-            $tableFoot = self.$orderItems.parent('table').find('tfoot'),
-            $button = $tableFoot.find('button.add-order-item');
-
-        $tableFoot.find('input[type="text"]:eq(0)').autocomplete({
-            'minLength' : 2,
-            'source' : '/user/ajax/search',
-            'select' : function (event, ui) {
-                $tableFoot.find('input[name="RunetId"]').val(ui.item.value);
-                $(this).val(ui.item.label);
-                return false;
-            }
-        })
-
-        $button.click(function (e) {
-            e.preventDefault();
-            var data = $tableFoot.find('input,select').serializeArray();
-            data.push({'name' : 'method', 'value' : 'createItem'});
-            $tableFoot.find('input,select').val('');
-            $.getJSON('', data, function (response) {
-                if (response.success) {
-                    self.loadOrderItem();
-                } else {
-                    self.showModal('Ошибка!', response.message);
+            $scope.getOrderItems = function () {
+                var params = {payerRunetId : self.payerRunetId};
+                if (typeof(self.orderId) != "undefined") {
+                    params.orderId = self.orderId;
                 }
-            });
-        });
-    },
+                $scope.loading = true;
+                $.getJSON('/ajax/orderitems', params, function(response) {
+                    $scope.orderItems = response
+                    $scope.loading = false;
+                    $scope.$apply();
+                });
+            }
 
-    showModal : function (title, text) {
-        var $modal = $('<div/>', {
-            'class' : 'modal fade modal-blur'
+            $scope.addOrderItem = function (orderItem, $index) {
+                $scope.newOrderItem.payerRunetId = self.payerRunetId;
+                if (typeof(self.orderId) != "undefined") {
+                    $scope.newOrderItem.orderId = self.orderId;
+                }
+                $scope.loading = true;
+                $.getJSON('/ajax/addorderitem', $scope.newOrderItem, function (response) {
+                    if (typeof(response.error) != "undefined" && response.error) {
+                        $scope.newOrderItem.error = response.message;
+                        $scope.loading = false;
+                    } else {
+                        $('table#order-items input').val('');
+                        $scope.getOrderItems();
+                    }
+                    $scope.$apply();
+                });
+            }
+
+            $scope.removeOrderItem = function (orderItem, $index) {
+                var params = {'id' : orderItem.Id, 'payerRunetId' : self.payerRunetId};
+                if (typeof(self.orderId) != "undefined") {
+                    params.orderId = self.orderId;
+                }
+                $scope.loading = true;
+                $.getJSON('/ajax/deleteorderitem', params, function (response) {
+                    if (typeof(response.success) != "undefined" && response.success) {
+                        $scope.orderItems.splice($index, 1);
+                    }
+                    $scope.getOrderItems();
+                });
+            }
+
+            $scope.getOrderItems();
         });
-        $modal.html(
-            '<div class="modal-dialog">' +
-               '<div class="modal-content">' +
-                    '<div class="modal-header">' +
-                        '<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>' +
-                        '<h4 id="myModalLabel" class="modal-title">' + title + '</h4>' +
-                    '</div>' +
-                    '<div class="modal-body">' + text + '</div>' +
-                '</div>' +
-            '</div>'
-        );
-        $modal.on('hidden.bs.modal', function () {
-            $modal.remove();
-        });
-        $('body').append($modal);
-        $modal.modal('show');
     }
 }
 
-$(function () {
-   new COrderEdit();
+PartnerApp.directive('userautocomplete', function() {
+    return function($scope, $element, $attrs) {
+        $element.autocomplete({
+            source: '/user/ajax/search',
+            select: function(event, ui) {
+                $element.val(ui.item.label);
+                $scope.newOrderItem.ownerRunetId = ui.item.value;
+                return false;
+            }
+        });
+    };
 });

@@ -7,19 +7,6 @@
 
 $this->setPageTitle('Добавление/редактирование участника мероприятия');
 ?>
-<script type="text/javascript">
-    $(function () {
-        $('input[name*="Edit[Label]"]').autocomplete({
-            source : '/user/ajaxget',
-            select : function (event, ui) {
-                window.location.href = '/user/edit/?id=' + ui.item.value;
-                return false;
-            }
-        });
-    })
-</script>
-
-
 <?php $activeForm = $this->beginWidget('CActiveForm');?>
 <div class="panel panel-info">
     <div class="panel-heading">
@@ -28,7 +15,24 @@ $this->setPageTitle('Добавление/редактирование учас�
     <div class="panel-body">
         <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
         <div class="form-group">
-            <?=$activeForm->textField($form, 'Label', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Label')]);?>
+            <?$this->widget('zii.widgets.jui.CJuiAutoComplete', [
+                'model' => $form,
+                'attribute' => 'Label',
+                'source' => '/ajax/users',
+                'options'=> [
+                    'minLength' => '2',
+                    'select' => 'js:function (event, ui) {
+                        window.location.href = "/user/edit/?id=" + ui.item.value;
+                    }'
+                ],
+                'htmlOptions' => [
+                    'id' => 'Edit_Label',
+                    'class' => 'form-control',
+                    'placeholder' => $form->getAttributeLabel('Label')
+                ],
+                'scriptFile' => false,
+                'cssFile' => false
+            ]);?>
         </div>
     </div>
     <div class="panel-footer">

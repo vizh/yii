@@ -1,27 +1,30 @@
 <?
 /**
  * @var \partner\components\Controller $this
- * @var \pay\models\Order $order
  * @var \pay\models\forms\Juridical $form
- * @var \pay\models\Product[] $products
- * @var CActiveForm $activeForm
+ * @var \application\widgets\ActiveForm $activeForm
  */
 
 use application\helpers\Flash;
-$this->setPageTitle(\Yii::t('app', 'Редактирование счета') . ' №' . $order->Id);
+$this->setPageTitle($form->isUpdateMode() ? (\Yii::t('app', 'Редактирование счета') . ' №' . $form->getOrder()->Number) : \Yii::t('app', 'Создание счета'));
+$clientScript = \Yii::app()->getClientScript();
+$clientScript->registerScript('init', '
+    new COrderEdit(' . $form->getUser()->RunetId . ',' . ($form->getOrder() !== null ? $form->getOrder()->Id : 'undefined') . ');',
+    \CClientScript::POS_HEAD
+);
 ?>
 
-<?php $activeForm = $this->beginWidget('CActiveForm');?>
+<?php $activeForm = $this->beginWidget('\application\widgets\ActiveForm');?>
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><span class="fa fa-pencil"></span> <?=\Yii::t('app', 'Редактирование счета');?></span>
+        <span class="panel-title"><span class="fa fa-pencil"></span> <?=\Yii::t('app', 'Реквизиты счета');?></span>
     </div> <!-- / .panel-heading -->
-    <div class="panel-body">
+    <div class="panel-body" ng-controller="OrderEditController">
         <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
         <?=Flash::html();?>
         <?$this->renderPartial('edit/juridical', ['activeForm' => $activeForm, 'form' => $form]);?>
         <hr/>
-        <?$this->renderPartial('edit/items', ['products' => $products]);?>
+        <?$this->renderPartial('edit/items', ['form' => $form]);?>
     </div>
     <div class="panel-footer">
         <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary']);?>

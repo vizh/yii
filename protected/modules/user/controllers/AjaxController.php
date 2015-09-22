@@ -8,8 +8,6 @@ use application\components\controllers\AjaxController as TraitAjaxController;
 use user\components\handlers\Verify;
 use mail\components\mailers\MandrillMailer;
 
-
-
 class AjaxController extends PublicMainController
 {
     use TraitAjaxController;
@@ -144,10 +142,11 @@ class AjaxController extends PublicMainController
         $data->Photo->Small = $user->getPhoto()->get50px();
         $data->Photo->Medium = $user->getPhoto()->get90px();
         $data->Photo->Large = $user->getPhoto()->get200px();
-        if ($user->getEmploymentPrimary() !== null)
-        {
-            $data->Company = $user->getEmploymentPrimary()->Company->Name;
-            $data->Position = trim($user->getEmploymentPrimary()->Position);
+
+        if (($employment = $user->getEmploymentPrimary()) !== null) {
+            $data->Company = $employment->Company->Name;
+            $data->Position = trim($employment->Position);
+            $data->label .= ' (' . $employment . ')';
         }
         return $data;
     }

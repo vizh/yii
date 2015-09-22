@@ -188,11 +188,10 @@ class ExcelBuilder
         $formatter = \Yii::app()->getDateFormatter();
 
         $orderItems = OrderItem::model()
-            ->byOwnerId($user->Id)
-            ->byChangedOwnerId(null)
-            ->byChangedOwnerId($user->Id, false)
+            ->byAnyOwnerId($user->Id)
             ->byEventId($this->getEvent()->Id)
             ->byPaid(true)
+            ->byRefund(false)
             ->with(['OrderLinks.Order', 'OrderLinks.Order.ItemLinks'])
             ->findAll();
 

@@ -20,7 +20,7 @@
         <td style="width: 50%; vertical-align: top; background-color: #EDEDED; border: 3px solid #EDEDED; padding: 20px;">
             <h2 style="padding: 0; margin: 0 0 20px;">Ваши данные</h2>
             <div style="margin-bottom: 5px;"><strong>RUNET-ID</strong>: <?=$user->RunetId;?></div>
-            <div style="margin-bottom: 5px;"><strong>Пароль: <span style="text-decoration: underline;"><?='123123'//$password;?></span></strong></div>
+            <div style="margin-bottom: 5px;"><strong>Пароль: <span style="text-decoration: underline;"><?=$password;?></span></strong></div>
             <div style="margin-bottom: 5px;"><strong>Email</strong>: <?=$user->Email;?></div>
         </td>
     </tr>

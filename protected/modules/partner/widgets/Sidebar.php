@@ -107,7 +107,8 @@ class Sidebar extends \CWidget
                 ['label' => 'Генерация промо-кодов', 'url' => ['coupon/generate']]
             ]],
             ['label' => 'Счета', 'icon' => 'building-o', 'url' => ['order/index'], 'items' => [
-                ['label' => 'Поиск счетов', 'url' => ['order/index']]
+                ['label' => 'Счета', 'url' => ['order/index']],
+                ['label' => 'Сформировать счет', 'url' => ['order/edit']]
             ]],
             ['label' => 'Заказы', 'icon' => 'shopping-cart ', 'url' => ['orderitem/index'], 'items' => [
                 ['label' => 'Заказы', 'url' => ['orderitem/index']],

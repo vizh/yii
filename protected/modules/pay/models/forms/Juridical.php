@@ -2,20 +2,27 @@
 namespace pay\models\forms;
 
 use application\components\form\CreateUpdateForm;
+use application\components\form\EventItemCreateUpdateForm;
+use application\components\helpers\ArrayHelper;
 use application\helpers\Flash;
 use event\models\Event;
+use pay\components\collection\Finder;
 use pay\models\Order;
 use pay\models\OrderJuridical;
 use pay\models\OrderType;
+use pay\models\Product;
 use user\models\User;
 
 /**
  * Class Juridical
  * @package pay\models\forms
  *
+ * @property Order $model
+ *
  * @method OrderJuridical getActiveRecord()
+ *
  */
-class Juridical extends CreateUpdateForm
+class Juridical extends EventItemCreateUpdateForm
 {
     public $Name;
 
@@ -29,28 +36,39 @@ class Juridical extends CreateUpdateForm
 
     public $PostAddress;
 
-    /** @var Order */
+    /** @var User */
+    private $user;
+
+    /** @var Order  */
     private $order;
 
-    /** @var User */
-    public $user;
-
-    /** @var Event */
-    public $event;
-
     /**
+     * @param Event $event
+     * @param User $user
      * @param Order|null $model
      */
-    public function __construct(Order $model = null)
+    public function __construct(Event $event, User $user, Order $model = null)
     {
-        if ($model !== null) {
-            $this->order = $model;
-            parent::__construct($model->OrderJuridical);
-        } else {
-            parent::__construct(null);
-        }
+        $this->user  = $user;
+        $this->order = $model;
+        parent::__construct($event, $model !== null ? $model->OrderJuridical : null);
     }
 
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return null|Order
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
 
     public function rules()
     {
@@ -98,7 +116,7 @@ class Juridical extends CreateUpdateForm
     }
 
     /**
-     * @return \CActiveRecord|null
+     * @return Order|null
      */
     public function updateActiveRecord()
     {
@@ -113,9 +131,7 @@ class Juridical extends CreateUpdateForm
 
     /**
      * Создает счет
-     * @param User $user
-     * @param Event $event
-     * @return null
+     * @return null|OrderJuridical
      */
     public function createActiveRecord()
     {
@@ -126,9 +142,10 @@ class Juridical extends CreateUpdateForm
         /** @var \CDbTransaction $transaction */
         $transaction = \Yii::app()->getDb()->beginTransaction();
         try {
-            $this->order = new Order();
-            $this->order->create($this->user, $this->event, OrderType::Juridical, $this->getAttributes());
-            $this->model = $this->order->OrderJuridical;
+            $order = new Order();
+            $order->create($this->user, $this->event, OrderType::Juridical, $this->getAttributes());
+            $this->order = $order;
+            $this->model = $order->OrderJuridical;
             $transaction->commit();
             return $this->model;
         } catch (\Exception $e) {
@@ -137,5 +154,12 @@ class Juridical extends CreateUpdateForm
         }
     }
 
-
+    /**
+     * @return array
+     */
+    public function getProductData()
+    {
+        $products = Product::model()->byEventId($this->event->Id)->excludeRoomManager()->findAll();
+        return \CHtml::listData($products, 'Id', 'Title');
+    }
 }
