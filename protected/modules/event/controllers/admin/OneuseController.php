@@ -15,7 +15,7 @@ class OneuseController extends AdminMainController
     {
         for ($i= 0; $i <= 30; $i++) {
             $invite = new \event\models\Invite();
-            $invite->EventId = 2114;
+            $invite->EventId = 2213;
             $invite->RoleId  = 1;
             $invite->Code = \application\components\utility\Texts::GenerateString(12);
             $invite->save();
