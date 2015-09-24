@@ -22,6 +22,8 @@ use user\models\User;
  *
  * @property int $WidgetRegistrationProgramOneOnLineMode
  * @property string $WidgetRegistrationProgramBeforeText
+ * @property int $WidgetRegistrationProgramHideForGuest
+ * @property int $WidgetRegistrationProgramShowPrice
  */
 class Program extends ProgramGrid
 {
@@ -32,7 +34,9 @@ class Program extends ProgramGrid
     {
         return [
             'WidgetRegistrationProgramOneOnLineMode',
-            'WidgetRegistrationProgramBeforeText'
+            'WidgetRegistrationProgramBeforeText',
+            'WidgetRegistrationProgramHideForGuest',
+            'WidgetRegistrationProgramShowPrice'
         ];
     }
 
@@ -51,7 +55,6 @@ class Program extends ProgramGrid
     {
         return 'Регистрация в программе';
     }
-
 
     /**
      *
@@ -134,14 +137,6 @@ class Program extends ProgramGrid
     }
 
     /**
-     * @return User|null
-     */
-    public function getUser()
-    {
-        return \Yii::app()->getUser()->getCurrentUser();
-    }
-
-    /**
      * @inheritdoc
      */
     protected function registerDefaultResources()
@@ -149,4 +144,17 @@ class Program extends ProgramGrid
         \Yii::app()->getClientScript()->registerPackage('jquery.pin');
         parent::registerDefaultResources();
     }
+
+    /**
+     * @return bool
+     */
+    public function getIsActive()
+    {
+        if ($this->getUser() === null && isset($this->WidgetRegistrationProgramHideForGuest) && $this->WidgetRegistrationProgramHideForGuest == 1) {
+            return false;
+        }
+        return true;
+    }
+
+
 }

@@ -17,7 +17,7 @@ use \event\widgets\registration\Program;
             <div class="clearfix bg-muted">
                 <div class="pull-left">
                     <span id="total-caption">
-                        <?=\Yii::t('app', 'Выбрано секций');?>: <b class="number" id="total-section">0</b><?php if ($this->getEvent()->IdName != 'next2015'): //TODO: Костыль для next2015):?>, <?=\Yii::t('app', 'итого');?>: <b class="number" id="total-price">0</b> руб.<?php endif;?>
+                        <?=\Yii::t('app', 'Выбрано секций');?>: <b class="number" id="total-section">0</b><?php if (isset($this->WidgetRegistrationProgramShowTotalPrice) && $this->WidgetRegistrationProgramShowPrice == 1):?>, <?=\Yii::t('app', 'итого');?>: <b class="number" id="total-price">0</b> руб.<?php endif;?>
                     </span>
                 </div>
                 <div class="pull-right">

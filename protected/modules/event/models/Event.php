@@ -1031,4 +1031,13 @@ class Event extends ActiveRecord implements ISearch
     {
         return new Image($this, null, 'promo', IMG_PNG);
     }
+
+    /**
+     * Фоновое изображение для шапки на странице мероприятия
+     * @return Image
+     */
+    public function getHeaderBackgroundImage()
+    {
+        return new Image($this, null, 'header', IMG_JPEG);
+    }
 }

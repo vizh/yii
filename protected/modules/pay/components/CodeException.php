@@ -14,7 +14,7 @@ class CodeException extends Exception
     }
 
     const NO_PAY_ACCOUNT = 101;
-    const NO_EXISTS_PRODUCT  = 201;
+    const NO_EXISTS_PRODUCT  = 101;
 
     const NO_EXISTS_ORDER = 205;
 
@@ -46,7 +46,7 @@ class CodeException extends Exception
         /** Ошибки промо-кодов */
         301 => 'Превышено максимальное количество активаций промо кода',
         302 => 'У пользователя уже активирован промо код с большей скидкой',
-        self::NO_PRODUCT_FOR_COUPON_100 => 'Для промо кода со скидкой 100%% не указан товар, на который распространяется скидка',
+        self::NO_PRODUCT_FOR_COUPON_100 => 'Для промо кода со скидкой 100% не указан товар, на который распространяется скидка',
         self::WRONG_PRODUCT_FOR_COUPON_100 => 'Данный промо-код не может быть активирован для выбранного товара',
         305 => 'Срок действия вашего промо кода истек',
 

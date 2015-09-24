@@ -51,7 +51,7 @@ CRegistrationProgram.prototype = {
         });
 
         self.$total.pin({
-            'padding': {top: 80},
+            'padding': self.getPinPadding(),
             'containerSelector' : '#' + self.$widget.attr('id')
         });
 
@@ -187,6 +187,15 @@ CRegistrationProgram.prototype = {
 
     changeLimit : function($section, $opeation) {
         var $limit
+    },
+
+    getPinPadding : function () {
+        var padding = {'top' : 0};
+        var $navbar = $('header#header .navbar');
+        if ($navbar.is(':visible')) {
+            padding.top = $navbar.height();
+        }
+        return padding;
     }
 }
 

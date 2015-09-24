@@ -7,12 +7,12 @@ use \application\components\attribute\BooleanDefinition;
 use \application\models\attribute\Group;
 ?>
 <div class="registration" id="event_widgets_Registration">
-    <?if (isset($this->WidgetRegistrationBeforeInfo)):?>
-        <?=$this->WidgetRegistrationBeforeInfo;?>
-    <?endif;?>
     <h5 class="title text-center">
         <?=isset($this->WidgetRegistrationTitle)? $this->WidgetRegistrationTitle : Yii::t('app', 'Регистрация');?>
     </h5>
+    <?if (isset($this->WidgetRegistrationBeforeInfo)):?>
+        <?=$this->WidgetRegistrationBeforeInfo;?>
+    <?endif;?>
     <?=\CHtml::beginForm('', 'post', ['enctype' => 'multipart/form-data']);?>
     <?=\CHtml::errorSummary($this->form, '<div class="alert alert-error">', '</div>');?>
 
@@ -90,7 +90,9 @@ use \application\models\attribute\Group;
         </div>
 
         <div class="form-inline m-top_20 text-center">
-            <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрироваться'), ['class' => 'btn btn-info']);?>
+            <?=\CHtml::submitButton(
+                \Yii::t('app', (isset($this->WidgetRegistrationDetailedSubmitButtonLabel) ? $this->WidgetRegistrationDetailedSubmitButtonLabel : 'Зарегистрироваться')), ['class' => 'btn btn-info']
+            );?>
         </div>
     <?endif;?>
     <?=\CHtml::endForm();?>

@@ -26,10 +26,10 @@ class OneuseController extends AdminMainController
     /** Создает частие мероприятий и товары для них на основе программы */
     public function actionSectionToEventPart()
     {
-        $id = 1995;
+        $id = 2226;
         /*
         $criteria = new \CDbCriteria();
-        $criteria->addNotInCondition('"t"."Id"', [2598,2599,2600,2644,2645,2646,2647,2648]);
+        //$criteria->addNotInCondition('"t"."Id"', [2598,2599,2600,2644,2645,2646,2647,2648]);
         $sections = \event\models\section\Section::model()->byEventId($id)->findAll($criteria);
         foreach ($sections as $section) {
             echo $section->Title . '<br/>';
@@ -61,12 +61,10 @@ class OneuseController extends AdminMainController
             $price = new \pay\models\ProductPrice();
             $price->ProductId = $product->Id;
             $price->Price = 0;
-            $price->StartTime = '2015-07-28 00:00:00';
+            $price->StartTime = '2015-09-23 00:00:00';
             $price->save();
         }
         */
-
-
     }
 
     /**

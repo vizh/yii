@@ -16,7 +16,7 @@ abstract class Widget extends CWidget implements IWidget
     public function init()
     {
         $isAdmin = strstr(\Yii::app()->getRequest()->getHostInfo(), 'admin.');
-        if ($this->getIsHasDefaultResources() && !$isAdmin) {
+        if ($this->getIsHasDefaultResources() && !$isAdmin && $this->getIsActive()) {
             $this->registerDefaultResources();
         }
     }
@@ -159,5 +159,13 @@ abstract class Widget extends CWidget implements IWidget
     public function getTitleAdmin()
     {
         return $this->getTitle();
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getUser()
+    {
+        return \Yii::app()->getUser()->getCurrentUser();
     }
 }

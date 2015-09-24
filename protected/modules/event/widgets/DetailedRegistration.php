@@ -4,6 +4,7 @@ namespace event\widgets;
 use application\components\auth\identity\RunetId;
 use application\components\utility\Texts;
 use contact\models\Address;
+use event\components\Widget;
 use event\components\WidgetPosition;
 use \event\models\forms\DetailedRegistration as DetailedRegistrationForm;
 use event\models\Invite;
@@ -33,8 +34,10 @@ use user\models\User;
  * @property string $WidgetRegistrationTitle
  * @property string $WidgetRegistrationCompanyTitle
  * @property string $WidgetRegistrationPositionTitle
+ * @property string $WidgetRegistrationDetailedHideForAuthorize
+ * @property string $WidgetRegistrationDetailedSubmitButtonLabel
  */
-class DetailedRegistration extends \event\components\Widget
+class DetailedRegistration extends Widget
 {
     public function getAttributeNames()
     {
@@ -55,7 +58,9 @@ class DetailedRegistration extends \event\components\Widget
             'WidgetRegistrationCompleteText',
             'WidgetRegistrationTitle',
             'WidgetRegistrationCompanyTitle',
-            'WidgetRegistrationPositionTitle'
+            'WidgetRegistrationPositionTitle',
+            'WidgetRegistrationDetailedHideForAuthorize',
+            'WidgetRegistrationDetailedSubmitButtonLabel'
         ];
     }
 
@@ -155,5 +160,16 @@ class DetailedRegistration extends \event\components\Widget
     public function getPosition()
     {
         return WidgetPosition::Content;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsActive()
+    {
+        if ($this->getUser() !== null && isset($this->WidgetRegistrationDetailedHideForAuthorize) && $this->WidgetRegistrationDetailedHideForAuthorize == 1) {
+            return false;
+        }
+        return true;
     }
 }

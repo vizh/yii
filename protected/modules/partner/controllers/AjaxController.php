@@ -62,7 +62,7 @@ class AjaxController extends Controller
                 throw new PayCodeException(PayCodeException::NO_EXISTS_ORDER_ITEM_OWNER);
             }
 
-            $product = Product::model()->byPublic(true)->findByPk($productId);
+            $product = Product::model()->byEventId($this->getEvent()->Id)->findByPk($productId);
             if ($product === null) {
                 throw new PayCodeException(PayCodeException::NO_EXISTS_PRODUCT);
             }
@@ -96,7 +96,7 @@ class AjaxController extends Controller
         $result = new \stdClass();
         $transaction = \Yii::app()->getDb()->beginTransaction();
         try {
-            $orderItem = OrderItem::model()->byPayerId($this->getPayer()->Id)->byPaid(false)->findByPk($id);
+            $orderItem = OrderItem::model()->byPayerId($this->getPayer()->Id)->byEventId($this->getEvent()->Id)->byPaid(false)->findByPk($id);
             if ($orderItem === null) {
                 throw new PayCodeException(PayCodeException::NO_EXISTS_ORDER_ITEM);
             }

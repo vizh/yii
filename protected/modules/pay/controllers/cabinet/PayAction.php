@@ -7,6 +7,7 @@ use pay\components\systems\CloudPayments;
 use pay\components\systems\PayOnline;
 use pay\components\systems\PayPal;
 use pay\components\systems\Uniteller;
+use pay\components\systems\WalletOne;
 use pay\models\Account;
 use pay\models\Order;
 use pay\models\OrderType;
@@ -38,6 +39,8 @@ class PayAction extends Action
             $system->toYandexMoney = true;
         } elseif ($type == 'cloudpayments') {
             $system = new CloudPayments();
+        } elseif ($type == 'walletone') {
+            $system = new WalletOne();
         } else {
             if ($account->PayOnline) {
                 $system = new PayOnline();

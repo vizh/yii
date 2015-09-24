@@ -3,23 +3,27 @@
  * @var $event \event\models\Event
  * @var $this ViewController
  */
+
+use event\components\WidgetPosition;
+
 $renderTabs = true;
 
-foreach($event->Widgets as $widget)
-    if($widget->getPosition() == \event\components\WidgetPosition::Header)
+foreach($event->Widgets as $widget) {
+    if ($widget->getPosition() == WidgetPosition::Header) {
         $widget->run();
+    }
+}
 
 $fullWidth = false;
-foreach($event->Widgets as $widget)
-{
-    if($widget->getPosition() == \event\components\WidgetPosition::FullWidth)
-    {
+foreach($event->Widgets as $widget) {
+    if($widget->getPosition() == WidgetPosition::FullWidth) {
         $widget->run();
         $fullWidth = true;
     }
 }
-if ($fullWidth)
+if ($fullWidth) {
     return;
+}
 
 ?>
 
@@ -33,39 +37,43 @@ if ($fullWidth)
             <div class="row">
                 <aside class="sidebar span3 pull-left">
                     <?foreach ($event->Widgets as $widget):?>
-                        <?if ($widget->getPosition() == \event\components\WidgetPosition::Sidebar && $widget->getIsActive()):?>
+                        <?if ($widget->getPosition() == WidgetPosition::Sidebar && $widget->getIsActive()):?>
                             <?$widget->run()?>
                         <?endif?>
                     <?endforeach?>
                 </aside>
                 <div class="span8 pull-right">
-                    <?foreach($event->Widgets as $widget):?>
-                        <?if($widget->getPosition() == \event\components\WidgetPosition::Content):?>
-                            <?$widget->run()?>
-                        <?elseif($renderTabs && $widget->getPosition() == \event\components\WidgetPosition::Tabs):?>
-                            <?$this->renderPartial('tabs', array('event' => $event))?>
-                            <?$renderTabs = false?>
-                        <?endif?>
-                    <?endforeach?>
+                    <?php foreach($event->Widgets as $widget):?>
+                        <?php if ($widget->getIsActive()):?>
+                            <?php if($widget->getPosition() == WidgetPosition::Content):?>
+                                <?php $widget->run()?>
+                            <?php elseif($renderTabs && $widget->getPosition() == WidgetPosition::Tabs):?>
+                                <?php $this->renderPartial('tabs', ['event' => $event])?>
+                                <?php $renderTabs = false?>
+                            <?endif?>
+                        <?php endif;?>
+                    <?php endforeach?>
                 </div>
             </div>
         </div>
     <?else:?>
         <?foreach($event->Widgets as $widget):?>
-            <?if($widget->getPosition() != \event\components\WidgetPosition::Tabs && $widget->getPosition() != \event\components\WidgetPosition::Header):?>
-                <?if ($widget->getName() == 'event\widgets\Location'):?>
-                    <?$widget->run();?>
-                <?else:?>
-                    <div class="container">
+            <?php if ($widget->getIsActive()):?>
+                <?if($widget->getPosition() != WidgetPosition::Tabs && $widget->getPosition() != WidgetPosition::Header):?>
+                    <?if ($widget->getName() == 'event\widgets\Location'):?>
                         <?$widget->run();?>
+                    <?else:?>
+                        <div class="container">
+                            <?$widget->run();?>
+                        </div>
+                    <?endif;?>
+                <?elseif($renderTabs && $widget->getPosition() == \event\components\WidgetPosition::Tabs):?>
+                    <div class="container">
+                        <?$this->renderPartial('tabs', ['event' => $event])?>
                     </div>
-                <?endif;?>
-            <?elseif($renderTabs && $widget->getPosition() == \event\components\WidgetPosition::Tabs):?>
-                <div class="container">
-                    <?$this->renderPartial('tabs', ['event' => $event])?>
-                </div>
-                <?$renderTabs = false?>
-            <?endif?>
+                    <?$renderTabs = false?>
+                <?endif?>
+            <?php endif;?>
         <?endforeach?>
     <?endif;?>
 </div>
