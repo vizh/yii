@@ -214,6 +214,12 @@ class Image
             $originalPathname = $this->getOriginalPathname();
             if ($originalPathname !== null) {
                 $image = \Yii::app()->image->load($this->getOriginalPathname());
+                if ($image->width <= $x) {
+                    $x = $image->width;
+                }
+                if ($y != 0 && $image->height <= $y) {
+                    $y = $image->height;
+                }
                 $image->resize($x,$y);
                 $image->save($pathname);
             } else {

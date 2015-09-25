@@ -3,26 +3,26 @@ namespace event\models\forms\widgets;
 
 class Base extends \CFormModel
 {
-  public $Attributes = [];
+    public $Attributes = [];
 
-  public function rules()
-  {
-    return [
-      ['Attributes', 'filter', 'filter' => [$this, 'filterAttributes']]
-    ];
-  }
+    public function rules()
+    {
+        return [
+            ['Attributes', 'filter', 'filter' => [$this, 'filterAttributes']]
+        ];
+    }
 
-  public function filterAttributes($value)
-  {
-    if (!is_array($value))
-      $this->addError('Attributes', \Yii::t('app', 'Не заполнены параметры виджета!'));
+    public function filterAttributes($value)
+    {
+        if (!is_array($value))
+            $this->addError('Attributes', \Yii::t('app', 'Не заполнены параметры виджета!'));
 
-    return $value;
-  }
+        return $value;
+    }
 
 
-  public function getLocaleList()
-  {
-    return \Yii::app()->params['Languages'];
-  }
+    public function getLocaleList()
+    {
+        return \Yii::app()->params['Languages'];
+    }
 } 

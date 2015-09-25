@@ -1092,7 +1092,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   padding: 10px 20px 20px;
   border: 6px solid #333;
 }
-.event-page .registration .title {text-transform: uppercase;}
+.event-page .registration .title {text-transform: uppercase; text-align: center;}
 .event-page .registration .table th {
   color: #999;
   font-size: 11px;
@@ -1204,7 +1204,7 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   padding: 40px 70px 60px;
 }
 .event-page-fullwidth .event-registration header{
-  margin-bottom: 60px;
+  margin-bottom: 20px;
 }
 .event-page-fullwidth .event-registration .title {
   text-align: center;
@@ -1239,7 +1239,6 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   padding-top: 10px;
   padding-bottom: 10px;
   background: #f7f7f7;
-  margin-bottom: 70px;
 }
 .event-page-fullwidth .event-registration .total span {
   margin-right: 10px;

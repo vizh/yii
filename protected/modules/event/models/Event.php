@@ -1040,4 +1040,20 @@ class Event extends ActiveRecord implements ISearch
     {
         return new Image($this, null, 'header', IMG_JPEG);
     }
+
+    /**
+     * Изображение для баннера в шапке
+     * @param bool $checkLocale
+     * @return Image
+     */
+    public function getHeaderBannerImage($checkLocale = true)
+    {
+        if ($this->getLocale() === 'en' || \Yii::app()->getLanguage() == 'en') {
+            $image = new Image($this, null, 'header-banner_en', IMG_PNG);
+            if (!$checkLocale || $image->exists()) {
+                return $image;
+            }
+        }
+        return new Image($this, null, 'header-banner', IMG_PNG);
+    }
 }

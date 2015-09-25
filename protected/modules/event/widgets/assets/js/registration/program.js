@@ -137,7 +137,7 @@ CRegistrationProgram.prototype = {
             allSectionCount = 0,
             newSectionCount = 0;
 
-        var $button = self.$total.find('a.btn-info');
+        var $button = self.$total.find('a.btn-success');
 
         self.$grid.find('[data-orderitem], :data(orderitem)').each(function() {
             if ($(this).data('paid') != 1) {

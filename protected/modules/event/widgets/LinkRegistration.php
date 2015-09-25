@@ -20,24 +20,7 @@ class LinkRegistration extends \event\components\Widget
         if ($this->getEvent()->isRegistrationClosed()) {
             return;
         }
-
-        /** @var \event\models\Participant $participant */
-        $participant = null;
-        if (!\Yii::app()->user->getIsGuest()) {
-            if (count($this->event->Parts) == 0) {
-                $participant = \event\models\Participant::model()
-                    ->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->event->Id)->find();
-            } else {
-                $participants = \event\models\Participant::model()->byUserId(\Yii::app()->user->getCurrentUser()->Id)->byEventId($this->event->Id)->findAll();
-                foreach ($participants as $p) {
-                    if ($participant == null || $participant->Role->Priority < $p->Role->Priority) {
-                        $participant = $p;
-                    }
-                }
-            }
-        }
-
-        $this->render('linkregistration', ['participant' => $participant]);
+        $this->render('linkregistration');
     }
 
 

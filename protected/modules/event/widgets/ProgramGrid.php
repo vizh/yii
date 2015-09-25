@@ -1,5 +1,6 @@
 <?php
 namespace event\widgets;
+use event\models\section\Hall;
 use event\models\section\Section;
 
 /**
@@ -122,6 +123,16 @@ class ProgramGrid extends \event\components\Widget
             }
             $item->ColSpan = $colSpan;
         }
+
+        foreach ($grid as $date => $item) {
+            uasort($item->Halls, function (Hall $hall1, Hall $hall2) {
+                if ($hall1->Order === $hall2->Order) {
+                    return 0;
+                }
+                return $hall1->Order > $hall2->Order ? 1 : -1;
+            });
+        }
+
         return $grid;
     }
 }

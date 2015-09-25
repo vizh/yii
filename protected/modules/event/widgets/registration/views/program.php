@@ -21,7 +21,7 @@ use \event\widgets\registration\Program;
                     </span>
                 </div>
                 <div class="pull-right">
-                    <?=\CHtml::link('', ['/pay/cabinet/index', 'eventIdName' => $this->getEvent()->IdName], ['class' => 'btn btn-info']);?>
+                    <?=\CHtml::link('', ['/pay/cabinet/index', 'eventIdName' => $this->getEvent()->IdName], ['class' => 'btn btn-success']);?>
                 </div>
             </div>
         </div>

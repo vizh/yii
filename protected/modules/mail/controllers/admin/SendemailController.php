@@ -4,8 +4,7 @@ use mail\components\mail\TemplateForController;
 
 class SendemailController extends AdminMainController
 {
-
-    public $emails= [];
+    public $emails = [];
 
     public function actionIndex()
     {
@@ -16,19 +15,22 @@ class SendemailController extends AdminMainController
     {
         $mailer = new \mail\components\mailers\MandrillMailer();
 
-        $body = $this->renderPartial('mail-1', [], true);
+        $body = $this->renderPartial('mail.views.templates.template663', [], true);
         $count = 0;
 
         foreach ($this->emails as $email) {
+            /*
             $mail = new TemplateForController($mailer,
-                'info@news.leroymerlin.ru', 'Leroy Merlin', $email,
-                'Приглашение на конференцию "Стратегия развития Леруа Мерлен"', $body
+                'info@premiaruneta.ru', 'Премия Рунета 2015', $email,
+                'Оргкомитет Конкурса «Премии Рунета» открывает прием заявок на соискание XII Национальной премии за вклад в развитие российского сегмента сети Интернет', $body
             );
+
             //$mail->isTest = true;
-            //$mail->send();
+            $mail->send();
             //$log = $mail->getLog();
             //$log->save();
             $count++;
+            */
         }
         echo 'done: '.$count;
     }

@@ -4,12 +4,6 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
-    public function actionEdcrunch15()
-    {
-        $orderItem = \pay\models\OrderItem::model()->findByPk(294036);
-        var_dump($orderItem->getCouponActivation());
-
-    }
 
     public function actionInviteGenerator()
     {

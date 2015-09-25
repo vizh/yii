@@ -1,32 +1,80 @@
 <?php
 namespace event\models\forms\widgets\header;
 
-class Banner extends \CFormModel
+use event\components\Widget;
+use event\models\Event;
+
+/**
+ * @inheritdoc
+ */
+class Banner extends Header
 {
-  public $Image;
-  public $BackgroundColor;
-  public $BackgroundImage;
-  public $Styles;
-  public $Height;
-  
-  public function rules()
-  {
-    return [
-      ['BackgroundColor', 'required'],
-      ['Image, BackgroundImage', 'file', 'types' => 'jpg,jpeg,png', 'allowEmpty' => true],
-      ['Height', 'numerical', 'max' => \Yii::app()->params['EventWidgetBannerMaxHeight'], 'min' => 100, 'allowEmpty' => true],
-      ['Styles', 'safe']
-    ];
-  }
-  
-  public function attributeLabels()
-  {
-    return [
-      'BackgroundColor' => \Yii::t('app', 'Цвет фона'),
-      'BackgroundImage' => \Yii::t('app', 'Фоновое изображение'),
-      'Image' => \Yii::t('app', 'Основное изображение'),
-      'Height' => \Yii::t('app', 'Высота (в пикселях)'),
-      'Styles' => \Yii::t('app', 'Стили')
-    ];
-  }
+    public $WidgetHeaderBannerBackgroundColor;
+
+    public $WidgetHeaderBannerHeight;
+
+    public $WidgetHeaderBannerImage;
+
+    public $WidgetHeaderBannerImage_en;
+
+    /**
+     * @return array
+     */
+    public function rules()
+    {
+        $rules = [
+            ['WidgetHeaderBannerImage,WidgetHeaderBannerImage_en', 'file', 'types' => 'jpg,jpeg,png', 'allowEmpty' => true],
+            ['WidgetHeaderBannerBackgroundColor', 'safe'],
+            ['WidgetHeaderBannerHeight', 'numerical']
+        ];
+        return array_merge($rules, parent::rules());
+    }
+
+    /**
+     * @return array
+     */
+    public function attributeLabels()
+    {
+        return array_merge([
+            'WidgetHeaderBannerImage' => \Yii::t('app', 'Баннер'),
+            'WidgetHeaderBannerImage_en' => \Yii::t('app', 'Баннер англ. версия'),
+            'WidgetHeaderBannerBackgroundColor' => \Yii::t('app', 'Цвет фона'),
+            'WidgetHeaderBannerHeight' => \Yii::t('app', 'Высота шапки'),
+        ], parent::attributeLabels());
+    }
+
+    /**
+     * Обновляет запись в базе
+     * @return Event|null
+     * @throws Exception
+     */
+    public function updateActiveRecord()
+    {
+        if (parent::updateActiveRecord() === null) {
+            return null;
+        }
+
+        if ($this->WidgetHeaderBannerImage !== null) {
+            $this->model->getHeaderBannerImage()->saveUpload($this->WidgetHeaderBannerImage);
+        }
+
+        if ($this->WidgetHeaderBannerImage_en !== null) {
+            $this->model->setLocale('en');
+            $this->model->getHeaderBannerImage(false)->saveUpload($this->WidgetHeaderBannerImage_en);
+            $this->model->resetLocale();
+        }
+
+        return $this->model;
+    }
+
+
+    /**
+     * Заполняет параметры формы из POST запроса
+     */
+    public function fillFromPost()
+    {
+        parent::fillFromPost();
+        $this->WidgetHeaderBannerImage = \CUploadedFile::getInstance($this, 'WidgetHeaderBannerImage');
+        $this->WidgetHeaderBannerImage_en = \CUploadedFile::getInstance($this, 'WidgetHeaderBannerImage_en');
+    }
 }
