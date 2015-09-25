@@ -3,8 +3,11 @@
 namespace partner\models;
 
 use event\models\Event;
+use event\models\Part;
+use event\models\Role;
 use user\models\User;
 use application\components\ActiveRecord;
+use partner\models\forms\user\Export as ExportForm;
 
 /**
  * This is the model class for table "PartnerExport".
@@ -73,5 +76,22 @@ class Export extends ActiveRecord
             return 0;
         }
         return round($this->ExportedRow / $this->TotalRow * 100) ;
+    }
+
+    public function getDescription() {
+        $config = json_decode($this->Config);
+        $description = \Yii::t('app', 'Язык выгрузки') . ': ' . ExportForm::getLanguageData()[$config->Language] . '<br/>';
+        if (!empty($config->Roles)) {
+            $roles = Role::model()->findAllByPk($config->Roles);
+            $description .= \Yii::t('app', 'Роли') . ': ' . implode(', ', \CHtml::listData($roles, 'Id', 'Title')) . '<br/>';
+        }
+
+        if (!empty($config->PartId)) {
+            $part = Part::model()->findByPk($config->PartId);
+            $description .= \Yii::t('app', 'Чать меропрития') . ': ' . $part->Title . '<br/>';
+        }
+
+
+        return $description;
     }
 }

@@ -14,6 +14,7 @@ class Export extends EventItemCreateUpdateForm
 
     public $Roles;
     public $Language = 'ru';
+    public $PartId;
 
     /**
      * @param Event $event
@@ -34,7 +35,8 @@ class Export extends EventItemCreateUpdateForm
             ['model', 'validateHasRunningExports'],
             ['Language', 'required'],
             ['Roles', 'safe'],
-            ['Language', 'in', 'range' => array_keys($this->getLanguageData())]
+            ['Language', 'in', 'range' => array_keys($this->getLanguageData())],
+            ['PartId', 'in', 'range' => array_keys($this->getEventPartsData())]
         ];
     }
 
@@ -45,7 +47,8 @@ class Export extends EventItemCreateUpdateForm
     {
         return [
             'Language' => \Yii::t('app', 'Язык выгрузки'),
-            'Roles' => \Yii::t('app', 'Выберите роли для экспорта')
+            'Roles' => \Yii::t('app', 'Выберите роли для экспорта'),
+            'PartId' => \Yii::t('app', 'Чать меропрития')
         ];
     }
 
@@ -85,12 +88,24 @@ class Export extends EventItemCreateUpdateForm
     /**
      * @return array
      */
-    public function getLanguageData()
+    public static function getLanguageData()
     {
         return [
             'ru' => \Yii::t('app', 'Русский'),
             'en' => \Yii::t('app', 'English')
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getEventPartsData()
+    {
+        $data = ['' => \Yii::t('app', 'Все части')];
+        foreach ($this->event->Parts as $part) {
+            $data[$part->Id] = $part->Title;
+        }
+        return $data;
     }
 
     /**

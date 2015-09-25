@@ -27,6 +27,7 @@ $this->setPageTitle(\Yii::t('app', 'Экспорт участников в Excel
                 <table class="table table-bordered">
                     <thead>
                         <th><?=\Yii::t('app', 'Дата запуска');?></th>
+                        <th><?=\Yii::t('app', 'Параметры');?></th>
                         <th><?=\Yii::t('app', 'Количество участников');?></th>
                         <th><?=\Yii::t('app', 'Статус');?></th>
                     </thead>
@@ -34,6 +35,7 @@ $this->setPageTitle(\Yii::t('app', 'Экспорт участников в Excel
                         <?php foreach($exports as $export):?>
                             <tr>
                                 <td><?=$formatter->format('dd MMMM yyyy HH:mm', $export->CreationTime);?></td>
+                                <td class="text-left"><?=$export->getDescription();?></td>
                                 <td><?=!empty($export->TotalRow) ? $export->TotalRow : \Yii::t('app', 'Идет процесс инициализаци...');?></td>
                                 <td>
                                     <?php if ($export->Success):?>
@@ -68,6 +70,12 @@ $this->setPageTitle(\Yii::t('app', 'Экспорт участников в Excel
             <?=$activeForm->label($form, 'Roles');?>
             <?=$activeForm->dropDownList($form, 'Roles', \CHtml::listData($event->getRoles(), 'Id', 'Title'), ['multiple' => 'multiple', 'class' => 'form-control']);?>
         </div>
+        <?php if (!empty($event->Parts)):?>
+            <div class="form-group">
+                <?=$activeForm->label($form, 'PartId');?>
+                <?=$activeForm->dropDownList($form, 'PartId', $form->getEventPartsData(), ['class' => 'form-control']);?>
+            </div>
+        <?php endif;?>
         <div class="form-group">
             <?=$activeForm->label($form, 'Language');?>
             <?php foreach($form->getLanguageData() as $lang => $label):?>

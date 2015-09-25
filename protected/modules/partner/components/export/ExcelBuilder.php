@@ -124,6 +124,9 @@ class ExcelBuilder
         if ($participant !== null) {
             $row['Role'] = $participant->Role->Title;
             $row['DateRegister'] = $formatter->format('dd MMMM yyyy H:m', $participant->CreationTime);
+            if (!empty($this->getConfig()->PartId)) {
+                $row['Part'] = $participant->Part->Title;
+            }
         }
 
         $employment = $user->getEmploymentPrimary();
@@ -257,6 +260,11 @@ class ExcelBuilder
             if ($this->hasExternalId()) {
                 $map['ExternalId'] = 'Внешний ID';
             }
+
+            if (!empty($this->getConfig()->PartId)) {
+                $map['Part'] = 'Часть мероприятия';
+            }
+
             $this->rowMap = $map;
             $this->fillUsersData();
         }
@@ -273,20 +281,32 @@ class ExcelBuilder
 
         $criteria = new \CDbCriteria();
         $criteria->with = [
-            'Participants' => ['on' => '"Participants"."EventId" = :EventId', 'params' => [
-                'EventId' => $this->getEvent()->Id
-            ], 'together' => false],
+            'Participants' => [
+                'on' => '"Participants"."EventId" = :EventId' . (!empty($this->getConfig()->PartId) ? ' AND "Participants"."PartId" = :PartId' : ''),
+                'params' => [
+                    'EventId' => $this->getEvent()->Id
+                ],
+                'together' => false
+            ],
             'Employments' => ['together' => false],
             'Employments.Company' => ['together' => false],
             'LinkPhones.Phone' => ['together' => false]
         ];
         $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
 
+        if (!empty($this->getConfig()->PartId)) {
+            $criteria->with['Participants']['params']['PartId'] = $this->getConfig()->PartId;
+        }
+
         $command = \Yii::app()->getDb()->createCommand();
         $command->select('EventParticipant.UserId')->from('EventParticipant');
         $command->where('"EventParticipant"."EventId" = '.$this->getEvent()->Id);
         if (!empty($roles)) {
             $command->andWhere(['in', 'EventParticipant.RoleId', $roles]);
+        }
+
+        if (!empty($this->getConfig()->PartId)) {
+            $command->andWhere('"EventParticipant"."PartId" = ' . $this->getConfig()->PartId);
         }
         $criteria->addCondition('"t"."Id" IN ('.$command->getText().')');
         return $criteria;
