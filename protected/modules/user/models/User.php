@@ -13,6 +13,7 @@ use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\PhpMailer;
 use ruvents\models\Badge;
 use search\components\interfaces\ISearch;
 use user\components\handlers\Register;
@@ -420,7 +421,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function onRegister($event)
     {
         /** @var \mail\components\Mail $mail */
-        $mail = new Register(new MandrillMailer(), $event);
+        $mail = new Register(new PhpMailer(), $event);
         $mail->send();
 
         $this->raiseEvent('onRegister', $event);

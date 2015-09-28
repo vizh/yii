@@ -8,6 +8,7 @@ use application\components\socials\facebook\Event as SocialEvent;
 use application\models\translation\ActiveRecord;
 use contact\models\Site;
 use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\PhpMailer;
 use search\components\interfaces\ISearch;
 use user\models\User;
 use pay\models\Account as PayAccount;
@@ -535,7 +536,7 @@ class Event extends ActiveRecord implements ISearch
             $apiCallback->registerOnEvent($event->params['user'], $event->params['role']);
         }
 
-        $mailer = new MandrillMailer();
+        $mailer = new PhpMailer();
         $sender = $event->sender;
 
         if (!isset($this->NotSendRegisterMail) || !$this->NotSendRegisterMail) {

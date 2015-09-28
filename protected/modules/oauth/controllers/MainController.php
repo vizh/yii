@@ -17,6 +17,7 @@ use user\models\forms\Recovery;
 use user\models\User;
 use user\models\Log;
 use oauth\models\forms\Register as FormRegister;
+use mail\components\mailers\PhpMailer;
 
 class MainController extends \oauth\components\Controller
 {
@@ -178,7 +179,7 @@ class MainController extends \oauth\components\Controller
                 $form->ShowCode = true;
                 if (empty($form->Code)) {
                     if (strstr($form->EmailOrPhone, '@') !== false) {
-                        $mail = new MailRecover(new MandrillMailer(), $user);
+                        $mail = new MailRecover(new PhpMailer(), $user);
                         $mail->send();
                         \Yii::app()->user->setFlash('success', \Yii::t('app', 'На указанный адрес электронной почты было отправлено письмо с кодом, введите его для смены пароля.'));
                     } else {
