@@ -42,6 +42,7 @@ class Builder
         $this->user->CreationTime = $user->CreationTime;
         $this->user->Visible = $user->Visible;
         $this->user->Verified = $user->Verified;
+        $this->user->Gender = $user->Gender;
 
         $this->user->Photo = new \stdClass();
         $this->user->Photo->Small  = 'http://' . RUNETID_HOST . $user->getPhoto()->get50px();;
