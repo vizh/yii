@@ -4,7 +4,6 @@ use application\components\ActiveRecord;
 use event\models\Event;
 use mail\components\filter\Main;
 use mail\components\mailers\MandrillMailer;
-use mail\components\mailers\PhpMailer;
 
 /**
  * Class Template
