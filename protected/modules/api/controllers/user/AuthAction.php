@@ -29,9 +29,7 @@ class AuthAction extends Action
         }
 
         $this->getAccount()->getDataBuilder()->createUser($user);
-        if ($this->getAccount()->Role != 'mobile') {
-            $this->getAccount()->getDataBuilder()->buildUserContacts($user);
-        }
+        $this->getAccount()->getDataBuilder()->buildUserContacts($user);
         $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
         $this->getAccount()->getDataBuilder()->buildUserEvent($user);
         $this->getController()->setResult($this->getAccount()->getDataBuilder()->buildUserBadge($user));

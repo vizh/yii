@@ -24,9 +24,7 @@ class LoginAction extends Action
         }
 
         $this->getAccount()->getDataBuilder()->createUser($user);
-        if ($this->getAccount()->Role != 'mobile') {
-            $this->getAccount()->getDataBuilder()->buildUserContacts($user);
-        }
+        $this->getAccount()->getDataBuilder()->buildUserContacts($user);
         $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
         $result = $this->getAccount()->getDataBuilder()->buildUserEvent($user);
         $this->setResult($result);

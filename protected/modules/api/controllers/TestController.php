@@ -6,13 +6,13 @@ class TestController extends CController
     {
         //$api = 'zrnzd5rs8i';
         //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-        $api = '6isk9sbt86';
-        $secret = 'iRtzRnTT3sseTdBZeRnkS7KdF';
+        $api = '5b7n7kf7bf';
+        $secret = 's3i64dnAtHb2dab4Q3RHe45sF';
 
         $params = array(
             'ApiKey' => $api,
             'Hash' => md5($api . $secret),
-            'RunetId' => 321,
+            'RunetId' => 383348,
             'RoleId' => 2,
         );
 
@@ -29,7 +29,7 @@ class TestController extends CController
         //$this->apiRequest('/api/section/deleteFavorite', $params);
 
         print_r($params);
-
+        exit;
         $this->apiRequest('/api/user/get', $params);
     }
 

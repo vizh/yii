@@ -44,7 +44,6 @@ class GetAction extends \api\components\Action
                 return true;
                 break;
 
-            case Account::ROLE_MOBILE:
             case Account::ROLE_PARTNER_WOC:
                 return false;
                 break;
