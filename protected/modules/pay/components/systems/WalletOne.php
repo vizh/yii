@@ -5,20 +5,29 @@ use pay\components\CodeException;
 
 class WalletOne extends Base
 {
-    const SECRET_KEY = '32415e7b5e6650685035705e336a3254696335306f5c6d6a696948';
-    const WMI_MERCHANT_ID  = '129482046877';
-    const WMI_CURRENCY_ID  = 643;
+    private $secretKey;
+    private $merchantId;
 
     /**
      * @return array
      */
-    public function getRequiredParams() {}
+    public function getRequiredParams()
+    {
+        return ['SecretKey', 'MerchantId'];
+    }
 
     /**
      * @param $orderId
      */
-    protected function initRequiredParams($orderId) {}
+    protected function initRequiredParams($orderId)
+    {
+        $this->secretKey = '765c4e6b64434f5b6454444d686b315b716b62765f454b4d564b33';
+        $this->merchantId = '140549145718';
+    }
 
+    /**
+     * @return string
+     */
     protected function getClass()
     {
         return __CLASS__;
@@ -32,10 +41,10 @@ class WalletOne extends Base
     {
         /** @var \CHttpRequest $request */
         $request = \Yii::app()->getRequest();
-        $invoiceId = $request->getParam('InvoiceId', false);
-        $status  = $request->getParam('Status', false);
-        $amount = $request->getParam('Amount');
-        return $invoiceId !== false && $status !== false && $amount !== false;
+        $state = $request->getParam('WMI_ORDER_STATE', false);
+        $order = $request->getParam('WMI_PAYMENT_NO', false);
+        $amount = $request->getParam('WMI_PAYMENT_AMOUNT', false);
+        return $state !== false && $order !== false && $amount !== false;
     }
 
     /**
@@ -47,17 +56,14 @@ class WalletOne extends Base
         /** @var \CHttpRequest $request */
         $request = \Yii::app()->getRequest();
 
-        $invoiceId = $request->getParam('InvoiceId');
-        $status = $request->getParam('Status');
-        $amount = $request->getParam('Amount');
-        if ($status != 'Completed') {
-            throw new CodeException(903, [$status]);
-        } elseif (!$this->checkInvoice($invoiceId)) {
-            throw new CodeException(901);
-        }
+        $state = $request->getParam('WMI_ORDER_STATE');
+        $amount = $request->getParam('WMI_PAYMENT_AMOUNT');
 
-        $this->orderId = $invoiceId;
-        $this->total = (int) $amount;
+        if ($state != 'Accepted') {
+            throw new CodeException(903, [$state]);
+        }
+        $this->orderId = $request->getParam('WMI_PAYMENT_NO');
+        $this->total = intval($amount);
     }
 
     /**
@@ -69,10 +75,11 @@ class WalletOne extends Base
      */
     public function processPayment($eventId, $orderId, $total)
     {
+        $this->initRequiredParams($orderId);
         $params = [
-            'WMI_MERCHANT_ID' => self::WMI_MERCHANT_ID,
+            'WMI_MERCHANT_ID' => $this->merchantId,
             'WMI_PAYMENT_AMOUNT' => number_format($total, 2, '.', ''),
-            'WMI_CURRENCY_ID' => self::WMI_CURRENCY_ID,
+            'WMI_CURRENCY_ID' => 643, // Валюта росскийский рубль,
             'WMI_DESCRIPTION' => 'BASE64:' . base64_encode(\Yii::t('app', 'Оплата заказа в runet-id.com')),
             'WMI_SUCCESS_URL' => $this->getReturnUrl($eventId),
             'WMI_PAYMENT_NO'  => $orderId,
@@ -82,8 +89,9 @@ class WalletOne extends Base
         $params['WMI_FAIL_URL'] = $params['WMI_SUCCESS_URL'];
         $params['WMI_SIGNATURE'] = $this->calcSignature($params);
 
+        \Yii::app()->getRequest()->enableCsrfValidation = false;
         $form = \CHtml::tag('h3', ['class' => 'text-center m-top_40 m-bottom_40'], \Yii::t('app', 'Пожалуйста, подождите, идет перенаправление на WalletOne для выполнения платежа.'))
-            . \CHtml::form('https://www.walletone.com/checkout/default.aspx', 'POST', ['style' => 'display: none;','id' => 'walletone']);
+            . \CHtml::form('https://wl.walletone.com/checkout/checkout/Index', 'POST', ['style' => 'display: none;','id' => 'walletone']);
         foreach ($params as $name => $value) {
             $form .= \CHtml::hiddenField($name, $value);
         }
@@ -108,25 +116,28 @@ class WalletOne extends Base
      */
     private function calcSignature(array $params)
     {
-        foreach ($params as $name => $val) {
+        foreach($params as $name => $val) {
             if (is_array($val)) {
-                usort($val, 'strcasecmp');
+                usort($val, "strcasecmp");
                 $params[$name] = $val;
             }
         }
 
-        uksort($params, 'strcasecmp');
-        $values = '';
-        foreach ($params as $value) {
+        uksort($params, "strcasecmp");
+        $values = "";
+        foreach($params as $value) {
             if (is_array($value)) {
                 foreach ($value as $v) {
+                    $v = iconv("utf-8", "windows-1251", $v);
                     $values .= $v;
                 }
-            } else {
+            }
+            else {
+                $value = iconv("utf-8", "windows-1251", $value);
                 $values .= $value;
             }
         }
-        return base64_encode(pack('H*', md5($values . self::SECRET_KEY)));
+        return base64_encode(pack('H*', md5($values . $this->secretKey)));
     }
 
     /**
@@ -134,30 +145,16 @@ class WalletOne extends Base
      */
     public function endParseSystem()
     {
-        echo json_encode(['code' => 0]);
+        echo 'WMI_RESULT=OK';
         exit;
     }
 
-
     /**
-     * @param $id
-     * @return bool
+     * @return string
      */
-    private function checkInvoice($id)
+    public function info()
     {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, 'https://api.cloudpayments.ru/payments/find');
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'Authorization: Basic ' . base64_encode(self::PUBLIC_ID . ':' . self::API_SECRET)
-        ]);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER,1);
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, ['InvoiceId' => $id]);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        $result = json_decode(curl_exec($curl));
-        if (isset($result->Model) && $result->Model->Status == 'Completed') {
-            return true;
-        }
-        return false;
+        unset($_REQUEST['WMI_DESCRIPTION']);
+        return parent::info();
     }
 }

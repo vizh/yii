@@ -152,7 +152,18 @@ $total = 0;
         </label>
     </div>
 
-    <?$this->renderPartial('index/payments', ['account' => $account, 'total' => $total]);?>
+    <div class="pay-buttons clearfix actions">
+        <div class="pull-left">
+            <h5><?=\Yii::t('app', 'Для юридических лиц');?></h5>
+            <?$this->widget('\pay\widgets\JuridicalButton', ['account' => $account, 'htmlOptions' => ['class' => 'btn btn-large juridical']]);?>
+        </div>
+        <div class="pull-right">
+            <?$this->widget('\pay\widgets\PayButtons', ['account' => $account, 'htmlOptions' => ['class' => 'btn btn-large']]);?>
+        </div>
+    </div>
+    <div class="nav-buttons">
+        <?$this->renderPartial('index/buttons/back', ['account' => $account]);?>
+    </div>
 <?else:?>
 
     <style type="text/css">

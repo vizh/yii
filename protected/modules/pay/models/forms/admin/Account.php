@@ -17,6 +17,7 @@ class Account extends \CFormModel
     public $UnitellerRuvents;
     public $CloudPayments;
     public $PayOnline;
+    public $WalletOne;
     public $MailRuMoney;
     public $ReceiptTemplateId;
     public $ReceiptLastTime;
@@ -44,7 +45,7 @@ class Account extends \CFormModel
             ['OrderLastTime, ReceiptLastTime', 'date', 'format' => 'dd.MM.yyyy', 'allowEmpty' => true],
             ['OfferFile', 'file', 'types' => 'pdf,doc,docx', 'allowEmpty' => true],
             ['EventId', 'filter', 'filter' => [$this, 'filterEventId']],
-            ['Uniteller,UnitellerRuvents,PayOnline,MailRuMoney,CloudPayments', 'numerical', 'max' => 1, 'min' => 1, 'allowEmpty' => true],
+            ['Uniteller,UnitellerRuvents,PayOnline,MailRuMoney,CloudPayments,WalletOne', 'numerical', 'max' => 1, 'min' => 1, 'allowEmpty' => true],
             ['OrderMinTotal', 'type', 'type' => 'integer', 'allowEmpty' => true],
             ['OrderMinTotalMessage', 'safe']
         ];

@@ -11,7 +11,7 @@ class PayButtons extends Widget
 
     public $htmlOptions = [];
 
-    public static $PaySystems  = ['uniteller', 'payonline', 'yandexmoney', 'paypal', 'cloudpayments'];
+    public static $PaySystems  = ['uniteller', 'payonline', 'yandexmoney', 'paypal', 'cloudpayments', 'walletone'];
     public static $OnlineMoney = ['yandexmoney', 'paypal'];
 
     /**
@@ -43,7 +43,7 @@ class PayButtons extends Widget
      * Список кнопок для оплаты через платежные системы
      * @return string[]
      */
-    public function getSytemButtons()
+    public function getSystemButtons()
     {
         $buttons = [];
         if ($this->account->Uniteller) {
@@ -54,6 +54,9 @@ class PayButtons extends Widget
         }
         if ($this->account->CloudPayments) {
             $buttons[] = 'cloudpayments';
+        }
+        if ($this->account->WalletOne) {
+            $buttons[] = 'walletone';
         }
         return $buttons;
     }
@@ -89,5 +92,12 @@ class PayButtons extends Widget
         return true;
     }
 
-
+    /**
+     * Возможность формировать квитанции
+     * @return bool
+     */
+    public function enableReceipt()
+    {
+        return $this->account->ReceiptEnable && ($this->account->ReceiptLastTime == null || $this->account->ReceiptLastTime > date('Y-m-d H:i:s'));
+    }
 }

@@ -3,7 +3,7 @@ namespace pay\components;
 
 class SystemRouter
 {
-    public static $SystemNames = ['PayOnline', 'PayPal', 'Uniteller', 'CloudPayments'];
+    public static $SystemNames = ['PayOnline', 'PayPal', 'Uniteller', 'CloudPayments', 'WalletOne'];
     const Prefix = 'pay\components\systems\\';
 
     private $addition = null;
@@ -49,7 +49,7 @@ class SystemRouter
             $this->system->parseSystem();
             self::logSuccess($this);
         } catch (Exception $e) {
-            self::logError($e->getMessage(), $e->getCode());
+            self::logError($e->getMessage(), $e->getCode(), $this);
         }
         $this->system->endParseSystem();
     }

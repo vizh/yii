@@ -59,6 +59,7 @@ class EditAction extends \CAction
                 $account->PayOnline = $form->PayOnline == 1 ? true : false;
                 $account->MailRuMoney = $form->MailRuMoney == 1 ? true : false;
                 $account->CloudPayments = $form->CloudPayments == 1 ? true : false;
+                $account->WalletOne = $form->WalletOne == 1 ? true : false;
 
                 $account->OrderMinTotal = !empty($form->OrderMinTotal) ? $form->OrderMinTotal : null;
                 $account->OrderMinTotalMessage = !empty($form->OrderMinTotalMessage) ? $form->OrderMinTotalMessage : null;

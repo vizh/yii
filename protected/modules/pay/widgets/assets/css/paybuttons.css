@@ -39,6 +39,24 @@
 #pay_widget_PayButtons a.btn-primary.cloudpayments.loader {
   background-image: url(/img/pay/cloudpayments_20_loader.gif);
 }
+#pay_widget_PayButtons a.walletone {
+  background-image: url(/img/pay/walletone_35.png);
+  background-repeat: no-repeat;
+}
+#pay_widget_PayButtons a.btn-primary.walletone {
+  background-image: url(/img/pay/walletone_35_white.png);
+}
+#pay_widget_PayButtons #w1widget {
+  display: inline-block;
+}
+#pay_widget_PayButtons #w1widget .w1-widget .w1-widget_header {
+  display: none;
+}
+#pay_widget_PayButtons #w1widget .w1-widget {
+  padding-bottom: 0;
+}
+
+
 #pay_widget_PayButtons a.yandexmoney {
   background-image: url(/img/pay/yandexmoney_34.png);
 }
@@ -58,6 +76,9 @@
 }
 #pay_widget_PayButtons a.btn-primary.mailrumoney{
   background-image: url(/img/pay/mailrumoney_25_white.png);
+}
+#pay_widget_PayButtons a.receipt {
+  width: auto;
 }
 
 

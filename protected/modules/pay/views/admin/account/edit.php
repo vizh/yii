@@ -93,6 +93,10 @@
                 <?=\CHtml::activeCheckBox($form, 'MailRuMoney', ['uncheckValue' => null]);?>
                 MailRuMoney
             </label>
+            <label class="checkbox inline">
+                <?=\CHtml::activeCheckBox($form, 'WalletOne', ['uncheckValue' => null]);?>
+                WalletOne
+            </label>
         </div>
     </div>
 

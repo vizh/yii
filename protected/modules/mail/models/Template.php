@@ -286,7 +286,7 @@ class Template extends ActiveRecord
     public function getMailer()
     {
         if ($this->mailer == null){
-            $this->mailer = new PhpMailer();
+            $this->mailer = new MandrillMailer();
         }
         return $this->mailer;
     }
