@@ -66,7 +66,7 @@
 						<table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top">
 									<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Персонально для Вас <b style="margin: 0; padding: 0;">специальные условия участия</b> в главном осеннем мероприятии сразу четырех отраслей (интернет, медиа, телеком и софт) Russian Interactive Week 2015: <b style="margin: 0; padding: 0;">скидку –20% на профессиональное участие</b>.</p>
-									<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Промо-код на 20% скидку:<br style="margin: 0; padding: 0;"><b style="color: #D85A43; font-size: 28px; margin: 0; padding: 0;"><?=$coupon->Code?></b></p>
+									<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><?=$user->getShortName();?>, ваш персональный промо-код на 20% скидку:<br style="margin: 0; padding: 0;"><b style="color: #D85A43; font-size: 28px; margin: 0; padding: 0;"><?=$coupon->Code?></b></p>
 									<p style="color: #999; line-height: 14px; font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><small style="margin: 0; padding: 0;">Данный промо-код является уникальным и может быть активирован в личном кабинете на сайте RIW-2015 только один раз.</small></p>
 								</td>
 								<td style="vertical-align: top; margin: 0; padding: 0;" valign="top">

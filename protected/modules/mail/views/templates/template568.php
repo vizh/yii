@@ -89,7 +89,7 @@ black;">Уровень знаний участников:</span></strong> <span 
                             <span style="font-size: 14px;"><span style="font-family: arial,helvetica,sans-serif; font-size: 16px;"><strong style="color: #ff9933;"><span lang="RU" style="color: #ff9933;">Получение пропуска</span>:</strong></span></span>
                         </p>
 
-                        <p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;"><strong>Выдача именных пропусков начнётся в 8.30</strong> на столе регистрации AWSome Day.</p>
+                        <p><span style="font-family: arial,helvetica,sans-serif; font-size: 14px;"><strong>Регистрация начнётся в 8.30.</strong> Бейдж вы сможете получить на столе регистрации AWSome Day.</p>
 
                         <p>
                             <span style="font-size: 14px;"><span style="font-family: arial,helvetica,sans-serif; font-size: 16px;"><strong style="color: #ff9933;"><span lang="RU" style="color: #ff9933;">Как добраться?</span></strong></span></span>
