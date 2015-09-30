@@ -21,7 +21,7 @@ class CouponAction extends \api\components\Action
         $productId = $request->getParam('ProductId');
 
         /** @var $coupon \pay\models\Coupon */
-        $coupon = \pay\models\Coupon::model()->byCode($couponCode)->byEventId($this->getEvent()->Id)->find();
+        $coupon = \pay\models\Coupon::model()->byCode($couponCode)->byEventId($this->getEvent()->Id)->byDeleted(false)->find();
         if ($coupon == null)
             throw new \api\components\Exception(406);
 

@@ -16,7 +16,7 @@ class CouponActivateAction extends \pay\components\Action
         $result = new \stdClass();
         $result->success = false;
 
-        $coupon = \pay\models\Coupon::model()->byCode($code)->byEventId($this->getEvent()->Id)->find();
+        $coupon = \pay\models\Coupon::model()->byCode($code)->byEventId($this->getEvent()->Id)->byDeleted(false)->find();
         if ($coupon == null) {
             $result->error = \Yii::t('app', 'Указан неверный промо код');
         } elseif (!$coupon->getIsForProduct($productId) && $coupon->Discount != 100) {

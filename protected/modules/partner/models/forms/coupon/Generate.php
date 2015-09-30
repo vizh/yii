@@ -67,7 +67,7 @@ class Generate extends CreateUpdateForm
                 return false;
             }
 
-            $exists = Coupon::model()->byEventId($this->event->Id)->byCode($value)->exists();
+            $exists = Coupon::model()->byEventId($this->event->Id)->byCode($value)->byDeleted(false)->exists();
             if ($exists) {
                 $this->addError($attribute, \Yii::t('app', 'Такой промо-код уже существует.'));
                 return false;
