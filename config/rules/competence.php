@@ -3,7 +3,7 @@ return array(
   array(
     'allow',
     'users' => array('*'),
-    'controllers' => array('main', 'event', 'devcon'),
+    'controllers' => array('main', 'event', 'digitalindex15'),
     'module' => 'competence'
   ),
   /** Admin Rules */

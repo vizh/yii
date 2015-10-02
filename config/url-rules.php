@@ -68,6 +68,12 @@ return [
     'http://' . RUNETID_HOST . '/vote/runet2015/done' => ['competence/main/done', 'defaultParams' => ['id' => 42]],
     'http://' . RUNETID_HOST . '/vote/runet2015/after' => ['competence/main/after', 'defaultParams' => ['id' => 42]],
 
+
+    'http://' . RUNETID_HOST . '/vote/digitalindex15' => 'competence/digitalindex15/index/',
+    'http://' . RUNETID_HOST . '/vote/digitalindex15/process' => ['competence/main/process/', 'defaultParams' => ['id' => 43]],
+    'http://' . RUNETID_HOST . '/vote/digitalindex15/done' => ['competence/main/done', 'defaultParams' => ['id' => 43]],
+    'http://' . RUNETID_HOST . '/vote/digitalindex15/after' => ['competence/main/after', 'defaultParams' => ['id' => 43]],
+
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>' => 'competence/event/index',
     'http://vote.' . RUNETID_HOST . '/<eventIdName:\w+>/<action:\w+>' => 'competence/event/<action>',
 
