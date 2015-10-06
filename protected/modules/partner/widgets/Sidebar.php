@@ -83,9 +83,9 @@ class Sidebar extends \CWidget
         $event = $this->event;
 
         $items = [
-            ['label' => 'Главная', 'icon' => 'dashboard', 'url' => ['main/index'], 'items' => [
+            ['label' => 'Статистика', 'icon' => 'dashboard', 'url' => ['main/index'], 'items' => [
                 ['label' => 'Участники', 'url' => ['main/index']],
-                ['label' => 'Фин. статистика', 'url' => ['main/pay']]
+                ['label' => 'Финансы', 'url' => ['main/pay']]
             ]],
             ['label' => 'Регистрации', 'icon' => 'male', 'url' => ['ruvents/index'], 'items' => [
                 ['label' => 'Статистика', 'url' => ['ruvents/index']],
@@ -94,7 +94,7 @@ class Sidebar extends \CWidget
                 ['label' => 'Настройки клиента', 'url' => ['ruvents/settings']]
             ]],
             ['label' => 'Участники', 'icon' => 'group', 'url' => ['user/index'], 'items' => [
-                ['label' => 'Участники', 'url' => ['user/index']],
+                ['label' => 'Список участников', 'url' => ['user/index']],
                 ['label' => 'Редактирование', 'url' => ['user/edit']],
                 ['label' => 'Регистрация', 'url' => ['user/register']],
                 ['label' => 'Экспорт участников в Excel', 'url' => ['user/export']],
@@ -118,7 +118,8 @@ class Sidebar extends \CWidget
             ['label' => 'Настройки', 'icon' => 'cog', 'url' => ['settings/roles'], 'items' => [
                 ['label' => 'Статусы', 'url' => ['settings/roles']],
                 ['label' => 'Программа лояльности', 'url' => ['settings/loyalty']],
-                ['label' => 'API', 'url' => ['settings/api']]
+                ['label' => 'API', 'url' => ['settings/api']],
+                ['label' => 'Дополнительные атрибуты пользователей', 'url' => ['settings/definitions']]
             ]],
         ];
         return $items;

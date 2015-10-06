@@ -29,4 +29,18 @@ class FormModel extends \CFormModel
     {
         return isset($this->attributeHelpMessages()[$attribute]) ? $this->attributeHelpMessages()[$attribute] : null;
     }
+
+    /**
+     * Возврашает true если форма не пустая
+     * @return bool
+     */
+    public function isNotEmpty()
+    {
+        foreach ($this->getAttributes() as $name => $value) {
+            if ($this->isAttributeRequired($name) && !empty($value)) {
+                return true;
+            }
+        }
+        return false;
+    }
 } 

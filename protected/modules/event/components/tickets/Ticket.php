@@ -22,7 +22,8 @@ class Ticket
         $this->user  = $user;
     }
 
-    private $pdf = null;
+    /** @var \mPDF|null */
+    protected $pdf = null;
 
     /**
      * @return \mPDF
@@ -35,7 +36,7 @@ class Ticket
         return $this->pdf;
     }
 
-    private function createPdf()
+    protected function createPdf()
     {
         $this->pdf = new \mPDF('', 'A4', 0, '', 5, 5, 5, 5);
         $this->pdf->WriteHTML($this->getHtml());
@@ -61,7 +62,7 @@ class Ticket
         return $params;
     }
 
-    private function getHtml()
+    protected function getHtml()
     {
         $controller = new \CController('default', null);
         return $controller->renderPartial($this->getViewAlias(), $this->getViewParams(), true);

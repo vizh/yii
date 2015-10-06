@@ -22,6 +22,7 @@ use \application\models\translation\ActiveRecord;
  * @method Definition[] findAll($condition='',$params=array())
  *
  * @method Definition byPublic(boolean $public)
+ * @method Definition byGroupId(int $id)
  */
 class Definition extends ActiveRecord
 {

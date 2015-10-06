@@ -109,14 +109,14 @@ class ExportController extends \application\components\controllers\AdminMainCont
 
         foreach ($this->getQuestions() as $question) {
             $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 1, $question->Code);
-            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 2, $question->getForm()->getTitle());
+            $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 2, strip_tags($question->getForm()->getTitle()));
 
             $titles = $question->getForm()->getExportValueTitles();
             $delta = count($titles) - 1;
             $phpExcel->getActiveSheet()->mergeCellsByColumnAndRow($col, 1, $col+$delta, 1);
             $phpExcel->getActiveSheet()->mergeCellsByColumnAndRow($col, 2, $col+$delta, 2);
             foreach ($titles as $title) {
-                $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 3, $title);
+                $phpExcel->getActiveSheet()->setCellValueByColumnAndRow($col, 3, strip_tags($title));
                 $col++;
             }
         }

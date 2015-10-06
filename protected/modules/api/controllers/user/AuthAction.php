@@ -16,7 +16,7 @@ class AuthAction extends Action
         $accessToken = AccessToken::model()->byToken($token)->find();
 
         if (empty($accessToken)) {
-            \Yii::log('Token: ' . $token, \CLogger::LEVEL_ERROR);
+            //\Yii::log('Token: ' . $token, \CLogger::LEVEL_ERROR);
             throw new Exception(222);
         }
         if ($accessToken->AccountId != $this->getAccount()->Id) {
