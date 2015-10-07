@@ -202,7 +202,7 @@ class EditAction extends \ruvents\components\Action
     }
 
     /**
-     * Сохранения дополнительных атрибутов пользователя
+     * Редактирование дополнительных атрибутов пользователя
      * @param User $user
      * @throws Exception
      */
@@ -223,6 +223,8 @@ class EditAction extends \ruvents\components\Action
             return;
         }
 
+        $oldAttributes = $manager->getAttributes();
+
         $data = \Yii::app()->getRequest()->getParam('Data', '[]');
         try {
             $hasChanges = false;
@@ -236,7 +238,7 @@ class EditAction extends \ruvents\components\Action
             if ($hasChanges) {
                 $userData->save();
                 $this->getDetailLog()->addChangeMessage(
-                    new ChangeMessage('Data', $userData->Attributes, $data)
+                    new ChangeMessage('Data', $oldAttributes, $data)
                 );
             }
         } catch (\Exception $e) {
