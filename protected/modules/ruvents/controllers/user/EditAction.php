@@ -4,6 +4,7 @@ namespace ruvents\controllers\user;
 use event\models\Part;
 use event\models\Participant;
 use event\models\Role;
+use event\models\UserData;
 use ruvents\components\Exception;
 use ruvents\models\ChangeMessage;
 use user\models\User;
@@ -34,10 +35,12 @@ class EditAction extends \ruvents\components\Action
         $this->updatePhone($user);
         $this->updateEmployment($user);
         $this->updateRoles($user);
+        $this->updateData($user);
 
         // Позволим редактировать посетителей без указания Email. Но только в случае когда он уже есть.
-        if ($email || !$user->Email)
+        if ($email || !$user->Email) {
             $this->updateEmail($user);
+        }
 
         $this->getDetailLog()->UserId = $user->Id;
         $this->getDetailLog()->save();
@@ -196,5 +199,49 @@ class EditAction extends \ruvents\components\Action
             $event->registerUserOnPart($part, $user, $role); if ($part)
             $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', $part->Id, $role->Id));
         }
+    }
+
+    /**
+     * Сохранения дополнительных атрибутов пользователя
+     * @param User $user
+     * @throws Exception
+     */
+    private function updateData(User $user)
+    {
+        $userData = UserData::model()
+            ->byEventId($this->getEvent()->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"'])->find();
+
+        if (empty($userData)) {
+            $userData = new UserData();
+            $userData->EventId = $this->getEvent()->Id;
+            $userData->UserId  = $user->Id;
+        }
+
+        $manager = $userData->getManager();
+
+        if (!$manager->hasDefinitions()) {
+            return;
+        }
+
+        $data = \Yii::app()->getRequest()->getParam('Data', '[]');
+        try {
+            $hasChanges = false;
+            foreach (json_decode($data, true) as $key => $value) {
+                if (!isset($manager->$key) || $manager->$key != $value) {
+                    $hasChanges = true;
+                }
+                $manager->$key = $value;
+            }
+
+            if ($hasChanges) {
+                $userData->save();
+                $this->getDetailLog()->addChangeMessage(
+                    new ChangeMessage('Data', $userData->Attributes, $data)
+                );
+            }
+        } catch (\Exception $e) {
+            throw new Exception(251, [$e->getMessage()]);
+        }
+
     }
 }
