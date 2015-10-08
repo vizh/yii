@@ -51,7 +51,7 @@ class EditAction extends \ruvents\components\Action
         $this->getDataBuilder()->buildUserPhone($user);
         $this->getDataBuilder()->buildUserEmployment($user);
         $this->getDataBuilder()->buildUserData($user);
-        echo json_encode(array('User' => $this->getDataBuilder()->buildUserEvent($user)));
+        echo json_encode(array('User' => $this->getDataBuilder()->buildUserEvent($user)), JSON_UNESCAPED_UNICODE);
     }
 
     /**

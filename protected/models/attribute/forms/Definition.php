@@ -100,7 +100,7 @@ class Definition extends CreateUpdateForm
             'Order' => \Yii::t('app', 'Сортировка'),
             'Public' => \Yii::t('app', 'Видимое'),
             'Params_data' => \Yii::t('app', 'Варианты ответа'),
-            'Params_placeholder' => \Yii::t('app', 'Текст внутри поля формы')
+            'Params_placeholder' => \Yii::t('app', 'Текст внутри поля')
         ];
     }
 
@@ -164,7 +164,7 @@ class Definition extends CreateUpdateForm
         $input = $activeForm->label($this, 'Params_placeholder')
             . $activeForm->textField($form, $inputPrefix . '[Params][placeholder]', ['class' => 'form-control']);
 
-        $html.= \CHtml::tag('div', ['class' => 'm-top_10', 'data-class' => 'Definition'], $input);
+        $html.= \CHtml::tag('div', ['class' => 'm-top_10'], $input);
 
         $i = 0;
         $attributes['data'] = '';
@@ -189,11 +189,8 @@ class Definition extends CreateUpdateForm
 
     public function getAvailableParamsByClassName()
     {
-        $params = [];
-        if ($this->ClassName === 'Definition') {
-            $params[] = 'placeholder';
-        }
-        elseif ($this->ClassName === 'ListDefinition') {
+        $params = ['placeholder'];
+        if ($this->ClassName === 'ListDefinition') {
             $params[] = 'data';
         }
         return $params;
@@ -206,14 +203,14 @@ class Definition extends CreateUpdateForm
     {
         parent::setAttributes($values, $safeOnly);
         foreach ($this->Params as $name => $value) {
-            if (!in_array($name, $this->getAvailableParamsByClassName())) {
+            if (!in_array($name, $this->getAvailableParamsByClassName()) || empty($value)) {
                 unset($this->Params[$name]);
                 continue;
             }
 
             if (is_array($value)) {
                 $value = array_filter($value, function ($val) {
-                    return !empty(trim($val['value']));
+                    return !empty($val['key']) && !empty($val['value']);
                 });
                 $this->Params[$name] = ArrayHelper::map($value, 'key', 'value');
             }

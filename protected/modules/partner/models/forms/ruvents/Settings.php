@@ -2,6 +2,7 @@
 namespace partner\models\forms\ruvents;
 
 use application\components\form\EventItemCreateUpdateForm;
+use event\models\UserData;
 use ruvents\models\Setting;
 
 /**
@@ -10,8 +11,8 @@ use ruvents\models\Setting;
 class Settings extends EventItemCreateUpdateForm
 {
 
-    public $TestAttribute1;
-    public $TestAttribute2;
+    /** @var string[] Дополнительные атрибуты пользователя, доступные для редактирования из клиента */
+    public $EditableUserData;
 
     /**
      * @return array
@@ -19,8 +20,7 @@ class Settings extends EventItemCreateUpdateForm
     public function attributeLabels()
     {
         return [
-            'TestAttribute1' => \Yii::t('app', 'Тестовый атрибут 1'),
-            'TestAttribute2' => \Yii::t('app', 'Тестовый атрибут 2'),
+            'EditableUserData' => \Yii::t('app', 'Дополнительные поля пользователя, доступные для редактирования'),
         ];
     }
 
@@ -30,8 +30,7 @@ class Settings extends EventItemCreateUpdateForm
     public function rules()
     {
         return [
-            ['TestAttribute1', 'required'],
-            ['TestAttribute2', 'boolean']
+            ['EditableUserData', '\application\components\validators\RangeValidator', 'range' => array_keys($this->getDefinitionData())]
         ];
     }
 
@@ -106,5 +105,17 @@ class Settings extends EventItemCreateUpdateForm
             }
         }
         return json_encode($attributes, JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getDefinitionData()
+    {
+        $data = [];
+
+        $userData = new UserData();
+        $userData->EventId = $this->event->Id;
+        foreach ($userData->getManager()->getDefinitions() as $definition) {
+            $data[$definition->name] = $definition->title;
+        }
+        return $data;
     }
 } 

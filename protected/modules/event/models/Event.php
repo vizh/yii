@@ -8,6 +8,7 @@ use application\components\socials\facebook\Event as SocialEvent;
 use application\models\translation\ActiveRecord;
 use contact\models\Site;
 use mail\components\mailers\MandrillMailer;
+use ruvents\models\Setting;
 use search\components\interfaces\ISearch;
 use user\models\User;
 use pay\models\Account as PayAccount;
@@ -46,6 +47,7 @@ use pay\models\Account as PayAccount;
  * @property LinkSite $LinkSite
  * @property Type $Type
  * @property PayAccount $PayAccount
+ * @property Setting $RuventsSettings
  *
  * @property LinkWidget[] $Widgets
  * @property Attribute[] $Attributes
@@ -129,7 +131,8 @@ class Event extends ActiveRecord implements ISearch
             'Attributes' => array(self::HAS_MANY, '\event\models\Attribute', 'EventId'),
             'Partners' => array(self::HAS_MANY, '\event\models\Partner', 'EventId'),
             'LinkProfessionalInterests' => array(self::HAS_MANY, '\event\models\LinkProfessionalInterest', 'EventId', 'with' => 'ProfessionalInterest'),
-            'PayAccount' => [self::HAS_ONE, '\pay\models\Account', 'EventId']
+            'PayAccount' => [self::HAS_ONE, '\pay\models\Account', 'EventId'],
+            'RuventsSettings' => [self::HAS_ONE, '\ruvents\models\Setting', 'EventId']
         );
     }
 

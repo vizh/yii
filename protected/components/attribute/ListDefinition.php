@@ -11,7 +11,7 @@ class ListDefinition extends Definition
     /**
      * @var array data for generating the list options (value=>display)
      */
-    public $data;
+    public $data = [];
 
     /**
      * @param mixed $value
@@ -29,7 +29,9 @@ class ListDefinition extends Definition
     {
         $htmlOptions['class'] = $this->cssClass . (isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
         $htmlOptions['style'] = $this->cssStyle . (isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
-        return \CHtml::activeDropDownList($container, $this->name, $this->data, $htmlOptions);
+
+        $data = ['' => $this->placeholder] + $this->data;
+        return \CHtml::activeDropDownList($container, $this->name, $data, $htmlOptions);
     }
 
     /**

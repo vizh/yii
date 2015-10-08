@@ -1,6 +1,7 @@
 <?php
 namespace partner\widgets\grid;
 
+use application\components\helpers\ArrayHelper;
 use application\widgets\grid\FilterWidget;
 
 class MultiSelect extends FilterWidget
@@ -10,69 +11,27 @@ class MultiSelect extends FilterWidget
      */
     public $items = [];
 
-    /**
-     * @var string Текст, отображаемый когда ни один элемент не выбран
-     */
-    public $placeholder = 'Выберите элемент';
-
-    /**
-     * @var string Текст, отображаемый в раскрывающемся списке, когда все элементы выбраны
-     */
-    public $allSelectMessage = 'Выбраны все элементы';
-
-    /**
-     * @var string Текст, отображаемый в раскрывающемся списке, когда не найден элемент
-     */
-    public $notFoundMessage = 'Не найден элемент содержащий';
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
-    {
-        parent::init();
-        $this->registerClientScript();
-    }
 
     /**
      * @inheritdoc
      */
     public function run()
     {
-        echo \CHtml::activeListBox($this->model, $this->attribute, $this->items, [
-            'id' => $this->getId(),
-            'multiple' => true,
-            'class' => 'form-control',
-            'placeholder' => \CHtml::encode($this->placeholder),
-            'style' => 'width: 100%'
+        $widget = \Yii::app()->getController()->createWidget('\partner\widgets\ui\MultiSelect', [
+            'items' => $this->items,
+            'model' => $this->model,
+            'attribute' => $this->attribute
         ]);
-    }
 
-    /**
-     * Публикует скрипт инициализации
-     */
-    public function registerClientScript()
-    {
-        $allSelectMessage = \CHtml::encode($this->allSelectMessage);
-        $notFoundMessage  = \CHtml::encode($this->notFoundMessage);
 
-        $initScript = <<<SCRIPT
-            function {$this->getInitJsFunctionName()} () {
-                $("#{$this->getId()}").select2({
-                    formatNoMatches: function (term) {
-                        if (term.length == 0) {
-                            return '$allSelectMessage';
-                        } else {
-                            return '$notFoundMessage "'+term+'"';
-                        }
-                    }
-                });
-            }
-SCRIPT;
-
-        /** @var \CClientScript $clientScript */
         $clientScript = \Yii::app()->getClientScript();
-        $clientScript->registerScript($this->getInitJsFunctionName(), $initScript);
+        $script = ArrayHelper::getColumn($clientScript->scripts, $widget->getId(), false)[0];
+        $script = <<<SCRIPT
+            function {$this->getInitJsFunctionName()}() {{$script}}
+SCRIPT;
+        $clientScript->registerScript($widget->getId(), $script);
+
+        $widget->run();
     }
 
     /**

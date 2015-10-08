@@ -1,12 +1,15 @@
 <?php
 namespace ruvents\controllers\event;
 
-class InfoAction extends \ruvents\components\Action
+use \ruvents\components\Action;
+
+class InfoAction extends Action
 {
-  public function run()
-  {
-    $this->renderJson([
-      'Event' => $this->getDataBuilder()->createEvent()
-    ]);
-  }
+    public function run()
+    {
+        $this->getDataBuilder()->createEvent();
+        $event = $this->getDataBuilder()->buildEventSettings();
+
+        $this->renderJson($event);
+    }
 }

@@ -1,7 +1,10 @@
 <?php
 namespace ruvents\components;
 
+use application\components\helpers\ArrayHelper;
+use application\models\attribute\Definition;
 use event\models\UserData;
+use ruvents\models\Setting;
 use user\models\User;
 
 class DataBuilder
@@ -207,6 +210,51 @@ class DataBuilder
 
         return $this->event;
     }
+
+    /**
+     * @return mixed
+     */
+    public function buildEventSettings()
+    {
+        $this->event->Settings = new \stdClass();
+        $settings = $this->getEvent()->RuventsSettings;
+        $this->buildEventSettingsUserData($settings);
+        return $this->event;
+    }
+
+    /**
+     * @param null|Setting $settings
+     */
+    private function buildEventSettingsUserData(Setting $settings = null)
+    {
+        $event = $this->getEvent();
+
+        $definitions = Definition::model()
+            ->byModelId($event->Id)->byModelName('EventUserData')->orderBy('"t"."Order"')->findAll();
+
+        if (empty($definitions)) {
+            return;
+        }
+
+        $this->event->Settings->UserData = new \stdClass();
+
+        foreach ($definitions as $definition) {
+            $this->event->Settings->UserData->{$definition->Title} = ArrayHelper::toArray(
+                $definition, [
+                    'application\models\attribute\Definition' => [
+                        'Type' => 'ClassName',
+                        'Params' => function (Definition $model) {
+                            return $model->getParams();
+                        },
+                        'Editable' => function (Definition $model) use ($settings) {
+                            return isset($settings->EditableUserData) && in_array($model->Name, $settings->EditableUserData);
+                        }
+                    ]
+                ]
+            );
+        }
+    }
+
 
     protected $badge;
 

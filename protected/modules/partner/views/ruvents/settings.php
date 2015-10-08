@@ -6,7 +6,6 @@
  */
 use application\helpers\Flash;
 $this->setPageTitle(\Yii::t('app', 'Настройки клиента'));
-\Yii::app()->getClientScript()->registerPackage('angular');
 ?>
 <?php $activeForm = $this->beginWidget('CActiveForm');?>
     <div class="panel panel-info">
@@ -18,13 +17,12 @@ $this->setPageTitle(\Yii::t('app', 'Настройки клиента'));
             <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
 
             <div class="form-group">
-                <?=$activeForm->label($form, 'TestAttribute1');?>
-                <?=$activeForm->textField($form, 'TestAttribute1', ['class' => 'form-control']);?>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <?=$activeForm->checkBox($form, 'TestAttribute2');?> <?=$form->getAttributeLabel('TestAttribute2');?>
-                </div>
+                <?=$activeForm->label($form, 'EditableUserData');?>
+                <?$this->widget('\partner\widgets\ui\MultiSelect', [
+                    'model' => $form,
+                    'attribute' => 'EditableUserData',
+                    'items' => $form->getDefinitionData()
+                ]);?>
             </div>
         </div> <!-- / .panel-body -->
         <div class="panel-footer">

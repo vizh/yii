@@ -7,6 +7,8 @@ use application\components\ActiveRecord;
  * @property int $EventId
  * @property string $Attributes
  *
+ * @property string[] $EditableUserData
+ *
  * @method Setting find()
  * @method Setting byEventId(int $eventId)
  */
@@ -30,5 +32,45 @@ class Setting extends ActiveRecord
     public function primaryKey()
     {
         return 'Id';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function __get($name)
+    {
+        try {
+            return parent::__get($name);
+        } catch (\CException $e) {
+            if (property_exists($this->getSettings(), $name)) {
+                return $this->getSettings()->$name;
+            }
+            throw new \CException($e->getMessage());
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function __isset($name)
+    {
+        if (property_exists($this->getSettings(), $name)) {
+            return true;
+        }
+        return parent::__isset($name);
+    }
+
+
+    private $settings = null;
+
+    /**
+     * @return \stdClass|null
+     */
+    public function getSettings()
+    {
+        if ($this->settings === null) {
+            $this->settings = json_decode($this->Attributes);
+        }
+        return $this->settings;
     }
 }
