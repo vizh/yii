@@ -69,14 +69,6 @@ return array(
         'actions' => array('index', 'edit', 'translate', 'invite', 'competence', 'viewdatafile')
     ),
 
-    array(
-        'allow',
-        'roles' => array('PartnerLimited'),
-        'module' => 'partner',
-        'controllers' => array('settings'),
-        'actions' => array('roles', 'api')
-    ),
-
     [
         'allow',
         'roles' => ['PartnerVerified'],
@@ -91,7 +83,7 @@ return array(
         'roles' => array('Admin'),
         'module' => 'partner',
         'controllers' => array('settings'),
-        'actions' => array('loyalty')
+        'actions' => array('loyalty', 'roles', 'api', 'definitions')
     ),
 
     array(

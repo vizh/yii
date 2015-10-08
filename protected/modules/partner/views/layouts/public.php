@@ -15,7 +15,7 @@ $sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Open Sans font from Google CDN -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">

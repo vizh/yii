@@ -13,11 +13,31 @@ use application\components\form\FormModel;
 class ActiveForm extends \CActiveForm
 {
     /**
+     * @var FormModel|null
+     */
+    public $scrollIfHasErrors = null;
+
+    /**
      * @inheritdoc
      **/
     public function errorSummary($models, $header = '<div class="alert alert-danger">', $footer = '</div>', $htmlOptions = [])
     {
         return parent::errorSummary($models, $header, $footer, $htmlOptions);
+    }
+
+    /**
+     * Runs the widget.
+     * This registers the necessary javascript code and renders the form close tag.
+     */
+    public function run()
+    {
+        $cs = \Yii::app()->getClientScript();
+        if ($this->scrollIfHasErrors !== null && $this->scrollIfHasErrors->hasErrors()) {
+            $cs->registerScript('CActiveForm#scrollhasErrors', "
+                 window.location.hash = '#$this->id';
+            ", \CClientScript::POS_READY);
+        }
+        return parent::run();
     }
 
 

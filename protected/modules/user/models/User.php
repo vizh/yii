@@ -711,7 +711,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function getEmploymentPrimary()
     {
-        return !empty($this->Employments) ? $this->Employments[0] : null;
+        return (!empty($this->Employments) && empty($this->Employments[0]->EndYear)) ? $this->Employments[0] : null;
     }
 
     /**

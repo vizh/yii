@@ -4,6 +4,8 @@ namespace application\components\validators;
 
 class MultipleFormValidator extends \CValidator
 {
+    public $when = null;
+
     protected function validateAttribute($object, $attribute)
     {
         $value = $object->$attribute;
@@ -16,6 +18,9 @@ class MultipleFormValidator extends \CValidator
 
         /** @var \CFormModel $form */
         foreach ($value as $form) {
+            if ($this->when instanceof \Closure && !call_user_func($this->when, $form)) {
+                continue;
+            }
             if (!$form->validate()) {
                 $valid = false;
             }

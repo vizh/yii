@@ -1,5 +1,6 @@
 <?php
 namespace application\models\attribute;
+use application\components\ActiveRecord;
 
 /**
  * Class Group
@@ -19,7 +20,7 @@ namespace application\models\attribute;
  * @method Group[] findAll($condition='',$params=array())
  */
 
-class Group extends \CActiveRecord
+class Group extends ActiveRecord
 {
     /**
      * @param string $className

@@ -2,6 +2,7 @@
 namespace competence\models\test\runet2015;
 
 use competence\models\Question;
+use competence\models\Result;
 
 class C5 extends \competence\models\form\Base
 {
@@ -56,5 +57,31 @@ class C5 extends \competence\models\form\Base
             }
         }
         return $names;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getInternalExportValueTitles()
+    {
+        $data = [];
+        for ($i = 1; $i <= 4; $i++) {
+            $data[$i] = 'Компания ' . $i;
+        }
+        return $data;
+    }
+
+    /**
+     * @param Result $result
+     * @return array
+     */
+    protected function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        for ($i = 1; $i <= 4; $i++) {
+            $data[$i] = isset($questionData['value'][$i]) ? $questionData['value'][$i] : '';
+        }
+        return $data;
     }
 } 
