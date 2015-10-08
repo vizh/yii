@@ -8,8 +8,9 @@ use event\models\UserData;
 use ruvents\components\Exception;
 use ruvents\models\ChangeMessage;
 use user\models\User;
+use \ruvents\components\Action;
 
-class EditAction extends \ruvents\components\Action
+class EditAction extends Action
 {
 
     public function run()
@@ -51,7 +52,9 @@ class EditAction extends \ruvents\components\Action
         $this->getDataBuilder()->buildUserPhone($user);
         $this->getDataBuilder()->buildUserEmployment($user);
         $this->getDataBuilder()->buildUserData($user);
-        echo json_encode(array('User' => $this->getDataBuilder()->buildUserEvent($user)), JSON_UNESCAPED_UNICODE);
+        $this->renderJson([
+            'User' => $this->getDataBuilder()->buildUserEvent($user)
+        ]);
     }
 
     /**
