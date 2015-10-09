@@ -5,6 +5,11 @@
  */
 
 $this->setPageTitle(\Yii::t('app', 'Импорт участников мероприятия'));
+
+$definitions = [];
+if ($users[0]->getUserData() !== null) {
+    $definitions = $users[0]->getUserData()->getManager()->getDefinitions();
+}
 ?>
 <?=CHtml::beginForm();?>
     <div class="panel panel-info">
@@ -20,6 +25,9 @@ $this->setPageTitle(\Yii::t('app', 'Импорт участников мероп
                             <th><?=\Yii::t('app', 'Фамилия');?></th>
                             <th><?=\Yii::t('app', 'Имя');?></th>
                             <th><?=\Yii::t('app', 'Email');?></th>
+                            <?php foreach ($definitions as $definition):?>
+                                <th><?=$definition->title;?></th>
+                            <?php endforeach;?>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,6 +37,9 @@ $this->setPageTitle(\Yii::t('app', 'Импорт участников мероп
                                 <td><?=CHtml::textField('users['.$user->Id.'][LastName]', $user->LastName, ['class' => 'form-control']);?></td>
                                 <td><?=CHtml::textField('users['.$user->Id.'][FirstName]', $user->FirstName, ['class' => 'form-control']);?></td>
                                 <td><?=CHtml::textField('users['.$user->Id.'][Email]', $user->Email, ['class' => 'form-control']);?></td>
+                                <?php foreach($definitions as $definition):?>
+                                    <td><?=$definition->activeEdit($user->getUserData()->getManager(), ['class' => 'form-control', 'name' => 'users[' . $user->Id . '][UserData][' . $definition->name . ']']);?></td>
+                                <?php endforeach;?>
                             </tr>
                         <?php endforeach;?>
                     </tbody>

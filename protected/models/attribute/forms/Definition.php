@@ -202,17 +202,19 @@ class Definition extends CreateUpdateForm
     public function setAttributes($values, $safeOnly = true)
     {
         parent::setAttributes($values, $safeOnly);
-        foreach ($this->Params as $name => $value) {
-            if (!in_array($name, $this->getAvailableParamsByClassName()) || empty($value)) {
-                unset($this->Params[$name]);
-                continue;
-            }
+        if (isset($values['Params'])) {
+            foreach ($this->Params as $name => $value) {
+                if (!in_array($name, $this->getAvailableParamsByClassName()) || empty($value)) {
+                    unset($this->Params[$name]);
+                    continue;
+                }
 
-            if (is_array($value)) {
-                $value = array_filter($value, function ($val) {
-                    return !empty($val['key']) && !empty($val['value']);
-                });
-                $this->Params[$name] = ArrayHelper::map($value, 'key', 'value');
+                if (is_array($value)) {
+                    $value = array_filter($value, function ($val) {
+                        return !empty($val['key']) && !empty($val['value']);
+                    });
+                    $this->Params[$name] = ArrayHelper::map($value, 'key', 'value');
+                }
             }
         }
     }

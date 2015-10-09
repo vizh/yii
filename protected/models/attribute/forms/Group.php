@@ -61,7 +61,7 @@ abstract class Group extends CreateUpdateForm
      */
     private function loadDefinitionsData()
     {
-        $definitions = Definition::model()->byGroupId($this->model->Id)->orderBy('"t"."Order"')->findAll();
+        $definitions = Definition::model()->byGroupId($this->model->Id)->orderBy(['"t"."Order"', '"t"."Id"'])->findAll();
         foreach ($definitions as $definition) {
             $this->Definitions[] = new DefinitionForm($this, $definition);
         }

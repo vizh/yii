@@ -5,6 +5,8 @@ use api\models\ExternalUser;
 use CText;
 use event\models\UserData;
 use pay\components\Exception;
+use partner\components\ImportException;
+use user\models\User;
 
 /**
  * Class ImportUser
@@ -29,6 +31,7 @@ use pay\components\Exception;
  * @property bool $Error
  * @property string $ErrorMessage
  *
+ * @property Import $Import
  */
 class ImportUser extends \CActiveRecord
 {
@@ -280,21 +283,44 @@ class ImportUser extends \CActiveRecord
         }
     }
 
-    private function setUserData(\user\models\User $user, Import $import)
+    /**
+     * @param User $user
+     * @param Import $import
+     * @throws ImportException
+     */
+    private function setUserData(User $user, Import $import)
+    {
+        $data = $this->getUserData($import);
+        if ($data !== null) {
+            $data->UserId = $user->Id;
+            $manager = $data->getManager();
+            if (!$manager->validate()) {
+                foreach ($manager->getErrors() as $attribute => $errors) {
+                    throw new ImportException('Ошибка атрибута пользоватя "' . $attribute .'": ' . $errors[0]);
+                }
+            }
+            $data->save();
+        }
+    }
+
+    /**
+     * @return UserData|null
+     */
+    public function getUserData()
     {
         if (!empty($this->UserData)) {
-            $data = json_decode($this->UserData, true);
-            $userData = new UserData();
-            $userData->EventId = $import->EventId;
-            $userData->UserId = $user->Id;
+            $data = new UserData();
+            $data->EventId = $this->Import->EventId;
 
-            foreach ($data as $key => $value) {
+            $manager = $data->getManager();
+            foreach (json_decode($this->UserData, true) as $key => $value) {
                 try {
-                    $userData->getManager()->{$key} = $value;
+                    $manager->{$key} = $value;
                 } catch (\application\components\Exception $e) {}
             }
-            $userData->save();
+            return $data;
         }
+        return null;
     }
 
     protected function beforeSave()

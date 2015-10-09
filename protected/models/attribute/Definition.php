@@ -89,7 +89,7 @@ class Definition extends ActiveRecord
     {
         $criteria = new \CDbCriteria();
         $criteria->with = ['Group' => ['together' => true]];
-        $criteria->order = '"Group"."Order", "t"."Order"';
+        $criteria->order = '"Group"."Order", "t"."Order", "t"."Id"';
         $this->getDbCriteria()->mergeWith($criteria);
         return $this;
     }

@@ -13,6 +13,14 @@ class ListDefinition extends Definition
      */
     public $data = [];
 
+    public function rules()
+    {
+        $rules = parent::rules();
+        $rules[] = [$this->name, 'in', 'range' => array_keys($this->data)];
+        return $rules;
+    }
+
+
     /**
      * @param mixed $value
      * @return mixed

@@ -229,24 +229,32 @@ class EditAction extends Action
         $oldAttributes = $manager->getAttributes();
 
         $data = \Yii::app()->getRequest()->getParam('Data', '[]');
+
+        $hasChanges = false;
         try {
-            $hasChanges = false;
             foreach (json_decode($data, true) as $key => $value) {
                 if (!isset($manager->$key) || $manager->$key != $value) {
                     $hasChanges = true;
                 }
                 $manager->$key = $value;
             }
-
-            if ($hasChanges) {
-                $userData->save();
-                $this->getDetailLog()->addChangeMessage(
-                    new ChangeMessage('Data', $oldAttributes, $data)
-                );
-            }
         } catch (\Exception $e) {
             throw new Exception(251, [$e->getMessage()]);
         }
 
+        if (!$hasChanges) {
+            return;
+        }
+
+        if (!$manager->validate()) {
+            foreach ($manager->getErrors() as $attribute => $errors) {
+                throw new Exception(252, [$attribute, $errors[0]]);
+            }
+        }
+
+        $userData->save();
+        $this->getDetailLog()->addChangeMessage(
+            new ChangeMessage('Data', $oldAttributes, $data)
+        );
     }
 }

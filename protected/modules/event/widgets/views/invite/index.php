@@ -10,7 +10,7 @@ $formRequest = $this->formRequest;
 
 ?>
 
-<div class="registration widget-invite">
+<div class="registration widget-invite" id="<?=$this->getNameId();?>">
     <h5 class="title">
         <? if (isset($this->WidgetInviteTitle) && !empty($this->WidgetInviteTitle)): ?>
             <?= $this->WidgetInviteTitle; ?>
