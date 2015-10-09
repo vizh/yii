@@ -100,7 +100,8 @@ class Definition extends CreateUpdateForm
             'Order' => \Yii::t('app', 'Сортировка'),
             'Public' => \Yii::t('app', 'Видимое'),
             'Params_data' => \Yii::t('app', 'Варианты ответа'),
-            'Params_placeholder' => \Yii::t('app', 'Текст внутри поля')
+            'Params_placeholder' => \Yii::t('app', 'Текст внутри поля'),
+            'Params_types' => \Yii::t('app', 'Расширения файла через запятую')
         ];
     }
 
@@ -166,6 +167,11 @@ class Definition extends CreateUpdateForm
 
         $html.= \CHtml::tag('div', ['class' => 'm-top_10'], $input);
 
+        $input = $activeForm->label($this, 'Params_types')
+            . $activeForm->textField($form, $inputPrefix . '[Params][types]', ['class' => 'form-control']);
+
+        $html.= \CHtml::tag('div', ['class' => 'm-top_10', 'data-class' => 'FileDefinition'], $input);
+
         $i = 0;
         $attributes['data'] = '';
         $html.= \CHtml::tag('div', ['class' => 'm-top_10', 'data-class' => 'ListDefinition'], $activeForm->label($this, 'Params_data'), false);
@@ -192,6 +198,8 @@ class Definition extends CreateUpdateForm
         $params = ['placeholder'];
         if ($this->ClassName === 'ListDefinition') {
             $params[] = 'data';
+        } elseif ($this->ClassName === 'FileDefinition') {
+            $params[] = 'types';
         }
         return $params;
     }

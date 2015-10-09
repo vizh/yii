@@ -4,7 +4,6 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
-
     public function actionInviteGenerator()
     {
         for ($i= 0; $i <= 30; $i++) {
