@@ -7,8 +7,6 @@ class InfoAction extends Action
 {
     public function run()
     {
-        $this->getDataBuilder()->createEvent();
-        $event = $this->getDataBuilder()->buildEventSettings();
-        $this->renderJson(['Event' => $event]);
+        $this->renderJson(['Event' => $this->getDataBuilder()->createEvent()]);
     }
 }

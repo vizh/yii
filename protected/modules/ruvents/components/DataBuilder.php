@@ -23,9 +23,7 @@ class DataBuilder
     public function getEvent()
     {
         if ($this->activeEvent == null)
-        {
             $this->activeEvent = \event\models\Event::model()->findByPk($this->eventId);
-        }
 
         return $this->activeEvent;
     }
@@ -149,14 +147,16 @@ class DataBuilder
     {
         $data = $this->getEvent()->getUserData($user);
         if (!empty($data)) {
+            $this->user->Attributes = [];
+            // toDo: Убрать это в будущем, так как надо что бы висело несколько недель всего.
             $this->user->Data = [];
             /** @var UserData $row */
             $row = array_pop($data);
             foreach ($row->getManager()->getDefinitions() as $definition) {
-                $dataItem = new \stdClass();
-                $dataItem->Label = $definition->title;
-                $dataItem->Value = $definition->getPrintValue($row->getManager());
-                $this->user->Data[$definition->name] = $dataItem;
+                $value = $definition->getPrintValue($row->getManager());
+                $this->user->Attributes[$definition->name] = $value;
+                // toDo: Убрать это в будущем, так как надо что бы висело несколько недель всего.
+                $this->user->Data[$definition->title] = $value;
             }
         }
         return $this->user;
@@ -178,56 +178,40 @@ class DataBuilder
     }
 
     protected $event;
-    /**
-     *
-     */
+
     public function createEvent()
     {
-        $this->event = new \stdClass();
+        $event = $this->getEvent();
 
-        $this->event->EventId = $this->getEvent()->Id;
-        $this->event->IdName = $this->getEvent()->IdName;
-        $this->event->Title = $this->getEvent()->Title;
-        $this->event->Info = $this->getEvent()->Info;
+        /* Базовые данные о мероприятии */
+        $this->event = (object) [
+            'EventId' => $event->Id,
+            'IdName' => $event->IdName,
+            'Title' => $event->Title,
+            'Info' => $event->Info,
+            'Parts' => []
+        ];
 
-        /*$this->event->DateStart = $this->getEvent()->DateStart;
-        $this->event->DateEnd = $this->getEvent()->DateEnd;
-
-        $this->event->Image = new \stdClass();
-        $this->event->Image->Mini = 'http://rocid.ru' . $this->Event()->GetMiniLogo();
-        $this->event->Image->Normal = 'http://rocid.ru' . $this->Event()->GetLogo();*/
-
-        $this->event->Parts = [];
-        foreach ($this->getEvent()->Parts as $part)
-        {
-            $resultPart = new \stdClass();
-            $resultPart->PartId = $part->Id;
-            $resultPart->Title = $part->Title;
-            $resultPart->Order = $part->Order;
-
-            $this->event->Parts[] = $resultPart;
+        /* Доступные части */
+        foreach ($event->Parts as $part) {
+            $this->event->Parts[] = (object) [
+                'PartId' => $part->Id,
+                'Title' => $part->Title,
+                'Order' => $part->Order
+            ];
         }
 
+        /* Настройки мероприятия, используемые в качестве
+         * настроек клиента */
+        $this->buildEventSettings();
+
         return $this->event;
     }
 
-    /**
-     * @return mixed
-     */
-    public function buildEventSettings()
-    {
-        $this->event->Settings = new \stdClass();
-        $settings = $this->getEvent()->RuventsSettings;
-        $this->buildEventSettingsUserData($settings);
-        return $this->event;
-    }
-
-    /**
-     * @param null|Setting $settings
-     */
-    private function buildEventSettingsUserData(Setting $settings = null)
+    private function buildEventSettings()
     {
         $event = $this->getEvent();
+        $settings = $event->RuventsSettings;
 
         $definitions = Definition::model()
             ->byModelId($event->Id)->byModelName('EventUserData')->orderBy('"t"."Order"')->findAll();
@@ -236,15 +220,20 @@ class DataBuilder
             return;
         }
 
-        $this->event->Settings->UserData = new \stdClass();
+        $this->event->Settings = new \stdClass();
+        $this->event->Settings->PersonAttributes = new \stdClass();
 
         foreach ($definitions as $definition) {
-            $this->event->Settings->UserData->{$definition->Title} = ArrayHelper::toArray(
+            $this->event->Settings->PersonAttributes->{$definition->Name} = ArrayHelper::toArray(
                 $definition, [
                     'application\models\attribute\Definition' => [
                         'Type' => 'ClassName',
-                        'Params' => function (Definition $model) {
-                            return $model->getParams();
+                        'Title',
+                        'Variants' => function (Definition $model) {
+                            $params = $model->getParams();
+                            return isset($params['data'])
+                                ? $params['data']
+                                : [];
                         },
                         'Editable' => function (Definition $model) use ($settings) {
                             return isset($settings->EditableUserData) && in_array($model->Name, $settings->EditableUserData);
@@ -264,16 +253,14 @@ class DataBuilder
      */
     public function createBadge($badge)
     {
-        $this->badge = new \stdClass();
-
-        $this->badge->RunetId = $badge->User->RunetId;
-        $this->badge->RoleId = $badge->RoleId;
-        $this->badge->RoleName = $badge->Role->Title;
-        $this->badge->PartId = $badge->PartId;
-        $this->badge->OperatorId = $badge->OperatorId;
-        $this->badge->CreationTime = $badge->CreationTime;
-
-        return $this->badge;
+        return (object) [
+            'RunetId' => $badge->User->RunetId,
+            'RoleId' => $badge->RoleId,
+            'RoleName' => $badge->Role->Title,
+            'PartId' => $badge->PartId,
+            'OperatorId' => $badge->OperatorId,
+            'CreationTime' => $badge->CreationTime
+        ];
     }
 
     protected $role;
