@@ -212,7 +212,10 @@ class EditAction extends Action
     private function updateData(User $user)
     {
         $userData = UserData::model()
-            ->byEventId($this->getEvent()->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"'])->find();
+            ->byEventId($this->getEvent()->Id)
+            ->byUserId($user->Id)
+            ->orderBy(['"t"."CreationTime"'])
+            ->find();
 
         if (empty($userData)) {
             $userData = new UserData();
@@ -228,13 +231,14 @@ class EditAction extends Action
 
         $oldAttributes = $manager->getAttributes();
 
-        $data = \Yii::app()->getRequest()->getParam('Data', '[]');
+        $data = \Yii::app()->getRequest()->getParam('Attributes', '[]');
         try {
             $hasChanges = false;
-            foreach (json_decode($data, true) as $key => $value) {
-                if (!isset($manager->$key) || $manager->$key != $value) {
+
+            foreach ($data as $key => $value) {
+                if (!isset($manager->$key) || $manager->$key != $value)
                     $hasChanges = true;
-                }
+
                 $manager->$key = $value;
             }
 
