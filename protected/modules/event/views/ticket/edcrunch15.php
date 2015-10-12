@@ -8,7 +8,6 @@
 use user\models\User;
 use event\models\Event;
 use event\models\Participant;
-use ruvents\components\QrCode;
 ?>
 <div style="position: absolute; top: 70mm;  width: 100mm; left: 55mm; text-align: center; color: #464c9a; font-weight: bold; font-size: 10mm;">
     <?=$user->getFullName();?>

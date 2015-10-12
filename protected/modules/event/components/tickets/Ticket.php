@@ -48,10 +48,9 @@ class Ticket
     protected function getViewParams()
     {
         $params = [
-            'user'  => $this->user,
+            'user' => $this->user,
             'event' => $this->event
         ];
-
 
         $participant = Participant::model()->byUserId($this->user->Id)->byEventId($this->event->Id);
         if (!empty($this->event->Parts)) {
