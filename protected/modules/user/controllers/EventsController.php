@@ -9,7 +9,7 @@ class EventsController extends \application\components\controllers\PublicMainCon
   {
     return [
       'index' => 'user\controllers\events\IndexAction',
-      'orders' => 'user\controllers\events\OrdersAction',
+      'pay' => 'user\controllers\events\PayAction',
     ];
   }
 

@@ -1,7 +1,7 @@
 <?php
 $menu = [
     'index' => \Yii::t('app', 'Мероприятия'),
-    'orders' => \Yii::t('app', 'Заказы')
+    'pay' => \Yii::t('app', 'Заказы')
 ];
 ?>
 
