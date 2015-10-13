@@ -4,6 +4,39 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
+    public function actionRjdslet15()
+    {
+        $products = [
+            'Синхронный перевод' => [3990,3991],
+            'Пульт для голосования' => [3992,3993]
+        ];
+
+        foreach ($products as $label => $ids) {
+            $count = \pay\models\ProductCheck::model()->byProductId($ids[0])->count();
+            echo '<h3 style="margin: 0; padding: 0;">Выдано "' . $label . '": ' . $count . 'шт.</h3><br/>';
+            echo '<strong>Не вернули: </strong><br/>';
+
+            $command = \Yii::app()->getDb()->createCommand();
+            $command->select('PayProductCheck.UserId')->from('PayProductCheck')->where('
+               	"PayProductCheck"."ProductId" = :OutProduct AND "PayProductCheck"."UserId" NOT IN (
+	                    SELECT "PayProductCheck2"."UserId" FROM "PayProductCheck" AS "PayProductCheck2" WHERE "PayProductCheck2"."ProductId" = :InProduct
+                )
+            ');
+
+            $users = \user\models\User::model()->findAllByPk(
+                $command->queryColumn(['OutProduct' => $ids[0], 'InProduct' => $ids[1]])
+            );
+            /** @var \user\models\User $user */
+            foreach ($users as $user) {
+                echo $user->RunetId . ': ' . $user->getFullName() . ', ' . $user->getPhone() , '<br/>';
+            }
+
+            echo '<br/>---<br/><br/>';
+        }
+
+    }
+
+
     public function actionInviteGenerator()
     {
         for ($i= 0; $i <= 30; $i++) {

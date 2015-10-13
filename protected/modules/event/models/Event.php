@@ -8,6 +8,7 @@ use application\components\socials\facebook\Event as SocialEvent;
 use application\models\translation\ActiveRecord;
 use contact\models\Site;
 use mail\components\mailers\MandrillMailer;
+use pay\models\Product;
 use ruvents\models\Setting;
 use search\components\interfaces\ISearch;
 use user\models\User;
@@ -410,6 +411,16 @@ class Event extends ActiveRecord implements ISearch
         } else {
             $this->updateRole($participant, $role, $usePriority, $message);
         }
+
+        //TODO: Костыль для слета РЖД, убрать после мероприятия
+        if ($this->Id == 2264) {
+            try {
+                $product = Product::model()->findByPk(3990);
+                $orderItem = $product->getManager()->createOrderItem($user, $user);
+                $orderItem->activate();
+            } catch (\CException $e) {}
+        }
+
 
         return $participant;
     }
