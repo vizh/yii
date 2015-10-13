@@ -41,10 +41,11 @@
   
   <a href="<?=Yii::app()->createUrl('/job/admin/list/index');?>" class="nav-header collapsed" href="#menu-companies"><i class="icon-briefcase icon-white"></i><span class="hidden-phone">Вакансии</span></a>
 
-  <a data-toggle="collapse" class="nav-header" href="#menu-commissions"><i class="icon-th icon-white"></i><span class="hidden-phone">Комиссии РАЭК</span></a>
+  <a data-toggle="collapse" class="nav-header" href="#menu-commissions"><i class="icon-th icon-white"></i><span class="hidden-phone">РАЭК</span></a>
   <ul class="nav nav-list collapse" id="menu-commissions">
-    <li><a href="<?=Yii::app()->createUrl('/commission/admin/list/index');?>">Комиссии</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/commission/admin/list/index');?>">Группы РАЭК</a></li>
     <li><a href="<?=Yii::app()->createUrl('/commission/admin/export/index');?>">Экспорт</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/raec/admin/brief/index');?>">Анкеты</a></li>
   </ul>
   
   <a data-toggle="collapse" class="nav-header" href="#menu-catalog"><i class="icon-th-list icon-white"></i> <?=\Yii::t('app', 'Каталог');?></a>
@@ -83,13 +84,6 @@
         <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/list');?>"><?=\Yii::t('app', 'Списки');?></a></li>
         <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/print');?>"><?=\Yii::t('app', 'Печать партнерских договоров');?></a></li>
   </ul>
-
-  <a data-toggle="collapse" class="nav-header" href="#menu-raec"><i class="icon-star icon-white"></i><span class="hidden-phone">РАЭК</span></a>
-  <ul class="nav nav-list collapse" id="menu-raec">
-    <li><a href="<?=Yii::app()->createUrl('/raec/admin/brief/index');?>">Анкеты</a></li>
-  </ul>
-
-
   <!--<a class="nav-header" href="help.html"><i class="icon-question-sign"></i>Help</a>
   <a class="nav-header" href="faq.html"><i class="icon-comment"></i>Faq</a>-->
 </div>

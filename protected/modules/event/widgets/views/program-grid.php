@@ -62,7 +62,7 @@ use event\models\section\LinkUser;
                       <br/>
                     <?endforeach;?>
                   <?else:?>
-                    <?=\Yii::t('app', 'Докладчики');?>:
+                    <?=\Yii::t('app', $section->Type->Code == 'round' ? 'Участники круглого стола' : 'Докладчики');?>:
                     <?/** @var \user\models\User $user */;?>
                     <ul>
                     <?foreach ($links as $link):?>
