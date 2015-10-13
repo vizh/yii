@@ -86,11 +86,5 @@ $this->setPageTitle(\Yii::t('app', 'Мои мероприятия'));
     </div>
 </div>
 
-<script>
-    $(document).ready(function(){
-        $(".tabs").lightTabs();
-    });
-</script>
-
 
 

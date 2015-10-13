@@ -46,12 +46,6 @@ $(function() {
     }, 1);
   }
 
-  $('.nav a').on('click', function (e) {
-    var scrollmem = $('body').scrollTop();
-    window.location.hash = e.target.hash;
-    $('html,body').scrollTop(scrollmem);
-  })
-
   /* Event register -> Toggle */
   $('#event-register .table thead').click(function() {
     $(this).siblings('tbody').slideToggle(1);
@@ -156,7 +150,7 @@ $(window).load(function() {
     snapToChildren: true,
     navPrevSelector: $('#participate-events_prev'),
     navNextSelector: $('#participate-events_next')
-  });  
+  });
 });
 
 

@@ -62,8 +62,3 @@ $this->setPageTitle(\Yii::t('app', 'Мои заказы'));
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function(){
-        $(".tabs").lightTabs();
-    });
-</script>

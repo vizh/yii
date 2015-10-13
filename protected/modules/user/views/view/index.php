@@ -4,6 +4,8 @@
  * @var string[] $professionalInterests
  * @var \user\controllers\view\ParticipantCollection $participation
  */
+
+$hasContacts = !empty($user->LinkSite) || !empty($user->LinkServiceAccounts);
 ?>
 <script type="text/javascript">
     $(window).load(function() {
@@ -129,7 +131,7 @@
                         <div id="user-account-tabs" class="span4 tabs">
                             <ul class="nav">
                                 <?if (!empty($employmentHistory)):?><li><a href="#user-account-tab_career" class="pseudo-link"><?=\Yii::t('app', 'Карьера');?></a></li><?endif;?>
-                                <li><a href="#user-account-tab_contacts" class="pseudo-link"><?=\Yii::t('app', 'Контакты');?></a></li>
+                                <?php if ($hasContacts):?><li><a href="#user-account-tab_contacts" class="pseudo-link"><?=\Yii::t('app', 'Контакты');?></a></li><?php endif;?>
                             </ul>
 
                             <?if (!empty($employmentHistory)):?>
@@ -168,22 +170,25 @@
                                 </div>
                             <?endif;?>
 
-                            <div id="user-account-tab_contacts" class="tab b-contacts">
-                                <?if ($user->LinkSite !== null):?>
-                                    <dl class="dl-horizontal">
-                                        <dt><?=\Yii::t('app', 'Сайт:');?></dt>
-                                        <dd><a href="<?=$user->LinkSite->Site;?>" target="_blank"><?=parse_url($user->LinkSite->Site, PHP_URL_HOST);?></a></dd>
-                                    </dl>
-                                <?endif;?>
-                                <?foreach ($user->LinkServiceAccounts as $linkServiceAcc):?>
-                                    <?if ($linkServiceAcc->ServiceAccount !== null):?>
+                            <?php if ($hasContacts):?>
+                                <div id="user-account-tab_contacts" class="tab b-contacts">
+                                    <?if ($user->LinkSite !== null):?>
                                         <dl class="dl-horizontal">
-                                            <dt><?=$linkServiceAcc->ServiceAccount->Type->Title;?>:</dt>
-                                            <dd><?=$linkServiceAcc->ServiceAccount;?></dd>
+                                            <dt><?=\Yii::t('app', 'Сайт:');?></dt>
+                                            <dd><a href="<?=$user->LinkSite->Site;?>" target="_blank"><?=parse_url($user->LinkSite->Site, PHP_URL_HOST);?></a></dd>
                                         </dl>
                                     <?endif;?>
-                                <?endforeach;?>
-                            </div>
+                                    <?foreach ($user->LinkServiceAccounts as $linkServiceAcc):?>
+                                        <?if ($linkServiceAcc->ServiceAccount !== null):?>
+                                            <dl class="dl-horizontal">
+                                                <dt><?=$linkServiceAcc->ServiceAccount->Type->Title;?>:</dt>
+                                                <dd><?=$linkServiceAcc->ServiceAccount;?></dd>
+                                            </dl>
+                                        <?endif;?>
+                                    <?endforeach;?>
+                                </div>
+                            <?php endif;?>
+
                         </div>
                     </div>
                 </div>
