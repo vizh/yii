@@ -6,12 +6,14 @@
  */
 ?>
 
-<div class="registration" id="event_widgets_Registration">
-    <p class="text-success" style="font-size: 16px; line-height: 20px; margin: 15px 0 5px;">
-        <?if (isset($this->WidgetRegistrationCompleteText)):?>
-            <?=$this->WidgetRegistrationCompleteText;?>
-        <?else:?>
-            <?=Yii::t('registration', 'Спасибо за регистрацию!');?>
-        <?endif;?>
+<div class="registration" id="<?=$this->getNameId();?>">
+    <h5 class="title text-center">
+        <?=isset($this->WidgetRegistrationTitle)? $this->WidgetRegistrationTitle : Yii::t('app', 'Регистрация');?>
+    </h5>
+    <?php $this->widget('\event\widgets\Participant', ['event' => $this->getEvent()]); ?>
+    <?if (isset($this->WidgetRegistrationCompleteText)):?>
+    <p class="text-success text-center">
+        <?=$this->WidgetRegistrationCompleteText;?>
     </p>
+    <?endif;?>
 </div>

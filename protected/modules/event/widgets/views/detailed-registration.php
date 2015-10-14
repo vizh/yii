@@ -6,7 +6,7 @@
 use \application\components\attribute\BooleanDefinition;
 use \application\models\attribute\Group;
 ?>
-<div class="registration" id="event_widgets_Registration">
+<div class="registration" id="<?=$this->getNameId();?>">
     <h5 class="title text-center">
         <?=isset($this->WidgetRegistrationTitle)? $this->WidgetRegistrationTitle : Yii::t('app', 'Регистрация');?>
     </h5>

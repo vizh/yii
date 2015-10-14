@@ -36,6 +36,7 @@ use user\models\User;
  * @property string $WidgetRegistrationPositionTitle
  * @property string $WidgetRegistrationDetailedHideForAuthorize
  * @property string $WidgetRegistrationDetailedSubmitButtonLabel
+ * @property string $WidgetRegistrationDetailedPositionTab
  */
 class DetailedRegistration extends Widget
 {
@@ -60,7 +61,8 @@ class DetailedRegistration extends Widget
             'WidgetRegistrationCompanyTitle',
             'WidgetRegistrationPositionTitle',
             'WidgetRegistrationDetailedHideForAuthorize',
-            'WidgetRegistrationDetailedSubmitButtonLabel'
+            'WidgetRegistrationDetailedSubmitButtonLabel',
+            'WidgetRegistrationDetailedPositionTab'
         ];
     }
 
@@ -149,7 +151,7 @@ class DetailedRegistration extends Widget
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitleAdmin()
     {
         return \Yii::t('app', 'Детальная регистрация на мероприятии');
     }
@@ -157,8 +159,19 @@ class DetailedRegistration extends Widget
     /**
      * @return string
      */
+    public function getTitle()
+    {
+        return \Yii::t('app', 'Регистрация');
+    }
+
+    /**
+     * @return string
+     */
     public function getPosition()
     {
+        if (isset($this->WidgetRegistrationDetailedPositionTab) && $this->WidgetRegistrationDetailedPositionTab == 1) {
+            return WidgetPosition::Tabs;
+        }
         return WidgetPosition::Content;
     }
 
