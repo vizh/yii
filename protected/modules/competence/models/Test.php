@@ -170,6 +170,7 @@ class Test extends ActiveRecord
                 $model->byUserId($this->user->Id);
             }
             $this->result = $model->find();
+
             if ($this->result === null)
             {
                 $this->result = new Result();

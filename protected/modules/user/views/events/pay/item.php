@@ -46,7 +46,7 @@ if (!isset($showCabinetBtn)) $showCabinetBtn = false;
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($$orders as $order):?>
+            <?php foreach ($orders as $order):?>
                 <tr>
                     <td class="event-pay-item_title"><?=\CHtml::link((\Yii::t('app', 'Счет') . ' №' . $order->Number), $order->getUrl(), ['target' => '_blank']);?></td>
                     <td class="event-pay-item_price">

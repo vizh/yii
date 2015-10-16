@@ -3,6 +3,7 @@ namespace competence\models\test\runet2015;
 
 use competence\models\form\Base;
 use competence\models\Question;
+use competence\models\Result;
 
 class D1 extends Base{
 
@@ -86,4 +87,60 @@ class D1 extends Base{
         throw new Exception('Ошибка при получении предыдущего вопроса в D2');
         return null;
     }
+
+    /**
+     * @return array
+     */
+    protected function getInternalExportValueTitles()
+    {
+        $titles = [];
+
+        $test = $this->getQuestion()->Test;
+        $question = Question::model()->byTestId($test->Id)->byCode('B1')->find();
+        $question->setTest($test);
+
+        $b1 = new B1($question);
+        foreach ($b1->Values as $value) {
+            $titles = array_merge($titles, [
+                'Сегмент: «' . $value->title . '», ...влияния экономического кризиса на экономику России в 2014 году.',
+                'Сегмент: «' . $value->title . '», ...влияния экономического кризиса на российские интернет-рынки в 2014 году.',
+                'Сегмент: «' . $value->title . '», ...влияния экономического кризиса на российский сегмент «' . $value->title . '»  в 2014 году.',
+                'Сегмент: «' . $value->title . '», ...прогозируемого влияния экономического кризиса на экономику России в 2015 году.',
+                'Сегмент: «' . $value->title . '», ...прогнозируемого влияния экономического кризиса на российские интернет-рынки в 2015 году.',
+                'Сегмент: «' . $value->title . '», ...прогнозируемого влияния экономического кризиса на российский сегмент «' . $value->title . '»  в 2015 году.'
+            ]);
+        }
+        return $titles;
+    }
+
+    /**
+     * @param Result $result
+     * @return array
+     */
+    protected function getInternalExportData(Result $result)
+    {
+        $data = [];
+
+        $test = $this->getQuestion()->getTest();
+        $test->setUser($result->User);
+
+        $b1Question = Question::model()->byTestId($test->Id)->byCode('B1')->find();
+        $b1Question->setTest($test);
+
+        $resultB1 = $result->getResultByData()['B1'];
+
+        $questionData = $result->getQuestionResult($this->question);
+
+        $b1 = new B1($b1Question);
+        foreach ($b1->Values as $value) {
+            if ($value->key == $resultB1['value'] && !empty($questionData['value'])) {
+                $data = array_merge($data, array_values($questionData['value']));
+            } else {
+                $data = array_merge($data, ['','','','','', '']);
+            }
+        }
+        return $data;
+    }
+
+
 }
