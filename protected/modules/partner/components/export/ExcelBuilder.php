@@ -177,6 +177,12 @@ class ExcelBuilder
         $row['Birthday'] = $user->Birthday;
         $row['Role'] = '-';
         $row['Price'] = 0;
+
+        $address = $user->getContactAddress();
+        if ($address !== null && !empty($address->City)) {
+            $row['City'] = $address->City->Name;
+        }
+
         return $row;
     }
 
@@ -245,6 +251,7 @@ class ExcelBuilder
                 'FatherName' => 'Отчество',
                 'Company' => 'Компания',
                 'Position' => 'Должность',
+                'City' => 'Город',
                 'Email' => 'Email',
                 'Phone' => 'Телефон',
                 'Birthday' => 'Дата рождения',
@@ -290,7 +297,13 @@ class ExcelBuilder
             ],
             'Employments' => ['together' => false],
             'Employments.Company' => ['together' => false],
-            'LinkPhones.Phone' => ['together' => false]
+            'LinkPhones.Phone' => ['together' => false],
+            'LinkAddress' => [
+                'together' => false,
+                'with' => [
+                    'Address.City'
+                ]
+            ]
         ];
         $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
 
