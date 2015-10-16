@@ -4,11 +4,23 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
+    public function actionRjdslet15Generator()
+    {
+        $participants = \event\models\Participant::model()->byEventId(2264)->findAll();
+        foreach ($participants as $participant) {
+            $product = \pay\models\Product::model()->findByPk(3999);
+            //$orderItem = $product->getManager()->createOrderItem($participant->User, $participant->User);
+            //$orderItem->activate();
+        }
+    }
+
     public function actionRjdslet15()
     {
         $products = [
-            'Синхронный перевод' => [3990,3991],
-            'Пульт для голосования' => [3992,3993]
+            'Синхронный перевод 14.10' => [3990,3991],
+            'Пульт для голосования 14.10' => [3992,3993],
+            'Выдача синх. перевода 15.10 партия 1' => [3995,3997],
+            'Выдача синх. перевода 15.10 партия 2' => [3996,3998]
         ];
 
         foreach ($products as $label => $ids) {

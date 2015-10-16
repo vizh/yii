@@ -415,7 +415,7 @@ class Event extends ActiveRecord implements ISearch
         //TODO: Костыль для слета РЖД, убрать после мероприятия
         if ($this->Id == 2264) {
             try {
-                $product = Product::model()->findByPk(3990);
+                $product = Product::model()->findByPk(3999);
                 $orderItem = $product->getManager()->createOrderItem($user, $user);
                 $orderItem->activate();
             } catch (\CException $e) {}
