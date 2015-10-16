@@ -19,6 +19,9 @@ class Participant extends Widget
     /** @var Event */
     public $event;
 
+    /** @var Role[] */
+    public $roles = [];
+
     public function run()
     {
         $participant = $this->getParticipant();
@@ -39,9 +42,28 @@ class Participant extends Widget
 
         $participant = ParticipantModel::model()
             ->with(['User', 'Role'])->byUserId($user->Id)->byEventId($this->event->Id)->find();
-        if ($participant === null || $participant->RoleId == Role::VIRTUAL_ROLE_ID) {
+
+        if ($participant === null || !$this->checkRole($participant)) {
             return null;
         }
         return $participant;
+    }
+
+    /**
+     * @param ParticipantModel $participant
+     * @return bool
+     */
+    private function checkRole(ParticipantModel $participant)
+    {
+        if (!empty($this->roles)) {
+            foreach ($this->roles as $role) {
+                if ($participant->RoleId === $role->Id) {
+                    return true;
+                }
+            }
+        } elseif ($participant->RoleId !== Role::VIRTUAL_ROLE_ID) {
+            return true;
+        }
+        return false;
     }
 }

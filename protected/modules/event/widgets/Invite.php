@@ -1,9 +1,9 @@
 <?php
 namespace event\widgets;
 
+use event\components\widget\WidgetRegistration;
 use event\models\forms\InviteActivation;
 use event\models\InviteRequest;
-use event\models\Participant;
 use event\models\UserData;
 
 /**
@@ -14,11 +14,15 @@ use event\models\UserData;
  * @property string $WidgetInviteDescription
  * @property integer $WidgetInviteHideCodeInput
  */
-class Invite extends \event\components\Widget
+class Invite extends WidgetRegistration
 {
     public function getAttributeNames()
     {
-        return ['WidgetInviteTitle', 'WidgetInviteDescription', 'WidgetInviteHideCodeInput'];
+        return array_merge(parent::getAttributeNames(), [
+            'WidgetInviteTitle',
+            'WidgetInviteDescription',
+            'WidgetInviteHideCodeInput'
+        ]);
     }
 
 

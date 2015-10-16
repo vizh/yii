@@ -27,7 +27,10 @@ $formRequest = $this->formRequest;
             организаторам.</p>
     <? endif; ?>
 
-    <?php $this->widget('\event\widgets\Participant', ['event' => $this->getEvent()]);?>
+    <?php $this->widget('\event\widgets\Participant', [
+        'event' => $this->getEvent(),
+        'roles' => $this->getParticipantRoles()
+    ]);?>
 
     <? if (!\Yii::app()->getUser()->getIsGuest()): ?>
         <? if (\Yii::app()->getUser()->hasFlash('widget.invite.success')): ?>
@@ -52,57 +55,13 @@ $formRequest = $this->formRequest;
             <?= \CHtml::errorSummary($formRequest, '<div class="alert alert-error">', '</div>'); ?>
             <?= \CHtml::beginForm('', 'POST'); ?>
             <div class="form-inline">
-                <?php $class = $this->event->Id != Invite::SVMR14ID ? 'input-large' : 'span7'; ?>
-                <?= \CHtml::activeTextField($formRequest, 'FullName', ['class' => $class, 'placeholder' => $formRequest->getAttributeLabel('FullName')]); ?>
+                <?= \CHtml::activeTextField($formRequest, 'FullName', ['class' => 'input-large', 'placeholder' => $formRequest->getAttributeLabel('FullName')]); ?>
                 <?= \CHtml::activeHiddenField($formRequest, 'RunetId'); ?>
                 <?= \CHtml::hiddenField('Form', get_class($formRequest)); ?>
-                <?php if ($this->event->Id != Invite::SVMR14ID): ?>
-                    <?= \CHtml::submitButton(\Yii::t('app', 'Отправить'), ['class' => 'btn']); ?>
-                <?php endif; ?>
+                <?= \CHtml::submitButton(\Yii::t('app', 'Отправить'), ['class' => 'btn']); ?>
                 <p class="help-block m-top_5">Начинайте вводить на клавиатуре имя владельца приглашения, чтобы выбрать
                     его из списка.</p>
             </div>
-
-
-            <?php if ($this->event->Id == Invite::SVMR14ID): ?>
-                <div class="form-user-register">
-
-                    <h5>Дополнительная информация</h5>
-
-                    <div class="control-group">
-                        <label>Ссылка на профайл в Facebook или LinkedIn</label>
-
-                        <div class="required"><input
-                                class="span7 <?= $formRequest->hasErrors('SocialProfile') ? 'error' : ''; ?>"
-                                type="text" id="event_components_UserDataManager_SocialProfile" name="SocialProfile"
-                                value="<?= CHtml::encode($this->socialProfile); ?>"></div>
-                    </div>
-                    <div class="control-group">
-                        <label>Почему вы хотите принять участие в конференции?</label>
-
-                        <div class="required"><textarea
-                                class="span7 <?= $formRequest->hasErrors('Other') ? 'error' : ''; ?>"
-                                id="event_components_UserDataManager_Other" name="Other"
-                                rows="3"><?= CHtml::encode($this->other); ?></textarea></div>
-                    </div>
-
-
-                    <small class="muted required-notice">
-                        <span class="required-asterisk">*</span> &mdash; поля обязательны для заполнения
-                    </small>
-                </div>
-
-                <div class="clearfix">
-                    <button class="btn btn-info pull-right" type="submit">Отправить</button>
-                </div>
-            <?php endif; ?>
-
-            <? //$this->render('invite/user-data');?>
-
-
-
-
-
             <?= \CHtml::endForm(); ?>
         </div>
     <? else: ?>
