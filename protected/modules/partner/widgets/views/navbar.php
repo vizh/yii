@@ -20,7 +20,11 @@ $partner = \Yii::app()->partner;
             <div>
                 <div class="right clearfix">
                     <ul class="nav navbar-nav pull-right right-navbar-nav">
-
+                        <li>
+                            <a href="#">
+                                <span class="small-screen-text"><strong><?=$event->IdName;?></strong> (<?=$event->Id;?>)</span>
+                            </a>
+                        </li>
                         <li class="dropdown">
                             <a data-toggle="dropdown" class="dropdown-toggle user-menu" href="#">
                                 <img alt="" src="<?=$user->getPhoto()->get50px();?>">

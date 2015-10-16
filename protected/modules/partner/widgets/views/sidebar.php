@@ -13,6 +13,7 @@ use event\models\Event;
                         <?=\CHtml::image($event->getLogo()->get120px(), $event->Title)?>
                     </span>
                     <p class="text-light-gray m-top_10"><?=\CHtml::encode($event->Title)?></p>
+                    <?=\CHtml::link(\Yii::t('app', 'Страница мероприятия'), $event->getUrl(), ['target' => '_blank', 'class' => 'btn btn-xs']);?>
                 </div>
             </div>
         <?php endif ?>
