@@ -106,24 +106,6 @@ class Competence extends Widget
         }
     }
 
-    private $user = false;
-
-    /**
-     * @return User
-     */
-    private function getUser()
-    {
-        if ($this->user === false) {
-            $user = \Yii::app()->getUser();
-            if ($user->getIsGuest()) {
-                $this->user = null;
-            }
-            $this->user = $user->getCurrentUser();
-        }
-        return $this->user;
-    }
-
-
     /**
      * Регистрирует пользователя на мероприятие
      * @throws \application\components\Exception

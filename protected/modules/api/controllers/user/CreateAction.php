@@ -16,6 +16,7 @@ class CreateAction extends \api\components\Action
         $fathertName = $request->getParam('FatherName', null);
         $password = $request->getParam('Password', null); //todo: deprecated
         $phone = $request->getParam('Phone', null);
+        $visible = (bool) $request->getParam('Visible', true);
 
         if (empty($email) || empty($lastName) || empty($firstName)) {
             throw new Exception(204);
@@ -24,7 +25,8 @@ class CreateAction extends \api\components\Action
         if (!$emailValidator->validateValue($email)) {
             throw new Exception(205);
         }
-        if (User::model()->byEmail($email)->byVisible(true)->count() != 0) {
+
+        if ($visible && User::model()->byEmail($email)->byVisible(true)->exists()) {
             throw new Exception(206);
         }
 
@@ -33,6 +35,7 @@ class CreateAction extends \api\components\Action
         $user->FirstName = $firstName;
         $user->FatherName = $fathertName;
         $user->Email = $email;
+        $user->Visible = $visible;
         $phone = Texts::getOnlyNumbers($phone);
         if (!empty($phone)) {
             $user->PrimaryPhone = $phone;
@@ -41,7 +44,7 @@ class CreateAction extends \api\components\Action
         if ($password !== null) {
             $user->Password = $password;
         }
-        $user->register();
+        $user->register($visible);
 
         $oauthPermission = new \oauth\models\Permission();
         $oauthPermission->UserId  = $user->Id;
