@@ -10,7 +10,7 @@
 <div id="w1widget"></div>
 <script>
     W1.widget({
-        "pt": "CreditCardRUB,BeelineRUB,SberOnlineRUB,MtsRUB",
+        "pt": "SberOnlineRUB,PsbRetailRUB,MtsRUB,BeelineRUB",
         "bigLogo": false,
         "grayscale": false,
         "background": "white",

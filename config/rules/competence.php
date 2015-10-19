@@ -1,16 +1,16 @@
 <?php
-return array(
-  array(
-    'allow',
-    'users' => array('*'),
-    'controllers' => array('main', 'event', 'digitalindex15'),
-    'module' => 'competence'
-  ),
-  /** Admin Rules */
-  array(
-    'allow',
-    'roles' => array('admin'),
-    'module' => 'competence',
-    'controllers' => array('admin/export', 'admin/export2', 'admin/export3', 'admin/export7', 'admin/main', 'admin/runet')
-  ),
-);
+return [
+    [
+        'allow',
+        'users' => ['*'],
+        'controllers' => ['main', 'event', 'digitalindex15', 'iidf'],
+        'module' => 'competence'
+    ],
+    /** Admin Rules */
+    [
+        'allow',
+        'roles' => ['admin'],
+        'module' => 'competence',
+        'controllers' => ['admin/export', 'admin/export2', 'admin/export3', 'admin/export7', 'admin/main', 'admin/runet']
+    ],
+];
