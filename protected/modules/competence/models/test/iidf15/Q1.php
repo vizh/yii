@@ -6,7 +6,15 @@ class Q1 extends \competence\models\form\Input
     public function rules()
     {
         return [
+            ['value', 'required'],
             ['value', 'email']
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'value' => 'Email'
         ];
     }
 

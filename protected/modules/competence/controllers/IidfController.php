@@ -74,7 +74,6 @@ class IidfController extends BaseController
         $identity->authenticate();
         if ($identity->errorCode === \CUserIdentity::ERROR_NONE) {
             \Yii::app()->getUser()->login($identity);
-            $this->refresh();
         }
     }
 
@@ -134,12 +133,10 @@ class IidfController extends BaseController
         }
 
         $request = \Yii::app()->getRequest();
-
-        $this->test->setUser($this->getUser());
         $questions = $this->getQuestions();
-
         $hasErrors = false;
         if ($request->getIsPostRequest()) {
+            $this->test->setUser($this->getUser());
             foreach ($questions as $question) {
                 $form = $question->getForm();
                 $form->setAttributes($request->getParam(get_class($form)), false);
