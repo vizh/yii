@@ -64,7 +64,7 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                             if (!empty($coupon->Products)) {
                                 $result = '';
                                 foreach ($coupon->Products as $product) {
-                                    $result .= Texts::cropText($product->Title, 50) . '<br/>';
+                                    $result .= \CHtml::tag('span', ['title' => $product->Title], Texts::cropText($product->Title, 50)) . '<br/>';
                                 }
                                 return $result;
                             } else {

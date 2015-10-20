@@ -4,50 +4,34 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
-    public function actionRjdslet15Generator()
+    public function actionExportUserDataFiles()
     {
-        $participants = \event\models\Participant::model()->byEventId(2264)->findAll();
+        $event = \event\models\Event::model()->findByPk(1995);
+        $zipPath = \Yii::getPathOfAlias('application') . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'event' . DIRECTORY_SEPARATOR . $event->IdName . '_export.zip';
+        $definitionName = 'StudentsList';
+
+        $zip = new \ZipArchive();
+        if (file_exists($zipPath)) {
+            unlink($zipPath);
+        }
+
+        $zip->open($zipPath, \ZIPARCHIVE::CREATE);
+        $participants = \event\models\Participant::model()->byEventId($event->Id)->findAll();
         foreach ($participants as $participant) {
-            $product = \pay\models\Product::model()->findByPk(3999);
-            //$orderItem = $product->getManager()->createOrderItem($participant->User, $participant->User);
-            //$orderItem->activate();
-        }
-    }
-
-    public function actionRjdslet15()
-    {
-        $products = [
-            'Синхронный перевод 14.10' => [3990,3991],
-            'Пульт для голосования 14.10' => [3992,3993],
-            'Выдача синх. перевода 15.10 партия 1' => [3995,3997],
-            'Выдача синх. перевода 15.10 партия 2' => [3996,3998],
-            'Выдача синх. перевода 17.10 партия 1' => [4003,4004],
-            'Выдача синх. перевода 17.10 партия 2' => [4005,4006]
-        ];
-
-        foreach ($products as $label => $ids) {
-            $count = \pay\models\ProductCheck::model()->byProductId($ids[0])->count();
-            echo '<h3 style="margin: 0; padding: 0;">Выдано "' . $label . '": ' . $count . 'шт.</h3><br/>';
-            echo '<strong>Не вернули: </strong><br/>';
-
-            $command = \Yii::app()->getDb()->createCommand();
-            $command->select('PayProductCheck.UserId')->from('PayProductCheck')->where('
-               	"PayProductCheck"."ProductId" = :OutProduct AND "PayProductCheck"."UserId" NOT IN (
-	                    SELECT "PayProductCheck2"."UserId" FROM "PayProductCheck" AS "PayProductCheck2" WHERE "PayProductCheck2"."ProductId" = :InProduct
-                )
-            ');
-
-            $users = \user\models\User::model()->findAllByPk(
-                $command->queryColumn(['OutProduct' => $ids[0], 'InProduct' => $ids[1]])
-            );
-            /** @var \user\models\User $user */
-            foreach ($users as $user) {
-                echo $user->RunetId . ': ' . $user->getFullName() . ', ' . $user->getPhone() , '<br/>';
+            $user = $participant->User;
+            $row  = array_pop($event->getUserData($user));
+            if (empty($row) || !isset($row->getManager()->$definitionName)) {
+                continue;
             }
-
-            echo '<br/>---<br/><br/>';
+            $file = $row->getManager()->$definitionName;
+            $extension = substr($file, strrpos($file, '.'));
+            $zip->addFile($file, $user->RunetId . $extension);
         }
-
+        $zip->close();
+        header('Content-type: application/zip');
+        header('Content-Disposition: attachment; filename="export.zip"');
+        header('Content-Length: '.filesize($zipPath));
+        readfile($zipPath);
     }
 
 
