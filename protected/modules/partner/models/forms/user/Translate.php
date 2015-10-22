@@ -2,6 +2,7 @@
 namespace partner\models\forms\user;
 
 use application\components\form\CreateUpdateForm;
+use company\models\Company;
 use user\models\User;
 
 /**
@@ -119,11 +120,17 @@ class Translate extends CreateUpdateForm
 
         $employment = $this->model->getEmploymentPrimary();
         if ($employment !== null) {
-            $company = $employment->Company;
-            $company->setLocale($this->getLocale());
-            $company->Name = $this->Company;
-            $company->save();
-            $company->resetLocale();
+            if ($this->getLocale() === \Yii::app()->sourceLanguage && $employment->Company->Name !== $this->Company) {
+                $company = Company::create($this->Company);
+                $employment->CompanyId = $company->Id;
+                $employment->save();
+            } else {
+                $company = $employment->Company;
+                $company->setLocale($this->getLocale());
+                $company->Name = $this->Company;
+                $company->save();
+                $company->resetLocale();
+            }
         }
         $this->model->resetLocale();
         return $this->model;
