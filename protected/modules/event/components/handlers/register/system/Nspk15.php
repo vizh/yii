@@ -13,4 +13,14 @@ class Nspk15 extends Base
     {
         return 'orgcenter@nspk.ru';
     }
+
+    public function getBody()
+    {
+        if ($this->role->Id == 1) {
+            return null;
+        }
+        return parent::getBody();
+    }
+
+
 } 

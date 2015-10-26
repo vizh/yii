@@ -18,10 +18,27 @@ class Base extends \event\components\handlers\register\Base
         return $this->renderBody('event.views.mail.register.system.base', ['user' => $this->user, 'role' => $this->role, 'event' => $this->event]);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getAttachments()
     {
-        return array();
+        return [];
     }
 
+    /**
+     * @inheritdoc
+     */
+    protected function getRepeat()
+    {
+        return false;
+    }
 
+    /**
+     * @inheritdoc
+     */
+    protected function getHashSolt()
+    {
+        return $this->user->Id;
+    }
 }

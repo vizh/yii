@@ -1,85 +1,100 @@
-<script type="text/javascript">
-    roles = <?=json_encode($form->getEventRoleData());?>;
-    $(function () {
-        <?foreach ($mail->getRoles() as $role):?>
-        EventMailEdit.createRoleLabel(<?=$role->Id;?>, '<?=$role->Title;?>', 'Roles');
-        <?endforeach;?>
+<?php
+/**
+ * @var \event\models\forms\admin\mail\Register $form
+ * @var \event\models\Event $event
+ * @var \application\components\controllers\AdminMainController $this
+ * @var \application\widgets\ActiveForm $activeForm
+ */
 
-        <?foreach ($mail->getRolesExcept() as $role):?>
-        EventMailEdit.createRoleLabel(<?=$role->Id;?>, '<?=$role->Title;?>', 'RolesExcept')
-        <?endforeach;?>
-    });
-</script>
+use application\helpers\Flash;
+
+$clientScript = \Yii::app()->getClientScript();
+
+$script = 'roles = ' . json_encode($form->getEventRoleData()) . ';';
+if ($form->isUpdateMode()) {
+    $script .= '
+        $(function () {
+        ';
+
+    foreach ($form->getActiveRecord()->getRoles() as $role) {
+        $script .= "EventMailEdit.createRoleLabel($role->Id, '$role->Title', 'Roles');";
+    }
+    foreach ($form->getActiveRecord()->getRolesExcept() as $role) {
+        $script .= "EventMailEdit.createRoleLabel($role->Id, '$role->Title', 'RolesExcept');";
+    }
+    $script .= '});';
+}
+$clientScript->registerScript($this->getUniqueId(), $script, \CClientScript::POS_HEAD);
+$clientScript->registerPackage('runetid.ckeditor');
+$this->setPageTitle(\Yii::t('app', 'Редактирование регистрационного письма'));
+?>
 
 <div class="row-fluid">
-    <?=\CHtml::beginForm('','POST', ['class' => 'form-horizontal']);?>
+    <?php $activeForm = $this->beginWidget('\application\widgets\ActiveForm', ['htmlOptions' => ['class' => 'form-horizontal']]);?>
     <div class="btn-toolbar">
-        <a href="<?=$this->createUrl('/event/admin/edit/index', ['eventId' => $event->Id]);?>" class="btn">&larr; <?=\Yii::t('app','Вернуться к редактору мероприятия');?></a><br/>
-        <a href="<?=$this->createUrl('/event/admin/mail/index', ['eventId' => $event->Id]);?>" class="btn m-top_5">&larr; <?=\Yii::t('app','Вернуться к списку писем');?></a>
+        <?=\CHtml::link('&larr; Вернуться к редактору мероприятия', ['edit/index', 'eventId' => $event->Id], ['class' => 'btn']);?>
+        <?=\CHtml::link('&larr; Вернуться к списку писем', ['index', 'eventId' => $event->Id], ['class' => 'btn m-top_5']);?>
     </div>
     <div class="well">
-        <?=\CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>');?>
-        <?if (\Yii::app()->getUser()->hasFlash('success')):?>
-            <div class="alert alert-success"><?=\Yii::app()->getUser()->getFlash('success');?></div>
-        <?endif;?>
+        <?=$activeForm->errorSummary($form);?>
+        <?=Flash::html();?>
+
         <div class="control-group">
-            <?=\CHtml::activeLabel($form, 'Subject', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'Subject', ['class' => 'control-label']);?>
             <div class="controls">
-                <?=\CHtml::activeTextField($form, 'Subject', ['class' => 'input-block-level']);?>
+                <?=$activeForm->textField($form, 'Subject', ['class' => 'input-block-level']);?>
             </div>
         </div>
         <div class="control-group">
-            <?=\CHtml::activeLabel($form, 'Roles', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'Roles', ['class' => 'control-label']);?>
             <div class="controls">
-                <?=\CHtml::textField('RoleSearch','',['data-field' => 'Roles']);?>
+                <?=\CHtml::textField('RoleSearch', '', ['data-field' => 'Roles']);?>
                 <p class="help-block roles"></p>
             </div>
         </div>
         <div class="control-group">
-            <?=\CHtml::activeLabel($form, 'RolesExcept', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'RolesExcept', ['class' => 'control-label']);?>
             <div class="controls">
                 <?=\CHtml::textField('RoleExceptSearch', '', ['data-field' => 'RolesExcept']);?>
                 <p class="help-block rolesexcept"></p>
             </div>
         </div>
         <div class="control-group">
-            <?=\CHtml::activeLabel($form, 'Body', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'Body', ['class' => 'control-label']);?>
             <div class="controls">
-                <?=\CHtml::activeTextArea($form, 'Body', ['class' => 'input-block-level']);?>
+                <?=$activeForm->textArea($form, 'Body', ['class' => 'input-block-level']);?>
             </div>
         </div>
         <div class="control-group">
-            <?=\CHtml::activeLabel($form, 'Layout', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'Layout', ['class' => 'control-label']);?>
             <div class="controls">
-                <?=\CHtml::activeDropDownList($form, 'Layout', $form->getLayoutData());?>
+                <?=$activeForm->dropDownList($form, 'Layout', $form->getLayoutData());?>
             </div>
         </div>
         <div class="control-group">
-            <?=\CHtml::activeLabel($form, 'SendPassbook', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'SendPassbook', ['class' => 'control-label']);?>
             <div class="controls">
-                <?=\CHtml::activeCheckBox($form, 'SendPassbook');?>
+                <?=$activeForm->checkBox($form, 'SendPassbook');?>
             </div>
         </div>
         <div class="control-group">
-            <?=\CHtml::activeLabel($form, 'SendTicket', ['class' => 'control-label']);?>
+            <?=$activeForm->label($form, 'SendTicket', ['class' => 'control-label']);?>
             <div class="controls">
-                <?=\CHtml::activeCheckBox($form, 'SendTicket');?>
+                <?=$activeForm->checkBox($form, 'SendTicket');?>
             </div>
         </div>
         <div class="control-group">
             <div class="controls clearfix">
-                <button type="submit" class="btn btn-success"><?=\Yii::t('app', 'Сохранить');?></button>
-                <button type="submit" name="<?=\CHtml::activeName($form, 'Delete');?>" value="1" class="btn btn-danger pull-right"><?=\Yii::t('app', 'Удалить');?></button>
+                <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']);?>
+                <?=$activeForm->submitButton($form, 'Delete', \Yii::t('app', 'Удалить'), ['class' => 'btn btn-danger pull-right', 'value' => 1]);?>
             </div>
         </div>
         <div class="control-group muted">
             <div class="controls">
-                <h4><?=\Yii::t('app', 'Доступные поля');?></h4>
-                <?foreach($fields as $field):?>
-                    <?=$field;?> &mdash; <?=$this->getAction()->getFieldLabel($field);?><br/>
-                <?endforeach;?>
+                <h4><?= \Yii::t('app', 'Доступные поля'); ?></h4>
+                <?=$form->getBodyFieldsNote();?>
             </div>
         </div>
     </div>
-    <?=\CHtml::endForm();?>
+    <?php $this->endWidget();?>
 </div>

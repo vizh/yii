@@ -39,7 +39,7 @@ class Contacts extends \CFormModel
       array('Site', 'url', 'allowEmpty' => true),
       array('Phones', 'filter', 'filter' => array($this, 'filterPhones')),
       array('Accounts', 'filter', 'filter' => array($this, 'filterAccounts')),
-      ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ['condition' => '"t"."Id" != :UserId', 'params' => ['UserId' => \Yii::app()->user->getId()]]]
+      ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ['condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => ['UserId' => \Yii::app()->user->getId()]]]
     );
   }
  

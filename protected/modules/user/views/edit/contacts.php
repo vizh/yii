@@ -151,7 +151,7 @@ use user\models\User;
       <?endforeach;?>
     </select>
     <a href="#" class="pseudo-link delete-phone-link" data-action="remove"><?=\Yii::t('app', 'Удалить');?></a>
-    <input type="hidden" name="<?=\CHtml::activeName($form, 'Phones[<%=i%>][Delete]');?>"/>
+    <input type="hidden" name="<?=\CHtml::activeName($form, 'Accounts[<%=i%>][Delete]');?>"/>
   </div>
 </script>
 
