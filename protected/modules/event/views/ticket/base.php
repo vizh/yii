@@ -9,6 +9,7 @@ use user\models\User;
 use event\models\Event;
 use event\models\Participant;
 use ruvents\components\QrCode;
+use application\components\web\helpers\Html;
 
 $contacts = [];
 if ($event->getContactSite() != null) {
@@ -38,13 +39,26 @@ if (!empty($event->LinkEmails)) {
     <div style="padding: 3mm 0;background-color: #586877; text-align: center; color: #fff; border-radius: 7mm 7mm 0 0;">
         <img src="/img/ticket/pdf/base/logo.png" style="padding-right: 3mm; image-resolution: 110dpi;"/> eTicket
     </div>
-    <div style="padding: 5mm; border-left: 0.5mm solid #ededed; border-right: 0.5mm solid #ededed; height: 77mm;">
-        <h3><span style="text-transform: uppercase;">ЭЛЕКТРОННЫЙ БИЛЕТ</span><br/><span style="font-weight: bold;"><?=$event->Title;?></span></h3>
-        <h3 style="padding: 12mm 0; font-weight: bold; text-transform: uppercase;"><?$this->widget('\event\widgets\Date', ['event' => $event]);?></h3>
-        <?if ($event->getContactAddress() != null):?>
-            <p><?=$event->getContactAddress()->Place;?><br/><?=$event->getContactAddress()->getShort();?></p>
-        <?endif;?>
-    </div>
+    <table style="width: 100%; padding: 5mm; border-left: 0.5mm solid #ededed; border-right: 0.5mm solid #ededed; height: 77mm; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif;" cellpadding="0" cellspacing="0">
+        <tr>
+            <td style="vertical-align: top; height: 40mm; color: #556a7d;">
+                <h3 style="text-transform: uppercase; padding-bottom: 20px;">ЭЛЕКТРОННЫЙ БИЛЕТ</h3>
+                <?=Html::limitedTag('h3', $event->Title, 19, 291, 115, ['style' => 'font-weight: bold;']);?>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle; height: 17mm; color: #556a7d;">
+                <h3 style="padding: 12mm 0; font-weight: bold; text-transform: uppercase;"><?$this->widget('\event\widgets\Date', ['event' => $event]);?></h3>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: bottom; height: 20mm; color: #556a7d;">
+                <?php if ($event->getContactAddress() != null):?>
+                    <?=Html::limitedTag('span', $event->getContactAddress()->Place . '<br/>' . $event->getContactAddress()->getShort(), 11, 291, 75);?>
+                <?php endif;?>
+            </td>
+        </tr>
+    </table>
     <table style="width: 100%; background-color: #586877; padding: 5mm; color: #fff; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif;">
         <tbody>
             <tr>
@@ -55,11 +69,11 @@ if (!empty($event->LinkEmails)) {
                                 <?=$user->LastName?><br/><?=$user->getShortName();?>
                             </td>
                         </tr>
-                        <?if ($user->getEmploymentPrimary() !== null):?>
+                        <?php if ($user->getEmploymentPrimary() !== null):?>
                             <tr>
-                                <td style="font-size: 4mm; padding-top: 5mm;"><?=$user->getEmploymentPrimary()->Company->Name;?></td>
+                                <?=Html::limitedTag('td', $user->getEmploymentPrimary()->Company->Name, 15, 291, 60, ['style' => 'padding-top: 5mm']);?>
                             </tr>
-                        <?endif;?>
+                        <?php endif;?>
                     </table>
                 </td>
             </tr>
