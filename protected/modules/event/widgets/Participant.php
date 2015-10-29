@@ -2,6 +2,7 @@
 namespace event\widgets;
 
 use application\components\web\Widget;
+use event\components\widget\WidgetRegistration;
 use event\models\Event;
 use event\models\Participant as ParticipantModel;
 use event\models\Role;
@@ -21,6 +22,28 @@ class Participant extends Widget
 
     /** @var Role[] */
     public $roles = [];
+
+    /** @var string */
+    public $message = '';
+
+    /** @var WidgetRegistration */
+    public $widget = null;
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        if ($this->widget !== null) {
+            $this->event = $this->widget->getEvent();
+            $this->roles = $this->widget->getParticipantRoles();
+            if (isset($this->widget->WidgetRegistrationParticipantMessage)) {
+                $this->message = $this->widget->WidgetRegistrationParticipantMessage;
+            }
+        }
+        parent::init();
+    }
+
 
     public function run()
     {

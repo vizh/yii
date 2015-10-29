@@ -28,8 +28,7 @@ $formRequest = $this->formRequest;
     <? endif; ?>
 
     <?php $this->widget('\event\widgets\Participant', [
-        'event' => $this->getEvent(),
-        'roles' => $this->getParticipantRoles()
+        'widget' => $this
     ]);?>
 
     <? if (!\Yii::app()->getUser()->getIsGuest()): ?>

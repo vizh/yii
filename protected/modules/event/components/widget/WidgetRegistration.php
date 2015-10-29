@@ -11,6 +11,7 @@ use event\models\Role;
  *
  * @property int $WidgetRegistrationPositionTab
  * @property string $WidgetRegistrationParticipantRoles
+ * @property string $WidgetRegistrationParticipantMessage
  */
 abstract class WidgetRegistration extends Widget
 {
@@ -21,7 +22,8 @@ abstract class WidgetRegistration extends Widget
     {
         return [
             'WidgetRegistrationPositionTab',
-            'WidgetRegistrationParticipantRoles'
+            'WidgetRegistrationParticipantRoles',
+            'WidgetRegistrationParticipantMessage'
         ];
     }
 
