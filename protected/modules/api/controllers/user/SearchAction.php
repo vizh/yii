@@ -32,7 +32,6 @@ class SearchAction extends \api\components\Action
     $with = array(
       'Settings',
       'Employments.Company' => array('on' => '"Employments"."Primary"'),
-      'LinkEmail.Email'
     );
     if ($this->Account->EventId != null)
     {

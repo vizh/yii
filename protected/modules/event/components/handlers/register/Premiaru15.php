@@ -8,7 +8,7 @@ class Premiaru15 extends Base
      */
     public function getBody()
     {
-        if ($this->role->Id !== 168) {
+        if ($this->role->Id !== 168 && $this->role->Id !== 14) {
             return null;
         }
         return parent::getBody();
