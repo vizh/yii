@@ -8,6 +8,7 @@ use event\models\section\Section;
  * @package event\widgets
  *
  * @property string $PdfUrl
+ * @property string $WidgetProgramGridTabTitle
  */
 class ProgramGrid extends \event\components\Widget
 {
@@ -16,7 +17,10 @@ class ProgramGrid extends \event\components\Widget
      */
     public function getAttributeNames()
     {
-        return ['PdfUrl'];
+        return [
+            'PdfUrl',
+            'WidgetProgramGridTabTitle'
+        ];
     }
 
 
@@ -26,11 +30,19 @@ class ProgramGrid extends \event\components\Widget
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getTitleAdmin()
+    {
+        return \Yii::t('app', 'Программа');
+    }
+
+    /**
      * @return string
      */
     public function getTitle()
     {
-        return \Yii::t('app', 'Программа');
+        return isset($this->WidgetProgramGridTabTitle) ? $this->WidgetProgramGridTabTitle : $this->getTitleAdmin();
     }
 
     public function getIsHasDefaultResources()

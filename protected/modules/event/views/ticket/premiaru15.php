@@ -22,5 +22,3 @@ use ruvents\components\QrCode;
     <img src="/img/ticket/premiaru15/invite.jpg" />
 </div>
 
-<?php $event = \event\models\Event::model()->findByPk(2000);?>
-<a href="<?=$event->getFastRegisterUrl($user, \event\models\Role::model()->findByPk(168));?>">ТЕКСТ</a>
