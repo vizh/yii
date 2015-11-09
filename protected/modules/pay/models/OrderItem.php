@@ -334,7 +334,7 @@ class OrderItem extends ActiveRecord
         $owner = $this->ChangedOwner !== null ? $this->ChangedOwner : $this->Owner;
         $result = $this->Product->getManager()->buy($owner, $this);
         $this->Paid = true;
-        $this->PaidTime = ($order !== null && OrderType::getIsLong($order->Type)) ? $order->CreationTime : date('Y-m-d H:i:s');
+        $this->PaidTime = ($order !== null ? $order->CreationTime : date('Y-m-d H:i:s'));
         $this->save();
         return $result;
     }
