@@ -73,6 +73,7 @@ class Register extends BaseRegisterForm
         }
         parent::internalCreateActiveRecord();
         $role = Role::model()->findByPk($this->Role);
+        $this->event->skipOnRegister = $this->isHiddenUser();
         if (!empty($this->event->Parts)) {
             $this->event->registerUserOnAllParts($this->model, $role);
         } else {

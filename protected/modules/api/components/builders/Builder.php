@@ -59,6 +59,8 @@ class Builder
     public function buildUserContacts(\user\models\User $user)
     {
         $this->user->Email = $user->Email;
+        $this->user->Phone = $user->getPhone();
+
         $this->user->Phones = array();
         foreach ($user->LinkPhones as $link) {
             $this->user->Phones[] = (string) $link->Phone;

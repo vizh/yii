@@ -23,12 +23,10 @@ abstract class Register extends CreateUpdateForm
     public $FirstName;
     public $LastName;
     public $FatherName;
-    public $Password;
     public $Email;
     public $Company;
     public $Position;
     public $Phone;
-
 
     public function rules()
     {
