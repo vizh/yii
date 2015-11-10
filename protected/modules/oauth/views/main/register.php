@@ -86,4 +86,4 @@
 </fieldset>
 <?php $this->endWidget();?>
 <hr>
-<p class="text-center"><?=\Yii::t('app', 'Если вы&nbsp;уже получали RUNET-ID&nbsp;&mdash; <a href="{url}">авторизуйтесь</a>.', array('{url}' => $this->createUrl('/oauth/main/auth')));?></p>
+<p class="text-center"><?=\Yii::t('app', 'Если вы&nbsp;уже получали RUNET-ID&nbsp;&mdash; <a href="{url}">авторизуйтесь</a>.', array('{url}' => $this->createUrl('/oauth/main/auth', \Iframe::isFrame() ? ['frame' => 'true'] : [])));?></p>
