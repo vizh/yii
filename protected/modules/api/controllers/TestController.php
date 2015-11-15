@@ -6,35 +6,23 @@ class TestController extends CController
     {
         //$api = 'zrnzd5rs8i';
         //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-        $api = 't826ybtyi6';
-        $secret = 'ZF4F85hRhBD4Ntty9943kAyzG';
+        $api = 'fazr454y5i';
+        $secret = 'bBh8h3Bzd84a3Kb2DK4iaTADa';
 
         $params = array(
             'ApiKey' => $api,
             'Hash'   => md5($api . $secret),
-            'FirstName' => 'Тестовый тест',
-            'LastName' => '<h1>12312</h1>',
-            'Email' => 'andrey.korotov22@yandex.ru',
-            'FatherName' => 'Сергвчч',
-            'Phone' => '+7 (925) 093-88-65',
+            'FirstName' => 'Тестовый',
+            'LastName' => 'Devcon',
+            'Email' => 'test@devcon111.ru',
+            'Phone' => '+7 (925) 093-88-11',
             'Company' => 'Компания',
             'Position' => 'Должность',
-            'Password' => 123444
+            'ExternalId' => '4bd4c40e-ee33-46e3-82d7-fa31c43ae582290'
         );
-
-        //$params['Email'] = 'alaris.nik@gmail.com';
-        //$params['LastName'] = 'Никитин';
-        //$params['FirstName'] = 'Виталий';
-        //$params['ExternalId'] = 121;
-        //$params['RoleId'] = 5;
-
-        //$params['OnlyPublic'] = true;
-        //$params['WithDeleted'] = 1;
-
-        //$params['SectionId'] = 12322;
-        //$this->apiRequest('/api/section/deleteFavorite', $params);
+        exit;
         print_r($params);
-        $this->apiRequest('/api/user/create', $params);
+        $this->apiRequest('/api/ms/createuser', $params);
     }
 
     private function apiRequest($url, $params)

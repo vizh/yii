@@ -127,7 +127,6 @@ abstract class Register extends CreateUpdateForm
         if (!empty($this->Company)) {
             $this->model->setEmployment($this->Company, $this->Position);
         }
-
     }
 
     /**
