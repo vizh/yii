@@ -27,4 +27,13 @@ class MsController extends \api\components\Controller
         $user = $this->getExternalUser($externalId);
         return md5($user->User->Id . 'ez?ZsXS*S$wNDKC153}COEGmle' . $externalId);
     }
+
+    /**
+     * @param string $externalId
+     * @return string
+     */
+    public function getPayUrl($externalId)
+    {
+        return 'http://msdevcon16.runet-id.com/?id=' . $externalId . '&hash=' . $this->generatePayHash($externalId);
+    }
 }

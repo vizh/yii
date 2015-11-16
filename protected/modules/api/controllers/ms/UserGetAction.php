@@ -20,6 +20,7 @@ class UserGetAction extends Action
         $builder->buildUserEmployment($user);
         $data = $builder->buildUserEvent($user);
         $data->Hash = $this->getController()->generatePayHash($id);
+        $data->PayUrl = $this->getController()->getPayUrl($id);
         $this->setResult($data);
     }
 }

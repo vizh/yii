@@ -12,15 +12,16 @@ class TestController extends CController
         $params = array(
             'ApiKey' => $api,
             'Hash'   => md5($api . $secret),
-            'FirstName' => 'Тестовый',
-            'LastName' => 'Devcon',
+            /*'FirstName' => 'DEv',
+            'LastName' => 'TEST',*/
             'Email' => 'test@devcon111.ru',
-            'Phone' => '+7 (925) 093-88-11',
-            'Company' => 'Компания',
-            'Position' => 'Должность',
-            'ExternalId' => '4bd4c40e-ee33-46e3-82d7-fa31c43ae582290'
+            'Temporary' => false,
+            /*'Company' => 'КОмпания',
+            'Country' => 'Страна',
+            'City' => 'Город',
+            'Phone' => '91212129',
+            'ExternalId' => '4bd4c40e-ee33-46e3-82d7-fa31c43ae51181190'*/
         );
-        exit;
         print_r($params);
         $this->apiRequest('/api/ms/createuser', $params);
     }

@@ -2,9 +2,9 @@
 namespace api\controllers\ms;
 
 use api\models\forms\user\MsRegister;
-use api\models\forms\user\Register;
 use event\models\Role;
 use pay\models\Product;
+use api\components\Action;
 
 /**
  * Class CreateUserAction
@@ -12,11 +12,12 @@ use pay\models\Product;
  *
  * @method \MsController getController()
  */
-class CreateUserAction extends \api\components\Action
+class CreateUserAction extends Action
 {
     public function run()
     {
-        $form = new MsRegister($this->getAccount());
+        $temporary = (bool) \Yii::app()->getRequest()->getParam('Temporary', false);
+        $form = new MsRegister($this->getAccount(), $temporary);
         $form->fillFromPost();
         $user = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
         if ($user !== null) {
@@ -29,7 +30,7 @@ class CreateUserAction extends \api\components\Action
             } catch (\Exception $e) {}
 
             $this->setResult([
-                'PayUrl' => 'http://msdevcon16.runet-id.com/?id=' . $form->ExternalId . '&hash=' . $this->getController()->generatePayHash($form->ExternalId)
+                'PayUrl' => $this->getController()->getPayUrl($form->ExternalId)
             ]);
         }
     }
