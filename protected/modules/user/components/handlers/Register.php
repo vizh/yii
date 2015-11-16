@@ -8,10 +8,10 @@ use user\models\User;
 class Register extends MailLayout
 {
     /** @var User */
-    private $user;
+    protected $user;
 
     /** @var string */
-    private $password;
+    protected $password;
 
     public function __construct(Mailer $mailer, \CEvent $event)
     {
