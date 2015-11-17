@@ -1,7 +1,8 @@
 <?php
 namespace api\controllers\ms;
 
-use api\models\forms\user\MsRegister;
+use api\components\ms\FormRegister;
+use api\components\ms\Helper;
 use event\models\Role;
 use pay\models\Product;
 use api\components\Action;
@@ -16,8 +17,7 @@ class CreateUserAction extends Action
 {
     public function run()
     {
-        $temporary = (bool) \Yii::app()->getRequest()->getParam('Temporary', false);
-        $form = new MsRegister($this->getAccount(), $temporary);
+        $form = new FormRegister($this->getAccount());
         $form->fillFromPost();
         $user = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
         if ($user !== null) {
@@ -30,7 +30,7 @@ class CreateUserAction extends Action
             } catch (\Exception $e) {}
 
             $this->setResult([
-                'PayUrl' => $this->getController()->getPayUrl($form->ExternalId)
+                'PayUrl' => Helper::getPayUrl($this->getAccount(), $user)
             ]);
         }
     }

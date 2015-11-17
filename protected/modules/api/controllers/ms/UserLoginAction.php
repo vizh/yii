@@ -2,6 +2,7 @@
 namespace api\controllers\ms;
 
 use api\components\Action;
+use api\components\ms\Helper;
 use api\models\ExternalUser;
 use user\models\User;
 use api\components\Exception;
@@ -19,10 +20,9 @@ class UserLoginAction extends Action
             throw new Exception(211, [$email]);
         }
 
-        $external = ExternalUser::model()->byAccountId($this->getAccount()->Id)->byUserId($user->Id)->find();
-        if (!$user->checkLogin($password) || $external === null) {
+        if (!$user->checkLogin($password)) {
             throw new Exception(201);
         }
-        $this->setResult(['PayUrl' => $this->getController()->getPayUrl($external->ExternalId)]);
+        $this->setResult(['PayUrl' => Helper::getPayUrl($this->getAccount(), $user)]);
     }
 }

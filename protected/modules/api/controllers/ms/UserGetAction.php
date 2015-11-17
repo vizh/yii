@@ -2,6 +2,7 @@
 namespace api\controllers\ms;
 
 use api\components\Action;
+use api\components\ms\Helper;
 
 /**
  * Class UserGetAction
@@ -14,13 +15,17 @@ class UserGetAction extends Action
     public function run()
     {
         $id = \Yii::app()->getRequest()->getParam('ExternalId', null);
-        $user = $this->getController()->getExternalUser($id)->User;
+
+        $externalUser = Helper::getExternalUserById($this->getAccount(), $id);
+        $user = $externalUser->User;
+
         $builder = $this->getDataBuilder();
         $builder->createUser($user);
         $builder->buildUserEmployment($user);
         $data = $builder->buildUserEvent($user);
-        $data->Hash = $this->getController()->generatePayHash($id);
-        $data->PayUrl = $this->getController()->getPayUrl($id);
+
+        $data->Hash = Helper::generatePayHash($externalUser);
+        $data->PayUrl = Helper::getPayUrl($this->getAccount(), $user);
         $this->setResult($data);
     }
 }

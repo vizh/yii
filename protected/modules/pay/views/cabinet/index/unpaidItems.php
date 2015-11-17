@@ -184,10 +184,7 @@ $total = 0;
     <?endif;?>
 
     <div class="nav-buttons">
-        <a href="<?=$account->ReturnUrl===null ? $this->createUrl('/pay/cabinet/register') : $account->ReturnUrl;?>" class="btn btn-large">
-            <i class="icon-circle-arrow-left"></i>
-            <?=\Yii::t('app', 'Назад');?>
-        </a>
+        <?$this->renderPartial('index/buttons/back', ['account' => $account]);?>
     </div>
 
 <?endif;?>

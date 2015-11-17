@@ -321,8 +321,7 @@ class Template extends CreateUpdateForm
             Layout::None => \Yii::t('app', 'Без шаблона'),
             Layout::OneColumn => \Yii::t('app', 'Одноколоночный'),
             Layout::TwoColumn => \Yii::t('app', 'Двухколоночный'),
-            Layout::DevCon15 => \Yii::t('app', 'DevCon 2015'),
-            Layout::MSDevTour => \Yii::t('add', 'MS Dev Tour 2015')
+            Layout::DevCon16 => \Yii::t('app', 'DevCon 2016')
         ];
     }
 
