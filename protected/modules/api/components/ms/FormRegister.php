@@ -44,15 +44,10 @@ class FormRegister extends Register
      */
     public function rules()
     {
-        $rules = parent::rules();
-        foreach ($rules as $k => $rule) {
-            if ($rule[0] == 'Phone' && $rule[1] == 'unique') {
-                unset($rules[$k]);
-            }
-        }
-        $rules = array_merge($rules, [
-            ['Company,Country,City,Phone', 'required'],
-        ]);
+        $rules = [
+            ['FirstName,LastName,FatherName,Email,Company,Position,Country,City,Phone', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['FirstName,LastName,FatherName,Email,Company,Position,Country,City,Phone,ExternalId,Password', 'safe'],
+        ];
         return $rules;
     }
 
