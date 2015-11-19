@@ -2,8 +2,8 @@
 namespace api\components\ms;
 
 use api\models\Account;
-use api\models\ExternalUser;
 use api\models\forms\user\Register;
+use api\components\ms\mail\Register as RegisterMail;
 use event\models\UserData;
 use mail\components\mailers\MandrillMailer;
 use user\models\User;
@@ -88,7 +88,10 @@ class FormRegister extends Register
                     $this->model->setContactPhone($this->Phone);
                 }
             }
-            $this->onRegistration();
+
+            $mail = new RegisterMail(new MandrillMailer(), $this->model);
+            $mail->send();
+
             $transaction->commit();
             return $this->model;
         } catch (\Exception $e) {
@@ -104,7 +107,9 @@ class FormRegister extends Register
     {
         parent::internalCreateActiveRecord();
         $this->saveUserData();
-        $this->onRegistration();
+
+        $mail = new RegisterMail(new MandrillMailer(), $this->model, $this->Password);
+        $mail->send();
     }
 
     /**
@@ -128,20 +133,4 @@ class FormRegister extends Register
         $manager->Country = $this->Country;
         $data->save();
     }
-
-    /**
-     *
-     */
-    private function onRegistration()
-    {
-        /** @var Account $account */
-        $account = \Yii::app()->getController()->getAccount();
-        $event = new \CModelEvent($this->model, [
-            'password' => $this->Password,
-            'payUrl' => Helper::getPayUrl($account, $this->model)
-        ]);
-        $mail = new MailRegister(new MandrillMailer(), $event);
-        $mail->send();
-    }
-
 }

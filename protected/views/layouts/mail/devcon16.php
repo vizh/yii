@@ -17,18 +17,19 @@
                         <td>
                             <table cellpadding="10" cellspacing="10" border="0" width="100%">
                                 <tr>
-                                    <td style="font-size: 14px;">
+                                    <td style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">
 
-                                        <?= $content; ?>
+                                        <?=$content;?>
 
-                                        <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">
-                                            С уважением,<br/>
-                                            организаторы конференции DevCon 2016<br/>
-                                            _______________________________________<br/>
-                                            <a href="http://www.msdevcon.ru">www.msdevcon.ru</a><br/>
-                                            <br/>
-                                            #msdevcon
+                                        <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">Call-center конференции по организационным вопросам:<br/>
+                                            <a href="mailto:ms@devcon2016.ru">ms@devcon2016.ru</a><br/>+7 (926) 37-37-320
                                         </p>
+
+
+                                        <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">С уважением,<br />
+                                            Организаторы конференции<br />
+                                            <a href="http://www.msdevcon.ru">www.msdevcon.ru</a><br />
+                                            #msdevcon</p>
                                     </td>
                                 </tr>
                             </table>

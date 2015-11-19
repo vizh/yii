@@ -63,4 +63,20 @@ abstract class MailLayout extends Mail
         $layout = $controller->getLayoutFile($controller->layout);
         return $controller->renderFile($layout, ['content' => $controller->renderPartial($view, $params, true)], true);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTo()
+    {
+        return $this->getUser()->Email;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getToName()
+    {
+        return $this->getUser()->getFullName();
+    }
 } 

@@ -105,8 +105,11 @@ return [
   [
     'allow',
     'roles' => ['microsoft'],
-    'controllers' => ['ms', 'pay']
+    'controllers' => ['ms', 'pay', 'user']
   ],
+
+
+
 
   /** Iri **/
   [

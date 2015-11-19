@@ -30,7 +30,7 @@ class CreateUserAction extends Action
             } catch (\Exception $e) {}
 
             $this->setResult([
-                'PayUrl' => Helper::getPayUrl($this->getAccount(), $user)
+                'PayUrl' => 'http://msdevcon16.runet-id.com/fastauth?id=' . $user->RunetId . '&hash=' . $user->getHash()
             ]);
         }
     }

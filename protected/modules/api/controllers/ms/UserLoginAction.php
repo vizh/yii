@@ -3,7 +3,10 @@ namespace api\controllers\ms;
 
 use api\components\Action;
 use api\components\ms\Helper;
+use api\components\ms\mail\AuthCode;
 use api\models\ExternalUser;
+use application\components\utility\Texts;
+use mail\components\mailers\MandrillMailer;
 use user\models\User;
 use api\components\Exception;
 
@@ -23,6 +26,20 @@ class UserLoginAction extends Action
         if (!$user->checkLogin($password)) {
             throw new Exception(201);
         }
-        $this->setResult(['PayUrl' => Helper::getPayUrl($this->getAccount(), $user)]);
+
+        $builder = $this->getDataBuilder();
+        $builder->createUser($user);
+        $builder->buildUserEmployment($user);
+        $data = $builder->buildUserEvent($user);
+        try {
+            $data->PayUrl = Helper::getPayUrl($this->getAccount(), $user);
+        } catch (Exception $e) {}
+
+        $data->AuthCode = Texts::GenerateString(10);
+
+        $mail = new AuthCode(new MandrillMailer(), $user, $data->AuthCode);
+        $mail->send();
+
+        $this->setResult($data);
     }
 }
