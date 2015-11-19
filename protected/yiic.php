@@ -1,18 +1,18 @@
 <?php
-// change the following paths if necessary
-$config = dirname(__FILE__) . '/../config/console.php';
 date_default_timezone_set('Europe/Moscow');
-
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
-require_once(dirname(__FILE__) . '/../vendor/autoload.php');
-require_once(dirname(__FILE__) . '/Yii.php');
-if (isset($config)) {
-    $app = Yii::createConsoleApplication($config);
-    $app->commandRunner->addCommands(YII_PATH . '/cli/commands');
-} else
-    $app = Yii::createConsoleApplication(array('basePath' => dirname(__FILE__) . '/cli'));
+defined('YII_DEBUG') or define('YII_DEBUG', true);
 
-\Yii::setPathOfAlias('webroot', dirname(__FILE__) . '/../www/');
+$dirname = dirname(__FILE__);
+$config = "$dirname/../config/console.php";
+
+require_once "$dirname/../vendor/autoload.php";
+require_once "$dirname/Yii.php";
+
+$app = Yii::createConsoleApplication($config);
+$app->commandRunner->addCommands(YII_PATH . '/cli/commands');
+
+\Yii::setPathOfAlias('webroot', "$dirname/../www/");
 $env = @getenv('YII_CONSOLE_COMMANDS');
 if (!empty($env))
     $app->commandRunner->addCommands($env);

@@ -22,23 +22,23 @@ class Job extends \CActiveRecord
 {
   /**
    * @param string $className
-   * @return Company
+   * @return Job
    */
   public static function model($className=__CLASS__)
-	{    
+	{
 		return parent::model($className);
 	}
-	
+
 	public function tableName()
 	{
 		return 'Job';
 	}
-	
+
 	public function primaryKey()
 	{
 		return 'Id';
 	}
-  
+
   public function relations()
   {
     return array(
@@ -47,7 +47,7 @@ class Job extends \CActiveRecord
       'Position' => array(self::BELONGS_TO, '\job\models\Position', 'PositionId'),
     );
   }
-  
+
   public function byVisible($visible = true, $useAnd = true)
   {
     $criteria = new \CDbCriteria();
@@ -57,7 +57,7 @@ class Job extends \CActiveRecord
   }
 
   /**
-   * 
+   *
    * @param string $companyName
    */
   public function setCompany($companyName)
@@ -71,9 +71,9 @@ class Job extends \CActiveRecord
     }
     $this->CompanyId = $company->Id;
   }
-  
+
   /**
-   * 
+   *
    * @param string $position
    */
   public function setPosition($positionTitle)
@@ -86,5 +86,14 @@ class Job extends \CActiveRecord
       $position->save();
     }
     $this->PositionId = $position->Id;
+  }
+
+  public function byUrl($url, $useAnd = true)
+  {
+    $criteria = new \CDbCriteria();
+    $criteria->condition = '"t"."Url" = :Url';
+    $criteria->params['Url'] = $url;
+    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+    return $this;
   }
 }

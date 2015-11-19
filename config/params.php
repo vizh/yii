@@ -1,6 +1,6 @@
 <?php
 
-return [
+$params = [
     'CookieDomain' => '.' . RUNETID_HOST,
     'PublicTmp' => '/files/tmp',
     'Languages' => array('ru', 'en'),
@@ -49,5 +49,14 @@ return [
 
     /** LittleSms */
     'LittleSmsUser' => 'acc-3c0a9d79',
-    'LittleSmsKey' => 'ZWyFOkv5'
+    'LittleSmsKey' => 'ZWyFOkv5',
+
+    /** Взаимодействие с БудуГуру.org */
+    'BuduGuru.jobsExportUrl' => 'http://buduguru.org/vacancies/export'
 ];
+
+if (YII_DEBUG) {
+    $params['BuduGuru.jobsExportUrl'] = 'http://edu.dev/vacancies/export';
+}
+
+return $params;
