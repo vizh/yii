@@ -22,6 +22,7 @@ $modules = [
     'user',
     'search',
     'job',
+    'buduguru',
     'page',
     'widget',
     'link',

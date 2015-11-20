@@ -1,8 +1,12 @@
 <?php
 /**
  * @var $events \event\models\Event[]
+ * @var $courses \buduguru\models\Course[]
+ * @var $jobs \job\models\Job[]
  * @var $this DefaultController
  */
+use application\components\utility\Texts;
+
 ?>
 
 <div id="promo" class="b-promo">
@@ -137,8 +141,7 @@
             <? foreach ($jobs as $job): ?>
                 <div class="job span3">
                     <div class="details">
-                        <span
-                            class="label label-warning"><?= \Yii::app()->dateFormatter->format('dd MMMM', $job->CreationTime); ?></span>
+                        <span class="label label-warning"><?= Yii::app()->dateFormatter->format('dd MMMM', $job->CreationTime); ?></span>
                         <span class="employer"><?= $job->Company->Name; ?></span>
                         <span class="fade-rtl"></span>
                     </div>
@@ -148,8 +151,8 @@
                         </h4>
                     </header>
                     <article>
-                        <p><?= \application\components\utility\Texts::cropText($job->Text, \Yii::app()->params['JobPreviewLength']); ?></p>
-                        <a target="_blank" href="<?= $job->Url; ?>"><?= \Yii::t('app', 'Ответить на вакансию'); ?></a>
+                        <p><?= Texts::cropText($job->Text, Yii::app()->params['JobPreviewLength']); ?></p>
+                        <a target="_blank" href="<?= $job->Url; ?>"><?= Yii::t('app', 'Ответить на вакансию'); ?></a>
                     </article>
                     <footer class="salary">
                         <?= $this->renderPartial('job.views.default.job-salary', array('job' => $job)); ?>
@@ -157,6 +160,46 @@
                     <div class="category">
                         <a href="<?= $this->createUrl('/job/default/index', array('Filter[CategoryId]' => $job->CategoryId)); ?>"><?= $job->Category->Title; ?></a>
                     </div>
+                </div>
+            <? endforeach; ?>
+        </div>
+    </div>
+</div>
+
+<div class="b-jobs">
+    <div class="container">
+        <h2 class="b-header_large light">
+            <div class="line"></div>
+            <div class="container">
+                <div class="title">
+                    <span class="backing runet">Runet</span>
+                    <span class="backing text">Курсы</span>
+                </div>
+        <span class="backing url">
+          <a href="<?= $this->createUrl('/buduguru/course/list'); ?>">Все курсы</a>
+        </span>
+            </div>
+        </h2>
+        <div class="row units">
+            <?foreach($courses as $course):?>
+                <div class="job span3">
+                    <div class="details">
+                        <?if($course->DateStart):?>
+                            <span class="label label-warning"><?=Yii::app()->dateFormatter->format('dd MMMM', $course->DateStart)?></span>
+                        <?else:?>
+                            <span class="label" style="visibility:hidden"></span>
+                        <?endif?>
+                        <span class="fade-rtl"></span>
+                    </div>
+                    <header>
+                        <h4 class="title">
+                            <a target="_blank" href="<?=$course->Url?>"><?=$course->Name?></a>
+                        </h4>
+                    </header>
+                    <article>
+                        <p><?=$course->Announce?></p>
+                        <a target="_blank" href="<?=$course->Url?>"><?=Yii::t('app', 'Подробнее');?></a>
+                    </article>
                 </div>
             <? endforeach; ?>
         </div>

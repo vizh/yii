@@ -52,11 +52,13 @@ $params = [
     'LittleSmsKey' => 'ZWyFOkv5',
 
     /** Взаимодействие с БудуГуру.org */
-    'BuduGuru.jobsExportUrl' => 'http://buduguru.org/vacancies/export'
+    'BuduGuru.jobsExportUrl' => 'http://buduguru.org/vacancies/export',
+    'BuduGuru.coursesExportUrl' => 'http://buduguru.org/courses/export'
 ];
 
 if (YII_DEBUG) {
     $params['BuduGuru.jobsExportUrl'] = 'http://edu.dev/vacancies/export';
+    $params['BuduGuru.coursesExportUrl'] = 'http://edu.dev/courses/export';
 }
 
 return $params;

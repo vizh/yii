@@ -1,4 +1,7 @@
 <?php
+use buduguru\models\Course;
+use job\models\Job;
+
 class DefaultController extends \application\components\controllers\PublicMainController
 {
     public function actionIndex()
@@ -21,11 +24,11 @@ class DefaultController extends \application\components\controllers\PublicMainCo
         $criteria = new \CDbCriteria();
         $criteria->order = '"t"."Id" DESC';
         $criteria->limit = 4;
-        $jobs = \job\models\Job::model()->findAll($criteria);
 
         $this->render('index', array(
             'events' => $events,
-            'jobs' => $jobs
+            'courses' => Course::model()->findAll($criteria),
+            'jobs' => Job::model()->findAll($criteria)
         ));
     }
 }
