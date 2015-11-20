@@ -4,8 +4,13 @@
 <?elseif (!empty($job->SalaryTo)):?>
   <span><?=\Yii::t('app', 'до');?></span>
   <strong><?=\Yii::app()->locale->numberFormatter->formatDecimal($job->SalaryTo);?></strong>
-<?else:?>
+  <span><?=\Yii::t('app', 'Р');?></span>
+<?elseif (!empty($job->SalaryFrom)):?>
   <span><?=\Yii::t('app', 'от');?></span>
   <strong><?=\Yii::app()->locale->numberFormatter->formatDecimal($job->SalaryFrom);?></strong>
-<?endif;?>
-<span><?=\Yii::t('app', 'Р');?></span>
+  <span><?=\Yii::t('app', 'Р');?></span>
+<?else:?>
+  <span>по результатам</span>
+  <strong>собеседования</strong>
+  <span>&nbsp;</span>
+<?endif?>

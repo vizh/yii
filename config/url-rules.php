@@ -141,6 +141,8 @@ return [
 
     'http://'. RUNETID_HOST.'/job/' => 'job/default/index',
 
+    'http://'. RUNETID_HOST.'/courses/' => 'buduguru/course/list',
+
     'http://'. RUNETID_HOST.'/search/' => 'search/result/index',
     'http://'. RUNETID_HOST.'/contacts/' => 'page/info/contacts',
     'http://'. RUNETID_HOST.'/features/' => 'page/info/features',
