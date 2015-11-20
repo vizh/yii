@@ -12,18 +12,18 @@ class TestController extends CController
         $params = array(
             'ApiKey' => $api,
             'Hash'   => md5($api . $secret),
-            /*'FirstName' => 'DEv',
-            'LastName' => 'TEST',*/
-            'Email' => 'test@devcon111.ru',
-            'Temporary' => false,
-            /*'Company' => 'КОмпания',
-            'Country' => 'Страна',
-            'City' => 'Город',
-            'Phone' => '91212129',
-            'ExternalId' => '4bd4c40e-ee33-46e3-82d7-fa31c43ae51181190'*/
+            'RunetId'=> 321,
+            'FirstName' => 'Коротов',
+            'LastName'  => 'Андрей',
+            'FatherName'=> 'Сергеевич',
+            'Company'   => 'Internet Media Holding',
+            'Position'  => 'Программист 3',
+            'Country'   => 'Россия',
+            'City'      => 'Moscow',
+            'Phone'     => '71112223332',
         );
         print_r($params);
-        $this->apiRequest('/api/ms/createuser', $params);
+        $this->apiRequest('/api/ms/updateuser', $params);
     }
 
     private function apiRequest($url, $params)

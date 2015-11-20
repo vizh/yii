@@ -588,9 +588,10 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
     /**
      * Возращает номер телефона пользователя
+     * @param bool $format
      * @return null|string
      */
-    public function getPhone()
+    public function getPhone($format = true)
     {
         $phone = null;
 
@@ -603,15 +604,17 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             }
         }
 
-        if (!empty($phone)) {
+        if (empty($phone)) {
+            return null;
+        }
+
+        if ($format) {
             try {
                 $utils = PhoneNumberUtil::getInstance();
                 return $utils->format($utils->parse($phone, "RU"), PhoneNumberFormat::NATIONAL);
-            } catch (NumberParseException $e) {
-                return $phone;
-            }
+            } catch (NumberParseException $e) {}
         }
-        return null;
+        return $phone;
     }
 
 

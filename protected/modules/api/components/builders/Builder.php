@@ -2,8 +2,10 @@
 namespace api\components\builders;
 use event\models\section\Favorite;
 use event\models\section\Hall;
+use event\models\UserData;
 use user\models\DocumentType;
 use user\models\Document;
+use user\models\User;
 
 /**
  * Методы делятся на 2 типа:
@@ -30,7 +32,7 @@ class Builder
      * @param \user\models\User $user
      * @return \stdClass
      */
-    public function createUser(\user\models\User $user)
+    public function createUser(User $user)
     {
         $this->user = new \stdClass();
 
@@ -48,8 +50,19 @@ class Builder
         $this->user->Photo->Small  = 'http://' . RUNETID_HOST . $user->getPhoto()->get50px();;
         $this->user->Photo->Medium = 'http://' . RUNETID_HOST . $user->getPhoto()->get90px();
         $this->user->Photo->Large  = 'http://' . RUNETID_HOST . $user->getPhoto()->get200px();
-
         return $this->user;
+    }
+
+    /**
+     * @param User $user
+     * @return \stdClass
+     */
+    public function buildUserData($user)
+    {
+        $attributes = UserData::getDefinedAttributeValues($this->account->Event, $user);
+        if (!empty($attributes)) {
+            $this->user->Attributes = $attributes;
+        }
     }
 
     /**
@@ -59,7 +72,8 @@ class Builder
     public function buildUserContacts(\user\models\User $user)
     {
         $this->user->Email = $user->Email;
-        $this->user->Phone = $user->getPhone();
+        $this->user->Phone = $user->getPhone(false);
+        $this->user->PhoneFormatted = $user->getPhone();
 
         $this->user->Phones = array();
         foreach ($user->LinkPhones as $link) {

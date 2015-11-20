@@ -1,8 +1,7 @@
 <?php
 namespace api\controllers\ms;
 
-use api\components\ms\FormRegister;
-use api\components\ms\Helper;
+use api\components\ms\forms\RegisterUser;
 use event\models\Role;
 use pay\models\Product;
 use api\components\Action;
@@ -17,7 +16,7 @@ class CreateUserAction extends Action
 {
     public function run()
     {
-        $form = new FormRegister($this->getAccount());
+        $form = new RegisterUser($this->getAccount());
         $form->fillFromPost();
         $user = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
         if ($user !== null) {

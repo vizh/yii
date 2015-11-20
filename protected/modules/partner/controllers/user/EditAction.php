@@ -6,15 +6,23 @@ use event\models\Participant;
 use event\models\Role;
 use event\models\UserData;
 use partner\models\forms\user\Edit;
+use partner\models\forms\user\Products;
 use user\models\User;
+use \partner\components\Action;
 
-class EditAction extends \partner\components\Action
+class EditAction extends Action
 {
     /** @var \user\models\User */
     public $user = null;
 
     public function run($id = null)
     {
+
+
+
+
+
+
         /** @var \CHttpRequest $request */
         $request = \Yii::app()->getRequest();
 
@@ -35,10 +43,13 @@ class EditAction extends \partner\components\Action
                 throw new \CHttpException(404);
             }
 
+            $form = new Edit($this->getEvent(), $this->user);
+
             $this->processAjaxAction();
 
             $this->getController()->render('edit/user', [
-                'user'  => $this->user,
+                'user' => $this->user,
+                'form' => $form,
                 'event' => $this->getEvent(),
                 'participants' => $this->prepareParticipants()
             ]);

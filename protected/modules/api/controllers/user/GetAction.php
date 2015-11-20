@@ -21,6 +21,7 @@ class GetAction extends \api\components\Action
             $this->getDataBuilder()->createUser($user);
             $this->getDataBuilder()->buildUserEmployment($user);
             $this->getDataBuilder()->buildUserEvent($user);
+            $this->getDataBuilder()->buildUserData($user);
             $userData = $this->getDataBuilder()->buildUserBadge($user);
 
             if ($this->hasContactsPermission($user, $userData)) {

@@ -31,9 +31,6 @@ class UserLoginAction extends Action
         $builder->createUser($user);
         $builder->buildUserEmployment($user);
         $data = $builder->buildUserEvent($user);
-        try {
-            $data->PayUrl = Helper::getPayUrl($this->getAccount(), $user);
-        } catch (Exception $e) {}
 
         $data->AuthCode = Texts::GenerateString(10);
 

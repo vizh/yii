@@ -1,22 +1,10 @@
 <?php
-namespace api\components\ms\mail;
+namespace pay\components\handlers\order\activate;
 
-use mail\components\Mailer;
-use mail\components\MailLayout;
 use mail\models\Layout;
-use user\models\User;
 
-abstract class Base extends MailLayout
+class Devcon16 extends Base
 {
-    /** @var User */
-    protected $user;
-
-    public function __construct(Mailer $mailer, User $user)
-    {
-        parent::__construct($mailer);
-        $this->user = $user;
-    }
-
     /**
      * @return string
      */
@@ -42,19 +30,19 @@ abstract class Base extends MailLayout
     }
 
     /**
-     * @return User
+     * @inheritdoc
      */
-    public function getUser()
+    protected function getJuridicalViewPath()
     {
-        return $this->user;
+        return $this->getPhysicalViewPath();
     }
 
     /**
-     * @return bool
+     * @inheritdoc
      */
-    public function getIsPriority()
+    protected function getPhysicalViewPath()
     {
-        return true;
+        return 'pay.views.mail.order.activate.devcon16';
     }
 
     /**

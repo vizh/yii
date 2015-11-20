@@ -6,6 +6,7 @@ use mail\components\MailLayout;
 class Base extends MailLayout
 {
     protected $order;
+
     public function __construct($mailer, $order)
     {
         parent::__construct($mailer);
@@ -14,7 +15,7 @@ class Base extends MailLayout
 
     public function getBody()
     {
-        return $this->renderBody('pay.views.mail.orderjuridical.notify.notpaid.base', ['order' => $this->order]);
+        return $this->renderBody($this->getViewPath(), ['order' => $this->order]);
     }
 
     public function getFrom()
@@ -39,7 +40,7 @@ class Base extends MailLayout
 
     public function getSubject()
     {
-        return 'Напоминание об оплате счета №'.$this->order->Id;
+        return 'Напоминание об оплате счета №' . $this->order->Id;
     }
 
     /**
@@ -56,5 +57,13 @@ class Base extends MailLayout
     public function showUnsubscribeLink()
     {
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getViewPath()
+    {
+        return 'pay.views.mail.orderjuridical.notify.notpaid.base';
     }
 }

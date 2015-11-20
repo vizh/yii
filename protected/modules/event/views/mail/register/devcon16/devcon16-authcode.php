@@ -4,7 +4,6 @@
  * @var string $code
  */
 ?>
-<p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">Здравствуйте, <?=$user->getShortName();?>!</p>
 <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">Благодарим Вас за интерес к конференции DevCon 2016!</p>
 
 <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">В целях безоспасности был сгенерирован код подтверждения для входа в ваш личный кабинет.</p>

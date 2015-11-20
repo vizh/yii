@@ -1,18 +1,13 @@
 <?php
-namespace api\components\ms;
+namespace api\components\ms\forms;
 
 use api\models\Account;
-use api\models\forms\user\Register;
-use api\components\ms\mail\Register as RegisterMail;
-use event\models\UserData;
 use mail\components\mailers\MandrillMailer;
 use user\models\User;
+use api\components\ms\mail\Register as RegisterMail;
 
-class FormRegister extends Register
+class RegisterUser extends BaseUser
 {
-    public $Country;
-    public $City;
-
     /**
      * @param Account $account
      */
@@ -27,10 +22,6 @@ class FormRegister extends Register
     public function fillFromPost()
     {
         parent::fillFromPost();
-        $request = \Yii::app()->getRequest();
-        $this->Country = $request->getParam('Country');
-        $this->City = $request->getParam('City');
-
         $user = User::model()->byEmail($this->Email)->byVisible(true)->find();
         if ($user !== null && mb_strtolower($this->LastName) === mb_strtolower($user->LastName) && mb_strtolower($this->FirstName) === mb_strtolower($user->FirstName)) {
             $this->model = $user;
@@ -50,18 +41,6 @@ class FormRegister extends Register
         ];
         return $rules;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function attributeLabels()
-    {
-        return array_merge(parent::attributeLabels(), [
-            'Country' => 'Страна',
-            'City' => 'Город'
-        ]);
-    }
-
 
     /**
      * @throws \application\components\Exception
@@ -118,19 +97,5 @@ class FormRegister extends Register
     protected function isHiddenUser()
     {
         return true;
-    }
-
-    /**
-     *
-     */
-    private function saveUserData()
-    {
-        $data = new UserData();
-        $data->EventId = $this->account->EventId;
-        $data->CreatorId = $data->UserId = $this->model->Id;
-        $manager = $data->getManager();
-        $manager->City = $this->City;
-        $manager->Country = $this->Country;
-        $data->save();
     }
 }

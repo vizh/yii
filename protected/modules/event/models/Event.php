@@ -1013,7 +1013,7 @@ class Event extends ActiveRecord implements ISearch
      */
     public function getUserData(User $user)
     {
-        return UserData::model()->byEventId($this->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"'])->byDeleted(false)->findAll();
+        return UserData::model()->byEventId($this->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"' => SORT_DESC])->byDeleted(false)->findAll();
     }
 
     /**

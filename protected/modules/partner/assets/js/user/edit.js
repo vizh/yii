@@ -1,3 +1,21 @@
+var PartnerApp = angular.module('PartnerApp', ['ngSanitize']);
+var CPartnerUserEdit = function (options) {
+    this.pariticipants = options.participants;
+    this.init();
+}
+
+CPartnerUserEdit.prototype = {
+    'init' : function () {
+        var self = this;
+        PartnerApp.controller('PartnerUserEdit', function($scope, $http) {
+            $scope.participants = self.pariticipants;
+        });
+    }
+}
+
+
+
+/*
 var userEditObj = null;
 $(function(){
     userEditObj = new UserEdit();
@@ -125,4 +143,4 @@ UserEdit.prototype = {
             });
         });
     }
-};
+};*/

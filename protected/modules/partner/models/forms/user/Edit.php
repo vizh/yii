@@ -1,38 +1,41 @@
 <?php
 namespace partner\models\forms\user;
 
+use application\components\form\EventItemCreateUpdateForm;
+use application\components\helpers\ArrayHelper;
+use event\models\Event;
+use event\models\Participant;
 use user\models\User;
 
-class Edit extends \CFormModel
+class Edit extends EventItemCreateUpdateForm
 {
-    public $Label;
+    /** @var User */
+    private $user;
 
     /**
-     * @inheritdoc
+     * @param Event $event
+     * @param User $user
      */
-    public function attributeLabels()
+    public function __construct(Event $event, User $user)
     {
-        return [
-            'Label' => 'ФИО, RUNET-ID или Email участника'
-        ];
+        $this->user = $user;
+        parent::__construct($event);
     }
 
-    public function rules()
+    /**
+     * @return string
+     */
+    public function getParticipantsJson()
     {
-        return [
-            ['Label', 'validateLabel']
-        ];
-    }
-
-    public function validateLabel($attribute)
-    {
-        if (is_numeric($this->Label)) {
-            $exists = User::model()->byRunetId($this->Label)->exists();
-            if (!$exists) {
-                $this->addError($attribute, 'Пользователь с таким RUNET-ID не найден.');
-            }
-        } else {
-            $this->addError($attribute, 'Введите ФИО, RUNET-ID или Email участника и выберите его из списка для продолжения.');
-        }
+        $event = $this->event;
+        $participants = Participant::model()->byEventId($event->Id)->byUserId($this->user->Id)->orderBy(['"t"."PartId"'])->findAll();
+        return json_encode(
+            ArrayHelper::toArray($participants, ['event\models\Participant' => ['Part' => function (Participant $participant) use ($event) {
+                if (!empty($event->Parts)) {
+                    return $participant->Part->Title;
+                }
+                return null;
+            }, 'RoleId']]), JSON_UNESCAPED_UNICODE
+        );
     }
 }

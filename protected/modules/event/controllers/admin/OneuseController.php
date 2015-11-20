@@ -4,6 +4,14 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
+    public function actionMstest()
+    {
+        $user = \user\models\User::model()->byRunetId(321)->find();
+
+        $mail = new \api\components\ms\mail\Register(new \mail\components\mailers\MandrillMailer(), $user);
+        $mail->send();
+    }
+
     public function actionExportUserDataFiles()
     {
         $event = \event\models\Event::model()->findByPk(1995);
