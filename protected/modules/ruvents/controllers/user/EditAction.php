@@ -228,7 +228,7 @@ class EditAction extends Action
 
         $oldAttributes = $manager->getAttributes();
 
-        $data = json_decode(\Yii::app()->getRequest()->getParam('Attributes', '[]'), true);
+        $data = \Yii::app()->getRequest()->getParam('Attributes', []);
         $hasChanges = false;
         try {
             foreach ($data as $key => $value) {

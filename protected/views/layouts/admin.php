@@ -13,7 +13,7 @@
 <?$this->widget('application\widgets\admin\Navbar');?>
 <?$this->widget('application\widgets\admin\Sidebar');?>
 
-<div class="content">
+<div class="content" ng-app="AdminApp">
 
   <div class="header">
     <h1 class="page-title"><?=$this->pageTitle;?></h1>

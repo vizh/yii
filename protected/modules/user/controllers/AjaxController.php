@@ -7,6 +7,7 @@ use application\components\controllers\PublicMainController;
 use application\components\controllers\AjaxController as TraitAjaxController;
 use user\components\handlers\Verify;
 use mail\components\mailers\MandrillMailer;
+use application\components\helpers\ArrayHelper;
 
 class AjaxController extends PublicMainController
 {
@@ -31,25 +32,25 @@ class AjaxController extends PublicMainController
         }
     }
 
+    /**
+     * @param $term
+     * @param null $eventId
+     */
     public function actionSearch($term, $eventId = null)
     {
         $results = array();
         $criteria = new \CDbCriteria();
         $criteria->limit = 10;
         $criteria->with = ['Employments.Company'];
-        $model = \user\models\User::model();
-        if ($eventId !== null)
-        {
+        $model = User::model();
+        if ($eventId !== null) {
             $model->bySearch($term, null, true, false)->byEventId($eventId);
-        }
-        else
-        {
+        } else {
             $model->bySearch($term);
         }
         /** @var $users \user\models\User[] */
         $users = $model->findAll($criteria);
-        foreach ($users as $user)
-        {
+        foreach ($users as $user) {
             $results[] = $this->getUserData($user);
         }
         echo json_encode($results);
@@ -133,20 +134,29 @@ class AjaxController extends PublicMainController
      */
     private function getUserData($user)
     {
-        $data = new \stdClass();
-        $data->RunetId = $data->value = $user->RunetId;
-        $data->LastName = $user->LastName;
-        $data->FirstName = $user->FirstName;
-        $data->FullName = $data->label = $user->getFullName();
-        $data->Photo = new \stdClass();
-        $data->Photo->Small = $user->getPhoto()->get50px();
-        $data->Photo->Medium = $user->getPhoto()->get90px();
-        $data->Photo->Large = $user->getPhoto()->get200px();
+        $data = ArrayHelper::toArray($user, ['user\models\User' => [
+            'Id',
+            'RunetId',
+            'LastName',
+            'FirstName',
+            'FullName' => function (User $user) {
+                return $user->getFullName();
+            },
+            'Photo' => function (User $user) {
+                $photo = new \stdClass();
+                $photo->Small  = $user->getPhoto()->get50px();
+                $photo->Medium = $user->getPhoto()->get90px();
+                $photo->Large  = $user->getPhoto()->get200px();
+                return $photo;
+            }
+        ]]);
+        $data['label'] = (string) $user;
+        $data['value'] = $data['RunetId'];
 
-        if (($employment = $user->getEmploymentPrimary()) !== null) {
-            $data->Company = $employment->Company->Name;
-            $data->Position = trim($employment->Position);
-            $data->label .= ' (' . $employment . ')';
+        $employment = $user->getEmploymentPrimary();
+        if (!empty($employment)) {
+            $data['Company'] = $employment->Company->Name;
+            $data['Position'] = trim($employment->Position);
         }
         return $data;
     }

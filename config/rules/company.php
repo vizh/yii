@@ -1,23 +1,23 @@
 <?php
-return array(
-  array(
-    'deny',
-    'users' => array('?'),
-    'module' => 'company',
-    'controllers' => array('edit')
-  ),
-  array(
-    'allow',
-    'users' => array('*'),
-    'module' => 'company',
-    'controllers' => array('ajax','list','view', 'edit')
-  ),
-    
-  /** Admin Rules */
-  array(
-    'allow',
-    'roles' => array('admin'),
-    'module' => 'company',
-    'controllers' => array('admin/moderator', 'admin/merge')
-  ),
-);
+return [
+    [
+        'deny',
+        'users' => ['?'],
+        'module' => 'company',
+        'controllers' => ['edit']
+    ],
+    [
+        'allow',
+        'users' => ['*'],
+        'module' => 'company',
+        'controllers' => ['ajax', 'list', 'view', 'edit']
+    ],
+
+    /** Admin Rules */
+    [
+        'allow',
+        'roles' => ['admin'],
+        'module' => 'company',
+        'controllers' => ['admin/moderator', 'admin/merge', 'admin/main']
+    ],
+];

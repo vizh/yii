@@ -69,6 +69,16 @@ class ActiveRecord extends \CActiveRecord
     }
 
     /**
+     * Находит одну запись по PrimaryKey
+     * @param $pk
+     * @return array|\CActiveRecord|mixed|null
+     */
+    public static function findOne($pk)
+    {
+        return static::model()->findByPk($pk);
+    }
+
+    /**
      * @inheritdoc
      */
     public function delete()

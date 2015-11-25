@@ -3,12 +3,12 @@ namespace application\components\controllers;
 
 class AdminMainController extends MainController
 {
-  public $layout = '//layouts/admin';
+    public $layout = '//layouts/admin';
 
-  protected function initResources()
-  {
-    \Yii::app()->getClientScript()->registerPackage('runetid.admin');
-    parent::initResources();
-  }
+    protected function initResources()
+    {
+        \Yii::app()->getClientScript()->registerPackage('runetid.admin');
+        parent::initResources();
+    }
 
 }

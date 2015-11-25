@@ -1,5 +1,6 @@
 <?php
 namespace company\models;
+use application\components\ActiveRecord;
 
 /**
  * @property int $Id
@@ -8,7 +9,7 @@ namespace company\models;
  *
  * @property \user\models\User $User
  */
-class LinkModerator extends \CActiveRecord
+class LinkModerator extends ActiveRecord
 {
   /**
    * @param string $className

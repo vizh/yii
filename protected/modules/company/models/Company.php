@@ -1,5 +1,6 @@
 <?php
 namespace company\models;
+use raec\models\CompanyUser;
 
 
 /**
@@ -23,6 +24,8 @@ namespace company\models;
  * @property \user\models\Employment[] $Employments
  * @property \user\models\Employment[] $EmploymentsAll
  * @property \user\models\Employment[] $EmploymentsAllWithInvisible
+ *
+ * @property CompanyUser[] $RaecUsers;
  *
  *
  * @method \company\models\Company find()
@@ -52,7 +55,7 @@ class Company extends \application\models\translation\ActiveRecord implements \s
 
     public function relations()
     {
-        return array(
+        return [
             'LinkEmails' => array(self::HAS_MANY, '\company\models\LinkEmail', 'CompanyId'),
             'LinkAddress' => array(self::HAS_ONE, '\company\models\LinkAddress', 'CompanyId'),
             'LinkSite' => array(self::HAS_ONE, '\company\models\LinkSite', 'CompanyId'),
@@ -63,7 +66,9 @@ class Company extends \application\models\translation\ActiveRecord implements \s
             'Employments' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'condition' => '"Employments"."EndYear" IS NULL AND "User"."Visible"', 'with' => ['User']],
             'EmploymentsAll' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'with' => ['User'], 'condition' => '"User"."Visible"'],
             'EmploymentsAllWithInvisible' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId'],
-        );
+
+            'RaecUsers' => [self::HAS_MANY, '\raec\models\CompanyUser', 'CompanyId']
+        ];
     }
 
     public function byName($name, $useAnd = true)

@@ -983,4 +983,17 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     {
         return self::model()->byVerified(true)->byVisible(true)->count();
     }
+
+    /**
+     * @inheritdoc
+     */
+    function __toString()
+    {
+        $string = $this->getFullName();
+        $employment = $this->getEmploymentPrimary();
+        if ($employment !== null) {
+            $string .= ' (' . $employment . ')';
+        }
+        return $string;
+    }
 }
