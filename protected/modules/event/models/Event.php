@@ -5,6 +5,8 @@ use api\components\callback\Base;
 use application\components\Exception;
 use application\components\Image;
 use application\components\socials\facebook\Event as SocialEvent;
+use application\models\attribute\Definition;
+use application\models\attribute\Group;
 use application\models\translation\ActiveRecord;
 use contact\models\Site;
 use mail\components\mailers\MandrillMailer;
@@ -1069,5 +1071,32 @@ class Event extends ActiveRecord implements ISearch
             }
         }
         return new Image($this, null, 'header-banner', IMG_PNG);
+    }
+
+    /**
+     * Возращает дополнительные атрибуты пользователя для мероприятия
+     * @return \application\components\attribute\Definition[]
+     */
+    public function getAttributeDefinitions()
+    {
+        $definitions = [];
+        $userDataModels = UserData::model()->byEventId($this->Id)->findAll();
+        foreach ($userDataModels as $model) {
+            $manager = $model->getManager();
+            foreach ($manager->getDefinitions() as $definition) {
+                if (!isset($definitions[$definition->name])) {
+                    $definitions[$definition->name] = $definition;
+                }
+            }
+        }
+        return $definitions;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAttributeDefinitions()
+    {
+        return Definition::model()->byModelName('EventUserData')->byModelId($this->Id)->exists();
     }
 }

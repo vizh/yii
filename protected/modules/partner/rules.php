@@ -61,14 +61,13 @@ return array(
         'controllers' => ['coupon'],
         'actions' => ['statistics']
     ],
-    array(
+    [
         'allow',
-        'roles' => array('PartnerLimited'),
+        'roles' => ['PartnerLimited'],
         'module' => 'partner',
-        'controllers' => array('user'),
-        'actions' => array('index', 'edit', 'translate', 'invite', 'competence', 'viewdatafile')
-    ),
-
+        'controllers' => ['user'],
+        'actions' => ['index', 'edit', 'translate', 'invite', 'competence', 'viewdatafile', 'data']
+    ],
     [
         'allow',
         'roles' => ['PartnerVerified'],

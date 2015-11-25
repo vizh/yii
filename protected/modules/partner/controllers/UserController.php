@@ -24,7 +24,8 @@ class UserController extends Controller
             'importproducts' => '\partner\controllers\user\import\ProductsAction',
             'importprocess' => '\partner\controllers\user\import\ProcessAction',
             'importerrors' => '\partner\controllers\user\import\ErrorsAction',
-            'competence' => '\partner\controllers\user\CompetenceAction'
+            'competence' => '\partner\controllers\user\CompetenceAction',
+            'data' => '\partner\controllers\user\DataAction'
         ];
     }
 }

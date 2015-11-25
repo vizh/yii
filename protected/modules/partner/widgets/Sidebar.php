@@ -101,6 +101,7 @@ class Sidebar extends \CWidget
                 ['label' => 'Импорт участников', 'url' => ['user/import']],
                 ['label' => 'Приглашения', 'url' => ['user/invite'], 'visible' => InviteRequest::model()->byEventId($event->Id)->exists()],
                 ['label' => 'Опрос участников', 'url' => ['user/competence'], 'visible' => Test::model()->byEventId($event->Id)->exists()],
+                ['label' => 'Атрибуты пользователей', 'url' => ['user/data'], 'visible' => $event->hasAttributeDefinitions()],
             ]],
             ['label' => 'Промо-коды', 'icon' => 'ticket', 'url' => ['coupon/index'], 'items' => [
                 ['label' => 'Промо-коды', 'url' => ['coupon/index']],
