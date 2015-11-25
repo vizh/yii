@@ -1,5 +1,5 @@
 <?php
 
-class BuduGuruModule extends \CWebModule
+class BuduguruModule extends \CWebModule
 {
 }
