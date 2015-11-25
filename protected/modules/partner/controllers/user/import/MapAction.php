@@ -1,5 +1,7 @@
 <?php
 namespace partner\controllers\user\import;
+use application\components\utility\Texts;
+
 \Yii::import('ext.PHPExcel.PHPExcel', true);
 
 class MapAction extends \partner\components\Action
@@ -35,10 +37,10 @@ class MapAction extends \partner\components\Action
                 $data = [];
                 foreach ($columns as $column) {
                     $field = $form->$column;
-                    $value = trim($worksheet->getCell($column.$i)->getValue());
-                    if (!empty($field) && !empty($value)) {
+                    $value = Texts::clear($worksheet->getCell($column.$i)->getValue());
+                    if (!empty($field)) {
                         if ($importUser->hasAttribute($field)) {
-                            $importUser->$field = $value;
+                            $importUser->$field = !empty($value) ? $value : null;
                         } else {
                             $data[$field] = $value;
                         }

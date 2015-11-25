@@ -17,6 +17,9 @@ use user\models\User;
  * @property string $LastName
  * @property string $FirstName
  * @property string $FatherName
+ * @property string $LastName_en;
+ * @property string $FirstName_en;
+ * @property string $FatherName_en;
  * @property string $Email
  * @property string $Phone
  * @property string $Company
@@ -195,6 +198,17 @@ class ImportUser extends \CActiveRecord
             $user->FatherName = $this->FatherName;
             $user->Email = strtolower($this->Email);
             $user->register($import->Notify);
+
+            $user->setLocale('en');
+            foreach (['FirstName', 'LastName', 'FatherName'] as $attribute) {
+                $value = $this->{$attribute.'_en'};
+                if (!empty($value)) {
+                    $user->$attribute = $value;
+                }
+                $user->save();
+            }
+            $user->resetLocale();
+
 
             $user->Visible = $import->Visible;
             $user->save();
