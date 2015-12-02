@@ -1,9 +1,12 @@
 <?php
 namespace contact\models\forms;
 
-class Address extends \CFormModel
+use application\components\form\CreateUpdateForm;
+use contact\models\Address as AddressModel;
+
+class Address extends CreateUpdateForm
 {
-    const ScenarioRequired = 'reqired';
+    const ScenarioRequired = 'required';
 
     public $CountryId;
     public $RegionId;
@@ -20,27 +23,28 @@ class Address extends \CFormModel
     public function rules()
     {
         return [
-            ['Street,House,Building,Wing,Place', 'filter', 'filter' => [new \application\components\utility\Texts(), 'filterPurify']],
+            ['Street,House,Building,Wing,Place', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
             ['Street,House,Building,Wing,Place', 'safe'],
             ['CountryId', 'exist', 'className' => '\geo\models\Country', 'attributeName' => 'Id', 'allowEmpty' => true],
             ['CityId', 'exist', 'className' => '\geo\models\City', 'attributeName' => 'Id', 'allowEmpty' => true],
             ['RegionId', 'exist', 'className' => '\geo\models\Region', 'attributeName' => 'Id', 'allowEmpty' => true],
-            ['CityLabel', 'filter', 'filter' => [$this, 'filterCityLabel']],
+            ['CityLabel', 'validateCityLabel'],
         ];
     }
 
-    public function filterCityLabel($value)
+    /**
+     * @param string $attribute
+     * @return mixed
+     */
+    public function validateCityLabel($attribute)
     {
-        if ((!empty($value) || $this->getScenario() == self::ScenarioRequired) && (empty($this->CityId) && empty($this->CountryId)))
-        {
+        $value = $this->$attribute;
+        if ((!empty($value) || $this->getScenario() == self::ScenarioRequired) && (empty($this->CityId) && empty($this->CountryId))) {
             $this->addError('CityLabel', \Yii::t('app', 'Выберите город из выпадающего списка. Если вашего города нет, укажите свой регион.'));
         }
-
-        if (empty($value))
-        {
+        if (empty($value)) {
             $this->CityId = $this->RegionId = $this->CountryId = null;
         }
-
         return $value;
     }
 
@@ -56,13 +60,39 @@ class Address extends \CFormModel
         );
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function createActiveRecord()
+    {
+        $this->model = new AddressModel();
+        return $this->updateActiveRecord();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function updateActiveRecord()
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+
+        $this->fillActiveRecord();
+        $this->model->save();
+        return $this->model;
+    }
+
+
+    /**
+     * @deprecated
+     * @return bool
+     */
     public function getIsEmpty()
     {
         $isEmpty = true;
-        foreach (array_keys($this->attributes) as $attr)
-        {
-            if (!empty($this->$attr))
-            {
+        foreach (array_keys($this->attributes) as $attr) {
+            if (!empty($this->$attr)) {
                 $isEmpty = false;
                 break;
             }

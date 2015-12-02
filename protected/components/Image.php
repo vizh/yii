@@ -10,7 +10,7 @@ class Image
     private $model;
     private $folder;
     private $saveExtension;
-    private $defaultImagePathname;
+    private $defaultImagePathname = null;
 
     /**
      * @param \CActiveRecord $model
@@ -21,8 +21,13 @@ class Image
     function __construct(\CActiveRecord $model, $defaultImagePathname = null, $folder = null, $saveExtension = IMG_JPG)
     {
         $this->model = $model;
-        $this->defaultImagePathname = $defaultImagePathname;
         $this->folder = $folder;
+        if ($defaultImagePathname !== null) {
+            if (strpos($defaultImagePathname, DIRECTORY_SEPARATOR) === false) {
+                $defaultImagePathname = $this->getBasePath() . '../../' . $defaultImagePathname;
+            }
+            $this->defaultImagePathname = $defaultImagePathname;
+        }
         $this->saveExtension = $saveExtension;
     }
 

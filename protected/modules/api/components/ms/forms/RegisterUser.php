@@ -36,7 +36,8 @@ class RegisterUser extends BaseUser
     public function rules()
     {
         $rules = [
-            ['FirstName,LastName,FatherName,Email,Company,Position,Country,City,Phone', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['Phone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
+            ['FirstName,LastName,FatherName,Email,Company,Position,Country,City', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
             ['FirstName,LastName,FatherName,Email,Company,Position,Country,City,Phone,ExternalId,Password', 'safe'],
         ];
         return $rules;

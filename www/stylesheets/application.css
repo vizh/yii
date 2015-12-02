@@ -2656,6 +2656,9 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
 #footer .development {font-size: 11px;}
 #footer .development a {color: #666;}
 
+#footer .hotline {
+  margin-left: 155px;
+}
 
 /* CONTENT STYLES */
 .content {margin-bottom: -20px;}

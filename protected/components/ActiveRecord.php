@@ -3,7 +3,17 @@ namespace application\components;
 
 class ActiveRecord extends \CActiveRecord
 {
+    /**
+     * Не использовать физическое удаление записей, а проставлять Delete = true
+     * @var bool
+     */
     protected $useSoftDelete = false;
+
+    /**
+     * Параметры сортировки по умолчанию
+     * @var array
+     */
+    protected $defaultOrderBy = ['"t"."Id"' => SORT_ASC];
 
     public function __call($name, $parameters)
     {
@@ -58,6 +68,16 @@ class ActiveRecord extends \CActiveRecord
     }
 
     /**
+     * Отсортировать записи, используя сортировку по умолчанию
+     * @see [$this->defaultOrderBy]
+     * @return ActiveRecord
+     */
+    public function ordered()
+    {
+        return $this->orderBy($this->defaultOrderBy);
+    }
+
+    /**
      * Устанавливает лимит записей
      * @param int $limit
      * @return $this
@@ -91,5 +111,17 @@ class ActiveRecord extends \CActiveRecord
         } else {
             return parent::delete();
         }
+    }
+
+    /**
+     * Создает новую модель
+     * @param array $attributes
+     * @return mixed
+     */
+    public static function insertOne($attributes = [])
+    {
+        $model = new static();
+        $model->setAttributes($attributes, false);
+        return $model->save();
     }
 }

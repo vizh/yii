@@ -1,6 +1,6 @@
 <?php
 namespace event\models\section;
-use application\components\ActiveRecord;
+use application\models\translation\ActiveRecord;
 
 /**
  * @property int $Id
@@ -99,5 +99,15 @@ class LinkUser extends ActiveRecord
     {
         $this->UpdateTime = date('Y-m-d H:i:s');
         return parent::beforeSave();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTranslationFields()
+    {
+        return [
+            'CustomText'
+        ];
     }
 }

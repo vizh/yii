@@ -1,5 +1,8 @@
 <?php
 namespace commission\models;
+
+use application\components\ActiveRecord;
+
 /**
  * @property int $Id
  * @property string $Title
@@ -12,38 +15,46 @@ namespace commission\models;
  * @property Project[] $Projects
  * @property User[] $UsersActive
  */
-class Commission extends \CActiveRecord
+class Commission extends ActiveRecord
 {
-  public static function model($className=__CLASS__)
-	{    
-		return parent::model($className);
-	}
-	
-	public function tableName()
-	{
-		return 'Commission';
-	}
-	
-	public function primaryKey()
-	{
-		return 'Id';
-	}
+    /**
+     * @inheritDoc
+     */
+    protected $defaultOrderBy = ['"t"."Title"' => SORT_ASC];
 
-  public function relations()
-  {
-    return array(
-      'Users' => array(self::HAS_MANY, 'commission\models\User', 'CommissionId'),
-      'UsersActive' => array(self::HAS_MANY, 'commission\models\User', 'CommissionId', 'on' => '"UsersActive"."ExitTime" IS NULL OR "UsersActive"."ExitTime" > NOW()'),
-      'Projects' => array(self::HAS_MANY, 'commission\models\Project', 'CommissionId'),
-    );
-  }
-  
-  public function __toString() 
-  {
-    if (!empty($this->Url))
+    /**
+     * @param string $className
+     * @return Commission
+     */
+    public static function model($className = __CLASS__)
     {
-      return '<a href="'.$this->Url.'" title="'.$this->Title.'" target="_blank">'.$this->Title.'</a>';
+        return parent::model($className);
     }
-    return $this->Title;
-  }
+
+    public function tableName()
+    {
+        return 'Commission';
+    }
+
+    public function primaryKey()
+    {
+        return 'Id';
+    }
+
+    public function relations()
+    {
+        return array(
+            'Users' => array(self::HAS_MANY, 'commission\models\User', 'CommissionId'),
+            'UsersActive' => array(self::HAS_MANY, 'commission\models\User', 'CommissionId', 'on' => '"UsersActive"."ExitTime" IS NULL OR "UsersActive"."ExitTime" > NOW()'),
+            'Projects' => array(self::HAS_MANY, 'commission\models\Project', 'CommissionId'),
+        );
+    }
+
+    public function __toString()
+    {
+        if (!empty($this->Url)) {
+            return '<a href="' . $this->Url . '" title="' . $this->Title . '" target="_blank">' . $this->Title . '</a>';
+        }
+        return $this->Title;
+    }
 }

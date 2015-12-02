@@ -1,6 +1,14 @@
 <?php
 namespace company\models;
+use application\components\Image;
+use application\models\ProfessionalInterest;
+use application\models\translation\ActiveRecord;
+use application\widgets\IAutocompleteItem;
+use commission\models\Commission;
+use contact\models\Email;
+use contact\models\Site;
 use raec\models\CompanyUser;
+use search\components\interfaces\ISearch;
 
 
 /**
@@ -15,25 +23,32 @@ use raec\models\CompanyUser;
  * @property string $UpdateTime
  *
  *
+ * @property \company\models\LinkEmail $LinkEmail
  * @property \company\models\LinkEmail[] $LinkEmails
  * @property \company\models\LinkAddress $LinkAddress
  * @property \company\models\LinkPhone[] $LinkPhones
  * @property \company\models\LinkSite $LinkSite
  * @property \company\models\LinkModerator[] $LinkModerators
+ * @property LinkCommission[] $LinkRaecClusters
+ * @property CompanyUser[] $RaecUsers
+ * @property Commission[] $RaecClusters
+ * @property LinkProfessionalInterest[] $LinkProfessionalInterests
+ * @property ProfessionalInterest[] $ProfessionalInterests
+ * @property ProfessionalInterest $PrimaryProfessionalInterest
  *
  * @property \user\models\Employment[] $Employments
  * @property \user\models\Employment[] $EmploymentsAll
  * @property \user\models\Employment[] $EmploymentsAllWithInvisible
- *
- * @property CompanyUser[] $RaecUsers;
  *
  *
  * @method \company\models\Company find()
  * @method \company\models\Company findByPk()
  * @method \company\models\Company[] findAll()
  */
-class Company extends \application\models\translation\ActiveRecord implements \search\components\interfaces\ISearch, \application\widgets\IAutocompleteItem
+class Company extends ActiveRecord implements ISearch, IAutocompleteItem
 {
+
+
     /**
      * @param string $className
      * @return Company
@@ -56,18 +71,24 @@ class Company extends \application\models\translation\ActiveRecord implements \s
     public function relations()
     {
         return [
+            'LinkEmail' => array(self::HAS_ONE, '\company\models\LinkEmail', 'CompanyId'),
             'LinkEmails' => array(self::HAS_MANY, '\company\models\LinkEmail', 'CompanyId'),
             'LinkAddress' => array(self::HAS_ONE, '\company\models\LinkAddress', 'CompanyId'),
             'LinkSite' => array(self::HAS_ONE, '\company\models\LinkSite', 'CompanyId'),
             'LinkPhones' => array(self::HAS_MANY, '\company\models\LinkPhone', 'CompanyId'),
             'LinkModerators' => array(self::HAS_MANY, '\company\models\LinkModerator', 'CompanyId'),
+            'LinkRaecClusters' => [self::HAS_MANY, LinkCommission::class, 'CompanyId'],
+            'LinkProfessionalInterests' => [self::HAS_MANY, LinkProfessionalInterest::class, 'CompanyId'],
 
             //Сотрудники
             'Employments' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'condition' => '"Employments"."EndYear" IS NULL AND "User"."Visible"', 'with' => ['User']],
             'EmploymentsAll' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'with' => ['User'], 'condition' => '"User"."Visible"'],
             'EmploymentsAllWithInvisible' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId'],
 
-            'RaecUsers' => [self::HAS_MANY, '\raec\models\CompanyUser', 'CompanyId']
+            'RaecUsers' => [self::HAS_MANY, '\raec\models\CompanyUser', 'CompanyId'],
+            'RaecClusters' => [self::HAS_MANY, Commission::class, ['CommissionId' => 'Id'], 'through' => 'LinkRaecClusters'],
+            'ProfessionalInterests' => [self::HAS_MANY, ProfessionalInterest::class, ['ProfessionalInterestId' => 'Id'], 'through' => 'LinkProfessionalInterests', 'condition' => 'NOT "LinkProfessionalInterests"."Primary"'],
+            'PrimaryProfessionalInterest' => [self::HAS_ONE, ProfessionalInterest::class, ['ProfessionalInterestId' => 'Id'], 'through' => 'LinkProfessionalInterests', 'condition' => '"LinkProfessionalInterests"."Primary"']
         ];
     }
 
@@ -103,15 +124,11 @@ class Company extends \application\models\translation\ActiveRecord implements \s
     private $logo = null;
 
     /**
-     * @return Logo
+     * @return Image
      */
     public function getLogo()
     {
-        if ($this->logo === null)
-        {
-            $this->logo = new Logo($this);
-        }
-        return $this->logo;
+        return new Image($this, 'none.png', 'logo', IMG_PNG);
     }
 
     /**
@@ -160,6 +177,24 @@ class Company extends \application\models\translation\ActiveRecord implements \s
     }
 
     /**
+     *
+     * @param \contact\models\Phone $phone
+     */
+    public function setContactPhone($phone)
+    {
+        foreach ($this->LinkPhones as $link) {
+            if ($link->PhoneId == $phone->Id) {
+                return;
+            }
+        }
+
+        $link = new LinkPhone();
+        $link->CompanyId = $this->Id;
+        $link->PhoneId = $phone->Id;
+        $link->save();
+    }
+
+    /**
      * Добавляет адресс сайта
      * @param string $url
      * @param bool $secure
@@ -167,26 +202,60 @@ class Company extends \application\models\translation\ActiveRecord implements \s
      */
     public function setContactSite($url, $secure = false)
     {
-        $contactSite = $this->getContactSite();
-        if (empty($contactSite))
-        {
-            $contactSite = new \contact\models\Site();
-            $contactSite->Url = $url;
-            $contactSite->Secure = $secure;
-            $contactSite->save();
+        $site = $this->getContactSite();
+        if ($site === null) {
+            $site = new Site();
+        }
 
-            $linkSite = new LinkSite();
-            $linkSite->CompanyId = $this->Id;
-            $linkSite->SiteId = $contactSite->Id;
-            $linkSite->save();
+        $site->Url = parse_url($url, PHP_URL_HOST) ?: $url;
+        $site->Secure = parse_url($url, PHP_URL_SCHEME) === 'https';
+        $site->save();
+
+        $link = $this->LinkSite;
+        if (empty($link)) {
+            $link = new LinkSite();
+            $link->CompanyId = $this->Id;
         }
-        elseif ($contactSite->Url != $url || $contactSite->Secure != $secure)
-        {
-            $contactSite->Url = $url;
-            $contactSite->Secure = $secure;
-            $contactSite->save();
+
+        $link->SiteId = $site->Id;
+        $link->save();
+
+        return $site;
+    }
+
+    /**
+     * Сохраняет контактный адрес электронной почты
+     * @param string $email
+     * @return Email
+     */
+    public function setContactEmail($email)
+    {
+        $model = $this->getContactEmail();
+        if ($model === null) {
+            $model = new Email();
         }
-        return $contactSite;
+
+        $model->Email = $email;
+        $model->save();
+
+        $link = $this->LinkEmail;
+        if (empty($link)) {
+            $link = new LinkEmail();
+            $link->CompanyId = $this->Id;
+        }
+
+        $link->EmailId = $model->Id;
+        $link->save();
+
+        return $model;
+    }
+
+    /**
+     * @return Email|null
+     */
+    public function getContactEmail()
+    {
+        return !empty($this->LinkEmail) ? $this->LinkEmail->Email : null;
     }
 
     /**

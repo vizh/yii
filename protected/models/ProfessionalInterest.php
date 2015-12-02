@@ -1,5 +1,6 @@
 <?php
 namespace application\models;
+use application\components\ActiveRecord;
 
 /**
  * @property int $Id
@@ -10,36 +11,41 @@ namespace application\models;
  *
  * @method ProfessionalInterest findByPk()
  */
-class ProfessionalInterest extends \CActiveRecord
+class ProfessionalInterest extends ActiveRecord
 {
-  /**
-   * @param string $className
-   * @return ProfessionalInterest
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @inheritDoc
+     */
+    protected $defaultOrderBy = ['"t"."Title"' => SORT_ASC];
 
-  public function tableName()
-  {
-    return 'ProfessionalInterest';
-  }
+    /**
+     * @param string $className
+     * @return ProfessionalInterest
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
+    public function tableName()
+    {
+        return 'ProfessionalInterest';
+    }
 
-  public function relations()
-  {
-    return array();
-  }
-  
-  public function getOrderedList()
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->order = '"t"."Title" ASC';
-    return $this->findAll($criteria);
-  }
+    public function primaryKey()
+    {
+        return 'Id';
+    }
+
+    public function relations()
+    {
+        return array();
+    }
+
+    public function getOrderedList()
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->order = '"t"."Title" ASC';
+        return $this->findAll($criteria);
+    }
 }

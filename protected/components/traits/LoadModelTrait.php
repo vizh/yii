@@ -8,16 +8,20 @@ trait LoadModelTrait
      * Загружает модель
      * @param string $class Имя класса модели
      * @param mixed $key Уникальный ключ для поиска: ID записи
+     * @param bool $throwException
      * @return \CActiveRecord
      * @throws Exception
      * @throws \CHttpException
      */
-    public function loadModel($class, $key)
+    public function loadModel($class, $key, $throwException = true)
     {
         /** @var ActiveRecord $class */
         if (method_exists($class, 'model')) {
-            $model = $class::model()->findByPk($key);
-            if (empty($model)) {
+            $model = null;
+            if (!empty($key)) {
+                $model = $class::model()->findByPk($key);
+            }
+            if (empty($model) && $throwException) {
                 throw new \CHttpException(404);
             }
             return $model;

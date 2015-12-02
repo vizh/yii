@@ -56,7 +56,7 @@ return [
     'runetid.admin' => [
         'baseUrl' => '/',
         'css' => ['stylesheets/admin.css'],
-        'depends' => ['runetid.jquery', 'runetid.admin.jquery.ui', 'runetid.bootstrap.admin']
+        'depends' => ['runetid.jquery', 'runetid.admin.jquery.ui', 'runetid.bootstrap.admin', 'font-awesome']
     ],
     'runetid.charts' => [
         'baseUrl' => '/',
@@ -148,4 +148,8 @@ return [
         'baseUrl' => '/',
         'depends' => ['runetid.jquery', 'runetid.jquery.ui', 'bootstrap3']
     ],
+    'font-awesome' => [
+        'baseUrl' => '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/',
+        'css' => ['font-awesome.min.css']
+    ]
 ];
