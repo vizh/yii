@@ -24,14 +24,36 @@ class Image
         $this->folder = $folder;
         if ($defaultImagePathname !== null) {
             if (strpos($defaultImagePathname, DIRECTORY_SEPARATOR) === false) {
-                $defaultImagePathname = $this->getBasePath() . '../../' . $defaultImagePathname;
+                $defaultImagePathname = \Yii::getPathOfAlias($this->getRootAlias()) . DIRECTORY_SEPARATOR . $defaultImagePathname;
             }
             $this->defaultImagePathname = $defaultImagePathname;
         }
         $this->saveExtension = $saveExtension;
     }
 
+    /** @var null|string */
+    private $rootAlias = null;
 
+    /**
+     * Алиас до корневой директории хранилища
+     * @return string
+     */
+    protected function getRootAlias()
+    {
+        if ($this->rootAlias === null) {
+            $this->rootAlias = 'webroot.upload.images.';
+
+            $class = get_class($this->model);
+            $this->rootAlias .= substr($class, strrpos($class, '\\') + 1);
+            if (!empty($this->folder)) {
+                $this->rootAlias .= '.' . $this->folder;
+            }
+            $this->rootAlias = strtolower($this->rootAlias) . '.';
+        }
+        return $this->rootAlias;
+    }
+
+    /** @var null|string */
     private $basePath = null;
 
     /**
@@ -45,16 +67,7 @@ class Image
         }
 
         if ($this->basePath == null) {
-            $alias = 'webroot.upload.images.';
-
-            $class = get_class($this->model);
-            $alias.= substr($class, strrpos($class,'\\')+1);
-            if (!empty($this->folder)) {
-                $alias.='.'.$this->folder;
-            }
-            $alias.='.'.substr(md5($this->model->getPrimaryKey()),3,3).'.'.$this->model->getPrimaryKey();
-
-            $alias = strtolower($alias);
+            $alias = $this->getRootAlias() . substr(md5($this->model->getPrimaryKey()),3,3) . '.' . $this->model->getPrimaryKey();
             $this->basePath = \Yii::getPathOfAlias($alias).DIRECTORY_SEPARATOR;
             if (!file_exists($this->basePath)) {
                 mkdir($this->basePath, 0777, true);
@@ -187,7 +200,7 @@ class Image
     }
 
     /**
-     * @param string $file
+     * @param string $path
      */
     public function save($path = null)
     {
@@ -197,6 +210,9 @@ class Image
         $image->save($this->getOriginalPathname(false));
     }
 
+    /**
+     * @throws Exception
+     */
     public function delete()
     {
         /** @var \DirectoryIterator $item */

@@ -127,9 +127,9 @@ class Company extends CreateUpdateForm
                 return $form->isNotEmpty();
             }],
             ['RaecClusters,ProfessionalInterests', 'filter', 'filter' => 'array_filter'],
-            ['RaecClusters', RangeValidator::class, 'range' => array_keys($this->getClustersData())],
+            ['RaecClusters', '\application\components\validators\RangeValidator', 'range' => array_keys($this->getClustersData())],
             ['PrimaryProfessionalInterest', 'in', 'range' => array_keys($this->getProfessionalInterestsData())],
-            ['ProfessionalInterests', RangeValidator::class, 'range' => array_keys($this->getProfessionalInterestsData())],
+            ['ProfessionalInterests', '\application\components\validators\RangeValidator', 'range' => array_keys($this->getProfessionalInterestsData())],
             ['ProfessionalInterests', 'filter', 'filter' => function ($values) {
                 foreach ($values as $k => $id) {
                     if ($id == $this->PrimaryProfessionalInterest) {

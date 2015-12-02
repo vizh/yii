@@ -25,6 +25,10 @@ $this->setPageTitle('Компании');
                 ]
             ],
             [
+                'type' => 'raw',
+                'value' => '\CHtml::image($data->getLogo()->get30px());'
+            ],
+            [
                 'name' => 'Name',
                 'header' => $search->getAttributeLabel('Name'),
                 'type' => 'raw',

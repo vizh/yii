@@ -1,4 +1,5 @@
 <?php
+use company\models\Company;
 /**
  * @var \partner\models\forms\program\Participant $form
  * @var CActiveForm $activeForm
@@ -36,11 +37,12 @@ if (!empty($form->CompanyId)) {
     </div>
     <div id="<?=$companyTabId;?>" class="tab-pane <?php if ($active === 'company'):?>active<?php endif;?>">
         <?$this->widget('\application\widgets\AutocompleteInput', [
-            'form' =>  $form,
-            'field' => 'CompanyId',
+            'model' =>  $form,
+            'attribute' => 'CompanyId',
             'source' => '/company/ajax/search/',
-            'addOn' => 'ID компании',
-            'class' => '\company\models\Company',
+            'label' => function ($value) {
+                return Company::findOne($value)->FullName;
+            },
             'htmlOptions' => ['class' => 'form-control']
         ]);?>
     </div>

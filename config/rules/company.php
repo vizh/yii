@@ -18,6 +18,6 @@ return [
         'allow',
         'roles' => ['admin'],
         'module' => 'company',
-        'controllers' => ['admin/moderator', 'admin/merge', 'admin/main']
+        'controllers' => ['admin/merge', 'admin/main']
     ],
 ];

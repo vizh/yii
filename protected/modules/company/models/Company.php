@@ -47,8 +47,6 @@ use search\components\interfaces\ISearch;
  */
 class Company extends ActiveRecord implements ISearch, IAutocompleteItem
 {
-
-
     /**
      * @param string $className
      * @return Company
@@ -77,8 +75,8 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
             'LinkSite' => array(self::HAS_ONE, '\company\models\LinkSite', 'CompanyId'),
             'LinkPhones' => array(self::HAS_MANY, '\company\models\LinkPhone', 'CompanyId'),
             'LinkModerators' => array(self::HAS_MANY, '\company\models\LinkModerator', 'CompanyId'),
-            'LinkRaecClusters' => [self::HAS_MANY, LinkCommission::class, 'CompanyId'],
-            'LinkProfessionalInterests' => [self::HAS_MANY, LinkProfessionalInterest::class, 'CompanyId'],
+            'LinkRaecClusters' => [self::HAS_MANY, '\company\models\LinkCommission', 'CompanyId'],
+            'LinkProfessionalInterests' => [self::HAS_MANY, '\company\models\LinkProfessionalInterest', 'CompanyId'],
 
             //Сотрудники
             'Employments' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'condition' => '"Employments"."EndYear" IS NULL AND "User"."Visible"', 'with' => ['User']],
@@ -86,9 +84,9 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
             'EmploymentsAllWithInvisible' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId'],
 
             'RaecUsers' => [self::HAS_MANY, '\raec\models\CompanyUser', 'CompanyId'],
-            'RaecClusters' => [self::HAS_MANY, Commission::class, ['CommissionId' => 'Id'], 'through' => 'LinkRaecClusters'],
-            'ProfessionalInterests' => [self::HAS_MANY, ProfessionalInterest::class, ['ProfessionalInterestId' => 'Id'], 'through' => 'LinkProfessionalInterests', 'condition' => 'NOT "LinkProfessionalInterests"."Primary"'],
-            'PrimaryProfessionalInterest' => [self::HAS_ONE, ProfessionalInterest::class, ['ProfessionalInterestId' => 'Id'], 'through' => 'LinkProfessionalInterests', 'condition' => '"LinkProfessionalInterests"."Primary"']
+            'RaecClusters' => [self::HAS_MANY, '\commission\models\Commission', ['CommissionId' => 'Id'], 'through' => 'LinkRaecClusters'],
+            'ProfessionalInterests' => [self::HAS_MANY, '\application\models\ProfessionalInterest', ['ProfessionalInterestId' => 'Id'], 'through' => 'LinkProfessionalInterests', 'condition' => 'NOT "LinkProfessionalInterests"."Primary"'],
+            'PrimaryProfessionalInterest' => [self::HAS_ONE, '\application\models\ProfessionalInterest', ['ProfessionalInterestId' => 'Id'], 'through' => 'LinkProfessionalInterests', 'condition' => '"LinkProfessionalInterests"."Primary"']
         ];
     }
 

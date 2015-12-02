@@ -59,6 +59,8 @@ class Base extends MailLayout
         return 'Вами успешно был приобретен товар: ' . $this->product->Title;
     }
 
+
+
     /**
      * @inheritdoc
      */

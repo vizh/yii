@@ -27,7 +27,7 @@ class MainController extends AdminMainController
     public function actionEdit($id = null)
     {
         /** @var Company $company */
-        $company = $this->loadModel(Company::class, $id, false);
+        $company = $this->loadModel('\company\models\Company', $id, false);
         $form = new CompanyForm($company);
         if (\Yii::app()->getRequest()->getIsPostRequest()) {
             $form->fillFromPost();

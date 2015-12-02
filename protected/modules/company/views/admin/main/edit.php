@@ -96,9 +96,8 @@ $this->setPageTitle('Карточка компании');
                 <div class="hide"><?=$activeForm->dropDownList($form, 'ProfessionalInterests[]', $form->getProfessionalInterestsData());?> </div>
             </div>
             <?=\CHtml::button('Добавить экосистему', ['class' => 'btn btn-default', 'onclick' => "$('#company-interests').append($('#company-interests div.hide').html());"]);?>
-
-
-
+            <hr/>
+            
             <?php if ($form->isUpdateMode()):?>
                 <h4><?=$form->getAttributeLabel('Moderators');?></h4>
                 <?php $this->renderPartial('edit/moderators', ['form' => $form, 'activeForm' => $activeForm]);?>
