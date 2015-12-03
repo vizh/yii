@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo Checking for composer...
+
+if ! [ -f composer.phar ] ; then
+  php -r "readfile('https://getcomposer.org/installer');" | php
+fi
+
+release=`php composer.phar --version | grep -Po '(\d{4}-\d{2}-\d{2})'`
+if [ $(( ($(date +%s)-$(date --date=$release +%s))/(3600*24) )) -ge 20 ] ; then
+ php composer.phar self-update
+fi
+
+echo checked

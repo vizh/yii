@@ -1,0 +1,14 @@
+#!/bin/bash
+
+scriptPath=$(dirname `readlink -e utils/prodinit`)
+$scriptPath/check-composer
+
+php composer.phar update
+
+if [ $? -gt 0 ]; then
+ echo Error to update dependencies;
+ exit 1;
+fi
+
+# применяем миграции
+./protected/yiic migrate --interactive=0

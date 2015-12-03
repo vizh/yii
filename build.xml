@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Скрипт Ant, для проверки кода, тестов и т.п.  -->
+<project name="RUNET-ID" default="build" basedir=".">
+    <!-- По умолчанию предполагаем, что все утилиты лежать в системных папках $PATH -->
+    <property name="toolsdir" value=""/>
+
+    <!-- Uncomment the following when the tools are in ${basedir}/vendor/bin -->
+    <!-- <property name="toolsdir" value="${basedir}/vendor/bin/"/> -->
+
+    <target name="build"
+            depends="prepare,lint,phploc-ci,phpcs-ci"
+            description=""/>
+
+    <target name="clean"
+            unless="clean.done"
+            description="Cleanup build artifacts">
+        <delete dir="${basedir}/build/logs"/>
+        <property name="clean.done" value="true"/>
+    </target>
+
+    <target name="prepare"
+            unless="prepare.done"
+            depends="clean"
+            description="Prepare for build">
+        <mkdir dir="${basedir}/build/logs"/>
+        <property name="prepare.done" value="true"/>
+    </target>
+
+    <target name="lint" description="Perform syntax check of sourcecode files">
+        <apply executable="php" failonerror="true">
+            <arg value="-l" />
+
+            <fileset dir="${basedir}/protected">
+                <include name="**/*.php" />
+                <exclude name="**/extensions/"/>
+                <modified />
+            </fileset>
+        </apply>
+    </target>
+
+    <target name="phploc-ci"
+            depends="prepare"
+            description="Measure project size using PHPLOC and log result in CSV and XML format. Intended for usage within a continuous integration environment.">
+        <exec executable="${toolsdir}phploc">
+            <arg value="--log-csv" />
+            <arg path="${basedir}/build/logs/phploc.csv" />
+            <arg value="--log-xml" />
+            <arg path="${basedir}/build/logs/phploc.xml" />
+            <arg value="--exclude=extensions" />
+            <arg path="${basedir}/protected" />
+        </exec>
+    </target>
+
+    <target name="phpcs-ci"
+            depends="prepare"
+            description="Find coding standard violations using PHP_CodeSniffer and log result in XML format. Intended for usage within a continuous integration environment.">
+        <exec executable="${toolsdir}phpcs" output="/dev/null">
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+            <arg value="--standard=build-config/CodeSniffer/IMHoCodingStandard" />
+            <arg value="--extensions=php" />
+            <arg value="--ignore=autoload.php,extensions,migrations,*/views/*" />
+            <arg value="-v" />
+            <arg path="${basedir}/protected" />
+        </exec>
+    </target>
+</project>
