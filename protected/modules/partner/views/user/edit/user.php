@@ -4,15 +4,7 @@
  * @var $event \event\models\Event
  * @var $participants \event\models\Participant[]
  * @var $this \partner\components\Controller
- * @var \partner\models\forms\user\Edit $form
  */
-
-$clientScript = \Yii::app()->getClientScript();
-$clientScript->registerPackage('angular');
-
-$clientScript->registerScript($this->getUniqueId(), '
-    new CPartnerUserEdit({participants : ' . $form->getParticipantsJson() . '});
-', \CClientScript::POS_HEAD);
 
 $this->setPageTitle(\Yii::t('app', 'Добавление/редактирование участника мероприятия') . ': ' . $user->GetFullName());
 
@@ -61,19 +53,11 @@ $data = $event->getUserData($user);
         </div>
     </div>
 </div>
-<div class="panel panel-warning" ng-controller="PartnerUserEdit">
+<div class="panel panel-warning">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-caret-square-o-down"></i> <?=\Yii::t('app', 'Роль на мероприятии');?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
-        <div class="form-group" ng-repeat="participant in participants">
-            <label class="control-label" ng-if="participant.Part != null">{{participant.Part}}</label>
-        </div>
-
-
-
-
-
         <?php if (sizeof($event->Parts) === 0):?>
             <div class="form-group">
                 <?php $roleId = isset($participants[0]) ? $participants[0]->RoleId : null;?>

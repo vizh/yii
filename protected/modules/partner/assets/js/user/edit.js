@@ -1,21 +1,3 @@
-var PartnerApp = angular.module('PartnerApp', ['ngSanitize']);
-var CPartnerUserEdit = function (options) {
-    this.pariticipants = options.participants;
-    this.init();
-}
-
-CPartnerUserEdit.prototype = {
-    'init' : function () {
-        var self = this;
-        PartnerApp.controller('PartnerUserEdit', function($scope, $http) {
-            $scope.participants = self.pariticipants;
-        });
-    }
-}
-
-
-
-/*
 var userEditObj = null;
 $(function(){
     userEditObj = new UserEdit();
@@ -47,11 +29,11 @@ UserEdit.prototype = {
         $('body').append($modal);
         $modal.html(
             '<div class="modal-dialog modal-md">' +
-                '<div class="modal-content">' +
-                    '<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h4 class="modal-title">Укажите комментарий</h4></div>' +
-                    '<div class="modal-body"><textarea class="form-control"></textarea></div>' +
-                    '<div class="modal-footer"><button class="btn btn-primary">Сохранить</button></div>' +
-                '</div>'+
+            '<div class="modal-content">' +
+            '<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button><h4 class="modal-title">Укажите комментарий</h4></div>' +
+            '<div class="modal-body"><textarea class="form-control"></textarea></div>' +
+            '<div class="modal-footer"><button class="btn btn-primary">Сохранить</button></div>' +
+            '</div>'+
             '</div>'
         )
         $modal.on('hidden', function () {
@@ -143,4 +125,4 @@ UserEdit.prototype = {
             });
         });
     }
-};*/
+};
