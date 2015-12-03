@@ -34,7 +34,7 @@ class Devcon16 extends Base
     {
         return 'pay.views.mail.orderjuridical.notify.notpaid.devcon16';
     }
-
+    
     /**
      * @inheritdoc
      */

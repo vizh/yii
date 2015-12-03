@@ -1,0 +1,31 @@
+.event-orders {
+    border: 1px solid #ddd;
+    margin-bottom: 37px;
+    padding: 10px 20px;
+}
+
+.event-orders table {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.event-orders h4 {
+    background: #fff;
+    margin-top: -23px;
+    margin-left: -5px;
+    display: table;
+    padding: 0 5px;
+}
+
+.event-orders h5 {
+    margin-top: 20px;
+}
+
+.order-price {
+    width: 100px;
+    text-align: right !important;
+}
+
+.table td.event-title {
+    padding-left: 0;
+}

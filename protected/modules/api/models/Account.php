@@ -25,7 +25,6 @@ class Account extends \CActiveRecord
     const ROLE_MBLT = 'mblt';
     const ROLE_MOBILE = 'mobile';
     const ROLE_PARTNER_WOC = 'partner_woc';
-
     const ROLE_IRI = 'iri';
 
     const SelfId = 1;

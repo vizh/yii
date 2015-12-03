@@ -93,8 +93,17 @@ legend {
   margin-bottom: 15px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 400px) {
     .restore-password    {
         text-align: left;
+        float:none !important;
     }
+    .remember-me{
+        float:none !important;
+
+    }
+}
+
+.restore-password{
+    margin: 10px 0;
 }

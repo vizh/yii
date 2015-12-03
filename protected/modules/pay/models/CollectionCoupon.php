@@ -121,7 +121,7 @@ class CollectionCoupon extends \CActiveRecord
 
             $dateTime = date('Y-m-d H:i:s', $dateTime);
         }
-
+        
         if (empty($this->StartTime) && empty($this->EndTime))
             return true;
         if (empty($this->EndTime) && $dateTime >= $this->StartTime)

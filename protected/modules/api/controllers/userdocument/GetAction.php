@@ -25,7 +25,6 @@ class GetAction extends Action
         }
 
         $document = Document::model()->byUserId($user->Id)->byTypeId($documentTypeId)->byActual(true)->find();
-
         if ($document !== null) {
             $this->getDataBuilder()->createUser($user);
             $result = $this->getDataBuilder()->buildUserDocument($document);

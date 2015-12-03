@@ -20,6 +20,7 @@ if (count($form->Values) > 6) {
 
 $printRadio = function(RadioValue $value, $wide = true) use ($form)
 {
+
     ?>
     <li>
         <label class="radio">
@@ -44,29 +45,42 @@ $printRadio = function(RadioValue $value, $wide = true) use ($form)
         <?endif;?>
     </li>
 <?
+
 };
+
+
+
 ?>
 
 <?if (empty($left)):?>
     <ul class="unstyled">
-        <?php foreach ($form->Values as $value) {
+        <?php
+        foreach ($form->Values as $value)
+        {
             $printRadio($value);
-        } ?>
+        }
+        ?>
     </ul>
 <?else:?>
     <div class="row">
         <div class="span4">
             <ul class="unstyled">
-                <?php foreach ($left as $value) {
+                <?
+                foreach ($left as $value)
+                {
                     $printRadio($value, false);
-                } ?>
+                }
+                ?>
             </ul>
         </div>
         <div class="span4 offset1">
             <ul class="unstyled">
-                <?php foreach ($right as $value) {
+                <?
+                foreach ($right as $value)
+                {
                     $printRadio($value, false);
-                } ?>
+                }
+                ?>
             </ul>
         </div>
     </div>

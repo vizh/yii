@@ -14,6 +14,7 @@ class Q5 extends \competence\models\form\Base
     private $values = null;
 
 
+
     /**
      * @return RadioValue[]
      */

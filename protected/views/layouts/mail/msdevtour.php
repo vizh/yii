@@ -32,6 +32,7 @@
                                             <br/>
                                             <a href="https://twitter.com/search?f=realtime&q=%23msdevtour%20&src=typd">#msdevtour</a>
                                             <br/>
+
                                         </p>
                                     </td>
                                 </tr>

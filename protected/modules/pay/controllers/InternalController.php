@@ -57,13 +57,13 @@ class InternalController extends \application\components\controllers\PublicMainC
 
     public function actionImportrooms()
     {
-        return;
-        $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/import_26062015.csv');
+				return;
+        $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/import_26032015_942.csv');
         $parser->SetInEncoding('utf-8');
         $parser->SetDelimeter(';');
         $results = $parser->Parse($this->fieldMap, false);
-
-        $results = array_slice($results, 200, 300); // TODO: если файл большой
+			
+        //$results = array_slice($results, 200, 300); // TODO: если файл большой
         echo '<pre>';
         print_r($results);
         echo '</pre>';

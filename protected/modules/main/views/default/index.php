@@ -129,7 +129,7 @@ use application\components\utility\Texts;
             <div class="line"></div>
             <div class="container">
                 <div class="title">
-                    <span class="backing runet">Runet</span>
+                    <span class="backing runet">BUDU-GURU</span>
                     <span class="backing text">Работа</span>
                 </div>
         <span class="backing url">
@@ -172,7 +172,7 @@ use application\components\utility\Texts;
             <div class="line"></div>
             <div class="container">
                 <div class="title">
-                    <span class="backing runet">Runet</span>
+                    <span class="backing runet">BUDU-GURU</span>
                     <span class="backing text">Курсы</span>
                 </div>
         <span class="backing url">

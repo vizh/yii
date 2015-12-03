@@ -59,26 +59,30 @@ $printEditArea = function(Definition $definition, UserDataManager $manager) use 
                 <h5 class="title"><?=$group->title;?></h5>
             <?endif;?>
 
-            <div class="pull-left">
-                <?
-                $i=0;
-                foreach ($definitions as $definition) {
-                    $i++;
-                    if ($i % 2 == 0) continue;
-                    $printEditArea($definition, $userData->getManager());
-                }
-                ?>
-            </div>
-            <div class="pull-right">
-                <?
-                $i=0;
-                foreach ($definitions as $definition) {
-                    $i++;
-                    if ($i % 2 == 1) continue;
-                    $printEditArea($definition, $userData->getManager());
-                }
-                ?>
-            </div>
+            <?php if (sizeof($definitions) == 1):?>
+                <?=$printEditArea($definitions[0], $userData->getManager());;?>
+            <?php else:?>
+                <div class="pull-left">
+                    <?
+                    $i=0;
+                    foreach ($definitions as $definition) {
+                        $i++;
+                        if ($i % 2 == 0) continue;
+                        $printEditArea($definition, $userData->getManager());
+                    }
+                    ?>
+                </div>
+                <div class="pull-right">
+                    <?
+                    $i=0;
+                    foreach ($definitions as $definition) {
+                        $i++;
+                        if ($i % 2 == 1) continue;
+                        $printEditArea($definition, $userData->getManager());
+                    }
+                    ?>
+                </div>
+            <?php endif;?>
         </div>
     <?endif;?>
 <?endforeach;?>

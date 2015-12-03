@@ -148,15 +148,15 @@ class DataBuilder
         $data = $this->getEvent()->getUserData($user);
         if (!empty($data)) {
             $this->user->Attributes = [];
-            // toDo: Убрать это в будущем, так как надо что бы висело несколько недель всего.
-            $this->user->Data = [];
+			// toDo: Убрать это в будущем, так как надо что бы висело несколько недель всего.
+			$this->user->Data = [];
             /** @var UserData $row */
             $row = array_pop($data);
             foreach ($row->getManager()->getDefinitions() as $definition) {
                 $value = $definition->getPrintValue($row->getManager());
-                $this->user->Attributes[$definition->name] = $value;
-                // toDo: Убрать это в будущем, так как надо что бы висело несколько недель всего.
-                $this->user->Data[$definition->title] = $value;
+				$this->user->Attributes[$definition->name] = $value;
+				// toDo: Убрать это в будущем, так как надо что бы висело несколько недель всего.
+				$this->user->Data[$definition->title] = $value;
             }
         }
         return $this->user;

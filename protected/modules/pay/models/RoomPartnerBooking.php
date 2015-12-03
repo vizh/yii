@@ -24,7 +24,6 @@ use application\components\ActiveRecord;
  *
  * @method RoomPartnerBooking byDeleted(boolean $deleted)
  * @method RoomPartnerBooking[] findAll()
- * @method RoomPartnerBooking byPaid(boolean $paid)
  *
  * @method RoomPartnerBooking byProductId(int $productId)
  * @method RoomPartnerBooking byOwner(string $owner)
@@ -91,7 +90,8 @@ class RoomPartnerBooking extends ActiveRecord
 
     public function deleteHard()
     {
-        if ($this->Paid || $this->Deleted){
+        if ($this->Paid || $this->Deleted)
+        {
             return false;
         }
 
