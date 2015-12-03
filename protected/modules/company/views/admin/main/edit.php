@@ -7,6 +7,7 @@ use application\helpers\Flash;
  * @var \application\widgets\ActiveForm $activeForm
  */
 
+\Yii::app()->getClientScript()->registerPackage('runetid.ckeditor');
 $this->setPageTitle('Карточка компании');
 ?>
 <?php $activeForm = $this->beginWidget('\application\widgets\ActiveForm', ['htmlOptions' => ['enctype' => 'multipart/form-data']]);?>
@@ -32,6 +33,12 @@ $this->setPageTitle('Карточка компании');
                 </div>
             </div>
             <div class="control-group">
+                <?=$activeForm->label($form, 'Info', ['class' => 'control-label']);?>
+                <div class="controls">
+                    <?=$activeForm->textArea($form, 'Info', ['class' => 'input-block-level']);?>
+                </div>
+            </div>
+            <div class="control-group">
                 <?=$activeForm->label($form, 'Logo', ['class' => 'control-label']);?>
                 <?php if ($form->isUpdateMode()):?>
                     <?=\CHtml::image($form->getActiveRecord()->getLogo()->get58px(),'',['class' => 'm-bottom_5']);?>
@@ -40,6 +47,7 @@ $this->setPageTitle('Карточка компании');
                     <?=$activeForm->fileField($form, 'Logo');?>
                 </div>
             </div>
+
             <hr/>
             <div class="row-fluid">
                 <div class="span6">
@@ -97,7 +105,7 @@ $this->setPageTitle('Карточка компании');
             </div>
             <?=\CHtml::button('Добавить экосистему', ['class' => 'btn btn-default', 'onclick' => "$('#company-interests').append($('#company-interests div.hide').html());"]);?>
             <hr/>
-            
+
             <?php if ($form->isUpdateMode()):?>
                 <h4><?=$form->getAttributeLabel('Moderators');?></h4>
                 <?php $this->renderPartial('edit/moderators', ['form' => $form, 'activeForm' => $activeForm]);?>

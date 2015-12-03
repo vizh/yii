@@ -27,6 +27,8 @@ class Company extends CreateUpdateForm
 
     public $Url;
 
+    public $Info;
+
     public $Logo;
 
     public $Email;
@@ -118,6 +120,7 @@ class Company extends CreateUpdateForm
     {
         return [
             ['Name,FullName,Url', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['Info', 'safe'],
             ['Name', 'required'],
             ['Url', 'url'],
             ['RaecUsers', 'application\components\validators\MultipleFormValidator', 'when' => function (CompanyUser $form) {
@@ -159,7 +162,8 @@ class Company extends CreateUpdateForm
             'Phone' => 'Телефон',
             'RaecClusters' => 'Кластеры РАЭК',
             'PrimaryProfessionalInterest' => 'Основная экосистема',
-            'ProfessionalInterests' => 'Экосистемы'
+            'ProfessionalInterests' => 'Экосистемы',
+            'Info' => 'Информация о компании'
         ];
     }
 
