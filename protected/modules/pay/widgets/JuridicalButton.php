@@ -1,17 +1,15 @@
 <?php
 namespace pay\widgets;
-use pay\models\Account;
 
 
 /**
  * Created by PhpStorm.
- * User: пїЅпїЅпїЅпїЅпїЅпїЅ
+ * User: Андрей
  * Date: 05.08.2015
  * Time: 12:05
  */
 class JuridicalButton extends \CWidget
 {
-    /** @var Account */
     public $account;
 
     public $url = ['/pay/juridical/create/'];

@@ -16,6 +16,7 @@ $parseTitle = function($title) {
     if (stripos($title, $oneNomination) === 0) {
         $nomination = mb_substr($title, mb_strlen($oneNomination));
         $nomination = trim($nomination);
+        //$nomination = ucfirst($nomination);
         $nomination = mb_strtoupper(mb_substr($nomination, 0, 1)) . mb_substr($nomination, 1);
         $title = sprintf('Участие заказчика в номинации: «%s» в премии "Золотой Сайт 2014" (Golden Site)', $nomination);
     } elseif (stripos($title, $manyNominations) === 0 || stripos($title, $manyNominations2) === 0) {

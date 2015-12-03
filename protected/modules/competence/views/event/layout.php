@@ -33,8 +33,7 @@ use event\components\WidgetPosition;
             <?php endif;?>
         <?php endforeach;?>
         <div class="container m-top_40">
-            <h3 class="text-center competence-title"><?=$this->getTest()->Title
-                ;?></h3>
+            <h3 class="text-center competence-title"><?=$this->getTest()->Title;?></h3>
         </div>
         <?=$content;?>
     </section>

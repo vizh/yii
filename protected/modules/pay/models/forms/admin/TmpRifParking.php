@@ -17,8 +17,8 @@ class TmpRifParking extends \CFormModel
       ['Number,Hotel,Status', 'required'],
       ['Brand,Model', 'safe'],
       ['Hotel', 'in', 'range' => $this->getHotelData()],
-      ['DateIn', 'default', 'setOnEmpty' => true, 'value' => '23.04.2014'],
-      ['DateOut', 'default', 'setOnEmpty' => true, 'value' => '25.04.2014'],
+      ['DateIn', 'default', 'setOnEmpty' => true, 'value' => '22.04.2015'],
+      ['DateOut', 'default', 'setOnEmpty' => true, 'value' => '24.04.2015'],
       ['DateIn, DateOut', 'date', 'format' => 'dd.MM.yyyy'],
       ['Status', 'in', 'range' => array_keys(\pay\controllers\admin\booking\ParkingItem::getStatusTitleList())]
     ];

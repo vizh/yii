@@ -1,0 +1,13 @@
+.registration > .row {
+    margin-left: -60px;
+}
+
+.registration.registration-success,
+.registration.registration-error {
+    padding-bottom: 10px;
+}
+.registration.registration-success h3,
+.registration.registration-error h3{
+    margin-top: 15px;
+}
+

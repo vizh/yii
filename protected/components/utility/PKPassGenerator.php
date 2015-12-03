@@ -1,6 +1,6 @@
 <?php
 namespace application\components\utility;
-class PKPassGenerator
+class PKPassGenerator 
 {
   private $standardKeys  = array(
     'description' => 'Электронный билет на посещение мероприятия',
@@ -11,7 +11,7 @@ class PKPassGenerator
   );
   private $associatedAppKeys = array();
   private $relevanceKeys = array();
-
+  
   private $styleKeys = array();
 
   private $visualAppearanceKeys = array(
@@ -24,28 +24,28 @@ class PKPassGenerator
   );
 
   private $webServiceKeys = array();
-
-
+  
+  
   protected $event = null;
   protected $role  = null;
   protected $user  = null;
-
-
+  
+  
   /**
-   *
+   * 
    * @param \event\models\Event $event
    * @param \user\models\User $user
    * @param \event\models\Role $role
    */
-  public function __construct($event, $user, $role)
+  public function __construct($event, $user, $role) 
   {
     $this->event = $event;
     $this->user  = $user;
     $this->role  = $role;
   }
-
+  
   public function run($output = false)
-  {
+  { 
     $this->standardKeys['serialNumber'] = $this->event->Id.$this->user->RunetId;
     $this->visualAppearanceKeys['barcode']['message'] = '~RUNETID#'.$this->user->RunetId.'$';
     $this->styleKeys = array(
@@ -87,7 +87,7 @@ class PKPassGenerator
           array(
             'key'   => 'info',
             'label' => \Yii::t('app','О мероприятии'),
-            'value' => strip_tags($this->event->Info)
+            'value' => strip_tags($this->event->Info)  
           ),
           array(
             'key'   => 'address',
@@ -98,7 +98,7 @@ class PKPassGenerator
         'transitType' => 'PKTransitTypeAir'
       )
     );
-
+    
     $data = array_merge(
       $this->standardKeys,
       $this->associatedAppKeys,
@@ -107,8 +107,8 @@ class PKPassGenerator
       $this->visualAppearanceKeys,
       $this->webServiceKeys
     );
-
-
+    
+    
     $pkPass = new \ext\pkpass\PKPass();
     $pkPass->setCertificate(
       \Yii::getPathOfAlias('ext.pkpass').'/certificates/pass-certificate.p12'
@@ -126,28 +126,23 @@ class PKPassGenerator
     $pkPass->setJSON(json_encode($data));
     return $pkPass->create($output);
   }
-
+  
   /**
-   *
-   * @return string
+   * 
+   * @return string 
    */
   public function runAndSave()
   {
-    $path = sprintf('%s/data/pkpass/%d_%s_%d.pkpass',
-      BASE_PATH,
-      $this->user->RunetId,
-      $this->event->IdName,
-      $this->role->Id
-    );
-
+    $path  = \Yii::getPathOfAlias('application').DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR;
+    $path .= 'pkpass'.DIRECTORY_SEPARATOR.$this->user->RunetId.'_'.$this->event->IdName.'_'.$this->role->Id.'.pkpass';
     if (file_exists($path))
+    {
       return $path;
-
-    if (!file_exists(dirname($path)))
-      mkdir(dirname($path), 0777, true);
-
-    file_put_contents($path, $this->run(false));
-
-    return $path;
+    }
+    else 
+    {
+      file_put_contents($path, $this->run(false));
+      return $path;
+    }
   }
 }

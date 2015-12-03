@@ -64,7 +64,7 @@ use \event\components\Statistics;
                 </div>
                 <div id="chart-payments-panel" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        <div id="chart-paymentschart-payments"></div>
+                        <div id="chart-payments"></div>
                     </div>
                 </div>
             </div>

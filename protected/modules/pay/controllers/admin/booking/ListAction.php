@@ -101,7 +101,7 @@ class ListAction extends \CAction
             $manager = $orderItem->Product->getManager();
             if ($manager->Hotel == $hotel){
                 $item = new ListItem();
-                $item->UserName = $orderItem->Owner->getFullName();
+                $item->UserName = $orderItem->ChangedOwner == null? $orderItem->Owner->getFullName() : $orderItem->ChangedOwner->getFullName();
                 $item->Housing = $manager->Housing;
                 $item->Number = $manager->Number;
                 $this->list[$orderItem->Owner->RunetId] = $item;

@@ -25,7 +25,7 @@
         </div>
       <?=\CHtml::endForm();?>
     </div>
-
+    <br><br><br><br>
     <div class="b-jobs">
       <?=$this->renderPartial('jobs', array('jobs' => array_slice($jobs, 0, 4)));?>
 

@@ -5,7 +5,7 @@
  */
 $question = $test->getFirstQuestion();
 ?>
-<div class="m-top_40 registration" style="padding-left: 0; padding-right: 0;">
+<div class="registration" style="padding-left: 0; padding-right: 0;">
     <h3 class="text-center competence-title"><?=$test->Title;?></h3>
     <div class="row">
         <div class="span9 offset2">

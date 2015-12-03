@@ -1,9 +1,6 @@
 <?php
-
 namespace pay\models;
-
 use application\components\ActiveRecord;
-
 /**
  * Class TmpRifParking
  * @package pay\models

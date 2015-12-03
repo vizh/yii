@@ -47,6 +47,8 @@ use search\components\interfaces\ISearch;
  */
 class Company extends ActiveRecord implements ISearch, IAutocompleteItem
 {
+
+
     /**
      * @param string $className
      * @return Company

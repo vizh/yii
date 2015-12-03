@@ -68,7 +68,7 @@ class CreateAction extends \ruvents\components\Action
       {
         throw new \ruvents\components\Exception(304);
       }
-      $participant->UpdateTime = date('Y-m-d H:i:s');
+//      $participant->UpdateTime = date('Y-m-d H:i:s');
       $participant->save();
     }
 

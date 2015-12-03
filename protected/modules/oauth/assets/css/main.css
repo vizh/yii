@@ -15,3 +15,22 @@
 .g-recaptcha>div>div{
     margin: 0 auto;
 }
+
+.remember, .restore-password{
+    width: 50%;
+    float: left;
+}
+
+.restore-password{
+    text-align: right;
+}
+
+@media only screen and (max-width: 400px) {
+    .remember, .restore-password{
+        width: 100%;
+        float: none;
+    }
+    .restore-password{
+        text-align: left;
+    }
+}

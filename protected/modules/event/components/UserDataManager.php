@@ -78,7 +78,6 @@ class UserDataManager extends \CModel
             }
             $result[] = $row;
         }
-
         return $result;
     }
 

@@ -275,6 +275,5 @@ foreach ($order->Items as $item) {
         </tr>
     </table>
 <?php endif;?>
-<div style="page-break-after: always; padding: 0; margin: 0; height: 0"></div>
 </BODY>
 </HTML>

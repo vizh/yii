@@ -172,6 +172,15 @@ class ExcelBuilder
         $row['FirstName'] = $user->FirstName;
         $row['LastName'] = $user->LastName;
         $row['FatherName'] = $user->FatherName;
+
+        if ($this->getEvent()->Id === 2347) {
+            $user->setLocale('en');
+            $row['FirstName_en'] = $user->FirstName;
+            $row['LastName_en'] = $user->LastName;
+            $row['FatherName_en'] = $user->FatherName;
+            $user->resetLocale();
+        }
+
         $row['Email'] = $user->Email;
         $row['Phone'] = $user->getPhone();
         $row['Birthday'] = $user->Birthday;
@@ -263,6 +272,12 @@ class ExcelBuilder
                 'DatePay' => 'Дата оплаты участия',
                 'DateBadge' => 'Дата выдачи бейджа',
             ];
+
+            if ($this->getEvent()->Id === 2347) {
+                $map['LastName_en'] = 'Фамилия (EN)';
+                $map['FirstName_en'] = 'Имя (EN)';
+                $map['FatherName_en'] = 'Отчество (EN)';
+            }
 
             if ($this->hasExternalId()) {
                 $map['ExternalId'] = 'Внешний ID';

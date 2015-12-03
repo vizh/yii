@@ -7,6 +7,7 @@ use event\models\Participant;
 use pay\models\OrderItem;
 use user\models\User;
 use pay\models\TmpRifParking;
+
 use \pay\models\forms\admin\TmpRifParking as TmpRifParkingForm;
 
 /**
@@ -38,9 +39,11 @@ class ParkingAction extends \CAction
   {
     $bookings = RoomPartnerBooking::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->findAll();
     /** @var \pay\models\RoomPartnerBooking $booking */
-    foreach ($bookings as $booking){
+    foreach ($bookings as $booking)
+    {
       $car = json_decode($booking->Car);
-      if ($car !== null && !empty($car->Number)){
+      if ($car !== null && !empty($car->Number))
+      {
         $manager = $booking->Product->getManager();
 
         $item = new ParkingItem();
@@ -60,9 +63,11 @@ class ParkingAction extends \CAction
     $command = Rif::getDb()->createCommand();
     $command->select('*')->from('ext_booked_parking')->order('id ASC');
     $result = $command->queryAll();
-    foreach ($result as $row){
+    foreach ($result as $row)
+    {
       $user = User::model()->byRunetId($row['ownerRunetId'])->find();
-      if ($user !== null){
+      if ($user !== null)
+      {
         $item = new ParkingItem();
         $item->Number = $row['carNumber'];
         $item->Brand  = $row['brand'];
@@ -72,12 +77,14 @@ class ParkingAction extends \CAction
         if ($participant == null)
           continue;
 
-        if ($participant->RoleId == 3){
+        if ($participant->RoleId == 3)
+        {
           $item->Status = ParkingItem::STATUS_REPORTER;
           $item->Dates  = $this->getDateList(date('Y').'-04-22', date('Y').'-04-24');
           $item->Hotel  = Rif::HOTEL_P;
         }
-        else{
+        else
+        {
           $criteria = new \CDbCriteria();
           $criteria->addCondition('"Product"."ManagerName" = :ManagerName');
           $criteria->params['ManagerName'] = 'RoomProductManager';
@@ -99,9 +106,11 @@ class ParkingAction extends \CAction
   {
     $parking = TmpRifParking::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->findAll();
     /** @var \pay\models\TmpRifParking $model */
-    foreach ($parking as $model){
+    foreach ($parking as $model)
+    {
       $item = new ParkingItem();
-      foreach ($model->getAttributes() as $name => $value){
+      foreach ($model->getAttributes() as $name => $value)
+      {
         if (property_exists($item, $name))
           $item->$name = $value;
       }
@@ -114,9 +123,11 @@ class ParkingAction extends \CAction
   {
     $request = \Yii::app()->getRequest();
     $action = $request->getParam('action');
-    if ($request->getIsAjaxRequest() && $action !== null){
+    if ($request->getIsAjaxRequest() && $action !== null)
+    {
       $method = 'processAjaxAction'.ucfirst($action);
-      if (method_exists($this, $method)){
+      if (method_exists($this, $method))
+      {
         $result = $this->$method();
       }
       echo json_encode($result);
@@ -124,12 +135,16 @@ class ParkingAction extends \CAction
     }
   }
 
+  /**
+   *
+   */
   private function processAjaxActionAddParking()
   {
     $result = new \stdClass();
     $request = \Yii::app()->getRequest();
     $this->form->attributes = $request->getParam(get_class($this->form));
-    if ($this->form->validate()){
+    if ($this->form->validate())
+    {
       $parking = new TmpRifParking();
       $parking->Brand   = $this->form->Brand;
       $parking->Model   = $this->form->Model;
@@ -142,23 +157,21 @@ class ParkingAction extends \CAction
       $parking->save();
       $result->success = true;
     }
-    else{
+    else
+    {
       $result->errors = $this->form->getErrors();
     }
     return $result;
   }
 
-  /**
-   * @param $dateIn
-   * @param $dateOut
-   * @return array
-   */
+
 
   private function getDateList($dateIn, $dateOut)
   {
     $result = [];
     $datetime = new \DateTime($dateIn);
-    while ($datetime->format('Y-m-d') <= $dateOut){
+    while ($datetime->format('Y-m-d') <= $dateOut)
+    {
       $result[] = \Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $datetime->getTimestamp());
       $datetime->modify('+1 day');
     }
