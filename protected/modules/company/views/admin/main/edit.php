@@ -39,6 +39,12 @@ $this->setPageTitle('Карточка компании');
                 </div>
             </div>
             <div class="control-group">
+                <?=$activeForm->label($form, 'Code', ['class' => 'control-label']);?>
+                <div class="controls">
+                    <?=$activeForm->textField($form, 'Code');?>
+                </div>
+            </div>
+            <div class="control-group">
                 <?=$activeForm->label($form, 'Logo', ['class' => 'control-label']);?>
                 <?php if ($form->isUpdateMode()):?>
                     <?=\CHtml::image($form->getActiveRecord()->getLogo()->get58px(),'',['class' => 'm-bottom_5']);?>

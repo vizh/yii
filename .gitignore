@@ -19,3 +19,4 @@ www/images/temp/
 data
 config/db.php
 config/init.php
+protected/yiic.php

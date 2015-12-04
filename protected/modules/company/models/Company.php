@@ -21,6 +21,7 @@ use search\components\interfaces\ISearch;
  * @property string $FullInfo
  * @property string $CreationTime
  * @property string $UpdateTime
+ * @property string $Code
  *
  *
  * @property \company\models\LinkEmail $LinkEmail
@@ -30,6 +31,7 @@ use search\components\interfaces\ISearch;
  * @property \company\models\LinkSite $LinkSite
  * @property \company\models\LinkModerator[] $LinkModerators
  * @property LinkCommission[] $LinkRaecClusters
+ * @property CompanyUser[] $ActiveRaecUsers
  * @property CompanyUser[] $RaecUsers
  * @property Commission[] $RaecClusters
  * @property LinkProfessionalInterest[] $LinkProfessionalInterests
@@ -44,11 +46,10 @@ use search\components\interfaces\ISearch;
  * @method \company\models\Company find()
  * @method \company\models\Company findByPk()
  * @method \company\models\Company[] findAll()
+ * @method Company byId(int $id)
  */
 class Company extends ActiveRecord implements ISearch, IAutocompleteItem
 {
-
-
     /**
      * @param string $className
      * @return Company
@@ -85,6 +86,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
             'EmploymentsAll' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId', 'with' => ['User'], 'condition' => '"User"."Visible"'],
             'EmploymentsAllWithInvisible' => [self::HAS_MANY, '\user\models\Employment', 'CompanyId'],
 
+            'ActiveRaecUsers' => [self::HAS_MANY, '\raec\models\CompanyUser', 'CompanyId', 'on' => '"ActiveRaecUsers"."ExitTime" IS NULL', 'with' => ['User']],
             'RaecUsers' => [self::HAS_MANY, '\raec\models\CompanyUser', 'CompanyId'],
             'RaecClusters' => [self::HAS_MANY, '\commission\models\Commission', ['CommissionId' => 'Id'], 'through' => 'LinkRaecClusters'],
             'ProfessionalInterests' => [self::HAS_MANY, '\application\models\ProfessionalInterest', ['ProfessionalInterestId' => 'Id'], 'through' => 'LinkProfessionalInterests', 'condition' => 'NOT "LinkProfessionalInterests"."Primary"'],
@@ -113,10 +115,25 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
     public function bySearch($term, $locale = null, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->condition = 'to_tsvector("t"."Name") @@ plainto_tsquery(:Term)';
+        $criteria->condition = 'to_tsvector("t"."Name") @@ plainto_tsquery(:Term) OR "t"."Code" = :Term';
         $criteria->params['Term'] = $term;
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
+    }
+
+    /**
+     * Отбирает компании, имеющих членство в РАЭК
+     * @param bool|true $raec
+     * @param bool|true $useAnd
+     */
+    public function byRaec($raec = true, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $command = \Yii::app()->getDb()->createCommand();
+        $command->select('CompanyId')->from('RaecCompanyUser')->where('"ExitTime" IS NULL');
+
+        $criteria->addCondition('"t"."Id" ' . (!$raec ? 'NOT' : '') . ' IN (' . $command->getText() . ')');
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     }
 
 

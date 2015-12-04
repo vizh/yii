@@ -1,8 +1,12 @@
 <?php
 namespace api\components\builders;
+
+use application\components\helpers\ArrayHelper;
+use company\models\Company;
 use event\models\section\Favorite;
 use event\models\section\Hall;
 use event\models\UserData;
+use raec\models\CompanyUser;
 use user\models\DocumentType;
 use user\models\Document;
 use user\models\User;
@@ -28,6 +32,7 @@ class Builder
     }
 
     protected $user;
+
     /**
      * @param \user\models\User $user
      * @return \stdClass
@@ -47,9 +52,9 @@ class Builder
         $this->user->Gender = $user->Gender;
 
         $this->user->Photo = new \stdClass();
-        $this->user->Photo->Small  = 'http://' . RUNETID_HOST . $user->getPhoto()->get50px();;
+        $this->user->Photo->Small = 'http://' . RUNETID_HOST . $user->getPhoto()->get50px();;
         $this->user->Photo->Medium = 'http://' . RUNETID_HOST . $user->getPhoto()->get90px();
-        $this->user->Photo->Large  = 'http://' . RUNETID_HOST . $user->getPhoto()->get200px();
+        $this->user->Photo->Large = 'http://' . RUNETID_HOST . $user->getPhoto()->get200px();
         return $this->user;
     }
 
@@ -77,7 +82,7 @@ class Builder
 
         $this->user->Phones = array();
         foreach ($user->LinkPhones as $link) {
-            $this->user->Phones[] = (string) $link->Phone;
+            $this->user->Phones[] = (string)$link->Phone;
         }
         return $this->user;
     }
@@ -92,7 +97,7 @@ class Builder
         if ($employment !== null) {
             $this->user->Work = new \stdClass();
             $this->user->Work->Position = $employment->Position;
-            $this->user->Work->Company = $this->createCompany($employment->Company);
+            $this->user->Work->Company = $this->createEmploymentCompany($employment->Company);
             $this->user->Work->StartYear = $employment->StartYear;
             $this->user->Work->StartMonth = $employment->StartMonth;
             $this->user->Work->EndYear = $employment->EndYear;
@@ -153,7 +158,7 @@ class Builder
     {
         $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
         if ($isOnePart && !empty($this->user->Status)) {
-            $model =  \ruvents\models\Badge::model()
+            $model = \ruvents\models\Badge::model()
                 ->byEventId($this->account->EventId)->byUserId($user->Id);
             $this->user->Status->Registered = $model->exists();
         }
@@ -162,20 +167,80 @@ class Builder
     }
 
     protected $company;
+
     /**
      * @param \company\models\Company $company
      * @return \stdClass
      */
-    public function createCompany(\company\models\Company $company)
+    public function createCompany(Company $company)
     {
-        $this->company = new \stdClass();
-        $this->company->CompanyId = $company->Id;
-        $this->company->Name = $company->Name;
-
+        $this->company = (object) ArrayHelper::toArray($company, ['company\models\Company' => [
+            'Id',
+            'Name',
+            'FullName',
+            'Info',
+            'Code',
+            'Logo' => function (Company $company) {
+                return [
+                    'Small'  => 'http://' . RUNETID_HOST . $company->getLogo()->get50px(),
+                    'Medium' => 'http://' . RUNETID_HOST . $company->getLogo()->get90px(),
+                    'Large'  => 'http://' . RUNETID_HOST . $company->getLogo()->get200px()
+                ];
+            },
+            'Url' => function (Company $company) {
+                return (string)$company->getContactSite();
+            },
+            'Phone' => function (Company $company) {
+                return !empty($company->LinkPhones[0]) ? (string)$company->LinkPhones[0]->Phone : null;
+            },
+            'Email' => function (Company $company) {
+                $email = $company->getContactEmail();
+                return $email !== null ? $email->Email : null;
+            },
+            'Address' => function (Company $company) {
+                return (string)$company->getContactAddress();
+            }
+        ]]);
         return $this->company;
     }
 
+    /**
+     * @param Company $company
+     * @return mixed
+     */
+    public function buildCompanyRaecUser(Company $company)
+    {
+        foreach ($company->ActiveRaecUsers as $user) {
+            $this->company->RaecUsers[] = ArrayHelper::toArray($user, ['raec\models\CompanyUser' => [
+                'JoinTime',
+                'AllowVote',
+                'User' => function (CompanyUser $companyUser) {
+                    $this->createUser($companyUser->User);
+                    return $this->buildUserEmployment($companyUser->User);
+                },
+                'Status'
+            ]]);
+        }
+        return $this->company;
+    }
+
+    protected $employmentCompany;
+
+    /**
+     * @param \company\models\Company $company
+     * @return \stdClass
+     */
+    public function createEmploymentCompany(Company $company)
+    {
+        $this->employmentCompany = (object) ArrayHelper::toArray($company, ['company\models\Company' => [
+            'Id',
+            'Name'
+        ]]);
+        return $this->employmentCompany;
+    }
+
     protected $role;
+
     /**
      * @param \event\models\Role $role
      * @return \stdClass
@@ -192,6 +257,7 @@ class Builder
     }
 
     protected $event;
+
     /**
      * @param \event\models\Event $event
      * @return \stdClass
@@ -223,9 +289,9 @@ class Builder
 
         $webRoot = \Yii::getPathOfAlias('webroot');
         $logo = $event->getLogo();
-        $this->event->Image->Mini = 'http://'. RUNETID_HOST . $logo->getMini();
+        $this->event->Image->Mini = 'http://' . RUNETID_HOST . $logo->getMini();
         $this->event->Image->MiniSize = $this->getImageSize($webRoot . $logo->getMini());
-        $this->event->Image->Normal = 'http://'. RUNETID_HOST . $logo->getNormal();
+        $this->event->Image->Normal = 'http://' . RUNETID_HOST . $logo->getNormal();
         $this->event->Image->NormalSize = $this->getImageSize($webRoot . $logo->getNormal());
 
         return $this->event;
@@ -304,6 +370,7 @@ class Builder
 
 
     protected $product;
+
     /**
      * @param \pay\models\Product $product
      * @param string $time
@@ -313,7 +380,8 @@ class Builder
     {
         $this->product = new \stdClass();
         $this->product->Id = $product->Id;
-        $this->product->ProductId = $product->Id; /** todo: deprecated **/
+        $this->product->ProductId = $product->Id;
+        /** todo: deprecated **/
         $this->product->Manager = $product->ManagerName;
         $this->product->Title = $product->Title;
         $this->product->Price = $product->getPrice($time);
@@ -338,7 +406,8 @@ class Builder
 
         $orderItem = $item->getOrderItem();
 
-        $this->orderItem->OrderItemId = $orderItem->Id; /** todo: deprecated **/
+        $this->orderItem->OrderItemId = $orderItem->Id;
+        /** todo: deprecated **/
         $this->orderItem->Id = $orderItem->Id;
         $this->orderItem->Product = $this->CreateProduct($orderItem->Product, $orderItem->PaidTime);
         $this->createUser($orderItem->Payer);
@@ -359,7 +428,8 @@ class Builder
         foreach ($orderItem->Attributes as $attribute) {
             $this->orderItem->Attributes[$attribute->Name] = $attribute->Value;
         }
-        $this->orderItem->Params = $this->orderItem->Attributes; /** todo: deprecated */
+        $this->orderItem->Params = $this->orderItem->Attributes;
+        /** todo: deprecated */
 
         $this->orderItem->Discount = $item->getDiscount();
         $couponActivation = $orderItem->getCouponActivation();
@@ -374,7 +444,7 @@ class Builder
      * @param \commission\models\Commission $commission
      * @return \stdClass
      */
-    public function createCommision ($commission)
+    public function createCommision($commission)
     {
         $this->commission = new \stdClass();
 
@@ -428,6 +498,7 @@ class Builder
 
 
     protected $section;
+
     /**
      * @param \event\models\section\Section $section
      * @return \stdClass
@@ -452,11 +523,11 @@ class Builder
         if (sizeof($section->LinkHalls) > 0) {
             $this->section->Place = $section->LinkHalls[0]->Hall->Title; //todo: deprecated
         }
-        $this->section->Halls  = [];
+        $this->section->Halls = [];
         $this->section->Places = array();
         foreach ($section->LinkHalls as $linkHall) {
             $this->section->Places[] = $linkHall->Hall->Title;
-            $this->section->Halls[]  = $this->createSectionHall($linkHall->Hall);
+            $this->section->Halls[] = $this->createSectionHall($linkHall->Hall);
         }
 
         $this->section->Attributes = array();
@@ -494,6 +565,7 @@ class Builder
     }
 
     protected $report;
+
     /**
      * @param \event\models\section\LinkUser $link
      * @return \stdClass
@@ -516,7 +588,7 @@ class Builder
         $this->report->SectionRoleName = $link->Role->Title;//todo: deprecated
         $this->report->SectionRoleTitle = $link->Role->Title;
         $this->report->Order = $link->Order;
-        if (! empty($link->Report)) {
+        if (!empty($link->Report)) {
             $this->report->Header = $link->Report->Title;//todo: deprecated
             $this->report->Title = $link->Report->Title;
             $this->report->Thesis = $link->Report->Thesis;

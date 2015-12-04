@@ -25,6 +25,8 @@ class Company extends CreateUpdateForm
 
     public $FullName;
 
+    public $Code;
+
     public $Url;
 
     public $Info;
@@ -120,6 +122,10 @@ class Company extends CreateUpdateForm
     {
         return [
             ['Name,FullName,Url', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['Code', 'match', 'pattern' => '/^[a-z0-9]+$/'],
+            ['Code', 'unique', 'className' => 'company\models\Company', 'attributeName' => 'Code',
+                'criteria' => $this->isUpdateMode() ? ['condition' => '"t"."Id" != :Id', 'params' => ['Id' => $this->model->Id]] : []
+            ],
             ['Info', 'safe'],
             ['Name', 'required'],
             ['Url', 'url'],
@@ -163,7 +169,8 @@ class Company extends CreateUpdateForm
             'RaecClusters' => 'Кластеры РАЭК',
             'PrimaryProfessionalInterest' => 'Основная экосистема',
             'ProfessionalInterests' => 'Экосистемы',
-            'Info' => 'Информация о компании'
+            'Info' => 'Информация о компании',
+            'Code' => 'Символьный код'
         ];
     }
 

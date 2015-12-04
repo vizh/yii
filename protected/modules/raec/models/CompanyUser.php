@@ -50,7 +50,7 @@ class CompanyUser extends ActiveRecord
         return [
             'Company' => [self::BELONGS_TO, 'company\models\Company', 'CompanyId'],
             'User' => [self::BELONGS_TO, 'user\models\User', 'UserId'],
-            'Status' => [self::BELONGS_TO, 'CompanyUserStatus', 'StatusId'],
+            'Status' => [self::BELONGS_TO, 'raec\models\CompanyUserStatus', 'StatusId'],
         ];
     }
 }

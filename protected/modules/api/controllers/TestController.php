@@ -4,26 +4,19 @@ class TestController extends CController
 {
     public function actionIndex()
     {
+        exit;
         //$api = 'zrnzd5rs8i';
         //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-        $api = 'fazr454y5i';
-        $secret = 'bBh8h3Bzd84a3Kb2DK4iaTADa';
+        $api = '2fya967ars';
+        $secret = '6sYyyfYAZBBsn2bf3G8fnd2z6';
 
         $params = array(
             'ApiKey' => $api,
-            'Hash'   => md5($api . $secret),
-            'RunetId'=> 321,
-            'FirstName' => 'Коротов',
-            'LastName'  => 'Андрей',
-            'FatherName'=> 'Сергеевич',
-            'Company'   => 'Internet Media Holding',
-            'Position'  => 'Программист 3',
-            'Country'   => 'Россия',
-            'City'      => 'Moscow',
-            'Phone'     => '71112223332',
+            'Hash' => md5($api . $secret),
+            'Raec' => true
         );
         print_r($params);
-        $this->apiRequest('/api/ms/updateuser', $params);
+        $this->apiRequest('/api/company/list', $params);
     }
 
     private function apiRequest($url, $params)
