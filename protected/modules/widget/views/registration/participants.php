@@ -137,7 +137,7 @@ $clientScript->registerPackage('runetid.jquery.inputmask-multi');
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <?=\CHtml::submitButton(\Yii::t('app', 'Загеристрировать'), ['class' => 'btn btn-primary', 'ngClick' => 'submit']);?>
+                                    <?=\CHtml::submitButton(\Yii::t('app', 'Зарегистрировать'), ['class' => 'btn btn-primary', 'ngClick' => 'submit']);?>
                                     <?=\CHtml::button(\Yii::t('app', 'Отмена'), ['class' => 'btn btn-warning', 'ng-click' => 'hideRegistrationForm(participant)']);?>
                                 </div>
                             <?$this->endWidget();?>

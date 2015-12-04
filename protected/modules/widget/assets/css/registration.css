@@ -1,6 +1,5 @@
 body {
   font-family: "Roboto","Helvetica Neue",Helvetica,Arial,sans-serif;
-  min-width: 500px;
 }
 #widget-registration table td:first-child,
 #widget-registration table th:first-child{
@@ -25,6 +24,13 @@ body {
 #widget-registration table td {
   vertical-align: middle;
   font-size: 13px;
+}
+
+
+@media only screen and (max-device-width : 736px) {
+  .container-fluid {
+    padding-right:4px;
+  }
 }
 
 @media (max-width: 700px) {
