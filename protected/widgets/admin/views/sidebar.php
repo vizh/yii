@@ -11,7 +11,7 @@
     <li><a href="<?=Yii::app()->createUrl('/user/admin/merge/index');?>">Объединение</a></li>
     <li><a href="user.html">Видимость</a></li>
     <li><a href="<?=Yii::app()->createUrl('/user/admin/auth/index');?>">Быстрая авторизация</a></li>
-    <li><a href="calendar.html">Контакты</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/user/admin/main/contacts');?>">Контакты</a></li>
     <li><a href="">Статистика</a></li>
   </ul>
 

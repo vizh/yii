@@ -28,7 +28,7 @@ class DataColumn extends \CDataColumn
         } elseif(is_string($filter)) {
             echo $filter;
         } elseif($filter!==false && $this->grid->filter!==null && $this->name!==null && strpos($this->name,'.')===false) {
-            $htmlOptions = array_merge($this->filterInputHtmlOptions, ['id' => false, 'class' => 'form-control']);
+            $htmlOptions = array_merge(['id' => false, 'class' => 'form-control'], $this->filterInputHtmlOptions);
             if(is_array($filter)) {
                 $htmlOptions['prompt'] = '';
                 echo \CHtml::activeDropDownList($this->grid->filter, $this->name, $filter, $htmlOptions);

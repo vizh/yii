@@ -21,13 +21,13 @@ class GridView extends \CGridView
 
     public $enableHistory = true;
 
-    public $pager = [
-        'class' => '\application\widgets\grid\pager\LinkPager',
-    ];
-
     public function init()
     {
-        $this->dataProvider->getPagination()->setPageSize(self::DEFAULT_PAGE_SIZE);
+        $this->pager = array_merge([
+            'class' => '\application\widgets\grid\pager\LinkPager',
+            'pageSize' => self::DEFAULT_PAGE_SIZE
+        ], $this->pager);
+        $this->dataProvider->getPagination()->setPageSize($this->pager['pageSize']);
         parent::init();
     }
 

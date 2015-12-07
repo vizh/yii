@@ -25,6 +25,6 @@ return array(
     'allow',
     'roles' => array('admin'),
     'module' => 'user',
-    'controllers' => array('admin/moderator', 'admin/merge', 'admin/auth', 'admin/edit', 'admin/list', 'admin/document')
+    'controllers' => array('admin/moderator', 'admin/merge', 'admin/auth', 'admin/edit', 'admin/list', 'admin/document', 'admin/main')
   ),
 );
