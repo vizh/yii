@@ -27,7 +27,7 @@ class Contacts extends SearchFormModel
             'RunetId' => 'RUNET&mdash;ID',
             'FirstName' => 'Имя',
             'LastName' => 'Фамилия',
-            'FatherName' => 'Отчетство',
+            'FatherName' => 'Отчество',
             'Phone' => 'Номер телефона',
             'Company' => 'Компания',
             'Position' => 'Должность',
@@ -46,7 +46,7 @@ class Contacts extends SearchFormModel
         $model = User::model();
         if ($this->validate()) {
             if (!empty($this->Query)) {
-                $model->bySearch($this->Query);
+                $model->bySearch($this->Query, null, true, false);
             }
         }
         return new \CActiveDataProvider($model);

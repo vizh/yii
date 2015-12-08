@@ -15,6 +15,7 @@ $this->setPageTitle('Контакты польльзователей');
         'dataProvider'=> $search->getDataProvider(),
         'filter' => $search,
         'itemsCssClass' => 'table table-bordered',
+        'htmlOptions' => ['style' => 'font-size: 70%'],
         'pager' => [
             'pageSize' => 100,
         ],
@@ -44,7 +45,7 @@ $this->setPageTitle('Контакты польльзователей');
             ],
             [
                 'header' => $search->getAttributeLabel('Email'),
-                'value' => '$data->getPhone()'
+                'value' => '$data->Email'
             ],
             [
                 'header' => $search->getAttributeLabel('Phone'),

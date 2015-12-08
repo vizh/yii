@@ -43,4 +43,12 @@ class FormModel extends \CFormModel
         }
         return false;
     }
+
+    /**
+     * @return string
+     */
+    public static function className()
+    {
+        return get_called_class();
+    }
 } 

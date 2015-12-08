@@ -4,19 +4,28 @@ class TestController extends CController
 {
     public function actionIndex()
     {
-        exit;
         //$api = 'zrnzd5rs8i';
         //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-        $api = '2fya967ars';
-        $secret = '6sYyyfYAZBBsn2bf3G8fnd2z6';
+        $api = 't826ybtyi6';
+        $secret = 'ZF4F85hRhBD4Ntty9943kAyzG';
 
         $params = array(
             'ApiKey' => $api,
             'Hash' => md5($api . $secret),
-            'Raec' => true
+            'Code' => 'bitrix',
+            'Raec' => true,
+            'FirstName' => 'asdhasфывфjkdhashdkaf',
+            'LastName' => 'asdmaasdasdsldajsldas',
+            'Company' => 'ЗЗЗЗЗ',
+            'Position' => 1231231231231231,
+            'Email' => 'j51156qweq1111weqwq@trbvm.com',
+            'Password' => '123456',
+            'City' => 'Москва',
+            'Country' => 'Россия',
+            'ExternalId' => 'dasdasd-asdasda-1ssss231333323---22--'
         );
         print_r($params);
-        $this->apiRequest('/api/company/list', $params);
+        $this->apiRequest('/api/user/create', $params);
     }
 
     private function apiRequest($url, $params)

@@ -3,14 +3,13 @@ namespace api\models\forms\user;
 
 use api\components\Exception;
 use api\models\Account;
-use api\models\ExternalUser;
+use api\models\forms\ExternalUser;
 use oauth\models\Permission;
 use user\models\forms\Register as BaseRegisterForm;
 
 class Register extends BaseRegisterForm
 {
     public $Password;
-    public $ExternalId;
 
     /**
      * @var Account
@@ -26,13 +25,7 @@ class Register extends BaseRegisterForm
     public function rules()
     {
         return array_merge(parent::rules(), [
-            ['Password', 'length', 'min' => 6, 'allowEmpty' => true],
-            ['ExternalId', 'unique', 'className' => '\api\models\ExternalUser', 'attributeName' => 'ExternalId', 'criteria' => [
-                'condition' => '"t"."AccountId" = :AccountId',
-                'params' => [
-                    'AccountId' => $this->account->Id
-                ]
-            ]]
+            ['Password', 'length', 'min' => 6, 'allowEmpty' => true]
         ]);
     }
 
@@ -44,7 +37,18 @@ class Register extends BaseRegisterForm
     {
         $this->account = $account;
         $this->externalUserPartner = $externalUserPartner;
+        parent::__construct(null);
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function initForms()
+    {
+        parent::initForms();
+        $this->registerForm(ExternalUser::className(), [$this->account, $this->externalUserPartner]);
+    }
+
 
     /**
      * @inheritdoc
@@ -108,31 +112,10 @@ class Register extends BaseRegisterForm
     protected function internalCreateActiveRecord()
     {
         parent::internalCreateActiveRecord();
-
-        $this->createExternalUser();
-
         $permission = new Permission();
         $permission->UserId = $this->model->Id;
         $permission->AccountId = $this->account->Id;
         $permission->Verified = true;
         $permission->save();
     }
-
-    /**
-     * @return ExternalUser|null
-     */
-    protected function createExternalUser()
-    {
-        if (!empty($this->ExternalId)) {
-            $user = new ExternalUser();
-            $user->UserId = $this->model->Id;
-            $user->AccountId = $this->account->Id;
-            $user->ExternalId = $this->ExternalId;
-            $user->Partner = $this->externalUserPartner;
-            $user->save();
-            return $user;
-        }
-        return null;
-    }
-
 }

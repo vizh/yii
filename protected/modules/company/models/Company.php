@@ -47,6 +47,7 @@ use search\components\interfaces\ISearch;
  * @method \company\models\Company findByPk()
  * @method \company\models\Company[] findAll()
  * @method Company byId(int $id)
+ * @method Company byCode(string $code)
  */
 class Company extends ActiveRecord implements ISearch, IAutocompleteItem
 {
@@ -115,7 +116,7 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
     public function bySearch($term, $locale = null, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->condition = 'to_tsvector("t"."Name") @@ plainto_tsquery(:Term) OR "t"."Code" = :Term';
+        $criteria->condition = 'to_tsvector("t"."Name") @@ plainto_tsquery(:Term)';
         $criteria->params['Term'] = $term;
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;

@@ -3,7 +3,7 @@ use company\models\Company;
 
 /**
  * @var \application\components\controllers\AdminMainController $this
- * @var \company\models\search\Company $search
+ * @var \company\models\search\admin\Company $search
  */
 
 $this->setPageTitle('Компании');

@@ -14,6 +14,13 @@ class RegisterUser extends BaseUser
     public function __construct(Account $account)
     {
         parent::__construct($account, 'microsoft');
+
+        $request = \Yii::app()->getRequest();
+
+        $user = User::model()->byEmail($request->getParam('Email'))->byVisible(true)->find();
+        if ($user !== null && mb_strtolower($request->getParam('LastName')) === mb_strtolower($user->LastName) && mb_strtolower($request->getParam('FirstName')) === mb_strtolower($user->FirstName)) {
+            $this->setActiveRecord($user);
+        }
     }
 
     /**
@@ -22,10 +29,7 @@ class RegisterUser extends BaseUser
     public function fillFromPost()
     {
         parent::fillFromPost();
-        $user = User::model()->byEmail($this->Email)->byVisible(true)->find();
-        if ($user !== null && mb_strtolower($this->LastName) === mb_strtolower($user->LastName) && mb_strtolower($this->FirstName) === mb_strtolower($user->FirstName)) {
-            $this->model = $user;
-        } else {
+        if (!$this->isUpdateMode()) {
             $this->Password = \Utils::GeneratePassword();
         }
     }
@@ -44,41 +48,27 @@ class RegisterUser extends BaseUser
     }
 
     /**
-     * @throws \application\components\Exception
+     * @inheritDoc
      */
-    public function updateActiveRecord()
+    protected function internalUpdateActiveRecord()
     {
-        if (!$this->validate()) {
-            return null;
+        $this->saveUserData();
+        if (!empty($this->Company)) {
+            $this->model->setEmployment($this->Company, $this->Position);
         }
 
-        $transaction = \Yii::app()->getDb()->beginTransaction();
-        try {
-            $this->createExternalUser();
-            $this->saveUserData();
-            if (!empty($this->Company)) {
-                $this->model->setEmployment($this->Company, $this->Position);
+        if (!empty($this->Phone)) {
+            if (!$this->model->PrimaryPhoneVerify) {
+                $this->model->PrimaryPhone = $this->Phone;
+                $this->model->save();
+            } elseif ($this->model->PrimaryPhone !== $this->Phone) {
+                $this->model->setContactPhone($this->Phone);
             }
-
-            if (!empty($this->Phone)) {
-                if (!$this->model->PrimaryPhoneVerify) {
-                    $this->model->PrimaryPhone = $this->Phone;
-                    $this->model->save();
-                } elseif ($this->model->PrimaryPhone !== $this->Phone) {
-                    $this->model->setContactPhone($this->Phone);
-                }
-            }
-
-            $mail = new RegisterMail(new MandrillMailer(), $this->model);
-            $mail->send();
-
-            $transaction->commit();
-            return $this->model;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
         }
-        return null;
+        $mail = new RegisterMail(new MandrillMailer(), $this->model);
+        $mail->send();
     }
+
 
     /**
      *

@@ -12,6 +12,7 @@ class ListAction extends Action
         $request = \Yii::app()->getRequest();
 
         $query = $request->getParam('Query');
+        $code  = $request->getParam('Code');
         $raec  = $request->getParam('Raec');
 
         $model = Company::model();
@@ -24,6 +25,8 @@ class ListAction extends Action
             } else {
                 $model->bySearch($query);
             }
+        } elseif (!empty($code)) {
+            $model->byCode($code);
         }
 
         if ($raec !== null) {

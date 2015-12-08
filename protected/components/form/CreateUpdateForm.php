@@ -13,7 +13,7 @@ abstract class CreateUpdateForm extends FormModel
     /**
      * @var \CActiveRecord Редактируемая модель
      */
-    protected $model;
+    protected $model = null;
 
     /**
      * @param \CActiveRecord $model
@@ -21,8 +21,9 @@ abstract class CreateUpdateForm extends FormModel
     public function __construct(\CActiveRecord $model = null)
     {
         parent::__construct();
-        $this->model = $model;
-        $this->loadData();
+        if ($model !== null) {
+            $this->setActiveRecord($model);
+        }
     }
 
     /**
@@ -51,6 +52,19 @@ abstract class CreateUpdateForm extends FormModel
     public function getActiveRecord()
     {
         return $this->model;
+    }
+
+    /**
+     * @param \CActiveRecord $activeRecord
+     * @throws \Exception
+     */
+    public function setActiveRecord(\CActiveRecord $model)
+    {
+        if (!empty($this->model)) {
+            throw new \Exception('Редактируемая модель инициализирована ранее');
+        }
+        $this->model = $model;
+        $this->loadData();
     }
 
     /**

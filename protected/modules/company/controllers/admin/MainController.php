@@ -4,7 +4,7 @@ use application\components\controllers\AdminMainController;
 use company\models\Company;
 use application\components\traits\LoadModelTrait;
 use company\models\forms\admin\Company as CompanyForm;
-use company\models\search\Company as CompanySearch;
+use company\models\search\admin\Company as CompanySearch;
 use application\helpers\Flash;
 
 class MainController extends AdminMainController

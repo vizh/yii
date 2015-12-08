@@ -2,12 +2,17 @@
 namespace user\models\forms;
 
 use application\components\form\CreateUpdateForm;
+use application\components\form\CreateUpdateFormCombiner;
 use application\components\utility\Texts;
 use application\helpers\Flash;
 use contact\models\forms\Address;
 use CText;
 use event\models\Event;
 use event\models\Role;
+use user\models\forms\fields\Email;
+use user\models\forms\fields\Employment;
+use user\models\forms\fields\Name;
+use user\models\forms\fields\Phone;
 use user\models\User;
 
 /**
@@ -15,98 +20,46 @@ use user\models\User;
  * @package user\models\forms
  *
  */
-abstract class Register extends CreateUpdateForm
+abstract class Register extends CreateUpdateFormCombiner
 {
     /** @var User */
     protected $model;
 
-    public $FirstName;
-    public $LastName;
-    public $FatherName;
-    public $Email;
-    public $Company;
-    public $Position;
-    public $Phone;
-
-    public function rules()
-    {
-        return [
-            ['FirstName,LastName,FatherName,Company,Position', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
-            ['FirstName, LastName', 'required'],
-            ['Email', 'required'],
-            ['FatherName, Company, Position', 'safe'],
-            ['Phone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
-            ['Phone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ['condition' => '"t"."Visible"']],
-            ['Email', 'email', 'allowEmpty' => true],
-            ['Email', 'validateEmail'],
-            ['Position', 'validateEmployment']
-        ];
-    }
-
-    /**
-     * @param $attribute
-     * @return bool
-     */
-    public function validateEmail($attribute)
-    {
-        if (!empty($this->Email) && !$this->isHiddenUser()) {
-            $exists = User::model()->byEmail($this->Email)->byVisible(true)->exists();
-            if ($exists) {
-                $this->addError($attribute, 'Пользователь с таким Email уже существует в RUNET-ID');
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * @param $attribute
-     * @param $params
-     * @return bool
-     */
-    public function validateEmployment($attribute, $params)
-    {
-        if (!empty($this->Position) && empty($this->Company)) {
-            $this->addError($attribute, 'Поле "'. $this->getAttributeLabel('Position') .'" не может быть заполнено без поля "'. $this->getAttributeLabel('Company') .'"');
-            return false;
-        }
-        return true;
-    }
-
-    public function attributeLabels()
-    {
-        return [
-            'FirstName' => \Yii::t('app', 'Имя'),
-            'LastName' =>  \Yii::t('app', 'Фамилия'),
-            'FatherName' =>  \Yii::t('app', 'Отчество'),
-            'Password' =>  \Yii::t('app', 'Пароль'),
-            'Email' =>  \Yii::t('app', 'E-mail'),
-            'Company' =>  \Yii::t('app', 'Компания'),
-            'Position' =>  \Yii::t('app', 'Должность'),
-            'Phone' =>  \Yii::t('app', 'Телефон'),
-            'City' =>  \Yii::t('app', 'Город')
-        ];
-    }
-
     /**
      * @inheritdoc
      */
-    public function createActiveRecord()
+    protected function initForms()
     {
-        if (!$this->validate()) {
-            return null;
-        }
+        $this->registerForm(Name::className());
+        $this->registerForm(Email::className());
+        $this->registerForm(Employment::className());
+        $this->registerForm(Phone::className());
+    }
 
-        $transaction = \Yii::app()->getDb()->beginTransaction();
-        try {
-            $this->internalCreateActiveRecord();
-            $transaction->commit();
-            return $this->model;
-        } catch (\CDbException $e) {
-            $transaction->rollBack();
-            Flash::setError($e);
+    /**
+     * @inheritDoc
+     */
+    public function rules()
+    {
+        $rules = parent::rules();
+        foreach ($rules as $k => $rule) {
+            if ($rule[0] === 'Email' && $rule[1] === 'application\components\validators\InlineValidator') {
+                $rules[$k][1] = 'validateEmail';
+            }
         }
-        return null;
+        return $rules;
+    }
+
+    /**
+     * @param string $attribute
+     * @param array $params
+     * @return bool|mixed
+     */
+    public function validateEmail($attribute, $params) {
+        if (!$this->isHiddenUser()) {
+            return call_user_func_array($params['method'], [$attribute]);
+        }
+        return true;
     }
 
     /**
@@ -130,7 +83,7 @@ abstract class Register extends CreateUpdateForm
     }
 
     /**
-     * true - если требуется зарегистрировать скрытого пользователя
+     * Возвращает true если будет зарегистрирован скрытый пользователь
      * @return bool
      */
     protected function isHiddenUser()
