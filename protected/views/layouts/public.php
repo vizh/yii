@@ -123,8 +123,10 @@
           <img src="/img/pay/yandex-money.png" alt="Master Card"/>
         </div>
       </div>
-      <?=\CHtml::link(\CHtml::image('/images/hotline_eng.png', 'Горячая линия рунета'), 'http://hotline.rocit.ru', ['target' => '_blank', 'class' => 'hotline']);?>
       <div class="development pull-right">
+        <div class="m-bottom_10">
+          <?=\CHtml::link(\CHtml::image('/images/hotline.png', 'Горячая линия рунета'), 'http://hotline.rocit.ru', ['target' => '_blank']);?>
+        </div>
         &copy;&nbsp;2008-<?=date('Y')?>, ООО &laquo;РУВЕНТС&raquo;<br />
         Разработка и поддержка: <a href="http://internetmediaholding.com" title="Internet Media Holding" target="_blank">Internet Media Holding</a><br />
         Дизайн: <a href="http://coalla.ru/" title="Агентство Coalla" target="_blank">Coalla</a>
