@@ -4,16 +4,15 @@
  */
 
 use event\components\WidgetPosition;
+
 ?>
-<?$this->beginContent('//layouts/public');?>
-  <section id="section" role="main">
+<? $this->beginContent('//layouts/public'); ?>
     <?php foreach ($this->getEvent()->Widgets as $link):
-        $widget = $link->Class->createWidget($this->getEvent(), true);
-        if ($widget->getPosition() == WidgetPosition::Header) {
-            $widget->run();
-            $widget->init();
-        }
-    endforeach;?>
+    $widget = $link->Class->createWidget($this->getEvent(), true);
+    if ($widget->getPosition() == WidgetPosition::Header) {
+        $widget->run();
+        $widget->init();
+    }
+    endforeach; ?>
     <?php echo $content; ?>
-  </section>
-<?$this->endContent();?>
+<? $this->endContent(); ?>

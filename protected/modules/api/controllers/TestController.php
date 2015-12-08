@@ -4,10 +4,11 @@ class TestController extends CController
 {
     public function actionIndex()
     {
+        exit;
         //$api = 'zrnzd5rs8i';
         //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-        $api = 't826ybtyi6';
-        $secret = 'ZF4F85hRhBD4Ntty9943kAyzG';
+        $api = 'fazr454y5i';
+        $secret = 'bBh8h3Bzd84a3Kb2DK4iaTADa';
 
         $params = array(
             'ApiKey' => $api,
@@ -22,10 +23,10 @@ class TestController extends CController
             'Password' => '123456',
             'City' => 'Москва',
             'Country' => 'Россия',
-            'ExternalId' => 'dasdasd-asdasda-1ssss231333323---22--'
+            'ExternalId' => 'dasdasd-asdasda-1sssasda22--'
         );
         print_r($params);
-        $this->apiRequest('/api/user/create', $params);
+        $this->apiRequest('/api/ms/createuser', $params);
     }
 
     private function apiRequest($url, $params)

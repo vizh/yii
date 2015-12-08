@@ -23,10 +23,10 @@ class CreateUserAction extends Action
         if ($user !== null) {
             $this->getEvent()->skipOnRegister = true;
             $this->getEvent()->registerUser($user, Role::model()->findByPk(24));
-            /*$product = Product::model()->findByPk(4013);
+            $product = Product::model()->findByPk(4013);
             try {
                 $product->getManager()->createOrderItem($user, $user);
-            } catch (\Exception $e) {}*/
+            } catch (\Exception $e) {}
 
             $this->setResult([
                 'PayUrl' => 'http://msdevcon16.runet-id.com/fastauth?id=' . $user->RunetId . '&hash=' . $user->getHash()

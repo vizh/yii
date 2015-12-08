@@ -163,7 +163,6 @@ abstract class CreateUpdateFormCombiner extends CreateUpdateForm
             $this->internalUpdateActiveRecord();
             foreach ($this->forms as $form) {
                 if ($form instanceof CreateUpdateForm) {
-                    var_dump($form->ExternalId);
                     $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
                 }
             }
