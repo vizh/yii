@@ -71,14 +71,10 @@ abstract class Register extends CreateUpdateFormCombiner
 
         $this->model = new User();
         $this->fillActiveRecord();
-        $this->model->PrimaryPhone = $this->Phone;
         $this->model->register($notify);
         if ($this->isHiddenUser()) {
             $this->model->Visible = false;
             $this->model->save();
-        }
-        if (!empty($this->Company)) {
-            $this->model->setEmployment($this->Company, $this->Position);
         }
     }
 

@@ -1,7 +1,8 @@
 <?php
 namespace user\models\forms\fields;
 
-use application\components\form\FormModel;
+use application\components\form\CreateUpdateForm;
+use user\models\User;
 
 /**
  * Class Employment
@@ -9,13 +10,16 @@ use application\components\form\FormModel;
  *
  * Редактирование места работы и занимаемая должность
  */
-class Employment extends FormModel
+class Employment extends CreateUpdateForm
 {
     /** @var string Название компании */
     public $Company;
 
     /** @var string Занимаемая должность */
     public $Position;
+
+    /** @var User */
+    protected $model = null;
 
     public function rules()
     {
@@ -48,4 +52,19 @@ class Employment extends FormModel
             'Position' =>  \Yii::t('app', 'Должность')
         ];
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function updateActiveRecord()
+    {
+        if (!empty($this->Company)) {
+            $employment = $this->model->getEmploymentPrimary();
+            if ($employment === null || $employment->Company->Name !== $this->Company || $employment->Position !== $this->Position) {
+                $this->model->setEmployment($this->Company, $this->Position);
+            }
+        }
+    }
+
+
 }
