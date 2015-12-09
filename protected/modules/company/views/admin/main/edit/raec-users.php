@@ -54,7 +54,7 @@ $titles = $form->RaecUsers[0]->attributeLabels();
                 <?=$activeForm->dropDownList($form, 'RaecUsers[' . $i . '][StatusId]', $user->getStatusData(), ['class' => 'input-block-level']);?>
             </td>
             <td class="text-center">
-                <?=$activeForm->radioButton($form, 'RaecUsers[' . $i . '][AllowVote]');?>
+                <?=$activeForm->checkBox($form, 'RaecUsers[' . $i . '][AllowVote]');?>
             </td>
             <td>
                 <?=$activeForm->textField($form, 'RaecUsers[' . $i . '][JoinTime]', ['class' => 'input-block-level']);?>
