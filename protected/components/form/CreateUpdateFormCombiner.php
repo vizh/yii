@@ -169,7 +169,6 @@ abstract class CreateUpdateFormCombiner extends CreateUpdateForm
             $transaction->commit();
             return $this->model;
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
             $transaction->rollBack();
             Flash::setError($e);
         }
@@ -198,7 +197,7 @@ abstract class CreateUpdateFormCombiner extends CreateUpdateForm
                     if (!$form->isUpdateMode()) {
                         $form->setActiveRecord($this->model);
                     }
-                    $form->createActiveRecord();
+                    $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
                 }
             }
             $transaction->commit();

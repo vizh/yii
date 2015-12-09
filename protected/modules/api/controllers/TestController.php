@@ -7,23 +7,20 @@ class TestController extends CController
         exit;
         //$api = 'zrnzd5rs8i';
         //$secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
-        $api = 'fazr454y5i';
-        $secret = 'bBh8h3Bzd84a3Kb2DK4iaTADa';
+        $api = 't826ybtyi6';
+        $secret = 'ZF4F85hRhBD4Ntty9943kAyzG';
 
         $params = array(
             'ApiKey' => $api,
             'Hash' => md5($api . $secret),
-            'Code' => 'bitrix',
-            'Raec' => true,
-            'FirstName' => 'asdhasфывфjkdhashdkaf',
-            'LastName' => 'asdmaasdasdsldajsldas',
-            'Company' => 'ЗЗЗЗЗ',
-            'Position' => 1231231231231231,
-            'Email' => 'j51156qweq1111weqwq@trbvm.com',
-            'Password' => '123456',
-            'City' => 'Москва',
-            'Country' => 'Россия',
-            'ExternalId' => 'dasdasd-asdasda-1sssasda22--'
+            'Phone' => '792510938855',
+            'FirstName' => 'PssPPPP',
+            'LastName' => 'PPPPP',
+            'FatherName' => 'PPPP',
+            'Email' => 'andrey.kor123otov@yandex.ru',
+            'Company' => 'Google',
+            'Position' => 'Какая-то компания',
+            'ExternalId' => 'kasj213123121kasdasasd'
         );
         print_r($params);
         $this->apiRequest('/api/ms/createuser', $params);

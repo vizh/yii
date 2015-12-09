@@ -1,7 +1,7 @@
 <?php
 namespace user\models\forms\fields;
 
-use application\components\form\FormModel;
+use application\components\form\CreateUpdateForm;
 
 /**
  * Class Phone
@@ -9,7 +9,7 @@ use application\components\form\FormModel;
  *
  * Редактирование номера телефона пользоавтеля
  */
-class Phone extends FormModel
+class Phone extends CreateUpdateForm
 {
     public $Phone;
 
@@ -18,7 +18,7 @@ class Phone extends FormModel
         return [
             ['Phone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
             ['Phone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone',
-                'criteria' => ['condition' => '"t"."Visible"']
+                'criteria' => !$this->isUpdateMode() ? ['condition' => '"t"."Visible"'] : ['condition' => '"t"."Visible" AND "t"."Id" != :Id', 'params' => ['Id' => $this->model->Id]]
             ],
         ];
     }
@@ -31,5 +31,24 @@ class Phone extends FormModel
         return [
             'Phone' =>  \Yii::t('app', 'Телефон')
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function updateActiveRecord()
+    {
+        if (!empty($this->Phone)) {
+            $this->model->PrimaryPhone = $this->Phone;
+            $this->model->save();
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function createActiveRecord()
+    {
+
     }
 }

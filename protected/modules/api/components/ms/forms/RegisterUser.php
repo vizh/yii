@@ -53,18 +53,6 @@ class RegisterUser extends BaseUser
     protected function internalUpdateActiveRecord()
     {
         $this->saveUserData();
-        if (!empty($this->Company)) {
-            $this->model->setEmployment($this->Company, $this->Position);
-        }
-
-        if (!empty($this->Phone)) {
-            if (!$this->model->PrimaryPhoneVerify) {
-                $this->model->PrimaryPhone = $this->Phone;
-                $this->model->save();
-            } elseif ($this->model->PrimaryPhone !== $this->Phone) {
-                $this->model->setContactPhone($this->Phone);
-            }
-        }
         $mail = new RegisterMail(new MandrillMailer(), $this->model);
         $mail->send();
     }
