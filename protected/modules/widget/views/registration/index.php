@@ -28,9 +28,9 @@ $clientScript->registerScript('init', '
                     <div class="text-muted m-top_5" ng-bind-html="product.Description" ng-if="product.Description"></div>
                 </td>
                 <td class="text-right col-width">
-                    {{product.Price != 0 ? product.Price  + " <?=Yii::t('app', 'руб.');?>" : "<?=\Yii::t('app', 'Бесплатно');?>"}}
+                    <strong>{{product.Price != 0 ? product.Price  + " <?=Yii::t('app', 'руб.');?>" : "<?=\Yii::t('app', 'Бесплатно');?>"}}</strong>
                     <p ng-repeat="price in product.futurePrices" class="future-price text-muted">
-                        {{price.Title}} <strong>{{price.Price}} <?=Yii::t('app', 'руб.');?></strong>
+                        {{price.Title}} {{price.Price}} <?=Yii::t('app', 'руб.');?>
                     </p>
                 </td>
                 <td class="text-center col-width hidden-xs">

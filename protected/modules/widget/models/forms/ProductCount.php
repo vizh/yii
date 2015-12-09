@@ -126,12 +126,7 @@ class ProductCount extends EventItemCreateUpdateForm
                         'Title' => function (ProductPrice $price) {
                             $title = $price->Title;
                             if (empty($title)) {
-                                $formatter = \Yii::app()->getDateFormatter();
-                                if (!empty($price->EndTime)) {
-                                    $title = \Yii::t('app', 'с') . ' ' . $formatter->format('d MMM', $price->StartTime) . ' ' . \Yii::t('app', 'до') . ' ' . $formatter->format('d MMM', $price->EndTime);
-                                } else {
-                                    $title = \Yii::t('app', 'с') . ' ' . $formatter->format('d MMM', $price->StartTime);
-                                }
+                                $title = \Yii::t('app', 'с') . ' ' . \Yii::app()->getDateFormatter()->format('d MMMM', $price->StartTime);
                             }
                             return $title;
                         }
