@@ -93,7 +93,7 @@ $this->setPageTitle('Карточка компании');
                 <?php endforeach;?>
                 <div class="hide"><?=$activeForm->dropDownList($form, 'RaecClusters[]', $form->getClustersData());?> </div>
             </div>
-            <?=\CHtml::button('Добавить кластер', ['class' => 'btn btn-default', 'onclick' => "$('#company-clusters').append($('#company-clusters div.hide').html());"]);?>
+            <?=\CHtml::button('Добавить', ['class' => 'btn btn-default', 'onclick' => "$('#company-clusters').append($('#company-clusters div.hide').html());"]);?>
 
             <hr/>
             <div id="company-interests">

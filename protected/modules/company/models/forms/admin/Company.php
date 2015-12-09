@@ -166,7 +166,7 @@ class Company extends CreateUpdateForm
             'Logo' => 'Изображение для логотипа',
             'Address' => 'Адрес организации',
             'Phone' => 'Телефон',
-            'RaecClusters' => 'Кластеры РАЭК',
+            'RaecClusters' => 'Членство в кластере/комиссии РАЭК',
             'PrimaryProfessionalInterest' => 'Основная экосистема',
             'ProfessionalInterests' => 'Экосистемы',
             'Info' => 'Информация о компании',
