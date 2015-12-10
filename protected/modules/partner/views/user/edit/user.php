@@ -38,7 +38,24 @@ $data = $event->getUserData($user);
                         (<?=$employment->Company->Name;?>)
                     </h5>
                 <?php endif;?>
-                <?=\CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn btn-sm m-top_10']);?>
+
+                <div class="btn-group btn-group-sm m-top_10">
+                    <?=\CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn']);?>
+                    <?php if ($event->DocumentRequired && !empty($user->Documents) && !empty($participants)):?>
+                        <?php $this->beginWidget('\application\widgets\bootstrap\Modal', [
+                            'header' => \Yii::t('app', 'Паспортные данные'),
+                            'htmlOptions' => ['class' => 'modal-blur'],
+                            'toggleButton' => [
+                                'class' => 'btn',
+                                'label' => \Yii::t('app', 'Паспортные данные')
+                            ]
+                        ]);
+                        $this->renderPartial('edit/documents', ['user' => $user]);
+                        $this->endWidget();
+                        ?>
+                    <?php endif;?>
+                </div>
+
                 <p class="m-top_20">
                     <span class="fa fa-envelope-o"></span> <?=\CHtml::mailto($user->Email);?>
                     <?php if ($user->getPhone() !== null):?>

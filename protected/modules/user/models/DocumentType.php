@@ -1,6 +1,7 @@
 <?php
 namespace user\models;
 use application\components\ActiveRecord;
+use user\models\forms\document\BaseDocument;
 
 /**
  * This is the model class for table "UserDocumentType".
@@ -33,4 +34,17 @@ class DocumentType extends ActiveRecord
     {
         return 'UserDocumentType';
     }
+
+
+	/**
+	 * Возаращает форму для редактирования документа
+	 * @param User $user
+	 * @param Document|null $document
+	 * @return BaseDocument
+	 */
+	public function getForm(User $user, Document $document = null)
+	{
+		$class = '\user\models\forms\document\\' . $this->FormName;
+		return new $class($this, $user, $document);
+	}
 }

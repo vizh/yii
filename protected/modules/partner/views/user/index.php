@@ -123,6 +123,20 @@ use application\components\utility\Texts;
                     ],
                     [
                         'type' => 'raw',
+                        'name' => 'Document',
+                        'header' => $search->getAttributeLabel('Document'),
+                        'visible' => (bool) $event->DocumentRequired,
+                        'value' => function (User $user) {
+                            if (!empty($user->Documents)) {
+                                return \CHtml::tag('span', ['class' => 'label label-success'], \Yii::t('app', 'Заполнен'));
+                            } else {
+                                return \CHtml::tag('span', ['class' => 'label label-danger'], \Yii::t('app', 'Не заполнен'));
+                            }
+                        },
+                        'filter' => [0 => \Yii::t('app', 'Не заполнен'), 1 => \Yii::t('app', 'Заполнен')]
+                    ],
+                    [
+                        'type' => 'raw',
                         'header' => $search->getAttributeLabel('Ruvents'),
                         'name' => 'Ruvents',
                         'value' => function (User $user) use ($controller) {

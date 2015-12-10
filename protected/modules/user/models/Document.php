@@ -1,6 +1,8 @@
 <?php
 namespace user\models;
+
 use application\components\ActiveRecord;
+use user\models\forms\document\BaseDocument;
 
 /**
  * This is the model class for table "UserDocument".
@@ -22,38 +24,50 @@ use application\components\ActiveRecord;
  * @method Document byActual(boolean $actual)
  *
  * @method Document[] findAll()
+ * @method Document find()
  */
 class Document extends ActiveRecord
 {
-	/**
-	 * Returns the static model of the specified AR class.
-	 * @param string $className active record class name.
-	 * @return Document the static model class
-	 */
-	public static function model($className=__CLASS__)
-	{
-		return parent::model($className);
-	}
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return Document the static model class
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-	/**
-	 * @return string the associated database table name
-	 */
-	public function tableName()
-	{
-		return 'UserDocument';
-	}
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'UserDocument';
+    }
 
 
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return [
-			'Type' => [self::BELONGS_TO, '\user\models\DocumentType', 'TypeId'],
-			'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
-		];
-	}
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return [
+            'Type' => [self::BELONGS_TO, '\user\models\DocumentType', 'TypeId'],
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+        ];
+    }
+
+    /**
+     * Возаращет форму для редактирования документа
+     * @param User $user
+     * @return BaseDocument
+     */
+    public function getForm(User $user)
+    {
+        return $this->Type->getForm($user, $this);
+    }
+
 }
