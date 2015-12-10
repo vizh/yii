@@ -33,11 +33,14 @@ class Participant extends SearchFormModel
 
     public $Ruvents;
 
+    public $Document;
+
     public function rules()
     {
         return [
             ['Query,Company', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
-            ['Role', 'type', 'type' => 'array']
+            ['Role', 'type', 'type' => 'array'],
+            ['Document', 'boolean']
         ];
     }
 
@@ -47,7 +50,8 @@ class Participant extends SearchFormModel
             'Name' => 'ФИО или E-mail',
             'Role' => 'Статус',
             'Company' => 'Работа',
-            'Ruvents' => 'Регистрация'
+            'Ruvents' => 'Регистрация',
+            'Document' => 'Документ'
         ];
     }
 
@@ -79,7 +83,8 @@ class Participant extends SearchFormModel
                 'params' => [
                     'EventId' => $this->event->Id
                 ]
-            ]
+            ],
+            'Documents'
         ];
 
         $criteria->addInCondition('"t"."Id"', \CHtml::listData(User::model()->findAll($this->getCriteria()), 'Id', 'Id'));
@@ -117,6 +122,10 @@ class Participant extends SearchFormModel
                 'together' => true,
                 'select' => false
             ],
+            'Documents' => [
+                'together' => true,
+                'select' => false
+            ],
             'EmploymentsForCriteria' => [
                 'together' => true,
                 'select' => false,
@@ -143,6 +152,10 @@ class Participant extends SearchFormModel
             if (!empty($this->Company)) {
                 $criteria->addCondition('"Company"."Name" ILIKE :Company AND "EmploymentsForCriteria"."Primary"');
                 $criteria->params['Company'] = '%' . $this->Company . '%';
+            }
+
+            if ($this->Document != '') {
+                $criteria->addCondition('"Documents"."Id" IS ' . ($this->Document ? 'NOT' : '')  . ' NULL');
             }
         }
 

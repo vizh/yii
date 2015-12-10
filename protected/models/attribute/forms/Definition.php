@@ -148,7 +148,8 @@ class Definition extends CreateUpdateForm
             'TextDefinition' => \Yii::t('app', 'Большое текстовое поле'),
             'ListDefinition' => \Yii::t('app', 'Выпадающий список'),
             'BooleanDefinition' => \Yii::t('app', 'Выбор Да/Нет'),
-            'FileDefinition' => \Yii::t('app', 'Загрузка файла')
+            'FileDefinition' => \Yii::t('app', 'Загрузка файла'),
+            'UrlDefinition' => \Yii::t('app', 'Ссылка')
         ];
     }
 

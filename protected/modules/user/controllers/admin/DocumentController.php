@@ -43,8 +43,7 @@ class DocumentController extends AdminMainController
         $types = DocumentType::model()->orderBy('"t"."Id"')->findAll();
         foreach ($types as $type) {
             $document = Document::model()->byUserId($user->Id)->byTypeId($type->Id)->byActual(true)->find();
-            $class = '\user\models\forms\document\\' . $type->FormName;
-            $forms[] = new $class($type, $user, $document);
+            $forms[] = $type->getForm($user, $document);
         }
         return $forms;
     }

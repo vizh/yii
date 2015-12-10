@@ -66,6 +66,7 @@ use ruvents2\models\Badge as Badge2;
  * @property IriUser[] $IRIParticipants
  * @property IriUser[] $IRIParticipantsActive
  * @property ExternalUser[] $ExternalAccounts
+ * @property Document[] $Documents
  *
  * События
  * @property \CEvent $onRegister
@@ -148,7 +149,8 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             'IRIParticipants' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role']],
             'IRIParticipantsActive' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role'], 'on' => '"IRIParticipantsActive"."ExitTime" IS NULL OR "IRIParticipantsActive"."ExitTime" > NOW()'],
 
-            'ExternalAccounts' => [self::HAS_MANY, '\api\models\ExternalUser', 'UserId']
+            'ExternalAccounts' => [self::HAS_MANY, '\api\models\ExternalUser', 'UserId'],
+            'Documents' => [self::HAS_MANY, '\user\models\Document', 'UserId', 'on' => '"Documents"."Actual"']
         );
     }
 
