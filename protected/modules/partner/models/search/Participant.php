@@ -142,7 +142,11 @@ class Participant extends SearchFormModel
                     $criteria->addCondition('"t"."Email" = :Email');
                     $criteria->params['Email'] = $this->Query;
                 } else {
-                    $criteria->mergeWith(User::model()->bySearch($this->Query, null, true, false)->getDbCriteria());
+                    $model = User::model()->bySearch($this->Query, null, true, false);
+                    if (strstr($this->Query, ' ') === false) {
+                        $model->bySearchFirstName($this->Query, false);
+                    }
+                    $criteria->mergeWith($model->getDbCriteria());
                 }
             }
             if (!empty($this->Role)) {
