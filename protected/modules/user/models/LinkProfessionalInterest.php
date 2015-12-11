@@ -8,6 +8,8 @@ namespace user\models;
  *
  * @property User $User
  * @property \application\models\ProfessionalInterest $ProfessionalInterest
+ *
+ * @method LinkProfessionalInterest[] findAll()
  */
 class LinkProfessionalInterest extends \CActiveRecord
 {
