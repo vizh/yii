@@ -41,7 +41,7 @@ $data = $event->getUserData($user);
 
                 <div class="btn-group btn-group-sm m-top_10">
                     <?=\CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn']);?>
-                    <?php if ($event->DocumentRequired && !empty($user->Documents) && !empty($participants)):?>
+                    <?php if (isset($event->DocumentRequired) && $event->DocumentRequired && !empty($user->Documents) && !empty($participants)):?>
                         <?php $this->beginWidget('\application\widgets\bootstrap\Modal', [
                             'header' => \Yii::t('app', 'Паспортные данные'),
                             'htmlOptions' => ['class' => 'modal-blur'],

@@ -20,6 +20,8 @@ use user\models\User;
  * @property Company $Company
  * @property User $User
  * @property CompanyUserStatus $Status
+ *
+ * @method CompanyUser byUserId(int $id)
  */
 class CompanyUser extends ActiveRecord
 {

@@ -125,7 +125,7 @@ use application\components\utility\Texts;
                         'type' => 'raw',
                         'name' => 'Document',
                         'header' => $search->getAttributeLabel('Document'),
-                        'visible' => (bool) $event->DocumentRequired,
+                        'visible' => isset($event->DocumentRequired) && $event->DocumentRequired,
                         'value' => function (User $user) {
                             if (!empty($user->Documents)) {
                                 return \CHtml::tag('span', ['class' => 'label label-success'], \Yii::t('app', 'Заполнен'));

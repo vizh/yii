@@ -8,7 +8,7 @@
   <a data-toggle="collapse" class="nav-header" href="#menu-users"><i class="icon-user icon-white"></i><span class="hidden-phone">Пользователи</span></a>
   <ul class="nav nav-list collapse" id="menu-users">
     <li><a href="<?=Yii::app()->createUrl('/user/admin/list/index');?>">Список пользователей</a></li>
-    <li><a href="<?=Yii::app()->createUrl('/user/admin/merge/index');?>">Объединение</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/user/admin/main/merge');?>">Объединение</a></li>
     <li><a href="user.html">Видимость</a></li>
     <li><a href="<?=Yii::app()->createUrl('/user/admin/auth/index');?>">Быстрая авторизация</a></li>
     <li><a href="<?=Yii::app()->createUrl('/user/admin/main/contacts');?>">Контакты</a></li>

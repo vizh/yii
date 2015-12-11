@@ -10,6 +10,8 @@ namespace commission\models;
  *
  * @property \user\models\User $User
  * @property Role $Role
+ *
+ * @method User[] findAll()
  */
 class User extends \CActiveRecord
 {

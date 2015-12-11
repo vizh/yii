@@ -1,6 +1,7 @@
 <?php
 namespace user\models;
 
+use application\components\ActiveRecord;
 use company\models\Company;
 
 
@@ -20,7 +21,7 @@ use company\models\Company;
  *
  * @method Employment findByPk(integer $pk)
  */
-class Employment extends \CActiveRecord
+class Employment extends ActiveRecord
 {
     const TableName = 'UserEmployment';
 
@@ -298,5 +299,14 @@ class Employment extends \CActiveRecord
         $criteria->condition = (!$primary ? 'NOT ' : '').'"t"."Primary"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
+    }
+
+    /**
+     * @param $pk
+     * @return Employment|null
+     */
+    public static function findOne($pk)
+    {
+        return parent::findOne($pk);
     }
 }

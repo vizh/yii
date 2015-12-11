@@ -395,6 +395,22 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     }
 
     /**
+     * @param string $name
+     * @param bool|true $useAnd
+     * @return $this
+     */
+    public function bySearchFirstName($name, $useAnd = true)
+    {
+        $name = PhoneticSearch::getIndex($name);
+
+        $criteria = new \CDbCriteria();
+        $criteria->addCondition('"t"."SearchFirstName" @@ to_tsquery(:Name)');
+        $criteria->params['Name'] = Texts::prepareStringForTsvector($name);
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
      *
      * @param bool $notify
      *

@@ -1,6 +1,7 @@
 <?php
 namespace user\models;
 
+use application\components\ActiveRecord;
 use education\models\Faculty;
 use education\models\University;
 
@@ -25,8 +26,10 @@ use education\models\University;
  * @method Education find($condition='',$params=array())
  * @method Education findByPk($pk,$condition='',$params=array())
  * @method Education[] findAll($condition='',$params=array())
+ *
+ * @method Education byUserId(int $id)
  */
-class Education extends \CActiveRecord
+class Education extends ActiveRecord
 {
     /**
      * @param string $className
