@@ -72,7 +72,7 @@ class User extends CreateUpdateForm
             ['NewPassword', 'length', 'min' => \Yii::app()->params['UserPasswordMinLenght'], 'allowEmpty' => true],
             ['PrimaryPhone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
             ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => [
-                'condition' => '"t"."Id" != :UserId', 'params' => ['UserId' => $this->isUpdateMode() ? $this->model->Id : 0]]
+                'condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => ['UserId' => $this->isUpdateMode() ? $this->model->Id : 0]]
             ],
             ['Employments, Phones', '\application\components\validators\MultipleFormValidator'],
             ['Photo', 'file', 'types' => 'jpg, jpeg, gif, png', 'allowEmpty' => true]

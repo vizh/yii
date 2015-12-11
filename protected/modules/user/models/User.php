@@ -144,7 +144,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             'Settings' => [self::HAS_ONE, '\user\models\Settings', 'UserId'],
             'CompetenceResults' => [self::HAS_MANY, '\competence\models\Result', 'UserId'],
 
-            'MergeUser' => [self::BELONGS_TO, '\user\models\User', 'Id'],
+            'MergeUser' => [self::BELONGS_TO, '\user\models\User', 'MergeUserId'],
 
             'IRIParticipants' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role']],
             'IRIParticipantsActive' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role'], 'on' => '"IRIParticipantsActive"."ExitTime" IS NULL OR "IRIParticipantsActive"."ExitTime" > NOW()'],
