@@ -24,11 +24,11 @@ class GridView extends \CGridView
     public function init()
     {
         $this->pager = array_merge([
-            'class' => '\application\widgets\grid\pager\LinkPager',
             'pageSize' => self::DEFAULT_PAGE_SIZE
         ], $this->pager);
         $this->dataProvider->getPagination()->setPageSize($this->pager['pageSize']);
         parent::init();
+        $this->pager['class'] = '\application\widgets\grid\pager\LinkPager';
     }
 
     /**

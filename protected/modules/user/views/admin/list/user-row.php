@@ -24,10 +24,13 @@ $editUrl = ['admin/edit/index', 'id' => $user->RunetId, 'backUrl' => \Yii::app()
                 <span class="muted"><?=\Yii::t('app', 'Не подтвержден');?></span>
             <?endif;?>
         </div>
-    <?php elseif (!empty($user->MergeUserId)):?>
-        <span class="label label-info"><?=\Yii::t('app', 'Обьединен в ') . $user->MergeUser->RunetId . ', ' . $user->MergeUser->getFullName();?></span>
     <?else:?>
         <span class="label label-warning"><?=\Yii::t('app', 'Cкрытый аккаунт');?></span>
+        <?php if (!empty($user->MergeUserId)):?>
+            <div style="font-size: 80%;"
+                <span class="text-error"><?=\Yii::t('app', 'Обьединен в ') . \CHtml::link($user->MergeUser->getFullName(), ['admin/edit/index', 'id' => $user->MergeUser->RunetId, 'backUrl' => \Yii::app()->getRequest()->getRequestUri()]);?></span>
+            </div>
+        <?php endif;?>
     <?endif;?>
 </td>
 <td style="text-align: right;">

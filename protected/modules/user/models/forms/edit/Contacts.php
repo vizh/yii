@@ -32,6 +32,7 @@ class Contacts extends \CFormModel
   public function rules()
   {
     return array(
+      ['Site', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
       ['PrimaryPhone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
       array('Email', 'email'),
       array('Email', 'unique', 'className' => '\user\models\User', 'attributeName' => 'Email', 'caseSensitive' => false, 'criteria' => array('condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => array('UserId' => \Yii::app()->user->getId()))),
