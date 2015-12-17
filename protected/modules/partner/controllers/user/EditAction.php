@@ -1,168 +1,140 @@
 <?php
 namespace partner\controllers\user;
 
+use application\components\controllers\AjaxController;
+use application\components\Exception;
+use application\components\traits\LoadModelTrait;
 use event\models\Part;
-use event\models\Participant;
 use event\models\Role;
-use event\models\UserData;
-use partner\models\forms\user\Edit;
+use partner\components\Action;
+use partner\models\forms\user\Participant as ParticipantForm;
+use pay\models\OrderItem;
+use pay\models\Product;
 use user\models\User;
+use pay\components\Exception as PayException;
 
-class EditAction extends \partner\components\Action
+class EditAction extends Action
 {
-    /** @var \user\models\User */
-    public $user = null;
+    use AjaxController;
+    use LoadModelTrait;
 
-    public function run($id = null)
+    public function run($id)
     {
-        /** @var \CHttpRequest $request */
-        $request = \Yii::app()->getRequest();
-
-        if ($id === null) {
-            $form = new Edit();
-            if ($request->getIsPostRequest()) {
-                $form->attributes = $request->getParam(get_class($form));
-                if ($form->validate()) {
-                    $this->getController()->redirect(['edit', 'id' => $form->Label]);
-                }
-            }
-            $this->getController()->render('edit', [
-                'form' => $form
-            ]);
-        } else {
-            $this->user = User::model()->byRunetId($id)->find();
-            if ($this->user === null) {
-                throw new \CHttpException(404);
-            }
-
-            $this->processAjaxAction();
-
-            $this->getController()->render('edit/user', [
-                'user'  => $this->user,
-                'event' => $this->getEvent(),
-                'participants' => $this->prepareParticipants()
-            ]);
+        $user = User::model()->byRunetId($id)->find();
+        if ($user === null) {
+            throw new \CHttpException(404);
         }
+
+        if (\Yii::app()->getRequest()->getIsPostRequest()) {
+            $this->processAjaxAction($user);
+        }
+        $form = new ParticipantForm($this->getEvent(), $user);
+
+
+
+        $this->getController()->render('edit', ['form' => $form]);
     }
 
-    private function processAjaxAction()
-    {
-        $action = \Yii::app()->getRequest()->getParam('do');
-        if (!empty($action)) {
-            $method = 'processAjaxAction'.ucfirst($action);
-            if (method_exists($this,$method)) {
-                $result = $this->$method();
-                echo json_encode($result);
-                \Yii::app()->end();
-            } else
-                throw new \CHttpException(404);
-        }
-    }
 
     /**
-     * @return \event\models\Participant[]
+     * @param User $user
+     * @throws \CHttpException
      */
-    private function prepareParticipants()
+    private function processAjaxAction(User $user)
     {
-        $participants = Participant::model()
-            ->byEventId($this->getEvent()->Id)->byUserId($this->user->Id)->orderBy(['"t"."PartId"'])->findAll();
-
-        if (sizeof($this->getEvent()->Parts) > 0) {
-            $result = [];
-            foreach ($participants as $participant) {
-                $result[$participant->PartId] = $participant;
+        $action = \Yii::app()->getRequest()->getParam('action');
+        if ($action !== null) {
+            $method = 'actionAjax' . ucfirst($action);
+            if (method_exists($this, $method)) {
+               $this->returnJSON($this->$method($user));
             }
-        } else {
-            $result = $participants;
+            throw new \CHttpException(404);
         }
-        return $result;
     }
 
     /**
+     * Смена статуса пользователя
+     * @param User $user
      * @return array
-     * @throws \application\components\Exception
+     * @throws \CHttpException
+     * @throws Exception
      */
-    private function processAjaxActionChangeParticipant()
+    private function actionAjaxChangeRole(User $user)
     {
-        $result  = [];
-        $request = \Yii::app()->getRequest();
+        $event = $this->getEvent();
 
-        $roleId  = $request->getParam('roleId');
-        $partId  = $request->getParam('partId');
+        $request = \Yii::app()->getRequest();
         $message = $request->getParam('message');
 
-        /** @var $role \event\models\Role */
-        $role = Role::model()->findByPk($roleId);
-        if ($role !== null) {
-            if (sizeof($this->getEvent()->Parts) == 0) {
-                $this->getEvent()->registerUser($this->user, $role, false, $message);
-            } else {
-                $part = Part::model()->findByPk($partId);
-                if ($part !== null) {
-                    $this->getEvent()->registerUserOnPart($part, $this->user, $role, false, $message);
-                } else {
-                    $result['error'] = true;
-                }
-            }
+        /** @var Role $role */
+        $role = $this->loadModel(Role::className(), $request->getParam('role'));
+
+        if (!empty($event->Parts)) {
+            /** @var Part $part */
+            $part = $this->loadModel(Part::className(), $request->getParam('role'));
+            $event->registerUserOnPart($part, $user, $role, false, $message);
         } else {
-            if ((int)$roleId == 0) {
-                if (sizeof($this->getEvent()->Parts) == 0) {
-                    $this->getEvent()->unregisterUser($this->user, $message);
-                } else {
-                    $part = Part::model()->findByPk($partId);
-                    if ($part !== null) {
-                        $this->getEvent()->unregisterUserOnPart($this->user, $part, $message);
-                    } else {
-                        $result['error'] = true;
-                    }
-                }
-            } else {
-                $result['error'] = true;
-            }
+            $event->registerUser($user, $role);
         }
-        return $result;
-    }
-
-    /**
-     * @return array
-     * @throws \CHttpException
-     */
-    private function processAjaxActionEditData()
-    {
-        $result = [];
-        $request = \Yii::app()->getRequest();
-        /** @var UserData $data */
-        $data = UserData::model()->byEventId($this->getEvent()->Id)->byUserId($this->user->Id)->findByPk($request->getParam('dataId'));
-        if ($data === null) {
-            throw new \CHttpException(404);
-        }
-
-        $data->getManager()->setAttributes($request->getParam('attributes'));
-        if ($data->getManager()->validate()) {
-            $data->save();
-            $result['values'] = [];
-            foreach ($data->getManager()->getDefinitions() as $definition) {
-                $result['values'][$definition->name] = $definition->getPrintValue($data->getManager());
-            }
-        } else {
-            $result['errors'] = $data->getManager()->getErrors();
-        }
-        return $result;
-    }
-
-    /**
-     * @return array
-     * @throws \CHttpException
-     */
-    private function processAjaxActionDeleteData()
-    {
-        $request = \Yii::app()->getRequest();
-        $data = UserData::model()->byEventId($this->getEvent()->Id)->byUserId($this->user->Id)->findByPk($request->getParam('dataId'));
-        if ($data == null) {
-            throw new \CHttpException(404);
-        }
-        $data->Deleted = true;
-        $data->save();
         return ['success' => true];
+    }
+
+    /**
+     * Добавление опции пользователю
+     * @param User $user
+     * @throws Exception
+     * @throws \CHttpException
+     * @throws \pay\components\CodeException
+     * @throws \pay\components\MessageException
+     */
+    private function actionAjaxCreateOrderItem(User $user)
+    {
+        $product = $this->getProduct();
+        try {
+            $orderItem = $product->getManager()->createOrderItem($user, $user);
+            $orderItem->activate();
+            $result = ['success' => true];
+        } catch (PayException $e) {
+            $result = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+        $this->returnJSON($result);
+    }
+
+    /**
+     * Удаляет опцию у пользователя
+     * @param User $user
+     * @return array
+     * @throws \CHttpException
+     */
+    private function actionAjaxDeleteOrderItem(User $user)
+    {
+        $product = $this->getProduct();
+        $orderItem = OrderItem::model()->byProductId($product->Id)->byAnyOwnerId($user->Id)->byPaid(true)->find();
+        if ($orderItem === null) {
+            throw new \CHttpException(404);
+        }
+
+        $orderItem->deactivate();
+        $orderItem->delete();
+
+        return ['success' => true];
+    }
+
+    /**
+     * @return Product
+     * @throws Exception
+     * @throws \CHttpException
+     */
+    private function getProduct()
+    {
+        /** @var Product $product */
+        $product = $this->loadModel(Product::className(), \Yii::app()->getRequest()->getParam('product'));
+        if ($product->EventId !== $this->getEvent()->Id || $product->getPrice() !== 0) {
+            throw new \CHttpException(404);
+        }
+        return $product;
     }
 }

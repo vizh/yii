@@ -1,5 +1,6 @@
 <?php
 namespace event\models;
+use application\components\ActiveRecord;
 
 /**
  * @property int $Id
@@ -14,7 +15,7 @@ namespace event\models;
  */
 
 
-class Part extends \CActiveRecord
+class Part extends ActiveRecord
 {
     /**
      * @param string $className

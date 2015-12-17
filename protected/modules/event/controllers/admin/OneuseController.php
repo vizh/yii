@@ -4,11 +4,6 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
-    public function actionMstest()
-    {
-
-    }
-
     public function actionExportUserDataFiles()
     {
         $event = \event\models\Event::model()->findByPk(1995);

@@ -1,8 +1,12 @@
 <?php
 namespace application\components\form;
 
+use application\components\traits\ClassNameTrait;
+
 class FormModel extends \CFormModel
 {
+    use ClassNameTrait;
+
     /**
      * Заполняет параметры формы из POST запроса
      */
@@ -42,13 +46,5 @@ class FormModel extends \CFormModel
             }
         }
         return false;
-    }
-
-    /**
-     * @return string
-     */
-    public static function className()
-    {
-        return get_called_class();
     }
 } 
