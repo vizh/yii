@@ -13,8 +13,8 @@ CUserEdit.prototype = {
             $scope.data = self.data.data;
 
             $.each($scope.data, function (i, row) {
-                $.each(row, function (j, item) {
-                    $scope.data[i][j].edit = $sce.trustAsHtml(item.edit);
+                $.each(row.attributes, function (j, item) {
+                    $scope.data[i]['attributes'][j].edit = $sce.trustAsHtml(item.edit);
                 });
             });
 
@@ -22,14 +22,17 @@ CUserEdit.prototype = {
                 $scope.$watch(function () {
                     return participant.role;
                 }, function (role, oldRole) {
+                    if(role === oldRole){
+                        return;
+                    }
                     $scope.changeRole(participant, role);
                 });
             });
 
             $scope.changeRole = function (participant, role) {
                 var $modal = $('<div/>', {
-                    'class' : $('#yw0').attr('class'),
-                    'html'  : $('#yw0').html()
+                    'class' : $('#participant-message').attr('class'),
+                    'html'  : $('#participant-message').html()
                 });
                 $modal.on('hidden.bs.modal', function () {
                     $modal.remove();
@@ -88,10 +91,33 @@ CUserEdit.prototype = {
                     });
             }
 
-            $scope.enableDataEditMode = function (data) {
-                $.each(data, function (i, item) {
-                    item.editMode = true;
-                });
+            $scope.updateDataValues = function (data) {
+                if (data.edit) {
+                    var params = {
+                        'action' : 'editData',
+                        'data' : data.Id
+                    };
+                    var $inputs = $('tr.editable-data').find('input,textarea,select');
+                    $inputs.each(function () {
+                       params[$(this).attr('name')] = $(this).val();
+                    });
+                    $scope.setSavingState(data);
+                    $.ajax({method: 'POST', url: '', data: params})
+                        .done(function(response) {
+                            if (!response.error) {
+                                $.each(response, function (name, value) {
+                                    data['attributes'][name].value = value;
+                                });
+                                $scope.setSuccessState(data);
+                            } else {
+                                $scope.setErrorState(data, response.message);
+                            }
+                        })
+                        .fail(function () {
+                            $scope.setErrorState(data);
+                        });
+                }
+                data.edit = !data.edit;
             }
 
             $scope.setSavingState = function (item) {

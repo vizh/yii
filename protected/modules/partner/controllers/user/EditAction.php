@@ -6,12 +6,14 @@ use application\components\Exception;
 use application\components\traits\LoadModelTrait;
 use event\models\Part;
 use event\models\Role;
+use event\models\UserData;
 use partner\components\Action;
 use partner\models\forms\user\Participant as ParticipantForm;
 use pay\models\OrderItem;
 use pay\models\Product;
 use user\models\User;
 use pay\components\Exception as PayException;
+use event\components\UserDataManager;
 
 class EditAction extends Action
 {
@@ -29,9 +31,6 @@ class EditAction extends Action
             $this->processAjaxAction($user);
         }
         $form = new ParticipantForm($this->getEvent(), $user);
-
-
-
         $this->getController()->render('edit', ['form' => $form]);
     }
 
@@ -67,14 +66,17 @@ class EditAction extends Action
         $message = $request->getParam('message');
 
         /** @var Role $role */
-        $role = $this->loadModel(Role::className(), $request->getParam('role'));
-
+        $role = $this->loadModel(Role::className(), $request->getParam('role'), false);
         if (!empty($event->Parts)) {
             /** @var Part $part */
             $part = $this->loadModel(Part::className(), $request->getParam('role'));
-            $event->registerUserOnPart($part, $user, $role, false, $message);
+            if ($role !== null) {
+                $event->registerUserOnPart($part, $user, $role, false, $message);
+            } else {
+                $event->unregisterUserOnPart($user, $part, $message);
+            }
         } else {
-            $event->registerUser($user, $role);
+            $role !== null ? $event->registerUser($user, $role, false, $message) : $event->unregisterUser($user, $message);
         }
         return ['success' => true];
     }
@@ -121,6 +123,42 @@ class EditAction extends Action
         $orderItem->delete();
 
         return ['success' => true];
+    }
+
+    /**
+     * Изменяет значения пользовательских свойств
+     * @param User $user
+     * @return array
+     * @throws \CHttpException
+     */
+    private function actionAjaxEditData(User $user)
+    {
+        $request = \Yii::app()->getRequest();
+        /** @var UserData $data */
+        $data = $this->loadModel(UserData::className(), $request->getParam('data'));
+        if ($data->UserId !== $user->Id || $data->EventId !== $this->getEvent()->Id) {
+            throw new \CHttpException(404);
+        }
+
+        $attributes = $request->getParam(UserDataManager::className());
+        $manager = $data->getManager();
+
+        $manager->setAttributes($attributes);
+        if ($manager->validate()) {
+            $data->save();
+
+            $result = [];
+            foreach ($data->getManager()->getDefinitions() as $definition) {
+                $result[$definition->name] = $definition->getPrintValue($data->getManager());
+            }
+            return $result;
+        } else {
+            foreach ($manager->getErrors() as $errors) {
+                foreach ($errors as $error) {
+                    return ['error' => true, 'message' => $error];
+                }
+            }
+        }
     }
 
     /**

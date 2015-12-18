@@ -157,7 +157,7 @@ class ExcelBuilder
 
         $i = 0;
         foreach ($row as $value) {
-            $sheet->setCellValueByColumnAndRow($i++, $this->rowIterator, $value);
+            $sheet->setCellValueExplicitByColumnAndRow($i++, $this->rowIterator, $value, \PHPExcel_Cell_DataType::TYPE_STRING);
         }
         $this->rowIterator++;
     }

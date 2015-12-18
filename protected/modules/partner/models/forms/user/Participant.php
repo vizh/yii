@@ -12,6 +12,7 @@ use application\components\form\EventItemCreateUpdateForm;
 use application\components\helpers\ArrayHelper;
 use event\models\Event;
 use event\models\Part;
+use event\models\UserData;
 use pay\models\OrderItem;
 use pay\models\Product;
 use user\models\User;
@@ -95,17 +96,27 @@ class Participant extends EventItemCreateUpdateForm
             return;
         }
 
-        $result->data = [];
-        foreach ($data as $i => $row) {
-            $manager = $row->getManager();
-            foreach ($manager->getDefinitions() as $definition) {
-                $result->data[$i][$definition->name] = [
-                    'title' => $definition->title,
-                    'value' => $definition->getPrintValue($manager),
-                    'edit'  => $definition->activeEdit($manager, ['class' => 'form-control'])
-                ];
+        $result->data = ArrayHelper::toArray($data, ['event\models\UserData' => [
+            'Id',
+            'titles' => function (UserData $data) {
+                $titles = [];
+                foreach ($data->getManager()->getDefinitions() as $definition) {
+                    $titles[$definition->name] = $definition->title;
+                }
+                return $titles;
+            },
+            'attributes' => function (UserData $data) {
+                $manager = $data->getManager();
+                $attributes = [];
+                foreach ($manager->getDefinitions() as $definition) {
+                    $attributes[$definition->name] = [
+                        'value' => $definition->getPrintValue($manager),
+                        'edit'  => $definition->activeEdit($manager, ['class' => 'form-control'])
+                    ];
+                }
+                return $attributes;
             }
-        }
+        ]]);
     }
 
     /**

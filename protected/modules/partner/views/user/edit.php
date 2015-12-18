@@ -7,7 +7,7 @@ use partner\models\forms\user\Participant;
  * @var Participant $form
  */
 
-$this->setPageTitle('Добавление/редактирование участника мероприятия');
+$this->setPageTitle('Редактирование участника мероприятия');
 $clientScript = \Yii::app()->getClientScript();
 $clientScript->registerPackage('angular');
 $clientScript->registerScript('init', '
@@ -15,17 +15,7 @@ $clientScript->registerScript('init', '
 ', \CClientScript::POS_HEAD);
 ?>
 <div ng-controller="UserEditController">
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <span class="panel-title"><i class="fa fa-user"></i> <?=\Yii::t('app', 'Персональные данные');?></span>
-            <div class="panel-heading-controls">
-                <?=\CHtml::link('<span class="fa fa-external-link"></span> ' . \Yii::t('app', 'Профиль'), $form->getActiveRecord()->getUrl(), ['target' => '_blank', 'class' => 'btn btn-xs btn-info btn-outline']);?>
-            </div>
-        </div> <!-- / .panel-heading -->
-        <div class="panel-body">
-
-        </div>
-    </div>
+    <?=$this->renderPartial('edit/info', ['user' => $form->getActiveRecord(), 'event' => $this->getEvent()]);?>
 
     <div class="panel panel-warning">
         <div class="panel-heading">
@@ -71,19 +61,20 @@ $clientScript->registerScript('init', '
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th ng-repeat="item in data[0]">{{item.title}}</th>
+                    <th ng-repeat="title in data[0].titles">{{title}}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="row in data">
-                    <td ng-repeat="item in row">
-                       <span ng-bind-html="item.value" ng-if="!item.editMode"></span>
-                       <div ng-bind-html="item.edit" ng-if="item.editMode"></div>
+                <tr ng-repeat="row in data" ng-class="{'editable-data' : row.edit}">
+                    <td ng-repeat="attribute in row.attributes">
+                       <span ng-bind-html="attribute.value" ng-if="!row.edit"></span>
+                       <div ng-bind-html="attribute.edit" ng-if="row.edit"></div>
                     </td>
-                    <td>
+                    <td style="width: 200px;">
                         <div class="btn-group btn-group-xs">
-                            <a href="#" class="btn" ng-click="function () {alert(123);}"><?=\Yii::t('app', 'Редактировать');?></a>
+                            <a href="#" class="btn" ng-class="{'btn btn-success' : row.edit, 'btn' : !row.edit}" ng-click="updateDataValues(row)">{{!row.edit ? '<?=\Yii::t('app', 'Редактировать');?>' : '<?=\Yii::t('app', 'Сохранить');?>'}}</a>
                         </div>
+                        <div class="{{row.class ? 'text-' + row.class : '' }}" ng-if="row.class"><small>{{row.message}}</small></div>
                     </td>
                 </tr>
             </tbody>
@@ -93,8 +84,19 @@ $clientScript->registerScript('init', '
 
 
 <?$this->beginWidget('\application\widgets\bootstrap\Modal', [
+    'id' => 'participant-message',
     'header' => 'Укажите комментарий',
-    'footer' => \CHtml::button(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary'])
+    'footer' => \CHtml::button(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary']),
 ]);?>
     <textarea class="form-control"></textarea>
+<?$this->endWidget();?>
+
+
+<?$this->beginWidget('\application\widgets\bootstrap\Modal', [
+    'toggleButton' => ['label' => 123, 'href' => 'remote.html'],
+    'size' => 'modal-lg',
+    'header' => 'Укажите комментарий',
+    'footer' => \CHtml::button(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary']),
+]);?>
+    adasda
 <?$this->endWidget();?>
