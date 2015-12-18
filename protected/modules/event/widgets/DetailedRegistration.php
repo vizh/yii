@@ -37,6 +37,7 @@ use user\models\User;
  * @property string $WidgetRegistrationDetailedHideForAuthorize
  * @property string $WidgetRegistrationDetailedSubmitButtonLabel
  * @property string $WidgetRegistrationDetailedPositionTab
+ * @property int $WidgetRegistrationShowDocument
  */
 class DetailedRegistration extends Widget
 {
@@ -51,6 +52,7 @@ class DetailedRegistration extends Widget
             'WidgetRegistrationShowPhoto',
             'WidgetRegistrationShowPhone',
             'WidgetRegistrationShowBirthday',
+            'WidgetRegistrationShowDocument',
             'WidgetRegistrationShowContactAddress',
             'WidgetRegistrationShowUserDataGroupLabel',
             'WidgetRegistrationShowHiddenUserDataFields',

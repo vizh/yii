@@ -24,6 +24,8 @@ use \application\models\attribute\Group;
                     <div class="controls">
                         <?php if ($attribute == 'Birthday'):?>
                             <?=\CHtml::activeTextField($this->form, $attribute, ['disabled' => $this->form->isDisabled($attribute),'class' => 'span12', 'placeholder' => \Yii::t('app', 'Например: 01.01.1980')]);?>
+                        <?php elseif ($attribute == 'Document'):?>
+                            <?=$this->form->Document->renderEditView($this->getController(), true);?>
                         <?php elseif ($attribute == 'ContactAddress'):?>
                             <?$this->widget('\contact\widgets\AddressControls', ['form' => $this->form->ContactAddress, 'address' => false, 'place' => false, 'inputClass' => 'span12', 'inputPlaceholder' => false, 'disabled' => $this->form->isDisabled($attribute)]);?>
                         <?php elseif ($attribute == 'Photo'):?>
