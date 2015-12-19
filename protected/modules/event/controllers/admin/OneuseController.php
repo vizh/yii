@@ -4,8 +4,48 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
-    public function actionMstest()
+    public function actionNewecon15()
     {
+        /** @var \event\models\Event $event */
+        $event = \event\models\Event::findOne(2300);
+        $participant = \event\models\Participant::model()->byEventId($event->Id)->findAll();
+        foreach ($participant as $participant) {
+            $user = $participant->User;
+            $values = \event\models\UserData::getDefinedAttributeValues($event, $user);
+            if (empty($values)) {
+                $values = [];
+            }
+
+            if (isset($user->Documents[0])) {
+                $document = $user->Documents[0];
+                $attributes = json_decode($document->Attributes);
+                $values['Passport'] = $attributes->Series . ' ' . $attributes->Number . ', выдан ' . $attributes->PlaceIssue . ', ' . $attributes->Authority;
+                $values['RegistrationPlace'] = $attributes->RegisteredAddress;
+                $values['BirthPlace'] = $attributes->Birthday . ' / ' . $attributes->PlaceBirth;
+            }
+
+            switch ($participant->RoleId) {
+                case 3: $values['Sector'] = 'А,Е'; break;
+                case 179:
+                case 178:
+                    $values['Sector'] = 'Б,В,Г';
+                    break;
+            }
+
+            if (empty($values)) {
+                continue;
+            }
+
+            $data = \event\models\UserData::model()->byEventId($event->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"' => SORT_DESC])->find();
+            if (empty($data)) {
+                $data = new \event\models\UserData();
+                $data->UserId = $user->Id;
+                $data->EventId = $event->Id;
+            }
+            $data->getManager()->setAttributes($values);
+            $data->save();
+        }
+
 
     }
 
