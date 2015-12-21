@@ -110,6 +110,34 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
     </div> <!-- / .panel-body -->
 </div>
 
+<?php if (!empty($stat->Visits)):?>
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <span class="panel-title"><i class="fa fa-history"></i> <?=\Yii::t('app', 'Посещения');?></span>
+        </div> <!-- / .panel-heading -->
+        <div class="panel-body">
+            <div class="table-danger">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Метка</th>
+                        <th>Кол-во посещений</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($stat->Visits as $mark => $count):?>
+                        <tr>
+                            <td><?=$mark;?></td>
+                            <td><?=$count;?></td>
+                        </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                </table>
+            </div>
+        </div> <!-- / .panel-body -->
+    </div>
+<?php endif;?>
+
 <?php if (isset($stat->PrintBadges)):?>
 <div class="panel panel-success">
     <div class="panel-heading">
@@ -187,3 +215,4 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
         </div> <!-- / .panel-body -->
     </div>
 <?php endif;?>
+

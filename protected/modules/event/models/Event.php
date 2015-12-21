@@ -414,17 +414,57 @@ class Event extends ActiveRecord implements ISearch
             $this->updateRole($participant, $role, $usePriority, $message);
         }
 
-        //TODO: Костыль для слета РЖД, убрать после мероприятия
-        if ($this->Id == 2264) {
-            try {
-                $product = Product::model()->findByPk(3999);
-                $orderItem = $product->getManager()->createOrderItem($user, $user);
-                $orderItem->activate();
-            } catch (\CException $e) {}
+        //TODO: Костыль для Новой экономики, убрать после мероприятия
+        if ($this->Id == 2300) {
+            $this->newecon15Spike($participant, $user);
         }
 
-
         return $participant;
+    }
+
+    /**
+     * Костыль для Новой экономики, убрать после мероприятия
+     * @param Participant $participant
+     * @param User $user
+     */
+    public function newecon15Spike(Participant $participant, User $user)
+    {
+        $values = \event\models\UserData::getDefinedAttributeValues($this, $user);
+        if (empty($values)) {
+            $values = [];
+        }
+
+        if (isset($user->Documents[0]) && empty($values['Passport'])) {
+            $document = $user->Documents[0];
+            $attributes = json_decode($document->Attributes);
+            $values['Passport'] = (isset($attributes->Series) ? $attributes->Series : '') . ' ' . $attributes->Number . (isset($attributes->PlaceIssue) ? ', выдан ' . $attributes->PlaceIssue : '') . ', ' . $attributes->Authority;
+            if (isset($attributes->RegisteredAddress)) {
+                $values['RegistrationPlace'] = $attributes->RegisteredAddress;
+            }
+            $values['BirthPlace'] = $attributes->Birthday . ' / ' . $attributes->PlaceBirth;
+        }
+        switch ($participant->RoleId) {
+            case 3:
+                $values['Sector'] = 'А,Е';
+                break;
+            case 179:
+            case 178:
+                $values['Sector'] = 'Б,В,Г';
+                break;
+        }
+
+        if (empty($values)) {
+            return;
+        }
+
+        $data = \event\models\UserData::model()->byEventId($this->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"' => SORT_DESC])->find();
+        if (empty($data)) {
+            $data = new \event\models\UserData();
+            $data->UserId = $user->Id;
+            $data->EventId = $this->Id;
+        }
+        $data->getManager()->setAttributes($values);
+        $data->save();
     }
 
     /**

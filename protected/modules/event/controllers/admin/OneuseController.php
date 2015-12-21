@@ -45,8 +45,6 @@ class OneuseController extends AdminMainController
             $data->getManager()->setAttributes($values);
             $data->save();
         }
-
-
     }
 
     public function actionExportUserDataFiles()
