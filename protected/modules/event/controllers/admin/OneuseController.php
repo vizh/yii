@@ -6,45 +6,35 @@ class OneuseController extends AdminMainController
 {
     public function actionNewecon15()
     {
-        /** @var \event\models\Event $event */
-        $event = \event\models\Event::findOne(2300);
-        $participant = \event\models\Participant::model()->byEventId($event->Id)->findAll();
-        foreach ($participant as $participant) {
-            $user = $participant->User;
-            $values = \event\models\UserData::getDefinedAttributeValues($event, $user);
-            if (empty($values)) {
-                $values = [];
+        $count = 0;
+        $path = \Yii::getPathOfAlias('webroot') . '/../photo_newecon15';
+        foreach (new DirectoryIterator($path) as $file) {
+            if ($file->isDir() || $file->isDot()) {
+                continue;
             }
-
-            if (isset($user->Documents[0])) {
-                $document = $user->Documents[0];
-                $attributes = json_decode($document->Attributes);
-                $values['Passport'] = $attributes->Series . ' ' . $attributes->Number . ', выдан ' . $attributes->PlaceIssue . ', ' . $attributes->Authority;
-                $values['RegistrationPlace'] = $attributes->RegisteredAddress;
-                $values['BirthPlace'] = $attributes->Birthday . ' / ' . $attributes->PlaceBirth;
-            }
-
-            switch ($participant->RoleId) {
-                case 3: $values['Sector'] = 'А,Е'; break;
-                case 179:
-                case 178:
-                    $values['Sector'] = 'Б,В,Г';
-                    break;
-            }
-
-            if (empty($values)) {
+            preg_match_all("/([А-ЯA-Z][a-zа-я]+)/u", $file->getFilename(), $matches);
+            if (!isset($matches[0])) {
+                echo 'Не разобрано имя: ' . $file->getFilename() . '<br/>';
                 continue;
             }
 
-            $data = \event\models\UserData::model()->byEventId($event->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"' => SORT_DESC])->find();
-            if (empty($data)) {
-                $data = new \event\models\UserData();
-                $data->UserId = $user->Id;
-                $data->EventId = $event->Id;
+            $name = $matches[0];
+
+            $users = \user\models\User::model()->bySearch($name[0] . ' ' . $name[1], null, true, false)->byEventId(2300)->findAll();
+            if (sizeof($users) === 0) {
+                echo 'Не найдено имя: ' . ($name[0] . ' ' . $name[1]) . '<br/>';
+                continue;
+            } elseif (sizeof($users) > 1) {
+                echo 'Больше одного: ' . ($name[0] . ' ' . $name[1]) . '<br/>';
+                continue;
             }
-            $data->getManager()->setAttributes($values);
-            $data->save();
+
+            $user = $users[0];
+
+            $user->getPhoto()->save($file->getRealPath());
+            $count++;
         }
+        echo 'Загружено: ' . $count;
     }
 
     public function actionExportUserDataFiles()

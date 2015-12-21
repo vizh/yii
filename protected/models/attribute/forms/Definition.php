@@ -149,7 +149,8 @@ class Definition extends CreateUpdateForm
             'ListDefinition' => \Yii::t('app', 'Выпадающий список'),
             'BooleanDefinition' => \Yii::t('app', 'Выбор Да/Нет'),
             'FileDefinition' => \Yii::t('app', 'Загрузка файла'),
-            'UrlDefinition' => \Yii::t('app', 'Ссылка')
+            'UrlDefinition' => \Yii::t('app', 'Ссылка'),
+            'MultiSelectDefinition' => \Yii::t('app', 'Множественное значение')
         ];
     }
 
@@ -175,7 +176,7 @@ class Definition extends CreateUpdateForm
 
         $i = 0;
         $attributes['data'] = '';
-        $html.= \CHtml::tag('div', ['class' => 'm-top_10', 'data-class' => 'ListDefinition'], $activeForm->label($this, 'Params_data'), false);
+        $html.= \CHtml::tag('div', ['class' => 'm-top_10', 'data-class' => '"ListDefinition","MultiSelectDefinition"'], $activeForm->label($this, 'Params_data'), false);
         if (!empty($this->Params['data'])) {
             foreach ($this->Params['data'] as $key => $value) {
                 $input = \CHtml::tag('div', ['class' => 'col-xs-2'], $activeForm->textField($form, $inputPrefix . "[Params][data][$i][key]", ['class' => 'form-control', 'value' => ($key === '_empty_' ? '' : $key), 'placeholder' => \Yii::t('app', 'Ключ')]));
@@ -197,7 +198,7 @@ class Definition extends CreateUpdateForm
     public function getAvailableParamsByClassName()
     {
         $params = ['placeholder'];
-        if ($this->ClassName === 'ListDefinition') {
+        if ($this->ClassName === 'ListDefinition' || $this->ClassName === 'MultiSelectDefinition') {
             $params[] = 'data';
         } elseif ($this->ClassName === 'FileDefinition') {
             $params[] = 'types';

@@ -23,6 +23,7 @@ $data = $event->getUserData($user);
         <tbody>
         <?php foreach($data as $row):?>
             <tr data-id="<?=$row->Id;?>">
+                <form>
                 <?php foreach ($row->getManager()->getDefinitions() as $definition):?>
                     <td>
                         <div class="input hide">
@@ -40,6 +41,7 @@ $data = $event->getUserData($user);
                     </div>
                     <a href="#" class="btn btn-mini btn-success save hide"><?=\Yii::t('app', 'Сохранить');?></a>
                 </td>
+                </form>
             </tr>
         <?php endforeach;?>
         </tbody>

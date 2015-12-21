@@ -137,15 +137,16 @@ class EditAction extends \partner\components\Action
             throw new \CHttpException(404);
         }
 
-        $data->getManager()->setAttributes($request->getParam('attributes'));
-        if ($data->getManager()->validate()) {
+        $manager= $data->getManager();
+        $manager->setAttributes($request->getParam(get_class($manager)));
+        if ($manager->validate()) {
             $data->save();
             $result['values'] = [];
-            foreach ($data->getManager()->getDefinitions() as $definition) {
+            foreach ($manager->getDefinitions() as $definition) {
                 $result['values'][$definition->name] = $definition->getPrintValue($data->getManager());
             }
         } else {
-            $result['errors'] = $data->getManager()->getErrors();
+            $result['errors'] = $manager->getErrors();
         }
         return $result;
     }

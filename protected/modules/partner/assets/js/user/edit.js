@@ -87,14 +87,8 @@ UserEdit.prototype = {
 
             $save.click(function(e) {
                 e.preventDefault();
-                var params = {'do' : 'editData', 'dataId' : $tr.data('id'), 'attributes' : {}};
-                $tr.find('div.input').each(function() {
-                    var $input = $(this).find('input,textarea,select');
-                    params['attributes'][$input.data('name')] = $input.val();
-                });
-
+                var params = $tr.find('form').serialize() + "&do=editData&dataId=" + $tr.data('id');
                 $tr.find('p.text-error').remove();
-
                 $.post(self.editUrl, params, function(response) {
                     if(typeof(response['errors']) == "undefined") {
                         $.each(response['values'], function (attr, value) {
