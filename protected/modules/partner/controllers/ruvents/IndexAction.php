@@ -103,19 +103,18 @@ class IndexAction extends \partner\components\Action
 
         $visits = Visit::model()->byEventId($event->Id)->orderBy('"t"."MarkId"')->findAll();
         foreach ($visits as $visit) {
+            $datetime = new \DateTime($visit->CreationTime);
             if ($visit->MarkId === 'Зал 1' || $visit->MarkId === 'Зал 2') {
-                $datetime = new \DateTime($visit->CreationTime);
-                $visit->MarkId .= ' ' . $datetime->format('d.m.Y');
                 $time = $datetime->format('H:i');
                 if ($time >= '09:50' && $time <= '11:00') {
-                    $visit->MarkId .= 'Открытие';
+                    $visit->MarkId .= ' Открытие';
                 } elseif ($time >= '11:20'&& $time <= '13:30') {
                     $visit->MarkId .= ' Поток 1';
                 } elseif ($time >= '14:20' && $time <= '16:30') {
                     $visit->MarkId .= ' Поток 2';
                 }
             }
-
+            $visit->MarkId .= ' ' . $datetime->format('d.m.Y');
             $stat->Visits[$visit->MarkId]++;
         }
 
