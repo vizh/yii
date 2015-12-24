@@ -9,9 +9,12 @@
 namespace application\widgets;
 
 use application\components\form\FormModel;
+use application\components\traits\ClassNameTrait;
 
 class ActiveForm extends \CActiveForm
 {
+    use ClassNameTrait;
+
     /**
      * @var FormModel|null
      */

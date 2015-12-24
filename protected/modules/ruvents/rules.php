@@ -46,10 +46,10 @@ return array(
     ),
     array(
         'allow',
-        'roles' => array('Server'),
+        'roles' => ['Server'],
         'module' => 'ruvents',
-        'controllers' => array('user'),
-        'actions' => array('search')
+        'controllers' => ['user'],
+        'actions' => ['search', 'visit']
     ),
     array(
         'allow',

@@ -12,11 +12,13 @@ CUserEdit.prototype = {
             $scope.products = self.data.products;
             $scope.data = self.data.data;
 
-            $.each($scope.data, function (i, row) {
-                $.each(row.attributes, function (j, item) {
-                    $scope.data[i]['attributes'][j].edit = $sce.trustAsHtml(item.edit);
+            if (typeof($scope.data) != "undefined") {
+                $.each($scope.data, function (i, row) {
+                    $.each(row.attributes, function (j, item) {
+                        $scope.data[i]['attributes'][j].edit = $sce.trustAsHtml(item.edit);
+                    });
                 });
-            });
+            }
 
             $.each($scope.participants, function (i, participant) {
                 $scope.$watch(function () {
@@ -43,6 +45,10 @@ CUserEdit.prototype = {
                         'role' : role,
                         'message' : $modal.find('.modal-body textarea').val()
                     };
+
+                    if (typeof (participant.part) != "undefined") {
+                        params.part = participant.part;
+                    }
 
                     $scope.setSavingState(participant);
                     $scope.$apply();
@@ -93,14 +99,7 @@ CUserEdit.prototype = {
 
             $scope.updateDataValues = function (data) {
                 if (data.edit) {
-                    var params = {
-                        'action' : 'editData',
-                        'data' : data.Id
-                    };
-                    var $inputs = $('tr.editable-data').find('input,textarea,select');
-                    $inputs.each(function () {
-                       params[$(this).attr('name')] = $(this).val();
-                    });
+                    var params = $('tr.editable-data :input').serialize() + '&action=editData&data=' + data.Id;
                     $scope.setSavingState(data);
                     $.ajax({method: 'POST', url: '', data: params})
                         .done(function(response) {

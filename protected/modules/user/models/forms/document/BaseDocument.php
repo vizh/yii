@@ -2,7 +2,6 @@
 namespace user\models\forms\document;
 
 use application\components\form\CreateUpdateForm;
-use application\helpers\Flash;
 use user\models\Document;
 use user\models\DocumentType;
 use user\models\User;
@@ -26,7 +25,7 @@ abstract class BaseDocument extends CreateUpdateForm
      * @param User $user
      * @param \CActiveRecord $model
      */
-    public function __construct(DocumentType $documentType, User $user, \CActiveRecord $model = null)
+    public function __construct(DocumentType $documentType, User $user = null, \CActiveRecord $model = null)
     {
         $this->documentType = $documentType;
         $this->user = $user;
@@ -45,14 +44,31 @@ abstract class BaseDocument extends CreateUpdateForm
 
     /**
      * Рендерит форму редактирования данных документа
+     * @param bool $included
      * @param \CController $controller
      */
-    public function renderEditView(\CController $controller)
+    public function renderEditView(\CController $controller, $included = false)
     {
+        $alias = 'user.views.edit.document.';
+
         $name = get_class($this);
         $name = strtolower(substr($name, strrpos($name, '\\') + 1));
-        $view  = 'user.views.edit.document.' . $name;
-        $controller->renderPartial($view, ['form' => $this]);
+
+        $activeForm = $included ? $controller->createWidget('\application\widgets\ActiveForm', [], true) : $controller->beginWidget('\application\widgets\ActiveForm');
+        $params = [
+            'form' => $this,
+            'activeForm' => $activeForm
+        ];
+
+        $view = $alias . $name;
+        if (!$included) {
+            $params['view'] = $view;
+            $view = $alias . 'form';
+        }
+        $controller->renderPartial($view, $params);
+        if (!$included) {
+            $controller->endWidget();
+        }
     }
 
     /**
@@ -105,6 +121,19 @@ abstract class BaseDocument extends CreateUpdateForm
     public function getDocumentType()
     {
         return $this->documentType;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+        foreach ($user->Documents as $document) {
+            if ($document->TypeId === $this->documentType->Id) {
+                $this->setActiveRecord($document);
+            }
+        }
     }
 
     /**

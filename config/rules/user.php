@@ -4,7 +4,7 @@ return array(
     'deny',
     'users' => array('?'),
     'module' => 'user',
-    'controllers' => array('edit','setting','logout', 'events')
+    'controllers' => array('edit','setting', 'events')
   ),
   array(
     'deny',

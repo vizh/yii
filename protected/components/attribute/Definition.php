@@ -94,6 +94,15 @@ class Definition
     }
 
     /**
+     * @param $container
+     * @return string
+     */
+    public function getExportValue($container)
+    {
+        return $container->{$this->name};
+    }
+
+    /**
      * Метод, вызываемый во время сохранения атрибута
      * @param \CModel $container
      * @return string

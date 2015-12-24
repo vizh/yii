@@ -153,7 +153,7 @@ class DataBuilder
             /** @var UserData $row */
             $row = array_pop($data);
             foreach ($row->getManager()->getDefinitions() as $definition) {
-                $value = $definition->getPrintValue($row->getManager());
+                $value = $definition->getExportValue($row->getManager());
 				$this->user->Attributes[$definition->name] = $value;
 				// toDo: Убрать это в будущем, так как надо что бы висело несколько недель всего.
 				$this->user->Data[$definition->title] = $value;

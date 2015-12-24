@@ -10,6 +10,7 @@ class UserController extends Controller
     {
         return [
             'index' => '\partner\controllers\user\IndexAction',
+            'find' => '\partner\controllers\user\FindAction',
             'edit' => '\partner\controllers\user\EditAction',
             'viewdatafile' => '\partner\controllers\user\ViewDataFileAction',
             'translate' => '\partner\controllers\user\TranslateAction',

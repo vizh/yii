@@ -21,9 +21,7 @@ $partner = \Yii::app()->partner;
                 <div class="right clearfix">
                     <ul class="nav navbar-nav pull-right right-navbar-nav">
                         <li>
-                            <a href="#">
-                                <span class="small-screen-text"><strong><?=$event->IdName;?></strong> (<?=$event->Id;?>)</span>
-                            </a>
+                            <span class="small-screen-text"><strong><?=$event->IdName;?></strong> (<?=$event->Id;?>)</span>
                         </li>
                         <li class="dropdown">
                             <a data-toggle="dropdown" class="dropdown-toggle user-menu" href="#">

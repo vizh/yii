@@ -2,12 +2,19 @@
 
 class LogoutController extends \application\components\controllers\PublicMainController
 {
-  public function actionIndex()
-  {
-    if (!Yii::app()->user->isGuest)
+    public function actionIndex($redirectUrl = '')
     {
-      Yii::app()->user->logout();
+        $user = \Yii::app()->getUser();
+        if (!$user->getIsGuest()) {
+            $user->logout();
+        }
+
+        if (strpos($redirectUrl, '/') !== false) {
+            $parts = parse_url($redirectUrl);
+            if (empty($parts['host']) || strstr($parts['host'], RUNETID_HOST) !== false) {
+                $this->redirect($redirectUrl);
+            }
+        }
+        $this->redirect(['/main/default/index']);
     }
-    $this->redirect(Yii::app()->createUrl('/main/default/index'));
-  }
 }

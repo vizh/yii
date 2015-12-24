@@ -38,7 +38,7 @@ $document = isset($event->DocumentRequired) && $event->DocumentRequired && !empt
                 <?php endif;?>
 
                 <div class="btn-group btn-group-sm m-top_10">
-                    <?=\CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn']);?>
+                    <?=\CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn', 'target' => '_top']);?>
                     <?php if ($document):?>
                         <?php $this->beginWidget('\application\widgets\bootstrap\Modal', [
                             'header' => \Yii::t('app', 'Паспортные данные'),

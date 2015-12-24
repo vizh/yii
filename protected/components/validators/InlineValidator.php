@@ -21,7 +21,7 @@ class InlineValidator extends \CInlineValidator
             $this->params[0] = $attribute;
             return call_user_func_array($method, $this->params);
         } elseif ($method instanceof \Closure) {
-            $object->$method($object, $attribute, $this->params);
+            call_user_func($method, $object, $attribute, $this->params);
         } else {
             $object->$method($attribute,$this->params);
         }

@@ -52,7 +52,8 @@ class Participant extends EventItemCreateUpdateForm
                 'role' => function (Part $part) use ($user, $event) {
                     $participant = ParticipantModel::model()->byPartId($part->Id)->byUserId($user->Id)->find();
                     return !empty($participant) ? $participant->RoleId : null;
-                }
+                },
+                'part' => 'Id'
             ]]);
         } else {
             $participant = ParticipantModel::model()->byEventId($event->Id)->byUserId($this->model->Id)->find();

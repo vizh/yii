@@ -23,8 +23,8 @@ $sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
     <title><?=\CHtml::encode($this->pageTitle); ?></title>
 </head>
 <body class="theme-default <?=$this->bodyClass;?>" ng-app="PartnerApp">
-<?php if ($sidebar):?>
-    <style type="text/css">
+<style type="text/css">
+    <?php if ($sidebar):?>
     @media (max-width: 1200px) {
         #content-wrapper {
             min-width: 970px !important;
@@ -33,10 +33,19 @@ $sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
             overflow: auto !important;
         }
     }
-    </style>
-<?php endif;?>
+    <?php endif;?>
+    <?php if (!$this->showNavbar):?>
+        #content-wrapper {padding-top: 0px;}
+    <?php endif;?>
+    <?php if ($this->bgTransparent):?>
+        body {background: transparent !important;}
+        #content-wrapper {padding: 0px;}
+    <?php endif;?>
+</style>
 
-<?$this->widget('partner\widgets\Navbar');?>
+<?php if ($this->showNavbar):?>
+    <?$this->widget('partner\widgets\Navbar');?>
+<?php endif;?>
 
 <div <?php if ($sidebar):?>id="main-wrapper"<?php endif;?>>
     <?php if ($sidebar):?>
@@ -60,6 +69,7 @@ $sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
             </div>
         <?php endif;?>
         <?=$content?>
+        <?=$this->clips[Controller::PAGE_FOOTER_CLIP_ID];?>
     </div>
 
     <?php if ($sidebar):?>

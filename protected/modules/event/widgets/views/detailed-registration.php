@@ -7,9 +7,7 @@ use \application\components\attribute\BooleanDefinition;
 use \application\models\attribute\Group;
 ?>
 <div class="registration" id="<?=$this->getNameId();?>">
-    <h5 class="title text-center">
-        <?=isset($this->WidgetRegistrationTitle)? $this->WidgetRegistrationTitle : Yii::t('app', 'Регистрация');?>
-    </h5>
+    <?=isset($this->WidgetRegistrationTitle)? $this->WidgetRegistrationTitle : \CHtml::tag('h5', ['class' => 'title text-center'], Yii::t('app', 'Регистрация'));?>
     <?if (isset($this->WidgetRegistrationBeforeInfo)):?>
         <?=$this->WidgetRegistrationBeforeInfo;?>
     <?endif;?>
@@ -19,11 +17,17 @@ use \application\models\attribute\Group;
     <?php if (!$this->form->hasErrors('Invite')):?>
         <?php foreach ($this->form->getUsedAttributes() as $attribute):?>
             <div class="row-fluid">
-                <div class="control-group">
-                    <?=\CHtml::activeLabel($this->form, $attribute, ['class' => 'control-label']);?>
+                <div class="control-group" id="control-group_<?=$attribute;?>">
+                    <?php if ($attribute === 'Document'):?>
+                        <h5 class="title"><?=$this->form->getAttributeLabel('Document');?></h5>
+                    <?php else:?>
+                        <?=\CHtml::activeLabel($this->form, $attribute, ['class' => 'control-label']);?>
+                    <?php endif;?>
                     <div class="controls">
                         <?php if ($attribute == 'Birthday'):?>
                             <?=\CHtml::activeTextField($this->form, $attribute, ['disabled' => $this->form->isDisabled($attribute),'class' => 'span12', 'placeholder' => \Yii::t('app', 'Например: 01.01.1980')]);?>
+                        <?php elseif ($attribute == 'Document'):?>
+                            <?=$this->form->Document->renderEditView($this->getController(), true);?>
                         <?php elseif ($attribute == 'ContactAddress'):?>
                             <?$this->widget('\contact\widgets\AddressControls', ['form' => $this->form->ContactAddress, 'address' => false, 'place' => false, 'inputClass' => 'span12', 'inputPlaceholder' => false, 'disabled' => $this->form->isDisabled($attribute)]);?>
                         <?php elseif ($attribute == 'Photo'):?>
@@ -31,6 +35,7 @@ use \application\models\attribute\Group;
                                 <?=CHtml::image($this->form->getActiveRecord()->getPhoto()->get50px(),'',['class'=>'img-polaroid']);?>
                             <?else:?>
                                 <?=\CHtml::activeFileField($this->form, $attribute);?>
+                                <p class="help-block m-top_5"><?=\Yii::t('app', 'Фотографии должны быть предоставлены в цветном исполнении, с четким изображением лица, строго в анфас, без головного убора. Размер изображения овала лица на фотографии должен занимать не менее 80 процентов от размера фотографии. Задний фон светлее изображения лица, ровный, без полос, пятен и посторонних предметов.');?></p>
                             <?endif;?>
                         <?else:?>
                             <?=\CHtml::activeTextField($this->form, $attribute, ['disabled' => $this->form->isDisabled($attribute),'class' => 'span12']);?>
@@ -60,7 +65,7 @@ use \application\models\attribute\Group;
                     <?php endif;?>
                 <?php endif;?>
                 <div class="row-fluid">
-                    <div class="control-group">
+                    <div class="control-group" id="control-group_<?=$definition->name;?>">
                         <?php if (!($definition instanceof BooleanDefinition)):?>
                             <label class="control-label"><?=$definition->title;?></label>
                         <?php endif;?>
@@ -85,7 +90,7 @@ use \application\models\attribute\Group;
         <div class="form-user-register" style="padding: 0;">
             <small class="muted required-notice">
                 <span class="required-asterisk">*</span> &mdash; <?=\Yii::t('registration', 'все поля обязательны для заполнения');?><br/>
-                <span class="required-asterisk">**</span> &mdash; <?=\Yii::t('registration', 'заполняя анкету, я даю согласие на хранение и обработку персональных данных');?>
+                <span class="required-asterisk">**</span> &mdash; <?=\Yii::t('registration', 'заполняя анкету, я принимаю условия соглашения  на хранение и обработку персональных данных');?>
             </small>
         </div>
 

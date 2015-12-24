@@ -8,6 +8,7 @@ use event\models\Part;
 use event\models\Role;
 use event\models\UserData;
 use partner\components\Action;
+use partner\components\Controller;
 use partner\models\forms\user\Participant as ParticipantForm;
 use pay\models\OrderItem;
 use pay\models\Product;
@@ -15,12 +16,18 @@ use user\models\User;
 use pay\components\Exception as PayException;
 use event\components\UserDataManager;
 
+/**
+ * Class EditAction
+ * @package partner\controllers\user
+ *
+ * @method Controller getController()
+ */
 class EditAction extends Action
 {
     use AjaxController;
     use LoadModelTrait;
 
-    public function run($id)
+    public function run($id, $layout = true)
     {
         $user = User::model()->byRunetId($id)->find();
         if ($user === null) {
@@ -31,6 +38,10 @@ class EditAction extends Action
             $this->processAjaxAction($user);
         }
         $form = new ParticipantForm($this->getEvent(), $user);
+
+        if (!$layout) {
+            $this->getController()->enableAjaxLayout();
+        }
         $this->getController()->render('edit', ['form' => $form]);
     }
 
@@ -45,7 +56,7 @@ class EditAction extends Action
         if ($action !== null) {
             $method = 'actionAjax' . ucfirst($action);
             if (method_exists($this, $method)) {
-               $this->returnJSON($this->$method($user));
+                $this->returnJSON($this->$method($user));
             }
             throw new \CHttpException(404);
         }
@@ -69,7 +80,7 @@ class EditAction extends Action
         $role = $this->loadModel(Role::className(), $request->getParam('role'), false);
         if (!empty($event->Parts)) {
             /** @var Part $part */
-            $part = $this->loadModel(Part::className(), $request->getParam('role'));
+            $part = $this->loadModel(Part::className(), $request->getParam('part'));
             if ($role !== null) {
                 $event->registerUserOnPart($part, $user, $role, false, $message);
             } else {
