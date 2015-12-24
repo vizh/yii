@@ -42,9 +42,20 @@ class DocumentType extends ActiveRecord
 	 * @param Document|null $document
 	 * @return BaseDocument
 	 */
-	public function getForm(User $user, Document $document = null)
+	public function getForm(User $user = null, Document $document = null)
 	{
 		$class = '\user\models\forms\document\\' . $this->FormName;
 		return new $class($this, $user, $document);
 	}
+
+	/**
+	 * @param int $pk
+	 * @return DocumentType
+	 */
+	public static function findOne($pk)
+	{
+		return parent::findOne($pk);
+	}
+
+
 }

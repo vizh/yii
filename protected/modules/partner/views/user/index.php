@@ -16,7 +16,7 @@ use event\models\Event;
 use application\components\utility\Texts;
 ?>
 <?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
-    <?=\CHtml::link('<span class="btn-label fa fa-plus"></span> ' . \Yii::t('app', 'Добавить участника'), ['edit'], ['class' => 'btn btn-primary btn-labeled']);?>
+    <?=\CHtml::link('<span class="btn-label fa fa-plus"></span> ' . \Yii::t('app', 'Добавить участника'), ['find'], ['class' => 'btn btn-primary btn-labeled']);?>
 <?php $this->endClip();?>
 
 
@@ -47,14 +47,8 @@ use application\components\utility\Texts;
                         'name' => 'Name',
                         'type' => 'raw',
                         'header' => $search->getAttributeLabel('Name'),
-                        'value' => function (User $user) {
-                            $result = \CHtml::tag('span', ['class' => 'lead lead-sm'], $user->getFullName());
-                            $result.= '<p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;' . \CHtml::mailto($user->Email);
-                            if ($user->getPhone() !== null) {
-                                $result .= '<br/><i class="fa fa-phone"></i>&nbsp;' . $user->getPhone() . '</em>';
-                            }
-                            $result.='</p>';
-                            return $result;
+                        'value' => function (User $user) use ($controller) {
+                            return $controller->renderPartial('../partial/grid/user', ['user' => $user, 'hideId' => true, 'hideEmployment' => true], true);
                         },
                         'htmlOptions' => [
                             'class' => 'text-left'

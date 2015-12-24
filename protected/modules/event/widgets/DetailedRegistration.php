@@ -1,10 +1,8 @@
 <?php
 namespace event\widgets;
 
-use application\components\auth\identity\RunetId;
-use application\components\utility\Texts;
-use contact\models\Address;
 use event\components\Widget;
+use event\components\widget\WidgetRegistration;
 use event\components\WidgetPosition;
 use \event\models\forms\DetailedRegistration as DetailedRegistrationForm;
 use event\models\Invite;
@@ -37,12 +35,15 @@ use user\models\User;
  * @property string $WidgetRegistrationDetailedHideForAuthorize
  * @property string $WidgetRegistrationDetailedSubmitButtonLabel
  * @property string $WidgetRegistrationDetailedPositionTab
+ * @property int $WidgetRegistrationShowDocument
+ * @property string $WidgetRegistrationDetailedScript
  */
-class DetailedRegistration extends Widget
+class DetailedRegistration extends WidgetRegistration
 {
     public function getAttributeNames()
     {
-        return [
+        $names = parent::getAttributeNames();
+        return array_merge($names, [
             'DefaultRoleId',
             'WidgetRegistrationSelectRoleIdList',
             'RegisterUnvisibleUser',
@@ -51,6 +52,7 @@ class DetailedRegistration extends Widget
             'WidgetRegistrationShowPhoto',
             'WidgetRegistrationShowPhone',
             'WidgetRegistrationShowBirthday',
+            'WidgetRegistrationShowDocument',
             'WidgetRegistrationShowContactAddress',
             'WidgetRegistrationShowUserDataGroupLabel',
             'WidgetRegistrationShowHiddenUserDataFields',
@@ -62,8 +64,8 @@ class DetailedRegistration extends Widget
             'WidgetRegistrationPositionTitle',
             'WidgetRegistrationDetailedHideForAuthorize',
             'WidgetRegistrationDetailedSubmitButtonLabel',
-            'WidgetRegistrationDetailedPositionTab'
-        ];
+            'WidgetRegistrationDetailedScript'
+        ]);
     }
 
     /** @var \event\models\forms\DetailedRegistration */
@@ -101,9 +103,23 @@ class DetailedRegistration extends Widget
         $this->form->unsubscribeNewUser = $this->getEvent()->UnsubscribeNewUser;
     }
 
+    /**
+     * @return bool
+     */
     public function getIsHasDefaultResources()
     {
         return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function registerDefaultResources()
+    {
+        if (isset($this->WidgetRegistrationDetailedScript)) {
+            \Yii::app()->getClientScript()->registerScript($this->getNameId(), $this->WidgetRegistrationDetailedScript);
+        }
+        parent::registerDefaultResources();
     }
 
 

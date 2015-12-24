@@ -2,6 +2,8 @@
 namespace partner\controllers\ruvents;
 
 
+use ruvents\models\Visit;
+
 class IndexAction extends \partner\components\Action
 {
     public function run()
@@ -10,6 +12,7 @@ class IndexAction extends \partner\components\Action
         $stat->Operators = new \stdClass();
         $stat->Operators->Count = 0;
         $stat->Roles = array();
+        $stat->Visits = [];
         $event = $this->getEvent();
 
         // Кол-во всего выданных бейджей
@@ -39,7 +42,6 @@ class IndexAction extends \partner\components\Action
         {
             $operatorsLogin[$operator->Id] = $operator->Login;
         }
-
 
         $dateStart = new \DateTime($event->StartYear.'-'.$event->StartMonth.'-'.$event->StartDay);
         $dateEnd   = new \DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay);
@@ -92,6 +94,28 @@ class IndexAction extends \partner\components\Action
             $stat->RePrintBadges[$badge->UserId] = new \stdClass();
             $stat->RePrintBadges[$badge->UserId]->User = $badge->User;
             $stat->RePrintBadges[$badge->UserId]->Count = $badge->CountForCriteria;
+        }
+
+        // Список ролей на мероприятии
+        $intervals = [
+            ''
+        ];
+
+        $visits = Visit::model()->byEventId($event->Id)->orderBy('"t"."MarkId"')->findAll();
+        foreach ($visits as $visit) {
+            $datetime = new \DateTime($visit->CreationTime);
+            if ($visit->MarkId === 'Зал 1' || $visit->MarkId === 'Зал 2') {
+                $time = $datetime->format('H:i');
+                if ($time >= '09:50' && $time <= '11:00') {
+                    $visit->MarkId .= ' Открытие';
+                } elseif ($time >= '11:20'&& $time <= '13:30') {
+                    $visit->MarkId .= ' Поток 1';
+                } elseif ($time >= '14:20' && $time <= '16:30') {
+                    $visit->MarkId .= ' Поток 2';
+                }
+            }
+            $visit->MarkId .= ' ' . $datetime->format('d.m.Y');
+            $stat->Visits[$visit->MarkId]++;
         }
 
         $this->getController()->render('index', array(

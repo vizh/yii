@@ -164,6 +164,9 @@ trait JsonContainer
     public function pushAttributes()
     {
         foreach ($this->attributes as $name => $value) {
+            if (!isset($this->definitions[$name])) {
+                continue;
+            }
             $value = $this->definitions[$name]->internalPush($this->model(), $value);
             $this->attributes[$name] = $this->definitions[$name]->typecast($value);
         }

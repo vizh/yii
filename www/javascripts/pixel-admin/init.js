@@ -6,4 +6,8 @@ init.push(function () {
         choose_btn_tmpl: '<a href="#" class="btn btn-xs btn-primary">Выбрать</a>',
         clear_btn_tmpl: '<a href="#" class="btn btn-xs"><i class="fa fa-times"></i> Отменить</a>'
     });
+    $('a[data-toggle="dialog"]').click(function(e) {
+        $($(e.currentTarget).data('target')).dialog('open');
+        e.preventDefault();
+    });
 });

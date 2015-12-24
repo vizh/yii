@@ -6,7 +6,6 @@
  */
 
 ?>
-
 <script type="text/javascript">
     $(function (){
         $('input[name*="ForeignPassport[DateIssue]"], input[name*="ForeignPassport[Birthday]"], input[name*="ForeignPassport[DateExpire]"]').datepicker({
@@ -15,9 +14,6 @@
         });
     });
 </script>
-
-<?php $activeForm = $this->beginWidget('CActiveForm');?>
-<?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
 <div class="row-fluid">
     <div class="span1">
         <div class="control-group">
@@ -112,8 +108,3 @@
         <?=$activeForm->textField($form, 'DateExpire', ['class' => 'input-block-level']);?>
     </div>
 </div>
-<div class="form-footer">
-    <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-info']);?>
-</div>
-<?php $this->endWidget();?>
-

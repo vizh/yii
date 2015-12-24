@@ -26,6 +26,11 @@ $editUrl = ['admin/edit/index', 'id' => $user->RunetId, 'backUrl' => \Yii::app()
         </div>
     <?else:?>
         <span class="label label-warning"><?=\Yii::t('app', 'Cкрытый аккаунт');?></span>
+        <?php if (!empty($user->MergeUserId)):?>
+            <div style="font-size: 80%;"
+                <span class="text-error"><?=\Yii::t('app', 'Обьединен в ') . \CHtml::link($user->MergeUser->getFullName(), ['admin/edit/index', 'id' => $user->MergeUser->RunetId, 'backUrl' => \Yii::app()->getRequest()->getRequestUri()]);?></span>
+            </div>
+        <?php endif;?>
     <?endif;?>
 </td>
 <td style="text-align: right;">

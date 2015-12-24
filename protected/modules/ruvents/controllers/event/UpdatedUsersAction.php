@@ -17,6 +17,7 @@ class UpdatedUsersAction extends \ruvents\components\Action
             throw new \ruvents\components\Exception(321);
         }
         $fromUpdateTime = date('Y-m-d H:i:s', strtotime($fromUpdateTime));
+        $nextUpdateTime = date('Y-m-d H:i:s');
 
         $pageToken = $request->getParam('PageToken', null);
         $offset = 0;
@@ -96,6 +97,10 @@ class UpdatedUsersAction extends \ruvents\components\Action
         if (sizeof($users) == $byPage)
         {
             $result['NextPageToken'] = $this->getController()->getPageToken($offset + $byPage);
+        }
+
+        if (empty($pageToken)) {
+            $result['NextUpdateTime'] = $nextUpdateTime;
         }
 
         echo json_encode($result, JSON_UNESCAPED_UNICODE);

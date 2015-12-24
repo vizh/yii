@@ -2,6 +2,7 @@
 namespace api\controllers\user;
 
 use api\components\Exception;
+use api\models\Account;
 use api\models\forms\user\Edit;
 use event\models\Participant;
 use oauth\models\Permission;
@@ -19,9 +20,7 @@ class EditAction extends \api\components\Action
             throw new Exception(202, [$id]);
         }
 
-        $permission = Permission::model()->byUserId($user->Id)->byAccountId($this->getAccount()->Id)->find();
-        $participant = Participant::model()->byEventId($this->getAccount()->EventId)->byUserId($user->Id)->find();
-        if (empty($permission) || empty($participant)) {
+        if (!$this->checkPermission($user)) {
             throw new Exception(230, [$user->RunetId]);
         }
 
@@ -29,5 +28,20 @@ class EditAction extends \api\components\Action
         $form->fillFromPost();
         $form->updateActiveRecord();
         $this->setResult(['Success' => true]);
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    private function checkPermission(User $user)
+    {
+        if ($this->getAccount()->Role === Account::ROLE_OWN) {
+            return true;
+        }
+
+        $permission = Permission::model()->byUserId($user->Id)->byAccountId($this->getAccount()->Id)->find();
+        $participant = Participant::model()->byEventId($this->getAccount()->EventId)->byUserId($user->Id)->find();
+        return !empty($permission) && !empty($participant);
     }
 } 

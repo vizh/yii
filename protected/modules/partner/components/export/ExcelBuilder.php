@@ -12,6 +12,8 @@ use pay\models\OrderItem;
 use pay\models\OrderType;
 use ruvents\models\Badge;
 use event\models\Event;
+use user\models\DocumentType;
+use user\models\forms\document\Passport;
 use user\models\User;
 
 class ExcelBuilder
@@ -155,7 +157,7 @@ class ExcelBuilder
 
         $i = 0;
         foreach ($row as $value) {
-            $sheet->setCellValueByColumnAndRow($i++, $this->rowIterator, $value);
+            $sheet->setCellValueExplicitByColumnAndRow($i++, $this->rowIterator, $value, \PHPExcel_Cell_DataType::TYPE_STRING);
         }
         $this->rowIterator++;
     }
@@ -173,12 +175,11 @@ class ExcelBuilder
         $row['LastName'] = $user->LastName;
         $row['FatherName'] = $user->FatherName;
 
-        if ($this->getEvent()->Id === 2347) {
-            $user->setLocale('en');
-            $row['FirstName_en'] = $user->FirstName;
-            $row['LastName_en'] = $user->LastName;
-            $row['FatherName_en'] = $user->FatherName;
-            $user->resetLocale();
+        if ($this->getEvent()->Id === 2300) {
+            $form = new Passport(DocumentType::findOne(1), $user, isset($user->Documents[0]) ? $user->Documents[0] : null);
+            foreach ($form->getAttributes() as $attr => $value) {
+                $row['Passport_' . $attr] = $value;
+            }
         }
 
         $row['Email'] = $user->Email;
@@ -273,10 +274,11 @@ class ExcelBuilder
                 'DateBadge' => 'Дата выдачи бейджа',
             ];
 
-            if ($this->getEvent()->Id === 2347) {
-                $map['LastName_en'] = 'Фамилия (EN)';
-                $map['FirstName_en'] = 'Имя (EN)';
-                $map['FatherName_en'] = 'Отчество (EN)';
+            if ($this->getEvent()->Id === 2300) {
+                $form = new Passport(DocumentType::findOne(1), User::model()->byRunetId(321)->find());
+                foreach ($form->attributeLabels() as $attr => $label) {
+                    $map['Passport_' . $attr] = $label;
+                }
             }
 
             if ($this->hasExternalId()) {

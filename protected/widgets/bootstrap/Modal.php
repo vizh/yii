@@ -159,6 +159,7 @@ class Modal extends Widget
     protected function renderFooter()
     {
         if ($this->footer !== null) {
+            $this->footerHtmlOptions['class'] = (isset($this->footerHtmlOptions['class']) ? $this->footerHtmlOptions['class'] . ' ' : '') . 'modal-footer';
             return \CHtml::tag('div', $this->footerHtmlOptions, "\n" . $this->footer . "\n");
         } else {
             return null;

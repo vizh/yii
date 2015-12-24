@@ -6,6 +6,7 @@ use application\components\attribute\Definition;
 use application\components\attribute\IntegerDefinition;
 use application\components\attribute\JsonContainer;
 use application\components\attribute\ListDefinition;
+use application\components\traits\ClassNameTrait;
 use application\models\attribute\Group;
 use event\models\UserData;
 use \application\models\attribute\Definition as DefinitionModel;
@@ -21,6 +22,7 @@ use \application\models\attribute\Definition as DefinitionModel;
 class UserDataManager extends \CModel
 {
     use JsonContainer;
+    use ClassNameTrait;
 
     /**
      * @param UserData $userData

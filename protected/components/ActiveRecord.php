@@ -1,8 +1,12 @@
 <?php
 namespace application\components;
 
+use application\components\traits\ClassNameTrait;
+
 class ActiveRecord extends \CActiveRecord
 {
+    use ClassNameTrait;
+
     /**
      * Не использовать физическое удаление записей, а проставлять Delete = true
      * @var bool
@@ -97,6 +101,7 @@ class ActiveRecord extends \CActiveRecord
     {
         return static::model()->findByPk($pk);
     }
+
 
     /**
      * @inheritdoc

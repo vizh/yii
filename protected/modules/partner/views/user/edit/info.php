@@ -1,16 +1,14 @@
 <?php
+use user\models\User;
+use event\models\Event;
 /**
- * @var $user \user\models\User
- * @var $event \event\models\Event
- * @var $participants \event\models\Participant[]
+ * @var User $user
+ * @var Event $event
  * @var $this \partner\components\Controller
  */
 
-$this->setPageTitle(\Yii::t('app', 'Добавление/редактирование участника мероприятия') . ': ' . $user->GetFullName());
-
-$data = $event->getUserData($user);
+$document = isset($event->DocumentRequired) && $event->DocumentRequired && !empty($user->Documents);
 ?>
-<input type="hidden" name="id" value="<?=$user->RunetId;?>" />
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-user"></i> <?=\Yii::t('app', 'Персональные данные');?></span>
@@ -40,8 +38,8 @@ $data = $event->getUserData($user);
                 <?php endif;?>
 
                 <div class="btn-group btn-group-sm m-top_10">
-                    <?=\CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn']);?>
-                    <?php if (isset($event->DocumentRequired) && $event->DocumentRequired && !empty($user->Documents) && !empty($participants)):?>
+                    <?=\CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn', 'target' => '_top']);?>
+                    <?php if ($document):?>
                         <?php $this->beginWidget('\application\widgets\bootstrap\Modal', [
                             'header' => \Yii::t('app', 'Паспортные данные'),
                             'htmlOptions' => ['class' => 'modal-blur'],
@@ -65,39 +63,7 @@ $data = $event->getUserData($user);
                         <br/><span class="fa fa-birthday-cake"></span> <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $user->Birthday);?>
                     <?php endif;?>
                 </p>
-                <?$this->renderPartial('edit/data', ['user' => $user, 'event' => $event]);?>
             </div>
         </div>
-    </div>
-</div>
-<div class="panel panel-warning">
-    <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-caret-square-o-down"></i> <?=\Yii::t('app', 'Роль на мероприятии');?></span>
-    </div> <!-- / .panel-heading -->
-    <div class="panel-body">
-        <?php if (sizeof($event->Parts) === 0):?>
-            <div class="form-group">
-                <?php $roleId = isset($participants[0]) ? $participants[0]->RoleId : null;?>
-                <select data-part-id="" name="roleId" class="form-control">
-                    <option value="0" <?=$roleId === null ? 'selected="selected"' : '';?>>Не участвует</option>
-                    <?php foreach ($event->getRoles() as $role):?>
-                        <option value="<?=$role->Id;?>" <?=$roleId == $role->Id ? 'selected="selected"' : '';?>><?=$role->Title;?></option>
-                    <?endforeach;?>
-                </select>
-            </div>
-        <?php else:?>
-            <?php foreach ($event->Parts as $part):?>
-                <?php $roleId = isset($participants[$part->Id]) ? $participants[$part->Id]->RoleId : null;?>
-                <div class="form-group">
-                    <label class="control-label"><?=$part->Title;?></label>
-                    <select data-part-id="<?=$part->Id;?>" name="roleId" class="form-control">
-                        <option value="0" <?=$roleId === null ? 'selected="selected"' : '';?>>Не участвует</option>
-                        <?php foreach ($event->getRoles() as $role):?>
-                            <option value="<?=$role->Id;?>" <?=$roleId == $role->Id ? 'selected="selected"' : '';?>><?=$role->Title;?></option>
-                        <?endforeach;?>
-                    </select>
-                </div>
-            <?php endforeach;?>
-        <?php endif;?>
     </div>
 </div>

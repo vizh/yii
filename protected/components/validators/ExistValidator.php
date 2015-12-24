@@ -4,6 +4,8 @@ namespace application\components\validators;
 
 class ExistValidator extends \CExistValidator
 {
+    public $when;
+
     /**
      * @inheritdoc
      */
@@ -12,6 +14,10 @@ class ExistValidator extends \CExistValidator
         $value=$object->$attribute;
         if($this->allowEmpty && $this->isEmpty($value))
             return;
+
+        if ($this->when instanceof \Closure && !call_user_func($this->when, $value)) {
+            return;
+        }
 
         if (!is_array($value)) {
             $value = [$value];

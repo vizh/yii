@@ -8,6 +8,8 @@ use contact\models\forms\Address;
 use event\models\Event;
 use event\models\Role;
 use event\models\UserData;
+use user\models\DocumentType;
+use user\models\forms\document\BaseDocument;
 use user\models\User;
 use event\widgets\DetailedRegistration as DetailedRegistrationWidget;
 use contact\models\Address as AddressModel;
@@ -18,6 +20,7 @@ use contact\models\Address as AddressModel;
  *
  * @property User $model
  * @property Address $ContactAddress
+ * @property BaseDocument $Document
  */
 class DetailedRegistration extends CreateUpdateForm
 {
@@ -83,6 +86,18 @@ class DetailedRegistration extends CreateUpdateForm
             $this->usedAttributes['Company'] = null;
             $this->usedAttributes['Position'] = null;
         }
+        if (isset($this->widget->WidgetRegistrationShowDocument) && $this->widget->WidgetRegistrationShowDocument == 1) {
+            $this->usedAttributes['Document'] = $this->getDocumentForm();
+        }
+    }
+
+    /**
+     * @return BaseDocument
+     * @throws \Exception
+     */
+    private function getDocumentForm()
+    {
+        return DocumentType::findOne(1)->getForm();
     }
 
     /**
@@ -137,7 +152,7 @@ class DetailedRegistration extends CreateUpdateForm
                     break;
 
                 case 'ContactAddress':
-                    $rules[] = [$attribute, 'validateContactAddress'];
+                    $rules[] = [$attribute, '\application\components\validators\NestedFormValidator'];
                     break;
 
                 case 'Company':
@@ -162,6 +177,10 @@ class DetailedRegistration extends CreateUpdateForm
                 case 'Birthday':
                     $rules[] = ['Birthday', 'required'];
                     $rules[] = ['Birthday', 'date', 'format' => 'dd.MM.yyyy'];
+                    break;
+
+                case 'Document':
+                    $rules[] = ['Document', '\application\components\validators\NestedFormValidator'];
                     break;
             }
         }
@@ -220,23 +239,6 @@ class DetailedRegistration extends CreateUpdateForm
     }
 
     /**
-     * Валидация адреса пользователя
-     * @param string $attribute
-     * @return bool
-     */
-    public function validateContactAddress($attribute)
-    {
-        $address = $this->$attribute;
-        if (!$address->validate()){
-            foreach ($address->getErrors() as $messages){
-                $this->addError($attribute, $messages[0]);
-            }
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * @param string $attribute
      * @return bool
      */
@@ -266,7 +268,8 @@ class DetailedRegistration extends CreateUpdateForm
             'Birthday' => \Yii::t('app', 'Дата рождения'),
             'RoleId' => \Yii::t('app', 'Статус участия'),
             'Photo' => \Yii::t('app', 'Фотография'),
-            'ContactAddress' => \Yii::t('app', 'Город')
+            'ContactAddress' => \Yii::t('app', 'Город'),
+            'Document' => \Yii::t('app', 'Паспортные данные'),
         ];
     }
 
@@ -338,6 +341,10 @@ class DetailedRegistration extends CreateUpdateForm
             $this->ContactAddress->attributes = \Yii::app()->getRequest()->getParam(get_class($this->ContactAddress));
         }
 
+        if (in_array('Document', $this->getUsedAttributes())) {
+            $this->Document->fillFromPost();
+        }
+
         if ($this->userData !== null) {
             $manager = $this->userData->getManager();
             foreach ($manager->getDefinitions() as $definition) {
@@ -356,6 +363,9 @@ class DetailedRegistration extends CreateUpdateForm
         $this->model->FirstName = $this->FirstName;
         $this->model->Email = $this->Email;
         $this->model->Visible = $this->registerVisibleUser;
+        if (in_array('Document', $this->getUsedAttributes())) {
+            $this->Document->setUser($this->model);
+        }
         return $this->updateActiveRecord();
     }
 
@@ -418,6 +428,10 @@ class DetailedRegistration extends CreateUpdateForm
                     $this->model->setContactAddress($address);
                 }
 
+                if (in_array('Document', $this->getUsedAttributes())) {
+                    $this->Document->updateActiveRecord();
+                }
+
                 if ($this->userData !== null) {
                     $this->userData->UserId = $this->model->Id;
                     $this->userData->save();
@@ -466,6 +480,10 @@ class DetailedRegistration extends CreateUpdateForm
                     $this->Company = $employment->Company->Name;
                     $this->Position = $employment->Position;
                 }
+            }
+
+            if (in_array('Document', $this->getUsedAttributes())) {
+                $this->Document->setUser($this->model);
             }
         }
         return $result;

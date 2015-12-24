@@ -7,12 +7,15 @@ use event\models\Event;
 class Controller extends \application\components\controllers\BaseController
 {
     const PAGE_HEADER_CLIP_ID = 'page-header';
+    const PAGE_FOOTER_CLIP_ID = 'page-footer';
 
     public $layout = '/layouts/public';
     public $bodyClass = '';
 
     public $showSidebar = true;
     public $showPageHeader = true;
+    public $showNavbar = true;
+    public $bgTransparent = false;
 
     public function filters()
     {
@@ -121,5 +124,16 @@ class Controller extends \application\components\controllers\BaseController
     public function getEvent()
     {
         return \Yii::app()->partner->getEvent();
+    }
+
+    /**
+     * Активирует версию layout для ajax и iframe, отключает меню и сайдбар, а также делает фон прозрачным
+     */
+    public function enableAjaxLayout()
+    {
+        $this->showPageHeader = false;
+        $this->showSidebar = false;
+        $this->showNavbar = false;
+        $this->bgTransparent = true;
     }
 }

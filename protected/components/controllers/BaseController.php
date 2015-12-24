@@ -152,4 +152,19 @@ abstract class BaseController extends \CController
     {
         return [];
     }
+
+    /**
+     * @inheritdoc
+     * @param bool|false $skipInit
+     */
+    public function createWidget($className, $properties = array(), $skipInit = false)
+    {
+        $widget = \Yii::app()->getWidgetFactory()->createWidget($this, $className, $properties);
+        if (!$skipInit) {
+            $widget->init();
+        }
+        return $widget;
+    }
+
+
 }

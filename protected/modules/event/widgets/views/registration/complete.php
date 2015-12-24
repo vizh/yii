@@ -5,12 +5,9 @@
  * @var \event\widgets\DetailedRegistration $this
  */
 ?>
-
 <div class="registration" id="<?=$this->getNameId();?>">
-    <h5 class="title text-center">
-        <?=isset($this->WidgetRegistrationTitle)? $this->WidgetRegistrationTitle : Yii::t('app', 'Регистрация');?>
-    </h5>
-    <?php $this->widget('\event\widgets\Participant', ['event' => $this->getEvent()]); ?>
+    <?=isset($this->WidgetRegistrationTitle)? $this->WidgetRegistrationTitle : \CHtml::tag('h5', ['class' => 'title text-center'], Yii::t('app', 'Регистрация'));?>
+    <?php $this->widget('\event\widgets\Participant', ['widget' => $this]); ?>
     <?if (isset($this->WidgetRegistrationCompleteText)):?>
     <p class="text-success text-center">
         <?=$this->WidgetRegistrationCompleteText;?>
