@@ -25,6 +25,7 @@ $clientScript->registerScript('init', '
             <thead>
             <tr>
                 <th ng-repeat="title in data[0].titles">{{title}}</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -35,7 +36,7 @@ $clientScript->registerScript('init', '
                 </td>
                 <td style="width: 200px;">
                     <div class="btn-group btn-group-xs">
-                        <a href="#" class="btn" ng-class="{'btn btn-success' : row.edit, 'btn' : !row.edit}" ng-click="updateDataValues(row)">{{!row.edit ? '<?=\Yii::t('app', 'Редактировать');?>' : '<?=\Yii::t('app', 'Сохранить');?>'}}</a>
+                        <button class="btn" ng-class="{'btn btn-success' : row.edit, 'btn' : !row.edit}" ng-click="updateDataValues(row)" type="button">{{!row.edit ? '<?=\Yii::t('app', 'Редактировать');?>' : '<?=\Yii::t('app', 'Сохранить');?>'}}</button>
                     </div>
                     <div class="{{row.class ? 'text-' + row.class : '' }}" ng-if="row.class"><small>{{row.message}}</small></div>
                 </td>
@@ -47,7 +48,7 @@ $clientScript->registerScript('init', '
     <div class="panel panel-danger">
         <div class="panel-heading">
             <span class="panel-title">&nbsp;</span>
-            <ul class="nav nav-tabs nav-tabs-xs">
+            <ul class="nav nav-tabs nav-tabs-xs nav-tabs-left">
                 <li class="active">
                     <a href="#user-participant" data-toggle="tab"><?=\Yii::t('app', 'Роль на мероприятии');?></a>
                 </li>

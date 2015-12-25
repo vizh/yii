@@ -95,7 +95,7 @@ class Sidebar extends \CWidget
             ]],
             ['label' => 'Участники', 'icon' => 'group', 'url' => ['user/index'], 'items' => [
                 ['label' => 'Список участников', 'url' => ['user/index']],
-                ['label' => 'Редактирование', 'url' => ['user/edit']],
+                ['label' => 'Редактирование', 'url' => ['user/find']],
                 ['label' => 'Регистрация', 'url' => ['user/register']],
                 ['label' => 'Экспорт участников в Excel', 'url' => ['user/export']],
                 ['label' => 'Импорт участников', 'url' => ['user/import']],
