@@ -6,8 +6,6 @@ use event\models\Event;
  * @var Event $event
  * @var $this \partner\components\Controller
  */
-
-$document = isset($event->DocumentRequired) && $event->DocumentRequired && !empty($user->Documents);
 ?>
 <div class="panel panel-info">
     <div class="panel-heading">
@@ -39,7 +37,7 @@ $document = isset($event->DocumentRequired) && $event->DocumentRequired && !empt
 
                 <div class="btn-group btn-group-sm m-top_10">
                     <?=\CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn', 'target' => '_top']);?>
-                    <?php if ($document):?>
+                    <?php if ($event->getIsRequiredDocument() && !empty($user->Documents)):?>
                         <?php $this->beginWidget('\application\widgets\bootstrap\Modal', [
                             'header' => \Yii::t('app', 'Паспортные данные'),
                             'htmlOptions' => ['class' => 'modal-blur'],

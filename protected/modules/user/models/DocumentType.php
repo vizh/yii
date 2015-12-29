@@ -14,6 +14,7 @@ use user\models\forms\document\BaseDocument;
  * The followings are the available model relations:
  *
  * @method DocumentType[] findAll()
+ * @method DocumentType ordered()
  */
 class DocumentType extends ActiveRecord
 {

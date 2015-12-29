@@ -1139,4 +1139,13 @@ class Event extends ActiveRecord implements ISearch
     {
         return Definition::model()->byModelName('EventUserData')->byModelId($this->Id)->exists();
     }
+
+    /**
+     * Возвращает true, если для меропрития требуются паспортные данные
+     * @return bool
+     */
+    public function getIsRequiredDocument()
+    {
+        return isset($this->DocumentRequired) && $this->DocumentRequired == 1;
+    }
 }

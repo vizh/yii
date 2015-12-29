@@ -27,6 +27,7 @@ class AccountBu16 extends Base
             return;
         }
 
+        $user->refresh();
         $params = [
             'name' => $user->FirstName,
             'sname' => $user->LastName,

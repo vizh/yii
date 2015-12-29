@@ -91,6 +91,9 @@ class Export extends ActiveRecord
             $description .= \Yii::t('app', 'Чать меропрития') . ': ' . $part->Title . '<br/>';
         }
 
+        if (!empty($config->Document)) {
+            $description .= \Yii::t('app', 'Добавлены паспортные данные') . '<br/>';
+        }
 
         return $description;
     }
