@@ -16,4 +16,14 @@ class BooleanDefinition extends Definition
         $checkbox = \CHtml::activeCheckBox($container, $this->name, $htmlOptions);
         return \CHtml::label($checkbox . ' ' . $this->title, false, ['class' => $this->cssClass, 'style' => $this->cssStyle]);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPrintValue($container)
+    {
+        return parent::getPrintValue($container) ? \Yii::t('app', 'Да') : \Yii::t('app', 'Нет');
+    }
+
+
 }

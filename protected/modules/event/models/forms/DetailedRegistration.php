@@ -170,7 +170,9 @@ class DetailedRegistration extends CreateUpdateForm
                     $rules = array_merge($rules, [
                         [$attribute, 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
                         [$attribute, 'required'],
-                        [$attribute, 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => ($this->isUpdateMode() ? ['condition' => '"t"."Id" != :UserId', 'params' => ['UserId' => $this->model->Id]] : [])],
+                        [$attribute, 'unique', 'className' => User::className(), 'attributeName' => 'PrimaryPhone',
+                            'criteria' => !$this->isUpdateMode() ? ['condition' => '"t"."PrimaryPhoneVerify"'] : ['condition' => '"t"."PrimaryPhoneVerify" AND "t"."Id" != :Id', 'params' => ['Id' => $this->model->Id]]
+                        ],
                     ]);
                     break;
 

@@ -16,6 +16,7 @@ use ext\ipgeobase\Geo;
  *
  * @method Log byUserId(int $userId)
  * @method Log[] findAll()
+ * @method Log find()
  *
  * @property User $User
  * @property \contact\models\Phone $Phone
