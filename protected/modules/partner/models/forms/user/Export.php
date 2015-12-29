@@ -14,6 +14,7 @@ class Export extends EventItemCreateUpdateForm
 
     public $Roles;
     public $Language = 'ru';
+    public $Document;
     public $PartId;
 
     /**
@@ -34,6 +35,7 @@ class Export extends EventItemCreateUpdateForm
         return [
             ['model', 'validateHasRunningExports'],
             ['Language', 'required'],
+            ['Document', 'boolean'],
             ['Roles', 'safe'],
             ['Language', 'in', 'range' => array_keys($this->getLanguageData())],
             ['PartId', 'in', 'range' => array_keys($this->getEventPartsData())]
@@ -48,7 +50,8 @@ class Export extends EventItemCreateUpdateForm
         return [
             'Language' => \Yii::t('app', 'Язык выгрузки'),
             'Roles' => \Yii::t('app', 'Выберите роли для экспорта'),
-            'PartId' => \Yii::t('app', 'Чать меропрития')
+            'PartId' => \Yii::t('app', 'Чать меропрития'),
+            'Document' => \Yii::t('app', 'Добавить паспортные данные')
         ];
     }
 

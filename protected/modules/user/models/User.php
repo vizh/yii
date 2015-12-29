@@ -150,7 +150,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             'IRIParticipantsActive' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role'], 'on' => '"IRIParticipantsActive"."ExitTime" IS NULL OR "IRIParticipantsActive"."ExitTime" > NOW()'],
 
             'ExternalAccounts' => [self::HAS_MANY, '\api\models\ExternalUser', 'UserId'],
-            'Documents' => [self::HAS_MANY, '\user\models\Document', 'UserId', 'on' => '"Documents"."Actual"']
+            'Documents' => [self::HAS_MANY, '\user\models\Document', 'UserId', 'on' => '"Documents"."Actual"', 'order' => '"Documents"."TypeId" ASC']
         );
     }
 

@@ -71,7 +71,7 @@ $clientScript->registerScript('init', '
         <div class="col-xs-12 text-center">
             <div class="checkbox text-danger">
                 <label>
-                    <input type="checkbox" ng-model="offer"> <strong><?=\Yii::t('app', 'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате', ['{url}' => $this->createUrl('/pay/cabinet/offer')]);?></strong>
+                    <input type="checkbox" ng-model="offer"> <strong><?=\Yii::t('app', 'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате', ['{url}' => $this->createUrl('/pay/cabinet/offer', ['eventIdName' => $this->getEvent()->IdName])]);?></strong>
                 </label>
             </div>
             <hr/>

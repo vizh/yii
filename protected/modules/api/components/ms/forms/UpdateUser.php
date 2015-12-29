@@ -18,14 +18,8 @@ class UpdateUser extends BaseUser
     {
         $rules = parent::rules();
         foreach ($rules as $k => $rule) {
-            if ($rule[0] === 'Email') {
+            if ($rule[0] === 'Email' || ($rule[0] === 'Phone' && $rule[1] === 'unique')) {
                 unset($rules[$k]);
-            } elseif ($rule[0] === 'Phone' && $rule[1] === 'unique') {
-                $rule['criteria']['condition'] = '"t"."Id" != :UserId';
-                $rule['criteria']['params'] = [
-                    'UserId' => $this->model->Id
-                ];
-                $rules[$k] = $rule;
             }
         }
         $rules[] = ['Company,Position,Phone', 'required'];

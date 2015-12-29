@@ -138,6 +138,9 @@ class ExcelBuilder
         }
 
         $this->fillRowPayData($user, $row);
+        if (!empty($this->getConfig()->Document)) {
+            $this->fillRowDocumentData($user, $row);
+        }
 
         $badge = Badge::model()->byEventId($this->getEvent()->Id)->byUserId($user->Id)->orderBy('"t"."CreationTime"')->find();
         if ($badge !== null) {
@@ -174,14 +177,6 @@ class ExcelBuilder
         $row['FirstName'] = $user->FirstName;
         $row['LastName'] = $user->LastName;
         $row['FatherName'] = $user->FatherName;
-
-        if ($this->getEvent()->Id === 2300) {
-            $form = new Passport(DocumentType::findOne(1), $user, isset($user->Documents[0]) ? $user->Documents[0] : null);
-            foreach ($form->getAttributes() as $attr => $value) {
-                $row['Passport_' . $attr] = $value;
-            }
-        }
-
         $row['Email'] = $user->Email;
         $row['Phone'] = $user->getPhone();
         $row['Birthday'] = $user->Birthday;
@@ -189,10 +184,10 @@ class ExcelBuilder
         $row['Price'] = 0;
 
         $address = $user->getContactAddress();
-        if ($address !== null && !empty($address->City)) {
-            $row['City'] = $address->City->Name;
+        if ($address !== null) {
+            $row['City'] = !empty($address->City) ? $address->City->Name : '';
+            $row['Region'] = !empty($address->Region) ? $address->Region->Name : '';
         }
-
         return $row;
     }
 
@@ -244,6 +239,23 @@ class ExcelBuilder
         }
     }
 
+    /**
+     * Заполняет данные по документам для пользователя
+     * @param User $user
+     * @param $row
+     */
+    private function fillRowDocumentData(User $user, &$row)
+    {
+        if (!isset($user->Documents[0])) {
+            return;
+        }
+
+        $form = $user->Documents[0]->getForm($user);
+        foreach ($form->getAttributes() as $name => $value) {
+            $row['Document_' . $name] = $value;
+        }
+    }
+
     /** @var null|array */
     private $rowMap = null;
 
@@ -261,6 +273,7 @@ class ExcelBuilder
                 'FatherName' => 'Отчество',
                 'Company' => 'Компания',
                 'Position' => 'Должность',
+                'Region' => 'Регион',
                 'City' => 'Город',
                 'Email' => 'Email',
                 'Phone' => 'Телефон',
@@ -274,11 +287,8 @@ class ExcelBuilder
                 'DateBadge' => 'Дата выдачи бейджа',
             ];
 
-            if ($this->getEvent()->Id === 2300) {
-                $form = new Passport(DocumentType::findOne(1), User::model()->byRunetId(321)->find());
-                foreach ($form->attributeLabels() as $attr => $label) {
-                    $map['Passport_' . $attr] = $label;
-                }
+            if (!empty($this->getConfig()->Document)) {
+                $this->fillRowMapDocument($map);
             }
 
             if ($this->hasExternalId()) {
@@ -293,6 +303,24 @@ class ExcelBuilder
             $this->fillUsersData();
         }
         return $this->rowMap;
+    }
+
+    /**
+     * Схема, описывающая расположения значений в таблице для документов пользователей
+     * @param array $map
+     */
+    private function fillRowMapDocument(&$map)
+    {
+        $types = DocumentType::model()->ordered()->findAll();
+        foreach ($types as $type) {
+            $form = $type->getForm();
+            foreach ($form->attributeLabels() as $name => $label) {
+                $name = 'Document_' . $name;
+                if (!isset($map[$name])) {
+                    $map[$name] = 'Документ: ' . $label;
+                }
+            }
+        }
     }
 
     /**
@@ -320,7 +348,8 @@ class ExcelBuilder
                 'with' => [
                     'Address.City'
                 ]
-            ]
+            ],
+            'Documents' => ['together' => false]
         ];
         $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
 

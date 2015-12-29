@@ -70,6 +70,13 @@ $this->setPageTitle(\Yii::t('app', 'Экспорт участников в Excel
             <?=$activeForm->label($form, 'Roles');?>
             <?=$activeForm->dropDownList($form, 'Roles', \CHtml::listData($event->getRoles(), 'Id', 'Title'), ['multiple' => 'multiple', 'class' => 'form-control']);?>
         </div>
+        <?php if ($event->getIsRequiredDocument()):?>
+            <div class="checkbox">
+                <label>
+                    <?=$activeForm->checkBox($form, 'Document');?> <?=$form->getAttributeLabel('Document');?>
+                </label>
+            </div>
+        <?php endif;?>
         <?php if (!empty($event->Parts)):?>
             <div class="form-group">
                 <?=$activeForm->label($form, 'PartId');?>

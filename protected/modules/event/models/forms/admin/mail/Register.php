@@ -104,10 +104,8 @@ class Register extends EventItemCreateUpdateForm
     public function getEventRoleData()
     {
         $data = [];
-
-        $roles = Role::model()->findAll();
-        foreach ($roles as $role) {
-            $data[] = ['label' => $role->Title, 'value' => $role->Id];
+        foreach ($this->event->getRoles() as $role) {
+            $data[] = ['label' => "$role->Title ($role->Id)", 'value' => $role->Id];
         }
         return $data;
     }
