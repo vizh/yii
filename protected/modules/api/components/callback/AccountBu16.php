@@ -32,7 +32,8 @@ class AccountBu16 extends Base
             'name' => $user->FirstName,
             'sname' => $user->LastName,
             'email' => $user->Email,
-            'charset' => 'utf-8'
+            'charset' => 'utf-8',
+            'ip' => '127.0.0.1'
         ];
 
         $employment = $user->getEmploymentPrimary();
@@ -40,9 +41,6 @@ class AccountBu16 extends Base
             $params['company'] = $employment->Company->Name;
             $params['position'] = $employment->Position;
         }
-
-        $log = Log::model()->byUserId($user->Id)->orderBy(['"t"."CreationTime"' => SORT_DESC])->find();
-        $params['ip'] = !empty($log) ? $log->IP : '127.0.0.1';
         $response = $this->sendMessage($this->getUrlRegisterOnEvent(), $params);
         if ($response === null) {
             $this->log->save();

@@ -1,6 +1,6 @@
 <?php
 namespace ruvents\models;
-
+use application\components\db\MongoLogDocument;
 
 /**
  * @property int $Id
@@ -9,29 +9,22 @@ namespace ruvents\models;
  * @property string $Route
  * @property string $Params
  * @property string $FullTime
- * @property string $CreationTime
  * @property int $ErrorCode
  * @property string $ErrorMessage
  */
-class Log extends \CActiveRecord
+class Log extends MongoLogDocument
 {
-  /**
-   * @static
-   * @param string $className
-   * @return Log
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     * @return Log
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'RuventsLog';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
+    public function collectionName()
+    {
+        return 'RuventsLog';
+    }
 }

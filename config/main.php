@@ -1,4 +1,5 @@
 <?php
+Yii::setPathOfAlias('vendor', __DIR__.'\..\vendor');
 
 $config = [
     'basePath' => BASE_PATH.'/protected',
@@ -8,7 +9,11 @@ $config = [
     'preload' => ['log', 'session', 'debug'],
     'import' => [
         'application.components.Utils',
-        'application.helpers.*'
+        'application.helpers.*',
+        'vendor.sammaye.mongoyii.*',
+        'vendor.sammaye.mongoyii.validators.*',
+        'vendor.sammaye.mongoyii.behaviors.*',
+        'vendor.sammaye.mongoyii.util.*',
     ],
     'components' => [
         'user' => [
@@ -46,9 +51,8 @@ $config = [
             'class' => 'ext.MobileDetect.MobileDetect'
         ],
         'session' => [
-            'class' => '\application\components\web\PgDbHttpSession',
-            'connectionID' => 'db',
-            'autoCreateSessionTable' => false,
+            'class' => 'vendor.sammaye.mongoyii.util.EMongoSession',
+            'connectionID' => 'mongodb',
             'sessionName' => 'sessid',
             'timeout' => 180 * 24 * 60 * 60,
             'gCProbability' => 1,
@@ -68,7 +72,8 @@ $config = [
         'clientScript' => [
             'packages' => require 'script-packages.php',
             'scriptMap' => []
-        ]
+        ],
+        'mongodb' => require 'mongo-db.php'
     ],
     'modules' => require 'modules.php',
     'params' => require 'params.php'

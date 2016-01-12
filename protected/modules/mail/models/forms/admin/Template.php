@@ -536,10 +536,7 @@ class Template extends CreateUpdateForm
     public function getSentCount()
     {
         if (!empty($this->model)) {
-            $criteria = new \CDbCriteria();
-            $criteria->addCondition('"t"."CreationTime" >= :Time');
-            $criteria->params['Time'] = $this->model->ActivateTime;
-            return TemplateLog::model()->byTemplateId($this->model->Id)->byHasError(false)->count($criteria);
+            return TemplateLog::model()->byTemplateId($this->model->Id)->byHasError(false)->count();
         }
         return 0;
     }
