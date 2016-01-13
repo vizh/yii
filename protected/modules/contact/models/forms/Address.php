@@ -3,6 +3,7 @@ namespace contact\models\forms;
 
 use application\components\form\CreateUpdateForm;
 use contact\models\Address as AddressModel;
+use geo\models\City;
 
 class Address extends CreateUpdateForm
 {
@@ -30,6 +31,35 @@ class Address extends CreateUpdateForm
             ['RegionId', 'exist', 'className' => '\geo\models\Region', 'attributeName' => 'Id', 'allowEmpty' => true],
             ['CityLabel', 'validateCityLabel'],
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setAttributes($values, $safeOnly = true)
+    {
+        return parent::setAttributes($values, $safeOnly);
+        //$this->setAttributesByCityLabel();
+    }
+
+    private function setAttributesByCityLabel()
+    {
+        if (empty($this->CityLabel)) {
+            return;
+        }
+
+        foreach (['CityId', 'CountryId', 'RegionId'] as $attr) {
+            if (!empty($this->$attr)) {
+                return;
+            }
+        }
+
+        $city = City::model()->byName($this->CityLabel)->find();
+        if (!empty($city)) {
+            $this->CityId = $city->Id;
+            $this->RegionId = $city->RegionId;
+            $this->CountryId = $city->CountryId;
+        }
     }
 
     /**

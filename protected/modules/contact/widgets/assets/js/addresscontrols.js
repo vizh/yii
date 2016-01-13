@@ -14,18 +14,18 @@ $(function () {
       var self = this;
       
       if (self.fields.cityId.val().length !== 0) {
-        $.getJSON('/contact/ajax/city', {cityId : self.fields.cityId.val()}, function (response) {
+        $.getJSON('/geo/ajax/city', {'id' : self.fields.cityId.val()}, function (response) {
           self.fields.cityLabel.val(response.Name);
         });
       }
       else if (self.fields.regionId.val().length !== 0){
-        $.getJSON('/contact/ajax/region', {regionId : self.fields.regionId.val()}, function (response) {
+        $.getJSON('/geo/ajax/region', {'id' : self.fields.regionId.val()}, function (response) {
           self.fields.cityLabel.val(response.Name);
         });
       }
       
       self.fields.cityLabel.autocomplete({
-        source : '/contact/ajax/search',
+        source : '/geo/ajax/search',
         select : function (event, ui) {
           self.fields.cityId.val(
             typeof ui.item.CityId !== "undefined" ? ui.item.CityId : ""
