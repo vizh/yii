@@ -43,7 +43,7 @@ CUserEditEducation.prototype = {
                 if (request.term == '') {
                     response(CityNameInput.data('default-source'));
                 } else {
-                    $.getJSON('/geo2/ajax/cities', {term : request.term}, function( data ) {
+                    $.getJSON('/geo/ajax/search', {term : request.term}, function( data ) {
                         response(data);
                     });
                 }

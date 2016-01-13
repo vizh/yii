@@ -1,13 +1,32 @@
 <?php
 namespace geo\models;
+use application\components\ActiveRecord;
+use application\components\helpers\ArrayHelper;
 
 /**
- * @property int $RegionId
+ * @property int $Id
+ * @property int $ExtId
  * @property int $CountryId
  * @property string $Name
+ * @property int $Priority
+ * @property bool $CitiesParsed
+ * @property bool $Error
+ * @property bool $Start
+ *
+ * @property Country $Country
+ *
+ * @method Region find($condition='',$params=array())
+ * @method Region findByPk($pk,$condition='',$params=array())
+ * @method Region[] findAll($condition='',$params=array())
+ * @method Region byCountryId($id)
+ * @method Region byName($name)
+ * @method Region ordered()
+ * @method Region with(array)
  */
-class Region extends \CActiveRecord
+class Region extends ActiveRecord
 {
+    protected $defaultOrderBy = ['"t"."Priority"' => SORT_DESC, '"t"."Name"' => SORT_ASC];
+
     /**
      * @param string $className
      * @return Region
@@ -17,11 +36,9 @@ class Region extends \CActiveRecord
         return parent::model($className);
     }
 
-    public static $TableName = 'GeoRegion';
-
     public function tableName()
     {
-        return self::$TableName;
+        return 'Geo2Region';
     }
 
     public function primaryKey()
@@ -31,37 +48,28 @@ class Region extends \CActiveRecord
 
     public function relations()
     {
-        return array(
-            'Country' => array(self::BELONGS_TO, 'geo\models\Country', 'CountryId'),
-        );
+        return [
+            'Country' => [self::BELONGS_TO, Country::className(), 'CountryId'],
+        ];
     }
 
     /**
-     * @static
-     * @param  $countryId
-     * @return Region[]
+     * @return string
      */
-    public static function GetRegionsByCountry($countryId)
+    public function getAbsoluteName()
     {
-        $region = Region::model();
-        $criteria = new \CDbCriteria();
-        $criteria->condition = 't.CountryId = :CountryId';
-        $criteria->order = 'Priority DESC, Name';
-        $criteria->params = array(':CountryId' => $countryId);
-        return $region->findAll($criteria);
+        return $this->Country->Name.', ' . $this->Name;
     }
 
     /**
-     * @param int $countryId
-     * @param bool $useAnd
-     * @return $this
+     * @inheritdoc
      */
-    public function byCountryId($countryId, $useAnd = true)
+    function jsonSerialize()
     {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."CountryId" = :CountryId';
-        $criteria->params = ['CountryId' => $countryId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
+        return ArrayHelper::toArray($this, [self::className() => [
+            'RegionId' => 'Id', 'value' => 'Name', 'Name', 'CountryId', 'label' => function (Region $region) {
+                return $region->getAbsoluteName();
+            }
+        ]]);
     }
 }

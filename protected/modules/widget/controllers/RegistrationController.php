@@ -89,6 +89,7 @@ class RegistrationController extends Controller
     {
         $participants = [];
         $finder = $this->getFinder();
+        $finder->getUnpaidFreeCollection();
         $collections = array_merge($finder->getPaidOrderCollections(), $finder->getPaidFreeCollections());
         foreach ($collections as $collection) {
             /** @var OrderItemCollectable $item */

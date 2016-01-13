@@ -4,6 +4,6 @@ return [
     [
         'allow',
         'users' => ['*'],
-        'module' => 'geo2'
+        'module' => 'geo'
     ],
 ];

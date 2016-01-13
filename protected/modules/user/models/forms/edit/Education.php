@@ -5,7 +5,7 @@ use application\components\utility\Texts;
 use education\models\Degree;
 use education\models\Faculty;
 use education\models\University;
-use geo2\models\City;
+use geo\models\City;
 
 class Education extends \user\models\forms\edit\Base
 {

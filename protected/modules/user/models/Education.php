@@ -58,20 +58,4 @@ class Education extends ActiveRecord
             'Faculty' => [self::BELONGS_TO, 'education\models\Faculty', 'FacultyId']
         ];
     }
-
-    /**
-     *
-     */
-    protected function afterSave()
-    {
-        if ($this->getIsNewRecord()) {
-            $city = $this->University->City;
-            if ($city !== null) {
-                $city->incrementPriority();
-            }
-        }
-        return parent::afterSave();
-    }
-
-
 }

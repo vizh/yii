@@ -1,43 +1,37 @@
 <?php
 namespace geo\models;
+use application\components\ActiveRecord;
 
 /**
- * @property int $CountryId
+ * @property int $Id
+ * @property int $ExtId
  * @property string $Name
+ * @property int $Priority
+ * @property bool $CitiesParsed
+ *
+ * @method Country find($condition='',$params=array())
+ * @method Country findByPk($pk,$condition='',$params=array())
+ * @method Country[] findAll($condition='',$params=array())
+ * @method Country byExtId($id)
  */
-class Country extends \CActiveRecord
+class Country extends ActiveRecord
 {
-  public static function model($className=__CLASS__)
-  {    
-    return parent::model($className);
-  }
-  
-  public function tableName()
-  {
-    return 'GeoCountry';
-  }
-  
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-  
-  public function relations()
-  {
-    return array(
-      
-    );
-  }
+    /**
+     * @param string $className
+     * @return Country
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
-  /**
-   * @static
-   * @return Country[]
-   */
-  public static function GetAll()
-  {
-    $country = Country::model();
-    $criteria = new \CDbCriteria();
-    $criteria->order = 'Priority DESC, Name';
-    return $country->findAll($criteria);
-  }
+    public function tableName()
+    {
+        return 'Geo2Country';
+    }
+
+    public function primaryKey()
+    {
+        return 'Id';
+    }
 }

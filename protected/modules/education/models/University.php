@@ -3,7 +3,7 @@ namespace education\models;
 
 use application\components\ActiveRecord;
 use application\components\utility\Texts;
-use geo2\models\City;
+use geo\models\City;
 
 /**
  * Class University
@@ -47,7 +47,7 @@ class University extends ActiveRecord
     public function relations()
     {
         return [
-            'City' => [self::BELONGS_TO, 'geo2\models\City', 'CityId']
+            'City' => [self::BELONGS_TO, City::className(), 'CityId']
         ];
     }
 
