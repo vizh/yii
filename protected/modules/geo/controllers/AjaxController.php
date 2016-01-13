@@ -50,11 +50,7 @@ class AjaxController extends MainController
             $result[] = $city->jsonSerialize();
         }
 
-        $criteria = new \CDbCriteria();
-        $criteria->addCondition('"t"."Name" ILIKE :Name');
-        $criteria->params['Name'] = Texts::prepareStringForLike($term) . '%';
-
-        $regions = Region::model()->ordered()->limit(5)->with(['Country'])->findAll($criteria);
+        $regions = Region::model()->byName($term)->ordered()->limit(5)->with(['Country'])->findAll();
         foreach ($regions as $region) {
             $result[] = $region->jsonSerialize();
         }

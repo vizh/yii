@@ -9,18 +9,19 @@ class m160113_080640_geo2_to_geo extends CDbMigration
     // Use safeUp/safeDown to do migration with transaction
     public function safeUp()
     {
+        /*
         $command = \Yii::app()->getDb()->createCommand();
         $addresses = $command->from('ContactAddress')->order('Id ASC')->queryAll();
         foreach ($addresses as $address) {
             echo $address['Id'] . "\n";
-            /*if (!empty($address['CityId'])) {
+            if (!empty($address['CityId'])) {
                 $this->updateCity($address, $address['CityId']);
-            } else*/if (!empty($address['RegionId'])) {
+            } elseif (!empty($address['RegionId'])) {
                 $this->updateRegion($address, $address['RegionId']);
             } elseif (!empty($address['CountryId'])) {
                 $this->updateCountry($address, $address['CountryId']);
             }
-        }
+        }*/
 	}
 
     public function safeDown()
@@ -35,6 +36,9 @@ class m160113_080640_geo2_to_geo extends CDbMigration
     {
         $command = \Yii::app()->getDb()->createCommand();
         $oldCity = $command->from('GeoCity')->where('"Id" = :Id')->queryRow(true, [':Id' => $id]);
+        if (empty($oldCity) || empty($oldCity['Name'])) {
+            return;
+        }
         $criteria = new \CDbCriteria();
         $criteria->addCondition('"t"."Name" = :Name');
         $criteria->params['Name'] = $oldCity['Name'];
@@ -42,7 +46,7 @@ class m160113_080640_geo2_to_geo extends CDbMigration
         if (empty($city)) {
             $city = new City();
             $city->Name = $oldCity['Name'];
-            $city->RegionId = $this->updateRegion($address, $oldCity['RegionId'])->Id;
+            $city->RegionId = !empty($oldCity['RegionId']) ? $this->updateRegion($address, $oldCity['RegionId'])->Id : null;
             $city->CountryId = $this->updateCountry($address, $oldCity['CountryId'])->Id;
             $city->save();
         }
@@ -91,6 +95,9 @@ class m160113_080640_geo2_to_geo extends CDbMigration
     {
         $command = \Yii::app()->getDb()->createCommand();
         $oldCountry = $command->from('GeoCountry')->where('"Id" = :Id')->queryRow(true, [':Id' => $id]);
+        if (empty($oldCountry)) {
+            return;
+        }
         $criteria = new \CDbCriteria();
         $criteria->addCondition('"t"."Name" = :Name');
         $criteria->params['Name'] = $oldCountry['Name'];

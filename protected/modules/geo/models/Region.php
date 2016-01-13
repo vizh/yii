@@ -2,6 +2,7 @@
 namespace geo\models;
 use application\components\ActiveRecord;
 use application\components\helpers\ArrayHelper;
+use application\components\utility\Texts;
 
 /**
  * @property int $Id
@@ -19,7 +20,6 @@ use application\components\helpers\ArrayHelper;
  * @method Region findByPk($pk,$condition='',$params=array())
  * @method Region[] findAll($condition='',$params=array())
  * @method Region byCountryId($id)
- * @method Region byName($name)
  * @method Region ordered()
  * @method Region with(array)
  */
@@ -38,7 +38,7 @@ class Region extends ActiveRecord
 
     public function tableName()
     {
-        return 'Geo2Region';
+        return 'GeoRegion';
     }
 
     public function primaryKey()
@@ -59,6 +59,21 @@ class Region extends ActiveRecord
     public function getAbsoluteName()
     {
         return $this->Country->Name.', ' . $this->Name;
+    }
+
+    /**
+     * @param string $name
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byName($name, $useAnd = true)
+    {
+        $name = Texts::prepareStringForTsvector($name);
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."SearchName" @@ to_tsquery(:Name)';
+        $criteria->params = ['Name' => $name];
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
     }
 
     /**

@@ -42,7 +42,7 @@ class City extends ActiveRecord
 
     public function tableName()
     {
-        return 'Geo2City';
+        return 'GeoCity';
     }
 
     public function primaryKey()

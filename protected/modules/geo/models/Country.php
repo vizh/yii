@@ -27,7 +27,7 @@ class Country extends ActiveRecord
 
     public function tableName()
     {
-        return 'Geo2Country';
+        return 'GeoCountry';
     }
 
     public function primaryKey()
