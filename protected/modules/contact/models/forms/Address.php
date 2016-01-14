@@ -3,6 +3,7 @@ namespace contact\models\forms;
 
 use application\components\form\CreateUpdateForm;
 use contact\models\Address as AddressModel;
+use geo\models\City;
 
 class Address extends CreateUpdateForm
 {
@@ -33,13 +34,38 @@ class Address extends CreateUpdateForm
     }
 
     /**
+     * @inheritDoc
+     */
+    public function setAttributes($values, $safeOnly = true)
+    {
+        parent::setAttributes($values, $safeOnly);
+        $this->setAttributesByCityLabel();
+    }
+
+    /**
+     * Заполнить атрибуты географического положения, если задано только название города, и такой город есть в базе
+     */
+    private function setAttributesByCityLabel()
+    {
+        if (empty($this->CityLabel) || !$this->isGeoEmpty()) {
+            return;
+        }
+        $city = City::model()->byName($this->CityLabel)->ordered()->find();
+        if (!empty($city)) {
+            $this->CityId = $city->Id;
+            $this->RegionId = $city->RegionId;
+            $this->CountryId = $city->CountryId;
+        }
+    }
+
+    /**
      * @param string $attribute
      * @return mixed
      */
     public function validateCityLabel($attribute)
     {
         $value = $this->$attribute;
-        if ((!empty($value) || $this->getScenario() == self::ScenarioRequired) && (empty($this->CityId) && empty($this->CountryId))) {
+        if ((!empty($value) || $this->getScenario() == self::ScenarioRequired) && $this->isGeoEmpty()) {
             $this->addError('CityLabel', \Yii::t('app', 'Выберите город из выпадающего списка. Если вашего города нет, укажите свой регион.'));
         }
         if (empty($value)) {
@@ -83,6 +109,14 @@ class Address extends CreateUpdateForm
         return $this->model;
     }
 
+    /**
+     * Возвораешь true, если не заданы поля географического положения
+     * @return bool
+     */
+    private function isGeoEmpty()
+    {
+        return empty($this->CityId) && empty($this->RegionId) && empty($this->CountryId);
+    }
 
     /**
      * @deprecated

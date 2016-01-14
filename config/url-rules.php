@@ -155,7 +155,7 @@ return [
     'http://<domain:\w+>.'. RUNETID_HOST .'/pay/ajax/<action:\w+>' => 'pay/ajax/<action>',
     'http://<domain:\w+>.'. RUNETID_HOST .'/event/ajax/<action:\w+>' => 'event/ajax/<action>',
     'http://<domain:\w+>.'. RUNETID_HOST .'/company/ajax/<action:\w+>' => 'company/ajax/<action>',
-    'http://<domain:\w+>.'. RUNETID_HOST .'/contact/ajax/<action:\w+>' => 'contact/ajax/<action>',
+    'http://<domain:\w+>.'. RUNETID_HOST .'/geo/ajax/<action:\w+>' => 'geo/ajax/<action>',
 
     /** Настройка путей админки */
     'http://admin.' .  RUNETID_HOST . '/' => 'main/admin/default/index',

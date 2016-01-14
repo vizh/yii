@@ -1,27 +1,38 @@
 <?php
 namespace geo\models;
+
+use application\components\helpers\ArrayHelper;
+use application\components\utility\Texts;
 use application\models\translation\ActiveRecord;
+use application\widgets\IAutocompleteItem;
 
 /**
  * @property int $Id
+ * @property int $ExtId
  * @property int $CountryId
  * @property int $RegionId
  * @property int $Name
+ * @property string $Area
+ * @property int $Priority
+ * @property bool $Parsed
  *
  * @property Country $Country
  * @property Region $Region
  *
- * Вспомогательные описания методов методы
  * @method City find($condition='',$params=array())
  * @method City findByPk($pk,$condition='',$params=array())
  * @method City[] findAll($condition='',$params=array())
- * @method City byName(string $name)
+ * @method City byRegionId($id)
+ * @method City byCountryId($id)
+ * @method City ordered()
+ * @method City with(array)
  */
 class City extends ActiveRecord
 {
+    protected $defaultOrderBy = ['"t"."Priority"' => SORT_DESC, '"t"."Name"' => SORT_ASC];
+
     /**
      * @param string $className
-     *
      * @return City
      */
     public static function model($className=__CLASS__)
@@ -29,11 +40,9 @@ class City extends ActiveRecord
         return parent::model($className);
     }
 
-    public static $TableName = 'GeoCity';
-
     public function tableName()
     {
-        return self::$TableName;
+        return 'GeoCity';
     }
 
     public function primaryKey()
@@ -43,59 +52,10 @@ class City extends ActiveRecord
 
     public function relations()
     {
-        return array(
-            'Country' => array(self::BELONGS_TO, 'geo\models\Country', 'CountryId'),
-            'Region' => array(self::BELONGS_TO, 'geo\models\Region', 'RegionId')
-        );
-    }
-
-    /**
-     * @static
-     * @param int $id
-     * @return City|null
-     */
-    public static function GetById($id)
-    {
-        $city = City::model();
-        return $city->findByPk($id);
-    }
-
-    /**
-     * @static
-     * @param int $regionId
-     * @return City[]
-     */
-    public static function GetCityByRegion($regionId)
-    {
-        $city = City::model();
-        $criteria = new \CDbCriteria();
-        $criteria->condition = 't.RegionId = :RegionId';
-        $criteria->order = 'Priority DESC, Name';
-        $criteria->params = array(':RegionId' => $regionId);
-        return $city->findAll($criteria);
-    }
-
-    /**
-     * @return Country
-     */
-    public function GetCountry()
-    {
-        if (isset($this->Country))
-        {
-            return $this->Country;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /**
-     * @desc НАЗВАНИЕ ГОРОДА
-     */
-    public function GetName()
-    {
-        return $this->Name;
+        return [
+            'Country' => [self::BELONGS_TO, Country::className(), 'CountryId'],
+            'Region' => [self::BELONGS_TO, Region::className(), 'RegionId']
+        ];
     }
 
     /**
@@ -103,34 +63,42 @@ class City extends ActiveRecord
      */
     public function getTranslationFields()
     {
-        return array('Name');
+        return ['Name'];
     }
 
     /**
-     * @param int $countryId
+     * @param string $name
      * @param bool $useAnd
      * @return $this
      */
-    public function byCountryId($countryId, $useAnd = true)
+    public function byName($name, $useAnd = true)
     {
+        $name = Texts::prepareStringForTsvector($name);
         $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."CountryId" = :CountryId';
-        $criteria->params = ['CountryId' => $countryId];
+        $criteria->condition = '"t"."SearchName" @@ to_tsquery(:Name)';
+        $criteria->params = ['Name' => $name];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }
 
-    /**
-     * @param int $regionId
-     * @param bool $useAnd
-     * @return $this
-     */
-    public function byRegionId($regionId, $useAnd = true)
+    public function getAbsoluteName()
     {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."RegionId" = :RegionId';
-        $criteria->params = ['RegionId' => $regionId];
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
+        $result = $this->Country->Name.', ';
+        if ($this->RegionId != null) {
+            $result .= $this->Region->Name.', ';
+        }
+        return $result . $this->Name;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    function jsonSerialize()
+    {
+        return ArrayHelper::toArray($this, [City::className() => [
+            'CityId' => 'Id', 'value' => 'Name', 'Name', 'RegionId', 'CountryId', 'label' => function (City $city) {
+                return $city->getAbsoluteName();
+            }
+        ]]);
     }
 }

@@ -2,7 +2,7 @@
 namespace user\models\forms\edit;
 
 use application\components\helpers\ArrayHelper;
-use geo2\models\City;
+use geo\models\City;
 
 class Educations extends \user\models\forms\edit\Base
 {
@@ -103,10 +103,10 @@ class Educations extends \user\models\forms\edit\Base
      */
     public function getCityDefaultSource()
     {
-        $cities = City::model()->limit(10)->orderBy(['"t"."Priority"' => SORT_DESC])->findAll();
+        $cities = City::model()->limit(10)->ordered()->findAll();
         $source = [];
         foreach ($cities as $city) {
-            $source[] = $city->getAjaxAttributes();
+            $source[] = $city->jsonSerialize();
         }
         return json_encode($source);
     }

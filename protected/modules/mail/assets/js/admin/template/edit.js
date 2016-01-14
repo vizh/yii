@@ -164,7 +164,7 @@ CTemplateEdit.prototype = {
         };
 
         fields.label.autocomplete({
-            'source': '/contact/ajax/search',
+            'source': '/geo/ajax/search',
             select: function (event, ui) {
                 fields.cityId.val(
                     typeof ui.item.CityId !== "undefined" ? ui.item.CityId : ""

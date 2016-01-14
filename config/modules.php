@@ -12,7 +12,6 @@ $modules = [
     'event',
     'education',
     'geo',
-    'geo2',
     'main',
     'news',
     'oauth' => ['csrfValidation' => true],
