@@ -52,7 +52,6 @@ $config = [
         ],
         'session' => [
             'class' => 'vendor.sammaye.mongoyii.util.EMongoSession',
-            'connectionID' => 'mongodb',
             'sessionName' => 'sessid',
             'timeout' => 180 * 24 * 60 * 60,
             'gCProbability' => 1,
@@ -65,6 +64,7 @@ $config = [
         'errorHandler' => [
             'errorAction' => '/main/error/index',
         ],
+        'mongodb' => require 'mongo-db.php',
         'log' => [
             'class' => 'CLogRouter',
             'routes' => require 'log-routes.php'
@@ -73,7 +73,6 @@ $config = [
             'packages' => require 'script-packages.php',
             'scriptMap' => []
         ],
-        'mongodb' => require 'mongo-db.php'
     ],
     'modules' => require 'modules.php',
     'params' => require 'params.php'
