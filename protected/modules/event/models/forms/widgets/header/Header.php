@@ -49,7 +49,7 @@ class Header extends WidgetAdminPanelForm
             return null;
         }
         if ($this->WidgetHeaderBackgroundImage !== null) {
-            $this->model->getHeaderBackgroundImage()->saveUpload($this->WidgetHeaderBackgroundImage);
+            $this->model->getHeaderBackgroundImage()->upload($this->WidgetHeaderBackgroundImage);
         }
         return $this->model;
     }

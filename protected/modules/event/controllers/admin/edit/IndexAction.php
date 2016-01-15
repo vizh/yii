@@ -130,7 +130,7 @@ class IndexAction extends \CAction
                 }
 
                 if ($form->TicketImage !== null) {
-                    $event->getTicketImage()->saveUpload($form->TicketImage);
+                    $event->getTicketImage()->upload($form->TicketImage);
                 }
 
                 // Сохранение виджетов

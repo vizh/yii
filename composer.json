@@ -14,6 +14,7 @@
     "facebook/php-sdk-v4": "4.0.*",
     "giggsey/libphonenumber-for-php": "7.0.*",
     "j20/php-uuid": "*",
-    "sammaye/mongoyii": "*"
+    "sammaye/mongoyii": "*",
+    "gregwar/image": "*"
   }
 }

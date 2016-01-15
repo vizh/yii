@@ -1,5 +1,6 @@
 <?php
 namespace company\models;
+
 use application\components\Image;
 use application\models\ProfessionalInterest;
 use application\models\translation\ActiveRecord;
@@ -137,16 +138,12 @@ class Company extends ActiveRecord implements ISearch, IAutocompleteItem
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
     }
 
-
-    /** @var Logo */
-    private $logo = null;
-
     /**
      * @return Image
      */
     public function getLogo()
     {
-        return new Image($this, 'none.png', 'logo', IMG_PNG);
+        return new Image($this, 'upload/images/company/logo/none.png', 'logo');
     }
 
     /**

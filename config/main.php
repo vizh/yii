@@ -40,7 +40,7 @@ $config = [
             'rules' => []
         ],
         'cache' => [
-            'class' => 'CXCache',
+            'class' => 'vendor.sammaye.mongoyii.util.EMongoCache'
         ],
         'db' => require 'db.php',
         'image' => [
@@ -92,10 +92,10 @@ if (YII_DEBUG) {
         'allowedIPs' => ['127.0.0.1', '::1', '82.142.129.37 ']
     ];
     
-    if (YII_DEBUG_DISABLE_CHACHE)
+    /*if (YII_DEBUG_DISABLE_CHACHE)
         $config['components']['cache'] = [
             'class' => 'CDummyCache'
-        ];
+        ];*/
 }
 
 return $config;

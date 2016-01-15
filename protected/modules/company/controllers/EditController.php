@@ -29,7 +29,7 @@ class EditController extends \application\components\controllers\PublicMainContr
         $this->company->save();
         if ($form->Logo !== null)
         {
-          $this->company->getLogo()->saveUpload($form->Logo);
+          $this->company->getLogo()->upload($form->Logo);
         }
         
         if (!empty($form->Site))
