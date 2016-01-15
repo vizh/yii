@@ -68,7 +68,7 @@ class Promo extends CreateUpdateForm
             return null;
         }
         if (!empty($this->BackgroundImage)) {
-            $this->model->getPromoBackgroundImage()->saveUpload($this->BackgroundImage);
+            $this->model->getPromoBackgroundImage()->upload($this->BackgroundImage);
         }
         $this->model->PromoBlockStyles = $this->buildStyleString();
         return $this->model;

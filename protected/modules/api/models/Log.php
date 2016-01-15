@@ -1,6 +1,8 @@
 <?php
 namespace api\models;
 
+use application\components\db\MongoLogDocument;
+
 /**
  * @property int $Id
  * @property int $AccountId
@@ -8,29 +10,21 @@ namespace api\models;
  * @property string $Params
  * @property float $DbTime
  * @property float $FullTime
- * @property string $CreationTime
  * @property int $ErrorCode
  * @property string $ErrorMessage
  */
-class Log extends \CActiveRecord
+class Log extends MongoLogDocument
 {
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'ApiLog';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array();
-  }
+    /**
+     * @inheritDoc
+     */
+    public function collectionName()
+    {
+        return 'ApiLog';
+    }
 }

@@ -259,7 +259,7 @@ class Company extends CreateUpdateForm
             $this->model->save();
 
             if ($this->Logo !== null) {
-                $this->model->getLogo()->saveUpload($this->Logo);
+                $this->model->getLogo()->upload($this->Logo);
             }
 
             if (!empty($this->Url)) {

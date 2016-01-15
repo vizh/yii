@@ -1,290 +1,177 @@
 <?php
 namespace application\components;
 
-use \Exception;
+use Gregwar\Cache\Cache;
+use Gregwar\Image\Image as GregwarImage;
+use \CActiveRecord as ActiveRecord;
 
 class Image
 {
-    const ORIGINAL_FILE_NAME = 'original';
+    const QUALITY = 90;
+    const ORIGINAL_PREFIX = '-origin';
 
-    private $model;
-    private $folder;
-    private $saveExtension;
-    private $defaultImagePathname = null;
+    /** @var string */
+    private $cacheName;
+
+    /** @var GregwarImage */
+    private $image;
 
     /**
      * @param \CActiveRecord $model
-     * @param null|string $defaultImagePathname
-     * @param null|string $folder
-     * @param int $saveExtension
+     * @param null|string $defaultImage Путь до изображения по умолчанию
+     * @param null|string $folder Поддериктория, в которую требуется сохранять изображения
      */
-    function __construct(\CActiveRecord $model, $defaultImagePathname = null, $folder = null, $saveExtension = IMG_JPG)
+    function __construct(ActiveRecord $model, $defaultImage = null, $folder = null)
     {
-        $this->model = $model;
-        $this->folder = $folder;
-        if ($defaultImagePathname !== null) {
-            if (strpos($defaultImagePathname, DIRECTORY_SEPARATOR) === false) {
-                $defaultImagePathname = \Yii::getPathOfAlias($this->getRootAlias()) . DIRECTORY_SEPARATOR . $defaultImagePathname;
-            }
-            $this->defaultImagePathname = $defaultImagePathname;
-        }
-        $this->saveExtension = $saveExtension;
-    }
-
-    /** @var null|string */
-    private $rootAlias = null;
-
-    /**
-     * Алиас до корневой директории хранилища
-     * @return string
-     */
-    protected function getRootAlias()
-    {
-        if ($this->rootAlias === null) {
-            $this->rootAlias = 'webroot.upload.images.';
-
-            $class = get_class($this->model);
-            $this->rootAlias .= substr($class, strrpos($class, '\\') + 1);
-            if (!empty($this->folder)) {
-                $this->rootAlias .= '.' . $this->folder;
-            }
-            $this->rootAlias = strtolower($this->rootAlias) . '.';
-        }
-        return $this->rootAlias;
-    }
-
-    /** @var null|string */
-    private $basePath = null;
-
-    /**
-     * @return null
-     * @throws \Exception
-     */
-    protected function getBasePath()
-    {
-        if ($this->model->getIsNewRecord()) {
-            throw new Exception('Модель не сохранена в базе данных');
+        $cacheDir = 'upload/images/' . strtolower($model->tableName());
+        if ($folder !== null) {
+            $cacheDir .= '/' . $folder;
         }
 
-        if ($this->basePath == null) {
-            $alias = $this->getRootAlias() . substr(md5($this->model->getPrimaryKey()),3,3) . '.' . $this->model->getPrimaryKey();
-            $this->basePath = \Yii::getPathOfAlias($alias).DIRECTORY_SEPARATOR;
-            if (!file_exists($this->basePath)) {
-                mkdir($this->basePath, 0777, true);
-            }
-        }
-        return $this->basePath;
-    }
+        $this->cacheName = md5($model->getPrimaryKey());
+        $this->image = GregwarImage::open()->setCacheDir($cacheDir);
 
-    /**
-     * @return string
-     */
-    private function getExtension()
-    {
-        switch ($this->saveExtension) {
-            case IMG_PNG: $ext = 'png';
-                break;
-            case IMG_GIF: $ext = 'gif';
-                break;
-            default: $ext = 'jpg';
-        }
-        return $ext;
-    }
-
-    private $postfixCacheKey = null;
-
-    /**
-     * @return string
-     */
-    protected function getPostfixCacheKey()
-    {
-        if ($this->postfixCacheKey == null) {
-            $this->postfixCacheKey = implode('_', ['image', get_class($this), $this->folder, $this->model->getPrimaryKey()]);
-        }
-        return $this->postfixCacheKey;
-    }
-
-    /**
-     *
-     */
-    protected function deletePostfixValue()
-    {
-        \Yii::app()->getCache()->delete($this->getPostfixCacheKey());
-    }
-
-    /**
-     * @return string
-     */
-    protected function getPostfixValue()
-    {
-        $postfix = null;
-        $cache   = \Yii::app()->getCache();
-        if ($cache->get($this->getPostfixCacheKey()) !== false) {
-            $postfix = $cache->get($this->getPostfixCacheKey());
-        }
-        else {
-            if (file_exists($this->getBasePath())) {
-                /** @var \DirectoryIterator $item */
-                foreach (new \DirectoryIterator($this->getBasePath()) as $item) {
-                    if ($item->isFile() && strpos($item->getBasename(), self::ORIGINAL_FILE_NAME) !== null) {
-                        $mathes = [];
-                        if (preg_match('/'.self::ORIGINAL_FILE_NAME.'_([a-z0-9]+)\./i', $item->getBasename(), $matches)) {
-                            if (isset($matches[1])) {
-                                $postfix = $matches[1];
-                                $cache->set($this->getPostfixCacheKey(), $postfix);
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($postfix == null) {
-            $postfix = substr(md5(time()), 5, 5);
-            $cache->set($this->getPostfixCacheKey(), $postfix);
-        }
-        return $postfix;
-    }
-
-    /**
-     * @param bool $default
-     * @return string|null
-     */
-    protected function getOriginalPathname($default = true)
-    {
-        $pathname = $this->getBasePath() . self::ORIGINAL_FILE_NAME . '_' . $this->getPostfixValue() . '.' . $this->getExtension();
-        if (!file_exists($pathname) && $default) {
-            if (file_exists($this->defaultImagePathname)) {
-                $pathname = $this->defaultImagePathname;
-            } else {
-                return null;
-            }
-        }
-        return $pathname;
-    }
-
-    /**
-     * @param string $action
-     * @param string[] $params
-     * @return string
-     */
-    protected function getPathname($action, $params = [])
-    {
-        $name = $action . (!empty($params) ? '-'.implode('x', $params) : '');
-
-        $originalPathname = $this->getOriginalPathname();
-        if ($originalPathname !== null) {
-            if (strpos($originalPathname, self::ORIGINAL_FILE_NAME) !== false) {
-                return $this->getBasePath() . $name . '_' . $this->getPostfixValue() . '.' . $this->getExtension();
-            } else {
-                return substr($originalPathname, 0, strrpos($originalPathname,'.')) . '-' . $name . '.' . $this->getExtension();
-            }
+        if ($this->getOriginal() !== null) {
+            $this->image->fromFile($this->getOriginal());
+        } elseif ($defaultImage !== null) {
+            $this->image->fromFile($defaultImage);
         }
     }
 
-    /**
-     * @param string $pathname
-     * @return string
-     */
-    protected function getUrl($pathname) {
-        return str_replace([\Yii::getPathOfAlias('webroot'),'\\'], ['','/'], $pathname);
-    }
 
     /**
      * @param \CUploadedFile $file
      */
-    public function saveUpload(\CUploadedFile $file)
+    public function upload(\CUploadedFile $file)
     {
-        $this->save($file->tempName);
+        $this->save($file->getTempName());
     }
 
     /**
-     * @param string $path
+     * Сохраняет изображение
+     * @param $path
      */
-    public function save($path = null)
+    public function save($path)
     {
         $this->delete();
-        $image = \Yii::app()->image->load($path);
-        $this->deletePostfixValue();
-        $image->save($this->getOriginalPathname(false));
+        $this->image->setPrettyName(
+            $this->cacheName . self::ORIGINAL_PREFIX . time(),
+            false
+        );
+        $this->image->fromFile($path)->guess(self::QUALITY);
     }
 
     /**
+     * Удаляет изображение
      * @throws Exception
      */
     public function delete()
     {
-        /** @var \DirectoryIterator $item */
-        foreach(new \DirectoryIterator($this->getBasePath()) as $item) {
-            if ($item->isFile()) {
-                unlink($item->getPathname());
-            }
+        $this->cachedFileWalk(function (\DirectoryIterator $file) {
+            unlink($file->getPathname());
+        });
+    }
+
+    /**
+     * @param string $name
+     * @param null|array $params
+     * @return null|string
+     */
+    private function operation($name, $params = null)
+    {
+        if (!$this->exists()) {
+            return null;
         }
+
+        /** @var GregwarImage $image */
+        $image = call_user_func_array([$this->image, $name], $params);
+
+        if ($this->existsOriginal()) {
+            $this->image->setPrettyName(
+                $this->cacheName . '-' . $this->image->getHash('guess', self::QUALITY),
+                false
+            );
+        }
+        return '/' . $image->guess(self::QUALITY);
     }
 
     /**
      * @param int $x
-     * @param int $y
-     * @return string
+     * @param int|null $y
+     * @return string|null
      */
-    public function resize($x, $y = 0)
+    public function resize($x, $y = null)
     {
-        $pathname = $this->getPathname('resize', [$x,$y]);
-        if (!file_exists($pathname)) {
-            $originalPathname = $this->getOriginalPathname();
-            if ($originalPathname !== null) {
-                $image = \Yii::app()->image->load($this->getOriginalPathname());
-                if ($image->width <= $x) {
-                    $x = $image->width;
-                }
-                if ($y != 0 && $image->height <= $y) {
-                    $y = $image->height;
-                }
-                $image->resize($x,$y);
-                $image->save($pathname);
-            } else {
-                return null;
-            }
-        }
-        return $this->getUrl($pathname);
+        return $this->operation('resize', ['x' => $x, 'y' => $y]);
     }
 
+
+    /**
+     * @param int $x
+     * @param int $y
+     * @return null
+     */
     public function crop($x, $y)
     {
-        $pathname = $this->getPathname('resize', [$x,$y]);
-        if (!file_exists($pathname)) {
-            $originalPathname = $this->getOriginalPathname();
-            if ($originalPathname !== null) {
-                $image = \Yii::app()->image->load($this->getOriginalPathname());
-                $height = round($image->height / $image->width * $x);
-                if ($height >= $y)
-                {
-                    $image->resize($x,0);
+        return $this->operation('zoomCrop', ['x' => $x, 'y' => $y]);
+    }
+
+
+    /**
+     * Применяет функцию {@link $callable} для всех закэшированных файлов
+     * @param \Closure $callable
+     */
+    private function cachedFileWalk(\Closure $callable)
+    {
+        /** @var Cache $cache */
+        $cache = $this->image->getCacheSystem();
+        $path = \Yii::getPathOfAlias('webroot') . DIRECTORY_SEPARATOR . dirname($cache->getCacheFile($this->cacheName));
+        if (file_exists($path)) {
+            foreach (new \DirectoryIterator($path) as $file) {
+                if (!$file->isDot() && strpos($file->getBasename(), $this->cacheName) === 0 && $callable($file) === false) {
+                    return;
                 }
-                else
-                {
-                    $image->resize(0,$y);
-                }
-                $image->crop($x, $y);
-                $image->save($pathname);
-            } else {
-                return null;
             }
         }
-        return $this->getUrl($pathname);
     }
+
+    /** @var bool|null|string */
+    private $original = false;
+
 
     /**
      * @return null|string
      */
     public function getOriginal()
     {
-        $pathname = $this->getOriginalPathname();
-        if ($pathname !== null) {
-            return $this->getUrl($pathname);
+        if ($this->original === false) {
+            $this->original = null;
+            $this->cachedFileWalk(function (\DirectoryIterator $file) {
+                if (strpos($file->getBasename(), self::ORIGINAL_PREFIX) !== false) {
+                    $this->original = $file->getPathname();
+                    return false;
+                }
+            });
         }
-        return null;
+        return $this->original;
+    }
+
+    /**
+     * Сущсетвует ли оригинальное изображение
+     * @return bool
+     */
+    private function existsOriginal()
+    {
+        return $this->getOriginal() !== null;
+    }
+
+    /**
+     * Возмращает существует ли изображение
+     * @return bool
+     */
+    public function exists()
+    {
+        return $this->existsOriginal() || $this->image->getFilePath() !== null;
     }
 
     function __call($name, $arguments)
@@ -296,16 +183,4 @@ class Image
             parent::__call($name, $arguments);
         }
     }
-
-    /**
-     * Возмращает существует ли изображение
-     * @return bool
-     */
-    public function exists()
-    {
-        if (!$this->model->getIsNewRecord() && $this->getOriginal() !== null) {
-            return true;
-        }
-        return false;
-    }
-} 
+}

@@ -230,7 +230,7 @@ return array(
     'Необходимо заполнить поле Планируемое кол-во участников' => 'Number of participants cannot be blank.',
     '<h4 class="m-bottom_5">Поздравляем!</h4>Мероприятие отправлено. В ближайшее время c Вами свяжутся.' => '<h4 class="m-bottom_5">Thank you!</h4>Our manager will contact you with detailed information!',
     'Москва' => 'Moscow',
-    '' => '',
+    'Участники' => 'Participants',
     '' => '',
     '' => '',
     '' => '',

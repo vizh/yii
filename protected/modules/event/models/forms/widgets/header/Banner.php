@@ -55,12 +55,12 @@ class Banner extends Header
         }
 
         if ($this->WidgetHeaderBannerImage !== null) {
-            $this->model->getHeaderBannerImage()->saveUpload($this->WidgetHeaderBannerImage);
+            $this->model->getHeaderBannerImage()->upload($this->WidgetHeaderBannerImage);
         }
 
         if ($this->WidgetHeaderBannerImage_en !== null) {
             $this->model->setLocale('en');
-            $this->model->getHeaderBannerImage(false)->saveUpload($this->WidgetHeaderBannerImage_en);
+            $this->model->getHeaderBannerImage(false)->upload($this->WidgetHeaderBannerImage_en);
             $this->model->resetLocale();
         }
 

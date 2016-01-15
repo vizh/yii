@@ -1,19 +1,18 @@
 <?php
 namespace mail\models;
 
+use application\components\db\MongoLogDocument;
+
 /**
  * @property int $Id
  * @property int $UserId
  * @property int $TemplateId
- * @property string $CreationTIme
  * @property string $Error
  */
-class TemplateLog extends \CActiveRecord implements \mail\components\ILog
+class TemplateLog extends MongoLogDocument implements \mail\components\ILog
 {
-
     /**
      * @param string $className
-     *
      * @return TemplateLog
      */
     public static function model($className = __CLASS__)
@@ -21,57 +20,35 @@ class TemplateLog extends \CActiveRecord implements \mail\components\ILog
         return parent::model($className);
     }
 
-    public function tableName()
+    public function collectionName()
     {
         return 'MailTemplateLog';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
     /**
-     * @param int $templateId
-     * @param bool $useAnd
+     * @param int $id
      * @return $this
      */
-    public function byTemplateId($templateId, $useAnd = true)
+    public function byTemplateId($id)
     {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."TemplateId" = :TemplateId';
-        $criteria->params = array('TemplateId' => $templateId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        $this->mergeDbCriteria(['condition' => ['TemplateId' => $id]]);
         return $this;
     }
 
     /**
-     * @param bool $hasError
-     * @param bool $useAnd
+     * @param bool|true $has
      * @return $this
      */
-    public function byHasError($hasError = false, $useAnd = true)
+    public function byHasError($has = true)
     {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."Error" IS ' . ($hasError ? 'NOT' : '') . ' NULL';
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        $condition = !$has ? ['$or' => [['Error' => null], ['Error' => $has]]] : ['Error' => $has];
+        $this->mergeDbCriteria(['condition' => $condition]);
         return $this;
     }
 
     /**
-     * @param int $userId
-     * @param bool $useAnd
-     * @return $this
+     * @param string $error
      */
-    public function byUserId($userId, $useAnd = true)
-    {
-        $criteria = new \CDbCriteria();
-        $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = array('UserId' => $userId);
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-        return $this;
-    }
-
     public function setError($error)
     {
         $this->Error = $error;

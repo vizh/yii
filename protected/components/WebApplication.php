@@ -1,6 +1,7 @@
 <?php
 namespace application\components;
 use application\components\auth\WebUser;
+use Gregwar\Cache\Cache;
 
 /**
  * @property \application\components\auth\WebUser $user
@@ -19,6 +20,7 @@ use application\components\auth\WebUser;
  * @method \CDbConnection getDb()
  * @method WebUser getUser()
  * @method \CHttpSession getSession()
+ * @method \CCache getCache()
  */
 class WebApplication extends \CWebApplication
 {

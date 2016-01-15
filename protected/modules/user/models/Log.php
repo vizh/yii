@@ -1,6 +1,7 @@
 <?php
 namespace user\models;
-use application\components\ActiveRecord;
+
+use application\components\db\MongoLogDocument;
 use ext\ipgeobase\Geo;
 
 
@@ -12,16 +13,9 @@ use ext\ipgeobase\Geo;
  * @property string $City
  * @property string $UserAgent
  * @property string $Referal
- * @property string $CreationTime
  *
- * @method Log byUserId(int $userId)
- * @method Log[] findAll()
- * @method Log find()
- *
- * @property User $User
- * @property \contact\models\Phone $Phone
  */
-class Log extends ActiveRecord
+class Log extends MongoLogDocument
 {
     /**
      * @param string $className
@@ -32,23 +26,14 @@ class Log extends ActiveRecord
         return parent::model($className);
     }
 
-    public function tableName()
+    public function collectionName()
     {
         return 'UserLog';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
-    public function relations()
-    {
-        return [
-            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
-        ];
-    }
-
+    /**
+     * @param $user
+     */
     static public function create($user)
     {
         $log = new Log();

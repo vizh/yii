@@ -14,44 +14,43 @@ namespace mail\models;
 class Log extends \CActiveRecord implements \mail\components\ILog
 {
 
-  /**
-   * @param string $className
-   *
-   * @return Log
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     *
+     * @return Log
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'MailLog';
-  }
+    public function tableName()
+    {
+        return 'MailLog';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
+    public function primaryKey()
+    {
+        return 'Id';
+    }
 
-  /**
-   * @param $orderId
-   * @param bool $useAnd
-   *
-   * @return Log
-   */
-  public function byHash($hash, $useAnd = true)
-  {
-    $criteria = new \CDbCriteria();
-    $criteria->condition = '"t"."Hash" = :Hash';
-    $criteria->params = array('Hash' => $hash);
-    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-    return $this;
-  }
+    /**
+     * @param string $hash
+     * @param bool $useAnd
+     * @return Log
+     */
+    public function byHash($hash, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"t"."Hash" = :Hash';
+        $criteria->params = array('Hash' => $hash);
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
 
 
-  public function setError($error)
-  {
-    $this->Error = $error;
-  }
+    public function setError($error)
+    {
+        $this->Error = $error;
+    }
 }

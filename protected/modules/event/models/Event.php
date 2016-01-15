@@ -1085,7 +1085,7 @@ class Event extends ActiveRecord implements ISearch
      */
     public function getPromoBackgroundImage()
     {
-        return new Image($this, null, 'promo', IMG_PNG);
+        return new Image($this, null, 'promo');
     }
 
     /**
@@ -1094,7 +1094,7 @@ class Event extends ActiveRecord implements ISearch
      */
     public function getHeaderBackgroundImage()
     {
-        return new Image($this, null, 'header', IMG_JPEG);
+        return new Image($this, null, 'header');
     }
 
     /**
@@ -1105,12 +1105,12 @@ class Event extends ActiveRecord implements ISearch
     public function getHeaderBannerImage($checkLocale = true)
     {
         if ($this->getLocale() === 'en' || \Yii::app()->getLanguage() == 'en') {
-            $image = new Image($this, null, 'header-banner_en', IMG_PNG);
+            $image = new Image($this, null, 'header-banner_en');
             if (!$checkLocale || $image->exists()) {
                 return $image;
             }
         }
-        return new Image($this, null, 'header-banner', IMG_PNG);
+        return new Image($this, null, 'header-banner');
     }
 
     /**
