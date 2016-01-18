@@ -72,7 +72,7 @@ class Header extends Widget
         $background = $this->getEvent()->getHeaderBackgroundImage();
         if ($background->exists()) {
             $css.= $this->getBaseCssPath() . ' {
-                background: url(\'' . $background->getOriginal() . '\') repeat-x center center;
+                background: url(\'' . $background->original() . '\') repeat-x center center;
             }';
         }
 
