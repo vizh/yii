@@ -31,8 +31,8 @@ class Image
         $this->cacheName = md5($model->getPrimaryKey());
         $this->image = GregwarImage::open()->setCacheDir($cacheDir);
 
-        if ($this->getOriginal() !== null) {
-            $this->image->fromFile($this->getOriginal());
+        if ($this->getOriginalPath() !== null) {
+            $this->image->fromFile($this->getOriginalPath());
         } elseif ($defaultImage !== null) {
             $this->image->fromFile($defaultImage);
         }
@@ -58,7 +58,7 @@ class Image
             $this->cacheName . self::ORIGINAL_PREFIX . time(),
             false
         );
-        $this->image->fromFile($path)->guess(self::QUALITY);
+        $this->image->fromFile($path)->guess(100);
     }
 
     /**
@@ -73,18 +73,20 @@ class Image
     }
 
     /**
-     * @param string $name
+     * @param null|string $name
      * @param null|array $params
      * @return null|string
      */
-    private function operation($name, $params = null)
+    private function operation($name = null, $params = null)
     {
         if (!$this->exists()) {
             return null;
         }
 
         /** @var GregwarImage $image */
-        $image = call_user_func_array([$this->image, $name], $params);
+        if ($name !== null) {
+            $this->image = call_user_func_array([$this->image, $name], $params);
+        }
 
         if ($this->existsOriginal()) {
             $this->image->setPrettyName(
@@ -92,7 +94,7 @@ class Image
                 false
             );
         }
-        return '/' . $image->guess(self::QUALITY);
+        return '/' . $this->image->guess(self::QUALITY);
     }
 
     /**
@@ -105,6 +107,13 @@ class Image
         return $this->operation('resize', ['x' => $x, 'y' => $y]);
     }
 
+    /**
+     * @return null|string
+     */
+    public function original()
+    {
+        return $this->operation();
+    }
 
     /**
      * @param int $x
@@ -136,24 +145,24 @@ class Image
     }
 
     /** @var bool|null|string */
-    private $original = false;
+    private $originalPath = false;
 
 
     /**
      * @return null|string
      */
-    public function getOriginal()
+    private function getOriginalPath()
     {
-        if ($this->original === false) {
-            $this->original = null;
+        if ($this->originalPath === false) {
+            $this->originalPath = null;
             $this->cachedFileWalk(function (\DirectoryIterator $file) {
                 if (strpos($file->getBasename(), self::ORIGINAL_PREFIX) !== false) {
-                    $this->original = $file->getPathname();
+                    $this->originalPath = $file->getPathname();
                     return false;
                 }
             });
         }
-        return $this->original;
+        return $this->originalPath;
     }
 
     /**
@@ -162,7 +171,7 @@ class Image
      */
     private function existsOriginal()
     {
-        return $this->getOriginal() !== null;
+        return $this->getOriginalPath() !== null;
     }
 
     /**

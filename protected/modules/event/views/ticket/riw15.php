@@ -99,7 +99,7 @@ if (!empty($event->LinkEmails)) {
         <tr>
             <td style="text-align: center; vertical-align: middle; height: 60mm;">
                 <?if ($event->getTicketImage()->exists()):?>
-                    <img src="<?=$event->getTicketImage()->getOriginal();?>" style="image-resolution: 130dpi;">
+                    <img src="<?=$event->getTicketImage()->original();?>" style="image-resolution: 130dpi;">
                 <?else:;?>
                     <img src="<?=$event->getLogo()->get150px();?>">
                 <?endif;?>

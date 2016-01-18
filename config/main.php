@@ -1,5 +1,5 @@
 <?php
-Yii::setPathOfAlias('vendor', __DIR__.'\..\vendor');
+Yii::setPathOfAlias('vendor', __DIR__.'/../vendor');
 
 $config = [
     'basePath' => BASE_PATH.'/protected',
@@ -40,7 +40,7 @@ $config = [
             'rules' => []
         ],
         'cache' => [
-            'class' => 'vendor.sammaye.mongoyii.util.EMongoCache'
+            'class' => 'EMongoCache'
         ],
         'db' => require 'db.php',
         'image' => [
@@ -51,7 +51,7 @@ $config = [
             'class' => 'ext.MobileDetect.MobileDetect'
         ],
         'session' => [
-            'class' => 'vendor.sammaye.mongoyii.util.EMongoSession',
+            'class' => 'EMongoSession',
             'sessionName' => 'sessid',
             'timeout' => 180 * 24 * 60 * 60,
             'gCProbability' => 1,

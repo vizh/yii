@@ -84,7 +84,7 @@ class Promo extends CreateUpdateForm
         if ($this->model->getPromoBackgroundImage()->exists() || !empty($this->BackgroundColor)) {
             $styles .= $path . '{background:';
             if ($this->model->getPromoBackgroundImage()->exists()) {
-                $styles .= 'url(\'' . $this->model->getPromoBackgroundImage()->getOriginal() . '\') center center ' . ($this->BackgroundNoRepeat ? 'no-' : '') . 'repeat ';
+                $styles .= 'url(\'' . $this->model->getPromoBackgroundImage()->original() . '\') center center ' . ($this->BackgroundNoRepeat ? 'no-' : '') . 'repeat ';
             }
             if (!empty($this->BackgroundColor)) {
                 $styles .= '#' . $this->BackgroundColor;
