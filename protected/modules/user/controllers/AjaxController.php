@@ -46,7 +46,7 @@ class AjaxController extends PublicMainController
         if ($eventId !== null) {
             $model->bySearch($term, null, true, false)->byEventId($eventId);
         } else {
-            $model->bySearch($term);
+            is_numeric($term) ? $model->byRunetId($term) : $model->bySearch($term);
         }
         /** @var $users \user\models\User[] */
         $users = $model->findAll($criteria);

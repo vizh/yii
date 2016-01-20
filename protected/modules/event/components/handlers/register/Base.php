@@ -2,6 +2,7 @@
 namespace event\components\handlers\register;
 
 use application\components\utility\PKPassGenerator;
+use event\components\pass\IOSPass;
 use event\models\MailRegister;
 use event\models\Role;
 use mail\components\MailLayout;
@@ -125,8 +126,10 @@ class Base extends MailLayout
 
         $mail = $this->getRegisterMail();
         if ($mail === null || $mail->SendPassbook) {
-            $pkPass = new PKPassGenerator($this->event, $this->user, $this->role);
-            $attachments['ticket.pkpass'] = $pkPass->runAndSave();
+            $attachments['ticket.pkpass'] = [
+                'application/vnd.apple.pkpass',
+                IOSPass::create($this->participant)->output()
+            ];
         }
 
         if ($mail !== null && $mail->SendTicket && false) {

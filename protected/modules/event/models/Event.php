@@ -75,6 +75,7 @@ use pay\models\Account as PayAccount;
  * @property bool $CloseRegistrationAfterEnd
  * @property bool $DocumentRequired
  * @property string $PromoBlockStyles
+ * @property string $MailRegisterAdditionalText
  * @property bool $Free
  *
  *
@@ -168,7 +169,8 @@ class Event extends ActiveRecord implements ISearch
             'NotSendRegisterMail',
             'OrganizerInfo',
             'CloseRegistrationAfterEnd',
-            'PromoBlockStyles'
+            'PromoBlockStyles',
+            'MailRegisterAdditionalText'
         ];
     }
 

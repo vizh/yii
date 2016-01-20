@@ -15,6 +15,7 @@
     "giggsey/libphonenumber-for-php": "7.0.*",
     "j20/php-uuid": "*",
     "sammaye/mongoyii": "*",
-    "gregwar/image": "*"
+    "gregwar/image": "*",
+    "eo/passbook": "dev-master"
   }
 }

@@ -51,7 +51,9 @@ $config = [
             'class' => 'ext.MobileDetect.MobileDetect'
         ],
         'session' => [
-            'class' => 'EMongoSession',
+            'class' => '\application\components\web\PgDbHttpSession',
+            'connectionID' => 'db',
+            'autoCreateSessionTable' => true,
             'sessionName' => 'sessid',
             'timeout' => 180 * 24 * 60 * 60,
             'gCProbability' => 1,
