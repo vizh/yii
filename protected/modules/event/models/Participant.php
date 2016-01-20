@@ -1,5 +1,6 @@
 <?php
 namespace event\models;
+
 use application\components\ActiveRecord;
 use event\components\tickets\Ticket;
 

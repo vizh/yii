@@ -11,11 +11,11 @@
 <p style="line-height: 20.7999992370605px;">
     Ваш статус на мероприятии<?php if (!empty($participant->Part)):?> (<?=$participant->Part->Title;?>)<?php endif;?>: <strong><?=$role->Title;?></strong>
 </p>
-
-<?php if (isset($event->MailRegisterAdditionalText)):?>
-    <?=$event->MailRegisterAdditionalText;?>
+<?php if (strpos($user->getPhoto()->getOriginal(), 'nophoto_') !== false):?>
+    <p style="color: #cc3333; font-weight: bold;">
+        Внимание! Для прохода не меропритие, каждый участник должен иметь фотографию в своем профиле на RUNET-ID, пожалуйста добавтье фотографию <?=\CHtml::link('по&nbsp;ссылке', $user->getFastauthUrl('/user/edit/photo/'));?>.
+    </p>
 <?php endif;?>
-
 <p style="line-height: 20.7999992370605px;">Дата и время проведения: <strong><?$this->widget('\event\widgets\Date', ['event' => $event]);?>.</strong></p>
 <?php if ($event->getContactAddress() !== null):?>
     <?php $short = $event->getContactAddress()->getShort();?>

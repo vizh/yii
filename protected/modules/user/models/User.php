@@ -1014,4 +1014,13 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         }
         return $string;
     }
+
+    /**
+     * Возвращает код, используемый в RUVENTS для определения пользователя
+     * @return string
+     */
+    public function getRuventsCode()
+    {
+        return '~RUNETID#' . $this->RunetId . '$';
+    }
 }
