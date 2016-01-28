@@ -20,7 +20,7 @@ class A8 extends \competence\models\form\Base
     {
         $urls = [
             1  => 'http://getlogo.org/img/yandex/55/x30/',
-            2  => 'http://getlogo.org/img/mailru-group/56/x30/',
+            2  => 'http://getlogo.org/img/mail/681/x30/',
             3  => 'http://getlogo.org/img/google/1122/x30/',
             4  => 'http://getlogo.org/img/vk/758/x30/',
             5  => 'http://getlogo.org/img/rambler-co/588/x15/',
@@ -50,7 +50,7 @@ class A8 extends \competence\models\form\Base
                 2 => 'Mail.Ru Group',
                 3 => 'Google Russia',
                 4 => 'ВКонтакте',
-                5 => 'Рамблер-Афиша-SUP',
+                5 => 'RAMBLER&Co',
                 6 => 'Google Global',
                 7 => 'Facebook',
                 8 => 'Microsoft',

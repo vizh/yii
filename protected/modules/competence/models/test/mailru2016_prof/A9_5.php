@@ -31,7 +31,7 @@ class A9_5 extends Base
             1 => 'Mail.Ru Group (включая Одноклассники и ВКонтакте)',
             2 => 'Яндекс',
             3 => 'Google',
-            4 => 'Rambler',
+            4 => 'Rambler&Co',
             5 => 'Microsoft',
             6 => 'Kaspersky',
             7 => 'Parallels'

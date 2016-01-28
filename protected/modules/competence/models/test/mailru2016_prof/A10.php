@@ -18,7 +18,7 @@ class A10 extends \competence\models\form\Base {
         85 => 'Google',
         86 => 'Facebook',
         87 => 'Одноклассники',
-        88 => 'Rambler',
+        88 => 'Rambler&Co',
         89 => 'ВКонтакте'
       ]);
       $this->options[90] = 'Не подходит ни к одной компании';
