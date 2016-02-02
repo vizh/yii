@@ -105,15 +105,19 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                 <tr>
                     <th>ID</th>
                     <th>Название</th>
-                    <th>Количество</th>
+                    <th>Оплачено</th>
+                    <th>100% промо-код</th>
+                    <th>Сумма оплат</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?foreach ($productStatistics as $row):?>
                     <tr>
-                        <td><?=$row['productId'];?></td>
+                        <td><?=$row['id'];?></td>
                         <td><?=$row['title'];?></td>
-                        <td><?=$row['count'];?></td>
+                        <td><?=$row['paid'];?></td>
+                        <td><?=$row['coupon'];?></td>
+                        <td><?=number_format($row['total'], 0, ',', ' ')?> руб.</td>
                     </tr>
                 <?endforeach;?>
                 </tbody>
