@@ -53,6 +53,12 @@ return [
     'http://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
 
     /** Event Interview Rules */
+    /** Mail.Ru Proftest  2014 */
+    'http://'.RUNETID_HOST.'/proftest2016/' => ['competence/main/index/', 'defaultParams' => ['id' => 46]],
+    'http://'.RUNETID_HOST.'/proftest2016/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 46]],
+    'http://'.RUNETID_HOST.'/proftest2016/end' => ['competence/main/end/', 'defaultParams' => ['id' => 46]],
+    'http://'.RUNETID_HOST.'/proftest2016/done' => ['competence/main/done/', 'defaultParams' => ['id' => 46]],
+
     'http://' . RUNETID_HOST . '/vote/edu' => ['competence/main/index/', 'defaultParams' => ['id' => 39]],
     'http://' . RUNETID_HOST . '/vote/edu/process' => ['competence/main/process/', 'defaultParams' => ['id' => 39]],
     'http://' . RUNETID_HOST . '/vote/edu/done' => ['competence/main/done', 'defaultParams' => ['id' => 39]],

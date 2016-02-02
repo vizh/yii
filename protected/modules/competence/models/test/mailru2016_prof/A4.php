@@ -16,7 +16,7 @@ class A4 extends \competence\models\form\Base {
                 40 => '<strong>Гришин</strong> (<em>Mail.Ru&nbsp;Group</em>)',
                 41 => '<strong>Дуров</strong> (<em>Telegram</em>)',
                 404 => '<strong>Добродеев</strong> (<em>Mail.Ru Group, ВКонтакте</em>)',
-                403 => '<strong>Рогозов</strong> (<em>Mail.Ru Group, ВКонтакте</em>)',
+                403 => '<strong>Рогозов</strong> (<em>ВКонтакте</em>)',
                 405 => '<strong>Сергеев Дм.</strong> (<em>Mail.Ru Group</em>)',
                 42 => '<strong>Молибог</strong> (<em>РБК</em>)',
                 43 => '<strong>Пейдж</strong> (<em>Alphabet, Google Global</em>)',
@@ -26,8 +26,12 @@ class A4 extends \competence\models\form\Base {
                 47 => '<strong>Белоусов</strong> (<em>Acronis, Parallels</em>)',
                 408 => '<strong>Соловьева</strong> (<em>Google Россия</em>)',
                 48 => '<strong>Долгов</strong> (<em>eBay</em>)',
-                407 => '<strong>Федчин</strong> (<em>Mail.Ru Group, Одноклассники</em>)',
+                407 => '<strong>Федчин</strong> (<em>Одноклассники</em>)',
                 409 => '<strong>Шульгин</strong> (<em>Яндекс</em>)',
+                410 => '<strong>Волож</strong> (<em>Яндекс</em>)',
+                411 => '<strong>Касперская</strong> (<em>InfoWatch</em>)',
+                412 => '<strong>Брин</strong> (<em>Google</em>)',
+                413 => '<strong>Ян</strong> (<em>ABBY</em>)',
                 401 => '<strong>Артамонова</strong> (<em>Mail.Ru Group</em>)'
             ]);
         }
@@ -75,7 +79,7 @@ class A4 extends \competence\models\form\Base {
             40 => '<strong>Гришин</strong> (<em>Mail.Ru&nbsp;Group</em>)',
             41 => '<strong>Дуров</strong> (<em>Telegram</em>)',
             404 => '<strong>Добродеев</strong> (<em>Mail.Ru Group, ВКонтакте</em>)',
-            403 => '<strong>Рогозов</strong> (<em>Mail.Ru Group, ВКонтакте</em>)',
+            403 => '<strong>Рогозов</strong> (<em>ВКонтакте</em>)',
             405 => '<strong>Сергеев Дмитрий</strong> (<em>Mail.Ru Group</em>)',
             42 => '<strong>Молибог</strong> (<em>РБК</em>)',
             43 => '<strong>Пейдж</strong> (<em>Alphabet, Google Global</em>)',
@@ -85,9 +89,13 @@ class A4 extends \competence\models\form\Base {
             47 => '<strong>Белоусов</strong> (<em>Acronis, Parallels</em>)',
             408 => '<strong>Соловьева</strong> (<em>Google Россия</em>)',
             48 => '<strong>Долгов</strong> (<em>eBay</em>)',
-            407 => '<strong>Федчин</strong> (<em>Mail.Ru Group, Одноклассники</em>)',
+            407 => '<strong>Федчин</strong> (<em>Одноклассники</em>)',
             409 => '<strong>Шульгин</strong> (<em>Яндекс</em>)',
-            401 => '<strong>Артамонова Анна</strong> (<em>Mail.Ru Group</em>)'
+            401 => '<strong>Артамонова Анна</strong> (<em>Mail.Ru Group</em>)',
+            410 => '<strong>Волож</strong> (<em>Яндекс</em>)',
+            411 => '<strong>Касперская</strong> (<em>InfoWatch</em>)',
+            412 => '<strong>Брин</strong> (<em>Google</em>)',
+            413 => '<strong>Ян</strong> (<em>ABBY</em>)',
         ];
         return array_values($titles);
     }
@@ -98,7 +106,7 @@ class A4 extends \competence\models\form\Base {
             40 => '<strong>Гришин</strong> (<em>Mail.Ru&nbsp;Group</em>)',
             41 => '<strong>Дуров</strong> (<em>Telegram</em>)',
             404 => '<strong>Добродеев</strong> (<em>Mail.Ru Group, ВКонтакте</em>)',
-            403 => '<strong>Рогозов</strong> (<em>Mail.Ru Group, ВКонтакте</em>)',
+            403 => '<strong>Рогозов</strong> (<em>ВКонтакте</em>)',
             405 => '<strong>Сергеев Дмитрий</strong> (<em>Mail.Ru Group</em>)',
             42 => '<strong>Молибог</strong> (<em>РБК</em>)',
             43 => '<strong>Пейдж</strong> (<em>Alphabet, Google Global</em>)',
@@ -108,9 +116,13 @@ class A4 extends \competence\models\form\Base {
             47 => '<strong>Белоусов</strong> (<em>Acronis, Parallels</em>)',
             408 => '<strong>Соловьева</strong> (<em>Google Россия</em>)',
             48 => '<strong>Долгов</strong> (<em>eBay</em>)',
-            407 => '<strong>Федчин</strong> (<em>Mail.Ru Group, Одноклассники</em>)',
+            407 => '<strong>Федчин</strong> (<em>Одноклассники</em>)',
             409 => '<strong>Шульгин</strong> (<em>Яндекс</em>)',
-            401 => '<strong>Артамонова Анна</strong> (<em>Mail.Ru Group</em>)'
+            401 => '<strong>Артамонова Анна</strong> (<em>Mail.Ru Group</em>)',
+            410 => '<strong>Волож</strong> (<em>Яндекс</em>)',
+            411 => '<strong>Касперская</strong> (<em>InfoWatch</em>)',
+            412 => '<strong>Брин</strong> (<em>Google</em>)',
+            413 => '<strong>Ян</strong> (<em>ABBY</em>)',
         ];
         $keys = array_keys($titles);
         $questionData = $result->getQuestionResult($this->question);

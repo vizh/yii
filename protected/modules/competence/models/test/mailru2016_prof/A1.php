@@ -27,7 +27,11 @@ class A1 extends \competence\models\form\Base {
                 406 => '406.jpg',
                 407 => '407.jpg',
                 408 => '408.jpg',
-                409 => '409.jpg'
+                409 => '409.jpg',
+                410 => '410.jpg', //Волож,
+                411 => '411.jpg', //Касперская,
+                412 => '412.jpg', //Брин,
+                413 => '413.jpg'  //Ян
             ]);
             $this->options[49] = 'unknow.png';
         }
@@ -71,7 +75,7 @@ class A1 extends \competence\models\form\Base {
     protected function getInternalExportValueTitles()
     {
         $titles = [
-            40, 41, 42, 43, 44, 46, 47, 48, 401, 403, 404, 405, 406, 407, 408, 409, 'Затрудняюсь ответить'
+            40, 41, 42, 43, 44, 46, 47, 48, 401, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 'Затрудняюсь ответить'
         ];
         return $titles;
     }
@@ -79,7 +83,7 @@ class A1 extends \competence\models\form\Base {
     protected function getInternalExportData(Result $result)
     {
         $titles = [
-            40, 41, 42, 43, 44, 46, 47, 48, 401, 403, 404, 405, 406, 407, 408, 409, 49
+            40, 41, 42, 43, 44, 46, 47, 48, 401, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 49
         ];
         $questionData = $result->getQuestionResult($this->question);
         $data = [];
