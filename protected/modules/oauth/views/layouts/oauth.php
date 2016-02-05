@@ -10,7 +10,7 @@
     <link rel="icon" href="/favicon.ico">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <title>Авторизация / RUNET-ID</title>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src='//www.google.com/recaptcha/api.js'></script>
 </head>
 <body class="page_registration">
 <script type="text/javascript">

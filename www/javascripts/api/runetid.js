@@ -6,8 +6,8 @@ var RunetId = new function () {
         if (!instance) {
             instance = this;
 
-            this.url = 'http://runet-id.com/oauth/main/dialog/';
-            this.recoverUrl = 'http://runet-id.com/oauth/main/recover/';
+            this.url = 'https://runet-id.com/oauth/main/dialog/';
+            this.recoverUrl = 'https://runet-id.com/oauth/main/recover/';
             this.width = 620;
             this.height = 662;
             this.PopUpWindow = null;

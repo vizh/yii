@@ -1,6 +1,6 @@
 var RIdWidget = new function () {
   function RIdWidget(container) {
-    this.baseUrl = 'http://runet-id.com/widget/main/index';
+    this.baseUrl = 'https://runet-id.com/widget/main/index';
     this.url = document.location;
     this.container = container;
     this.apiKey = container.getAttribute('data-apikey');
@@ -8,7 +8,7 @@ var RIdWidget = new function () {
     this.action = container.getAttribute('data-action');
 
     this.preloader = document.createElement('div');
-    this.preloader.setAttribute('style', "display:block;position:absolute;left:50%;margin-left:-50px;height:50px;width:50px;background: url('http://runet-id.com/images/api/widget-preloder.gif') no-repeat center center;");
+    this.preloader.setAttribute('style', "display:block;position:absolute;left:50%;margin-left:-50px;height:50px;width:50px;background: url('https://runet-id.com/images/api/widget-preloder.gif') no-repeat center center;");
     this.container.appendChild(this.preloader);
 
     this.initSocket();
