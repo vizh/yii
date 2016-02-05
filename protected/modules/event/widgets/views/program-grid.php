@@ -14,10 +14,10 @@ use event\models\section\LinkUser;
       <?php endif;?>
     <table class="table m-bottom_50">
       <thead>
-        <th></th>
+        <th style="width: 10%"></th>
         <?/** @var \event\models\section\Hall $hall */?>
         <?foreach ($data->Halls as $hall):?>
-          <th><?=$hall->Title;?></th>
+          <th style="width: <?=(100-10) / sizeof($data->Halls)?>%;"><?=$hall->Title;?></th>
         <?endforeach;?>
       </thead>
       <tbody>

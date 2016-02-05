@@ -70,6 +70,6 @@ class TemplateForController extends Mail
 
     protected function getRepeat()
     {
-        return $this->isTest;
+        return true;
     }
 }

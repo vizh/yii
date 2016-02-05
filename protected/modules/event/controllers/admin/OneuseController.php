@@ -4,6 +4,34 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
+    public function actionCompetence46()
+    {
+
+        $c3 = new \competence\models\test\mailru2016_prof\C3(
+            \competence\models\Question::model()->byTestId(46)->byCode('C3')->find()
+        );
+
+        $regionDistribution = [];
+        $fullCount = 0;
+        $results = \competence\models\Result::model()->byTestId(46)->byFinished(true)->findAll();
+        foreach ($results as $results) {
+            $data = $results->getResultByData();
+            if (isset($data['S1']['value']) && in_array($data['S1']['value'], [1,2]) && !empty($data['C3']['value'])) {
+                $fullCount++;
+
+                $name = $c3->values[$data['C3']['value']];
+                $regionDistribution[$name]++;
+            }
+        }
+
+
+
+        echo $fullCount;
+        echo '<pre>';
+        arsort($regionDistribution);
+        print_r($regionDistribution);
+    }
+
     public function actionExportUserDataFiles()
     {
         $event = \event\models\Event::model()->findByPk(1995);

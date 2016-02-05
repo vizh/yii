@@ -15,14 +15,14 @@ class SendemailController extends AdminMainController
     {
         $mailer = new \mail\components\mailers\MandrillMailer();
 
-        $body = $this->renderPartial('mail.views.templates.template719', [], true);
+        $body = $this->renderPartial('mail.views.templates.template799', [], true);
         $count = 0;
 
         foreach ($this->emails as $email) {
 
             $mail = new TemplateForController($mailer,
-                'narod@premiaruneta.ru', 'Премия Рунета 2015', $email,
-                'Примите участие в «Народном голосовании»', $body
+                'event@ruvents.com', 'RUVENTS', $email,
+                'Быстрая и технологичная регистрация и аккредитация участников.', $body
             );
 
             //$mail->isTest = true;

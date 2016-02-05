@@ -21,3 +21,4 @@ config/db.php
 config/init.php
 protected/yiic.php
 config/mongo-db.php
+www/assets/

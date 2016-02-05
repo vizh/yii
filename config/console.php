@@ -14,6 +14,7 @@ return [
     'preload' => ['log'],
     'components' => [
         'db' => $mainAppConfig['components']['db'],
+        'mongodb' => $mainAppConfig['components']['mongodb'],
         'urlManager' => $mainAppConfig['components']['urlManager'],
         'image' => $mainAppConfig['components']['image'],
         'clientScript' => $mainAppConfig['components']['clientScript'],
