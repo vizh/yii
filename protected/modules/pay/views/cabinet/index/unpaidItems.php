@@ -150,6 +150,10 @@ $total = 0;
         <label class="checkbox text-error">
             <input type="checkbox" name="agreeOffer" value="1"/><?=\Yii::t('app', 'Я согласен с условиями <a target="_blank" href="{url}">договора-оферты</a> и готов перейти к оплате', array('{url}' => $this->createUrl('/pay/cabinet/offer')));?>
         </label>
+
+        <?php if ($account->Event->IdName === 'devcon16'):?>
+            <p class="text-center"><?=\CHtml::link('Скачать прайс-лист','/upload/docs/devcon16-pricelist.pdf');?></p>
+        <?php endif;?>
     </div>
 
     <div class="pay-buttons clearfix actions">

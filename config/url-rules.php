@@ -59,6 +59,12 @@ return [
     SCHEMA . '://' . RUNETID_HOST . '/vote/edu/done' => ['competence/main/done', 'defaultParams' => ['id' => 39]],
     SCHEMA . '://' . RUNETID_HOST . '/vote/edu/after' => ['competence/main/after', 'defaultParams' => ['id' => 39]],
 
+    /** Mail.Ru Proftest  2016 */
+    SCHEMA . '://' . RUNETID_HOST . '/proftest2016/' => ['competence/main/index/', 'defaultParams' => ['id' => 46]],
+    SCHEMA . '://' . RUNETID_HOST . '/proftest2016/process/' => ['competence/main/process/', 'defaultParams' => ['id' => 46]],
+    SCHEMA . '://' . RUNETID_HOST . '/proftest2016/end' => ['competence/main/end/', 'defaultParams' => ['id' => 46]],
+    SCHEMA . '://' . RUNETID_HOST . '/proftest2016/done' => ['competence/main/done/', 'defaultParams' => ['id' => 46]],
+
     SCHEMA . '://' . RUNETID_HOST . '/vote/iri' => ['competence/main/index/', 'defaultParams' => ['id' => 41]],
     SCHEMA . '://' . RUNETID_HOST . '/vote/iri/process' => ['competence/main/process/', 'defaultParams' => ['id' => 41]],
     SCHEMA . '://' . RUNETID_HOST . '/vote/iri/done' => ['competence/main/done', 'defaultParams' => ['id' => 41]],
@@ -68,8 +74,7 @@ return [
     SCHEMA . '://' . RUNETID_HOST . '/vote/runet2015/process' => ['competence/main/process/', 'defaultParams' => ['id' => 42]],
     SCHEMA . '://' . RUNETID_HOST . '/vote/runet2015/done' => ['competence/main/done', 'defaultParams' => ['id' => 42]],
     SCHEMA . '://' . RUNETID_HOST . '/vote/runet2015/after' => ['competence/main/after', 'defaultParams' => ['id' => 42]],
-
-
+    
     SCHEMA . '://' . RUNETID_HOST . '/vote/digitalindex15' => 'competence/digitalindex15/index/',
     SCHEMA . '://' . RUNETID_HOST . '/vote/digitalindex15/process' => ['competence/main/process/', 'defaultParams' => ['id' => 43]],
     SCHEMA . '://' . RUNETID_HOST . '/vote/digitalindex15/done' => ['competence/main/done', 'defaultParams' => ['id' => 43]],

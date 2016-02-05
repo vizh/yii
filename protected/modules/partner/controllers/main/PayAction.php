@@ -1,6 +1,11 @@
 <?php
 namespace partner\controllers\main;
 
+use application\components\helpers\ArrayHelper;
+use pay\components\OrderItemCollection;
+use pay\models\OrderItem;
+use pay\models\Product;
+
 class PayAction extends \partner\components\Action
 {
     /** @var PayStatistics  */
@@ -199,33 +204,34 @@ class PayAction extends \partner\components\Action
         $criteria->addCondition('t."ManagerName" != :ManagerName');
         $criteria->params = ['ManagerName' => 'RoomProductManager'];
 
-        $products = \pay\models\Product::model()
-            ->byEventId($this->getEvent()->Id)->findAll($criteria);
-        $productsById = [];
-        foreach ($products as $product) {
-            $productsById[$product->Id] = $product;
-        }
-
-        $command = \Yii::app()->getDb()->createCommand()
-            ->select('count(oi."Id") as "countItems", oi."ProductId"')
-            ->from('PayOrderItem oi')
-            ->where('oi."ProductId" IN (' . implode(',', array_keys($productsById)) . ') AND oi."Paid"')
-            ->group('ProductId');
-
-        $result = $command->queryAll();
-
-        $statistics = [];
-
-        foreach ($result as $row) {
-            $id = $row['ProductId'];
-            $statistics[] = [
-                'productId' => $id,
-                'count' => $row['countItems'],
-                'title' => $productsById[$id]->Title
-            ];
-        }
-
-        return $statistics;
+        $products = Product::model()->byEventId($this->getEvent()->Id)->ordered()->findAll($criteria);
+        return ArrayHelper::toArray($products, [Product::className() => [
+            'id' => 'Id',
+            'title' => 'Title',
+            'paid' => function (Product $product) {
+                return OrderItem::model()->with(['OrderLinks.Order'])->byProductId($product->Id)->byPaid(true)->count(['condition' => '"Order"."Paid"']);
+            },
+            'coupon' => function (Product $product) {
+                return OrderItem::model()->with(['OrderLinks'])->byProductId($product->Id)->byPaid(true)->count(['condition' => '"OrderLinks"."Id" IS NULL']);
+            },
+            'total' => function (Product $product) {
+                $total = 0;
+                $orderItems = OrderItem::model()->with(['OrderLinks.Order'])->byProductId($product->Id)->byPaid(true)->findAll();
+                foreach ($orderItems as $orderItem) {
+                    $order = $orderItem->getPaidOrder();
+                    if (empty($order)) {
+                        continue;
+                    }
+                    $collection = OrderItemCollection::createByOrder($order);
+                    foreach ($collection as $item) {
+                        if ($orderItem->Id === $item->getOrderItem()->Id) {
+                            $total += $item->getPriceDiscount();
+                        }
+                    }
+                }
+                return $total;
+            }
+        ]]);
     }
 
 
