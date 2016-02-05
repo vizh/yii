@@ -41,7 +41,7 @@ $params = [];
     ref.parentNode.insertBefore(js, ref);
   }(document));
 
-  (loadScript('http://cdn.viadeo.com/javascript/sdk.js', function(){
+  (loadScript('//cdn.viadeo.com/javascript/sdk.js', function(){
     VD.init({
       apiKey: '<?=\oauth\components\social\Viadeo::AppId;?>',
       status: true,

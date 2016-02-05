@@ -12,7 +12,7 @@ $this->setPageTitle(\Yii::t('app', 'Авторизация в партнерск
     <div class="signin-form">
         <form action="" method="post">
             <div class="text-center m-bottom_20">
-                <img src="http://getlogo.org/img/runet-id/298/150x/" alt="RUNET-ID" title="RUNET-ID" />
+                <img src="/images/partner/logo.png" alt="RUNET-ID" title="RUNET-ID" />
             </div>
             <div class="signin-text">
                 <span><?=\Yii::t('app', 'Партнерский интерфейс');?></span>
