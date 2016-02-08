@@ -77,6 +77,11 @@ class CloudPayments extends Base
      */
     public function processPayment($eventId, $orderId, $total)
     {
+        $request = \Yii::app()->getRequest();
+        header('Access-Control-Allow-Origin: ' . implode(' ', [
+                $request->getSchema() . 'pay.' . RUNETID_HOST
+            ]));
+
         $order = Order::model()->findByPk($orderId);
         $data = [
             'publicId' => self::PUBLIC_ID,
