@@ -34,4 +34,4 @@ class EditAction extends \CAction
             'event' => $event
         ]);
     }
-} 
+}

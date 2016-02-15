@@ -21,7 +21,7 @@ $controller = $this;
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-building-o"></i> <?=\Yii::t('app', 'Счета мероприятия');?></span>
-    </div> <!-- / .panel-heading -->
+    </div>
     <div class="panel-body">
         <div class="table-info">
             <?$this->widget('\application\widgets\grid\GridView', [

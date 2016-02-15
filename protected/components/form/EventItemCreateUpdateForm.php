@@ -13,5 +13,4 @@ class EventItemCreateUpdateForm extends CreateUpdateForm
         $this->event = $event;
         parent::__construct($model);
     }
-
-} 
+}

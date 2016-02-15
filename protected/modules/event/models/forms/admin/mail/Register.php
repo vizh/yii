@@ -5,10 +5,8 @@ use application\components\form\EventItemCreateUpdateForm;
 use event\models\Event;
 use event\models\MailRegister;
 use event\models\Role;
-use mail\components\BodyFieldsTranslator;
 use mail\components\MailBodyFieldsTranslator;
 use \mail\models\Layout;
-
 
 /**
  * Class Register
