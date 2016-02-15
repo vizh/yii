@@ -46,7 +46,7 @@ function fid_13401960168727002685(ymaps) {
     );
 };
 </script>
-<script type="text/javascript" src="http://api-maps.yandex.ru/2.0/?coordorder=longlat&load=package.full&wizard=constructor&lang=<?=Yii::app()->language == 'en' ? 'en-US' : 'ru-RU';?>&onload=fid_13401960168727002685"></script>
+<script type="text/javascript" src="//api-maps.yandex.ru/2.0/?coordorder=longlat&load=package.full&wizard=constructor&lang=<?=Yii::app()->language == 'en' ? 'en-US' : 'ru-RU';?>&onload=fid_13401960168727002685"></script>
 
 <?
 $address->resetLocale();

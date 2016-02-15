@@ -51,7 +51,7 @@ return [
     SCHEMA . '://partner.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'partner/<controller>/<action>',
 
     /** Ruvents Module Rules */
-    SCHEMA . '://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
+    'http://ruvents.'. RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'ruvents/<controller>/<action>',
 
     /** Event Interview Rules */
     SCHEMA . '://' . RUNETID_HOST . '/vote/edu' => ['competence/main/index/', 'defaultParams' => ['id' => 39]],
@@ -96,16 +96,16 @@ return [
 
 
     /** API Module Rules */
-    SCHEMA . '://api.'.RUNETID_HOST.'/event/section/<action>' => 'api/section/<action>',
-    SCHEMA . '://api.'.RUNETID_HOST.'/event/role/list' => 'api/event/roles',
-    SCHEMA . '://api.'.RUNETID_HOST.'/pay/filter/list' => 'api/pay/filterlist',
-    SCHEMA . '://api.'.RUNETID_HOST.'/pay/filter/book' => 'api/pay/filterbook',
+    'http://api.'.RUNETID_HOST.'/event/section/<action>' => 'api/section/<action>',
+    'http://api.'.RUNETID_HOST.'/event/role/list' => 'api/event/roles',
+    'http://api.'.RUNETID_HOST.'/pay/filter/list' => 'api/pay/filterlist',
+    'http://api.'.RUNETID_HOST.'/pay/filter/book' => 'api/pay/filterbook',
 
-    SCHEMA . '://api.'.RUNETID_HOST.'/raec/commission/list' => 'api/raec/commissionlist',
-    SCHEMA . '://api.'.RUNETID_HOST.'/raec/commission/users' => 'api/raec/commissionusers',
+    'http://api.'.RUNETID_HOST.'/raec/commission/list' => 'api/raec/commissionlist',
+    'http://api.'.RUNETID_HOST.'/raec/commission/users' => 'api/raec/commissionusers',
 
-    SCHEMA . '://api.'.RUNETID_HOST.'/iri/<Type:(expert|director|program)>/<action:\w+>' => 'api/iri/user<action>',
-    SCHEMA . '://api.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
+    'http://api.'.RUNETID_HOST.'/iri/<Type:(expert|director|program)>/<action:\w+>' => 'api/iri/user<action>',
+    'http://api.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'api/<controller>/<action>',
 
     /** PAY Module Rules */
     SCHEMA . '://pay.'. RUNETID_HOST.'/<eventIdName>/' => 'pay/cabinet/index',

@@ -13,7 +13,7 @@ $partner = \Yii::app()->partner;
             <!-- Main navbar header -->
             <div class="navbar-header">
                 <a class="navbar-brand" href="http://runet-id.com" target="_blank">
-                    <img src="http://getlogo.org/img/runet-id/298/120x/">
+                    <img src="/images/partner/logo.png" />
                 </a>
             </div>
             <div class="navbar-collapse main-navbar-collapse collapse in" id="main-navbar-collapse" style="height: auto;">

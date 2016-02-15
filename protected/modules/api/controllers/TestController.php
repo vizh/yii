@@ -4,6 +4,10 @@ class TestController extends CController
 {
     public function actionIndex()
     {
+        echo \Yii::app()->createAbsoluteUrl('/pay/callback/index');
+        exit;
+
+
         $api = 'zrnzd5rs8i';
         $secret = 'YzyrQiHRGDZhsh7ENiRi6YdE5';
         //$api = 't826ybtyi6';
