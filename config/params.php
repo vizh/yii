@@ -29,7 +29,7 @@ $params = [
     'AdminPayAccountPerPage' => 50,
     'AdminMailPerPage' => 50,
     'AdminOrderJuridicalTemplatePerPage' => 50,
-    'AdminBookingEventId' => 1534,
+    'AdminBookingEventId' => 2393,
 
     'EmailEventCalendar' => 'calendar@internetmediaholding.com',
     'UserPasswordMinLenght' => 6,

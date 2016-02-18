@@ -80,7 +80,7 @@ class ParkingAction extends \CAction
         if ($participant->RoleId == 3)
         {
           $item->Status = ParkingItem::STATUS_REPORTER;
-          $item->Dates  = $this->getDateList(date('Y').'-04-22', date('Y').'-04-24');
+          $item->Dates  = $this->getDateList(date('Y').'-04-13', date('Y').'-04-15');
           $item->Hotel  = Rif::HOTEL_P;
         }
         else
