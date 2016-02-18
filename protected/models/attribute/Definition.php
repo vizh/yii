@@ -1,11 +1,12 @@
 <?php
 namespace application\models\attribute;
-use \application\models\translation\ActiveRecord;
+
+use application\models\translation\ActiveRecord;
 
 /**
  * Class Definition
- * @package application\models\attribute
  *
+ * Fields
  * @property int $Id
  * @property int $GroupId
  * @property string $ClassName
@@ -14,6 +15,7 @@ use \application\models\translation\ActiveRecord;
  * @property boolean $Required
  * @property boolean $Secure
  * @property string $Params
+ * @property boolean $UseCustomTextField Whether use the custom option (text field) for list definitions
  * @property int $Order
  * @property boolean $Public
  *

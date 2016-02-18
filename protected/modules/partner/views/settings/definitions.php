@@ -1,15 +1,15 @@
 <?php
 /**
- * @var \partner\components\Controller $this
- * @var \event\models\forms\UserAttributeGroup[] $forms
- * @var \application\widgets\ActiveForm $activeForm
+ * @var partner\components\Controller $this
+ * @var event\models\forms\UserAttributeGroup[] $forms
+ * @var application\widgets\ActiveForm $activeForm
  */
 
 use application\helpers\Flash;
 
 $this->setPageTitle(\Yii::t('app', 'Дополнительные атрибуты пользователей'));
 ?>
-<?=Flash::html();?>
+<?=Flash::html()?>
 <?php foreach ($forms as $form):?>
     <?php $activeForm = $this->beginWidget('\application\widgets\ActiveForm', ['scrollIfHasErrors' => $form]);?>
         <?php if ($form->getActiveRecord() !== null):?>
@@ -41,41 +41,46 @@ $this->setPageTitle(\Yii::t('app', 'Дополнительные атрибут�
                             <?php foreach ($form->Definitions as $i => $definition):?>
                                 <div class="definition">
                                     <?=$activeForm->hiddenField($form, "Definitions[$i][Delete]", ['disabled' => !$definition->isFullyEditable()]);?>
-                                    <?php if ($definition->getActiveRecord() === null):?>
-                                        <p><strong><?=\Yii::t('app', 'Новый атрибут');?></strong></p>
+                                    <?php if ($definition->getActiveRecord() === null): ?>
+                                        <p><strong><?=Yii::t('app', 'Новый атрибут')?></strong></p>
                                     <?php endif;?>
                                     <?=$activeForm->errorSummary($definition);?>
                                     <div class="row">
                                         <div class="col-sm-2">
-                                            <?=$activeForm->label($definition, 'ClassName');?>
-                                            <?=$activeForm->dropDownList($form, "Definitions[$i][ClassName]", $definition->getClassNameData(), ['class' => 'form-control', 'disabled' => !$definition->isFullyEditable()]);?>
+                                            <?=$activeForm->label($definition, 'ClassName')?>
+                                            <?=$activeForm->dropDownList($form, "Definitions[$i][ClassName]", $definition->getClassNameData(), ['class' => 'form-control', 'disabled' => !$definition->isFullyEditable()])?>
                                         </div>
                                         <div class="col-sm-4">
-                                            <?=$activeForm->label($definition, 'Name');?>
-                                            <?=$activeForm->textField($form, "Definitions[$i][Name]", ['class' => 'form-control', 'disabled' => !$definition->isFullyEditable()]);?>
+                                            <?=$activeForm->label($definition, 'Name')?>
+                                            <?=$activeForm->textField($form, "Definitions[$i][Name]", ['class' => 'form-control', 'disabled' => !$definition->isFullyEditable()])?>
                                         </div>
                                         <div class="col-sm-4">
-                                            <?=$activeForm->label($definition, 'Title');?>
-                                            <?=$activeForm->textField($form, "Definitions[$i][Title]", ['class' => 'form-control']);?>
+                                            <?=$activeForm->label($definition, 'Title')?>
+                                            <?=$activeForm->textField($form, "Definitions[$i][Title]", ['class' => 'form-control'])?>
                                         </div>
                                         <div class="col-sm-2">
-                                            <?=$activeForm->label($definition, 'Order');?>
-                                            <?=$activeForm->dropDownList($form, "Definitions[$i][Order]", [0,1,2,3,4,5,6,7,8,9,10], ['class' => 'form-control']);?>
+                                            <?=$activeForm->label($definition, 'Order')?>
+                                            <?=$activeForm->dropDownList($form, "Definitions[$i][Order]", [0,1,2,3,4,5,6,7,8,9,10], ['class' => 'form-control'])?>
                                         </div>
                                     </div>
-                                    <?php if ($definition->isFullyEditable()):?>
-                                        <?=$definition->getParamsHtml($activeForm, $form, "Definitions[$i]");?>
-                                    <?php endif;?>
+                                    <?php if ($definition->isFullyEditable()): ?>
+                                        <?=$definition->getParamsHtml($activeForm, $form, "Definitions[$i]")?>
+                                    <?php endif ?>
                                     <div class="row m-top_10">
                                         <div class="col-sm-8">
                                             <div class="checkbox">
                                                 <label>
-                                                    <?=$activeForm->checkBox($form, "Definitions[$i][Required]");?> <?=$definition->getAttributeLabel('Required');?>
+                                                    <?=$activeForm->checkBox($form, "Definitions[$i][Required]")?> <?=$definition->getAttributeLabel('Required')?>
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <?=$activeForm->checkBox($form, "Definitions[$i][Public]");?> <?=$definition->getAttributeLabel('Public');?>
+                                                    <?=$activeForm->checkBox($form, "Definitions[$i][UseCustomTextField]")?> <?=$definition->getAttributeLabel('UseCustomTextField')?>
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <?=$activeForm->checkBox($form, "Definitions[$i][Public]")?> <?=$definition->getAttributeLabel('Public')?>
                                                 </label>
                                             </div>
                                         </div>

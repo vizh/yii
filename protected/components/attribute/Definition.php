@@ -2,9 +2,7 @@
 namespace application\components\attribute;
 
 /**
- * Class Definition
- * @package common\components\attribute
- * Класс определяющий тип аттрибута и его визуальное представление при редактировании
+ * Class Definition Класс определяющий тип аттрибута и его визуальное представление при редактировании
  */
 class Definition
 {
@@ -15,6 +13,11 @@ class Definition
     public $groupId = 0;
 
     public $required = false;
+
+    /**
+     * @var bool Whether show custom
+     */
+    public $customTextField = false;
 
     public $cssStyle = null;
 
@@ -64,7 +67,6 @@ class Definition
      * @param string $name
      * @param integer $groupId
      * @param array $params
-     * @param boolean $public
      * @return Definition
      */
     final public static function createDefinition($class, $name, $groupId = 0, $params = [])

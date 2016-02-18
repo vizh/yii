@@ -9,7 +9,6 @@ use event\models\UserData;
 
 /**
  * Class Group
- * @package application\models\attribute\forms
  *
  * @property GroupModel $model
  *
@@ -151,6 +150,7 @@ abstract class Group extends CreateUpdateForm
         if ($this->usedDefinitionNames === null) {
             $this->usedDefinitionNames = $this->getUsedDefinitionNamesInternal();
         }
+
         return $this->usedDefinitionNames;
     }
 }

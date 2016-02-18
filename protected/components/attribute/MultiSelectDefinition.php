@@ -3,14 +3,20 @@ namespace application\components\attribute;
 
 class MultiSelectDefinition extends ListDefinition
 {
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
-        $rules = [
-            [$this->name, '\application\components\validators\RangeValidator', 'range' => array_keys($this->data)]
-        ];
+        $rules = [];
+        if (!$this->customTextField) {
+            $rules = [
+                [$this->name, 'application\components\validators\RangeValidator', 'range' => array_keys($this->data)]
+            ];
+        }
+
         return $rules;
     }
-
 
     protected function internalActiveEdit(\CModel $container, $htmlOptions = [])
     {
@@ -25,6 +31,12 @@ class MultiSelectDefinition extends ListDefinition
                 \CHtml::activeCheckBox($container, $this->name.'[' . $key . ']', $htmlOptions) . ' ' . $value
             );
         }
+
+        if ($this->customTextField) {
+            $html .= \CHtml::label('Другое', '').
+                \CHtml::activeTextField($container, $this->name.'[OTHER]', ['class' => 'span12']);
+        }
+
         return $html;
     }
 
@@ -36,9 +48,10 @@ class MultiSelectDefinition extends ListDefinition
         $values = [];
         if (is_array($container->{$this->name})) {
             foreach ($container->{$this->name} as $value) {
-                $values[] = isset($this->data[$value]) ? $this->data[$value] : '';
+                $values[] = isset($this->data[$value]) ? $this->data[$value] : ($this->customTextField ? $value : '');
             }
         }
+
         return implode(', ', $values);
     }
 }
