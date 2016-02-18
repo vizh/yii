@@ -1,16 +1,16 @@
 $(function(){
   $('.date-in, .date-out').datepicker({
     dateFormat: 'yy-mm-dd',
-    defaultDate: '2014-04-22',
-    minDate: '2015-04-01',
-    maxDate: '2015-04-30',
+    defaultDate: '2016-04-13',
+    minDate: '2016-04-01',
+    maxDate: '2016-04-30',
     hideIfNoPrevNext: true
   });
 
   $('.date-booked').datepicker({
     dateFormat: 'yy-mm-dd',
-    minDate: '2015-03-01',
-    maxDate: '2015-04-30'
+    minDate: '2016-03-01',
+    maxDate: '2016-04-30'
   });
 
   $('.booking-delete').on('click', function(e){
