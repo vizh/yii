@@ -13,7 +13,6 @@ use \application\models\attribute\Definition as DefinitionModel;
 
 /**
  * Class UserDataManager
- * @package event\components
  *
  * @property UserData $model
  *
@@ -63,6 +62,7 @@ class UserDataManager extends \CModel
             $model->byPublic(true);
         }
 
+        /** @var DefinitionModel[] $definitions */
         $definitions = $model->findAll();
 
         $result = [];
@@ -73,6 +73,7 @@ class UserDataManager extends \CModel
             $row[] = $definition->GroupId;
             $row['title'] = $definition->Title;
             $row['required'] = $definition->Required;
+            $row['customTextField'] = $definition->UseCustomTextField;
             $row['secure'] = $definition->Secure;
             $row['public'] = $definition->Public;
             foreach ($definition->getParams() as $key => $value) {

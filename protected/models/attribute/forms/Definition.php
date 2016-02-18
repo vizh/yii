@@ -10,9 +10,9 @@ use application\widgets\ActiveForm;
 
 /**
  * Class Definition
- * @package application\models\attribute\forms
  *
  * @property DefinitionModel $model
+ *
  */
 class Definition extends CreateUpdateForm
 {
@@ -23,6 +23,11 @@ class Definition extends CreateUpdateForm
     public $Title;
 
     public $Required;
+
+    /**
+     * @var bool It allows to add simple text field to the question
+     */
+    public $UseCustomTextField;
 
     public $Order;
 
@@ -67,8 +72,8 @@ class Definition extends CreateUpdateForm
         $rules = [
             ['Title,Required,Public,Order', 'filter', 'filter' => 'application\components\utility\Texts::clear'],
             ['Title', 'required'],
-            ['Required,Public', 'boolean'],
-            ['Order', 'numerical', 'integerOnly' => true]
+            ['Required, Public, UseCustomTextField', 'boolean'],
+            ['Order', 'numerical', 'integerOnly' => true],
         ];
         if ($this->isFullyEditable()) {
             $rules[] = ['ClassName,Name,Delete', 'filter', 'filter' => 'application\components\utility\Texts::clear'];
@@ -97,6 +102,7 @@ class Definition extends CreateUpdateForm
             'Name' => \Yii::t('app', 'Сивольный код'),
             'Title' => \Yii::t('app', 'Имя поля'),
             'Required' => \Yii::t('app', 'Обязательно для заполнения'),
+            'UseCustomTextField' => \Yii::t('app', 'Добавить поле "Другое"'),
             'Order' => \Yii::t('app', 'Сортировка'),
             'Public' => \Yii::t('app', 'Видимое'),
             'Params_data' => \Yii::t('app', 'Варианты ответа'),
@@ -185,7 +191,7 @@ class Definition extends CreateUpdateForm
                 $i++;
             }
         }
-        for (; $i<10; $i++) {
+        for (; $i<50; $i++) {
             $input = \CHtml::tag('div', ['class' => 'col-xs-2'], $activeForm->textField($form, $inputPrefix . "[Params][data][$i][key]", ['class' => 'form-control', 'placeholder' => \Yii::t('app', 'Ключ')]));
             $input.= \CHtml::tag('div', ['class' => 'col-xs-10'], $activeForm->textField($form, $inputPrefix . "[Params][data][$i][value]", ['class' => 'form-control', 'placeholder' => \Yii::t('app', 'Значение')]));
             $html.= \CHtml::tag('div', ['class' => 'row m-bottom_5'], $input);
@@ -250,6 +256,7 @@ class Definition extends CreateUpdateForm
         if ($this->isUpdateMode() && in_array($this->Name, $this->groupForm->getUsedDefinitionNames())) {
             return false;
         }
+
         return true;
     }
 }

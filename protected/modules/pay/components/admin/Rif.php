@@ -8,7 +8,7 @@ class Rif
     const HOTEL_N = 'НАЗАРЬЕВО';
     const HOTEL_S = 'СОСНЫ';
 
-    const EventId = 1534;
+    const EventId = 2393;
 
     private static $db = null;
 
@@ -18,7 +18,7 @@ class Rif
     public static function getDb()
     {
         if (self::$db == null) {
-            self::$db = new \CDbConnection('mysql:host=109.234.156.202;dbname=rif2015', 'rif2015', 'we9ichailu8Xeet2');
+            self::$db = new \CDbConnection('mysql:host=109.234.156.202;dbname=rif2016', 'rif2016', 'eiceu3OQuahbeujo');
         }
         return self::$db;
     }

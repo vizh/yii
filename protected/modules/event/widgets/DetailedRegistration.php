@@ -12,9 +12,7 @@ use event\models\UserData;
 use user\models\User;
 
 /**
- * Виджет детальной регистрации пользователя на меропритие
- * Class DetailedRegistration
- * @package event\widgets
+ * Class DetailedRegistration Виджет детальной регистрации пользователя на меропритие
  *
  * @property int $DefaultRoleId
  * @property string $SelectRoleIdList
@@ -79,9 +77,13 @@ class DetailedRegistration extends WidgetRegistration
      */
     public $invite = null;
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
+
         $this->initForm();
         if (isset($this->WidgetRegistrationUseInvites) && $this->WidgetRegistrationUseInvites) {
             $code = \Yii::app()->getRequest()->getParam('invite');
@@ -112,17 +114,20 @@ class DetailedRegistration extends WidgetRegistration
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function registerDefaultResources()
     {
         if (isset($this->WidgetRegistrationDetailedScript)) {
             \Yii::app()->getClientScript()->registerScript($this->getNameId(), $this->WidgetRegistrationDetailedScript);
         }
+
         parent::registerDefaultResources();
     }
 
-
+    /**
+     * @inheritdoc
+     */
     public function process()
     {
         $request = \Yii::app()->getRequest();
@@ -133,35 +138,43 @@ class DetailedRegistration extends WidgetRegistration
             if ($user !== null) {
                 if ($this->invite !== null) {
                     $this->invite->activate($user);
-                }
-                elseif (isset($this->DefaultRoleId)) {
+                } elseif (isset($this->DefaultRoleId)) {
                     $this->getEvent()->registerUser($user, Role::model()->findByPk($this->DefaultRoleId));
                 }
+
                 $this->getController()->refresh();
             }
         }
     }
 
-
+    /**
+     * @inheritdoc
+     */
     public function run()
     {
-        if ( !$this->event->isRegistrationClosed()) {
-            $user = \Yii::app()->user;
-
-            /** @var Participant $participant */
-            $participant = null;
-            if (!$user->getIsGuest()) {
-                $participant = Participant::model()->byEventId($this->event->Id)->byUserId($user->getCurrentUser()->Id)->find();
-            }
-
-            if ($participant == null) {
-                \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
-                $this->render('detailed-registration');
-            } else {
-                $this->render('registration/complete');
-            }
+        if ($this->event->isRegistrationClosed()) {
+            return;
         }
 
+        \Yii::app()->getClientScript()->registerPackage('runetid.jquery.inputmask-multi');
+
+        $user = \Yii::app()->user;
+
+        /** @var Participant $participant */
+        $participant = null;
+        if (!$user->getIsGuest()) {
+            $participant = Participant::model()
+                ->byEventId($this->event->Id)
+                ->byUserId($user->getCurrentUser()->Id)
+                ->find();
+        }
+
+        if ($participant == null) {
+
+            $this->render('detailed-registration');
+        } else {
+            $this->render('registration/complete');
+        }
     }
 
     /**
@@ -188,6 +201,7 @@ class DetailedRegistration extends WidgetRegistration
         if (isset($this->WidgetRegistrationDetailedPositionTab) && $this->WidgetRegistrationDetailedPositionTab == 1) {
             return WidgetPosition::Tabs;
         }
+
         return WidgetPosition::Content;
     }
 
@@ -199,6 +213,7 @@ class DetailedRegistration extends WidgetRegistration
         if ($this->getUser() !== null && isset($this->WidgetRegistrationDetailedHideForAuthorize) && $this->WidgetRegistrationDetailedHideForAuthorize == 1) {
             return false;
         }
+
         return true;
     }
 }
