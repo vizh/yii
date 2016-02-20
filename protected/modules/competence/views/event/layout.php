@@ -1,7 +1,8 @@
-<?
+<?php
 /**
  *  @var PublicMainController $this
  */
+
 use application\components\controllers\PublicMainController;
 use event\components\WidgetPosition;
 ?>
@@ -30,12 +31,12 @@ use event\components\WidgetPosition;
                 $widget->getWidget()->eventPage = false;
                 $widget->run();
                 ?>
-            <?php endif;?>
-        <?php endforeach;?>
+            <?php endif ?>
+        <?php endforeach ?>
         <div class="container m-top_40">
-            <h3 class="text-center competence-title"><?=$this->getTest()->Title;?></h3>
+            <h3 class="text-center competence-title"><?=CHtml::encode($this->getTest()->Title)?></h3>
         </div>
-        <?=$content;?>
+        <?=$content?>
     </section>
 </body>
 </html>

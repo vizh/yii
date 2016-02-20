@@ -3,6 +3,8 @@ namespace competence\models\form;
 
 use application\components\form\FormModel;
 use competence\models\Result;
+use application\components\Exception;
+use competence\models\Question;
 
 abstract class Base extends FormModel
 {
@@ -27,12 +29,10 @@ abstract class Base extends FormModel
      */
     public function getBaseQuestion()
     {
-        if ($this->baseQuestion == null && $this->getBaseQuestionCode() != null)
-        {
+        if ($this->baseQuestion == null && $this->getBaseQuestionCode() != null) {
             $this->baseQuestion = \competence\models\Question::model()
                 ->byTestId($this->question->TestId)->byCode($this->getBaseQuestionCode())->find();
-            if ($this->baseQuestion != null)
-            {
+            if ($this->baseQuestion != null) {
                 $this->baseQuestion->setTest($this->question->getTest());
             }
         }
@@ -42,8 +42,7 @@ abstract class Base extends FormModel
     public function getQuestionByCode($code)
     {
         $question = \competence\models\Question::model()->byTestId($this->question->TestId)->byCode($code)->find();
-        if ($question != null)
-        {
+        if ($question != null) {
             $question->setTest($this->question->getTest());
         }
         return $question;
@@ -59,8 +58,7 @@ abstract class Base extends FormModel
 
     public function __get($name)
     {
-        if (in_array($name, $this->getFormAttributeNames()))
-        {
+        if (in_array($name, $this->getFormAttributeNames())) {
             $formData = $this->question->getFormData();
             return isset($formData[$name]) ? $formData[$name] : null;
         }
@@ -69,20 +67,17 @@ abstract class Base extends FormModel
 
     public function __set($name, $value)
     {
-        if (in_array($name, $this->getFormAttributeNames()))
-        {
+        if (in_array($name, $this->getFormAttributeNames())) {
             $formData = $this->question->getFormData();
             $formData[$name] = $value;
             $this->question->setFormData($formData);
-        }
-        else
+        } else
             parent::__set($name, $value);
     }
 
     public function __isset($name)
     {
-        if (in_array($name, $this->getFormAttributeNames()))
-        {
+        if (in_array($name, $this->getFormAttributeNames())) {
             $formData = $this->question->getFormData();
             return isset($formData[$name]);
         }
@@ -91,17 +86,14 @@ abstract class Base extends FormModel
 
     public function __unset($name)
     {
-        if (in_array($name, $this->getFormAttributeNames()))
-        {
+        if (in_array($name, $this->getFormAttributeNames())) {
             $formData = $this->question->getFormData();
-            if (isset($formData[$name]))
-            {
+            if (isset($formData[$name])) {
                 unset($formData[$name]);
                 $this->question->setFormData($formData);
             }
             return;
-        }
-        else
+        } else
             parent::__unset($name);
     }
 
@@ -137,8 +129,9 @@ abstract class Base extends FormModel
     private function getGeneratedViewPath()
     {
         $className = get_class($this);
-        $className = substr($className, strrpos($className, '\\')+1);
-        return "competence.views.test.".$this->question->Test->Code.".".strtolower($className);
+        $className = substr($className, strrpos($className, '\\') + 1);
+
+        return 'competence.views.test.' . $this->question->Test->Code . '.' . strtolower($className);
     }
 
     /**
@@ -195,33 +188,37 @@ abstract class Base extends FormModel
     }
 
     /**
-     * @throws \application\components\Exception
-     * @return \competence\models\Question
+     * @return Question
+     * @throws Exception
      */
     public function getNext()
     {
-        if ($this->question->Last)
+        if ($this->question->Last) {
             return null;
-        if ($this->question->NextQuestionId !== null)
-        {
+        }
+
+        if ($this->question->NextQuestionId !== null) {
             return $this->question->Next;
         }
-        throw new \application\components\Exception('Необходимо задать Id следующего вопроса или переопределить метод getNext() для ' . get_class($this));
+
+        throw new Exception('Необходимо задать Id следующего вопроса или переопределить метод getNext() для ' . get_class($this));
     }
 
     /**
-     * @throws \application\components\Exception
-     * @return \competence\models\Question
+     * @return Question
+     * @throws Exception
      */
     public function getPrev()
     {
-        if ($this->question->First)
+        if ($this->question->First) {
             return null;
-        if ($this->question->PrevQuestionId !== null)
-        {
+        }
+
+        if ($this->question->PrevQuestionId !== null) {
             return $this->question->Prev;
         }
-        throw new \application\components\Exception('Необходимо задать Id предыдущего вопроса или переопределить метод getPrev() для ' . get_class($this));
+
+        throw new Exception('Необходимо задать Id предыдущего вопроса или переопределить метод getPrev() для ' . get_class($this));
     }
 
     /**
@@ -231,10 +228,8 @@ abstract class Base extends FormModel
     {
         $result = $this->question->Test->getResult();
         $data = $result->getResultByData();
-        foreach ($keys as $key)
-        {
-            if (isset($data[$key]))
-            {
+        foreach ($keys as $key) {
+            if (isset($data[$key])) {
                 unset($data[$key]);
             }
         }
@@ -246,8 +241,7 @@ abstract class Base extends FormModel
     {
         $rotationKey = 'competence-rotate-' . $this->question->Test->Code;
         $rotation = \Yii::app()->getSession()->get($rotationKey, []);
-        if (!isset($rotation[$key]))
-        {
+        if (!isset($rotation[$key])) {
             $rotationValues = array_keys($values);
             shuffle($rotationValues);
             $rotation[$key] = $rotationValues;
@@ -255,8 +249,7 @@ abstract class Base extends FormModel
         }
 
         $result = [];
-        foreach ($rotation[$key] as $rKey)
-        {
+        foreach ($rotation[$key] as $rKey) {
             $result[$rKey] = $values[$rKey];
         }
         return $result;
@@ -271,7 +264,7 @@ abstract class Base extends FormModel
 
     public function clearRotation()
     {
-        \Yii::app()->getSession()->remove('competence-rotate-'.$this->question->Test->Code);
+        \Yii::app()->getSession()->remove('competence-rotate-' . $this->question->Test->Code);
     }
 
     public function getNumber()
@@ -281,13 +274,11 @@ abstract class Base extends FormModel
 
     public function getPercent()
     {
-        if ($this->getNumber() != null)
-        {
-            $path = \Yii::getPathOfAlias('competence.models.test.'.$this->question->Test->Code);
+        if ($this->getNumber() != null) {
+            $path = \Yii::getPathOfAlias('competence.models.test.' . $this->question->Test->Code);
             $questionFiles = scandir($path);
             $count = 0;
-            foreach ($questionFiles as $file)
-            {
+            foreach ($questionFiles as $file) {
                 $count += stripos($file, '.php') !== false ? 1 : 0;
             }
             return floor($this->getNumber() * 100 / $count);
@@ -304,12 +295,9 @@ abstract class Base extends FormModel
     {
         $request = \Yii::app()->getRequest();
         $params = $request->getParam(get_class($this->question));
-        if (!empty($params['Title']))
-        {
+        if (!empty($params['Title'])) {
             $this->question->Title = $params['Title'];
-        }
-        else
-        {
+        } else {
             $this->question->addError('Title', 'Поле "Текст вопроса" не может быть пустым');
         }
         $this->question->SubTitle = $params['SubTitle'];
@@ -331,7 +319,7 @@ abstract class Base extends FormModel
         return $titles;
     }
 
-        /**
+    /**
      * @return array
      */
     protected function getInternalExportValueTitles()

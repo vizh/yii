@@ -1,6 +1,6 @@
-<?
+<?php
 /**
- * @var \application\components\controllers\MainController $this
+ * @var application\components\controllers\MainController $this
  */
 
 $clientScript = \Yii::app()->getClientScript();

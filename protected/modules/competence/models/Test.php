@@ -1,5 +1,6 @@
 <?php
 namespace competence\models;
+
 use application\components\ActiveRecord;
 
 /**
@@ -27,10 +28,11 @@ use application\components\ActiveRecord;
  * @property \event\models\Event $Event
  * @property Result[] $ResultsAll
  *
- * @method \competence\models\Test find($condition='',$params=array())
- * @method \competence\models\Test findByPk($pk,$condition='',$params=array())
- * @method \competence\models\Test[] findAll($condition='',$params=array())
+ * @method \competence\models\Test find($condition = '', $params = array())
+ * @method \competence\models\Test findByPk($pk, $condition = '', $params = array())
+ * @method \competence\models\Test[] findAll($condition = '', $params = array())
  * @method Test byParticipantsOnly(bool $participantsOnly)
+ *
  */
 class Test extends ActiveRecord
 {
@@ -38,7 +40,7 @@ class Test extends ActiveRecord
      * @param string $className
      * @return Test
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -72,24 +74,20 @@ class Test extends ActiveRecord
         $this->user = $user;
     }
 
-    /** @var string  */
-    protected  $userKey = null;
+    /** @var string */
+    protected $userKey = null;
 
     public function getUserKey()
     {
-        if ($this->FastAuth)
-        {
-            if ($this->userKey == null)
-            {
+        if ($this->FastAuth) {
+            if ($this->userKey == null) {
                 $userKey = $this->getUserKeyValue();
                 $userHash = $this->getUserHashValue();
-                if ($this->checkUserKeyHash($userKey, $userHash))
-                {
+                if ($this->checkUserKeyHash($userKey, $userHash)) {
                     $this->userKey = $userKey;
                     $request = \Yii::app()->getRequest();
-                    if (!isset($request->cookies[$this->getUserKeyCookieName()]) || $request->cookies[$this->getUserKeyCookieName()]->value != $userKey)
-                    {
-                        $expire = time()+60*60*24*30;
+                    if (!isset($request->cookies[$this->getUserKeyCookieName()]) || $request->cookies[$this->getUserKeyCookieName()]->value != $userKey) {
+                        $expire = time() + 60 * 60 * 24 * 30;
                         \Yii::app()->request->cookies[$this->getUserKeyCookieName()] = new \CHttpCookie($this->getUserKeyCookieName(), $userKey, ['expire' => $expire]);
                         \Yii::app()->request->cookies[$this->getUserHashCookieName()] = new \CHttpCookie($this->getUserHashCookieName(), $userHash, ['expire' => $expire]);
                     }
@@ -102,20 +100,19 @@ class Test extends ActiveRecord
 
     private function getUserKeyCookieName()
     {
-        return 'CompetenceUserKey'.$this->Id;
+        return 'CompetenceUserKey' . $this->Id;
     }
 
     private function getUserHashCookieName()
     {
-        return 'CompetenceUserHash'.$this->Id;
+        return 'CompetenceUserHash' . $this->Id;
     }
 
     private function getUserKeyValue()
     {
         $request = \Yii::app()->getRequest();
         $userKey = $request->getParam('userKey');
-        if (empty($userKey))
-        {
+        if (empty($userKey)) {
             $userKey = isset($request->cookies[$this->getUserKeyCookieName()]) ? $request->cookies[$this->getUserKeyCookieName()]->value : substr(md5(microtime()), 0, 10);
         }
         return $userKey;
@@ -125,8 +122,7 @@ class Test extends ActiveRecord
     {
         $request = \Yii::app()->getRequest();
         $userHash = $request->getParam('userHash');
-        if (empty($userHash))
-        {
+        if (empty($userHash)) {
             $userHash = isset($request->cookies[$this->getUserHashCookieName()]) ? $request->cookies[$this->getUserHashCookieName()]->value : null;
         }
         return $userHash;
@@ -134,17 +130,15 @@ class Test extends ActiveRecord
 
     private function checkUserKeyHash($key, $hash = null)
     {
-        if ($this->FastAuthSecret !== null)
-        {
+        if ($this->FastAuthSecret !== null) {
             return $hash == $this->getKeyHash($key);
-        }
-        else
+        } else
             return true;
     }
 
     public function getKeyHash($key)
     {
-        return md5($key.$this->FastAuthSecret);
+        return md5($key . $this->FastAuthSecret);
     }
 
 
@@ -156,26 +150,21 @@ class Test extends ActiveRecord
      */
     public function getResult()
     {
-        if ($this->result === null)
-        {
+        if ($this->result === null) {
             if ($this->user === null && $this->getUserKey() === null)
                 throw new \application\components\Exception('Для доступа к результату, необходимо сначала задать пользователя или ключ пользователя.');
             $model = Result::model()->byTestId($this->Id)->byFinished(false);
-            if ($this->getUserKey() !== null)
-            {
+            if ($this->getUserKey() !== null) {
                 $model->byUserKey($this->getUserKey());
-            }
-            else
-            {
+            } else {
                 $model->byUserId($this->user->Id);
             }
             $this->result = $model->find();
 
-            if ($this->result === null)
-            {
+            if ($this->result === null) {
                 $this->result = new Result();
                 $this->result->TestId = $this->Id;
-                $this->result->UserId = $this->user!==null ? $this->user->Id : null;
+                $this->result->UserId = $this->user !== null ? $this->user->Id : null;
                 $this->result->UserKey = $this->getUserKey();
                 $this->result->setDataByResult([]);
                 $this->result->save();
@@ -185,13 +174,13 @@ class Test extends ActiveRecord
     }
 
     protected $firstQuestion = null;
+
     /**
      * @return Question
      */
     public function getFirstQuestion()
     {
-        if ($this->firstQuestion === null)
-        {
+        if ($this->firstQuestion === null) {
             $this->firstQuestion = \competence\models\Question::model()->byFirst()->byTestId($this->Id)->find();
             $this->firstQuestion->Test = $this;
         }
@@ -200,8 +189,8 @@ class Test extends ActiveRecord
 
     public function getEndView()
     {
-        $path = 'competence.views.tests.'.$this->Code;
-        if (file_exists(\Yii::getPathOfAlias($path).DIRECTORY_SEPARATOR.'done.php')) {
+        $path = 'competence.views.tests.' . $this->Code;
+        if (file_exists(\Yii::getPathOfAlias($path) . DIRECTORY_SEPARATOR . 'done.php')) {
             return $path . '.done';
         }
         return 'done';
@@ -252,7 +241,7 @@ class Test extends ActiveRecord
     public function byEnable($enable = true, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->condition = (!$enable ? 'NOT' : '').' "t"."Enable"';
+        $criteria->condition = (!$enable ? 'NOT' : '') . ' "t"."Enable"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }

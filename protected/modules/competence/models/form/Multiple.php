@@ -5,19 +5,18 @@ use competence\models\Result;
 
 /**
  * Class Multiple
- * @package competence\models\form
- *
  * @property \competence\models\form\attribute\CheckboxValue[] $Values
+ *
  */
-class Multiple extends \competence\models\form\Base
+class Multiple extends Base
 {
+    public $value = [];
+
     public $other;
 
-    protected function getFormData()
-    {
-        return ['value' => $this->value, 'other' => $this->other];
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         $rules = [];
@@ -26,8 +25,12 @@ class Multiple extends \competence\models\form\Base
         return $rules;
     }
 
-    public $value = [];
-
+    /**
+     * Validates the other value
+     * @param string $attribute
+     * @param array $params
+     * @return bool
+     */
     public function checkOtherValidator($attribute, $params)
     {
         foreach ($this->Values as $value)
@@ -45,22 +48,17 @@ class Multiple extends \competence\models\form\Base
         return true;
     }
 
-
-    protected function getFormAttributeNames()
-    {
-        return ['Values'];
-    }
-
-    protected function getDefinedViewPath()
-    {
-        return 'competence.views.form.multiple';
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function getAdminView()
     {
         return 'competence.views.form.admin.multiple';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function processAdminPanel()
     {
         parent::processAdminPanel();
@@ -98,6 +96,9 @@ class Multiple extends \competence\models\form\Base
         $this->question->setFormData(['Values' => $values]);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getInternalExportValueTitles()
     {
         $titles = [];
@@ -108,6 +109,9 @@ class Multiple extends \competence\models\form\Base
         return $titles;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getInternalExportData(Result $result)
     {
         $questionData = $result->getQuestionResult($this->question);
@@ -117,5 +121,29 @@ class Multiple extends \competence\models\form\Base
         }
         $data[] = !empty($questionData) ? $questionData['other'] : '';
         return $data;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getFormData()
+    {
+        return ['value' => $this->value, 'other' => $this->other];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getFormAttributeNames()
+    {
+        return ['Values'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getDefinedViewPath()
+    {
+        return 'competence.views.form.multiple';
     }
 }

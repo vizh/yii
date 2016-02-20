@@ -3,15 +3,13 @@ use event\models\Event;
 use competence\models\Test;
 use competence\models\Question;
 use user\models\User;
-use \competence\models\Result;
+use competence\models\Result;
 use event\models\Participant;
 use competence\models\form\event\CodeValidation;
-use \application\components\controllers\MainController;
+use application\components\controllers\MainController;
 
 /**
- * Class MSController
- *
- * Опросы для Miscrosoft, голосование, в которых доступно по коду
+ * Class MSController Опросы для Miscrosoft, голосование, в которых доступно по коду
  */
 class EventController extends MainController
 {
@@ -20,10 +18,14 @@ class EventController extends MainController
 
     public $layout = '/event/layout';
 
-    /** @var Event */
+    /**
+     * @var Event
+     */
     private $event;
 
-    /** @var Test */
+    /**
+     * @var Test
+     */
     private $test;
 
     /**
@@ -31,15 +33,15 @@ class EventController extends MainController
      */
     protected function beforeAction($action)
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $this->event = Event::model()->byIdName($request->getParam('eventIdName'))->byDeleted(false)->find();
         if ($this->event === null) {
-            throw new \CHttpException(404);
+            throw new CHttpException(404);
         }
 
         $this->test = Test::model()->byEnable(true)->byParticipantsOnly(true)->byEventId($this->event->Id)->find();
         if ($this->test === null) {
-            throw new \CHttpException(404);
+            throw new CHttpException(404);
         }
 
         if ($this->checkExistsResult()) {
@@ -52,7 +54,7 @@ class EventController extends MainController
                     $this->redirect([self::START_ACTION_NAME, 'eventIdName' => $this->event->IdName]);
                 }
             } elseif ($this->getUser() !== null && !$this->checkParticipant()) {
-                throw new \CHttpException(404);
+                throw new CHttpException(404);
             }
         }
 
@@ -109,8 +111,7 @@ class EventController extends MainController
     {
         if (\Yii::app()->user->getCurrentUser() !== null) {
             return \Yii::app()->user->getCurrentUser();
-        }
-        elseif (\Yii::app()->tempUser->getCurrentUser() !== null) {
+        } elseif (\Yii::app()->tempUser->getCurrentUser() !== null) {
             return \Yii::app()->tempUser->getCurrentUser();
         }
         return null;
@@ -125,8 +126,7 @@ class EventController extends MainController
     {
         $questions = [];
         $question = $this->test->getFirstQuestion();
-        while(true)
-        {
+        while (true) {
             $questions[] = $question;
             /** @var \competence\models\Question $question */
             $question = $question->getForm()->getNext();
@@ -164,7 +164,6 @@ class EventController extends MainController
         $clientScript->registerCssFile('/stylesheets/application.css');
     }
 
-
     /**
      *
      */
@@ -179,7 +178,6 @@ class EventController extends MainController
             }
         }
 
-
         $viewName = 'index';
         if (!$this->checkStartTest()) {
             $viewName = 'before';
@@ -189,9 +187,9 @@ class EventController extends MainController
 
         $this->render($viewName, [
             'event' => $this->event,
-            'user'  => $this->getUser(),
-            'test'  => $this->test,
-            'form'  => $form
+            'user' => $this->getUser(),
+            'test' => $this->test,
+            'form' => $form
         ]);
     }
 
@@ -241,4 +239,4 @@ class EventController extends MainController
             'test' => $this->test
         ]);
     }
-} 
+}

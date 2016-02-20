@@ -1,6 +1,9 @@
 <?php
 namespace application\components\attribute;
 
+/**
+ * Class ListDefinition Definition for list items
+ */
 class ListDefinition extends Definition
 {
     /**
@@ -63,7 +66,6 @@ class ListDefinition extends Definition
             $htmlOptions['class'] .= ' '.$customClass;
 
             if (!$valueExists) {
-                $htmlOptions['disabled'] = true;
                 $currentValue = 'OTHER';
             }
         }
@@ -81,10 +83,8 @@ class ListDefinition extends Definition
                     var \$this = $(this);
 
                     if (\$this.val() === 'OTHER') {
-                        \$this.prop('disabled', true);
                         \$this.closest('div').find('.$customClass-custom').css('display', 'inline').prop('disabled', false);
                     } else {
-                        \$this.prop('disabled', false);
                         \$this.closest('div').find('.$customClass-custom').css('display', 'none').prop('disabled', true);
                     }
                 });"
