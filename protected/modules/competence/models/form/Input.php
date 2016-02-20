@@ -5,13 +5,16 @@ use competence\models\Result;
 
 /**
  * Class Input
- * @package competence\models\form
  *
  * @property string $Suffix
  * @property boolean $Required
+ *
  */
 class Input extends Base
 {
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         $rules = [];
@@ -21,22 +24,33 @@ class Input extends Base
         return $rules;
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function getFormAttributeNames()
     {
         return ['Suffix', 'Required'];
     }
 
-
+    /**
+     * @inheritdoc
+     */
     protected function getDefinedViewPath()
     {
         return 'competence.views.form.input';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getAdminView()
     {
         return 'competence.views.form.admin.input';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -45,22 +59,32 @@ class Input extends Base
         ];
     }
 
-
+    /**
+     * @inheritdoc
+     */
     public function processAdminPanel()
     {
         parent::processAdminPanel();
+
         $attributes = \Yii::app()->getRequest()->getParam(get_class($this));
         $data = [];
         $data['Suffix'] = !empty($attributes['Suffix']) ? $attributes['Suffix'] : null;
         $data['Required'] = isset($attributes['Required']) ? (boolean)$attributes['Required'] : false;
+
         $this->question->setFormData($data);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getInternalExportValueTitles()
     {
         return ['Ответ'];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getInternalExportData(Result $result)
     {
         $data = $result->getQuestionResult($this->question);

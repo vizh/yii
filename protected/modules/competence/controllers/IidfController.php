@@ -1,4 +1,5 @@
 <?php
+
 use competence\models\Test;
 use competence\models\Question;
 use user\models\User;
@@ -6,9 +7,7 @@ use application\components\controllers\BaseController;
 use application\components\auth\identity\RunetId;
 
 /**
- * Class MSController
- *
- * Опросы для Miscrosoft, голосование, в которых доступно по коду
+ * Class MSController Опросы для Miscrosoft, голосование, в которых доступно по коду
  */
 class IidfController extends BaseController
 {
@@ -17,7 +16,9 @@ class IidfController extends BaseController
 
     public $layout = '/iidf/layout';
 
-    /** @var Test */
+    /**
+     * @var Test
+     */
     private $test;
 
     /**
@@ -25,11 +26,11 @@ class IidfController extends BaseController
      */
     protected function beforeAction($action)
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $code = $request->getParam('code');
         $this->test = Test::model()->byEnable(true)->byCode($code)->find();
         if ($this->test === null) {
-            throw new \CHttpException(404);
+            throw new CHttpException(404);
         }
 
         if ($action->getId() != static::START_ACTION_NAME) {
@@ -37,6 +38,7 @@ class IidfController extends BaseController
                 $this->redirect([self::START_ACTION_NAME, 'code' => $code]);
             }
         }
+
         return parent::beforeAction($action);
     }
 
@@ -65,7 +67,7 @@ class IidfController extends BaseController
     private function createFakeUser()
     {
         $user = new User();
-        $user->Email = \CText::generateFakeEmail('iidf-vote');
+        $user->Email = CText::generateFakeEmail('iidf-vote');
         $user->LastName = $user->FirstName = '';
         $user->Temporary = true;
         $user->Visible = false;
@@ -73,7 +75,7 @@ class IidfController extends BaseController
         $identity = new RunetId($user->RunetId);
         $identity->authenticate();
         if ($identity->errorCode === \CUserIdentity::ERROR_NONE) {
-            \Yii::app()->getUser()->login($identity);
+            Yii::app()->getUser()->login($identity);
         }
     }
 
@@ -82,27 +84,27 @@ class IidfController extends BaseController
      */
     public function getUser()
     {
-        return \Yii::app()->user->getCurrentUser();
+        return Yii::app()->user->getCurrentUser();
     }
 
     /**
      * Список вопросов
      * @return Question[]
-     * @throws \application\components\Exception
+     * @throws Exception
      */
     private function getQuestions()
     {
         $questions = [];
         $question = $this->test->getFirstQuestion();
-        while(true)
-        {
+        while (true) {
             $questions[] = $question;
-            /** @var \competence\models\Question $question */
+            /** @var Question $question */
             $question = $question->getForm()->getNext();
             if ($question == null)
                 break;
             $question->setTest($this->test);
         }
+
         return $questions;
     }
 
@@ -119,7 +121,7 @@ class IidfController extends BaseController
      */
     protected function initResources()
     {
-        \Yii::app()->getClientScript()->registerPackage('bootstrap3');
+        Yii::app()->getClientScript()->registerPackage('bootstrap3');
         parent::initResources();
     }
 
@@ -132,7 +134,7 @@ class IidfController extends BaseController
             $this->createFakeUser();
         }
 
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $questions = $this->getQuestions();
         $hasErrors = false;
         if ($request->getIsPostRequest()) {
@@ -164,12 +166,12 @@ class IidfController extends BaseController
      */
     public function actionDone()
     {
-        \Yii::app()->getUser()->logout();
-        \Yii::app()->getClientScript()->registerMetaTag(
-            '10; url='.$this->createUrl('index', ['code' => $this->test->Code]), null, 'refresh'
+        Yii::app()->getUser()->logout();
+        Yii::app()->getClientScript()->registerMetaTag(
+            '10; url=' . $this->createUrl('index', ['code' => $this->test->Code]), null, 'refresh'
         );
         $this->render('done', [
             'test' => $this->test
         ]);
     }
-} 
+}

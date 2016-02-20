@@ -31,7 +31,7 @@ class BooleanDefinition extends Definition
         return \CHtml::label($checkbox . ' ' . $this->title . ' ' . $required, false, [
             'class' => $this->cssClass,
             'style' => $this->cssStyle
-        ]);
+        ]) . ($this->placeholder ? \CHtml::tag('small', ['class' => 'notice'], $this->placeholder) : '');
     }
 
     /**

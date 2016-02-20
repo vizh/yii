@@ -1,10 +1,13 @@
 <?php
 namespace competence\models;
 
+use competence\models\form;
+use application\components\Exception;
+
 /**
  * Class Question
- * @package competence\models
  *
+ * Fields
  * @property int $Id
  * @property int $TestId
  * @property string $TypeId
@@ -22,44 +25,60 @@ namespace competence\models;
  * @property string $AfterQuestionText
  * @property boolean $Required
  *
+ * Relations
  * @property QuestionType $Type
  * @property Question $Prev
  * @property Question $Next
  *
  * @property Test $Test
  *
+ * @method Question find($condition = '', $params = array())
+ * @method Question findByPk($pk, $condition = '', $params = array())
+ * @method Question[] findAll($condition = '', $params = array())
  *
- * @method \competence\models\Question find($condition='',$params=array())
- * @method \competence\models\Question findByPk($pk,$condition='',$params=array())
- * @method \competence\models\Question[] findAll($condition='',$params=array())
  */
 class Question extends \CActiveRecord
 {
+    protected $test;
+
+    protected $formData;
+
+    private $form;
+
     /**
      * @param string $className
      * @return Question
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function tableName()
     {
         return 'CompetenceQuestion';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function primaryKey()
     {
         return 'Id';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function relations()
     {
         return [
-            'Type' => [self::BELONGS_TO, '\competence\models\QuestionType', 'TypeId'],
-            'Prev' => [self::BELONGS_TO, '\competence\models\Question', 'PrevQuestionId'],
-            'Next' => [self::BELONGS_TO, '\competence\models\Question', 'NextQuestionId']
+            'Type' => [self::BELONGS_TO, 'competence\models\QuestionType', 'TypeId'],
+            'Prev' => [self::BELONGS_TO, 'competence\models\Question', 'PrevQuestionId'],
+            'Next' => [self::BELONGS_TO, 'competence\models\Question', 'NextQuestionId']
         ];
     }
 
@@ -73,6 +92,7 @@ class Question extends \CActiveRecord
         $criteria = new \CDbCriteria();
         $criteria->condition = (!$first ? 'NOT ' : '') . '"t"."First"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -87,6 +107,7 @@ class Question extends \CActiveRecord
         $criteria->condition = '"t"."TestId" = :TestId';
         $criteria->params = ['TestId' => $testId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -101,35 +122,32 @@ class Question extends \CActiveRecord
         $criteria->condition = '"t"."Code" = :Code';
         $criteria->params = ['Code' => $code];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
-    private $form = null;
-
     /**
-     * @return \competence\models\form\Base
+     * @return form\Base
      */
     public function getForm()
     {
-        if ($this->form === null)
-        {
+        if (is_null($this->form)) {
             $className = "\\competence\\models\\test\\" . $this->Test->Code . "\\" . $this->Code;
             $this->form = new $className($this);
         }
+
         return $this->form;
     }
-
-    protected $formData = null;
 
     /**
      * @return array|null
      */
     public function getFormData()
     {
-        if ($this->formData === null)
-        {
+        if (is_null($this->formData)) {
             $this->formData = $this->Data !== null ? unserialize(base64_decode($this->Data)) : [];
         }
+
         return $this->formData;
     }
 
@@ -142,23 +160,26 @@ class Question extends \CActiveRecord
         $this->Data = base64_encode(serialize($data));
     }
 
-    protected $test;
-
     public function setTest(Test $test)
     {
-        if ($test->Id != $this->TestId)
+        if ($test->Id != $this->TestId) {
             throw new \application\components\Exception('Тест не соответствует данному вопросу');
+        }
+
         $this->test = $test;
     }
 
     /**
-     * @throws \application\components\Exception
+     * Returns the current test
      * @return Test
+     * @throws Exception
      */
     public function getTest()
     {
-        if ($this->test === null)
+        if (is_null($this->test)) {
             throw new \application\components\Exception('Для вопроса не определен тест');
+        }
+
         return $this->test;
     }
 
@@ -167,31 +188,37 @@ class Question extends \CActiveRecord
      */
     public function getResult()
     {
-        try
-        {
+        try {
             return $this->getTest()->getResult()->getQuestionResult($this);
-        }
-        catch (\application\components\Exception $e)
-        {
+        } catch (\application\components\Exception $e) {
             return null;
         }
     }
 
     protected function getFormPath()
     {
-        return \Yii::getPathOfAlias('competence.models.test.'.$this->Test->Code.'.'.$this->Code).'.php';
+        return \Yii::getPathOfAlias('competence.models.test.' . $this->Test->Code . '.' . $this->Code) . '.php';
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function beforeSave()
     {
-        if ($this->getIsNewRecord())
-        {
-            $dataFile = \Yii::app()->getController()->renderPartial('competence.views.form.template', ['question' => $this, 'test' => $this->Test], true);
+        if ($this->getIsNewRecord()) {
+            $dataFile = \Yii::app()->getController()->renderPartial('competence.views.form.template', [
+                'question' => $this,
+                'test' => $this->Test
+            ], true);
             file_put_contents($this->getFormPath(), $dataFile);
         }
+
         return parent::beforeSave();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -201,7 +228,6 @@ class Question extends \CActiveRecord
             'AfterTitleText' => \Yii::t('app', 'Текст после вопроса'),
             'AfterQuestionText' => \Yii::t('app', 'Текст после вариантов ответов'),
             'Required' => \Yii::t('app', 'Вопрос, обязательный для ответа')
-    ];
-  }
-
+        ];
+    }
 }

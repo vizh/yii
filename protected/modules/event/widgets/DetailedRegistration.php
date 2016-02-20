@@ -4,7 +4,7 @@ namespace event\widgets;
 use event\components\Widget;
 use event\components\widget\WidgetRegistration;
 use event\components\WidgetPosition;
-use \event\models\forms\DetailedRegistration as DetailedRegistrationForm;
+use event\models\forms\DetailedRegistration as DetailedRegistrationForm;
 use event\models\Invite;
 use event\models\Participant;
 use event\models\Role;
@@ -30,14 +30,20 @@ use user\models\User;
  * @property string $WidgetRegistrationTitle
  * @property string $WidgetRegistrationCompanyTitle
  * @property string $WidgetRegistrationPositionTitle
+ * @property string $WidgetRegistrationPositionRequired Whether the position is required
  * @property string $WidgetRegistrationDetailedHideForAuthorize
  * @property string $WidgetRegistrationDetailedSubmitButtonLabel
  * @property string $WidgetRegistrationDetailedPositionTab
  * @property int $WidgetRegistrationShowDocument
  * @property string $WidgetRegistrationDetailedScript
+ * @property string $WidgetRegistrationPrimaryFieldsOrderJson Json array specified order for the primary fields,
+ * for example ["FirstName", "LastName", "Email"]
  */
 class DetailedRegistration extends WidgetRegistration
 {
+    /**
+     * @inheritdoc
+     */
     public function getAttributeNames()
     {
         $names = parent::getAttributeNames();
@@ -62,20 +68,26 @@ class DetailedRegistration extends WidgetRegistration
             'WidgetRegistrationPositionTitle',
             'WidgetRegistrationDetailedHideForAuthorize',
             'WidgetRegistrationDetailedSubmitButtonLabel',
-            'WidgetRegistrationDetailedScript'
+            'WidgetRegistrationDetailedScript',
+            'WidgetRegistrationPrimaryFieldsOrderJson',
+            'WidgetRegistrationPositionRequired'
         ]);
     }
 
-    /** @var \event\models\forms\DetailedRegistration */
+    /**
+     * @var DetailedRegistrationForm
+     */
     public $form;
 
-    /** @var  UserData */
-    public $userData = null;
+    /**
+     * @var UserData
+     */
+    public $userData;
 
     /**
      * @var Invite
      */
-    public $invite = null;
+    public $invite;
 
     /**
      * @inheritdoc
@@ -210,7 +222,7 @@ class DetailedRegistration extends WidgetRegistration
      */
     public function getIsActive()
     {
-        if ($this->getUser() !== null && isset($this->WidgetRegistrationDetailedHideForAuthorize) && $this->WidgetRegistrationDetailedHideForAuthorize == 1) {
+        if ($this->getUser() && isset($this->WidgetRegistrationDetailedHideForAuthorize) && $this->WidgetRegistrationDetailedHideForAuthorize == 1) {
             return false;
         }
 

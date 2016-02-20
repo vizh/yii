@@ -6,12 +6,24 @@ namespace application\components\attribute;
  */
 class Definition
 {
+    /**
+     * @var string Internal name for the field, this name will be used in forms
+     */
     public $name;
 
+    /**
+     * @var string Title for the field
+     */
     public $title;
 
+    /**
+     * @var int Group identifier for the field
+     */
     public $groupId = 0;
 
+    /**
+     * @var bool Whether this field is required
+     */
     public $required = false;
 
     /**
@@ -19,11 +31,20 @@ class Definition
      */
     public $customTextField = false;
 
-    public $cssStyle = null;
+    /**
+     * @var string Css style for the field
+     */
+    public $cssStyle;
 
-    public $cssClass = null;
+    /**
+     * @var string Css class(es) for the field
+     */
+    public $cssClass;
 
-    public $placeholder = null;
+    /**
+     * @var string Placeholder for the field
+     */
+    public $placeholder;
 
     /**
      * @param mixed $value
@@ -126,4 +147,4 @@ class Definition
         $param = $request->getParam(get_class($container));
         return $param !== null && !empty($param[$this->name]) ? $param[$this->name]  : null;
     }
-} 
+}

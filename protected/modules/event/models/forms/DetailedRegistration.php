@@ -15,32 +15,42 @@ use event\widgets\DetailedRegistration as DetailedRegistrationWidget;
 use contact\models\Address as AddressModel;
 
 /**
- * Class DetailedRegistration
- * @package event\models\forms
+ * Class DetailedRegistration Widget renders detailed registration form with possibility to specify additional
+ * attributes @see application\models\Definition
  *
  * @property User $model
  * @property Address $ContactAddress
  * @property BaseDocument $Document
+ *
  */
 class DetailedRegistration extends CreateUpdateForm
 {
     public $registerVisibleUser = true;
     public $unsubscribeNewUser = false;
 
-    /** @var Event */
+    /**
+     * @var Event
+     * */
     private $event;
 
-    /** @var DetailedRegistrationWidget */
+    /**
+     * @var DetailedRegistrationWidget
+     */
     private $widget;
 
-    private $userData = null;
+    /**
+     * @var UserData|null Additional data for user registration
+     */
+    private $userData;
 
     /**
      * @var string[]
      */
     private $usedAttributes;
 
-    /** @var Role[]  */
+    /**
+     * @var Role[]
+     */
     private $usedRoles = [];
 
     /**
@@ -52,9 +62,11 @@ class DetailedRegistration extends CreateUpdateForm
         $this->widget = $widget;
         $this->event  = $widget->getEvent();
         $this->initUsedAttributes();
+
         if (isset($this->widget->WidgetRegistrationSelectRoleIdList)) {
             $this->usedRoles = Role::model()->findAllByPk(explode(',', $this->widget->WidgetRegistrationSelectRoleIdList));
         }
+
         parent::__construct($user);
         $this->initUserData();
     }
@@ -64,31 +76,67 @@ class DetailedRegistration extends CreateUpdateForm
      */
     private function initUsedAttributes()
     {
-        $this->usedAttributes['Email'] = null;
-        $this->usedAttributes['LastName'] = null;
-        $this->usedAttributes['FirstName'] = null;
+        foreach (['Email', 'LastName', 'FirstName'] as $attribute) {
+            $this->usedAttributes[$attribute] = null;
+        }
+
         if (isset($this->widget->WidgetRegistrationShowFatherName) && $this->widget->WidgetRegistrationShowFatherName == 1) {
             $this->usedAttributes['FatherName'] = null;
         }
+
         if (isset($this->widget->WidgetRegistrationShowPhoto) && $this->widget->WidgetRegistrationShowPhoto == 1) {
             $this->usedAttributes['Photo'] = null;
         }
+
         if (isset($this->widget->WidgetRegistrationShowPhone) && $this->widget->WidgetRegistrationShowPhone == 1) {
             $this->usedAttributes['PrimaryPhone'] = null;
         }
+
         if (isset($this->widget->WidgetRegistrationShowBirthday) && $this->widget->WidgetRegistrationShowBirthday == 1) {
             $this->usedAttributes['Birthday'] = null;
         }
+
         if (isset($this->widget->WidgetRegistrationShowContactAddress) && $this->widget->WidgetRegistrationShowContactAddress == 1) {
             $this->usedAttributes['ContactAddress'] = new Address();
         }
+
         if (isset($this->widget->WidgetRegistrationShowEmployment) && $this->widget->WidgetRegistrationShowEmployment == 1) {
             $this->usedAttributes['Company'] = null;
             $this->usedAttributes['Position'] = null;
         }
+
         if (isset($this->widget->WidgetRegistrationShowDocument) && $this->widget->WidgetRegistrationShowDocument == 1) {
             $this->usedAttributes['Document'] = $this->getDocumentForm();
         }
+
+        $this->reorderUsedAttributes();
+    }
+
+    /**
+     * Reorders primary fields
+     */
+    private function reorderUsedAttributes()
+    {
+        $order = $this->widget->WidgetRegistrationPrimaryFieldsOrderJson;
+        if (!$order) {
+            return;
+        }
+
+        $order = \CJSON::decode($order);
+        if (!$order || !is_array($order)) {
+            return;
+        }
+
+        $usedAttributes = [];
+        foreach ($order as $attribute) {
+            if (array_key_exists($attribute, $this->usedAttributes)) {
+                $usedAttributes[$attribute] = null;
+                unset($this->usedAttributes[$attribute]);
+            }
+        }
+
+        $usedAttributes += $this->usedAttributes;
+        $this->usedAttributes = $usedAttributes;
     }
 
     /**
@@ -108,6 +156,7 @@ class DetailedRegistration extends CreateUpdateForm
         $data = new UserData();
         $data->EventId = $this->event->Id;
         $definitions = $data->getManager()->getDefinitions();
+
         if (!empty($definitions)) {
             $this->userData = $data;
         }
@@ -126,9 +175,13 @@ class DetailedRegistration extends CreateUpdateForm
                 }
             }
         }
+
         return parent::setAttributes($values, $safeOnly);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         $rules = [];
@@ -152,13 +205,13 @@ class DetailedRegistration extends CreateUpdateForm
                     break;
 
                 case 'ContactAddress':
-                    $rules[] = [$attribute, '\application\components\validators\NestedFormValidator'];
+                    $rules[] = [$attribute, 'application\components\validators\NestedFormValidator'];
                     break;
 
                 case 'Company':
                     $rules = array_merge($rules, [
                         ['Company', 'required'],
-                        ['Position', 'safe']
+                        ['Position', $this->widget->WidgetRegistrationPositionRequired ? 'required' : 'safe']
                     ]);
                     break;
 
@@ -168,7 +221,7 @@ class DetailedRegistration extends CreateUpdateForm
 
                 case 'PrimaryPhone':
                     $rules = array_merge($rules, [
-                        [$attribute, 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
+                        [$attribute, 'filter', 'filter' => 'application\components\utility\Texts::getOnlyNumbers'],
                         [$attribute, 'required'],
                         [$attribute, 'unique', 'className' => User::className(), 'attributeName' => 'PrimaryPhone',
                             'criteria' => !$this->isUpdateMode() ? ['condition' => '"t"."PrimaryPhoneVerify"'] : ['condition' => '"t"."PrimaryPhoneVerify" AND "t"."Id" != :Id', 'params' => ['Id' => $this->model->Id]]
@@ -182,10 +235,11 @@ class DetailedRegistration extends CreateUpdateForm
                     break;
 
                 case 'Document':
-                    $rules[] = ['Document', '\application\components\validators\NestedFormValidator'];
+                    $rules[] = ['Document', 'application\components\validators\NestedFormValidator'];
                     break;
             }
         }
+
         return $rules;
     }
 
@@ -195,12 +249,15 @@ class DetailedRegistration extends CreateUpdateForm
     protected function beforeValidate()
     {
         $attributes = $this->getAttributes();
+
         foreach ($this->getAttributes() as $name => $value) {
             if (is_object($value))
                 continue;
             $attributes[$name] = Texts::clear($value);
         }
+
         $this->setAttributes($attributes);
+
         return parent::beforeValidate();
     }
 
@@ -232,11 +289,13 @@ class DetailedRegistration extends CreateUpdateForm
         }
 
         $user = User::model()->byEmail($value)->byVisible(true)->find();
+
         if ($user === null)
             return true;
         else {
             $this->addError('Email', \Yii::t('app', 'Пользователь с таким email уже существует. {link} или укажите другой email.', ['{link}' => \CHtml::link(\Yii::t('app', 'Авторизуйтесь'), '#', ['id' => 'PromoLogin'])]));
         }
+
         return false;
     }
 
@@ -258,7 +317,7 @@ class DetailedRegistration extends CreateUpdateForm
     public function attributeLabels()
     {
         return [
-            'Email' => \Yii::t('app', 'Адрес электронной почты'),
+            'Email' => \Yii::t('app', 'Электронная почта'),
             'Password' => \Yii::t('app', 'Пароль'),
             'LastName' => \Yii::t('app', 'Фамилия'),
             'FirstName' => \Yii::t('app', 'Имя'),
@@ -304,6 +363,12 @@ class DetailedRegistration extends CreateUpdateForm
         return parent::__get($name);
     }
 
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return mixed
+     * @throws \CException
+     */
     public function __set($name, $value)
     {
         if (array_key_exists($name, $this->usedAttributes)) {
@@ -347,7 +412,7 @@ class DetailedRegistration extends CreateUpdateForm
             $this->Document->fillFromPost();
         }
 
-        if ($this->userData !== null) {
+        if (!is_null($this->userData)) {
             $manager = $this->userData->getManager();
             foreach ($manager->getDefinitions() as $definition) {
                 $manager->{$definition->name} = $definition->internalSetAttribute($manager);
