@@ -231,10 +231,9 @@ return array(
     '<h4 class="m-bottom_5">Поздравляем!</h4>Мероприятие отправлено. В ближайшее время c Вами свяжутся.' => '<h4 class="m-bottom_5">Thank you!</h4>Our manager will contact you with detailed information!',
     'Москва' => 'Moscow',
     'Участники' => 'Participants',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
 
-    'ваш статус' => 'your status'
+    'ваш статус' => 'your status',
+
+    'Отправить анкету' => 'Send',
+    'Выберите значение из списка ...' => 'Choose a value from the list ...'
 );

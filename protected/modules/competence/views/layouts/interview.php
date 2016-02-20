@@ -11,15 +11,15 @@ $form = $this->question->getForm();
         <div class="span9 offset2">
             <?= CHtml::beginForm(); ?>
             <input type="hidden" name="question" value="<?=$this->question->Id?>">
-            <?= CHtml::activeHiddenField($form, '_t'); ?>
+            <?= CHtml::activeHiddenField($form, '_t') ?>
 
             <?= $this->question->BeforeTitleText != null ? $this->question->BeforeTitleText : '' ?>
 
             <h3>
                 <?= $form->getTitle(); ?>
-                <? if (!empty($this->question->SubTitle)): ?>
-                    <br><span><?= $this->question->SubTitle; ?></span>
-                <? endif; ?>
+                <?php if (!empty($this->question->SubTitle)): ?>
+                    <br><span><?= $this->question->SubTitle ?></span>
+                <?php endif ?>
             </h3>
 
             <?php $this->widget('competence\components\ErrorsWidget', ['form' => $form]) ?>

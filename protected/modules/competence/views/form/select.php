@@ -12,7 +12,7 @@ if (!empty($form->Values)) {
 <div>
     <?=CHtml::activeDropDownList($form, 'value', $values, [
         'class' => 'input-block-level',
-        'prompt' => 'Выберите значение из списка ...'
+        'prompt' => Yii::t('app', 'Выберите значение из списка ...')
     ])?>
 </div>
 
