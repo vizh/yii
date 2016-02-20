@@ -117,6 +117,10 @@ class DetailedRegistration extends CreateUpdateForm
      */
     private function reorderUsedAttributes()
     {
+        if (!isset($this->widget->WidgetRegistrationPrimaryFieldsOrderJson)) {
+            return;
+        }
+
         $order = $this->widget->WidgetRegistrationPrimaryFieldsOrderJson;
         if (!$order) {
             return;

@@ -15,8 +15,13 @@ use competence\models\Question;
 
 $this->pageTitle = $test->Title;
 ?>
+
 <div class="row m-top_30">
     <div class="span9 offset2">
+        <div>
+            <?=$test->Info?>
+        </div>
+
         <?= CHtml::beginForm() ?>
         <?php if ($hasErrors): ?>
             <div class="alert alert-error">

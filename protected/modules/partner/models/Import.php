@@ -17,59 +17,68 @@ use api\models\Account;
  * @property string $CreationTime
  * @property string $Products
  *
+ * Relations
  * @property ImportUser[] $Users
  * @property \event\models\Event $Event
  *
- * @method \partner\models\Import findByPk()
+ * @method \partner\models\Import findByPk($pk)
  */
 class Import extends \CActiveRecord
 {
-  /**
-   * @static
-   * @param string $className
-   * @return Import
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
-
-  public function tableName()
-  {
-    return 'PartnerImport';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return [
-      'Users' => [self::HAS_MANY, 'partner\models\ImportUser', 'ImportId'],
-      'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId']
-    ];
-  }
-
-  /**
-   * @return string
-   */
-  public function getFileName()
-  {
-    $path = \Yii::getPathOfAlias('partner.data.'. $this->EventId .'.import');
-    if (!file_exists($path))
-    {
-      mkdir($path, 0755, true);
-    }
-
-    return $path . DIRECTORY_SEPARATOR . $this->Id;
-  }
-
     /**
      * @var Account
      */
-    private $apiAccount = null;
+    private $apiAccount;
+
+    /**
+     * @static
+     * @param string $className
+     * @return Import
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function tableName()
+    {
+        return 'PartnerImport';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function primaryKey()
+    {
+        return 'Id';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function relations()
+    {
+        return [
+            'Users' => [self::HAS_MANY, 'partner\models\ImportUser', 'ImportId'],
+            'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId']
+        ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        $path = \Yii::getPathOfAlias('partner.data.' . $this->EventId . '.import');
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
+
+        return $path . DIRECTORY_SEPARATOR . $this->Id;
+    }
 
     /**
      * @return Account
@@ -79,7 +88,7 @@ class Import extends \CActiveRecord
         if ($this->apiAccount === null) {
             $this->apiAccount = Account::model()->byEventId($this->EventId)->find();
         }
+
         return $this->apiAccount;
     }
-
 }

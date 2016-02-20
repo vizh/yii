@@ -143,7 +143,7 @@ class Photo
     {
         $dir = $this->getPath(true);
         if (!is_dir($dir)) {
-            mkdir($dir);
+            mkdir($dir, 0777, true);
         }
         $image = Image::GetImage($path);
         $clearSaveTo = $this->getClear(true);

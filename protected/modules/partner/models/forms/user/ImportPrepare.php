@@ -1,19 +1,29 @@
 <?php
 namespace partner\models\forms\user;
 
-
 use event\models\Event;
 use event\models\UserData;
 
 class ImportPrepare extends \CFormModel
 {
+    public $Notify = false;
+
+    public $NotifyEvent = false;
+
+    public $Visible = false;
 
     private $columns;
 
-    /** @var Event */
+    /**
+     * @var Event
+     */
     private $event;
 
     private $values = [];
+
+    private $attributeNames;
+
+    private $columnValues;
 
     /**
      * @param string[] $columns
@@ -27,53 +37,9 @@ class ImportPrepare extends \CFormModel
         $this->event = $event;
     }
 
-    public function __get($name)
-    {
-        if (in_array($name, $this->columns))
-        {
-            return isset($this->values[$name]) ? $this->values[$name] : '';
-        }
-        return parent::__get($name);
-    }
-
-    public function __set($name, $value)
-    {
-        if (in_array($name, $this->columns))
-        {
-            return $this->values[$name] = $value;
-        }
-        return parent::__set($name, $value);
-    }
-
-    public function __isset($name)
-    {
-        if (in_array($name, $this->columns))
-        {
-            return isset($this->values[$name]);
-        }
-        return parent::__isset($name);
-    }
-
-
-    public function getColumns()
-    {
-        return $this->columns;
-    }
-
-    private $attributeNames = null;
-    public function attributeNames()
-    {
-        if ($this->attributeNames == null)
-        {
-            $this->attributeNames = array_merge(parent::attributeNames(), $this->columns);
-        }
-        return $this->attributeNames;
-    }
-
-    public $Notify = false;
-    public $NotifyEvent = false;
-    public $Visible = false;
-
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -82,7 +48,22 @@ class ImportPrepare extends \CFormModel
         ];
     }
 
-    private $columnValues = null;
+    /**
+     * @inheritdoc
+     */
+    public function attributeNames()
+    {
+        if ($this->attributeNames == null) {
+            $this->attributeNames = array_merge(parent::attributeNames(), $this->columns);
+        }
+
+        return $this->attributeNames;
+    }
+
+    public function getColumns()
+    {
+        return $this->columns;
+    }
 
     public function getColumnValues()
     {
@@ -101,7 +82,9 @@ class ImportPrepare extends \CFormModel
                 'Position' => 'Должность',
                 'Role' => 'Статус',
                 'Product' => 'Товар',
-                'ExternalId' => 'Внешний ID'
+                'ExternalId' => 'Внешний ID',
+                'PhotoUrl' => 'Ссылка на фото',
+                'PhotoNameInPath' => 'Имя файла фото в папке (при импорте архива)'
             ];
 
             $userData = new UserData();
@@ -110,7 +93,31 @@ class ImportPrepare extends \CFormModel
                 $this->columnValues[$definition->name] = $definition->title;
             }
         }
+
         return $this->columnValues;
     }
 
+    public function __get($name)
+    {
+        if (in_array($name, $this->columns)) {
+            return isset($this->values[$name]) ? $this->values[$name] : '';
+        }
+        return parent::__get($name);
+    }
+
+    public function __set($name, $value)
+    {
+        if (in_array($name, $this->columns)) {
+            return $this->values[$name] = $value;
+        }
+        return parent::__set($name, $value);
+    }
+
+    public function __isset($name)
+    {
+        if (in_array($name, $this->columns)) {
+            return isset($this->values[$name]);
+        }
+        return parent::__isset($name);
+    }
 }

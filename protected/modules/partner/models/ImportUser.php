@@ -2,11 +2,12 @@
 namespace partner\models;
 
 use api\models\ExternalUser;
-use CText;
 use event\models\UserData;
 use pay\components\Exception;
 use partner\components\ImportException;
+use pay\models\Product;
 use user\models\User;
+use event\models\Role;
 
 /**
  * Class ImportUser
@@ -28,7 +29,8 @@ use user\models\User;
  * @property string $Product
  * @property string $ExternalId
  * @property string $UserData
- *
+ * @property string $PhotoUrl
+ * @property string $PhotoNameInPath
  *
  * @property bool $Imported
  * @property bool $Error
@@ -43,7 +45,7 @@ class ImportUser extends \CActiveRecord
      * @param string $className
      * @return ImportUser
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -112,24 +114,24 @@ class ImportUser extends \CActiveRecord
      * @param Import $import
      * @param array $roles
      * @param array $products
-     *
-     * @throws \partner\components\ImportException
+     * @throws ImportException
      */
     public function parse($import, $roles, $products)
     {
         $roleName = $this->Role !== null ? $this->Role : 0;
         $roleId = isset($roles[$roleName]) ? $roles[$roleName] : 0;
 
-        $role = \event\models\Role::model()->findByPk($roleId);
-        if (empty($role))
-            throw new \partner\components\ImportException('Не найдена роль.');
+        if (!$role = Role::model()->findByPk($roleId)) {
+            throw new ImportException('Не найдена роль.');
+        }
 
         $productName = $this->Product !== null ? $this->Product : 0;
         $productId = isset($products[$productName]) ? $products[$productName] : -1;
 
-        $product = \pay\models\Product::model()->findByPk($productId);
-        if ($productId != -1 && ($product == null || $product->EventId != $import->EventId))
-            throw new \partner\components\ImportException('Не найден товар: "' . $productName . '".');
+        $product = Product::model()->findByPk($productId);
+        if ($productId != -1 && ($product == null || $product->EventId != $import->EventId)) {
+            throw new ImportException('Не найден товар: "' . $productName . '".');
+        }
 
         $this->Email = $this->getCorrectEmail($import);
         $user = $this->getUser($import);
@@ -141,13 +143,14 @@ class ImportUser extends \CActiveRecord
             $import->Event->registerUserOnAllParts($user, $role);
         }
 
-        if ($product != null) {
+        if ($product) {
             try {
                 $orderItem = $product->getManager()->createOrderItem($user, $user);
                 $orderItem->Paid = true;
                 $orderItem->PaidTime = date('Y-m-d H:i:s');
                 $orderItem->save();
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
         }
 
         $this->Imported = true;
@@ -160,7 +163,7 @@ class ImportUser extends \CActiveRecord
         $validator->allowEmpty = false;
 
         if (!$validator->validateValue($this->Email))
-            $this->Email = CText::generateFakeEmail($import->EventId);
+            $this->Email = \CText::generateFakeEmail($import->EventId);
 
         $criteria = new \CDbCriteria();
         $criteria->condition = '"ImportId" = :ImportId AND "Imported" AND "Email" = :Email AND "Id" != :Id';
@@ -171,7 +174,7 @@ class ImportUser extends \CActiveRecord
         ];
 
         if (empty($this->Email) || ImportUser::model()->exists($criteria))
-            return CText::generateFakeEmail($import->EventId);
+            return \CText::generateFakeEmail($import->EventId);
 
         $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
         if ($import->Visible) {
@@ -180,19 +183,26 @@ class ImportUser extends \CActiveRecord
         $user = $model->find();
 
         if ($user != null && ($user->LastName != $this->LastName || $user->FirstName != $this->FirstName))
-            return CText::generateFakeEmail($import->EventId);
+            return \CText::generateFakeEmail($import->EventId);
 
         return $this->Email;
     }
 
+    /**
+     * Returns the user
+     * @param Import $import
+     * @return User
+     * @throws ImportException
+     */
     private function getUser(Import $import)
     {
         $user = $this->getDuplicateUser($import);
-        if ($user === null) {
-            if (empty($this->FirstName) || empty($this->LastName))
-                throw new \partner\components\ImportException('Не заданы имя или фамилия участника.');
+        if (!$user) {
+            if (empty($this->FirstName) || empty($this->LastName)) {
+                throw new ImportException('Не заданы имя или фамилия участника.');
+            }
 
-            $user = new \user\models\User();
+            $user = new User();
             $user->FirstName = $this->FirstName;
             $user->LastName = $this->LastName;
             $user->FatherName = $this->FatherName;
@@ -201,7 +211,7 @@ class ImportUser extends \CActiveRecord
 
             $user->setLocale('en');
             foreach (['FirstName', 'LastName', 'FatherName'] as $attribute) {
-                $value = $this->{$attribute.'_en'};
+                $value = $this->{$attribute . '_en'};
                 if (!empty($value)) {
                     $user->$attribute = $value;
                 }
@@ -213,7 +223,7 @@ class ImportUser extends \CActiveRecord
             $user->Visible = $import->Visible;
             $user->save();
 
-            if (!empty($this->ExternalId) && $import->getApiAccount() !== null) {
+            if ($this->ExternalId && $import->getApiAccount() !== null) {
                 $externalUser = new ExternalUser();
                 $externalUser->UserId = $user->Id;
                 $externalUser->AccountId = $import->getApiAccount()->Id;
@@ -224,9 +234,31 @@ class ImportUser extends \CActiveRecord
 
             $this->setCompany($user);
         }
+
         $this->setPhone($user);
         $this->setUserData($user, $import);
+
+        $this->importPhoto($user);
+
         return $user;
+    }
+
+    /**
+     * Fetches photo if this is exists
+     * @param User $user
+     */
+    private function importPhoto(User $user)
+    {
+        if (!$this->PhotoNameInPath) {
+            return;
+        }
+
+        $fileName = \Yii::getPathOfAlias('webroot.files.import-photos') . DIRECTORY_SEPARATOR . $this->PhotoNameInPath;
+        if (!file_exists($fileName)) {
+            return;
+        }
+
+        $user->getPhoto()->save($fileName);
     }
 
     /**
@@ -242,17 +274,13 @@ class ImportUser extends \CActiveRecord
         }
 
         $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
-        if ($import->Visible)
-        {
+        if ($import->Visible) {
             $model->byVisible(true);
         }
         $user = $model->find();
-        if ($user != null)
-        {
+        if ($user != null) {
             $this->setCompany($user);
-        }
-        else
-        {
+        } else {
             $criteria = new \CDbCriteria();
             $criteria->with = ['Employments'];
             $criteria->addCondition('("Employments"."EndYear" IS NULL AND "Employments"."EndMonth" IS NULL)
@@ -261,12 +289,9 @@ class ImportUser extends \CActiveRecord
             $criteria->params = ['Company' => $this->Company, 'FirstName' => $this->FirstName, 'LastName' => $this->LastName];
 
             $model = \user\models\User::model();
-            if ($import->Visible)
-            {
+            if ($import->Visible) {
                 $model->byVisible(true);
-            }
-            else
-            {
+            } else {
                 $model->byEventId($import->EventId);
             }
             $user = $model->find($criteria);
@@ -276,14 +301,10 @@ class ImportUser extends \CActiveRecord
 
     private function setCompany(\user\models\User $user)
     {
-        if (!empty($this->Company))
-        {
-            try
-            {
+        if (!empty($this->Company)) {
+            try {
                 $user->setEmployment($this->Company, !empty($this->Position) ? $this->Position : '');
-            }
-            catch (\application\components\Exception $e)
-            {
+            } catch (\application\components\Exception $e) {
                 $this->ErrorMessage = 'Не корректно задано название компании';
             }
         }
@@ -291,8 +312,7 @@ class ImportUser extends \CActiveRecord
 
     private function setPhone(\user\models\User $user)
     {
-        if (!empty($this->Phone))
-        {
+        if (!empty($this->Phone)) {
             $user->setContactPhone($this->Phone);
         }
     }
@@ -304,13 +324,13 @@ class ImportUser extends \CActiveRecord
      */
     private function setUserData(User $user, Import $import)
     {
-        $data = $this->getUserData($import);
+        $data = $this->getUserData();
         if ($data !== null) {
             $data->UserId = $user->Id;
             $manager = $data->getManager();
             if (!$manager->validate()) {
                 foreach ($manager->getErrors() as $attribute => $errors) {
-                    throw new ImportException('Ошибка атрибута пользоватя "' . $attribute .'": ' . $errors[0]);
+                    throw new ImportException('Ошибка атрибута пользоватя "' . $attribute . '": ' . $errors[0]);
                 }
             }
             $data->save();
@@ -330,17 +350,18 @@ class ImportUser extends \CActiveRecord
             foreach (json_decode($this->UserData, true) as $key => $value) {
                 try {
                     $manager->{$key} = $value;
-                } catch (\application\components\Exception $e) {}
+                } catch (\application\components\Exception $e) {
+                }
             }
             return $data;
         }
+
         return null;
     }
 
     protected function beforeSave()
     {
-        if ($this->getIsNewRecord())
-        {
+        if ($this->getIsNewRecord()) {
             $this->Email = mb_strtolower($this->Email, 'utf-8');
         }
         return parent::beforeSave();

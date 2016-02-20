@@ -1,7 +1,6 @@
 <?php
 namespace partner\controllers\user\import;
 
-
 class RolesAction extends \partner\components\Action
 {
     public function run($id)
@@ -16,8 +15,7 @@ class RolesAction extends \partner\components\Action
 
 
         $check = true;
-        if ($request->getIsPostRequest() && $check = $this->checkRoleValues($values))
-        {
+        if ($request->getIsPostRequest() && $check = $this->checkRoleValues($values)) {
             $import->Roles = base64_encode(serialize($values));
             $import->save();
             $this->getController()->redirect(\Yii::app()->createUrl('/partner/user/importproducts', ['id' => $import->Id]));
@@ -38,8 +36,7 @@ class RolesAction extends \partner\components\Action
     private function getRoleNames($import)
     {
         $roleNames = [];
-        foreach ($import->Users as $user)
-        {
+        foreach ($import->Users as $user) {
             $roleNames[] = (string)$user->Role;
         }
         return array_unique($roleNames);
@@ -51,8 +48,7 @@ class RolesAction extends \partner\components\Action
      */
     private function checkRoleValues($values)
     {
-        foreach ($values as $key => $value)
-        {
+        foreach ($values as $key => $value) {
             if ($value == 0)
                 return false;
         }
