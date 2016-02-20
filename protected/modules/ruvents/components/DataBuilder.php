@@ -189,7 +189,8 @@ class DataBuilder
             'IdName' => $event->IdName,
             'Title' => $event->Title,
             'Info' => $event->Info,
-            'Parts' => []
+            'Parts' => [],
+            'Roles' => []
         ];
 
         /* Доступные части */
@@ -200,6 +201,10 @@ class DataBuilder
                 'Order' => $part->Order
             ];
         }
+
+        /* Доступные статусы участия */
+        foreach ($event->getRoles() as $role)
+            $this->event->Roles[] = $this->createRole($role);
 
         /* Настройки мероприятия, используемые в качестве
          * настроек клиента */
@@ -272,15 +277,11 @@ class DataBuilder
      */
     public function createRole($role)
     {
-        $this->role = new \stdClass();
-        $this->role->RoleId = $role->Id;
-        if ($this->getEvent()->Id === 889 && $role->Id === 1) {
-            $this->role->Name  = 'Посетитель';
-        } else {
-            $this->role->Name  = $role->Title;
-        }
-        $this->role->Color = $role->Color;
-        return $this->role;
+        return (object) [
+            'RoleId' => $role->Id,
+            'Name' => $role->Title,
+            'Color' => $role->Color
+        ];
     }
 
     protected $part;
