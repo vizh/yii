@@ -3,22 +3,52 @@ namespace application\components;
 
 use application\components\traits\ClassNameTrait;
 
+/**
+ * Class ActiveRecord Base class for all active records
+ */
 class ActiveRecord extends \CActiveRecord
 {
     use ClassNameTrait;
 
     /**
-     * Не использовать физическое удаление записей, а проставлять Delete = true
-     * @var bool
+     * @var bool Не использовать физическое удаление записей, а проставлять Delete = true
      */
     protected $useSoftDelete = false;
 
     /**
-     * Параметры сортировки по умолчанию
-     * @var array
+     * @var array Sort params by default
      */
     protected $defaultOrderBy = ['"t"."Id"' => SORT_ASC];
 
+    /**
+     * Creates a new one moel
+     * @param array $attributes
+     * @return mixed
+     */
+    public static function insertOne($attributes = [])
+    {
+        $model = new static();
+        $model->setAttributes($attributes, false);
+
+        return $model->save();
+    }
+
+    /**
+     * Находит одну запись по PrimaryKey
+     * @param mixed $pk
+     * @return array|\CActiveRecord|mixed|null
+     */
+    public static function findOne($pk)
+    {
+        return static::model()->findByPk($pk);
+    }
+
+    /**
+     * Magic method __call
+     * @param string $name
+     * @param array $parameters
+     * @return $this|mixed
+     */
     public function __call($name, $parameters)
     {
         if (strpos($name, 'by') === 0) {
@@ -42,14 +72,16 @@ class ActiveRecord extends \CActiveRecord
                     $criteria->addCondition(($parameters[0] === false ? 'NOT ' : '') . '"t"."' . $column . '"');
                 }
                 $this->getDbCriteria()->mergeWith($criteria, true);
+
                 return $this;
             }
         }
+
         return parent::__call($name, $parameters);
     }
 
     /**
-     * Устанавливает сортировку
+     * Set sort orders
      * @param array $orders
      * @return $this
      */
@@ -68,6 +100,7 @@ class ActiveRecord extends \CActiveRecord
             $criteria->order .= (!empty($criteria->order) ? ', ' : '') . $column . ' ' . ($order === SORT_DESC ? 'DESC' : 'ASC');
         }
         $this->getDbCriteria()->mergeWith($criteria);
+
         return $this;
     }
 
@@ -93,17 +126,6 @@ class ActiveRecord extends \CActiveRecord
     }
 
     /**
-     * Находит одну запись по PrimaryKey
-     * @param $pk
-     * @return array|\CActiveRecord|mixed|null
-     */
-    public static function findOne($pk)
-    {
-        return static::model()->findByPk($pk);
-    }
-
-
-    /**
      * @inheritdoc
      */
     public function delete()
@@ -116,17 +138,5 @@ class ActiveRecord extends \CActiveRecord
         } else {
             return parent::delete();
         }
-    }
-
-    /**
-     * Создает новую модель
-     * @param array $attributes
-     * @return mixed
-     */
-    public static function insertOne($attributes = [])
-    {
-        $model = new static();
-        $model->setAttributes($attributes, false);
-        return $model->save();
     }
 }
