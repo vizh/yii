@@ -34,7 +34,7 @@ class OneSelectDefinition extends ListDefinition
         $valueExists = isset($this->data[$currentValue]);
 
         $customClass = 'custom-field' . self::$customFieldsCounter++;
-        $htmlOptions['class'] .= ' ' .$customClass;
+        $htmlOptions['class'] = ' ' .$customClass;
         $html = '';
         foreach ($this->data as $key => $value) {
             $htmlOptions['value'] = $key;

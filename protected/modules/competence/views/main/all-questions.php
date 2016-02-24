@@ -1,7 +1,6 @@
 <?php
 /**
  * @var MainController $this
- * @var Event $event
  * @var User $user
  * @var Test $test
  * @var Question[] $questions
