@@ -53,6 +53,7 @@ class DataBuilder
      */
     public function createUser($user)
     {
+        $photoPath =
         $this->user = (object) [
             'RunetId' => $user->RunetId,
             'LastName' => $user->LastName,
@@ -68,9 +69,7 @@ class DataBuilder
                 'Small' => $user->getPhoto()->get50px(),
                 'Medium' => $user->getPhoto()->get90px(),
                 'Large' => $user->getPhoto()->get200px(),
-                'Original' => sprintf('http://static.runet-id.com/photo/%d/%d.jpg',
-                    $user->RunetId / 10000,
-                    $user->RunetId)
+                'Original' => str_replace('/files/photo/', 'http://static.runet-id.com/photo/', $user->getPhoto()->getOriginal())
             ],
         ];
 
