@@ -23,7 +23,8 @@
                     </tr>
                 </table><div class="column-wrap" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; max-width: 720px !important; margin: 0 auto; padding: 0 20px; border-color: #000; border-style: solid; border-width: 0px 3px 3px;">
                     <?=$content;?>
-                    <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%; margin: 0; padding: 10px 0; color: #909090; text-align: center;">Ссылки в письме являются персональными, не пересылайте письмо третьим лицам.</p>
+                    <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%; margin: 0; padding: 10px 0 5px; color: #909090; text-align: center;">Все главные event-события в мире IT на канале <a href="https://telegram.me/runetid"><img src="https://runet-id.com/images/mail/icons/telegram-16x16.png" valign="middle" /></a> <a href="https://telegram.me/runetid" style="color: #909090;">RUNET—ID</a> в Telegram.</p>
+                    <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%; margin: 0; padding: 5px 0 10px; color: #909090; text-align: center;">Ссылки в письме являются персональными, не пересылайте письмо третьим лицам.</p>
                 </div>
             </td>
             <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;"></td>
