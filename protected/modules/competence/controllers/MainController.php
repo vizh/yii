@@ -30,6 +30,11 @@ class MainController extends PublicMainController
     public $question;
 
     /**
+     * @var bool Whether the event header must be rendered
+     */
+    public $renderEventHeader = false;
+
+    /**
      * @inheritdoc
      */
     public function actions()
@@ -99,6 +104,10 @@ class MainController extends PublicMainController
                 $this->test->saveResult();
                 $this->redirect([self::END_ACTION_NAME, 'id' => $this->test->Id]);
             }
+        }
+
+        if ($this->test->EventId == 2318 /* СВЯЗЬ. ИНФОРМАЦИОННЫЕ И КОММУНИКАЦИОННЫЕ ТЕХНОЛОГИИ – 2016 */) {
+            $this->renderEventHeader = true;
         }
 
         $this->render('all-questions', [
