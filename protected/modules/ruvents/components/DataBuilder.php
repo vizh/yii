@@ -53,24 +53,26 @@ class DataBuilder
      */
     public function createUser($user)
     {
-        $this->user = new \stdClass();
-
-        $this->user->RunetId = $user->RunetId;
-        $this->user->LastName = $user->LastName;
-        $this->user->FirstName = $user->FirstName;
-        $this->user->FatherName = $user->FatherName;
-        $this->user->Birthday = $user->Birthday;
-        $this->user->UpdateTime = $user->UpdateTime;
-        $this->user->Gender = $user->Gender;
-        $this->user->CreationTime = $user->CreationTime;
-        $this->user->UpdateTime = $user->UpdateTime;
-        $this->user->Email = trim($user->Email);
-        $this->user->Locales = $this->getLocales($user);
-
-        $this->user->Photo = new \stdClass();
-        $this->user->Photo->Small = $user->getPhoto()->get50px();
-        $this->user->Photo->Medium = $user->getPhoto()->get90px();
-        $this->user->Photo->Large = $user->getPhoto()->get200px();
+        $this->user = (object) [
+            'RunetId' => $user->RunetId,
+            'LastName' => $user->LastName,
+            'FirstName' => $user->FirstName,
+            'FatherName' => $user->FatherName,
+            'Birthday' => $user->Birthday,
+            'UpdateTime' => $user->UpdateTime,
+            'Gender' => $user->Gender,
+            'CreationTime' => $user->CreationTime,
+            'Email' => trim($user->Email),
+            'Locales' => $this->getLocales($user),
+            'Photo' => (object) [
+                'Small' => $user->getPhoto()->get50px(),
+                'Medium' => $user->getPhoto()->get90px(),
+                'Large' => $user->getPhoto()->get200px(),
+                'Original' => sprintf('http://static.runet-id.com/photo/%d/%d.jpg',
+                    $user->RunetId / 10000,
+                    $user->RunetId)
+            ],
+        ];
 
         return $this->user;
     }
