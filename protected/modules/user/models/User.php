@@ -865,10 +865,22 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         $this->save();
     }
 
+    /**
+     * Refreshes update time without save the model
+     * @param bool $save Whether the model must be saved
+     */
+    public function refreshUpdateTime($save = false)
+    {
+        $this->UpdateTime = date('Y-m-d H:i:s');
+        if ($save) {
+            $this->save();
+        }
+    }
+
     protected function beforeSave()
     {
         if (!$this->getIsNewRecord()) {
-            $this->UpdateTime = date('Y-m-d H:i:s');
+            $this->refreshUpdateTime();
         }
 
         $this->updateSearchIndex();

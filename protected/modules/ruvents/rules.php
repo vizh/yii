@@ -11,14 +11,6 @@ return [
 
     [
         'allow',
-        'users' => ['?'],
-        'module' => 'ruvents',
-        'controllers' => ['user'],
-        'actions' => ['photo', 'edit']
-    ],
-
-    [
-        'allow',
         'roles' => ['Mobile'],
         'controllers' => ['visit']
     ],

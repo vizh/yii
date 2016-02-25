@@ -9,7 +9,8 @@ class UserController extends \ruvents\components\Controller
             'edit' => 'ruvents\controllers\user\EditAction',
             'search' => 'ruvents\controllers\user\SearchAction',
             'auth' => 'ruvents\controllers\user\AuthAction',
-            'visit' => 'ruvents\controllers\user\VisitAction'
+            'visit' => 'ruvents\controllers\user\VisitAction',
+            'photo' => 'ruvents\controllers\user\PhotoAction'
         ];
     }
 }
