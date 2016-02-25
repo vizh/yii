@@ -382,16 +382,6 @@ class Event extends ActiveRecord implements ISearch
         return $this;
     }
 
-//  public function byTagId($id, $useAnd = true)
-//  {
-//    $criteria = new \CDbCriteria();
-//    $criteria->condition = '"LinkTags"."TagId" = :TagId';
-//    $criteria->params = array('TagId' => $id);
-//    $criteria->with = array('LinkTags' => array('together' => true));
-//    $this->getDbCriteria()->mergeWith($criteria, $useAnd);
-//    return $this;
-//  }
-
     /**
      * @param User $user
      * @param Role $role
@@ -405,12 +395,15 @@ class Event extends ActiveRecord implements ISearch
         if (!empty($this->Parts)) {
             throw new Exception('Данное мероприятие имеет логическую разбивку. Используйте метод регистрации на конкретную часть мероприятия.');
         }
+
         /** @var $participant Participant */
         $participant = Participant::model()
             ->byEventId($this->Id)
             ->byUserId($user->Id)
-            ->byPartId(null)->find();
-        if (empty($participant)) {
+            ->byPartId(null)
+            ->find();
+
+        if (!$participant) {
             $participant = $this->registerUserUnsafe($user, $role, null, $message);
         } else {
             $this->updateRole($participant, $role, $usePriority, $message);

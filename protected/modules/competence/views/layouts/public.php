@@ -6,9 +6,11 @@
 use event\components\WidgetPosition;
 use event\models\Event;
 
+$baseLayout = $this->test->UseClearLayout ? '//layouts/clear' : '//layouts/public';
+
 $event = $this->test->EventId && $this->renderEventHeader ? Event::model()->findByPk($this->test->EventId) : null;
 ?>
-<?php $this->beginContent('//layouts/public') ?>
+<?php $this->beginContent($baseLayout) ?>
     <?php if (isset($event)): ?>
         <?php
             foreach($event->Widgets as $widget) {
@@ -27,8 +29,8 @@ $event = $this->test->EventId && $this->renderEventHeader ? Event::model()->find
         <div class="container">
             <?php $percent = $this->question->getForm()->getPercent() ?>
             <?php if ($percent !== null): ?>
-                <p style="text-align: center;">Опрос пройден на <strong><?= $percent; ?>%</strong></p>
-                <div class="row">
+                <p style="text-align: center;">Опрос пройден на <strong><?= $percent ?>%</strong></p>
+                <div class="row-">
                     <div class="span8 offset2">
                         <div class="progress progress-success progress-striped">
                             <div class="bar" style="width: <?= intval($percent) ?>%"></div>

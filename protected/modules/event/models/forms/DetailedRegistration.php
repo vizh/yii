@@ -437,6 +437,7 @@ class DetailedRegistration extends CreateUpdateForm
         if (in_array('Document', $this->getUsedAttributes())) {
             $this->Document->setUser($this->model);
         }
+
         return $this->updateActiveRecord();
     }
 
@@ -455,7 +456,7 @@ class DetailedRegistration extends CreateUpdateForm
         $transaction = \Yii::app()->getDb()->beginTransaction();
         try {
             if (!$this->hasErrors() && ($this->userData == null || !$this->userData->getManager()->hasErrors())) {
-                if ($this->model->getIsNewRecord()) {
+                if ($this->model->isNewRecord) {
                     $this->model->register($this->model->Visible);
                     if ($this->unsubscribeNewUser) {
                         $this->model->Settings->UnsubscribeAll = true;
@@ -516,6 +517,7 @@ class DetailedRegistration extends CreateUpdateForm
                     }
                 }
                 $transaction->commit();
+
                 return $this->model;
             } elseif ($this->userData !== null) {
                 $this->addErrors($this->userData->getManager()->getErrors());
@@ -524,6 +526,7 @@ class DetailedRegistration extends CreateUpdateForm
             $transaction->rollBack();
             $this->addError('', $e->getMessage());
         }
+
         return null;
     }
 

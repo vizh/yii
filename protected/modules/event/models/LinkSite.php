@@ -11,30 +11,30 @@ namespace event\models;
  */
 class LinkSite extends \CActiveRecord
 {
-  /**
-   * @param string $className
-   * @return LinkSite
-   */
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
+    /**
+     * @param string $className
+     * @return LinkSite
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
 
-  public function tableName()
-  {
-    return 'EventLinkSite';
-  }
+    public function tableName()
+    {
+        return 'EventLinkSite';
+    }
 
-  public function primaryKey()
-  {
-    return 'Id';
-  }
+    public function primaryKey()
+    {
+        return 'Id';
+    }
 
-  public function relations()
-  {
-    return array(
-      'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-      'Site' => array(self::BELONGS_TO, '\contact\models\Site', 'SiteId'),
-    );
-  }
+    public function relations()
+    {
+        return array(
+            'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
+            'Site' => array(self::BELONGS_TO, '\contact\models\Site', 'SiteId'),
+        );
+    }
 }

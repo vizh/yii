@@ -1,15 +1,11 @@
 <?php
 namespace application\components;
 
-use application\components\traits\ClassNameTrait;
-
 /**
  * Class ActiveRecord Base class for all active records
  */
 class ActiveRecord extends \CActiveRecord
 {
-    use ClassNameTrait;
-
     /**
      * @var bool Не использовать физическое удаление записей, а проставлять Delete = true
      */
@@ -19,6 +15,29 @@ class ActiveRecord extends \CActiveRecord
      * @var array Sort params by default
      */
     protected $defaultOrderBy = ['"t"."Id"' => SORT_ASC];
+
+    /**
+     * Returns name of the class
+     * @return string
+     */
+    public static function className()
+    {
+        return get_called_class();
+    }
+
+    /**
+     * Returns the instance of the active record by using late static binding
+     * @param string $className
+     * @return static
+     */
+    public static function model($className = null)
+    {
+        if (!$className) {
+            $className = get_called_class();
+        }
+
+        return parent::model($className);
+    }
 
     /**
      * Creates a new one moel

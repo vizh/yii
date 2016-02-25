@@ -147,15 +147,17 @@ class DetailedRegistration extends WidgetRegistration
             $this->form->fillFromPost();
             /** @var User $user */
             $user = $this->form->isUpdateMode() ? $this->form->updateActiveRecord() : $this->form->createActiveRecord();
-            if ($user !== null) {
-                if ($this->invite !== null) {
-                    $this->invite->activate($user);
-                } elseif (isset($this->DefaultRoleId)) {
-                    $this->getEvent()->registerUser($user, Role::model()->findByPk($this->DefaultRoleId));
-                }
-
-                $this->getController()->refresh();
+            if (is_null($user)) {
+                return;
             }
+
+            if (!is_null($this->invite)) {
+                $this->invite->activate($user);
+            } elseif (isset($this->DefaultRoleId)) {
+                $this->getEvent()->registerUser($user, Role::model()->findByPk($this->DefaultRoleId));
+            }
+
+            $this->getController()->refresh();
         }
     }
 
@@ -181,8 +183,7 @@ class DetailedRegistration extends WidgetRegistration
                 ->find();
         }
 
-        if ($participant == null) {
-
+        if (is_null($participant)) {
             $this->render('detailed-registration');
         } else {
             $this->render('registration/complete');

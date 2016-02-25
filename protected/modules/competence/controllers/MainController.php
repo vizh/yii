@@ -4,6 +4,7 @@ use application\components\controllers\PublicMainController;
 use competence\models\Result;
 use competence\models\Test;
 use competence\models\Question;
+use event\models\Participant;
 use user\models\User;
 
 /**
@@ -50,9 +51,7 @@ class MainController extends PublicMainController
     public function getTest()
     {
         if (is_null($this->test)) {
-            $this->test = Test::model()
-                ->byParticipantsOnly(false)
-                ->findByPk($this->actionParams['id']);
+            $this->test = Test::model()->findByPk($this->actionParams['id']);
         }
 
         return $this->test;
@@ -106,10 +105,6 @@ class MainController extends PublicMainController
             }
         }
 
-        if ($this->test->EventId == 2318 /* СВЯЗЬ. ИНФОРМАЦИОННЫЕ И КОММУНИКАЦИОННЫЕ ТЕХНОЛОГИИ – 2016 */) {
-            $this->renderEventHeader = true;
-        }
-
         $this->render('all-questions', [
             'user' => $this->getUser(),
             'test' => $this->test,
@@ -159,8 +154,20 @@ class MainController extends PublicMainController
      */
     protected function beforeAction($action)
     {
-        if (is_null($this->getTest()) || !$this->getTest()->Enable) {
+        $test = $this->getTest();
+        if (is_null($test) || !$test->Enable) {
             throw new CHttpException(404);
+        }
+
+        if ($test->ParticipantsOnly && $test->EventId) {
+            $participantExists = Participant::model()->exists('"EventId" = :eventId AND "UserId" = :userId', [
+                ':eventId' => $test->EventId,
+                ':userId' => Yii::app()->getUser()->id
+            ]);
+
+            if (!$participantExists) {
+                throw new CHttpException(404);
+            }
         }
 
         if ($this->getTest()->getUserKey() == null && Yii::app()->user->getCurrentUser() == null) {

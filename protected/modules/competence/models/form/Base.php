@@ -295,11 +295,10 @@ abstract class Base extends FormModel
     {
         $request = \Yii::app()->getRequest();
         $params = $request->getParam(get_class($this->question));
-        if (!empty($params['Title'])) {
+        if (isset($params['Title'])) {
             $this->question->Title = $params['Title'];
-        } else {
-            $this->question->addError('Title', 'Поле "Текст вопроса" не может быть пустым');
         }
+
         $this->question->SubTitle = $params['SubTitle'];
         $this->question->BeforeTitleText = $params['BeforeTitleText'];
         $this->question->AfterTitleText = $params['AfterTitleText'];
