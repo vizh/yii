@@ -562,6 +562,4 @@ class DetailedRegistration extends CreateUpdateForm
         }
         return $result;
     }
-
-
-} 
+}

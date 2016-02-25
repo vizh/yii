@@ -7,7 +7,6 @@ use user\models\User;
 
 /**
  * Class UserData
- * @package event\models
  *
  * @property int $Id
  * @property int $EventId
@@ -28,44 +27,118 @@ use user\models\User;
 
 class UserData extends ActiveRecord
 {
+    protected $manager;
+
     /**
-     * @param string $className
-     * @return UserData
+     * Creates an empty user data record
+     * @param Event $event
+     * @param User $user
      */
-    public static function model($className=__CLASS__)
+    public static function createEmpty($event, $user)
     {
-        return parent::model($className);
+        if ($event instanceof Event) {
+            $event = $event->Id;
+        }
+
+        if ($user instanceof User) {
+            $user = $user->Id;
+        }
+
+        $model = new UserData();
+        $model->EventId = $event;
+        $model->UserId = $user;
+        $definitions = $model->getManager()->getDefinitions();
+
+        if (empty($definitions) || self::model()->byEventId($event)->byUserId($user)->exists()) {
+            return;
+        }
+
+        $model->save();
     }
 
+    /**
+     * @param Event $event
+     * @param User $user
+     * @return string[]
+     */
+    public static function getDefinedAttributes($event, $user)
+    {
+        $userDataModels = UserData::model()
+            ->byEventId($event->Id)
+            ->byUserId($user->Id)
+            ->findAll(['order' => 't."CreationTime" DESC']);
+
+        $attributeNames = [];
+        foreach ($userDataModels as $userData) {
+            $manager = $userData->getManager();
+            foreach ($manager->getDefinitions() as $definition) {
+                $name = $definition->name;
+                if (!empty($manager->{$name})) {
+                    $attributeNames[] = $name;
+                }
+            }
+        }
+
+        $attributeNames = array_unique($attributeNames);
+
+        return $attributeNames;
+    }
+
+
+    /**
+     * @param Event $event
+     * @param User $user
+     * @return array
+     */
+    public static function getDefinedAttributeValues(Event $event, User $user)
+    {
+        $values = [];
+
+        $userDataModels = $event->getUserData($user);
+        if (!empty($userDataModels)) {
+            foreach ($userDataModels as $userData) {
+                $manager = $userData->getManager();
+                foreach ($manager->getDefinitions() as $definition) {
+                    $name = $definition->name;
+                    if (!isset($values[$name]) && !empty($manager->$name)) {
+                        $values[$name] = $manager->$name;
+                    }
+                }
+            }
+        }
+
+        return $values;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function tableName()
     {
         return 'EventUserData';
     }
 
-    public function primaryKey()
-    {
-        return ['EventId', 'UserId'];
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function relations()
     {
         return [
-            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
-            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
-            'Creator' => [self::BELONGS_TO, '\user\models\User', 'CreatorId'],
+            'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId'],
+            'User' => [self::BELONGS_TO, 'user\models\User', 'UserId'],
+            'Creator' => [self::BELONGS_TO, 'user\models\User', 'CreatorId'],
         ];
     }
-
-    protected $manager = null;
 
     /**
      * @return UserDataManager
      */
     public function getManager()
     {
-        if ($this->manager === null) {
+        if (!$this->manager) {
             $this->manager = new UserDataManager($this);
         }
+
         return $this->manager;
     }
 
@@ -109,54 +182,4 @@ class UserData extends ActiveRecord
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }
-
-    /**
-     * @param Event $event
-     * @param User $user
-     * @return string[]
-     */
-    public static function getDefinedAttributes($event, $user)
-    {
-        $userDataModels = UserData::model()->byEventId($event->Id)->byUserId($user->Id)
-            ->findAll(['order' => 't."CreationTime" DESC']);
-
-        $attributeNames = [];
-        foreach ($userDataModels as $userData) {
-            $manager = $userData->getManager();
-            foreach ($manager->getDefinitions() as $definition) {
-                $name = $definition->name;
-                if (!empty($manager->{$name})) {
-                    $attributeNames[] = $name;
-                }
-            }
-        }
-
-        $attributeNames = array_unique($attributeNames);
-        return $attributeNames;
-    }
-
-
-    /**
-     * @param Event $event
-     * @param User $user
-     * @return array
-     */
-    public static function getDefinedAttributeValues(Event $event, User $user)
-    {
-        $values = [];
-
-        $userDataModels = $event->getUserData($user);
-        if (!empty($userDataModels)) {
-            foreach ($userDataModels as $userData) {
-                $manager = $userData->getManager();
-                foreach ($manager->getDefinitions() as $definition) {
-                    $name = $definition->name;
-                    if (!isset($values[$name]) && !empty($manager->$name)) {
-                        $values[$name] = $manager->$name;
-                    }
-                }
-            }
-        }
-        return $values;
-    }
-} 
+}

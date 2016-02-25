@@ -829,12 +829,15 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             'runetId' => $this->RunetId,
             'hash' => $this->getHash($isTemporary),
         ];
+
         if (!empty($redirectUrl)) {
             $params['redirectUrl'] = $redirectUrl;
         }
+
         if ($isTemporary) {
             $params['temporary'] = 1;
         }
+
         return \Yii::app()->createAbsoluteUrl('/main/fastauth/index', $params);
     }
 

@@ -7,14 +7,13 @@ use user\models\User;
 
 /**
  * Class FindAction
- * @package partner\controllers\user
  */
 class FindAction extends Action
 {
     public function run()
     {
         $form = new Find();
-        if (\Yii::app()->getRequest()->getIsPostRequest()) {
+        if (\Yii::app()->getRequest()->isPostRequest) {
             $form->fillFromPost();
             if ($form->validate()) {
                 $user = User::model()->bySearch($form->Label, null, true, false)->byEmail($form->Label, false)->find();
@@ -23,6 +22,7 @@ class FindAction extends Action
                 }
             }
         }
+
         $this->getController()->render('find', ['form' => $form]);
     }
 }

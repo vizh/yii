@@ -114,7 +114,7 @@ class EditAction extends Action
         if (!empty($event->Parts)) {
             /** @var Part $part */
             $part = $this->loadModel(Part::className(), $request->getParam('part'));
-            if ($role !== null) {
+            if ($role) {
                 $event->registerUserOnPart($part, $user, $role, false, $message);
             } else {
                 $event->unregisterUserOnPart($user, $part, $message);

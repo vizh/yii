@@ -1,12 +1,20 @@
 <?php
 
-return array(
+return [
     [
         'allow',
-        'users' =>  ['?'],
+        'users' => ['?'],
         'module' => 'ruvents',
         'controllers' => ['utility'],
         'actions' => ['ping']
+    ],
+
+    [
+        'allow',
+        'users' => ['?'],
+        'module' => 'ruvents',
+        'controllers' => ['user'],
+        'actions' => ['photo', 'edit']
     ],
 
     [
@@ -23,70 +31,70 @@ return array(
     ],
 
 
-    array(
+    [
         'allow',
-        'roles' => array('Server'),
+        'roles' => ['Server'],
         'module' => 'ruvents',
-        'controllers' => array('utility'),
-        'actions' => array('ping', 'operators')
-    ),
-    array(
+        'controllers' => ['utility'],
+        'actions' => ['ping', 'operators']
+    ],
+    [
         'allow',
-        'roles' => array('Server'),
+        'roles' => ['Server'],
         'module' => 'ruvents',
-        'controllers' => array('event'),
-        'actions' => array('users', 'roles', 'parts', 'badge', 'updatedusers', 'info')
-    ),
-    array(
+        'controllers' => ['event'],
+        'actions' => ['users', 'roles', 'parts', 'badge', 'updatedusers', 'info']
+    ],
+    [
         'allow',
-        'roles' => array('Server'),
+        'roles' => ['Server'],
         'module' => 'ruvents',
-        'controllers' => array('badge'),
-        'actions' => array('list')
-    ),
-    array(
+        'controllers' => ['badge'],
+        'actions' => ['list']
+    ],
+    [
         'allow',
         'roles' => ['Server'],
         'module' => 'ruvents',
         'controllers' => ['user'],
-        'actions' => ['search', 'visit']
-    ),
-    array(
+        'actions' => ['search', 'visit', 'photo']
+    ],
+    [
         'allow',
-        'roles' => array('Server'),
+        'roles' => ['Server'],
         'module' => 'ruvents',
-        'controllers' => array('product'),
-        'actions' => array('paiditems', 'paiditemslist')
-    ),
-    array(
+        'controllers' => ['product'],
+        'actions' => ['paiditems', 'paiditemslist']
+    ],
+    [
         'allow',
-        'roles' => array('Server'),
+        'roles' => ['Server'],
         'module' => 'ruvents',
-        'controllers' => array('utility'),
-        'actions' => array('changes')
-    ),
+        'controllers' => ['utility'],
+        'actions' => ['changes']
+    ],
 
 
-    array(
+    [
         'allow',
-        'roles' => array('Operator'),
+        'roles' => ['Operator'],
         'module' => 'ruvents',
-        'controllers' => array('event'),
-        'actions' => array( 'register', 'unregister')
-    ),
-    array(
+        'controllers' => ['event'],
+        'actions' => ['register', 'unregister']
+    ],
+    [
         'allow',
-        'roles' => array('Operator'),
+        'roles' => ['Operator'],
         'module' => 'ruvents',
-        'controllers' => array('badge'),
-        'actions' => array('create')
-    ),
+        'controllers' => ['badge'],
+        'actions' => ['create']
+    ],
     [
         'allow',
         'roles' => ['Operator'],
         'module' => 'ruvents',
         'controllers' => ['user'],
-        'actions' => ['create', 'edit']
+        'actions' => ['create', 'edit', 'photo']
     ],
     [
         'allow',
@@ -100,4 +108,4 @@ return array(
         'deny',
         'users' => ['*']
     ],
-);
+];

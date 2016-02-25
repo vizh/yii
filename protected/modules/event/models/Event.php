@@ -409,6 +409,8 @@ class Event extends ActiveRecord implements ISearch
             $this->updateRole($participant, $role, $usePriority, $message);
         }
 
+        UserData::createEmpty($this, $user);
+
         //TODO: Костыль для Новой экономики, убрать после мероприятия
         if ($this->Id == 2300) {
             $this->newecon15Spike($participant, $user);
@@ -476,6 +478,7 @@ class Event extends ActiveRecord implements ISearch
         if (empty($this->Parts)) {
             throw new Exception('Данное мероприятие не имеет логической разбивки. Используйте метод регистрации на все мероприятие.');
         }
+
         /** @var $participant Participant */
         $participant = Participant::model()
             ->byEventId($this->Id)
@@ -486,6 +489,9 @@ class Event extends ActiveRecord implements ISearch
         } else {
             $this->updateRole($participant, $role, $usePriority, $message);
         }
+
+        UserData::createEmpty($this, $user);
+
         return $participant;
     }
 
@@ -545,6 +551,8 @@ class Event extends ActiveRecord implements ISearch
             $this->saveRegisterLog($user, null, $part, $message);
             $participant->delete();
         }
+
+        UserData::model()->byEventId($this->Id)->byUserId($user->Id)->delete();
     }
 
     /**
@@ -635,6 +643,7 @@ class Event extends ActiveRecord implements ISearch
         foreach ($this->Parts as $part) {
             $result[$part->Id] = $this->registerUserOnPart($part, $user, $role, $usePriority);
         }
+
         return $result;
     }
 
