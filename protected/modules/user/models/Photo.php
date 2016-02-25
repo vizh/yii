@@ -7,6 +7,10 @@ class Photo
 {
     private $runetId;
 
+    /**
+     * Constructor
+     * @param int $runetId
+     */
     public function __construct($runetId)
     {
         $this->runetId = $runetId;
@@ -27,10 +31,19 @@ class Photo
         return $result;
     }
 
+    /**
+     * Returns path to the user photo
+     * @param string $serverPath
+     * @param string $name
+     * @param string $noFile
+     * @return string
+     */
     protected function getByName($serverPath, $name, $noFile)
     {
-        if ($serverPath || file_exists($this->getPath(true) . $name)) {
-            return $this->getPath($serverPath) . $name;
+        $fileName = $this->getPath(true) . $name;
+        if ($serverPath || file_exists($fileName)) {
+            $mtime = @filemtime($fileName);
+            return $this->getPath($serverPath) . $name . ($serverPath ? '' : '?t=' . $mtime);
         } else {
             return \Yii::app()->params['UserPhotoDir'] . $noFile;
         }
