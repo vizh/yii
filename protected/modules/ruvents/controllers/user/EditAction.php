@@ -8,7 +8,7 @@ use event\models\UserData;
 use ruvents\components\Exception;
 use ruvents\models\ChangeMessage;
 use user\models\User;
-use \ruvents\components\Action;
+use ruvents\components\Action;
 
 class EditAction extends Action
 {

@@ -2,11 +2,11 @@
 namespace competence\models\form;
 
 use competence\models\Result;
+use competence\models\form\attribute\CheckboxValue;
 
 /**
  * Class Multiple
  * @property \competence\models\form\attribute\CheckboxValue[] $Values
- *
  */
 class Multiple extends Base
 {
@@ -33,14 +33,12 @@ class Multiple extends Base
      */
     public function checkOtherValidator($attribute, $params)
     {
-        foreach ($this->Values as $value)
-        {
+        foreach ($this->Values as $value) {
             if (!in_array($value->key, $this->value) || !$value->isOther)
                 continue;
             $this->other = trim($this->other);
 
-            if (empty($this->other))
-            {
+            if (empty($this->other)) {
                 $this->addError('', 'Необходимо заполнить текстовое поле рядом с ответом');
                 return false;
             }
@@ -64,32 +62,42 @@ class Multiple extends Base
         parent::processAdminPanel();
 
         $multiple = \Yii::app()->getRequest()->getParam('Multiple');
-        /** @var \competence\models\form\attribute\CheckboxValue[] $values */
+        /** @var CheckboxValue[] $values */
         $values = [];
         $maxSort = 0;
-        foreach ($multiple as $key => $row)
-        {
-            if (empty($row['key']) && empty($row['title']))
+        foreach ($multiple as $key => $row) {
+            if (empty($row['key']) && empty($row['title'])) {
                 continue;
+            }
 
-            $values[] = new \competence\models\form\attribute\CheckboxValue($row['key'], $row['title'], isset($row['isOther']), (int)$row['sort'], isset($row['isUnchecker']), $row['description'], $row['suffix']);
+            $values[] = new CheckboxValue(
+                $row['key'],
+                $row['title'],
+                isset($row['isOther']),
+                (int)$row['sort'],
+                isset($row['isUnchecker']),
+                $row['description'],
+                $row['suffix']
+            );
             $maxSort = max((int)$row['sort'], $maxSort);
         }
 
-        foreach ($values as $value)
-        {
-            if ($value->sort > 0)
+        foreach ($values as $value) {
+            if ($value->sort > 0) {
                 continue;
+            }
+
             $maxSort += 10;
             $value->sort = $maxSort;
         }
-        usort($values, function($a, $b) {return $a->sort < $b->sort ? -1 : 1;});
 
-        foreach ($values as $key => $value)
-        {
-            if (empty($value->key))
-            {
-                $this->question->addError('Title', 'Строка ' . ($key+1) . ': не задан ключ для варианта ответа');
+        usort($values, function ($a, $b) {
+            return $a->sort < $b->sort ? -1 : 1;
+        });
+
+        foreach ($values as $key => $value) {
+            if (empty($value->key)) {
+                $this->question->addError('Title', 'Строка ' . ($key + 1) . ': не задан ключ для варианта ответа');
             }
         }
 

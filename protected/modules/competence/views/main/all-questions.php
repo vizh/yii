@@ -15,8 +15,8 @@ use competence\models\Question;
 $this->pageTitle = $test->Title;
 ?>
 
-<div class="row m-top_30">
-    <div class="span9 offset2">
+<div class="row" style="padding: 30px;">
+    <div class="span12">
         <div>
             <?=$test->Info?>
         </div>

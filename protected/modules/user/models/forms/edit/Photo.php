@@ -1,20 +1,33 @@
 <?php
 namespace user\models\forms\edit;
+
+/**
+ * Class Photo Form model for the user photo
+ */
 class Photo extends \CFormModel
 {
-  public $Image;
-  
-  public function rules()
-  {
-    return array(
-      array('Image', 'file', 'types' => 'jpg, jpeg, gif, png', 'allowEmpty' => false),
-    );
-  }
-  
-  public function attributeLabels()
-  {
-    return array(
-      'Image' => \Yii::t('app', 'Фотография профиля')
-    );
-  }
+    /**
+     * @var \CUploadedFile
+     */
+    public $Image;
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            ['Image', 'file', 'types' => 'jpg, jpeg, gif, png', 'allowEmpty' => false]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'Image' => \Yii::t('app', 'Фотография профиля')
+        ];
+    }
 }

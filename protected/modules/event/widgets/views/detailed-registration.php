@@ -27,12 +27,14 @@
         <?php $this->render('detailed-registration/extended-user-data') ?>
         <?php $this->render('detailed-registration/roles') ?>
 
+        <!--
         <div class="form-user-register" style="padding: 0;">
             <small class="muted required-notice">
-                <span class="required-asterisk">*</span> &mdash; <?=Yii::t('registration', 'все поля обязательны для заполнения');?><br/>
-                <span class="required-asterisk">**</span> &mdash; <?=Yii::t('registration', 'заполняя анкету, я принимаю условия соглашения  на хранение и обработку персональных данных');?>
+                <span class="required-asterisk">*</span> &mdash; <?=Yii::t('registration', 'все поля обязательны для заполнения')?><br/>
+                <span class="required-asterisk">**</span> &mdash; <?=Yii::t('registration', 'заполняя анкету, я принимаю условия соглашения  на хранение и обработку персональных данных')?>
             </small>
         </div>
+        -->
 
         <div class="form-inline m-top_20 text-center">
             <?=CHtml::submitButton(

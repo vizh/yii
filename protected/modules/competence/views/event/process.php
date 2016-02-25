@@ -13,8 +13,8 @@ use competence\models\Test;
 use competence\models\Question;
 ?>
 <div class="container interview m-top_30 m-bottom_40">
-    <div class="row m-top_30">
-        <div class="span9 offset2">
+    <div class="row-fluid m-top_30">
+        <div class="span9 span2">
             <?=CHtml::beginForm()?>
             <?php if ($hasErrors): ?>
                 <div class="alert alert-error">

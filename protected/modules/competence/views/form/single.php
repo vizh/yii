@@ -73,7 +73,7 @@ $printRadio = function(RadioValue $value, $wide = true) use ($form)
                 ?>
             </ul>
         </div>
-        <div class="span4 offset1">
+        <div class="span4">
             <ul class="unstyled">
                 <?
                 foreach ($right as $value)

@@ -12,7 +12,7 @@ class Site extends \application\models\translation\ActiveRecord
      * @param string $className
      * @return Site
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -32,15 +32,10 @@ class Site extends \application\models\translation\ActiveRecord
         return array();
     }
 
-    public function __toString()
-    {
-        return ($this->Secure == 1 ? 'https://' : 'http://').trim($this->Url,' /');
-    }
-
     public function getCleanUrl()
     {
         $parts = parse_url($this);
-        $url = $parts['scheme'].'://'.$parts['host'];
+        $url = $parts['scheme'] . '://' . $parts['host'];
         if (!empty($parts['path'])) {
             $path = $parts['path'];
             if (strpos($path, 'index.php') !== false) {
@@ -57,5 +52,13 @@ class Site extends \application\models\translation\ActiveRecord
     public function getTranslationFields()
     {
         return array('Url');
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return ($this->Secure == 1 ? 'https://' : 'http://') . trim($this->Url, ' /');
     }
 }

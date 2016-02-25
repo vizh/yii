@@ -73,9 +73,9 @@ use ruvents2\models\Badge as Badge2;
  *
  *
  * Вспомогательные описания методов методы
- * @method \user\models\User find($condition='',$params=array())
- * @method \user\models\User findByPk($pk,$condition='',$params=array())
- * @method \user\models\User[] findAll($condition='',$params=array())
+ * @method \user\models\User find($condition = '', $params = array())
+ * @method \user\models\User findByPk($pk, $condition = '', $params = array())
+ * @method \user\models\User[] findAll($condition = '', $params = array())
  * @method User byTemporary(bool $temporary)
  * @method User byVerified(bool $verified)
  *
@@ -94,7 +94,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      * @param string $className
      * @return User
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -156,8 +156,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
     public function __set($name, $value)
     {
-        if ($name == 'Email')
-        {
+        if ($name == 'Email') {
             $value = mb_strtolower($value);
         }
         parent::__set($name, $value);
@@ -235,18 +234,15 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function byRegisterTime($startTime = null, $endTime = null, $useAnd = true)
     {
-        if ($startTime == null && $endTime == null)
-        {
+        if ($startTime == null && $endTime == null) {
             return $this;
         }
         $criteria = new \CDbCriteria();
-        if ($startTime != null)
-        {
+        if ($startTime != null) {
             $criteria->addCondition('t.CreationTime >= :StartTime');
             $criteria->params['StartTime'] = $startTime;
         }
-        if ($endTime != null)
-        {
+        if ($endTime != null) {
             $criteria->addCondition('t.CreationTime <= :EndTime');
             $criteria->params['EndTime'] = $endTime;
         }
@@ -279,12 +275,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function byVisible($visible = true, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        if ($visible)
-        {
+        if ($visible) {
             $criteria->addCondition('"t"."Visible"');
-        }
-        else
-        {
+        } else {
             $criteria->addCondition('NOT "t"."Visible"');
         }
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
@@ -332,8 +325,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     private function bySearchNumbers($numbers, $useAnd = true)
     {
-        foreach ($numbers as $key => $value)
-        {
+        foreach ($numbers as $key => $value) {
             $numbers[$key] = intval($value);
         }
         return $this->byRunetIdList($numbers, $useAnd);
@@ -380,12 +372,10 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             }
             $this->getDbCriteria()->mergeWith($criteria, $useAnd);
             return $this;
-        }
-        else {
+        } else {
             $fields = array();
             $keys = array('LastName', 'FirstName', 'FatherName');
-            foreach ($keys as $key => $field)
-            {
+            foreach ($keys as $key => $field) {
                 if (isset($names[$key])) {
                     $fields[$field] = $names[$key];
                 }
@@ -451,39 +441,33 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function checkLogin($password)
     {
-        if (empty($this->Password))
-        {
+        if (empty($this->Password)) {
             $password2 = iconv('utf-8', 'Windows-1251', $password);
             $lightHash = md5($password);
             $lightHash2 = md5($password2);
-            if ($this->OldPassword == $lightHash || $this->OldPassword == $lightHash2)
-            {
+            if ($this->OldPassword == $lightHash || $this->OldPassword == $lightHash2) {
                 $pbkdf2 = new \application\components\utility\Pbkdf2();
                 $this->Password = $pbkdf2->createHash($password);
                 $this->OldPassword = null;
                 $this->save();
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return \application\components\utility\Pbkdf2::validatePassword($password, $this->Password);
         }
     }
 
     /** @var Photo */
     private $photo = null;
+
     /**
      * @return Photo
      */
     public function getPhoto()
     {
-        if ($this->photo === null)
-        {
+        if ($this->photo === null) {
             $this->photo = new Photo($this->RunetId);
         }
         return $this->photo;
@@ -500,8 +484,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function setContactEmail($email, $verified = false)
     {
         $contactEmail = $this->getContactEmail();
-        if (empty($contactEmail))
-        {
+        if (empty($contactEmail)) {
             $contactEmail = new \contact\models\Email();
             $contactEmail->Email = $email;
             $contactEmail->Verified = $verified;
@@ -511,9 +494,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             $linkEmail->UserId = $this->Id;
             $linkEmail->EmailId = $contactEmail->Id;
             $linkEmail->save();
-        }
-        elseif ($contactEmail->Email != $email)
-        {
+        } elseif ($contactEmail->Email != $email) {
             $contactEmail->Email = $email;
             $contactEmail->Verified = $verified;
             $contactEmail->save();
@@ -545,8 +526,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function setContactAddress($address)
     {
         $linkAddress = $this->LinkAddress;
-        if ($linkAddress == null)
-        {
+        if ($linkAddress == null) {
             $linkAddress = new \user\models\LinkAddress();
             $linkAddress->UserId = $this->Id;
         }
@@ -564,18 +544,15 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function setContactSite($url, $secure = false)
     {
         $contactSite = $this->getContactSite();
-        if (empty($url))
-        {
-            if ($this->LinkSite !== null)
-            {
+        if (empty($url)) {
+            if ($this->LinkSite !== null) {
                 $this->LinkSite->delete();
                 $contactSite->delete();
             }
             return null;
         }
 
-        if (empty($contactSite))
-        {
+        if (empty($contactSite)) {
             $contactSite = new \contact\models\Site();
             $contactSite->Url = $url;
             $contactSite->Secure = $secure;
@@ -585,9 +562,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             $linkSite->UserId = $this->Id;
             $linkSite->SiteId = $contactSite->Id;
             $linkSite->save();
-        }
-        elseif ($contactSite->Url != $url || $contactSite->Secure != $secure)
-        {
+        } elseif ($contactSite->Url != $url || $contactSite->Secure != $secure) {
             $contactSite->Url = $url;
             $contactSite->Secure = $secure;
             $contactSite->save();
@@ -630,7 +605,8 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             try {
                 $utils = PhoneNumberUtil::getInstance();
                 return $utils->format($utils->parse($phone, "RU"), PhoneNumberFormat::NATIONAL);
-            } catch (NumberParseException $e) {}
+            } catch (NumberParseException $e) {
+            }
         }
         return $phone;
     }
@@ -642,10 +618,8 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function getContactPhone($type = \contact\models\PhoneType::Mobile)
     {
-        foreach ($this->LinkPhones as $linkPhone)
-        {
-            if ($linkPhone->Phone->Type == $type)
-            {
+        foreach ($this->LinkPhones as $linkPhone) {
+            if ($linkPhone->Phone->Type == $type) {
                 return $linkPhone->Phone;
             }
         }
@@ -662,8 +636,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     {
         $isNew = false;
         $phone = $this->getContactPhone($type);
-        if ($phone === null)
-        {
+        if ($phone === null) {
             $phone = new \contact\models\Phone();
             $phone->Type = $type;
             $isNew = true;
@@ -671,8 +644,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         $phone->parsePhone($number);
         $phone->save();
 
-        if ($isNew)
-        {
+        if ($isNew) {
             $linkPhone = new LinkPhone();
             $linkPhone->UserId = $this->Id;
             $linkPhone->PhoneId = $phone->Id;
@@ -691,8 +663,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function setContactServiceAccount($account, $type)
     {
         $serviceAccount = $this->getContactServiceAccount($type);
-        if (empty($serviceAccount))
-        {
+        if (empty($serviceAccount)) {
             $serviceAccount = new \contact\models\ServiceAccount();
             $serviceAccount->TypeId = $type->Id;
             $serviceAccount->Account = $account;
@@ -702,9 +673,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             $linkServiceAccount->UserId = $this->Id;
             $linkServiceAccount->ServiceAccountId = $serviceAccount->Id;
             $linkServiceAccount->save();
-        }
-        else
-        {
+        } else {
             $serviceAccount->Account = $account;
             $serviceAccount->save();
         }
@@ -738,11 +707,11 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     /**
      * @return string
      */
-    public function getFullName ()
+    public function getFullName()
     {
         $fullName = $this->getName();
         if ($this->getIsShowFatherName()) {
-            $fullName .= ' '. $this->FatherName;
+            $fullName .= ' ' . $this->FatherName;
         }
         return $fullName;
     }
@@ -760,7 +729,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function getName()
     {
-        return $this->LastName .' '. $this->FirstName;
+        return $this->LastName . ' ' . $this->FirstName;
     }
 
     /**
@@ -770,9 +739,8 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function getShortName()
     {
         $name = $this->FirstName;
-        if ($this->getIsShowFatherName())
-        {
-            $name .= ' '.$this->FatherName;
+        if ($this->getIsShowFatherName()) {
+            $name .= ' ' . $this->FatherName;
         }
         return $name;
     }
@@ -784,8 +752,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function changePassword($password = null)
     {
-        if ($password == null)
-        {
+        if ($password == null) {
             $password = \Utils::GeneratePassword();
         }
         $pbkdf2 = new \application\components\utility\Pbkdf2();
@@ -799,8 +766,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function getBirthDate()
     {
-        if ($this->Birthday == null)
-        {
+        if ($this->Birthday == null) {
             return 0;
         }
         $birthDate = new \DateTime($this->Birthday);
@@ -834,25 +800,24 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function getHash($isTemporary = false)
     {
         $salt = !$isTemporary ? 'L2qLLQWpZWYcKbjharsx' : 'cJt2zUusjphYFio26N8m';
-        return substr(md5($this->Id.$salt.$this->RunetId), 0, 16);
+        return substr(md5($this->Id . $salt . $this->RunetId), 0, 16);
     }
 
     public function getRecoveryHash($date = null)
     {
-        if ($date == null)
-        {
+        if ($date == null) {
             $date = date('Y-m-d');
         }
-        return substr(md5($date.'L2qLLQWpZWYcKbjharsx'.$this->RunetId), 0, 6);
+        return substr(md5($date . 'L2qLLQWpZWYcKbjharsx' . $this->RunetId), 0, 6);
     }
 
     public function checkRecoveryHash($hash)
     {
         $date1 = date('Y-m-d');
-        $date2 = date('Y-m-d', time() - (24*60*60));
+        $date2 = date('Y-m-d', time() - (24 * 60 * 60));
         if ($hash == $this->getRecoveryHash($date1)
-            || $hash == $this->getRecoveryHash($date2))
-        {
+            || $hash == $this->getRecoveryHash($date2)
+        ) {
             return true;
         }
         return false;
@@ -864,12 +829,15 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             'runetId' => $this->RunetId,
             'hash' => $this->getHash($isTemporary),
         ];
+
         if (!empty($redirectUrl)) {
             $params['redirectUrl'] = $redirectUrl;
         }
+
         if ($isTemporary) {
             $params['temporary'] = 1;
         }
+
         return \Yii::app()->createAbsoluteUrl('/main/fastauth/index', $params);
     }
 
@@ -897,10 +865,22 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         $this->save();
     }
 
+    /**
+     * Refreshes update time without save the model
+     * @param bool $save Whether the model must be saved
+     */
+    public function refreshUpdateTime($save = false)
+    {
+        $this->UpdateTime = date('Y-m-d H:i:s');
+        if ($save) {
+            $this->save();
+        }
+    }
+
     protected function beforeSave()
     {
         if (!$this->getIsNewRecord()) {
-            $this->UpdateTime = date('Y-m-d H:i:s');
+            $this->refreshUpdateTime();
         }
 
         $this->updateSearchIndex();
@@ -973,8 +953,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function hasLoyaltyDiscount()
     {
-        if ($this->hasLoyaltyDiscount == null)
-        {
+        if ($this->hasLoyaltyDiscount == null) {
             $this->hasLoyaltyDiscount = LoyaltyProgram::model()->byUserId($this->Id)->exists();
         }
         return $this->hasLoyaltyDiscount;
@@ -983,7 +962,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function getPrimaryPhoneVerifyCode()
     {
         if (!empty($this->PrimaryPhone)) {
-            $hash = md5($this->PrimaryPhone.$this->RunetId);
+            $hash = md5($this->PrimaryPhone . $this->RunetId);
             $code = Texts::getOnlyNumbers($hash);
             if (strlen($code) < 5) {
                 $code = str_pad($code, 5, '0');

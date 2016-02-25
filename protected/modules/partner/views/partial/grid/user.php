@@ -1,14 +1,15 @@
 <?php
-use partner\components\Controller;
-use user\models\User;
-
 /**
- * @var User $user
  * @var Controller $this
+ * @var User $user
  * @var bool $hideContacts
  * @var bool $hideEmployment
  * @var bool $hideId
  */
+
+use partner\components\Controller;
+use user\models\User;
+
 $hideEmployment = isset($hideEmployment) && $hideEmployment;
 $hideContacts = isset($hideContacts) && $hideContacts;
 $hideId = isset($hideId) && $hideId;
@@ -17,6 +18,8 @@ if (!isset($linkHtmlOptions)) {
     $linkHtmlOptions = ['class' => 'lead lead-sm'];
 }
 $linkHtmlOptions['onclick'] = '$(\'#modal-user\').data(\'url\', $(this).attr(\'href\')).modal(\'show\'); return false;';
+
+$photo = $user->getPhoto();
 
 \Yii::app()->getClientScript()->registerScript(__FILE__, '
 
@@ -49,32 +52,45 @@ $linkHtmlOptions['onclick'] = '$(\'#modal-user\').data(\'url\', $(this).attr(\'h
 ', \CClientScript::POS_LOAD);
 ?>
 
-<?=\CHtml::link((!$hideId ? '<span class="text-light-gray">' . $user->RunetId . ',</span> ' : '') . $user->getFullName(), ['user/edit', 'id' => $user->RunetId], $linkHtmlOptions);?>
+<div class="row">
+    <div class="col-md-2">
+        <figure>
+            <?=CHtml::image($photo->get50px(), '', ['style' => 'max-width: 40px;'])?>
+        </figure>
+    </div>
+    <div class="col-md-10">
+        <?= CHtml::link(
+            (!$hideId ? '<span class="text-light-gray">' . $user->RunetId . ',</span> ' : '') . $user->getFullName(),
+            ['user/edit', 'id' => $user->RunetId],
+            $linkHtmlOptions
+        ) ?>
 
+        <?php if (!$hideEmployment && ($employment = $user->getEmploymentPrimary()) !== null): ?>
+            <p><?= $employment ?></p>
+        <?php endif ?>
 
-<?php if (!$hideEmployment && ($employment = $user->getEmploymentPrimary()) !== null):?>
-    <p><?=$employment;?></p>
-<?php endif;?>
+        <?php if (!$hideContacts): ?>
+            <p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;<?= CHtml::mailto($user->Email) ?>
+                <?php if (($phone = $user->getPhone()) !== null): ?>
+                    <br/><i class="fa fa-phone"></i>&nbsp;<?= $phone ?>
+                <?php endif ?>
+            </p>
+        <?php endif ?>
+    </div>
+</div>
 
-<?php if (!$hideContacts):?>
-    <p class="m-top_5 text-nowrap"><i class="fa fa-envelope-o"></i>&nbsp;<?=\CHtml::mailto($user->Email);?>
-    <?php if (($phone = $user->getPhone()) !== null):?>
-        <br/><i class="fa fa-phone"></i>&nbsp;<?=$phone;?>
-    <?php endif;?>
-    </p>
-<?php endif;?>
-
-<?php if (!isset($this->clips[Controller::PAGE_FOOTER_CLIP_ID])):?>
-    <?php $this->beginClip(Controller::PAGE_FOOTER_CLIP_ID);?>
-    <?$this->beginWidget('application\widgets\bootstrap\Modal', [
+<?php if (!isset($this->clips[Controller::PAGE_FOOTER_CLIP_ID])): ?>
+    <?php $this->beginClip(Controller::PAGE_FOOTER_CLIP_ID) ?>
+    <?php $this->beginWidget('application\widgets\bootstrap\Modal', [
         'header' => 'Редактирование участника мероприятия',
         'htmlOptions' => ['class' => 'modal-fullscreen', 'id' => 'modal-user'],
-        'footer' => \CHtml::link('<span class="btn-label fa fa-external-link"></span> ' . \Yii::t('app', 'Открыть в основном окне'), '', ['class' => 'btn btn-default btn-labeled btn-xs'])
-    ]);?>
+        'footer' => CHtml::link('<span class="btn-label fa fa-external-link"></span> ' . Yii::t('app', 'Открыть в основном окне'), '', ['class' => 'btn btn-default btn-labeled btn-xs'])
+    ]) ?>
     <div class="text-center text-muted loader hide">
         <i class="fa fa-refresh fa-spin fa-5x"></i>
+
         <p class="lead">Загрузка...</p>
     </div>
-    <?$this->endWidget();?>
-    <?php $this->endClip();?>
-<?php endif;?>
+    <?php $this->endWidget() ?>
+    <?php $this->endClip() ?>
+<?php endif ?>
