@@ -51,30 +51,32 @@ use event\models\Event;
                 <?php endif ?>
 
                 <div class="btn-group btn-group-sm m-top_10">
-                    <?= \CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn', 'target' => '_top']); ?>
+                    <?= CHtml::link(\Yii::t('app', 'Редактировать'), ['translate', 'id' => $user->RunetId], ['class' => 'btn', 'target' => '_top']) ?>
                     <?php if ($event->getIsRequiredDocument() && !empty($user->Documents)): ?>
-                        <?php $this->beginWidget('\application\widgets\bootstrap\Modal', [
-                            'header' => \Yii::t('app', 'Паспортные данные'),
+                        <?php $this->beginWidget('application\widgets\bootstrap\Modal', [
+                            'header' => Yii::t('app', 'Паспортные данные'),
                             'htmlOptions' => ['class' => 'modal-blur'],
                             'toggleButton' => [
                                 'class' => 'btn',
-                                'label' => \Yii::t('app', 'Паспортные данные')
+                                'label' => Yii::t('app', 'Паспортные данные')
                             ]
                         ]);
                         $this->renderPartial('edit/documents', ['user' => $user]);
                         $this->endWidget();
                         ?>
-                    <?php endif; ?>
+                    <?php endif ?>
                 </div>
 
                 <p class="m-top_20">
-                    <span class="fa fa-envelope-o"></span> <?= \CHtml::mailto($user->Email); ?>
-                    <?php if ($user->getPhone() !== null): ?>
-                        <br/><span class="fa fa-phone"></span> <?= $user->getPhone(); ?>
-                    <?php endif; ?>
+                    <span class="fa fa-envelope-o"></span> <?= CHtml::mailto($user->Email) ?>
+                    <?php if ($phone = $user->getPhone()): ?>
+                        <br><span class="fa fa-phone"></span> <?= $phone ?>
+                    <?php endif ?>
+
                     <?php if (!empty($user->Birthday)): ?>
-                        <br/><span
-                            class="fa fa-birthday-cake"></span> <?= \Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $user->Birthday); ?>
+                        <br>
+                        <span class="fa fa-birthday-cake"></span>
+                        <?= Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $user->Birthday) ?>
                     <?php endif; ?>
                 </p>
             </div>

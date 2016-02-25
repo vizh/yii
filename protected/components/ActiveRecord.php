@@ -4,7 +4,7 @@ namespace application\components;
 /**
  * Class ActiveRecord Base class for all active records
  */
-class ActiveRecord extends \CActiveRecord
+abstract class ActiveRecord extends \CActiveRecord
 {
     /**
      * @var bool Не использовать физическое удаление записей, а проставлять Delete = true
