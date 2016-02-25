@@ -86,7 +86,7 @@ return [
         'roles' => ['Operator'],
         'module' => 'ruvents',
         'controllers' => ['user'],
-        'actions' => ['create', 'edit', 'photo']
+        'actions' => ['create', 'edit']
     ],
     [
         'allow',
