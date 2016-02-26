@@ -2,11 +2,12 @@
 namespace partner\models;
 
 use api\models\Account;
+use application\components\ActiveRecord;
 
 /**
  * Class Import
- * @package partner\models
  *
+ * Fields
  * @property int $Id
  * @property int $EventId
  * @property string $Fields
@@ -21,9 +22,9 @@ use api\models\Account;
  * @property ImportUser[] $Users
  * @property \event\models\Event $Event
  *
- * @method \partner\models\Import findByPk($pk)
+ * @method Import findByPk($pk)
  */
-class Import extends \CActiveRecord
+class Import extends ActiveRecord
 {
     /**
      * @var Account
@@ -31,14 +32,9 @@ class Import extends \CActiveRecord
     private $apiAccount;
 
     /**
-     * @static
-     * @param string $className
-     * @return Import
+     * @var \PHPExcel_Worksheet Worksheet for the import excel file
      */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
+    private $worksheet;
 
     /**
      * @inheritdoc
@@ -46,14 +42,6 @@ class Import extends \CActiveRecord
     public function tableName()
     {
         return 'PartnerImport';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     /**
@@ -78,6 +66,50 @@ class Import extends \CActiveRecord
         }
 
         return $path . DIRECTORY_SEPARATOR . $this->Id;
+    }
+
+    /**
+     * Returns worksheet for the import excel file
+     * @return \PHPExcel_Worksheet
+     * @throws \PHPExcel_Exception
+     */
+    public function getWorksheet()
+    {
+        if (is_null($this->worksheet)) {
+            $phpExcel = \PHPExcel_IOFactory::load($this->getFileName());
+            $this->worksheet = $phpExcel->getSheet(0);
+        }
+
+        return $this->worksheet;
+    }
+
+    /**
+     * Returns significant columns
+     * @return string[]
+     */
+    public function getSignificantColumns()
+    {
+        if (!$worksheet = $this->getWorksheet()) {
+            return [];
+        }
+
+        $result = [];
+        foreach ($worksheet->getRowIterator(2) as $row) {
+            /** @var $row \PHPExcel_Worksheet_Row */
+            $cellIterator = $row->getCellIterator();
+            foreach ($cellIterator as $cell) {
+                /** @var $cell \PHPExcel_Cell */
+                $value = trim($cell->getValue());
+                if (!empty($value)) {
+                    $result[] = $cell->getColumn();
+                }
+            }
+        }
+
+        $result = array_unique($result);
+        sort($result, SORT_STRING);
+
+        return $result;
     }
 
     /**
