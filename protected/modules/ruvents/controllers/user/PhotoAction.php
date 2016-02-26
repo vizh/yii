@@ -34,7 +34,7 @@ class PhotoAction extends Action
         }
 
         $user->getPhoto()->saveUploaded($form->Image);
-        $user->refreshUpdateTime();
+        $user->refreshUpdateTime(true);
 
         $this->renderJson([
             'Success' => true
