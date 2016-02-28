@@ -1,5 +1,6 @@
 <?php
 namespace ruvents\models;
+
 use application\components\ActiveRecord;
 use user\models\User;
 
@@ -47,8 +48,8 @@ class Visit extends ActiveRecord
     public function relations()
     {
         return [
-            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
-            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'User' => [self::BELONGS_TO, 'user\models\User', 'UserId'],
+            'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId'],
         ];
     }
 }

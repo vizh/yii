@@ -23,18 +23,6 @@
     <link rel="stylesheet" href="/stylesheets/ie/lte-ie-7.css">
     <![endif]-->
 </head>
-<style>
-    html, body {
-        min-width: 650px !important;
-        width: 650px !important;
-    }
-    .container {
-        width: 650px !important;
-    }
-    .span12 {
-        width: 600px !important;
-    }
-</style>
 <body id="<?php echo $this->bodyId ?>">
 <noscript>JavaScript disabled</noscript>
 <section id="section" role="main">
