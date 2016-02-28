@@ -6,7 +6,7 @@
 use event\components\WidgetPosition;
 use event\models\Event;
 
-$baseLayout = $this->test->UseClearLayout ? '//layouts/clear' : '//layouts/public';
+$baseLayout = $this->test->UseClearLayout ? '//layouts/clear-650px' : '//layouts/public';
 
 $event = $this->test->EventId && $this->renderEventHeader ? Event::model()->findByPk($this->test->EventId) : null;
 ?>

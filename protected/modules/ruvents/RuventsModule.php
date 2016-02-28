@@ -2,17 +2,22 @@
 
 class RuventsModule extends CWebModule
 {
+    /**
+     * @inheritdoc
+     */
     public function beforeControllerAction($controller, $action)
     {
         if (parent::beforeControllerAction($controller, $action)) {
-            // Бездумный, as is, вывод логов в STDOUT будет порождать невалидный JSON. Предотвращаем. Для разработки должно хватать CFileLogRoute.
+            // Бездумный, as is, вывод логов в STDOUT будет порождать невалидный JSON. Предотвращаем.
+            // Для разработки должно хватать CFileLogRoute.
             foreach (\Yii::app()->log->routes as $route) {
                 if ($route instanceof \CWebLogRoute) {
                     $route->enabled = false;
                 }
             }
 
-            \Yii::app()->attachEventHandler('onException',[$this, 'onException']);
+            \Yii::app()->attachEventHandler('onException', [$this, 'onException']);
+
             return true;
         }
 
@@ -24,6 +29,10 @@ class RuventsModule extends CWebModule
      */
     public function onException($event)
     {
+        if (\Yii::app()->getController()->id === 'stat') {
+            return;
+        }
+
         if ($event->exception instanceof \ruvents\components\Exception) {
             /** @var $exception \ruvents\components\Exception */
             $exception = $event->exception;
