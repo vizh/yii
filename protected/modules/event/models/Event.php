@@ -409,7 +409,18 @@ class Event extends ActiveRecord implements ISearch
             $this->updateRole($participant, $role, $usePriority, $message);
         }
 
-        UserData::createEmpty($this, $user);
+        $data = UserData::model()->find([
+            'condition' => '"EventId" = :eventId AND "UserId" = :userId',
+            'params' => [
+                ':eventId' => $this->Id,
+                ':userId' => $user->Id
+            ]
+        ]);
+
+        if (!$data) {
+            $data = UserData::createEmpty($this, $user);
+        }
+        $this->assignCustomNumber($data);
 
         //TODO: Костыль для Новой экономики, убрать после мероприятия
         if ($this->Id == 2300) {
@@ -417,6 +428,40 @@ class Event extends ActiveRecord implements ISearch
         }
 
         return $participant;
+    }
+
+    /**
+     * Assigns custom number for the participant
+     * @param UserData $data
+     */
+    private function assignCustomNumber(UserData $data)
+    {
+        if ($this->Id != 2318 /* svyaz16 (2318) */) {
+            return;
+        }
+
+        if ($data->getManager()->Custom_Number) {
+            return;
+        }
+
+        $startCustomNumber = 311051600500;
+
+        $prevData = UserData::model()->find([
+            'condition' => '"EventId" = :eventId AND SUBSTRING("Attributes"::text FROM \'"Custom_Number":"\d+"\') IS NOT NULL',
+            'params' => [
+                ':eventId' => $this->Id
+            ],
+            'order' => 'SUBSTRING("Attributes"::text FROM \'"Custom_Number":"\d+"\') DESC'
+        ]);
+
+        if (!$prevData) {
+            $customNumber = $startCustomNumber;
+        } else {
+            $customNumber = ++$prevData->getManager()->Custom_Number;
+        }
+
+        $data->getManager()->Custom_Number = (string) $customNumber;
+        $data->save();
     }
 
     /**
