@@ -8,6 +8,17 @@
 use ruvents\models\Visit;
 
 $this->pageTitle = 'Статистика питания';
+
+$map = [];
+foreach ($allStat as $item) {
+    $group = $item['group'];
+    $map[$group] = Inflector::transliterate(strtr(Inflector::transliterate($group), [
+        ' ' => '_',
+        '/' => '_',
+        '.' => ''
+    ]));
+}
+
 ?>
 
 <div class="container">
@@ -20,19 +31,22 @@ $this->pageTitle = 'Статистика питания';
             <tr>
                 <th>Наименование услуги</th>
                 <th>Количество человек, получивших услугу</th>
+                <th>Количество прикладываний</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($allStat as $group => $count): ?>
+            <?php foreach ($allStat as $item): ?>
                 <tr>
-                    <td><?=CHtml::encode($group)?></td>
-                    <td><?=$count?></td>
+                    <td><?=CHtml::link($item['group'], '#'.$map[$item['group']])?></td>
+                    <td><?=$item['users']?></td>
+                    <td><?=$item['count']?></td>
                 </tr>
             <?php endforeach ?>
         </tbody>
     </table>
 
     <?php foreach ($dataProviders as $group => $dataProvider): ?>
+        <a name="<?=$map[$group]?>"></a>
         <h4 style="margin-top: 50px;"><?=CHtml::encode($group)?></h4>
         <?php $this->widget('zii.widgets.grid.CGridView', [
             'dataProvider'=> $dataProvider,

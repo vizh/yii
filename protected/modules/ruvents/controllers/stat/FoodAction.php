@@ -54,7 +54,18 @@ class FoodAction extends \CAction
     {
         $stat = [];
         foreach ($groups as $group) {
-            $stat[$group] = \Yii::app()->getDb()->createCommand()
+            $item = ['group' => $group];
+
+            $item['users'] = \Yii::app()->getDb()->createCommand()
+                ->select('COUNT(DISTINCT "UserId")')
+                ->from(Visit::model()->tableName())
+                ->where('"EventId" = :eventId AND "MarkId" ILIKE :group', [
+                    ':eventId' => $eventId,
+                    ':group' => $group.'%'
+                ])
+                ->queryScalar();
+
+            $item['count'] = \Yii::app()->getDb()->createCommand()
                 ->select('COUNT(*)')
                 ->from(Visit::model()->tableName())
                 ->where('"EventId" = :eventId AND "MarkId" ILIKE :group', [
@@ -62,6 +73,8 @@ class FoodAction extends \CAction
                     ':group' => $group.'%'
                 ])
                 ->queryScalar();
+
+            $stat[] = $item;
         }
 
         return $stat;
