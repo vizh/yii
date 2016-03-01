@@ -4,7 +4,7 @@
  * @var event\models\UserData $userData
  */
 ?>
-<div class="registration" id="<?=$this->getNameId();?>">
+<div class="registration" id="<?=$this->getNameId()?>">
     <?=isset($this->WidgetRegistrationTitle) ?
         $this->WidgetRegistrationTitle :
         CHtml::tag('h5', ['class' => 'title text-center'], Yii::t('app', 'Регистрация'))
@@ -18,7 +18,7 @@
     <?=CHtml::errorSummary($this->form, '<div class="alert alert-error">', '</div>');?>
 
     <?php if (!$this->form->hasErrors('Invite')): ?>
-        <?php $this->render('detailed-registration/appeal-for-ipheb16') ?>
+        <?php $this->render('detailed-registration/appeal') ?>
 
         <?php $this->render('detailed-registration/primary-fields') ?>
 
