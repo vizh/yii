@@ -4,9 +4,7 @@ namespace application\models\translation;
 use ext\translator\Translite;
 
 /**
- * Class ActiveRecord
- * @package application\models\translation
- *
+ * Class ActiveRecord Base functionality for translations
  */
 abstract class ActiveRecord extends \application\components\ActiveRecord
 {
@@ -38,8 +36,6 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
     {
         return $this->{$this->getResourceKey()};
     }
-
-
 
     /**
      * PHP getter magic method.
