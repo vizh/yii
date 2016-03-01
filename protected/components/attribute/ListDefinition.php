@@ -56,9 +56,11 @@ class ListDefinition extends Definition
         $htmlOptions['class'] = $this->cssClass . (isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
         $htmlOptions['style'] = $this->cssStyle . (isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
 
+        $emptyValue = '';
+
         $currentValue = $container->{$this->name};
-        $data = ['' => $this->placeholder] + $this->data;
-        $valueExists = isset($data[$currentValue]);
+        $data = [$emptyValue => $this->placeholder] + $this->data;
+        $valueExists = array_key_exists($emptyValue, $data);
 
         $customClass = 'custom-field' . self::$customFieldsCounter++;
         if ($this->customTextField) {

@@ -6,17 +6,19 @@ use application\components\Exception;
 use application\components\Image;
 use application\components\socials\facebook\Event as SocialEvent;
 use application\models\attribute\Definition;
-use application\models\attribute\Group;
 use application\models\translation\ActiveRecord;
 use contact\models\Site;
+use event\models\section\Section;
 use mail\components\mailers\MandrillMailer;
-use pay\models\Product;
 use ruvents\models\Setting;
 use search\components\interfaces\ISearch;
 use user\models\User;
 use pay\models\Account as PayAccount;
 
 /**
+ * Class Event
+ *
+ * Fields
  * @property int $Id
  * @property string $IdName
  * @property string $Title
@@ -41,9 +43,9 @@ use pay\models\Account as PayAccount;
  * @property string $DeletionTime
  * @property string $Color
  *
- *
+ * Relations
  * @property Part[] $Parts
- * @property \event\models\section\Section[] $Sections
+ * @property Section[] $Sections
  * @property LinkAddress $LinkAddress
  * @property LinkPhone[] $LinkPhones
  * @property LinkEmail[] $LinkEmails
@@ -59,10 +61,10 @@ use pay\models\Account as PayAccount;
  * @property LinkProfessionalInterest[] $LinkProfessionalInterests
  *
  *
- * @method \event\models\section\Section[] Sections()
+ * @method Section[] Sections()
+ *
  *
  * Attribute properties
- *
  * @property string $UrlSectionMask
  * @property string $FbPlaceId
  *
@@ -92,28 +94,11 @@ class Event extends ActiveRecord implements ISearch
     protected $baseDir; // кеш, содержащий абсолютный путь к wwwroot
 
     /**
-     * @param string $className
-     * @return Event
-     */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
-
-    /**
      * @return string
      */
     public function tableName()
     {
         return 'Event';
-    }
-
-    /**
-     * @return string
-     */
-    public function primaryKey()
-    {
-        return 'Id';
     }
 
     /**
@@ -409,7 +394,21 @@ class Event extends ActiveRecord implements ISearch
             $this->updateRole($participant, $role, $usePriority, $message);
         }
 
-        UserData::createEmpty($this, $user);
+        $data = UserData::model()->find([
+            'condition' => '"EventId" = :eventId AND "UserId" = :userId',
+            'params' => [
+                ':eventId' => $this->Id,
+                ':userId' => $user->Id
+            ]
+        ]);
+
+        if (!$data) {
+            $data = UserData::createEmpty($this, $user);
+        }
+
+        if ($this->Id == 2318 /* svyaz16 (2318) */) {
+            $this->assignCustomNumber($data);
+        }
 
         //TODO: Костыль для Новой экономики, убрать после мероприятия
         if ($this->Id == 2300) {
@@ -417,6 +416,36 @@ class Event extends ActiveRecord implements ISearch
         }
 
         return $participant;
+    }
+
+    /**
+     * Assigns custom number for the participant
+     * @param UserData $data
+     */
+    private function assignCustomNumber(UserData $data)
+    {
+        if ($data->getManager()->Custom_Number) {
+            return;
+        }
+
+        $startCustomNumber = 311051600500;
+
+        $prevData = UserData::model()->find([
+            'condition' => '"EventId" = :eventId AND SUBSTRING("Attributes"::text FROM \'"Custom_Number":"\d+"\') IS NOT NULL',
+            'params' => [
+                ':eventId' => $this->Id
+            ],
+            'order' => 'SUBSTRING("Attributes"::text FROM \'"Custom_Number":"\d+"\') DESC'
+        ]);
+
+        if (!$prevData) {
+            $customNumber = $startCustomNumber;
+        } else {
+            $customNumber = ++$prevData->getManager()->Custom_Number;
+        }
+
+        $data->getManager()->Custom_Number = (string) $customNumber;
+        $data->save();
     }
 
     /**

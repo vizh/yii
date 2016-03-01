@@ -33,6 +33,7 @@ class UserData extends ActiveRecord
      * Creates an empty user data record
      * @param Event $event
      * @param User $user
+     * @return self
      */
     public static function createEmpty($event, $user)
     {
@@ -50,10 +51,12 @@ class UserData extends ActiveRecord
         $definitions = $model->getManager()->getDefinitions();
 
         if (empty($definitions) || self::model()->byEventId($event)->byUserId($user)->exists()) {
-            return;
+            return $model;
         }
 
         $model->save();
+
+        return $model;
     }
 
     /**
