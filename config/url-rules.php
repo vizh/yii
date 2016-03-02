@@ -174,7 +174,7 @@ return [
     SCHEMA . '://'. RUNETID_HOST.'/fastauth/<runetId:\d+>/<hash>/' => 'main/fastauth/index',
     SCHEMA . '://'. RUNETID_HOST.'/register/<runetId:\d+>/<eventIdName>/<roleId:\d+>/<hash>/' => 'event/fastregister/index',
 
-    SCHEMA . '://'. RUNETID_HOST.'/<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+    SCHEMA . '://'. RUNETID_HOST.'/<module:\w+>/<controller:\w+>/<action:[\w-]+>' => '<module>/<controller>/<action>',
 
 
     SCHEMA . '://'. RUNETID_HOST.'/<module:\w+>/exclusive/<controller:\w+>/<action:\w+>' => '<module>/exclusive/<controller>/<action>',

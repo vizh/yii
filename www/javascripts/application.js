@@ -54,32 +54,34 @@ $(function() {
 
 
   /* LIVE SEARCH */
-  $("#live-search").catcomplete({
-    delay: 300,
-    minLength: 1,
-    dataType: "json",
-    source: "/search/ajax/index",
-    position: {collision: 'flip'},
-    create: function(event, ui) {
-      $(this).catcomplete("widget").addClass("ui-autocomplete_live-search");
-    },
-    open: function(event, ui) {
-      $(".ui-autocomplete_live-search").append("<li class='results-all'><a href=''>Все результаты</a></li>");
-      $('.results-all > a').on('click', function(e){
-        e.preventDefault();
-        $('form#search').submit();
-      });
-    }
-  }).data("catcomplete")._renderItem = function(ul, item) {
-    if (item.category == "Пользователи") {
-      return $("<li>").append('<a href="' + item.url + '">' + item.value + ', <span class="muted">' + item.runetid + '</span></a>').appendTo(ul);
-    } else if (item.category == "Компании") {
-      return $("<li>").append('<a href="' + item.url + '">' + item.value + (item.locality !== undefined ? ', <span class="muted">' + item.locality + '</span>' : '')+'</a>').appendTo(ul);
-    } else {
-      return $("<li>").append('<a href="' + item.url + '">' + item.value).appendTo(ul);
-    }
-  };
-
+  var $liveSearch = $("#live-search");
+  if ($liveSearch.length) {
+    $liveSearch.catcomplete({
+      delay: 300,
+      minLength: 1,
+      dataType: "json",
+      source: "/search/ajax/index",
+      position: {collision: 'flip'},
+      create: function(event, ui) {
+        $(this).catcomplete("widget").addClass("ui-autocomplete_live-search");
+      },
+      open: function(event, ui) {
+        $(".ui-autocomplete_live-search").append("<li class='results-all'><a href=''>Все результаты</a></li>");
+        $('.results-all > a').on('click', function(e){
+          e.preventDefault();
+          $('form#search').submit();
+        });
+      }
+    }).data("catcomplete")._renderItem = function(ul, item) {
+      if (item.category == "Пользователи") {
+        return $("<li>").append('<a href="' + item.url + '">' + item.value + ', <span class="muted">' + item.runetid + '</span></a>').appendTo(ul);
+      } else if (item.category == "Компании") {
+        return $("<li>").append('<a href="' + item.url + '">' + item.value + (item.locality !== undefined ? ', <span class="muted">' + item.locality + '</span>' : '')+'</a>').appendTo(ul);
+      } else {
+        return $("<li>").append('<a href="' + item.url + '">' + item.value).appendTo(ul);
+      }
+    };
+  }
 
   /* SEARCH PAGE */
   /* Event results -> Tabs */
