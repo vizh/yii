@@ -6,9 +6,10 @@ use ruvents\models\Visit;
 /**
  * Shows the page with statistics for food
  */
-class FoodAction extends \CAction
+class FoodAction extends StatAction
 {
     /**
+     * @inheritdoc
      * @param int $eventId Identifier of the event
      */
     public function run($eventId)
@@ -16,45 +17,37 @@ class FoodAction extends \CAction
         $this->controller->layout = '//layouts/clear';
 
         $groups = $this->fetchUniqueGroups($eventId);
+        $allStat = $this->collectAllStat($eventId, $groups);
+        /*uasort($allStat, function ($groupA, $groupB) {
+            if ($groupA['group'] == $groupB['group']) {
+                return 0;
+            }
+
+            return ($groupA['group'] < $groupB['group']) ? -1 : 1;
+        });*/
 
         $this->controller->render('food', [
-            'allStat' => $this->collectAllStat($eventId, $groups),
-            'dataProviders' => $this->constructDataProviders($eventId, $groups)
+            'allStat' => $allStat
         ]);
     }
 
     /**
-     * Fetches unique names of the groups
-     * @param int $eventId Identifier of the event
-     * @return string[]
-     */
-    private function fetchUniqueGroups($eventId)
-    {
-        $substringPattern = "SUBSTRING(\"MarkId\" FROM '^Питание\\s\\d{2}\\.\\d{2}/\\w+')";
-
-        $groups = \Yii::app()->getDb()->createCommand()
-            ->select($substringPattern)
-            ->from(Visit::model()->tableName())
-            ->where('"EventId" = :eventId', [':eventId' => $eventId])
-            ->group($substringPattern)
-            ->queryColumn();
-
-        return array_filter($groups, function ($name) {
-            return !is_null($name);
-        });
-    }
-
-    /**
      * Collects visits statistics by a group name
-     * @param string[] $groups Group names
      * @param int $eventId Identifier of the event
+     * @param string[] $groups Group names
      * @return array
      */
     private function collectAllStat($eventId, $groups)
     {
         $stat = [];
-        foreach ($groups as $group) {
-            $item = ['group' => $group];
+        foreach ($groups as $groupId => $group) {
+            $item = [
+                'group' => $group,
+                'listUrl' => \Yii::app()->getUrlManager()->createUrl('/ruvents/stat/users-list', [
+                    'eventId' => $eventId,
+                    'group' => $groupId
+                ])
+            ];
 
             $item['users'] = \Yii::app()->getDb()->createCommand()
                 ->select('COUNT(DISTINCT "UserId")')
@@ -78,30 +71,5 @@ class FoodAction extends \CAction
         }
 
         return $stat;
-    }
-
-    /**
-     * Generates data providers by using groups
-     * @param string[] $groups Group names
-     * @param int $eventId Identifier of the event
-     * @return array
-     */
-    private function constructDataProviders($eventId, $groups)
-    {
-        $dataProviders = [];
-        foreach ($groups as $group) {
-            $dataProviders[$group] = new \CActiveDataProvider(Visit::model()->byEventId($eventId), [
-                'criteria' => [
-                    'condition' => '"MarkId" ILIKE :group',
-                    'params' => [':group' => $group.'%']
-                ],
-                'sort' => [
-                    'defaultOrder' => '"CreationTime" DESC'
-                ],
-                'pagination' => false
-            ]);
-        }
-
-        return $dataProviders;
     }
 }

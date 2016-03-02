@@ -7,10 +7,14 @@ use application\components\controllers\PublicMainController;
  */
 class StatController extends PublicMainController
 {
+    /**
+     * @inheritdoc
+     */
     public function actions()
     {
         return [
-            'food' => 'ruvents\controllers\stat\FoodAction'
+            'food' => 'ruvents\controllers\stat\FoodAction',
+            'users-list' => 'ruvents\controllers\stat\UsersListAction'
         ];
     }
 }

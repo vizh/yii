@@ -159,7 +159,7 @@ class Juridical extends EventItemCreateUpdateForm
      */
     public function getProductData()
     {
-        $products = Product::model()->byEventId($this->event->Id)->excludeRoomManager()->findAll();
+        $products = Product::model()->byEventId($this->event->Id)->byDeleted(false)->excludeRoomManager()->findAll();
         return \CHtml::listData($products, 'Id', 'Title');
     }
 }
