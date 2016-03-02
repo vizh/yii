@@ -182,7 +182,6 @@ if ($data) {
 
     .age {
         font-size: 60px;
-        line-height: 100px;
     }
 
     .text-blue {
