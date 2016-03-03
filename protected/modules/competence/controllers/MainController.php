@@ -5,6 +5,7 @@ use competence\models\Result;
 use competence\models\Test;
 use competence\models\Question;
 use event\models\Participant;
+use event\models\Role;
 use user\models\User;
 
 /**
@@ -103,6 +104,9 @@ class MainController extends PublicMainController
                 $this->test->saveResult();
                 $this->redirect([self::END_ACTION_NAME, 'id' => $this->test->Id]);
             }
+        } else {
+            // Assigns role for the user
+            $this->assignStatus();
         }
 
         $this->render('all-questions', [
@@ -229,5 +233,23 @@ class MainController extends PublicMainController
         }
 
         return $questions;
+    }
+
+    /**
+     * Assigns role for the user
+     * @throws \application\components\Exception
+     */
+    private function assignStatus()
+    {
+        if ($this->test->Id != 48 /* svyaz16 */ && $this->test->Id != 49 /* svyaz16_en */) {
+            return;
+        }
+
+        $user = $this->getUser();
+        $event = $this->test->Event;
+
+        if (!$event->registerUser($user, Role::findOne(Role::VISITOR))) {
+            \Yii::log('Не удалось присвоить роль ' . Role::VISITOR . ' для мероприятия svyaz16');
+        }
     }
 }

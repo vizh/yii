@@ -18,13 +18,6 @@ class FoodAction extends StatAction
 
         $groups = $this->fetchUniqueGroups($eventId);
         $allStat = $this->collectAllStat($eventId, $groups);
-        /*uasort($allStat, function ($groupA, $groupB) {
-            if ($groupA['group'] == $groupB['group']) {
-                return 0;
-            }
-
-            return ($groupA['group'] < $groupB['group']) ? -1 : 1;
-        });*/
 
         $this->controller->render('food', [
             'allStat' => $allStat

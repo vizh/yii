@@ -73,9 +73,9 @@ use ruvents2\models\Badge as Badge2;
  *
  *
  * Вспомогательные описания методов методы
- * @method \user\models\User find($condition = '', $params = array())
- * @method \user\models\User findByPk($pk, $condition = '', $params = array())
- * @method \user\models\User[] findAll($condition = '', $params = array())
+ * @method User find($condition = '', $params = array())
+ * @method User findByPk($pk, $condition = '', $params = array())
+ * @method User[] findAll($condition = '', $params = array())
  * @method User byTemporary(bool $temporary)
  * @method User byVerified(bool $verified)
  *

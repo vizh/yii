@@ -2,9 +2,7 @@
 namespace pay\models\forms\admin;
 
 /**
- * Class BookingSearch
- * Поиск номеров
- * @package pay\models\forms\admin
+ * Class BookingSearch Поиск номеров
  */
 class BookingSearch extends \CFormModel
 {
@@ -259,8 +257,9 @@ class BookingSearch extends \CFormModel
         self::parseValues($paids, $row['Paid'], ';');
         $booked = [];
         self::parseValues($booked, $row['Booked'], ';');
-        if (count($ownerIds) !== count($userNames) || count($ownerIds) !== count($dates))
+        if (count($ownerIds) !== count($userNames) || count($ownerIds) !== count($dates)) {
             throw new \CException('Ошибка парсига диапазонов дат!');
+        }
 
         $partnerOwners = [];
         self::parseValues($partnerOwners, $row['PartnerOwners'], ';;');

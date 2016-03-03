@@ -16,6 +16,8 @@ namespace event\models;
  */
 class Role extends \application\models\translation\ActiveRecord
 {
+    const PARTICIPANT = 1;
+    const VISITOR = 38;
     const VIRTUAL_ROLE_ID = 24;
 
     /**
