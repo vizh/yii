@@ -45,7 +45,7 @@ class ListAction extends Action
             }
         }
 
-        usort($result->Items, function (OrderItem $item1, OrderItem $item2) {
+        usort($result->Items, function ($item1, $item2) {
             $result = strcasecmp($item1->Owner->LastName, $item2->Owner->LastName);
             if (!$result) {
                 $result = strcasecmp($item1->Owner->FirstName, $item2->Owner->FirstName);
