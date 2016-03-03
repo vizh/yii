@@ -34,6 +34,11 @@
     .span12 {
         width: 600px !important;
     }
+    h3 {
+        font-size: 15px !important;
+        margin-bottom: 5px !important;
+        margin-top: 5px !important;
+    }
 </style>
 <body id="<?php echo $this->bodyId ?>">
 <noscript>JavaScript disabled</noscript>
