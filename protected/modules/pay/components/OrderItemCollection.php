@@ -5,7 +5,6 @@ use pay\models\CollectionCoupon;
 
 /**
  * Class OrderItemCollection
- * @package pay\components
  */
 class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregate
 {
