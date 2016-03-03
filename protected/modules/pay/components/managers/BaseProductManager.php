@@ -244,7 +244,6 @@ abstract class BaseProductManager
      * @param User $owner
      * @param string|null $bookTime
      * @param array $attributes
-     *
      * @return OrderItem
      * @throws Exception
      */
@@ -274,7 +273,10 @@ abstract class BaseProductManager
 
         foreach ($this->getRequiredOrderItemAttributeNames() as $key) {
             if (!isset($attributes[$key])) {
-                throw new MessageException('Не задан обязательный параметр ' . $key . ' при добавлении заказа.', MessageException::ORDER_ITEM_GROUP_CODE);
+                throw new MessageException(
+                    'Не задан обязательный параметр ' . $key . ' при добавлении заказа.',
+                    MessageException::ORDER_ITEM_GROUP_CODE
+                );
             }
         }
 

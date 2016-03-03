@@ -1,75 +1,82 @@
 <?php
 namespace api\controllers\pay;
 
-class ListAction extends \api\components\Action
+use api\components\Action;
+use api\components\Exception;
+use pay\components\collection\Finder;
+use pay\components\OrderItemCollection;
+use pay\models\OrderItem;
+use user\models\User;
+
+/**
+ * Class ListAction Returns list of products
+ */
+class ListAction extends Action
 {
-  public function run()
-  {
-    $request = \Yii::app()->getRequest();
-    $payerRunetId = $request->getParam('PayerRunetId', null);
-    if ($payerRunetId === null)
+    /**
+     * @inheritdoc
+     * @throws Exception
+     */
+    public function run()
     {
-      $payerRunetId = $request->getParam('PayerRocId', null);
+        $request = \Yii::app()->getRequest();
+        $payerRunetId = $request->getParam('PayerRunetId', null);
+        if (!$payerRunetId) {
+            $payerRunetId = $request->getParam('PayerRocId', null);
+        }
+
+        if (!$payer = User::model()->byRunetId($payerRunetId)->find()) {
+            throw new Exception(202, [$payerRunetId]);
+        }
+
+        $result = new \stdClass();
+
+        $finder = Finder::create($this->getEvent()->Id, $payer->Id);
+        $collections = array_merge(
+            [$finder->getUnpaidFreeCollection()],
+            $finder->getPaidOrderCollections(),
+            $finder->getPaidFreeCollections()
+        );
+
+        $result->Items = [];
+        foreach ($collections as $collection) {
+            foreach ($collection as $item) {
+                $result->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($item);
+            }
+        }
+
+        usort($result->Items, function (OrderItem $item1, OrderItem $item2) {
+            $result = strcasecmp($item1->Owner->LastName, $item2->Owner->LastName);
+            if (!$result) {
+                $result = strcasecmp($item1->Owner->FirstName, $item2->Owner->FirstName);
+            }
+
+            return $result;
+        });
+
+        /** @var $collections OrderItemCollection[] */
+        $collections = array_merge($finder->getUnpaidOrderCollections(), $finder->getPaidOrderCollections());
+
+        $result->Orders = [];
+        foreach ($collections as $collection) {
+            if (is_null($collection->getOrder())) {
+                continue;
+            }
+
+            $orderObj = new \stdClass();
+            $orderObj->OrderId = $collection->getOrder()->Id;
+            $orderObj->CreationTime = $collection->getOrder()->CreationTime;
+            $orderObj->Number = $collection->getOrder()->Number;
+            $orderObj->Paid = $collection->getOrder()->Paid;
+            $orderObj->Url = $collection->getOrder()->getUrl();
+            $orderObj->Items = array();
+            foreach ($collection as $item) {
+                $orderObj->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($item);
+            }
+
+            $result->Orders[] = $orderObj;
+        }
+
+        $this->getController()->setResult($result);
     }
-
-    $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
-    if ($payer == null)
-    {
-      throw new \api\components\Exception(202, array($payerRunetId));
-    }
-    
-    $result = new \stdClass();
-
-    $finder = \pay\components\collection\Finder::create($this->getEvent()->Id, $payer->Id);
-    $collections = array_merge([$finder->getUnpaidFreeCollection()], $finder->getPaidOrderCollections(), $finder->getPaidFreeCollections());
-
-    $result->Items = array();
-    foreach ($collections as $collection)
-    {
-      foreach ($collection as $item)
-      {
-        $result->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($item);
-      }
-    }
-
-    usort($result->Items, [$this,'sortItems']);
-
-    /** @var $collections \pay\components\OrderItemCollection[] */
-    $collections = array_merge($finder->getUnpaidOrderCollections(), $finder->getPaidOrderCollections());
-
-    $result->Orders = array();
-    foreach ($collections as $collection)
-    {
-      if ($collection->getOrder() == null)
-        continue;
-      $orderObj = new \stdClass();
-      $orderObj->OrderId = $collection->getOrder()->Id;
-      $orderObj->CreationTime = $collection->getOrder()->CreationTime;
-      $orderObj->Number = $collection->getOrder()->Number;
-      $orderObj->Paid = $collection->getOrder()->Paid;
-      $orderObj->Url = $collection->getOrder()->getUrl();
-      $orderObj->Items = array();
-      foreach ($collection as $item)
-      {
-        $orderObj->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($item);
-      }
-      $result->Orders[] = $orderObj;
-    }
-
-    $this->getController()->setResult($result);
-  }
-
-  /**
-   * @param $item1
-   * @param $item2
-   * @return bool|int
-   */
-  private function sortItems($item1, $item2)
-  {
-    $result = strcasecmp($item1->Owner->LastName, $item2->Owner->LastName);
-    if ($result == 0) {
-        $result = strcasecmp($item1->Owner->FirstName, $item2->Owner->FirstName);
-    }
-    return $result;
-  }
 }

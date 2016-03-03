@@ -33,7 +33,7 @@ use user\models\User;
  *
  * @method OrderItem findByPk()
  * @method OrderItem find()
- * @method OrderItem[] findAll()
+ * @method OrderItem[] findAll($condition = '', $params = [])
  * @method OrderItem with()
  * @method OrderItem byRefund(boolean $refund)
  */
@@ -74,7 +74,7 @@ class OrderItem extends ActiveRecord
             'Payer' => [self::BELONGS_TO, 'user\models\User', 'PayerId'],
             'Owner' => [self::BELONGS_TO, 'user\models\User', 'OwnerId'],
             'ChangedOwner' => [self::BELONGS_TO, 'user\models\User', 'ChangedOwnerId'],
-            'OrderLinks' => [self::HAS_MANY, 'paymodels\OrderLinkOrderItem', 'OrderItemId'],
+            'OrderLinks' => [self::HAS_MANY, 'pay\models\OrderLinkOrderItem', 'OrderItemId'],
             'CouponActivationLink' => [self::HAS_ONE, 'pay\models\CouponActivationLinkOrderItem', 'OrderItemId'],
             'Attributes' => [self::HAS_MANY, 'pay\models\OrderItemAttribute', 'OrderItemId']
         ];
