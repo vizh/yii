@@ -122,7 +122,7 @@
                 </div>
             </div>
 
-            <? $this->renderPartial('_fbPublish', ['event' => $event]); ?>
+            <?php $this->renderPartial('_fbPublish', ['event' => $event]); ?>
 
             <div class="control-group">
                 <?=\CHtml::activeLabel($form, 'Visible', array('class' => 'control-label'));?>
@@ -140,12 +140,6 @@
                 <?=\CHtml::activeLabel($form, 'CloseRegistrationAfterEnd', array('class' => 'control-label'));?>
                 <div class="controls">
                     <?=\CHtml::activeCheckBox($form, 'CloseRegistrationAfterEnd');?>
-                </div>
-            </div>
-            <div class="control-group">
-                <?=\CHtml::activeLabel($form, 'UnsubscribeNewUser', array('class' => 'control-label'));?>
-                <div class="controls">
-                    <?=\CHtml::activeCheckBox($form, 'UnsubscribeNewUser');?>
                 </div>
             </div>
             <div class="control-group">
