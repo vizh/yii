@@ -37,7 +37,7 @@ use user\models\User;
  *
  * @method Order findByPk()
  * @method Order find()
- * @method Order[] findAll()
+ * @method Order[] findAll($condition = '', $params = [])
  */
 class Order extends ActiveRecord
 {

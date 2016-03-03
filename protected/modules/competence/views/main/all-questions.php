@@ -17,7 +17,7 @@ $this->pageTitle = $test->Title;
 
 <div class="row" style="padding: 30px;">
     <div class="span12">
-        <div>
+        <div class="m-bottom_40">
             <?=$test->Info?>
         </div>
 
@@ -31,7 +31,7 @@ $this->pageTitle = $test->Title;
 
         <?php foreach ($questions as $question): ?>
             <div class="question" data-required="<?= intval($question->Required) ?>">
-                <h3 class="m-top_40">
+                <h3>
                     <?= CHtml::encode($question->Title) ?>
                     <?php if (!empty($question->SubTitle)): ?>
                         <br><span><?= $question->SubTitle ?></span>

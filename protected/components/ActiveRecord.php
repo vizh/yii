@@ -71,13 +71,13 @@ abstract class ActiveRecord extends \CActiveRecord
     public function __call($name, $parameters)
     {
         if (strpos($name, 'by') === 0) {
-            $column = substr($name,2);
+            $column = substr($name, 2);
             $schema = $this->getTableSchema();
             if (array_key_exists($column, $schema->columns)) {
                 $criteria = new \CDbCriteria();
                 if ($schema->getColumn($column)->dbType !== 'boolean') {
                     $value = $parameters[0];
-                    if ($value !== null) {
+                    if ($value) {
                         if (is_array($value)) {
                             $criteria->addInCondition('"t"."' . $column . '"', $value);
                         } else {
