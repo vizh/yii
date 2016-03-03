@@ -182,6 +182,7 @@ if ($data) {
 
     .age {
         font-size: 60px;
+        line-height: 60px;
     }
 
     .text-blue {
@@ -190,6 +191,10 @@ if ($data) {
 
     .pull-left {
         float: left;
+    }
+
+    .text-center {
+        text-align: center;
     }
 </style>
 <main>
@@ -202,7 +207,7 @@ if ($data) {
         </div>
         <div class="col-5 m-l-20">
             <div class="p-a-2">
-                <img src="/img/ticket/svyaz16/svyaz.png" alt="" width="120" class="pull-left">
+                <img src="/img/ticket/svyaz16/svyaz.png" alt="" class="pull-left">
                 <div class="age text-blue m-l-20">12+</div>
             </div>
         </div>
@@ -218,8 +223,9 @@ if ($data) {
             <div class="p-a-2">
                 <h2>Персональный штрихкод</h2>
                 <div>
-                    <div class="col-8">
+                    <div class="col-8 text-center">
                         <barcode code="<?=$customNumber?>" type="C128A" class="barcode" size="1" height="2" text="1"/>
+                       <?=$customNumber?>
                     </div>
                     <div class="col-4">
                         <strong><span
