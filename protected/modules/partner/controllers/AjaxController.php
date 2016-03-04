@@ -43,7 +43,8 @@ class AjaxController extends Controller
             $item['price'] = $collectionItem->getPriceDiscount();
             $result[] = $item;
         }
-        return $this->returnJSON($result);
+
+        $this->returnJSON($result);
     }
 
     /**

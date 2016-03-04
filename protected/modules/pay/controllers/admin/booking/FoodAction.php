@@ -7,13 +7,13 @@ class FoodAction extends \CAction
 {
     public function run()
     {
-        $dates = ['2014-04-22', '2014-04-23', '2014-04-24'];
+        $dates = ['2016-04-13', '2016-04-14', '2016-04-15'];
         $food = [
-            'breakfast' => [3634, 3637, 3640],
-            'lunch'     => [3635, 3638, 3641],
-            'dinner'    => [3636, 3639, 3642],
-            'boblight'  => [3651, 3653, 3655],
-            'bobhard'   => [3650, 3652, 3654]
+            'breakfast' => [4416, 4419, 4422],
+            'lunch'     => [4417, 4420, 4423],
+            'dinner'    => [4418, 4421, 4424],
+            //'boblight'  => [3651, 3653, 3655],
+            //'bobhard'   => [3650, 3652, 3654]
         ];
 
         $users = Rif::getUsersByHotel();

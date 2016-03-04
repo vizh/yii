@@ -3,6 +3,8 @@ namespace event\models;
 
 use application\components\ActiveRecord;
 use event\components\tickets\Ticket;
+use partner\models\Account;
+use user\models\User;
 
 /**
  * @property int $Id
@@ -13,47 +15,43 @@ use event\components\tickets\Ticket;
  * @property string $CreationTime
  * @property string $UpdateTime
  *
- * @property \user\models\User $User
+ * @property User $User
  * @property Role $Role
  * @property Event $Event
  * @property Part $Part
  *
- * @method \event\models\Participant find()
- * @method \event\models\Participant[] findAll()
- * @method \event\models\Participant findByPk()
+ * @method Participant find()
+ * @method Participant[] findAll()
+ * @method Participant findByPk()
  */
 class Participant extends ActiveRecord
 {
-    /** @var int */
+    /**
+     * @var int
+     */
     public $CountForCriteria;
 
-    /**
-     * @param string $className
-     * @return Participant
-     */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
+    private $hashSalt = 'aHQR/agr(pSEt/t.EFS.BT/!';
 
+    /**
+     * @inheritdoc
+     */
     public function tableName()
     {
         return 'EventParticipant';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function relations()
     {
-        return array(
-            'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-            'Role' => array(self::BELONGS_TO, '\event\models\Role', 'RoleId'),
-            'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-            'Part' => array(self::BELONGS_TO, '\event\models\Part', 'PartId')
-        );
+        return [
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'Role' => [self::BELONGS_TO, '\event\models\Role', 'RoleId'],
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+            'Part' => [self::BELONGS_TO, '\event\models\Part', 'PartId']
+        ];
     }
 
     /**
@@ -65,8 +63,9 @@ class Participant extends ActiveRecord
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."UserId" = :UserId';
-        $criteria->params = array(':UserId' => $userId);
+        $criteria->params = [':UserId' => $userId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -79,8 +78,9 @@ class Participant extends ActiveRecord
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = array(':EventId' => $eventId);
+        $criteria->params = [':EventId' => $eventId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -96,6 +96,7 @@ class Participant extends ActiveRecord
         $criteria->condition = '"t"."RoleId" = :RoleId';
         $criteria->params = [':RoleId' => $roleId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -115,29 +116,28 @@ class Participant extends ActiveRecord
             $criteria->condition = 't."PartId" = :PartId';
             $criteria->params = ['PartId' => $partId];
         }
+
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
     /**
-     * @param $role Role
+     * @param Role $role
      * @param bool $usePriority
      * @return bool
      */
     public function UpdateRole($role, $usePriority = false)
     {
-        if (!$usePriority || $this->Role->Priority <= $role->Priority)
-        {
+        if (!$usePriority || $this->Role->Priority <= $role->Priority) {
             $oldRole = $this->Role;
 
             $this->RoleId = $role->RoleId;
             $this->UpdateTime = time();
             $this->save();
 
-            /** @var $partnerAccount \partner\models\Account */
-            $partnerAccount = \partner\models\Account::model()->byEventId($this->EventId)->find();
-            if (!empty($partnerAccount))
-            {
+            /** @var Account $partnerAccount */
+            if ($partnerAccount = Account::model()->byEventId($this->EventId)->find()) {
                 $partnerAccount->GetNotifier()->NotifyRoleChange($this->User, $oldRole, $role);
             }
 
@@ -147,11 +147,9 @@ class Participant extends ActiveRecord
         return false;
     }
 
-
-    private $hashSalt = 'aHQR/agr(pSEt/t.EFS.BT/!';
     public function getHash()
     {
-        return substr(md5($this->EventId.$this->hashSalt.$this->UserId), 2, 25);
+        return substr(md5($this->EventId . $this->hashSalt . $this->UserId), 2, 25);
     }
 
     /**
@@ -166,7 +164,6 @@ class Participant extends ActiveRecord
             'hash' => $this->getHash()
         ]);
     }
-
 
     /**
      * Возвращает билет

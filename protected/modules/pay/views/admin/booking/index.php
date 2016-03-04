@@ -32,7 +32,7 @@ use pay\models\forms\admin\BookingSearch;
                     <div class="control-group">
                         <?= $activeForm->labelEx($form, $attribute, ['class' => 'control-label']) ?>
                         <div class="controls">
-                            <?php $this->widget('\application\widgets\GroupBtnSelect', [
+                            <?php $this->widget('application\widgets\GroupBtnSelect', [
                                 'values' => $form->getAttributeValues($attribute),
                                 'model' => $form,
                                 'attribute' => $attribute
@@ -151,7 +151,7 @@ use pay\models\forms\admin\BookingSearch;
                 Основных: <?= $room['DescriptionBasic'] ?>;<br/>
                 Доп.: <?= $room['DescriptionMore'] ?>;
             </td>
-            <?php foreach (\pay\models\forms\admin\BookingSearch::getDateRanges() as $startDate => $endDate):
+            <?php foreach (BookingSearch::getDateRanges() as $startDate => $endDate):
                 $key = $startDate . '-' . $endDate;
                 ?>
                 <td <?= isset($dates[$key]) && count($dates[$key]) > 1 ? 'style="background-color: #f2dede;"' : ''; ?>>
@@ -170,7 +170,7 @@ use pay\models\forms\admin\BookingSearch;
                                 <span style="font-weight: normal;" class="label label-success">Оплачен</span>
                             <?php elseif (!empty($dateData['Booked'])): ?>
                                 <span style="font-weight: normal;"
-                                      class="label label-warning">до <?= Yii::app()->getDateFormatter()->format('dd.MM H:m', $dateData['Booked']); ?></span>
+                                      class="label label-warning">до <?= Yii::app()->getDateFormatter()->format('dd.MM H:m', $dateData['Booked']) ?></span>
                             <?php else: ?>
                                 <span style="font-weight: normal;" class="label label-warning">Не оплачен</span>
                             <?php endif ?><br>

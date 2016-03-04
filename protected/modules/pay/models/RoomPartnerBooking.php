@@ -1,5 +1,6 @@
 <?php
 namespace pay\models;
+
 use application\components\ActiveRecord;
 
 /**
@@ -23,7 +24,7 @@ use application\components\ActiveRecord;
  * @property string $Car
  *
  * @method RoomPartnerBooking byDeleted(boolean $deleted)
- * @method RoomPartnerBooking[] findAll()
+ * @method RoomPartnerBooking[] findAll($condition = '', $params = [])
  *
  * @method RoomPartnerBooking byProductId(int $productId)
  * @method RoomPartnerBooking byOwner(string $owner)

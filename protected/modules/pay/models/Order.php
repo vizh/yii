@@ -36,7 +36,7 @@ use user\models\User;
  * @property OrderJuridicalTemplate $Template
  *
  * @method Order findByPk()
- * @method Order find()
+ * @method Order find($condition = '', $params = [])
  * @method Order[] findAll($condition = '', $params = [])
  */
 class Order extends ActiveRecord
