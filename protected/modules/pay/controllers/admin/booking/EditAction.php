@@ -1,16 +1,29 @@
 <?php
 namespace pay\controllers\admin\booking;
 
+use pay\components\MessageException;
+use pay\models\forms\admin\PartnerBooking;
+use pay\models\forms\admin\UserBooking;
+use pay\models\OrderItem;
+use pay\models\Product;
+use pay\models\RoomPartnerBooking;
+
 class EditAction extends \CAction
 {
-    /** @var  \pay\models\Product */
+    /**
+     * @var Product
+     */
     private $product;
 
+    /**
+     * @inheritdoc
+     */
     public function run($productId)
     {
-        $this->product = \pay\models\Product::model()->findByPk($productId);
-        if ($this->product == null || $this->product->ManagerName != 'RoomProductManager')
+        $this->product = Product::model()->findByPk($productId);
+        if (!$this->product || $this->product->ManagerName !== 'RoomProductManager') {
             throw new \CHttpException(404);
+        }
 
         $formNewPartner = $this->parseNewPartner();
         $partnerErrorForms = $this->parseSavePartners();
@@ -18,14 +31,19 @@ class EditAction extends \CAction
         $formNewUser = $this->parseNewUser();
         $userErrorForms = $this->parseSaveUsers();
 
+        $partnerBooking = RoomPartnerBooking::model()
+            ->byProductId($this->product->Id)
+            ->byDeleted(false)
+            ->findAll([
+                'order' => 't."Paid" DESC'
+            ]);
 
-        $partnerBooking = \pay\models\RoomPartnerBooking::model()
-            ->byProductId($this->product->Id)->byDeleted(false)->findAll(['order' => 't."Paid" DESC']);
-
-        $orderItems = \pay\models\OrderItem::model()
-            ->byProductId($this->product->Id)->byDeleted(false)
-            ->findAll(['order' => 't."Paid" DESC, t."Id"']);
-
+        $orderItems = OrderItem::model()
+            ->byProductId($this->product->Id)
+            ->byDeleted(false)
+            ->findAll([
+                'order' => 't."Paid" DESC, t."Id"'
+            ]);
 
         $this->getController()->render('edit', [
             'product' => $this->product,
@@ -39,15 +57,15 @@ class EditAction extends \CAction
         ]);
     }
 
-
     private function parseNewPartner()
     {
         $request = \Yii::app()->getRequest();
-        $formNewPartner = new \pay\models\forms\admin\PartnerBooking($this->product);
+        $formNewPartner = new PartnerBooking($this->product);
         if ($request->getParam('createPartner') != null) {
             $formNewPartner->setAttributes($request->getParam('partnerNewData'));
+
             if ($formNewPartner->validate()) {
-                $newPartnerBooking = new \pay\models\RoomPartnerBooking();
+                $newPartnerBooking = new RoomPartnerBooking();
                 $newPartnerBooking->ProductId = $this->product->Id;
                 $newPartnerBooking->Owner = $formNewPartner->Owner;
                 $newPartnerBooking->DateIn = $formNewPartner->DateIn;
@@ -67,13 +85,16 @@ class EditAction extends \CAction
         $request = \Yii::app()->getRequest();
         if ($request->getParam('savePartners') != null) {
             $partnerData = $request->getParam('partnerData');
+
             foreach ($partnerData as $key => $data) {
-                /** @var \pay\models\RoomPartnerBooking $partnerBooking */
-                $partnerBooking = \pay\models\RoomPartnerBooking::model()->findByPk($key);
+                /** @var RoomPartnerBooking $partnerBooking */
+                $partnerBooking = RoomPartnerBooking::model()->findByPk($key);
+
                 if ($partnerBooking != null && !$partnerBooking->Paid) {
-                    $form = new \pay\models\forms\admin\PartnerBooking($this->product);
+                    $form = new PartnerBooking($this->product);
                     $form->setAttributes($data);
                     $form->Owner = $partnerBooking->Owner;
+
                     if ($form->validate()) {
                         $partnerBooking->DateIn = $form->DateIn;
                         $partnerBooking->DateOut = $form->DateOut;
@@ -89,14 +110,21 @@ class EditAction extends \CAction
         return $partnerErrorForms;
     }
 
+    /**
+     * Makes a UserBooking form model
+     * @return UserBooking
+     * @throws MessageException
+     */
     private function parseNewUser()
     {
         $request = \Yii::app()->getRequest();
-        $formNewUser = new \pay\models\forms\admin\UserBooking();
+        $formNewUser = new UserBooking();
+
         if ($request->getParam('createUser') != null) {
             $formNewUser->setAttributes($request->getParam('userNewData'));
+
             if ($formNewUser->validate()) {
-                $orderItem = new \pay\models\OrderItem();
+                $orderItem = new OrderItem();
                 $orderItem->PayerId = $formNewUser->getUser()->Id;
                 $orderItem->OwnerId = $formNewUser->getUser()->Id;
                 $orderItem->ProductId = $this->product->Id;
@@ -108,6 +136,7 @@ class EditAction extends \CAction
                 $this->getController()->refresh();
             }
         }
+
         return $formNewUser;
     }
 
@@ -116,13 +145,16 @@ class EditAction extends \CAction
         $userErrorForms = [];
         $request = \Yii::app()->getRequest();
         if ($request->getParam('saveUsers') != null) {
+
             $userData = $request->getParam('userData');
             foreach ($userData as $key => $data) {
-                $orderItem = \pay\models\OrderItem::model()->findByPk($key);
+                $orderItem = OrderItem::model()->findByPk($key);
+
                 if ($orderItem != null && !$orderItem->Paid) {
-                    $form = new \pay\models\forms\admin\UserBooking();
+                    $form = new UserBooking();
                     $form->setAttributes($data);
                     $form->RunetId = $orderItem->Payer->RunetId;
+
                     if ($form->validate()) {
                         $orderItem->setItemAttribute('DateIn', $form->DateIn);
                         $orderItem->setItemAttribute('DateOut', $form->DateOut);
@@ -135,20 +167,24 @@ class EditAction extends \CAction
                 }
             }
         }
+
         return $userErrorForms;
     }
 
     private function getPartnerNames()
     {
         $result = \Yii::app()->getDb()->createCommand()
-            ->select('Owner')->from('PayRoomPartnerBooking')
-            ->group('Owner')->order('Owner')->queryAll();
+            ->select('Owner')
+            ->from('PayRoomPartnerBooking')
+            ->group('Owner')
+            ->order('Owner')
+            ->queryAll();
 
         $partnerNames = [];
         foreach ($result as $row) {
             $partnerNames[] = $row['Owner'];
         }
+
         return $partnerNames;
     }
-
-} 
+}

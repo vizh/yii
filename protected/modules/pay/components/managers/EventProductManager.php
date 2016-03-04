@@ -1,13 +1,22 @@
 <?php
 namespace pay\components\managers;
+
 use event\models\Participant;
+use event\models\Role;
 use pay\models\OrderItem;
+use pay\models\Product;
+use user\models\User;
 
 /**
  * @property int $RoleId
  */
 class EventProductManager extends BaseProductManager
 {
+    /**
+     * @var Participant
+     */
+    protected $participant;
+
     /**
      * @inheritdoc
      */
@@ -24,38 +33,37 @@ class EventProductManager extends BaseProductManager
         return ['RoleId'];
     }
 
-
-    /** @var \event\models\Participant */
-    protected $participant;
-
     /**
      * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
-     * @param \user\models\User $user
+     * @param User $user
      * @param array $params
      * @return bool
      */
     public function checkProduct($user, $params = array())
     {
-        $this->participant = \event\models\Participant::model()
+        $this->participant = Participant::model()
             ->byUserId($user->Id)
-            ->byEventId($this->product->EventId)->with('Role')->find();
-        if ($this->participant === null)
-        {
+            ->byEventId($this->product->EventId)
+            ->with('Role')
+            ->find();
+
+        if (!$this->participant) {
             return true;
         }
-        $role = \event\models\Role::model()->findByPk($this->RoleId);
-        if ($role === null)
-        {
+
+        if (!$role = Role::model()->findByPk($this->RoleId)) {
             return false;
         }
 
         return $this->participant->Role->Priority < $role->Priority;
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function getCheckProductMessage($user, $params = [])
     {
-        if ($this->participant != null)
-        {
+        if ($this->participant != null) {
             $isSelf = !\Yii::app()->user->isGuest && \Yii::app()->user->getCurrentUser()->Id == $user->Id;
             $roleTitle = $this->participant->Role->Title;
 
@@ -63,44 +71,48 @@ class EventProductManager extends BaseProductManager
                 return 'К сожалению, на данный момент Вы не можете оплатить участие в DevCon 2014, т.к. все места на конференцию уже забронированы, и Вы переведены в лист ожидания. При появлении свободных мест мы обязательно с Вами свяжемся.';
             }
 
-
-            if ($isSelf)
+            if ($isSelf) {
                 return sprintf('Вы уже зарегистрированы на мероприятие со статусом "%s"', $roleTitle);
-            else
+            } else {
                 return sprintf('%s уже зарегистрирован на мероприятие со статусом "%s"', $user->getFullName(), $roleTitle);
+            }
         }
+
         return parent::getCheckProductMessage($user, $params);
     }
 
-
     /**
-     * @param \user\models\User $user
-     * @param \pay\models\OrderItem $orderItem
+     * @param User $user
+     * @param OrderItem $orderItem
      * @param array $params
      *
      * @return bool
      */
-    protected function internalBuy($user, $orderItem = null, $params = array())
+    protected function internalBuy($user, $orderItem = null, $params = [])
     {
-        /** @var $role \event\models\Role */
-        $role = \event\models\Role::model()->findByPk($this->RoleId);
+        /** @var Role $role */
+        $role = Role::model()->findByPk($this->RoleId);
         $this->product->Event->registerUser($user, $role);
         return true;
     }
 
     /**
      *
-     * @param \user\models\User $fromUser
-     * @param \user\models\User $toUser
+     * @param User $fromUser
+     * @param User $toUser
      * @param array $params
      *
      * @return bool
      */
-    protected function internalChangeOwner($fromUser, $toUser, $params = array())
+    protected function internalChangeOwner($fromUser, $toUser, $params = [])
     {
-        $participant = \event\models\Participant::model()->byEventId($this->product->EventId)
-            ->byRoleId($this->RoleId)->byUserId($fromUser->Id)->find();
-        if ($participant !== null) {
+        $participant = Participant::model()
+            ->byEventId($this->product->EventId)
+            ->byRoleId($this->RoleId)
+            ->byUserId($fromUser->Id)
+            ->find();
+
+        if ($participant) {
             // todo: Необходимо по логу смотреть прошлый перед оплатой статус, и выставлять его
             $participant->delete();
         }
@@ -114,11 +126,17 @@ class EventProductManager extends BaseProductManager
     protected function internalRollback(OrderItem $orderItem)
     {
         $owner = $orderItem->getCurrentOwner();
-        $participant = Participant::model()->byEventId($this->product->EventId)->byRoleId($this->RoleId)->byUserId($owner->Id)->find();
-        if ($participant !== null) {
+        $participant = Participant::model()
+            ->byEventId($this->product->EventId)
+            ->byRoleId($this->RoleId)
+            ->byUserId($owner->Id)
+            ->find();
+
+        if ($participant) {
             $participant->Event->unregisterUser($owner, \Yii::t('app', 'Отмена заказа'));
             return true;
         }
+
         return false;
     }
 
@@ -134,11 +152,10 @@ class EventProductManager extends BaseProductManager
 
     /**
      * @param array $params
-     * @return \pay\models\Product
+     * @return Product
      */
     public function getFilterProduct($params)
     {
         return $this->product;
     }
-
 }

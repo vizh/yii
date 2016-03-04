@@ -1,6 +1,8 @@
 <?php
 namespace pay\components\managers;
 
+use event\models\Participant;
+use event\models\Role;
 use pay\components\MessageException;
 use pay\models\OrderItem;
 use pay\models\Product;
@@ -93,31 +95,38 @@ class RoomProductManager extends BaseProductManager
 
     /**
      * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
-     * @param \user\models\User $user
+     * @param User $user
      * @param array $params
      * @return bool
      */
-    public function checkProduct($user, $params = array())
+    public function checkProduct($user, $params = [])
     {
-        /** @var $participant \event\models\Participant */
-        $participant = \event\models\Participant::model()
-            ->byUserId($user->Id)->byEventId($this->product->EventId)->find();
-        /** @var $checkRole \event\models\Role */
-        $checkRole = \event\models\Role::model()->findByPk(1);
-        if (!empty($participant) && $participant->Role->Priority >= $checkRole->Priority) {
+        /** @var Participant $participant */
+        $participant = Participant::model()
+            ->byUserId($user->Id)
+            ->byEventId($this->product->EventId)
+            ->find();
+
+        /** @var $checkRole Role */
+        $checkRole = Role::model()->findByPk(1);
+        if ($participant && $participant->Role->Priority >= $checkRole->Priority) {
             return true;
         }
 
-        /** @var $orderItems \pay\models\OrderItem[] */
-        $orderItems = \pay\models\OrderItem::model()->byEventId($this->product->EventId)
-            ->byPayerId($user->Id)->byOwnerId($user->Id)
-            ->byDeleted(false)->findAll();
+        /** @var OrderItem[] $orderItems */
+        $orderItems = OrderItem::model()
+            ->byEventId($this->product->EventId)
+            ->byPayerId($user->Id)
+            ->byOwnerId($user->Id)
+            ->byDeleted(false)
+            ->findAll();
 
         foreach ($orderItems as $item) {
             if ($item->Product->ManagerName == 'EventProductManager') {
                 return true;
             }
         }
+
         return false;
     }
 

@@ -31,7 +31,7 @@ use user\models\User;
  * @property CouponActivationLinkOrderItem $CouponActivationLink
  * @property OrderItemAttribute[] $Attributes
  *
- * @method OrderItem findByPk()
+ * @method OrderItem findByPk($pk, $condition = '', $params = [])
  * @method OrderItem find()
  * @method OrderItem[] findAll($condition = '', $params = [])
  * @method OrderItem with()

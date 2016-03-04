@@ -1,14 +1,16 @@
 <?php
 namespace pay\components;
 
+use pay\components\collection\Iterator;
 use pay\models\CollectionCoupon;
+use pay\models\Order;
+use pay\models\OrderItem;
 
 /**
  * Class OrderItemCollection
  */
 class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregate
 {
-
     /**
      * @var OrderItemCollectable
      */
@@ -20,16 +22,15 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
     private $_eventId = null;
 
     /**
-     * @var \pay\models\Order
+     * @var Order
      */
-    private $_order = null;
+    private $_order;
 
     /**
-     * @param \pay\models\Order $order
-     *
+     * @param Order $order
      * @return OrderItemCollection|OrderItemCollectable[]
      */
-    public static function createByOrder(\pay\models\Order $order)
+    public static function createByOrder(Order $order)
     {
         $items = [];
         foreach ($order->ItemLinks as $link) {
@@ -42,7 +43,7 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
     }
 
     /**
-     * @param \pay\models\OrderItem[] $orderItems
+     * @param OrderItem[] $orderItems
      *
      * @return OrderItemCollection|OrderItemCollectable[]
      */
@@ -54,8 +55,7 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
     }
 
     /**
-     * @param \pay\models\OrderItem[] $orderItems
-     *
+     * @param OrderItem[] $orderItems
      * @throws Exception
      */
     private function __construct($orderItems)
@@ -198,6 +198,6 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
      */
     public function getIterator()
     {
-        return new \pay\components\collection\Iterator($this);
+        return new Iterator($this);
     }
 }

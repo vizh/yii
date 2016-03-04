@@ -174,7 +174,6 @@ class Photo
         Image::ResizeAndSave($clearSaveTo, $newImage, 50, 50, ['x1' => 0, 'y1' => 0]);
     }
 
-
     public function delete()
     {
         $methodsMap = ['getClear', 'getOriginal', 'get238px', 'get200px', 'get90px', 'get50px'];
