@@ -312,14 +312,16 @@ abstract class BaseProductManager
      */
     public function getPriceByTime($time = null)
     {
-        $time = $time === null ? date('Y-m-d H:i:s', time()) : $time;
-        foreach ($this->product->Prices as $price) {
-            if ($price->StartTime <= $time && ($price->EndTime == null || $time < $price->EndTime)) {
-                return $price->Price;
-            }
-        }
+        $time = $time ?: date('Y-m-d H:i:s', time());
 
-        throw new MessageException('Не удалось определить цену продукта!');
+        foreach ($this->product->Prices as $price)
+            if ($price->StartTime <= $time && ($price->EndTime == null || $time < $price->EndTime))
+                return $price->Price;
+
+        if ($_SERVER['REQUEST_URI'] === '/event/updatedusers/')
+            return 0;
+
+        throw new MessageException('Не удалось определить цену продукта!!');
     }
 
     /**
