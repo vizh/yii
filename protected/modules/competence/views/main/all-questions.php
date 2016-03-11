@@ -24,8 +24,7 @@ $this->pageTitle = $test->Title;
         <?= CHtml::beginForm() ?>
         <?php if ($hasErrors): ?>
             <div class="alert alert-error">
-                Вы не ответили на один или несколько вопросов. Заполните вопросы, отмеченные сообщением об ошибке, и
-                отправьте данные анкеты повторно.
+                <?= Yii::t('app', 'Вы не ответили на один или несколько вопросов. Заполните вопросы, отмеченные сообщением об ошибке, и отправьте данные анкеты повторно.') ?>
             </div>
         <?php endif ?>
 
@@ -55,8 +54,7 @@ $this->pageTitle = $test->Title;
         <?php endforeach ?>
         <div class="row interview-controls">
             <div class="span8 text-center">
-                <input type="submit" class="btn btn-success" value="<?= Yii::t('app', 'Отправить анкету') ?>"
-                       name="next">
+                <input type="submit" class="btn btn-success" value="<?= Yii::t('app', 'Отправить анкету') ?>" name="next">
             </div>
         </div>
         <?= CHtml::endForm() ?>

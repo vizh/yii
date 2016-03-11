@@ -234,6 +234,11 @@ return array(
 
     'ваш статус' => 'your status',
 
+    'Вы не ответили на один или несколько вопросов. Заполните вопросы, отмеченные сообщением об ошибке, и отправьте данные анкеты повторно.' => 'You didn\'t answer one or more questions. Fill out the marked questions, and send your answers again.',
+
+    'Введите в строке ответ на вопрос' => 'Type your answer',
+    'Выберите один ответ из списка' => 'Select your answer',
+
     'Отправить анкету' => 'Send',
     'Выберите значение из списка ...' => 'Choose a value from the list ...'
 );

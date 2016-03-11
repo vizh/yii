@@ -19,7 +19,7 @@ class Input extends Base
     {
         $rules = [];
         if ($this->Required || $this->Required === null) {
-            $rules[] = ['value', 'required', 'message' => 'Введите в строке ответ на вопрос'];
+            $rules[] = ['value', 'required', 'message' => \Yii::t('app', 'Введите в строке ответ на вопрос')];
         }
         return $rules;
     }

@@ -20,7 +20,7 @@ class Multiple extends Base
     public function rules()
     {
         $rules = [];
-        $rules[] = $this->question->Required ? ['value', 'required', 'message' => 'Выберите один ответ из списка'] : ['value', 'safe'];
+        $rules[] = $this->question->Required ? ['value', 'required', 'message' => \Yii::t('app', 'Выберите один ответ из списка')] : ['value', 'safe'];
         $rules[] = ['other', 'checkOtherValidator'];
         return $rules;
     }
