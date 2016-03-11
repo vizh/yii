@@ -47,7 +47,7 @@ class Single extends Base
 
     public function getOtherValidatorErrorMessage()
     {
-        return 'Необходимо заполнить текстовое поле рядом с ответом';
+        return \Yii::t('app', 'Необходимо заполнить текстовое поле рядом с ответом');
     }
 
     protected function getFormAttributeNames()

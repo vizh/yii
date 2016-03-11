@@ -39,7 +39,7 @@ class Multiple extends Base
             $this->other = trim($this->other);
 
             if (empty($this->other)) {
-                $this->addError('', 'Необходимо заполнить текстовое поле рядом с ответом');
+                $this->addError('', \Yii::t('app', 'Необходимо заполнить текстовое поле рядом с ответом'));
                 return false;
             }
         }
