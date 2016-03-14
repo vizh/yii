@@ -15,7 +15,7 @@ class InternalController extends \application\components\controllers\PublicMainC
     const MAX_EXECUTION_TIME = 3600;
 
     // Import is closed after success import for safety reasons
-    const IMPORT_CLOSED = TRUE;
+    const IMPORT_CLOSED = true;
 
     /**
      * Clears products
