@@ -1,11 +1,11 @@
 <?php
 namespace event\widgets;
+
 use competence\models\Result;
 use competence\models\Test;
 use event\components\Widget;
 use event\components\WidgetPosition;
 use event\models\Role;
-use user\models\User;
 
 /**
  * Class Competence

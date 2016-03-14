@@ -1350,11 +1350,13 @@ a:hover .i-social_small.i-social_vkontakte      {background-position: -80px 0;}
   text-transform: uppercase;
   margin-bottom: 10px;
 }
+.event-page-fullwidth .contacts .header,
 .event-page-fullwidth .contacts .phone,
+.event-page-fullwidth .contacts .site,
 .event-page-fullwidth .contacts .email,
 .event-page-fullwidth .contacts .address{
   color: #999;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: bold;
   padding: 0 15px;
   text-decoration: none;
@@ -3119,4 +3121,9 @@ input[type="file"] {
 }
 .bg-muted {
   background-color: #f9f9f9 !important;
+}
+
+small.notice {
+  color: #999;
+  font-style: italic;
 }

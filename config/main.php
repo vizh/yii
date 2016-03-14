@@ -51,7 +51,7 @@ $config = [
             'class' => 'ext.MobileDetect.MobileDetect'
         ],
         'session' => [
-            'class' => '\application\components\web\PgDbHttpSession',
+            'class' => 'application\components\web\PgDbHttpSession',
             'connectionID' => 'db',
             'autoCreateSessionTable' => true,
             'sessionName' => 'sessid',

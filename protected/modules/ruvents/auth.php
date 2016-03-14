@@ -45,6 +45,4 @@ return array(
         'bizRule' => null,
         'data' => null
     ),
-
-
 );

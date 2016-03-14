@@ -3,7 +3,6 @@ namespace application\components;
 
 use Gregwar\Cache\Cache;
 use Gregwar\Image\Image as GregwarImage;
-use \CActiveRecord as ActiveRecord;
 
 class Image
 {
@@ -21,7 +20,7 @@ class Image
      * @param null|string $defaultImage Путь до изображения по умолчанию
      * @param null|string $folder Поддериктория, в которую требуется сохранять изображения
      */
-    function __construct(ActiveRecord $model, $defaultImage = null, $folder = null)
+    function __construct(\CActiveRecord $model, $defaultImage = null, $folder = null)
     {
         $cacheDir = 'upload/images/' . strtolower($model->tableName());
         if ($folder !== null) {

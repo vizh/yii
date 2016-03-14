@@ -5,7 +5,6 @@ use application\components\auth\identity\RunetId;
 use application\components\form\FormModel;
 use application\modules\competence\components\EventCode;
 use competence\models\Test;
-use user\models\User;
 
 class CodeValidation extends FormModel
 {

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ������
- * Date: 05.08.2015
- * Time: 13:06
- */
-
 namespace application\widgets;
 
 use application\components\form\FormModel;

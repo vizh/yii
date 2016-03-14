@@ -1,27 +1,50 @@
 <?php
 
+use application\components\utility\Texts;
+use pay\models\OrderItem;
+use pay\models\Product;
+use application\components\parsing\CsvParser;
+use pay\components\managers\RoomProductManager;
+use pay\models\ProductPrice;
+
+/**
+ * Class InternalController for internal purposes
+ */
 class InternalController extends \application\components\controllers\PublicMainController
 {
+    const MAX_EXECUTION_TIME = 3600;
 
+    // Import is closed after success import for safety reasons
+    const IMPORT_CLOSED = true;
+
+    /**
+     * Clears products
+     */
     public function actionClear()
     {
-        echo 'closed';
-        return;
-        /** @var $products \pay\models\Product[] */
-        $products = \pay\models\Product::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])->byManagerName('RoomProductManager')->findAll();
-
-        foreach ($products as $product)
-        {
-            foreach ($product->Attributes as $attr)
-            {
-                $attr->delete();
-            }
-            $product->delete();
+        if (self::IMPORT_CLOSED) {
+            echo 'closed';
+            return;
         }
+
+        ini_set('max_execution_time', self::MAX_EXECUTION_TIME);
+
+        \Yii::app()->getDb()->createCommand()
+            ->delete('PayProductAttribute', '"ProductId" IN (SELECT "Id" FROM "PayProduct" WHERE "EventId" = :eventId AND "ManagerName" = :managerName)', [
+                ':eventId' => \Yii::app()->params['AdminBookingEventId'],
+                ':managerName' => 'RoomProductManager'
+            ]);
+
+        \Yii::app()->getDb()->createCommand()
+            ->delete('PayProduct', '"EventId" = :eventId AND "ManagerName" = :managerName', [
+                ':eventId' => \Yii::app()->params['AdminBookingEventId'],
+                ':managerName' => 'RoomProductManager'
+            ]);
+
         echo 'OK';
     }
 
-    public $fieldMap = array(
+    public $fieldMap = [
         'TechnicalNumber' => 0,
         'Hotel' => 1,
         'Housing' => 2,
@@ -36,9 +59,9 @@ class InternalController extends \application\components\controllers\PublicMainC
         'DescriptionMore' => 11,
         'Booking' => 12,
         'Price' => 13,
-    );
+    ];
 
-    public $fieldMapPines = array(
+    public $fieldMapPines = [
         'TechnicalNumber' => 0,
         'Visible' => 1,
         'Hotel' => 2,
@@ -53,12 +76,21 @@ class InternalController extends \application\components\controllers\PublicMainC
         'DescriptionBasic' => 10,
         'DescriptionMore' => 17,
         'Price' => 16,
-    );
+    ];
 
+    /**
+     * Imports rooms
+     */
     public function actionImportrooms()
     {
-				return;
-        $parser = new \application\components\parsing\CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/import_26032015_942.csv');
+        if (self::IMPORT_CLOSED) {
+            echo 'closed';
+            return;
+        }
+
+        ini_set('max_execution_time', self::MAX_EXECUTION_TIME);
+
+        $parser = new CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/import_rooms_2016_15022.csv');
         $parser->SetInEncoding('utf-8');
         $parser->SetDelimeter(';');
         $results = $parser->Parse($this->fieldMap, false);
@@ -67,49 +99,41 @@ class InternalController extends \application\components\controllers\PublicMainC
         echo '<pre>';
         print_r($results);
         echo '</pre>';
-        return; // TODO: Вернуть перед импортом чтобы проверить данные
+        //return; // TODO: Вернуть перед импортом чтобы проверить данные
 
-        foreach ($results as $result)
-        {
-            $product = new \pay\models\Product();
+        foreach ($results as $result) {
+            $product = new Product();
             $product->ManagerName = 'RoomProductManager';
-            $product->Title = 'Участие в объединенной конференции РИФ+КИБ 2015 с проживанием';
-            $product->EventId = \Yii::app()->params['AdminBookingEventId'];
+            $product->Title = 'Участие в объединенной конференции РИФ+КИБ 2016 с проживанием';
+            $product->EventId = Yii::app()->params['AdminBookingEventId'];
             $product->Unit = 'усл.';
             $product->EnableCoupon = false;
             $product->Public = false;
             $product->save();
 
-            $price = new \pay\models\ProductPrice();
+            $price = new ProductPrice();
             $price->ProductId = $product->Id;
-            $price->Price = \application\components\utility\Texts::getOnlyNumbers($result->Price);
+            $price->Price = Texts::getOnlyNumbers($result->Price);
             $price->StartTime = '2015-02-19 09:00:00';
             $price->save();
 
-            if (empty($result->EuroRenovation))
-            {
+            if (empty($result->EuroRenovation)) {
                 $result->EuroRenovation = 'нет';
             }
-            if (empty($result->Housing))
-            {
+
+            if (empty($result->Housing)) {
                 $result->Housing = 'Основной корпус';
             }
 
-            foreach ($this->fieldMap as $key => $value)
-            {
-                switch ($key)
-                {
+            foreach ($this->fieldMap as $key => $value) {
+                switch ($key) {
                     case 'Booking':
                         $booking = trim($result->$key);
-                        if ($booking == 'сайт')
-                        {
+                        if ($booking == 'сайт') {
                             $product->getManager()->Visible = 1;
-                        }
-                        else
-                        {
+                        } else {
                             $product->getManager()->Visible = 0;
-                            if ($booking == 'ОРГКОМ')
-                            {
+                            if ($booking == 'ОРГКОМ') {
                                 $roomBooking = new \pay\models\RoomPartnerBooking();
                                 $roomBooking->ProductId = $product->Id;
                                 $roomBooking->Owner = 'Оргкомитет';
@@ -119,6 +143,7 @@ class InternalController extends \application\components\controllers\PublicMainC
                                 $roomBooking->save();
                             }
                         }
+
                         break;
                     default:
                         $product->getManager()->$key = trim($result->$key);
@@ -135,14 +160,17 @@ class InternalController extends \application\components\controllers\PublicMainC
 
     public function actionFixprice()
     {
-        echo 'closed';
+        if (self::IMPORT_CLOSED) {
+            echo 'closed';
+            return;
+        }
 
-        return;
         $products = \pay\models\Product::model()
-            ->byEventId(\Yii::app()->params['AdminBookingEventId'])->byManagerName('RoomProductManager')->findAll();
+            ->byEventId(\Yii::app()->params['AdminBookingEventId'])
+            ->byManagerName('RoomProductManager')
+            ->findAll();
 
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $price = $product->getManager()->Price;
             $price = str_replace(',', '', $price);
             $product->getManager()->Price = intval($price);
@@ -177,8 +205,7 @@ class InternalController extends \application\components\controllers\PublicMainC
             'Участие в объединенной конференции РИФ+КИБ 2013 с питанием: 19 апреля, ужин' => 500,
         );
 
-        foreach ($foods as $title => $price)
-        {
+        foreach ($foods as $title => $price) {
             $product = new \pay\models\Product();
             $product->ManagerName = 'FoodProductManager';
             $product->Title = $title;
@@ -198,13 +225,15 @@ class InternalController extends \application\components\controllers\PublicMainC
 
     public function actionRemovePhysicalBooked()
     {
-        $orderItems = \pay\models\OrderItem::model()->byEventId(\Yii::app()->params['AdminBookingEventId'])
-            ->byPaid(false)->byBooked(false)->byDeleted(false)->findAll();
+        $orderItems = OrderItem::model()
+            ->byEventId(\Yii::app()->params['AdminBookingEventId'])
+            ->byPaid(false)
+            ->byBooked(false)
+            ->byDeleted(false)
+            ->findAll();
 
-        foreach ($orderItems as $item)
-        {
-            if ($item->delete())
-            {
+        foreach ($orderItems as $item) {
+            if ($item->delete()) {
                 echo $item->Id . ' ' . $item->CreationTime . ' Booked to ' . $item->Booked . '<br>';
             }
         }
@@ -212,24 +241,26 @@ class InternalController extends \application\components\controllers\PublicMainC
 
     public function actionFixRoomAdditionalPrice()
     {
-        echo 'closed';
-        return;
-        $products = \pay\models\Product::model()
-            ->byEventId(\Yii::app()->params['AdminBookingEventId'])->byManagerName('RoomProductManager')->findAll();
+        if (self::IMPORT_CLOSED) {
+            echo 'closed';
+            return;
+        }
 
-        $addPrice = ['ЛЕСНЫЕ ДАЛИ' => 500, 'НАЗАРЬЕВО' => 500, 'ПОЛЯНЫ' => 500, 'СОСНЫ' => 710, ];
+        $products = Product::model()
+            ->byEventId(\Yii::app()->params['AdminBookingEventId'])
+            ->byManagerName('RoomProductManager')
+            ->findAll();
 
-        foreach ($products as $product)
-        {
-            /** @var \pay\components\managers\RoomProductManager $manager */
+        $addPrice = ['ЛЕСНЫЕ ДАЛИ' => 500, 'НАЗАРЬЕВО' => 500, 'ПОЛЯНЫ' => 500, 'СОСНЫ' => 710];
+
+        foreach ($products as $product) {
+            /** @var RoomProductManager $manager */
             $manager = $product->getManager();
 
-            if ($manager->Hotel == 'СОСНЫ')
-            {
+            if ($manager->Hotel == 'СОСНЫ') {
                 $manager->AdditionalPrice = 710;
             }
-            else
-            {
+            else {
                 $manager->AdditionalPrice = 500;
             }
         }

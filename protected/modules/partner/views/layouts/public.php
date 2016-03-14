@@ -10,7 +10,7 @@ $sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
 <!DOCTYPE html>
 <!--[if IE 8]><html class="ie8" lang="<?=\Yii::app()->getLanguage()?>"> <![endif]-->
 <!--[if IE 9]><html class="ie9 gt-ie8" lang="<?=\Yii::app()->getLanguage()?>"> <![endif]-->
-<!--[if gt IE 9]><!--> <html class="gt-ie8 gt-ie9 not-ie" lang="<?=\Yii::app()->getLanguage()?>"> <!--<![endif]-->
+<!--[if gt IE 9]><!--> <html class="gt-ie8 gt-ie9 not-ie" lang="<?=Yii::app()->getLanguage()?>"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0">
@@ -20,11 +20,11 @@ $sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <title><?=\CHtml::encode($this->pageTitle); ?></title>
+    <title><?=CHtml::encode($this->pageTitle); ?></title>
 </head>
 <body class="theme-default <?=$this->bodyClass;?>" ng-app="PartnerApp">
 <style type="text/css">
-    <?php if ($sidebar):?>
+    <?php if ($sidebar): ?>
     @media (max-width: 1200px) {
         #content-wrapper {
             min-width: 970px !important;
@@ -33,24 +33,24 @@ $sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
             overflow: auto !important;
         }
     }
-    <?php endif;?>
+    <?php endif ?>
     <?php if (!$this->showNavbar):?>
         #content-wrapper {padding-top: 0px;}
-    <?php endif;?>
+    <?php endif ?>
     <?php if ($this->bgTransparent):?>
         body {background: transparent !important;}
         #content-wrapper {padding: 0px;}
-    <?php endif;?>
+    <?php endif ?>
 </style>
 
-<?php if ($this->showNavbar):?>
+<?php if ($this->showNavbar): ?>
     <?$this->widget('partner\widgets\Navbar');?>
-<?php endif;?>
+<?php endif ?>
 
-<div <?php if ($sidebar):?>id="main-wrapper"<?php endif;?>>
+<div <?php if ($sidebar):?>id="main-wrapper"<?php endif ?>>
     <?php if ($sidebar):?>
         <?$this->widget('partner\widgets\Sidebar', ['event' => $this->getAction()->getEvent()]);?>
-    <?php endif;?>
+    <?php endif ?>
 
     <div id="content-wrapper">
         <?php if ($this->showPageHeader):?>
@@ -60,23 +60,23 @@ $sidebar = $this->showSidebar && \Yii::app()->partner->getIsSetEvent();
                         <h1><?=\CHtml::encode($this->pageTitle)?></h1>
                     </div>
                     <div class="col-sm-6 text-right hidden-xs">
-                        <?=$this->clips[Controller::PAGE_HEADER_CLIP_ID];?>
+                        <?=$this->clips[Controller::PAGE_HEADER_CLIP_ID]?>
                     </div>
                     <div class="visible-xs m-top_5 col-xs-12">
-                        <?=$this->clips[Controller::PAGE_HEADER_CLIP_ID];?>
+                        <?=$this->clips[Controller::PAGE_HEADER_CLIP_ID]?>
                     </div>
                 </div>
             </div>
-        <?php endif;?>
+        <?php endif ?>
         <?=$content?>
         <?=$this->clips[Controller::PAGE_FOOTER_CLIP_ID];?>
     </div>
 
-    <?php if ($sidebar):?>
+    <?php if ($sidebar): ?>
         <div id="main-menu-bg"></div>
-    <?php endif;?>
+    <?php endif ?>
 </div>
 <script>window.PixelAdmin.start(init);</script>
-<?php $this->widget('\application\widgets\ModalAuth', ['bootstrapVersion' => 3]);?>
+<?php $this->widget('\application\widgets\ModalAuth', ['bootstrapVersion' => 3]) ?>
 </body>
 </html>

@@ -12,13 +12,13 @@ use partner\components\Controller;
 use partner\models\forms\user\Participant as ParticipantForm;
 use pay\models\OrderItem;
 use pay\models\Product;
+use user\models\forms\edit\Photo;
 use user\models\User;
 use pay\components\Exception as PayException;
 use event\components\UserDataManager;
 
 /**
- * Class EditAction
- * @package partner\controllers\user
+ * Class EditAction Shows the page to update user information
  *
  * @method Controller getController()
  */
@@ -27,24 +27,54 @@ class EditAction extends Action
     use AjaxController;
     use LoadModelTrait;
 
+    /**
+     * Main method
+     * @param int $id Identifier of teh user
+     * @param bool $layout
+     * @throws \CHttpException
+     */
     public function run($id, $layout = true)
     {
-        $user = User::model()->byRunetId($id)->find();
-        if ($user === null) {
+        if (!$user = User::model()->byRunetId($id)->find()) {
             throw new \CHttpException(404);
         }
 
-        if (\Yii::app()->getRequest()->getIsPostRequest()) {
+        $photoForm = new Photo();
+
+        $request = \Yii::app()->getRequest();
+        if ($request->isPostRequest) {
+            $this->updateUserPhoto($photoForm, $user);
             $this->processAjaxAction($user);
         }
+
         $form = new ParticipantForm($this->getEvent(), $user);
 
         if (!$layout) {
             $this->getController()->enableAjaxLayout();
         }
-        $this->getController()->render('edit', ['form' => $form]);
+
+        $this->getController()->render('edit', [
+            'form' => $form,
+            'photoForm' => $photoForm
+        ]);
     }
 
+    /**
+     * Updates the user photo
+     * @param Photo $form
+     * @param User $user
+     */
+    private function updateUserPhoto(Photo $form, User $user)
+    {
+        if (!$form->Image = \CUploadedFile::getInstance($form, 'Image')) {
+            return;
+        }
+
+        if ($form->validate()) {
+            $user->getPhoto()->saveUploaded($form->Image);
+            $this->controller->refresh();
+        }
+    }
 
     /**
      * @param User $user
@@ -53,13 +83,16 @@ class EditAction extends Action
     private function processAjaxAction(User $user)
     {
         $action = \Yii::app()->getRequest()->getParam('action');
-        if ($action !== null) {
-            $method = 'actionAjax' . ucfirst($action);
-            if (method_exists($this, $method)) {
-                $this->returnJSON($this->$method($user));
-            }
-            throw new \CHttpException(404);
+        if (is_null($action)) {
+            return;
         }
+
+        $method = 'actionAjax' . ucfirst($action);
+        if (method_exists($this, $method)) {
+            $this->returnJSON($this->$method($user));
+        }
+
+        throw new \CHttpException(404);
     }
 
     /**
@@ -81,7 +114,7 @@ class EditAction extends Action
         if (!empty($event->Parts)) {
             /** @var Part $part */
             $part = $this->loadModel(Part::className(), $request->getParam('part'));
-            if ($role !== null) {
+            if ($role) {
                 $event->registerUserOnPart($part, $user, $role, false, $message);
             } else {
                 $event->unregisterUserOnPart($user, $part, $message);
@@ -89,6 +122,7 @@ class EditAction extends Action
         } else {
             $role !== null ? $event->registerUser($user, $role, false, $message) : $event->unregisterUser($user, $message);
         }
+
         return ['success' => true];
     }
 
@@ -113,6 +147,7 @@ class EditAction extends Action
                 'message' => $e->getMessage()
             ];
         }
+
         $this->returnJSON($result);
     }
 
@@ -162,6 +197,7 @@ class EditAction extends Action
             foreach ($data->getManager()->getDefinitions() as $definition) {
                 $result[$definition->name] = $definition->getPrintValue($data->getManager());
             }
+
             return $result;
         } else {
             foreach ($manager->getErrors() as $errors) {
@@ -184,6 +220,7 @@ class EditAction extends Action
         if ($product->EventId !== $this->getEvent()->Id || $product->getPrice() !== 0) {
             throw new \CHttpException(404);
         }
+
         return $product;
     }
 }

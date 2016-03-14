@@ -2,8 +2,9 @@
 namespace pay\models;
 
 use application\components\ActiveRecord;
+use pay\components\Exception;
 use pay\components\MessageException;
-use user\models\Referral;
+use user\models\User;
 
 /**
  * @property int $Id
@@ -22,30 +23,38 @@ use user\models\Referral;
  * @property string $RefundTime
  *
  * @property Product $Product
- * @property \user\models\User $Payer
- * @property \user\models\User $Owner
- * @property \user\models\User $ChangedOwner
+ * @property User $Payer
+ * @property User $Owner
+ * @property User $ChangedOwner
  * @property OrderLinkOrderItem[] $OrderLinks
+ * @method OrderLinkOrderItem[] OrderLinks($params)
  * @property CouponActivationLinkOrderItem $CouponActivationLink
  * @property OrderItemAttribute[] $Attributes
  *
- * @method OrderItem findByPk()
+ * @method OrderItem findByPk($pk, $condition = '', $params = [])
  * @method OrderItem find()
- * @method OrderItem[] findAll()
+ * @method OrderItem[] findAll($condition = '', $params = [])
  * @method OrderItem with()
  * @method OrderItem byRefund(boolean $refund)
  */
 class OrderItem extends ActiveRecord
 {
     /**
-     * @static
-     * @param string $className
-     * @return OrderItem
+     * @var OrderItemAttribute[]
      */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
+    protected $orderItemAttributes;
+
+    /**
+     * @var CouponActivation
+     */
+    private $couponActivation;
+
+    /**
+     * @var bool
+     */
+    private $couponTrySet = false;
+
+    private $loyaltyDiscount = false;
 
     /**
      * @return string
@@ -56,28 +65,19 @@ class OrderItem extends ActiveRecord
     }
 
     /**
-     * @return string
-     */
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
-    /**
      * @return array
      */
     public function relations()
     {
-        return array(
-            'Product' => array(self::BELONGS_TO, '\pay\models\Product', 'ProductId'),
-            'Payer' => array(self::BELONGS_TO, '\user\models\User', 'PayerId'),
-            'Owner' => array(self::BELONGS_TO, '\user\models\User', 'OwnerId'),
-            'ChangedOwner' => array(self::BELONGS_TO, '\user\models\User', 'ChangedOwnerId'),
-            'OrderLinks' => array(self::HAS_MANY, '\pay\models\OrderLinkOrderItem', 'OrderItemId'),
-            'CouponActivationLink' => array(self::HAS_ONE, '\pay\models\CouponActivationLinkOrderItem', 'OrderItemId'),
-
-            'Attributes' => array(self::HAS_MANY, '\pay\models\OrderItemAttribute', 'OrderItemId'),
-        );
+        return [
+            'Product' => [self::BELONGS_TO, 'pay\models\Product', 'ProductId'],
+            'Payer' => [self::BELONGS_TO, 'user\models\User', 'PayerId'],
+            'Owner' => [self::BELONGS_TO, 'user\models\User', 'OwnerId'],
+            'ChangedOwner' => [self::BELONGS_TO, 'user\models\User', 'ChangedOwnerId'],
+            'OrderLinks' => [self::HAS_MANY, 'pay\models\OrderLinkOrderItem', 'OrderItemId'],
+            'CouponActivationLink' => [self::HAS_ONE, 'pay\models\CouponActivationLinkOrderItem', 'OrderItemId'],
+            'Attributes' => [self::HAS_MANY, 'pay\models\OrderItemAttribute', 'OrderItemId']
+        ];
     }
 
     /**
@@ -90,6 +90,7 @@ class OrderItem extends ActiveRecord
         if ($this->getIsNewRecord()) {
             throw new MessageException('Заказ еще не сохранен.');
         }
+
         if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames())) {
             $attributes = $this->getOrderItemAttributes();
             return isset($attributes[$name]) ? $attributes[$name]->Value : null;
@@ -99,46 +100,41 @@ class OrderItem extends ActiveRecord
     }
 
     /**
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed $value
      * @throws MessageException
      */
     public function setItemAttribute($name, $value)
     {
-        if ($this->getIsNewRecord()){
+        if ($this->getIsNewRecord()) {
             throw new MessageException('Заказ еще не сохранен.');
         }
-        if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames())){
+
+        if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames())) {
             $attributes = $this->getOrderItemAttributes();
-            if (!isset($attributes[$name])){
-                $attribute = new \pay\models\OrderItemAttribute();
+            if (!isset($attributes[$name])) {
+                $attribute = new OrderItemAttribute();
                 $attribute->OrderItemId = $this->Id;
                 $attribute->Name = $name;
                 $this->orderItemAttributes[$name] = $attribute;
-            }
-            else{
+            } else {
                 $attribute = $attributes[$name];
             }
             $attribute->Value = $value;
             $attribute->save();
-        }
-        else
-        {
+        } else {
             throw new MessageException('Данный заказ не содержит аттрибута с именем ' . $name);
         }
     }
-
-    /** @var OrderItemAttribute[] */
-    protected $orderItemAttributes = null;
 
     /**
      * @return ProductAttribute[]
      */
     public function getOrderItemAttributes()
     {
-        if ($this->orderItemAttributes === null){
+        if ($this->orderItemAttributes === null) {
             $this->orderItemAttributes = array();
-            foreach ($this->Attributes as $attribute){
+            foreach ($this->Attributes as $attribute) {
                 $this->orderItemAttributes[$attribute->Name] = $attribute;
             }
         }
@@ -149,15 +145,15 @@ class OrderItem extends ActiveRecord
     /**
      * @param int $productId
      * @param bool $useAnd
-     *
      * @return OrderItem
      */
     public function byProductId($productId, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."ProductId" = :ProductId';
-        $criteria->params = array('ProductId' => $productId);
+        $criteria->params = ['ProductId' => $productId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -170,8 +166,9 @@ class OrderItem extends ActiveRecord
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."PayerId" = :PayerId';
-        $criteria->params = array('PayerId' => $userId);
+        $criteria->params = ['PayerId' => $userId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -184,8 +181,9 @@ class OrderItem extends ActiveRecord
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."OwnerId" = :OwnerId';
-        $criteria->params = array('OwnerId' => $userId);
+        $criteria->params = ['OwnerId' => $userId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -197,14 +195,15 @@ class OrderItem extends ActiveRecord
     public function byChangedOwnerId($userId, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        if ($userId !== null){
+        if ($userId !== null) {
             $criteria->condition = '"t"."ChangedOwnerId" = :ChangedOwnerId';
-            $criteria->params = array('ChangedOwnerId' => $userId);
-        }
-        else{
+            $criteria->params = ['ChangedOwnerId' => $userId];
+        } else {
             $criteria->condition = '"t"."ChangedOwnerId" IS NULL';
         }
+
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -216,11 +215,10 @@ class OrderItem extends ActiveRecord
     public function byAnyOwnerId($userId, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->addCondition('
-      ("t"."OwnerId" = :OwnerId AND "t"."ChangedOwnerId" IS NULL) OR "t"."ChangedOwnerId" = :OwnerId'
-        );
+        $criteria->addCondition('("t"."OwnerId" = :OwnerId AND "t"."ChangedOwnerId" IS NULL) OR "t"."ChangedOwnerId" = :OwnerId');
         $criteria->params['OwnerId'] = $userId;
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -233,15 +231,16 @@ class OrderItem extends ActiveRecord
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"Product"."EventId" = :EventId';
-        $criteria->params = array('EventId' => $eventId);
-        $criteria->with = array('Product');
+        $criteria->params = ['EventId' => $eventId];
+        $criteria->with = ['Product'];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
     /**
      * @param bool $paid
-     * @param bool $useAnds
+     * @param bool $useAnd
      * @return OrderItem
      */
     public function byPaid($paid, $useAnd = true)
@@ -249,13 +248,13 @@ class OrderItem extends ActiveRecord
         $criteria = new \CDbCriteria();
         $criteria->condition = ($paid ? '' : 'NOT ') . '"t"."Paid"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
     /**
      * @param bool $deleted
      * @param bool $useAnd
-     *
      * @return OrderItem
      */
     public function byDeleted($deleted, $useAnd = true)
@@ -263,6 +262,7 @@ class OrderItem extends ActiveRecord
         $criteria = new \CDbCriteria();
         $criteria->condition = ($deleted ? '' : 'NOT ') . '"t"."Deleted"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -270,63 +270,60 @@ class OrderItem extends ActiveRecord
      * Усли параметр $booked=true - добавляет условие, что срок заказа не истек
      * @param $booked
      * @param bool $useAnd
-     *
      * @return OrderItem
      */
     public function byBooked($booked = true, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        if ($booked){
+        if ($booked) {
             $criteria->condition = '"t"."Booked" IS NULL OR "t"."Booked" > :Booked';
-        }
-        else{
+        } else {
             $criteria->condition = '"t"."Booked" IS NOT NULL AND "t"."Booked" < :Booked';
         }
-        $criteria->params = array('Booked' => date('Y-m-d H:i:s'));
+
+        $criteria->params = ['Booked' => date('Y-m-d H:i:s')];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
-    /**
-     * @var CouponActivation
-     */
-    private $couponActivation = null;
-    /** @var bool */
-    private $couponTrySet = false;
     /**
      * @return CouponActivation
      */
     public function getCouponActivation()
     {
-        if (!$this->Product->EnableCoupon && !$this->Paid){
+        if (!$this->Product->EnableCoupon && !$this->Paid) {
             return null;
         }
-        if ($this->couponActivation === null && !$this->couponTrySet){
+
+
+        if (is_null($this->couponActivation) && !$this->couponTrySet) {
             $this->couponTrySet = true;
-            if (!$this->Paid){
+            if (!$this->Paid) {
                 /** @var $activation CouponActivation */
                 $activation = CouponActivation::model()
                     ->byUserId($this->OwnerId)
                     ->byEventId($this->Product->EventId)
-                    ->byEmptyLinkOrderItem()->find();
-                if ($activation !== null){
+                    ->byEmptyLinkOrderItem()
+                    ->find();
+
+                if ($activation !== null) {
                     $rightProduct = $activation->Coupon->getIsForProduct($this->ProductId);
                     $rightTime = $this->PaidTime === null || $this->PaidTime >= $activation->CreationTime;
-                    if ($rightProduct && $rightTime){
+                    if ($rightProduct && $rightTime) {
                         $this->couponActivation = $activation;
                     }
                 }
-            }
-            else{
+            } else {
                 $this->couponActivation = $this->CouponActivationLink !== null ? $this->CouponActivationLink->CouponActivation : null;
             }
         }
+
         return $this->couponActivation;
     }
 
     /**
      * @param Order $order
-     *
      * @return bool
      */
     public function activate($order = null)
@@ -336,6 +333,7 @@ class OrderItem extends ActiveRecord
         $this->Paid = true;
         $this->PaidTime = ($order !== null ? $order->CreationTime : date('Y-m-d H:i:s'));
         $this->save();
+
         return $result;
     }
 
@@ -348,6 +346,9 @@ class OrderItem extends ActiveRecord
         return $this->Product->getManager()->checkProduct($owner);
     }
 
+    /**
+     * Deactivates the order item
+     */
     public function deactivate()
     {
         $this->Product->getManager()->rollback($this);
@@ -357,14 +358,13 @@ class OrderItem extends ActiveRecord
     }
 
     /**
-     * @param \user\models\User $newOwner
-     *
+     * @param User $newOwner
      * @return bool
      */
-    public function changeOwner(\user\models\User $newOwner)
+    public function changeOwner(User $newOwner)
     {
         $fromOwner = empty($this->ChangedOwner) ? $this->Owner : $this->ChangedOwner;
-        if ($this->Product->getManager()->changeOwner($fromOwner, $newOwner)){
+        if ($this->Product->getManager()->changeOwner($fromOwner, $newOwner)) {
             $this->ChangedOwnerId = $newOwner->Id;
             $this->save();
             return true;
@@ -384,33 +384,35 @@ class OrderItem extends ActiveRecord
 
     /**
      * Итоговое значение цены товара, с учетом скидки, если она есть
-     * @throws \pay\components\Exception
+     * @throws Exception
      * @return int|null
      */
     public function getPriceDiscount()
     {
         $prices[] = $this->getPrice();
-        if ($prices[0] === null){
+        if ($prices[0] === null) {
             throw new MessageException('Не удалось определить цену продукта!');
         }
 
-        if (!$this->Product->getIsTicket() && $this->Product->EnableCoupon){
+        if (!$this->Product->getIsTicket() && $this->Product->EnableCoupon) {
             $activation = $this->getCouponActivation();
-            if ($activation !== null) {
+            if ($activation) {
                 $prices[] = $activation->Coupon->getManager()->apply($this);
             }
 
-            if ($this->getLoyaltyDiscount() !== null) {
+            if ($this->getLoyaltyDiscount()) {
                 $prices[] = $this->getLoyaltyDiscount()->apply($this);
             }
 
             $discount = ReferralDiscount::findDiscount($this->Product, $this->Owner, $this->PaidTime);
-            if ($discount !== null) {
+            if ($discount) {
                 $prices[] = $discount->apply($this);
             }
         }
+
         $price = min($prices);
-        return (int) round($price);
+
+        return (int)round($price);
     }
 
     /**
@@ -418,14 +420,16 @@ class OrderItem extends ActiveRecord
      */
     public function getPaidOrder()
     {
-        if (!$this->Paid){
+        if (!$this->Paid) {
             return null;
         }
-        foreach ($this->OrderLinks as $link){
-            if ($link->Order->Paid){
+
+        foreach ($this->OrderLinks as $link) {
+            if ($link->Order->Paid) {
                 return $link->Order;
             }
         }
+
         return null;
     }
 
@@ -440,18 +444,19 @@ class OrderItem extends ActiveRecord
 
 
     /**
+     * Deletes the order item. It makes soft delete, that means the order item gets Deleted = TRUE and DeletionTime
      * @return bool
      */
     public function delete()
     {
-        if ($this->Paid || $this->Deleted){
+        if ($this->Paid || $this->Deleted) {
             return false;
         }
 
         /** @var $links OrderLinkOrderItem[] */
-        $links = $this->OrderLinks(array('with' => array('Order')));
-        foreach ($links as $link){
-            if (OrderType::getIsLong($link->Order->Type) && !$link->Order->Deleted){
+        $links = $this->OrderLinks(['with' => ['Order']]);
+        foreach ($links as $link) {
+            if (OrderType::getIsLong($link->Order->Type) && !$link->Order->Deleted) {
                 return false;
             }
         }
@@ -469,7 +474,7 @@ class OrderItem extends ActiveRecord
      */
     public function refund()
     {
-        if (!$this->Paid){
+        if (!$this->Paid) {
             return false;
         }
 
@@ -481,7 +486,7 @@ class OrderItem extends ActiveRecord
 
         /** @var OrderLinkOrderItem[] $links */
         $links = $this->OrderLinks(['with' => ['Order']]);
-        foreach ($links as $link){
+        foreach ($links as $link) {
             $order = $link->Order;
             if ($order->Paid) {
                 $order->refund($this);
@@ -492,6 +497,7 @@ class OrderItem extends ActiveRecord
         $this->DeletionTime = $time;
 
         $this->save();
+
         return true;
     }
 
@@ -500,7 +506,7 @@ class OrderItem extends ActiveRecord
      */
     public function deleteHard()
     {
-        if ($this->Paid || $this->Deleted){
+        if ($this->Paid || $this->Deleted) {
             return false;
         }
 
@@ -521,15 +527,13 @@ class OrderItem extends ActiveRecord
         $command = $db->createCommand();
         $count = $command->update(
             $this->tableName(),
-            array('Deleted' => true),
+            ['Deleted' => true],
             'Booked IS NOT NULL AND Booked < :Booked AND NOT Paid AND NOT Deleted',
-            array(':Booked' => date('Y-m-d H:i:s'))
+            [':Booked' => date('Y-m-d H:i:s')]
         );
+
         return $count;
     }
-
-
-    private $loyaltyDiscount = false;
 
     /**
      * @return null|LoyaltyProgramDiscount
@@ -538,18 +542,22 @@ class OrderItem extends ActiveRecord
     {
         if ($this->loyaltyDiscount === false) {
             if ($this->Owner->hasLoyaltyDiscount()) {
-                $paidTime = $this->PaidTime !== null ? $this->PaidTime : date('Y-m-d H:i:s');
+                $paidTime = $this->PaidTime ?: date('Y-m-d H:i:s');
                 $this->loyaltyDiscount = LoyaltyProgramDiscount::model()
-                    ->byActual($paidTime)->byEventId($this->Product->EventId)->byProductId($this->ProductId)->find();
+                    ->byActual($paidTime)
+                    ->byEventId($this->Product->EventId)
+                    ->byProductId($this->ProductId)
+                    ->find();
             } else {
                 $this->loyaltyDiscount = null;
             }
         }
+
         return $this->loyaltyDiscount;
     }
 
     /**
-     * @return \user\models\User
+     * @return User
      */
     public function getCurrentOwner()
     {

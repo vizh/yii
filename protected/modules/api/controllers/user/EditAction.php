@@ -42,6 +42,7 @@ class EditAction extends \api\components\Action
 
         $permission = Permission::model()->byUserId($user->Id)->byAccountId($this->getAccount()->Id)->find();
         $participant = Participant::model()->byEventId($this->getAccount()->EventId)->byUserId($user->Id)->find();
+
         return !empty($permission) && !empty($participant);
     }
 } 

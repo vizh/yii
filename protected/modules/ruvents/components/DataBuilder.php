@@ -53,24 +53,25 @@ class DataBuilder
      */
     public function createUser($user)
     {
-        $this->user = new \stdClass();
-
-        $this->user->RunetId = $user->RunetId;
-        $this->user->LastName = $user->LastName;
-        $this->user->FirstName = $user->FirstName;
-        $this->user->FatherName = $user->FatherName;
-        $this->user->Birthday = $user->Birthday;
-        $this->user->UpdateTime = $user->UpdateTime;
-        $this->user->Gender = $user->Gender;
-        $this->user->CreationTime = $user->CreationTime;
-        $this->user->UpdateTime = $user->UpdateTime;
-        $this->user->Email = trim($user->Email);
-        $this->user->Locales = $this->getLocales($user);
-
-        $this->user->Photo = new \stdClass();
-        $this->user->Photo->Small = $user->getPhoto()->get50px();
-        $this->user->Photo->Medium = $user->getPhoto()->get90px();
-        $this->user->Photo->Large = $user->getPhoto()->get200px();
+        $photoPath =
+        $this->user = (object) [
+            'RunetId' => $user->RunetId,
+            'LastName' => $user->LastName,
+            'FirstName' => $user->FirstName,
+            'FatherName' => $user->FatherName,
+            'Birthday' => $user->Birthday,
+            'UpdateTime' => $user->UpdateTime,
+            'Gender' => $user->Gender,
+            'CreationTime' => $user->CreationTime,
+            'Email' => trim($user->Email),
+            'Locales' => $this->getLocales($user),
+            'Photo' => (object) [
+                'Small' => $user->getPhoto()->get50px(),
+                'Medium' => $user->getPhoto()->get90px(),
+                'Large' => $user->getPhoto()->get200px(),
+                'Original' => str_replace('/files/photo/', 'http://static.runet-id.com/photo/', $user->getPhoto()->getOriginal())
+            ],
+        ];
 
         return $this->user;
     }
@@ -189,7 +190,8 @@ class DataBuilder
             'IdName' => $event->IdName,
             'Title' => $event->Title,
             'Info' => $event->Info,
-            'Parts' => []
+            'Parts' => [],
+            'Roles' => []
         ];
 
         /* Доступные части */
@@ -200,6 +202,10 @@ class DataBuilder
                 'Order' => $part->Order
             ];
         }
+
+        /* Доступные статусы участия */
+        foreach ($event->getRoles() as $role)
+            $this->event->Roles[] = $this->createRole($role);
 
         /* Настройки мероприятия, используемые в качестве
          * настроек клиента */
@@ -272,15 +278,11 @@ class DataBuilder
      */
     public function createRole($role)
     {
-        $this->role = new \stdClass();
-        $this->role->RoleId = $role->Id;
-        if ($this->getEvent()->Id === 889 && $role->Id === 1) {
-            $this->role->Name  = 'Посетитель';
-        } else {
-            $this->role->Name  = $role->Title;
-        }
-        $this->role->Color = $role->Color;
-        return $this->role;
+        return (object) [
+            'RoleId' => $role->Id,
+            'Name' => $role->Title,
+            'Color' => $role->Color
+        ];
     }
 
     protected $part;

@@ -164,12 +164,12 @@ class Coupon extends ActiveRecord
 
     /**
      * Активирует 100% промо-код
-     * @param \user\models\User $payer
-     * @param \user\models\User $owner
+     * @param User $payer
+     * @param User $owner
      * @param Product $product
-     *
-     * @throws \pay\components\Exception
-     * @return void
+     * @throws Exception
+     * @throws \CDbException
+     * @throws \Exception
      */
     protected function activate100($payer, $owner, $product)
     {

@@ -231,10 +231,15 @@ return array(
     '<h4 class="m-bottom_5">Поздравляем!</h4>Мероприятие отправлено. В ближайшее время c Вами свяжутся.' => '<h4 class="m-bottom_5">Thank you!</h4>Our manager will contact you with detailed information!',
     'Москва' => 'Moscow',
     'Участники' => 'Participants',
-    '' => '',
-    '' => '',
-    '' => '',
-    '' => '',
 
-    'ваш статус' => 'your status'
+    'ваш статус' => 'your status',
+
+    'Вы не ответили на один или несколько вопросов. Заполните вопросы, отмеченные сообщением об ошибке, и отправьте данные анкеты повторно.' => 'You didn\'t answer one or more questions. Fill out the marked questions, and send your answers again.',
+
+    'Введите в строке ответ на вопрос' => 'Type your answer',
+    'Выберите один ответ из списка' => 'Select your answer',
+    'Необходимо заполнить текстовое поле рядом с ответом' => 'Fill the text box',
+
+    'Отправить анкету' => 'Send',
+    'Выберите значение из списка ...' => 'Choose a value from the list ...'
 );

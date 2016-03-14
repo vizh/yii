@@ -1,14 +1,10 @@
 <?php
 namespace partner\controllers\order;
-use application\helpers\Flash;
+
 use partner\components\Action;
 use pay\components\CodeException;
-use pay\components\Exception;
 use pay\models\forms\Juridical;
 use pay\models\Order;
-use pay\models\OrderItem;
-use pay\models\OrderLinkOrderItem;
-use pay\models\Product;
 use user\models\User;
 
 /**

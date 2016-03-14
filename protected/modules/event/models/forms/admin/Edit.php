@@ -93,7 +93,7 @@ class Edit extends \CFormModel
     {
         $this->Address = new Address();
         $this->Phone = new Phone(Phone::ScenarioOneField);
-        return parent::__construct($scenario);
+        parent::__construct($scenario);
     }
 
     public function validate($attributes = null, $clearErrors = true)

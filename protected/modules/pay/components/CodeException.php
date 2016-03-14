@@ -59,17 +59,10 @@ class CodeException extends Exception
         self::NO_EXISTS_ORDER_ITEM => 'Не найден заказа',
         self::ERROR_ORDER_ITEM_REFUND => 'Не удалось выполнить возврат заказа',
 
-
-
         /** Ошибки платежных систем */
         901 => 'Ошибка при вычислении хеша',
         902 => 'Не найдено мероприятие с идентификатором %s',
         903 => 'Не корректный статус платежа %s',
-
-
-
-
-
     ];
 
     /**
@@ -82,4 +75,4 @@ class CodeException extends Exception
         $message = isset($this->codes[$code]) ? $this->codes[$code] : 'Возникла ошибка с неизвестным кодом.';
         return call_user_func_array('sprintf', array_merge(array($message), $params));
     }
-} 
+}

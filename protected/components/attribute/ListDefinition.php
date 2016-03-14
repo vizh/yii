@@ -1,6 +1,9 @@
 <?php
 namespace application\components\attribute;
 
+/**
+ * Class ListDefinition Definition for list items
+ */
 class ListDefinition extends Definition
 {
     /**
@@ -53,9 +56,11 @@ class ListDefinition extends Definition
         $htmlOptions['class'] = $this->cssClass . (isset($htmlOptions['class']) ? $htmlOptions['class'] : '');
         $htmlOptions['style'] = $this->cssStyle . (isset($htmlOptions['style']) ? $htmlOptions['style'] : '');
 
+        $emptyValue = '';
+
         $currentValue = $container->{$this->name};
-        $data = ['' => $this->placeholder] + $this->data;
-        $valueExists = isset($data[$currentValue]);
+        $data = [$emptyValue => $this->placeholder] + $this->data;
+        $valueExists = array_key_exists($emptyValue, $data);
 
         $customClass = 'custom-field' . self::$customFieldsCounter++;
         if ($this->customTextField) {
@@ -63,7 +68,6 @@ class ListDefinition extends Definition
             $htmlOptions['class'] .= ' '.$customClass;
 
             if (!$valueExists) {
-                $htmlOptions['disabled'] = true;
                 $currentValue = 'OTHER';
             }
         }
@@ -81,10 +85,8 @@ class ListDefinition extends Definition
                     var \$this = $(this);
 
                     if (\$this.val() === 'OTHER') {
-                        \$this.prop('disabled', true);
                         \$this.closest('div').find('.$customClass-custom').css('display', 'inline').prop('disabled', false);
                     } else {
-                        \$this.prop('disabled', false);
                         \$this.closest('div').find('.$customClass-custom').css('display', 'none').prop('disabled', true);
                     }
                 });"

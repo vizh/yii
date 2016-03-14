@@ -1,59 +1,73 @@
 <?php
 namespace api\controllers\pay;
 
-class AddAction extends \api\components\Action
+use api\components\Action;
+use api\components\Exception;
+use pay\components\CodeException;
+use pay\components\MessageException;
+use pay\components\OrderItemCollection;
+use pay\models\Product;
+use user\models\User;
+
+/**
+ * Class AddAction
+ */
+class AddAction extends Action
 {
-  public function run()
-  {
-    $request = \Yii::app()->getRequest();
-    $productId = $request->getParam('ProductId');
-    $payerRunetId = $request->getParam('PayerRunetId', null);
-    if ($payerRunetId === null)
+    /**
+     * @inheritdoc
+     * @throws Exception
+     * @throws CodeException
+     * @throws MessageException
+     */
+    public function run()
     {
-      $payerRunetId = $request->getParam('PayerRocId', null);
-    }
-    $ownerRunetId = $request->getParam('OwnerRunetId', null);
-    if ($ownerRunetId === null)
-    {
-      $ownerRunetId = $request->getParam('OwnerRocId', null);
-    }
+        $request = \Yii::app()->getRequest();
+        $productId = $request->getParam('ProductId');
 
-    /** @var $product \pay\models\Product */
-    $product = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->findByPk($productId);
-    $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
-    $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
-    if ($product == null)
-    {
-      throw new \api\components\Exception(401, array($productId));
-    }
-    elseif ($payer == null)
-    {
-      throw new \api\components\Exception(202, array($payerRunetId));
-    }
-    elseif ($owner == null)
-    {
-      throw new \api\components\Exception(202, array($ownerRunetId));
-    }
-    elseif ($this->getEvent()->Id != $product->EventId)
-    {
-      throw new \api\components\Exception(402);
-    }
+        $payerRunetId = $request->getParam('PayerRunetId', null);
+        if ($payerRunetId === null) {
+            $payerRunetId = $request->getParam('PayerRocId', null);
+        }
 
-      $attributes = $request->getParam('Attributes', []);
+        $ownerRunetId = $request->getParam('OwnerRunetId', null);
+        if ($ownerRunetId === null) {
+            $ownerRunetId = $request->getParam('OwnerRocId', null);
+        }
 
-    try {
-      $orderItem = $product->getManager()->createOrderItem($payer, $owner, null, $attributes);
-    } catch (\pay\components\Exception $e) {
-      throw new \api\components\Exception(408, [$e->getCode(), $e->getMessage()], $e);
-    }
+        /** @var Product $product */
+        $product = Product::model()
+            ->byEventId($this->getEvent()->Id)
+            ->findByPk($productId);
 
-    $collection = \pay\components\OrderItemCollection::createByOrderItems([$orderItem]);
-    $result = null;
-    foreach ($collection as $item)
-    {
-      $result = $this->getAccount()->getDataBuilder()->createOrderItem($item);
-      break;
+        $payer = User::model()->byRunetId($payerRunetId)->find();
+        $owner = User::model()->byRunetId($ownerRunetId)->find();
+
+        if (!$product) {
+            throw new Exception(401, [$productId]);
+        } elseif ($payer == null) {
+            throw new Exception(202, [$payerRunetId]);
+        } elseif ($owner == null) {
+            throw new Exception(202, [$ownerRunetId]);
+        } elseif ($this->getEvent()->Id != $product->EventId) {
+            throw new Exception(402);
+        }
+
+        $attributes = $request->getParam('Attributes', []);
+
+        try {
+            $orderItem = $product->getManager()->createOrderItem($payer, $owner, null, $attributes);
+        } catch (Exception $e) {
+            throw new Exception(408, [$e->getCode(), $e->getMessage()], $e);
+        }
+
+        $collection = OrderItemCollection::createByOrderItems([$orderItem]);
+        $result = null;
+        foreach ($collection as $item) {
+            $result = $this->getAccount()->getDataBuilder()->createOrderItem($item);
+            break;
+        }
+
+        $this->getController()->setResult($result);
     }
-    $this->getController()->setResult($result);
-  }
 }

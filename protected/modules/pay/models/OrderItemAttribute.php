@@ -1,31 +1,24 @@
 <?php
 namespace pay\models;
 
+use application\components\ActiveRecord;
+
 /**
+ * Class OrderItemAttribute uses for storing data attributes for order items
+ *
+ * Fields
  * @property int $Id
  * @property int $OrderItemId
  * @property string $Name
  * @property string $Value
  */
-class OrderItemAttribute extends \CActiveRecord
+class OrderItemAttribute extends ActiveRecord
 {
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
-
-  public function tableName()
-  {
-    return 'PayOrderItemAttribute';
-  }
-
-  public function primaryKey()
-  {
-    return 'Id';
-  }
-
-  public function relations()
-  {
-    return array();
-  }
+    /**
+     * @inheritdoc
+     */
+    public function tableName()
+    {
+        return 'PayOrderItemAttribute';
+    }
 }

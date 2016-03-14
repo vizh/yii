@@ -139,18 +139,23 @@ class ParticipantData extends SearchFormModel
                 'header' => 'Участник',
                 'type' => 'raw',
                 'value' => function (UserData $data) {
-                    return \Yii::app()->getController()->renderPartial('../partial/grid/user', ['user' => $data->User], true);
+                    return \Yii::app()->getController()->renderPartial(
+                        '../partial/grid/user',
+                        ['user' => $data->User],
+                        true
+                    );
                 },
                 'htmlOptions' => ['class' => 'text-left']
             ],
             [
                 'name' => 'CreationTime',
                 'header' => 'Дата заполнения',
-                'value' => '\Yii::app()->getDateFormatter()->format("dd MMMM yyyy HH:mm", $data->CreationTime)',
+                'value' => 'Yii::app()->getDateFormatter()->format("dd MMMM yyyy HH:mm", $data->CreationTime)',
                 'filter' => false,
                 'width' => 200
             ],
         ];
+
         foreach ($this->definitions as $definition) {
             $column = [
                 'type' => 'raw',
@@ -170,6 +175,7 @@ class ParticipantData extends SearchFormModel
             }
             $columns[] = $column;
         }
+
         return $columns;
     }
 }

@@ -1,7 +1,10 @@
 <?php
 namespace event\models;
 
+use application\models\translation\ActiveRecord;
+
 /**
+ * Fields
  * @property int $Id
  * @property string $Code
  * @property string $Title
@@ -10,38 +13,32 @@ namespace event\models;
  * @property bool $Visible
  * @property bool $Notification
  *
- * @method \event\models\Role find($condition='',$params=array())
- * @method \event\models\Role findByPk($pk,$condition='',$params=array())
- * @method \event\models\Role[] findAll($condition='',$params=array())
+ * @method Role find($condition = '', $params = [])
+ * @method Role findByPk($pk,$condition = '', $params = [])
+ * @method Role[] findAll($condition = '', $params = [])
  */
-class Role extends \application\models\translation\ActiveRecord
+class Role extends ActiveRecord
 {
+    const PARTICIPANT = 1;
+    const VISITOR = 38;
     const VIRTUAL_ROLE_ID = 24;
 
     /**
-     * @param string $className
-     * @return Role
+     * @inheritdoc
      */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
-
     public function tableName()
     {
         return 'EventRole';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function relations()
     {
-        return array(
-            'Participants' => array(self::HAS_MANY, 'event\models\Participant', 'RoleId')
-        );
+        return [
+            'Participants' => [self::HAS_MANY, 'event\models\Participant', 'RoleId']
+        ];
     }
 
     /**
@@ -57,11 +54,12 @@ class Role extends \application\models\translation\ActiveRecord
         $criteria->params = ['EventId' => $eventId];
         $criteria->with = ['Participants' => ['together' => true, 'select' => false]];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
     /**
-     * @param bool $isBase
+     * @param bool $base
      * @param bool $useAnd
      * @return $this
      */
@@ -72,7 +70,6 @@ class Role extends \application\models\translation\ActiveRecord
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }
-
 
     /**
      * @return string[]

@@ -1,6 +1,9 @@
 <?php
 namespace ruvents\models;
+
 use application\components\ActiveRecord;
+use event\models\Event;
+use event\models\UserData;
 use user\models\User;
 
 /**
@@ -9,12 +12,14 @@ use user\models\User;
  * The followings are the available columns in table 'RuventsVisit':
  * @property integer $Id
  * @property string $EventId
- * @property integer $UserId
+ * @property integer $UserId RunetId of the user
  * @property string $MarkId
  * @property string $CreationTime
  *
  * The followings are the available model relations:
  * @property User $User
+ * @property Event $Event
+ * @property UserData $UserData
  *
  * @method Visit[] findAll()
  * @method Visit byEventId(int $id)
@@ -47,8 +52,9 @@ class Visit extends ActiveRecord
     public function relations()
     {
         return [
-            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
-            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
+            'User' => [self::BELONGS_TO, 'user\models\User', 'UserId'],
+            'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId'],
+            'UserData' => [self::HAS_ONE, 'event\models\UserData', ['EventId' => 'EventId', 'UserId' => 'UserId']]
         ];
     }
 }
