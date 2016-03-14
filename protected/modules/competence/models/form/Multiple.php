@@ -20,7 +20,7 @@ class Multiple extends Base
     public function rules()
     {
         $rules = [];
-        $rules[] = $this->question->Required ? ['value', 'required', 'message' => 'Выберите один ответ из списка'] : ['value', 'safe'];
+        $rules[] = $this->question->Required ? ['value', 'required', 'message' => \Yii::t('app', 'Выберите один ответ из списка')] : ['value', 'safe'];
         $rules[] = ['other', 'checkOtherValidator'];
         return $rules;
     }
@@ -39,7 +39,7 @@ class Multiple extends Base
             $this->other = trim($this->other);
 
             if (empty($this->other)) {
-                $this->addError('', 'Необходимо заполнить текстовое поле рядом с ответом');
+                $this->addError('', \Yii::t('app', 'Необходимо заполнить текстовое поле рядом с ответом'));
                 return false;
             }
         }
