@@ -48,10 +48,10 @@ class Participant extends ActiveRecord
     public function relations()
     {
         return [
-            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
-            'Role' => [self::BELONGS_TO, '\event\models\Role', 'RoleId'],
-            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
-            'Part' => [self::BELONGS_TO, '\event\models\Part', 'PartId']
+            'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId'],
+            'Role' => [self::BELONGS_TO, 'event\models\Role', 'RoleId'],
+            'User' => [self::BELONGS_TO, 'user\models\User', 'UserId'],
+            'Part' => [self::BELONGS_TO, 'event\models\Part', 'PartId']
         ];
     }
 
@@ -198,6 +198,12 @@ class Participant extends ActiveRecord
      */
     public function sendTicket()
     {
+        $this->refresh();
+
+        if (!$this->Role) {
+            throw new \CException('Привет');
+        }
+
         $mailer = new MandrillMailer();
         $e = new \CEvent($this->Event, [
             'user' => $this->User,
@@ -208,6 +214,6 @@ class Participant extends ActiveRecord
         $class = \Yii::getExistClass('event\components\handlers\register', ucfirst($this->Event->IdName), 'Base');
         /** @var \mail\components\Mail $mail */
         $mail = new $class($mailer, $e);
-        $mail->send();
+        return $mail->send();
     }
 }
