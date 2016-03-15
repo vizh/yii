@@ -5,10 +5,18 @@ use api\components\Exception;
 use api\models\Account;
 use api\models\forms\ExternalUser;
 use oauth\models\Permission;
+use user\models\forms\fields\Email;
 use user\models\forms\Register as BaseRegisterForm;
+use user\models\User;
 
+/**
+ * Class Register
+ */
 class Register extends BaseRegisterForm
 {
+    /**
+     * @var string User password
+     */
     public $Password;
 
     /**
@@ -16,8 +24,15 @@ class Register extends BaseRegisterForm
      */
     protected $account;
 
-    /** @var string */
-    private $externalUserPartner = null;
+    /**
+     * @var string
+     */
+    private $externalUserPartner;
+
+    /**
+     * @var int Identifier of the event for register
+     */
+    private $eventId;
 
     /**
      * @return array
@@ -32,11 +47,13 @@ class Register extends BaseRegisterForm
     /**
      * @param Account $account
      * @param string $externalUserPartner
+     * @param int $eventId Identifier of the event that will be used for validation of uniqueness of an email
      */
-    public function __construct(Account $account, $externalUserPartner = 'partner')
+    public function __construct(Account $account, $externalUserPartner = 'partner', $eventId = null)
     {
         $this->account = $account;
         $this->externalUserPartner = $externalUserPartner;
+
         parent::__construct(null);
     }
 
@@ -46,9 +63,9 @@ class Register extends BaseRegisterForm
     protected function initForms()
     {
         parent::initForms();
+
         $this->registerForm(ExternalUser::className(), [$this->account, $this->externalUserPartner]);
     }
-
 
     /**
      * @inheritdoc
@@ -56,7 +73,7 @@ class Register extends BaseRegisterForm
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'Password' =>  \Yii::t('app', 'Пароль'),
+            'Password' => \Yii::t('app', 'Пароль'),
             'ExternalId' => \Yii::t('app', 'Внешний Id')
         ]);
     }
@@ -78,6 +95,7 @@ class Register extends BaseRegisterForm
             'Position' => $request->getParam('Position'),
             'ExternalId' => $request->getParam('ExternalId')
         ];
+
         $this->setAttributes($attributes);
     }
 
@@ -94,6 +112,49 @@ class Register extends BaseRegisterForm
                 }
             }
         }
+
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validateEmail($attribute, $params) {
+        if (!$this->isHiddenUser()) {
+            return call_user_func_array($params['method'], [$attribute, $this->isEmailUnique()]);
+        }
+
+        if ($this->isEmailUnique()) {
+            $emailForm = $params['method'][0];
+            return call_user_func([$this, 'validateEmailUnique'], $emailForm);
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates uniqueness of an email by using a specified event identifier
+     * @param Email $emailForm Email form for errors
+     * @return bool
+     */
+    public function validateEmailUnique($emailForm)
+    {
+        $eventId = $this->fetchEventId();
+        $email = $emailForm->Email;
+
+        if ($eventId) {
+            $exists = User::model()->byEmail($email)->exists([
+                'join' => 'INNER JOIN "EventParticipant" p ON p."UserId" = t."Id"'
+            ]);
+        } else {
+            $exists = User::model()->byEmail($email)->exists();
+        }
+
+        if ($exists) {
+            $this->addError('Email', 'Пользователь с таким Email уже существует в RUNET-ID');
+            return false;
+        }
+
         return true;
     }
 
@@ -112,10 +173,28 @@ class Register extends BaseRegisterForm
     protected function internalCreateActiveRecord()
     {
         parent::internalCreateActiveRecord();
+
         $permission = new Permission();
         $permission->UserId = $this->model->Id;
         $permission->AccountId = $this->account->Id;
         $permission->Verified = true;
         $permission->save();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function isEmailUnique()
+    {
+        return (bool) \Yii::app()->getRequest()->getParam('UniqueEmail', false);
+    }
+
+    /**
+     * Returns identifier of the event
+     * @return int|null
+     */
+    private function fetchEventId()
+    {
+        return \Yii::app()->getRequest()->getParam('EventId');
     }
 }
