@@ -259,5 +259,5 @@ return [
     'Дата и время создания электронного билета' => 'Date and time of e-ticket generation',
     'Пользователь с таким Email уже зарегистрирован на мероприятие' => 'Participant with this e-mail address is already registered for the event',
     'Письмо с электронным билетом было отправлено повторно на адрес, указанный при регистрации' => 'Your e-ticket sent to your e-mail address',
-    'БОЛЬШОЕ СПАСИБО ЗА УЧАСТИЕ В НАШЕМ ИССЛЕДОВАНИИ' => 'THANK YOU FOR PARTICIPATING IN OUR STUDY'
+    'Спасибо! Ваша анкета отправлена. Для регистрации нового участника перейдите к шагу 1' => 'Thank you! Your application has sent to the organizers. Please follow to step 1 for new participant registration'
 ];

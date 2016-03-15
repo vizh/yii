@@ -13,7 +13,9 @@ $this->setPageTitle($test->Title);
         <?php if (!empty($test->AfterEndText)): ?>
             <?=$test->AfterEndText?>
         <?php else: ?>
-            <p class="lead"><?= Yii::t('app', 'БОЛЬШОЕ СПАСИБО ЗА УЧАСТИЕ В НАШЕМ ИССЛЕДОВАНИИ') ?>!</p>
+            <p class="lead" style="padding: 20px;">
+                <?= Yii::t('app', 'Спасибо! Ваша анкета отправлена. Для регистрации нового участника перейдите к шагу 1') ?>!
+            </p>
         <?php endif ?>
     </div>
 </div>
