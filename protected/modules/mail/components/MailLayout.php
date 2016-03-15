@@ -1,7 +1,8 @@
 <?php
 namespace mail\components;
+
 use event\models\Event;
-use \mail\models\Layout;
+use mail\models\Layout;
 use user\models\User;
 
 abstract class MailLayout extends Mail
@@ -79,4 +80,4 @@ abstract class MailLayout extends Mail
     {
         return $this->getUser()->getFullName();
     }
-} 
+}

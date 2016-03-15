@@ -4,7 +4,6 @@ namespace event\components\handlers\register;
 use application\components\utility\PKPassGenerator;
 use event\components\pass\IOSPass;
 use event\models\MailRegister;
-use event\models\Role;
 use mail\components\MailLayout;
 use \mail\models\Layout;
 
@@ -54,6 +53,7 @@ class Base extends MailLayout
                 }
             }
         }
+
         return $this->registerMail;
     }
 
@@ -114,6 +114,7 @@ class Base extends MailLayout
                 return null;
             }
         }
+
         return $this->renderBody($viewName, $params);
     }
 

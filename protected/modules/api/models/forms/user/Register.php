@@ -154,14 +154,13 @@ class Register extends BaseRegisterForm
                 'params' => [':eventId' => $event->Id]
             ]);
 
-            if ($exists && $participant = Participant::model()->byEventId($eventId)->byParticipantEmail($email)) {
+            $errorMessage = \Yii::t('app', 'Пользователь с таким Email уже зарегистрирован на мероприятие').'. '.
+                \Yii::t('app', 'Письмо с электронным билетом было отправлено повторно на адрес, указанный при регистрации').'.';
+
+            $participant = Participant::model()->byEventId($event->Id)->byParticipantEmail($email)->find();
+            if ($exists && $participant) {
                 $participant->sendTicket();
             }
-
-            $errorMessage = <<<MESSAGE
-                Пользователь с таким Email уже зарегистрирован на мероприятие.
-                Письмо с электронным билетом было отправлено повторно на адрес, указанный при регистрации.
-MESSAGE;
         } else {
             $exists = User::model()->byEmail($email)->exists();
             $errorMessage = 'Пользователь с таким Email уже существует в RUNET-ID';

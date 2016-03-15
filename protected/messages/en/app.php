@@ -257,5 +257,7 @@ return array(
     'Добро пожаловать' => 'Welcome',
     'в' => 'to',
     'Экспоцентр' => 'Expocentre exhibitions',
-    'Дата и время создания электронного билета' => 'Date and time of e-ticket generation'
+    'Дата и время создания электронного билета' => 'Date and time of e-ticket generation',
+    'Пользователь с таким Email уже зарегистрирован на мероприятие' => 'Participant with this e-mail address is already registered for the event',
+    'Письмо с электронным билетом было отправлено повторно на адрес, указанный при регистрации' => 'Your e-ticket sent to your e-mail address'
 );
