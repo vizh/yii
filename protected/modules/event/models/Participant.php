@@ -3,6 +3,7 @@ namespace event\models;
 
 use application\components\ActiveRecord;
 use event\components\tickets\Ticket;
+use mail\components\mailers\MandrillMailer;
 use partner\models\Account;
 use user\models\User;
 
@@ -80,6 +81,23 @@ class Participant extends ActiveRecord
         $criteria->condition = '"t"."EventId" = :EventId';
         $criteria->params = [':EventId' => $eventId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
+        return $this;
+    }
+
+    /**
+     * Adds condition
+     * @param string $email Email for the search
+     * @param bool $useAnd
+     * @return self
+     */
+    public function byParticipantEmail($email, $useAnd = true)
+    {
+        $this->getDbCriteria()->mergeWith([
+            'with' => 'User',
+            'condition' => '"User"."Email" = :email',
+            'params' => [':email' => $email]
+        ], $useAnd);
 
         return $this;
     }
@@ -173,5 +191,23 @@ class Participant extends ActiveRecord
     {
         $class = \Yii::getExistClass('event\components\tickets', ucfirst($this->Event->IdName), 'Ticket');
         return new $class($this->Event, $this->User);
+    }
+
+    /**
+     * Sends ticket to the participant
+     */
+    public function sendTicket()
+    {
+        $mailer = new MandrillMailer();
+        $e = new \CEvent($this->Event, [
+            'user' => $this->User,
+            'role' => $this->Role,
+            'participant' => $this
+        ]);
+
+        $class = \Yii::getExistClass('event\components\handlers\register', ucfirst($this->Event->IdName), 'Base');
+        /** @var \mail\components\Mail $mail */
+        $mail = new $class($mailer, $e);
+        $mail->send();
     }
 }

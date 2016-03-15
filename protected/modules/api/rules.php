@@ -32,7 +32,7 @@ return [
     'allow',
     'roles' => ['base'],
     'controllers' => ['user'],
-    'actions' => ['auth', 'search', 'create', 'get', 'login', 'purposes', 'professionalinterests', 'edit', 'setdata']
+    'actions' => ['auth', 'search', 'create', 'get', 'login', 'purposes', 'professionalinterests', 'edit', 'setdata', 'setphoto']
   ],
   [
     'allow',
