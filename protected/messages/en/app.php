@@ -241,5 +241,21 @@ return array(
     'Необходимо заполнить текстовое поле рядом с ответом' => 'Fill the text box',
 
     'Отправить анкету' => 'Send',
-    'Выберите значение из списка ...' => 'Choose a value from the list ...'
+    'Выберите значение из списка ...' => 'Choose a value from the list ...',
+    'Ваш электронный билет' => 'Your E-ticket',
+    'Внимание' => 'Note',
+    'Вход на выставку только для специалистов' => 'Admittance is only for professional visitors',
+    'Имя посетителя' => 'Visitor name',
+    'Персональный штрихкод' => 'Personal barcode',
+    'Электронный билет продаже не подлежит' => 'E-tickets are not for sale',
+    'Даты проведения' => 'Dates',
+    'Павильоны' => 'Pavilions',
+    'Схема проезда на ЦВК и время работы размещены на сайте' => 'See the location map and opening hours at',
+    'Для входа на выставочный комплекс необходимо' => 'To enter the Fairgrounds',
+    'На стойке онлайн-регистрации предъявить оператору билет для сканирования штрихкода' => 'Show your personal e-ticket to a clerk at the registration desk to scan the barcode',
+    'Получить Ваш персональный именной бейдж посетителя выставки' => 'Get your personal visitor badge',
+    'Добро пожаловать' => 'Welcome',
+    'в' => 'to',
+    'Экспоцентр' => 'Expocentre exhibitions',
+    'Дата и время создания электронного билета' => 'Date and time of e-ticket generation'
 );
