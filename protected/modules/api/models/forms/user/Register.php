@@ -4,6 +4,8 @@ namespace api\models\forms\user;
 use api\components\Exception;
 use api\models\Account;
 use api\models\forms\ExternalUser;
+use event\models\Event;
+use event\models\Participant;
 use oauth\models\Permission;
 use user\models\forms\fields\Email;
 use user\models\forms\Register as BaseRegisterForm;
@@ -139,19 +141,34 @@ class Register extends BaseRegisterForm
      */
     public function validateEmailUnique($emailForm)
     {
-        $eventId = $this->fetchEventId();
+        $event = null;
+        if ($eventId = $this->fetchEventId()) {
+            $event = Event::model()->findByPk($eventId);
+        }
+
         $email = $emailForm->Email;
 
-        if ($eventId) {
+        if ($event) {
             $exists = User::model()->byEmail($email)->exists([
-                'join' => 'INNER JOIN "EventParticipant" p ON p."UserId" = t."Id"'
+                'join' => 'INNER JOIN "EventParticipant" p ON p."UserId" = t."Id" AND p."EventId" = :eventId',
+                'params' => [':eventId' => $event->Id]
             ]);
+
+            if ($exists && $participant = Participant::model()->byEventId($eventId)->byParticipantEmail($email)) {
+                $participant->sendTicket();
+            }
+
+            $errorMessage = <<<MESSAGE
+                Пользователь с таким Email уже зарегистрирован на мероприятие.
+                Письмо с электронным билетом было отправлено повторно на адрес, указанный при регистрации.
+MESSAGE;
         } else {
             $exists = User::model()->byEmail($email)->exists();
+            $errorMessage = 'Пользователь с таким Email уже существует в RUNET-ID';
         }
 
         if ($exists) {
-            $this->addError('Email', 'Пользователь с таким Email уже существует в RUNET-ID');
+            $this->addError('Email', $errorMessage);
             return false;
         }
 
