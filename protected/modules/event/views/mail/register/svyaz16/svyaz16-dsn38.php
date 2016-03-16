@@ -1,11 +1,9 @@
-
 <table border="0" cellpadding="0" cellspacing="0" class="body-wrap" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%; margin: 0; padding: 0 10px; border-collapse: separate;">
 	<tbody>
 		<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;">
 			<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;">&nbsp;</td>
 			<td bgcolor="#FFFFFF" class="container" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; display: block !important; max-width: 720px !important; clear: both !important; margin: 0 auto; padding: 0;">
 			<div class="column-wrap" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; max-width: 720px !important; margin: 0 auto; padding: 0 20px; border-color: #09233C; border-style: solid; border-width: 3px;">
-
 			<p><font face="sans-serif, Arial, Verdana, Trebuchet MS"><img src="https://monosnap.com/file/w9clFGKERVRcon3Re6N5rym6uWWVVm.png" style="margin-top:15px; width: 20%" /></font></p>
 
 			<h2>Здравствуйте,&nbsp;<?=$user->getShortName();?>!</h2>
@@ -19,11 +17,11 @@
 			</div>
 
 			<p>В случае возникновения вопросов при регистрации, пожалуйста, свяжитесь со службой технической поддержки:<br />
-			Тел.: +7 (495) 649-88-10 (с 9:00 до 18:00 по Московскому времени).<br />
-			E-mail:&nbsp;<a href="mailto:sup@expocentr.ru">sup@expocentr.ru</a>.</p>
+			Тел.: +7 (495) 950-56-51&nbsp;(с 9:00 до 18:00 по Московскому времени).<br />
+			E-mail:&nbsp;<a href="mailto:support@runet-id.com" style="font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif; line-height: 20.8px;">support@runet-id.com</a>.</p>
 
 			<p>С уважением,<br />
-			ЗАО «ЭКСПОЦЕНТР»</p>
+			ЗАО &laquo;ЭКСПОЦЕНТР&raquo;</p>
 
 			<div>&nbsp;</div>
 
@@ -39,8 +37,8 @@
 			</div>
 
 			<p>In case you have any questions about online registration please contact technical support<br />
-			Tel.: +7 (495) 649-88-10 (from 9.00 am to 6.00 pm Moscow time).<br />
-			E-mail: <a data-action="common.go" data-params="new_window&amp;url=#compose/mailto=sup@expocentr.ru" href="mailto:sup@expocentr.ru">sup@expocentr.ru</a>.</p>
+			Tel.: +7 (495) 950-56-51&nbsp;(from 9.00 am to 6.00 pm Moscow time).<br />
+			E-mail: <a href="mailto:support@runet-id.com" style="font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif; line-height: 20.8px;">support@runet-id.com</a>.</p>
 
 			<p>Best regards,<br />
 			Expocentre</p>
