@@ -35,7 +35,7 @@ class PartnerOrder extends BasePartnerOrder
         $number = RoomPartnerOrder::model()->byEventId($eventId)->count() + 1;
 
         $order = new RoomPartnerOrder();
-        $order->Number  = ('RIF15/' . str_pad($number, 3, '0', STR_PAD_LEFT));
+        $order->Number  = ('RIF16/' . str_pad($number, 3, '0', STR_PAD_LEFT));
         $order->EventId = $eventId;
         $this->model = $order;
         return $this->updateActiveRecord();

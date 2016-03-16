@@ -269,9 +269,17 @@ if ($data) {
             <div class="p-a-10 b-l-3-solid-blue">
                 <p>
                     <strong>
-                        Expocentre Fairgrounds<br/>
-                        Kranopresnenskaya nab., 14<br/>
-                        Moscow, Russia, 123100
+                        <?php if (\Yii::app()->language == 'en'): ?>
+                            Expocentre Fairgrounds<br/>
+                            Kranopresnenskaya nab., 14<br/>
+                            Moscow, Russia, 123100
+                        <?php else: ?>
+                            <?= $event->getContactAddress()->Place ?>,
+                            <?= $event->getContactAddress()->Country->Name ?>,
+                            <?= $event->getContactAddress()->City->Name ?>,
+                            <?= $event->getContactAddress()->Street ?>,
+                            <?= $event->getContactAddress()->House ?>
+                        <?php endif ?>
                     </strong>
                 </p>
 

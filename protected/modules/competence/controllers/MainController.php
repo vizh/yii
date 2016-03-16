@@ -85,6 +85,16 @@ class MainController extends PublicMainController
      */
     public function actionAll($id)
     {
+        if ($this->getUser() && $this->test->EventId == 2318 /* svyaz16 */) {
+            $exists = Result::model()
+                ->byUserId($this->getUser()->Id)
+                ->exists('t."TestId" IN (48, 49)');
+
+            if ($exists) {
+                $this->redirect([self::END_ACTION_NAME, 'id' => $this->test->Id]);
+            }
+        }
+
         $request = \Yii::app()->getRequest();
 
         $this->test->setUser($this->getUser());
