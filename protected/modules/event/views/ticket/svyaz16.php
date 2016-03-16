@@ -252,9 +252,9 @@ if ($data) {
         <div class="col-4">
             <div class="p-a-2">
                 <h2><?= Yii::t('app', 'Даты проведения') ?></h2>
-                <strong
-                    class="text-xl"><?= $event->StartDay ?>-<?= $event->EndDay ?> мая <?= $event->StartYear ?>
-                    г.</strong>
+                <strong class="text-xl">
+                    <?= $event->StartDay ?>-<?= $event->EndDay ?> <?=Yii::t('app', 'мая')?> <?= $event->StartYear ?>
+                </strong>
             </div>
         </div>
         <div class="col-3">
@@ -269,9 +269,17 @@ if ($data) {
             <div class="p-a-10 b-l-3-solid-blue">
                 <p>
                     <strong>
-                        Expocentre Fairgrounds<br/>
-                        Kranopresnenskaya nab., 14<br/>
-                        Moscow, Russia, 123100
+                        <?php if (\Yii::app()->language == 'en'): ?>
+                            Expocentre Fairgrounds<br/>
+                            Kranopresnenskaya nab., 14<br/>
+                            Moscow, Russia, 123100
+                        <?php else: ?>
+                            <?= $event->getContactAddress()->Place ?>,
+                            <?= $event->getContactAddress()->Country->Name ?>,
+                            <?= $event->getContactAddress()->City->Name ?>,
+                            <?= $event->getContactAddress()->Street ?>,
+                            <?= $event->getContactAddress()->House ?>
+                        <?php endif ?>
                     </strong>
                 </p>
 

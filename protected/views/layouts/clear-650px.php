@@ -25,11 +25,11 @@
 </head>
 <style>
     html, body {
-        min-width: 650px !important;
-        width: 650px !important;
+        min-width: 648px !important;
+        width: 648px !important;
     }
     .container {
-        width: 650px !important;
+        width: 648px !important;
     }
     .span12 {
         width: 600px !important;
