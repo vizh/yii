@@ -252,9 +252,9 @@ if ($data) {
         <div class="col-4">
             <div class="p-a-2">
                 <h2><?= Yii::t('app', 'Даты проведения') ?></h2>
-                <strong
-                    class="text-xl"><?= $event->StartDay ?>-<?= $event->EndDay ?> <?=Yii::t('app', 'мая')?> <?= $event->StartYear ?>
-                    г.</strong>
+                <strong class="text-xl">
+                    <?= $event->StartDay ?>-<?= $event->EndDay ?> <?=Yii::t('app', 'мая')?> <?= $event->StartYear ?>
+                </strong>
             </div>
         </div>
         <div class="col-3">
