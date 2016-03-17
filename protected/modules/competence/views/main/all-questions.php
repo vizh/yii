@@ -16,7 +16,7 @@ $this->pageTitle = $test->Title;
 ?>
 
 <div class="row" style="padding: 30px;">
-    <div class="span12">
+    <div class="span11">
         <div class="m-bottom_40">
             <?=$test->Info?>
         </div>
