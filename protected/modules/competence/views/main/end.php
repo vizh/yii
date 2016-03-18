@@ -18,3 +18,11 @@
         <?php endif ?>
     </div>
 </div>
+
+<?php if ($test->EventId = 2318 /* svyaz16 */): ?>
+    <script>
+        var el = parent.document.getElementById('runetId').children[0];
+        el.style.height = '300px';
+        el.style.overflow = 'hidden';
+    </script>
+<?php endif ?>
