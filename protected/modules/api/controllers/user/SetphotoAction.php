@@ -3,6 +3,8 @@
 namespace api\controllers\user;
 
 use api\components\Action;
+use api\components\Exception;
+use user\models\forms\edit\Photo;
 use user\models\User;
 
 /**
@@ -12,39 +14,26 @@ use user\models\User;
 class SetphotoAction extends Action
 {
     /**
-     * @var array
-     */
-    private $mimeToType = [
-        'image/gif' => IMAGETYPE_GIF,
-        'image/png' => IMAGETYPE_PNG,
-        'image/jpeg' => IMAGETYPE_JPEG,
-    ];
-
-    /**
      * @param int $RunetId
+     * @throws Exception
      */
     public function run($RunetId)
     {
-        $RunetId = (int)$RunetId;
-        $request = \Yii::app()->getRequest();
-
-        $tmpHandle = tmpfile();
-        fwrite($tmpHandle, $request->getRawBody());
-        $tmpPath = stream_get_meta_data($tmpHandle)['uri'];
-        $tmpMime = mime_content_type($tmpPath);
-        $tmpExtension = image_type_to_extension($this->mimeToType[$tmpMime]);
-
-        $uploadedFile = new \CUploadedFile(
-            "avatar.$tmpExtension",
-            $tmpPath,
-            $tmpMime,
-            fstat($tmpHandle)['size'],
-            UPLOAD_ERR_OK
-        );
-
+        # TODO: права на изменение фотки
         $user = User::model()->byRunetId($RunetId)->find();
-        $user->getPhoto()->saveUploaded($uploadedFile);
 
-        $this->setResult(['Success' => true]);
+        if (!$user) {
+            throw new Exception(202, [$RunetId]);
+        }
+
+        $form = new Photo();
+
+        $form->Image = \CUploadedFile::getInstanceByName('Image');
+        if ($form->validate()) {
+            $user->getPhoto()->SavePhoto($form->Image);
+            $this->setResult(['Success' => true]);
+        } else {
+            throw new Exception(3008, [$RunetId]);
+        }
     }
 }
