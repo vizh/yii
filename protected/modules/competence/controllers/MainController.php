@@ -7,6 +7,7 @@ use competence\models\Question;
 use event\models\Participant;
 use event\models\Role;
 use user\models\User;
+use application\components\exception\AuthException;
 
 /**
  * Class MainController
@@ -35,6 +36,23 @@ class MainController extends PublicMainController
      * @var bool Whether the event header must be rendered
      */
     public $renderEventHeader = false;
+
+    /**
+     * Adds params for fath auth after a redirect
+     * @inheritdoc
+     */
+    public function redirect($url, $terminate = true, $statusCode=302)
+    {
+        $runetId = Yii::app()->getRequest()->getParam('runetId');
+        $hash = Yii::app()->getRequest()->getParam('hash');
+
+        if (is_array($url) && !$runetId && !$hash) {
+            $url['runetId'] = $runetId;
+            $url['hash'] = $hash;
+        }
+
+        parent::redirect($url, $terminate, $statusCode);
+    }
 
     /**
      * @inheritdoc
@@ -105,12 +123,17 @@ class MainController extends PublicMainController
             foreach ($questions as $question) {
                 $form = $question->getForm();
                 $form->setAttributes($request->getParam(get_class($form)), false);
-                if (!$form->process(true)) {
+                if (!$form->validate()) {
                     $hasErrors = true;
                 }
             }
 
             if (!$hasErrors) {
+                foreach ($questions as $question) {
+                    $form = $question->getForm();
+                    $form->process();
+                }
+
                 $this->test->saveResult();
                 $this->redirect([self::END_ACTION_NAME, 'id' => $this->test->Id]);
             }
@@ -168,6 +191,8 @@ class MainController extends PublicMainController
      */
     protected function beforeAction($action)
     {
+        $this->fastAuth();
+
         $test = $this->getTest();
         if (is_null($test) || !$test->Enable) {
             throw new CHttpException(404);
@@ -260,6 +285,25 @@ class MainController extends PublicMainController
 
         if (!$event->registerUser($user, Role::findOne(Role::VISITOR))) {
             \Yii::log('Не удалось присвоить роль ' . Role::VISITOR . ' для мероприятия svyaz16');
+        }
+    }
+
+    /**
+     * Performs fast authentication
+     */
+    private function fastAuth()
+    {
+        $runetId = Yii::app()->getRequest()->getParam('runetId');
+        $hash = Yii::app()->getRequest()->getParam('hash');
+
+        if (!$runetId && !$hash) {
+            return;
+        }
+
+        try {
+            User::fastAuth($runetId, $hash);
+        } catch (AuthException $e) {
+
         }
     }
 }

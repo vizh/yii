@@ -176,6 +176,7 @@ abstract class Base extends FormModel
             $result->save();
             $this->afterProcess();
         }
+
         return $valid;
     }
 

@@ -18,7 +18,7 @@ $config = [
     'components' => [
         'user' => [
             'loginUrl' => ['/oauth/main/auth', 'url' => $_SERVER['REQUEST_URI']],
-            'class' => '\application\components\auth\WebUser',
+            'class' => 'application\components\auth\WebUser',
             'allowAutoLogin' => true,
             'identityCookie' => ['domain' => '.'.RUNETID_HOST],
         ],
@@ -29,7 +29,7 @@ $config = [
             'identityCookie' => ['domain' => '.'.RUNETID_HOST]
         ],
         'authManager' => [
-            'class' => '\application\components\auth\PhpAuthManager',
+            'class' => 'application\components\auth\PhpAuthManager',
             'defaultRoles' => ['guest']
         ],
         'urlManager' => [
