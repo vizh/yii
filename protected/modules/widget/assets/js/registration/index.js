@@ -9,7 +9,13 @@ CRegistrationIndex.prototype = {
         var self = this;
         WidgetApp.controller('RegisterIndexController', function($scope, $sce) {
             $scope.total  = 0;
-            $scope.products = self.products;
+
+            var products = [];
+            for (var id in self.products) {
+                products.push(self.products[id]);
+            }
+
+            $scope.products = products;
             $scope.free = false;
 
             $scope.$watch('products', function() {
