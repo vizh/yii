@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @var \widget\components\Controller $this
  * @var \widget\models\forms\ProductCount $form
@@ -22,7 +22,7 @@ $clientScript->registerScript('init', '
             <th class="text-right hidden-xs"><?=\Yii::t('app', 'Сумма');?></th>
         </thead>
         <tbody>
-            <tr ng-repeat="product in products">
+            <tr ng-repeat="product in products | orderBy:'-priority'">
                 <td>
                     <strong>{{product.Title}}</strong>
                     <div class="text-muted m-top_5" ng-bind-html="product.Description" ng-if="product.Description"></div>

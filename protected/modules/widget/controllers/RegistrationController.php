@@ -1,7 +1,7 @@
 <?php
 use widget\components\Controller;
 
-use \widget\models\forms\ProductCount as ProductCountForm;
+use widget\models\forms\ProductCount as ProductCountForm;
 use pay\components\collection\Finder;
 use event\models\Participant;
 use pay\components\OrderItemCollectable;
