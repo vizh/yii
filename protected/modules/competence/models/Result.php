@@ -110,8 +110,7 @@ class Result extends \CActiveRecord
      */
     public function getResultByData()
     {
-        if ($this->result === null)
-        {
+        if ($this->result === null) {
             $this->result = unserialize(base64_decode($this->Data));
         }
         return $this->result;
