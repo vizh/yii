@@ -13,7 +13,7 @@
 			<p>Для получения электронного билета, пожалуйста, перейдите по&nbsp; ссылке и заполните анкету посетителя:</p>
 
 			<div>
-			<p style="text-align:center; margin-top: 0"><a href="http://www.sviaz-expo.ru/ru/visitors/registration/poll/?runetId=<?=$user->RunetId?>&hash=<?=$user->getHash()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #4894CA; margin: 0 10px 0 0; padding: 0; border-color: #4894CA; border-style: solid; border-width: 10px 40px;">Заполнить анкету</a></p>
+			<p style="text-align:center; margin-top: 0"><a href="http://www.sviaz-expo.ru/ru/visitors/tickets/poll/?runetId=<?=$user->RunetId?>&hash=<?=$user->getHash()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #4894CA; margin: 0 10px 0 0; padding: 0; border-color: #4894CA; border-style: solid; border-width: 10px 40px;">Заполнить анкету</a></p>
 			</div>
 
 			<p>В случае возникновения вопросов при регистрации, пожалуйста, свяжитесь со службой технической поддержки:<br />
@@ -33,7 +33,7 @@
 			<p>To receive an electronic ticket, please click the link and fill out the form:</p>
 
 			<div>
-			<p style="margin-top: 0; text-align: center"><font face="sans-serif, Arial, Verdana, Trebuchet MS"><a href="http://www.sviaz-expo.ru/en/visitors/registration/poll/?runetId=<?=$user->RunetId?>&hash=<?=$user->getHash()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #4894CA; margin: 0 10px 0 0; padding: 0; border-color: #4894CA; border-style: solid; border-width: 10px 40px;">Respond to the questionnaire </a></font></p>
+			<p style="margin-top: 0; text-align: center"><font face="sans-serif, Arial, Verdana, Trebuchet MS"><a href="http://www.sviaz-expo.ru/en/visitors/tickets/poll/?runetId=<?=$user->RunetId?>&hash=<?=$user->getHash()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #4894CA; margin: 0 10px 0 0; padding: 0; border-color: #4894CA; border-style: solid; border-width: 10px 40px;">Respond to the questionnaire </a></font></p>
 			</div>
 
 			<p>In case you have any questions about online registration please contact technical support<br />

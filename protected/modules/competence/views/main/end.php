@@ -10,7 +10,11 @@
         <?php if (!empty($test->AfterEndText)): ?>
             <?= $test->AfterEndText ?>
         <?php else: ?>
-            <p class="lead"><?= Yii::t('app', 'БОЛЬШОЕ СПАСИБО ЗА УЧАСТИЕ В НАШЕМ ИССЛЕДОВАНИИ') ?>!</p>
+            <?php if ($test->EventId == 2318 /* svyaz16 */): ?>
+                <?= Yii::t('app', 'Спасибо! Ваша анкета отправлена. Для регистрации нового участника перейдите к шагу 1') ?>!
+            <?php else: ?>
+                <?= Yii::t('app', 'БОЛЬШОЕ СПАСИБО ЗА УЧАСТИЕ В НАШЕМ ИССЛЕДОВАНИИ') ?>!
+            <?php endif ?>
         <?php endif ?>
 
         <?php if ($done): ?>
@@ -18,3 +22,11 @@
         <?php endif ?>
     </div>
 </div>
+
+<?php if ($test->EventId == 2318 /* svyaz16 */): ?>
+    <script>
+        var el = parent.document.getElementById('runetId').children[0];
+        el.style.height = '300px';
+        el.style.overflow = 'hidden';
+    </script>
+<?php endif ?>
