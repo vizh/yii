@@ -3,6 +3,7 @@ namespace competence\models\test\mailru2016_prof;
 
 use competence\models\form\attribute\CheckboxValue;
 use \competence\models\form\Base;
+use competence\models\Result;
 
 class A9_5 extends Base
 {
@@ -66,5 +67,34 @@ class A9_5 extends Base
         }
         return true;
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getInternalExportValueTitles()
+    {
+        return [
+            'Mail.Ru Group (включая Одноклассники и ВКонтакте)',
+            'Яндекс',
+            'Google',
+            'Rambler&Co',
+            'Microsoft',
+            'Kaspersky',
+            'Parallels'
+        ];
+    }
+
+    protected function getInternalExportData(Result $result)
+    {
+        $keys = [1,2,3,4,5,6,7];
+        $questionData = $result->getQuestionResult($this->question);
+
+        $data = [];
+        foreach ($keys as $key) {
+            $data[] = !empty($questionData['value']) && isset($questionData['value'][$key]) ? $this->options[$questionData['value'][$key]] : '';
+        }
+        return $data;
+    }
+
 
 }
