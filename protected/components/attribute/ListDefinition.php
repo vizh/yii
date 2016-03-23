@@ -104,4 +104,17 @@ class ListDefinition extends Definition
         $key = parent::getPrintValue($container);
         return isset($this->data[$key]) ? $this->data[$key] : ($this->customTextField ? $key : '');
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getExportValue($container)
+    {
+        $value = $container->{$this->name};
+        if (is_array($container->{$this->name})) {
+            return implode(', ', $value);
+        }
+
+        return (string) $value;
+    }
 }
