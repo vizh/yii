@@ -18,6 +18,8 @@ class SettingsAction extends Action
         if ($request->getIsPostRequest()) {
             // Необходим несколько нестандартный подход, дабы работало удаление значений атрибутов
             $postData = $request->getPost('partner\models\forms\ruvents\Settings');
+            if ($postData === null)
+                $postData = [];
             foreach ($form->attributes as $attribute => $name)
                 if (!array_key_exists($attribute, $postData))
                     $postData[$attribute] = null;
