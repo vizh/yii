@@ -16,7 +16,12 @@ class SettingsAction extends Action
         $request = \Yii::app()->getRequest();
         $form = new Settings($this->getEvent(), $settings);
         if ($request->getIsPostRequest()) {
-            $form->fillFromPost();
+            // Необходим несколько нестандартный подход, дабы работало удаление значений атрибутов
+            $postData = $request->getPost('partner\models\forms\ruvents\Settings');
+            foreach ($form->attributes as $attribute => $name)
+                if (!array_key_exists($attribute, $postData))
+                    $postData[$attribute] = null;
+            $form->setAttributes($postData);
             $result = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
             if ($result !== null) {
                 Flash::setSuccess(\Yii::t('app', 'Настройки клиента успешно сохранены'));
@@ -25,4 +30,4 @@ class SettingsAction extends Action
         }
         $this->getController()->render('settings', ['form' => $form]);
     }
-} 
+}

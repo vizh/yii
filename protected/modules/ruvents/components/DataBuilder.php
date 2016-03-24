@@ -146,20 +146,29 @@ class DataBuilder
      */
     public function buildUserData($user)
     {
+        $settings = $this->getEvent()->RuventsSettings;
+
+        $attributes = array_merge(
+            $settings->EditableUserData ?: [],
+            $settings->AvailableUserData ?: []
+        );
+
         $data = $this->getEvent()->getUserData($user);
-        if (!empty($data)) {
+
+        if (count($data) > 0) {
             $this->user->Attributes = [];
-			// toDo: Убрать это в будущем, так как надо что бы висело несколько недель всего.
-			$this->user->Data = [];
+            $this->user->Data = [];
             /** @var UserData $row */
             $row = array_pop($data);
             foreach ($row->getManager()->getDefinitions() as $definition) {
-                $value = $definition->getExportValue($row->getManager());
-				$this->user->Attributes[$definition->name] = $value;
-				// toDo: Убрать это в будущем, так как надо что бы висело несколько недель всего.
-				$this->user->Data[$definition->title] = $value;
+                if (in_array($definition->name, $attributes)) {
+                    $value = $definition->getExportValue($row->getManager());
+                    $this->user->Attributes[$definition->name] = $value;
+                    $this->user->Data[$definition->title] = $value;
+                }
             }
         }
+
         return $this->user;
     }
 
@@ -220,11 +229,18 @@ class DataBuilder
         $settings = $event->RuventsSettings;
 
         $definitions = Definition::model()
-            ->byModelId($event->Id)->byModelName('EventUserData')->orderBy('"t"."Order"')->findAll();
+            ->byModelId($event->Id)
+            ->byModelName('EventUserData')
+            ->orderBy('"t"."Order"')
+            ->findAllByAttributes([
+                'Name' => array_merge(
+                    $settings->EditableUserData ?: [],
+                    $settings->AvailableUserData ?: []
+                )
+            ]);
 
-        if (empty($definitions)) {
+        if (count($definitions) === 0)
             return;
-        }
 
         $this->event->Settings = new \stdClass();
         $this->event->Settings->PersonAttributes = new \stdClass();

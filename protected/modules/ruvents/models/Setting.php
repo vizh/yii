@@ -8,6 +8,7 @@ use application\components\ActiveRecord;
  * @property string $Attributes
  *
  * @property string[] $EditableUserData
+ * @property string[] $AvailableUserData
  *
  * @method Setting find()
  * @method Setting byEventId(int $eventId)
@@ -42,10 +43,9 @@ class Setting extends ActiveRecord
         try {
             return parent::__get($name);
         } catch (\CException $e) {
-            if (property_exists($this->getSettings(), $name)) {
-                return $this->getSettings()->$name;
-            }
-            throw new \CException($e->getMessage());
+            return property_exists($this->getSettings(), $name)
+                ? $this->getSettings()->$name
+                : null;
         }
     }
 
@@ -72,5 +72,10 @@ class Setting extends ActiveRecord
             $this->settings = json_decode($this->Attributes);
         }
         return $this->settings;
+    }
+
+    public function getPossibleUserData()
+    {
+
     }
 }

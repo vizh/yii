@@ -7,15 +7,17 @@ use event\models\Role;
 use event\models\UserData;
 use ruvents\components\Exception;
 use ruvents\models\ChangeMessage;
+use ruvents\models\Setting;
 use user\models\User;
 use ruvents\components\Action;
+use Yii;
 
 class EditAction extends Action
 {
 
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $runetId = $request->getParam('RunetId', null);
         $email = $request->getParam('Email', null);
 
@@ -52,6 +54,7 @@ class EditAction extends Action
         $this->getDataBuilder()->buildUserPhone($user);
         $this->getDataBuilder()->buildUserEmployment($user);
         $this->getDataBuilder()->buildUserData($user);
+
         $this->renderJson([
             'User' => $this->getDataBuilder()->buildUserEvent($user)
         ]);
@@ -64,7 +67,7 @@ class EditAction extends Action
      */
     private function updateMainInfo(User $user)
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
 
         $form = new \user\models\forms\edit\Main();
         foreach ($form->getAttributes() as $name => $value)
@@ -86,14 +89,14 @@ class EditAction extends Action
             }
         }
 
-        $form->Birthday = \Yii::app()->dateFormatter->format('dd.MM.yyyy', $form->Birthday);
+        $form->Birthday = Yii::app()->dateFormatter->format('dd.MM.yyyy', $form->Birthday);
         if ($form->validate())
         {
             $user->FirstName = $form->FirstName;
             $user->LastName = $form->LastName;
             $user->FatherName = $form->FatherName;
             $user->Gender = $form->Gender;
-            $user->Birthday = \Yii::app()->dateFormatter->format('yyyy-MM-dd', $form->Birthday);
+            $user->Birthday = Yii::app()->dateFormatter->format('yyyy-MM-dd', $form->Birthday);
             $user->save();
         }
         else
@@ -107,7 +110,7 @@ class EditAction extends Action
 
     private function updateEmail(User $user)
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $email = $request->getParam('Email', null);
         $email = strtolower($email);
         if ($user->Email == $email)
@@ -134,7 +137,7 @@ class EditAction extends Action
 
     private function updatePhone(User $user)
     {
-        $phone = \Yii::app()->getRequest()->getParam('Phone', null);
+        $phone = Yii::app()->getRequest()->getParam('Phone', null);
         if (!empty($phone))
         {
             $user->setContactPhone($phone);
@@ -143,7 +146,7 @@ class EditAction extends Action
 
     private function updateEmployment(User $user)
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
 
         $company = $request->getParam('Company', null);
         $position = $request->getParam('Position', '');
@@ -181,7 +184,7 @@ class EditAction extends Action
     private function updateRoles(User $user)
     {
         $event = $this->getEvent();
-        $statuses = (array) json_decode(\Yii::app()->getRequest()->getParam('Statuses'));
+        $statuses = (array) json_decode(Yii::app()->getRequest()->getParam('Statuses'));
 
         foreach ($statuses as $part_id => $role_id)
         {
@@ -211,8 +214,15 @@ class EditAction extends Action
      */
     private function updateData(User $user)
     {
+        $settings = $this->getDataBuilder()
+            ->getEvent()
+            ->RuventsSettings;
+
         $userData = UserData::model()
-            ->byEventId($this->getEvent()->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"'])->find();
+            ->byEventId($this->getEvent()->Id)
+            ->byUserId($user->Id)
+            ->orderBy(['"t"."CreationTime"'])
+            ->find();
 
         if (empty($userData)) {
             $userData = new UserData();
@@ -222,38 +232,40 @@ class EditAction extends Action
 
         $manager = $userData->getManager();
 
-        if (!$manager->hasDefinitions()) {
+        if (!$manager->hasDefinitions())
             return;
+
+        $attributesChanged = [];
+        $attributesCurrent = $manager->getAttributes();
+        $attributesAllowed = array_merge(
+            $settings->AvailableUserData ?: [],
+            $settings->EditableUserData ?: []
+        );
+
+
+        try {
+            foreach (Yii::app()->getRequest()->getParam('Attributes', []) as $param => $value) {
+                if (in_array($param, $attributesAllowed)) {
+                    $attributesChanged[$param] = $value;
+                    if (!isset($manager->$param) || $manager->$param != $value)
+                        $manager->$param = $value;
+                }
+            }
         }
 
-        $oldAttributes = $manager->getAttributes();
-
-        $data = \Yii::app()->getRequest()->getParam('Attributes', []);
-        $hasChanges = false;
-        try {
-            foreach ($data as $key => $value) {
-                if (!isset($manager->$key) || $manager->$key != $value) {
-                    $hasChanges = true;
-                }
-                $manager->$key = $value;
-            }
-        } catch (\Exception $e) {
+        catch (\Exception $e) {
             throw new Exception(251, [$e->getMessage()]);
         }
 
-        if (!$hasChanges) {
-            return;
-        }
-
-        if (!$manager->validate()) {
-            foreach ($manager->getErrors() as $attribute => $errors) {
-                throw new Exception(252, [$attribute, $errors[0]]);
-            }
-        }
+        if (!$manager->validate())
+            foreach ($manager->getErrors() as $attribute => $errors)
+                if (in_array($attribute, $attributesAllowed))
+                    throw new Exception(252, [$attribute, $errors[0]]);
 
         $userData->save();
+
         $this->getDetailLog()->addChangeMessage(
-            new ChangeMessage('Data', $oldAttributes, $data)
+            new ChangeMessage('Data', $attributesCurrent, $attributesChanged)
         );
     }
 }
