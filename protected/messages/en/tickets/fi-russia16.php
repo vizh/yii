@@ -10,6 +10,5 @@ return [
     'Желаем Вам успешной работы на выставке' => 'Have a great Fi and Hi Russia',
     'Время работы выставки' => 'Opening hours Exhibition & Forum',
     'Место проведения' => 'Event location',
-    'Организаторы' => 'Organizers'
-
+    'Организаторы' => 'Organizers',
 ];
