@@ -10,57 +10,74 @@ class ExternalUser extends CreateUpdateForm
 {
     public $ExternalId;
 
-    /** @var Account */
+    /**
+     * @var Account
+     */
     private $account;
 
-    /** @var User */
+    /**
+     * @var User
+     */
     private $user = null;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     private $partner;
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function __construct(Account $account, $partner, User $user = null)
     {
         $this->account = $account;
         $this->partner = $partner;
+
         parent::__construct($user);
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function setActiveRecord(\CActiveRecord $model)
     {
         $this->user = $model;
-        $this->model = ExternalUserModel::model()->byAccountId($this->account->Id)->byUserId($model->Id)->byPartner($this->partner)->find();
+        $this->model = ExternalUserModel::model()
+            ->byAccountId($this->account->Id)
+            ->byUserId($model->Id)
+            ->byPartner($this->partner)
+            ->find();
+
         $this->loadData();
     }
 
-
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            ['ExternalId', 'unique', 'className' => '\api\models\ExternalUser', 'attributeName' => 'ExternalId', 'criteria' => [
-                'condition' => '"t"."AccountId" = :AccountId',
-                'params' => [
-                    'AccountId' => $this->account->Id
+            [
+                'ExternalId',
+                'unique',
+                'className' => 'api\models\ExternalUser',
+                'attributeName' => 'ExternalId',
+                'criteria' => [
+                    'condition' => 't."AccountId" = :AccountId',
+                    'params' => [
+                        'AccountId' => $this->account->Id
+                    ]
                 ]
-            ]]
+            ]
         ];
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function createActiveRecord()
     {
-        if (empty($this->ExternalId)) {
+        if (!$this->ExternalId) {
             return null;
         }
 
@@ -68,9 +85,13 @@ class ExternalUser extends CreateUpdateForm
         $this->model->UserId    = $this->user->Id;
         $this->model->AccountId = $this->account->Id;
         $this->model->Partner   = $this->partner;
+
         return $this->updateActiveRecord();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function updateActiveRecord()
     {
         if (!$this->validate()) {
@@ -79,6 +100,7 @@ class ExternalUser extends CreateUpdateForm
 
         $this->model->ExternalId = $this->ExternalId;
         $this->model->save();
+
         return $this->model;
     }
 }

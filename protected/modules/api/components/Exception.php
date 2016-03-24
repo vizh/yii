@@ -127,6 +127,7 @@ class Exception extends \CException
         3005 => 'Не найдена роль с Id %s',
         3006 => 'Не корректный промо-код',
         3007 => 'Не найден внешний Id для пользователя %s',
+        3008 => 'Не удалось обновить аватарку пользователю %s',
     );
 
     /**
@@ -137,7 +138,8 @@ class Exception extends \CException
     protected function getErrorMessage($code, $params = array())
     {
         $message = isset($this->codes[$code]) ? $this->codes[$code] : 'Возникла ошибка с неизвестным кодом.';
-        return call_user_func_array('sprintf', array_merge(array($message), $params));
+        $message = \Yii::t('api', $message);
+        return call_user_func_array('sprintf', array_merge([$message], $params));
     }
 
     public function sendResponse()

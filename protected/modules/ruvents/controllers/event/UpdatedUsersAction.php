@@ -1,77 +1,68 @@
 <?php
 namespace ruvents\controllers\event;
 
+use ruvents\components\Exception;
+use user\models\User;
+use ruvents\models\Badge;
+use pay\models\OrderItem;
+use api\models\ExternalUser;
+use api\models\Account;
 
+/**
+ * Class UpdatedUsersAction
+ */
 class UpdatedUsersAction extends \ruvents\components\Action
 {
+    /**
+     * @inheritdoc
+     */
     public function run()
     {
-        ini_set("memory_limit", "512M");
+        ini_set('memory_limit', '512M');
 
         $request = \Yii::app()->getRequest();
         $fromUpdateTime = $request->getParam('FromUpdateTime', null);
         $byPage = $request->getParam('Limit', 200);
         $needCustomFormat = $request->getParam('CustomFormat', false) == '1';
-        if ($fromUpdateTime === null)
-        {
-            throw new \ruvents\components\Exception(321);
+        if (!$fromUpdateTime) {
+            throw new Exception(321);
         }
+
         $fromUpdateTime = date('Y-m-d H:i:s', strtotime($fromUpdateTime));
         $nextUpdateTime = date('Y-m-d H:i:s');
 
         $pageToken = $request->getParam('PageToken', null);
         $offset = 0;
-        if ($pageToken !== null)
-        {
+        if ($pageToken) {
             $offset = $this->getController()->parsePageToken($pageToken);
         }
 
-        $criteria = new \CDbCriteria();
-        $criteria->with = array(
-            'Participants' => array('on' => '"Participants"."EventId" = :EventId', 'params' => array(
-                'EventId' => $this->getEvent()->Id
-            ), 'together' => false),
-            'Employments' => array('together' => false),
-            'Employments.Company' => array('together' => false),
-            'LinkPhones.Phone' => array('together' => false)
-        );
-        $criteria->order = '"t"."Id" ASC';
-        $criteria->addCondition('"t"."UpdateTime" > :UpdateTime');
-        $criteria->params['UpdateTime'] = $fromUpdateTime;
-        $criteria->addCondition('"t"."Id" IN (SELECT "EventParticipant"."UserId" FROM "EventParticipant" WHERE "EventParticipant"."EventId" = '.$this->getEvent()->Id.')');
-
-        $criteria->limit = $byPage;
-        $criteria->offset = $offset;
-        $users = \user\models\User::model()->findAll($criteria);
-        $idList = array();
-        foreach ($users as $user)
-        {
+        $users = User::model()->findAll($this->makeUserCriteria($fromUpdateTime, $byPage, $offset));
+        $idList = [];
+        foreach ($users as $user) {
             $idList[] = $user->Id;
         }
+
         $orderItems = $this->getOrderItems($idList);
         $badgesCount = $this->getBadgesCount($idList);
         $externalList = $this->getExternalIds($idList);
 
-        $result = array();
-        $result['Users'] = array();
-        foreach ($users as $user)
-        {
+        $result = [];
+        $result['Users'] = [];
+        foreach ($users as $user) {
             $this->getDataBuilder()->createUser($user);
             $this->getDataBuilder()->buildUserEmployment($user);
             $this->getDataBuilder()->buildUserPhone($user);
             $this->getDataBuilder()->buildUserData($user);
             $resultUser = $this->getDataBuilder()->buildUserEvent($user);
 
-            if (isset($orderItems[$user->Id]))
-            {
+            if (isset($orderItems[$user->Id])) {
                 $resultUser->PaidItems = array();
-                foreach ($orderItems[$user->Id] as $item)
-                {
+                foreach ($orderItems[$user->Id] as $item) {
                     $order = $this->getDataBuilder()->createOrderItem($item);
 
-                    if ($needCustomFormat)
-                    {
-                        $customOrder = (object) array(
+                    if ($needCustomFormat) {
+                        $customOrder = (object)array(
                             'OrderItemId' => $item->Id,
                             'ProductId' => $order->Product->ProductId,
                             'ProductTitle' => $order->Product->Title,
@@ -94,8 +85,7 @@ class UpdatedUsersAction extends \ruvents\components\Action
             $result['Users'][] = $resultUser;
         }
 
-        if (sizeof($users) == $byPage)
-        {
+        if (sizeof($users) == $byPage) {
             $result['NextPageToken'] = $this->getController()->getPageToken($offset + $byPage);
         }
 
@@ -110,18 +100,19 @@ class UpdatedUsersAction extends \ruvents\components\Action
     {
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('"t"."UserId"', $idList);
-        /** @var $badges \ruvents\models\Badge[] */
-        $badges = \ruvents\models\Badge::model()
-            ->byEventId($this->getEvent()->Id)->findAll($criteria);
-        $badgesCount = array();
-        foreach ($badges as $badge)
-        {
-            if (!isset($badgesCount[$badge->UserId]))
-            {
+        /** @var Badge[] $badges */
+        $badges = Badge::model()
+            ->byEventId($this->getEvent()->Id)
+            ->findAll($criteria);
+
+        $badgesCount = [];
+        foreach ($badges as $badge) {
+            if (!isset($badgesCount[$badge->UserId])) {
                 $badgesCount[$badge->UserId] = 0;
             }
             $badgesCount[$badge->UserId]++;
         }
+
         return $badgesCount;
     }
 
@@ -132,34 +123,71 @@ class UpdatedUsersAction extends \ruvents\components\Action
         $criteria->addCondition('"t"."ChangedOwnerId" IS NULL');
         $criteria->addInCondition('"t"."ChangedOwnerId"', $idList, 'OR');
 
-        $orderItems = \pay\models\OrderItem::model()
-            ->byEventId($this->getEvent()->Id)->byPaid(true)->findAll($criteria);
+        $orderItems = OrderItem::model()
+            ->byEventId($this->getEvent()->Id)
+            ->byPaid(true)
+            ->findAll($criteria);
 
-        $result = array();
-        foreach ($orderItems as $item)
-        {
+        $result = [];
+        foreach ($orderItems as $item) {
             $ownerId = $item->ChangedOwnerId === null ? $item->OwnerId : $item->ChangedOwnerId;
             $result[$ownerId][] = $item;
         }
+
         return $result;
     }
 
     private function getExternalIds($idList)
     {
         $result = [];
-        $apiAccount = \api\models\Account::model()->byEventId($this->getEvent()->Id)->find();
-        if ($apiAccount != null)
-        {
+        if ($apiAccount = Account::model()->byEventId($this->getEvent()->Id)->find()) {
             $criteria = new \CDbCriteria();
             $criteria->addInCondition('t."UserId"', $idList);
 
-            $externals = \api\models\ExternalUser::model()
-                ->byAccountId($apiAccount->Id)->findAll($criteria);
-            foreach ($externals as $external)
-            {
+            $externals = ExternalUser::model()
+                ->byAccountId($apiAccount->Id)
+                ->findAll($criteria);
+
+            foreach ($externals as $external) {
                 $result[$external->UserId] = $external->ExternalId;
             }
         }
+
         return $result;
+    }
+
+    /**
+     * Makes the user criteria
+     * @param string $fromUpdateTime
+     * @param int $byPage
+     * @param int $offset
+     * @return \CDbCriteria
+     */
+    private function makeUserCriteria($fromUpdateTime, $byPage, $offset)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->with = [
+            'Participants' => [
+                'on' => '"Participants"."EventId" = :EventId',
+                'params' => [
+                    'EventId' => $this->getEvent()->Id
+                ],
+                'together' => false
+            ],
+            'Employments' => ['together' => false],
+            'Employments.Company' => ['together' => false],
+            'LinkPhones.Phone' => ['together' => false]
+        ];
+        $criteria->order = '"t"."Id" ASC';
+        $criteria->addCondition('"t"."UpdateTime" > :UpdateTime');
+        $criteria->params['UpdateTime'] = $fromUpdateTime;
+        $criteria->addCondition(
+            '"t"."Id" IN (SELECT "EventParticipant"."UserId" FROM "EventParticipant" WHERE "EventParticipant"."EventId" = ' . $this->getEvent()->Id . ')'
+        );
+
+        $criteria->limit = $byPage;
+        $criteria->offset = $offset;
+
+        return $criteria;
     }
 }

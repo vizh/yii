@@ -1,6 +1,9 @@
 <?php
 namespace application\components\attribute;
 
+/**
+ * Class MultiSelectDefinition
+ */
 class MultiSelectDefinition extends ListDefinition
 {
     /**

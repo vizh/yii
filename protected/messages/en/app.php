@@ -1,6 +1,5 @@
 <?php
-return array(
-
+return [
     'О мероприятии' => 'About',
     'Программа мероприятия' => 'Program',
     'Список участников' => 'Participants',
@@ -234,6 +233,32 @@ return array(
 
     'ваш статус' => 'your status',
 
+    'Вы не ответили на один или несколько вопросов. Заполните вопросы, отмеченные сообщением об ошибке, и отправьте данные анкеты повторно.' => 'You didn\'t answer one or more questions. Fill out the marked questions, and send your answers again.',
+
+    'Введите в строке ответ на вопрос' => 'Type your answer',
+    'Выберите один ответ из списка' => 'Select your answer',
+    'Необходимо заполнить текстовое поле рядом с ответом' => 'Fill the text box',
+
     'Отправить анкету' => 'Send',
-    'Выберите значение из списка ...' => 'Choose a value from the list ...'
-);
+    'Выберите значение из списка ...' => 'Choose a value from the list ...',
+    'Ваш электронный билет' => 'Your E-ticket',
+    'Внимание' => 'Note',
+    'Вход на выставку только для специалистов' => 'Admittance is only for professional visitors',
+    'Имя посетителя' => 'Visitor name',
+    'Персональный штрихкод' => 'Personal barcode',
+    'Электронный билет продаже не подлежит' => 'E-tickets are not for sale',
+    'Даты проведения' => 'Dates',
+    'Павильоны' => 'Pavilions',
+    'Схема проезда на ЦВК и время работы размещены на сайте' => 'See the location map and opening hours at',
+    'Для входа на выставочный комплекс необходимо' => 'To enter the Fairgrounds',
+    'На стойке онлайн-регистрации предъявить оператору билет для сканирования штрихкода' => 'Show your personal e-ticket to a clerk at the registration desk to scan the barcode',
+    'Получить Ваш персональный именной бейдж посетителя выставки' => 'Get your personal visitor badge',
+    'Добро пожаловать' => 'Welcome',
+    'в' => 'to',
+    'Экспоцентр' => 'Expocentre exhibitions',
+    'Дата и время создания электронного билета' => 'Date and time of e-ticket generation',
+    'Пользователь с таким Email уже зарегистрирован на мероприятие' => 'Participant with this e-mail address is already registered for the event',
+    'Письмо с электронным билетом было отправлено повторно на адрес, указанный при регистрации' => 'Your e-ticket sent to your e-mail address',
+    'Спасибо! Ваша анкета отправлена. Для регистрации нового участника перейдите к шагу 1' => 'Thank you! Your application has sent to the organizers. Please follow to step 1 for new participant registration',
+    'мая' => 'May'
+];

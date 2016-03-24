@@ -17,12 +17,12 @@ use user\models\User;
 
 /**
  * Class Register
- * @package user\models\forms
- *
  */
 abstract class Register extends CreateUpdateFormCombiner
 {
-    /** @var User */
+    /**
+     * @var User The current user model
+     */
     protected $model;
 
     /**
@@ -47,6 +47,7 @@ abstract class Register extends CreateUpdateFormCombiner
                 $rules[$k][1] = 'validateEmail';
             }
         }
+
         return $rules;
     }
 
@@ -57,13 +58,19 @@ abstract class Register extends CreateUpdateFormCombiner
      */
     public function validateEmail($attribute, $params) {
         if (!$this->isHiddenUser()) {
-            return call_user_func_array($params['method'], [$attribute]);
+            return call_user_func_array($params['method'], [$attribute, $this->isEmailUnique()]);
         }
+
+        if ($this->isEmailUnique()) {
+            $emailForm = $params['method'][0];
+            return call_user_func([$emailForm, 'validateEmailUnique']);
+        }
+
         return true;
     }
 
     /**
-     *
+     * @inheritdoc
      */
     protected function internalCreateActiveRecord()
     {
@@ -83,6 +90,14 @@ abstract class Register extends CreateUpdateFormCombiner
      * @return bool
      */
     protected function isHiddenUser()
+    {
+        return false;
+    }
+
+    /**
+     * @return bool Whether the email be unique
+     */
+    protected function isEmailUnique()
     {
         return false;
     }

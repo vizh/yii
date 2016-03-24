@@ -29,7 +29,7 @@ class Select extends Base
     {
         $rules = [];
         $rules[] = $this->question->Required ?
-            ['value', 'required', 'message' => 'Выберите один ответ из списка'] :
+            ['value', 'required', 'message' => \Yii::t('app', 'Выберите один ответ из списка')] :
             ['value', 'safe'];
 
         return $rules;

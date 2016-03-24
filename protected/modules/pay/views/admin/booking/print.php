@@ -1,4 +1,5 @@
-<?/**
+<?php
+/**
  * @var \pay\models\RoomPartnerOrder $order
  * @var string $owner
  * @var bool $clear
@@ -37,8 +38,8 @@ use application\components\utility\Texts;
     <li style="padding-bottom: 10px;">
       <span style="font-size: 15px; font-weight: bold;">ПРЕДМЕТ ДОГОВОРА</span>
       <ol style="padding-top: 10px; font-weight: normal;">
-        <li style="padding-bottom: 10px;">Организатор оказывает Заказчику услуги по участию представителей Заказчика в конференции "РИФ+КИБ 2015" (далее - Конференция) на территории пансионата ФГУ «Рублево-Звенигородский лечебно-оздоровительный комплекс» Управления делами Президента Российской Федерации, а Заказчик оплачивает услуги Организатора.</li>
-        <li style="padding-bottom: 10px;">Срок оказания услуг: с 21 апреля 2015 года по 24 апреля 2015 года.</li>
+        <li style="padding-bottom: 10px;">Организатор оказывает Заказчику услуги по участию представителей Заказчика в конференции "РИФ+КИБ 2016" (далее - Конференция) на территории пансионата ФГУ «Рублево-Звенигородский лечебно-оздоровительный комплекс» Управления делами Президента Российской Федерации по адресу: Московская область, Одинцовский район, поселок Горки-10, а Заказчик оплачивает услуги Организатора.</li>
+        <li style="padding-bottom: 10px;">Срок оказания услуг: с 13 апреля 2016 года по 15 апреля 2016 года.</li>
       </ol>
     </li>
     <li style="padding-bottom: 10px;">
@@ -55,7 +56,7 @@ use application\components\utility\Texts;
     <li style="padding-bottom: 10px;">
       <span style="font-size: 15px; font-weight: bold;">СТОИМОСТЬ ДОГОВОРА И ПОРЯДОК РАСЧЕТОВ</span>
       <ol style="padding-top: 10px; font-weight: normal;"">
-        <?
+        <?php
         $total = $order->getTotalPrice();
         $nds = $total - round($total / 1.18, 2, PHP_ROUND_HALF_DOWN);
         ?>
@@ -73,9 +74,9 @@ use application\components\utility\Texts;
               <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">НОМЕР</th>
               <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">СТОИМОСТЬ ЗА СУТКИ</th>
               <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">Доп.места</th>
-              <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">21-22 апр</th>
-              <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">22-23 апр</th>
-              <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">23-24 апр</th>
+              <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">12-13 апр</th>
+              <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">13-14 апр</th>
+              <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">14-15 апр</th>
               <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">КОЛ-ВО СУТОК</th>
               <th style="padding: 30px 8px;text-align: center;font-weight: normal;background-color: #f2f2f2;border: 1px solid #000000;">ИТОГО</th>
             </thead>
@@ -93,13 +94,13 @@ use application\components\utility\Texts;
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->Price;?></td>
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->AdditionalPrice * $booking->AdditionalCount;?></td>
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;">
-                    <?if ($booking->DateIn <= '2015-04-21' && $booking->DateOut >= '2015-04-22'):?>1<?endif;?>
+                    <?if ($booking->DateIn <= '2016-04-12' && $booking->DateOut >= '2016-04-13'):?>1<?endif;?>
                   </td>
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;">
-                    <?if ($booking->DateIn <= '2015-04-22' && $booking->DateOut >= '2015-04-23'):?>1<?endif;?>
+                    <?if ($booking->DateIn <= '2016-04-13' && $booking->DateOut >= '2016-04-14'):?>1<?endif;?>
                   </td>
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;">
-                    <?if ($booking->DateIn <= '2015-04-23' && $booking->DateOut >= '2015-04-24'):?>1<?endif;?>
+                    <?if ($booking->DateIn <= '2016-04-15' && $booking->DateOut >= '2016-04-15'):?>1<?endif;?>
                   </td>
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$booking->getStayDay();?></td>
                   <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$booking->getStayDay() * (Texts::getOnlyNumbers($manager->Price) + $booking->AdditionalCount * $manager->AdditionalPrice);?></td>
@@ -115,6 +116,7 @@ use application\components\utility\Texts;
       <span style="font-size: 15px; font-weight: bold;">ОТВЕТСТВЕННОСТЬ СТОРОН И ПОРЯДОК РАЗРЕШЕНИЯ СПОРОВ</span>
       <ol style="padding-top: 10px; font-weight: normal;"">
         <li style="padding-bottom: 10px;">За неисполнение или ненадлежащее исполнение условий договора Стороны несут ответственность в соответствии с условиями договора и положениями действующего законодательства РФ.</li>
+        <li style="padding-bottom: 10px;">Стороны договорились, что правила, предусмотренные пунктом 1 статьи 317.1. Гражданского кодекса Российской Федерации к отношениям Сторон по Договору не применяются и Заказчик не имеет право на получение с Исполнителя процентов на сумму уплаченного Заказчиком аванса.</li>
         <li style="padding-bottom: 10px;">Стороны освобождаются от ответственности за частичное или полное неисполнение обязательств по настоящему Договору, если это неисполнение явилось следствием обстоятельств непреодолимой силы, возникших после заключения Договора, в результате событий чрезвычайного характера, которые Сторона не могла ни предвидеть, ни предотвратить разумными мерами.</li>
         <li style="padding-bottom: 10px;">Споры и разногласия, которые могут возникнуть при исполнении настоящего договора, будут по возможности разрешаться путем переговоров между Сторонами, в случае недостижения договоренности по предмету спора путем переговоров споры между Сторонами подлежат разрешению в Арбитражном Суде г. Москвы в соответствии с действующими нормами законодательства РФ. </li>
       </ol>
@@ -243,7 +245,11 @@ use application\components\utility\Texts;
       <tbody>
       <tr>
           <td style="border: 1px solid #000;  padding: 5px;">1</td>
-          <td style="border: 1px solid #000;  padding: 5px;">Услуги по участию представителей Заказчика в конференции "РИФ+КИБ 2015", проходящей в период с 21 апреля 2015 года по 24 апреля 2015 года по адресу Московская область, Одинцовский район, поселок Горки-10, согласно Договору № <?=$order->Number;?> от <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy г', $order->CreationTime);?>.</td>
+          <td style="border: 1px solid #000;  padding: 5px;">Услуги по участию представителей Заказчика в конференции "РИФ+КИБ 2016",
+              проходящей в период с 13 апреля 2016 года по 15 апреля 2016 года по адресу Московская область,
+              Одинцовский район, поселок Горки-10, согласно
+              Договору № <?=$order->Number;?> от
+              <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy г', $order->CreationTime);?>.</td>
           <td style="border: 1px solid #000;  padding: 5px; text-align: center;">усл.</td>
           <td style="border: 1px solid #000;  padding: 5px; text-align: center;">1</td>
           <td style="border: 1px solid #000;  padding: 5px; text-align: center; white-space: nowrap;"><?=number_format($total-$nds, 2, ',', ' ');?></td>

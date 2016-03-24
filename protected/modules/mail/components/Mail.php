@@ -6,6 +6,7 @@ use mail\models\Log;
 abstract class Mail
 {
     protected $mailer;
+
     public function __construct(Mailer $mailer)
     {
         $this->mailer = $mailer;
@@ -76,12 +77,16 @@ abstract class Mail
 
     /**
      * Отправка письма
+     * @return bool
      */
     public function send()
     {
         if ($this->getBody() !== null && $this->getTo() !== null && ($this->getRepeat() || !$this->getIsHasLog())) {
             $this->mailer->send($this);
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -129,7 +134,7 @@ abstract class Mail
     }
 
     /**
-     * Повторять письмо при возникновение события
+     * Повторять письмо при возникновении события
      * @return bool
      */
     protected function getRepeat()

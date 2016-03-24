@@ -2,7 +2,9 @@
 namespace user\models;
 
 use api\models\ExternalUser;
+use application\components\auth\identity\RunetId;
 use application\components\db\ar\OldAttributesStorage;
+use application\components\exception\AuthException;
 use application\components\utility\Pbkdf2;
 use application\components\utility\PhoneticSearch;
 use application\components\utility\Texts;
@@ -17,7 +19,6 @@ use ruvents\models\Badge;
 use search\components\interfaces\ISearch;
 use user\components\handlers\Register;
 use iri\models\User as IriUser;
-use ruvents2\models\Badge as Badge2;
 
 /**
  * @throws \Exception
@@ -91,12 +92,38 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     const PasswordLengthMin = 6;
 
     /**
-     * @param string $className
-     * @return User
+     * Allows authenticate the user by a hash
+     * @param int $runetId RunetId of the user
+     * @param string $hash Validation hash
+     * @param bool $temporary Is this temporary authorisation
+     * @throws AuthException
+     * @throws \CException
      */
-    public static function model($className = __CLASS__)
+    public static function fastAuth($runetId, $hash, $temporary = false)
     {
-        return parent::model($className);
+        if (!$user = self::model()->byRunetId($runetId)->find()) {
+            throw new AuthException("User with RunetId = $runetId is not found");
+        }
+
+        if ($user->getHash($temporary) !== $hash) {
+            throw new AuthException('Hash is invalid');
+        }
+
+        $identity = new RunetId($user->RunetId);
+        $identity->authenticate();
+        if ($identity->errorCode !== \CUserIdentity::ERROR_NONE) {
+            throw new AuthException("Error occurs while authentication process code: {$identity->errorCode}");
+        }
+
+        if (!$user->Temporary && !$temporary) {
+            \Yii::app()->user->login($identity);
+        } else {
+            if (!\Yii::app()->user->isGuest) {
+                \Yii::app()->user->logout();
+            }
+
+            \Yii::app()->tempUser->login($identity);
+        }
     }
 
     public function tableName()
@@ -823,6 +850,12 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         return false;
     }
 
+    /**
+     * Returns the fast authorisation url
+     * @param string $redirectUrl
+     * @param bool|false $isTemporary
+     * @return string
+     */
     public function getFastauthUrl($redirectUrl = '', $isTemporary = false)
     {
         $params = [

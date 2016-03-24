@@ -75,7 +75,27 @@ class A1 extends \competence\models\form\Base {
     protected function getInternalExportValueTitles()
     {
         $titles = [
-            40, 41, 42, 43, 44, 46, 47, 48, 401, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 'Затрудняюсь ответить'
+            40 => 'Гришин (Mail.Ru&nbsp;Group)',
+            41 => 'Дуров (Telegram)',
+            42 => 'Молибог (РБК)',
+            43 => 'Пейдж (Alphabet, Google Global)',
+            44 => 'Цукерберг (Facebook)',
+            46 => 'Касперский (Касперский)',
+            47 => 'Белоусов (Acronis, Parallels)',
+            48 => 'Долгов (eBay)',
+            401 => 'Артамонова Анна (Mail.Ru Group)',
+            403 => 'Рогозов (ВКонтакте)',
+            404 => 'Добродеев (Mail.Ru Group, ВКонтакте)',
+            405 => 'Сергеев Дмитрий (Mail.Ru Group)',
+            406 => 'Сатья Наделла (Microsoft)',
+            407 => 'Федчин (Одноклассники)',
+            408 => 'Соловьева (Google Россия)',
+            409 => 'Шульгин (Яндекс)',
+            410 => 'Волож (Яндекс)',
+            411 => 'Касперская (InfoWatch)',
+            412 => 'Брин (Google)',
+            413 => 'Ян (ABBY)',
+            49  => 'Затрудняюсь ответить'
         ];
         return $titles;
     }
@@ -83,7 +103,7 @@ class A1 extends \competence\models\form\Base {
     protected function getInternalExportData(Result $result)
     {
         $titles = [
-            40, 41, 42, 43, 44, 46, 47, 48, 401, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 49
+            40, 41, 42, 43, 44, 46, 47, 48, 401, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413,49
         ];
         $questionData = $result->getQuestionResult($this->question);
         $data = [];

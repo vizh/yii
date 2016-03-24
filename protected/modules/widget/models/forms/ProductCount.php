@@ -71,6 +71,7 @@ class ProductCount extends EventItemCreateUpdateForm
             $item = ArrayHelper::toArray($product, ['pay\models\Product' => ['Id', 'Title', 'Price', 'Description']]);
             $item['count'] = 0;
             $item['participants'] = [];
+            $item['priority'] = $product->Priority;
             $this->fillProductFuturePrices($product, $item);
             $result[$product->Id] = $item;
         }

@@ -23,7 +23,7 @@ class CreateUserAction extends Action
         if ($user !== null) {
             $this->getEvent()->skipOnRegister = true;
             $this->getEvent()->registerUser($user, Role::model()->findByPk(24));
-            $product = Product::model()->findByPk(4013);
+            $product = Product::model()->findByPk(4019);
             try {
                 $product->getManager()->createOrderItem($user, $user);
             } catch (\Exception $e) {}

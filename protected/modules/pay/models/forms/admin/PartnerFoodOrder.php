@@ -61,7 +61,7 @@ class PartnerFoodOrder extends BasePartnerOrder
         $number = FoodPartnerOrder::model()->byEventId($eventId)->count() + 1;
 
         $order = new FoodPartnerOrder();
-        $order->Number  = ('RIF15/' . str_pad($number, 3, '0', STR_PAD_LEFT) . '-F');
+        $order->Number  = ('RIF16/' . str_pad($number, 3, '0', STR_PAD_LEFT) . '-F');
         $order->EventId = $eventId;
         if ($this->getOwner() !== null) {
             $order->Owner = $this->getOwner();
@@ -135,26 +135,24 @@ class PartnerFoodOrder extends BasePartnerOrder
     public static function getFoodProductData()
     {
         $data = [
-            '2015-04-21' => [
-                3682 => 'Ужин'
+            '2016-04-13' => [
+                4416 => 'Завтрак',
+                4417 => 'Обед',
+                4418 => 'Ужин',
+                5396 => 'Вечернее мероприятие'
             ],
-            '2015-04-22' => [
-                3634 => 'Завтрак',
-                3635 => 'Обед',
-                3636 => 'Ужин'
+            '2016-04-14' => [
+                4419 => 'Завтрак',
+                4420 => 'Обед',
+                4421 => 'Ужин'
             ],
-            '2015-04-23' => [
-                3637 => 'Завтрак',
-                3638 => 'Обед',
-                3639 => 'Ужин'
+            '2016-04-15' => [
+                4422 => 'Завтрак',
+                4423 => 'Обед',
+                4424 => 'Ужин'
             ],
-            '2015-04-24' => [
-                3640 => 'Завтрак',
-                3641 => 'Обед',
-                3642 => 'Ужин'
-            ]
         ];
         return $data;
     }
 
-} 
+}

@@ -14,7 +14,7 @@ class Textarea extends Base
     public function rules()
     {
         $rules = [];
-        $rules[] = $this->question->Required ? ['value', 'required', 'message' => 'Введите в строке ответ на вопрос'] : ['value', 'safe'];
+        $rules[] = $this->question->Required ? ['value', 'required', 'message' => \Yii::t('app', 'Введите в строке ответ на вопрос')] : ['value', 'safe'];
         return $rules;
     }
 

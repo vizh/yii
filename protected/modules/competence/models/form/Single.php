@@ -22,7 +22,7 @@ class Single extends Base
     public function rules()
     {
         $rules = [];
-        $rules[] = $this->question->Required ? ['value', 'required', 'message' => 'Выберите один ответ из списка'] : ['value', 'safe'];
+        $rules[] = $this->question->Required ? ['value', 'required', 'message' => \Yii::t('app', 'Выберите один ответ из списка')] : ['value', 'safe'];
         $rules[] = ['other', 'checkOtherValidator'];
         return $rules;
     }
@@ -47,7 +47,7 @@ class Single extends Base
 
     public function getOtherValidatorErrorMessage()
     {
-        return 'Необходимо заполнить текстовое поле рядом с ответом';
+        return \Yii::t('app', 'Необходимо заполнить текстовое поле рядом с ответом');
     }
 
     protected function getFormAttributeNames()
