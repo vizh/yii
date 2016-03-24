@@ -42,18 +42,19 @@ if (!empty($event->LinkEmails)) {
     <table style="width: 100%; padding: 5mm; border-left: 0.5mm solid #ededed; border-right: 0.5mm solid #ededed; height: 77mm; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif;" cellpadding="0" cellspacing="0">
         <tr>
             <td style="vertical-align: top; height: 40mm; color: #556a7d;">
-                <h3 style="text-transform: uppercase; margin-bottom: 30px; color: #1179A0;">ЭЛЕКТРОННЫЙ БИЛЕТ</h3>
+                <h3 style="text-transform: uppercase; margin-bottom: 30px; color: #1179A0;">
+                    <?=Yii::t('tickets', 'ЭЛЕКТРОННЫЙ БИЛЕТ')?>
+                </h3>
                 <img src="/img/ticket/fi-russia16/logos.png" style="padding-top: 20px; padding-right: 3mm; image-resolution: 110dpi;"/>
                 <p style="color: #5d6363; font-size: 20px">
-                    Международная выставка<br/>
-                    пищевых ингредиентов
+                    <?=Yii::t('tickets', 'Международная выставка<br/>пищевых ингредиентов')?>
                 </p>
             </td>
         </tr>
         <tr>
             <td style="vertical-align: middle; height: 17mm; color: #1179A0; font-size: 16px;">
-                30 марта - 01 апреля 2016<br/>
-                МОСКВА, ВДНХ, 75 павильон
+                <?=Yii::t('tickets', '30 марта - 01 апреля 2016')?><br/>
+                <?=Yii::t('tickets', 'МОСКВА, ВДНХ, 75 павильон')?>
             </td>
         </tr>
         <tr>
@@ -68,7 +69,7 @@ if (!empty($event->LinkEmails)) {
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                         <tr>
                             <td style="font-size: 5mm; font-weight: 100; padding: 0; margin: 0;">
-                                <?=$user->LastName?><br/><?=$user->getShortName();?>
+                                <?=$user->LastName?><br/><?=$user->getShortName()?>
                             </td>
                         </tr>
                         <?php if ($user->getEmploymentPrimary() !== null):?>
@@ -120,32 +121,46 @@ if (!empty($event->LinkEmails)) {
         <tr>
             <td style="vertical-align: top; padding-right: 5px;">
                 <p>
-                    Спасибо за регистрацию и добро пожаловать на выставку<br/>
-                    Food ingredients Russia 2016.
+                    <?=Yii::t('tickets', 'Спасибо за регистрацию и добро пожаловать на выставку<br/>Food ingredients Russia 2016.')?>
                 </p>
 
                 <br/><br/>
                 <p>
-                    <b>Инструкция:</b><br/>
-                    <span>1) Распечатайте Ваш пригласительный билет и обязательно возьмите его с собой на мероприятие.</span>
+                    <?php if (Yii::app()->language === 'ru'): ?>
+                        <b>Инструкция:</b><br/>
+                    <?php endif ?>
+                    <span>1) <?=Yii::t('tickets', 'Распечатайте Ваш пригласительный билет и обязательно возьмите его с собой на мероприятие')?>.</span>
                     <br/>
-                    <span>2) Предъявите пригласительный билет в зоне регистрации и получите имменной бейдж.</span>
+                    <span>2) <?=Yii::t('tickets', 'Предъявите пригласительный билет в зоне регистрации и получите имменной бейдж')?>.</span>
                     <br/>
-                    <span>3) Желаем Вам успешной работы на выставке.</span>
+                    <span>3) <?=Yii::t('tickets', 'Желаем Вам успешной работы на выставке')?>!</span>
                 </p>
             </td>
             <td style="vertical-align: top; padding-left: 5px;">
-                <b>Время работы выставки:</b><br/>
-                <span>30 - 31 марта.............10:00 - 18:00</span><br/>
-                <span>01 апреля..................10:00 - 16:00</span>
+                <b><?=Yii::t('tickets', 'Время работы выставки')?>:</b><br/>
+                <?php if (Yii::app()->language === 'ru'): ?>
+                    <span>30 - 31 марта.............10:00 - 18:00</span><br/>
+                    <span>01 апреля..................10:00 - 16:00</span>
+                <?php else: ?>
+                    <span>Wednesday 30 March: 10:00 - 18:00</span><br/>
+                    <span>Thursday 31 March: 10:00 - 18:00</span><br/>
+                    <span>Friday 01 April: 10:00 - 16:00</span>
+                <?php endif ?>
 
                 <br/><br/>
-                <b>Место проведения:</b><br/>
-                <span>Россия, Москва</span><br/>
-                <span>пр. Мира 119</span><br/>
-                <span>ВДНХ, 75 павильон, зал А</span><br/>
-                <span>сайт мероприятия:
-                    <a href="http://www.fi-russia.ru/" style="color: #1179A0;">www.fi-russia.ru</a></span>
+                <b><?=Yii::t('tickets', 'Место проведения')?>:</b><br/>
+                <?php if (Yii::app()->language === 'ru'): ?>
+                    <span>Россия, Москва</span><br/>
+                    <span>пр. Мира 119</span><br/>
+                    <span>ВДНХ, 75 павильон, зал А</span><br/>
+                    <span>сайт мероприятия: <a href="http://www.fi-russia.ru/" style="color: #1179A0;">www.fi-russia.ru</a>
+                    </span>
+                <?php else: ?>
+                    <span>All-Russian Exhibition Centre (VDNH)</span><br/>
+                    <span>Pavilion 75</span><br/>
+                    <span>Prospect Mira, VDNH</span><br/>
+                    <span>Moscow, Russia, 129223</span>
+                <?php endif ?>
             </td>
         </tr>
     </tbody>
@@ -155,7 +170,7 @@ if (!empty($event->LinkEmails)) {
         <tbody>
         <tr>
             <td style="height: 50px; vertical-align: middle;">
-                Организаторы:
+                <?=Yii::t('tickets', 'Организаторы')?>:
             </td>
             <td style="padding: 0 5px;">
                 <img src="/img/ticket/ipheb16/partner1.jpg" style="height: 50px; padding-right: 3mm; image-resolution: 110dpi;"/>
@@ -169,33 +184,43 @@ if (!empty($event->LinkEmails)) {
 </div>
 <div style="background: url('/img/ticket/pdf/base/cutting-line.png') center center; height: 1mm; background-image-resolution: 100dpi; margin: 5mm 0;"></div>
 <div style="text-align: center; margin: 0 5mm; overflow: hidden;">
-    <table style="font-size: 4mm; font-weight: 100; vertical-align: top; margin: 0; color: #595f5d; padding: 0 0 0 6mm;">
+    <table style="width: 100%; font-size: 4mm; font-weight: 100; vertical-align: top; margin: 0; color: #595f5d; padding: 0 0 0 6mm;">
         <tbody>
+        <?php if (Yii::app()->language === 'en'): ?>
+            <tr>
+                <td align="center">
+                    <span>Navigation map:</span>
+                </td>
+            </tr>
+        <?php endif ?>
         <tr>
-            <td>
-                <img src="/img/ticket/ipheb16/map.jpg" style="height: 320px; padding-right: 3mm; image-resolution: 110dpi;"/>
+            <td align="center">
+                <img src="/img/ticket/ipheb16/map.jpg" style="height: 310px; padding-right: 3mm; image-resolution: 110dpi;"/>
             </td>
-            <td style="color: #1179A0;">
-                <b style="color: #595f5d;">Схема проезда до местра проведения:</b><br/>
 
-                <ul style="">
-                    <li>
-                        <span style="color: #595f5d;">
-                            На автомобиле:<br/>
-                            адрес для навигатора:<br/>
-                            Главный вход - Москва, проспект Мира, 121<br/>
-                            Въезд на территорию платный (по правилам ОАО "ВДНХ")
-                        </span>
-                    </li>
-                    <br/><br/>
-                    <li>
-                        <span style="color: #595f5d;">
-                            Общественным транспортом:<br/>
-                            Станция метро "ВДНХ"
-                        </span>
-                    </li>
-                </ul>
-            </td>
+            <?php if (Yii::app()->language === 'ru'): ?>
+                <td style="color: #1179A0;">
+                    <b style="color: #595f5d;">Схема проезда до местра проведения:</b><br/>
+
+                    <ul style="">
+                        <li>
+                            <span style="color: #595f5d;">
+                                На автомобиле:<br/>
+                                адрес для навигатора:<br/>
+                                Главный вход - Москва, проспект Мира, 121<br/>
+                                Въезд на территорию платный (по правилам ОАО "ВДНХ")
+                            </span>
+                        </li>
+                        <br/><br/>
+                        <li>
+                            <span style="color: #595f5d;">
+                                Общественным транспортом:<br/>
+                                Станция метро "ВДНХ"
+                            </span>
+                        </li>
+                    </ul>
+                </td>
+            <?php endif ?>
         </tr>
         </tbody>
     </table>
