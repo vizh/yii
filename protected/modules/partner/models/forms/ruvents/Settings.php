@@ -11,7 +11,14 @@ use ruvents\models\Setting;
 class Settings extends EventItemCreateUpdateForm
 {
 
-    /** @var string[] Дополнительные атрибуты пользователя, доступные для редактирования из клиента */
+    /**
+     * @var string[] Дополнительные атрибуты пользователя, доступные для редактирования из клиента
+     */
+    public $AvailableUserData;
+
+    /**
+     * @var string[] Дополнительные атрибуты пользователя, доступные для редактирования из клиента
+     */
     public $EditableUserData;
 
     /**
@@ -20,7 +27,8 @@ class Settings extends EventItemCreateUpdateForm
     public function attributeLabels()
     {
         return [
-            'EditableUserData' => \Yii::t('app', 'Дополнительные поля пользователя, доступные для редактирования'),
+            'AvailableUserData' => \Yii::t('app', 'Доступные для просмотра'),
+            'EditableUserData' => \Yii::t('app', 'Доступные для редактирования'),
         ];
     }
 
@@ -30,6 +38,7 @@ class Settings extends EventItemCreateUpdateForm
     public function rules()
     {
         return [
+            ['AvailableUserData', '\application\components\validators\RangeValidator', 'range' => array_keys($this->getDefinitionData())],
             ['EditableUserData', '\application\components\validators\RangeValidator', 'range' => array_keys($this->getDefinitionData())]
         ];
     }
@@ -70,15 +79,13 @@ class Settings extends EventItemCreateUpdateForm
      */
     protected function loadData()
     {
-        if (!$this->isUpdateMode()) {
+        if (!$this->isUpdateMode())
             return false;
-        }
-        $attributes = json_decode($this->model->Attributes);
-        foreach ($attributes as $attr => $value) {
-            if (property_exists($this, $attr)) {
+
+        foreach (json_decode($this->model->Attributes) as $attr => $value)
+            if (property_exists($this, $attr))
                 $this->$attr = $value;
-            }
-        }
+
         return true;
     }
 
@@ -118,4 +125,4 @@ class Settings extends EventItemCreateUpdateForm
         }
         return $data;
     }
-} 
+}
