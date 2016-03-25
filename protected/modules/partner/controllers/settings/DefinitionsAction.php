@@ -4,21 +4,31 @@ namespace partner\controllers\settings;
 use application\helpers\Flash;
 use application\models\attribute\Group;
 use event\models\forms\UserAttributeGroup;
+use event\models\UserData;
 use partner\components\Action;
 
 class DefinitionsAction extends Action
 {
     public function run()
     {
-        if (\Yii::app()->getRequest()->getIsPostRequest()) {
+        if (\Yii::app()->getRequest()->isPostRequest) {
             $form = $this->getEditableForm();
             $form->fillFromPost();
+
+            if ($attribute = \Yii::app()->getRequest()->getParam('EraseData')) {
+                if ($this->eraseAttributeData($attribute)) {
+                    \Yii::app()->getUser()->setFlash('success', "Данные атриута $attribute очищены.");
+                    $this->getController()->refresh();
+                }
+            }
+
             $result = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
-            if ($result !== null) {
+            if ($result) {
                 Flash::setSuccess(\Yii::t('app', 'Атрибуты успешно сохранены!'));
                 $this->getController()->refresh();
             }
         }
+
         $this->getController()->render('definitions', ['forms' => $this->getForms()]);
     }
 
@@ -52,6 +62,35 @@ class DefinitionsAction extends Action
                 continue;
             }
             return $form;
+        }
+    }
+
+    /**
+     * Erases data of an attribute
+     * @param string $attribute
+     * @return bool
+     */
+    private function eraseAttributeData($attribute)
+    {
+        /** @var UserData[] $items */
+        $items = UserData::model()->findAll([
+            'condition' => '"EventId" = :eventId',
+            'params' => [':eventId' => $this->getController()->getEvent()->Id]
+        ]);
+
+        try {
+            foreach ($items as $item) {
+                $data = json_decode($item->Attributes, true);
+                if (isset($data[$attribute])) {
+                    unset($data[$attribute]);
+                    $item->Attributes = json_encode($item->Attributes, JSON_UNESCAPED_UNICODE);
+                    $item->save();
+                }
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
         }
     }
 }

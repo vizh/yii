@@ -92,15 +92,26 @@ $this->setPageTitle(\Yii::t('app', 'Дополнительные атрибут�
                                         <hr/>
                                     <?php endif;?>
                                 </div>
-                            <?php endforeach;?>
+
+                                <?php if ($definition->Name): ?>
+                                    <div class="text-right">
+                                        <?=CHtml::tag('button', [
+                                            'type' => 'submit',
+                                            'name' => 'EraseData',
+                                            'value' => $definition->Name,
+                                            'class' => 'btn btn-warning'
+                                        ], \Yii::t('app', 'Очистить данные'))?>
+                                    </div>
+                                <?php endif ?>
+                            <?php endforeach ?>
                         </div>
                     </div>
                 </div>
                 <?php endif;?>
             </div>
             <div class="panel-footer">
-                <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary']);?>
+                <?=CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary'])?>
             </div>
         </div>
     <?php $this->endWidget();?>
-<?php endforeach;?>
+<?php endforeach ?>

@@ -194,11 +194,10 @@ if (!empty($event->LinkEmails)) {
             </tr>
         <?php endif ?>
         <tr>
-            <td align="center">
-                <img src="/img/ticket/ipheb16/map.jpg" style="height: 310px; padding-right: 3mm; image-resolution: 110dpi;"/>
-            </td>
-
             <?php if (Yii::app()->language === 'ru'): ?>
+                <td align="center">
+                    <img src="/img/ticket/ipheb16/map.jpg" style="height: 310px; padding-right: 3mm; image-resolution: 110dpi;"/>
+                </td>
                 <td style="color: #1179A0;">
                     <b style="color: #595f5d;">Схема проезда до местра проведения:</b><br/>
 
@@ -219,6 +218,10 @@ if (!empty($event->LinkEmails)) {
                             </span>
                         </li>
                     </ul>
+                </td>
+            <?php else: ?>
+                <td align="center">
+                    <img src="/img/ticket/fi-russia16/map_en.png" style="height: 310px; padding-right: 3mm; image-resolution: 110dpi;"/>
                 </td>
             <?php endif ?>
         </tr>
