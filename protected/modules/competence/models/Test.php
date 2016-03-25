@@ -42,6 +42,9 @@ use user\models\User;
  */
 class Test extends ActiveRecord
 {
+    // Path for header images
+    const HEADER_IMAGES_PATH = '/img/competence/header/';
+
     /**
      * @var User
      */
@@ -96,6 +99,26 @@ class Test extends ActiveRecord
             'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
             'ResultsAll' => [self::HAS_MANY, '\competence\models\Result', 'TestId']
         ];
+    }
+
+    /**
+     * Whether the header image exists
+     * @return bool
+     */
+    public function hasHeaderImage()
+    {
+        return file_exists(
+            \Yii::getPathOfAlias('webroot') . self::HEADER_IMAGES_PATH . $this->Id . '.png'
+        );
+    }
+
+    /**
+     * Returns url to the header image
+     * @return string
+     */
+    public function getHeaderImage()
+    {
+        return self::HEADER_IMAGES_PATH . $this->Id . '.png';
     }
 
     /**

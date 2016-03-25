@@ -19,6 +19,10 @@ $event = $this->test->EventId && $this->test->RenderEventHeader ? Event::model()
                 }
             }
         ?>
+    <?php elseif ($this->test->hasHeaderImage()): ?>
+        <figure>
+            <?=Html::image($this->test->getHeaderImage())?>
+        </figure>
     <?php endif ?>
 
     <div class="container m-top_40">
