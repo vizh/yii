@@ -7,7 +7,6 @@
  * @var array $hasErrors
  */
 
-use event\models\Event;
 use user\models\User;
 use competence\models\Test;
 use competence\models\Question;
@@ -53,7 +52,7 @@ $this->pageTitle = $test->Title;
             </div>
         <?php endforeach ?>
         <div class="row interview-controls">
-            <div class="span8 text-center">
+            <div class="span12 text-center">
                 <input type="submit" class="btn btn-success" value="<?= Yii::t('app', 'Отправить анкету') ?>" name="next">
             </div>
         </div>

@@ -8,7 +8,7 @@ use event\models\Event;
 
 $baseLayout = $this->test->UseClearLayout ? '//layouts/clear-650px' : '//layouts/public';
 
-$event = $this->test->EventId && $this->renderEventHeader ? Event::model()->findByPk($this->test->EventId) : null;
+$event = $this->test->EventId && $this->test->RenderEventHeader ? Event::model()->findByPk($this->test->EventId) : null;
 ?>
 <?php $this->beginContent($baseLayout) ?>
     <?php if (isset($event)): ?>

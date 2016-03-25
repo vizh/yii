@@ -29,6 +29,7 @@ use user\models\User;
  * @property string $AfterText
  * @property bool $ParticipantsOnly
  * @property bool $UseClearLayout
+ * @property bool $RenderEventHeader
  *
  * @property Event $Event
  * @property Result[] $ResultsAll
