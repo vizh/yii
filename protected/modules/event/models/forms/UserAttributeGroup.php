@@ -48,8 +48,14 @@ class UserAttributeGroup extends Group
         $names = [];
         $data = UserData::model()->byEventId($this->event->Id)->findAll();
         foreach ($data as $item) {
+            $data = json_decode($item->Attributes, true);
+            if (!is_array($data)) {
+                continue;
+            }
+
             $names = array_merge($names, array_keys(json_decode($item->Attributes, true)));
         }
+
         return array_unique($names);
     }
 }
