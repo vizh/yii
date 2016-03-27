@@ -1,7 +1,8 @@
 <?php
 use pay\components\admin\Rif;
+  use ruvents\components\Exception;
 
-class Rif14Controller extends CController
+  class Rif14Controller extends CController
 {
   private static $hotels = [
     0 => Rif::HOTEL_P,
@@ -88,11 +89,11 @@ class Rif14Controller extends CController
   {
     $user = \user\models\User::model()->byRunetId($runetId)->find();
     if ($user == null)
-      throw new \ruvents\components\Exception(202,[$runetId]);
+      throw new Exception(202,[$runetId]);
 
     $product = \pay\models\Product::model()->findByPk($productId);
     if ($product == null)
-      throw new \ruvents\components\Exception(401,[$productId]);
+      throw new Exception(401,[$productId]);
 
     $get = \pay\models\ProductGet::model()->byUserId($user->Id)->byProductId($product->Id)->find();
     if ($get == null)
@@ -115,7 +116,7 @@ class Rif14Controller extends CController
 
     $product = \pay\models\Product::model()->findByPk($productId);
     if ($product == null)
-      throw new \ruvents\components\Exception(401,[$productId]);
+      throw new Exception(401, [$productId]);
 
     $criteria->addCondition('"t"."ProductId" = :ProductId');
     $criteria->params['ProductId'] = $product->Id;
@@ -124,7 +125,7 @@ class Rif14Controller extends CController
     {
       $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $fromTime);
       if ($datetime === false)
-        throw new \ruvents\components\Exception(321);
+        throw new Exception(900, ['FromUpdateTime']);
 
       $criteria->addCondition('"t"."CreationTime" >= :Time');
       $criteria->params['Time'] = $datetime->format('Y-m-d H:i:s');

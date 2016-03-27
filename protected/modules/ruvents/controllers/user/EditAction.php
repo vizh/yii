@@ -224,11 +224,8 @@ class EditAction extends Action
             ->orderBy(['"t"."CreationTime"'])
             ->find();
 
-        if (empty($userData)) {
-            $userData = new UserData();
-            $userData->EventId = $this->getEvent()->Id;
-            $userData->UserId  = $user->Id;
-        }
+        if (empty($userData))
+            $userData = UserData::createEmpty($this->getEvent(), $user);
 
         $manager = $userData->getManager();
 

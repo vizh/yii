@@ -1,6 +1,8 @@
 <?php
 namespace ruvents\controllers\visit;
 
+use ruvents\components\Exception;
+
 class CreateAction extends \ruvents\components\Action
 {
     public function run($hallId, $visitTime, $runetId = null, $externalId = null)
@@ -8,15 +10,15 @@ class CreateAction extends \ruvents\components\Action
         $hall = \event\models\section\Hall::model()->byEventId($this->getEvent()->Id)
             ->byDeleted(false)->findByPk($hallId);
         if ($hall == null)
-            throw new \ruvents\components\Exception(701, [$hallId]);
+            throw new Exception(701, [$hallId]);
 
         $user = $this->getUser($runetId, $externalId);
         if ($user === null)
-            throw new \ruvents\components\Exception(202, [$runetId]);
+            throw new Exception(202, [$runetId]);
 
         $visitDatetime = \DateTime::createFromFormat('Y-m-d H:i:s', $visitTime);
         if ($visitDatetime === false)
-            throw new \ruvents\components\Exception(702);
+            throw new Exception(900, ['VisitTime']);
 
         $visit = new \event\models\section\UserVisit();
         $visit->UserId = $user->Id;

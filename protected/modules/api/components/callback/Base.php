@@ -109,7 +109,10 @@ class Base
     protected function parseErrorMessage($code, $params = [])
     {
         $message = $this->getErrorMessage($code);
-        return $message != null ? call_user_func_array('sprintf', array_merge([$message], $params)) : null;
+        
+        return $message != null
+            ? vsprintf($message, $params)
+            : null;
     }
 
     protected function logError($code, $params)

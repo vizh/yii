@@ -17,12 +17,15 @@ class DefinitionsAction extends Action
 
             if ($attribute = \Yii::app()->getRequest()->getParam('EraseData')) {
                 if ($this->eraseAttributeData($attribute)) {
-                    \Yii::app()->getUser()->setFlash('success', "Данные атриута $attribute очищены.");
+                    Flash::setSuccess("Данные атриута $attribute очищены.");
                     $this->getController()->refresh();
                 }
             }
 
-            $result = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
+            $result = $form->isUpdateMode()
+                ? $form->updateActiveRecord()
+                : $form->createActiveRecord();
+
             if ($result) {
                 Flash::setSuccess(\Yii::t('app', 'Атрибуты успешно сохранены!'));
                 $this->getController()->refresh();
@@ -73,15 +76,14 @@ class DefinitionsAction extends Action
     private function eraseAttributeData($attribute)
     {
         /** @var UserData[] $items */
-        $items = UserData::model()->findAll([
-            'condition' => '"EventId" = :eventId',
-            'params' => [':eventId' => $this->getController()->getEvent()->Id]
-        ]);
+        $items = UserData::model()
+            ->byEventId($this->getEvent()->Id)
+            ->findAll();
 
         try {
             foreach ($items as $item) {
                 $data = json_decode($item->Attributes, true);
-                if (isset($data[$attribute])) {
+                if (array_key_exists($attribute, $data)) {
                     unset($data[$attribute]);
                     $item->Attributes = json_encode($item->Attributes, JSON_UNESCAPED_UNICODE);
                     $item->save();

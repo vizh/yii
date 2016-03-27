@@ -73,9 +73,4 @@ class Setting extends ActiveRecord
         }
         return $this->settings;
     }
-
-    public function getPossibleUserData()
-    {
-
-    }
 }

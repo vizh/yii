@@ -1,6 +1,8 @@
 <?php
 namespace ruvents\controllers\product;
 
+use ruvents\components\Exception;
+
 class ProductGetListAction extends \ruvents\components\Action
 {
   public function run($productId, $fromTime = null)
@@ -11,7 +13,7 @@ class ProductGetListAction extends \ruvents\components\Action
 
     $product = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->findByPk($productId);
     if ($product == null)
-      throw new \ruvents\components\Exception(401,[$productId]);
+      throw new Exception(401,[$productId]);
 
     $criteria->addCondition('"t"."ProductId" = :ProductId');
     $criteria->params['ProductId'] = $product->Id;
@@ -20,7 +22,7 @@ class ProductGetListAction extends \ruvents\components\Action
     {
       $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $fromTime);
       if ($datetime === false)
-        throw new \ruvents\components\Exception(321);
+        throw new Exception(900, ['FromUpdateTime']);
 
       $criteria->addCondition('"t"."CreationTime" >= :Time');
       $criteria->params['Time'] = $datetime->format('Y-m-d H:i:s');

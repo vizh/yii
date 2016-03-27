@@ -62,7 +62,7 @@ class Exception extends \CException
     {
         return $params === null
             ? self::getMessages()[$code]
-            : call_user_func_array('sprintf', array_merge([self::getMessages()[$code]], is_array($params) ? $params : [$params]));
+            : vsprintf(self::getMessages()[$code], $params);
     }
 
     /**

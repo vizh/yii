@@ -1,7 +1,7 @@
 <?php
 namespace ruvents\controllers\product;
 
-use event\models\Participant;
+use ruvents\components\Exception;
 
 /**
  * Данный метод используется для быстрой загрузки списка RunetId пользователей, оплативших
@@ -21,9 +21,8 @@ class FastPaidItemsAction extends \ruvents\components\Action
         ];
         if (!empty($fromTime))
         {
-            $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $fromTime);
-            if ($datetime === false)
-                throw new \ruvents\components\Exception(321);
+            $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $fromTime); if ($datetime === false)
+                throw new Exception(900, ['FromUpdateTime']);
 
             $criteria->addCondition('"t"."CreationTime" >= :Time');
             $criteria->params['Time'] = $datetime->format('Y-m-d H:i:s');

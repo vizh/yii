@@ -49,7 +49,7 @@ return [
         'roles' => ['Server'],
         'module' => 'ruvents',
         'controllers' => ['user'],
-        'actions' => ['search', 'visit', 'photo']
+        'actions' => ['search', 'visit', 'photo', 'editAttribute']
     ],
     [
         'allow',
@@ -86,7 +86,7 @@ return [
         'roles' => ['Operator'],
         'module' => 'ruvents',
         'controllers' => ['user'],
-        'actions' => ['create', 'edit']
+        'actions' => ['create', 'edit', 'editAttribute']
     ],
     [
         'allow',
