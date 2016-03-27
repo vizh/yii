@@ -19,7 +19,7 @@ class Account extends \CActiveRecord
      * @param string $className
      * @return Account
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -52,6 +52,7 @@ class Account extends \CActiveRecord
         $criteria->condition = '"t"."Hash" = :Hash';
         $criteria->params = ['Hash' => $hash];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -66,6 +67,7 @@ class Account extends \CActiveRecord
         $criteria->condition = '"t"."EventId" = :EventId';
         $criteria->params = ['EventId' => $eventId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -80,6 +82,7 @@ class Account extends \CActiveRecord
         $criteria->condition = '"t"."Role" = :Role';
         $criteria->params = ['Role' => $role];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 }

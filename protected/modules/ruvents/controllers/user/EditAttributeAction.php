@@ -68,6 +68,6 @@ class EditAttributeAction extends Action
             new ChangeMessage('Data', [$attrName => $attrValueOld], [$attrName => $attrValueOld])
         );
 
-        $this->renderJson(['success' => true]);
+        $this->renderJson(['Success' => true]);
     }
 }

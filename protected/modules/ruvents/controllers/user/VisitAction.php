@@ -25,22 +25,24 @@ class VisitAction extends Action
         $mark = $request->getParam('MarkId', null);
 
         if (empty($id))
-            throw new Exception(900, ['RunetId']);
+            throw new Exception(900, 'RunetId');
 
         if (empty($mark))
-            throw new Exception(900, ['MarkId']);
+            throw new Exception(900, 'MarkId');
 
-        $user = User::model()->byRunetId($id)->find();
+        $user = User::model()
+            ->byRunetId($id)
+            ->find();
 
         if ($user === null)
-            throw new Exception(202, [$id]);
+            throw new Exception(202, $id);
 
         Visit::insertOne([
             'UserId' => $user->Id,
             'EventId' => $this->getEvent()->Id,
             'MarkId' => $mark
         ]);
-        
+
         echo json_encode(['Success' => true]);
     }
 }

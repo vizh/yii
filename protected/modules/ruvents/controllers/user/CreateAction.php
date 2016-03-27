@@ -66,7 +66,7 @@ class CreateAction extends Action
             $this->getDetailLog()->UserId = $user->Id;
             $this->getDetailLog()->save();
 
-            $result = array();
+            $result = [];
             $this->getDataBuilder()->createUser($user);
             $this->getDataBuilder()->buildUserEmployment($user);
             $result['User'] = $this->getDataBuilder()->buildUserPhone($user);
@@ -82,7 +82,7 @@ class CreateAction extends Action
     private function updateRoles(User $user)
     {
         $event = $this->getEvent();
-        $statuses = (array)json_decode(\Yii::app()->getRequest()->getParam('Statuses'));
+        $statuses = (array) json_decode(\Yii::app()->getRequest()->getParam('Statuses'));
         if (!$statuses)
             throw new Exception(310);
 

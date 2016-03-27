@@ -18,9 +18,9 @@ class UsersListAction extends StatAction
         $this->controller->layout = '//layouts/clear';
 
         $groups = $this->fetchUniqueGroups($eventId);
-        if (!isset($groups[$group])) {
+
+        if (!isset($groups[$group]))
             throw new \CHttpException(404);
-        }
 
         $groupName = $groups[$group];
 
@@ -41,7 +41,7 @@ class UsersListAction extends StatAction
         return new \CActiveDataProvider(Visit::model()->byEventId($eventId), [
             'criteria' => [
                 'condition' => 't."MarkId" ILIKE :group',
-                'params' => [':group' => $group.'%'],
+                'params' => [':group' => $group . '%'],
                 'with' => [
                     'UserData'
                 ]

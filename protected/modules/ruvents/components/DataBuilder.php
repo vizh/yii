@@ -10,6 +10,7 @@ use user\models\User;
 class DataBuilder
 {
     private $eventId;
+
     public function __construct($eventId)
     {
         $this->eventId = $eventId;
@@ -47,6 +48,7 @@ class DataBuilder
     }
 
     protected $user;
+
     /**
      * @param \user\models\User $user
      * @return \stdClass
@@ -81,16 +83,17 @@ class DataBuilder
      * @param \user\models\User $user
      * @return \stdClass
      */
-    public function buildUserPhone ($user)
+    public function buildUserPhone($user)
     {
         if ($user->PrimaryPhone !== null) {
             $this->user->Phone = $user->PrimaryPhone;
         } else {
             $phone = $user->getContactPhone(\contact\models\PhoneType::Mobile);
             if ($phone !== null) {
-                $this->user->Phone = (string)$phone;
+                $this->user->Phone = (string) $phone;
             }
         }
+
         return $this->user;
     }
 
@@ -101,10 +104,8 @@ class DataBuilder
      */
     public function buildUserEmployment($user)
     {
-        foreach ($user->Employments as $employment)
-        {
-            if ($employment->Primary == 1 && !empty($employment->Company))
-            {
+        foreach ($user->Employments as $employment) {
+            if ($employment->Primary == 1 && !empty($employment->Company)) {
                 $this->user->Work = new \stdClass();
                 $this->user->Work->Position = $employment->Position;
                 $this->user->Work->Company = $this->CreateCompany($employment->Company);
@@ -112,6 +113,7 @@ class DataBuilder
                 $this->user->Work->StartMonth = $employment->StartMonth;
                 $this->user->Work->EndYear = $employment->EndYear;
                 $this->user->Work->EndMonth = $employment->EndMonth;
+
                 return $this->user;
             }
         }
@@ -173,6 +175,7 @@ class DataBuilder
     }
 
     protected $company;
+
     /**
      * @param \company\models\Company $company
      * @return \stdClass
@@ -184,6 +187,7 @@ class DataBuilder
         $this->company->CompanyId = $company->Id;
         $this->company->Name = $company->Name;
         $this->company->Locales = $this->getLocales($company);
+
         return $this->company;
     }
 
@@ -253,6 +257,7 @@ class DataBuilder
                         'Title',
                         'Variants' => function (Definition $model) {
                             $params = $model->getParams();
+
                             return isset($params['data'])
                                 ? $params['data']
                                 : [];
@@ -319,6 +324,7 @@ class DataBuilder
     }
 
     protected $orderItem;
+
     /**
      * @param \pay\models\OrderItem $orderItem
      * @return \stdClass
@@ -336,28 +342,20 @@ class DataBuilder
 
         $couponActivation = $orderItem->getCouponActivation();
 
-        if ($couponActivation !== null)
-        {
+        if ($couponActivation !== null) {
             $this->orderItem->Discount = $couponActivation->Coupon->Discount;
             $this->orderItem->PromoCode = $couponActivation->Coupon->Code;
-        }
-        else
-        {
+        } else {
             $this->orderItem->Discount = 0;
             $this->orderItem->PromoCode = '';
         }
 
-        if ($this->orderItem->Discount == 1)
-        {
+        if ($this->orderItem->Discount == 1) {
             $this->orderItem->PayType = 'promo';
-        }
-        else
-        {
+        } else {
             $this->orderItem->PayType = 'individual';
-            foreach ($orderItem->OrderLinks as $link)
-            {
-                if ($link->Order->Type == \pay\models\OrderType::Juridical && $link->Order->Paid)
-                {
+            foreach ($orderItem->OrderLinks as $link) {
+                if ($link->Order->Type == \pay\models\OrderType::Juridical && $link->Order->Paid) {
                     $this->orderItem->PayType = 'juridical';
                 }
             }
@@ -379,6 +377,7 @@ class DataBuilder
     }
 
     protected $product;
+
     /**
      * @param \pay\models\Product $product
      * @param string $time
@@ -420,17 +419,16 @@ class DataBuilder
     protected function getLocales($model)
     {
         $locales = new \stdClass();
-        foreach (\Yii::app()->params['Languages'] as $lang)
-        {
+        foreach (\Yii::app()->params['Languages'] as $lang) {
             $model->setLocale($lang);
             $localeStd = new \stdClass();
-            foreach ($model->getTranslationFields() as $key)
-            {
+            foreach ($model->getTranslationFields() as $key) {
                 $localeStd->{$key} = $model->{$key};
             }
             $locales->{$lang} = $localeStd;
         }
         $model->resetLocale();
+
         return $locales;
     }
 
@@ -445,6 +443,7 @@ class DataBuilder
         $this->sectionHall = new \stdClass();
         $this->sectionHall->HallId = $hall->Id;
         $this->sectionHall->Title = $hall->Title;
+
         return $this->sectionHall;
     }
 }

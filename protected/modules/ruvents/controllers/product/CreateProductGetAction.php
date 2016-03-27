@@ -2,20 +2,32 @@
 namespace ruvents\controllers\product;
 
 
+use pay\models\Product;
+use pay\models\ProductGet;
+use ruvents\components\Exception;
+use user\models\User;
+
 class CreateProductGetAction extends \ruvents\components\Action
 {
     public function run($runetId, $productId)
     {
-        $user = \user\models\User::model()->byRunetId($runetId)->byEventId($this->getEvent()->Id)->find();
+        $user = User::model()
+            ->byRunetId($runetId)
+            ->byEventId($this->getEvent()->Id)
+            ->find();
+
         if ($user == null)
-            throw new \ruvents\components\Exception(202,[$runetId]);
+            throw new Exception(202, $runetId);
 
-        $product = \pay\models\Product::model()->byEventId($this->getEvent()->Id)->findByPk($productId);
+        $product = Product::model()
+            ->byEventId($this->getEvent()->Id)
+            ->findByPk($productId);
+
         if ($product == null)
-            throw new \ruvents\components\Exception(401,[$productId]);
+            throw new Exception(401, $productId);
 
 
-        $get = new \pay\models\ProductGet();
+        $get = new ProductGet();
         $get->UserId = $user->Id;
         $get->ProductId = $product->Id;
         $get->save();
@@ -24,4 +36,4 @@ class CreateProductGetAction extends \ruvents\components\Action
 
         $this->renderJson(['Success' => true, 'CreationTime' => $get->CreationTime]);
     }
-} 
+}
