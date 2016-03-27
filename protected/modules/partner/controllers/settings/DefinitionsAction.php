@@ -16,10 +16,9 @@ class DefinitionsAction extends Action
             $form->fillFromPost();
 
             if ($attribute = \Yii::app()->getRequest()->getParam('EraseData')) {
-                if ($this->eraseAttributeData($attribute)) {
-                    Flash::setSuccess("Данные атриута $attribute очищены.");
-                    $this->getController()->refresh();
-                }
+                $changesPresent = $this->eraseAttributeData($attribute);
+                Flash::setSuccess($changesPresent ? "Данные атриута $attribute очищены." : "Все значения $attribute уже были пусты");
+                $this->getController()->refresh();
             }
 
             $result = $form->isUpdateMode()
@@ -75,24 +74,22 @@ class DefinitionsAction extends Action
      */
     private function eraseAttributeData($attribute)
     {
-        /** @var UserData[] $items */
-        $items = UserData::model()
+        /** @var UserData[] $usersData */
+        $usersData = UserData::model()
             ->byEventId($this->getEvent()->Id)
             ->findAll();
 
-        try {
-            foreach ($items as $item) {
-                $data = json_decode($item->Attributes, true);
-                if (array_key_exists($attribute, $data)) {
-                    unset($data[$attribute]);
-                    $item->Attributes = json_encode($item->Attributes, JSON_UNESCAPED_UNICODE);
-                    $item->save();
-                }
-            }
+        $changesPresent = false;
 
-            return true;
-        } catch (\Exception $e) {
-            return false;
+        foreach ($usersData as $userData) {
+            $dataManager = $userData->getManager();
+            if (isset($dataManager->$attribute)) {
+                unset($dataManager->$attribute);
+                $userData->save(false);
+                $changesPresent = true;
+            }
         }
+
+        return $changesPresent;
     }
 }

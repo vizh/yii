@@ -56,17 +56,20 @@ class EditAttributeAction extends Action
 
         $manager = $userData->getManager();
 
-        $attrValueOld = $manager->$attrName;
-        $manager->$attrName = $attrValue;
+        $originalAttrValue = $manager->$attrName;
 
-        if (!$manager->validate() && ($error = $manager->getError($attrName)) !== null)
-             throw new Exception(252, [$attrName, $error]);
+        if ($originalAttrValue != $attrName) {
+            $manager->$attrName = $attrValue;
 
-        $userData->save();
+            if (!$manager->validate() && ($error = $manager->getError($attrName)) !== null)
+                throw new Exception(252, [$attrName, $error]);
 
-        $this->getDetailLog()->addChangeMessage(
-            new ChangeMessage('Data', [$attrName => $attrValueOld], [$attrName => $attrValueOld])
-        );
+            $userData->save(false);
+
+            $this->getDetailLog()->addChangeMessage(
+                new ChangeMessage('Data', [$attrName => $originalAttrValue], [$attrName => $attrValue])
+            );
+        }
 
         $this->renderJson(['Success' => true]);
     }
