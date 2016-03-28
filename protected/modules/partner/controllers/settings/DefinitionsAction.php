@@ -11,6 +11,8 @@ class DefinitionsAction extends Action
 {
     public function run()
     {
+        ini_set('memory_limit', '512M');
+
         if (\Yii::app()->getRequest()->isPostRequest) {
             $form = $this->getEditableForm();
             $form->fillFromPost();
