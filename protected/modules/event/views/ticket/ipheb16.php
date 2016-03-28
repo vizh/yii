@@ -111,12 +111,12 @@ if (!empty($event->LinkEmails)) {
 <div style="background: url('/img/ticket/pdf/base/cutting-line.png') center center; height: 1mm; background-image-resolution: 100dpi;">
     <img src="/img/ticket/pdf/base/cutting.png" style="position: absolute; margin-top: 0; margin-left: 5mm;"/>
 </div>
-<table style="width: 100%; color: #595f5d; margin: 7px 30px;" cellpadding="0" cellspacing="10">
+<table style="width: 100%; color: #595f5d; margin: 7px 10px 7px 30px;" cellpadding="0" cellspacing="10">
     <tbody>
     <tr>
         <td style="vertical-align: top; padding-right: 5px;">
             <p>
-                <?=Yii::t('tickets/fi-russia16', 'Спасибо за регистрацию и добро пожаловать на выставку<br/>Food ingredients Russia 2016.')?>
+                <?=Yii::t('tickets/ipheb16', 'Спасибо за регистрацию и добро пожаловать на выставку<br/>IPhEB&CPhl Russia 2016.')?>
             </p>
 
             <br/><br/>
@@ -124,15 +124,15 @@ if (!empty($event->LinkEmails)) {
                 <?php if (Yii::app()->language === 'ru'): ?>
                     <b>Инструкция:</b><br/>
                 <?php endif ?>
-                <span>1) <?=Yii::t('tickets/fi-russia16', 'Распечатайте Ваш пригласительный билет и обязательно возьмите его с собой на мероприятие')?>.</span>
+                <span>1) <?=Yii::t('tickets/ipheb16', 'Распечатайте Ваш пригласительный билет и обязательно возьмите его с собой на мероприятие')?>.</span>
                 <br/>
-                <span>2) <?=Yii::t('tickets/fi-russia16', 'Предъявите пригласительный билет в зоне регистрации и получите имменной бейдж')?>.</span>
+                <span>2) <?=Yii::t('tickets/ipheb16', 'Предъявите пригласительный билет в зоне регистрации и получите имменной бейдж')?>.</span>
                 <br/>
-                <span>3) <?=Yii::t('tickets/fi-russia16', 'Желаем Вам успешной работы на выставке')?>!</span>
+                <span>3) <?=Yii::t('tickets/ipheb16', 'Желаем Вам успешной работы на выставке')?>!</span>
             </p>
         </td>
-        <td style="vertical-align: top; padding-left: 5px;">
-            <b><?=Yii::t('tickets/fi-russia16', 'Время работы выставки')?>:</b><br/>
+        <td style="vertical-align: top;">
+            <b><?=Yii::t('tickets/ipheb16', 'Время работы выставки')?>:</b><br/>
             <?php if (Yii::app()->language === 'ru'): ?>
                 <span>30 - 31 марта.............10:00 - 18:00</span><br/>
                 <span>01 апреля..................10:00 - 16:00</span>
@@ -143,7 +143,7 @@ if (!empty($event->LinkEmails)) {
             <?php endif ?>
 
             <br/><br/>
-            <b><?=Yii::t('tickets/fi-russia16', 'Место проведения')?>:</b><br/>
+            <b><?=Yii::t('tickets/ipheb16', 'Место проведения')?>:</b><br/>
             <?php if (Yii::app()->language === 'ru'): ?>
                 <span>Россия, Москва</span><br/>
                 <span>пр. Мира 119</span><br/>
