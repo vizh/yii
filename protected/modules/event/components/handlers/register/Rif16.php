@@ -1,6 +1,8 @@
 <?php
 namespace event\components\handlers\register;
 
+use event\models\Role;
+
 class Rif16 extends Base
 {
     /**
@@ -8,6 +10,10 @@ class Rif16 extends Base
      */
     public function getBody()
     {
+        if ($this->role->Id == Role::VIRTUAL_ROLE_ID) {
+            return parent::getBody();
+        }
+
         $params = [
             'user' => $this->user,
             'event' => $this->event,
