@@ -47,7 +47,7 @@ class FoodAction extends StatAction
                 ->from(Visit::model()->tableName())
                 ->where('"EventId" = :eventId AND "MarkId" ILIKE :group', [
                     ':eventId' => $eventId,
-                    ':group' => $group.'%'
+                    ':group' => $group . '%'
                 ])
                 ->queryScalar();
 
@@ -56,7 +56,7 @@ class FoodAction extends StatAction
                 ->from(Visit::model()->tableName())
                 ->where('"EventId" = :eventId AND "MarkId" ILIKE :group', [
                     ':eventId' => $eventId,
-                    ':group' => $group.'%'
+                    ':group' => $group . '%'
                 ])
                 ->queryScalar();
 

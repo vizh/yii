@@ -5,17 +5,19 @@ use event\models\Part;
 
 class PartsAction extends \ruvents\components\Action
 {
-  public function run()
-  {
-    $event = $this->getEvent();
-    $parts = Part::model()->byEventId($event->Id)->findAll();
-    $response = [];
+    public function run()
+    {
+        $parts = Part::model()
+            ->byEventId($this->getEvent()->Id)
+            ->findAll();
+        
+        $response = [];
 
-    foreach ($parts as $part)
-      $response[] = $this->getDataBuilder()->createPart($part);
+        foreach ($parts as $part)
+            $response[] = $this->getDataBuilder()->createPart($part);
 
-    $this->renderJson([
-      'Parts' => $response
-    ]);
-  }
+        $this->renderJson([
+            'Parts' => $response
+        ]);
+    }
 }

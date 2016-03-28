@@ -137,9 +137,11 @@ class Exception extends \CException
      */
     protected function getErrorMessage($code, $params = array())
     {
-        $message = isset($this->codes[$code]) ? $this->codes[$code] : 'Возникла ошибка с неизвестным кодом.';
-        $message = \Yii::t('api', $message);
-        return call_user_func_array('sprintf', array_merge([$message], $params));
+        $message = isset($this->codes[$code])
+            ? \Yii::t('api', $this->codes[$code])
+            : 'Возникла ошибка с неизвестным кодом.';
+        
+        return vsprintf($message, $params);
     }
 
     public function sendResponse()

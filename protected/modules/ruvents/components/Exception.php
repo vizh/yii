@@ -3,16 +3,7 @@ namespace ruvents\components;
 
 class Exception extends \CException
 {
-    /**
-     * @param int $code
-     * @param array $params
-     */
-    public function __construct($code, $params = array())
-    {
-        parent::__construct($this->getErrorMessage($code, $params), $code);
-    }
-
-    private $codes = array(
+    private static $codes = [
         100 => 'Обработана внешняя ошибка: %s',
 
         /** авторизация операторов */
@@ -20,27 +11,18 @@ class Exception extends \CException
         102 => 'Не верный мастер-пароль. Авторизация оператора отклонена!',
         103 => 'Оператор и хеш доступа принадлежат к разным мероприятиям',
         104 => 'Для загрузки списка операторов необходим хеш автризации',
-
         105 => 'Ошибка валидации: %s',
-
-        110 => 'Не задан обязательный параметр метода',
         111 => 'Не верный токен следующей страницы данных',
-
 
         /* Ошибки работы с модулем User */
         202 => 'Не найден пользователь с RUNET-ID: %s',
         203 => 'Строка запроса не может быть пустой',
-
         205 => 'Введен не корректный Email',
         206 => 'Пользователь с таким Email уже существует в системе RUNET-ID',
-
         207 => 'Ошибка сохранения пользователя: %s',
-
         210 => 'Пользователя с такими Эл. почтой или RUNET-ID и паролем не существует.',
-
         251 => 'Возникла ошибка при работе с аттрибутами пользователя: "%s"',
         252 => 'Возникла ошибка при сохранении аттрибута пользователя "%s":%s',
-
 
         /* Ошибки работы с модулем Event */
         301 => 'Не найдено мероприятие для текущего оператора',
@@ -52,20 +34,12 @@ class Exception extends \CException
         308 => 'Для мероприятия не заданы отдельные части. Указан избыточный праметр.',
         309 => 'Для мероприятия заданы отдельные части. Необходимо указать id части.',
 
-        321 => 'Не передан обязательный параметр FromUpdateTime.',
-
-
-        /**  Заказы **/
+        /** Заказы **/
         401 => 'Не найден товар с id: %s',
-
         408 => 'Передан пустой список заказов',
         409 => 'Не найдены элементы заказа с идентификаторами: %s',
-
-
         413 => 'Элементы заказа со следующими идентификаторами не принадлежат пользователю: %s',
-
         414 => 'Операция отменена. Не удалось перенести следующие заказы: %s',
-
         420 => 'Пользователь уже получал данный продукт',
 
         /** Поиск **/
@@ -76,29 +50,38 @@ class Exception extends \CException
 
         /** Секции программы*/
         701 => 'Для данного мероприятия не найден зал с ID: %s',
-        702 => 'Не задан обязательный параметр: Дата посещения',
 
-        /** Посещения зон мониторинга */
-        801 => 'Не задан ID метки, посещенной пользователем в зоне мониторинга'
-    );
+        /** Разное */
+        900 => 'Не передан обязательный параметр: %s',
+        901 => 'Атрибут %s недоступен для редактирования на мероприятии',
+    ];
 
+    /**
+     * @param int $code
+     * @param array $params
+     */
+    public function __construct($code, $params = [])
+    {
+        parent::__construct($this->getErrorMessage($code, $params), $code);
+    }
 
     /**
      * @param int $code
      * @param array $params
      * @return string
      */
-    private function getErrorMessage($code, $params = array())
+    private function getErrorMessage($code, $params = null)
     {
-        $message = isset($this->codes[$code]) ? $this->codes[$code] : 'Возникла ошибка с неизвестным кодом.';
-        return call_user_func_array('sprintf', array_merge(array($message), $params));
+        return vsprintf(self::$codes[$code] ?: 'Возникла ошибка с неизвестным кодом', $params);
     }
 
     public function sendResponse()
     {
-        $error = new \stdClass();
-        $error->Code = $this->getCode();
-        $error->Message = $this->getMessage();
-        echo json_encode(array('Error' => $error), JSON_UNESCAPED_UNICODE);
+        $error = [
+            'Code' => $this->getCode(),
+            'Message' => $this->getMessage()
+        ];
+
+        echo json_encode(['Error' => $error], JSON_UNESCAPED_UNICODE);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 namespace ruvents\models;
+
 use application\components\ActiveRecord;
 
 /**
@@ -20,7 +21,7 @@ class Setting extends ActiveRecord
      *
      * @return Setting
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -57,6 +58,7 @@ class Setting extends ActiveRecord
         if (property_exists($this->getSettings(), $name)) {
             return true;
         }
+
         return parent::__isset($name);
     }
 
@@ -71,11 +73,7 @@ class Setting extends ActiveRecord
         if ($this->settings === null) {
             $this->settings = json_decode($this->Attributes);
         }
+
         return $this->settings;
-    }
-
-    public function getPossibleUserData()
-    {
-
     }
 }

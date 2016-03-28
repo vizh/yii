@@ -70,9 +70,14 @@ class CodeException extends Exception
      * @param array $params
      * @return string
      */
-    private function getErrorMessage($code, $params = array())
+    private function getErrorMessage($code, $params = null)
     {
-        $message = isset($this->codes[$code]) ? $this->codes[$code] : 'Возникла ошибка с неизвестным кодом.';
-        return call_user_func_array('sprintf', array_merge(array($message), $params));
+        $message = isset($this->codes[$code])
+            ? $this->codes[$code]
+            : 'Возникла ошибка с неизвестным кодом.';
+        
+        return $params === null
+            ? $message
+            : vsprintf($message, $params);
     }
 }

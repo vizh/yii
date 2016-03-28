@@ -22,7 +22,7 @@ class AuthAction extends Action
 
         $user = User::model()->findByPk($identity->getId());
         if ($user === null)
-            throw new Exception(202, [$identity->getName()]);
+            throw new Exception(202, $identity->getName());
 
         $result = [];
         $this->getDataBuilder()->createUser($user);

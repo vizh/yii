@@ -1,5 +1,7 @@
 <?php
 
+use ruvents\components\Exception;
+
 class RuventsModule extends CWebModule
 {
     /**
@@ -33,11 +35,11 @@ class RuventsModule extends CWebModule
             return;
         }
 
-        if ($event->exception instanceof \ruvents\components\Exception) {
-            /** @var $exception \ruvents\components\Exception */
+        if ($event->exception instanceof Exception) {
+            /** @var $exception Exception */
             $exception = $event->exception;
         } else {
-            $exception = new \ruvents\components\Exception(601, array($event->exception->getMessage()));
+            $exception = new Exception(601, $event->exception->getMessage());
         }
         $exception->sendResponse();
         $event->handled = true;

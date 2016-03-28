@@ -167,7 +167,7 @@ class Controller extends \CController
 
         // Оставим за разработчиком право обернуть возвращаемый JSON глобальным JSON объектом
         if (($layoutFile = $this->getLayoutFile($this->layout)) !== false) {
-            $json = $this->renderFile($layoutFile, array('content' => $json), true);
+            $json = $this->renderFile($layoutFile, ['content' => $json], true);
         }
 
         header('Content-type: application/json; charset=utf-8');
@@ -190,6 +190,7 @@ class Controller extends \CController
         $log->Params = json_encode($_REQUEST, JSON_UNESCAPED_UNICODE);
         $log->FullTime = \Yii::getLogger()->getExecutionTime();
         $log->save();
+
         return $log;
     }
 

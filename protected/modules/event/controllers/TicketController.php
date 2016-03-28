@@ -1,6 +1,7 @@
 <?php
 
 use event\models\Event;
+use event\models\Role;
 use user\models\User;
 use event\models\Participant;
 
@@ -10,9 +11,12 @@ class TicketController extends application\components\controllers\PublicMainCont
     {
         $event = Event::model()->byIdName($eventIdName)->find();
         $user = User::model()->byRunetId($runetId)->find();
-        if ($event == null || $user == null || !$this->checkHash($event, $user, $hash))
+        if (!$event || !$user || !$this->checkHash($event, $user, $hash)) {
             throw new \CHttpException(404);
+        }
 
+        // Custom check
+        $this->checkAccess($event, $user);
 
         $class = \Yii::getExistClass('event\components\tickets', ucfirst($event->IdName), 'Ticket');
         /** @var \event\components\tickets\Ticket $ticket */
@@ -37,5 +41,20 @@ class TicketController extends application\components\controllers\PublicMainCont
                 return true;
         }
         return false;
+    }
+
+    /**
+     * Close access for some users
+     * @param Event $event Current event
+     * @param User $user Current user
+     * @throws \CHttpException
+     */
+    private function checkAccess(Event $event, User $user)
+    {
+        // Close access for virtual participants of the rif16
+        $participant = Participant::model()->byUserId($user->Id)->byEventId($event->Id)->find();
+        if ($participant->RoleId == Role::VIRTUAL_ROLE_ID) {
+            throw new \CHttpException(404, 'Virtual participants of rif16 can\'t get the ticket');
+        }
     }
 }

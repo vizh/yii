@@ -31,7 +31,7 @@ class StatAction extends \CAction
 
         $map = [];
         foreach ($_groups as $group) {
-            $key= \Inflector::transliterate(strtr(\Inflector::transliterate($group), [
+            $key = \Inflector::transliterate(strtr(\Inflector::transliterate($group), [
                 ' ' => '_',
                 '/' => '_',
                 '.' => ''

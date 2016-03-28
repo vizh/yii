@@ -1,22 +1,22 @@
 <?php
 
-return array(
-    'guest' => array(
+return [
+    'guest' => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Guest',
         'bizRule' => null,
         'data' => null
-    ),
+    ],
 
-    'Server' => array(
+    'Server' => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Server',
-        'children' => array(
+        'children' => [
             'guest',
-        ),
+        ],
         'bizRule' => null,
         'data' => null
-    ),
+    ],
 
     'Mobile' => [
         'type' => CAuthItem::TYPE_ROLE,
@@ -26,23 +26,23 @@ return array(
         'data' => null
     ],
 
-    'Operator' => array(
+    'Operator' => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Operator',
-        'children' => array(
+        'children' => [
             'Server',
-        ),
+        ],
         'bizRule' => null,
         'data' => null
-    ),
+    ],
 
-    'Admin' => array(
+    'Admin' => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Administrator',
-        'children' => array(
+        'children' => [
             'Operator',
-        ),
+        ],
         'bizRule' => null,
         'data' => null
-    ),
-);
+    ],
+];

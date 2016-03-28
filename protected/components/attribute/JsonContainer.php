@@ -152,10 +152,16 @@ trait JsonContainer
     private function pullAttributes()
     {
         if ($this->attributes === null) {
-            $this->attributes = !empty($this->model()->{$this->containerName()}) ?
-                json_decode($this->model()->{$this->containerName()}, true) :
-                [];
+            $attributesData = $this->model()->{$this->containerName()};
+            $this->attributes = !empty($attributesData)
+                ? json_decode($attributesData, true)
+                : [];
+            
+            // Если попадутся невалидные данные
+            if (!is_array($this->attributes))
+                $this->attributes = [];
         }
+
     }
 
     /**
@@ -212,13 +218,17 @@ trait JsonContainer
     {
         if (!isset($this->definitions[$name]))
             throw new Exception('Получение неизвестного аттрибута: ' . get_class($this) . '::' . $name);
-        return isset($this->attributes[$name]) ? $this->attributes[$name] : null;
+
+        return isset($this->attributes[$name])
+            ? $this->attributes[$name]
+            : null;
     }
 
     public function __set($name, $value)
     {
         if (!isset($this->definitions[$name]))
             throw new Exception('Установка неизвестного аттрибута: ' . get_class($this) . '::' . $name);
+
         $this->attributes[$name] = $value;
     }
 
@@ -235,7 +245,17 @@ trait JsonContainer
     {
         if (!isset($this->definitions[$name]))
             throw new Exception('Удаление неизвестного аттрибута: ' . get_class($this) . '::' . $name);
-        unset($this->attributes[$name]);
+
+        // toDo: Разобраться почему unset тут не работает.
+
+        $attributes = [];
+        foreach ($this->attributes as $attr => $value)
+            if ($attr != $name)
+                $attributes[$attr] = $value;
+
+        $this->attributes = $attributes;
+
+//        unset($this->attributes[$name]);
     }
 
     /**
@@ -247,4 +267,4 @@ trait JsonContainer
     {
         return array_keys($this->definitions);
     }
-} 
+}

@@ -21,8 +21,9 @@ class EditAction extends Action
         $runetId = $request->getParam('RunetId', null);
         $email = $request->getParam('Email', null);
 
-        $user = User::model()->byRunetId($runetId)->find(); if (!$user)
-        throw new Exception(202, array($runetId));
+        $user = User::model()->byRunetId($runetId)->find();
+        if (!$user)
+            throw new Exception(202, $runetId);
 
         $event = $this->getEvent();
 
@@ -70,39 +71,30 @@ class EditAction extends Action
         $request = Yii::app()->getRequest();
 
         $form = new \user\models\forms\edit\Main();
-        foreach ($form->getAttributes() as $name => $value)
-        {
+        foreach ($form->getAttributes() as $name => $value) {
             //todo: переписать
-            if ($name === 'Address')
-            {
+            if ($name === 'Address') {
                 continue;
             }
             $newValue = $request->getParam($name, null);
-            if ($newValue !== null && $user->$name != $newValue)
-            {
+            if ($newValue !== null && $user->$name != $newValue) {
                 $this->getDetailLog()->addChangeMessage(new ChangeMessage($name, $user->$name, $newValue));
                 $form->$name = $newValue;
-            }
-            else
-            {
+            } else {
                 $form->$name = $user->$name;
             }
         }
 
         $form->Birthday = Yii::app()->dateFormatter->format('dd.MM.yyyy', $form->Birthday);
-        if ($form->validate())
-        {
+        if ($form->validate()) {
             $user->FirstName = $form->FirstName;
             $user->LastName = $form->LastName;
             $user->FatherName = $form->FatherName;
             $user->Gender = $form->Gender;
             $user->Birthday = Yii::app()->dateFormatter->format('yyyy-MM-dd', $form->Birthday);
             $user->save();
-        }
-        else
-        {
-            foreach ($form->getErrors() as $message)
-            {
+        } else {
+            foreach ($form->getErrors() as $message) {
                 throw new Exception(207, $message);
             }
         }
@@ -113,20 +105,16 @@ class EditAction extends Action
         $request = Yii::app()->getRequest();
         $email = $request->getParam('Email', null);
         $email = strtolower($email);
-        if ($user->Email == $email)
-        {
+        if ($user->Email == $email) {
             return;
         }
-        if ($email !== null)
-        {
+        if ($email !== null) {
             $emailValidator = new \CEmailValidator();
-            if (!$emailValidator->validateValue($email))
-            {
+            if (!$emailValidator->validateValue($email)) {
                 throw new Exception(205);
             }
             $checkUser = User::model()->byEmail($email)->byVisible(true)->find();
-            if ($checkUser !== null && $checkUser->Id != $user->Id)
-            {
+            if ($checkUser !== null && $checkUser->Id != $user->Id) {
                 throw new Exception(206);
             }
             $this->getDetailLog()->addChangeMessage(new ChangeMessage('Email', $user->Email, $email));
@@ -138,8 +126,7 @@ class EditAction extends Action
     private function updatePhone(User $user)
     {
         $phone = Yii::app()->getRequest()->getParam('Phone', null);
-        if (!empty($phone))
-        {
+        if (!empty($phone)) {
             $user->setContactPhone($phone);
         }
     }
@@ -152,8 +139,7 @@ class EditAction extends Action
         $position = $request->getParam('Position', '');
         $employment = $user->getEmploymentPrimary();
 
-        if ($employment)
-        {
+        if ($employment) {
             // Удаление привязки к компании путём очистки поля "Компания" в клиенте?
             if (!$company)
                 $company = 'не указана';
@@ -164,10 +150,7 @@ class EditAction extends Action
 
             $currentCompany = $employment->Company->Name;
             $currentPosition = $employment->Position;
-        }
-
-        else
-        {
+        } else {
             // Данных о трудоустройстве не было и не будет?
             if (!$company && !$position)
                 return;
@@ -186,24 +169,25 @@ class EditAction extends Action
         $event = $this->getEvent();
         $statuses = (array) json_decode(Yii::app()->getRequest()->getParam('Statuses'));
 
-        foreach ($statuses as $part_id => $role_id)
-        {
-            $role = Role::model()->findByPk($role_id); if (!$role)
-            throw new Exception(302, [$role_id]);
+        foreach ($statuses as $part_id => $role_id) {
+            $role = Role::model()->findByPk($role_id);
+            if (!$role)
+                throw new Exception(302, $role_id);
 
             // Обработка однопартийных мероприятий
-            if (!$part_id && count($statuses) === 1)
-            {
+            if (!$part_id && count($statuses) === 1) {
                 $event->registerUser($user, $role);
                 $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', '', $role->Id));
                 continue;
             }
 
-            $part = Part::model()->findByPk($part_id); if (!$part || $part->EventId !== $event->Id)
-            throw new Exception(306);
+            $part = Part::model()->findByPk($part_id);
+            if (!$part || $part->EventId !== $event->Id)
+                throw new Exception(306);
 
-            $event->registerUserOnPart($part, $user, $role); if ($part)
-            $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', $part->Id, $role->Id));
+            $event->registerUserOnPart($part, $user, $role);
+            if ($part)
+                $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', $part->Id, $role->Id));
         }
     }
 
@@ -224,11 +208,8 @@ class EditAction extends Action
             ->orderBy(['"t"."CreationTime"'])
             ->find();
 
-        if (empty($userData)) {
-            $userData = new UserData();
-            $userData->EventId = $this->getEvent()->Id;
-            $userData->UserId  = $user->Id;
-        }
+        if (empty($userData))
+            $userData = UserData::createEmpty($this->getEvent(), $user);
 
         $manager = $userData->getManager();
 
@@ -251,10 +232,8 @@ class EditAction extends Action
                         $manager->$param = $value;
                 }
             }
-        }
-
-        catch (\Exception $e) {
-            throw new Exception(251, [$e->getMessage()]);
+        } catch (\Exception $e) {
+            throw new Exception(251, $e->getMessage());
         }
 
         if (!$manager->validate())

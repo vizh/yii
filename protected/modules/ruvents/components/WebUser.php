@@ -13,8 +13,7 @@ class WebUser extends \CWebUser
      */
     public static function Instance()
     {
-        if (self::$instance === null)
-        {
+        if (self::$instance === null) {
             self::$instance = new WebUser();
             self::$instance->initAccount();
         }
@@ -47,13 +46,11 @@ class WebUser extends \CWebUser
      */
     public function getOperator()
     {
-        if (!$this->alreadyTryLoad && $this->operator === null && $this->getAccount() !== null)
-        {
+        if (!$this->alreadyTryLoad && $this->operator === null && $this->getAccount() !== null) {
             $operatorId = \Yii::app()->getRequest()->getParam('OperatorId');
             /** @var \ruvents\models\Operator $operator */
             $operator = \ruvents\models\Operator::model()->findByPk($operatorId);
-            if ($operator !== null)
-            {
+            if ($operator !== null) {
                 if ($operator->EventId != $this->getAccount()->EventId)
                     throw new Exception(103);
                 $this->operator = $operator;
@@ -80,17 +77,18 @@ class WebUser extends \CWebUser
         } elseif ($this->getAccount()->Role !== AccountRole::SERVER) {
             return $this->getAccount()->Role;
         }
+
         return $this->getOperator() !== null ? $this->getOperator()->Role : AccountRole::SERVER;
     }
 
-    protected $_access = array();
+    protected $_access = [];
 
-    public function checkAccess($operation,$params=array(),$allowCaching=true)
+    public function checkAccess($operation, $params = [], $allowCaching = true)
     {
-        if($allowCaching && $params===array() && isset($this->_access[$operation]))
+        if ($allowCaching && $params === [] && isset($this->_access[$operation]))
             return $this->_access[$operation];
         else
-            return $this->_access[$operation]= \Yii::app()->ruventsAuthManager->checkAccess($operation,$this->getId(),$params);
+            return $this->_access[$operation] = \Yii::app()->ruventsAuthManager->checkAccess($operation, $this->getId(), $params);
     }
 
     public function getIsGuest()
@@ -102,6 +100,7 @@ class WebUser extends \CWebUser
     {
         if ($this->getAccount() === null)
             return null;
-        return $this->getOperator() !== null ? $this->getOperator()->Id : 'acc'.$this->getAccount()->Id;
+
+        return $this->getOperator() !== null ? $this->getOperator()->Id : 'acc' . $this->getAccount()->Id;
     }
 }

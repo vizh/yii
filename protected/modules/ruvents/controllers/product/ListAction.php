@@ -1,6 +1,8 @@
 <?php
 namespace ruvents\controllers\product;
 
+use pay\models\Product;
+
 class ListAction extends \ruvents\components\Action
 {
     public function run()
@@ -8,13 +10,15 @@ class ListAction extends \ruvents\components\Action
         $criteria = new \CDbCriteria();
         $criteria->addCondition('t."ManagerName" = :ManagerName');
         $criteria->params = ['ManagerName' => 'FoodProductManager'];
-        $products = \pay\models\Product::model()
-            ->byEventId($this->getEvent()->Id)->findAll($criteria);
+
+        $products = Product::model()
+            ->byEventId($this->getEvent()->Id)
+            ->findAll($criteria);
+
         $result = [];
         foreach ($products as $product)
-        {
             $result[] = $this->getDataBuilder()->createProduct($product);
-        }
+
         $this->renderJson($result);
     }
 }

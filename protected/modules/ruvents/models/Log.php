@@ -1,5 +1,6 @@
 <?php
 namespace ruvents\models;
+
 use application\components\db\MongoLogDocument;
 
 /**

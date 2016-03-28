@@ -1,7 +1,7 @@
 <?php
 namespace ruvents\controllers\product;
 
-use event\models\Participant;
+use ruvents\components\Exception;
 
 /**
  * Данный метод используется для быстрой загрузки списка RunetId пользователей, оплативших
@@ -19,11 +19,11 @@ class FastPaidItemsAction extends \ruvents\components\Action
             'Owner',
             'ChangedOwner'
         ];
-        if (!empty($fromTime))
-        {
+        
+        if (!empty($fromTime)) {
             $datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $fromTime);
             if ($datetime === false)
-                throw new \ruvents\components\Exception(321);
+                throw new Exception(900, ['FromUpdateTime']);
 
             $criteria->addCondition('"t"."CreationTime" >= :Time');
             $criteria->params['Time'] = $datetime->format('Y-m-d H:i:s');
@@ -34,8 +34,7 @@ class FastPaidItemsAction extends \ruvents\components\Action
 
         $result = [];
         $maxCreationTime = '1970-01-01 00:00:00';
-        foreach ($items as $item)
-        {
+        foreach ($items as $item) {
             $owner = $item->ChangedOwnerId != null ? $item->ChangedOwner : $item->Owner;
             $result[] = $owner->RunetId;
 

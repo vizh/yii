@@ -11,18 +11,22 @@ class DefinitionsAction extends Action
 {
     public function run()
     {
+        ini_set('memory_limit', '512M');
+
         if (\Yii::app()->getRequest()->isPostRequest) {
             $form = $this->getEditableForm();
             $form->fillFromPost();
 
             if ($attribute = \Yii::app()->getRequest()->getParam('EraseData')) {
-                if ($this->eraseAttributeData($attribute)) {
-                    \Yii::app()->getUser()->setFlash('success', "Данные атриута $attribute очищены.");
-                    $this->getController()->refresh();
-                }
+                $changesPresent = $this->eraseAttributeData($attribute);
+                Flash::setSuccess($changesPresent ? "Данные атриута $attribute очищены." : "Все значения $attribute уже были пусты");
+                $this->getController()->refresh();
             }
 
-            $result = $form->isUpdateMode() ? $form->updateActiveRecord() : $form->createActiveRecord();
+            $result = $form->isUpdateMode()
+                ? $form->updateActiveRecord()
+                : $form->createActiveRecord();
+
             if ($result) {
                 Flash::setSuccess(\Yii::t('app', 'Атрибуты успешно сохранены!'));
                 $this->getController()->refresh();
@@ -72,25 +76,22 @@ class DefinitionsAction extends Action
      */
     private function eraseAttributeData($attribute)
     {
-        /** @var UserData[] $items */
-        $items = UserData::model()->findAll([
-            'condition' => '"EventId" = :eventId',
-            'params' => [':eventId' => $this->getController()->getEvent()->Id]
-        ]);
+        /** @var UserData[] $usersData */
+        $usersData = UserData::model()
+            ->byEventId($this->getEvent()->Id)
+            ->findAll();
 
-        try {
-            foreach ($items as $item) {
-                $data = json_decode($item->Attributes, true);
-                if (isset($data[$attribute])) {
-                    unset($data[$attribute]);
-                    $item->Attributes = json_encode($item->Attributes, JSON_UNESCAPED_UNICODE);
-                    $item->save();
-                }
+        $changesPresent = false;
+
+        foreach ($usersData as $userData) {
+            $dataManager = $userData->getManager();
+            if (isset($dataManager->$attribute)) {
+                unset($dataManager->$attribute);
+                $userData->save(false);
+                $changesPresent = true;
             }
-
-            return true;
-        } catch (\Exception $e) {
-            return false;
         }
+
+        return $changesPresent;
     }
 }

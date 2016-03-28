@@ -1,11 +1,12 @@
 <?php
 /**
- *  @var \event\models\Event $event
- *  @var \user\models\User $user
- *  @var \event\models\Participant $participant
- *  @var \event\models\Role $role
+ *  @var event\models\Event $event
+ *  @var user\models\User $user
+ *  @var event\models\Participant $participant
+ *  @var event\models\Role $role
  */
 ?>
+
 <h2 style='font-family: HelveticaNeue-Light,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif; color: rgb(0, 0, 0); font-weight: 500; font-size: 23px; margin: 10px 0px; padding: 0px; line-height: 1.3;'>Здравствуйте!</h2>
 <p style="line-height: 20.7999992370605px;">Спасибо за регистрацию на&nbsp;<strong><?=\CHtml::link($event->Title, $event->getUrl());?></strong></p>
 <p style="line-height: 20.7999992370605px;">
@@ -16,7 +17,7 @@
         Внимание! Для прохода не меропритие, каждый участник должен иметь фотографию в своем профиле на RUNET-ID, пожалуйста добавтье фотографию <?=\CHtml::link('по&nbsp;ссылке', $user->getFastauthUrl('/user/edit/photo/'));?>.
     </p>
 <?php endif;?>
-<p style="line-height: 20.7999992370605px;">Дата и время проведения: <strong><?$this->widget('\event\widgets\Date', ['event' => $event]);?>.</strong></p>
+<p style="line-height: 20.7999992370605px;">Дата и время проведения: <strong><?$this->widget('event\widgets\Date', ['event' => $event])?>.</strong></p>
 <?php if ($event->getContactAddress() !== null):?>
     <?php $short = $event->getContactAddress()->getShort();?>
     <p style="line-height: 20.7999992370605px;">Место проведения: <strong><span itemprop="streetAddress" style="font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 20px;"><?=$event->getContactAddress()->Place;?><?if (!empty($short)):?> (<?=$short;?>)<?endif;?></span></strong></p>
