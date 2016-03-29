@@ -13,7 +13,7 @@ class DefinitionsAction extends Action
 {
     public function run()
     {
-        ini_set('memory_limit', '512M');
+        ini_set('memory_limit', '1024M');
 
         $request = Yii::app()->getRequest();
 
