@@ -3,9 +3,11 @@
  * @var partner\components\Controller $this
  * @var event\models\forms\UserAttributeGroup[] $forms
  * @var application\widgets\ActiveForm $activeForm
+ * @var Event $event
  */
 
 use application\helpers\Flash;
+use event\models\Event;
 
 $this->setPageTitle(\Yii::t('app', 'Дополнительные атрибуты пользователей'));
 ?>
@@ -93,8 +95,17 @@ $this->setPageTitle(\Yii::t('app', 'Дополнительные атрибут�
                                     <?php endif;?>
                                 </div>
 
-                                <?php if ($definition->Name): ?>
+                                <?if($definition->Name):?>
                                     <div class="text-right">
+                                        <?if($definition->Name === 'ean17' && in_array($event->Id, [2514, 2534])):?>
+                                            <?=CHtml::tag('button', [
+                                                'type' => 'submit',
+                                                'name' => 'GroupData',
+                                                'value' => 'true',
+                                                'class' => 'btn btn-danger'
+                                            ], \Yii::t('app', 'Распределить по группам и пронумеровать'))?>
+                                        <?endif?>
+
                                         <?=CHtml::tag('button', [
                                             'type' => 'submit',
                                             'name' => 'EraseData',
@@ -102,7 +113,7 @@ $this->setPageTitle(\Yii::t('app', 'Дополнительные атрибут�
                                             'class' => 'btn btn-warning'
                                         ], \Yii::t('app', 'Очистить данные'))?>
                                     </div>
-                                <?php endif ?>
+                                <?endif?>
                             <?php endforeach ?>
                         </div>
                     </div>
