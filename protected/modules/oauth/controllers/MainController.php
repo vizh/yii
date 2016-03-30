@@ -43,13 +43,15 @@ class MainController extends \oauth\components\Controller
     public function actionDialog()
     {
         if ($this->Account->Id === Account::SelfId) {
+            /* Происходит мобильная авторизация? */
+            $isMobile = \Yii::app()->getRequest()->getParam('mobile') === 'true';
+
             if (!Yii::app()->user->isGuest) {
                 Yii::app()->user->setIsRecentlyLogin();
             }
-            if (!\Iframe::isFrame()) {
-                $this->redirect(
-                    '/'
-                );
+
+            if (!\Iframe::isFrame() && !$isMobile) {
+                $this->redirect('/');
             }
 
             if (empty($this->url)) {
@@ -128,7 +130,13 @@ class MainController extends \oauth\components\Controller
                 if (isset($socialProxy) && $socialProxy->isHasAccess()) {
                     $socialProxy->saveSocialData(\Yii::app()->user->getCurrentUser());
                 }
-                $this->redirect($this->createUrl('/oauth/main/dialog'));
+
+                /* Необходимо, сообщить диалогу авторизации о том, что вызов идёт с веб-приложения */
+                $params = [];
+                if ($request->getParam('mobile') === 'true')
+                    $params['mobile'] = 'true';
+
+                $this->redirect($this->createUrl('/oauth/main/dialog', $params));
             } else {
                 $authForm->addError('Login', 'Пользователя с такими Эл. почтой или RUNET-ID и паролем не существует.');
             }
