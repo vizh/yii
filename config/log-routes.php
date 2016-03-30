@@ -10,7 +10,6 @@ $routes = [
         'levels' => 'error',
         'except' => ['exception.CHttpException.404', 'exception.api\components\Exception'],
         'emails' => [
-            'korotov@internetmediaholding.com',
             'error.runetid@ruvents.com'
         ],
         'subject' => 'RUNET-ID Exception',
@@ -19,12 +18,11 @@ $routes = [
     ]
 ];
 
-if (YII_DEBUG) {
+if (YII_DEBUG)
     $routes[] = [
         'class' => 'CWebLogRoute',
         'categories' => 'application',
         'levels' => 'error, warning, info'
     ];
-}
 
 return $routes;
