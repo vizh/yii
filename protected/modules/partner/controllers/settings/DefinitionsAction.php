@@ -3,6 +3,7 @@ namespace partner\controllers\settings;
 
 use application\helpers\Flash;
 use application\models\attribute\Group;
+use event\models\Event;
 use event\models\forms\UserAttributeGroup;
 use event\models\Participant;
 use event\models\UserData;
@@ -28,7 +29,7 @@ class DefinitionsAction extends Action
             }
 
             if ($request->getParam('GroupData') === 'true') {
-                $this->groupUsersByStatus();
+                $this->groupUsers($this->getEvent());
                 Flash::setSuccess('Пользователи перераспределены по группам');
                 $this->getController()->refresh();
             }
@@ -111,38 +112,87 @@ class DefinitionsAction extends Action
     /**
      * Применяет группировку данных для мероприятий Food ingredients Russia 2016 и IPhEB&CPhI Russia 2016
      */
-    private function groupUsersByStatus()
+    private function groupUsers(Event $event)
     {
         $groupData = [
             14001 => 0,
-            14002 => 0
+            14002 => 0,
+            14003 => 0,
+            14004 => 0
         ];
 
         $usersData = UserData::model()
             ->byEventId($this->getEvent()->Id)
             ->findAll();
 
+        /* Построем кеш участия пользователей дабы
+         * избежать лишней серии запросов к базе */
+        $participations = [];
+
+        /* Ищем максимальные из уже существующих индексы */
         foreach ($usersData as $userData) {
+            $dataManager = $userData->getManager();
+
             $participant = Participant::model()
                 ->byEventId($this->getEvent()->Id)
                 ->byUserId($userData->UserId)
                 ->find();
-            /* Вычисляем группу пользователя в зависимости от его роли */
-            $group = null;
-            if (in_array($participant->RoleId, [12, 216, 213, 110, 217, 6]))
-                $group = 14001;
-            elseif (in_array($participant->RoleId, [38, 215, 2, 14, 3]))
-                $group = 14002;
-            /* Если посетитель не относится ни к одной группе, то пропускаем его */
+
+            if ($participant == null)
+                continue;
+
+            $participations[$userData->UserId]
+                = $participant->RoleId;
+
+            if (!isset($dataManager->ean17) || empty($dataManager->ean17))
+                continue;
+
+            $group = $this->participantGroup($event, $participant->RoleId);
+
+            if ($group == null)
+                continue;
+
+            $index = (int) substr($dataManager->ean17, 5);
+
+            if ($groupData[$group] < $index)
+                $groupData[$group] = $index;
+        }
+
+        foreach ($usersData as $userData) {
+            if (!isset($participations[$userData->UserId]))
+                continue;
+
+            $dataManager = $userData->getManager();
+
+            /* Не трогаем тех, кому номер уже присвоен */
+            if (isset($dataManager->ean17) && !empty($dataManager->ean17))
+                continue;
+
+            $group = $this->participantGroup($event, $participations[$userData->UserId]);
+
+            /* Нет группы, нет номера. Всё просто. */
             if ($group === null)
                 continue;
 
             $index = $groupData[$group] + 1;
                      $groupData[$group] = $index;
 
-            $dataManager = $userData->getManager();
-            $dataManager->ean17 = sprintf('%d%07d', $group, $index);
+            /* Присваеваем номер */
+            $dataManager->ean17
+                = sprintf('%d%07d', $group, $index);
+
             $userData->save(false);
         }
+    }
+
+    private function participantGroup(Event $event, $RoleId)
+    {
+        if (in_array($RoleId, [12, 216, 213, 110, 217, 6]))
+            return $event->Id == 2514 ? 14001 : 14003;
+
+        if (in_array($RoleId, [38, 215, 2, 14, 3]))
+            return $event->Id == 2514 ? 14002 : 14004;
+
+        return null;
     }
 }
