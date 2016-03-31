@@ -10,27 +10,31 @@ use pay\models\FoodPartnerOrder;
 
 class BookingController extends \application\components\controllers\AdminMainController
 {
+    /**
+     * @inheritdoc
+     */
     public function actions()
     {
         return [
-            'index' => '\pay\controllers\admin\booking\IndexAction',
-            'edit' => '\pay\controllers\admin\booking\EditAction',
-            'delete' => '\pay\controllers\admin\booking\DeleteAction',
-            'partner' => '\pay\controllers\admin\booking\PartnerAction',
-            'statistics' => '\pay\controllers\admin\booking\StatisticsAction',
-            'partnerbookinginfo' => '\pay\controllers\admin\booking\PartnerBookingInfoAction',
-            'product' => '\pay\controllers\admin\booking\ProductAction',
-            'statisticsHotel' => '\pay\controllers\admin\booking\StatisticsHotelAction',
-            'food' => '\pay\controllers\admin\booking\FoodAction',
-            'parking' => '\pay\controllers\admin\booking\ParkingAction',
-            'list' => '\pay\controllers\admin\booking\ListAction'
+            'index' => 'pay\controllers\admin\booking\IndexAction',
+            'edit' => 'pay\controllers\admin\booking\EditAction',
+            'delete' => 'pay\controllers\admin\booking\DeleteAction',
+            'partner' => 'pay\controllers\admin\booking\PartnerAction',
+            'statistics' => 'pay\controllers\admin\booking\StatisticsAction',
+            'partnerbookinginfo' => 'pay\controllers\admin\booking\PartnerBookingInfoAction',
+            'product' => 'pay\controllers\admin\booking\ProductAction',
+            'statisticsHotel' => 'pay\controllers\admin\booking\StatisticsHotelAction',
+            'food' => 'pay\controllers\admin\booking\FoodAction',
+            'parking' => 'pay\controllers\admin\booking\ParkingAction',
+            'list' => 'pay\controllers\admin\booking\ListAction'
         ];
     }
 
     /**
      * Страница счета партнера
+     *
      * @param string $owner
-     * @param int  $id
+     * @param int $id
      * @param bool|null $print
      * @throws CHttpException
      */
@@ -40,8 +44,8 @@ class BookingController extends \application\components\controllers\AdminMainCon
 
         $order = null;
 
-        /** @var RoomPartnerOrder $order */
-        if ($id !== null) {
+        if ($id) {
+            /** @var RoomPartnerOrder $order */
             $order = RoomPartnerOrder::model()->byDeleted(false)->findByPk($id);
             if ($order === null || $order->Bookings[0]->Owner != $owner) {
                 throw new \CHttpException(404);
@@ -80,7 +84,11 @@ class BookingController extends \application\components\controllers\AdminMainCon
             }
         }
 
-        $this->render('order', ['form' => $form, 'bookings' => $bookings, 'order' => $order]);
+        $this->render('order', [
+            'form' => $form,
+            'bookings' => $bookings,
+            'order' => $order
+        ]);
     }
 
     /**

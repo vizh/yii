@@ -1,13 +1,14 @@
 <?php
 namespace pay\models;
+
 use application\components\ActiveRecord;
 use application\components\utility\Texts;
 
 /**
  * Class RoomPartnerOrder
- * @package pay\models
  *
  * @property int $Id
+ * @property string $Number
  * @property string $Name
  * @property string $Address
  * @property string $INN
@@ -25,7 +26,7 @@ use application\components\utility\Texts;
  * @property string $ChiefPosition
  * @property string $ChiefNameP
  * @property string $ChiefPositionP
- * @property int $EventId;
+ * @property int $EventId
  *
  * @property string $StatuteTitle
  * @property string $RealAddress
@@ -38,25 +39,16 @@ use application\components\utility\Texts;
 class RoomPartnerOrder extends ActiveRecord
 {
     /**
-     * @param string $className
-     *
-     * @return RoomPartnerBooking
+     * @inheritdoc
      */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
-
     public function tableName()
     {
         return 'PayRoomPartnerOrder';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function relations()
     {
         return [
