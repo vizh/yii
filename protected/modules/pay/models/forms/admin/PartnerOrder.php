@@ -6,9 +6,7 @@ use pay\models\RoomPartnerBooking;
 use pay\models\RoomPartnerOrder;
 
 /**
- * Форма редактировния заказа брони партнера
- * Class PartnerOrder
- * @package pay\models\forms\admin
+ * Class PartnerOrder Форма редактировния заказа брони партнера
  */
 class PartnerOrder extends BasePartnerOrder
 {
@@ -38,12 +36,13 @@ class PartnerOrder extends BasePartnerOrder
         $order->Number  = ('RIF16/' . str_pad($number, 3, '0', STR_PAD_LEFT));
         $order->EventId = $eventId;
         $this->model = $order;
+
         return $this->updateActiveRecord();
     }
 
 
     /**
-     * @return CActiveRecord|null
+     * @return \CActiveRecord|null
      * @throws \CDbException
      */
     public function updateActiveRecord()

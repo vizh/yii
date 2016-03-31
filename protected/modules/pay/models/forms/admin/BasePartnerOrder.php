@@ -3,6 +3,12 @@ namespace pay\models\forms\admin;
 
 use application\components\form\CreateUpdateForm;
 
+/**
+ * Class BasePartnerOrder
+ *
+ * @property-read string $owner
+ *
+ */
 abstract class BasePartnerOrder extends CreateUpdateForm
 {
     public $Name;
