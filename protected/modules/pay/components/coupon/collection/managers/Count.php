@@ -1,5 +1,6 @@
 <?php
 namespace pay\components\coupon\collection\managers;
+
 use pay\components\OrderItemCollectable;
 use pay\components\OrderItemCollection;
 
