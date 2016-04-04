@@ -38,20 +38,20 @@
             </div>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="form-group">
-                <p class="form-text">Отчество - не обязательное поле</p>
+            <div class="form-group <?if ($form->Address->hasErrors()):?>has-error<?endif;?>">
+                <?$this->widget('\contact\widgets\AddressControls', ['form' => $form->Address, 'address' => false, 'place' => false, 'inputClass' => 'form-control']);?>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="form-group <?=$form->hasErrors('Email') ? 'has-error' : '';?>">
-                <?=$activeForm->textField($form, 'Email', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Email')]);?>
+            <div class="form-group <?=$form->hasErrors('Phone') ? 'has-error' : '';?>">
+                <?=$activeForm->textField($form, 'Phone', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Phone')]);?>
             </div>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="form-group <?=$form->hasErrors('Phone') ? 'has-error' : '';?>">
-                <?=$activeForm->textField($form, 'Phone', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Phone')]);?>
+            <div class="form-group <?=$form->hasErrors('Email') ? 'has-error' : '';?>">
+                <?=$activeForm->textField($form, 'Email', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Email')]);?>
             </div>
         </div>
     </div>
@@ -62,8 +62,8 @@
             </div>
         </div>
         <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="form-group <?if ($form->Address->hasErrors()):?>has-error<?endif;?>">
-                <?$this->widget('\contact\widgets\AddressControls', ['form' => $form->Address, 'address' => false, 'place' => false, 'inputClass' => 'form-control']);?>
+            <div class="form-group">
+                <?=$activeForm->textField($form, 'Position', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Position')]);?>
             </div>
         </div>
     </div>
