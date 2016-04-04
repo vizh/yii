@@ -5,7 +5,6 @@
  * @var Participant|Participant[] $participant
  */
 
-use pay\models\RoomPartnerBooking;
 use user\models\User;
 use event\models\Event;
 use event\models\Participant;
@@ -1204,7 +1203,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
         <sethtmlpagefooter name="main-footer" value="on" show-this-page="1"/>
     </div>
 </div>
-<pagebreak/>
+<div style="page-break-after: always"></div>
 <div class="page-transport">
     <header>
         <div class="container">
@@ -1416,7 +1415,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
     $image->text($text1, 160, 0, 530);
     $image->save(\Yii::getPathOfAlias('webroot').$path);
     $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot').$path);
-    $image->text('22,23,24', 100, 300, 810);
+    $image->text('13,14,15', 100, 300, 810);
     $image->save(\Yii::getPathOfAlias('webroot').$path)
     ?>
     <div class="text-center">
