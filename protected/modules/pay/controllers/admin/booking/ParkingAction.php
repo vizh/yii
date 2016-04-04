@@ -81,7 +81,7 @@ class ParkingAction extends \CAction
         {
           $item->Status = ParkingItem::STATUS_REPORTER;
           $item->Dates  = $this->getDateList(date('Y').'-04-13', date('Y').'-04-15');
-          $item->Hotel  = Rif::HOTEL_P;
+          $item->Hotel  = Rif::HOTEL_LD;
         }
         else
         {
