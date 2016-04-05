@@ -49,6 +49,12 @@ class Register extends BaseRegisterForm
         $rules[] = ['Phone', 'required'];
         $rules[] = ['Subscribe', 'boolean'];
         $rules[] = ['Captcha', 'validateCaptcha'];
+
+        if (\Yii::app()->getRequest()->getParam('apikey') === '3thn47hihr') {
+            $rules[] = ['Company', 'required'];
+            $rules[] = ['Position', 'required'];
+        }
+
         return $rules;
     }
 

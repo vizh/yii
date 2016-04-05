@@ -83,6 +83,7 @@
         <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/food');?>"><?=\Yii::t('app', 'Питание');?></a></li>
         <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/list');?>"><?=\Yii::t('app', 'Списки');?></a></li>
         <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/print');?>"><?=\Yii::t('app', 'Печать партнерских договоров');?></a></li>
+        <li><a href="<?=Yii::app()->createUrl('/pay/admin/booking/parking');?>"><?=\Yii::t('app', 'Парковка');?></a></li>
   </ul>
   <!--<a class="nav-header" href="help.html"><i class="icon-question-sign"></i>Help</a>
   <a class="nav-header" href="faq.html"><i class="icon-comment"></i>Faq</a>-->

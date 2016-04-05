@@ -177,6 +177,12 @@ class Account extends \CActiveRecord
         $host = parse_url($url, PHP_URL_HOST);
         $path = parse_url($url, PHP_URL_PATH);
 
+        /* Происходит мобильная OAuth авторизация. В таком случае
+         * бэк-ссылка указывается в виде appid://mobile,
+         * где appid - протокол обрабатываемый приложением. */
+        if ($path === null && $host === 'mobile')
+            return true;
+
         if ($this->Id === self::SelfId && (empty($url) || empty($host))) {
             return true;
         } elseif ($this->Id !== self::SelfId && empty($url)) {

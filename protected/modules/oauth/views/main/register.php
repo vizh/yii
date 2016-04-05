@@ -20,50 +20,50 @@
     <p><?=Yii::t('app', 'Вы&nbsp;можете одновременно получить RUNET-ID и&nbsp;зарегистрироваться на&nbsp;мероприятие, заполнив форму:');?></p>
 
     <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-6">
+        <div class="col-xs-6">
             <div class="form-group <?=$form->hasErrors('LastName') ? 'has-error' : '';?>">
                 <?=$activeForm->textField($form, 'LastName', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('LastName')]);?>
             </div>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
+        <div class="col-xs-6">
             <div class="form-group <?=$form->hasErrors('FirstName') ? 'has-error' : '';?>">
                 <?=$activeForm->textField($form, 'FirstName', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('FirstName')]);?>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-6">
+        <div class="col-xs-6">
             <div class="form-group">
                 <?=$activeForm->textField($form, 'FatherName', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('FatherName')]);?>
             </div>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="form-group">
-                <p class="form-text">Отчество - не обязательное поле</p>
+        <div class="col-xs-6">
+            <div class="form-group <?if ($form->Address->hasErrors()):?>has-error<?endif;?>">
+                <?$this->widget('\contact\widgets\AddressControls', ['form' => $form->Address, 'address' => false, 'place' => false, 'inputClass' => 'form-control']);?>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="form-group <?=$form->hasErrors('Email') ? 'has-error' : '';?>">
-                <?=$activeForm->textField($form, 'Email', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Email')]);?>
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
+        <div class="col-xs-6">
             <div class="form-group <?=$form->hasErrors('Phone') ? 'has-error' : '';?>">
                 <?=$activeForm->textField($form, 'Phone', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Phone')]);?>
             </div>
         </div>
+        <div class="col-xs-6">
+            <div class="form-group <?=$form->hasErrors('Email') ? 'has-error' : '';?>">
+                <?=$activeForm->textField($form, 'Email', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Email')]);?>
+            </div>
+        </div>
     </div>
     <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="form-group">
+        <div class="col-xs-6">
+            <div class="form-group <?=$form->hasErrors('Company') ? 'has-error' : '';?>">
                 <?=$activeForm->textField($form, 'Company', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Company')]);?>
             </div>
         </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
-            <div class="form-group <?if ($form->Address->hasErrors()):?>has-error<?endif;?>">
-                <?$this->widget('\contact\widgets\AddressControls', ['form' => $form->Address, 'address' => false, 'place' => false, 'inputClass' => 'form-control']);?>
+        <div class="col-xs-6">
+            <div class="form-group <?=$form->hasErrors('Position') ? 'has-error' : '';?>">
+                <?=$activeForm->textField($form, 'Position', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Position')]);?>
             </div>
         </div>
     </div>

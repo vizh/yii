@@ -44,9 +44,8 @@ class TmpRifParking extends \CFormModel
   public function getHotelData()
   {
     return [
-      \pay\components\admin\Rif::HOTEL_P  => \pay\components\admin\Rif::HOTEL_P,
       \pay\components\admin\Rif::HOTEL_LD => \pay\components\admin\Rif::HOTEL_LD,
-      \pay\components\admin\Rif::HOTEL_N  => \pay\components\admin\Rif::HOTEL_N,
+      \pay\components\admin\Rif::HOTEL_P  => \pay\components\admin\Rif::HOTEL_P,
     ];
   }
 
