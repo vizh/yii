@@ -1371,12 +1371,14 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
             $y = 580;
             $name = 'dali';
             $showText2 = true;
+            $map = 'map_ld.png';
             break;
 
         case RIF::HOTEL_P:
             $y = 830;
             $name = 'polyany';
             $showText2 = false;
+            $map = 'map_p.png';
             break;
     }
 
@@ -1405,13 +1407,14 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
     <div class="text-center">
         <img src="<?= $path; ?>"/>
     </div>
-    <pagebreak orientation="L"/>
-    <div class="text-center">
-        <img src="/img/event/rif16/ticket/map_all.png"/>
-    </div>
 <?php endif; ?>
 
-<?php if ($parkingReporter): ?>
+<?php if (!$parkingReporter): ?>
+    <pagebreak orientation="L"/>
+    <div class="text-center">
+        <img src="/img/event/rif16/ticket/<?=$map?>"/>
+    </div>
+<? else: ?>
     <pagebreak orientation="L"/>
     <?php
     $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot.img.event.rif16.ticket.reporter').'.png');
