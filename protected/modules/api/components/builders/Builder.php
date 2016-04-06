@@ -389,6 +389,12 @@ class Builder
         foreach ($product->Attributes as $attribute) {
             $this->product->Attributes[$attribute->Name] = $attribute->Value;
         }
+
+        $manager = $product->getManager();
+        if ($manager->getLimit() !== null) {
+            $this->product->Limit = $manager->getLimit();
+            $this->product->SoldCount = $manager->getSoldCount();
+        }
         return $this->product;
     }
 
