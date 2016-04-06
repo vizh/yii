@@ -2,6 +2,7 @@
 namespace partner\models;
 
 use api\models\ExternalUser;
+use application\components\ActiveRecord;
 use event\models\UserData;
 use pay\components\Exception;
 use partner\components\ImportException;
@@ -11,7 +12,6 @@ use event\models\Role;
 
 /**
  * Class ImportUser
- * @package partner\models
  *
  * @property int $Id
  * @property int $ImportId
@@ -24,6 +24,7 @@ use event\models\Role;
  * @property string $Email
  * @property string $Phone
  * @property string $Company
+ * @property string $Company_en
  * @property string $Position
  * @property string $Role
  * @property string $Product
@@ -38,28 +39,19 @@ use event\models\Role;
  *
  * @property Import $Import
  */
-class ImportUser extends \CActiveRecord
+class ImportUser extends ActiveRecord
 {
     /**
-     * @static
-     * @param string $className
-     * @return ImportUser
+     * @inheritdoc
      */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
-
     public function tableName()
     {
         return 'PartnerImportUser';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function relations()
     {
         return [
@@ -134,7 +126,7 @@ class ImportUser extends \CActiveRecord
         }
 
         $this->Email = $this->getCorrectEmail($import);
-        $user = $this->getUser($import);
+        $user = $this->fetchUser($import);
 
         $import->Event->skipOnRegister = !$import->NotifyEvent;
         if (sizeof($import->Event->Parts) == 0) {
@@ -157,6 +149,37 @@ class ImportUser extends \CActiveRecord
         $this->save();
     }
 
+    /**
+     * @return UserData|null
+     */
+    public function getUserData()
+    {
+        if (!empty($this->UserData)) {
+            $data = new UserData();
+            $data->EventId = $this->Import->EventId;
+
+            $manager = $data->getManager();
+            foreach (json_decode($this->UserData, true) as $key => $value) {
+                try {
+                    $manager->{$key} = $value;
+                } catch (\application\components\Exception $e) {
+                }
+            }
+            return $data;
+        }
+
+        return null;
+    }
+
+    protected function beforeSave()
+    {
+        if ($this->isNewRecord) {
+            $this->Email = mb_strtolower($this->Email, 'utf-8');
+        }
+
+        return parent::beforeSave();
+    }
+
     private function getCorrectEmail(Import $import)
     {
         $validator = new \CEmailValidator();
@@ -176,7 +199,7 @@ class ImportUser extends \CActiveRecord
         if (empty($this->Email) || ImportUser::model()->exists($criteria))
             return \CText::generateFakeEmail($import->EventId);
 
-        $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
+        $model = User::model()->byEmail($this->Email)->byEventId($import->EventId);
         if ($import->Visible) {
             $model->byVisible(true);
         }
@@ -189,41 +212,18 @@ class ImportUser extends \CActiveRecord
     }
 
     /**
-     * Returns the user
+     * Fetches the user. It tries to find the user and create a new user if it fails.
+     *
      * @param Import $import
      * @return User
      * @throws ImportException
      */
-    private function getUser(Import $import)
+    private function fetchUser(Import $import)
     {
-        $user = $this->getDuplicateUser($import);
-        if (!$user) {
-            if (empty($this->FirstName) || empty($this->LastName)) {
-                throw new ImportException('Не заданы имя или фамилия участника.');
-            }
+        if (!$user = $this->findDuplicateUser($import)) {
+            $user = $this->createUser($import);
 
-            $user = new User();
-            $user->FirstName = $this->FirstName;
-            $user->LastName = $this->LastName;
-            $user->FatherName = $this->FatherName;
-            $user->Email = strtolower($this->Email);
-            $user->register($import->Notify);
-
-            $user->setLocale('en');
-            foreach (['FirstName', 'LastName', 'FatherName'] as $attribute) {
-                $value = $this->{$attribute . '_en'};
-                if (!empty($value)) {
-                    $user->$attribute = $value;
-                }
-                $user->save();
-            }
-            $user->resetLocale();
-
-
-            $user->Visible = $import->Visible;
-            $user->save();
-
-            if ($this->ExternalId && $import->getApiAccount() !== null) {
+            if ($this->ExternalId && $import->getApiAccount()) {
                 $externalUser = new ExternalUser();
                 $externalUser->UserId = $user->Id;
                 $externalUser->AccountId = $import->getApiAccount()->Id;
@@ -234,6 +234,8 @@ class ImportUser extends \CActiveRecord
 
             $this->setCompany($user);
         }
+
+        $this->setTranslations($user);
 
         $this->setPhone($user);
         $this->setUserData($user, $import);
@@ -263,56 +265,77 @@ class ImportUser extends \CActiveRecord
 
     /**
      * @param Import $import
-     * @return \user\models\User
+     * @return User
      */
-    private function getDuplicateUser($import)
+    private function findDuplicateUser($import)
     {
-        if (!empty($this->ExternalId) && $import->getApiAccount() != null) {
+        if ($this->ExternalId && $import->getApiAccount()) {
             $externalUser = ExternalUser::model()
-                ->byExternalId($this->ExternalId)->byAccountId($import->getApiAccount()->Id)->find();
-            return $externalUser !== null ? $externalUser->User : null;
+                ->byExternalId($this->ExternalId)
+                ->byAccountId($import->getApiAccount()->Id)
+                ->find();
+
+            if ($user = $externalUser ? $externalUser->User : null) {
+                $this->setPrimaryCompanyNameTranslation($user);
+            }
+
+            return $user;
         }
 
-        $model = \user\models\User::model()->byEmail($this->Email)->byEventId($import->EventId);
+        $model = User::model()->byEmail($this->Email)->byEventId($import->EventId);
         if ($import->Visible) {
             $model->byVisible(true);
         }
-        $user = $model->find();
-        if ($user != null) {
-            $this->setCompany($user);
-        } else {
+
+        if (!$user = $model->find()) {
             $criteria = new \CDbCriteria();
             $criteria->with = ['Employments'];
             $criteria->addCondition('("Employments"."EndYear" IS NULL AND "Employments"."EndMonth" IS NULL)
-        AND "Company"."Name" ILIKE :Company
-        AND "t"."FirstName" ILIKE :FirstName AND "t"."LastName" ILIKE :LastName');
-            $criteria->params = ['Company' => $this->Company, 'FirstName' => $this->FirstName, 'LastName' => $this->LastName];
+                AND "Company"."Name" ILIKE :Company
+                AND "t"."FirstName" ILIKE :FirstName AND "t"."LastName" ILIKE :LastName');
+            $criteria->params = [
+                'Company' => $this->Company,
+                'FirstName' => $this->FirstName,
+                'LastName' => $this->LastName
+            ];
 
-            $model = \user\models\User::model();
+            $model = User::model();
             if ($import->Visible) {
                 $model->byVisible(true);
             } else {
                 $model->byEventId($import->EventId);
             }
+
             $user = $model->find($criteria);
+
+            $this->setPrimaryCompanyNameTranslation($user);
+        } else {
+            $this->setCompany($user);
         }
+
         return $user;
     }
 
-    private function setCompany(\user\models\User $user)
+    /**
+     * @param User $user
+     */
+    private function setCompany(User $user)
     {
-        if (!empty($this->Company)) {
-            try {
-                $user->setEmployment($this->Company, !empty($this->Position) ? $this->Position : '');
-            } catch (\application\components\Exception $e) {
-                $this->ErrorMessage = 'Не корректно задано название компании';
-            }
+        if (!$this->Company) {
+            return;
+        }
+
+        try {
+            $user->setEmployment($this->Company, $this->Position ?: '');
+            $this->setPrimaryCompanyNameTranslation($user);
+        } catch (\application\components\Exception $e) {
+            $this->ErrorMessage = 'Не корректно задано название компании';
         }
     }
 
-    private function setPhone(\user\models\User $user)
+    private function setPhone(User $user)
     {
-        if (!empty($this->Phone)) {
+        if ($this->Phone) {
             $user->setContactPhone($this->Phone);
         }
     }
@@ -324,8 +347,7 @@ class ImportUser extends \CActiveRecord
      */
     private function setUserData(User $user, Import $import)
     {
-        $data = $this->getUserData();
-        if ($data !== null) {
+        if ($data = $this->getUserData()) {
             $data->UserId = $user->Id;
             $manager = $data->getManager();
             if (!$manager->validate()) {
@@ -333,39 +355,83 @@ class ImportUser extends \CActiveRecord
                     throw new ImportException('Ошибка атрибута пользоватя "' . $attribute . '": ' . $errors[0]);
                 }
             }
+
             $data->save();
         }
     }
 
     /**
-     * @return UserData|null
+     * Creates a new user
+     *
+     * @param Import $import
+     * @return User
+     * @throws ImportException
      */
-    public function getUserData()
+    private function createUser(Import $import)
     {
-        if (!empty($this->UserData)) {
-            $data = new UserData();
-            $data->EventId = $this->Import->EventId;
+        if (!$this->FirstName || !$this->LastName) {
+            throw new ImportException('Не заданы имя или фамилия участника.');
+        }
 
-            $manager = $data->getManager();
-            foreach (json_decode($this->UserData, true) as $key => $value) {
-                try {
-                    $manager->{$key} = $value;
-                } catch (\application\components\Exception $e) {
-                }
+        $user = new User();
+        $user->FirstName = $this->FirstName;
+        $user->LastName = $this->LastName;
+        $user->FatherName = $this->FatherName;
+        $user->Email = strtolower($this->Email);
+        $user->register($import->Notify);
+
+        $user->Visible = $import->Visible;
+        $user->save();
+
+        return $user;
+    }
+
+    /**
+     * Sets user's fields translations.
+     *
+     * @param User $user
+     * @param string $locale
+     */
+    private function setTranslations(User $user, $locale = 'en')
+    {
+        $user->setLocale($locale);
+
+        foreach (['FirstName', 'LastName', 'FatherName'] as $attribute) {
+            if (!$value = $this->{$attribute . '_en'}) {
+                continue;
             }
-            return $data;
+
+            $user->$attribute = $value;
+
+            $user->save();
         }
 
-        return null;
+        $user->resetLocale();
     }
 
-    protected function beforeSave()
+    /**
+     * Sets user's primary company name translation.
+     *
+     * @param User $user
+     * @param string $locale
+     */
+    private function setPrimaryCompanyNameTranslation(User $user = null, $locale = 'en')
     {
-        if ($this->getIsNewRecord()) {
-            $this->Email = mb_strtolower($this->Email, 'utf-8');
+        if (!$user || !$this->Company_en) {
+            return;
         }
-        return parent::beforeSave();
+
+        $user->refresh();
+
+        foreach ($user->Employments as $employment) {
+            if ($employment->Primary == true) {
+                $company = $employment->Company;
+
+                $company->setLocale($locale);
+                $company->Name = $this->Company_en;
+                $company->save();
+                $company->resetLocale();
+            }
+        }
     }
-
-
 }

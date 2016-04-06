@@ -284,11 +284,16 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function byEventId($eventId, $useAnd = true)
     {
-        $criteria = new \CDbCriteria();
-        $criteria->with = array('Participants' => array('together' => true));
-        $criteria->addCondition('"Participants"."EventId" = :EventId');
-        $criteria->params['EventId'] = $eventId;
-        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        $this->getDbCriteria()->mergeWith([
+            'with' => [
+                'Participants' => [
+                    'together' => true
+                ]
+            ],
+            'condition' => '"Participants"."EventId" = :EventId',
+            'params' => ['EventId' => $eventId]
+        ], $useAnd);
+
         return $this;
     }
 
@@ -297,17 +302,18 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      * @param bool $visible
      * @param bool $useAnd
      *
-     * @return \user\models\User
+     * @return User
      */
     public function byVisible($visible = true, $useAnd = true)
     {
-        $criteria = new \CDbCriteria();
-        if ($visible) {
-            $criteria->addCondition('"t"."Visible"');
-        } else {
-            $criteria->addCondition('NOT "t"."Visible"');
-        }
+        $criteria = $visible ? [
+            'condition' => '"t"."Visible"'
+        ] : [
+            'condition' => 'NOT "t"."Visible"'
+        ];
+
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -804,19 +810,20 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
     /**
      * Уставливает место работы пользователю
+     *
      * @param $companyFullName
      * @param string $position
-     *
-     * @return \user\models\Employment|null
+     * @return Employment|null
      */
     public function setEmployment($companyFullName, $position = '')
     {
-        $employment = new \user\models\Employment();
+        $employment = new Employment();
         $employment->chageCompany($companyFullName);
         $employment->UserId = $this->Id;
         $employment->Position = $position;
         $employment->Primary = true;
         $employment->save();
+
         return $employment;
     }
 

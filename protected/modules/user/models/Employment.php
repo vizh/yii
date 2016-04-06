@@ -16,7 +16,7 @@ use company\models\Company;
  * @property string $Position
  * @property bool $Primary
  *
- * @property \company\models\Company $Company
+ * @property Company $Company
  * @property User $User
  *
  * @method Employment findByPk(integer $pk)

@@ -995,6 +995,10 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
             $rif = new Rif();
             $userHotel = $rif->getUserHotel($user->RunetId);
 
+            if (!$userHotel) {
+                $userHotel = Rif::HOTEL_LD;
+            }
+
             $foodProductMatrix = [
                 13 => [4416, 4417, 4418],
                 14 => [4419, 4420, 4421],
@@ -1006,6 +1010,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
             $userFoodOrderItems = OrderItem::model()->byPaid(true)->byAnyOwnerId($user->Id)->findAll($criteria);
             $userFoodProductIdList = \CHtml::listData($userFoodOrderItems, 'Id', 'ProductId');
             $foodHotels = [];
+
             switch ($userHotel) {
                 case Rif::HOTEL_LD:
                     $foodHotels = [
@@ -1366,12 +1371,14 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
             $y = 580;
             $name = 'dali';
             $showText2 = true;
+            $map = 'map_ld.png';
             break;
 
         case RIF::HOTEL_P:
             $y = 830;
             $name = 'polyany';
             $showText2 = false;
+            $map = 'map_p.png';
             break;
     }
 
@@ -1392,7 +1399,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
         $text2 = implode(',', $dates);
 
         $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot').$path);
-        $image->text($text2, 100, 300, 820);
+        $image->text($text2, 80, 300, 820);
         $image->save(\Yii::getPathOfAlias('webroot').$path);
     }
     ?>
@@ -1400,13 +1407,14 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
     <div class="text-center">
         <img src="<?= $path; ?>"/>
     </div>
-    <pagebreak orientation="L"/>
-    <div class="text-center">
-        <img src="/img/event/rif16/ticket/map_all.png"/>
-    </div>
 <?php endif; ?>
 
-<?php if ($parkingReporter): ?>
+<?php if (!$parkingReporter): ?>
+    <pagebreak orientation="L"/>
+    <div class="text-center">
+        <img src="/img/event/rif16/ticket/<?=$map?>"/>
+    </div>
+<? else: ?>
     <pagebreak orientation="L"/>
     <?php
     $image = \Yii::app()->image->load(\Yii::getPathOfAlias('webroot.img.event.rif16.ticket.reporter').'.png');
@@ -1426,5 +1434,3 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
         <img src="/img/event/rif16/ticket/map_reporter.png"/>
     </div>
 <? endif; ?>
-
-

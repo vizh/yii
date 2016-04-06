@@ -152,7 +152,6 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
         $this->returnTransliteIfEmpty = $return;
     }
 
-
     /**
      * PHP getter magic method
      * This method is overridden so that AR attributes can be accessed like properties.
@@ -204,6 +203,7 @@ abstract class ActiveRecord extends \application\components\ActiveRecord
     protected function afterSave()
     {
         parent::afterSave();
+
         foreach ($this->_changedTranslations as $translation) {
             if ($translation->getIsNewRecord()) {
                 $translation->ResourceId = $this->getResourceId();

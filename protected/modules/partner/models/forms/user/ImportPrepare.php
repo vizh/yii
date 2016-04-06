@@ -153,6 +153,7 @@ class ImportPrepare extends \CFormModel
                 'Email' => 'Email',
                 'Phone' => 'Телефон',
                 'Company' => 'Компания',
+                'Company_en' => 'Компания (EN)',
                 'Position' => 'Должность',
                 'Role' => 'Статус',
                 'Product' => 'Товар',
