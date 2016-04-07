@@ -1,31 +1,39 @@
 <?php
 namespace event\widgets;
 
+use event\components\Widget;
+use event\components\WidgetPosition;
+
 /**
  * Class LinkRegistration
- * @package event\widgets
  *
  * @property string $LinkRegistration
+ *
  */
-class LinkRegistration extends \event\components\Widget
+class LinkRegistration extends Widget
 {
+    /**
+     * @inheritdoc
+     */
     public function getAttributeNames()
     {
         return ['LinkRegistration'];
     }
 
-
+    /**
+     * @inheritdoc
+     */
     public function run()
     {
         if ($this->getEvent()->isRegistrationClosed()) {
             return;
         }
+
         $this->render('linkregistration');
     }
 
-
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getTitle()
     {
@@ -33,10 +41,10 @@ class LinkRegistration extends \event\components\Widget
     }
 
     /**
-     * @return string
+     * @inheritdoc
      */
     public function getPosition()
     {
-        return \event\components\WidgetPosition::Content;
+        return WidgetPosition::Content;
     }
 }

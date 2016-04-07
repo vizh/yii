@@ -269,6 +269,7 @@ class IndexAction extends \CAction
             $widget = $link->Class->createWidget($event, true);
             $widgets->Used[$widget->getName()] = $link;
         }
+
         return $widgets;
     }
 }

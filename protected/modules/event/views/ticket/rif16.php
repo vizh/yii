@@ -1386,7 +1386,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
     $text1 = mb_strtoupper($parking['carNumber']);
 
     $path = '/img/event/rif16/ticket/car_rendered/'.$user->RunetId.'.jpg';
-    $image->text($text1, 160, 0, $y);
+    $image->text($text1, 130, 0, $y);
     $image->save(\Yii::getPathOfAlias('webroot').$path);
 
     if ($showText2) {
@@ -1409,6 +1409,7 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
     </div>
 <?php endif; ?>
 
+<?php if (!empty($parking)): ?>
 <?php if (!$parkingReporter): ?>
     <pagebreak orientation="L"/>
     <div class="text-center">
@@ -1433,4 +1434,5 @@ $parkingReporter = !empty($parking) && in_array($role->Id,
     <div class="text-center">
         <img src="/img/event/rif16/ticket/map_reporter.png"/>
     </div>
+<? endif; ?>
 <? endif; ?>

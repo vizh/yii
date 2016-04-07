@@ -1,28 +1,24 @@
 <?php
 namespace event\models;
+
+use application\components\ActiveRecord;
 use event\components\IWidget;
 
 /**
  * @property int $Id
  * @property string $Class
  */
-class WidgetClass extends \CActiveRecord
+class WidgetClass extends ActiveRecord
 {
     /**
-     * @param string $className
+     * @inheritdoc
      */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
-
     public function tableName()
     {
         return 'EventWidgetClass';
     }
 
     /**
-     *
      * @param string $class
      * @param bool $useAnd
      * @return $this
@@ -37,8 +33,7 @@ class WidgetClass extends \CActiveRecord
     }
 
     /**
-     *
-     * @param bool $visble
+     * @param bool $visible
      * @param bool $useAnd
      * @return $this
      */
@@ -64,6 +59,7 @@ class WidgetClass extends \CActiveRecord
         if (!$skipInit) {
             $widget->init();
         }
+
         return $widget;
     }
 }
