@@ -383,6 +383,11 @@ class Order extends ActiveRecord
      */
     private function getBookEnd($start)
     {
+        // TODO Delete after RIF
+        if ($this->EventId == 2393 /* РИФ16 */) {
+            return '2016-04-08 22:59:59';
+        }
+
         $timestamp = strtotime($start);
 
         $days = 0;
