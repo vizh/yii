@@ -4,6 +4,7 @@ use partner\components\export\ExcelBuilder;
 use application\components\console\BaseConsoleCommand;
 
 \Yii::import('ext.PHPExcel.PHPExcel', true);
+
 class PartnerExportCommand extends BaseConsoleCommand
 {
     private $rowIterator = 1;
