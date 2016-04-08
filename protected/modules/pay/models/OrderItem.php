@@ -425,7 +425,7 @@ class OrderItem extends ActiveRecord
         }
 
         foreach ($this->OrderLinks as $link) {
-            if ($link->Order->Paid) {
+            if ($link->Order && $link->Order->Paid) {
                 return $link->Order;
             }
         }
