@@ -57,6 +57,9 @@ class AddAction extends Action
 
         try {
             $orderItem = $product->getManager()->createOrderItem($payer, $owner, null, $attributes);
+            if ($orderItem->getPrice() == 0) {
+                $orderItem->activate();
+            }
         } catch (Exception $e) {
             throw new Exception(408, [$e->getCode(), $e->getMessage()], $e);
         }
