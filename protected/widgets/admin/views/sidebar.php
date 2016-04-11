@@ -48,7 +48,7 @@
     <li><a href="<?=Yii::app()->createUrl('/raec/admin/brief/index');?>">Анкеты</a></li>
   </ul>
   
-  <a data-toggle="collapse" class="nav-header" href="#menu-catalog"><i class="icon-th-list icon-white"></i> <?=\Yii::t('app', 'Каталог');?></a>
+  <a data-toggle="collapse" class="nav-header" href="#menu-catalog"><i class="icon-th-list icon-white"></i><?=\Yii::t('app', 'Каталог');?></a>
   <ul class="nav nav-list collapse" id="menu-catalog">
     <li><a href="<?=Yii::app()->createUrl('/catalog/admin/company/index');?>"><?=\Yii::t('app', 'Компании');?></a></li>
   </ul>
