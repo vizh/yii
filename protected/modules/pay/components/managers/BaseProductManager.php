@@ -286,12 +286,6 @@ abstract class BaseProductManager
         $orderItem->OwnerId = $owner->Id;
         $orderItem->Booked = is_null($bookTime) ? null : date('Y-m-d H:i:s', time() + intval($bookTime));
 
-        # TODO: delete after rif :)
-        if ($this->product->Event->IdName === 'rif16' && $_REQUEST['Paid']) {
-            $orderItem->Paid = true;
-            $orderItem->PaidTime = date('Y-m-d H:i:s');
-        }
-
         $orderItem->save();
 
         foreach ($this->getOrderItemAttributeNames() as $key) {
