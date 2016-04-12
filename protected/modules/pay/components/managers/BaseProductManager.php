@@ -19,6 +19,11 @@ use user\models\User;
  */
 abstract class BaseProductManager
 {
+    // Product manager
+    const EVENT = 'EventProductManager';
+    const FOOD = 'FoodProductManager';
+    const ROOM = 'RoomProductManager';
+
     /**
      * @var Product
      */

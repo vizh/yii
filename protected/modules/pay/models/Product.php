@@ -2,8 +2,13 @@
 namespace pay\models;
 
 use application\models\translation\ActiveRecord;
+use event\models\Event;
+use pay\components\managers\BaseProductManager;
 
 /**
+ * Class Product
+ *
+ * Fields
  * @property int $Id
  * @property string $ManagerName
  * @property string $Title
@@ -22,15 +27,15 @@ use application\models\translation\ActiveRecord;
  * @property bool $Deleted
  * @property string $DeletionTime
  *
- * @property \event\models\Event $Event
+ * @property Event $Event
  * @property ProductAttribute[] $Attributes
  * @property ProductPrice[] $Prices
  * @property ProductPrice[] $PricesActive
  *
  *
- * @method \pay\models\Product find($condition='',$params=array())
- * @method \pay\models\Product findByPk($pk,$condition='',$params=array())
- * @method \pay\models\Product[] findAll($condition='',$params=array())
+ * @method Product find($condition='',$params=array())
+ * @method Product findByPk($pk,$condition='',$params=array())
+ * @method Product[] findAll($condition='',$params=array())
  * @method Product byId(int $id)
  * @method Product byVisibleForRuvents(bool $visible)
  * @method Product byDeleted(bool $deleted)
@@ -41,42 +46,76 @@ class Product extends ActiveRecord
     protected $useSoftDelete = true;
 
     /**
-     * @param string $className
-     *
-     * @return Product
+     * @var ProductAttribute[]
      */
-    public static function model($className=__CLASS__)
+    protected $productAttributes;
+
+    /**
+     * @var BaseProductManager
+     */
+    private $manager;
+
+    /**
+     * Creates a new one model
+     * @param int|Event $event Event's identifier of the event object
+     * @param string $name Name of the product
+     * @param string $managerName Manager's name for the product @see ProductManager
+     * @param string $unit Units that will be used in orders, for example
+     * @param array $config Configuration for the other attributes, for example ['EnableCoupon' => true]
+     * @return self|null
+     */
+    public static function create($event, $name, $managerName, $unit = 'шт', array $config = [])
     {
-        return parent::model($className);
+        if ($event instanceof Event) {
+            $event = $event->Id;
+        }
+
+        try {
+            $model = new self();
+            $model->Title = $name;
+            $model->EventId = $event;
+            $model->ManagerName = $managerName;
+            $model->Unit = $unit;
+
+            foreach (['Title', 'EventId', 'ManagerName', 'Unit'] as $attr) {
+                unset($config[$attr]);
+            }
+
+            $model->setAttributes($config, false);
+
+            $model->save(false);
+
+            return $model;
+
+        } catch (\CDbException $e) {
+            return null;
+        }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function tableName()
     {
         return 'PayProduct';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function relations()
     {
         return array(
-            'Event' => array(self::BELONGS_TO, '\event\models\Event', 'EventId'),
-            'Attributes' => array(self::HAS_MANY, '\pay\models\ProductAttribute', 'ProductId'),
-            'Prices' => array(self::HAS_MANY, '\pay\models\ProductPrice', 'ProductId', 'order' => '"Prices"."StartTime" ASC'),
-            'PricesActive' => [self::HAS_MANY, '\pay\models\ProductPrice', 'ProductId', 'order' => '"PricesActive"."StartTime" ASC', 'condition' => '("PricesActive"."EndTime" IS NULL OR "PricesActive"."EndTime" >  now())'],
-            'UserAccess' => [self::HAS_MANY, '\pay\models\ProductUserAccess', 'ProductId']
+            'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId'],
+            'Attributes' => [self::HAS_MANY, 'pay\models\ProductAttribute', 'ProductId'],
+            'Prices' => [self::HAS_MANY, 'pay\models\ProductPrice', 'ProductId', 'order' => '"Prices"."StartTime" ASC'],
+            'PricesActive' => [self::HAS_MANY, 'pay\models\ProductPrice', 'ProductId', 'order' => '"PricesActive"."StartTime" ASC', 'condition' => '("PricesActive"."EndTime" IS NULL OR "PricesActive"."EndTime" >  now())'],
+            'UserAccess' => [self::HAS_MANY, 'pay\models\ProductUserAccess', 'ProductId']
         );
     }
 
     /**
-     * @var \pay\components\managers\BaseProductManager
-     */
-    private $manager = null;
-    /**
-     * @return \pay\components\managers\BaseProductManager
+     * @return BaseProductManager
      */
     public function getManager()
     {
@@ -87,9 +126,6 @@ class Product extends ActiveRecord
         }
         return $this->manager;
     }
-
-    /** @var ProductAttribute[] */
-    protected $productAttributes = null;
 
     /**
      * @return ProductAttribute[]
