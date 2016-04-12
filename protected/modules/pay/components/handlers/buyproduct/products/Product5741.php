@@ -68,6 +68,6 @@ class Product5741 extends Base
     public function getBody()
     {
         $view = 'pay.views.mail.buyproduct.products.devcon16-certification';
-        return $this->renderBody($view, ['user' => $this->owner]);
+        return $this->renderBody($view, ['user' => $this->owner, 'event' => $this->product->Event]);
     }
 }
