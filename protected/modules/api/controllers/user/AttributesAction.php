@@ -1,11 +1,18 @@
 <?php
+
 namespace api\controllers\user;
 
 use api\components\Action;
 use api\components\Exception;
 
+/**
+ * Class AttributesAction
+ */
 class AttributesAction extends Action
 {
+    /**
+     * @throws Exception
+     */
     public function run()
     {
         if ($this->getEvent()->IdName !== 'svyaz16') {
