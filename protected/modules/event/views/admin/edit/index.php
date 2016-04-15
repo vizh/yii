@@ -153,21 +153,21 @@ foreach ($widgets->All as $widget) {
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= \CHtml::activeLabel($form, 'ShowOnMain', array('class' => 'control-label')); ?>
+                    <?= CHtml::activeLabel($form, 'ShowOnMain', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= \CHtml::activeCheckBox($form, 'ShowOnMain'); ?>
+                        <?= CHtml::activeCheckBox($form, 'ShowOnMain'); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= \CHtml::activeLabel($form, 'CloseRegistrationAfterEnd', array('class' => 'control-label')); ?>
+                    <?= CHtml::activeLabel($form, 'CloseRegistrationAfterEnd', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= \CHtml::activeCheckBox($form, 'CloseRegistrationAfterEnd'); ?>
+                        <?= CHtml::activeCheckBox($form, 'CloseRegistrationAfterEnd'); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= \CHtml::activeLabel($form, 'DocumentRequired', array('class' => 'control-label')); ?>
+                    <?= CHtml::activeLabel($form, 'DocumentRequired', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= \CHtml::activeCheckBox($form, 'DocumentRequired'); ?>
+                        <?= CHtml::activeCheckBox($form, 'DocumentRequired'); ?>
                     </div>
                 </div>
 
@@ -178,31 +178,37 @@ foreach ($widgets->All as $widget) {
                         <?= \CHtml::activeCheckBox($form, 'Top'); ?>
                         <?php if (!$event->getIsNewRecord() && $form->Top): ?>
                             <p class="m-top_5"><?= \CHtml::link(\Yii::t('app', 'Настроить'), ['promo', 'id' => $event->Id], ['class' => 'btn btn-small']); ?></p>
-                        <?php endif; ?>
+                        <?php endif ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= \CHtml::activeLabel($form, 'Free', array('class' => 'control-label')); ?>
+                    <?= CHtml::activeLabel($form, 'Free', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= \CHtml::activeCheckBox($form, 'Free'); ?>
+                        <?= CHtml::activeCheckBox($form, 'Free'); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= \CHtml::activeLabel($form, 'UnsubscribeNewUser', array('class' => 'control-label')); ?>
+                    <?= CHtml::activeLabel($form, 'UnsubscribeNewUser', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= \CHtml::activeCheckBox($form, 'UnsubscribeNewUser'); ?>
+                        <?= CHtml::activeCheckBox($form, 'UnsubscribeNewUser'); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= \CHtml::activeLabel($form, 'NotSendRegisterMail', array('class' => 'control-label')); ?>
+                    <?= CHtml::activeLabel($form, 'NotSendRegisterMail', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= \CHtml::activeCheckBox($form, 'NotSendRegisterMail'); ?>
+                        <?= CHtml::activeCheckBox($form, 'NotSendRegisterMail'); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= \CHtml::activeLabel($form, 'RegisterHideNotSelectedProduct', array('class' => 'control-label')); ?>
+                    <?= CHtml::activeLabel($form, 'RegisterHideNotSelectedProduct', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= \CHtml::activeCheckBox($form, 'RegisterHideNotSelectedProduct'); ?>
+                        <?= CHtml::activeCheckBox($form, 'RegisterHideNotSelectedProduct'); ?>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <?= CHtml::activeLabel($form, 'FullWidth', ['class' => 'control-label']) ?>
+                    <div class="controls">
+                        <?= CHtml::activeCheckBox($form, 'FullWidth'); ?>
                     </div>
                 </div>
                 <?php if ($event->External == true): ?>
