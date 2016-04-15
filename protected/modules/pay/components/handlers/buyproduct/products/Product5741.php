@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Андрей
- * Date: 12.04.2016
- * Time: 0:09
- */
-
 namespace pay\components\handlers\buyproduct\products;
 
 use mail\models\Layout;
@@ -58,7 +51,7 @@ class Product5741 extends Base
      */
     public function getSubject()
     {
-        return 'Успешная регистрация на сертификацию';
+        return 'DevCon 2016: успешная регистрация на сертификацию';
     }
 
 

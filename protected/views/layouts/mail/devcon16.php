@@ -1,4 +1,4 @@
-<? $this->beginContent('/layouts/mail'); ?>
+<?php $this->beginContent('/layouts/mail') ?>
 
     <table style="width: 100%;">
         <tr>
@@ -18,17 +18,16 @@
                             <table cellpadding="10" cellspacing="10" border="0" width="100%">
                                 <tr>
                                     <td style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">
-                                        <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;"><strong>Здравствуйте <?=$this->mail->getUser()->getShortName();?>!</strong></p>
+                                        <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;"><strong>Здравствуйте, <?=$this->mail->getUser()->getShortName();?>!</strong></p>
                                         <?=$content;?>
 
                                         <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">С уважением,<br/>
                                         Организаторы конференции DevCon 2016<br/>
-                                        ---------------------------<br/>
-                                        Call-center конференции по вопросам оплаты:<br/>
-                                        <a href="mailto:devcon@runet-id.com" mc:disable-tracking>devcon@runet-id.com</a><br/>
-                                        +7 (495) 950-56-51<br/>
                                         <a href="http://www.msdevcon.ru" mc:disable-tracking>www.msdevcon.ru</a><br/>
-                                        #msdevcon</p>
+                                        <a href="https://twitter.com/search/?q=%23msdevcon&amp;src=typd">#msdevcon</a><br/>
+                                        <a href="mailto:v-devcon@microsoft.com" mc:disable-tracking>v-devcon@microsoft.com</a><br/>
+                                        +7 (926) 37-37-320<br/>
+                                        </p>
                                     </td>
                                 </tr>
                             </table>
