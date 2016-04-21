@@ -71,7 +71,7 @@ class UpdateUser extends BaseUser
 
             /** @var UserData $data */
             $data = UserData::getDefinedAttributeValues($this->account->Event, $this->model);
-            foreach (['Country', 'City'] as $name) {
+            foreach (['Country', 'City', 'Birthday'] as $name) {
                 if (!isset($data[$name]) || $data[$name] !== $this->$name) {
                     $this->saveUserData();
                     break;
