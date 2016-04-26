@@ -209,8 +209,8 @@ foreach ($order->Items as $item) {
                     ИНН/КПП 7703725797/770301001<br/>
                     Московский филиал ПАО РОСБАНК <br/>
                     р/с 40702810697620000409<br/>
-                    к/с 30101810000000000272<br/>
-                    БИК 044583272</p>
+                    к/с 30101810000000000256<br/>
+                    БИК 044525256</p>
             </td>
         </tr>
         <tr>
@@ -275,7 +275,7 @@ foreach ($order->Items as $item) {
             Г.МОСКВА
         </td>
         <td style="border: 1px solid #000; padding: 5px;">БИК<br>Сч. №</td>
-        <td style="border: 1px solid #000; padding: 5px;">044583272<br>30101810000000000272</td>
+        <td style="border: 1px solid #000; padding: 5px;">044525256<br>30101810000000000256</td>
     </tr>
     </tbody>
 </table>

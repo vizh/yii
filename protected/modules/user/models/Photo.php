@@ -17,39 +17,6 @@ class Photo
     }
 
     /**
-     * @param bool $serverPath
-     * @return string
-     */
-    protected function getPath($serverPath = false)
-    {
-        $folder = $this->runetId / 10000;
-        $folder = (int)$folder;
-        $result = \Yii::app()->params['UserPhotoDir'] . $folder . '/';
-        if ($serverPath) {
-            $result = \Yii::getPathOfAlias('webroot') . $result;
-        }
-        return $result;
-    }
-
-    /**
-     * Returns path to the user photo
-     * @param string $serverPath
-     * @param string $name
-     * @param string $noFile
-     * @return string
-     */
-    protected function getByName($serverPath, $name, $noFile)
-    {
-        $fileName = $this->getPath(true) . $name;
-        if ($serverPath || file_exists($fileName)) {
-            $mtime = @filemtime($fileName);
-            return $this->getPath($serverPath) . $name . ($serverPath ? '' : '?t=' . $mtime);
-        } else {
-            return \Yii::app()->params['UserPhotoDir'] . $noFile;
-        }
-    }
-
-    /**
      * Возвращает путь к мини изображению пользователя, для навигационного бара
      * @param bool $serverPath
      *
@@ -122,13 +89,12 @@ class Photo
     }
 
     /**
-     * Возвращает путь к исходному изображению пользователя
-     * @param bool $serverPath
-     * @return string
+     * Проверяет наличие изображения
+     * @return boolean
      */
-    protected function getClear($serverPath = false)
+    public function hasImage()
     {
-        return $this->getByName($serverPath, $this->runetId . '_clear.jpg', 'nophoto_200.png');
+        return is_dir($fileName = $this->getPath(true) . $this->runetId);
     }
 
     /**
@@ -182,6 +148,49 @@ class Photo
             if (file_exists($path)) {
                 unlink($path);
             }
+        }
+    }
+
+    /**
+     * Возвращает путь к исходному изображению пользователя
+     * @param bool $serverPath
+     * @return string
+     */
+    protected function getClear($serverPath = false)
+    {
+        return $this->getByName($serverPath, $this->runetId . '_clear.jpg', 'nophoto_200.png');
+    }
+
+    /**
+     * @param bool $serverPath
+     * @return string
+     */
+    protected function getPath($serverPath = false)
+    {
+        $folder = $this->runetId / 10000;
+        $folder = (int)$folder;
+        $result = \Yii::app()->params['UserPhotoDir'] . $folder . '/';
+        if ($serverPath) {
+            $result = \Yii::getPathOfAlias('webroot') . $result;
+        }
+        return $result;
+    }
+
+    /**
+     * Returns path to the user photo
+     * @param string $serverPath
+     * @param string $name
+     * @param string $noFile
+     * @return string
+     */
+    protected function getByName($serverPath, $name, $noFile)
+    {
+        $fileName = $this->getPath(true) . $name;
+        if ($serverPath || file_exists($fileName)) {
+            $mtime = @filemtime($fileName);
+            return $this->getPath($serverPath) . $name . ($serverPath ? '' : '?t=' . $mtime);
+        } else {
+            return \Yii::app()->params['UserPhotoDir'] . $noFile;
         }
     }
 }

@@ -6,6 +6,7 @@ use api\components\Exception;
 use pay\components\CodeException;
 use pay\components\MessageException;
 use pay\components\OrderItemCollection;
+use pay\models\Coupon;
 use pay\models\Product;
 use user\models\User;
 
@@ -57,8 +58,26 @@ class AddAction extends Action
 
         try {
             $orderItem = $product->getManager()->createOrderItem($payer, $owner, null, $attributes);
+            if ($orderItem->getPrice() == 0) {
+                $orderItem->activate();
+            }
         } catch (Exception $e) {
             throw new Exception(408, [$e->getCode(), $e->getMessage()], $e);
+        }
+
+        # TODO: delete after RIF2016
+        if ($product->Event->IdName === 'rif16'
+            && $request->getParam('Paid', false)
+            && $request->getParam('PaidHash') === md5($productId.$payerRunetId.$ownerRunetId)
+        ) {
+            $coupon = new Coupon();
+            $coupon->EventId = $this->getEvent()->Id;
+            $coupon->Discount = 100;
+            $coupon->Code = $coupon->generateCode();
+            $coupon->EndTime = '2016-04-20 23:59:59';
+            $coupon->save();
+            $coupon->addProductLinks([$product]);
+            $coupon->activate($payer, $owner, $product);
         }
 
         $collection = OrderItemCollection::createByOrderItems([$orderItem]);

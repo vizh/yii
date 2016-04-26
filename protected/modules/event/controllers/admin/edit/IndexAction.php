@@ -20,28 +20,28 @@ class IndexAction extends \CAction
     public function run($eventId = null)
     {
         $form = new Edit();
-        if ($eventId !== null){
+        if ($eventId !== null) {
             $event = Event::model()->findByPk($eventId);
-            if ($event == null){
+            if ($event == null) {
                 throw new \CHttpException(404);
             }
 
             $attributes = $event->getAttributes();
-            foreach ($event->getInternalAttributes() as $attribute){
+            foreach ($event->getInternalAttributes() as $attribute) {
                 $attributes[$attribute->Name] = $attribute->Value;
             }
-            foreach ($attributes as $attribute => $value){
+            foreach ($attributes as $attribute => $value) {
                 if (property_exists($form, $attribute))
                     $form->$attribute = $value;
             }
             $form->StartDate = $event->getFormattedStartDate(Edit::DATE_FORMAT);
             $form->EndDate = $event->getFormattedEndDate(Edit::DATE_FORMAT);
             $form->ProfInterest = \CHtml::listData($event->LinkProfessionalInterests, 'Id', 'ProfessionalInterestId');
-            if ($event->LinkSite !== null){
-                $form->SiteUrl = (string) $event->LinkSite->Site;
+            if ($event->LinkSite !== null) {
+                $form->SiteUrl = (string)$event->LinkSite->Site;
             }
 
-            if (!empty($event->LinkPhones)){
+            if (!empty($event->LinkPhones)) {
                 $form->Phone->attributes = [
                     'Id' => $event->LinkPhones[0]->Phone->Id,
                     'OriginalPhone' => $event->LinkPhones[0]->Phone->getWithoutFormatting(),
@@ -49,28 +49,28 @@ class IndexAction extends \CAction
                 ];
             }
 
-            if (!empty($event->LinkEmails)){
+            if (!empty($event->LinkEmails)) {
                 $form->Email = $event->LinkEmails[0]->Email->Email;
             }
 
-            if ($event->getContactAddress() != null){
+            if ($event->getContactAddress() != null) {
                 $form->Address->setAttributes(
                     $event->getContactAddress()->getAttributes($form->Address->getSafeAttributeNames())
                 );
             }
-        }
-        else{
+
+            $form->FullWidth = $event->FullWidth;
+        } else {
             $event = new Event();
             $event->External = false;
         }
 
         $request = \Yii::app()->getRequest();
-        if ($request->getIsPostRequest())
-        {
+        if ($request->getIsPostRequest()) {
             $form->attributes = $request->getParam(get_class($form));
             $form->Logo = \CUploadedFile::getInstance($form, 'Logo');
             $form->TicketImage = \CUploadedFile::getInstance($form, 'TicketImage');
-            if ($form->validate()){
+            if ($form->validate()) {
                 // Сохранение мероприятия
                 $event->IdName = $form->IdName;
                 $event->Title = $form->Title;
@@ -81,11 +81,12 @@ class IndexAction extends \CAction
                 $event->ShowOnMain = $form->ShowOnMain;
                 $event->Approved = $form->Approved;
                 $event->StartDay = date('d', $form->StartDateTS);
-                $event->StartMonth = date('m', $form->StartDateTS);;
-                $event->StartYear = date('Y', $form->StartDateTS);;
+                $event->StartMonth = date('m', $form->StartDateTS);
+                $event->StartYear = date('Y', $form->StartDateTS);
                 $event->EndDay = date('d', $form->EndDateTS);
-                $event->EndMonth = date('m', $form->EndDateTS);;
-                $event->EndYear = date('Y', $form->EndDateTS);;
+                $event->EndMonth = date('m', $form->EndDateTS);
+                $event->EndYear = date('Y', $form->EndDateTS);
+                $event->FullWidth = $form->FullWidth;
                 $event->save();
 
                 $event->Top = $form->Top;
@@ -97,7 +98,7 @@ class IndexAction extends \CAction
 
                 // Сохранение адреса
                 $address = $event->getContactAddress();
-                if ($address == null){
+                if ($address == null) {
                     $address = new Address();
                 }
 
@@ -105,13 +106,13 @@ class IndexAction extends \CAction
                 $address->save();
                 $event->setContactAddress($address);
 
-                if (!$form->Phone->getIsEmpty()){
+                if (!$form->Phone->getIsEmpty()) {
                     $this->savePhone($event, $form->Phone);
                 }
                 $this->saveEmail($event, $form->Email);
 
                 // Сохранение сайта
-                if (!empty($form->SiteUrl)){
+                if (!empty($form->SiteUrl)) {
                     $parseUrl = parse_url($form->SiteUrl);
                     $url = $parseUrl['host'];
                     if (!empty($parseUrl['path'])) {
@@ -120,12 +121,12 @@ class IndexAction extends \CAction
                             $url .= '/';
                         }
                     }
-                    $url .= (!empty($parseUrl['query']) ? '?'.$parseUrl['query'] : '');
+                    $url .= (!empty($parseUrl['query']) ? '?' . $parseUrl['query'] : '');
                     $event->setContactSite($url, ($parseUrl['scheme'] == 'https' ? true : false));
                 }
 
                 // Сохранение логотипа
-                if ($form->Logo !== null){
+                if ($form->Logo !== null) {
                     $event->getLogo()->save($form->Logo->getTempName());
                 }
 
@@ -134,40 +135,37 @@ class IndexAction extends \CAction
                 }
 
                 // Сохранение виджетов
-                foreach ($form->Widgets as $class => $params){
+                foreach ($form->Widgets as $class => $params) {
                     $widgetClass = WidgetClass::model()->byClass($class)->find();
                     if ($widgetClass == null)
                         continue;
 
                     $linkWidget = LinkWidget::model()->byEventId($event->Id)->byClassId($widgetClass->Id)->find();
-                    if ($linkWidget == null && $params['Activated'] == 1){
+                    if ($linkWidget == null && $params['Activated'] == 1) {
                         $linkWidget = new LinkWidget();
                         $linkWidget->EventId = $event->Id;
                         $linkWidget->ClassId = $widgetClass->Id;
-                        $linkWidget->Order   = $params['Order'];
+                        $linkWidget->Order = $params['Order'];
                         $linkWidget->save();
-                    }
-                    else if ($linkWidget !== null && $params['Activated'] == 0){
+                    } else if ($linkWidget !== null && $params['Activated'] == 0) {
                         $linkWidget->delete();
-                    }
-                    else if ($linkWidget !== null && $params['Activated'] == 1){
+                    } else if ($linkWidget !== null && $params['Activated'] == 1) {
                         $linkWidget->Order = $params['Order'];
                         $linkWidget->save();
                     }
                 }
 
                 // Сохранение проф. интересов
-                foreach (ProfessionalInterest::model()->findAll() as $profInterest){
+                foreach (ProfessionalInterest::model()->findAll() as $profInterest) {
                     $linkProfInterest = LinkProfessionalInterest::model()
                         ->byEventId($eventId)->byInteresId($profInterest->Id)->find();
 
-                    if (in_array($profInterest->Id, $form->ProfInterest) && $linkProfInterest == null){
+                    if (in_array($profInterest->Id, $form->ProfInterest) && $linkProfInterest == null) {
                         $linkProfInterest = new \event\models\LinkProfessionalInterest();
                         $linkProfInterest->ProfessionalInterestId = $profInterest->Id;
                         $linkProfInterest->EventId = $event->Id;
                         $linkProfInterest->save();
-                    }
-                    else if (!in_array($profInterest->Id, $form->ProfInterest) && $linkProfInterest !== null){
+                    } else if (!in_array($profInterest->Id, $form->ProfInterest) && $linkProfInterest !== null) {
                         $linkProfInterest->delete();
                     }
                 }
@@ -185,8 +183,8 @@ class IndexAction extends \CAction
         $this->getController()->setPageTitle(\Yii::t('app', 'Редактирование мероприятия'));
         \Yii::app()->clientScript->registerPackage('runetid.ckeditor');
         $this->getController()->render('index', [
-            'form'    => $form,
-            'event'   => $event,
+            'form' => $form,
+            'event' => $event,
             'widgets' => $this->getWidgets($event)
         ]);
     }
@@ -199,21 +197,21 @@ class IndexAction extends \CAction
     {
         $hasLink = false;
         $phone = null;
-        if (!empty($form->Id)){
-            foreach ($event->LinkPhones as $link){
-                if ($link->PhoneId == $form->Id){
+        if (!empty($form->Id)) {
+            foreach ($event->LinkPhones as $link) {
+                if ($link->PhoneId == $form->Id) {
                     $phone = $link->Phone;
                     $hasLink = true;
                     break;
                 }
             }
         }
-        if ($phone == null){
+        if ($phone == null) {
             $phone = new Phone();
         }
         $phone->setAttributesFromForm($form);
         $phone->save();
-        if (!$hasLink){
+        if (!$hasLink) {
             $link = new LinkPhone();
             $link->EventId = $event->Id;
             $link->PhoneId = $phone->Id;
@@ -228,22 +226,21 @@ class IndexAction extends \CAction
     private function saveEmail($event, $email)
     {
         $link = null;
-        if (!empty($event->LinkEmails)){
+        if (!empty($event->LinkEmails)) {
             $link = $event->LinkEmails[0];
         }
 
-        if (!empty($email)){
+        if (!empty($email)) {
             $emailModel = $link !== null ? $link->Email : new Email();
             $emailModel->Email = $email;
             $emailModel->save();
-            if ($link == null){
+            if ($link == null) {
                 $link = new LinkEmail();
                 $link->EventId = $event->Id;
                 $link->EmailId = $emailModel->Id;
                 $link->save();
             }
-        }
-        elseif ($link !== null){
+        } elseif ($link !== null) {
             $link->Email->delete();
             $link->delete();
         }

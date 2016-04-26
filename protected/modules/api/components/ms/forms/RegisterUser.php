@@ -41,8 +41,8 @@ class RegisterUser extends BaseUser
     {
         $rules = [
             ['Phone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
-            ['FirstName,LastName,FatherName,Email,Company,Position,Country,City', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
-            ['FirstName,LastName,FatherName,Email,Company,Position,Country,City,Phone,Password', 'safe'],
+            ['FirstName,LastName,FatherName,Email,Company,Position,Country,City,Birthday', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
+            ['FirstName,LastName,FatherName,Email,Company,Position,Country,City,Phone,Password,Birthday', 'safe'],
             ['ExternalId', 'unique', 'className' => '\api\models\ExternalUser', 'attributeName' => 'ExternalId', 'criteria' => [
                 'condition' => '"t"."AccountId" = :AccountId',
                 'params' => [

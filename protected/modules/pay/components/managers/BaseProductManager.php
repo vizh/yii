@@ -19,6 +19,11 @@ use user\models\User;
  */
 abstract class BaseProductManager
 {
+    // Product manager
+    const EVENT = 'EventProductManager';
+    const FOOD = 'FoodProductManager';
+    const ROOM = 'RoomProductManager';
+
     /**
      * @var Product
      */
@@ -285,6 +290,7 @@ abstract class BaseProductManager
         $orderItem->PayerId = $payer->Id;
         $orderItem->OwnerId = $owner->Id;
         $orderItem->Booked = is_null($bookTime) ? null : date('Y-m-d H:i:s', time() + intval($bookTime));
+
         $orderItem->save();
 
         foreach ($this->getOrderItemAttributeNames() as $key) {

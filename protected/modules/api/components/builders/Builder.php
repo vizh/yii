@@ -3,6 +3,9 @@ namespace api\components\builders;
 
 use application\components\helpers\ArrayHelper;
 use company\models\Company;
+use competence\models\Question;
+use competence\models\Result;
+use competence\models\Test;
 use event\models\section\Favorite;
 use event\models\section\Hall;
 use event\models\UserData;
@@ -14,7 +17,8 @@ use user\models\User;
 /**
  * Методы делятся на 2 типа:
  * 1. Методы вида createXXX - создают объект с основными данными XXX, сбрасывают предыдущее заполнение объекта XXX
- * 2. Методы вида buildXXXSomething - дополняют созданный объект XXX новыми данными. Какими именно, можно понять по названию Something
+ * 2. Методы вида buildXXXSomething - дополняют созданный объект XXX новыми данными. Какими именно, можно понять по
+ * названию Something
  */
 class Builder
 {
@@ -52,9 +56,10 @@ class Builder
         $this->user->Gender = $user->Gender;
 
         $this->user->Photo = new \stdClass();
-        $this->user->Photo->Small = 'http://' . RUNETID_HOST . $user->getPhoto()->get50px();;
-        $this->user->Photo->Medium = 'http://' . RUNETID_HOST . $user->getPhoto()->get90px();
-        $this->user->Photo->Large = 'http://' . RUNETID_HOST . $user->getPhoto()->get200px();
+        $this->user->Photo->Small = 'http://'.RUNETID_HOST.$user->getPhoto()->get50px();;
+        $this->user->Photo->Medium = 'http://'.RUNETID_HOST.$user->getPhoto()->get90px();
+        $this->user->Photo->Large = 'http://'.RUNETID_HOST.$user->getPhoto()->get200px();
+
         return $this->user;
     }
 
@@ -84,6 +89,7 @@ class Builder
         foreach ($user->LinkPhones as $link) {
             $this->user->Phones[] = (string)$link->Phone;
         }
+
         return $this->user;
     }
 
@@ -174,7 +180,7 @@ class Builder
      */
     public function createCompany(Company $company)
     {
-        $this->company = (object) ArrayHelper::toArray($company, ['company\models\Company' => [
+        $this->company = (object)ArrayHelper::toArray($company, ['company\models\Company' => [
             'Id',
             'Name',
             'FullName',
@@ -182,9 +188,9 @@ class Builder
             'Code',
             'Logo' => function (Company $company) {
                 return [
-                    'Small'  => 'http://' . RUNETID_HOST . $company->getLogo()->get50px(),
-                    'Medium' => 'http://' . RUNETID_HOST . $company->getLogo()->get90px(),
-                    'Large'  => 'http://' . RUNETID_HOST . $company->getLogo()->get200px()
+                    'Small' => 'http://'.RUNETID_HOST.$company->getLogo()->get50px(),
+                    'Medium' => 'http://'.RUNETID_HOST.$company->getLogo()->get90px(),
+                    'Large' => 'http://'.RUNETID_HOST.$company->getLogo()->get200px(),
                 ];
             },
             'Url' => function (Company $company) {
@@ -195,12 +201,14 @@ class Builder
             },
             'Email' => function (Company $company) {
                 $email = $company->getContactEmail();
+
                 return $email !== null ? $email->Email : null;
             },
             'Address' => function (Company $company) {
                 return (string)$company->getContactAddress();
-            }
+            },
         ]]);
+
         return $this->company;
     }
 
@@ -216,11 +224,13 @@ class Builder
                 'AllowVote',
                 'User' => function (CompanyUser $companyUser) {
                     $this->createUser($companyUser->User);
+
                     return $this->buildUserEmployment($companyUser->User);
                 },
-                'Status'
+                'Status',
             ]]);
         }
+
         return $this->company;
     }
 
@@ -232,10 +242,11 @@ class Builder
      */
     public function createEmploymentCompany(Company $company)
     {
-        $this->employmentCompany = (object) ArrayHelper::toArray($company, ['company\models\Company' => [
+        $this->employmentCompany = (object)ArrayHelper::toArray($company, ['company\models\Company' => [
             'Id',
-            'Name'
+            'Name',
         ]]);
+
         return $this->employmentCompany;
     }
 
@@ -284,15 +295,14 @@ class Builder
         $this->event->EndMonth = $event->EndMonth;
         $this->event->EndDay = $event->EndDay;
 
-
         $this->event->Image = new \stdClass();
 
         $webRoot = \Yii::getPathOfAlias('webroot');
         $logo = $event->getLogo();
-        $this->event->Image->Mini = 'http://' . RUNETID_HOST . $logo->getMini();
-        $this->event->Image->MiniSize = $this->getImageSize($webRoot . $logo->getMini());
-        $this->event->Image->Normal = 'http://' . RUNETID_HOST . $logo->getNormal();
-        $this->event->Image->NormalSize = $this->getImageSize($webRoot . $logo->getNormal());
+        $this->event->Image->Mini = 'http://'.RUNETID_HOST.$logo->getMini();
+        $this->event->Image->MiniSize = $this->getImageSize($webRoot.$logo->getMini());
+        $this->event->Image->Normal = 'http://'.RUNETID_HOST.$logo->getNormal();
+        $this->event->Image->NormalSize = $this->getImageSize($webRoot.$logo->getNormal());
 
         return $this->event;
     }
@@ -312,6 +322,7 @@ class Builder
                 \Yii::app()->getCache()->add($key, $size, 3600 + mt_rand(10, 500));
             }
         }
+
         return $size;
     }
 
@@ -329,6 +340,7 @@ class Builder
         if (!empty($event->FbPlaceId)) {
             $this->event->FbPlaceId = $event->FbPlaceId;
         }
+
         return $this->event;
     }
 
@@ -345,17 +357,17 @@ class Builder
         $menu->Title = 'Программа';
         $this->event->Menu[] = $menu;
 
-// $menu = new stdClass();
-// $menu->Type = 'link';
-// $menu->Title = 'Программа+';
-// $menu->Link = 'http://rocid.ru/files/test-api.htm';
-// $this->event->Menu[] = $menu;
+        // $menu = new stdClass();
+        // $menu->Type = 'link';
+        // $menu->Title = 'Программа+';
+        // $menu->Link = 'http://rocid.ru/files/test-api.htm';
+        // $this->event->Menu[] = $menu;
 
-// $menu = new stdClass();
-// $menu->Type = 'html';
-// $menu->Title = 'Дополнительная информация';
-// $menu->Html = '<p>Это текст с дополнительной информацией о мероприятии. Тут может быть написано что угодно, но не очень много.</p><p>Если объем текста будет значительный - проще его передать как тип меню "link"</p>';
-// $this->event->Menu[] = $menu;
+        // $menu = new stdClass();
+        // $menu->Type = 'html';
+        // $menu->Title = 'Дополнительная информация';
+        // $menu->Html = '<p>Это текст с дополнительной информацией о мероприятии. Тут может быть написано что угодно, но не очень много.</p><p>Если объем текста будет значительный - проще его передать как тип меню "link"</p>';
+        // $this->event->Menu[] = $menu;
     }
 
     /**
@@ -365,15 +377,15 @@ class Builder
     public function BuildEventFullInfo($event)
     {
         $this->event->FullInfo = $event->FullInfo;
+
         return $this->event;
     }
-
 
     protected $product;
 
     /**
      * @param \pay\models\Product $product
-     * @param string $time
+     * @param string              $time
      * @return \stdClass
      */
     public function createProduct($product, $time = null)
@@ -395,9 +407,9 @@ class Builder
             $this->product->Limit = $manager->getLimit();
             $this->product->SoldCount = $manager->getSoldCount();
         }
+
         return $this->product;
     }
-
 
     protected $orderItem;
 
@@ -439,8 +451,10 @@ class Builder
 
         $this->orderItem->Discount = $item->getDiscount();
         $couponActivation = $orderItem->getCouponActivation();
-        $this->orderItem->CouponCode = !empty($couponActivation) && !empty($couponActivation->Coupon) ? $couponActivation->Coupon->Code : null;
+        $this->orderItem->CouponCode = !empty($couponActivation) && !empty($couponActivation->Coupon)
+            ? $couponActivation->Coupon->Code : null;
         $this->orderItem->GroupDiscount = $item->getIsGroupDiscount();
+
         return $this->orderItem;
     }
 
@@ -502,7 +516,6 @@ class Builder
         return $this->commission;
     }
 
-
     protected $section;
 
     /**
@@ -559,6 +572,7 @@ class Builder
         $this->sectionHall->UpdateTime = $hall->UpdateTime;
         $this->sectionHall->Order = $hall->Order;
         $this->sectionHall->Deleted = $hall->Deleted;
+
         return $this->sectionHall;
     }
 
@@ -567,6 +581,7 @@ class Builder
         if ($this->account->Role == 'mobile') {
             return (new \application\components\utility\Texts())->filterPurify($title);
         }
+
         return $title;
     }
 
@@ -639,6 +654,7 @@ class Builder
         $this->inviteRequest->CreationTime = $request->CreationTime;
         $this->inviteRequest->Event = $this->createEvent($request->Event);
         $this->inviteRequest->Approved = $request->Approved;
+
         return $this->inviteRequest;
     }
 
@@ -652,6 +668,7 @@ class Builder
         $this->purpose = new \stdClass();
         $this->purpose->Id = $purpose->Id;
         $this->purpose->Title = $purpose->Title;
+
         return $this->purpose;
     }
 
@@ -666,9 +683,9 @@ class Builder
         $this->professionalInterest = new \stdClass();
         $this->professionalInterest->Id = $professionalInterest->Id;
         $this->professionalInterest->Title = $professionalInterest->Title;
+
         return $this->professionalInterest;
     }
-
 
     protected $userDocumentType;
 
@@ -681,9 +698,9 @@ class Builder
         $this->userDocumentType = new \stdClass();
         $this->userDocumentType->Id = $documentType->Id;
         $this->userDocumentType->Title = $documentType->Title;
+
         return $this->userDocumentType;
     }
-
 
     protected $userDocument;
 
@@ -696,6 +713,66 @@ class Builder
         $this->user->Document = new \stdClass();
         $this->user->Document->Type = $this->createUserDocumentType($document->Type);
         $this->user->Document->Fields = $document->Attributes;
+
         return $this->user->Document;
+    }
+
+    /**
+     * @param Test $test
+     * @return \stdClass
+     */
+    public function buildCompetenceTest(Test $test)
+    {
+        $builtTest = new \stdClass();
+
+        $builtTest->Id = $test->Id;
+        $builtTest->Title = $test->Title;
+        $builtTest->Questions = [];
+
+        $questions = Question::model()->byTestId($test->Id)->findAll();
+
+        foreach ($questions as $question) {
+            $builtQuestion = new \stdClass();
+
+            $builtQuestion->Title = $question->Title;
+
+            $data = $question->getFormData();
+
+            if (isset($data['Values'])) {
+                $builtQuestion->Values = [];
+
+                foreach ($data['Values'] as $value) {
+                    $builtQuestion->Values[$value->key] = $value->title;
+                }
+            }
+
+            $builtTest->Questions[$question->Code] = $builtQuestion;
+        }
+
+        return $builtTest;
+    }
+
+    /**
+     * @param Result $result
+     * @return \stdClass
+     */
+    public function buildCompetenceResult(Result $result)
+    {
+        $builtResult = new \stdClass();
+        $data = $result->getResultByData();
+
+        foreach ($data as $key => $item) {
+            $builtItem = new \stdClass();
+
+            $builtItem->Value = $item['value'];
+
+            if (isset($item['other'])) {
+                $builtItem->Other = $item['other'];
+            }
+
+            $builtResult->$key = $builtItem;
+        }
+
+        return $builtResult;
     }
 }

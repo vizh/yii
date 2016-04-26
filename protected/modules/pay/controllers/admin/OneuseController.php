@@ -1,5 +1,9 @@
 <?php
 
+use pay\components\managers\BaseProductManager;
+use pay\models\Product;
+use pay\models\ProductPrice;
+
 class OneuseController extends \application\components\controllers\AdminMainController
 {
     public function actionIbcfood()
@@ -467,11 +471,45 @@ class OneuseController extends \application\components\controllers\AdminMainCont
 
     }
 
+    /**
+     * Action duplicates products for the event and adds count, foe example
+     * До примененения один товар
+     * - Гамбургер цена 100р.
+     * После применения
+     * - Гамбургер цена 100р.
+     * - Гамбургер 2шт. цена 200р.
+     */
+    /*public function actionDublicatep()
+    {
+        $eventId = 2633;
+
+        $products = Product::model()->findAll('"EventId" = :eventId', [':eventId' => 2633]);
+
+        $transaction = Yii::app()->getDb()->beginTransaction();
+
+        try {
+            foreach ($products as $product) {
+                if (!$price = isset($product->Prices[0]) ? $product->Prices[0] : null) {
+                    continue;
+                }
+
+                for ($i = 2; $i <= 5; ++$i) {
+                    $newTitle = $product->Title . " $i шт.";
+                    $p = Product::create($eventId, $newTitle, BaseProductManager::FOOD);
+                    ProductPrice::create($p, $i * $price->Price, null, '2016-04-01');
+                }
+            }
+
+            $transaction->commit();
+        } catch (\CDbException $e) {
+            $transaction->rollback();
+        }
+    }*/
+
     private function getTotal()
     {
 
     }
-
 }
 
 
