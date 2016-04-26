@@ -2,11 +2,13 @@
 namespace pay\components\managers;
 
 use event\models\Participant;
+use event\models\Role;
 use pay\components\MessageException;
 use pay\models\OrderItem;
+use user\models\User;
 
 /**
- * @property $RoleId
+ * @property int $RoleId
  */
 class EventAllParts extends BaseProductManager
 {
@@ -28,19 +30,21 @@ class EventAllParts extends BaseProductManager
     }
 
 
-    /** @var \event\models\Role */
-    protected $role = null;
+    /**
+     * @var Role
+     */
+    protected $role;
 
     /**
      * Возвращает true - если продукт может быть приобретен пользователем, и false - иначе
      *
-     * @param \user\models\User $user
+     * @param User $user
      * @param array $params
      *
      * @throws \pay\components\Exception
      * @return bool
      */
-    public function checkProduct($user, $params = array())
+    public function checkProduct($user, $params = [])
     {
         if (sizeof($this->product->Event->Parts) === 0) {
             throw new MessageException('Данное мероприятие не имеет логической разбивки. Используйте продукт регистрации на всё мероприятие.');
@@ -72,7 +76,7 @@ class EventAllParts extends BaseProductManager
      * @param array $params
      * @return bool
      */
-    public function internalBuy($user, $orderItem = null, $params = array())
+    public function internalBuy($user, $orderItem = null, $params = [])
     {
         $this->product->Event->registerUserOnAllParts($user, $this->role);
 
@@ -115,64 +119,43 @@ class EventAllParts extends BaseProductManager
     }
 
     /**
-     *
-     * @param \user\models\User $fromUser
-     * @param \user\models\User $toUser
-     * @param array $params
-     *
-     * @throws \pay\components\Exception
-     * @return bool
+     * @inheritdoc
      */
-    public function internalChangeOwner($fromUser, $toUser, $params = array())
+    public function internalChangeOwner($fromUser, $toUser, $params = [])
     {
-        throw new MessageException('Не реализовано');
-        if (!$this->CheckProduct($toUser))
-        {
+        $transaction = \Yii::app()->getDb()->beginTransaction();
+
+        try {
+            $participants = Participant::model()
+                ->byEventId($this->product->EventId)
+                ->byRoleId($this->RoleId)
+                ->byUserId($fromUser->Id)
+                ->findAll();
+
+            if (count($participants)) {
+                foreach ($participants as $participant) {
+                    // todo: Необходимо по логу смотреть прошлый перед оплатой статус, и выставлять его
+                    $participant->delete();
+                }
+            }
+
+            $orderItems = OrderItem::model()->findAll('"ProductId" = :productId AND "OwnerId" = :userId', [
+                ':productId' => $this->product->Id,
+                ':userId' => $fromUser->Id
+            ]);
+
+            foreach ($orderItems as $orderItem) {
+                $orderItem->OwnerId = $toUser->Id;
+                $orderItem->save();
+            }
+
+            $result = $this->internalBuy($toUser);
+
+            $transaction->commit();
+
+            return $result;
+        } catch (\CDbException $e) {
             return false;
         }
-        list($roleId) = $this->GetAttributes($this->GetAttributeNames());
-        $role = \event\models\Role::GetById($roleId);
-        if (empty($role))
-        {
-            return false;
-        }
-
-        /** @var $participants \event\models\Participant[] */
-        $participants = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($fromUser->UserId)->findAll();
-
-        foreach ($participants as $participant)
-        {
-            if ($participant->RoleId == $roleId)
-            {
-                $participant->delete();
-            }
-        }
-
-        /** @var $participants \event\models\Participant[] */
-        $participants = \event\models\Participant::model()->byEventId($this->product->EventId)->byUserId($toUser->UserId)->with('EventRole')->findAll();
-
-        $days = $this->product->Event->Days;
-        $daysByKey = array();
-        foreach ($days as $day)
-        {
-            $daysByKey[$day->DayId] = $day;
-        }
-
-        foreach ($participants as $participant)
-        {
-            unset($daysByKey[$participant->DayId]);
-            if ($participant->Role->Priority > $role->Priority)
-            {
-                continue;
-            }
-            $participant->UpdateRole($role);
-        }
-
-        foreach ($daysByKey as $day)
-        {
-            $this->product->Event->RegisterUserOnDay($day, $toUser, $role);
-        }
-
-        return true;
     }
 }

@@ -43,7 +43,7 @@ class EventOnPart extends BaseProductManager
      * @throws \pay\components\Exception
      * @return bool
      */
-    public function checkProduct($user, $params = array())
+    public function checkProduct($user, $params = [])
     {
         /** @var $part \event\models\Part */
         $this->part = \event\models\Part::model()->findByPk($this->PartId);
