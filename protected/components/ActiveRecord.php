@@ -75,7 +75,7 @@ abstract class ActiveRecord extends \CActiveRecord
             $new = new static();
             $new->setAttributes($this->getAttributes(), false);
 
-            $pk = $this->primaryKey();
+            $pk = $this->getMetaData()->tableSchema->primaryKey;
             if (!is_array($pk)) {
                 $new->$pk = null;
             }

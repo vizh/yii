@@ -37,6 +37,15 @@ class EventSectionCommand extends BaseConsoleCommand
                 ':eventId' => $section->EventId
             ]);
             foreach ($halls as $hall) {
+                $hallExists = Hall::model()->exists('"EventId" = :eventId AND "Title" = :name', [
+                    ':eventId' => $targetEventId,
+                    ':name' => $hall->Title
+                ]);
+
+                if ($hallExists) {
+                    continue;
+                }
+
                 /** @var Hall $newHall */
                 $newHall = $hall->copy(['EventId' => $targetEventId]);
 
