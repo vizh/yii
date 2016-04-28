@@ -85,6 +85,12 @@ abstract class Base
      */
     public function apply(OrderItemCollection $collection)
     {
+        $order = $collection->getOrder();
+
+        if ($this->coupon->CreationTime > $order->PaidTime) {
+            return;
+        }
+
         $discount = $this->getDiscount($collection);
         if ($discount == 0) {
             return;
