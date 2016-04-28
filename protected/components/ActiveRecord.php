@@ -63,6 +63,36 @@ abstract class ActiveRecord extends \CActiveRecord
     }
 
     /**
+     * Copies the active record
+     *
+     * @param array $newAttributes The new attributes that will be assigned to the new active record. It uses following
+     * format ['Attribute1' => 'value1', 'Attribute2' => 'value2']
+     * @return null|static The new model
+     */
+    public function copy($newAttributes = [])
+    {
+        try {
+            $new = new static();
+            $new->setAttributes($this->getAttributes(), false);
+
+            $pk = $this->getMetaData()->tableSchema->primaryKey;
+            if (!is_array($pk)) {
+                $new->$pk = null;
+            }
+
+            foreach ($newAttributes as $attr => $value) {
+                $new->$attr = $value;
+            }
+
+            $new->save(false);
+
+            return $new;
+        } catch (\CDbException $e) {
+            return null;
+        }
+    }
+
+    /**
      * Magic method __call
      * @param string $name
      * @param array $parameters

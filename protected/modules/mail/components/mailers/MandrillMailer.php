@@ -13,12 +13,12 @@ class MandrillMailer extends \mail\components\Mailer
      */
     public function internalSend($mails)
     {
-        $to = [];
+        /*$to = [];
         $vars = [];
         $attachments = [];
 
         /** @var \mail\components\Mail $mail */
-        foreach ($mails as $mail) {
+        /*foreach ($mails as $mail) {
             $to[] = [
                 'email' => $mail->getTo(),
                 'name' => $mail->getToName(),
@@ -58,11 +58,32 @@ class MandrillMailer extends \mail\components\Mailer
         }
         \Yii::import('ext.Mandrill.Mandrill');
         $mandrill = new \Mandrill(self::ApiKey);
-        $mandrill->messages->sendTemplate(self::TemplateName, [], $message);
+        $mandrill->messages->sendTemplate(self::TemplateName, [], $message);*/
+
+        // Temporary solution
+        foreach ($mails as $mail) {
+            $mailer = new \ext\mailer\PHPMailer(true);
+            $mailer->AddAddress($mail->getTo());
+            $mailer->SetFrom($mail->getFrom(), $mail->getFromName());
+            $mailer->CharSet = 'utf-8';
+            $mailer->Subject = '=?UTF-8?B?' . base64_encode($mail->getSubject()) . '?=';
+            $mailer->Mailer = 'mail';
+            $mailer->IsHTML($mail->isHtml());
+            if ($mail->isHtml()) {
+                $mailer->MsgHTML($mail->getBody());
+            } else {
+                $mailer->Body = $mail->getBody();
+            }
+
+            foreach ($mail->getAttachments() as $name => $attachment) {
+                $mailer->AddAttachment($attachment, $name);
+            }
+            $mailer->Send();
+        }
     }
 
     /**
-     * @return sring
+     * @return string
      */
     public function getVarNameMailBody()
     {
