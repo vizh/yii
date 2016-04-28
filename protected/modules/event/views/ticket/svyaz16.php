@@ -197,7 +197,7 @@ if ($data) {
         text-align: center;
     }
 </style>
-<main>
+<main class="m-b-10">
     <header class="m-b-20">
         <div class="col-7">
             <div class="p-a-2">
@@ -330,3 +330,7 @@ if ($data) {
         </div>
     </footer>
 </main>
+
+<div>
+    <img src="/img/ticket/svyaz16/banners/fiber.jpg" width="100%" alt="">
+</div>
