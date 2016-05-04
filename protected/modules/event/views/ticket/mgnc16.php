@@ -147,7 +147,7 @@ if (is_array($participant)) {
     </div>
     <div style="border-left: .3mm solid #ECECEC; border-right: .3mm solid #ECECEC; padding: 2mm 5mm;">
         <div style="padding: 5mm 0;" class="text-center">
-            <barcode code="<?= $user->RunetId; ?>" type="C128C" size="1" height="1"/>
+            <barcode code="<?= $user->RunetId; ?>" type="C128A" size="1" height="1"/>
             <br>
             <div style="font-size: 3mm;"><?= $user->RunetId; ?></div>
         </div>
@@ -244,7 +244,7 @@ if (is_array($participant)) {
     </div>
     <div style="border-left: .3mm solid #ECECEC; border-right: .3mm solid #ECECEC; padding: 2mm 5mm;">
         <div style="padding: 5mm 0;" class="text-center">
-            <barcode code="<?= $user->RunetId; ?>" type="C128C" size="1" height="1"/>
+            <barcode code="<?= $user->RunetId; ?>" type="C128A" size="1" height="1"/>
             <br>
             <div style="font-size: 3mm;"><?= $user->RunetId; ?></div>
         </div>
