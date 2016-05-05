@@ -12,7 +12,7 @@ class Svyaz16 extends Base
 
     public function getFromName()
     {
-        return 'EXPOCENTRE, ZAO';
+        return 'EXPOCENTRE, AO';
     }
 
     public function showFooter()

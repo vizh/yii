@@ -120,7 +120,7 @@ if (is_array($participant)) {
                     <div style="font-size: 6mm">с участием</div>
                 </td>
                 <td class="text-right">
-                    <img src="/img/event/mgnc16/logo.png" style="width: 20mm;" alt="">
+                    <img src="/img/event/mgnc16/logo2.png" style="width: 20mm;" alt="">
                 </td>
             </tr>
         </table>
@@ -221,7 +221,7 @@ if ($data['Parking'] == 1):?>
                         <div style="font-size: 6mm">с участием</div>
                     </td>
                     <td class="text-right">
-                        <img src="/img/event/mgnc16/logo.png" style="width: 20mm;" alt="">
+                        <img src="/img/event/mgnc16/logo2.png" style="width: 20mm;" alt="">
                     </td>
                 </tr>
             </table>
