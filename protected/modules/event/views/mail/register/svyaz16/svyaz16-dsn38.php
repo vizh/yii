@@ -21,7 +21,7 @@
 			E-mail:&nbsp;<a href="mailto:support@runet-id.com" style="font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif; line-height: 20.8px;">support@runet-id.com</a>.</p>
 
 			<p>С уважением,<br />
-			ЗАО &laquo;ЭКСПОЦЕНТР&raquo;</p>
+			АО &laquo;ЭКСПОЦЕНТР&raquo;</p>
 
 			<div>&nbsp;</div>
 
