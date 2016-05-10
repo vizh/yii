@@ -7,91 +7,86 @@ use application\components\console\BaseConsoleCommand;
  */
 class EventParticipantCommand extends BaseConsoleCommand
 {
+    public function getHelp()
+    {
+        return parent::getHelp()."\n\n"
+        ."Копирует пользователей из одного мероприятия в другое\n\n"
+        ."--event=int|string Id или IdName мероприятия, из которого будут копироваться участники\n"
+        ."--toEvent=int|string Id или IdName мероприятия, в которое будут копироваться участники (обязательный параметр)\n"
+        ."--role=null|int Id роли участников, которые будут скопированы (если не указано, будут скопированы все)\n"
+        ."--newRole=null|int Id роли, которая будет присвоена скопированным участникам (если не указано, будут сохранены текущие роли)\n\n";
+    }
+
     /**
-     * ./protected/yiic eventparticipant copy
-     * Копирует пользователей из одного мероприятия в другое
-     *
-     * @param string   $eventIdName буквенный идентификатор мероприятия,
-     *                              из котрого будут копироваться участники
-     *                              (обязательный параметр)
-     * @param string   $toEventIdName буквенный идентификатор мероприятия,
-     *                                в которое будут копироваться участники
-     *                                (обязательный параметр)
-     * @param null|int $roleId id роли участников, которые будут скопированы
-     *                         (если не указано, будут скопированы все)
-     * @param null|int $newRoleId id роли, которая будет присвоена скопированным участникам
-     *                            (если не указано, будут сохранены текущие роли)
+     * @param int|string $event
+     * @param int|string $toEvent
+     * @param null|int   $role
+     * @param null|int   $newRole
      * @return int
      */
-    public function actionCopy($eventIdName, $toEventIdName, $roleId = null, $newRoleId = null)
+    public function actionCopy($event, $toEvent, $role = null, $newRole = null)
     {
-        if (!$eventRow = $this->getEventRowByIdName($eventIdName)) {
-            $this->printLine(sprintf('Event with IdName="%s" was not found.', $eventIdName));
-
-            return 1;
+        if (!$eventRow = $this->getEventRow($event)) {
+            $this->usageError(sprintf('Event "%s" was not found.', $event));
         }
 
         if ($eventRow['PartsCount']) {
-            $this->printLine(sprintf('Event "%s" has parts. This is not supported yet.', $eventIdName));
-
-            return 1;
+            $this->usageError(sprintf('Event "%s" has parts. This is not supported yet.', $event));
         }
 
-        if (!$toEventRow = $this->getEventRowByIdName($toEventIdName)) {
-            $this->printLine(sprintf('Event with IdName="%s" was not found.', $toEventIdName));
-
-            return 1;
+        if (!$toEventRow = $this->getEventRow($toEvent)) {
+            $this->usageError(sprintf('Event "%s" was not found.', $toEvent));
         }
 
         if ($toEventRow['PartsCount']) {
-            $this->printLine(sprintf('Event "%s" has parts. This is not supported yet.', $toEventIdName));
-
-            return 1;
+            $this->usageError(sprintf('Event "%s" has parts. This is not supported yet.', $toEvent));
         }
 
-        if ($roleId && !$this->checkRole($roleId)) {
-            $this->printLine(sprintf('Role "%s" does not exist!', $roleId));
-
-            return 1;
+        if ($role) {
+            $this->checkRole($role);
         }
 
-        if ($newRoleId && !$this->checkRole($newRoleId)) {
-            $this->printLine(sprintf('Role "%s" does not exist!', $newRoleId));
-
-            return 1;
+        if ($newRole) {
+            $this->checkRole($newRole);
         }
 
         $count = 0;
 
-        $participants = $this->getParticipants($eventRow['Id'], $roleId);
+        $participants = $this->getParticipants($eventRow['Id'], $role);
 
         foreach ($participants as $participant) {
             $count = $count + Yii::app()->db->createCommand()
                     ->insert('EventParticipant', [
                         'UserId' => (int)$participant['UserId'],
                         'EventId' => (int)$toEventRow['Id'],
-                        'RoleId' => (int)($newRoleId ?: $participant['RoleId']),
+                        'RoleId' => (int)($newRole ?: $participant['RoleId']),
                     ]);
         }
 
-        $this->printLine(sprintf('Done. %s rows inserted.', $count));
+        printf("Done. %s row(s) inserted.\n", $count);
 
         return 0;
     }
 
     /**
-     * @param $idName
+     * @param string|int $id
      * @return mixed
      */
-    protected function getEventRowByIdName($idName)
+    protected function getEventRow($id)
     {
-        return Yii::app()->db->createCommand()
+        $command = Yii::app()->db->createCommand()
             ->select(['e.Id', 'COUNT(ep."Id") "PartsCount"'])
             ->from('Event e')
             ->leftJoin('EventPart ep', 'ep."EventId" = e."Id"')
-            ->group('e.Id')
-            ->where('e."IdName" = :idName', ['idName' => $idName])
-            ->queryRow();
+            ->group('e.Id');
+
+        if (is_numeric($id)) {
+            $command->where('e."Id" = :id', ['id' => $id]);
+        } else {
+            $command->where('e."IdName" = :idName', ['idName' => $id]);
+        }
+
+        return $command->queryRow();
     }
 
     /**
@@ -119,19 +114,14 @@ class EventParticipantCommand extends BaseConsoleCommand
      */
     protected function checkRole($id)
     {
-        return (bool)Yii::app()->db->createCommand()
+        $role = Yii::app()->db->createCommand()
             ->select(['Id'])
             ->from('EventRole')
             ->where('"Id" = :id', ['id' => $id])
             ->queryRow();
-    }
 
-    /**
-     * @param mixed $line
-     */
-    protected function printLine($line)
-    {
-        print_r($line);
-        echo PHP_EOL;
+        if (!$role) {
+            $this->usageError(sprintf('Role "%s" does not exist!', $id));
+        }
     }
 }
