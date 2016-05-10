@@ -7,6 +7,9 @@ use application\components\console\BaseConsoleCommand;
  */
 class EventParticipantCommand extends BaseConsoleCommand
 {
+    /**
+     * @inheritdoc
+     */
     public function getHelp()
     {
         return parent::getHelp()."\n\n"
