@@ -86,6 +86,22 @@ class Participant extends ActiveRecord
     }
 
     /**
+     * @param string  $idName
+     * @param bool    $useAnd
+     * @return Participant
+     */
+    public function byEventIdName($idName, $useAnd = true)
+    {
+        $this->getDbCriteria()->mergeWith([
+            'with' => 'Event',
+            'condition' => '"Event"."IdName" = :idName',
+            'params' => [':idName' => $idName]
+        ], $useAnd);
+
+        return $this;
+    }
+
+    /**
      * Adds condition
      * @param string $email Email for the search
      * @param bool $useAnd
