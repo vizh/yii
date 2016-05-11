@@ -53,7 +53,8 @@ class TicketController extends application\components\controllers\PublicMainCont
     {
         // Close access for virtual participants of the rif16
         $participant = Participant::model()->byUserId($user->Id)->byEventId($event->Id)->find();
-        if ($participant->RoleId == Role::VIRTUAL_ROLE_ID) {
+        #TODO: костыль для тикетов с mcf16
+        if ($participant->RoleId == Role::VIRTUAL_ROLE_ID && $event->IdName !== 'mcf16') {
             throw new \CHttpException(404, 'Virtual participants of rif16 can\'t get the ticket');
         }
     }

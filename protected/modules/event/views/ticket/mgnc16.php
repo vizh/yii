@@ -3,7 +3,6 @@
 use user\models\User;
 use event\models\Event;
 use event\models\Participant;
-use ruvents\components\QrCode;
 
 /**
  * @var User                      $user
@@ -113,11 +112,11 @@ if (is_array($participant)) {
     <div style="border-left: .3mm solid #ECECEC; border-right: .3mm solid #ECECEC; padding: 3mm 5mm;">
         <div class="text-uppercase" style="color: #ddd; font-size: 8mm; font-family: 'PT Sans', sans-serif; visibility: hidden;">Дубликат
         </div>
-        <table style="width: 100%;">
+        <table style="width: 100%; margin-bottom: 5mm;">
             <tr>
                 <td>
                     <div class="text-uppercase" style="font-size: 6mm">Конференция</div>
-                    <div style="font-size: 6mm">с участием</div>
+                    <div style="font-size: 6mm;">с участием</div>
                 </td>
                 <td class="text-right">
                     <img src="/img/event/mgnc16/logo2.png" style="width: 20mm;" alt="">
@@ -125,10 +124,6 @@ if (is_array($participant)) {
             </tr>
         </table>
         <img src="/img/event/mgnc16/title.png" style="width: 100%" alt="">
-        <br><br>
-        <div>
-            <em style="font-size: 5mm"><strong>5 сентября</strong> в 11:00</em>
-        </div>
     </div>
     <div style="background: #E7E7E7; padding: 2mm 5mm;">
         г. Москва <br> ул. Иркутская 11 корп. 1
@@ -138,7 +133,7 @@ if (is_array($participant)) {
             <?= $user->LastName; ?><br>
             <?= $user->FirstName; ?>
         </div>
-        <div class="text-uppercase" style="margin-top: 15mm;">
+        <div class="text-uppercase" style="margin-top: 30mm;">
             <?= $participant->Role->Title ?>
         </div>
     </div>
@@ -214,11 +209,11 @@ if ($data['Parking'] == 1):?>
         <div style="border-left: .3mm solid #ECECEC; border-right: .3mm solid #ECECEC; padding: 3mm 5mm;">
             <div class="text-uppercase" style="color: #ddd; font-size: 8mm; font-family: 'PT Sans', sans-serif; visibility: hidden;">Дубликат
             </div>
-            <table style="width: 100%;">
+            <table style="width: 100%; margin-bottom: 5mm;">
                 <tr>
                     <td>
                         <div class="text-uppercase" style="font-size: 6mm">Конференция</div>
-                        <div style="font-size: 6mm">с участием</div>
+                        <div style="font-size: 6mm;">с участием</div>
                     </td>
                     <td class="text-right">
                         <img src="/img/event/mgnc16/logo2.png" style="width: 20mm;" alt="">
@@ -226,10 +221,6 @@ if ($data['Parking'] == 1):?>
                 </tr>
             </table>
             <img src="/img/event/mgnc16/title.png" style="width: 100%" alt="">
-            <br><br>
-            <div>
-                <em style="font-size: 5mm"><strong>5 сентября</strong> в 11:00</em>
-            </div>
         </div>
         <div style="background: #E7E7E7; padding: 2mm 5mm;">
             г. Москва <br> ул. Иркутская 11 корп. 1
@@ -239,7 +230,7 @@ if ($data['Parking'] == 1):?>
                 <?= $user->LastName; ?><br>
                 <?= $user->FirstName; ?>
             </div>
-            <div class="text-uppercase" style="margin-top: 15mm;">
+            <div class="text-uppercase" style="margin-top: 30mm;">
                 <?= $participant->Role->Title ?>
             </div>
         </div>

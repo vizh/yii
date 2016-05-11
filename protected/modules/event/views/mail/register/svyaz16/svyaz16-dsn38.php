@@ -41,7 +41,7 @@
 			E-mail: <a href="mailto:support@runet-id.com" style="font-family: 'Helvetica Neue', Helvetica, Helvetica, Arial, sans-serif; line-height: 20.8px;">support@runet-id.com</a>.</p>
 
 			<p>Best regards,<br />
-			Expocentre</p>
+			Expocentre AO</p>
 
 			<div><font face="sans-serif, Arial, Verdana, Trebuchet MS"><font face="sans-serif, Arial, Verdana, Trebuchet MS">​</font></font></div>
 			</div>

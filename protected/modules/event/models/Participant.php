@@ -4,6 +4,7 @@ namespace event\models;
 use application\components\ActiveRecord;
 use event\components\tickets\Ticket;
 use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\TrueMandrillMailer;
 use partner\models\Account;
 use user\models\User;
 
@@ -81,6 +82,22 @@ class Participant extends ActiveRecord
         $criteria->condition = '"t"."EventId" = :EventId';
         $criteria->params = [':EventId' => $eventId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
+        return $this;
+    }
+
+    /**
+     * @param string  $idName
+     * @param bool    $useAnd
+     * @return Participant
+     */
+    public function byEventIdName($idName, $useAnd = true)
+    {
+        $this->getDbCriteria()->mergeWith([
+            'with' => 'Event',
+            'condition' => '"Event"."IdName" = :idName',
+            'params' => [':idName' => $idName]
+        ], $useAnd);
 
         return $this;
     }
@@ -204,7 +221,7 @@ class Participant extends ActiveRecord
             throw new \CException('Привет');
         }
 
-        $mailer = new MandrillMailer();
+        $mailer = new TrueMandrillMailer();
         $e = new \CEvent($this->Event, [
             'user' => $this->User,
             'role' => $this->Role,
