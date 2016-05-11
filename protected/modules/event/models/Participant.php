@@ -4,6 +4,7 @@ namespace event\models;
 use application\components\ActiveRecord;
 use event\components\tickets\Ticket;
 use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\TrueMandrillMailer;
 use partner\models\Account;
 use user\models\User;
 
@@ -220,7 +221,7 @@ class Participant extends ActiveRecord
             throw new \CException('Привет');
         }
 
-        $mailer = new MandrillMailer();
+        $mailer = new TrueMandrillMailer();
         $e = new \CEvent($this->Event, [
             'user' => $this->User,
             'role' => $this->Role,
