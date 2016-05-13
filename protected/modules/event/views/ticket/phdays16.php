@@ -138,7 +138,7 @@ use event\models\Participant;
                 <td valign="bottom" style="font-size: 3mm;">
                     <? if (is_array($participant)): ?>
                         <? foreach ($participant as $item): ?>
-                            <strong><?= $item->Part->Title ?>:</strong> <?= $item->Role->Title; ?><br>
+                            <strong><?= $item->Part->Title ?>:</strong> <?= $item->Role->Title == 'Участник' ? 'Participant' : $item->Role->Title ?><br>
                         <? endforeach; ?>
                     <? else: ?>
                         <?= $participant->Role->Title; ?>
