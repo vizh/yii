@@ -8,7 +8,8 @@ class Banner940 extends Widget
 {
     private $banners = [
         //['/images/banners/940x250_topevents15.jpg', 'http://events.runet-id.com/', 'RUNET—ID рукомендует. Главные мероприятия 2015 года'],
-        ['/images/banners/940x250_croud-iri.jpg', 'http://experts.iri.center/', 'КРАУДСОРСИНГОВАЯ ПЛАТФОРМА ИРИ']
+//        ['/images/banners/940x250_croud-iri.jpg', 'http://experts.iri.center/', 'КРАУДСОРСИНГОВАЯ ПЛАТФОРМА ИРИ']
+        ['/images/banners/940x250_runeteconomics15-16.png', 'http://экономикарунета.рф', 'Исследование «Экономика Рунета 2015-2016»']
     ];
 
     public function run()
