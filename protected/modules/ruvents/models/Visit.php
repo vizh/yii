@@ -21,10 +21,10 @@ use user\models\User;
  * @property Event $Event
  * @property UserData $UserData
  *
- * @method Visit[] findAll()
+ * @method Visit[] findAll($condition = '', $params = [])
  * @method Visit byEventId(int $id)
  */
-class Visit extends ActiveRecord
+class Visit extends ActiveRecord implements \JsonSerializable
 {
     public $CountForCriteria = 0;
 
@@ -56,5 +56,17 @@ class Visit extends ActiveRecord
             'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId'],
             'UserData' => [self::HAS_ONE, 'event\models\UserData', ['EventId' => 'EventId', 'UserId' => 'UserId']]
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    function jsonSerialize()
+    {
+        return $this->getAttributes([
+            'UserId',
+            'MarkId',
+            'CreationTime'
+        ]);
     }
 }
