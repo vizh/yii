@@ -36,8 +36,7 @@ class OneuseController extends AdminMainController
             }
         );
 
-
-        var_dump($map);
+        echo json_encode($map);
     }
 
 

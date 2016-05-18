@@ -5,6 +5,7 @@ use application\components\helpers\ArrayHelper;
 use application\models\attribute\Definition;
 use event\models\UserData;
 use ruvents\models\Setting;
+use ruvents\models\Visit;
 use user\models\User;
 
 class DataBuilder
@@ -445,5 +446,20 @@ class DataBuilder
         $this->sectionHall->Title = $hall->Title;
 
         return $this->sectionHall;
+    }
+
+    protected $visit;
+
+    /**
+     * @param Visit $visit
+     * @return \stdClass
+     */
+    public function createVisit(Visit $visit)
+    {
+        $this->visit = new \stdClass();
+        $this->visit->MarkId = $visit->MarkId;
+        $this->visit->User = $this->createUser($visit->User);
+        $this->visit->CreationTime = $visit->CreationTime;
+        return $this->visit;
     }
 }

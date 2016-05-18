@@ -27,7 +27,7 @@ class ListAction extends Action
         }
 
         $criteria = new \CDbCriteria([
-            'order' => '"CreationTime" ASC',
+            'order' => '"t"."CreationTime" ASC',
             'limit' => \Yii::app()->params['RuventsMaxResults'],
             'offset' => $offset
         ]);
@@ -37,16 +37,15 @@ class ListAction extends Action
             $criteria->params[':createdOn'] = $createdOn;
         }
 
-        $result = [
-            'Visits' => Visit::model()
-                ->byEventId($this->getEvent()->Id)
-                ->findAll($criteria)
-        ];
+        $result = ['Visits' => []];
 
+        $visits = Visit::model()->with('User')->byEventId($this->getEvent()->Id)->findAll($criteria);
+        foreach ($visits as $visit) {
+            $result['Visits'][] = $this->getDataBuilder()->createVisit($visit);
+        }
         if (count($result['Visits']) == \Yii::app()->params['RuventsMaxResults']) {
             $result['NextPageToken'] = $this->getController()->getPageToken($offset + \Yii::app()->params['RuventsMaxResults']);
         }
-
         $this->renderJson($result);
     }
 }
