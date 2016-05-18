@@ -33,7 +33,7 @@ class ListAction extends Action
         ]);
 
         if ($createdOn) {
-            $criteria->addCondition('"CreationTime" >= :createdOn');
+            $criteria->addCondition('"t".""CreationTime" >= :createdOn');
             $criteria->params[':createdOn'] = $createdOn;
         }
 
