@@ -47,4 +47,44 @@ class Action extends \CAction
     {
         $this->getController()->renderJson($data);
     }
+
+    /**
+     * Validates the date, returns true if the date is valid and vice versa
+     * @param string $date The string with date for validation
+     * @param string|string[]|null $format Format for validation. It can be a string or an array of strings
+     * @return bool Whether the date is valid
+     */
+    protected function validateDate($date, $format = null)
+    {
+        if (is_null($date)) {
+            return true;
+        }
+
+        if (is_null($format)) {
+            $formats = [
+                'yyyy-MM-dd HH:mm:ss',
+                'yyyy-MM-dd'
+            ];
+        } else {
+            $formats = is_string($format) ? [$format] : $format;
+        }
+
+        $valid = false;
+        foreach ($formats as $format) {
+            $timestamp = \CDateTimeParser::parse($date, $format, [
+                'month' => 1,
+                'day' => 1,
+                'hour' => 0,
+                'minute' => 0,
+                'second' => 0
+            ]);
+
+            if ($timestamp !== false) {
+                $valid = true;
+                break;
+            }
+        }
+
+        return $valid;
+    }
 }
