@@ -33,13 +33,13 @@ class ListAction extends Action
         ]);
 
         if ($createdOn) {
-            $criteria->addCondition('"t".""CreationTime" >= :createdOn');
+            $criteria->addCondition('"t"."CreationTime" >= :createdOn');
             $criteria->params[':createdOn'] = $createdOn;
         }
 
         $result = ['Visits' => []];
 
-        $visits = Visit::model()->with('User')->byEventId($this->getEvent()->Id)->findAll($criteria);
+        $visits = Visit::model()->with(['User'])->byEventId($this->getEvent()->Id)->findAll($criteria);
         foreach ($visits as $visit) {
             $result['Visits'][] = $this->getDataBuilder()->createVisit($visit);
         }

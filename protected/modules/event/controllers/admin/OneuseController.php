@@ -4,39 +4,40 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
-    public function actionDevcon16Products()
+    public function actionDevcon16Exam()
     {
-        $participants = \event\models\Participant::model()->byEventId(2319)
-            ->byRoleId(1)
-            ->findAll();
+        $products = [5741,5743,5745, 5742,5744,5746];
+        foreach ($products as $id) {
+            echo '<table border="1">';
+            echo '
+                <tr>
+                    <td><strong>DATE</strong></td>
+                    <td><strong>TIMESLOT</strong></td>
+                    <td><strong>n.</strong></td>
+                    <td><strong>NAME</strong></td>
+                    <td><strong>MSID</strong></td>
+                    <td><strong>EXAM CODE</strong></td>
+                    <td><strong>VAUCHER CODE</strong></td>
+                </tr>';
+            $orderItems = \pay\models\OrderItem::model()->byProductId($id)->byPaid(true)->findAll();
+            foreach ($orderItems as $orderItem) {
+                $definitions = \event\models\UserData::getDefinedAttributeValues($orderItem->Product->Event, $orderItem->getCurrentOwner());
+                echo "
+                    <tr>
+                        <td>{$definitions['CertificationDate']}</td>
+                        <td>{$definitions['CertificationTime']}</td>
+                        <td></td>
+                        <td>{$orderItem->getCurrentOwner()->getFullName()}</td>
+                        <td>{$definitions['MSID']}</td>
+                        <td>{$definitions['CertificationExamId']}<td>
 
-        $map = \application\components\helpers\ArrayHelper::map(
-            $participants,
-            function (\event\models\Participant $participant) {
-                $account = \api\models\ExternalUser::model()
-                    ->byUserId($participant->UserId)
-                    ->byAccountId(335)
-                    ->find();
-
-                return $account->ExternalId;
-            },
-            function (\event\models\Participant $participant) {
-                $devcon = [4015,4016,4017,4018];
-
-                $criteria = new \CDbCriteria();
-                $criteria->addInCondition('"t"."ProductId"', array_merge($devcon, [4013,4019]));
-
-                $orderItem = \pay\models\OrderItem::model()
-                    ->byAnyOwnerId($participant->UserId)
-                    ->byEventId($participant->EventId)
-                    ->byPaid(true)
-                    ->find($criteria);
-
-                return in_array($orderItem->ProductId, $devcon) ? 'DevCon' : $orderItem->Product->Title;
+                    </tr>
+                ";
             }
-        );
+            echo '<tr><td colspan="6"></td></tr>';
+            echo '</table>';
+        }
 
-        echo json_encode($map);
     }
 
 
