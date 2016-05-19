@@ -87,8 +87,8 @@ abstract class Base
     {
         $order = $collection->getOrder();
 
-        $skip = !$order->PaidTime && $this->coupon->CreationTime <= $order->CreationTime ||
-            $this->coupon->CreationTime <= $order->PaidTime;
+        $skip = !$order->PaidTime && $this->coupon->CreationTime > $order->CreationTime ||
+            $this->coupon->CreationTime > $order->PaidTime;
 
         if (!$skip) {
             return;
