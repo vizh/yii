@@ -26,10 +26,14 @@ foreach ($widgets->All as $widget) {
     </div>
     <div class="well">
         <div class="row-fluid">
-            <?php if (Yii::app()->user->hasFlash('success')): ?>
-                <div class="alert alert-success"><?= Yii::app()->user->getFlash('success'); ?></div>
-            <?php endif ?>
-            <?= CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>') ?>
+            <div class="span12">
+                <?= CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>') ?>
+                <?php if (Yii::app()->user->hasFlash('success')): ?>
+                    <div class="alert alert-success"><?= Yii::app()->user->getFlash('success'); ?></div>
+                <?php endif ?>
+            </div>
+        </div>
+        <div class="row-fluid">
             <div class="span7">
                 <div class="control-group">
                     <?= CHtml::activeLabel($form, 'Title', ['class' => 'control-label']); ?>
