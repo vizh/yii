@@ -59,18 +59,3 @@ $this->pageTitle = $test->Title;
         <?= CHtml::endForm() ?>
     </div>
 </div>
-
-<?php if ($test->Id == 48 /* svyaz16 */): ?>
-    <div class="alert alert-info">
-        В случае возникновения вопросов при регистрации, пожалуйста, свяжитесь со службой технической поддержки:
-        Тел.: +7 (495) 950-56-51 (с 9:00 до 18:00 по Московскому времени). E-mail: <?=CHtml::mailto('support@runet-id.com')?>
-    </div>
-<?php endif ?>
-
-<?php if ($test->Id == 49 /* svyaz16_en */): ?>
-    <div class="alert alert-info">
-        In case you have any questions about online registration please contact technical support
-        Tel.: +7 (495) 950-56-51 (from 9.00 am to 6.00 pm Moscow time).
-        E-mail: <?=CHtml::mailto('support@runet-id.com')?>
-    </div>
-<?php endif ?>

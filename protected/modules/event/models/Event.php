@@ -1,4 +1,5 @@
 <?php
+
 namespace event\models;
 
 use api\components\callback\Base;
@@ -80,12 +81,13 @@ use pay\models\Account as PayAccount;
  * @property string $PromoBlockStyles
  * @property string $MailRegisterAdditionalText
  * @property bool $Free
+ * @property bool $Top
  *
  *
  * Вспомогательные описания методов методы
- * @method \event\models\Event find($condition='',$params=array())
- * @method \event\models\Event findByPk($pk,$condition='',$params=array())
- * @method \event\models\Event[] findAll($condition='',$params=array())
+ * @method Event find($condition = '', $params = [])
+ * @method Event findByPk($pk, $condition = '', $params = [])
+ * @method Event[] findAll($condition = '', $params = [])
  * @method Event byApproved(int $approved)
  * @method Event byExternal(boolean $external)
  */
@@ -404,94 +406,10 @@ class Event extends ActiveRecord implements ISearch
         ]);
 
         if (!$data) {
-            $data = UserData::createEmpty($this, $user);
-        }
-
-        if ($this->Id == 2318 /* svyaz16 (2318) */) {
-            $this->assignCustomNumber($data);
-        }
-
-        //TODO: Костыль для Новой экономики, убрать после мероприятия
-        if ($this->Id == 2300) {
-            $this->newecon15Spike($participant, $user);
+            UserData::createEmpty($this, $user);
         }
 
         return $participant;
-    }
-
-    /**
-     * Assigns custom number for the participant
-     * @param UserData $data
-     */
-    private function assignCustomNumber(UserData $data)
-    {
-        if ($data->getManager()->Custom_Number) {
-            return;
-        }
-
-        $startCustomNumber = 311051600500;
-
-        $prevData = UserData::model()->find([
-            'condition' => '"EventId" = :eventId AND SUBSTRING("Attributes"::text FROM \'"Custom_Number":"\d+"\') IS NOT NULL',
-            'params' => [
-                ':eventId' => $this->Id
-            ],
-            'order' => 'SUBSTRING("Attributes"::text FROM \'"Custom_Number":"\d+"\') DESC'
-        ]);
-
-        if (!$prevData) {
-            $customNumber = $startCustomNumber;
-        } else {
-            $customNumber = ++$prevData->getManager()->Custom_Number;
-        }
-
-        $data->getManager()->Custom_Number = (string) $customNumber;
-        $data->save();
-    }
-
-    /**
-     * Костыль для Новой экономики, убрать после мероприятия
-     * @param Participant $participant
-     * @param User $user
-     */
-    public function newecon15Spike(Participant $participant, User $user)
-    {
-        $values = \event\models\UserData::getDefinedAttributeValues($this, $user);
-        if (empty($values)) {
-            $values = [];
-        }
-
-        if (isset($user->Documents[0]) && empty($values['Passport'])) {
-            $document = $user->Documents[0];
-            $attributes = json_decode($document->Attributes);
-            $values['Passport'] = (isset($attributes->Series) ? $attributes->Series : '') . ' ' . $attributes->Number . (isset($attributes->PlaceIssue) ? ', выдан ' . $attributes->PlaceIssue : '') . ', ' . $attributes->Authority;
-            if (isset($attributes->RegisteredAddress)) {
-                $values['RegistrationPlace'] = $attributes->RegisteredAddress;
-            }
-            $values['BirthPlace'] = $attributes->Birthday . ' / ' . $attributes->PlaceBirth;
-        }
-        switch ($participant->RoleId) {
-            case 3:
-                $values['Sector'] = 'А,Е';
-                break;
-            case 179:
-            case 178:
-                $values['Sector'] = 'Б,В,Г';
-                break;
-        }
-
-        if (empty($values)) {
-            return;
-        }
-
-        $data = \event\models\UserData::model()->byEventId($this->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"' => SORT_DESC])->find();
-        if (empty($data)) {
-            $data = new \event\models\UserData();
-            $data->UserId = $user->Id;
-            $data->EventId = $this->Id;
-        }
-        $data->getManager()->setAttributes($values);
-        $data->save();
     }
 
     /**

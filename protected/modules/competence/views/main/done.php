@@ -14,20 +14,8 @@ $this->setPageTitle($test->Title);
             <?=$test->AfterEndText?>
         <?php else: ?>
             <p class="lead" style="padding: 20px;">
-                <?php if ($test->EventId == 2318 /* svyaz16 */): ?>
-                    <?= Yii::t('app', 'Спасибо! Ваша анкета отправлена. Для регистрации нового участника перейдите к шагу 1') ?>!
-                <?php else: ?>
-                    <?= Yii::t('app', 'БОЛЬШОЕ СПАСИБО ЗА УЧАСТИЕ В НАШЕМ ИССЛЕДОВАНИИ') ?>!
-                <?php endif ?>
+                <?= Yii::t('app', 'БОЛЬШОЕ СПАСИБО ЗА УЧАСТИЕ В НАШЕМ ИССЛЕДОВАНИИ') ?>!
             </p>
         <?php endif ?>
     </div>
 </div>
-
-<?php if ($test->EventId == 2318 /* svyaz16 */): ?>
-    <script>
-        var el = parent.document.getElementById('runetId').children[0];
-        el.style.height = '300px';
-        el.style.overflow = 'hidden';
-    </script>
-<?php endif ?>
