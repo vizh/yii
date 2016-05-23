@@ -413,6 +413,36 @@ class Event extends ActiveRecord implements ISearch
     }
 
     /**
+     * Assigns custom number for the participant
+     * @param UserData $data
+     */
+    private function assignCustomNumber(UserData $data)
+    {
+        if ($data->getManager()->Custom_Number) {
+            return;
+        }
+
+        $startCustomNumber = 311051600500;
+
+        $prevData = UserData::model()->find([
+            'condition' => '"EventId" = :eventId AND SUBSTRING("Attributes"::text FROM \'"Custom_Number":"\d+"\') IS NOT NULL',
+            'params' => [
+                ':eventId' => $this->Id
+            ],
+            'order' => 'SUBSTRING("Attributes"::text FROM \'"Custom_Number":"\d+"\') DESC'
+        ]);
+
+        if (!$prevData) {
+            $customNumber = $startCustomNumber;
+        } else {
+            $customNumber = ++$prevData->getManager()->Custom_Number;
+        }
+
+        $data->getManager()->Custom_Number = (string) $customNumber;
+        $data->save();
+    }
+
+    /**
      * @param Part $part
      * @param User $user
      * @param Role $role
