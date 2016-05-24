@@ -6,7 +6,7 @@ use user\models\Document;
 use application\components\controllers\PublicMainController;
 use application\components\controllers\AjaxController as TraitAjaxController;
 use user\components\handlers\Verify;
-use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\TrueMandrillMailer;
 use application\components\helpers\ArrayHelper;
 
 class AjaxController extends PublicMainController
@@ -27,7 +27,7 @@ class AjaxController extends PublicMainController
     {
         $user = \Yii::app()->getUser()->getCurrentUser();
         if ($user !== null && !$user->Verified) {
-            $mail = new Verify(new MandrillMailer(), new \CModelEvent($user));
+            $mail = new Verify(new TrueMandrillMailer(), new \CModelEvent($user));
             $mail->send();
         }
     }

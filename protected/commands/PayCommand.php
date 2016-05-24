@@ -1,7 +1,7 @@
 <?php
 
 use application\components\console\BaseConsoleCommand;
-use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\TrueMandrillMailer;
 use pay\models\Order;
 use pay\models\OrderItem;
 use pay\models\OrderLinkOrderItem;
@@ -18,7 +18,7 @@ class PayCommand extends BaseConsoleCommand
         $criteria->params['MaxTime'] = $date . ' 23:59:59';
 
         $orders = Order::model()->byBankTransfer(true)->byDeleted(false)->byPaid(false)->findAll($criteria);
-        $mailer = new MandrillMailer();
+        $mailer = new TrueMandrillMailer();
         foreach ($orders as $order) {
             $language = $order->Payer->Language != null ? $order->Payer->Language : 'ru';
             Yii::app()->setLanguage($language);
