@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var MainController $this
  * @var competence\models\Test $test
@@ -12,7 +13,7 @@ $this->pageTitle = 'Список вопросов теста';
     <h2><?= CHtml::encode($test->Title) ?></h2>
 
     <div class="btn-toolbar clearfix">
-        <a class="btn" href=""><i class="icon-arrow-left"></i> Список тестов</a>
+        <a class="btn" href="<?=Yii::app()->createUrl('/competence/admin/main/index');?>"><i class="icon-arrow-left"></i> Список тестов</a>
     </div>
 
     <div class="well">
