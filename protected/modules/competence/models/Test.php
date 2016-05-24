@@ -10,28 +10,28 @@ use user\models\User;
 /**
  * Class Test
  *
- * @property int $Id
- * @property string $Code
- * @property string $Title
- * @property bool $Enable
- * @property bool $Test
- * @property string $Info
- * @property string $StartButtonText
- * @property bool $Multiple
- * @property string $EndTime
- * @property string $AfterEndText
- * @property bool $FastAuth
- * @property string $FastAuthSecret
- * @property int $EventId The event identifier that test is related to
- * @property int $RoleIdAfterPass The role identifier that a user will get after passing the test
- * @property string $StartTime
- * @property string $BeforeText
- * @property string $AfterText
- * @property bool $ParticipantsOnly
- * @property bool $UseClearLayout
- * @property bool $RenderEventHeader
+ * @property int      $Id
+ * @property string   $Code
+ * @property string   $Title
+ * @property bool     $Enable
+ * @property bool     $Test
+ * @property string   $Info
+ * @property string   $StartButtonText
+ * @property bool     $Multiple
+ * @property string   $EndTime
+ * @property string   $AfterEndText
+ * @property bool     $FastAuth
+ * @property string   $FastAuthSecret
+ * @property int      $EventId         The event identifier that test is related to
+ * @property int      $RoleIdAfterPass The role identifier that a user will get after passing the test
+ * @property string   $StartTime
+ * @property string   $BeforeText
+ * @property string   $AfterText
+ * @property bool     $ParticipantsOnly
+ * @property bool     $UseClearLayout
+ * @property bool     $RenderEventHeader
  *
- * @property Event $Event
+ * @property Event    $Event
  * @property Result[] $ResultsAll
  *
  * @method Test find($condition = '', $params = array())
@@ -44,6 +44,8 @@ class Test extends ActiveRecord
 {
     // Path for header images
     const HEADER_IMAGES_PATH = '/img/competence/header/';
+    
+    const DIR_PATH = 'competence.models.test';
 
     /**
      * @var User
@@ -97,7 +99,7 @@ class Test extends ActiveRecord
     {
         return [
             'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId'],
-            'ResultsAll' => [self::HAS_MANY, '\competence\models\Result', 'TestId']
+            'ResultsAll' => [self::HAS_MANY, '\competence\models\Result', 'TestId'],
         ];
     }
 
@@ -108,7 +110,7 @@ class Test extends ActiveRecord
     public function hasHeaderImage()
     {
         return file_exists(
-            \Yii::getPathOfAlias('webroot') . self::HEADER_IMAGES_PATH . $this->Id . '.png'
+            \Yii::getPathOfAlias('webroot').self::HEADER_IMAGES_PATH.$this->Id.'.png'
         );
     }
 
@@ -118,7 +120,7 @@ class Test extends ActiveRecord
      */
     public function getHeaderImage()
     {
-        return self::HEADER_IMAGES_PATH . $this->Id . '.png';
+        return self::HEADER_IMAGES_PATH.$this->Id.'.png';
     }
 
     /**
@@ -145,8 +147,10 @@ class Test extends ActiveRecord
 
                 if (!isset($request->cookies[$this->getUserKeyCookieName()]) || $request->cookies[$this->getUserKeyCookieName()]->value != $userKey) {
                     $expire = time() + 60 * 60 * 24 * 30;
-                    \Yii::app()->request->cookies[$this->getUserKeyCookieName()] = new \CHttpCookie($this->getUserKeyCookieName(), $userKey, ['expire' => $expire]);
-                    \Yii::app()->request->cookies[$this->getUserHashCookieName()] = new \CHttpCookie($this->getUserHashCookieName(), $userHash, ['expire' => $expire]);
+                    \Yii::app()->request->cookies[$this->getUserKeyCookieName()] = new \CHttpCookie($this->getUserKeyCookieName(),
+                        $userKey, ['expire' => $expire]);
+                    \Yii::app()->request->cookies[$this->getUserHashCookieName()] = new \CHttpCookie($this->getUserHashCookieName(),
+                        $userHash, ['expire' => $expire]);
                 }
             }
         }
@@ -156,7 +160,7 @@ class Test extends ActiveRecord
 
     public function getKeyHash($key)
     {
-        return md5($key . $this->FastAuthSecret);
+        return md5($key.$this->FastAuthSecret);
     }
 
     /**
@@ -207,9 +211,9 @@ class Test extends ActiveRecord
 
     public function getEndView()
     {
-        $path = 'competence.views.tests.' . $this->Code;
-        if (file_exists(\Yii::getPathOfAlias($path) . DIRECTORY_SEPARATOR . 'done.php')) {
-            return $path . '.done';
+        $path = 'competence.views.tests.'.$this->Code;
+        if (file_exists(\Yii::getPathOfAlias($path).DIRECTORY_SEPARATOR.'done.php')) {
+            return $path.'.done';
         }
 
         return 'done';
@@ -230,7 +234,7 @@ class Test extends ActiveRecord
 
     /**
      *
-     * @param int $eventId
+     * @param int  $eventId
      * @param bool $useAnd
      * @return self
      */
@@ -246,7 +250,7 @@ class Test extends ActiveRecord
 
     /**
      * @param string $code
-     * @param bool $useAnd
+     * @param bool   $useAnd
      * @return self
      */
     public function byCode($code, $useAnd = true)
@@ -268,7 +272,7 @@ class Test extends ActiveRecord
     public function byEnable($enable = true, $useAnd = true)
     {
         $criteria = new \CDbCriteria();
-        $criteria->condition = (!$enable ? 'NOT' : '') . ' "t"."Enable"';
+        $criteria->condition = (!$enable ? 'NOT' : '').' "t"."Enable"';
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
         return $this;
@@ -296,12 +300,12 @@ class Test extends ActiveRecord
 
     private function getUserKeyCookieName()
     {
-        return 'CompetenceUserKey' . $this->Id;
+        return 'CompetenceUserKey'.$this->Id;
     }
 
     private function getUserHashCookieName()
     {
-        return 'CompetenceUserHash' . $this->Id;
+        return 'CompetenceUserHash'.$this->Id;
     }
 
     private function getUserKeyValue()
@@ -309,7 +313,8 @@ class Test extends ActiveRecord
         $request = \Yii::app()->getRequest();
         $userKey = $request->getParam('userKey');
         if (empty($userKey)) {
-            $userKey = isset($request->cookies[$this->getUserKeyCookieName()]) ? $request->cookies[$this->getUserKeyCookieName()]->value : substr(md5(microtime()), 0, 10);
+            $userKey = isset($request->cookies[$this->getUserKeyCookieName()])
+                ? $request->cookies[$this->getUserKeyCookieName()]->value : substr(md5(microtime()), 0, 10);
         }
 
         return $userKey;
@@ -320,7 +325,8 @@ class Test extends ActiveRecord
         $request = \Yii::app()->getRequest();
         $userHash = $request->getParam('userHash');
         if (empty($userHash)) {
-            $userHash = isset($request->cookies[$this->getUserHashCookieName()]) ? $request->cookies[$this->getUserHashCookieName()]->value : null;
+            $userHash = isset($request->cookies[$this->getUserHashCookieName()])
+                ? $request->cookies[$this->getUserHashCookieName()]->value : null;
         }
 
         return $userHash;
@@ -329,5 +335,48 @@ class Test extends ActiveRecord
     private function checkUserKeyHash($key, $hash = null)
     {
         return $this->FastAuthSecret ? $hash == $this->getKeyHash($key) : true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            ['Enable, Test, Multiple, FastAuth, ParticipantsOnly, UseClearLayout, RenderEventHeader', 'boolean'],
+            ['EventId, RoleIdAfterPass', 'numerical', 'integerOnly' => true, 'min' => 0],
+            ['Code', 'match', 'pattern' => '/^\w+$/'],
+            ['Info, StartButtonText, BeforeText, AfterText, AfterEndText, FastAuthSecret', 'safe'],
+            ['Code, Title', 'required'],
+            ['StartTime, EndTime, EventId, RoleIdAfterPass', 'default', 'setOnEmpty' => true, 'value' => null],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'Enable' => 'Включен',
+            'Test' => 'Тестовый режим',
+            'Code' => 'Системное имя',
+            'Title' => 'Название',
+            'Info' => 'Описание',
+            'StartButtonText' => 'Текст кнопки начала теста',
+            'Multiple' => 'Multiple',
+            'AfterEndText' => 'Текст после прохождения опроса',
+            'FastAuth' => 'Включить быструю авторизацию',
+            'FastAuthSecret' => 'Secret для быстрой авторизации',
+            'EventId' => 'Мероприятие',
+            'RoleIdAfterPass' => 'ID роли, присваиваемой после прохождения теста',
+            'StartTime' => 'Начало тестирования',
+            'EndTime' => 'Окончание тестирования',
+            'BeforeText' => 'BeforeText',
+            'AfterText' => 'AfterText',
+            'ParticipantsOnly' => 'Только для участников мероприятия',
+            'UseClearLayout' => 'Выводить без шаблона',
+            'RenderEventHeader' => 'Отображать заголовок мероприятия',
+        ];
     }
 }
