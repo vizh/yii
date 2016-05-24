@@ -1,10 +1,12 @@
 <?php
 namespace ruvents\components;
 
+use api\components\ms\DevconEventRoleConverter;
 use application\components\helpers\ArrayHelper;
 use application\models\attribute\Definition;
 use event\models\UserData;
 use ruvents\models\Setting;
+use ruvents\models\Visit;
 use user\models\User;
 
 class DataBuilder
@@ -129,10 +131,16 @@ class DataBuilder
     {
         $this->user->Statuses = [];
 
-        foreach ($user->Participants as $participant)
-            if ($participant->EventId == $this->eventId)
-                $this->user->Statuses[$participant->PartId ? $participant->PartId : 0] = $participant->RoleId;
+        foreach ($user->Participants as $participant) {
+            if ($participant->EventId === DevconEventRoleConverter::EVENT_ID) {
+                $this->user->Statuses[0] = DevconEventRoleConverter::convert($participant->User, $participant->Role)->Id;
+                break;
+            }
 
+            if ($participant->EventId == $this->eventId) {
+                $this->user->Statuses[$participant->PartId ? $participant->PartId : 0] = $participant->RoleId;
+            }
+        }
         /**
          * Данное преобразование важно для корректной передачи роли безпартийного мероприятия
          * виде ассоциативного масива с индексом 0. То есть "Statuses":{"0":1}
@@ -445,5 +453,20 @@ class DataBuilder
         $this->sectionHall->Title = $hall->Title;
 
         return $this->sectionHall;
+    }
+
+    protected $visit;
+
+    /**
+     * @param Visit $visit
+     * @return \stdClass
+     */
+    public function createVisit(Visit $visit)
+    {
+        $this->visit = new \stdClass();
+        $this->visit->MarkId = $visit->MarkId;
+        $this->visit->User = $this->createUser($visit->User);
+        $this->visit->CreationTime = $visit->CreationTime;
+        return $this->visit;
     }
 }

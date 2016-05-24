@@ -11,6 +11,7 @@ class SearchAction extends \ruvents\components\Action
         $request = \Yii::app()->getRequest();
         $query = $request->getParam('Query', null);
         $limit = $request->getParam('Limit', 200);
+        $onlyVisible = (bool) $request->getParam('OnlyVisible', true);
         $locale = $request->getParam('Locale', \Yii::app()->language);
         
         if (empty($query))
@@ -18,15 +19,16 @@ class SearchAction extends \ruvents\components\Action
 
         $users = [];
         if (filter_var($query, FILTER_VALIDATE_EMAIL)) {
-            $user = User::model()
-                ->byEmail($query)
-                ->byVisible(true)
-                ->find();
-            
-            if ($user !== null)
+            $model = User::model()->byEmail($query);
+            if ($onlyVisible) {
+                $model->byVisible(true);
+            }
+            $user = $model->find();
+            if ($user !== null) {
                 $users[] = $user;
+            }
         } else {
-            $userModel = User::model()->bySearch($query, $locale);
+            $model = User::model()->bySearch($query, $locale, true, $onlyVisible);
             $criteria = new \CDbCriteria();
             $criteria->with = [
                 'LinkPhones.Phone',
@@ -34,7 +36,7 @@ class SearchAction extends \ruvents\components\Action
                 'Participants'
             ];
             $criteria->limit = $limit;
-            $users = $userModel->findAll($criteria);
+            $users = $model->findAll($criteria);
         }
 
         $result = ['Users' => []];

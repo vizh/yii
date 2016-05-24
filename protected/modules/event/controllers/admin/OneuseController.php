@@ -4,6 +4,43 @@ use application\components\controllers\AdminMainController;
 
 class OneuseController extends AdminMainController
 {
+    public function actionDevcon16Exam()
+    {
+        $products = [5741,5743,5745, 5742,5744,5746];
+        foreach ($products as $id) {
+            echo '<table border="1">';
+            echo '
+                <tr>
+                    <td><strong>DATE</strong></td>
+                    <td><strong>TIMESLOT</strong></td>
+                    <td><strong>n.</strong></td>
+                    <td><strong>NAME</strong></td>
+                    <td><strong>MSID</strong></td>
+                    <td><strong>EXAM CODE</strong></td>
+                    <td><strong>VAUCHER CODE</strong></td>
+                </tr>';
+            $orderItems = \pay\models\OrderItem::model()->byProductId($id)->byPaid(true)->findAll();
+            foreach ($orderItems as $orderItem) {
+                $definitions = \event\models\UserData::getDefinedAttributeValues($orderItem->Product->Event, $orderItem->getCurrentOwner());
+                echo "
+                    <tr>
+                        <td>{$definitions['CertificationDate']}</td>
+                        <td>{$definitions['CertificationTime']}</td>
+                        <td></td>
+                        <td>{$orderItem->getCurrentOwner()->getFullName()}</td>
+                        <td>{$definitions['MSID']}</td>
+                        <td>{$definitions['CertificationExamId']}<td>
+
+                    </tr>
+                ";
+            }
+            echo '<tr><td colspan="6"></td></tr>';
+            echo '</table>';
+        }
+
+    }
+
+
     public function actionRegister2563()
     {
 

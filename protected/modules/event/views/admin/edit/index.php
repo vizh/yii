@@ -26,11 +26,15 @@ foreach ($widgets->All as $widget) {
     </div>
     <div class="well">
         <div class="row-fluid">
-            <?php if (Yii::app()->user->hasFlash('success')): ?>
-                <div class="alert alert-success"><?= Yii::app()->user->getFlash('success'); ?></div>
-            <?php endif ?>
-            <?= CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>') ?>
-            <div class="span8">
+            <div class="span12">
+                <?= CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>') ?>
+                <?php if (Yii::app()->user->hasFlash('success')): ?>
+                    <div class="alert alert-success"><?= Yii::app()->user->getFlash('success'); ?></div>
+                <?php endif ?>
+            </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span7">
                 <div class="control-group">
                     <?= CHtml::activeLabel($form, 'Title', ['class' => 'control-label']); ?>
                     <div class="controls">
@@ -96,7 +100,7 @@ foreach ($widgets->All as $widget) {
                 </div>
             </div>
 
-            <div class="span3">
+            <div class="span5">
                 <div class="control-group">
                     <?= CHtml::activeLabel($form, 'IdName', ['class' => 'control-label']) ?>
                     <div class="controls">
@@ -147,68 +151,57 @@ foreach ($widgets->All as $widget) {
                 <?php $this->renderPartial('_fbPublish', ['event' => $event]) ?>
 
                 <div class="control-group">
-                    <?= CHtml::activeLabel($form, 'Visible', ['class' => 'control-label']) ?>
                     <div class="controls">
-                        <?= CHtml::activeCheckBox($form, 'Visible'); ?>
+                        <?= \CHtml::label($form->getAttributeLabel('Visible') . \CHtml::activeCheckBox($form, 'Visible'), null, array('class' => 'checkbox')); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= CHtml::activeLabel($form, 'ShowOnMain', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= CHtml::activeCheckBox($form, 'ShowOnMain'); ?>
+                        <?= \CHtml::label($form->getAttributeLabel('ShowOnMain') . \CHtml::activeCheckBox($form, 'ShowOnMain'), null, array('class' => 'checkbox')); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= CHtml::activeLabel($form, 'CloseRegistrationAfterEnd', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= CHtml::activeCheckBox($form, 'CloseRegistrationAfterEnd'); ?>
+                        <?= \CHtml::label($form->getAttributeLabel('CloseRegistrationAfterEnd') . \CHtml::activeCheckBox($form, 'CloseRegistrationAfterEnd'), null, array('class' => 'checkbox')); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= CHtml::activeLabel($form, 'DocumentRequired', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= CHtml::activeCheckBox($form, 'DocumentRequired'); ?>
+                        <?= \CHtml::label($form->getAttributeLabel('DocumentRequired') . \CHtml::activeCheckBox($form, 'DocumentRequired'), null, array('class' => 'checkbox')); ?>
                     </div>
                 </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <?= \CHtml::label($form->getAttributeLabel('Top') . \CHtml::activeCheckBox($form, 'Top'), null, array('class' => 'checkbox')); ?>
 
-
-                <div class="control-group">
-                    <?= \CHtml::activeLabel($form, 'Top', array('class' => 'control-label')); ?>
-                    <div class="controls">
-                        <?= \CHtml::activeCheckBox($form, 'Top'); ?>
                         <?php if (!$event->getIsNewRecord() && $form->Top): ?>
                             <p class="m-top_5"><?= \CHtml::link(\Yii::t('app', 'Настроить'), ['promo', 'id' => $event->Id], ['class' => 'btn btn-small']); ?></p>
                         <?php endif ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= CHtml::activeLabel($form, 'Free', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= CHtml::activeCheckBox($form, 'Free'); ?>
+                        <?= \CHtml::label($form->getAttributeLabel('Free') . \CHtml::activeCheckBox($form, 'Free'), null, array('class' => 'checkbox')); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= CHtml::activeLabel($form, 'UnsubscribeNewUser', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= CHtml::activeCheckBox($form, 'UnsubscribeNewUser'); ?>
+                        <?= \CHtml::label($form->getAttributeLabel('UnsubscribeNewUser') . \CHtml::activeCheckBox($form, 'UnsubscribeNewUser'), null, array('class' => 'checkbox')); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= CHtml::activeLabel($form, 'NotSendRegisterMail', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= CHtml::activeCheckBox($form, 'NotSendRegisterMail'); ?>
+                        <?= \CHtml::label($form->getAttributeLabel('NotSendRegisterMail') . \CHtml::activeCheckBox($form, 'NotSendRegisterMail'), null, array('class' => 'checkbox')); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= CHtml::activeLabel($form, 'RegisterHideNotSelectedProduct', array('class' => 'control-label')); ?>
                     <div class="controls">
-                        <?= CHtml::activeCheckBox($form, 'RegisterHideNotSelectedProduct'); ?>
+                        <?= \CHtml::label($form->getAttributeLabel('RegisterHideNotSelectedProduct') . \CHtml::activeCheckBox($form, 'RegisterHideNotSelectedProduct'), null, array('class' => 'checkbox')); ?>
                     </div>
                 </div>
                 <div class="control-group">
-                    <?= CHtml::activeLabel($form, 'FullWidth', ['class' => 'control-label']) ?>
                     <div class="controls">
-                        <?= CHtml::activeCheckBox($form, 'FullWidth'); ?>
+                        <?= \CHtml::label($form->getAttributeLabel('FullWidth') . \CHtml::activeCheckBox($form, 'FullWidth'), null, array('class' => 'checkbox')); ?>
                     </div>
                 </div>
                 <?php if ($event->External == true): ?>
@@ -289,7 +282,7 @@ foreach ($widgets->All as $widget) {
         </div>
         <div class="row-fluid">
             <!-- Виджеты -->
-            <div class="span3">
+            <div class="span4">
                 <h4><?= Yii::t('app', 'Левая колонка') ?></h4>
                 <?php foreach ($widgetsAll[WidgetPosition::Sidebar] as $widget): ?>
                     <?php $class = get_class($widget); ?>
@@ -313,7 +306,7 @@ foreach ($widgets->All as $widget) {
                 <?php endforeach ?>
             </div>
 
-            <div class="span3">
+            <div class="span4">
                 <h4><?= Yii::t('app', 'Шапка') ?></h4>
                 <?php foreach ($widgetsAll[WidgetPosition::Header] as $widget): ?>
                     <? $class = get_class($widget); ?>
@@ -359,7 +352,7 @@ foreach ($widgets->All as $widget) {
                 <?php endforeach ?>
             </div>
 
-            <div class="span3">
+            <div class="span4">
                 <h4><?= \Yii::t('app', 'Табы') ?></h4>
                 <?php foreach ($widgetsAll[\event\components\WidgetPosition::Tabs] as $widget): ?>
                     <? $class = get_class($widget); ?>

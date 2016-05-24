@@ -17,6 +17,13 @@ return [
 
     [
         'allow',
+        'roles' => ['Server'],
+        'controllers' => ['visit'],
+        'actions' => ['list'],
+    ],
+
+    [
+        'allow',
         'roles' => ['Mobile'],
         'controllers' => ['product'],
         'actions' => ['list', 'createproductget', 'productgetlist', 'fastpaiditems']

@@ -5,7 +5,6 @@ use competence\models\Result;
 use competence\models\Test;
 use competence\models\Question;
 use event\models\Participant;
-use event\models\Role;
 use user\models\User;
 use application\components\exception\AuthException;
 
@@ -33,15 +32,10 @@ class MainController extends PublicMainController
     public $question;
 
     /**
-     * @var bool Whether the event header must be rendered
-     */
-    public $renderEventHeader = false;
-
-    /**
      * Adds params for fath auth after a redirect
      * @inheritdoc
      */
-    public function redirect($url, $terminate = true, $statusCode=302)
+    public function redirect($url, $terminate = true, $statusCode = 302)
     {
         $runetId = Yii::app()->getRequest()->getParam('runetId');
         $hash = Yii::app()->getRequest()->getParam('hash');
@@ -93,7 +87,7 @@ class MainController extends PublicMainController
         }
 
         $this->render('index', [
-            'test' => $this->getTest()
+            'test' => $this->getTest(),
         ]);
     }
 
@@ -103,16 +97,6 @@ class MainController extends PublicMainController
      */
     public function actionAll($id)
     {
-        if ($this->getUser() && $this->test->EventId == 2318 /* svyaz16 */) {
-            $exists = Result::model()
-                ->byUserId($this->getUser()->Id)
-                ->exists('t."TestId" IN (48, 49)');
-
-            if ($exists) {
-                $this->redirect([self::END_ACTION_NAME, 'id' => $this->test->Id]);
-            }
-        }
-
         $request = \Yii::app()->getRequest();
 
         $this->test->setUser($this->getUser());
@@ -137,16 +121,13 @@ class MainController extends PublicMainController
                 $this->test->saveResult();
                 $this->redirect([self::END_ACTION_NAME, 'id' => $this->test->Id]);
             }
-        } else {
-            // Assigns role for the user
-            $this->assignStatus();
         }
 
         $this->render('all-questions', [
             'user' => $this->getUser(),
             'test' => $this->test,
             'questions' => $questions,
-            'hasErrors' => $hasErrors
+            'hasErrors' => $hasErrors,
         ]);
     }
 
@@ -158,7 +139,7 @@ class MainController extends PublicMainController
     {
         $this->render($this->getTest()->getEndView(), [
             'test' => $this->getTest(),
-            'done' => $this->checkExistsResult()
+            'done' => $this->checkExistsResult(),
         ]);
     }
 
@@ -201,7 +182,7 @@ class MainController extends PublicMainController
         if ($test->ParticipantsOnly && $test->EventId) {
             $participantExists = Participant::model()->exists('"EventId" = :eventId AND "UserId" = :userId', [
                 ':eventId' => $test->EventId,
-                ':userId' => Yii::app()->getUser()->id
+                ':userId' => Yii::app()->getUser()->id,
             ]);
 
             if (!$participantExists) {
@@ -211,6 +192,7 @@ class MainController extends PublicMainController
 
         if ($this->getTest()->getUserKey() == null && Yii::app()->user->getCurrentUser() == null) {
             $this->render('competence.views.system.unregister');
+
             return false;
         }
 
@@ -240,6 +222,7 @@ class MainController extends PublicMainController
             } else {
                 $model->byUserId($this->getUser()->Id);
             }
+
             return $model->exists();
         }
 
@@ -271,24 +254,6 @@ class MainController extends PublicMainController
     }
 
     /**
-     * Assigns role for the user
-     * @throws \application\components\Exception
-     */
-    private function assignStatus()
-    {
-        if ($this->test->Id != 48 /* svyaz16 */ && $this->test->Id != 49 /* svyaz16_en */) {
-            return;
-        }
-
-        $user = $this->getUser();
-        $event = $this->test->Event;
-
-        if (!$event->registerUser($user, Role::findOne(Role::VISITOR))) {
-            \Yii::log('Не удалось присвоить роль ' . Role::VISITOR . ' для мероприятия svyaz16');
-        }
-    }
-
-    /**
      * Performs fast authentication
      */
     private function fastAuth()
@@ -303,7 +268,6 @@ class MainController extends PublicMainController
         try {
             User::fastAuth($runetId, $hash);
         } catch (AuthException $e) {
-
         }
     }
 }
