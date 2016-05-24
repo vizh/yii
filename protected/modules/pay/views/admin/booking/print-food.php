@@ -271,7 +271,7 @@ foreach ($order->Items as $item) {
         <td style="border: 1px solid #000; padding: 5px;"><br>40702810697620000409</td>
     </tr>
     <tr>
-        <td colspan="2" style="border: 1px solid #000; padding: 5px;">Банк получателя<br>МОСКОВСКИЙ ФИЛИАЛ ПАО РОСБАНК
+        <td colspan="2" style="border: 1px solid #000; padding: 5px;">Банк получателя<br>ПАО РОСБАНК
             Г.МОСКВА
         </td>
         <td style="border: 1px solid #000; padding: 5px;">БИК<br>Сч. №</td>
