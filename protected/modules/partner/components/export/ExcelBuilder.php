@@ -60,7 +60,7 @@ class ExcelBuilder
         $language = !empty($this->getConfig()->Language) ? $this->getConfig()->Language : 'ru';
         \Yii::app()->setLanguage($language);
 
-        $title = \Yii::t('app', 'Участники') . ' ' . $this->export->Event->IdName;
+        $title = \Yii::t('app', 'Участники').' '.$this->export->Event->IdName;
 
         $phpExcel = new \PHPExcel();
         $phpExcel->setActiveSheetIndex(0);
@@ -189,8 +189,15 @@ class ExcelBuilder
             $row['City'] = !empty($address->City) ? $address->City->Name : '';
             $row['Region'] = !empty($address->Region) ? $address->Region->Name : '';
         }
-        
-        $row['Subscription'] = (!count($user->UnsubscribeEventMails) && !$user->Settings->UnsubscribeAll) ? 'да' : 'нет';
+
+        $row['Subscription'] = (
+            // если не отписался от всех
+            !$user->Settings->UnsubscribeAll
+            // и не отписался от текущей
+            && !count($user->UnsubscribeEventMails)
+        )
+            ? 'да'
+            : 'нет';
 
         return $row;
     }
@@ -290,7 +297,7 @@ class ExcelBuilder
                 'DateRegister' => 'Дата регистрации на мероприятие',
                 'DatePay' => 'Дата оплаты участия',
                 'DateBadge' => 'Дата выдачи бейджа',
-                'Subscription' => 'Получать рассылки'
+                'Subscription' => 'Получать рассылки',
             ];
 
             if (!empty($this->getConfig()->Document)) {
@@ -360,7 +367,7 @@ class ExcelBuilder
             'Documents' => ['together' => false],
             'Settings' => [
                 'select' => 'UnsubscribeAll',
-                'together' => false
+                'together' => false,
             ],
             'UnsubscribeEventMails' => [
                 'select' => 'Id',
