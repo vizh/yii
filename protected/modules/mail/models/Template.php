@@ -108,6 +108,24 @@ class Template extends ActiveRecord
     }
 
     /**
+     * Rollbacks the mail
+     *
+     * @return bool
+     */
+    public function rollback()
+    {
+        if (!$this->Success) {
+            return false;
+        }
+
+        $this->Success = false;
+        $this->SuccessTime = null;
+        $this->Active = false;
+        $this->LastUserId = null;
+        return $this->save(false);
+    }
+
+    /**
      * @throws \Exception
      * @return \user\models\User[]
      */

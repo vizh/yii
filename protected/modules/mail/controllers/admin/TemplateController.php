@@ -49,7 +49,9 @@ class TemplateController extends AdminMainController
             }
         }
 
-        $this->render('edit', ['form' => $form]);
+        $this->render('edit', [
+            'form' => $form
+        ]);
     }
 
     /**
@@ -71,5 +73,21 @@ class TemplateController extends AdminMainController
             unlink($path);
         }
         $this->redirect(['edit','id' => $template->Id]);
+    }
+
+    /**
+     * Rollback the mail template
+     *
+     * @throws CHttpException
+     */
+    public function actionRollback()
+    {
+        if (!$template = Template::model()->findByPk(Yii::app()->getRequest()->getParam('templateId'))) {
+            throw new CHttpException(404);
+        }
+
+        $template->rollback();
+
+        $this->redirect(['edit', 'id' => $template->Id]);
     }
 }
