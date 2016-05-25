@@ -68,6 +68,7 @@ use iri\models\User as IriUser;
  * @property IriUser[] $IRIParticipantsActive
  * @property ExternalUser[] $ExternalAccounts
  * @property Document[] $Documents
+ * @property UnsubscribeEventMail[] $UnsubscribeEventMails
  *
  * События
  * @property \CEvent $onRegister
@@ -177,7 +178,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             'IRIParticipantsActive' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role'], 'on' => '"IRIParticipantsActive"."ExitTime" IS NULL OR "IRIParticipantsActive"."ExitTime" > NOW()'],
 
             'ExternalAccounts' => [self::HAS_MANY, '\api\models\ExternalUser', 'UserId'],
-            'Documents' => [self::HAS_MANY, '\user\models\Document', 'UserId', 'on' => '"Documents"."Actual"', 'order' => '"Documents"."TypeId" ASC']
+            'Documents' => [self::HAS_MANY, '\user\models\Document', 'UserId', 'on' => '"Documents"."Actual"', 'order' => '"Documents"."TypeId" ASC'],
+
+            'UnsubscribeEventMails' => [self::HAS_MANY, '\user\models\UnsubscribeEventMail', 'UserId'],
         );
     }
 

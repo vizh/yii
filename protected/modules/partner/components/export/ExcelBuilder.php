@@ -13,7 +13,6 @@ use pay\models\OrderType;
 use ruvents\models\Badge;
 use event\models\Event;
 use user\models\DocumentType;
-use user\models\forms\document\Passport;
 use user\models\User;
 
 class ExcelBuilder
@@ -107,7 +106,7 @@ class ExcelBuilder
     /**
      * Добавляет строку участника в таблицу
      * @param \PHPExcel_Worksheet $sheet
-     * @param User $user
+     * @param User                $user
      */
     private function appendRow(\PHPExcel_Worksheet $sheet, User $user)
     {
@@ -142,7 +141,8 @@ class ExcelBuilder
             $this->fillRowDocumentData($user, $row);
         }
 
-        $badge = Badge::model()->byEventId($this->getEvent()->Id)->byUserId($user->Id)->orderBy('"t"."CreationTime"')->find();
+        $badge = Badge::model()->byEventId($this->getEvent()->Id)->byUserId($user->Id)->orderBy('"t"."CreationTime"')
+            ->find();
         if ($badge !== null) {
             $row['DateBadge'] = $formatter->format('dd MMMM yyyy H:m', $badge->CreationTime);
         }
@@ -160,7 +160,8 @@ class ExcelBuilder
 
         $i = 0;
         foreach ($row as $value) {
-            $sheet->setCellValueExplicitByColumnAndRow($i++, $this->rowIterator, $value, \PHPExcel_Cell_DataType::TYPE_STRING);
+            $sheet->setCellValueExplicitByColumnAndRow($i++, $this->rowIterator, $value,
+                \PHPExcel_Cell_DataType::TYPE_STRING);
         }
         $this->rowIterator++;
     }
@@ -188,13 +189,16 @@ class ExcelBuilder
             $row['City'] = !empty($address->City) ? $address->City->Name : '';
             $row['Region'] = !empty($address->Region) ? $address->Region->Name : '';
         }
+        
+        $row['Subscription'] = (!count($user->UnsubscribeEventMails) && !$user->Settings->UnsubscribeAll) ? 'да' : 'нет';
+
         return $row;
     }
 
     /**
      * Заполняет данные по оплате пользователя
      * @param User $user
-     * @param $row
+     * @param      $row
      * @throws \pay\components\MessageException
      */
     private function fillRowPayData(User $user, &$row)
@@ -210,7 +214,7 @@ class ExcelBuilder
             ->findAll();
 
         if (!empty($orderItems)) {
-            $datePay  = [];
+            $datePay = [];
             $paidType = [];
             $products = [];
             foreach ($orderItems as $orderItem) {
@@ -225,7 +229,8 @@ class ExcelBuilder
                             break;
                         }
                     }
-                    $paidType[] = $order->Type == OrderType::Juridical ? \Yii::t('app', 'Юр. лицо') : \Yii::t('app', 'Физ. лицо');
+                    $paidType[] = $order->Type == OrderType::Juridical ? \Yii::t('app', 'Юр. лицо')
+                        : \Yii::t('app', 'Физ. лицо');
                 } else {
                     $paidType[] = 'Промо-код';
                 }
@@ -234,7 +239,7 @@ class ExcelBuilder
                 $datePay[] = $formatter->format('dd MMMM yyyy H:m', $orderItem->PaidTime);
             }
             $row['Products'] = implode(', ', $products);
-            $row['DatePay']  = implode(', ', array_unique($datePay));
+            $row['DatePay'] = implode(', ', array_unique($datePay));
             $row['PaidType'] = implode(', ', array_unique($paidType));
         }
     }
@@ -242,7 +247,7 @@ class ExcelBuilder
     /**
      * Заполняет данные по документам для пользователя
      * @param User $user
-     * @param $row
+     * @param      $row
      */
     private function fillRowDocumentData(User $user, &$row)
     {
@@ -252,7 +257,7 @@ class ExcelBuilder
 
         $form = $user->Documents[0]->getForm($user);
         foreach ($form->getAttributes() as $name => $value) {
-            $row['Document_' . $name] = $value;
+            $row['Document_'.$name] = $value;
         }
     }
 
@@ -285,6 +290,7 @@ class ExcelBuilder
                 'DateRegister' => 'Дата регистрации на мероприятие',
                 'DatePay' => 'Дата оплаты участия',
                 'DateBadge' => 'Дата выдачи бейджа',
+                'Subscription' => 'Получать рассылки'
             ];
 
             if (!empty($this->getConfig()->Document)) {
@@ -302,6 +308,7 @@ class ExcelBuilder
             $this->rowMap = $map;
             $this->fillUsersData();
         }
+
         return $this->rowMap;
     }
 
@@ -315,9 +322,9 @@ class ExcelBuilder
         foreach ($types as $type) {
             $form = $type->getForm();
             foreach ($form->attributeLabels() as $name => $label) {
-                $name = 'Document_' . $name;
+                $name = 'Document_'.$name;
                 if (!isset($map[$name])) {
-                    $map[$name] = 'Документ: ' . $label;
+                    $map[$name] = 'Документ: '.$label;
                 }
             }
         }
@@ -334,11 +341,12 @@ class ExcelBuilder
         $criteria = new \CDbCriteria();
         $criteria->with = [
             'Participants' => [
-                'on' => '"Participants"."EventId" = :EventId' . (!empty($this->getConfig()->PartId) ? ' AND "Participants"."PartId" = :PartId' : ''),
+                'on' => '"Participants"."EventId" = :EventId'.(!empty($this->getConfig()->PartId)
+                        ? ' AND "Participants"."PartId" = :PartId' : ''),
                 'params' => [
-                    'EventId' => $this->getEvent()->Id
+                    'EventId' => $this->getEvent()->Id,
                 ],
-                'together' => false
+                'together' => false,
             ],
             'Employments' => ['together' => false],
             'Employments.Company' => ['together' => false],
@@ -346,10 +354,22 @@ class ExcelBuilder
             'LinkAddress' => [
                 'together' => false,
                 'with' => [
-                    'Address.City'
-                ]
+                    'Address.City',
+                ],
             ],
-            'Documents' => ['together' => false]
+            'Documents' => ['together' => false],
+            'Settings' => [
+                'select' => 'UnsubscribeAll',
+                'together' => false
+            ],
+            'UnsubscribeEventMails' => [
+                'select' => 'Id',
+                'on' => '"UnsubscribeEventMails"."EventId" = :EventId',
+                'params' => [
+                    'EventId' => $this->getEvent()->Id,
+                ],
+                'together' => false,
+            ],
         ];
         $criteria->order = '"t"."LastName" ASC, "t"."FirstName" ASC';
 
@@ -365,9 +385,10 @@ class ExcelBuilder
         }
 
         if (!empty($this->getConfig()->PartId)) {
-            $command->andWhere('"EventParticipant"."PartId" = ' . $this->getConfig()->PartId);
+            $command->andWhere('"EventParticipant"."PartId" = '.$this->getConfig()->PartId);
         }
         $criteria->addCondition('"t"."Id" IN ('.$command->getText().')');
+
         return $criteria;
     }
 
@@ -380,6 +401,7 @@ class ExcelBuilder
         if (isset($this->usersData[$user->Id])) {
             return $this->usersData[$user->Id];
         }
+
         return [];
     }
 
@@ -404,6 +426,7 @@ class ExcelBuilder
             }
             $initMap = true;
         }
+
         return $this->usersData;
     }
 
@@ -421,6 +444,7 @@ class ExcelBuilder
                 $this->hasExternalId = ExternalUser::model()->byAccountId($this->getApiAccount()->Id)->exists();
             }
         }
+
         return $this->hasExternalId;
     }
 
@@ -435,16 +459,18 @@ class ExcelBuilder
         if ($this->apiAccount === false) {
             $this->apiAccount = Account::model()->byEventId($this->getEvent()->Id)->find();
         }
+
         return $this->apiAccount;
     }
 
     private function getFilePath()
     {
-        $path = \Yii::getPathOfAlias('partner.data.' . $this->getEvent()->Id . '.export');
+        $path = \Yii::getPathOfAlias('partner.data.'.$this->getEvent()->Id.'.export');
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }
-        $path .= DIRECTORY_SEPARATOR . date('Ymd_His') . '.xlsx';
+        $path .= DIRECTORY_SEPARATOR.date('Ymd_His').'.xlsx';
+
         return $path;
     }
 }
