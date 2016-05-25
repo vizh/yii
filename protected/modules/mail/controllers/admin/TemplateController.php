@@ -78,11 +78,12 @@ class TemplateController extends AdminMainController
     /**
      * Rollback the mail template
      *
+     * @param int $id Identifier of the mail
      * @throws CHttpException
      */
-    public function actionRollback()
+    public function actionRollback($id)
     {
-        if (!$template = Template::model()->findByPk(Yii::app()->getRequest()->getParam('templateId'))) {
+        if (!$template = Template::model()->findByPk($id)) {
             throw new CHttpException(404);
         }
 

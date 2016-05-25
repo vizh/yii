@@ -179,9 +179,8 @@ $this->setPageTitle('Рассылка');
 
 <?php if ($template->Success): ?>
     <section>
-        <?= Html::beginForm(['rollback']) ?>
+        <?= Html::beginForm(['rollback', 'id' => $template->Id]) ?>
             <?= Html::submitButton('Откатить', [
-                'templateId' => $template->Id,
                 'class' => 'btn btn-danger'
             ]) ?>
         <?= Html::endForm() ?>
