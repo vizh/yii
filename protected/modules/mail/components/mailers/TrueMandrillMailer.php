@@ -47,6 +47,7 @@ class TrueMandrillMailer extends \mail\components\Mailer
                 )
             ];
         }
+
         $message = $this->getBaseMessage();
         $message['to'] = $to;
         $message['subject'] = $mails[0]->getSubject();

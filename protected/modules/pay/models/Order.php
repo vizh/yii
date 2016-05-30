@@ -3,7 +3,7 @@ namespace pay\models;
 
 use application\components\ActiveRecord;
 use event\models\Event;
-use mail\components\mailers\TrueMandrillMailer;
+use mail\components\mailers\SESMailer;
 use partner\models\PartnerCallback;
 use pay\components\CodeException;
 use pay\components\collection\Finder;
@@ -266,7 +266,7 @@ class Order extends ActiveRecord
         $sender = $event->sender;
         $class = \Yii::getExistClass('\pay\components\handlers\order\activate', ucfirst($sender->Event->IdName), 'Base');
         /** @var $mail \event\components\handlers\register\Base */
-        $mail = new $class(new TrueMandrillMailer(), $event);
+        $mail = new $class(new SESMailer(), $event);
         $mail->send();
         \Yii::app()->setLanguage($oldLanguage);
     }
@@ -371,7 +371,7 @@ class Order extends ActiveRecord
         \Yii::app()->setLanguage($language);
         $class = \Yii::getExistClass('\pay\components\handlers\orderjuridical\create', ucfirst($event->params['event']->IdName), 'Base');
         /** @var $mail \event\components\handlers\register\Base */
-        $mail = new $class(new TrueMandrillMailer(), $event);
+        $mail = new $class(new SESMailer(), $event);
         $mail->send();
         \Yii::app()->setLanguage($oldLanguage);
     }

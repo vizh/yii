@@ -2,7 +2,7 @@
 namespace api\components\ms\forms;
 
 use api\models\Account;
-use mail\components\mailers\TrueMandrillMailer;
+use mail\components\mailers\SESMailer;
 use user\models\User;
 use api\components\ms\mail\Register as RegisterMail;
 
@@ -59,7 +59,7 @@ class RegisterUser extends BaseUser
     protected function internalUpdateActiveRecord()
     {
         $this->saveUserData();
-        $mail = new RegisterMail(new TrueMandrillMailer(), $this->model);
+        $mail = new RegisterMail(new SESMailer(), $this->model);
         $mail->send();
     }
 
@@ -72,7 +72,7 @@ class RegisterUser extends BaseUser
         parent::internalCreateActiveRecord();
         $this->saveUserData();
 
-        $mail = new RegisterMail(new TrueMandrillMailer(), $this->model, $this->Password);
+        $mail = new RegisterMail(new SESMailer(), $this->model, $this->Password);
         $mail->send();
     }
 

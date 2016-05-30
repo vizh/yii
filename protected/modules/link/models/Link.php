@@ -1,6 +1,7 @@
 <?php
 namespace link\models;
-use mail\components\mailers\MandrillMailer;
+
+use mail\components\mailers\SESMailer;
 
 /**
  * Class Link
@@ -22,7 +23,7 @@ class Link extends \CActiveRecord
      * @param string $className
      * @return Link
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -35,9 +36,9 @@ class Link extends \CActiveRecord
     public function relations()
     {
         return [
-            'User'  => [self::BELONGS_TO,'\user\models\User', 'UserId'],
-            'Owner' => [self::BELONGS_TO,'\user\models\User', 'OwnerId'],
-            'Event' => [self::BELONGS_TO,'\event\models\Event', 'EventId']
+            'User' => [self::BELONGS_TO, '\user\models\User', 'UserId'],
+            'Owner' => [self::BELONGS_TO, '\user\models\User', 'OwnerId'],
+            'Event' => [self::BELONGS_TO, '\event\models\Event', 'EventId']
         ];
     }
 
@@ -124,13 +125,12 @@ class Link extends \CActiveRecord
 
     protected $beforeSaveIsNewRecord = null;
     protected $beforeSaveMeetingTime = null;
-    protected $beforeSaveApproved    = null;
+    protected $beforeSaveApproved = null;
 
     protected function beforeSave()
     {
         $this->beforeSaveIsNewRecord = $this->getIsNewRecord();
-        if (!$this->beforeSaveIsNewRecord)
-        {
+        if (!$this->beforeSaveIsNewRecord) {
             $link = $this->findByPk($this->Id);
             /** @var  Link $link */
             $this->beforeSaveMeetingTime = $link->MeetingTime;
@@ -142,29 +142,23 @@ class Link extends \CActiveRecord
     protected function afterSave()
     {
         $eventType = null;
-        if ($this->beforeSaveIsNewRecord)
-        {
+        if ($this->beforeSaveIsNewRecord) {
             $eventType = 'create';
-        }
-        elseif ($this->beforeSaveApproved != \event\models\Approved::Yes && $this->Approved == \event\models\Approved::Yes)
-        {
+        } elseif ($this->beforeSaveApproved != \event\models\Approved::Yes && $this->Approved == \event\models\Approved::Yes) {
             $eventType = 'approve';
-        }
-        elseif ($this->beforeSaveMeetingTime !== null && $this->beforeSaveMeetingTime !== $this->MeetingTime)
-        {
+        } elseif ($this->beforeSaveMeetingTime !== null && $this->beforeSaveMeetingTime !== $this->MeetingTime) {
             $eventType = 'changetime';
         }
 
-        if ($eventType !== null)
-        {
-            $event  = new \CModelEvent($this);
-            $mailer = new MandrillMailer();
+        if ($eventType !== null) {
+            $event = new \CModelEvent($this);
+            $mailer = new SESMailer();
             $sender = $event->sender;
-            $class  = \Yii::getExistClass('\link\components\handlers\\'.$eventType, ucfirst($sender->Event->IdName), 'Base');
+            $class = \Yii::getExistClass('\link\components\handlers\\' . $eventType, ucfirst($sender->Event->IdName), 'Base');
             /** @var \mail\components\Mail $mail */
             $mail = new $class($mailer, $event);
             $mail->send();
         }
         parent::afterSave();
     }
-} 
+}

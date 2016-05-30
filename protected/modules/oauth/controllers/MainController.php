@@ -3,19 +3,16 @@ use api\models\Account;
 use application\components\auth\identity\RunetId;
 use application\components\auth\identity\Password;
 use application\components\Exception;
-use contact\models\Address;
-use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\SESMailer;
 use oauth\models\Permission;
 use oauth\models\AccessToken;
 use oauth\components\social\Proxy;
 use oauth\components\form\AuthForm;
-use oauth\components\form\RegisterForm;
 use sms\components\gates\SmsRu;
 use user\components\handlers\recover\mail\Recover as MailRecover;
 use user\components\handlers\recover\sms\Recover as SmsRecover;
 use user\models\forms\Recovery;
 use user\models\User;
-use user\models\Log;
 use oauth\models\forms\Register as FormRegister;
 
 class MainController extends \oauth\components\Controller
@@ -186,7 +183,7 @@ class MainController extends \oauth\components\Controller
                 $form->ShowCode = true;
                 if (empty($form->Code)) {
                     if (strstr($form->EmailOrPhone, '@') !== false) {
-                        $mail = new MailRecover(new MandrillMailer(), $user);
+                        $mail = new MailRecover(new SESMailer(), $user);
                         $mail->send();
                         \Yii::app()->user->setFlash('success', \Yii::t('app', 'На указанный адрес электронной почты было отправлено письмо с кодом, введите его для смены пароля.'));
                     } else {

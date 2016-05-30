@@ -1,9 +1,10 @@
 <?php
 /**
  * @var \application\components\controllers\AdminMainController $this
- * @var Template $form
+ * @var mail\models\forms\admin\Template $form
  * @var \application\widgets\ActiveForm $activeForm
  */
+
 use mail\models\forms\admin\Template;
 use application\helpers\Flash;
 
@@ -174,6 +175,14 @@ $this->setPageTitle('Рассылка');
 
         <?$this->renderPartial('edit/templates', ['form' => $form, 'activeForm' => $activeForm]);?>
     </div>
+<?php $this->endWidget() ?>
 
-
-<?php $this->endWidget();?>
+<?php if ($template->Success): ?>
+    <section>
+        <?= Html::beginForm(['rollback', 'id' => $template->Id]) ?>
+            <?= Html::submitButton('Откатить', [
+                'class' => 'btn btn-danger'
+            ]) ?>
+        <?= Html::endForm() ?>
+    </section>
+<?php endif ?>

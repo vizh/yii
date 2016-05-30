@@ -1,5 +1,6 @@
 <?php
 namespace mail\models;
+
 use application\components\ActiveRecord;
 use event\models\Event;
 use mail\components\filter\Main;
@@ -105,6 +106,24 @@ class Template extends ActiveRecord
                 }
             }
         }
+    }
+
+    /**
+     * Rollbacks the mail
+     *
+     * @return bool
+     */
+    public function rollback()
+    {
+        if (!$this->Success) {
+            return false;
+        }
+
+        $this->Success = false;
+        $this->SuccessTime = null;
+        $this->Active = false;
+        $this->LastUserId = null;
+        return $this->save(false);
     }
 
     /**
@@ -287,6 +306,7 @@ class Template extends ActiveRecord
         if ($this->mailer == null){
             $this->mailer = new MandrillMailer();
         }
+
         return $this->mailer;
     }
 

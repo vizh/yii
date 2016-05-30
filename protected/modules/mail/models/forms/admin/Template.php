@@ -19,7 +19,6 @@ use mail\components\filter\Main as MainFilter;
 
 /**
  * Class Template
- * @package mail\models\forms\admin
  *
  * @method TemplateModel getActiveRecord()
  */

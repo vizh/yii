@@ -16,6 +16,7 @@
     "j20/php-uuid": "*",
     "sammaye/mongoyii": "*",
     "gregwar/image": "*",
-    "eo/passbook": "dev-master"
+    "eo/passbook": "dev-master",
+    "aws/aws-sdk-php": "2.*"
   }
 }

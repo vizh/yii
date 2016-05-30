@@ -14,7 +14,7 @@ use competence\models\Result;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
-use mail\components\mailers\TrueMandrillMailer;
+use mail\components\mailers\SESMailer;
 use ruvents\models\Badge;
 use search\components\interfaces\ISearch;
 use user\components\handlers\Register;
@@ -68,6 +68,7 @@ use iri\models\User as IriUser;
  * @property IriUser[] $IRIParticipantsActive
  * @property ExternalUser[] $ExternalAccounts
  * @property Document[] $Documents
+ * @property UnsubscribeEventMail[] $UnsubscribeEventMails
  *
  * События
  * @property \CEvent $onRegister
@@ -177,7 +178,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             'IRIParticipantsActive' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role'], 'on' => '"IRIParticipantsActive"."ExitTime" IS NULL OR "IRIParticipantsActive"."ExitTime" > NOW()'],
 
             'ExternalAccounts' => [self::HAS_MANY, '\api\models\ExternalUser', 'UserId'],
-            'Documents' => [self::HAS_MANY, '\user\models\Document', 'UserId', 'on' => '"Documents"."Actual"', 'order' => '"Documents"."TypeId" ASC']
+            'Documents' => [self::HAS_MANY, '\user\models\Document', 'UserId', 'on' => '"Documents"."Actual"', 'order' => '"Documents"."TypeId" ASC'],
+
+            'UnsubscribeEventMails' => [self::HAS_MANY, '\user\models\UnsubscribeEventMail', 'UserId'],
         );
     }
 
@@ -461,7 +464,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function onRegister($event)
     {
         /** @var \mail\components\Mail $mail */
-        $mail = new Register(new TrueMandrillMailer(), $event);
+        $mail = new Register(new SESMailer(), $event);
         $mail->send();
 
         $this->raiseEvent('onRegister', $event);
