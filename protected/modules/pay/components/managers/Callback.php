@@ -1,7 +1,7 @@
 <?php
 namespace pay\components\managers;
+
 use pay\models\OrderItem;
-use string;
 
 /**
  * Class Callback
@@ -148,6 +148,4 @@ class Callback extends BaseProductManager
     {
         return $orderItem->getItemAttribute('Title');
     }
-
-
 }

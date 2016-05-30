@@ -96,12 +96,14 @@ class IidfController extends BaseController
     {
         $questions = [];
         $question = $this->test->getFirstQuestion();
+
         while (true) {
             $questions[] = $question;
             /** @var Question $question */
-            $question = $question->getForm()->getNext();
-            if ($question == null)
+            if (!$question = $question->getForm()->getNext()) {
                 break;
+            }
+
             $question->setTest($this->test);
         }
 
@@ -130,7 +132,7 @@ class IidfController extends BaseController
      */
     public function actionIndex()
     {
-        if ($this->getUser() === null) {
+        if (!$this->getUser()) {
             $this->createFakeUser();
         }
 
