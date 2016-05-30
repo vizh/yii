@@ -11,7 +11,7 @@ use application\models\translation\ActiveRecord;
 use contact\models\Site;
 use event\models\section\Section;
 use mail\components\mailers\MandrillMailer;
-use mail\components\mailers\TrueMandrillMailer;
+use mail\components\mailers\SESMailer;
 use ruvents\models\Setting;
 use search\components\interfaces\ISearch;
 use user\models\User;
@@ -572,7 +572,7 @@ class Event extends ActiveRecord implements ISearch
             $apiCallback->registerOnEvent($event->params['user'], $event->params['role']);
         }
 
-        $mailer = new TrueMandrillMailer();
+        $mailer = new SESMailer();
         $sender = $event->sender;
 
         if (!isset($this->NotSendRegisterMail) || !$this->NotSendRegisterMail) {
@@ -582,7 +582,6 @@ class Event extends ActiveRecord implements ISearch
             $mail->send();
         }
 
-        $mailer = new MandrillMailer();
         $class = \Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
         $mail = new $class($mailer, $event);
         $mail->send();

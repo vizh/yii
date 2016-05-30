@@ -1,5 +1,6 @@
 <?php
 namespace mail\models;
+
 use application\components\ActiveRecord;
 use event\models\Event;
 use mail\components\filter\Main;
@@ -305,6 +306,7 @@ class Template extends ActiveRecord
         if ($this->mailer == null){
             $this->mailer = new MandrillMailer();
         }
+
         return $this->mailer;
     }
 

@@ -2,7 +2,7 @@
 namespace pay\components\managers;
 
 use mail\components\Mail;
-use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\SESMailer;
 use pay\components\CodeException;
 use pay\components\Exception;
 use pay\components\MessageException;
@@ -419,7 +419,7 @@ abstract class BaseProductManager
         $event = new \CModelEvent($this, ['owner' => $user, 'product' => $this->product]);
 
         /** @var Mail $mail */
-        $mail = new $class(new MandrillMailer(), $event);
+        $mail = new $class(new SESMailer(), $event);
         $mail->send();
     }
 

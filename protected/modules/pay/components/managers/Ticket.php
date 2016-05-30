@@ -1,9 +1,9 @@
 <?php
 namespace pay\components\managers;
-use mail\components\mailers\MandrillMailer;
+
+use mail\components\mailers\SESMailer;
 use pay\components\MessageException;
 use pay\models\OrderItem;
-use string;
 
 /**
  * Class Ticket
@@ -83,7 +83,7 @@ class Ticket extends BaseProductManager
         }
 
         $event = new \CModelEvent($this, ['payer' => $user, 'product' => $this->paidProduct, 'coupons' => $coupons]);
-        $mail = new \pay\components\handlers\buyproduct\Ticket(new MandrillMailer(), $event);
+        $mail = new \pay\components\handlers\buyproduct\Ticket(new SESMailer(), $event);
         $mail->send();
         return true;
     }
