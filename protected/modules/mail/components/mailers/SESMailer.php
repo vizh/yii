@@ -43,7 +43,7 @@ class SESMailer extends \mail\components\Mailer
      */
     private static function cleanFilename($str, $limit = 0, $replace = [], $delimiter = '-')
     {
-        if( !empty($replace) ) {
+        if (!empty($replace)) {
             $str = str_replace((array)$replace, ' ', $str);
         }
 
@@ -98,7 +98,7 @@ class SESMailer extends \mail\components\Mailer
                 'to' => $mail->getTo(),
                 'subject' => $mail->getSubject(),
                 'message' => $mail->getBody(),
-                'from' => $mail->getFrom(),
+                'from' => $mail->getFromName() . ' <' . $mail->getFrom() . '>',
             ];
 
             $attachments = $mail->getAttachments();
