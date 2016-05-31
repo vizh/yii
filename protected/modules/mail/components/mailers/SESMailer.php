@@ -96,7 +96,7 @@ class SESMailer extends \mail\components\Mailer
         foreach ($mails as $mail) {
             $args = [
                 'to' => $mail->getTo(),
-                'subject' => $mail->getSubject(),
+                'subject' => '=?UTF-8?B?' . base64_encode($mail->getSubject()) . '?=',
                 'message' => $mail->getBody(),
                 'from' => $mail->getFromName() . ' <' . $mail->getFrom() . '>',
             ];

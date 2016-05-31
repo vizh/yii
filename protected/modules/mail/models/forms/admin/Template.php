@@ -52,10 +52,28 @@ class Template extends CreateUpdateForm
     public $ShowFooter = 1;
     public $RelatedEventId;
 
+    /**
+     * @var string Mailer class for sending mails
+     */
+    public $MailerClass = TemplateModel::MAILER_PHP;
+
     /** @var \CUploadedFile[] */
     public $Attachments = [];
 
     public $SendUnverified = 0;
+
+    /**
+     * Returns list of mailers
+     * @return array
+     */
+    public function getMailServices()
+    {
+        return [
+            TemplateModel::MAILER_PHP => 'Встроенный',
+            TemplateModel::MAILER_AMAZON_SES => 'Amazon SES',
+            TemplateModel::MAILER_MANDRILL => 'Mandrill',
+        ];
+    }
 
     /**
      * @return array
@@ -78,7 +96,8 @@ class Template extends CreateUpdateForm
             'ShowUnsubscribeLink' => \Yii::t('app', 'Показывать ссылку на отписку'),
             'ShowFooter' => \Yii::t('app', 'Показывать футер'),
             'RelatedEventId' => \Yii::t('app', 'Связанное мероприятие'),
-            'Attachments' => \Yii::t('app', 'Приложенные файлы')
+            'Attachments' => \Yii::t('app', 'Приложенные файлы'),
+            'MailerClass' => \Yii::t('app', 'Сервис отправки'),
         ];
     }
 
@@ -96,7 +115,8 @@ class Template extends CreateUpdateForm
             ['Conditions', 'default', 'value' => []],
             ['Conditions', 'filter', 'filter' => [$this, 'filterConditions']],
             ['Test', 'filter', 'filter' => [$this, 'filterTest']],
-            ['Attachments', 'safe']
+            ['Attachments', 'safe'],
+            ['MailerClass', 'in', 'range' => array_keys($this->getMailServices())]
         ];
     }
 
@@ -357,6 +377,7 @@ class Template extends CreateUpdateForm
         $this->model->ShowUnsubscribeLink = $this->ShowUnsubscribeLink == 1 ? true : false;
         $this->model->ShowFooter = $this->ShowFooter == 1 ? true : false;
         $this->model->RelatedEventId = !empty($this->RelatedEventId) ? $this->RelatedEventId : null;
+        $this->model->MailerClass = $this->MailerClass;
         if ($this->model->Active){
             $this->model->ActivateTime = date('Y-m-d H:i:s');
         }
