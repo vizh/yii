@@ -1,0 +1,1 @@
+<?=$user->Participants[0]->Role->Title;?>
