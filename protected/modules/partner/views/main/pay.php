@@ -73,10 +73,10 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                     <tr>
                         <td>Сумма оплат:</td>
                         <td>
-                            <span class="text-success lead"><?=number_format($statistics->totalJuridical, 0, ',', ' ');?> руб.</span>
+                            <span class="text-success lead"><?=number_format($statistics->totalPaidJuridical, 0, ',', ' ');?> руб.</span>
                         </td>
                         <td>
-                            <span class="text-success lead"><?=number_format($statistics->totalReceipt, 0, ',', ' ');?> руб.</span>
+                            <span class="text-success lead"><?=number_format($statistics->totalPaidReceipt, 0, ',', ' ');?> руб.</span>
                         </td>
                         <td>
                             <span class="text-success lead"><?=number_format($statistics->totalPaySystem, 0, ',', ' ');?> руб.</span>
@@ -88,8 +88,28 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                 </tbody>
             </table>
             <hr/>
-            <strong>Количество запросивших счет/квитанцию:</strong>
-            <span class="label label-success"><?=$statistics->countJuridicalUsers + $statistics->countReceiptUsers - $statistics->countPaidJuridicalUsers - $statistics->countPaidReceiptUsers;?></span>
+
+            <p>
+                <strong>Количество запросивших счет/квитанцию:</strong>
+                <span class="label label-success"><?=$statistics->countJuridicalUsers + $statistics->countReceiptUsers - $statistics->countPaidJuridicalUsers - $statistics->countPaidReceiptUsers;?></span>
+            </p>
+
+            <p>
+                <strong>Общая сумма: </strong>
+                <span class="label label-success"><?= $statistics->totalJuridical + $statistics->totalReceipt; ?></span>
+            </p>
+
+            <p>
+                <strong>Оплачено: </strong>
+                <span class="label label-success"><?= $statistics->totalPaidJuridical + $statistics->totalPaidReceipt; ?></span>
+            </p>
+
+            <p>
+                <strong>Не оплачено: </strong>
+                <span class="label label-success">
+                    <?= $statistics->totalJuridical - $statistics->totalPaidJuridical + $statistics->totalReceipt - $statistics->totalPaidReceipt; ?>
+                </span>
+            </p>
         </div>
     </div> <!-- / .panel-body -->
 </div>

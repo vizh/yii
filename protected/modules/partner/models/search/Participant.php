@@ -182,7 +182,7 @@ class Participant extends SearchFormModel
             ],
             'Ruvents' => [
                 'asc'  => '"Badges"."CreationTime" ASC',
-                'desc' => '"Badges"."CreationTime" DESC'
+                'desc' => '"Badges"."CreationTime" DESC nulls last'
             ]
         ];
         return $sort;
