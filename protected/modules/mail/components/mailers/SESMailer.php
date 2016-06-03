@@ -200,7 +200,7 @@ class SESMailer extends \mail\components\Mailer
         }
 
         // in case you have funny characters in the subject
-        $subject = mb_encode_mimeheader($subject, 'UTF-8');
+        $subject = $subject;
         $msg .= "Subject: $subject\n";
         $msg .= "MIME-Version: 1.0\n";
         $msg .= "Content-Type: multipart/mixed;\n";

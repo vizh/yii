@@ -20,7 +20,15 @@ class IndexAction extends Action
             }
         }
 
-        $exports = Export::model()->byEventId($this->getEvent()->Id)->orderBy(['"t"."CreationTime"' => SORT_DESC])->findAll();
-        $this->getController()->render('export', ['form' => $form, 'event' => $event, 'exports' => $exports]);
+        $exports = Export::model()
+            ->byEventId($this->getEvent()->Id)
+            ->orderBy(['"t"."CreationTime"' => SORT_DESC])
+            ->findAll();
+
+        $this->getController()->render('export', [
+            'form' => $form,
+            'event' => $event,
+            'exports' => $exports
+        ]);
     }
 }
