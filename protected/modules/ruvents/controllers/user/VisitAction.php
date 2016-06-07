@@ -25,13 +25,13 @@ class VisitAction extends Action
         $mark = $request->getParam('MarkId', null);
 
         if (empty($id)) {
-            //throw new Exception(900, 'RunetId');
-            throw new \CHttpException(404);
+            throw new Exception(900, 'RunetId');
+            //throw new \CHttpException(404);
         }
 
         if (empty($mark)) {
-            //throw new Exception(900, 'MarkId');
-            throw new \CHttpException(404);
+            throw new Exception(900, 'MarkId');
+            //throw new \CHttpException(404);
         }
 
         $user = User::model()
