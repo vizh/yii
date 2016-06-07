@@ -1,31 +1,33 @@
 <?php
-return array(
-    array(
+
+return [
+    [
         'deny',
-        'users' => array('?'),
+        'users' => ['?'],
         'module' => 'event',
-        'controllers' => array('exclusive/demo2013')
-    ),
-    array(
+        'controllers' => ['exclusive/demo2013'],
+    ],
+    [
         'allow',
-        'users' => array('*'),
+        'users' => ['*'],
         'module' => 'event',
-        'controllers' => array('list', 'view', 'share', 'create', 'exclusive/demo2013', 'invite', 'ajax', 'ticket', 'fastregister')
-    ),
+        'controllers' => ['list', 'view', 'share', 'create', 'exclusive/demo2013', 'invite', 'ajax', 'ticket',
+            'fastregister'],
+    ],
 
-    array(
+    [
         'allow',
-        'users' => array('*'),
+        'users' => ['*'],
         'module' => 'event',
-        'controllers' => array('exclusive/devcon16')
-    ),
-
+        'controllers' => ['exclusive/devcon16'],
+    ],
 
     /** Admin Rules */
-    array(
+    [
         'allow',
-        'roles' => array('admin'),
+        'roles' => ['admin'],
         'module' => 'event',
-        'controllers' => array('admin/default', 'admin/edit', 'admin/list', 'admin/section', 'admin/oneuse', 'admin/mail', 'admin/fb', 'admin/demo')
-    )
-);
+        'controllers' => ['admin/default', 'admin/edit', 'admin/list', 'admin/section', 'admin/oneuse', 'admin/mail',
+            'admin/fb', 'admin/demo'],
+    ],
+];

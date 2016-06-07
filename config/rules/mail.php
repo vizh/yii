@@ -1,5 +1,5 @@
 <?php
-return array(
+return [
   /** Admin Rules */
   [
     'allow',
@@ -7,4 +7,4 @@ return array(
     'module' => 'mail',
     'controllers' => ['admin/template', 'admin/sendemail', 'default', 'partner']
   ],
-);
+];

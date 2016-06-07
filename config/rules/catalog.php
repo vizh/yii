@@ -1,10 +1,11 @@
 <?php
-return array(
-  /** Admin Rules */
-  array(
-    'allow',
-    'roles' => array('admin'),
-    'module' => 'catalog',
-    'controllers' => array('admin/company')
-  ),
-);
+
+return [
+    /** Admin Rules */
+    [
+        'allow',
+        'roles' => ['admin'],
+        'module' => 'catalog',
+        'controllers' => ['admin/company'],
+    ],
+];

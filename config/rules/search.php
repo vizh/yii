@@ -1,8 +1,9 @@
 <?php
-return array(
-  array(
-    'allow',
-    'users' => array('*'),
-    'module' => 'search'
-  ),
-);
+
+return [
+    [
+        'allow',
+        'users' => ['*'],
+        'module' => 'search',
+    ],
+];

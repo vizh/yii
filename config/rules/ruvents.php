@@ -4,6 +4,6 @@ return [
     [
         'allow',
         'module' => 'ruvents',
-        'controllers' => ['stat']
-    ]
+        'controllers' => ['stat'],
+    ],
 ];

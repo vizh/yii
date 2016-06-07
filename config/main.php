@@ -1,4 +1,5 @@
 <?php
+
 Yii::setPathOfAlias('vendor', __DIR__.'/../vendor');
 
 $config = [
@@ -26,21 +27,21 @@ $config = [
             'class' => '\application\components\auth\WebUser',
             'stateKeyPrefix' => 'tempUser',
             'loginUrl' => null,
-            'identityCookie' => ['domain' => '.'.RUNETID_HOST]
+            'identityCookie' => ['domain' => '.'.RUNETID_HOST],
         ],
         'authManager' => [
             'class' => 'application\components\auth\PhpAuthManager',
-            'defaultRoles' => ['guest']
+            'defaultRoles' => ['guest'],
         ],
         'urlManager' => [
             'urlFormat' => 'path',
             'showScriptName' => false,
             'urlSuffix' => '/',
             'useStrictParsing' => true,
-            'rules' => []
+            'rules' => [],
         ],
         'cache' => [
-            'class' => 'EMongoCache'
+            'class' => 'EMongoCache',
         ],
         'db' => require 'db.php',
         'image' => [
@@ -48,7 +49,7 @@ $config = [
             'driver' => 'GD',
         ],
         'mobileDetect' => [
-            'class' => 'ext.MobileDetect.MobileDetect'
+            'class' => 'ext.MobileDetect.MobileDetect',
         ],
         'session' => [
             'class' => 'application\components\web\PgDbHttpSession',
@@ -57,11 +58,11 @@ $config = [
             'sessionName' => 'sessid',
             'timeout' => 180 * 24 * 60 * 60,
             'gCProbability' => 1,
-            'cookieParams' => ['lifetime' => 0, 'domain' => '.'.RUNETID_HOST, 'httponly' => true]
+            'cookieParams' => ['lifetime' => 0, 'domain' => '.'.RUNETID_HOST, 'httponly' => true],
         ],
         'request' => [
             'class' => '\application\components\HttpRequest',
-            'enableCookieValidation' => true
+            'enableCookieValidation' => true,
         ],
         'errorHandler' => [
             'errorAction' => '/main/error/index',
@@ -69,15 +70,15 @@ $config = [
         'mongodb' => require 'mongo-db.php',
         'log' => [
             'class' => 'CLogRouter',
-            'routes' => require 'log-routes.php'
+            'routes' => require 'log-routes.php',
         ],
         'clientScript' => [
             'packages' => require 'script-packages.php',
-            'scriptMap' => []
+            'scriptMap' => [],
         ],
     ],
     'modules' => require 'modules.php',
-    'params' => require 'params.php'
+    'params' => require 'params.php',
 ];
 
 $config = CMap::mergeArray($config, require 'api.php');
@@ -85,14 +86,14 @@ $config = CMap::mergeArray($config, require 'partner.php');
 $config = CMap::mergeArray($config, require 'ruvents.php');
 $config = CMap::mergeArray($config, require 'ruvents2.php');
 
-$config['components']['urlManager']['rules'] = CMap::mergeArray($config['components']['urlManager']['rules'], require 'url-rules.php');
+$config['components']['urlManager']['rules'] = CMap::mergeArray($config['components']['urlManager']['rules'],
+    require 'url-rules.php');
 
 if (YII_DEBUG) {
     $config['components']['debug'] = [
         'class' => 'ext.yii2-debug.Yii2Debug',
-        'allowedIPs' => ['127.0.0.1', '::1', '82.142.129.37 ']
+        'allowedIPs' => ['127.0.0.1', '::1', '82.142.129.37 '],
     ];
-    
     /*if (YII_DEBUG_DISABLE_CHACHE)
         $config['components']['cache'] = [
             'class' => 'CDummyCache'

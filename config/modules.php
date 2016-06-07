@@ -1,10 +1,10 @@
 <?php
 
 $modules = [
-  /**
-   * Список модулей, используемых основным приложением
-   * Модулт отдельных приложений объявляются в своих файлах (api, partner, ruvents)
-   */
+    /**
+     * Список модулей, используемых основным приложением
+     * Модулт отдельных приложений объявляются в своих файлах (api, partner, ruvents)
+     */
     'catalog',
     'commission',
     'company',
@@ -30,15 +30,15 @@ $modules = [
     'competence',
     'iri',
 
-  /** Технические модули */
+    /** Технические модули */
     'mytest',
-    'mail'
+    'mail',
 ];
 
 if (YII_DEBUG) {
     $modules['gii'] = [
         'class' => 'system.gii.GiiModule',
-        'password' => '123456'
+        'password' => '123456',
     ];
 }
 return $modules;
