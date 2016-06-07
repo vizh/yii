@@ -99,7 +99,7 @@ class Import extends ActiveRecord
             $cellIterator = $row->getCellIterator();
             foreach ($cellIterator as $cell) {
                 /** @var $cell \PHPExcel_Cell */
-                $value = trim($cell->getValue());
+                $value = trim($cell->getFormattedValue());
                 if (!empty($value)) {
                     $result[] = $cell->getColumn();
                 }

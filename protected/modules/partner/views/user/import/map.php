@@ -31,7 +31,7 @@ $this->setPageTitle(\Yii::t('app', 'Импорт участников мероп
                 <?php for ($i = 2; $i < 12; $i++): ?>
                     <tr>
                         <?php foreach ($form->getColumns() as $column): ?>
-                            <td><?= $worksheet->getCell($column . $i)->getValue() ?></td>
+                            <td><?= $worksheet->getCell($column . $i)->getFormattedValue() ?></td>
                         <?php endforeach ?>
                     </tr>
                 <?php endfor ?>
