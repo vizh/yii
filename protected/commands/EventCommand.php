@@ -41,20 +41,12 @@ class EventCommand extends BaseConsoleCommand
         $events = [];
         foreach (self::$eventIds as $sm => $id) {
             $events[$sm] = Event::model()->findByPk($id);
+            $events[$sm]->skipOnRegister = true;
         }
 
         $role = Role::model()->findByPk(Role::PARTICIPANT);
 
         $total = 1;
-
-        /*$file = fopen('emails.txt', 'w');
-        fputcsv($file, [
-            'Email',
-            'LastName',
-            'FisrtName',
-            'FatherName'
-        ]);*/
-
         $transaction = \Yii::app()->getDb()->beginTransaction();
         try {
             foreach ($ais->fetchRegistrations($AISEventId) as $reg) {
@@ -63,23 +55,16 @@ class EventCommand extends BaseConsoleCommand
                 }
 
                 $email = $reg['email'];
-                /*fputcsv($file, [
-                    $email,
-                    $reg['surname'],
-                    $reg['firstname'],
-                    $reg['pathname']
-                ]);
-
-                if ($total > 1000) {
-                    fclose($file);
-                    exit;
-                }*/
 
                 if (!$user = User::model()->byEmail($email)->find()) {
-                    if (!$user = User::create($email, $reg['firstname'], $reg['surname'], $reg['pathname'])) {
+                    if (!$user = User::create($email, $reg['firstname'], $reg['surname'], $reg['pathname'], false)) {
                         $this->error('#$total: Unable to create a user');
                         continue;
                     }
+
+                    $user->refresh();
+                    $user->Settings->UnsubscribeAll = true;
+                    $user->Settings->save();
 
                     $this->info("#$total: User {$user->getFullName()} has been registered");
                 } else {

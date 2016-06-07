@@ -58,7 +58,9 @@ class AIS
 
         $url = self::AIS_SITE . self::URL_REGISTRATIONS . '?' . 'event_id=' . $eventId;
 
-        $res = $this->guzzle->get($url);
+        $res = $this->guzzle->get($url, [
+            'cookies' => true
+        ]);
 
         return json_decode((string) $res->getBody(), true);
     }
@@ -66,7 +68,7 @@ class AIS
     private function auth()
     {
         $res = $this->guzzle->post(self::AIS_SITE . self::URL_LOGIN, [
-            'form_params' => [
+            'body' => [
                 'email' => self::AIS_LOGIN,
                 'password' => self::AIS_PASS,
                 'remember' => '1'
@@ -74,7 +76,8 @@ class AIS
             'headers' => [
                 'X-Requested-With' => 'XMLHttpRequest',
                 'Accept-Encoding' => 'application/json'
-            ]
+            ],
+            'cookies' => true
         ]);
 
         if ($res->getStatusCode() !== 200) {
