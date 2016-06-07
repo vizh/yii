@@ -1,0 +1,10 @@
+RewriteEngine On
+
+RewriteRule ^files/photo/([A-z0-9])*\.jpg?$ /files/photo/404.php [L]
+
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+
+RewriteRule ^.*$ index.php [NC,L]
