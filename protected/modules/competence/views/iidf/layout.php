@@ -14,8 +14,28 @@ use application\components\controllers\MainController;
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Open Sans font from Google CDN -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic" rel="stylesheet" type="text/css">
-    <title><?=CHtml::encode(\Yii::t('app', 'Анкета участника'));?></title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+    <title><?=CHtml::encode(\Yii::t('app', 'Анкета участника'))?></title>
+    <style type="text/css">
+        @font-face {
+            font-family: "Open Sans";
+            src: url(/fonts/opensans/OpenSans-Regular.ttf);
+        }
+        @font-face {
+            font-family: "Open Sans";
+            src: url(/fonts/opensans/OpenSans-Bold.ttf);
+            font-weight: bold;
+        }
+        @font-face {
+            font-family: "Open Sans";
+            src: url(/fonts/opensans/OpenSans-Light.ttf);
+            font-style: italic, oblique;
+        }
+
+        html, body {
+            font-family: "Open Sans", sans-serif;
+        }
+    </style>
 </head>
 <body>
     <div class="logo">

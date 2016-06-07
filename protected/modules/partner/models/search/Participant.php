@@ -181,8 +181,8 @@ class Participant extends SearchFormModel
                 'desc' => 'max("ParticipantsForCriteria"."CreationTime") DESC'
             ],
             'Ruvents' => [
-                'asc'  => '"Badges"."CreationTime" ASC',
-                'desc' => '"Badges"."CreationTime" DESC'
+                'asc'  => '"Badges"."CreationTime" ASC nulls last',
+                'desc' => '"Badges"."CreationTime" DESC nulls last'
             ]
         ];
         return $sort;

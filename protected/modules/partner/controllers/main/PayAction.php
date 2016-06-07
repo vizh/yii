@@ -38,8 +38,10 @@ class PayAction extends \partner\components\Action
 
     private function fillJuridical()
     {
-        $this->statistics->countJuridicalOrders = \pay\models\Order::model()->byDeleted(false)->byPaid(true, false)
-            ->byEventId($this->getEvent()->Id)->byJuridical(true)->count();
+        $orders = \pay\models\Order::model()->byDeleted(false)
+            ->byEventId($this->getEvent()->Id)->byJuridical(true)->findAll();
+        $this->statistics->totalJuridical = array_reduce($orders, function($carry, $order){ return $carry + $order->price; }, 0);
+        $this->statistics->countJuridicalOrders = count($orders);
 
         $command = \Yii::app()->getDb()->createCommand()
             ->select('count("p"."Id") as "countPaid", sum("p"."Total") as "totalPaid"')
@@ -50,7 +52,7 @@ class PayAction extends \partner\components\Action
         $result = $command->queryRow();
 
         $this->statistics->countPaidJuridicalOrders = $result['countPaid'];
-        $this->statistics->totalJuridical = $result['totalPaid'];
+        $this->statistics->totalPaidJuridical = $result['totalPaid'];
 
         $command = \Yii::app()->getDb()->createCommand()
             ->select('count(DISTINCT "oi"."OwnerId") as "countUsers"')
@@ -79,8 +81,10 @@ class PayAction extends \partner\components\Action
 
     private function fillReceipt()
     {
-        $this->statistics->countReceipts = \pay\models\Order::model()->byDeleted(false)->byPaid(true, false)
-            ->byEventId($this->getEvent()->Id)->byReceipt(true)->count();
+        $orders = \pay\models\Order::model()->byDeleted(false)
+            ->byEventId($this->getEvent()->Id)->byReceipt(true)->findAll();
+        $this->statistics->totalReceipt = array_reduce($orders, function($carry, $order){ return $carry + $order->price; }, 0);
+        $this->statistics->countReceipts = count($orders);
 
         $command = \Yii::app()->getDb()->createCommand()
             ->select('count("p"."Id") as "countPaid", sum("p"."Total") as "totalPaid"')
@@ -91,7 +95,7 @@ class PayAction extends \partner\components\Action
         $result = $command->queryRow();
 
         $this->statistics->countPaidReceipts = $result['countPaid'];
-        $this->statistics->totalReceipt = $result['totalPaid'];
+        $this->statistics->totalPaidReceipt = $result['totalPaid'];
 
         $command = \Yii::app()->getDb()->createCommand()
             ->select('count(DISTINCT "oi"."OwnerId") as "countUsers"')
@@ -268,7 +272,7 @@ class PayAction extends \partner\components\Action
             {
                 if ($item->getOrderItem()->Paid) {
                     if ($order->Juridical) {
-                        $statistics->totalJuridical += $item->getPriceDiscount();
+                        $statistics->totalPaidJuridical += $item->getPriceDiscount();
                     } else {
                         $statistics->totalPaySystem += $item->getPriceDiscount();
                     }
@@ -290,12 +294,14 @@ class PayStatistics
     public $countPaidJuridicalOrders = 0;
     public $countJuridicalUsers = 0;
     public $countPaidJuridicalUsers = 0;
+    public $totalPaidJuridical = 0;
     public $totalJuridical = 0;
 
     public $countReceipts = 0;
     public $countPaidReceipts = 0;
     public $countReceiptUsers = 0;
     public $countPaidReceiptUsers = 0;
+    public $totalPaidReceipt = 0;
     public $totalReceipt = 0;
 
     public $countPaySystemOrders = 0;
@@ -318,7 +324,7 @@ class PayStatistics
      */
     public function getTotal()
     {
-        return $this->totalJuridical + $this->totalPaySystem + $this->totalReceipt;
+        return $this->totalPaidJuridical + $this->totalPaySystem + $this->totalPaidReceipt;
     }
 
     public function getTotalOrders()

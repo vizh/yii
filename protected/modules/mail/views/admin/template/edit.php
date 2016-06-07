@@ -40,10 +40,10 @@ $this->setPageTitle('Рассылка');
 ?>
 <?php $activeForm = $this->beginWidget('\application\widgets\ActiveForm', ['htmlOptions' => ['enctype' => 'multipart/form-data', 'class' => 'form-horizontal']]);?>
     <div class="btn-toolbar">
-        <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']); ?>
+        <?=CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']); ?>
     </div>
     <div class="well">
-        <?=Flash::html();?>
+        <?=Flash::html()?>
         <?=$activeForm->errorSummary($form, '<div class="alert alert-error">');?>
 
         <?=$this->renderPartial('edit/count', ['form' => $form]);?>
@@ -72,6 +72,12 @@ $this->setPageTitle('Рассылка');
             <?=$activeForm->label($form, 'FromName', ['class' => 'control-label']);?>
             <div class="controls">
                 <?=$activeForm->textField($form, 'FromName', ['class' => 'span4']);?>
+            </div>
+        </div>
+        <div class="control-group">
+            <?=$activeForm->label($form, 'MailerClass', ['class' => 'control-label']);?>
+            <div class="controls">
+                <?=$activeForm->dropDownList($form, 'MailerClass', $form->getMailServices(), ['class' => 'span4'])?>
             </div>
         </div>
         <div class="control-group">

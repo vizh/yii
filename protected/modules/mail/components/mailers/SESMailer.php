@@ -43,7 +43,7 @@ class SESMailer extends \mail\components\Mailer
      */
     private static function cleanFilename($str, $limit = 0, $replace = [], $delimiter = '-')
     {
-        if( !empty($replace) ) {
+        if (!empty($replace)) {
             $str = str_replace((array)$replace, ' ', $str);
         }
 
@@ -96,9 +96,9 @@ class SESMailer extends \mail\components\Mailer
         foreach ($mails as $mail) {
             $args = [
                 'to' => $mail->getTo(),
-                'subject' => $mail->getSubject(),
+                'subject' => '=?UTF-8?B?' . base64_encode($mail->getSubject()) . '?=',
                 'message' => $mail->getBody(),
-                'from' => $mail->getFrom(),
+                'from' => $mail->getFromName() . ' <' . $mail->getFrom() . '>',
             ];
 
             $attachments = $mail->getAttachments();
@@ -200,7 +200,7 @@ class SESMailer extends \mail\components\Mailer
         }
 
         // in case you have funny characters in the subject
-        $subject = mb_encode_mimeheader($subject, 'UTF-8');
+        $subject = $subject;
         $msg .= "Subject: $subject\n";
         $msg .= "MIME-Version: 1.0\n";
         $msg .= "Content-Type: multipart/mixed;\n";

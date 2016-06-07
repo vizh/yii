@@ -8,6 +8,7 @@ use application\models\attribute\Definition;
 use event\models\Participant;
 use event\models\UserData;
 use pay\components\OrderItemCollection;
+use pay\models\Order;
 use pay\models\OrderItem;
 use pay\models\OrderType;
 use ruvents\models\Badge;
@@ -160,8 +161,12 @@ class ExcelBuilder
 
         $i = 0;
         foreach ($row as $value) {
-            $sheet->setCellValueExplicitByColumnAndRow($i++, $this->rowIterator, $value,
-                \PHPExcel_Cell_DataType::TYPE_STRING);
+            $type = \PHPExcel_Cell_DataType::TYPE_STRING;
+            if (is_numeric($value)) {
+                $type = \PHPExcel_Cell_DataType::TYPE_NUMERIC;
+            }
+
+            $sheet->setCellValueExplicitByColumnAndRow($i++, $this->rowIterator, $value, $type);
         }
         $this->rowIterator++;
     }
@@ -220,35 +225,40 @@ class ExcelBuilder
             ->with(['OrderLinks.Order', 'OrderLinks.Order.ItemLinks'])
             ->findAll();
 
-        if (!empty($orderItems)) {
-            $datePay = [];
-            $paidType = [];
-            $products = [];
-            foreach ($orderItems as $orderItem) {
-                $price = 0;
-                $order = $orderItem->getPaidOrder();
-                if ($order !== null) {
-                    $collections = OrderItemCollection::createByOrder($order);
-                    foreach ($collections as $orderItemCollectable) {
-                        if ($orderItemCollectable->getOrderItem()->Id == $orderItem->Id) {
-                            $products[] = $orderItemCollectable->getOrderItem()->Product->Title;
-                            $price = $orderItemCollectable->getPriceDiscount();
-                            break;
-                        }
-                    }
-                    $paidType[] = $order->Type == OrderType::Juridical ? \Yii::t('app', 'Юр. лицо')
-                        : \Yii::t('app', 'Физ. лицо');
-                } else {
-                    $paidType[] = 'Промо-код';
-                }
-
-                $row['Price'] += $price;
-                $datePay[] = $formatter->format('dd MMMM yyyy H:m', $orderItem->PaidTime);
-            }
-            $row['Products'] = implode(', ', $products);
-            $row['DatePay'] = implode(', ', array_unique($datePay));
-            $row['PaidType'] = implode(', ', array_unique($paidType));
+        if (empty($orderItems)) {
+            return;
         }
+
+        $datePay = [];
+        $paidType = [];
+        $products = [];
+
+        foreach ($orderItems as $orderItem) {
+            $price = 0;
+            $order = $orderItem->getPaidOrder();
+            if ($order !== null) {
+                $collections = OrderItemCollection::createByOrder($order);
+                foreach ($collections as $orderItemCollectable) {
+                    if ($orderItemCollectable->getOrderItem()->Id == $orderItem->Id) {
+                        $products[] = $orderItemCollectable->getOrderItem()->Product->Title;
+                        $price = $orderItemCollectable->getPriceDiscount();
+
+                        break;
+                    }
+                }
+                $paidType[] = $order->Type == OrderType::Juridical ? \Yii::t('app', 'Юр. лицо')
+                    : \Yii::t('app', 'Физ. лицо');
+            } else {
+                $paidType[] = 'Промо-код';
+            }
+
+            $row['Price'] += $price;
+            $datePay[] = $formatter->format('dd MMMM yyyy H:m', $orderItem->PaidTime);
+        }
+
+        $row['Products'] = implode(', ', $products);
+        $row['DatePay'] = implode(', ', array_unique($datePay));
+        $row['PaidType'] = implode(', ', array_unique($paidType));
     }
 
     /**
