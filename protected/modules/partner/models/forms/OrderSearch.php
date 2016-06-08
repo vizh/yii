@@ -12,26 +12,17 @@ class OrderSearch extends \CFormModel
 
     public function rules() {
         return [
-            ['Order, Company, INN, Payer, Paid, Deleted', 'safe']
+            ['Order, Company, Payer, Paid, Deleted', 'safe']
         ];
     }
 
     public function attributeLabels() {
         return [
             'Order' => 'Номер счета',
-            'Company' => 'Название компании',
-            'INN' => 'ИНН компании',
+            'Company' => 'Название/ИНН компании',
             'Payer' => 'Плательщик',
-            'Paid' => 'Оплачен',
+            'Paid' => 'Показывать оплаченные',
             'Deleted' => 'Показывать удаленные'
-        ];
-    }
-
-    public function getListValues() {
-        return [
-            '' => '',
-            1  => 'Да',
-            0  => 'Нет',
         ];
     }
 }

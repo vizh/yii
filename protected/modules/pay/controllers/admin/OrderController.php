@@ -10,6 +10,8 @@ class OrderController extends \application\components\controllers\AdminMainContr
             'print' => '\pay\controllers\admin\order\PrintAction',
             'payers' => '\pay\controllers\admin\order\PayersAction',
             'writingout' => '\pay\controllers\admin\order\WritingOutAction',
+            'pay' => '\pay\controllers\admin\order\PayAction',
+            'autocomplete' => '\pay\controllers\admin\order\AutocompleteAction',
         ];
     }
 

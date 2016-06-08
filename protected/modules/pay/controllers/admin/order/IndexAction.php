@@ -53,27 +53,20 @@ class IndexAction extends \CAction
       $criteria->params['OrderId'] =(int)$form->Order;
     }
 
-    if ($form->Paid !== '' && $form->Paid !== null)
-    {
-      $criteria->addCondition(($form->Paid == 0 ? 'NOT ' : '') . '"t"."Paid"');
+    if (!$form->Paid){
+      $criteria->addCondition('not "t"."Paid"');
     }
-    if ($form->Deleted !== '' && $form->Deleted !== null)
-    {
-      $criteria->addCondition(($form->Deleted == 0 ? 'NOT ' : '') . '"t"."Deleted"');
+    if (!$form->Deleted){
+      $criteria->addCondition('not "t"."Deleted"');
     }
 
-    if ($form->INN != '' || $form->Company != '')
+    if ($form->Company != '')
     {
       $criteria->with['OrderJuridical'] = array('together' => true);
       if ($form->Company != '')
       {
-          $criteria->addCondition('to_tsvector("OrderJuridical"."Name") @@ plainto_tsquery(:Company)');
+          $criteria->addCondition('to_tsvector("OrderJuridical"."Name") @@ plainto_tsquery(:Company) or "OrderJuridical"."INN" = :Company');
           $criteria->params['Company'] = $form->Company;
-      }
-      if ($form->INN != '')
-      {
-        $criteria->addCondition('"OrderJuridical"."INN" = :INN');
-        $criteria->params['INN'] = $form->INN;
       }
     }
     else
