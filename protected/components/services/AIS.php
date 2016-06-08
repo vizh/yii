@@ -49,14 +49,23 @@ class AIS
      * Returns registrations
      *
      * @param int $eventId Event identifier
+     * @param string $dateTime Date and/or time as a start time for fetching registrations
      * @return array
      * @throws \CException
      */
-    public function fetchRegistrations($eventId)
+    public function fetchRegistrations($eventId, $dateTime = null)
     {
         $this->auth();
 
-        $url = self::AIS_SITE . self::URL_REGISTRATIONS . '?' . 'event_id=' . $eventId;
+        $params = [
+            'event_id' => $eventId
+        ];
+
+        if ($dateTime) {
+            $params['date'] = $dateTime;
+        }
+
+        $url = self::AIS_SITE . self::URL_REGISTRATIONS . '?' . http_build_query($params, null, '&');
 
         $res = $this->guzzle->get($url, [
             'cookies' => true
@@ -65,6 +74,11 @@ class AIS
         return json_decode((string) $res->getBody(), true);
     }
 
+    /**
+     * Authenticate the client
+     *
+     * @throws \CException
+     */
     private function auth()
     {
         $res = $this->guzzle->post(self::AIS_SITE . self::URL_LOGIN, [
