@@ -150,25 +150,26 @@ class ImportUser extends ActiveRecord
     }
 
     /**
+     * @param User $user
      * @return UserData|null
      */
-    public function getUserData()
+    public function getUserData(User $user)
     {
-        if (!empty($this->UserData)) {
-            $data = new UserData();
-            $data->EventId = $this->Import->EventId;
-
-            $manager = $data->getManager();
-            foreach (json_decode($this->UserData, true) as $key => $value) {
-                try {
-                    $manager->{$key} = $value;
-                } catch (\application\components\Exception $e) {
-                }
-            }
-            return $data;
+        if (empty($this->UserData)) {
+            return null;
         }
 
-        return null;
+        $data = UserData::fetch($this->Import->EventId, $user);
+
+        $manager = $data->getManager();
+        foreach (json_decode($this->UserData, true) as $key => $value) {
+            try {
+                $manager->{$key} = $value;
+            } catch (\application\components\Exception $e) {
+            }
+        }
+
+        return $data;
     }
 
     protected function beforeSave()
@@ -347,7 +348,7 @@ class ImportUser extends ActiveRecord
      */
     private function setUserData(User $user, Import $import)
     {
-        if ($data = $this->getUserData()) {
+        if ($data = $this->getUserData($user)) {
             $data->UserId = $user->Id;
             $manager = $data->getManager();
             if (!$manager->validate()) {

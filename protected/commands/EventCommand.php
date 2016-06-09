@@ -4,6 +4,7 @@ use application\components\console\BaseConsoleCommand;
 use application\components\services\AIS;
 use event\models\Event;
 use event\models\Role;
+use event\models\UserData;
 use user\models\User;
 use contact\models\Address;
 use geo\models\Country;
@@ -17,6 +18,54 @@ class EventCommand extends BaseConsoleCommand
     const AIS_EVENT_ID = 77;
 
     /**
+     * Shifts for TS
+     *
+     * @var array
+     */
+    private static $shifts = [
+        'Молодые ученые и преподаватели общественных наук' => [
+            'number' => 1,
+            'startDate' => '27.06',
+            'endDate' => '03.07'
+        ],
+        'Молодые депутаты и политические лидеры' => [
+            'number' => 2,
+            'startDate' => '05.07',
+            'endDate' => '11.07'
+        ],
+        'Молодые ученые и преподаватели в области IT-технологий' => [
+            'number' => 3,
+            'startDate' => '13.07',
+            'endDate' => '19.07'
+        ],
+        'Молодые специалисты в области межнациональных отношений' => [
+            'number' => 4,
+            'startDate' => '21.07',
+            'endDate' => '27.07'
+        ],
+        'Молодые ученые и преподаватели экономических наук' => [
+            'number' => 5,
+            'startDate' => '29.07',
+            'endDate' => '04.08'
+        ],
+        'Молодые ученые и преподаватели в области здравоохранения' => [
+            'number' => 6,
+            'startDate' => '06.08',
+            'endDate' => '12.08'
+        ],
+        'Молодые руководители социальных НКО и проектов' => [
+            'number' => 7,
+            'startDate' => '14.08',
+            'endDate' => '20.08'
+        ],
+        'Молодые преподаватели факультетов журналистики, молодые журналисты' => [
+            'number' => 8,
+            'startDate' => '22.08',
+            'endDate' => '28.08'
+        ],
+    ];
+
+    /**
      * Imports participants from the AIS system
      *
      * @param bool $update Update the information for the last day
@@ -27,7 +76,10 @@ class EventCommand extends BaseConsoleCommand
 
         $yesterday = $update ? (new DateTime())->sub(new DateInterval('PT1H'))->format('Y-m-d H:i:s') : null;
 
-        $events = $this->fetchTSEvents();
+        // Find the TS event
+        $event = Event::model()->findByPk(2783);
+        // Disable participants notification
+        $event->skipOnRegister = true;
         $role = Role::model()->findByPk(Role::PARTICIPANT);
 
         $total = 0;
@@ -43,17 +95,27 @@ class EventCommand extends BaseConsoleCommand
                     continue;
                 }
 
-                $this->setUserAddress($user, $reg['country_name'] ?: 'Россия', $reg['region_name']);
-
+                $userId = $reg['user_id'];
+                $region = $reg['region_name'] . ' ' . $reg['socr'];
+                $country = $reg['country_name'] ?: 'Россия';
                 $smena = $reg['smena_nm'];
-                if (!isset($events[$smena])) {
-                    $this->error('#$total: Unable to find an event for the user');
-                    continue;
-                }
 
-                $events[$smena]->registerUser($user, $role);
+                $event->registerUser($user, $role);
 
-                $this->info("#$total: User {$user->getFullName()} is successfully registered for the event {$events[$smena]->IdName}");
+                $data = UserData::fetch($event, $user);
+
+                $m = $data->getManager();
+                $m->ais_user_id = $userId;
+                $m->country = $country;
+                $m->region = $region;
+                list($m->start_date, $m->end_date, $m->smena_no) = $this->detectShiftDates($smena);
+                $m->smena = $smena;
+
+                $data->save();
+
+                $event->getUserData($user);
+
+                $this->info("#$total: User {$user->getFullName()} is successfully registered for the event {$event->IdName}");
 
                 $total++;
             }
@@ -127,35 +189,19 @@ class EventCommand extends BaseConsoleCommand
     }
 
     /**
-     * Fetches events
+     * Detects dates and number of the shift. It returns nulls if it can't find the shift
      *
-     * @return Event[]
-     * @throws \CException
+     * @param string $shift Name of the shift
+     * @return array Dates and number in the format [startDate, endDate, number]
      */
-    private function fetchTSEvents()
+    private function detectShiftDates($shift)
     {
-        $eventIds = [
-            'Молодые ученые и преподаватели общественных наук' => 2766,
-            'Молодые депутаты и политические лидеры' => 2767,
-            'Молодые ученые и преподаватели в области IT-технологий' => 2768,
-            'Молодые специалисты в области межнациональных отношений' => 2769,
-            'Молодые ученые и преподаватели экономических наук' => 2770,
-            'Молодые ученые и преподаватели в области здравоохранения' => 2771,
-            'Молодые руководители социальных НКО и проектов' => 2772,
-            'Молодые преподаватели факультетов журналистики, молодые журналисты' => 2773,
-        ];
-
-        /** @var Event[] $events */
-        $events = [];
-        foreach ($eventIds as $sm => $id) {
-            if (!$events[$sm] = Event::model()->findByPk($id)) {
-                throw new \CException('Event if not found from TS events list');
-            }
-
-            // Disable participants notification
-            $events[$sm]->skipOnRegister = true;
+        if (!isset(self::$shifts[$shift])) {
+            return [null, null, null];
         }
 
-        return $events;
+        $data = self::$shifts[$shift];
+
+        return [$data['startDate'], $data['endDate'], $data['number']];
     }
 }
