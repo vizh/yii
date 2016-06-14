@@ -309,7 +309,7 @@ class Template extends ActiveRecord
     {
         if (is_null($this->mailer)) {
             $className = 'mail\\components\\mailers\\' . $this->MailerClass;
-            $fileName = \Yii::getPathOfAlias('application.modules') . str_replace($className, '\\', '/') . '.php';
+            $fileName = \Yii::getPathOfAlias('application.modules') . strtr($className, ['\\' => '/']) . '.php';
 
             if (!file_exists($fileName)) {
                 // use fallback option for mailer class
