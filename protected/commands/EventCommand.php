@@ -1,5 +1,7 @@
 <?php
 
+use api\models\Account;
+use api\models\ExternalUser;
 use application\components\console\BaseConsoleCommand;
 use application\components\services\AIS;
 use event\models\Event;
@@ -15,7 +17,8 @@ use geo\models\Region;
  */
 class EventCommand extends BaseConsoleCommand
 {
-    const AIS_EVENT_ID = 77;
+    const AIS_PARTICIPANTS_EVENT_ID = 77;
+    const AIS_VOLUNTEERS_EVENT_ID = 112;
 
     /**
      * Shifts for TS
@@ -76,55 +79,38 @@ class EventCommand extends BaseConsoleCommand
 
         $yesterday = $update ? (new DateTime())->sub(new DateInterval('PT1H'))->format('Y-m-d H:i:s') : null;
 
+        $eventId = 2783;
+
         // Find the TS event
-        $event = Event::model()->findByPk(2783);
+        $event = Event::model()->findByPk($eventId);
         // Disable participants notification
         $event->skipOnRegister = true;
-        $role = Role::model()->findByPk(Role::PARTICIPANT);
+        $rolesMap = [
+            self::AIS_VOLUNTEERS_EVENT_ID => Role::model()->findByPk(Role::VOLUNTEER),
+            self::AIS_PARTICIPANTS_EVENT_ID => Role::model()->findByPk(Role::PARTICIPANT)
+        ];
+
+        if (!$apiAccount = Account::model()->byEventId($eventId)->find()) {
+            echo "API account for the event $eventId has not beed found\n";
+            return;
+        }
 
         $total = 0;
 
         $transaction = \Yii::app()->getDb()->beginTransaction();
         try {
-            foreach ($ais->fetchRegistrations(self::AIS_EVENT_ID, $yesterday) as $reg) {
-                if ($reg['status'] < 12 /* 12 or 13 */) {
-                    continue;
+            foreach ($rolesMap as $eventId => $role) {
+                foreach ($ais->fetchRegistrations($eventId, $yesterday) as $reg) {
+                    if ($reg['status'] < 12 /* 12 or 13 */) {
+                        continue;
+                    }
+
+                    $user = $this->processRegistration($reg, $event, $role, $apiAccount);
+
+                    $this->info("#$total: User {$user->getFullName()} is successfully registered for the event {$event->IdName}");
+
+                    $total++;
                 }
-
-                if (!$user = $this->fetchUser($reg['email'], $reg['firstname'], $reg['surname'], $reg['pathname'])) {
-                    continue;
-                }
-
-                $userId = $reg['user_id'];
-                $region = $reg['region_name'] . ' ' . $reg['socr'];
-                $country = $reg['country_name'] ?: 'Россия';
-                $smena = $reg['smena_nm'];
-                $team = $reg['twenty'];
-
-                $photoUrl = AIS::getAvatarUrl($userId);
-                if (!$user->getPhoto()->hasImage() && $this->urlExists($photoUrl)) {
-                    $user->getPhoto()->save($photoUrl);
-                }
-
-                $event->registerUser($user, $role);
-
-                $data = UserData::fetch($event, $user);
-
-                $m = $data->getManager();
-                $m->ais_user_id = $userId;
-                $m->country = $country;
-                $m->region = $region;
-                list($m->start_date, $m->end_date, $m->smena_no) = $this->detectShiftDates($smena);
-                $m->smena = $smena;
-                $m->team_number = $team;
-
-                $data->save();
-
-                $event->getUserData($user);
-
-                $this->info("#$total: User {$user->getFullName()} is successfully registered for the event {$event->IdName}");
-
-                $total++;
             }
 
             $transaction->commit();
@@ -134,6 +120,53 @@ class EventCommand extends BaseConsoleCommand
             $transaction->rollback();
             echo $e->getMessage() . "\n";
         }
+    }
+
+    /**
+     * Processes the registration of the user
+     *
+     * @param array $data Information about registration
+     * @param Event $event
+     * @param Role $role
+     * @param Account $apiAccount
+     * @return User Processed user
+     * @throws \application\components\Exception
+     */
+    private function processRegistration(array $data, Event $event, Role $role, Account $apiAccount)
+    {
+        if (!$user = $this->fetchUser($data['email'], $data['firstname'], $data['surname'], $data['pathname'])) {
+            return null;
+        }
+
+        $userId = $data['user_id'];
+        $region = $data['socr'] . ' ' . $data['region_name'];
+        $country = $data['country_name'] ?: 'Россия';
+        $smena = $data['smena_nm'];
+        $team = $data['twenty'];
+
+        $photoUrl = AIS::getAvatarUrl($userId);
+        if ($this->urlExists($photoUrl)) {
+            $user->getPhoto()->save($photoUrl);
+        }
+
+        $event->registerUser($user, $role);
+
+        $data = UserData::fetch($event, $user);
+
+        ExternalUser::create($user, $apiAccount, $userId);
+
+        $m = $data->getManager();
+        $m->country = $country;
+        $m->region = $region;
+        list($m->start_date, $m->end_date, $m->smena_no) = $this->detectShiftDates($smena);
+        $m->smena = $smena;
+        $m->team_number = $team;
+
+        $data->save();
+
+        $event->getUserData($user);
+
+        return $user;
     }
 
     /**
@@ -151,6 +184,20 @@ class EventCommand extends BaseConsoleCommand
             if (!$user = User::create($email, $firstName, $lastName, $fatherName, false)) {
                 $this->error('#$total: Unable to create a user');
                 return null;
+            } else {
+                if (!$user->LastName) {
+                    $user->LastName = $lastName;
+                }
+
+                if (!$user->FirstName) {
+                    $user->FirstName = $firstName;
+                }
+
+                if (!$user->FatherName) {
+                    $user->FatherName = $fatherName;
+                }
+
+                $user->save();
             }
 
             $user->refresh();
