@@ -224,6 +224,18 @@ class ImportPrepare extends \CFormModel
      */
     private function createImportUser($importId, array $values)
     {
+        $isEmpty = true;
+        foreach ($values as $value) {
+            if ($value) {
+                $isEmpty = false;
+                break;
+            }
+        }
+
+        if ($isEmpty) {
+            return;
+        }
+
         $importUser = new ImportUser();
         $importUser->ImportId = $importId;
 

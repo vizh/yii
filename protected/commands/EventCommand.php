@@ -99,6 +99,12 @@ class EventCommand extends BaseConsoleCommand
                 $region = $reg['region_name'] . ' ' . $reg['socr'];
                 $country = $reg['country_name'] ?: 'Россия';
                 $smena = $reg['smena_nm'];
+                $team = $reg['twenty'];
+
+                $photoUrl = AIS::getAvatarUrl($userId);
+                if (!$user->getPhoto()->hasImage() && $this->urlExists($photoUrl)) {
+                    $user->getPhoto()->save($photoUrl);
+                }
 
                 $event->registerUser($user, $role);
 
@@ -110,6 +116,7 @@ class EventCommand extends BaseConsoleCommand
                 $m->region = $region;
                 list($m->start_date, $m->end_date, $m->smena_no) = $this->detectShiftDates($smena);
                 $m->smena = $smena;
+                $m->team_number = $team;
 
                 $data->save();
 
@@ -203,5 +210,24 @@ class EventCommand extends BaseConsoleCommand
         $data = self::$shifts[$shift];
 
         return [$data['startDate'], $data['endDate'], $data['number']];
+    }
+
+    /**
+     * Checks that the url exists
+     *
+     * @param string $url
+     * @return bool
+     */
+    private function urlExists($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_NOBODY, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_exec($ch);
+        $good = curl_getinfo($ch, CURLINFO_HTTP_CODE) === 200;
+        curl_close($ch);
+
+        return $good;
     }
 }

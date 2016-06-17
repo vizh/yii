@@ -17,11 +17,23 @@ class AIS
     const URL_PARTICIPANT_REGISTER = 'getUserRegistration';
     const URL_PARTICIPANT_CONFIRM_PRESENCE = 'eventChoose';
     const URL_REGISTRATIONS = 'getEventRegistrations';
+    const URL_GET_AVATAR = 'users_resources/{user_id}/avatar.jpg';
 
     /**
      * @var GuzzleHttp\Client
      */
     private $guzzle;
+
+    /**
+     * Returns an url for getting the avatar of the user
+     *
+     * @param int $userId
+     * @return string
+     */
+    public static function getAvatarUrl($userId)
+    {
+        return self::AIS_SITE . strtr(self::URL_GET_AVATAR, ['{user_id}' => $userId]);
+    }
 
     /**
      * Construct the object
