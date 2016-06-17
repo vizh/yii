@@ -53,17 +53,19 @@ abstract class Base
      * @param Product $product
      * @return bool
      */
-    public function checkCouponLinkProduct(Product $product) {
+    public function checkCouponLinkProduct(Product $product)
+    {
         foreach ($this->coupon->ProductLinks as $link) {
             if ($link->ProductId == $product->Id) {
                 return true;
             }
         }
+
         return false;
     }
 
     /**
-     * Возвразает список уникальных id пользователей, которые присуствуют в счете
+     * Возвращает список уникальных id пользователей, которые присуствуют в счете
      * @param OrderItemCollection $collection
      * @return array
      */
@@ -76,6 +78,7 @@ abstract class Base
             }
         }
         $list = array_unique($list);
+        
         return $list;
     }
 
@@ -92,6 +95,7 @@ abstract class Base
         }
 
         $discount = $this->getDiscount($collection);
+
         if ($discount == 0) {
             return;
         }

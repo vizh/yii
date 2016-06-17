@@ -320,12 +320,15 @@ abstract class BaseProductManager
     {
         $time = $time ?: date('Y-m-d H:i:s', time());
 
-        foreach ($this->product->Prices as $price)
-            if ($price->StartTime <= $time && ($price->EndTime == null || $time < $price->EndTime))
+        foreach ($this->product->Prices as $price) {
+            if ($price->StartTime <= $time && ($price->EndTime == null || $time < $price->EndTime)) {
                 return $price->Price;
+            }
+        }
 
-        if ($_SERVER['REQUEST_URI'] === '/event/updatedusers/')
+        if ($_SERVER['REQUEST_URI'] === '/event/updatedusers/') {
             return 0;
+        }
 
         throw new MessageException('Не удалось определить цену продукта!!');
     }

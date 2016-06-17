@@ -93,6 +93,35 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     const PasswordLengthMin = 6;
 
     /**
+     * Creates a new one user
+     *
+     * @param string $email An email of the user
+     * @param string $firstName First name
+     * @param string $lastName Last name
+     * @param string $fatherName Father name
+     * @param bool $visible Whether the user should be visible
+     * @param bool $notify Whether the user should be notified after registration
+     * @return null|User
+     */
+    public static function create($email, $firstName, $lastName, $fatherName, $visible = true, $notify = false)
+    {
+        try {
+            $model = new self();
+            $model->setAttributes([
+                'Email' => $email,
+                'FirstName' => $firstName,
+                'LastName' => $lastName,
+                'FatherName' => $fatherName,
+                'Visible' => $visible
+            ], false);
+
+            return $model->register($notify);
+        } catch (\CDbException $e) {
+            return null;
+        }
+    }
+
+    /**
      * Allows authenticate the user by a hash
      * @param int $runetId RunetId of the user
      * @param string $hash Validation hash
@@ -127,16 +156,17 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function tableName()
     {
         return 'User';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function relations()
     {
         return array(

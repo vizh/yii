@@ -1,7 +1,11 @@
 <?php
 namespace contact\models;
+
 use application\components\db\ar\OldAttributesStorage;
 use application\models\translation\ActiveRecord;
+use geo\models\City;
+use geo\models\Country;
+use geo\models\Region;
 
 /**
  * @property int $Id
@@ -17,33 +21,52 @@ use application\models\translation\ActiveRecord;
  * @property string $Place
  * @property string $GeoPoint
  *
- * @property \geo\models\Country $Country
- * @property \geo\models\Region $Region
- * @property \geo\models\City $City
+ * @property Country $Country
+ * @property Region $Region
+ * @property City $City
  */
 class Address extends ActiveRecord
 {
     use OldAttributesStorage;
 
     /**
-     * @param string $className
-     * @return Address
+     * @inheritdoc
      */
-    public static function model($className = __CLASS__)
+    public static function create(Country $country, Region $region = null, City $city = null, array $detail = [])
     {
-        return parent::model($className);
+        try {
+            $model = new self();
+            $model->CountryId = $country->Id;
+            $model->RegionId = $region ? $region->Id : null;
+            $model->CityId = $city ? $city->Id : null;
+
+            foreach ($detail as $field => $v) {
+                if (!$model->hasAttribute($field) || in_array($field, ['Id', 'CountryId', 'RegionId', 'CityId'])) {
+                    continue;
+                }
+
+                $model->$field = $v;
+            }
+
+            $model->save(false);
+
+            return $model;
+        } catch (\CDbException $e) {
+            return null;
+        }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function tableName()
     {
         return 'ContactAddress';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function relations()
     {
         return [

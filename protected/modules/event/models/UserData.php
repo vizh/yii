@@ -31,8 +31,8 @@ class UserData extends ActiveRecord
 
     /**
      * Creates an empty user data record
-     * @param Event $event
-     * @param User $user
+     * @param Event|int $event Event's model or event's identifier
+     * @param User|int $user User's model or user's identifier
      * @return self
      */
     public static function createEmpty($event, $user)
@@ -57,6 +57,38 @@ class UserData extends ActiveRecord
         $model->save();
 
         return $model;
+    }
+
+    /**
+     * Fetches the user extended data. If it can't find the one it creates an empty record an returns it
+     *
+     * @param Event|int $event Event's model or event's identifier
+     * @param User|int $user User's model or user's identifier
+     * @return UserData
+     */
+    public static function fetch($event, $user)
+    {
+        if ($event instanceof Event) {
+            $event = $event->Id;
+        }
+
+        if ($user instanceof User) {
+            $user = $user->Id;
+        }
+
+        $data = UserData::model()->find([
+            'condition' => '"EventId" = :eventId AND "UserId" = :userId',
+            'params' => [
+                ':eventId' => $event,
+                ':userId' => $user
+            ]
+        ]);
+
+        if (!$data) {
+            $data = self::createEmpty($event, $user);
+        }
+
+        return $data;
     }
 
     /**

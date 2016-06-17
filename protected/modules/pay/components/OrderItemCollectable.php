@@ -34,9 +34,11 @@ class OrderItemCollectable
     public function getPriceDiscount()
     {
         $price = $this->orderItem->getPriceDiscount();
+
         if ($price > ($this->getPrice() - $this->collectionDiscount)) {
             $price = $this->getPrice() - $this->collectionDiscount;
         }
+
         return $price;
     }
 

@@ -1,10 +1,11 @@
 <?php
-return array(
-  array(
-    'allow',
-    'users' => array('*'),
-    'controllers' => array('test'),
-    'actions' => array('index'),
-    'module' => 'rbac'
-  ),
-);
+
+return [
+    [
+        'allow',
+        'users' => ['*'],
+        'controllers' => ['test'],
+        'actions' => ['index'],
+        'module' => 'rbac',
+    ],
+];

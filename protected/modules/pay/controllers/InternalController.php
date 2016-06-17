@@ -90,7 +90,7 @@ class InternalController extends \application\components\controllers\PublicMainC
 
         ini_set('max_execution_time', self::MAX_EXECUTION_TIME);
 
-        $parser = new CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/import_rooms_2016_15022.csv');
+        $parser = new CsvParser($_SERVER['DOCUMENT_ROOT'] . '/files/additional-numbers.csv');
         $parser->SetInEncoding('utf-8');
         $parser->SetDelimeter(';');
         $results = $parser->Parse($this->fieldMap, false);

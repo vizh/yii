@@ -34,7 +34,7 @@ use user\models\User;
  * @method OrderItem findByPk($pk, $condition = '', $params = [])
  * @method OrderItem find()
  * @method OrderItem[] findAll($condition = '', $params = [])
- * @method OrderItem with()
+ * @method OrderItem with($with)
  * @method OrderItem byRefund(boolean $refund)
  */
 class OrderItem extends ActiveRecord
@@ -390,6 +390,7 @@ class OrderItem extends ActiveRecord
     public function getPriceDiscount()
     {
         $prices[] = $this->getPrice();
+
         if ($prices[0] === null) {
             throw new MessageException('Не удалось определить цену продукта!');
         }
