@@ -72,7 +72,6 @@ class CollectionCoupon extends \CActiveRecord
     /**
      * @param $eventId
      * @param bool $useAnd
-     *
      * @return $this
      */
     public function byEventId($eventId, $useAnd = true)
@@ -81,6 +80,7 @@ class CollectionCoupon extends \CActiveRecord
         $criteria->condition = '"t"."EventId" = :EventId';
         $criteria->params = ['EventId' => $eventId];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -98,6 +98,7 @@ class CollectionCoupon extends \CActiveRecord
             $type = '\pay\components\coupon\collection\managers\\' . $this->Type;
             $this->typeManager = new $type($this);
         }
+
         return $this->typeManager;
     }
 
@@ -109,27 +110,32 @@ class CollectionCoupon extends \CActiveRecord
      */
     public function isActive($dateTime = null)
     {
-        if (empty($dateTime))
+        if (empty($dateTime)) {
             $dateTime = date('Y-m-d H:i:s');
-        else {
+        } else {
             $dateParsed = date_parse($dateTime);
-            if (!empty($dateParsed['errors']))
+            if (!empty($dateParsed['errors'])) {
                 throw new \CException('Передан неверный формат даты!');
+            }
 
             $dateTime = mktime($dateParsed['hour'], $dateParsed['minute'], $dateParsed['second'],
                 $dateParsed['month'], $dateParsed['day'], $dateParsed['year']);
 
             $dateTime = date('Y-m-d H:i:s', $dateTime);
         }
-        
-        if (empty($this->StartTime) && empty($this->EndTime))
+
+        if (empty($this->StartTime) && empty($this->EndTime)) {
             return true;
-        if (empty($this->EndTime) && $dateTime >= $this->StartTime)
+        }
+        if (empty($this->EndTime) && $dateTime >= $this->StartTime) {
             return true;
-        if (empty($this->StartTime) && $dateTime <= $this->EndTime)
+        }
+        if (empty($this->StartTime) && $dateTime <= $this->EndTime) {
             return true;
-        if ($dateTime >= $this->StartTime && $dateTime <= $this->EndTime)
+        }
+        if ($dateTime >= $this->StartTime && $dateTime <= $this->EndTime) {
             return true;
+        }
 
         return false;
     }

@@ -39,6 +39,7 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
         $collection = new self($items);
         $collection->_order = $order;
         $collection->applyCollectionCoupons();
+
         return $collection;
     }
 
@@ -51,6 +52,7 @@ class OrderItemCollection implements \Countable, \ArrayAccess, \IteratorAggregat
     {
         $collection = new self($orderItems);
         $collection->applyCollectionCoupons();
+        
         return $collection;
     }
 
