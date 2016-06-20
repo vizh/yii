@@ -229,12 +229,7 @@ class ImportUser extends ActiveRecord
             $user = $this->createUser($import);
 
             if ($this->ExternalId && $import->getApiAccount()) {
-                $externalUser = new ExternalUser();
-                $externalUser->UserId = $user->Id;
-                $externalUser->AccountId = $import->getApiAccount()->Id;
-                $externalUser->Partner = $import->getApiAccount()->Role;
-                $externalUser->ExternalId = $this->ExternalId;
-                $externalUser->save();
+                ExternalUser::create($user, $import->getApiAccount(), $this->ExternalId);
             }
 
             $this->setCompany($user);
@@ -499,14 +494,15 @@ class ImportUser extends ActiveRecord
         }
 
         $match = [];
-        if (!preg_match('#(\d{2})[\.//](\d{2})[\.//]?(\d{2,4})?#', $date, $match)) {
-            return null;
+        if (preg_match('#(\d{2})[\.//](\d{2})[\.//]?(\d{2,4})?#', $date, $match)) {
+            return $match[1] . '.' . $match[2];
         }
 
-        if (!isset($match[1]) && !isset($match[2])) {
-            return null;
+        $match = [];
+        if (preg_match('#(\d{2})-(\d{2})[-]?(\d{2,4})?#', $date, $match)) {
+            return $match[2] . '.' . $match[1];
         }
 
-        return $match[1] . '.' . $match[2];
+        return null;
     }
 }
