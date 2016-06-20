@@ -11,11 +11,11 @@ namespace event\components\handlers\register;
 
 use mail\models\Layout;
 
-class Nspk0716 extends Base
+class Nspkmarch15 extends Base
 {
     public function getFrom()
     {
-        return 'no-reply@nspk.ru';
+        return 'orgcenter@nspk.ru';
     }
     public function getFromName()
     {
@@ -39,15 +39,5 @@ class Nspk0716 extends Base
     public function getLayoutName()
     {
         return Layout::None;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAttachments()
-    {
-        return [
-            
-        ];
     }
 }

@@ -1,8 +1,9 @@
 <?php
-return array(
-  array(
-    'allow',
-    'users' => array('*'),
-    'module' => 'news'
-  ),
-);
+
+return [
+    [
+        'allow',
+        'users' => ['*'],
+        'module' => 'news',
+    ],
+];

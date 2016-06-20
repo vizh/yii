@@ -22,6 +22,7 @@ class CountFix extends Count
         if ($count >= $this->Minimum) {
             return $this->coupon->Discount;
         }
+
         return 0;
     }
 }

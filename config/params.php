@@ -1,9 +1,9 @@
 <?php
 
 $params = [
-    'CookieDomain' => '.' . RUNETID_HOST,
+    'CookieDomain' => '.'.RUNETID_HOST,
     'PublicTmp' => '/files/tmp',
-    'Languages' => array('ru', 'en'),
+    'Languages' => ['ru', 'en'],
     'EventDir' => '/files/event/%s/', // директория файлов мероприятий
     'EventPreviewLength' => 200,
     'EventViewUserPerPage' => 16,
@@ -20,7 +20,6 @@ $params = [
 
     'NewsPhotoDir' => '/files/news/',
     'MaxImageSize' => 4194304, //Максимально допустимый размер загружаемых изображений
-
 
     'ApiMaxResults' => 200, //Максимальное количество результатов поиска в api
     'ApiMaxTop' => 100,
@@ -53,7 +52,7 @@ $params = [
 
     /** Взаимодействие с БудуГуру.org */
     'BuduGuru.jobsExportUrl' => 'http://buduguru.org/vacancies/export',
-    'BuduGuru.coursesExportUrl' => 'http://buduguru.org/courses/export'
+    'BuduGuru.coursesExportUrl' => 'http://buduguru.org/courses/export',
 ];
 
 if (YII_DEBUG) {

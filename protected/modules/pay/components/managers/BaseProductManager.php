@@ -2,7 +2,7 @@
 namespace pay\components\managers;
 
 use mail\components\Mail;
-use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\SESMailer;
 use pay\components\CodeException;
 use pay\components\Exception;
 use pay\components\MessageException;
@@ -320,12 +320,15 @@ abstract class BaseProductManager
     {
         $time = $time ?: date('Y-m-d H:i:s', time());
 
-        foreach ($this->product->Prices as $price)
-            if ($price->StartTime <= $time && ($price->EndTime == null || $time < $price->EndTime))
+        foreach ($this->product->Prices as $price) {
+            if ($price->StartTime <= $time && ($price->EndTime == null || $time < $price->EndTime)) {
                 return $price->Price;
+            }
+        }
 
-        if ($_SERVER['REQUEST_URI'] === '/event/updatedusers/')
+        if ($_SERVER['REQUEST_URI'] === '/event/updatedusers/') {
             return 0;
+        }
 
         throw new MessageException('Не удалось определить цену продукта!!');
     }
@@ -419,7 +422,7 @@ abstract class BaseProductManager
         $event = new \CModelEvent($this, ['owner' => $user, 'product' => $this->product]);
 
         /** @var Mail $mail */
-        $mail = new $class(new MandrillMailer(), $event);
+        $mail = new $class(new SESMailer(), $event);
         $mail->send();
     }
 

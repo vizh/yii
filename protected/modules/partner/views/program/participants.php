@@ -71,7 +71,7 @@ $activeForm = $this->beginWidget('CActiveForm', ['id' => $form->getId()]);?>
                                 </div>
                                 <div class="form-group">
                                     <?=$activeForm->label($form, 'ReportThesis');?>
-                                    <?=$activeForm->textField($form, 'ReportThesis', ['class' => 'form-control']);?>
+                                    <?=$activeForm->textArea($form, 'ReportThesis', ['class' => 'form-control']);?>
                                 </div>
                                 <div class="form-group">
                                     <?=$activeForm->label($form, 'ReportUrl');?>

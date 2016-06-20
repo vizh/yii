@@ -1,7 +1,8 @@
 <?php
 
 use application\components\console\BaseConsoleCommand;
-use mail\components\mailers\MandrillMailer;
+use event\models\Event;
+use mail\components\mailers\SESMailer;
 use pay\models\Order;
 use pay\models\OrderItem;
 use pay\models\OrderLinkOrderItem;
@@ -18,7 +19,7 @@ class PayCommand extends BaseConsoleCommand
         $criteria->params['MaxTime'] = $date . ' 23:59:59';
 
         $orders = Order::model()->byBankTransfer(true)->byDeleted(false)->byPaid(false)->findAll($criteria);
-        $mailer = new MandrillMailer();
+        $mailer = new SESMailer();
         foreach ($orders as $order) {
             $language = $order->Payer->Language != null ? $order->Payer->Language : 'ru';
             Yii::app()->setLanguage($language);
@@ -82,5 +83,61 @@ class PayCommand extends BaseConsoleCommand
 
             $orderItem->deleteHard();
         }
+    }
+
+    /**
+     * Checks the correctness of orders
+     *
+     * @param string|int $id Identifier or alias of the event
+     * @param bool $verbose Whether the method be verbose
+     * @throws CException
+     * @throws \pay\components\MessageException
+     */
+    public function actionCheckOrders($id, $verbose = false)
+    {
+        $eventId = $id;
+
+        if (!is_numeric($id)) {
+            if (!$event = Event::model()->byIdName($id)->find()) {
+                throw new \CException("Event does not exist");
+            }
+
+            $eventId = $event->Id;
+        }
+
+        $index = 1;
+        $globalTotal = 0;
+
+        foreach (Order::model()->byPaid(true)->byEventId($eventId)->findAll() as $order) {
+            $total = $order->Total;
+
+            if ($verbose) {
+                echo "#$index: {$order->Id} - checking...";
+            }
+
+            $itemsTotal = 0;
+            foreach ($order->ItemLinks as $itemLink) {
+                $item = $itemLink->OrderItem;
+
+                if ($item->Refund) {
+                    continue;
+                }
+
+                $itemsTotal += $item->getPriceDiscount();
+            }
+
+            if ($verbose) {
+                echo "order total - $total, items total - $itemsTotal \n";
+            }
+
+            if ($total != $itemsTotal) {
+                echo "#ERROR: Order #{$order->Id} has problems with the total sum: order total - $total, items total - $itemsTotal \n";
+            }
+
+            $globalTotal += $total;
+            $index++;
+        }
+
+        echo "Global total: $globalTotal\n";
     }
 }

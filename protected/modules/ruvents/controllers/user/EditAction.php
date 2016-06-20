@@ -1,6 +1,7 @@
 <?php
 namespace ruvents\controllers\user;
 
+use api\components\ms\DevconEventRoleConverter;
 use event\models\Part;
 use event\models\Participant;
 use event\models\Role;
@@ -176,6 +177,9 @@ class EditAction extends Action
 
             // Обработка однопартийных мероприятий
             if (!$part_id && count($statuses) === 1) {
+                if ($event->Id === DevconEventRoleConverter::EVENT_ID) {
+                    $role = DevconEventRoleConverter::restore($role);
+                }
                 $event->registerUser($user, $role);
                 $this->getDetailLog()->addChangeMessage(new ChangeMessage('Role', '', $role->Id));
                 continue;

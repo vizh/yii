@@ -1,8 +1,9 @@
 <?php
-return array(
-  array(
-    'deny',
-    'users' => array('*'),
-    'module' => 'convert'
-  ),
-);
+
+return [
+    [
+        'deny',
+        'users' => ['*'],
+        'module' => 'convert',
+    ],
+];

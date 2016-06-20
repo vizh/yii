@@ -9,7 +9,6 @@ use contact\models\Address;
 use event\models\LinkWidget;
 use application\models\ProfessionalInterest;
 use event\models\LinkProfessionalInterest;
-use event\models\Attribute;
 use contact\models\Phone;
 use event\models\LinkPhone;
 use contact\models\Email;
@@ -113,16 +112,11 @@ class IndexAction extends \CAction
 
                 // Сохранение сайта
                 if (!empty($form->SiteUrl)) {
-                    $parseUrl = parse_url($form->SiteUrl);
-                    $url = $parseUrl['host'];
-                    if (!empty($parseUrl['path'])) {
-                        $url .= rtrim($parseUrl['path'], '/');
-                        if (strpos($url, 'index.php') == false) {
-                            $url .= '/';
-                        }
-                    }
-                    $url .= (!empty($parseUrl['query']) ? '?' . $parseUrl['query'] : '');
-                    $event->setContactSite($url, ($parseUrl['scheme'] == 'https' ? true : false));
+                    $urlParts = parse_url($form->SiteUrl);
+
+                    $url = $urlParts['host'] .$urlParts['path'].(empty($urlParts['query']) ? '' : '?'.$urlParts['query']);
+
+                    $event->setContactSite($url, $urlParts['scheme'] === 'https');
                 }
 
                 // Сохранение логотипа

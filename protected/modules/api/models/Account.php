@@ -1,5 +1,6 @@
 <?php
 namespace api\models;
+
 /**
  * @property int $Id
  * @property string $Key

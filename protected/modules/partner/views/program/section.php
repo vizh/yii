@@ -7,6 +7,7 @@
 use application\helpers\Flash;
 
 $this->setPageTitle(\Yii::t('app', 'Редактирование секции'));
+\Yii::app()->getClientScript()->registerPackage('runetid.ckeditor');
 ?>
 <?php $activeForm = $this->beginWidget('CActiveForm');?>
 <div class="panel panel-info">

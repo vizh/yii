@@ -1,13 +1,13 @@
 <?php
 namespace mail\models;
+
 use application\components\ActiveRecord;
 use event\models\Event;
 use mail\components\filter\Main;
-use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\PhpMailer;
 
 /**
  * Class Template
- * @package mail\models
  *
  * @property int $Id
  * @property string $Filter
@@ -29,8 +29,9 @@ use mail\components\mailers\MandrillMailer;
  * @property bool $ShowUnsubscribeLink
  * @property bool $ShowFooter
  * @property string $Layout
- * @property int $RelatedEventId;
- * @property Event $RelatedEvent;
+ * @property int $RelatedEventId
+ * @property Event $RelatedEvent
+ * @property string $MailerClass
  *
  * @method Template findByPk(int $pk)
  */
@@ -38,9 +39,15 @@ class Template extends ActiveRecord
 {
     const UsersPerSend = 200;
 
+    const MAILER_PHP = 'PhpMailer';
+    const MAILER_MANDRILL = 'TrueMandrillMailer';
+    const MAILER_AMAZON_SES = 'SESMailer';
+
     private $testMode  = false;
     private $testUsers = [];
     public $Attachments = [];
+
+    private $viewPath;
 
 
     /**
@@ -105,6 +112,24 @@ class Template extends ActiveRecord
                 }
             }
         }
+    }
+
+    /**
+     * Rollbacks the mail
+     *
+     * @return bool
+     */
+    public function rollback()
+    {
+        if (!$this->Success) {
+            return false;
+        }
+
+        $this->Success = false;
+        $this->SuccessTime = null;
+        $this->Active = false;
+        $this->LastUserId = null;
+        return $this->save(false);
     }
 
     /**
@@ -186,8 +211,6 @@ class Template extends ActiveRecord
         }
         return null;
     }
-
-    private $viewPath = null;
 
     /**
      * @return null|string
@@ -284,9 +307,19 @@ class Template extends ActiveRecord
      */
     public function getMailer()
     {
-        if ($this->mailer == null){
-            $this->mailer = new MandrillMailer();
+        if (is_null($this->mailer)) {
+            $className = 'mail\\components\\mailers\\' . $this->MailerClass;
+            $fileName = \Yii::getPathOfAlias('application.modules') . '/' . strtr($className, ['\\' => '/']) . '.php';
+
+            if (!file_exists($fileName)) {
+                // use fallback option for mailer class
+                \Yii::log("Mailer class $className is not found", \CLogger::LEVEL_ERROR);
+                $this->mailer = new PhpMailer();
+            } else {
+                $this->mailer = new $className();
+            }
         }
+
         return $this->mailer;
     }
 

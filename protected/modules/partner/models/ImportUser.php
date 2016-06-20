@@ -150,25 +150,30 @@ class ImportUser extends ActiveRecord
     }
 
     /**
+     * @param User $user
      * @return UserData|null
      */
-    public function getUserData()
+    public function getUserData(User $user)
     {
-        if (!empty($this->UserData)) {
-            $data = new UserData();
-            $data->EventId = $this->Import->EventId;
-
-            $manager = $data->getManager();
-            foreach (json_decode($this->UserData, true) as $key => $value) {
-                try {
-                    $manager->{$key} = $value;
-                } catch (\application\components\Exception $e) {
-                }
-            }
-            return $data;
+        if (empty($this->UserData)) {
+            return null;
         }
 
-        return null;
+        $data = UserData::fetch($this->Import->EventId, $user);
+
+        $manager = $data->getManager();
+        foreach (json_decode($this->UserData, true) as $key => $value) {
+            try {
+                if (in_array($key, ['start_date', 'end_date'])) {
+                    $value = $this->processDate($value, $key === 'start_date' ? '22.06' : '28.08');
+                }
+
+                $manager->{$key} = $value;
+            } catch (\application\components\Exception $e) {
+            }
+        }
+
+        return $data;
     }
 
     protected function beforeSave()
@@ -224,12 +229,7 @@ class ImportUser extends ActiveRecord
             $user = $this->createUser($import);
 
             if ($this->ExternalId && $import->getApiAccount()) {
-                $externalUser = new ExternalUser();
-                $externalUser->UserId = $user->Id;
-                $externalUser->AccountId = $import->getApiAccount()->Id;
-                $externalUser->Partner = $import->getApiAccount()->Role;
-                $externalUser->ExternalId = $this->ExternalId;
-                $externalUser->save();
+                ExternalUser::create($user, $import->getApiAccount(), $this->ExternalId);
             }
 
             $this->setCompany($user);
@@ -255,9 +255,29 @@ class ImportUser extends ActiveRecord
             return;
         }
 
-        $fileName = \Yii::getPathOfAlias('webroot.files.import-photos') . DIRECTORY_SEPARATOR . $this->PhotoNameInPath;
-        if (!file_exists($fileName)) {
-            return;
+        $extensions = ['jpg', 'JPG', 'jpeg', 'png'];
+
+        $baseFileName = \Yii::getPathOfAlias('webroot.files.import-photos') .
+            DIRECTORY_SEPARATOR . $this->PhotoNameInPath;
+
+        if (!\CFileHelper::getExtension($this->PhotoNameInPath)) {
+            $hasFound = false;
+            foreach ($extensions as $ext) {
+                $fileName = $baseFileName . '.' . $ext;
+                if (file_exists($fileName)) {
+                    $hasFound = true;
+                    break;
+                }
+            }
+
+            if (!$hasFound) {
+                return;
+            }
+        } else {
+            $fileName = $baseFileName;
+            if (!file_exists($baseFileName)) {
+                return;
+            }
         }
 
         $user->getPhoto()->save($fileName);
@@ -347,7 +367,7 @@ class ImportUser extends ActiveRecord
      */
     private function setUserData(User $user, Import $import)
     {
-        if ($data = $this->getUserData()) {
+        if ($data = $this->getUserData($user)) {
             $data->UserId = $user->Id;
             $manager = $data->getManager();
             if (!$manager->validate()) {
@@ -433,5 +453,56 @@ class ImportUser extends ActiveRecord
                 $company->resetLocale();
             }
         }
+    }
+
+    /**
+     * Converts the $date to the suitable for ts format dd.mm
+     *
+     * @param string $date The date in the arbitrary format
+     * @param string $default The default value, when the date can not be parsed
+     * @return string
+     */
+    private function processDate($date, $default = null)
+    {
+        $date = trim($date, '\t\n\r.');
+
+        if ($date === 'без проживания') {
+            return $default;
+        }
+
+        $match = [];
+        if (preg_match('/(\d{2})[\.\s](\w+)?/', $date, $match)) {
+            $month = null;
+            switch ($match[2]) {
+                case 'июн':
+                case 'июня':
+                    $month = '06';
+                    break;
+
+                case 'июл':
+                case 'июля':
+                    $month = '07';
+                    break;
+
+                case 'авг':
+                case 'августа':
+                    $month = '08';
+                    break;
+            }
+
+            return $match[1] . '.' . $month;
+        }
+
+        $match = [];
+        if (preg_match('#(\d{2})[\.//](\d{2})[\.//]?(\d{2,4})?#', $date, $match)) {
+            return $match[1] . '.' . $match[2];
+        }
+
+        $match = [];
+        if (preg_match('#(\d{2})-(\d{2})[-]?(\d{2,4})?#', $date, $match)) {
+            return $match[2] . '.' . $match[1];
+        }
+
+        return null;
     }
 }

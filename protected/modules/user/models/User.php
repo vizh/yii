@@ -14,7 +14,7 @@ use competence\models\Result;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
-use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\SESMailer;
 use ruvents\models\Badge;
 use search\components\interfaces\ISearch;
 use user\components\handlers\Register;
@@ -68,6 +68,7 @@ use iri\models\User as IriUser;
  * @property IriUser[] $IRIParticipantsActive
  * @property ExternalUser[] $ExternalAccounts
  * @property Document[] $Documents
+ * @property UnsubscribeEventMail[] $UnsubscribeEventMails
  *
  * События
  * @property \CEvent $onRegister
@@ -90,6 +91,35 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     const MaxSearchFragments = 500;
 
     const PasswordLengthMin = 6;
+
+    /**
+     * Creates a new one user
+     *
+     * @param string $email An email of the user
+     * @param string $firstName First name
+     * @param string $lastName Last name
+     * @param string $fatherName Father name
+     * @param bool $visible Whether the user should be visible
+     * @param bool $notify Whether the user should be notified after registration
+     * @return null|User
+     */
+    public static function create($email, $firstName, $lastName, $fatherName, $visible = true, $notify = false)
+    {
+        try {
+            $model = new self();
+            $model->setAttributes([
+                'Email' => $email,
+                'FirstName' => $firstName,
+                'LastName' => $lastName,
+                'FatherName' => $fatherName,
+                'Visible' => $visible
+            ], false);
+
+            return $model->register($notify);
+        } catch (\CDbException $e) {
+            return null;
+        }
+    }
 
     /**
      * Allows authenticate the user by a hash
@@ -126,16 +156,17 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function tableName()
     {
         return 'User';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function relations()
     {
         return array(
@@ -177,7 +208,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             'IRIParticipantsActive' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role'], 'on' => '"IRIParticipantsActive"."ExitTime" IS NULL OR "IRIParticipantsActive"."ExitTime" > NOW()'],
 
             'ExternalAccounts' => [self::HAS_MANY, '\api\models\ExternalUser', 'UserId'],
-            'Documents' => [self::HAS_MANY, '\user\models\Document', 'UserId', 'on' => '"Documents"."Actual"', 'order' => '"Documents"."TypeId" ASC']
+            'Documents' => [self::HAS_MANY, '\user\models\Document', 'UserId', 'on' => '"Documents"."Actual"', 'order' => '"Documents"."TypeId" ASC'],
+
+            'UnsubscribeEventMails' => [self::HAS_MANY, '\user\models\UnsubscribeEventMail', 'UserId'],
         );
     }
 
@@ -461,7 +494,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function onRegister($event)
     {
         /** @var \mail\components\Mail $mail */
-        $mail = new Register(new MandrillMailer(), $event);
+        $mail = new Register(new SESMailer(), $event);
         $mail->send();
 
         $this->raiseEvent('onRegister', $event);

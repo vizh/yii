@@ -1,4 +1,5 @@
 <?php
+
 namespace event\models;
 
 use api\components\callback\Base;
@@ -10,7 +11,7 @@ use application\models\translation\ActiveRecord;
 use contact\models\Site;
 use event\models\section\Section;
 use mail\components\mailers\MandrillMailer;
-use mail\components\mailers\TrueMandrillMailer;
+use mail\components\mailers\SESMailer;
 use ruvents\models\Setting;
 use search\components\interfaces\ISearch;
 use user\models\User;
@@ -80,12 +81,13 @@ use pay\models\Account as PayAccount;
  * @property string $PromoBlockStyles
  * @property string $MailRegisterAdditionalText
  * @property bool $Free
+ * @property bool $Top
  *
  *
  * Вспомогательные описания методов методы
- * @method \event\models\Event find($condition='',$params=array())
- * @method \event\models\Event findByPk($pk,$condition='',$params=array())
- * @method \event\models\Event[] findAll($condition='',$params=array())
+ * @method Event find($condition = '', $params = [])
+ * @method Event findByPk($pk, $condition = '', $params = [])
+ * @method Event[] findAll($condition = '', $params = [])
  * @method Event byApproved(int $approved)
  * @method Event byExternal(boolean $external)
  */
@@ -404,16 +406,7 @@ class Event extends ActiveRecord implements ISearch
         ]);
 
         if (!$data) {
-            $data = UserData::createEmpty($this, $user);
-        }
-
-        if ($this->Id == 2318 /* svyaz16 (2318) */) {
-            $this->assignCustomNumber($data);
-        }
-
-        //TODO: Костыль для Новой экономики, убрать после мероприятия
-        if ($this->Id == 2300) {
-            $this->newecon15Spike($participant, $user);
+            UserData::createEmpty($this, $user);
         }
 
         return $participant;
@@ -446,51 +439,6 @@ class Event extends ActiveRecord implements ISearch
         }
 
         $data->getManager()->Custom_Number = (string) $customNumber;
-        $data->save();
-    }
-
-    /**
-     * Костыль для Новой экономики, убрать после мероприятия
-     * @param Participant $participant
-     * @param User $user
-     */
-    public function newecon15Spike(Participant $participant, User $user)
-    {
-        $values = \event\models\UserData::getDefinedAttributeValues($this, $user);
-        if (empty($values)) {
-            $values = [];
-        }
-
-        if (isset($user->Documents[0]) && empty($values['Passport'])) {
-            $document = $user->Documents[0];
-            $attributes = json_decode($document->Attributes);
-            $values['Passport'] = (isset($attributes->Series) ? $attributes->Series : '') . ' ' . $attributes->Number . (isset($attributes->PlaceIssue) ? ', выдан ' . $attributes->PlaceIssue : '') . ', ' . $attributes->Authority;
-            if (isset($attributes->RegisteredAddress)) {
-                $values['RegistrationPlace'] = $attributes->RegisteredAddress;
-            }
-            $values['BirthPlace'] = $attributes->Birthday . ' / ' . $attributes->PlaceBirth;
-        }
-        switch ($participant->RoleId) {
-            case 3:
-                $values['Sector'] = 'А,Е';
-                break;
-            case 179:
-            case 178:
-                $values['Sector'] = 'Б,В,Г';
-                break;
-        }
-
-        if (empty($values)) {
-            return;
-        }
-
-        $data = \event\models\UserData::model()->byEventId($this->Id)->byUserId($user->Id)->orderBy(['"t"."CreationTime"' => SORT_DESC])->find();
-        if (empty($data)) {
-            $data = new \event\models\UserData();
-            $data->UserId = $user->Id;
-            $data->EventId = $this->Id;
-        }
-        $data->getManager()->setAttributes($values);
         $data->save();
     }
 
@@ -624,7 +572,7 @@ class Event extends ActiveRecord implements ISearch
             $apiCallback->registerOnEvent($event->params['user'], $event->params['role']);
         }
 
-        $mailer = new TrueMandrillMailer();
+        $mailer = new SESMailer();
         $sender = $event->sender;
 
         if (!isset($this->NotSendRegisterMail) || !$this->NotSendRegisterMail) {
@@ -634,7 +582,6 @@ class Event extends ActiveRecord implements ISearch
             $mail->send();
         }
 
-        $mailer = new MandrillMailer();
         $class = \Yii::getExistClass('\event\components\handlers\register\system', ucfirst($sender->IdName), 'Base');
         $mail = new $class($mailer, $event);
         $mail->send();

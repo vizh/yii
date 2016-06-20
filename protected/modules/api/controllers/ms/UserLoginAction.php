@@ -4,9 +4,8 @@ namespace api\controllers\ms;
 use api\components\Action;
 use api\components\ms\Helper;
 use api\components\ms\mail\AuthCode;
-use api\models\ExternalUser;
 use application\components\utility\Texts;
-use mail\components\mailers\MandrillMailer;
+use mail\components\mailers\SESMailer;
 use user\models\User;
 use api\components\Exception;
 
@@ -34,7 +33,7 @@ class UserLoginAction extends Action
 
         $data->AuthCode = Texts::GenerateString(10);
 
-        $mail = new AuthCode(new MandrillMailer(), $user, $data->AuthCode);
+        $mail = new AuthCode(new SESMailer(), $user, $data->AuthCode);
         $mail->send();
 
         $this->setResult($data);

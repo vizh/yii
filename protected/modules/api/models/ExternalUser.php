@@ -1,51 +1,67 @@
 <?php
 namespace api\models;
+
 use application\components\ActiveRecord;
+use user\models\User;
 
 /**
  * Class ExternalUser
- * @package api\models
  *
+ * Fields
  * @property int $Id
  * @property string $Partner
  * @property int $AccountId
  * @property int $UserId
  * @property string $ExternalId
  *
- * @property \user\models\User $User
+ * @property User $User
  *
  * Вспомогательные описания методов методы
- * @method \api\models\ExternalUser find($condition='',$params=array())
- * @method \api\models\ExternalUser findByPk($pk,$condition='',$params=array())
- * @method \api\models\ExternalUser[] findAll($condition='',$params=array())
+ * @method ExternalUser find($condition='',$params=array())
+ * @method ExternalUser findByPk($pk,$condition='',$params=array())
+ * @method ExternalUser[] findAll($condition='',$params=array())
  */
 class ExternalUser extends ActiveRecord
 {
     /**
-     * @param string $className
-     *
-     * @return ExternalUser
+     * Creates a new one model
+     * @param User $user The user
+     * @param Account $account Api account
+     * @param string|int $externalId An external identifier
+     * @return ExternalUser|null Created model
      */
-    public static function model($className=__CLASS__)
+    public static function create(User $user, Account $account, $externalId)
     {
-        return parent::model($className);
+        try {
+            $model = new self();
+            $model->UserId = $user->Id;
+            $model->AccountId = $account->Id;
+            $model->Partner = $account->Role;
+            $model->ExternalId = $externalId;
+            $model->save();
+
+            return $model;
+        } catch (\CDbException $e) {
+            return null;
+        }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function tableName()
     {
         return 'ApiExternalUser';
     }
 
-    public function primaryKey()
-    {
-        return 'Id';
-    }
-
+    /**
+     * @inheritdoc
+     */
     public function relations()
     {
-        return array(
-            'User' => array(self::BELONGS_TO, '\user\models\User', 'UserId'),
-        );
+        return [
+            'User' => [self::BELONGS_TO, 'user\models\User', 'UserId']
+        ];
     }
 
     /**

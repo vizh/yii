@@ -1,17 +1,18 @@
 <?php
-return array(
-  array(
-    'allow',
-    'users' => array('*'),
-    'module' => 'job',
-    'controllers' => array('default')
-  ),
-    
-  /** Admin Rules */
-  array(
-    'allow',
-    'roles' => array('admin'),
-    'module' => 'job',
-    'controllers' => array('admin/edit', 'admin/list', 'admin/ajax')
-  ),
-);
+
+return [
+    [
+        'allow',
+        'users' => ['*'],
+        'module' => 'job',
+        'controllers' => ['default'],
+    ],
+
+    /** Admin Rules */
+    [
+        'allow',
+        'roles' => ['admin'],
+        'module' => 'job',
+        'controllers' => ['admin/edit', 'admin/list', 'admin/ajax'],
+    ],
+];

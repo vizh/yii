@@ -1,29 +1,30 @@
 <?php
-return array(
-    array(
+
+return [
+    [
         'deny',
-        'users' => array('?'),
+        'users' => ['?'],
         'module' => 'user',
-        'controllers' => array('edit', 'setting', 'events')
-    ),
-    array(
+        'controllers' => ['edit', 'setting', 'events'],
+    ],
+    [
         'deny',
         'users' => ['?'],
         'module' => 'user',
         'controllers' => ['ajax'],
-        'actions' => ['phoneverify', 'verify']
-    ),
-    array(
+        'actions' => ['phoneverify', 'verify'],
+    ],
+    [
         'allow',
-        'users' => array('*'),
+        'users' => ['*'],
         'module' => 'user',
-        'controllers' => array('ajax', 'view', 'edit', 'setting', 'logout', 'unsubscribe', 'events')
-    ),
+        'controllers' => ['ajax', 'view', 'edit', 'setting', 'logout', 'unsubscribe', 'events'],
+    ],
 
     /** Admin Rules */
-    array(
+    [
         'allow',
-        'roles' => array('admin'),
-        'module' => 'user'
-    ),
-);
+        'roles' => ['admin'],
+        'module' => 'user',
+    ],
+];
