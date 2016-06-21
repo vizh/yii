@@ -40,4 +40,11 @@ class Nspkmarch15 extends Base
     {
         return Layout::None;
     }
+
+    public function getAttachments()
+    {
+        return [
+            'Заявка на участие' => \Yii::getPathOfAlias('application') . '/../data/tickets/nspk/nspk.docx'
+        ];
+    }
 }
