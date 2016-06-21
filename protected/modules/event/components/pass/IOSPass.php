@@ -129,9 +129,13 @@ class IOSPass
             'nws3BB5XwAeFdEcnY3',
             __DIR__ . '/certificates/AppleWWDRCA.pem'
         );
-        $factory->isOverwrite(true);
+
+        $factory->setOverwrite(true);
         $factory->setOutputPath($this->getOutputPath());
-        return $factory->package($this->pass)->getPathname();
+
+        return $factory
+            ->package($this->pass)
+            ->getPathname();
     }
 
     /**
@@ -140,7 +144,6 @@ class IOSPass
      */
     public static function create(Participant $participant)
     {
-        $pass = new static($participant);
-        return $pass;
+        return new static($participant);
     }
 }

@@ -24,12 +24,10 @@ class SESMailer extends \mail\components\Mailer
      */
     private static function getParam($params, $param, $required = false)
     {
-        $value = isset($params[$param]) ? $params[$param] : null;
-        if ($required && empty($value)) {
-            throw new \Exception('"'.$param.'" parameter is required.');
-        } else {
-            return $value;
-        }
+        if ($required === true && empty($params[$param]))
+            throw new \Exception("'$param' parameter is required");
+
+        return $params[$param];
     }
 
     /**
@@ -94,32 +92,39 @@ class SESMailer extends \mail\components\Mailer
         ]);
 
         foreach ($mails as $mail) {
-            $args = [
-                'to' => $mail->getTo(),
-                'subject' => '=?UTF-8?B?' . base64_encode($mail->getSubject()) . '?=',
-                'message' => $mail->getBody(),
-                'from' => $mail->getFromName() . ' <' . $mail->getFrom() . '>',
-            ];
+            try
+            {
+                $args = [
+                    'to' => $mail->getTo(),
+                    'subject' => '=?UTF-8?B?' . base64_encode($mail->getSubject()) . '?=',
+                    'message' => $mail->getBody(),
+                    'from' => $mail->getFromName() . ' <' . $mail->getFrom() . '>',
+                ];
 
-            $attachments = $mail->getAttachments();
+                $attachments = $mail->getAttachments();
 
-            if (count($attachments)) {
-                $args['files'] = [];
-                foreach ($mail->getAttachments() as $name => $attachment) {
-                    $args['files'][] = [
-                        'name' => $name,
-                        'filepath' => $attachment[1],
-                        'mime' => $attachment[0]
-                    ];
+                if (count($attachments)) {
+                    $args['files'] = [];
+                    foreach ($attachments as $name => $attachment) {
+                        $args['files'][] = [
+                            'name' => $name,
+                            'filepath' => $attachment[1],
+                            'mime' => $attachment[0]
+                        ];
+                    }
+                }
+
+                $result = $this->sendMailInternal($client, $args);
+
+                if ($result['success']) {
+                    \Yii::log("Email by Amazon SES to {$mail->getTo()} is sent! Message ID: {$result['message_id']}", \CLogger::LEVEL_INFO);
+                } else {
+                    \Yii::log("Email by Amazon SES to {$mail->getTo()} was not sent. Error message: {$result['result_text']}", \CLogger::LEVEL_ERROR);
                 }
             }
 
-            $result = $this->sendMailInternal($client, $args);
-
-            if ($result['success']) {
-                \Yii::log("Email by Amazon SES is sent! Message ID: {$result['message_id']}\n", \CLogger::LEVEL_INFO);
-            } else {
-                \Yii::log("The email was not sent. Error message: {$result['result_text']}\n", \CLogger::LEVEL_ERROR);
+            catch (\Exception $e) {
+                \Yii::log("Error construct email for {$mail->getTo()} because of {$e->getMessage()}: {$e->getTraceAsString()}", \CLogger::LEVEL_ERROR);
             }
         }
     }
@@ -169,6 +174,7 @@ class SESMailer extends \mail\components\Mailer
      * @param SesClient $client
      * @param array $params - array of parameters for the email
      * @return array
+     * @throws \Exception
      */
     private function sendMailInternal(SesClient $client, $params)
     {

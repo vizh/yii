@@ -46,7 +46,7 @@ class PayAction extends \partner\components\Action
         $command = \Yii::app()->getDb()->createCommand()
             ->select('count("p"."Id") as "countPaid", sum("p"."Total") as "totalPaid"')
             ->from('PayOrder p')
-            ->where('"p"."EventId" = :EventId AND "p"."Paid" AND "p"."Type" = :Type');
+            ->where('"p"."EventId" = :EventId and not "p"."Deleted" AND "p"."Paid" AND "p"."Type" = :Type');
         $command->bindValue('EventId', $this->getEvent()->Id);
         $command->bindValue('Type', \pay\models\OrderType::Juridical);
         $result = $command->queryRow();
@@ -59,7 +59,7 @@ class PayAction extends \partner\components\Action
             ->from('PayOrder o')
             ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
             ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-            ->where('"o"."EventId" = :EventId AND ("o"."Paid" OR NOT "o"."Deleted") AND "o"."Type" = :Type');
+            ->where('"o"."EventId" = :EventId AND "o"."Paid" and NOT "o"."Deleted" AND "o"."Type" = :Type');
         $command->bindValue('EventId', $this->getEvent()->Id);
         $command->bindValue('Type', \pay\models\OrderType::Juridical);
         $result = $command->queryRow();
@@ -71,7 +71,7 @@ class PayAction extends \partner\components\Action
             ->from('PayOrder o')
             ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
             ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-            ->where('"o"."EventId" = :EventId AND "o"."Paid" AND "o"."Type" = :Type');
+            ->where('"o"."EventId" = :EventId and not "o"."Deleted" AND "o"."Paid" AND "o"."Type" = :Type');
         $command->bindValue('EventId', $this->getEvent()->Id);
         $command->bindValue('Type', \pay\models\OrderType::Juridical);
         $result = $command->queryRow();
@@ -89,7 +89,7 @@ class PayAction extends \partner\components\Action
         $command = \Yii::app()->getDb()->createCommand()
             ->select('count("p"."Id") as "countPaid", sum("p"."Total") as "totalPaid"')
             ->from('PayOrder p')
-            ->where('"p"."EventId" = :EventId AND "p"."Paid" AND "p"."Type" = :Type');
+            ->where('"p"."EventId" = :EventId and not "p"."Deleted" AND "p"."Paid" AND "p"."Type" = :Type');
         $command->bindValue('EventId', $this->getEvent()->Id);
         $command->bindValue('Type', \pay\models\OrderType::Receipt);
         $result = $command->queryRow();
@@ -102,7 +102,7 @@ class PayAction extends \partner\components\Action
             ->from('PayOrder o')
             ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
             ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-            ->where('"o"."EventId" = :EventId AND ("o"."Paid" OR NOT "o"."Deleted") AND "o"."Type" = :Type');
+            ->where('"o"."EventId" = :EventId AND "o"."Paid" and NOT "o"."Deleted" AND "o"."Type" = :Type');
         $command->bindValue('EventId', $this->getEvent()->Id);
         $command->bindValue('Type', \pay\models\OrderType::Receipt);
         $result = $command->queryRow();
@@ -114,7 +114,7 @@ class PayAction extends \partner\components\Action
             ->from('PayOrder o')
             ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
             ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-            ->where('"o"."EventId" = :EventId AND "o"."Paid"  AND "o"."Type" = :Type');
+            ->where('"o"."EventId" = :EventId and not "o"."Deleted" AND "o"."Paid"  AND "o"."Type" = :Type');
         $command->bindValue('EventId', $this->getEvent()->Id);
         $command->bindValue('Type', \pay\models\OrderType::Receipt);
         $result = $command->queryRow();
@@ -124,27 +124,27 @@ class PayAction extends \partner\components\Action
 
     private function fillPaySystem()
     {
-        $this->statistics->countPaySystemOrders = \pay\models\Order::model()->byDeleted(false)->byPaid(true, false)
+        $this->statistics->countPaySystemOrders = \pay\models\Order::model()->byDeleted(false)->byPaid(true)
             ->byEventId($this->getEvent()->Id)->byBankTransfer(false)->count();
 
         $command = \Yii::app()->getDb()->createCommand()
             ->select('count("p"."Id") as "countPaid", sum("p"."Total") as "totalPaid"')
             ->from('PayOrder p')
-            ->where('"p"."EventId" = :EventId AND "p"."Paid" AND "p"."Type" != :Type1 AND "p"."Type" != :Type2');
+            ->where('"p"."EventId" = :EventId and not "p"."Deleted" AND "p"."Paid" AND "p"."Type" != :Type1 AND "p"."Type" != :Type2');
         $command->bindValue('EventId', $this->getEvent()->Id);
         $command->bindValue('Type1', \pay\models\OrderType::Juridical);
         $command->bindValue('Type2', \pay\models\OrderType::Receipt);
         $result = $command->queryRow();
 
         $this->statistics->countPaidPaySystemOrders = $result['countPaid'];
-        $this->statistics->totalPaySystem = $result['totalPaid'];
+        $this->statistics->totalPaidPaySystem = $result['totalPaid'];
 
         $command = \Yii::app()->getDb()->createCommand()
             ->select('count(DISTINCT "oi"."OwnerId") as "countUsers"')
             ->from('PayOrder o')
             ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
             ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-            ->where('"o"."EventId" = :EventId AND ("o"."Paid" OR NOT "o"."Deleted") AND "o"."Type" != :Type1 AND "o"."Type" != :Type2');
+            ->where('"o"."EventId" = :EventId AND "o"."Paid" and NOT "o"."Deleted" AND "o"."Type" != :Type1 AND "o"."Type" != :Type2');
         $command->bindValue('EventId', $this->getEvent()->Id);
         $command->bindValue('Type1', \pay\models\OrderType::Juridical);
         $command->bindValue('Type2', \pay\models\OrderType::Receipt);
@@ -157,7 +157,7 @@ class PayAction extends \partner\components\Action
             ->from('PayOrder o')
             ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
             ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-            ->where('"o"."EventId" = :EventId AND "o"."Paid" AND "o"."Type" != :Type1 AND "o"."Type" != :Type2');
+            ->where('"o"."EventId" = :EventId and not "o"."Deleted" AND "o"."Paid" AND "o"."Type" != :Type1 AND "o"."Type" != :Type2');
         $command->bindValue('EventId', $this->getEvent()->Id);
         $command->bindValue('Type1', \pay\models\OrderType::Juridical);
         $command->bindValue('Type2', \pay\models\OrderType::Receipt);
@@ -173,7 +173,7 @@ class PayAction extends \partner\components\Action
             ->from('PayOrder o')
             ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
             ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-            ->where('"o"."EventId" = :EventId AND ("o"."Paid" OR NOT "o"."Deleted")');
+            ->where('"o"."EventId" = :EventId AND "o"."Paid" and NOT "o"."Deleted"');
         $command->bindValue('EventId', $this->getEvent()->Id);
         $result = $command->queryRow();
 
@@ -184,7 +184,7 @@ class PayAction extends \partner\components\Action
             ->from('PayOrder o')
             ->leftJoin('PayOrderLinkOrderItem oloi', '"oloi"."OrderId" = "o"."Id"')
             ->leftJoin('PayOrderItem oi', '"oloi"."OrderItemId" = "oi"."Id"')
-            ->where('"o"."EventId" = :EventId AND "o"."Paid"');
+            ->where('"o"."EventId" = :EventId and not "o"."Deleted" AND "o"."Paid"');
         $command->bindValue('EventId', $this->getEvent()->Id);
         $result = $command->queryRow();
 
@@ -213,14 +213,14 @@ class PayAction extends \partner\components\Action
             'id' => 'Id',
             'title' => 'Title',
             'paid' => function (Product $product) {
-                return OrderItem::model()->with(['OrderLinks.Order'])->byProductId($product->Id)->byPaid(true)->count(['condition' => '"Order"."Paid"']);
+                return OrderItem::model()->with(['OrderLinks.Order'])->byProductId($product->Id)->byDeleted(false)->byPaid(true)->count(['condition' => '"Order"."Paid"']);
             },
             'coupon' => function (Product $product) {
-                return OrderItem::model()->with(['OrderLinks'])->byProductId($product->Id)->byPaid(true)->count(['condition' => '"OrderLinks"."Id" IS NULL']);
+                return OrderItem::model()->with(['OrderLinks'])->byProductId($product->Id)->byDeleted(false)->byPaid(true)->count(['condition' => '"OrderLinks"."Id" IS NULL']);
             },
             'total' => function (Product $product) {
                 $total = 0;
-                $orderItems = OrderItem::model()->with(['OrderLinks.Order'])->byProductId($product->Id)->byPaid(true)->findAll();
+                $orderItems = OrderItem::model()->with(['OrderLinks.Order'])->byProductId($product->Id)->byDeleted(false)->byPaid(true)->findAll();
                 foreach ($orderItems as $orderItem) {
                     $order = $orderItem->getPaidOrder();
                     if (empty($order)) {
@@ -288,27 +288,35 @@ class PayAction extends \partner\components\Action
 
 class PayStatistics
 {
+    public $totalJuridical = 0;
+    public $totalPaidJuridical = 0;
+
+    public $totalReceipt = 0;
+    public $totalPaidReceipt = 0;
+
+    public $totalPaySystem = 0;
+    public $totalPaidPaySystem = 0;
+
+
     public $countParticipants = 0;
 
     public $countJuridicalOrders = 0;
     public $countPaidJuridicalOrders = 0;
+
     public $countJuridicalUsers = 0;
     public $countPaidJuridicalUsers = 0;
-    public $totalPaidJuridical = 0;
-    public $totalJuridical = 0;
 
     public $countReceipts = 0;
     public $countPaidReceipts = 0;
+
     public $countReceiptUsers = 0;
     public $countPaidReceiptUsers = 0;
-    public $totalPaidReceipt = 0;
-    public $totalReceipt = 0;
 
     public $countPaySystemOrders = 0;
     public $countPaidPaySystemOrders = 0;
+
     public $countPaySystemUsers = 0;
     public $countPaidPaySystemUsers = 0;
-    public $totalPaySystem = 0;
 
     public $totalUsers = 0;
     public $totalPaidUsers = 0;
@@ -322,9 +330,9 @@ class PayStatistics
     /**
      * @return int
      */
-    public function getTotal()
+    public function getTotalPaid()
     {
-        return $this->totalPaidJuridical + $this->totalPaySystem + $this->totalPaidReceipt;
+        return $this->totalPaidJuridical + $this->totalPaidPaySystem + $this->totalPaidReceipt;
     }
 
     public function getTotalOrders()

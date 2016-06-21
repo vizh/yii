@@ -92,25 +92,25 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                     <td>Сумма оплат:</td>
                     <td>
                         <span class="text-success lead">
-                            <?= number_format($statistics->totalJuridical, 0, ',', ' ') ?>
+                            <?= number_format($statistics->totalPaidJuridical, 0, ',', ' ') ?>
                             руб.
                         </span>
                     </td>
                     <td>
                         <span class="text-success lead">
-                            <?= number_format($statistics->totalReceipt, 0, ',', ' ') ?>
+                            <?= number_format($statistics->totalPaidReceipt, 0, ',', ' ') ?>
                             руб.
                         </span>
                     </td>
                     <td>
                         <span class="text-success lead">
-                            <?= number_format($statistics->totalPaySystem, 0, ',', ' ') ?>
+                            <?= number_format($statistics->totalPaidPaySystem, 0, ',', ' ') ?>
                             руб.
                         </span>
                     </td>
                     <td>
                         <span class="text-success lead">
-                            <?= number_format($statistics->getTotal(), 0, ',', ' ') ?>
+                            <?= number_format($statistics->getTotalPaid(), 0, ',', ' ') ?>
                             руб.
                         </span>
                     </td>
