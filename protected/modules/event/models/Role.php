@@ -22,6 +22,7 @@ class Role extends ActiveRecord
     const PARTICIPANT = 1;
     const VISITOR = 38;
     const VIRTUAL_ROLE_ID = 24;
+    const VOLUNTEER = 153;
 
     /**
      * @inheritdoc

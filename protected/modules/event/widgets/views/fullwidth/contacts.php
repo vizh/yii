@@ -34,7 +34,7 @@ foreach ($this->event->LinkEmails as $link) {
         <?php endif ?>
 
         <?php if ($this->event->LinkSite): ?>
-            <span class="site"><?=CHtml::link($this->event->LinkSite->Site, $this->event->LinkSite->Site)?></span>
+            <span class="site">Официальный сайт проекта: <?=CHtml::link($this->event->LinkSite->Site, $this->event->LinkSite->Site)?></span>
         <?php endif ?>
     </article>
 </div>
