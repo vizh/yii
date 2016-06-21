@@ -3,19 +3,17 @@
 $routes = [
     [
         'class' => 'CFileLogRoute',
-        'levels' => 'error, warning',
+        'levels' => 'error, warning, info',
         'except' => 'exception.CHttpException.404',
     ], [
         'class' => 'CEmailLogRoute',
         'levels' => 'error',
         'except' => ['exception.CHttpException.404', 'exception.api\components\Exception'],
-        'emails' => [
-            'error.runetid@ruvents.com',
-        ],
+        'emails' => ['error.runetid@ruvents.com'],
         'subject' => 'RUNET-ID Exception',
         'sentFrom' => 'yii@runet-id.com',
         'utf8' => true,
-    ],
+    ]
 ];
 
 if (YII_DEBUG) {
