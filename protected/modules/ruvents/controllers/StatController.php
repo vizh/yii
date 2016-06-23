@@ -14,7 +14,8 @@ class StatController extends PublicMainController
     {
         return [
             'food' => 'ruvents\controllers\stat\FoodAction',
-            'users-list' => 'ruvents\controllers\stat\UsersListAction'
+            'users-list' => 'ruvents\controllers\stat\UsersListAction',
+            'ts-16-participants' => 'ruvents\controllers\stat\ParticipantsTS16Action',
         ];
     }
 }

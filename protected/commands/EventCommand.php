@@ -184,8 +184,8 @@ class EventCommand extends BaseConsoleCommand
      * @return User|null Created or fetched user
      */
     private function fetchUser($email, $firstName, $lastName, $fatherName)
-    {
-        if (!$user = User::model()->byEmail($email)->find()) {
+    {        
+        if (!$user = User::model()->byTemporary(false)->byEmail($email)->find()) {
             if (!$user = User::create($email, $firstName, $lastName, $fatherName, false)) {
                 $this->error('#$total: Unable to create a user');
                 return null;
