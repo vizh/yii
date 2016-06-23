@@ -4,7 +4,7 @@
  * @var \application\components\web\ArrayDataProvider $dataProvider
  */
 
-$this->pageTitle = 'Участники мероприятия "Територия смыслов"';
+$this->pageTitle = 'Участники мероприятия "Территория смыслов"';
 ?>
 
 <div class="container">
