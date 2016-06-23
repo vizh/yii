@@ -10,7 +10,6 @@ $this->pageTitle = 'Участники мероприятия "Территор�
 <div class="container">
     <h2 class="text-center"><?=CHtml::encode($this->pageTitle)?></h2>
 
-    <h4 style="margin-top: 50px;"><?=CHtml::encode($groupName)?></h4>
     <?php $this->widget('zii.widgets.grid.CGridView', [
         'dataProvider'=> $dataProvider,
         'itemsCssClass' => 'table table-bordered',
