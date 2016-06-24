@@ -33,6 +33,8 @@ class ExternalUser extends ActiveRecord
     public static function create(User $user, Account $account, $externalId)
     {
         try {
+            $user->refreshUpdateTime(true);
+
             $model = new self();
             $model->UserId = $user->Id;
             $model->AccountId = $account->Id;

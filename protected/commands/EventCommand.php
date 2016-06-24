@@ -138,6 +138,8 @@ class EventCommand extends BaseConsoleCommand
             return null;
         }
 
+        $user->refreshUpdateTime();
+
         $userId = $data['user_id'];
         $region = $data['socr'] . ' ' . $data['region_name'];
         $country = $data['country_name'] ?: 'Россия';
@@ -153,7 +155,12 @@ class EventCommand extends BaseConsoleCommand
 
         $data = UserData::fetch($event, $user);
 
-        ExternalUser::create($user, $apiAccount, $userId);
+        if (!$externalUser = ExternalUser::model()->byAccountId($apiAccount->Id)->byUserId($user->Id)->find()) {
+            ExternalUser::create($user, $apiAccount, $userId);
+        } else {
+            $externalUser->ExternalId = $userId;
+            $externalUser->save();
+        }
 
         $m = $data->getManager();
         $m->country = $country;
@@ -163,8 +170,6 @@ class EventCommand extends BaseConsoleCommand
         $m->team_number = $team;
 
         $data->save();
-
-        $event->getUserData($user);
 
         return $user;
     }
@@ -179,8 +184,8 @@ class EventCommand extends BaseConsoleCommand
      * @return User|null Created or fetched user
      */
     private function fetchUser($email, $firstName, $lastName, $fatherName)
-    {
-        if (!$user = User::model()->byEmail($email)->find()) {
+    {        
+        if (!$user = User::model()->byTemporary(false)->byEmail($email)->find()) {
             if (!$user = User::create($email, $firstName, $lastName, $fatherName, false)) {
                 $this->error('#$total: Unable to create a user');
                 return null;

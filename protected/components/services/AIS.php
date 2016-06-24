@@ -18,12 +18,31 @@ class AIS
     const URL_PARTICIPANT_CONFIRM_PRESENCE = 'eventChoose';
     const URL_REGISTRATIONS = 'getEventRegistrations';
     const URL_GET_AVATAR = 'users_resources/{user_id}/avatar.jpg';
-
+    
     /**
      * @var GuzzleHttp\Client
      */
     private $guzzle;
 
+    /**
+     * Returns shifts names
+     * 
+     * @return string[]
+     */
+    public static function getShifts()
+    {
+        return [
+            'Молодые ученые и преподаватели общественных наук',
+            'Молодые депутаты и политические лидеры',
+            'Молодые ученые и преподаватели в области IT-технологий',
+            'Молодые специалисты в области межнациональных отношений',
+            'Молодые ученые и преподаватели экономических наук',
+            'Молодые ученые и преподаватели в области здравоохранения',
+            'Молодые руководители социальных НКО и проектов',
+            'Молодые преподаватели факультетов журналистики, молодые журналисты'
+        ];
+    }
+    
     /**
      * Returns an url for getting the avatar of the user
      *
