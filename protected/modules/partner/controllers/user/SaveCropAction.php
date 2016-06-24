@@ -38,7 +38,7 @@ class SaveCropAction extends Action
         $x = $x < 0 ? 0 : $x;
         $y = $y < 0 ? 0 : $y;
         
-        $user->getPhoto()->resize($x, $y, $width, $height);
+        $user->getPhoto()->crop($x, $y, $width, $height);
         $user->refreshUpdateTime(true);
     }
 }

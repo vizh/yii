@@ -137,10 +137,8 @@ class Photo
      * @param int $width
      * @param int $height
      */
-    public function resize($x, $y, $width, $height)
+    public function crop($x, $y, $width, $height)
     {
-        $cropFileName = $this->getPath(true) . $this->runetId . '_crop.jpg';
-
         $image = new \Imagick($this->getOriginal(true));
         $image->cropImage($width, $height, $x, $y);
         $image->writeImage($this->getOriginal(true));
@@ -230,11 +228,8 @@ class Photo
             $width = $size[0];
             $height = $size[1];
 
-            $originalWidth = $image->getImageWidth();
-            $originalHeight = $image->getImageHeight();
-
             $method = 'get'.$height.'px';
-            $image->cropImage($width, $height, intval(($originalWidth - $width) / 2), intval(($originalHeight - $height) / 2));
+            $image->resizeImage($width, 0, \Imagick::FILTER_LANCZOS, 1);
             $image->writeImage($this->$method(true));
         }
     }
