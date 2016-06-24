@@ -36,7 +36,7 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                 <tr>
                     <td>Выставлено:</td>
                     <td><?= $statistics->countJuridicalOrders; ?></td>
-                    <td><?= $statistics->countReceipts; ?></td>
+                    <td><?= $statistics->countReceiptOrders; ?></td>
                     <td><?= $statistics->countPaySystemOrders; ?></td>
                     <td><?= $statistics->getTotalOrders(); ?></td>
                 </tr>
@@ -49,7 +49,7 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                     </td>
                     <td>
                         <span class="text-warning">
-                            <?= $statistics->countReceipts - $statistics->countPaidReceipts ?>
+                            <?= $statistics->countReceiptOrders - $statistics->countPaidReceiptOrders ?>
                         </span>
                     </td>
                     <td>
@@ -66,7 +66,7 @@ $this->setPageTitle(\Yii::t('app', 'Статистика платежей'));
                 <tr>
                     <td>Оплачено:</td>
                     <td><strong class="text-success"><?= $statistics->countPaidJuridicalOrders ?></strong></td>
-                    <td><strong class="text-success"><?= $statistics->countPaidReceipts ?></strong></td>
+                    <td><strong class="text-success"><?= $statistics->countPaidReceiptOrders ?></strong></td>
                     <td><strong class="text-success"><?= $statistics->countPaidPaySystemOrders ?></strong></td>
                     <td><strong class="text-success"><?= $statistics->getTotalPaidOrders() ?></strong></td>
                 </tr>
