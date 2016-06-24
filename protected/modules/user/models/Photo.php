@@ -1,8 +1,6 @@
 <?php
 namespace user\models;
 
-use application\components\graphics\Image;
-
 class Photo
 {
     private $runetId;
@@ -125,12 +123,10 @@ class Photo
             mkdir($dir, 0777, true);
         }
 
-        $image = Image::GetImage($path);
+        $image = new \Imagick($path);
+        $image->writeImage($this->getOriginal(true));
 
-        imagejpeg($image, $this->getOriginal(true), 100);
-        $this->saveResizedImage($image);
-
-        imagedestroy($image);
+        $this->saveResizedImage();
     }
 
     /**
@@ -145,18 +141,11 @@ class Photo
     {
         $cropFileName = $this->getPath(true) . $this->runetId . '_crop.jpg';
 
-        Image::ResizeAndSave(
-            $this->getOriginal(true),
-            $cropFileName,
-            intval($width),
-            intval($height),
-            ['x1' => intval($x), 'y1' => intval($y)]
-        );
+        $image = new \Imagick($this->getOriginal(true));
+        $image->cropImage($width, $height, $x, $y);
+        $image->writeImage($this->getOriginal(true));
 
-        $image = Image::GetImage($cropFileName);
-
-        imagejpeg($image, $this->getOriginal(true), 100);
-        $this->saveResizedImage($image);
+        $this->saveResizedImage();
     }
 
     public function delete()
@@ -219,18 +208,34 @@ class Photo
 
     /**
      * Saves resized images
-     *
-     * @param \Image $image
      */
-    private function saveResizedImage($image)
+    private function saveResizedImage()
     {
         $clearSaveTo = $this->getClear(true);
 
-        imagejpeg($image, $clearSaveTo, 100);
+        $image = new \Imagick($this->getOriginal(true));
+        $image->writeImage($clearSaveTo);
 
-        Image::ResizeAndSave($clearSaveTo, $this->get238px(true), 238, 0, ['x1' => 0, 'y1' => 0]);
-        Image::ResizeAndSave($clearSaveTo, $this->get200px(true), 200, 0, ['x1' => 0, 'y1' => 0]);
-        Image::ResizeAndSave($clearSaveTo, $this->get90px(true), 90, 90, ['x1' => 0, 'y1' => 0]);
-        Image::ResizeAndSave($clearSaveTo, $this->get50px(true), 50, 50, ['x1' => 0, 'y1' => 0]);
+        // [width, height]
+        $sizes = [
+            [238, 238],
+            [200, 200],
+            [90, 90],
+            [50, 50]
+        ];
+
+        foreach ($sizes as $size) {
+            $image = new \Imagick($this->getOriginal(true));
+
+            $width = $size[0];
+            $height = $size[1];
+
+            $originalWidth = $image->getImageWidth();
+            $originalHeight = $image->getImageHeight();
+
+            $method = 'get'.$height.'px';
+            $image->cropImage($width, $height, intval(($originalWidth - $width) / 2), intval(($originalHeight - $height) / 2));
+            $image->writeImage($this->$method(true));
+        }
     }
 }

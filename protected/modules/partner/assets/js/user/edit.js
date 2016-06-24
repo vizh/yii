@@ -167,7 +167,7 @@ $(document).ready(function(){
         userId = img.data('userId');
 
         var cropper = new Cropper(img[0], {
-            aspectRatio: 1,
+            aspectRatio: 3 / 4,
             strict: true,
             background: false,
             scalable: false,
@@ -179,10 +179,10 @@ $(document).ready(function(){
             minCropBoxWidth:50,
             minCropBoxHeight:50,
             crop: function(e) {
-                x = e.detail.x;
-                y = e.detail.y;
-                width = e.detail.width;
-                height = e.detail.height;
+                x = Math.round(e.detail.x);
+                y = Math.round(e.detail.y);
+                width = Math.round(e.detail.width);
+                height = Math.round(e.detail.height);
             }
         });
     });
