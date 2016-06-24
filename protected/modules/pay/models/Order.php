@@ -180,6 +180,26 @@ class Order extends ActiveRecord
     }
 
     /**
+     * @param bool $type
+     * @param bool $value
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byType($type, $value, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        if ($value) {
+            $criteria->addInCondition('"t"."Type"', [$type], $useAnd);
+        } else {
+            $criteria->addNotInCondition('"t"."Type"', [$type], $useAnd);
+        }
+
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
+        return $this;
+    }
+
+    /**
      * @param bool $paid
      * @param bool $useAnd
      * @return Order
