@@ -33,6 +33,12 @@ use event\models\Event;
                     <?=$activeForm->fileField($photoForm, 'Image')?>
                     <br>
                     <?= CHtml::submitButton('Сохранить', ['class' => 'btn btn-primary']) ?>
+                    <?= CHtml::tag('button', [
+                            'id' => 'crop',
+                            'class' => 'btn btn-warning',
+                            'type' => 'button'
+                        ], 'Кроп'
+                    ) ?>
                 <?php $this->endWidget() ?>
             </div>
             <div class="col-sm-6 col-md-6 col-lg-8 col-xs-12">
@@ -79,6 +85,34 @@ use event\models\Event;
                         <?= Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $user->Birthday) ?>
                     <?php endif; ?>
                 </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="crop-modal" class="modal fade in" tabindex="-1" role="dialog" style="display: none;" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Кроп фото</h4>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <?= CHtml::image($user->getPhoto()->getOriginal(), '', [
+                        'id' => 'crop-image',
+                        'class' => 'img-responsive',
+                        'style' => 'display: inline; max-width: 100%; width: 800px; height: auto;',
+                        'data-user-id' => $user->Id
+                    ]) ?>
+                </div>
+
+                <div class="text-center">
+                    <button id="save-crop" type="button" class="btn btn-primary">Сохранить</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>

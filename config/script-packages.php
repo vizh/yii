@@ -39,6 +39,12 @@ return [
         'js' => ['javascripts/jquery.iosslider.min.js'],
         'depends' => ['runetid.jquery'],
     ],
+    'runetid.jquery.cropper' => [
+        'baseUrl' => '/javascripts/cropper/',
+        'js' => ['cropper.min.js'],
+        'css' => ['cropper.min.css'],
+        'depends' => ['runetid.jquery']
+    ],
     'runetid.auth' => [
         'baseUrl' => '/',
         'js' => ['javascripts/auth.js'],
@@ -67,7 +73,7 @@ return [
     'partner' => [
         'baseUrl' => '/',
         'css' => ['stylesheets/partner.css'],
-        'depends' => ['runetid.jquery', 'runetid.jquery.ui', 'pixel-admin'],
+        'depends' => ['runetid.jquery', 'runetid.jquery.ui', 'pixel-admin', 'runetid.jquery.cropper'],
     ],
     'runetid.ckeditor' => [
         'baseUrl' => '/javascripts/ckeditor',

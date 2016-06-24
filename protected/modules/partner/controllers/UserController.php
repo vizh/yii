@@ -26,7 +26,8 @@ class UserController extends Controller
             'importprocess' => '\partner\controllers\user\import\ProcessAction',
             'importerrors' => '\partner\controllers\user\import\ErrorsAction',
             'competence' => '\partner\controllers\user\CompetenceAction',
-            'data' => '\partner\controllers\user\DataAction'
+            'data' => '\partner\controllers\user\DataAction',
+            'savecrop' => 'partner\controllers\user\SaveCropAction'
         ];
     }
 }
