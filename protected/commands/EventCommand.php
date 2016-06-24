@@ -66,6 +66,16 @@ class EventCommand extends BaseConsoleCommand
             'startDate' => '22.08',
             'endDate' => '28.08'
         ],
+        '№1. Заезд (смены: Молодые ученые и преподаватели общественных наук; Молодые депутаты и политические лидеры; Молодые ученые и преподаватели в области IT-технологии; Молодые специалисты в области межнациональных отношений)' => [
+            'number' => 10,
+            'startDate' => '25.06',
+            'endDate' => '27.07'
+        ],
+        '№2. Заезд (смены: Молодые ученые и преподаватели экономических наук; Молодые ученые и преподаватели в области здравоохранения; Молодые руководители социальных НКО и проектов; Молодые преподаватели факультетов журналистики, молодые журналисты)' => [
+            'number' => 10,
+            'startDate' => '27.07',
+            'endDate' => '28.08'
+        ],
     ];
 
     /**
@@ -256,6 +266,7 @@ class EventCommand extends BaseConsoleCommand
     private function detectShiftDates($shift)
     {
         if (!isset(self::$shifts[$shift])) {
+            echo 'ERROR: Unbale to detect start and end dates!';
             return [null, null, null];
         }
 
