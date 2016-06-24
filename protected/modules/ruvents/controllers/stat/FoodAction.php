@@ -18,11 +18,9 @@ class FoodAction extends StatAction
         $this->controller->layout = '//layouts/clear';
 
         if ($eventId == Event::TS16) {
-            var_dump($this->fetchTS16Stat());
-
-            /*$this->controller->render('food-ts16', [
-                'allStat' => $allStat
-            ]);*/
+            $this->controller->render('food-ts16', [
+                'allStat' => $this->fetchTS16Stat()
+            ]);
         } else {
             $groups = $this->fetchUniqueGroups($eventId);
             $allStat = $this->collectAllStat($eventId, $groups);
@@ -75,7 +73,10 @@ class FoodAction extends StatAction
 
         return $stat;
     }
-    
+
+    /**
+     * @return array
+     */
     private function fetchTS16Stat()
     {
         $shiftsDates = [
@@ -91,7 +92,7 @@ class FoodAction extends StatAction
         
         $dates = [];
         foreach ($shiftsDates as $d) {
-            $dates[] = '('.implode(',', $d).')';
+            $dates[] = "('".implode("','", $d)."')";
         }
         $dates = implode(',', $dates);
         
@@ -100,9 +101,9 @@ WITH "Dates" AS (
     SELECT *
     FROM (VALUES $dates) AS "Dates"(start_date, end_date)
 )
-SELECT u."RunetId", v."CreationTime":DATE, SUBSTRING("MarkId" FROM '^Питание\\s\\d{2}\\.\\d{2}/\\w+') AS "Mark", Dates".start_date || '-' || "Dates".end_date AS "Shift" FROM "RuventsVisit" v
+SELECT u."RunetId", v."CreationTime"::DATE, "MarkId", SUBSTRING("MarkId" FROM '^Питание\\s\\d{2}\\.\\d{2}\/\\w+') AS "Mark", "Dates".start_date || '-' || "Dates".end_date AS "Shift" FROM "RuventsVisit" v
     INNER JOIN "Dates" ON v."CreationTime"::DATE >= "Dates".start_date::DATE AND v."CreationTime"::DATE <= "Dates".end_date::DATE
-    INNER JOIN "User" u ON u."UserId" = v."UserId"
+    INNER JOIN "User" u ON u."Id" = v."UserId"
     WHERE v."EventId" = :eventId AND v."MarkId" ~ '^Питание';
 SQL;
         $rows = \Yii::app()->getDb()->createCommand($sql)
@@ -113,9 +114,9 @@ SQL;
         $result = [];
         foreach ($rows as $row) {
             $shift = $row['Shift'];
-            
+
             $match = [];
-            if (!preg_match('/^Питание\s(\d{2}\.\d{2})\/(\w+)/', $row['Mark'], $match)) {
+            if (!preg_match('/^Питание\s(\d{2}\.\d{2})\/(\w+)/u', $row['Mark'], $match)) {
                 continue;
             }
             
@@ -125,7 +126,8 @@ SQL;
             
             $date = $match[1];
             $food = $match[2];
-            
+            $id = $row['RunetId'];
+
             if (!isset($result[$shift])) {
                 $result[$shift] = [];
             }
@@ -136,24 +138,27 @@ SQL;
 
             if (!isset($result[$shift][$date][$food])) {
                 $result[$shift][$date][$food] = [
+                    'users-list-url' => \Yii::app()->getUrlManager()->createUrl('/ruvents/stat/users-list', [
+                        'eventId' => Event::TS16,
+                        'group' => \Inflector::transliterate(strtr(\Inflector::transliterate($row['Mark']), [
+                            ' ' => '_',
+                            '/' => '_',
+                            '.' => ''
+                        ]))
+                    ]),
                     'total' => 0,
                     'touched' => 0
                 ];
             }
 
-            $result[$shift][$date][$food]['total']++;
+            if (!isset($result[$shift][$date][$food][$id])) {
+                $result[$shift][$date][$food][$id] = true;
+                $result[$shift][$date][$food]['total']++;
+            }
+
             $result[$shift][$date][$food]['touched']++;
         }
 
         return $result;
-    }
-
-    private function separateGroupsByShifts($groups)
-    {
-        $shifts = [
-            [
-                'start' => '27'
-            ]
-        ];
     }
 }
