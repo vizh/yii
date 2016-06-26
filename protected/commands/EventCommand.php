@@ -87,7 +87,7 @@ class EventCommand extends BaseConsoleCommand
     {
         $ais = new AIS();
 
-        $yesterday = $update ? (new DateTime())->sub(new DateInterval('PT1H'))->format('Y-m-d H:i:s') : null;
+        $yesterday = $update ? (new DateTime())->sub(new DateInterval('P1D'))->format('Y-m-d H:i:s') : null;
 
         $eventId = 2783;
 
@@ -157,7 +157,7 @@ class EventCommand extends BaseConsoleCommand
         $team = $data['twenty'];
 
         $photoUrl = AIS::getAvatarUrl($userId);
-        if ($this->urlExists($photoUrl)) {
+        if ($this->urlExists($photoUrl) && !$user->getPhoto()->hasImage()) {
             $user->getPhoto()->save($photoUrl);
         }
 
@@ -225,36 +225,6 @@ class EventCommand extends BaseConsoleCommand
         }
 
         return $user;
-    }
-
-    /**
-     * Sets the user address
-     *
-     * @param User $user
-     * @param string $country
-     * @param string $region
-     * @return bool
-     */
-    private function setUserAddress(User $user, $country, $region)
-    {
-        $country = Country::model()->find([
-            'condition' => '"Name" = :name',
-            'params' => [':name' => $country]
-        ]);
-
-        if (!$country) {
-            return false;
-        }
-
-        $region = Region::model()->find([
-            'condition' => '"Name" ILIKE :name',
-            'params' => [':name' => $region.'%']
-        ]);
-
-        $address = Address::create($country, $region);
-        $user->setContactAddress($address);
-
-        return true;
     }
 
     /**
