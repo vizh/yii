@@ -127,10 +127,11 @@ class Base extends MailLayout
 
         $mail = $this->getRegisterMail();
         if ($mail === null || $mail->SendPassbook) {
-            $attachments['ticket.pkpass'] = [
+            /*FIXME: пока отключен passbook, так как из-за глючных сертификатов вообще письма не уходят
+             * $attachments['ticket.pkpass'] = [
                 'application/vnd.apple.pkpass',
                 IOSPass::create($this->participant)->output()
-            ];
+            ];*/
         }
 
         if ($mail !== null && $mail->SendTicket && false) {
