@@ -18,7 +18,8 @@ class AIS
     const URL_PARTICIPANT_CONFIRM_PRESENCE = 'eventChoose';
     const URL_REGISTRATIONS = 'getEventRegistrations';
     const URL_GET_AVATAR = 'users_resources/{user_id}/avatar.jpg';
-    
+    const URL_NOTIFY = 'eventChoose';
+
     /**
      * @var GuzzleHttp\Client
      */
@@ -103,6 +104,24 @@ class AIS
         ]);
 
         return json_decode((string) $res->getBody(), true);
+    }
+
+    /**
+     * Notifies AIS about coming
+     *
+     * @param int $registrationId
+     * @throws \CException
+     */
+    public function notify($registrationId)
+    {
+        $this->auth();
+
+        $this->guzzle->post(self::AIS_SITE . self::URL_NOTIFY, [
+            'body' => [
+                'action' => 'was',
+                'registration' => $registrationId
+            ]
+        ]);
     }
 
     /**

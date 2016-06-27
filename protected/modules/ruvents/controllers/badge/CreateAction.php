@@ -1,7 +1,11 @@
 <?php
 namespace ruvents\controllers\badge;
 
+use application\components\services\AIS;
+use event\models\Event;
+use event\models\UserData;
 use ruvents\components\Exception;
+use user\models\User;
 
 class CreateAction extends \ruvents\components\Action
 {
@@ -69,8 +73,36 @@ class CreateAction extends \ruvents\components\Action
         $badge->RoleId = $participant->RoleId;
         $badge->save();
 
+        if ($this->getEvent()->Id == Event::TS16) {
+            $this->notifyAIS($runetId);
+        }
+
         $this->renderJson([
             'Success' => true
         ]);
+    }
+
+    /**
+     * ТС16: Уведомляет АИС о том, что участник пришел на мероприятие
+     *
+     * @param $runetId
+     */
+    private function notifyAIS($runetId)
+    {
+        if (!$user = User::model()->byRunetId($runetId)->find()) {
+            return;
+        }
+
+        $data = UserData::fetch(Event::TS16, $user);
+        if ($registrationId = $data->ais_registration_id) {
+            return;
+        }
+
+        try {
+            $ais = new AIS();
+            $ais->notify($registrationId);
+        } catch (Exception $e) {
+            return;
+        }
     }
 }

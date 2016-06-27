@@ -8,9 +8,6 @@ use event\models\Event;
 use event\models\Role;
 use event\models\UserData;
 use user\models\User;
-use contact\models\Address;
-use geo\models\Country;
-use geo\models\Region;
 
 /**
  * Contains useful utils for events
@@ -77,6 +74,12 @@ class EventCommand extends BaseConsoleCommand
             'endDate' => '28.08'
         ],
     ];
+
+    public function actionNotify()
+    {
+        $ais = new AIS();
+        $ais->notify(8613);
+    }
 
     /**
      * Imports participants from the AIS system
@@ -155,6 +158,7 @@ class EventCommand extends BaseConsoleCommand
         $country = $data['country_name'] ?: 'Россия';
         $smena = $data['smena_nm'];
         $team = $data['twenty'];
+        $registrationId = $data['registration_id'];
 
         $photoUrl = AIS::getAvatarUrl($userId);
         if ($this->urlExists($photoUrl) && !$user->getPhoto()->hasImage()) {
@@ -177,6 +181,7 @@ class EventCommand extends BaseConsoleCommand
         $m->region = $region;
         list($m->start_date, $m->end_date, $m->smena_no) = $this->detectShiftDates($smena);
         $m->smena = $smena;
+        $m->ais_registration_id = $registrationId;
         $m->team_number = $team;
 
         $data->save();
