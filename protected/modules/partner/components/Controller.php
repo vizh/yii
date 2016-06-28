@@ -67,20 +67,12 @@ class Controller extends \application\components\controllers\BaseController
                 $this->render('partner.views.system.need-user-auth');
                 return false;
             }
-            elseif (\Yii::app()->partner->getEvent() === null)
-            {
-                $success = $this->parseExtendedAccountRequest();
-                if ($success)
-                {
-                    $this->refresh();
-                }
-                else
-                {
-                    $this->render('partner.views.system.select-event', array(
-                        'events' => $this->getExtendedAccountEventData()
-                    ));
-                    return false;
-                }
+            $this->parseExtendedAccountRequest();
+            if (\Yii::app()->partner->getEvent() === null){
+                $this->render('partner.views.system.select-event', array(
+                    'events' => $this->getExtendedAccountEventData()
+                ));
+                return false;
             }
         }
 
@@ -97,11 +89,10 @@ class Controller extends \application\components\controllers\BaseController
                 $event = Event::model()->findByPk($id);
                 if ($event !== null) {
                     \Yii::app()->getSession()->add('PartnerAccountEventId', $event->Id);
-                    return true;
+                    $this->refresh();
                 }
             }
         }
-        return false;
     }
 
     private function getExtendedAccountEventData()
