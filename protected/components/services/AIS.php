@@ -119,8 +119,10 @@ class AIS
         $this->guzzle->post(self::AIS_SITE . self::URL_NOTIFY, [
             'body' => [
                 'action' => 'was',
-                'registration' => $registrationId
-            ]
+                'registration' => $registrationId,
+                'comment' => ''
+            ],
+            'cookies' => true
         ]);
     }
 

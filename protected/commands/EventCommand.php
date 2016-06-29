@@ -75,12 +75,6 @@ class EventCommand extends BaseConsoleCommand
         ],
     ];
 
-    public function actionNotify()
-    {
-        $ais = new AIS();
-        $ais->notify(8613);
-    }
-
     /**
      * Imports participants from the AIS system
      *
