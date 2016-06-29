@@ -58,7 +58,13 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="form-group <?=$form->hasErrors('Company') ? 'has-error' : '';?>">
-                <?=$activeForm->textField($form, 'Company', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Company')]);?>
+                <?php $this->widget('\application\widgets\AutocompleteInput', [
+                    'model' => $form,
+                    'attribute' => 'Company',
+                    'label' => $form->Company,
+                    'htmlOptions' => ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Company')],
+                    'source' => $this->createUrl('autocomplete'),
+                ]); ?>
             </div>
         </div>
         <div class="col-xs-6">
