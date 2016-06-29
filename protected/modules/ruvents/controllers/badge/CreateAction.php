@@ -85,7 +85,7 @@ class CreateAction extends \ruvents\components\Action
     /**
      * ТС16: Уведомляет АИС о том, что участник пришел на мероприятие
      *
-     * @param $runetId
+     * @param int $runetId
      */
     private function notifyAIS($runetId)
     {
@@ -94,7 +94,8 @@ class CreateAction extends \ruvents\components\Action
         }
 
         $data = UserData::fetch(Event::TS16, $user);
-        if ($registrationId = $data->ais_registration_id) {
+        $m = $data->getManager();
+        if ($registrationId = $m->ais_registration_id) {
             return;
         }
 
