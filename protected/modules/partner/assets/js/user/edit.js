@@ -3,10 +3,11 @@ var PartnerApp = angular.module('PartnerApp', ['ngSanitize']);
 var CUserEdit = function (data) {
     this.data = data;
     this.init();
-}
+};
 CUserEdit.prototype = {
     'init' : function () {
         var self = this;
+
         PartnerApp.controller('UserEditController', function($scope, $sce) {
             $scope.participants = self.data.participants;
             $scope.products = self.data.products;
@@ -147,4 +148,59 @@ CUserEdit.prototype = {
             }
         });
     }
-}
+};
+
+$(document).ready(function(){
+    var userId = null,
+        x = null,
+        y = null,
+        width = null,
+        height = null,
+        modal;
+
+    $('#crop').click(function (e) {
+        e.preventDefault();
+
+        modal = $('#crop-modal').modal('show');
+        var img = modal.find('img');
+
+        userId = img.data('userId');
+
+        var cropper = new Cropper(img[0], {
+            aspectRatio: 3 / 4,
+            strict: true,
+            background: false,
+            scalable: false,
+            guides: false,
+            autoCropArea: 0.6,
+            rotatable: false,
+            minContainerWidth: 500,
+            minContainerHeight: 500,
+            minCropBoxWidth:50,
+            minCropBoxHeight:50,
+            crop: function(e) {
+                x = Math.round(e.detail.x);
+                y = Math.round(e.detail.y);
+                width = Math.round(e.detail.width);
+                height = Math.round(e.detail.height);
+            }
+        });
+    });
+
+    $('#save-crop').click(function () {
+        $.ajax({
+            url: '/user/savecrop?id=' + userId,
+            method: 'POST',
+            data: {
+                x: x,
+                y: y,
+                width: width,
+                height: height
+            },
+            success: function() {
+                modal.modal('hide');
+                window.location.reload();
+            }
+        });
+    });
+});

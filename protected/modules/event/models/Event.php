@@ -93,6 +93,8 @@ use pay\models\Account as PayAccount;
  */
 class Event extends ActiveRecord implements ISearch
 {
+    const TS16 = 2783; // Территория смыслов 2016
+    
     protected $fileDir; // кеш, содержащий путь к файлам мероприятия. использовать только через getPath()
     protected $baseDir; // кеш, содержащий абсолютный путь к wwwroot
 

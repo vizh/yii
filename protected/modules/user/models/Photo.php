@@ -1,8 +1,6 @@
 <?php
 namespace user\models;
 
-use application\components\graphics\Image;
-
 class Photo
 {
     private $runetId;
@@ -94,7 +92,7 @@ class Photo
      */
     public function hasImage()
     {
-        return is_dir($fileName = $this->getPath(true) . $this->runetId);
+        return file_exists($fileName = $this->getPath(true) . $this->runetId . '.jpg');
     }
 
     /**
@@ -124,20 +122,28 @@ class Photo
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
-        $image = Image::GetImage($path);
-        $clearSaveTo = $this->getClear(true);
-        imagejpeg($image, $clearSaveTo, 100);
-        $newImage = $this->getOriginal(true);
-        imagejpeg($image, $newImage, 100);
-        imagedestroy($image);
-        $newImage = $this->get238px(true);
-        Image::ResizeAndSave($clearSaveTo, $newImage, 238, 0, ['x1' => 0, 'y1' => 0]);
-        $newImage = $this->get200px(true);
-        Image::ResizeAndSave($clearSaveTo, $newImage, 200, 0, ['x1' => 0, 'y1' => 0]);
-        $newImage = $this->get90px(true);
-        Image::ResizeAndSave($clearSaveTo, $newImage, 90, 90, ['x1' => 0, 'y1' => 0]);
-        $newImage = $this->get50px(true);
-        Image::ResizeAndSave($clearSaveTo, $newImage, 50, 50, ['x1' => 0, 'y1' => 0]);
+
+        $image = new \Imagick($path);
+        $image->writeImage($this->getOriginal(true));
+
+        $this->saveResizedImage();
+    }
+
+    /**
+     * Makes resizes of the photo
+     *
+     * @param int $x
+     * @param int $y
+     * @param int $width
+     * @param int $height
+     */
+    public function crop($x, $y, $width, $height)
+    {
+        $image = new \Imagick($this->getOriginal(true));
+        $image->cropImage($width, $height, $x, $y);
+        $image->writeImage($this->getOriginal(true));
+
+        $this->saveResizedImage();
     }
 
     public function delete()
@@ -170,9 +176,13 @@ class Photo
         $folder = $this->runetId / 10000;
         $folder = (int)$folder;
         $result = \Yii::app()->params['UserPhotoDir'] . $folder . '/';
+
+
+
         if ($serverPath) {
             $result = \Yii::getPathOfAlias('webroot') . $result;
         }
+
         return $result;
     }
 
@@ -191,6 +201,36 @@ class Photo
             return $this->getPath($serverPath) . $name . ($serverPath ? '' : '?t=' . $mtime);
         } else {
             return \Yii::app()->params['UserPhotoDir'] . $noFile;
+        }
+    }
+
+    /**
+     * Saves resized images
+     */
+    private function saveResizedImage()
+    {
+        $clearSaveTo = $this->getClear(true);
+
+        $image = new \Imagick($this->getOriginal(true));
+        $image->writeImage($clearSaveTo);
+
+        // [width, height]
+        $sizes = [
+            [238, 238],
+            [200, 200],
+            [90, 90],
+            [50, 50]
+        ];
+
+        foreach ($sizes as $size) {
+            $image = new \Imagick($this->getOriginal(true));
+
+            $width = $size[0];
+            $height = $size[1];
+
+            $method = 'get'.$height.'px';
+            $image->resizeImage($width, 0, \Imagick::FILTER_LANCZOS, 1);
+            $image->writeImage($this->$method(true));
         }
     }
 }

@@ -91,7 +91,7 @@ class Image
         if ($saveType == IMAGETYPE_PNG) {
             imagepng($newImage, $newImageName);
         } else {
-            imagejpeg($newImage, $newImageName, 90);
+            imagejpeg($newImage, $newImageName, 100);
         }
         imagedestroy($image);
         imagedestroy($newImage);

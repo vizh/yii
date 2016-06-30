@@ -8,9 +8,6 @@ use event\models\Event;
 use event\models\Role;
 use event\models\UserData;
 use user\models\User;
-use contact\models\Address;
-use geo\models\Country;
-use geo\models\Region;
 
 /**
  * Contains useful utils for events
@@ -66,6 +63,16 @@ class EventCommand extends BaseConsoleCommand
             'startDate' => '22.08',
             'endDate' => '28.08'
         ],
+        '№1. Заезд (смены: Молодые ученые и преподаватели общественных наук; Молодые депутаты и политические лидеры; Молодые ученые и преподаватели в области IT-технологии; Молодые специалисты в области межнациональных отношений)' => [
+            'number' => 10,
+            'startDate' => '25.06',
+            'endDate' => '27.07'
+        ],
+        '№2. Заезд (смены: Молодые ученые и преподаватели экономических наук; Молодые ученые и преподаватели в области здравоохранения; Молодые руководители социальных НКО и проектов; Молодые преподаватели факультетов журналистики, молодые журналисты)' => [
+            'number' => 10,
+            'startDate' => '27.07',
+            'endDate' => '28.08'
+        ],
     ];
 
     /**
@@ -77,7 +84,7 @@ class EventCommand extends BaseConsoleCommand
     {
         $ais = new AIS();
 
-        $yesterday = $update ? (new DateTime())->sub(new DateInterval('PT1H'))->format('Y-m-d H:i:s') : null;
+        $yesterday = $update ? (new DateTime())->sub(new DateInterval('P1D'))->format('Y-m-d H:i:s') : null;
 
         $eventId = 2783;
 
@@ -145,9 +152,10 @@ class EventCommand extends BaseConsoleCommand
         $country = $data['country_name'] ?: 'Россия';
         $smena = $data['smena_nm'];
         $team = $data['twenty'];
+        $registrationId = $data['registration_id'];
 
         $photoUrl = AIS::getAvatarUrl($userId);
-        if ($this->urlExists($photoUrl)) {
+        if ($this->urlExists($photoUrl) && !$user->getPhoto()->hasImage()) {
             $user->getPhoto()->save($photoUrl);
         }
 
@@ -167,6 +175,7 @@ class EventCommand extends BaseConsoleCommand
         $m->region = $region;
         list($m->start_date, $m->end_date, $m->smena_no) = $this->detectShiftDates($smena);
         $m->smena = $smena;
+        $m->ais_registration_id = $registrationId;
         $m->team_number = $team;
 
         $data->save();
@@ -218,36 +227,6 @@ class EventCommand extends BaseConsoleCommand
     }
 
     /**
-     * Sets the user address
-     *
-     * @param User $user
-     * @param string $country
-     * @param string $region
-     * @return bool
-     */
-    private function setUserAddress(User $user, $country, $region)
-    {
-        $country = Country::model()->find([
-            'condition' => '"Name" = :name',
-            'params' => [':name' => $country]
-        ]);
-
-        if (!$country) {
-            return false;
-        }
-
-        $region = Region::model()->find([
-            'condition' => '"Name" ILIKE :name',
-            'params' => [':name' => $region.'%']
-        ]);
-
-        $address = Address::create($country, $region);
-        $user->setContactAddress($address);
-
-        return true;
-    }
-
-    /**
      * Detects dates and number of the shift. It returns nulls if it can't find the shift
      *
      * @param string $shift Name of the shift
@@ -256,6 +235,7 @@ class EventCommand extends BaseConsoleCommand
     private function detectShiftDates($shift)
     {
         if (!isset(self::$shifts[$shift])) {
+            echo 'ERROR: Unbale to detect start and end dates!';
             return [null, null, null];
         }
 

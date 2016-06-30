@@ -24,6 +24,7 @@ class MainController extends \oauth\components\Controller
     {
         return [
             'setpassword' => '\oauth\controllers\main\SetPasswordAction',
+            'autocomplete' => '\pay\controllers\admin\order\AutocompleteAction',
             'captcha' => [
                 'class' => 'CCaptchaAction',
             ]

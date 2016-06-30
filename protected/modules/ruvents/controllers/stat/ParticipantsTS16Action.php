@@ -3,7 +3,7 @@ namespace ruvents\controllers\stat;
 
 use application\components\web\ArrayDataProvider;
 use event\models\UserData;
-use ruvents\models\Visit;
+use ruvents\models\Badge;
 use application\components\services\AIS;
 
 /**
@@ -56,7 +56,7 @@ class ParticipantsTS16Action extends StatAction
         $data = \Yii::app()->getDb()->createCommand()
             ->select($filterExpression . 'AS "Group", COUNT(*) AS "Count", COUNT(DISTINCT v."UserId") AS "Registered"')
             ->from(UserData::model()->tableName() . ' d')
-            ->leftJoin(Visit::model()->tableName() . ' v', 'v."UserId" = d."UserId" AND v."EventId" = d."EventId"')
+            ->leftJoin(Badge::model()->tableName() . ' v', 'v."UserId" = d."UserId" AND v."EventId" = d."EventId"')
             ->where('d."EventId" = :eventId', [
                 ':eventId' => $eventId
             ])

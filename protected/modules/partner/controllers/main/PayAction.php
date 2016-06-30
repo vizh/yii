@@ -50,7 +50,7 @@ class PayAction extends \partner\components\Action
             ->byEventId($this->getEvent()->Id)
             ->byType($types[$type], true)
             ->with('ItemLinks.OrderItem')
-            ->findAll();
+            ->findAll('not "OrderItem"."Deleted"');
 
         $this->statistics->{'total'.$type} = array_reduce($orders, function($carry, $order){
             return $carry + $order->price;

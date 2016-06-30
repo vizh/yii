@@ -24,6 +24,7 @@
   <a data-toggle="collapse" class="nav-header" href="#menu-events"><i class="icon-calendar icon-white"></i><span class="hidden-phone"><?=\Yii::t('app', 'Мероприятия');?> <?if($counts->Event != 0):?><span class="label label-info">+<?=$counts->Event?></span><?endif;?></span></a>
   <ul class="nav nav-list collapse" id="menu-events">
     <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index');?>"><?=\Yii::t('app', 'Список мероприятий');?></a></li>
+    <li><a href="<?=Yii::app()->createUrl('/event/admin/stat/index');?>"><?=\Yii::t('app', 'Сводная статистика');?></a></li>
     <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index', array('Approved' => \event\models\Approved::Yes));?>"><?=\Yii::t('app','Принятые');?></a></li>
     <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index', array('Approved' => \event\models\Approved::None));?>"><?=\Yii::t('app','На одобрение');?> <?if($counts->Event != 0):?><span class="label label-info pull-right">+<?=$counts->Event?></span><?endif;?></a></li>
     <li><a href="<?=Yii::app()->createUrl('/event/admin/list/index', array('Approved' => \event\models\Approved::No));?>"><?=\Yii::t('app','Отклоненные');?></a></li>
