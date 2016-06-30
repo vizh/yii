@@ -26,7 +26,8 @@ class UsersListAction extends StatAction
 
         $this->controller->render('users-list', [
             'dataProvider' => $this->constructDataProvider($eventId, $groupName),
-            'groupName' => $groupName
+            'groupName' => $groupName,
+            'eventId' => $eventId
         ]);
     }
 

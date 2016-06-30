@@ -159,6 +159,11 @@ SQL;
             $result[$shift][$date][$food]['touched']++;
         }
 
+        // Makes sort by dates
+        foreach ($result as $shift => &$items) {
+            ksort($items);
+        }
+
         return $result;
     }
 }

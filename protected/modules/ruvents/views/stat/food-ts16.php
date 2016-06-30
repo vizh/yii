@@ -41,13 +41,19 @@ $counter = 0;
                                 <tr>
                                     <td><?=$date?></td>
                                     <td>
-                                        <?=CHtml::link('<b>'.($item['Завтрак']['total'] ?: 0).'</b> / '.($item['Завтрак']['touched'] ?: 0), $item['Завтрак']['users-list-url'], ['target' => '_blank'])?>
+                                        <?php if (isset($item['Завтрак'])): ?>
+                                            <?=CHtml::link('<b>'.($item['Завтрак']['total'] ?: 0).'</b> / '.($item['Завтрак']['touched'] ?: 0), $item['Завтрак']['users-list-url'], ['target' => '_blank'])?>
+                                        <?php endif ?>
                                     </td>
                                     <td>
-                                        <?=CHtml::link('<b>'.($item['Обед']['total'] ?: 0).'</b> / '.($item['Обед']['touched'] ?: 0), $item['Обед']['users-list-url'], ['target' => '_blank'])?>
+                                        <?php if (isset($item['Обед'])): ?>
+                                            <?=CHtml::link('<b>'.($item['Обед']['total'] ?: 0).'</b> / '.($item['Обед']['touched'] ?: 0), $item['Обед']['users-list-url'], ['target' => '_blank'])?>
+                                        <?php endif ?>
                                     </td>
                                     <td>
-                                        <?=CHtml::link('<b>'.($item['Ужин']['total'] ?: 0).'</b> / '.($item['Ужин']['touched'] ?: 0), $item['Ужин']['users-list-url'], ['target' => '_blank'])?>
+                                        <?php if (isset($item['Ужин'])): ?>
+                                            <?=CHtml::link('<b>'.($item['Ужин']['total'] ?: 0).'</b> / '.($item['Ужин']['touched'] ?: 0), $item['Ужин']['users-list-url'], ['target' => '_blank'])?>
+                                        <?php endif ?>
                                     </td>
                                 </tr>
                             <?php endforeach ?>
