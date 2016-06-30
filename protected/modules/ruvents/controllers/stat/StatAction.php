@@ -42,4 +42,27 @@ class StatAction extends \CAction
 
         return $map;
     }
+
+    /**
+     * Generates data providers by using groups
+     * @param int $eventId Identifier of the event
+     * @param string $group Group name
+     * @return \CActiveDataProvider
+     */
+    protected function constructUsersListDataProvider($eventId, $group)
+    {
+        return new \CActiveDataProvider(Visit::model()->byEventId($eventId), [
+            'criteria' => [
+                'condition' => 't."MarkId" ILIKE :group',
+                'params' => [':group' => $group . '%'],
+                'with' => [
+                    'UserData'
+                ]
+            ],
+            'sort' => [
+                'defaultOrder' => 't."CreationTime" DESC'
+            ],
+            'pagination' => false
+        ]);
+    }
 }

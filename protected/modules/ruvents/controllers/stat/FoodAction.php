@@ -29,7 +29,6 @@ class FoodAction extends StatAction
                 'allStat' => $allStat
             ]);
         }
-
     }
 
     /**
