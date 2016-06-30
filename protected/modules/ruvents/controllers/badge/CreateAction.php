@@ -95,13 +95,15 @@ class CreateAction extends \ruvents\components\Action
 
         $data = UserData::fetch(Event::TS16, $user);
         $m = $data->getManager();
-        if ($registrationId = $m->ais_registration_id) {
+        if (!$registrationId = $m->ais_registration_id) {
             return;
         }
 
         try {
             $ais = new AIS();
             $ais->notify($registrationId);
+
+
         } catch (Exception $e) {
             return;
         }
