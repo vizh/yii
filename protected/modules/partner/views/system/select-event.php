@@ -20,7 +20,7 @@ $this->setPageTitle(\Yii::t('app', 'Авторизация в партнерск
 
             <div class="form-group w-icon">
                 <input type="text" placeholder="Выберите мероприятие" class="form-control input-lg" />
-                <input type="hidden" name="id">
+                <input type="hidden" name="event_id">
                 <span class="fa fa-list signin-form-icon"></span>
             </div> <!-- / Username -->
         </form>
@@ -34,7 +34,7 @@ $this->setPageTitle(\Yii::t('app', 'Авторизация в партнерск
         $form.find('input[type="text"]').autocomplete({
             source: <?=json_encode($events, JSON_UNESCAPED_UNICODE);?>,
             select: function( event, ui ) {
-                $form.find('input[name="id"]').val(ui.item.id);
+                $form.find('input[name="event_id"]').val(ui.item.id);
                 $form.submit();
                 return false;
             }

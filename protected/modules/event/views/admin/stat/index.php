@@ -62,7 +62,7 @@ use event\models\Approved;
                             <?endif;?>
                             <a href="<?=$this->createUrl('/event/admin/edit/index', ['eventId' => $event->Id]);?>" class="btn"><i class="icon-edit"></i></a>
                             <form action="<?= $this->createUrl('/partner/main/index'); ?>" method="post">
-                                <input name="id" type="hidden" value="<?= $event->Id; ?>">
+                                <input name="event_id" type="hidden" value="<?= $event->Id; ?>">
                                 <button type="submit" class="btn" title="Партнерский интерфейс"><i class="icon-th-list"></i></button>
                             </form>
 
