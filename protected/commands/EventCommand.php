@@ -7,6 +7,7 @@ use application\components\services\AIS;
 use event\models\Event;
 use event\models\Role;
 use event\models\UserData;
+use ruvents\models\Badge;
 use user\models\User;
 
 /**
@@ -75,6 +76,27 @@ class EventCommand extends BaseConsoleCommand
         ],
     ];
 
+    public function actionNotifyAis()
+    {
+        $rows = \Yii::app()->getDb()->createCommand()
+            ->select([
+                'b.UserId',
+                'SUBSTRING(d."Attributes"::TEXT FROM \'"ais_registration_id":"(\d+)"\') AS "RegistrationId"'
+            ])
+            ->from('RuventsBadge b')
+            ->join('EventUserData d', 'd."EventId" = b."EventId" AND d."UserId" = b."UserId"')
+            ->where('b."EventId" = :eventId AND d."Attributes"::TEXT ~ \'"ais_registration_id":"\d+"\'', [
+                ':eventId' => Event::TS16
+            ])
+            ->query();
+
+        $ais = new AIS();
+        foreach ($rows as $row) {
+            $ais->notify($row['RegistrationId']);
+        }
+    }
+
+
     /**
      * Imports participants from the AIS system
      *
@@ -86,10 +108,8 @@ class EventCommand extends BaseConsoleCommand
 
         $yesterday = $update ? (new DateTime())->sub(new DateInterval('P1D'))->format('Y-m-d H:i:s') : null;
 
-        $eventId = 2783;
-
         // Find the TS event
-        $event = Event::model()->findByPk($eventId);
+        $event = Event::model()->findByPk(Event::TS16);
         // Disable participants notification
         $event->skipOnRegister = true;
         $rolesMap = [
@@ -97,8 +117,8 @@ class EventCommand extends BaseConsoleCommand
             self::AIS_PARTICIPANTS_EVENT_ID => Role::model()->findByPk(Role::PARTICIPANT)
         ];
 
-        if (!$apiAccount = Account::model()->byEventId($eventId)->find()) {
-            echo "API account for the event $eventId has not beed found\n";
+        if (!$apiAccount = Account::model()->byEventId(Event::TS16)->find()) {
+            echo "API account for the event has not beed found\n";
             return;
         }
 
@@ -106,8 +126,8 @@ class EventCommand extends BaseConsoleCommand
 
         $transaction = \Yii::app()->getDb()->beginTransaction();
         try {
-            foreach ($rolesMap as $eventId => $role) {
-                foreach ($ais->fetchRegistrations($eventId, $yesterday) as $reg) {
+            foreach ($rolesMap as $aisEventId => $role) {
+                foreach ($ais->fetchRegistrations($aisEventId, $yesterday) as $reg) {
                     if ($reg['status'] < 12 /* 12 or 13 */) {
                         continue;
                     }
