@@ -79,10 +79,7 @@ class EventCommand extends BaseConsoleCommand
     public function actionNotifyAis()
     {
         $rows = \Yii::app()->getDb()->createCommand()
-            ->select([
-                'b.UserId',
-                'SUBSTRING(d."Attributes"::TEXT FROM \'"ais_registration_id":"(\d+)"\') AS "RegistrationId"'
-            ])
+            ->select('DISTINCT b."UserId", SUBSTRING(d."Attributes"::TEXT FROM \'"ais_registration_id":"(\d+)"\') AS "RegistrationId"')
             ->from('RuventsBadge b')
             ->join('EventUserData d', 'd."EventId" = b."EventId" AND d."UserId" = b."UserId"')
             ->where('b."EventId" = :eventId AND d."Attributes"::TEXT ~ \'"ais_registration_id":"\d+"\'', [
@@ -92,7 +89,11 @@ class EventCommand extends BaseConsoleCommand
 
         $ais = new AIS();
         foreach ($rows as $row) {
-            $ais->notify($row['RegistrationId']);
+            if ($ais->notify($row['RegistrationId'])) {
+                $this->info("Success send information regID: {$row['RegistrationId']}");
+            } else {
+                $this->error("Error while processing regID: {$row['RegistrationId']}");
+            }
         }
     }
 
