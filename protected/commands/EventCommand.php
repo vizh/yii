@@ -107,7 +107,8 @@ class EventCommand extends BaseConsoleCommand
     {
         $ais = new AIS();
 
-        $yesterday = $update ? (new DateTime())->sub(new DateInterval('P1D'))->format('Y-m-d H:i:s') : null;
+        $yesterday = $update ? (new DateTime())->sub(new DateInterval('PT15M'))->format('Y-m-d H:i:s') : null;
+
 
         // Find the TS event
         $event = Event::model()->findByPk(Event::TS16);
