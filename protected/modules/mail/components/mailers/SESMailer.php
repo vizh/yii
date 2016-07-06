@@ -24,10 +24,10 @@ class SESMailer extends \mail\components\Mailer
      */
     private static function getParam($params, $param, $required = false)
     {
-        if ($required === true && empty($params[$param]))
+        if ($required === true && (!isset($params[$param]) || empty($params[$param])))
             throw new \Exception("'$param' parameter is required");
 
-        return $params[$param];
+        return isset($params[$param]) ? $params[$param] : null;
     }
 
     /**
@@ -80,6 +80,16 @@ class SESMailer extends \mail\components\Mailer
     }
 
     /**
+     * encodes string to base64 for
+     * @param $text
+     * @return string
+     */
+    public static function encode($text)
+    {
+        return '=?UTF-8?B?' . base64_encode($text) . '?=';
+    }
+
+    /**
      * @param \mail\components\Mail[] $mails
      */
     public function internalSend($mails)
@@ -96,9 +106,9 @@ class SESMailer extends \mail\components\Mailer
             {
                 $args = [
                     'to' => $mail->getTo(),
-                    'subject' => '=?UTF-8?B?' . base64_encode($mail->getSubject()) . '?=',
+                    'subject' => static::encode($mail->getSubject()),
                     'message' => $mail->getBody(),
-                    'from' => $mail->getFromName() . ' <' . $mail->getFrom() . '>',
+                    'from' => static::encode($mail->getFromName()) . ' <' . $mail->getFrom() . '>',
                 ];
 
                 $attachments = $mail->getAttachments();
