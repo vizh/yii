@@ -83,7 +83,7 @@ class Controller extends \application\components\controllers\BaseController
     {
         $request = \Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
-            $id = $request->getParam('id');
+            $id = $request->getParam('event_id');
             if ($id !== null) {
                 /** @var \event\models\Event $event */
                 $event = Event::model()->findByPk($id);

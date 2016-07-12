@@ -1,6 +1,7 @@
 <?php
 namespace mail\components\mailers;
 
+use application\components\Exception;
 use Aws\Ses\SesClient;
 
 /**
@@ -24,10 +25,10 @@ class SESMailer extends \mail\components\Mailer
      */
     private static function getParam($params, $param, $required = false)
     {
-        if ($required === true && empty($params[$param]))
+        if ($required === true && (!isset($params[$param]) || empty($params[$param])))
             throw new \Exception("'$param' parameter is required");
 
-        return $params[$param];
+        return isset($params[$param]) ? $params[$param] : null;
     }
 
     /**
@@ -80,6 +81,16 @@ class SESMailer extends \mail\components\Mailer
     }
 
     /**
+     * encodes string to base64 for
+     * @param $text
+     * @return string
+     */
+    public static function encode($text)
+    {
+        return '=?UTF-8?B?' . base64_encode($text) . '?=';
+    }
+
+    /**
      * @param \mail\components\Mail[] $mails
      */
     public function internalSend($mails)
@@ -96,9 +107,9 @@ class SESMailer extends \mail\components\Mailer
             {
                 $args = [
                     'to' => $mail->getTo(),
-                    'subject' => '=?UTF-8?B?' . base64_encode($mail->getSubject()) . '?=',
+                    'subject' => static::encode($mail->getSubject()),
                     'message' => $mail->getBody(),
-                    'from' => $mail->getFromName() . ' <' . $mail->getFrom() . '>',
+                    'from' => static::encode($mail->getFromName()) . ' <' . $mail->getFrom() . '>',
                 ];
 
                 $attachments = $mail->getAttachments();
@@ -206,7 +217,6 @@ class SESMailer extends \mail\components\Mailer
         }
 
         // in case you have funny characters in the subject
-        $subject = $subject;
         $msg .= "Subject: $subject\n";
         $msg .= "MIME-Version: 1.0\n";
         $msg .= "Content-Type: multipart/mixed;\n";
@@ -244,17 +254,17 @@ class SESMailer extends \mail\components\Mailer
 
         // add attachments
         if (is_array($files)) {
-            $count = count($files);
             foreach ($files as $file) {
-                $msg .= "\n";
-                $msg .= "--$boundary\n";
-                $msg .= "Content-Transfer-Encoding: base64\n";
+                if (file_exists($file['filepath']) === false)
+                    throw new Exception("Ошибка отправки сообщения: Вложенный файл '{$file['filepath']}' не найден");
+
                 $clean_filename = self::cleanFilename($file["name"], self::MAX_ATTACHMENT_NAME_LEN);
+
+                $msg .= "\n--$boundary\n";
+                $msg .= "Content-Transfer-Encoding: base64\n";
                 $msg .= "Content-Type: {$file['mime']}; name=$clean_filename;\n";
                 $msg .= "Content-Disposition: attachment; filename=$clean_filename;\n";
-                $msg .= "\n";
-                $msg .= base64_encode(file_get_contents($file['filepath']));
-                $msg .= "\n--$boundary";
+                $msg .= "\n".base64_encode(file_get_contents($file['filepath']))."\n--$boundary";
             }
             // close email
             $msg .= "--\n";

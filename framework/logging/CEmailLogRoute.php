@@ -55,15 +55,33 @@ class CEmailLogRoute extends CLogRoute
 	 */
 	protected function processLogs($logs)
 	{
-		$message='';
-		foreach($logs as $log)
-			$message.=$this->formatLogMessage($log[0],$log[1],$log[2],$log[3]);
-		$message=wordwrap($message,70);
-		$subject=$this->getSubject();
-		if($subject===null)
-			$subject=Yii::t('yii','Application Log');
-		foreach($this->getEmails() as $email)
-			$this->sendEmail($email,$subject,$message);
+        $message = '';
+        $message .= "------------------------------------------------\n";
+        $message .= "Тип запроса: ".($_ENV['HTTP_X_REQUESTED_WITH'] ?: 'обычный')."\n";
+        $message .= "Реферальный адрес: {$_SERVER['HTTP_REFERER']}\n";
+        $message .= "Запрос: {$_SERVER['REQUEST_METHOD']} {$_SERVER['HTTP_ORIGIN']}{$_SERVER['REQUEST_URI']} с кодом ответа: {$_ENV['REDIRECT_STATUS']}\n";
+        $message .= "Адрес посетителя: {$_SERVER['REMOTE_ADDR']}\n";
+        $message .= "Браузер посетителя: {$_SERVER['HTTP_USER_AGENT']}\n";
+
+        if (count($_POST)) {
+            $message .= "\nПараметры POST:\n";
+            foreach ($_POST as $prm => $val)
+                $message .= "\t$prm = $val\n";
+        }
+
+        if (count($_GET)) {
+            $message .= "\nПараметры GET:\n";
+            foreach ($_GET as $prm => $val)
+                $message .= "\t$prm = $val\n";
+        }
+
+        foreach ($logs as $log)
+            $message .= $this->formatLogMessage($log[0], $log[1], $log[2], $log[3]);
+
+        $subject = $this->getSubject() ?: Yii::t('yii', 'Application Log');
+
+        foreach ($this->getEmails() as $email)
+            $this->sendEmail($email, $subject, $message);
 	}
 
 	/**

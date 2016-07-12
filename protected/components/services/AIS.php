@@ -110,20 +110,27 @@ class AIS
      * Notifies AIS about coming
      *
      * @param int $registrationId
+     * @return int
      * @throws \CException
      */
     public function notify($registrationId)
     {
         $this->auth();
 
-        $this->guzzle->post(self::AIS_SITE . self::URL_NOTIFY, [
-            'body' => [
-                'action' => 'was',
-                'registration' => $registrationId,
-                'comment' => ''
-            ],
-            'cookies' => true
-        ]);
+        try {
+            $this->guzzle->post(self::AIS_SITE . self::URL_NOTIFY, [
+                'body' => [
+                    'action' => 'was',
+                    'registration' => $registrationId,
+                    'comment' => ''
+                ],
+                'cookies' => true
+            ]);
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

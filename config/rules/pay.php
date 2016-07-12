@@ -27,7 +27,9 @@ return [
         'allow',
         'roles' => ['admin'],
         'module' => 'pay',
-        'controllers' => ['admin/account', 'admin/oneuse', 'admin/orderjuridicaltemplate', 'internal', 'admin/coupon'],
+        'controllers' => [
+            'admin/account', 'admin/import', 'admin/oneuse', 'admin/orderjuridicaltemplate', 'internal', 'admin/coupon'
+        ],
     ],
 
     [

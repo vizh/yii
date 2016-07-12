@@ -11,11 +11,11 @@ namespace event\components\handlers\register;
 
 use mail\models\Layout;
 
-class Nspkmarch15 extends Base
+class Nspkjun16 extends Base
 {
     public function getFrom()
     {
-        return 'no-reply@nspk.ru';
+        return 'orgcenter@nspk.ru';
     }
     public function getFromName()
     {
@@ -44,7 +44,7 @@ class Nspkmarch15 extends Base
     public function getAttachments()
     {
         return [
-            'Заявка на участие' => \Yii::getPathOfAlias('application') . '/../data/tickets/nspk/nspk.docx'
+            'https://runet-id.com/nspk.nspk.doc'
         ];
     }
 }

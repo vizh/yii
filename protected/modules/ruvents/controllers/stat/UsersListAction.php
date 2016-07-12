@@ -1,7 +1,7 @@
 <?php
 namespace ruvents\controllers\stat;
 
-use ruvents\models\Visit;
+use event\models\Event;
 
 /**
  * Class UsersListAction Shows list of the users for current group
@@ -24,33 +24,18 @@ class UsersListAction extends StatAction
 
         $groupName = $groups[$group];
 
-        $this->controller->render('users-list', [
-            'dataProvider' => $this->constructDataProvider($eventId, $groupName),
-            'groupName' => $groupName,
-            'eventId' => $eventId
-        ]);
-    }
-
-    /**
-     * Generates data providers by using groups
-     * @param int $eventId Identifier of the event
-     * @param string $group Group name
-     * @return array
-     */
-    private function constructDataProvider($eventId, $group)
-    {
-        return new \CActiveDataProvider(Visit::model()->byEventId($eventId), [
-            'criteria' => [
-                'condition' => 't."MarkId" ILIKE :group',
-                'params' => [':group' => $group . '%'],
-                'with' => [
-                    'UserData'
-                ]
-            ],
-            'sort' => [
-                'defaultOrder' => 't."CreationTime" DESC'
-            ],
-            'pagination' => false
-        ]);
+        if ($eventId == Event::TS16) {
+            $this->controller->render('food-users-list-ts16', [
+                'dataProvider' => $this->constructUsersListDataProvider($eventId, $groupName),
+                'groupName' => $groupName,
+                'eventId' => $eventId
+            ]);
+        } else {
+            $this->controller->render('users-list', [
+                'dataProvider' => $this->constructUsersListDataProvider($eventId, $groupName),
+                'groupName' => $groupName,
+                'eventId' => $eventId
+            ]);
+        }
     }
 }
