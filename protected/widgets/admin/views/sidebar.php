@@ -73,6 +73,7 @@
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/order/index');?>">Счета</a></li>
     <li><a href="<?=Yii::app()->createUrl('/pay/admin/order/print');?>">Печать</a></li>
       <li><a href="<?=Yii::app()->createUrl('/pay/admin/order/payers');?>">Плательщики</a></li>
+    <li><a href="<?=Yii::app()->createUrl('/pay/admin/import/index');?>">Импорт</a></li>
   </ul>
 
 
