@@ -2,6 +2,7 @@
 namespace user\models\forms\fields;
 
 use application\components\form\CreateUpdateForm;
+use user\models\User;
 
 /**
  * Class Employment
@@ -20,6 +21,11 @@ class Employment extends CreateUpdateForm
      * @var string Занимаемая должность
      */
     public $Position;
+
+    /**
+     * @var User
+     */
+    protected $model;
 
     /**
      * @inheritdoc
