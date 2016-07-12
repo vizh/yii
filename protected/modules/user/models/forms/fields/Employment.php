@@ -2,7 +2,6 @@
 namespace user\models\forms\fields;
 
 use application\components\form\CreateUpdateForm;
-use user\models\User;
 
 /**
  * Class Employment
@@ -12,15 +11,19 @@ use user\models\User;
  */
 class Employment extends CreateUpdateForm
 {
-    /** @var string Название компании */
+    /**
+     * @var string Название компании
+     */
     public $Company;
 
-    /** @var string Занимаемая должность */
+    /**
+     * @var string Занимаемая должность
+     */
     public $Position;
 
-    /** @var User */
-    protected $model = null;
-
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
