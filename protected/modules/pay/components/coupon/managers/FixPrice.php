@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Андрей
- * Date: 17.09.2015
- * Time: 13:44
- */
 
 namespace pay\components\coupon\managers;
 
