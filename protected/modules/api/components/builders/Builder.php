@@ -2,6 +2,7 @@
 namespace api\components\builders;
 
 use application\components\helpers\ArrayHelper;
+use application\models\translation\ActiveRecord;
 use company\models\Company;
 use competence\models\Question;
 use competence\models\Result;
@@ -43,6 +44,8 @@ class Builder
      */
     public function createUser(User $user)
     {
+        $this->applyLocale($user);
+
         $this->user = new \stdClass();
 
         $this->user->RocId = $user->RunetId; //todo: deprecated
@@ -180,6 +183,8 @@ class Builder
      */
     public function createCompany(Company $company)
     {
+        $this->applyLocale($company);
+
         $this->company = (object)ArrayHelper::toArray($company, ['company\models\Company' => [
             'Id',
             'Name',
@@ -258,6 +263,8 @@ class Builder
      */
     public function createRole(\event\models\Role $role)
     {
+        $this->applyLocale($role);
+
         $this->role = new \stdClass();
 
         $this->role->RoleId = $role->Id;
@@ -275,6 +282,8 @@ class Builder
      */
     public function createEvent($event)
     {
+        $this->applyLocale($event);
+
         $this->event = new \stdClass();
 
         $this->event->EventId = $event->Id;
@@ -390,6 +399,8 @@ class Builder
      */
     public function createProduct($product, $time = null)
     {
+        $this->applyLocale($product);
+
         $this->product = new \stdClass();
         $this->product->Id = $product->Id;
         $this->product->ProductId = $product->Id;
@@ -524,6 +535,8 @@ class Builder
      */
     public function createSection($section)
     {
+        $this->applyLocale($section);
+
         $this->section = new \stdClass();
 
         $this->section->SectionId = $section->Id;
@@ -566,6 +579,8 @@ class Builder
      */
     public function createSectionHall($hall)
     {
+        $this->applyLocale($hall);
+
         $this->sectionHall = new \stdClass();
         $this->sectionHall->Id = $hall->Id;
         $this->sectionHall->Title = $hall->Title;
@@ -774,5 +789,21 @@ class Builder
         }
 
         return $builtResult;
+    }
+
+    /**
+     * Применяет локаль к модели, если она это поддерживает
+     * (т.е. наследует класс application\models\translation\ActiveRecord)
+     *
+     * @param \CActiveRecord $activeRecord
+     */
+    protected function applyLocale(\CActiveRecord $activeRecord)
+    {
+        if ($activeRecord instanceof ActiveRecord) {
+            // берем локаль из параметров запроса, по умолчанию дефолтный язык системы
+            $locale = \Yii::app()->getRequest()->getParam('Locale', \Yii::app()->sourceLanguage);
+
+            $activeRecord->setLocale($locale);
+        }
     }
 }
