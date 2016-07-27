@@ -2,6 +2,7 @@
 namespace pay\models;
 
 use application\components\db\MongoLogDocument;
+use application\components\helpers\ArrayHelper;
 
 /**
  * Class Failure
@@ -10,6 +11,7 @@ use application\components\db\MongoLogDocument;
  * @property int $OrderItemId
  * @property int $AttemptsQuantity
  * @property string $LastAttemptTime
+ * @property bool $NotificationSent
  */
 class Failure extends MongoLogDocument
 {
@@ -41,7 +43,7 @@ class Failure extends MongoLogDocument
             $model = new Failure;
             $model->OrderItemId = $orderItem->Id;
             $model->AttemptsQuantity = 1;
-
+            $model->NotificationSent = false;
         } else {
             $model->AttemptsQuantity += 1;
         }
@@ -57,10 +59,12 @@ class Failure extends MongoLogDocument
      */
     public static function getReport($criteria = [])
     {
+        $notSent = ArrayHelper::getValue($criteria, 'notSent', false);
         //вытащим ошибки, связанные с платежными системами
-        $report = \Yii::app()->getDb()->createCommand()
+        $query = \Yii::app()->getDb()->createCommand()
             ->select('
                 pl."OrderId",
+                NULL as "OrderItemId",
                 pl."CreationTime",
                 ev."Id" as "EventId",
                 ev."Title" as "EventName",
@@ -80,7 +84,7 @@ class Failure extends MongoLogDocument
             //суть выражения - если год, месяц и день не пустые - строим по ним дату и сверяем с текущей датой
             //иначе ставим текущую дату в сравнение и считаем, что это событие актуальное (так как не указано
             //его окончание)
-            ->andWhere('
+            /*->andWhere('
                 (CASE WHEN ev."EndYear" > 0 AND ev."EndMonth" > 0 AND ev."EndDay" > 0
                     THEN format(
                         \'%s-%s-%s\',
@@ -89,12 +93,20 @@ class Failure extends MongoLogDocument
                         TO_CHAR(ev."EndDay", \'fm00\')
                     )::date
                 ELSE CURRENT_DATE END) >= CURRENT_DATE
-            ')
-            ->order('pl.CreationTime DESC')
-            ->queryAll();
+            ')*/
+            ->order('pl.CreationTime DESC');
+
+        if ($notSent) {
+            $query->andWhere('pl."NotificationSent" = FALSE');
+        }
+
+        $report = $query->queryAll();
 
         $criteria = new \EMongoCriteria();
         $criteria->compare('AttemptsQuantity', '>=2');
+        if ($notSent) {
+            $criteria->compare('NotificationSent', FALSE);
+        }
         $criteria->sort = ['LastAttemptTime' => -1];
         $mongoData = self::model()->findAll($criteria);
         $ids = [];
@@ -108,6 +120,7 @@ class Failure extends MongoLogDocument
             $report2 = \Yii::app()->getDb()->createCommand()
                 ->select('
                     NULL as "OrderId",
+                    oi."Id" as "OrderItemId",
                     oi."CreationTime",
                     ev."Id" as "EventId",
                     ev."Title" as "EventName",
@@ -142,6 +155,7 @@ class Failure extends MongoLogDocument
                 ->order('oi.CreationTime DESC')
                 ->group('
                     ev.Id,
+                    oi.Id,
                     oi.CreationTime,
                     us.LastName,
                     us.FirstName,
