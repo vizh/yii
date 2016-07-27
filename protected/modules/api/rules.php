@@ -47,7 +47,7 @@ return [
         'allow',
         'roles' => ['base'],
         'controllers' => ['event'],
-        'actions' => ['roles', 'register', 'list', 'info', 'companies', 'statistics', 'users', 'purposes', 'halls'],
+        'actions' => ['roles', 'register', 'list', 'info', 'companies', 'statistics', 'users', 'purposes', 'halls', 'changerole'],
     ],
     [
         'allow',

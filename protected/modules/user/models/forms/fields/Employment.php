@@ -12,15 +12,24 @@ use user\models\User;
  */
 class Employment extends CreateUpdateForm
 {
-    /** @var string Название компании */
+    /**
+     * @var string Название компании
+     */
     public $Company;
 
-    /** @var string Занимаемая должность */
+    /**
+     * @var string Занимаемая должность
+     */
     public $Position;
 
-    /** @var User */
-    protected $model = null;
+    /**
+     * @var User
+     */
+    protected $model;
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [

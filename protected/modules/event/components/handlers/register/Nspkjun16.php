@@ -22,29 +22,14 @@ class Nspkjun16 extends Base
         return 'НСПК';
     }
 
-
     public function showFooter()
     {
         return false;
     }
-
-    /*public function getBody()
-    {
-        if($this->participant->RoleId == 38) {
-            return null;
-        }
-        parent::getBody();
-    }*/
 
     public function getLayoutName()
     {
         return Layout::None;
     }
 
-    public function getAttachments()
-    {
-        return [
-            'https://runet-id.com/nspk.nspk.doc'
-        ];
-    }
 }

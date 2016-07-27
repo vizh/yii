@@ -178,7 +178,6 @@ class UpdatedUsersAction extends \ruvents\components\Action
             'Employments.Company' => ['together' => false],
             'LinkPhones.Phone' => ['together' => false]
         ];
-        $criteria->order = '"t"."Id" ASC';
         $criteria->addCondition('"t"."UpdateTime" > :UpdateTime');
         $criteria->params['UpdateTime'] = $fromUpdateTime;
         $criteria->addCondition(

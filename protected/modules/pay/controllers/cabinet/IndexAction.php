@@ -2,6 +2,7 @@
 namespace pay\controllers\cabinet;
 
 use pay\models\EventUserAdditionalAttribute;
+use pay\models\Failure;
 use \pay\models\forms\AddtionalAttributes as FormAdditionalAttributes;
 
 class IndexAction extends \pay\components\Action
@@ -38,6 +39,8 @@ class IndexAction extends \pay\components\Action
                 $unpaidItems->{$key}[$item->getOrderItem()->ProductId] = [];
             }
             $unpaidItems->{$key}[$item->getOrderItem()->ProductId][] = $item;
+            //добавим в лог попытку оплаты
+            Failure::setAttempt($item->getOrderItem());
         }
 
         $formAdditionalAttributes = $this->getAdditionalAttributesForm($finder);

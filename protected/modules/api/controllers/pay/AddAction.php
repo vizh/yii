@@ -65,8 +65,8 @@ class AddAction extends Action
             throw new Exception(408, [$e->getCode(), $e->getMessage()], $e);
         }
 
-        # TODO: delete after RIF2016
-        if ($product->Event->IdName === 'rif16'
+        # TODO: delete after edcrunch16
+        if ($product->Event->IdName === 'edcrunch16'
             && $request->getParam('Paid', false)
             && $request->getParam('PaidHash') === md5($productId.$payerRunetId.$ownerRunetId)
         ) {
@@ -74,7 +74,7 @@ class AddAction extends Action
             $coupon->EventId = $this->getEvent()->Id;
             $coupon->Discount = 100;
             $coupon->Code = $coupon->generateCode();
-            $coupon->EndTime = '2016-04-20 23:59:59';
+            $coupon->EndTime = '2016-09-14 23:59:59';
             $coupon->save();
             $coupon->addProductLinks([$product]);
             $coupon->activate($payer, $owner, $product);

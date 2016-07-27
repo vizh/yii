@@ -28,7 +28,7 @@ return [
         'roles' => ['admin'],
         'module' => 'pay',
         'controllers' => [
-            'admin/account', 'admin/import', 'admin/oneuse', 'admin/orderjuridicaltemplate', 'internal', 'admin/coupon'
+            'admin/account', 'admin/failure', 'admin/import', 'admin/oneuse', 'admin/orderjuridicaltemplate', 'internal', 'admin/coupon'
         ],
     ],
 
