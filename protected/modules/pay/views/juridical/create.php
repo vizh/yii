@@ -35,14 +35,14 @@
                 <?= CHtml::activeLabel($form, 'Address', array('class' => 'control-label')); ?>
                 <div class="controls">
                     <?= CHtml::activeTextArea($form, 'Address', array('class' => 'span8')); ?>
-                    <span class="help-inline">Например: 123056, г. Москва, ул. Б. Грузинская, д. 42, ком. 12</span>
+                    <span class="help-inline">Например: 123317, г. Москва, Пресненская набережная, дом 6, строение 2, этаж 27, помещение I</span>
                 </div>
             </div>
             <div class="control-group">
                 <?= CHtml::activeLabel($form, 'PostAddress', array('class' => 'control-label')); ?>
                 <div class="controls">
                     <?= CHtml::activeTextArea($form, 'PostAddress', array('class' => 'span8')); ?>
-                    <span class="help-inline">Например: 123056, г. Москва, ул. Б. Грузинская, д. 42, ком. 12</span>
+                    <span class="help-inline">Например: 123317, г. Москва, Пресненская набережная, дом 6, строение 2, этаж 27, помещение I</span>
                 </div>
             </div>
 
