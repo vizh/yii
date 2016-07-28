@@ -62,6 +62,7 @@
                     'model' => $form,
                     'attribute' => 'Company',
                     'label' => $form->Company,
+                    'inputFieldName' => 'oauth\models\forms\Register[UnregisteredCompany]',
                     'htmlOptions' => ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Company')],
                     'source' => $this->createUrl('autocomplete'),
                 ]); ?>

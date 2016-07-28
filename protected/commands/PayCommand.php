@@ -156,8 +156,8 @@ class PayCommand extends BaseConsoleCommand
             return;
         }
         $mailer = new \mail\components\mailers\SESMailer();
-        //$emailTo = 'fin@runet-id.com';
-        $emailTo = 'nikitozina@inbox.ru';
+        $emailTo = 'fin@runet-id.com';
+        //$emailTo = 'nikitozina@inbox.ru';
         $mail = new \mail\components\mail\TemplateForController(
             $mailer,
             'info@runet-id.com',
