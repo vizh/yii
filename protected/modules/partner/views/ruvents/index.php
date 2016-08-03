@@ -5,6 +5,7 @@
 
 $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay);
 ?>
+
 <div class="panel panel-info">
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-info"></i> <?=\Yii::t('app', 'Общая информация');?></span>
@@ -62,7 +63,7 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
     <div class="panel-heading">
         <span class="panel-title"><i class="fa fa-group"></i> <?=\Yii::t('app', 'Участники');?></span>
     </div> <!-- / .panel-heading -->
-    <div class="panel-body">
+    <div class="panel-body panel-body__scrollable">
         <div class="table-warning">
             <table class="table table-striped table-bordered">
                 <thead>
