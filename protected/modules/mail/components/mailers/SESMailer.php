@@ -3,6 +3,7 @@ namespace mail\components\mailers;
 
 use application\components\Exception;
 use Aws\Ses\SesClient;
+use mail\components\Mailer;
 
 /**
  * Class SESMailer performs sending by using Amazon SES
@@ -25,8 +26,9 @@ class SESMailer extends \mail\components\Mailer
      */
     private static function getParam($params, $param, $required = false)
     {
-        if ($required === true && (!isset($params[$param]) || empty($params[$param])))
+        if ($required === true && empty($params[$param])) {
             throw new \Exception("'$param' parameter is required");
+        }
 
         return isset($params[$param]) ? $params[$param] : null;
     }
@@ -107,9 +109,11 @@ class SESMailer extends \mail\components\Mailer
             {
                 $args = [
                     'to' => $mail->getTo(),
-                    'subject' => static::encode($mail->getSubject()),
+                    //'subject' => static::encode($mail->getSubject()),
+                    'subject' => $mail->getSubject(),
                     'message' => $mail->getBody(),
-                    'from' => static::encode($mail->getFromName()) . ' <' . $mail->getFrom() . '>',
+                    //'from' => static::encode($mail->getFromName()) . ' <' . $mail->getFrom() . '>',
+                    'from' => [$mail->getFrom() => $mail->getFromName()],
                 ];
 
                 $attachments = $mail->getAttachments();
@@ -145,12 +149,16 @@ class SESMailer extends \mail\components\Mailer
      *
      * ```
      * $params = array(
-     *      "to" => "email1@gmail.com",
+     *      "to" => "email1@gmail.com" OR ["email1@gmail.com" => "To Name"] OR [
+     *              "email1@gmail.com" => "To Name 1",
+     *              "email2@gmail.com" => "To Name 2",
+     *              ...
+     *      ],
      *      "subject" => "Some subject",
      *      "message" => "<strong>Some email body</strong>",
-     *      "from" => "sender@verifiedbyaws",
+     *      "from" => "sender@verifiedbyaws" OR ["sender@verifiedbyaws" => "Sender Name"],
      *      //OPTIONAL
-     *      "replyTo" => "reply_to@gmail.com",
+     *      "replyTo" => "reply_to@gmail.com" OR ["reply_to@gmail.com" => "ReplyTo Name"],
      *      //OPTIONAL
      *      "files" => array(
      *          1 => array(
@@ -166,7 +174,7 @@ class SESMailer extends \mail\components\Mailer
      *      )
      * );
      *
-     * $res = SESUtils::sendMail($params);
+     * $res = SESMailer::sendMail($params);
      * ```
      *
      * NOTE: When sending a single file, omit the key (ie. the '1 =>')
@@ -202,75 +210,32 @@ class SESMailer extends \mail\components\Mailer
             'message_id' => null
         ];
 
-        // build the message
+        $attachments = [];
+        if (is_array($files)) {
+            foreach ($files as $file) {
+                if (file_exists($file['filepath']) === false) {
+                    throw new Exception("Ошибка отправки сообщения: Вложенный файл '{$file['filepath']}' не найден");
+                }
+                $clean_filename = self::cleanFilename($file["name"], self::MAX_ATTACHMENT_NAME_LEN);
+                $attachments[$clean_filename] = $file['filepath'];
+            }
+        }
+
+        $msg = Mailer::createRawMail(
+            $to,
+            $from,
+            $subject,
+            $body,
+            $attachments,
+            $replyTo
+        );
+
         if (is_array($to)) {
-            $to_str = rtrim(implode(',', $to), ',');
+            $to_str = implode(',', $to);
         } else {
             $to_str = $to;
         }
 
-        $msg = "To: $to_str\n";
-        $msg .= "From: $from\n";
-
-        if ($replyTo) {
-            $msg .= "Reply-To: $replyTo\n";
-        }
-
-        // in case you have funny characters in the subject
-        $msg .= "Subject: $subject\n";
-        $msg .= "MIME-Version: 1.0\n";
-        $msg .= "Content-Type: multipart/mixed;\n";
-        $boundary = uniqid("_Part_".time(), true); //random unique string
-        $boundary2 = uniqid("_Part2_".time(), true); //random unique string
-        $msg .= " boundary=\"$boundary\"\n";
-        $msg .= "\n";
-
-        // now the actual body
-        $msg .= "--$boundary\n";
-
-        //since we are sending text and html emails with multiple attachments
-        //we must use a combination of mixed and alternative boundaries
-        //hence the use of boundary and boundary2
-        $msg .= "Content-Type: multipart/alternative;\n";
-        $msg .= " boundary=\"$boundary2\"\n";
-        $msg .= "\n";
-        $msg .= "--$boundary2\n";
-
-        // first, the plain text
-        $msg .= "Content-Type: text/plain; charset=utf-8\n";
-        $msg .= "Content-Transfer-Encoding: 7bit\n";
-        $msg .= "\n";
-        $msg .= strip_tags($body); //remove any HTML tags
-        $msg .= "\n";
-
-        // now, the html text
-        $msg .= "--$boundary2\n";
-        $msg .= "Content-Type: text/html; charset=utf-8\n";
-        $msg .= "Content-Transfer-Encoding: 7bit\n";
-        $msg .= "\n";
-        $msg .= $body;
-        $msg .= "\n";
-        $msg .= "--$boundary2--\n";
-
-        // add attachments
-        if (is_array($files)) {
-            foreach ($files as $file) {
-                if (file_exists($file['filepath']) === false)
-                    throw new Exception("Ошибка отправки сообщения: Вложенный файл '{$file['filepath']}' не найден");
-
-                $clean_filename = self::cleanFilename($file["name"], self::MAX_ATTACHMENT_NAME_LEN);
-
-                $msg .= "\n--$boundary\n";
-                $msg .= "Content-Transfer-Encoding: base64\n";
-                $msg .= "Content-Type: {$file['mime']}; name=$clean_filename;\n";
-                $msg .= "Content-Disposition: attachment; filename=$clean_filename;\n";
-                $msg .= "\n".base64_encode(file_get_contents($file['filepath']))."\n--$boundary";
-            }
-            // close email
-            $msg .= "--\n";
-        }
-
-        // now send the email out
         try {
             $ses_result = $client->sendRawEmail(
                 [
@@ -294,7 +259,5 @@ class SESMailer extends \mail\components\Mailer
             $res['result_text'] = $e->getMessage().
                 " - To: $to_str, Sender: $from, Subject: $subject";
         }
-
-        return $res;
     }
 }
