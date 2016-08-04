@@ -62,8 +62,9 @@ abstract class Mailer
         }
 
         // Дублирование сообщения на адрес разработчика в целях отладки
-        if (!empty(Yii::app()->getParams()['MailMirrorAddress'])) {
-            $message->addTo(Yii::app()->getParams()['MailMirrorAddress'], 'RUNET-ID Developer');
+        $params = Yii::app()->getParams();
+        if (!empty($params['MailMirrorAddress'])) {
+            $message->addTo($params['MailMirrorAddress'], 'RUNET-ID Developer');
         }
 
         //вложения
