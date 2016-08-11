@@ -9,8 +9,8 @@ use GuzzleHttp;
 class AIS
 {
     const AIS_SITE = 'https://ais.fadm.gov.ru/';
-    const AIS_LOGIN = 'palenov@ruvents.com';
-    const AIS_PASS = 'Hfj58djw3ap';
+    const AIS_LOGIN = 'star.absorber@gmail.com';
+    const AIS_PASS = 'Ruvents16';
 
     const URL_LOGIN = 'auth/login';
     const URL_EVENTS = 'getMyAdminEvents';
@@ -27,7 +27,7 @@ class AIS
 
     /**
      * Returns shifts names
-     * 
+     *
      * @return string[]
      */
     public static function getShifts()
@@ -43,7 +43,7 @@ class AIS
             'Молодые преподаватели факультетов журналистики, молодые журналисты'
         ];
     }
-    
+
     /**
      * Returns an url for getting the avatar of the user
      *

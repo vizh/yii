@@ -103,7 +103,7 @@ class EventCommand extends BaseConsoleCommand
      *
      * @param bool $update Update the information for the last day
      */
-    public function actionImportParticipantsFromAIS($update = false)
+    public function actionImportParticipantsFromAIS($update = false, $drain = false)
     {
         $ais = new AIS();
 
@@ -130,6 +130,9 @@ class EventCommand extends BaseConsoleCommand
         try {
             foreach ($rolesMap as $aisEventId => $role) {
                 foreach ($ais->fetchRegistrations($aisEventId, $yesterday) as $reg) {
+                    if ($drain) {
+                        continue;
+                    }
                     if ($reg['status'] < 12 /* 12 or 13 */) {
                         continue;
                     }
@@ -215,7 +218,7 @@ class EventCommand extends BaseConsoleCommand
      * @return User|null Created or fetched user
      */
     private function fetchUser($email, $firstName, $lastName, $fatherName)
-    {        
+    {
         if (!$user = User::model()->byTemporary(false)->byEmail($email)->find()) {
             if (!$user = User::create($email, $firstName, $lastName, $fatherName, false)) {
                 $this->error('#$total: Unable to create a user');
