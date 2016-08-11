@@ -20,14 +20,18 @@ class SendemailController extends AdminMainController
         $count = 0;
 
         foreach ($this->emails as $email) {
-            $mail = new TemplateForController($mailer,
-                'event@ruvents.com', 'RUVENTS', $email,
-                'Быстрая и технологичная регистрация и аккредитация участников.', $body
-            );
+            try {
+                $mail = new TemplateForController($mailer,
+                    'event@ruvents.com', 'RUVENTS', $email,
+                    'Быстрая и технологичная регистрация и аккредитация участников.', $body
+                );
 
-            //$mail->isTest = true;
-            //$mail->send();
-            $count++;
+                //$mail->isTest = true;
+                //$mail->send();
+                $count++;
+            } catch (Exception $e) {
+                Yii::log('Ошибка отправки письма: '.$e->getMessage());
+            }
         }
         echo 'done: '.$count;
     }
