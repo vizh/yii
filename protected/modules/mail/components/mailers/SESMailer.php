@@ -4,6 +4,7 @@ namespace mail\components\mailers;
 use application\components\Exception;
 use Aws\Ses\SesClient;
 use mail\components\Mailer;
+use Yii;
 
 /**
  * Class SESMailer performs sending by using Amazon SES
@@ -83,16 +84,6 @@ class SESMailer extends \mail\components\Mailer
     }
 
     /**
-     * encodes string to base64 for
-     * @param $text
-     * @return string
-     */
-    public static function encode($text)
-    {
-        return '=?UTF-8?B?' . base64_encode($text) . '?=';
-    }
-
-    /**
      * @param \mail\components\Mail[] $mails
      */
     public function internalSend($mails)
@@ -109,11 +100,10 @@ class SESMailer extends \mail\components\Mailer
             {
                 $args = [
                     'to' => $mail->getTo(),
-                    //'subject' => static::encode($mail->getSubject()),
                     'subject' => $mail->getSubject(),
                     'message' => $mail->getBody(),
-                    //'from' => static::encode($mail->getFromName()) . ' <' . $mail->getFrom() . '>',
-                    'from' => [$mail->getFrom() => $mail->getFromName()],
+                    'from' => $mail->getFrom(),
+                    'fromName' => $mail->getFromName()
                 ];
 
                 $attachments = $mail->getAttachments();
@@ -132,14 +122,14 @@ class SESMailer extends \mail\components\Mailer
                 $result = $this->sendMailInternal($client, $args);
 
                 if ($result['success']) {
-                    \Yii::log("Email by Amazon SES to {$mail->getTo()} is sent! Message ID: {$result['message_id']}", \CLogger::LEVEL_INFO);
+                    Yii::log("Email by Amazon SES to {$mail->getTo()} is sent! Message ID: {$result['message_id']}", \CLogger::LEVEL_INFO);
                 } else {
-                    \Yii::log("Email by Amazon SES to {$mail->getTo()} was not sent. Error message: {$result['result_text']}", \CLogger::LEVEL_ERROR);
+                    Yii::log("Email by Amazon SES to {$mail->getTo()} was not sent. Error message: {$result['result_text']}", \CLogger::LEVEL_ERROR);
                 }
             }
 
             catch (\Exception $e) {
-                \Yii::log("Error construct email for {$mail->getTo()} because of {$e->getMessage()}: {$e->getTraceAsString()}", \CLogger::LEVEL_ERROR);
+                Yii::log("Error construct email for {$mail->getTo()} because of {$e->getMessage()}: {$e->getTraceAsString()}", \CLogger::LEVEL_ERROR);
             }
         }
     }
@@ -201,24 +191,9 @@ class SESMailer extends \mail\components\Mailer
         $subject = self::getParam($params, 'subject', true);
         $body = self::getParam($params, 'message', true);
         $from = self::getParam($params, 'from', true);
+        $fromName = self::getParam($params, 'from', true);
         $replyTo = self::getParam($params, 'replyTo');
         $files = self::getParam($params, 'files');
-
-        // Это для отладки. Понаблюдать, понять что тут творится...
-        \Yii::log(sprintf('Попытка отправить письмо с адреса "%s" на адреса "%s"',
-            print_r($from, true),
-            print_r($to, true)
-        ));
-
-        // Для AWS обязательно передавать список получателей в виде массива
-        if (!is_array($to))
-            $to = [$to];
-
-        // Для AWS неприемлемо, что отправителей письма может быть несколько
-        // Тут пишу реально временный хак, так как уму не постижимо, почему
-        // отправитель приходит в формате Array('[users@runet-id.com]' => '—RUNET—ID—')
-        if (is_array($from))
-            $from = ltrim(rtrim(array_keys($from)[0], ']'), '[');
 
         $res = [
             'success' => true,
@@ -239,16 +214,16 @@ class SESMailer extends \mail\components\Mailer
 
         $msg = Mailer::createRawMail(
             $to,
-            $from,
+            [$from => $fromName],
             $subject,
             $body,
             $attachments,
             $replyTo
         );
 
-        if (!is_array($to)) {
+        // Для AWS обязательно передавать список получателей в виде массива
+        if (!is_array($to))
             $to = [$to];
-        }
 
         try {
             $ses_result = $client->sendRawEmail([
