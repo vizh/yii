@@ -204,6 +204,22 @@ class SESMailer extends \mail\components\Mailer
         $replyTo = self::getParam($params, 'replyTo');
         $files = self::getParam($params, 'files');
 
+        // Это для отладки. Понаблюдать, понять что тут творится...
+        \Yii::log(sprintf('Попытка отправить письмо с адреса "%s" на адреса "%s"',
+            print_r($from, true),
+            print_r($to, true)
+        ));
+
+        // Для AWS обязательно передавать список получателей в виде массива
+        if (!is_array($to))
+            $to = [$to];
+
+        // Для AWS неприемлемо, что отправителей письма может быть несколько
+        // Тут пишу реально временный хак, так как уму не постижимо, почему
+        // отправитель приходит в формате Array('[users@runet-id.com]' => '—RUNET—ID—')
+        if (is_array($from))
+            $from = ltrim(rtrim(array_keys($from)[0], ']'), '[');
+
         $res = [
             'success' => true,
             'result_text' => null,
@@ -230,34 +246,32 @@ class SESMailer extends \mail\components\Mailer
             $replyTo
         );
 
-        if (is_array($to)) {
-            $to_str = implode(',', $to);
-        } else {
-            $to_str = $to;
+        if (!is_array($to)) {
+            $to = [$to];
         }
 
         try {
-            $ses_result = $client->sendRawEmail(
-                [
-                    'RawMessage' => [
-                        'Data' => base64_encode($msg)
-                    ]
-                ], [
-                    'Source' => $from,
-                    'Destinations' => $to_str
+            $ses_result = $client->sendRawEmail([
+                'Source' => $from,
+                'Destinations' => $to,
+                'RawMessage' => [
+                    'Data' => base64_encode($msg)
                 ]
-            );
+            ]);
 
             if ($ses_result) {
                 $res['message_id'] = $ses_result->get('MessageId');
             } else {
-                $res['success'] = false;
-                $res['result_text'] = "Amazon SES did not return a MessageId";
+                throw new \Exception('Amazon SES did not return a MessageId');
             }
         } catch (\Exception $e) {
             $res['success'] = false;
-            $res['result_text'] = $e->getMessage().
-                " - To: $to_str, Sender: $from, Subject: $subject";
+            $res['result_text'] = sprintf("%s: From: '%s', To: '%s', Subject: '%s'",
+                $e->getMessage(),
+                $from,
+                implode(', ', $to),
+                $subject
+            );
         }
 
         return $res;
