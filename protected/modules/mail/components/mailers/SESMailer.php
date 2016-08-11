@@ -259,5 +259,7 @@ class SESMailer extends \mail\components\Mailer
             $res['result_text'] = $e->getMessage().
                 " - To: $to_str, Sender: $from, Subject: $subject";
         }
+
+        return $res;
     }
 }
