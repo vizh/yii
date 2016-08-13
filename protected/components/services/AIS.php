@@ -2,6 +2,7 @@
 namespace application\components\services;
 
 use GuzzleHttp;
+use Yii;
 
 /**
  * AIS API client
@@ -127,8 +128,10 @@ class AIS
                 'cookies' => true
             ]);
 
+            Yii::log(sprintf('Успешная отправка отметки о печати бейджа в АИС для АисId:%d', $registrationId));
             return true;
         } catch (\Exception $e) {
+            Yii::log(sprintf('Ошибка отправки отметки о печати бейджа в АИС для АисId:%d %s', $registrationId, $e->getMessage()));
             return false;
         }
     }
