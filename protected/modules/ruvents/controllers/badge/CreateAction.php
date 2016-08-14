@@ -6,14 +6,17 @@ use event\models\Event;
 use event\models\UserData;
 use ruvents\components\Exception;
 use user\models\User;
+use Yii;
 
 class CreateAction extends \ruvents\components\Action
 {
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $runetId = $request->getParam('RunetId', null);
         //$partId = $request->getParam('PartId', null);
+
+        Yii::log(sprintf('Печать бейджа для RunetId:%d', $runetId));
 
         //todo: для PHDays
         //$partId = $request->getParam('PartId', 18);
@@ -89,6 +92,8 @@ class CreateAction extends \ruvents\components\Action
      */
     private function notifyAIS($runetId)
     {
+        Yii::log(sprintf('Печать бейджа для %d', $runetId));
+
         if (!$user = User::model()->byRunetId($runetId)->find()) {
             return;
         }
@@ -96,16 +101,15 @@ class CreateAction extends \ruvents\components\Action
         $data = UserData::fetch(Event::TS16, $user);
         $m = $data->getManager();
         if (!$registrationId = $m->ais_registration_id) {
+            Yii::log(sprintf('Пользователь c RunetId:%d не имеет идентификатора в АИС', $runetId));
             return;
         }
 
         try {
             $ais = new AIS();
             $ais->notify($registrationId);
-
-
         } catch (Exception $e) {
-            return;
+            Yii::log(sprintf('Ошибка отправки данных в АИС: %s', $e->getMessage()));
         }
     }
 }

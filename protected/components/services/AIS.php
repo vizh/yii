@@ -119,7 +119,7 @@ class AIS
         $this->auth();
 
         try {
-            $this->guzzle->post(self::AIS_SITE . self::URL_NOTIFY, [
+            $response = $this->guzzle->post(self::AIS_SITE . self::URL_NOTIFY, [
                 'body' => [
                     'action' => 'was',
                     'registration' => $registrationId,
@@ -128,7 +128,12 @@ class AIS
                 'cookies' => true
             ]);
 
-            Yii::log(sprintf('Успешная отправка отметки о печати бейджа в АИС для АисId:%d', $registrationId));
+            Yii::log(sprintf('Успешная отправка отметки о печати бейджа в АИС для АисId:%d c кодом %d ответом: %s',
+                $registrationId,
+                $response->getStatusCode(),
+                $response->getBody()->getContents()
+            ));
+
             return true;
         } catch (\Exception $e) {
             Yii::log(sprintf('Ошибка отправки отметки о печати бейджа в АИС для АисId:%d %s', $registrationId, $e->getMessage()));
