@@ -191,7 +191,7 @@ class SESMailer extends \mail\components\Mailer
         $subject = self::getParam($params, 'subject', true);
         $body = self::getParam($params, 'message', true);
         $from = self::getParam($params, 'from', true);
-        $fromName = self::getParam($params, 'from', true);
+        $fromName = self::getParam($params, 'fromName', true);
         $replyTo = self::getParam($params, 'replyTo');
         $files = self::getParam($params, 'files');
 
@@ -227,8 +227,6 @@ class SESMailer extends \mail\components\Mailer
 
         try {
             $ses_result = $client->sendRawEmail([
-                'Source' => $from,
-                'Destinations' => $to,
                 'RawMessage' => [
                     'Data' => base64_encode($msg)
                 ]
