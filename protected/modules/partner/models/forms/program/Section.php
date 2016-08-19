@@ -95,7 +95,7 @@ class Section extends CreateUpdateForm
     {
         $purifier = new \CHtmlPurifier();
         $purifier->options = [
-            'HTML.AllowedElements'     => ['span', 'strong', 'a', 'br', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'ul', 'li', 'ol', 'p', 'table', 'tr', 'td', 'tbody', 'thead', 'th'],
+            'HTML.AllowedElements'     => ['span', 'strong', 'a', 'br', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'ul', 'li', 'ol', 'p', 'table', 'tr', 'td', 'tbody', 'thead', 'th', 'img'],
             'Attr.AllowedFrameTargets' => ['_blank', '_self']
         ];
         return $purifier->purify($value);
@@ -229,7 +229,6 @@ class Section extends CreateUpdateForm
             foreach ($this->getAttributeList() as $name) {
                 $this->model->setSectionAttribute($name, $this->Attribute[$name]);
             }
-
 
             foreach ($this->event->Halls as $hall) {
                 $link = LinkHall::model()->byHallId($hall->Id)->bySectionId($this->model->Id)->find();
