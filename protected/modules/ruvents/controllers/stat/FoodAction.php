@@ -79,22 +79,22 @@ class FoodAction extends StatAction
     private function fetchTS16Stat()
     {
         $shiftsDates = [
-            ['2016-06-27', '2016-07-03'],
-            ['2016-07-05', '2016-07-11'],
-            ['2016-07-13', '2016-07-19'],
+            ['2016-06-27', '2016-07-04'],
+            ['2016-07-05', '2016-07-12'],
+            ['2016-07-13', '2016-07-20'],
             ['2016-07-21', '2016-07-27'],
-            ['2016-07-29', '2016-08-04'],
-            ['2016-08-06', '2016-08-12'],
-            ['2016-08-14', '2016-08-20'],
+            ['2016-07-29', '2016-08-05'],
+            ['2016-08-06', '2016-08-13'],
+            ['2016-08-14', '2016-08-21'],
             ['2016-08-22', '2016-08-28']
         ];
-        
+
         $dates = [];
         foreach ($shiftsDates as $d) {
             $dates[] = "('".implode("','", $d)."')";
         }
         $dates = implode(',', $dates);
-        
+
         $sql = <<<SQL
 WITH "Dates" AS (
     SELECT *
@@ -118,11 +118,11 @@ SQL;
             if (!preg_match('/^Питание\s(\d{2}\.\d{2})\/(\w+)/u', $row['Mark'], $match)) {
                 continue;
             }
-            
+
             if (!isset($match[1]) || !isset($match[2])) {
                 continue;
             }
-            
+
             $date = $match[1];
             $food = $match[2];
             $id = $row['RunetId'];
@@ -130,7 +130,7 @@ SQL;
             if (!isset($result[$shift])) {
                 $result[$shift] = [];
             }
-            
+
             if (!isset($result[$shift][$date])) {
                 $result[$shift][$date] = [];
             }
