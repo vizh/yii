@@ -1,9 +1,9 @@
-<?$this->beginContent('/layouts/mail');?>
+<?php $this->beginContent('/layouts/mail');?>
     <table class="body-wrap" border="0" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%; margin: 0; padding: 0 10px; border-collapse: separate;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;"></td>
             <td class="container" bgcolor="#FFFFFF" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; display: block !important; max-width: 720px !important; clear: both !important; margin: 0 auto; padding: 0;">
                 <table style="border-collapse: separate; width: 100%; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;" border="0" cellpadding="0" cellspacing="0">
                     <tr>
-                        <?if (!$this->mail->getUser()->Temporary):?>
+                        <?php if (!$this->mail->getUser()->Temporary):?>
                             <td>&nbsp;</td>
                             <td style="font-size: 25px; font-weight: bold; line-height: 25px; text-align: center; width: 100px; padding: 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0;" rowspan="2">RUNET</td>
                             <td>&nbsp;</td>
@@ -11,9 +11,9 @@
                             <td>&nbsp;</td>
                             <td rowspan="2" style="font-size: 25px; font-weight: bold; line-height: 25px; width: 1px; text-align: center; padding: 5px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0;"><?=$this->mail->getUser()->RunetId;?></td>
                             <td>&nbsp;</td>
-                        <?else:?>
+                        <?php else:?>
                             <td colspan="7">&nbsp;</td>
-                        <?endif;?>
+                        <?php endif;?>
                     </tr>
                     <tr>
                         <td style="border-width: 3px 0 0 3px; border-color: #000; border-style: solid; width: 30px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;">&nbsp;</td>
@@ -29,4 +29,4 @@
             </td>
             <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;"></td>
         </tr></table><!-- /BODY --><!-- FOOTER -->
-<?$this->endContent();?>
+<?php $this->endContent();?>
