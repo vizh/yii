@@ -3,7 +3,9 @@ namespace api\components;
 
 class Controller extends \application\components\controllers\BaseController
 {
-    protected $result = null;
+    const MaxResult = 200;
+
+    protected $result;
 
     public function actions()
     {
@@ -15,23 +17,21 @@ class Controller extends \application\components\controllers\BaseController
      */
     protected function getVersioningActions()
     {
-        //$version = \Yii::app()->getRequest()->getParam('v', null);
-        //$timestamp = strtotime($version);
+        $path = \Yii::getPathOfAlias('api.controllers.'.$this->getId());
+        $result = [];
 
-        $path = \Yii::getPathOfAlias('api.controllers.' . $this->getId());
-        $result = array();
-
-        $files = scandir($path);
-        $pattern = '/((\w*?)Action(\d*?)).php$/i';
-        foreach ($files as $file) {
-            if (preg_match($pattern, $file, $matches) === 1) {
+        // toDo: Вообще, - это не правильно считывать содержимое директории на каждом хите.
+        foreach (scandir($path) as $file) {
+            if (preg_match('/((\w*?)Action(\d*?)).php$/i', $file, $matches) === 1) {
                 //$matches[3] - дата новой версии action
                 //todo: даполнить метод версионностью
                 $key = lcfirst($matches[2]);
-                $result[$key] = '\\api\\controllers\\' . $this->getId() . '\\' . $matches[1];
-                if ($key != strtolower($key)) {
+                $val = '\\api\\controllers\\'.$this->getId().'\\'.$matches[1];
+                $result[$key] = $val;
+
+                if ($key !== strtolower($key)) {
                     $key = strtolower($key);
-                    $result[$key] = '\\api\\controllers\\' . $this->getId() . '\\' . $matches[1];
+                    $result[$key] = $val;
                 }
             }
         }
@@ -47,7 +47,6 @@ class Controller extends \application\components\controllers\BaseController
         $this->result = $result;
     }
 
-
     /**
      * @param \CAction $action
      *
@@ -55,9 +54,10 @@ class Controller extends \application\components\controllers\BaseController
      */
     protected function beforeAction($action)
     {
-        if ($_SERVER['REMOTE_ADDR'] != '127.0.0.1') {
+        if (YII_DEBUG === false) {
             \Yii::app()->disableOutputLoggers();
         }
+
         return parent::beforeAction($action);
     }
 
@@ -70,60 +70,63 @@ class Controller extends \application\components\controllers\BaseController
         $this->createLog();
     }
 
-
     /**
+     * @param string|null $errorCode
+     * @param string|null $errorMessage
      * @return \api\models\Log
      */
-    public function createLog()
+    public function createLog($errorCode = null, $errorMessage = null)
     {
         $executionTime = \Yii::getLogger()->getExecutionTime();
 
         $log = new \api\models\Log();
         $log->AccountId = $this->getAccount() !== null ? $this->getAccount()->Id : null;
-        $log->Route = $this->getId() . '.' . $this->getAction()->getId();
+        $log->Route = $this->getId().'.'.$this->getAction()->getId();
         $log->Params = json_encode($_REQUEST, JSON_UNESCAPED_UNICODE);
         $log->FullTime = $executionTime;
         $log->DbTime = null;
+
+        if ($errorCode !== null) {
+            $log->ErrorCode = $errorCode;
+        }
+
+        if ($errorMessage !== null) {
+            $log->ErrorMessage = $errorMessage;
+        }
+
         $log->save();
 
         return $log;
     }
 
-    const MaxResult = 200;
-
     public function filters()
     {
         $filters = parent::filters();
+
         return array_merge(
             $filters,
-            array(
+            [
                 'accessControl',
                 'setLanguage'
-            )
+            ]
         );
     }
 
     protected function setHeaders()
     {
         header('Content-type: text/json; charset=utf-8');
-        //header('Content-type: text/html; charset=utf-8');
     }
-
-    protected function initResources()
-    {
-
-    }
-
 
     /** @var AccessControlFilter */
     private $accessFilter;
 
     public function getAccessFilter()
     {
-        if (empty($this->accessFilter)) {
+        if ($this->accessFilter === null) {
             $this->accessFilter = new AccessControlFilter();
             $this->accessFilter->setRules($this->accessRules());
         }
+
         return $this->accessFilter;
     }
 
@@ -134,8 +137,8 @@ class Controller extends \application\components\controllers\BaseController
 
     public function accessRules()
     {
-        $rules = \Yii::getPathOfAlias('api.rules') . '.php';
-        return require($rules);
+        /** @noinspection PhpIncludeInspection */
+        return require \Yii::getPathOfAlias('api.rules').'.php';
     }
 
     /**
@@ -150,26 +153,29 @@ class Controller extends \application\components\controllers\BaseController
 
     public function getPageToken($offset)
     {
-        $prefix = substr(base64_encode($this->getId() . $this->getAction()->getId()), 0, $this->suffixLength);
-        return $prefix . base64_encode($offset);
+        $prefix = substr(base64_encode($this->getId().$this->getAction()->getId()), 0, $this->suffixLength);
+
+        return $prefix.base64_encode($offset);
     }
 
     /**
      * @param string $token
      * @throws Exception
-     * @return array
+     * @return int
      */
     public function parsePageToken($token)
     {
         if (strlen($token) < $this->suffixLength + 1) {
             throw new Exception(111);
         }
-        $token = substr($token, $this->suffixLength, strlen($token) - $this->suffixLength);
 
-        $result = intval(base64_decode($token));
+        $token = substr($token, $this->suffixLength);
+
+        $result = (int)base64_decode($token);
         if ($result === 0) {
             throw new Exception(111);
         }
+
         return $result;
     }
 
@@ -184,9 +190,14 @@ class Controller extends \application\components\controllers\BaseController
 
     protected function setLanguage()
     {
-        $lang = \Yii::app()->getRequest()->getParam('lang');
-        $lang = in_array($lang, \Yii::app()->params['Languages']) ? $lang : null;
-        if (!is_null($lang)) {
+        $lang = \Yii::app()
+            ->getRequest()
+            ->getParam('lang');
+
+        if (in_array($lang, \Yii::app()->params['Languages']) === false)
+            $lang = null;
+
+        if ($lang === null) {
             \Yii::app()->setLanguage($lang);
         }
     }

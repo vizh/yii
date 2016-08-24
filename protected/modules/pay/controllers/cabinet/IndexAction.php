@@ -1,6 +1,7 @@
 <?php
 namespace pay\controllers\cabinet;
 
+use partner\models\PartnerCallback;
 use pay\models\EventUserAdditionalAttribute;
 use pay\models\Failure;
 use \pay\models\forms\AddtionalAttributes as FormAdditionalAttributes;
@@ -9,13 +10,12 @@ class IndexAction extends \pay\components\Action
 {
     public function run($eventIdName)
     {
-        $request = \Yii::app()->getRequest();
         $this->getController()->setPageTitle('Оплата  / ' .$this->getEvent()->Title . ' / RUNET-ID');
 
-        \partner\models\PartnerCallback::start($this->getEvent());
+        PartnerCallback::start($this->getEvent());
         if ($this->getUser() != null)
         {
-            \partner\models\PartnerCallback::registration($this->getEvent(), $this->getUser());
+            PartnerCallback::registration($this->getEvent(), $this->getUser());
         }
 
         $finder = \pay\components\collection\Finder::create($this->getEvent()->Id, $this->getUser()->Id);
