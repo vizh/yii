@@ -91,12 +91,15 @@ class OrderItem extends ActiveRecord
             throw new MessageException('Заказ еще не сохранен.');
         }
 
-        if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames())) {
-            $attributes = $this->getOrderItemAttributes();
-            return isset($attributes[$name]) ? $attributes[$name]->Value : null;
-        } else {
-            throw new MessageException('Данный заказ не содержит аттрибута с именем ' . $name);
+        if (in_array($name, $this->Product->getManager()->getOrderItemAttributeNames()) === false) {
+            throw new MessageException("Данный заказ не содержит аттрибута с именем $name");
         }
+
+        $attributes = $this->getOrderItemAttributes();
+
+        return isset($attributes[$name])
+            ? $attributes[$name]->Value
+            : null;
     }
 
     /**
