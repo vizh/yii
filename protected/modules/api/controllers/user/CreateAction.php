@@ -21,15 +21,10 @@ class CreateAction extends Action
         /** @var User $user */
         $user = $form->createActiveRecord();
 
-        $builder = $this->getAccount()->getDataBuilder();
+        $userData = $this
+            ->getDataBuilder()
+            ->createUser($user);
 
-        $builder->createUser($user);
-        if ($this->getAccount()->Role !== 'mobile') {
-            $builder->buildUserContacts($user);
-        }
-
-        $builder->buildUserEmployment($user);
-
-        $this->getController()->setResult($builder->buildUserEvent($user));
+        $this->getController()->setResult($userData);
     }
 }

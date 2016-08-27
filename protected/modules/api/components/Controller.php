@@ -1,6 +1,8 @@
 <?php
 namespace api\components;
 
+use Yii;
+
 class Controller extends \application\components\controllers\BaseController
 {
     const MaxResult = 200;
@@ -17,7 +19,7 @@ class Controller extends \application\components\controllers\BaseController
      */
     protected function getVersioningActions()
     {
-        $path = \Yii::getPathOfAlias('api.controllers.'.$this->getId());
+        $path = Yii::getPathOfAlias('api.controllers.'.$this->getId());
         $result = [];
 
         // toDo: Вообще, - это не правильно считывать содержимое директории на каждом хите.
@@ -55,7 +57,7 @@ class Controller extends \application\components\controllers\BaseController
     protected function beforeAction($action)
     {
         if (YII_DEBUG === false) {
-            \Yii::app()->disableOutputLoggers();
+            Yii::app()->disableOutputLoggers();
         }
 
         return parent::beforeAction($action);
@@ -77,7 +79,7 @@ class Controller extends \application\components\controllers\BaseController
      */
     public function createLog($errorCode = null, $errorMessage = null)
     {
-        $executionTime = \Yii::getLogger()->getExecutionTime();
+        $executionTime = Yii::getLogger()->getExecutionTime();
 
         $log = new \api\models\Log();
         $log->AccountId = $this->getAccount() !== null ? $this->getAccount()->Id : null;
@@ -138,7 +140,7 @@ class Controller extends \application\components\controllers\BaseController
     public function accessRules()
     {
         /** @noinspection PhpIncludeInspection */
-        return require \Yii::getPathOfAlias('api.rules').'.php';
+        return require Yii::getPathOfAlias('api.rules').'.php';
     }
 
     /**
@@ -190,15 +192,15 @@ class Controller extends \application\components\controllers\BaseController
 
     protected function setLanguage()
     {
-        $lang = \Yii::app()
+        $lang = Yii::app()
             ->getRequest()
             ->getParam('lang');
 
-        if (in_array($lang, \Yii::app()->params['Languages']) === false)
+        if (in_array($lang, Yii::app()->params['Languages']) === false)
             $lang = null;
 
         if ($lang === null) {
-            \Yii::app()->setLanguage($lang);
+            Yii::app()->setLanguage($lang);
         }
     }
 }

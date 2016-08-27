@@ -7,6 +7,7 @@ use CActiveRecord;
 use user\models\forms\fields\Employment;
 use user\models\forms\fields\Phone;
 use user\models\User;
+use Yii;
 
 /**
  * Class Edit
@@ -40,10 +41,11 @@ class Edit extends CreateUpdateFormCombiner
      */
     public function fillFromPost()
     {
+//        Yii::log(print_r($this->getAttributes(), true));
         foreach ($this->getAttributes() as $name => $value) {
-            $param = \Yii::app()->getRequest()->getParam($name);
-            if (!empty($param)) {
-                $this->$name = \Yii::app()->getRequest()->getParam($name);
+            $param = Yii::app()->getRequest()->getParam($name);
+            if ($param !== null) {
+                $this->$name = $param;
             }
         }
     }
@@ -53,10 +55,10 @@ class Edit extends CreateUpdateFormCombiner
         return [
             ['FatherName, FirstName, LastName', 'safe'],
             ['Email', 'email'],
-            ['PrimaryPhone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
-            ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => [
-                'condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => ['UserId' => $this->isUpdateMode() ? $this->model->Id : 0]]
-            ],
+//            ['PrimaryPhone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
+//            ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => [
+//                'condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => ['UserId' => $this->isUpdateMode() ? $this->model->Id : 0]]
+//            ],
         ];
     }
 

@@ -2,10 +2,6 @@
 namespace api\controllers\user;
 
 use api\components\Exception;
-use api\models\Account;
-use competence\models\Question;
-use competence\models\Result;
-use oauth\models\Permission;
 use user\models\User;
 
 /**
@@ -23,50 +19,26 @@ class GetAction extends \api\components\Action
             $id = \Yii::app()->getRequest()->getParam('RocId', null);
         }
 
-        $originalUser = User::model()->byRunetId($id)->find();
-        if ($originalUser !== null) {
-            $user = !empty($originalUser->MergeUserId) ? $originalUser->MergeUser : $originalUser;
-            $this->getDataBuilder()->createUser($user);
-            $this->getDataBuilder()->buildUserEmployment($user);
-            $this->getDataBuilder()->buildUserEvent($user);
-            $this->getDataBuilder()->buildUserData($user);
-            $userData = $this->getDataBuilder()->buildUserBadge($user);
+        $user = User::model()
+            ->byRunetId($id)
+            ->find();
 
-            if ($this->hasContactsPermission($user, $userData)) {
-                $userData = $this->getDataBuilder()->buildUserContacts($user);
-            }
-
-            if (!empty($originalUser->MergeUserId)) {
-                $userData->RedirectRunetId = $originalUser->RunetId;
-            }
-
-            $this->setResult($userData);
-        } else {
+        if ($user === null) {
             throw new Exception(202, [$id]);
         }
-    }
 
-    /**
-     * @param User   $user
-     * @param object $userData
-     * @return bool
-     */
-    private function hasContactsPermission(User $user, $userData)
-    {
-        switch ($this->getAccount()->Role) {
-            case Account::ROLE_OWN:
-                return true;
-                break;
+        $user = empty($user->MergeUserId)
+            ? $user
+            : $user->MergeUser;
 
-            case Account::ROLE_PARTNER_WOC:
-                return false;
-                break;
+        $userData = $this
+            ->getDataBuilder()
+            ->createUser($user);
 
-            default:
-                $permissionModel = Permission::model()->byUserId($user->Id)->byAccountId($this->getAccount()->Id)
-                    ->byDeleted(false);
-
-                return isset($userData->Status) || $permissionModel->exists();
+        if (!empty($user->MergeUserId)) {
+            $userData->RedirectRunetId = $user->RunetId;
         }
+
+        $this->setResult($userData);
     }
 }

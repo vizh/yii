@@ -2,6 +2,7 @@
 namespace api\controllers\ms;
 
 use api\components\Action;
+use api\components\builders\Builder;
 use api\components\Exception;
 use user\models\User;
 
@@ -24,16 +25,19 @@ class SearchAction extends Action
         $result = [
             'Users' => []
         ];
+
         $builder = $this->getAccount()->getDataBuilder();
         foreach ($users as $user) {
-            $builder->createUser($user);
-            $builder->buildUserEmployment($user);
-            $result['Users'][] = $builder->buildUserEvent($user);
+            $result['Users'][] = $builder->createUser($user, [
+                Builder::USER_EMPLOYMENT,
+                Builder::USER_EVENT
+            ]);
         }
 
-        if (sizeof($user) === $limit) {
+        if (count($user) === $limit) {
             $result['NextPageToken'] = $this->getController()->getPageToken($criteria->offset + $limit);
         }
+
         $this->getController()->setResult($result);
     }
 

@@ -23,11 +23,11 @@ class LoginAction extends Action
             throw new Exception(201);
         }
 
-        $this->getAccount()->getDataBuilder()->createUser($user);
-        $this->getAccount()->getDataBuilder()->buildUserContacts($user);
-        $this->getAccount()->getDataBuilder()->buildUserEmployment($user);
-        $result = $this->getAccount()->getDataBuilder()->buildUserEvent($user);
-        $this->setResult($result);
+        $userData = $this
+            ->getDataBuilder()
+            ->createUser($user);
+
+        $this->setResult($userData);
     }
 
     /**
