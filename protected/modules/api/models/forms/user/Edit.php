@@ -21,6 +21,12 @@ class Edit extends CreateUpdateFormCombiner
     /** @var User */
     protected $model;
 
+    public $Email;
+    public $FirstName;
+    public $LastName;
+    public $FatherName;
+    public $PrimaryPhone;
+
     /**
      * @inheritDoc
      */
@@ -42,6 +48,17 @@ class Edit extends CreateUpdateFormCombiner
         }
     }
 
+    public function rules()
+    {
+        return [
+            ['FatherName, FirstName, LastName', 'safe'],
+            ['Email', 'email'],
+            ['PrimaryPhone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
+            ['PrimaryPhone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone', 'criteria' => [
+                'condition' => '"t"."Id" != :UserId AND "t"."Visible"', 'params' => ['UserId' => $this->isUpdateMode() ? $this->model->Id : 0]]
+            ],
+        ];
+    }
 
     /**
      * @inheritDoc
@@ -66,5 +83,20 @@ class Edit extends CreateUpdateFormCombiner
             }
         }
         return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function internalUpdateActiveRecord()
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+
+        $this->fillActiveRecord();
+        $this->model->save();
+
+        return $this->model;
     }
 }
