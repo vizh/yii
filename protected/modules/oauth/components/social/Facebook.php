@@ -16,8 +16,8 @@ use Facebook\HttpClients\FacebookHttpable;
 
 class Facebook implements ISocial
 {
-    const AppId = 201234113248910;
-    const Secret = '102257e6ef534fb163c7d1e7e31ffca7';
+    const AppId = 529362707269912; // 201234113248910;
+    const Secret = 'b345ebde1564caa6f022fcd848fac252'; //'102257e6ef534fb163c7d1e7e31ffca7';
 
     const SESSION_TOKEN_NAME = 'fb_access_token';
 
