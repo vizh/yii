@@ -40,6 +40,7 @@ use pay\models\Account as PayAccount;
  * @property string $LogoSource
  * @property string $CreationTime
  * @property bool $FullWidth
+ * @property bool $UserScope
  * @property string $FbId Идентификатор мероприятия на Facebook. Если его нет, то мероприятие считает не опубликованным
  * @property bool $Deleted
  * @property string $DeletionTime

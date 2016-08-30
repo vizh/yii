@@ -8,7 +8,7 @@ UserAutoCompleteInput.prototype = {
     init: function () {
         var self = this;
         self.textField.autocomplete({
-            source: "/user/ajax/search/",
+            source: self.textField.data("eventid") ? "/user/ajax/search/?eventId="+self.textField.data("eventid") : "/user/ajax/search/",
             minLength: 1,
             select: function(event, ui){
                 self.textField.val(ui.item.FullName);

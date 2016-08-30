@@ -59,6 +59,7 @@ class IndexAction extends \CAction
             }
 
             $form->FullWidth = $event->FullWidth;
+            $form->UserScope = $event->UserScope;
         } else {
             $event = new Event();
             $event->External = false;
@@ -86,6 +87,7 @@ class IndexAction extends \CAction
                 $event->EndMonth = date('m', $form->EndDateTS);
                 $event->EndYear = date('Y', $form->EndDateTS);
                 $event->FullWidth = $form->FullWidth;
+                $event->UserScope = $form->UserScope;
                 $event->save();
 
                 $event->Top = $form->Top;

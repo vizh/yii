@@ -160,6 +160,14 @@ class Participant extends CreateUpdateForm
     }
 
     /**
+     * @return Section
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    /**
      * @return \CActiveRecord|null
      */
     public function createActiveRecord()

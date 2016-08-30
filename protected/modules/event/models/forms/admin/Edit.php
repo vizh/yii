@@ -49,6 +49,8 @@ class Edit extends \CFormModel
      */
     public $FullWidth = false;
 
+    public $UserScope;
+
 
     public function rules()
     {
@@ -60,7 +62,7 @@ class Edit extends \CFormModel
             ['EndDate', 'date', 'format' => self::DATE_FORMAT, 'timestampAttribute' => 'EndDateTS'],
             ['Title, IdName, Info, FullInfo, Info, Visible, TypeId, ShowOnMain, Approved, Widgets, ProfInterest, SiteUrl, OrganizerInfo', 'safe'],
             ['Logo, TicketImage', 'file', 'types' => 'jpg, gif, png', 'allowEmpty' => true],
-            ['FullWidth', 'boolean']
+            ['FullWidth, UserScope', 'boolean']
         ];
     }
 
@@ -92,7 +94,8 @@ class Edit extends \CFormModel
             'OrganizerInfo' => \Yii::t('app', 'Информация об организаторе'),
             'CloseRegistrationAfterEnd' => \Yii::t('app', 'Закрыть регистрацию после окончания'),
             'DocumentRequired' => \Yii::t('app', 'Запрашивать паспортные данные'),
-            'FullWidth' => \Yii::t('app', 'Отображать страницу мероприятия во всю ширину')
+            'FullWidth' => \Yii::t('app', 'Отображать страницу мероприятия во всю ширину'),
+            'UserScope' => \Yii::t('app', 'Показывать только с текущего мероприятия'),
         ];
     }
 
