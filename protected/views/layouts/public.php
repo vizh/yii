@@ -126,9 +126,7 @@
         <div class="clearfix">
             <div class="clearfix pull-left">
                 <div class="development pull-left">
-                    Оплата за участие в мероприятиях<br/>осуществляется при поддержке <a href="http://payonline.ru"
-                                                                                         target="_blank">PayOnline</a> и
-                    <a href="http://uniteller.ru" target="_blank">Uniteller</a><br/><br/>
+                    Оплата за участие в мероприятиях<br/>осуществляется при поддержке <a href="http://payonline.ru" target="_blank">PayOnline</a><br/><br/>
                     <img src="/img/pay/visa.png" alt="VISA"/>
                     <img src="/img/pay/mastercard.png" alt="Master Card"/>
                     <img src="/img/pay/paypal.png" alt="Master Card"/>
@@ -142,9 +140,7 @@
                     <?= \CHtml::link(\CHtml::image('/images/hotline.png', 'Горячая линия рунета'), 'http://hotline.rocit.ru', ['target' => '_blank']); ?>
                 </div>
                 &copy;&nbsp;2008-<?= date('Y') ?>, ООО &laquo;РУВЕНТС&raquo;<br/>
-                Разработка и поддержка: <a href="http://internetmediaholding.com" title="Internet Media Holding"
-                                           target="_blank">Internet Media Holding</a><br/>
-                Дизайн: <a href="http://coalla.ru/" title="Агентство Coalla" target="_blank">Coalla</a>
+                При поддержке: <a href="http://internetmediaholding.com" title="Internet Media Holding" target="_blank">Internet Media Holding</a>
             </div>
         </div>
     </div>

@@ -6,18 +6,29 @@ use user\models\User;
 
 class MailCommand extends BaseConsoleCommand
 {
-    public function actionIndex($args)
+    public function actionIndex()
     {
-        $startTime = time();
-        /** @var Template $template */
-        $template = Template::model()->byActive()->bySuccess(false)->find(['order' => '"t"."Id" ASC']);
-        if ($template == null)
-            return 0;
+        for ($i=0; $i<10; $i++) {
+            $pid = pcntl_fork();
+            if ($pid == 0){
 
-        while (true) {
-            $template->send();
-            if (time() - $startTime >= 180 || $template->Success)
-                return 0;
+                Yii::log('worker #'.posix_getpid().' started', \CLogger::LEVEL_INFO, 'mail');
+                Yii::getLogger()->flush(true);
+
+                /** @var Template $template */
+                $template = Template::model()->byActive()->bySuccess(false)->find(['order' => '"t"."Id" ASC']);
+                if ($template) {
+                    Yii::log('worker #'.posix_getpid().' sending template #'.$template->Id, \CLogger::LEVEL_INFO, 'mail');
+                    Yii::getLogger()->flush(true);
+
+                    $template->send();
+                }
+
+                Yii::log('worker #'.posix_getpid().' done', \CLogger::LEVEL_INFO, 'mail');
+                Yii::getLogger()->flush(true);
+
+                exit;
+            }
         }
     }
 

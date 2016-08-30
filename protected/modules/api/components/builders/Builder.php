@@ -1,7 +1,9 @@
 <?php
 namespace api\components\builders;
 
+use api\models\Account;
 use application\components\helpers\ArrayHelper;
+use application\components\utility\Texts;
 use application\models\translation\ActiveRecord;
 use company\models\Company;
 use competence\models\Question;
@@ -10,6 +12,7 @@ use competence\models\Test;
 use event\models\section\Favorite;
 use event\models\section\Hall;
 use event\models\UserData;
+use oauth\models\Permission;
 use raec\models\CompanyUser;
 use user\models\DocumentType;
 use user\models\Document;
@@ -39,10 +42,50 @@ class Builder
     protected $user;
 
     /**
+     * Набор доступных билдеров
+     */
+    const USER_EMPLOYMENT = 'buildUserEmployment';
+    const USER_EVENT = 'buildUserEvent';
+    const USER_DATA = 'buildUserData';
+    const USER_BADGE = 'buildUserBadge';
+    const USER_CONTACTS = 'buildUserContacts';
+    const USER_AUTH = 'buildAuthData';
+
+    /**
+     * Построение схемы данных посетителя
+     *
+     * @param User $user
+     * @param array|null $builders набор билдеров вида Builder::EMPLOYMENT или null для построения полной схемы
+     * @return mixed
+     */
+    public function createUser(User $user, $builders = null)
+    {
+        $this->createBaseUser($user);
+
+        // Строим полную схему данных посетителя если набор билдеров не определён
+        if ($builders === null) {
+            $builders = [
+                self::USER_EMPLOYMENT,
+                self::USER_EVENT,
+                self::USER_DATA,
+                self::USER_BADGE,
+                self::USER_CONTACTS
+            ];
+        }
+
+        // Строим модель данных посетителя только из указанных блоков
+        foreach ($builders as $builderName) {
+            $this->$builderName($user);
+        }
+
+        return $this->user;
+    }
+
+    /**
      * @param \user\models\User $user
      * @return \stdClass
      */
-    public function createUser(User $user)
+    private function createBaseUser(User $user)
     {
         $this->applyLocale($user);
 
@@ -67,30 +110,27 @@ class Builder
     }
 
     /**
+     * @return \stdClass
+     * @internal param User $user
+     */
+    /** @noinspection PhpUnusedPrivateMethodInspection */
+    private function buildAuthData()
+    {
+        $this->user->AuthCode = Texts::GenerateString(10);
+
+        return $this->user;
+    }
+
+    /**
      * @param User $user
      * @return \stdClass
      */
-    public function buildUserData($user)
+    /** @noinspection PhpUnusedPrivateMethodInspection */
+    private function buildUserData($user)
     {
         $attributes = UserData::getDefinedAttributeValues($this->account->Event, $user);
         if (!empty($attributes)) {
             $this->user->Attributes = $attributes;
-        }
-    }
-
-    /**
-     * @param \user\models\User $user
-     * @return \stdClass
-     */
-    public function buildUserContacts(\user\models\User $user)
-    {
-        $this->user->Email = $user->Email;
-        $this->user->Phone = $user->getPhone(false);
-        $this->user->PhoneFormatted = $user->getPhone();
-
-        $this->user->Phones = array();
-        foreach ($user->LinkPhones as $link) {
-            $this->user->Phones[] = (string)$link->Phone;
         }
 
         return $this->user;
@@ -100,7 +140,28 @@ class Builder
      * @param \user\models\User $user
      * @return \stdClass
      */
-    public function buildUserEmployment($user)
+    /** @noinspection PhpUnusedPrivateMethodInspection */
+    private function buildUserContacts(\user\models\User $user)
+    {
+        if ($this->hasContactsPermission($user)) {
+            $this->user->Email = $user->Email;
+            $this->user->Phone = $user->getPhone(false);
+            $this->user->PhoneFormatted = $user->getPhone();
+
+            $this->user->Phones = [];
+            foreach ($user->LinkPhones as $link) {
+                $this->user->Phones[] = (string)$link->Phone;
+            }
+        }
+
+        return $this->user;
+    }
+
+    /**
+     * @param \user\models\User $user
+     * @return \stdClass
+     */
+    private function buildUserEmployment($user)
     {
         $employment = $user->getEmploymentPrimary();
         if ($employment !== null) {
@@ -120,7 +181,8 @@ class Builder
      * @param \user\models\User $user
      * @return \stdClass
      */
-    public function buildUserEvent(\user\models\User $user)
+    /** @noinspection PhpUnusedPrivateMethodInspection */
+    private function buildUserEvent(\user\models\User $user)
     {
         $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
         foreach ($user->Participants as $participant) {
@@ -134,7 +196,7 @@ class Builder
                     $this->user->Status->TicketUrl = $participant->getTicketUrl();
                 } else {
                     if (!isset($this->user->Status)) {
-                        $this->user->Status = array();
+                        $this->user->Status = [];
                     }
                     $status = new \stdClass();
                     $status->PartId = $participant->PartId;
@@ -163,7 +225,8 @@ class Builder
         return $this->user;
     }
 
-    public function buildUserBadge(\user\models\User $user)
+    /** @noinspection PhpUnusedPrivateMethodInspection */
+    private function buildUserBadge(\user\models\User $user)
     {
         $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
         if ($isOnePart && !empty($this->user->Status)) {
@@ -185,34 +248,36 @@ class Builder
     {
         $this->applyLocale($company);
 
-        $this->company = (object)ArrayHelper::toArray($company, ['company\models\Company' => [
-            'Id',
-            'Name',
-            'FullName',
-            'Info',
-            'Code',
-            'Logo' => function (Company $company) {
-                return [
-                    'Small' => 'http://'.RUNETID_HOST.$company->getLogo()->get50px(),
-                    'Medium' => 'http://'.RUNETID_HOST.$company->getLogo()->get90px(),
-                    'Large' => 'http://'.RUNETID_HOST.$company->getLogo()->get200px(),
-                ];
-            },
-            'Url' => function (Company $company) {
-                return (string)$company->getContactSite();
-            },
-            'Phone' => function (Company $company) {
-                return !empty($company->LinkPhones[0]) ? (string)$company->LinkPhones[0]->Phone : null;
-            },
-            'Email' => function (Company $company) {
-                $email = $company->getContactEmail();
+        $this->company = (object)ArrayHelper::toArray($company, [
+            'company\models\Company' => [
+                'Id',
+                'Name',
+                'FullName',
+                'Info',
+                'Code',
+                'Logo' => function (Company $company) {
+                    return [
+                        'Small' => 'http://'.RUNETID_HOST.$company->getLogo()->get50px(),
+                        'Medium' => 'http://'.RUNETID_HOST.$company->getLogo()->get90px(),
+                        'Large' => 'http://'.RUNETID_HOST.$company->getLogo()->get200px(),
+                    ];
+                },
+                'Url' => function (Company $company) {
+                    return (string)$company->getContactSite();
+                },
+                'Phone' => function (Company $company) {
+                    return !empty($company->LinkPhones[0]) ? (string)$company->LinkPhones[0]->Phone : null;
+                },
+                'Email' => function (Company $company) {
+                    $email = $company->getContactEmail();
 
-                return $email !== null ? $email->Email : null;
-            },
-            'Address' => function (Company $company) {
-                return (string)$company->getContactAddress();
-            },
-        ]]);
+                    return $email !== null ? $email->Email : null;
+                },
+                'Address' => function (Company $company) {
+                    return (string)$company->getContactAddress();
+                },
+            ]
+        ]);
 
         return $this->company;
     }
@@ -224,16 +289,18 @@ class Builder
     public function buildCompanyRaecUser(Company $company)
     {
         foreach ($company->ActiveRaecUsers as $user) {
-            $this->company->RaecUsers[] = ArrayHelper::toArray($user, ['raec\models\CompanyUser' => [
-                'JoinTime',
-                'AllowVote',
-                'User' => function (CompanyUser $companyUser) {
-                    $this->createUser($companyUser->User);
+            $this->company->RaecUsers[] = ArrayHelper::toArray($user, [
+                'raec\models\CompanyUser' => [
+                    'JoinTime',
+                    'AllowVote',
+                    'User' => function (CompanyUser $companyUser) {
+                        $this->createBaseUser($companyUser->User);
 
-                    return $this->buildUserEmployment($companyUser->User);
-                },
-                'Status',
-            ]]);
+                        return $this->buildUserEmployment($companyUser->User);
+                    },
+                    'Status',
+                ]
+            ]);
         }
 
         return $this->company;
@@ -247,10 +314,12 @@ class Builder
      */
     public function createEmploymentCompany(Company $company)
     {
-        $this->employmentCompany = (object)ArrayHelper::toArray($company, ['company\models\Company' => [
-            'Id',
-            'Name',
-        ]]);
+        $this->employmentCompany = (object)ArrayHelper::toArray($company, [
+            'company\models\Company' => [
+                'Id',
+                'Name',
+            ]
+        ]);
 
         return $this->employmentCompany;
     }
@@ -359,7 +428,7 @@ class Builder
      */
     public function buildEventMenu($event)
     {
-        $this->event->Menu = array();
+        $this->event->Menu = [];
 
         $menu = new \stdClass();
         $menu->Type = 'program';
@@ -394,7 +463,7 @@ class Builder
 
     /**
      * @param \pay\models\Product $product
-     * @param string              $time
+     * @param string $time
      * @return \stdClass
      */
     public function createProduct($product, $time = null)
@@ -408,7 +477,7 @@ class Builder
         $this->product->Manager = $product->ManagerName;
         $this->product->Title = $product->Title;
         $this->product->Price = $product->getPrice($time);
-        $this->product->Attributes = array();
+        $this->product->Attributes = [];
         foreach ($product->Attributes as $attribute) {
             $this->product->Attributes[$attribute->Name] = $attribute->Value;
         }
@@ -439,11 +508,11 @@ class Builder
         /** todo: deprecated **/
         $this->orderItem->Id = $orderItem->Id;
         $this->orderItem->Product = $this->CreateProduct($orderItem->Product, $orderItem->PaidTime);
-        $this->createUser($orderItem->Payer);
+        $this->createBaseUser($orderItem->Payer);
         $this->orderItem->Payer = $this->buildUserEmployment($orderItem->Payer);
 
         $owner = $orderItem->ChangedOwner !== null ? $orderItem->ChangedOwner : $orderItem->Owner;
-        $this->createUser($owner);
+        $this->createBaseUser($owner);
         $this->orderItem->Owner = $this->buildUserEmployment($owner);
 
         $this->orderItem->PriceDiscount = $item->getPriceDiscount();
@@ -453,7 +522,7 @@ class Builder
         $this->orderItem->Deleted = $orderItem->Deleted;
         $this->orderItem->CreationTime = $orderItem->CreationTime;
 
-        $this->orderItem->Attributes = array();
+        $this->orderItem->Attributes = [];
         foreach ($orderItem->Attributes as $attribute) {
             $this->orderItem->Attributes[$attribute->Name] = $attribute->Value;
         }
@@ -510,13 +579,13 @@ class Builder
      */
     public function buildComissionProjects($comission)
     {
-        $this->commission->Projects = array();
+        $this->commission->Projects = [];
         foreach ($comission->Projects as $pr) {
             if ($pr->Visible) {
                 $project = new \stdClass();
                 $project->Title = $pr->Title;
                 $project->Description = $pr->Description;
-                $project->Users = array();
+                $project->Users = [];
                 foreach ($pr->Users as $prUser) {
                     $project->Users[] = $prUser->User->RunetId;
                 }
@@ -556,13 +625,13 @@ class Builder
             $this->section->Place = $section->LinkHalls[0]->Hall->Title; //todo: deprecated
         }
         $this->section->Halls = [];
-        $this->section->Places = array();
+        $this->section->Places = [];
         foreach ($section->LinkHalls as $linkHall) {
             $this->section->Places[] = $linkHall->Hall->Title;
             $this->section->Halls[] = $this->createSectionHall($linkHall->Hall);
         }
 
-        $this->section->Attributes = array();
+        $this->section->Attributes = [];
         foreach ($section->Attributes as $attribute) {
             $this->section->{$attribute->Name} = $attribute->Value; //todo: deprecated
             $this->section->Attributes[$attribute->Name] = $attribute->Value;
@@ -612,7 +681,7 @@ class Builder
 
         $this->report->Id = $link->Id;
         if (!empty($link->User)) {
-            $this->createUser($link->User);
+            $this->createBaseUser($link->User);
             $this->report->User = $this->buildUserEmployment($link->User);
         } elseif (!empty($link->Company)) {
             $this->report->Company = $this->createCompany($link->Company);
@@ -664,8 +733,8 @@ class Builder
     public function createInviteRequest(\event\models\InviteRequest $request)
     {
         $this->inviteRequest = new \stdClass();
-        $this->inviteRequest->Sender = $this->createUser($request->Sender);
-        $this->inviteRequest->Owner = $this->createUser($request->Owner);
+        $this->inviteRequest->Sender = $this->createBaseUser($request->Sender);
+        $this->inviteRequest->Owner = $this->createBaseUser($request->Owner);
         $this->inviteRequest->CreationTime = $request->CreationTime;
         $this->inviteRequest->Event = $this->createEvent($request->Event);
         $this->inviteRequest->Approved = $request->Approved;
@@ -804,6 +873,37 @@ class Builder
             $locale = \Yii::app()->getRequest()->getParam('Locale', \Yii::app()->sourceLanguage);
 
             $activeRecord->setLocale($locale);
+        }
+    }
+
+    /**
+     * Проверяет, имеет ли указанный пользователь доступ к контактным данным
+     *
+     * @param User $user
+     * @return bool
+     */
+    private function hasContactsPermission(User $user)
+    {
+        switch ($this->account->Role) {
+            case Account::ROLE_OWN:
+                return true;
+                break;
+
+            case Account::ROLE_PARTNER_WOC:
+                return false;
+                break;
+
+            case Account::ROLE_MOBILE: // toDo: Не совсем понятна причина такого, но текущая версия api именно так и выбирала данные в списках посетителей, потом я это добавил сюда
+                return false;
+                break;
+
+            default:
+                $permissionModel = Permission::model()
+                    ->byUserId($user->Id)
+                    ->byAccountId($this->account->Id)
+                    ->byDeleted(false);
+
+                return isset($this->user->Status) || $permissionModel->exists();
         }
     }
 }

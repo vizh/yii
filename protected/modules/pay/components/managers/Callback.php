@@ -141,6 +141,12 @@ class Callback extends BaseProductManager
 
     public function getPrice($orderItem)
     {
+        if ($orderItem->ProductId === 6128 && $orderItem->getItemAttribute('Price') === null) {
+            Yii::log(sprintf('Сработал хак для ProductId:6128 c данными: %s', Yii::app()->getRequest()->getParam('Data')));
+            $orderItem->setItemAttribute('Price', 10000);
+            $orderItem->save();
+        }
+
         return $orderItem->getItemAttribute('Price');
     }
 

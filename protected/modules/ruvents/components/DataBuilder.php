@@ -5,9 +5,9 @@ use api\components\ms\DevconEventRoleConverter;
 use application\components\helpers\ArrayHelper;
 use application\models\attribute\Definition;
 use event\models\UserData;
-use ruvents\models\Setting;
 use ruvents\models\Visit;
 use user\models\User;
+use Yii;
 
 class DataBuilder
 {
@@ -57,7 +57,7 @@ class DataBuilder
      */
     public function createUser($user)
     {
-        $photoPath =
+
         $this->user = (object) [
             'RunetId' => $user->RunetId,
             'LastName' => $user->LastName,
@@ -69,13 +69,13 @@ class DataBuilder
             'CreationTime' => $user->CreationTime,
             'Email' => trim($user->Email),
             'Locales' => $this->getLocales($user),
-            'Photo' => (object) [
-                'Small' => $user->getPhoto()->get50px(),
-                'Medium' => $user->getPhoto()->get90px(),
-                'Large' => $user->getPhoto()->get200px(),
-                'Original' => str_replace('/files/photo/', 'http://static.runet-id.com/photo/', $user->getPhoto()->getOriginal())
-            ],
         ];
+
+        if ($user->hasPhoto()) {
+            $this->user->Photo = (object)[
+                'Original' => str_replace('/files/photo/', 'http://static.runet-id.com/photo/', $user->getPhoto()->getOriginal())
+            ];
+        }
 
         return $this->user;
     }
@@ -427,7 +427,7 @@ class DataBuilder
     protected function getLocales($model)
     {
         $locales = new \stdClass();
-        foreach (\Yii::app()->params['Languages'] as $lang) {
+        foreach (Yii::app()->params['Languages'] as $lang) {
             $model->setLocale($lang);
             $localeStd = new \stdClass();
             foreach ($model->getTranslationFields() as $key) {

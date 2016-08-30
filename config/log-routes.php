@@ -13,6 +13,14 @@ if (YII_DEBUG) {
         'categories' => 'application',
         'levels' => 'error, warning, info',
     ];
+    $routes[] = [
+        'class' => 'CFileLogRoute',
+        'categories' => ['mail'],
+        'levels' => 'error, warning, info',
+        'logFile' => 'mail.log',
+        'maxFileSize' => 1024,
+        'maxLogFiles' => 10
+    ];
 } else {
     $routes[] = [
         'class' => 'CEmailLogRoute',

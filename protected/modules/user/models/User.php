@@ -529,6 +529,14 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     private $photo = null;
 
     /**
+     * Определяет наличие фотографии посетителя.
+     */
+    public function hasPhoto()
+    {
+        return is_file($this->getPhoto()->getOriginal(true));
+    }
+
+    /**
      * @return Photo
      */
     public function getPhoto()

@@ -2,6 +2,7 @@
 namespace api\controllers\ms;
 
 use api\components\Action;
+use api\components\builders\Builder;
 use api\components\ms\Helper;
 use api\components\ms\mail\AuthCode;
 use application\components\utility\Texts;
@@ -26,16 +27,15 @@ class UserLoginAction extends Action
             throw new Exception(201);
         }
 
-        $builder = $this->getDataBuilder();
-        $builder->createUser($user);
-        $builder->buildUserEmployment($user);
-        $data = $builder->buildUserEvent($user);
+        $userData = $this->getDataBuilder()->createUser($user, [
+            Builder::USER_EMPLOYMENT,
+            Builder::USER_EVENT,
+            Builder::USER_AUTH
+        ]);
 
-        $data->AuthCode = Texts::GenerateString(10);
-
-        $mail = new AuthCode(new SESMailer(), $user, $data->AuthCode);
+        $mail = new AuthCode(new SESMailer(), $user, $userData->AuthCode);
         $mail->send();
 
-        $this->setResult($data);
+        $this->setResult($userData);
     }
 }

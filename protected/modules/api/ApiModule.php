@@ -2,56 +2,36 @@
 
 class ApiModule extends CWebModule
 {
-	public function init()
-	{
-		// this method is called when the module is being created
-		// you may place code here to customize the module or the application
-
-		// import the module-level models and components
-//		$this->setImport(array(
-//			'api.models.*',
-//			'api.components.*',
-//		));
-	}
-
-	public function beforeControllerAction($controller, $action)
-	{
-		if(parent::beforeControllerAction($controller, $action))
-		{
-			// this method is called before any module controller action is performed
-			// you may place customized code here
-
-      \Yii::app()->attachEventHandler('onException', array($this, 'onException'));
-
-			return true;
-		}
-		else
-			return false;
-	}
-
-
-  /**
-   * @param CExceptionEvent $event
-   */
-  public function onException($event)
-  {
-    if ($event->exception instanceof \api\components\Exception)
+    public function beforeControllerAction($controller, $action)
     {
-      /** @var $exception \api\components\Exception */
-      $exception = $event->exception;
-    }
-    else
-    {
-      $exception = new \api\components\Exception(100, array($event->exception->getMessage()));
-    }
-    $exception->sendResponse();
-    $event->handled = true;
+        if (parent::beforeControllerAction($controller, $action)) {
+            \Yii::app()->attachEventHandler('onException', [$this, 'onException']);
 
-    /** @var \api\components\Controller $controller */
-    $controller = Yii::app()->getController();
-    $log = $controller->createLog();
-    $log->ErrorCode = $exception->getCode();
-    $log->ErrorMessage = $exception->getMessage();
-    $log->save();
-  }
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param CExceptionEvent $event
+     */
+    public function onException($event)
+    {
+        $exception = $event->exception instanceof \api\components\Exception
+            ? $event->exception
+            : new \api\components\Exception(100, [$event->exception->getMessage()]);
+
+        $exception->sendResponse();
+
+        $event->handled = true;
+
+        /** @var \api\components\Controller $controller */
+        $controller = Yii::app()->getController();
+
+        $controller->createLog(
+            $exception->getCode(),
+            $exception->getMessage()
+        );
+    }
 }

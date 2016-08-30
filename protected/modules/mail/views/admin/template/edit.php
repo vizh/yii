@@ -183,7 +183,7 @@ $this->setPageTitle('Рассылка');
     </div>
 <?php $this->endWidget() ?>
 
-<?php if ($template->Success): ?>
+<?php if ($template && $template->Success): ?>
     <section>
         <?= Html::beginForm(['rollback', 'id' => $template->Id]) ?>
             <?= Html::submitButton('Откатить', [
