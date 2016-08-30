@@ -1,4 +1,4 @@
-<?php $this->beginContent('/layouts/mail');?>
+<?$this->beginContent('/layouts/mail')?>
     <table class="body-wrap" border="0" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%; margin: 0; padding: 0 10px; border-collapse: separate;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;"></td>
             <td class="container" bgcolor="#FFFFFF" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; display: block !important; max-width: 720px !important; clear: both !important; margin: 0 auto; padding: 0;">
                 <table style="border-collapse: separate; width: 100%; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;" border="0" cellpadding="0" cellspacing="0">
@@ -29,4 +29,4 @@
             </td>
             <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;"></td>
         </tr></table><!-- /BODY --><!-- FOOTER -->
-<?php $this->endContent();?>
+<?$this->endContent()?>
