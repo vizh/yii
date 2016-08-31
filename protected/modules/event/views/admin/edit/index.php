@@ -204,6 +204,11 @@ foreach ($widgets->All as $widget) {
                         <?= \CHtml::label($form->getAttributeLabel('FullWidth') . \CHtml::activeCheckBox($form, 'FullWidth'), null, array('class' => 'checkbox')); ?>
                     </div>
                 </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <?= \CHtml::label($form->getAttributeLabel('UserScope') . \CHtml::activeCheckBox($form, 'UserScope'), null, array('class' => 'checkbox')); ?>
+                    </div>
+                </div>
                 <?php if ($event->External == true): ?>
                     <p class="text-warning"><?= \Yii::t('app', 'Внешнее мероприятие'); ?></p>
                     <div class="control-group">
