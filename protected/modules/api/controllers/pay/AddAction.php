@@ -7,8 +7,8 @@ use pay\components\CodeException;
 use pay\components\MessageException;
 use pay\components\OrderItemCollection;
 use pay\models\Coupon;
-use pay\models\Product;
-use user\models\User;
+use Throwable;
+use Yii;
 
 /**
  * Class AddAction
@@ -23,52 +23,34 @@ class AddAction extends Action
      */
     public function run()
     {
-        $request = \Yii::app()->getRequest();
-        $productId = $request->getParam('ProductId');
+        $payer = $this->getRequestedPayer();
+        $owner = $this->getRequestedOwner();
 
-        $payerRunetId = $request->getParam('PayerRunetId', null);
-        if ($payerRunetId === null) {
-            $payerRunetId = $request->getParam('PayerRocId', null);
-        }
-
-        $ownerRunetId = $request->getParam('OwnerRunetId', null);
-        if ($ownerRunetId === null) {
-            $ownerRunetId = $request->getParam('OwnerRocId', null);
-        }
-
-        /** @var Product $product */
-        $product = Product::model()
-            ->byEventId($this->getEvent()->Id)
-            ->findByPk($productId);
-
-        $payer = User::model()->byRunetId($payerRunetId)->find();
-        $owner = User::model()->byRunetId($ownerRunetId)->find();
-
-        if (!$product) {
-            throw new Exception(401, [$productId]);
-        } elseif ($payer == null) {
-            throw new Exception(202, [$payerRunetId]);
-        } elseif ($owner == null) {
-            throw new Exception(202, [$ownerRunetId]);
-        } elseif ($this->getEvent()->Id != $product->EventId) {
-            throw new Exception(402);
-        }
-
-        $attributes = $request->getParam('Attributes', []);
+        $attrs = Yii::app()
+            ->getRequest()
+            ->getParam('Attributes', []);
 
         try {
-            $orderItem = $product->getManager()->createOrderItem($payer, $owner, null, $attributes);
-            if ($orderItem->getPrice() == 0) {
+            $orderItem = $this
+                ->getRequestedProduct()
+                ->getManager()
+                ->createOrderItem($payer, $owner, null, $attrs);
+
+            if ($orderItem->getPrice() === 0) {
                 $orderItem->activate();
             }
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             throw new Exception(408, [$e->getCode(), $e->getMessage()], $e);
         }
 
         # TODO: delete after edcrunch16
-        if ($product->Event->IdName === 'edcrunch16'
-            && $request->getParam('Paid', false)
-            && $request->getParam('PaidHash') === md5($productId.$payerRunetId.$ownerRunetId)
+        if ($this->getEvent()->IdName === 'edcrunch16'
+            && Yii::app()->getRequest()->getParam('Paid', false)
+            && Yii::app()->getRequest()->getParam('PaidHash') === md5(
+                $this->getRequestedProduct()->Id.
+                $payer->RunetId.
+                $owner->RunetId
+            )
         ) {
             $coupon = new Coupon();
             $coupon->EventId = $this->getEvent()->Id;
@@ -76,11 +58,13 @@ class AddAction extends Action
             $coupon->Code = $coupon->generateCode();
             $coupon->EndTime = '2016-09-14 23:59:59';
             $coupon->save();
-            $coupon->addProductLinks([$product]);
-            $coupon->activate($payer, $owner, $product);
+            $coupon->addProductLinks([$this->getRequestedProduct()]);
+            $coupon->activate($payer, $owner, $this->getRequestedProduct());
         }
 
         $collection = OrderItemCollection::createByOrderItems([$orderItem]);
+
+        // toDo: WTF?!
         $result = null;
         foreach ($collection as $item) {
             $result = $this->getAccount()->getDataBuilder()->createOrderItem($item);

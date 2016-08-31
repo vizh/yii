@@ -12,11 +12,12 @@ use Yii;
 /**
  * Class EditAction
  *
- * Экспериментальный метод, позволяющий редактировать позиции заказа.
+ * Редактирование позиции заказа.
  *
+ * @param ProductId int
  * @param OrderItemId int
  * @param PayerRunetId int
- * @param ProductId int
+ * @param OwnerRunetId int
  *
  * @package api\controllers\pay
  */
@@ -29,12 +30,11 @@ class EditAction extends \api\components\Action
             throw new Exception(104);
         }
 
-        $item = $this->getRequestedOrderItem();
-        $item->ProductId = $this->getRequestedProduct()->Id;
+        $actionAdd = new AddAction($this->getController(), $this->id);
+        $actionDel = new DeleteAction($this->getController(), $this->id);
 
-        if ($item->save() === false) {
-            throw new Exception(100, print_r($item->errors, true));
-        }
+        $actionDel->run();
+        $actionAdd->run();
 
         $this->setSuccessResult();
     }

@@ -1,7 +1,6 @@
 <?php
 namespace api\components;
 
-use Guzzle\Tests\Common\Cache\NullCacheAdapterTest;
 use pay\models\OrderItem;
 use pay\models\Product;
 use Throwable;
@@ -96,7 +95,7 @@ class Action extends \CAction
                 ->findByPk($id);
 
             if ($product === null) {
-                throw new Exception(413);
+                throw new Exception(401, [$id]);
             }
 
             if ($product->EventId !== $this->getEvent()->Id) {
@@ -192,5 +191,40 @@ class Action extends \CAction
         }
 
         return $payer;
+    }
+
+    protected function getRequestedOwner()
+    {
+        static $owner;
+
+        if ($owner !== null) {
+            return $owner;
+        }
+
+        try {
+            $id = Yii::app()
+                ->getRequest()
+                ->getParam('OwnerRunetId');
+
+            if ($id === null) {
+                throw new Exception(202, [$id]);
+            }
+
+            $owner = User::model()
+                ->byRunetId($id)
+                ->find();
+
+            if ($owner === null) {
+                throw new Exception(202, [$owner]);
+            }
+        } catch (Exception $e) {
+            $owner = null;
+            throw $e;
+        } catch (Throwable $e) {
+            $owner = null;
+            throw new Exception(100, [$e->getMessage()]);
+        }
+
+        return $owner;
     }
 }

@@ -7,9 +7,7 @@ class DeleteAction extends \api\components\Action
 {
     public function run()
     {
-        $item = $this->getRequestedOrderItem();
-
-        if ($item->delete() === false) {
+        if ($this->getRequestedOrderItem()->delete() === false) {
             throw new Exception(412);
         }
 
