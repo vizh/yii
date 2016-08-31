@@ -1,6 +1,7 @@
 <?php
 namespace api\controllers\pay;
 
+use pay\models\Coupon;
 use pay\models\Product;
 
 class CouponAction extends \api\components\Action
@@ -10,19 +11,18 @@ class CouponAction extends \api\components\Action
         $request = \Yii::app()->getRequest();
         $couponCode = $request->getParam('CouponCode');
         $payerRunetId = $request->getParam('PayerRunetId');
-        if ($payerRunetId === null) {
-            $payerRunetId = $request->getParam('PayerRocId');
-        }
         $ownerRunetId = $request->getParam('OwnerRunetId');
-        if ($ownerRunetId === null) {
-            $ownerRunetId = $request->getParam('OwnerRocId');
-        }
         $externalId = $request->getParam('ExternalId');
         $productId = $request->getParam('ProductId');
 
-        /** @var $coupon \pay\models\Coupon */
-        $coupon = \pay\models\Coupon::model()->byCode($couponCode)->byEventId($this->getEvent()->Id)->byDeleted(false)->find();
-        if ($coupon == null) {
+        /** @var $coupon Coupon */
+        $coupon = Coupon::model()
+            ->byCode($couponCode)
+            ->byEventId($this->getEvent()->Id)
+            ->byDeleted(false)
+            ->find();
+
+        if ($coupon === null) {
             throw new \api\components\Exception(406);
         }
 
