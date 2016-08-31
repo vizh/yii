@@ -37,7 +37,7 @@ use mail\components\mailers\PhpMailer;
  */
 class Template extends ActiveRecord
 {
-    const UsersPerSend = 20;
+    const UsersPerSend = 200;
 
     const MAILER_PHP = 'PhpMailer';
     const MAILER_MANDRILL = 'TrueMandrillMailer';

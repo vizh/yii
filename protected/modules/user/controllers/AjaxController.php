@@ -43,7 +43,13 @@ class AjaxController extends PublicMainController
         $criteria->with = ['Employments.Company'];
         $model = User::model();
         if ($eventId !== null) {
-            $model->bySearch($term, null, true, false)->byEventId($eventId);
+            $event = \event\models\Event::model()->findByPk($eventId);
+            if ($event && $event->UserScope){
+                $model->bySearch($term, null, true, false)->byEventId($eventId);
+            }
+            else{
+                $model->bySearch($term, null, true, false);
+            }
         } else {
             is_numeric($term) ? $model->byRunetId($term) : $model->bySearch($term);
         }

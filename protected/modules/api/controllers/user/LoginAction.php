@@ -12,7 +12,7 @@ class LoginAction extends Action
         $request = \Yii::app()->getRequest();
 
         $login = $this->getLoginParam();
-        $password = base64_decode($request->getParam('Password'));
+        $password = $request->getParam('Password');
 
         $user = User::model()->byRunetId($login)->byEmail($login, 'OR')->find();
         if ($user === null) {
