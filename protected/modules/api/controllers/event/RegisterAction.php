@@ -49,6 +49,6 @@ class RegisterAction extends \api\components\Action
             throw new Exception(303);
         }
 
-        $this->setResult(array('Success' => true));
+        $this->setSuccessResult();
     }
 }

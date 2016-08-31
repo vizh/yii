@@ -25,6 +25,6 @@ class CreateAction extends Action
             ->getDataBuilder()
             ->createUser($user);
 
-        $this->getController()->setResult($userData);
+        $this->setResult($userData);
     }
 }

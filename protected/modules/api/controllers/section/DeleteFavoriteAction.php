@@ -24,6 +24,6 @@ class DeleteFavoriteAction extends \api\components\Action
         $favorite->save();
     }
 
-    $this->setResult(['Success' => true]);
+    $this->setSuccessResult();
   }
-} 
+}

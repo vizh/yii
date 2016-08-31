@@ -28,11 +28,11 @@ class SocialController extends \oauth\components\Controller
                 {
                     throw new CHttpException(400);
                 }
-                $this->redirect($this->createUrl('/oauth/main/dialog'));
+                $this->redirect($this->createUrl('/oauth/main/dialog',['frame'=>true]));
             }
             else
             {
-                $this->redirect($this->createUrl('/oauth/main/register'));
+                $this->redirect($this->createUrl('/oauth/main/register', ['frame'=>true]));
             }
         }
         else
@@ -48,7 +48,7 @@ class SocialController extends \oauth\components\Controller
     public function actionConnect()
     {
         $socialProxy = new \oauth\components\social\Proxy($this->social);
-        if ($socialProxy->isHasAccess())
+        if ($socialProxy->isHasAccess()) // если пользователь авторизован и зареган на сайте
         {
             if (\Iframe::isFrame()) {
                 $socialProxy->renderScript();

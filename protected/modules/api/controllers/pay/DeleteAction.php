@@ -1,47 +1,16 @@
 <?php
 namespace api\controllers\pay;
 
+use api\components\Exception;
+
 class DeleteAction extends \api\components\Action
 {
-  public function run()
-  {
-    $request = \Yii::app()->getRequest();
-    $orderItemId = $request->getParam('OrderItemId');
-    $payerRunetId = $request->getParam('PayerRunetId', null);
-    if ($payerRunetId === null)
+    public function run()
     {
-      $payerRunetId = $request->getParam('PayerRocId', null);
-    }
+        if ($this->getRequestedOrderItem()->delete() === false) {
+            throw new Exception(412);
+        }
 
-    /** @var $orderItem \pay\models\OrderItem */
-    $orderItem = \pay\models\OrderItem::model()->findByPk($orderItemId);
-    $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
-    
-    if ($orderItem == null)
-    {
-      throw new \api\components\Exception(409);
+        $this->setSuccessResult();
     }
-    else if ($payer == null)
-    {
-      throw new \api\components\Exception(202, array($payerRunetId));
-    }
-    else if ($orderItem->PayerId != $payer->Id)
-    {
-      throw new \api\components\Exception(410);
-    }
-    else if ($orderItem->Product->EventId != $this->getEvent()->Id)
-    {
-      throw new \api\components\Exception(402);
-    }
-    else if ($orderItem->Paid)
-    {
-      throw new \api\components\Exception(411);
-    }
-    
-    if (!$orderItem->delete())
-    {
-      throw new \api\components\Exception(412);
-    }
-    $this->getController()->setResult(array('Success' => true));
-  }
 }

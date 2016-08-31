@@ -18,6 +18,6 @@ class RequestAction extends \api\components\Action
     $request->SenderUserId = $request->OwnerUserId = $user->Id;
     $request->EventId = $this->getEvent()->Id;
     $request->save();
-    $this->setResult(array('Success' => true));
+    $this->setSuccessResult();
   }
-} 
+}

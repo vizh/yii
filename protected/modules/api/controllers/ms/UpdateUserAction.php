@@ -28,7 +28,7 @@ class UpdateUserAction extends Action
         $form = new UpdateUser($user, $this->getAccount());
         $form->fillFromPost();
         if ($form->updateActiveRecord() !== null) {
-            $this->setResult(['Success' => true]);
+            $this->setSuccessResult();
         }
     }
 }
