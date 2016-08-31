@@ -1,14 +1,14 @@
 <?php
 namespace api\controllers\ms;
 
+use api\components\Action;
 use api\components\ms\forms\RegisterUser;
-use application\helpers\Flash;
 use event\models\Role;
 use pay\models\Product;
-use api\components\Action;
 
 /**
  * Class CreateUserAction
+ *
  * @package api\controllers\ms
  *
  * @method \MsController getController()
@@ -26,13 +26,13 @@ class CreateUserAction extends Action
             $product = Product::model()->findByPk(4019);
             try {
                 $product->getManager()->createOrderItem($user, $user);
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
 
             $this->setResult([
-                'PayUrl' => 'http://msdevcon16.runet-id.com/fastauth?id=' . $user->RunetId . '&hash=' . $user->getHash()
+                'PayUrl' => 'http://msdevcon16.runet-id.com/fastauth?id='.$user->RunetId.'&hash='.$user->getHash()
             ]);
         }
     }
-
 
 }

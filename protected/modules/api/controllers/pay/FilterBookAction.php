@@ -28,7 +28,7 @@ class FilterBookAction extends \api\components\Action
         $payerRunetId = intval($request->getParam('PayerRunetId', 0));
         $ownerRunetId = intval($request->getParam('OwnerRunetId', 0));
 
-        /** @var Product $product  */
+        /** @var Product $product */
         $product = Product::model()
             ->byManagerName($manager)
             ->byEventId($this->getEvent()->Id)

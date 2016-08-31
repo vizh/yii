@@ -17,8 +17,7 @@ class ProductsAction extends Action
 
         $products = $model->findAll(['order' => '"t"."Priority" DESC, "t"."Id" ASC']);
         $result = [];
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $result[] = $this->getAccount()->getDataBuilder()->createProduct($product);
         }
         $this->getController()->setResult($result);

@@ -22,24 +22,28 @@ class CouponAction extends \api\components\Action
 
         /** @var $coupon \pay\models\Coupon */
         $coupon = \pay\models\Coupon::model()->byCode($couponCode)->byEventId($this->getEvent()->Id)->byDeleted(false)->find();
-        if ($coupon == null)
+        if ($coupon == null) {
             throw new \api\components\Exception(406);
+        }
 
         $payer = null;
         $owner = null;
         if (!empty($externalId)) {
             $externalUser = \api\models\ExternalUser::model()
                 ->byExternalId($externalId)->byAccountId($this->getAccount()->Id)->find();
-            if ($externalUser === null)
+            if ($externalUser === null) {
                 throw new \api\components\Exception(3003, [$externalId]);
+            }
             $payer = $owner = $externalUser;
         } else {
             $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
             $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
-            if ($owner == null)
+            if ($owner == null) {
                 throw new \api\components\Exception(202, [$ownerRunetId]);
-            if ($payer == null)
+            }
+            if ($payer == null) {
                 throw new \api\components\Exception(202, [$payerRunetId]);
+            }
         }
 
         $product = null;

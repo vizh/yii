@@ -5,7 +5,6 @@ use api\components\Action;
 use api\components\Exception;
 use pay\components\collection\Finder;
 use pay\components\OrderItemCollection;
-use pay\models\OrderItem;
 use user\models\User;
 
 /**
@@ -69,7 +68,7 @@ class ListAction extends Action
             $orderObj->Number = $collection->getOrder()->Number;
             $orderObj->Paid = $collection->getOrder()->Paid;
             $orderObj->Url = $collection->getOrder()->getUrl();
-            $orderObj->Items = array();
+            $orderObj->Items = [];
             foreach ($collection as $item) {
                 $orderObj->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($item);
             }
