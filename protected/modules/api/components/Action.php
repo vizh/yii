@@ -126,8 +126,6 @@ class Action extends \CAction
                 ->getRequest()
                 ->getParam('OrderItemId');
 
-            Yii::log(sprintf('OrderItemId: %d', $id));
-
             if ($id === null) {
                 throw new Exception(110);
             }
@@ -143,7 +141,6 @@ class Action extends \CAction
                 throw new Exception(402);
             }
 
-            Yii::log(sprintf('$orderItem->PayerId = %d; $this->getRequestedPayer()->Id = %d', $orderItem->PayerId, $this->getRequestedPayer()->RunetId));
             if ($orderItem->PayerId !== $this->getRequestedPayer()->Id) {
                 throw new Exception(410);
             }
@@ -174,8 +171,6 @@ class Action extends \CAction
             $id = Yii::app()
                 ->getRequest()
                 ->getParam('PayerRunetId');
-
-            Yii::log(sprintf('PayerRunetId: %d', $id));
 
             if ($id === null) {
                 throw new Exception(202, [$id]);

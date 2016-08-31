@@ -30,7 +30,7 @@ class EditAction extends \api\components\Action
         }
 
         $item = $this->getRequestedOrderItem();
-        $item->Product = $this->getRequestedProduct();
+        $item->ProductId = $this->getRequestedProduct()->Id;
 
         if ($item->save() === false) {
             throw new Exception(100, print_r($item->errors, true));
