@@ -172,7 +172,7 @@ class Action extends \CAction
                 ->getParam('PayerRunetId');
 
             if ($id === null) {
-                throw new Exception(202, [$id]);
+                throw new Exception(110);
             }
 
             $payer = User::model()
@@ -180,7 +180,7 @@ class Action extends \CAction
                 ->find();
 
             if ($payer === null) {
-                throw new Exception(202, [$payer]);
+                throw new Exception(202, [$id]);
             }
         } catch (Exception $e) {
             $payer = null;
@@ -207,7 +207,7 @@ class Action extends \CAction
                 ->getParam('OwnerRunetId');
 
             if ($id === null) {
-                throw new Exception(202, [$id]);
+                throw new Exception(110);
             }
 
             $owner = User::model()
@@ -215,7 +215,7 @@ class Action extends \CAction
                 ->find();
 
             if ($owner === null) {
-                throw new Exception(202, [$owner]);
+                throw new Exception(202, [$id]);
             }
         } catch (Exception $e) {
             $owner = null;
