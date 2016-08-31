@@ -57,6 +57,7 @@ class EditAction extends \CAction
                 $account->Uniteller = $form->Uniteller == 1 ? true : false;
                 $account->UnitellerRuvents = $form->UnitellerRuvents == 1 ? true : false;
                 $account->PayOnline = $form->PayOnline == 1 ? true : false;
+                $account->PayOnlineRuvents = $form->PayOnlineRuvents == 1 ? true : false;
                 $account->MailRuMoney = $form->MailRuMoney == 1 ? true : false;
                 $account->CloudPayments = $form->CloudPayments == 1 ? true : false;
                 $account->WalletOne = $form->WalletOne == 1 ? true : false;
@@ -88,6 +89,7 @@ class EditAction extends \CAction
             $form->EventTitle = $account->Event->Title;
         } else {
             $form->UnitellerRuvents = true;
+            $form->PayOnlineRuvents = true;
         }
 
         $this->getController()->setPageTitle(\Yii::t('app', 'Редактирование платежного аккаунта'));

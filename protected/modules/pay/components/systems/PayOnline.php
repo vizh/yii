@@ -25,8 +25,13 @@ class PayOnline extends Base
 
     protected function initRequiredParams($orderId)
     {
-        $this->merchantId = 52855;
-        $this->privateSecurityKey = 'f7726060-0172-4995-a042-5f18fde2581d';
+        if ($this->addition === 'ruvents') {
+            $this->merchantId = 74160;
+            $this->privateSecurityKey = 'dd9cdbeb-70c5-4371-9aab-be0918c5ba5e';
+        } else {
+            $this->merchantId = 52855;
+            $this->privateSecurityKey = 'f7726060-0172-4995-a042-5f18fde2581d';
+        }
     }
 
     protected function getClass()
