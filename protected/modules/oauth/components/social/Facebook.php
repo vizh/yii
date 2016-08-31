@@ -29,8 +29,9 @@ class Facebook implements ISocial
     public function __construct($redirectUrl = null)
     {
         if ($redirectUrl === null) {
-            $redirectUrl = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/request');
+            $redirectUrl = $this->makeRedirectUri();
         }
+
         FacebookSession::setDefaultApplication(static::AppId,static::Secret);
         $this->redirectLoginHelper = new FacebookRedirectLoginHelper($redirectUrl);
     }
@@ -38,10 +39,23 @@ class Facebook implements ISocial
     /**
      * @return string
      */
+    private function makeRedirectUri()
+    {
+        return $redirectUrl = \Yii::app()->getController()->createAbsoluteUrl('/oauth/social/request')."?frame=true";
+    }
 
+    /**
+     * @return string
+     */
     public function getOAuthUrl()
     {
-        return $this->redirectLoginHelper->getLoginUrl();
+        $url = $this->redirectLoginHelper->getLoginUrl();
+        $parts = parse_url($url);
+        parse_str($parts['query'], $q);
+        $q['redirect_uri'] = $q['redirect_uri'].'?frame=true';
+        $q['redirect_uri']=$this->makeRedirectUri();
+        $url = $parts['scheme']."://".$parts['host'].$parts['path']."?".http_build_query($q);
+        return $url;
     }
 
     /**
@@ -50,7 +64,6 @@ class Facebook implements ISocial
      *
      * Проверка доступа
      */
-
     public function isHasAccess()
     {
         $token = $this->getAccessToken();
@@ -122,6 +135,15 @@ class Facebook implements ISocial
     public function renderScript()
     {
         //empty for FB
+
+        echo '<script>
+        if(window.opener != null && !window.opener.closed)
+        {
+            window.opener.oauthModuleObj.fbProcess();
+            window.close();
+        }
+        </script>';
+
     }
 
     /**
