@@ -8,7 +8,7 @@ use \pay\models\forms\AddtionalAttributes as FormAdditionalAttributes;
 
 class IndexAction extends \pay\components\Action
 {
-    public function run($eventIdName)
+    public function run($eventIdName, $iframe = false)
     {
         $this->getController()->setPageTitle('Оплата  / ' .$this->getEvent()->Title . ' / RUNET-ID');
 
@@ -66,15 +66,21 @@ class IndexAction extends \pay\components\Action
                 break;
         }
 
-
-
-        $this->getController()->render('index', array(
+        $params = [
             'finder' => $finder,
             'unpaidItems' => $unpaidItems,
             'hasRecentPaidItems' => $hasRecentPaidItems,
             'account' => $this->getAccount(),
             'formAdditionalAttributes' => $formAdditionalAttributes
-        ));
+        ];
+        if (!$iframe){
+            $this->getController()->render('index', $params);
+        }
+        else{
+            $this->getController()->layout = '//layouts/clear';
+            $this->getController()->render('index', $params);
+        }
+
     }
 
     /**
