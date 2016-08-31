@@ -31,7 +31,7 @@ class SetphotoAction extends Action
         $form->Image = \CUploadedFile::getInstanceByName('Image');
         if ($form->validate()) {
             $user->getPhoto()->SavePhoto($form->Image);
-            $this->setResult(['Success' => true]);
+            $this->setSuccessResult();
         } else {
             throw new Exception(3008, [$RunetId]);
         }

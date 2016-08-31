@@ -31,6 +31,6 @@ class UpdateRegistrationAction extends Action
         } catch (\Exception $e) {
             throw new Exception(100, [$e->getMessage()]);
         }
-        $this->setResult(['Success' => true]);
+        $this->setSuccessResult();
     }
 }

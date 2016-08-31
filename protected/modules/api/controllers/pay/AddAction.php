@@ -87,6 +87,6 @@ class AddAction extends Action
             break;
         }
 
-        $this->getController()->setResult($result);
+        $this->setResult($result);
     }
 }

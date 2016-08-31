@@ -68,7 +68,7 @@ class SearchAction extends \api\components\Action
             $result['NextPageToken'] = $this->getController()->getPageToken($criteria->offset + $maxResults);
         }
 
-        $this->getController()->setResult($result);
+        $this->setResult($result);
     }
 
 }

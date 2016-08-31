@@ -38,7 +38,7 @@ class SearchAction extends Action
             $result['NextPageToken'] = $this->getController()->getPageToken($criteria->offset + $limit);
         }
 
-        $this->getController()->setResult($result);
+        $this->setResult($result);
     }
 
     /**

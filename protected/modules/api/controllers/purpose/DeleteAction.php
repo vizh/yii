@@ -26,6 +26,6 @@ class DeleteAction extends \api\components\Action
     {
       $link->delete();
     }
-    $this->setResult(['Success' => true]);
+    $this->setSuccessResult();
   }
-} 
+}

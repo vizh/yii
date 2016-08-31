@@ -21,6 +21,6 @@ class ItemsAction extends \api\components\Action
         foreach ($collection as $item) {
             $result->Items[] = $this->getAccount()->getDataBuilder()->createOrderItem($item);
         }
-        $this->getController()->setResult($result);
+        $this->setResult($result);
     }
 }

@@ -27,6 +27,6 @@ class SetattributeAction extends Action
             throw new Exception(251, [$e->getMessage()]);
         }
 
-        $this->setResult(['Success' => true]);
+        $this->setSuccessResult();
     }
-} 
+}
