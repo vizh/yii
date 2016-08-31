@@ -17,20 +17,32 @@ class C4 extends Base
         ];
     }
 
+    private $estimation_keys = ['pos', 'neg'];
+    private $rate_keys = ['weak', 'med', 'strong', 'v_strong'];
+
     public function validateValue($attribute, $params)
     {
-        $valid = false;
+        $not_empty_rows = 0;
         if (is_array($this->$attribute)) {
-            $sum = 0;
             foreach ($this->$attribute as $val) {
-                $sum += $val;
-            }
+                $factor = trim($val['factor']);
+                if (!empty($factor)) {
+                    $not_empty_rows++;
 
-            if ($sum == 100)
-                $valid = true;
+                    $est = $val['estimation'];
+                    $rate = $val['rate'];
+
+                    if (empty($est) || empty($rate) || !in_array($est, $this->estimation_keys)
+                        || !in_array($rate, $this->rate_keys)) {
+                        $this->addError($attribute, 'Для фактора "'.$factor.'" должны быть выбраны оценка и степень влияния.');
+                    }
+                }
+            }
         }
 
-        if (!$valid)
-            $this->addError($attribute, 'Сумма оборота всех компаний должна быть равной 100%');
+        if ($not_empty_rows == 0) {
+            $this->addError($attribute, 'Необходимо заполнить хотя бы один фактор.');
+        }
     }
+
 }
