@@ -2,10 +2,12 @@
 namespace competence\models\test\runet2016;
 
 
-class C1_2_2 extends C1
+class C1_15 extends C1
 {
+    protected $prevCodes = ['14'=>'D2_14', '13'=>'D2_13'];
+
     protected function getBaseQuestionCode()
     {
-        return 'B1_1';
+        return 'B1_4';
     }
 }
