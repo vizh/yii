@@ -92,6 +92,12 @@ return [
     SCHEMA.'://'.RUNETID_HOST.'/vote/runet2015/done' => ['competence/main/done', 'defaultParams' => ['id' => 42]],
     SCHEMA.'://'.RUNETID_HOST.'/vote/runet2015/after' => ['competence/main/after', 'defaultParams' => ['id' => 42]],
 
+    SCHEMA.'://'.RUNETID_HOST.'/vote/runet2016' => ['competence/main/index/', 'defaultParams' => ['id' => 52]],
+    SCHEMA.'://'.RUNETID_HOST.'/vote/runet2016/process' => ['competence/main/process/',
+        'defaultParams' => ['id' => 52]],
+    SCHEMA.'://'.RUNETID_HOST.'/vote/runet2016/done' => ['competence/main/done', 'defaultParams' => ['id' => 52]],
+    SCHEMA.'://'.RUNETID_HOST.'/vote/runet2016/after' => ['competence/main/after', 'defaultParams' => ['id' => 52]],
+
     SCHEMA.'://'.RUNETID_HOST.'/vote/digitalindex15' => 'competence/digitalindex15/index/',
     SCHEMA.'://'.RUNETID_HOST.'/vote/digitalindex15/process' => ['competence/main/process/',
         'defaultParams' => ['id' => 43]],
