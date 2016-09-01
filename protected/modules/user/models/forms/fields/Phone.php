@@ -17,9 +17,6 @@ class Phone extends CreateUpdateForm
     {
         return [
             ['Phone', 'filter', 'filter' => '\application\components\utility\Texts::getOnlyNumbers'],
-            ['Phone', 'unique', 'className' => '\user\models\User', 'attributeName' => 'PrimaryPhone',
-                'criteria' => !$this->isUpdateMode() ? ['condition' => '"t"."PrimaryPhoneVerify"'] : ['condition' => '"t"."PrimaryPhoneVerify" AND "t"."Id" != :Id', 'params' => ['Id' => $this->model->Id]]
-            ],
             ['Phone', 'length', 'max' => 255],
         ];
     }
