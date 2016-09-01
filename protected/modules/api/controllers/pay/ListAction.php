@@ -76,6 +76,6 @@ class ListAction extends Action
             $result->Orders[] = $orderObj;
         }
 
-        $this->getController()->setResult($result);
+        $this->setResult($result);
     }
 }

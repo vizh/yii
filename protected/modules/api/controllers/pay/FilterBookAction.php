@@ -71,6 +71,6 @@ class FilterBookAction extends \api\components\Action
             break;
         }
 
-        $this->getController()->setResult($result);
+        $this->setResult($result);
     }
 }

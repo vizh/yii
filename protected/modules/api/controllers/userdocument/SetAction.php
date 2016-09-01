@@ -40,7 +40,7 @@ class SetAction extends Action
             $this->setResult(['Error'=>$error]);
         } else {
 
-            $this->setResult(['Success' => true]);
+            $this->setSuccessResult();
         }
 
 

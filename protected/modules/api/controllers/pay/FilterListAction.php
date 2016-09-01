@@ -36,6 +36,6 @@ class FilterListAction extends Action
             $result[] = (object)$value;
         }
 
-        $this->getController()->setResult($result);
+        $this->setResult($result);
     }
 }

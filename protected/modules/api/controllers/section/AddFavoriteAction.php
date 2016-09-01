@@ -19,6 +19,6 @@ class AddFavoriteAction extends \api\components\Action
       throw new \api\components\Exception(311);
 
     $section->addToFavorite($user);
-    $this->setResult(['Success' => true]);
+    $this->setSuccessResult();
   }
-} 
+}

@@ -41,7 +41,7 @@ class ChangeroleAction extends \api\components\Action
 
         $participant->RoleId = $roleId;
         if($participant->save()){
-            $this->setResult(array('Success' => true));
+            $this->setSuccessResult();
         } else {
             $this->setResult(array('Error' => true));
         }

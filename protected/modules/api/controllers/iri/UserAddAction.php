@@ -64,6 +64,6 @@ class UserAddAction extends Action
             }
         }
         $iriUser->save();
-        $this->setResult(['Success' => true]);
+        $this->setSuccessResult();
     }
-} 
+}

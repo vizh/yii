@@ -32,6 +32,6 @@ class AddAction extends \api\components\Action
       $link->ProfessionalInterestId = $professionalInterest->Id;
       $link->save();
     }
-    $this->setResult(['Success' => true]);
+    $this->setSuccessResult();
   }
-} 
+}

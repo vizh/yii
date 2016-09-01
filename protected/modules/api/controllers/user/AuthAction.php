@@ -43,6 +43,6 @@ class AuthAction extends Action
             ->getDataBuilder()
             ->createUser($user);
 
-        $this->getController()->setResult($usedData);
+        $this->setResult($usedData);
     }
 }

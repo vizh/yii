@@ -20,6 +20,6 @@ class ProductsAction extends Action
         foreach ($products as $product) {
             $result[] = $this->getAccount()->getDataBuilder()->createProduct($product);
         }
-        $this->getController()->setResult($result);
+        $this->setResult($result);
     }
 }

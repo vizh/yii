@@ -5,8 +5,8 @@ class Vkontakte implements ISocial
 {
     /*const AppId = '3510181';
     const Secret = 'dfMfN5tBWurKM35eKLAa';*/
-    const AppId = '3510181';
-    const Secret = 'dfMfN5tBWurKM35eKLAa';
+    const AppId = '5612171'; //'3510181';
+    const Secret = 'PUudnl5VWcU5dk2QzLO8'; //'dfMfN5tBWurKM35eKLAa';
 
     protected $redirectUrl;
 
