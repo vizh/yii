@@ -8,6 +8,8 @@ trait RouteMarket
 {
     protected $baseCodeMarket = null;
 
+    protected $lastCode = null;
+
     protected $nextCodes = [];
 
     /**
@@ -25,6 +27,6 @@ trait RouteMarket
             }
         }
 
-        return Question::model()->byTestId($test->Id)->byCode('D1')->find();
+        return Question::model()->byTestId($test->Id)->byCode($this->lastCode)->find();
     }
 } 
