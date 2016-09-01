@@ -6,6 +6,7 @@ use event\models\Role;
 use pay\models\OrderItem;
 use pay\models\Product;
 use user\models\User;
+use Yii;
 
 /**
  * @property int $RoleId
@@ -64,7 +65,7 @@ class EventProductManager extends BaseProductManager
     protected function getCheckProductMessage($user, $params = [])
     {
         if ($this->participant != null) {
-            $isSelf = !\Yii::app()->user->isGuest && \Yii::app()->user->getCurrentUser()->Id == $user->Id;
+            $isSelf = !Yii::app()->user->isGuest && Yii::app()->user->getCurrentUser()->Id == $user->Id;
             $roleTitle = $this->participant->Role->Title;
 
             if ($this->participant->RoleId == 64) {
@@ -133,7 +134,7 @@ class EventProductManager extends BaseProductManager
             ->find();
 
         if ($participant) {
-            $participant->Event->unregisterUser($owner, \Yii::t('app', 'Отмена заказа'));
+            $participant->Event->unregisterUser($owner, Yii::t('app', 'Отмена заказа'));
             return true;
         }
 
