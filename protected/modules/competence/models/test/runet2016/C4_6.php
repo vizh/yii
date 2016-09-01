@@ -2,6 +2,6 @@
 namespace competence\models\test\runet2016;
 
 
-class C4_1 extends C4 {
+class C4_6 extends C4 {
 
 }
