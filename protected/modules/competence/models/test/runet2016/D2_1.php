@@ -1,6 +1,10 @@
 <?php
 namespace competence\models\test\runet2016;
 
-class D2_1 extends \competence\models\form\Base {
-
+class D2_1 extends D2
+{
+    public $subMarkets = [
+        '1_1' => 'Доля мобильных (адаптивных) версий сайтов и приложений в количестве заказов',
+        '1_2' => 'Доля мобильных (адаптивных) версий сайтов и приложений в обороте компаний сегмента'
+    ];
 }
