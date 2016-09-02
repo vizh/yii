@@ -5,7 +5,15 @@
  * @var $this JuridicalController
  */
 ?>
-
+<?if($this->getEvent()->IdName === 'forinnovations16'):?>
+    <style>
+        header#header,
+        footer#footer,
+        .b-event-promo.forinnovations16 span.all {
+            display: none !important;
+        }
+    </style>
+<?endif?>
 <div class="container m-top_40">
     <div class="row">
         <div class="offset2 span8">

@@ -8,6 +8,15 @@
  * @var $this \pay\components\Controller
  */
 ?>
+<?if($this->getEvent()->IdName === 'forinnovations16'):?>
+  <style>
+    header#header,
+    footer#footer,
+    .b-event-promo.forinnovations16 span.all {
+      display: none !important;
+    }
+  </style>
+<?endif?>
 <div class="event-register" data-event-idname="<?=$this->getEvent()->IdName;?>">
   <div class="container">
 
