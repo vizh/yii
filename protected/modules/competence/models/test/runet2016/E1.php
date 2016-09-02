@@ -6,6 +6,19 @@ use competence\models\Question;
 
 class E1 extends Input
 {
+    public function rules()
+    {
+        $rules = parent::rules();
+        $rules[] = [
+            'value', 'numerical',
+            'integerOnly'=>true,
+            'message' => 'Вводимое значение должно быть целым числом.',
+            'min' => 0,
+            'tooSmall' => 'Вводимое значение не может быть меньше нуля.'
+        ];
+        return $rules;
+    }
+
     protected $prevCodes = [];
 
     public function getPrev()

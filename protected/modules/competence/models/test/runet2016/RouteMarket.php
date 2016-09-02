@@ -6,7 +6,7 @@ use competence\models\Test;
 
 trait RouteMarket
 {
-    protected $baseCodeMarket = null;
+    protected $baseCodeMarket = null;    
 
     protected $lastCode = null;
 
