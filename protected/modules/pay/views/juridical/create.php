@@ -36,21 +36,21 @@
                 <?= CHtml::activeLabel($form, 'Name', array('class' => 'control-label')); ?>
                 <div class="controls">
                     <?= CHtml::activeTextField($form, 'Name', array('class' => 'span8')); ?>
-                    <span class="help-inline">Полное наименование организации, включая организационно-правовую форму предприятия</span>
+                    <span class="help-inline"><?= Yii::t('app', 'Полное наименование организации, включая организационно-правовую форму предприятия'); ?></span>
                 </div>
             </div>
             <div class="control-group">
                 <?= CHtml::activeLabel($form, 'Address', array('class' => 'control-label')); ?>
                 <div class="controls">
                     <?= CHtml::activeTextArea($form, 'Address', array('class' => 'span8')); ?>
-                    <span class="help-inline">Например: 123317, г. Москва, Пресненская набережная, дом 6, строение 2, этаж 27, помещение I</span>
+                    <span class="help-inline"><?= Yii::t('app', 'Например: 123317, г. Москва, Пресненская набережная, дом 6, строение 2, этаж 27, помещение I'); ?></span>
                 </div>
             </div>
             <div class="control-group">
                 <?= CHtml::activeLabel($form, 'PostAddress', array('class' => 'control-label')); ?>
                 <div class="controls">
                     <?= CHtml::activeTextArea($form, 'PostAddress', array('class' => 'span8')); ?>
-                    <span class="help-inline">Например: 123317, г. Москва, Пресненская набережная, дом 6, строение 2, этаж 27, помещение I</span>
+                    <span class="help-inline"><?= Yii::t('app', 'Например: 123317, г. Москва, Пресненская набережная, дом 6, строение 2, этаж 27, помещение I'); ?></span>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
                         <?= CHtml::activeLabel($form, 'INN', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?= CHtml::activeTextField($form, 'INN', array('class' => 'span12')); ?>
-                            <span class="help-inline">10 или 12 цифр, зависит от организационной формы</span>
+                            <span class="help-inline"><?= Yii::t('app', '10 или 12 цифр, зависит от организационной формы'); ?></span>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                         <?= CHtml::activeLabel($form, 'KPP', array('class' => 'control-label')); ?>
                         <div class="controls">
                             <?= CHtml::activeTextField($form, 'KPP', array('class' => 'span12')); ?>
-                            <span class="help-inline">9 цифр, если имеется</span>
+                            <span class="help-inline"><?= Yii::t('app', '9 цифр, если имеется'); ?></span>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                 <?= CHtml::activeLabel($form, 'Phone', array('class' => 'control-label')); ?>
                 <div class="controls">
                     <?= CHtml::activeTextField($form, 'Phone', array('class' => 'span4')); ?>
-                    <span class="help-inline">Формат: +7 (xxx) xxx-xx-xx</span>
+                    <span class="help-inline"><?= Yii::t('app', 'Формат: +7 (xxx) xxx-xx-xx'); ?></span>
                 </div>
             </div>
 

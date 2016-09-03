@@ -61,6 +61,7 @@ return [
     'Промо код' => 'Promo code',
     'Групповая скидка' => 'Group discount',
     'Назад' => 'Back',
+    'Отменить' => 'Cancel',
 
     'Экспресс-оплата' => 'Express payment',
     'На ваш почтовый ящик придет письмо с информацией о платеже.' => 'Payment information will be e-mailed to you.',
@@ -95,6 +96,13 @@ return [
 
 
     'Выставление счета' => 'Invoice Issuance',
+    'Пожалуйста, внимательно заполните реквизиты компании, которая будет оплачивать ваше участие. Указанные вами данные будут использованы в выставляемом счете.' => 'Please carefully fill in the details of the company that will pay for your participation. The data you provide will be used to expose the account.',
+    'Документы на оплату будут созданы автоматически, без проверки корректности реквизитов.' => 'The payment documents will be created automatically.',
+    'Полное наименование организации, включая организационно-правовую форму предприятия' => 'Full name, including organizational legal form of enterprise',
+    'Например: 123317, г. Москва, Пресненская набережная, дом 6, строение 2, этаж 27, помещение I' => 'Example: 123317, Moscow, Presnenskaya embankment, 6, building 2, floor 27, room I',
+    '10 или 12 цифр, зависит от организационной формы' => '10 or 12 digits depends on the organizational form',
+    '9 цифр, если имеется' => '9 digits, if available',
+    'Формат: +7 (xxx) xxx-xx-xx' => 'Format: +7 (xxx) xxx-xx-xx',
     'Заполните данные юридического лица' => 'Enter legal entity’s data',
     'Название компании' => 'Company name',
     'Юридический адрес (с индексом)' => 'Legal address (including postal code)',
