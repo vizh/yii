@@ -35,7 +35,7 @@ use user\models\User;
  * @property Event $Event
  * @property OrderJuridicalTemplate $Template
  *
- * @method Order findByPk()
+ * @method Order findByPk(int $id)
  * @method Order find($condition = '', $params = [])
  * @method Order[] findAll($condition = '', $params = [])
  */

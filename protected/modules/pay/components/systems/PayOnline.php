@@ -1,13 +1,16 @@
 <?php
 namespace pay\components\systems;
 
+use CHttpException;
+use event\models\Event;
 use pay\components\CodeException;
-use pay\components\Exception;
+use pay\models\Order;
+use Yii;
 
 class PayOnline extends Base
 {
-    const Url = 'https://secure.payonlinesystem.com/ru/payment/select/';
-    const Currency = 'RUB';
+    const PAYMENT_BASE_URL_FORMAT = 'https://secure.payonlinesystem.com/%s/payment/select/';
+    const CURRENCY_CODE = 'RUB';
 
     private $merchantId;
     private $privateSecurityKey;
@@ -45,10 +48,10 @@ class PayOnline extends Base
      */
     public function check()
     {
-        $request = \Yii::app()->getRequest();
-        $amount = $request->getParam('Amount', false);
-        $provider = $request->getParam('Provider', false);
-        return $amount !== false && $provider !== false;
+        $request = Yii::app()->getRequest();
+
+        return $request->getParam('Amount') !== null
+            && $request->getParam('Provider') !== null;
     }
 
     /**
@@ -58,23 +61,23 @@ class PayOnline extends Base
      */
     public function FillParams()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $orderId = $request->getParam('OrderId');
+
         $this->initRequiredParams($orderId);
-        $params = array();
-        $params['DateTime'] = $request->getParam('DateTime');
-        $params['TransactionID'] = $request->getParam('TransactionID');
-        $params['OrderId'] = $request->getParam('OrderId');
-        $params['Amount'] = $request->getParam('Amount');
-        $params['Currency'] = $request->getParam('Currency');
-        $params['PrivateSecurityKey'] = $this->privateSecurityKey;
 
-        $query = urldecode(http_build_query($params));
+        $query = urldecode(http_build_query([
+            'DateTime' => $request->getParam('DateTime'),
+            'TransactionID' => $request->getParam('TransactionID'),
+            'OrderId' => $request->getParam('OrderId'),
+            'Amount' => $request->getParam('Amount'),
+            'Currency' => $request->getParam('Currency'),
+            'PrivateSecurityKey' => $this->privateSecurityKey
+        ]));
 
-        $hash = md5($query);
-        if ($hash === $request->getParam('SecurityKey')) {
+        if ($request->getParam('SecurityKey') === md5($query)) {
             $this->orderId = $orderId;
-            $this->total = intval($request->getParam('Amount'));
+            $this->total = (int)$request->getParam('Amount');
         } else {
             throw new CodeException(901);
         }
@@ -82,35 +85,45 @@ class PayOnline extends Base
 
     /**
      * Выполняет отправку пользователя на оплату в соответствующую платежную систему
+     *
      * @param int $eventId
      * @param string $orderId
      * @param int $total
      * @return void
+     * @throws \CHttpException
      */
     public function processPayment($eventId, $orderId, $total)
     {
         $this->initRequiredParams($orderId);
-        $total = number_format($total, 2, '.', '');
 
-        $params = [];
-        $params['MerchantId'] = $this->merchantId;
-        $params['OrderId'] = $orderId;
-        $params['Amount'] = $total;
-        $params['Currency'] = self::Currency;
-        $params['PrivateSecurityKey'] = $this->privateSecurityKey;
+        $params = [
+            'MerchantId' => $this->merchantId,
+            'OrderId' => $orderId,
+            'Amount' => number_format($total, 2, '.', ''),
+            'Currency' => self::CURRENCY_CODE,
+            'PrivateSecurityKey' => $this->privateSecurityKey
+        ];
 
         $hash = md5(http_build_query($params));
         unset($params['PrivateSecurityKey']);
-        $params['SecurityKey'] = $hash;
 
-        $order = \pay\models\Order::model()->findByPk($orderId);
-        if ($order == null)
-            throw new \CHttpException(404);
-        $params['email'] = $order->Payer->Email;
+        $event = Event::model()->findByPk($eventId);
+        $order = Order::model()->findByPk($orderId);
 
-        $params['ReturnUrl'] = \Yii::app()->createAbsoluteUrl('/pay/cabinet/return', array('eventIdName' => \event\models\Event::model()->findByPk($eventId)->IdName));
-        $url = self::Url . ($this->toYandexMoney ? 'yandexmoney/' : '');
-        \Yii::app()->getController()->redirect($url . '?' . http_build_query($params));
+        if ($order === null)
+            throw new CHttpException(404);
+
+        $params = array_merge($params, [
+            'Email' => $order->Payer->Email,
+            'ReturnUrl' => Yii::app()->createAbsoluteUrl('/pay/cabinet/return', ['eventIdName' => $event->IdName]),
+            'SecurityKey' => $hash
+        ]);
+
+        Yii::app()->getController()->redirect(sprintf('%s%s?%s',
+            sprintf(self::PAYMENT_BASE_URL_FORMAT, Yii::app()->getLanguage()),
+            $this->toYandexMoney ? 'yandexmoney/' : '',
+            http_build_query($params)
+        ));
     }
 
     /**
