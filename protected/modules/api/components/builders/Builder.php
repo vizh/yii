@@ -54,11 +54,11 @@ class Builder
     /**
      * Построение схемы данных посетителя
      *
-     * @param User $user
+     * @param User|\commission\models\User $user
      * @param array|null $builders набор билдеров вида Builder::EMPLOYMENT или null для построения полной схемы
      * @return mixed
      */
-    public function createUser(User $user, $builders = null)
+    public function createUser($user, $builders = null)
     {
         $this->createBaseUser($user);
 
@@ -82,10 +82,10 @@ class Builder
     }
 
     /**
-     * @param \user\models\User $user
+     * @param \user\models\User|\commission\models\User $user
      * @return \stdClass
      */
-    private function createBaseUser(User $user)
+    private function createBaseUser($user)
     {
         $this->applyLocale($user);
 
@@ -109,11 +109,9 @@ class Builder
         return $this->user;
     }
 
-    /**
+    /** @noinspection PhpUnusedPrivateMethodInspection
      * @return \stdClass
-     * @internal param User $user
      */
-    /** @noinspection PhpUnusedPrivateMethodInspection */
     private function buildAuthData()
     {
         $this->user->AuthCode = Texts::GenerateString(10);
@@ -121,11 +119,10 @@ class Builder
         return $this->user;
     }
 
-    /**
-     * @param User $user
+    /** @noinspection PhpUnusedPrivateMethodInspection
+     * @param \user\models\User|\commission\models\User $user
      * @return \stdClass
      */
-    /** @noinspection PhpUnusedPrivateMethodInspection */
     private function buildUserData($user)
     {
         $attributes = UserData::getDefinedAttributeValues($this->account->Event, $user);
@@ -136,12 +133,11 @@ class Builder
         return $this->user;
     }
 
-    /**
-     * @param \user\models\User $user
+    /** @noinspection PhpUnusedPrivateMethodInspection
+     * @param \user\models\User|\commission\models\User $user
      * @return \stdClass
      */
-    /** @noinspection PhpUnusedPrivateMethodInspection */
-    private function buildUserContacts(\user\models\User $user)
+    private function buildUserContacts($user)
     {
         if ($this->hasContactsPermission($user)) {
             $this->user->Email = $user->Email;
@@ -177,12 +173,11 @@ class Builder
         return $this->user;
     }
 
-    /**
-     * @param \user\models\User $user
+    /** @noinspection PhpUnusedPrivateMethodInspection
+     * @param \user\models\User|\commission\models\User $user
      * @return \stdClass
      */
-    /** @noinspection PhpUnusedPrivateMethodInspection */
-    private function buildUserEvent(\user\models\User $user)
+    private function buildUserEvent($user)
     {
         $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
         foreach ($user->Participants as $participant) {
@@ -225,8 +220,11 @@ class Builder
         return $this->user;
     }
 
-    /** @noinspection PhpUnusedPrivateMethodInspection */
-    private function buildUserBadge(\user\models\User $user)
+    /** @noinspection PhpUnusedPrivateMethodInspection
+     * @param \user\models\User|\commission\models\User $user
+     * @return
+     */
+    private function buildUserBadge($user)
     {
         $isOnePart = $this->account->EventId != null && empty($this->account->Event->Parts);
         if ($isOnePart && !empty($this->user->Status)) {
