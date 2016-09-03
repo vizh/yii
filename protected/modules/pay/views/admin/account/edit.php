@@ -81,10 +81,17 @@
                 </label>
             </div>
 
-            <label class="checkbox inline">
-                <?=\CHtml::activeCheckBox($form, 'PayOnline', ['uncheckValue' => null]);?>
-                PayOnline
-            </label>
+            <div style="float: left; margin-right: 20px;">
+                <label class="checkbox inline">
+                    <?=\CHtml::activeCheckBox($form, 'PayOnline', ['uncheckValue' => null]);?>
+                    PayOnline
+                </label><br>
+                <label class="checkbox inline muted">
+                    <?=\CHtml::activeCheckBox($form, 'PayOnlineRuvents', ['uncheckValue' => null]);?>
+                    Использовать ООО "РУВЕНТС"
+                </label>
+            </div>
+
             <label class="checkbox inline">
                 <?=\CHtml::activeCheckBox($form, 'CloudPayments', ['uncheckValue' => null]);?>
                 CloudPayments
