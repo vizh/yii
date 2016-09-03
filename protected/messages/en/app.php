@@ -42,6 +42,10 @@ return [
     'Ваш статус' => 'Status of your participation',
     'Скачать электронный билет' => 'Downlad e-ticket',
 
+    'Участие 1 день' => 'Participation 1 day',
+    'Участие 3 дня' => 'Participation 3 days',
+    'Участие Аспирант/Студент 1 день' => 'Participation as a student 1 day',
+    'Участие Аспирант/Студент 3 дня' => 'Participation as a student 1 days',
 
     'При регистрации онлайн до' => 'When registering online before',
     'При регистрации онлайн с' => 'When registering online starting from',
