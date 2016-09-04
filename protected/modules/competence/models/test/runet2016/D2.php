@@ -28,7 +28,10 @@ class D2 extends Base
                     $this->addError($attribute, 'Вводимое значение должно быть числом, дробная часть отделяется точкой.');
                     return;
                 } elseif ($val < 0) {
-                    $this->addError($attribute, 'Вводимое значение не может быть меньше нуля');
+                    $this->addError($attribute, 'Вводимое значение не может быть меньше нуля.');
+                    return;
+                } elseif ($val > 100) {
+                    $this->addError($attribute, 'Вводимое значение не может быть больше 100.');
                     return;
                 }
             }            
