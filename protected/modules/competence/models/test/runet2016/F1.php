@@ -17,4 +17,33 @@ class F1 extends Base
         $code = 'E3_'.$result['value'];
         return Question::model()->byTestId($this->getQuestion()->TestId)->byCode($code)->find();
     }
+
+    public function rules()
+    {
+        return [
+            ['value', 'validateValue']
+        ];
+    }
+
+    public function validateValue($attribute, $params)
+    {
+        if (is_array($this->$attribute)) {
+            $i = 1;
+            $result = [];
+            foreach ($this->$attribute as $key => $values) {
+                $result[$i] = $values;
+                $i++;
+                $fio = trim($values['fio']);
+                if (strlen($fio) == 0) {
+                    $this->addError($attribute, 'Поле "ФИО" не может быть пустым. Удалите не корректную строку и добавьте пользователя повторно.');
+                    continue;
+                }
+
+                if (empty($values['runetId']) && filter_var($values['email'], FILTER_VALIDATE_EMAIL) === false) {
+                    $this->addError($attribute, 'Для пользователя "'.$values['fio'].'" введен не валидный email. Удалите не корректную строку и добавьте пользователя повторно.');
+                }
+            }
+            $this->$attribute = $result;
+        }
+    }
 }

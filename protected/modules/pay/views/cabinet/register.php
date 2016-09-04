@@ -114,7 +114,7 @@ $isHideProduct = function (Product $product) use ($event, $countRows) {
                     <thead>
                     <tr>
                         <th>
-                            <h4 class="title"><?=$product->Title;?> <i class="icon-chevron-up"></i></h4>
+                            <h4 class="title"> <?=$product->Title;?> <i class="icon-chevron-up"></i></h4>
                         </th>
                         <th class="col-width t-right"><span class="number"><?=$product->getPrice();?></span> <?=Yii::t('app', 'руб.');?></th>
                         <th class="col-width t-center"><span class="number quantity"></span></th>

@@ -10,7 +10,7 @@ class IndexAction extends \pay\components\Action
 {
     public function run($eventIdName, $iframe = false)
     {
-        $this->getController()->setPageTitle('Оплата  / ' .$this->getEvent()->Title . ' / RUNET-ID');
+        $this->getController()->setPageTitle(\Yii::t('app', 'Оплата') . ' / ' .$this->getEvent()->Title);
 
         PartnerCallback::start($this->getEvent());
         if ($this->getUser() != null)
