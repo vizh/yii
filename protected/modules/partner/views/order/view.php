@@ -1,11 +1,12 @@
 <?php
+
 /**
  * @var $order \pay\models\Order
  * @var $this \partner\components\Controller
  */
 
-use \pay\models\OrderType;
 use application\helpers\Flash;
+use pay\models\OrderType;
 
 $collection = \pay\components\OrderItemCollection::createByOrder($order);
 $formatter = \Yii::app()->getDateFormatter();
@@ -85,28 +86,28 @@ $this->setPageTitle('Управление счетом № ' . $order->Number)
                 <thead>
                     <tr>
                         <th><?=\Yii::t('app', 'Номер');?></th>
-                        <th style="width: 50%;"><?=\Yii::t('app', 'Наименование');?></th>
-                        <th></th>
+                        <th style="width:40%"><?=\Yii::t('app', 'Наименование')?></th>
                         <th><?=\Yii::t('app', 'Плательщик');?></th>
                         <th><?=\Yii::t('app', 'Получатель');?></th>
                         <th><?=\Yii::t('app', 'Стоимость');?></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($collection as $item):?>
+                    <?foreach ($collection as $item):?>
                         <tr>
-                            <td class=""><?=$item->getOrderItem()->Id;?></td>
+                            <td>
+                                <?=$item->getOrderItem()->Id?>
+                                <br>
+                                <?if ($item->getOrderItem()->Paid):?>
+                                    <span class="label label-success"><?=\Yii::t('app', 'Оплачен');?></span>
+                                <?elseif ($item->getOrderItem()->Refund):?>
+                                    <span class="label label-danger"><?=\Yii::t('app', 'Возврат');?></span>
+                                <?else:?>
+                                    <span class="label label-warning"><?=\Yii::t('app', 'Не оплачен');?></span>
+                                <?endif?>
+                            </td>
                             <td class="text-left">
                                 <?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem());?>
-                            </td>
-                            <td>
-                                <?php if ($item->getOrderItem()->Paid):?>
-                                    <span class="label label-success"><?=\Yii::t('app', 'Оплачен');?></span>
-                                <?php elseif ($item->getOrderItem()->Refund):?>
-                                    <span class="label label-danger"><?=\Yii::t('app', 'Возврат');?></span>
-                                <?php else:?>
-                                    <span class="label label-warning"><?=\Yii::t('app', 'Не оплачен');?></span>
-                                <?php endif;?>
                             </td>
                             <td class="text-left">
                                 <?=$this->renderPartial('../partial/grid/user', ['user' => $item->getOrderItem()->Payer], true);?>
