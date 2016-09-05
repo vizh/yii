@@ -55,7 +55,7 @@
                 class="btn btn-mini btn-info"
                 data-toggle="popover"
                 data-original-title="<?=Yii::t('app', 'Hash')?>"
-                data-content="<div class='word-break_keep-all'><?=substr(md5($account->Key.time().$account->Secret), 0, 16)?></div>"
+                data-content="<div class='word-break_keep-all'>Timestamp: <?=$time = time()?><br>Hash: <?=substr(md5($account->Key.$time.$account->Secret), 0, 16)?><br>ValetineHash:<?=md5($account->Key.$account->Secret)?></div>"
                 data-placement="top"><?=Yii::t('app', 'Hash')?></button>
           </div>
         </td>
