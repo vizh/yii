@@ -71,6 +71,45 @@ class Action extends \CAction
     }
 
     /**
+     * @return User
+     * @throws Exception
+     */
+    protected function getRequestedUser()
+    {
+        static $user;
+
+        if ($user !== null) {
+            return $user;
+        }
+
+        try {
+            $runetid = Yii::app()
+                ->getRequest()
+                ->getParam('RunetId');
+
+            if ($runetid === null) {
+                throw new Exception(109, ['RunetId']);
+            }
+
+            $user = User::model()
+                ->byRunetId($runetid)
+                ->find();
+
+            if ($user === null) {
+                throw new Exception(202, [$runetid]);
+            }
+        } catch (Exception $e) {
+            $user = null;
+            throw $e;
+        } catch (Throwable $e) {
+            $user = null;
+            throw new Exception(100, [$e->getMessage()]);
+        }
+
+        return $user;
+    }
+
+    /**
      * @return Product
      * @throws Exception
      */
@@ -226,5 +265,25 @@ class Action extends \CAction
         }
 
         return $owner;
+    }
+
+    protected function getRequestedParam($param)
+    {
+        static $params;
+
+        if ($params === null) {
+            $params = [];
+        }
+
+        if (isset($params[$param]) === false) {
+            $params[$param] = Yii::app()
+                ->getRequest()
+                ->getParam($param);
+        }
+
+        if (empty($params[$param]) === true)
+            throw new Exception(109, [$param]);
+
+        return $params[$param];
     }
 }

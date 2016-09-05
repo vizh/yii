@@ -5,20 +5,24 @@ use api\components\Action;
 use api\components\builders\Builder;
 use api\components\ms\Helper;
 use api\components\ms\mail\AuthCode;
-use application\components\utility\Texts;
 use mail\components\mailers\SESMailer;
 use user\models\User;
 use api\components\Exception;
+use Yii;
 
 class UserLoginAction extends Action
 {
     public function run()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $email = $request->getParam('Email');
         $password = base64_decode($request->getParam('Password'));
 
-        $user = User::model()->byEventId($this->getAccount()->EventId)->byEmail($email)->find();
+        $user = User::model()
+            ->byEventId($this->getAccount()->EventId)
+            ->byEmail($email)
+            ->find();
+
         if ($user === null) {
             throw new Exception(211, [$email]);
         }
