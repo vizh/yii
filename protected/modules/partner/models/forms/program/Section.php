@@ -14,6 +14,8 @@ class Section extends CreateUpdateForm
 {
     public $Title;
 
+    public $ShortTitle;
+
     public $Info;
 
     public $Date;
@@ -62,6 +64,7 @@ class Section extends CreateUpdateForm
     {
         return [
             'Title' => \Yii::t('app', 'Название секции'),
+            'ShortTitle' => \Yii::t('app', 'Краткое название секции'),
             'Info' => \Yii::t('app', 'Описание'),
             'Date' => \Yii::t('app', 'Дата'),
             'Hall' => \Yii::t('app', 'Зал'),
@@ -76,7 +79,7 @@ class Section extends CreateUpdateForm
     {
         return [
             ['HallNew', 'filter', 'filter' => '\application\components\utility\Texts::clear'],
-            ['Title,Info', 'filter', 'filter' => [$this, 'filterHtmlText']],
+            ['Title,ShortTitle,Info', 'filter', 'filter' => [$this, 'filterHtmlText']],
             ['Title, Date, TimeStart, TimeEnd, TypeId', 'required'],
             ['Date', 'date', 'format' => 'yyyy-MM-dd'],
             ['TimeStart, TimeEnd', 'date', 'format' => 'HH:mm'],

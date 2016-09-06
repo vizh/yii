@@ -609,6 +609,7 @@ class Builder
         $this->section->SectionId = $section->Id;
         $this->section->Id = $section->Id;
         $this->section->Title = $this->filterSectionTitle($section->Title);
+        $this->section->ShortTitle = $section->ShortTitle;
         $this->section->Description = $section->Info; //todo: deprecated
         $this->section->Info = $section->Info;
         $this->section->Start = $section->StartTime;

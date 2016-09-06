@@ -36,6 +36,10 @@ $this->setPageTitle(\Yii::t('app', 'Редактирование секции'))
             <?=$activeForm->textField($form, 'Title', ['class' => 'form-control']);?>
         </div>
         <div class="form-group">
+            <?=$activeForm->label($form, 'ShortTitle');?>
+            <?=$activeForm->textField($form, 'ShortTitle', ['class' => 'form-control']);?>
+        </div>
+        <div class="form-group">
             <?=$activeForm->label($form, 'Info');?>
             <?=$activeForm->textArea($form, 'Info', ['class' => 'form-control']);?>
         </div>
