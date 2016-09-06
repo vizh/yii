@@ -59,5 +59,14 @@ return [
         ],
         'bizRule' => null,
         'data' => null
-    ]
+    ],
+    'Statistics' => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Statistics',
+        'children' => [
+            'guest'
+        ],
+        'bizRule' => null,
+        'data' => null
+    ],
 ];
