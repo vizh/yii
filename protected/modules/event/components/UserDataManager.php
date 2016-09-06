@@ -67,19 +67,18 @@ class UserDataManager extends \CModel
 
         $result = [];
         foreach ($definitions as $definition) {
-            $row = [];
-            $row[] = $definition->Name;
-            $row[] = $definition->ClassName;
-            $row[] = $definition->GroupId;
-            $row['title'] = $definition->Title;
-            $row['required'] = $definition->Required;
-            $row['customTextField'] = $definition->UseCustomTextField;
-            $row['secure'] = $definition->Secure;
-            $row['public'] = $definition->Public;
-            foreach ($definition->getParams() as $key => $value) {
-                $row[$key] = $value;
-            }
-            $result[] = $row;
+            $row = [
+                0 => $definition->Name,
+                1 => $definition->ClassName,
+                2 => $definition->GroupId,
+                'title' => $definition->Title,
+                'required' => $definition->Required,
+                'customTextField' => $definition->UseCustomTextField,
+                'secure' => $definition->Secure,
+                'public' => $definition->Public
+            ];
+
+            $result[] = array_merge($row, $definition->getParams());
         }
         return $result;
     }

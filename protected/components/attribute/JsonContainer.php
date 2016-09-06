@@ -2,6 +2,7 @@
 namespace application\components\attribute;
 
 use application\components\Exception;
+use Yii;
 
 /**
  * Class JsonContainer
@@ -156,7 +157,7 @@ trait JsonContainer
             $this->attributes = !empty($attributesData)
                 ? json_decode($attributesData, true)
                 : [];
-            
+
             // Если попадутся невалидные данные
             if (!is_array($this->attributes))
                 $this->attributes = [];
