@@ -150,6 +150,12 @@ return array(
         'module' => 'partner',
         'controllers' => array('competence')
     ),
+    [
+        'allow',
+        'roles' => ['Statistics'],
+        'module' => 'partner',
+        'controllers' => ['main'],
+    ],
     array(
         'deny',
         'users' => array('*')
