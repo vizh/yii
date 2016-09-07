@@ -1,11 +1,7 @@
 <?php
 namespace event\components;
 
-use application\components\attribute\BooleanDefinition;
-use application\components\attribute\Definition;
-use application\components\attribute\IntegerDefinition;
 use application\components\attribute\JsonContainer;
-use application\components\attribute\ListDefinition;
 use application\components\traits\ClassNameTrait;
 use application\models\attribute\Group;
 use event\models\UserData;
@@ -86,12 +82,15 @@ class UserDataManager extends \CModel
     public function attributeGroups()
     {
         $groups = Group::model()
-            ->byModelName('EventUserData')->byModelId($this->model()->EventId)
+            ->byModelName('EventUserData')
+            ->byModelId($this->model()->EventId)
             ->findAll(['order' => '"t"."Order"']);
+
         $result = [];
         foreach ($groups as $group) {
             $result[] = [$group->Id, $group->Title, $group->Description];
         }
+
         return $result;
     }
 
@@ -100,7 +99,6 @@ class UserDataManager extends \CModel
      */
     public function rules()
     {
-        $rules = $this->definitionRules();
-        return $rules;
+        return $this->definitionRules();
     }
 }

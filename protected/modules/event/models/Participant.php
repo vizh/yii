@@ -22,7 +22,7 @@ use user\models\User;
  * @property Part $Part
  *
  * @method Participant find()
- * @method Participant[] findAll()
+ * @method Participant[] findAll($criteria)
  * @method Participant findByPk()
  */
 class Participant extends ActiveRecord

@@ -1,7 +1,9 @@
 <?php
 namespace partner\controllers\ruvents;
 
-
+use application\models\attribute\Definition;
+use event\models\UserData;
+use ruvents\models\Badge;
 use ruvents\models\Visit;
 
 class IndexAction extends \partner\components\Action
@@ -11,21 +13,22 @@ class IndexAction extends \partner\components\Action
         $stat = new \stdClass();
         $stat->Operators = new \stdClass();
         $stat->Operators->Count = 0;
-        $stat->Roles = array();
+        $stat->Roles = [];
         $stat->Visits = [];
         $event = $this->getEvent();
 
         // Кол-во всего выданных бейджей
-        $stat->CountBadges = \ruvents\models\Badge::model()->byEventId($event->Id)->count();
+        $stat->CountBadges = Badge::model()
+            ->byEventId($event->Id)
+            ->count();
 
         // Список ролей на мероприятии
         $criteria = new \CDbCriteria();
         $criteria->select = '"t"."RoleId", "count"("t"."Id") as "CountBadges"';
         $criteria->group = '"t"."RoleId"';
-        /** @var $badges \ruvents\models\Badge[] */
-        $badges = \ruvents\models\Badge::model()->byEventId($event->Id)->findAll($criteria);
-        foreach ($badges as $badge)
-        {
+        /** @var $badges Badge[] */
+        $badges = Badge::model()->byEventId($event->Id)->findAll($criteria);
+        foreach ($badges as $badge) {
             $stat->Roles[$badge->RoleId] = $badge->Role->Title;
         }
 
@@ -37,36 +40,35 @@ class IndexAction extends \partner\components\Action
             'Role' => 'Operator'
         ]);
 
-        $operatorsLogin = array();
-        foreach ($operators as $operator)
-        {
+        $operatorsLogin = [];
+        foreach ($operators as $operator) {
             $operatorsLogin[$operator->Id] = $operator->Login;
         }
 
         $dateStart = new \DateTime($event->StartYear.'-'.$event->StartMonth.'-'.$event->StartDay);
-        $dateEnd   = new \DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay);
-        while ($dateStart <= $dateEnd)
-        {
+        $dateEnd = new \DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay);
+        while ($dateStart <= $dateEnd) {
             // Подсчет печатей бейджей по каждому дню
             $criteria = new \CDbCriteria();
             $criteria->select = '"t"."OperatorId", "count"(*) as "CountForCriteria"';
-            $criteria->group  = '"t"."OperatorId"';
+            $criteria->group = '"t"."OperatorId"';
             $criteria->condition = '"t"."CreationTime" >= :MinDateTime AND "t"."CreationTime" <= :MaxDateTime AND "t"."EventId" = :EventId';
-            $criteria->params = array(
+            $criteria->params = [
                 'MinDateTime' => $dateStart->format('Y-m-d').' 00:00:00',
                 'MaxDateTime' => $dateStart->format('Y-m-d').' 23:59:59',
-                'EventId'     => $event->Id
-            );
-            $badges = \ruvents\models\Badge::model()->findAll($criteria);
-            foreach ($badges as $badge)
-            {
+                'EventId' => $event->Id
+            ];
+            $badges = Badge::model()->findAll($criteria);
+            foreach ($badges as $badge) {
                 // Бывает, что бейдж напечатан администратором или оператором, который уже не принадлежит мероприятию или был удалён.
                 // Не будем выбрасывать (не показывать) данные по ним. Но и не будем делать выборку всех операторов по всем мероприятиям сразу.
                 // Действуем по-необходимости.
-                if (!isset($operatorsLogin[$badge->OperatorId]))
-                {
-                    $operator = \ruvents\models\Operator::model()->findByPk($badge->OperatorId); if (!$operator) // Похоже, что оператор был удалён из базы. Не теряем его из статистики.
-                    $operator = (object)['Login' => "Удалённый оператор #{$badge->OperatorId}"];
+                if (!isset($operatorsLogin[$badge->OperatorId])) {
+                    $operator = \ruvents\models\Operator::model()->findByPk($badge->OperatorId);
+                    if (!$operator) // Похоже, что оператор был удалён из базы. Не теряем его из статистики.
+                    {
+                        $operator = (object)['Login' => "Удалённый оператор #{$badge->OperatorId}"];
+                    }
 
                     $operatorsLogin[$badge->OperatorId] = $operator->Login; // кешируем некорректного оператора, дабы не проделывать всё это каждый раз
                 }
@@ -82,49 +84,53 @@ class IndexAction extends \partner\components\Action
         // Подсчет повторных печатей бейджей
         $criteria = new \CDbCriteria();
         $criteria->select = '"t"."UserId", "count"(*) as "CountForCriteria"';
-        $criteria->group  = '"t"."UserId", "t"."PartId"';
+        $criteria->group = '"t"."UserId", "t"."PartId"';
         $criteria->having = '"count"(*) > 1';
         $criteria->condition = '"t"."EventId" = :EventId';
-        $criteria->params = array(
+        $criteria->params = [
             'EventId' => $event->Id
-        );
-        $badges = \ruvents\models\Badge::model()->findAll($criteria);
-        foreach ($badges as $badge)
-        {
-            $stat->RePrintBadges[$badge->UserId] = new \stdClass();
-            $stat->RePrintBadges[$badge->UserId]->User = $badge->User;
-            $stat->RePrintBadges[$badge->UserId]->Count = $badge->CountForCriteria;
+        ];
+
+        $badges = Badge::model()
+            ->findAll($criteria);
+
+        foreach ($badges as $badge) {
+            $stat->RePrintBadges[$badge->UserId] = (object)[
+                'User' => $badge->User,
+                'Count' => $badge->CountForCriteria
+            ];
         }
 
         // Список ролей на мероприятии
-        $intervals = [
-            ''
-        ];
+        $visits = Visit::model()
+            ->byEventId($event->Id)
+            ->orderBy('"t"."MarkId"')
+            ->findAll();
 
-        $visits = Visit::model()->byEventId($event->Id)->orderBy('"t"."MarkId"')->findAll();
         foreach ($visits as $visit) {
             $datetime = new \DateTime($visit->CreationTime);
             if ($visit->MarkId === 'Зал 1' || $visit->MarkId === 'Зал 2') {
                 $time = $datetime->format('H:i');
                 if ($time >= '09:50' && $time <= '11:00') {
                     $visit->MarkId .= ' Открытие';
-                } elseif ($time >= '11:20'&& $time <= '13:30') {
+                } elseif ($time >= '11:20' && $time <= '13:30') {
                     $visit->MarkId .= ' Поток 1';
                 } elseif ($time >= '14:20' && $time <= '16:30') {
                     $visit->MarkId .= ' Поток 2';
                 }
             }
-            $visit->MarkId .= ' ' . $datetime->format('d.m.Y');
+            $visit->MarkId .= ' '.$datetime->format('d.m.Y');
             $stat->Visits[$visit->MarkId]++;
         }
 
-        $this->getController()->render('index', array(
+        $this->getController()->render('index', [
                 'event' => $event,
                 'stat' => $stat,
-                'operators' => $operatorsLogin)
+                'operators' => $operatorsLogin,
+                'counters' => $this->getCountersStatistics()
+            ]
         );
     }
-
 
     private function getUserStatistics()
     {
@@ -139,11 +145,9 @@ class IndexAction extends \partner\components\Action
         $all = [];
         $roles = [];
         $total = 0;
-        foreach ($logs as $log)
-        {
+        foreach ($logs as $log) {
             $date = $log['Date'];
-            if (!isset($byRoles[$date]))
-            {
+            if (!isset($byRoles[$date])) {
                 $byRoles[$date] = [];
                 $all[$date] = 0;
             }
@@ -156,12 +160,63 @@ class IndexAction extends \partner\components\Action
         $dates = array_keys($all);
         sort($dates, SORT_STRING);
 
-        $result = new \stdClass();
-        $result->Roles = array_unique($roles);
-        $result->Dates = $dates;
-        $result->ByRoles = $byRoles;
-        $result->All = $all;
-        $result->Total = $total;
+        return (object)[
+            'Roles' => array_unique($roles),
+            'Dates' => $dates,
+            'ByRoles' => $byRoles,
+            'All' => $all,
+            'Total' => $total
+        ];
+    }
+
+    /**
+     * Рассчитывает и возвращает статистику по использованию атрибутов типа CounterDefinition
+     *
+     * @return array|null
+     */
+    private function getCountersStatistics()
+    {
+        $result = [];
+
+        $definitions = Definition::model()
+            ->byModelName('EventUserData')
+            ->byModelId($this->getEvent()->Id)
+            ->byClassName('CounterDefinition')
+            ->findAll();
+
+        if (empty($definitions)) {
+            return null;
+        }
+
+        // По хорошему, надо начинать использовать возможности JSON в PostgreSQL.
+        // Но пока не будет обновления до 9.4 и появления json_typeof, это не удастся
+        $usersData = UserData::model()
+            ->byEventId($this->getEvent()->Id)
+            ->byDeleted(false)
+            // ->byAttributeExists($definitionName)
+            ->with('User')
+            ->findAll();
+
+        foreach ($definitions as $definition) {
+            $definitionName = $definition->Name;
+            $result[$definitionName] = [
+                'total' => 0,
+                'definitionName' => $definition->Title,
+                'users' => []
+            ];
+            /** @var UserData $userData */
+            foreach ($usersData as $userData) {
+                $dataManager = $userData->getManager();
+                if (isset($dataManager->$definitionName)) {
+                    $result[$definitionName]['total']++;
+                    $result[$definitionName]['users'][$userData->UserId] = [
+                        'count' => $dataManager->$definitionName,
+                        'userName' => $userData->User->getFullName(),
+                        'userEmail' => $userData->User->Email
+                    ];
+                }
+            }
+        }
 
         return $result;
     }
