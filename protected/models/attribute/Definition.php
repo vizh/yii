@@ -85,6 +85,20 @@ class Definition extends ActiveRecord
     }
 
     /**
+     * @param string $className
+     * @param bool $useAnd
+     * @return Definition
+     */
+    public function byClassName($className, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = '"ClassName" = :ClassName';
+        $criteria->params = ['ClassName' => $className];
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
      * @return Definition
      */
     public function ordered()

@@ -169,14 +169,13 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function relations()
     {
-        return array(
+        return [
             'LinkEmail' => [self::HAS_ONE, '\user\models\LinkEmail', 'UserId'],
             'LinkAddress' => [self::HAS_ONE, '\user\models\LinkAddress', 'UserId'],
             'LinkSite' => [self::HAS_ONE, '\user\models\LinkSite', 'UserId'],
             'LinkPhones' => [self::HAS_MANY, '\user\models\LinkPhone', 'UserId'],
             'LinkServiceAccounts' => [self::HAS_MANY, '\user\models\LinkServiceAccount', 'UserId'],
             'LinkProfessionalInterests' => [self::HAS_MANY, '\user\models\LinkProfessionalInterest', 'UserId'],
-
 
             'Employments' => [self::HAS_MANY, '\user\models\Employment', 'UserId',
                 'with' => 'Company',
@@ -211,12 +210,12 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             'Documents' => [self::HAS_MANY, '\user\models\Document', 'UserId', 'on' => '"Documents"."Actual"', 'order' => '"Documents"."TypeId" ASC'],
 
             'UnsubscribeEventMails' => [self::HAS_MANY, '\user\models\UnsubscribeEventMail', 'UserId'],
-        );
+        ];
     }
 
     public function __set($name, $value)
     {
-        if ($name == 'Email') {
+        if ($name === 'Email') {
             $value = mb_strtolower($value);
         }
         parent::__set($name, $value);
@@ -233,7 +232,6 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     /**
      * @param int $runetId
      * @param bool $useAnd
-     * @param bool $useMerge
      * @return $this
      */
     public function byRunetId($runetId, $useAnd = true)

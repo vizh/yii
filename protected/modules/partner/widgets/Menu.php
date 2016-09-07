@@ -3,6 +3,7 @@ namespace partner\widgets;
 
 
 use application\components\helpers\ArrayHelper;
+use CHtml;
 
 \Yii::import('zii.widgets.CMenu');
 
@@ -21,8 +22,8 @@ class Menu extends \CMenu
      */
     protected function renderMenuItem($item)
     {
-        $item['label'] = \CHtml::tag('span', ['class' => 'mm-text mmc-dropdown-delay animated'], $item['label']);
-        $item['label'] = isset($item['icon']) ? (\CHtml::tag('i', ['class' => 'fa fa-'.$item['icon']], '') . '&nbsp;' . $item['label']) : $item['label'];
+        $item['label'] = CHtml::tag('span', ['class' => 'mm-text mmc-dropdown-delay animated'], $item['label']);
+        $item['label'] = isset($item['icon']) ? (CHtml::tag('i', ['class' => 'fa fa-'.$item['icon']], '') . '&nbsp;' . $item['label']) : $item['label'];
         return parent::renderMenuItem($item);
     }
 
@@ -31,8 +32,9 @@ class Menu extends \CMenu
      */
     protected function renderMenuRecursive($items)
     {
-        $n = count($items);
+        $count = count($items);
         $lines = [];
+
         foreach ($items as $i => $item) {
             $visible = !isset($item['visible']) || $item['visible'];
             if (!$this->checkAccess($item['url']) || !$visible) {
@@ -48,7 +50,7 @@ class Menu extends \CMenu
             if ($i === 0 && $this->firstItemCssClass !== null) {
                 $class[] = $this->firstItemCssClass;
             }
-            if ($i === $n - 1 && $this->lastItemCssClass !== null) {
+            if ($i === $count - 1 && $this->lastItemCssClass !== null) {
                 $class[] = $this->lastItemCssClass;
             }
             if (!empty($class)) {
@@ -63,9 +65,9 @@ class Menu extends \CMenu
             if (!empty($item['items'])) {
                 $class = 'mm-dropdown' . ($item['active'] ? ' open' : '');
                 $options['class'] = isset($options['class']) ? $options['class'] . ' ' . $class : $class;
-                $menu .= \CHtml::tag('ul', [], $this->renderMenuRecursive($item['items']));
+                $menu .= CHtml::tag('ul', [], $this->renderMenuRecursive($item['items']));
             }
-            $lines[] = \CHtml::tag($tag, $options, $menu);
+            $lines[] = CHtml::tag($tag, $options, $menu);
         }
         return implode("\n", $lines);
     }
@@ -76,9 +78,10 @@ class Menu extends \CMenu
     protected function renderMenu($items)
     {
         if(count($items)) {
-            echo \CHtml::openTag('ul',$this->htmlOptions)."\n";
-            echo $this->renderMenuRecursive($items);
-            echo \CHtml::closeTag('ul');
+            echo
+                CHtml::openTag('ul',$this->htmlOptions),"\n",
+                $this->renderMenuRecursive($items),
+                CHtml::closeTag('ul');
         }
     }
 

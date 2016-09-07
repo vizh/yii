@@ -217,4 +217,37 @@ class UserData extends ActiveRecord
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
         return $this;
     }
+
+    /**
+     * toDo: Требуется обновление до PostgreSQL 9.4 и проверки json_type
+     * Выборка записей, содержащих указанный атрибут
+     *
+     * @param string $attribute
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byAttributeExists($attribute, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = "(\"Attributes\"->>'$attribute') NOTNULL";
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
+
+    /**
+     * toDo: Требуется обновление до PostgreSQL 9.4 и проверки json_type
+     * Выборка записей, содержащих указанный атрибут c указанным значением
+     *
+     * @param string $attribute
+     * @param string $value
+     * @param bool $useAnd
+     * @return $this
+     */
+    public function byAttribute($attribute, $value, $useAnd = true)
+    {
+        $criteria = new \CDbCriteria();
+        $criteria->condition = "(\"Attributes\"->>'$attribute') = '$value'";
+        $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+        return $this;
+    }
 }

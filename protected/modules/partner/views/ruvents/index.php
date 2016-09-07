@@ -1,15 +1,17 @@
 <?php
+
 /**
  * @var $event \event\models\Event
  */
+/** @var array[]|null $counters */
 
 $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay);
 ?>
 
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-info"></i> <?=\Yii::t('app', 'Общая информация');?></span>
-    </div> <!-- / .panel-heading -->
+        <span class="panel-title"><i class="fa fa-info"></i> <?=Yii::t('app', 'Общая информация');?></span>
+    </div>
     <div class="panel-body">
         <?php if (!empty($stat->Participants)):?>
             <div class="table-info">
@@ -59,20 +61,58 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
     </div> <!-- / .panel-body -->
 </div>
 
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="fa fa-info"></i> <?=Yii::t('app', 'Статистика по счётчикам');?></span>
+    </div>
+    <div class="panel-body">
+        <?if($counters):?>
+            <?foreach($counters as $counterKey => $counter):?>
+                <div class="table-info">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>RUNET-ID</th>
+                            <th>Посетитель</th>
+                            <th>Email</th>
+                            <th>Значение счётчика "<?=$counter['definitionName']?>"</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?foreach($counter['users'] as $runetid => $value):?>
+                            <tr>
+                                <td><?=$runetid?></td>
+                                <td><a href="<?=$this->createUrl('user/edit', ['id' => $runetid])?>"><?=$value['userName']?></a></td>
+                                <td><a href="mailto:<?=$value['userEmail']?>"><?=$value['userEmail']?></a></td>
+                                <td><?=$value['count']?></td>
+                            </tr>
+                        <?endforeach?>
+                        <tr>
+                            <td colspan="3" class="text-right">Всего:</td>
+                            <td><?=$counter['total']?></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            <?endforeach?>
+        <?endif?>
+    </div>
+</div>
+
 <div class="panel panel-warning">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-group"></i> <?=\Yii::t('app', 'Участники');?></span>
+        <span class="panel-title"><i class="fa fa-group"></i> <?=Yii::t('app', 'Участники');?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body panel-body__scrollable">
         <div class="table-warning">
             <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th><?=\Yii::t('app', 'Роль');?></th>
+                    <th><?=Yii::t('app', 'Роль');?></th>
                     <?foreach ($stat->Users->Dates as $date):?>
                         <th><?=date('d.m.Y', strtotime($date));?></th>
                     <?endforeach;?>
-                    <th><?=\Yii::t('app', 'Кол-во');?></th>
+                    <th><?=Yii::t('app', 'Кол-во');?></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -114,7 +154,7 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
 <?php if (!empty($stat->Visits)):?>
     <div class="panel panel-danger">
         <div class="panel-heading">
-            <span class="panel-title"><i class="fa fa-history"></i> <?=\Yii::t('app', 'Посещения');?></span>
+            <span class="panel-title"><i class="fa fa-history"></i> <?=Yii::t('app', 'Посещения');?></span>
         </div> <!-- / .panel-heading -->
         <div class="panel-body">
             <div class="table-danger">
@@ -142,7 +182,7 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
 <?php if (isset($stat->PrintBadges)):?>
 <div class="panel panel-success">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-square"></i> <?=\Yii::t('app', 'Количество выданных бейджей');?></span>
+        <span class="panel-title"><i class="fa fa-square"></i> <?=Yii::t('app', 'Количество выданных бейджей');?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
         <div class="table-success">
@@ -190,7 +230,7 @@ $dateEnd = new DateTime($event->EndYear.'-'.$event->EndMonth.'-'.$event->EndDay)
 <?php if (isset($stat->RePrintBadges)):?>
     <div class="panel panel-danger">
         <div class="panel-heading">
-            <span class="panel-title"><i class="fa fa-history"></i> <?=\Yii::t('app', 'Количество выданных бейджей');?></span>
+            <span class="panel-title"><i class="fa fa-history"></i> <?=Yii::t('app', 'Количество выданных бейджей');?></span>
         </div> <!-- / .panel-heading -->
         <div class="panel-body">
             <div class="table-danger">
