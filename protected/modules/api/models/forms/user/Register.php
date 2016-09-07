@@ -10,6 +10,7 @@ use oauth\models\Permission;
 use user\models\forms\fields\Email;
 use user\models\forms\Register as BaseRegisterForm;
 use user\models\User;
+use Yii;
 
 /**
  * Class Register
@@ -75,8 +76,8 @@ class Register extends BaseRegisterForm
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'Password' => \Yii::t('app', 'Пароль'),
-            'ExternalId' => \Yii::t('app', 'Внешний Id')
+            'Password' => Yii::t('app', 'Пароль'),
+            'ExternalId' => Yii::t('app', 'Внешний Id')
         ]);
     }
 
@@ -85,7 +86,7 @@ class Register extends BaseRegisterForm
      */
     public function fillFromPost()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $attributes = [
             'Email' => $request->getParam('Email'),
             'LastName' => $request->getParam('LastName'),
@@ -154,8 +155,8 @@ class Register extends BaseRegisterForm
                 'params' => [':eventId' => $event->Id]
             ]);
 
-            $errorMessage = \Yii::t('app', 'Пользователь с таким Email уже зарегистрирован на мероприятие').'. '.
-                \Yii::t('app', 'Письмо с электронным билетом было отправлено повторно на адрес, указанный при регистрации').'.';
+            $errorMessage = Yii::t('app', 'Пользователь с таким Email уже зарегистрирован на мероприятие').'. '.
+                Yii::t('app', 'Письмо с электронным билетом было отправлено повторно на адрес, указанный при регистрации').'.';
 
             $participant = Participant::model()->byEventId($event->Id)->byParticipantEmail($email)->find();
             if ($exists && $participant) {
@@ -179,8 +180,9 @@ class Register extends BaseRegisterForm
      */
     protected function isHiddenUser()
     {
-        $visible = (bool) \Yii::app()->getRequest()->getParam('Visible', true);
-        return !$visible;
+        return false === (bool) Yii::app()
+            ->getRequest()
+            ->getParam('Visible', true);
     }
 
     /**
@@ -202,7 +204,7 @@ class Register extends BaseRegisterForm
      */
     protected function isEmailUnique()
     {
-        return (bool) \Yii::app()->getRequest()->getParam('UniqueEmail', false);
+        return (bool) Yii::app()->getRequest()->getParam('UniqueEmail', false);
     }
 
     /**
@@ -211,6 +213,6 @@ class Register extends BaseRegisterForm
      */
     private function fetchEventId()
     {
-        return \Yii::app()->getRequest()->getParam('EventId');
+        return Yii::app()->getRequest()->getParam('EventId');
     }
 }

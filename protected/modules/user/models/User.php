@@ -11,6 +11,7 @@ use application\components\utility\Texts;
 use application\models\translation\ActiveRecord;
 use application\widgets\IAutocompleteItem;
 use competence\models\Result;
+use iri\models\User as IriUser;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -18,7 +19,7 @@ use mail\components\mailers\SESMailer;
 use ruvents\models\Badge;
 use search\components\interfaces\ISearch;
 use user\components\handlers\Register;
-use iri\models\User as IriUser;
+use Yii;
 
 /**
  * @throws \Exception
@@ -75,17 +76,17 @@ use iri\models\User as IriUser;
  *
  *
  * Вспомогательные описания методов методы
- * @method User find($condition = '', $params = array())
- * @method User findByPk($pk, $condition = '', $params = array())
- * @method User[] findAll($condition = '', $params = array())
+ * @method User find($condition = '', $params = [])
+ * @method User findByPk($pk, $condition = '', $params = [])
+ * @method User[] findAll($condition = '', $params = [])
  * @method User byTemporary(bool $temporary)
  * @method User byVerified(bool $verified)
+ * @method User byTranslationFields($locale, $fields, $valueSuffix = '%', $useAnd = true)
  *
  */
 class User extends ActiveRecord implements ISearch, IAutocompleteItem
 {
     use OldAttributesStorage;
-
 
     //Защита от перегрузки при поиске
     const MaxSearchFragments = 500;
@@ -123,6 +124,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
     /**
      * Allows authenticate the user by a hash
+     *
      * @param int $runetId RunetId of the user
      * @param string $hash Validation hash
      * @param bool $temporary Is this temporary authorisation
@@ -146,13 +148,13 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         }
 
         if (!$user->Temporary && !$temporary) {
-            \Yii::app()->user->login($identity);
+            Yii::app()->user->login($identity);
         } else {
-            if (!\Yii::app()->user->isGuest) {
-                \Yii::app()->user->logout();
+            if (!Yii::app()->user->isGuest) {
+                Yii::app()->user->logout();
             }
 
-            \Yii::app()->tempUser->login($identity);
+            Yii::app()->tempUser->login($identity);
         }
     }
 
@@ -177,21 +179,31 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             'LinkServiceAccounts' => [self::HAS_MANY, '\user\models\LinkServiceAccount', 'UserId'],
             'LinkProfessionalInterests' => [self::HAS_MANY, '\user\models\LinkProfessionalInterest', 'UserId'],
 
-            'Employments' => [self::HAS_MANY, '\user\models\Employment', 'UserId',
+            'Employments' => [
+                self::HAS_MANY,
+                '\user\models\Employment',
+                'UserId',
                 'with' => 'Company',
                 'order' => '"Employments"."Primary" DESC, "Employments"."EndYear" DESC, "Employments"."EndMonth" DESC, "Employments"."StartYear" DESC, "Employments"."StartMonth" DESC'
             ],
             'EmploymentsForCriteria' => [self::HAS_MANY, '\user\models\Employment', 'UserId'],
 
             'Educations' => [
-                self::HAS_MANY, '\user\models\Education', 'UserId',
+                self::HAS_MANY,
+                '\user\models\Education',
+                'UserId',
                 'with' => ['University', 'Faculty'],
                 'order' => '"Educations"."EndYear" DESC'
             ],
 
-
             'Commissions' => [self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => ['Commission', 'Role']],
-            'CommissionsActive' => [self::HAS_MANY, '\commission\models\User', 'UserId', 'with' => ['Commission', 'Role'], 'on' => '"CommissionsActive"."ExitTime" IS NULL OR "CommissionsActive"."ExitTime" > NOW()'],
+            'CommissionsActive' => [
+                self::HAS_MANY,
+                '\commission\models\User',
+                'UserId',
+                'with' => ['Commission', 'Role'],
+                'on' => '"CommissionsActive"."ExitTime" IS NULL OR "CommissionsActive"."ExitTime" > NOW()'
+            ],
 
             'Participants' => [self::HAS_MANY, '\event\models\Participant', 'UserId'],
             'ParticipantsForCriteria' => [self::HAS_MANY, '\event\models\Participant', 'UserId'],
@@ -204,10 +216,22 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             'MergeUser' => [self::BELONGS_TO, '\user\models\User', 'MergeUserId'],
 
             'IRIParticipants' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role']],
-            'IRIParticipantsActive' => [self::HAS_MANY, '\iri\models\User', 'UserId', 'with' => ['Role'], 'on' => '"IRIParticipantsActive"."ExitTime" IS NULL OR "IRIParticipantsActive"."ExitTime" > NOW()'],
+            'IRIParticipantsActive' => [
+                self::HAS_MANY,
+                '\iri\models\User',
+                'UserId',
+                'with' => ['Role'],
+                'on' => '"IRIParticipantsActive"."ExitTime" IS NULL OR "IRIParticipantsActive"."ExitTime" > NOW()'
+            ],
 
             'ExternalAccounts' => [self::HAS_MANY, '\api\models\ExternalUser', 'UserId'],
-            'Documents' => [self::HAS_MANY, '\user\models\Document', 'UserId', 'on' => '"Documents"."Actual"', 'order' => '"Documents"."TypeId" ASC'],
+            'Documents' => [
+                self::HAS_MANY,
+                '\user\models\Document',
+                'UserId',
+                'on' => '"Documents"."Actual"',
+                'order' => '"Documents"."TypeId" ASC'
+            ],
 
             'UnsubscribeEventMails' => [self::HAS_MANY, '\user\models\UnsubscribeEventMail', 'UserId'],
         ];
@@ -226,7 +250,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function getTranslationFields()
     {
-        return array('LastName', 'FirstName', 'FatherName');
+        return ['LastName', 'FirstName', 'FatherName'];
     }
 
     /**
@@ -240,6 +264,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         $criteria->condition = '"t"."RunetId" = :RunetId';
         $criteria->params['RunetId'] = (int)$runetId;
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -253,6 +278,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         $criteria = new \CDbCriteria();
         $criteria->addInCondition('"t"."RunetId"', $runetIdList);
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -265,8 +291,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."Email" = :Email';
-        $criteria->params = array(':Email' => mb_strtolower($email));
+        $criteria->params = [':Email' => mb_strtolower($email)];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -279,8 +306,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     {
         $criteria = new \CDbCriteria();
         $criteria->condition = '"t"."PrimaryPhone" = :Phone AND "t"."PrimaryPhoneVerify"';
-        $criteria->params = array(':Phone' => Texts::getOnlyNumbers($phone));
+        $criteria->params = [':Phone' => Texts::getOnlyNumbers($phone)];
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -305,6 +333,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             $criteria->params['EndTime'] = $endTime;
         }
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -337,11 +366,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function byVisible($visible = true, $useAnd = true)
     {
-        $criteria = $visible ? [
-            'condition' => '"t"."Visible"'
-        ] : [
-            'condition' => 'NOT "t"."Visible"'
-        ];
+        $criteria = $visible
+            ? ['condition' => '"t"."Visible"']
+            : ['condition' => 'NOT "t"."Visible"'];
 
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
 
@@ -367,15 +394,16 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             $criteria = new \CDbCriteria();
             $criteria->addCondition('0=1');
             $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
             return $this;
         }
 
-        if (is_numeric($searchTerm) && intval($searchTerm) != 0) {
+        if (is_numeric($searchTerm) && (int)$searchTerm !== 0) {
             return $this->byRunetId($searchTerm, $useAnd);
         }
 
         $parts = preg_split('/[, .]/', $searchTerm, self::MaxSearchFragments, PREG_SPLIT_NO_EMPTY);
-        if (is_numeric($parts[0]) && intval($parts[0]) != 0) {
+        if (is_numeric($parts[0]) && (int)$parts[0] !== 0) {
             return $this->bySearchNumbers($parts, $useAnd);
         } else {
             return $this->bySearchFullName($parts, $locale, $useAnd);
@@ -390,8 +418,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     private function bySearchNumbers($numbers, $useAnd = true)
     {
         foreach ($numbers as $key => $value) {
-            $numbers[$key] = intval($value);
+            $numbers[$key] = (int)$value;
         }
+
         return $this->byRunetIdList($numbers, $useAnd);
     }
 
@@ -404,46 +433,57 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     private function bySearchFullName($names, $locale = null, $useAnd = true)
     {
-        if ($locale === null || $locale == \Yii::app()->sourceLanguage) {
+        if ($locale === null || $locale == Yii::app()->sourceLanguage) {
             foreach ($names as $i => $value) {
                 if ($i !== 2) {
                     $value = PhoneticSearch::getIndex($value);
                     $names[$i] = Texts::prepareStringForTsvector($value);
                 } else {
-                    $names[$i] = Texts::prepareStringForLike($value) . '%';
+                    $names[$i] = Texts::prepareStringForLike($value).'%';
                 }
             }
 
             $criteria = new \CDbCriteria();
-            $size = sizeof($names);
-            if ($size == 1) {
-                $criteria->addCondition('"t"."SearchLastName" @@ to_tsquery(:Part0)');
-                $criteria->params['Part0'] = $names[0];
-            } elseif ($size == 2) {
-                $criteria->addCondition('
-                    ("t"."SearchLastName" @@ to_tsquery(:Part0) AND "t"."SearchFirstName" @@ to_tsquery(:Part1)) OR
-                    ("t"."SearchLastName" @@ to_tsquery(:Part1) AND "t"."SearchFirstName" @@ to_tsquery(:Part0))
-                ');
-                $criteria->params['Part0'] = $names[0];
-                $criteria->params['Part1'] = $names[1];
-            } else {
-                $criteria->addCondition('
-                    ("t"."SearchLastName" @@ to_tsquery(:Part0) AND "t"."SearchFirstName" @@ to_tsquery(:Part1) AND "t"."FatherName" ILIKE :Part2)
-                ');
-                $criteria->params['Part0'] = $names[0];
-                $criteria->params['Part1'] = $names[1];
-                $criteria->params['Part2'] = $names[2];
+
+            switch (count($names)) {
+                case 1:
+                    $criteria->addCondition(
+                        '"t"."SearchLastName" @@ to_tsquery(:Part0)'
+                    );
+                    $criteria->params['Part0'] = $names[0];
+                    break;
+
+                case 2:
+                    $criteria->addCondition('
+                        ("t"."SearchLastName" @@ to_tsquery(:Part0) AND "t"."SearchFirstName" @@ to_tsquery(:Part1)) OR
+                        ("t"."SearchLastName" @@ to_tsquery(:Part1) AND "t"."SearchFirstName" @@ to_tsquery(:Part0))
+                    ');
+
+                    $criteria->params['Part0'] = $names[0];
+                    $criteria->params['Part1'] = $names[1];
+                    break;
+
+                default:
+                    $criteria->addCondition('
+                        ("t"."SearchLastName" @@ to_tsquery(:Part0) AND "t"."SearchFirstName" @@ to_tsquery(:Part1) AND "t"."FatherName" ILIKE :Part2)
+                    ');
+                    $criteria->params['Part0'] = $names[0];
+                    $criteria->params['Part1'] = $names[1];
+                    $criteria->params['Part2'] = $names[2];
             }
+
             $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
             return $this;
         } else {
-            $fields = array();
-            $keys = array('LastName', 'FirstName', 'FatherName');
+            $fields = [];
+            $keys = ['LastName', 'FirstName', 'FatherName'];
             foreach ($keys as $key => $field) {
                 if (isset($names[$key])) {
                     $fields[$field] = $names[$key];
                 }
             }
+
             return $this->byTranslationFields($locale, $fields);
         }
     }
@@ -461,6 +501,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         $criteria->addCondition('"t"."SearchFirstName" @@ to_tsquery(:Name)');
         $criteria->params['Name'] = Texts::prepareStringForTsvector($name);
         $this->getDbCriteria()->mergeWith($criteria, $useAnd);
+
         return $this;
     }
 
@@ -500,6 +541,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
     /**
      * Проверяет пароль пользователя и обновляет хэш - если хэш старого образца
+     *
      * @param string $password
      * @return bool
      */
@@ -514,6 +556,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 $this->Password = $pbkdf2->createHash($password);
                 $this->OldPassword = null;
                 $this->save();
+
                 return true;
             } else {
                 return false;
@@ -542,9 +585,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         if ($this->photo === null) {
             $this->photo = new Photo($this->RunetId);
         }
+
         return $this->photo;
     }
-
 
     /**
      * Добавляет пользователю адрес электронной почты
@@ -621,6 +664,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 $this->LinkSite->delete();
                 $contactSite->delete();
             }
+
             return null;
         }
 
@@ -653,6 +697,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
     /**
      * Возращает номер телефона пользователя
+     *
      * @param bool $format
      * @return null|string
      */
@@ -676,13 +721,14 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         if ($format) {
             try {
                 $utils = PhoneNumberUtil::getInstance();
+
                 return $utils->format($utils->parse($phone, "RU"), PhoneNumberFormat::NATIONAL);
             } catch (NumberParseException $e) {
             }
         }
+
         return $phone;
     }
-
 
     /**
      * @param string $type
@@ -695,6 +741,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 return $linkPhone->Phone;
             }
         }
+
         return null;
     }
 
@@ -725,7 +772,6 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
         return $phone;
     }
-
 
     /**
      * @param string $account
@@ -764,11 +810,13 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
                 return $link->ServiceAccount;
             }
         }
+
         return null;
     }
 
     /**
      * Возвращает основное место работы (либо последнее место работы, если по каким то причинам основное не указано)
+     *
      * @return Employment|null
      */
     public function getEmploymentPrimary()
@@ -783,8 +831,9 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     {
         $fullName = $this->getName();
         if ($this->getIsShowFatherName()) {
-            $fullName .= ' ' . $this->FatherName;
+            $fullName .= ' '.$this->FatherName;
         }
+
         return $fullName;
     }
 
@@ -801,7 +850,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function getName()
     {
-        return $this->LastName . ' ' . $this->FirstName;
+        return $this->LastName.' '.$this->FirstName;
     }
 
     /**
@@ -812,13 +861,15 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     {
         $name = $this->FirstName;
         if ($this->getIsShowFatherName()) {
-            $name .= ' ' . $this->FatherName;
+            $name .= ' '.$this->FatherName;
         }
+
         return $name;
     }
 
     /**
      * Изменяет пароль пользователю
+     *
      * @param string $password
      * @return string
      */
@@ -830,6 +881,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         $pbkdf2 = new \application\components\utility\Pbkdf2();
         $this->Password = $pbkdf2->createHash($password);
         $this->save();
+
         return $password;
     }
 
@@ -843,7 +895,8 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         }
         $birthDate = new \DateTime($this->Birthday);
         $birthDateDay = $birthDate->format('j');
-        $birthDateMonth = \Yii::app()->locale->getMonthName($birthDate->format('n'));
+        $birthDateMonth = Yii::app()->locale->getMonthName($birthDate->format('n'));
+
         return sprintf('%d %s', $birthDateDay, $birthDateMonth);
     }
 
@@ -873,7 +926,8 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     public function getHash($isTemporary = false)
     {
         $salt = !$isTemporary ? 'L2qLLQWpZWYcKbjharsx' : 'cJt2zUusjphYFio26N8m';
-        return substr(md5($this->Id . $salt . $this->RunetId), 0, 16);
+
+        return substr(md5($this->Id.$salt.$this->RunetId), 0, 16);
     }
 
     public function getRecoveryHash($date = null)
@@ -881,23 +935,26 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         if ($date == null) {
             $date = date('Y-m-d');
         }
-        return substr(md5($date . 'L2qLLQWpZWYcKbjharsx' . $this->RunetId), 0, 6);
+
+        return substr(md5($date.'L2qLLQWpZWYcKbjharsx'.$this->RunetId), 0, 6);
     }
 
     public function checkRecoveryHash($hash)
     {
-        $date1 = date('Y-m-d');
-        $date2 = date('Y-m-d', time() - (24 * 60 * 60));
-        if ($hash == $this->getRecoveryHash($date1)
-            || $hash == $this->getRecoveryHash($date2)
-        ) {
+        if ($hash === $this->getRecoveryHash(date('Y-m-d'))) {
             return true;
         }
+
+        if ($hash === $this->getRecoveryHash(date('Y-m-d', time() - 86400))) {
+            return true;
+        }
+
         return false;
     }
 
     /**
      * Returns the fast authorisation url
+     *
      * @param string $redirectUrl
      * @param bool|false $isTemporary
      * @return string
@@ -917,7 +974,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             $params['temporary'] = 1;
         }
 
-        return \Yii::app()->createAbsoluteUrl('/main/fastauth/index', $params);
+        return Yii::app()->createAbsoluteUrl('/main/fastauth/index', $params);
     }
 
     /**
@@ -925,7 +982,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function getProfileUrl()
     {
-        return \Yii::app()->createUrl('/user/view/index', array('runetId' => $this->RunetId));
+        return Yii::app()->createUrl('/user/view/index', ['runetId' => $this->RunetId]);
     }
 
     /**
@@ -946,6 +1003,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
 
     /**
      * Refreshes update time without save the model
+     *
      * @param bool $save Whether the model must be saved
      */
     public function refreshUpdateTime($save = false)
@@ -967,6 +1025,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             $this->PrimaryPhoneVerify = false;
             $this->PrimaryPhoneVerifyTime = null;
         }
+
         return parent::beforeSave();
     }
 
@@ -975,30 +1034,35 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public function updateSearchIndex()
     {
-        if ($this->getLocale() !== null && $this->getLocale() != \Yii::app()->getLanguage()) {
+        $locale = $this->getLocale();
+
+        if ($locale !== null && $locale !== Yii::app()->getLanguage()) {
             return;
         }
 
         if (!$this->getIsNewRecord()) {
-            if ($this->getOldAttributes()['FirstName'] == $this->FirstName && $this->getOldAttributes()['LastName'] == $this->LastName) {
+            if ($this->getOldAttributes()['FirstName'] === $this->FirstName && $this->getOldAttributes()['LastName'] === $this->LastName) {
                 return;
             }
         }
-        $this->SearchFirstName = new \CDbExpression('to_tsvector(\'' . PhoneticSearch::getIndex($this->FirstName, false) . '\')');
-        $this->SearchLastName = new \CDbExpression('to_tsvector(\'' . PhoneticSearch::getIndex($this->LastName) . '\')');
+        $this->SearchFirstName = new \CDbExpression('to_tsvector(\''.PhoneticSearch::getIndex($this->FirstName,
+                false).'\')');
+        $this->SearchLastName = new \CDbExpression('to_tsvector(\''.PhoneticSearch::getIndex($this->LastName).'\')');
     }
 
     /**
      * Абсолютная ссылка на профиль пользователя
+     *
      * @return string
      */
     public function getUrl()
     {
-        return \Yii::app()->createAbsoluteUrl('/user/view/index', array('runetId' => $this->RunetId));
+        return Yii::app()->createAbsoluteUrl('/user/view/index', ['runetId' => $this->RunetId]);
     }
 
     /**
      * Абсолютная ссылка с авторизаией для подтверждения профиля пользователя
+     *
      * @return string
      */
     public function getVerifyUrl()
@@ -1024,7 +1088,6 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         return $this->getFullName();
     }
 
-
     private $hasLoyaltyDiscount = null;
 
     /**
@@ -1035,24 +1098,28 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         if ($this->hasLoyaltyDiscount == null) {
             $this->hasLoyaltyDiscount = LoyaltyProgram::model()->byUserId($this->Id)->exists();
         }
+
         return $this->hasLoyaltyDiscount;
     }
 
     public function getPrimaryPhoneVerifyCode()
     {
         if (!empty($this->PrimaryPhone)) {
-            $hash = md5($this->PrimaryPhone . $this->RunetId);
+            $hash = md5($this->PrimaryPhone.$this->RunetId);
             $code = Texts::getOnlyNumbers($hash);
             if (strlen($code) < 5) {
                 $code = str_pad($code, 5, '0');
             }
+
             return substr($code, 0, 5);
         }
+
         return null;
     }
 
     /**
      * Общее кол-во участников проекта
+     *
      * @return int
      */
     public static function getTotalCount()
@@ -1063,22 +1130,24 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     /**
      * @inheritdoc
      */
-    function __toString()
+    public function __toString()
     {
         $string = $this->getFullName();
         $employment = $this->getEmploymentPrimary();
         if ($employment !== null) {
-            $string .= ' (' . $employment . ')';
+            $string .= ' ('.$employment.')';
         }
+
         return $string;
     }
 
     /**
      * Возвращает код, используемый в RUVENTS для определения пользователя
+     *
      * @return string
      */
     public function getRuventsCode()
     {
-        return '~RUNETID#' . $this->RunetId . '$';
+        return '~RUNETID#'.$this->RunetId.'$';
     }
 }
