@@ -207,10 +207,11 @@ class IndexAction extends \partner\components\Action
             /** @var UserData $userData */
             foreach ($usersData as $userData) {
                 $dataManager = $userData->getManager();
-                if (isset($dataManager->$definitionName)) {
-                    $result[$definitionName]['total']++;
+                $dataValue = (int)trim($dataManager->$definitionName);
+                if (isset($dataManager->$definitionName) && $dataValue > 0) {
+                    $result[$definitionName]['total'] += $dataValue;
                     $result[$definitionName]['users'][$userData->UserId] = [
-                        'count' => $dataManager->$definitionName,
+                        'count' => $dataValue,
                         'userName' => $userData->User->getFullName(),
                         'userEmail' => $userData->User->Email
                     ];
