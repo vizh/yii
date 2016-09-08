@@ -93,11 +93,11 @@ if ($data) {
                     <?php if (\Yii::app()->language == 'en'): ?>
                         INTERNATIONAL EXHIBITION<br>
                         1-3 November, 2016<br>
-                        Moscow, Expocentre, Forum pavilions<br>
+                        Moscow, Expocentre, pavilions "Forum", №1<br>
                     <?php else:?>
                         МЕЖДУНАРОДНАЯ ВЫСТАВКА<br>
                         1-3 Ноября 2016<br>
-                        Москва, Экспоцентр, павильоны «Форум»<br>
+                        Москва, Экспоцентр, павильоны «Форум», №1<br>
                     <?php endif;?>
                 </td>
                 <td style="text-align: center; width: 100px;">
