@@ -10,9 +10,12 @@ namespace application\modules\partner\models\search;
 
 
 use application\components\form\SearchFormModel;
+use application\components\helpers\ArrayHelper;
 use application\components\web\ActiveDataProvider;
+use event\models\Role;
 use user\models\User;
 use event\models\Event;
+use Yii;
 
 class Participant extends SearchFormModel
 {
@@ -149,8 +152,18 @@ class Participant extends SearchFormModel
                     $criteria->mergeWith($model->getDbCriteria());
                 }
             }
-            if (!empty($this->Role)) {
-                $criteria->addInCondition('"Participants"."RoleId"', $this->Role);
+
+            //ограничить выбор ролей доступными аккаунту
+            $role = Yii::app()->partnerAuthManager->roles[Yii::app()->partner->role];
+            $available_roles = ArrayHelper::getValue($role->data, 'roles', []);
+            if ($this->Role){
+                $roles = array_intersect($this->Role, $available_roles);
+            }
+            else{
+                $roles = $available_roles;
+            }
+            if (!empty($roles)){
+                $criteria->addInCondition('"Participants"."RoleId"', $roles);
             }
 
             if (!empty($this->Company)) {
@@ -194,6 +207,16 @@ class Participant extends SearchFormModel
      */
     public function getRoleData()
     {
-        return \CHtml::listData($this->event->getRoles(), 'Id', 'Title');
+        $all_roles = ArrayHelper::map($this->event->getRoles(), 'Id', 'Title');
+
+        //ограничить выбор ролей доступными аккаунту
+        $role = Yii::app()->partnerAuthManager->roles[Yii::app()->partner->role];
+        $available_roles = ArrayHelper::map(
+            Role::model()->findAllByPk(ArrayHelper::getValue($role->data, 'roles', [])),
+            'Id',
+            'Title'
+        );
+
+        return array_intersect_key($all_roles, $available_roles);
     }
 }

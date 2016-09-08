@@ -69,4 +69,47 @@ return [
         'bizRule' => null,
         'data' => null
     ],
+
+    'moderator' => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Модератор',
+        'bizRule' => null,
+        'data' => null,
+        'children' => [
+            'guest'
+        ],
+    ],
+    'MassMedia' => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Модератор СМИ',
+        'children' => [
+            'moderator'
+        ],
+        'bizRule' => '',
+        'data' => [
+            'roles' => [2,55,313,314,316]
+        ]
+    ],
+    'Student' => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Модератор студентов',
+        'children' => [
+            'moderator'
+        ],
+        'bizRule' => '',
+        'data' => [
+            'roles' => [307,315]
+        ]
+    ],
+    'Program' => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Модератор программы',
+        'children' => [
+            'moderator'
+        ],
+        'bizRule' => '',
+        'data' => [
+            'roles' => [180,333]
+        ]
+    ]
 ];

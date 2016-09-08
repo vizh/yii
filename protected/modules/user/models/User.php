@@ -357,6 +357,20 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         return $this;
     }
 
+    public function byEventRole($roleIds, $useAnd = true)
+    {
+        $this->getDbCriteria()->with['Participants'] = [
+            'together' => true,
+            'with' => [
+                'Role' => [
+                    'together' => true
+                ]
+            ]
+        ];
+        $this->getDbCriteria()->addInCondition('"Role"."Id"', $roleIds, $useAnd ? 'and' : 'or');
+        return $this;
+    }
+
     /**
      *
      * @param bool $visible

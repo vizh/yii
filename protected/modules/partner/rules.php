@@ -14,6 +14,13 @@ return array(
         'controllers' => array('auth'),
         'actions' => array('index')
     ),
+    [
+        'allow',
+        'users' => ['@'],
+        'module' => 'partner',
+        'controllers' => ['ajax'],
+        'actions' => ['users']
+    ],
     array(
         'allow',
         'roles' => array('Admin'),
@@ -156,6 +163,35 @@ return array(
         'module' => 'partner',
         'controllers' => ['main'],
     ],
+
+    [
+        'allow',
+        'roles' => ['moderator'],
+        'module' => 'partner',
+        'controllers' => ['auth'],
+    ],
+    [
+        'allow',
+        'roles' => ['moderator'],
+        'module' => 'partner',
+        'controllers' => ['user'],
+        'actions' => ['index', 'edit', 'find', 'translate', 'invite', 'competence', 'viewdatafile', 'data']
+    ],
+    [
+        'allow',
+        'roles' => ['moderator'],
+        'module' => 'partner',
+        'controllers' => ['main'],
+        'actions' => ['index']
+    ],
+    [
+        'allow',
+        'roles' => ['Program'],
+        'module' => 'partner',
+        'controllers' => ['program']
+    ],
+
+
     array(
         'deny',
         'users' => array('*')
