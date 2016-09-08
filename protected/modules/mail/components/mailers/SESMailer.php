@@ -3,6 +3,8 @@ namespace mail\components\mailers;
 
 use application\components\Exception;
 use Aws\Ses\SesClient;
+use Guzzle\Service\Command\CommandInterface;
+use Guzzle\Service\Exception\CommandTransferException;
 use mail\components\Mailer;
 use Yii;
 
@@ -86,8 +88,79 @@ class SESMailer extends \mail\components\Mailer
     /**
      * @param \mail\components\Mail[] $mails
      */
+    public function internalSendNew($mails)
+    {
+        $client = SesClient::factory([
+            'key' => self::AWS_KEY,
+            'secret' => self::AWS_SECRET,
+            'region' => self::AWS_REGION,
+            'version'=> 'latest',
+        ]);
+
+        $commands = [];
+        foreach ($mails as $mail) {
+            try
+            {
+                $attachments = [];
+                foreach ($mail->getAttachments() as $name => $attachment) {
+                    if (!file_exists($attachment[1]))
+                        throw new Exception("Ошибка отправки сообщения: Вложенный файл '{$attachment[1]}' не найден");
+
+                    $attachments[self::cleanFilename($name, self::MAX_ATTACHMENT_NAME_LEN)]
+                        = $attachment[1];
+                }
+
+                $commands[] = $client->getCommand('SendRawEmail', [
+                    'RawMessage' => [
+                        'Data' => base64_encode(
+                            Mailer::createRawMail(
+                                $mail->getTo(),
+                                [$mail->getFrom() => $mail->getFromName()],
+                                $mail->getSubject(),
+                                $mail->getBody(),
+                                $attachments
+                            )
+                        )
+                    ]
+                ]);
+            }
+
+            catch (\Exception $e) {
+                Yii::log("Error construct email for {$mail->getTo()} because of {$e->getMessage()}: {$e->getTraceAsString()}", \CLogger::LEVEL_ERROR);
+            }
+        }
+
+        try {
+            Yii::log(sprintf('Mailer started sending %d mails...', count($commands)));
+            $client->execute($commands);
+            Yii::log('Mailer done sending');
+        } catch (CommandTransferException $e) {
+            $message = "Failed mails:\n";
+            foreach ($e->getFailedCommands() as $command) {
+                $message .= sprintf("\t%s\n", $e->getExceptionForFailedCommand($command)->getMessage());
+            }
+            Yii::log($message);
+        }
+
+        /** @var CommandInterface $command */
+        foreach ($commands as $command) {
+            Yii::log(print_r($command->getResponse()->getMessage(), true));
+        }
+
+        exit;
+    }
+
+    /**
+     * @param \mail\components\Mail[] $mails
+     */
     public function internalSend($mails)
     {
+        // Пурген для рассылок
+        if (defined('NEW_SES_SENDER')) {
+            $this->internalSendNew($mails);
+            return;
+        }
+
         $client = SesClient::factory([
             'key' => self::AWS_KEY,
             'secret' => self::AWS_SECRET,
