@@ -137,7 +137,6 @@ if ($data) {
             <ol>
                 <li>Give your printed e-mail invitation to the show staff member at the Internet Registration desk.</li>
                 <li>Take your personal badge.</li>
-                <li>Pass the wicket-gate with your badge bar-code. When the green lamp switches on you may pass.</li>
             </ol>
 
             <table>
@@ -154,26 +153,11 @@ if ($data) {
                 </tr>
             </table>
 
-            <h3>ADMISSION TO PUBLIC TRANSPORT</h3>
-            <ul>
-                <li>From the metro station “Ulitza 1905 goda” bus No12; trolleybuses No18, 54;<br>
-                    minibuses No 100, 28, 254, 283, 318, 461, 545
-                </li>
-                <li>From the metro station «Kievskaya» buses No 157, 77, 240, 205, 91;<br>
-                    trolleybuses No 7, 39; minibuses No 474, 506, 10
-                </li>
-                <li>
-                    From the metro station «Krasnopresnenskaya» buses No 152, 69, 4, 152;<br>
-                    trolleybuses No 2, 7, 39, 44; minibuses No 506
-                </li>
-                <li>
-                    From the metro station «Kutuzovskaya» buses No 116, 77, 91, 157, 205, 240;<br>
-                    trolleybuses No 2, 7, 39, 44; minibuses No 506
-                </li>
-            </ul>
+
             <h3>
                 THE TICKET IS VALID FOR VISITING EXHIBITIONS<br>
-                INTEGRATED SYSTEMS RUSSIA & HI-TECH BUILDING
+                HI-TECH BUILDING, INTEGRATED SYSTEMS RUSSIA,
+                PTA - expo 2016, Russian Interactive Week (RIW.Moscow)
             </h3>
 
         <?php else :?>
@@ -197,7 +181,6 @@ if ($data) {
             <ol>
                 <li>На стойке интернет-регистрации предьявить оператору распечатанное электронное приглашение для сканирования штрих-кода.</li>
                 <li>Получить Ваш персональный бейдж посетителя выставки.</li>
-                <li>Провести бейдж штрих-кодом вниз через считывающее устройство турникета и дождаться включения зеленой лампочки.</li>
             </ol>
 
             <table>
@@ -214,26 +197,10 @@ if ($data) {
                 </tr>
             </table>
 
-            <h3>Проезд на городском транспорте:</h3>
-            <ul>
-                <li>От станции метро "Улица 1905 года" автобус №12;<br>
-                    троллейбусы №18, 54; маршрутные такси №100, 28, 254, 283, 318, 461, 545
-                </li>
-                <li>От станции метро "Краснопресненская" автобусы №157, 77, 240, 205, 91;<br>
-                    троллейбусы №7, 39; маршрутные такси №474, 506, 10
-                </li>
-                <li>
-                    От станции метро «Краснопресненская» автобусы No 152, 69, 4, 152;<br>
-                    маршрутные такси No 546М, 547, 549, 713М
-                </li>
-                <li>
-                    От станции метро «Кутузовская» автобусы No 116, 77, 91, 157,
-                    205, 240; троллейбусы No 2, 7, 39, 44; маршрутное такси No 506
-                </li>
-            </ul>
+
             <h3>
                 БИЛЕТ ДЕЙСТВИТЕЛЕН ДЛЯ ПОСЕЩЕНИЯ ВЫСТАВОК<br>
-                INTEGRATED SYSTEMS RUSSIA И HI-TECH BUILDING
+                HI-TECH BUILDING, INTEGRATED SYSTEMS RUSSIA, «Передовые технологии автоматизации. ПТА», Russian Interactive Week (RIW.Moscow).
             </h3>
 
         <?php endif; ?>
