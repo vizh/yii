@@ -41,7 +41,6 @@ class Edit extends CreateUpdateFormCombiner
      */
     public function fillFromPost()
     {
-//        Yii::log(print_r($this->getAttributes(), true));
         foreach ($this->getAttributes() as $name => $value) {
             $param = Yii::app()->getRequest()->getParam($name);
             if ($param !== null) {

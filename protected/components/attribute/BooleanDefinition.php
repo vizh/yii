@@ -16,7 +16,7 @@ class BooleanDefinition extends Definition
      */
     public function typecast($value)
     {
-        return (boolean)$value;
+        return (boolean)$value && $value !== 'false';
     }
 
     /**

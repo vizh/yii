@@ -44,7 +44,10 @@ class Account extends \CFormModel
             'Partner' => 'Партнер',
             'PartnerVerified' => 'Одобренный партнер',
             'Admin' => 'Администратор',
-            'Statistics' => 'Доступ к статистике'
+            'Statistics' => 'Доступ к статистике',
+            'MassMedia' => 'Модератор СМИ',
+            'Student' => 'Модератор студентов',
+            'Program' => 'Модератор программы'
         ];
     }
 }
