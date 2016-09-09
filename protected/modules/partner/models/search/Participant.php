@@ -153,17 +153,23 @@ class Participant extends SearchFormModel
                 }
             }
 
-            //ограничить выбор ролей доступными аккаунту
-            $role = Yii::app()->partnerAuthManager->roles[Yii::app()->partner->role];
-            $available_roles = ArrayHelper::getValue($role->data, 'roles', []);
-            if ($this->Role){
-                $roles = array_intersect($this->Role, $available_roles);
-            }
-            else{
-                $roles = $available_roles;
-            }
-            if (!empty($roles)){
-                $criteria->addInCondition('"Participants"."RoleId"', $roles);
+            if (Yii::app()->partner->role === 'AdminExtended') {
+                if (!empty($this->Role)) {
+                    $criteria->addInCondition('"Participants"."RoleId"', $this->Role);
+                }
+            } else {
+                //ограничить выбор ролей доступными аккаунту
+                $role = Yii::app()->partnerAuthManager->roles[Yii::app()->partner->role];
+                $available_roles = ArrayHelper::getValue($role->data, 'roles', []);
+                if ($this->Role){
+                    $roles = array_intersect($this->Role, $available_roles);
+                }
+                else{
+                    $roles = $available_roles;
+                }
+                if (!empty($roles)){
+                    $criteria->addInCondition('"Participants"."RoleId"', $roles);
+                }
             }
 
             if (!empty($this->Company)) {
@@ -207,6 +213,10 @@ class Participant extends SearchFormModel
      */
     public function getRoleData()
     {
+        if (Yii::app()->partner->role === 'AdminExtended') {
+            return \CHtml::listData($this->event->getRoles(), 'Id', 'Title');
+        }
+
         $all_roles = ArrayHelper::map($this->event->getRoles(), 'Id', 'Title');
 
         //ограничить выбор ролей доступными аккаунту
