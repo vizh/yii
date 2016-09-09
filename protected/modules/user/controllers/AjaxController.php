@@ -43,18 +43,32 @@ class AjaxController extends PublicMainController
         $criteria->with = ['Employments.Company'];
         $model = User::model();
 
-        $model->bySearch($term, null, true, false);
-
-        if ($eventId !== null) {
-            $event = \event\models\Event::model()->findByPk($eventId);
-            if ($event && $event->UserScope){
-                $model->byEventId($eventId);
+        if (Yii::app()->partner->role === 'AdminExtended') {
+            if ($eventId !== null) {
+                $event = \event\models\Event::model()->findByPk($eventId);
+                if ($event && $event->UserScope){
+                    $model->bySearch($term, null, true, false)->byEventId($eventId);
+                }
+                else{
+                    $model->bySearch($term, null, true, false);
+                }
+            } else {
+                is_numeric($term) ? $model->byRunetId($term) : $model->bySearch($term);
             }
+        } else {
+            $model->bySearch($term, null, true, false);
 
-            $role = Yii::app()->partnerAuthManager->roles[Yii::app()->partner->role];
-            $available_roles = ArrayHelper::getValue($role->data, 'roles', []);
-            if (!empty($available_roles)){
-                $model->byEventRole($available_roles);
+            if ($eventId !== null) {
+                $event = \event\models\Event::model()->findByPk($eventId);
+                if ($event && $event->UserScope){
+                    $model->byEventId($eventId);
+                }
+
+                $role = Yii::app()->partnerAuthManager->roles[Yii::app()->partner->role];
+                $available_roles = ArrayHelper::getValue($role->data, 'roles', []);
+                if (!empty($available_roles)){
+                    $model->byEventRole($available_roles);
+                }
             }
         }
 
