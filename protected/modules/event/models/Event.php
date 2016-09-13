@@ -8,6 +8,7 @@ use application\components\Image;
 use application\components\socials\facebook\Event as SocialEvent;
 use application\models\attribute\Definition;
 use application\models\translation\ActiveRecord;
+use connect\models\Place;
 use contact\models\Site;
 use event\models\section\Section;
 use mail\components\mailers\SESMailer;
@@ -62,6 +63,8 @@ use user\models\User;
  * @property Partner[] $Partners
  *
  * @property LinkProfessionalInterest[] $LinkProfessionalInterests
+ *
+ * @property Place[] $MeetingPlaces
  *
  *
  * @method Section[] Sections()
@@ -149,7 +152,8 @@ class Event extends ActiveRecord implements ISearch
                 'with' => 'ProfessionalInterest'
             ],
             'PayAccount' => [self::HAS_ONE, '\pay\models\Account', 'EventId'],
-            'RuventsSettings' => [self::HAS_ONE, '\ruvents\models\Setting', 'EventId']
+            'RuventsSettings' => [self::HAS_ONE, '\ruvents\models\Setting', 'EventId'],
+            'MeetingPlaces' => [self::HAS_MANY, '\connect\models\Place', 'EventId']
         ];
     }
 

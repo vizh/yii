@@ -905,4 +905,33 @@ class Builder
                 return isset($this->user->Status) || $permissionModel->exists();
         }
     }
+
+    protected $meetingPlace;
+
+    public function createMeetingPlace($place)
+    {
+        $this->meetingPlace = new \stdClass();
+
+        $this->meetingPlace->Id = $place->Id;
+        $this->meetingPlace->Name = $place->Name;
+
+        return $this->meetingPlace;
+    }
+
+    protected $meeting;
+
+    public function createMeeting($meeting)
+    {
+        $this->meeting = new \stdClass();
+
+        $this->meeting->Id = $meeting->Id;
+        $this->meeting->Place = $this->createMeetingPlace($meeting->Place);
+        $this->meeting->Creator = $this->createUser($meeting->Creator);
+        $this->meeting->User = $this->createUser($meeting->User);
+        $this->meeting->Date = substr($meeting->Date, 0, 10);
+        $this->meeting->Time = substr($meeting->Date, 11, 5);
+        $this->meeting->Status = $meeting->Status;
+
+        return $this->meeting;
+    }
 }

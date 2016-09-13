@@ -81,6 +81,11 @@ return [
         'controllers' => ['competence'],
         'actions' => ['tests', 'result'],
     ],
+    [
+        'allow',
+        'roles' => ['base'],
+        'controllers' => ['connect']
+    ],
 
     /*** Спецпроект для сбербанка  ***/
     [

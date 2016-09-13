@@ -146,8 +146,6 @@ class SESMailer extends \mail\components\Mailer
         foreach ($commands as $command) {
             Yii::log(print_r($command->getResponse()->getMessage(), true));
         }
-
-        exit;
     }
 
     /**
