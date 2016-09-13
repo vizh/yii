@@ -22,12 +22,12 @@ class CommissionUsersAction extends \api\components\Action
 
         $result = [];
         foreach ($users as $user) {
-            $builder->createUser($user, [
+            $builder->createUser($user->User, [
                 Builder::USER_EMPLOYMENT
             ]);
 
             $result['Users'][] = $builder
-                ->buildUserCommission($user->Role);
+                ->buildUserCommission($user->User->Role);
         }
 
         $this->setResult($result);
