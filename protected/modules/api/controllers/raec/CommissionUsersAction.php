@@ -27,7 +27,7 @@ class CommissionUsersAction extends \api\components\Action
             ]);
 
             $result['Users'][] = $builder
-                ->buildUserCommission($user->User->Role);
+                ->buildUserCommission($user->Role);
         }
 
         $this->setResult($result);
