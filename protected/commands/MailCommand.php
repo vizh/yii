@@ -21,7 +21,7 @@ class MailCommand extends BaseConsoleCommand
 
         while (true) {
             $template->send();
-            if ($template->Success || time() - $startTime >= 180)
+            if ($template->Success || time() - $startTime >= 350)
                 return 0;
         }
 
