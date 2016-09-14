@@ -21,7 +21,7 @@ CProgramGrid.prototype = {
 
         $modal.html(
             '<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h3>' + $section.context.innerText + '</h3></div>'+
-            '<div class="modal-body"><h4 class="text-error text-center">' + $section[0].innerHTML + '</h4></div>' +
+            '<div class="modal-body">' + $section[0].innerHTML + '</div>' +
             '<div class="modal-footer"><a href="#" class="btn" data-dismiss="modal">Закрыть</a></div>'
         );
         $modal.on('hidden', function () {
