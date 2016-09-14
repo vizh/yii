@@ -2,6 +2,7 @@
 namespace api\controllers\connect;
 
 use api\components\Exception;
+use user\models\User;
 
 class RecommendationsAction extends \api\components\Action
 {
@@ -12,6 +13,14 @@ class RecommendationsAction extends \api\components\Action
         if ($user === null) {
             throw new Exception(202, [$runetId]);
         }
+
+        $users = User::model()->findAllByPk([572793, 563843, 561735, 456]);
+        $result = [];
+        foreach ($users as $user) {
+            $result[] = $this->getDataBuilder()->createUser($user);
+        }
+        $this->setResult($result);
+        return;
 
         $participants = $this->getEvent()->Participants;
 

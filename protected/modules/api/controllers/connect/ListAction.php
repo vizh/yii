@@ -2,7 +2,7 @@
 namespace api\controllers\connect;
 
 use api\components\Exception;
-use connect\models\forms\Meeting;
+use connect\models\Meeting;
 
 class ListAction extends \api\components\Action
 {
