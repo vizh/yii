@@ -163,6 +163,13 @@ return array(
         'module' => 'partner',
         'controllers' => ['main'],
     ],
+    [
+        'allow',
+        'roles' => ['Statistics'],
+        'module' => 'partner',
+        'controllers' => ['user'],
+        'actions' => ['export']
+    ],
 
     [
         'allow',

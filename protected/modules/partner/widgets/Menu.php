@@ -92,6 +92,9 @@ class Menu extends \CMenu
     protected function checkAccess($url)
     {
         $parts = explode('/', $url[0]);
+        if (count($parts) != 2){
+            return true;
+        }
         return $this->getController()->getAccessFilter()->checkAccess('partner', $parts[0], $parts[1]);
     }
 }
