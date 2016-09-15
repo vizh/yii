@@ -8,6 +8,7 @@ use event\models\section\Section;
  * @package event\widgets
  *
  * @property string $PdfUrl
+ * @property string $DetailedModal
  * @property string $WidgetProgramGridTabTitle
  */
 class ProgramGrid extends \event\components\Widget
@@ -19,6 +20,7 @@ class ProgramGrid extends \event\components\Widget
     {
         return [
             'PdfUrl',
+            'DetailedModal',
             'WidgetProgramGridTabTitle'
         ];
     }
