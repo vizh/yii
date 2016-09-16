@@ -7,19 +7,20 @@ $(function(){
 
 var OAuthModule = function()
 {
-  this.fbUrl  = '';
-  this.vkUrl  = '';
-  this.twiUrl = '';
-  this.gUrl   = '';
-  this.ppUrl  = '';
-  this.viadeoUrl = '';
-  this.LinkedinUrl = '/oauth/social/request/22/';
+    this.fbUrl  = '';
+    this.vkUrl  = '';
+    this.twiUrl = '';
+    this.gUrl   = '';
+    this.ppUrl  = '';
+    this.viadeoUrl = '';
+    this.LinkedinUrl = '/oauth/social/request/22/';
+    this.okUrl = '';
  
-  this.popUpWindow = null;
+    this.popUpWindow = null;
 
-  fillOAuthUrls(this);
+    fillOAuthUrls(this);
 
-  this.init();
+    this.init();
 };
 
 OAuthModule.prototype.init = function()
@@ -73,6 +74,14 @@ OAuthModule.prototype.init = function()
   });
 
     $('#li_login').on('click', function (e) {
+        if (isFrame() || isUserEditAction())
+        {
+            e.preventDefault();
+            self.twiLogin($(e.currentTarget).attr('href'));
+        }
+    });
+
+    $('#ok_login').on('click', function(e){
         if (isFrame() || isUserEditAction())
         {
             e.preventDefault();
@@ -180,6 +189,12 @@ OAuthModule.prototype.LIProcess = function()
 {
     var self = this;
     window.location.href = self.LinkedinUrl;
+};
+
+OAuthModule.prototype.OkProcess = function()
+{
+    var self = this;
+    window.location.href = self.okUrl;
 };
 
 function loadScript(src, callback)

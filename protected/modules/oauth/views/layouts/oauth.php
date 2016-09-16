@@ -33,6 +33,7 @@
         oauth.viadeoUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Viadeo));?>';
         oauth.ppUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::PayPal));?>';
         oauth.linkedinUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Linkedin));?>';
+        oauth.okUrl  = '<?=$this->createUrl('/oauth/social/request', array('social' => oauth\components\social\ISocial::Ok));?>';
     }
 </script>
 <section id="section" role="main">
