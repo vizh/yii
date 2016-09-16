@@ -87,18 +87,7 @@ return [
         ],
         'bizRule' => '',
         'data' => [
-            'roles' => [2,55,313,314,316]
-        ]
-    ],
-    'Student' => [
-        'type' => CAuthItem::TYPE_ROLE,
-        'description' => 'Модератор студентов',
-        'children' => [
-            'moderator'
-        ],
-        'bizRule' => '',
-        'data' => [
-            'roles' => [307,315]
+            'roles' => [316,337,343,344]
         ]
     ],
     'Program' => [
@@ -109,7 +98,29 @@ return [
         ],
         'bizRule' => '',
         'data' => [
-            'roles' => [180,333]
+            'roles' => [180,333,358,359,360]
         ]
-    ]
+    ],
+    'Approve' => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Модератор статусов по аппруву',
+        'children' => [
+            'moderator'
+        ],
+        'bizRule' => '',
+        'data' => [
+            'roles' => [180, 335,348,349,350, 336,338,345,346]
+        ]
+    ],
+    'Eurasia' => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Модератор Евразийская Неделя',
+        'children' => [
+            'moderator'
+        ],
+        'bizRule' => '',
+        'data' => [
+            'roles' => [310,347,365,366,367,368]
+        ]
+    ],
 ];
