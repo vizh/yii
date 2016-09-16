@@ -112,4 +112,15 @@ return [
             'roles' => [180, 335,348,349,350, 336,338,345,346]
         ]
     ],
+    'Eurasia' => [
+        'type' => CAuthItem::TYPE_ROLE,
+        'description' => 'Модератор Евразийская Неделя',
+        'children' => [
+            'moderator'
+        ],
+        'bizRule' => '',
+        'data' => [
+            'roles' => [310,347,365,366,367,368]
+        ]
+    ],
 ];
