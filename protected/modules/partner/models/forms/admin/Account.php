@@ -48,6 +48,7 @@ class Account extends \CFormModel
             'MassMedia' => 'Модератор СМИ',
             'Program' => 'Модератор программы',
             'Approve' => 'Модератор статусов по аппруву',
+            'Eurasia' => 'Модератор Евразийская Неделя',
         ];
     }
 }
