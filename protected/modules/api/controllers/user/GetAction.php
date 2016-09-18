@@ -39,17 +39,6 @@ class GetAction extends \api\components\Action
             $userData->RedirectRunetId = $user->RunetId;
         }
 
-        $data = $this->getEvent()->getUserData($user);
-
-        if (count($data) > 0) {
-            $user->Attributes = [];
-            $row = array_pop($data);
-            foreach ($row->getManager()->getDefinitions() as $definition) {
-                $value = $definition->getExportValue($row->getManager());
-                $user->Attributes[$definition->name] = $value;
-            }
-        }
-
         $this->setResult($userData);
     }
 }
