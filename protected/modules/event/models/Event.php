@@ -438,13 +438,12 @@ class Event extends ActiveRecord implements ISearch
             $this->updateRole($participant, $role, $usePriority, $message);
         }
 
-        $data = UserData::model()->find([
-            'condition' => '"EventId" = :eventId AND "UserId" = :userId',
-            'params' => [
-                ':eventId' => $this->Id,
-                ':userId' => $user->Id
-            ]
-        ]);
+        $data = UserData::model()
+            ->byEventId($this->Id)
+            ->byUserId($user->Id)
+            ->byDeleted(false)
+            ->orderBy(['"t"."CreationTime"'])
+            ->find();
 
         if (!$data) {
             UserData::createEmpty($this, $user);

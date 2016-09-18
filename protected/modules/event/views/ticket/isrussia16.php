@@ -11,13 +11,12 @@ use event\models\Event;
 use event\models\Participant;
 use ruvents\components\QrCode;
 
-$data = UserData::model()->find([
-    'condition' => '"EventId" = :eventId AND "UserId" = :userId',
-    'params' => [
-        ':eventId' => $event->Id,
-        ':userId' => $user->Id
-    ]
-]);
+$data = UserData::model()
+    ->byEventId($event->Id)
+    ->byUserId($user->Id)
+    ->byDeleted(false)
+    ->orderBy(['"t"."CreationTime"'])
+    ->find();
 
 $customNumber = null;
 if ($data) {
