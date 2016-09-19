@@ -89,7 +89,7 @@ class Menu extends \CMenu
      * @param $url
      * @return mixed
      */
-    protected function checkAccess($url)
+    public function checkAccess($url)
     {
         $parts = explode('/', $url[0]);
         if (count($parts) != 2){

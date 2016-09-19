@@ -109,14 +109,14 @@ return [
         ],
         'bizRule' => '',
         'data' => [
-            'roles' => [180, 335,348,349,350, 336,338,345,346]
+            'roles' => [333,360,359,358, 315,341,342,307,340, 335,350,348,349, 336,346,345,338]
         ]
     ],
     'Eurasia' => [
         'type' => CAuthItem::TYPE_ROLE,
         'description' => 'Модератор Евразийская Неделя',
         'children' => [
-            'moderator'
+            'guest'
         ],
         'bizRule' => '',
         'data' => [
