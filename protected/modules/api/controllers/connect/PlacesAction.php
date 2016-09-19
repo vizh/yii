@@ -9,6 +9,6 @@ class PlacesAction extends \api\components\Action
         foreach ($this->getEvent()->MeetingPlaces as $place) {
             $result[] = $this->getAccount()->getDataBuilder()->createMeetingPlace($place);
         }
-        $this->setResult($result);
+        $this->setResult(['Success' => true, 'Places' => $result]);
     }
 }

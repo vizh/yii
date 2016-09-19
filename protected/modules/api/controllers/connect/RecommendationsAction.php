@@ -19,7 +19,7 @@ class RecommendationsAction extends \api\components\Action
         foreach ($users as $user) {
             $result[] = $this->getDataBuilder()->createUser($user);
         }
-        $this->setResult($result);
+        $this->setResult(['Success' => true, 'Recommendations' => $result]);
         return;
 
         $participants = $this->getEvent()->Participants;

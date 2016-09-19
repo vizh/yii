@@ -20,6 +20,6 @@ class ListAction extends \api\components\Action
         foreach ($meetings as $meeting) {
             $result[] = $this->getAccount()->getDataBuilder()->createMeeting($meeting);
         }
-        $this->setResult($result);
+        $this->setResult(['Success' => true, 'Meetings' => $result]);
     }
 }
