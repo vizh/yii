@@ -56,7 +56,7 @@ use application\components\utility\Texts;
       <td style="TEXT-ALIGN: center" colspan="2">
         <div style="MARGIN-TOP: 20px; FONT-SIZE: 24px"><B>CЧЕТ № <?=$order->Number;?> от <?=date('d.m.Y', strtotime($order->CreationTime));?></B></div>
 
-        (Счет действителен в течение 5-и банковских дней)
+        (Счет действителен в течение 10-и банковских дней)
       </td>
     </tr>
     <tr>
