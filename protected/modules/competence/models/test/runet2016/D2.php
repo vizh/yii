@@ -2,6 +2,7 @@
 namespace competence\models\test\runet2016;
 
 use competence\models\form\Base;
+use competence\models\Result;
 
 class D2 extends Base
 {
@@ -52,5 +53,20 @@ class D2 extends Base
     public function getNext()
     {
         return $this->getNextMarketQuestion($this->getQuestion()->Test);
+    }
+
+    public function getInternalExportValueTitles()
+    {
+        return array_values($this->subMarkets);
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        foreach ($this->subMarkets as $key => $market) {
+            $data[] = isset($questionData['value'][$key]) ? $questionData['value'][$key] : '';
+        }
+        return $data;
     }
 }

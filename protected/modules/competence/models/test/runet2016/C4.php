@@ -2,6 +2,7 @@
 namespace competence\models\test\runet2016;
 
 use competence\models\form\Base;
+use competence\models\Result;
 
 class C4 extends Base
 {
@@ -43,6 +44,31 @@ class C4 extends Base
         if ($not_empty_rows == 0) {
             $this->addError($attribute, 'Необходимо заполнить хотя бы один фактор.');
         }
+    }
+
+    public function getInternalExportValueTitles()
+    {
+        return [
+            'Фактор 1', 'Оценка', 'Степень',
+            'Фактор 2', 'Оценка', 'Степень',
+            'Фактор 3', 'Оценка', 'Степень',
+            'Фактор 4', 'Оценка', 'Степень',
+            'Фактор 5', 'Оценка', 'Степень',
+        ];
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = [];
+        if (!empty($questionData['value'])) {
+            foreach ($questionData['value'] as $row) {
+                $data[] = $row['factor'];
+                $data[] = $row['estimation'];
+                $data[] = $row['rate'];
+            }
+        }
+        return $data;
     }
 
 }

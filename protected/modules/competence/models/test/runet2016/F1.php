@@ -3,6 +3,7 @@ namespace competence\models\test\runet2016;
 
 use competence\models\form\Base;
 use competence\models\Question;
+use competence\models\Result;
 
 class F1 extends Base
 {
@@ -45,5 +46,24 @@ class F1 extends Base
             }
             $this->$attribute = $result;
         }
+    }
+
+    public function getInternalExportValueTitles()
+    {
+        return ['(ФИО, RUNET-ID, Email)'];
+    }
+
+    public function getInternalExportData(Result $result)
+    {
+        $questionData = $result->getQuestionResult($this->question);
+        $data = '';
+        if (!empty($questionData['value'])) {
+            foreach ($questionData['value'] as $row) {
+                $runetid = isset($row['runetId']) ? $row['runetId'] : '-';
+                $email = isset($row['email']) ? $row['email'] : '-';
+                $data .= '('.$row['fio'].', '.$runetid.', '.$email.'); ';
+            }
+        }
+        return [$data];
     }
 }
