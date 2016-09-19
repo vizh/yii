@@ -67,6 +67,14 @@ class C4 extends Base
                 $data[] = $row['estimation'];
                 $data[] = $row['rate'];
             }
+        } else {
+            $data = [
+                '', '', '',
+                '', '', '',
+                '', '', '',
+                '', '', '',
+                '', '', ''
+            ];
         }
         return $data;
     }
