@@ -11,6 +11,6 @@ class InviteAction extends \api\components\Action
         $form->fillFromPost();
         $form->createActiveRecord();
 
-        $this->setResult(['MeetingId' => $form->model->Id, 'success' => $form->model->Id ? true : false]);
+        $this->setResult(['MeetingId' => $form->model->Id, 'Success' => $form->model->Id ? true : false]);
     }
 }
