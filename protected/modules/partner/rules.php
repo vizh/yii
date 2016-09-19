@@ -3,6 +3,7 @@
 return array(
     [
         'allow',
+        'users' => ['@'],
         'module' => 'partner',
         'controllers' => ['main'],
         'actions' => ['home']
