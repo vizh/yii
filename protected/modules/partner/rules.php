@@ -3,6 +3,7 @@
 return array(
     [
         'allow',
+        'users' => ['@'],
         'module' => 'partner',
         'controllers' => ['main'],
         'actions' => ['home']
@@ -171,10 +172,24 @@ return array(
     ),
     [
         'allow',
-        'roles' => ['Statistics', 'Eurasia'],
+        'roles' => ['Eurasia'],
         'module' => 'partner',
         'controllers' => ['user'],
         'actions' => ['index', 'edit', 'find', 'translate', 'invite', 'competence', 'viewdatafile', 'data']
+    ],
+
+    [
+        'deny',
+        'roles' => ['Statistics'],
+        'module' => 'partner',
+        'controllers' => ['user'],
+        'actions' => ['import']
+    ],
+    [
+        'allow',
+        'roles' => ['Statistics'],
+        'module' => 'partner',
+        'controllers' => ['user', 'main'],
     ],
 
     [
