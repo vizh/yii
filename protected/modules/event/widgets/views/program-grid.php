@@ -93,12 +93,11 @@ use event\models\section\LinkUser;
                                       <br/>
                                   <? endforeach; ?>
                               <? else: ?>
-                                  <?= \Yii::t('app',
-                                      $section->Type->Code == 'round' ? 'Участники круглого стола' : 'Докладчики'); ?>:
+                                  <b><?= \Yii::t('app', $section->Type->Code == 'round' ? 'Участники круглого стола' : 'Докладчики'); ?>:</b>
                                   <? /** @var \user\models\User $user */; ?>
                                   <ul>
                                       <? foreach ($links as $link): ?>
-                                          <li>
+                                          <li style="margin: 7px 0 10px">
                                               <? if (!empty($link->Report->Title)): ?>
                                                   <strong><?= $link->Report->Title; ?></strong><br>
                                               <? endif; ?>

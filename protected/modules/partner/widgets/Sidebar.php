@@ -88,7 +88,7 @@ class Sidebar extends \CWidget
      *
      * @return array
      */
-    private function getItemsConfig()
+    public function getItemsConfig()
     {
         $event = $this->event;
 

@@ -13,6 +13,7 @@ class SetdataAction extends Action
         $userData = UserData::model()
             ->byEventId($this->getEvent()->Id)
             ->byUserId($this->getRequestedUser()->Id)
+            ->byDeleted(false)
             ->orderBy(['"t"."CreationTime"'])
             ->find();
 

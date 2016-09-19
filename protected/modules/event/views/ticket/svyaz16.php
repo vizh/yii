@@ -10,13 +10,12 @@ use user\models\User;
 use event\models\Event;
 use event\models\Participant;
 
-$data = UserData::model()->find([
-    'condition' => '"EventId" = :eventId AND "UserId" = :userId',
-    'params' => [
-        ':eventId' => $event->Id,
-        ':userId' => $user->Id
-    ]
-]);
+$data = UserData::model()
+    ->byEventId($event->Id)
+    ->byUserId($user->Id)
+    ->byDeleted(false)
+    ->orderBy(['"t"."CreationTime"'])
+    ->find();
 
 $customNumber = null;
 if ($data) {

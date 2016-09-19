@@ -29,6 +29,14 @@ class UserData extends ActiveRecord
 {
     protected $manager;
 
+    public static function model($className = null)
+    {
+        $model = parent::model($className);
+        $model->orderBy(['"t"."CreationTime"']);
+
+        return $model;
+    }
+
     /**
      * Creates an empty user data record
      * @param Event|int $event Event's model or event's identifier

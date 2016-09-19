@@ -61,7 +61,7 @@ return [
     SCHEMA.'://'.RUNETID_HOST.'/iresearch2014/done' => ['competence/main/done/', 'defaultParams' => ['id' => 8]],
 
     /** Partner Module Rules */
-    SCHEMA.'://partner.'.RUNETID_HOST.'/' => 'partner/main/index',
+    SCHEMA.'://partner.'.RUNETID_HOST.'/' => 'partner/main/home',
     SCHEMA.'://partner.'.RUNETID_HOST.'/auth/' => 'partner/auth/index',
     SCHEMA.'://partner.'.RUNETID_HOST.'/user/edit/<action:\w+>' => 'partner/userEdit/<action>',
     SCHEMA.'://partner.'.RUNETID_HOST.'/<controller:\w+>/<action:\w+>' => 'partner/<controller>/<action>',

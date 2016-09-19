@@ -6,7 +6,13 @@
 use event\models\UserData;
 
 /** @var UserData $data */
-$data = UserData::model()->byEventId(2319)->byUserId($user->Id)->byDeleted(false)->orderBy('CreationTime DESC')->find();
+$data = UserData::model()
+	->byEventId(2319)
+	->byUserId($user->Id)
+	->byDeleted(false)
+	->orderBy('CreationTime DESC')
+	->find();
+
 if ($data) {
 	$manager = $data->getManager();
 }

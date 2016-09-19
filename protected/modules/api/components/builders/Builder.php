@@ -49,6 +49,7 @@ class Builder
     const USER_DATA = 'buildUserData';
     const USER_BADGE = 'buildUserBadge';
     const USER_CONTACTS = 'buildUserContacts';
+    const USER_ATTRIBUTES = 'buildUserAttributes';
     const USER_AUTH = 'buildAuthData';
 
     /**
@@ -69,7 +70,8 @@ class Builder
                 self::USER_EVENT,
                 self::USER_DATA,
                 self::USER_BADGE,
-                self::USER_CONTACTS
+                self::USER_CONTACTS,
+                self::USER_ATTRIBUTES,
             ];
         }
 
@@ -231,6 +233,32 @@ class Builder
             $model = \ruvents\models\Badge::model()
                 ->byEventId($this->account->EventId)->byUserId($user->Id);
             $this->user->Status->Registered = $model->exists();
+        }
+
+        return $this->user;
+    }
+
+    /**
+     * @noinspection PhpUnusedPrivateMethodInspection
+     * @param User|\commission\models\User $user
+     * @return \stdClass
+     */
+    private function buildUserAttributes($user)
+    {
+        $this->user->Attributes = [];
+
+        $data = UserData::model()
+            ->byEventId($this->account->EventId)
+            ->byUserId($user->Id)
+            ->orderBy(['"t"."CreationTime"'])
+            ->byDeleted(false)
+            ->find();
+
+        if ($data !== null) {
+            foreach ($data->getManager()->getDefinitions() as $definition) {
+                $value = $definition->getExportValue($data->getManager());
+                $this->user->Attributes[$definition->name] = $value;
+            }
         }
 
         return $this->user;

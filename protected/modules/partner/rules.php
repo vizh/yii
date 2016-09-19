@@ -1,6 +1,18 @@
 <?php
 
 return array(
+    [
+        'allow',
+        'module' => 'partner',
+        'controllers' => ['main'],
+        'actions' => ['home']
+    ],
+    [
+        'allow',
+        'module' => 'partner',
+        'controllers' => ['auth'],
+        'actions' => ['logout']
+    ],
     array(
         'allow',
         'roles' => array('Admin'),
@@ -159,16 +171,10 @@ return array(
     ),
     [
         'allow',
-        'roles' => ['Statistics'],
-        'module' => 'partner',
-        'controllers' => ['main'],
-    ],
-    [
-        'allow',
-        'roles' => ['Statistics'],
+        'roles' => ['Statistics', 'Eurasia'],
         'module' => 'partner',
         'controllers' => ['user'],
-        'actions' => ['export']
+        'actions' => ['index', 'edit', 'find', 'translate', 'invite', 'competence', 'viewdatafile', 'data']
     ],
 
     [
@@ -190,6 +196,19 @@ return array(
         'module' => 'partner',
         'controllers' => ['main'],
         'actions' => ['index']
+    ],
+    [
+        'allow',
+        'roles' => ['Approve'],
+        'module' => 'partner',
+        'controllers' => ['user'],
+        'actions' => ['export']
+    ],
+    [
+        'allow',
+        'roles' => ['Approve'],
+        'module' => 'partner',
+        'controllers' => ['coupon'],
     ],
     [
         'allow',
