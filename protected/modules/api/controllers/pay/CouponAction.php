@@ -10,8 +10,6 @@ class CouponAction extends \api\components\Action
     {
         $request = \Yii::app()->getRequest();
         $couponCode = $request->getParam('CouponCode');
-        $payerRunetId = $request->getParam('PayerRunetId');
-        $ownerRunetId = $request->getParam('OwnerRunetId');
         $externalId = $request->getParam('ExternalId');
         $productId = $request->getParam('ProductId');
 
@@ -36,14 +34,8 @@ class CouponAction extends \api\components\Action
             }
             $payer = $owner = $externalUser;
         } else {
-            $payer = \user\models\User::model()->byRunetId($payerRunetId)->find();
-            $owner = \user\models\User::model()->byRunetId($ownerRunetId)->find();
-            if ($owner == null) {
-                throw new \api\components\Exception(202, [$ownerRunetId]);
-            }
-            if ($payer == null) {
-                throw new \api\components\Exception(202, [$payerRunetId]);
-            }
+            $payer = $this->getRequestedPayer();
+            $owner = $this->getRequestedOwner();
         }
 
         $product = null;

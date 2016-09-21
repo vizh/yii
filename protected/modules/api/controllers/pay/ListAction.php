@@ -18,19 +18,9 @@ class ListAction extends Action
      */
     public function run()
     {
-        $request = \Yii::app()->getRequest();
-        $payerRunetId = $request->getParam('PayerRunetId', null);
-        if (!$payerRunetId) {
-            $payerRunetId = $request->getParam('PayerRocId', null);
-        }
-
-        if (!$payer = User::model()->byRunetId($payerRunetId)->find()) {
-            throw new Exception(202, [$payerRunetId]);
-        }
-
         $result = new \stdClass();
 
-        $finder = Finder::create($this->getEvent()->Id, $payer->Id);
+        $finder = Finder::create($this->getEvent()->Id, $this->getRequestedPayer()->Id);
         $collections = array_merge(
             [$finder->getUnpaidFreeCollection()],
             $finder->getPaidOrderCollections(),
