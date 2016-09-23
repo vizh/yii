@@ -12,10 +12,12 @@ use partner\components\Controller;
 use partner\models\forms\user\Participant as ParticipantForm;
 use pay\models\OrderItem;
 use pay\models\Product;
+use ruvents\models\Visit;
 use user\models\forms\edit\Photo;
 use user\models\User;
 use pay\components\Exception as PayException;
 use event\components\UserDataManager;
+use Yii;
 
 /**
  * Class EditAction Shows the page to update user information
@@ -41,13 +43,17 @@ class EditAction extends Action
 
         $photoForm = new Photo();
 
-        $request = \Yii::app()->getRequest();
-        if ($request->isPostRequest) {
+        if (Yii::app()->getRequest()->isPostRequest) {
             $this->updateUserPhoto($photoForm, $user);
             $this->processAjaxAction($user);
         }
 
         $form = new ParticipantForm($this->getEvent(), $user);
+
+        $visits = Visit::model()
+            ->byEventId($this->getEvent()->Id)
+            ->byUserId($user->Id)
+            ->findAll();
 
         if (!$layout) {
             $this->getController()->enableAjaxLayout();
@@ -55,6 +61,7 @@ class EditAction extends Action
 
         $this->getController()->render('edit', [
             'form' => $form,
+            'visits' => $visits,
             'photoForm' => $photoForm
         ]);
     }
@@ -82,7 +89,7 @@ class EditAction extends Action
      */
     private function processAjaxAction(User $user)
     {
-        $action = \Yii::app()->getRequest()->getParam('action');
+        $action = Yii::app()->getRequest()->getParam('action');
         if (is_null($action)) {
             return;
         }
@@ -106,7 +113,7 @@ class EditAction extends Action
     {
         $event = $this->getEvent();
 
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         $message = $request->getParam('message');
 
         /** @var Role $role */
@@ -179,7 +186,7 @@ class EditAction extends Action
      */
     private function actionAjaxEditData(User $user)
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         /** @var UserData $data */
         $data = $this->loadModel(UserData::className(), $request->getParam('data'));
         if ($data->UserId !== $user->Id || $data->EventId !== $this->getEvent()->Id) {
@@ -216,7 +223,7 @@ class EditAction extends Action
     private function getProduct()
     {
         /** @var Product $product */
-        $product = $this->loadModel(Product::className(), \Yii::app()->getRequest()->getParam('product'));
+        $product = $this->loadModel(Product::className(), Yii::app()->getRequest()->getParam('product'));
         if ($product->EventId !== $this->getEvent()->Id || $product->getPrice() !== 0) {
             throw new \CHttpException(404);
         }
