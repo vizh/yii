@@ -19,13 +19,7 @@ class Controller extends \application\components\controllers\BaseController
 
     public function filters()
     {
-        $filters = parent::filters();
-        return array_merge(
-            $filters,
-            array(
-                'accessControl'
-            )
-        );
+        return array_merge(parent::filters(), ['accessControl']);
     }
 
     /** @var AccessControlFilter */

@@ -27,6 +27,7 @@ use user\models\User;
  * @method Visit[] findAll($condition = '', $params = [])
  * @method Visit byEventId(int $id)
  * @method Visit byUserId(int $id)
+ * @method Visit orderByCreationTime(int $order)
  */
 class Visit extends ActiveRecord implements \JsonSerializable
 {
