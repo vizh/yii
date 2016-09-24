@@ -126,6 +126,13 @@ abstract class ActiveRecord extends \CActiveRecord
             }
         }
 
+        if (strpos($name, 'orderBy') === 0) {
+            $column = substr($name, 7);
+            $this->orderBy(["\"t\".\"{$column}\"" => $parameters[0]]);
+
+            return $this;
+        }
+
         return parent::__call($name, $parameters);
     }
 
