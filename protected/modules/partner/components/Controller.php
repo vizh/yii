@@ -3,6 +3,7 @@ namespace partner\components;
 
 
 use event\models\Event;
+use Yii;
 
 class Controller extends \application\components\controllers\BaseController
 {
@@ -41,28 +42,28 @@ class Controller extends \application\components\controllers\BaseController
 
     public function accessRules()
     {
-        $rules = \Yii::getPathOfAlias('partner.rules').'.php';
+        $rules = Yii::getPathOfAlias('partner.rules').'.php';
         return require($rules);
     }
 
     public function initResources()
     {
-        \Yii::app()->getClientScript()->registerPackage('partner');
+        Yii::app()->getClientScript()->registerPackage('partner');
         parent::initResources();
     }
 
     protected function beforeAction($action)
     {
-        if (\Yii::app()->partner->getAccount() !==null && $this->getId() !== 'auth')
+        if (Yii::app()->partner->getAccount() !==null && $this->getId() !== 'auth')
         {
-            if (\Yii::app()->user->getIsGuest())
+            if (Yii::app()->user->getIsGuest())
             {
-                \Yii::app()->getClientScript()->registerPackage('runetid.auth');
+                Yii::app()->getClientScript()->registerPackage('runetid.auth');
                 $this->render('partner.views.system.need-user-auth');
                 return false;
             }
             $this->parseExtendedAccountRequest();
-            if (\Yii::app()->partner->getEvent() === null){
+            if (Yii::app()->partner->getEvent() === null){
                 $this->render('partner.views.system.select-event', array(
                     'events' => $this->getExtendedAccountEventData()
                 ));
@@ -75,14 +76,14 @@ class Controller extends \application\components\controllers\BaseController
 
     private function parseExtendedAccountRequest()
     {
-        $request = \Yii::app()->getRequest();
+        $request = Yii::app()->getRequest();
         if ($request->getIsPostRequest()) {
             $id = $request->getParam('event_id');
             if ($id !== null) {
                 /** @var \event\models\Event $event */
                 $event = Event::model()->findByPk($id);
                 if ($event !== null) {
-                    \Yii::app()->getSession()->add('PartnerAccountEventId', $event->Id);
+                    Yii::app()->getSession()->add('PartnerAccountEventId', $event->Id);
                     $this->refresh();
                 }
             }
@@ -108,7 +109,7 @@ class Controller extends \application\components\controllers\BaseController
      */
     public function getEvent()
     {
-        return \Yii::app()->partner->getEvent();
+        return Yii::app()->partner->getEvent();
     }
 
     /**

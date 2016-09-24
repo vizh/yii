@@ -15,10 +15,10 @@ class Hack extends AbstractHack
     public function onPartnerMenuBuild(array $items)
     {
         foreach ($items as &$item) {
-            if ($item['label'] === 'Статистика') {
+            if ($item['label'] === 'Регистрации') {
                 $item['items'][] = [
-                    'label' => 'Прикладывания CSV',
-                    'url' => ['main/nobel16']
+                    'label' => 'Прикладывания (csv)',
+                    'url' => ['ruvents/nobel16']
                 ];
                 break;
             }

@@ -1,6 +1,5 @@
 <?php
 
-use application\hacks\AbstractHack;
 use \partner\components\Controller;
 
 class MainController extends Controller
@@ -19,11 +18,10 @@ class MainController extends Controller
 
     public function actions()
     {
-        return AbstractHack::getByEvent($this->getEvent())->onPartnerRegisterControllerActions([
+        return [
             'home' => 'partner\controllers\main\HomeAction',
             'index' => 'partner\controllers\main\IndexAction',
             'pay' => 'partner\controllers\main\PayAction',
-        ]);
+        ];
     }
-
 }

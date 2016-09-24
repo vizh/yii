@@ -7,7 +7,7 @@ use event\models\Event;
 class AbstractHack
 {
     /**
-     * @param Event $event
+     * @param Event|null $event
      * @return AbstractHack
      */
     public static function getByEvent($event)
