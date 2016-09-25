@@ -9,6 +9,7 @@ use company\models\Company;
 use competence\models\Question;
 use competence\models\Result;
 use competence\models\Test;
+use connect\models\Meeting;
 use event\models\section\Favorite;
 use event\models\section\Hall;
 use event\models\UserData;
@@ -102,6 +103,7 @@ class Builder
         $this->user->Visible = $user->Visible;
         $this->user->Verified = $user->Verified;
         $this->user->Gender = $user->Gender;
+        $this->user->FullName = $user->getFullName();
 
         $this->user->Photo = new \stdClass();
         $this->user->Photo->Small = 'http://'.RUNETID_HOST.$user->getPhoto()->get50px();;
@@ -942,12 +944,19 @@ class Builder
 
         $this->meetingPlace->Id = $place->Id;
         $this->meetingPlace->Name = $place->Name;
+        $this->meetingPlace->Reservation = $place->Reservation ? 'true' : 'false';
+        $this->meetingPlace->ReservationTime = $place->ReservationTime;
+        $this->meetingPlace->ReservationLimit = $place->ReservationLimit;
 
         return $this->meetingPlace;
     }
 
     protected $meeting;
 
+    /**
+     * @param $meeting Meeting
+     * @return \stdClass
+     */
     public function createMeeting($meeting)
     {
         $this->meeting = new \stdClass();
@@ -955,10 +964,22 @@ class Builder
         $this->meeting->Id = $meeting->Id;
         $this->meeting->Place = $this->createMeetingPlace($meeting->Place);
         $this->meeting->Creator = $this->createUser($meeting->Creator);
-        $this->meeting->User = $this->createUser($meeting->User);
+        $this->meeting->Users = array_map(function($link){
+            $user = new \stdClass();
+            $user->Status = $link->Status;
+            $user->Response = $link->Response;
+            $user->User = $this->createUser($link->User);
+            return $user;
+        }, $meeting->UserLinks);
+        $this->meeting->UserCount = count($meeting->UserLinks);
         $this->meeting->Date = substr($meeting->Date, 0, 10);
         $this->meeting->Time = substr($meeting->Date, 11, 5);
-        $this->meeting->Status = $meeting->Status;
+        $this->meeting->Type = $meeting->Type;
+        $this->meeting->Purpose = $meeting->Purpose;
+        $this->meeting->Subject = $meeting->Subject;
+        $this->meeting->File = $meeting->getFileUrl();
+        $this->meeting->CreateTime = $meeting->CreateTime;
+        $this->meeting->ReservationNumber = $meeting->ReservationNumber;
 
         return $this->meeting;
     }

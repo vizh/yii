@@ -51,7 +51,8 @@ class Participant extends ActiveRecord
             'Event' => [self::BELONGS_TO, 'event\models\Event', 'EventId'],
             'Role' => [self::BELONGS_TO, 'event\models\Role', 'RoleId'],
             'User' => [self::BELONGS_TO, 'user\models\User', 'UserId'],
-            'Part' => [self::BELONGS_TO, 'event\models\Part', 'PartId']
+            'Part' => [self::BELONGS_TO, 'event\models\Part', 'PartId'],
+            'Data' => [self::HAS_MANY, 'event\models\UserData', ['UserId' => 'UserId'], 'on' => '"Data"."EventId" = "t"."EventId"']
         ];
     }
 

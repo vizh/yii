@@ -2,11 +2,12 @@
 namespace api\controllers\connect;
 
 use api\components\Exception;
-use connect\models\forms\Response;
+use connect\models\forms\Signup;
+use connect\models\Meeting;
 use connect\models\MeetingLinkUser;
 use user\models\User;
 
-class DeclineAction extends \api\components\Action
+class SignupAction extends \api\components\Action
 {
     public function run()
     {
@@ -17,20 +18,20 @@ class DeclineAction extends \api\components\Action
         }
 
         $meetingId = \Yii::app()->getRequest()->getParam('MeetingId', null);
-        $link = MeetingLinkUser::model()->byUser($user)->findByAttributes(['MeetingId' => $meetingId]);
-        if (!$link){
+        $meeting = Meeting::model()->findByPk($meetingId);
+        if (!$meeting){
             throw new Exception(4001, [$meetingId]);
         }
 
         try{
-            $form = new Response($link);
-            $form->Status = MeetingLinkUser::STATUS_DECLINED;
-            $form->Response = \Yii::app()->getRequest()->getParam('Response', null);
-            $form->updateActiveRecord();
+            $form = new Signup();
+            $form->UserId = $runetId;
+            $form->MeetingId = $meetingId;
+            $form->createActiveRecord();
             $this->setSuccessResult();
         }
         catch (\Exception $e){
-            $this->setResult(['Success' => false]);
+            $this->setResult(['Success' => false, 'Error' => $e->getMessage()]);
         }
     }
 }

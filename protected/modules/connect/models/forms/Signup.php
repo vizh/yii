@@ -4,19 +4,30 @@ namespace connect\models\forms;
 use application\components\form\CreateUpdateForm;
 use connect\models\Meeting as MeetingAR;
 use connect\models\MeetingLinkUser;
+use user\models\User;
 use Yii;
 
-class Response extends CreateUpdateForm
+class Signup extends CreateUpdateForm
 {
-    public $Status;
-    public $Response;
+    public $MeetingId;
+    public $UserId;
+
+    protected $User;
 
     public function rules()
     {
         return [
-            ['Status', 'in', 'range' => [MeetingLinkUser::STATUS_ACCEPTED, MeetingLinkUser::STATUS_DECLINED]],
-            ['Response', 'length', 'min' => 0, 'max' => 255]
+            ['MeetingId', 'required'],
+            ['UserId', 'validateUser']
         ];
+    }
+
+    public function validateUser($attr, $params)
+    {
+        $this->User = User::model()->findByAttributes(['RunetId' => $this->UserId]);
+        if (!$this->User){
+            $this->addError('UserId', 'Не найден пользователь с RUNET-ID: '.$this->UserId);
+        }
     }
 
     /**
@@ -47,7 +58,7 @@ class Response extends CreateUpdateForm
     protected function fillActiveRecord()
     {
         if (parent::fillActiveRecord()) {
-            $this->model->Status = $this->Status;
+            $this->model->Status = MeetingLinkUser::STATUS_ACCEPTED;
             return true;
         }
         return false;
@@ -64,5 +75,14 @@ class Response extends CreateUpdateForm
 
         $this->fillActiveRecord();
         return $this->model->save();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function createActiveRecord()
+    {
+        $this->model = new MeetingLinkUser();
+        return $this->updateActiveRecord();
     }
 }
