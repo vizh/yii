@@ -13,10 +13,10 @@ class m160912_132442_connect extends CDbMigration
 
 	    $this->createTable('ConnectMeeting', [
 	        'Id' => 'serial PRIMARY KEY',
-            'PlaceId' => 'integer not null',
             'CreatorId' => 'integer not null',
-            'UserId' => 'integer not null',
+            'PlaceId' => 'integer not null',
             'Date' => 'timestamp without time zone',
+            'UserId' => 'integer not null',
             'Status' => 'integer not null'
         ]);
         $this->addForeignKey('fk_ConnectMeeting_EventMeetingPlace', 'ConnectMeeting', 'PlaceId', 'EventMeetingPlace', 'Id', 'cascade', 'cascade');

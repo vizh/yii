@@ -24,5 +24,4 @@ class MainController extends Controller
             'pay' => 'partner\controllers\main\PayAction',
         ];
     }
-
 }

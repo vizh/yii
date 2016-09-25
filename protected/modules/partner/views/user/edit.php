@@ -2,11 +2,13 @@
 /**
  * @var Controller $this
  * @var Participant $form
+ * @var Visit[] $visits
  * @var user\models\forms\edit\Photo $photoForm
  */
 
 use partner\components\Controller;
 use partner\models\forms\user\Participant;
+use ruvents\models\Visit;
 
 $this->setPageTitle('Редактирование участника мероприятия');
 $clientScript = Yii::app()->getClientScript();
@@ -25,7 +27,8 @@ $clientScript->registerScript('init', '
     <div class="panel panel-warning" ng-if="data">
         <div class="panel-heading">
             <span class="panel-title">
-                <i class="fa fa-list-alt"></i> <?= Yii::t('app', 'Атрибуты пользователей') ?>
+                <i class="fa fa-list-alt"></i>
+                <?= Yii::t('app', 'Атрибуты пользователей') ?>
             </span>
         </div>
 
@@ -58,6 +61,36 @@ $clientScript->registerScript('init', '
             </tbody>
         </table>
     </div>
+
+    <?if($visits):?>
+        <div class="panel panel-warning" ng-if="data">
+            <div class="panel-heading">
+                <span class="panel-title">
+                    <i class="fa fa-list-alt"></i>
+                    <?= Yii::t('app', 'Отметки интерактивных стендов') ?>
+                </span>
+            </div>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th><?= Yii::t('app', 'Время') ?></th>
+                        <th><?= Yii::t('app', 'Метка') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?foreach($visits as $visit):?>
+                        <tr>
+                            <td><?=$visit->Id?></td>
+                            <td><?=$visit->CreationTime?></td>
+                            <td><?=$visit->MarkId?></td>
+                        </tr>
+                    <?endforeach?>
+                </tbody>
+            </table>
+        </div>
+    <?endif?>
 
     <div class="panel panel-danger">
         <div class="panel-heading">

@@ -1,6 +1,7 @@
 <?php
 namespace partner\widgets;
 
+use application\hacks\AbstractHack;
 use competence\models\Test;
 use event\models\Event;
 use event\models\InviteRequest;
@@ -90,8 +91,6 @@ class Sidebar extends \CWidget
      */
     public function getItemsConfig()
     {
-        $event = $this->event;
-
         $items = [
             [
                 'label' => 'Статистика',
@@ -126,17 +125,17 @@ class Sidebar extends \CWidget
                     [
                         'label' => 'Приглашения',
                         'url' => ['user/invite'],
-                        'visible' => InviteRequest::model()->byEventId($event->Id)->exists()
+                        'visible' => InviteRequest::model()->byEventId($this->event->Id)->exists()
                     ],
                     [
                         'label' => 'Опрос участников',
                         'url' => ['user/competence'],
-                        'visible' => Test::model()->byEventId($event->Id)->exists()
+                        'visible' => Test::model()->byEventId($this->event->Id)->exists()
                     ],
                     [
                         'label' => 'Атрибуты пользователей',
                         'url' => ['user/data'],
-                        'visible' => $event->hasAttributeDefinitions()
+                        'visible' => $this->event->hasAttributeDefinitions()
                     ],
                 ]
             ],
@@ -180,6 +179,10 @@ class Sidebar extends \CWidget
                 ]
             ],
         ];
+
+        // Применение модификаций меню в зависимости от мероприятия, если они определены
+        $items = AbstractHack::getByEvent($this->event)
+            ->onPartnerMenuBuild($items);
 
         return $items;
     }

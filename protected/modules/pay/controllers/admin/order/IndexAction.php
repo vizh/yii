@@ -1,24 +1,28 @@
 <?php
 namespace pay\controllers\admin\order;
 
+use application\components\utility\Paginator;
+use partner\models\forms\OrderSearch;
+use pay\models\Order;
+
 class IndexAction extends \CAction
 {
   public function run()
   {
     $this->getController()->setPageTitle('Поиск счетов');
 
-    $form = new \partner\models\forms\OrderSearch();
+    $form = new OrderSearch();
     $form->attributes = \Yii::app()->getRequest()->getParam(get_class($form));
     $criteria = $this->getCriteria($form);
-    $count = \pay\models\Order::model()->count($criteria);
+    $count = Order::model()->count($criteria);
 
 
-    $paginator = new \application\components\utility\Paginator($count);
+    $paginator = new Paginator($count);
     $paginator->perPage = \Yii::app()->params['PartnerOrderPerPage'];
     $criteria->mergeWith($paginator->getCriteria());
     $criteria->order = '"t"."CreationTime" DESC';
 
-    $orders = \pay\models\Order::model()->findAll($criteria);
+    $orders = Order::model()->findAll($criteria);
 
     $this->getController()->render('index',
       array(
@@ -30,7 +34,7 @@ class IndexAction extends \CAction
   }
 
   /**
-   * @param \partner\models\forms\OrderSearch $form
+   * @param OrderSearch $form
    *
    * @return \CDbCriteria
    */

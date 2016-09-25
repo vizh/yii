@@ -2,6 +2,8 @@
 namespace partner\components;
 
 use application\components\Exception;
+use event\models\Event;
+use Yii;
 
 class WebUser extends \CWebUser
 {
@@ -13,9 +15,9 @@ class WebUser extends \CWebUser
      */
     public function getAccount()
     {
-        if ($this->account === null && !\Yii::app()->partner->getIsGuest())
+        if ($this->account === null && !Yii::app()->partner->getIsGuest())
         {
-            $this->account = \partner\models\Account::model()->findByPk(\Yii::app()->partner->getId());
+            $this->account = \partner\models\Account::model()->findByPk(Yii::app()->partner->getId());
         }
 
         return $this->account;
@@ -26,7 +28,7 @@ class WebUser extends \CWebUser
 
     /**
      * @throws \application\components\Exception
-     * @return \event\models\Event
+     * @return Event
      */
     public function getEvent()
     {
@@ -36,20 +38,20 @@ class WebUser extends \CWebUser
             {
                 if (!$this->getAccount()->getIsExtended())
                 {
-                    $this->event = \event\models\Event::model()->findByPk($this->getAccount()->EventId);
+                    $this->event = Event::model()->findByPk($this->getAccount()->EventId);
                 }
+
                 else
                 {
-                    $eventId = \Yii::app()->getSession()->get('PartnerAccountEventId');
-                    if ($eventId !== null)
-                    {
-                        $this->event = \event\models\Event::model()->findByPk($eventId);
-                        $this->getAccount()->EventId = $eventId;
-                    }
-                    else
-                    {
+                    $eventId = Yii::app()
+                        ->getSession()
+                        ->get('PartnerAccountEventId');
+
+                    if ($eventId === null)
                         return null;
-                    }
+
+                    $this->event = Event::model()->findByPk($eventId);
+                    $this->getAccount()->EventId = $eventId;
                 }
             }
 
@@ -81,11 +83,9 @@ class WebUser extends \CWebUser
      */
     public function getRole()
     {
-        if ($this->getAccount() !== null)
-        {
-            return $this->getAccount()->Role;
-        }
-        return null;
+        return $this->getAccount() !== null
+            ? $this->getAccount()->Role
+            : null;
     }
 
     protected $_access = array();
@@ -95,6 +95,6 @@ class WebUser extends \CWebUser
         if($allowCaching && $params===array() && isset($this->_access[$operation]))
             return $this->_access[$operation];
         else
-            return $this->_access[$operation]= \Yii::app()->partnerAuthManager->checkAccess($operation,$this->getId(),$params);
+            return $this->_access[$operation] = Yii::app()->partnerAuthManager->checkAccess($operation,$this->getId(),$params);
     }
 }
