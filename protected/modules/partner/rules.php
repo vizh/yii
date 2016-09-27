@@ -231,6 +231,12 @@ return array(
         'module' => 'partner',
         'controllers' => ['program']
     ],
+    [
+        'allow',
+        'roles' => ['Program', 'Approve'],
+        'module' => 'partner',
+        'controllers' => ['coupon', 'generate']
+    ],
 
 
     array(
