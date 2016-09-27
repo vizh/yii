@@ -45,6 +45,7 @@ class UsersAction extends \api\components\Action
         $criteria->addCondition('"t"."Id" IN ('.$command->getText().')');
 
         $users = \user\models\User::model()->findAll($criteria);
+        $totalCount = \user\models\User::model()->count($criteria);
 
         $result = [];
         $result['Users'] = [];
@@ -58,6 +59,8 @@ class UsersAction extends \api\components\Action
         // Не совсем понятно почему, но ок..
         if ($this->getAccount()->Role !== 'mobile')
             $builders[] = Builder::USER_CONTACTS;
+
+        $result['TotalCount'] = $totalCount;
 
         foreach ($users as $user) {
             $result['Users'][] = $this
