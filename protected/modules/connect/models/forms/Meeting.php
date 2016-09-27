@@ -16,7 +16,6 @@ class Meeting extends CreateUpdateForm
     public $CreatorId;
     public $UserId;
     public $Date;
-    public $Time;
     public $Type;
     public $Purpose;
     public $Subject;
@@ -29,14 +28,12 @@ class Meeting extends CreateUpdateForm
     public function rules()
     {
         return [
-            ['PlaceId, CreatorId, Date, Time, Type', 'required'],
+            ['PlaceId, CreatorId, Date, Type', 'required'],
             ['CreatorId', 'validateCreator'],
             ['UserId', 'validateUser', 'when' => function(){ return $this->Type == MeetingAR::TYPE_PRIVATE; }],
-            ['Date', 'date', 'format' => 'yyyy-MM-dd'],
-            ['Time', 'date', 'format' => 'HH:mm'],
-            ['Time', 'validateTime'],
+            ['Date', 'validateDate'],
             ['Purpose, Subject', 'length', 'min' => 0, 'max' => 255],
-            ['File', 'file', 'maxSize' => 10*1024*1024]
+            ['File', 'file', 'maxSize' => 10*1024*1024, 'allowEmpty' => true]
         ];
     }
 
@@ -56,16 +53,21 @@ class Meeting extends CreateUpdateForm
         }
     }
 
-    public function validateTime($attr, $params)
+    public function validateDate($attr, $params)
     {
+        if (!\DateTime::createFromFormat('Y-m-d\TH:i:sP', $this->Date)){
+            $this->addError('Date', 'Неверный формат даты '.$this->Date);
+            return;
+        }
+
         /** @var Place $place */
         $place = Place::model()->findByPk($this->PlaceId);
         if (!$place){
             return;
         }
 
-        if (!$place->hasAvailableReservation($this->Date.' '.$this->Time)){
-            $this->addError('Time', 'На выбранное время нет доступных переговорных комнат');
+        if (!$place->hasAvailableReservation($this->Date)){
+            $this->addError('Date', 'На выбранное время нет доступных переговорных комнат');
         }
     }
 
@@ -98,13 +100,18 @@ class Meeting extends CreateUpdateForm
     protected function fillActiveRecord()
     {
         if (parent::fillActiveRecord()) {
-            $this->model->Date = $this->Date.' '.$this->Time;
+            $date = new \DateTime($this->Date);
+            $date->setTimezone(new \DateTimeZone(Yii::app()->timeZone));
+            $this->model->Date = $date->format('Y-m-d H:i:s');
+
             $this->model->CreatorId = $this->Creator->Id;
 
-            $filepath = $this->model->getFileDir();
-            $filename = Texts::GenerateString(16).'.'.$this->File->extensionName;
-            $this->File->saveAs($filepath.'/'.$filename);
-            $this->model->File = $filename;
+            if ($this->File){
+                $filepath = $this->model->getFileDir();
+                $filename = Texts::GenerateString(16).'.'.$this->File->extensionName;
+                $this->File->saveAs($filepath.'/'.$filename);
+                $this->model->File = $filename;
+            }
 
             return true;
         }
@@ -147,11 +154,16 @@ class Meeting extends CreateUpdateForm
                     $link->MeetingId = $this->model->Id;
                     $link->UserId = $this->User->Id;
                     $link->Status = MeetingLinkUser::STATUS_SENT;
-                    $link->save();
+                    $link->save(false);
                 }
-            }
 
-            $transaction->commit();
+                $transaction->commit();
+                return true;
+            }
+            else{
+                $transaction->rollback();
+                return false;
+            }
         }
         catch (\Exception $e){
             $transaction->rollback();
