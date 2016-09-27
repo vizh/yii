@@ -1,6 +1,7 @@
 <?php
 namespace api\components;
 
+use connect\models\Meeting;
 use pay\models\OrderItem;
 use pay\models\Product;
 use Throwable;
@@ -71,6 +72,44 @@ class Action extends \CAction
     }
 
     /**
+     * @return Meeting
+     * @throws Exception
+     */
+    protected function getRequestedMeeting()
+    {
+        static $meeting;
+
+        if ($meeting !== null) {
+            return $meeting;
+        }
+
+        try {
+            $id = Yii::app()
+                ->getRequest()
+                ->getParam('MeetingId');
+
+            if ($id === null) {
+                throw new Exception(109, ['MeetingId']);
+            }
+
+            $meeting = Meeting::model()
+                ->findByPk($id);
+
+            if ($meeting === null) {
+                throw new Exception(4001, [$id]);
+            }
+        } catch (Exception $e) {
+            $meeting = null;
+            throw $e;
+        } catch (Throwable $e) {
+            $meeting = null;
+            throw new Exception(100, [$e->getMessage()]);
+        }
+
+        return $meeting;
+    }
+
+    /**
      * @return User
      * @throws Exception
      */
@@ -83,20 +122,20 @@ class Action extends \CAction
         }
 
         try {
-            $runetid = Yii::app()
+            $id = Yii::app()
                 ->getRequest()
                 ->getParam('RunetId');
 
-            if ($runetid === null) {
+            if ($id === null) {
                 throw new Exception(109, ['RunetId']);
             }
 
             $user = User::model()
-                ->byRunetId($runetid)
+                ->byRunetId($id)
                 ->find();
 
             if ($user === null) {
-                throw new Exception(202, [$runetid]);
+                throw new Exception(202, [$id]);
             }
         } catch (Exception $e) {
             $user = null;
