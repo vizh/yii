@@ -10,6 +10,17 @@ use application\components\ActiveRecord;
  * @property integer $UserId
  * @property integer $Status
  * @property string $Response
+ *
+ * @method MeetingLinkUser byMeetingId(int $id)
+ * @method MeetingLinkUser byUserId(int $id)
+ * @method MeetingLinkUser byStatus(int $id)
+ *
+ * @method MeetingLinkUser with($condition='')
+ * @method MeetingLinkUser find($condition='',$params=array())
+ * @method MeetingLinkUser findByPk($pk,$condition='',$params=array())
+ * @method MeetingLinkUser findByAttributes($attributes,$condition='',$params=array())
+ * @method MeetingLinkUser[] findAll($condition='',$params=array())
+ * @method MeetingLinkUser[] findAllByAttributes($attributes,$condition='',$params=array())
  */
 class MeetingLinkUser extends ActiveRecord
 {
