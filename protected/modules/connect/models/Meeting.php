@@ -17,6 +17,12 @@ use user\models\User;
  * @property Place $Place
  * @property User $Creator
  * @property MeetingLinkUser[] $UserLinks
+ *
+ * @method Meeting find($condition='',$params=array())
+ * @method Meeting findByPk($pk,$condition='',$params=array())
+ * @method Meeting findByAttributes($attributes,$condition='',$params=array())
+ * @method Meeting[] findAll($condition='',$params=array())
+ * @method Meeting[] findAllByAttributes($attributes,$condition='',$params=array())
  */
 class Meeting extends ActiveRecord
 {
