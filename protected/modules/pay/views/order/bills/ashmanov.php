@@ -29,24 +29,24 @@ use application\components\utility\Texts;
 <table class="payment-info">
   <tbody>
   <tr>
-    <td>ИНН <?=$template->INN;?></td>
-    <td>КПП <?=$template->KPP;?></td>
+    <td>ИНН <?=$template->INN?></td>
+    <td>КПП <?=$template->KPP?></td>
     <td colspan="2">&nbsp;</td>
   </tr>
   <tr>
-    <td	colSpan=2>Получатель<br><?=$template->Recipient;?></td>
+    <td	colSpan=2>Получатель<br><?=$template->Recipient?></td>
     <td><br>Сч.	№</td>
-    <td><br><?=$template->AccountNumber;?></td></tr>
+    <td><br><?=$template->AccountNumber?></td></tr>
   <tr>
-    <td colspan=2>Банк получателя<br><?=$template->Bank;?></td>
+    <td colspan=2>Банк получателя<br><?=$template->Bank?></td>
     <td>БИК<br>Сч. №</td>
-    <td><?=$template->BIK;?><br><?=$template->BankAccountNumber;?></td>
+    <td><?=$template->BIK?><br><?=$template->BankAccountNumber?></td>
   </tr>
   </tbody>
 </table>
 
 <h2>
-  Cчет № <?=$order->Number;?> от <?=date('d.m.Y', strtotime($order->CreationTime));?><br>
+  Cчет № <?=$order->Number?> от <?=date('d.m.Y', strtotime($order->CreationTime))?><br>
   <span>(Счет действителен в течение 5-и банковских дней)</span>
 </h2>
 
@@ -58,10 +58,10 @@ use application\components\utility\Texts;
 </p>
 
 <p>
-  <strong>Заказчик:</strong> <?=$order->OrderJuridical->Name;?>,
-  <strong>ИНН / КПП:</strong> <?=$order->OrderJuridical->INN;?>/<?=$order->OrderJuridical->KPP;?><br>
-  <strong>Плательщик:</strong> <?=$order->OrderJuridical->Name;?><br>
-  <strong>Адрес:</strong> <?=$order->OrderJuridical->Address;?>
+  <strong>Заказчик:</strong> <?=$order->OrderJuridical->Name?>,
+  <strong>ИНН / КПП:</strong> <?=$order->OrderJuridical->INN?>/<?=$order->OrderJuridical->KPP?><br>
+  <strong>Плательщик:</strong> <?=$order->OrderJuridical->Name?><br>
+  <strong>Адрес:</strong> <?=$order->OrderJuridical->Address?>
 </p>
 
 <table class="orderitems">
@@ -82,8 +82,8 @@ use application\components\utility\Texts;
     <td>Участие в конференции «Поисковый маркетинг и продвижение бизнеса в Интернете» 26 - 27 ноября 2015 г.</td>
     <td class="center">-</td>
     <td class="center">1</td>
-    <td class="center nowrap"><?=number_format(round($total, 2, PHP_ROUND_HALF_UP), 2, ',', ' ');?></td>
-    <td class="right nowrap"><?=number_format(round($total, 2, PHP_ROUND_HALF_UP), 2, ',', ' ');?></td>
+    <td class="center nowrap"><?=number_format(round($total, 2, PHP_ROUND_HALF_UP), 2, ',', ' ')?></td>
+    <td class="right nowrap"><?=number_format(round($total, 2, PHP_ROUND_HALF_UP), 2, ',', ' ')?></td>
   </tr>
 
   <tr>
@@ -93,22 +93,22 @@ use application\components\utility\Texts;
       <strong>Всего к оплате (c учетом НДС):</strong>
     </td>
     <td class="right" colspan="2">
-      <?=number_format($total - $nds, 2, ',', ' ');?><br>
-      <?=number_format($nds, 2, ',', ' ');?><br>
-      <?=number_format($total, 2, ',', ' ');?>
+      <?=number_format($total - $nds, 2, ',', ' ')?><br>
+      <?=number_format($nds, 2, ',', ' ')?><br>
+      <?=number_format($total, 2, ',', ' ')?>
     </td>
   </tr>
   </tbody>
 </table>
 
 <p>
-  Всего наименований 1, на сумму <?=number_format($total, 0, ',', ' ');?> руб. 00 коп.<br>
-  <?=Texts::mb_ucfirst(mb_strtolower(Texts::NumberToText($total, true)));?> рублей 00 копеек
+  Всего наименований 1, на сумму <?=number_format($total, 0, ',', ' ')?> руб. 00 коп.<br>
+  <?=Texts::mb_ucfirst(mb_strtolower(Texts::NumberToText($total, true)))?> рублей 00 копеек
 </p>
 
 
-<?if ($withSign):?>
+<?if($withSign):?>
   <img src="/img/pay/bill/ashmanov/sign.jpg"/>
 <?else:?>
   <img src="/img/pay/bill/ashmanov/nosign.jpg"/>
-<?endif;?>
+<?endif?>

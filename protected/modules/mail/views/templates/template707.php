@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
@@ -25,23 +25,23 @@
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #f6f6f6; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#f6f6f6" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h3>
+						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h3>
 		              	<p class="lead" style="font-size: 17px; font-weight: normal; margin: 0 0 10px; padding: 0;">Вы – участник Russian Interactive Week – RIW 2015, мероприятие пройдёт уже на этой неделе, с 21 по 23 октября в московском Экспоцентре</p>
 		            </td>
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -61,7 +61,7 @@
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		      <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-					
+
 					<div class="center" style="text-align: center; margin: 0; padding: 0;" align="center">
 						<table style="text-align: left; width: auto; margin: 15px auto; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td valign="middle" width="55" style="vertical-align: top; margin: 0; padding: 0;">
@@ -72,14 +72,14 @@
 								</td>
 							</tr></table>
 </div>
-					
+
 					<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Несмотря на то, что вам уже доступно посещение выставок «Интернет 2015» и Softool 2015, а также 4 зала Медиа-Коммуникационного Форума, конференции Поколение NEXT и даже участие в некоторых спецсобытиях, <b style="margin: 0; padding: 0;">вы можете получить ещё больше</b>!</p>
 
 		          </td>
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -95,28 +95,28 @@
 		          	<h2 class="center" style="text-align: center; color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;" align="center">ПРОФЕССИОНАЛЬНОЕ УЧАСТИЕ</h2>
 					<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Регистрируйтесь в качестве участника профессиональной программы</strong> и получите доступ к дополнительным 20 блок-конференциям (7 цветных залов), в которых будут проходить:</p>
 					<ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Russian Affiliate Days (RAD 2015)</strong> — <nobr style="margin: 0; padding: 0;">4-я</nobr> конференция, посвященная маркетингу с оплатой за результат, партнерским программам и монетизации веб-проектов</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Performance Marketing</strong> — лучшие доклады со всей России о performance маркетинге, его эффективности и самых главных его инструментах</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Конференция <strong style="margin: 0; padding: 0;">User eXperience Russia 2015</strong> — объёмная блок-конференция, на площадке которой в течение двух первых дней RIW будет рассказываться о обо всём, что связано с юзабилити</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><b style="margin: 0; padding: 0;">Эксклюзивные секции</b> и панели от партнеров Форума: РАЭК, Медиа-Коммуникационный Союз, ИРИ, РОЦИТ, Координационный Центр доменов RU/РФ, ФРИИ, Mail.ru Group, ВКонтакте, Яндекс, OZON.ru, TVZavr, Лаборатория Касперского, Ростелеком, Спутник, а также от телеканала СТС, Холдинга РБК, Yota и многих других</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Бизнес-зона</strong> — постоянно действующая площадке для бизнес-контактов, профессионального общения, отдыха и кофе-брейков </p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Пакет профессионального участника</strong> Форума с материалами RIW</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Доступ к видео из 3 залов и презентациям</strong> всех докладчиков по окончании RIW</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Доступ на открытые</strong> площадки в рамках Спецсобытий</p>
 						</li>
 					</ul>
@@ -127,14 +127,14 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
 <!-- /body --><!-- unboxed --><table class="unboxed-wrap" bgcolor="#f6f6f6" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
@@ -151,7 +151,7 @@
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>

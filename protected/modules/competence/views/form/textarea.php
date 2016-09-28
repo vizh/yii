@@ -5,6 +5,6 @@
 ?>
 <ul class="unstyled">
   <li>
-    <?=CHtml::activeTextArea($form, 'value', ['class' => 'input-block-level']);?>
+    <?=CHtml::activeTextArea($form, 'value', ['class' => 'input-block-level'])?>
   </li>
 </ul>

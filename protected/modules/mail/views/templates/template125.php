@@ -1,6 +1,6 @@
 <p><img src="http://showtime.s3.amazonaws.com/RIF-Voronezh_2014_2014-09-10_13-20-14_2014-09-10_13-20-37.png" style="height: auto; width: 100%;" /></p>
 
-<h3>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h3>
 
 <p>Стартовала региональная <a href="http://rifvrn.ru/premia" target="_blank"><nobr>интернет-премия</nobr> <nobr>&laquo;РИФ-Воронеж</nobr> 2014&raquo;</a>!</p>
 <p>У&nbsp;вас отличный корпоративный сайт? Вы&nbsp;активно занимаетесь продвижением бренда в&nbsp;соцсетях? Успешно продаете товары или услуги через свой <nobr>интернет-магазин</nobr>?</p>

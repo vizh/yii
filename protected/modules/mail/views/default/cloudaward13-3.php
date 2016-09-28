@@ -1,9 +1,9 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Вы зарегистрировались на ежегодную Премиию SaaS-решений Облака 2013.
 
 Ваш личный пригласительный билет:
-<?=$user->Participants[0]->getTicketUrl();?>
+<?=$user->Participants[0]->getTicketUrl()?>
 
 
 Ждем Вас 18 октября в 18-30 в конференц-центре гостиницы Novotel Moscow City.

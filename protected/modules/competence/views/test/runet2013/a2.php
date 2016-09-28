@@ -4,9 +4,9 @@
  */
 ?>
 <h3>Дата вашего рождения</h3>
-<?php $this->widget('competence\components\ErrorsWidget', array('question' => $question));?>
+<?$this->widget('competence\components\ErrorsWidget', array('question' => $question))?>
 <ul class="unstyled">
   <li>
-    <?=CHtml::activeTextField($question, 'value', ['class' => 'input-block-level']);?>
+    <?=CHtml::activeTextField($question, 'value', ['class' => 'input-block-level'])?>
   </li>
 </ul>

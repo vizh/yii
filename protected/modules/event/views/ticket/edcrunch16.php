@@ -13,7 +13,7 @@ use event\models\Participant;
     <table style="width: 100%;">
         <tr>
             <td style="color: #000; font-weight: bold; font-size: 6mm; line-height: 1.2; text-align: center; height: 35mm; vertical-align: middle;">
-                <?= mb_strtoupper($user->FirstName);?> <?= mb_strtoupper($user->FatherName);?> <?= mb_strtoupper($user->LastName);?>
+                <?=mb_strtoupper($user->FirstName)?> <?=mb_strtoupper($user->FatherName)?> <?=mb_strtoupper($user->LastName)?>
             </td>
         </tr>
     </table>

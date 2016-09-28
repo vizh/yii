@@ -6,19 +6,19 @@
 
 use application\components\helpers\ArrayHelper;
 ?>
-<tr id="order-<?= $order->Id; ?>">
-    <td><?= ArrayHelper::getValue($order, 'OrderNumber'); ?></td>
-    <td><?= ArrayHelper::getValue($order, 'Data.Дата'); ?></td>
-    <td><?= ArrayHelper::getValue($order, 'Data.ПлательщикИНН'); ?></td>
-    <td><?= ArrayHelper::getValue($order, 'Data.Плательщик'); ?></td>
-    <td><?= ArrayHelper::getValue($order, 'Data.Сумма'); ?></td>
-    <td><?= ArrayHelper::getValue($order, 'order.Number'); ?></td>
-    <td><?= ArrayHelper::getValue($order, 'order.CreationTime'); ?></td>
-    <td><?= ArrayHelper::getValue($order, 'order.OrderJuridical.INN'); ?></td>
-    <td><?= ArrayHelper::getValue($order, 'order.OrderJuridical.Name'); ?></td>
-    <td><?= ArrayHelper::getValue($order, 'order.price'); ?></td>
+<tr id="order-<?=$order->Id?>">
+    <td><?=ArrayHelper::getValue($order, 'OrderNumber')?></td>
+    <td><?=ArrayHelper::getValue($order, 'Data.Дата')?></td>
+    <td><?=ArrayHelper::getValue($order, 'Data.ПлательщикИНН')?></td>
+    <td><?=ArrayHelper::getValue($order, 'Data.Плательщик')?></td>
+    <td><?=ArrayHelper::getValue($order, 'Data.Сумма')?></td>
+    <td><?=ArrayHelper::getValue($order, 'order.Number')?></td>
+    <td><?=ArrayHelper::getValue($order, 'order.CreationTime')?></td>
+    <td><?=ArrayHelper::getValue($order, 'order.OrderJuridical.INN')?></td>
+    <td><?=ArrayHelper::getValue($order, 'order.OrderJuridical.Name')?></td>
+    <td><?=ArrayHelper::getValue($order, 'order.price')?></td>
     <td>
-        <?php if ($order->order && !$order->order->Paid) {
+        <?if($order->order && !$order->order->Paid) {
             echo CHtml::ajaxLink(
                 '<i class="icon-ok icon-white"></i>',
                 array('/pay/admin/import/pay', 'orderId' => $order->Id),
@@ -37,6 +37,6 @@ use application\components\helpers\ArrayHelper;
             );
         } else {?>
             <i class="icon-ok" title="счет уже оплачен!"></i>
-        <?php } ?>
+        <?php }?>
     </td>
 </tr>

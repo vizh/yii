@@ -25,38 +25,38 @@ $this->setPageTitle(\Yii::t('app', 'Мои заказы'));
         <div class="container">
             <div class="row">
                 <div class="span3">
-                    <?= $this->renderPartial('parts/nav', ['current' => $this->getAction()->getId()]); ?>
+                    <?=$this->renderPartial('parts/nav', ['current' => $this->getAction()->getId()])?>
                 </div>
                 <div class="span9">
-                    <?php if (empty($wait) && empty($paid)): ?>
+                    <?if(empty($wait) && empty($paid)):?>
                         <div class="alert alert-danger text-center">У вас нет заказов</div>
-                    <?php else: ?>
+                    <?php else:?>
                         <div class="tabs" id="user-account-settings-tabs">
                             <ul class="nav">
-                                <?php if (!empty($wait)):?>
-                                    <li><a href="#user-account-settings_pay-wait"><?=\Yii::t('app', 'Ожидают оплаты');?></a></li>
-                                <?php endif;?>
-                                <?php if (!empty($paid)):?>
-                                    <li><a href="#user-account-settings_pay-paid"><?=\Yii::t('app', 'Оплачено');?></a></li>
-                                <?php endif;?>
+                                <?if(!empty($wait)):?>
+                                    <li><a href="#user-account-settings_pay-wait"><?=\Yii::t('app', 'Ожидают оплаты')?></a></li>
+                                <?endif?>
+                                <?if(!empty($paid)):?>
+                                    <li><a href="#user-account-settings_pay-paid"><?=\Yii::t('app', 'Оплачено')?></a></li>
+                                <?endif?>
                             </ul>
-                            <?php if (!empty($wait)): ?>
+                            <?if(!empty($wait)):?>
                                 <div class="tab" id="user-account-settings_pay-wait">
-                                    <?php foreach ($wait as $item): ?>
-                                        <?$this->renderPartial('pay/item', ['item' => $item, 'showCabinetBtn' => true]);?>
-                                    <?php endforeach; ?>
+                                    <?foreach($wait as $item):?>
+                                        <?$this->renderPartial('pay/item', ['item' => $item, 'showCabinetBtn' => true])?>
+                                    <?endforeach?>
                                 </div>
-                            <?php endif;?>
+                            <?endif?>
 
-                            <?php if (!empty($paid)): ?>
+                            <?if(!empty($paid)):?>
                                 <div class="tab" id="user-account-settings_pay-paid">
-                                    <?php foreach ($paid as $item): ?>
-                                        <?$this->renderPartial('pay/item', ['item' => $item]);?>
-                                    <?php endforeach; ?>
+                                    <?foreach($paid as $item):?>
+                                        <?$this->renderPartial('pay/item', ['item' => $item])?>
+                                    <?endforeach?>
                                 </div>
-                            <?php endif;?>
+                            <?endif?>
                         </div>
-                    <?php endif;?>
+                    <?endif?>
                 </div>
             </div>
         </div>

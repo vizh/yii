@@ -1,10 +1,10 @@
-<?php	
+<?php
 	$regLink = "http://2016.i-comference.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'82skQfNnSRIA'), 0, 16);
 ?>
 
 <p><a href="<?=$regLink?>"><img src="https://showtime.s3.amazonaws.com/20160201093809.jpg" style="height: auto; width: 100%;" /></a></p>
 
-<h3>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h3>
 
 <p><nobr>14&ndash;15</nobr> марта 2016 года в&nbsp;ФРИИ Сити Холле пройдет конференция <nobr>i-CoM</nobr> 2016, посвящённая социальным и&nbsp;мобильным коммуникациям, их&nbsp;построению с&nbsp;использованием интернета и&nbsp;других маркетинговых каналов, вопросам автоматизации маркетинга.</p>
 

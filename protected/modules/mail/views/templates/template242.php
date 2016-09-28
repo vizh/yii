@@ -16,8 +16,8 @@
       <img src="http://runet-id.com/img/mail/2014/vilikesnow/invitation/Invitation6_02.jpg" width="364" height="214" style="display: block" alt="">
     </td>
     <td width="327" height="214" style="vertical-align: top;">
-      <p style="text-align: center; font-size: 12px; font-weight: bold; margin-bottom: 0px; font-family: Arial; margin-top: 0px;" align="center">  
-        Уважаемый(ая) <?=$user->getFullName();?>!
+      <p style="text-align: center; font-size: 12px; font-weight: bold; margin-bottom: 0px; font-family: Arial; margin-top: 0px;" align="center">
+        Уважаемый(ая) <?=$user->getFullName()?>!
       </p>
       <p style="text-align: center; font-size: 12px; font-family: Arial; font-weight: bold; margin-bottom: 0px; margin-top: 11px;" align="center">
         Приглашаем Вас на ежегодный праздник<span style="color: #9027A2;"> ViP Club.</span>
@@ -26,7 +26,7 @@
       <br>
         Чтобы оформить Ваш персональный билет<br> до самой
 снежной точки Земли,<br> пожалуйста, зарегистрируйтесь на
-сайте <br><a href="http://vilikessnow.ru/?RUNETID=<?=$user->RunetId;?>&KEY=<?=substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>" style="color: #9027A2; font-weight: bold; font-size: 16px;">www.vilikessnow.ru</a><br> (это займет у
+сайте <br><a href="http://vilikessnow.ru/?RUNETID=<?=$user->RunetId?>&KEY=<?=substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>" style="color: #9027A2; font-weight: bold; font-size: 16px;">www.vilikessnow.ru</a><br> (это займет у
 Вас не больше 2-х минут) <br> и получите индивидуальный
 TICKET PASS.
       </p>

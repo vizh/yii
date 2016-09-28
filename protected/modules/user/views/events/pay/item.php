@@ -7,33 +7,33 @@
 if (!isset($showCabinetBtn)) $showCabinetBtn = false;
 ?>
 <div class="event-pay-item">
-    <h4><?=$item->getEvent()->Title ?></h4>
+    <h4><?=$item->getEvent()->Title?></h4>
     <table class="table">
         <thead>
         <tr>
-            <th colspan="3"><?=\Yii::t('app', 'Заказы');?></th>
+            <th colspan="3"><?=\Yii::t('app', 'Заказы')?></th>
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($item->getProducts() as $product):?>
+        <?foreach($item->getProducts() as $product):?>
             <tr>
-                <td class="event-pay-item_title"><?=$product->Title;?></td>
-                <td><?=$product->Count;?></td>
+                <td class="event-pay-item_title"><?=$product->Title?></td>
+                <td><?=$product->Count?></td>
                 <td class="event-pay-item_price">
-                    <?=$product->Total;?> <?=\Yii::t('app', 'руб.');?>
+                    <?=$product->Total?> <?=\Yii::t('app', 'руб.')?>
                 </td>
             </tr>
-        <?php endforeach; ?>
+        <?endforeach?>
         </tbody>
-        <?php if ($showCabinetBtn):?>
+        <?if($showCabinetBtn):?>
         <tfoot>
         <tr>
             <td colspan="3" class="text-right">
-                <?=\CHtml::link(\Yii::t('app', 'Перейти к оплате'), ['/pay/cabinet/index', 'eventIdName' => $item->getEvent()->IdName], ['class' => 'btn btn-success btn-small']);?>
+                <?=\CHtml::link(\Yii::t('app', 'Перейти к оплате'), ['/pay/cabinet/index', 'eventIdName' => $item->getEvent()->IdName], ['class' => 'btn btn-success btn-small'])?>
             </td>
         </tr>
         </tfoot>
-        <?php endif;?>
+        <?endif?>
     </table>
 
     <?php
@@ -42,20 +42,20 @@ if (!isset($showCabinetBtn)) $showCabinetBtn = false;
         <table class="table">
             <thead>
             <tr>
-                <th colspan="3"><?=\Yii::t('app', 'Счета');?></th>
+                <th colspan="3"><?=\Yii::t('app', 'Счета')?></th>
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($orders as $order):?>
+            <?foreach($orders as $order):?>
                 <tr>
-                    <td class="event-pay-item_title"><?=\CHtml::link((\Yii::t('app', 'Счет') . ' №' . $order->Number), $order->getUrl(), ['target' => '_blank']);?></td>
+                    <td class="event-pay-item_title"><?=\CHtml::link((\Yii::t('app', 'Счет') . ' №' . $order->Number), $order->getUrl(), ['target' => '_blank'])?></td>
                     <td class="event-pay-item_price">
-                        <?=$order->getPrice();?> <?=\Yii::t('app', 'руб.');?>
+                        <?=$order->getPrice()?> <?=\Yii::t('app', 'руб.')?>
                     </td>
                 </tr>
-            <?php endforeach; ?>
+            <?endforeach?>
             </tbody>
         </table>
-    <?php endif;?>
+    <?endif?>
 
 </div>

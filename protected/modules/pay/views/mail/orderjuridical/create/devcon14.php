@@ -18,34 +18,34 @@
         <tr>
           <td style="font-size: 13px;">
             <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="4" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 18px;">
-              <?if (!empty($payer->LastName)):?>
-                Здравствуйте,<br /><?=$payer->getFullName();?>.
+              <?if(!empty($payer->LastName)):?>
+                Здравствуйте,<br /><?=$payer->getFullName()?>.
               <?else:?>
                 Уважаемый пользователь.
-              <?endif;?>
+              <?endif?>
             </font>
             <br />
             <br />
 
-            <?if ($order->Type == \pay\models\OrderType::Juridical):?>
-            <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Сообщаем, что вы создали счет для юридических лиц № <?=$order->Id;?> на оплату участия в конференции DevCon 2014 на сумму <?=$total;?> руб.</font>
+            <?if($order->Type == \pay\models\OrderType::Juridical):?>
+            <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Сообщаем, что вы создали счет для юридических лиц № <?=$order->Id?> на оплату участия в конференции DevCon 2014 на сумму <?=$total?> руб.</font>
               <br />
               <br />
-              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 15px;"><a href="<?=$order->getUrl();?>">Распечатать счет</a></font>
+              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 15px;"><a href="<?=$order->getUrl()?>">Распечатать счет</a></font>
               <br />
               <br />
               <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Счет действителен в течении 5-и рабочих дней. Просим Вас произвести оплату в этот срок.
             </font>
             <?else:?>
-              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Сообщаем, что вы создали счет для физических лиц № <?=$order->Id;?> на оплату участия в конференции DevCon 2014 на сумму <?=$total;?> руб.</font>
+              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Сообщаем, что вы создали счет для физических лиц № <?=$order->Id?> на оплату участия в конференции DevCon 2014 на сумму <?=$total?> руб.</font>
                 <br />
                 <br />
-              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 15px;"><a href="<?=$order->getUrl();?>">Распечатать квитанцию</a></font>
+              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 15px;"><a href="<?=$order->getUrl()?>">Распечатать квитанцию</a></font>
                 <br />
                 <br />
               <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Квитанция действительна в течении 5-и рабочих дней. Просим Вас произвести оплату в этот срок.
               </font>
-            <?endif;?>
+            <?endif?>
             <br />
             <br />
             <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Благодарим за интерес к мероприятиям Microsoft!</font>

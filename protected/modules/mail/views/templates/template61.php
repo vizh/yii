@@ -1,6 +1,6 @@
 <p><a href="http://runet-id.com/event/20therunet/" target="_blank"><img src="http://runet-id.com/img/mail/2014/20140331-20therunet.jpg" /></a></p>
 
-<h2>Здравствуйте,&nbsp;<?=$user->getShortName();?>!</h2>
+<h2>Здравствуйте,&nbsp;<?=$user->getShortName()?>!</h2>
 
 <p>Мы рады, что вы приняли участие в акции «стань участником РИФ+КИБ с 4 по 7 апреля и получи пригласительный на День рождения Рунета!» и с удовольствием <strong>высылаем обещанный пригласительный</strong>.</p>
 

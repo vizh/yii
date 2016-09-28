@@ -21,31 +21,31 @@ foreach ($question->values as $key => $value)
 
 <h3>Укажите сферы вашей профессиональной деятельности и интересов (не более 3)</h3>
 
-<?php $this->widget('competence\components\ErrorsWidget', array('question' => $question));?>
+<?$this->widget('competence\components\ErrorsWidget', array('question' => $question))?>
 
 <div class="row">
   <div class="span4">
     <ul class="unstyled">
-      <?foreach ($part1 as $key => $value):?>
+      <?foreach($part1 as $key => $value):?>
       <li>
         <label class="checkbox">
-          <?=CHtml::activeCheckBox($question, 'value[]', array('value' => $key, 'uncheckValue' => null, 'checked' => in_array($key, $question->value)));?>
-          <?=$value;?>
+          <?=CHtml::activeCheckBox($question, 'value[]', array('value' => $key, 'uncheckValue' => null, 'checked' => in_array($key, $question->value)))?>
+          <?=$value?>
         </label>
       </li>
-      <?endforeach;?>
+      <?endforeach?>
     </ul>
   </div>
   <div class="span5">
     <ul class="unstyled">
-      <?foreach ($part2 as $key => $value):?>
+      <?foreach($part2 as $key => $value):?>
       <li>
         <label class="checkbox">
-          <?=CHtml::activeCheckBox($question, 'value[]', array('value' => $key, 'uncheckValue' => null, 'checked' => in_array($key, $question->value)));?>
-          <?=$value;?>
+          <?=CHtml::activeCheckBox($question, 'value[]', array('value' => $key, 'uncheckValue' => null, 'checked' => in_array($key, $question->value)))?>
+          <?=$value?>
         </label>
       </li>
-      <?endforeach;?>
+      <?endforeach?>
     </ul>
   </div>
 </div>

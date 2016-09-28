@@ -13,7 +13,7 @@
 							<tbody>
 								<tr>
 									<td>
-									<h3>Здравствуйте,&nbsp;<?=$user->getShortName();?>!</h3>
+									<h3>Здравствуйте,&nbsp;<?=$user->getShortName()?>!</h3>
 
 									<p><strong>30-31 января</strong>, состоится центральное ежегодное мероприятие по информационной безопасности - <strong>16-й Национальный форум информационной безопасности &laquo;Инфофорум-2014&raquo;</strong>. Форум пройдет в&nbsp; Здании Правительства Москвы (ул. Новый Арбат, 36).</p>
 
@@ -41,7 +41,7 @@
 									<a href="http://www.runet-id.com/" target="_blank">www.runet-ID.com</a><br />
 									<br />
 									​--<br />
-									<a href="<?=$user->getFastauthUrl('/user/setting/subscription/');?>">Отписаться</a> от рассылок RUNET-ID</p>
+									<a href="<?=$user->getFastauthUrl('/user/setting/subscription/')?>">Отписаться</a> от рассылок RUNET-ID</p>
 									</td>
 								</tr>
 							</tbody>

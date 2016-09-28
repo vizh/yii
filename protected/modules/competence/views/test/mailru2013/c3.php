@@ -8,7 +8,7 @@
 
 <h3>В каком городе/регионе Вы живете постоянно?</h3>
 
-<?php $this->widget('competence\components\ErrorsWidget', array('question' => $question));?>
+<?$this->widget('competence\components\ErrorsWidget', array('question' => $question))?>
 
 
-<?=CHtml::activeDropDownList($question, 'value', $question->values, array('class' => 'span4'));?>
+<?=CHtml::activeDropDownList($question, 'value', $question->values, array('class' => 'span4'))?>

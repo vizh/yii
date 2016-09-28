@@ -18,8 +18,8 @@
 							<div style="font-size: 42px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0;">#MBLT15</div>
 							<div style="color: #999999; font-size: 24px; line-height: 26px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;">4-ая Международная конференция, посвященная мобильным технологиям.</div>
 						</div>
-						<hr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; border-bottom-style: solid; border-bottom-color: #eaeaea; height: 1px; width: 100%; margin: 25px 0; padding: 0; border-width: 0 0 1px;" /><h3 class="center" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; text-align: center; color: #000; font-weight: 200; margin: 10px 0; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName();?>.</h3>
-						<h4 class="center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; text-align: center; font-weight: normal; background: yellow; margin: 15px 10% 25px; padding: 0;" align="center">Вы зарегистрированны со статусом «<?=$user->Participants[0]->Role->Title;?>» на международной мобильной конференции #MBLT15.</h4>
+						<hr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; border-bottom-style: solid; border-bottom-color: #eaeaea; height: 1px; width: 100%; margin: 25px 0; padding: 0; border-width: 0 0 1px;" /><h3 class="center" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; text-align: center; color: #000; font-weight: 200; margin: 10px 0; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName()?>.</h3>
+						<h4 class="center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; text-align: center; font-weight: normal; background: yellow; margin: 15px 10% 25px; padding: 0;" align="center">Вы зарегистрированны со статусом «<?=$user->Participants[0]->Role->Title?>» на международной мобильной конференции #MBLT15.</h4>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Конференция <b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">стартует уже завтра</b> на площадке московского Digital October.</p>
 
 						<hr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; border-bottom-style: solid; border-bottom-color: #eaeaea; height: 1px; width: 100%; margin: 25px 0; padding: 0; border-width: 0 0 1px;" /><h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 15px 0 10px; padding: 0;">Ваш статус на конференции дает Вам право:</h3>
@@ -33,7 +33,7 @@
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Стойки регистрации участников будут работать с 9:00 утра. По прибытию на площадку Вам необходимо пройти к стойке регистрации для получения бэйджа и раздаточных материалов.</p>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Для ускорения процедуры регистрации, настоятельно рекомендуем заранее распечатать персональный путевой лист или сохранить его на мобильном устройстве.</p>
 						<div class="bordered center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; text-align: center; margin: 15px 0; padding: 25px; border: 1px solid #f2ce34;" align="center">
-							<a href="<?=$user->Participants[0]->getTicketUrl();?>" class="btn-primary" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 2; color: #000; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; background: #F2CE34; margin: 0 10px 0 0; padding: 0; border-color: #f2ce34; border-style: solid; border-width: 10px 40px;">ПУТЕВОЙ ЛИСТ</a>
+							<a href="<?=$user->Participants[0]->getTicketUrl()?>" class="btn-primary" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 2; color: #000; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; background: #F2CE34; margin: 0 10px 0 0; padding: 0; border-color: #f2ce34; border-style: solid; border-width: 10px 40px;">ПУТЕВОЙ ЛИСТ</a>
 						</div>
 
 						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 15px 0 10px; padding: 0;">Как пройти на площадку</h3>
@@ -51,7 +51,7 @@
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top"></td>
 	</tr></table><!-- /body --></body>

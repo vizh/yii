@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/img/mail/2015/sochim15.jpg" style="height: auto; width: 100%;" /></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p>24 сентября в рамках форума «Спектр-2015» пройдет Российский Интернет Форум - <a href="https://regions.rif.ru/events/sochi/">РИФ.Сочи</a>, который станет важным этапом большого всероссийского проекта РИФ.Регион 2015.</p>
 

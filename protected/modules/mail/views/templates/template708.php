@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/pnx15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <h3>21-23 октября в рамках <a href="http://riw.moscow">RIW 2015</a> состоится конференция <a href="http://runet-id.com/event/next2015">Поколение NEXT &laquo;Школа новых технологий&raquo;</a> &ndash; первая практико-ориентированная площадка страны, объединяющая прогрессивное педагогическое сообщество и интернет-индустрию, представителей сферы высоких технологий, бизнеса и власти.</h3>
 

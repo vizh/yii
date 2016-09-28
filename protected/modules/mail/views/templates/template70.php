@@ -1,8 +1,8 @@
-<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 
 <p><a href="http://2014.russianinternetforum.ru" style="color: rgb(17, 85, 204);" target="_blank"><img src="http://runet-id.com/img/mail/2014/20140414-rif14-forest.jpg" /></a></p>
 
-<h2>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h2>
+<h2>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h2>
 
 <p>18-й Российский Интернет Форум (РИФ+КИБ 2014) сформировал свою <a href="http://2014.russianinternetforum.ru/program/" target="_blank">Программу</a>.</p>
 

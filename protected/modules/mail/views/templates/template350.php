@@ -1,9 +1,9 @@
 <p><a href="http://runet-id.com/event/etr15" target="_blank"><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/etr155.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3><strong>Здравствуйте, </span><?=$user->getShortName();?></strong>.</h3>
+<h3><strong>Здравствуйте, </span><?=$user->getShortName()?></strong>.</h3>
 <p>Приглашаем 26 марта на вторую конференцию, посвященную онлайн-образованию — EdTech Russia 2015. На мероприятии можно будет узнать о новых технологиях в образовании и возможностях для корпоративного обучения, а также найти клиентов, партнеров и инвесторов.</p>
 
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/etr15');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #30b1ce; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #307489;
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/etr15')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #30b1ce; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #307489;
   border-top: 1px solid #56BFD7;"><strong>Регистрация</strong> </a></div>
 
 <h3><strong>О чем эта конференция?</strong></h3>

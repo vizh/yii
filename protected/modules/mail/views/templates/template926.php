@@ -1,5 +1,5 @@
 <a href="http://mblt.ru/ru?utm_source=link&amp;utm_medium=email25_04&amp;utm_campaign=runetid"><img alt="MBLT16" src="http://runet-id.com/img/mail/2016/mblt16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /></a>
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 
 <p>Мы видим, что вы зарегистрировались, но еще не решились на покупку билета на <a href="http://mblt.ru/ru?utm_source=link&amp;utm_medium=email25_04&amp;utm_campaign=runetid">MBLT16</a>. Конференция пройдет уже через 2 дня!</p>

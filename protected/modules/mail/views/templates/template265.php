@@ -51,7 +51,7 @@
                             <tbody>
                             <tr>
                                 <td style="padding:23px 0 0;" width="800" style="color: #666666;">
-                                    <h4 style="margin-top: 30px; margin-bottom: 10px !important; font-size: 16px; font-weight: bold !important; color:#2e74b5;">Здравствуйте, <?=$user->getFullName();?>!</h4>
+                                    <h4 style="margin-top: 30px; margin-bottom: 10px !important; font-size: 16px; font-weight: bold !important; color:#2e74b5;">Здравствуйте, <?=$user->getFullName()?>!</h4>
                                     <p style="margin-bottom: 0;">Мы рады, что вы стали участником <a href="http://events.techdays.ru/AppDay/2014-11/">Russian App Day</a>! Конференция начнется уже завтра, и мы спешим сообщить вам о самом главном – пожалуйста, прочтите это письмо до конца!</p>
                                     <div style="margin: 0; padding: 0; height: 10px;"></div>
                                     <h4 style="margin-top: 30px; margin-bottom: 10px !important; font-size: 16px; font-weight: bold !important; color:#2e74b5;">КОНФЕРЕНЦИЯ СОСТОИТСЯ</h4>
@@ -85,13 +85,13 @@
                                     <?
                                     $apiAccount = \api\models\Account::model()->byEventId(1369)->find();
                                     $externalUser = \api\models\ExternalUser::model()->byUserId($user->Id)->byAccountId($apiAccount->Id)->find();
-                                    ?>
-                                    <a href="http://runet-id.com/appday14/<?=substr($externalUser->ExternalId, 0, 8);?>" style="color:#FFFFFF; text-decoration:none; display:inline-block; border:solid #2e75b6;background:#2e75b6;font-size:20px; border-width: 9px 36px;">Заполнить анкету</a>
+                                   ?>
+                                    <a href="http://runet-id.com/appday14/<?=substr($externalUser->ExternalId, 0, 8)?>" style="color:#FFFFFF; text-decoration:none; display:inline-block; border:solid #2e75b6;background:#2e75b6;font-size:20px; border-width: 9px 36px;">Заполнить анкету</a>
 
                                     <h4 style="margin-top: 30px; margin-bottom: 10px !important; font-size: 16px; font-weight: bold !important; color:#2e74b5;">ВАШ БИЛЕТ НА КОНФЕРЕНЦИЮ</h4>
                                     <p style="margin-bottom: 0;">Пожалуйста, скачайте ваш индивидуальный билет на конференцию, распечатайте и возьмите с собой, чтобы облегчить процедуру регистрации на месте.</p>
                                     <div style="margin: 0; padding: 0; height: 10px;"></div>
-                                    <a href="<?=$user->Participants[0]->getTicketUrl();?>" style="color:#FFFFFF; text-decoration:none; display:inline-block; border:solid #2e75b6;background:#2e75b6;font-size:20px; border-width: 9px 36px;">Скачать билет на конференцию</a>
+                                    <a href="<?=$user->Participants[0]->getTicketUrl()?>" style="color:#FFFFFF; text-decoration:none; display:inline-block; border:solid #2e75b6;background:#2e75b6;font-size:20px; border-width: 9px 36px;">Скачать билет на конференцию</a>
 
                                     <p style="margin-bottom: 0;">Если по какой-либо причине вы не сможете посетить Russian App Day, пожалуйста, подключайтесь к <a href="http://events.techdays.ru/AppDay/2014-11/">онлайн-трансляции</a> мероприятия на сайте конференции 21 ноября с 10 утра по московскому времени.</p>
                                     <div style="margin: 0; padding: 0; height: 10px;"></div>

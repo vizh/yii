@@ -1,4 +1,4 @@
-<p><strong>Здравствуйте, <?=$user->getShortName();?>.</strong></p>
+<p><strong>Здравствуйте, <?=$user->getShortName()?>.</strong></p>
 
 <p>Вами был выставлен счёт на оплату в конференции  MBLTDEV, которая проходит 17 ноября 2015 года в Москве, на площадке Digital October.</p>
 

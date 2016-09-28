@@ -1,8 +1,8 @@
-<?if ($user->FirstName != '-'):?>
-<p style="font-family:Segoe UI,Tahoma,Helvetica,sans-serif;font-size:14px"><strong>Здравствуйте, <?=$user->getShortName();?></strong></p>
+<?if($user->FirstName != '-'):?>
+<p style="font-family:Segoe UI,Tahoma,Helvetica,sans-serif;font-size:14px"><strong>Здравствуйте, <?=$user->getShortName()?></strong></p>
 <?else:?>
 <p style="font-family:Segoe UI,Tahoma,Helvetica,sans-serif;font-size:14px"><strong>Здравствуйте!</strong></p>
-<?endif;?>
+<?endif?>
 <p style="font-family:Segoe UI,Tahoma,Helvetica,sans-serif;font-size:14px">Благодарим Вас за интерес к конференции <a href="http://www.msdevcon.ru/">DevCon 2015</a>, посвященной разработке под платформу&nbsp; Microsoft!</p>
 
 <p style="font-family:Segoe UI,Tahoma,Helvetica,sans-serif;font-size:14px">DevCon 2015 &ndash; это два насыщенных дня, в течение которых вас ожидают:</p>

@@ -1,4 +1,4 @@
-<p><strong>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</strong></p>
+<p><strong>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</strong></p>
 
 <p>Уже завершён прием работ на&nbsp;ключевой и&nbsp;старейший конкурс интернет-проектов России&nbsp;&mdash; <a href="http://2015.goldensite.ru/">Золотой Сайт &rsquo;2015</a>. Но&nbsp;для участников &laquo;Премии Рунета&raquo; действует уникальное предложение! Номинируйтесь 21&nbsp;или 22&nbsp;сентября со&nbsp;скидкой 10%&nbsp;&mdash; впишите свой сайт в&nbsp;историю конкурса.</p>
 

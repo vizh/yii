@@ -1,6 +1,6 @@
 <img alt="" src="http://runet-id.com/img/mail/2016/logovn16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 50%; margin: 0; padding: 0;" />
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p><strong>17 марта 2016 года в 13:30 в Большом Конференц-зале выставочного комплекса ЦДХ пройдет Конференция "Власть. Интернет. Рынок недвижимости", которая состоится в рамках выставки &laquo;Недвижимость 2016&raquo; в Москве по адресу: Крымский Вал, 10</strong></p>
 

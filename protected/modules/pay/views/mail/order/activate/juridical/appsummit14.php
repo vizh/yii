@@ -6,21 +6,21 @@
  * @var int $total
  */
 ?>
-<?if (!empty($payer->LastName)):?>
-  Здравствуйте, <?=$payer->getFullName();?>.
+<?if(!empty($payer->LastName)):?>
+  Здравствуйте, <?=$payer->getFullName()?>.
 <?else:?>
   Уважаемый пользователь.
-<?endif;?>
+<?endif?>
 
-<p>Финансовая служба подтверждает получение оплаты по <?=$order->Type == \pay\models\OrderType::Receipt  ? 'квитанции' :'счету';?> №<?=$order->Id;?> на оплату участия в конференции AppSummit на сумму <?=$total;?> руб. за следующие услуги:<br/>
+<p>Финансовая служба подтверждает получение оплаты по <?=$order->Type == \pay\models\OrderType::Receipt  ? 'квитанции' :'счету'?> №<?=$order->Id?> на оплату участия в конференции AppSummit на сумму <?=$total?> руб. за следующие услуги:<br/>
   <?foreach($items as $orderItem):?>
-    &ndash; "<?=$orderItem->Product->Title;?>" на <?=$orderItem->Owner->getFullName();?><br/>
-  <?endforeach;?>
+    &ndash; "<?=$orderItem->Product->Title?>" на <?=$orderItem->Owner->getFullName()?><br/>
+  <?endforeach?>
 </p>
 
-<?if (!$payer->Temporary):?>
-  <p>Ваш профиль:<br/><a href="<?=$payer->getUrl();?>"><?=$payer->getUrl();?></a></p>
-<?endif;?>
+<?if(!$payer->Temporary):?>
+  <p>Ваш профиль:<br/><a href="<?=$payer->getUrl()?>"><?=$payer->getUrl()?></a></p>
+<?endif?>
 
 
 <p>---<br>

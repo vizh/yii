@@ -3,7 +3,7 @@
 $goldenSiteRegLink = "http://2014.goldensite.ru/personal/expert/?RUNETID=" . $user->RunetId . "&KEY=" . $key;
 ?>
 
-<strong>​<?=$user->getShortName();?>,&nbsp;<span style="line-height: 1.6em;">добрый день.</span></strong>
+<strong>​<?=$user->getShortName()?>,&nbsp;<span style="line-height: 1.6em;">добрый день.</span></strong>
 <p>Мы&nbsp;пишем вам, потому что вы&nbsp;являетесь членом жюри Золотого Сайта 2014. Мы&nbsp;стартуем этап голосования и&nbsp;просим вас внимательно прочитать эту инструкцию:</p>
 
 <p><strong>Краткая инструкция по&nbsp;голосованию:</strong></p>

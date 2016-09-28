@@ -1,16 +1,16 @@
 <?php
 	$event = \event\models\Event::model()->findByPk(1498);
 ?>
-	
+
 <p><img src="http://showtime.s3.amazonaws.com/201502021039-csf15-logo.jpg" style="height: auto; width: 100%;" /></p>
-<h3>Здравствуйте <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте <?=$user->getShortName()?>!</h3>
 
 <p>Вы&nbsp;начали, но&nbsp;не&nbsp;завершили процедуру регистрации на&nbsp;<a href="http://www.CyberSecurityForum.ru">Cyber Security Forum 2015</a>, поэтому пока не&nbsp;имеете доступа на&nbsp;площадку Форума.</p>
 
 <p>Для участия в&nbsp;мероприятии 12&nbsp;февраля и&nbsp;доступа на&nbsp;площадку (Пресс-центр МИА &laquo;Россия сегодня&raquo;) необходимо завершить регистрацию: оплатить участие или обратиться в&nbsp;Оргкомитет Форума для получения промо-кода (предоставляется партнерам мероприятия, докладчикам, представителями СМИ и&nbsp;ВУЗов и&nbsp;т.д.).</p>
 
 <div style="text-align: center; border: 3px dashed #D94332; margin-top: 20px;">
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$event->getFastRegisterUrl($user, \event\models\Role::model()->findByPk(24));?>#event_widgets_Registration" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #D94332; margin: 0 10px 0 0; padding: 0; border-color: #D94332; border-style: solid; border-width: 10px 40px;">Быстрая регистрация</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$event->getFastRegisterUrl($user, \event\models\Role::model()->findByPk(24))?>#event_widgets_Registration" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #D94332; margin: 0 10px 0 0; padding: 0; border-color: #D94332; border-style: solid; border-width: 10px 40px;">Быстрая регистрация</a></p>
 	<p style="font-size: 80%">Стоимость участия 1500&nbsp;рублей, включая налоги.</p>
 </div>
 

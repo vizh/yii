@@ -1,4 +1,4 @@
-<?$regLink = "http://2014.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16);?>
+<?$regLink = "http://2014.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>
 
 <table align="center" border="0" cellpadding="0" cellspacing="0" style="color: rgb(34, 34, 34); line-height: normal; border: 1px solid rgb(239, 239, 239); font-family: Tahoma, Arial, Helvetica, sans-serif;" width="600">
     <tbody>
@@ -11,7 +11,7 @@
                 <tbody>
                 <tr>
                     <td style="margin: 0px;">
-                        <h3><?=$user->getShortName();?>, здравствуйте!</h3>
+                        <h3><?=$user->getShortName()?>, здравствуйте!</h3>
                         <p>Вы - зарегистрировались на сайте Санкт-Петербургской Интернет Конференции (<a href="http://sp-ic.ru">СПИК 2014</a>).&nbsp;</p>
                         <p>Ваш статус <strong>&laquo;Виртуальный участник&raquo;</strong>&nbsp;дает Вам право посещать <a href="http://2014.sp-ic.ru/exhibition/">выставку</a> все дни ее работы: 27-28 мая &nbsp;2014 года. Посетителей выставки ждут консультации специалистов, живое общение с компаниями-лидерами Рунета в Северо-Западном федеральном округе, промо-продукция и развлекательные мероприятия с приятными бонусами.&nbsp;</p>
                         <p><strong>ВНИМАНИЕ!</strong><br />

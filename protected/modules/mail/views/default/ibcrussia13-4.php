@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 В 2013 году мы (РАЭК и компания "Ашманов и партнеры") объединили два главных проекта рынка веб-разработок и поисковой оптимизации (конференции "Сайт" и Optimization), и добавили мощную составляющую по интернет-маркетингу.
 
@@ -21,7 +21,7 @@ IBC Russia пройдёт в несколько потоков:
 
 ЗАРЕГИСТРИРУЙТЕСЬ СЕГОДНЯ
 и откройте для себя новые возможности современных рекламных технологий:
-http://ibcrussia.com/my/?RUNETID=<?=$user->RunetId;?>&KEY=<?=substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>
+http://ibcrussia.com/my/?RUNETID=<?=$user->RunetId?>&KEY=<?=substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>
 
 
 
@@ -31,4 +31,4 @@ http://ibcrussia.com/my/?RUNETID=<?=$user->RunetId;?>&KEY=<?=substr(md5($user->R
 http://ibcrussia.com
 reg@ibcrussia.com
 
-Отписаться от рассылок runet-ID: <?=$user->getFastauthUrl('/user/setting/subscription/');?>
+Отписаться от рассылок runet-ID: <?=$user->getFastauthUrl('/user/setting/subscription/')?>

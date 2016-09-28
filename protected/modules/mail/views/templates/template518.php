@@ -21,12 +21,12 @@ $regLink = "http://2015.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . subs
 			<!-- content -->
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; max-width: 550px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top">
-						
 
-						<h2 class="centered" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: bold; text-align: center; text-transform: uppercase; margin: 25px 0; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName();?>.</h2>
-						
+
+						<h2 class="centered" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: bold; text-align: center; text-transform: uppercase; margin: 25px 0; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName()?>.</h2>
+
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">До главного ИТ-мероприятия Северо-Западного региона (СПИК 2015) осталось всего 3 дня! Чем уникально это мероприятие - мы расскажем ниже.</b></p>
-						
+
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">X Санкт-Петербургская Интернет Конференция начинает свою работу уже в этот четверг, с 28 по 29 мая. Мероприятие пройдет в Санкт-Петербурге в конгресс-центре гостиницы «Прибалтийская Park Inn» (ул. Кораблестроителей, д.14).</p>
 
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">Программа конференции полностью сформирована</b>, все дни будет работать  выставка. У вас есть возможность <a href="<?=$regLink?>" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">зарегистрироваться сейчас</a> или непосредственно на мероприятии: присоединиться к работе СПИК можно в любое время, регистрация на месте будет работать все 2 дня с 9:00 до 18:00.</p>
@@ -57,7 +57,7 @@ $regLink = "http://2015.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . subs
 						<div class="bordered center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; text-align: center; margin: 15px 0; padding: 25px; border: 1px solid #d23000;" align="center">
 							<a href="<?=$regLink?>" class="btn-primary" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 2; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; background: #D23000; margin: 0 10px 0 0; padding: 0; border-style: solid; border-width: 10px 40px; border-color: #D23000;">РЕГИСТРАЦИЯ</a>
 						</div>
-						
+
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Оплатить участие можно в личном кабинете банковской картой (VISA, MasterCard), электронными деньгами (Яндекс.Деньги, PayPal) и безналичным расчетом (для юр. лиц). Обращаем внимание, что <b>завтра последний день оплаты по безналу</b>.</p>
 
 						<p class="center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; text-align: center; font-weight: normal; margin: 0 0 10px; padding: 0;" align="center">Будем рады видеть Вас в числе участников СПИК 2015!</p>
@@ -69,7 +69,7 @@ $regLink = "http://2015.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . subs
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top"></td>
 	</tr></table><!-- /body --></body>

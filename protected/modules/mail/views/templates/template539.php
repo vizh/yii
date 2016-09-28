@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/drkz15.jpg" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p>Вы были на Digital-рейде в ноябре 2014 года. Не прошло и года, как Digital-рейд снова приезжает в Татарстан рамках ещё более масштабного события — <b><a href="https://regions.rif.ru/events/innopolis/">РИФ.Иннополис</a></b>.</p>
 

@@ -63,7 +63,7 @@
           <table width="750" height="1060" align="center" cellpadding="0" cellspacing="0" style="position: relative; width: 750px; height: 1060px; border-collapse:collapse; background: url('http://runet-id.com/img/event/beesuper13/beesuper-bg.jpg') no-repeat; font-family: Verdana;">
             <tr valign="top">
               <td height="50" style="height: 50px;">
-                <a style="display: block; font-family: Verdana; line-height: 33px; font-size: 11px; font-style: italic; margin-right: 10px; min-height: 43px; padding-right: 60px; text-align: right; text-decoration: none; background: transparent url('http://runet-id.com/img/event/beesuper13/print.png') no-repeat right !important; color: #000000 !important;" href="<?=$user->Participants[0]->getTicketUrl();?>">Распечатать</a>
+                <a style="display: block; font-family: Verdana; line-height: 33px; font-size: 11px; font-style: italic; margin-right: 10px; min-height: 43px; padding-right: 60px; text-align: right; text-decoration: none; background: transparent url('http://runet-id.com/img/event/beesuper13/print.png') no-repeat right !important; color: #000000 !important;" href="<?=$user->Participants[0]->getTicketUrl()?>">Распечатать</a>
               </td>
             </tr>
 
@@ -89,7 +89,7 @@
                       <div style="font-family: Verdana; font-size: 11px; margin-left: 30px; line-height: 15px; margin-top: 6px; width: 130px;">GPS координаты:<br/>55.739782 N<br/>37.610134 E</div>
                     </td>
                     <td width="100" style="font-family: Verdana; text-align: center; width: 100px; vertical-align: top;">
-                      <div style="background: #ffffff;"><img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100);?>" /><br/><?=$user->RunetId;?></div>
+                      <div style="background: #ffffff;"><img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100)?>" /><br/><?=$user->RunetId?></div>
                     </td>
                   </tr>
                 </table>

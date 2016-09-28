@@ -1,4 +1,4 @@
-<h3>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h3>
 
 <p>Вы получили это письмо, поскольку начали, но <strong>не завершили регистрацию</strong> на&nbsp;<a href="http://runet-id.com/event/csf15/">Cyber Security Forum 2015</a>, который состоится уже в этот четверг (12 февраля).</p>
 

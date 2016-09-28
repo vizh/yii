@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/img/mail/2014/20140521-richmind14.jpg" alt="" /></p>
 
-<h2>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h2>
+<h2>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h2>
 
 <p style="font-size: 120%">Легенда <nobr>digital-маркетинга</nobr> и&nbsp;самый харизматичный международный спикер современности Эрик Куалман впервые проведет в&nbsp;Москве интенсивный <nobr>мастер-класс</nobr> Social Media &amp; Digital.</p>
 
@@ -11,7 +11,7 @@
 <p><b>Эрик Куалман</b>&nbsp;&mdash; профессор Бостонского университета, автор международных бестселлеров &laquo;Социалномика&raquo;, &laquo;Цифровое лидерство&raquo;, &laquo;Репутация в&nbsp;Сети&raquo;. Консультирует Google, Nokia, Mars, Starbucks, Sony Playstation, Facebook, преподает в&nbsp;42 странах мира, публикуется в&nbsp;Forbes, New Financial Times, Fortune, New York Times. Впервые у&nbsp;российской <nobr>бизнес-аудитории</nobr> появилась возможность посетить <nobr>мастер-класс</nobr> Эрика Куалмана и&nbsp;лично пообщаться со&nbsp;звездой мирового digital.</p>
 
 <p>Подробная программа, информация о&nbsp;спикере и&nbsp;регистрация участия:</p>
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/richmind14/');?>" style="display: block; text-decoration: none; background: #291E3B; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/richmind14/')?>" style="display: block; text-decoration: none; background: #291E3B; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
 
 <p><strong>Внимание! Только для пользователей </strong><nobr><strong>RUNET-ID</strong></nobr><strong> специальная скидка 15% на&nbsp;участие.</strong></p>
 

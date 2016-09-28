@@ -4,11 +4,11 @@
  */
 ?>
 
-<div id="<?=$this->getNameId();?>" class="tab">
+<div id="<?=$this->getNameId()?>" class="tab">
   <header>
-    <h4><?=$this->ProgramHead;?></h4>
+    <h4><?=$this->ProgramHead?></h4>
   </header>
   <article>
-    <?=$this->ProgramText;?>
+    <?=$this->ProgramText?>
   </article>
 </div>

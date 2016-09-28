@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/img/mail/2015/rifvoronezh15.png" style="height: auto; width: 100%;" /></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p>Вы зарегистрированы для участия в форуме <a href="http://2015.rifvrn.ru/">РИФ.Воронеж</a>, который пройдет <b>11-12 сентября 2015 года</b> в Воронеже (к/т «Спартак»).
 </p>
@@ -37,7 +37,7 @@
 
 <div style="text-align: center; border: 3px dashed #F05B00; margin-top: 20px;">
 <p style="text-align:center;"><b>ОБЯЗАТЕЛЬНО распечатайте и возьмите с собой Ваш персональный</b></p>
-<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #F05B00; margin: 0 10px 0 0; padding: 0; border-color: #F05B00; border-style: solid; border-width: 10px 40px;">ПУТЕВОЙ ЛИСТ</a></p>
+<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #F05B00; margin: 0 10px 0 0; padding: 0; border-color: #F05B00; border-style: solid; border-width: 10px 40px;">ПУТЕВОЙ ЛИСТ</a></p>
 </div>
 
 <hr style="border: none; border-top: 1px solid #eaeaea; height: 1px; margin: 25px 0;" />

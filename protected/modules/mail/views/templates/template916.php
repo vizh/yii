@@ -29,9 +29,9 @@
         <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
             <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                 <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-                          
-<h3>Здравствуйте <?=$user->getShortName();?>!</h3>
-    
+
+<h3>Здравствуйте <?=$user->getShortName()?>!</h3>
+
 <p>10-11 мая 2016 г. Институт Развития Интернета при поддержке МКС и РАЭК&nbsp; проводит Форум &laquo;Интернет + Медиа&raquo;. Площадкой мероприятия станет ЦВК &laquo;Экспоцентр&raquo;.</p>
 
 <p><strong>Как стать участником?</strong></p>

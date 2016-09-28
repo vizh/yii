@@ -1,6 +1,6 @@
 <p><a href="http://conf.optimization.ru/my/"><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/opt15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 
 <p>26-27 ноября в Москве, в центре Digital October, состоится одна из главных конференций в области интернет-маркетинга &mdash; Optimization 2015: Поисковый маркетинг и продвижение бизнеса в Интернете.</p>

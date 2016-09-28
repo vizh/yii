@@ -13,7 +13,7 @@ $invite->save();
 
 ?>
 
-<p><?=$user->getShortName();?>, здравствуйте!</p>
+<p><?=$user->getShortName()?>, здравствуйте!</p>
 <p><strong>14 ноября состоится вручение премии Internet Media Awards.</strong></p>
 <p>Церемония награждения лауреатов Internet Media Awards (IMA)&nbsp;состоится <strong>14 ноября 2014 года в рамках Russian Interactive Week (RIW 2014),&nbsp;</strong><strong>по адресу Москва, Кутузовский проспект, дом 12, строение 3</strong>. Ведущими&nbsp;церемонии выступят Александр Плющев и Татьяна Фельгенгауэр («Эхо&nbsp;Москвы»). Гостей мероприятия будет развлекать&nbsp;популярная музыкальная&nbsp;группа Guru Groove Foundation.</p>
 <div style="border: 2px dashed yellow; padding: 10px 25px">

@@ -1,6 +1,6 @@
-<?php echo "<?php\n"; ?>
+<?="<?php\n"?>
 
-class <?php echo $this->moduleClass; ?> extends CWebModule
+class <?=$this->moduleClass?> extends CWebModule
 {
 
 	public function beforeControllerAction($controller, $action)

@@ -29,16 +29,16 @@
         <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
             <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                 <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-                          
-                
 
-<h3>Здравствуйте <?=$user->getShortName();?>!</h3>
+
+
+<h3>Здравствуйте <?=$user->getShortName()?>!</h3>
 
 <p>Сегодня последний день голосования экспертов ИРИ по законопроекту № 962487-6 «Об НДС для IT-компаний».</p>
 
 <p>Нам очень важно Ваше мнение по данному вопросу.</p>
 
-<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('/competence/main/all/?id=50');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B33689; margin: 0 10px 0 0; padding: 0; border-color: #B33689; border-style: solid; border-width: 10px 40px;">Перейти к опросу</a></p>
+<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('/competence/main/all/?id=50')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B33689; margin: 0 10px 0 0; padding: 0; border-color: #B33689; border-style: solid; border-width: 10px 40px;">Перейти к опросу</a></p>
 
 
 <p>Спасибо за&nbsp;участие в&nbsp;опросе. Напоминаем, что участие в&nbsp;опросах ИРИ формирует Ваш рейтинг эксперта.</p>
@@ -46,7 +46,7 @@
 <p><strong>Специально для Экспертов ИРИ:</strong><br/>
 <a href="https://telegram.me/it_today">Оперативный мониторинг ИТ-новостей</a><br/>
 <a href="https://www.facebook.com/groups/iriexperts/">Закрытая группа экспертов ИРИ</a></p>
- 
+
 </td>
                 </tr>
                 </table>

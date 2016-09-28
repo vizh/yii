@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://2016.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
@@ -26,17 +26,17 @@
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #D2D9DC; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#D2D9DC" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;">Здравствуйте, <?=$user->getShortName();?>!</h2>
+		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;">Здравствуйте, <?=$user->getShortName()?>!</h2>
 		              	<p class="lead" style="font-size: 17px; font-weight: normal; margin: 8px 5%; padding: 0;">Российский Интернет Форум отмечает в этом году юбилей: главному весеннему мероприятию Рунета исполняется <nobr style="margin: 0; padding: 0;">20-лет!</nobr></p>
 						<p class="lead" style="font-size: 17px; font-weight: normal; margin: 8px 5%; padding: 0;">Ежегодный форум РИФ+КИБ пройдет с 13 по 15 апреля в подмосковном пансионате «Лесные дали».</p>
 						<p class="lead" style="font-size: 17px; font-weight: normal; margin: 8px 5%; padding: 0;"><a href="http://www.rif.ru" style="color: #FE9901; margin: 0; padding: 0;">www.rif.ru</a></p>
@@ -44,7 +44,7 @@
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -85,7 +85,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -121,7 +121,7 @@
 </td>
 				</tr></table>
 </div>
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -137,10 +137,10 @@
 					<h3 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: bold; line-height: 1.2em; font-size: 22px; text-transform: uppercase; margin: 10px 0; padding: 0;">Как стать докладчиком РИФ+КИБ  или организовать секцию на РИФ+КИБ?</h3>
 					<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Не упустите последнюю возможность подать заявку на выступление с докладом в программе РИФ+КИБ.</p>
 					<ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Выступить с докладом в сформированных секциях — необходимо заполнить электронную <a href="http://2016.russianinternetforum.ru/program/add/" style="color: #FE9901; margin: 0; padding: 0;">форму</a>. Внимание! Все заявки рассматриваются программным комитетом на конкурсной основе. </p>
 					 	</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Сформировать свою секцию — для подачи заявки в Программе 2.0 необходимо заполнить <a href="http://2016.russianinternetforum.ru/p2/add/" style="color: #FE9901; margin: 0; padding: 0;">специальную форму</a>, указав название секции, желаемую рубрику, основные тезисы и целевую аудиторию. Прием заявок закрывается 28 марта. Десять секций-победителей будут включены в основную программу Форума.</p>
 					 	</li>
 					</ul>
@@ -187,7 +187,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>

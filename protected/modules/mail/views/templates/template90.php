@@ -1,4 +1,4 @@
-<h3>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h3>
 
 <p>14&nbsp;мая 2014 года в&nbsp;10:00 (Павильон 2, Зал для семинаров №&nbsp;4) в&nbsp;рамках Деловой программы <nobr>26-й</nobr> Международной выставки &laquo;<nobr>Связь-Экспокомм</nobr> 2014&raquo; Ассоциация электронных коммуникаций (РАЭК) и&nbsp;Оргкомитет Выставки&nbsp;&mdash; организуют и&nbsp;проводят <strong>круглый стол &laquo;Рынок </strong><nobr><strong>веб-разработки</strong></nobr><strong> и&nbsp;</strong><nobr><strong>digital-коммуникаций</strong></nobr><strong>, ситуация и&nbsp;тренды, потребности бизнеса&raquo;</strong>.</p>
 
@@ -24,4 +24,4 @@
 </ol>
 
 <p>Участие БЕСПЛАТНОЕ при предварительной регистрации на&nbsp;сайте:</p>
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/runetday14/');?>" style="display: block; text-decoration: none; background: #291E3B; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/runetday14/')?>" style="display: block; text-decoration: none; background: #291E3B; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>

@@ -1,6 +1,6 @@
-<?$regLink = "http://2014.russianinternetweek.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetweek.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 
-<h3><strong><?=$user->getShortName();?></strong>, здравствуйте!</h3>
+<h3><strong><?=$user->getShortName()?></strong>, здравствуйте!</h3>
 
 <p>Вы&nbsp;&mdash; зарегистрированный участник RIW 2014 (12-<nobr>13&mdash;14 ноября</nobr> 2014 года, московский Экспоцентр на&nbsp;Красной Пресне)&nbsp;&mdash; <a href="http://www.riw.moscow">www.riw.moscow</a></p>
 
@@ -17,7 +17,7 @@
 
 <p>Оплату Вашего участия и&nbsp;участия Ваших коллег&nbsp;&mdash; можно произвести в&nbsp;Личном Кабинете (принимаются все виды платежей, включая безналичный расчет, банковские карты и&nbsp;электронные деньги):</p>
 
-<p><a href="<?=$regLink;?>" style="display: block; text-decoration: none; background: #5b9bd5; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Личный кабинет</a></p>
+<p><a href="<?=$regLink?>" style="display: block; text-decoration: none; background: #5b9bd5; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Личный кабинет</a></p>
 
 <p><em>---<br />
 С&nbsp;уважением,<br />

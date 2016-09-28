@@ -9,8 +9,8 @@
 <h3>Впишите год вашего рождения</h3>
 
 
-<?php $this->widget('competence\components\ErrorsWidget', array('question' => $question));?>
+<?$this->widget('competence\components\ErrorsWidget', array('question' => $question))?>
 
 <div class="form-inline">
-  <label>Я родился в &nbsp;&nbsp;<?=CHtml::activeTextField($question, 'value', array('class' => 'span1'));?>&nbsp;&nbsp;году.</label>
+  <label>Я родился в &nbsp;&nbsp;<?=CHtml::activeTextField($question, 'value', array('class' => 'span1'))?>&nbsp;&nbsp;году.</label>
 </div>

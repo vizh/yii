@@ -10,7 +10,7 @@ $this->pageTitle = 'Участники мероприятия "Территор�
 <div class="container">
     <h2 class="text-center"><?=CHtml::encode($this->pageTitle)?></h2>
 
-    <?php $this->widget('zii.widgets.grid.CGridView', [
+    <?$this->widget('zii.widgets.grid.CGridView', [
         'dataProvider'=> $dataProvider,
         'itemsCssClass' => 'table table-bordered',
         'template' => '{items}',
@@ -31,5 +31,5 @@ $this->pageTitle = 'Участники мероприятия "Территор�
                 'sortable' => false
             ]
         ]
-    ]) ?>
+    ])?>
 </div>

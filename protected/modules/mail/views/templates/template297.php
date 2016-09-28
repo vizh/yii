@@ -23,4 +23,4 @@
 
 <p>Не упустите шанс присоединиться к нескольким тысячам исследователей информационной безопасности, представителей государства, журналистов и молодых ученых со всего мира. До встречи на Positive Hack Days V!</p>
 
-<p style="margin-top: 20px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/phdays15/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Зарегистрироваться</a></p>
+<p style="margin-top: 20px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/phdays15/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Зарегистрироваться</a></p>

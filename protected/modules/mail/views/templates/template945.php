@@ -1,6 +1,6 @@
 <a href="http://2016.sp-ic.ru/
 "><img alt="СПИК16" src="http://runet-id.com/img/mail/2016/spicc16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /></a>
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>В прошлом письме мы начали рассказывать про ключевые секции для разных областей интернет-рынка, модерируемые ведущими экспертами отрасли.</p>
 <p>Тем временем программа уже дополнилась крутыми спикерами, о которых мы хотим вам сообщить!</p>
@@ -89,7 +89,7 @@
 <div style="text-align: center; background: #ffffff; border: 2px dashed #B21D18; padding: 20px 10px 10px;">
 <p style="text-align: center;"><strong>Регистрация на XI самую масштабную интернет-конференцию северо-западного региона СПИК идет полным ходом!<br/>
 А вы там будете?</strong></p>
-<p style="margin-top: 0"><a href="<?=$cabinetLink = "http://2016.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16);?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B21D18; margin: 0 10px 0 0; padding: 0; border-color: #B21D18; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
+<p style="margin-top: 0"><a href="<?=$cabinetLink = "http://2016.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B21D18; margin: 0 10px 0 0; padding: 0; border-color: #B21D18; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
 <p style="text-align: center"><b>Стоимость билета 4000 рублей.</b></p>
 </div>
 <p>&nbsp;</p>

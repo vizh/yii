@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/rrrrr15.png" style="width: 100%; height: auto; margin: 0 auto" /></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Вы получили это письмо, так как зарегистрировались на <strong>конференцию </strong><a href="http://www.advdays.ru/november_2015/?utm_source=reg&amp;utm_medium=email&amp;utm_campaign=advdays_spb_november_2015"><strong>&laquo;День интернет-рекламы&raquo;</strong></a><strong>.</strong></p>
 

@@ -2,7 +2,7 @@
 $regLink = "http://2015.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 <p>Вы&nbsp;конечно уже знаете, что главное весеннее интернет-мероприятие&nbsp;— РИФ+КИБ 2015&nbsp;— пройдет в&nbsp;этом году в&nbsp;пансионате «Лесные дали» с&nbsp;22&nbsp;по&nbsp;24&nbsp;апреля&nbsp;— <a href="http://www.rif.ru">www.rif.ru</a></p>
 <p>И&nbsp;мы&nbsp;хотели&nbsp;бы поделиться с&nbsp;Вами тремя отличными новостями этого грандиозного проекта:</p>
 <h3>1. Открыта продажа номеров и&nbsp;питания</h3>
@@ -36,7 +36,7 @@ $regLink = "http://2015.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId .
 <p><strong>По&nbsp;всем вопросам партнерства&nbsp;/ спонсорства&nbsp;/ участия в&nbsp;Выставке РИФ+КИБ 2015&nbsp;— обращайтесь по&nbsp;адресу: <a href="mailto:partners@rif.ru">partners@rif.ru</a></strong></p>
 <p><strong>До&nbsp;встречи на&nbsp;главном весеннем мероприятии Рунета!</strong></p>
 <p><strong><br/>
- 	</strong> 
+ 	</strong>
 </p>
 <p>---</p>
 <p><i>С&nbsp;уважением,<br/>

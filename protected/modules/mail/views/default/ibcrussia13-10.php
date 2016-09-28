@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Нам жаль, что 5-6 декабря вы не смогли посетить конференцию IBC Russia в Москве.
 
@@ -7,7 +7,7 @@
 Вы по-прежнему можете получить свободный доступ к полному архиву видеозаписей трёх основных потоков конференции. Для этого вам необходимо зайти в личный кабинет на сайте и сформировать счёт на пакет «Видеоучастие» стоимостью 2500 рублей.
 
 ВАШ ЛИЧНЫЙ КАБИНЕТ:
-http://ibcrussia.com/my/?RUNETID=<?=$user->RunetId;?>&KEY=<?=substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16);?>
+http://ibcrussia.com/my/?RUNETID=<?=$user->RunetId?>&KEY=<?=substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>
 
 
 

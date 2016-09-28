@@ -13,24 +13,24 @@
 </style>
 
 <h3>Сколько полных лет вы работаете...</h3>
-<?php $this->widget('competence\components\ErrorsWidget', array('question' => $question));?>
+<?$this->widget('competence\components\ErrorsWidget', array('question' => $question))?>
 <div class="form-horizontal">
   <div class="control-group">
     <label class="control-label">Я работаю в указанной должности уже</label>
     <div class="controls">
-      <?=CHtml::activeTextField($question, 'position', ['class' => 'input-mini']);?> лет.
+      <?=CHtml::activeTextField($question, 'position', ['class' => 'input-mini'])?> лет.
     </div>
   </div>
   <div class="control-group">
     <label class="control-label">Я работаю в указанной компании уже</label>
     <div class="controls">
-      <?=CHtml::activeTextField($question, 'company', ['class' => 'input-mini']);?> лет.
+      <?=CHtml::activeTextField($question, 'company', ['class' => 'input-mini'])?> лет.
     </div>
   </div>
   <div class="control-group">
     <label class="control-label">Я работаю в индустрии, связанной с интернетом уже</label>
     <div class="controls">
-      <?=CHtml::activeTextField($question, 'industry', ['class' => 'input-mini']);?> лет.
+      <?=CHtml::activeTextField($question, 'industry', ['class' => 'input-mini'])?> лет.
     </div>
   </div>
 </div>

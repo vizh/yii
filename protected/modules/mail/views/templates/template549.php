@@ -19,10 +19,10 @@
 			<!-- content -->
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; max-width: 550px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top">
-						
 
-						<h2 class="centered" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: bold; text-align: center; text-transform: uppercase; margin: 25px 0 10px; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName();?>.</h2>
-						
+
+						<h2 class="centered" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: bold; text-align: center; text-transform: uppercase; margin: 25px 0 10px; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName()?>.</h2>
+
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Спасибо, что приняли участие в предварительном опросе участников. Вы получили это письмо, т.к. в опросе отметили, что хотели бы получить дополнительную информацию о проезде на площадку.</p>
 
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Все мероприятия будут проходить в городе Иннополис, расположенном в 40 км от города Казань. В день официального открытия Иннополиса также стартует свою работу выездной РИФ.Иннополис 2015.</p>
@@ -30,7 +30,7 @@
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Для удобства участников мы организуем движение <b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">бесплатных автобусов из Казани до Иннополиса</b>. Транспорт форума будет отправляться от станции метро «Козья Слобода» с 7:30 и до 14:30, интервал между отправлениями автобусов от 10 до 30 минут.</p>
 
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Что бы точнее спланировать поездку на автобусах, пожалуйста, ознакомьтесь с <a href="https://regions.rif.ru/events/innopolis/additional/" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">расписанием движения автобусов</a>. Примите в расчет время пути: 1,5 часа.</p>
-						
+
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Место посадки: ул. Декабристов, д. 85Б:</p>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><img src="http://take.ms/YBUD5" alt="" class="img-responsive" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; max-width: 100%; height: auto; width: 100%; margin: 0; padding: 0; border: 0;" /></p>
 
@@ -45,7 +45,7 @@
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top"></td>
 	</tr></table><!-- /body --></body>

@@ -18,19 +18,19 @@
           <td style="font-size: 13px;">
 
             <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="4" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 18px;">
-              <?if (!empty($order->Payer->LastName)):?>
-                Здравствуйте, <?=$order->Payer->getFullName();?>.
+              <?if(!empty($order->Payer->LastName)):?>
+                Здравствуйте, <?=$order->Payer->getFullName()?>.
               <?else:?>
                 Уважаемый пользователь.
-              <?endif;?>
+              <?endif?>
             </font>
             <br />
             <br />
 
-            <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;"><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $order->CreationTime);?> вами был выставлен счет № <?=$order->Id;?> для оплаты следующих услуг:<br/>
+            <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;"><?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $order->CreationTime)?> вами был выставлен счет № <?=$order->Id?> для оплаты следующих услуг:<br/>
               <?foreach($order->ItemLinks as $link):?>
-                &ndash; "<?=$link->OrderItem->Product->Title;?>" на <?=$link->OrderItem->Owner->getFullName();?><br/>
-              <?endforeach;?>
+                &ndash; "<?=$link->OrderItem->Product->Title?>" на <?=$link->OrderItem->Owner->getFullName()?><br/>
+              <?endforeach?>
 
               <br />
               <br />
@@ -42,7 +42,7 @@
             <br />
 
             <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 15px;">
-              <a href="<?=$order->getUrl();?>">Распечатать счет</a>
+              <a href="<?=$order->getUrl()?>">Распечатать счет</a>
               </font>
 
             <br />

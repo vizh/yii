@@ -19,10 +19,10 @@
 			<!-- content -->
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; max-width: 550px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top">
-						
 
-						<h2 class="centered" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: bold; text-align: center; text-transform: uppercase; margin: 25px 0 10px; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName();?>.</h2>
-						
+
+						<h2 class="centered" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: bold; text-align: center; text-transform: uppercase; margin: 25px 0 10px; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName()?>.</h2>
+
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Сегодня, 9 июня в 11:00 по московскому времени, в новом IT-городе Иннополис открывается Российский Интернет Форум — РИФ.Иннополис!</p>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Все подробности, новости, видео и фоторепортажи на официальном сайте <a href="http://innopolis.rif.ru" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">innopolis.rif.ru</a> и в официальных аккаунтах социальных медиа <strong style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">@rif.innopolis </strong>Официальный хештег <strong style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">#rifinnopolis</strong></p>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Интернет-кинотеатр <a href="http://tvzavr.ru/" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; color: #348eda; margin: 0; padding: 0;">tvzavr.ru</a> осуществляет <strong style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">онлайн-трансляцию главного зала 1 и OS day 4</strong>.</p>
@@ -40,7 +40,7 @@
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top"></td>
 	</tr></table><!-- /body --></body>

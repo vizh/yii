@@ -8,32 +8,32 @@ use \event\models\forms\Create;
 use event\models\Event;
 ?>
 
-Контактное лицо: <?=$form->ContactName;?>
+Контактное лицо: <?=$form->ContactName?>
 
-Контактный телефон: <?=$form->ContactPhone;?>
+Контактный телефон: <?=$form->ContactPhone?>
 
-Контактный email: <?=$form->ContactEmail;?>
+Контактный email: <?=$form->ContactEmail?>
 
-Название мероприятия: <?=$form->Title;?>
+Название мероприятия: <?=$form->Title?>
 
-Место проведения: <?=$form->City?>, <?=$form->Place;?>
+Место проведения: <?=$form->City?>, <?=$form->Place?>
 
-Дата: от <?=$form->StartDate;?> до <?=$form->EndDate;?>
+Дата: от <?=$form->StartDate?> до <?=$form->EndDate?>
 
-Сайт мероприятия: <?=$form->Url;?>
+Сайт мероприятия: <?=$form->Url?>
 
 
 
-Краткое описание: <?=$form->Info;?>
+Краткое описание: <?=$form->Info?>
 
-Подробное описание: <?=$form->FullInfo;?>
+Подробное описание: <?=$form->FullInfo?>
 
 
 Дополнительные опции:
-<?foreach ($form->Options as $option):?>
-  <?=$form->getOptionValue($option);?>
+<?foreach($form->Options as $option):?>
+  <?=$form->getOptionValue($option)?>
 
-<?endforeach;?>
+<?endforeach?>
 
 
-Вакансию отправил: <?=\Yii::app()->user->getCurrentUser()->getFullName();?> (RUNET-ID: <?=\Yii::app()->user->getCurrentUser()->RunetId;?>)
+Вакансию отправил: <?=\Yii::app()->user->getCurrentUser()->getFullName()?> (RUNET-ID: <?=\Yii::app()->user->getCurrentUser()->RunetId?>)

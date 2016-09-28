@@ -4,7 +4,7 @@
 
 <p><img src="http://showtime.s3.amazonaws.com/IMG_2015-04-27_130729.jpg" style="height: auto; width: 100%;" /></p>
 
-<p><?=$user->getShortName();?>, здравствуйте!</p>
+<p><?=$user->getShortName()?>, здравствуйте!</p>
 
 <p>Только-только завершил свою работу РИФ+КИБ 2015 и&nbsp;мы&nbsp;с&nbsp;радостью приглашаем Вас принять участие в&nbsp;новом грандиозном проекте.</p>
 

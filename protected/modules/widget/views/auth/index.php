@@ -23,5 +23,5 @@ $clientScript->registerScript('auth', '
 ?>
 <div class="text-center">
     <p>Для регистрации на мероприятие, пожалуйста, авторизуйтесь под своим профилем на RUNET-ID. Если у вас еще нет аккаунта, создайте его, заполнив простую регистрационную форму!</p>
-    <a href="#" class="btn btn-primary" onclick="rID.login(); return false;"><?=\Yii::t('app', 'Авторизуйтесь или зарегистрируйтесь.');?></a>
+    <a href="#" class="btn btn-primary" onclick="rID.login(); return false;"><?=\Yii::t('app', 'Авторизуйтесь или зарегистрируйтесь.')?></a>
 </div>

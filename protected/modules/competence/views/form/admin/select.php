@@ -25,24 +25,24 @@ $rows = count($values) + 10;
     </tr>
     </thead>
     <tbody>
-    <?php for ($i = 0; $i < $rows; $i++): ?>
-        <?php $value = isset($values[$i]) ? $values[$i] : new CheckboxValue() ?>
+    <?php for ($i = 0; $i < $rows; $i++):?>
+        <?$value = isset($values[$i]) ? $values[$i] : new CheckboxValue()?>
         <tr>
             <td>
-                <input class="span1" type="text" name="Multiple[<?= $i ?>][key]" value="<?= $value->key ?>"
+                <input class="span1" type="text" name="Multiple[<?=$i?>][key]" value="<?=$value->key?>"
                        autocomplete="off"/>
             </td>
             <td>
-                <input class="span5" type="text" name="Multiple[<?= $i ?>][title]" value="<?= $value->title ?>"/>
+                <input class="span5" type="text" name="Multiple[<?=$i?>][title]" value="<?=$value->title?>"/>
             </td>
             <td>
-                <textarea class="span5" name="Multiple[<?= $i ?>][description]"
-                          rows="3"><?= $value->description ?></textarea>
+                <textarea class="span5" name="Multiple[<?=$i?>][description]"
+                          rows="3"><?=$value->description?></textarea>
             </td>
             <td>
-                <input class="span1" type="text" name="Multiple[<?= $i ?>][sort]" value="<?= $value->sort ?>"/>
+                <input class="span1" type="text" name="Multiple[<?=$i?>][sort]" value="<?=$value->sort?>"/>
             </td>
         </tr>
-    <?php endfor ?>
+    <?php endfor?>
     </tbody>
 </table>

@@ -28,7 +28,7 @@ $coupon->addProductLinks([
 <p>Используйте ваш персональный промокод, чтобы при&nbsp;<a href="http://www.msdevcon.ru/registration" target="_blank">регистрации</a>&nbsp;получить
     дополнительную скидку:</p>
 
-<p><?=$coupon->Code;?></p>
+<p><?=$coupon->Code?></p>
 
 <p>Обращаем ваше внимание, что при оплате участия&nbsp;<strong>до 31 декабря</strong>&nbsp;<strong>действует сниженная
         цена!</strong>&nbsp;Более подробно с условиями участия вы можете ознакомиться на&nbsp;<a

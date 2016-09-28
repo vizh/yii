@@ -11,6 +11,6 @@ if ($this->form->hasErrors()) {
 
 <div class="widget-phone-controls">
   <div class="controls">
-      <?=\CHtml::activeTextField($this->form, $this->name, ['class' => $class, 'placeholder' => $this->placeholder !== null ? Yii::t('app', $this->placeholder) : '', 'disabled' => $this->disabled]);?>
+      <?=\CHtml::activeTextField($this->form, $this->name, ['class' => $class, 'placeholder' => $this->placeholder !== null ? Yii::t('app', $this->placeholder) : '', 'disabled' => $this->disabled])?>
   </div>
 </div>

@@ -2,7 +2,7 @@
 $regLink = "http://2015.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p>Весна 2015&nbsp;&mdash; дарит Рунету сразу два крупных проекта, объединенных названием РИФ.</p>
 
@@ -53,5 +53,5 @@ $regLink = "http://2015.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId .
 <p>Ближайшее мероприятие&nbsp;&mdash; РИФ.Ростов-на-Дону 2015 (совместно с&nbsp;<a href="http://digital-raid.ru">Digital-рейдом</a>&nbsp;)&nbsp;&mdash; пройдет 12&nbsp;марта 2015&nbsp;года.</p>
 
 <div style="text-align: center; border: 3px dashed #E6232E; margin-top: 20px;">
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rifraidrnd15/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #E6232E; margin: 0 10px 0 0; padding: 0; border-color: #E6232E; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rifraidrnd15/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #E6232E; margin: 0 10px 0 0; padding: 0; border-color: #E6232E; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
 </div>

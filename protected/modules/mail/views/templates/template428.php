@@ -2,7 +2,7 @@
 	$regLink = "http://2015.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
-<p><?=$user->getShortName();?>, здравствуйте!</p>
+<p><?=$user->getShortName()?>, здравствуйте!</p>
 
 <p>Мы&nbsp;видим, что у&nbsp;Вас есть выставленные, но&nbsp;неоплаченные счета за&nbsp;участие в&nbsp;конференции РИФ+КИБ 2015. И&nbsp;мы&nbsp;переживаем, поскольку <strong>мероприятие уже на&nbsp;следующей неделе</strong>.</p>
 

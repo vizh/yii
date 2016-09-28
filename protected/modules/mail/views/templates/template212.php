@@ -1,4 +1,4 @@
-<p>Здравствуйте, <?=$user->getShortName();?>!</p>
+<p>Здравствуйте, <?=$user->getShortName()?>!</p>
 
 <p>Вы&nbsp;зарегистрировались на&nbsp;конференцию <a href="http://www.ibcrussia.com/?utm_source=ibcvirtrass">&laquo;Интернет и&nbsp;Бизнес. Россия&raquo;</a>, но&nbsp;пока не&nbsp;оплатили участие. До&nbsp;начала мероприятия остаётся немногим более трёх недель. Мы&nbsp;будем рады видеть Вас в&nbsp;числе её&nbsp;участников 27&nbsp;и&nbsp;28&nbsp;ноября в&nbsp;Digital October.</p>
 

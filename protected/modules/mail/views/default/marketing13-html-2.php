@@ -82,7 +82,7 @@
                     <table style="width: 100%; padding: 10px 0;" cellpadding="0" cellspacing="0">
                       <tr>
                         <td valign="top" style="width: 270px; padding-right: 20px;">
-                          <div style="color: #000; font-size: 30px; font-weight: bold; line-height: 35px;"><?=$user[0];?> <?=$user[1];?></div>
+                          <div style="color: #000; font-size: 30px; font-weight: bold; line-height: 35px;"><?=$user[0]?> <?=$user[1]?></div>
                         </td>
                         <td valign="top" style="padding-right: 20px; width: 205px; font-size: 12px;">
                           <div style="background-color: #4F4F4F; color: #FFFFFF; display: block; margin-top: 3px; padding: 8px 0; text-align: center; text-transform: uppercase; line-height: 10px;">Участник</div>

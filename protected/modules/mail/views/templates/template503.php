@@ -1,4 +1,4 @@
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p>Завершен первый этап формирования списка кандидатов Экспертного Сообщества Института Развития Интернета (<a href="http://ири.рф/experts/">ЭС&nbsp;ИРИ</a>). На&nbsp;втором этапе, который стартует сегодня&nbsp;&mdash; 19&nbsp;мая&nbsp;&mdash; каждый кандидат в&nbsp;эксперты сможет проголосовать за&nbsp;коллег в&nbsp;своей Экосистеме Рунета.</p>
 
@@ -9,7 +9,7 @@
 
 
 <?$salt = '71064386e1731ff1ceb2b4667ce67b8c';
-$votehash = md5($user->RunetId . $salt . 'voter');?>
+$votehash = md5($user->RunetId . $salt . 'voter')?>
 
 <div style="text-align: center; margin-top: 20px;">
 	<p style="margin-top: 10px 0; text-align: center;">

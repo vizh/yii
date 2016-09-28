@@ -9,7 +9,7 @@
 				<tbody>
 					<tr>
 						<td style="font-family: arial, sans-serif; margin: 0px; font-size: 13px;">
-						<p><font face="Tahoma, Helvetica, sans-serif" size="4" style="font-family:  Tahoma, Helvetica, sans-serif; font-size: 18px;">Здравствуйте, <?=$user->getShortName();?>.</font></p>
+						<p><font face="Tahoma, Helvetica, sans-serif" size="4" style="font-family:  Tahoma, Helvetica, sans-serif; font-size: 18px;">Здравствуйте, <?=$user->getShortName()?>.</font></p>
 
 						<p>Благодарим Вас за интерес к главной технологической конференции Microsoft &ndash; <a href="http://www.msdevcon.ru/">DevCon 2014</a>!</p>
 

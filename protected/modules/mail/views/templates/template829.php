@@ -1,13 +1,13 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2016/convlogo16.png" style="text-align: center; width: 80%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Напоминаем вам, что <strong>конференция </strong><a href="http://www.conversionconf.ru/march2016/?utm_source=reg&amp;utm_medium=email&amp;utm_campaign=conversionconf_msk_2016"><strong>ConversionConf</strong></a> состоится <strong>1 марта, во вторник</strong>.<br />
 <strong>Ознакомьтесь, пожалуйста, с важной информацией для прохода на мероприятие!</strong></p>
 
 <div style="text-align: center; border: 3px dashed #23B0E0; margin-top: 20px;">
 <p style="text-align: center;"><strong>Для максимально быстрой регистрации на мероприятии<br/> распечатайте, пожалуйста, ваш электронный билет:</strong></p>
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #23B0E0; margin: 0 10px 0 0; padding: 0; border-color: #23B0E0; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #23B0E0; margin: 0 10px 0 0; padding: 0; border-color: #23B0E0; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
 </div>
 
 

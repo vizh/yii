@@ -1,6 +1,6 @@
 <a href="http://mblt.ru/ru?utm_source=newsletter&utm_medium=pic_uzko&utm_campaign=runet_id
 "><img alt="MBLT16" src="http://runet-id.com/img/mail/2016/mblt16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /></a>
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>28 апреля пройдет 5-я международная мобильная конференция MBLT16.</p>
 

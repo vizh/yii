@@ -1,5 +1,5 @@
 <a href=" http://mblt.ru/ru"><img alt="MBLT16" src="http://runet-id.com/img/mail/2016/mblt16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /></a>
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 
 <p>5-я международная мобильная конференция MBLT16 пройдет уже завтра. С нетерпением ждем встречи с вами!<br />
@@ -9,7 +9,7 @@
 Информация на бейдже дублирует данные вашего профиля Runet-ID. Убедитесь в том, что вы верно указали ФИО, должность и и место работы в личном кабинете <a href="https://runet-id.com/">Runet-ID</a>.</p>
 <div style="text-align: center; border: 3px dashed #23B0E0; margin-top: 20px;">
 <p style="text-align: center;"><strong>Для максимально быстрой регистрации на мероприятии<br/> распечатайте, пожалуйста, ваш электронный билет:</strong></p>
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #EF4237; margin: 0 10px 0 0; padding: 0; border-color: #EF4237; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #EF4237; margin: 0 10px 0 0; padding: 0; border-color: #EF4237; border-style: solid; border-width: 10px 40px;">ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
 </div>
 
 <p><strong>Адрес</strong>:<br />

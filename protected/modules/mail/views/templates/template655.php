@@ -1,4 +1,4 @@
-<h3>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h3>
 
 <p><strong>24&nbsp;сентября</strong>, в&nbsp;рамках форума &laquo;Спектр-2015&raquo; пройдет Российский Интернет Форум&nbsp;&mdash; <a href="https://regions.rif.ru/events/sochi/">РИФ.Сочи</a>, который станет важным этапом большого всероссийского проекта РИФ.Регион 2015.</p>
 

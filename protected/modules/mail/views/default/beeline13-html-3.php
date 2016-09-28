@@ -67,7 +67,7 @@
                 <table width="750" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
                   <tr>
                     <td valign="top" style="width: 600px; background: #ffffff;"></td>
-                    <td valign="top" style="width: 150px; line-height: 35px; font-size: 11px; font-style: italic;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="text-decoration: none;">Распечатать <img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/print.png"></a></td>
+                    <td valign="top" style="width: 150px; line-height: 35px; font-size: 11px; font-style: italic;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="text-decoration: none;">Распечатать <img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/print.png"></a></td>
                     <td valign="top"></td>
                   </tr>
                 </table>
@@ -148,7 +148,7 @@
                       <table width="106" height="220" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
                         <tr>
                           <td valign="top" align="center" width="106" height="137" style="font-family: Verdana; background: #ffffff;">
-                            <img style="border: 0;" border="0" src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100);?>" /><br/><?=$user->RunetId;?>
+                            <img style="border: 0;" border="0" src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100)?>" /><br/><?=$user->RunetId?>
                           </td>
                         </tr>
                         <tr><td valign="top" width="106" height="83"><img style="border: 0;" border="0" src="http://runet-id.com/img/event/beesuper13/str-7-3.png" width="106" height="83"></td></tr>

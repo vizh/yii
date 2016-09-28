@@ -10,52 +10,52 @@ $this->setPageTitle('Генерация аккаунтов операторов'
 use partner\components\Controller;
 ?>
 
-<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
-    <?=\CHtml::link('<span class="fa fa-print btn-label"></span> ' . \Yii::t('app', 'Печать'), ['print'], ['class' => 'btn btn-info btn-labeled', 'target' => '_blank']);?>
-<?php $this->endClip();?>
+<?$this->beginClip(Controller::PAGE_HEADER_CLIP_ID)?>
+    <?=\CHtml::link('<span class="fa fa-print btn-label"></span> ' . \Yii::t('app', 'Печать'), ['print'], ['class' => 'btn btn-info btn-labeled', 'target' => '_blank'])?>
+<?$this->endClip()?>
 
-<?php $activeForm = $this->beginWidget('CActiveForm');?>
+<?$activeForm = $this->beginWidget('CActiveForm')?>
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-plus-circle"></i> <?=\Yii::t('app', 'Генерация операторов');?></span>
+        <span class="panel-title"><i class="fa fa-plus-circle"></i> <?=\Yii::t('app', 'Генерация операторов')?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
-        <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
+        <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>')?>
         <div class="row">
             <div class="col-sm-4">
-                <?=$activeForm->textField($form, 'Prefix', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Prefix')]);?>
+                <?=$activeForm->textField($form, 'Prefix', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('Prefix')])?>
             </div>
             <div class="col-sm-4">
-                <?=$activeForm->textField($form, 'CountOperators', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('CountOperators')]);?>
+                <?=$activeForm->textField($form, 'CountOperators', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('CountOperators')])?>
             </div>
             <div class="col-sm-4">
-                <?=$activeForm->textField($form, 'CountAdmins', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('CountAdmins')]);?>
+                <?=$activeForm->textField($form, 'CountAdmins', ['class' => 'form-control', 'placeholder' => $form->getAttributeLabel('CountAdmins')])?>
             </div>
         </div>
     </div> <!-- / .panel-body -->
     <div class="panel-footer">
-        <?=\CHtml::submitButton(\Yii::t('app', 'Сгенерировать'), ['class' => 'btn btn-primary']);?>
+        <?=\CHtml::submitButton(\Yii::t('app', 'Сгенерировать'), ['class' => 'btn btn-primary'])?>
     </div>
 </div>
-<?php $this->endWidget();?>
+<?$this->endWidget()?>
 
 <div class="panel panel-warning">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-qrcode"></i> <?=\Yii::t('app', 'Хэш клиента');?></span>
+        <span class="panel-title"><i class="fa fa-qrcode"></i> <?=\Yii::t('app', 'Хэш клиента')?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
-        <p class="lead"><?=$account->Hash;?></p>
+        <p class="lead"><?=$account->Hash?></p>
         <hr/>
         <p class="text-center">
-            <?=\CHtml::image($this->createUrl('mobile'));?>
+            <?=\CHtml::image($this->createUrl('mobile'))?>
         </p>
     </div> <!-- / .panel-body -->
 </div>
 
-<?php if (!empty($operators)):?>
+<?if(!empty($operators)):?>
 <div class="panel panel-success">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-list"></i> <?=\Yii::t('app', 'Ранее генерированные операторы');?></span>
+        <span class="panel-title"><i class="fa fa-list"></i> <?=\Yii::t('app', 'Ранее генерированные операторы')?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
         <div class="table-success">
@@ -68,16 +68,16 @@ use partner\components\Controller;
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($operators as $operator):?>
+                <?foreach($operators as $operator):?>
                     <tr>
-                        <td><?=$operator->Login;?></td>
-                        <td><?=$operator->Password;?></td>
-                        <td><?=$operator->Role;?></td>
+                        <td><?=$operator->Login?></td>
+                        <td><?=$operator->Password?></td>
+                        <td><?=$operator->Role?></td>
                     </tr>
-                <?php endforeach;?>
+                <?endforeach?>
                 </tbody>
             </table>
         </div>
     </div> <!-- / .panel-body -->
 </div>
-<?php endif;?>
+<?endif?>

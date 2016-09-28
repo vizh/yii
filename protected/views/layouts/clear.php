@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title><?= CHtml::encode($this->pageTitle); ?></title>
+    <title><?=CHtml::encode($this->pageTitle)?></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=1024">
     <meta name="format-detection" content="telephone=no">
@@ -23,14 +23,14 @@
     <link rel="stylesheet" href="/stylesheets/ie/lte-ie-7.css">
     <![endif]-->
 </head>
-<body id="<?php echo $this->bodyId ?>">
+<body id="<?=$this->bodyId?>">
 <noscript>JavaScript disabled</noscript>
 <section id="section" role="main">
-    <?php echo $content ?>
+    <?=$content?>
 </section>
 
-<?php $this->renderPartial('//layouts/counters/google') ?>
-<?php $this->renderPartial('//layouts/counters/yandex') ?>
+<?$this->renderPartial('//layouts/counters/google')?>
+<?$this->renderPartial('//layouts/counters/yandex')?>
 
 </body>
 </html>

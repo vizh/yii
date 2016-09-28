@@ -16,9 +16,9 @@ $examId = substr($definitions['CertificationExamId'], 0, $pos !== false ? $pos :
     экзамен на официальную сертификацию Microsoft.</p>
 
 <p>
-    <strong>Дата экзамена:</strong> <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $definitions['CertificationDate']);?><br/>
-    <strong>Время экзамена:</strong> <?=$definitions['CertificationTime'];?><br/>
-    <strong>Выбранный экзамен:</strong>  <a href="https://www.microsoft.com/ru-ru/learning/exam-<?=$examId;?>.aspx"><?=$definitions['CertificationExamTitle'];?></a>
+    <strong>Дата экзамена:</strong> <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy', $definitions['CertificationDate'])?><br/>
+    <strong>Время экзамена:</strong> <?=$definitions['CertificationTime']?><br/>
+    <strong>Выбранный экзамен:</strong>  <a href="https://www.microsoft.com/ru-ru/learning/exam-<?=$examId?>.aspx"><?=$definitions['CertificationExamTitle']?></a>
 </p>
 
 <p>Сертификация будет проходить в Главном корпусе природного курорта "Клязьма" на 1 этажа.</p>

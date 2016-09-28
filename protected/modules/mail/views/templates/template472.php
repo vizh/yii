@@ -17,7 +17,7 @@ $reglink  = "http://mcf.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr
 			<!-- content -->
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; max-width: 550px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top">
-						<h3 align="center" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 10px 0; padding: 0;">Здравствуйте, <?=$user->getShortName();?>.</h3>
+						<h3 align="center" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 10px 0; padding: 0;">Здравствуйте, <?=$user->getShortName()?>.</h3>
 
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Уже в следующий вторник, 12 мая, в московском Экспоцентре стартует Большой Медиа-Коммуникационный Форум (МКФ 2015) — трехдневная конференция и презентационный форум, проходящий в партнерстве с Выставкой «Связь-Экспокомм 2015».</p>
 
@@ -83,77 +83,77 @@ $reglink  = "http://mcf.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Программа Форума представлена следующими тематическими блоками:</p>
 						<div class="block-items" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0 0 0 25px;">
 							<p style="font-weight: bold; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 20px 0 10px; padding: 0;">БЛОК «СВЯЗЬ И ИНФРАСТРУКТУРА»: </p>
-							<ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 25px; padding: 0;"><li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+							<ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 25px; padding: 0;"><li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Телеком и связь</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Инфраструктура, Технологии Рунета</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Почта и почтовые услуги</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Регулирование и госинициативы по развитию инфраструктуры интернета в РФ </p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Защита персональных данных: какие правила вступят в силу с 1 сентября 2015</p>
 								</li>
 							</ul><p style="font-weight: bold; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 20px 0 10px; padding: 0;">БЛОК «БИЗНЕС»: </p>
-							<ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 25px; padding: 0;"><li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+							<ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 25px; padding: 0;"><li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Веб-разработка</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Digital Digimarketing </p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Мобильные технологии</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">E-commerce, логистика и доставка. </p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Саморегулирование и правила ведения бизнеса в этой отрасли</p>
 								</li>
 							</ul><p style="font-weight: bold; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 20px 0 10px; padding: 0;">БЛОК «ТЕХНОЛОГИИ И СОФТ»: </p>
-							<ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 25px; padding: 0;"><li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+							<ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 25px; padding: 0;"><li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Веб-разработка</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Мобильные технологии</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Центры обработки данных и Дата-центры</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Программные продукты</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Отечественный софт </p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Цифровое ТВ</p>
 								</li>
 							</ul><p style="font-weight: bold; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 20px 0 10px; padding: 0;">БЛОК «МЕДИА»: </p>
-							<ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 25px; padding: 0;"><li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+							<ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 25px; padding: 0;"><li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Медиа-отрасль сегодня</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Медиа и Телеком: синергия ради достижения бизнес-задач </p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Антипиратской законодательство: что изменилось с 1 мая</p>
 								</li>
 							</ul><p style="font-weight: bold; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 20px 0 10px; padding: 0;">БЛОК «СОЦИАЛЬНЫЕ И ГУМАНИТАРНЫЕ АСПЕКТЫ» </p>
-							<ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 25px; padding: 0;"><li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+							<ul style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 25px; padding: 0;"><li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Создание единой Стратегии развития отрасли высоких технологий в России (Интернет, Медиа, Телеком)</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Этические вопросы развития интернет-технологий </p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Медиаграмотность граждан РФ</p>
 								</li>
-								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"> 
+								<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;">
 									<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Детский интернет</p>
 								</li>
 							</ul></div>
@@ -161,55 +161,55 @@ $reglink  = "http://mcf.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr
 						<hr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; border-bottom-style: solid; border-bottom-color: #eaeaea; height: 1px; width: 100%; margin: 25px 0; padding: 0; border-width: 0 0 1px;" /><h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: bold; text-align: center; text-transform: uppercase; margin: 40px 0 10px; padding: 0;" align="center">Форматы участия</h2>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Программа содержит бесплатные и платные конференционные потоки:</p>
 						<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: 1px solid #eaeaea;"><tbody style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border: none;" width="60%" valign="top"><br style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;" /></td>
-									<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border: none;" width="20%" valign="top"> 
+									<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border: none;" width="20%" valign="top">
 										<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">Участник</b></p>
 						 			</td>
-									<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border: none;" width="20%" valign="top"> 
+									<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border: none;" width="20%" valign="top">
 										<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">Проф. участник</b></p>
 						 			</td>
-						 		</tr><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+						 		</tr><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Участие в объединенном открытии МКФ 2015 и Связь-Экспокомм 2015 (12 мая в 12:00)</p>
 						 			</td>
-									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-weight: bold; color: green; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 10px; padding: 0;">Да</p>
 						 			</td>
-									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-weight: bold; color: green; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 10px; padding: 0;">Да</p>
 						 			</td>
-						 		</tr><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+						 		</tr><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Посещение конференционных мероприятий в дни работы МКФ</p>
 						 			</td>
-									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-weight: bold; color: #F39E55; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 10px; padding: 0;">Только залы 1 и 4</p>
 						 			</td>
-									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-weight: bold; color: green; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 10px; padding: 0;">Все 5 залов</p>
 						 			</td>
-						 		</tr><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+						 		</tr><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Посещение выставки «Связь-Экспокомм 2015»</p>
 						 			</td>
-									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-weight: bold; color: green; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 10px; padding: 0;">Да</p>
 						 			</td>
-									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-weight: bold; color: green; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 10px; padding: 0;">Да</p>
 						 			</td>
-						 		</tr><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+						 		</tr><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Доступ к лаундж-зоне в павильоне 2.3 и кофе-брейки</p>
 						 			</td>
-									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-weight: bold; color: red; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 10px; padding: 0;">Нет</p>
 						 			</td>
-									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-weight: bold; color: green; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 10px; padding: 0;">Да</p>
 						 			</td>
-						 		</tr><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+						 		</tr><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;"><td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Доступ к материалам по итогам форума (презентации докладчиков)</p>
 						 			</td>
-									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-weight: bold; color: red; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 10px; padding: 0;">Нет</p>
 						 			</td>
-									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top"> 
+									<td style="border-top-width: 1px; border-top-color: #eaeaea; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 5px 8px; border-style: solid none none;" valign="top">
 										<p style="font-weight: bold; color: green; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 10px; padding: 0;">Да</p>
 						 			</td>
 						 		</tr></tbody></table><div class="center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; text-align: center; margin: 35px 0 0; padding: 0;" align="center">
@@ -228,7 +228,7 @@ $reglink  = "http://mcf.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top"></td>
 	</tr></table><!-- /body --></body>

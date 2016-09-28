@@ -10,14 +10,14 @@ $this->pageTitle = ($test->isNewRecord ? 'Создание' : 'Редактир�
 ?>
 
 <div class="btn-toolbar clearfix">
-    <a class="btn" href="<?= Yii::app()->createUrl('/competence/admin/main/index'); ?>"><i class="icon-arrow-left"></i>
+    <a class="btn" href="<?=Yii::app()->createUrl('/competence/admin/main/index')?>"><i class="icon-arrow-left"></i>
         Список тестов</a>
 </div>
 
 <div class="well">
-    <?= CHtml::form('', 'POST', ['class' => 'form-horizontal']) ?>
+    <?=CHtml::form('', 'POST', ['class' => 'form-horizontal'])?>
 
-    <?= CHtml::errorSummary($test, '<div class="alert alert-error">', '</div>') ?>
+    <?=CHtml::errorSummary($test, '<div class="alert alert-error">', '</div>')?>
 
     <div class="row-fluid">
         <div class="span6">
@@ -25,95 +25,95 @@ $this->pageTitle = ($test->isNewRecord ? 'Создание' : 'Редактир�
 
             <div class="control-group">
                 <div class="controls">
-                    <?= CHtml::label(
+                    <?=CHtml::label(
                         $test->getAttributeLabel('Enable').
                         CHtml::activeCheckBox($test, 'Enable'),
                         null,
                         ['class' => 'checkbox']
-                    ) ?>
+                    )?>
                 </div>
             </div>
 
             <div class="control-group">
                 <div class="controls">
-                    <?= CHtml::label(
+                    <?=CHtml::label(
                         $test->getAttributeLabel('Test').
                         CHtml::activeCheckBox($test, 'Test'),
                         null,
                         ['class' => 'checkbox']
-                    ) ?>
+                    )?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'EventId', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'EventId', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::textField('event-id-input') ?>
-                    <?= CHtml::activeHiddenField($test, 'EventId') ?>
+                    <?=CHtml::textField('event-id-input')?>
+                    <?=CHtml::activeHiddenField($test, 'EventId')?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'Code', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'Code', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::activeTextField($test, 'Code') ?>
+                    <?=CHtml::activeTextField($test, 'Code')?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'Title', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'Title', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::activeTextField($test, 'Title') ?>
+                    <?=CHtml::activeTextField($test, 'Title')?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'Info', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'Info', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::activeTextArea($test, 'Info') ?>
+                    <?=CHtml::activeTextArea($test, 'Info')?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'StartTime', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'StartTime', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::activeTextField($test, 'StartTime') ?>
+                    <?=CHtml::activeTextField($test, 'StartTime')?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'EndTime', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'EndTime', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::activeTextField($test, 'EndTime') ?>
+                    <?=CHtml::activeTextField($test, 'EndTime')?>
                 </div>
             </div>
 
             <div class="control-group">
                 <div class="controls">
-                    <?= CHtml::label(
+                    <?=CHtml::label(
                         $test->getAttributeLabel('ParticipantsOnly').
                         CHtml::activeCheckBox($test, 'ParticipantsOnly'),
                         null,
                         ['class' => 'checkbox']
-                    ) ?>
+                    )?>
                 </div>
             </div>
 
             <div class="control-group">
                 <div class="controls">
-                    <?= CHtml::label(
+                    <?=CHtml::label(
                         $test->getAttributeLabel('Multiple').
                         CHtml::activeCheckBox($test, 'Multiple'),
                         null,
                         ['class' => 'checkbox']
-                    ) ?>
+                    )?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'RoleIdAfterPass', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'RoleIdAfterPass', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::activeTextField($test, 'RoleIdAfterPass') ?>
+                    <?=CHtml::activeTextField($test, 'RoleIdAfterPass')?>
                 </div>
             </div>
         </div>
@@ -123,51 +123,51 @@ $this->pageTitle = ($test->isNewRecord ? 'Создание' : 'Редактир�
 
             <div class="control-group">
                 <div class="controls">
-                    <?= CHtml::label(
+                    <?=CHtml::label(
                         $test->getAttributeLabel('UseClearLayout').
                         CHtml::activeCheckBox($test, 'UseClearLayout'),
                         null,
                         ['class' => 'checkbox']
-                    ) ?>
+                    )?>
                 </div>
             </div>
 
             <div class="control-group">
                 <div class="controls">
-                    <?= CHtml::label(
+                    <?=CHtml::label(
                         $test->getAttributeLabel('RenderEventHeader').
                         CHtml::activeCheckBox($test, 'RenderEventHeader'),
                         null,
                         ['class' => 'checkbox']
-                    ) ?>
+                    )?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'StartButtonText', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'StartButtonText', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::activeTextField($test, 'StartButtonText') ?>
+                    <?=CHtml::activeTextField($test, 'StartButtonText')?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'BeforeText', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'BeforeText', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::activeTextField($test, 'BeforeText') ?>
+                    <?=CHtml::activeTextField($test, 'BeforeText')?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'AfterText', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'AfterText', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::activeTextField($test, 'AfterText') ?>
+                    <?=CHtml::activeTextField($test, 'AfterText')?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'AfterEndText', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'AfterEndText', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::activeTextArea($test, 'AfterEndText') ?>
+                    <?=CHtml::activeTextArea($test, 'AfterEndText')?>
                 </div>
             </div>
 
@@ -175,25 +175,25 @@ $this->pageTitle = ($test->isNewRecord ? 'Создание' : 'Редактир�
 
             <div class="control-group">
                 <div class="controls">
-                    <?= CHtml::label(
+                    <?=CHtml::label(
                         $test->getAttributeLabel('FastAuth').
                         CHtml::activeCheckBox($test, 'FastAuth'),
                         null,
                         ['class' => 'checkbox']
-                    ) ?>
+                    )?>
                 </div>
             </div>
 
             <div class="control-group">
-                <?= CHtml::activeLabel($test, 'FastAuthSecret', ['class' => 'control-label']) ?>
+                <?=CHtml::activeLabel($test, 'FastAuthSecret', ['class' => 'control-label'])?>
                 <div class="controls">
-                    <?= CHtml::activeTextField($test, 'FastAuthSecret') ?>
+                    <?=CHtml::activeTextField($test, 'FastAuthSecret')?>
                 </div>
             </div>
         </div>
     </div>
 
-    <?= CHtml::submitButton($test->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-success']) ?>
+    <?=CHtml::submitButton($test->isNewRecord ? 'Создать' : 'Сохранить', ['class' => 'btn btn-success'])?>
 
-    <?= CHtml::endForm() ?>
+    <?=CHtml::endForm()?>
 </div>

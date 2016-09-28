@@ -26,5 +26,5 @@ use application\components\web\ArrayDataProvider;
                 'htmlOptions' => ['class' => 'text-right']
             ]
         ]
-    ]);?>
+    ])?>
 </div>

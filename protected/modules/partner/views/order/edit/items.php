@@ -8,15 +8,15 @@
 <div class="table-info">
     <div class="table-header">
         <div class="table-caption">
-            <?=\Yii::t('app', 'Состав счета');?>
+            <?=\Yii::t('app', 'Состав счета')?>
         </div>
     </div>
     <table id="order-items" class="table table-striped">
         <thead>
             <tr>
-                <th><?=Yii::t('app','Получатель');?></th>
-                <th><?=Yii::t('app','Товар');?></th>
-                <th><?=Yii::t('app','Цена');?></th>
+                <th><?=Yii::t('app','Получатель')?></th>
+                <th><?=Yii::t('app','Товар')?></th>
+                <th><?=Yii::t('app','Цена')?></th>
                 <th></th>
             </tr>
         </thead>
@@ -24,13 +24,13 @@
             <tr ng-repeat="item in orderItems" ng-if="!loading">
                 <td ng-bind-html="item.owner" class="text-left"></td>
                 <td>{{item.product.Title}}</td>
-                <td>{{item.price}} <?=Yii::t('app', 'руб');?>.</td>
+                <td>{{item.price}} <?=Yii::t('app', 'руб')?>.</td>
                 <td style="width: 1px;" class="text-nowrap">
                     <a href="" ng-click="removeOrderItem(item, $index)" class="btn btn-danger"><i class="fa fa-times"></i></a>
                 </td>
             </tr>
             <tr ng-if="loading">
-                <td colspan="4" class="text-center"><?=Yii::t('app', 'Загрузка заказов...');?></td>
+                <td colspan="4" class="text-center"><?=Yii::t('app', 'Загрузка заказов...')?></td>
             </tr>
         </tbody>
         <tfoot>

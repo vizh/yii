@@ -1,6 +1,6 @@
 <p align="center"><img alt="" src="http://runet-id.com/img/mail/2014/20140902-ifresh.png" style="width: 80%; height: auto;" /></p>
 <br>
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p><strong>16 - 17 сентября 2014 в г. Санкт-Петербурге</strong> пройдет самая сочная конференция по интернет-маркетингу – <a href="http://ifreshconf.ru/?utm_source=runetid&utm_medium=email&utm_campaign=ifreshconf_2014">iFresh</a>. Это площадка для общения профессионалов. Мероприятие ориентировано на то, чтобы в первую очередь нести <strong>практическую ценность</strong> всем его участникам</p>
 
@@ -20,7 +20,7 @@
 
 <p>Торопитесь <a href="http://ifreshconf.ru/?utm_source=runetid&utm_medium=email&utm_campaign=ifreshconf_2014">выбрать свой вариант участия</a> до 9 сентября!</p>
 
-<p><a href="<?=$user->getFastauthUrl('/event/ifresh14/');?>" style="display: block; text-decoration: none; background: #FC8D00; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 250px;">Регистрация</a></p>
+<p><a href="<?=$user->getFastauthUrl('/event/ifresh14/')?>" style="display: block; text-decoration: none; background: #FC8D00; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 250px;">Регистрация</a></p>
 
 
 

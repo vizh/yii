@@ -48,14 +48,14 @@ if (!empty($event->LinkEmails)) {
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                         <tr>
                             <td style="font-size: 5mm; font-weight: 100; padding: 0; margin: 0;">
-                                <?=$user->LastName?> <?=$user->getShortName();?>
+                                <?=$user->LastName?> <?=$user->getShortName()?>
                             </td>
                         </tr>
-                        <?if ($user->getEmploymentPrimary() !== null):?>
+                        <?if($user->getEmploymentPrimary() !== null):?>
                             <tr>
-                                <td style="font-size: 4mm; padding-top: 3mm;"><?=$user->getEmploymentPrimary()->Company->Name;?></td>
+                                <td style="font-size: 4mm; padding-top: 3mm;"><?=$user->getEmploymentPrimary()->Company->Name?></td>
                             </tr>
-                        <?endif;?>
+                        <?endif?>
                     </table>
                 </td>
             </tr>
@@ -65,13 +65,13 @@ if (!empty($event->LinkEmails)) {
         <tbody>
         <tr>
             <td style="height: 10mm; vertical-align: middle; font-size: 5mm;">
-                <?if (is_array($participant)):?>
-                    <?foreach ($participant as $item):?>
-                        <span style="text-transform: uppercase;"><?=$item->Part->Title?>:</span> <?=$item->Role->Title;?><br/>
-                    <?endforeach;?>
+                <?if(is_array($participant)):?>
+                    <?foreach($participant as $item):?>
+                        <span style="text-transform: uppercase;"><?=$item->Part->Title?>:</span> <?=$item->Role->Title?><br/>
+                    <?endforeach?>
                 <?else:?>
-                    <span style="text-transform: uppercase;"><?=$participant->Role->Title;?></span>
-                <?endif;?>
+                    <span style="text-transform: uppercase;"><?=$participant->Role->Title?></span>
+                <?endif?>
             </td>
         </tr>
         </tbody>
@@ -80,8 +80,8 @@ if (!empty($event->LinkEmails)) {
         <table style="font-size: 3mm; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif; width: 100%;" cellpadding="0" cellspacing="0">
             <tbody>
             <tr>
-                <td style="text-align: left; width: 50%;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70));?></td>
-                <td style="font-size: 7mm; font-weight: 400;">RUNET&ndash;ID<br/><?=$user->RunetId;?></td>
+                <td style="text-align: left; width: 50%;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70))?></td>
+                <td style="font-size: 7mm; font-weight: 400;">RUNET&ndash;ID<br/><?=$user->RunetId?></td>
             </tr>
             <tr>
                 <td style="text-align: center; font-size: 3mm; color: #959595; padding-top: 5mm;" colspan="2">Для прохода на мероприятие предъявите билет в распечатанном или электронном виде</td>

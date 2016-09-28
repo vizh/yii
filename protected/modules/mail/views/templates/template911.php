@@ -1,4 +1,4 @@
-<h3>Добрый день, <!--?=$user---><?=$user->getShortName();?>!</h3>
+<h3>Добрый день, <!--?=$user---><?=$user->getShortName()?>!</h3>
 
 <p>В самом разгаре третий день работы РИФ+КИБ 2016 &ndash; <a href="http://www.rif.ru">www.rif.ru</a> &nbsp;</p>
 

@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://2016.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
@@ -18,10 +18,10 @@
                 max-width: 600px;
                 padding-top: 20px;
                 padding-bottom: 20px;
-            } 
-            
-            .h1, 
-            .h2, 
+            }
+
+            .h1,
+            .h2,
             .h3 {
               color: #111111;
               font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -72,11 +72,11 @@
             }
 
             .btn-secondary td {
-              background-color: transparent; 
-              font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-              font-size: 14px; 
+              background-color: transparent;
+              font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+              font-size: 14px;
               text-align: center;
-              vertical-align: top; 
+              vertical-align: top;
             }
 
             .btn-secondary td a {
@@ -105,7 +105,7 @@
                 font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 14px;
                 line-height: 1.5em;
-            }                        
+            }
             @media only screen and (min-device-width: 601px) {
                 .content {width: 600px !important;}
             }
@@ -125,13 +125,13 @@
         <table width="100%" bgcolor="#D2D9DC" border="0" cellpadding="0" cellspacing="0">
             <tr>
                 <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
-              
-                    <table class="content" width="100%" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="padding-top:0!important;width:100%;max-width:600px;padding-bottom:20px;" >                                   
+
+                    <table class="content" width="100%" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="padding-top:0!important;width:100%;max-width:600px;padding-bottom:20px;" >
                         <tr>
                             <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#D2D9DC" style="padding-bottom:20px;" >
                                     <tr>
-                                        <td align="center" class="h2 padding-20" style="color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;padding-top:20px;padding-bottom:10px;padding-left:20px;padding-right:20px;" >Здравствуйте, <?=$user->getShortName();?>!</td>
+                                        <td align="center" class="h2 padding-20" style="color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;padding-top:20px;padding-bottom:10px;padding-left:20px;padding-right:20px;" >Здравствуйте, <?=$user->getShortName()?>!</td>
                                     </tr>
                                 </table>
                             </td>
@@ -143,7 +143,7 @@
                                 </a>
                             </td>
                         </tr>
-                        
+
                         <tr>
                             <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="padding-top:20px;" >
@@ -169,12 +169,12 @@
                             </td>
                         </tr>
                     </table>
-                    
+
                 </td>
             </tr>
             <tr>
                 <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
-                    
+
                     <table class="content" width="100%" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFECC4" style="width:100%;max-width:600px;padding-top:20px;padding-bottom:20px;" >
                                     <tr>
                                         <td align="left" class="padding-20 p" style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height:1.5em;font-size:14px;font-weight:normal;padding-bottom:10px;padding-left:20px;padding-right:20px;" >Каждый РИФ+КИБ&nbsp;&mdash; это море контента, бизнес-контактов, отдыха и&nbsp;развлечений.</td>
@@ -192,12 +192,12 @@
                                         <td align="left" class="padding-20 p" style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height:1.5em;font-size:14px;font-weight:normal;padding-bottom:10px;padding-left:20px;padding-right:20px;" >Приятно удивит <a href="http://2016.russianinternetforum.ru/pplus/" style="color:#000000;font-weight:bold;" >Программа+</a> (мероприятия от&nbsp;организаторов и&nbsp;партнеров: соревнования дронов, лаунж-зона &laquo;Лаборатории Касперского&raquo;, игровая зона League of&nbsp;Legends от&nbsp;Riot Games, вечеринка компании Avito, День Рождения &laquo;РИФ+КИБ&raquo; в&nbsp;Баре &laquo;Пумба&raquo; и&nbsp;многое другое)!</td>
                                     </tr>
                      </table>
-                    
+
                 </td>
             </tr>
             <tr>
                 <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
-                   
+
 
                   <table class="content" width="100%" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:100%;max-width:600px;padding-top:20px;padding-bottom:20px;" >    <tr>
                           <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
@@ -214,7 +214,7 @@
                           <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="padding-top:20px;" >
                                   <tr>
-                                      <td align="left" class="padding-20 p" style="font-weight:bold;text-align:center;font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height:1.5em;font-size:14px;padding-bottom:10px;padding-left:20px;padding-right:20px;" ><h3>ВНИМАНИЮ ТЕХ, КТО ПЛАНИРУЕТ ЛИЧНО ПОСЕТИТЬ ФОРУМ:</h3>      
+                                      <td align="left" class="padding-20 p" style="font-weight:bold;text-align:center;font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height:1.5em;font-size:14px;padding-bottom:10px;padding-left:20px;padding-right:20px;" ><h3>ВНИМАНИЮ ТЕХ, КТО ПЛАНИРУЕТ ЛИЧНО ПОСЕТИТЬ ФОРУМ:</h3>
                                       </td>
                                   </tr>
                               </table>
@@ -265,7 +265,7 @@
                         </td>
                       </tr>
                   </table>
-               
+
               </td>
           </tr>
      </table>
@@ -274,6 +274,6 @@
     </tr>
     </table>
     <![endif]-->
-               
+
     </body>
 </html>

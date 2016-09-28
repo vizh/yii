@@ -27,54 +27,54 @@ if ($fullWidth) {
 
 ?>
 
-<div class="event-page <?= $event->IdName; ?> <?= $event->FullWidth ? 'event-page-fullwidth' : ''; ?>" itemscope
+<div class="event-page <?=$event->IdName?> <?=$event->FullWidth ? 'event-page-fullwidth' : ''?>" itemscope
      itemtype="http://schema.org/Event">
-    <meta itemprop="name" content="<?= htmlspecialchars($event->Title); ?>"/>
-    <meta itemprop="startDate" content="<?= $event->getFormattedStartDate('yyyy-MM-dd'); ?>"/>
-    <meta itemprop="image" content="<?= $event->getLogo()->getNormal(); ?>"/>
+    <meta itemprop="name" content="<?=htmlspecialchars($event->Title)?>"/>
+    <meta itemprop="startDate" content="<?=$event->getFormattedStartDate('yyyy-MM-dd')?>"/>
+    <meta itemprop="image" content="<?=$event->getLogo()->getNormal()?>"/>
 
-    <?php if (!$event->FullWidth): ?>
+    <?if(!$event->FullWidth):?>
         <div class="container">
             <div class="row">
                 <aside class="sidebar span3 pull-left">
-                    <?php foreach ($event->Widgets as $widget): ?>
-                        <?php if ($widget->getPosition() == WidgetPosition::Sidebar && $widget->getIsActive()): ?>
-                            <?php $widget->run() ?>
-                        <?php endif ?>
-                    <?php endforeach ?>
+                    <?foreach($event->Widgets as $widget):?>
+                        <?if($widget->getPosition() == WidgetPosition::Sidebar && $widget->getIsActive()):?>
+                            <?$widget->run()?>
+                        <?endif?>
+                    <?endforeach?>
                 </aside>
                 <div class="span8 pull-right">
-                    <?php foreach ($event->Widgets as $widget): ?>
-                        <?php if ($widget->getIsActive()): ?>
-                            <?php if ($widget->getPosition() == WidgetPosition::Content): ?>
-                                <?php $widget->run() ?>
-                            <?php elseif ($renderTabs && $widget->getPosition() == WidgetPosition::Tabs): ?>
-                                <?php $this->renderPartial('tabs', ['event' => $event]) ?>
-                                <?php $renderTabs = false ?>
-                            <?php endif ?>
-                        <?php endif ?>
-                    <?php endforeach ?>
+                    <?foreach($event->Widgets as $widget):?>
+                        <?if($widget->getIsActive()):?>
+                            <?if($widget->getPosition() == WidgetPosition::Content):?>
+                                <?$widget->run()?>
+                            <?php elseif ($renderTabs && $widget->getPosition() == WidgetPosition::Tabs):?>
+                                <?$this->renderPartial('tabs', ['event' => $event])?>
+                                <?$renderTabs = false?>
+                            <?endif?>
+                        <?endif?>
+                    <?endforeach?>
                 </div>
             </div>
         </div>
-    <?php else: ?>
-        <?php foreach ($event->Widgets as $widget): ?>
-            <?php if ($widget->getIsActive()): ?>
-                <?php if ($widget->getPosition() != WidgetPosition::Tabs && $widget->getPosition() != WidgetPosition::Header): ?>
-                    <?php if ($widget->getName() == 'event\widgets\Location'): ?>
-                        <?php $widget->run() ?>
-                    <?php else: ?>
+    <?php else:?>
+        <?foreach($event->Widgets as $widget):?>
+            <?if($widget->getIsActive()):?>
+                <?if($widget->getPosition() != WidgetPosition::Tabs && $widget->getPosition() != WidgetPosition::Header):?>
+                    <?if($widget->getName() == 'event\widgets\Location'):?>
+                        <?$widget->run()?>
+                    <?php else:?>
                         <div class="container">
-                            <?php $widget->run(); ?>
+                            <?$widget->run()?>
                         </div>
-                    <?php endif ?>
-                <?php elseif ($renderTabs && $widget->getPosition() == \event\components\WidgetPosition::Tabs): ?>
+                    <?endif?>
+                <?php elseif ($renderTabs && $widget->getPosition() == \event\components\WidgetPosition::Tabs):?>
                     <div class="container">
-                        <?php $this->renderPartial('tabs', ['event' => $event]) ?>
+                        <?$this->renderPartial('tabs', ['event' => $event])?>
                     </div>
-                    <?php $renderTabs = false ?>
-                <?php endif ?>
-            <?php endif ?>
-        <?php endforeach ?>
-    <?php endif ?>
+                    <?$renderTabs = false?>
+                <?endif?>
+            <?endif?>
+        <?endforeach?>
+    <?endif?>
 </div>

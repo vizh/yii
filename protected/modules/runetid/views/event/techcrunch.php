@@ -1,9 +1,9 @@
 <section id="section" role="main">
   <div class="announcement">
     <div class="container">
-      <img src="/modules<?php echo $this->layout;?>/images/lev-tolstoy.png" alt="" class="lev-tolstoy">
+      <img src="/modules<?=$this->layout?>/images/lev-tolstoy.png" alt="" class="lev-tolstoy">
       <div class='logo-announcement'>
-        <img src="/modules<?php echo $this->layout;?>/images/logo-announcement.png" alt="">
+        <img src="/modules<?=$this->layout?>/images/logo-announcement.png" alt="">
       </div>
       <div class="datetime">
         <div>
@@ -21,16 +21,16 @@
   </div>
 
   <div class='container'>
-    <?php echo CHtml::beginForm('', 'POST', array('class' => 'event-registration'));?>
+    <?=CHtml::beginForm('', 'POST', array('class' => 'event-registration'))?>
       <header>
         <h3 class="title">Регистрация</h3>
       </header>
-      
-      
-      <?php foreach ($products as $product):?>
+
+
+      <?foreach($products as $product):?>
         <article>
-          <h4 class="article-title"><?php echo $product->Title;?></h4>
-          <p><?php echo $product->Description;?></p>
+          <h4 class="article-title"><?=$product->Title?></h4>
+          <p><?=$product->Description?></p>
         </article>
 
         <table class="table table-condensed">
@@ -43,28 +43,28 @@
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($product->Prices as $price):?>
-              <?php $dateFormatter = \Yii::app()->dateFormatter;?>
-            
-              <tr data-price="<?php echo $price->Price;?>">
-                <?php if ($price->StartTime < date('Y-m-d') && $price->EndTime >= date('Y-m-d')):?>
-                  <td><strong>При регистрации до <?php echo $dateFormatter->format('dd MMMM', $price->EndTime);?></strong></td>
+            <?foreach($product->Prices as $price):?>
+              <?$dateFormatter = \Yii::app()->dateFormatter?>
+
+              <tr data-price="<?=$price->Price?>">
+                <?if($price->StartTime < date('Y-m-d') && $price->EndTime >= date('Y-m-d')):?>
+                  <td><strong>При регистрации до <?=$dateFormatter->format('dd MMMM', $price->EndTime)?></strong></td>
                 <?php elseif ($price->StartTime >= date('Y-m-d') && $price->EndTime >= date('Y-m-d')):?>
-                  <td><strong>При регистрации c <?php echo $dateFormatter->format('dd MMMM', $price->StartTime);?> до <?php echo $dateFormatter->format('dd MMMM', $price->EndTime);?></strong></td>
+                  <td><strong>При регистрации c <?=$dateFormatter->format('dd MMMM', $price->StartTime)?> до <?=$dateFormatter->format('dd MMMM', $price->EndTime)?></strong></td>
                 <?php else:?>
-                  <td><strong>При регистрации до <?php echo $dateFormatter->format('dd MMMM', $price->StartTime);?> и на входе</strong></td>
-                <?php endif;?>
-                <td class="t-right price"><strong><?php echo $price->Price;?></strong> руб.</td>
+                  <td><strong>При регистрации до <?=$dateFormatter->format('dd MMMM', $price->StartTime)?> и на входе</strong></td>
+                <?endif?>
+                <td class="t-right price"><strong><?=$price->Price?></strong> руб.</td>
                 <td class="t-center">
-                  <?php echo CHtml::activeDropDownList($orderForm, 'Count['.$product->ProductId.']', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini'));?>
+                  <?=CHtml::activeDropDownList($orderForm, 'Count['.$product->ProductId.']', array(0,1,2,3,4,5,6,7,8,9,10), array('class' => 'input-mini'))?>
                 </td>
                 <td class="t-right totalPrice"><strong>0</strong> руб.</td>
-              </tr>  
-            <?php endforeach;?>         
+              </tr>
+            <?endforeach?>
           </tbody>
         </table>
-      <?php endforeach;?>
-   
+      <?endforeach?>
+
       <div class="t-right total">
         <span>Итого:</span><strong id='grandTotal'>0</strong> руб.
       </div>
@@ -73,7 +73,7 @@
         <button class="btn btn-large btn-success">Зарегистрироваться</button>
       </div>
 
-    <?php echo CHtml::endForm();?>
+    <?=CHtml::endForm()?>
   </div>
 
   <div class="container">
@@ -119,8 +119,8 @@
       <h3 class="title">Контакты</h3>
     </header>
     <article>
-      <span class="phone">+7(495)988–33–56</span> 
-      <span class="phone">+7(985)766–19–25</span> 
+      <span class="phone">+7(495)988–33–56</span>
+      <span class="phone">+7(985)766–19–25</span>
       <a href="mailto: DO@digitaloctober.com" class="email">DO@digitaloctober.com</a>
     </article>
   </div>
@@ -139,9 +139,9 @@
       <h3 class="title"><span>Партнёры</span></h3>
     </header>
     <article>
-      <a href="#"><img src="/modules<?php echo $this->layout;?>/images/partners/tech-crunch.png" alt="" class="partner"></a>
-      <a href="#"><img src="/modules<?php echo $this->layout;?>/images/partners/kite-ventures.png" alt="" class="partner"></a>
-      <a href="#"><img src="/modules<?php echo $this->layout;?>/images/partners/digital-october.png" alt="" class="partner"></a>
+      <a href="#"><img src="/modules<?=$this->layout?>/images/partners/tech-crunch.png" alt="" class="partner"></a>
+      <a href="#"><img src="/modules<?=$this->layout?>/images/partners/kite-ventures.png" alt="" class="partner"></a>
+      <a href="#"><img src="/modules<?=$this->layout?>/images/partners/digital-october.png" alt="" class="partner"></a>
     </article>
   </div>
 </section>

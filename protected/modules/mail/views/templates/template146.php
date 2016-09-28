@@ -1,6 +1,6 @@
 <p align="center"><img alt="" src="http://runet-id.com/img/mail/2014/20141002-userepxp14.jpg" style="width: 100%; height: auto;" /></p>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p style="font-size: 120%"><strong>User eXperience Russia – главное событие на российском рынке UX.  Организаторы: компания <a href="http://www.usabilitylab.ru/">UsabilityLab</a> при поддержке <a href="http://www.raec.ru">РАЭК</a> и <a href="http://www.mail.ru">Mail.Ru Group</a>.</p>
 

@@ -16,11 +16,11 @@ $externalUser = \api\models\ExternalUser::model()->byUserId($user->Id)->find();
                 <tbody>
                 <tr>
                     <td style="margin: 0;">
-                        <p><strong>Здравствуйте, <?=$user->getShortName();?>!</strong><br/><span style="color:#cccccc;font-size:10px"><?=$user->RunetId;?></span></p>
+                        <p><strong>Здравствуйте, <?=$user->getShortName()?>!</strong><br/><span style="color:#cccccc;font-size:10px"><?=$user->RunetId?></span></p>
 
                        <p>До начала конференции <a href="http://www.msdevcon.ru/">DevCon 2014</a> остается всего несколько дней, и мы спешим сообщить вам о самом главном.</p>
-                                       
-<p><strong>Даты конференции:</strong> 28-29 мая<br/> 
+
+<p><strong>Даты конференции:</strong> 28-29 мая<br/>
 <strong>Место проведения:</strong> Природный курорт <a href="http://yahonty.ru/ob-otele/kontakty/#hotel">Яхонты</a>, Московская область, Ногинский район, 1 км южнее д.Жилино</p>
 
 <p style="padding-top:15px;"><strong>Трансфер</strong></p>
@@ -48,15 +48,15 @@ $externalUser = \api\models\ExternalUser::model()->byUserId($user->Id)->find();
 
 <p style="padding-top:15px;"><strong>Анкета участника конференции и оценка докладов</strong></p>
 <p>По этой индивидуальной ссылке вы можете оценить доклады и заполнить анкету участника мероприятия. Обратите внимание, что заполнение анкеты участника доступно с утра 29 мая. За заполнение анкет мы предусмотрели для вас гарантированные призы и приятные сюрпризы!</p>
-<?if ($externalUser !== null && $externalUser->ShortExternalId !== null):?>
-<p><a href="http://www.msdevcon.ru/vote/<?=$externalUser->ShortExternalId;?>" style="display: block; text-decoration: none; background: #5b9bd5; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Заполнить анкету</a></p>
-<?endif;?>
+<?if($externalUser !== null && $externalUser->ShortExternalId !== null):?>
+<p><a href="http://www.msdevcon.ru/vote/<?=$externalUser->ShortExternalId?>" style="display: block; text-decoration: none; background: #5b9bd5; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Заполнить анкету</a></p>
+<?endif?>
 
 
 <p><strong>Что обязательно нужно взять с собой?</strong></p>
 <ul>
 <li style="padding-bottom:10px;"><strong>Паспорт</strong>. Необходим для заселения в отель. Иначе есть шанс, что ночевать вы будете на природе в окружении комаров =)</li>
-<li style="padding-bottom:10px;"><strong>Средство против комаров</strong>. Мы боремся с ними, но персональное средство поможет улучшить степень комфортности вашего пребывания в этом чудесном природном курорте.</li>	
+<li style="padding-bottom:10px;"><strong>Средство против комаров</strong>. Мы боремся с ними, но персональное средство поможет улучшить степень комфортности вашего пребывания в этом чудесном природном курорте.</li>
 <li style="padding-bottom:10px;"><strong>Теплую непромокаемую одежду и зонт</strong>. Не забудьте проверить прогноз погоды перед отъездом и захватить необходимые вещи.</li>
 <li><strong>Хорошее настроение</strong>. Без него никак нельзя!</li>
 </ul>
@@ -73,7 +73,7 @@ ____________________________________<br/><br/>
 +7 (915) 195-06-70<br/>
 ms@devcon2014.ru<br/>
 www.msdevcon.ru<br/>
-#msdevcon 
+#msdevcon
 </p>
                     </td>
                 </tr>

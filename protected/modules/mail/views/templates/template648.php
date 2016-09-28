@@ -22,23 +22,23 @@ $regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #f6f6f6; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#f6f6f6" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;">Здравствуйте, <?=$user->getShortName();?>.</h2>
+		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;">Здравствуйте, <?=$user->getShortName()?>.</h2>
 						<p class="lead" style="font-size: 17px; font-weight: normal; margin: 0 0 10px; padding: 0;">Остался всего месяц до самой масштабной выставки и главной профессиональной конференции отрасли высоких технологий России!</p>
 		            </td>
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -100,7 +100,7 @@ $regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -108,7 +108,7 @@ $regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 <!-- /body --><!-- unboxed --><table class="unboxed-wrap" bgcolor="#f6f6f6" style="clear: both !important; width: 100%; margin: 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
@@ -124,7 +124,7 @@ $regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>

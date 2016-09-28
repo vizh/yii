@@ -1,4 +1,4 @@
-<p><?=$user->getShortName();?>, здравствуйте!</p>
+<p><?=$user->getShortName()?>, здравствуйте!</p>
 
 <p><strong>RIW 2014&nbsp;&mdash; стартует уже завтра, в&nbsp;среду 12&nbsp;ноября в&nbsp;10:00.</strong></p>
 
@@ -78,4 +78,4 @@
 
 <h3><strong>Распечатайте персональный путевой лист<br />
 и&nbsp;возьмите его с&nbsp;собой:<br />
-<?=$user->Participants[0]->getTicketUrl();?></strong></h3>
+<?=$user->Participants[0]->getTicketUrl()?></strong></h3>

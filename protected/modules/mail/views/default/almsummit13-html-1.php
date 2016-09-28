@@ -28,13 +28,13 @@
 					    <table width="550" align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" border="0">
 	    					<tr>
                   <td>
-                    <h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+                    <h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
                     <p>Мы благодарим вас за регистрацию на мероприятие <a href="http://runet-id.com/event/alm14/">ALM Summit</a>, которое пройдёт 6 февраля 2014 в Digital October, Москва.</p>
                     <p>ALM Summit – это шанс получить новые знания о том, как улучшить процессы по разработке программного обеспечения, познакомиться с новыми инструментами, облегчающими создание ПО и сопровождение процессов, а значит, и принятие решений по выбору инструментария.</p>
-                    <p>Напоминаем вам, чтобы стать участником саммита по специальной цене, необходимо <a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/alm14/');?>">оплатить</a> ваше участие до 31 декабря 2013 г.</p>
+                    <p>Напоминаем вам, чтобы стать участником саммита по специальной цене, необходимо <a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/alm14/')?>">оплатить</a> ваше участие до 31 декабря 2013 г.</p>
                     <p>Подробности о конференции ALM Summit вы можете узнать на <a href="http://www.alm-summit.ru/">официальном сайте мероприятия</a></p>
 
-                    <a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/alm14/');?>" style="display: block; text-decoration: none; background: #7B3384; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Оплатить участие</a>
+                    <a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/alm14/')?>" style="display: block; text-decoration: none; background: #7B3384; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Оплатить участие</a>
 
                     <p>---<br>
                       <em>С уважением,<br>

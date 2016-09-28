@@ -1,8 +1,8 @@
 <p><a href="http://runet-id.com/event/mbsmmpr15/" target="_blank"><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/mbsmmpr15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3><strong>Здравствуйте, </span><?=$user->getShortName();?></strong>.</h3>
+<h3><strong>Здравствуйте, </span><?=$user->getShortName()?></strong>.</h3>
 
-<p>Приглашаем Вас принять участие в трехдневном интенсиве «Social Media Marketing & Digital PR», посвящённому <strong>коммуникациям в социальных сетях</strong>, а так же практическим стратегиям и инструментам <strong>правления репутацией в Новых Медиа</strong>.<p> 
+<p>Приглашаем Вас принять участие в трехдневном интенсиве «Social Media Marketing & Digital PR», посвящённому <strong>коммуникациям в социальных сетях</strong>, а так же практическим стратегиям и инструментам <strong>правления репутацией в Новых Медиа</strong>.<p>
 
 <h3>Чему научитесь?</h3>
 <ul>
@@ -54,5 +54,5 @@
 
 <p><nsbp/></p>
 
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/mbsmmpr15/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #006EBF; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #006EBF;
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/mbsmmpr15/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #006EBF; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #006EBF;
   border-top: 1px solid #006EBF;"><strong>РЕГИСТРАЦИЯ</strong> </a></div>

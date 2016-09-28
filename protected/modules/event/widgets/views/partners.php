@@ -16,11 +16,11 @@ if (empty($partners))
   </div>
   <div class="logos units"><?
     foreach ($partners as $partner):
-      ?><div class="logo unit">
-        <a target="_blank" href="<?=$partner->Company->Url;?>">
-          <img src="<?=$partner->Company->getLogoForEvent();?>" alt="">
+     ?><div class="logo unit">
+        <a target="_blank" href="<?=$partner->Company->Url?>">
+          <img src="<?=$partner->Company->getLogoForEvent()?>" alt="">
         </a>
       </div><?
     endforeach;
-    ?></div>
+   ?></div>
 </div>

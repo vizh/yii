@@ -1,4 +1,4 @@
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p>РАЭК (Ассоциация электронных коммуникаций) и ВШЭ (НИУ &ldquo;Высшая школа экономики&rdquo;) приглашают Вас <strong>стать экспертом</strong> очередного исследования &laquo;Экономика Рунета 2013&ndash;2014&raquo; и просят Вас ответить на вопросы анкеты исследования.</p>
 
@@ -38,7 +38,7 @@
 <p style="margin-top: 0; text-align: center;">
     <br/>
     <br/>
-    <a href="<?=$user->getFastauthUrl('http://runet-id.com/iresearch2014/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Начать исследование</a>
+    <a href="<?=$user->getFastauthUrl('http://runet-id.com/iresearch2014/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Начать исследование</a>
     <br/>
     <br/>
 </p>

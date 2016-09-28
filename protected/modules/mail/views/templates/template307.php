@@ -1,4 +1,4 @@
-<p><strong>Здравствуйте, <?=$user->getShortName();?>.</strong></p>
+<p><strong>Здравствуйте, <?=$user->getShortName()?>.</strong></p>
 
 <p>Напоминаем, что <strong>заезд в&nbsp;гостиницу осуществляется с&nbsp;14&nbsp;часов</strong>, выезд из&nbsp;гостиницы&nbsp;&mdash; с&nbsp;12&nbsp;часов. Подробное описание гостиницы вы&nbsp;можете найти на&nbsp;сайте <a href="http://hotel-vega.ru/" target="_blank">hotel-vega.ru</a></p>
 

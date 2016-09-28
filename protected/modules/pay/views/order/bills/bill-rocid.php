@@ -12,7 +12,7 @@ use application\components\utility\Texts;
 <!doctype html public "-//W3C//DTD XHTML 1.1 Transitional//EN" "http://www.w3.org/tr/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang=ru xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>Счёт № <?=$order->Number;?></title>
+  <title>Счёт № <?=$order->Number?></title>
   <meta content="text/html; charset=UTF-8" http-equiv=Content-Type>
 </head>
 <body>
@@ -54,16 +54,16 @@ use application\components\utility\Texts;
     </tr>
     <tr>
       <td style="TEXT-ALIGN: center" colspan="2">
-        <div style="MARGIN-TOP: 20px; FONT-SIZE: 24px"><B>CЧЕТ № <?=$order->Number;?> от <?=date('d.m.Y', strtotime($order->CreationTime));?></B></div>
+        <div style="MARGIN-TOP: 20px; FONT-SIZE: 24px"><B>CЧЕТ № <?=$order->Number?> от <?=date('d.m.Y', strtotime($order->CreationTime))?></B></div>
 
         (Счет действителен в течение 10-и банковских дней)
       </td>
     </tr>
     <tr>
-      <td colspan="2">Заказчик: <?=$order->OrderJuridical->Name;?>,
-        ИНН / КПП: <?=$order->OrderJuridical->INN;?>/<?=$order->OrderJuridical->KPP;?><BR>
-        Плательщик: <?=$order->OrderJuridical->Name;?><BR>
-        Адрес: <?=$order->OrderJuridical->Address;?>		</td>
+      <td colspan="2">Заказчик: <?=$order->OrderJuridical->Name?>,
+        ИНН / КПП: <?=$order->OrderJuridical->INN?>/<?=$order->OrderJuridical->KPP?><BR>
+        Плательщик: <?=$order->OrderJuridical->Name?><BR>
+        Адрес: <?=$order->OrderJuridical->Address?>		</td>
     </tr>
 
     <tr>
@@ -83,23 +83,23 @@ use application\components\utility\Texts;
           <?
           $i = 1;
           foreach ($billData as $data):
-            ?>
+           ?>
             <tr>
-              <td style="BORDER-BOTTOM: 1px solid; BORDER-RIGHT: 1px solid"><?=$i;?></td>
-              <td style="BORDER-BOTTOM: 1px solid; BORDER-RIGHT: 1px solid"><?=$data['Title'];?></td>
-              <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: center; BORDER-RIGHT: 1px solid"><?=$data['Unit'];?></td>
-              <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: center; BORDER-RIGHT: 1px solid"><?=$data['Count'];?></td>
-              <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: center; BORDER-RIGHT: 1px solid" nowrap="nowrap"><?=number_format(round($data['DiscountPrice'] / 1.18, 2, PHP_ROUND_HALF_UP), 2, ',', ' ');?></td>
+              <td style="BORDER-BOTTOM: 1px solid; BORDER-RIGHT: 1px solid"><?=$i?></td>
+              <td style="BORDER-BOTTOM: 1px solid; BORDER-RIGHT: 1px solid"><?=$data['Title']?></td>
+              <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: center; BORDER-RIGHT: 1px solid"><?=$data['Unit']?></td>
+              <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: center; BORDER-RIGHT: 1px solid"><?=$data['Count']?></td>
+              <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: center; BORDER-RIGHT: 1px solid" nowrap="nowrap"><?=number_format(round($data['DiscountPrice'] / 1.18, 2, PHP_ROUND_HALF_UP), 2, ',', ' ')?></td>
 
-              <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: right" nowrap="nowrap"><?=number_format(round($data['DiscountPrice'] * $data['Count'] / 1.18, 2, PHP_ROUND_HALF_UP), 2, ',', ' ');?></td>
+              <td style="BORDER-BOTTOM: 1px solid; TEXT-ALIGN: right" nowrap="nowrap"><?=number_format(round($data['DiscountPrice'] * $data['Count'] / 1.18, 2, PHP_ROUND_HALF_UP), 2, ',', ' ')?></td>
             </tr>
             <?
             $i++;
-          endforeach;?>
+          endforeach?>
 
           <tr>
             <td style="TEXT-ALIGN: right; FONT-WEIGHT: bold; BORDER-RIGHT: 1px solid" colSpan="4">Итого:<BR>Итого НДС:<BR>Всего к оплате (c учетом НДС):</td>
-            <td style="TEXT-ALIGN: right; FONT-WEIGHT: bold" colspan="2"><?=number_format($total - $nds, 2, ',', ' ');?><BR><?=number_format($nds, 2, ',', ' ');?><BR><?=number_format($total, 2, ',', ' ');?></td>
+            <td style="TEXT-ALIGN: right; FONT-WEIGHT: bold" colspan="2"><?=number_format($total - $nds, 2, ',', ' ')?><BR><?=number_format($nds, 2, ',', ' ')?><BR><?=number_format($total, 2, ',', ' ')?></td>
 
           </tr>
           </tbody>
@@ -108,18 +108,18 @@ use application\components\utility\Texts;
     </tr>
     <tr>
       <td colspan="2">
-        Всего на сумму <?=number_format($total, 0, ',', ' ');?> руб. 00 коп.
-        <div><span><?=Texts::mb_ucfirst(mb_strtolower(Texts::NumberToText($total, true)));?></span> рублей 00 копеек</div><BR><BR>
+        Всего на сумму <?=number_format($total, 0, ',', ' ')?> руб. 00 коп.
+        <div><span><?=Texts::mb_ucfirst(mb_strtolower(Texts::NumberToText($total, true)))?></span> рублей 00 копеек</div><BR><BR>
 
       </td>
     </tr>
     <tr>
       <td style="FONT-SIZE: 10px" colspan="2">
         <h2>Публичная оферта на оказание услуг</h2>
-        <?=$this->renderPartial('bills/offer/own-rocid');?>
+        <?=$this->renderPartial('bills/offer/own-rocid')?>
       </td>
     </tr>
-    <?if ($withSign):?>
+    <?if($withSign):?>
       <tr>
 
         <td colspan="2">
@@ -146,11 +146,11 @@ use application\components\utility\Texts;
           <br/><br/><br/><br/><br/>
         </td>
       </tr>
-    <?endif;?>
+    <?endif?>
     </tbody>
   </table>
 </div>
 </body>
 </html>
 
- 
+

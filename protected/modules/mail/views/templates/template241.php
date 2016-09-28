@@ -1,4 +1,4 @@
-<?=$user->getShortName();?>,&nbsp;<span style="line-height: 1.6em;">добрый день!</span>
+<?=$user->getShortName()?>,&nbsp;<span style="line-height: 1.6em;">добрый день!</span>
 <p>Вы&nbsp;зарегистрированы как гость Церемонии Награждения Золотого Сайта. Мы&nbsp;ждем вас уже сегодня вечером, а&nbsp;вот некоторые подробности:</p>
 
 <p>Обращаем ваше внимание во&nbsp;избежание путаницы&nbsp;&mdash; Церемония Награждения проходит&nbsp;<strong>НЕ на&nbsp;конференции RIW14</strong>, а&nbsp;в&nbsp;другом месте, хоть и&nbsp;рядом: развлекательный комплекс LOFT, Кутузовский проспект, д.&nbsp;12, стр.&nbsp;3&nbsp;(<a href="http://pmloft.ru/kontakty.html">http://pmloft.ru/kontakty.html</a>).</p>

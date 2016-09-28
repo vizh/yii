@@ -89,7 +89,7 @@ if ($data) {
                 </td>
                 <td>
 
-                    <?php if (\Yii::app()->language == 'en'): ?>
+                    <?if(\Yii::app()->language == 'en'):?>
                         INTERNATIONAL EXHIBITION<br>
                         1-3 November, 2016<br>
                         Moscow, Expocentre, pavilions "Forum", №1<br>
@@ -97,25 +97,25 @@ if ($data) {
                         МЕЖДУНАРОДНАЯ ВЫСТАВКА<br>
                         1-3 Ноября 2016<br>
                         Москва, Экспоцентр, павильоны «Форум», №1<br>
-                    <?php endif;?>
+                    <?endif?>
                 </td>
                 <td style="text-align: center; width: 100px;">
-                    <?= $user->RunetId ?>
-                        <?=\CHtml::image(QrCode::getAbsoluteUrl($user, 100), '');?>
+                    <?=$user->RunetId?>
+                        <?=\CHtml::image(QrCode::getAbsoluteUrl($user, 100), '')?>
                 </td>
             </tr>
         </table>
 
-        <?php if (\Yii::app()->language == 'en'): ?>
+        <?if(\Yii::app()->language == 'en'):?>
             <img class="icons" src="/img/ticket/isrussia16/icons-en-red.jpg">
         <?php else:?>
             <img class="icons" src="/img/ticket/isrussia16/icons-ru-red.jpg">
-        <?php endif; ?>
+        <?endif?>
     </div>
 </header>
 <section>
     <div class="main">
-        <?php if (\Yii::app()->language == 'en'): ?>
+        <?if(\Yii::app()->language == 'en'):?>
             <p>Thank you for registering the International Exhibition Integrated Systems Russia.</p>
             <h3>TIME AND VENUE OF THE EXHIBITION:</h3>
             <table>
@@ -201,6 +201,6 @@ if ($data) {
                 INTEGRATED SYSTEMS RUSSIA, HI-TECH BUILDING, «Передовые технологии автоматизации. ПТА», Russian Interactive Week (RIW.Moscow).
             </h3>
 
-        <?php endif; ?>
+        <?endif?>
     </div>
 </section>

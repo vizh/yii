@@ -28,13 +28,13 @@
 			<!-- content -->
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
-                        <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /><h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Уважаемый, <?=$user->getShortName();?>!</h2>
+                        <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /><h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Уважаемый, <?=$user->getShortName()?>!</h2>
 
 
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
                     30 сентября 2015 года c 12:00 до 15.00 в зале «Саргсян» отеля «Арарат Парк
 
-Хаятт» (ул. Неглинная, д.4) состоится очередное заседание 
+Хаятт» (ул. Неглинная, д.4) состоится очередное заседание
 
 Наблюдательного совета Института Развития Интернета (ИРИ).
                 </p>
@@ -42,11 +42,11 @@
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
                    Вам и другим членам Наблюдательного совета ИРИ будет представлен
 
-промежуточный доклад о работе над исполнением поручения Президента 
+промежуточный доклад о работе над исполнением поручения Президента
 
-Российской Федерации по подготовке предложений по формированию 
+Российской Федерации по подготовке предложений по формированию
 
-долгосрочной Программы развития российского сегмента сети Интернет 
+долгосрочной Программы развития российского сегмента сети Интернет
 
 и связанных с ней отраслей экономики.
                 </p>
@@ -54,7 +54,7 @@
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
                    Рабочая версия документа будет выслана дополнительно.
 
-Вы сможете заблаговременно ознакомиться с ней, чтобы предметно 
+Вы сможете заблаговременно ознакомиться с ней, чтобы предметно
 
 обсудить документ на мероприятии!
                 </p>
@@ -91,7 +91,7 @@
 
                     12.45 - 13.30 Доклад о работе над исполнением поручения Президента РФ по
 
-подготовке предложений по формированию долгосрочной Программы 
+подготовке предложений по формированию долгосрочной Программы
 
 развития сети Интернет и связанных с ней отраслей экономики;<br/>
 
@@ -144,7 +144,7 @@
                             </tr></table></td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table></body>

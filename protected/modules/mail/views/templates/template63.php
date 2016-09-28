@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/img/mail/2014/20140408-mblt14.jpg" alt=""/></p>
 
-<h2>Здравствуйте, <?=$user->getShortName();?>.</h2>
+<h2>Здравствуйте, <?=$user->getShortName()?>.</h2>
 
 <h3>23 мая в Москве пройдет 3-я международная мобильная конференция #MBLT14: Inspired by Innovations.&nbsp;</h3>
 
@@ -48,7 +48,7 @@
 
 <p>Как глобализируются продукты и услуги? Как мобильные технологии меняют бизнес-процессы, каковы стратегии компаний-лидеров? Бенчмаркинговые кейсы, демонстрация носимых гаджетов, взгляд в будущее &mdash; #MBLT14 вдохновит вас на новые идеи и решения.</p>
 
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/mblt14/');?>" style="display: block; text-decoration: none; background: #63C23C; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/mblt14/')?>" style="display: block; text-decoration: none; background: #63C23C; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
 
 <p><strong>Стоимость билета:</strong> до 30 апреля &mdash; 8 000 рублей, c 1 мая &mdash; 11 000 рублей. При одновременной покупке двух и более билетов на участие &mdash; <strong>скидка 25%</strong>.</p>
 

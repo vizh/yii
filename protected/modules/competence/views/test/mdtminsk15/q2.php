@@ -18,28 +18,28 @@
     });
 </script>
 <ul class="unstyled">
-    <?foreach ($form->getValues() as $value):?>
+    <?foreach($form->getValues() as $value):?>
         <li>
             <label class="radio">
-                <?=CHtml::activeRadioButton($form, 'value', ['value' => $value->key, 'uncheckValue' => null]);?>
-                <?=$value->title;?>
-                <?if ($value->key == 'q2_2'):?>
+                <?=CHtml::activeRadioButton($form, 'value', ['value' => $value->key, 'uncheckValue' => null])?>
+                <?=$value->title?>
+                <?if($value->key == 'q2_2'):?>
                     <div id="Q2_values" class="row" style="display: none;">
                         <div class="span8 m-top_10">
                             <ul class="unstyled">
-                                <?foreach ($form->getQ2Values() as $value):?>
+                                <?foreach($form->getQ2Values() as $value):?>
                                     <li>
                                         <label class="radio">
-                                            <?=CHtml::activeRadioButton($form, 'q2_value', ['value' => $value->key, 'uncheckValue' => null]);?>
-                                            <?=$value->title;?>
+                                            <?=CHtml::activeRadioButton($form, 'q2_value', ['value' => $value->key, 'uncheckValue' => null])?>
+                                            <?=$value->title?>
                                         </label>
                                     </li>
-                                <?endforeach;?>
+                                <?endforeach?>
                             </ul>
                         </div>
                     </div>
-                <?endif;?>
+                <?endif?>
             </label>
         </li>
-    <?endforeach;?>
+    <?endforeach?>
 </ul>

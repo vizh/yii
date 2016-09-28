@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 27 и 28 мая 2013 года в Гиперкубе Инновационного центра «Сколково» пройдет первая международная конференция стартап-компаний и инвесторов Startup Village (www.startupvillage.ru).
 
@@ -25,4 +25,4 @@ Startup Village – это уникальная возможность для п
 —RUNET—ID—
 www.runet-id.com
 
-Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/');?>
+Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/')?>

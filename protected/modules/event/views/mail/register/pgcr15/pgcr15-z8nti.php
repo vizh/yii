@@ -1,8 +1,8 @@
-<p><strong><?=$user->getShortName();?></strong>, здравствуйте!</p>
+<p><strong><?=$user->getShortName()?></strong>, здравствуйте!</p>
 
 <p style="line-height: 20.7999992370605px;">Спасибо за регистрацию на&nbsp;<strong>PGCONF.RUSSIA 2015</strong></p>
 
-<p>Ваш статус на мероприятии: <strong><?=$role->Title;?></strong></p>
+<p>Ваш статус на мероприятии: <strong><?=$role->Title?></strong></p>
 
 <p style="line-height: 20.7999992370605px;">Дата проведения: <strong>6-7 февраля 2015&nbsp;года.</strong></p>
 
@@ -11,7 +11,7 @@
 <div style="text-align: center; background: #F0F0F0; border: 2px dashed #FFF; padding: 10px;">
 <p style="margin-bottom: 5px">Пожалуйста, сохраните на телефон или распечатайте ваш электронный билет:</p>
 
-<p style="margin-top: 0"><a href="<?=$participant->getTicketUrl();?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Электронный билет</a></p>
+<p style="margin-top: 0"><a href="<?=$participant->getTicketUrl()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Электронный билет</a></p>
 </div>
 
 <p>Ваш билет уникален и не подлежит передаче третьим лицам.</p>

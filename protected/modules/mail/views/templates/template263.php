@@ -2,7 +2,7 @@
 	$reglink = "http://experts.premiaruneta.ru/invite/council/?runetId=" . $user->RunetId . "&key=" . substr(md5($user->RunetId.'salt-council2014-salt'), 0, 8);
 ?>
 
-<p><?=$user->getShortName();?>, здравствуйте!</p>
+<p><?=$user->getShortName()?>, здравствуйте!</p>
 Премия Рунета 2014 выходит на&nbsp;финишную прямую.
 
 <p><strong>Приглашаем Вас войти в&nbsp;состав Экспертного Совета (ЭС) Премии Рунета 2014.</strong></p>

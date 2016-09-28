@@ -27,18 +27,18 @@
                     <tbody>
                     <tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                         <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><img alt="Интернет Экономика" src="http://ie.iri.center/bitrix/templates/neweco/assets/images/logo.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-	                        
-	                        
-	                        
-	                        
-	                        
-	                        
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+
+
+
+
+
+
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Форум &laquo;Интернет Экономика 2015&raquo; стартовал свою работу 21&nbsp;декабря 2015&nbsp;года, первые итоги его работы: <a href="http://ie.iri.center">ie.iri.center</a></p>
 
 <p align="center"><strong>Ваш статус:<br />
-<span style="color: #C45942; font-size: 18px;"><?=$user->Participants[0]->Role->Title;?></span></strong></p>
+<span style="color: #C45942; font-size: 18px;"><?=$user->Participants[0]->Role->Title?></span></strong></p>
 
 <p>Этот статус дает Вам право участвовать в&nbsp;работе Форума 22&nbsp;декабря (вторник).</p>
 

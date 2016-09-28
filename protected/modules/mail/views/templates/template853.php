@@ -1,6 +1,6 @@
 <img alt="" src="http://runet-id.com/img/mail/2016/dirs16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 
 <p>Вы получили это письмо, так как регистрировались на <strong>конференцию </strong><a href="http://www.advdays.ru/march_2016/?utm_source=not_pay&amp;utm_medium=email&amp;utm_campaign=advdays_march_2016"><strong>&laquo;День интернет-рекламы&raquo;</strong></a>, которая пройдет <strong>17 марта в Санкт-Петербурге</strong>.<br />

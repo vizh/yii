@@ -1,6 +1,6 @@
 <a href="http://mblt.ru/ru?utm_source=link&amp;utm_medium=email21_04&amp;utm_campaign=runetid
 "><img alt="MBLT16" src="http://runet-id.com/img/mail/2016/mblt16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /></a>
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p><strong>Через неделю в Москве пройдет 5-ая Международная мобильная конференция MBLT16.</strong></p>
 <p>На <a href="http://mblt.ru/ru?utm_source=link&amp;utm_medium=email21_04&amp;utm_campaign=runetid">официальном сайте</a> сегодня опубликована итоговая программа мероприятия, в котором примут участие более 20 представителей всемирно известных компаний, среди которых Facebook, Google, Alibaba Mobile Buisness Group, Poikos, The Economist, EyeEm.</p>

@@ -1,4 +1,4 @@
-<p><strong>Здравствуйте, <?=$user->getShortName();?>.</strong></p>
+<p><strong>Здравствуйте, <?=$user->getShortName()?>.</strong></p>
 
 <p>Вы начинали процедуру регистрации на&nbsp;общероссийский форум PGCONF.RUSSIA 2015, но не закончили ее.</p>
 

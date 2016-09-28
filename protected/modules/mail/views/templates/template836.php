@@ -30,27 +30,27 @@
         <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
             <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                 <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-                
-                
-                
-                
 
-<h3>Здравствуйте <?=$user->getShortName();?>!</h3>
+
+
+
+
+<h3>Здравствуйте <?=$user->getShortName()?>!</h3>
 
 <p>Вы&nbsp;зарегистрированы на&nbsp;установочное собрание экспертов ИРИ, которое состоится завтра, 3&nbsp;марта, по&nbsp;адресу: г. Москва, ул. Льва Толстого, 16, штаб-квартира «Яндекс», зал «Экстрополис».</p>
 <p><strong>Программа мероприятия:</strong></p>
-<ul> 
+<ul>
 	<li><strong>11:00&nbsp;— 11:30</strong><br/>
- Сбор участников, приветственный кофе. 
+ Сбор участников, приветственный кофе.
 	</li>
 	<li><strong>11:30&nbsp;— 11:40</strong><br/>
- Открытие. 
+ Открытие.
 	</li>
 	<li><strong>11:40&nbsp;— 12:55</strong><br/>
- Подведение итогов работы за&nbsp;2015&nbsp;год, план работ на&nbsp;2016&nbsp;год. 
+ Подведение итогов работы за&nbsp;2015&nbsp;год, план работ на&nbsp;2016&nbsp;год.
 	</li>
 	<li><strong>13:05&nbsp;— 13:40</strong><br/>
- Фуршет, неформальное общение. 
+ Фуршет, неформальное общение.
 	</li>
  </ul>
 

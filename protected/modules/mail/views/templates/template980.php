@@ -1,5 +1,5 @@
 <a href=" http://mblt.ru/ru"><img alt="MBLT16" src="http://runet-id.com/img/mail/2016/mblt16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /></a>
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <h3><strong>Спасибо, что посетили 5-ю Международную мобильную конференцию MBLT16!</strong></h3>
 

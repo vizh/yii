@@ -10,7 +10,7 @@
           <td><table cellpadding="10" cellspacing="10" border="0" width="100%">
               <tr>
                 <td style="font-size: 14px;"><h3 class="p1"><span class="s1">Здравствуйте,
-                    <?=$user->getShortName();?>
+                    <?=$user->getShortName()?>
                     !</span></h3>
                   <p>Приглашаем Вас присоединиться к&nbsp;вебинару&nbsp;&laquo;<a href="https://events.techdays.ru/connect/2016-04/" target="_blank">Microsoft&nbsp;Connect: возможности партнерства с Microsoft</a>&raquo;&nbsp;</p>
 

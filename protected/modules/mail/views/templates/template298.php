@@ -1,21 +1,21 @@
 <p><a href="http://runet-id.com/event/visualdata15" target="_blank"><img alt="Регистрация" src="http://runet-id.com/img/event/visualdata15/header-bg.jpg" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3><strong>Здравствуйте, </span><?=$user->getShortName();?></strong>.</h3>
+<h3><strong>Здравствуйте, </span><?=$user->getShortName()?></strong>.</h3>
 <p>Приглашаем Вас принять участие в&nbsp;бесплатном практическом семинаре <strong>«Visual Data»</strong>, посвященном <strong>новейшим инструментам для визуализации и&nbsp;анализа данных</strong>, а&nbsp;также современным технологиям для разработки приложений.</p>
 
 <h3><strong>О&nbsp;чем это?</strong></h3>
 <p>На&nbsp;семинаре мы&nbsp;расскажем о&nbsp;возможностях продукта Qlik Sense, не&nbsp;только как лидирующего независимого приложения для визуализации и&nbsp;анализа данных, но&nbsp;и&nbsp;как лучшей в&nbsp;своём классе платформы, которая гибко встраивается в&nbsp;приложения разработчика и&nbsp;в&nbsp;инфраструктуру заказчика.</p>
 
 <h3><strong>Для кого это?</strong></h3>
-<ul> 
+<ul>
 	<li>Прежде всего, для разработчиков веб-сервисов и&nbsp;бизнес-приложений, которые уже внедрили или планируют внедрять средства анализа и&nbsp;визуализации данных.</li>
 	<li>Также для специалистов компаний, предоставляющих SaaS решения для бизнеса.</li>
 	<li>Еще для разработчиков клиент-серверных программных продуктов, сервисов и&nbsp;для аналитических агентств.</li>
 	<li>И&nbsp;наконец, для всех компаний, в&nbsp;сферу интересов которых входит создание визуализаций, интерактивных отчётов и&nbsp;обеспечение работы пользователей с&nbsp;большими данными.</li>
  </ul>
- 
+
 <h3><strong>Зачем это Вам?</strong></h3>
-<ul> 
+<ul>
 	<li>Вы&nbsp;узнаете, как можно с&nbsp;минимальными трудозатратами создавать для ваших пользователей сервисы, обогащённые элементами аналитики, которые взаимодействуют между собой и&nbsp;с&nbsp;внешними приложениями.</li>
 	<li>Вы&nbsp;увидите новые визуальные элементы платформы Qlik Sense, которые выводят на&nbsp;новый уровень работу с&nbsp;интерактивной аналитикой на&nbsp;мобильных устройствах и&nbsp;в&nbsp;web-интерфейсе.</li>
 	<li>Наконец, вы&nbsp;узнаете, как сочетание лидирующего&nbsp;BI решения и&nbsp;проработанных API интерфейсов позволяет реализовывать самые смелые задачи наших партнёров.</li>
@@ -23,5 +23,5 @@
 <p>Семинар проводится компанией Qlik, ведущим международным разработчиком решений для бизнес-анализа, управляемого пользователями. Вас ожидают выступления экспертов компании Qlik, а&nbsp;также представителей компаний-партнеров, имеющих успешный опыт интеграции продуктов Qlik в&nbsp;свои приложения и&nbsp;сервисы.</p>
 <p><strong>Участие в&nbsp;мероприятии бесплатное.</strong> Предварительная регистрация обязательна, так как количество мест для участия в&nbsp;семинаре ограничено.​</p>
 
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/visualdata15');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #30b1ce; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #307489;
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/visualdata15')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #30b1ce; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #307489;
   border-top: 1px solid #56BFD7;"><strong>Регистрация</strong> </a></div>

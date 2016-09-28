@@ -10,11 +10,11 @@
           <td><table cellpadding="10" cellspacing="10" border="0" width="100%">
               <tr>
                 <td style="font-size: 14px;"><p class="p1"><span class="s1">Здравствуйте,
-                    <?=$user->getShortName();?>
+                    <?=$user->getShortName()?>
                     !</span></p>
                   <p class="p1"><span class="s1">Спасибо большое, что стали участником конференции <a href="http://events.techdays.ru/msdevtour/perm">Microsoft Developer Tour</a> в Перми! Нам очень важно узнать ваше мнение о мероприятии.</span><span style="line-height: 1.6em;">&nbsp;</span></p>
                   <p class="p1"><span class="s3">По этой индивидуальной ссылке вы можете оценить доклады и заполнить анкету участника мероприятия. Обратите внимание, что заполнение анкеты участника доступно с 13:00 до 23:59 11 апреля. Мы предусмотрели для вас приятные сюрпризы, которые гарантированно получит каждый заполнивший анкету!</span><span style="line-height: 1.6em;">&nbsp;</span></p>
-                  <p style="margin:0 auto; text-align:center"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/msdevtour');?>"style="margin:0 auto;color: #ffffff;text-decoration: none;user-select: none;background: #5B9BD5;padding: .7em 1.5em;">Заполнить анкету</a></p>
+                  <p style="margin:0 auto; text-align:center"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/msdevtour')?>"style="margin:0 auto;color: #ffffff;text-decoration: none;user-select: none;background: #5B9BD5;padding: .7em 1.5em;">Заполнить анкету</a></p>
                   <br/>
                   <br/>
                   <p class="p1"><span class="s1">Делитесь своими впечатлениями о конференции в твиттере – #msdevtour</span></p>
@@ -27,8 +27,8 @@
 
 <p class="p1"><span class="s1"></span></p>
 
-                  
-                  <p style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 14px;"> 
+
+                  <p style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 14px;">
                     С уважением,<br/>
                     Команда организаторов конференции Microsoft Developer Tour<br/>
 

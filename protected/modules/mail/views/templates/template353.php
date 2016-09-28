@@ -1,4 +1,4 @@
-<p><b>Здравствуйте, <?=$user->getShortName();?>!</b></p>
+<p><b>Здравствуйте, <?=$user->getShortName()?>!</b></p>
 
 <p>Благодарим Вас за интерес к конференции <a href="http://www.msdevcon.ru/">DevCon 2015</a>, посвященной разработке под платформу Microsoft!</p>
 

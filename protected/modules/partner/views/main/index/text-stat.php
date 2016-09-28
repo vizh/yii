@@ -16,26 +16,26 @@
                 <thead>
                 <tr>
                     <th>Роль</th>
-                    <?foreach ($timeSteps as $key => $time):?>
-                        <th><?=$key;?></th>
-                    <?endforeach;?>
+                    <?foreach($timeSteps as $key => $time):?>
+                        <th><?=$key?></th>
+                    <?endforeach?>
                 </tr>
                 </thead>
                 <tbody>
-                <?foreach ($roles as $role):?>
+                <?foreach($roles as $role):?>
                     <tr>
-                        <td><?=$role->Title;?></td>
-                        <?foreach ($timeSteps as $key => $time):?>
-                            <td><?=isset($textStatistics[$key][$role->Id]) ? $textStatistics[$key][$role->Id] : 0;?></td>
-                        <?endforeach;?>
+                        <td><?=$role->Title?></td>
+                        <?foreach($timeSteps as $key => $time):?>
+                            <td><?=isset($textStatistics[$key][$role->Id]) ? $textStatistics[$key][$role->Id] : 0?></td>
+                        <?endforeach?>
                     </tr>
-                <?endforeach;?>
+                <?endforeach?>
 
                 <tr>
                     <td class="text-right"><strong>Всего:</strong></td>
-                    <?foreach ($timeSteps as $key => $time):?>
-                        <td><?=$textStatistics[$key]['Total'];?></td>
-                    <?endforeach;?>
+                    <?foreach($timeSteps as $key => $time):?>
+                        <td><?=$textStatistics[$key]['Total']?></td>
+                    <?endforeach?>
                 </tr>
                 </tbody>
             </table>
@@ -47,13 +47,13 @@
                     <thead>
                     <tr>
                         <th>Метка</th>
-                        <?foreach ($timeSteps as $key => $time):?>
+                        <?foreach($timeSteps as $key => $time):?>
                             <th><?=$key?></th>
                         <?endforeach?>
                     </tr>
                     </thead>
                     <tbody>
-                    <?foreach ($visitMarksIds as $markId):?>
+                    <?foreach($visitMarksIds as $markId):?>
                         <tr>
                             <td><?=$markId?></td>
                             <?foreach($timeSteps as $key => $time):?>

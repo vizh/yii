@@ -24,12 +24,12 @@ use user\models\User;
 <hr/>
 <div class="row">
     <div class="span12 text-center">
-        <?if (\Yii::app()->getUser()->getIsGuest()):?>
-            <p class="text-error"><?=\Yii::t('app', 'Перед началом заполнения анкеты требуется');?> <a href="#" id="PromoLogin"><?=\Yii::t('app', 'авторизоваться или зарегистрироваться');?></a></p>
-        <?endif;?>
-        <?=\CHtml::beginForm();?>
-            <?=\CHtml::submitButton(\Yii::t('app', 'Заполнить анкету члена РАЭК'), ['class' => 'btn btn-success btn-large'.(\Yii::app()->getUser()->getIsGuest() ? ' disabled' : '')]);?>
-            <?=$this->getNextActionInput();?>
-        <?=\CHtml::endForm();?>
+        <?if(\Yii::app()->getUser()->getIsGuest()):?>
+            <p class="text-error"><?=\Yii::t('app', 'Перед началом заполнения анкеты требуется')?> <a href="#" id="PromoLogin"><?=\Yii::t('app', 'авторизоваться или зарегистрироваться')?></a></p>
+        <?endif?>
+        <?=\CHtml::beginForm()?>
+            <?=\CHtml::submitButton(\Yii::t('app', 'Заполнить анкету члена РАЭК'), ['class' => 'btn btn-success btn-large'.(\Yii::app()->getUser()->getIsGuest() ? ' disabled' : '')])?>
+            <?=$this->getNextActionInput()?>
+        <?=\CHtml::endForm()?>
     </div>
 </div>

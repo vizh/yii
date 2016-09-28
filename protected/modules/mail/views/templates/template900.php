@@ -1,1 +1,1 @@
-<?=$user->Participants[0]->Role->Title;?>
+<?=$user->Participants[0]->Role->Title?>

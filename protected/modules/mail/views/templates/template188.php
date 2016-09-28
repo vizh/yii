@@ -68,7 +68,7 @@ td,a{font-family:'Segoe UI Semilight', Arial, Helvetica; }
 							<tbody>
 								<tr>
 									<td style="padding:23px 34px;" width="600">
-									<h4 style="margin-top: 20px; margin-bottom: 10px !important; color:#993333; font-size: 15px; font-weight: bold !important;"><!--?=$user---><?=$user->getShortName();?>, здравствуйте!</h4>
+									<h4 style="margin-top: 20px; margin-bottom: 10px !important; color:#993333; font-size: 15px; font-weight: bold !important;"><!--?=$user---><?=$user->getShortName()?>, здравствуйте!</h4>
 
 									<p style="font-size: 14px;">Мы рады пригласить вас, как постоянного участника наших конференций, на новое кросс-индустриальное мероприятие <a href="http://events.techdays.ru/appday/2014-11/">Russian App Day</a> про мобильные и облачные технологии в России на специальных условиях!</p>
 

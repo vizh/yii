@@ -17,7 +17,7 @@ $this->pageTitle = 'Статистика питания';
     <h2 class="text-center"><?=CHtml::encode($this->pageTitle)?></h2>
 
     <h4 style="margin-top: 50px;"><?=CHtml::encode($groupName)?></h4>
-    <?php $this->widget('zii.widgets.grid.CGridView', [
+    <?$this->widget('zii.widgets.grid.CGridView', [
         'dataProvider'=> $dataProvider,
         'itemsCssClass' => 'table table-bordered',
         'summaryText' => 'Всего {count} человек(а)',
@@ -63,5 +63,5 @@ $this->pageTitle = 'Статистика питания';
                 'sortable' => false
             ]
         ]
-    ]) ?>
+    ])?>
 </div>

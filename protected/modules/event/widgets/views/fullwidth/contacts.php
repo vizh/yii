@@ -12,29 +12,29 @@ foreach ($this->event->LinkEmails as $link) {
 
 <div class="contacts">
     <header>
-        <h3 class="title"><?= \Yii::t('app', 'Контакты'); ?></h3>
+        <h3 class="title"><?=\Yii::t('app', 'Контакты')?></h3>
     </header>
     <article>
-        <?php if ($this->event->getContactAddress() !== null): ?>
-            <p class="address"><?= $this->event->getContactAddress() ?></p>
-        <?php endif ?>
+        <?if($this->event->getContactAddress() !== null):?>
+            <p class="address"><?=$this->event->getContactAddress()?></p>
+        <?endif?>
 
-        <?php if (!empty($phones)): ?>
+        <?if(!empty($phones)):?>
             <span class="header">Тел.:</span>
-            <?php foreach ($phones as $phone): ?>
+            <?foreach($phones as $phone):?>
                 <span class="phone"><?=$phone?></span>
-            <?php endforeach ?>
+            <?endforeach?>
             <br><br>
-        <?php endif ?>
+        <?endif?>
 
-        <?php if (!empty($this->event->LinkEmails)): ?>
+        <?if(!empty($this->event->LinkEmails)):?>
             <span class="header">Email:</span>
             <?=implode(', ', $emails)?>
             <br><br>
-        <?php endif ?>
+        <?endif?>
 
-        <?php if ($this->event->LinkSite): ?>
+        <?if($this->event->LinkSite):?>
             <span class="site">Официальный сайт проекта: <?=CHtml::link($this->event->LinkSite->Site, $this->event->LinkSite->Site)?></span>
-        <?php endif ?>
+        <?endif?>
     </article>
 </div>

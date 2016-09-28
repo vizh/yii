@@ -4,4 +4,4 @@
  */
 ?>
 
-<?=CHtml::activeDropDownList($form, 'value', $form->values, array('class' => 'span4'));?>
+<?=CHtml::activeDropDownList($form, 'value', $form->values, array('class' => 'span4'))?>

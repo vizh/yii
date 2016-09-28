@@ -3,7 +3,7 @@
   <div class="container">
     <div class="title">
       <span class="backing runet">Runet</span>
-      <span class="backing text"><?=\Yii::t('app', 'Подписка успешно отменена');?></span>
+      <span class="backing text"><?=\Yii::t('app', 'Подписка успешно отменена')?></span>
     </div>
   </div>
 </h2>

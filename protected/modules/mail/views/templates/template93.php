@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/img/mail/2014/20140408-mblt14.jpg" alt=""/></p>
 
-<h2>Здравствуйте, <?=$user->getShortName();?>.</h2>
+<h2>Здравствуйте, <?=$user->getShortName()?>.</h2>
 
 <p>23 мая в Москве в третий раз пройдет международная мобильная конференция <a href="http://mblt.ru">#MBLT14</a>. Компании-организаторы e-Legion и РАЭК соберут в Digital October более 600 участников, чтобы вдохновиться новыми идеями из мира мобильных технологий.</p>
 
@@ -12,7 +12,7 @@
 
 <p><a href="http://mblt.ru/en/timetable" style="display: block; text-decoration: none; background: #DA391D; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ПРОГРАММА</a></p>
 
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/mblt14/');?>" style="display: block; text-decoration: none; background: #63C23C; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/mblt14/')?>" style="display: block; text-decoration: none; background: #63C23C; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
 
 <p>Расписание и полный список докладчиков доступны на официальном сайте мероприятия <a href="http://mblt.ru/ru">#MBLT14</a>.</p>
 

@@ -1,4 +1,4 @@
-<p>Поздравляем, <?=$user->getShortName();?>&nbsp;!</p>
+<p>Поздравляем, <?=$user->getShortName()?>&nbsp;!</p>
 
 <p><strong>Ваша секция была принята в&nbsp;Программу&nbsp;2.0 и&nbsp;<a href="http://2015.russianinternetforum.ru/p2/">доступна для голосования</a>!</strong></p>
 

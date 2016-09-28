@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/img/mail/2015/ah15.jpg" style="height: auto; width: 100%;" /></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p><b>26 и 27 сентября</b> состоится интенсивный образовательный курс <b>Ad Hominem</b> на тему <b>«Продвижение бренда в условиях ограниченного бюджета»</b>.</p>
 
@@ -12,7 +12,7 @@
 <h3 style="text-align:center;">ПРОГРАММА КУРСА</h3>
 <hr style="border: none; border-top: 1px solid #eaeaea; height: 1px; margin: 25px 0;" />
 
-<h3 style="text-align:center;">26  сентября</h3> 
+<h3 style="text-align:center;">26  сентября</h3>
 <table>
 <tr>
 <td style="width:100px;">12:30 - 13:00</td>
@@ -55,7 +55,7 @@
 
 <div style="text-align: center; border: 3px dashed #232B42; margin-top: 20px;">
 <p style="text-align:center;">Регистрация обязательна</p>
-<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('/event/adhominem15');?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #232B42; margin: 0 10px 0 0; padding: 0; border-color: #232B42; border-style: solid; border-width: 10px 40px;"> ПРИНЯТЬ УЧАСТИЕ</a></p>
+<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('/event/adhominem15')?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #232B42; margin: 0 10px 0 0; padding: 0; border-color: #232B42; border-style: solid; border-width: 10px 40px;"> ПРИНЯТЬ УЧАСТИЕ</a></p>
 </div>
 
 <p><b>Все слушатели получат бесплатный аудит сайта от компании "Ашманов и Партнеры", подарки от okko.tv и бренда MontCarotte.</b></p>

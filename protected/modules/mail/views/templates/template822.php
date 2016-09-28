@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2016/convlogo16.png" style="text-align: center; width: 50%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 
 <p><a href="http://www.conversionconf.ru/march2016/?utm_source=runetid&amp;utm_medium=email&amp;utm_campaign=conversionconf_msk_2016"><strong>ConversionConf</strong></a> &ndash; это профессиональная конференция, которая <strong>1 марта в Москве</strong> уже в шестой раз соберет лучших специалистов интернет-маркетинга, экспертов по продвижению и аналитиков, чтобы дать возможность всем, кто заинтересован в повышении эффективности рекламы и сайта, обмениваться и делиться последними тенденциями и лучшими практическими решениями в этой области.</p>

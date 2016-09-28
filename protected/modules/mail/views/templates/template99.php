@@ -1,8 +1,8 @@
-<?$regLink = "http://2014.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16);?>
+<?$regLink = "http://2014.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>
 
 <p><img src="http://runet-id.com/img/mail/2014/20140429-spic14.jpg" alt="СПИК 2014"/></p>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p>До Санкт-Петербургской Интернет Конференции (<a href="http://sp-ic.ru" target="_blank">СПИК 2014</a>) остается чуть больше недели, &nbsp;предлагаем Вам &nbsp;ознакомится с возможностями конференции:</p>
 <p>Мы получили <b>свыше 500 заявок</b> от спикеров, среди которых отобрали самые интересные и содержательные выступления.</p>

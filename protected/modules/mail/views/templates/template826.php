@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2016/convlogo16.png" style="text-align: center; width: 50%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Вы получили это письмо, так как регистрировались на <strong>конференцию </strong><a href="http://www.conversionconf.ru/march2016/?utm_source=not_pay&amp;utm_medium=email&amp;utm_campaign=conversionconf_msk_2016"><strong>ConversionConf</strong></a>, которая пройдет <strong>1 марта в Москве</strong>.<br />
 <br />

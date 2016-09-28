@@ -9,18 +9,18 @@ $path = $manager->publish(\Yii::getPathOfAlias('competence.assets') . '/images/m
 ?>
 
 <ul class="unstyled interview-photo">
-  <?foreach ($form->getOptions() as $key => $value):?>
-    <li data-key="<?=$key;?>">
-      <img src="<?=$path.'/'.$value;?>" alt="">
-      <?if ($key != 49):?>
+  <?foreach($form->getOptions() as $key => $value):?>
+    <li data-key="<?=$key?>">
+      <img src="<?=$path.'/'.$value?>" alt="">
+      <?if($key != 49):?>
         <span class="notselect">???</span><span class="select">Знаю</span>
       <?else:?>
         <span class="unknow">Затрудняюсь ответить</span>
-      <?endif;?>
+      <?endif?>
 
-      <?=CHtml::activeHiddenField($form, 'value['.$key.']', ['disabled' => true]);?>
+      <?=CHtml::activeHiddenField($form, 'value['.$key.']', ['disabled' => true])?>
     </li>
-  <?endforeach;?>
+  <?endforeach?>
 </ul>
 
 <div class="clearfix"></div>

@@ -200,10 +200,10 @@ if ($data) {
     <header class="m-b-20">
         <div class="col-7">
             <div class="p-a-2">
-                <h1><?= Yii::t('app', 'Ваш электронный билет') ?></h1>
+                <h1><?=Yii::t('app', 'Ваш электронный билет')?></h1>
                 <strong>
-                    <span class="text-uppercase"><?= Yii::t('app', 'Внимание') ?></span>!
-                    <?= Yii::t('app', 'Вход на выставку только для специалистов') ?>
+                    <span class="text-uppercase"><?=Yii::t('app', 'Внимание')?></span>!
+                    <?=Yii::t('app', 'Вход на выставку только для специалистов')?>
                 </strong>
             </div>
         </div>
@@ -218,23 +218,23 @@ if ($data) {
     <section class="m-b-10">
         <div class="col-5">
             <div class="p-a-2">
-                <h2><?= Yii::t('app', 'Имя посетителя') ?></h2>
-                <strong class="text-uppercase text-xl"><?= $user->getFullName() ?></strong>
+                <h2><?=Yii::t('app', 'Имя посетителя')?></h2>
+                <strong class="text-uppercase text-xl"><?=$user->getFullName()?></strong>
             </div>
         </div>
         <div class="col-7">
             <div class="p-a-2">
-                <h2><?= Yii::t('app', 'Персональный штрихкод') ?></h2>
+                <h2><?=Yii::t('app', 'Персональный штрихкод')?></h2>
 
                 <div>
                     <div class="col-8 text-center">
-                        <barcode code="<?= $customNumber ?>" type="C128A" class="barcode" size="1" height="2" text="1"/>
-                        <?= $customNumber ?>
+                        <barcode code="<?=$customNumber?>" type="C128A" class="barcode" size="1" height="2" text="1"/>
+                        <?=$customNumber?>
                     </div>
                     <div class="col-4">
                         <strong>
-                            <span class="text-uppercase"><?= Yii::t('app', 'Внимание') ?></span>!
-                            <?= Yii::t('app', 'Электронный билет продаже не подлежит') ?>!
+                            <span class="text-uppercase"><?=Yii::t('app', 'Внимание')?></span>!
+                            <?=Yii::t('app', 'Электронный билет продаже не подлежит')?>!
                         </strong>
                     </div>
                 </div>
@@ -244,21 +244,21 @@ if ($data) {
     <section class="m-b-50">
         <div class="col-5">
             <div class="p-a-2">
-                <h2><?= Yii::t('app', 'Название мероприятия') ?></h2>
-                <strong class="text-xl"><?= $event->Title ?></strong>
+                <h2><?=Yii::t('app', 'Название мероприятия')?></h2>
+                <strong class="text-xl"><?=$event->Title?></strong>
             </div>
         </div>
         <div class="col-4">
             <div class="p-a-2">
-                <h2><?= Yii::t('app', 'Даты проведения') ?></h2>
+                <h2><?=Yii::t('app', 'Даты проведения')?></h2>
                 <strong class="text-xl">
-                    <?= $event->StartDay ?>-<?= $event->EndDay ?> <?=Yii::t('app', 'мая')?> <?= $event->StartYear ?>
+                    <?=$event->StartDay?>-<?=$event->EndDay?> <?=Yii::t('app', 'мая')?> <?=$event->StartYear?>
                 </strong>
             </div>
         </div>
         <div class="col-3">
             <div class="p-a-2">
-                <h2><?= Yii::t('app', 'Павильоны') ?></h2>
+                <h2><?=Yii::t('app', 'Павильоны')?></h2>
             </div>
             <strong class="text-xl">2, 8</strong>
         </div>
@@ -268,32 +268,32 @@ if ($data) {
             <div class="p-a-10 b-l-3-solid-blue">
                 <p>
                     <strong>
-                        <?php if (\Yii::app()->language == 'en'): ?>
+                        <?if(\Yii::app()->language == 'en'):?>
                             Expocentre Fairgrounds<br/>
                             Kranopresnenskaya nab., 14<br/>
                             Moscow, Russia, 123100
-                        <?php else: ?>
-                            <?= $event->getContactAddress()->Place ?>,
-                            <?= $event->getContactAddress()->Country->Name ?>,
-                            <?= $event->getContactAddress()->City->Name ?>,
-                            <?= $event->getContactAddress()->Street ?>,
-                            <?= $event->getContactAddress()->House ?>
-                        <?php endif ?>
+                        <?php else:?>
+                            <?=$event->getContactAddress()->Place?>,
+                            <?=$event->getContactAddress()->Country->Name?>,
+                            <?=$event->getContactAddress()->City->Name?>,
+                            <?=$event->getContactAddress()->Street?>,
+                            <?=$event->getContactAddress()->House?>
+                        <?endif?>
                     </strong>
                 </p>
 
                 <p>
-                    <?= Yii::t('app', 'Схема проезда на ЦВК и время работы размещены на сайте') ?>:<br>
+                    <?=Yii::t('app', 'Схема проезда на ЦВК и время работы размещены на сайте')?>:<br>
                     <a href="http://www.expocentr.ru/">www.expocentr.ru</a>
                 </p>
             </div>
         </div>
         <div class="col-6">
             <div class="p-a-10 b-l-3-solid-blue">
-                <p><strong><?= Yii::t('app', 'Для входа на выставочный комплекс необходимо') ?>:</strong></p>
+                <p><strong><?=Yii::t('app', 'Для входа на выставочный комплекс необходимо')?>:</strong></p>
                 <ol>
-                    <li><?= Yii::t('app', 'На стойке онлайн-регистрации предъявить оператору билет для сканирования штрихкода') ?></li>
-                    <li><?= Yii::t('app', 'Получить Ваш персональный именной бейдж посетителя выставки') ?></li>
+                    <li><?=Yii::t('app', 'На стойке онлайн-регистрации предъявить оператору билет для сканирования штрихкода')?></li>
+                    <li><?=Yii::t('app', 'Получить Ваш персональный именной бейдж посетителя выставки')?></li>
                 </ol>
             </div>
         </div>
@@ -302,28 +302,28 @@ if ($data) {
         <div class="col-5">
 
             <div class="p-a-2">
-                <?php if (Yii::app()->language === 'ru'): ?>
+                <?if(Yii::app()->language === 'ru'):?>
                     <img src="/img/ticket/svyaz16/expo.png" alt="" width="260">
-                <?php else: ?>
+                <?php else:?>
                     <img src="/img/ticket/svyaz16/expo_en.png" alt="" width="260">
-                <?php endif ?>
+                <?endif?>
             </div>
         </div>
         <div class="col-4">
 
             <div class="p-t-30">
                 <p class="text-uppercase text-xl">
-                    <?= Yii::t('app', 'Добро пожаловать') ?> <br><?= Yii::t('app', 'в') ?>
-                    &laquo;<?= Yii::t('app', 'Экспоцентр') ?>&raquo;!
+                    <?=Yii::t('app', 'Добро пожаловать')?> <br><?=Yii::t('app', 'в')?>
+                    &laquo;<?=Yii::t('app', 'Экспоцентр')?>&raquo;!
                 </p>
             </div>
         </div>
         <div class="col-3">
             <div class="p-a-2">
-                <h3 class="m-b-0"><?= Yii::t('app', 'Дата и время создания электронного билета') ?></h3>
+                <h3 class="m-b-0"><?=Yii::t('app', 'Дата и время создания электронного билета')?></h3>
 
                 <div class="p-a-10 b-l-3-solid-blue">
-                    <?= Yii::app()->dateFormatter->format('dd.MM.yyyy HH:mm:ss', $participant->CreationTime) ?>
+                    <?=Yii::app()->dateFormatter->format('dd.MM.yyyy HH:mm:ss', $participant->CreationTime)?>
                 </div>
             </div>
         </div>

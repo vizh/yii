@@ -6,7 +6,7 @@
  */
 ?>
 
-<?=CHtml::beginForm();?>
+<?=CHtml::beginForm()?>
 
   <div class="row-fluid">
 
@@ -14,24 +14,24 @@
 
       <div class="row-fluid">
         <div class="span6">
-          <?=CHtml::activeLabel($form, 'Order');?>
-          <?=CHtml::activeTextField($form, 'Order', array('class' => 'span12'));?>
+          <?=CHtml::activeLabel($form, 'Order')?>
+          <?=CHtml::activeTextField($form, 'Order', array('class' => 'span12'))?>
         </div>
         <div class="span6">
-          <?=CHtml::activeLabel($form, 'Payer');?>
-          <?=CHtml::activeTextField($form, 'Payer', array('placeholder' => 'RUNET-ID', 'class' => 'span12'));?>
+          <?=CHtml::activeLabel($form, 'Payer')?>
+          <?=CHtml::activeTextField($form, 'Payer', array('placeholder' => 'RUNET-ID', 'class' => 'span12'))?>
         </div>
       </div>
 
       <div class="row-fluid">
-        <?=CHtml::activeLabel($form, 'Company');?>
-        <?php $this->widget('\application\widgets\AutocompleteInput', [
+        <?=CHtml::activeLabel($form, 'Company')?>
+        <?$this->widget('\application\widgets\AutocompleteInput', [
           'model' => $form,
           'attribute' => 'Company',
           'label' => $form->Company,
           'htmlOptions' => ['class' => 'span12'],
           'source' => $this->createUrl('autocomplete'),
-        ]); ?>
+        ])?>
       </div>
 
     </div>
@@ -39,13 +39,13 @@
     <div class="span3 offset1">
 
       <div class="row form-inline">
-        <?=CHtml::activeCheckBox($form, 'Deleted');?>
-        <?=CHtml::activeLabel($form, 'Deleted');?>
+        <?=CHtml::activeCheckBox($form, 'Deleted')?>
+        <?=CHtml::activeLabel($form, 'Deleted')?>
       </div>
 
       <div class="row form-inline">
-        <?=CHtml::activeCheckBox($form, 'Paid');?>
-        <?=CHtml::activeLabel($form, 'Paid');?>
+        <?=CHtml::activeCheckBox($form, 'Paid')?>
+        <?=CHtml::activeLabel($form, 'Paid')?>
       </div>
 
       <div class="row">
@@ -55,11 +55,11 @@
     </div>
 
   </div>
-<?=CHtml::endForm();?>
+<?=CHtml::endForm()?>
 
 <div class="row-fluid">
   <div class="span12">
-    <?if ($paginator->getCount() > 0):?>
+    <?if($paginator->getCount() > 0):?>
       <table class="table table-striped relative-no-table">
         <thead>
         <tr>
@@ -73,21 +73,21 @@
         </thead>
 
         <tbody>
-        <?foreach ($orders as $order):?>
-          <?php $this->renderPartial('row', ['order' => $order]); ?>
-        <?endforeach;?>
+        <?foreach($orders as $order):?>
+          <?$this->renderPartial('row', ['order' => $order])?>
+        <?endforeach?>
         </tbody>
 
       </table>
 
 
-      <?$this->widget('\application\widgets\Paginator', array('paginator' => $paginator));?>
+      <?$this->widget('\application\widgets\Paginator', array('paginator' => $paginator))?>
 
     <?else:?>
       <div class="alert">
         <strong>Внимание!</strong> Нет ни одного счета с заданными параметрами.
       </div>
-    <?endif;?>
+    <?endif?>
   </div>
 </div>
 

@@ -18,19 +18,19 @@
         <tr>
           <td style="font-size: 13px;">
             <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="4" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 18px;">
-              <?if (!empty($payer->LastName)):?>
-                Dear <?=$payer->getFullName();?>.
+              <?if(!empty($payer->LastName)):?>
+                Dear <?=$payer->getFullName()?>.
               <?else:?>
                 Dear user.
-              <?endif;?>
+              <?endif?>
             </font>
             <br />
             <br />
 
-            <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Our Finance Service confirms safe receipt of payment under invoice No. <?=$order->Id;?> to pay for participation in DevCon 2014 in the amount of  <?=$total;?> rubles. The payment includes the following services:<br/>
+            <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Our Finance Service confirms safe receipt of payment under invoice No. <?=$order->Id?> to pay for participation in DevCon 2014 in the amount of  <?=$total?> rubles. The payment includes the following services:<br/>
               <?foreach($items as $orderItem):?>
-                &ndash; "<?=$orderItem->Product->Title;?>": <?=$orderItem->Owner->getFullName();?><br/>
-              <?endforeach;?>
+                &ndash; "<?=$orderItem->Product->Title?>": <?=$orderItem->Owner->getFullName()?><br/>
+              <?endforeach?>
             </font>
 
             <br/>

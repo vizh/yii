@@ -1,13 +1,13 @@
 <p><img src="http://runet-id.com/img/mail/2014/erick_kualman_copy.png" alt=""/></p>
 
-<h2>Здравствуйте, <?=$user->getShortName();?>.</h2>
+<h2>Здравствуйте, <?=$user->getShortName()?>.</h2>
 
 <p>26&nbsp;мая в&nbsp;Digital October
 международный digital-эксперт Эрик Куалман впервые проведет интенсивный мастер-класс
 <strong>Social Media&amp;&nbsp;Digital</strong>, или <strong>Как управлять компанией и&nbsp;маркетингом в&nbsp;новую эру?</strong>
 для руководителей компаний, топ-менеджеров, маркетологов, SMM, PR&nbsp;и&nbsp;digital-специалистов.</p>
 
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/richmind14/');?>" style="display: block; text-decoration: none; background: #291E3B; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/richmind14/')?>" style="display: block; text-decoration: none; background: #291E3B; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
 
 <p>Эрик Куалман&nbsp;&mdash; профессор Бостонской бизнес-школы, автор международных бестселлеров &laquo;Социалномика&raquo;, &laquo;Цифровое лидерство&raquo;, &laquo;Репутация в&nbsp;Сети&raquo;.
 Консультирует Google, Nokia, Mars, Starbucks, Sony Playstation, Facebook, преподает в&nbsp;42&nbsp;странах мира, публикуется в&nbsp;Forbes, New Financial Times, Fortune, New York Times.</p>

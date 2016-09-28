@@ -29,4 +29,4 @@ Detailed information in the attached file.
 —RUNET—ID—
 www.runet-id.com
 
-Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/');?>
+Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/')?>

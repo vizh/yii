@@ -1,4 +1,4 @@
-<p>Здравствуйте <?=$user->getShortName();?>.</p>
+<p>Здравствуйте <?=$user->getShortName()?>.</p>
 
 <p>Вы&nbsp;получили это письмо,&nbsp;потому&nbsp;что являетесь организатором секции <a href="http://2014.russianinternetforum.ru/p2/">Программы 2.0</a> в&nbsp;рамках РИФ+КИБ 2014.</p>
 

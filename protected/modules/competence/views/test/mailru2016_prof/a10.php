@@ -19,35 +19,35 @@ foreach ($form->getOptions() as $key => $value)
 }
 ?>
 
-<?foreach ($form->getValues() as $keyTop => $valueTop):?>
+<?foreach($form->getValues() as $keyTop => $valueTop):?>
 
-  <h4 class="company-large-list"><em><?=$valueTop;?></em></h4>
+  <h4 class="company-large-list"><em><?=$valueTop?></em></h4>
 
   <div class="row ib3">
     <div class="span4">
       <ul class="unstyled">
-        <?foreach ($part1 as $key => $value):?>
+        <?foreach($part1 as $key => $value):?>
           <li>
             <label class="checkbox">
-              <?=CHtml::activeCheckBox($form, 'value['.$keyTop.'][]', ['value' => $key, 'uncheckValue' => null, 'checked' => isset($form->value[$keyTop]) && in_array($key, $form->value[$keyTop]), 'data-group' => 'group'.$keyTop, 'data-unchecker' => (int)($key==90)]);?>
-              <?=$value;?>
+              <?=CHtml::activeCheckBox($form, 'value['.$keyTop.'][]', ['value' => $key, 'uncheckValue' => null, 'checked' => isset($form->value[$keyTop]) && in_array($key, $form->value[$keyTop]), 'data-group' => 'group'.$keyTop, 'data-unchecker' => (int)($key==90)])?>
+              <?=$value?>
             </label>
           </li>
-        <?endforeach;?>
+        <?endforeach?>
       </ul>
     </div>
     <div class="span5">
       <ul class="unstyled">
-        <?foreach ($part2 as $key => $value):?>
+        <?foreach($part2 as $key => $value):?>
           <li>
             <label class="checkbox">
-              <?=CHtml::activeCheckBox($form, 'value['.$keyTop.'][]', ['value' => $key, 'uncheckValue' => null, 'checked' => isset($form->value[$keyTop]) && in_array($key, $form->value[$keyTop]), 'data-group' => 'group'.$keyTop, 'data-unchecker' => (int)($key==90)]);?>
-              <?=$value;?>
+              <?=CHtml::activeCheckBox($form, 'value['.$keyTop.'][]', ['value' => $key, 'uncheckValue' => null, 'checked' => isset($form->value[$keyTop]) && in_array($key, $form->value[$keyTop]), 'data-group' => 'group'.$keyTop, 'data-unchecker' => (int)($key==90)])?>
+              <?=$value?>
             </label>
           </li>
-        <?endforeach;?>
+        <?endforeach?>
       </ul>
     </div>
   </div>
 
-<?endforeach;?>
+<?endforeach?>

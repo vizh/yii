@@ -19,15 +19,15 @@
     </tr>
     </thead>
     <tbody>
-    <?foreach ($products as $product):?>
+    <?foreach($products as $product):?>
       <?$this->renderPartial('statistics/hotelRow', [
         'product' => $product,
         'orderItems' => isset($orderItemsByProduct[$product->Id]) ? $orderItemsByProduct[$product->Id] : [],
         'usersFullData' => $usersFullData,
         'usersTogether' => $usersTogether,
         'partnerBookings' => isset($partnerBookingsByProduct[$product->Id]) ? $partnerBookingsByProduct[$product->Id] : []
-      ]);?>
-    <?endforeach;?>
+      ])?>
+    <?endforeach?>
     </tbody>
   </table>
 

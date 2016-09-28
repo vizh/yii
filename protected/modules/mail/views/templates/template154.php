@@ -12,7 +12,7 @@ $hash = substr(md5('fiNAQ3t32RYn9HTGkEdKzRrYS'.$user->RunetId), 1, 16);
 $mbltDevRegLink = sprintf('http://mbltdev.ru/?RunetId=%s&Hash=%s', $user->RunetId, $hash);
 
 ?>
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p style="font-size: 120%;">Октябрь этого года полон интересных мероприятий: выставки, форумы, конференции, премии. Мы отобрали самые значимые мероприятия, которые не должны пройти для Вас незамеченными.</p>
 
@@ -44,7 +44,7 @@ $mbltDevRegLink = sprintf('http://mbltdev.ru/?RunetId=%s&Hash=%s', $user->RunetI
 			<b>Принять участие в Performance Marketing Moscow</b>
 		</td>
 		<td style="background: #E1F4FD; border: 0; padding: 15px 10px; text-align: center; vertical-align: middle; width: 200px;">
-			<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/pm14/');?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
+			<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/pm14/')?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
 		</td>
 	</tr>
 </table>
@@ -76,7 +76,7 @@ $mbltDevRegLink = sprintf('http://mbltdev.ru/?RunetId=%s&Hash=%s', $user->RunetI
 			<b>Принять участие в User eXperience 2014</b>
 		</td>
 		<td style="background: #E1F4FD; border: 0; padding: 15px 10px; text-align: center; vertical-align: middle; width: 200px;">
-			<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/userexp2014/');?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
+			<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/userexp2014/')?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
 		</td>
 	</tr>
 </table>
@@ -109,7 +109,7 @@ $mbltDevRegLink = sprintf('http://mbltdev.ru/?RunetId=%s&Hash=%s', $user->RunetI
 			<b>Принять участие в #MBLTdev</b>
 		</td>
 		<td style="background: #E1F4FD; border: 0; padding: 15px 10px; text-align: center; vertical-align: middle; width: 200px;">
-			<a href="<?=$mbltDevRegLink;?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
+			<a href="<?=$mbltDevRegLink?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
 		</td>
 	</tr>
 </table>
@@ -174,7 +174,7 @@ $mbltDevRegLink = sprintf('http://mbltdev.ru/?RunetId=%s&Hash=%s', $user->RunetI
 			<b>Принять участие в EdCrunch</b>
 		</td>
 		<td style="background: #E1F4FD; border: 0; padding: 15px 10px; text-align: center; vertical-align: middle; width: 200px;">
-			<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/edcrunch14/');?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
+			<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/edcrunch14/')?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
 		</td>
 	</tr>
 </table>
@@ -206,7 +206,7 @@ $mbltDevRegLink = sprintf('http://mbltdev.ru/?RunetId=%s&Hash=%s', $user->RunetI
 			<b>Принять участие в Generation NEXT. Дети 2014</b>
 		</td>
 		<td style="background: #E1F4FD; border: 0; padding: 15px 10px; text-align: center; vertical-align: middle; width: 200px;">
-			<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/next2014/');?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
+			<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/next2014/')?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
 		</td>
 	</tr>
 </table>
@@ -238,7 +238,7 @@ $mbltDevRegLink = sprintf('http://mbltdev.ru/?RunetId=%s&Hash=%s', $user->RunetI
 			<b>Участвовать в конкурсе Золотой сайт</b>
 		</td>
 		<td style="background: #E1F4FD; border: 0; padding: 15px 10px; text-align: center; vertical-align: middle; width: 200px;">
-			<a href="<?=$goldenSiteRegLink;?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Подать сайт</a>
+			<a href="<?=$goldenSiteRegLink?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Подать сайт</a>
 		</td>
 	</tr>
 </table>

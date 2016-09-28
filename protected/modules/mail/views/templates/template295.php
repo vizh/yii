@@ -2,8 +2,8 @@
 $regLink = "http://2015.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
-<?$role = \event\models\Role::model()->findByPk(24);?>
-<p><?=$user->getShortName();?>,</p>
+<?$role = \event\models\Role::model()->findByPk(24)?>
+<p><?=$user->getShortName()?>,</p>
 <p>​Команда RUNET-ID поздравляет Вас с&nbsp;наступившим Новым 2015&nbsp;годом!</p>
 
 <p>Чтобы Вам было легче войти в&nbsp;рабочий ритм&nbsp;&mdash;предлагаем начать год с&nbsp;планирования участия в&nbsp;главных отраслевых мероприятиях зимы-весны 2015 года&nbsp;&mdash; <a href="http://2015.runet-id.com">http://2015.runet-id.com</a></p>
@@ -40,8 +40,8 @@ $regLink = "http://2015.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId .
 			<p><small>МИА &laquo;Россия Сегодня&raquo;</small></p>
 			</td>
 			<td style="background: #0B5394; color: #ffffff; padding: 0 10px;">
-				<?php $event = \event\models\Event::model()->findByPk(1498);?>
-				<a href="<?=$event->getFastRegisterUrl($user, $role);?>" style="color: #ffffff;">РЕГИСТРАЦИЯ</a>
+				<?$event = \event\models\Event::model()->findByPk(1498)?>
+				<a href="<?=$event->getFastRegisterUrl($user, $role)?>" style="color: #ffffff;">РЕГИСТРАЦИЯ</a>
 			</td>
 		</tr>
 		<tr>
@@ -63,8 +63,8 @@ $regLink = "http://2015.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId .
 			<p><small>Digital October</small></p>
 			</td>
 			<td style="background: #CC0000; color: #ffffff; padding: 0 10px;">
-				<?php $event = \event\models\Event::model()->findByPk(1574);?>
-				<a href="<?=$event->getFastRegisterUrl($user, $role);?>" style="color: #ffffff;">РЕГИСТРАЦИЯ</a>
+				<?$event = \event\models\Event::model()->findByPk(1574)?>
+				<a href="<?=$event->getFastRegisterUrl($user, $role)?>" style="color: #ffffff;">РЕГИСТРАЦИЯ</a>
 			</td>
 		</tr>
 		<tr>

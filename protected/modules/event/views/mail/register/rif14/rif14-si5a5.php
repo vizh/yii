@@ -1,1 +1,1 @@
-<?=$participant->getTicketUrl();?>
+<?=$participant->getTicketUrl()?>

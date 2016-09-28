@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$link = "http://mcf.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'v1ea8anfiv'), 0, 16) . '&redirect=http://mcf.moscow/registration/';
 ?>
 
@@ -64,7 +64,7 @@
               <table style="margin:0;padding:0;width:100%">
                 <tr style="margin:0;padding:0">
                   <td align="center" style="margin:0;padding:0;vertical-align:top">
-                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName();?>!</h2>
+                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName()?>!</h2>
                     <p class="lead" style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px;font-size:17px;margin:8px 5%;color: #ffffff">Вы зарегистрированы на Большой Медиа-Коммуникационный Форум (БМКФ 2016), который пройдет с 10 по 12 мая в московском Экспоцентре.</p>
                   </td>
                 </tr>
@@ -205,7 +205,7 @@
                         <p style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px">Если вы посещали Форум в первый день, необходимо взять ранее выданный бэйдж с собой и предъявить его при проходе на территорию Экспоцентра.</p>
                       </li>
                       <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">
-                        <p style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px">Если вы не посещали Форум в первый день, не забудьте распечатать и взять с собой Ваш персональный <a href="<?=$user->Participants[0]->getTicketUrl();?>">путевой лист</a> (либо сохранить его на Ваше мобильное устройство) – это значительно ускорит Вашу регистрацию на месте.</p>
+                        <p style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px">Если вы не посещали Форум в первый день, не забудьте распечатать и взять с собой Ваш персональный <a href="<?=$user->Participants[0]->getTicketUrl()?>">путевой лист</a> (либо сохранить его на Ваше мобильное устройство) – это значительно ускорит Вашу регистрацию на месте.</p>
                       </li>
                     </ol>
                   </td>

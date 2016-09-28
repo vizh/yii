@@ -1,4 +1,4 @@
-<h3><?=$user->getShortName();?>,</h3>
+<h3><?=$user->getShortName()?>,</h3>
 
 <p>Оргкомитет конференции <nobr>I-CoM</nobr> поздравляет с&nbsp;Днем Защитника Отечества&nbsp;&mdash; 23&nbsp;февраля!</p>
 
@@ -17,7 +17,7 @@
 		<span style="display: inline-block; background-color: #FFD000; font-size: 24px; font-weight: bold; padding: 3px 8px">ICOM16_23FEB</span>
 	</div>
 	<div>
-		<a href="<?=$user->getFastauthUrl('/event/i-com16/');?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #F47723; margin: 0 10px 0 0; padding: 0; border-color: #F47723; border-style: solid; border-width: 10px 40px;">КУПИТЬ СО СКИДКОЙ ЗА 3850 РУБ.</a>
+		<a href="<?=$user->getFastauthUrl('/event/i-com16/')?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #F47723; margin: 0 10px 0 0; padding: 0; border-color: #F47723; border-style: solid; border-width: 10px 40px;">КУПИТЬ СО СКИДКОЙ ЗА 3850 РУБ.</a>
 	</div>
 </div>
 

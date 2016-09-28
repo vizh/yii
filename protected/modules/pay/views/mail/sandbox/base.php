@@ -15,7 +15,7 @@
 
 <h2>Ваша ссылка для экспресс-оплаты в любой момент:</h2>
 <div style="padding: 10px; margin-left: 10px; font-size: 120%; display:inline-block;">
-  <div style="margin-bottom: 5px;"><a href="<?=$user->getFastauthUrl(isset(\Yii::app()->params['TemporaryUserRedirect']) ? \Yii::app()->params['TemporaryUserRedirect'] : '');?>">Платежный кабинет</a></div>
+  <div style="margin-bottom: 5px;"><a href="<?=$user->getFastauthUrl(isset(\Yii::app()->params['TemporaryUserRedirect']) ? \Yii::app()->params['TemporaryUserRedirect'] : '')?>">Платежный кабинет</a></div>
 </div>
 
 <h2>Способы оплаты</h2>

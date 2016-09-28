@@ -8,10 +8,10 @@
     <div class="span8 offset2">
 
         <div class="well">
-          <h4 class="m-bottom_10"><?=Yii::t('app', 'Вы не авторизованы в системе RUNET-ID.');?></h4>
+          <h4 class="m-bottom_10"><?=Yii::t('app', 'Вы не авторизованы в системе RUNET-ID.')?></h4>
 
           <p class="m-top_40">
-            <?=\Yii::t('app', 'Для прохождения опроса <a id="PromoLogin" href="">авторизуйтесь или зарегистрируйтесь.</a>');?>
+            <?=\Yii::t('app', 'Для прохождения опроса <a id="PromoLogin" href="">авторизуйтесь или зарегистрируйтесь.</a>')?>
           </p>
         </div>
 

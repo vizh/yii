@@ -23,9 +23,9 @@ if (!function_exists("getRoleName")) {
 
 ?>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>.</h3>
 
-<p>Вы зарегистрированы на RIW 2014 со статусом <strong>&laquo;<?=getRoleName($user->Participants[0]->Role->Id);?>&raquo;</strong>.</p>
+<p>Вы зарегистрированы на RIW 2014 со статусом <strong>&laquo;<?=getRoleName($user->Participants[0]->Role->Id)?>&raquo;</strong>.</p>
 
 <p>Напоминаем, что мероприятие пройдет 12-14 ноября в московском Экспоцентре.</p>
 

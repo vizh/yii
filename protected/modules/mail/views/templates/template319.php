@@ -1,4 +1,4 @@
-<p><?=$user->getShortName();?>, здравствуйте!</p>
+<p><?=$user->getShortName()?>, здравствуйте!</p>
 
 <p><strong>Вы&nbsp;&mdash; зарегистрированный участник</strong> Форума по&nbsp;Кибербезопасности (<a href="http://CyberSecurityForum.ru">Cyber Security Forum</a>).</p>
 
@@ -28,7 +28,7 @@
 </ol>
 
 <div style="text-align: center; border: 3px dashed #D94332; margin-top: 20px;">
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #D94332; margin: 0 10px 0 0; padding: 0; border-color: #D94332; border-style: solid; border-width: 10px 40px;">Распечатать путевой лист</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #D94332; margin: 0 10px 0 0; padding: 0; border-color: #D94332; border-style: solid; border-width: 10px 40px;">Распечатать путевой лист</a></p>
 </div>
 
 <p>С&nbsp;любыми вопросами относительно особенностей проведения Форума и&nbsp;участия в&nbsp;нем&nbsp;&mdash; обращайтесь по&nbsp;адресу: <a href="mailto:csf2015@raec.ru">csf2015@raec.ru</a></p>

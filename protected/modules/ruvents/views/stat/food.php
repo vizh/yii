@@ -21,13 +21,13 @@ $this->pageTitle = 'Статистика питания';
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($allStat as $item): ?>
+            <?foreach($allStat as $item):?>
                 <tr>
                     <td><?=CHtml::link($item['group'], $item['listUrl'], ['target' => '_blank'])?></td>
                     <td><?=$item['users']?></td>
                     <td><?=$item['count']?></td>
                 </tr>
-            <?php endforeach ?>
+            <?endforeach?>
         </tbody>
     </table>
 </div>

@@ -193,26 +193,26 @@ $attrs = [
     </thead>
 
     <tbody>
-    <?if (!empty($form->value)):?>
-    <?foreach ($form->value as $key => $values):?>
+    <?if(!empty($form->value)):?>
+    <?foreach($form->value as $key => $values):?>
         <tr>
             <td>
-                <?=$values['fio'];?>
-                <?=CHtml::activeHiddenField($form, 'value[' . $key . '][fio]', ['class' => 'input-block-level']);?>
+                <?=$values['fio']?>
+                <?=CHtml::activeHiddenField($form, 'value[' . $key . '][fio]', ['class' => 'input-block-level'])?>
             </td>
             <td>
-                <?if (!empty($values['runetId'])):?>
-                    <?=$values['runetId'];?>
-                    <?=CHtml::activeHiddenField($form, 'value[' . $key . '][runetId]', ['class' => 'input-block-level']);?>
+                <?if(!empty($values['runetId'])):?>
+                    <?=$values['runetId']?>
+                    <?=CHtml::activeHiddenField($form, 'value[' . $key . '][runetId]', ['class' => 'input-block-level'])?>
                 <?else:?>
-                    <?=$values['email'];?>
-                    <?=CHtml::activeHiddenField($form, 'value[' . $key . '][email]', ['class' => 'input-block-level']);?>
-                <?endif;?>
+                    <?=$values['email']?>
+                    <?=CHtml::activeHiddenField($form, 'value[' . $key . '][email]', ['class' => 'input-block-level'])?>
+                <?endif?>
             </td>
             <td><a href="#" class="btn btn-small remove-row"><i class="icon-remove"></i></a></td>
         </tr>
-    <?endforeach;?>
-    <?endif;?>
+    <?endforeach?>
+    <?endif?>
     </tbody>
 </table>
 

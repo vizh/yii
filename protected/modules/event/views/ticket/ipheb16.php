@@ -67,31 +67,31 @@ if (!empty($event->LinkEmails)) {
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                         <tr>
                             <td style="font-size: 5mm; font-weight: 100; padding: 0; margin: 0;">
-                                <?=$user->LastName?><br/><?=$user->getShortName();?>
+                                <?=$user->LastName?><br/><?=$user->getShortName()?>
                             </td>
                         </tr>
-                        <?php if ($user->getEmploymentPrimary() !== null):?>
+                        <?if($user->getEmploymentPrimary() !== null):?>
                             <tr>
                                 <?=Html::limitedTag('td', $user->getEmploymentPrimary()->Company->Name, 20, 291, 60, [
                                     'style' => 'padding-top: 5mm;'
-                                ]);?>
+                                ])?>
                             </tr>
-                        <?php endif ?>
+                        <?endif?>
                     </table>
                 </td>
             </tr>
             <tr>
                 <td style="height: 20mm; vertical-align: bottom; font-size: 3mm;">
-                    <?php if (is_array($participant)): ?>
-                        <?php foreach ($participant as $item): ?>
+                    <?if(is_array($participant)):?>
+                        <?foreach($participant as $item):?>
                             <span style="text-transform: uppercase;">
                                 <?=$item->Part->Title?>:
                             </span>
                             <?=$item->Role->Title?><br/>
-                        <?php endforeach ?>
-                    <?php else: ?>
+                        <?endforeach?>
+                    <?php else:?>
                         <span style="text-transform: uppercase; font-size: 4mm;"><?=$participant->Role->Title?></span>
-                    <?php endif ?>
+                    <?endif?>
                 </td>
             </tr>
         </tbody>
@@ -100,8 +100,8 @@ if (!empty($event->LinkEmails)) {
         <table style="font-size: 3mm; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif; width: 100%;" cellpadding="0" cellspacing="0">
             <tbody>
             <tr>
-                <td align="center" style="font-size: 4mm;"><barcode code="<?=$user->RunetId;?>" type="C128C" size="1" height="1"/><br><?=$user->RunetId;?></td>
-                <td style="text-align: right;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70));?></td>
+                <td align="center" style="font-size: 4mm;"><barcode code="<?=$user->RunetId?>" type="C128C" size="1" height="1"/><br><?=$user->RunetId?></td>
+                <td style="text-align: right;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70))?></td>
             </tr>
             </tbody>
         </table>
@@ -121,9 +121,9 @@ if (!empty($event->LinkEmails)) {
 
             <br/><br/>
             <p>
-                <?php if (Yii::app()->language === 'ru'): ?>
+                <?if(Yii::app()->language === 'ru'):?>
                     <b>Инструкция:</b><br/>
-                <?php endif ?>
+                <?endif?>
                 <span>1) <?=Yii::t('tickets/ipheb16', 'Распечатайте Ваш пригласительный билет и обязательно возьмите его с собой на мероприятие')?>.</span>
                 <br/>
                 <span>2) <?=Yii::t('tickets/ipheb16', 'Предъявите пригласительный билет в зоне регистрации и получите имменной бейдж')?>.</span>
@@ -133,29 +133,29 @@ if (!empty($event->LinkEmails)) {
         </td>
         <td style="vertical-align: top;">
             <b><?=Yii::t('tickets/ipheb16', 'Время работы выставки')?>:</b><br/>
-            <?php if (Yii::app()->language === 'ru'): ?>
+            <?if(Yii::app()->language === 'ru'):?>
                 <span>30 - 31 марта.............10:00 - 18:00</span><br/>
                 <span>01 апреля..................10:00 - 16:00</span>
-            <?php else: ?>
+            <?php else:?>
                 <span>Wednesday 30 March: 10:00 - 18:00</span><br/>
                 <span>Thursday 31 March: 10:00 - 18:00</span><br/>
                 <span>Friday 01 April: 10:00 - 16:00</span>
-            <?php endif ?>
+            <?endif?>
 
             <br/><br/>
             <b><?=Yii::t('tickets/ipheb16', 'Место проведения')?>:</b><br/>
-            <?php if (Yii::app()->language === 'ru'): ?>
+            <?if(Yii::app()->language === 'ru'):?>
                 <span>Россия, Москва</span><br/>
                 <span>пр. Мира 119</span><br/>
                 <span>ВДНХ, 75 павильон, зал А</span><br/>
                 <span>сайт мероприятия: <a href="http://www.fi-russia.ru/" style="color: #1179A0;">www.fi-russia.ru</a>
                     </span>
-            <?php else: ?>
+            <?php else:?>
                 <span>All-Russian Exhibition Centre (VDNH)</span><br/>
                 <span>Pavilion 75</span><br/>
                 <span>Prospect Mira, VDNH</span><br/>
                 <span>Moscow, Russia, 129223</span>
-            <?php endif ?>
+            <?endif?>
         </td>
     </tr>
     </tbody>
@@ -181,22 +181,22 @@ if (!empty($event->LinkEmails)) {
 <div style="text-align: center; margin: 0 5mm; overflow: hidden;">
     <table style="width: 100%; font-size: 4mm; font-weight: 100; vertical-align: top; margin: 0; color: #595f5d; padding: 0 0 0 6mm;">
         <tbody>
-        <?php if (Yii::app()->language === 'en'): ?>
+        <?if(Yii::app()->language === 'en'):?>
             <tr>
                 <td align="center">
                     <span>Navigation map:</span>
                 </td>
             </tr>
-        <?php endif ?>
+        <?endif?>
         <tr>
             <td align="center">
                 <img src="/img/ticket/ipheb16/map.jpg" style="height: 310px; padding-right: 3mm; image-resolution: 110dpi;"/>
             </td>
 
-            <?php if (Yii::app()->language === 'ru'): ?>
+            <?if(Yii::app()->language === 'ru'):?>
                 <td style="color: #09918d;">
                     <b style="color: #595f5d;">Схема проезда до местра проведения:</b><br/>
-    
+
                     <ul>
                         <li>
                             <span style="color: #595f5d;">
@@ -215,7 +215,7 @@ if (!empty($event->LinkEmails)) {
                         </li>
                     </ul>
                 </td>
-            <?php endif ?>
+            <?endif?>
         </tr>
         </tbody>
     </table>

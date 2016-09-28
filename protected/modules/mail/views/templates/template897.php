@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://2016.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
@@ -18,13 +18,13 @@
                 max-width: 600px;
                 padding-top: 10px;
                 padding-bottom: 20px;
-            } 
+            }
             .content:first-child {
                 padding-top: 0!important;
-            } 
-            
-            .h1, 
-            .h2, 
+            }
+
+            .h1,
+            .h2,
             .h3 {
               color: #111111;
               font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -75,11 +75,11 @@
             }
 
             .btn-secondary td {
-              background-color: transparent; 
-              font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-              font-size: 14px; 
+              background-color: transparent;
+              font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+              font-size: 14px;
               text-align: center;
-              vertical-align: top; 
+              vertical-align: top;
             }
 
             .btn-secondary td a {
@@ -106,7 +106,7 @@
                 font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 14px;
                 line-height: 1.5em;
-            }                        
+            }
             @media only screen and (min-device-width: 601px) {
                 .content {width: 600px !important;}
             }
@@ -121,12 +121,12 @@
                         <tr>
                             <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                 <![endif]-->
-                                <table class="content" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:100%;max-width:600px;padding-top:10px;padding-bottom:20px;" >                                   
+                                <table class="content" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:100%;max-width:600px;padding-top:10px;padding-bottom:20px;" >
                                     <tr>
                                         <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                             <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#D2D9DC" style="padding-bottom:20px;" >
                                                 <tr>
-                                                    <td align="center" class="h2 padding-20" style="color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;padding-top:20px;padding-bottom:10px;padding-left:20px;padding-right:20px;" >Здравствуйте, <?=$user->getShortName();?>!</td>
+                                                    <td align="center" class="h2 padding-20" style="color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;padding-top:20px;padding-bottom:10px;padding-left:20px;padding-right:20px;" >Здравствуйте, <?=$user->getShortName()?>!</td>
                                                 </tr>
                                                 <tr>
                                                     <td align="center" class=" padding-20" style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;padding-left:20px;padding-right:20px;" >Текущая неделя&nbsp;&mdash; одна из&nbsp;самых важных для всех IT-специалистов России за&nbsp;последние 20&nbsp;лет.</td>
@@ -139,7 +139,7 @@
                                             <a href="http://rif.ru" style="line-height:0 !important;color:#000000;" ><img src="https://showtime.s3.amazonaws.com/201603180918-RIF16_642x-01.png"  alt="" style="height:auto;width:100%;" ></a>
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                             <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="padding-top:30px;" >
@@ -220,7 +220,7 @@
 			                                    </tr>
                                                 <tr>
                                                     <td align="left" class="padding-20 p" style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height:1.5em;font-size:14px;font-weight:normal;padding-bottom:10px;padding-left:20px;padding-right:20px;" >
-	                                                    Большинство этих опций и&nbsp;контента&nbsp;&mdash; будет доступно только тем, кто посетит Форум лично. 
+	                                                    Большинство этих опций и&nbsp;контента&nbsp;&mdash; будет доступно только тем, кто посетит Форум лично.
                                                     </td>
                                                 </tr>
                                             </table>
@@ -244,7 +244,7 @@
 			                                    </tr>
 			                                    <tr>
 			                                        <td align="center" class="padding-20 p" style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height:1.5em;font-size:14px;font-weight:normal;padding-bottom:10px;padding-left:20px;padding-right:20px;" >
-			                                            Этот статус <span style="font-weight:bold;" >не&nbsp;позволяет Вам посещать РИФ+КИБ 2016 лично</span> и&nbsp;не&nbsp;дает права на&nbsp;доступ ко&nbsp;многим материалам Форума. 
+			                                            Этот статус <span style="font-weight:bold;" >не&nbsp;позволяет Вам посещать РИФ+КИБ 2016 лично</span> и&nbsp;не&nbsp;дает права на&nbsp;доступ ко&nbsp;многим материалам Форума.
 			                                        </td>
 			                                    </tr>
                                     		</table>
@@ -268,7 +268,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td align="left" class="padding-20 p" style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height:1.5em;font-size:14px;font-weight:normal;padding-bottom:10px;padding-left:20px;padding-right:20px;" >
-                                                        Если Вы <span style="text-decoration:underline;" >планируете принять личное участие в&nbsp;РИФе</span>, Вам нужно получить статус &laquo;Участник РИФ+КИБ 2016&raquo;. Для этого необходимо пройти (завершить) процедуру регистрации и&nbsp;оплатить регистрационный взнос. 
+                                                        Если Вы <span style="text-decoration:underline;" >планируете принять личное участие в&nbsp;РИФе</span>, Вам нужно получить статус &laquo;Участник РИФ+КИБ 2016&raquo;. Для этого необходимо пройти (завершить) процедуру регистрации и&nbsp;оплатить регистрационный взнос.
                                                     </td>
                                                 </tr>
 

@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>!
+Здравствуйте, <?=$user->getShortName()?>!
 
 Премия Рунета 2013 (www.PremiaRuneta.ru) выходит на финишную прямую.
 
@@ -8,7 +8,7 @@
 Голосование ЭC проходит по SHORT-листам (ТОП-5 организаций и ТОП-10 проектов в каждой номинации), подготовленным на предыдущем этапе Экспертным Клубом Премии Рунета. Голосование ЭC разбито на 2 части: отбор номинантов-организаций и номинантов-проектов.
 
 Персональная ссылка для подтверждения вхождения в ЭС и для голосования:
-http://experts.premiaruneta.ru/invite/council/?runetId=<?=$user->RunetId;?>&key=<?=substr(md5($user->RunetId.'salt-council2013-salt'), 0, 8);?>
+http://experts.premiaruneta.ru/invite/council/?runetId=<?=$user->RunetId?>&key=<?=substr(md5($user->RunetId.'salt-council2013-salt'), 0, 8)?>
 
 (это ваша персональная ссылка, не пересылайте ее третьим лицам)
 
@@ -17,6 +17,6 @@ http://experts.premiaruneta.ru/invite/council/?runetId=<?=$user->RunetId;?>&key=
 
 
 ---
-С уважением, 
+С уважением,
 Оргкомитет «Премии Рунета 2013» - http://PremiaRuneta.ru
 Сеть http://runet-ID.com

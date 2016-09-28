@@ -14,21 +14,21 @@ $path = $manager->publish(\Yii::getPathOfAlias('competence.assets') . '/images/m
 
 <h3>Перед Вами несколько портретов людей,<br> работающих в различных интернет-компаниях.<br> Отметьте, пожалуйста, кого из них Вы знаете?</h3>
 
-<?php $this->widget('competence\components\ErrorsWidget', ['question' => $question]);?>
+<?$this->widget('competence\components\ErrorsWidget', ['question' => $question])?>
 
 <ul class="unstyled interview-photo">
-  <?foreach ($question->getOptions() as $key => $value):?>
-  <li data-key="<?=$key;?>">
-    <img src="<?=$path.'/'.$value;?>" alt="">
-    <?if ($key != 49):?>
+  <?foreach($question->getOptions() as $key => $value):?>
+  <li data-key="<?=$key?>">
+    <img src="<?=$path.'/'.$value?>" alt="">
+    <?if($key != 49):?>
     <span class="notselect">???</span><span class="select">Знаю</span>
     <?else:?>
     <span class="unknow">Затрудняюсь ответить</span>
-    <?endif;?>
+    <?endif?>
 
-    <?=CHtml::activeHiddenField($question, 'value['.$key.']', ['disabled' => true]);?>
+    <?=CHtml::activeHiddenField($question, 'value['.$key.']', ['disabled' => true])?>
   </li>
-  <?endforeach;?>
+  <?endforeach?>
 </ul>
 
   <div class="clearfix"></div>

@@ -2,7 +2,7 @@
 	$regLink = "http://2015.russianinternetforum.ru/my/parking.php?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
-<p><?=$user->getShortName();?>, здравствуйте!</p>
+<p><?=$user->getShortName()?>, здравствуйте!</p>
 
 <p>Вы&nbsp;&mdash; участник <nobr>19-го</nobr> Российского Интернет Форума, РИФ+КИБ 2015, который пройдет <nobr>22-24</nobr> апреля в&nbsp;подмосковном пансионате &laquo;Поляны&raquo;&nbsp;&mdash; <a href="http://www.rif.ru">www.rif.ru</a></p>
 

@@ -28,7 +28,7 @@
 					    <table width="550" align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" border="0">
 	    					<tr>
                   <td>
-                    <h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+                    <h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
                     <p>Сегодня, 12 декабря компания Microsoft приглашает всех неравнодушных к современному цифровому и интерактивному дизайну подключится к бесплатной онлайн-трансляции <a href="http://events.techdays.ru/DesCamp/2013-12/">Design Camp</a>.</p>
                     <p>В программе эксперты из Яндекса, Mail.ru Group, Института медиа, архитектуры и дизайна «Стрелка», Scream School, Interactive Lab, Parallels, Futurice Ltd., Enlighted Digital, e-Legion, ведущих преподавателей «Британской высшей школы дизайна» и др.</p>
                     <p><b>Специальный гость — Барт Декрем, старший вице-президент The Walt Disney Company.</b></p>

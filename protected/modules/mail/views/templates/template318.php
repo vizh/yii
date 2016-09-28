@@ -1,4 +1,4 @@
-<p><?=$user->getShortName();?>, здравствуйте!</p>
+<p><?=$user->getShortName()?>, здравствуйте!</p>
 
 <p>Вы&nbsp;&mdash; <strong>ПРЕДСТАВИТЕЛЬ СМИ</strong>, аккредитованный на&nbsp;Форум по&nbsp;Кибербезопасности (<a href="http://CyberSecurityForum.ru">Cyber Security Forum 2015, Russia</a>).</p>
 
@@ -15,7 +15,7 @@
 
 <p><strong>ВНИМАНИЕ!</strong><br />
 Обязательно распечатайте или сохраните на&nbsp;мобильным устройстве&nbsp;&mdash; Ваш персональный Путевой лист участника Форума, что поможет Вам быстрее пройти регистрацию на&nbsp;Форум:<br />
-<a href="<?=$user->Participants[0]->getTicketUrl();?>"><?=$user->Participants[0]->getTicketUrl();?></a></p>
+<a href="<?=$user->Participants[0]->getTicketUrl()?>"><?=$user->Participants[0]->getTicketUrl()?></a></p>
 
 <p>За&nbsp;дополнительной информацией, официальными комментариями от&nbsp;организаторов и&nbsp;докладчиков Форума, просим обращаться в&nbsp;пресс-службу по&nbsp;адресу <a href="mailto:pr@raec.ru">pr@raec.ru</a> или телефону&nbsp;+7 (909) <nobr>622-9222</nobr> (Екатерина Воробьева).</p>
 

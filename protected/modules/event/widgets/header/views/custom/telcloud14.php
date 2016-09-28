@@ -48,14 +48,14 @@ $event = $this->event;
   <div class="container" style="background: none;">
     <div class="row">
       <div class="side left span2">
-        <a href="/event/telcloud14/"><img src="/img/event/telcloud14/logo.png" alt="<?=CHtml::encode($event->Title);?>" style="margin-top: 10px;"></a>
+        <a href="/event/telcloud14/"><img src="/img/event/telcloud14/logo.png" alt="<?=CHtml::encode($event->Title)?>" style="margin-top: 10px;"></a>
       </div>
 
       <div class="details span8 offset2" style="background: url('/img/event/telcloud14/header-bg.png') no-repeat center center; height: 173px;">
 
       </div>
 
-      <?if ($this->eventPage):?>
+      <?if($this->eventPage):?>
         <div class="side right span2">
           <div class="actions">
             <div class="calendar">
@@ -71,7 +71,7 @@ $event = $this->event;
             </nav>
           </div>
         </div>
-      <?endif;?>
+      <?endif?>
     </div>
   </div>
 </div>

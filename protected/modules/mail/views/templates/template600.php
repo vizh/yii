@@ -1,6 +1,6 @@
 <p><img src="https://showtime.s3.amazonaws.com/201508201349-edcrunch15.jpg" style="height: auto; width: 100%;" /></p>
 
-<h3>Уважаемый <?=$user->getShortName();?>,</h3>
+<h3>Уважаемый <?=$user->getShortName()?>,</h3>
 
 <p>Приглашаем Вас принять участие во&nbsp;<strong><nobr>2-ой</nobr> международной конференции по&nbsp;образовательным технологиям EdCrunch</strong>, которая пройдет с&nbsp;<strong>13&nbsp;— 15&nbsp;сентября</strong> в&nbsp;Москве.</p>
 <p><a href="http://edcrunch.ru">EdCrunch</a>&nbsp;— одна из&nbsp;крупнейших в&nbsp;Европе конференций в&nbsp;области новых образовательных технологий, методик, применения ИКТ в&nbsp;обучении и&nbsp;дополнительного образования.</p>
@@ -8,7 +8,7 @@
 <div style="border: 3px dashed #3855A1; margin: 25px 0; padding: 15px 25px 25px 25px;">
 	<h3 align="center">СПЕШИТЕ ЗАРЕГЕСТРИРОВАТЬСЯ!</h3>
 	<p>Хотим заранее отметить, что помимо того, что <strong>до&nbsp;31&nbsp;августа </strong>билет на&nbsp;конференцию можно приобрести всего за&nbsp;5000&nbsp;рублей, мы&nbsp;хотим дополнительно предоставить вам <strong>специальную скидку в&nbsp;размере 15</strong><strong>%</strong>. Более того, у&nbsp;нас имеются бесплатные квоты для учителей средней школы. </p>
-	<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/edcrunch15');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #F62B35; margin: 0 10px 0 0; padding: 10px 40px;"><strong>БЫСТРАЯ РЕГИСТРАЦИЯ</strong> </a></div>
+	<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/edcrunch15')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #F62B35; margin: 0 10px 0 0; padding: 10px 40px;"><strong>БЫСТРАЯ РЕГИСТРАЦИЯ</strong> </a></div>
 </div>
 
 <h3>ЧТО ВАС ЖДЕТ: </h3>

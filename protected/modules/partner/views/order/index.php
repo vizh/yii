@@ -14,21 +14,21 @@ $this->setPageTitle(\Yii::t('app', 'Счет'));
 $controller = $this;
 ?>
 
-<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID) ?>
-    <?= CHtml::link(
+<?$this->beginClip(Controller::PAGE_HEADER_CLIP_ID)?>
+    <?=CHtml::link(
         '<span class="fa fa-plus btn-label"></span> ' . Yii::t('app', 'Выставить счет'),
         ['edit'],
         ['class' => 'btn btn-primary btn-labeled']
-    ) ?>
-<?php $this->endClip() ?>
+    )?>
+<?$this->endClip()?>
 
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-building-o"></i> <?= Yii::t('app', 'Счета мероприятия') ?></span>
+        <span class="panel-title"><i class="fa fa-building-o"></i> <?=Yii::t('app', 'Счета мероприятия')?></span>
     </div>
     <div class="panel-body">
         <div class="table-info">
-            <?php $this->widget('application\widgets\grid\GridView', [
+            <?$this->widget('application\widgets\grid\GridView', [
                 'dataProvider' => $search->getDataProvider(),
                 'filter' => $search,
                 'summaryCssClass' => 'table-header',
@@ -138,7 +138,7 @@ $controller = $this;
                         ]
                     ]
                 ]
-            ]) ?>
+            ])?>
         </div>
     </div>
 </div>

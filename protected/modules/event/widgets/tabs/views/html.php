@@ -5,6 +5,6 @@
  */
 ?>
 
-<div id="<?=$this->getNameId();?>" class="tab">
-  <?=$TabContent;?>
+<div id="<?=$this->getNameId()?>" class="tab">
+  <?=$TabContent?>
 </div>

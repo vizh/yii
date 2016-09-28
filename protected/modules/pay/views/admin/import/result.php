@@ -27,9 +27,9 @@ $this->setPageTitle(\Yii::t('app', 'Импорт выписки из банка'
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($import->orders as $order) {
+            <?foreach($import->orders as $order) {
                 $this->renderPartial('row', ['order' => $order]);
-            } ?>
+            }?>
             </tbody>
         </table>
     </div>

@@ -1,6 +1,6 @@
 <img alt="" src="http://runet-id.com/img/mail/2016/gal16.jpg" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Осталась неделя для подачи заявок на конкурс <a href="http://2016.goldenapp.ru/">&laquo;Золотое приложение 2016&raquo;</a>!</p>
 

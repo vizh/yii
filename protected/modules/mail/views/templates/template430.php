@@ -2,7 +2,7 @@
 
 <p>&nbsp;<p>
 
-<h3><strong>Здравствуйте, </span><?=$user->getShortName();?></strong>!</h3>
+<h3><strong>Здравствуйте, </span><?=$user->getShortName()?></strong>!</h3>
 
 <p>Команда Лаборатории новых профессий приглашает вас на <a href="http://bigdataweek.ru/">Big Data Week Moscow</a> — серию открытых встреч, посвященных технологиям больших данных, которые будут проходить с 20 по 24 апреля в центре Digital October.
 </p>
@@ -19,9 +19,9 @@
 
 <p>Подробная программа мероприятий есть <a href="http://bigdataweek.ru/">на сайте</a>, регистрируйтесь и приходите, участие бесплатное.</p>
 
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/bdwm15/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #E02C85; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #E02C85;
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/bdwm15/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #E02C85; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #E02C85;
   border-top: 1px solid #E02C85;"><strong>РЕГИСТРАЦИЯ</strong> </a></div>
-  
+
 <p>Big Data Week Moscow — часть глобальной инициативы <a href="http://bigdataweek.com/">Big Data Week</a>. Цель организаторов (и наша в том числе) — объединить мировое сообщество разработчиков, предпринимателей, бизнес-аналитиков и других специалистов, работающих с большими данными. Уже несколько лет подобные встречи проходят во второй половине апреля в США, Европе и Юго-Восточной Азии.</strong></p>
 
 

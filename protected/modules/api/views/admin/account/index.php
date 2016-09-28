@@ -21,7 +21,7 @@
     </thead>
     <?foreach($accounts as $account):?>
       <tr>
-        <?if (!empty($account->Event)):?>
+        <?if(!empty($account->Event)):?>
           <td><?=$account->Event->Id?></td>
           <td><?=$account->Event->Title?></td>
         <?else:?>
@@ -37,7 +37,7 @@
             $IpContent = '';
             foreach ($account->Ips as $ip)
               $IpContent .= $ip->Ip.'<br/>';
-            ?>
+           ?>
 
             <?if(!empty($domainsContent)):?>
                <button class="btn btn-mini btn-info" data-toggle="popover" data-original-title="<?=Yii::t('app', 'Домены')?>" data-content="<div class='word-break_keep-all'><?=$domainsContent?></div>" data-placement="top"><?=Yii::t('app', 'Домены')?></button>

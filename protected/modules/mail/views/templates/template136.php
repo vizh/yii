@@ -1,8 +1,8 @@
-<?$regLink = "http://ibcrussia.com/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16);?>
+<?$regLink = "http://ibcrussia.com/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>
 
 <p align="center"><img alt="" src="http://runet-id.com/img/mail/2014/20140924-IBC14.jpg" style="width: 100%; height: auto;" /></p>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p style="font-size: 120%">«Интернет и бизнес. Россия» (IBC Russia) — главная осенняя конференция об интернет-маркетинге и создании сайтов. Организаторы: компания «Ашманов и партнеры» и Российская ассоциация электронных коммуникаций.</p>
 

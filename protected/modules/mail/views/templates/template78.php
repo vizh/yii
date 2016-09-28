@@ -1,11 +1,11 @@
-<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Вы&nbsp;&mdash; участник <nobr>18-го</nobr> Российского Интернет Форума, РИФ+КИБ 2014, который пройдет <nobr>23&mdash;25 апреля</nobr> 2014 года в&nbsp;подмосковном пансионате &laquo;Поляны&raquo;</p>
 
 <p><strong>Ваш статус:</strong><br />
-<span style="font-size: 24px;"><?=$user->Participants[0]->Role->Title;?></span></p>
+<span style="font-size: 24px;"><?=$user->Participants[0]->Role->Title?></span></p>
 
 <p>Этот статус гарантирует Вам максимальное участие в&nbsp;мероприятиях Форума.</p>
 <p><strong>Как докладчик, Вы&nbsp;можете: </strong></p>

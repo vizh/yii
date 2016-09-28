@@ -44,5 +44,5 @@ use application\components\web\ArrayDataProvider;
             ]
 
         ],
-    ]);?>
+    ])?>
 </div>

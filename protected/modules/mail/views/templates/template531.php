@@ -22,7 +22,7 @@
 <p>В конференции примут участие: представители государственных регулирующих органов, российских и зарубежных операторов связи, производителей телекоммуникационного оборудования, системных интеграторов, корпоративных пользователей инфокоммуникационных услуг, инвестиционных компаний, консультанты и эксперты отрасли, отраслевые СМИ, представители компаний потребителей услуг связи.</p>
 
 <div style="border: 1px solid #C2D89B; text-align: center; margin: 15px 0; padding: 25px;" align="center">
-	<a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/mansev15');?>" style="color: #111111; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; background: #C8E1AA; margin: 0 10px 0 0; padding: 0; border-color: #C2D89B; border-style: solid; border-width: 10px 40px;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+	<a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/mansev15')?>" style="color: #111111; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; background: #C8E1AA; margin: 0 10px 0 0; padding: 0; border-color: #C2D89B; border-style: solid; border-width: 10px 40px;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
 </div>
 
 <p>Ознакомиться с условиями участия, а также запросить программу Вы сможете на сайте http://www.tmtconferences.ru/managed-services-2015.html  или по телефону +7 (929) 691 33 02.</p>

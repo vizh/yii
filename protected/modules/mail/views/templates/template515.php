@@ -1,8 +1,8 @@
-<h3><b>Здравствуйте, <?=$user->getShortName();?>!</b></h3>
+<h3><b>Здравствуйте, <?=$user->getShortName()?>!</b></h3>
 
 <p>Благодарим Вас за то, что стали участником <a href="http://www.msdevcon.ru/">DevCon 2015</a> и провели с нами 2 насыщенных дня!</p>
 
-<p>Спасибо, что посещали технические доклады и мастер-классы, участвовали в квесте и танцевали на концерте, пели песни у костра и просто создавали позитивное настроение!</p> 
+<p>Спасибо, что посещали технические доклады и мастер-классы, участвовали в квесте и танцевали на концерте, пели песни у костра и просто создавали позитивное настроение!</p>
 <p>Прямо сейчас вы можете</p>
 <ul>
 <li>Посмотреть <a href="http://www.msdevcon.ru/ru/">онлайн</a> доклады, которые вы не смогли посетить лично; </li>
@@ -14,7 +14,7 @@
 
 <p>&nbsp;</p>
 
-<p class="p1" style="text-align:center"><b><a href="<?=$user->getFastauthUrl('http://runet-id.com/devcon');?>" style="color:#fff;text-decoration: none;user-select: none;padding: .7em 1.5em;outline: none;background:#4B9B1A">Заполнить анкету</a></b></p>
+<p class="p1" style="text-align:center"><b><a href="<?=$user->getFastauthUrl('http://runet-id.com/devcon')?>" style="color:#fff;text-decoration: none;user-select: none;padding: .7em 1.5em;outline: none;background:#4B9B1A">Заполнить анкету</a></b></p>
 
 
 <p>&nbsp;</p>

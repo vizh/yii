@@ -1,6 +1,6 @@
 <p><img src="http://showtime.s3.amazonaws.com/itogi2014_-_g43f5.jpg" style="height: auto; width: 100%;" /></p>
 
-<h3>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h3>
 
 <p>17&nbsp;декабря 2014 года пройдет ежегодная конференция <a href="http://runet-id.com/event/itogi2014/">&laquo;РУНЕТ 2014: ИТОГИ ГОДА&raquo;</a>.</p>
 
@@ -34,7 +34,7 @@
 <div style="border: 2px dashed #348EDA; padding: 15px; margin: 25px 0;">
 	<p align="center">Регистрация обязательна вне зависимости от статуса участия.</p>
 	<p style="margin-top: 10px 0; text-align: center;">
-	    <a href="<?=$user->getFastauthUrl('http://runet-id.com/event/itogi2014/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Зарегистрироваться</a>
+	    <a href="<?=$user->getFastauthUrl('http://runet-id.com/event/itogi2014/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Зарегистрироваться</a>
 	</p>
 
 </div>

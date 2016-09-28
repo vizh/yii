@@ -1,6 +1,6 @@
 <p align="center"><img alt="" src="http://runet-id.com/img/mail/2014/20141105-marketingparty.png" style="width: 100%; height: auto;" /></p>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p style="font-size: 120%"><strong>13 ноября в 20.00</strong> мы соберём лучших маркетологов на одной площадке для уникального нетворкинга, обмена опытом и поиска новых идей.</p>
 

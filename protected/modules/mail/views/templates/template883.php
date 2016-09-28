@@ -29,8 +29,8 @@
         <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
             <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                 <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-                          
-<h3>Здравствуйте <?=$user->getShortName();?>!</h3>
+
+<h3>Здравствуйте <?=$user->getShortName()?>!</h3>
 
 <p>Спасибо, что нашли время для участия в работе&nbsp;<strong>Программного комитета И+&nbsp;</strong>и в&nbsp;установочной встрече&nbsp;<a href="http://ири.рф/news/13617/"><strong>29 марта в офисе ИРИ</strong></a>&nbsp;.</p>
 

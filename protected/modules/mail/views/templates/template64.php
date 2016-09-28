@@ -1,8 +1,8 @@
-<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 
 <p><img src="http://runet-id.com/img/mail/2014/20140410-rif14-01.jpg" alt="РИФ+КИБ 2014"/></p>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 <p>До&nbsp;старта РИФ+КИБ 2014 остается ровно 2 недели (Форум пройдет 23&ndash;25&nbsp;апреля).<br> Все подробности о&nbsp;<nobr>18-м</nobr> Российском Интернет Форуме&nbsp;&mdash; <a href="http://www.rif.ru">www.rif.ru</a></p>
 <p>Обращаем Ваше внимание на&nbsp;основные акценты проекта и&nbsp;полезную информацию по&nbsp;ходу его подготовки.</p>
 

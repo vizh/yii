@@ -27,18 +27,18 @@
                     <tbody>
                     <tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                         <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><img alt="Интернет Экономика" src="http://ie.iri.center/bitrix/templates/neweco/assets/images/logo.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-	                        
-	                        
-	                        
-	                        
-	                        
-	                        
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+
+
+
+
+
+
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Форум &laquo;Интернет Экономика 2015&raquo; стартовал свою работу 21&nbsp;декабря 2015&nbsp;года, первые итоги его работы: <a href="http://ie.iri.center">ie.iri.center</a></p>
 
 <p align="center"><strong>Ваш статус:<br />
-<span style="color: #C45942; font-size: 18px;"><?=$user->Participants[0]->Role->Title;?></span></strong></p>
+<span style="color: #C45942; font-size: 18px;"><?=$user->Participants[0]->Role->Title?></span></strong></p>
 
 <p>Этот статус дает Вам право участвовать в работе Форума 22 декабря (вторник) в статусе аккредитованного представителя СМИ.</p>
 
@@ -68,7 +68,7 @@
 <p>Для уточнения вопросов, связанных с&nbsp;регистрацией, Вы&nbsp;можете обратиться по&nbsp;адресу: <a href="mailto:reg@ie.iri.center">reg@ie.iri.center</a></p>
 
 <p>По&nbsp;вопросам работы СМИ на&nbsp;площадке Форума 22&nbsp;декабря&nbsp;— можно обращаться в&nbsp;Пресс-службу Форума по&nbsp;адресу: pr@ie.iri.center или к&nbsp;контактным представителям Пресс-службы: </p>
-<ul> 
+<ul>
 	<li>Екатерина Демкина (Воробьева) +7&nbsp;909 <nobr>622-9222</nobr></li>
 	<li>Алена Ватбольская +7&nbsp;915 <nobr>362-8583</nobr></li>
 	<li>Ксения Ложкина +7&nbsp;916 <nobr>459-9867</nobr></li>

@@ -1,5 +1,5 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/ccs15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
-<p><strong>Здравствуйте <?=$user->getShortName();?>!</strong></p>
+<p><strong>Здравствуйте <?=$user->getShortName()?>!</strong></p>
 
 <p>Вы зарегистрированы  на конференцию <a href="http://www.conversionconf.ru/june2015/?utm_source=reg_vid&utm_medium=email&utm_campaign=conversionconf_spb_2015">ConversionConf 2015: трафик, конверсии, продажи</a> со статусом <b>«Видео-участник»</b>.<br/>
 Этот формат подразумевает доступ к видеоматериалам через некоторое время после конференции.</p>

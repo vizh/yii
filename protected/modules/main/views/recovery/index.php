@@ -3,18 +3,18 @@
   <div class="container">
     <div class="title">
       <span class="backing runet">Runet</span>
-      <span class="backing text"><?=\Yii::t('app', 'Восстановление пароля');?></span>
+      <span class="backing text"><?=\Yii::t('app', 'Восстановление пароля')?></span>
     </div>
   </div>
 </h2>
 <div class="container">
   <div class="row">
     <div class="span12">
-      <?if (\Yii::app()->user->hasFlash('error')):?>
+      <?if(\Yii::app()->user->hasFlash('error')):?>
       <div class="alert alert-error">
-        <?=\Yii::app()->user->getFlash('error');?>
+        <?=\Yii::app()->user->getFlash('error')?>
       </div>
-      <?endif;?>
+      <?endif?>
     </div>
   </div>
 </div>

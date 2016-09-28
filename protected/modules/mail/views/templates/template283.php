@@ -1,12 +1,12 @@
 <p><img src="http://showtime.s3.amazonaws.com/itogi2014_-_g43f5.jpg" style="height: auto; width: 100%;" /></p>
 
-<h3 style="font-size: 16px;"><?=$user->getFullName();?>, здравствуйте!</h3>
+<h3 style="font-size: 16px;"><?=$user->getFullName()?>, здравствуйте!</h3>
 
 <p>Вы&nbsp;зарегистрированы в&nbsp;качестве участника конференции <strong>&laquo;РУНЕТ 2014: ИТОГИ ГОДА&raquo;</strong>, которая пройдет в&nbsp;среду, 17&nbsp;декабря 2014 года&nbsp;&mdash; <a href="http://raec.ru/itogi2014/" target="_blank">http://raec.ru/<wbr />itogi2014/</a></p>
 
 <p>Ждем Вас по&nbsp;адресу: г. Москва, Серебряническая набережная, 29, Бизнес-центр Silver City.</p>
 
-<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Ваш билет</a></p>
+<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Ваш билет</a></p>
 
 <p>Конференция &laquo;Рунет 2014: ИТОГИ ГОДА&raquo;&nbsp;&mdash; это площадка, где ведущие эксперты российской интернет-отрасли, представители ассоциаций, СМИ и&nbsp;профильных госструктур&nbsp;&mdash; представляют <strong>главные итоги развития отрасли</strong>, обсуждают <strong>современные тренды ее&nbsp;развития</strong> и&nbsp;делают <strong>прогнозы развития на&nbsp;2015&nbsp;год</strong>.</p>
 

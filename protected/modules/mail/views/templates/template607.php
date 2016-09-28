@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/pmm15.jpg" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<p><strong>Здравствуйте, <?=$user->getShortName();?>!</strong></p>
+<p><strong>Здравствуйте, <?=$user->getShortName()?>!</strong></p>
 
 <p>Главная в России профессиональная конференция о <a href="http://pm-moscow.com/?utm_medium=email&utm_source=runetid&utm_campaign=pmm2015&utm_content=letter">Performance Marketing</a> состоится 7 октября. Только 12 топовых спикеров. 12 главных докладов со всего мира.</p>
 

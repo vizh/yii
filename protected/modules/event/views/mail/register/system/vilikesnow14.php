@@ -5,11 +5,11 @@
  */
 ?>
 <p>Данные пользователя:</p>
-<p><strong>ФИО</strong>: <?=$user->getFullName();?><br/>
-<strong>Email</strong>: <?=$user->Email;?><br/>
+<p><strong>ФИО</strong>: <?=$user->getFullName()?><br/>
+<strong>Email</strong>: <?=$user->Email?><br/>
 
-<?if ($user->getEmploymentPrimary() !== null):?>
-    <strong>Компания</strong>: <?=$user->getEmploymentPrimary()->Company->Name;?><br/>
-<?endif;?>
+<?if($user->getEmploymentPrimary() !== null):?>
+    <strong>Компания</strong>: <?=$user->getEmploymentPrimary()->Company->Name?><br/>
+<?endif?>
 
-<strong>Статус</strong>: <?=$role->Title;?></p>
+<strong>Статус</strong>: <?=$role->Title?></p>

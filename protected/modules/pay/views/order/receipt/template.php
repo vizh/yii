@@ -71,10 +71,10 @@ use application\components\utility\Texts;
     <td align="right" width="400" valign="middle">
       <table cellspacing="0" border="1" cellpadding="3" width="410" bordercolorlight="#000000" bordercolordark="#FFFFFF">
         </tr>
-        <td colspan="3">Получатель платежа: 		<?=$template->Recipient;?>, ИНН:&nbsp;<?=$template->INN;?><br>
-          Р/c: <?=$template->AccountNumber;?>,<br>	<?=$template->Bank;?>,<br />
-          Корр.сч.: <?=$template->BankAccountNumber;?>,<br />
-          БИК: <?=$template->BIK;?></td>
+        <td colspan="3">Получатель платежа: 		<?=$template->Recipient?>, ИНН:&nbsp;<?=$template->INN?><br>
+          Р/c: <?=$template->AccountNumber?>,<br>	<?=$template->Bank?>,<br />
+          Корр.сч.: <?=$template->BankAccountNumber?>,<br />
+          БИК: <?=$template->BIK?></td>
         <tr>
           <td colspan="3"><br /><br />
             <hr size="1" color="#000000">
@@ -87,9 +87,9 @@ use application\components\utility\Texts;
           <td align="center">Сумма</td>
         </tr>
         <tr>
-          <td align="left">&nbsp;<br>Оплата счета № <?=$order->Number;?> от <?=date('d.m.Y', strtotime($order->CreationTime));?><br>&nbsp;</td>
+          <td align="left">&nbsp;<br>Оплата счета № <?=$order->Number?> от <?=date('d.m.Y', strtotime($order->CreationTime))?><br>&nbsp;</td>
           <td valign="bottom" width="75"><img src="/images/blank.gif" width="75" height="1" border="0"></td>
-          <td valign="middle" align="center" width="75"><?=number_format($total, 2, ',', ' ');?> руб.</td>
+          <td valign="middle" align="center" width="75"><?=number_format($total, 2, ',', ' ')?> руб.</td>
         </tr>
         <tr>
           <td align="left" rowspan="2" colspan="3" valign="center"><br />Плательщик:</td>
@@ -120,10 +120,10 @@ use application\components\utility\Texts;
     <td align="right" width="400" valign="middle">
       <table cellspacing="0" border="1" cellpadding="3" width="410" bordercolorlight="#000000" bordercolordark="#FFFFFF">
         <tr>
-          <td colspan="3">Получатель платежа: 		<?=$template->Recipient;?>, ИНН:&nbsp;<?=$template->INN;?><br>
-            Р/c: <?=$template->AccountNumber;?>,<br>	<?=$template->Bank;?>,<br />
-            Корр.сч.: <?=$template->BankAccountNumber;?>,<br />
-            БИК: <?=$template->BIK;?></td>
+          <td colspan="3">Получатель платежа: 		<?=$template->Recipient?>, ИНН:&nbsp;<?=$template->INN?><br>
+            Р/c: <?=$template->AccountNumber?>,<br>	<?=$template->Bank?>,<br />
+            Корр.сч.: <?=$template->BankAccountNumber?>,<br />
+            БИК: <?=$template->BIK?></td>
         </tr>
         <tr>
           <td colspan="3"><br /><br />
@@ -137,9 +137,9 @@ use application\components\utility\Texts;
           <td align="center">Сумма</td>
         </tr>
         <tr>
-          <td align="left">&nbsp;<br>Оплата счета № <?=$order->Number;?> от <?=date('d.m.Y', strtotime($order->CreationTime));?><br>&nbsp;</td>
+          <td align="left">&nbsp;<br>Оплата счета № <?=$order->Number?> от <?=date('d.m.Y', strtotime($order->CreationTime))?><br>&nbsp;</td>
           <td valign="bottom" width="75"><img src="/images/blank.gif"  height="1" border="0"></td>
-          <td valign="middle" align="center" width="75"><?=number_format($total, 2, ',', ' ');?> руб.</td>
+          <td valign="middle" align="center" width="75"><?=number_format($total, 2, ',', ' ')?> руб.</td>
         </tr>
         <tr>
           <td align="left" rowspan="2" colspan="3" valign="center"><br />Плательщик:</td>

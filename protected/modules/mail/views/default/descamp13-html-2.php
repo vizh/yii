@@ -28,13 +28,13 @@
 					    <table width="550" align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" border="0">
 	    					<tr>
                   <td>
-                    <h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+                    <h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
                     <p>12 декабря компания Microsoft приглашает всех неравнодушных к современному цифровому и интерактивному дизайну принять участие во втором <a href="http://events.techdays.ru/DesCamp/2013-12/">Design Camp</a>, который пройдет в Digital October, Москва.</p>
                     <p>В программе эксперты из Яндекса, Mail.ru Group, Института медиа, архитектуры и дизайна «Стрелка», Scream School, Interactive Lab, Parallels, Futurice Ltd., Enlighted Digital, e-Legion, ведущих преподавателей «Британской высшей школы дизайна» и др.</p>
                     <p><b>Специальный гость — Барт Декрем, старший вице-президент The Walt Disney Company.</b></p>
                     <p>Cпециально для пользователей RUNET-ID компания Microsoft предоставляет 20 бесплатных билетов на конференцию. Зарегистрируйтесь на <a href="http://events.techdays.ru/DesCamp/2013-12/">сайте конференции</a>, указав на страницы оплаты промо-код <b>descamp13_RAEC</b>. Не откладывайте регистрацию, код действует только на 20 регистраций.</p>
 
-                    <a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/descamp13/');?>" style="display: block; text-decoration: none; background: #333333; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Купить билет</a>
+                    <a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/descamp13/')?>" style="display: block; text-decoration: none; background: #333333; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Купить билет</a>
 
                     <p>---<br>
                       <em>С уважением,<br>

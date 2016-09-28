@@ -1,5 +1,5 @@
 <img alt="Cyber Security Forum / i-SAFETY 2016" src="http://runet-id.com/img/mail/2016/dr16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p><a href="http://digital-raid.ru/">Digital-рейд</a>, серия однодневных конференций&nbsp;для веб-студий и digital-агентств&nbsp;от ведущих экспертов рынка, начинает 2016 год. В 2014&mdash;2015 годах Digital-Рейды с энтузиазмом восприняли руководители компаний в <b>Воронеже, Казани, Ростове-на-Дону, Краснодаре, Екатеринбурге, Самаре, Новосибирске</b>.</p>
 

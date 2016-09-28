@@ -29,7 +29,7 @@
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                         <img src="https://ie.iri.center/bitrix/templates/neweco/assets/images/logo.png" alt="Интернет Экономика" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-                <h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName();?>!</strong></h2>
+                <h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName()?>!</strong></h2>
 
 
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
@@ -42,7 +42,7 @@
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
                     Организатором Форума выступает <a href="http://xn--h1aax.xn--p1ai/">Институт Развития Интернета (ИРИ)</a>.
                 </p>
-               
+
 
                 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">
                     Главной темой Форума “Интернет-экономика” станет обсуждение инициатив и предложений ИРИ по развитию интернета в России, разработанных в рамках перечня поручений Президента РФ  от 19 мая 2015 года – в формате предложений по формированию <b>долгосрочной программы развития российской части информационно-телекоммуникационной сети «Интернет» и связанных с ней отраслей экономики</b>. Главным итогом Форума станет согласованный участниками план мероприятий (“дорожные карты”) по реализации Программы.
@@ -93,7 +93,7 @@
                 </td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table></body>

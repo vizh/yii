@@ -1,4 +1,4 @@
-<?php $this->beginContent('/layouts/mail') ?>
+<?$this->beginContent('/layouts/mail')?>
 
     <table style="width: 100%;">
         <tr>
@@ -18,8 +18,8 @@
                             <table cellpadding="10" cellspacing="10" border="0" width="100%">
                                 <tr>
                                     <td style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">
-                                        <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;"><strong>Здравствуйте, <?=$this->mail->getUser()->getShortName();?>!</strong></p>
-                                        <?=$content;?>
+                                        <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;"><strong>Здравствуйте, <?=$this->mail->getUser()->getShortName()?>!</strong></p>
+                                        <?=$content?>
 
                                         <p style="font-family: Segoe UI, Tahoma,Arial,Helvetica, sans-serif; font-size: 14px;">С уважением,<br/>
                                         Организаторы конференции DevCon 2016<br/>
@@ -45,4 +45,4 @@
         </tr>
     </table>
 
-<?= $this->endContent(); ?>
+<?=$this->endContent()?>

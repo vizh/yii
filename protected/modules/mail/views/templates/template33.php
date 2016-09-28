@@ -1,4 +1,4 @@
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Вы &ndash; докладчик в рамках Программы конференции <a href="http://DGconf.com/">Digital Goods 2014</a>.</p>
 

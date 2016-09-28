@@ -28,12 +28,12 @@
 					    <table width="550" align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" border="0">
 	    					<tr>
                   <td>
-                    <h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+                    <h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
                     <p>Благодарим Вас за интерес к конференции <a href="http://www.alm-summit.ru/">ALM Summit</a> и напоминаем, что заказанный Вами счет на оплату участия не был оплачен в течение 5 рабочих дней.</p>
                     <p>Просим Вас оплатить заказанный счет до 31 января, чтобы гарантировать участие в конференции.</p>
                     <p>Обращаем Ваше внимание, что неоплаченные счета будут отменены 3 февраля 2014 г.</p>
 
-                    <p><a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/alm14/');?>" style="display: block; text-decoration: none; background: #7B3384; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Оплатить участие</a></p>
+                    <p><a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/alm14/')?>" style="display: block; text-decoration: none; background: #7B3384; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Оплатить участие</a></p>
 
                     <p>Если у Вас возникли сложности с оплатой счета, пожалуйста, напишите нам об этом на <a href="mailto:event@runet-id.com">event@runet-id.com</a> или сообщите по телефону <b>+7(495) 950-56-51</b>.</p>
 

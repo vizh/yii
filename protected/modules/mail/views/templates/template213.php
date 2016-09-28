@@ -2,7 +2,7 @@
 $regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>.</h3>
 
 <p>Вы получили это письмо потому, что имеете неоплаченные счета на RIW 2014, который <b>стартует уже на следующей неделе</b> и пройдет 12-14 ноября в московском Экспоцентре.</p>
 

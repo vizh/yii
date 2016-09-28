@@ -1,7 +1,7 @@
 <?php
 $regLink = "http://2015.i-comference.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 <p>Вы&nbsp;получили это письмо потому, что начали, но&nbsp;не&nbsp;завершили процесс регистрации участия в&nbsp;конференции <nobr>i-COMference</nobr> 2015, которая состоится уже завтра&nbsp;— во&nbsp;вторник, 17&nbsp;марта 2015 года в&nbsp;Digital October. </p>
 <p>Ваш текущий статус: <br/><b>ВИРТУАЛЬНЫЙ УЧАСТНИК</b></p>
 <p>Он&nbsp;не&nbsp;дает Вам права личного участия в&nbsp;конференции. </p>

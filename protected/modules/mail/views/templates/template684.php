@@ -25,7 +25,7 @@
 			<!-- content -->
 			<div class="content" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
-			            <h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h3>
+			            <h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h3>
 			            <p class="lead" style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><b style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">Уже завтра, 7 октября 2015 года, в к/т «Октябрь» состоится главная в России профессиональная конференция о <a href="http://pm-moscow.com/" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; color: #111111; margin: 0; padding: 0;">Performance Marketing</a>.</b></p>
 			            <p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">На конференции выступят только <b style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">12 западных спикеров</b>, представители крупнейших международных компаний: Google, Alibaba Group, Dunnhumby, Criteo, Weborama, AppsFlyer и старший вице-президент, директор по развитию бизнеса Тинькофф Банк - Артем Яманов.</p>
 			            <div class="frame" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 25px 0; padding: 10px 25px; border: 1px solid #f82a7d;">
@@ -33,7 +33,7 @@
 			            				<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Конференция «Performance Marketing Moscow 2015» — это максимальная концентрация людей, которые сегодня создают и развивают мировой рынок Performance Marketing.</p>
 			            			</td>
 			            			<td valign="top" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
-			            				<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><a href="<?=$user->getFastauthUrl('/event/pm15/');?>" class="btn-registration" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #FFFFFF; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #F82B7D; margin: 0 auto; padding: 12px 50px;">РЕГИСТРАЦИЯ</a></p>
+			            				<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><a href="<?=$user->getFastauthUrl('/event/pm15/')?>" class="btn-registration" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #FFFFFF; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #F82B7D; margin: 0 auto; padding: 12px 50px;">РЕГИСТРАЦИЯ</a></p>
 			            				<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><small style="color: #999999; font-family: Verdana, Geneva, sans-serif; font-size: 11px; line-height: 1.6; margin: 0; padding: 0;">Стоимость участия 7000 рублей. Сегодня последний день оплаты.</small></p>
 			            			</td>
 			            		</tr></table></div>
@@ -55,14 +55,14 @@
 						<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Оплата возможна банковскими картами и электронными деньгами, а также счетами для юридических лиц. Возможность выставления счетов для юридических лиц будет закрыта сегодня в 15:00. При оплате сегодня, просьба иметь при себе на регистрации копию платежного поручения.</p>
 
 						<hr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; border-top-color: #eaeaea; border-top-style: solid; height: 1px; margin: 25px 0; padding: 0; border-width: 1px 0 0;" /><p class="center" style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; text-align: center; font-weight: normal; margin: 15px 0 20px; padding: 0;" align="center">
-							<a href="<?=$user->getFastauthUrl('/event/pm15/');?>" class="btn-primary" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #000; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #fff; margin: 0 auto; padding: 12px 65px; border: 2px solid #000;">РЕГИСТРАЦИЯ</a>
+							<a href="<?=$user->getFastauthUrl('/event/pm15/')?>" class="btn-primary" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #000; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #fff; margin: 0 auto; padding: 12px 65px; border: 2px solid #000;">РЕГИСТРАЦИЯ</a>
 							<a href="http://pm-moscow.com/#program" class="btn-primary" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.2; color: #000; text-decoration: none; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background: #fff; margin: 0 auto; padding: 12px 65px; border: 2px solid #000;">ПРОГРАММА</a>
 						</p>
-						
+
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table><!-- /body --></body>

@@ -247,7 +247,7 @@
                                                                     </tbody>
                                                                 </table>
 
-                                                                <?= $content; ?>
+                                                                <?=$content?>
 
                                                                 <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-spacing: 0;border-collapse: collapse;vertical-align: top" width="100%">
                                                                     <tbody>

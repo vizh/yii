@@ -130,7 +130,7 @@
 						      	<table>
 						      		<tr>
 						      			<td style="background: #C71C31; text-align: center; width: 150px; height: 40px; padding: 10px 0;">
-<!--						      				<span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="--><?//=$user->getFastauthUrl('/event/telekom13/');?><!--">Регистрация</a></span>-->
+<!--						      				<span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="--><?//=$user->getFastauthUrl('/event/telekom13/')?><!--">Регистрация</a></span>-->
 						      			</td>
 												<td style="width: 15px;"></td>
 						      			<td style="background: #3F8944; text-align: center; width: 190px; height: 40px; padding: 10px 0;">
