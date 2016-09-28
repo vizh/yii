@@ -62,6 +62,7 @@ class ExcelBuilder
         \Yii::app()->setLanguage($language);
 
         $title = \Yii::t('app', 'Участники').' '.$this->export->Event->IdName;
+        if(strlen($title) > 30) $title = substr($title,0,28)."...";
 
         $phpExcel = new \PHPExcel();
         $phpExcel->setActiveSheetIndex(0);
