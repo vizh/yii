@@ -11,13 +11,8 @@ use Yii;
 /**
  * Class SESMailer performs sending by using Amazon SES
  */
-class SESMailer extends \mail\components\Mailer
+class SESMailer extends Mailer
 {
-    const AWS_KEY = 'AKIAIOYXFNZF7QSJNROA';
-    const AWS_SECRET = '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';
-    const AWS_REGION = 'eu-west-1';
-    const MAX_ATTACHMENT_NAME_LEN = 60;
-
     /**
      * Returns param from params array. Checks for requirements of parameters
      *
@@ -90,12 +85,7 @@ class SESMailer extends \mail\components\Mailer
      */
     public function internalSendNew($mails)
     {
-        $client = SesClient::factory([
-            'key' => self::AWS_KEY,
-            'secret' => self::AWS_SECRET,
-            'region' => self::AWS_REGION,
-            'version'=> 'latest',
-        ]);
+        $client = $this->getSesClient();
 
         $commands = [];
         foreach ($mails as $mail) {
@@ -106,7 +96,7 @@ class SESMailer extends \mail\components\Mailer
                     if (!file_exists($attachment[1]))
                         throw new Exception("Ошибка отправки сообщения: Вложенный файл '{$attachment[1]}' не найден");
 
-                    $attachments[self::cleanFilename($name, self::MAX_ATTACHMENT_NAME_LEN)]
+                    $attachments[self::cleanFilename($name, 60)]
                         = $attachment[1];
                 }
 
@@ -159,12 +149,7 @@ class SESMailer extends \mail\components\Mailer
             return;
         }
 
-        $client = SesClient::factory([
-            'key' => self::AWS_KEY,
-            'secret' => self::AWS_SECRET,
-            'region' => self::AWS_REGION,
-            'version'=> 'latest',
-        ]);
+        $client = $this->getSesClient();
 
         foreach ($mails as $mail) {
             try
@@ -278,7 +263,7 @@ class SESMailer extends \mail\components\Mailer
                 if (file_exists($file['filepath']) === false) {
                     throw new Exception("Ошибка отправки сообщения: Вложенный файл '{$file['filepath']}' не найден");
                 }
-                $clean_filename = self::cleanFilename($file["name"], self::MAX_ATTACHMENT_NAME_LEN);
+                $clean_filename = self::cleanFilename($file["name"], 60);
                 $attachments[$clean_filename] = $file['filepath'];
             }
         }
@@ -319,5 +304,17 @@ class SESMailer extends \mail\components\Mailer
         }
 
         return $res;
+    }
+
+    private function getSesClient()
+    {
+        $prms = Yii::app()->getParams();
+
+        return SesClient::factory([
+            'key' => $prms['AwsKey'],
+            'secret' => $prms['AwsSecret'],
+            'region' => $prms['AwsSesRegion'],
+            'version'=> 'latest',
+        ]);
     }
 }
