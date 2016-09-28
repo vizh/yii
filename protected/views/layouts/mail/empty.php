@@ -1,3 +1,3 @@
-<?$this->beginContent('/layouts/mail');?>
-  <?=$content;?>
-<?=$this->endContent();?>
+<?$this->beginContent('/layouts/mail')?>
+  <?=$content?>
+<?=$this->endContent()?>

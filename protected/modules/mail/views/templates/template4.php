@@ -1,4 +1,4 @@
-<p><?=$user->getShortName();?>, здравствуйте.<br />
+<p><?=$user->getShortName()?>, здравствуйте.<br />
 RUNET-ID поздравляет Вас с наступающим Новым годом!&nbsp;</p>
 
 <p>&nbsp;</p>

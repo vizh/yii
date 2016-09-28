@@ -18,34 +18,34 @@
         <tr>
           <td style="font-size: 13px;">
             <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="4" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 18px;">
-              <?if (!empty($payer->LastName)):?>
-                Dear <?=$payer->getFullName();?>.
+              <?if(!empty($payer->LastName)):?>
+                Dear <?=$payer->getFullName()?>.
               <?else:?>
                 Dear user.
-              <?endif;?>
+              <?endif?>
             </font>
             <br />
             <br />
 
-            <?if ($order->Type == \pay\models\OrderType::Juridical):?>
-            <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">This is to inform that you have created an invoice for legal entities  No. <?=$order->Id;?> to pay for participation in DevCon 2014 in the amount of <?=$total;?> rubles.</font>
+            <?if($order->Type == \pay\models\OrderType::Juridical):?>
+            <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">This is to inform that you have created an invoice for legal entities  No. <?=$order->Id?> to pay for participation in DevCon 2014 in the amount of <?=$total?> rubles.</font>
               <br />
               <br />
-              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 15px;"><a href="<?=$order->getUrl();?>">Print invoice</a></font>
+              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 15px;"><a href="<?=$order->getUrl()?>">Print invoice</a></font>
               <br />
               <br />
               <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">The invoice is valid for 5 business days. Please provide payment within the stipulated term.
             </font>
             <?else:?>
-              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">This is to inform that you have created an invoice for personal No <?=$order->Id;?> to pay for participation in DevCon 2014 in the amount of <?=$total;?> rubles.</font>
+              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">This is to inform that you have created an invoice for personal No <?=$order->Id?> to pay for participation in DevCon 2014 in the amount of <?=$total?> rubles.</font>
                 <br />
                 <br />
-              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 15px;"><a href="<?=$order->getUrl();?>">Print invoice</a></font>
+              <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 15px;"><a href="<?=$order->getUrl()?>">Print invoice</a></font>
                 <br />
                 <br />
               <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">The invoice is valid for 5 business days. Please provide payment within the stipulated term.
               </font>
-            <?endif;?>
+            <?endif?>
             <br />
             <br />
             <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Thank you for your interest in Microsoft events!</font>

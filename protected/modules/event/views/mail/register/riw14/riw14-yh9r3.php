@@ -2,7 +2,7 @@
 $regLink = "http://2014.russianinternetweek.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
-<h2><strong><?=$user->getShortName();?>, здравствуйте!</strong></h2>
+<h2><strong><?=$user->getShortName()?>, здравствуйте!</strong></h2>
 
 <p><strong>Подтверждаем Ваше участие в RIW 2014 со статусом &laquo;Посетитель выставки&raquo;.</strong> Ждем Вас 12-14 ноября&nbsp;2014 года в Москве, Экспоцентр, пав. 1.</p>
 

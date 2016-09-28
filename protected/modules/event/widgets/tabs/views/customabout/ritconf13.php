@@ -4,8 +4,8 @@
  */
 ?>
 
-<div id="<?=$this->getNameId();?>" class="tab">
+<div id="<?=$this->getNameId()?>" class="tab">
   <article>
-    <?=$this->event->FullInfo;?>
+    <?=$this->event->FullInfo?>
   </article>
 </div>

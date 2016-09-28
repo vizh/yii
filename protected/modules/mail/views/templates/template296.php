@@ -7,7 +7,7 @@ $productAccess->ProductId = 3114;
 $productAccess->UserId = $user->Id;
 $productAccess->save();
 ?>
-<h3><?=$user->getFullName();?>, здравствуйте!</h3>
+<h3><?=$user->getFullName()?>, здравствуйте!</h3>
 <p>С 6 по 8 февраля конференц-центр Digital October распахнет свои двери для сообщества, формирующего мир свободно распространяемых СУБД. Simon Riggs, Илья Космодемьянский, Marco Slot, Александр Киров, Julien Rouhaud, Дмитрий Барышников и еще более 40 спикеров форума <a href="http://pgconf.ru/">PGCONF.RUSSIA 2015</a>&nbsp;представят вам будущее PostgreSQL.</p>
 <p>В рамках <a href="http://pgconf.ru/papers">сформированной программы форума</a> будут обсуждаться альтернативы коммерческим продуктам в системах, важных для государства и бизнеса, возможность использования в критически важных приложениях, эксплуатация высоконагруженных систем, инструменты для администрирования и разработки масштабируемых приложений.</p>
 
@@ -97,5 +97,5 @@ $productAccess->save();
 <p><b>Специально для вас мы подготовили пакет "Участие + проживание" по специальной цене 12000 рублей. Он станет доступен при переходе по ссылке регистрации ниже.</b></p>
 
 <p style="margin-top: 20px 0; text-align: center;">
-    <a href="<?=$user->getFastauthUrl('http://runet-id.com/event/pgcr15/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Зарегистрироваться</a>
+    <a href="<?=$user->getFastauthUrl('http://runet-id.com/event/pgcr15/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Зарегистрироваться</a>
 </p>

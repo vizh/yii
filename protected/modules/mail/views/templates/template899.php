@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://2016.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
@@ -18,13 +18,13 @@
                 max-width: 600px;
                 padding-top: 10px;
                 padding-bottom: 20px
-            } 
+            }
             .content:first-child {
                 padding-top: 0!important
-            } 
-            
-            .h1, 
-            .h2, 
+            }
+
+            .h1,
+            .h2,
             .h3 {
               color: #111111;
               font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -79,11 +79,11 @@
             }
 
             .btn-secondary td {
-              background-color: transparent; 
-              font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-              font-size: 14px; 
+              background-color: transparent;
+              font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+              font-size: 14px;
               text-align: center;
-              vertical-align: top 
+              vertical-align: top
             }
 
             .btn-secondary td a {
@@ -110,11 +110,11 @@
                 font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 14px;
                 line-height: 1.5em
-            }      
+            }
             .border-bottom {
 	            border-bottom: solid 1px #eaeaea;
 	            padding-bottom: 15px
-            }                  
+            }
             @media only screen and (min-device-width: 601px) {
                 .content {width: 600px !important}
             }
@@ -129,12 +129,12 @@
                         <tr>
                             <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                 <![endif]-->
-                                <table class="content" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:100%;max-width:600px;padding-top:10px;padding-bottom:20px;" >                                   
+                                <table class="content" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:100%;max-width:600px;padding-top:10px;padding-bottom:20px;" >
                                     <tr>
                                         <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                             <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#D2D9DC" style="padding-bottom:20px;" >
                                                 <tr>
-                                                    <td align="center" class="h2 padding-20" style="color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;padding-top:20px;padding-bottom:10px;padding-left:20px;padding-right:20px;" >Здравствуйте, <?=$user->getShortName();?>!</td>
+                                                    <td align="center" class="h2 padding-20" style="color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;padding-top:20px;padding-bottom:10px;padding-left:20px;padding-right:20px;" >Здравствуйте, <?=$user->getShortName()?>!</td>
                                                 </tr>
                                                 <tr>
                                                     <td align="center" class=" padding-20" style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;padding-left:20px;padding-right:20px;" >Приближается важное для Рунета событие, какое бывает раз в&nbsp;20&nbsp;лет!</td>
@@ -147,7 +147,7 @@
                                             <a href="http://rif.ru" style="line-height:0 !important;color:#000000;" ><img src="https://showtime.s3.amazonaws.com/201603180918-RIF16_642x-01.png"  alt="" style="height:auto;width:100%;" ></a>
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                             <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="padding-top:30px;" >
@@ -163,7 +163,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td align="center" class="padding-20 h3" style="color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:22px;font-weight:bold;text-transform:uppercase;padding-top:0;padding-bottom:10px;padding-left:20px;padding-right:20px;" >
-	                                                    <?=$user->Participants[0]->Role->Title;?>
+	                                                    <?=$user->Participants[0]->Role->Title?>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -187,7 +187,7 @@
 			                                    </tr>
 			                                    <tr>
 			                                        <td align="center" class="padding-20 p" style="font-weight:bold;text-transform:uppercase;font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height:1.5em;font-size:14px;padding-bottom:10px;padding-left:20px;padding-right:20px;" >
-			                                            Тогда следующие советы – для&nbsp;Вас! 
+			                                            Тогда следующие советы – для&nbsp;Вас!
 			                                        </td>
 			                                    </tr>
                                     		</table>
@@ -213,7 +213,7 @@
 			                                                    </td>
 		                                                    </tr>
 	                                                    </table>
-                                                        
+
                                                     </td>
                                                 </tr>
 			                                    <tr>
@@ -240,7 +240,7 @@
 			                                            </table>
 			                                        </td>
 			                                    </tr>
-			                                    
+
 			                                    <tr>
 			                                        <td align="left" class="padding-20 p" style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height:1.5em;font-size:14px;font-weight:normal;padding-bottom:10px;padding-left:20px;padding-right:20px;" >
 			                                            <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff"  class="padding-list border-bottom" style="border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#eaeaea;padding-bottom:15px;" >
@@ -365,7 +365,7 @@
                                                   <table class="btn-secondary" bgcolor="#FFECC4" border="0" cellspacing="0" cellpadding="0" style="margin-bottom:10px;width:auto;" >
                                                     <tr>
                                                       <td class="button" height="45" style="padding-bottom:0;line-height:1.5em;padding-top:10px;padding-right:10px;padding-left:10px;background-color:transparent;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-size:14px;text-align:center;vertical-align:top;" >
-                                                        <a href="<?=$user->Participants[0]->getTicketUrl();?>" style="background-color:transparent;border-width:2px;border-style:solid;border-color:#FE9901;display:block;color:#FE9901;cursor:pointer;font-weight:bold;line-height:2;padding-top:8px;padding-bottom:8px;padding-right:15px;padding-left:15px;text-decoration:none;" >Путевой лист</a>
+                                                        <a href="<?=$user->Participants[0]->getTicketUrl()?>" style="background-color:transparent;border-width:2px;border-style:solid;border-color:#FE9901;display:block;color:#FE9901;cursor:pointer;font-weight:bold;line-height:2;padding-top:8px;padding-bottom:8px;padding-right:15px;padding-left:15px;text-decoration:none;" >Путевой лист</a>
                                                       </td>
                                                     </tr>
                                                   </table>
@@ -376,7 +376,7 @@
                                     </tr>
                               </table>
 
-								                                
+
 
                               <table class="content" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:100%;max-width:600px;padding-top:10px;padding-bottom:20px;" >
                                     <tr>
@@ -417,8 +417,8 @@
 			                            </td>
 			                        </tr>
 			                    </table>
-			                    
-			                    
+
+
                                 <!--[if (gte mso 9)|(IE)]>
                             </td>
                         </tr>

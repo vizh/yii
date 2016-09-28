@@ -1,4 +1,4 @@
-<p style="line-height: 20.7999992370605px;"><?=$user->getShortName();?>,</p>
+<p style="line-height: 20.7999992370605px;"><?=$user->getShortName()?>,</p>
 
 <p style="line-height: 20.7999992370605px;">Вы получили это письмо, поскольку оплачивали участие в Russian Interactive Week (RIW 2014)&nbsp;как юридическое лицо.</p>
 

@@ -9,13 +9,13 @@
 				<tbody>
 					<tr>
 						<td style="margin: 0px;">
-						<p><font face="Tahoma, Helvetica, sans-serif" style="font-family: Tahoma, Helvetica, sans-serif; font-size: 18px;">Здравствуйте, <?=$user->getShortName();?>.</font></p>
+						<p><font face="Tahoma, Helvetica, sans-serif" style="font-family: Tahoma, Helvetica, sans-serif; font-size: 18px;">Здравствуйте, <?=$user->getShortName()?>.</font></p>
 
 						<p>Благодарим Вас за интерес к главной технологической конференции Microsoft &ndash; <a href="http://www.msdevcon.ru/">DevCon 2014</a>!</p>
 
 						<p>DevCon 2014 &ndash; это два насыщенных дня, в течение которых Вас ожидают более 60 технических сессий, мастер-классы и круглые столы, общение с лучшими экспертами отрасли, вечерняя и спортивная программы, выступление музыкальной группы, активности на свежем воздухе.</p>
 
-						<p>Напоминаем, что DevCon 2014 &ndash; это платная конференция, и Вам необходимо <a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/devcon14/');?>">запросить счет</a> и оплатить свое участие. В стоимость билета уже включены проживание, питание и трансферы. Обращаем ваше внимание, что текущая цена действительна&nbsp;<strong>до 20 марта</strong>!</p>
+						<p>Напоминаем, что DevCon 2014 &ndash; это платная конференция, и Вам необходимо <a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/devcon14/')?>">запросить счет</a> и оплатить свое участие. В стоимость билета уже включены проживание, питание и трансферы. Обращаем ваше внимание, что текущая цена действительна&nbsp;<strong>до 20 марта</strong>!</p>
 
 						<p>Если у вас возникли сложности с оплатой счета, пожалуйста, напишите нам об этом на <a href="mailto:devcon@runet-id.com">devcon@runet-id.com</a> или сообщите по телефону <strong>+7(495)950-56-51</strong>.</p>
 

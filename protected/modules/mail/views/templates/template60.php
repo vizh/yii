@@ -1,6 +1,6 @@
 <p><a href="http://runet-id.com/event/20therunet/" style="color: rgb(17, 85, 204);" target="_blank"><img src="http://runet-id.com/img/mail/2014/20140331-20therunet.jpg" /></a></p>
 
-<p><?=$user->getShortName();?>, поздравляем с Днем рождения Рунета!</p>
+<p><?=$user->getShortName()?>, поздравляем с Днем рождения Рунета!</p>
 
 <p><b>И напоминаем, что вы являетесь обладателем билета на посещение концерта &quot;Рунету 20 лет&quot;, который состоится сегодня!</b></p>
 

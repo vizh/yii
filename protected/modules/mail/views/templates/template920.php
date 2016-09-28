@@ -1,6 +1,6 @@
 <a href="http://mblt.ru/ru?utm_source=link&amp;utm_medium=email21_04&amp;utm_campaign=runetid
 "><img alt="MBLT16" src="http://runet-id.com/img/mail/2016/mblt16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /></a>
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p style="text-align: center;">Только для участников форума РИФ действует специальная цена на покупку билета на конференцию на MBLT16. Для получения скидки 40% воспользуйтесь промо-кодом <strong>SpeciallyForRIF20</strong></p>
 

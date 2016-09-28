@@ -1,4 +1,4 @@
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p><b>19 февраля 2014 года</b> в Москве в Торгово-Промышленной Палате РФ состоится Международный Форум по Кибербезопасности — <a href="http://CyberSecurityForum.ru">Cyber Security Forum 2014</a>, Russia</p>
 
@@ -30,7 +30,7 @@ $event = \event\models\Event::model()->findByPk(870);
 $registerLink = $event->getFastRegisterUrl($user, $role, '/event/csf14/#event_widgets_Users');
 ?>
 
-<h3><a href="<?=$registerLink;?>">БЫСТРАЯ РЕГИСТРАЦИЯ &raquo;</a></h3>
+<h3><a href="<?=$registerLink?>">БЫСТРАЯ РЕГИСТРАЦИЯ &raquo;</a></h3>
 
 <p>До встречи на Форуме!</p>
 
@@ -40,4 +40,4 @@ $registerLink = $event->getFastRegisterUrl($user, $role, '/event/csf14/#event_wi
 Оргкомитет Cyber Security Forum 2014<br/>
 <a href="http://CyberSecurityForum.ru">CyberSecurityForum.ru</a></p>
 
-<p>--<br /><a href="<?=$user->getFastauthUrl('/user/setting/subscription/');?>">Отписаться</a> от рассылок RUNET-ID</p>
+<p>--<br /><a href="<?=$user->getFastauthUrl('/user/setting/subscription/')?>">Отписаться</a> от рассылок RUNET-ID</p>

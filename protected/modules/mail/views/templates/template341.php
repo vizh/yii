@@ -36,9 +36,9 @@
 																<tbody>
 																	<tr>
 																		<td class="pro_editor_editable" style="font-size: 18px; font-family: Arial,Helvetica,sans-serif; line-height: 22px; padding-bottom: 15px; color: rgb(0, 0, 0);">
-																			
-																			<h3 align="center"><?=$user->getShortName();?>, здравствуйте!</h3>
-																			
+
+																			<h3 align="center"><?=$user->getShortName()?>, здравствуйте!</h3>
+
 																		<div style="text-align: center;"><strong>РИФ.Регион в Ростове-на-Дону // 12 марта 2015</strong><br>
 																		(г. Ростов-на-Дону, Суворова, д. 91, БЦ "Лига наций", 7-й этаж (Южный ИТ-Парк))</div>
 																		</td>
@@ -77,11 +77,11 @@
 																	</tr>
 																	<tr>
 																		<td class="pro_editor_editable" style="font-size: 12px; font-family: Arial,Helvetica,sans-serif; line-height: 20px; padding-bottom: 15px; color: rgb(204, 0, 0);">
-																		
+
 																		<div style="text-align: center; border: 3px dashed #E6232E; margin-top: 20px;">
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$event->getFastRegisterUrl($user, \event\models\Role::model()->findByPk(24));?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #E6232E; margin: 0 10px 0 0; padding: 0; border-color: #E6232E; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$event->getFastRegisterUrl($user, \event\models\Role::model()->findByPk(24))?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #E6232E; margin: 0 10px 0 0; padding: 0; border-color: #E6232E; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
 </div>
-																		
+
 </td>
 																	</tr>
 

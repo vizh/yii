@@ -10,7 +10,7 @@
           <td><table cellpadding="10" cellspacing="10" border="0" width="100%">
               <tr>
                 <td style="font-size: 14px;"><h3 class="p1"><span class="s1">Здравствуйте,
-                    <?=$user->getShortName();?>!</span></h3>
+                    <?=$user->getShortName()?>!</span></h3>
                     <p>Приглашаем вас на главное событие для разработчиков &ndash; конференцию <a href="http://www.msdevcon.ru/" target="_blank">DevCon 2016</a>!</p>
 
 <p>Обратите внимание, что вы можете попасть на конференцию всего за 2490 руб!</p>

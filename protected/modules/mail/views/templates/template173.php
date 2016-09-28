@@ -86,7 +86,7 @@ use user\models\User;
                             <tr>
                                 <td >
                                     <h4 style="margin-top: 20px; margin-bottom: 10px !important; text-align:center; color:#993333; font-size: 14px; font-weight: bold !important;">
-                                        <?=$user->FirstName;?>, здравствуйте!
+                                        <?=$user->FirstName?>, здравствуйте!
                                     </h4>
 
                                     <p >

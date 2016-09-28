@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 До главного события Рунета осени - Russian Internet Week (RIW 2013 www.riw13.com) - остается чуть больше 2 недель.
 
@@ -14,7 +14,7 @@ http://2013.russianinternetweek.ru/invite/
 Спешите зарегистрироваться уже сейчас!
 
 РЕГИСТРАЦИЯ НА RIW 2013:
-<?=$regLink;?>
+<?=$regLink?>
 
 
 

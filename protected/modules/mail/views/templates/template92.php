@@ -1,6 +1,6 @@
 <p align="center"><a href="http://fininternet.ru/?r_source=runet_id_email"><img src="http://runet-id.com/img/mail/2014/fininternet_runet_id_634_250.jpg" /></a></p>
 
-<h2>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h2>
+<h2>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h2>
 
 
 <h3>Кто научит банки продавать в онлайне?</h3>
@@ -14,7 +14,7 @@
 
 <ul>
 <li>Как увеличить средний чек клиента в онлайне и удлинить цикл его «жизни»?</li>
-<li>Cross-sell, up-sell и down-sell в онлайне</li> 
+<li>Cross-sell, up-sell и down-sell в онлайне</li>
 <li>Маркетинг, направленный на удержание клиента</li>
 <li>Программы лояльности</li>
 </ul>

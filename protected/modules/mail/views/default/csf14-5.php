@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Вы – зарегистрированный участник Форума по Кибербезопасности (Cyber Security Forum 2014) – www.CyberSecurityForum.ru
 
@@ -47,7 +47,7 @@ http://runet-id.com/event/csf14/#event_widgets_tabs_Html
 3. Рекомендуем распечатать и взять с собой (либо сохранить на мобильное устройство) Ваш персональный Путевой Лист, он облегчит Вашу процедуру регистрации на месте.
 
 Скачать Ваш Путевой Лист можно по адресу:
-<?=$user->Participants[0]->getTicketUrl();?>
+<?=$user->Participants[0]->getTicketUrl()?>
 
 
 До встречи на Форуме!

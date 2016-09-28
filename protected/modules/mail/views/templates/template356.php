@@ -1,6 +1,6 @@
 <a href="http://digital-raid.ru" target="_blank"><img alt="Digital Рейд" src="http://www.digital-raid.ru/templates/d/images/logoRaid.png" title="Digital Рейд" width="110" /></a>
 
-<p>Здравствуйте, <?=$user->getShortName();?>.</p>
+<p>Здравствуйте, <?=$user->getShortName()?>.</p>
 
 <p>Здравствуйте и спасибо за участие в Digital-рейде 12 марта! Если бы не вы, рейд не смог бы состояться. К счастью, всё получилось и рейд стал очень успешным: 80 участников, 14 докладчиков, полный зал и хорошая обратная связь.</p>
 

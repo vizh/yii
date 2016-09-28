@@ -31,23 +31,23 @@
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #f6f6f6; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#DDECF1" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 30px; margin: 10px 0; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h2>
+		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 30px; margin: 10px 0; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h2>
 		              	<p class="lead" style="font-size: 17px; font-weight: normal; margin: 0 0 10px; padding: 0;">В новом 2016 году Runet-ID рекомендует главные IT-мероприятия.</p>
 		            </td>
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -76,7 +76,7 @@
 <td valign="middle" style="vertical-align: middle; width: 240px; margin: 0; padding: 0;" dir="ltr" class="full">
 								<table class="btn-primary" cellpadding="0" cellspacing="0" border="0" style="width: auto; margin: 15px 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 14px; text-align: center; background: #D85B42; margin: 0; padding: 0;" align="center" bgcolor="#D85B42" valign="top">
-											<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rif16/');?>" style="color: #ffffff; display: inline-block; cursor: pointer; font-weight: bold; line-height: 2; text-decoration: none; background: #D85B42; margin: 0; padding: 0; border-color: #d85b42; border-style: solid; border-width: 10px 20px;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+											<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rif16/')?>" style="color: #ffffff; display: inline-block; cursor: pointer; font-weight: bold; line-height: 2; text-decoration: none; background: #D85B42; margin: 0; padding: 0; border-color: #d85b42; border-style: solid; border-width: 10px 20px;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
 										</td>
 									</tr></table>
 </td>
@@ -91,7 +91,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -122,7 +122,7 @@
 <td valign="middle" style="vertical-align: middle; width: 240px; margin: 0; padding: 0;" dir="ltr" class="full">
 								<table class="btn-primary" cellpadding="0" cellspacing="0" border="0" style="width: auto; margin: 15px 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 14px; text-align: center; background: #D85B42; margin: 0; padding: 0;" align="center" bgcolor="#D85B42" valign="top">
-											<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/csf16/');?>" style="color: #ffffff; display: inline-block; cursor: pointer; font-weight: bold; line-height: 2; text-decoration: none; background: #D85B42; margin: 0; padding: 0; border-color: #d85b42; border-style: solid; border-width: 10px 20px;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+											<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/csf16/')?>" style="color: #ffffff; display: inline-block; cursor: pointer; font-weight: bold; line-height: 2; text-decoration: none; background: #D85B42; margin: 0; padding: 0; border-color: #d85b42; border-style: solid; border-width: 10px 20px;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
 										</td>
 									</tr></table>
 </td>
@@ -137,7 +137,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -167,7 +167,7 @@
 <td valign="middle" style="vertical-align: middle; width: 240px; margin: 0; padding: 0;" dir="ltr" class="full">
 								<table class="btn-primary" cellpadding="0" cellspacing="0" border="0" style="width: auto; margin: 15px 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 14px; text-align: center; background: #D85B42; margin: 0; padding: 0;" align="center" bgcolor="#D85B42" valign="top">
-											<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/svyaz16/');?>" style="color: #ffffff; display: inline-block; cursor: pointer; font-weight: bold; line-height: 2; text-decoration: none; background: #D85B42; margin: 0; padding: 0; border-color: #d85b42; border-style: solid; border-width: 10px 20px;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+											<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/svyaz16/')?>" style="color: #ffffff; display: inline-block; cursor: pointer; font-weight: bold; line-height: 2; text-decoration: none; background: #D85B42; margin: 0; padding: 0; border-color: #d85b42; border-style: solid; border-width: 10px 20px;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
 										</td>
 									</tr></table>
 </td>
@@ -181,7 +181,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -212,7 +212,7 @@
 <td valign="middle" style="vertical-align: middle; width: 240px; margin: 0; padding: 0;" dir="ltr" class="full">
 								<table class="btn-primary" cellpadding="0" cellspacing="0" border="0" style="width: auto; margin: 15px 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 14px; text-align: center; background: #D85B42; margin: 0; padding: 0;" align="center" bgcolor="#D85B42" valign="top">
-											<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/spic2016/');?>" style="color: #ffffff; display: inline-block; cursor: pointer; font-weight: bold; line-height: 2; text-decoration: none; background: #D85B42; margin: 0; padding: 0; border-color: #d85b42; border-style: solid; border-width: 10px 20px;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
+											<a href="<?=$user->getFastauthUrl('http://runet-id.com/event/spic2016/')?>" style="color: #ffffff; display: inline-block; cursor: pointer; font-weight: bold; line-height: 2; text-decoration: none; background: #D85B42; margin: 0; padding: 0; border-color: #d85b42; border-style: solid; border-width: 10px 20px;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
 										</td>
 									</tr></table>
 </td>
@@ -227,7 +227,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>

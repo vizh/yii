@@ -24,17 +24,17 @@
                 <tr>
                   <td style="padding-top: 10px;">
                     <hr size="1" color="#d2d2d2" />
-                  </td> 
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     <table style="width: 100%" cellpadding="0" cellspacing="0">
                       <tr>
                         <td valign="top" style="width: 270px; padding-right: 20px;">
-                          <span style="color: #000000; font-size: 30px; font-weight: bold;"><?=$user->getFullName();?></span><br/><span style="font-size: 12px;"><?=$user->getEmploymentPrimary();?></span>
+                          <span style="color: #000000; font-size: 30px; font-weight: bold;"><?=$user->getFullName()?></span><br/><span style="font-size: 12px;"><?=$user->getEmploymentPrimary()?></span>
                         </td>
                         <td valign="top" style="padding-right: 20px;">
-                          <span style="margin-top: 15px; display: block; width: 120px; text-align: center; padding-top: 5px; padding-bottom: 5px; background-color: #89CCC7; color: #ffffff; text-transform: uppercase;"><?=$role;?></span>
+                          <span style="margin-top: 15px; display: block; width: 120px; text-align: center; padding-top: 5px; padding-bottom: 5px; background-color: #89CCC7; color: #ffffff; text-transform: uppercase;"><?=$role?></span>
                         </td>
                         <td valign="top" style="text-align: center; padding-top: 20px;" align="right">
                           <img src="http://runet-id.com/images/mail/ifresh13/iFresh13_150.png" />
@@ -61,7 +61,7 @@
                 <tr>
                   <td style="padding-top: 10px;">
                     <hr size="1" color="#d2d2d2" />
-                  </td> 
+                  </td>
                 </tr>
                 <tr>
                   <td>

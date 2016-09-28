@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2016/iplce16.png" style="text-align: center; width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Вы получили это письмо, так как зарегистрировались на участие в форуме iPLACE.</p>
 <p>5 апреля мы ждем вас на iPLACE 7 и рады сообщить, что программа полностью сформирована!</p>

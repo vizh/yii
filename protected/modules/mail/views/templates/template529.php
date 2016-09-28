@@ -1,4 +1,4 @@
-<p style="line-height: 20.7999992370605px;">Здравствуйте,&nbsp;<?=$user->getShortName();?>.</p>
+<p style="line-height: 20.7999992370605px;">Здравствуйте,&nbsp;<?=$user->getShortName()?>.</p>
 
 <p style="line-height: 20.7999992370605px;">Вы начали, но не завершили процесс регистрации на СПИК&nbsp;2015, который начинает свою работу уже завтра и пройдет с 28 по 29 мая в гостинице&nbsp;Park Inn by Radisson Pribaltiyskaya (Санкт-Петербург).</p>
 

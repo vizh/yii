@@ -1,4 +1,4 @@
-<h3 style="color: rgb(34, 34, 34); font-family: arial, sans-serif; line-height: normal;"><strong>Добрый вечер,&nbsp;<?=$user->getShortName();?>​!</strong></h3>
+<h3 style="color: rgb(34, 34, 34); font-family: arial, sans-serif; line-height: normal;"><strong>Добрый вечер,&nbsp;<?=$user->getShortName()?>​!</strong></h3>
 
 <h3 style="color: rgb(34, 34, 34); font-family: arial, sans-serif; line-height: normal;"><br />
 Напоминаем, начало конференции &ndash; завтра в 9:30 утра в МИСиС по адресу: Москва, Ленинский просп., дом 4.&nbsp;</h3>

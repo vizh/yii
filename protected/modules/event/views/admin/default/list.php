@@ -15,7 +15,7 @@
   </div>
   <div class="well">
 
-    <?if (!empty($events)):?>
+    <?if(!empty($events)):?>
       <table class="table">
         <thead>
         <tr>
@@ -27,23 +27,23 @@
         </tr>
         </thead>
         <tbody>
-        <?foreach ($events as $event):?>
+        <?foreach($events as $event):?>
           <tr>
-            <td><?=$event->IdName;?></td>
-            <td><img src="<?=$event->getLogo()->getSquare70();?>" alt=""></td>
-            <td><?=$event->Title;?></td>
+            <td><?=$event->IdName?></td>
+            <td><img src="<?=$event->getLogo()->getSquare70()?>" alt=""></td>
+            <td><?=$event->Title?></td>
             <td>
-              <?$this->renderPartial('dates', array('event' => $event));?>
+              <?$this->renderPartial('dates', array('event' => $event))?>
             </td>
             <td>
               <a href="user.html"><i class="icon-pencil"></i></a>
               <a data-toggle="modal" role="button" href="#myModal"><i class="icon-remove"></i></a>
             </td>
           </tr>
-        <?endforeach;?>
+        <?endforeach?>
         </tbody>
       </table>
-    <?endif;?>
+    <?endif?>
   </div>
   <div class="pagination">
     <ul>

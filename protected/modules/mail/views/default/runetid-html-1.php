@@ -40,7 +40,7 @@
 	                  					<td width="20"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="20" height="1"></div></td>
 						                  <td style="line-height:15px; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#020202">
 						                  	<p>Создание, развитие и поддержка бизнеса в интернете, мобильные технологии, интегрированные и маркетинговые коммуникации, социальные медиа и digital marketing, оптимизация, бизнес-технологии, электронная коммерция – с северо-западным акцентом.</p>
-						                  	
+
 						                  </td>
 						                  <td width="20"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="20" height="1"></div></td>
 						                </tr>
@@ -58,7 +58,7 @@
 						      	<table>
 						      		<tr>
 						      			<td style="background: #C71C31; text-align: center; width: 150px; height: 40px; padding: 10px 0;">
-						      				<span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$regLink;?>">Регистрация</a></span>
+						      				<span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$regLink?>">Регистрация</a></span>
 						      			</td>
 												<td style="width: 15px;"></td>
 						      			<td style="background: #3F8944; text-align: center; width: 190px; height: 40px; padding: 10px 0;">
@@ -114,7 +114,7 @@
 						      	<table>
 						      		<tr>
 						      			<td style="background: #C71C31; text-align: center; width: 150px; height: 40px; padding: 10px 0;">
-						      				<span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->getFastauthUrl('http://runet-id.com/event/riw13/');?>">Регистрация</a></span>
+						      				<span style="font-family:Arial, Helvetica, sans-serif; font-size:18px;"><a style="color:#ffffff; text-decoration: none;" href="<?=$user->getFastauthUrl('http://runet-id.com/event/riw13/')?>">Регистрация</a></span>
 						      			</td>
 												<td style="width: 15px;"></td>
 						      			<td style="background: #3F8944; text-align: center; width: 190px; height: 40px; padding: 10px 0;">
@@ -183,7 +183,7 @@
 					<tr><td width="1" height="15"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="15"></div></td></tr>
 					<tr><td height="1"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/line.gif" width="100%" height="1"></div></td></tr>
 					<tr><td width="1" height="20"><div style="line-height:0;"><img src="http://runet-id.com/images/mailing/common/blank.gif" width="1" height="20"></div></td></tr>
-					
+
 					<tr>
 						<td>
 					    <table width="750" align="center" cellpadding="0" cellspacing="0" style="border-collapse:collapse;" border="0">

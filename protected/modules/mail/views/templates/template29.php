@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/images/mail/dg14/header-bg-1.png"></p>
 
-<h2>Здравствуйте,&nbsp;<?=$user->getShortName();?>!</h2>
+<h2>Здравствуйте,&nbsp;<?=$user->getShortName()?>!</h2>
 
 <p>4 марта 2014 года в Москве состоится первая ежегодная конференция, посвященная рынку цифровых товаров и их дистрибуции в сети Интернет &ndash; <strong>Digital Goods 2014</strong>.</p>
 
@@ -17,4 +17,4 @@
 	<li><a href="http://dgconf.com/partners/vtb24/">Специальные условия</a> для участников Digital Goods <strong>от банка ВТБ24</strong></li>
 </ul>
 
-<p><a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/dg14/');?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 250px;">Оплата участия</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/dg14/')?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 250px;">Оплата участия</a></p>

@@ -1,6 +1,6 @@
 <div style="text-align: center;">
 <div style="text-align: left; margin: 20px auto; width: 520px;">
-<h3>Здравствуйте, <?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>.</h3>
 
 <p><strong>Работа по&nbsp;формированию списков победителей и&nbsp;призёров во&nbsp;всех номинациях завершена.</strong> Представители компаний-участников, занявших <nobr>1-3</nobr> места в&nbsp;номинациях и&nbsp;получивших дополнительные призы, приглашены на&nbsp;Церемонию награждения.</p>
 

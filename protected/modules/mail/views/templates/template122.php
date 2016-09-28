@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/img/mail/2014/20140907-meetmegento14.jpg" border="0" style="border: 0; height: auto; width: 100%;" /></p>
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Meet Magento Russia - это знаковое для российской аудитории событие в сфере электронной коммерции, т.к конференция является крупнейшим и единственным мероприятием по Magento в России.&nbsp;</p>
 
@@ -25,7 +25,7 @@
 
 <table style="border: 0; width: 100%;">
 	<tr>
-		<td align="right"><a href="<?=$user->getFastauthUrl('/event/meetmagento14/');?>" style="display: block; text-decoration: none; background: #FC8D00; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 200px;">Регистрация</a></td>
+		<td align="right"><a href="<?=$user->getFastauthUrl('/event/meetmagento14/')?>" style="display: block; text-decoration: none; background: #FC8D00; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 200px;">Регистрация</a></td>
 		<td></td>
 		<td align="left"><a href="http://ru.meet-magento.com/agenda-2014/" style="display: block; text-decoration: none; background: #379EBC; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 200px;">Программа</a></td>
 	</tr>

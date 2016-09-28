@@ -15,14 +15,14 @@ use user\models\User;
 use event\models\Event;
 use application\components\utility\Texts;
 ?>
-<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
-    <?=\CHtml::link('<span class="btn-label fa fa-plus"></span> ' . \Yii::t('app', 'Добавить участника'), ['find'], ['class' => 'btn btn-primary btn-labeled']);?>
-<?php $this->endClip();?>
+<?$this->beginClip(Controller::PAGE_HEADER_CLIP_ID)?>
+    <?=\CHtml::link('<span class="btn-label fa fa-plus"></span> ' . \Yii::t('app', 'Добавить участника'), ['find'], ['class' => 'btn btn-primary btn-labeled'])?>
+<?$this->endClip()?>
 
 
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-group"></i> <?=\Yii::t('app', 'Участники');?></span>
+        <span class="panel-title"><i class="fa fa-group"></i> <?=\Yii::t('app', 'Участники')?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
         <div class="table-info">
@@ -174,7 +174,7 @@ use application\components\utility\Texts;
                         'updateButtonUrl' => 'Yii::app()->controller->createUrl("edit",["id" => $data->RunetId])'
                     ]
                 ]
-            ]);?>
+            ])?>
         </div>
     </div> <!-- / .panel-body -->
 </div>

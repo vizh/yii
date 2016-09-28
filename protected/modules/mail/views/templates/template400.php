@@ -1,4 +1,4 @@
-<p>Привет, <?=$user->getShortName();?>!</p>
+<p>Привет, <?=$user->getShortName()?>!</p>
 
 <p>Напоминаем, что вы&nbsp;входите в&nbsp;состав жюри конкурса &laquo;Золотое приложение&raquo;. Члены жюри имеют право на&nbsp;20% скидку при подаче работ с&nbsp;промокодом <strong>GOLDENJURY</strong>.</p>
 

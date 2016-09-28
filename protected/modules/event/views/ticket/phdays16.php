@@ -123,26 +123,26 @@ use event\models\Participant;
     </div>
     <div class="bg-black text-white" style="margin-top: .5mm; padding: 5mm;">
         <div style="font-size: 6mm;">
-            <div><?= $user->LastName ?></div>
-            <div><?= $user->FirstName ?></div>
+            <div><?=$user->LastName?></div>
+            <div><?=$user->FirstName?></div>
             <div style="margin-top: 4mm;">
-                <? if ($user->getEmploymentPrimary() !== null): ?>
-                    <?= $user->getEmploymentPrimary()->Company->Name ?>
-                <? else: ?>
+                <?if ($user->getEmploymentPrimary() !== null):?>
+                    <?=$user->getEmploymentPrimary()->Company->Name?>
+                <?else:?>
                     &nbsp;
-                <? endif ?>
+                <?endif?>
             </div>
         </div>
         <table width="100%" class="text-white" style="margin-top: 4mm;">
             <tr>
                 <td valign="bottom" style="font-size: 3mm;">
-                    <? if (is_array($participant)): ?>
-                        <? foreach ($participant as $item): ?>
-                            <strong><?= $item->Part->Title ?>:</strong> <?= $item->Role->Title == 'Участник' ? 'Participant' : $item->Role->Title ?><br>
-                        <? endforeach; ?>
-                    <? else: ?>
-                        <?= $participant->Role->Title; ?>
-                    <? endif; ?>
+                    <?if (is_array($participant)):?>
+                        <?foreach($participant as $item):?>
+                            <strong><?=$item->Part->Title?>:</strong> <?=$item->Role->Title == 'Участник' ? 'Participant' : $item->Role->Title?><br>
+                        <?endforeach?>
+                    <?else:?>
+                        <?=$participant->Role->Title?>
+                    <?endif?>
                 </td>
                 <td align="right">
                     <img src="/img/event/phdays16/wtc_logo.png" width="18mm" alt="">
@@ -153,10 +153,10 @@ use event\models\Participant;
     <table width="100%" style="margin-top: 6mm" cellpadding="0" cellspacing="0">
         <tr>
             <td valign="middle" align="left" style="color: #6C6D70; font-size: 14mm; padding-left: 5mm;" width="70%">
-                <strong><?= $user->RunetId; ?></strong>
+                <strong><?=$user->RunetId?></strong>
             </td>
             <td valign="middle" align="right" style="padding-right: 5mm;" width="30%">
-                <?= \CHtml::image(QrCode::getAbsoluteUrl($user, 90)); ?>
+                <?=\CHtml::image(QrCode::getAbsoluteUrl($user, 90))?>
             </td>
         </tr>
     </table>

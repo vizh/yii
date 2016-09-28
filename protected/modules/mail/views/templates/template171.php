@@ -14,13 +14,13 @@ $mbltDevRegLink = sprintf('http://mbltdev.ru/?RunetId=%s&Hash=%s', $user->RunetI
 $RiwLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 
 ?>
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p style="font-size: 120%;">Представляем вашему вниманию очередную подборку мероприятий ИТ-отрасли, спланируйте свое посещение заранее!</p>
 
 <hr style="border: 0; border-top: 1px solid #DDDDDD; height: 1px; margin: 50px 0; width: 100%;" />
 
-<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">	
+<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">
 	<tr>
 		<td style="border: 0; padding: 10px; vertical-align: top;">
 			<h1>Семинар тренинг<br/>&laquo;Digital-рейд: КАЗАНЬ&raquo;</h1>
@@ -44,7 +44,7 @@ $RiwLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 			<b>Принять участие в &laquo;Digital-рейд: КАЗАНЬ&raquo;</b>
 		</td>
 		<td style="background: #E1F4FD; border: 0; padding: 15px 10px; text-align: center; vertical-align: middle; width: 200px;">
-			<a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/digitalkazan14/');?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
+			<a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/digitalkazan14/')?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
 		</td>
 	</tr>
 </table>
@@ -90,7 +90,7 @@ $RiwLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 
 <hr style="border: 0; border-top: 1px solid #DDDDDD; height: 1px; margin: 50px 0; width: 100%;" />
 
-<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">	
+<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">
 	<tr>
 		<td style="border: 0; padding: 10px; vertical-align: top;">
 			<h1>Конференция<br/>&laquo;Формула интернет-торговли&raquo;</h1>
@@ -131,7 +131,7 @@ $RiwLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 
 <hr style="border: 0; border-top: 1px solid #DDDDDD; height: 1px; margin: 50px 0; width: 100%;" />
 
-<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">	
+<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">
 	<tr>
 		<td style="border: 0; padding: 10px; vertical-align: top;">
 			<h1>Конкурс премия<br/>&laquo;Премия Рунета 2014&raquo;</h1>
@@ -155,14 +155,14 @@ $RiwLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 			<b>Принять участие в &laquo;Премия Рунета 2014&raquo;</b>
 		</td>
 		<td style="background: #E1F4FD; border: 0; padding: 15px 10px; text-align: center; vertical-align: middle; width: 200px;">
-			<a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/premiaru14/');?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
+			<a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/premiaru14/')?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
 		</td>
 	</tr>
 </table>
 
 <hr style="border: 0; border-top: 1px solid #DDDDDD; height: 1px; margin: 50px 0; width: 100%;" />
 
-<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">	
+<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">
 	<tr>
 		<td style="border: 0; padding: 10px; vertical-align: top;">
 			<h1>Конференция<br/>Бизнес-завтрак – Правовое регулирование телеком-отрасли: итоги 2014 года</h1>
@@ -186,14 +186,14 @@ $RiwLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 			<b>Принять участие в конференции Бизнес-завтрак – Правовое регулирование телеком-отрасли: итоги 2014 года</b>
 		</td>
 		<td style="background: #E1F4FD; border: 0; padding: 15px 10px; text-align: center; vertical-align: middle; width: 200px;">
-			<a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/kombreak14/');?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
+			<a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/kombreak14/')?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
 		</td>
 	</tr>
 </table>
 
 <hr style="border: 0; border-top: 1px solid #DDDDDD; height: 1px; margin: 50px 0; width: 100%;" />
 
-<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">	
+<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">
 	<tr>
 		<td style="border: 0; padding: 10px; vertical-align: top;">
 			<h1>Конференция<br/>Интернет и Бизнес. Россия 2014</h1>
@@ -227,7 +227,7 @@ $RiwLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 
 <hr style="border: 0; border-top: 1px solid #DDDDDD; height: 1px; margin: 50px 0; width: 100%;" />
 
-<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">	
+<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">
 	<tr>
 		<td style="border: 0; padding: 10px; vertical-align: top;">
 			<h1>Конференция<br/>Google-премия для молодых предпринимателей (в рамках GSEA-2014)</h1>
@@ -240,7 +240,7 @@ $RiwLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 		<td style="border: 0; padding: 10px; vertical-align: top;">
 			<p>В этом году премия GSEA вышла за рамки обычного конкурса и стала крупной networking-площадкой для интернет-проектов. Помимо финала премии GSEA и вручения специального приза от Google, в этом году пройдет конференция GSEA &laquo;Бизнес-герои: технологии взрывного роста&raquo;.</p>
 			<p>Молодые предприниматели,  мэтры российского бизнеса, топ-менеджеры крупных компаний и бизнес-эксперты обсудят, как жить предпринимателям в России в эпоху нестабильностей.</p>
-			
+
 		</td>
 		<td style="border: 0; padding: 10px; vertical-align: top; width: 200px;">
 			<h4>4 декабря 2014 г.</h4>
@@ -252,7 +252,7 @@ $RiwLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 
 <hr style="border: 0; border-top: 1px solid #DDDDDD; height: 1px; margin: 50px 0; width: 100%;" />
 
-<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">	
+<table style="border: 0; border-collapse: collapse; margin: 25px 0; width: 100%;">
 	<tr>
 		<td style="border: 0; padding: 10px; vertical-align: top;">
 			<h1>Конференция<br/>&laquo;Hello, Blogger!&raquo;</h1>
@@ -263,7 +263,7 @@ $RiwLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 	</tr>
 	<tr>
 		<td style="border: 0; padding: 10px; vertical-align: top;">
-			<p>Главная задача конференции — показать широкой общественности, насколько плотно интернет-продвижение и реклама в целом связана с блогосферой и нишевыми социальными сетями.</p>			
+			<p>Главная задача конференции — показать широкой общественности, насколько плотно интернет-продвижение и реклама в целом связана с блогосферой и нишевыми социальными сетями.</p>
 		</td>
 		<td style="border: 0; padding: 10px; vertical-align: top; width: 200px;">
 			<h4>10 декабря 2014 г.</h4>
@@ -276,7 +276,7 @@ $RiwLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(
 			<b>Принять участие в &laquo;Hello, Blogger!&raquo;</b>
 		</td>
 		<td style="background: #E1F4FD; border: 0; padding: 15px 10px; text-align: center; vertical-align: middle; width: 200px;">
-			<a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/hb14/');?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
+			<a href="<?=$user->getFastauthUrl('http://pay.runet-id.com/register/hb14/')?>" style="display: inline-block; background: #3B3B3B; color: #ffffff; padding: 10px 20px; border-radius: 4px; border-top: 1px solid #737373; border-left: 1px solid #737373; text-decoration: none;">Регистрация</a>
 		</td>
 	</tr>
 </table>

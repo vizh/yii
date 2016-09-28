@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
@@ -23,22 +23,22 @@
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #f6f6f6; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#f6f6f6" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h2>
+		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h2>
 		            </td>
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -58,32 +58,32 @@
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		      <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-					
+
 					<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Вы зарегистрированы в качестве участника Russian Interactive Week – <b style="margin: 0; padding: 0;">RIW 2015</b>, который пройдёт с 21 по 23 октября в Москве.</p>
 					<h3 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 22px; margin: 10px 0; padding: 0;">RIW 2015 это:</h3>
 					<ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Выставка про Интернет, Медиа, Телеком и Софт</strong> — интересная как для пользователей, так и для специалистов</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Конференция</strong>: за 3 дня в 10 параллельных потоках выступят более 700 спикеров, представляющих все темы отрасли высоких технологий; конференция представлена Общей и Профессиональной программами</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Конкурсы, награды, премии и вечерние развлекательные мероприятия — RIW.Night</strong></p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Внепрограммные мероприятия и акции от организаторов и партнеров</strong></p>
 						</li>
 					</ul>
 <p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">В эти дни в <strong style="margin: 0; padding: 0;">Экспоцентре</strong> соберутся представители сотен крупнейших российских и мировых IT-компаний, десятки стартапов, тысячи специалистов и десятки тысяч посетителей выставки, сотни докладчиков и экспертов, представители государства, СМИ, студенты профильных ВУЗов и даже школьники!</p>
-					
+
 					<div class="border center" style="text-align: center; margin: 0 0 15px; padding: 25px 25px 15px; border: 1px solid #d65c47;" align="center">
 						<table style="text-align: left; width: auto; margin: 15px auto; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td valign="middle" width="45" style="vertical-align: top; margin: 0; padding: 10px;">
 									<img src="http://showtime.s3.amazonaws.com/201506081226-badge_icon.png" style="margin: 0; padding: 0;">
 </td>
 								<td valign="middle" style="vertical-align: top; margin: 0; padding: 10px 0 0;">
-									Ваш статус:<br style="margin: 0; padding: 0;"><strong style="font-size: 180%; margin: 0; padding: 0;"><?=$user->Participants[0]->Role->Title;?></strong>
+									Ваш статус:<br style="margin: 0; padding: 0;"><strong style="font-size: 180%; margin: 0; padding: 0;"><?=$user->Participants[0]->Role->Title?></strong>
 								</td>
 							</tr></table>
 <p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><small style="margin: 0; padding: 0;"><b style="margin: 0; padding: 0;">Вы имеете максимальный уровень доступа на все площадки RIW 2015 (включая выставку RIW и Softool, все конференц-залы трехдневной программы RIW, Бизнес-зону).</b></small></p>
@@ -233,7 +233,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -241,7 +241,7 @@
 <!-- /body --><!-- unboxed --><table class="unboxed-wrap" bgcolor="#f6f6f6" style="clear: both !important; width: 100%; margin: 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
@@ -257,7 +257,7 @@
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>

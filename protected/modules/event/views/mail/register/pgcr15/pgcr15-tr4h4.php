@@ -4,11 +4,11 @@
  */
 ?>
 
-<p>Добрый день,&nbsp;<?=$user->getShortName();?>!</p>
+<p>Добрый день,&nbsp;<?=$user->getShortName()?>!</p>
 
 <p>Вы зарегистрированы на мероприятие&nbsp;PGCONF.RUSSIA 2015!</p>
 
-<p>Ваш статус:&nbsp;<?=$role->Title;?> - <strong>данный статус не даёт право участия в конференции.&nbsp;</strong></p>
+<p>Ваш статус:&nbsp;<?=$role->Title?> - <strong>данный статус не даёт право участия в конференции.&nbsp;</strong></p>
 
 <div style="text-align: center; background: #F0F0F0; border: 2px dashed #FFF; padding: 10px;">
 <p style="margin-bottom: 5px">Пожалуйста, оплатите своё&nbsp;участие для получения полноценного статуса:</p>

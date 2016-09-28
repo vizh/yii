@@ -1,4 +1,4 @@
-<h3>Добрый день, <?=$user->getShortName();?>!&nbsp;</h3>
+<h3>Добрый день, <?=$user->getShortName()?>!&nbsp;</h3>
 
 <p>Уже через неделю &ndash; 25 сентября 2014 года &ndash; в г.Ялте состоится большое интернет-событие &ndash; конференция РИФ-Крым 2014.</p>
 
@@ -25,7 +25,7 @@
 
 <p>Участие в конференции &ndash; БЕСПЛАТНОЕ, при условии обязательной регистрации.&nbsp;</p>
 
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rif-crimea14/');?>" class="btn" style="width: 250px;display: inline-block;text-decoration: none;background: #FA9400;color: #FFFFFF;font-size: 16px;border-radius: 3px;margin: 10px auto 0;padding: 16px;line-height: 14px;text-align: center;text-transform: uppercase;">Регистрация »</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rif-crimea14/')?>" class="btn" style="width: 250px;display: inline-block;text-decoration: none;background: #FA9400;color: #FFFFFF;font-size: 16px;border-radius: 3px;margin: 10px auto 0;padding: 16px;line-height: 14px;text-align: center;text-transform: uppercase;">Регистрация »</a></p>
 
 <p><em>--<br />
 С уважением,&nbsp;<br />

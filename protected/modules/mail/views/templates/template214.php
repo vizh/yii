@@ -68,7 +68,7 @@
                             <tbody>
                             <tr>
                                 <td style="padding:23px 34px;" width="600">
-                                    <h4 style="margin-top: 20px; margin-bottom: 10px !important; color:#993333; font-size: 15px; font-weight: bold !important;"><!--?=$user---><?=$user->getShortName();?>, здравствуйте!</h4>
+                                    <h4 style="margin-top: 20px; margin-bottom: 10px !important; color:#993333; font-size: 15px; font-weight: bold !important;"><!--?=$user---><?=$user->getShortName()?>, здравствуйте!</h4>
 
                                     <p style="font-size: 14px;">Мы благодарим вас за участие в конференции Office 365 Summit и рады пригласить вас на новое кросс-индустриальное мероприятие <a href="http://events.techdays.ru/appday/2014-11/">Russian App Day</a> про мобильные и облачные технологии в России на специальных условиях! Мы уверены, что данное мероприятие будет вам интересно!</p>
 

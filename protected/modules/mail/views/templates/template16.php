@@ -13,7 +13,7 @@
 							<tbody>
 								<tr>
 									<td>
-									<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+									<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 									<p>До начала конференции <a href="http://www.alm-summit.ru/">ALM Summit</a> осталась неделя, поэтому мы спешим напомнить вам о самом главном!</p>
 

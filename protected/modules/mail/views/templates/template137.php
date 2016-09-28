@@ -1,5 +1,5 @@
 ​
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p>Вы &ndash; зарегистрированный участник конференции&nbsp;<a href="http://РИФ-Крым.рф">РИФ-Крым 2014</a>.</p>
 
@@ -37,5 +37,5 @@
 <div style="text-align: center; border: 2px dashed rgb(255, 255, 255); padding: 10px; background: rgb(240, 240, 240);">
 <p style="margin-bottom: 5px;">Пожалуйста, сохраните на телефон или распечатайте ваш электронный билет:</p>
 
-<p style="margin-top: 0px;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="color: rgb(255, 255, 255); text-decoration: none; font-weight: bold; cursor: pointer; display: inline-block; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; text-transform: uppercase; margin: 0px 10px 0px 0px; padding: 0px; border-color: rgb(52, 142, 218); border-style: solid; border-width: 10px 40px; background-color: rgb(52, 142, 218);" target="_blank">РАСПЕЧАТАТЬ ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
+<p style="margin-top: 0px;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="color: rgb(255, 255, 255); text-decoration: none; font-weight: bold; cursor: pointer; display: inline-block; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; text-transform: uppercase; margin: 0px 10px 0px 0px; padding: 0px; border-color: rgb(52, 142, 218); border-style: solid; border-width: 10px 40px; background-color: rgb(52, 142, 218);" target="_blank">РАСПЕЧАТАТЬ ЭЛЕКТРОННЫЙ БИЛЕТ</a></p>
 </div>

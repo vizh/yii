@@ -18,17 +18,17 @@ $clientScript->registerScript('init', '
 ', CClientScript::POS_HEAD);
 ?>
 <div ng-controller="UserEditController">
-    <?= $this->renderPartial('edit/info', [
+    <?=$this->renderPartial('edit/info', [
         'user' => $form->getActiveRecord(),
         'event' => $this->getEvent(),
         'photoForm' => $photoForm
-    ]) ?>
+    ])?>
 
     <div class="panel panel-warning" ng-if="data">
         <div class="panel-heading">
             <span class="panel-title">
                 <i class="fa fa-list-alt"></i>
-                <?= Yii::t('app', 'Атрибуты пользователей') ?>
+                <?=Yii::t('app', 'Атрибуты пользователей')?>
             </span>
         </div>
 
@@ -50,7 +50,7 @@ $clientScript->registerScript('init', '
                     <div class="btn-group btn-group-xs">
                         <button class="btn" ng-class="{'btn btn-success' : row.edit, 'btn' : !row.edit}"
                                 ng-click="updateDataValues(row)" type="button">{{!row.edit ?
-                            '<?= Yii::t('app', 'Редактировать') ?>' : '<?= Yii::t('app', 'Сохранить') ?>'}}
+                            '<?=Yii::t('app', 'Редактировать')?>' : '<?=Yii::t('app', 'Сохранить')?>'}}
                         </button>
                     </div>
                     <div class="{{row.class ? 'text-' + row.class : '' }}" ng-if="row.class">
@@ -67,7 +67,7 @@ $clientScript->registerScript('init', '
             <div class="panel-heading">
                 <span class="panel-title">
                     <i class="fa fa-list-alt"></i>
-                    <?= Yii::t('app', 'Отметки интерактивных стендов') ?>
+                    <?=Yii::t('app', 'Отметки интерактивных стендов')?>
                 </span>
             </div>
 
@@ -75,8 +75,8 @@ $clientScript->registerScript('init', '
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th><?= Yii::t('app', 'Время') ?></th>
-                        <th><?= Yii::t('app', 'Метка') ?></th>
+                        <th><?=Yii::t('app', 'Время')?></th>
+                        <th><?=Yii::t('app', 'Метка')?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,10 +97,10 @@ $clientScript->registerScript('init', '
             <span class="panel-title">&nbsp;</span>
             <ul class="nav nav-tabs nav-tabs-xs nav-tabs-left">
                 <li class="active">
-                    <a href="#user-participant" data-toggle="tab"><?= Yii::t('app', 'Роль на мероприятии') ?></a>
+                    <a href="#user-participant" data-toggle="tab"><?=Yii::t('app', 'Роль на мероприятии')?></a>
                 </li>
                 <li ng-if="products.length > 0">
-                    <a href="#user-products" data-toggle="tab"><?= Yii::t('app', 'Опции') ?></a>
+                    <a href="#user-products" data-toggle="tab"><?=Yii::t('app', 'Опции')?></a>
                 </li>
             </ul>
         </div>
@@ -112,7 +112,7 @@ $clientScript->registerScript('init', '
                         <label class="control-label"
                                ng-if="participant.Title != undefined">{{participant.Title}}</label>
                         <select class="form-control" ng-model="participant.role"
-                                ng-options='role.Id as role.Title for role in <?= $form->getRoleDataJson() ?>'>
+                                ng-options='role.Id as role.Title for role in <?=$form->getRoleDataJson()?>'>
                             <option value="">Роль не задана</option>
                         </select>
 
@@ -136,10 +136,10 @@ $clientScript->registerScript('init', '
 </div>
 
 
-<?php $this->beginWidget('application\widgets\bootstrap\Modal', [
+<?$this->beginWidget('application\widgets\bootstrap\Modal', [
     'id' => 'participant-message',
     'header' => 'Укажите комментарий',
     'footer' => \CHtml::button(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary'])
-]) ?>
+])?>
     <textarea class="form-control"></textarea>
-<?php $this->endWidget(); ?>
+<?$this->endWidget()?>

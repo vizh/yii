@@ -130,11 +130,11 @@ if (is_array($participant)) {
     </div>
     <div style="background: #2F363E; padding: 5mm;" class="text-white">
         <div style="font-size: 8mm;">
-            <?= $user->LastName; ?><br>
-            <?= $user->FirstName; ?>
+            <?=$user->LastName?><br>
+            <?=$user->FirstName?>
         </div>
         <div class="text-uppercase" style="margin-top: 30mm;">
-            <?= $participant->Role->Title ?>
+            <?=$participant->Role->Title?>
         </div>
     </div>
     <div class="text-center" style="background: #E7E7E7; padding: 2mm 5mm; font-size: 3.6mm;">
@@ -142,9 +142,9 @@ if (is_array($participant)) {
     </div>
     <div style="border-left: .3mm solid #ECECEC; border-right: .3mm solid #ECECEC; padding: 2mm 5mm;">
         <div style="padding: 5mm 0;" class="text-center">
-            <barcode code="<?= $user->RunetId; ?>" type="C128A" size="1" height="1"/>
+            <barcode code="<?=$user->RunetId?>" type="C128A" size="1" height="1"/>
             <br>
-            <div style="font-size: 3mm;"><?= $user->RunetId; ?></div>
+            <div style="font-size: 3mm;"><?=$user->RunetId?></div>
         </div>
         <div class="text-center text-orange">
             При входе в здание с Вашего билета <br> будет считываться штрих-код
@@ -201,7 +201,7 @@ $data = \event\models\UserData::getDefinedAttributeValues($event, $user);
 if ($data['Parking'] == 1):?>
 
     <pagebreak />
-    
+
     <div class="root-col-4 rotate" style="top: 5mm;">
         <div class="text-center text-white root-round-top bg-orange text-uppercase" style="padding: 3mm 0; font-size: 5mm;">
             Парковочный билет
@@ -227,11 +227,11 @@ if ($data['Parking'] == 1):?>
         </div>
         <div style="background: #2F363E; padding: 5mm;" class="text-white">
             <div style="font-size: 8mm;">
-                <?= $user->LastName; ?><br>
-                <?= $user->FirstName; ?>
+                <?=$user->LastName?><br>
+                <?=$user->FirstName?>
             </div>
             <div class="text-uppercase" style="margin-top: 30mm;">
-                <?= $participant->Role->Title ?>
+                <?=$participant->Role->Title?>
             </div>
         </div>
         <div class="text-center" style="background: #E7E7E7; padding: 2mm 5mm; font-size: 3.6mm;">
@@ -239,9 +239,9 @@ if ($data['Parking'] == 1):?>
         </div>
         <div style="border-left: .3mm solid #ECECEC; border-right: .3mm solid #ECECEC; padding: 2mm 5mm;">
             <div style="padding: 5mm 0;" class="text-center">
-                <barcode code="<?= $user->RunetId; ?>" type="C128A" size="1" height="1"/>
+                <barcode code="<?=$user->RunetId?>" type="C128A" size="1" height="1"/>
                 <br>
-                <div style="font-size: 3mm;"><?= $user->RunetId; ?></div>
+                <div style="font-size: 3mm;"><?=$user->RunetId?></div>
             </div>
             <div class="text-center text-orange">
                 При входе в здание с Вашего билета <br> будет считываться штрих-код
@@ -293,4 +293,4 @@ if ($data['Parking'] == 1):?>
         <div class="root-round-bottom" style="padding: 4mm 0 0; background: #2F363E;"></div>
     </div>
 
-<?php endif;?>
+<?endif?>

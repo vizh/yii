@@ -24,7 +24,7 @@
 </div>
 <div class="row">
     <div class="span8 text-center">
-        <p class="lead" style="font-weight: bold;"><?=$form->getTitle();?></p>
+        <p class="lead" style="font-weight: bold;"><?=$form->getTitle()?></p>
     </div>
 </div>
 <p class="lead"><a href="http://open.gov.ru/" target="_blank">Открытое правительство</a> совместно с <a href="http://raec.ru/" target="_blank">Российской ассоциацией электронных коммуникаций</a> при поддержке <a href="http://runet-id.com" target="_blank">RUNET-ID</a> проводит опрос с целью получения независимой оценки качества официальных интернет-сайтов федеральных органов исполнительной власти. Для этого просим вас посетить один из ресурсов ФОИВ и затем ответить на несколько вопросов. Заполнение анкеты займет 5-7 минут.</p>

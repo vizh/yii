@@ -16,30 +16,30 @@ foreach ($products as $product)
   </div>
 </div>
 
-<?if (!empty($result)):?>
+<?if(!empty($result)):?>
   <div class="row">
     <div class="span10">
       <div class="alert alert-success">
         <br>
-        <code><?=$result;?></code>
+        <code><?=$result?></code>
         <br>&nbsp;
       </div>
     </div>
   </div>
-<?endif;?>
+<?endif?>
 
 <div class="row">
   <div class="span10 offset1">
-    <?=CHtml::beginForm();?>
+    <?=CHtml::beginForm()?>
 
     <div class="control-group">
-      <?=CHtml::label('Тип товара:', 'product');?>
-      <?=CHtml::dropDownList('product', 0, $data);?>
+      <?=CHtml::label('Тип товара:', 'product')?>
+      <?=CHtml::dropDownList('product', 0, $data)?>
     </div>
 
     <div class="control-group">
-      <?=CHtml::label('Количество:', 'count');?>
-      <?=CHtml::textField('count', '', ['placeholder' => 1]);?>
+      <?=CHtml::label('Количество:', 'count')?>
+      <?=CHtml::textField('count', '', ['placeholder' => 1])?>
     </div>
 
     <div class="control-group">
@@ -47,6 +47,6 @@ foreach ($products as $product)
     </div>
 
 
-    <?=CHtml::endForm();?>
+    <?=CHtml::endForm()?>
   </div>
 </div>

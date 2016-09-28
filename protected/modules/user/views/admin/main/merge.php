@@ -7,14 +7,14 @@ use application\helpers\Flash;
 
 $this->setPageTitle('Объединение пользователей');
 ?>
-<?=\CHtml::beginForm(['merge'], 'GET');?>
+<?=\CHtml::beginForm(['merge'], 'GET')?>
     <div class="btn-toolbar">
-        <?=\CHtml::submitButton('Объединить', ['class' => 'btn btn-success']);?>
+        <?=\CHtml::submitButton('Объединить', ['class' => 'btn btn-success'])?>
     </div>
     <div class="well">
-        <?=Flash::html();?>
+        <?=Flash::html()?>
         <div class="control-group">
-            <?=\CHtml::label('Основной RUNET&ndash;ID', '',['class' => 'control-label']);?>
+            <?=\CHtml::label('Основной RUNET&ndash;ID', '',['class' => 'control-label'])?>
             <div class="controls">
                 <?$this->widget('zii.widgets.jui.CJuiAutoComplete', [
                     'name' => 'idPrimary',
@@ -24,11 +24,11 @@ $this->setPageTitle('Объединение пользователей');
                     ],
                     'scriptFile' => false,
                     'cssFile' => false
-                ]);?>
+                ])?>
             </div>
         </div>
         <div class="control-group">
-            <?=\CHtml::label('Дубль RUNET&ndash;ID', '', ['class' => 'control-label']);?>
+            <?=\CHtml::label('Дубль RUNET&ndash;ID', '', ['class' => 'control-label'])?>
             <div class="controls">
                 <?$this->widget('zii.widgets.jui.CJuiAutoComplete', [
                     'name' => 'idSecond',
@@ -38,9 +38,9 @@ $this->setPageTitle('Объединение пользователей');
                     ],
                     'scriptFile' => false,
                     'cssFile' => false
-                ]);?>
+                ])?>
             </div>
         </div>
     </div>
-<?=\CHtml::endForm();?>
+<?=\CHtml::endForm()?>
 

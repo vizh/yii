@@ -13,36 +13,36 @@
 </style>
 
 <h3>Ваша контактная информация</h3>
-<?php $this->widget('competence\components\ErrorsWidget', array('question' => $question));?>
+<?$this->widget('competence\components\ErrorsWidget', array('question' => $question))?>
 <div class="form-horizontal">
   <div class="control-group">
     <label class="control-label">Рабочий телефон </label>
     <div class="controls">
-      <?=CHtml::activeTextField($question, 'work_phone');?>
+      <?=CHtml::activeTextField($question, 'work_phone')?>
     </div>
   </div>
   <div class="control-group">
     <label class="control-label">Мобильный телефон</label>
     <div class="controls">
-      <?=CHtml::activeTextField($question, 'mobile_phone');?>
+      <?=CHtml::activeTextField($question, 'mobile_phone')?>
     </div>
   </div>
   <div class="control-group">
     <label class="control-label">Рабочий адрес электронной почты</label>
     <div class="controls">
-      <?=CHtml::activeTextField($question, 'work_email');?>
+      <?=CHtml::activeTextField($question, 'work_email')?>
     </div>
   </div>
   <div class="control-group">
     <label class="control-label">Основной адрес электронной почты</label>
     <div class="controls">
-      <?=CHtml::activeTextField($question, 'main_email');?>
+      <?=CHtml::activeTextField($question, 'main_email')?>
     </div>
   </div>
   <div class="control-group">
     <label class="control-label">Дополнительный адрес электронной почты</label>
     <div class="controls">
-      <?=CHtml::activeTextField($question, 'additional_email');?>
+      <?=CHtml::activeTextField($question, 'additional_email')?>
     </div>
   </div>
 </div>

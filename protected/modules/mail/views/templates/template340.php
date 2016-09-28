@@ -1,4 +1,4 @@
-<p><strong><?=$user->getFullName();?></strong>, здравствуйте!</p>
+<p><strong><?=$user->getFullName()?></strong>, здравствуйте!</p>
 
 <p>Вы аккредитованы на пресс-конференцию, посвященную посвященную запуску Института Развития Интернета (ИРИ).</p>
 
@@ -9,7 +9,7 @@
 <div style="text-align: center; background: #F0F0F0; border: 2px dashed #FFF; padding: 10px;">
 <p style="margin-bottom: 5px"><span style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8000001907349px; line-height: normal;">Обязательно распечатайте и возьмите с собой Ваш персональный электронный билет</span>:</p>
 
-<p style="margin-top: 0"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #60A729; margin: 0 10px 0 0; padding: 0; border-color: #60A729; border-style: solid; border-width: 10px 40px;">Электронный билет</a></p>
+<p style="margin-top: 0"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #60A729; margin: 0 10px 0 0; padding: 0; border-color: #60A729; border-style: solid; border-width: 10px 40px;">Электронный билет</a></p>
 </div>
 
 <p>&nbsp;</p>

@@ -5,21 +5,21 @@
  */
 ?>
 <div class="form-group">
-    <?if ($this->form !== null):?>
-        <?=\CHtml::activeLabel($this->form, $this->attribute);?>
-    <?endif;?>
+    <?if($this->form !== null):?>
+        <?=\CHtml::activeLabel($this->form, $this->attribute)?>
+    <?endif?>
     <div class="input-group">
-        <?=\CHtml::textField('', !empty($user) ? $user->GetFullName() : '', $this->htmlOptions);?>
+        <?=\CHtml::textField('', !empty($user) ? $user->GetFullName() : '', $this->htmlOptions)?>
         <span class="input-group-addon">
-            <?php if (!empty($this->value)):?>
-                RUNET&ndash;ID: <?=$this->value;?>
+            <?if(!empty($this->value)):?>
+                RUNET&ndash;ID: <?=$this->value?>
             <?php else:?>
                 &mdash;
-            <?php endif;?>
+            <?endif?>
         </span>
-        <?=\CHtml::hiddenField($this->field, $this->value);?>
+        <?=\CHtml::hiddenField($this->field, $this->value)?>
     </div>
-    <?php if (!empty($this->help)):?>
-        <p class="help-block"><?=$this->help;?></p>
-    <?php endif;?>
+    <?if(!empty($this->help)):?>
+        <p class="help-block"><?=$this->help?></p>
+    <?endif?>
 </div>

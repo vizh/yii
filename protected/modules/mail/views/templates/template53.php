@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/img/mail/2014/20140401-mailgen14.jpg" alt=""/></p>
 
-<h2><?=$user->getShortName();?>,</h2>
+<h2><?=$user->getShortName()?>,</h2>
 
 <p><b>Вы&nbsp;хотите лучше знать свою аудиторию? Предлагать Ваш продукт в&nbsp;нужное время нужным людям? Увеличить продажи в&nbsp;разы?</b></p>
 
@@ -22,7 +22,7 @@
 
 <p>Кратко: 20&nbsp;экспертов, 8&nbsp;часов практики и&nbsp;креатива, сотни специалистов для обмена опытом, тысячи идей для развития. Возможность участвовать оффлайн и&nbsp;онлайн.&nbsp;Подробнее о&nbsp;темах, экспертах, ценах и&nbsp;прочих интересностях на&nbsp;<a href="http://www.imconf.ru/">официальном сайте</a>.</p>
 
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/imconf14/');?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/imconf14/')?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">ЗАРЕГИСТРИРОВАТЬСЯ</a></p>
 
 <p>Специальный промо-код со&nbsp;скидкой&nbsp;40% на&nbsp;участие оффлайн для наших подписчиков: <b>IMCONF14_RUNET_ID</b></p>
 

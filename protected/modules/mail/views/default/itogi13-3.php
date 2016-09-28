@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 17 декабря (вторник) в Digital October пройдет ежегодная отраслевая конференция «IT и Рунет 2013: итоги года»:
 http://runet-id.com/event/itogi2013/
@@ -33,7 +33,7 @@ http://runet-id.com/event/itogi2013/
 Участие – бесплатное при условии обязательной регистрации.
 
 Для регистрации необходимо пройти по ссылке и подтвердить свое участие:
-<?=$user->getFastauthUrl('http://runet-id.com/event/itogi2013/');?>
+<?=$user->getFastauthUrl('http://runet-id.com/event/itogi2013/')?>
 
 
 До встречи на конференции!

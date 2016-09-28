@@ -1,4 +1,4 @@
-<div><strong>Добрый день, </strong><?=$user->getShortName();?><strong>!&nbsp;</strong></div>
+<div><strong>Добрый день, </strong><?=$user->getShortName()?><strong>!&nbsp;</strong></div>
 
 <div>&nbsp;</div>
 
@@ -22,7 +22,7 @@
 <div style="text-align:center;background:#F0F0F0;border:2px dashed #FFF;padding:10px;">
 <p style="margin-bottom:5px;">Пожалуйста, сохраните на телефон или распечатайте ваш электронный билет:</p>
 
-<p style="margin-top:0;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size:100%;color:#FFF;text-decoration:none;font-weight:bold;text-align:center;cursor:pointer;display:inline-block;border-radius:5px;text-transform:uppercase;background-color:#348eda;margin:0 10px 0 0;padding:0;border-color:#348eda;border-style:solid;border-width:10px 40px;" target="_blank">Распечатать электронный билет</a></p>
+<p style="margin-top:0;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size:100%;color:#FFF;text-decoration:none;font-weight:bold;text-align:center;cursor:pointer;display:inline-block;border-radius:5px;text-transform:uppercase;background-color:#348eda;margin:0 10px 0 0;padding:0;border-color:#348eda;border-style:solid;border-width:10px 40px;" target="_blank">Распечатать электронный билет</a></p>
 </div>
 </div>
 

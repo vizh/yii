@@ -8,10 +8,10 @@
 ?>
 <p>Здравствуйте!</p>
 
-<p>Вам был выставлен счет №<?=$order->Number;?> на оплату участия в конференции Cloud Tech Russia на сумму <?=$total;?> рублей, согласно оферте на сайте <a href="http://cloudtechrussia.ru/oferta.html" target="_blank">http://cloudtechrussia.ru/oferta.html</a></p>
+<p>Вам был выставлен счет №<?=$order->Number?> на оплату участия в конференции Cloud Tech Russia на сумму <?=$total?> рублей, согласно оферте на сайте <a href="http://cloudtechrussia.ru/oferta.html" target="_blank">http://cloudtechrussia.ru/oferta.html</a></p>
 
 <p>Распечатать счет:<br/>
-<?=\CHtml::link($order->getUrl(), $order->getUrl(), ['target' => '_blank']);?></p>
+<?=\CHtml::link($order->getUrl(), $order->getUrl(), ['target' => '_blank'])?></p>
 
 <p>Обращаем ваше внимание, что оплата по счету по текущей стоимости должна быть произведена в период действия этой стоимости, а именно:<br/>
 - 4 000 рублей до 30 сентября включительно<br/>

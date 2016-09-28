@@ -18,12 +18,12 @@ $this->pageTitle = 'Статистика питания';
 
     <h4 style="margin-top: 50px;"><?=CHtml::encode($groupName)?></h4>
 
-    <?= Html::link('скачать список', ['stat/downloadlist', 'eventId' => $eventId, 'group' => $groupName], [
+    <?=Html::link('скачать список', ['stat/downloadlist', 'eventId' => $eventId, 'group' => $groupName], [
         'class' => 'btn btn-warning btn-lg',
         'target' => '_blank'
-    ]) ?>
+    ])?>
 
-    <?php $this->widget('zii.widgets.grid.CGridView', [
+    <?$this->widget('zii.widgets.grid.CGridView', [
         'dataProvider'=> $dataProvider,
         'itemsCssClass' => 'table table-bordered',
         'summaryText' => 'Всего {count} человек(а)',
@@ -89,5 +89,5 @@ $this->pageTitle = 'Статистика питания';
                 'filter' => false
             ]
         ]
-    ]) ?>
+    ])?>
 </div>

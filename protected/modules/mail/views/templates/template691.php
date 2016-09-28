@@ -33,8 +33,8 @@ $authUrl  = 'http://reg.premiaruneta.ru/cabinet/auth/?id=' . $user->RunetId . '&
 			<!-- content -->
 			<div class="content" style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; vertical-align: top; width: 100%; margin: 0; padding: 0;"><tr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; vertical-align: top; margin: 0; padding: 0;" valign="top">
-			            <h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h3>
-			            
+			            <h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h3>
+
 			            <p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Три главные новости Премии Рунета 2015:</p>
 
 						<table style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; vertical-align: top; width: 100%; margin: 0; padding: 0;"><tr style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="width: 30px; font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; vertical-align: top; margin: 0; padding: 0;" valign="top">
@@ -60,13 +60,13 @@ $authUrl  = 'http://reg.premiaruneta.ru/cabinet/auth/?id=' . $user->RunetId . '&
 									<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 20px 0 10px; padding: 0;">Этапы проведения Премии Рунета и Церемония ее вручения:</h3>
 									<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Сразу после завершения приема заявок на Премию Рунета (23 октября) приступят к работе Экспертный Клуб и Экспертный Совет.</p>
 									<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><b style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">Голосование и выбор финалистов и лауреатов пройдет в два этапа:</b></p>
-									<img src="https://showtime.s3.amazonaws.com/201510050912-premiaru15-statuette.png" style="float: right; font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; height: auto; max-width: 100%; margin: 0 0 10px 10px; padding: 0;" align="right" /><ul style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+									<img src="https://showtime.s3.amazonaws.com/201510050912-premiaru15-statuette.png" style="float: right; font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; height: auto; max-width: 100%; margin: 0 0 10px 10px; padding: 0;" align="right" /><ul style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;"><li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 											<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><b style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">Экспертный Клуб</b> — открытое сообщество более чем 1000 IT-профессионалов — по итогам голосования сформирует рейтинг из организаций и проектов. Результатом станут станут short-листы (ТОП-10) в каждой номинации. </p>
 									 	</li>
-										<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+										<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 											<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;"><b style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">Экспертный Совет</b> (ТОП-эксперты: отраслевые, общественные, государственные) осуществит голосование по short-листам и определит победителей: по итогам голосования в каждой номинации будут выбраны по 3 равноправных лауреата (организации и проекты). </p>
 									 	</li>
-										<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;"> 
+										<li style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 5px 0 5px 35px; padding: 0; list-style: outside;">
 											<p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Одновременно с экспертным голосованием пройдет <b style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">«Народное голосование»</b>, определяющее победителей в <b style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">3 номинациях</b>: Интернет-проект, Сообщество Рунета, Игра Рунета. В отличие от экспертного голосования, в «Народном голосовании» победителей выбирают сами интернет-пользователи.</p>
 									 	</li>
 									 </ul><p style="font-family: Verdana, Geneva, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 15px 0 20px; padding: 0;">Лауреаты конкурса будут объявлены в ходе торжественной Церемонии вручения Премии Рунета, которая пройдет 10 ноября 2015 года в Москве в кинотеатре «Октябрь».</p>
@@ -78,7 +78,7 @@ $authUrl  = 'http://reg.premiaruneta.ru/cabinet/auth/?id=' . $user->RunetId . '&
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: Verdana, Geneva, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table><!-- /body --></body>

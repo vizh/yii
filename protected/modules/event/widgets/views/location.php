@@ -12,8 +12,8 @@ $width = !$this->event->FullWidth ? '218px' : '100%';
 ?>
 
 <div class="location">
-  <h5 style="z-index: 100;" class="title"><?=Yii::t('app', 'Место проведения');?></h5>
-  <div id="ymaps-map-id_13401960168727002685" style="width: <?=$width;?>; height: 340px;"></div>
+  <h5 style="z-index: 100;" class="title"><?=Yii::t('app', 'Место проведения')?></h5>
+  <div id="ymaps-map-id_13401960168727002685" style="width: <?=$width?>; height: 340px;"></div>
 </div>
 <script type="text/javascript">
 function fid_13401960168727002685(ymaps) {
@@ -24,10 +24,10 @@ function fid_13401960168727002685(ymaps) {
         } else {
             $geo =  $address->getShort();
         }
-    ?>
+   ?>
 
 
-    var geocoder = ymaps.geocode("<?=$geo;?>", {result : 1});
+    var geocoder = ymaps.geocode("<?=$geo?>", {result : 1});
     geocoder.then(
         function (response) {
             var map = new ymaps.Map("ymaps-map-id_13401960168727002685", {
@@ -38,7 +38,7 @@ function fid_13401960168727002685(ymaps) {
             map.geoObjects
                 .add(new ymaps.Placemark(
                     response.geoObjects.get(0).geometry.getCoordinates(), {
-                        balloonContent: "<strong><?=htmlspecialchars($this->event->Title);?></strong><p><?=htmlspecialchars($address->Place);?></p>"
+                        balloonContent: "<strong><?=htmlspecialchars($this->event->Title)?></strong><p><?=htmlspecialchars($address->Place)?></p>"
                     }, { preset: "twirl#redDotIcon"}
                 ));
             map.controls.add('smallZoomControl', {top : 45, left : 5});
@@ -46,7 +46,7 @@ function fid_13401960168727002685(ymaps) {
     );
 };
 </script>
-<script type="text/javascript" src="//api-maps.yandex.ru/2.0/?coordorder=longlat&load=package.full&wizard=constructor&lang=<?=Yii::app()->language == 'en' ? 'en-US' : 'ru-RU';?>&onload=fid_13401960168727002685"></script>
+<script type="text/javascript" src="//api-maps.yandex.ru/2.0/?coordorder=longlat&load=package.full&wizard=constructor&lang=<?=Yii::app()->language == 'en' ? 'en-US' : 'ru-RU'?>&onload=fid_13401960168727002685"></script>
 
 <?
 $address->resetLocale();

@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2016/iplce16.png" style="text-align: center; width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 
 <p>Ежегодный <strong>бизнес форум </strong><a href="http://iplaceconf.ru/?utm_source=runetid&amp;utm_medium=email&amp;utm_campaign=iplace7"><strong>iPLACE</strong></a> собирает предпринимателей разного уровня, чтобы вооружить их последними тенденциями и практическими знаниями, необходимыми для развития бизнеса.</p>
@@ -25,7 +25,7 @@
 	<p><img src="https://monosnap.com/file/enT6N3dkzFinzGDkG8UAXkdYI1zDgo.png" style="height: auto; float: left; margin: 0 15px 15px 0; width: 75px;" />Евгений Орлан (Основатель, <strong>Атланты Бизнеса</strong>)</p><p>&nbsp;</p>
 	<p>&nbsp;</p>
 	<p><img src="https://monosnap.com/file/5U1oYn7fDWVqr2VQfBTTOEutZxZzfM.png" style="height: auto; float: left; margin: 0 15px 15px 0; width: 75px;" />Николай Додонов (Эксперт по личной эффективности и управлению привычками, <strong>time4life</strong>)</p><p>&nbsp;</p><p>&nbsp;</p>
-	
+
 	<p><img src="https://monosnap.com/file/95lux5Jv9eayGgoJQDLahGtPCm7LMd.png" style="height: auto; float: left; margin: 0 15px 15px 0; width: 75px;" />Михаил Беляев (Руководитель представительства в Санкт-Петербурге, <strong>1С-Битрикс</strong>)</p><p>&nbsp;</p><p>&nbsp;</p>
 	<p><img src="https://monosnap.com/file/gS2KzDrYZyl7UgEvYooNNjZjyEuPw0.png" style="height: auto; float: left; margin: 0 15px 15px 0; width: 75px;" />Андрей Рябых (<strong>Интернет-буржуй</strong>)</li></p><p>&nbsp;</p>
 	<p>&nbsp;</p>

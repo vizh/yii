@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 4 марта 2014 года в Digital October пройдет конференция Digital Goods 2014, посвященная развитию электронной коммерции и потреблению цифровых товаров в интернете – http://www.dgconf.com
 
@@ -29,7 +29,7 @@ $registerLink = $event->getFastRegisterUrl($user, $role, '/event/dg14/');
 ?>
 
 Регистрация на конференцию:
-<?=$registerLink;?>
+<?=$registerLink?>
 
 
 До встречи на конференции Digital Goods 2014!
@@ -40,4 +40,4 @@ $registerLink = $event->getFastRegisterUrl($user, $role, '/event/dg14/');
 Оргкомитет Digital Goods 2014
 http://dgconf.com/
 
-Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/');?>
+Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/')?>

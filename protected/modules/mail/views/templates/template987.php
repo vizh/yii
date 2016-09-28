@@ -60,7 +60,7 @@
               <table style="margin:0;padding:0;width:100%">
                 <tr style="margin:0;padding:0">
                   <td align="center" style="margin:0;padding:0;vertical-align:top">
-                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName();?>!</h2>
+                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName()?>!</h2>
                   </td>
                 </tr>
               </table>
@@ -101,7 +101,7 @@
                       <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">Приехать за&nbsp;час до&nbsp;начала интересуемой секции. Изучить <a href="http://forums.iri.center/sovereignty/guide" style="margin:0;padding:0;color:#1790C5">информацию о&nbsp;проезде</a> удобным Вам видом транспорта. Обращаем внимание, что около территории МИА «Россия сегодня» действуют правила городской платной парковки. </li>
                       <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">Изучить <a href="http://forums.iri.center/sovereignty/program" style="margin:0;padding:0;color:#1790C5">Программу Форума.</a>
                       </li>
-                      <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">Для быстрого прохождения стойки регистрации распечатайте или сохраните себе на&nbsp;мобильное устройство <a href="<?=$user->Participants[0]->getTicketUrl();?>" style="margin:0;padding:0;color:#1790C5">ПУТЕВОЙ ЛИСТ</a>.</li>
+                      <li style="margin:0;padding:0;margin-left:25px;list-style-position:outside">Для быстрого прохождения стойки регистрации распечатайте или сохраните себе на&nbsp;мобильное устройство <a href="<?=$user->Participants[0]->getTicketUrl()?>" style="margin:0;padding:0;color:#1790C5">ПУТЕВОЙ ЛИСТ</a>.</li>
                     </ol>
                     <hr style="margin:0;padding:0;border:0;border-top:1px solid #eaeaea;height:1px;margin:35px auto">
                     <p style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px"><strong style="margin:0;padding:0">Остались вопросы?</strong><br style="margin:0;padding:0">

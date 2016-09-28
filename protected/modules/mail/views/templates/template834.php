@@ -28,18 +28,18 @@
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #576BC9; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#576BC9" style="background-size: cover; clear: both !important; width: 100%; background: url(https://showtime.s3.amazonaws.com/201603020040-icomf16_header.jpg) center; margin: 0; padding: 25px 0;" background="url(https://showtime.s3.amazonaws.com/201603020040-icomf16_header.jpg)"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 75px auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
 		            	<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><img src="https://showtime.s3.amazonaws.com/201603020040-icomf16_logo.png" style="height: auto; width: auto; max-width: 600px; margin: 0 auto; padding: 0;"></p>
-		              	<p class="lead" style="color: #ffffff; font-size: 17px; font-weight: normal; margin: 50px 0; padding: 0;"><?=$user->getShortName();?>, ровно через две недели — <strong style="margin: 0; padding: 0;"><nobr style="margin: 0; padding: 0;">14-15</nobr> марта</strong> на площадке «ФРИИ Сити-Холл» пройдет конференция <nobr style="margin: 0; padding: 0;">i-CoM,</nobr> посвященная социальным и мобильным коммуникациям и автоматизации маркетинговых процессов.</p>
+		              	<p class="lead" style="color: #ffffff; font-size: 17px; font-weight: normal; margin: 50px 0; padding: 0;"><?=$user->getShortName()?>, ровно через две недели — <strong style="margin: 0; padding: 0;"><nobr style="margin: 0; padding: 0;">14-15</nobr> марта</strong> на площадке «ФРИИ Сити-Холл» пройдет конференция <nobr style="margin: 0; padding: 0;">i-CoM,</nobr> посвященная социальным и мобильным коммуникациям и автоматизации маркетинговых процессов.</p>
 		              	<table class="btn-primary" cellpadding="0" cellspacing="0" border="0" style="width: auto; margin: 15px auto; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 14px; text-align: center; background: #EF6823; margin: 0; padding: 0;" align="center" bgcolor="#EF6823" valign="top">
 									<a href="http://2016.i-comference.ru/program/" style="color: #ffffff; display: inline-block; cursor: pointer; font-weight: bold; line-height: 2; text-decoration: none; background: #EF6823; margin: 0; padding: 0; border-color: #ef6823; border-style: solid; border-width: 10px 20px;">ПРОГРАММА КОНФЕРЕНЦИИ »</a>
@@ -49,7 +49,7 @@
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -77,7 +77,7 @@
 		      		</tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -121,7 +121,7 @@
 									</td>
 								</tr></table>
 </div>
-						
+
 						<br style="margin: 0; padding: 0;"><h3 class="center" style="text-align: center; color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: bold; line-height: 1.2em; font-size: 22px; text-transform: uppercase; margin: 25px 0; padding: 0;" align="center">Среди докладов</h3>
 
 						<table collapse="0" cellpadding="0" cellspacing="0" style="width: 100%; margin: 0; padding: 0;">
@@ -198,7 +198,7 @@
 							</tr></table>
 </div>
 					<!-- /content -->
-					
+
 					<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; width: 100%; margin: 0; padding: 10px 0 5px; color: #909090; text-align: center;">Все главные event-события в мире IT на канале <span style="white-space: nowrap"><a href="https://telegram.me/runetid"><img src="https://runet-id.com/images/mail/icons/telegram-16x16.png" valign="middle" /></a>&nbsp;<a href="https://telegram.me/runetid" style="color: #909090;">RUNET—ID</a></span> в Telegram.</p>
 
 				</td>

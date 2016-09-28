@@ -24,26 +24,26 @@ foreach ($options as $key => $value)
 <div class="row">
   <div class="span4">
     <ul class="unstyled">
-      <?foreach ($part1 as $key => $value):?>
+      <?foreach($part1 as $key => $value):?>
       <li>
         <label class="checkbox">
-          <?=CHtml::activeCheckBox($form, 'value[]', array('value' => $key, 'uncheckValue' => null, 'checked' => in_array($key, $form->value), 'data-group' => $form->getQuestion()->Code, 'data-unchecker' => (int)($key==99)));?>
-          <?=$value;?>
+          <?=CHtml::activeCheckBox($form, 'value[]', array('value' => $key, 'uncheckValue' => null, 'checked' => in_array($key, $form->value), 'data-group' => $form->getQuestion()->Code, 'data-unchecker' => (int)($key==99)))?>
+          <?=$value?>
         </label>
       </li>
-      <?endforeach;?>
+      <?endforeach?>
     </ul>
   </div>
   <div class="span5">
     <ul class="unstyled">
-      <?foreach ($part2 as $key => $value):?>
+      <?foreach($part2 as $key => $value):?>
       <li>
         <label class="checkbox">
-          <?=CHtml::activeCheckBox($form, 'value[]', array('value' => $key, 'uncheckValue' => null, 'checked' => in_array($key, $form->value), 'data-group' => $form->getQuestion()->Code, 'data-unchecker' => (int)($key==99)));?>
-          <?=$value;?>
+          <?=CHtml::activeCheckBox($form, 'value[]', array('value' => $key, 'uncheckValue' => null, 'checked' => in_array($key, $form->value), 'data-group' => $form->getQuestion()->Code, 'data-unchecker' => (int)($key==99)))?>
+          <?=$value?>
         </label>
       </li>
-      <?endforeach;?>
+      <?endforeach?>
     </ul>
   </div>
 </div>

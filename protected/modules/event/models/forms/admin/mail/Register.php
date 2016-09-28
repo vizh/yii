@@ -127,21 +127,21 @@ class Register extends EventItemCreateUpdateForm
     public function initBodyFields()
     {
         return [
-            'User.FullName'       => [\Yii::t('app', 'Полное имя пользователя'), '<?=$user->getFullName();?>'],
-            'User.ShortName'      => [\Yii::t('app', 'Краткое имя пользователя. Имя или имя + отчество'), '<?=$user->getShortName();?>'],
-            'User.RunetId'        => [\Yii::t('app', 'RUNET-ID пользователя'), '<?=$user->RunetId;?>'],
-            'Event.Title'         => [\Yii::t('app', 'Название меропрития'), '<?=$event->Title;?>'],
-            'TicketUrl'           => [\Yii::t('app', 'Ссылка на пригласительный'), '<?=$participant->getTicketUrl();?>'],
-            'Role.Title'          => [\Yii::t('app', 'Роль на меропритие'), '<?=$role->Title;?>'],
+            'User.FullName'       => [\Yii::t('app', 'Полное имя пользователя'), '<?=$user->getFullName()?>'],
+            'User.ShortName'      => [\Yii::t('app', 'Краткое имя пользователя. Имя или имя + отчество'), '<?=$user->getShortName()?>'],
+            'User.RunetId'        => [\Yii::t('app', 'RUNET-ID пользователя'), '<?=$user->RunetId?>'],
+            'Event.Title'         => [\Yii::t('app', 'Название меропрития'), '<?=$event->Title?>'],
+            'TicketUrl'           => [\Yii::t('app', 'Ссылка на пригласительный'), '<?=$participant->getTicketUrl()?>'],
+            'Role.Title'          => [\Yii::t('app', 'Роль на меропритие'), '<?=$role->Title?>'],
             'ParticipantMessage:label'  => [\Yii::t('app', 'Сообщение лога'), '
             <?php
                 $log = \event\models\ParticipantLog::model()->byParticipant($participant)->find();
                 if (!empty($log) && !empty($log->Message)) {
                     echo \'$_1: \' . $log->Message;
                 }
-            ?>
+           ?>
             '],
-            'CalendarLinks'       => [\Yii::t('app', 'Добавление в календарь'), '<?$this->renderPartial(\'event.views.mail.register.parts.calendar\', [\'event\' => $event]);?>']
+            'CalendarLinks'       => [\Yii::t('app', 'Добавление в календарь'), '<?$this->renderPartial(\'event.views.mail.register.parts.calendar\', [\'event\' => $event])?>']
         ];
     }
 

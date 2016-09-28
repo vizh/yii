@@ -26,14 +26,14 @@
       </tr>
       </thead>
       <tbody>
-      <?foreach ($products as $product):?>
-          <?if (isset($sosniCounts[$product->Id])):?>
+      <?foreach($products as $product):?>
+          <?if(isset($sosniCounts[$product->Id])):?>
         <tr>
-          <td><?=preg_replace('/Питание в рамках участия в объединенной конференции РИФ\+КИБ 2013: /i', '', $product->Title);?></td>
-          <td class="text-center"><?=$sosniCounts[$product->Id];?></td>
+          <td><?=preg_replace('/Питание в рамках участия в объединенной конференции РИФ\+КИБ 2013: /i', '', $product->Title)?></td>
+          <td class="text-center"><?=$sosniCounts[$product->Id]?></td>
         </tr>
-          <?endif;?>
-      <?endforeach;?>
+          <?endif?>
+      <?endforeach?>
       </tbody>
     </table>
   </div>
@@ -51,14 +51,14 @@
       </tr>
       </thead>
       <tbody>
-      <?foreach ($products as $product):?>
-        <?if (isset($nazarCounts[$product->Id])):?>
+      <?foreach($products as $product):?>
+        <?if(isset($nazarCounts[$product->Id])):?>
           <tr>
-            <td><?=preg_replace('/Питание в рамках участия в объединенной конференции РИФ\+КИБ 2013: /i', '', $product->Title);?></td>
-            <td class="text-center"><?=$nazarCounts[$product->Id];?></td>
+            <td><?=preg_replace('/Питание в рамках участия в объединенной конференции РИФ\+КИБ 2013: /i', '', $product->Title)?></td>
+            <td class="text-center"><?=$nazarCounts[$product->Id]?></td>
           </tr>
-        <?endif;?>
-      <?endforeach;?>
+        <?endif?>
+      <?endforeach?>
       </tbody>
     </table>
   </div>
@@ -76,14 +76,14 @@
       </tr>
       </thead>
       <tbody>
-      <?foreach ($products as $product):?>
-        <?if (isset($ldCounts[$product->Id])):?>
+      <?foreach($products as $product):?>
+        <?if(isset($ldCounts[$product->Id])):?>
           <tr>
-            <td><?=preg_replace('/Питание в рамках участия в объединенной конференции РИФ\+КИБ 2013: /i', '', $product->Title);?></td>
-            <td class="text-center"><?=$ldCounts[$product->Id];?></td>
+            <td><?=preg_replace('/Питание в рамках участия в объединенной конференции РИФ\+КИБ 2013: /i', '', $product->Title)?></td>
+            <td class="text-center"><?=$ldCounts[$product->Id]?></td>
           </tr>
-        <?endif;?>
-      <?endforeach;?>
+        <?endif?>
+      <?endforeach?>
       </tbody>
     </table>
   </div>
@@ -100,12 +100,12 @@
       </tr>
       </thead>
       <tbody>
-      <?foreach ($products as $product):?>
+      <?foreach($products as $product):?>
           <tr>
-            <td><?=preg_replace('/Питание в рамках участия в объединенной конференции РИФ\+КИБ 2013: /i', '', $product->Title);?></td>
-            <td class="text-center"><?=isset($polyaniCounts[$product->Id]) ? $polyaniCounts[$product->Id] : 0;?></td>
+            <td><?=preg_replace('/Питание в рамках участия в объединенной конференции РИФ\+КИБ 2013: /i', '', $product->Title)?></td>
+            <td class="text-center"><?=isset($polyaniCounts[$product->Id]) ? $polyaniCounts[$product->Id] : 0?></td>
           </tr>
-      <?endforeach;?>
+      <?endforeach?>
       </tbody>
     </table>
   </div>
@@ -122,12 +122,12 @@
       </tr>
       </thead>
       <tbody>
-      <?foreach ($products as $product):?>
+      <?foreach($products as $product):?>
         <tr>
-          <td><?=preg_replace('/Питание в рамках участия в объединенной конференции РИФ\+КИБ 2013: /i', '', $product->Title);?></td>
-          <td class="text-center"><?=isset($counts[$product->Id]) ? $counts[$product->Id] : 0;?></td>
+          <td><?=preg_replace('/Питание в рамках участия в объединенной конференции РИФ\+КИБ 2013: /i', '', $product->Title)?></td>
+          <td class="text-center"><?=isset($counts[$product->Id]) ? $counts[$product->Id] : 0?></td>
         </tr>
-      <?endforeach;?>
+      <?endforeach?>
       </tbody>
     </table>
   </div>

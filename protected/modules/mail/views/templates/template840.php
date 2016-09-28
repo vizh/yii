@@ -30,11 +30,11 @@
         <div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
             <table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                 <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-                          
-                
 
-								<h3>Здравствуйте <?=$user->getShortName();?>!</h3>
-								
+
+
+								<h3>Здравствуйте <?=$user->getShortName()?>!</h3>
+
 								<p>Напоминаем, что 18 марта в 16:00&nbsp; состоится первая рабочая встреча по направлению &laquo;Интернет + Образование&raquo;.</p>
 
 <p>На встрече планируется обсудить подготовку к тематическому форуму &laquo;Интернет + Образование&raquo;, который пройдет 22 апреля 2016 года в Москве, дополнения к дорожной карте &laquo;Интернет + Образование&raquo;, а так же предложения по реализации п. 7 и 8 Поручений Президента Пр-168 от 29 января 2016 года.</p>

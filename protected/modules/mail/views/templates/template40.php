@@ -4,7 +4,7 @@
 
 <p><b>18 марта в Москве, в центре Digital October ИД &laquo;Коммерсантъ&raquo;</b> организует главное событие, посвященное российскому рынку связи &ndash; мультимедийный бизнес-форум <a href="http://www.kommersant.ru/conf/245">&laquo;Телеком 2014: точки роста&raquo;</a>.</p>
 
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/komtele14/');?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Регистрация</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/komtele14/')?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Регистрация</a></p>
 
 <p><b>В деловой программе форума:</b></p>
 

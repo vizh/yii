@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>!
+Здравствуйте, <?=$user->getShortName()?>!
 
 Вы прошли процедуру подтверждения членства в Экспертном КЛУБЕ (ЭК) Премии Рунета 2013 и вошли в состав ЭК:
 http://experts.premiaruneta.ru/club?year=2013
@@ -9,10 +9,10 @@ http://experts.premiaruneta.ru/club?year=2013
 Сегодня (среда 13 ноября), в 21:00 по московскому времени, останавливается голосование Экспертного Клуба.
 
 Просим Вас до указанного срока осуществить голосование, перейдя по ссылке ниже:
-http://experts.premiaruneta.ru/vote/club/companies/?runetId=<?=$user->RunetId;?>&key=<?=substr(md5($user->RunetId.'salt-сlub2013-salt'), 0, 8);?>
+http://experts.premiaruneta.ru/vote/club/companies/?runetId=<?=$user->RunetId?>&key=<?=substr(md5($user->RunetId.'salt-сlub2013-salt'), 0, 8)?>
 
 
 ---
-С уважением, 
+С уважением,
 Оргкомитет «Премии Рунета 2013» - http://PremiaRuneta.ru
 Сеть http://runet-ID.com

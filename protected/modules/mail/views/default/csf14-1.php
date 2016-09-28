@@ -1,11 +1,11 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Вы зарегистрированы как виртуальный участник Cyber Security Forum 2014 (19 февраля 2014) – www.CyberSecurityForum.ru
 
 Ваш статус позволяет Вам следить за новостями Форума, но не дает возможности посетить мероприятие. Для посещения мероприятия требуется завершить регистрацию: оплатить регистрационный взнос или получить аккредитацию Оргкомитета.
 
 Сделать это можно по ссылке:
-<?=$user->getFastauthUrl('http://pay.runet-id.com/register/csf14/');?>
+<?=$user->getFastauthUrl('http://pay.runet-id.com/register/csf14/')?>
 
 
 
@@ -28,7 +28,7 @@
 // ВНИМАНИЕ
 
 Перед посещением Форума – проверьте Ваш статус участия и завершите регистрацию по ссылке:
-<?=$user->getFastauthUrl('http://pay.runet-id.com/register/csf14/');?>
+<?=$user->getFastauthUrl('http://pay.runet-id.com/register/csf14/')?>
 
 
 

@@ -22,20 +22,20 @@ $controller = \Yii::app()->getController();
     });
 </script>
 
-<?php $activeForm = $controller->beginWidget('CActiveForm');?>
-    <?php foreach ($widget->getAttributeNames() as $name):?>
+<?$activeForm = $controller->beginWidget('CActiveForm')?>
+    <?foreach($widget->getAttributeNames() as $name):?>
         <div class="control-group">
-            <?php foreach ($form->getLocaleList() as $locale):?>
-                <label class="control-label" style="text-transform: uppercase; margin-top: 20px; font-weight: bold;"><?=$locale;?></label>
+            <?foreach($form->getLocaleList() as $locale):?>
+                <label class="control-label" style="text-transform: uppercase; margin-top: 20px; font-weight: bold;"><?=$locale?></label>
                 <div class="controls">
-                    <?=$activeForm->textArea($form, 'Attributes[' . $name . '][' . $locale . ']');?>
+                    <?=$activeForm->textArea($form, 'Attributes[' . $name . '][' . $locale . ']')?>
                 </div>
-            <?php endforeach;?>
+            <?endforeach?>
         </div>
-    <?php endforeach;?>
+    <?endforeach?>
     <div class="control-group">
         <div class="controls">
-            <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success']);?>
+            <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success'])?>
         </div>
     </div>
-<?php $controller->endWidget();?>
+<?$controller->endWidget()?>

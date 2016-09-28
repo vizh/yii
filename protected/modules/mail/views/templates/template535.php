@@ -2,7 +2,7 @@
 	$regLink = "https://regions.rif.ru/events/innopolis/registration/&runetid=" . $user->RunetId . "&hash=" . md5($user->RunetId . '71064386e1731ff1ceb2b4667ce67b8cinnopolis');
 ?>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p><strong><nobr>9-10</nobr> июня 2015 года в&nbsp;городе Иннополис (Республика Татарстан) представители крупнейших российских IT-компаний впервые проведут Форум РИФ.Иннополис и&nbsp;конференцию OS&nbsp;DAY.</strong></p>
 

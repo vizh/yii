@@ -15,7 +15,7 @@ if (!$manager->hasDefinitions(true)) {
 }
 ?>
 <div class="user-data" userdata ng-if="participant.userdata" data-user="{{participant}}" data-product="{{product}}" data-index="{{$index}}">
-    <?php $activeForm = $this->beginWidget('\application\widgets\ActiveForm');?>
+    <?$activeForm = $this->beginWidget('\application\widgets\ActiveForm')?>
     <h4 class="text-center">{{participant.FullName}}, RUNET-ID {{participant.RunetId}}</h4>
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2">
@@ -26,33 +26,33 @@ if (!$manager->hasDefinitions(true)) {
     </div>
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2">
-            <?php foreach ($manager->getGroups() as $group):?>
+            <?foreach($manager->getGroups() as $group):?>
                 <?php
                 $groupTitleShow = false;
                 foreach ($group->getDefinitions() as $definition):?>
-                    <?php if (!$definition->public) continue;?>
-                    <?php if (!$groupTitleShow && !empty($group->title)):?>
-                        <h4 class="group-title"><?=$group->title;?></h4>
-                        <?php $groupTitleShow = true;?>
-                    <?php endif;?>
-                    <?php if ($definition instanceof BooleanDefinition):?>
+                    <?if(!$definition->public) continue?>
+                    <?if(!$groupTitleShow && !empty($group->title)):?>
+                        <h4 class="group-title"><?=$group->title?></h4>
+                        <?$groupTitleShow = true?>
+                    <?endif?>
+                    <?if($definition instanceof BooleanDefinition):?>
                         <div class="checkbox">
-                            <?=$definition->activeEdit($manager, ['ng-model' => 'participant.' . $definition->name]);?>
+                            <?=$definition->activeEdit($manager, ['ng-model' => 'participant.' . $definition->name])?>
                         </div>
                     <?php else:?>
                         <div class="form-group">
-                            <?=$activeForm->label($manager, $definition->title);?>
-                            <?=$definition->activeEdit($manager, ['class' => 'form-control', 'ng-model' => 'participant.' . $definition->name]);?>
+                            <?=$activeForm->label($manager, $definition->title)?>
+                            <?=$definition->activeEdit($manager, ['class' => 'form-control', 'ng-model' => 'participant.' . $definition->name])?>
                         </div>
-                    <?php endif;?>
-                <?php endforeach;?>
-            <?endforeach;?>
+                    <?endif?>
+                <?endforeach?>
+            <?endforeach?>
             <div class="text-center">
-                <?=\CHtml::submitButton(\Yii::t('app', 'Загеристрировать'), ['class' => 'btn btn-primary', 'ngClick' => 'submit']);?>
-                <?=\CHtml::button(\Yii::t('app', 'Отмена'), ['class' => 'btn btn-warning', 'ng-click' => 'hideUserDataForm(product, $index)']);?>
+                <?=\CHtml::submitButton(\Yii::t('app', 'Загеристрировать'), ['class' => 'btn btn-primary', 'ngClick' => 'submit'])?>
+                <?=\CHtml::button(\Yii::t('app', 'Отмена'), ['class' => 'btn btn-warning', 'ng-click' => 'hideUserDataForm(product, $index)'])?>
             </div>
         </div>
     </div>
-    <?php $this->endWidget();?>
+    <?$this->endWidget()?>
 </div>
 

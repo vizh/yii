@@ -12,10 +12,10 @@ $criteria->addCondition('"Product"."ManagerName" = \'RoomProductManager\' AND "t
 /** @var OrderItem $orderItem */
 $orderItem = OrderItem::model()->byEventId(1534)->byPaid(false)->byDeleted(false)->find($criteria);
 ?>
-<p>Здравствуйте, <?=$user->getShortName();?>!</p>
+<p>Здравствуйте, <?=$user->getShortName()?>!</p>
 <p>Напоминаем, что за Вами забронирован номер для проживания в рамках участия в конференции &laquo;РИФ+КИБ 2015&raquo;, следующий категории:</p>
 
-<p>Пансионат <?=$orderItem->Product->getManager()->Hotel;?>, строение «<?=$orderItem->Product->getManager()->Housing;?>», категория «<?=$orderItem->Product->getManager()->Category;?>», с <?=date('d.m.Y', strtotime($orderItem->getItemAttribute('DateIn')));?> по <?=date('d.m.Y', strtotime($orderItem->getItemAttribute('DateOut')));?></p>
+<p>Пансионат <?=$orderItem->Product->getManager()->Hotel?>, строение «<?=$orderItem->Product->getManager()->Housing?>», категория «<?=$orderItem->Product->getManager()->Category?>», с <?=date('d.m.Y', strtotime($orderItem->getItemAttribute('DateIn')))?> по <?=date('d.m.Y', strtotime($orderItem->getItemAttribute('DateOut')))?></p>
 
 <p>На текущий момент данное бронирование номера числится в базе данных мероприятия как &laquo;не оплаченное&raquo;.</p>
 

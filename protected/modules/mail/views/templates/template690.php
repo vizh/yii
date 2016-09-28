@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/pv15.jpg" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p><b>15 октября 2015 года</b> в Москве на площадке <b>Digital October</b> пройдет первый в России мультиотраслевой Форум индустриального интернета, организованный <a href="http://raec.ru/">РАЭК</a> совместно с <a href="http://www.rostelecom.ru/">«Ростелекомом»</a>.</p>
 

@@ -16,26 +16,26 @@ use competence\models\Question;
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <?= CHtml::beginForm('', 'POST', ['class' => 'form-horizontal']) ?>
-            <?php foreach ($questions as $question): ?>
+            <?=CHtml::beginForm('', 'POST', ['class' => 'form-horizontal'])?>
+            <?foreach($questions as $question):?>
                 <div class="question">
-                    <h3><?= Html::encode($question->Title) ?></h3>
+                    <h3><?=Html::encode($question->Title)?></h3>
                     <?php
                     $this->widget('competence\components\ErrorsWidget', ['form' => $question->getForm()]);
                     $this->renderPartial($question->getForm()->getViewPath(), ['form' => $question->getForm()]);
-                    ?>
-                    <?php if (!empty($question->AfterQuestionText)): ?>
-                        <?= Html::encode($question->AfterQuestionText) ?>
-                    <?php endif ?>
+                   ?>
+                    <?if(!empty($question->AfterQuestionText)):?>
+                        <?=Html::encode($question->AfterQuestionText)?>
+                    <?endif?>
                 </div>
-            <?php endforeach ?>
+            <?endforeach?>
             <div class="row">
                 <div class="col-sm-12 text-center">
                     <input type="submit" class="btn btn-lg btn-primary"
-                           value="<?= Yii::t('app', 'Подписаться на новости') ?>" name="next">
+                           value="<?=Yii::t('app', 'Подписаться на новости')?>" name="next">
                 </div>
             </div>
-            <?= CHtml::endForm() ?>
+            <?=CHtml::endForm()?>
         </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-<h3><span lang="RU">Уважаемый </span><?=$user->getFullName();?>!</h3>
+<h3><span lang="RU">Уважаемый </span><?=$user->getFullName()?>!</h3>
 
 <p>РАЭК (Ассоциация электронных коммуникаций) и НИУ ВШЭ (Национальный исследовательский университет Высшая школа экономики) приглашают Вас&nbsp;стать экспертом&nbsp;очередного исследования &laquo;Экономика Рунета 2014&ndash;2015&raquo; и просят ответить на вопросы анкеты исследования.</p>
 
@@ -8,7 +8,7 @@
 
 <p>Заполнение анкеты займет не более 30 минут, при этом для ответов на некоторые вопросы могут потребоваться дополнительные источники информации.</p>
 
-<div style="text-align: center; margin-top: 20px; margin-botto: 20px;"><a href="<?=$user->getFastauthUrl('/vote/runet2015/');?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #C40D20; margin: 0 10px 0 0; padding: 0; border-color: #C40D20; border-style: solid; border-width: 10px 40px;">ЗАПОЛНИТЬ АНКЕТУ</a></div>
+<div style="text-align: center; margin-top: 20px; margin-botto: 20px;"><a href="<?=$user->getFastauthUrl('/vote/runet2015/')?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #C40D20; margin: 0 10px 0 0; padding: 0; border-color: #C40D20; border-style: solid; border-width: 10px 40px;">ЗАПОЛНИТЬ АНКЕТУ</a></div>
 
 <div>Вы можете:
 <ul>

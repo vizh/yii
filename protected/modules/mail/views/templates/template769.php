@@ -1,6 +1,6 @@
 <p><a href="http://runet-id.com/event/itogi2015"><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/itogi15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 
 <h3><strong>16 декабря во ФРИИ Сити Холле (Серебряническая набережная, д. 29) состоится ежегодная конференция &laquo;Рунет 2015: Итоги Года&raquo;.</strong></h3>
@@ -28,7 +28,7 @@
 
 <p>Мероприятие посвящено актуальным вопросам отрасли и станет не просто своеобразным подведением итогов, но и разработкой примерного плана действий на следующий год.</p>
 
-<h3 style="text-align: center;"><strong>Присоединяйтесь для того чтобы быть в курсе и влиять на ситуацию.</strong></h3> 
+<h3 style="text-align: center;"><strong>Присоединяйтесь для того чтобы быть в курсе и влиять на ситуацию.</strong></h3>
 
 <div style="text-align: center; border: 3px dashed #3AAC6A; margin-top: 20px;">
 <p style="text-align: center;"><strong>Для регистрации необходимо отправить заявку на сайте</strong></p>

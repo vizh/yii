@@ -12,6 +12,6 @@ $menu = [
 
 <nav class="user-account-nav clearfix">
     <?php foreach($menu as $action => $title):?>
-        <a href="<?=$this->createUrl('/user/edit/'.$action);?>" <?php if ($current == $action):?>class="current"<?php endif;?>><?=$title;?></a>
-    <?php endforeach;?>
+        <a href="<?=$this->createUrl('/user/edit/'.$action)?>" <?if($current == $action):?>class="current"<?endif?>><?=$title?></a>
+    <?endforeach?>
 </nav>

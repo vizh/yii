@@ -5,10 +5,10 @@
 ?>
 <div class="alert alert-error">
   <p class="text-error">
-    <?if (!isset($this->WidgetCompetenceHasResultMessage)):?>
+    <?if(!isset($this->WidgetCompetenceHasResultMessage)):?>
       Данная ссылка уже использована ранее.
     <?else:?>
-      <?=$this->WidgetCompetenceHasResultMessage;?>
-    <?endif;?>
+      <?=$this->WidgetCompetenceHasResultMessage?>
+    <?endif?>
   </p>
 </div>

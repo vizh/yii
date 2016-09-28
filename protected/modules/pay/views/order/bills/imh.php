@@ -16,14 +16,14 @@
   'billData' => $billData,
   'nds' => $nds,
   'total' => $total
-]);?>
+])?>
 
 <h4 class="offer-title">Публичная оферта на оказание услуг</h4>
 <div class="offer">
-  <?=$this->renderPartial('pay.views.order.bills.offer.imh');?>
+  <?=$this->renderPartial('pay.views.order.bills.offer.imh')?>
 </div>
 
-<?if ($withSign):?>
+<?if($withSign):?>
   <img src="/img/pay/bill/imh.jpg"/>
 <?else:?>
   <table class="sign">
@@ -38,4 +38,4 @@
       <td>(Гулина Н. А.)</td>
     </tr>
   </table>
-<?endif;?>
+<?endif?>

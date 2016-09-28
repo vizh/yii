@@ -11,22 +11,22 @@
   <div class="container m-top_40 m-bottom_50">
     <div class="row">
       <div class="offset2 span8">
-        <h3><?=Yii::t('app', 'Оформление заказа');?></h3>
+        <h3><?=Yii::t('app', 'Оформление заказа')?></h3>
 
         <p>Введите, пожалуйста, Ваш e-mail в системе Деньги Mail.Ru для выставления счета на оплату. После успешного ввода адреса Вы будете переадресованы в систему Деньги Mail.Ru.</p>
 
-        <?if ($error):?>
+        <?if($error):?>
           <div class="alert alert-error">
-            <?=$error;?>
+            <?=$error?>
           </div>
-        <?endif;?>
+        <?endif?>
 
-        <?=CHtml::beginForm('', 'POST', array('class' => 'm-top_30'));?>
+        <?=CHtml::beginForm('', 'POST', array('class' => 'm-top_30'))?>
 
         <div class="control-group">
           <label for="emailmailru">Email</label>
           <div class="controls">
-            <?=CHtml::textField('Email', $email, ['class' => 'span4', 'id' => 'emailmailru']);?>
+            <?=CHtml::textField('Email', $email, ['class' => 'span4', 'id' => 'emailmailru'])?>
           </div>
         </div>
 
@@ -34,9 +34,9 @@
           <div class="controls">
             <div class="row">
               <div class="span2">
-                <a class="btn" href="<?=$this->createUrl('/pay/cabinet/index');?>">
+                <a class="btn" href="<?=$this->createUrl('/pay/cabinet/index')?>">
                   <i class="icon-circle-arrow-left"></i>
-                  <?=\Yii::t('app', 'Назад');?>
+                  <?=\Yii::t('app', 'Назад')?>
                 </a>
               </div>
               <div class="span3">
@@ -45,7 +45,7 @@
             </div>
           </div>
         </div>
-        <?php echo CHtml::endForm();?>
+        <?=CHtml::endForm()?>
       </div>
     </div>
   </div>

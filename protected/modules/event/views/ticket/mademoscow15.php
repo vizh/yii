@@ -39,11 +39,11 @@ if (!empty($event->LinkEmails)) {
         <img src="/img/ticket/pdf/base/logo.png" style="padding-right: 3mm; image-resolution: 110dpi;"/> eTicket
     </div>
     <div style="padding: 5mm; border-left: 0.5mm solid #ededed; border-right: 0.5mm solid #ededed; height: 77mm;">
-        <h3><span style="text-transform: uppercase;">ЭЛЕКТРОННЫЙ БИЛЕТ</span><br/><span style="font-weight: bold;"><?=$event->Title;?></span></h3>
-        <h3 style="padding: 12mm 0; font-weight: bold; text-transform: uppercase;"><?$this->widget('\event\widgets\Date', ['event' => $event]);?></h3>
-        <?if ($event->getContactAddress() != null):?>
-            <p><?=$event->getContactAddress()->Place;?><br/><?=$event->getContactAddress()->getShort();?></p>
-        <?endif;?>
+        <h3><span style="text-transform: uppercase;">ЭЛЕКТРОННЫЙ БИЛЕТ</span><br/><span style="font-weight: bold;"><?=$event->Title?></span></h3>
+        <h3 style="padding: 12mm 0; font-weight: bold; text-transform: uppercase;"><?$this->widget('\event\widgets\Date', ['event' => $event])?></h3>
+        <?if($event->getContactAddress() != null):?>
+            <p><?=$event->getContactAddress()->Place?><br/><?=$event->getContactAddress()->getShort()?></p>
+        <?endif?>
     </div>
     <table style="width: 100%; background-color: #586877; padding: 5mm; color: #fff; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif;">
         <tbody>
@@ -52,26 +52,26 @@ if (!empty($event->LinkEmails)) {
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                         <tr>
                             <td style="font-size: 5mm; font-weight: 100; padding: 0; margin: 0;">
-                                <?=$user->LastName?><br/><?=$user->getShortName();?>
+                                <?=$user->LastName?><br/><?=$user->getShortName()?>
                             </td>
                         </tr>
-                        <?if ($user->getEmploymentPrimary() !== null):?>
+                        <?if($user->getEmploymentPrimary() !== null):?>
                             <tr>
-                                <td style="font-size: 4mm; padding-top: 5mm;"><?=$user->getEmploymentPrimary()->Company->Name;?></td>
+                                <td style="font-size: 4mm; padding-top: 5mm;"><?=$user->getEmploymentPrimary()->Company->Name?></td>
                             </tr>
-                        <?endif;?>
+                        <?endif?>
                     </table>
                 </td>
             </tr>
             <tr>
                 <td style="height: 20mm; vertical-align: bottom; font-size: 3mm;">
-                    <?if (is_array($participant)):?>
-                        <?foreach ($participant as $item):?>
-                            <span style="text-transform: uppercase;"><?=$item->Part->Title?>:</span> <?=$item->Role->Title;?><br/>
-                        <?endforeach;?>
+                    <?if(is_array($participant)):?>
+                        <?foreach($participant as $item):?>
+                            <span style="text-transform: uppercase;"><?=$item->Part->Title?>:</span> <?=$item->Role->Title?><br/>
+                        <?endforeach?>
                     <?else:?>
-                        <span style="text-transform: uppercase;"><?=$participant->Role->Title;?></span>
-                    <?endif;?>
+                        <span style="text-transform: uppercase;"><?=$participant->Role->Title?></span>
+                    <?endif?>
                 </td>
             </tr>
         </tbody>
@@ -80,8 +80,8 @@ if (!empty($event->LinkEmails)) {
         <table style="font-size: 3mm; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif; width: 100%;" cellpadding="0" cellspacing="0">
             <tbody>
             <tr>
-                <td style="font-size: 13mm;"><?=$user->RunetId;?></td>
-                <td style="text-align: right;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70));?></td>
+                <td style="font-size: 13mm;"><?=$user->RunetId?></td>
+                <td style="text-align: right;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70))?></td>
             </tr>
             </tbody>
         </table>
@@ -103,9 +103,9 @@ if (!empty($event->LinkEmails)) {
 </table>
 <div style="margin: 0 5mm; padding: 5mm 0; background-color: #ededed; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif; font-size: 3mm; color: #556a7d;">
     <h3 style="font-size: 5mm; font-weight: 100; text-transform: uppercase; text-align: center; margin: 0; padding: 0 0 4mm;">Контакты</h3>
-    <p style="text-align: center;"><?=implode(' | ', $contacts);?></p>
+    <p style="text-align: center;"><?=implode(' | ', $contacts)?></p>
 </div>
 <div style="background: url('/img/ticket/pdf/base/cutting-line.png') center center; height: 1mm; background-image-resolution: 100dpi; margin: 5mm 0;"></div>
 <div style="text-align: center; margin: 0 5mm; overflow: hidden;">
-    <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=14&size=900x260&scale=2&maptype=roadmap&markers=color:blue%7C<?=$event->getContactAddress()->getLatitude();?>,<?=$event->getContactAddress()->getLongitude();?>&sensor=false&language=ru" />
+    <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=14&size=900x260&scale=2&maptype=roadmap&markers=color:blue%7C<?=$event->getContactAddress()->getLatitude()?>,<?=$event->getContactAddress()->getLongitude()?>&sensor=false&language=ru" />
 </div>

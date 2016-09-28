@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2016/adday16.png" style="width: 100%; height: auto; margin: 0 auto" /></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Уже на этой неделе состоится конференция <a href="http://www.advdays.ru/january_2016/?utm_source=reg&amp;utm_medium=email&amp;utm_campaign=advdays_january_2016"><strong>&laquo;День интернет-рекламы&raquo;</strong></a>. Мы благодарим вас за регистрацию и рады сообщить, что программа полностью сформирована. С полным списком докладов и таймингом вы можете ознакомиться на сайте в разделе <a href="http://www.advdays.ru/january_2016/agenda/?utm_source=reg&amp;utm_medium=email&amp;utm_campaign=advdays_january_2016"><strong>&laquo;Программа&raquo;</strong></a>.</p>
 

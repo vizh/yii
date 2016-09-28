@@ -1,4 +1,4 @@
-<p><?=$user->getShortName();?> здравствуйте!</p>
+<p><?=$user->getShortName()?> здравствуйте!</p>
 
 <p><span style="line-height: 1.6em;">В&nbsp;конкурсе </span><a href="http://2015.goldensite.ru/" style="line-height: 1.6em;">Золотой Сайт &rsquo;2015</a><span style="line-height: 1.6em;"> объявлен состав жюри, а&nbsp;льготная цена участия действует до&nbsp;15&nbsp;июля! Не&nbsp;пропустите!</span></p>
 

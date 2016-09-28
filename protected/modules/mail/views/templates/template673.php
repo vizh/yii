@@ -8,7 +8,7 @@
   	$coupon->EndTime = null;
   	$coupon->save();
 	$coupon->addProductLinks([$product]);
-	
+
 	$regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
@@ -23,24 +23,24 @@
 <body bgcolor="#f6f6f6" style="-webkit-font-smoothing: antialiased; height: 100%; -webkit-text-size-adjust: none; width: 100% !important; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.5em; margin: 0; padding: 0;">
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #f6f6f6; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#f6f6f6" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h2>
+		              	<h2 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 28px; margin: 10px 0; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h2>
 						<p class="lead" style="font-size: 17px; font-weight: normal; margin: 0 0 10px; padding: 0;">Чуть меньше месяца остается до Russian Interactive Week – RIW 2015 – <a href="http://www.RIW.moscow" style="color: #D85B42; margin: 0; padding: 0;">www.RIW.moscow</a></p>
 						<p class="lead" style="font-size: 17px; font-weight: normal; margin: 0 0 10px; padding: 0;">RIW 2015 пройдет 21-23 октября в московском Экспоцентре.</p>
 		            </td>
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -66,7 +66,7 @@
 						<table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top">
 									<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Персонально для Вас <b style="margin: 0; padding: 0;">специальные условия участия</b> в главном осеннем мероприятии сразу четырех отраслей (интернет, медиа, телеком и софт) Russian Interactive Week 2015: <b style="margin: 0; padding: 0;">скидку –20% на профессиональное участие</b>.</p>
-									<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><?=$user->getShortName();?>, ваш персональный промо-код на 20% скидку:<br style="margin: 0; padding: 0;"><b style="color: #D85A43; font-size: 28px; margin: 0; padding: 0;"><?=$coupon->Code?></b></p>
+									<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><?=$user->getShortName()?>, ваш персональный промо-код на 20% скидку:<br style="margin: 0; padding: 0;"><b style="color: #D85A43; font-size: 28px; margin: 0; padding: 0;"><?=$coupon->Code?></b></p>
 									<p style="color: #999; line-height: 14px; font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><small style="margin: 0; padding: 0;">Данный промо-код является уникальным и может быть активирован в личном кабинете на сайте RIW-2015 только один раз.</small></p>
 								</td>
 								<td style="vertical-align: top; margin: 0; padding: 0;" valign="top">
@@ -114,7 +114,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>

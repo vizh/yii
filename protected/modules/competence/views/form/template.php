@@ -5,9 +5,9 @@
  */
 echo '<?php'."\r\n";
 ?>
-namespace competence\models\test\<?=$test->Code;?>;
+namespace competence\models\test\<?=$test->Code?>;
 
-class <?=$question->Code;?> extends \<?=trim($question->Type->Class, '\\');?><?=' ';?>
+class <?=$question->Code?> extends \<?=trim($question->Type->Class, '\\')?><?=' '?>
 {
 
 }

@@ -57,5 +57,5 @@ $clientScript->registerScript('cloudpayments','
 ');
 ?>
 
-<?=\CHtml::link('&nbsp;', ['/pay/cabinet/pay', 'type' => $system, 'eventIdName' => $this->account->Event->IdName], $this->getHtmlOptions($system));?>
+<?=\CHtml::link('&nbsp;', ['/pay/cabinet/pay', 'type' => $system, 'eventIdName' => $this->account->Event->IdName], $this->getHtmlOptions($system))?>
 <span class="cloudpayments"></span>

@@ -16,22 +16,22 @@ $clientScript->registerScript('init', '
 );
 ?>
 
-<?php $activeForm = $this->beginWidget('application\widgets\ActiveForm') ?>
+<?$activeForm = $this->beginWidget('application\widgets\ActiveForm')?>
     <div class="panel panel-info">
         <div class="panel-heading">
-            <span class="panel-title"><span class="fa fa-pencil"></span> <?= \Yii::t('app', 'Реквизиты счета') ?></span>
+            <span class="panel-title"><span class="fa fa-pencil"></span> <?=\Yii::t('app', 'Реквизиты счета')?></span>
         </div>
         <div class="panel-body" ng-controller="OrderEditController">
-            <?= $activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>') ?>
-            <?= Flash::html() ?>
+            <?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>')?>
+            <?=Flash::html()?>
 
-            <?php $this->renderPartial('edit/juridical', ['activeForm' => $activeForm, 'form' => $form]) ?>
+            <?$this->renderPartial('edit/juridical', ['activeForm' => $activeForm, 'form' => $form])?>
             <hr>
-            <?php $this->renderPartial('edit/items', ['form' => $form]) ?>
+            <?$this->renderPartial('edit/items', ['form' => $form])?>
 
         </div>
         <div class="panel-footer">
-            <?= CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary']) ?>
+            <?=CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-primary'])?>
         </div>
     </div>
-<?php $this->endWidget() ?>
+<?$this->endWidget()?>

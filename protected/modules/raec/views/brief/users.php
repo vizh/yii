@@ -6,39 +6,39 @@
 use raec\models\forms\brief\Users;
 
 ?>
-<?if (!empty($modelForm->Users)):?>
+<?if(!empty($modelForm->Users)):?>
 <script type="text/javascript">
     var users = [];
-    <?foreach ($modelForm->getUsers() as $user):?>
+    <?foreach($modelForm->getUsers() as $user):?>
         var user = {
-            'RunetId' : '<?=$user->User->RunetId;?>',
-            'FullName' : '<?=\CHtml::encode($user->User->getFullName());?>',
+            'RunetId' : '<?=$user->User->RunetId?>',
+            'FullName' : '<?=\CHtml::encode($user->User->getFullName())?>',
             'Photo' : {
-                'Small' : '<?=$user->User->getPhoto()->get50px();?>'
+                'Small' : '<?=$user->User->getPhoto()->get50px()?>'
             },
-            'RoleId' : <?=$user->Role->Id;?>
+            'RoleId' : <?=$user->Role->Id?>
         };
-        <?if ($user->User->getEmploymentPrimary() !== null && $user->User->getEmploymentPrimary()->Company !== null):?>
-            user['Company']  = '<?=\CHtml::encode($user->User->getEmploymentPrimary()->Company->Name);?>';
-            user['Position'] = '<?=\CHtml::encode($user->User->getEmploymentPrimary()->Position);?>';
-        <?endif;?>
+        <?if($user->User->getEmploymentPrimary() !== null && $user->User->getEmploymentPrimary()->Company !== null):?>
+            user['Company']  = '<?=\CHtml::encode($user->User->getEmploymentPrimary()->Company->Name)?>';
+            user['Position'] = '<?=\CHtml::encode($user->User->getEmploymentPrimary()->Position)?>';
+        <?endif?>
         users.push(user);
-    <?endforeach;?>
+    <?endforeach?>
 </script>
-<?endif;?>
+<?endif?>
 
-<?$form = $this->beginWidget('CActiveForm');?>
-    <?=$form->errorSummary($modelForm, '<div class="alert alert-error">', '</div>');?>
+<?$form = $this->beginWidget('CActiveForm')?>
+    <?=$form->errorSummary($modelForm, '<div class="alert alert-error">', '</div>')?>
     <div class="row">
         <div class="span12">
-            <?=$form->textField($modelForm, 'Label', ['class' => 'input-block-level']);?>
+            <?=$form->textField($modelForm, 'Label', ['class' => 'input-block-level'])?>
         </div>
     </div>
 
     <div class="registration hide">
         <div class="row">
             <div class="span12 text-center m-bottom_20">
-                <h4><?=\Yii::t('app', 'Регистрация нового пользователя');?></h4>
+                <h4><?=\Yii::t('app', 'Регистрация нового пользователя')?></h4>
             </div>
         </div>
         <div class="row">
@@ -48,34 +48,34 @@ use raec\models\forms\brief\Users;
         </div>
         <div class="row">
             <div class="span3 offset3">
-                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'LastName');?>
-                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'LastName', ['class' => 'input-block-level']);?>
+                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'LastName')?>
+                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'LastName', ['class' => 'input-block-level'])?>
 
-                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'FirstName');?>
-                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'FirstName', ['class' => 'input-block-level']);?>
+                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'FirstName')?>
+                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'FirstName', ['class' => 'input-block-level'])?>
 
-                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'FatherName');?>
-                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'FatherName', ['class' => 'input-block-level']);?>
+                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'FatherName')?>
+                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'FatherName', ['class' => 'input-block-level'])?>
 
-                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'Email');?>
-                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'Email', ['class' => 'input-block-level']);?>
+                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'Email')?>
+                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'Email', ['class' => 'input-block-level'])?>
             </div>
             <div class="span3">
-                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'Phone');?>
-                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'Phone', ['class' => 'input-block-level']);?>
+                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'Phone')?>
+                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'Phone', ['class' => 'input-block-level'])?>
 
-                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'Company');?>
-                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'Company', ['class' => 'input-block-level']);?>
+                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'Company')?>
+                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'Company', ['class' => 'input-block-level'])?>
 
-                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'Position');?>
-                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'Position', ['class' => 'input-block-level']);?>
+                <?=\CHtml::activeLabel($modelForm->getRegisterForm(), 'Position')?>
+                <?=\CHtml::activeTextField($modelForm->getRegisterForm(), 'Position', ['class' => 'input-block-level'])?>
             </div>
         </div>
         <div class="row">
             <div class="span12">
                 <div class="form-actions text-center">
-                    <button class="btn btn-cancel"><?=\Yii::t('app', 'Отмена');?></button>
-                    <button class="btn btn-inverse btn-submit"><?=\Yii::t('app', 'Зарегистрировать');?></button>
+                    <button class="btn btn-cancel"><?=\Yii::t('app', 'Отмена')?></button>
+                    <button class="btn btn-inverse btn-submit"><?=\Yii::t('app', 'Зарегистрировать')?></button>
                 </div>
             </div>
         </div>
@@ -85,11 +85,11 @@ use raec\models\forms\brief\Users;
     <hr/>
     <div class="row">
         <div class="span12 text-center">
-            <?=\CHtml::submitButton(\Yii::t('app', 'Следующий шаг'), ['class' => 'btn btn-success btn-large']);?>
+            <?=\CHtml::submitButton(\Yii::t('app', 'Следующий шаг'), ['class' => 'btn btn-success btn-large'])?>
         </div>
     </div>
-<?=$this->getNextActionInput();?>
-<?$this->endWidget();?>
+<?=$this->getNextActionInput()?>
+<?$this->endWidget()?>
 
 <script type="text/template" id="user-tpl">
     <div class="row m-bottom_10">
@@ -103,16 +103,16 @@ use raec\models\forms\brief\Users;
             <%}%>
         </div>
         <div class="span4">
-            <select name="<?=\CHtml::activeName($modelForm, 'Users');?>[<%=i%>][RoleId]">
-                <?foreach ($modelForm->getRoleData() as $value => $label):?>
-                    <option value="<?=$value;?>" <%if(RoleId == '<?=$value;?>'){%>selected="selected"<%}%>><?=$label;?></option>
-                <?endforeach;?>
+            <select name="<?=\CHtml::activeName($modelForm, 'Users')?>[<%=i%>][RoleId]">
+                <?foreach($modelForm->getRoleData() as $value => $label):?>
+                    <option value="<?=$value?>" <%if(RoleId == '<?=$value?>'){%>selected="selected"<%}%>><?=$label?></option>
+                <?endforeach?>
             </select>
         </div>
         <div class="span2">
-            <a href="#" class="btn btn-danger btn-small"><?=\Yii::t('app', 'Удалить');?></a>
+            <a href="#" class="btn btn-danger btn-small"><?=\Yii::t('app', 'Удалить')?></a>
         </div>
-        <input type="hidden" name="<?=\CHtml::activeName($modelForm, 'Users');?>[<%=i%>][RunetId]" value="<%=RunetId%>" />
+        <input type="hidden" name="<?=\CHtml::activeName($modelForm, 'Users')?>[<%=i%>][RunetId]" value="<%=RunetId%>" />
     </div>
 </script>
 

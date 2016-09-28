@@ -34,7 +34,7 @@
 
 <p>Список заявок на&nbsp;доклады публикуется <a href="http://ritconf.ru/2014/abstracts/?partner=raec">на&nbsp;сайте конференции</a>.&nbsp;<span style="line-height: 1.6em;">Приходите, выбирайте, впечатляйтесь и&nbsp;бронируйте билеты, пока ещё не&nbsp;поздно!</span></p>
 
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rit14/');?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Зарегистрироваться</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rit14/')?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Зарегистрироваться</a></p>
 
 <hr style="border: none; border-bottom: 1px solid #eaeaea; height: 1px; margin: 25px 0;" />
 
@@ -65,4 +65,4 @@
 
 <p>Впечатляет? Всё видео мы&nbsp;запишем на&nbsp;<nobr>USB-винчестер</nobr>, а&nbsp;его вместе с&nbsp;бумажной книгой вложим в&nbsp;фирменную сумку разработчика высоконагруженных систем. Более терабайта данных, несколько сотен докладов от&nbsp;всех лучших специалистов России и&nbsp;мирового Интернета. Самая большая коллекция материалов по&nbsp;разработке сложных крупных и&nbsp;высоконагруженных проектов в&nbsp;России, если и&nbsp;не&nbsp;в&nbsp;мире.</p>
 
-<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/hlmaterials/');?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Заказать материалы</a></p>
+<p><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/hlmaterials/')?>" style="display: block; text-decoration: none; background: #D85939; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Заказать материалы</a></p>

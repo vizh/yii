@@ -61,7 +61,7 @@
           <table width="750" height="1060" align="center" cellpadding="0" cellspacing="0" style="position: relative; width: 750px; height: 1060px; border-collapse:collapse; background: url('http://runet-id.com/img/event/beesuper13/beesuper-bg.jpg') no-repeat; font-family: Arial;">
             <tr style="height: 355px;">
               <td align="left" valign="top">
-                <a style="font-family: Arial; display: block; font-size: 11px; font-style: italic; line-height: 33px; margin-right: 10px; min-height: 43px; padding-right: 60px; text-align: right; text-decoration: none; background: transparent url('http://runet-id.com/img/event/beesuper13/print.png') no-repeat right !important; color: #000000 !important;" href="<?=$user->Participants[0]->getTicketUrl();?>">Распечатать</a>
+                <a style="font-family: Arial; display: block; font-size: 11px; font-style: italic; line-height: 33px; margin-right: 10px; min-height: 43px; padding-right: 60px; text-align: right; text-decoration: none; background: transparent url('http://runet-id.com/img/event/beesuper13/print.png') no-repeat right !important; color: #000000 !important;" href="<?=$user->Participants[0]->getTicketUrl()?>">Распечатать</a>
                 <div style="margin-top: 120px; margin-left: 45px; padding: 0 8px; width: 385px;">
                   <h1 style="font-family: Arial; font-size: 23px; margin: 0; font-weight: normal; line-height: 29px;">Дорогой коллега,<br/>приглашаем тебя на новогодний<br/>слет супергероев &laquo;Билайн&raquo;!</h1>
                   <p style="font-family: Arial; font-size: 13px; line-height: 21px;">На празднике мы, как всегда, сможем продемонстрировать<br/>свои неограниченные возможности. Вместе вспомним<br/>наши подвиги и достижения уходящего года и зарядимся<br/>суперсилой для исполнения своей миссии в 2014 году!</p>
@@ -80,7 +80,7 @@
                       <div style="font-family: Arial; font-size: 12px; margin-left: 30px; margin-top: 10px; width: 130px; line-height: 15px;">GPS координаты:<br/>55.739782 N<br/>37.610134 E</div>
                     </td>
                     <td style="font-family: Arial; text-align: center; width: 100px; vertical-align: top;">
-                      <div><img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100);?>" /><br/><?=$user->RunetId;?></div>
+                      <div><img src="<?=\ruvents\components\QrCode::getAbsoluteUrl($user,100)?>" /><br/><?=$user->RunetId?></div>
                     </td>
                   </tr>
                 </table>

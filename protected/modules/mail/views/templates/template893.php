@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://2016.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
@@ -18,10 +18,10 @@
                 max-width: 600px;
                 padding-top: 10px;
                 padding-bottom: 20px;
-            } 
-            
-            .h1, 
-            .h2, 
+            }
+
+            .h1,
+            .h2,
             .h3 {
               color: #111111;
               font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -72,11 +72,11 @@
             }
 
             .btn-secondary td {
-              background-color: transparent; 
-              font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-              font-size: 14px; 
+              background-color: transparent;
+              font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+              font-size: 14px;
               text-align: center;
-              vertical-align: top; 
+              vertical-align: top;
             }
 
             .btn-secondary td a {
@@ -103,7 +103,7 @@
                 font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
                 font-size: 14px;
                 line-height: 1.5em;
-            }                        
+            }
             @media only screen and (min-device-width: 601px) {
                 .content {width: 600px !important;}
             }
@@ -118,12 +118,12 @@
                         <tr>
                             <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                 <![endif]-->
-                                <table class="content" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="padding-top:0!important;width:100%;max-width:600px;padding-bottom:20px;" >                                   
+                                <table class="content" align="center" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="padding-top:0!important;width:100%;max-width:600px;padding-bottom:20px;" >
                                     <tr>
                                         <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                             <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#D2D9DC" style="padding-bottom:20px;" >
                                                 <tr>
-                                                    <td align="center" class="h2 padding-20" style="color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;padding-top:20px;padding-bottom:10px;padding-left:20px;padding-right:20px;" >Здравствуйте, <?=$user->getShortName();?>!</td>
+                                                    <td align="center" class="h2 padding-20" style="color:#111111;font-family:'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-weight:200;line-height:1.2em;margin-top:10px;margin-bottom:10px;margin-right:0;margin-left:0;font-size:28px;padding-top:20px;padding-bottom:10px;padding-left:20px;padding-right:20px;" >Здравствуйте, <?=$user->getShortName()?>!</td>
                                                 </tr>
                                             </table>
                                         </td>
@@ -133,7 +133,7 @@
                                             <a href="http://rif.ru" style="line-height:0 !important;color:#000000;" ><img src="https://showtime.s3.amazonaws.com/201603180918-RIF16_642x-01.png"  alt="" style="height:auto;width:100%;" ></a>
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                             <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="padding-top:30px;" >
@@ -386,7 +386,7 @@
                                                 <td valign="top" style="font-family:'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;font-size:14px;line-height:1.5em;" >
                                                   <a href="http://2016.russianinternetforum.ru/expo/" style="font-weight:bold;color:#000000;" >Выставка</a>
                                                   <br>
-                                                  
+
                                                 </td>
                                               </tr>
                                             </table>
@@ -439,7 +439,7 @@
 
 
 
-                                                       
+
                                 <!--[if (gte mso 9)|(IE)]>
                             </td>
                         </tr>

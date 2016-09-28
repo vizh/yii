@@ -1,4 +1,4 @@
-<?=$user->getShortName();?> Hello!
+<?=$user->getShortName()?> Hello!
 
 Thank you for registering for TechCrunch Moscow 2013!
 
@@ -6,7 +6,7 @@ Dates: December 8-9, 2013
 Venue: Digital October
 3/6 Bersenevskaya naberezhnaya, Moscow
 
-Please, save on the phone or print out this ticket: <?=$participant->getTicketUrl();?>
+Please, save on the phone or print out this ticket: <?=$participant->getTicketUrl()?>
 
 Or be prepared to show the proper ID.
 

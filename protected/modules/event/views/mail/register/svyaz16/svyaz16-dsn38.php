@@ -6,7 +6,7 @@
 			<div class="column-wrap" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; max-width: 720px !important; margin: 0 auto; padding: 0 20px; border-color: #09233C; border-style: solid; border-width: 3px;">
 			<p><font face="sans-serif, Arial, Verdana, Trebuchet MS"><img src="https://monosnap.com/file/w9clFGKERVRcon3Re6N5rym6uWWVVm.png" style="margin-top:15px; width: 20%" /></font></p>
 
-			<h2>Здравствуйте,&nbsp;<?=$user->getShortName();?>!</h2>
+			<h2>Здравствуйте,&nbsp;<?=$user->getShortName()?>!</h2>
 
 			<p>Благодарим Вас за регистрацию в качестве посетителя выставки/мероприятия СВЯЗЬ-2016.</p>
 
@@ -26,7 +26,7 @@
 			<div>&nbsp;</div>
 
 			<hr />
-			<h2><font face="sans-serif, Arial, Verdana, Trebuchet MS">Dear <?=$user->getShortName();?>!</font></h2>
+			<h2><font face="sans-serif, Arial, Verdana, Trebuchet MS">Dear <?=$user->getShortName()?>!</font></h2>
 
 			<p>Thank you for registering as a visitor to the &quot;SVIAZ 2016&quot; show/event.</p>
 

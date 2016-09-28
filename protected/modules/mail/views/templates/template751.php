@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/mbl15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Уже через несколько дней в Москве пройдет <a href="http://mbltdev.ru/?utm_source=raec&amp;utm_medium=email&amp;utm_campaign=11/11">Вторая международная конференция мобильных разработчиков</a>. Программа конференции будет поделена на три потока: технический, бизнес-трек и трек с семинарами.</p>
 

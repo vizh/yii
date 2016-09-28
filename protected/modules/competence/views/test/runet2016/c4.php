@@ -18,13 +18,13 @@ $attrs = [
     </tr>
     <?for ($i=0;$i<5;$i++):?>
         <tr>
-            <td><?=CHtml::activeTextField($form, 'value[' . $i . '][factor]', ['class' => 'input-block-level']);?></td>
+            <td><?=CHtml::activeTextField($form, 'value[' . $i . '][factor]', ['class' => 'input-block-level'])?></td>
             <td><?=CHtml::activeDropDownList($form, 'value[' . $i . '][estimation]', [
                     '' => '', 'pos' => 'Положительная', 'neg' => 'Отрицательная'
-                ], $attrs);?></td>
+                ], $attrs)?></td>
             <td><?=CHtml::activeDropDownList($form, 'value[' . $i . '][rate]', [
                     '' => '', 'weak' => 'Слабое', 'med' => 'Среднее', 'strong' => 'Сильное', 'v_strong' => 'Очень сильное',
-                ], $attrs);?></td>
+                ], $attrs)?></td>
         </tr>
-    <?endfor;?>
+    <?endfor?>
 </table>

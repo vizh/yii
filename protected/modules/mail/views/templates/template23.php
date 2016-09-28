@@ -1,5 +1,5 @@
 <img alt="" src="http://runet-id.com/images/mail/conversionconf14/header.jpg" style="width: 620px; height: 200px;" />​
-<h2>Здравствуйте, <?=$user->getShortName();?>!</h2>
+<h2>Здравствуйте, <?=$user->getShortName()?>!</h2>
 
 <p>Приглашаем к участию в конференции <a href="http://www.conversionconf.ru/?utm_source=runet-id&amp;utm_medium=mail&amp;utm_campaign=ConversionConf2014">ConversionConf 2014</a>, которая состоится 5 марта в Москве.</p>
 
@@ -15,7 +15,7 @@
   <tr>
     <td><a href="http://www.conversionconf.ru/?utm_source=runet-id&utm_medium=mail&utm_campaign=ConversionConf2014" style="display: block; text-decoration: none; background: #3c3f41; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; margin: 0 auto; padding: 12px; text-align: center; width: 150px;">Подробнее</a></td>
 
-    <td><a href="<?=$user->getFastauthUrl('/event/conversionconf14/');?>" style="display: block; text-decoration: none; background: #FF7370; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; margin: 0 auto; padding: 12px; text-align: center; width: 150px;">Регистрация</a></td>
+    <td><a href="<?=$user->getFastauthUrl('/event/conversionconf14/')?>" style="display: block; text-decoration: none; background: #FF7370; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; margin: 0 auto; padding: 12px; text-align: center; width: 150px;">Регистрация</a></td>
 
   </tr>
 </table>

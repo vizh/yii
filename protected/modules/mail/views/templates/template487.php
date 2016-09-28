@@ -1,8 +1,8 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/vse15.png" style="width: 100%; height: auto; margin: 0 auto" /></p>
 
-<h3><strong>Здравствуйте, </span><?=$user->getShortName();?></strong>!</h3>
+<h3><strong>Здравствуйте, </span><?=$user->getShortName()?></strong>!</h3>
 
-<p>Предлагаем вам расширить свои возможности, изучив базовый курс «Маркетинг и производство в цифровых медиа» в Школе новых медиа НИУ ВШЭ. 
+<p>Предлагаем вам расширить свои возможности, изучив базовый курс «Маркетинг и производство в цифровых медиа» в Школе новых медиа НИУ ВШЭ.
 </p>
 <p>Вы научитесь создавать качественный и актуальный контент, анализировать рынок и оценивать эффективность дальнейших действий для развития бизнеса вашей компании, эффективно использовать инструменты для рекламных кампаний в цифровой среде и управлять бизнес-процессами в new media.
 </p>
@@ -62,7 +62,7 @@
 <ul>
 <li>уникальная программа обучения, в разработке которой участвовали лидеры российского издательского рынка, рынка рекламы и IT;</li>
 <li>удостоверение о повышении квалификации  Национального исследовательского университета “Высшая школа экономики”;</li>
-<li>выездные лекции и семинары в офисах Google, TNS, Mail.ru, Билайн, Яндекс;</li>  
+<li>выездные лекции и семинары в офисах Google, TNS, Mail.ru, Билайн, Яндекс;</li>
 <li>дополнительная сертификация от ведущих компаний отрасли: Google, Microsoft, Медиалогия.</li>
 </ul>
 
@@ -73,4 +73,4 @@
 
 
 <div style="background: #eaeaea; padding: 25px; text-align: center;">
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/nmsmarket15');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #52B623; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #52B623; border-top: 1px solid #52B623;"><strong>РЕГИСТРАЦИЯ</strong> </a></div></div>
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/nmsmarket15')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #52B623; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #52B623; border-top: 1px solid #52B623;"><strong>РЕГИСТРАЦИЯ</strong> </a></div></div>

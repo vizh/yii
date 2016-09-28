@@ -10,12 +10,12 @@ $this->setPageTitle($test->Title);
 
 <div class="row">
     <div class="span12 m-top_30 text-center">
-        <?php if (!empty($test->AfterEndText)): ?>
+        <?if(!empty($test->AfterEndText)):?>
             <?=$test->AfterEndText?>
-        <?php else: ?>
+        <?php else:?>
             <p class="lead" style="padding: 20px;">
-                <?= Yii::t('app', 'БОЛЬШОЕ СПАСИБО ЗА УЧАСТИЕ В НАШЕМ ИССЛЕДОВАНИИ') ?>!
+                <?=Yii::t('app', 'БОЛЬШОЕ СПАСИБО ЗА УЧАСТИЕ В НАШЕМ ИССЛЕДОВАНИИ')?>!
             </p>
-        <?php endif ?>
+        <?endif?>
     </div>
 </div>

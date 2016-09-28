@@ -1,6 +1,6 @@
 <p><img src="http://runet-id.com/images/mail/csf14/header-bg.jpg"></p>
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Опубликована <a href="http://runet-id.com/event/csf14/#event_widgets_tabs_Html">Программа Международного Форума по Кибербезопасности</a> (Cyber Security Forum 2014, Russia), который состоится 19 февраля 2014 года в г.Москве на площадке Торгово-Промышленной Палаты РФ.</p>
 
@@ -52,4 +52,4 @@ $event = \event\models\Event::model()->findByPk(870);
 $registerLink = $event->getFastRegisterUrl($user, $role, '/event/csf14/');
 ?>
 
-<p><a href="<?=$registerLink;?>" style="display: block; text-decoration: none; background: #FF7370; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Быстрая регистрация &raquo;</a></p>
+<p><a href="<?=$registerLink?>" style="display: block; text-decoration: none; background: #FF7370; color: #FFFFFF; font-family: Arial,Verdana,sans-serif; font-size: 20px; margin: 0 auto; padding: 12px; text-align: center; width: 300px;">Быстрая регистрация &raquo;</a></p>

@@ -30,17 +30,17 @@ use application\components\utility\Texts;
     </style>
 </HEAD>
 <BODY style="color: #000; font-family: 'Times New Roman'; font-size: 14px; width: 700px; text-align: justify;">
-<h1 style="text-align: center; font-size: 16px;">ДОГОВОР НА ОКАЗАНИЕ УСЛУГ № <?= $order->Number; ?></h1>
+<h1 style="text-align: center; font-size: 16px;">ДОГОВОР НА ОКАЗАНИЕ УСЛУГ № <?=$order->Number?></h1>
 <table style="width: 100%; padding: 0; margin: 0; font-size: 12px;">
     <tr>
         <td>г. Москва</td>
-        <td style="text-align: right;"><?= \Yii::app()->getDateFormatter()->format('«dd» MMMM yyyy г.', $order->CreationTime); ?></td>
+        <td style="text-align: right;"><?=\Yii::app()->getDateFormatter()->format('«dd» MMMM yyyy г.', $order->CreationTime)?></td>
     </tr>
 </table>
 <p>
-    <strong><?= CHtml::encode($order->Name) ?></strong>, именуемое в дальнейшем <strong>«Заказчик»</strong>,
-    в лице <?= CHtml::encode($order->ChiefPositionP) ?>, действующего на основании
-    <?= !empty($order->StatuteTitle) ? $order->StatuteTitle : 'Устава' ?>, и
+    <strong><?=CHtml::encode($order->Name)?></strong>, именуемое в дальнейшем <strong>«Заказчик»</strong>,
+    в лице <?=CHtml::encode($order->ChiefPositionP)?>, действующего на основании
+    <?=!empty($order->StatuteTitle) ? $order->StatuteTitle : 'Устава'?>, и
     <strong>Общество с ограниченной ответственностью «Интернет Медиа Холдинг»</strong>,
     именуемое в дальнейшем <strong>«Организатор»</strong>, в лице Директора Гребенникова Сергея Владимировича,
     действующего на основании Устава, а совместно именуемые «Стороны», заключили настоящий договор о нижеследующем:
@@ -91,15 +91,15 @@ use application\components\utility\Texts;
     <?php
     $total = $order->getTotalPrice();
     $nds = $total - round($total / 1.18, 2, PHP_ROUND_HALF_DOWN);
-    ?>
+   ?>
 <li style="padding-bottom: 10px;">Общая стоимость услуг по настоящему договору
-    составляет <?= number_format($order->getTotalPrice(), 0, ',', ' '); ?>
-    (<?= mb_strtolower(Texts::NumberToText($total, true)); ?>
-    ) <?= Yii::t('app', 'рубль| рубля|рублей|рубля', $total); ?> 00 копеек, в т.ч.
-    НДС <?= number_format(floor($nds), 0, ',', ' '); ?> (<?= mb_strtolower(Texts::NumberToText($nds, true)); ?>
-    ) <?= Yii::t('app', 'рубль| рубля|рублей|рубля', floor($nds)); ?>
-    <? $kop = round(($nds - floor($nds)) * 100, 0, PHP_ROUND_HALF_DOWN); ?>
-    <?= $kop < 10 ? '0' . $kop : $kop; ?> копеек.
+    составляет <?=number_format($order->getTotalPrice(), 0, ',', ' ')?>
+    (<?=mb_strtolower(Texts::NumberToText($total, true))?>
+    ) <?=Yii::t('app', 'рубль| рубля|рублей|рубля', $total)?> 00 копеек, в т.ч.
+    НДС <?=number_format(floor($nds), 0, ',', ' ')?> (<?=mb_strtolower(Texts::NumberToText($nds, true))?>
+    ) <?=Yii::t('app', 'рубль| рубля|рублей|рубля', floor($nds))?>
+    <?$kop = round(($nds - floor($nds)) * 100, 0, PHP_ROUND_HALF_DOWN)?>
+    <?=$kop < 10 ? '0' . $kop : $kop?> копеек.
 </li>
 <li style="padding-bottom: 10px;">
     Проживание:
@@ -142,31 +142,31 @@ use application\components\utility\Texts;
         </th>
         </thead>
         <tbody>
-        <?php foreach ($order->Bookings as $booking): ?>
+        <?foreach($order->Bookings as $booking):?>
             <?php
             /** @var \pay\components\managers\RoomProductManager $manager */
             $manager = $booking->Product->getManager();
-            ?>
+           ?>
             <tr>
-                <td style="border: 1px solid #000000;padding: 8px;"><?= $manager->Hotel; ?></td>
-                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?= $manager->Housing; ?></td>
-                <td style="border: 1px solid #000000;padding: 8px;"><?= $manager->Category; ?></td>
-                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?= $manager->Number; ?></td>
-                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?= $manager->Price; ?></td>
-                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?= $manager->AdditionalPrice * $booking->AdditionalCount; ?></td>
+                <td style="border: 1px solid #000000;padding: 8px;"><?=$manager->Hotel?></td>
+                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->Housing?></td>
+                <td style="border: 1px solid #000000;padding: 8px;"><?=$manager->Category?></td>
+                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->Number?></td>
+                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->Price?></td>
+                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$manager->AdditionalPrice * $booking->AdditionalCount?></td>
                 <td style="border: 1px solid #000000;padding: 8px;text-align:center;">
-                    <?php if ($booking->DateIn <= '2016-04-12' && $booking->DateOut >= '2016-04-13'): ?>1<?php endif ?>
+                    <?if($booking->DateIn <= '2016-04-12' && $booking->DateOut >= '2016-04-13'):?>1<?endif?>
                 </td>
                 <td style="border: 1px solid #000000;padding: 8px;text-align:center;">
-                    <?php if ($booking->DateIn <= '2016-04-13' && $booking->DateOut >= '2016-04-14'): ?>1<?php endif ?>
+                    <?if($booking->DateIn <= '2016-04-13' && $booking->DateOut >= '2016-04-14'):?>1<?endif?>
                 </td>
                 <td style="border: 1px solid #000000;padding: 8px;text-align:center;">
-                    <?php if ($booking->DateIn <= '2016-04-15' && $booking->DateOut >= '2016-04-15'): ?>1<? endif ?>
+                    <?if($booking->DateIn <= '2016-04-15' && $booking->DateOut >= '2016-04-15'):?>1<?endif?>
                 </td>
-                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?= $booking->getStayDay() ?></td>
-                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?= $booking->getStayDay() * (Texts::getOnlyNumbers($manager->Price) + $booking->AdditionalCount * $manager->AdditionalPrice); ?></td>
+                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$booking->getStayDay()?></td>
+                <td style="border: 1px solid #000000;padding: 8px;text-align:center;"><?=$booking->getStayDay() * (Texts::getOnlyNumbers($manager->Price) + $booking->AdditionalCount * $manager->AdditionalPrice)?></td>
             </tr>
-        <? endforeach; ?>
+        <?endforeach?>
         </tbody>
     </table>
 </li>
@@ -217,7 +217,7 @@ use application\components\utility\Texts;
 </li>
 </ol>
 </li>
-<li style="padding-bottom: 10px; <? if (sizeof($order->Bookings) > 3): ?>page-break-before: always;<? endif; ?>">
+<li style="padding-bottom: 10px; <?if (sizeof($order->Bookings) > 3):?>page-break-before: always;<?endif?>">
     <span style="font-size: 15px; font-weight: bold;">АДРЕСА И БАНКОВСКИЕ РЕКВИЗИТЫ СТОРОН</span>
     <table style="margin-top: 20px; width: 100%;">
         <tr>
@@ -225,16 +225,16 @@ use application\components\utility\Texts;
                 <p><strong>«Заказчик»</strong></p>
 
                 <p>
-                    <?= CHtml::encode($order->Name) ?><br/>
-                    Юр. адрес: <?= $order->Address ?><br/>
-                    <? if (!empty($order->RealAddress)): ?>
-                        Фактич. адрес: <?= $order->RealAddress ?><br/>
-                    <? endif; ?>
-                    ИНН/КПП <?= $order->INN ?> / <?= $order->KPP ?><br/>
-                    <?= $order->BankName ?><br/>
-                    р/с <?= $order->Account ?><br/>
-                    к/с <?= $order->CorrespondentAccount ?><br/>
-                    БИК <?= $order->BIK ?>
+                    <?=CHtml::encode($order->Name)?><br/>
+                    Юр. адрес: <?=$order->Address?><br/>
+                    <?if (!empty($order->RealAddress)):?>
+                        Фактич. адрес: <?=$order->RealAddress?><br/>
+                    <?endif?>
+                    ИНН/КПП <?=$order->INN?> / <?=$order->KPP?><br/>
+                    <?=$order->BankName?><br/>
+                    р/с <?=$order->Account?><br/>
+                    к/с <?=$order->CorrespondentAccount?><br/>
+                    БИК <?=$order->BIK?>
                 </p>
             </td>
             <td style="width: 50%; vertical-align: top;">
@@ -252,19 +252,19 @@ use application\components\utility\Texts;
         <tr>
             <td style="vertical-align: bottom;">
                 <p>
-                    <?= $order->ChiefPosition; ?>:<br/><br/>
+                    <?=$order->ChiefPosition?>:<br/><br/>
 
-                    _____________________ / <?= $order->ChiefName; ?>/<br/>
+                    _____________________ / <?=$order->ChiefName?>/<br/>
                     м.п.
                 </p>
             </td>
             <td style="vertical-align: bottom;">
-                <?php if (!$clear): ?>
+                <?if(!$clear):?>
                     <img src="/img/pay/bill/booking/stamp.png"
                          style="position: absolute; margin: 5px 0 0 -30px; z-index: 2;image-resolution: 150dpi;"/>
                     <img src="/img/pay/bill/booking/sign.png"
                          style="position: absolute; margin: 10px 0 0 10px; z-index: 1;image-resolution: 150dpi;"/>
-                <?php endif; ?>
+                <?endif?>
                 <p>
                     Директор:<br/><br/>
                     _____________________ / Гребенников С.В./<br/>
@@ -317,15 +317,15 @@ use application\components\utility\Texts;
 </table>
 
 <h2 style="text-align: center;font-size: 22px;line-height: 22px;margin: 40px 0 10px;">
-    Cчет № <?= $order->Number; ?> от <?= \Yii::app()->getDateFormatter()->format('dd.MM.yyyy', $order->CreationTime); ?>
+    Cчет № <?=$order->Number?> от <?=\Yii::app()->getDateFormatter()->format('dd.MM.yyyy', $order->CreationTime)?>
     <br>
 </h2>
 
 <p>
-    <strong>Заказчик:</strong> <?= $order->Name; ?>,
-    <strong>ИНН / КПП:</strong> <?= $order->INN; ?>/<?= $order->KPP; ?><br>
-    <strong>Плательщик:</strong> <?= $order->Name; ?><br>
-    <strong>Адрес:</strong> <?= $order->Address; ?></p>
+    <strong>Заказчик:</strong> <?=$order->Name?>,
+    <strong>ИНН / КПП:</strong> <?=$order->INN?>/<?=$order->KPP?><br>
+    <strong>Плательщик:</strong> <?=$order->Name?><br>
+    <strong>Адрес:</strong> <?=$order->Address?></p>
 
 
 <table class="orderitems" style="width: 100%; padding: 0; margin: 0; border-collapse: collapse;" cellspacing="0"
@@ -347,13 +347,13 @@ use application\components\utility\Texts;
             "РИФ+КИБ 2016",
             проходящей в период с 13 апреля 2016 года по 15 апреля 2016 года по адресу Московская область,
             Одинцовский район, поселок Горки-10, согласно
-            Договору № <?= $order->Number; ?> от
-            <?= \Yii::app()->getDateFormatter()->format('dd MMMM yyyy г', $order->CreationTime); ?>.
+            Договору № <?=$order->Number?> от
+            <?=\Yii::app()->getDateFormatter()->format('dd MMMM yyyy г', $order->CreationTime)?>.
         </td>
         <td style="border: 1px solid #000;  padding: 5px; text-align: center;">усл.</td>
         <td style="border: 1px solid #000;  padding: 5px; text-align: center;">1</td>
-        <td style="border: 1px solid #000;  padding: 5px; text-align: center; white-space: nowrap;"><?= number_format($total - $nds, 2, ',', ' '); ?></td>
-        <td style="border: 1px solid #000;  padding: 5px; text-align: right; white-space: nowrap;"><?= number_format($total - $nds, 2, ',', ' '); ?></td>
+        <td style="border: 1px solid #000;  padding: 5px; text-align: center; white-space: nowrap;"><?=number_format($total - $nds, 2, ',', ' ')?></td>
+        <td style="border: 1px solid #000;  padding: 5px; text-align: right; white-space: nowrap;"><?=number_format($total - $nds, 2, ',', ' ')?></td>
     </tr>
 
     <tr>
@@ -363,23 +363,23 @@ use application\components\utility\Texts;
             <strong>Всего к оплате (c учетом НДС):</strong>
         </td>
         <td colspan="2" style="border: 1px solid #000;  padding: 5px; text-align: right;">
-            <strong><?= number_format($total - $nds, 2, ',', ' '); ?></strong><br>
-            <strong><?= number_format($nds, 2, ',', ' '); ?></strong><br>
-            <strong><?= number_format($total, 2, ',', ' '); ?></strong>
+            <strong><?=number_format($total - $nds, 2, ',', ' ')?></strong><br>
+            <strong><?=number_format($nds, 2, ',', ' ')?></strong><br>
+            <strong><?=number_format($total, 2, ',', ' ')?></strong>
         </td>
     </tr>
     </tbody>
 </table>
 
 <p>
-    Всего на сумму <?= number_format($total, 0, ',', ' '); ?> руб. 00 коп.<br>
-    <? $stringTotal = Texts::NumberToText($total, true); ?>
-    <?= mb_substr($stringTotal, 0, 1) . mb_substr(mb_strtolower($stringTotal), 1); ?> <?= Yii::t('app', 'рубль| рубля|рублей|рубля', $total); ?>
+    Всего на сумму <?=number_format($total, 0, ',', ' ')?> руб. 00 коп.<br>
+    <?$stringTotal = Texts::NumberToText($total, true)?>
+    <?=mb_substr($stringTotal, 0, 1) . mb_substr(mb_strtolower($stringTotal), 1)?> <?=Yii::t('app', 'рубль| рубля|рублей|рубля', $total)?>
     00 копеек
 </p>
-<?php if (!$clear): ?>
+<?if(!$clear):?>
     <img src="/img/pay/bill/imh.jpg" style="margin-left: -10px;image-resolution: 150dpi;">
-<?php else: ?>
+<?php else:?>
     <table class="sign">
         <tr>
             <td>Руководитель предприятия</td>
@@ -392,7 +392,7 @@ use application\components\utility\Texts;
             <td>(Гулина Н. А.)</td>
         </tr>
     </table>
-<?php endif; ?>
+<?endif?>
 <div style="page-break-after: always; padding: 0; margin: 0; height: 0"></div>
 </BODY>
 </HTML>

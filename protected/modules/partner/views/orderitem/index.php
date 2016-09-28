@@ -15,12 +15,12 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
 
 ?>
 
-<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
-    <?=\CHtml::link('<span class="fa fa-plus btn-label"></span> ' . \Yii::t('app', 'Создание заказа'), ['create'], ['class' => 'btn btn-primary btn-labeled']);?>
-<?php $this->endClip();?>
+<?$this->beginClip(Controller::PAGE_HEADER_CLIP_ID)?>
+    <?=\CHtml::link('<span class="fa fa-plus btn-label"></span> ' . \Yii::t('app', 'Создание заказа'), ['create'], ['class' => 'btn btn-primary btn-labeled'])?>
+<?$this->endClip()?>
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-shopping-cart"></i> <?=\Yii::t('app', 'Заказы мероприятия');?></span>
+        <span class="panel-title"><i class="fa fa-shopping-cart"></i> <?=\Yii::t('app', 'Заказы мероприятия')?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
         <div class="table-info">
@@ -157,7 +157,7 @@ $this->setPageTitle(\Yii::t('app', 'Заказы'));
                         ]
                     ]
                 ]
-            ]);?>
+            ])?>
         </div>
     </div>
 </div>

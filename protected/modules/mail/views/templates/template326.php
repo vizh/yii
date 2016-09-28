@@ -1,5 +1,5 @@
 <p><img src="http://runet-id.com/img/mail/2015/qaz12.jpg" style="height: auto; width: 100%;" /></p>
-<h3>Здравствуйте <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте <?=$user->getShortName()?>!</h3>
 
 <p><strong>24 февраля 2015 года в 13:30 в Москве (ФРИИ Сити Холл)</strong> состоится пресс-конференция, посвященная старту нового уникального Всероссийского проекта – <a href="http://REGIONS.rif.ru">РИФ.Регион
 2015</a>.</p>
@@ -27,18 +27,18 @@
 <p><strong>График проведения мероприятий в городах России, особенности проекта, цели и задачи, акценты и возможности проекта – вот главные темы, которые будут раскрыты в ходе пресс-конференции.</strong><br/></p>
 
 <p><strong>Спикеры:</strong></p>
-<li style="padding-bottom:10px;"><a href="http://runet-id.com/6332/">Евгений Ковнир</a>, директор департамента развития отрасли информационных технологий Министерства связи и массовых коммуникаций РФ;</li> 
+<li style="padding-bottom:10px;"><a href="http://runet-id.com/6332/">Евгений Ковнир</a>, директор департамента развития отрасли информационных технологий Министерства связи и массовых коммуникаций РФ;</li>
 
 <li style="padding-bottom:10px;"><a href="http://runet-id.com/337/">Сергей Плуготаренко</a>, директор РАЭК;</li>
 
 <li style="padding-bottom:10px;"><a href="http://runet-id.com/86741/">Дмитрий Калаев</a>, директор акселерационных программ ФРИИ;</li>
- 
-<li style="padding-bottom:10px;"><a href="http://runet-id.com/152310/">Егор Иванов</a>, мэр города Иннополис;</li>  
+
+<li style="padding-bottom:10px;"><a href="http://runet-id.com/152310/">Егор Иванов</a>, мэр города Иннополис;</li>
 
 <li style="padding-bottom:10px;"><a href="http://runet-id.com/12959/">Сергей Гребенников</a>, директор РОЦИТ;</li>
 
 <li><a href="http://runet-id.com/8891/">Алексей Басов</a>, вице-президент Ростелеком.</li>
 
 <div style="text-align: center; border: 3px dashed #2B7ABD; margin-top: 20px;">
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rifreg15/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #2B7ABD; margin: 0 10px 0 0; padding: 0; border-color: #2B7ABD; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rifreg15/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #2B7ABD; margin: 0 10px 0 0; padding: 0; border-color: #2B7ABD; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
 </div>

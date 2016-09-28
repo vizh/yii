@@ -5,10 +5,10 @@ $menu = array(
   'subscription' => \Yii::t('app', 'Управление подпиской'),
   'connect' => \Yii::t('app', 'Привязка к социальным сетям')
 );
-;?>
+?>
 
 <nav class="user-account-nav clearfix">
   <?foreach($menu as $action => $title):?>
-    <a href="<?=$this->createUrl('/user/setting/'.$action);?>" <?if ($current == $action):?>class="current"<?endif;?>><?=$title;?></a>
-  <?endforeach;?>
+    <a href="<?=$this->createUrl('/user/setting/'.$action)?>" <?if($current == $action):?>class="current"<?endif?>><?=$title?></a>
+  <?endforeach?>
 </nav>

@@ -11,18 +11,18 @@
 ?>
 <div class="alert alert-block alert-muted">
   <p>
-    <?if (!empty($user->FirstName)):?>
-      <?=$user->getShortName();?>,
+    <?if(!empty($user->FirstName)):?>
+      <?=$user->getShortName()?>,
     <?else:?>
       Уважаемый пользователь,
-    <?endif;?>
+    <?endif?>
     на данном шаге Вы можете подтвердить или отредактировать свой заказ.</p>
 
-  <p>После совершения оплаты, на вашу электронную почту будет выслано письмо с подробными инструкциями по использованию билетов на <?=$event->Title;?>.</p>
+  <p>После совершения оплаты, на вашу электронную почту будет выслано письмо с подробными инструкциями по использованию билетов на <?=$event->Title?>.</p>
 
-  <?if ($unpaidOwnerCount > 0 || $unpaidJuridicalOrderCount > 0):?>
-    <p><strong>Важно:</strong> у Вас уже есть сформированные, но <a href="<?=$this->createUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName));?>">неоплаченные заказы</a>.</p>
+  <?if($unpaidOwnerCount > 0 || $unpaidJuridicalOrderCount > 0):?>
+    <p><strong>Важно:</strong> у Вас уже есть сформированные, но <a href="<?=$this->createUrl('/pay/cabinet/index', array('eventIdName' => $event->IdName))?>">неоплаченные заказы</a>.</p>
   <?else:?>
     <p><strong>Внимание!</strong> На билеты данного типа не распространяются промо-коды.</p>
-  <?endif;?>
+  <?endif?>
 </div>

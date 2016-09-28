@@ -1,4 +1,4 @@
-<h3>Здравствуйте, <?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>.</h3>
 
 <p><strong>Вы&nbsp;зарегистрировались на&nbsp;конференцию <a href="http://www.ibcrussia.com/?utm_source=ibcvirtrass">&laquo;Интернет и&nbsp;Бизнес. Россия&raquo;</a>, но&nbsp;пока не&nbsp;оплатили участие.</strong></p>
 

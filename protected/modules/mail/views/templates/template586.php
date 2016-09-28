@@ -4,7 +4,7 @@ $regLink = "http://2015.rifvrn.ru/register/registermail?rid=" . $user->RunetId .
 
 <p><img src="http://take.ms/Y8cl5" style="height: auto; width: 100%;" /></p>
 
-<p><b><?=$user->getShortName();?>, ура!</b></p>
+<p><b><?=$user->getShortName()?>, ура!</b></p>
 
 <p>Стали известны даты и&nbsp;место шестого РИФ-Воронеж!</p>
 

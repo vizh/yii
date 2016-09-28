@@ -1,4 +1,4 @@
-<p><span style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;">Уважаемый(ая) </span><span style="line-height: 20.8px;"><?=$user->getFullName();?>!</span><br />
+<p><span style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;">Уважаемый(ая) </span><span style="line-height: 20.8px;"><?=$user->getFullName()?>!</span><br />
 <span style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;">Поздравляем!</span><br />
 <span style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;">Вы зарегистрированы как участник RIGF.</span><br />
 <span style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;">Ждем вас на форуме.</span></p>
@@ -9,9 +9,9 @@
 <br style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;" />
 <br style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;" />
 <br style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;" />
-    <?php $user->setLocale('en') ?>
+    <?$user->setLocale('en')?>
 <span style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;">Dear </span><span style="line-height: 20.8px;"><?=$user->getFullName()?></span><span style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;">!</span><br style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;" />
-    <?php $user->setLocale('ru') ?>
+    <?$user->setLocale('ru')?>
 <span style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;">Congratulations!</span><br style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;" />
 <span style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;">Your participation in RIGF is confirmed.</span><br style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;" />
 <br style="color: rgb(34, 34, 34); font-family: arial, sans-serif; font-size: 12.8px; line-height: normal;" />

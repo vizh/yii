@@ -20,7 +20,7 @@ $duplicates = [];
       </tr>
       </thead>
       <tbody>
-      <?foreach ($events as $event):?>
+      <?foreach($events as $event):?>
         <?
         $startDate = $event->getTimeStampStartDate();
         $endDate = $event->getTimeStampEndDate();
@@ -34,29 +34,29 @@ $duplicates = [];
         $duplicates[] = $contact['RunetId'];
 
         $curMonth = Yii::app()->getLocale()->getDateFormatter()->format('LLLL yyyy', $startDate);
-        ?>
-        <?if ($curMonth != $month):
+       ?>
+        <?if($curMonth != $month):
           $month = $curMonth;
-          ?>
+         ?>
           <tr>
-            <td colspan="6" style="padding-top: 30px;"><span style="font-size: 18px;"><?=$curMonth;?></span></td>
+            <td colspan="6" style="padding-top: 30px;"><span style="font-size: 18px;"><?=$curMonth?></span></td>
           </tr>
-        <?endif;?>
+        <?endif?>
         <tr>
-          <td><?=$contact['Name'];?></td>
-          <td><?=$contact['Email'];?></td>
-          <td><?=$contact['Phone'];?></td>
-          <td><?=$contact['RunetId'];?></td>
-          <td><?=$event->Title;?></td>
+          <td><?=$contact['Name']?></td>
+          <td><?=$contact['Email']?></td>
+          <td><?=$contact['Phone']?></td>
+          <td><?=$contact['RunetId']?></td>
+          <td><?=$event->Title?></td>
           <td>
-            <?if ($startDate == $endDate):?>
-              <?=date('d.m', $startDate);?>
+            <?if($startDate == $endDate):?>
+              <?=date('d.m', $startDate)?>
             <?else:?>
-              <?=date('d.m', $startDate);?>&nbsp;&mdash;&nbsp;<?=date('d.m', $endDate);?>
-            <?endif;?>
+              <?=date('d.m', $startDate)?>&nbsp;&mdash;&nbsp;<?=date('d.m', $endDate)?>
+            <?endif?>
           </td>
         </tr>
-      <?endforeach;?>
+      <?endforeach?>
       </tbody>
     </table>
   </div>

@@ -5,7 +5,7 @@
 use user\models\User;
 
 ?>
-<h3><?=$user->getShortName();?>, добрый день!</h3>
+<h3><?=$user->getShortName()?>, добрый день!</h3>
 
 <p>Предлагаем Вам поработать в выходной :-)</p>
 
@@ -15,7 +15,7 @@ use user\models\User;
 
 <p><strong>Каждый участник, прошедший опрос до конца &ndash; получит персональную скидку на участие в Медиакоммуникационном Форуме RIW 2014 &ndash; главном осеннем мероприятии интернет-отрасли.</strong></p>
 
-<p><a href="<?=$user->getFastauthUrl('/test/mailru2014/');?>" style="border: 2px solid #000;color: #000;text-decoration: none;display: inline-block;padding: 10px 25px;"><strong>Начать опрос &raquo;</strong></a></p>
+<p><a href="<?=$user->getFastauthUrl('/test/mailru2014/')?>" style="border: 2px solid #000;color: #000;text-decoration: none;display: inline-block;padding: 10px 25px;"><strong>Начать опрос &raquo;</strong></a></p>
 
 <p>Спасибо за участие.</p>
 

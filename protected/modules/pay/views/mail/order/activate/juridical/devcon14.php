@@ -18,19 +18,19 @@
         <tr>
           <td style="font-size: 13px;">
             <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="4" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 18px;">
-              <?if (!empty($payer->LastName)):?>
-                Здравствуйте, <?=$payer->getFullName();?>.
+              <?if(!empty($payer->LastName)):?>
+                Здравствуйте, <?=$payer->getFullName()?>.
               <?else:?>
                 Уважаемый пользователь.
-              <?endif;?>
+              <?endif?>
             </font>
             <br />
             <br />
 
-            <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Финансовая служба подтверждает получение оплаты по <?=$order->Type == \pay\models\OrderType::Receipt ? 'квитанции' :'счету';?> № <?=$order->Id;?> на оплату участия в конференции DevCon 2014 на сумму <?=$total;?> руб. за следующие услуги:<br/>
+            <font face="Segoe UI, Tahoma, Helvetica, sans-serif" size="2" style="font-family: Segoe UI, Tahoma, Helvetica, sans-serif; font-size: 13px;">Финансовая служба подтверждает получение оплаты по <?=$order->Type == \pay\models\OrderType::Receipt ? 'квитанции' :'счету'?> № <?=$order->Id?> на оплату участия в конференции DevCon 2014 на сумму <?=$total?> руб. за следующие услуги:<br/>
               <?foreach($items as $orderItem):?>
-                &ndash; "<?=$orderItem->Product->Title;?>" на <?=$orderItem->Owner->getFullName();?><br/>
-              <?endforeach;?>
+                &ndash; "<?=$orderItem->Product->Title?>" на <?=$orderItem->Owner->getFullName()?><br/>
+              <?endforeach?>
             </font>
 
             <br />

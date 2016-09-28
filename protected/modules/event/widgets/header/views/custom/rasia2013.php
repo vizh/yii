@@ -8,25 +8,25 @@ $event = $this->event;
   <div class="container" style="background: none;">
     <div class="row">
       <div class="side left span4">
-        <a target="_blank" href="http://rasia.com/"><img src="/img/event/rasia13/logo.png" alt="<?=CHtml::encode($event->Title);?>" style="margin-top: 35px;"></a>
+        <a target="_blank" href="http://rasia.com/"><img src="/img/event/rasia13/logo.png" alt="<?=CHtml::encode($event->Title)?>" style="margin-top: 35px;"></a>
       </div>
 
       <div class="details span4 offset4">
-        <a target="_blank" href="http://rasia.com/"><img style="margin-top: 10px; margin-bottom: 50px" src="/img/event/rasia13/title.png" alt="<?=CHtml::encode($event->Title);?>"></a>
+        <a target="_blank" href="http://rasia.com/"><img style="margin-top: 10px; margin-bottom: 50px" src="/img/event/rasia13/title.png" alt="<?=CHtml::encode($event->Title)?>"></a>
 
         <div class="duration">
           <span class="datetime">
             <span class="date">
-              <?$this->widget('\event\widgets\Date', array('event' => $event));?>
+              <?$this->widget('\event\widgets\Date', array('event' => $event))?>
             </span>
           </span>
         </div>
-        <?if ($event->getContactAddress() != null && !empty($event->getContactAddress()->Place)):?>
-          <div class="location"><?=$event->getContactAddress()->Place;?></div>
-        <?endif;?>
+        <?if($event->getContactAddress() != null && !empty($event->getContactAddress()->Place)):?>
+          <div class="location"><?=$event->getContactAddress()->Place?></div>
+        <?endif?>
       </div>
 
-      <?if ($this->eventPage):?>
+      <?if($this->eventPage):?>
         <div class="side right span2">
           <div class="actions" style="background: none;">
             <div class="calendar img-circle">
@@ -42,13 +42,13 @@ $event = $this->event;
             </nav>
           </div>
         </div>
-      <?endif;?>
+      <?endif?>
     </div>
 
-    <?if ($this->eventPage):?>
+    <?if($this->eventPage):?>
       <span class="all">
-      <a href="<?=Yii::app()->createUrl('/event/list/index');?>"><?=Yii::t('app', 'Все мероприятия');?></a>
+      <a href="<?=Yii::app()->createUrl('/event/list/index')?>"><?=Yii::t('app', 'Все мероприятия')?></a>
     </span>
-    <?endif;?>
+    <?endif?>
   </div>
 </div>

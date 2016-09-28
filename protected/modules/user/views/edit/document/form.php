@@ -8,11 +8,11 @@
 
 ?>
 
-<?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>');?>
+<?=$activeForm->errorSummary($form, '<div class="alert alert-danger">', '</div>')?>
 
-<?$this->renderPartial($view, ['form' => $form, 'activeForm' => $activeForm]);?>
+<?$this->renderPartial($view, ['form' => $form, 'activeForm' => $activeForm])?>
 
 <div class="form-footer">
-    <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-info']);?>
+    <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-info'])?>
 </div>
 

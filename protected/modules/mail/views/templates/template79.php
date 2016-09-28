@@ -1,8 +1,8 @@
-<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 
 <p><img src="http://runet-id.com/img/mail/2014/20140421-rif14-expomap.jpg" alt="" /></p>
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p>Приглашаем к участию в главном весеннем интернет-проекте Рунета: 18-м Российском Интернет Форуме (РИФ+КИБ 2014) &ndash; www.rif.ru</p>
 

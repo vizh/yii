@@ -2,12 +2,12 @@
 
 <p>&nbsp;<p>
 
-<h3><strong>Здравствуйте, </span><?=$user->getShortName();?></strong>!</h3>
+<h3><strong>Здравствуйте, </span><?=$user->getShortName()?></strong>!</h3>
 
 <p>Приглашаем посетить крупнейшую в России и СНГ конференцию-выставку по управлению информацией и электронным документооборотом! DOCFLOW 2015 Москва  состоится 19 мая в Москве в «Рэдиссон Славянская». В программе выставка решений и технологий, более 40 сессий с кейсами, демонстрациями, дискуссиями и аналитикой.</p>
 
 <div style="background: #eaeaea; padding: 25px; text-align: center;">
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/docflow15');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #52B623; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #52B623; border-top: 1px solid #52B623;"><strong>РЕГИСТРАЦИЯ</strong> </a></div>
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/docflow15')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #52B623; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #52B623; border-top: 1px solid #52B623;"><strong>РЕГИСТРАЦИЯ</strong> </a></div>
 </div>
 
 <p>DOCFLOW  2015 осветит важнейшие технологии управления корпоративной информацией: Data Capture, ECM, BPM, BI, Collaboration, Big Data.</p>
@@ -21,11 +21,11 @@
 <li style="padding-bottom:10px;">Светлана Доценко, Заместитель директора департамента информационных технологий и общественных связей, <strong>Минпромторг России</strong>;</li>
 <li style="padding-bottom:10px;">Александр Кунцман, Начальник Управления Автоматизации, <strong>ПАО «Евразийский Банк»</strong>;</li>
 <li style="padding-bottom:10px;">Сергей Пономаренко, Директор ФГБУ, <strong>«Федеральный центр тестирования»;</strong></li>
-<li style="padding-bottom:10px;">Игорь Сергеев, Заместитель директора филиала ФГУП ГНИВЦ, <strong>ФНС России в ПФО</strong>;</li> 
+<li style="padding-bottom:10px;">Игорь Сергеев, Заместитель директора филиала ФГУП ГНИВЦ, <strong>ФНС России в ПФО</strong>;</li>
 <li style="padding-bottom:10px;">Наталья Давлетшина, Куратор проекта «Электронный парламент», <strong>Государственная Дума РФ</strong>;</li>
 <li style="padding-bottom:10px;">Антон Нодель, Начальник отдела интеграции данных САПР, <strong>Росэнергоатом</strong>;</li>
-<li style="padding-bottom:10px;">Наталья Илюшина, Заместитель генерального директора, компания <strong>МеталлоПрофиль</strong>;</li> 
-<li style="padding-bottom:10px;">Александр Юдин, Руководитель Отдела повышения эффективности бизнес-процессов, компания <strong>METRO C&C</strong>.</li> 
+<li style="padding-bottom:10px;">Наталья Илюшина, Заместитель генерального директора, компания <strong>МеталлоПрофиль</strong>;</li>
+<li style="padding-bottom:10px;">Александр Юдин, Руководитель Отдела повышения эффективности бизнес-процессов, компания <strong>METRO C&C</strong>.</li>
 </ul>
 
 <p>А также другие эксперты, готовые рассказать о своем опыте оптимизации управления информацией в компаниях «Ферреро Руссия», «Такеда Фармасьютикалс», ГК «Дикси», «Объединенная Металлургическая Компания» и других. <a href="http://www.docflow.ru/2015/programm/index2.php">Программа конференции</a></p>
@@ -42,9 +42,9 @@
 </ul>
 
 <div style="background: #eaeaea; padding: 25px; text-align: center;">
-<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/docflow15');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #52B623; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #52B623; border-top: 1px solid #52B623;"><strong>РЕГИСТРАЦИЯ</strong> </a></div>
+<div style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastAuthUrl('http://runet-id.com/event/docflow15')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; text-transform: uppercase; background-color: #52B623; margin: 0 10px 0 0; padding: 10px 20px; border-bottom: 1px solid #52B623; border-top: 1px solid #52B623;"><strong>РЕГИСТРАЦИЯ</strong> </a></div>
 </div>
-  
+
 <p>Участие бесплатно. <strong>Проведите самый эффективный рабочий день на DOCFLOW 2015 19 мая</strong>, чтобы на одной площадке изучить лучший опыт «из первых рук» и получить полную информацию для принятия решений!</p>
 
 

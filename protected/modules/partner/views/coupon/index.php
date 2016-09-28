@@ -11,16 +11,16 @@ use \partner\components\Controller;
 $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
 ?>
 
-<?php $this->beginClip(Controller::PAGE_HEADER_CLIP_ID);?>
-    <?=\CHtml::link('<span class="fa fa-plus btn-label"></span> ' . \Yii::t('app', 'Генерация промо-кодов'), ['generate'], ['class' => 'btn btn-primary btn-labeled']);?>
-<?php $this->endClip();?>
+<?$this->beginClip(Controller::PAGE_HEADER_CLIP_ID)?>
+    <?=\CHtml::link('<span class="fa fa-plus btn-label"></span> ' . \Yii::t('app', 'Генерация промо-кодов'), ['generate'], ['class' => 'btn btn-primary btn-labeled'])?>
+<?$this->endClip()?>
 
-<?=\CHtml::beginForm(['give'], 'get');?>
+<?=\CHtml::beginForm(['give'], 'get')?>
 <div class="panel panel-info">
     <div class="panel-heading">
-        <span class="panel-title"><i class="fa fa-ticket"></i> <?=\Yii::t('app', 'Промо-коды мероприятия');?></span>
+        <span class="panel-title"><i class="fa fa-ticket"></i> <?=\Yii::t('app', 'Промо-коды мероприятия')?></span>
         <div class="panel-heading-controls">
-            <?=\CHtml::button(\Yii::t('app', 'Выдать промо-коды'), ['class' => 'btn btn-xs btn-primary hide', 'id' => 'btn-give']);?>
+            <?=\CHtml::button(\Yii::t('app', 'Выдать промо-коды'), ['class' => 'btn btn-xs btn-primary hide', 'id' => 'btn-give'])?>
         </div>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
@@ -157,8 +157,8 @@ $this->setPageTitle(\Yii::t('app', 'Промо-коды'));
                         'template' => '{statistics}{delete}'
                     ]
                 ]
-            ]);?>
+            ])?>
         </div>
     </div>
 </div>
-<?=\CHtml::endForm();?>
+<?=\CHtml::endForm()?>

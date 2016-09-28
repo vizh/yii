@@ -262,16 +262,16 @@ class Template extends CreateUpdateForm
     public function bodyFields()
     {
         return [
-            '{User.Url}' => '<?=$user->getUrl();?>',
-            '{User.FullName}' => '<?=$user->getFullName();?>',
-            '{User.ShortName}' => '<?=$user->getShortName();?>',
-            '{User.RunetId}' => '<?=$user->RunetId;?>',
-            '{UnsubscribeUrl}' => '<?=$user->getFastauthUrl(\'/user/setting/subscription/\');?>',
-            '{Event.Title}' => '<?=$user->Participants[0]->Event->Title;?>',
-            '{TicketUrl}' => '<?=$user->Participants[0]->getTicketUrl();?>',
-            '{Role.Title}' => '<?=$user->Participants[0]->Role->Title;?>',
-            '{Event.Start.Date}' => '<?=$event->getFormattedStartDate();?>',
-            '{Event.End.Date}' => '<?=$event->getFormattedEndDate();?>'
+            '{User.Url}' => '<?=$user->getUrl()?>',
+            '{User.FullName}' => '<?=$user->getFullName()?>',
+            '{User.ShortName}' => '<?=$user->getShortName()?>',
+            '{User.RunetId}' => '<?=$user->RunetId?>',
+            '{UnsubscribeUrl}' => '<?=$user->getFastauthUrl(\'/user/setting/subscription/\')?>',
+            '{Event.Title}' => '<?=$user->Participants[0]->Event->Title?>',
+            '{TicketUrl}' => '<?=$user->Participants[0]->getTicketUrl()?>',
+            '{Role.Title}' => '<?=$user->Participants[0]->Role->Title?>',
+            '{Event.Start.Date}' => '<?=$event->getFormattedStartDate()?>',
+            '{Event.End.Date}' => '<?=$event->getFormattedEndDate()?>'
         ];
     }
 
@@ -583,4 +583,4 @@ class Template extends CreateUpdateForm
         $this->model->send();
         return true;
     }
-} 
+}

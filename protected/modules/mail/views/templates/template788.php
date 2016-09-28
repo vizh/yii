@@ -27,20 +27,20 @@
                     <tbody>
                     <tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
                         <td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><img alt="Интернет Экономика" src="https://ie.iri.center/bitrix/templates/neweco/assets/images/logo.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
-	                        
-	                        
-	                        
-	                        
-	                        
-	                        
-	                        
 
-<h2><?=$user->getShortName();?>, здравствуйте!</h2>
+
+
+
+
+
+
+
+<h2><?=$user->getShortName()?>, здравствуйте!</h2>
 <p>Форум «Интернет Экономика 2015» стартует в&nbsp;понедельник 21&nbsp;декабря 2015 года&nbsp;— <a href="https://ie.iri.center">ie.iri.center</a></p>
 <p>Место проведения: Центр Международной Торговли, Краснопресненская наб., 12</p>
 
 <p align="center"><strong>Ваш статус:<br />
-<span style="color: #C45942; font-size: 18px;"><?=$user->Participants[0]->Role->Title;?></span></strong></p>
+<span style="color: #C45942; font-size: 18px;"><?=$user->Participants[0]->Role->Title?></span></strong></p>
 
 <p>Форум начнет свою работу с&nbsp;официального <strong>Открытия в&nbsp;понедельник 21&nbsp;декабря в&nbsp;10:00</strong> и&nbsp;продолжит работу в&nbsp;формате <strong>8&nbsp;круглых столов</strong>. Доступна интерактивная<a href="https://ie.iri.center/program/"> программа Форума</a>.</p>
 <p><strong>Регистрация участников и&nbsp;выдача бейджей участника</strong> согласно Вашему статусу начнется в&nbsp;понедельник 21&nbsp;декабря в&nbsp;9:00 и&nbsp;продлится в&nbsp;течение всего дня работы Форума. Обращаем Ваше внимание, что для прохождения регистрации и&nbsp;получения бейджа участника Форума Вам необходимо иметь с&nbsp;собой гражданский паспорт.</p>

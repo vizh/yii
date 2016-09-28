@@ -1,12 +1,12 @@
 <a href="http://2016.sp-ic.ru/
 "><img alt="СПИК16" src="http://runet-id.com/img/mail/2016/spicc16.png" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /></a>
-<h2 style="text-align: center">><?=$user->getShortName();?>, здравствуйте!</h2>
+<h2 style="text-align: center">><?=$user->getShortName()?>, здравствуйте!</h2>
 
 <p style="text-align: center">До конференции СПИК меньше двух недель!</p>
 <p style="text-align: center">Вы еще не зарегистрировались? Советуем поспешить, ваши коллеги уже с нами!</p>
 
 <div style="text-align: center; background: #ffffff; border: 2px dashed #B21D18; padding: 20px 10px 10px;">
-<p style="margin-top: 0"><a href="<?=$cabinetLink = "http://2016.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16);?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B21D18; margin: 0 10px 0 0; padding: 0; border-color: #B21D18; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
+<p style="margin-top: 0"><a href="<?=$cabinetLink = "http://2016.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B21D18; margin: 0 10px 0 0; padding: 0; border-color: #B21D18; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
 </div>
 <p>&nbsp;</p>
 <h3 style="text-align: center">А мы пока расскажем вам про новые интересные секции и доклады в программе!</h3>
@@ -22,7 +22,7 @@
 			<h3>Секция «Таргетированная реклама в социальных сетях»</h3>
 			<p><b>Ведущий секции:</b><br />Александр Конев, руководитель отдела по работе с клиентами Mail.Ru Group</p>
 			<p>Социальные сети, будучи самыми популярными ресурсами на мобильных устройствах, сосредоточили в себе значительную долю медиапотребления пользователя. Они являются главным фундаментом таргетированной рекламы, и от их развития будет зависеть, каким станет интернет-рынок.Представители рекламных платформ соцсетей ВКонтакте и Одноклассники и специалисты digital-агентств поделятся своим видением развития рынка таргетированной рекламы.
-Кстати, вы можете заранее задать спикеру свой вопрос, чтобы на секции услышать ответ на него: welcome.mytarget@corp.my.com.</p>		
+Кстати, вы можете заранее задать спикеру свой вопрос, чтобы на секции услышать ответ на него: welcome.mytarget@corp.my.com.</p>
 			<p><b>Докладчики:</b> Сергей Кохичко (myTarget), Петр Гордеев (ВКонтакте), Полина Виноградова (TrafficIsobar)</p>
 		</td>
 		<td width="10">&nbsp;</td>
@@ -63,7 +63,7 @@
 		<td valign="top">
 			<h3>Секция «Эпоха веб-аналитики. KPI: что, как и зачем стоит измерять»</h3>
 			<p><b>Ведущий секции:</b><br/>Александр Григорьев, директор по развитию Ingate Development</p>
-			<p>В этой секции разберем, как измерять эффективность кампаний по продвижению и что с этими измерениями делать. Доклады будут посвящены:</p> 
+			<p>В этой секции разберем, как измерять эффективность кампаний по продвижению и что с этими измерениями делать. Доклады будут посвящены:</p>
 <ul>
 <li>анализу эффективности контекстной рекламы для проектов с длинным циклом принятия решения,</li>
 <li>управлению эффективностью в контекстной рекламе,</li>
@@ -114,7 +114,7 @@
 
 
 <div style="text-align: center; background: #ffffff; border: 2px dashed #B21D18; padding: 20px 10px 10px;">
-<p style="margin-top: 0"><a href="<?=$cabinetLink = "http://2016.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16);?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B21D18; margin: 0 10px 0 0; padding: 0; border-color: #B21D18; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
+<p style="margin-top: 0"><a href="<?=$cabinetLink = "http://2016.sp-ic.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'xggMpIQINvHqR0QlZgZa'), 0, 16)?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #B21D18; margin: 0 10px 0 0; padding: 0; border-color: #B21D18; border-style: solid; border-width: 10px 40px;">РЕГИСТРАЦИЯ</a></p>
 <p style="text-align: center"><b><a href="http://2016.sp-ic.ru/program/">Я хочу узнать подробнее</a></b></p>
 </div>
 

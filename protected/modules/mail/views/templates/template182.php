@@ -1,4 +1,4 @@
-<h3>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h3>
 
 <p>Напоминаем вам, что вы&nbsp;зарегистрированы на&nbsp;конференцию <a href="http://runet-id.com/event/next2014/">&laquo;Generation NEXT. Дети&nbsp;&mdash; 2014&raquo;</a>.</p>
 
@@ -8,7 +8,7 @@
 
 <p>Что бы ускорить процедуру регистрации на мероприятии, просим заранее скачать и распечатать свой электронный билет или быть готовым предъявить его с экрана вашего гаджета.</p>
 
-<p style="text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="text-decoration: none;
+<p style="text-align: center;"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="text-decoration: none;
 	color: #FFF;
 	background-color: #aaa;
 	border: solid #aaa;

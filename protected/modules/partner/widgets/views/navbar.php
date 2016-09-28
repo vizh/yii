@@ -21,18 +21,18 @@ $partner = \Yii::app()->partner;
                 <div class="right clearfix">
                     <ul class="nav navbar-nav pull-right right-navbar-nav">
                         <li>
-                            <span class="small-screen-text"><strong><?=$event->IdName;?></strong> (<?=$event->Id;?>)</span>
+                            <span class="small-screen-text"><strong><?=$event->IdName?></strong> (<?=$event->Id?>)</span>
                         </li>
                         <li class="dropdown">
                             <a data-toggle="dropdown" class="dropdown-toggle user-menu" href="#">
-                                <img alt="" src="<?=$user->getPhoto()->get50px();?>">
-                                <span><?=$user->getFullName();?></span>
+                                <img alt="" src="<?=$user->getPhoto()->get50px()?>">
+                                <span><?=$user->getFullName()?></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <?php if ($partner->getAccount()->getIsExtended()):?>
-                                    <li><?=\CHtml::link(\Yii::t('app', 'Сменить мероприятие'), ['auth/logout', 'extended' => 'reset']);?></li>
-                                <?php endif;?>
-                                <li><?=\CHtml::link(\Yii::t('app', 'Выход'), ['auth/logout']);?></li>
+                                <?if($partner->getAccount()->getIsExtended()):?>
+                                    <li><?=\CHtml::link(\Yii::t('app', 'Сменить мероприятие'), ['auth/logout', 'extended' => 'reset'])?></li>
+                                <?endif?>
+                                <li><?=\CHtml::link(\Yii::t('app', 'Выход'), ['auth/logout'])?></li>
                             </ul>
                         </li>
                     </ul> <!-- / .navbar-nav -->

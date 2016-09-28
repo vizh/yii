@@ -13,13 +13,13 @@ use user\models\User;
     <div class="row m-top_30">
         <div class="span12">
             <ul class="nav nav-pills">
-                <?php foreach ($times as $start => $end):?>
-                    <li <?=$time==$start ? 'class="active"' : '';?>>
-                        <a href="<?= Yii::app()->createUrl('/main/info/appday14', ['time' => $start]);?>">
-                            <?=$start;?> &mdash; <?=$end;?>
+                <?foreach($times as $start => $end):?>
+                    <li <?=$time==$start ? 'class="active"' : ''?>>
+                        <a href="<?=Yii::app()->createUrl('/main/info/appday14', ['time' => $start])?>">
+                            <?=$start?> &mdash; <?=$end?>
                         </a>
                     </li>
-                <?php endforeach;?>
+                <?endforeach?>
             </ul>
         </div>
     </div>
@@ -36,14 +36,14 @@ use user\models\User;
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($users as $user):?>
+                    <?foreach($users as $user):?>
                         <tr>
-                            <td><?=$user->RunetId;?></td>
-                            <td><?=$user->getFullName();?></td>
-                            <td><?=$user->PrimaryPhone;?></td>
-                            <td><?=$user->Email;?></td>
+                            <td><?=$user->RunetId?></td>
+                            <td><?=$user->getFullName()?></td>
+                            <td><?=$user->PrimaryPhone?></td>
+                            <td><?=$user->Email?></td>
                         </tr>
-                    <?php endforeach;?>
+                    <?endforeach?>
                 </tbody>
             </table>
         </div>

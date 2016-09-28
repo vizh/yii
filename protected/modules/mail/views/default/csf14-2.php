@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Вы – аккредитованный докладчик в рамках Программы Форума по Кибербезопасности (Cyber Security Forum 2014, Russia) – http://CyberSecurityForum.ru
 

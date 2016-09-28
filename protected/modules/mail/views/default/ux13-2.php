@@ -1,4 +1,4 @@
-<?=$user->getShortName();?>, добрый день!
+<?=$user->getShortName()?>, добрый день!
 
 Вы - зарегистрированный участник User eXperience 2013.
 
@@ -9,7 +9,7 @@
 Результаты опроса помогут нам правильно проанализировать мероприятие и сделать его лучше в следующем году.
 
 Ваша персональная ссылка на опросную анкету:
-http://2013.userexperience.ru/vote/?runetid=<?=$user->RunetId;?>&key=<?=substr(md5($user->RunetId . 'voteKey'), 0, 8);?>
+http://2013.userexperience.ru/vote/?runetid=<?=$user->RunetId?>&key=<?=substr(md5($user->RunetId . 'voteKey'), 0, 8)?>
 
 
 
@@ -23,4 +23,4 @@ http://2013.userexperience.ru/vote/?runetid=<?=$user->RunetId;?>&key=<?=substr(m
 Оргкомитет конференции User eXperience 2013
 ux2013@userexperience.ru
 
-Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/');?>
+Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/')?>

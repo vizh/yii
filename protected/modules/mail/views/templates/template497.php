@@ -1,4 +1,4 @@
-<h3><b>Здравствуйте, <?=$user->getShortName();?>!</b></h3>
+<h3><b>Здравствуйте, <?=$user->getShortName()?>!</b></h3>
 
 <p>20 мая с 11:00 (МСК) и 21 мая с 9:00 (МСК) приглашаем вас присоединиться к <a href="http://www.msdevcon.ru/ru/">онлайн-трансляции</a> крупнейшей конференции Microsoft в России <a href="http://www.msdevcon.ru/ru">DevCon 2015</a>!</p>
 

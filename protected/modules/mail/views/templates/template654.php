@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/pmm15.jpg" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<p><strong>Здравствуйте, <?=$user->getShortName();?>!</strong></p>
+<p><strong>Здравствуйте, <?=$user->getShortName()?>!</strong></p>
 
 
 <p>Приглашаем вас 7 октября на главную в России профессиональную конференцию о Performance Marketing.</p>

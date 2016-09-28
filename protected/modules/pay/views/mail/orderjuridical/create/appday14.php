@@ -18,29 +18,29 @@
                 <tr>
                     <td>
 
-                        <?if (!empty($payer->LastName)):?>
-                            <p>Здравствуйте, <?=$payer->getShortName();?>.</p>
+                        <?if(!empty($payer->LastName)):?>
+                            <p>Здравствуйте, <?=$payer->getShortName()?>.</p>
                         <?else:?>
                             <p>Уважаемый пользователь.</p>
-                        <?endif;?>
+                        <?endif?>
 
-                        <?if ($order->Type == \pay\models\OrderType::Juridical):?>
-                            <p>Вами был выставлен счет №<?=$order->Id;?> на оплату участия в конференции Russian App Day на сумму <?=$total;?> руб вкл.НДС.</p>
+                        <?if($order->Type == \pay\models\OrderType::Juridical):?>
+                            <p>Вами был выставлен счет №<?=$order->Id?> на оплату участия в конференции Russian App Day на сумму <?=$total?> руб вкл.НДС.</p>
 
                             <p>Распечатать счет Вы можете, воспользовавшись ссылкой:<br/>
-                                <a href="<?=$order->getUrl();?>"><?=$order->getUrl();?></a></p>
+                                <a href="<?=$order->getUrl()?>"><?=$order->getUrl()?></a></p>
 
 
                             <p>Счет действителен в течении 5-и рабочих дней. Просим Вас произвести оплату в этот срок.</p>
                         <?else:?>
-                            <p>Вам была выписана квитанция №<?=$order->Id;?> на оплату участия в конференции Russian App Day на сумму <?=$total;?> руб.</p>
+                            <p>Вам была выписана квитанция №<?=$order->Id?> на оплату участия в конференции Russian App Day на сумму <?=$total?> руб.</p>
 
                             <p>Распечатать квитанцию Вы можете, воспользовавшись ссылкой:<br/>
-                                <a href="<?=$order->getUrl();?>"><?=$order->getUrl();?></a></p>
+                                <a href="<?=$order->getUrl()?>"><?=$order->getUrl()?></a></p>
 
 
                             <p>Квитанция действительна в течении 5-и рабочих дней. Просим Вас произвести оплату в этот срок.</p>
-                        <?endif;?>
+                        <?endif?>
 
                         <p>---<br/>
                             С уважением,<br/>

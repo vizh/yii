@@ -22,16 +22,16 @@ use event\models\Participant;
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($participants as $participant):
+                <?foreach($participants as $participant):
                     $user = $participant->User;
-                    ?>
+                   ?>
                     <tr>
-                        <td><?=$user->RunetId;?></td>
-                        <td><?=$user->getFullName();?></td>
-                        <td><?=$participant->Role->Title;?></td>
-                        <td><?=isset($externalUsers[$user->Id]) ? substr($externalUsers[$user->Id]->ExternalId, 0, 8) : '';?></td>
+                        <td><?=$user->RunetId?></td>
+                        <td><?=$user->getFullName()?></td>
+                        <td><?=$participant->Role->Title?></td>
+                        <td><?=isset($externalUsers[$user->Id]) ? substr($externalUsers[$user->Id]->ExternalId, 0, 8) : ''?></td>
                     </tr>
-                <?php endforeach;?>
+                <?endforeach?>
                 </tbody>
             </table>
         </div>

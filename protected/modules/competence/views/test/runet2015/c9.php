@@ -7,10 +7,10 @@ use competence\models\test\runet2015\C8;
 ?>
 
 <table class="form-inline table table-striped">
-    <?foreach ($form->subMarkets as $key => $subMarket):?>
+    <?foreach($form->subMarkets as $key => $subMarket):?>
         <tr>
-            <td style="vertical-align: middle;"><?=$subMarket;?></td>
-            <td><?=CHtml::activeTextField($form, 'value[' . $key . ']', ['class' => 'input-block-level']);?></td>
+            <td style="vertical-align: middle;"><?=$subMarket?></td>
+            <td><?=CHtml::activeTextField($form, 'value[' . $key . ']', ['class' => 'input-block-level'])?></td>
         </tr>
-    <?endforeach;?>
+    <?endforeach?>
 </table>

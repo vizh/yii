@@ -1,13 +1,13 @@
 <?php
-	
+
 	$coupon = \pay\models\Coupon::model()->byCode('RIF15ICOMF15R7FNQU')->find();
 	$coupon->activate($user, $user);
-	
+
 	$regLink = "http://2015.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'aihrQ0AcKmaJ'), 0, 16);
 ?>
 
 <p><img src="http://showtime.s3.amazonaws.com/201503190924-rif15-icomf15-25.jpg" style="height: auto; width: 100%;" /></p>
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 <p>Конференция <nobr>i-COMference</nobr> 2015&nbsp;завершена, и&nbsp;она удалась&nbsp;— <a href="http://www.i-comf.ru">www.i-COMf.ru</a></p>
 <p>Спасибо, что были среди участников! Уже через месяц&nbsp;— с&nbsp;22&nbsp;по&nbsp;24&nbsp;апреля&nbsp;— в&nbsp;пансионате «Лесные дали» в&nbsp;<nobr>19-й</nobr> раз пройдет главное весеннее мероприятие российской ИТ-отрасли&nbsp;— РИФ+КИБ 2015&nbsp;— <a href="http://www.rif.ru">www.rif.ru</a></p>
 <p><strong>ВНИМАНИЕ!<br/>

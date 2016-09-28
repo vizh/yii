@@ -1,8 +1,8 @@
-<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);?>
+<?$regLink = "http://2014.russianinternetforum.ru/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16)?>
 
-<p><?=$user->getShortName();?>,</p>
+<p><?=$user->getShortName()?>,</p>
 
-<p><strong>Вы зарегистрированы на РИФ+КИБ 2014 со статусом &laquo;<?=$user->Participants[0]->Role->Title;?>&raquo;.</strong><br />
+<p><strong>Вы зарегистрированы на РИФ+КИБ 2014 со статусом &laquo;<?=$user->Participants[0]->Role->Title?>&raquo;.</strong><br />
 <span style="line-height: 1.6em;">Этого статуса недостаточно для посещения мероприятия (23-25 апреля) и доступа к материалам Форума.</span></p>
 
 <p>Для участия в Форуме необходимо оплатить регистрационный взнос (7000 руб. включая налоги).</p>

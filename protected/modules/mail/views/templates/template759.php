@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/rrrrr15.png" style="width: 100%; height: auto; margin: 0 auto" /></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Мы рады, что вы зарегистрировались на конференцию <a href="http://www.advdays.ru/november_2015/?utm_source=reg&amp;utm_medium=email&amp;utm_campaign=advdays_spb_november_2015"><strong>«День интернет-рекламы»</strong></a> и сообщаем, что программа окончательно сформирована! До мероприятия осталось меньше недели, а пока предлагаем вам ознакомиться с таймингом выступлений <a href="http://www.advdays.ru/november_2015/agenda/?utm_source=reg&amp;utm_medium=email&amp;utm_campaign=advdays_spb_november_2015"><strong>на сайте</strong></a>.</p>
 

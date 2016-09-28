@@ -6,76 +6,76 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
 
 <div class="row">
   <div class="span12 indent-bottom3">
-    <div class="pull-right" style="margin-top: 15px"><a href="<?=\Yii::app()->createUrl('/pay/admin/order/index');?>" class="btn"><i class="icon-shopping-cart"></i> Список счетов</a></div>
-    <h2>Счет (заказ) № <?=$order->Number;?></h2>
+    <div class="pull-right" style="margin-top: 15px"><a href="<?=\Yii::app()->createUrl('/pay/admin/order/index')?>" class="btn"><i class="icon-shopping-cart"></i> Список счетов</a></div>
+    <h2>Счет (заказ) № <?=$order->Number?></h2>
     <p>
-      <?if ($order->Paid):?>
+      <?if($order->Paid):?>
       <span class="label label-success">ОПЛАЧЕН</span>
       <?else:?>
-        <?if (!$order->Deleted):?>
+        <?if(!$order->Deleted):?>
         <span class="label label-warning">НЕ ОПЛАЧЕН</span>
         <?else:?>
         <span class="label label-important">УДАЛЕН</span>
-        <?endif;?>
-      <?endif;?>
+        <?endif?>
+      <?endif?>
     </p>
   </div>
 </div>
 <div class="row">
   <div class="span12 indent-bottom3">
-    <?if (!empty($this->action->error)):?>
+    <?if(!empty($this->action->error)):?>
     <div class="alert alert-error">
-      <p><strong>Возникла ошибка!</strong> <?=$this->action->error;?></p>
+      <p><strong>Возникла ошибка!</strong> <?=$this->action->error?></p>
 
       <p>Отправьте данное сообщение на email: <a href="mailto:users@runet-id.com">users@runet-id.com</a></p>
     </div>
     <?elseif (! empty($this->action->result)):?>
     <div class="alert alert-success">
-      <p><strong>Выполнено!</strong> <br> <?=$this->action->result;?></p>
+      <p><strong>Выполнено!</strong> <br> <?=$this->action->result?></p>
     </div>
-    <?endif;?>
+    <?endif?>
   </div>
 
-  <?if ($order->Type == \pay\models\OrderType::Juridical):?>
+  <?if($order->Type == \pay\models\OrderType::Juridical):?>
   <div class="span6 indent-bottom3">
     <h3>Данные заказчика</h3>
 
-    <p><strong>Название компании:</strong> <?=$order->OrderJuridical->Name;?></p>
+    <p><strong>Название компании:</strong> <?=$order->OrderJuridical->Name?></p>
 
-    <p><strong>Адрес:</strong> <?=$order->OrderJuridical->Address;?></p>
+    <p><strong>Адрес:</strong> <?=$order->OrderJuridical->Address?></p>
 
-    <p><strong>ИНН/КПП:</strong> <?=$order->OrderJuridical->INN;?> / <?=$order->OrderJuridical->KPP;?></p>
+    <p><strong>ИНН/КПП:</strong> <?=$order->OrderJuridical->INN?> / <?=$order->OrderJuridical->KPP?></p>
 
-    <p><strong>Телефон:</strong> <?=$order->OrderJuridical->Phone;?></p>
+    <p><strong>Телефон:</strong> <?=$order->OrderJuridical->Phone?></p>
   </div>
-  <?endif;?>
+  <?endif?>
 
   <div class="span6 indent-bottom3">
     <h3>Данные пользователя</h3>
 
-    <p><strong>RUNET-ID:</strong> <a target="_blank" href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $order->Payer->RunetId));?>"><?=$order->Payer->RunetId;?></a></p>
+    <p><strong>RUNET-ID:</strong> <a target="_blank" href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $order->Payer->RunetId))?>"><?=$order->Payer->RunetId?></a></p>
 
-    <p><strong>ФИО:</strong> <?=$order->Payer->getFullName();?></p>
+    <p><strong>ФИО:</strong> <?=$order->Payer->getFullName()?></p>
 
-    <?$employment = $order->Payer->getEmploymentPrimary();?>
-    <p><strong>Компания:</strong> <?=$employment != null ? $employment->Company->Name : 'не указана';?></p>
+    <?$employment = $order->Payer->getEmploymentPrimary()?>
+    <p><strong>Компания:</strong> <?=$employment != null ? $employment->Company->Name : 'не указана'?></p>
 
-    <p><strong>Email:</strong> <?=$order->Payer->Email;?></p>
+    <p><strong>Email:</strong> <?=$order->Payer->Email?></p>
 
-    <p><strong>Телефон:</strong> <?=!empty($order->Payer->Phones) ? urldecode($order->Payer->Phones[0]->Phone) : 'не указан';?></p>
+    <p><strong>Телефон:</strong> <?=!empty($order->Payer->Phones) ? urldecode($order->Payer->Phones[0]->Phone) : 'не указан'?></p>
   </div>
 
-  <?php foreach ($collection as $item):?>
-    <?php if ($item->getOrderItem()->ChangedOwner !== null):?>
+  <?foreach($collection as $item):?>
+    <?if($item->getOrderItem()->ChangedOwner !== null):?>
       <div class="span12">
         <div class="alert alert">
           <h4>Внимание!</h4>
-          В заказе произошли изменения: статус "<?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem());?>" был перенесен с пользователя <a href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $item->getOrderItem()->Owner->RunetId));?>"><?=$item->getOrderItem()->Owner->getFullName();?></a> на пользователя <a href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $item->getOrderItem()->ChangedOwner->RunetId));?>"><?=$item->getOrderItem()->ChangedOwner->getFullName();?></a>.
+          В заказе произошли изменения: статус "<?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem())?>" был перенесен с пользователя <a href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $item->getOrderItem()->Owner->RunetId))?>"><?=$item->getOrderItem()->Owner->getFullName()?></a> на пользователя <a href="<?=\Yii::app()->createUrl('/partner/user/edit', array('runetId' => $item->getOrderItem()->ChangedOwner->RunetId))?>"><?=$item->getOrderItem()->ChangedOwner->getFullName()?></a>.
         </div>
       </div>
-    <?php endif;?>
-  <?php endforeach;?>
-  
+    <?endif?>
+  <?endforeach?>
+
   <div class="span12 indent-bottom3">
     <h3>Состав счета (заказа)</h3>
 
@@ -90,59 +90,59 @@ $collection = \pay\components\OrderItemCollection::createByOrder($order);
       </tr>
       </thead>
       <tbody>
-      <?foreach ($collection as $item):
-      ?>
+      <?foreach($collection as $item):
+     ?>
       <tr>
-        <td><?=$item->getOrderItem()->Id;?></td>
+        <td><?=$item->getOrderItem()->Id?></td>
         <td>
-          <?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem());?>
-          <?if ($item->getOrderItem()->Paid):?>
+          <?=$item->getOrderItem()->Product->getManager()->getTitle($item->getOrderItem())?>
+          <?if($item->getOrderItem()->Paid):?>
             <span class="label label-success">ОПЛАЧЕН</span>
           <?else:?>
             <span class="label label-warning">НЕ ОПЛАЧЕН</span>
-          <?endif;?>
+          <?endif?>
         </td>
-        <td><?=$item->getOrderItem()->Payer->getFullName();?> (<?=$item->getOrderItem()->Payer->RunetId;?>)</td>
+        <td><?=$item->getOrderItem()->Payer->getFullName()?> (<?=$item->getOrderItem()->Payer->RunetId?>)</td>
         <td>
-          <p><?=$item->getOrderItem()->Owner->getFullName();?> (<?=$item->getOrderItem()->Owner->RunetId;?>)</p>
-          <?if ($item->getOrderItem()->ChangedOwner !== null):?>
+          <p><?=$item->getOrderItem()->Owner->getFullName()?> (<?=$item->getOrderItem()->Owner->RunetId?>)</p>
+          <?if($item->getOrderItem()->ChangedOwner !== null):?>
             <p class="text-success m-top_10"><strong>Перенесено на пользователя</strong></p>
-            <p><?=$item->getOrderItem()->ChangedOwner->getFullName();?> (<?=$item->getOrderItem()->ChangedOwner->RunetId;?>)</p>
-          <?php endif;?>
+            <p><?=$item->getOrderItem()->ChangedOwner->getFullName()?> (<?=$item->getOrderItem()->ChangedOwner->RunetId?>)</p>
+          <?endif?>
         </td>
-        <td><?=$item->getPriceDiscount();?> руб.</td>
+        <td><?=$item->getPriceDiscount()?> руб.</td>
       </tr>
-      <?endforeach;?>
+      <?endforeach?>
       </tbody>
     </table>
   </div>
 
 
   <div class="span12 indent-bottom3">
-    <h3>Сумма счета: <?=$order->getPrice();?> руб.</h3>
+    <h3>Сумма счета: <?=$order->getPrice()?> руб.</h3>
   </div>
-  <?if ($order->getIsBankTransfer()):?>
+  <?if($order->getIsBankTransfer()):?>
   <div class="span12">
-    <?= \CHtml::beginForm(); ?>
+    <?=\CHtml::beginForm()?>
       <fieldset>
         <div class="clearfix">
           <button type="submit" class="btn btn-success"
-            <?if ($order->Paid):?>
+            <?if($order->Paid):?>
                   onclick="return confirm('Счет уже отмечен как оплаченный. Повторить?');"
             <?else:?>
                   onclick="return confirm('Вы уверены, что хотите отметить данный счет оплаченным?');"
-            <?endif;?>
+            <?endif?>
                   name="SetPaid"><i class="icon-ok icon-white"></i> Отметить как оплаченный</button>
 
-          <?if (!$order->Deleted):?>
+          <?if(!$order->Deleted):?>
           <button class="btn btn-danger" type="submit" name="SetDeleted" onclick="return confirm('Вы уверены, что хотите удалить счет?');"><i class="icon-remove icon-white"></i> Удалить</button>
-          <?endif;?>
+          <?endif?>
 
-          <a href="<?=\Yii::app()->createAbsoluteUrl('/pay/order/index', array('orderId' => $order->Id, 'hash' => $order->getHash()));?>" class="btn" target="_blank"><i class="icon-print"></i> Счет с печатью</a>
-          <a href="<?=\Yii::app()->createAbsoluteUrl('/pay/order/index', array('orderId' => $order->Id, 'hash' => $order->getHash(), 'clear' => 'clear'));?>" class="btn" target="_blank"><i class="icon-print"></i> Счет без печати</a>
+          <a href="<?=\Yii::app()->createAbsoluteUrl('/pay/order/index', array('orderId' => $order->Id, 'hash' => $order->getHash()))?>" class="btn" target="_blank"><i class="icon-print"></i> Счет с печатью</a>
+          <a href="<?=\Yii::app()->createAbsoluteUrl('/pay/order/index', array('orderId' => $order->Id, 'hash' => $order->getHash(), 'clear' => 'clear'))?>" class="btn" target="_blank"><i class="icon-print"></i> Счет без печати</a>
         </div>
       </fieldset>
-    <?= \CHtml::endForm(); ?>
+    <?=\CHtml::endForm()?>
   </div>
-  <?endif;?>
+  <?endif?>
 </div>

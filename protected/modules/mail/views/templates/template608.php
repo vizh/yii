@@ -14,14 +14,14 @@
 			<!-- content -->
 			<div class="content" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 600px; display: block; margin: 0 auto; padding: 0;">
 			<table style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; width: 100%; margin: 0; padding: 0;"><tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"><td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
-                        <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /><h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName();?>!</h2>
+                        <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" /><h2 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 28px; line-height: 1.2; color: #000; font-weight: 200; margin: 40px 0 10px; padding: 0;">Здравствуйте, <?=$user->getShortName()?>!</h2>
 
 
                         <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">25 августа в Москве состоялась&nbsp;встреча членов Совета и Программного комитета (ПК)&nbsp;Института Развития Интернета (ИРИ) с представителями СМИ.&nbsp;На встречу также были приглашены представители органов государственной власти, институтов гражданского общества, отраслевых ассоциаций, крупнейших интернет-компаний. Участникам мероприятия был&nbsp;представлен промежуточный отчет о работе экспертного сообщества ИРИ над&nbsp;<strong>Программой развития российского сегмента сети Интернет и связанных с ней отраслей экономики</strong>, которая должна быть сформирована по поручению Президента Российской Федерации к 1 октября 2015 года.</p>
 
 <p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Предлагаем Вам ознакомиться с материалами встречи в Личном кабинете эксперта.</p>
 
-   
+
 	<p style="text-align:center;">
 <a href="http://xn--h1aax.xn--p1ai/experts/cabinet/projects/dev-program-of-internet.php?runetid=<?=$user->RunetId?>&hash=<?=md5($user->RunetId . '71064386e1731ff1ceb2b4667ce67b8c' . 'expertcabinet')?>" style="text-decoration: none;	color: #FFF; background-color: #9e1869; border: solid #9e1869; border-width: 10px 20px; line-height: 2; font-weight: bold; margin-right: 10px; text-align: center; cursor: pointer; display: inline-block; border-radius: 25px;">
 
@@ -45,7 +45,7 @@
                             </tr></table></td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;"></td>
 	</tr></table></body>

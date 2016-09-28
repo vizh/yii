@@ -37,7 +37,7 @@
               <table style="margin:0;padding:0;width:100%">
                 <tr style="margin:0;padding:0">
                   <td align="center" style="margin:0;padding:0;vertical-align:top">
-                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px'>Здравствуйте, <?=$user->getShortName();?>!</h2>
+                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px'>Здравствуйте, <?=$user->getShortName()?>!</h2>
                     <p class="lead" style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px;font-size:17px;margin:8px 5%"><nobr style="margin:0;padding:0">9-10</nobr> июня 2016 года в&nbsp;городе Иннополис (Республика Татарстан) представители крупнейших российских IT-компаний второй раз проведут Российский Интернет-Форум (<a href="http://innopolis.rif.ru/" style="margin:0;padding:0;color:#024688">РИФ.Иннополис</a>).</p>
                   </td>
                 </tr>

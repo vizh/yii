@@ -86,7 +86,7 @@
                               </tr>
                               <tr>
                                 <td style="background: #FF564B; width: 5px;">&nbsp;</td>
-                                <td style="background: #ff564b; line-height: normal; padding: 5px 30px;"><a href="<?=$regLink;?>" style="text-decoration: none; color: #ffffff; font-size: 16px; font-weight: bold;">РЕГИСТРАЦИЯ</a></td>
+                                <td style="background: #ff564b; line-height: normal; padding: 5px 30px;"><a href="<?=$regLink?>" style="text-decoration: none; color: #ffffff; font-size: 16px; font-weight: bold;">РЕГИСТРАЦИЯ</a></td>
                                 <td style="background: #FF564B; width: 5px;">&nbsp;</td>
                               </tr>
                               <tr>
@@ -99,7 +99,7 @@
                         </tr>
                       </table>
                       <p style="margin-top: 30px;">RIW 2013 – главное индустриальное и профессиональное мероприятие интернет-отрасли в Российской Федерации. Неделя Российского Интернета – это уникальная площадка для бизнес-встреч, обмена опытом, делового общения и коворкинга. RIW уже шестой год подряд объединяет в себе многопотоковую <b>конференционную программу</b>, масштабную <b>выставку</b> игроков интернет-отрасли, <b>профессиональные награды и премии</b>, шоу-мероприятия партнеров и многое другое.</p>
-                      
+
                       <p style="margin: 30px 0"><img src="http://runet-id.com/images/mail/riw13/riw13-pano.jpg" width="670"></p>
 
                       <h2 style="margin-bottom: 20px;">УЧАСТНИК ВЫСТАВКИ</h2>
@@ -120,7 +120,7 @@
                               </tr>
                               <tr>
                                 <td style="background: #FF564B; width: 5px;">&nbsp;</td>
-                                <td style="background: #ffffff; line-height: normal; padding: 5px 30px;"><a href="<?=$regLink;?>" style="text-decoration: none; color: #FF564B; font-size: 16px; font-weight: bold;">РЕГИСТРАЦИЯ</a></td>
+                                <td style="background: #ffffff; line-height: normal; padding: 5px 30px;"><a href="<?=$regLink?>" style="text-decoration: none; color: #FF564B; font-size: 16px; font-weight: bold;">РЕГИСТРАЦИЯ</a></td>
                                 <td style="background: #FF564B; width: 5px;">&nbsp;</td>
                               </tr>
                               <tr>
@@ -213,7 +213,7 @@
                               </tr>
                               <tr>
                                 <td style="background: #FF564B; width: 5px;">&nbsp;</td>
-                                <td style="background: #ffffff; line-height: normal; padding: 5px 30px;"><a href="<?=$regLink;?>" style="text-decoration: none; color: #FF564B; font-size: 16px; font-weight: bold;">РЕГИСТРАЦИЯ</a></td>
+                                <td style="background: #ffffff; line-height: normal; padding: 5px 30px;"><a href="<?=$regLink?>" style="text-decoration: none; color: #FF564B; font-size: 16px; font-weight: bold;">РЕГИСТРАЦИЯ</a></td>
                                 <td style="background: #FF564B; width: 5px;">&nbsp;</td>
                               </tr>
                               <tr>
@@ -334,7 +334,7 @@
       </tr>
     </table>
 
-    <p style="width: 740px; margin: 5px auto; color: #909090;">Вы получили это письмо, так как являетесь <a href="<?=$user->getUrl();?>" target="_blank" style="color: #909090;">пользователем RUNET&mdash;ID</a> и подписаны на новостную рассылку.<br>Вы можете <a href="http://runet-id.com/user/setting/subscription/" target="_blank" style="color: #909090;">изменить настройки уведомлений</a>.</p>
+    <p style="width: 740px; margin: 5px auto; color: #909090;">Вы получили это письмо, так как являетесь <a href="<?=$user->getUrl()?>" target="_blank" style="color: #909090;">пользователем RUNET&mdash;ID</a> и подписаны на новостную рассылку.<br>Вы можете <a href="http://runet-id.com/user/setting/subscription/" target="_blank" style="color: #909090;">изменить настройки уведомлений</a>.</p>
 
   </body>
 </html>

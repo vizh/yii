@@ -30,15 +30,15 @@
 </script>
 
 <div class="form-group">
-    <?=\CHtml::activeLabel($form, 'UniversityLabel', ['class' => 'control-label']);?>
+    <?=\CHtml::activeLabel($form, 'UniversityLabel', ['class' => 'control-label'])?>
     <div class="controls">
-        <?=\CHtml::activeTextField($form, 'UniversityLabel', ['class' => 'input-block-level']);?>
+        <?=\CHtml::activeTextField($form, 'UniversityLabel', ['class' => 'input-block-level'])?>
     </div>
 </div>
 <div class="form-group">
-    <?=\CHtml::activeLabel($form, 'Speciality', ['class' => 'control-label']);?>
+    <?=\CHtml::activeLabel($form, 'Speciality', ['class' => 'control-label'])?>
     <div class="controls">
-        <?=\CHtml::activeTextField($form, 'Speciality', ['class' => 'input-block-level']);?>
+        <?=\CHtml::activeTextField($form, 'Speciality', ['class' => 'input-block-level'])?>
     </div>
 </div>
-<?=\CHtml::activeHiddenField($form, 'University');?>
+<?=\CHtml::activeHiddenField($form, 'University')?>

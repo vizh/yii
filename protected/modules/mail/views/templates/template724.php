@@ -22,23 +22,23 @@
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #f6f6f6; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#f6f6f6" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h3>
+						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h3>
 		              	<p class="lead" style="font-size: 17px; font-weight: normal; margin: 0 0 10px; padding: 0;">Вы зарегистрированы на RIW 2015, который проходил на этой неделе в московском Экспоцентре</p>
 		            </td>
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -63,13 +63,13 @@
 					<img src="https://showtime.s3.amazonaws.com/201510231811-riw15-email.jpg" class="full" style="float: right; height: auto; width: 290px; max-width: 600px; margin: 10px; padding: 0;" align="right"><p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">За три дня работы RIW в <strong style="margin: 0; padding: 0;">12 конференционных</strong> залах прозвучало более <strong style="margin: 0; padding: 0;">600 докладов</strong> на самые разнообразные темы, начиная от рекламы и e-commerce и заканчивая сферами робототехники.</p>
 					<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">По данным платформы RUNET—ID.com, обеспечивавшей регистрацию участников Выставки и Форума, <strong style="margin: 0; padding: 0;">посетителями RIW 2015 стали около 20 000 человек</strong>.</p>
 					<ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">На площадках прошли презентации новых проектов, например, в специальной зоне <strong style="margin: 0; padding: 0;">выставки «Интернет 2015»</strong> была организована <strong style="margin: 0; padding: 0;">Аллея Инноваций</strong>, а также отдельная сцена, на которой выступали молодые предприниматели в формате открытого микрофона.</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Сцена BuduGuru Academy</strong> стала местом где перед молодыми и будущими специалистами IT-отрасли выступали различные докладчики от видеоблогеров, до руководителей профильных подразделений крупных компаний.</p>
 						</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Также, по итогам третьего дня можно сказать, что всех посетителей выставки без исключения порадовали стенды экспонентов и партнёров, которые из года в год стремятся как можно интереснее представить свои проекты на территории RIW.</p>
 						</li>
 					</ul>
@@ -78,7 +78,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -98,7 +98,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -118,7 +118,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -140,7 +140,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -159,7 +159,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>

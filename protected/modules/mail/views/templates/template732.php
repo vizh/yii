@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/iotr15.png" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p>Информационно-аналитическое агентство TelecomDaily, проводит Международную конференцию <strong>&laquo;Интернет Вещей: инновационные и перспективные технологии &ndash; </strong><strong>IoT</strong> <strong>Russia</strong><strong> 2015&raquo;</strong>, которая состоится&nbsp; 12 ноября 2015 г., в отеле &laquo;Holiday Inn Suschevsky&raquo;, по адресу: г. Москва, ул. Сущёвский вал, д.74. Подробная информация на &nbsp;<a href="http://www.tmtconferences.ru/iot2015.html">сайте конференции</a>.</p>
 

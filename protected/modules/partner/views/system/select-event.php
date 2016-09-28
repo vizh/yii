@@ -15,7 +15,7 @@ $this->setPageTitle(\Yii::t('app', 'Авторизация в партнерск
                 <img src="/images/partner/logo.png" alt="RUNET-ID" title="RUNET-ID" />
             </div>
             <div class="signin-text">
-                <span><?=\Yii::t('app', 'Партнерский интерфейс');?></span>
+                <span><?=\Yii::t('app', 'Партнерский интерфейс')?></span>
             </div> <!-- / .signin-text -->
 
             <div class="form-group w-icon">
@@ -32,7 +32,7 @@ $this->setPageTitle(\Yii::t('app', 'Авторизация в партнерск
     $(function(){
         var $form = $('div.signin-form form');
         $form.find('input[type="text"]').autocomplete({
-            source: <?=json_encode($events, JSON_UNESCAPED_UNICODE);?>,
+            source: <?=json_encode($events, JSON_UNESCAPED_UNICODE)?>,
             select: function( event, ui ) {
                 $form.find('input[name="event_id"]').val(ui.item.id);
                 $form.submit();

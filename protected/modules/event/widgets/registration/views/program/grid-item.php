@@ -43,4 +43,4 @@ if (!empty($registration)) {
     $content .= \CHtml::tag('div', ['class' => 'registration-block'], $registration);
 }
 ?>
-<?=\CHtml::tag('td', $htmlOptions, $content);?>
+<?=\CHtml::tag('td', $htmlOptions, $content)?>

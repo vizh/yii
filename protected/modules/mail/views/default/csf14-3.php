@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Завтра, в среду 19 февраля – пройдет Международный Форум по Кибербезопасности (Cyber Security Forum 2014) – www.CyberSecurityForum.ru
 
@@ -21,7 +21,7 @@ http://runet-id.com/event/csf14/#event_widgets_tabs_Html
 Для посещения мероприятия требуется завершить регистрацию: оплатить регистрационный взнос или получить аккредитацию Оргкомитета.
 
 Сделать это можно по ссылке:
-<?=$user->getFastauthUrl('http://pay.runet-id.com/register/csf14/');?>
+<?=$user->getFastauthUrl('http://pay.runet-id.com/register/csf14/')?>
 
 
 

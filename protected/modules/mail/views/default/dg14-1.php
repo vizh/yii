@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Знаете ли вы, что такое Digital Goods?
 Digital Goods легко вычисляется по формуле:
@@ -31,7 +31,7 @@ $registerLink = $event->getFastRegisterUrl($user, $role, '/event/dg14/');
 ?>
 
 ПРОЙТИ РЕГИСТРАЦИЮ:
-<?=$registerLink;?>
+<?=$registerLink?>
 
 
 В программе Digital Goods 2014 примут участие российские и западные спикеры, эксперты цифровых товаров, представители российских интернет-магазинов и сервисов электронной коммерции, платежных систем и их клиентов.
@@ -52,4 +52,4 @@ $registerLink = $event->getFastRegisterUrl($user, $role, '/event/dg14/');
 С уважением,
 http://runet-id.com
 
-Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/');?>
+Отписаться: <?=$user->getFastauthUrl('/user/setting/subscription/')?>

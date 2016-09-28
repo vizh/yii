@@ -1,5 +1,5 @@
 <div style="margin: 15px auto; max-width: 640px;">
-<p><strong>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</strong></p>
+<p><strong>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</strong></p>
 
 <p><strong>Пожалуйста, вдумчиво прочитайте все сегодняшние новости.</strong></p>
 

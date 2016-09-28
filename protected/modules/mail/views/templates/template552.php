@@ -1,5 +1,5 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/ras15.jpg" style="width: 100%; height: auto; margin: 0 auto" /></a></p>
-<p><strong>Здравствуйте <?=$user->getShortName();?> .</strong></p>
+<p><strong>Здравствуйте <?=$user->getShortName()?> .</strong></p>
 
 <p>22&nbsp;июня 2015 года в&nbsp;Москве начинает работу <a href="http://rasia.com/2015/forum">Пятый Международный Инновационный Форум</a>. Это уникальное мероприятие международного масштаба, ежегодно собирает знаменитых российских и&nbsp;зарубежных экспертов, способствует обмену знаниями и&nbsp;опытом использования новейших технологий между предпринимателями из&nbsp;разных стран мира.</p>
 
@@ -20,6 +20,6 @@
 
 <div style="text-align: center; border: 3px dashed #D94332; margin-top: 20px;">
 	<p><strong>ВНИМАНИЕ!</strong><br/>Принять участие в&nbsp;форуме могут только зарегистрированные участники.</p>
-	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rasia15/');?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #D94332; margin: 0 10px 0 0; padding: 0; border-color: #D94332; border-style: solid; border-width: 10px 40px;">Быстрая регистрация</a></p>
+	<p style="margin-top: 10px 0; text-align: center;"><a href="<?=$user->getFastauthUrl('http://runet-id.com/event/rasia15/')?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #D94332; margin: 0 10px 0 0; padding: 0; border-color: #D94332; border-style: solid; border-width: 10px 40px;">Быстрая регистрация</a></p>
 	<p align="center">До&nbsp;встречи на&nbsp;Форуме!</p>
 </div>

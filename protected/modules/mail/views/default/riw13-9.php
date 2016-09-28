@@ -1,4 +1,4 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Вы подавали заявку на аккредитацию СМИ Russian Internet Week (RIW-2013).
 

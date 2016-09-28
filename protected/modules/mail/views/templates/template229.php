@@ -1,11 +1,11 @@
-<h3><strong><?=$user->getShortName();?>, добрый день!</strong></h3>
+<h3><strong><?=$user->getShortName()?>, добрый день!</strong></h3>
 
-<p>Рады сообщить, что&nbsp;Вы успешно прошли регистрацию на&nbsp;конференцию &laquo;Деньги Будущего-2014&raquo; и&nbsp;являетесь обладателем статуса <strong><?=$user->Participants[0]->Role->Title;?></strong>. Данное письмо позволит Вам сориентироваться в&nbsp;активностях и&nbsp;сформировать свой план посещения конференции.</p>
+<p>Рады сообщить, что&nbsp;Вы успешно прошли регистрацию на&nbsp;конференцию &laquo;Деньги Будущего-2014&raquo; и&nbsp;являетесь обладателем статуса <strong><?=$user->Participants[0]->Role->Title?></strong>. Данное письмо позволит Вам сориентироваться в&nbsp;активностях и&nbsp;сформировать свой план посещения конференции.</p>
 
 <div style="text-align: center; background: #F0F0F0; border: 2px dashed #FFF; padding: 10px;">
 <p style="margin-bottom: 5px">Пожалуйста, сохраните на телефон или распечатайте ваш электронный билет:</p>
 
-<p style="margin-top: 0"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Электронный билет</a></p>
+<p style="margin-top: 0"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">Электронный билет</a></p>
 </div>
 
 <p style="font-size: 80%; color: #AAAAAA;">&nbsp;</p>
@@ -47,14 +47,14 @@
 <hr style="line-height: 20.7999992370605px;" />
 <p style="line-height: 20.7999992370605px;">&nbsp;</p>
 
-<h3><strong>Dear, <?=$user->getShortName();?>!</strong></h3>
+<h3><strong>Dear, <?=$user->getShortName()?>!</strong></h3>
 
-<p>Thank you for registration for the third annual conference &ldquo;Money of&nbsp;the Future-2014&rdquo; as&nbsp;a <strong><?=$user->Participants[0]->Role->Title;?></strong>. The mail is&nbsp;intended to&nbsp;help you to&nbsp;schedule your activities at&nbsp;the conference.</p>
+<p>Thank you for registration for the third annual conference &ldquo;Money of&nbsp;the Future-2014&rdquo; as&nbsp;a <strong><?=$user->Participants[0]->Role->Title?></strong>. The mail is&nbsp;intended to&nbsp;help you to&nbsp;schedule your activities at&nbsp;the conference.</p>
 
 <div style="text-align: center; background: #F0F0F0; border: 2px dashed #FFF; padding: 10px;">
 <p style="margin-bottom: 5px">Please, print this ticket or save it on your device</p>
 
-<p style="margin-top: 0"><a href="<?=$user->Participants[0]->getTicketUrl();?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">E-ticket</a></p>
+<p style="margin-top: 0"><a href="<?=$user->Participants[0]->getTicketUrl()?>" style="font-size: 100%; color: #FFF; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #348eda; margin: 0 10px 0 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 40px;">E-ticket</a></p>
 </div>
 
 <p>&ldquo;Money of&nbsp;the Future&rdquo; held in&nbsp;Moscow is&nbsp;the biggest event in&nbsp;Eastern Europe on&nbsp;innovations in&nbsp;fintech bringing together experts from around the world. The Conference will take place on&nbsp;Wednesday, November 12<sup>th</sup> within the framework of&nbsp;the Russian Internet Week, which will host over 20&nbsp;thousand participants: progressive entrepreneurs and ambitious professionals from the Internet industry, telecommunications and media. The Conference is&nbsp;organized by&nbsp;Life.SREDA Venture Capital and LIFE Financial Group in&nbsp;cooperation with Russian Electronic Communications Association and Higher School of&nbsp;Economics.</p>

@@ -19,7 +19,7 @@
 							<div style="font-size: 42px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0;">#MBLT15</div>
 							<div style="color: #999999; font-size: 24px; line-height: 26px; font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; margin: 0; padding: 0;">4-ая Международная конференция, посвященная мобильным технологиям.</div>
 						</div>
-						<hr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; border-bottom-style: solid; border-bottom-color: #eaeaea; height: 1px; width: 100%; margin: 25px 0; padding: 0; border-width: 0 0 1px;" /><h3 class="center" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; text-align: center; color: #000; font-weight: 200; margin: 10px 0; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName();?>.</h3>
+						<hr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; border-bottom-style: solid; border-bottom-color: #eaeaea; height: 1px; width: 100%; margin: 25px 0; padding: 0; border-width: 0 0 1px;" /><h3 class="center" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; text-align: center; color: #000; font-weight: 200; margin: 10px 0; padding: 0;" align="center">Здравствуйте, <?=$user->getShortName()?>.</h3>
 						<h4 class="center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; text-align: center; font-weight: normal; background: yellow; margin: 15px 5% 25px; padding: 0;" align="center">Конференция <b style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">стартует уже завтра</b> на площадке московского Digital October, еще есть возможность зарегистрироваться!</h4>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Приглашаем посетить уникальное мероприятие для разработчиков мобильных приложений, которое нельзя пропустить! В этом году конференция соберет спикеров Америки, Японии, Европы и России для обсуждения инноваций и развития мобильной индустрии.</p>
 						<p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Участие может быть оплачено банковской картой, электронными деньгами или непосредственно на площадке. Возможность выставления счетов для юрлиц, к сожалению, уже закрыта.</p>
@@ -31,7 +31,7 @@
 							<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"><strong style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">Аналитика мобильных приложений </strong>(Tinkoff, Delivery Club, BlaBlaCar, LitRes), </li>
 							<li style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0 0 0 20px; padding: 0; list-style: outside;"><strong style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">Интернет Вещей </strong>(Omate, Samsung, Kaspersky Lab)<strong style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; margin: 0; padding: 0;">.</strong></li>
 						</ul><p style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; font-weight: normal; margin: 0 0 10px; padding: 0;">Спикеры покажут статистику мобильных приложений в мире и в России, какие проекты пользуются успехом на краудфандинговых платформах, поделятся успешными кейсами и расскажут, как приспособиться к быстроменяющемуся миру мобильных технологий. </p>
-						
+
 						<div class="bordered center" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; text-align: center; margin: 15px 0; padding: 25px; border: 1px solid #f2ce34;" align="center">
 							<a href="http://mblt.ru/ru/registration" class="btn-primary" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 2; color: #000; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; background: #F2CE34; margin: 0 10px 0 0; padding: 0; border-color: #f2ce34; border-style: solid; border-width: 10px 40px;">ЗАРЕГИСТРИРОВАТЬСЯ</a>
 						</div>
@@ -45,7 +45,7 @@
 					</td>
 				</tr></table></div>
 			<!-- /content -->
-			
+
 		</td>
 		<td style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6; vertical-align: top; margin: 0; padding: 0; border: none;" valign="top"></td>
 	</tr></table><!-- /body --></body>

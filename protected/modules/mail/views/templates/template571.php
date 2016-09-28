@@ -1,10 +1,10 @@
 <?
 	$salt = '71064386e1731ff1ceb2b4667ce67b8c';
-	$hash = md5($user->RunetId . $salt . 'votepk'); 
+	$hash = md5($user->RunetId . $salt . 'votepk');
 	$link = "http://iri.center/vote/pk1.php?runetid=" . $user->RunetId . "&hash=" . $hash;
 ?>
 
-<p><strong><?=$user->getShortName();?>, добрый день!</strong></p>
+<p><strong><?=$user->getShortName()?>, добрый день!</strong></p>
 
 <p>Спасибо вам за то, что вы участвуете в Программном комитете ИРИ!<br />
 Наша с вами задача написать программу развития Интернета в России.</p>

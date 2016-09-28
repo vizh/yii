@@ -1,6 +1,6 @@
 <p align="center"><img alt="" src="http://runet-id.com/img/mail/2014/201401015-mbltdev.png" style="width: 100%; height: auto;" /></p>
 
-<h3><?=$user->getShortName();?>, здравствуйте!</h3>
+<h3><?=$user->getShortName()?>, здравствуйте!</h3>
 
 <p style="font-size: 120%">Уже во вторник, 28 октября, в Москве пройдет первая конференция мобильных разработчиков #MBLTDev.</p>
 
@@ -26,6 +26,6 @@
 
 <p><strong>Информационные партнеры:</strong> iGuides.ru, iPhones.ru, МакРадар, ЛайфХакер, CMSmagazine, Macster, Apps4All, reDroid, Айти-Событие, Россия Сегодня, ФРИИ, RealTime school, Vintera.tv, Job.ru, Аргументы и факты, Типичный Программист, Хакер, Apptracktor, HackDay, Зона Действия, MDDay, GVA LaunchGurus, Global CIO, Weblancer, PRUFFI, Spice, DigitalHR, SuperJob, Интерфакс, Semsocial, Clickky.</p>
 
-<p style="font-size: 80%">Аккредитация СМИ:<br/> 
+<p style="font-size: 80%">Аккредитация СМИ:<br/>
 Ольга Трускова<br/>
 <a href="mailto:ot@e-legion.com">ot@e-legion.com</a></p>

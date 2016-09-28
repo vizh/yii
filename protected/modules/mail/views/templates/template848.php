@@ -40,7 +40,7 @@ $discount->save();
                 <img src="https://showtime.s3.amazonaws.com/201508121146-iri_logo" alt="ИРИ - Институт развития интернета" style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; max-width: 100%; margin: 0; padding: 0;" />
 
 <p>14-15 марта во ФРИИ Сити Холле пройдет конференция i-CоM 2016, посвященная <strong>социальным и мобильным коммуникациям и автоматизации маркетинговых процессов</strong> – <a href="http://www.i-comference.ru">www.i-comference.ru</a></p>
-<p><strong><?=$user->getShortName();?></strong>,<br/>Вы – эксперт Института Развития Интернета – <a href="http://ири.рф/experts/">ЭС ИРИ 2016 года</a>.<br/>И Вам предоставляется право бесплатного участия в конференции i-CоM 2016.</p>
+<p><strong><?=$user->getShortName()?></strong>,<br/>Вы – эксперт Института Развития Интернета – <a href="http://ири.рф/experts/">ЭС ИРИ 2016 года</a>.<br/>И Вам предоставляется право бесплатного участия в конференции i-CоM 2016.</p>
 <p>Если вы планируете принять участие в конференции, активируйте Ваш персональный промо-код на 100% скидку: <span style="background: #F9F1C7; display: inline-block; padding: 2px 3px; font-weight: bold;"><?=$discount->Code?></span></p>
 <p><strong>ВНИМАНИЮ<br/></strong><strong>обладателей пластиковых карт "Эксперт ИРИ"</strong>
 </p>

@@ -60,7 +60,7 @@
               <table style="margin:0;padding:0;width:100%">
                 <tr style="margin:0;padding:0">
                   <td align="center" style="margin:0;padding:0;vertical-align:top">
-                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName();?>!</h2>
+                    <h2 style='margin:0;padding:0;color:#111111;font-family:"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;font-weight:200;line-height:1.2em;margin:10px 0;font-size:28px;color: #ffffff'>Здравствуйте, <?=$user->getShortName()?>!</h2>
                     <p class="lead" style="margin:0;padding:0;font-size:14px;font-weight:normal;margin-bottom:10px;font-size:17px;color: #ffffff">В 2016 году Институт Развития Интернета (ИРИ) проводит <a href="http://forums.iri.center/" style="margin:0;padding:0;color:#1790C5;color: #ffffff">8 отраслевых форумов</a> по темам «Интернет+», каждый из которых посвящен определенному направлению развития интернета и связанных с интернетом отраслей экономики.</p>
                   </td>
                 </tr>

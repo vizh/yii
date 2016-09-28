@@ -9,7 +9,7 @@ use company\models\Company;
 $this->setPageTitle('Компании');
 ?>
 <div class="btn-toolbar">
-    <?=\CHtml::link('<i class="fa fa-plus"></i> Добавить компанию', ['edit'], ['class' => 'btn btn-info']);?>
+    <?=\CHtml::link('<i class="fa fa-plus"></i> Добавить компанию', ['edit'], ['class' => 'btn btn-info'])?>
 </div>
 <div class="well">
     <?$this->widget('\application\widgets\grid\GridView', [
@@ -71,5 +71,5 @@ $this->setPageTitle('Компании');
             ]
         ],
         'pagerCssClass' => 'pagination text-center'
-    ]);?>
+    ])?>
 </div>

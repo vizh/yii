@@ -28,7 +28,7 @@ $this->setPageTitle(Yii::t('app', 'Импорт участников мероп�
         <span class="panel-title"><i class="fa fa-history"></i> <?=Yii::t('app', 'Ранее импортировано')?></span>
     </div> <!-- / .panel-heading -->
     <div class="panel-body">
-        <?php if (!empty($imports)):?>
+        <?if(!empty($imports)):?>
             <div class="table-warning">
                 <table class="table table-bordered">
                     <thead>
@@ -42,11 +42,11 @@ $this->setPageTitle(Yii::t('app', 'Импорт участников мероп�
                         </tr>
                     </thead>
                     <tbody>
-                        <?foreach ($imports as $import):?>
+                        <?foreach($imports as $import):?>
                             <?php
                             $countImported = count($import->Users(['condition' => '"Users"."Imported"']));
                             $countErrorUsers = count($import->Users(['condition' => '"Users"."Error"']));
-                            ?>
+                           ?>
                             <tr>
                                 <td><?=$import->Id?></td>
                                 <td><?=Yii::app()->getDateFormatter()->format('dd MMMM yyyy, HH:mm', $import->CreationTime)?></td>
@@ -54,7 +54,7 @@ $this->setPageTitle(Yii::t('app', 'Импорт участников мероп�
                                 <td><?=$countImported?></td>
                                 <td><?=$countErrorUsers?></td>
                                 <td>
-                                    <?php if ($countImported > 0 && $countImported === count($import->Users)):?>
+                                    <?if($countImported > 0 && $countImported === count($import->Users)):?>
                                         <span class="label label-success">Импорт завершен</span>
                                     <?php elseif ($countErrorUsers > 0):?>
                                         <?=\CHtml::link(Yii::t('app', 'Исправить ошибки'), ['importerrors', 'id' => $import->Id], ['class' => 'btn btn-sm'])?>
@@ -64,7 +64,7 @@ $this->setPageTitle(Yii::t('app', 'Импорт участников мероп�
                                         <?=\CHtml::link(Yii::t('app', 'Задать роли'), ['importroles', 'id' => $import->Id], ['class' => 'btn btn-sm'])?>
                                     <?php elseif ($import->Products == null):?>
                                         <?=\CHtml::link(Yii::t('app', 'Задать товары'), ['importproducts', 'id' => $import->Id], ['class' => 'btn btn-sm'])?>
-                                    <?php endif?>
+                                    <?endif?>
                                 </td>
                             </tr>
                         <?endforeach?>
@@ -73,6 +73,6 @@ $this->setPageTitle(Yii::t('app', 'Импорт участников мероп�
             </div>
         <?php else:?>
             <div class="alert alert-warning text-center"><?=Yii::t('app', 'Еще не было ни одного импорта')?></div>
-        <?php endif?>
+        <?endif?>
     </div>
 </div>

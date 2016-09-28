@@ -8,7 +8,7 @@
 
 <h2>Here is the link for your any-time authorization:</h2>
 <div style="padding: 10px; margin-left: 10px; font-size: 120%; display:inline-block;">
-  <div style="margin-bottom: 5px;"><a href="<?=$user->getFastauthUrl(isset(\Yii::app()->params['TemporaryUserRedirect']) ? \Yii::app()->params['TemporaryUserRedirect'] : '');?>">Payment Profile</a></div>
+  <div style="margin-bottom: 5px;"><a href="<?=$user->getFastauthUrl(isset(\Yii::app()->params['TemporaryUserRedirect']) ? \Yii::app()->params['TemporaryUserRedirect'] : '')?>">Payment Profile</a></div>
 </div>
 
 

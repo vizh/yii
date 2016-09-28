@@ -1,4 +1,4 @@
-<p>Уважаемый <?=$user->getShortName();?>!</p>
+<p>Уважаемый <?=$user->getShortName()?>!</p>
 
 <p>Опрос &laquo;Экономика Рунета 2014&ndash;2015&raquo;, завершается 5 октября.</p>
 
@@ -15,7 +15,7 @@
 	<li>Подключить к онлайн-опросу коллег и других экспертов, которых Вы считаете релевантными данному опросу &ndash; переслав им данное письмо и Вашу рекомендацию по участию в исследовании.</li>
 </ul>
 
-<div style="text-align: center; margin-top: 20px; margin-botto: 20px;"><a href="<?=$user->getFastauthUrl('/vote/runet2015/');?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #C40D20; margin: 0 10px 0 0; padding: 0; border-color: #C40D20; border-style: solid; border-width: 10px 40px;">ЗАПОЛНИТЬ АНКЕТУ</a></div>
+<div style="text-align: center; margin-top: 20px; margin-botto: 20px;"><a href="<?=$user->getFastauthUrl('/vote/runet2015/')?>" style="font-size: 100%; color: #fff; text-decoration: none; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: uppercase; background-color: #C40D20; margin: 0 10px 0 0; padding: 0; border-color: #C40D20; border-style: solid; border-width: 10px 40px;">ЗАПОЛНИТЬ АНКЕТУ</a></div>
 
 <h3>Ваше участие очень важно для нас</h3>
 

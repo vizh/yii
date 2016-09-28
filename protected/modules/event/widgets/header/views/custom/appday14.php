@@ -36,15 +36,15 @@ $event = $this->event;
     <div class="container" style="background-image: none;  height: 153px;">
         <div class="row">
             <div class="span12">
-                <?if ($this->eventPage):?>
+                <?if($this->eventPage):?>
                 <a target="_blank" href="http://events.techdays.ru/AppDay/2014-11/"><div class="appday14-topPicture-register">зарегистрироваться</div></a>
-                <?endif;?>
+                <?endif?>
             </div>
         </div>
-        <?if ($this->eventPage):?>
+        <?if($this->eventPage):?>
             <span class="all">
-      <a href="<?=Yii::app()->createUrl('/event/list/index');?>"><?=Yii::t('app', 'Все мероприятия');?></a>
+      <a href="<?=Yii::app()->createUrl('/event/list/index')?>"><?=Yii::t('app', 'Все мероприятия')?></a>
     </span>
-        <?endif;?>
+        <?endif?>
     </div>
 </div>

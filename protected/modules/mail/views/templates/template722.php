@@ -1,4 +1,4 @@
-<?php	
+<?php
 	$regLink = "http://riw.moscow/my/?RUNETID=" . $user->RunetId . "&KEY=" . substr(md5($user->RunetId.'vyeavbdanfivabfdeypwgruqe'), 0, 16);
 ?>
 
@@ -25,23 +25,23 @@
 </style>
 
 	<div id="wrapper" style="height: 100%; width: 100%; background: #f6f6f6; margin: 0; padding: 0;">
-		
+
 		<!-- unboxed -->
 		<table class="unboxed-wrap" bgcolor="#f6f6f6" style="clear: both !important; width: 100%; margin: 25px 0 0; padding: 25px 0;"><tr style="margin: 0; padding: 0;">
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		    <td class="container" style="vertical-align: top; clear: both !important; display: block !important; max-width: 600px !important; margin: 0 auto; padding: 0;" valign="top">
-		      
+
 		      <!-- content -->
 		      <div class="content" style="display: block; max-width: 600px; margin: 0 auto; padding: 0;">
 		        <table style="width: 100%; margin: 0; padding: 0;"><tr style="margin: 0; padding: 0;">
 <td align="center" style="vertical-align: top; margin: 0; padding: 0;" valign="top">
-						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName();?>, здравствуйте!</h3>
+						<h3 style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 22px; line-height: 1.2; color: #000; font-weight: 200; margin: 0 0 10px; padding: 0;"><?=$user->getShortName()?>, здравствуйте!</h3>
 		              	<p class="lead" style="font-size: 17px; font-weight: normal; margin: 0 0 10px; padding: 0;">Вы зарегистрированы на RIW 2015, который проходит в московском Экспоцентре 21–23 октября 2015 года </p>
 		            </td>
 		          </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -70,19 +70,19 @@
 					<h3 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 22px; margin: 10px 0; padding: 0;">Топ-10 спикеров RIW 2015 по количеству упоминаний</h3>
 					<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Благодаря специальному сервису СКАН, разработанному в «Интерфакс», который предназначен для определения количества упоминаний в медиасреде среди самых влиятельных информагентств страны, мы представляем вам топ-10 самых упоминаемых спикеров RIW по итогам первого дня. Вот первая пятёрка:</p>
 					<ol style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Никифоров Николай</strong> — министр связи и массовых коммуникаций РФ</p>
 					 	</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Левин Леонид</strong> — председатель Комитета Госдумы Федерального Собрания по информационной политике, технологиям и связи</p>
 					 	</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Усманов Альберт</strong> — глава отдела b2b-маркетинга «ВКонтакте»</p>
 					 	</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Плуготаренко Сергей</strong> — директор РАЭК</p>
 					 	</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><strong style="margin: 0; padding: 0;">Жаров Александр</strong> — руководитель Роскомнадзора </p>
 					 	</li>
 					 </ol>
@@ -91,7 +91,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -116,16 +116,16 @@
 					<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Вне зависимости от того, посетили вы RIW в первые два дня или нет, программа будет интересной для любой аудитории, ведь именно в этот день будет рассматриваться самое большое количество разнообразных тем.</p>
 					<h3 style="color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 22px; margin: 10px 0; padding: 0;">Рекомендуем обратить внимание на такие секции, как:</h3>
 					<ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;"><nobr style="margin: 0; padding: 0;">6-часовая</nobr> блок-конференция от GRAPE, на которой расскажут о новых течениях в <strong style="margin: 0; padding: 0;">SMM</strong>, трендах <strong style="margin: 0; padding: 0;">digital-маркетинга</strong> и самых интересных кейсах из этой сферы</p>
 					 	</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">В зелёном зале предстоит интересная дискуссия о <strong style="margin: 0; padding: 0;">видеорекламе</strong>, <strong style="margin: 0; padding: 0;">онлайн-кинотеатрах</strong>, а также платной модели потребления видеоконтента и пиратстве</p>
 					 	</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Большая и подробная блок-конференция о <strong style="margin: 0; padding: 0;">Big Data Marketing</strong>, где все участники профессиональной программы смогут узнать о том, как правильно анализировать, автоматизировать и использовать маркетинговую информацию и повышать отдачу от рекоамных и промокампаний</p>
 					 	</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Второй день конференции <strong style="margin: 0; padding: 0;">Russian Affiliate Days</strong> (RAD 2015) в оранжевом зале дополнится докладами о монетизации трафика, будут рассмотрены новые каналы трафика, а также искусство работы с трафиком для грамотного его использования</p>
 					 	</li>
 					 </ul>
@@ -133,7 +133,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr>
@@ -148,16 +148,16 @@
 <td style="vertical-align: top; margin: 0; padding: 0;" valign="top">
 		          	<h3 class="center" style="text-align: center; color: #111111; font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 200; line-height: 1.2em; font-size: 22px; margin: 10px 0; padding: 0;" align="center">Вниманию участников RIW 2015</h3>
 					<ul style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">
-<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Если Вы уже были на RIW в первый или второй день (21 или 22 октября) и получили бейдж участника, сообщаем, что бейдж выдается один раз, Вам необходимо предъявлять его в третий день посещения RIW 2015.</p>
 					 	</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
-							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Если в пятницу 23 октября Вы планируете быть на площадке RIW 2015 впервые, рекомендуем Вам распечатать и взять с собой Ваш персональный <a href="<?=$user->Participants[0]->getTicketUrl();?>" style="color: #D85B42; margin: 0; padding: 0;">ПУТЕВОЙ ЛИСТ</a> (либо сохранить его на Ваше мобильное устройство) — это значительно ускорит Вашу регистрацию на месте.</p>
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
+							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Если в пятницу 23 октября Вы планируете быть на площадке RIW 2015 впервые, рекомендуем Вам распечатать и взять с собой Ваш персональный <a href="<?=$user->Participants[0]->getTicketUrl()?>" style="color: #D85B42; margin: 0; padding: 0;">ПУТЕВОЙ ЛИСТ</a> (либо сохранить его на Ваше мобильное устройство) — это значительно ускорит Вашу регистрацию на месте.</p>
 					 	</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">В случае необходимости — получить отчетные документы для юридических лиц можно 23 октября с 09:00 до 16:00 на стенде «ОРГКОМИТЕТ»</p>
 					 	</li>
-						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;"> 
+						<li style="margin: 0 0 0 25px; padding: 0; list-style: outside;">
 							<p style="font-size: 14px; font-weight: normal; margin: 0 0 10px; padding: 0;">Презентации докладчиков, фотографии и другие материалы первого дня собираются, обрабатываются и будут доступны на сайте уже со следующей недели, о чем мы обязательно проинформируем вас отдельным письмом.</p>
 					 	</li>
 					 </ul>
@@ -165,7 +165,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -191,7 +191,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>
@@ -212,7 +212,7 @@
 		        </tr></table>
 </div>
 		      <!-- /content -->
-		      
+
 		    </td>
 		    <td style="vertical-align: top; margin: 0; padding: 0;" valign="top"></td>
 		  </tr></table>

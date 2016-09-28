@@ -1,9 +1,9 @@
-Здравствуйте, <?=$user->getShortName();?>.
+Здравствуйте, <?=$user->getShortName()?>.
 
 Высылаем по Вашей просьбе билет в электронном ввиде для устройств Apple.
 
 Также Вы можете в любой момент распечатать билет по ссылке:
-<?=$user->Participants[0]->getTicketUrl();?>
+<?=$user->Participants[0]->getTicketUrl()?>
 
 
 

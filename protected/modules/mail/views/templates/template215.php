@@ -1,4 +1,4 @@
-<h3>Здравствуйте,&nbsp;<?=$user->getShortName();?>.</h3>
+<h3>Здравствуйте,&nbsp;<?=$user->getShortName()?>.</h3>
 
 <p>Приглашаем вас <nobr>27-28</nobr> ноября принять участие в&nbsp;выставке, которая состоится в&nbsp;в&nbsp;Москве в&nbsp;рамках конференции <a href="http://ibcrussia.com/">&laquo;Интернет и&nbsp;Бизнес. Россия&raquo;</a> (IBC&nbsp;Russia).</p>
 

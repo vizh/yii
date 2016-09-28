@@ -20,14 +20,14 @@ if ($data) {
 <p>Здравствуйте, <?=$user->getShortName()?>&nbsp;!<br />
 Спешим напомнить, что вы зарегистрированы на сертификационный экзамен в рамках DevCon 2016.&nbsp;</p>
 
-<?php if (isset($manager)): ?>
+<?if(isset($manager)):?>
 	<b>
 		<?=$manager->CertificationDate?>
 		<?=$manager->CertificationTime?>,
 		<?=$manager->CertificationExamId?>,
 		><?=$manager->CertificationExamTitle?>
 	</b>
-<?php endif ?>
+<?endif?>
 
 <p>Если ваши планы поменялись, и вы не сможете прийти на экзамен, пожалуйста, срочно сообщите нам: v-devcon@microsoft.com; +7 (926) 37-37-320.&nbsp;<br />
 Ознакомьтесь, пожалуйста, с важной организационной информацией:</p>

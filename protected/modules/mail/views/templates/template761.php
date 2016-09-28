@@ -1,6 +1,6 @@
 <p><img alt="Регистрация" src="http://runet-id.com/img/mail/2015/rrrrr15.png" style="width: 100%; height: auto; margin: 0 auto" /></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</strong></h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</strong></h3>
 
 <p>Конференция <a href="http://www.advdays.ru/november_2015/?utm_source=runetid&amp;utm_medium=email&amp;utm_campaign=advdays_spb_november_2015"><strong>День интернет-рекламы</strong></a>, из которой вы узнаете, как выжимать максимум продаж из вашего бизнеса с помощью инструментов интернет-маркетинга, состоится в <strong>Петербурге 24 ноября</strong>.</p>
 

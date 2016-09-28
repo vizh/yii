@@ -8,14 +8,14 @@
 <?=\CHtml::activeHiddenField($form, 'Id')?>
 <?=\CHtml::activeHiddenField($form, 'EventId')?>
 <div class="btn-toolbar">
-  <?if (!$account->getIsNewRecord()):?>
+  <?if(!$account->getIsNewRecord()):?>
     <?=\CHtml::submitButton(\Yii::t('app', 'Сохранить'), ['class' => 'btn btn-success'])?>
   <?endif?>
 </div>
 
 <div class="well">
   <?=\CHtml::errorSummary($form, '<div class="alert alert-error">', '</div>')?>
-  <?if (\Yii::app()->getUser()->hasFlash('success')):?>
+  <?if(\Yii::app()->getUser()->hasFlash('success')):?>
     <div class="alert alert-success"><?=\Yii::app()->getUser()->getFlash('success')?></div>
   <?endif?>
 
@@ -26,7 +26,7 @@
     </div>
   </div>
 
-  <?if (!$account->getIsNewRecord()):?>
+  <?if(!$account->getIsNewRecord()):?>
     <div class="control-group">
       <?=\CHtml::activeLabel($form, 'Key', ['class' => 'control-label'])?>
       <div class="controls">
@@ -83,14 +83,14 @@
 
 <script type="text/javascript">
   domains = [];
-  <?foreach ($form->Domains as $domain):?>
-  domains.push('<?=$domain;?>');
-  <?endforeach;?>
+  <?foreach($form->Domains as $domain):?>
+  domains.push('<?=$domain?>');
+  <?endforeach?>
 
   ips = [];
-  <?foreach ($form->Ips as $ip):?>
-  ips.push('<?=$ip;?>');
-  <?endforeach;?>
+  <?foreach($form->Ips as $ip):?>
+  ips.push('<?=$ip?>');
+  <?endforeach?>
 </script>
 
 <script type="text/template" id="domain-input-tpl">

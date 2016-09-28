@@ -1,6 +1,6 @@
 <p><img src="https://showtime.s3.amazonaws.com/201508190042-riful15.jpg" style="height: auto; width: 100%;" /></p>
 
-<h3>Здравствуйте, <?=$user->getShortName();?>!</h3>
+<h3>Здравствуйте, <?=$user->getShortName()?>!</h3>
 
 <p>Подготовка к&nbsp;первой технической конференции осени РИФ.Ульяновск идет полным ходом, опубликованы хедлайнеры, среди ключевых выступлений&nbsp;&mdash; обзор новых версий NGINX, PHP и&nbsp;Yii Framework от&nbsp;их&nbsp;разработчиков.</p>
 

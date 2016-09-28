@@ -46,26 +46,26 @@ if (!empty($event->LinkEmails)) {
                     <table style="width: 100%;" cellpadding="0" cellspacing="0">
                         <tr>
                             <td style="font-size: 5mm; font-weight: 100; padding: 0; margin: 0;">
-                                <?=$user->LastName?> <?=$user->getShortName();?>
+                                <?=$user->LastName?> <?=$user->getShortName()?>
                             </td>
                         </tr>
-                        <?if ($user->getEmploymentPrimary() !== null):?>
+                        <?if($user->getEmploymentPrimary() !== null):?>
                             <tr>
-                                <td style="font-size: 4mm; padding-top: 3mm;"><?=$user->getEmploymentPrimary()->Company->Name;?></td>
+                                <td style="font-size: 4mm; padding-top: 3mm;"><?=$user->getEmploymentPrimary()->Company->Name?></td>
                             </tr>
-                        <?endif;?>
+                        <?endif?>
                     </table>
                 </td>
             </tr>
             <tr>
                 <td style="height: 23mm; vertical-align: middle; font-size: 5mm;">
-                    <?if (is_array($participant)):?>
-                        <?foreach ($participant as $item):?>
-                            <span style="text-transform: uppercase;"><?=$item->Part->Title?>:</span> <?=$item->Role->Title;?><br/>
-                        <?endforeach;?>
+                    <?if(is_array($participant)):?>
+                        <?foreach($participant as $item):?>
+                            <span style="text-transform: uppercase;"><?=$item->Part->Title?>:</span> <?=$item->Role->Title?><br/>
+                        <?endforeach?>
                     <?else:?>
-                        <span style="text-transform: uppercase;"><?=$participant->Role->Title;?></span>
-                    <?endif;?>
+                        <span style="text-transform: uppercase;"><?=$participant->Role->Title?></span>
+                    <?endif?>
                 </td>
             </tr>
         </tbody>
@@ -74,8 +74,8 @@ if (!empty($event->LinkEmails)) {
         <table style="font-size: 3mm; font-family: 'Roboto', 'Helvetica Neue', Helvetica,Arial, sans-serif; width: 100%;" cellpadding="0" cellspacing="0">
             <tbody>
             <tr>
-                <td style="text-align: left; width: 50%;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70));?></td>
-                <td style="font-size: 7mm; font-weight: 400;"><?=$user->RunetId;?></td>
+                <td style="text-align: left; width: 50%;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70))?></td>
+                <td style="font-size: 7mm; font-weight: 400;"><?=$user->RunetId?></td>
             </tr>
             <tr>
                 <td style="text-align: center; font-size: 3mm; color: #959595; padding-top: 5mm;" colspan="2">Для прохода на мероприятие предъявите билет в распечатанном или электронном виде</td>
@@ -90,7 +90,7 @@ if (!empty($event->LinkEmails)) {
 </div>
 <div style="height: 85mm; margin-top: 5mm; position: relative;">
     <img src="/img/event/nspk15/ticket/2page.png" style="image-resolution: 193dpi;"/>
-    <div style="margin-top: -24mm; width: 100%; text-align: right; padding-right: 18.5mm;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 60));?></div>
+    <div style="margin-top: -24mm; width: 100%; text-align: right; padding-right: 18.5mm;"><?=\CHtml::image(QrCode::getAbsoluteUrl($user, 60))?></div>
 </div>
 <div style="background: url('/img/ticket/pdf/base/cutting-line.png') center center; height: 1mm; background-image-resolution: 100dpi; margin: 5mm 0 4mm;">
     <img src="/img/ticket/pdf/base/cutting.png" style="position: absolute; margin-top: 0; margin-left: 5mm;"/>

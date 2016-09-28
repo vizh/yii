@@ -27,7 +27,7 @@ if (is_array($participant)) {
         padding: 0;
         margin: 0;
     }
-    
+
     .pull-left {
         float: left;
     }
@@ -51,7 +51,7 @@ if (is_array($participant)) {
     .text-white {
         color: white;
     }
-    
+
     .valign-middle {
         vertical-align: middle;
     }
@@ -139,22 +139,22 @@ if (is_array($participant)) {
         <img src="/img/event/rii16/left_scheme.png" width="100%" alt="">
     </div>
     <div class="text-center text-white" style="background: #F17102; padding: 7mm 0;">
-        <p style="font-size: 5.5mm"><?= $user->LastName; ?> <?= $user->FirstName; ?>
-            <br> &nbsp;<?= $user->FatherName; ?>&nbsp;</p>
-        <p style="margin-top: 6mm"><?= $user->getEmploymentPrimary()->Company->Name ?></p>
+        <p style="font-size: 5.5mm"><?=$user->LastName?> <?=$user->FirstName?>
+            <br> &nbsp;<?=$user->FatherName?>&nbsp;</p>
+        <p style="margin-top: 6mm"><?=$user->getEmploymentPrimary()->Company->Name?></p>
     </div>
     <div class="text-center text-uppercase text-white" style="background: #019BDE;padding: 5mm 0;font-size: 5.5mm;">
-        <?= $participant->Role->Title ?>
+        <?=$participant->Role->Title?>
     </div>
     <div style="padding: 4mm 6mm; background: #EAEAEB;" class="root-round-bottom">
         <table border="0" cellpadding="0" cellspacing="10" width="100%" style="">
             <tr>
                 <td width="40%">
-                    <?= \CHtml::image(QrCode::getAbsoluteUrl($user, 70)); ?>
+                    <?=\CHtml::image(QrCode::getAbsoluteUrl($user, 70))?>
                 </td>
                 <td width="60%">
                     <span style="font-size: 5mm"> RUNET&mdash;ID<br>
-                        <?= $user->RunetId ?>
+                        <?=$user->RunetId?>
                     </span>
                 </td>
             </tr>
