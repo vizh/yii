@@ -38,7 +38,7 @@ use Yii;
  */
 class Template extends ActiveRecord
 {
-    const UsersPerSend = 50;
+    const UsersPerSend = 150;
 
     const MAILER_PHP = 'PhpMailer';
     const MAILER_MANDRILL = 'TrueMandrillMailer';
