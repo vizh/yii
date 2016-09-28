@@ -18,6 +18,12 @@ use user\models\User;
  * @property User $Creator
  * @property MeetingLinkUser[] $UserLinks
  *
+ * @method Meeting byPlaceId(int $id)
+ * @method Meeting byCreatorId(int $id)
+ * @method Meeting byType(int $id)
+ * @method Meeting byReservationNumber(int $id)
+ *
+ * @method Meeting with($condition='')
  * @method Meeting find($condition='',$params=array())
  * @method Meeting findByPk($pk,$condition='',$params=array())
  * @method Meeting findByAttributes($attributes,$condition='',$params=array())
