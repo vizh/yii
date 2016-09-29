@@ -314,7 +314,7 @@ class SESMailer extends Mailer
             'key' => $prms['AwsKey'],
             'secret' => $prms['AwsSecret'],
             'region' => $prms['AwsSesRegion'],
-            'version'=> 'latest',
+            'version'=> 'latest'
         ]);
     }
 }

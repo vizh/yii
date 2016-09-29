@@ -4,13 +4,16 @@ namespace user\models;
 use api\models\ExternalUser;
 use application\components\auth\identity\RunetId;
 use application\components\db\ar\OldAttributesStorage;
+use application\components\Exception;
 use application\components\exception\AuthException;
 use application\components\utility\Pbkdf2;
 use application\components\utility\PhoneticSearch;
 use application\components\utility\Texts;
 use application\models\translation\ActiveRecord;
 use application\widgets\IAutocompleteItem;
+use commission\models\Commission;
 use competence\models\Result;
+use event\models\Participant;
 use iri\models\User as IriUser;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
@@ -59,8 +62,8 @@ use Yii;
  * @property LinkProfessionalInterest[] $LinkProfessionalInterests
  * @property Employment[] $Employments
  * @property Education[] $Educations
- * @property \commission\models\Commission[] $Commissions
- * @property \event\models\Participant[] $Participants
+ * @property Commission[] $Commissions
+ * @property Participant[] $Participants
  * @property Settings $Settings Настройки аккаунта пользователя
  * @property Result $CompetenceResults
  * @property User $MergeUser
@@ -70,6 +73,7 @@ use Yii;
  * @property ExternalUser[] $ExternalAccounts
  * @property Document[] $Documents
  * @property UnsubscribeEventMail[] $UnsubscribeEventMails
+ * @property UserDevice[] $Devices
  *
  * События
  * @property \CEvent $onRegister
@@ -234,6 +238,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             ],
 
             'UnsubscribeEventMails' => [self::HAS_MANY, '\user\models\UnsubscribeEventMail', 'UserId'],
+            'Devices' => [self::HAS_MANY, '\user\models\UserDevice', 'UserId']
         ];
     }
 
@@ -368,6 +373,7 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
             ]
         ];
         $this->getDbCriteria()->addInCondition('"Role"."Id"', $roleIds, $useAnd ? 'and' : 'or');
+
         return $this;
     }
 
@@ -934,6 +940,43 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
     }
 
     /**
+     * Добавляет новое устройство для отправки Push уведомлений
+     *
+     * @param $type string тип устройства
+     * @param $token string device token
+     * @return UserDevice
+     * @throws Exception
+     */
+    public function addDevice($type, $token)
+    {
+        $device = new UserDevice();
+        $device->UserId = $this->Id;
+        $device->Type = $type;
+        $device->Token = $token;
+
+        $device->save();
+
+        return $device;
+    }
+
+    /**
+     * Проверяет наличие устройства с указанным токеном у пользователя. Если указан конкретный $token, то проверяется его наличие. По-умолчанию проверяется наличие токена в принципе.
+     *
+     * @param null $token
+     * @return boolean
+     */
+    public function hasDevice($token = null)
+    {
+        $model = UserDevice::model()
+            ->byUserId($this->Id);
+
+        if ($token !== null)
+            $model->byToken($token);
+
+        return $model->exists();
+    }
+
+    /**
      * @param bool $isTemporary
      * @return string
      */
@@ -1138,7 +1181,20 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
      */
     public static function getTotalCount()
     {
-        return self::model()->byVerified(true)->byVisible(true)->count();
+        return self::model()
+            ->byVerified(true)
+            ->byVisible(true)
+            ->count();
+    }
+
+    /**
+     * Возвращает код, используемый в RUVENTS для определения пользователя
+     *
+     * @return string
+     */
+    public function getRuventsCode()
+    {
+        return '~RUNETID#'.$this->RunetId.'$';
     }
 
     /**
@@ -1153,15 +1209,5 @@ class User extends ActiveRecord implements ISearch, IAutocompleteItem
         }
 
         return $string;
-    }
-
-    /**
-     * Возвращает код, используемый в RUVENTS для определения пользователя
-     *
-     * @return string
-     */
-    public function getRuventsCode()
-    {
-        return '~RUNETID#'.$this->RunetId.'$';
     }
 }

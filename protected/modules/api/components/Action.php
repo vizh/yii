@@ -55,12 +55,31 @@ class Action extends \CAction
         $this->getController()->setResult($result);
     }
 
-    /**
-     * @param mixed $result
-     */
     public function setSuccessResult()
     {
-        $this->getController()->setResult(['Success' => true]);
+        $this->getController()->setResult([
+            'Success' => true
+        ]);
+    }
+
+    /**
+     * Устанавливает ошибочный результат ответа api.
+     * Может принимать ошибки валидации моделей, но отдаёт их в формате ошибок api для совместимости с остальными методами
+     *
+     * @param string|array[][] $error
+     * @internal param array $result
+     * @throws \api\components\Exception
+     */
+    public function setErrorResult($error)
+    {
+        // В целях совместимости с отображением ошибок всего api, мы будем отдавать по одной ошибке, даже если пришли результаты валидации моделей
+        if (is_array($error)) {
+            $fld = array_pop(array_keys($error));
+            $msg = implode(', ', $error[$fld]);
+            $error = "$msg: $fld";
+        }
+
+        throw new Exception(100, $error);
     }
 
     /**
@@ -306,7 +325,18 @@ class Action extends \CAction
         return $owner;
     }
 
-    protected function getRequestedParam($param)
+    /**
+     * Проверяет наличие указанного параметра запроса и его непустоту
+     *
+     * @param $param string
+     * @return bool
+     */
+    protected function hasRequestParam($param)
+    {
+        return $this->getRequestParam($param, null) !== null;
+    }
+
+    protected function getRequestParam($param, $defaultValue = PHP_INT_MIN)
     {
         static $params;
 
@@ -317,11 +347,12 @@ class Action extends \CAction
         if (isset($params[$param]) === false) {
             $params[$param] = Yii::app()
                 ->getRequest()
-                ->getParam($param);
+                ->getParam($param, $defaultValue === PHP_INT_MIN ? null : $defaultValue);
         }
 
-        if (empty($params[$param]) === true)
+        if ($defaultValue === PHP_INT_MIN && empty($params[$param]) === true) {
             throw new Exception(109, [$param]);
+        }
 
         return $params[$param];
     }

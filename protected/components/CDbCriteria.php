@@ -1,8 +1,6 @@
 <?php
 
-namespace ruvents2\components\data;
-
-use CActiveRecord;
+namespace application\components;
 
 class CDbCriteria extends \CDbCriteria
 {
@@ -46,18 +44,20 @@ class CDbCriteria extends \CDbCriteria
         return $this;
     }
 
-    public function addConditionWithParams($condition, array $params = null, $operator = 'AND')
+    public function addCondition($condition, array $params = null, $operator = 'AND')
     {
-        /* Добавляем условие обычным способом */
+        // Добавляем условие обычным способом
         parent::addCondition($condition, $operator);
 
-        /* Добавляем необходимые параметры */
-        $this->params = array_merge($this->params, $params);
+        // Добавляем необходимые параметры
+        if ($params !== null) {
+            $this->params = array_merge($this->params, $params);
+        }
 
         return $this;
     }
 
-    public function apply(CActiveRecord $model)
+    public function apply(\CActiveRecord $model)
     {
         $model->getDbCriteria()->mergeWith($this);
     }

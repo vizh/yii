@@ -5,23 +5,14 @@ use api\components\Action;
 use api\components\Exception;
 use oauth\models\AccessToken;
 use user\models\User;
-use Yii;
 
 class AuthAction extends Action
 {
     public function run()
     {
-        $token = Yii::app()
-            ->getRequest()
-            ->getParam('token');
-
-        if ($token === null) {
-            throw new Exception(222);
-        }
-
         /** @var $accessToken AccessToken */
         $accessToken = AccessToken::model()
-            ->byToken($token)
+            ->byToken($this->getRequestParam('token'))
             ->find();
 
         if ($accessToken === null) {
