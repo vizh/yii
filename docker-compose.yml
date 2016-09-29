@@ -1,0 +1,47 @@
+version: '2'
+volumes:
+  fs_database:
+services:
+  app:
+    image: 'ruvents/php:7.0'
+    volumes:
+      - '.:/var/www/html/'
+    links:
+      - mongo
+      - database
+    environment:
+      DOCKER: yep
+      PRODUCTION: 'false'
+      DATABASE_TYPE: pgsql
+      DATABASE_PORT: 5432
+      DATABASE_HOSTNAME: database
+      DATABASE_PASSWORD: uRaiy1ThiexaGhai
+      DATABASE_USERNAME: runetid
+      DATABASE_DATABASE: runetid
+      MONGO_HOSTNAME: mongo
+      MONGO_DATABASE: runetid
+  nginx:
+    image: 'nginx'
+    ports:
+      - '80:80'
+    links:
+      - app
+    volumes:
+      - './config/nginx.conf:/etc/nginx/nginx.conf'
+    volumes_from:
+      - app
+  mongo:
+    image: 'mongo'
+    ports:
+     - '27017:27017'
+  database:
+    image: 'postgres'
+    environment:
+      POSTGRES_PASSWORD: uRaiy1ThiexaGhai
+      POSTGRES_USER: runetid
+      POSTGRES_DB: runetid
+    ports:
+      - '5432:5432'
+    volumes:
+      - './config/dump.sql:/docker-entrypoint-initdb.d/dump.sql'
+      - 'fs_database:/var/lib/postgresql/data'
